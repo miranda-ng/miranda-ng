@@ -33,11 +33,11 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		if (lstrdat->buffer == NULL) {
 			lstrdat->bufferOffset = 0;
 			lstrdat->buffer = pci->Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = mir_strlen(lstrdat->buffer);
+			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
 		}
 
 		// give the RTF to the RE control
-		*pcb = min(cb, lstrdat->bufferLen - lstrdat->bufferOffset);
+		*pcb = min(cb, LONG(lstrdat->bufferLen - lstrdat->bufferOffset));
 		CopyMemory(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
 		lstrdat->bufferOffset += *pcb;
 
@@ -56,6 +56,11 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	if (hwndDlg == 0 || lin == 0 || si == 0)
 		return;
 
+	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && !(si->iLogFilterFlags & lin->iType))
+		return;
+
+	BOOL bFlag = FALSE;
+
 	HWND hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
 
 	LOGSTREAMDATA streamData;
@@ -66,14 +71,9 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	streamData.bStripFormat = FALSE;
 	streamData.isFirst = bRedraw ? 1 : (GetRichTextLength(hwndRich, CP_ACP, FALSE) == 0);
 
-	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && si->bFilterEnabled && !(si->iLogFilterFlags & lin->iType))
-		return;
-
-	BOOL bFlag = FALSE;
-
 	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = Log_StreamCallback;
-	stream.dwCookie = (DWORD_PTR)& streamData;
+	stream.dwCookie = (DWORD_PTR)&streamData;
 
 	SCROLLINFO scroll;
 	scroll.cbSize = sizeof(SCROLLINFO);
@@ -113,8 +113,8 @@ void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedra
 	SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM)&stream);
 
 	// do smileys
-	if (g_dat.smileyAddInstalled && (bRedraw || (lin->ptszText && lin->iType != GC_EVENT_JOIN 
-		&& lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS)))
+	if (g_dat.smileyAddInstalled && (bRedraw || (lin->ptszText && 
+		 lin->iType != GC_EVENT_JOIN && lin->iType != GC_EVENT_NICK && lin->iType != GC_EVENT_ADDSTATUS && lin->iType != GC_EVENT_REMOVESTATUS)))
 	{
 		newsel.cpMax = -1;
 		newsel.cpMin = sel.cpMin;

@@ -44,7 +44,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {84636F78-2057-4302-8A65-23A16D46844C}
-	{0x84636f78, 0x2057, 0x4302, {0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c}}
+	{ 0x84636f78, 0x2057, 0x4302, { 0x8a, 0x65, 0x23, 0xa1, 0x6d, 0x46, 0x84, 0x4c } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -58,7 +58,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, MIID_CHAT, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, MIID_CHAT, MIID_LAST };
 
 extern "C" __declspec(dllexport) int Load(void)
 {

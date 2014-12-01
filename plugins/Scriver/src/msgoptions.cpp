@@ -868,9 +868,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			CLCINFOITEM cii = { sizeof(cii) };
 			cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-			cii.pszText = (TCHAR *)TranslateT("** New contacts **");
+			cii.pszText = (TCHAR*)TranslateT("** New contacts **");
 			hItemNew = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
-			cii.pszText = (TCHAR *)TranslateT("** Unknown contacts **");
+			cii.pszText = (TCHAR*)TranslateT("** Unknown contacts **");
 			hItemUnknown = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM)&cii);
 		}
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | CLS_SHOWHIDDEN | CLS_NOHIDEOFFLINE);

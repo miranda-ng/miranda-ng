@@ -221,7 +221,7 @@ static void TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 
 	bool isTopic = false, isRoom = false;
 	TCHAR *pszName = NULL;
-	TCHAR* pszText = (TCHAR *)mir_alloc(iLen + 100 * sizeof(TCHAR));
+	TCHAR* pszText = (TCHAR*)mir_alloc(iLen + 100 * sizeof(TCHAR));
 	gt.cb = iLen + 99 * sizeof(TCHAR);
 	gt.flags = GT_DEFAULT;
 
@@ -285,7 +285,7 @@ LBL_SkipEnd:
 		if (end != start) {
 			ptrT szReplace;
 			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (TCHAR *)mir_alloc((_tcslen(pszName) + 4) * sizeof(TCHAR));
+				szReplace = (TCHAR*)mir_alloc((_tcslen(pszName) + 4) * sizeof(TCHAR));
 				_tcscpy(szReplace, pszName);
 				_tcscat(szReplace, _T(": "));
 				pszName = szReplace;
@@ -1441,7 +1441,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					}
 
 					SetTextColor(dis->hDC, ui->iStatusEx == 0 ? g_Settings.crUserListColor : g_Settings.crUserListHeadingsColor);
-					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, mir_tstrlen(ui->pszNick));
+					TextOut(dis->hDC, dis->rcItem.left + x_offset, dis->rcItem.top, ui->pszNick, (int)mir_tstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 				}
 				return TRUE;

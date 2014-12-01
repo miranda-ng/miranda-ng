@@ -35,8 +35,6 @@ enum SEARCHENGINES {
 };
 
 int IsUnicodeMIM();
-wchar_t *a2w(const char *src, int len);
-int safe_wcslen(wchar_t *msg, int maxLen) ;
 TCHAR *limitText(TCHAR *text, int limit);
 void logInfo(const char *fmt, ...);
 int GetRichTextLength(HWND hwnd, int codepage, BOOL inBytes);

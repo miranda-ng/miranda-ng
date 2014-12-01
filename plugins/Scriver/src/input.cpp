@@ -385,7 +385,7 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 	SendMessage(lParam->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (_tcschr(tr.lpstrText, _T('@')) != NULL && _tcschr(tr.lpstrText, _T(':')) == NULL && _tcschr(tr.lpstrText, _T('/')) == NULL) {
 		MoveMemory(tr.lpstrText + 7, tr.lpstrText, sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
-		CopyMemory(tr.lpstrText, _T("mailto:"), sizeof(TCHAR)* 7);
+		CopyMemory(tr.lpstrText, _T("mailto:"), sizeof(TCHAR) * 7);
 	}
 
 	BOOL bOpenLink = TRUE;

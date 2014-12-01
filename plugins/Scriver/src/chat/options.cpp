@@ -520,7 +520,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS));
 			if (iLen > 0) {
-				TCHAR *ptszText = (TCHAR *)mir_alloc((iLen + 2) * sizeof(TCHAR));
+				TCHAR *ptszText = (TCHAR*)mir_alloc((iLen + 2) * sizeof(TCHAR));
 				TCHAR *p2 = NULL;
 
 				if (ptszText) {
@@ -538,7 +538,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY));
 			if (iLen > 0) {
-				TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR)+2);
+				TCHAR *pszText1 = (TCHAR*)malloc(iLen*sizeof(TCHAR)+2);
 				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
 				db_set_ts(NULL, CHAT_MODULE, "LogDirectory", pszText1);
 				free(pszText1);

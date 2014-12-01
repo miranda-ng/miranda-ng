@@ -40,9 +40,9 @@ static const TCHAR *titleTokenNames[] = {_T("%name%"), _T("%status%"), _T("%stat
 TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 {
 	int isTemplate;
-	int i, j, len;
-	TCHAR* tokens[4] = {0};
-	int tokenLen[4] = {0};
+	int i, j;
+	TCHAR* tokens[4] = { 0 };
+	size_t tokenLen[4] = { 0 };
 	TCHAR *p, *tmplt, *title;
 	char *accModule;
 	TCHAR *pszNewTitleEnd = mir_tstrdup(TranslateT("Message Session"));
@@ -87,6 +87,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	}
 	else tmplt = _T("");
 
+	size_t len;
 	for (len = 0, p = tmplt; *p; p++, len++) {
 		if (*p == '%') {
 			for (i = 0; i < SIZEOF(titleTokenNames); i++) {
@@ -102,14 +103,14 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	if (!isTemplate)
 		len += mir_tstrlen(pszNewTitleEnd);
 
-	title = (TCHAR *)mir_alloc(sizeof(TCHAR) * (len + 1));
+	title = (TCHAR*)mir_alloc(sizeof(TCHAR) * (len + 1));
 	for (len = 0, p = tmplt; *p; p++) {
 		if (*p == '%') {
-			for (i = 0; i < SIZEOF(titleTokenNames); i ++) {
-				int tnlen = mir_tstrlen(titleTokenNames[i]);
+			for (i = 0; i < SIZEOF(titleTokenNames); i++) {
+				size_t tnlen = mir_tstrlen(titleTokenNames[i]);
 				if (!_tcsncmp(p, titleTokenNames[i], tnlen)) {
 					if (tokens[i] != NULL) {
-						memcpy(title+len, tokens[i], sizeof(TCHAR) * tokenLen[i]);
+						memcpy(title + len, tokens[i], sizeof(TCHAR) * tokenLen[i]);
 						len += tokenLen[i];
 					}
 					p += tnlen - 1;
@@ -121,7 +122,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		title[len++] = *p;
 	}
 	if (!isTemplate) {
-		memcpy(title+len, pszNewTitleEnd, sizeof(TCHAR) * mir_tstrlen(pszNewTitleEnd));
+		memcpy(title + len, pszNewTitleEnd, sizeof(TCHAR) * mir_tstrlen(pszNewTitleEnd));
 		len += mir_tstrlen(pszNewTitleEnd);
 	}
 	title[len] = '\0';
@@ -196,7 +197,7 @@ static MessageWindowTabData * GetChildFromTab(HWND hwndTabs, int tabId)
 	TCITEM tci = { 0 };
 	tci.mask = TCIF_PARAM;
 	if (TabCtrl_GetItem(hwndTabs, tabId, &tci))
-		return (MessageWindowTabData *) tci.lParam;
+		return (MessageWindowTabData *)tci.lParam;
 
 	return NULL;
 }
@@ -222,7 +223,7 @@ static void GetMinimunWindowSize(ParentWindowData *dat, SIZE *size)
 	int minW = 216, minH = 80;
 	GetWindowRect(dat->hwnd, &rcWindow);
 	GetChildWindowRect(dat, &rc);
-	for (int i = 0; i<dat->childrenCount; i++) {
+	for (int i = 0; i < dat->childrenCount; i++) {
 		MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
 		SendMessage(mwtd->hwnd, WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
 		if (i == 0 || mmi.ptMinTrackSize.x > minW) minW = mmi.ptMinTrackSize.x;
@@ -288,7 +289,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child)
 {
 	RECT rcChild;
 	GetChildWindowRect(dat, &rcChild);
-	SetWindowPos(child, HWND_TOP, rcChild.left, rcChild.top, rcChild.right-rcChild.left, rcChild.bottom - rcChild.top, SWP_NOSIZE);
+	SetWindowPos(child, HWND_TOP, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, SWP_NOSIZE);
 
 	int i = GetTabFromHWND(dat, child);
 	if (i == -1)
@@ -375,7 +376,7 @@ static void ActivateNextChild(ParentWindowData *dat, HWND child)
 {
 	int i = GetTabFromHWND(dat, child);
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
-	i = (i+1) % l;
+	i = (i + 1) % l;
 	ActivateChild(dat, GetChildFromTab(dat->hwndTabs, i)->hwnd);
 }
 
@@ -383,7 +384,7 @@ static void ActivatePrevChild(ParentWindowData *dat, HWND child)
 {
 	int i = GetTabFromHWND(dat, child);
 	int l = TabCtrl_GetItemCount(dat->hwndTabs);
-	i = (i+l-1) % l;
+	i = (i + l - 1) % l;
 	ActivateChild(dat, GetChildFromTab(dat->hwndTabs, i)->hwnd);
 }
 
@@ -733,15 +734,15 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	DWORD ws;
 	ParentWindowData *dat;
-	dat = (ParentWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	if (!dat && msg!=WM_INITDIALOG) return FALSE;
+	dat = (ParentWindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	if (!dat && msg != WM_INITDIALOG) return FALSE;
 	switch (msg) {
 	case WM_INITDIALOG:
+		HMENU hMenu;
 		{
-			HMENU hMenu;
 			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
-			NewMessageWindowLParam *newData = (NewMessageWindowLParam *) lParam;
-			dat = (ParentWindowData *) mir_alloc(sizeof(ParentWindowData));
+			NewMessageWindowLParam *newData = (NewMessageWindowLParam *)lParam;
+			dat = (ParentWindowData *)mir_alloc(sizeof(ParentWindowData));
 			dat->hContact = newData->hContact;
 			dat->nFlash = 0;
 			dat->nFlashMax = db_get_b(NULL, SRMMMOD, SRMSGSET_FLASHCOUNT, SRMSGDEFSET_FLASHCOUNT);
@@ -758,7 +759,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			//SetupStatusBar(dat);
 			dat->hwndTabs = GetDlgItem(hwndDlg, IDC_TABS);
 			dat->hwndActive = NULL;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			if (g_dat.hTabIconList != NULL)
 				TabCtrl_SetImageList(dat->hwndTabs, g_dat.hTabIconList);
 
@@ -785,15 +786,15 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SetWindowPos(hwndDlg, 0, 0, 0, 450, 300, SWP_NOZORDER | SWP_NOMOVE | SWP_HIDEWINDOW);
 
 			if (!savePerContact && db_get_b(NULL, SRMMMOD, SRMSGSET_CASCADE, SRMSGDEFSET_CASCADE))
-				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM) hwndDlg, (LPARAM)&dat->windowWasCascaded);
+				WindowList_Broadcast(g_dat.hParentWindowList, DM_CASCADENEWWINDOW, (WPARAM)hwndDlg, (LPARAM)&dat->windowWasCascaded);
 
-			hMenu = GetSystemMenu( hwndDlg, FALSE );
-			InsertMenu( hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, NULL );
+			hMenu = GetSystemMenu(hwndDlg, FALSE);
+			InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
 			if (dat->bTopmost) {
-				InsertMenu( hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_CHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always On Top"));
+				InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_CHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always On Top"));
 				SetWindowPos(hwndDlg, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			}
-			else InsertMenu( hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_UNCHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always On Top"));
+			else InsertMenu(hMenu, 0, MF_BYPOSITION | MF_ENABLED | MF_UNCHECKED | MF_STRING, IDM_TOPMOST, TranslateT("Always On Top"));
 		}
 		return TRUE;
 
@@ -831,8 +832,8 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (wParam == SIZE_MINIMIZED)
 			dat->bMinimized = 1;
 
-		if ( IsIconic(hwndDlg))
-			MoveWindow(dat->hwndActive, dat->childRect.left, dat->childRect.top, dat->childRect.right-dat->childRect.left, dat->childRect.bottom - dat->childRect.top, TRUE);
+		if (IsIconic(hwndDlg))
+			MoveWindow(dat->hwndActive, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, TRUE);
 		else {
 			RECT rc, rcStatus, rcChild, rcWindow;
 			SIZE size;
@@ -844,19 +845,19 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				GetWindowRect(dat->hwndStatus, &rcStatus);
 				SetupStatusBar(dat);
 			}
-			MoveWindow(dat->hwndTabs, 0, 2, (rc.right - rc.left), (rc.bottom - rc.top) - (rcStatus.bottom - rcStatus.top) - 2,	FALSE);
+			MoveWindow(dat->hwndTabs, 0, 2, (rc.right - rc.left), (rc.bottom - rc.top) - (rcStatus.bottom - rcStatus.top) - 2, FALSE);
 			RedrawWindow(dat->hwndTabs, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_ERASE);
 			GetMinimunWindowSize(dat, &size);
-			if ((rcWindow.bottom-rcWindow.top) < size.cy || (rcWindow.right-rcWindow.left) < size.cx) {
-				if ((rcWindow.bottom-rcWindow.top) < size.cy)
+			if ((rcWindow.bottom - rcWindow.top) < size.cy || (rcWindow.right - rcWindow.left) < size.cx) {
+				if ((rcWindow.bottom - rcWindow.top) < size.cy)
 					rcWindow.bottom = rcWindow.top + size.cy;
-				if ((rcWindow.right-rcWindow.left) < size.cx)
+				if ((rcWindow.right - rcWindow.left) < size.cx)
 					rcWindow.right = rcWindow.left + size.cx;
-				MoveWindow(hwndDlg, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top,	TRUE);
+				MoveWindow(hwndDlg, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 			}
 			GetChildWindowRect(dat, &rcChild);
 			memcpy(&dat->childRect, &rcChild, sizeof(RECT));
-			MoveWindow(dat->hwndActive, rcChild.left, rcChild.top, rcChild.right-rcChild.left, rcChild.bottom - rcChild.top, TRUE);
+			MoveWindow(dat->hwndActive, rcChild.left, rcChild.top, rcChild.right - rcChild.left, rcChild.bottom - rcChild.top, TRUE);
 			RedrawWindow(GetDlgItem(dat->hwndActive, IDC_LOG), NULL, NULL, RDW_INVALIDATE);
 			if (dat->flags2 & SMF2_SHOWSTATUSBAR) {
 				SendMessage(dat->hwndStatus, WM_SIZE, 0, 0);
@@ -882,7 +883,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_DRAWITEM:
 		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dat && dat->hwndActive && dis->hwndItem == dat->hwndStatus) {
 				MessageWindowTabData *mwtd = GetChildFromHWND(dat, dat->hwndActive);
 				if (mwtd != NULL)
@@ -906,62 +907,62 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_NOTIFY:
 		{
-			NMHDR* pNMHDR = (NMHDR*) lParam;
+			NMHDR *pNMHDR = (NMHDR*)lParam;
 			if (pNMHDR->hwndFrom == dat->hwndTabs) {
 				switch (pNMHDR->code) {
 				case TCN_SELCHANGE:
-					{
-						TCITEM tci = {0};
-						int iSel = TabCtrl_GetCurSel(dat->hwndTabs);
-						tci.mask = TCIF_PARAM;
-						if (TabCtrl_GetItem(dat->hwndTabs, iSel, &tci)) {
-							MessageWindowTabData * mwtd = (MessageWindowTabData *) tci.lParam;
-							ActivateChild(dat, mwtd->hwnd);
-							SetFocus(dat->hwndActive);
-						}
+				{
+					TCITEM tci = { 0 };
+					int iSel = TabCtrl_GetCurSel(dat->hwndTabs);
+					tci.mask = TCIF_PARAM;
+					if (TabCtrl_GetItem(dat->hwndTabs, iSel, &tci)) {
+						MessageWindowTabData * mwtd = (MessageWindowTabData *)tci.lParam;
+						ActivateChild(dat, mwtd->hwnd);
+						SetFocus(dat->hwndActive);
 					}
-					break;
+				}
+				break;
 				case NM_RCLICK:
-					{
-						TCHITTESTINFO thinfo;
-						GetCursorPos(&thinfo.pt);
+				{
+					TCHITTESTINFO thinfo;
+					GetCursorPos(&thinfo.pt);
 
-						int x = thinfo.pt.x;
-						int y = thinfo.pt.y;
-						ScreenToClient(dat->hwndTabs, &thinfo.pt);
-						int tabId = TabCtrl_HitTest(dat->hwndTabs, &thinfo);
-						if (tabId != -1) {
-							HMENU hMenu, hSubMenu, hUserMenu;
-							BOOL menuResult;
-							MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, tabId);
-							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-							hSubMenu = GetSubMenu(hMenu, 3);
-							TranslateMenu(hSubMenu);
-							hUserMenu = (HMENU) SendMessage(mwtd->hwnd, DM_GETCONTEXTMENU, 0, 0);
-							if (hUserMenu != NULL) {
-								InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User Menu"));
-								InsertMenu(hSubMenu, 1, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
-							}
-							menuResult = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
-							switch (menuResult) {
-							case IDM_CLOSETAB:
-								SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
-								break;
-							case IDM_CLOSEOTHERTABS:
-								CloseOtherChilden(dat, mwtd->hwnd);
-								break;
-							default:
-								CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuResult), MPCF_CONTACTMENU), (LPARAM)mwtd->hContact);
-							}
-							if (hUserMenu != NULL)
-								DestroyMenu(hUserMenu);
-							DestroyMenu(hMenu);
+					int x = thinfo.pt.x;
+					int y = thinfo.pt.y;
+					ScreenToClient(dat->hwndTabs, &thinfo.pt);
+					int tabId = TabCtrl_HitTest(dat->hwndTabs, &thinfo);
+					if (tabId != -1) {
+						HMENU hMenu, hSubMenu, hUserMenu;
+						BOOL menuResult;
+						MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, tabId);
+						hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+						hSubMenu = GetSubMenu(hMenu, 3);
+						TranslateMenu(hSubMenu);
+						hUserMenu = (HMENU)SendMessage(mwtd->hwnd, DM_GETCONTEXTMENU, 0, 0);
+						if (hUserMenu != NULL) {
+							InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User Menu"));
+							InsertMenu(hSubMenu, 1, MF_SEPARATOR | MF_BYPOSITION, 0, 0);
 						}
+						menuResult = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
+						switch (menuResult) {
+						case IDM_CLOSETAB:
+							SendMessage(mwtd->hwnd, WM_CLOSE, 0, 0);
+							break;
+						case IDM_CLOSEOTHERTABS:
+							CloseOtherChilden(dat, mwtd->hwnd);
+							break;
+						default:
+							CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuResult), MPCF_CONTACTMENU), (LPARAM)mwtd->hContact);
+						}
+						if (hUserMenu != NULL)
+							DestroyMenu(hUserMenu);
+						DestroyMenu(hMenu);
 					}
-					break;
+				}
+				break;
 				}
 			}
-			else if (pNMHDR->hwndFrom == dat->hwndStatus)  {
+			else if (pNMHDR->hwndFrom == dat->hwndStatus) {
 				switch (pNMHDR->code) {
 				case NM_CLICK:
 					NMMOUSE *nm = (NMMOUSE*)lParam;
@@ -1035,9 +1036,9 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
 		ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
-		SetWindowLongPtr(hwndDlg , GWL_EXSTYLE , ws);
+		SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ws);
 		if (dat->flags2 & SMF2_USETRANSPARENCY)
-			SetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat.activeAlpha), LWA_ALPHA);
+			SetLayeredWindowAttributes(hwndDlg, RGB(255, 255, 255), (BYTE)(255 - g_dat.activeAlpha), LWA_ALPHA);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -1056,29 +1057,29 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			POINT pt;
 			MONITORINFO mi;
 			HMONITOR hMonitor = MonitorFromRect(pRect, MONITOR_DEFAULTTONEAREST);
-			SIZE szSize = {pRect->right-pRect->left,pRect->bottom-pRect->top};
+			SIZE szSize = { pRect->right - pRect->left, pRect->bottom - pRect->top };
 			mi.cbSize = sizeof(mi);
 			GetMonitorInfo(hMonitor, &mi);
 			GetCursorPos(&pt);
 
 			rcDesktop = mi.rcWork;
-			pRect->left = pt.x-dat->mouseLBDownPos.x;
-			pRect->top = pt.y-dat->mouseLBDownPos.y;
-			pRect->right = pRect->left+szSize.cx;
-			pRect->bottom = pRect->top+szSize.cy;
-			if (pRect->top < rcDesktop.top+snapPixels && pRect->top > rcDesktop.top-snapPixels) {
+			pRect->left = pt.x - dat->mouseLBDownPos.x;
+			pRect->top = pt.y - dat->mouseLBDownPos.y;
+			pRect->right = pRect->left + szSize.cx;
+			pRect->bottom = pRect->top + szSize.cy;
+			if (pRect->top < rcDesktop.top + snapPixels && pRect->top > rcDesktop.top - snapPixels) {
 				pRect->top = rcDesktop.top;
 				pRect->bottom = rcDesktop.top + szSize.cy;
 			}
-			if (pRect->left < rcDesktop.left+snapPixels && pRect->left > rcDesktop.left-snapPixels) {
+			if (pRect->left < rcDesktop.left + snapPixels && pRect->left > rcDesktop.left - snapPixels) {
 				pRect->left = rcDesktop.left;
 				pRect->right = rcDesktop.left + szSize.cx;
 			}
-			if (pRect->right < rcDesktop.right+snapPixels && pRect->right > rcDesktop.right-snapPixels) {
+			if (pRect->right < rcDesktop.right + snapPixels && pRect->right > rcDesktop.right - snapPixels) {
 				pRect->right = rcDesktop.right;
 				pRect->left = rcDesktop.right - szSize.cx;
 			}
-			if (pRect->bottom < rcDesktop.bottom+snapPixels && pRect->bottom > rcDesktop.bottom-snapPixels) {
+			if (pRect->bottom < rcDesktop.bottom + snapPixels && pRect->bottom > rcDesktop.bottom - snapPixels) {
 				pRect->bottom = rcDesktop.bottom;
 				pRect->top = rcDesktop.bottom - szSize.cy;
 			}
@@ -1100,7 +1101,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		else if (wParam == IDM_TOPMOST) {
 			HMENU hMenu = GetSystemMenu(hwndDlg, FALSE);
-			if (dat->bTopmost)  {
+			if (dat->bTopmost) {
 				CheckMenuItem(hMenu, IDM_TOPMOST, MF_BYCOMMAND | MF_UNCHECKED);
 				SetWindowPos(hwndDlg, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 				dat->bTopmost = FALSE;
@@ -1113,20 +1114,20 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		break;
 	case WM_DESTROY:
-		{
-			char szSettingName[64];
-			for (int i = dat->childrenCount; i >= 0; i--) {
-				TCITEM tci;
-				tci.mask = TCIF_PARAM | TCIF_IMAGE;
-				if (TabCtrl_GetItem(dat->hwndTabs, i, &tci)) {
-					mir_free((MessageWindowTabData *)tci.lParam);
-					ReleaseIcon(tci.iImage);
-					TabCtrl_DeleteItem(dat->hwndTabs, i);
-				}
-			}
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-			WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
+		char szSettingName[64];
 
+		for (int i = dat->childrenCount; i >= 0; i--) {
+			TCITEM tci;
+			tci.mask = TCIF_PARAM | TCIF_IMAGE;
+			if (TabCtrl_GetItem(dat->hwndTabs, i, &tci)) {
+				mir_free((MessageWindowTabData *)tci.lParam);
+				ReleaseIcon(tci.iImage);
+				TabCtrl_DeleteItem(dat->hwndTabs, i);
+			}
+		}
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		WindowList_Remove(g_dat.hParentWindowList, hwndDlg);
+		{
 			int savePerContact = db_get_b(NULL, SRMMMOD, SRMSGSET_SAVEPERCONTACT, SRMSGDEFSET_SAVEPERCONTACT);
 			MCONTACT hContact = (savePerContact) ? dat->hContact : NULL;
 
@@ -1297,43 +1298,43 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case CM_UPDATETABCONTROL:
-		{
-			TCHAR *ptszTemp = NULL;
-			TabControlData *tcd = (TabControlData *) wParam;
-			int tabId = GetTabFromHWND(dat, (HWND) lParam);
-			if (tabId >= 0 && tcd != NULL) {
-				TCITEM tci;
-				tci.mask = 0;
-				if (tcd->iFlags & TCDF_TEXT) {
-					tci.mask |= TCIF_TEXT;
-					tci.pszText = tcd->pszText;
-					if (g_dat.flags2 & SMF2_LIMITNAMES) {
-						TCHAR * ltext = limitText(tcd->pszText, g_dat.limitNamesLength);
-						if (ltext != tcd->pszText) 
-							tci.pszText = ptszTemp = ltext;
-					}
+	{
+		TCHAR *ptszTemp = NULL;
+		TabControlData *tcd = (TabControlData *)wParam;
+		int tabId = GetTabFromHWND(dat, (HWND)lParam);
+		if (tabId >= 0 && tcd != NULL) {
+			TCITEM tci;
+			tci.mask = 0;
+			if (tcd->iFlags & TCDF_TEXT) {
+				tci.mask |= TCIF_TEXT;
+				tci.pszText = tcd->pszText;
+				if (g_dat.flags2 & SMF2_LIMITNAMES) {
+					TCHAR * ltext = limitText(tcd->pszText, g_dat.limitNamesLength);
+					if (ltext != tcd->pszText)
+						tci.pszText = ptszTemp = ltext;
 				}
-				if (tcd->iFlags & TCDF_ICON) {
-					int iconIdx = -1;
-					if (tcd->hIcon != NULL) {
-						TCITEM tci2;
-						tci2.mask = TCIF_IMAGE;
-						TabCtrl_GetItem(dat->hwndTabs, tabId, &tci2);
-						iconIdx = AddOrReplaceIcon(g_dat.hTabIconList, tci2.iImage, tcd->hIcon);
-					}
-					tci.mask |= TCIF_IMAGE;
-					tci.iImage = iconIdx;
-				}
-				TabCtrl_SetItem(dat->hwndTabs, tabId, &tci);
 			}
-			mir_free(ptszTemp);
+			if (tcd->iFlags & TCDF_ICON) {
+				int iconIdx = -1;
+				if (tcd->hIcon != NULL) {
+					TCITEM tci2;
+					tci2.mask = TCIF_IMAGE;
+					TabCtrl_GetItem(dat->hwndTabs, tabId, &tci2);
+					iconIdx = AddOrReplaceIcon(g_dat.hTabIconList, tci2.iImage, tcd->hIcon);
+				}
+				tci.mask |= TCIF_IMAGE;
+				tci.iImage = iconIdx;
+			}
+			TabCtrl_SetItem(dat->hwndTabs, tabId, &tci);
 		}
-		break;
+		mir_free(ptszTemp);
+	}
+	break;
 
 	case DM_SWITCHINFOBAR:
 		dat->flags2 ^= SMF2_SHOWINFOBAR;
 		{
-			for (int i=0; i < dat->childrenCount; i++) {
+			for (int i = 0; i < dat->childrenCount; i++) {
 				MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
 				SendMessage(mwtd->hwnd, DM_SWITCHINFOBAR, 0, 0);
 			}
@@ -1350,7 +1351,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case DM_SWITCHTOOLBAR:
 		dat->flags2 ^= SMF2_SHOWTOOLBAR;
 		{
-			for (int i=0; i < dat->childrenCount; i++) {
+			for (int i = 0; i < dat->childrenCount; i++) {
 				MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, i);
 				SendMessage(mwtd->hwnd, DM_SWITCHTOOLBAR, 0, 0);
 			}
@@ -1359,30 +1360,30 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case DM_SWITCHTITLEBAR:
-		{
-			RECT rc;
-			dat->flags2 ^= SMF2_SHOWTITLEBAR;
-			ws = GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~(WS_CAPTION);
-			if (dat->flags2 & SMF2_SHOWTITLEBAR)
-				ws |= WS_CAPTION;
+	{
+		RECT rc;
+		dat->flags2 ^= SMF2_SHOWTITLEBAR;
+		ws = GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~(WS_CAPTION);
+		if (dat->flags2 & SMF2_SHOWTITLEBAR)
+			ws |= WS_CAPTION;
 
-			SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
-			GetWindowRect(hwndDlg, &rc);
-			SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
-				SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER  | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
-			RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_FRAME | RDW_INVALIDATE | RDW_ALLCHILDREN);
-		}
-		break;
+		SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
+		GetWindowRect(hwndDlg, &rc);
+		SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
+			SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
+		RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_FRAME | RDW_INVALIDATE | RDW_ALLCHILDREN);
+	}
+	break;
 
 	case DM_CASCADENEWWINDOW:
 		if ((HWND)wParam != hwndDlg) {
 			RECT rcThis, rcNew;
 			GetWindowRect(hwndDlg, &rcThis);
-			GetWindowRect((HWND) wParam, &rcNew);
+			GetWindowRect((HWND)wParam, &rcNew);
 			if (abs(rcThis.left - rcNew.left) < 3 && abs(rcThis.top - rcNew.top) < 3) {
 				int offset = GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CYFRAME);
-				SetWindowPos((HWND) wParam, 0, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-				*(int *) lParam = 1;
+				SetWindowPos((HWND)wParam, 0, rcNew.left + offset, rcNew.top + offset, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				*(int *)lParam = 1;
 			}
 		}
 		break;
@@ -1392,11 +1393,11 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lParam)
 {
-	LPDRAWITEMSTRUCT lpDIS = (LPDRAWITEMSTRUCT) lParam;
+	LPDRAWITEMSTRUCT lpDIS = (LPDRAWITEMSTRUCT)lParam;
 	int iTabIndex = lpDIS->itemID;
 	if (iTabIndex < 0)
 		return;
-	
+
 	TabCtrlData *tcdat = (TabCtrlData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	HANDLE hTheme = NULL;
 	int tstate;
@@ -1473,7 +1474,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 
 		if (hTheme)
 			DrawThemeText(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, szLabel, -1, dwFormat, 0, &rect);
-		else 
+		else
 			DrawText(lpDIS->hDC, szLabel, -1, &rect, dwFormat);
 
 		if (tcdat->bDragged && iTabIndex == tcdat->destTab && iTabIndex != tcdat->srcTab) {
@@ -1506,7 +1507,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 	}
 }
 
-int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szModule,const char *szNamePrefix, int flags, int showCmd)
+int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szModule, const char *szNamePrefix, int flags, int showCmd)
 {
 	WINDOWPLACEMENT wp;
 	wp.length = sizeof(wp);
@@ -1514,21 +1515,21 @@ int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szMod
 
 	char szSettingName[64];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sx", szNamePrefix);
-	int x = db_get_dw(hContact,szModule,szSettingName,-1);
+	int x = db_get_dw(hContact, szModule, szSettingName, -1);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", szNamePrefix);
-	int y = db_get_dw(hContact,szModule,szSettingName,-1);
+	int y = db_get_dw(hContact, szModule, szSettingName, -1);
 	if (x == -1)
 		return 1;
 
 	if (flags & RWPF_NOSIZE)
-		OffsetRect(&wp.rcNormalPosition,x-wp.rcNormalPosition.left,y-wp.rcNormalPosition.top);
+		OffsetRect(&wp.rcNormalPosition, x - wp.rcNormalPosition.left, y - wp.rcNormalPosition.top);
 	else {
 		wp.rcNormalPosition.left = x;
 		wp.rcNormalPosition.top = y;
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%swidth", szNamePrefix);
-		wp.rcNormalPosition.right = wp.rcNormalPosition.left + db_get_dw(hContact,szModule,szSettingName,-1);
+		wp.rcNormalPosition.right = wp.rcNormalPosition.left + db_get_dw(hContact, szModule, szSettingName, -1);
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sheight", szNamePrefix);
-		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + db_get_dw(hContact,szModule,szSettingName,-1);
+		wp.rcNormalPosition.bottom = wp.rcNormalPosition.top + db_get_dw(hContact, szModule, szSettingName, -1);
 	}
 	wp.flags = 0;
 	wp.showCmd = showCmd;
@@ -1538,9 +1539,9 @@ int ScriverRestoreWindowPosition(HWND hwnd, MCONTACT hContact, const char *szMod
 	mi.cbSize = sizeof(mi);
 	GetMonitorInfo(hMonitor, &mi);
 	RECT rcDesktop = mi.rcWork;
-	if (wp.rcNormalPosition.left > rcDesktop.right || wp.rcNormalPosition.top > rcDesktop.bottom
-		|| wp.rcNormalPosition.right < rcDesktop.left || wp.rcNormalPosition.bottom < rcDesktop.top) return 1;
-	SetWindowPlacement(hwnd,&wp);
+	if (wp.rcNormalPosition.left > rcDesktop.right || wp.rcNormalPosition.top > rcDesktop.bottom ||
+		 wp.rcNormalPosition.right < rcDesktop.left || wp.rcNormalPosition.bottom < rcDesktop.top) return 1;
+	SetWindowPlacement(hwnd, &wp);
 	return 0;
 }
 

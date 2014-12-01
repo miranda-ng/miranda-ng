@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static MessageSendQueueItem *global_sendQueue = NULL;
 static mir_cs queueMutex;
 
-TCHAR * GetSendBufferMsg(MessageSendQueueItem *item)
+TCHAR* GetSendBufferMsg(MessageSendQueueItem *item)
 {
 	TCHAR *szMsg = NULL;
 	size_t len = strlen(item->sendBuffer);
@@ -34,7 +34,7 @@ TCHAR * GetSendBufferMsg(MessageSendQueueItem *item)
 	if (item->flags & PREF_UTF)
 		szMsg = mir_utf8decodeW(item->sendBuffer);
 	else {
-		szMsg = (TCHAR *)mir_alloc(item->sendBufferSize - len - 1);
+		szMsg = (TCHAR*)mir_alloc(item->sendBufferSize - len - 1);
 		memcpy(szMsg, item->sendBuffer + len + 1, item->sendBufferSize - len - 1);
 	}
 
@@ -87,7 +87,7 @@ BOOL RemoveSendQueueItem(MessageSendQueueItem* item)
 
 	if (item->next != NULL)
 		item->next->prev = item->prev;
-	
+
 	mir_free(item->sendBuffer);
 	mir_free(item->proto);
 	mir_free(item);
@@ -113,14 +113,15 @@ void ReportSendQueueTimeouts(HWND hwndSender)
 			if (item->timeout >= timeout) {
 				if (item->hwndSender == hwndSender && item->hwndErrorDlg == NULL) {
 					if (hwndSender != NULL) {
-						ErrorWindowData *ewd = (ErrorWindowData *) mir_alloc(sizeof(ErrorWindowData));
+						ErrorWindowData *ewd = (ErrorWindowData *)mir_alloc(sizeof(ErrorWindowData));
 						ewd->szName = GetNickname(item->hContact, item->proto);
 						ewd->szDescription = mir_tstrdup(TranslateT("The message send timed out."));
 						ewd->szText = GetSendBufferMsg(item);
 						ewd->hwndParent = hwndSender;
 						ewd->queueItem = item;
 						PostMessage(hwndSender, DM_SHOWERRORMESSAGE, 0, (LPARAM)ewd);
-					} else {
+					}
+					else {
 						/* TODO: Handle errors outside messaging window in a better way */
 						RemoveSendQueueItem(item);
 					}
