@@ -424,7 +424,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		case SPAMOTRON_MODE_MATH:
 			a = (rand() % 10) + 1;
 			b = (rand() % 10) + 1;
-			mir_sntprintf(mexpr, sizeof(mexpr), _T("%d + %d"), a, b);
+			mir_sntprintf(mexpr, SIZEOF(mexpr), _T("%d + %d"), a, b);
 			if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
 				_getOptS(challengeW, maxmsglen, "AuthChallengeMath", defaultAuthChallengeMath);
 			else

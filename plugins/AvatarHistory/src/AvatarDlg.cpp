@@ -560,7 +560,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	TCHAR title[MAX_PATH];
 	if (displayName)
 	{
-		mir_sntprintf(title,sizeof(title),TranslateT("Save Avatar for %s"),displayName);
+		mir_sntprintf(title, SIZEOF(title), TranslateT("Save Avatar for %s"), displayName);
 		ofn.lpstrTitle = title;
 	}
 	else
