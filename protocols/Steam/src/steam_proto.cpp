@@ -314,6 +314,17 @@ int __cdecl CSteamProto::SetApparentMode(MCONTACT hContact, int mode) { return 0
 
 int CSteamProto::SetStatus(int new_status)
 {
+	// Routing statuses not supported by Steam
+	switch (new_status)
+	{
+	case ID_STATUS_OFFLINE:
+		break;
+
+	default:
+		new_status = ID_STATUS_ONLINE;
+		break;
+	}
+
 	if (new_status == m_iDesiredStatus)
 		return 0;
 
