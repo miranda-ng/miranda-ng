@@ -817,8 +817,7 @@ void FacebookProto::OpenUrlThread(void *p) {
 	delete data;
 }
 
-void FacebookProto::OpenUrl(std::string url)
-{
+std::string FacebookProto::PrepareUrl(std::string url) {
 	std::string::size_type pos = url.find(FACEBOOK_SERVER_DOMAIN);
 	bool isFacebookUrl = (pos != std::string::npos);
 	bool isRelativeUrl = (url.substr(0, 4) != "http");
@@ -840,6 +839,12 @@ void FacebookProto::OpenUrl(std::string url)
 		url = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + facy.get_server_type() + url;
 	}
 
+	return url;
+}
+
+void FacebookProto::OpenUrl(std::string url)
+{
+	url = PrepareUrl(url);
 	ptrT data( mir_utf8decodeT(url.c_str()));
 
 	// Check if there is user defined browser for opening links

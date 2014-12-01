@@ -428,7 +428,7 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 		return;
 
 	std::stringstream text;
-	text << notification->text << "\n\n" << notification->link;
+	text << notification->text << "\n\n" << PrepareUrl(notification->link);
 
 	std::string smessage = text.str();
 	utils::text::replace_all(&smessage, "%", "%%");
