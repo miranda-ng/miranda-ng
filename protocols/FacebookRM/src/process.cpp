@@ -568,7 +568,7 @@ void FacebookProto::SyncThreads(void*)
 
 	std::string timestamp = "0";
 	if (ptrtimestamp != NULL)
-		timestamp = std::string(ptrtimestamp); // FIXME: is std::string(..) needed?
+		timestamp = ptrtimestamp;
 
 	unsigned __int64 time = _atoi64(timestamp.c_str());
 
@@ -752,7 +752,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), timestamp);
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
-			// ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact); // FIXME: temporary disabled
+			ForkThread(&FacebookProto::ReadMessageWorker, (void*)hChatContact);
 		} else {
 			// Single-user message
 			debugLogA("      Got message: %s", messages[i]->message_text.c_str());

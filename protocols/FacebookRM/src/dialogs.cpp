@@ -450,10 +450,6 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM wparam, L
 		proto = reinterpret_cast<FacebookProto*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
-		for(size_t i=0; i<SIZEOF(server_types); i++)
-			SendDlgItemMessageA(hwnd, IDC_URL_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(server_types[i].name)));
-		SendDlgItemMessage(hwnd, IDC_URL_SERVER, CB_SETCURSEL, proto->getByte(FACEBOOK_KEY_SERVER_TYPE, 0), 0);
-
 		LoadDBCheckState(proto, hwnd, IDC_DISCONNECT_CHAT, FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT);
 		LoadDBCheckState(proto, hwnd, IDC_SET_STATUS, FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS);
 		LoadDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES);
@@ -463,23 +459,17 @@ INT_PTR CALLBACK FBOptionsStatusesProc(HWND hwnd, UINT message, WPARAM wparam, L
 	}
 
 	case WM_COMMAND: {
-		switch (LOWORD(wparam)) {
-		case IDC_URL_SERVER:
-			if(HIWORD(wparam) == CBN_SELCHANGE)
-				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
-			break;
-		default:
+		//switch (LOWORD(wparam)) {
+		//default:
 			SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
 			break;
-		}
-		break;
+		//}
+		//break;
 	}
 
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
-			proto->setByte(FACEBOOK_KEY_SERVER_TYPE, SendDlgItemMessage(hwnd, IDC_URL_SERVER, CB_GETCURSEL, 0, 0));
-
 			StoreDBCheckState(proto, hwnd, IDC_DISCONNECT_CHAT, FACEBOOK_KEY_DISCONNECT_CHAT);
 			StoreDBCheckState(proto, hwnd, IDC_MAP_STATUSES, FACEBOOK_KEY_MAP_STATUSES);
 			StoreDBCheckState(proto, hwnd, IDC_LOAD_PAGES, FACEBOOK_KEY_LOAD_PAGES);
@@ -517,12 +507,14 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		proto = reinterpret_cast<FacebookProto*>(lparam);
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
-		for(size_t i=0; i<SIZEOF(feed_types); i++)
-		{
-			SendDlgItemMessageA(hwnd,IDC_FEED_TYPE,CB_INSERTSTRING,i,
-				reinterpret_cast<LPARAM>(Translate(feed_types[i].name)));
-		}
+		for (size_t i = 0; i<SIZEOF(feed_types); i++)
+			SendDlgItemMessageA(hwnd, IDC_FEED_TYPE, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(feed_types[i].name)));
 		SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_SETCURSEL, proto->getByte(FACEBOOK_KEY_FEED_TYPE, 0), 0);
+
+		for (size_t i = 0; i<SIZEOF(server_types); i++)
+			SendDlgItemMessageA(hwnd, IDC_URL_SERVER, CB_INSERTSTRING, i, reinterpret_cast<LPARAM>(Translate(server_types[i].name)));
+		SendDlgItemMessage(hwnd, IDC_URL_SERVER, CB_SETCURSEL, proto->getByte(FACEBOOK_KEY_SERVER_TYPE, 0), 0);
+
 		LoadDBCheckState(proto, hwnd, IDC_SYSTRAY_NOTIFY, FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY);
 		LoadDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_CHATROOM, FACEBOOK_KEY_NOTIFICATIONS_CHATROOM, DEFAULT_NOTIFICATIONS_CHATROOM);
 
@@ -544,8 +536,9 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 			proto->NotifyEvent(proto->m_tszUserName, TranslateT("Sample notification"), NULL, FACEBOOK_EVENT_NOTIFICATION);
 			break;
 		case IDC_FEED_TYPE:
-			if(HIWORD(wparam) == CBN_SELCHANGE)
-				SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
+		case IDC_URL_SERVER:
+			if (HIWORD(wparam) == CBN_SELCHANGE)
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		default:
 			SendMessage(GetParent(hwnd),PSM_CHANGED,0,0);
@@ -557,6 +550,7 @@ INT_PTR CALLBACK FBOptionsEventsProc(HWND hwnd, UINT message, WPARAM wparam, LPA
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
 			proto->setByte(FACEBOOK_KEY_FEED_TYPE, SendDlgItemMessage(hwnd, IDC_FEED_TYPE, CB_GETCURSEL, 0, 0));
+			proto->setByte(FACEBOOK_KEY_SERVER_TYPE, SendDlgItemMessage(hwnd, IDC_URL_SERVER, CB_GETCURSEL, 0, 0));
 
 			StoreDBCheckState(proto, hwnd, IDC_SYSTRAY_NOTIFY, FACEBOOK_KEY_SYSTRAY_NOTIFY);
 			StoreDBCheckState(proto, hwnd, IDC_NOTIFICATIONS_CHATROOM, FACEBOOK_KEY_NOTIFICATIONS_CHATROOM);

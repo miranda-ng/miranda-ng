@@ -113,8 +113,8 @@ BEGIN
     EDITTEXT        IDC_PW,84,33,123,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Create a new Facebook account",IDC_NEWACCOUNTLINK,
                     "Hyperlink",WS_TABSTOP,84,52,189,10
-	GROUPBOX        "Network", IDC_STATIC, 7, 72, 291, 42
-	CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,85,281,10
+    GROUPBOX        "Network",IDC_STATIC,7,72,291,42
+    CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,85,281,10
     CONTROL         "Use secure connection also for channel requests",IDC_SECURE_CHANNEL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,99,262,10
     GROUPBOX        "Contacts",IDC_STATIC,7,120,291,60
@@ -125,7 +125,7 @@ BEGIN
     CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,162,271,10
 END
 
-IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 185
+IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 208
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -139,11 +139,13 @@ BEGIN
     CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,67,138,8
     CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,272,8
     CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,272,8
+    RTEXT           "Use this server for opening links:",IDC_STATIC,13,123,139,8
+    COMBOBOX        IDC_URL_SERVER,156,120,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,121,272,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,147,272,8
     CONTROL         "Use logging notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,138,272,8
-    PUSHBUTTON      "Preview",IDC_PREVIEW,116,156,68,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,164,272,8
+    PUSHBUTTON      "Preview",IDC_PREVIEW,116,182,68,14
 END
 
 IDD_OPTIONS_STATUSES DIALOGEX 0, 0, 308, 226
@@ -151,7 +153,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Statuses",IDC_STATIC,7,7,294,91
+    GROUPBOX        "Statuses",IDC_STATIC,7,7,294,73
     CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,13,21,281,10
     CONTROL         "Turn off chat on Facebook when going to offline in Miranda",IDC_DISCONNECT_CHAT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,281,10
@@ -159,8 +161,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,47,281,10
     CONTROL         "Allow posting statuses to my pages (may slow down login)",IDC_LOAD_PAGES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,61,281,10
-    RTEXT           "Use this server for opening links:",IDC_STATIC,13,77,139,8
-    COMBOBOX        IDC_URL_SERVER,156,74,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_CAPTCHAFORM DIALOGEX 0, 0, 258, 224
@@ -185,25 +185,25 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "Messages",IDC_STATIC,7,7,294,70
-	CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
+    CONTROL         "Receive messages from ""inbox"" folder only",IDC_INBOX_ONLY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,19,281,10
-	CONTROL         "Use local time for received messages", IDC_USE_LOCAL_TIME,
-					"Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 33, 281, 10
+    CONTROL         "Use local time for received messages",IDC_USE_LOCAL_TIME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,33,281,10
     CONTROL         "Keep messages as unread on server (don't send ""seen"" info)",IDC_KEEP_UNREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,47,281,10
-	CONTROL         "Show stickers as custom smileys (EXPERIMENTAL)", IDC_CUSTOM_SMILEYS,
-					"Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 61, 281, 10
-	GROUPBOX        "Multi user chats", IDC_STATIC, 7, 83, 294, 43
-	CONTROL         "Enable multi user chats support", IDC_ENABLE_CHATS,
-					"Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 96, 281, 10
-	CONTROL         "Do not open chat windows on creation", IDC_HIDE_CHATS,
-					"Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 110, 281, 10
-	GROUPBOX        "History synchronization", IDC_STATIC, 7, 134, 294, 59
-	CONTROL         "Load last messages (24 hours old) on login (EXPERIMENTAL)", IDC_LOGIN_SYNC,
-					"Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 148, 281, 10
-	CONTROL         "Load last messages on opening message window (EXPERIMENTAL)", IDC_MESSAGES_ON_OPEN,
-					"Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 162, 281, 10
-	RTEXT           "Number of messages to load:", IDC_STATIC, 13, 176, 231, 8
+    CONTROL         "Show stickers as custom smileys (EXPERIMENTAL)",IDC_CUSTOM_SMILEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,61,281,10
+    GROUPBOX        "Multi user chats",IDC_STATIC,7,83,294,43
+    CONTROL         "Enable multi user chats support",IDC_ENABLE_CHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,96,281,10
+    CONTROL         "Do not open chat windows on creation",IDC_HIDE_CHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,110,281,10
+    GROUPBOX        "History synchronization",IDC_STATIC,7,134,294,59
+    CONTROL         "Load last messages (24 hours old) on login (EXPERIMENTAL)",IDC_LOGIN_SYNC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,148,281,10
+    CONTROL         "Load last messages on opening message window (EXPERIMENTAL)",IDC_MESSAGES_ON_OPEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,162,281,10
+    RTEXT           "Number of messages to load:",IDC_STATIC,13,176,231,8
     EDITTEXT        IDC_MESSAGES_COUNT,249,173,34,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_MESSAGES_COUNT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,173,11,14
 END
@@ -267,7 +267,7 @@ BEGIN
         VERTGUIDE, 150
         VERTGUIDE, 288
         TOPMARGIN, 7
-        BOTTOMMARGIN, 177
+        BOTTOMMARGIN, 200
     END
 
     IDD_OPTIONS_STATUSES, DIALOG
