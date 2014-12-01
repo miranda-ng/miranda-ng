@@ -50,19 +50,19 @@ struct EventData
 	int fontStyle;
 	COLORREF	color;
 	union {
-		char *pszNick;		// Nick, usage depends on type of event
-		wchar_t *pszNickW;    // Nick - Unicode
+		char *pszNick;     // Nick, usage depends on type of event
 		TCHAR *pszNickT;
+		wchar_t *pszNickW; // Nick - Unicode
 	};
 	union {
-		char *pszText;			// Text, usage depends on type of event
-		wchar_t *pszTextW;			// Text - Unicode
+		char *pszText;     // Text, usage depends on type of event
 		TCHAR *pszTextT;
+		wchar_t *pszTextW; // Text - Unicode
 	};
 	union {
-		char *pszText2;			// Text, usage depends on type of event
-		wchar_t *pszText2W;			// Text - Unicode
+		char *pszText2;     // Text, usage depends on type of event
 		TCHAR *pszText2T;
+		wchar_t *pszText2W; // Text - Unicode
 	};
 	DWORD	time;
 	DWORD	eventType;
@@ -73,19 +73,19 @@ struct EventData
 
 struct LogStreamData
 {
-	int stage;
+	int      stage;
 	MCONTACT hContact;
-	HANDLE hDbEvent, hDbEventLast;
-	char *buffer;
-	int bufferOffset, bufferLen;
-	int eventsToInsert;
-	int isFirst;
+	HANDLE   hDbEvent, hDbEventLast;
+	char    *buffer;
+	size_t   bufferOffset, bufferLen;
+	int      eventsToInsert;
+	int      isFirst;
 	SrmmWindowData *dlgDat;
 	GlobalMessageData *gdat;
 	EventData *events;
 };
 
-TCHAR *GetNickname(MCONTACT hContact, const char* szProto)
+TCHAR* GetNickname(MCONTACT hContact, const char *szProto)
 {
 	CONTACTINFO ci = { sizeof(ci) };
 	ci.hContact = hContact;
@@ -99,12 +99,12 @@ TCHAR *GetNickname(MCONTACT hContact, const char* szProto)
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
 				if (IsUnicodeMIM()) {
-					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
+					if (!_tcscmp((TCHAR*)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
 						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 							szName = mir_a2t((char*)ci.pszVal);
 					}
-					else szName = mir_tstrdup((TCHAR *)ci.pszVal);
+					else szName = mir_tstrdup((TCHAR*)ci.pszVal);
 				}
 				else szName = mir_a2t((char*)ci.pszVal);
 
@@ -251,7 +251,7 @@ static void freeEvent(EventData *evt)
 	mir_free(evt);
 }
 
-static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, WCHAR * line, int maxLen, BOOL isAnsii)
+static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, WCHAR *line, size_t maxLen, BOOL isAnsii)
 {
 	int textCharsCount = 0;
 	int wasEOL = 0;
@@ -297,10 +297,10 @@ static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *c
 			*d++ = (char)*line;
 		}
 		else if (isAnsii) {
-			d += sprintf(d, "\\'%02x", (*line) & 0xFF); //!!!!!!!!!!
+			d += sprintf(d, "\\'%02x", (*line) & 0xFF);
 		}
 		else {
-			d += sprintf(d, "\\u%d ?", *line); //!!!!!!!!!!
+			d += sprintf(d, "\\u%d ?", *line);
 		}
 	}
 	if (wasEOL) {
@@ -314,30 +314,27 @@ static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *c
 	return textCharsCount;
 }
 
-static int AppendAnsiToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char * line, int maxLen)
+static int AppendAnsiToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *line)
 {
-	WCHAR *wline = a2w(line, maxLen);
-	int i = AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, wline, maxLen, TRUE);
-	mir_free(wline);
-	return i;
+	return AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, _A2T(line), -1, TRUE);
 }
 
-static int AppendUnicodeToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, WCHAR * line, int maxLen)
+static int AppendUnicodeToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, WCHAR *line, size_t maxLen)
 {
 	return AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, line, maxLen, FALSE);
 }
 
-static int AppendAnsiToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char * line)
+static int AppendAnsiToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *line)
 {
-	return AppendAnsiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, line, -1);
+	return AppendAnsiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, line);
 }
 
-static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, WCHAR * line)
+static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, WCHAR *line)
 {
 	return AppendUnicodeToBufferL(buffer, cbBufferEnd, cbBufferAlloced, line, -1);
 }
 
-static int AppendTToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, TCHAR * line)
+static int AppendTToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, TCHAR *line)
 {
 	return AppendUnicodeToBuffer(buffer, cbBufferEnd, cbBufferAlloced, line);
 }
@@ -513,24 +510,22 @@ static int DetectURL(wchar_t *text, BOOL firstChar) {
 
 static void AppendWithCustomLinks(EventData *evt, int style, char **buffer, int *bufferEnd, int *bufferAlloced)
 {
-	int lasttoken = 0;
-	int laststart = 0;
-	int j, len;
-	WCHAR *wText;
-	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
-
 	if (evt->pszText == NULL)
 		return;
 
+	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
+	WCHAR *wText;
+	int lasttoken = 0;
+	size_t len, laststart = 0;
 	if (isAnsii) {
-		len = (int)strlen(evt->pszText);
-		wText = a2w(evt->pszText, len);
+		len = strlen(evt->pszText);
+		wText = mir_a2u(evt->pszText);
 	}
 	else {
 		wText = evt->pszTextW;
 		len = (int)wcslen(evt->pszTextW);
 	}
-	for (j = 0; j < len; j++) {
+	for (size_t j = 0; j < len; j++) {
 		int newtoken = 0;
 		int l = DetectURL(wText + j, j == 0);
 		if (l > 0)
@@ -814,7 +809,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		}
 		dat->bufferLen = mir_strlen(dat->buffer);
 	}
-	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
+	*pcb = min(cb, LONG(dat->bufferLen - dat->bufferOffset));
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
 	if (dat->bufferOffset == dat->bufferLen) {

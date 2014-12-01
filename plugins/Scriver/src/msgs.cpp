@@ -207,7 +207,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
 
-		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 		if ( ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
