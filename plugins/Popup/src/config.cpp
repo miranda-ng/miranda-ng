@@ -69,7 +69,7 @@ HRESULT		(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurB
 
 // common funcs
 void LoadOptions() {
-	ZeroMemory(&PopupOptions, sizeof(PopupOptions));
+	memset(&PopupOptions, 0, sizeof(PopupOptions));
 	#if defined(_DEBUG)
 		PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
 	#endif
@@ -98,7 +98,7 @@ void PopupPreview()
 
 	POPUPDATA2 ppd = {0};
 
-	ZeroMemory(&ppd, sizeof(ppd));
+	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize		= sizeof(ppd);
 	ppd.flags		= PU2_TCHAR;
 
@@ -108,7 +108,7 @@ void PopupPreview()
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME*2)/3); //Pause
 
-	ZeroMemory(&ppd, sizeof(ppd));
+	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize		= sizeof(ppd);
 	ppd.flags		= PU2_TCHAR;
 	ppd.lptzTitle	= lptzTitle2;

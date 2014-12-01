@@ -1174,7 +1174,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 		if (!pParams)
 			return;
 
-		ZeroMemory(pParams, sizeof(CJabberHttpAuthParams));
+		memset(pParams, 0, sizeof(CJabberHttpAuthParams));
 		pParams->m_nType = CJabberHttpAuthParams::MSG;
 		pParams->m_szFrom = mir_tstrdup(from);
 		LPCTSTR ptszThread = xmlGetText(xmlGetChild(node, "thread"));

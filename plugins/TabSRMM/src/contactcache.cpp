@@ -236,7 +236,7 @@ void CContactCache::allocStats()
 {
 	if (m_stats == 0) {
 		m_stats = new TSessionStats;
-		::ZeroMemory(m_stats, sizeof(TSessionStats));
+		memset(m_stats, 0, sizeof(TSessionStats));
 	}
 }
 
@@ -397,7 +397,7 @@ void CContactCache::allocHistory()
 	m_iHistoryCurrent = 0;
 	m_iHistoryTop = 0;
 	if (m_history)
-		ZeroMemory(m_history, sizeof(TInputHistory) * m_iHistorySize);
+		memset(m_history, 0, (sizeof(TInputHistory) * m_iHistorySize));
 	m_history[m_iHistorySize].szText = (TCHAR*)mir_alloc((HISTORY_INITIAL_ALLOCSIZE + 1) * sizeof(TCHAR));
 	m_history[m_iHistorySize].lLen = HISTORY_INITIAL_ALLOCSIZE;
 }

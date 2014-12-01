@@ -1456,7 +1456,7 @@ void ExportGpGKeysFunc(int type)
 				break;
 			}
 			id += " contact_id ";
-			ZeroMemory(&dbv, sizeof(dbv));
+			memset(&dbv, 0, sizeof(dbv));
 			db_get(hContact, proto, uid, &dbv);
 			switch(dbv.type) {
 			case DBVT_DELETED:

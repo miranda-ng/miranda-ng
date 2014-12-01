@@ -288,7 +288,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			// browse for the external log file
 			GetDlgItemText(hwndDlg, IDC_LOG, str, SIZEOF(str));
 			// Initialize OPENFILENAME
-			ZeroMemory(&ofn, sizeof(OPENFILENAME));
+			memset(&ofn, 0, sizeof(OPENFILENAME));
 			ofn.lStructSize = sizeof(OPENFILENAME);
 			ofn.hwndOwner = hwndDlg;
 			ofn.lpstrFile = str;

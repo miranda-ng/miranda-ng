@@ -52,8 +52,8 @@ static IconItem iconList[] =
 extern "C" __declspec(dllexport) int Load(void)
 {	
 	mir_getLP(&pluginInfoEx);
-	ZeroMemory(hklLayouts, 20 * sizeof(HKL));
-	bLayNum = GetKeyboardLayoutList(20,hklLayouts);
+	memset(hklLayouts, 0, sizeof(hklLayouts));
+	bLayNum = GetKeyboardLayoutList(20, hklLayouts);
 	if (bLayNum < 2) 
 		return 1;
 	

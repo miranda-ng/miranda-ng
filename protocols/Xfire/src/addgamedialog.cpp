@@ -271,7 +271,7 @@ BOOL OpenFileDialog(HWND hwndDlg, OPENFILENAMEA*ofn, char*exe) {
 	for (unsigned int i = 0; i < sizeFilter; i++)
 		if (szFilter[i] == '|') szFilter[i] = 0;
 	//openfiledia vorbereiten
-	ZeroMemory(ofn, sizeof(OPENFILENAMEA));
+	memset(ofn, 0, sizeof(OPENFILENAMEA));
 	ofn->lStructSize = sizeof(OPENFILENAMEA);
 	ofn->hwndOwner = hwndDlg;
 	ofn->lpstrFile = szFile;

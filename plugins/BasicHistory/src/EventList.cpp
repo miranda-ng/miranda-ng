@@ -420,7 +420,7 @@ std::wstring EventList::GetMyName()
 {
 	std::wstring myName;
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.szProto = GetContactProto(hContact);
 	ci.hContact = 0;
@@ -463,7 +463,7 @@ std::wstring EventList::GetMyId()
 {
 	std::wstring myId;
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.szProto = GetContactProto(hContact);
 	ci.hContact = 0;
@@ -476,7 +476,7 @@ inline std::wstring GetContactId(MCONTACT hContact)
 {
 	std::wstring id;
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.szProto = GetContactProto(hContact);
 	ci.hContact = hContact;

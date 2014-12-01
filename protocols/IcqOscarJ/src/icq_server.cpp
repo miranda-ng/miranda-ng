@@ -110,7 +110,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 	while (serverThreadHandle) {
 		if (info.bReinitRecver) { // we reconnected, reinit struct
 			info.bReinitRecver = false;
-			ZeroMemory(&packetRecv, sizeof(packetRecv));
+			memset(&packetRecv, 0, sizeof(packetRecv));
 			packetRecv.cbSize = sizeof(packetRecv);
 			packetRecv.dwTimeout = 1000;
 		}

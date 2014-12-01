@@ -109,10 +109,10 @@ int InitAccount(HACCOUNT Which)
 	SWMRGInitialize(Which->MessagesAccessSO,NULL);
 
 //zero memory, where timestamps are stored
-	ZeroMemory(&Which->LastChecked,sizeof(Which->LastChecked));
-	ZeroMemory(&Which->LastSChecked,sizeof(Which->LastSChecked));
-	ZeroMemory(&Which->LastSynchronised,sizeof(Which->LastSynchronised));
-	ZeroMemory(&Which->LastMail,sizeof(Which->LastMail));
+	memset(&Which->LastChecked, 0, sizeof(Which->LastChecked));
+	memset(&Which->LastSChecked, 0, sizeof(Which->LastSChecked));
+	memset(&Which->LastSynchronised, 0, sizeof(Which->LastSynchronised));
+	memset(&Which->LastMail, 0, sizeof(Which->LastMail));
 
 	Which->Name=NULL;
 	Which->Mails=NULL;

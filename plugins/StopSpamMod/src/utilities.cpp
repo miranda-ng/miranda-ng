@@ -103,7 +103,7 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 		TCHAR *tszParsed;
 		tstring tstrResult;
 
-		ZeroMemory(&fi, sizeof(fi));
+		memset(&fi, 0, sizeof(fi));
 		fi.cbSize = sizeof(fi);
 		fi.tszFormat = _tcsdup(tstrFormat.c_str());
 		fi.hContact = hContact;
@@ -208,7 +208,7 @@ tstring GetContactUid(MCONTACT hContact, tstring Protocol)
 	char aUid[32]={0};
 	char *szProto = mir_utf8encodeW(Protocol.c_str());
 	CONTACTINFO ci;
-	ZeroMemory((void *)&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 
 	ci.hContact = hContact;
 	ci.szProto = szProto;

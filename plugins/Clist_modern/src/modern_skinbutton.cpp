@@ -72,7 +72,7 @@ static HWND hwndToolTips = NULL;
 int ModernSkinButtonLoadModule()
 {
 	WNDCLASSEX wc;
-	ZeroMemory(&wc, sizeof(wc));
+	memset(&wc, 0, sizeof(wc));
 	wc.cbSize         = sizeof(wc);
 	wc.lpszClassName  = _T(MODERNSKINBUTTONCLASS);
 	wc.lpfnWndProc    = ModernSkinButtonWndProc;
@@ -384,7 +384,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 		EnterCriticalSection(&csTips);
 		if (hwndToolTips) {
 			TOOLINFO ti;
-			ZeroMemory(&ti, sizeof(ti));
+			memset(&ti, 0, sizeof(ti));
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND;
 			ti.hwnd = bct->hwnd;
@@ -505,7 +505,7 @@ HWND SetToolTip(HWND hwnd, TCHAR * tip)
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 	}
 
-	ZeroMemory(&ti, sizeof(ti));
+	memset(&ti, 0, sizeof(ti));
 	ti.cbSize = sizeof(ti);
 	ti.uFlags = TTF_IDISHWND;
 	ti.hwnd = hwnd;

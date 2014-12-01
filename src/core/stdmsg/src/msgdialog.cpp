@@ -1078,7 +1078,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		// configure message history for proper RTL formatting
 		{
 			PARAFORMAT2 pf2;
-			ZeroMemory((void *)&pf2, sizeof(pf2));
+			memset(&pf2, 0, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
 
 			pf2.wEffects = PFE_RTLPARA;

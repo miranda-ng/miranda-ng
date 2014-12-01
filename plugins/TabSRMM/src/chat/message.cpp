@@ -336,7 +336,7 @@ char* Chat_Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 
 	char* pszText = NULL;
 	EDITSTREAM stream;
-	ZeroMemory(&stream, sizeof(stream));
+	memset(&stream, 0, sizeof(stream));
 	stream.pfnCallback = Chat_Message_StreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 

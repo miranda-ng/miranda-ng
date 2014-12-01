@@ -373,7 +373,7 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 		return;
 
 	BITMAPINFO bmi;
-	ZeroMemory(&bmi, sizeof(BITMAPINFO));
+	memset(&bmi, 0, sizeof(BITMAPINFO));
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 
 	int ulBitmapWidth, ulBitmapHeight;
@@ -897,7 +897,7 @@ void CImageItem::Free()
 	if (m_fillBrush)
 		::DeleteObject(m_fillBrush);
 
-	ZeroMemory(this, sizeof(CImageItem));
+	memset(this, 0, sizeof(CImageItem));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1153,7 +1153,7 @@ void CSkin::Unload()
 		m_SkinItems[ID_EXTBKINFOPANELBG] = _defInfoPanel;
 	}
 
-	ZeroMemory(this, sizeof(CSkin));
+	memset(this, 0, sizeof(CSkin));
 
 	m_SkinItems = ::SkinItems;
 	setFileName();
@@ -1404,7 +1404,7 @@ void CSkin::Load(void)
 
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
-	ZeroMemory(szSections, 6000);
+	memset(szSections, 0, 6000);
 	GetPrivateProfileSectionNames(szSections, 3000, m_tszFileName);
 	szSections[3001] = szSections[3000] = 0;
 	TCHAR *p = szSections;
@@ -1537,7 +1537,7 @@ void CSkin::LoadItems()
 	m_nrSkinIcons = 0;
 
 	szSections = (TCHAR*)mir_alloc((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
-	ZeroMemory(szSections, (SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
+	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR)));
 
 	GetPrivateProfileSection(_T("Icons"), szSections, SECT_BUFFER_SIZE, m_tszFileName);
 	szSections[SECT_BUFFER_SIZE] = 0;
@@ -1550,7 +1550,7 @@ void CSkin::LoadItems()
 		if (m_nrSkinIcons < NR_MAXSKINICONS && p1) {
 			LoadIcon(_T("Icons"), p, *(HICON*)&tmpIconDesc.uId);
 			if (tmpIconDesc.uId) {
-				ZeroMemory(&m_skinIcons[m_nrSkinIcons], sizeof(TIconDesc));
+				memset(&m_skinIcons[m_nrSkinIcons], 0, sizeof(TIconDesc));
 				m_skinIcons[m_nrSkinIcons].uId = tmpIconDesc.uId;
 				m_skinIcons[m_nrSkinIcons].phIcon = (HICON *)(&m_skinIcons[m_nrSkinIcons].uId);
 				m_skinIcons[m_nrSkinIcons].szName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (mir_tstrlen(p) + 1));
@@ -1563,7 +1563,7 @@ void CSkin::LoadItems()
 		p += (mir_tstrlen(p) + 1);
 	}
 
-	ZeroMemory(szSections, (SECT_BUFFER_SIZE + 2) * sizeof(TCHAR));
+	memset(szSections, 0, ((SECT_BUFFER_SIZE + 2) * sizeof(TCHAR)));
 	GetPrivateProfileSectionNames(szSections, SECT_BUFFER_SIZE, m_tszFileName);
 	szSections[SECT_BUFFER_SIZE] = 0;
 

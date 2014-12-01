@@ -342,7 +342,7 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si)
 	if (hwndDlg == 0 || si == 0)
 		return NULL;
 
-	ZeroMemory(&stream, sizeof(stream));
+	memset(&stream, 0, sizeof(stream));
 	stream.pfnCallback = Message_StreamCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
 

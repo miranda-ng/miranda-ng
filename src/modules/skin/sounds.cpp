@@ -302,7 +302,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			PathToAbsoluteT(strFull, strdir);
 
 			OPENFILENAME ofn;
-			ZeroMemory(&ofn, sizeof(ofn));
+			memset(&ofn, 0, sizeof(ofn));
 			if (GetModuleHandle(_T("bass_interface.dll")))
 				mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.wav, *.mp3, *.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c"), TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 			else

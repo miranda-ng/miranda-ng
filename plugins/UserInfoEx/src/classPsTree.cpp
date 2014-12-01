@@ -726,7 +726,7 @@ void CPsTree::PopupMenu()
 	// init popup menu
 	if (!(hPopup = CreatePopupMenu()))
 		return;
-	ZeroMemory(&mii, sizeof(MENUITEMINFO));
+	memset(&mii, 0, sizeof(MENUITEMINFO));
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STRING|MIIM_ID;
 

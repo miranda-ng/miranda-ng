@@ -377,7 +377,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 
 				hItem = TreeView_InsertItem(hwndTree, &tvis);
 
-				ZeroMemory(&tvis.item, sizeof(tvis.item));
+				memset(&tvis.item, 0, sizeof(tvis.item));
 				tvis.item.hItem = hItem;
 				tvis.item.mask = TVIF_HANDLE|TVIF_STATE;
 				tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED);

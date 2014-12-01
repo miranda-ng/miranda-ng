@@ -64,7 +64,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM)
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
-	ZeroMemory(&odp,sizeof(odp));
+	memset(&odp, 0, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("Message Sessions");

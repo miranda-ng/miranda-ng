@@ -118,7 +118,7 @@ bool Canvas::getDigest(Digest& digest)
 	int nSize = m_nLineLength * m_nHeight;
 	BYTE* pData = new BYTE[nSize];
 
-	ZeroMemory(pData, nSize);
+	memset(pData, 0, nSize);
 
 	if (GetDIBits(m_hDC, m_hBmp, 0, m_nHeight, pData, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS) != m_nHeight) {
 		delete[] pData;

@@ -74,7 +74,7 @@ INT_PTR CALLBACK Ctrl_SetTextColour(HWND hCtrl, HDC hdc)
  **/
 CBaseCtrl::CBaseCtrl()
 {
-	ZeroMemory(this, sizeof(*this));
+	memset(this, 0, sizeof(*this));
 	_cbSize = sizeof(CBaseCtrl);
 }
 
@@ -84,7 +84,7 @@ CBaseCtrl::CBaseCtrl()
  **/
 CBaseCtrl::CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
 {
-	ZeroMemory(this, sizeof(*this));
+	memset(this, 0, sizeof(*this));
 	_cbSize = sizeof(CBaseCtrl);
 	_hwnd = GetDlgItem(hDlg, idCtrl);
 	if (!IsWindow(_hwnd)) throw;
@@ -100,7 +100,7 @@ CBaseCtrl::CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
  **/
 CBaseCtrl::CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting)
 {
-	ZeroMemory(this, sizeof(*this));
+	memset(this, 0, sizeof(*this));
 	_cbSize		= sizeof(CBaseCtrl);
 	_hwnd		= GetDlgItem(hDlg, idCtrl);
 	if (!IsWindow(_hwnd)) throw;

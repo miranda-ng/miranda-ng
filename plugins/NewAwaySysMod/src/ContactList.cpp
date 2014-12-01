@@ -370,7 +370,7 @@ HTREEITEM CCList::AddContact(MCONTACT hContact)
 		return hContactItem;
 
 	TVINSERTSTRUCT tvIns;
-	ZeroMemory(&tvIns, sizeof(tvIns));
+	memset(&tvIns, 0, sizeof(tvIns));
 	tvIns.hParent = AddGroup(db_get_s(hContact, "CList", "Group", _T("")));
 	tvIns.item.pszText = pcli->pfnGetContactDisplayName(hContact, 0);
 	tvIns.hInsertAfter = TVI_ROOT;
@@ -405,7 +405,7 @@ HTREEITEM CCList::AddGroup(TCString GroupName)
 	GroupEnumData.GroupName = GroupName;
 	GroupEnumData.hGroup = NULL;
 	DBCONTACTENUMSETTINGS dbEnum;
-	ZeroMemory(&dbEnum, sizeof(dbEnum));
+	memset(&dbEnum, 0, sizeof(dbEnum));
 	dbEnum.lParam = (LPARAM)&GroupEnumData;
 	dbEnum.pfnEnumProc = GroupEnum;
 	dbEnum.szModule = "CListGroups";

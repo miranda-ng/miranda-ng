@@ -852,7 +852,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 	if (dat->windowData.hwndLog != NULL) {
 		IEVIEWEVENT evt;
 		IEVIEWWINDOW ieWindow;
-		ZeroMemory(&evt, sizeof(evt));
+		memset(&evt, 0, sizeof(evt));
 		evt.cbSize = sizeof(evt);
 		evt.dwFlags = ((dat->flags & SMF_RTL) ? IEEF_RTL : 0);
 		evt.hwnd = dat->windowData.hwndLog;
@@ -869,7 +869,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&evt);
 		dat->hDbEventLast = evt.hDbEventFirst != NULL ? evt.hDbEventFirst : dat->hDbEventLast;
 
-		ZeroMemory(&ieWindow, sizeof(ieWindow));
+		memset(&ieWindow, 0, sizeof(ieWindow));
 		ieWindow.cbSize = sizeof(ieWindow);
 		ieWindow.iType = IEW_SCROLLBOTTOM;
 		ieWindow.hwnd = dat->windowData.hwndLog;

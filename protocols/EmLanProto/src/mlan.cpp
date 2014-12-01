@@ -220,7 +220,7 @@ void CMLan::Check()
 void CMLan::RequestStatus(bool answer, u_long addr)
 {
 	TPacket pak;
-	ZeroMemory(&pak, sizeof(pak));
+	memset(&pak, 0, sizeof(pak));
 	pak.flReqStatus = answer;
 	pak.strName = m_name;
 	SendPacketExt(pak, addr);
@@ -349,7 +349,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 						pak.flIsUrl ? PSR_URL : PSR_MESSAGE, 0, (LPARAM)&pre );
 
 					TPacket npak;
-					ZeroMemory(&npak, sizeof(npak));
+					memset(&npak, 0, sizeof(npak));
 					npak.idAckMessage = pak.idMessage;
 					npak.flIsUrl = pak.flIsUrl;
 					SendPacketExt(npak, from.S_un.S_addr);
@@ -408,7 +408,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				if (mesAway)
 				{
 					TPacket npak;
-					ZeroMemory(&npak, sizeof(npak));
+					memset(&npak, 0, sizeof(npak));
 					npak.idAckAwayMessage = pak.idReqAwayMessage;
 					npak.strAwayMessage = mesAway;
 					SendPacketExt(npak, cont->m_addr.S_un.S_addr);
@@ -426,7 +426,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 	DBEVENTINFO dbei;
 	PROTORECVEVENT *pre=(PROTORECVEVENT*)ccs->lParam;
 
-	ZeroMemory(&dbei,sizeof(dbei));
+	memset(&dbei, 0, sizeof(dbei));
 
 	if (!mir_strcmp(ccs->szProtoService, PSR_MESSAGE))
 		dbei.eventType = EVENTTYPE_MESSAGE;
@@ -576,7 +576,7 @@ void CMLan::SendMessageExt(TDataHolder* hold)
 	else
 	{
 		TPacket pak;
-		ZeroMemory(&pak, sizeof(pak));
+		memset(&pak, 0, sizeof(pak));
 		u_long addr = db_get_dw((MCONTACT)hold->hContact, PROTONAME, "ipaddr", 0);
 		pak.strMessage = hold->msg;
 		pak.idMessage = hold->id;
@@ -592,7 +592,7 @@ void CMLan::GetAwayMsgExt(TDataHolder* hold)
 	// TODO: check all other params (offline user, offline protocol)
 	Sleep(0);
 	TPacket pak;
-	ZeroMemory(&pak, sizeof(pak));
+	memset(&pak, 0, sizeof(pak));
 	pak.idReqAwayMessage = hold->id;
 	u_long addr = db_get_dw((MCONTACT)hold->hContact, PROTONAME, "ipaddr", 0);
 	SendPacketExt(pak, addr);
@@ -787,7 +787,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 
 void CMLan::ParsePacket(TPacket& pak, u_char* buf, int len)
 {
-	ZeroMemory(&pak, sizeof(pak));
+	memset(&pak, 0, sizeof(pak));
 	u_char* buf_end = buf+len;
 	while (*buf && buf<buf_end)
 	{
@@ -893,7 +893,7 @@ void CMLan::SaveSettings()
 
 CMLan::TFileConnection::TFileConnection()
 {
-	ZeroMemory(this, sizeof(TFileConnection));
+	memset(this, 0, sizeof(TFileConnection));
 	InitializeCriticalSection(&m_csAccess);
 	m_state = FCS_OK;
 }

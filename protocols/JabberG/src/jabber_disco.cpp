@@ -996,7 +996,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			lvhti.pt.x = rcCtl.left + 5;
 			lvhti.pt.y = rcHdr.bottom + 5;
 			int iFirst = ListView_HitTest(hwndList, &lvhti);
-			ZeroMemory(&lvhti, sizeof(lvhti));
+			memset(&lvhti, 0, sizeof(lvhti));
 			lvhti.pt.x = rcCtl.left + 5;
 			lvhti.pt.y = rcCtl.bottom - 5;
 			int iLast = ListView_HitTest(hwndList, &lvhti);

@@ -303,7 +303,7 @@ void InitGlobals()
 {
 	HDC hdc = GetDC(NULL);
 
-	ZeroMemory(&g_dat, sizeof(struct GlobalMessageData));
+	memset(&g_dat, 0, sizeof(struct GlobalMessageData));
 	g_dat.hMessageWindowList = WindowList_Create();
 	g_dat.hParentWindowList = WindowList_Create();
 
@@ -349,7 +349,7 @@ void FreeGlobals()
 	WindowList_Destroy(g_dat.hMessageWindowList);
 	WindowList_Destroy(g_dat.hParentWindowList);
 
-	ZeroMemory(&g_dat, sizeof(g_dat));
+	memset(&g_dat, 0, sizeof(g_dat));
 }
 
 void ReloadGlobals()

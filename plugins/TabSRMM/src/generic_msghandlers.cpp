@@ -127,7 +127,7 @@ void TSAPI DM_InitTip(TWindowData *dat)
 	dat->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_BALLOON, CW_USEDEFAULT, CW_USEDEFAULT,
 								  CW_USEDEFAULT, CW_USEDEFAULT, dat->hwnd, NULL, g_hInst, (LPVOID) NULL);
 
-	ZeroMemory(&dat->ti, sizeof(dat->ti));
+	memset(&dat->ti, 0, sizeof(dat->ti));
 	dat->ti.cbSize = sizeof(dat->ti);
 	dat->ti.lpszText = TranslateT("No status message");
 	dat->ti.hinst = g_hInst;
@@ -205,8 +205,8 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 	case IDC_FONTSTRIKEOUT:
 		if (dat->SendFormat != 0) { // dont use formatting if disabled
 			CHARFORMAT2 cf, cfOld;
-			ZeroMemory(&cf, sizeof(CHARFORMAT2));
-			ZeroMemory(&cfOld, sizeof(CHARFORMAT2));
+			memset(&cf, 0, sizeof(CHARFORMAT2));
+			memset(&cfOld, 0, sizeof(CHARFORMAT2));
 			cfOld.cbSize = cf.cbSize = sizeof(CHARFORMAT2);
 			cfOld.dwMask = CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_STRIKEOUT;
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
@@ -249,7 +249,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		submenu = GetSubMenu(m_pContainer->hMenuContext, 7);
 		{
 			CHARFORMAT2 cf;
-			ZeroMemory(&cf, sizeof(CHARFORMAT2));
+			memset(&cf, 0, sizeof(CHARFORMAT2));
 			cf.cbSize = sizeof(CHARFORMAT2);
 			cf.dwMask = CFM_COLOR;
 
@@ -802,7 +802,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	SendMessage(hwndEdit, EM_SETBKGNDCOLOR, 0, dat->inputbg);
 
 	CHARFORMAT2A cf2;
-	ZeroMemory(&cf2, sizeof(CHARFORMAT2A));
+	memset(&cf2, 0, sizeof(CHARFORMAT2A));
 	cf2.cbSize = sizeof(cf2);
 
 	if (fIsChat) {
@@ -845,7 +845,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	// The real text direction is then enforced by the streaming code which adds appropiate paragraph
 	// and textflow formatting commands to the
 	PARAFORMAT2 pf2;
-	ZeroMemory(&pf2, sizeof(PARAFORMAT2));
+	memset(&pf2, 0, sizeof(PARAFORMAT2));
 	pf2.cbSize = sizeof(pf2);
 	pf2.wEffects = PFE_RTLPARA;
 	pf2.dwMask = PFM_RTLPARA;

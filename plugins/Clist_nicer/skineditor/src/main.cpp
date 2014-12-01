@@ -650,7 +650,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		psd = (SKINDESCRIPTION *)malloc(sizeof(SKINDESCRIPTION));
 		if (psd == NULL)
 			return FALSE;
-		ZeroMemory(psd, sizeof(SKINDESCRIPTION));
+		memset(psd, 0, sizeof(SKINDESCRIPTION));
 		CopyMemory(psd, (void *)lParam, sizeof(SKINDESCRIPTION));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)psd);
 

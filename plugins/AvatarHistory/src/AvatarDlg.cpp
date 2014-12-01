@@ -77,7 +77,7 @@ int OpenAvatarDialog(MCONTACT hContact, char* fn)
 
 	DWORD dwId;
 	struct AvatarDialogData *avdlg = (struct AvatarDialogData*)malloc(sizeof(struct AvatarDialogData));
-	ZeroMemory(avdlg, sizeof(struct AvatarDialogData));
+	memset(avdlg, 0, sizeof(struct AvatarDialogData));
 	avdlg->hContact = hContact;
 	if (fn == NULL)
 	{
@@ -544,7 +544,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	TCHAR filter[MAX_PATH];
 	TCHAR file[MAX_PATH];
 	OPENFILENAME ofn;
-	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	memset(&ofn, 0, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = hwnd;
 	ofn.hInstance = hInst;

@@ -132,7 +132,7 @@ void InitSRMM()
 	HookEvent(ME_MSG_ICONPRESSED, SVC_IconPressed);
 
 	if (options.bHaveButtonsBar) {
-		ZeroMemory(&OTRButton, sizeof(OTRButton));
+		memset(&OTRButton, 0, sizeof(OTRButton));
 		OTRButton.cbSize = sizeof(OTRButton);
 		OTRButton.dwButtonID = 0;
 		OTRButton.pszModuleName = MODULENAME;

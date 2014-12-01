@@ -271,15 +271,15 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 	int alertIndex = 0, eventIndex = 0;
 
 	char tempraw[MAXSIZE1];
-	ZeroMemory(&tempraw, sizeof(tempraw));
-	ZeroMemory(&raw, sizeof(raw));
+	memset(&tempraw, 0, sizeof(tempraw));
+	memset(&raw, 0, sizeof(raw));
 
 	strncpy(tempraw, truncated, SIZEOF(tempraw));
 
-	ZeroMemory(&alertstring, sizeof(alertstring));
-	ZeroMemory(&Alerttempstring, sizeof(Alerttempstring));
-	ZeroMemory(&Alerttempstring2, sizeof(Alerttempstring2));
-	ZeroMemory(&cachecompare, sizeof(cachecompare));
+	memset(&alertstring, 0, sizeof(alertstring));
+	memset(&Alerttempstring, 0, sizeof(Alerttempstring));
+	memset(&Alerttempstring2, 0, sizeof(Alerttempstring2));
+	memset(&cachecompare, 0, sizeof(cachecompare));
 
 	// alerts
 	if (db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0)) { // ALERTS
@@ -436,7 +436,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
 					WErrorPopup((MCONTACT)contactname, TranslateT("Cannot read from file"));
 				else {
-					ZeroMemory(&cachecompare, sizeof(cachecompare));
+					memset(&cachecompare, 0, sizeof(cachecompare));
 					fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
 					fclose(pcachefile);
 				}
@@ -532,20 +532,20 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 				alertpos = strstr(tempraw, Alerttempstring);
 				statalertpos = alertpos - tempraw;
 
-				ZeroMemory(&alertpos, sizeof(alertpos));
+				memset(&alertpos, 0, sizeof(alertpos));
 				//end string
 				alertpos = strstr(tempraw, Alerttempstring2);
 				statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
 
 				if (statalertpos > statalertposend) {
 					memset(&tempraw, ' ', statalertpos);
-					ZeroMemory(&alertpos, sizeof(alertpos));
+					memset(&alertpos, 0, sizeof(alertpos));
 					alertpos = strstr(tempraw, Alerttempstring2);
 					statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
 				}
 
 				if (statalertpos < statalertposend) {
-					ZeroMemory(&raw, sizeof(raw));
+					memset(&raw, 0, sizeof(raw));
 
 					//start string
 					alertpos = strstr(tempraw, Alerttempstring);
@@ -557,7 +557,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 
 					if (statalertpos > statalertposend) {
 						memset(&tempraw, ' ', statalertpos);
-						ZeroMemory(&alertpos, sizeof(alertpos));
+						memset(&alertpos, 0, sizeof(alertpos));
 						alertpos = strstr(tempraw, Alerttempstring2);
 						statalertposend = alertpos - tempraw + (int)strlen(Alerttempstring2);
 					}
@@ -648,7 +648,7 @@ int ProcessAlerts(MCONTACT hContact, char *truncated, char *tstr, char *contactn
 					if ((pcachefile = _tfopen(newcachepath, _T("r"))) == NULL)
 						WErrorPopup((MCONTACT)contactname, TranslateT("Cannot read from file"));
 					else {
-						ZeroMemory(&cachecompare, sizeof(cachecompare));
+						memset(&cachecompare, 0, sizeof(cachecompare));
 						fread(cachecompare, sizeof(cachecompare), 1, pcachefile);
 						fclose(pcachefile);
 					}

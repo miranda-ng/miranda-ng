@@ -1025,7 +1025,7 @@ void CreateViewModeFrame()
 
 	RegisterClass(&wndclass);
 
-	ZeroMemory(&frame, sizeof(frame));
+	memset(&frame, 0, sizeof(frame));
 	frame.cbSize = sizeof(frame);
 	frame.tname = _T("View modes");
 	frame.TBtname = TranslateT("View modes");

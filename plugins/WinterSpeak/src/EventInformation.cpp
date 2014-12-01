@@ -14,7 +14,7 @@ EventInformation::EventInformation() : m_event_strings(), m_event_info()
 	m_event_strings[EVENTTYPE_AUTHREQUEST]  = TranslateW(L"%u requests your authorization");
 	m_event_strings[EVENTTYPE_FILE]         = TranslateW(L"there is an incoming file from %u");
 
-	ZeroMemory(&m_event_info, sizeof(m_event_info));
+	memset(&m_event_info, 0, sizeof(m_event_info));
 }
 
 //------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ bool EventInformation::isValidEvent(HANDLE event)
 	{
 		delete m_event_info.pBlob;
 	}
-	ZeroMemory(&m_event_info, sizeof(m_event_info));
+	memset(&m_event_info, 0, sizeof(m_event_info));
 
 	// find out and assign the space we need for the new event
 	m_event_info.cbSize = sizeof(m_event_info);

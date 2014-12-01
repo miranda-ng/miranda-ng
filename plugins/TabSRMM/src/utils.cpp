@@ -509,7 +509,7 @@ int Utils::FindRTLLocale(TWindowData *dat)
 	WORD wCtype2[5];
 
 	if (dat->iHaveRTLLang == 0) {
-		ZeroMemory(layouts, 20 * sizeof(HKL));
+		memset(layouts, 0, sizeof(layouts));
 		GetKeyboardLayoutList(20, layouts);
 		for (i=0; i < 20 && layouts[i]; i++) {
 			lcid = MAKELCID(LOWORD(layouts[i]), 0);
@@ -532,7 +532,7 @@ void Utils::RTF_CTableInit()
 	int iSize = sizeof(TRTFColorTable) * RTF_CTABLE_DEFSIZE;
 
 	rtf_ctable = (TRTFColorTable *)mir_alloc(iSize);
-	ZeroMemory(rtf_ctable, iSize);
+	memset(rtf_ctable, 0, iSize);
 	CopyMemory(rtf_ctable, _rtf_ctable, iSize);
 	rtf_ctable_size = RTF_CTABLE_DEFSIZE;
 }

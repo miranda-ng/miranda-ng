@@ -93,7 +93,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::ServListCListGroupChange);
 
 	// Initialize status message struct
-	ZeroMemory(&m_modeMsgs, sizeof(icq_mode_messages));
+	memset(&m_modeMsgs, 0, sizeof(icq_mode_messages));
 	m_modeMsgsMutex = new icq_critical_section();
 	connectionHandleMutex = new icq_critical_section();
 	localSeqMutex = new icq_critical_section();
@@ -1023,7 +1023,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 				// This is kinda messy, but there is no simple way to do it. First
 				// we need to calculate the length of the packet.
 				contacts = (struct icq_contactsend_s*)_alloca(sizeof(struct icq_contactsend_s)*nContacts);
-				ZeroMemory(contacts, sizeof(struct icq_contactsend_s)*nContacts);
+				memset(contacts, 0, (sizeof(struct icq_contactsend_s) * nContacts));
 
 				size_t nDataLen = 0, nNamesLen = 0;
 				for (i = 0; i < nContacts; i++) {
@@ -1138,7 +1138,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 				// This is kinda messy, but there is no simple way to do it. First
 				// we need to calculate the length of the packet.
 				contacts = (struct icq_contactsend_s*)_alloca(sizeof(struct icq_contactsend_s)*nContacts);
-				ZeroMemory(contacts, sizeof(struct icq_contactsend_s)*nContacts);
+				memset(contacts, 0, (sizeof(struct icq_contactsend_s) * nContacts));
 				{
 					size_t nBodyLength = 0;
 					for (i = 0; i < nContacts; i++) {

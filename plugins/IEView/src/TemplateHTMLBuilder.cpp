@@ -221,7 +221,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	}
 
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = event->hContact;
 	ci.szProto = szProto;
@@ -229,7 +229,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci))
 		szNickIn = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
 
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = NULL;
 	ci.szProto = szProto;
@@ -401,7 +401,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	}
 
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = event->hContact;
 	ci.szProto = szProto;
@@ -409,7 +409,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci))
 		szNickIn = encodeUTF8(event->hContact, szRealProto, ci.pszVal, ENF_NAMESMILEYS, true);
 
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = NULL;
 	ci.szProto = szProto;

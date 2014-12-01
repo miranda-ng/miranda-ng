@@ -125,7 +125,7 @@ extern "C" int __declspec(dllexport) Load()
 	char *strTmp;
 
 	CreateServiceFunction("RemovePersonalSettings/RemoveAll",RemoveAllService);
-	ZeroMemory(&mi,sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
 	mi.flags=0;
@@ -670,7 +670,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 	lenModule = strlen(szModule);
 	if (szModule[0] == '*' || szModule[lenModule-1] == '*') {
 		DeleteModuleStruct dms;
-		ZeroMemory(&dms, sizeof(dms));
+		memset(&dms, 0, sizeof(dms));
 
 		dms.filter = szModule;
 		dms.lenFilterMinusOne = lenModule-1;
@@ -692,7 +692,7 @@ void DeleteSettingEx(const char *szModule, const char *szSetting)
 			DeleteModuleStruct dms;
 			DBCONTACTENUMSETTINGS dbces;
 
-			ZeroMemory(&dms, sizeof(dms));
+			memset(&dms, 0, sizeof(dms));
 
 			dms.filter = szSetting;
 			dms.lenFilterMinusOne = lenSetting-1;

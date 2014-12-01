@@ -312,7 +312,7 @@ void Plugin_Uninit(pluginEntry *p)
 		KillModuleServices(hInst);
 
 		FreeLibrary(hInst);
-		ZeroMemory(&p->bpi, sizeof(p->bpi));
+		memset(&p->bpi, 0, sizeof(p->bpi));
 	}
 	UnregisterModule(hInst);
 	if (p == pluginList_crshdmp)

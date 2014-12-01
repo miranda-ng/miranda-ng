@@ -25,7 +25,7 @@ void LoadOptions()
 {
 	DBVARIANT dbv = { 0 };
 	dbv.type = DBVT_TCHAR;
-	ZeroMemory(&WumfOptions, sizeof(WumfOptions));
+	memset(&WumfOptions, 0, sizeof(WumfOptions));
 	if (db_get_ts(NULL, MODULENAME, OPT_FILE, &dbv) == 0)
 	{
 		_tcsncpy(WumfOptions.LogFile, dbv.ptszVal, 255);

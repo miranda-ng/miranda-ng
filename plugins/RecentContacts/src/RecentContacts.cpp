@@ -58,7 +58,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 void LoadDBSettings()
 {
-	ZeroMemory(&LastUCOpt, sizeof(LastUCOpt));
+	memset(&LastUCOpt, 0, sizeof(LastUCOpt));
 	LastUCOpt.MaxShownContacts = (INT)db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_MaxShownContacts, 0 );
 	LastUCOpt.HideOffline = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_HideOfflineContacts, 0 );
 	LastUCOpt.WindowAutoSize = db_get_b( NULL, dbLastUC_ModuleName, dbLastUC_WindowAutosize, 0 );
@@ -102,7 +102,7 @@ BOOL ShowListMainDlgProc_OpenContact(HWND hList, int item)
 {
 	if (item != -1) {
 		LVITEM lvi;
-		ZeroMemory(&lvi, sizeof(lvi));
+		memset(&lvi, 0, sizeof(lvi));
 		lvi.mask = LVIF_PARAM;
 		lvi.lParam = NULL;
 		lvi.iItem = item;
@@ -120,7 +120,7 @@ BOOL ShowListMainDlgProc_OpenContactMenu(HWND hDlg, HWND hList, int item, LASTUC
 {
 	if (item != -1) {
 		LVITEM lvi;
-		ZeroMemory(&lvi, sizeof(lvi));
+		memset(&lvi, 0, sizeof(lvi));
 		lvi.mask = LVIF_PARAM;
 		lvi.lParam = NULL;
 		lvi.iItem = item;
@@ -175,7 +175,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		TranslateDialogDefault(hDlg);
 		{
 			DlgDat = new LASTUC_DLG_DATA;
-			ZeroMemory(DlgDat, sizeof(LASTUC_DLG_DATA));
+			memset(DlgDat, 0, sizeof(LASTUC_DLG_DATA));
 			DlgDat->Contacts = (cmultimap*)lParam;
 
 			RECT rc;
@@ -204,7 +204,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			// add header columns to listview
 			LVCOLUMN lvc;
-			ZeroMemory(&lvc, sizeof(lvc));
+			memset(&lvc, 0, sizeof(lvc));
 			lvc.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
 			lvc.iSubItem = 0;
@@ -328,7 +328,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 					GetWindowRect(hList, &r);
 					if (PtInRect(&r, p)) {
 						LVHITTESTINFO lvh;
-						ZeroMemory(&lvh, sizeof(lvh));
+						memset(&lvh, 0, sizeof(lvh));
 						lvh.pt = p;
 						ScreenToClient(hList, &lvh.pt);
 						ListView_HitTest(hList, &lvh);
@@ -410,7 +410,7 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	__time64_t curTime;
 	//DWORD t;
 	DBEVENTINFO dbe;
-	ZeroMemory(&dbe, sizeof(dbe));
+	memset(&dbe, 0, sizeof(dbe));
 	dbe.cbSize = sizeof(dbe);
 	BYTE buf[1];
 	dbe.pBlob = buf;

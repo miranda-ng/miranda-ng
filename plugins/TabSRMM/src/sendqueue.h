@@ -66,7 +66,7 @@ public:
 
 	SendQueue()
 	{
-		ZeroMemory(m_jobs, (sizeof(SendJob) * NR_SENDJOBS));
+		memset(m_jobs, 0, (sizeof(SendJob) * NR_SENDJOBS));
 		m_currentIndex = 0;
 	}
 

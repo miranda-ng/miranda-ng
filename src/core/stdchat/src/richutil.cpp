@@ -137,7 +137,7 @@ int RichUtil_SubClass(HWND hwndEdit) {
 	if (IsWindow(hwndEdit)) {
 		TRichUtil *ru = (TRichUtil*)malloc(sizeof(TRichUtil));
 		
-		ZeroMemory(ru, sizeof(TRichUtil));
+		memset(ru, 0, sizeof(TRichUtil));
 		ru->hwnd = hwndEdit;
 		ru->hasUglyBorder = 0;
 		EnterCriticalSection(&csRich);
@@ -212,7 +212,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					RECT rcClient; 
 					HDC hdc = GetDC(GetParent(hwnd));
 
-					ZeroMemory(&rcClient, sizeof(RECT));
+					memset(&rcClient, 0, sizeof(RECT));
 					if(GetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient) == S_OK) {
 						ru->rect.left = rcClient.left-ncsParam->rgrc[0].left;
 						ru->rect.top = rcClient.top-ncsParam->rgrc[0].top;

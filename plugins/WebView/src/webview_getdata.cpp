@@ -59,13 +59,14 @@ void GetData(void *param)
 
 	Startingup = 0;
 
-	ZeroMemory(&url, sizeof(url));
-	ZeroMemory(&contactname, sizeof(contactname));
-	ZeroMemory(&tempstring, sizeof(tempstring));
-	ZeroMemory(&tempstring2, sizeof(tempstring2));
-	ZeroMemory(&dbv, sizeof(dbv));
-	ZeroMemory(&tstr, sizeof(tstr));
-	ZeroMemory(&timestring, sizeof(timestring));
+	memset(&url, 0, sizeof(url));
+	memset(&contactname, 0, sizeof(contactname));
+	memset(&tempstring, 0, sizeof(tempstring));
+	memset(&tempstring2, 0, sizeof(tempstring2));
+	memset(&szInfo, 0, sizeof(szInfo));
+	memset(&dbv, 0, sizeof(dbv));
+	memset(&tstr, 0, sizeof(tstr));
+	memset(&timestring, 0, sizeof(timestring));
 
 	db_set_b(hContact, MODULENAME, STOP_KEY, 0);  
 
@@ -199,19 +200,19 @@ void GetData(void *param)
 					pos = strstr(truncated2, tempstring);
 					statpos = pos - truncated2;
 
-					ZeroMemory(&pos, sizeof(pos));
+					memset(&pos, 0, sizeof(pos)); // XXX: looks bad.
 					// end string
 					pos = strstr(truncated2, tempstring2);
-					statposend = pos - truncated2 + (int)strlen(tempstring2);
+					statposend = pos - truncated2 + strlen(tempstring2);
 
 					if (statpos > statposend) {
 						memset(&truncated2, ' ', statpos);
-						ZeroMemory(&pos, sizeof(pos));
+						memset(&pos, 0, sizeof(pos)); // XXX: looks bad.
 						pos = strstr(truncated2, tempstring2);
-						statposend = pos - truncated2 + (int)strlen(tempstring2);
+						statposend = pos - truncated2 + strlen(tempstring2);
 					}
 					if (statpos < statposend) {
-						ZeroMemory(&raw, sizeof(raw));
+						memset(&raw, 0, sizeof(raw));
 
 						// get size for malloc 
 						MallocSize = statposend - statpos;
@@ -227,7 +228,7 @@ void GetData(void *param)
 
 						if (statpos > statposend) {
 							memset(&truncated2, ' ', statpos);
-							ZeroMemory(&pos, sizeof(pos));
+							memset(&pos, 0, sizeof(pos)); // XXX
 							pos = strstr(truncated2, tempstring2);
 							statposend = pos - truncated2 + (int)strlen(tempstring2);
 						}
@@ -285,8 +286,8 @@ void GetData(void *param)
 			setlocale(LC_ALL, "");
 
 			if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
-				ZeroMemory(&temptime, sizeof(temptime));
-				ZeroMemory(&tstr, sizeof(tstr));
+				memset(&temptime, 0, sizeof(temptime));
+				memset(&tstr, 0, sizeof(tstr));
 				ftime = time(NULL);
 				nTime = localtime(&ftime);
 				// 12 hour
@@ -304,8 +305,8 @@ void GetData(void *param)
 			}
 			else {
 				db_get_ts(hContact, "CList", "MyHandle", &dbv);
-				ZeroMemory(&temptime, sizeof(temptime));
-				ZeroMemory(&tstr, sizeof(tstr));
+				memset(&temptime, 0, sizeof(temptime));
+				memset(&tstr, 0, sizeof(tstr));
 				ftime = time(NULL);
 				nTime = localtime(&ftime);
 				// 12 hour

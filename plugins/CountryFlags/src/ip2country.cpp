@@ -190,7 +190,7 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 	WORD wOut;
 	struct ResizableByteBuffer buffer;
 
-	ZeroMemory(&buffer,sizeof(buffer));
+	memset(&buffer, 0, sizeof(buffer));
 	fp=fopen(pszFileCSV,"rt");
 	if (fp != NULL) {
 		OutputDebugStringA("Running IP data convert...\n"); /* all ascii */

@@ -47,7 +47,7 @@ class CGlobals
 public:
 	CGlobals()
 	{
-		::ZeroMemory(this, sizeof(CGlobals));
+		memset(this, 0, sizeof(CGlobals));
 		m_TypingSoundAdded = false;
 	}
 

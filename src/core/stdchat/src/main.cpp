@@ -317,7 +317,7 @@ static void RegisterFonts()
 
 static void TabsInit()
 {
-	ZeroMemory(&g_TabSession, sizeof(SESSION_INFO));
+	memset(&g_TabSession, 0, sizeof(SESSION_INFO));
 	g_TabSession.iType = GCW_TABROOM;
 	g_TabSession.iSplitterX = g_Settings.iSplitterX;
 	g_TabSession.iSplitterY = g_Settings.iSplitterY;

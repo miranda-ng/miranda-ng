@@ -611,7 +611,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 				if (!(hMenu = CreatePopupMenu())) return 0;
 				SetFocus((HWND)lParam);
 
-				ZeroMemory(&mii, sizeof(MENUITEMINFO));
+				memset(&mii, 0, sizeof(MENUITEMINFO));
 				mii.cbSize = sizeof(MENUITEMINFO);
 				mii.fMask = MIIM_ID|MIIM_STRING|MIIM_FTYPE|MIIM_STATE;
 				mii.fType = MFT_STRING;
@@ -1082,7 +1082,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 			cbex->pItems + (int)lParam + 1,
 			(cbex->numItems - (int)lParam - 1) * sizeof(CBEXITEMINTERN));
 		cbex->numItems--;
-		ZeroMemory(cbex->pItems + cbex->numItems, sizeof(CBEXITEMINTERN));
+		memset((cbex->pItems + cbex->numItems), 0, sizeof(CBEXITEMINTERN));
 		CtrlContactWndProc(hwnd, CBEXM_SETCURSEL, lParam - 1, FALSE);
 		return TRUE;
 	}
@@ -1246,7 +1246,7 @@ int CtrlContactLoadModule()
 {
 	WNDCLASSEX wc;
 	
-	ZeroMemory(&wc, sizeof(wc));
+	memset(&wc, 0, sizeof(wc));
 	wc.cbSize				 = sizeof(wc);
 	wc.lpszClassName	= UINFOCOMBOEXCLASS;
 	wc.lpfnWndProc		= CtrlContactWndProc;
@@ -1343,7 +1343,7 @@ int CtrlContactAddMyItemsFromDB(
 	LPTSTR sms;
 	int bAnyItemIsChanged = 0;
 
-	ZeroMemory(&cbi, sizeof(cbi));
+	memset(&cbi, 0, sizeof(cbi));
 	cbi.iItem = -1;
 	cbi.wMask = CBEXIM_ALL;
 	cbi.pszIcon = szIcon;

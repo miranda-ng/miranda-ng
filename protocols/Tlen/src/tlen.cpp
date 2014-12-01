@@ -187,12 +187,12 @@ INT_PTR TlenProtocol::MenuHandleInbox(WPARAM wParam, LPARAM lParam)
 	else if (threadData != NULL && strlen(threadData->password) > 0)
 		password = mir_strdup(threadData->password);
 
-	ZeroMemory(&cookie, sizeof(cookie));
+	memset(&cookie, 0, sizeof(cookie));
 	if (login != NULL && password != NULL) {
 		mir_snprintf( form, SIZEOF(form), "username=%s&password=%s", login, password);
 		headers[0].szName = "Content-Type";
 		headers[0].szValue = "application/x-www-form-urlencoded";
-		ZeroMemory(&req, sizeof(req));
+		memset(&req, 0, sizeof(req));
 		req.cbSize = sizeof(req);
 		req.requestType = REQUEST_POST;
 		req.flags = 0;

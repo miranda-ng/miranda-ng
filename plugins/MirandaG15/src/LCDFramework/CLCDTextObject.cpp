@@ -11,7 +11,7 @@ CLCDTextObject::CLCDTextObject()
 	m_hFont = NULL;
 	m_iFontHeight = 0;
 	// Initialize DRAWTEXTPARAMS
-	ZeroMemory(&m_dtp, sizeof(DRAWTEXTPARAMS));
+	memset(&m_dtp, 0, sizeof(DRAWTEXTPARAMS));
     m_dtp.cbSize = sizeof(DRAWTEXTPARAMS);
 	// Initialize alignment
 	m_iTextFormat = m_iTextAlignment =  (DT_LEFT | DT_NOPREFIX);
@@ -107,7 +107,7 @@ void CLCDTextObject::SetFontFaceName(tstring strFontName)
         return;
 
     LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    memset(&lf, 0, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     _tcsncpy(lf.lfFaceName, strFontName.c_str(), LF_FACESIZE);
@@ -121,7 +121,7 @@ void CLCDTextObject::SetFontFaceName(tstring strFontName)
 void CLCDTextObject::SetFontPointSize(int nPointSize)
 {
 	LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    memset(&lf, 0, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     lf.lfHeight = -MulDiv(nPointSize, 96, 72);
@@ -134,7 +134,7 @@ void CLCDTextObject::SetFontPointSize(int nPointSize)
 //************************************************************************
 void CLCDTextObject::SetFontItalic(bool flag) {
 	LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    memset(&lf, 0, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     lf.lfItalic = flag;
@@ -148,7 +148,7 @@ void CLCDTextObject::SetFontItalic(bool flag) {
 void CLCDTextObject::SetFontWeight(int nWeight)
 {
 	LOGFONT lf;
-    ZeroMemory(&lf, sizeof(lf));
+    memset(&lf, 0, sizeof(lf));
     GetObject(m_hFont, sizeof(LOGFONT), &lf);
 
     lf.lfWeight = nWeight;

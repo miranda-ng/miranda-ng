@@ -136,7 +136,7 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 					continue;
 				lvi.pszText = mir_a2u(pd[i]->szName);
 				ListView_InsertItem(hProtocolsList, &lvi);
-				ZeroMemory(protoOption, 256);
+				memset(protoOption, 0, sizeof(protoOption));
 				strcat(protoOption, "proto_");
 				strcat(protoOption, pd[i]->szName);
 				ListView_SetCheckState(hProtocolsList, j++, _getOptB(protoOption, 0));
@@ -201,7 +201,7 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 					for (i = 0; i < numProtocols; i++) {
 						ListView_GetItemText(hProtocolsList, i, 0, buf, 256);
 						//wcstombs(protoName, buf, 256);
-						ZeroMemory(protoOption, 256);
+						memset(protoOption, 0, sizeof(protoOption));
 						strcat(protoOption, "proto_");
 						strcat(protoOption, mir_u2a(buf));
 						_setOptB(protoOption, ListView_GetCheckState(hProtocolsList, i));

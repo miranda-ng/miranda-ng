@@ -260,7 +260,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 	int bufferAlloced = 0;
 	IEVIEWEVENTDATA ied;
 	IEVIEWEVENT event;
-	ZeroMemory(&event, sizeof(event));
+	memset(&event, 0, sizeof(event));
 	event.cbSize = sizeof(event);
 	event.dwFlags = 0;
 	event.hwnd = streamData->dat->hwndIEView ? streamData->dat->hwndIEView : streamData->dat->hwndHPP;
@@ -271,7 +271,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 	event.eventData = &ied;
 	event.count = 1;
 
-	ZeroMemory(&ied, sizeof(ied));
+	memset(&ied, 0, sizeof(ied));
 	AddEventToBufferIEView(&buffer, &bufferEnd, &bufferAlloced, streamData, ptszNick);
 	ied.ptszNick = ptszNick;
 	ied.ptszText = buffer;
@@ -980,7 +980,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 	HWND hwndRich = GetDlgItem(hwndDlg, IDC_CHAT_LOG);
 
 	LOGSTREAMDATA streamData;
-	ZeroMemory(&streamData, sizeof(streamData));
+	memset(&streamData, 0, sizeof(streamData));
 	streamData.hwnd = hwndRich;
 	streamData.si = si;
 	streamData.lin = lin;
@@ -1043,7 +1043,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedr
 		FINDTEXTEX fi, fi2;
 
 		CHARFORMAT2 cf2;
-		ZeroMemory(&cf2, sizeof(CHARFORMAT2));
+		memset(&cf2, 0, sizeof(CHARFORMAT2));
 		cf2.cbSize = sizeof(cf2);
 
 		fi2.lpstrText = _T("#++~~");

@@ -88,7 +88,7 @@ class CImageItem
 public:
 	CImageItem()
 	{
-		ZeroMemory(this, sizeof(CImageItem));
+		memset(this, 0, sizeof(CImageItem));
 	}
 	CImageItem(const CImageItem& From)
 	{
@@ -97,7 +97,7 @@ public:
 	}
 	CImageItem(const TCHAR *szName)
 	{
-		ZeroMemory(this, sizeof(CImageItem));
+		memset(this, 0, sizeof(CImageItem));
 		mir_sntprintf(m_szName, 40, szName);
 		m_szName[39] = 0;
 	}
@@ -239,7 +239,7 @@ public:
 
 	CSkin()
 	{
-		ZeroMemory(this, sizeof(CSkin));
+		memset(this, 0, sizeof(CSkin));
 		m_default_bf.SourceConstantAlpha = 255;
 		m_default_bf.AlphaFormat = AC_SRC_ALPHA;
 		m_default_bf.BlendOp = AC_SRC_OVER;

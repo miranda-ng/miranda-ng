@@ -9,7 +9,7 @@ CLCDInput::CLCDInput()
 {
 	m_lInputTime = 0;
 	m_iLinePosition = 0;
-	ZeroMemory(&m_Marker,2*sizeof(SMarker));
+	memset(&m_Marker, 0, sizeof(m_Marker));
 
 	m_pScrollbar = NULL;
 	m_bShowSymbols = true;
@@ -573,7 +573,7 @@ void CLCDInput::Reset()
 	m_lInputTime = 0;
 	m_bInsert = true;
 
-	ZeroMemory(&m_Marker[0],sizeof(SMarker));
+	memset(&m_Marker[0], 0, sizeof(SMarker));
 
 	m_strText = _T("");
 	m_vLineOffsets.clear();

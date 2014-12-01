@@ -884,7 +884,7 @@ int AddContactTextBox(MCONTACT hContact, HWND hwnd, char *name, BOOL srmm, HWND 
 	if (dialogs.find(hwnd) == dialogs.end()) {
 		// Fill dialog data
 		Dialog *dlg = (Dialog *)malloc(sizeof(Dialog));
-		ZeroMemory(dlg, sizeof(Dialog));
+		memset(dlg, 0, sizeof(Dialog));
 
 		dlg->re = new RichEdit(hwnd);
 		if (!dlg->re->IsValid()) {
@@ -1073,7 +1073,7 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 		dlg->wrong_words->resize(dlg->wrong_words->size() + 1);
 
 	WrongWordPopupMenuData &data = (*dlg->wrong_words)[dlg->wrong_words->size() - 1];
-	ZeroMemory(&data, sizeof(WrongWordPopupMenuData));
+	memset(&data, 0, sizeof(WrongWordPopupMenuData));
 
 	// Get suggestions
 	data.word = word;
@@ -1538,7 +1538,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		HDC hdc = GetDC(hwnd);
 
 		NONCLIENTMETRICS info;
-		ZeroMemory(&info, sizeof(info));
+		memset(&info, 0, sizeof(info));
 		info.cbSize = sizeof(info);
 		SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(info), &info, 0);
 		HFONT hFont = CreateFontIndirect(&info.lfMenuFont);

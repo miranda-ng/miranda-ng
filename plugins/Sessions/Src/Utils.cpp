@@ -44,7 +44,7 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 			char *pszBuffer;
 			if (strlen(szValue) < g_ses_count) {
 				pszBuffer = (char*)mir_alloc(g_ses_count + 1);
-				ZeroMemory(pszBuffer, g_ses_count + 1);
+				memset(pszBuffer, 0, (g_ses_count + 1));
 				strcpy(pszBuffer, szValue);
 			}
 			else pszBuffer = szValue.detouch();
@@ -160,8 +160,8 @@ void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 		if (szValue) {
 			char *pszBuffer;
 			if (strlen(szValue) < (g_ses_count * 2)) {
-				pszBuffer = (char*)mir_alloc(g_ses_count * 2 + 1);
-				ZeroMemory(pszBuffer, g_ses_count * 2 + 1);
+				pszBuffer = (char*)mir_alloc((g_ses_count * 2) + 1);
+				memset(pszBuffer, 0, ((g_ses_count * 2) + 1));
 				strcpy(pszBuffer, szValue);
 			}
 			else pszBuffer = mir_strdup(szValue);

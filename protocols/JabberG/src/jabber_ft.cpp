@@ -143,7 +143,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 							if ((bDirect || bProxy) && !_tcscmp(xmlGetText(valueNode), JABBER_FEAT_BYTESTREAMS)) {
 								// Start Bytestream session
 								JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
-								ZeroMemory(jbt, sizeof(JABBER_BYTE_TRANSFER));
+								memset(jbt, 0, sizeof(JABBER_BYTE_TRANSFER));
 								jbt->srcJID = mir_tstrdup(pInfo->m_szTo);
 								jbt->dstJID = mir_tstrdup(pInfo->m_szFrom);
 								jbt->sid = mir_tstrdup(ft->sid);
@@ -156,7 +156,7 @@ void CJabberProto::OnFtSiResult(HXML iqNode, CJabberIqInfo *pInfo)
 							}
 							else if (!_tcscmp(xmlGetText(valueNode), JABBER_FEAT_IBB)) {
 								JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof (JABBER_IBB_TRANSFER));
-								ZeroMemory(jibb, sizeof(JABBER_IBB_TRANSFER));
+								memset(jibb, 0, sizeof(JABBER_IBB_TRANSFER));
 								jibb->srcJID = mir_tstrdup(pInfo->m_szTo);
 								jibb->dstJID = mir_tstrdup(pInfo->m_szFrom);
 								jibb->sid = mir_tstrdup(ft->sid);
@@ -434,7 +434,7 @@ BOOL CJabberProto::FtHandleBytestreamRequest(HXML iqNode, CJabberIqInfo *pInfo)
 	if ((sid = xmlGetAttrValue(queryNode, _T("sid"))) != NULL && (item = ListGetItemPtr(LIST_FTRECV, sid)) != NULL) {
 		// Start Bytestream session
 		JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
-		ZeroMemory(jbt, sizeof(JABBER_BYTE_TRANSFER));
+		memset(jbt, 0, sizeof(JABBER_BYTE_TRANSFER));
 		jbt->iqNode = xi.copyNode(iqNode);
 		jbt->pfnRecv = &CJabberProto::FtReceive;
 		jbt->pfnFinal = &CJabberProto::FtReceiveFinal;
@@ -478,7 +478,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 	if (bOpen) {
 		if (!item->jibb) {
 			JABBER_IBB_TRANSFER *jibb = (JABBER_IBB_TRANSFER *) mir_alloc(sizeof(JABBER_IBB_TRANSFER));
-			ZeroMemory(jibb, sizeof(JABBER_IBB_TRANSFER));
+			memset(jibb, 0, sizeof(JABBER_IBB_TRANSFER));
 			jibb->srcJID = mir_tstrdup(from);
 			jibb->dstJID = mir_tstrdup(to);
 			jibb->sid = mir_tstrdup(sid);

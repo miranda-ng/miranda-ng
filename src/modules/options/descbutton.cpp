@@ -67,7 +67,7 @@ int LoadDescButtonModule()
 {
 	WNDCLASSEX wc;
 
-	ZeroMemory(&wc, sizeof(wc));
+	memset(&wc, 0, sizeof(wc));
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = MIRANDADESCBUTTONCLASS;
 	wc.lpfnWndProc = MDescButtonWndProc;

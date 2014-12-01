@@ -770,7 +770,7 @@ void IMG_ReadItem(const char *itemname, const char *szFileName)
 	BOOL alloced = FALSE;
 	char szDrive[MAX_PATH], szPath[MAX_PATH];
 
-	ZeroMemory(&tmpItem, sizeof(ImageItem));
+	memset(&tmpItem, 0, sizeof(ImageItem));
 	GetPrivateProfileStringA(itemname, "Glyph", "None", buffer, 500, szFileName);
 	if (strcmp(buffer, "None")) {
 		sscanf(buffer, "%d,%d,%d,%d", &tmpItem.glyphMetrics[0], &tmpItem.glyphMetrics[1],
@@ -839,7 +839,7 @@ done_with_glyph:
 			IMG_CreateItem(&tmpItem, szFinalName, hdc);
 			if (tmpItem.hbm) {
 				newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
-				ZeroMemory(newItem, sizeof(ImageItem));
+				memset(newItem, 0, sizeof(ImageItem));
 				*newItem = tmpItem;
 				g_glyphItem = newItem;
 			}
@@ -852,7 +852,7 @@ done_with_glyph:
 				ImageItem *pItem = g_ImageItems;
 
 				newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
-				ZeroMemory(newItem, sizeof(ImageItem));
+				memset(newItem, 0, sizeof(ImageItem));
 				*newItem = tmpItem;
 
 				if (g_ImageItems == NULL)
@@ -879,7 +879,7 @@ done_with_glyph:
 					COLORREF clr;
 
 					newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
-					ZeroMemory(newItem, sizeof(ImageItem));
+					memset(newItem, 0, sizeof(ImageItem));
 					*newItem = tmpItem;
 					g_CLUIImageItem = newItem;
 					GetPrivateProfileStringA(itemname, "Colorkey", "e5e5e5", buffer, 500, szFileName);
@@ -901,7 +901,7 @@ done_with_glyph:
 							IMG_CreateItem(&tmpItem, szFinalName, hdc);
 						if (tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
 							newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
-							ZeroMemory(newItem, sizeof(ImageItem));
+							memset(newItem, 0, sizeof(ImageItem));
 							*newItem = tmpItem;
 							p->imageItem = newItem;
 							if (g_ImageItems == NULL)
@@ -972,7 +972,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	char szBuffer[1024];
 	ImageItem *imgItem = g_ImageItems;
 
-	ZeroMemory(&tmpItem, sizeof(tmpItem));
+	memset(&tmpItem, 0, sizeof(tmpItem));
 	mir_snprintf(tmpItem.szName, sizeof(tmpItem.szName), "%s", &itemName[1]);
 	tmpItem.width = GetPrivateProfileIntA(itemName, "Width", 16, file);
 	tmpItem.height = GetPrivateProfileIntA(itemName, "Height", 16, file);
@@ -1149,7 +1149,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	// create it
 
 	newItem = (ButtonItem *)malloc(sizeof(ButtonItem));
-	ZeroMemory(newItem, sizeof(ButtonItem));
+	memset(newItem, 0, sizeof(ButtonItem));
 	if (g_ButtonItems == NULL) {
 		g_ButtonItems = newItem;
 		*newItem = tmpItem;
@@ -1197,7 +1197,7 @@ void IMG_LoadItems()
 	IMG_DeleteItems();
 
 	char *szSections = reinterpret_cast<char *>(malloc(3002));
-	ZeroMemory(szSections, 3002);
+	memset(szSections, 0, 3002);
 	GetPrivateProfileSectionNamesA(szSections, 3000, szFileName);
 
 	szSections[3001] = szSections[3000] = 0;
@@ -1246,7 +1246,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 	file[MAX_PATH - 1] = 0;
 
 	ReadItem(&default_item, "%Default", file);
-	ZeroMemory(szSections, 3000);
+	memset(szSections, 0, 3000);
 	p = szSections;
 	GetPrivateProfileSectionNamesA(szSections, 3000, file);
 	szSections[3001] = szSections[3000] = 0;
@@ -1257,7 +1257,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 			continue;
 		}
 		items = reinterpret_cast<StatusItems_t *>(realloc(items, i * sizeof(StatusItems_t)));
-		ZeroMemory(&items[i - 1], sizeof(StatusItems_t));
+		memset(&items[i - 1], 0, sizeof(StatusItems_t));
 		this_item = &items[i - 1];
 		GetPrivateProfileStringA(p, "Proto", "", this_item->szName, 40, file);
 		this_item->szName[39] = 0;

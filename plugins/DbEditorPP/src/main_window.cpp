@@ -346,7 +346,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			UTILRESIZEDIALOG urd;
 
-			ZeroMemory(&urd, sizeof(urd));
+			memset(&urd, 0, sizeof(urd));
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
 			urd.hwndDlg = hwnd;

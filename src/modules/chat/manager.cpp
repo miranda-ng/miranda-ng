@@ -909,7 +909,7 @@ static STATUSINFO* TM_AddStatus(STATUSINFO** ppStatusList, const TCHAR *pszStatu
 
 	if (!ci.TM_FindStatus(*ppStatusList, pszStatus)) {
 		STATUSINFO *node = (STATUSINFO*)mir_alloc(sizeof(STATUSINFO));
-		ZeroMemory(node, sizeof(STATUSINFO));
+		memset(node, 0, sizeof(STATUSINFO));
 		replaceStrT(node->pszGroup, pszStatus);
 		node->hIcon = (HICON)(*iCount);
 		while ((int)node->hIcon > STATUSICONCOUNT - 1)

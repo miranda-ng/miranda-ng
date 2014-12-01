@@ -357,7 +357,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 	DebugLog(SynchroFile,"UpdateMails:ActualAccountMsgsSO-write enter\n");
 	#endif
 
-	ZeroMemory(&MN,sizeof(MN));
+	memset(&MN, 0, sizeof(MN));
 
 	for (msgq=(HYAMNMAIL)ActualAccount->Mails;msgq != NULL;msgq=msgq->Next)
 	{
@@ -498,14 +498,14 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 	struct CHeader UnicodeHeader;
 	BOOL Loaded,Extracted,FromStrNew=FALSE;
 
-	ZeroMemory(&item,sizeof(item));
-	ZeroMemory(&UnicodeHeader,sizeof(UnicodeHeader));
+	memset(&item, 0, sizeof(item));
+	memset(&UnicodeHeader, 0, sizeof(UnicodeHeader));
 
 	if (hListView != NULL)
 	{
 		item.mask=LVIF_TEXT | LVIF_PARAM;
 		item.iItem=0;
-		ZeroMemory(&fi,sizeof(fi));
+		memset(&fi, 0, sizeof(fi));
 		fi.flags=LVFI_PARAM;						//let's go search item by lParam number
 		lfoundi=0;
 	}
@@ -623,7 +623,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 		if (Extracted)
 		{
 			DeleteHeaderContent(&UnicodeHeader);
-			ZeroMemory(&UnicodeHeader,sizeof(UnicodeHeader));
+			memset(&UnicodeHeader, 0, sizeof(UnicodeHeader));
 		}
 
 		if (!Loaded)
@@ -641,7 +641,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	char *NotIconText = Translate("- new mail message(s)");
 	NOTIFYICONDATA nid;
 
-	ZeroMemory(&nid,sizeof(nid));
+	memset(&nid, 0, sizeof(nid));
 
 	if (MN->Real.EventNC+MN->Virtual.EventNC)
 		NotifyEventHooks(hNewMailHook,0,0);
@@ -751,7 +751,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 		{
 			PROCESS_INFORMATION pi;
 			STARTUPINFOW si;
-			ZeroMemory(&si,sizeof(si));
+			memset(&si, 0, sizeof(si));
 			si.cb=sizeof(si);
 
 			if (ActualAccount->NewMailN.App != NULL)
@@ -1188,8 +1188,8 @@ int CALLBACK ListViewCompareProc(LPARAM lParam1, LPARAM lParam2,LPARAM lParamSor
 	HYAMNMAIL			email2	= (HYAMNMAIL)lParam2;
 	struct CShortHeader	Header1;
 	struct CShortHeader	Header2;
-	ZeroMemory(&Header1,sizeof(Header1));
-	ZeroMemory(&Header2,sizeof(Header2));
+	memset(&Header1, 0, sizeof(Header1));
+	memset(&Header2, 0, sizeof(Header2));
 
 	try {
 		ExtractShortHeader(email1->MailData->TranslatedHeader,&Header1);
@@ -1829,7 +1829,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 #endif
 			WriteDoneFcn(ActualAccount->MessagesAccessSO);
 
-			ZeroMemory(&nid,sizeof(NOTIFYICONDATA));
+			memset(&nid, 0, sizeof(NOTIFYICONDATA));
 
 			delete mwui;
 			SetWindowLongPtr(hDlg,DWLP_USER,(LONG_PTR)NULL);
@@ -2056,7 +2056,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					PROCESS_INFORMATION pi;
 					STARTUPINFOW si;
 
-					ZeroMemory(&si,sizeof(si));
+					memset(&si, 0, sizeof(si));
 					si.cb=sizeof(si);
 
 #ifdef DEBUG_SYNCHRO
@@ -2226,7 +2226,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			NOTIFYICONDATA nid;
 			struct CMailWinUserInfo *mwui=(struct CMailWinUserInfo *)GetWindowLongPtr(hDlg,DWLP_USER);
 
-			ZeroMemory(&nid,sizeof(nid));
+			memset(&nid, 0, sizeof(nid));
 			nid.cbSize=sizeof(NOTIFYICONDATA);
 			nid.hWnd=hDlg;
 			nid.uID=0;

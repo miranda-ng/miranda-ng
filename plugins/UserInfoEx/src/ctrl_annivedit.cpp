@@ -258,7 +258,7 @@ INT_PTR CAnnivEditCtrl::DeleteDate(WORD wIndex)
 		_numDates--;
 		if (wIndex < _numDates)
 			memmove(_pDates + wIndex, _pDates + wIndex + 1, (_numDates - wIndex) * sizeof(*_pDates));
-		ZeroMemory(_pDates + _numDates, sizeof(*_pDates));
+		memset((_pDates + _numDates), 0, sizeof(*_pDates)); // XXX: check me: sizeof(*_pDates) -> (sizeof(*_pDates) - _numDates)
 		if (_curDate >= _numDates)
 			_curDate = _numDates - 1;
 	}
@@ -439,7 +439,7 @@ void CAnnivEditCtrl::OnMenuPopup()
 	if (hMenu = CreatePopupMenu()) {
 		SetFocus(_hBtnMenu);
 
-		ZeroMemory(&mii, sizeof(MENUITEMINFO));
+		memset(&mii, 0, sizeof(MENUITEMINFO));
 		mii.cbSize = sizeof(MENUITEMINFO);
 		mii.fMask = MIIM_ID|MIIM_STRING|MIIM_STATE;
 

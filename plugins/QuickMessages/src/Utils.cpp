@@ -505,7 +505,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 			i = -1;
 			break;
 		case 'F':
-			ZeroMemory(&ci, sizeof(CONTACTINFO));
+			memset(&ci, 0, sizeof(CONTACTINFO));
 			ci.cbSize = sizeof(CONTACTINFO);
 			ci.hContact = hContact;
 			ci.dwFlag = CNF_FIRSTNAME | CNF_UNICODE;
@@ -537,7 +537,7 @@ TCHAR* ParseString(MCONTACT hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* pt
 			i = -1;
 			break;
 		case 'L':
-			ZeroMemory(&ci, sizeof(CONTACTINFO));
+			memset(&ci, 0, sizeof(CONTACTINFO));
 			ci.cbSize = sizeof(CONTACTINFO);
 			ci.hContact = hContact;
 			ci.dwFlag = CNF_LASTNAME | CNF_UNICODE;

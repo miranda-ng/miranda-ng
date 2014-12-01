@@ -62,9 +62,9 @@ int CDb3Mmap::ReadSegment(DWORD ofs, PVOID buf, int cbBytes)
 	if (cb->bAggressive) {
 		if (ofs + cbBytes > sourceFileSize) {
 			cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Can't write to working file, aggressive mode may be too aggressive now"));
-			ZeroMemory(m_pDbCache + ofs, sourceFileSize - ofs);
+			memset((m_pDbCache + ofs), 0, (sourceFileSize - ofs));
 		}
-		else ZeroMemory(m_pDbCache + ofs, cbBytes);
+		else memset((m_pDbCache + ofs), 0, cbBytes);
 	}
 	cb->spaceProcessed += cbBytes;
 	return ERROR_SUCCESS;

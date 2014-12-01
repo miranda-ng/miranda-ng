@@ -347,7 +347,7 @@ void ExtractHeader(struct CMimeItem *items,int &CP,struct CHeader *head)
 {
 	struct CShortHeader ShortHeader;
 
-	ZeroMemory(&ShortHeader,sizeof(struct CShortHeader));
+	memset(&ShortHeader, 0, sizeof(struct CShortHeader));
 	ShortHeader.Priority=ShortHeader.CP=-1;
 	#ifdef DEBUG_DECODE
 	DebugLog(DecodeFile,"<Extracting header>\n");

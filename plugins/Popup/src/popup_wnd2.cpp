@@ -103,7 +103,7 @@ bool	LoadPopupWnd2()
 		MSGERROR(msg);
 	}
 
-	ZeroMemory(&wcl, sizeof(wcl));
+	memset(&wcl, 0, sizeof(wcl));
 	wcl.cbSize = sizeof(wcl);
 	wcl.lpfnWndProc = MenuHostWndProc;
 	wcl.style = 0;

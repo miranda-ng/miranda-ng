@@ -118,7 +118,7 @@ static bool AcquireCredentials(void)
 	TimeStamp       tsExpiry;
 	SECURITY_STATUS scRet;
 
-	ZeroMemory(&SchannelCred, sizeof(SchannelCred));
+	memset(&SchannelCred, 0, sizeof(SchannelCred));
 
 	SchannelCred.dwVersion = SCHANNEL_CRED_VERSION;
 	SchannelCred.grbitEnabledProtocols = SP_PROT_SSL3TLS1_CLIENTS /*| 0xA00 TLS1.1 & 1.2*/;

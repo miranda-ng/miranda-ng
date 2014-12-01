@@ -112,7 +112,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 	}
 
 	SYSTEMTIME lst;
-	ZeroMemory(&lst,sizeof(lst));
+	memset(&lst, 0, sizeof(lst));
 	if (lst.wYear = db_get_w(hcontact,S_MOD,"Year",0)) {
 		if (lst.wMonth = db_get_w(hcontact,S_MOD,"Month",0)) {
 			if (lst.wDay = db_get_w(hcontact,S_MOD,"Day",0)) {

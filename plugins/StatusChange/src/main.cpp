@@ -23,7 +23,7 @@ PLUGININFOEX pluginInfo={
 
 void LoadOptions()
 {
-	ZeroMemory(&Options, sizeof(Options));
+	memset(&Options, 0, sizeof(Options));
 	Options.MessageRead = (BOOL)db_get_b(NULL, PLUGINNAME, "MessageRead", FALSE);
 	Options.MessageSend = (BOOL)db_get_b(NULL, PLUGINNAME, "MessageSend", TRUE);
 	Options.UrlRead = (BOOL)db_get_b(NULL, PLUGINNAME, "UrlRead", FALSE);

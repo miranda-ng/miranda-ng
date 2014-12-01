@@ -111,7 +111,7 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 				if(textlenght)
 				{
 					pszText = (TCHAR *)mir_alloc((textlenght+10)*sizeof(TCHAR));
-					ZeroMemory(pszText,(textlenght+10)*sizeof(TCHAR));
+					memset(pszText, 0, ((textlenght + 10) * sizeof(TCHAR)));
 					SendMessage(mwpd->hwnd,EM_GETSELTEXT, 0, (LPARAM)pszText);
 				}
 				if(qd->ptszValue){
@@ -192,7 +192,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	if(textlenght)
 	{
 		pszText = (TCHAR *)mir_alloc((textlenght+10)*sizeof(TCHAR));
-		ZeroMemory(pszText,(textlenght+10)*sizeof(TCHAR));
+		memset(pszText, 0, ((textlenght + 10) * sizeof(TCHAR)));
 		SendMessage(hEdit,EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 

@@ -74,7 +74,7 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits
         return false;
     }
     
-    ZeroMemory(m_pBitmapInfo, nBMISize);
+    memset(m_pBitmapInfo, 0, nBMISize);
     m_pBitmapInfo->bmiHeader.biSize = sizeof(m_pBitmapInfo->bmiHeader);
     m_pBitmapInfo->bmiHeader.biWidth = m_nWidth;
     m_pBitmapInfo->bmiHeader.biHeight = -m_nHeight;
@@ -298,7 +298,7 @@ void CLCDGfx::DrawText(int nX, int nY, LPCTSTR sText)
     int nOldBkMode = SetBkMode(m_hDC, TRANSPARENT); 
     
 	DRAWTEXTPARAMS dtp;
-	ZeroMemory(&dtp, sizeof(DRAWTEXTPARAMS));
+	memset(&dtp, 0, sizeof(DRAWTEXTPARAMS));
     dtp.cbSize = sizeof(DRAWTEXTPARAMS);
 
 	RECT rBounds = {nX,nY,GetClipWidth(),GetClipHeight()};

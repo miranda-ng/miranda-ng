@@ -74,7 +74,7 @@ static void Docking_AdjustPosition(HWND hwnd,RECT *rcDisplay,RECT *rc)
 {
 	APPBARDATA abd;
 
-	ZeroMemory(&abd,sizeof(abd));
+	memset(&abd, 0, sizeof(abd));
 	abd.cbSize = sizeof(abd);
 	abd.hWnd = hwnd;
 	abd.uEdge = g_CluiData.fDocked == DOCKED_LEFT?ABE_LEFT:ABE_RIGHT;
@@ -124,7 +124,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			g_CluiData.fDocked = (BOOL)db_get_b(NULL,"CList","Docked",0);
 			if (IsWindowVisible(msg->hwnd) && !IsIconic(msg->hwnd)) {
 				RECT rc, rcMonitor;
-				ZeroMemory(&abd,sizeof(abd));
+				memset(&abd, 0, sizeof(abd));
 				abd.cbSize = sizeof(abd);
 				abd.hWnd = msg->hwnd;
 				abd.lParam = 0;
@@ -144,7 +144,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW,NULL);
 			return 0;
 		case WM_ACTIVATE:
-			ZeroMemory(&abd,sizeof(abd));
+			memset(&abd, 0, sizeof(abd));
 			abd.cbSize = sizeof(abd);
 			abd.hWnd = msg->hwnd;
 			SHAppBarMessage(ABM_ACTIVATE,&abd);
@@ -155,9 +155,10 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 		case WM_WINDOWPOSCHANGED:
 			{
-				if (g_CluiData.fDocked) ModernSkinButton_ReposButtons( msg->hwnd,SBRF_DO_NOT_DRAW, NULL );
-				return 0;
-				ZeroMemory(&abd,sizeof(abd));
+				if (g_CluiData.fDocked)
+					ModernSkinButton_ReposButtons( msg->hwnd,SBRF_DO_NOT_DRAW, NULL );
+				return 0; // XXX: check me!!!
+				memset(&abd, 0, sizeof(abd));
 				abd.cbSize = sizeof(abd);
 				abd.hWnd = msg->hwnd;
 				SHAppBarMessage(ABM_WINDOWPOSCHANGED,&abd);
@@ -186,7 +187,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 					 ||  (ptCursor.x >= rcMonitor.right-EDGESENSITIVITY))
 					 &&  db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT))
 				{
-					ZeroMemory(&abd,sizeof(abd));
+					memset(&abd, 0, sizeof(abd));
 					abd.cbSize = sizeof(abd);
 					abd.hWnd = msg->hwnd;
 					abd.lParam = 0;
@@ -255,10 +256,12 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			}
 		case WM_SHOWWINDOW:
 			{
-				if (msg->lParam) return 0;
+				if (msg->lParam)
+					return 0;
 				BOOL toBeDocked = (BOOL)db_get_b(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT);
-				if ((msg->wParam && g_CluiData.fDocked < 0) || (!msg->wParam && g_CluiData.fDocked>0)) g_CluiData.fDocked = -g_CluiData.fDocked;
-				ZeroMemory(&abd,sizeof(abd));
+				if ((msg->wParam && g_CluiData.fDocked < 0) || (!msg->wParam && g_CluiData.fDocked>0))
+					g_CluiData.fDocked = -g_CluiData.fDocked;
+				memset(&abd, 0, sizeof(abd));
 				abd.cbSize = sizeof(abd);
 				abd.hWnd = msg->hwnd;
 				if (msg->wParam) {
@@ -306,7 +309,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				((g_CluiData.fDocked == DOCKED_RIGHT || g_CluiData.fDocked == -DOCKED_RIGHT) && (short)LOWORD(msg->lParam) < 0)) {
 					ReleaseCapture();
 					draggingTitle = 0;
-					ZeroMemory(&abd,sizeof(abd));
+					memset(&abd, 0, sizeof(abd));
 					abd.cbSize = sizeof(abd);
 					abd.hWnd = msg->hwnd;
 					SHAppBarMessage(ABM_REMOVE,&abd);
@@ -345,7 +348,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			return TRUE;
 		case WM_DESTROY:
 			if (g_CluiData.fDocked>0) {
-				ZeroMemory(&abd,sizeof(abd));
+				memset(&abd, 0, sizeof(abd));
 				abd.cbSize = sizeof(abd);
 				abd.hWnd = msg->hwnd;
 				SHAppBarMessage(ABM_REMOVE,&abd);

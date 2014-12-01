@@ -72,7 +72,7 @@ static void updatePreviewImage(HWND hwndBox)
 	gPreviewOk = false;
 
 	POPUPDATA2 ppd;
-	ZeroMemory(&ppd, sizeof(ppd));
+	memset(&ppd, 0, sizeof(ppd));
 	ppd.cbSize		= sizeof(ppd);
 	ppd.flags		= PU2_TCHAR;
 	ppd.lchIcon		= LoadSkinnedIcon(SKINICON_STATUS_ONLINE);

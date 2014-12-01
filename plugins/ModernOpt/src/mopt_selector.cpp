@@ -117,7 +117,7 @@ struct TSelectorData
 
 	TSelectorData()
 	{
-		ZeroMemory(this, sizeof(*this));
+		memset(this, 0, sizeof(*this));
 	}
 	~TSelectorData()
 	{

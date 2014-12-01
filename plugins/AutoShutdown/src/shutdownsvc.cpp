@@ -185,7 +185,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 			dwErrCode=ERROR_NOT_ENOUGH_MEMORY;
 			if (paConn != NULL) {
 				for(dwRetries=5; dwRetries != 0; dwRetries--) { /* prevent infinite loop (rare) */
-					ZeroMemory(paConn, dwConnSize);
+					memset(paConn, 0, dwConnSize);
 					paConn[0].dwSize = sizeof(RASCONN);
 					dwErrCode = RasEnumConnections(paConn, &dwConnSize, &dwConnItems);
 					if (dwErrCode != ERROR_BUFFER_TOO_SMALL) break;
@@ -211,7 +211,7 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					}
 					/* RAS does not allow to quit directly after HangUp (see docs) */
 					dwLastTickCount = GetTickCount();
-					ZeroMemory(&rcs,sizeof(RASCONNSTATUS));
+					memset(&rcs, 0, sizeof(RASCONNSTATUS));
 					rcs.dwSize = sizeof(RASCONNSTATUS);
 					for(dw=0; dw < dwConnItems; ++dw) {
 						if (paConn[dw].hrasconn != NULL) {

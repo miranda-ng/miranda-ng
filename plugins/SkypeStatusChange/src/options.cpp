@@ -162,7 +162,7 @@ void FreeMemory(HWND hwndTreeCtrl,HTREEITEM hti)
 bool tree_set_item_state(HWND hwndTree,HTREEITEM hti,ETreeCheckBoxState nState)
 {
 	TVITEM tvi;
-	ZeroMemory(&tvi,sizeof(tvi));
+	memset(&tvi, 0, sizeof(tvi));
 
 	tvi.mask = TVIF_STATE|TVIF_HANDLE;
 	tvi.hItem = hti;

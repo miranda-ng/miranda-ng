@@ -939,7 +939,7 @@ void DisplayErrorDialog( const TCHAR *pszError, tstring& sFilePath, DBEVENTINFO 
 		_tcscpy( szFile, _T("DebugInfo.txt"));
 
 		// Initialize OPENFILENAME
-		ZeroMemory(&ofn, sizeof(OPENFILENAME));
+		memset(&ofn, 0, sizeof(OPENFILENAME));
 		ofn.lStructSize = sizeof(OPENFILENAME);
 		//ofn.hwndOwner = NULL;
 		ofn.lpstrFile = szFile;

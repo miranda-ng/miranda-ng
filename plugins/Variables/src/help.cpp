@@ -493,7 +493,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 			if (tokenString == NULL)
 				break;
 
-			ZeroMemory(tokenString, (len+1)*sizeof(TCHAR));
+			memset(tokenString, 0, ((len + 1) * sizeof(TCHAR)));
 			mir_sntprintf(tokenString, len + 1, _T("%c%s%c"), (tr->flags & TRF_FIELD) ? FIELD_CHAR : FUNC_CHAR, tr->tszTokenString, (tr->flags & TRF_FIELD) ? FIELD_CHAR : '(');
 			SendDlgItemMessage(hwndInputDlg, IDC_TESTSTRING, EM_REPLACESEL, TRUE, (LPARAM)tokenString);
 			mir_free(tokenString);
@@ -613,7 +613,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		dat = (INPUTDLGDATA*)mir_alloc(sizeof(INPUTDLGDATA));
-		ZeroMemory(dat, sizeof(INPUTDLGDATA));
+		memset(dat, 0, sizeof(INPUTDLGDATA));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 		// splitter things
 		dat->splitterPos = (INT_PTR)db_get_dw(NULL, MODULENAME, SETTING_SPLITTERPOS, -1);
@@ -1076,7 +1076,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			// return the largest of all pages
 			for (i = 0; i < count; i++) {
 				TabCtrl_GetItem(hTab, i, &tci);
-				ZeroMemory(&pageMinMax, sizeof(pageMinMax));
+				memset(&pageMinMax, 0, sizeof(pageMinMax));
 				SendMessage((HWND)tci.lParam, WM_GETMINMAXINFO, wParam, (LPARAM)&pageMinMax);
 				((MINMAXINFO*)lParam)->ptMinTrackSize.x = max(((MINMAXINFO*)lParam)->ptMinTrackSize.x, pageMinMax.ptMinTrackSize.x);
 				((MINMAXINFO*)lParam)->ptMinTrackSize.y = max(((MINMAXINFO*)lParam)->ptMinTrackSize.y, pageMinMax.ptMinTrackSize.y);
@@ -1197,13 +1197,13 @@ INT_PTR showHelpService(WPARAM wParam, LPARAM lParam)
 	if (fi == NULL)
 		fi = (FORMATINFO*)mir_alloc(sizeof(FORMATINFO));
 
-	ZeroMemory(fi, sizeof(FORMATINFO));
+	memset(fi, 0, sizeof(FORMATINFO));
 	fi->cbSize = sizeof(FORMATINFO);
 	fi->szFormat = (char *)lParam;
 	if (vhs == NULL)
 		vhs = (VARHELPINFO*)mir_alloc(sizeof(VARHELPINFO));
 
-	ZeroMemory(vhs, sizeof(VARHELPINFO));
+	memset(vhs, 0, sizeof(VARHELPINFO));
 	vhs->cbSize = sizeof(VARHELPINFO);
 	vhs->fi = fi;
 	vhs->hwndCtrl = (HWND)wParam;

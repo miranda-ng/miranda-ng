@@ -210,7 +210,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	char *szProto;
 	hContact = getRealContact(hContact);
 	szProto = getProto(hContact);
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
 	ci.szProto = szProto;

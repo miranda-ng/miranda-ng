@@ -215,7 +215,7 @@ char* CNLClient::Recv(char *buf,int buflen) throw(DWORD)
 			}
  		}
 
-		ZeroMemory(buf,buflen);
+		memset(buf, 0, buflen);
 		if (SOCKET_ERROR==(Rcv=LocalNetlib_Recv(hConnection,buf,buflen,MSG_DUMPASTEXT)))
 		{
 			free(buf);

@@ -200,12 +200,12 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					ListView_SetExtendedListViewStyle(hwndProtocols, LVS_EX_CHECKBOXES);
 
-					ZeroMemory(&lvc, sizeof(lvc));
+					memset(&lvc, 0, sizeof(lvc));
 					lvc.mask = LVCF_FMT;
 					lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
 					ListView_InsertColumn(hwndProtocols, 0, &lvc);
 
-					ZeroMemory(&lvi, sizeof(lvi));
+					memset(&lvi, 0, sizeof(lvi));
 					lvi.mask = LVIF_TEXT | LVIF_PARAM;
 					lvi.iSubItem = 0;
 					lvi.iItem = 1000;

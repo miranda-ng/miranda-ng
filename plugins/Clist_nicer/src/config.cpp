@@ -228,7 +228,7 @@ void API::updateState()
 {
 	BOOL result = FALSE;
 
-	::ZeroMemory(&sysState, sizeof(TSysState));
+	memset(&sysState, 0, sizeof(TSysState));
 
 	sysState.isThemed = IsThemeActive() ? true : false;
 

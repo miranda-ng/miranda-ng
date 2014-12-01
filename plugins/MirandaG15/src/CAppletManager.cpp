@@ -916,7 +916,7 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lPara
 
 	// Create struct for dbevent
 	DBEVENTINFO dbevent;
-	ZeroMemory(&dbevent, sizeof(dbevent));
+	memset(&dbevent, 0, sizeof(dbevent));
 	//dbevent.flags |= PREF_UNICODE;
 	dbevent.cbSize = sizeof(dbevent);
 	dbevent.cbBlob = db_event_getBlobSize(hdbevent);

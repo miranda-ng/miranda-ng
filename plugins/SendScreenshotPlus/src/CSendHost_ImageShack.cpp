@@ -46,7 +46,7 @@ int CSendHost_ImageShack::Send() {
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
-	ZeroMemory(&m_nlhr, sizeof(m_nlhr));
+	memset(&m_nlhr, 0, sizeof(m_nlhr));
 	char* tmp; tmp=mir_t2a(m_pszFile);
 	HTTPFormData frm[]={
 //		{"Referer",HTTPFORM_HEADER("http://www.imageshack.us/upload_api.php")},

@@ -40,7 +40,7 @@ static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 			CONTACTINFO ci;
 			int hasName = 0;
 			char buf[128];
-			ZeroMemory(&ci, sizeof(ci));
+			memset(&ci, 0, sizeof(ci));
 
 			ci.cbSize = sizeof(ci);
 			ci.hContact = hContact;

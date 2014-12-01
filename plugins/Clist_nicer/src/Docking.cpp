@@ -66,7 +66,7 @@ static void Docking_AdjustPosition(HWND hwnd, RECT *rcDisplay, RECT *rc)
 {
     APPBARDATA abd;
 
-    ZeroMemory(&abd, sizeof(abd));
+    memset(&abd, 0, sizeof(abd));
     abd.cbSize = sizeof(abd);
     abd.hWnd = hwnd;
     abd.uEdge = docked == DOCKED_LEFT ? ABE_LEFT : ABE_RIGHT;
@@ -111,7 +111,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
             docked = (int) (char) cfg::getByte("CList", "Docked", 0);
             if (IsWindowVisible(msg->hwnd) && !IsIconic(msg->hwnd)) {
                 RECT rc, rcMonitor;
-                ZeroMemory(&abd, sizeof(abd));
+                memset(&abd, 0, sizeof(abd));
                 abd.cbSize = sizeof(abd);
                 abd.hWnd = msg->hwnd;
                 abd.lParam = 0;
@@ -124,13 +124,13 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
             }
             break;
         case WM_ACTIVATE:
-            ZeroMemory(&abd, sizeof(abd));
+            memset(&abd, 0, sizeof(abd));
             abd.cbSize = sizeof(abd);
             abd.hWnd = msg->hwnd;
             SHAppBarMessage(ABM_ACTIVATE, &abd);
             return 0;
         case WM_WINDOWPOSCHANGED:
-            ZeroMemory(&abd, sizeof(abd));
+            memset(&abd, 0, sizeof(abd));
             abd.cbSize = sizeof(abd);
             abd.hWnd = msg->hwnd;
             SHAppBarMessage(ABM_WINDOWPOSCHANGED, &abd);
@@ -155,7 +155,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 								   TranslateT("Contact list docking"), MB_OK);
 						return 0;
 					}
-					ZeroMemory(&abd, sizeof(abd));
+					memset(&abd, 0, sizeof(abd));
                     abd.cbSize = sizeof(abd);
                     abd.hWnd = msg->hwnd;
                     abd.lParam = 0;
@@ -198,7 +198,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
                 return 0;
             if ((msg->wParam && docked < 0) || (!msg->wParam && docked > 0))
                 docked = -docked;
-            ZeroMemory(&abd, sizeof(abd));
+            memset(&abd, 0, sizeof(abd));
             abd.cbSize = sizeof(abd);
             abd.hWnd = msg->hwnd;
             if (msg->wParam) {
@@ -246,7 +246,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
                 if (((docked == DOCKED_LEFT || docked == -DOCKED_LEFT) && (short) LOWORD(msg->lParam) > rc.right) || ((docked == DOCKED_RIGHT || docked == -DOCKED_RIGHT) && (short) LOWORD(msg->lParam) < 0)) {
                     ReleaseCapture();
                     draggingTitle = 0;
-                    ZeroMemory(&abd, sizeof(abd));
+                    memset(&abd, 0, sizeof(abd));
                     abd.cbSize = sizeof(abd);
                     abd.hWnd = msg->hwnd;
                     SHAppBarMessage(ABM_REMOVE, &abd);
@@ -272,7 +272,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
             return TRUE;
         case WM_DESTROY:
             if (docked > 0) {
-                ZeroMemory(&abd, sizeof(abd));
+                memset(&abd, 0, sizeof(abd));
                 abd.cbSize = sizeof(abd);
                 abd.hWnd = msg->hwnd;
                 SHAppBarMessage(ABM_REMOVE, &abd);

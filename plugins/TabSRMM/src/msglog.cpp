@@ -130,7 +130,7 @@ void TSAPI CacheLogFonts()
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
 
-	ZeroMemory(logfonts, sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));
+	memset(logfonts, 0, (sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2)));
 	for (int i = 0; i < MSGDLGFONTCOUNT; i++) {
 		LoadLogfont(i, &logfonts[i], &fontcolors[i], FONTMODULE);
 		mir_snprintf(rtfFontsGlobal[i], SIZEOF(rtfFontsGlobal[i]), "\\f%u\\cf%u\\b%d\\i%d\\ul%d\\fs%u", i, i, logfonts[i].lfWeight >= FW_BOLD ? 1 : 0, logfonts[i].lfItalic, logfonts[i].lfUnderline, 2 * abs(logfonts[i].lfHeight) * 74 / logPixelSY);
@@ -1222,7 +1222,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		fi.lpstrText = _T("##col##");
 		fi.chrg.cpMax = -1;
 		CHARFORMAT2 cf2;
-		ZeroMemory(&cf2, sizeof(cf2));
+		memset(&cf2, 0, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_COLOR;
 		while (SendMessage(hwndrtf, EM_FINDTEXTEX, FR_DOWN, (LPARAM)&fi) > -1) {
@@ -1257,7 +1257,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		fi.chrg.cpMax = -1;
 
 		CHARFORMAT2 cf2;
-		ZeroMemory(&cf2, sizeof(cf2));
+		memset(&cf2, 0, sizeof(cf2));
 		cf2.cbSize = sizeof(cf2);
 		cf2.dwMask = CFM_BACKCOLOR;
 
@@ -1467,7 +1467,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 
 		PARAFORMAT2 pf2;
-		ZeroMemory(&pf2, sizeof(PARAFORMAT2));
+		memset(&pf2, 0, sizeof(PARAFORMAT2));
 		sel.cpMax = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax - 1;
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);

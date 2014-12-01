@@ -645,7 +645,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 
 	WORD *infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
 	if (infoTypeC2) {
-		ZeroMemory(infoTypeC2, sizeof(WORD) * (iLen + 2));
+		memset(infoTypeC2, 0, (sizeof(WORD) * (iLen + 2)));
 
 		GetStringTypeW(CT_CTYPE2, pszwText, iLen, infoTypeC2);
 

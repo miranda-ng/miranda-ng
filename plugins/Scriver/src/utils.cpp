@@ -221,7 +221,7 @@ TCHAR *GetRichTextWord(HWND hwnd, POINTL *ptl)
 			{
 				TEXTRANGE tr;
 				CHARRANGE cr;
-				ZeroMemory(&tr, sizeof(TEXTRANGE));
+				memset(&tr, 0, sizeof(TEXTRANGE));
 				pszWord = (TCHAR *)mir_alloc(sizeof(TCHAR) * (end - start + 1));
 				cr.cpMin = start;
 				cr.cpMax = end;
@@ -262,7 +262,7 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 		MessageSendQueueItem msi;
 		EDITSTREAM stream;
 		DWORD dwFlags = 0;
-		ZeroMemory(&stream, sizeof(stream));
+		memset(&stream, 0, sizeof(stream));
 		stream.pfnCallback = StreamOutCallback;
 		stream.dwCookie = (DWORD_PTR) &msi;
 		dwFlags = SF_TEXT|SF_UNICODE|SFF_SELECTION;
@@ -432,7 +432,7 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList)
 void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 {
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = dat->windowData.hContact;
 	ci.szProto = dat->szProto;

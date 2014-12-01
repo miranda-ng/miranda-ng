@@ -210,7 +210,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     if ( !hdc)
         return;
 
-    ZeroMemory(&bmi, sizeof(BITMAPINFO));
+    memset(&bmi, 0, sizeof(BITMAPINFO));
 
     bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 

@@ -42,7 +42,7 @@ ext::string MirandaSettings::readStrDirect(const char* szSetting, const TCHAR* s
 {
 	DBVARIANT dbv;
 
-	ZeroMemory(&dbv, sizeof(dbv));
+	memset(&dbv, 0, sizeof(dbv));
 
 	dbv.type = DBVT_WCHAR;
 

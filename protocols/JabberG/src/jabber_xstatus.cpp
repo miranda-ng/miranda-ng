@@ -1205,7 +1205,7 @@ void CJabberProto::SetContactTune(MCONTACT hContact, LPCTSTR szArtist, LPCTSTR s
 	TCHAR *szListeningTo;
 	if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT)) {
 		LISTENINGTOINFO li;
-		ZeroMemory(&li, sizeof(li));
+		memset(&li, 0, sizeof(li));
 		li.cbSize = sizeof(li);
 		li.dwFlags = LTI_TCHAR;
 		li.ptszArtist = (TCHAR*)szArtist;

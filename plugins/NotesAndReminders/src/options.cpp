@@ -184,8 +184,8 @@ static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 
 static void InitFonts()
 {
-	ZeroMemory(&lfBody,sizeof(LOGFONT));
-	ZeroMemory(&lfCaption,sizeof(LOGFONT));
+	memset(&lfBody, 0, sizeof(LOGFONT));
+	memset(&lfCaption, 0, sizeof(LOGFONT));
 
 	LoadNRFont(NR_FONTID_CAPTION, &lfCaption, (COLORREF*)&CaptionFontColor);
 	LoadNRFont(NR_FONTID_BODY, &lfBody, (COLORREF*)&BodyFontColor);
@@ -557,10 +557,10 @@ void InitSettings(void)
 		g_RemindSMS = NULL;
 	else 
 	{
-		g_RemindSMS = (char*)malloc(Sz1+1);
-		ZeroMemory(g_RemindSMS,Sz1+1);
-		memcpy(g_RemindSMS,P,Sz1);
-		FreeSettingBlob(Sz1,P);
+		g_RemindSMS = (char*)malloc(Sz1 + 1);
+		memcpy(g_RemindSMS, P, Sz1);
+		g_RemindSMS[Sz1] = 0;
+		FreeSettingBlob(Sz1, P);
 	}
 
 	g_lpszAltBrowser = db_get_sa(0,MODULENAME,"AltBrowser");

@@ -49,7 +49,7 @@ public:
 
 	CJabberSendInfo()
 	{
-		ZeroMemory(this, sizeof(*this));
+		memset(this, 0, sizeof(*this));
 	}
 	~CJabberSendInfo()
 	{
@@ -73,7 +73,7 @@ class CJabberSendPermanentInfo
 public:
 	CJabberSendPermanentInfo()
 	{
-		ZeroMemory(this, sizeof(CJabberSendPermanentInfo));
+		memset(this, 0, sizeof(CJabberSendPermanentInfo));
 	}
 	
 	~CJabberSendPermanentInfo()

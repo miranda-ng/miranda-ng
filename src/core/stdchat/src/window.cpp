@@ -2127,7 +2127,7 @@ LABEL_SHOWWINDOW:
 
 				if (end - start > 0) {
 					TEXTRANGE tr;
-					ZeroMemory(&tr, sizeof(TEXTRANGE));
+					memset(&tr, 0, sizeof(TEXTRANGE));
 
 					CHARRANGE cr;
 					cr.cpMin = start;

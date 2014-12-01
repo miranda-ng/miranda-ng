@@ -209,7 +209,7 @@ TCHAR *GetContactName(MCONTACT hContact, char *szProto)
 	CONTACTINFO ctInfo;
 	char proto[200];
 	
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
+	memset(&ctInfo, 0, sizeof(ctInfo));	
 	ctInfo.cbSize = sizeof(ctInfo);
 	if (szProto)
 		{
@@ -257,7 +257,7 @@ TCHAR *GetContactID(MCONTACT hContact, char *szProto)
 {
 	CONTACTINFO ctInfo;
 
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
+	memset(&ctInfo, 0, sizeof(ctInfo));	
 	ctInfo.cbSize = sizeof(ctInfo);
 	ctInfo.szProto = szProto;
 	ctInfo.dwFlag = CNF_DISPLAY | CNF_TCHAR;

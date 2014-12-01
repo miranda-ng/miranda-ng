@@ -231,7 +231,7 @@ int CreateFrame()
 	HookEvent(ME_COLOUR_RELOAD, ReloadColour);
 
 	for (int i = 0; i < NUM_FONTS; i++) {
-		ZeroMemory(&font_id[i], sizeof(font_id[i]));
+		memset(&font_id[i], 0, sizeof(font_id[i]));
 
 		font_id[i].cbSize = sizeof(FontIDT);
 		_tcsncpy(font_id[i].group, LPGENT("My details"), SIZEOF(font_id[i].group));
@@ -892,7 +892,7 @@ void CalcRectangles(HWND hwnd)
 			data->listening_to_rect = GetRect(hdc, r, proto->listening_to, DEFAULT_LISTENING_TO, proto, uFormat, next_top, text_left);
 
 			data->listening_to_text_rect = data->listening_to_rect;
-			ZeroMemory(&data->listening_to_icon_rect, sizeof(data->listening_to_icon_rect));
+			memset(&data->listening_to_icon_rect, 0, sizeof(data->listening_to_icon_rect));
 
 			next_top = data->listening_to_rect.bottom + SPACE_TEXT_TEXT;
 		}
@@ -990,7 +990,7 @@ HBITMAP CreateBitmap32(int cx, int cy)
 	BITMAPINFO RGB32BitsBITMAPINFO;
 	UINT *ptPixels;
 
-	ZeroMemory(&RGB32BitsBITMAPINFO, sizeof(BITMAPINFO));
+	memset(&RGB32BitsBITMAPINFO, 0, sizeof(BITMAPINFO));
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = cx;//bm.bmWidth;
 	RGB32BitsBITMAPINFO.bmiHeader.biHeight = cy;//bm.bmHeight;
@@ -1493,7 +1493,7 @@ void ShowListeningToMenu(HWND hwnd, MyDetailsFrameData *data, Protocol *proto, P
 
 	InsertMenuItem(submenu, 0, TRUE, &mii);
 
-	ZeroMemory(&mii, sizeof(mii));
+	memset(&mii, 0, sizeof(mii));
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = protocols->ListeningToEnabled() ? MFS_CHECKED : 0;
@@ -1531,7 +1531,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_CREATE:
 		{
 			data = new MyDetailsFrameData();
-			ZeroMemory(data, sizeof(MyDetailsFrameData));
+			memset(data, 0, sizeof(MyDetailsFrameData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 			data->recalc_rectangles = true;
@@ -1895,7 +1895,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Enable listening to for %s"), proto->description);
 
-				ZeroMemory(&mii, sizeof(mii));
+				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_STATE;
 				mii.fType = MFT_STRING;
@@ -1912,7 +1912,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."),
 					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR));
 
-				ZeroMemory(&mii, sizeof(mii));
+				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
@@ -1931,7 +1931,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					// Add this proto to menu
 					mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my status message for %s..."), proto->description);
 
-					ZeroMemory(&mii, sizeof(mii));
+					memset(&mii, 0, sizeof(mii));
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
@@ -1949,7 +1949,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my nickname for %s..."), proto->description);
 
-				ZeroMemory(&mii, sizeof(mii));
+				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
@@ -1966,7 +1966,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my avatar for %s..."), proto->description);
 
-				ZeroMemory(&mii, sizeof(mii));
+				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_ID | MIIM_TYPE;
 				mii.fType = MFT_STRING;
@@ -1981,7 +1981,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				InsertMenuItem(submenu, 0, TRUE, &mii);
 
-				ZeroMemory(&mii, sizeof(mii));
+				memset(&mii, 0, sizeof(mii));
 				mii.cbSize = sizeof(mii);
 				mii.fMask = MIIM_STATE;
 				mii.fState = protocols->ListeningToEnabled() ? MFS_CHECKED : 0;

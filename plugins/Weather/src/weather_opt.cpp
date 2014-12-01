@@ -94,7 +94,7 @@ void DestroyOptions(void)
 // load options from database + set default if the setting does not exist
 void LoadOptions(void)
 {
-	ZeroMemory(&opt, sizeof(opt));
+	memset(&opt, 0, sizeof(opt));
 
 	// main options
 	opt.StartupUpdate = db_get_b(NULL, WEATHERPROTONAME, "StartupUpdate", true);

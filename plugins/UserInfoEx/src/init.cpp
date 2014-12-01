@@ -163,7 +163,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	ccEx.dwICC = ICC_WIN95_CLASSES | ICC_DATE_CLASSES;
 	InitCommonControlsEx(&ccEx);
 
-	ZeroMemory(&myGlobals, sizeof(MGLOBAL));
+	memset(&myGlobals, 0, sizeof(MGLOBAL));
 
 	// init clist interface
 	mir_getCLI();

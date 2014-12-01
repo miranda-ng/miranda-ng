@@ -255,7 +255,7 @@ static INT_PTR MenuHistoryPaste(WPARAM wParam, LPARAM lParam)
 	int blobBuffer = 4096;
 	HANDLE hEvent = mu::db_event::findFirst(g_hHistoryCopyContact);
 
-	ZeroMemory(&dbe, sizeof(dbe));
+	memset(&dbe, 0, sizeof(dbe));
 	dbe.cbSize = sizeof(dbe);
 	dbe.pBlob = reinterpret_cast<BYTE*>(malloc(blobBuffer));
 

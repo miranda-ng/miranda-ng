@@ -189,7 +189,7 @@ void CIcqProto::handleSignonError(WORD wError)
 	case 0x06: // Internal Client error (bad input to authorizer)
 	case 0x07: // Invalid account
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
-		ZeroMemory(m_szPassword, sizeof(m_szPassword));
+		memset(m_szPassword, 0, sizeof(m_szPassword));
 		icq_LogFatalParam(LPGEN("Connection failed.\nYour ICQ number or password was rejected (%d)."), wError);
 		break;
 

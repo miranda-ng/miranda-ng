@@ -104,7 +104,7 @@ bool ImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	// Now Add the object to the RichEdit
 	//
 	REOBJECT reobject;
-	ZeroMemory(&reobject, sizeof(REOBJECT));
+	memset(&reobject, 0, sizeof(REOBJECT));
 	reobject.cbStruct = sizeof(REOBJECT);
 
 	CLSID clsid;

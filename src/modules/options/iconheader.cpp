@@ -100,7 +100,7 @@ int LoadIcoTabsModule()
 {
 	WNDCLASSEX wc;
 
-	ZeroMemory(&wc, sizeof(wc));
+	memset(&wc, 0, sizeof(wc));
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = MIRANDAICOTABCLASS;
 	wc.lpfnWndProc = MIcoTabWndProc;

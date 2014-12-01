@@ -60,7 +60,7 @@ static TCHAR *parseHex(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (zeros + _tcslen(szVal) + 3)*sizeof(TCHAR));
+	memset(res, 0, ((zeros + _tcslen(szVal) + 3) * sizeof(TCHAR)));
 	_tcscpy(res, _T("0x"));
 	for (i = 0; i < zeros; i++)
 		*(res + 2 + i) = '0';
@@ -145,7 +145,7 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
+	memset(res, 0, ((zeros + _tcslen(szVal) + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res;
 	for (unsigned i = 0; i < zeros; i++)
 		*cur++ = '0';

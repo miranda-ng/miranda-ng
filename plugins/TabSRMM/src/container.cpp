@@ -358,7 +358,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			GetWindowRect(hwndDlg, &rcWindow);
 
 			CopyMemory(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(TitleBtn) * 3);
-			ZeroMemory(&pContainer->buttons[0], sizeof(TitleBtn) * 3);
+			memset(&pContainer->buttons[0], 0, (sizeof(TitleBtn) * 3));
 			isMin = isMax = isClose = FALSE;
 
 			if (pt.x >= (rcWindow.left + pContainer->rcMin.left) && pt.x <= (rcWindow.left + pContainer->rcClose.right) && pt.y < rcWindow.top + 24 && wParam != HTTOPRIGHT) {
@@ -857,7 +857,7 @@ panel_found:
 
 		switch (((LPNMHDR)lParam)->code) {
 		case TCN_SELCHANGE:
-			ZeroMemory(&item, sizeof(item));
+			memset(&item, 0, sizeof(item));
 			iItem = TabCtrl_GetCurSel(hwndTab);
 			item.mask = TCIF_PARAM;
 			if (TabCtrl_GetItem(hwndTab, iItem, &item)) {
@@ -947,7 +947,7 @@ panel_found:
 				case ID_TABMENU_ATTACHTOCONTAINER:
 					if ((iItem = GetTabItemFromMouse(hwndTab, &pt1)) == -1)
 						break;
-					ZeroMemory(&item, sizeof(item));
+					memset(&item, 0, sizeof(item));
 					item.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwndTab, iItem, &item);
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTCONTAINER), hwndDlg, SelectContainerDlgProc, (LPARAM)item.lParam);
@@ -1261,7 +1261,7 @@ panel_found:
 
 			if (iNewTab != iCurrent) {
 				TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwndTab, GWLP_USERDATA);
-				ZeroMemory(&item, sizeof(item));
+				memset(&item, 0, sizeof(item));
 				item.mask = TCIF_PARAM;
 				if (TabCtrl_GetItem(hwndTab, iNewTab, &item)) {
 					TabCtrl_SetCurSel(hwndTab, iNewTab);
@@ -1348,7 +1348,7 @@ panel_found:
 						SendMessage(hwndDlg, DM_UPDATETITLE, hContact, 0);
 				}
 			}
-			ZeroMemory(&item, sizeof(item));
+			memset(&item, 0, sizeof(item));
 			item.mask = TCIF_PARAM;
 			if ((curItem = TabCtrl_GetCurSel(hwndTab)) >= 0)
 				TabCtrl_GetItem(hwndTab, curItem, &item);

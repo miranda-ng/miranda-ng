@@ -113,7 +113,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		{
 			HWND hwndToolTips=CreateWindowEx(WS_EX_TOPMOST,TOOLTIPS_CLASS,TEXT(""),WS_POPUP,0,0,0,0,NULL,NULL,GetModuleHandle(NULL),NULL);
 			TOOLINFO ti;
-			ZeroMemory(&ti,sizeof(ti));
+			memset(&ti, 0, sizeof(ti));
 			ti.cbSize=sizeof(ti);
 			ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId=(UINT)GetDlgItem(hWndDlg,IDC_HISTORY);

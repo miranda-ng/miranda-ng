@@ -182,7 +182,7 @@ HANDLE add_contextmenu(MCONTACT) {
 	mi = BlockContactItem();
 	hMenuBlockContactItem = Menu_AddContactMenuItem(&mi);
 
-	ZeroMemory(&mi, sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000005000;
 	mi.flags = CMIF_TCHAR;

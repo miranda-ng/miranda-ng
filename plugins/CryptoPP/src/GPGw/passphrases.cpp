@@ -18,7 +18,7 @@ void releasePassphrases(void)
   int i;
 
   for(i=0; i<passphrasecount; i++)
-    ZeroMemory(passphrases[i].passphrase, sizeof(passphrases[i].passphrase));
+    memset(passphrases[i].passphrase, 0, sizeof(passphrases[i].passphrase));
 
   free(passphrases);
 }

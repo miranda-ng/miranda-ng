@@ -274,7 +274,7 @@ int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp;
 
-	ZeroMemory(&odp, sizeof(odp));
+	memset(&odp, 0, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.position = -790000000;
 	odp.hInstance = hInst;

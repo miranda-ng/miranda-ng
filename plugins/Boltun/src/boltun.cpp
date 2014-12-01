@@ -216,7 +216,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	DBEVENTINFO dbei;
-	ZeroMemory(&dbei, sizeof(dbei));
+	memset(&dbei, 0, sizeof(dbei));
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = 0;
 
@@ -386,7 +386,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						if (fullname != Config.MindFileName)
 							delete[] fullname;
 
-						ZeroMemory(&ofn, sizeof(ofn));
+						memset(&ofn, 0, sizeof(ofn));
 						ofn.lStructSize = sizeof(OPENFILENAME);
 						ofn.hwndOwner = GetParent(hwndDlg);
 

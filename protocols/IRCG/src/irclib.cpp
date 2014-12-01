@@ -733,7 +733,7 @@ CDccSession::CDccSession(CIrcProto* _pro, DCCINFO* pdci) :
 
 	di = pdci; // Setup values passed to the constructor
 
-	ZeroMemory(&pfts, sizeof(PROTOFILETRANSFERSTATUS));
+	memset(&pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 	pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 
 	if (di->iType == DCC_SEND && di->bSender == false)

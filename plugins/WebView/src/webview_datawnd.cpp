@@ -51,7 +51,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				int startsel = 0, endsel = 0;
 				char buff[MAXSIZE1];
 
-				ZeroMemory(&NewSearchstr, sizeof(NewSearchstr));
+				memset(&NewSearchstr, 0, sizeof(NewSearchstr));
 
 				int len = GetWindowTextLength(GetDlgItem(ParentHwnd, IDC_DATA));
 

@@ -36,7 +36,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 
 	// Create bitmap
 	BITMAPINFO RGB32BitsBITMAPINFO;
-	ZeroMemory(&RGB32BitsBITMAPINFO, sizeof(BITMAPINFO));
+	memset(&RGB32BitsBITMAPINFO, 0, sizeof(BITMAPINFO));
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = bmp.bmWidth;
 	RGB32BitsBITMAPINFO.bmiHeader.biHeight = bmp.bmHeight;
@@ -77,7 +77,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 HBITMAP CreateBitmap32(int cx, int cy)
 {
 	BITMAPINFO RGB32BitsBITMAPINFO;
-	ZeroMemory(&RGB32BitsBITMAPINFO, sizeof(BITMAPINFO));
+	memset(&RGB32BitsBITMAPINFO, 0, sizeof(BITMAPINFO));
 	RGB32BitsBITMAPINFO.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	RGB32BitsBITMAPINFO.bmiHeader.biWidth = cx;//bm.bmWidth;
 	RGB32BitsBITMAPINFO.bmiHeader.biHeight = cy;//bm.bmHeight;

@@ -1888,12 +1888,12 @@ void CLCPaint::_DrawLines( HWND hWnd, ClcData *dat, HDC hdc, int paintMode, RECT
 
 				// Store pos
 				Drawing->pos_indent = free_row_rc.left;
-				ZeroMemory( &Drawing->pos_check, sizeof( Drawing->pos_check ));
-				ZeroMemory( &Drawing->pos_avatar, sizeof( Drawing->pos_avatar ));
-				ZeroMemory( &Drawing->pos_icon, sizeof( Drawing->pos_icon ));
-				ZeroMemory( &Drawing->pos_label, sizeof( Drawing->pos_label ));
-				ZeroMemory( &Drawing->pos_rename_rect, sizeof( Drawing->pos_rename_rect ));
-				ZeroMemory( &Drawing->pos_extra, sizeof( Drawing->pos_extra ));
+				memset(&Drawing->pos_check, 0, sizeof(Drawing->pos_check));
+				memset(&Drawing->pos_avatar, 0, sizeof(Drawing->pos_avatar));
+				memset(&Drawing->pos_icon, 0, sizeof(Drawing->pos_icon));
+				memset(&Drawing->pos_label, 0, sizeof(Drawing->pos_label));
+				memset(&Drawing->pos_rename_rect, 0, sizeof(Drawing->pos_rename_rect));
+				memset(&Drawing->pos_extra, 0, sizeof(Drawing->pos_extra));
 
 
 				//**** Draw Background

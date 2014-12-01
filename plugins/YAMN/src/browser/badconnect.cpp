@@ -20,7 +20,7 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 		if ((HIWORD(wParam)==STN_CLICKED) && (CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&PluginParam))) {
 			PROCESS_INFORMATION pi;
 			STARTUPINFOW si;
-			ZeroMemory(&si,sizeof(si));
+			memset(&si, 0, sizeof(si));
 			si.cb=sizeof(si);
 			HACCOUNT ActualAccount = (HACCOUNT)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 #ifdef DEBUG_SYNCHRO
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 		{
 			NOTIFYICONDATA nid;
 
-			ZeroMemory(&nid,sizeof(NOTIFYICONDATA));
+			memset(&nid, 0, sizeof(NOTIFYICONDATA));
 			nid.cbSize=sizeof(NOTIFYICONDATA);
 			nid.hWnd=hDlg;
 			nid.uID=0;
@@ -242,7 +242,7 @@ DWORD WINAPI BadConnection(LPVOID Param)
 		SendMessage(hBadConnect,WM_SETICON,ICON_BIG,(LPARAM)g_LoadIconEx(3));
 		SendMessage(hBadConnect,WM_SETICON,ICON_SMALL,(LPARAM)g_LoadIconEx(3));
 
-		ZeroMemory(&nid,sizeof(nid));
+		memset(&nid, 0, sizeof(nid));
 		nid.cbSize=sizeof(NOTIFYICONDATA);
 		nid.hWnd=hBadConnect;
 		nid.hIcon=g_LoadIconEx(3);

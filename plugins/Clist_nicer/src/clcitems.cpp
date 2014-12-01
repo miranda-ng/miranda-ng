@@ -32,7 +32,7 @@ ClcContact* CreateClcContact( void )
 {
 	ClcContact* p = (ClcContact*)mir_alloc( sizeof( ClcContact ));
 	if ( p != NULL ) {
-		ZeroMemory(p, sizeof(ClcContact));
+		memset(p, 0, sizeof(ClcContact));
 		p->avatarLeft = p->extraIconRightBegin = p->xStatusIcon = -1;
 	}
 	return p;
@@ -160,7 +160,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(hContact, NULL, dat)) {
-			ZeroMemory((void *)&dbv, sizeof(dbv));
+			memset(&dbv, 0, sizeof(dbv));
 			if (cfg::getTString(hContact, "CList", "Group", &dbv))
 				group = &dat->list;
 			else {
@@ -290,7 +290,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 
 	if (p->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];
-		ZeroMemory(infoTypeC2, sizeof(WORD) * 12);
+		memset(infoTypeC2, 0, sizeof(infoTypeC2));
 		int iLen = min(mir_wstrlen(p->statusMsg), 10);
 		GetStringTypeW(CT_CTYPE2, p->statusMsg, iLen, infoTypeC2);
 		p->dwCFlags &= ~ECF_RTLSTATUSMSG;
@@ -350,7 +350,7 @@ void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 	DWORD iLen;
 	TExtraCache *p;
 
-	ZeroMemory(infoTypeC2, sizeof(WORD) * 12);
+	memset(infoTypeC2, 0, sizeof(infoTypeC2));
 
 	if (contact == NULL) {
 		szText = pcli->pfnGetContactDisplayName(hContact, 0);
@@ -425,7 +425,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry, const char *szProto)
 	if (cfg::getByte(hContact, "EXTBK", "VALID", 0)) {
 		if (cEntry->status_item == NULL)
 			cEntry->status_item = reinterpret_cast<StatusItems_t *>(malloc(sizeof(StatusItems_t)));
-		ZeroMemory(cEntry->status_item, sizeof(StatusItems_t));
+		memset(cEntry->status_item, 0, sizeof(StatusItems_t));
 		strcpy(cEntry->status_item->szName, "{--CONTACT--}"); // mark as "per contact" item
 		cEntry->status_item->IGNORED = 0;
 

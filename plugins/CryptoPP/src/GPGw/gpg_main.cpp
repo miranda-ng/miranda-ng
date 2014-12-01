@@ -168,7 +168,7 @@ LPSTR __cdecl _gpg_encrypt(LPCSTR message, LPCSTR keyid)
 
 	if(strlen(keyid))
 	{
-		ZeroMemory(buffer, sizeof(buffer));
+		memset(buffer, 0, sizeof(buffer));
 		gpgresult=gpgEncrypt(buffer, keyid, message);
 
 		if(gpgresult!=gpgSuccess)
@@ -205,7 +205,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 		replace(buffer, "\r", "");
 		replace(buffer, "\n", txtcrlf);
 
-		ZeroMemory(keyuserid, sizeof(keyuserid));
+		memset(keyuserid, 0, sizeof(keyuserid));
 		gpgresult=gpgDetectUserID(keyuserid, buffer);
 		storedpassphrase=NULL;
 
@@ -224,7 +224,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 		if(storedpassphrase!=NULL)
 		{
 			strcpy(passphrase, storedpassphrase);
-			ZeroMemory(plaintext, sizeof(plaintext));
+			memset(plaintext, 0, sizeof(plaintext));
 			gpgresult=gpgDecrypt(plaintext, buffer, passphrase);
 		}
 		else gpgresult=gpgUnknownError;
@@ -237,9 +237,9 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 			if(dlgresult==IDOK)
 			{
 				strcpy(passphrase, dlgpassphrase);
-				ZeroMemory(dlgpassphrase, passphrasesize);
+				memset(dlgpassphrase, 0, passphrasesize);
 				strcat(passphrase, txtcrlf);
-				ZeroMemory(plaintext, sizeof(plaintext));
+				memset(plaintext, 0, sizeof(plaintext));
 				gpgresult=gpgDecrypt(plaintext, buffer, passphrase);
 			}
 		}
@@ -252,7 +252,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 		if ( gpgresult==gpgSuccess && useridvalid==TRUE)
 			addPassphrase(keyuserid, passphrase);
 
-		ZeroMemory(passphrase, sizeof(passphrase));
+		memset(passphrase, 0, sizeof(passphrase));
 
 		decmessagelen = strlen(buffer)+1;
 		decmessage = (char *) LocalAlloc(LPTR,decmessagelen);
@@ -273,11 +273,11 @@ int __cdecl _gpg_select_keyid(HWND hdlg, LPSTR keyid)
 {
 	int dlgresult;
 
-	ZeroMemory(keyid, keyidsize);
+	memset(keyid, 0, keyidsize);
 	dlgresult=DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_SELECTKEY), hdlg, UserIdDialogProcedure, (LPARAM)keyid);
 
 	if(dlgresult!=IDOK)
-		ZeroMemory(keyid, keyidsize);
+		memset(keyid, 0, keyidsize);
 
 	return (dlgresult==IDOK);
 }
@@ -325,7 +325,7 @@ LPSTR GetEnvValue(LPCSTR szName)
 BOOL ShowSelectExecDlg(LPSTR path)
 {
 	OPENFILENAME ofn;
-	ZeroMemory(&ofn,sizeof(ofn));
+	memset(&ofn, 0, sizeof(ofn));
 
 	ofn.lpstrFile = GetRegValue(HKEY_CURRENT_USER,"Software\\GNU\\GnuPG","gpgProgram");
 	if ( ofn.lpstrFile && existsFile(ofn.lpstrFile) ) {

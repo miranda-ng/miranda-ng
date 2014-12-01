@@ -18,7 +18,7 @@ INT_PTR CALLBACK UserIdDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, LPARA
    	  static int iColWidth[] = { 110, 255 };
    	  keyid = (char *)lparam;
 
-   	  ZeroMemory(&lvc,sizeof(LVCOLUMN));
+   	  memset(&lvc, 0, sizeof(LVCOLUMN));
    	  lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
    	  lvc.fmt = LVCFMT_LEFT;
    	  for (i = 0; i < 2; i++) {
@@ -63,7 +63,7 @@ void RefreshListView(HWND hLV) {
 	  int i;
 
 	  ListView_DeleteAllItems(hLV);
-   	  ZeroMemory(&lvi,sizeof(LVITEM));
+   	  memset(&lvi, 0, sizeof(LVITEM));
       lvi.mask = LVIF_TEXT;
       for (i = 0; i < getKeyUserIDCount(publickeyuserid); i++) {
 

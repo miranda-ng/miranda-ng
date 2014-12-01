@@ -175,7 +175,7 @@ INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM)
 		return (int)g_SetAwayMsgPage.GetWnd();
 	}
 	SetAwayMsgData *dat = new SetAwayMsgData;
-	ZeroMemory(dat, sizeof(SetAwayMsgData));
+	memset(dat, 0, sizeof(SetAwayMsgData));
 	dat->hInitContact = iswi->hContact;
 	dat->szProtocol = iswi->szProto;
 	dat->Message = (iswi->Flags & ISWF_UNICODE) ? iswi->wszMsg : _A2T(iswi->szMsg);

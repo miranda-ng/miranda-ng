@@ -273,7 +273,7 @@ int __stdcall utf8_encode(const char *from, char **to)
 	}
 
 	WCHAR *unicode = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
-	ZeroMemory(unicode, (wchars + 1) * sizeof(WCHAR));
+	memset(unicode, 0, ((wchars + 1) * sizeof(WCHAR)));
 
 	int err = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, from, (int)mir_strlen(from), unicode, wchars);
 	if (err != wchars) {
@@ -308,7 +308,7 @@ char* __stdcall ansi_to_utf8_codepage(const char *ansi, WORD wCp)
 {
 	size_t wchars = mir_strlen(ansi);
 	WCHAR *unicode = (WCHAR*)_alloca((wchars + 1) * sizeof(WCHAR));
-	ZeroMemory(unicode, (wchars + 1) * sizeof(WCHAR));
+	memset(unicode, 0, ((wchars + 1) * sizeof(WCHAR)));
 
 	MultiByteToWideChar(wCp, MB_PRECOMPOSED, ansi, (int)wchars, unicode, (int)wchars);
 
@@ -331,7 +331,7 @@ int __stdcall utf8_decode_codepage(const char *from, char **to, WORD wCp)
 	if (bHasCP_UTF8) {
 		size_t inlen = mir_strlen(from) + 1;
 		WCHAR *wszTemp = (WCHAR *)_alloca(inlen * sizeof(WCHAR));
-		ZeroMemory(wszTemp, inlen * sizeof(WCHAR));
+		memset(wszTemp, 0, (inlen * sizeof(WCHAR)));
 
 		// Convert the UTF-8 string to UCS
 		if (MultiByteToWideChar(CP_UTF8, 0, from, -1, wszTemp, (int)inlen)) {
@@ -402,13 +402,13 @@ int __stdcall utf8_decode_static(const char *from, char *to, size_t to_size)
 		return 0;
 
 	// Clear target
-	ZeroMemory(to, to_size);
+	memset(to, 0, to_size);
 
 	// Use the native conversion routines when available
 	if (bHasCP_UTF8) {
 		size_t inlen = mir_strlen(from) + 1;
 		WCHAR *wszTemp = (WCHAR*)_alloca(inlen * sizeof(WCHAR));
-		ZeroMemory(wszTemp, inlen * sizeof(WCHAR));
+		memset(wszTemp, 0, (inlen * sizeof(WCHAR)));
 
 		// Convert the UTF-8 string to UCS
 		if (MultiByteToWideChar(CP_UTF8, 0, from, -1, wszTemp, (int)inlen)) {
@@ -460,7 +460,7 @@ WCHAR* __stdcall ansi_to_unicode(const char *ansi)
 
 char* __stdcall unicode_to_ansi_static(const WCHAR *unicode, char *ansi, size_t ansi_size)
 {
-	ZeroMemory(ansi, ansi_size);
+	memset(ansi, 0, ansi_size);
 
 	if (WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, unicode, (int)mir_wstrlen(unicode), ansi, (int)ansi_size, NULL, NULL) > 1)
 		return ansi;

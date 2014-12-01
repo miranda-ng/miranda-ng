@@ -51,7 +51,7 @@ extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
 int RegisterOptions(WPARAM wParam, LPARAM) {
    OPTIONSDIALOGPAGE odp;
 
-   ZeroMemory(&odp, sizeof(odp));
+   memset(&odp, 0, sizeof(odp));
    odp.cbSize = sizeof(odp);
    odp.hInstance = hInst;
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
@@ -401,7 +401,7 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 					db_set_w(NULL, SKYPE_PROTONAME, "Port", (unsigned short)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
 					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_REQPASS), BM_GETCHECK,0,0)));
 					db_set_b (NULL, SKYPE_PROTONAME, "UseSkype2Socket", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_USES2S), BM_GETCHECK,0,0)));
-					ZeroMemory(buf, sizeof(buf));
+					memset(buf, 0, sizeof(buf));
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, buf, SIZEOF(buf));
 					db_set_s(NULL, SKYPE_PROTONAME, "Password", buf);
 					return TRUE;
@@ -853,7 +853,7 @@ INT_PTR CALLBACK DetailsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 
-		ZeroMemory (&myProfile, sizeof(myProfile));
+		memset(&myProfile, 0, sizeof(myProfile));
 		SkypeProfile_Load(&myProfile);
 		if(SkypeInitialized)
 			SkypeProfile_LoadFromSkype(&myProfile);

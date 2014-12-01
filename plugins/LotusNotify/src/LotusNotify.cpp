@@ -468,7 +468,7 @@ void showMsg(TCHAR* sender,TCHAR* text, DWORD id, char *strUID)
 	//The text for the second line. You could even make something like: char lpzText[128]; mir_tstrcpy(lpzText, "Hello world!"); It's your choice.
 
 	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
-	ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
+	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL; //(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	_tcscpy_s(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), sender);
@@ -716,7 +716,7 @@ void checkthread(void*)
 						  &retNoteOID,		/* out: OID */
 						  &retModified,		/* out:     */
 						  &retNoteClass) ;
-		ZeroMemory(strLink, sizeof(strLink));
+		memset(strLink, 0, sizeof(strLink));
 		mir_snprintf(strLink, SIZEOF(strLink), "%.8lX%.8lX%.8lX%.8lX",
 						retNoteOID.File.Innards[1],
 						retNoteOID.File.Innards[0],
@@ -752,8 +752,8 @@ void checkthread(void*)
 
 
 		WCHAR msgFrom[512], msgSubject[512];
-		ZeroMemory(msgFrom,sizeof(msgFrom));
-		ZeroMemory(msgSubject,sizeof(msgSubject));
+		memset(msgFrom, 0, sizeof(msgFrom));
+		memset(msgSubject, 0, sizeof(msgSubject));
 
 		if(wcslen(field_from_UNICODE) < 512 && wcslen(field_from_UNICODE) > 3 && wcsstr(field_from_UNICODE, L"CN=") == field_from_UNICODE)
 			_tcsncpy_s(msgFrom, &(field_from_UNICODE[3]), wcscspn(field_from_UNICODE, L"/")-3 );

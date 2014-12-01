@@ -258,7 +258,7 @@ INT addEvent(WPARAM hContact, LPARAM lParam)
 						{
 							FORMATINFO fi;
 
-							ZeroMemory(&fi, sizeof(fi));
+							memset(&fi, 0, sizeof(fi));
 							fi.cbSize = sizeof(fi);
 							fi.flags = FIF_TCHAR;
 							fi.tszFormat = ptszTemp2;
