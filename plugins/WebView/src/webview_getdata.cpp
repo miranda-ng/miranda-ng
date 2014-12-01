@@ -63,7 +63,6 @@ void GetData(void *param)
 	memset(&contactname, 0, sizeof(contactname));
 	memset(&tempstring, 0, sizeof(tempstring));
 	memset(&tempstring2, 0, sizeof(tempstring2));
-	memset(&szInfo, 0, sizeof(szInfo));
 	memset(&dbv, 0, sizeof(dbv));
 	memset(&tstr, 0, sizeof(tstr));
 	memset(&timestring, 0, sizeof(timestring));
