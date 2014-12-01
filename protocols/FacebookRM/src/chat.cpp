@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2011-13 Robert Pösel
+Copyright ï¿½ 2011-13 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -95,11 +95,14 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_PRIVMESS:
 	{
-		std::string id = _T2A(hook->ptszUID, CP_UTF8);
+		facebook_user fbu;
+		fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
 
-		MCONTACT hContact = ContactIDToHContact(id);
+		// Find this contact in list or add new temporary contact
+		MCONTACT hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+
 		if (!hContact)
-			break; // TODO: create new temporary contact
+			break;
 
 		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
 		break;
@@ -125,11 +128,17 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_NICKLISTMENU: 
 	{
-		std::string id = _T2A(hook->ptszUID, CP_UTF8);
+		MCONTACT hContact = NULL;
+		if (hook->dwData == 10 || hook->dwData == 20) {
+			facebook_user fbu;
+			fbu.user_id = _T2A(hook->ptszUID, CP_UTF8);
 
-		MCONTACT hContact = ContactIDToHContact(id);
-		if (!hContact)
-			break; // TODO: create new temporary contact
+			// Find this contact in list or add new temporary contact
+			hContact = AddToContactList(&fbu, CONTACT_NONE, false, true);
+
+			if (!hContact)
+				break;
+		}
 
 		switch (hook->dwData) 
 		{
