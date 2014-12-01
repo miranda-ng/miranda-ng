@@ -1329,12 +1329,9 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					BOOL TesterFC = (IsDlgButtonChecked(hDlg,IDC_CHECKFCOL)==BST_CHECKED);
 					BOOL TesterNC = (IsDlgButtonChecked(hDlg,IDC_CHECKNCOL)==BST_CHECKED);
 					
-					ZeroMemory(&Tester,sizeof(Tester));
-					ZeroMemory(&TesterF,sizeof(TesterF));
-					ZeroMemory(&TesterF,sizeof(TesterN));
-					Tester.lchContact=NULL;
-					TesterF.lchContact=NULL;
-					TesterN.lchContact=NULL;
+					memset(&Tester, 0, sizeof(Tester));
+					memset(&TesterF, 0, sizeof(TesterF));
+					memset(&TesterN, 0, sizeof(TesterN));
 					Tester.lchIcon=g_LoadIconEx(2);
 					TesterF.lchIcon=g_LoadIconEx(3);
 					TesterN.lchIcon=g_LoadIconEx(1);

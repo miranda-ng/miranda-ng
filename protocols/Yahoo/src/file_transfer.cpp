@@ -483,7 +483,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 		hContact = add_buddy(who, who, 0 /* NO FT for other IMs */, PALF_TEMPORARY);
 
 	char fn[1024];
-	ZeroMemory(fn, 1024);
+	memset(fn, 0, sizeof(fn));
 
 	if (fname != NULL)
 		mir_strncpy(fn, fname, 1024);

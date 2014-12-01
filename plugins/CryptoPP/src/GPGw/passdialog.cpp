@@ -14,7 +14,7 @@ INT_PTR CALLBACK PassphraseDialogProcedure(HWND hdlg, UINT msg, WPARAM wparam, L
       switch(LOWORD(wparam))
       {
         case IDOK:
-          ZeroMemory(dlgpassphrase, sizeof(dlgpassphrase));
+          memset(dlgpassphrase, 0, sizeof(dlgpassphrase));
           GetDlgItemText(hdlg, IDC_PASSPHRASE, dlgpassphrase, SIZEOF(dlgpassphrase));
         case IDCANCEL:
           EndDialog(hdlg, wparam);

@@ -53,9 +53,9 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 	if ( listStart == NULL )
 		return -1;
 
-	ZeroMemory(link, _countof(link)*sizeof(TCHAR));
-	ZeroMemory(date, _countof(date)*sizeof(TCHAR));
-	ZeroMemory(time, _countof(time)*sizeof(TCHAR));
+	memset(link, 0, sizeof(link));
+	memset(date, 0, sizeof(date));
+	memset(time, 0, sizeof(time));
 
 	msg = DbGetEventTextT(dbei, CP_ACP);
 	
@@ -197,7 +197,7 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 				if ( newElement == NULL )
 					return -1;
 
-				ZeroMemory(newElement, sizeof(LISTELEMENT));
+				memset(newElement, 0, sizeof(LISTELEMENT));
 				newElement->direction = direction;
 				newElement->type = type;
 				_tcsncpy_s(newElement->date, date, _TRUNCATE);
@@ -307,7 +307,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
 		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
 		
-		ZeroMemory(&cf, sizeof(cf));
+		memset(&cf, 0, sizeof(cf));
 		cf.cbSize = sizeof(cf);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = colourSet.text;
@@ -321,7 +321,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			
 			// How to set RTF colour, font, etc.... found at
 			// http://www.winehq.com/hypermail/wine-devel/2004/08/0608.html
-			ZeroMemory(&pf, sizeof(pf));
+			memset(&pf, 0, sizeof(pf));
 			pf.cbSize = sizeof(pf);
 			pf.dwMask = PFM_ALIGNMENT;
 			pf.wAlignment = PFA_LEFT;
@@ -329,7 +329,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		
 			if ( searchString != NULL )
 			{
-				ZeroMemory( &cf, sizeof(cf));
+				memset(&cf, 0, sizeof(cf));
 				cf.cbSize = sizeof(cf);
 				cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE | CFM_COLOR;
 				cf.dwEffects = CFE_BOLD;
@@ -337,13 +337,13 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				_tcscpy_s(cf.szFaceName, _T("Arial"));
 				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
 				
-				ZeroMemory(searchText, _countof(searchText)*sizeof(TCHAR));
-				mir_sntprintf(searchText, _countof(searchText), _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
+				memset(searchText, 0, sizeof(searchText));
+				mir_sntprintf(searchText, SIZEOF(searchText), _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
 				linePos += 2;
 			}
 		
-			ZeroMemory(&cf, sizeof(cf));
+			memset(&cf, 0, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_FACE | CFM_BOLD;
 			_tcscpy_s(cf.szFaceName, _T("Courier"));
@@ -436,14 +436,14 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 
 				if ( _tcscmp(actualElement->date, lastDate) != 0 )
 				{
-					ZeroMemory(&cf, sizeof(cf));
+					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof(cf);
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = colourSet.text;
 					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM)&cf);
 					if ( options.showLine != 0 )
 						DrawLine(hDlg, lineLen);
-					ZeroMemory(&cf, sizeof(cf));
+					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof(cf);
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 					cf.dwEffects = CFE_BOLD;
@@ -456,13 +456,13 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 						linePos += 3;
 					}
 					_tcscpy_s(lastDate, actualElement->date);
-					ZeroMemory( &cf, sizeof(cf));
+					memset(&cf, 0, sizeof(cf));
 					cf.cbSize = sizeof cf;
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
 					_tcscpy_s(cf.szFaceName, _T("Courier"));
 					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
 				}
-				ZeroMemory( &cf, sizeof(cf));
+				memset(&cf, 0, sizeof(cf));
 				cf.cbSize = sizeof(cf);
 				cf.dwMask = CFM_COLOR;
 				
@@ -513,7 +513,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		}
 		else if ( searchString == NULL )
 		{	
-			ZeroMemory( &cf, sizeof(cf));
+			memset(&cf, 0, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 			cf.dwEffects = CFE_BOLD;
@@ -544,7 +544,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	CHARFORMAT cf;
 	PARAFORMAT pf;
 	
-	ZeroMemory(&pf, sizeof(pf));
+	memset(&pf, 0, sizeof(pf));
 	pf.cbSize = sizeof(pf);
 	pf.dwMask = PFM_ALIGNMENT;
 	pf.wAlignment = PFA_LEFT;
@@ -554,7 +554,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETBKGNDCOLOR, FALSE, BGColourSel);
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, WM_SETTEXT , 0, 0);
 
-	ZeroMemory(&cf, sizeof(cf));
+	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_FACE | CFM_BOLD | CFM_ITALIC | CFM_COLOR;
 	_tcscpy_s(cf.szFaceName, _T("Courier"));
@@ -565,7 +565,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	else
 		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("\n"));
 	
-	ZeroMemory(&cf, sizeof(cf));
+	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_BOLD | CFM_FACE | CFM_COLOR;
 	cf.dwEffects = CFE_BOLD;
@@ -578,14 +578,14 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM) _T("\n"));
 
-	ZeroMemory(&cf, sizeof(cf));
+	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
 	_tcscpy_s(cf.szFaceName, _T("Courier"));
 	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
 
 	// incoming
-	ZeroMemory(&cf, sizeof(cf));
+	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = InColourSel;
@@ -608,7 +608,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("http://miranda-ng.org\n"));
 
 	// outgoing
-	ZeroMemory( &cf, sizeof(cf));
+	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = OutColourSel;
@@ -1276,7 +1276,7 @@ BOOL SaveEditAsStream( HWND hDlg )
 	// Initialize filename field
 	_tcscpy_s(szFilename, _T("*.rtf"));
 	// Fill in OPENFILENAME struct
-	ZeroMemory(&ofn, sizeof(OPENFILENAME));
+	memset(&ofn, 0, sizeof(OPENFILENAME));
 	ofn.lStructSize = sizeof(OPENFILENAME);      
 	ofn.hwndOwner = hDlg;
 	TCHAR temp[MAX_PATH]; 

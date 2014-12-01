@@ -584,7 +584,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (iod->name && _tcsstr(iod->name, STR_SEPARATOR))
 						break;
 
-					ZeroMemory(buf, sizeof(buf));
+					buf[0] = 0;
 					GetDlgItemText(hwndDlg, IDC_GENMENU_CUSTOMNAME, buf, SIZEOF(buf));
 					if (iod->name)
 						mir_free(iod->name);

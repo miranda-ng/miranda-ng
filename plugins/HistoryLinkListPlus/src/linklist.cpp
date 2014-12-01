@@ -160,7 +160,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	SetForegroundWindow(hWndProgress);
 
 	LISTELEMENT *listStart = (LISTELEMENT*)malloc(sizeof(LISTELEMENT));
-	ZeroMemory(listStart, sizeof(LISTELEMENT));
+	memset(listStart, 0, sizeof(LISTELEMENT));
 
 	while( 1 ) {
 		if ( dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE ) {

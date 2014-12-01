@@ -250,7 +250,7 @@ void CConfig::OnConnectionChanged() {
 int CConfig::InitOptionsDialog(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp, sizeof(odp));
+	memset(&odp, 0, sizeof(odp));
 	odp.cbSize      = sizeof(odp);
 	odp.position    = 847000000;
 	odp.hInstance   = hInstance;

@@ -45,7 +45,7 @@ private:
 public:
 	CChart() : m_MaxY(),m_MinY()
 	{
-		ZeroMemory(&m_rect,sizeof(m_rect));
+		memset(&m_rect, 0, sizeof(m_rect));
 	}
 
 	~CChart()

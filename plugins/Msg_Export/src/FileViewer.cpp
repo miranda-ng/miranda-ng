@@ -117,8 +117,8 @@ class CLHistoryDlg
 		{
 			hFindDlg = NULL;
 			acFindStr[0] = 0;
-			ZeroMemory(&fr, sizeof( fr ));
-			fr.lStructSize = sizeof( fr);
+			memset(&fr, 0, sizeof(fr));
+			fr.lStructSize = sizeof(fr);
 			fr.hInstance = hInstance;
 			fr.Flags = FR_NOUPDOWN|FR_HIDEUPDOWN;//|FR_MATCHCASE|FR_WHOLEWORD;
 						     // FR_DOWN|FR_FINDNEXT|FR_NOMATCHCASE;

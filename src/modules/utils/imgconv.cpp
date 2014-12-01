@@ -28,7 +28,7 @@ typedef DWORD ARGB;
 
 void InitBitmapInfo(BITMAPINFO &bmi,  const SIZE &size)
 {
-	ZeroMemory(&bmi, sizeof(BITMAPINFO));
+	memset(&bmi, 0, sizeof(BITMAPINFO));
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biCompression = BI_RGB;

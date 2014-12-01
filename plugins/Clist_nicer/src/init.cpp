@@ -159,7 +159,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 		HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	cfg::dat.tabSRMM_Avail = ServiceExists("SRMsg_MOD/GetWindowFlags") ? TRUE : FALSE;
 
-	ZeroMemory((void *)overlayicons, sizeof(HICON) * 10);
+	memset(&overlayicons, 0, sizeof(overlayicons));
 
 	CLN_LoadAllIcons(1);
 	return 0;
@@ -181,7 +181,7 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	API::onInit();
 	RegisterCLUIFrameClasses();
 
-	ZeroMemory((void *)&cfg::dat, sizeof(cfg::dat));
+	memset(&cfg::dat, 0, sizeof(cfg::dat));
 
 	int iCount = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
 

@@ -108,7 +108,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			HGLOBAL hCommand;
 			TCHAR *pszCommand;
 			DDEACK ack;
-			ZeroMemory(&ack,sizeof(ack));
+			memset(&ack, 0, sizeof(ack));
 			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hCommand)) {
 				/* ANSI execute command can't happen for shell */
 				if(IsWindowUnicode((HWND)wParam)) {
@@ -149,7 +149,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 		{
 			ATOM hSzItem;
 			DDEACK ack;
-			ZeroMemory(&ack,sizeof(ack));
+			memset(&ack, 0, sizeof(ack));
 			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hSzItem)) {
 				lParam=ReuseDDElParam(lParam,msg,WM_DDE_ACK,*(PUINT)&ack,(UINT)hSzItem);
 				if (!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {

@@ -611,7 +611,7 @@ namespace
 		if(1 == ServiceExists(MS_POPUP_ADDPOPUPT))
 		{
 			POPUPDATAT ppd;
-			ZeroMemory((void *)&ppd, sizeof(ppd));
+			memset(&ppd, 0, sizeof(ppd));
 			ppd.lchContact = hContact;
 			//if((true == bValidPrevRate))
 			if(tendency.IsValid())

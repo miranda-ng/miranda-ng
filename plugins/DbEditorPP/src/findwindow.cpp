@@ -161,7 +161,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_SIZE:
 		{
 			UTILRESIZEDIALOG urd;
-			ZeroMemory(&urd, sizeof(urd));
+			memset(&urd, 0, sizeof(urd));
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
 			urd.hwndDlg = hwnd;

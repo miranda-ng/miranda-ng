@@ -523,7 +523,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 	{
 		if ((contact->type == CLCIT_CONTACT && contact->pExtra->dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
 			PARAFORMAT2 pf2;
-			ZeroMemory((void *)&pf2, sizeof(pf2));
+			memset(&pf2, 0, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_RTLPARA;
 			pf2.wEffects = PFE_RTLPARA;

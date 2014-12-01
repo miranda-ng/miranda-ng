@@ -888,17 +888,17 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 				}
 				case IDC_FILE_VIEWER_BROWSE:
 				{
-					OPENFILENAME ofn = { 0 };       // common dialog box structure
+					OPENFILENAME ofn;       // common dialog box structure
 					TCHAR szFile[260];       // buffer for file name
+					TCHAR buf[MAX_PATH];
 
 					GetDlgItemText(hwndDlg, IDC_FILE_VIEWER, szFile, SIZEOF(szFile));
 					// Initialize OPENFILENAME
-					//ZeroMemory(&ofn, sizeof(OPENFILENAME));
+					memset(&ofn, 0, sizeof(OPENFILENAME));
 					ofn.lStructSize = sizeof(OPENFILENAME);
 					ofn.hwndOwner = hwndDlg;
 					ofn.lpstrFile = szFile;
 					ofn.nMaxFile = SIZEOF(szFile);
-					TCHAR buf[MAX_PATH];
 					mir_sntprintf(buf, SIZEOF(buf), _T("%s (*.exe;*.com;*.bat;*.cmd)%c*.exe;*.com;*.bat;*.cmd%c%s (*.*)%c*.*%c%c"), TranslateT("Executable files"), 0, 0, TranslateT("All files"), 0, 0, 0);
 					ofn.lpstrFilter = buf;
 					ofn.nFilterIndex = 1;

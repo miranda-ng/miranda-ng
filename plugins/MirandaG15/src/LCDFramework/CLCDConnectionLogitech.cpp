@@ -137,7 +137,7 @@ bool CLCDConnectionLogitech::Initialize(tstring strAppletName,bool bAutostart, b
     if(lgLcdInit() != ERROR_SUCCESS)
 		return false;
 
-	ZeroMemory(&m_connectContext, sizeof(m_connectContext));
+	memset(&m_connectContext, 0, sizeof(m_connectContext));
  	m_connectContext.connection = LGLCD_INVALID_CONNECTION;
    
     m_connectContext.appFriendlyName = m_strAppletName.c_str();
@@ -257,7 +257,7 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 	}
 
 	// Now lets open the LCD. We must initialize the g_OpenContext structure.
-    ZeroMemory(&OpenContext, sizeof(OpenContext));
+    memset(&OpenContext, 0, sizeof(OpenContext));
     OpenContext.connection = m_hConnection;
 	OpenContext.deviceType = m_pConnectedDevice->GetIndex();//LGLCD_DEVICE_QVGA;
 	OpenContext.device = LGLCD_INVALID_DEVICE;
@@ -283,7 +283,7 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 	m_pPixels = OpenContext.deviceType==LGLCD_DEVICE_QVGA? m_lcdBitmap.bmp_qvga32.pixels:m_lcdBitmap.bmp_mono.pixels;
 	m_iPixels =	OpenContext.deviceType==LGLCD_DEVICE_QVGA? sizeof(m_lcdBitmap.bmp_qvga32.pixels):sizeof(m_lcdBitmap.bmp_mono.pixels);
 	m_pDrawingBuffer = (PBYTE) malloc(m_iPixels);
-	ZeroMemory(m_pDrawingBuffer, m_iPixels);
+	memset(m_pDrawingBuffer, 0, m_iPixels);
 	
 	m_iPriority = LGLCD_PRIORITY_NORMAL;
 	m_bConnected = true;

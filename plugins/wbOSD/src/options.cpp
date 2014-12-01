@@ -74,7 +74,7 @@ int selectFont(HWND hDlg, LOGFONT *lf)
 	HDC hDC = GetDC(hDlg);
 
 	CHOOSEFONT cf;
-	ZeroMemory(&cf, sizeof(CHOOSEFONT));
+	memset(&cf, 0, sizeof(CHOOSEFONT));
 	cf.lStructSize = sizeof(cf);
 	cf.hwndOwner = hDlg;
 	cf.hDC = hDC;

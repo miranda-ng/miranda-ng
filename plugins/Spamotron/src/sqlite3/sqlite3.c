@@ -26470,7 +26470,7 @@ static BOOL winceCreateLock(const char *zFilename, winFile *pFile){
   BOOL bInit = TRUE;
 
   /* Initialize the local lockdata */
-  ZeroMemory(&pFile->local, sizeof(pFile->local));
+  memset(&pFile->local, 0, sizeof(pFile->local));
 
   /* Replace the backslashes from the filename and lowercase it
   ** to derive a mutex name. */
@@ -26529,7 +26529,7 @@ static BOOL winceCreateLock(const char *zFilename, winFile *pFile){
   
   /* Initialize the shared memory if we're supposed to */
   if (bInit) {
-    ZeroMemory(pFile->shared, sizeof(winceLock));
+    memset(pFile->shared, 0, sizeof(winceLock));
   }
 
   winceMutexRelease(pFile->hMutex);

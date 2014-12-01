@@ -60,7 +60,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 {
 	switch(dwReason) {
 	case DLL_PROCESS_ATTACH:
-		ZeroMemory(&ssSMSSettings, sizeof(ssSMSSettings));
+		memset(&ssSMSSettings, 0, sizeof(ssSMSSettings));
 		ssSMSSettings.hInstance = hInstance;
 		ssSMSSettings.hHeap = HeapCreate(0, 0, 0);
 		DisableThreadLibraryCalls((HMODULE)hInstance);

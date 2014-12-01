@@ -94,25 +94,25 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 60;
 		ListView_InsertColumn(hwndList, 0, &col);
-		ZeroMemory(&col,sizeof(col));
+		memset(&col, 0, sizeof(col));
 		col.pszText = TranslateT("Key ID");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 1, &col);
-		ZeroMemory(&col,sizeof(col));
+		memset(&col, 0, sizeof(col));
 		col.pszText = TranslateT("Name");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 2, &col);
-		ZeroMemory(&col,sizeof(col));
+		memset(&col, 0, sizeof(col));
 		col.pszText = TranslateT("Email");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 50;
 		ListView_InsertColumn(hwndList, 3, &col);
-		ZeroMemory(&col,sizeof(col));
+		memset(&col, 0, sizeof(col));
 		col.pszText = TranslateT("Protocol");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
@@ -156,7 +156,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if(db_get_b(hContact, szGPGModuleName, "GPGEncryption", 0))
 					ListView_SetCheckState(hwndList, iRow, 1);
 				user_data[i] = hContact;
-				ZeroMemory(&item,sizeof(item));
+				memset(&item, 0, sizeof(item));
 				ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);// not sure about this
 				ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
 				ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);

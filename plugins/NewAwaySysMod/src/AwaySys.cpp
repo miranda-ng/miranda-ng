@@ -245,7 +245,7 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 	}
 	else {
 		SetAwayMsgData *dat = new SetAwayMsgData;
-		ZeroMemory(dat, sizeof(SetAwayMsgData));
+		memset(dat, 0, sizeof(SetAwayMsgData));
 		dat->szProtocol = (char*)lParam;
 		dat->IsModeless = false;
 		DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_SETAWAYMSG), NULL, SetAwayMsgDlgProc, (LPARAM)dat);
@@ -359,7 +359,7 @@ static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 	}
 	
 	SetAwayMsgData *dat = new SetAwayMsgData;
-	ZeroMemory(dat, sizeof(SetAwayMsgData));
+	memset(dat, 0, sizeof(SetAwayMsgData));
 	dat->hInitContact = hContact;
 	dat->szProtocol = GetContactProto(hContact);
 	dat->IsModeless = false;
@@ -622,7 +622,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
 	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
 
-	ZeroMemory(&mi, sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000005000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE | CMIF_HIDDEN;
@@ -631,7 +631,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
 	
 	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
-		ZeroMemory(&mi, sizeof(mi));
+		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
 		mi.ptszName = LPGENT("Set status message"); // will never be shown
@@ -640,7 +640,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 		mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
 		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-		ZeroMemory(&mi, sizeof(mi));
+		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
 		mi.hIcon = NULL;

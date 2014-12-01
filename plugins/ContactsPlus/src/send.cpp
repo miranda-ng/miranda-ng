@@ -408,7 +408,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			dbei.timestamp = time(NULL);
 			//make blob
 			TCTSend* maSend = (TCTSend*)_alloca(ackData->nContacts*sizeof(TCTSend));
-			ZeroMemory(maSend, ackData->nContacts*sizeof(TCTSend));
+			memset(maSend, 0, (ackData->nContacts * sizeof(TCTSend)));
 			dbei.cbBlob = 0;
 			char* pBlob;
 			int i;

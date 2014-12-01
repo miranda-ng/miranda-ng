@@ -72,7 +72,7 @@ int LoadHeaderbarModule()
 {
 	WNDCLASSEX wc;
 
-	ZeroMemory(&wc, sizeof(wc));
+	memset(&wc, 0, sizeof(wc));
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = _T("MHeaderbarCtrl"); //MIRANDAHEADERBARCLASS;
 	wc.lpfnWndProc = MHeaderbarWndProc;

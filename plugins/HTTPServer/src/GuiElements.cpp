@@ -147,7 +147,7 @@ unsigned long GetExternIP(const char *szURL, const char *szPattern) {
 	HCURSOR hPrevCursor = ::SetCursor(::LoadCursor(0, IDC_WAIT));
 
 	NETLIBHTTPREQUEST nlhr;
-	ZeroMemory(&nlhr, sizeof(nlhr));
+	memset(&nlhr, 0, sizeof(nlhr));
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT;
@@ -1489,7 +1489,7 @@ void InitGuiElements() {
 	}
 
 	CLISTMENUITEM mi;
-	ZeroMemory(&mi, sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.flags = 0;
 	mi.pszContactOwner = NULL;  //all contacts

@@ -193,7 +193,7 @@ LBL_NotPE:
 					pDBG->PointerToRawData >= pISH->PointerToRawData &&
 					pDBG->PointerToRawData + pDBG->SizeOfData <= pISH->PointerToRawData + pISH->SizeOfRawData)
 			{
-				ZeroMemory(map.ptr + pDBG->PointerToRawData, pDBG->SizeOfData);
+				memset((map.ptr + pDBG->PointerToRawData), 0, pDBG->SizeOfData);
 			}
 
 			// patch resources

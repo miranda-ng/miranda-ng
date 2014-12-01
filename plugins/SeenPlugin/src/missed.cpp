@@ -45,7 +45,7 @@ int ResetMissed(void)
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 		db_set_b(hContact, S_MOD, "Missed", 0);
 
-	ZeroMemory(&mcs,sizeof(mcs));
+	memset(&mcs, 0, sizeof(mcs));
 	return 0;
 }
 
@@ -171,7 +171,7 @@ int ModeChange_mo(WPARAM,LPARAM lparam)
 	case ID_STATUS_DND:
 	case ID_STATUS_NA:
 		if (ehmissed == NULL) {
-			ZeroMemory(&mcs,sizeof(mcs));
+			memset(&mcs, 0, sizeof(mcs));
 			CheckIfOnline();
 			ehmissed = HookEvent(ME_CLIST_CONTACTICONCHANGED, Test);
 		}

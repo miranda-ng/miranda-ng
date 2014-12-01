@@ -86,7 +86,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	UINT textlenght = cr.cpMax - cr.cpMin;
 	if (textlenght) {
 		pszText = (TCHAR*)mir_alloc((textlenght + 1)*sizeof(TCHAR));
-		ZeroMemory(pszText, (textlenght + 1)*sizeof(TCHAR));
+		memset(pszText, 0, ((textlenght + 1) * sizeof(TCHAR)));
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);
 	}
 

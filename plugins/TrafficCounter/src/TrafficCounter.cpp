@@ -1080,7 +1080,7 @@ void CreateTrafficWindow(HWND hCluiWnd)
 	if ( ServiceExists(MS_CLIST_FRAMES_ADDFRAME) )
 	{
 		// Готовимся создавать фрейм
-		ZeroMemory( &f, sizeof(CLISTFrame) );
+		memset(&f, 0, sizeof(CLISTFrame));
 		f.align = alBottom;
 		f.cbSize = sizeof(CLISTFrame);
 		f.height = TrafficWindowHeight();
@@ -1137,7 +1137,7 @@ void NotifyOnSend(void)
 {
 	POPUPDATAT ppd;
 
-	ZeroMemory(&ppd, sizeof(ppd));
+	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
@@ -1156,7 +1156,7 @@ void NotifyOnRecv(void)
 {
 	POPUPDATAT ppd;
 
-	ZeroMemory(&ppd, sizeof(ppd));
+	memset(&ppd, 0, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);

@@ -2764,7 +2764,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(hwndEdit, WM_SETREDRAW, FALSE, 0);
 
 				PARAFORMAT2 pf2;
-				ZeroMemory(&pf2, sizeof(PARAFORMAT2));
+				memset(&pf2, 0, sizeof(PARAFORMAT2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				SendMessage(hwndEdit, EM_SETSEL, 0, -1);

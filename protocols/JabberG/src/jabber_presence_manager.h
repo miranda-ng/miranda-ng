@@ -49,7 +49,7 @@ public:
 
 	CJabberPresenceInfo()
 	{
-		ZeroMemory(this, sizeof(*this));
+		memset(this, 0, sizeof(*this));
 	}
 	~CJabberPresenceInfo()
 	{
@@ -72,7 +72,7 @@ class CJabberPresencePermanentInfo
 public:
 	CJabberPresencePermanentInfo()
 	{
-		ZeroMemory(this, sizeof(CJabberPresencePermanentInfo));
+		memset(this, 0, sizeof(CJabberPresencePermanentInfo));
 	}
 
 	~CJabberPresencePermanentInfo()

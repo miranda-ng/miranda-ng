@@ -46,7 +46,7 @@ tstring variables_parse(tstring const &tstrFormat, MCONTACT hContact){
 		FORMATINFO fi;
 		tstring tstrResult;
 
-		ZeroMemory(&fi, sizeof(fi));
+		memset(&fi, 0, sizeof(fi));
 		fi.cbSize = sizeof(fi);
 		fi.tszFormat = _tcsdup(tstrFormat.c_str());
 		fi.hContact = hContact;

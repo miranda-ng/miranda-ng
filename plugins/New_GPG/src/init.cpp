@@ -187,7 +187,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService="/LoadPubKey";
 	hLoadPubKey = Menu_AddContactMenuItem(&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
@@ -196,7 +196,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService="/ToggleEncryption";
 	hToggleEncryption = Menu_AddContactMenuItem(&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFd;
 	mi.flags=CMIF_TCHAR;
@@ -205,7 +205,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService="/SendKey";
 	hSendKey = Menu_AddContactMenuItem(&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFe;
 	mi.flags=CMIF_TCHAR;
@@ -214,7 +214,7 @@ extern "C" int __declspec(dllexport) Load()
 	mi.pszService="/ExportGPGKeys";
 	hExportGpgKeys = Menu_AddMainMenuItem(&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;

@@ -60,7 +60,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				CLISTEVENT cle;
 				TCHAR tooltip[256];
 
-				ZeroMemory(&cle, sizeof(cle));
+				memset(&cle, 0, sizeof(cle));
 				cle.cbSize = sizeof(cle);
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hContact = hContact;

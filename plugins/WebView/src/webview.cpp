@@ -236,7 +236,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	SetDlgItemText(hWindow, IDC_DATA, _T(""));
 
 	CHARFORMAT2 cfFM;
-	ZeroMemory(&cfFM, sizeof(cfFM));
+	memset(&cfFM, 0, sizeof(cfFM));
 	cfFM.cbSize = sizeof(CHARFORMAT2);
 	cfFM.dwMask = CFM_COLOR | CFM_CHARSET | CFM_FACE | ENM_LINK | ENM_MOUSEEVENTS | CFM_BOLD | CFM_ITALIC | CFM_UNDERLINE | CFM_SIZE;
 

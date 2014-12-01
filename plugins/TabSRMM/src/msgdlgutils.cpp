@@ -842,7 +842,7 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 	if (hwndRtf == 0 || dat == 0)
 		return NULL;
 
-	ZeroMemory(&stream, sizeof(stream));
+	memset(&stream, 0, sizeof(stream));
 	stream.pfnCallback = Message_StreamCallback;
 	stream.dwCookie = (DWORD_PTR)& pszText; // pass pointer to pointer
 	if (dwPassedFlags == 0)
@@ -1148,7 +1148,7 @@ void TSAPI SetMessageLog(TWindowData *dat)
 	if (iLogMode == WANT_IEVIEW_LOG && dat->hwndIEView == 0) {
 		IEVIEWWINDOW ieWindow;
 
-		ZeroMemory(&ieWindow, sizeof(ieWindow));
+		memset(&ieWindow, 0, sizeof(ieWindow));
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwFlags = 0;
@@ -1334,7 +1334,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 
 	szLI[0] = szLI[1] = 0;
 
-	ZeroMemory(&pf2, sizeof(PARAFORMAT2));
+	memset(&pf2, 0, sizeof(PARAFORMAT2));
 	langID = (USHORT)_tcstol(szKLName, &stopped, 16);
 	dat->lcid = MAKELCID(langID, 0);
 	/*
@@ -1372,14 +1372,14 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 	if (Utils::FindRTLLocale(dat) && fLocaleNotSet) {
 		if (wCtype2[0] == C2_RIGHTTOLEFT || wCtype2[1] == C2_RIGHTTOLEFT || wCtype2[2] == C2_RIGHTTOLEFT) {
-			ZeroMemory(&pf2, sizeof(pf2));
+			memset(&pf2, 0, sizeof(pf2));
 			pf2.dwMask = PFM_RTLPARA;
 			pf2.cbSize = sizeof(pf2);
 			pf2.wEffects = PFE_RTLPARA;
 			SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		}
 		else {
-			ZeroMemory(&pf2, sizeof(pf2));
+			memset(&pf2, 0, sizeof(pf2));
 			pf2.dwMask = PFM_RTLPARA;
 			pf2.cbSize = sizeof(pf2);
 			pf2.wEffects = 0;
@@ -1675,7 +1675,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 
 void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 {
-	ZeroMemory(&pContainer->theme, sizeof(TLogTheme));
+	memset(&pContainer->theme, 0, sizeof(TLogTheme));
 	pContainer->theme.bg = M.GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR, GetSysColor(COLOR_WINDOW));
 	pContainer->theme.statbg = PluginConfig.crStatus;
 	pContainer->theme.oldinbg = PluginConfig.crOldIncoming;
@@ -1708,7 +1708,7 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 {
 	BOOL bReadTemplates = TRUE;
 
-	ZeroMemory(&pContainer->theme, sizeof(TLogTheme));
+	memset(&pContainer->theme, 0, sizeof(TLogTheme));
 	if (mir_tstrlen(pContainer->szAbsThemeFile) > 1) {
 		if (PathFileExists(pContainer->szAbsThemeFile)) {
 			if (CheckThemeVersion(pContainer->szAbsThemeFile) == 0) {
@@ -1820,7 +1820,7 @@ void TSAPI GetMyNick(TWindowData *dat)
 {
 	CONTACTINFO ci;
 
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = NULL;
 	ci.szProto = const_cast<char *>(dat->cache->getActiveProto());

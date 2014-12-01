@@ -374,7 +374,7 @@ int CJabberProto::ByteSendParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char* b
 				for (i=0; i<40 && buffer[i+5]==str[i]; i++);
 				mir_free(str);
 
-				ZeroMemory(data, 10);
+				memset(data, 0, sizeof(data));
 				data[1] = (i>=20)?0:2;
 				data[0] = 5;
 				data[3] = 1;
@@ -506,7 +506,7 @@ int CJabberProto::ByteSendProxyParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, ch
 		// 45-46 dst.port (0)
 		if (datalen == 2 && buffer[0] == 5 && buffer[1] == 0) {
 			BYTE data[47];
-			ZeroMemory(data, sizeof(data));
+			memset(data, 0, sizeof(data));
 			*((DWORD*)data) = 0x03000105;
 			data[4] = 40;
 
@@ -701,7 +701,7 @@ int CJabberProto::ByteReceiveParse(HANDLE hConn, JABBER_BYTE_TRANSFER *jbt, char
 		// 45-46 dst.port (0)
 		if (datalen == 2 && buffer[0] == 5 && buffer[1] == 0) {
 			BYTE data[47];
-			ZeroMemory(data, sizeof(data));
+			memset(data, 0, sizeof(data));
 			*((DWORD*)data) = 0x03000105;
 			data[4] = 40;
 

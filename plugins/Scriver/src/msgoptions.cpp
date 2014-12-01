@@ -698,7 +698,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		{
 			PARAFORMAT2 pf2;
-			ZeroMemory(&pf2, sizeof(pf2));
+			memset(&pf2, 0, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_OFFSETINDENT | PFM_RIGHTINDENT;
 			pf2.dxStartIndent = 30;

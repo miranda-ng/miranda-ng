@@ -381,7 +381,7 @@ void XFireClient::receivedPacket(XFirePacket *packet) {
 	case XFIRE_FOUNDBUDDYS_ID:
 	{
 		PROTOSEARCHRESULT psr;
-		ZeroMemory(&psr, sizeof(psr));
+		memset(&psr, 0, sizeof(psr));
 		psr.cbSize = sizeof(psr);
 		psr.flags = PSR_TCHAR;
 
@@ -888,7 +888,7 @@ static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	/*NETLIB***********************************/
 	NETLIBUSER nlu;
-	ZeroMemory(&nlu, sizeof(nlu));
+	memset(&nlu, 0, sizeof(nlu));
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = protocolname;

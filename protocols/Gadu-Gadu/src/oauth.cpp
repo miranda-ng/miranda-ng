@@ -349,7 +349,7 @@ int GGPROTO::oauth_receivetoken()
 	mir_free(str);
 	str = mir_strdup(szUrl);
 
-	ZeroMemory(&req, sizeof(req));
+	memset(&req, 0, sizeof(req));
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = szUrl;
@@ -376,7 +376,7 @@ int GGPROTO::oauth_receivetoken()
 	token = NULL;
 	token_secret = NULL;
 
-	ZeroMemory(&req, sizeof(req));
+	memset(&req, 0, sizeof(req));
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = szUrl;

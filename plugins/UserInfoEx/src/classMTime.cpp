@@ -70,7 +70,7 @@ MTime::MTime(const MTime& mtime)
 void	MTime::ZeroDate() 
 {
 	_isLocal = FALSE;
-	ZeroMemory(&_SysTime, sizeof(_SysTime));
+	memset(&_SysTime, 0, sizeof(_SysTime));
 }
 
 /*********************************************
@@ -169,7 +169,7 @@ void	MTime::UTCToLocal()
 	if (!IsLocal()) {
 		TIME_ZONE_INFORMATION tzInfo;
 		
-		ZeroMemory(&tzInfo, sizeof(TIME_ZONE_INFORMATION));
+		memset(&tzInfo, 0, sizeof(TIME_ZONE_INFORMATION));
 		GetTimeZoneInformation(&tzInfo);
 		UTCToTzSpecificLocal(&tzInfo);
 	}
@@ -181,7 +181,7 @@ void	MTime::UTCToTzSpecificLocal(int tzh)
 	TIME_ZONE_INFORMATION tzInfo;
 
 	if (IsLocal()) LocalToUTC();
-	ZeroMemory(&tzInfo, sizeof(TIME_ZONE_INFORMATION));
+	memset(&tzInfo, 0, sizeof(TIME_ZONE_INFORMATION));
 
 	if (tzh > 24) tzh = 24;
 	if (tzh < -24)tzh = -24;

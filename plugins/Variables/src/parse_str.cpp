@@ -117,7 +117,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return res;
 
-	ZeroMemory(res, ((cur - ai->targv[1]) + 1)*sizeof(TCHAR));
+	memset(res, 0, (((cur - ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1], cur - ai->targv[1]);
 	_tcscat(res, szReplacement);
 	return res;
@@ -168,7 +168,7 @@ static TCHAR *parseInsert(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1)*sizeof(TCHAR));
+	memset(res, 0, ((_tcslen(ai->targv[1]) + _tcslen(ai->targv[2]) + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1], pos);
 	_tcscpy(res + pos, ai->targv[2]);
 	_tcscpy(res + pos + _tcslen(ai->targv[2]), ai->targv[1] + pos);
@@ -189,7 +189,7 @@ static TCHAR *parseLeft(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (len + 1)*sizeof(TCHAR));
+	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1], len);
 	return res;
 }
@@ -274,7 +274,7 @@ static TCHAR *parsePad(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	memset(res, 0, ((addcount + _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res;
 	for (unsigned int i = 0; i < addcount; i++)
 		*cur++ = padchar;
@@ -301,7 +301,7 @@ static TCHAR *parsePadright(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (addcount + _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	memset(res, 0, ((addcount + _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcscpy(res, ai->targv[1]);
 	TCHAR *cur = res + _tcslen(ai->targv[1]);
 	for (unsigned int i = 0; i < addcount; i++)
@@ -328,7 +328,7 @@ static TCHAR *parsePadcut(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (padding + 1)*sizeof(TCHAR));
+	memset(res, 0, ((padding + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res;
 	for (int i = 0; i < addcount; i++)
 		*cur++ = padchar;
@@ -357,7 +357,7 @@ static TCHAR *parsePadcutright(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (padding + 1)*sizeof(TCHAR));
+	memset(res, 0, ((padding + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res + padding - addcount;
 	for (int i = 0; i < addcount; i++)
 		*cur++ = padchar;
@@ -381,7 +381,7 @@ static TCHAR *parseRepeat(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (count * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	memset(res, 0, ((count * _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	for (int i = 0; i < count; i++)
 		_tcscat(res, ai->targv[1]);
 
@@ -433,7 +433,7 @@ static TCHAR *parseRight(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (len + 1)*sizeof(TCHAR));
+	memset(res, 0, ((len + 1)*sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1] + _tcslen(ai->targv[1]) - len, len);
 	return res;
 }
@@ -458,7 +458,7 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (2 * _tcslen(ai->targv[1]) + 1)*sizeof(TCHAR));
+	memset(res, 0, ((2 * _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcscpy(res, ai->targv[1]);
 	_tcscat(res, ai->targv[1]);
 	MoveMemory(res, res + move, (_tcslen(res + move) + 1)*sizeof(TCHAR));
@@ -487,7 +487,7 @@ static TCHAR *parseStrchr(ARGUMENTSINFO *ai)
 		return NULL;
 
 	char *szVal[34];
-	ZeroMemory(szVal, sizeof(szVal));
+	memset(szVal, 0, sizeof(szVal));
 	TCHAR *c = _tcschr(ai->targv[1], *ai->targv[2]);
 	if (c == NULL || *c == 0)
 		return mir_tstrdup(_T("0"));
@@ -602,7 +602,7 @@ static TCHAR *parseSubstr(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *res = (TCHAR*)mir_alloc((to - from + 1)*sizeof(TCHAR));
-	ZeroMemory(res, (to - from + 1)*sizeof(TCHAR));
+	memset(res, 0, ((to - from + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, ai->targv[1] + from, to - from);
 	return res;
 }
@@ -651,7 +651,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (ecur - scur + 2)*sizeof(TCHAR));
+	memset(res, 0, ((ecur - scur + 2) * sizeof(TCHAR)));
 	_tcsncpy(res, scur, ecur - scur + 1);
 
 	return res;
@@ -722,7 +722,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (ecur - scur + 1)*sizeof(TCHAR));
+	memset(res, 0, ((ecur - scur + 1) * sizeof(TCHAR)));
 	_tcsncpy(res, scur, ecur - scur);
 	return res;
 }

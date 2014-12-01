@@ -463,7 +463,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		httpHeaders[1].szValue = token;
 
 		//construct 2nd request
-		ZeroMemory(&req, sizeof(req));
+		memset(&req, 0, sizeof(req));
 		req.cbSize = sizeof(req);
 		req.requestType = REQUEST_POST;
 		req.szUrl = "http://avatars.nowe.gg/upload";

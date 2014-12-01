@@ -489,7 +489,7 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 	rcMem.right = szBmp.cx;
 	rcMem.bottom = szBmp.cy;
 
-	ZeroMemory(&biOut, sizeof(BITMAPINFO));	// Fill local pixel arrays
+	memset(&biOut, 0, sizeof(BITMAPINFO));	// Fill local pixel arrays
 	bihOut = &biOut.bmiHeader;
 
 	bihOut->biSize = sizeof(BITMAPINFOHEADER);
@@ -711,7 +711,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		rctClip = rctPage;
 		InflateRect(&rctClip, -tabdat->pContainer->tBorder, -tabdat->pContainer->tBorder);
 	}
-	else ZeroMemory(&rctClip, sizeof(RECT));
+	else memset(&rctClip, 0, sizeof(RECT));
 
 	HPEN hPenOld = (HPEN)SelectObject(hdc, PluginConfig.tabConfig.m_hPenLight);
 	/*
@@ -722,7 +722,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	if (!tabdat->bRefreshWithoutClip)
 		ExcludeClipRect(hdc, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
 	else
-		ZeroMemory(&rctClip, sizeof(RECT));
+		memset(&rctClip, 0, sizeof(RECT));
 	if ((!bClassicDraw || PluginConfig.m_fillColor) && IntersectRect(&rectTemp, &rctPage, &ps.rcPaint) && !CSkin::m_skinEnabled) {
 		RECT rcClient = rctPage;
 		if (dwStyle & TCS_BOTTOM) {
@@ -1389,7 +1389,7 @@ void TSAPI FreeTabConfig()
 		if (PluginConfig.tabConfig.m_brushes[i])
 			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
 
-	ZeroMemory(&PluginConfig.tabConfig, sizeof(myTabCtrl));
+	memset(&PluginConfig.tabConfig, 0, sizeof(PluginConfig.tabConfig));
 }
 
 /*

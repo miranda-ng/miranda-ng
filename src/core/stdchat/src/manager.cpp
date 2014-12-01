@@ -85,7 +85,7 @@ BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule)
 		return FALSE;
 
 	node = (TABLIST*)mir_alloc(sizeof(TABLIST));
-	ZeroMemory(node, sizeof(TABLIST));
+	memset(node, 0, sizeof(TABLIST));
 	node->pszID = mir_tstrdup(pszID);
 	node->pszModule = mir_strdup(pszModule);
 

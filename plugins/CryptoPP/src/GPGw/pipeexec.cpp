@@ -6,7 +6,7 @@ BOOL isWindowsNT(void)
   BOOL result;
   OSVERSIONINFO ovi;
 
-  ZeroMemory(&ovi, sizeof(ovi));
+  memset(&ovi, 0, sizeof(ovi));
   ovi.dwOSVersionInfoSize=sizeof(OSVERSIONINFO);
   GetVersionEx(&ovi);
 
@@ -53,7 +53,7 @@ pxResult pxExecute(char *acommandline, char *ainput, char **aoutput, LPDWORD aex
 
   LogMessage("commandline:\n", acommandline, "\n");
 
-  ZeroMemory(&securityattributes, sizeof(securityattributes));
+  memset(&securityattributes, 0, sizeof(securityattributes));
   securityattributes.nLength=sizeof(SECURITY_ATTRIBUTES);
   securityattributes.bInheritHandle=TRUE;
 

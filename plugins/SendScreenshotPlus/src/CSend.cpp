@@ -234,8 +234,8 @@ void CSend::svcSendMsgExit(const char* szMessage) {
 	}else{
 		mir_freeAndNil(m_szEventMsg);
 		m_cbEventMsg=mir_strlen(szMessage)+1;
-		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
-		ZeroMemory(m_szEventMsg, m_cbEventMsg);
+		m_szEventMsg=(char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
+		memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
 		mir_strcpy(m_szEventMsg,szMessage);
 		if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 			char *temp = mir_t2a(m_pszFileDesc);
@@ -273,8 +273,8 @@ void CSend::svcSendFileExit() {
 	mir_freeAndNil(m_szEventMsg);
 	char* szFile = mir_t2a(m_pszFile);
 	m_cbEventMsg=mir_strlen(szFile)+2;
-	m_szEventMsg=(char*)mir_realloc(m_szEventMsg, sizeof(char)*m_cbEventMsg);
-	ZeroMemory(m_szEventMsg, m_cbEventMsg);
+	m_szEventMsg=(char*)mir_realloc(m_szEventMsg, (sizeof(char) * m_cbEventMsg));
+	memset(m_szEventMsg, 0, (sizeof(char) * m_cbEventMsg));
 	mir_strcpy(m_szEventMsg,szFile);
 	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
 		char* temp = mir_t2a(m_pszFileDesc);
@@ -391,7 +391,7 @@ void CSend::Error(LPCTSTR pszFormat, ...) {
 	va_end(vl);
 	mir_free(m_ErrorMsg), m_ErrorMsg = mir_tstrdup(tszMsg);
 
-	ZeroMemory(&m_box, sizeof(MSGBOX));
+	memset(&m_box, 0, sizeof(MSGBOX));
 	m_box.cbSize		= sizeof(MSGBOX);
 	m_box.hParent		= NULL;
 	m_box.hiLogo		= Skin_GetIcon(ICO_COMMON_SSWINDOW1);

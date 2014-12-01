@@ -23,7 +23,7 @@ extern void HasNewListeningInfo();
 
 Player::Player() : name(_T("Player")), enabled(FALSE), needPoll(FALSE)
 {
-	ZeroMemory(&listening_info, sizeof(listening_info));
+	memset(&listening_info, 0, sizeof(listening_info));
 	InitializeCriticalSection(&cs);
 }
 

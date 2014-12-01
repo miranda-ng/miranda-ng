@@ -59,7 +59,7 @@ CListEvent* fnCreateEvent( void )
 {
 	CListEvent *p = reinterpret_cast<CListEvent *>(mir_alloc(sizeof(CListEvent)));
 	if (p)
-		ZeroMemory(p, sizeof(CListEvent));
+		memset(p, 0, sizeof(CListEvent));
 
 	return p;
 }

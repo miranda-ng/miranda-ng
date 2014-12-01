@@ -299,7 +299,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  				pargv[i+1] = argv[i];
 
  			pargv[0] = tr->tszTokenString;
- 			ZeroMemory(&ai, sizeof(ai));
+ 			memset(&ai, 0, sizeof(ai));
  			ai.cbSize = sizeof(ai);
  			ai.argc = argc+1;
  			ai.targv = pargv;
@@ -389,19 +389,19 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam)
 	TCHAR *tszFormat, *orgFormat, *tszSource, *orgSource, *tRes;
 
  	if (((FORMATINFO *)wParam)->cbSize >= sizeof(FORMATINFO)) {
-		ZeroMemory(&tempFi, sizeof(FORMATINFO));
+		memset(&tempFi, 0, sizeof(FORMATINFO));
 		CopyMemory(&tempFi, (FORMATINFO *)wParam, sizeof(FORMATINFO));
 		fi = &tempFi;
 	}
  	else if (((FORMATINFO *)wParam)->cbSize == FORMATINFOV2_SIZE) {
- 		ZeroMemory(&tempFi, sizeof(FORMATINFO));
+ 		memset(&tempFi, 0, sizeof(FORMATINFO));
  		CopyMemory(&tempFi, (FORMATINFO *)wParam, FORMATINFOV2_SIZE);
  		fi = &tempFi;
  	}
 	else {
 		// old struct, must be ANSI
 		fiv1 = (FORMATINFOV1 *)wParam;
-		ZeroMemory(&tempFi, sizeof(FORMATINFO));
+		memset(&tempFi, 0, sizeof(FORMATINFO));
 		tempFi.cbSize = sizeof(FORMATINFO);
 		tempFi.hContact = fiv1->hContact;
 		tempFi.szFormat = fiv1->szFormat;
@@ -481,7 +481,7 @@ int setParseOptions(struct ParseOptions *po)
 	if (po == NULL)
 		po = &gParseOpts;
 
-	ZeroMemory(po, sizeof(struct ParseOptions));
+	memset(po, 0, sizeof(struct ParseOptions));
 	if (!db_get_b(NULL, MODULENAME, SETTING_STRIPALL, 0)) {
 		po->bStripEOL = db_get_b(NULL, MODULENAME, SETTING_STRIPCRLF, 0);
 		po->bStripWS = db_get_b(NULL, MODULENAME, SETTING_STRIPWS, 0);

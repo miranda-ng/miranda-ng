@@ -49,7 +49,7 @@ static COLORREF GetDefaultColor(BYTE id)
 static LOGFONT* GetDefaultFont(LOGFONT *lf)
 {
 	NONCLIENTMETRICS ncm;
-	ZeroMemory(&ncm,sizeof(ncm));
+	memset(&ncm, 0, sizeof(ncm));
 	ncm.cbSize=sizeof(ncm);
 	if (SystemParametersInfo(SPI_GETNONCLIENTMETRICS,ncm.cbSize,&ncm,0)) {
 		*lf=ncm.lfStatusFont;
@@ -193,7 +193,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 					NULL);
 			if (dat->hwndToolTip != NULL) {
 				SetWindowPos(dat->hwndToolTip,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE|SWP_NOACTIVATE);
-				ZeroMemory(&ti,sizeof(ti));
+				memset(&ti, 0, sizeof(ti));
 				ti.cbSize=sizeof(ti);
 				ti.hwnd=hwndFrame;
 				ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS|TTF_TRANSPARENT;
@@ -603,7 +603,7 @@ static int FrameModulesLoaded(WPARAM wParam,LPARAM lParam)
 int InitFrame(void)
 {
 	WNDCLASSEX wcx;
-	ZeroMemory(&wcx,sizeof(wcx));
+	memset(&wcx, 0, sizeof(wcx));
 	wcx.cbSize        =sizeof(wcx);
 	wcx.style         =CS_DBLCLKS|CS_PARENTDC;
 	wcx.lpfnWndProc   =FrameWndProc;

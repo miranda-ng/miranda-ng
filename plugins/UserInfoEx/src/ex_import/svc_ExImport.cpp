@@ -39,8 +39,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 	LPSTR	temp = 0;
 
 	cchFileName--;
-
-	ZeroMemory(pszFileName, cchFileName);
+	pszFileName[0] = 0;
 
 	switch (ExImContact->Typ) {
 		case EXIM_ALL:
@@ -83,6 +82,7 @@ static void DisplayNameToFileName(lpExImParam ExImContact, LPSTR pszFileName, WO
 		cchFileName--;
 	}
 	mir_free(temp);
+	pszFileName[0] = 0;
 }
 
 LPCSTR FilterString(lpExImParam ExImContact)
@@ -210,7 +210,7 @@ if (ExImContact->Typ == EXIM_ACCOUNT ||
 INT_PTR svcExIm_MainExport_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
-	ZeroMemory(&ExIm, sizeof(ExIm));
+	memset(&ExIm, 0, sizeof(ExIm));
 	ExIm.hContact = INVALID_CONTACT_ID;
 	ExIm.Typ = EXIM_ALL;
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
@@ -219,7 +219,7 @@ INT_PTR svcExIm_MainExport_Service(WPARAM wParam, LPARAM lParam)
 INT_PTR svcExIm_MainImport_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
-	ZeroMemory(&ExIm, sizeof(ExIm));
+	memset(&ExIm, 0, sizeof(ExIm));
 	ExIm.hContact = INVALID_CONTACT_ID;
 	ExIm.Typ = EXIM_ALL;
 	return SvcExImport_Import(&ExIm, (HWND)lParam);
@@ -232,7 +232,7 @@ INT_PTR svcExIm_MainImport_Service(WPARAM wParam, LPARAM lParam)
 INT_PTR svcExIm_ContactExport_Service(WPARAM hContact, LPARAM lParam)
 {
 	ExImParam ExIm;
-	ZeroMemory(&ExIm, sizeof(ExIm));
+	memset(&ExIm, 0, sizeof(ExIm));
 	ExIm.hContact = hContact;
 	ExIm.Typ = EXIM_CONTACT;
 	return SvcExImport_Export(&ExIm, (HWND)lParam);
@@ -241,7 +241,7 @@ INT_PTR svcExIm_ContactExport_Service(WPARAM hContact, LPARAM lParam)
 INT_PTR svcExIm_ContactImport_Service(WPARAM hContact, LPARAM lParam)
 {
 	ExImParam ExIm;
-	ZeroMemory(&ExIm, sizeof(ExIm));
+	memset(&ExIm, 0, sizeof(ExIm));
 	ExIm.hContact = hContact;
 	ExIm.Typ = EXIM_CONTACT;
 	return SvcExImport_Import(&ExIm, (HWND)lParam);
@@ -266,9 +266,9 @@ INT_PTR svcExIm_Group_Service(WPARAM wParam, LPARAM lParam)
 	ExImParam ExIm;
 	INT_PTR hItem = 0, hRoot = 0, hParent = 0;
 	TCHAR tszGroup[120], tszItem[120];
-	ZeroMemory(&tszGroup, sizeof(tszGroup));
-	ZeroMemory(&tszItem, sizeof(tszItem));
-	ZeroMemory(&ExIm, sizeof(ExIm));
+	memset(&tszGroup, 0, sizeof(tszGroup));
+	memset(&tszItem, 0, sizeof(tszItem));
+	memset(&ExIm, 0, sizeof(ExIm));
 	LPTSTR ptszGroup = tszGroup;
 	LPTSTR ptszItem = tszItem;
 
@@ -329,7 +329,7 @@ typedef struct
 INT_PTR svcExIm_Account_Service(WPARAM wParam, LPARAM lParam)
 {
 	ExImParam ExIm;
-	ZeroMemory(&ExIm, sizeof(ExIm));
+	memset(&ExIm, 0, sizeof(ExIm));
 	HWND hClist = (HWND)CallService(MS_CLUI_GETHWNDTREE,0,0);
 	lpStatusMenuExecParam smep = (lpStatusMenuExecParam) CallService(MO_MENUITEMGETOWNERDATA, (WPARAM) lParam, NULL);
 	ExIm.pszName = mir_strdup(smep->proto);

@@ -118,7 +118,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 				char shEvent[10+1];
 				BYTE openNewWindow, mouseEvent;
 				
-				ZeroMemory(shEvent, _countof(shEvent));
+				memset(shEvent, 0, sizeof(shEvent));
 
 				pENLink = (ENLINK*)lpNmhdr;
 

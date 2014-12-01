@@ -114,8 +114,6 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 			// miranda button
 			switch (tbb->idCommand) {
 			case 41063:
-				ZeroMemory(szBtnText, sizeof(szBtnText));
-
 				mir_tstrncpy(szBtnText, TranslateT("Miranda NG"), SIZEOF(szBtnText));
 				iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM)szBtnText);
 				if (iString != -1) tbb->iString = iString;
@@ -124,7 +122,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 				if (hWndToolTip) {
 					TOOLINFO ti;
 
-					ZeroMemory(&ti, sizeof(ti));
+					memset(&ti, 0, sizeof(ti));
 					ti.cbSize = sizeof(ti);
 					ti.hwnd = hWnd;
 					ti.lpszText = TranslateT("Shows Miranda's installation directory.");
@@ -143,7 +141,7 @@ static LRESULT CALLBACK PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wPara
 				if (hWndToolTip) {
 					TOOLINFO ti;
 
-					ZeroMemory(&ti, sizeof(ti));
+					memset(&ti, 0, sizeof(ti));
 					ti.cbSize = sizeof(ti);
 					ti.hwnd = hWnd;
 					ti.lpszText = TranslateT("Shows the directory with all your Miranda's profiles.");
@@ -202,10 +200,9 @@ static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wPa
  **/
 static void GetInitialDir(LPSTR pszInitialDir)
 {
-	CHAR szRelative[MAX_PATH];
+	char szRelative[MAX_PATH];
 
-	ZeroMemory(szRelative, sizeof(szRelative));
-
+	szRelative[0] = 0;
 	// is some standard path defined
 	if (!db_get_static(0, MODNAME, "vCardPath", szRelative, SIZEOF(szRelative))) {
 		if (!PathToAbsolute(szRelative, pszInitialDir))
@@ -248,7 +245,7 @@ static void SaveInitialDir(LPSTR pszInitialDir)
  **/
 static void InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR pszTitle, LPCSTR pszFilter, LPSTR pszInitialDir, LPSTR pszFile)
 {
-	ZeroMemory(pofn, sizeof(OPENFILENAME));
+	memset(pofn, 0, sizeof(OPENFILENAME));
 
 	pofn->hwndOwner			= hWndParent;
 	pofn->lpstrTitle		= pszTitle;

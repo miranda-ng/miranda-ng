@@ -111,7 +111,7 @@ protected:
 public:
 	CJabberAdhocNode(CJabberProto* pProto, TCHAR* szJid, TCHAR* szNode, TCHAR* szName, JABBER_ADHOC_HANDLER pHandler)
 	{
-		ZeroMemory(this, sizeof(CJabberAdhocNode));
+		memset(this, 0, sizeof(CJabberAdhocNode));
 		replaceStrT(m_szJid, szJid);
 		replaceStrT(m_szNode, szNode);
 		replaceStrT(m_szName, szName);

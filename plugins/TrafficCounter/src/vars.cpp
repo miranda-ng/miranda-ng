@@ -167,7 +167,7 @@ void RegisterVariablesTokens(void)
 	
 	if (!bVariablesExists) return;
 		
-	ZeroMemory(&trs, sizeof(trs));
+	memset(&trs, 0, sizeof(trs));
 	trs.cbSize = sizeof(TOKENREGISTER);
 
 	// Функция, возвращающая трафик

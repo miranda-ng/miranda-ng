@@ -33,7 +33,7 @@ int CSendHost_Imgur::Send()
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
 	}
-	ZeroMemory(&m_nlhr, sizeof(m_nlhr));
+	memset(&m_nlhr, 0, sizeof(m_nlhr));
 	char* tmp; tmp=mir_t2a(m_pszFile);
 	HTTPFormData frm[]={
 		{"Authorization",HTTPFORM_HEADER("Client-ID 2a7303d78abe041")},

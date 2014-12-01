@@ -252,7 +252,7 @@ static void TlenGetAvatarThread(void *ptr) {
 			item->newAvatarDownloading = TRUE;
 		}
 		request = replaceTokens(data->proto->threadData->tlenConfig.mailBase, data->proto->threadData->tlenConfig.avatarGet, login, data->proto->threadData->avatarToken, 0, 0);
-		ZeroMemory(&req, sizeof(req));
+		memset(&req, 0, sizeof(req));
 		req.cbSize = sizeof(req);
 		req.requestType = data->proto->threadData->tlenConfig.avatarGetMthd;
 		req.flags = 0;
@@ -391,7 +391,7 @@ void TlenRemoveAvatar(TlenProtocol *proto) {
 		data->proto =proto;
 		data->req = req;
 		request = replaceTokens(proto->threadData->tlenConfig.mailBase, proto->threadData->tlenConfig.avatarRemove, "", proto->threadData->avatarToken, 0, 0);
-		ZeroMemory(req, sizeof(NETLIBHTTPREQUEST));
+		memset(req, 0, sizeof(NETLIBHTTPREQUEST));
 		req->cbSize = sizeof(NETLIBHTTPREQUEST);
 		req->requestType = proto->threadData->tlenConfig.avatarGetMthd;
 		req->szUrl = request;
@@ -415,7 +415,7 @@ void TlenUploadAvatar(TlenProtocol *proto, unsigned char *data, int dataLen, int
 		threadData->proto = proto;
 		req = (NETLIBHTTPREQUEST *)mir_alloc(sizeof(NETLIBHTTPREQUEST));
 		headers = (NETLIBHTTPHEADER *)mir_alloc(sizeof(NETLIBHTTPHEADER));
-		ZeroMemory(req, sizeof(NETLIBHTTPREQUEST));
+		memset(req, 0, sizeof(NETLIBHTTPREQUEST));
 		req->cbSize = sizeof(NETLIBHTTPREQUEST);
 		req->requestType = proto->threadData->tlenConfig.avatarUploadMthd;
 		req->szUrl = request;

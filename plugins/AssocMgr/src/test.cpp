@@ -115,7 +115,7 @@ static int ServiceParseAimLink(WPARAM,LPARAM lParam)
             acs.handleType=HANDLE_SEARCHRESULT;
             acs.szProto=AIM_PROTOCOL_NAME;
             acs.psr=&psr;
-            ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
+            memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=sn;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
@@ -282,7 +282,7 @@ static void AddIcqUser(ICQFILEINFO *info)
 			acs.handleType=HANDLE_SEARCHRESULT;
 			acs.szProto=gpszICQProtoName;
 			acs.psr=(PROTOSEARCHRESULT*)&psr;
-			ZeroMemory(&psr,sizeof(ICQSEARCHRESULT));
+			memset(&psr, 0, sizeof(ICQSEARCHRESULT));
 			psr.hdr.cbSize=sizeof(ICQSEARCHRESULT);
 			if(info->nick[0]) psr.hdr.nick=info->nick;
 			else psr.hdr.nick=info->uin;
@@ -337,7 +337,7 @@ static int IcqOpenFile(WPARAM wParam,LPARAM lParam)
 		TrimString(line);
 		if(IsEmpty(line)) continue;
 		if(line[0]=='[') {
-			ZeroMemory(&info,sizeof(info));
+			memset(&info, 0, sizeof(info));
 			if (!mir_strcmpi(line,"[ICQ Message User]"))
 				info.type=ICQFILE_MESSAGEUSER;
 			else if (!mir_strcmpi(line,"[ICQ User]"))
@@ -434,7 +434,7 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
             acs.handleType=HANDLE_SEARCHRESULT;
             acs.szProto=yahooProtocolName;
             acs.psr=&psr;
-            ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
+            memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=id;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
@@ -549,7 +549,7 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
             acs.handleType=HANDLE_SEARCHRESULT;
             acs.szProto=AIM_PROTOCOL_NAME;
             acs.psr=&psr;
-            ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
+            memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=email;
 			psr.email=email;
@@ -744,7 +744,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
             acs.handleType=HANDLE_SEARCHRESULT;
             acs.szProto=jabberProtoName;
             acs.psr=&psr;
-            ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
+            memset(&psr, 0, sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=jid;
             CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);

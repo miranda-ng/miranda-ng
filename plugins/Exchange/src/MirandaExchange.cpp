@@ -891,7 +891,7 @@ HRESULT CMirandaExchange::OpenTheMessage( LPTSTR szEntryID )
 				
 				DWORD               dwCode  =   0;
 				
-				ZeroMemory  (   &si,    sizeof  (   STARTUPINFO));
+				memset(&si, 0, sizeof(STARTUPINFO));
 				
 				si.cb           =   sizeof  (   STARTUPINFO);
 				si.dwFlags      =   STARTF_USESHOWWINDOW;

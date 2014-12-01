@@ -225,7 +225,7 @@ void ipcGetSkinIcons(THeaderIPC *ipch)
 	// add Miranda icon
 	TSlotIPC *pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
 	if (pct != NULL) {
-		ZeroMemory(&spi.hIcons, sizeof(spi.hIcons));
+		memset(&spi.hIcons, 0, sizeof(spi.hIcons));
 		spi.hProto = 0; // no protocol
 		spi.hIcons[0] = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		pct->fType = REQUEST_NEWICONS;

@@ -21,7 +21,7 @@ int YAHOO_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPRE
 
 	debugLogA("YAHOO_httpGatewayInit!!!");
 	
-	ZeroMemory(&nlhpi, sizeof(nlhpi));
+	memset(&nlhpi, 0, sizeof(nlhpi));
 	nlhpi.cbSize = sizeof(nlhpi);
 	nlhpi.szHttpPostUrl = "http://shttp.msg.yahoo.com/notify/";
 	

@@ -38,7 +38,7 @@ CExImContactBase::CExImContactBase()
 	_pszAMPro = NULL;
 	_pszUIDKey = NULL;
 	_dbvUIDHash = NULL;
-	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
+	memset(&_dbvUID, 0, sizeof(DBVARIANT));
 	_hContact = INVALID_CONTACT_ID;
 	_isNewContact = FALSE;
 }
@@ -60,7 +60,7 @@ CExImContactBase::~CExImContactBase()
 	MIR_FREE(_pszAMPro);
 	MIR_FREE(_pszUIDKey);
 	db_free(&_dbvUID);
-	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
+	memset(&_dbvUID, 0, sizeof(DBVARIANT));
 }
 
 /**
@@ -88,7 +88,7 @@ BYTE CExImContactBase::fromDB(MCONTACT hContact)
 	MIR_FREE(_pszGroup);
 	MIR_FREE(_pszUIDKey);
 	db_free(&_dbvUID);
-	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
+	memset(&_dbvUID, 0, sizeof(DBVARIANT));
 
 	// OWNER
 	if (!_hContact) return TRUE;
@@ -171,7 +171,7 @@ BYTE CExImContactBase::fromIni(LPSTR& row)
 	MIR_FREE(_pszGroup);
 	MIR_FREE(_pszUIDKey);
 	db_free(&_dbvUID);
-	ZeroMemory(&_dbvUID, sizeof(DBVARIANT));
+	memset(&_dbvUID, 0, sizeof(DBVARIANT));
 	_dbvUIDHash = 0;
 
 	// read uid value
@@ -303,7 +303,7 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 			// Proto loadet - GetContactName(hContact,pszProto,0)
 			LPSTR pszCI	= NULL;
 			CONTACTINFO ci;
-			ZeroMemory(&ci, sizeof(ci));
+			memset(&ci, 0, sizeof(ci));
 
 			ci.cbSize		= sizeof(ci);
 			ci.hContact		= _hContact;
@@ -438,7 +438,7 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 				r = (LPSTR)mir_alloc((baselen + 8));
 				if (r == NULL)
 					return NULL;
-				ZeroMemory((r + baselen), 8);
+				memset((r + baselen), 0, 8);
 				ptr = r;
 				if (bPrependType) { // Allways true.
 					ptr[0] = 'n';
@@ -455,7 +455,7 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 				r = (LPSTR)mir_alloc(baselen);
 				if (r == NULL)
 					return NULL;
-				ZeroMemory(r, baselen);
+				memset(r, 0, baselen);
 				ptr = r;
 				if (bPrependType) { // XXX dead code.
 					ptr[0] = 'n';

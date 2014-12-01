@@ -275,6 +275,6 @@ void GGPROTO::threadwait(GGTHREAD *thread)
 	if (!thread->hThread) return;
 	while (WaitForSingleObjectEx(thread->hThread, INFINITE, TRUE) != WAIT_OBJECT_0);
 	CloseHandle(thread->hThread);
-	ZeroMemory(thread, sizeof(GGTHREAD));
+	memset(thread, 0, sizeof(GGTHREAD));
 }
 

@@ -28,7 +28,7 @@ namespace
 	{
 // 		USES_CONVERSION;
 		TVINSERTSTRUCT tvi;
-		ZeroMemory(&tvi,sizeof(tvi));
+		memset(&tvi, 0, sizeof(tvi));
 
 		tvi.hParent = htiParent;
 		tvi.hInsertAfter = TVI_LAST;
@@ -152,7 +152,7 @@ namespace
 	void tree_do_set_item_state(HWND hwndTree,HTREEITEM hti,ETreeCheckBoxState nState)
 	{
 		TVITEM tvi;
-		ZeroMemory(&tvi,sizeof(tvi));
+		memset(&tvi, 0, sizeof(tvi));
 
 		tvi.mask = TVIF_STATE|TVIF_HANDLE;
 		tvi.hItem = hti;

@@ -275,8 +275,8 @@ static TCHAR *parseDiffTime(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	ZeroMemory(&t0, sizeof(t0));
-	ZeroMemory(&t1, sizeof(t1));
+	memset(&t0, 0, sizeof(t0));
+	memset(&t1, 0, sizeof(t1));
 	if (getTime(ai->targv[1], &t0) != 0)
 		return NULL;
 
@@ -316,7 +316,7 @@ static TCHAR *parseEnvironmentVariable(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, (len + 1)*sizeof(TCHAR));
+	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
 	if (ExpandEnvironmentStrings(ai->targv[1], res, len) == 0) {
 		mir_free(res);
 		return NULL;
@@ -352,7 +352,7 @@ static TCHAR *parseFindWindow(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
-	ZeroMemory(res, (len + 1)*sizeof(TCHAR));
+	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
 	GetWindowText(hWin, res, len + 1);
 	return res;
 }
@@ -490,7 +490,7 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, len);
+	memset(res, 0, (len * sizeof(TCHAR)));
 	err = RegQueryValueEx(hKey, ai->targv[2], NULL, &type, (BYTE*)res, &len);
 	if ((err != ERROR_SUCCESS) || (type != REG_SZ)) {
 		RegCloseKey(hKey);
@@ -508,7 +508,7 @@ static int TsToSystemTime(SYSTEMTIME *sysTime, time_t timestamp)
 	if (pTime == NULL)
 		return -1;
 
-	ZeroMemory(sysTime, sizeof(SYSTEMTIME));
+	memset(sysTime, 0, sizeof(SYSTEMTIME));
 	sysTime->wDay = pTime->tm_mday;
 	sysTime->wDayOfWeek = pTime->tm_wday;
 	sysTime->wHour = pTime->tm_hour;
@@ -647,7 +647,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 
 	// count number of lines
 	do {
-		ZeroMemory(pBuf, bufSz);
+		memset(pBuf, 0, bufSz);
 		if (ReadFile(hFile, pBuf, bufSz - csz, &readSz, NULL) == 0) {
 			CloseHandle(hFile);
 			mir_free(pBuf);
@@ -730,7 +730,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		mir_free(pBuf);
 		return NULL;
 	}
-	ZeroMemory(pBuf, bufSz);
+	memset(pBuf, 0, bufSz);
 	pCur = pBuf;
 	do {
 		icur = 0;
@@ -780,7 +780,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 			icur = pCur - pBuf;
 			pBuf = (PBYTE)mir_realloc(pBuf, bufSz);
 			pCur = pBuf + icur;
-			ZeroMemory(pCur + 1, TXTFILEBUFSZ*csz);
+			memset((pCur + 1), 0, (TXTFILEBUFSZ * csz));
 		}
 	}
 	while (readSz > 0);
@@ -840,7 +840,7 @@ static TCHAR *parseUserName(ARGUMENTSINFO *ai)
 	if (res == NULL)
 		return NULL;
 
-	ZeroMemory(res, len + 1);
+	memset(res, 0, (len + 1));
 	if (!GetUserName(res, &len)) {
 		mir_free(res);
 		return NULL;

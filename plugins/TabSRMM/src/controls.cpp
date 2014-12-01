@@ -530,7 +530,7 @@ void CMenuBar::autoShow(const int showcmd)
 void CMenuBar::checkButtons()
 {
 	if (!m_buttonsInit) {
-		::ZeroMemory(m_TbButtons, sizeof(m_TbButtons));
+		memset(m_TbButtons, 0, sizeof(m_TbButtons));
 
 		m_TbButtons[0].iBitmap = 0;
 		m_TbButtons[0].iString = 0;

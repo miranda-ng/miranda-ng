@@ -251,7 +251,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 
 			int offline_contact_number = db_get_dw(lParam, META_PROTO, "OfflineSend", INVALID_CONTACT_ID);
 
-			ZeroMemory(&g_data, sizeof(g_data));
+			memset(&g_data, 0, sizeof(g_data));
 			g_data.cc = cc;
 			g_data.hMeta = lParam;
 			g_data.num_contacts = cc->nSubs;

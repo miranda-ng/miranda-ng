@@ -365,7 +365,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			cs->style |= BS_OWNERDRAW;
 			if (!(bct = (LPBTNCTRL)mir_alloc(sizeof(BTNCTRL))))
 				return FALSE;
-			ZeroMemory(bct, sizeof(BTNCTRL));
+			memset(bct, 0, sizeof(BTNCTRL));
 			bct->hwnd = hwndBtn;
 			bct->stateId = PBS_NORMAL;
 			bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
@@ -383,7 +383,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			if (hwndToolTips) {
 				TOOLINFO ti;
 
-				ZeroMemory(&ti, sizeof(ti));
+				memset(&ti, 0, sizeof(ti));
 				ti.cbSize = sizeof(ti);
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
@@ -515,7 +515,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			if (lParam == MBBF_UNICODE) {
 				TOOLINFOW ti;
 
-				ZeroMemory(&ti, sizeof(TOOLINFOW));
+				memset(&ti, 0, sizeof(TOOLINFOW));
 				ti.cbSize = sizeof(TOOLINFOW);
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
@@ -531,7 +531,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			else {
 				TOOLINFOA ti;
 
-				ZeroMemory(&ti, sizeof(TOOLINFOA));
+				memset(&ti, 0, sizeof(TOOLINFOA));
 				ti.cbSize = sizeof(TOOLINFOA);
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
@@ -634,7 +634,7 @@ void CtrlButtonLoadModule()
 {
 	WNDCLASSEX wc;
 	
-	ZeroMemory(&wc, sizeof(wc));
+	memset(&wc, 0, sizeof(wc));
 	wc.cbSize				 = sizeof(wc);
 	wc.lpszClassName	= UINFOBUTTONCLASS;
 	wc.lpfnWndProc		= Button_WndProc;

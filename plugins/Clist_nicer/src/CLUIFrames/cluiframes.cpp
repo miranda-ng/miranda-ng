@@ -1551,7 +1551,7 @@ static int UpdateTBToolTip(int framepos)
 {
 	TOOLINFO ti;
 
-	ZeroMemory(&ti, sizeof(ti));
+	memset(&ti, 0, sizeof(ti));
 	ti.cbSize = sizeof(ti);
 	ti.lpszText = Frames[framepos].TitleBar.tooltip;
 	ti.hinst = g_hInst;
@@ -1736,7 +1736,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 
 	if (Frames == NULL) {
 		Frames = (FRAMEWND*)malloc(sizeof(FRAMEWND) * (MAX_FRAMES + 2));
-		ZeroMemory(Frames, sizeof(FRAMEWND) * (MAX_FRAMES + 2));
+		memset(Frames, 0, (sizeof(FRAMEWND) * (MAX_FRAMES + 2)));
 	}
 	memset(&Frames[nFramescount], 0, sizeof(FRAMEWND));
 

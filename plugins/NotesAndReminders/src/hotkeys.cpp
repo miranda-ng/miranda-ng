@@ -13,7 +13,7 @@ void RegisterKeyBindings()
 {
 	HOTKEYDESC desc;
 
-	ZeroMemory(&desc, sizeof(desc));
+	memset(&desc, 0, sizeof(desc));
 	desc.cbSize = sizeof(desc);
 	desc.ptszSection = _T(SECTIONNAME);
 	desc.dwFlags = HKD_TCHAR;

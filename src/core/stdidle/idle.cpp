@@ -165,7 +165,7 @@ static void IdleObject_ReadSettings(IdleObject * obj)
 
 static void IdleObject_Create(IdleObject * obj)
 {
-	ZeroMemory(obj, sizeof(IdleObject));
+	memset(obj, 0, sizeof(IdleObject));
 	obj->hTimer = SetTimer(NULL, 0, 2000, IdleTimer);
 	IdleObject_ReadSettings(obj);
 }

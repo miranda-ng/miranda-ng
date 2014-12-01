@@ -176,7 +176,7 @@ int RTL_Detect(WCHAR *pszwText)
 	infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
 
 	if (infoTypeC2) {
-		ZeroMemory(infoTypeC2, sizeof(WORD) * (iLen + 2));
+		memset(infoTypeC2, 0, (sizeof(WORD) * (iLen + 2)));
 
 		GetStringTypeW(CT_CTYPE2, pszwText, iLen, infoTypeC2);
 
@@ -759,7 +759,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->flags |= g_dat.ieviewInstalled ? g_dat.flags & SMF_USEIEVIEW : 0;
 			{
 				PARAFORMAT2 pf2;
-				ZeroMemory(&pf2, sizeof(pf2));
+				memset(&pf2, 0, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				if (!(dat->flags & SMF_RTL)) {
@@ -772,7 +772,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 				/* Workaround to make Richedit display RTL messages correctly */
-				ZeroMemory(&pf2, sizeof(pf2));
+				memset(&pf2, 0, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA | PFM_OFFSETINDENT | PFM_RIGHTINDENT;
 				pf2.wEffects = PFE_RTLPARA;
@@ -1210,7 +1210,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_SWITCHRTL:
 		{
 			PARAFORMAT2 pf2;
-			ZeroMemory(&pf2, sizeof(pf2));
+			memset(&pf2, 0, sizeof(pf2));
 			pf2.cbSize = sizeof(pf2);
 			pf2.dwMask = PFM_RTLPARA;
 			dat->flags ^= SMF_RTL;
@@ -1660,7 +1660,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				int bufSize = ansiBufSize + GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
 
 				PARAFORMAT2 pf2;
-				ZeroMemory(&pf2, sizeof(pf2));
+				memset(&pf2, 0, sizeof(pf2));
 				pf2.cbSize = sizeof(pf2);
 				pf2.dwMask = PFM_RTLPARA;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);

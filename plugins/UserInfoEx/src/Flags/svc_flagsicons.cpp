@@ -255,7 +255,7 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 		if (hUpperIcon!=NULL && GetObject(icoi.hbmColor,sizeof(bm),&bm)) {
 			hdc=CreateCompatibleDC(NULL);
 			if (hdc!=NULL) {
-				ZeroMemory(&aptTriangle,sizeof(aptTriangle));
+				memset(&aptTriangle, 0, sizeof(aptTriangle));
 				aptTriangle[1].y=bm.bmHeight-1;
 				aptTriangle[2].x=bm.bmWidth-1;
 				hrgn=CreatePolygonRgn(aptTriangle,SIZEOF(aptTriangle),WINDING);

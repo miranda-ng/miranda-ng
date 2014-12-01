@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 			// basic tab
 			TCITEM tci;
-			ZeroMemory(&tci, sizeof(TCITEM));
+			memset(&tci, 0, sizeof(TCITEM));
 			tci.mask = TCIF_TEXT|TCIF_PARAM;
 			tci.pszText = TranslateT("Basic");
 			hShow = hBasicTab = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPT_KS_BASIC), hwndDlg, DlgProcKSBasicOpts, (LPARAM)GetParent(hwndDlg));
@@ -575,7 +575,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	Options_AddPage(wparam, &odp);
 
 	if ( ServiceExists( MS_POPUP_ADDPOPUPT )) {
-		ZeroMemory(&odp,sizeof(odp));
+		memset(&odp, 0, sizeof(odp));
 		odp.cbSize = sizeof(odp);
 		odp.position = 150000000;
 		odp.ptszGroup = LPGENT("Popups");

@@ -154,7 +154,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszService = "DBEditorpp/MenuCommand";
 	Menu_AddMainMenuItem(&mi);
 
-	ZeroMemory(&mi, sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
 	mi.flags = 0;
@@ -240,7 +240,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	icex.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex);
 
-	ZeroMemory(&WatchListArray, sizeof(WatchListArray));
+	memset(&WatchListArray, 0, sizeof(WatchListArray));
 	return 0;
 }
 

@@ -37,7 +37,7 @@ CSendLater *sendLater = 0;
 //
 CSendLaterJob::CSendLaterJob()
 {
-	ZeroMemory(this, sizeof(CSendLaterJob));
+	memset(this, 0, sizeof(CSendLaterJob));
 	fSuccess = false;
 }
 

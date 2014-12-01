@@ -1397,7 +1397,7 @@ void* __fastcall SAFE_MALLOC(size_t size)
 	if (size) {
 		p = malloc(size);
 		if (p)
-			ZeroMemory(p, size);
+			memset(p, 0, size);
 	}
 	return p;
 }

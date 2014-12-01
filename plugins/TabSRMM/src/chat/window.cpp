@@ -67,8 +67,8 @@ static void Chat_SetMessageLog(TWindowData *dat)
 		IEVIEWEVENT iee;
 
 		//CheckAndDestroyHPP(dat);
-		ZeroMemory(&ieWindow, sizeof(ieWindow));
-		ZeroMemory(&iee, sizeof(iee));
+		memset(&ieWindow, 0, sizeof(ieWindow));
+		memset(&iee, 0, sizeof(iee));
 		ieWindow.cbSize = sizeof(ieWindow);
 		ieWindow.iType = IEW_CREATE;
 		ieWindow.dwFlags = 0;
@@ -80,7 +80,8 @@ static void Chat_SetMessageLog(TWindowData *dat)
 		ieWindow.cy = 300;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		dat->hwndIEView = ieWindow.hwnd;
-		ZeroMemory(&iee, sizeof(iee));
+		
+		memset(&iee, 0, sizeof(iee));
 		iee.cbSize = sizeof(iee);
 		iee.iType = IEE_CLEAR_LOG;
 		iee.hwnd = dat->hwndIEView;
@@ -98,7 +99,7 @@ static void Chat_SetMessageLog(TWindowData *dat)
 	else if (iLogMode == WANT_HPP_LOG && dat->hwndHPP == 0) {
 		IEVIEWWINDOW ieWindow;
 
-		ZeroMemory(&ieWindow, sizeof(ieWindow));
+		memset(&ieWindow, 0, sizeof(ieWindow));
 		//CheckAndDestroyIEView(dat);
 		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
 		ieWindow.iType = IEW_CREATE;

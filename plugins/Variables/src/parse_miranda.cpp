@@ -505,7 +505,7 @@ static HANDLE findDbEvent(MCONTACT hContact, HANDLE hDbEvent, int flags)
 	BOOL bEventOk;
 
 	do {
-		ZeroMemory(&dbe, sizeof(DBEVENTINFO));
+		memset(&dbe, 0, sizeof(DBEVENTINFO));
 		dbe.cbSize = sizeof(DBEVENTINFO);
 		dbe.cbBlob = 0;
 		dbe.pBlob = NULL;

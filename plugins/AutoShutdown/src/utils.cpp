@@ -207,7 +207,7 @@ BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDate
 int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDescription,const TCHAR* pszBackgroundGroup,const TCHAR* pszBackgroundName,int position,BOOL bAllowEffects,LOGFONT *plfDefault,COLORREF clrDefault)
 {
 	FontIDT fid;
-	ZeroMemory(&fid,sizeof(fid));
+	memset(&fid, 0, sizeof(fid));
 	fid.cbSize=sizeof(fid);
 	mir_strncpy(fid.dbSettingsGroup,pszDbModule,sizeof(fid.dbSettingsGroup)); /* buffer safe */
 	mir_strncpy(fid.prefix,pszDbName,sizeof(fid.prefix)); /* buffer safe */
@@ -246,7 +246,7 @@ int FontService_GetFont(const TCHAR *pszSection,const TCHAR *pszDescription,COLO
 int FontService_RegisterColor(const char *pszDbModule,const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDescription,COLORREF clrDefault)
 {
 	ColourIDT cid;
-	ZeroMemory(&cid,sizeof(cid));
+	memset(&cid, 0, sizeof(cid));
 	cid.cbSize=sizeof(cid);
 	cid.defcolour=clrDefault;
 	mir_strncpy(cid.dbSettingsGroup,pszDbModule,sizeof(cid.dbSettingsGroup)); /* buffer safe */
@@ -260,7 +260,7 @@ int FontService_RegisterColor(const char *pszDbModule,const char *pszDbName,cons
 int FontService_GetColor(const TCHAR *pszSection,const TCHAR *pszDescription,COLORREF *pclr)
 {
 	ColourIDT cid;
-	ZeroMemory(&cid,sizeof(cid));
+	memset(&cid, 0, sizeof(cid));
 	cid.cbSize=sizeof(cid);
 	mir_tstrncpy(cid.group,pszSection,sizeof(cid.group)); /* buffer safe */
 	mir_tstrncpy(cid.name,pszDescription,sizeof(cid.name)); /* buffer safe */

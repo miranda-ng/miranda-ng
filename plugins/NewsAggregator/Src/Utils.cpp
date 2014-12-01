@@ -357,7 +357,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 		// allocate buffer for result string
 		size_t nResultStrSize = nStrLen + (nNewLen - nOldLen) * nCount + 2;
 		pszResultStr = new TCHAR [nResultStrSize];
-		ZeroMemory(pszResultStr, nResultStrSize * sizeof(TCHAR));
+		memset(pszResultStr, 0, (nResultStrSize * sizeof(TCHAR)));
 
 		pszStart = (TCHAR *)lpszStr;
 		pszEnd = (TCHAR *)lpszStr + nStrLen;

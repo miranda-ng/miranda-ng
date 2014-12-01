@@ -252,7 +252,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 		DestroyWindow(pList->labelEdit.dropDown.hDrop);
 	DestroyWindow(hEdit);
 	ListView_RedrawItems(pList->hList, pList->labelEdit.iItem, pList->labelEdit.iItem);
-	ZeroMemory(&pList->labelEdit, sizeof(pList->labelEdit));
+	memset(&pList->labelEdit, 0, sizeof(pList->labelEdit));
 	SetFocus(pList->hList);
 	return 0;
 }
@@ -831,7 +831,7 @@ static LRESULT CALLBACK ProfileList_SubclassProc(HWND hwnd, UINT msg, WPARAM wPa
 					}
 					// show tip only for text that is larger than te listview can display
 					if (textSize.cx > rchWnd.right - rchWnd.left || textSize.cx > rcItem.right - rcItem.left) {
-						ZeroMemory(&ti, sizeof(TOOLINFO));
+						memset(&ti, 0, sizeof(TOOLINFO));
 						ti.cbSize = sizeof(TOOLINFO);
 						ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS | TTF_TRANSPARENT;
 						ti.hinst = ghInst;
@@ -1037,7 +1037,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 
 			if (!hList || !(pList = (LPLISTCTRL)mir_alloc(sizeof(LISTCTRL)))) 
 				return FALSE;
-			ZeroMemory(pList, sizeof(LISTCTRL));
+			memset(pList, 0, sizeof(LISTCTRL));
 
 			TranslateDialogDefault(hDlg);
 			Ctrl_InitTextColours();
@@ -1045,7 +1045,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			// init info structure
 			pList->hList = hList;
 			pList->nType = CTRL_LIST_PROFILE;
-			ZeroMemory(&pList->labelEdit, sizeof(pList->labelEdit));
+			memset(&pList->labelEdit, 0, sizeof(pList->labelEdit));
 			SetUserData(hList, pList);
 
 			// set new window procedure
@@ -1080,7 +1080,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				SetWindowPos(pList->hTip, HWND_TOPMOST, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 					SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
-				ZeroMemory(&ti, sizeof(TOOLINFO));
+				memset(&ti, 0, sizeof(TOOLINFO));
 				ti.cbSize = sizeof(TOOLINFO);
 				ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS | TTF_TRANSPARENT;
 				ti.hinst = ghInst;
@@ -1274,7 +1274,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					pItem = ProfileList_GetItemData(((LPNMHDR)lParam)->hwndFrom, hi.iItem);
 
 					// insert menuitems
-					ZeroMemory(&mii, sizeof(MENUITEMINFO));
+					memset(&mii, 0, sizeof(MENUITEMINFO));
 					mii.cbSize = sizeof(MENUITEMINFO);
 					mii.fMask = MIIM_ID|MIIM_STRING;
 					// insert "Add" Menuitem

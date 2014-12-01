@@ -140,9 +140,9 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			COLORREF url_unvisited = RGB(0, 0, 255);
 			dat = (TWindowData*)mir_calloc( sizeof(TWindowData));
 			dat->pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
-			ZeroMemory(dat->pContainer, sizeof(TContainerData));
+			memset(dat->pContainer, 0, sizeof(TContainerData));
 			teInfo = (TemplateEditorInfo *)dat->pContainer;
-			ZeroMemory(teInfo, sizeof(TemplateEditorInfo));
+			memset(teInfo, 0, sizeof(TemplateEditorInfo));
 			teInfo->hContact = teNew->hContact;
 			teInfo->rtl = teNew->rtl;
 			teInfo->hwndParent = teNew->hwndParent;

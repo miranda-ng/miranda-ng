@@ -701,7 +701,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (!(pPs = (LPPS)mir_alloc(sizeof(PS))))
 				return FALSE;
 
-			ZeroMemory(pPs, sizeof(PS));
+			memset(pPs, 0, sizeof(PS));
 			if (!(pPs->pTree = new CPsTree(pPs)))
 				return FALSE;
 

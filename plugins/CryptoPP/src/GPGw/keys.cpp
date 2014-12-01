@@ -24,7 +24,7 @@ void updateKeyUserIDs(const int atype)
   releaseKeyUserIDs(atype);
   initKeyUserIDs(atype);
 
-  ZeroMemory(buffer, sizeof(buffer));
+  memset(buffer, 0, sizeof(buffer));
   if(atype==publickeyuserid) gpgresult=gpgListPublicKeys(buffer);
   else gpgresult=gpgListSecretKeys(buffer);
 

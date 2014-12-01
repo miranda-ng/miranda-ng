@@ -268,7 +268,7 @@ void FILEECHO::updateTitle()
 
 void BuildFreqTable(uchar *data, uint len, uint *freqTable)
 {
-	ZeroMemory(freqTable, 256*sizeof(uint));
+	memset(freqTable, 0, (256 * sizeof(uint)));
 	for(uint indx = 0; indx < len; indx++)
 		freqTable[data[indx]]++;
 }
@@ -481,7 +481,7 @@ void FILEECHO::incomeRequest(char *param)
 	if(!IsWindowVisible(hDlg) && !AutoMin)
 	{
 		CLISTEVENT cle;
-		ZeroMemory(&cle, sizeof(cle));
+		memset(&cle, 0, sizeof(cle));
 		cle.cbSize = sizeof(cle);
 		cle.hContact = hContact;
 		cle.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SMALLICON));
@@ -1171,7 +1171,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 					char str[MAX_PATH];
 					OPENFILENAME ofn;
 
-					ZeroMemory(&ofn, sizeof(ofn));
+					memset(&ofn, 0, sizeof(ofn));
 					*str = 0;
 					GetDlgItemText(hDlg, IDC_FILENAME, str, SIZEOF(str));
 					//ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;

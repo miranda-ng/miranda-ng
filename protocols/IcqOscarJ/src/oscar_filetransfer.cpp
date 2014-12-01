@@ -1031,7 +1031,7 @@ void CIcqProto::oftFileResume(oscar_filetransfer *ft, int action, const TCHAR *s
 
 static void oft_buildProtoFileTransferStatus(oscar_filetransfer* ft, PROTOFILETRANSFERSTATUS* pfts)
 {
-	ZeroMemory(pfts, sizeof(PROTOFILETRANSFERSTATUS));
+	memset(pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 	pfts->cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 	pfts->hContact = ft->hContact;
 	pfts->flags = PFTS_UTF + ((ft->flags & OFTF_SENDING) ? PFTS_SENDING : PFTS_RECEIVING);

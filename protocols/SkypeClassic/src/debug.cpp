@@ -26,8 +26,8 @@ void init_debug(void) {
 	char *p;
 	char logfile[MAX_PATH];
 		
-	ZeroMemory(logfile, sizeof(logfile));
-	p=logfile+GetModuleFileNameA(NULL, logfile, sizeof(logfile));
+	memset(logfile, 0, sizeof(logfile));
+	p=logfile+GetModuleFileNameA(NULL, logfile, SIZEOF(logfile));
 	if (!(p=strrchr (logfile, '\\'))) p=logfile; else p++;
 	sprintf (p, "%s_log.txt", SKYPE_PROTONAME);
 	m_szLogBuf = (char*)calloc (1, (m_iBufSize = INITBUF));

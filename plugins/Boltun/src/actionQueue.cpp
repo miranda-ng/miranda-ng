@@ -97,7 +97,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 
 	CallContactService(hContact, PSS_MESSAGE, PREF_TCHAR, (LPARAM)msg);
 
-	ZeroMemory(&ldbei, sizeof(ldbei));
+	memset(&ldbei, 0, sizeof(ldbei));
 	ldbei.cbSize    = sizeof(ldbei);
 	//FIXME: Error may happen
 	ldbei.cbBlob    = bufsize;

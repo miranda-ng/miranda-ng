@@ -441,7 +441,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
 
 		dat = (JabberUserInfoDlgData *)mir_alloc(sizeof(JabberUserInfoDlgData));
-		ZeroMemory(dat, sizeof(JabberUserInfoDlgData));
+		memset(dat, 0, sizeof(JabberUserInfoDlgData));
 		dat->resourcesCount = -1;
 
 		if (CallService(MS_DB_CONTACT_IS, (WPARAM)lParam, 0))

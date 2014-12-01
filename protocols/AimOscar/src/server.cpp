@@ -2267,7 +2267,7 @@ void CAimProto::snac_admin_account_confirm(SNAC &snac)//family 0x0007
 		char sn[33];
 		int sn_length=buf[SNAC_SIZE*2];
 		MCONTACT hContact;
-		ZeroMemory(sn,sizeof(sn));
+		memset(sn, 0, sizeof(sn));
 		memcpy(sn,&buf[SNAC_SIZE*2+1],sn_length);
 		hContact=find_contact(sn);
 		if (hContact)

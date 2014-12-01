@@ -61,7 +61,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 	HWND hwndRich = GetDlgItem(hwndDlg, IDC_LOG);
 	
 	LOGSTREAMDATA streamData;
-	ZeroMemory(&streamData, sizeof(streamData));
+	memset(&streamData, 0, sizeof(streamData));
 	streamData.hwnd = hwndRich;
 	streamData.si = si;
 	streamData.lin = lin;
@@ -125,7 +125,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, BOOL bRedr
 			newsel.cpMin = sel.cpMin;
 			if (newsel.cpMin < 0)
 				newsel.cpMin = 0;
-			ZeroMemory(&sm, sizeof(sm));
+			memset(&sm, 0, sizeof(sm));
 			sm.cbSize = sizeof(sm);
 			sm.hwndRichEditControl = hwndRich;
 			sm.Protocolname = si->pszModule;

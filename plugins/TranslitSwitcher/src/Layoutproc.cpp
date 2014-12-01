@@ -393,7 +393,7 @@ VOID SwitchLayout(bool lastword)
 					TCHAR *selected = 0;
 					IEVIEWEVENT event;
 					HWND hwnd3 = GetParent(GetParent(hwnd2));
-					ZeroMemory((void *)&event, sizeof(event));
+					memset(&event, 0, sizeof(event));
 					event.cbSize = sizeof(IEVIEWEVENT);
 					event.hContact = 0;
 					event.dwFlags = 0;
@@ -413,14 +413,14 @@ VOID SwitchLayout(bool lastword)
 					ActivateKeyboardLayout((HKL)HKL_PREV, KLF_ACTIVATE); // return to prev layout
 
 					if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
-						ZeroMemory(&smgp, sizeof(smgp));
+						memset(&smgp, 0, sizeof(smgp));
 						smgp.cbSize = sizeof(smgp);
 						smgp.str = buf;
 						smgp.flag = SAFL_TCHAR;
 						smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
 					}
 
-					for (int i = 0; i < slen; i++) {
+					for (size_t i = 0; i < slen; i++) {
 						SHORT vks;
 						BYTE keys[256] = { 0 };
 
@@ -470,7 +470,7 @@ VOID SwitchLayout(bool lastword)
 
 				if (slen != 0) {
 					if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
-						ZeroMemory(&smgp, sizeof(smgp));
+						memset(&smgp, 0, sizeof(smgp));
 						smgp.cbSize = sizeof(smgp);
 						smgp.str = sel;
 						smgp.flag = SAFL_TCHAR;
@@ -707,7 +707,7 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 		size_t slen = _tcslen(sel);
 
 		if (slen != 0) {
-			ZeroMemory(&smgp, sizeof(smgp));
+			memset(&smgp, 0, sizeof(smgp));
 			smgp.cbSize = sizeof(smgp);
 			smgp.str = sel;
 			smgp.flag = SAFL_TCHAR;

@@ -225,7 +225,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	TreeView_SetItem(htree, &tviparent);
 
 	int i=0;
-	ZeroMemory( rowOptTA, sizeof( rowOptTA ));
+	memset(rowOptTA, 0, sizeof(rowOptTA));
 	rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &i);
 }
 
@@ -273,7 +273,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 
 	{
 		int i=0;
-		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
+		memset(rowOptTA, 0, sizeof(rowOptTA));
 		rowOptBuildTA((pROWCELL)tvpi.lParam, (pROWCELL*)&rowOptTA, &i );
 	}
 
@@ -383,7 +383,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			rowOptTmplRoot = NULL;
 			rowParse(rowOptTmplRoot, rowOptTmplRoot, rowOptTmplStr, hbuf, seq, rowOptTA);
 			seq = 0;
-			ZeroMemory( rowOptTA, sizeof( rowOptTA ));
+			memset(rowOptTA, 0, sizeof(rowOptTA));
 			rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &seq);
 
 			rowOptFillRowTree(htree);

@@ -322,7 +322,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 					db_set_b(session_list_recovered[i], MODNAME, "wasInLastSession", 0);
 					i++;
 				}
-				ZeroMemory(session_list_recovered, sizeof(session_list_recovered));
+				memset(session_list_recovered, 0, sizeof(session_list_recovered));
 				g_bIncompletedSave = 0;
 
 				EnableWindow(GetDlgItem(hdlg, IDC_SESSDEL), FALSE);
@@ -418,7 +418,7 @@ INT_PTR CloseCurrentSession(WPARAM wparam, LPARAM lparam)
 		}
 		else SendMessage(mwd.hwndWindow, WM_CLOSE, 0, 0);
 	}
-	ZeroMemory(session_list, sizeof(session_list));
+	memset(session_list, 0, sizeof(session_list));
 	return 0;
 }
 
@@ -820,7 +820,7 @@ static int PluginInit(WPARAM wparam, LPARAM lparam)
 	cl.position = 10100000;
 	Menu_AddMainMenuItem(&cl);
 
-	ZeroMemory(&cl, sizeof(cl));
+	memset(&cl, 0, sizeof(cl));
 	cl.cbSize = sizeof(cl);
 	cl.flags = CMIM_ICON;
 	cl.icolibItem = iconList[4].hIcolib;
@@ -875,7 +875,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	if (g_bIncompletedSave) {
 		int i = 0;
-		ZeroMemory(session_list_recovered, sizeof(session_list_recovered));
+		memset(session_list_recovered, 0, sizeof(session_list_recovered));
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 			if (db_get_b(hContact, MODNAME, "wasInLastSession", 0))

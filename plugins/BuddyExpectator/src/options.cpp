@@ -314,7 +314,7 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_PREVIEW) {
 			POPUPDATAT ppd;
-			ZeroMemory(&ppd, sizeof(ppd));
+			memset(&ppd, 0, sizeof(ppd));
 
 			//iPopupDelay
 			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);

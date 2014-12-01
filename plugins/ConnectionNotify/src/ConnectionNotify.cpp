@@ -798,7 +798,7 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 
 	struct CONNECTION *mpd = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 	//MessageBox(NULL,"aaa","aaa",1);
-	ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
+	memset(&ppd, 0, sizeof(ppd)); //This is always a good thing to do.
 	ppd.lchContact = NULL;//(HANDLE)hContact; //Be sure to use a GOOD handle, since this will not be checked.
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON1));
 	if (settingResolveIp) {
@@ -886,7 +886,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	LoadSettings();
 	connExceptions=LoadSettingsConnections();
 //create protocol
-	//ZeroMemory(&pd,sizeof(pd));
+	//memset(&pd, 0, sizeof(pd));
 	//pd.cbSize=sizeof(pd);
  	pd.szName=PLUGINNAME;
 	pd.type=PROTOTYPE_PROTOCOL;

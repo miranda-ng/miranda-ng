@@ -386,7 +386,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			return FALSE;
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)data);
 
-		ZeroMemory(data, sizeof(ACCData));
+		memset(data, 0, sizeof(ACCData));
 		data->hHook = HookEventMessage(ME_AV_AVATARCHANGED, hwnd, DM_AVATARCHANGED);
 		data->hHookMy = HookEventMessage(ME_AV_MYAVATARCHANGED, hwnd, DM_MYAVATARCHANGED);
 		data->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);

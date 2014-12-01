@@ -1643,7 +1643,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 
 void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi)
 {
-	ZeroMemory(tvi, sizeof(*tvi));
+	memset(tvi, 0, sizeof(*tvi));
 	tvi->mask = TVIF_CHILDREN|TVIF_HANDLE|TVIF_IMAGE|TVIF_INTEGRAL|TVIF_PARAM|TVIF_SELECTEDIMAGE|TVIF_STATE;
 	tvi->hItem = hItem;
 	GetItem(tvi);
@@ -1651,7 +1651,7 @@ void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi)
 
 void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength)
 {
-	ZeroMemory(tvi, sizeof(*tvi));
+	memset(tvi, 0, sizeof(*tvi));
 	tvi->mask = TVIF_CHILDREN|TVIF_HANDLE|TVIF_IMAGE|TVIF_INTEGRAL|TVIF_PARAM|TVIF_SELECTEDIMAGE|TVIF_STATE|TVIF_TEXT;
 	tvi->hItem = hItem;
 	tvi->pszText = szText;

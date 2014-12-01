@@ -72,7 +72,7 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 				return FALSE;
 			}
 
-			ZeroMemory(iad->nodes, sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
+			memset(iad->nodes, 0, (sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow));
 		}
 
 		iad->nodes_allocated_size = size_grow;

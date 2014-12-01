@@ -79,7 +79,7 @@ ROWCELL *cppInitModernRow(ROWCELL	** tabAccess)
 	{
 		fsize = _filelength(_fileno(hFile));
 		tmplbuf = (char*)malloc(fsize+1);
-		ZeroMemory(tmplbuf, fsize+1);
+		memset(tmplbuf, 0, (fsize + 1));
 
 		for (i=0; i < fsize; i++) tmplbuf[i] = getc(hFile);
 		tmplbuf[i] = 0;
@@ -126,7 +126,7 @@ void cppCalculateRowItemsPos(ROWCELL	*RowRoot, int width)
 const ROWCELL * rowAddCell(ROWCELL* &link, int cont)
 {
 	link = (ROWCELL*)malloc(sizeof(ROWCELL));
-	ZeroMemory(link, sizeof(ROWCELL));
+	memset(link, 0, sizeof(ROWCELL));
 	link->cont = cont;
 	return link;
 }
@@ -165,7 +165,7 @@ char * rowParserGetNextWord(char *tbuf, int &hbuf)
 
 	int j = -1;
 
-	ZeroMemory(buf, 256);
+	memset(buf, 0, sizeof(buf));
 
 	while(tbuf[hbuf] != 0)
 	{

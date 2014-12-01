@@ -292,7 +292,7 @@ struct CJabberHttpAuthParams
 	TCHAR *m_szUrl;
 	CJabberHttpAuthParams()
 	{
-		ZeroMemory(this, sizeof(CJabberHttpAuthParams));
+		memset(this, 0, sizeof(CJabberHttpAuthParams));
 	}
 	~CJabberHttpAuthParams()
 	{
@@ -306,7 +306,7 @@ struct CJabberHttpAuthParams
 		mir_free(m_szId);
 		mir_free(m_szMethod);
 		mir_free(m_szUrl);
-		ZeroMemory(this, sizeof(CJabberHttpAuthParams));
+		memset(this, 0, sizeof(CJabberHttpAuthParams));
 	}
 };
 

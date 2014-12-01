@@ -112,7 +112,7 @@ void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20])
 char* contact_get_id(MCONTACT hContact, bool bNameOnError) {
 	char* pszUniqueID = NULL;
 	CONTACTINFO ci;
-	ZeroMemory(&ci, sizeof(ci));
+	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
 	ci.dwFlag = CNF_UNIQUEID;

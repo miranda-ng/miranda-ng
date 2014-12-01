@@ -203,7 +203,7 @@ namespace
 		h = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,Quotes_PrebuildContactMenu);
 		g_ahEvents.push_back(h);
 
-		ZeroMemory(&mi,sizeof(mi));
+		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.pszContactOwner = QUOTES_PROTOCOL_NAME;
 		hMenuRoot = NULL;

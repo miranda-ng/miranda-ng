@@ -27,7 +27,7 @@
 
 static void file_buildProtoFileTransferStatus(filetransfer* ft, PROTOFILETRANSFERSTATUS* pfts)
 {
-	ZeroMemory(pfts, sizeof(PROTOFILETRANSFERSTATUS));
+	memset(pfts, 0, sizeof(PROTOFILETRANSFERSTATUS));
 	pfts->cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 	pfts->hContact = ft->hContact;
 	pfts->flags = PFTS_UTF | (ft->sending ? PFTS_SENDING : PFTS_RECEIVING); /* Standard FT is Ansi only */

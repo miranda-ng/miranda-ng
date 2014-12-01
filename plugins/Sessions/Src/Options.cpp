@@ -44,7 +44,7 @@ BOOL bChecked = FALSE;
 
 int OpLoadSessionContacts(WPARAM wparam, LPARAM lparam)
 {
-	ZeroMemory(session_list_t, sizeof(session_list_t));
+	memset(session_list_t, 0, sizeof(session_list_t));
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (LoadContactsFromMask(hContact, 1, lparam)) {

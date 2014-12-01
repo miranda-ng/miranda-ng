@@ -442,7 +442,7 @@ int LoadSendRecvMessageModule(void)
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();
 
-	ZeroMemory(&nen_options, sizeof(nen_options));
+	memset(&nen_options, 0, sizeof(nen_options));
 	M.m_hMessageWindowList = WindowList_Create();
 	PluginConfig.hUserPrefsWindowList = WindowList_Create();
 	sendQueue = new SendQueue;
@@ -555,7 +555,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	newData.szInitialText = pszInitialText;
 	char *szProto = GetContactProto(newData.hContact);
 
-	ZeroMemory(&newData.item, sizeof(newData.item));
+	memset(&newData.item, 0, sizeof(newData.item));
 
 	// obtain various status information about the contact
 	TCHAR *contactName = pcli->pfnGetContactDisplayName(newData.hContact, 0);

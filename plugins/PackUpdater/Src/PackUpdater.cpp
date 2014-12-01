@@ -79,7 +79,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	Menu_AddMainMenuItem(&mi);
 	// Add empty updates folder menu item
 	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
-	ZeroMemory(&mi, sizeof(mi));
+	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;

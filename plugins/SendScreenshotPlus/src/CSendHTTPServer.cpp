@@ -68,7 +68,7 @@ int CSendHTTPServer::Send()
 
 	replaceStrT(m_fsi_pszRealPath, m_pszFile);
 
-	ZeroMemory(&m_fsi, sizeof(m_fsi));
+	memset(&m_fsi, 0, sizeof(m_fsi));
 	m_fsi.lStructSize	= sizeof(STFileShareInfo);
 	m_fsi.pszSrvPath	= m_fsi_pszSrvPath;
 	m_fsi.nMaxDownloads	= -1;					// -1 = infinite

@@ -885,7 +885,7 @@ DWORD WINAPI udptcpThreadFunc(LPVOID useUdp)
 			g_tcp_socket = sock;
 
 		SOCKADDR_IN addr;
-		ZeroMemory(&addr, sizeof addr);
+		memset(&addr, 0, sizeof(addr));
 		addr.sin_family = AF_INET;
 		addr.sin_port = htons(g_settings.port);
 		if (g_settings.local_only) {
