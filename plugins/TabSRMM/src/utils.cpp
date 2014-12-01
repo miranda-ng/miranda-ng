@@ -852,7 +852,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TC
 	mii.wID = uID;
 	mii.dwItemData = (ULONG_PTR)hIcon;
 	mii.dwTypeData = const_cast<TCHAR *>(szText);
-	mii.cch = mir_tstrlen(mii.dwTypeData) + 1;
+	mii.cch = (int)mir_tstrlen(mii.dwTypeData) + 1;
 
 	::InsertMenuItem(m, pos, TRUE, &mii);
 }

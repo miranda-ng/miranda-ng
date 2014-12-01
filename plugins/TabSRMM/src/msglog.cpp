@@ -1188,7 +1188,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			*pcb = 0;
 			return 0;
 		}
-		dat->bufferLen = mir_strlen(dat->buffer);
+		dat->bufferLen = (int)mir_strlen(dat->buffer);
 	}
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);

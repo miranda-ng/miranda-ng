@@ -308,7 +308,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 		if (!mode) {
 			mii.fMask |= MIIM_STRING;
 			mii.dwTypeData = (LPTSTR)szMenuEntry;
-			mii.cch = mir_tstrlen(szMenuEntry) + 1;
+			mii.cch = (int)mir_tstrlen(szMenuEntry) + 1;
 		}
 		mii.hbmpItem = HBMMENU_CALLBACK;
 		mii.dwItemData = (ULONG_PTR)hIcon;

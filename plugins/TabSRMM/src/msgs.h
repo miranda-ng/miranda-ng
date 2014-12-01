@@ -59,13 +59,11 @@
 #define MWF_LOG_INDENT 16384
 #define MWF_LOG_RTL 32768
 
-//MAD: ieview still mistakenly uses these...
+// ieview still mistakenly uses these...
 #define MWF_LOG_NEWLINE   8192
 #define MWF_LOG_UNDERLINE 65536
 #define MWF_LOG_SWAPNICK  131072
-//
-//#define MWF_LOG_BBCODE 65536
-//#define MWF_LOG_LOCALTIME 8192
+
 #define MWF_LOG_BBCODE		 1
 #define MWF_LOG_LOCALTIME	 64
 
@@ -252,7 +250,7 @@ struct TWindowData
    TCHAR    szStatus[50];
    WORD     wStatus;
    char    *sendBuffer;
-   int      iSendBufferSize;
+   size_t   iSendBufferSize;
    int      iSendLength;				// message length in utf-8 octets
    HICON    hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
    HICON    iFlashIcon;
@@ -260,8 +258,7 @@ struct TWindowData
    BOOL     bTabFlash;
    HWND     hwndIEView, hwndIWebBrowserControl, hwndHPP;
    HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
-   UINT     bbLSideWidth;  //MAD
-   UINT     bbRSideWidth;    //MAD
+   UINT     bbLSideWidth, bbRSideWidth;
    BYTE     kstate[256];
 
 	SESSION_INFO *si;
@@ -366,18 +363,18 @@ struct myTabCtrl
 
 struct TIconDesc
 {
-	char    *szName;
-	char    *szDesc;
-	HICON   *phIcon;       // where the handle is saved...
+	char   *szName;
+	char   *szDesc;
+	HICON  *phIcon;       // where the handle is saved...
 	INT_PTR uId;           // icon ID
 	BOOL    bForceSmall;   // true: force 16x16
 };
 
 struct TIconDescW
 {
-	TCHAR    *szName;
-	TCHAR    *szDesc;
-	HICON   *phIcon;       // where the handle is saved...
+	TCHAR  *szName;
+	TCHAR  *szDesc;
+	HICON  *phIcon;       // where the handle is saved...
 	INT_PTR uId;           // icon ID
 	BOOL    bForceSmall;   // true: force 16x16
 };

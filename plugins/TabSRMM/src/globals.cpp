@@ -624,7 +624,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	ptrA szMsg(mir_utf8encodeT(text));
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.pBlob = (PBYTE)(char*)szMsg;
-	dbei.cbBlob = mir_strlen(szMsg) + 1;
+	dbei.cbBlob = (int)mir_strlen(szMsg) + 1;
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(NULL);

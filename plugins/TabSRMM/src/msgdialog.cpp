@@ -1908,7 +1908,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						DM_ScrollToBottom(dat, 1, 1);
 						return(_dlgReturn(hwndDlg, 1));
 					}
-					//MAD: tabulation mod
+					
+					// tabulation mod
 					if (msg == WM_KEYDOWN && wp == VK_TAB) {
 						if (PluginConfig.m_AllowTab) {
 							if (((NMHDR*)lParam)->idFrom == IDC_MESSAGE)
@@ -2748,15 +2749,16 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				rtrimt(decoded);
 				int bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
-				int memRequired = 0, flags = 0;
+				size_t memRequired = 0;
+				int flags = 0;
 				if (!IsUtfSendAvailable(dat->hContact)) {
 					flags |= PREF_UNICODE;
-					memRequired = bufSize + ((mir_wstrlen(decoded) + 1) * sizeof(WCHAR));
+					memRequired = bufSize + (mir_wstrlen(decoded) + 1) * sizeof(WCHAR);
 				}
 				else {
 					flags |= PREF_UTF;
 					utfResult = mir_utf8encodeT(decoded);
-					memRequired = (int)(strlen(utfResult)) + 1;
+					memRequired = strlen(utfResult) + 1;
 				}
 
 				// try to detect RTL
@@ -2896,13 +2898,13 @@ quote_from_last:
 						}
 					}
 					if (dbei.eventType == EVENTTYPE_FILE) {
-						int iDescr = mir_strlen((char *)(szText + sizeof(DWORD)));
+						size_t iDescr = mir_strlen((char *)(szText + sizeof(DWORD)));
 						MoveMemory(szText, szText + sizeof(DWORD), iDescr);
 						MoveMemory(szText + iDescr + 2, szText + sizeof(DWORD)+iDescr, dbei.cbBlob - iDescr - sizeof(DWORD)-1);
 						szText[iDescr] = '\r';
 						szText[iDescr + 1] = '\n';
 						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + mir_strlen((char *)szText)));
-						MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + mir_strlen((char *)szText));
+						MultiByteToWideChar(CP_ACP, 0, (char *)szText, -1, szConverted, 1 + (int)mir_strlen((char *)szText));
 						iAlloced = true;
 					}
 					ptrT szQuoted(QuoteText(szConverted, iCharsPerLine, 0));

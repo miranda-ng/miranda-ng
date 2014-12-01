@@ -591,7 +591,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 			}
 
 			if (szTemp[0]) {
-				int iLen = mir_strlen(szTemp);
+				size_t iLen = mir_strlen(szTemp);
 				memcpy(d, szTemp, iLen);
 				d += iLen;
 			}
@@ -950,7 +950,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 		if (lstrdat->buffer == NULL) {
 			lstrdat->bufferOffset = 0;
 			lstrdat->buffer = Log_CreateRTF(lstrdat);
-			lstrdat->bufferLen = mir_strlen(lstrdat->buffer);
+			lstrdat->bufferLen = (int)mir_strlen(lstrdat->buffer);
 		}
 
 		// give the RTF to the RE control
