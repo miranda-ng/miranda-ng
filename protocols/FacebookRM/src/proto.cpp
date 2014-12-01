@@ -567,7 +567,8 @@ int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			return 0;
 
 		// Load last messages for this contact
-		ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(event->hContact));
+		if (!isChatRoom(event->hContact))
+			ForkThread(&FacebookProto::LoadLastMessages, new MCONTACT(event->hContact));
 	}
 
 	return 0;
