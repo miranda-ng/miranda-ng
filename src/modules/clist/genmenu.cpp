@@ -1047,7 +1047,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		mir_sntprintf(sectionName, SIZEOF(sectionName), LPGENT("Menu icons") _T("/%s"), TranslateTS(pmi->parent->ptszDisplayName));
 
 		char iconame[256];
-		mir_snprintf(iconame, sizeof(iconame), "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
+		mir_snprintf(iconame, SIZEOF(iconame), "genmenu_%s_%s", pmi->parent->pszName, uname && *uname ? uname : descr);
 
 		// remove '&'
 		if (descr) {

@@ -189,7 +189,7 @@ void SmileyType::CallSmileyService(MCONTACT hContact)
 		proto = (const char*)GetContactProto(hContact);
 		if (proto == NULL) return;
 	}
-	mir_snprintf(str, sizeof(str), "%s%s", proto, T2A_SM(name.c_str()));
+	mir_snprintf(str, SIZEOF(str), "%s%s", proto, T2A_SM(name.c_str()));
 	CallService(str,
 		ConvertServiceParam(hContact, par1.c_str()), 
 		ConvertServiceParam(hContact, par2.c_str()));
@@ -839,7 +839,7 @@ void SmileyCategoryListType::AddAccountAsCategory(PROTOACCOUNT *acc, const CMStr
 			packnam = "MSN";
 
 		char path[MAX_PATH];
-		mir_snprintf(path, sizeof(path), "Smileys\\nova\\%s.msl", packnam);
+		mir_snprintf(path, SIZEOF(path), "Smileys\\nova\\%s.msl", packnam);
 
 		CMString paths = A2T_SM(path), patha; 
 		pathToAbsolute(paths, patha);
@@ -909,7 +909,7 @@ void SmileyCategoryListType::AddContactTransportAsCategory(MCONTACT hContact, co
 		CMString displayName = dbv.ptszVal;
 		if (packname != NULL) {
 			char path[MAX_PATH];
-			mir_snprintf(path, sizeof(path), "Smileys\\nova\\%s.msl", packname);
+			mir_snprintf(path, SIZEOF(path), "Smileys\\nova\\%s.msl", packname);
 
 			CMString paths = A2T_SM(path), patha; 
 			pathToAbsolute(paths, patha);

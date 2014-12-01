@@ -151,14 +151,14 @@ void CVkProto::InitMenus()
 	mi.flags = CMIF_CHILDPOPUP;
 	mi.hParentMenu = MO_GetProtoRootMenu(m_szModuleName);
 	
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_CREATECHAT);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_CREATECHAT);
 	mi.pszService = szService;
 	mi.position = 10009 + PMI_CREATECHAT;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszName = LPGEN("Create new chat");
 	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
 	
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_VISITPROFILE);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_VISITPROFILE);
 	mi.pszService = szService;
 	mi.position = 10009 + PMI_VISITPROFILE;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_VISITPROFILE));
@@ -173,42 +173,42 @@ void CVkProto::InitMenus()
 	mi.ptszName = LPGENT("Visit profile");
 	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
 	mi.position = -200001000 + CMI_ADDASFRIEND;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_FRIENDADD));
 	mi.ptszName = LPGENT("Add as friend");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_ADDASFRIEND] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_DELETEFRIEND);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_DELETEFRIEND);
 	mi.position = -200001000 + CMI_DELETEFRIEND;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
 	mi.ptszName = LPGENT("Delete from friend list");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_DELETEFRIEND] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_BANUSER);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_BANUSER);
 	mi.position = -200001000 + CMI_BANUSER;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_BAN));
 	mi.ptszName = LPGENT("Ban user");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_BANUSER] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_REPORTABUSE);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_REPORTABUSE);
 	mi.position = -200001000 + CMI_REPORTABUSE;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_ABUSE));
 	mi.ptszName = LPGENT("Report abuse");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_REPORTABUSE] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_DESTROYKICKCHAT);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_DESTROYKICKCHAT);
 	mi.position = -200001000 + CMI_DESTROYKICKCHAT;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_FRIENDDEL));
 	mi.ptszName = LPGENT("Destroy room");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_DESTROYKICKCHAT] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_OPENBROADCAST);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_OPENBROADCAST);
 	mi.position = -200001000 + CMI_OPENBROADCAST;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_BROADCAST));
 	mi.ptszName = LPGENT("Open broadcast");
@@ -216,7 +216,7 @@ void CVkProto::InitMenus()
 	g_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi);
 
 	// Sync history menu
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("Reload messages from vk.com...");
@@ -226,42 +226,42 @@ void CVkProto::InitMenus()
 	mi.flags |= CMIF_CHILDPOPUP;
 	mi.hParentMenu = g_hContactMenuItems[CMI_GETSERVERHISTORY];
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST1DAY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST1DAY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST1DAY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("for last 1 day");
 	mi.pszService = szService;
 	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST1DAY] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST3DAY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST3DAY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST3DAY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("for last 3 days");
 	mi.pszService = szService;
 	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST3DAY] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST7DAY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST7DAY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST7DAY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("for last week");
 	mi.pszService = szService;
 	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST7DAY] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST30DAY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST30DAY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST30DAY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("for last 30 days");
 	mi.pszService = szService;
 	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST30DAY] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST90DAY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORYLAST90DAY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETSERVERHISTORYLAST90DAY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("for last 90 days");
 	mi.pszService = szService;
 	g_hContactHistoryMenuItems[CHMI_GETSERVERHISTORYLAST90DAY] = Menu_AddContactMenuItem(&mi);
 
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETALLSERVERHISTORY);
 	mi.position = -200001000 + CMI_GETSERVERHISTORY + 100 + CHMI_GETALLSERVERHISTORY;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_HISTORY));
 	mi.ptszName = LPGENT("for all time");

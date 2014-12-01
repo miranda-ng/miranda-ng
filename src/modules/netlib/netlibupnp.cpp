@@ -273,7 +273,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 				char szData1[1024];
 
 				szReq = mir_strdup(szResult);
-				sz = mir_snprintf (szData1, sizeof(szData1),
+				sz = mir_snprintf (szData1, SIZEOF(szData1),
 					soap_action, szActionName, szDev, szReq, szActionName);
 
 				sz = mir_snprintf (szData, 4096,
@@ -286,7 +286,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 			{
 				char szData1[1024];
 
-				sz = mir_snprintf (szData1, sizeof(szData1),
+				sz = mir_snprintf (szData1, SIZEOF(szData1),
 					soap_query, szActionName);
 
 				sz = mir_snprintf (szData, 4096,
@@ -551,7 +551,7 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 		strncpy(szCtlUrl, szTemp[0] ? szTemp : szUrl, sizeof(szCtlUrl));
 		szCtlUrl[sizeof(szCtlUrl)-1] = 0;
 
-		mir_snprintf(szTemp, sizeof(szTemp), search_device, szDev);
+		mir_snprintf(szTemp, SIZEOF(szTemp), search_device, szDev);
 		txtParseParam(szData, szTemp, "<controlURL>", "</controlURL>", szUrl, sizeUrl);
 
 		// URL combining per RFC 2396

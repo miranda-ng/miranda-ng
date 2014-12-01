@@ -1017,8 +1017,9 @@ LRESULT Utils::CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, 
 void Utils::sanitizeFilename(wchar_t* tszFilename)
 {
 	static wchar_t *forbiddenCharacters = L"%/\\':|\"<>?";
+	static size_t forbiddenCharactersLen = mir_wstrlen(forbiddenCharacters);
 
-	for (int i=0; i < mir_wstrlen(forbiddenCharacters); i++) {
+	for (size_t i=0; i < forbiddenCharactersLen; i++) {
 		wchar_t*	szFound = 0;
 
 		while ((szFound = wcschr(tszFilename, (int)forbiddenCharacters[i])) != NULL)

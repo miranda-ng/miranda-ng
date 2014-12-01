@@ -42,7 +42,7 @@ void IconsInit(void)
 HICON LoadIconEx(const char *name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "SimpleStatusMsg_%s", name);
 	return Skin_GetIcon(szSettingName);
 }
 
@@ -58,14 +58,14 @@ HANDLE GetIconHandle(int iconId)
 void ReleaseIconEx(const char *name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "SimpleStatusMsg_%s", name);
 	Skin_ReleaseIcon(szSettingName);
 }
 
 HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARAM hookProc)
 {
 	char szProtoEvent[MAXMODULELABELLENGTH];
-	mir_snprintf(szProtoEvent, sizeof(szProtoEvent), "%s%s", szModule, szEvent);
+	mir_snprintf(szProtoEvent, SIZEOF(szProtoEvent), "%s%s", szModule, szEvent);
 	HANDLE res = HookEventParam(szProtoEvent, hookProc, (LPARAM)szModule);
 	arProtoHooks.insert(res);
 	return res;

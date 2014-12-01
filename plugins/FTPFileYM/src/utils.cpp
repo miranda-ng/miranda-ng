@@ -48,7 +48,7 @@ int Utils::msgBoxA(char *szMsg, UINT uType)
 HICON Utils::loadIconEx(char *szName)
 {
 	char buff[100];
-	mir_snprintf(buff, sizeof(buff), "%s_%s", MODULE, szName);
+	mir_snprintf(buff, SIZEOF(buff), "%s_%s", MODULE, szName);
 	return Skin_GetIcon(buff);
 }
 
@@ -139,7 +139,7 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 	else
 		curl_easy_setopt(hCurl, CURLOPT_FTPPORT, "-");
 
-	mir_snprintf(buff, sizeof(buff), "%s:%s", ftp->szUser, ftp->szPass);
+	mir_snprintf(buff, SIZEOF(buff), "%s:%s", ftp->szUser, ftp->szPass);
 	curl_easy_setopt(hCurl, CURLOPT_USERPWD, buff);
 
 	if (ftp->ftpProto == ServerList::FTP::FT_SSL_EXPLICIT || ftp->ftpProto == ServerList::FTP::FT_SSL_IMPLICIT)

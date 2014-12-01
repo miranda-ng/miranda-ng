@@ -278,8 +278,8 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	str=strrchr(szPath,'\\');
 	if (str != NULL) *str=0;
-	mir_snprintf(szMyPath, sizeof(szMyPath), "%s\\Icons\\%s", szPath, filename);
-	mir_snprintf(szFullPath, sizeof(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
+	mir_snprintf(szMyPath, SIZEOF(szMyPath), "%s\\Icons\\%s", szPath, filename);
+	mir_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
 	HICON hi=ExtractIconFromPath(szFullPath,&nf);
 	if (hi) has_proto_icon=TRUE;
@@ -558,7 +558,7 @@ HANDLE g_GetIconHandle(int iconId)
 HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
 	return Skin_GetIcon(szSettingName, big);
 }
 

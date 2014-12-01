@@ -141,13 +141,13 @@ void LoadOptions(TAAAProtoSettingList &loadSettings, BOOL override)
 int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
 {
 	char setting[128];
-	mir_snprintf(setting, sizeof(setting), "%s_OptionFlags", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_OptionFlags", protoName);
 	autoAwaySetting.optionFlags = db_get_w(NULL, MODULENAME, setting, FLAG_LV2ONINACTIVE | FLAG_RESET);
-	mir_snprintf(setting, sizeof(setting), "%s_AwayTime", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_AwayTime", protoName);
 	autoAwaySetting.awayTime = db_get_w(NULL, MODULENAME, setting, SETTING_AWAYTIME_DEFAULT);
-	mir_snprintf(setting, sizeof(setting), "%s_NATime", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_NATime", protoName);
 	autoAwaySetting.naTime = db_get_w(NULL, MODULENAME, setting, SETTING_NATIME_DEFAULT);
-	mir_snprintf(setting, sizeof(setting), "%s_StatusFlags", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_StatusFlags", protoName);
 	autoAwaySetting.statusFlags = db_get_w(NULL, MODULENAME, setting, StatusModeToProtoFlag(ID_STATUS_ONLINE) | StatusModeToProtoFlag(ID_STATUS_FREECHAT));
 
 	int flags;
@@ -155,9 +155,9 @@ int LoadAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char* protoName)
 		flags = 0xFFFFFF;
 	else
 		flags = CallProtoService(protoName, PS_GETCAPS, PFLAGNUM_2, 0)&~CallProtoService(protoName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
-	mir_snprintf(setting, sizeof(setting), "%s_Lv1Status", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_Lv1Status", protoName);
 	autoAwaySetting.lv1Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_AWAY)) ? ID_STATUS_AWAY : ID_STATUS_OFFLINE);
-	mir_snprintf(setting, sizeof(setting), "%s_Lv2Status", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_Lv2Status", protoName);
 	autoAwaySetting.lv2Status = db_get_w(NULL, MODULENAME, setting, (flags&StatusModeToProtoFlag(ID_STATUS_NA)) ? ID_STATUS_NA : ID_STATUS_OFFLINE);
 
 	return 0;

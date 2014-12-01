@@ -514,7 +514,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 {
 	// Import from server item
 	char service[64];
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_IMPORT_SERVER);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_IMPORT_SERVER);
 	CreateProtoService(GGS_IMPORT_SERVER, &GGPROTO::import_server);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -527,7 +527,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Import from textfile
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_IMPORT_TEXT);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_IMPORT_TEXT);
 	CreateProtoService(GGS_IMPORT_TEXT, &GGPROTO::import_text);
 
 	mi.position = 2000500002;
@@ -537,7 +537,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Remove from server
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_REMOVE_SERVER);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_REMOVE_SERVER);
 	CreateProtoService(GGS_REMOVE_SERVER, &GGPROTO::remove_server);
 
 	mi.position = 2000500003;
@@ -547,7 +547,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to server
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_EXPORT_SERVER);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_EXPORT_SERVER);
 	CreateProtoService(GGS_EXPORT_SERVER, &GGPROTO::export_server);
 
 	mi.position = 2005000001;
@@ -557,7 +557,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to textfile
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_EXPORT_TEXT);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_EXPORT_TEXT);
 	CreateProtoService(GGS_EXPORT_TEXT, &GGPROTO::export_text);
 
 	mi.position = 2005000002;

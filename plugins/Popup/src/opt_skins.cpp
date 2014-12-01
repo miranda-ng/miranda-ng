@@ -281,7 +281,7 @@ bool SkinOptionList_Update (OPTTREE_OPTION* &options, int *OptionsCount, HWND hw
 
 	//check "Skin options" state 
 	char prefix[128];
-	mir_snprintf(prefix, sizeof(prefix),"skin.%S", PopupOptions.SkinPack);
+	mir_snprintf(prefix, SIZEOF(prefix),"skin.%S", PopupOptions.SkinPack);
 	OptTree_SetOptions(hwndDlg, IDC_SKIN_LIST_OPT, options, *OptionsCount,
 		db_get_dw(NULL, MODULNAME, prefix, dwSkinOptions), _T("Skin options"));
 

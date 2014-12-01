@@ -45,7 +45,7 @@ void ServerList::saveToDb() const
 	ServerList::FTP *ftp = ftpList.getSelected();
 	char buff[256];
 
-	mir_snprintf(buff, sizeof(buff), "Password%d", opt.selected);
+	mir_snprintf(buff, SIZEOF(buff), "Password%d", opt.selected);
 	DB::setAStringF(0, MODULE, buff, opt.selected, ftp->szPass);
 
 	DB::setStringF(0, MODULE, "Name%d", opt.selected, ftp->stzName);

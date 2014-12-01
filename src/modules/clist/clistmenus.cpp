@@ -432,7 +432,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 				XStatus = 0;
 
 			char buf[255];
-			mir_snprintf(buf, sizeof(buf), "*XStatus%d", XStatus);
+			mir_snprintf(buf, SIZEOF(buf), "*XStatus%d", XStatus);
 
 			bool check = wildcmp(smep->svc, buf) != 0;
 			bool reset = wildcmp(smep->svc, "*XStatus0") != 0;
@@ -991,7 +991,7 @@ void RebuildMenuOrder(void)
 			}
 
 			char buf[ 256 ];
-			mir_snprintf(buf, sizeof(buf), "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
+			mir_snprintf(buf, SIZEOF(buf), "Root2ProtocolIcon_%s_%s", pa->szModuleName, tmi.pszName);
 			MO_SetOptionsMenuItem(hStatusMainMenuHandles[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
 			IcoLib_ReleaseIcon(tmi.hIcon, 0);

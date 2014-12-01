@@ -104,7 +104,7 @@ DWORD GetContactPhonesCountParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszVa
 			dwRet++;
 
 	for (i=0; i <= PHONES_MIN_COUNT; i++) {
-		mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
+		mir_snprintf(szBuff,SIZEOF(szBuff),"%s%ld",lpszValueName,i);
 		if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
 			if ( IsPhoneW(wszPhone,dwPhoneSize))
 				dwRet++;
@@ -144,7 +144,7 @@ BOOL IsContactPhoneParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 		}
 
 		for (i=0; i <= PHONES_MIN_COUNT; i++) {
-			mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
+			mir_snprintf(szBuff,SIZEOF(szBuff),"%s%ld",lpszValueName,i);
 			if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal)) {
 				if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
 					dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
@@ -447,7 +447,7 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 
 	if (colour)
 	{
-		mir_snprintf(str,sizeof(str),"Font%dCol",i);
+		mir_snprintf(str,SIZEOF(str),"Font%dCol",i);
 		(*colour)=db_get_dw(NULL,SRMMMOD,str,fontOptionsList[0].defColour);
 	}
 
@@ -461,24 +461,24 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 			db_free(&dbv);
 		}
 
-		mir_snprintf(str,sizeof(str),"Font%dSize",i);
+		mir_snprintf(str,SIZEOF(str),"Font%dSize",i);
 		lf->lfHeight=(char)db_get_b(NULL,SRMMMOD,str,fontOptionsList[0].defSize);
 		lf->lfWidth=0;
 		lf->lfEscapement=0;
 		lf->lfOrientation=0;
-		mir_snprintf(str,sizeof(str),"Font%dSty",i);
+		mir_snprintf(str,SIZEOF(str),"Font%dSty",i);
 		style=db_get_b(NULL,SRMMMOD,str,fontOptionsList[0].defStyle);
 		lf->lfWeight=style&FONTF_BOLD?FW_BOLD:FW_NORMAL;
 		lf->lfItalic=style&FONTF_ITALIC?1:0;
 		lf->lfUnderline=0;
 		lf->lfStrikeOut=0;
-		mir_snprintf(str,sizeof(str),"Font%dSet",i);
+		mir_snprintf(str,SIZEOF(str),"Font%dSet",i);
 		lf->lfCharSet=db_get_b(NULL,SRMMMOD,str,MsgDlgGetFontDefaultCharset(lf->lfFaceName));
 		lf->lfOutPrecision=OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision=CLIP_DEFAULT_PRECIS;
 		lf->lfQuality=DEFAULT_QUALITY;
 		lf->lfPitchAndFamily=DEFAULT_PITCH|FF_DONTCARE;
-		mir_snprintf(str,sizeof(str),"Font%d",i);
+		mir_snprintf(str,SIZEOF(str),"Font%d",i);
 	}
 }
 

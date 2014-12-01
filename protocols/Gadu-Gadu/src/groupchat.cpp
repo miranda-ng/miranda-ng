@@ -64,7 +64,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		mi.hParentMenu = hRoot;
 
 		// Conferencing
-		mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_OPEN_CONF);
+		mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_OPEN_CONF);
 		CreateProtoService(GGS_OPEN_CONF, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = iconList[14].hIcolib;
@@ -73,7 +73,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
 		// Clear ignored conferences
-		mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_CLEAR_IGNORED);
+		mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_CLEAR_IGNORED);
 		CreateProtoService(GGS_CLEAR_IGNORED, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = iconList[15].hIcolib;

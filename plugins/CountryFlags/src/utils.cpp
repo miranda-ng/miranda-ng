@@ -70,7 +70,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD
 				callList=NULL;
 			}
 			#ifdef _DEBUG
-				mir_snprintf(szDbgLine,sizeof(szDbgLine),"buffered call: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
+				mir_snprintf(szDbgLine,SIZEOF(szDbgLine),"buffered call: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
 				OutputDebugStringA(szDbgLine);
 			#endif
 			CallFunctionAsync((void (CALLBACK *)(void*))pfnBuffProc,(void*)lParam); /* compatible */
@@ -83,7 +83,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD
 	/* set next timer */
 	if (nCallListCount) {
 		#ifdef _DEBUG
-			mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapseNext); /* all ascii */
+			mir_snprintf(szDbgLine,SIZEOF(szDbgLine),"next buffered timeout: %ums\n",uElapseNext); /* all ascii */
 			OutputDebugStringA(szDbgLine);
 		#endif
 		idBufferedTimer=SetTimer(hwnd,idBufferedTimer,uElapseNext,BufferedProcTimer); /* will be reset */
@@ -130,10 +130,10 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 	#ifdef _DEBUG
 		{	char szDbgLine[256];
 			data->pszProcName=pszProcName;
-			mir_snprintf(szDbgLine,sizeof(szDbgLine),"buffered queue: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
+			mir_snprintf(szDbgLine,SIZEOF(szDbgLine),"buffered queue: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
 			OutputDebugStringA(szDbgLine);
 			if (!idBufferedTimer) {
-				mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapse); /* all ascii */
+				mir_snprintf(szDbgLine,SIZEOF(szDbgLine),"next buffered timeout: %ums\n",uElapse); /* all ascii */
 				OutputDebugStringA(szDbgLine);
 			}
 		}

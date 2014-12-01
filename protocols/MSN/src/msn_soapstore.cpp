@@ -71,7 +71,7 @@ ezxml_t CMsnProto::storeSoapHdr(const char* service, const char* scenario, ezxml
 char* CMsnProto::GetStoreHost(const char* service)
 {
 	char hostname[128];
-	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service);
+	mir_snprintf(hostname, SIZEOF(hostname), "StoreHost-%s", service);
 
 	char* host = (char*)mir_alloc(256);
 	if (db_get_static(NULL, m_szModuleName, hostname, host, 256))
@@ -83,7 +83,7 @@ char* CMsnProto::GetStoreHost(const char* service)
 void CMsnProto::UpdateStoreHost(const char* service, const char* url)
 {
 	char hostname[128];
-	mir_snprintf(hostname, sizeof(hostname), "StoreHost-%s", service);
+	mir_snprintf(hostname, SIZEOF(hostname), "StoreHost-%s", service);
 
 	setString(hostname, url);
 }
@@ -257,7 +257,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 
 			UpdateStoreHost("GetProfile", body ? storeUrl : NULL);
 
-			mir_snprintf(proresid, sizeof(proresid), "%s", ezxml_txt(ezxml_child(body, "ResourceID")));
+			mir_snprintf(proresid, SIZEOF(proresid), "%s", ezxml_txt(ezxml_child(body, "ResourceID")));
 
 			ezxml_t expr = ezxml_child(body, "ExpressionProfile");
 			if (expr == NULL) {
@@ -272,10 +272,10 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 				const char* szStatus = ezxml_txt(ezxml_child(expr, "PersonalStatus"));
 				replaceStr(msnLastStatusMsg, szStatus);
 
-				mir_snprintf(expresid, sizeof(expresid), "%s", ezxml_txt(ezxml_child(expr, "ResourceID")));
+				mir_snprintf(expresid, SIZEOF(expresid), "%s", ezxml_txt(ezxml_child(expr, "ResourceID")));
 
 				ezxml_t photo = ezxml_child(expr, "Photo");
-				mir_snprintf(photoid, sizeof(photoid), "%s", ezxml_txt(ezxml_child(photo, "ResourceID")));
+				mir_snprintf(photoid, SIZEOF(photoid), "%s", ezxml_txt(ezxml_child(photo, "ResourceID")));
 
 				ezxml_t docstr = ezxml_get(photo, "DocumentStreams", 0, "DocumentStream", -1);
 				while (docstr) {
@@ -565,7 +565,7 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 		if (status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
 			ezxml_t bdy = getSoapResponse(xmlm, "CreateDocument");
-			mir_snprintf(photoid, sizeof(photoid), "%s", ezxml_txt(bdy));
+			mir_snprintf(photoid, SIZEOF(photoid), "%s", ezxml_txt(bdy));
 			ezxml_free(xmlm);
 		}
 		else if (status == 500) {

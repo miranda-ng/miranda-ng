@@ -390,14 +390,14 @@ void HandleAwayMsgCommand(PCommand command, TArgument *argv, int argc, PReply re
 						PrettyStatusMode(status, pn, sizeof(pn));
 						if (res)
 						{
-							mir_snprintf(buffer, sizeof(buffer), Translate("Failed to set '%S' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName , awayMsg, pn);
+							mir_snprintf(buffer, SIZEOF(buffer), Translate("Failed to set '%S' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName , awayMsg, pn);
 						}
 						else{
-							mir_snprintf(buffer, sizeof(buffer), Translate("Successfully set '%S' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName, awayMsg, pn);
+							mir_snprintf(buffer, SIZEOF(buffer), Translate("Successfully set '%S' status message to '%s' (status is '%s')."), accounts[i]->tszAccountName, awayMsg, pn);
 						}
 					}
 					else{
-						mir_snprintf(buffer, sizeof(buffer), Translate("Account '%S' does not support away messages, skipping."), accounts[i]->tszAccountName);
+						mir_snprintf(buffer, SIZEOF(buffer), Translate("Account '%S' does not support away messages, skipping."), accounts[i]->tszAccountName);
 					}
 					
 					if (i != 0)
@@ -899,7 +899,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 					{
 						if (ack->szModule)
 						{						
-							mir_snprintf(buffer, sizeof(buffer), Translate("Message sent to '%s'."), contact);
+							mir_snprintf(buffer, SIZEOF(buffer), Translate("Message sent to '%s'."), contact);
 
 							DBEVENTINFO e = {0};
 							char module[128];
@@ -916,13 +916,13 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							
 							db_event_add(ack->hContact, &e);
 						}
-						else mir_snprintf(buffer, sizeof(buffer), Translate("Message to '%s' was marked as sent but the account seems to be offline"), contact);
+						else mir_snprintf(buffer, SIZEOF(buffer), Translate("Message to '%s' was marked as sent but the account seems to be offline"), contact);
 					}
-					else mir_snprintf(buffer, sizeof(buffer), Translate("Could not send message to '%s'."), contact);
+					else mir_snprintf(buffer, SIZEOF(buffer), Translate("Could not send message to '%s'."), contact);
 				}
-				else mir_snprintf(buffer, sizeof(buffer), Translate("Timed out while waiting for acknowledgement for contact '%s'."), contact);
+				else mir_snprintf(buffer, SIZEOF(buffer), Translate("Timed out while waiting for acknowledgement for contact '%s'."), contact);
 			}
-			else mir_snprintf(buffer, sizeof(buffer), Translate("Could not find contact handle for contact '%s'."), contact);
+			else mir_snprintf(buffer, SIZEOF(buffer), Translate("Could not find contact handle for contact '%s'."), contact);
 			
 			if (i == 3)
 			{
@@ -1188,7 +1188,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				int value = db_get_b(NULL, module, "NLUseProxy", 0);
 				
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(buffer, sizeof(buffer), "%s proxy status is %s", protocol, (value) ? "enabled" : "disabled");
+				mir_snprintf(buffer, SIZEOF(buffer), "%s proxy status is %s", protocol, (value) ? "enabled" : "disabled");
 		
 				break;
 			}
@@ -1203,7 +1203,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 						db_set_b(NULL, module, "NLUseProxy", 0);
 						
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(buffer, sizeof(buffer), Translate("'%s' proxy was disabled."), protocol);
+						mir_snprintf(buffer, SIZEOF(buffer), Translate("'%s' proxy was disabled."), protocol);
 					
 						break;
 					}
@@ -1213,7 +1213,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 						db_set_b(NULL, module, "NLUseProxy", 1);
 						
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(buffer, sizeof(buffer), Translate("'%s' proxy was enabled."), protocol);
+						mir_snprintf(buffer, SIZEOF(buffer), Translate("'%s' proxy was enabled."), protocol);
 						
 						break;
 					}
@@ -1225,7 +1225,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 						db_set_b(NULL, module, "NLUseProxy", value);
 						
 						reply->code = MIMRES_SUCCESS;
-						mir_snprintf(buffer, sizeof(buffer), (value) ? Translate("'%s' proxy was enabled.") : Translate("'%s' proxy was disabled."));
+						mir_snprintf(buffer, SIZEOF(buffer), (value) ? Translate("'%s' proxy was enabled.") : Translate("'%s' proxy was disabled."));
 						
 						break;
 					}
@@ -1255,7 +1255,7 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 				PrettyProxyType(db_get_b(NULL, module, "NLProxyType", 0), type, sizeof(type));
 					
 				reply->code = MIMRES_SUCCESS;
-				mir_snprintf(buffer, sizeof(buffer), Translate("%s proxy server: %s %s:%d."), protocol, type, host, port);
+				mir_snprintf(buffer, SIZEOF(buffer), Translate("%s proxy server: %s %s:%d."), protocol, type, host, port);
 				
 				break;
 			}
@@ -1275,11 +1275,11 @@ void HandleProtocolProxyCommand(PCommand command, TArgument *argv, int argc, PRe
 					db_set_b(NULL, module, "NLProxyType", type);
 						
 					reply->code = MIMRES_SUCCESS;
-					mir_snprintf(buffer, sizeof(buffer), Translate("%s proxy set to %s %s:%d."), protocol, argv[4], host, port);
+					mir_snprintf(buffer, SIZEOF(buffer), Translate("%s proxy set to %s %s:%d."), protocol, argv[4], host, port);
 				}
 				else {
 					reply->code = MIMRES_FAILURE;
-					mir_snprintf(buffer, sizeof(buffer), Translate("%s The port or the proxy type parameter is invalid."), protocol);
+					mir_snprintf(buffer, SIZEOF(buffer), Translate("%s The port or the proxy type parameter is invalid."), protocol);
 				}
 				
 				break;
@@ -1465,7 +1465,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				char *id = GetContactID(hContact, protocol);
 				if (ContactMatchSearch(hContact, contact, id, protocol, &argv[3], argc - 3))
 				{
-					mir_snprintf(buffer, sizeof(buffer), "%s:[%s]:%s (%08d)", contact, id, protocol, hContact);
+					mir_snprintf(buffer, SIZEOF(buffer), "%s:[%s]:%s (%08d)", contact, id, protocol, hContact);
 					if (count)
 					{
 						strncat(reply->message, "\n", reply->cMessage);
@@ -1544,8 +1544,8 @@ void AddHistoryEvent(DBEVENTINFO *dbEvent, char *contact, PReply reply)
 	char *sender = (dbEvent->flags & DBEF_SENT) ? Translate("[me]") : contact;
 	char *message = DbGetEventTextA(dbEvent,CP_ACP);
 	
-	static char buffer[6144];
-	mir_snprintf(buffer, sizeof(buffer), "[%s] %15s: %s", timestamp, sender, message);
+	static char buffer[8192];
+	mir_snprintf(buffer, SIZEOF(buffer), "[%s] %15s: %s", timestamp, sender, message);
 	
 	
 	if (reply->message[0] != 0)
@@ -1601,7 +1601,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 							char protocol[128];
 							GetContactProto(hContact, protocol, sizeof(protocol));
 							char *contact = GetContactName(hContact, protocol);
-							mir_snprintf(buffer, sizeof(buffer), Translate("%s:%s - %d unread events."), contact, protocol, count);
+							mir_snprintf(buffer, SIZEOF(buffer), Translate("%s:%s - %d unread events."), contact, protocol, count);
 
 							if (contacts > 0) {
 								strncat(reply->message, "\n", reply->cMessage);

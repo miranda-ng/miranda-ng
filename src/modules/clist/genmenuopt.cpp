@@ -90,7 +90,7 @@ static int SaveTree(HWND hwndDlg)
 	TIntMenuObject *pimo = g_menus[menupos];
 
 	char MenuNameItems[256];
-	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->pszName);
+	mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
 	int runtimepos = 100;
 
 	while (tvi.hItem != NULL) {
@@ -233,7 +233,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 	if (pimo->m_items.first == NULL)
 		return FALSE;
 
-	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->pszName);
+	mir_snprintf(MenuNameItems, SIZEOF(MenuNameItems), "%s_Items", pimo->pszName);
 
 	int count = 0;
 	{

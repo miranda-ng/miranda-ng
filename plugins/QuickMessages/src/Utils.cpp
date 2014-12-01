@@ -157,22 +157,22 @@ void SaveModuleSettings(int buttonnum,ButtonData* bd)
 {
 	char szMEntry[256]={'\0'};
 
-	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryName_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryName_%u_%u",buttonnum,bd->dwPos);
 	db_set_ts(NULL, PLGNAME,szMEntry,bd->pszName );
 
-	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryValue_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryValue_%u_%u",buttonnum,bd->dwPos);
 	if(bd->pszValue)
 		db_set_ts(NULL, PLGNAME,szMEntry,bd->pszValue );
 	else
 		db_unset(NULL, PLGNAME,szMEntry);
 
-	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryRel_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryRel_%u_%u",buttonnum,bd->dwPos);
 	db_set_b(NULL, PLGNAME,szMEntry,bd->fEntryType );
 
-	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryToQMenu_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryToQMenu_%u_%u",buttonnum,bd->dwPos);
 	db_set_b(NULL, PLGNAME,szMEntry,bd->bInQMenu);
 
-	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
+	mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
 	db_set_b(NULL, PLGNAME,szMEntry,bd->bIsServName);
 }
 
@@ -181,27 +181,27 @@ void CleanSettings(int buttonnum,int from)
 	char szMEntry[256]={'\0'};
 	DBVARIANT dbv = {0};
 	if(from==-1){
-		mir_snprintf(szMEntry,sizeof(szMEntry),"ButtonName_%u",buttonnum);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"ButtonName_%u",buttonnum);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,sizeof(szMEntry),"ButtonValue_%u",buttonnum);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"ButtonValue_%u",buttonnum);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,sizeof(szMEntry),"RCEntryIsServiceName_%u",buttonnum);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"RCEntryIsServiceName_%u",buttonnum);
 		db_unset(NULL, PLGNAME,szMEntry);
 	}
 
-	mir_snprintf(szMEntry,sizeof(szMEntry),"EntryName_%u_%u",buttonnum,from);
+	mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryName_%u_%u",buttonnum,from);
 	while(!db_get_ts(NULL, PLGNAME,szMEntry,&dbv)) {
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryValue_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryValue_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryRel_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryRel_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryToQMenu_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryToQMenu_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
-		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,from);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryIsServiceName_%u_%u",buttonnum,from);
 		db_unset(NULL, PLGNAME,szMEntry);
 
-		mir_snprintf(szMEntry,sizeof(szMEntry),"EntryName_%u_%u",buttonnum,++from);
+		mir_snprintf(szMEntry,SIZEOF(szMEntry),"EntryName_%u_%u",buttonnum,++from);
 	}
 	db_free(&dbv);
 }
@@ -212,16 +212,16 @@ BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode)
 
 	switch (mode) {
 	case 0:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryToQMenu_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "EntryToQMenu_%u_%u", buttonnum, entrynum);
 		break;
 	case 1:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryRel_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "EntryRel_%u_%u", buttonnum, entrynum);
 		break;
 	case 2:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryIsServiceName_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "EntryIsServiceName_%u_%u", buttonnum, entrynum);
 		break;
 	case 3:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "RCEntryIsServiceName_%u", buttonnum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "RCEntryIsServiceName_%u", buttonnum);
 		break;
 	}
 	return db_get_b(NULL, PLGNAME, szMEntry, 0); 
@@ -343,21 +343,24 @@ void DestructButtonsList()
 TCHAR* getMenuEntry(int buttonnum, int entrynum, BYTE mode) 
 {	  
 	TCHAR* buffer = NULL;
-	char szMEntry[256] = {'\0'};
-	DBVARIANT dbv = {0};
+	char szMEntry[256];
+	DBVARIANT dbv;
 
 	switch (mode) {
 	case 0:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryName_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "EntryName_%u_%u", buttonnum, entrynum);
 		break;
 	case 1:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "EntryValue_%u_%u", buttonnum, entrynum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "EntryValue_%u_%u", buttonnum, entrynum);
 		break;
 	case 2:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "ButtonValue_%u", buttonnum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "ButtonValue_%u", buttonnum);
 		break;
 	case 3:
-		mir_snprintf(szMEntry, sizeof(szMEntry), "ButtonName_%u", buttonnum);
+		mir_snprintf(szMEntry, SIZEOF(szMEntry), "ButtonName_%u", buttonnum);
+		break;
+	default:
+		szMEntry[0] = 0;
 		break;
 	}
 

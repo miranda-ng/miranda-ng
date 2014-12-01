@@ -1968,11 +1968,11 @@ int __cdecl CIcqProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 	case EV_PROTO_ONERASE:
 		{
 			char szDbSetting[MAX_PATH];
-			mir_snprintf(szDbSetting, sizeof(szDbSetting), "%sP2P", m_szModuleName);
+			mir_snprintf(szDbSetting, SIZEOF(szDbSetting), "%sP2P", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
-			mir_snprintf(szDbSetting, sizeof(szDbSetting), "%sSrvGroups", m_szModuleName);
+			mir_snprintf(szDbSetting, SIZEOF(szDbSetting), "%sSrvGroups", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
-			mir_snprintf(szDbSetting, sizeof(szDbSetting), "%sGroups", m_szModuleName);
+			mir_snprintf(szDbSetting, SIZEOF(szDbSetting), "%sGroups", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbSetting);
 		}
 		break;

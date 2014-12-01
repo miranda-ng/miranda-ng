@@ -775,7 +775,7 @@ bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 
 	CLISTEVENT cle = { 0 };
 	char szService[256];
-	mir_snprintf(szService, sizeof(szService), "%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
 	cle.cbSize = sizeof(CLISTEVENT);
 	cle.hIcon = (HICON)LoadIconEx("notes");
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;

@@ -219,11 +219,11 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
-			mir_snprintf(buf, sizeof(buf), "%s", ci.pszVal);
+			mir_snprintf(buf, SIZEOF(buf), "%s", ci.pszVal);
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
-			mir_snprintf(buf, sizeof(buf), "%u", ci.dVal);
+			mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
 			break;
 		}
 	}
@@ -233,11 +233,11 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
-			mir_snprintf(buf, sizeof(buf), "%s", ci.pszVal);
+			mir_snprintf(buf, SIZEOF(buf), "%s", ci.pszVal);
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
-			mir_snprintf(buf, sizeof(buf), "%u", ci.dVal);
+			mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
 			break;
 		}
 	}

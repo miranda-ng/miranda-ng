@@ -231,7 +231,7 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 		pszDescription = pszError;
 
 	char szBuf[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf),
+	DWORD dwBytesToWrite = mir_snprintf(szBuf, SIZEOF(szBuf),
 	    "HTTP/1.1 %i %s\r\n"
 	    "Date: %s\r\n"
 	    "Server: MirandaWeb/%s\r\n"
@@ -281,7 +281,7 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 		pszDescription = pszError;
 
 	char szBuff[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuff, sizeof(szBuff),
+	DWORD dwBytesToWrite = mir_snprintf(szBuff, SIZEOF(szBuff),
 	    "HTTP/1.1 %i %s\r\n"
 	    "Date: %s\r\n"
 	    "Server: MirandaWeb/%s\r\n"
@@ -546,7 +546,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 
 			char szETag[ 50 ];
 			{
-				int nETagLen = mir_snprintf(szETag, sizeof(szETag), "\"%x-%x-%x\"",
+				int nETagLen = mir_snprintf(szETag, SIZEOF(szETag), "\"%x-%x-%x\"",
 				    nDataSize, stFileTime.dwHighDateTime, stFileTime.dwLowDateTime);
 
 				if (!apszParam[eIfRange] || (strncmp(szETag, apszParam[eIfRange], nETagLen) == 0)) {
@@ -616,7 +616,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				    "Last-Modified: %s\r\n"
 				    "\r\n";
 
-				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpPartial,
+				dwBytesToWrite = mir_snprintf(szBuf, SIZEOF(szBuf), szHttpPartial,
 				    szCurTime,
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag,
@@ -638,7 +638,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand) {
 				    "Last-Modified: %s\r\n"
 				    "\r\n";
 
-				dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szHttpOk,
+				dwBytesToWrite = mir_snprintf(szBuf, SIZEOF(szBuf), szHttpOk,
 				    szCurTime,
 				    PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 				    szETag,

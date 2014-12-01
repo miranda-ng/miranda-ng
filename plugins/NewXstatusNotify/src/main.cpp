@@ -86,7 +86,7 @@ BYTE GetGender(MCONTACT hContact)
 HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", MODULE, szIcon);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, szIcon);
 	return Skin_GetIconHandle(szSettingName);
 }
 

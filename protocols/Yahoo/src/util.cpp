@@ -188,7 +188,7 @@ extern PLUGININFOEX pluginInfo;
 void CYahooProto::YAHOO_utils_logversion()
 {
     char str[256];
-    mir_snprintf(str, sizeof(str), "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
+    mir_snprintf(str, SIZEOF(str), "Yahoo v%d.%d.%d.%d", (pluginInfo.version >> 24) & 0xFF, (pluginInfo.version >> 16) & 0xFF,
               (pluginInfo.version >> 8) & 0xFF, pluginInfo.version & 0xFF);
     debugLogA(str);
 }

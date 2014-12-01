@@ -83,7 +83,7 @@ void Manager::initImageList()
 
 	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
 	{
-		mir_snprintf(buff, sizeof(buff), "ftp%d", i);
+		mir_snprintf(buff, SIZEOF(buff), "ftp%d", i);
 		ImageList_AddIcon(himlStates, Utils::loadIconEx(buff));
 	}
 

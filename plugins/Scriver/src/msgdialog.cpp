@@ -1079,7 +1079,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 				char idbuf[128], buf[128];
 				GetContactUniqueId(dat, idbuf, sizeof(idbuf));
-				mir_snprintf(buf, sizeof(buf), Translate("User Menu - %s"), idbuf);
+				mir_snprintf(buf, SIZEOF(buf), Translate("User Menu - %s"), idbuf);
 				SendMessage(GetDlgItem(hwndDlg, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM) buf, 0);
 
 				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status")))

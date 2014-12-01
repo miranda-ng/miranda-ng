@@ -3,7 +3,7 @@
 HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASERVICEOBJ serviceProc, void *obj)
 {
 	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, sizeof(str), "%s%s", MODULE, szService);
+	mir_snprintf(str, SIZEOF(str), "%s%s", MODULE, szService);
 	str[MAXMODULELABELLENGTH - 1] = 0;
 	return CreateServiceFunctionObj(str, serviceProc, obj);
 }

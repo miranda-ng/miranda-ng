@@ -199,8 +199,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 void LoadProtocols(void)
 {
 	//Load the default nudge
-	mir_snprintf(DefaultNudge.ProtocolName, sizeof(DefaultNudge.ProtocolName), "Default");
-	mir_snprintf(DefaultNudge.NudgeSoundname, sizeof(DefaultNudge.NudgeSoundname), "Nudge : Default");
+	mir_snprintf(DefaultNudge.ProtocolName, SIZEOF(DefaultNudge.ProtocolName), "Default");
+	mir_snprintf(DefaultNudge.NudgeSoundname, SIZEOF(DefaultNudge.NudgeSoundname), "Nudge : Default");
 	SkinAddNewSoundEx(DefaultNudge.NudgeSoundname, LPGEN("Nudge"), LPGEN("Default Nudge"));
 	DefaultNudge.Load();
 
@@ -495,7 +495,7 @@ void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
 void Nudge_AddAccount(PROTOACCOUNT *proto)
 {
 	char str[MAXMODULELABELLENGTH + 10];
-	mir_snprintf(str, sizeof(str), "%s/Nudge", proto->szModuleName);
+	mir_snprintf(str, SIZEOF(str), "%s/Nudge", proto->szModuleName);
 	HANDLE hevent = HookEvent(str, NudgeReceived);
 	if (hevent == NULL)
 		return;
@@ -505,7 +505,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	//Add a specific sound per protocol
 	NudgeElementList *newNudge = new NudgeElementList;
 	//newNudge = (NudgeElementList*) malloc(sizeof(NudgeElementList));
-	mir_snprintf(newNudge->item.NudgeSoundname, sizeof(newNudge->item.NudgeSoundname), "%s: Nudge", proto->szModuleName);
+	mir_snprintf(newNudge->item.NudgeSoundname, SIZEOF(newNudge->item.NudgeSoundname), "%s: Nudge", proto->szModuleName);
 
 	strcpy(newNudge->item.ProtocolName, proto->szProtoName);
 	_tcscpy(newNudge->item.AccountName, proto->tszAccountName);
@@ -522,7 +522,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	NudgeList = newNudge;
 
 	char iconName[MAXMODULELABELLENGTH + 10];
-	mir_snprintf(iconName, sizeof(iconName), "Nudge_%s", proto->szModuleName);
+	mir_snprintf(iconName, SIZEOF(iconName), "Nudge_%s", proto->szModuleName);
 
 	TCHAR szFilename[MAX_PATH], iconDesc[MAXMODULELABELLENGTH + 10];
 	GetModuleFileName(hInst, szFilename, MAX_PATH);

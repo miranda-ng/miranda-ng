@@ -260,9 +260,9 @@ void FILEECHO::updateTitle()
 
 	contactName=(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,0);
 	if(iState == STATE_OPERATE && chunkCount != 0)
-		mir_snprintf(newtitle, sizeof(newtitle), "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
+		mir_snprintf(newtitle, SIZEOF(newtitle), "%d%% - %s: %s", chunkSent * 100 / chunkCount, Translate(szFEMode[inSend]), contactName);
 	else
-		mir_snprintf(newtitle, sizeof(newtitle), "%s: %s", Translate(szFEMode[inSend]), contactName);
+		mir_snprintf(newtitle, SIZEOF(newtitle), "%s: %s", Translate(szFEMode[inSend]), contactName);
 	SetWindowText(hDlg, newtitle);
 }
 
@@ -429,9 +429,9 @@ void FILEECHO::sendReq()
 	if(*p == '\\')
 		strcpy(filename,p+1);
 
-	mir_snprintf(sendbuf, sizeof(sendbuf), Translate("Size: %d bytes"), fileSize);
+	mir_snprintf(sendbuf, SIZEOF(sendbuf), Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILESIZE, sendbuf);
-	mir_snprintf(sendbuf, sizeof(sendbuf), "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary+'0', codeSymb, chunkCount, fileSize);
+	mir_snprintf(sendbuf, SIZEOF(sendbuf), "?%c%c%d:%d \n" NOPLUGIN_MESSAGE, asBinary+'0', codeSymb, chunkCount, fileSize);
 	sendCmd(0, CMD_REQ, sendbuf, filename);
 
 	SetDlgItemText(hDlg, IDC_STATUS, Translate("Request sent. Awaiting of acceptance.."));
@@ -460,7 +460,7 @@ void FILEECHO::incomeRequest(char *param)
 	chunkCountx = atoi(p);
 	fileSize = atoi(param);
 
-	mir_snprintf(buf, sizeof(buf), Translate("Size: %d bytes"), fileSize);
+	mir_snprintf(buf, SIZEOF(buf), Translate("Size: %d bytes"), fileSize);
 	SetDlgItemText(hDlg, IDC_FILENAME, filename);
 	SetDlgItemText(hDlg, IDC_FILESIZE, buf);
 
@@ -635,7 +635,7 @@ void FILEECHO::onSendTimer()
 	}
 
 	char prefix[128];
-	mir_snprintf(prefix, sizeof(prefix), "%X,%X,%X>", chunkIndx+1, chunkPos[chunkIndx], chksum);
+	mir_snprintf(prefix, SIZEOF(prefix), "%X,%X,%X>", chunkIndx+1, chunkPos[chunkIndx], chksum);
 #ifdef DEBUG
 	overhead += mir_tstrlen((char*)buffer);
 #endif
@@ -1189,9 +1189,9 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 
 					int size = RetrieveFileSize(str);
 					if(size != -1)
-						mir_snprintf(str, sizeof(str), Translate("Size: %d bytes"), size);
+						mir_snprintf(str, SIZEOF(str), Translate("Size: %d bytes"), size);
 					else
-						mir_snprintf(str, sizeof(str), Translate("Can't get a file size"), size);
+						mir_snprintf(str, SIZEOF(str), "%s", Translate("Can't get a file size"));
 					SetDlgItemText(hDlg, IDC_FILESIZE, str);					
 
 					break;

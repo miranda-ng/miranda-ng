@@ -126,7 +126,7 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 		break;
 	}
 
-	mir_snprintf(szBuf, sizeof(szBuf), "%s%s%s (%s %d)",
+	mir_snprintf(szBuf, SIZEOF(szBuf), "%s%s%s (%s %d)",
 					 szMsg ? ICQTranslateUtfStatic(szMsg, str, 1024) : "",
 					 szMsg ? "\r\n\r\n" : "",
 					 ICQTranslateUtfStatic(pszErrorMsg, szErrorMsg, 512),

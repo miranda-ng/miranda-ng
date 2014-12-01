@@ -67,8 +67,8 @@ void OpenAuthUrl(const char* url)
 
 	if (user[0] && pass[0]) {
 		char str[256];
-		mir_snprintf(str, sizeof(str), url, user);
-		mir_snprintf(str, sizeof(str), "http://vi.miranda-ng.org/detail/%s", user);
+		mir_snprintf(str, SIZEOF(str), url, user); // XXX: fix me
+		mir_snprintf(str, SIZEOF(str), "http://vi.miranda-ng.org/detail/%s", user);
 		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)str);
 	}
 	else CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://vi.miranda-ng.org/");
@@ -80,7 +80,7 @@ void CreateAuthString(char* auth)
 	GetLoginStr(user, sizeof(user), pass);
 
 	char str[110];
-	int len = mir_snprintf(str, sizeof(str), "%s:%s", user, pass);
+	int len = mir_snprintf(str, SIZEOF(str), "%s:%s", user, pass);
 	mir_snprintf(auth, 250, "Basic %s", ptrA(mir_base64_encode((PBYTE)str, len)));
 }
 
@@ -203,7 +203,7 @@ void __cdecl VersionInfoUploadThread(void* arg)
 	char user[64], pass[40];
 	GetLoginStr(user, sizeof(user), pass);
 	char str[256];
-	mir_snprintf(str, sizeof(str), "http://vi.miranda-ng.org/en/upload?login=%s&pass=%s", user, pass);
+	mir_snprintf(str, SIZEOF(str), "http://vi.miranda-ng.org/en/upload?login=%s&pass=%s", user, pass);
 
 	InternetDownloadFile(str, trn);
 	mir_free(trn->buf);

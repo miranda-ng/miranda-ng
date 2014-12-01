@@ -996,7 +996,7 @@ void AddContactPhonesToComboToListParam(MCONTACT hContact,LPSTR lpszModule,LPSTR
 
 	for (i=0;TRUE;i++)
 	{
-		mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
+		mir_snprintf(szBuff,SIZEOF(szBuff),"%s%ld",lpszValueName,i);
 		if (DB_GetStaticStringW(hContact,lpszModule,szBuff,tszPhoneRaw,SIZEOF(tszPhoneRaw),&dwPhoneSize))
 		{
 			tszPhone[0]='+';
@@ -1063,7 +1063,7 @@ void AddContactPhonesToTreeViewParam(MCONTACT hContact,LPSTR lpszModule,LPSTR lp
 
 	for (i=0;TRUE;i++)
 	{
-		mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
+		mir_snprintf(szBuff,SIZEOF(szBuff),"%s%ld",lpszValueName,i);
 		if (DB_GetStaticStringW(hContact,lpszModule,szBuff,tszPhoneRaw,SIZEOF(tszPhoneRaw),&dwPhoneSize))
 		{
 			tszPhone[0]='+';

@@ -107,7 +107,7 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 
 		mi.ptszName = profilename;
 		mi.position = 2000100000 + mcount;
-		mir_snprintf(servicename, sizeof(servicename), "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
+		mir_snprintf(servicename, SIZEOF(servicename), "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
 		switch(mcount) {
 		case 0:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService0);
@@ -161,7 +161,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 
 	DBVARIANT dbv;
 	char setting[80];
-	mir_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_PROFILENAME);
+	mir_snprintf(setting, SIZEOF(setting), "%d_%s", profile, SETTING_PROFILENAME);
 	if ( db_get_ts(NULL, MODULENAME, setting, &dbv))
 		return -1;
 
@@ -190,7 +190,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 
 	for ( int i=0; i < pceCount; i++ ) {
 		if ( (pce[i].profile == profile) && (!strcmp(pce[i].szProto, szProto))) {
-			mir_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
+			mir_snprintf(dbSetting, SIZEOF(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 			if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = ( TCHAR* )realloc(pce[i].msg, sizeof(TCHAR)*(_tcslen(dbv.ptszVal)+1));
 				if (pce[i].msg != NULL) {
@@ -214,7 +214,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 	pce[pceCount].profile = profile;
 	pce[pceCount].szProto = _strdup(szProto);
 	pce[pceCount].msg = NULL;
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
+	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 	if (!db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
 		pce[pceCount].msg = _tcsdup(dbv.ptszVal);
 		db_free(&dbv);
@@ -264,7 +264,7 @@ INT_PTR LoadAndSetProfile(WPARAM wParam, LPARAM lParam)
 		profile = (profile >= 0)?profile:db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 		char setting[64];
-		mir_snprintf(setting, sizeof(setting), "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
+		mir_snprintf(setting, SIZEOF(setting), "%d_%s", profile, SETTING_SHOWCONFIRMDIALOG);
 		if (!db_get_b(NULL, MODULENAME, setting, 0))
 			CallService(MS_CS_SETSTATUSEX,(WPARAM)&profileSettings, 0);
 		else
@@ -339,7 +339,7 @@ static int RegisterHotKeys()
 			return -1;
 
 		char atomname[255];
-		mir_snprintf(atomname, sizeof(atomname), "StatusProfile_%d", i);
+		mir_snprintf(atomname, SIZEOF(atomname), "StatusProfile_%d", i);
 		hkInfo[hkiCount].id = GlobalAddAtomA(atomname);
 		if (hkInfo[hkiCount].id == 0)
 			continue;

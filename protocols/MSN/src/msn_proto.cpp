@@ -123,7 +123,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu1.szSettingsModule = szDbsettings;
 	nlu1.ptszDescriptiveName = szBuffer;
 
-	mir_snprintf(szDbsettings, sizeof(szDbsettings), "%s_HTTPS", m_szModuleName);
+	mir_snprintf(szDbsettings, SIZEOF(szDbsettings), "%s_HTTPS", m_szModuleName);
 	mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s plugin HTTPS connections"), m_tszUserName);
 	hNetlibUserHttps = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu1);
 
@@ -1081,7 +1081,7 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 
 	case EV_PROTO_ONERASE:
 		char szDbsettings[64];
-		mir_snprintf(szDbsettings, sizeof(szDbsettings), "%s_HTTPS", m_szModuleName);
+		mir_snprintf(szDbsettings, SIZEOF(szDbsettings), "%s_HTTPS", m_szModuleName);
 		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
 		break;
 

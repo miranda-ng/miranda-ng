@@ -182,9 +182,9 @@ void UploadJob::start()
 char *UploadJob::getChmodString()
 {
 	if (ftp->ftpProto == ServerList::FTP::FT_SSH) 
-		mir_snprintf(buff, sizeof(buff), "%s \"%s/%s\"", ftp->szChmod, ftp->szDir, this->szSafeFileName);
+		mir_snprintf(buff, SIZEOF(buff), "%s \"%s/%s\"", ftp->szChmod, ftp->szDir, this->szSafeFileName);
 	else 
-		mir_snprintf(buff, sizeof(buff), "%s %s", ftp->szChmod, this->szSafeFileName);
+		mir_snprintf(buff, SIZEOF(buff), "%s %s", ftp->szChmod, this->szSafeFileName);
 
 	return buff;
 }
@@ -192,9 +192,9 @@ char *UploadJob::getChmodString()
 char *UploadJob::getDelFileString()
 {
 	if (ftp->ftpProto == ServerList::FTP::FT_SSH)
-		mir_snprintf(buff, sizeof(buff), "rm \"%s/%s\"", ftp->szDir, this->szSafeFileName);
+		mir_snprintf(buff, SIZEOF(buff), "rm \"%s/%s\"", ftp->szDir, this->szSafeFileName);
 	else
-		mir_snprintf(buff, sizeof(buff), "DELE %s", this->szSafeFileName);
+		mir_snprintf(buff, SIZEOF(buff), "DELE %s", this->szSafeFileName);
 
 	return buff;
 }
@@ -202,9 +202,9 @@ char *UploadJob::getDelFileString()
 char *UploadJob::getUrlString()
 {
 	if (ftp->szDir[0])
-		mir_snprintf(buff, sizeof(buff), "%s%s/%s/%s", ftp->getProtoString(), ftp->szServer, ftp->szDir, this->szSafeFileName);
+		mir_snprintf(buff, SIZEOF(buff), "%s%s/%s/%s", ftp->getProtoString(), ftp->szServer, ftp->szDir, this->szSafeFileName);
 	else
-		mir_snprintf(buff, sizeof(buff), "%s%s/%s", ftp->getProtoString(), ftp->szServer, this->szSafeFileName);
+		mir_snprintf(buff, SIZEOF(buff), "%s%s/%s", ftp->getProtoString(), ftp->szServer, this->szSafeFileName);
 
 	return buff;
 }
@@ -212,9 +212,9 @@ char *UploadJob::getUrlString()
 char *UploadJob::getDelUrlString()
 {
 	if (ftp->szDir[0] && ftp->ftpProto != ServerList::FTP::FT_SSH)
-		mir_snprintf(buff, sizeof(buff), "%s%s/%s/", ftp->getProtoString(), ftp->szServer, ftp->szDir);
+		mir_snprintf(buff, SIZEOF(buff), "%s%s/%s/", ftp->getProtoString(), ftp->szServer, ftp->szDir);
 	else
-		mir_snprintf(buff, sizeof(buff), "%s%s/", ftp->getProtoString(), ftp->szServer);
+		mir_snprintf(buff, SIZEOF(buff), "%s%s/", ftp->getProtoString(), ftp->szServer);
 
 	return buff;
 }
@@ -316,7 +316,7 @@ void UploadJob::upload()
 		
 		if (result != CURLE_OK && result != CURLE_ABORTED_BY_CALLBACK) {
 			char buff[256];
-			mir_snprintf(buff, sizeof(buff), Translate("FTP error occurred.\n%s"), this->szError);
+			mir_snprintf(buff, SIZEOF(buff), Translate("FTP error occurred.\n%s"), this->szError);
 			Utils::msgBoxA(buff, MB_OK | MB_ICONERROR);
 		}
 			

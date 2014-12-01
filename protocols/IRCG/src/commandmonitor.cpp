@@ -246,9 +246,9 @@ void __cdecl CIrcProto::ResolveIPThread(LPVOID di)
 				IN_ADDR in;
 				memcpy(&in, myhost->h_addr, 4);
 				if (ipr->iType == IP_AUTO)
-					mir_snprintf(m_myHost, sizeof(m_myHost), "%s", inet_ntoa(in));
+					mir_snprintf(m_myHost, SIZEOF(m_myHost), "%s", inet_ntoa(in));
 				else
-					mir_snprintf(m_mySpecifiedHostIP, sizeof(m_mySpecifiedHostIP), "%s", inet_ntoa(in));
+					mir_snprintf(m_mySpecifiedHostIP, SIZEOF(m_mySpecifiedHostIP), "%s", inet_ntoa(in));
 			}
 		}
 	}

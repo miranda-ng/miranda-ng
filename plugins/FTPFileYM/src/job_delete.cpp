@@ -105,9 +105,9 @@ void DeleteJob::run()
 char *DeleteJob::getDelFileString()
 {
 	if (ftp->ftpProto == ServerList::FTP::FT_SSH)
-		mir_snprintf(buff, sizeof(buff), "rm \"%s/%s\"", ftp->szDir, entry->szFileName);
+		mir_snprintf(buff, SIZEOF(buff), "rm \"%s/%s\"", ftp->szDir, entry->szFileName);
 	else
-		mir_snprintf(buff, sizeof(buff), "DELE %s", entry->szFileName);
+		mir_snprintf(buff, SIZEOF(buff), "DELE %s", entry->szFileName);
 
 	return buff;
 }
@@ -115,9 +115,9 @@ char *DeleteJob::getDelFileString()
 char *DeleteJob::getDelUrlString()
 {	
 	if (ftp->szDir[0] && ftp->ftpProto != ServerList::FTP::FT_SSH)
-		mir_snprintf(buff, sizeof(buff), "%s%s/%s/", ftp->getProtoString(), ftp->szServer, ftp->szDir);
+		mir_snprintf(buff, SIZEOF(buff), "%s%s/%s/", ftp->getProtoString(), ftp->szServer, ftp->szDir);
 	else
-		mir_snprintf(buff, sizeof(buff), "%s%s/", ftp->getProtoString(), ftp->szServer);
+		mir_snprintf(buff, SIZEOF(buff), "%s%s/", ftp->getProtoString(), ftp->szServer);
 
 	return buff;
 }

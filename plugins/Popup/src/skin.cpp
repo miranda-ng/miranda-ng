@@ -1047,14 +1047,14 @@ void PopupSkin::freeSkin(SKINELEMENT *head)
 void PopupSkin::saveOpts() const
 {
 	char buf[128];
-	mir_snprintf(buf, sizeof(buf), "skin.%.120S", m_name);
+	mir_snprintf(buf, SIZEOF(buf), "skin.%.120S", m_name);
 	db_set_dw(NULL, MODULNAME, buf, m_flags);
 }
 
 void PopupSkin::loadOpts() const
 {
 	char buf[128];
-	mir_snprintf(buf, sizeof(buf), "skin.%.120S", m_name);
+	mir_snprintf(buf, SIZEOF(buf), "skin.%.120S", m_name);
 	m_flags = db_get_dw(NULL, MODULNAME, buf, m_flags);
 }
 

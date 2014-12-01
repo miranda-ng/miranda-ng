@@ -1398,8 +1398,8 @@ void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const c
 
 			newThread->mType = SERVER_P2P_DIRECT;
 			newThread->mInitialContactWLID = mir_strdup(wlid);
-			mir_snprintf(newThread->mCookie, sizeof(newThread->mCookie), "%s", szCallID);
-			mir_snprintf(newThread->mServer, sizeof(newThread->mServer),
+			mir_snprintf(newThread->mCookie, SIZEOF(newThread->mCookie), "%s", szCallID);
+			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer),
 				ipv6 ? "[%s]:%s" : "%s:%s", pAddrTokBeg, pPortTokBeg);
 
 			newThread->startThread(&CMsnProto::p2p_fileActiveThread, this);
@@ -1742,7 +1742,7 @@ void CMsnProto::p2p_processMsgV2(ThreadData* info, char* msgbody, const char* wl
 
 		if (hdrdata.mRemSize || hdrdata.mTFCode == 0) {
 			char msgid[128];
-			mir_snprintf(msgid, sizeof(msgid), "%s_%08x", wlid, hdrdata.mPacketNum);
+			mir_snprintf(msgid, SIZEOF(msgid), "%s_%08x", wlid, hdrdata.mPacketNum);
 
 			int idx;
 			if (hdrdata.mTFCode == 0x01) {
@@ -1833,7 +1833,7 @@ void CMsnProto::p2p_processMsg(ThreadData* info, char* msgbody, const char* wlid
 
 		if (hdrdata.mPacketLen < hdrdata.mTotalSize) {
 			char msgid[128];
-			mir_snprintf(msgid, sizeof(msgid), "%s_%08x", wlid, hdrdata.mID);
+			mir_snprintf(msgid, SIZEOF(msgid), "%s_%08x", wlid, hdrdata.mID);
 			int idx = addCachedMsg(msgid, msgbody, (size_t)hdrdata.mOffset, hdrdata.mPacketLen,
 				(size_t)hdrdata.mTotalSize, false);
 

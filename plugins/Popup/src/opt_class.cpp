@@ -189,7 +189,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			for (i=0; i < gTreeData.getCount(); ++i) {
 				switch (gTreeData[i]->typ) {
 				case 1: //Treeview part for typ 1 (notification)
-					mir_snprintf(iconName, sizeof(iconName), "%s_%S_%S", MODULNAME, gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
+					mir_snprintf(iconName, SIZEOF(iconName), "%s_%S_%S", MODULNAME, gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 					iconIndex = ImageList_ReplaceIcon(hImgLst, -1, IcoLib_GetIcon(iconName));
 					mir_sntprintf(itemName, SIZEOF(itemName), _T("%s/%s"), gTreeData[i]->pszTreeRoot, gTreeData[i]->pszDescription);
 					break;
@@ -493,25 +493,25 @@ void LoadClassSettings(POPUPTREEDATA *ptd, char* szModul)
 	char setting[2*MAXMODULELABELLENGTH];
 	char *szTmp = NULL;
 
-	mir_snprintf(setting, sizeof(setting), "%s/enabled", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/enabled", ptd->pupClass.pszName);
 	ptd->enabled = 
 		(signed char)db_get_b(NULL, szModul, setting, TRUE);
 
-	mir_snprintf(setting, sizeof(setting), "%s/Timeout", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/Timeout", ptd->pupClass.pszName);
 	ptd->pupClass.iSeconds = 
 		(signed char)db_get_w(NULL, szModul, setting, 0);
 
-	mir_snprintf(setting, sizeof(setting), "%s/TimeoutVal", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/TimeoutVal", ptd->pupClass.pszName);
 	ptd->timeoutValue =
 		(signed char)db_get_w(NULL, szModul, setting,
 			ptd->pupClass.iSeconds ? ptd->pupClass.iSeconds : PopupOptions.Seconds);
 
-	mir_snprintf(setting, sizeof(setting), "%s/leftAction", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/leftAction", ptd->pupClass.pszName);
 	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_NOTHING);	//standart ??
 	mir_strncpy(ptd->leftAction, szTmp, sizeof(ptd->leftAction));
 	mir_free(szTmp); szTmp = NULL;
 
-	mir_snprintf(setting, sizeof(setting), "%s/rightAction", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/rightAction", ptd->pupClass.pszName);
 	szTmp = db_get_s(NULL, szModul, setting, POPUP_ACTION_DISMISS);	//standart ??
 	mir_strncpy(ptd->rightAction, szTmp, sizeof(ptd->rightAction));
 	mir_free(szTmp); szTmp = NULL;
@@ -521,18 +521,18 @@ void SaveClassSettings(POPUPTREEDATA *ptd, char* szModul)
 {
 	char setting[2*MAXMODULELABELLENGTH];
 
-	mir_snprintf(setting, sizeof(setting), "%s/enabled", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/enabled", ptd->pupClass.pszName);
 	db_set_b(NULL, szModul, setting, ptd->enabled);
 
-	mir_snprintf(setting, sizeof(setting), "%s/Timeout", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/Timeout", ptd->pupClass.pszName);
 	db_set_w(NULL, szModul, setting, ptd->pupClass.iSeconds);
 
-	mir_snprintf(setting, sizeof(setting), "%s/TimeoutVal",ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/TimeoutVal",ptd->pupClass.pszName);
 	db_set_w(NULL, szModul, setting, ptd->timeoutValue);
 
-	mir_snprintf(setting, sizeof(setting), "%s/leftAction",ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/leftAction",ptd->pupClass.pszName);
 	db_set_s(NULL, szModul, setting, ptd->leftAction);
 
-	mir_snprintf(setting, sizeof(setting), "%s/rightAction",ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/rightAction",ptd->pupClass.pszName);
 	db_set_s(NULL, szModul, setting, ptd->rightAction);
 }

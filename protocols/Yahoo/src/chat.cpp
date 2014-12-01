@@ -53,7 +53,7 @@ void CALLBACK ConferenceRequestCB(PVOID dwParam);
 void ext_yahoo_got_conf_invite(int id, const char *me, const char *who, const char *room, const char *msg, YList *members)
 {
 	char z[1024];
-	mir_snprintf(z, sizeof(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ?room:"", msg ?msg:"");
+	mir_snprintf(z, SIZEOF(z), Translate("[miranda] Got conference invite to room: %s with msg: %s"), room ?room:"", msg ?msg:"");
 	LOG(("[ext_yahoo_got_conf_invite] %s", z));
 
 	CYahooProto* ppro = getProtoById(id);
@@ -653,7 +653,7 @@ static void CALLBACK ConferenceRequestCB(PVOID pParam)
 INT_PTR __cdecl CYahooProto::CreateConference(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	char room[128];
-	mir_snprintf(room, sizeof(room), "%s-%u", m_yahoo_id, time(NULL));
+	mir_snprintf(room, SIZEOF(room), "%s-%u", m_yahoo_id, time(NULL));
 
 	InviteChatParam* param = new InviteChatParam(room, this);
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_CHATROOM_INVITE), NULL,

@@ -136,8 +136,8 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (LOWORD(wParam) == IDC_TWEETMSG && HIWORD(wParam) == EN_CHANGE) {
 			size_t len = SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, WM_GETTEXTLENGTH, 0, 0);
-			char str[4];
-			mir_snprintf(str, sizeof(str), "%d", 140 - len);
+			char str[16];
+			mir_snprintf(str, SIZEOF(str), "%d", 140 - len);
 			SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
 
 			return true;
@@ -146,14 +146,14 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		break;
 	case WM_SETREPLY:
 		char foo[512];
-		mir_snprintf(foo, sizeof(foo), "@%s ", (char*)wParam);
+		mir_snprintf(foo, SIZEOF(foo), "@%s ", (char*)wParam);
 		size_t len = strlen(foo);
 
 		SetDlgItemTextA(hwndDlg, IDC_TWEETMSG, foo);
 		SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_SETSEL, len, len);
 
-		char str[4];
-		mir_snprintf(str, sizeof(str), "%d", 140 - len);
+		char str[16];
+		mir_snprintf(str, SIZEOF(str), "%d", 140 - len);
 		SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
 
 		return true;
@@ -190,7 +190,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		else SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_SETCURSEL, 0, 0);
 
 		char pollrate_str[32];
-		mir_snprintf(pollrate_str, sizeof(pollrate_str), "%d", db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, 80));
+		mir_snprintf(pollrate_str, SIZEOF(pollrate_str), "%d", db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, 80));
 		SetDlgItemTextA(hwndDlg, IDC_POLLRATE, pollrate_str);
 
 		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, db_get_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, 0));
@@ -396,7 +396,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_PERMANENT, true);
 		else {
 			char str[32];
-			mir_snprintf(str, sizeof(str), "%d", timeout);
+			mir_snprintf(str, SIZEOF(str), "%d", timeout);
 			SetDlgItemTextA(hwndDlg, IDC_TIMEOUT, str);
 			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_CUSTOM, true);
 		}

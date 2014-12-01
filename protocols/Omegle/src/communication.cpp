@@ -391,7 +391,7 @@ bool Omegle_client::start()
 		std::string count = get_page( OMEGLE_REQUEST_COUNT );
 		if (!count.empty()) {
 			char str[255];
-			mir_snprintf(str, sizeof(str), Translate("Connected to server %s. There are %s users online now."), server_.c_str(), count.c_str());
+			mir_snprintf(str, SIZEOF(str), Translate("Connected to server %s. There are %s users online now."), server_.c_str(), count.c_str());
 
 			TCHAR *msg = mir_a2t(str);
 			parent->UpdateChat(NULL, msg);
@@ -399,7 +399,7 @@ bool Omegle_client::start()
 		}
 	} else {
 		char str[255];
-		mir_snprintf(str, sizeof(str), Translate("Connected to server %s."), server_.c_str());
+		mir_snprintf(str, SIZEOF(str), Translate("Connected to server %s."), server_.c_str());
 
 		TCHAR *msg = mir_a2t(str);
 		parent->UpdateChat(NULL, msg);
@@ -511,7 +511,7 @@ bool Omegle_client::events( )
 			std::string count = utils::text::trim( resp.data.substr(pos, resp.data.find("]", pos) - pos));
 
 			char str[255];
-			mir_snprintf(str, sizeof(str), Translate("On whole Omegle are %s strangers online now."), count.c_str());
+			mir_snprintf(str, SIZEOF(str), Translate("On whole Omegle are %s strangers online now."), count.c_str());
 			
 			TCHAR *msg = mir_a2t_cp(str,CP_UTF8);
 			parent->UpdateChat(NULL, msg);
@@ -665,7 +665,7 @@ bool Omegle_client::events( )
 						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
 			char str[255];
-			mir_snprintf(str, sizeof(str), Translate("%s disconnected."), Translate(stranger.c_str()));
+			mir_snprintf(str, SIZEOF(str), Translate("%s disconnected."), Translate(stranger.c_str()));
 			
 			TCHAR *msg = mir_a2t(str);
 			parent->UpdateChat(NULL, msg);

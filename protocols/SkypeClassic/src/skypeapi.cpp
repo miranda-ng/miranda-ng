@@ -1072,7 +1072,7 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
 	
 	FoldersGetCustomPath(hProtocolAvatarsFolder, AvatarFile, sizeof(AvatarFile), DefaultAvatarsFolder);
 	if (!*AvatarFile) strcpy (AvatarFile, DefaultAvatarsFolder);
-	mir_snprintf(AvatarFile, sizeof(AvatarFile), "%s\\%s avatar.%s", AvatarFile, SKYPE_PROTONAME, ext);
+	mir_snprintf(AvatarFile, SIZEOF(AvatarFile), "%s\\%s avatar.%s", AvatarFile, SKYPE_PROTONAME, ext);
 
 	// Backup old file
 	if (hasOldAvatar)
@@ -1100,7 +1100,7 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
 	}
 
 	// Try to set with skype
-	mir_snprintf(command, sizeof(command), "SET AVATAR 1 %s", AvatarFile);
+	mir_snprintf(command, SIZEOF(command), "SET AVATAR 1 %s", AvatarFile);
 	if (SkypeSend(command) || (ptr = SkypeRcv(command+4, INFINITE)) == NULL || !strncmp(ptr, "ERROR", 5))
 	{
 		DeleteFileA(AvatarFile);

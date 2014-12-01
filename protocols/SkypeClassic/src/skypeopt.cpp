@@ -755,7 +755,7 @@ int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 		
 		if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 7, 0, 27) && !bIsImoproxy)
 		{
-			mir_snprintf( szTitle, sizeof( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Avatar" ));
+			mir_snprintf( szTitle, SIZEOF( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Avatar" ));
 
 			odp.pfnDlgProc = AvatarDlgProc;
 			odp.position = 1900000000;
@@ -764,7 +764,7 @@ int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 			UserInfo_AddPage(wParam, &odp);
 		}
 
-		mir_snprintf( szTitle, sizeof( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Details" ));
+		mir_snprintf( szTitle, SIZEOF( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Details" ));
 	
 		odp.pfnDlgProc = DetailsDlgProc;
 		odp.position = 1900000000;

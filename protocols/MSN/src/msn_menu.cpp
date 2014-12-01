@@ -92,7 +92,7 @@ INT_PTR CMsnProto::MsnViewProfile(WPARAM hContact, LPARAM)
 	}
 
 	char tUrl[256];
-	mir_snprintf(tUrl, sizeof(tUrl), "http://cid-%I64X.profiles.live.com", _atoi64(cid));
+	mir_snprintf(tUrl, SIZEOF(tUrl), "http://cid-%I64X.profiles.live.com", _atoi64(cid));
 	MsnInvokeMyURL(false, tUrl);
 	return 0;
 }
@@ -177,7 +177,7 @@ INT_PTR CMsnProto::MsnSendNetMeeting(WPARAM wParam, LPARAM)
 
 	char msg[1024];
 
-	mir_snprintf(msg, sizeof(msg),
+	mir_snprintf(msg, SIZEOF(msg),
 		"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		"Application-Name: NetMeeting\r\n"
 		"Application-GUID: {44BBA842-CC51-11CF-AAFA-00AA00B6015C}\r\n"

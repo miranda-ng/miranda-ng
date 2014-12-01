@@ -702,7 +702,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			char buf[MAX_PATH];
 			char *format = GetWindowTextUtf(hwndDlg);
 
-			mir_snprintf(str, sizeof(str), format, dat->bXStatus?ICQTranslateUtfStatic(nameXStatus[dat->bXStatus-1], buf, MAX_PATH):"");
+			mir_snprintf(str, SIZEOF(str), format, dat->bXStatus?ICQTranslateUtfStatic(nameXStatus[dat->bXStatus-1], buf, MAX_PATH):"");
 			SetWindowTextUtf(hwndDlg, str);
 			SAFE_FREE(&format);
 		}
@@ -714,7 +714,7 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			break;
 		}
 
-		mir_snprintf(str,sizeof(str),dat->okButtonFormat,dat->countdown);
+		mir_snprintf(str,SIZEOF(str),dat->okButtonFormat,dat->countdown);
 		SetDlgItemTextUtf(hwndDlg,IDOK,str);
 		dat->countdown--;
 		break;
@@ -854,7 +854,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	if (m_bHideXStatusUI || m_bHideXStatusMenu)
 		return;
 
-	mir_snprintf(szItem, sizeof(szItem), Translate("%s Custom Status"), m_szModuleName);
+	mir_snprintf(szItem, SIZEOF(szItem), Translate("%s Custom Status"), m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = szItem;
@@ -862,7 +862,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	mi.position = 2000040000;
 
 	for (int i = 0; i <= XSTATUS_COUNT; i++) {
-		mir_snprintf(srvFce, sizeof(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
+		mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
 
 		mi.position++;
 
@@ -894,7 +894,7 @@ void InitXStatusIcons()
 
 	for (int i = 0; i < XSTATUS_COUNT; i++) {
 		char szTemp[100];
-		mir_snprintf(szTemp, sizeof(szTemp), "icq_xstatus%d", i);
+		mir_snprintf(szTemp, SIZEOF(szTemp), "icq_xstatus%d", i);
 		sid.pszName = szTemp;
 		sid.pszDescription = (LPSTR)nameXStatus[i];
 		sid.iDefaultIndex = -(IDI_XSTATUS1+i);

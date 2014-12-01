@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					continue;
 
 				char prefix[128];
-				mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
+				mir_snprintf(prefix, SIZEOF(prefix), "Protocol Status/%s", protocols[i]->szModuleName);
 
 				TCHAR pszSettingName[256];
 				mir_sntprintf(pszSettingName, SIZEOF(pszSettingName), LPGENT("Protocol Status")_T("/%s"), protocols[i]->tszAccountName);

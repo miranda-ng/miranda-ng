@@ -215,7 +215,7 @@ static int AssignStatus(TConnectionSettings* cs, int status, int lastStatus, TCH
 	EnterCriticalSection(&GenStatusCS);
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", cs->szName);
+	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", cs->szName);
 	cs->lastStatus = lastStatus == 0 ? cs->status : lastStatus;
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		cs->status = ID_STATUS_DISABLED;
@@ -526,7 +526,7 @@ static int ProcessProtoAck(WPARAM,LPARAM lParam)
 		return 0;
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", ack->szModule);
+	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", ack->szModule);
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return 0;
 
@@ -1060,7 +1060,7 @@ INT_PTR EnableProtocolService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", szProto);
+	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", szProto);
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1)) // 'hard' disabled
 		return -1;
 
@@ -1087,7 +1087,7 @@ INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam)
 	char *szProto = (char *)lParam;
 
 	char dbSetting[128];
-	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", szProto);
+	mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", szProto);
 	if (!db_get_b(NULL, MODULENAME, dbSetting, 1))
 		return FALSE;
 

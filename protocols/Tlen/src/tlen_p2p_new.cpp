@@ -185,7 +185,7 @@ void TlenBindUDPSocket(TLEN_FILE_TRANSFER *ft)
 				char host_name[256];
 				gethostname(host_name, sizeof(host_name));
 				hp = gethostbyname(host_name);
-				mir_snprintf(host_name, sizeof(host_name), "%u.%u.%u.%u", (unsigned char)hp->h_addr_list[0][0],
+				mir_snprintf(host_name, SIZEOF(host_name), "%u.%u.%u.%u", (unsigned char)hp->h_addr_list[0][0],
 															(unsigned char)hp->h_addr_list[0][1],
 															(unsigned char)hp->h_addr_list[0][2],
 															(unsigned char)hp->h_addr_list[0][3]);
@@ -260,7 +260,7 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 					if ((item=TlenListAdd(ft->proto, LIST_FILE, ft->iqId)) != NULL) {
 						char fileInfo[128];
 						item->ft = ft;
-						mir_snprintf(fileInfo, sizeof(fileInfo), "%s file(s), %s bytes", c, s);
+						mir_snprintf(fileInfo, SIZEOF(fileInfo), "%s file(s), %s bytes", c, s);
 						TCHAR* filenameT = mir_utf8decodeT((char*)fileInfo);
 						PROTORECVFILET pre = {0};
 						pre.flags = PREF_TCHAR;

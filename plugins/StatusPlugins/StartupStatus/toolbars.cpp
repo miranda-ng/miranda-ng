@@ -55,12 +55,12 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 	ttb.pszService = MS_SS_LOADANDSETPROFILE;
 	for (int i=0; i < profileCount; i++) {
 		char setting[80];
-		mir_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_CREATETTBBUTTON);
+		mir_snprintf(setting, SIZEOF(setting), "%d_%s", i, SETTING_CREATETTBBUTTON);
 		if (!db_get_b(NULL, MODULENAME, setting, FALSE))
 			continue;
 		
 		DBVARIANT dbv;
-		mir_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_PROFILENAME);
+		mir_snprintf(setting, SIZEOF(setting), "%d_%s", i, SETTING_PROFILENAME);
 		if (db_get(NULL, MODULENAME, setting, &dbv))
 			continue;
 

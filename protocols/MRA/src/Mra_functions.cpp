@@ -150,7 +150,7 @@ CMStringA MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList)
 	CMStringA res;
 	for (size_t i = 0; i < pmalAddrList->dwAddrCount; i++) {
 		char buf[100];
-		mir_snprintf(buf, sizeof(buf), "%s:%lu;", inet_ntoa((*((in_addr*)&pmalAddrList->pMailAddress[i].dwAddr))), pmalAddrList->pMailAddress[i].dwPort);
+		mir_snprintf(buf, SIZEOF(buf), "%s:%lu;", inet_ntoa((*((in_addr*)&pmalAddrList->pMailAddress[i].dwAddr))), pmalAddrList->pMailAddress[i].dwPort);
 		res += buf;
 	}
 

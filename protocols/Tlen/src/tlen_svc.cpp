@@ -829,7 +829,7 @@ HANDLE TlenProtocol::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription,
 	db_free(&dbv);
 
 	id = TlenSerialNext(this);
-	mir_snprintf(idStr, sizeof(idStr), "%d", id);
+	mir_snprintf(idStr, SIZEOF(idStr), "%d", id);
 	if ((item=TlenListAdd(this, LIST_FILE, idStr)) != NULL) {
 		ft->iqId = mir_strdup(idStr);
 		nick = TlenNickFromJID(ft->jid);

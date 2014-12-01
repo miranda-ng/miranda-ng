@@ -859,7 +859,7 @@ void CJabberProto::ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *par
 {
 	for (int i = 0; i < recentCount; i++) {
 		char setting[MAXMODULELABELLENGTH];
-		mir_snprintf(setting, sizeof(setting), "%s%d", param, i);
+		mir_snprintf(setting, SIZEOF(setting), "%s%d", param, i);
 		ptrT tszRecent(getTStringA(setting));
 		if (tszRecent != NULL)
 			SendDlgItemMessage(hwndDlg, idcCombo, CB_ADDSTRING, 0, tszRecent);
@@ -883,7 +883,7 @@ void CJabberProto::ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param
 
 	id = getByte(param, 0);
 	char setting[MAXMODULELABELLENGTH];
-	mir_snprintf(setting, sizeof(setting), "%s%d", param, id);
+	mir_snprintf(setting, SIZEOF(setting), "%s%d", param, id);
 	setTString(setting, string);
 	setByte(param, (id + 1) % recentCount);
 }

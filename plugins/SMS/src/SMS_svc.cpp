@@ -26,7 +26,7 @@ int LoadModules(void)
 	HookEvent(ME_PROTO_ACCLISTCHANGED,RefreshAccountList);
 
 	char szServiceFunction[MAX_PATH];
-	mir_snprintf(szServiceFunction,sizeof(szServiceFunction),"%s%s",PROTOCOL_NAMEA,SMS_SEND);
+	mir_snprintf(szServiceFunction,SIZEOF(szServiceFunction),"%s%s",PROTOCOL_NAMEA,SMS_SEND);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 300050000;

@@ -504,7 +504,7 @@ BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
 	else
 	{
 		char setting[256];
-		mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
+		mir_snprintf(setting, SIZEOF(setting), "%sEnabled", proto);
 		return (BOOL) db_get_b(NULL, MODULE_NAME, setting, FALSE);
 	}
 }
@@ -726,7 +726,7 @@ INT_PTR EnableListeningTo(char *proto,BOOL enabled)
 			return 0;
 
 		char setting[256];
-		mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
+		mir_snprintf(setting, SIZEOF(setting), "%sEnabled", proto);
 		db_set_b(NULL, MODULE_NAME, setting, enabled);
 
 		// Modify menu info

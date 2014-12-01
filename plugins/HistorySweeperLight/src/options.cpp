@@ -62,7 +62,7 @@ void InitIcons(void)
 HICON LoadIconEx(const char* name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", ModuleName, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, name);
 	return Skin_GetIcon(szSettingName);
 }
 
@@ -78,7 +78,7 @@ HANDLE GetIconHandle(const char* name)
 void  ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", ModuleName, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, name);
 	Skin_ReleaseIcon(szSettingName);
 }
 

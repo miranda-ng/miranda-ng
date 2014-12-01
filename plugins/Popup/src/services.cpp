@@ -146,7 +146,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 
 		if (proto) {
 			char prefix[128];
-			mir_snprintf(prefix, sizeof(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
+			mir_snprintf(prefix, SIZEOF(prefix), LPGEN("Protocol Status") "/%s", GetContactProto(ppd->lchContact));
 			if (db_get_dw(NULL, MODULNAME, prefix, 0) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;
 			if (((disableWhen >> 16) & 0xFFFF0000) & Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
@@ -389,7 +389,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	_tcsncpy(fid.deffontsettings.szFace, _T("Verdana"), SIZEOF(fid.deffontsettings.szFace));
 	_tcsncpy(fid.name, _T(PU_FNT_NAME_TEXT), SIZEOF(fid.name));
 	strncpy(fid.prefix, setting, SIZEOF(fid.prefix));
-	mir_snprintf(fid.prefix, sizeof(fid.prefix), "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
+	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
 	fid.deffontsettings.style  = 0;
 	fid.deffontsettings.colour = fonts.clText;
 	FontRegisterT(&fid);
@@ -402,7 +402,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	mir_sntprintf(cid.group, SIZEOF(cid.group), _T(PU_FNT_AND_COLOR)_T("/%S"), ptd->pupClass.pszName);
 	strncpy(cid.dbSettingsGroup, PU_MODULCLASS, SIZEOF(fid.dbSettingsGroup));
 	_tcsncpy(cid.name, PU_COL_BACK_NAME, SIZEOF(cid.name));
-	mir_snprintf(cid.setting, sizeof(cid.setting), "%s/BgCol", ptd->pupClass.pszName);
+	mir_snprintf(cid.setting, SIZEOF(cid.setting), "%s/BgCol", ptd->pupClass.pszName);
 	cid.defcolour = fonts.clBack;
 	ColourRegisterT(&cid);
 
