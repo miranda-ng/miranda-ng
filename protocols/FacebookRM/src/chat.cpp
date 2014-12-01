@@ -82,8 +82,8 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 	{
 	case GC_USER_MESSAGE:
 	{
-		std::string msg = ptrA( mir_t2a_cp(hook->ptszText,CP_UTF8));
-		std::string chat_id = ptrA( mir_t2a_cp(hook->pDest->ptszID,CP_UTF8));
+		std::string msg = _T2A(hook->ptszText, CP_UTF8);
+		std::string chat_id = _T2A(hook->pDest->ptszID, CP_UTF8);
 
 		if (isOnline()) {
 			debugLogA("**Chat - Outgoing message: %s", msg.c_str());
@@ -95,11 +95,13 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_PRIVMESS:
 	{
-		char* sn = mir_t2a(hook->ptszUID);
-		MCONTACT hContact = ContactIDToHContact(sn);
-		mir_free(sn);
+		std::string id = _T2A(hook->ptszUID, CP_UTF8);
+
+		MCONTACT hContact = ContactIDToHContact(id);
+		if (!hContact)
+			break; // TODO: create new temporary contact
+
 		CallService(MS_MSG_SENDMESSAGET, hContact, 0);
-		
 		break;
 	}
 
@@ -123,9 +125,11 @@ int FacebookProto::OnGCEvent(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_NICKLISTMENU: 
 	{
-		char *sn = mir_t2a(hook->ptszUID);
-		MCONTACT hContact = ContactIDToHContact(sn);
-		mir_free(sn);
+		std::string id = _T2A(hook->ptszUID, CP_UTF8);
+
+		MCONTACT hContact = ContactIDToHContact(id);
+		if (!hContact)
+			break; // TODO: create new temporary contact
 
 		switch (hook->dwData) 
 		{
@@ -301,10 +305,10 @@ INT_PTR FacebookProto::OnJoinChat(WPARAM hContact, LPARAM suppress)
 
 INT_PTR FacebookProto::OnLeaveChat(WPARAM wParam,LPARAM)
 {
+	ptrT idT(wParam ? getTStringA(wParam, "ChatRoomID") : NULL);
+
 	GCDEST gcd = { m_szModuleName, NULL, GC_EVENT_CONTROL };
-	if (wParam != NULL) {
-		gcd.ptszID = ptrT( getTStringA(wParam, "ChatRoomID"));
-	}
+	gcd.ptszID = idT;
 
 	GCEVENT gce = { sizeof(gce), &gcd };
 	gce.time = ::time(NULL);
@@ -354,8 +358,7 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST)
 	{
-		char* email = mir_t2a(gcmi->pszUID);
-		if (!_stricmp(facy.self_.user_id.c_str(), email))
+		if (!_stricmp(facy.self_.user_id.c_str(), _T2A(gcmi->pszUID)))
 		{
 			/*static const struct gc_item Items[] =
 			{
@@ -379,7 +382,6 @@ int FacebookProto::OnGCMenuHook(WPARAM, LPARAM lParam)
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
 		}
-		mir_free(email);
 	}
 
 	return 0;
@@ -430,17 +432,20 @@ void FacebookProto::UpdateNotificationsChatRoom(facebook_notification *notificat
 	std::stringstream text;
 	text << notification->text << "\n\n" << PrepareUrl(notification->link);
 
-	std::string smessage = text.str();
-	utils::text::replace_all(&smessage, "%", "%%");
+	std::string message = text.str();
+	utils::text::replace_all(&message, "%", "%%");
+
+	ptrT idT(mir_tstrdup(_T(FACEBOOK_NOTIFICATIONS_CHATROOM)));
+	ptrT messageT(mir_a2t_cp(message.c_str(), CP_UTF8));
 
 	GCDEST gcd = { m_szModuleName, _T(FACEBOOK_NOTIFICATIONS_CHATROOM), GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(gce), &gcd };
-	gce.ptszText = _A2T(smessage.c_str(), CP_UTF8);
+	gce.ptszText = messageT;
 	gce.time = notification->time ? notification->time : ::time(NULL);
 	gce.bIsMe = false;
 	gce.dwFlags |= GCEF_ADDTOLOG;
 	gce.ptszNick = TranslateT("Notifications");
-	gce.ptszUID = _T(FACEBOOK_NOTIFICATIONS_CHATROOM);
+	gce.ptszUID = idT;
 
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 }
