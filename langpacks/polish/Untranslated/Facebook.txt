@@ -1,0 +1,4 @@
+﻿[Multi user chats]
+[Enable multi user chats support]
+[History synchronization]
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ Wyślij
 Anuluj
 [User details]
 Dane kontaktu
-[Contacts Settings]
-Opcje kontaktu
+[Network]
+Protokoły
+[Force secure (HTTPS) connection]
+Wymuś szyfrowane połączenie (HTTPS)
+[Use secure connection also for channel requests]
+Używaj bezpiecznego połączenia również dla kanału próśb o dodanie do znajomych
+[Contacts]
+Kontakty
 [Default group:]
 Domyślna grupa:
 [Automatically set 'Ignore status change' flag]
@@ -58,52 +64,54 @@ Nie pokazuj proponowanych postów
 Inne zdarzenia
 [Client notifications]
 Powiadomienia klienta
+[Use this server for opening links:]
+Użyj tego serwera do otwierania linków:
 [Use balloon notifications in system tray instead of popups]
 Użyj baloników systemowych w zasobniku zamiast popupów
 [Use logging notifications into special chatroom]
 Używaj rejestrowania powiadomień w specjalnym czacie
 [Preview]
 Podgląd
-[Advanced Settings]
-Ustawienia zaawansowane
-[Force secure (HTTPS) connection]
-Wymuś szyfrowane połączenie (HTTPS)
+[Statuses]
+Statusy
 [Post Miranda statuses to Wall]
 Pokazuj statusy Mirandy jako posty na Tablicy
-[Use secure connection also for channel requests]
-Używaj bezpiecznego połączenia również dla kanału próśb o dodanie do znajomych
 [Turn off chat on Facebook when going to offline in Miranda]
 Wyłącz czat Facebooka gdy rozłączasz się z Mirandą
 [Map unsupported statuses to Invisible (instead of Online)]
 Mapuj nieznane statusy jako niewidoczny zamiast dostępnego
 [Allow posting statuses to my pages (may slow down login)]
 Zezwól na publikowanie postów na moich stronach (może spowolnić logowanie)
-[Use this server for opening links:]
-Użyj tego serwera do otwierania linków:
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
-[Use local time for received messages]
-Użyj czasu lokalnego dla odebranych wiadomości
-[Message sessions]
-Sesje rozmowy
-[Keep messages as unread on server (don't send "seen" info)]
-Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
-[Receive messages from "inbox" folder only]
-Odbieraj wiadomości tylko z folderu "Odebrane"
-[Load last messages on opening message window (EXPERIMENTAL)]
-Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
-[Number of messages to load:]
-Liczba wiadomości do załadowania:
-[Do not open chat windows on creation]
-Nie otwieraj okien czatów po ich utworzeniu
-[Synchronize last 24 hours on login]
-Synchronizuj ostatnie 24 godziny podczas logowania
 [Bots challenge test]
 Test sprawdzający obecność botów
 [Instruction:]
 Instrukcja:
 [Submit]
 Wyślij
+[Messages]
+Wiadomości
+[Receive messages from "inbox" folder only]
+Odbieraj wiadomości tylko z folderu "Odebrane"
+[Use local time for received messages]
+Użyj czasu lokalnego dla odebranych wiadomości
+[Keep messages as unread on server (don't send "seen" info)]
+Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o dostępności)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+Nie otwieraj okien czatów po ich utworzeniu
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
+[Number of messages to load:]
+Liczba wiadomości do załadowania:
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -257,14 +265,12 @@ Nie można uzyskać połączenia Netlib Facebook
 Rozmowa video
 [Facebook ID must be numeric value.]
 Facebook ID musi być wartością numeryczną.
-[Network]
-Protokoły
 [Account]
 Konto
 [Events]
 Zdarzenia
-[Advanced]
-Zaawansowane
+[Messaging]
+Wiadomości
 [Share status...]
 Udostępnij status
 [Own wall]
