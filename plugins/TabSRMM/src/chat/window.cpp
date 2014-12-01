@@ -1,35 +1,30 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * This code is based on and still contains large parts of the the
- * original chat module for Miranda NG, written and copyrighted
- * by Joergen Persson in 2005.
- *
- * (C) 2005-2009 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * This implements the group chat dialog window
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// This implements the group chat dialog window
 
 #include "..\commonheaders.h"
 
@@ -80,7 +75,7 @@ static void Chat_SetMessageLog(TWindowData *dat)
 		ieWindow.cy = 300;
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		dat->hwndIEView = ieWindow.hwnd;
-		
+
 		memset(&iee, 0, sizeof(iee));
 		iee.cbSize = sizeof(iee);
 		iee.iType = IEE_CLEAR_LOG;
@@ -620,7 +615,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
 		return 0;
 
-	case WM_CONTEXTMENU: 
+	case WM_CONTEXTMENU:
 		{
 			MODULEINFO *mi = pci->MM_FindModule(Parentsi->pszModule);
 			CHARRANGE sel, all = { 0, -1};
@@ -847,7 +842,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					break;
 				if (isCtrl)
 					break;
-					
+
 				if (PluginConfig.m_SendOnDblEnter) {
 					if (dat->lastEnterTime + 2 < time(NULL)) {
 						dat->lastEnterTime = time(NULL);
@@ -1367,7 +1362,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 	if (hoveredItem == -1) {
 		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
 		return;
-	} 
+	}
 
 	bool bNewTip = false;
 	if (!hwndToolTip) {
@@ -1637,14 +1632,14 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				if (hti.pt.x == -1 && hti.pt.y == -1)
 					hti.pt.y += height - 4;
 				ClientToScreen(hwnd, &hti.pt);
-				
+
 				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, parentdat, uinew.pszUID, uinew.pszNick);
 				switch (uID) {
 				case 0:
 					break;
 
 				case 20020: // add to highlight...
-					{							
+					{
 						THighLightEdit the = {THighLightEdit::CMD_ADD, parentdat, ui};
 
 						if (parentdat && ui) {
@@ -1877,7 +1872,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			// Typing support for GCW_PRIVMESS sessions
 			if (si->iType == GCW_PRIVMESS) {
-				dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF; 
+				dat->nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 				SetTimer(hwndDlg, TIMERID_TYPE, 1000, NULL);
 			}
 
@@ -1924,7 +1919,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_HIDESELECTION, TRUE, 0);
 
 			CustomizeButton( CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));			
+				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));
 
 			GetMYUIN(dat);
 			GetMyNick(dat);
@@ -1976,11 +1971,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			DM_InitRichEdit(dat);
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASNORMAL, TRUE, 0);
-			
+
 			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)g_Settings.iNickListFontHeight);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_LIST), NULL, TRUE);
-			
-			SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONSETOVERLAYICON, 
+
+			SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONSETOVERLAYICON,
 				(LPARAM)(si->bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			SendMessage(hwndDlg, GC_REDRAWLOG2, 0, 0);
@@ -2215,7 +2210,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
 		return TRUE;
-		
+
 	case DM_TYPING: {
 		// Typing support for GCW_PRIVMESS sessions
 		if (si->iType == GCW_PRIVMESS) {
@@ -2272,7 +2267,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				if (height & 1)
 					height++;
 				int offset = (height == 10) ? 0 : height/2;
-				
+
 				HICON hIcon = pci->SM_GetStatusIcon(si, ui);
 				HFONT hFont = g_Settings.UserListFonts[ui->iStatusEx];
 				HFONT hOldFont = (HFONT) SelectObject(dis->hDC, hFont);
@@ -2647,7 +2642,7 @@ LABEL_SHOWWINDOW:
 					int iCharIndex = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_CHARFROMPOS, 0, (LPARAM)&ptl);
 					if (iCharIndex < 0)
 						break;
-						
+
 					int iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXLINEFROMCHAR, 0, iCharIndex);
 					int iChars = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_LINEINDEX, iLineIndex, 0);
 					int start = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
@@ -3036,7 +3031,7 @@ LABEL_SHOWWINDOW:
 				dat->pContainer->dwLastActivity = dat->dwLastActivity;
 				SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASNORMAL, GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)) != 0, 0);
 				Utils::enableDlgControl(hwndDlg, IDOK, GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)) != 0);
-				
+
 				// Typing support for GCW_PRIVMESS sessions
 				if (si->iType == GCW_PRIVMESS) {
 					if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
@@ -3417,12 +3412,12 @@ LABEL_SHOWWINDOW:
 				else
 					i++;
 				TabCtrl_SetCurSel(hwndTab, i);
-	
+
 				TCITEM item = {0};
 				item.mask = TCIF_PARAM;
 				TabCtrl_GetItem(hwndTab, i, &item);         // retrieve dialog hwnd for the now active tab...
 				dat->pContainer->hwndActive = (HWND) item.lParam;
-	
+
 				RECT rc;
 				SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 				SetWindowPos(dat->pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);

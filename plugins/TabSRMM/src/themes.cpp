@@ -1,32 +1,31 @@
-/*
-* Miranda NG: the free IM client for Microsoft* Windows*
-*
-* Copyright (c) 2000-09 Miranda ICQ/IM project,
-* all portions of this codebase are copyrighted to the people
-* listed in contributors.txt.
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* you should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*
-* part of tabSRMM messaging plugin for Miranda.
-*
-* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
-*
-* Implements the skinning engine and most parts of the aero support in
-* tabSRMM 3.x+
-*
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// Implements the skinning engine and most parts of the aero support in
+// tabSRMM 3.x+
 
 #include "commonheaders.h"
 
@@ -789,9 +788,9 @@ void CImageItem::Create(const TCHAR *szImageFile)
 // Reads the definitions for an image item from the given .tsk file
 //  It does _not_ create the image itself, a call to CImageItem::Create() must be done
 //  to read the image in memory and prepare
-// 
+//
 //  @param szFilename char*: full path and filename to the .TSK file
-// 
+//
 // @return char*: full path and filename to the .png image which represents this image item.
 // caller MUST delete it.
 
@@ -1969,7 +1968,7 @@ UINT CSkin::NcCalcRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// process WM_NCPAINT for the rich edit control. Draws a visual style border and avoid 
+// process WM_NCPAINT for the rich edit control. Draws a visual style border and avoid
 // classic static edge / client edge may also draw a colorized border around the control
 
 UINT CSkin::DrawRichEditFrame(HWND hwnd, const TWindowData *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc)

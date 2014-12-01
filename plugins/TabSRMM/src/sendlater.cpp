@@ -1,33 +1,30 @@
-/*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * the sendlater class implementation
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// the sendlater class implementation
 
 #include "commonheaders.h"
 
@@ -55,7 +52,7 @@ bool CSendLaterJob::mustDelete()
 {
 	if (fSuccess)
 		return true;
-	
+
 	if (fFailed && bCode == JOB_REMOVABLE)
 		return true;
 
@@ -100,7 +97,7 @@ void CSendLaterJob::readFlags()
 
 // write flags for a persistent jobs from the db
 // flag key name is the job id with a "$" prefix.
-// 
+//
 void CSendLaterJob::writeFlags()
 {
 	if (isPersistentJob()) {
@@ -196,21 +193,21 @@ CSendLater::~CSendLater()
 }
 
 void CSendLater::startJobListProcess()
-{ 
-	m_currJob = 0; 
-			
+{
+	m_currJob = 0;
+
 	if (m_hwndDlg)
 		Utils::enableDlgControl(m_hwndDlg, IDC_QMGR_LIST, false);
 }
 
 // checks if the current job in the timer-based process queue is subject
 // for deletion (that is, it has failed or succeeded)
-// 
+//
 // if not, it will send the job and increment the list iterator.
-// 
+//
 // this method is called once per tick from the timer based scheduler in
 // hotkeyhandler.cpp.
-// 
+//
 // returns true if more jobs are awaiting processing, false otherwise.
 //
 bool CSendLater::processCurrentJob()
@@ -269,7 +266,7 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 	}
 }
 
-// called periodically from a timer, check if new contacts were added 
+// called periodically from a timer, check if new contacts were added
 // and process them
 //
 void CSendLater::processContacts()
@@ -377,7 +374,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return 0;
 	}
 
-	// mark job as deferred (5 unsuccessful sends). Job will not be removed, but 
+	// mark job as deferred (5 unsuccessful sends). Job will not be removed, but
 	// the user must manually reset it in order to trigger a new send attempt.
 	if (job->iSendCount == 5) {
 		job->bCode = CSendLaterJob::JOB_DEFERRED;
@@ -431,7 +428,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 }
 
 // add a contact to the list of contacts having open send later jobs.
-// This is is periodically checked for new additions (processContacts()) 
+// This is is periodically checked for new additions (processContacts())
 // and new jobs are created.
 void CSendLater::addContact(const MCONTACT hContact)
 {
@@ -479,7 +476,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.flags |= DBEF_UTF;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);
 				db_event_add(p->hContact, &dbei);
-				
+
 				p->cleanDB();
 			}
 			p->fSuccess = true;					// mark as successful, job list processing code will remove it later
@@ -527,7 +524,7 @@ void CSendLater::qMgrFillList(bool fClear)
 	}
 
 	m_sel = 0;
-	::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1, 
+	::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1,
 				  LPARAM(TranslateT("<All contacts>")));
 	::SendMessage(m_hwndFilter, CB_SETITEMDATA, 0, 0);
 
@@ -574,7 +571,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 			const TCHAR *tszStatusText = 0;
 			if (p->fFailed) {
-				tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ? 
+				tszStatusText = p->bCode == CSendLaterJob::JOB_REMOVABLE ?
 					TranslateT("Removed") : TranslateT("Failed");
 			}
 			else if (p->fSuccess)
@@ -597,7 +594,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			}
 			if (p->bCode)
 				bCode = p->bCode;
-			
+
 			TCHAR tszStatus[20];
 			mir_sntprintf(tszStatus, 20, _T("X/%s[%c] (%d)"), tszStatusText, bCode, p->iSendCount);
 			tszStatus[0] = p->szId[0];

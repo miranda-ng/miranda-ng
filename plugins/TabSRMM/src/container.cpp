@@ -1,6 +1,7 @@
-/*
+/////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
+// Copyright (c) 2012-14 Miranda NG project,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -25,7 +26,6 @@
 //
 // implements the "Container" window which acts as a toplevel window
 // for message sessions.
- */
 
 #include "commonheaders.h"
 
@@ -55,7 +55,7 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCO
 // Windows Vista+
 // extend the glassy area to get aero look for the status bar, tab bar, info panel
 // and outer margins.
- 
+
 void TSAPI SetAeroMargins(TContainerData *pContainer)
 {
 	if ( !M.isAero() || !pContainer || CSkin::m_skinEnabled) {
@@ -126,7 +126,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 //
 // The WM_DESTROY handler of the container DlgProc is responsible for mir_free()'ing the
 // pointer and for removing the struct from the linked list.
- 
+
 TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom)
 {
 	if (CMimAPI::m_shutDown)
@@ -138,7 +138,7 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 
 	if (M.GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
 		iTemp |= CNT_CREATEFLAG_CLONED;
-	
+
 	// save container name to the db
 	if (!M.GetByte("singlewinmode", 0)) {
 		int iFirstFree = -1, iFound = FALSE, i = 0;
@@ -254,7 +254,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			DrawText(dcMem, szWindowText, -1, &rcText, DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS | DT_NOPREFIX);
 			SelectObject(dcMem, hOldFont);
 
-			// icon			
+			// icon
 			hIcon = (HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0);
 			DrawIconEx(dcMem, 4 + CSkin::m_SkinnedFrame_left + CSkin::m_bClipBorder + CSkin::m_titleBarLeftOff, rcText.top + (rcText.bottom - rcText.top) / 2 - 8, hIcon, 16, 16, 0, 0, DI_NORMAL);
 
@@ -529,7 +529,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 }
 
 // container window procedure...
- 
+
 static BOOL fHaveTipper = FALSE;
 
 static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -611,7 +611,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)PluginConfig.g_iconContainer);
 
 			// make the tab control the controlling parent window for all message dialogs
-			
+
 			ws = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_EXSTYLE);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_EXSTYLE, ws | WS_EX_CONTROLPARENT);
 
@@ -629,7 +629,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			// context menu
 			pContainer->hMenuContext = PluginConfig.g_hMenuContext;
-			
+
 			// tab tooltips...
 			if (!fHaveTipper || M.GetByte("d_tooltips", 0) == 0) {
 				pContainer->hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
@@ -1682,7 +1682,7 @@ panel_found:
 					return 0;
 				}
 			}
-			
+
 			// default handling (no win7 taskbar)
 			if ((HICON)lParam == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]) {              // always set typing icon, but don't save it...
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)PluginConfig.g_IconTypingEventBig);
@@ -1890,7 +1890,7 @@ panel_found:
 // hwnd. The hwnd is the handle of a message dialog childwindow. At creation,
 // the dialog handle is stored in the TCITEM.lParam field, because we need
 // to know the owner of the tab.
-// 
+//
 // hwndTab: handle of the tab control itself.
 // hwnd: handle of a message dialog.
 //
@@ -1915,10 +1915,10 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 // hwnd. The hwnd is the handle of a message dialog childwindow. At creation,
 // the dialog handle is stored in the TCITEM.lParam field, because we need
 // to know the owner of the tab.
-// 
+//
 // hwndTab: handle of the tab control itself.
 // hwnd: handle of a message dialog.
-// 
+//
 // returns the tab index (zero based), -1 if no tab is found (which SHOULD not
 // really happen, but who knows... ;))
 
@@ -2012,7 +2012,7 @@ static TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer)
 		pFirstContainer->pNext = NULL;
 		return pFirstContainer;
 	}
-	
+
 	TContainerData *p = pFirstContainer;
 	while (p->pNext != 0)
 		p = p->pNext;
@@ -2190,7 +2190,7 @@ void TSAPI RenameContainer(int iIndex, const TCHAR *szNew)
 {
 	if (mir_tstrlen(szNew) == 0)
 		return;
-	
+
 	char szIndex[10];
 	itoa(iIndex, szIndex, 10);
 	ptrT tszContainerName(db_get_tsa(NULL, CONTAINER_KEY, szIndex));
@@ -2231,7 +2231,7 @@ HMENU TSAPI BuildContainerMenu()
 		if (_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
 			AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(tszName, _T("default")) ? TranslateT("Default container") : tszName);
 		i++;
-	}		
+	}
 
 	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_BYCOMMAND | MF_POPUP, (UINT_PTR)hMenu, TranslateT("Attach to"));
 	PluginConfig.g_hMenuContainer = hMenu;

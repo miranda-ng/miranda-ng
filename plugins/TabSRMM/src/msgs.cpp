@@ -1,31 +1,31 @@
-/*
-* Miranda NG: the free IM client for Microsoft* Windows*
-*
-* Copyright (c) 2000-09 Miranda ICQ/IM project,
-* all portions of this codebase are copyrighted to the people
-* listed in contributors.txt.
-*
-* This program is free software; you can redistribute it and/or
-* modify it under the terms of the GNU General Public License
-* as published by the Free Software Foundation; either version 2
-* of the License, or (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* you should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*
-* part of tabSRMM messaging plugin for Miranda.
-*
-* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
-*
-* Load, setup and shutdown the plugin
-* core plugin messaging services (single IM chats only).
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// Load, setup and shutdown the plugin
+// core plugin messaging services (single IM chats only).
 
 #include "commonheaders.h"
 
@@ -78,8 +78,8 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	if (mwid == NULL || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == NULL) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)) 
-		return 1; 
+	if (mwid == NULL || (mwid->cbSize != sizeof(MessageWindowInputData)) || (mwid->hContact == NULL) || (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH))
+		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
 	if(mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
@@ -148,7 +148,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 				SetStatusTextWorker((TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), (StatusTextData*)lParam);
 	}
 	else SetStatusTextWorker(si->dat, (StatusTextData*)lParam);
-	
+
 	return 0;
 }
 
@@ -496,7 +496,7 @@ STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // tabbed mode support functions...
 // (C) by Nightwish
-// 
+//
 // this function searches and activates the tab belonging to the given hwnd (which is the
 // hwnd of a message dialog window)
 
@@ -518,7 +518,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 		SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 		SetForegroundWindow(pContainer->hwnd);
 	}
-	
+
 	// hide on close feature
 	if (!IsWindowVisible(pContainer->hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
@@ -880,7 +880,7 @@ static int GetIconPackVersion(HMODULE hDLL)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// setup default icons for the IcoLib service. This needs to be done every time the 
+// setup default icons for the IcoLib service. This needs to be done every time the
 // plugin is loaded default icons are taken from the icon pack in either \icons or \plugins
 
 static int TSAPI SetupIconLibConfig()

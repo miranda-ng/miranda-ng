@@ -1,31 +1,30 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * Helper functions for the message dialog.
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// Helper functions for the message dialog.
 
 #include "commonheaders.h"
 
@@ -69,8 +68,8 @@ bool TSAPI IsCustomEvent(int eventType)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// reorder tabs within a container. fSavePos indicates whether the new position should 
-// be saved to the contacts db record (if so, the container will try to open the tab 
+// reorder tabs within a container. fSavePos indicates whether the new position should
+// be saved to the contacts db record (if so, the container will try to open the tab
 // at the saved position later)
 
 void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fSavePos)
@@ -1224,7 +1223,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 			dbei.timestamp = time(NULL);
 		else
 			db_event_get(dat->hDbEventFirst, &dbei);
-		
+
 		DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 		for (;;) {
 			HANDLE hPrevEvent;
@@ -1520,7 +1519,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		DeleteObject(col);
 		return TRUE;
 	}
-	
+
 	HBITMAP hbmAvatar = dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown;
 	if ((dis->hwndItem == GetDlgItem(hwndDlg, IDC_CONTACTPIC) && dat->bShowAvatar) || (dis->hwndItem == hwndDlg && dat->Panel->isActive())) {
 		if (hbmAvatar == NULL)
@@ -1634,7 +1633,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		DeleteDC(hdcDraw);
 		return TRUE;
 	}
-	
+
 	if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_STATICTEXT) || dis->hwndItem == GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT)) {
 		TCHAR szWindowText[256];
 		if (CSkin::m_skinEnabled) {
@@ -1651,7 +1650,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		DrawText(dis->hDC, szWindowText, -1, &dis->rcItem, DT_SINGLELINE | DT_VCENTER | DT_NOCLIP | DT_END_ELLIPSIS);
 		return TRUE;
 	}
-	
+
 	if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_STATICERRORICON)) {
 		if (CSkin::m_skinEnabled)
 			CSkin::SkinDrawBG(dis->hwndItem, dat->pContainer->hwnd, dat->pContainer, &dis->rcItem, dis->hDC);
@@ -1661,12 +1660,12 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			PluginConfig.g_iconErr, 16, 16, 0, 0, DI_NORMAL);
 		return TRUE;
 	}
-	
+
 	if (dis->CtlType == ODT_MENU && dat->Panel->isHovered()) {
 		DrawMenuItem(dis, (HICON)dis->itemData, 0);
 		return TRUE;
 	}
-	
+
 	return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 }
 

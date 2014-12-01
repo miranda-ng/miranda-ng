@@ -1,42 +1,38 @@
-/*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * This implements the event notification module for tabSRMM. The code
- * is largely based on the NewEventNotify plugin for Miranda NG. See
- * notices below for original copyright
- *
- *  Name: NewEventNotify - Plugin for Miranda ICQ
- * 	Description: Notifies you when you receive a message
- * 	Author: icebreaker, <icebreaker@newmail.net>
- * 	Date: 18.07.02 13:59 / Update: 16.09.02 17:45
- * 	Copyright: (C) 2002 Starzinger Michael
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// implements the event notification module for tabSRMM. The code
+// is largely based on the NewEventNotify plugin for Miranda NG. See
+// notices below for original copyright
+//
+//  Name: NewEventNotify - Plugin for Miranda ICQ
+// 	Description: Notifies you when you receive a message
+// 	Author: icebreaker, <icebreaker@newmail.net>
+// 	Date: 18.07.02 13:59 / Update: 16.09.02 17:45
+// 	Copyright: (C) 2002 Starzinger Michael
 
 #ifndef _NEN_H_
 #define _NEN_H_

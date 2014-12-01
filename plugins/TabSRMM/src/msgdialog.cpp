@@ -1,31 +1,30 @@
-/*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * This implements the message dialog window.
- *
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Miranda NG: the free IM client for Microsoft* Windows*
+//
+// Copyright (c) 2012-14 Miranda NG project,
+// Copyright (c) 2000-09 Miranda ICQ/IM project,
+// all portions of this codebase are copyrighted to the people
+// listed in contributors.txt.
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// you should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+//
+// part of tabSRMM messaging plugin for Miranda.
+//
+// (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+//
+// implements the message dialog window.
 
 #include "commonheaders.h"
 
@@ -817,7 +816,7 @@ static LRESULT CALLBACK AvatarSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_ERASEBKGND:
 		return TRUE;
-	
+
 	case WM_UPDATEUISTATE:
 		return TRUE;
 
@@ -885,7 +884,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				CSkin::FillBack(dc, &rc);
 			}
 			else CSkin::FillBack(dc, &rc);
-			
+
 			EndPaint(hwnd, &ps);
 		}
 		return 0;
@@ -899,7 +898,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SendMessage(hwndParent, WM_SIZE, 0, 0);
 			RedrawWindow(hwndParent, NULL, NULL, RDW_ALLCHILDREN | RDW_INVALIDATE | RDW_UPDATENOW);
 		}
-		else if ((dat && dat->bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_SPLITTER)) || 
+		else if ((dat && dat->bType == SESSIONTYPE_IM && hwnd == GetDlgItem(hwndParent, IDC_SPLITTER)) ||
 			      (dat && dat->bType == SESSIONTYPE_CHAT && hwnd == GetDlgItem(hwndParent, IDC_SPLITTERY))) {
 			POINT pt;
 			int selection;
@@ -1029,7 +1028,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		}
 		rcLogBottom = urc->rcItem.bottom;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
-	
+
 	case IDC_CONTACTPIC:
 		GetClientRect(GetDlgItem(hwndDlg, IDC_MESSAGE), &rc);
 		urc->rcItem.top -= dat->splitterY - dat->originalSplitterY;
@@ -1551,7 +1550,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			// draw aero related stuff
 			if (!CSkin::m_skinEnabled)
 				CSkin::RenderToolbarBG(dat, hdcMem, rcClient);
-			
+
 			// render info panel fields
 			dat->Panel->renderContent(hdcMem);
 
@@ -1908,7 +1907,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						DM_ScrollToBottom(dat, 1, 1);
 						return(_dlgReturn(hwndDlg, 1));
 					}
-					
+
 					// tabulation mod
 					if (msg == WM_KEYDOWN && wp == VK_TAB) {
 						if (PluginConfig.m_AllowTab) {
@@ -2009,7 +2008,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							}
 							break;
 						}
-						
+
 					// auto-select-and-copy handling...
 					// if enabled, releasing the lmb with an active selection automatically copies the selection
 					// to the clipboard.
@@ -2271,12 +2270,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			oldDynaSplitter = dat->dynaSplitter;
 
 			dat->splitterY = rc.bottom - pt.y +DPISCALEY_S(23);
-	
+
 			// attempt to fix splitter troubles..
 			// hardcoded limits... better solution is possible, but this works for now
 			if (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)
 				bottomtoolbarH = 22;
-	
+
 			if (dat->splitterY < (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH)) {	// min splitter size
 				dat->splitterY = (DPISCALEY_S(MINSPLITTERY) + 5 + bottomtoolbarH);
 				dat->dynaSplitter = dat->splitterY - DPISCALEY_S(34);
@@ -2410,7 +2409,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage((dat->hwndIEView || dat->hwndHPP) ? (dat->hwndIEView ? dat->hwndIEView : dat->hwndHPP) : hwnd, EM_SETSCROLLPOS, 0, (LPARAM)ppt);
 		}
 		return 0;
-	
+
 	case HM_DBEVENTADDED:
 		// this is called whenever a new event has been added to the database.
 		// this CAN be posted (some sanity checks required).
@@ -2708,7 +2707,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (!dat)
 			break;
-		
+
 		// custom button handling
 		if (LOWORD(wParam) >= MIN_CBUTTONID && LOWORD(wParam) <= MAX_CBUTTONID) {
 			BB_CustomButtonClick(dat, LOWORD(wParam), GetDlgItem(hwndDlg, LOWORD(wParam)), 0);
@@ -2992,7 +2991,7 @@ quote_from_last:
 	// wParam = index of the sendjob in the queue in the low word, index of the found sendID in the high word
 	// (normally 0, but if its a multisend job, then the sendjob may contain more than one hContact/hSendId pairs.)
 	// lParam = the original ackdata
-	// 
+	//
 	// the "per message window" ACK hook is gone, the global ack handler cares about all types of ack's (currently
 	// *_MESSAGE and *_AVATAR and dispatches them to the owner windows).
 	case HM_EVENTSENT:
@@ -3034,10 +3033,10 @@ quote_from_last:
 		UpdateStatusBar(dat);
 		return 0;
 
-	case DM_UINTOCLIPBOARD: 
+	case DM_UINTOCLIPBOARD:
 		Utils::CopyToClipBoard(dat->cache->getUIN(), hwndDlg);
 		return 0;
-	
+
 	// broadcasted when GLOBAL info panel setting changes
 	case DM_SETINFOPANEL:
 		CInfoPanel::setPanelHandler(dat, wParam, lParam);
@@ -3057,7 +3056,7 @@ quote_from_last:
 		if (dat->dwFlags & MWF_WASBACKGROUNDCREATE)
 			return 1;
 		break;
-		
+
 	// save the contents of the log as rtf file
 	case DM_SAVEMESSAGELOG:
 		DM_SaveLogAsRTF(dat);
