@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -35,8 +35,14 @@
 Скасувати
 [User details]
 Про користувача
-[Contacts Settings]
-Налаштування контактів
+[Network]
+Мережа
+[Force secure (HTTPS) connection]
+Безпечне з'єднання (HTTPS)
+[Use secure connection also for channel requests]
+Безпечне з'єднання для запитів каналу
+[Contacts]
+Контакти
 [Default group:]
 Група:
 [Automatically set 'Ignore status change' flag]
@@ -57,52 +63,44 @@
 Інші події
 [Client notifications]
 Сповіщення клієнта
+[Use this server for opening links:]
+Тип сайту для відкриття посилань:
 [Use balloon notifications in system tray instead of popups]
 Сповіщати підказкою в треї замість спливаючих вікон
 [Use logging notifications into special chatroom]
 Записувати сповіщення в окрему чат-кімнату
 [Preview]
 Тест
-[Advanced Settings]
-Розширені параметри
-[Force secure (HTTPS) connection]
-Безпечне з'єднання (HTTPS)
 [Post Miranda statuses to Wall]
 Публікувати статуси Miranda на стіну
-[Use secure connection also for channel requests]
-Безпечне з'єднання для запитів каналу
 [Turn off chat on Facebook when going to offline in Miranda]
 Відключати чат на сайті при виході Miranda в офлайн
 [Map unsupported statuses to Invisible (instead of Online)]
 Непідтримувані статуси як "Невидимий" (замість "В мережі")
 [Allow posting statuses to my pages (may slow down login)]
 Дозволити публікувати статуси на своїх сторінках (уповільнює вхід)
-[Use this server for opening links:]
-Тип сайту для відкриття посилань:
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Стікери у вигляді користувацьких смайлів (експериментально)
-[Use local time for received messages]
-Локальний час для прийнятих повідомлень
-[Message sessions]
-Діалоги
-[Keep messages as unread on server (don't send "seen" info)]
-Не позначати повідомлення на сервері як прочитані
-[Receive messages from "inbox" folder only]
-Приймати повідомлення тільки з папки "Вхідні"
-[Load last messages on opening message window (EXPERIMENTAL)]
-Показувати історію при відкритті вікна (експериментально)
-[Number of messages to load:]
-Кількість останніх повідомлень:
-[Do not open chat windows on creation]
-Не відкривати вікно чату при створенні
-[Synchronize last 24 hours on login]
-Синхронізувати історію за останню добу при вході
 [Bots challenge test]
 Захист від ботів
 [Instruction:]
 Інструкція:
 [Submit]
 Передати
+[Messages]
+Повідомлення
+[Receive messages from "inbox" folder only]
+Приймати повідомлення тільки з папки "Вхідні"
+[Use local time for received messages]
+Локальний час для прийнятих повідомлень
+[Keep messages as unread on server (don't send "seen" info)]
+Не позначати повідомлення на сервері як прочитані
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Стікери у вигляді користувацьких смайлів (експериментально)
+[Do not open chat windows on creation]
+Не відкривати вікно чату при створенні
+[Load last messages on opening message window (EXPERIMENTAL)]
+Показувати історію при відкритті вікна (експериментально)
+[Number of messages to load:]
+Кількість останніх повідомлень:
 [Enter the text you see]
 Введіть текст, який бачите
 [Myself]
@@ -245,14 +243,12 @@
 Відеовиклик
 [Facebook ID must be numeric value.]
 Вкажіть Facebook ID цифрами.
-[Network]
-Мережа
 [Account]
 Обліковий запис
 [Events]
 Події
-[Advanced]
-Додатково
+[Messaging]
+Повідомлення
 [Share status...]
 Статус...
 [Own wall]

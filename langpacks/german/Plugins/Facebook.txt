@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ Teilen
 Abbrechen
 [User details]
 Kontaktprofil
-[Contacts Settings]
-Kontakteinstellungen
+[Network]
+Netzwerk
+[Force secure (HTTPS) connection]
+Sichere Verbindung (HTTPS) erzwingen
+[Use secure connection also for channel requests]
+Sichere Verbindung auch für Channel-Zugriffe verwenden
+[Contacts]
+Kontakte
 [Default group:]
 Standardgruppe:
 [Automatically set 'Ignore status change' flag]
@@ -58,52 +64,54 @@ Werbebeiträge nicht anzeigen
 Sonstige Ereignisse
 [Client notifications]
 Client-Benachrichtigungen
+[Use this server for opening links:]
+Öffne Links auf diesem Server:
 [Use balloon notifications in system tray instead of popups]
 Ballonereignisse im Systemtray anstatt Popups verwenden
 [Use logging notifications into special chatroom]
 Benachrichtigungen in einem speziellen Chatraum aufzeichnen
 [Preview]
 Vorschau
-[Advanced Settings]
-Erweiterte Einstellungen
-[Force secure (HTTPS) connection]
-Sichere Verbindung (HTTPS) erzwingen
+[Statuses]
+Status
 [Post Miranda statuses to Wall]
 Miranda-Status auf die Pinnwand setzen
-[Use secure connection also for channel requests]
-Sichere Verbindung auch für Channel-Zugriffe verwenden
 [Turn off chat on Facebook when going to offline in Miranda]
 Facebook-Chat abmelden wenn Miranda offline geht
 [Map unsupported statuses to Invisible (instead of Online)]
 Nicht-unterstützte Status auf 'Unsichtbar' setzen (anstatt 'Online')
 [Allow posting statuses to my pages (may slow down login)]
 Posten von Status auf meinen Seiten erlauben (kann Anmeldung verlangsamen)
-[Use this server for opening links:]
-Öffne Links auf diesem Server:
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Sticker als Custom Smileys anzeigen (EXPERIMENTELL)
-[Use local time for received messages]
-Lokale Zeit für empfangene Nachrichten verwenden
-[Message sessions]
-Nachrichtensitzungen
-[Keep messages as unread on server (don't send "seen" info)]
-Nachrichten auf dem Server als ungelesen belassen ("Gesehen"-Info nicht senden)
-[Receive messages from "inbox" folder only]
-Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
-[Load last messages on opening message window (EXPERIMENTAL)]
-Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
-[Number of messages to load:]
-Lade Anzahl Nachrichten:
-[Do not open chat windows on creation]
-Chatfenster bei der Erzeugung nicht öffnen
-[Synchronize last 24 hours on login]
-Letzte 24 Stunden bei Anmeldung synchronisieren
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
 Hinweis
 [Submit]
 Senden
+[Messages]
+Nachrichten
+[Receive messages from "inbox" folder only]
+Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
+[Use local time for received messages]
+Lokale Zeit für empfangene Nachrichten verwenden
+[Keep messages as unread on server (don't send "seen" info)]
+Nachrichten auf dem Server als ungelesen belassen ("Gesehen"-Info nicht senden)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Sticker als Custom Smileys anzeigen (EXPERIMENTELL)
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+Chatfenster bei der Erzeugung nicht öffnen
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
+[Number of messages to load:]
+Lade Anzahl Nachrichten:
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -257,14 +265,12 @@ Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
 Videoanruf
 [Facebook ID must be numeric value.]
 Facebook-ID muss ein numerischer Wert sein.
-[Network]
-Netzwerk
 [Account]
 Konto
 [Events]
 Ereignisse
-[Advanced]
-Erweitert
+[Messaging]
+Nachrichten
 [Share status...]
 Status teilen...
 [Own wall]

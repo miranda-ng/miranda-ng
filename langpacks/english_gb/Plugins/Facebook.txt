@@ -2,9 +2,11 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
+[History synchronization]
+History synchronisation
 [Request for friendship was canceled.]
 Request for friendship was cancelled.
 [Error occurred when canceling friendship request.]
