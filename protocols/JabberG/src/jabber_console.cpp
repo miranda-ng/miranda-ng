@@ -180,7 +180,7 @@ static void sttAppendBufW(StringBuf *buf, const WCHAR *str)
 			tmp[0] = (char)*p;
 			tmp[1] = 0;
 		}
-		else mir_snprintf(tmp, sizeof(tmp), "\\u%d ?", (int)*p);
+		else mir_snprintf(tmp, SIZEOF(tmp), "\\u%d ?", (int)*p);
 
 		sttAppendBufRaw(buf, tmp);
 	}

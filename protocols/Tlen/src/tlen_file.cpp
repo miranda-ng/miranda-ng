@@ -276,7 +276,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 					t++;
 				else
 					t = ft->files[i];
-				mir_snprintf(filename, sizeof(filename)-1, t);
+				mir_snprintf(filename, (SIZEOF(filename) - 1), "%s", t);
 				TlenP2PPacketPackBuffer(packet, filename, sizeof(filename));
 			}
 			TlenP2PPacketSend(ft->s, packet);
@@ -570,9 +570,9 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 	if ((from=TlenXmlGetAttrValue(node, "f")) != NULL) {
 
 		if (strchr(from, '@') == NULL) {
-			mir_snprintf(jid, sizeof(jid), "%s@%s", from, info->server);
+			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, info->server);
 		} else {
-			mir_snprintf(jid, sizeof(jid), "%s", from);
+			mir_snprintf(jid, SIZEOF(jid), "%s", from);
 		}
 		if ((e=TlenXmlGetAttrValue(node, "e")) != NULL) {
 
@@ -597,7 +597,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 						}
 					}
 					else if (numFiles > 1) {
-						mir_snprintf(szFilename, sizeof(szFilename), Translate("%d Files"), numFiles);
+						mir_snprintf(szFilename, SIZEOF(szFilename), Translate("%d Files"), numFiles);
 					}
 				}
 

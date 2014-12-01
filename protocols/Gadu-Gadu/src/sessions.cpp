@@ -426,7 +426,7 @@ BOOL GGPROTO::sessions_closedlg()
 void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
 	char service[64];
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_CONCUR_SESS);
 	CreateProtoService(GGS_CONCUR_SESS, &GGPROTO::sessions_view);
 
 	CLISTMENUITEM mi = { sizeof(mi) };

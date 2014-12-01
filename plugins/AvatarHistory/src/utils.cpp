@@ -30,7 +30,7 @@ BOOL ProtocolEnabled(const char *proto)
 		return FALSE;
 
 	char setting[256];
-	mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
+	mir_snprintf(setting, SIZEOF(setting), "%sEnabled", proto);
 	return (BOOL) db_get_b(NULL, MODULE_NAME, setting, TRUE);
 }
 

@@ -244,7 +244,7 @@ INT_PTR GGPROTO::blockuser(WPARAM hContact, LPARAM lParam)
 void GGPROTO::block_init()
 {
    char service[64];
-   mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
+   mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_BLOCKUSER);
    CreateProtoService(GGS_BLOCKUSER, &GGPROTO::blockuser);
 
    CLISTMENUITEM mi = { sizeof(mi) };

@@ -47,14 +47,14 @@ TSSSetting::TSSSetting(int profile, PROTOACCOUNT *pa)
 
 	// load status
 	char setting[80];
-	mir_snprintf(setting, sizeof(setting), "%d_%s", profile, pa->szModuleName);
+	mir_snprintf(setting, SIZEOF(setting), "%d_%s", profile, pa->szModuleName);
 	int iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
 	status = iStatus;
 
 	// load last status
-	mir_snprintf(setting, sizeof(setting), "%s%s", PREFIX_LAST, szName);
+	mir_snprintf(setting, SIZEOF(setting), "%s%s", PREFIX_LAST, szName);
 	iStatus = db_get_w(NULL, MODULENAME, setting, 0);
 	if (iStatus < MIN_STATUS || iStatus > MAX_STATUS)
 		iStatus = DEFAULT_STATUS;
@@ -168,7 +168,7 @@ static void SetLastStatusMessages(TSettingsList &ps)
 			continue;
 
 		char dbSetting[128];
-		mir_snprintf(dbSetting, sizeof(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
+		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s%s", PREFIX_LASTMSG, ps[i].szName);
 
 		DBVARIANT dbv;
 		if (ps[i].szMsg == NULL && !db_get_ts(NULL, MODULENAME, dbSetting, &dbv)) {
@@ -301,9 +301,9 @@ static int OnOkToExit(WPARAM, LPARAM)
 			continue;
 
 		char lastName[128], lastMsg[128];
-		mir_snprintf(lastName, sizeof(lastName), "%s%s", PREFIX_LAST, pa->szModuleName);
+		mir_snprintf(lastName, SIZEOF(lastName), "%s%s", PREFIX_LAST, pa->szModuleName);
 		db_set_w(NULL, MODULENAME, lastName, (WORD)CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0));
-		mir_snprintf(lastMsg, sizeof(lastMsg), "%s%s", PREFIX_LASTMSG, pa->szModuleName);
+		mir_snprintf(lastMsg, SIZEOF(lastMsg), "%s%s", PREFIX_LASTMSG, pa->szModuleName);
 		db_unset(NULL, MODULENAME, lastMsg);
 
 		if (!(CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG))

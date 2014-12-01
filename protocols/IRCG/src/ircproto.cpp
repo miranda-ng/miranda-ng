@@ -192,7 +192,7 @@ int CIrcProto::OnModulesLoaded(WPARAM, LPARAM)
 
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;
 	char szTemp2[256];
-	mir_snprintf(szTemp2, sizeof(szTemp2), "%s DCC", m_szModuleName);
+	mir_snprintf(szTemp2, SIZEOF(szTemp2), "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s client-to-client connections"), m_tszUserName);
 	nlu.ptszDescriptiveName = name;

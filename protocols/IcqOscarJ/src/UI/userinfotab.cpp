@@ -115,11 +115,11 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 					if (!mir_strlen(pXName)) { // give default name
 						pXName = ICQTranslateUtf(nameXStatus[bXStatus - 1]);
 					}
-					mir_snprintf(str, sizeof(str), "%s (%s)", pszStatus, pXName);
+					mir_snprintf(str, SIZEOF(str), "%s (%s)", pszStatus, pXName);
 					SAFE_FREE((void**)&pXName);
 				}
 				else
-					mir_snprintf(str, sizeof(str), pszStatus);
+					mir_snprintf(str, SIZEOF(str), "%s", pszStatus);
 
 				bUtf = 1;
 				SAFE_FREE(&pszStatus);

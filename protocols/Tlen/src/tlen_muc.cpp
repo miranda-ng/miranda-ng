@@ -70,7 +70,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	MCONTACT hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
+		mir_snprintf(jid, SIZEOF(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if (((hContact=TlenHContactFromJID(proto, jid)) != NULL) || !strcmp(id, proto->threadData->username)) {
 			CONTACTINFO ci = { sizeof(ci) };
@@ -107,7 +107,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 		char jid[256];
 		DBVARIANT dbv;
 		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-			mir_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
+			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 			db_free(&dbv);
 		} else {
 			strcpy(jid, from);
@@ -119,7 +119,7 @@ int TlenMUCRecvInvitation(TlenProtocol *proto, const char *roomId, const char *r
 		TLEN_LIST_ITEM *item;
 		DBVARIANT dbv;
 		if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-			mir_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
+			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 			db_free(&dbv);
 		} else {
 			strcpy(jid, from);
@@ -152,9 +152,9 @@ static int TlenMUCSendPresence(TlenProtocol *proto, const char *roomID, const ch
 		return 1;
 	}
 	if (nick != NULL) {
-		mir_snprintf(str, sizeof(str), "%s/%s", roomID, nick);
+		mir_snprintf(str, SIZEOF(str), "%s/%s", roomID, nick);
 	} else {
-		mir_snprintf(str, sizeof(str), "%s", roomID);
+		mir_snprintf(str, SIZEOF(str), "%s", roomID);
 	}
 	if ((jid = TlenTextEncode(str)) != NULL) {
 		switch (desiredStatus) {

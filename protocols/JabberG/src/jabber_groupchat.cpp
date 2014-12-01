@@ -119,16 +119,16 @@ struct JabberGcRecentInfo
 	BOOL loadRecent(int iRecent)
 	{
 		char setting[MAXMODULELABELLENGTH];
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "rcMuc_%d_server", iRecent);
 		server = ppro->getTStringA(setting);
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "rcMuc_%d_room", iRecent);
 		room = ppro->getTStringA(setting);
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "rcMuc_%d_nick", iRecent);
 		nick = ppro->getTStringA(setting);
 
-		mir_snprintf(setting, sizeof(setting), "password_rcMuc_%d", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "password_rcMuc_%d", iRecent);
 		password = ppro->getTStringA(NULL, setting);
 
 		return room || server || nick || password;
@@ -138,25 +138,25 @@ struct JabberGcRecentInfo
 	{
 		char setting[MAXMODULELABELLENGTH];
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_server", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "rcMuc_%d_server", iRecent);
 		if (server)
 			ppro->setTString(setting, server);
 		else
 			ppro->delSetting(setting);
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_room", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "rcMuc_%d_room", iRecent);
 		if (room)
 			ppro->setTString(setting, room);
 		else
 			ppro->delSetting(setting);
 
-		mir_snprintf(setting, sizeof(setting), "rcMuc_%d_nick", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "rcMuc_%d_nick", iRecent);
 		if (nick)
 			ppro->setTString(setting, nick);
 		else
 			ppro->delSetting(setting);
 
-		mir_snprintf(setting, sizeof(setting), "password_rcMuc_%d", iRecent);
+		mir_snprintf(setting, SIZEOF(setting), "password_rcMuc_%d", iRecent);
 		if (password)
 			ppro->setTString(setting, password);
 		else

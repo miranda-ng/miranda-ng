@@ -51,7 +51,7 @@ void gg_icolib_init()
 HICON LoadIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", GGDEF_PROTO, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", GGDEF_PROTO, name);
 	return Skin_GetIcon(szSettingName, big);
 }
 
@@ -66,7 +66,7 @@ HANDLE GetIconHandle(int iconId)
 void ReleaseIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", GGDEF_PROTO, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", GGDEF_PROTO, name);
 	Skin_ReleaseIcon(szSettingName, big);
 }
 

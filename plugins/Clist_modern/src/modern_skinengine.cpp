@@ -2060,16 +2060,17 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 
 static void RegisterMaskByParce(const char * szSetting, char * szValue, SKINOBJECTSLIST * pSkin)
 {
-	int i;
-	DWORD ID=atoi(szSetting+1);
-	for (i=0; i < mir_strlen(szValue); i++)
+	size_t i, val_len = mir_strlen(szValue);
+
+	for (i = 0; i < val_len; i ++)
 		if (szValue[i] == ':')
 			break;
 
-	if (i < mir_strlen(szValue))
+	if (i < val_len)
 	{
 		char * Obj, *Mask;
 		int res;
+		DWORD ID = atoi(szSetting + 1);
 		Mask = szValue+i+1;
 		Obj = (char*)mir_alloc(i+1);
 		strncpy(Obj,szValue,i);
@@ -3336,13 +3337,13 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 		BitBlt(g_pCachedWindow->hImageDC, rLine.left, rLine.top, rLine.right - rLine.left, rLine.bottom - rLine.top, g_pCachedWindow->hBackDC, rLine.left, rLine.top, SRCCOPY);
 
 		char req[255];
-		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
+		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar,Frame=%s,Part=Back", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rLine,&rLine,req);
-		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
+		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar,Frame=%s,Part=Thumb", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rThumb,&rThumb,req);
-		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
+		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar, Frame=%s,Part=UpLineButton", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rUpBtn,&rUpBtn,req);
-		mir_snprintf(req, sizeof(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
+		mir_snprintf(req, SIZEOF(req), "Main,ID=ScrollBar,Frame=%s,Part=DownLineButton", Frame->szName);
 		SkinDrawGlyph(g_pCachedWindow->hImageDC,&rDnBtn,&rDnBtn,req);
 	}
 

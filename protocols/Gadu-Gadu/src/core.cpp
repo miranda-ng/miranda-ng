@@ -1009,7 +1009,7 @@ retry:
 					{
 						CLISTEVENT cle = {0};
 						char service[128];
-						mir_snprintf(service, sizeof(service), GGS_RECVIMAGE, m_szModuleName);
+						mir_snprintf(service, SIZEOF(service), GGS_RECVIMAGE, m_szModuleName);
 
 						cle.cbSize = sizeof(cle);
 						cle.hContact = hContact;
@@ -1721,7 +1721,7 @@ void GGPROTO::changecontactstatus(uin_t uin, int status, const TCHAR *idescr, in
 	{
 		char sversion[48];
 		setDword(hContact, GG_KEY_CLIENTVERSION, (DWORD) version);
-		mir_snprintf(sversion, sizeof(sversion), "%sGadu-Gadu %s", (version & 0x00ffffff) > 0x2b ? "Nowe " : "", gg_version2string(version));
+		mir_snprintf(sversion, SIZEOF(sversion), "%sGadu-Gadu %s", (version & 0x00ffffff) > 0x2b ? "Nowe " : "", gg_version2string(version));
 		setString(hContact, "MirVer", sversion);
 	}
 }

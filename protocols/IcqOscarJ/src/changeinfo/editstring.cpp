@@ -239,7 +239,7 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 		szValue = "                ";
 	else if ((si.displayType & LIM_TYPE) == LI_NUMBER) {
 		szValue = str;
-		mir_snprintf(str, sizeof(str), "%d", sid.value);
+		mir_snprintf(str, SIZEOF(str), "%d", sid.value);
 	}
 	else if (sid.value) {
 		szValue = BinaryToEscapes((char*)sid.value);

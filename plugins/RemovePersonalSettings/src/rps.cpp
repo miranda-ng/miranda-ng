@@ -310,7 +310,7 @@ void RemoveProtocolSettings(const char * protocolName)
 
 			// Delete it
 			if (name[0] != '\0') {
-				mir_snprintf(moduleName, sizeof(moduleName), "%s%s", protocolName, name);
+				mir_snprintf(moduleName, SIZEOF(moduleName), "%s%s", protocolName, name);
 				DeleteSettingEx(moduleName, NULL);
 			}
 
@@ -451,7 +451,7 @@ void RemoveDirectories()
 			if (accounts[i]->szModuleName == NULL || accounts[i]->szModuleName[0] == '\0')
 				continue;
 
-			mir_snprintf(dir, sizeof(dir), "%s%s", gMirandaDir, accounts[i]->szModuleName);
+			mir_snprintf(dir, SIZEOF(dir), "%s%s", gMirandaDir, accounts[i]->szModuleName);
 			DeleteFileOrFolder(dir);
 		}
 	}
@@ -475,7 +475,7 @@ void RemoveDirectories()
 
 			// Delete it
 			if (name[0] != '\0') {
-				mir_snprintf(dir, sizeof(dir), "%s%s", gMirandaDir, name);
+				mir_snprintf(dir, SIZEOF(dir), "%s%s", gMirandaDir, name);
 				DeleteFileOrFolder(dir);
 			}
 
@@ -587,14 +587,14 @@ void DeleteFileOrFolder(const char *name)
 		HANDLE hwnd;
 		char tmp[MAX_PATH];
 
-		mir_snprintf(tmp, sizeof(tmp), "%s\\*.*", name);
+		mir_snprintf(tmp, SIZEOF(tmp), "%s\\*.*", name);
 
 		// Delete files
 		hwnd = FindFirstFile(tmp, &findData);
 		if (hwnd != INVALID_HANDLE_VALUE) {
 			do {
 				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, "..")) {
-					mir_snprintf(tmp, sizeof(tmp), "%s\\%s", name, findData.cFileName);
+					mir_snprintf(tmp, SIZEOF(tmp), "%s\\%s", name, findData.cFileName);
 					DeleteFileOrFolder(tmp);
 				}
 			}

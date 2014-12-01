@@ -50,7 +50,7 @@ static CRITICAL_SECTION csAssocList;
 static BOOL IsAssocEnabled(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "enabled_%s", assoc->pszClassName);
 	return db_get_b(NULL, "AssocMgr", szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED))!= 0;
 }
 
@@ -58,13 +58,13 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	TCHAR szDLL[MAX_PATH], szBuf[MAX_PATH];
-	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "enabled_%s", assoc->pszClassName);
 	db_set_b(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
 	/* dll name for uninstall */
 	if(assoc->hInstance!= NULL && assoc->hInstance!= hInst && assoc->hInstance!= GetModuleHandle(NULL))
 		if( GetModuleFileName(assoc->hInstance, szBuf, SIZEOF(szBuf)))
 			if( PathToRelativeT(szBuf, szDLL)) {
-				mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
+				mir_snprintf(szSetting, SIZEOF(szSetting), "module_%s", assoc->pszClassName);
 				db_set_ts(NULL, "AssocMgr", szSetting, szDLL);
 			}
 }
@@ -72,10 +72,10 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 static void DeleteAssocEnabledSetting(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "enabled_%s", assoc->pszClassName);
 	db_unset(NULL, "AssocMgr", szSetting);
 	/* dll name for uninstall */
-	mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "module_%s", assoc->pszClassName);
 	db_unset(NULL, "AssocMgr", szSetting);
 }
 
@@ -94,7 +94,7 @@ void CleanupAssocEnabledSettings(void)
 		EnterCriticalSection(&csAssocList);
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][8];
-			mir_snprintf(szSetting, sizeof(szSetting), "module_%s", pszSuffix);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "module_%s", pszSuffix);
 			if (!db_get_ts(NULL, "AssocMgr", szSetting, &dbv)) {
 				if( PathToAbsoluteT(dbv.ptszVal, szDLL)) {
 					/* file still exists? */
@@ -118,7 +118,7 @@ void CleanupAssocEnabledSettings(void)
 static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *pszFileExt, BYTE fAdded)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "mime_%s", pszMimeType);
 	if(fAdded) db_set_s(NULL, "AssocMgr", szSetting, pszFileExt);
 	else db_unset(NULL, "AssocMgr", szSetting);
 }
@@ -128,7 +128,7 @@ static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 	char szSetting[MAXMODULELABELLENGTH];
 	DBVARIANT dbv;
 	BOOL fAdded = FALSE;
-	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "mime_%s", pszMimeType);
 	if (!db_get(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
 	else db_free(&dbv);
 	return fAdded;

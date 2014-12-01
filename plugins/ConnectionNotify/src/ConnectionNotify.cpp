@@ -96,17 +96,17 @@ void saveSettingsConnections(struct CONNECTION *connHead)
 	while(tmp!=NULL)
 	{
 
-		mir_snprintf(buff,sizeof(buff), "%dFilterIntIp", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterIntIp", i);
 		db_set_ts(NULL, PLUGINNAME, buff, tmp->strIntIp);
-		mir_snprintf(buff,sizeof(buff), "%dFilterExtIp", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterExtIp", i);
 		db_set_ts(NULL, PLUGINNAME, buff, tmp->strExtIp);
-		mir_snprintf(buff,sizeof(buff), "%dFilterPName", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterPName", i);
 		db_set_ws(NULL, PLUGINNAME, buff, tmp->PName);
-		mir_snprintf(buff,sizeof(buff), "%dFilterIntPort", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterIntPort", i);
 		db_set_dw(NULL, PLUGINNAME, buff, tmp->intIntPort);
-		mir_snprintf(buff,sizeof(buff), "%dFilterExtPort", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterExtPort", i);
 		db_set_dw(NULL, PLUGINNAME, buff, tmp->intExtPort);
-		mir_snprintf(buff,sizeof(buff), "%dFilterAction", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterAction", i);
 		db_set_dw(NULL, PLUGINNAME, buff, tmp->Pid);
 		i++;
 		tmp=tmp->next;
@@ -125,26 +125,26 @@ struct CONNECTION* LoadSettingsConnections()
 	for(i=settingFiltersCount-1;i>=0;i--)
 	{
 		struct CONNECTION *conn=(struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
-		mir_snprintf(buff,sizeof(buff), "%dFilterIntIp", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterIntIp", i);
 		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
 		wcsncpy(conn->strIntIp,dbv.ptszVal,_countof(conn->strIntIp));
 		db_free(&dbv);
-		mir_snprintf(buff,sizeof(buff), "%dFilterExtIp", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterExtIp", i);
 		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
 		wcsncpy(conn->strExtIp,dbv.ptszVal,_countof(conn->strExtIp));
 		db_free(&dbv);
-		mir_snprintf(buff,sizeof(buff), "%dFilterPName", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterPName", i);
 		if (!db_get_ts(NULL, PLUGINNAME, buff, &dbv))
 		wcsncpy(conn->PName,dbv.ptszVal,_countof(conn->PName));
 		db_free(&dbv);
 				
-		mir_snprintf(buff,sizeof(buff), "%dFilterIntPort", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterIntPort", i);
 		conn->intIntPort = db_get_dw(0, PLUGINNAME, buff, -1);
 		
-		mir_snprintf(buff,sizeof(buff), "%dFilterExtPort", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterExtPort", i);
 		conn->intExtPort = db_get_dw(0, PLUGINNAME, buff, -1);
 
-		mir_snprintf(buff,sizeof(buff), "%dFilterAction", i);
+		mir_snprintf(buff,SIZEOF(buff), "%dFilterAction", i);
 		conn->Pid = db_get_dw(0, PLUGINNAME, buff, 0);
 
 		conn->next = connHead;
@@ -168,7 +168,7 @@ void LoadSettings()
 	for(int i = 0; i < STATUS_COUNT; i++) 
 	{
 		char buff[128];
-		mir_snprintf(buff,sizeof(buff), "Status%d", i);
+		mir_snprintf(buff,SIZEOF(buff), "Status%d", i);
 		settingStatus[i] = (db_get_b(0, PLUGINNAME, buff, 0) == 1);
 	}
 	//lookupLotusDefaultSettings();
@@ -896,15 +896,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	for (MCONTACT hContact = db_find_first(PLUGINNAME); hContact != NULL; hContact = db_find_next(hContact,PLUGINNAME))
 		db_set_w(hContact,PLUGINNAME,"status",ID_STATUS_OFFLINE);
 
-	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETCAPS);
+	mir_snprintf(service,SIZEOF(service), "%s%s", PLUGINNAME, PS_GETCAPS);
 	CreateServiceFunction(service, GetCaps);
-	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETNAME);
+	mir_snprintf(service,SIZEOF(service), "%s%s", PLUGINNAME, PS_GETNAME);
 	CreateServiceFunction(service, GetName);
-	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_LOADICON);
+	mir_snprintf(service,SIZEOF(service), "%s%s", PLUGINNAME, PS_LOADICON);
 	CreateServiceFunction(service, TMLoadIcon);
-	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
+	mir_snprintf(service,SIZEOF(service), "%s%s", PLUGINNAME, PS_SETSTATUS);
 	CreateServiceFunction(service, SetStatus);
-	mir_snprintf(service,sizeof(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
+	mir_snprintf(service,SIZEOF(service), "%s%s", PLUGINNAME, PS_GETSTATUS);
 	CreateServiceFunction(service, GetStatus);
 
 

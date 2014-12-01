@@ -576,7 +576,7 @@ void CYahooProto::ext_got_audible(const char *me, const char *who, const char *a
 	}
 	
 	char z[1028];
-	mir_snprintf(z, sizeof(z), "[miranda-audible] %s", msg ?msg:"");
+	mir_snprintf(z, SIZEOF(z), "[miranda-audible] %s", msg ?msg:"");
 	ext_got_im((char*)me, (char*)who, 0, z, 0, 0, 1, -1, NULL, 0);
 }
 
@@ -792,14 +792,14 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	nick[0] = '\0';
 
 	if (lname && fname)
-		mir_snprintf(nick, sizeof(nick), "%s %s", fname, lname);
+		mir_snprintf(nick, SIZEOF(nick), "%s %s", fname, lname);
 	else if (lname)
-		mir_snprintf(nick, sizeof(nick), "%s", lname);
+		mir_snprintf(nick, SIZEOF(nick), "%s", lname);
 	else if (fname)
-		mir_snprintf(nick, sizeof(nick), "%s", fname);
+		mir_snprintf(nick, SIZEOF(nick), "%s", fname);
 
 	if (nick[0] == '\0') 
-		mir_snprintf(nick, sizeof(nick), "%s", who);
+		mir_snprintf(nick, SIZEOF(nick), "%s", who);
 
 	if (fname) SetStringUtf(hContact, "FirstName", fname);
 	if (lname) SetStringUtf(hContact, "LastName", lname);
@@ -1052,7 +1052,7 @@ void ext_yahoo_got_cookies(int id)
 		char z[1024];
 		
 		// need to add Cookie header to our requests or we get booted w/ "Bad Cookie" message.
-		mir_snprintf(z, sizeof(z), "Cookie: Y=%s; T=%s; C=%s", yahoo_get_cookie(id, "y"), 
+		mir_snprintf(z, SIZEOF(z), "Cookie: Y=%s; T=%s; C=%s", yahoo_get_cookie(id, "y"), 
 				yahoo_get_cookie(id, "t"), yahoo_get_cookie(id, "c"));    
 		LOG(("Our Cookie: '%s'", z));
 		CallService(MS_NETLIB_SETSTICKYHEADERS, (WPARAM)hNetlibUser, (LPARAM)z);
@@ -1546,11 +1546,11 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	
 	if 	(host[0] == '\0') {
 		if (!getString(YAHOO_LOGINSERVER, &dbv)) {
-			mir_snprintf(host, sizeof(host), "%s", dbv.pszVal);
+			mir_snprintf(host, SIZEOF(host), "%s", dbv.pszVal);
 			db_free(&dbv);
 		}
 		else {
-			mir_snprintf(host, sizeof(host), "%s", 
+			mir_snprintf(host, SIZEOF(host), "%s", 
 							getByte("YahooJapan",0) != 0 ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
 															YAHOO_DEFAULT_LOGIN_SERVER
 					);

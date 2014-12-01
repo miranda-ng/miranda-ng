@@ -54,7 +54,7 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 		char text[128];
 
 		TlenSend(proto, "</s>");
-		mir_snprintf(text, sizeof(text), Translate("Authentication failed for %s@%s."), proto->threadData->username, proto->threadData->server);
+		mir_snprintf(text, SIZEOF(text), Translate("Authentication failed for %s@%s."), proto->threadData->username, proto->threadData->server);
 		MessageBoxA(NULL, text, Translate("Tlen Authentication"), MB_OK|MB_ICONSTOP|MB_SETFOREGROUND);
 		ProtoBroadcastAck(proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 		proto->threadData = NULL;	// To disallow auto reconnect
@@ -419,9 +419,9 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 				if (!strcmp(itemNode->name, "item")) {
 					if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 						if (strchr(jid, '@') != NULL) {
-							mir_snprintf(jsr.jid, sizeof(jsr.jid), "%s", jid);
+							mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s", jid);
 						} else {
-							mir_snprintf(jsr.jid, sizeof(jsr.jid), "%s@%s", jid, dbv.pszVal);
+							mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s@%s", jid, dbv.pszVal);
 						}
 						jsr.jid[sizeof(jsr.jid)-1] = '\0';
 						jsr.hdr.id = mir_a2t(jid);
@@ -467,9 +467,9 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 			if (proto->searchJID != NULL) {
 				if (!found) {
 					if (strchr(proto->searchJID, '@') != NULL) {
-						mir_snprintf(jsr.jid, sizeof(jsr.jid), "%s", proto->searchJID);
+						mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s", proto->searchJID);
 					} else {
-						mir_snprintf(jsr.jid, sizeof(jsr.jid), "%s@%s", proto->searchJID, dbv.pszVal);
+						mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s@%s", proto->searchJID, dbv.pszVal);
 					}
 					jsr.jid[sizeof(jsr.jid)-1] = '\0';
 					jsr.hdr.nick = mir_tstrdup(TEXT(""));
@@ -604,7 +604,7 @@ void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode)
 				if (( hContact=TlenHContactFromJID(proto, item->jid )) != NULL ) {
 					if (item->software == NULL) {
 						char str[128];
-						mir_snprintf(str, sizeof(str), "Tlen Protocol %s", item->protocolVersion);
+						mir_snprintf(str, SIZEOF(str), "Tlen Protocol %s", item->protocolVersion);
 						db_set_s(hContact, proto->m_szModuleName, "MirVer", str);
 					}
 				}

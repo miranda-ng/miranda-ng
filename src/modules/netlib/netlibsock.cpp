@@ -218,7 +218,7 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 	if (addr->si_family == AF_INET) {
 		char *szIp = inet_ntoa(addr->Ipv4.sin_addr);
 		if (addr->Ipv4.sin_port != 0) {
-			mir_snprintf(saddr, sizeof(saddr), "%s:%d", szIp, htons(addr->Ipv4.sin_port));
+			mir_snprintf(saddr, SIZEOF(saddr), "%s:%d", szIp, htons(addr->Ipv4.sin_port));
 			return mir_strdup(saddr);
 		}
 		return mir_strdup(szIp);

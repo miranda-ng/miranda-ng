@@ -61,12 +61,12 @@ static INT_PTR DbEventTypeRegister(WPARAM, LPARAM lParam)
 
 	if (!p->textService) {
 		char szServiceName[100];
-		mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventText%d", p->module, p->eventType);
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s/GetEventText%d", p->module, p->eventType);
 		p->textService = mir_strdup(szServiceName);
 	}
 	if (!p->iconService) {
 		char szServiceName[100];
-		mir_snprintf(szServiceName, sizeof(szServiceName), "%s/GetEventIcon%d", p->module, p->eventType);
+		mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s/GetEventIcon%d", p->module, p->eventType);
 		p->iconService = mir_strdup(szServiceName);
 	}
 	eventTypes.insert(p);
@@ -216,7 +216,7 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 		icon = Skin_GetIconByHandle(et->eventIcon);
 	if (!icon) {
 		char szName[100];
-		mir_snprintf(szName, sizeof(szName), "eventicon_%s%d", dbei->szModule, dbei->eventType);
+		mir_snprintf(szName, SIZEOF(szName), "eventicon_%s%d", dbei->szModule, dbei->eventType);
 		icon = Skin_GetIcon(szName);
 	}
 

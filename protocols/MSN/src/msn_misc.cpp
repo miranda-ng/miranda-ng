@@ -155,7 +155,7 @@ char* MSN_GetAvatarHash(char* szContext, char** pszUrl)
 				if (i == 0)
 					strcpy(szSetting, "Url");
 				else
-					mir_snprintf(szSetting, sizeof(szSetting), "Url%d", i);
+					mir_snprintf(szSetting, SIZEOF(szSetting), "Url%d", i);
 				pszUrlAttr = ezxml_attr(xmli, szSetting);
 				if (pszUrlAttr == NULL)
 					break;
@@ -420,7 +420,7 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 	char buf[2048];
 	int off;
 
-	off = mir_snprintf(buf, sizeof(buf), "MIME-Version: 1.0\r\n");
+	off = mir_snprintf(buf, SIZEOF(buf), "MIME-Version: 1.0\r\n");
 
 	if ((parFlags & MSG_DISABLE_HDR) == 0) {
 		char  tFontName[100], tFontStyle[3];
@@ -457,10 +457,10 @@ int ThreadData::sendMessage(int msgType, const char* email, int netId, const cha
 		}
 
 		if (parFlags & MSG_OFFLINE)
-			off += mir_snprintf(buf + off, sizeof(buf) - off, "Dest-Agent: client\r\n");
+			off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Dest-Agent: client\r\n");
 
-		off += mir_snprintf(buf + off, sizeof(buf) - off, "Content-Type: text/plain; charset=UTF-8\r\n");
-		off += mir_snprintf(buf + off, sizeof(buf) - off, "X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n",
+		off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "Content-Type: text/plain; charset=UTF-8\r\n");
+		off += mir_snprintf((buf + off), (SIZEOF(buf) - off), "X-MMS-IM-Format: FN=%s; EF=%s; CO=%x; CS=0; PF=31%s\r\n\r\n",
 			tFontName, tFontStyle, tFontColor, (parFlags & MSG_RTL) ? ";RL=1" : "");
 	}
 
@@ -480,7 +480,7 @@ void ThreadData::sendCaps(void)
 	char mversion[100], capMsg[1000];
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(mversion), (LPARAM)mversion);
 
-	mir_snprintf(capMsg, sizeof(capMsg),
+	mir_snprintf(capMsg, SIZEOF(capMsg),
 		"Content-Type: text/x-clientcaps\r\n\r\n"
 		"Client-Name: Miranda NG %s (MSN v.%s)\r\n",
 		mversion, __VERSION_STRING_DOTS);
@@ -524,7 +524,7 @@ int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 void CMsnProto::MSN_SendTyping(ThreadData* info, const char* email, int netId)
 {
 	char tCommand[1024];
-	mir_snprintf(tCommand, sizeof(tCommand),
+	mir_snprintf(tCommand, SIZEOF(tCommand),
 		"Content-Type: text/x-msmsgscontrol\r\n"
 		"TypingUser: %s\r\n\r\n\r\n", MyOptions.szEmail);
 
@@ -586,7 +586,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 	size_t sz;
 	char  szMsg[2048];
 	if (msnCurrentMedia.cbSize == 0) {
-		sz = mir_snprintf(szMsg, sizeof(szMsg), "<Data><PSM>%s</PSM><CurrentMedia></CurrentMedia><MachineGuid>%s</MachineGuid>"
+		sz = mir_snprintf(szMsg, SIZEOF(szMsg), "<Data><PSM>%s</PSM><CurrentMedia></CurrentMedia><MachineGuid>%s</MachineGuid>"
 			"<DDP></DDP><SignatureSound></SignatureSound><Scene></Scene><ColorScheme></ColorScheme></Data>",
 			msgEnc, MyOptions.szMachineGuid);
 	}
@@ -621,7 +621,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 		char *szPlayer = HtmlEncodeUTF8T(msnCurrentMedia.ptszPlayer);
 		char *szType = HtmlEncodeUTF8T(msnCurrentMedia.ptszType);
 
-		sz = mir_snprintf(szMsg, sizeof szMsg,
+		sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<Data>"
 			"<PSM>%s</PSM>"
 			"<CurrentMedia>%s\\0%s\\01\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0%s\\0\\0</CurrentMedia>"
@@ -718,7 +718,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 
 		char szMsg[256];
 		if (m_iStatus < ID_STATUS_ONLINE) {
-			int sz = mir_snprintf(szMsg, sizeof(szMsg),
+			int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 				"<EndpointData><Capabilities>%u:%u</Capabilities></EndpointData>", myFlags, myFlagsEx);
 			msnNsThread->sendPacket("UUX", "%d\r\n%s", sz, szMsg);
 
@@ -743,7 +743,7 @@ void CMsnProto::MSN_SetServerStatus(int newStatus)
 			szPlace = mir_utf8encodeT(buf);
 		}
 
-		int sz = mir_snprintf(szMsg, sizeof(szMsg),
+		int sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<PrivateEndpointData>"
 			"<EpName>%s</EpName>"
 			"<Idle>%s</Idle>"
@@ -1237,7 +1237,7 @@ void MSN_MakeDigest(const char* chl, char* dgst)
 		md5hash[i] &= 0x7FFFFFFF;
 
 	char chlString[128];
-	mir_snprintf(chlString, sizeof(chlString), "%s%s00000000", chl, msnProductID);
+	mir_snprintf(chlString, SIZEOF(chlString), "%s%s00000000", chl, msnProductID);
 	chlString[(strlen(chl) + strlen(msnProductID) + 7) & 0xF8] = 0;
 
 	LONGLONG high = 0, low = 0;

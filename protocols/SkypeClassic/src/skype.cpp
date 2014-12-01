@@ -833,7 +833,7 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 
 		if (!ServiceExists(MS_UTILS_REPLACEVARS) || !(tmpPath = Utils_ReplaceVars("%miranda_avatarcache%")))
 			tmpPath = PROFILE_PATH;
-		mir_snprintf(DefaultAvatarsFolder, sizeof(DefaultAvatarsFolder), "%s\\%s", tmpPath, SKYPE_PROTONAME);
+		mir_snprintf(DefaultAvatarsFolder, SIZEOF(DefaultAvatarsFolder), "%s\\%s", tmpPath, SKYPE_PROTONAME);
 		hProtocolAvatarsFolder = (HANDLE)FoldersRegisterCustomPath(SKYPE_PROTONAME, "Avatars Cache", DefaultAvatarsFolder);
 	}
 
@@ -841,7 +841,7 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 	{
 		// Use defaults
 		CallService(MS_DB_GETPROFILEPATH, (WPARAM)MAX_PATH, (LPARAM)DefaultAvatarsFolder);
-		mir_snprintf(DefaultAvatarsFolder, sizeof(DefaultAvatarsFolder), "%s\\%s", DefaultAvatarsFolder, SKYPE_PROTONAME);
+		mir_snprintf(DefaultAvatarsFolder, SIZEOF(DefaultAvatarsFolder), "%s\\%s", DefaultAvatarsFolder, SKYPE_PROTONAME);
 		CreateDirectoryA(DefaultAvatarsFolder, NULL);
 	}
 
@@ -2411,9 +2411,9 @@ void RetrieveUserAvatar(void *param)
 			// Get filename
 			FoldersGetCustomPath(hProtocolAvatarsFolder, AvatarFile, sizeof(AvatarFile), DefaultAvatarsFolder);
 			if (!*AvatarFile) strcpy(AvatarFile, DefaultAvatarsFolder);
-			mir_snprintf(AvatarTmpFile, sizeof(AvatarTmpFile), "AVATAR 1 %s\\%s_tmp.jpg", AvatarFile, dbv.pszVal);
+			mir_snprintf(AvatarTmpFile, SIZEOF(AvatarTmpFile), "AVATAR 1 %s\\%s_tmp.jpg", AvatarFile, dbv.pszVal);
 			pszTempFile = AvatarTmpFile + 9;
-			mir_snprintf(AvatarFile, sizeof(AvatarFile), "%s\\%s.jpg", AvatarFile, dbv.pszVal);
+			mir_snprintf(AvatarFile, SIZEOF(AvatarFile), "%s\\%s.jpg", AvatarFile, dbv.pszVal);
 
 			// Just to be sure
 			DeleteFileA(pszTempFile);
@@ -2511,7 +2511,7 @@ INT_PTR SkypeGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 		// Get filename
 		FoldersGetCustomPath(hProtocolAvatarsFolder, AvatarFile, sizeof(AvatarFile), DefaultAvatarsFolder);
-		mir_snprintf(AvatarFile, sizeof(AvatarFile), "%s\\%s.jpg", AvatarFile, dbv.pszVal);
+		mir_snprintf(AvatarFile, SIZEOF(AvatarFile), "%s\\%s.jpg", AvatarFile, dbv.pszVal);
 		db_free(&dbv);
 
 		// Check if the file exists

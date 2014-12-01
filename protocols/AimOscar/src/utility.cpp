@@ -498,42 +498,42 @@ void BdList::remove_by_id(unsigned short id)
 unsigned short CAimProto::getBuddyId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
-	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
+	mir_snprintf(item, SIZEOF(item), AIM_KEY_BI"%d", i);
 	return getWord(hContact, item, 0);
 }
 
 void CAimProto::setBuddyId(MCONTACT hContact, int i, unsigned short id)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
-	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
+	mir_snprintf(item, SIZEOF(item), AIM_KEY_BI"%d", i);
 	setWord(hContact, item, id);
 }
 
 int CAimProto::deleteBuddyId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_BI)+10];
-	mir_snprintf(item, sizeof(AIM_KEY_BI)+10, AIM_KEY_BI"%d", i);
+	mir_snprintf(item, SIZEOF(item), AIM_KEY_BI"%d", i);
 	return delSetting(hContact, item);
 }
 
 unsigned short CAimProto::getGroupId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
-	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
+	mir_snprintf(item, SIZEOF(item), AIM_KEY_GI"%d", i);
 	return getWord(hContact, item, 0);
 }
 
 void CAimProto::setGroupId(MCONTACT hContact, int i, unsigned short id)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
-	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
+	mir_snprintf(item, SIZEOF(item), AIM_KEY_GI"%d", i);
 	setWord(hContact, item, id);
 }
 
 int CAimProto::deleteGroupId(MCONTACT hContact, int i)
 {
 	char item[sizeof(AIM_KEY_GI)+10];
-	mir_snprintf(item, sizeof(AIM_KEY_GI)+10, AIM_KEY_GI"%d", i);
+	mir_snprintf(item, SIZEOF(item), AIM_KEY_GI"%d", i);
 	return delSetting(hContact, item);
 }
 

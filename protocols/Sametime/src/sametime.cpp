@@ -108,14 +108,14 @@ HANDLE GetIconHandle(int iconId)
 HICON LoadIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", "SAMETIME", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "SAMETIME", name);
 	return Skin_GetIcon(szSettingName, big);
 }
 
 void ReleaseIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", "SAMETIME", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "SAMETIME", name);
 	Skin_ReleaseIcon(szSettingName, big);
 }
 

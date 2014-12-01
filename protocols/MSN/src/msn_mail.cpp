@@ -318,7 +318,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 			msgurl = "inbox";
 
 		char szUrl[256];
-		mir_snprintf(szUrl, sizeof(szUrl), "http://mail.live.com?rru=%s", msgurl);
+		mir_snprintf(szUrl, SIZEOF(szUrl), "http://mail.live.com?rru=%s", msgurl);
 
 		MSN_ShowPopup(tBuffer, tBuffer2,
 			MSN_ALLOW_ENTER | MSN_ALLOW_MSGBOX | MSN_HOTMAIL_POPUP,

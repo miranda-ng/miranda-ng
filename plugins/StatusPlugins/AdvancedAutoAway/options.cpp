@@ -34,17 +34,17 @@ static BOOL bSettingSame = FALSE;
 static int WriteAutoAwaySetting(TAAAProtoSetting &autoAwaySetting, char *protoName)
 {
 	char setting[128];
-	mir_snprintf(setting, sizeof(setting), "%s_OptionFlags", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_OptionFlags", protoName);
 	db_set_w(NULL, MODULENAME, setting, (WORD)autoAwaySetting.optionFlags);
-	mir_snprintf(setting, sizeof(setting), "%s_AwayTime", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_AwayTime", protoName);
 	db_set_w(NULL, MODULENAME, setting, (WORD)autoAwaySetting.awayTime);
-	mir_snprintf(setting, sizeof(setting), "%s_NATime", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_NATime", protoName);
 	db_set_w(NULL, MODULENAME, setting, (WORD)autoAwaySetting.naTime);
-	mir_snprintf(setting, sizeof(setting), "%s_StatusFlags", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_StatusFlags", protoName);
 	db_set_w(NULL, MODULENAME, setting, (WORD)autoAwaySetting.statusFlags);
-	mir_snprintf(setting, sizeof(setting), "%s_Lv1Status", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_Lv1Status", protoName);
 	db_set_w(NULL, MODULENAME, setting, (WORD)autoAwaySetting.lv1Status);
-	mir_snprintf(setting, sizeof(setting), "%s_Lv2Status", protoName);
+	mir_snprintf(setting, SIZEOF(setting), "%s_Lv2Status", protoName);
 	db_set_w(NULL, MODULENAME, setting, (WORD)autoAwaySetting.lv2Status);
 
 	return 0;

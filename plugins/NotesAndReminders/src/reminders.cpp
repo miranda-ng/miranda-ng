@@ -642,7 +642,7 @@ static void SkinPlaySoundPoly(LPCSTR pszSoundName)
 				char szShort[MAX_PATH];
 				char s[512];
 				GetShortPathNameA(szFull, szShort, sizeof(szShort));
-				mir_snprintf(s, sizeof(s), "play \"%s\"", szShort);
+				mir_snprintf(s, SIZEOF(s), "play \"%s\"", szShort);
 				mciSendStringA(s, NULL, 0, NULL);
 			}
 
@@ -1086,35 +1086,35 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
 	wCurHour = tm2.wHour;
 	wCurMinute = tm2.wMinute;
-	mir_snprintf(s, sizeof(s), "%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+	mir_snprintf(s, SIZEOF(s), "%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
 	n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart-ref)/FILETIME_TICKS_PER_SEC));
 
 	// 5 minutes
 	li.QuadPart += (ULONGLONG)5 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, sizeof(s), "%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
+	mir_snprintf(s, SIZEOF(s), "%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
 	n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart-ref)/FILETIME_TICKS_PER_SEC));
 
 	// 10 minutes
 	li.QuadPart += (ULONGLONG)5 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, sizeof(s), "%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
+	mir_snprintf(s, SIZEOF(s), "%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
 	n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart-ref)/FILETIME_TICKS_PER_SEC));
 
 	// 15 minutes
 	li.QuadPart += (ULONGLONG)5 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, sizeof(s), "%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
+	mir_snprintf(s, SIZEOF(s), "%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
 	n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart-ref)/FILETIME_TICKS_PER_SEC));
 
 	// 30 minutes
 	li.QuadPart += (ULONGLONG)15 * MinutesToFileTime;
 	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snprintf(s, sizeof(s), "%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
+	mir_snprintf(s, SIZEOF(s), "%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, lpszMinutes);
 	n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog, nIDTime, CB_SETITEMDATA, n, (LPARAM)((li.QuadPart-ref)/FILETIME_TICKS_PER_SEC));
 
@@ -1142,13 +1142,13 @@ static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const S
 		}
 
 		// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
-		//mir_snprintf(s, sizeof(s), "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
+		//mir_snprintf(s, SIZEOF(s), "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
 		// display delta time more accurately to match reformatting (that icq doesn't do)
 		dt = (UINT)((li.QuadPart/MinutesToFileTime) - (ref/MinutesToFileTime));
 		if (dt < 60)
-			mir_snprintf(s, sizeof(s), "%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, lpszMinutes);
+			mir_snprintf(s, SIZEOF(s), "%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, lpszMinutes);
 		else
-			mir_snprintf(s, sizeof(s), "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt/60, ((dt%60)*10)/60, lpszHours);
+			mir_snprintf(s, SIZEOF(s), "%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt/60, ((dt%60)*10)/60, lpszHours);
 		n = SendDlgItemMessage(Dialog,nIDTime,CB_ADDSTRING,0,(LPARAM)s);
 		SendDlgItemMessage(Dialog,nIDTime,CB_SETITEMDATA,n, (LPARAM)(dt*60));
 
@@ -1179,39 +1179,39 @@ static void PopulateTimeOffsetCombo(HWND Dialog, UINT nIDCombo)
 	// 5 - 55 minutes (in 5 minute steps)
 	for (i = 1; i < 12; i++)
 	{
-		mir_snprintf(s, sizeof(s), "%d %s", i*5, lpszMinutes);
+		mir_snprintf(s, SIZEOF(s), "%d %s", i*5, lpszMinutes);
 		n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
 		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(i*5));
 	}
 
 	// 1 hour
-	mir_snprintf(s, sizeof(s), "1 %s", lpszHour);
+	mir_snprintf(s, SIZEOF(s), "1 %s", lpszHour);
 	n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)60);
 
 	// 2, 4, 8 hours
 	for (i = 2; i <= 8; i+=2)
 	{
-		mir_snprintf(s, sizeof(s), "%d %s", i, lpszHours);
+		mir_snprintf(s, SIZEOF(s), "%d %s", i, lpszHours);
 		n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
 		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(i*60));
 	}
 
 	// 1 day
-	mir_snprintf(s, sizeof(s), "1 %s", lpszDay);
+	mir_snprintf(s, SIZEOF(s), "1 %s", lpszDay);
 	n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(24*60));
 
 	// 2-4 days
 	for (i = 2; i <= 4; i++)
 	{
-		mir_snprintf(s, sizeof(s), "%d %s", i, lpszDays);
+		mir_snprintf(s, SIZEOF(s), "%d %s", i, lpszDays);
 		n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
 		SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(i*24*60));
 	}
 
 	// 1 week
-	mir_snprintf(s, sizeof(s), "1 %s", lpszWeek);
+	mir_snprintf(s, SIZEOF(s), "1 %s", lpszWeek);
 	n = SendDlgItemMessage(Dialog,nIDCombo,CB_ADDSTRING,0,(LPARAM)s);
 	SendDlgItemMessage(Dialog,nIDCombo,CB_SETITEMDATA,n, (LPARAM)(7*24*60));
 }
@@ -1257,9 +1257,9 @@ static int ReformatTimeInputEx(HWND Dialog, UINT nIDTime, UINT nIDRefTime, int h
 			dt = (UINT)((li.QuadPart/MinutesToFileTime) - (ref/MinutesToFileTime));
 
 			if (dt < 60)
-				mir_snprintf(buf, sizeof(buf), "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
+				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
 			else
-				mir_snprintf(buf, sizeof(buf), "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
+				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
 
 			// search for preset
 			n = SendDlgItemMessage(Dialog, nIDTime, CB_FINDSTRING, (WPARAM)-1, (LPARAM)buf);
@@ -1368,9 +1368,9 @@ output_result:
 			dt = (UINT)((li.QuadPart/MinutesToFileTime) - (ref/MinutesToFileTime));
 
 			if (dt < 60)
-				mir_snprintf(buf, sizeof(buf), "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
+				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d %s)", h, m, dt, Translate("Minutes"));
 			else
-				mir_snprintf(buf, sizeof(buf), "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
+				mir_snprintf(buf, SIZEOF(buf), "%02d:%02d (%d.%d %s)", h, m, dt/60, ((dt%60)*10)/60, Translate("Hours"));
 		}
 	}
 	else
@@ -1938,7 +1938,7 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 			{
 				int n;
 				char s[32];
-				mir_snprintf(s, sizeof(s), "%02d:%02d", (UINT)tm.wHour, (UINT)tm.wMinute);
+				mir_snprintf(s, SIZEOF(s), "%02d:%02d", (UINT)tm.wHour, (UINT)tm.wMinute);
 
 				// search for preset first
 				n = SendDlgItemMessage(Dialog, IDC_TIME, CB_FINDSTRING, (WPARAM)-1, (LPARAM)s);
@@ -1966,33 +1966,33 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)Translate("Never"));
 				SendDlgItemMessage(Dialog,IDC_COMBO_REPEATSND,CB_SETITEMDATA, n, 0);
 
-				mir_snprintf(s, sizeof(s), "%s 5 %s", lpszEvery, lpszSeconds);
+				mir_snprintf(s, SIZEOF(s), "%s 5 %s", lpszEvery, lpszSeconds);
 				n = SendDlgItemMessage(Dialog,IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
 				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)5);
 
-				mir_snprintf(s, sizeof(s), "%s 10 %s", lpszEvery, lpszSeconds);
+				mir_snprintf(s, SIZEOF(s), "%s 10 %s", lpszEvery, lpszSeconds);
 				n = SendDlgItemMessage(Dialog,IDC_COMBO_REPEATSND,CB_ADDSTRING, 0, (LPARAM)s);
 				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)10);
 
-				mir_snprintf(s, sizeof(s), "%s 15 %s", lpszEvery, lpszSeconds);
+				mir_snprintf(s, SIZEOF(s), "%s 15 %s", lpszEvery, lpszSeconds);
 				n = SendDlgItemMessage(Dialog,IDC_COMBO_REPEATSND,CB_ADDSTRING, 0, (LPARAM)s);
 				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)15);
 
-				mir_snprintf(s, sizeof(s), "%s 20 %s", lpszEvery, lpszSeconds);
+				mir_snprintf(s, SIZEOF(s), "%s 20 %s", lpszEvery, lpszSeconds);
 				n = SendDlgItemMessage(Dialog,IDC_COMBO_REPEATSND,CB_ADDSTRING, 0, (LPARAM)s);
 				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)20);
 
-				mir_snprintf(s, sizeof(s), "%s 30 %s", lpszEvery, lpszSeconds);
+				mir_snprintf(s, SIZEOF(s), "%s 30 %s", lpszEvery, lpszSeconds);
 				n = SendDlgItemMessage(Dialog,IDC_COMBO_REPEATSND,CB_ADDSTRING, 0, (LPARAM)s);
 				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)30);
 
-				mir_snprintf(s, sizeof(s), "%s 60 %s", lpszEvery, lpszSeconds);
+				mir_snprintf(s, SIZEOF(s), "%s 60 %s", lpszEvery, lpszSeconds);
 				n = SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_ADDSTRING, 0, (LPARAM)s);
 				SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETITEMDATA, n, (LPARAM)60);
 
 				if (NewReminderVisible == 2 && pEditReminder->RepeatSound)
 				{
-					mir_snprintf(s, sizeof(s), "%s %d %s", lpszEvery, pEditReminder->RepeatSound, lpszSeconds);
+					mir_snprintf(s, SIZEOF(s), "%s %d %s", lpszEvery, pEditReminder->RepeatSound, lpszSeconds);
 					SetDlgItemText(Dialog, IDC_COMBO_REPEATSND, s);
 					SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_SETCURSEL, SendDlgItemMessage(Dialog, IDC_COMBO_REPEATSND, CB_FINDSTRINGEXACT, (WPARAM)-1, (LPARAM)s), 0);
 				}

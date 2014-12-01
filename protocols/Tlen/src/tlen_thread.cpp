@@ -206,7 +206,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 		return;
 	}
 
-	mir_snprintf(jidStr, sizeof(jidStr), "%s@%s", info->username, info->server);
+	mir_snprintf(jidStr, SIZEOF(jidStr), "%s@%s", info->username, info->server);
 	db_set_s(NULL, info->proto->m_szModuleName, "jid", jidStr);
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "ManualHost", &dbv)) {
@@ -1188,9 +1188,9 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 
 	if ((from=TlenXmlGetAttrValue(node, "f")) != NULL) {
 		if (strchr(from, '@') == NULL) {
-			mir_snprintf(jid, sizeof(jid), "%s@%s", from, info->server);
+			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, info->server);
 		} else {
-			mir_snprintf(jid, sizeof(jid), "%s", from);
+			mir_snprintf(jid, SIZEOF(jid), "%s", from);
 		}
 		if ((e=TlenXmlGetAttrValue(node, "e")) != NULL) {
 			if (!strcmp(e, "1")) {

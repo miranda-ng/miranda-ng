@@ -434,7 +434,7 @@ void UpdateCheckboxesState(CCList *CList)
 HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", "", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", "", name);
 	return Skin_GetIcon(szSettingName, big);
 }
 

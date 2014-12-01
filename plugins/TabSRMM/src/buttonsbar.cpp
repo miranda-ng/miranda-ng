@@ -730,12 +730,12 @@ void TSAPI BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, B
 void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 {
 	DBVARIANT  dbv = { 0 };
-	char SettingName[1024] = { '\0' };
+	char SettingName[1024];
 	char* token = NULL;
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, sizeof(SettingName), "%s_%d", cbd->pszModuleName, cbd->dwButtonOrigID);
+	mir_snprintf(SettingName, SIZEOF(SettingName), "%s_%d", cbd->pszModuleName, cbd->dwButtonOrigID);
 
 	if (!db_get_s(hContact, "TabSRMM_Toolbar", SettingName, &dbv)) {
 		token = strtok(dbv.pszVal, "_");
@@ -757,13 +757,13 @@ void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 
 void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd)
 {
-	char SettingName[1024] = { '\0' };
-	char SettingParameter[1024] = { '\0' };
+	char SettingName[1024];
+	char SettingParameter[1024];
 
 	//modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
 
-	mir_snprintf(SettingName, sizeof(SettingName), "%s_%d", cbd->pszModuleName, cbd->dwButtonOrigID);
-	mir_snprintf(SettingParameter, sizeof(SettingParameter), "%d_%u_%u_%u_%u_%u", cbd->dwPosition, cbd->bIMButton, cbd->bChatButton, cbd->bLSided, cbd->bRSided, cbd->bCanBeHidden);
+	mir_snprintf(SettingName, SIZEOF(SettingName), "%s_%d", cbd->pszModuleName, cbd->dwButtonOrigID);
+	mir_snprintf(SettingParameter, SIZEOF(SettingParameter), "%d_%u_%u_%u_%u_%u", cbd->dwPosition, cbd->bIMButton, cbd->bChatButton, cbd->bLSided, cbd->bRSided, cbd->bCanBeHidden);
 	if (!(cbd->opFlags & BBSF_NTBDESTRUCT))
 		db_set_s(hContact, "TabSRMM_Toolbar", SettingName, SettingParameter);
 	else

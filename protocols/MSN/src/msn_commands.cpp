@@ -161,9 +161,9 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		ThreadData* newThread = new ThreadData;
 
 		if (inet_addr(IPAddress) != MyConnection.extIP || !IPAddressInt)
-			mir_snprintf(newThread->mServer, sizeof(newThread->mServer), "%s:%s", IPAddress, Port);
+			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%s", IPAddress, Port);
 		else
-			mir_snprintf(newThread->mServer, sizeof(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
+			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer), "%s:%u", IPAddressInt, atol(PortXInt) ^ 0x3141);
 
 		newThread->mType = SERVER_FILETRANS;
 
@@ -195,7 +195,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 			Sleep(3000);
 
 			char command[1024];
-			int  nBytes = mir_snprintf(command, sizeof(command),
+			int  nBytes = mir_snprintf(command, SIZEOF(command),
 				"MIME-Version: 1.0\r\n"
 				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 				"Invitation-Command: ACCEPT\r\n"
@@ -219,7 +219,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 		mir_free(tszEmail);
 
 		if (MessageBox(NULL, text, TranslateT("MSN Protocol"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-			nBytes = mir_snprintf(command, sizeof(command),
+			nBytes = mir_snprintf(command, SIZEOF(command),
 				"MIME-Version: 1.0\r\n"
 				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 				"Invitation-Command: ACCEPT\r\n"
@@ -232,7 +232,7 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 				Invcookie, MyConnection.GetMyExtIPStr());
 		}
 		else {
-			nBytes = mir_snprintf(command, sizeof(command),
+			nBytes = mir_snprintf(command, SIZEOF(command),
 				"MIME-Version: 1.0\r\n"
 				"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 				"Invitation-Command: CANCEL\r\n"
@@ -245,8 +245,8 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 	}
 
 	if (IPAddress != NULL && Port == NULL && SessionID != NULL && SessionProtocol == NULL) { // netmeeting receive 2
-		char	ipaddr[256];
-		mir_snprintf(ipaddr, sizeof(ipaddr), "callto://%s", IPAddress);
+		char ipaddr[256];
+		mir_snprintf(ipaddr, SIZEOF(ipaddr), "callto://%s", IPAddress);
 		ShellExecuteA(NULL, "open", ipaddr, NULL, NULL, SW_SHOW);
 	}
 }
@@ -582,7 +582,7 @@ void CMsnProto::MSN_ProcessYFind(char* buf, size_t len)
 	const char* szCont = ezxml_attr(cont, "n");
 
 	char szEmail[128];
-	mir_snprintf(szEmail, sizeof(szEmail), "%s@%s", szCont, szDom);
+	mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
 
 	const char *szNetId = ezxml_attr(cont, "t");
 	if (msnSearchId != NULL) {
@@ -638,7 +638,7 @@ void CMsnProto::MSN_ProcessAdd(char* buf, size_t len)
 			int netId = atol(ezxml_attr(cont, "t"));
 
 			char szEmail[128];
-			mir_snprintf(szEmail, sizeof(szEmail), "%s@%s", szCont, szDom);
+			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
 
 			UrlDecode((char*)szNick);
 
@@ -685,7 +685,7 @@ void CMsnProto::MSN_ProcessRemove(char* buf, size_t len)
 			int listId = atol(ezxml_attr(cont, "l"));
 
 			char szEmail[128];
-			mir_snprintf(szEmail, sizeof(szEmail), "%s@%s", szCont, szDom);
+			mir_snprintf(szEmail, SIZEOF(szEmail), "%s@%s", szCont, szDom);
 			Lists_Remove(listId, szEmail);
 
 			MsnContact* msc = Lists_Get(szEmail);
@@ -798,7 +798,7 @@ void CMsnProto::MSN_ProcessStatusMessage(char* buf, unsigned len, const char* wl
 
 		for (unsigned i = 4; i < pCount; i++) {
 			char part[16];
-			size_t lenPart = mir_snprintf(part, sizeof(part), "{%d}", i - 4);
+			size_t lenPart = mir_snprintf(part, SIZEOF(part), "{%d}", i - 4);
 			if (parts[i][0] == '\0' && unknown != NULL)
 				parts[i] = unknown;
 			size_t lenPartsI = strlen(parts[i]);
@@ -892,13 +892,13 @@ void CMsnProto::MSN_ProcessNotificationMessage(char* buf, unsigned len)
 
 		const char* acturl = ezxml_attr(xmlact, "url");
 		if (acturl == NULL || strstr(acturl, "://") == NULL)
-			sz += mir_snprintf(fullurl + sz, sizeof(fullurl)-sz, "%s", ezxml_attr(xmlnot, "siteurl"));
+			sz += mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "%s", ezxml_attr(xmlnot, "siteurl"));
 
-		sz += mir_snprintf(fullurl + sz, sizeof(fullurl)-sz, "%s", acturl);
+		sz += mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "%s", acturl);
 		if (sz != 0 && fullurl[sz - 1] != '?')
-			sz += mir_snprintf(fullurl + sz, sizeof(fullurl)-sz, "?");
+			sz += mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "?");
 
-		mir_snprintf(fullurl + sz, sizeof(fullurl)-sz, "notification_id=%s&message_id=%s",
+		mir_snprintf((fullurl + sz), (SIZEOF(fullurl) - sz), "notification_id=%s&message_id=%s",
 			ezxml_attr(xmlnot, "id"), ezxml_attr(xmlmsg, "id"));
 
 		SkinPlaySound(alertsoundname);
@@ -1514,7 +1514,7 @@ remove:
 			newThread->mType = SERVER_SWITCHBOARD;
 			newThread->mInitialContactWLID = mir_strdup(data.callerEmail);
 			MSN_HContactFromEmail(data.callerEmail, data.callerNick, true, true);
-			mir_snprintf(newThread->mCookie, sizeof(newThread->mCookie), "%s %d", data.authChallengeInfo, trid);
+			mir_snprintf(newThread->mCookie, SIZEOF(newThread->mCookie), "%s %d", data.authChallengeInfo, trid);
 
 			ReleaseSemaphore(newThread->hWaitEvent, MSN_PACKETS_COMBINE, NULL);
 

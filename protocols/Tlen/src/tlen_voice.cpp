@@ -932,7 +932,7 @@ static char *getDisplayName(TlenProtocol *proto, const char *id)
 	MCONTACT hContact;
 	DBVARIANT dbv;
 	if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-		mir_snprintf(jid, sizeof(jid), "%s@%s", id, dbv.pszVal);
+		mir_snprintf(jid, SIZEOF(jid), "%s@%s", id, dbv.pszVal);
 		db_free(&dbv);
 		if ((hContact=TlenHContactFromJID(proto, jid)) != NULL)
 			return mir_strdup((char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, 0));
@@ -1012,7 +1012,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 				char jid[256];
 				DBVARIANT dbv;
 				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-					mir_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
+					mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				} else {
 					strcpy(jid, from);
@@ -1023,7 +1023,7 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 				char jid[256];
 				DBVARIANT dbv;
 				if (!db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) {
-					mir_snprintf(jid, sizeof(jid), "%s@%s", from, dbv.pszVal);
+					mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				} else {
 					strcpy(jid, from);

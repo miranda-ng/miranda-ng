@@ -491,8 +491,8 @@ int Meta_SetAllNicks()
 static void SwapValues(MCONTACT hContact, LPCSTR szSetting, int n1, int n2)
 {
 	char buf1[100], buf2[100];
-	mir_snprintf(buf1, sizeof(buf1), "%s%d", szSetting, n1);
-	mir_snprintf(buf2, sizeof(buf2), "%s%d", szSetting, n2);
+	mir_snprintf(buf1, SIZEOF(buf1), "%s%d", szSetting, n1);
+	mir_snprintf(buf2, SIZEOF(buf2), "%s%d", szSetting, n2);
 
 	DBVARIANT dbv1, dbv2;
 	int ok1 = !db_get(hContact, META_PROTO, buf1, &dbv1);

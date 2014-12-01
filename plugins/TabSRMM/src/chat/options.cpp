@@ -405,7 +405,7 @@ void Chat_AddIcons(void)
 HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY)
 {
 	char szTemp[256];
-	mir_snprintf(szTemp, sizeof(szTemp), "chat_%s", pszIcoLibName);
+	mir_snprintf(szTemp, SIZEOF(szTemp), "chat_%s", pszIcoLibName);
 	return Skin_GetIcon(szTemp);
 }
 

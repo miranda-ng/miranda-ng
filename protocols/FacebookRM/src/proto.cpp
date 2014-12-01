@@ -496,7 +496,7 @@ int FacebookProto::OnToolbarInit(WPARAM, LPARAM)
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 
 	char service[100];
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, "/Mind");
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, "/Mind");
 
 	ttb.pszService = service;
 	ttb.pszTooltipUp = ttb.name = LPGEN("Share status...");

@@ -575,7 +575,7 @@ void CSametimeProto::InitSessionMenu()
 	mi.popupPosition = 500085001;
 	mi.position = 2000060000;
 	mi.ptszName = LPGENT("Send announcement...");
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUANNOUNCESESSION);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, MS_SAMETIME_MENUANNOUNCESESSION);
 	mi.pszService = service;
 	mi.icolibItem = GetIconHandle(IDI_ICON_ANNOUNCE);
 	mi.pszContactOwner = m_szModuleName;

@@ -345,7 +345,7 @@ bool bWriteConfigurationFile() {
 	} else {
 		CLFileShareNode * pclCur = pclFirstNode;
 		while (pclCur) {
-			DWORD dwBytesToWrite = mir_snprintf(szBuf, sizeof(szBuf), szXmlData ,
+			DWORD dwBytesToWrite = mir_snprintf(szBuf, SIZEOF(szBuf), szXmlData ,
 			    pclCur->st.pszSrvPath,
 			    pclCur->pszOrigRealPath,
 			    pclCur->st.nMaxDownloads,

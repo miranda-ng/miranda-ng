@@ -973,7 +973,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	ImageItem *imgItem = g_ImageItems;
 
 	memset(&tmpItem, 0, sizeof(tmpItem));
-	mir_snprintf(tmpItem.szName, sizeof(tmpItem.szName), "%s", &itemName[1]);
+	mir_snprintf(tmpItem.szName, SIZEOF(tmpItem.szName), "%s", &itemName[1]);
 	tmpItem.width = GetPrivateProfileIntA(itemName, "Width", 16, file);
 	tmpItem.height = GetPrivateProfileIntA(itemName, "Height", 16, file);
 	tmpItem.xOff = GetPrivateProfileIntA(itemName, "xoff", 0, file);

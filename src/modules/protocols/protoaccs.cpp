@@ -424,7 +424,7 @@ static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 static HANDLE CreateProtoServiceEx(const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param)
 {
 	char tmp[100];
-	mir_snprintf(tmp, sizeof(tmp), "%s%s", szModule, szService);
+	mir_snprintf(tmp, SIZEOF(tmp), "%s%s", szModule, szService);
 	return CreateServiceFunctionObj(tmp, pFunc, param);
 }
 

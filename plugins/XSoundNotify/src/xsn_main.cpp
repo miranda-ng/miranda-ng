@@ -71,7 +71,7 @@ void InitSelfSounds()
 	for (int i = 0; i < protoCount; i++) {
 		for(int j = 0; j < SIZEOF(selfSounds); j++) {
 			char namebuf[128];
-			mir_snprintf(namebuf, sizeof(namebuf), "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
+			mir_snprintf(namebuf, SIZEOF(namebuf), "%s%s", protos[i]->szModuleName, selfSounds[j].szName);
 	
 			TCHAR infobuf[256];
 			mir_sntprintf(infobuf, SIZEOF(infobuf), _T("%s [%s]"), TranslateT("Self status"), protos[i]->tszAccountName);
@@ -87,7 +87,7 @@ static int ProtoAck(WPARAM wParam, LPARAM lParam)
 		for(int i = 0; i < SIZEOF(selfSounds); i++) {
 			if(selfSounds[i].iStatus == ack->lParam) {
 				char buf[128];
-				mir_snprintf(buf, sizeof(buf), "%s%s", ack->szModule, selfSounds[i].szName);
+				mir_snprintf(buf, SIZEOF(buf), "%s%s", ack->szModule, selfSounds[i].szName);
 				SkinPlaySound(buf);
 				break;
 			}

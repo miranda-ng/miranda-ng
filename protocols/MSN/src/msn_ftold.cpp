@@ -150,8 +150,9 @@ int CMsnProto::MSN_HandleMSNFTP(ThreadData *info, char *cmdString)
 		}
 
 		char tCommand[30];
-		mir_snprintf(tCommand, sizeof(tCommand), "FIL %i\r\n", info->mMsnFtp->std.totalBytes);
-		info->send(tCommand, strlen(tCommand));
+		size_t tCommandLen;
+		tCommandLen = mir_snprintf(tCommand, SIZEOF(tCommand), "FIL %i\r\n", info->mMsnFtp->std.totalBytes);
+		info->send(tCommand, tCommandLen);
 		break;
 
 	case ' REV':    //********* VER
@@ -173,8 +174,9 @@ LBL_InvalidCommand:
 
 		if (info->mCaller == 0) { //receive
 			char tCommand[MSN_MAX_EMAIL_LEN + 50];
-			mir_snprintf(tCommand, sizeof(tCommand), "USR %s %s\r\n", MyOptions.szEmail, info->mCookie);
-			info->send(tCommand, strlen(tCommand));
+			size_t tCommandLen;
+			tCommandLen = mir_snprintf(tCommand, SIZEOF(tCommand), "USR %s %s\r\n", MyOptions.szEmail, info->mCookie);
+			info->send(tCommand, tCommandLen);
 		}
 		else if (info->mCaller == 2) { //send
 			static const char sttCommand[] = "VER MSNFTP\r\n";
@@ -332,7 +334,7 @@ void CMsnProto::msnftp_startFileSend(ThreadData* info, const char* Invcommand, c
 		hostname[0] = 0;
 
 	char command[1024];
-	int  nBytes = mir_snprintf(command, sizeof(command),
+	int  nBytes = mir_snprintf(command, SIZEOF(command),
 		"MIME-Version: 1.0\r\n"
 		"Content-Type: text/x-msmsgsinvite; charset=UTF-8\r\n\r\n"
 		"Invitation-Command: %s\r\n"

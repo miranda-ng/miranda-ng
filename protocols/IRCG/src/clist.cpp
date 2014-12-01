@@ -67,7 +67,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		cle.hDbEvent = (HANDLE)"dccchat";
 		cle.flags = CLEF_TCHAR;
 		cle.hIcon = LoadIconEx(IDI_DCC);
-		mir_snprintf(szService, sizeof(szService), "%s/DblClickEvent", m_szModuleName);
+		mir_snprintf(szService, SIZEOF(szService), "%s/DblClickEvent", m_szModuleName);
 		cle.pszService = szService;
 		mir_sntprintf(szNick, SIZEOF(szNick), TranslateT("CTCP chat request from %s"), name.c_str());
 		cle.ptszTooltip = szNick;

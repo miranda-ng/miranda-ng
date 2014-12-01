@@ -222,7 +222,7 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 char *oauth_generate_nonce()
 {
 	char timestamp[22], randnum[16];
-	mir_snprintf(timestamp, sizeof(timestamp), "%ld", time(NULL)); 
+	mir_snprintf(timestamp, SIZEOF(timestamp), "%ld", time(NULL)); 
 	CallService(MS_UTILS_GETRANDOM, (WPARAM)sizeof(randnum), (LPARAM)randnum);
 
 	int strSizeB = int(strlen(timestamp) + sizeof(randnum));
@@ -252,7 +252,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 		case RSASHA1: oauth_setparam(oauth_parameters, "oauth_signature_method", "RSA-SHA1"); break;
 		default: oauth_setparam(oauth_parameters, "oauth_signature_method", "PLAINTEXT"); break;
 	};
-	mir_snprintf(timestamp, sizeof(timestamp), "%ld", time(NULL)); 
+	mir_snprintf(timestamp, SIZEOF(timestamp), "%ld", time(NULL)); 
 	oauth_setparam(oauth_parameters, "oauth_timestamp", timestamp);
 	nonce = oauth_generate_nonce();
 	oauth_setparam(oauth_parameters, "oauth_nonce", nonce);

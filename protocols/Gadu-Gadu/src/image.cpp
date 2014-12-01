@@ -69,7 +69,7 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 int GGPROTO::img_init()
 {
 	char service[64];
-	mir_snprintf(service, sizeof(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
+	mir_snprintf(service, SIZEOF(service), "%s%s", m_szModuleName, GGS_SENDIMAGE);
 	CreateProtoService(GGS_SENDIMAGE, &GGPROTO::img_sendimg);
 
 	// Send image contact menu item

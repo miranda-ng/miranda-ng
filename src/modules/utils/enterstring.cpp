@@ -56,7 +56,7 @@ static void ComboLoadRecentStrings(HWND hwndDlg, EnterStringFormParam *pForm)
 {
 	for (int i = 0; i < pForm->recentCount; i++) {
 		char setting[MAXMODULELABELLENGTH];
-		mir_snprintf(setting, sizeof(setting), "%s%d", pForm->szDataPrefix, i);
+		mir_snprintf(setting, SIZEOF(setting), "%s%d", pForm->szDataPrefix, i);
 		ptrT tszRecent(db_get_tsa(NULL, pForm->szModuleName, setting));
 		if (tszRecent != NULL)
 			SendDlgItemMessage(hwndDlg, pForm->idcControl, CB_ADDSTRING, 0, tszRecent);
@@ -82,7 +82,7 @@ static void ComboAddRecentString(HWND hwndDlg, EnterStringFormParam *pForm)
 
 	id = db_get_b(NULL, pForm->szModuleName, pForm->szDataPrefix, 0);
 	char setting[MAXMODULELABELLENGTH];
-	mir_snprintf(setting, sizeof(setting), "%s%d", pForm->szDataPrefix, id);
+	mir_snprintf(setting, SIZEOF(setting), "%s%d", pForm->szDataPrefix, id);
 	db_set_ts(NULL, pForm->szModuleName, setting, string);
 	db_set_b(NULL, pForm->szModuleName, pForm->szDataPrefix, (id + 1) % pForm->idcControl);
 }

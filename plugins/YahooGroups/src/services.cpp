@@ -53,7 +53,7 @@ void ReadAvailableGroups()
 	
 	while (ok)
 	{
-		mir_snprintf(tmp, sizeof(tmp), "%d", index);
+		mir_snprintf(tmp, SIZEOF(tmp), "%d", index);
 		GetStringFromDatabase(NULL, CLIST_GROUPS, tmp, NULL, group, sizeof(group));
 		if (strlen(group) > 0)
 		{
@@ -76,7 +76,7 @@ int GetNextGroupIndex()
 	
 	while (!found)
 	{
-		mir_snprintf(tmp, sizeof(tmp), "%d", index++);
+		mir_snprintf(tmp, SIZEOF(tmp), "%d", index++);
 		
 		if (GetStringFromDatabase(NULL, CLIST_GROUPS, tmp, NULL, buffer, sizeof(buffer)))
 		{
@@ -91,12 +91,12 @@ void AddNewGroup(char *newGroup)
 {
 	int index = GetNextGroupIndex();
 	
-	char tmp[128] = {0};
-	char group[1024] = {0};
+	char tmp[128];
+	char group[1024];
 	*group = 1;
-	mir_snprintf(group + 1, sizeof(group) - 1, "%s", newGroup);
+	mir_snprintf((group + 1), (SIZEOF(group) - 1), "%s", newGroup);
 	
-	mir_snprintf(tmp, sizeof(tmp), "%d", index);
+	mir_snprintf(tmp, SIZEOF(tmp), "%d", index);
 	const int MAX_SIZE = 1024;
 	wchar_t wide[MAX_SIZE] = {0};
 	*wide = 1;
@@ -129,7 +129,7 @@ void CreateGroup(char *group)
 			strncat(buffer, sub, sizeof(buffer));
 		}
 		else{
-			mir_snprintf(buffer, sizeof(buffer), "%s", sub);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s", sub);
 		}
 		
 		if (!availableGroups.Contains(buffer))
@@ -149,7 +149,7 @@ void CreateGroup(char *group)
 			strncat(buffer, sub, sizeof(buffer));
 		}
 		else{
-			mir_snprintf(buffer, sizeof(buffer), "%s", sub);
+			mir_snprintf(buffer, SIZEOF(buffer), "%s", sub);
 		}
 		
 		if (!availableGroups.Contains(buffer))

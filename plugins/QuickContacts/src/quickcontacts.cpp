@@ -361,7 +361,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 			{
 				// See if has to show
 				char setting[128];
-				mir_snprintf(setting, sizeof(setting), "ShowOffline%s", pszProto);
+				mir_snprintf(setting, SIZEOF(setting), "ShowOffline%s", pszProto);
 
 				if (!db_get_b(NULL, MODULE_NAME, setting, FALSE))
 					continue;
@@ -383,7 +383,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 					continue;
 
 				char setting[128];
-				mir_snprintf(setting, sizeof(setting), "ShowOffline%s", META_PROTO);
+				mir_snprintf(setting, SIZEOF(setting), "ShowOffline%s", META_PROTO);
 				if (db_get_b(NULL, MODULE_NAME, setting, FALSE))
 					continue;
 			}

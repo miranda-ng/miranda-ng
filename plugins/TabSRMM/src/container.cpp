@@ -687,7 +687,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			else {
 				char szCName[CONTAINER_NAMELEN + 20];
-				mir_snprintf(szCName, sizeof(szCName), "%s%d", CONTAINER_PREFIX, pContainer->iContainerIndex);
+				mir_snprintf(szCName, SIZEOF(szCName), "%s%d", CONTAINER_PREFIX, pContainer->iContainerIndex);
 				if (Utils_RestoreWindowPosition(hwndDlg, NULL, SRMSGMOD_T, szCName)) {
 					if (Utils_RestoreWindowPositionNoMove(hwndDlg, NULL, SRMSGMOD_T, szCName))
 						if (Utils_RestoreWindowPosition(hwndDlg, NULL, SRMSGMOD_T, "split"))

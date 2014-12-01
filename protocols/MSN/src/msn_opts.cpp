@@ -53,7 +53,7 @@ void MsnInitIcons(void)
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "MSN_%s", name);
 	return Skin_GetIcon(szSettingName, big);
 }
 
@@ -69,7 +69,7 @@ HANDLE GetIconHandle(int iconId)
 void  ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "MSN_%s", name);
 	Skin_ReleaseIcon(szSettingName, big);
 }
 
@@ -204,7 +204,7 @@ LBL_Continue:
 
 					if (strchr(szFile, ' ') != NULL) {
 						char tmpBuf[MAX_PATH + 2];
-						mir_snprintf(tmpBuf, sizeof(tmpBuf), "\"%s\"", szFile);
+						mir_snprintf(tmpBuf, SIZEOF(tmpBuf), "\"%s\"", szFile);
 						strcpy(szFile, tmpBuf);
 					}
 
@@ -329,7 +329,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					gethst = 0;
 
 			if (gethst == 0)
-				mir_snprintf(ipaddr, sizeof(ipaddr), "%s", proto->msnLoggedIn ? proto->MyConnection.GetMyExtIPStr() : "");
+				mir_snprintf(ipaddr, SIZEOF(ipaddr), "%s", proto->msnLoggedIn ? proto->MyConnection.GetMyExtIPStr() : "");
 
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_SETCURSEL, gethst, 0);
 			if (ipaddr[0])

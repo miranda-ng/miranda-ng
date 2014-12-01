@@ -57,7 +57,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName) :
 	m_hNetlibUser = (HANDLE) CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	char szP2P[128];
-	mir_snprintf(szP2P, sizeof(szP2P), "%sP2P", m_szModuleName);
+	mir_snprintf(szP2P, SIZEOF(szP2P), "%sP2P", m_szModuleName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_TCHAR;
 	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s Client-to-client connection"), m_tszUserName);
 	nlu.szSettingsModule = szP2P;
@@ -824,7 +824,7 @@ int __cdecl CAimProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 	case EV_PROTO_ONERASE:
 		{
 			char szDbsettings[64];
-			mir_snprintf(szDbsettings, sizeof(szDbsettings), "%sP2P", m_szModuleName);
+			mir_snprintf(szDbsettings, SIZEOF(szDbsettings), "%sP2P", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
 		}
 		break;
