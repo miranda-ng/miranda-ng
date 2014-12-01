@@ -538,17 +538,16 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 
 int FacebookProto::OnDbEventRead(WPARAM contactID, LPARAM dbei)
 {
-	std::map<MCONTACT, bool>::iterator it = facy.ignore_read.find(contactID);
-	if (it != facy.ignore_read.end()) {
-		if (it->second) // it's TRUE, so we ignore this
-			return 0;
-		else // it's FALSE, so we just remove it from list
-			facy.ignore_read.erase(it);
-	}
+	if (isOffline() || !IsMyContact(contactID, false)) // ignore chats
+		return 0;
 
-	if ((IsMyContact(contactID, true)) && !isOffline()) {
-		ForkThread(&FacebookProto::ReadMessageWorker, (void*)contactID);
-	}
+	if (facy.ignore_read.find(contactID) != facy.ignore_read.end())
+		return 0; // it's there, so we ignore this
+
+	std::set<MCONTACT> *hContacts = new std::set<MCONTACT>();
+	hContacts->insert(contactID);
+
+	ForkThread(&FacebookProto::ReadMessageWorker, (void*)hContacts);
 
 	return 0;
 }
