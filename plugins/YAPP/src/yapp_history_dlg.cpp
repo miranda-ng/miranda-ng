@@ -182,8 +182,8 @@ int CALLBACK PopupsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	TCHAR text2[MAX_SIZE];
 	int res;
 	
-	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, MAX_SIZE);
-	ListView_GetItemText(params.hList, (int) lParam2, params.column, text2, MAX_SIZE);
+	ListView_GetItemText(params.hList, (int) lParam1, params.column, text1, SIZEOF(text1));
+	ListView_GetItemText(params.hList, (int) lParam2, params.column, text2, SIZEOF(text2));
 	
 	res = _tcsicmp(text1, text2);
 	

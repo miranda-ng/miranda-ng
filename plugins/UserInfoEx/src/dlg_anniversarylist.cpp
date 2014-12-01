@@ -240,15 +240,15 @@ class CAnnivList
 			case COLUMN_CONTACT:
 			case COLUMN_PROTO:
 			case COLUMN_DESC:
-				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, MAX_PATH);
-				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, MAX_PATH);
+				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, SIZEOF(szText1));
+				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, SIZEOF(szText2));
 				result = pDlg->_sortOrder * mir_tstrcmp(szText1, szText2);
 				break;
 
 			case COLUMN_AGE:
 			case COLUMN_ETA:
-				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, MAX_PATH);
-				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, MAX_PATH);
+				ListView_GetItemText(pDlg->_hList, iItem1, pDlg->_sortHeader, szText1, SIZEOF(szText1));
+				ListView_GetItemText(pDlg->_hList, iItem2, pDlg->_sortHeader, szText2, SIZEOF(szText2));
 				result = pDlg->_sortOrder * (_ttoi(szText1) - _ttoi(szText2));
 				break;
 

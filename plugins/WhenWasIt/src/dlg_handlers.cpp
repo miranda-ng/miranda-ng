@@ -542,8 +542,8 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 	TCHAR text1[maxSize];
 	TCHAR text2[maxSize];
 	long value1, value2;
-	ListView_GetItemText(params.hList, (int)lParam1, params.column, text1, maxSize);
-	ListView_GetItemText(params.hList, (int)lParam2, params.column, text2, maxSize);
+	ListView_GetItemText(params.hList, (int)lParam1, params.column, text1, SIZEOF(text1));
+	ListView_GetItemText(params.hList, (int)lParam2, params.column, text2, SIZEOF(text2));
 
 	int res = 0;
 

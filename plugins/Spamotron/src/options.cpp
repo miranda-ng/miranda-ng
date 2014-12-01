@@ -93,14 +93,14 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 {
 	static int bInitializing = 0, i, j, numProtocols;
 	PROTOCOLDESCRIPTOR** pd;
-	TCHAR pName[200] = {0};
+	TCHAR pName[256] = {0};
 	char protoOption[256] = {0};
 	char protoName[256] = {0};
 	HWND hProtocolsList = GetDlgItem(optDlg, IDC_OPT_PROTOCOLS);
 	LVITEM lvi = {0};
 	LVCOLUMN lvc = {0};
-	TCHAR *buf;
-	int buflen = 500;
+	TCHAR buf[512];
+
 	switch (msg) {
 		case WM_INITDIALOG:
 			TranslateDialogDefault(optDlg);
@@ -114,12 +114,11 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 			SendDlgItemMessage(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, BM_SETCHECK, _getOptB("HideUnverified", defaultHideUnverified), 0);
 			SendDlgItemMessage(optDlg, IDC_OPT_ADD_PERMANENTLY, BM_SETCHECK, _getOptB("AddPermanently", defaultAddPermanently), 0);
 			SendDlgItemMessage(optDlg, IDC_OPT_LOG_ACTIONS, BM_SETCHECK, _getOptB("LogActions", defaultLogActions), 0);
-			buf = (TCHAR *)mir_alloc(buflen*sizeof(TCHAR));
-			SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, buflen, "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
+
+			SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, SIZEOF(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
 			SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itot((unsigned int)_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
 			SetDlgItemText(optDlg, IDC_OPT_MAX_SAME_MSG, _itot((unsigned int)_getOptD("MaxSameMsgCountPerDay", defaultMaxSameMsgCountPerDay), buf, 10));
-			SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, buflen, "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
-			mir_free(buf);
+			SetDlgItemText(optDlg, IDC_OPT_DONT_REPLY_MSG_WORDLIST, _getOptS(buf, SIZEOF(buf), "DontReplyMsgWordlist", defaultDontReplyMsgWordlist));
 
 			///Individual protocols list
 			ListView_SetExtendedListViewStyle(hProtocolsList, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
@@ -197,16 +196,14 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 					_saveDlgItemInt(optDlg, IDC_OPT_MAX_MSG_CONTACT, "MaxMsgContactCountPerDay");
 					_saveDlgItemInt(optDlg, IDC_OPT_MAX_SAME_MSG, "MaxSameMsgCountPerDay");
 					numProtocols = ListView_GetItemCount(hProtocolsList);
-					buf = (TCHAR *)malloc(256*sizeof(TCHAR *));
 					for (i = 0; i < numProtocols; i++) {
-						ListView_GetItemText(hProtocolsList, i, 0, buf, 256);
-						//wcstombs(protoName, buf, 256);
+						ListView_GetItemText(hProtocolsList, i, 0, buf, SIZEOF(buf));
+						//wcstombs(protoName, buf, SIZEOF(buf));
 						memset(protoOption, 0, sizeof(protoOption));
 						strcat(protoOption, "proto_");
 						strcat(protoOption, mir_u2a(buf));
 						_setOptB(protoOption, ListView_GetCheckState(hProtocolsList, i));
 					}
-					free(buf);
 					return TRUE;
 			}
 			break;

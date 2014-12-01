@@ -264,8 +264,8 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 									{
 										ItemInfo ii;
 										ii.hContact = (MCONTACT)lvi.lParam;
-										ListView_GetItemText(GetDlgItem(hwnd,IDC_VARS),hti.iItem,1,ii.module,128);
-										ListView_GetItemText(GetDlgItem(hwnd,IDC_VARS),hti.iItem,2,ii.setting,128);
+										ListView_GetItemText(GetDlgItem(hwnd, IDC_VARS), hti.iItem, 1, ii.module, SIZEOF(ii.module));
+										ListView_GetItemText(GetDlgItem(hwnd, IDC_VARS), hti.iItem, 2, ii.setting, SIZEOF(ii.setting));
 										ii.type = FW_SETTINGNAME;
 										SendMessage(hwnd2mainWindow,WM_FINDITEM,(WPARAM)&ii,0);
 									}

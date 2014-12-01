@@ -658,8 +658,8 @@ INT_PTR CALLBACK SettingsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 	const int maxSize = 1024;
 	TCHAR text1[maxSize];
 	TCHAR text2[maxSize];
-	ListView_GetItemText(params.hList, lParam1, params.column, text1, maxSize);
-	ListView_GetItemText(params.hList, lParam2, params.column, text2, maxSize);
+	ListView_GetItemText(params.hList, lParam1, params.column, text1, SIZEOF(text1));
+	ListView_GetItemText(params.hList, lParam2, params.column, text2, SIZEOF(text2));
 
 	int res = _tcsicmp(text1, text2);
 	res = (params.column == lastColumn) ? -res : res;
@@ -710,7 +710,7 @@ void SettingsListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				char setting[256];
 				SendMessage(info->hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
 				info->hwnd2Edit = NULL;
-				ListView_GetItemText(GetDlgItem(hwnd, IDC_SETTINGS), hti.iItem, 0, setting, 256);
+				ListView_GetItemText(GetDlgItem(hwnd, IDC_SETTINGS), hti.iItem, 0, setting, SIZEOF(setting));
 				editSetting(info->hContact, info->module, setting);
 			}
 			else EditLabel(GetDlgItem(hwnd, IDC_SETTINGS), hti.iItem, hti.iSubItem);
@@ -839,7 +839,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd her
 	lvi.cchTextMax = SIZEOF(setting);
 
 	ListView_GetItem(hSettings, &lvi);
-	ListView_GetItemText(hSettings, hti.iItem, 2, type, 8);
+	ListView_GetItemText(hSettings, hti.iItem, 2, type, SIZEOF(type));
 
 	switch (lvi.iImage) {
 	case 4: // STRING
