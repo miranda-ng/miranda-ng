@@ -1990,15 +1990,12 @@ int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size
 {
 	int cutMax = PluginConfig.m_CutContactNameTo;
 
-	if (mir_tstrlen(oldname) <= cutMax) {
-		mir_tstrncpy(newname, oldname, size);
-		newname[size - 1] = 0;
-	}
+	if (mir_tstrlen(oldname) <= cutMax)
+		_tcsncpy_s(newname, size, oldname, _TRUNCATE);
 	else {
-		TCHAR fmt[20];
-		mir_sntprintf(fmt, 18, _T("%%%d.%ds..."), cutMax, cutMax);
+		TCHAR fmt[30];
+		mir_sntprintf(fmt, SIZEOF(fmt), _T("%%%d.%ds..."), cutMax, cutMax);
 		mir_sntprintf(newname, size, fmt, oldname);
-		newname[size - 1] = 0;
 	}
 	return 0;
 }

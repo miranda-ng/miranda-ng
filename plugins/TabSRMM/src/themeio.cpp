@@ -134,7 +134,7 @@ static void TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTA *lf, COLORREF 
 		lf->lfQuality = DEFAULT_QUALITY;
 		lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 		if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT) {
-			mir_strncpy(lf->lfFaceName, "Webdings", LF_FACESIZE);
+			strncpy_s(lf->lfFaceName, "Webdings", _TRUNCATE);
 			lf->lfCharSet = SYMBOL_CHARSET;
 		} else
 			GetPrivateProfileStringA(szKey, "Face", "Tahoma", lf->lfFaceName, LF_FACESIZE - 1, szIniFilename);
@@ -286,7 +286,7 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 				mir_snprintf(szAppname, SIZEOF(szAppname), fontBlocks[n].szIniTemp, firstIndex + i);
 				if (GetPrivateProfileStringA(szAppname, "Face", "Verdana", szBuf, sizeof(szBuf), szIniFilename) != 0) {
 					if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
-						mir_strncpy(szBuf, "Arial", sizeof(szBuf));
+						strncpy_s(szBuf, "Arial", _TRUNCATE);
 					db_set_s(NULL, szModule, szTemp, szBuf);
 				}
 

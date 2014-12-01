@@ -1993,10 +1993,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (mir_tstrlen(szNick) > 0) {
 				if (M.GetByte("cuttitle", 0))
 					CutContactName(szNick, dat->newtitle, SIZEOF(dat->newtitle));
-				else {
-					mir_tstrncpy(dat->newtitle, szNick, SIZEOF(dat->newtitle));
-					dat->newtitle[129] = 0;
-				}
+				else
+					_tcsncpy_s(dat->newtitle, szNick, _TRUNCATE);
 			}
 
 			TCHAR szTemp[100];
@@ -2091,10 +2089,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			else {
 				if (si->ptszStatusbarText)
 					mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
-				else {
-					mir_tstrncpy(szFinalStatusBarText, mi->ptszModDispName, SIZEOF(szFinalStatusBarText));
-					szFinalStatusBarText[511] = 0;
-				}
+				else
+					_tcsncpy_s(szFinalStatusBarText, mi->ptszModDispName, _TRUNCATE);
 			}
 			SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)szFinalStatusBarText);
 			UpdateStatusBar(dat);
