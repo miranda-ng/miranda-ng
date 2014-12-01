@@ -42,7 +42,7 @@ struct SendJob
 {
 	HANDLE   hSendId;
 	char    *szSendBuffer;
-	int		iSendLength;	// length of message in utf-8 octets (used to check maxlen)
+	size_t   iSendLength;	// length of message in utf-8 octets (used to check maxlen)
 	int      sendCount;
 	MCONTACT hContact;
 	HWND     hOwnerWnd;
@@ -81,18 +81,18 @@ public:
 
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }
 
-	void  clearJob(const int index);
-	int   findNextFailed(const TWindowData *dat) const;
-	void  handleError(TWindowData *dat, const int iEntry) const;
-	int   addTo(TWindowData *dat, const int iLen, int dwFlags);
-	int   sendQueued(TWindowData *dat, const int iEntry);
-	int   getSendLength(const int iEntry, const int sendMode);
-	void  checkQueue(const TWindowData *dat) const;
-	void  logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const;
-	void  recallFailed(const TWindowData *dat, int iEntry) const;
-	void  showErrorControls(TWindowData *dat, const int showCmd) const;
-	int   ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-	int   doSendLater(int iIndex, TWindowData *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
+	void   clearJob(const int index);
+	int    findNextFailed(const TWindowData *dat) const;
+	void   handleError(TWindowData *dat, const int iEntry) const;
+	int    addTo(TWindowData *dat, size_t iLen, int dwFlags);
+	int    sendQueued(TWindowData *dat, const int iEntry);
+	size_t getSendLength(const int iEntry, const int sendMode);
+	void   checkQueue(const TWindowData *dat) const;
+	void   logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const;
+	void   recallFailed(const TWindowData *dat, int iEntry) const;
+	void   showErrorControls(TWindowData *dat, const int showCmd) const;
+	int    ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam);
+	int    doSendLater(int iIndex, TWindowData *dat, MCONTACT hContact = 0, bool fIsSendLater = true);
 	/*
 	 * static members
 	 */
@@ -104,8 +104,8 @@ public:
 	static void    TSAPI EnableSending(const TWindowData *dat, const int iMode);
 
 private:
-	SendJob		m_jobs[NR_SENDJOBS];
-	int			m_currentIndex;
+	SendJob m_jobs[NR_SENDJOBS];
+	int     m_currentIndex;
 };
 
 extern SendQueue *sendQueue;

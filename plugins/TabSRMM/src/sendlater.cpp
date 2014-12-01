@@ -333,7 +333,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	job->hContact = hContact;
 	job->created = atol(&szSetting[1]);
 
-	int iLen = mir_strlen(szOrig_Utf);
+	size_t iLen = mir_strlen(szOrig_Utf);
 	job->sendBuffer = reinterpret_cast<char *>(mir_alloc(iLen + 1));
 	strncpy(job->sendBuffer, szOrig_Utf, iLen);
 	job->sendBuffer[iLen] = 0;
@@ -342,16 +342,16 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	wchar_t *szWchar = 0;
 	char *szAnsi = mir_utf8decodecp(szOrig_Utf, CP_ACP, &szWchar);
 	iLen = mir_strlen(szAnsi);
-	UINT required = iLen + 1;
+	size_t required = iLen + 1;
 	if (szWchar)
-		required += ((mir_wstrlen(szWchar) + 1) * sizeof(wchar_t));
+		required += (mir_wstrlen(szWchar) + 1) * sizeof(wchar_t);
 
 	job->pBuf = (PBYTE)mir_calloc(required);
 
-	strncpy((char *)job->pBuf, szAnsi, iLen);
+	strncpy((char*)job->pBuf, szAnsi, iLen);
 	job->pBuf[iLen] = 0;
 	if (szWchar)
-		wcsncpy((wchar_t *)&job->pBuf[iLen + 1], szWchar, mir_wstrlen(szWchar));
+		wcsncpy((wchar_t*)&job->pBuf[iLen + 1], szWchar, mir_wstrlen(szWchar));
 
 	if (szSetting[0] == 'S')
 		db_free(&dbv);
@@ -475,7 +475,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.flags = DBEF_SENT;
 				dbei.szModule = GetContactProto((p->hContact));
 				dbei.timestamp = time(NULL);
-				dbei.cbBlob = mir_strlen(p->sendBuffer) + 1;
+				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
 				dbei.flags |= DBEF_UTF;
 				dbei.pBlob = (PBYTE)(p->sendBuffer);
 				db_event_add(p->hContact, &dbei);

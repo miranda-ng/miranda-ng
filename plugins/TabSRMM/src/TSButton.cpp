@@ -292,7 +292,7 @@ nonflat_themed:
 		}
 
 		SIZE sz;
-		GetTextExtentPoint32(hdcMem, szText, mir_tstrlen(szText), &sz);
+		GetTextExtentPoint32(hdcMem, szText, (int)mir_tstrlen(szText), &sz);
 		if (ctl->cHot) {
 			SIZE szHot;
 			GetTextExtentPoint32A(hdcMem, "&", 1, &szHot);

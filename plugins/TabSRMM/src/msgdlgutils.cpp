@@ -291,7 +291,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 			szText = TranslateT("Set Your Avatar...");
 		}
 		mii.dwTypeData = szText;
-		mii.cch = mir_tstrlen(szText) + 1;
+		mii.cch = (int)mir_tstrlen(szText) + 1;
 		SetMenuItemInfo(submenu, ID_PICMENU_SETTINGS, FALSE, &mii);
 	}
 	else if (menuID == MENU_PANELPICMENU) {
@@ -659,14 +659,12 @@ int TSAPI CheckValidSmileyPack(const char *szProto, MCONTACT hContact)
 
 TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQuotes)
 {
-	int inChar, outChar, lineChar;
-	int justDoneLineBreak, bufSize;
-	TCHAR *strout;
+	int outChar, lineChar;
 
-	bufSize = mir_wstrlen(text) + 23;
-	strout = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
-	inChar = 0;
-	justDoneLineBreak = 1;
+	size_t bufSize = mir_wstrlen(text) + 23;
+	TCHAR *strout = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
+	int inChar = 0;
+	int justDoneLineBreak = 1;
 	for (outChar = 0, lineChar = 0; text[inChar];) {
 		if (outChar >= bufSize - 8) {
 			bufSize += 20;
@@ -675,9 +673,9 @@ TCHAR* TSAPI QuoteText(const TCHAR *text, int charsPerLine, int removeExistingQu
 		if (justDoneLineBreak && text[inChar] != '\r' && text[inChar] != '\n') {
 			if (removeExistingQuotes)
 				if (text[inChar] == '>') {
-				while (text[++inChar] != '\n');
-				inChar++;
-				continue;
+					while (text[++inChar] != '\n');
+					inChar++;
+					continue;
 				}
 			strout[outChar++] = '>';
 			strout[outChar++] = ' ';
@@ -1194,16 +1192,16 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 
 	switch (historyMode) {
 	case LOADHISTORY_COUNT:
+		int i;
+		HANDLE hPrevEvent;
 		{
-			int i;
-			HANDLE hPrevEvent;
 			DBEVENTINFO dbei = { sizeof(dbei) };
-			//MAD: ability to load only current session's history
+			// ability to load only current session's history
 			if (dat->bActualHistory)
 				i = dat->cache->getSessionMsgCount();
 			else
 				i = db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT);
-			//
+
 			for (; i > 0; i--) {
 				if (dat->hDbEventFirst == NULL)
 					hPrevEvent = db_event_last(dat->hContact);
@@ -1221,16 +1219,15 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 		break;
 
 	case LOADHISTORY_TIME:
-		HANDLE hPrevEvent;
-		DWORD firstTime;
-
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		if (dat->hDbEventFirst == NULL)
 			dbei.timestamp = time(NULL);
 		else
 			db_event_get(dat->hDbEventFirst, &dbei);
-		firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+		
+		DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 		for (;;) {
+			HANDLE hPrevEvent;
 			if (dat->hDbEventFirst == NULL)
 				hPrevEvent = db_event_last(dat->hContact);
 			else

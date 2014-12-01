@@ -1,44 +1,39 @@
 /*
- * astyle --force-indent=tab=4 --brackets=linux --indent-switches
- *		  --pad=oper --one-line=keep-blocks  --unpad=paren
- *
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * Implements a queued, asynchronous sending system for tabSRMM.
- *
- */
+* Miranda NG: the free IM client for Microsoft* Windows*
+*
+* Copyright (c) 2000-09 Miranda ICQ/IM project,
+* all portions of this codebase are copyrighted to the people
+* listed in contributors.txt.
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* you should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+* part of tabSRMM messaging plugin for Miranda.
+*
+* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+*
+* Implements a queued, asynchronous sending system for tabSRMM.
+*/
 
 #include "commonheaders.h"
 
 SendQueue *sendQueue = 0;
 
-/*
- * searches the queue for a message belonging to the given contact which has been marked
- * as "failed" by either the ACKRESULT_FAILED or a timeout handler
- * returns: zero-based queue index or -1 if none was found
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// searches the queue for a message belonging to the given contact which has been marked
+// as "failed" by either the ACKRESULT_FAILED or a timeout handler
+// returns: zero-based queue index or -1 if none was found
 
 int SendQueue::findNextFailed(const TWindowData *dat) const
 {
@@ -64,12 +59,11 @@ void SendQueue::handleError(TWindowData *dat, const int iEntry) const
 	::HandleIconFeedback(dat, PluginConfig.g_iconErr);
 }
 
-/*
- * add a message to the sending queue.
- * iLen = required size of the memory block to hold the message
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+//add a message to the sending queue.
+// iLen = required size of the memory block to hold the message
 
-int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
+int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
 {
 	int i;
 	int iFound = NR_SENDJOBS;
@@ -78,15 +72,14 @@ int SendQueue::addTo(TWindowData *dat, const int iLen, int dwFlags)
 		_DebugPopup(dat->hContact, _T("Send queue full"));
 		return 0;
 	}
-	/*
-	 * find a mir_free entry in the send queue...
-	 */
+
+	// find a mir_free entry in the send queue...
 	for (i=0; i < NR_SENDJOBS; i++) {
 		if (m_jobs[i].hContact != 0 || m_jobs[i].iStatus != 0) {
 			// this entry is used, check if it's orphaned and can be removed...
-			if (m_jobs[i].hOwnerWnd && IsWindow(m_jobs[i].hOwnerWnd))           // window exists, do not reuse it
+			if (m_jobs[i].hOwnerWnd && IsWindow(m_jobs[i].hOwnerWnd)) // window exists, do not reuse it
 				continue;
-			if (time(NULL) - m_jobs[i].dwTime < 120)                              // non-acked entry, but not old enough, don't re-use it
+			if (time(NULL) - m_jobs[i].dwTime < 120) // non-acked entry, but not old enough, don't re-use it
 				continue;
 			clearJob(i);
 			iFound = i;
@@ -119,16 +112,15 @@ entry_found:
 	return 0;
 }
 
-/*
- * threshold for word-wrapping when sending messages in chunks
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// threshold for word - wrapping when sending messages in chunks
 
 #define SPLIT_WORD_CUTOFF 20
 
 static int SendChunkW(WCHAR *chunk, MCONTACT hContact, DWORD dwFlags)
 {
-	int wLen = mir_wstrlen(chunk);
-	DWORD	memRequired = (wLen + 1) * sizeof(WCHAR);
+	size_t wLen = mir_wstrlen(chunk);
+	size_t memRequired = (wLen + 1) * sizeof(WCHAR);
 	DWORD	codePage = db_get_dw(hContact, SRMSGMOD_T, "ANSIcodepage", CP_ACP);
 
 	int mbcsSize = WideCharToMultiByte(codePage, 0, chunk, -1, NULL, 0, 0, 0);
@@ -157,7 +149,7 @@ static void DoSplitSendW(LPVOID param)
 	int      chunkSize = job->chunkSize / 2;
 	char    *szProto = GetContactProto(hContact);
 
-	int iLen = mir_strlen(job->szSendBuffer);
+	size_t iLen = mir_strlen(job->szSendBuffer);
 	WCHAR *wszBegin = (WCHAR*) & job->szSendBuffer[iLen + 1];
 	WCHAR *wszTemp = (WCHAR*)mir_alloc(sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
 	CopyMemory(wszTemp, wszBegin, sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
@@ -168,11 +160,8 @@ static void DoSplitSendW(LPVOID param)
 		if (iCur > iLen)
 			fSplitting = FALSE;
 
-		/*
-		 * try to "word wrap" the chunks - split on word boundaries (space characters), if possible.
-		 * SPLIT_WORD_CUTOFF = max length of unbreakable words, longer words may be split.
-		*/
-
+		// try to "word wrap" the chunks - split on word boundaries (space characters), if possible.
+		// SPLIT_WORD_CUTOFF = max length of unbreakable words, longer words may be split.
 		if (fSplitting) {
 			i = 0;
 			wszSaved = &wszBegin[iCur];
@@ -182,7 +171,7 @@ static void DoSplitSendW(LPVOID param)
 					wszSaved = &wszBegin[iCur];
 					break;
 				}
-				if (i == SPLIT_WORD_CUTOFF) {           // no space found backwards, restore old split position
+				if (i == SPLIT_WORD_CUTOFF) { // no space found backwards, restore old split position
 					iCur = iSavedCur;
 					wszSaved = &wszBegin[iCur];
 					break;
@@ -225,13 +214,13 @@ static void DoSplitSendA(LPVOID param)
 	int      id;
 	BOOL     fFirstSend = FALSE;
 	char    *szBegin, *szTemp, *szSaved, savedChar;
-	int      iLen, iCur = 0, iSavedCur = 0, i;
+	int      iCur = 0, iSavedCur = 0, i;
 	BOOL     fSplitting = TRUE;
 	MCONTACT hContact = job->hContact;
 	DWORD    dwFlags = job->dwFlags;
 	int      chunkSize = job->chunkSize;
 
-	iLen = mir_strlen(job->szSendBuffer);
+	size_t iLen = mir_strlen(job->szSendBuffer);
 	szTemp = (char *)mir_alloc(iLen + 1);
 	CopyMemory(szTemp, job->szSendBuffer, iLen + 1);
 	szBegin = szTemp;
@@ -287,23 +276,21 @@ static void DoSplitSendA(LPVOID param)
 	mir_free(szBegin);
 }
 
-/**
- * return effective length of the message in bytes (utf-8 encoded)
- */
-int SendQueue::getSendLength(const int iEntry, int sendMode)
+/////////////////////////////////////////////////////////////////////////////////////////
+// return effective length of the message in bytes (utf-8 encoded)
+
+size_t SendQueue::getSendLength(const int iEntry, int sendMode)
 {
-	if (m_jobs[iEntry].dwFlags & PREF_UNICODE && !(sendMode & SMODE_FORCEANSI)) {
-		int iLen = mir_strlen(m_jobs[iEntry].szSendBuffer);
-		WCHAR *wszBuf = (WCHAR *) & m_jobs[iEntry].szSendBuffer[iLen + 1];
+	SendJob &p = m_jobs[iEntry];
+	if (p.dwFlags & PREF_UNICODE && !(sendMode & SMODE_FORCEANSI)) {
+		size_t iLen = mir_strlen(p.szSendBuffer);
+		WCHAR *wszBuf = (WCHAR*)&p.szSendBuffer[iLen + 1];
 		char *utf8 = mir_utf8encodeT(wszBuf);
-		m_jobs[iEntry].iSendLength = mir_strlen(utf8);
+		p.iSendLength = mir_strlen(utf8);
 		mir_free(utf8);
-		return(m_jobs[iEntry].iSendLength);
 	}
-	else {
-		m_jobs[iEntry].iSendLength = mir_strlen(m_jobs[iEntry].szSendBuffer);
-		return(m_jobs[iEntry].iSendLength);
-	}
+	else p.iSendLength = mir_strlen(p.szSendBuffer);
+	return p.iSendLength;
 }
 
 int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
@@ -322,7 +309,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		m_jobs[iEntry].hContact = ccActive->getActiveContact();
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 
-		int iSendLength = getSendLength(iEntry, dat->sendMode);
+		size_t iSendLength = getSendLength(iEntry, dat->sendMode);
 
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
@@ -358,7 +345,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 	if (dat->hContact == NULL)
 		return 0;  //never happens
 
-	dat->nMax = dat->cache->getMaxMessageLength();                      // refresh length info
+	dat->nMax = dat->cache->getMaxMessageLength(); // refresh length info
 
 	if (dat->sendMode & SMODE_FORCEANSI && db_get_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 1))
 		db_set_b(dat->cache->getActiveContact(), dat->cache->getActiveProto(), "UnicodeSend", 0);
@@ -391,9 +378,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		m_jobs[iEntry].dwFlags = dwOldFlags;
 	}
 	else {
-
 send_unsplitted:
-
 		m_jobs[iEntry].hContact = ccActive->getActiveContact();
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
@@ -401,7 +386,7 @@ send_unsplitted:
 		if (dat->sendMode & SMODE_SENDLATER) {
 			TCHAR	tszError[256];
 
-			int iSendLength = getSendLength(iEntry, dat->sendMode);
+			size_t iSendLength = getSendLength(iEntry, dat->sendMode);
 			if (iSendLength >= dat->nMax) {
 				mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
 				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
@@ -430,7 +415,6 @@ send_unsplitted:
 	m_currentIndex++;
 
 	// give icon feedback...
-
 	if (dat->pContainer->hwndActive == hwndDlg)
 		::UpdateReadChars(dat);
 
@@ -449,13 +433,12 @@ void SendQueue::clearJob(const int iIndex)
 	memset(&job, 0, sizeof(SendJob));
 }
 
-/*
- * this is called when:
- *
- * ) a delivery has completed successfully
- * ) user decided to cancel a failed send
- * it removes the completed / canceled send job from the queue and schedules the next job to send (if any)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// this is called when :
+//
+// ) a delivery has completed successfully
+// ) user decided to cancel a failed send
+// it removes the completed / canceled send job from the queue and schedules the next job to send (if any)
 
 void SendQueue::checkQueue(const TWindowData *dat) const
 {
@@ -472,17 +455,16 @@ void SendQueue::checkQueue(const TWindowData *dat) const
 	}
 }
 
-/*
- * logs an error message to the message window. Optionally, appends the original message
- * from the given sendJob (queue index)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// logs an error message to the message window.Optionally, appends the original message
+// from the given sendJob (queue index)
 
 void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR *szErrMsg) const
 {
 	if (dat == 0)
 		return;
 
-	int iMsgLen;
+	size_t iMsgLen;
 	DBEVENTINFO	dbei = { sizeof(dbei) };
 	dbei.eventType = EVENTTYPE_ERRMSG;
 	if (iSendJobIndex >= 0) {
@@ -500,18 +482,17 @@ void SendQueue::logError(const TWindowData *dat, int iSendJobIndex, const TCHAR 
 			iMsgLen *= 3;
 		}
 	}
-	dbei.cbBlob = iMsgLen;
+	dbei.cbBlob = (int)iMsgLen;
 	dbei.timestamp = time(NULL);
 	dbei.szModule = (char *)szErrMsg;
 	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);
 }
 
-/*
- * enable or disable the sending controls in the given window
- * ) input area
- * ) multisend contact list instance
- * ) send button
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// enable or disable the sending controls in the given window
+// ) input area
+// ) multisend contact list instance
+// ) send button
 
 void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 {
@@ -523,9 +504,8 @@ void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 	}
 }
 
-/*
- * show or hide the error control button bar on top of the window
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// show or hide the error control button bar on top of the window
 
 void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 {
@@ -634,29 +614,26 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 	PUAddPopupT(&ppd);
 }
 
-/*
- * searches string for characters typical for RTL text (hebrew and other RTL languages
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// searches string for characters typical for RTL text(hebrew and other RTL languages
 
 int SendQueue::RTL_Detect(const WCHAR *pszwText)
 {
 	int i, n = 0;
-	int iLen = mir_wstrlen(pszwText);
+	size_t iLen = mir_wstrlen(pszwText);
 
-	WORD *infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
-	if (infoTypeC2) {
-		memset(infoTypeC2, 0, (sizeof(WORD) * (iLen + 2)));
+	WORD *infoTypeC2 = (WORD*)mir_calloc(sizeof(WORD) * (iLen + 2));
+	if (infoTypeC2 == NULL)
+		return 0;
 
-		GetStringTypeW(CT_CTYPE2, pszwText, iLen, infoTypeC2);
+	GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
 
-		for (i=0; i < iLen; i++)
-			if (infoTypeC2[i] == C2_RIGHTTOLEFT)
-				n++;
+	for (i=0; i < iLen; i++)
+		if (infoTypeC2[i] == C2_RIGHTTOLEFT)
+			n++;
 
-		mir_free(infoTypeC2);
-		return(n >= 2 ? 1 : 0);
-	}
-	return 0;
+	mir_free(infoTypeC2);
+	return(n >= 2 ? 1 : 0);
 }
 
 int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
@@ -670,8 +647,8 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	int iFound = (int)(LOWORD(wParam));
 	SendJob &job = m_jobs[iFound];
 
-	if (job.iStatus == SQ_ERROR) {      // received ack for a job which is already in error state...
-		if (dat) {                        // window still open
+	if (job.iStatus == SQ_ERROR) { // received ack for a job which is already in error state...
+		if (dat) {                  // window still open
 			if (dat->iCurrentQueueError == iFound) {
 				dat->iCurrentQueueError = -1;
 				showErrorControls(dat, FALSE);
@@ -712,7 +689,7 @@ inform_and_discard:
 	dbei.flags = DBEF_SENT;
 	dbei.szModule = GetContactProto(job.hContact);
 	dbei.timestamp = time(NULL);
-	dbei.cbBlob = mir_strlen(job.szSendBuffer) + 1;
+	dbei.cbBlob = (int)mir_strlen(job.szSendBuffer) + 1;
 
 	if (dat)
 		dat->cache->updateStats(TSessionStats::BYTES_SENT, dbei.cbBlob - 1);
@@ -746,8 +723,6 @@ inform_and_discard:
 	job.iAcksNeeded--;
 
 	if (job.iAcksNeeded == 0) {              // everything sent
-		//if (job.hOwner != 0 && dat)
-		//	EnableSending(dat, TRUE);
 		clearJob(iFound);
 		if (dat) {
 			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
@@ -780,17 +755,17 @@ LRESULT SendQueue::WarnPendingJobs(unsigned int uNrMessages)
 		TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND);
 }
 
-/**
- * This just adds the message to the database for later delivery and
- * adds the contact to the list of contacts that have queued messages
- *
- * @param iJobIndex int: index of the send job
- * 		  dat: Message window data
- * 		  fAddHeader: add the "message was sent delayed" header (default = true)
- * 		  hContact  : contact to which the job should be added (default = hOwner of the send job)
- *
- * @return the index on success, -1 on failure
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// This just adds the message to the database for later delivery and
+// adds the contact to the list of contacts that have queued messages
+//
+// @param iJobIndex int: index of the send job
+// dat: Message window data
+// fAddHeader: add the "message was sent delayed" header (default = true)
+// hContact  : contact to which the job should be added (default = hOwner of the send job)
+//
+// @return the index on success, -1 on failure
+
 int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, bool fIsSendLater)
 {
 	bool  fAvail = sendLater->isAvail();
@@ -803,16 +778,16 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 		else
 			szNote = TranslateT("The send later feature is not available on this protocol.");
 
-		char  *utfText = mir_utf8encodeT(szNote);
+		char *utfText = mir_utf8encodeT(szNote);
 		DBEVENTINFO dbei;
 		dbei.cbSize = sizeof(dbei);
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
 		dbei.szModule = GetContactProto(dat->hContact);
 		dbei.timestamp = time(NULL);
-		dbei.cbBlob = mir_strlen(utfText) + 1;
-		dbei.pBlob = (PBYTE) utfText;
-		StreamInEvents(dat->hwnd,  0, 1, 1, &dbei);
+		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
+		dbei.pBlob = (PBYTE)utfText;
+		StreamInEvents(dat->hwnd, 0, 1, 1, &dbei);
 		if (dat->hDbEventFirst == NULL)
 			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
 		dat->cache->saveHistory(0, 0);
@@ -845,7 +820,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 
 		if (job->dwFlags & PREF_UTF || !(job->dwFlags & PREF_UNICODE)) {
 			char *utf_header = mir_utf8encodeT(tszHeader);
-			UINT required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
+			size_t required = mir_strlen(utf_header) + mir_strlen(job->szSendBuffer) + 10;
 			char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
 
 			if (fIsSendLater) {
@@ -860,10 +835,10 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			mir_free(tszMsg);
 		}
 		else if (job->dwFlags & PREF_UNICODE) {
-			int iLen = mir_strlen(job->szSendBuffer);
+			size_t iLen = mir_strlen(job->szSendBuffer);
 			wchar_t *wszMsg = (wchar_t *)&job->szSendBuffer[iLen + 1];
 
-			UINT required = sizeof(TCHAR) * (mir_tstrlen(tszHeader) + mir_wstrlen(wszMsg) + 10);
+			size_t required = sizeof(TCHAR) * (mir_tstrlen(tszHeader) + mir_wstrlen(wszMsg) + 10);
 
 			TCHAR *tszMsg = reinterpret_cast<TCHAR *>(mir_alloc(required));
 			if (fIsSendLater)

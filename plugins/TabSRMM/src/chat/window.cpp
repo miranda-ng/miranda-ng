@@ -790,10 +790,10 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			BOOL isShift, isCtrl, isAlt;
 			KbdState(mwdat, isShift, isCtrl, isAlt);
 
-			//MAD: sound on typing..
+			// sound on typing..
 			if (PluginConfig.g_bSoundOnTyping&&!isAlt&&wParam == VK_DELETE)
 				SkinPlaySound("SoundOnTyping");
-			//
+
 			if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
 				mwdat->fInsertMode = !mwdat->fInsertMode;
 				SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);
@@ -2333,16 +2333,16 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				SIZE sz;
 				if (si->iSearchItem != -1 && si->iSearchItem == index && si->szSearch[0]) {
 					COLORREF clr_orig = GetTextColor(dis->hDC);
-					GetTextExtentPoint32(dis->hDC, ui->pszNick, mir_tstrlen(si->szSearch), &sz);
+					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_tstrlen(si->szSearch), &sz);
 					SetTextColor(dis->hDC, RGB(250, 250, 0));
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, mir_tstrlen(si->szSearch));
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_tstrlen(si->szSearch));
 					SetTextColor(dis->hDC, clr_orig);
 					x_offset += sz.cx;
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_tstrlen(si->szSearch), mir_tstrlen(ui->pszNick) - mir_tstrlen(si->szSearch));
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick + mir_tstrlen(si->szSearch), int(mir_tstrlen(ui->pszNick) - mir_tstrlen(si->szSearch)));
 				}
 				else {
-					GetTextExtentPoint32(dis->hDC, ui->pszNick, mir_tstrlen(ui->pszNick), &sz);
-					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, mir_tstrlen(ui->pszNick));
+					GetTextExtentPoint32(dis->hDC, ui->pszNick, (int)mir_tstrlen(ui->pszNick), &sz);
+					TextOut(dis->hDC, x_offset, (dis->rcItem.top + dis->rcItem.bottom - sz.cy) / 2, ui->pszNick, (int)mir_tstrlen(ui->pszNick));
 					SelectObject(dis->hDC, hOldFont);
 				}
 				return TRUE;
@@ -2666,7 +2666,7 @@ LABEL_SHOWWINDOW:
 						int iRes = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						if (iRes > 0) {
-							int iLen = mir_tstrlen(pszWord) - 1;
+							size_t iLen = mir_tstrlen(pszWord) - 1;
 							while (iLen >= 0 && strchr(szTrimString, pszWord[iLen])) {
 								pszWord[iLen] = '\0';
 								iLen--;
@@ -3638,7 +3638,6 @@ LABEL_SHOWWINDOW:
 			dat->sbCustom = 0;
 		}
 
-		//MAD
 		M.RemoveWindow(hwndDlg);
 
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSE, 0);

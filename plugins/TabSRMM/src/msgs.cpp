@@ -1,32 +1,31 @@
 /*
- * Miranda NG: the free IM client for Microsoft* Windows*
- *
- * Copyright (c) 2000-09 Miranda ICQ/IM project,
- * all portions of this codebase are copyrighted to the people
- * listed in contributors.txt.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * you should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * part of tabSRMM messaging plugin for Miranda.
- *
- * (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
- *
- * Load, setup and shutdown the plugin
- * core plugin messaging services (single IM chats only).
- *
- */
+* Miranda NG: the free IM client for Microsoft* Windows*
+*
+* Copyright (c) 2000-09 Miranda ICQ/IM project,
+* all portions of this codebase are copyrighted to the people
+* listed in contributors.txt.
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* you should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*
+* part of tabSRMM messaging plugin for Miranda.
+*
+* (C) 2005-2010 by silvercircle _at_ gmail _dot_ com and contributors
+*
+* Load, setup and shutdown the plugin
+* core plugin messaging services (single IM chats only).
+*/
 
 #include "commonheaders.h"
 
@@ -41,6 +40,7 @@ static void UnloadIcons();
 
 void Chat_AddIcons(void);
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes IEView plugin options. Apply them to all open tabs
 
 int IEViewOptionsChanged(WPARAM, LPARAM)
@@ -49,6 +49,7 @@ int IEViewOptionsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes smileyadd options. Notify all open tabs about the changes
 
 int SmileyAddOptionsChanged(WPARAM,LPARAM)
@@ -58,19 +59,21 @@ int SmileyAddOptionsChanged(WPARAM,LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // Message API 0.0.0.3 services
 
 static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 {
 	char *szBuf = (char*)wParam;
-	int size = (int)lParam;
+	size_t size = (size_t)lParam;
 	mir_snprintf(szBuf, size, "tabSRMM");
 	return 0;
 }
 
-//wparam = (MessageWindowInputData*)
-//lparam = (MessageWindowData*)
-//returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam = (MessageWindowInputData*)
+// lparam = (MessageWindowData*)
+// returns 0 on success and returns non-zero (1) on error or if no window data exists for that hcontact
 
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
@@ -112,7 +115,9 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function. Sets a status bar text for a contact
+
 static void SetStatusTextWorker(TWindowData *dat, StatusTextData *st)
 {
 	if (!dat)
@@ -147,6 +152,7 @@ static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function. Invoke the user preferences dialog for the contact given (by handle) in wParam
 
 static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
@@ -160,6 +166,7 @@ static INT_PTR SetUserPrefs(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function - open the tray menu from the TTB button
 
 static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
@@ -168,6 +175,7 @@ static INT_PTR Service_OpenTrayMenu(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function. retrieves the message window flags for a given hcontact or window
 // wParam == hContact of the window to find
 // lParam == window handle (set it to 0 if you want search for hcontact, otherwise it
@@ -186,6 +194,7 @@ static INT_PTR GetMessageWindowFlags(WPARAM wParam, LPARAM lParam)
 	return (dat) ? dat->dwFlags : 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // return the version of the window api supported
 
 static INT_PTR GetWindowAPI(WPARAM, LPARAM)
@@ -193,6 +202,7 @@ static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 	return PLUGIN_MAKE_VERSION(0, 0, 0, 2);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // service function finds a message session
 // wParam = contact handle for which we want the window handle
 // thanks to bio for the suggestion of this service
@@ -239,6 +249,7 @@ INT_PTR MessageWindowOpened(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // ReadMessageCommand is executed whenever the user wants to manually open a window.
 // This can happen when double clicking a contact on the clist OR when opening a new
 // message (clicking on a popup, clicking the flashing tray icon and so on).
@@ -262,6 +273,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // the SendMessageCommand() invokes a message session window for the given contact.
 // e.g. it is called when user double clicks a contact on the contact list
 // it is implemented as a service, so external plugins can use it to open a message window.
@@ -321,6 +333,7 @@ INT_PTR SendMessageCommand_W(WPARAM hContact, LPARAM lParam)
 	return SendMessageCommand_Worker(hContact, LPCSTR(lParam), true);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // open a window when user clicks on the flashing "typing message" tray icon.
 // just calls SendMessageCommand() for the given contact.
 
@@ -397,6 +410,7 @@ int IconsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // initialises the internal API, services, events etc...
 
 static void TSAPI InitAPI()
@@ -479,6 +493,7 @@ STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
 	return sc;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // tabbed mode support functions...
 // (C) by Nightwish
 // 
@@ -529,6 +544,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 	return TRUE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // this function creates and activates a new tab within the given container.
 // bActivateTab: make the new tab the active one
 // bPopupContainer: restore container if it was minimized, otherwise flash it...
@@ -689,6 +705,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	return hwndNew;		// return handle of the new dialog
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // this is used by the 2nd containermode (limit tabs on default containers).
 // it searches a container with "room" for the new tabs or otherwise creates
 // a new (cloned) one.
@@ -707,6 +724,7 @@ TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hConta
 	return FindContainerByName(szName);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // load some global icons.
 
 void TSAPI CreateImageList(BOOL bInitial)
@@ -764,6 +782,7 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 	return NotifyEventHooks(PluginConfig.m_event_MsgWin, 0, (LPARAM)&mwe);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // standard icon definitions
 
 static TIconDesc _toolbaricons[] =
@@ -860,8 +879,9 @@ static int GetIconPackVersion(HMODULE hDLL)
 	return version;
 }
 
-// setup default icons for the IcoLib service. This needs to be done every time the plugin is loaded
-// default icons are taken from the icon pack in either \icons or \plugins
+/////////////////////////////////////////////////////////////////////////////////////////
+// setup default icons for the IcoLib service. This needs to be done every time the 
+// plugin is loaded default icons are taken from the icon pack in either \icons or \plugins
 
 static int TSAPI SetupIconLibConfig()
 {
@@ -949,6 +969,7 @@ static int TSAPI LoadFromIconLib()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // load icon theme from either icon pack or IcoLib
 
 void TSAPI LoadIconTheme()
@@ -959,7 +980,6 @@ void TSAPI LoadIconTheme()
 		LoadFromIconLib();
 
 	Skin->setupTabCloseBitmap();
-	return;
 }
 
 static void UnloadIcons()
