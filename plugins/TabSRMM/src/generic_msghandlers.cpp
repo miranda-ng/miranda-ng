@@ -1763,7 +1763,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 				if (PluginConfig.m_CutContactNameOnTabs)
 					CutContactName(szNick, newcontactname, SIZEOF(newcontactname));
 				else
-					mir_tstrncpy(newcontactname, szNick, SIZEOF(newcontactname));
+					_tcsncpy_s(newcontactname, szNick, _TRUNCATE);
 
 				Utils::DoubleAmpersands(newcontactname);
 
@@ -1792,7 +1792,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
-	else mir_tstrncpy(newtitle, _T("Message Session"), SIZEOF(newtitle));
+	else _tcsncpy_s(newtitle, _T("Message Session"), _TRUNCATE);
 
 	if (dat->idle != dwOldIdle || lParam != 0) {
 		if (item.mask & TCIF_TEXT) {

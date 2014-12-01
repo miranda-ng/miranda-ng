@@ -598,8 +598,8 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = dat->hContact;
-	mir_tstrncpy(ppd.lptzContactName, dat->cache->getNick(), MAX_CONTACTNAME);
-	mir_tstrncpy(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), MAX_SECONDLINE);
+	_tcsncpy_s(ppd.lptzContactName, dat->cache->getNick(), _TRUNCATE);
+	_tcsncpy_s(ppd.lptzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
 
 	if (!(BOOL)M.GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
 		ppd.colorText = (COLORREF)M.GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);

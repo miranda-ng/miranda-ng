@@ -56,12 +56,10 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	if (mir_tstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
-		else {
-			mir_tstrncpy(newcontactname, contactName, SIZEOF(newcontactname));
-			newcontactname[127] = 0;
-		}
+		else
+			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
 	}
-	else mir_tstrncpy(newcontactname, _T("_U_"), SIZEOF(newcontactname));
+	else _tcsncpy_s(newcontactname, _T("_U_"), _TRUNCATE);
 
 	newData.item.pszText = newcontactname;
 	newData.item.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;

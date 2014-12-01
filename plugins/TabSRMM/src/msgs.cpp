@@ -584,13 +584,12 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	if (contactName && mir_tstrlen(contactName) > 0) {
 		if (M.GetByte("cuttitle", 0))
 			CutContactName(contactName, newcontactname, SIZEOF(newcontactname));
-		else {
-			mir_tstrncpy(newcontactname, contactName, SIZEOF(newcontactname));
-			newcontactname[127] = 0;
-		}
+		else
+			_tcsncpy_s(newcontactname, contactName, _TRUNCATE);
+
 		Utils::DoubleAmpersands(newcontactname);
 	}
-	else mir_tstrncpy(newcontactname, _T("_U_"), SIZEOF(newcontactname));
+	else _tcsncpy_s(newcontactname, _T("_U_"), _TRUNCATE);
 
 	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
 	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);

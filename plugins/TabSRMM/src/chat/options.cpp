@@ -219,14 +219,14 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 		mir_snprintf(str, SIZEOF(str), "Font%d", i);
 		if ((i == 17 && !strcmp(szMod, CHATFONT_MODULE)) || ((i == 20 || i == 21) && !strcmp(szMod, FONTMODULE))) {
 			lf->lfCharSet = SYMBOL_CHARSET;
-			mir_tstrncpy(lf->lfFaceName, _T("Webdings"), SIZEOF(lf->lfFaceName));
+			_tcsncpy_s(lf->lfFaceName, _T("Webdings"), _TRUNCATE);
 		}
 		else {
 			ptrT tszDefFace(db_get_tsa(NULL, szMod, str));
 			if (tszDefFace == NULL)
-				mir_tstrcpy(lf->lfFaceName, fol[j].szDefFace);
+				_tcsncpy_s(lf->lfFaceName, fol[j].szDefFace, _TRUNCATE);
 			else
-				mir_tstrncpy(lf->lfFaceName, tszDefFace, SIZEOF(lf->lfFaceName));
+				_tcsncpy_s(lf->lfFaceName, tszDefFace, _TRUNCATE);
 		}
 	}
 }

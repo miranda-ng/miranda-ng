@@ -616,15 +616,15 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 
 	if (streamData->lin->ptszNick) {
 		if (g_Settings.bLogLimitNames && mir_tstrlen(streamData->lin->ptszNick) > 20) {
-			mir_tstrncpy(szTemp, streamData->lin->ptszNick, 20);
-			mir_tstrncpy(szTemp + 20, _T("..."), 4);
+			_tcsncpy_s(szTemp, 20, streamData->lin->ptszNick, _TRUNCATE);
+			_tcsncpy_s(szTemp + 20, 4, _T("..."), _TRUNCATE);
 		}
-		else mir_tstrncpy(szTemp, streamData->lin->ptszNick, 511);
+		else _tcsncpy_s(szTemp, streamData->lin->ptszNick, _TRUNCATE);
 
 		if (g_Settings.bClickableNicks)
 			mir_sntprintf(szTemp2, SIZEOF(szTemp2), _T("~~++#%s#++~~"), szTemp);
 		else
-			_tcscpy(szTemp2, szTemp);
+			_tcsncpy_s(szTemp2, szTemp, _TRUNCATE);
 
 		if (streamData->lin->ptszUserInfo && streamData->lin->iType != GC_EVENT_TOPIC)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, streamData->lin->ptszUserInfo);
@@ -875,8 +875,8 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (g_Settings.bShowTime) {
 				TCHAR szTimeStamp[30], szOldTimeStamp[30];
 
-				mir_tstrncpy(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), 30);
-				mir_tstrncpy(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), 30);
+				_tcsncpy_s(szTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, lin->time), _TRUNCATE);
+				_tcsncpy_s(szOldTimeStamp, pci->MakeTimeStamp(g_Settings.pszTimeStamp, streamData->si->LastTime), _TRUNCATE);
 				if (!g_Settings.bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
 					streamData->si->LastTime = lin->time;
 					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
@@ -898,7 +898,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				if (g_Settings.bLogClassicIndicators)
 					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s", pszIndicator);
 
-				mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick, 299);
+				mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings.pszOutgoingNick : g_Settings.pszIncomingNick, SIZEOF(pszTemp));
 				p1 = _tcsstr(pszTemp, _T("%n"));
 				if (p1)
 					p1[1] = 's';
