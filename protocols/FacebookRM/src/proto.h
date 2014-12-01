@@ -237,6 +237,7 @@ public:
 	void ToggleStatusMenuItems(BOOL bEnable);
 	void StickerAsSmiley(std::string stickerId, const std::string &url, MCONTACT hContact);
 	void SaveName(MCONTACT hContact, const facebook_user *fbu);	
+	std::string PrepareUrl(std::string url);
 	void OpenUrl(std::string url);
 	void __cdecl OpenUrlThread(void*);
 	void MessageRead(MCONTACT hContact);
