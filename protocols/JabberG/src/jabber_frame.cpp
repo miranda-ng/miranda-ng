@@ -370,7 +370,7 @@ void CJabberInfoFrame::PaintCompact(HDC hdc)
 			}
 
 			RECT rcText; SetRect(&rcText, cx_icon + SZ_FRAMEPADDING + SZ_ICONSPACING, 0, rc.right - SZ_FRAMEPADDING, rc.bottom);
-			DrawText(hdc, item.m_pszText, mir_tstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
+			DrawText(hdc, item.m_pszText, -1, &rcText, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_END_ELLIPSIS);
 		}
 		else {
 			if (item.m_hIcolibIcon) {
@@ -433,7 +433,7 @@ void CJabberInfoFrame::PaintNormal(HDC hdc)
 		SetTextColor(hdc, depth ? m_clText : m_clTitle);
 
 		RECT rcText; SetRect(&rcText, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
-		DrawText(hdc, item.m_pszText, mir_tstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
+		DrawText(hdc, item.m_pszText, -1, &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
 
 		RemoveTooltip(item.m_tooltipId);
 

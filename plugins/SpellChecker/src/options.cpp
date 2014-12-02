@@ -152,7 +152,7 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 	rc.right = lpdis->rcItem.right - 2;
 	rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - tm.tmHeight) / 2;
 	rc.bottom = rc.top + tm.tmHeight;
-	DrawText(lpdis->hDC, dict->full_name, mir_tstrlen(dict->full_name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+	DrawText(lpdis->hDC, dict->full_name, -1, &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 
 	// Restore old colors
 	SetTextColor(lpdis->hDC, clrfore);

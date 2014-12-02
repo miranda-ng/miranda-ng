@@ -1319,7 +1319,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SetBkMode(dis->hDC, TRANSPARENT);
 			SetTextColor(dis->hDC, GetSysColor(COLOR_BTNTEXT));
 			FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_BTNFACE));
-			DrawText(dis->hDC, TranslateT("Sample text"), (int)_tcslen(TranslateT("Sample text")), &dis->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS|DT_CENTER);
+			DrawText(dis->hDC, TranslateT("Sample text"), -1, &dis->rcItem, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS|DT_CENTER);
 			if (hoFont)
 				SelectObject(dis->hDC, hoFont);
 			return TRUE;

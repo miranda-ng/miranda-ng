@@ -60,7 +60,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 	nlhr.headers = (NETLIBHTTPHEADER*)&HEADER_URL_ENCODED;
 	nlhr.headersCount = 1;
 	nlhr.pData = reqParams;
-	nlhr.dataLength = mir_strlen(reqParams);
+	nlhr.dataLength = (int)mir_strlen(reqParams);
 
 	NETLIBHTTPREQUEST *pResp = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hUser, (LPARAM)&nlhr);
 	if (!pResp) return NULL;
@@ -177,8 +177,8 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	int pwdLen = GetMailboxPwd(acc, mailbox, NULL, 0);
 	if (!pwdLen++) return FALSE;
 
-	int urlLen = mir_tstrlen(url) + 1;
-	int mailboxLen = mir_tstrlen(mailbox) + 1;
+	size_t urlLen = mir_tstrlen(url) + 1;
+	size_t mailboxLen = mir_tstrlen(mailbox) + 1;
 
 	OPEN_URL_HEADER *data = (OPEN_URL_HEADER*)malloc(sizeof(OPEN_URL_HEADER) + urlLen + mailboxLen + pwdLen);
 	data->url = (LPSTR)data + sizeof(OPEN_URL_HEADER);

@@ -37,9 +37,6 @@ int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
 
 	HGDIOBJ oo=SelectObject(hdc, fh);
 
-//	rect2.left=0;
-//	rect2.top=0;
-//	DrawText(hdc, string, -1, &rect2, DT_SINGLELINE|DT_CALCRECT);
 	rect2 = rect;
 	DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|DT_CALCRECT);
 
@@ -77,21 +74,22 @@ int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
 			OffsetRect(&rect, sxo, syo);
 
 			DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|talign);
-		} else {
-			rect2=rect;
-			rect2.left+=plgs.distance;
+		}
+		else {
+			rect2 = rect;
+			rect2.left += plgs.distance;
 			DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|talign);
 
-			rect2=rect;
-			rect2.left-=plgs.distance;
+			rect2 = rect;
+			rect2.left -= plgs.distance;
 			DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|talign);
 
-			rect2=rect;
-			rect2.top-=plgs.distance;
+			rect2 = rect;
+			rect2.top -= plgs.distance;
 			DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|talign);
 
-			rect2=rect;
-			rect2.top+=plgs.distance;
+			rect2 = rect;
+			rect2.top += plgs.distance;
 			DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|talign);
 
 			OffsetRect(&rect, sxo/2, syo/2);

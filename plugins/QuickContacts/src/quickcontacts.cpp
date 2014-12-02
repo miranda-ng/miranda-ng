@@ -1031,18 +1031,13 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			rc.bottom = rc.top + tm.tmHeight;
 
 			// Draw Protocol
-			if (opts.num_protos > 1)
-			{
-				if (max_proto_width == 0)
-				{
+			if (opts.num_protos > 1) {
+				if (max_proto_width == 0) {
 					// Has to be done, else the DC isnt the right one
 					// Dont ask me why
-					for(int loop = 0; loop < contacts.getCount(); loop++)
-					{
+					for (int loop = 0; loop < contacts.getCount(); loop++) {
 						RECT rcc = { 0, 0, 0x7FFF, 0x7FFF };
-
-						DrawText(lpdis->hDC, contacts[loop]->proto, mir_tstrlen(contacts[loop]->proto), 
-							&rcc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_CALCRECT);
+						DrawText(lpdis->hDC, contacts[loop]->proto, -1, &rcc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_CALCRECT);
 						max_proto_width = max(max_proto_width, rcc.right - rcc.left);
 					}
 
@@ -1056,33 +1051,25 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 
 				RECT rc_tmp = rc;
-
 				rc_tmp.left = rc_tmp.right - max_proto_width;
-
-				DrawText(lpdis->hDC, contacts[lpdis->itemData]->proto, mir_tstrlen(contacts[lpdis->itemData]->proto), 
-					&rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
-
+				DrawText(lpdis->hDC, contacts[lpdis->itemData]->proto, -1, &rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 				rc.right = rc_tmp.left - 5;
 			}
 
 			// Draw group
-			if (opts.group_append && opts.group_column)
-			{
+			if (opts.group_append && opts.group_column) {
 				RECT rc_tmp = rc;
 
-				if (opts.group_column_left)
-				{
+				if (opts.group_column_left) {
 					rc_tmp.right = rc_tmp.left + (rc.right - rc.left) / 3;
 					rc.left = rc_tmp.right + 5;
 				}
-				else
-				{
+				else {
 					rc_tmp.left = rc_tmp.right - (rc.right - rc.left) / 3;
 					rc.right = rc_tmp.left - 5;
 				}
 
-				DrawText(lpdis->hDC, contacts[lpdis->itemData]->szgroup, mir_tstrlen(contacts[lpdis->itemData]->szgroup),
-					&rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+				DrawText(lpdis->hDC, contacts[lpdis->itemData]->szgroup, -1, &rc_tmp, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 			}
 
 			// Draw text
@@ -1092,7 +1079,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			else
 				name = contacts[lpdis->itemData]->szname;
 
-			DrawText(lpdis->hDC, name, mir_tstrlen(name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+			DrawText(lpdis->hDC, name, -1, &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 
 			// Restore old colors
 			SetTextColor(lpdis->hDC, clrfore);

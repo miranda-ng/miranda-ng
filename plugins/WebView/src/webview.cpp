@@ -29,9 +29,9 @@ MSG messages;
 DWORD  winheight;
 int StartUpDelay = 0;
 
-DWORD  Xposition, Yposition;
-DWORD  BackgoundClr, TextClr;
-DWORD  WindowHeight, WindowWidth;
+int       Xposition, Yposition;
+int       WindowHeight, WindowWidth;
+COLORREF  BackgoundClr, TextClr;
 
 UINT_PTR  timerId;
 UINT_PTR  Countdown;

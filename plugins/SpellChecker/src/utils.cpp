@@ -1513,12 +1513,12 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Draw text
 			RECT rc_text = { 0, 0, 0xFFFF, 0xFFFF };
-			DrawText(lpdis->hDC, dict->full_name, mir_tstrlen(dict->full_name), &rc_text, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
+			DrawText(lpdis->hDC, dict->full_name, -1, &rc_text, DT_END_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
 
 			rc.right = lpdis->rcItem.right - 2;
 			rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - (rc_text.bottom - rc_text.top)) / 2;
 			rc.bottom = rc.top + rc_text.bottom - rc_text.top;
-			DrawText(lpdis->hDC, dict->full_name, mir_tstrlen(dict->full_name), &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_LEFT | DT_TOP | DT_SINGLELINE);
+			DrawText(lpdis->hDC, dict->full_name, -1, &rc, DT_END_ELLIPSIS | DT_NOPREFIX | DT_LEFT | DT_TOP | DT_SINGLELINE);
 
 			// Restore old colors
 			SetTextColor(lpdis->hDC, clrfore);
@@ -1546,7 +1546,7 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		RECT rc = { 0, 0, 0xFFFF, 0xFFFF };
 
-		DrawText(hdc, dict->full_name, mir_tstrlen(dict->full_name), &rc, DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
+		DrawText(hdc, dict->full_name, -1, &rc, DT_NOPREFIX | DT_SINGLELINE | DT_LEFT | DT_TOP | DT_CALCRECT);
 
 		lpmis->itemHeight = max(ICON_SIZE, max(bmpChecked.bmHeight, rc.bottom));
 		lpmis->itemWidth = 2 + bmpChecked.bmWidth + 2 + ICON_SIZE + 4 + rc.right + 2;

@@ -142,7 +142,7 @@ static BOOL IsOverAction(HWND hwndDlg)
 	szText[0] = 0;
 	ListView_GetItemText(hList, hti.iItem, hti.iSubItem, szText, SIZEOF(szText));
 	hdc = GetDC(hList);
-	GetTextExtentPoint32(hdc, szText, mir_tstrlen(szText), &textSize);
+	GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &textSize);
 	ReleaseDC(hList, hdc);
 	textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
 	return (hti.pt.x > textPosX && hti.pt.x < textPosX + textSize.cx);
@@ -241,18 +241,17 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 								: TranslateT("You have to be logged in to view concurrent sessions.");
 							RECT rc;
 							HWND hwndHeader = ListView_GetHeader(nm->nmcd.hdr.hwndFrom);
-							SIZE textSize;
-							int textPosX;
 							GetClientRect(nm->nmcd.hdr.hwndFrom, &rc);
-							if (hwndHeader != NULL)
-							{
+							if (hwndHeader != NULL) {
 								RECT rcHeader;
 								GetClientRect(hwndHeader, &rcHeader);
 								rc.top += rcHeader.bottom;
 							}
-							GetTextExtentPoint32(nm->nmcd.hdc, szText, mir_tstrlen(szText), &textSize);
-							textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
-							ExtTextOut(nm->nmcd.hdc, textPosX, rc.top + textSize.cy, ETO_OPAQUE, &rc, szText, mir_tstrlen(szText), NULL);
+							int cbLen = (int)mir_tstrlen(szText);
+							SIZE textSize;
+							GetTextExtentPoint32(nm->nmcd.hdc, szText, cbLen, &textSize);
+							int textPosX = rc.left + (((rc.right - rc.left) - textSize.cx) / 2);
+							ExtTextOut(nm->nmcd.hdc, textPosX, rc.top + textSize.cy, ETO_OPAQUE, &rc, szText, cbLen, NULL);
 						}
 						// FALL THROUGH
 

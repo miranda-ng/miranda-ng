@@ -84,7 +84,7 @@ LRESULT CALLBACK CTooltip::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LP
 			SetBkMode(hDC, TRANSPARENT);
 			SetTextColor(hDC, m_dwTextColor);
 			SelectObject(hDC, m_hFont);
-			DrawText(hDC, m_szText, mir_tstrlen(m_szText), &rect, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
+			DrawText(hDC, m_szText, -1, &rect, DT_CENTER|DT_VCENTER|DT_SINGLELINE);
 
 			EndPaint(hWnd, &ps);
 

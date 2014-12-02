@@ -154,7 +154,7 @@ static void sttAppendBufRaw(StringBuf *buf, const char *str)
 {
 	if (!str) return;
 
-	int length = mir_strlen(str);
+	size_t length = mir_strlen(str);
 	if (buf->size - buf->offset < length + 1) {
 		buf->size += (length + STRINGBUF_INCREMENT);
 		buf->buf = (char *)mir_realloc(buf->buf, buf->size);

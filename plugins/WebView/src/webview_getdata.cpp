@@ -149,7 +149,7 @@ void GetData(void *param)
 				size_t cbLen = mir_strlen(nlhrReply->pData);
 				char *szInfo = (char*)malloc(cbLen + 2);
 				mir_strncpy(szInfo, nlhrReply->pData, cbLen);
-				downloadsize = mir_strlen(nlhrReply->pData);
+				downloadsize = (ULONG)mir_strlen(nlhrReply->pData);
 
 				trunccount = 0;
 				mir_strncpy(truncated2, szInfo, MAXSIZE2);
@@ -202,13 +202,13 @@ void GetData(void *param)
 					memset(&pos, 0, sizeof(pos)); // XXX: looks bad.
 					// end string
 					pos = strstr(truncated2, tempstring2);
-					statposend = pos - truncated2 + strlen(tempstring2);
+					statposend = pos - truncated2 + (int)strlen(tempstring2);
 
 					if (statpos > statposend) {
 						memset(&truncated2, ' ', statpos);
 						memset(&pos, 0, sizeof(pos)); // XXX: looks bad.
 						pos = strstr(truncated2, tempstring2);
-						statposend = pos - truncated2 + strlen(tempstring2);
+						statposend = pos - truncated2 + (int)strlen(tempstring2);
 					}
 					if (statpos < statposend) {
 						memset(&raw, 0, sizeof(raw));

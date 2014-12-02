@@ -231,8 +231,8 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	}
 
 	data->PluginWindowProc = PopupProc;
-	int lurl = (mir_tstrlen(url) + 1) * sizeof(TCHAR);
-	int ljid = (mir_tstrlen(jid) + 1) * sizeof(TCHAR);
+	size_t lurl = (mir_tstrlen(url) + 1) * sizeof(TCHAR);
+	size_t ljid = (mir_tstrlen(jid) + 1) * sizeof(TCHAR);
 
 	POPUP_DATA_HEADER *ppdh = (POPUP_DATA_HEADER*)malloc(sizeof(POPUP_DATA_HEADER) + lurl + ljid);
 	ppdh->MarkRead = FALSE;

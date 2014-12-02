@@ -91,7 +91,7 @@ public:
 			HFONT hOldFont = static_cast<HFONT>(::SelectObject(hdc,hFont));
 
 			LPCTSTR pszText = TranslateT("There is no to show");
-			int nDrawTextResult = ::DrawText(hdc,pszText,::mir_tstrlen(pszText),&rc,DT_SINGLELINE|DT_VCENTER|DT_CENTER);
+			int nDrawTextResult = ::DrawText(hdc, pszText, -1, &rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 			assert(0 != nDrawTextResult);
 
 			::SelectObject(hdc,hOldFont);
@@ -132,7 +132,7 @@ private:
 		y_val = m_MinY + ((m_MaxY-m_MinY)/number_of_lines);
 		nXIndent += 2;
 		rc.left += nXIndent;
-		for(int y = rc.bottom-step;y > rc.top;y-=step,y_val+=((m_MaxY-m_MinY)/number_of_lines))
+		for (int y = rc.bottom-step;y > rc.top;y-=step,y_val+=((m_MaxY-m_MinY)/number_of_lines))
 		{
 			tstring sY = TYConverter::ToString(y_val);
 			SIZE sizeText = {0,0};
@@ -140,7 +140,7 @@ private:
 			assert(TRUE == bResult);
 
 			RECT rcText = {rc.left-nXIndent,y-(sizeText.cy/2),rc.left-1,y+(sizeText.cy/2)};
-			int nDrawTextResult = ::DrawText(hdc, sY.c_str(), (int)sY.size(), &rcText, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
+			int nDrawTextResult = ::DrawText(hdc, sY.c_str(), -1, &rcText, DT_SINGLELINE|DT_VCENTER|DT_RIGHT);
 			assert(0 != nDrawTextResult);
 
 			bResult = ::MoveToEx(hdc,rc.left,y,NULL);

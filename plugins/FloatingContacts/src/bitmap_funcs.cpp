@@ -819,7 +819,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 	SetTextColor(tmp.getDC(), RGB(255,255,255));
 	SetBkColor(tmp.getDC(), RGB(0,0,0));
 	ExtTextOutA(tmp.getDC(), 0, 0, ETO_OPAQUE, &rc, "", 0, NULL);
-	::DrawText(tmp.getDC(), str, mir_tstrlen(str), &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
+	::DrawText(tmp.getDC(), str, -1, &rc, DT_CENTER|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER);
 	SelectObject(tmp.getDC(), hfnTmp);
 
 	GdiFlush();

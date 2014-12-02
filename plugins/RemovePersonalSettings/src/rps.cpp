@@ -537,7 +537,7 @@ BOOL GetSettingBool(const char *section, const char *key, BOOL defaultValue)
 BOOL GetSettings(const char *section, char *buffer, size_t bufferSize)
 {
 	buffer[0] = '\0\0';
-	return (BOOL)GetPrivateProfileSection(section, buffer, bufferSize, gIniFile) != 0;
+	return (BOOL)GetPrivateProfileSection(section, buffer, (DWORD)bufferSize, gIniFile) != 0;
 }
 
 

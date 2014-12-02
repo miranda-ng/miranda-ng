@@ -457,7 +457,6 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 			List_Insert(plText, piece, plText->realCount);
 			word_start = word_end;
 		}
-
 	}
 
 	CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spres);
@@ -467,22 +466,15 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 
 int DrawTextExt(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, LPCSTR lpProto, SMILEYPARSEINFO spi)
 {
-	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != NULL)
-	{
+	if ((opt.iSmileyAddFlags & SMILEYADD_ENABLE) && spi != NULL) {
 		if (opt.iSmileyAddFlags & SMILEYADD_RESIZE)
 			uFormat |= DT_RESIZE_SMILEYS;
 
 		return Smileys_DrawText(hdc, lpString, nCount, lpRect, uFormat, lpProto, spi);
 	}
-	else
-	{
-		if (uFormat & DT_CALCRECT)
-		{
-			return DrawText(hdc, lpString, nCount, lpRect, uFormat);
-		}
-		else
-		{
-			return DrawTextAlpha(hdc, lpString, nCount, lpRect, uFormat);
-		}
-	}
+
+	if (uFormat & DT_CALCRECT)
+		return DrawText(hdc, lpString, nCount, lpRect, uFormat);
+
+	return DrawTextAlpha(hdc, lpString, nCount, lpRect, uFormat);
 }

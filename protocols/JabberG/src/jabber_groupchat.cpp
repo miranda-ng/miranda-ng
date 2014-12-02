@@ -546,13 +546,13 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			rc.bottom -= (rc.bottom - rc.top) / 2;
 			rc.left += 20;
 			SetTextColor(lpdis->hDC, clLine1);
-			DrawText(lpdis->hDC, info->line1, mir_tstrlen(info->line1), &rc, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS);
+			DrawText(lpdis->hDC, info->line1, -1, &rc, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS);
 
 			rc = lpdis->rcItem;
 			rc.top += (rc.bottom - rc.top) / 2;
 			rc.left += 20;
 			SetTextColor(lpdis->hDC, clLine2);
-			DrawText(lpdis->hDC, info->line2, mir_tstrlen(info->line2), &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
+			DrawText(lpdis->hDC, info->line2, -1, &rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
 
 			DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 1, lpdis->rcItem.top + 1, m_proto->LoadIconEx("group"), 16, 16, 0, NULL, DI_NORMAL);
 			switch (info->overlay) {

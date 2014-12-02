@@ -400,7 +400,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 					else SetTextColor(ps.hdc, colTime);
 					if (hFontTime) SelectObject(hdc, (HGDIOBJ)hFontTime);
-					DrawText(ps.hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &avr, DT_VCENTER | DT_CENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
+					DrawText(ps.hdc, pwd->tbuff, -1, &avr, DT_VCENTER | DT_CENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
 					avr.top = avr.bottom + options.av_padding;
 				}
 
@@ -449,12 +449,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				case PT_LEFT:
 					ttr.left = textxmin; ttr.right = ttr.left + pwd->time_width;
 					textxmin += pwd->time_width + options.padding;
-					DrawText(ps.hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &ttr, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
+					DrawText(ps.hdc, pwd->tbuff, -1, &ttr, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
 					break;
 				case PT_RIGHT:
 					ttr.right = textxmax; ttr.left = ttr.right - pwd->time_width;
 					textxmax -= pwd->time_width + options.padding;
-					DrawText(ps.hdc, pwd->tbuff, (int)_tcslen(pwd->tbuff), &ttr, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
+					DrawText(ps.hdc, pwd->tbuff, -1, &ttr, DT_VCENTER | DT_LEFT | DT_SINGLELINE | DT_NOPREFIX);
 					break;
 				}
 			}
@@ -469,7 +469,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (pwd->custom_col) SetTextColor(ps.hdc, pd->colorText);
 			else SetTextColor(ps.hdc, colFirstLine);
 			TCHAR *title = mir_u2t(pd->pwzTitle);
-			DrawText(ps.hdc, title, (int)_tcslen(title), &tr, DT_VCENTER | DT_LEFT | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
+			DrawText(ps.hdc, title, -1, &tr, DT_VCENTER | DT_LEFT | DT_END_ELLIPSIS | DT_SINGLELINE | DT_NOPREFIX);
 			mir_free(title);
 
 			// title underline
@@ -492,7 +492,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				TCHAR *text = mir_u2t(pd->pwzText);
 				tr.left = r.left + options.padding + options.text_indent; tr.right = r.right - options.padding; tr.top = tr.bottom + options.padding; tr.bottom = r.bottom - options.padding;
-				DrawText(ps.hdc, text, (int)_tcslen(text), &tr, DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
+				DrawText(ps.hdc, text, -1, &tr, DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 				mir_free(text);
 			}
 
@@ -630,7 +630,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (hFontSecondLine) SelectObject(hdc, (HGDIOBJ)hFontSecondLine);
 				TCHAR *text = mir_u2t(pd->pwzText);
-				DrawText(hdc, text, (int)_tcslen(text), &r, DT_CALCRECT | DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
+				DrawText(hdc, text, -1, &r, DT_CALCRECT | DT_NOPREFIX | DT_WORDBREAK | DT_EXTERNALLEADING | DT_TOP | DT_LEFT | DT_WORD_ELLIPSIS);
 				pwd->text_height = r.bottom;
 				mir_free(text);
 			}
