@@ -99,15 +99,15 @@ Utrzymuj wiadomości na serwerze jako nieprzeczytane (nie wysyłaj informacji o 
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Wsparcie dla niestandardowych emotikon (EKSPERYMENTALNY)
 [Multi user chats]
-
+Czaty grupowe
 [Enable multi user chats support]
-
+Włącz wsparcie dla czatów grupowych
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [History synchronization]
-
+Synchronizacja historii
 [Load last messages (24 hours old) on login (EXPERIMENTAL)]
-
+Załaduj ostatnie wiadomości (ostatnie 24 godziny)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Załaduj ostatnie wiadomości podczas otwierania okna rozmowy(Eksperymentalne)
 [Number of messages to load:]
