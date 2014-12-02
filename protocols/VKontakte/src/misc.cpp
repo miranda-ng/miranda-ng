@@ -538,10 +538,12 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
 {
 	TCHAR s1[1024], s2[1024];
-	mir_sntprintf(s1, SIZEOF(s1), _T("%s"), _s1);
-	mir_sntprintf(s2, SIZEOF(s2), _T("%s"), _s2);
+
+	_tcsncpy_s(s1, _s1, _TRUNCATE);
 	CharLowerBuff(s1, SIZEOF(s1));
+	_tcsncpy_s(s2, _s2, _TRUNCATE);
 	CharLowerBuff(s2, SIZEOF(s2));
+
 	return _tcsstr(s1, s2) != NULL;
 }
 

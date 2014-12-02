@@ -184,10 +184,10 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 	if (SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, BM_GETCHECK, 0, 0) || popupType == POPUP_DEFAULT)
 		ppdp.iSeconds = 0;
 
-	ppdp.lchContact = NULL;	
-	mir_sntprintf(ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
+	ppdp.lchContact = NULL;
+	_tcsncpy_s(ppdp.lptzContactName, (line1 ? line1 : _T(PLUGIN_NAME)), _TRUNCATE);
 	if (line2)
-		mir_sntprintf(ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
+		_tcsncpy_s(ppdp.lptzText, line2, _TRUNCATE);
 	return PUAddPopupT(&ppdp);
 
 }
@@ -233,9 +233,9 @@ int ShowPopup(MCONTACT hContact, BYTE popupType, TCHAR *line1, TCHAR *line2)
 	if (_getOptB("PopupDefaultTimeout", defaultPopupDefaultTimeout) || popupType == POPUP_DEFAULT)
 		ppdp.iSeconds = 0;
 
-	ppdp.lchContact = hContact;	
-	mir_sntprintf(ppdp.lptzContactName, MAX_CONTACTNAME, _T("%s"), (line1)?line1:_T(PLUGIN_NAME));
+	ppdp.lchContact = hContact;
+	_tcsncpy_s(ppdp.lptzContactName, (line1 ? line1 : _T(PLUGIN_NAME)), _TRUNCATE);
 	if (line2)
-		mir_sntprintf(ppdp.lptzText, MAX_SECONDLINE, _T("%s"), line2);
+		_tcsncpy_s(ppdp.lptzText, line2, _TRUNCATE);
 	return PUAddPopupT(&ppdp);
 }

@@ -1771,9 +1771,9 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 					if (PluginConfig.m_StatusOnTabs)
 						mir_sntprintf(newtitle, 127, _T("%s (%s)"), newcontactname, dat->szStatus);
 					else
-						mir_sntprintf(newtitle, 127, _T("%s"), newcontactname);
-				}
-				else mir_sntprintf(newtitle, 127, _T("%s"), _T("Forward"));
+						_tcsncpy_s(newtitle, newcontactname, _TRUNCATE);
+				} else
+					_tcsncpy_s(newtitle, _T("Forward"), _TRUNCATE);
 
 				item.mask |= TCIF_TEXT;
 			}

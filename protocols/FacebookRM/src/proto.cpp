@@ -427,7 +427,7 @@ int FacebookProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 
 INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
+	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_FACEBOOKACCOUNT),
 		 (HWND)lParam, FBAccountProc, (LPARAM)this);
 }
 

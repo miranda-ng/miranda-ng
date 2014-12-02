@@ -1365,7 +1365,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 						if (sourceGrName)
 							mir_sntprintf(newName, SIZEOF(newName), _T("%s\\%s"), sourceGrName, shortGroup);
 						else
-							mir_sntprintf(newName, SIZEOF(newName), _T("%s"), shortGroup);
+							_tcsncpy_s(newName, shortGroup, _TRUNCATE);
 					}
 					mir_free(groupName);
 					mir_free(sourceGrName);

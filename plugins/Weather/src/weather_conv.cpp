@@ -109,7 +109,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		// rounding
 		numToStr((temp-32)/9*5, tstr, SIZEOF(tstr));
 		if (opt.DoNotAppendUnit)
-			mir_sntprintf(str, MAX_DATA_LEN, _T("%s"), tstr);
+			_tcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
 			mir_sntprintf(str, MAX_DATA_LEN, _T("%s%sC"), tstr, opt.DegreeSign);
 		break;
@@ -117,7 +117,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	case 2:
 		numToStr(temp, tstr, SIZEOF(tstr));
 		if (opt.DoNotAppendUnit)
-			mir_sntprintf(str, MAX_DATA_LEN, _T("%s"), tstr);
+			_tcsncpy_s(str, MAX_DATA_LEN, tstr, _TRUNCATE);
 		else
 			mir_sntprintf(str, MAX_DATA_LEN, _T("%s%sF"), tstr, opt.DegreeSign);
 		break;
@@ -394,8 +394,8 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 			j++;
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
-			mir_sntprintf(LangPackStr1, SIZEOF(LangPackStr1), _T("%s"), TranslateTS(LangPackStr));
-			CharLowerBuff(LangPackStr1, (DWORD)_tcslen(LangPackStr1));
+			_tcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
+			CharLowerBuff(LangPackStr1, _tcslen(LangPackStr1));
 			if (_tcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)

@@ -536,7 +536,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	if (szResource)
 		mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s/%s"), jid, szResource);
 	else
-		mir_sntprintf(tszJid, SIZEOF(tszJid), _T("%s"), jid);
+		_tcsncpy_s(tszJid, jid, _TRUNCATE);
 
 	JabberCapsBits jcb = GetResourceCapabilites(tszJid, FALSE);
 	m_ThreadInfo->send(

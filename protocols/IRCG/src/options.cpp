@@ -712,7 +712,7 @@ void CConnectPrefsDlg::OnApply()
 
 	m_nick.GetText(m_proto->m_nick, SIZEOF(m_proto->m_nick));
 	removeSpaces(m_proto->m_nick);
-	mir_sntprintf(m_proto->m_pNick, SIZEOF(m_proto->m_pNick), _T("%s"), m_proto->m_nick);
+	_tcsncpy_s(m_proto->m_pNick, m_proto->m_nick, _TRUNCATE);
 	m_nick2.GetText(m_proto->m_alternativeNick, SIZEOF(m_proto->m_alternativeNick));
 	removeSpaces(m_proto->m_alternativeNick);
 	m_userID.GetText(m_proto->m_userID, SIZEOF(m_proto->m_userID));
@@ -1815,7 +1815,7 @@ struct CDlgAccMgrUI : public CProtoDlgBase<CIrcProto>
 
 		m_nick.GetText(m_proto->m_nick, SIZEOF(m_proto->m_nick));
 		removeSpaces(m_proto->m_nick);
-		mir_sntprintf(m_proto->m_pNick, 30, _T("%s"), m_proto->m_nick);
+		_tcsncpy_s(m_proto->m_pNick, m_proto->m_nick, _TRUNCATE);
 		m_nick2.GetText(m_proto->m_alternativeNick, SIZEOF(m_proto->m_alternativeNick));
 		removeSpaces(m_proto->m_alternativeNick);
 		m_userID.GetText(m_proto->m_userID, SIZEOF(m_proto->m_userID));

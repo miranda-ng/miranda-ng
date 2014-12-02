@@ -122,7 +122,7 @@ bool CContactCache::updateNick()
 		TCHAR	*tszNick = pcli->pfnGetContactDisplayName(getActiveContact(), 0);
 		if (tszNick)
 			fChanged = (_tcscmp(m_szNick, tszNick) ? true : false);
-		mir_sntprintf(m_szNick, 80, _T("%s"), tszNick ? tszNick : _T("<undef>"));
+		_tcsncpy_s(m_szNick, (tszNick ? tszNick : _T("<undef>")), _TRUNCATE);
 	}
 	return fChanged;
 }
@@ -187,8 +187,8 @@ bool CContactCache::updateUIN()
 		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
-				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%s"), reinterpret_cast<TCHAR *>(ci.pszVal));
-				mir_free((void*)ci.pszVal);
+				_tcsncpy_s(m_szUIN, ci.pszVal, _TRUNCATE);
+				mir_free(ci.pszVal);
 				break;
 			case CNFT_DWORD:
 				mir_sntprintf(m_szUIN, SIZEOF(m_szUIN), _T("%u"), ci.dVal);

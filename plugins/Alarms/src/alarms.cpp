@@ -107,16 +107,16 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	TCHAR *savedMsg = ppre->tszMessage;
 
 	if (!_tcscmp(msg, _T(" ffw"))) {
-		mir_sntprintf(buff, SIZEOF(buff), _T("%s"), _T("Fast forward!"));
+		_tcsncpy_s(buff, _T("Fast forward!"), _TRUNCATE);
 
 		HWND hWnd = FindWindow(0, _T("Windows Media Player"));
 		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
-	}
-	else mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown command issued: \"%s\""), msg);
+	} else
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown command issued: \"%s\""), msg);
 
 	ShowPopup(pccsd->hContact, buff);
 
-	_tcsncpy(response, buff,SIZEOF(response));
+	_tcsncpy(response, buff, SIZEOF(response));
 	PluginSendMessage((WPARAM)pccsd->hContact, (LPARAM)response);
 
 	return 0;

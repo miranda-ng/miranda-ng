@@ -1464,7 +1464,7 @@ panel_found:
 
 			if (szThemeName != NULL) {
 				PathToAbsoluteT(szThemeName, pContainer->szAbsThemeFile, M.getDataPath());
-				mir_sntprintf(pContainer->szRelThemeFile, MAX_PATH, _T("%s"), szThemeName);
+				_tcsncpy_s(pContainer->szRelThemeFile, szThemeName, _TRUNCATE);
 				db_free(&dbv);
 			}
 			else pContainer->szAbsThemeFile[0] = pContainer->szRelThemeFile[0] = 0;

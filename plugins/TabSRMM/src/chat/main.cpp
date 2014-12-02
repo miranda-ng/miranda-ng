@@ -47,7 +47,7 @@ static void OnGetLogName(SESSION_INFO *si, LPCTSTR ptszParsedName)
 	if (!PathIsAbsoluteT(ptszParsedName))
 		mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M.getChatLogPath(), ptszParsedName);
 	else
-		mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s"), ptszParsedName);
+		_tcsncpy_s(si->pszLogFileName, ptszParsedName, _TRUNCATE);
 }
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)

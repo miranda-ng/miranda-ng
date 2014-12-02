@@ -84,7 +84,7 @@ INT_PTR HandleIEEvent(WPARAM, LPARAM lParam)
 		else if (event->iType == IEE_CLEAR_LOG)
 			view->clear(event);
 		else if (event->iType == IEE_GET_SELECTION)
-			return (int)view->getSelection(event);
+			return (INT_PTR)view->getSelection(event);
 		else if (event->iType == IEE_SAVE_DOCUMENT)
 			view->saveDocument();
 		else if (event->iType == IEE_LOG_MEM_EVENTS)

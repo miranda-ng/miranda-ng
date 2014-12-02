@@ -639,7 +639,7 @@ INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam)
 		case PLI_OFFLINE: id=IDI_ICON2; break;
 		default: return 0;	
 	}
-	return (int)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON), 0);
+	return (INT_PTR)LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, GetSystemMetrics(wParam&PLIF_SMALL?SM_CXSMICON:SM_CXICON), GetSystemMetrics(wParam&PLIF_SMALL?SM_CYSMICON:SM_CYICON), 0);
 }
 //=======================================================
 //SetStatus
@@ -816,11 +816,11 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	}
 	ppd.PluginWindowProc = PopupDlgProc;
 
-	ppd.iSeconds=settingInterval1;
+	ppd.iSeconds = settingInterval1;
 	//Now the "additional" data.
-	mir_sntprintf(mpd->strIntIp,_countof(mpd->strIntIp),_T("%s"),intIp);
-	mir_sntprintf(mpd->strExtIp,_countof(mpd->strExtIp),_T("%s"),extIp);
-	mir_sntprintf(mpd->PName,_countof(mpd->PName),_T("%s"),pName);
+	_tcsncpy_s(mpd->strIntIp, intIp, _TRUNCATE);
+	_tcsncpy_s(mpd->strExtIp, extIp, _TRUNCATE);
+	_tcsncpy_s(mpd->PName, pName, _TRUNCATE);
 	mpd->intIntPort = intPort;
 	mpd->intExtPort = extPort;
 	mpd->Pid = pid;

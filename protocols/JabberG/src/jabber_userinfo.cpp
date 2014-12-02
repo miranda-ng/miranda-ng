@@ -281,7 +281,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 				if (g_JabberFeatCapPairs[i].tszDescription)
 					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s (%s)"), TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
-					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s"), g_JabberFeatCapPairs[i].szFeature);
+					_tcsncpy_s(szDescription, g_JabberFeatCapPairs[i].szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
 			}
 
@@ -291,7 +291,7 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 				if (ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription)
 					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s (%s)"), TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
 				else
-					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s"), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature);
+					_tcsncpy_s(szDescription, ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature, _TRUNCATE);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
 			}
 	}
@@ -322,7 +322,7 @@ static void sttFillAdvStatusInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM ht
 		if (szAdvStatusText && *szAdvStatusText)
 			mir_sntprintf(szText, 2047, _T("%s (%s)"), TranslateTS(szAdvStatusTitle), szAdvStatusText);
 		else
-			mir_sntprintf(szText, 2047, _T("%s"), TranslateTS(szAdvStatusTitle));
+			_tcsncpy_s(szText, TranslateTS(szAdvStatusTitle), _TRUNCATE);
 		sttFillInfoLine(hwndTree, htiRoot, Skin_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
 	}
 

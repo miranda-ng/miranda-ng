@@ -128,7 +128,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, 500, tszFinalName);
 		if (!_tcscmp(szBuf, _T("None"))) {
 			fd.cFileName[mir_tstrlen(fd.cFileName) - 4] = 0;
-			mir_sntprintf(szBuf, 255, _T("%s"), fd.cFileName);
+			_tcsncpy_s(szBuf, fd.cFileName, _TRUNCATE);
 		}
 
 		PathToRelativeT(tszFinalName, tszRel, M.getSkinPath());
@@ -156,7 +156,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	DBVARIANT dbv = { 0 };
 
 	TCHAR tszSkinRoot[MAX_PATH], tszFindMask[MAX_PATH];
-	mir_sntprintf(tszSkinRoot, MAX_PATH, _T("%s"), M.getSkinPath());
+	_tcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
 
 	SetDlgItemText(GetParent(hwndCombobox), IDC_SKINROOTFOLDER, tszSkinRoot);
 	mir_sntprintf(tszFindMask, MAX_PATH, _T("%s*.*"), tszSkinRoot);

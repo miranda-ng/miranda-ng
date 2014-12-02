@@ -349,7 +349,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						   pContainer->fPrivateThemeChanged = TRUE;
 
 						if (PathFileExists(szFinalThemeFile))
-							mir_sntprintf(pContainer->szRelThemeFile, MAX_PATH, _T("%s"), szFilename);
+							_tcsncpy_s(pContainer->szRelThemeFile, szFilename, _TRUNCATE);
 						else
 							pContainer->szRelThemeFile[0] = 0;
 					}

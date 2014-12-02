@@ -616,10 +616,10 @@ void CYahooProto::GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, int cbLen
 	if (hContact != NULL) {
 		int ck_sum = getDword(hContact, "PictCK", 0);
 		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%lX"), ck_sum);
-	}
-	else tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar"), m_szModuleName);
+	} else
+		tPathLen += mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%S avatar"), m_szModuleName);
 
-	mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("%s"), type == 1 ? _T(".swf") :  _T(".png"));
+	_tcsncpy_s((pszDest + tPathLen), (cbLen - tPathLen), (type == 1 ? _T(".swf") :  _T(".png")), _TRUNCATE);
 }
 
 INT_PTR __cdecl CYahooProto::GetAvatarInfo(WPARAM wParam,LPARAM lParam)

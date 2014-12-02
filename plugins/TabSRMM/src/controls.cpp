@@ -981,7 +981,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 					}
 					else if (sid->dwId == MSG_ICON_SESSION)
-						mir_sntprintf(wBuf, SIZEOF(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
+						_tcsncpy_s(wBuf, TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"), _TRUNCATE);
 				}
 				else if (sid->tszTooltip)
 					_tcsncpy(wBuf, sid->tszTooltip, SIZEOF(wBuf));

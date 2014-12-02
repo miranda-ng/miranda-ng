@@ -9,7 +9,7 @@ INT_PTR APIChangeLayout(WPARAM wParam, LPARAM lParam)
 INT_PTR APIGetLayoutOfText(WPARAM wParam, LPARAM lParam)
 {
 	LPTSTR ptszInText = (TCHAR*)lParam;
-	return (int) GetLayoutOfText(ptszInText);
+	return (INT_PTR)GetLayoutOfText(ptszInText);
 }
 
 INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)

@@ -76,10 +76,9 @@ static void PathToRelative(TCHAR *pOut, size_t outSize, const TCHAR *pSrc)
 		}
 
 		size_t len = mir_tstrlen(dbPath);
-		if (_tcsnicmp(pSrc, dbPath, len))
-			mir_sntprintf(pOut, outSize, _T("%s"), pSrc + len);
-		else
-			mir_tstrncpy(pOut, pSrc, (int)outSize);
+		if (!_tcsnicmp(pSrc, dbPath, len))
+			len = 0;
+		_tcsncpy_s(pOut, outSize, (pSrc + len), _TRUNCATE);
 	}
 }
 

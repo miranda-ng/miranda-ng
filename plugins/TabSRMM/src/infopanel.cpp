@@ -660,8 +660,9 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 			TCHAR *pTmp = _tcschr(si->ptszStatusbarText, ']');
 			pTmp += 2;
 			TCHAR tszTemp[30];
-			if (si->ptszStatusbarText[0] == '[' && pTmp > si->ptszStatusbarText && ((pTmp - si->ptszStatusbarText) < (size_t)30)) {
-				mir_sntprintf(tszTemp, pTmp - si->ptszStatusbarText, _T("%s"), si->ptszStatusbarText);
+			if (si->ptszStatusbarText[0] == '[' && pTmp > si->ptszStatusbarText && ((pTmp - si->ptszStatusbarText) < SIZEOF(tszTemp))) {
+				memcpy(tszTemp, si->ptszStatusbarText, ((pTmp - si->ptszStatusbarText) * sizeof(TCHAR)));
+				tszTemp[(pTmp - si->ptszStatusbarText)] = 0;
 				CSkin::RenderText(hdc, m_dat->hThemeIP, tszTemp, &rcItem, DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX | DT_VCENTER,
 								  CSkin::m_glowSize, m_ipConfig.clrs[IPFONTID_STATUS]);
 			}

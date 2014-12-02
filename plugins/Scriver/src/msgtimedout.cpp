@@ -52,7 +52,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (ewd->szName)
 					mir_sntprintf(szText, SIZEOF(szText), _T("%s - %s"), TranslateT("Send Error"), ewd->szName);
 				else
-					mir_sntprintf(szText, SIZEOF(szText), _T("%s"), TranslateT("Send Error"));
+					_tcsncpy_s(szText, TranslateT("Send Error"), _TRUNCATE);
 
 				SetWindowText(hwndDlg, szText);
 				GetWindowRect(hwndDlg, &rc);

@@ -48,38 +48,52 @@ static int MY_pathIsAbsolute(const TCHAR *path)
 
 size_t MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut)
 {
-	if ( !pSrc || !mir_tstrlen(pSrc) || mir_tstrlen(pSrc) > MAX_PATH)
-		return 0;
+	size_t dwSrcLen, dwProfilePathLen;
 
-	if ( !MY_pathIsAbsolute(pSrc)) {
-		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-		return mir_tstrlen(pOut);
-	}
+	if (!pSrc || !pOut)
+		return 0;
+	dwSrcLen = mir_tstrlen(pSrc);
+	if (!dwSrcLen || dwSrcLen > (MAX_PATH - 1))
+		return 0;
+	if (!MY_pathIsAbsolute(pSrc))
+		goto path_not_abs;
 
 	TCHAR szTmp[MAX_PATH];
-	mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
+	memcpy(szTmp, pSrc, (dwSrcLen * sizeof(TCHAR)));
+	szTmp[dwSrcLen] = 0;
 	_tcslwr(szTmp);
-	if ( _tcsstr(szTmp, cfg::dat.tszProfilePath)) {
-		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc + mir_tstrlen(cfg::dat.tszProfilePath) - 1);
-		pOut[0]='.';
-		return mir_tstrlen(pOut);
+	if (_tcsstr(szTmp, cfg::dat.tszProfilePath)) {
+		dwProfilePathLen = mir_tstrlen(cfg::dat.tszProfilePath);
+		memcpy(pOut, (pSrc + (dwProfilePathLen - 1)), ((dwSrcLen - (dwProfilePathLen - 1)) * sizeof(TCHAR)));
+		pOut[0] = '.';
+		pOut[dwSrcLen] = 0;
+		return (dwSrcLen - (dwProfilePathLen - 1));
 	}
 
-	mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	return mir_tstrlen(pOut);
+path_not_abs:
+	memcpy(pOut, pSrc, (dwSrcLen * sizeof(TCHAR)));
+	pOut[dwSrcLen] = 0;
+	return dwSrcLen;
 }
 
 size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 {
-	if ( !pSrc || !mir_tstrlen(pSrc) || mir_tstrlen(pSrc) > MAX_PATH)
+	size_t dwSrcLen;
+
+	if (!pSrc || !pOut)
+		return 0;
+	dwSrcLen = mir_tstrlen(pSrc);
+	if (!dwSrcLen || dwSrcLen > (MAX_PATH - 1))
 		return 0;
 
-	if (MY_pathIsAbsolute(pSrc)&&pSrc[0]!='.')
-		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	else if (pSrc[0]=='.')
-		mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), cfg::dat.tszProfilePath, pSrc);
+	if (MY_pathIsAbsolute(pSrc) && pSrc[0] != '.') {
+		memcpy(pOut, pSrc, (dwSrcLen * sizeof(TCHAR)));
+		pOut[dwSrcLen] = 0;
+		return dwSrcLen;
+	if (pSrc[0] == '.')
+		return (mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), cfg::dat.tszProfilePath, pSrc));
 
-	return mir_tstrlen(pOut);
+	return 0;
 }
 
 /*

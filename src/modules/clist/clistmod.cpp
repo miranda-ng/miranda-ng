@@ -119,7 +119,7 @@ static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 	if (!(lParam & GSMDF_TCHAR)) {
 		static char szMode[64];
 		char *buf2 = mir_u2a(buf1);
-		mir_snprintf(szMode, SIZEOF(szMode), "%s", buf2);
+		strncpy_s(szMode, buf2, _TRUNCATE);
 		mir_free(buf2);
 		return (INT_PTR)szMode;
 	}

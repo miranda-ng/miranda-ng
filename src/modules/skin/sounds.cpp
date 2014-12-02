@@ -298,7 +298,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						db_free(&dbv);
 			}	}	}
 
-			mir_sntprintf(strFull, SIZEOF(strFull), _T("%s"), snd.ptszTempFile ? snd.ptszTempFile : _T(""));
+			_tcsncpy_s(strFull, (snd.ptszTempFile ? snd.ptszTempFile : _T("")), _TRUNCATE);
 			PathToAbsoluteT(strFull, strdir);
 
 			OPENFILENAME ofn;

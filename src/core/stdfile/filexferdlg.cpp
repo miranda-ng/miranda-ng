@@ -108,8 +108,8 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 					info->szFile[_tcslen(info->szFile) - 1] = '\0';
 				*pszReplace = 0;
 				mir_sntprintf(szCmdLine, SIZEOF(szCmdLine), _T("%s\"%s\"%s"), dbv.ptszVal, info->szFile, pszReplace + 2);
-			}
-			else mir_tstrncpy(szCmdLine, dbv.ptszVal, SIZEOF(szCmdLine));
+			} else
+				_tcsncpy_s(szCmdLine, dbv.ptszVal, _TRUNCATE);
 
 			PROCESS_INFORMATION pi;
 			if (CreateProcess(NULL, szCmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {

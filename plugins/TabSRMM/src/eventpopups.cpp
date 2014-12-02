@@ -678,13 +678,13 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, HANDLE hEve
 	pud.PluginData = pdata;
 
 	if (hContact)
-		mir_sntprintf(pud.lptzContactName, MAX_CONTACTNAME, _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
+		_tcsncpy_s(pud.lptzContactName, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
 	else
 		_tcsncpy_s(pud.lptzContactName, _A2T(dbe.szModule), _TRUNCATE);
 
 	TCHAR *szPreview = GetPreviewT((WORD)eventType, &dbe);
 	if (szPreview) {
-		mir_sntprintf(pud.lptzText, MAX_SECONDLINE, _T("%s"), szPreview);
+		_tcsncpy_s(pud.lptzText, szPreview, _TRUNCATE);
 		mir_free(szPreview);
 	}
 	else _tcsncpy(pud.lptzText, _T(" "), MAX_SECONDLINE);

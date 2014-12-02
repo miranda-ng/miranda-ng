@@ -266,7 +266,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (EmptyClipboard()) {
 				TCHAR msg[1024];
 				TCHAR *tszMsg = StrNormNewline((TCHAR *)ack->lParam);
-				mir_sntprintf(msg, SIZEOF(msg), _T("%s"), tszMsg);
+				_tcsncpy_s(msg, tszMsg, _TRUNCATE);
 				mir_free(tszMsg);
 				size_t len = mir_tstrlen(msg);
 				if (len) {

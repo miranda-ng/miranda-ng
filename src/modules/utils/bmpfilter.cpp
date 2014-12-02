@@ -39,7 +39,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 
 	TCHAR szFilename[MAX_PATH];
 	if (!PathToAbsoluteT(ptszFileName, szFilename))
-		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s"), ptszFileName);
+		_tcsncpy_s(szFilename, ptszFileName, _TRUNCATE);
 
 	size_t filenameLen = mir_tstrlen(szFilename);
 	if (filenameLen > 4) {

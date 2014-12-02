@@ -264,13 +264,11 @@ static void CreateTrayIcon(bool create)
 {
 	NOTIFYICONDATA nim;
 	DBVARIANT dbVar;
-	if (!db_get_ts(NULL,MOD_NAME,"ToolTipText",&dbVar))
-	{
-		mir_sntprintf(nim.szTip, 64, _T("%s"), dbVar.ptszVal);
+	if (!db_get_ts(NULL,MOD_NAME,"ToolTipText",&dbVar)) {
+		_tcsncpy_s(nim.szTip, dbVar.ptszVal, _TRUNCATE);
 		db_free(&dbVar);
-	}
-	else
-		mir_tstrcpy(nim.szTip, _T("Miranda NG"));
+	} else
+		_tcsncpy_s(nim.szTip, _T("Miranda NG"), _TRUNCATE);
 
 	nim.cbSize = sizeof(nim);
 	nim.hWnd = g_hListenWindow;

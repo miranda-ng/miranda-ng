@@ -142,8 +142,10 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 
 	GetDefaultFontSetting(lf, colour);
 
-	if (flags & FIDF_APPENDNAME) mir_snprintf(idstr, SIZEOF(idstr), "%sName", prefix);
-	else mir_snprintf(idstr, SIZEOF(idstr), "%s", prefix);
+	if (flags & FIDF_APPENDNAME)
+		mir_snprintf(idstr, SIZEOF(idstr), "%sName", prefix);
+	else
+		strncpy_s(idstr, prefix, _TRUNCATE);
 
 	if (!db_get_ts(NULL, settings_group, idstr, &dbv)) {
 		_tcscpy(lf->lfFaceName, dbv.ptszVal);

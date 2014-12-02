@@ -465,8 +465,8 @@ int Cache_GetLineText(
 			DBVARIANT dbv = {0};
 			// Try to get XStatusName
 			if (!db_get_ts(pdnce->hContact, pdnce->m_cache_cszProto, "XStatusName", &dbv)) {
-				if (dbv.pszVal != NULL && dbv.pszVal[0] != 0)
-					mir_sntprintf(text, text_size, _T("%s"), dbv.pszVal);
+				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
+					_tcsncpy_s(text, text_size, dbv.ptszVal, _TRUNCATE);
 				CopySkipUnprintableChars(text, text, text_size-1);
 				db_free(&dbv);
 			}

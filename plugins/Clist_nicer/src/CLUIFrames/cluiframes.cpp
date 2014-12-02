@@ -918,7 +918,7 @@ INT_PTR CLUIFramesGetFrameOptions(WPARAM wParam, LPARAM lParam)
 		return (INT_PTR)Frames[pos].align;
 
 	case FO_FLOATING:
-		return (int)Frames[pos].floating;
+		return (INT_PTR)Frames[pos].floating;
 
 	case FO_FLAGS:
 		INT_PTR dwFlags = 0;

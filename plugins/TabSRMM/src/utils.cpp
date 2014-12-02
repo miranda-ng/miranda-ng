@@ -487,8 +487,8 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 		*p = 0;
 		uRequired = (p - szText) + 6;
 	}
-	TCHAR *szResult = reinterpret_cast<TCHAR *>(mir_alloc(uRequired * sizeof(TCHAR)));
-	mir_sntprintf(szResult, uRequired, fEllipsis ? _T("%s...") : _T("%s"), szText);
+	TCHAR *szResult = reinterpret_cast<TCHAR *>(mir_alloc((uRequired + 1) * sizeof(TCHAR)));
+	mir_sntprintf(szResult, (uRequired + 1), fEllipsis ? _T("%s...") : _T("%s"), szText);
 
 	if (p)
 		*p = cSaved;

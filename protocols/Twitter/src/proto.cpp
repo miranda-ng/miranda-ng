@@ -223,7 +223,7 @@ int TwitterProto::OnEvent(PROTOEVENTTYPE event,WPARAM wParam,LPARAM lParam)
 
 INT_PTR TwitterProto::SvcCreateAccMgrUI(WPARAM,LPARAM lParam)
 {
-	return (int)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT),(HWND)lParam, first_run_dialog, (LPARAM)this );
+	return (INT_PTR)CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERACCOUNT),(HWND)lParam, first_run_dialog, (LPARAM)this );
 }
 
 INT_PTR TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
