@@ -71,6 +71,8 @@
 Записувати сповіщення в окрему чат-кімнату
 [Preview]
 Тест
+[Statuses]
+Статуси
 [Post Miranda statuses to Wall]
 Публікувати статуси Miranda на стіну
 [Turn off chat on Facebook when going to offline in Miranda]
@@ -95,8 +97,16 @@
 Не позначати повідомлення на сервері як прочитані
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Стікери у вигляді користувацьких смайлів (експериментально)
+[Multi user chats]
+Чати
+[Enable multi user chats support]
+Увімкнути чати
 [Do not open chat windows on creation]
 Не відкривати вікно чату при створенні
+[History synchronization]
+Синхронізація історії
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+Завантажувати історію за останню добу при підключенні (експериментально)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Показувати історію при відкритті вікна (експериментально)
 [Number of messages to load:]

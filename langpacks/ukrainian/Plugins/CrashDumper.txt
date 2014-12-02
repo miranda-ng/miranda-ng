@@ -67,6 +67,8 @@
 З бібліотеками
 [Upload]
 Завантажити
+[Copy link to clipboard]
+Копіювати посилання в буфер обміну
 [Open crash report directory]
 Папка збереження звітів
 [Open online Version Info]
@@ -86,7 +88,7 @@ Miranda NG була завершена аварійно. Звіт збереже
 [Version Info upload successful.]
 Інформацію про версії успішно завантажено.
 [Cannot upload Version Info. Incorrect username or password]
-Неможливо завантажити інформацію про версії. Неправильне ім'я користувача чи пароль.
+Неможливо завантажити інформацію про версії. Неправильне ім'я користувача або пароль.
 [Cannot upload Version Info. User is banned]
 Неможливо завантажити інформацію про версії. Користувач забанений.
 [Cannot upload Version Info. Daily upload limit exceeded]
