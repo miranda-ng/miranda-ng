@@ -536,16 +536,18 @@ INT_PTR FacebookProto::OnMind(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::OnDbEventRead(WPARAM contactID, LPARAM dbei)
+int FacebookProto::OnDbEventRead(WPARAM wParam, LPARAM lParam)
 {
-	if (isOffline() || !IsMyContact(contactID, false)) // ignore chats
+	MCONTACT hContact = (MCONTACT)wParam;
+
+	if (isOffline() || !IsMyContact(hContact, false)) // ignore chats
 		return 0;
 
-	if (facy.ignore_read.find(contactID) != facy.ignore_read.end())
+	if (facy.ignore_read.find(hContact) != facy.ignore_read.end())
 		return 0; // it's there, so we ignore this
 
 	std::set<MCONTACT> *hContacts = new std::set<MCONTACT>();
-	hContacts->insert(contactID);
+	hContacts->insert(hContact);
 
 	ForkThread(&FacebookProto::ReadMessageWorker, (void*)hContacts);
 
