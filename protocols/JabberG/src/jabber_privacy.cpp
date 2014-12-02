@@ -945,7 +945,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		for (i=0; i < SIZEOF(drawItems); i++) {
 			SIZE sz = {0};
 			drawItems[i].text = TranslateTS(drawItems[i].textEng);
-			GetTextExtentPoint32(lpdis->hDC, drawItems[i].text, mir_tstrlen(drawItems[i].text), &sz);
+			GetTextExtentPoint32(lpdis->hDC, drawItems[i].text, (int)mir_tstrlen(drawItems[i].text), &sz);
 			totalWidth += sz.cx + 18 + 5; // 18 pixels for icon, 5 pixel spacing
 		}
 
@@ -1052,7 +1052,7 @@ void CJabberDlgPrivacyLists::DrawNextRulePart(HDC hdc, COLORREF color, const TCH
 	DrawText(hdc, text, -1, rc, DT_LEFT|DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_WORD_ELLIPSIS);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, text, mir_tstrlen(text), &sz);
+	GetTextExtentPoint32(hdc, text, (int)mir_tstrlen(text), &sz);
 	rc->left += sz.cx;
 }
 

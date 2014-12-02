@@ -374,22 +374,22 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 			SIZE textSize;
 			if (p.bShowProtoName) {
-				GetTextExtentPoint32(hDC, p.tszProtoHumanName, mir_tstrlen(p.tszProtoHumanName), &textSize);
+				GetTextExtentPoint32(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
 			if (p.bShowProtoEmails && p.szProtoEMailCount) {
-				GetTextExtentPoint32A(hDC, p.szProtoEMailCount, mir_strlen(p.szProtoEMailCount), &textSize);
+				GetTextExtentPoint32A(hDC, p.szProtoEMailCount, (int)mir_strlen(p.szProtoEMailCount), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
 			if (p.bShowStatusName) {
-				GetTextExtentPoint32(hDC, p.tszProtoStatusText, mir_tstrlen(p.tszProtoStatusText), &textSize);
+				GetTextExtentPoint32(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
 			if ((p.xStatusMode & 8) && p.tszProtoXStatus) {
-				GetTextExtentPoint32(hDC, p.tszProtoXStatus, mir_tstrlen(p.tszProtoXStatus), &textSize);
+				GetTextExtentPoint32(hDC, p.tszProtoXStatus, (int)mir_tstrlen(p.tszProtoXStatus), &textSize);
 				w += textSize.cx + 3 + spaceWidth;
 			}
 
@@ -530,10 +530,10 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoHumanName, mir_tstrlen(p.tszProtoHumanName), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &rt, 0);
 
 				if ((p.bShowProtoEmails && p.szProtoEMailCount != NULL) || p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					GetTextExtentPoint32(hDC, p.tszProtoHumanName, mir_tstrlen(p.tszProtoHumanName), &textSize);
+					GetTextExtentPoint32(hDC, p.tszProtoHumanName, (int)mir_tstrlen(p.tszProtoHumanName), &textSize);
 					x += textSize.cx + 3;
 				}
 			}
@@ -543,9 +543,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawTextA(hDC, p.szProtoEMailCount, mir_strlen(p.szProtoEMailCount), &rt, 0);
+				ske_DrawTextA(hDC, p.szProtoEMailCount, (int)mir_strlen(p.szProtoEMailCount), &rt, 0);
 				if (p.bShowStatusName || ((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					GetTextExtentPoint32A(hDC, p.szProtoEMailCount, mir_strlen(p.szProtoEMailCount), &textSize);
+					GetTextExtentPoint32A(hDC, p.szProtoEMailCount, (int)mir_strlen(p.szProtoEMailCount), &textSize);
 					x += textSize.cx + 3;
 				}
 			}
@@ -555,9 +555,9 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoStatusText, mir_tstrlen(p.tszProtoStatusText), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &rt, 0);
 				if (((p.xStatusMode & 8) && p.tszProtoXStatus)) {
-					GetTextExtentPoint32(hDC, p.tszProtoStatusText, mir_tstrlen(p.tszProtoStatusText), &textSize);
+					GetTextExtentPoint32(hDC, p.tszProtoStatusText, (int)mir_tstrlen(p.tszProtoStatusText), &textSize);
 					x += textSize.cx + 3;
 				}
 			}
@@ -566,7 +566,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				RECT rt = r;
 				rt.left = x + (spaceWidth >> 1);
 				rt.top = textY;
-				ske_DrawText(hDC, p.tszProtoXStatus, mir_tstrlen(p.tszProtoXStatus), &rt, 0);
+				ske_DrawText(hDC, p.tszProtoXStatus, (int)mir_tstrlen(p.tszProtoXStatus), &rt, 0);
 			}
 
 			p.protoRect = r;
@@ -828,7 +828,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						char *pos = strstri(g_CluiData.protoFilter, p.szAccountName);
 						if (pos) {
 							// remove filter
-							int len = strlen(protoF);
+							size_t len = strlen(protoF);
 							memmove(pos, pos + len, strlen(pos + len) + 1);
 
 							if (strlen(g_CluiData.protoFilter) == 0)

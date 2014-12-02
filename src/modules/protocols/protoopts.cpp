@@ -626,13 +626,10 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				lps->rcItem.top += sz.cy + 2;
 
 				if (acc->ppro && Proto_IsProtocolLoaded(acc->szProtoName)) {
-					char *szIdName;
-					TCHAR *tszIdName;
+					char *szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
+					TCHAR *tszIdName = szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID"));
+
 					CONTACTINFO ci = { 0 };
-
-					szIdName = (char *)acc->ppro->GetCaps(PFLAG_UNIQUEIDTEXT, 0);
-					tszIdName = szIdName ? mir_a2t(szIdName) : mir_tstrdup(TranslateT("Account ID"));
-
 					ci.cbSize = sizeof(ci);
 					ci.hContact = NULL;
 					ci.szProto = acc->szModuleName;

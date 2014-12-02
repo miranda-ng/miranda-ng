@@ -1773,14 +1773,14 @@ buttons_done:
 
 					if (mir_tstrlen(szName) < sizeof(szName) - 1)
 						mir_tstrcat(szName, _T(" "));
-					GetTextExtentPoint32(dis->hDC, szName, mir_tstrlen(szName), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, mir_tstrlen(szName));
+					GetTextExtentPoint32(dis->hDC, szName, (int)mir_tstrlen(szName), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szName, (int)mir_tstrlen(szName));
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
 					TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
-					GetTextExtentPoint32(dis->hDC, szStatus, mir_tstrlen(szStatus), &textSize);
-					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, mir_tstrlen(szStatus));
+					GetTextExtentPoint32(dis->hDC, szStatus, (int)mir_tstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, (int)mir_tstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {

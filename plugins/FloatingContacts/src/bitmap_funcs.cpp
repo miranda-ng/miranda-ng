@@ -789,7 +789,7 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 //slightly modified and integrated to MyBitmap class
 void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 {
-	SIZE sz; GetTextExtentPoint32(this->getDC(), str, mir_tstrlen(str), &sz);
+	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
 	sz.cx += (blur+2)*2; sz.cy += (blur+2)*2;
 	x -= blur+2; y -= blur+2;
 

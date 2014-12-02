@@ -328,7 +328,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				ctl->sLabel.cx = ctl->sLabel.cy = 0;
 			}
 			else {
-				GetTextExtentPoint32(hdcMem, ctl->szText, mir_tstrlen(ctl->szText), &ctl->sLabel);
+				GetTextExtentPoint32(hdcMem, ctl->szText, (int)mir_tstrlen(ctl->szText), &ctl->sLabel);
 
 				if (g_cxsmIcon + ctl->sLabel.cx + 8 > rcClient.right - rcClient.left)
 					ctl->sLabel.cx = (rcClient.right - rcClient.left) - g_cxsmIcon - 8;

@@ -144,12 +144,12 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 				szName[ SIZEOF(szName)-1 ] = 0;
 				if (( showOpts & 4 ) && mir_tstrlen(szName) < sizeof(szName)-1 )
 					mir_tstrcat( szName, _T(" "));
-				GetTextExtentPoint32( hdc, szName, mir_tstrlen(szName), &textSize );
+				GetTextExtentPoint32( hdc, szName, (int)mir_tstrlen(szName), &textSize );
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
 				TCHAR* modeDescr = pcli->pfnGetStatusModeDescription( CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0 ), 0 );
-				GetTextExtentPoint32(hdc, modeDescr, mir_tstrlen(modeDescr), &textSize );
+				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize );
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			partWidths[partCount]=(partCount?partWidths[partCount-1]:cfg::dat.bCLeft)+ x + 2;

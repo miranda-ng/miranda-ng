@@ -237,7 +237,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; h++) {
 						if (*h == '\n' || *h == '\0') {
-							GetTextExtentPoint32(hDC, rs, h - rs, &ts);
+							GetTextExtentPoint32(hDC, rs, int(h - rs), &ts);
 							if (ts.cx > txtWidth)
 								txtWidth = ts.cx;
 
