@@ -196,7 +196,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAGNUM_4:
-		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
+		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:
@@ -204,7 +204,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)"SteamID";
 	case PFLAG_MAXLENOFMESSAGE:
-		return 180;
+		return 200000; // this is guessed limit, in reality it is probably bigger
 	default:
 		return 0;
 	}
@@ -291,6 +291,9 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
+	if (flags & PREF_UNICODE)
+		msg = mir_utf8encode(msg); // FIXME: Token from FacebookRM. Is it needed? Usually we get PREF_UTF8 flag instead. And does it cause memory leak?
+
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
@@ -301,7 +304,7 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	ptrA steamId(getStringA(hContact, "SteamID"));
 
 	PushRequest(
-		new SteamWebApi::SendMessageRequest(token, umqid, steamId, ptrA(mir_utf8encode(msg))),
+		new SteamWebApi::SendMessageRequest(token, umqid, steamId, msg),
 		&CSteamProto::OnMessageSent,
 		param);
 
