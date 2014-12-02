@@ -323,7 +323,6 @@ TCHAR* MakeTimeStamp(TCHAR *pszStamp, time_t time)
 
 char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
-	LOGINFO *lin = streamData->lin;
 	MODULEINFO *mi = ci.MM_FindModule(streamData->si->pszModule);
 
 	// guesstimate amount of memory for the RTF
@@ -338,83 +337,87 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 		Log_Append(&buffer, &bufferEnd, &bufferAlloced, header);
 
 	// ### RTF BODY (one iteration per event that should be streamed in)
-	while (lin) {
+	for (LOGINFO *lin = streamData->lin; lin; lin = lin->prev) {
 		// filter
-		if ((streamData->si->iType != GCW_CHATROOM && streamData->si->iType != GCW_PRIVMESS) || !streamData->si->bFilterEnabled || (streamData->si->iLogFilterFlags&lin->iType) != 0) {
-			// create new line, and set font and color
-			if (lin->next != NULL)
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par ");
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0));
+		if (streamData->si->iType == GCW_CHATROOM || streamData->si->iType == GCW_PRIVMESS)
+			if (streamData->si->bFilterEnabled && (streamData->si->iLogFilterFlags & lin->iType) == 0)
+				continue;
 
-			// Insert icon
-			if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
-				int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
-				while (bufferAlloced - bufferEnd < logIconBmpSize[0])
-					bufferAlloced += 4096;
-				buffer = (char *)mir_realloc(buffer, bufferAlloced);
-				CopyMemory(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
-				bufferEnd += logIconBmpSize[iIndex];
-			}
+		// create new line, and set font and color
+		if (lin->next != NULL)
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par ");
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0));
 
-			if (g_Settings->bTimeStampEventColour) {
-				LOGFONT &lf = ci.aFonts[0].lf;
-
-				// colored timestamps
-				static char szStyle[256];
-				if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-					int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
-					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
-					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
-				}
-				else {
-					int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
-					mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
-					Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
-				}
-			}
-			else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0));
-
-			if (g_Settings->dwIconFlags)
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");
-
-			//insert timestamp
-			if (g_Settings->bShowTime) {
-				TCHAR szTimeStamp[30], szOldTimeStamp[30];
-
-				mir_tstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
-				mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
-				if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
-					streamData->si->LastTime = lin->time;
-					Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
-				}
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");
-			}
-
-			// Insert the nick
-			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
-				TCHAR pszTemp[300], *p1;
-
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
-				mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
-				p1 = _tcsstr(pszTemp, _T("%n"));
-				if (p1)
-					p1[1] = 's';
-
-				Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, pszTemp, lin->ptszNick);
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");
-			}
-
-			// Insert the message
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
-			streamData->lin = lin;
-			AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
+		// Insert icon
+		if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
+			int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
+			while (bufferAlloced - bufferEnd < logIconBmpSize[0])
+				bufferAlloced += 4096;
+			buffer = (char *)mir_realloc(buffer, bufferAlloced);
+			CopyMemory(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
+			bufferEnd += logIconBmpSize[iIndex];
 		}
-		lin = lin->prev;
+
+		if (g_Settings->bTimeStampEventColour) {
+			LOGFONT &lf = ci.aFonts[0].lf;
+
+			// colored timestamps
+			static char szStyle[256];
+			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
+				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
+				mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
+				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
+			}
+			else {
+				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
+				mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
+				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
+			}
+		}
+		else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0));
+
+		if (g_Settings->dwIconFlags)
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
+
+		//insert timestamp
+		if (g_Settings->bShowTime) {
+			TCHAR szTimeStamp[30], szOldTimeStamp[30];
+
+			mir_tstrncpy(szTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, lin->time), 30);
+			mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
+			if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
+				streamData->si->LastTime = lin->time;
+				Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
+			}
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
+		}
+
+		// Insert the nick
+		if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
+			TCHAR pszTemp[300], *p1;
+
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
+			mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
+			p1 = _tcsstr(pszTemp, _T("%n"));
+			if (p1)
+				p1[1] = 's';
+
+			Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, pszTemp, lin->ptszNick);
+			Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");
+		}
+
+		// Insert the message
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
+		streamData->lin = lin;
+		AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
 	}
 
 	// ### RTF END
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}");
+	if (streamData->bRedraw)
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par}");
+	else
+		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}");
 	return buffer;
 }
 

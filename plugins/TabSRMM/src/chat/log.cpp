@@ -727,7 +727,7 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	buffer[0] = '\0';
 
 
-	//get the number of pixels per logical inch
+	// get the number of pixels per logical inch
 	if (pci->logPixelSY == 0) {
 		HDC hdc = GetDC(NULL);
 		pci->logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -935,7 +935,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
-	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA *) dwCookie;
+	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
 
 	if (lstrdat) {
 		// create the RTF
