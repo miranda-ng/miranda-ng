@@ -331,7 +331,7 @@ LPTSTR CJabberProto::GetResourceFeatures(LPCTSTR jid)
 
 	mir_cslockfull lck(m_csLists);
 	int i;
-	int iLen = 1; // 1 for extra zero terminator at the end of the string
+	size_t iLen = 1; // 1 for extra zero terminator at the end of the string
 	// calculate total necessary string length
 	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		if (jcb & g_JabberFeatCapPairs[i].jcbCap)

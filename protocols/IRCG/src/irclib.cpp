@@ -279,7 +279,7 @@ int CIrcProto::NLSend(const unsigned char* buf, int cbBuf)
 	if (!con || !buf)
 		return 0;
 	if (m_scriptingEnabled && cbBuf == 0)
-		cbBuf = mir_strlen((const char *)buf);
+		cbBuf = (int)mir_strlen((const char *)buf);
 	return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
 }
 

@@ -62,10 +62,10 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				free(tempbuffer);
 
 				Filter(buff);
-				CharUpperBuffA(buff, mir_strlen(buff));
+				CharUpperBuffA(buff, (int)strlen(buff));
 
 				GetDlgItemTextA(hwndDlg, IDC_FINDWHAT, NewSearchstr, SIZEOF(NewSearchstr));
-				CharUpperBuffA(NewSearchstr, mir_strlen(NewSearchstr));
+				CharUpperBuffA(NewSearchstr, (int)strlen(NewSearchstr));
 
 				OLDstartposition = startposition;
 
@@ -516,15 +516,15 @@ void ValidatePosition(HWND hwndDlg)
 
 	MONITORINFO monitorInfo;
 	monitorInfo.cbSize = sizeof(MONITORINFO);
-	if ( GetMonitorInfo(hMonitor, &monitorInfo))
+	if (GetMonitorInfo(hMonitor, &monitorInfo))
 		CopyMemory(&r, &monitorInfo.rcMonitor, sizeof(RECT));
 
 	// /window going off right of screen*
-	if ((Xposition + WindowWidth) >= r.right)
+	if (Xposition + WindowWidth >= r.right)
 		Xposition = r.right - WindowWidth;
 
 	// window going off bottom of screen
-	if ((Yposition + (WindowHeight)) >= r.bottom)
+	if (Yposition + WindowHeight >= r.bottom)
 		Yposition = r.bottom - WindowHeight;
 
 	// window going off left of screen

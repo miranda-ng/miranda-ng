@@ -401,29 +401,24 @@ void CContactList::DeleteGroup(CContactListGroup *pGroup)
 //************************************************************************
 void CContactList::DrawEntry(CLCDGfx *pGfx,CContactListEntry *pEntry,bool bSelected)
 {
-	if(pEntry == NULL) {
+	if(pEntry == NULL)
 		return;
-	}
 
 	int iOffset = 0;
 	tstring strText = _T("");
-	if(pEntry->iMessages > 0)
-	{
+	if(pEntry->iMessages > 0) {
 		strText = _T("[");
 		strText += pEntry->strMessages;
 		strText += _T("]");
 	}
 	strText += pEntry->strName;
 
-	if(CConfig::GetBoolSetting(CLIST_SHOWPROTO) && !CConfig::GetBoolSetting(CLIST_COLUMNS))
-	{
+	if(CConfig::GetBoolSetting(CLIST_SHOWPROTO) && !CConfig::GetBoolSetting(CLIST_COLUMNS)) {
 		int w = pGfx->GetClipWidth();
 		pGfx->DrawText(w-w*0.3,0,w*0.3,pEntry->strProto);
 		pGfx->DrawText(8,0,w*0.7-8,strText);
 	}
-	else
-		pGfx->DrawText(8,0,pGfx->GetClipWidth()-8,strText);
-
+	else pGfx->DrawText(8,0,pGfx->GetClipWidth()-8,strText);
 	
 	pGfx->DrawBitmap(1,ceil((pGfx->GetClipHeight()-5)/2.0f),5,5,CAppletManager::GetInstance()->GetStatusBitmap(pEntry->iStatus));
 

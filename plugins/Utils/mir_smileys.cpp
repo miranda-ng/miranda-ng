@@ -213,54 +213,42 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 {
 	SIZE text_size;
 
-	if (szText == NULL)
-	{
+	if (szText == NULL) {
 		text_size.cy = 0;
 		text_size.cx = 0;
 	}
-	else
-	{
+	else {
 		RECT text_rc = {0, 0, 0x7FFFFFFF, 0x7FFFFFFF};
 
 		// Always need cy...
-		DrawText(hdcMem,szText,mir_tstrlen(szText), &text_rc, DT_CALCRECT | uTextFormat);
+		DrawText(hdcMem, szText, -1, &text_rc, DT_CALCRECT | uTextFormat);
 		text_size.cy = text_rc.bottom - text_rc.top;
 
 		if (plText == NULL)
-		{
 			text_size.cx = text_rc.right - text_rc.left;
-		}
-		else
-		{
+		else {
 			if ( !(uTextFormat & DT_RESIZE_SMILEYS))
 				text_size.cy = max(text_size.cy, max_smiley_height);
 
 			text_size.cx = 0;
 
 			// See each item of list
-			for (int i = 0; i < plText->realCount; i++)
-			{
+			for (int i = 0; i < plText->realCount; i++) {
 				TextPiece *piece = (TextPiece *) plText->items[i];
 
-				if (piece->type == TEXT_PIECE_TYPE_TEXT)
-				{
+				if (piece->type == TEXT_PIECE_TYPE_TEXT) {
 					RECT text_rc = {0, 0, 0x7FFFFFFF, 0x7FFFFFFF};
 
 					DrawText(hdcMem, &szText[piece->start_pos], piece->len, &text_rc, DT_CALCRECT | uTextFormat);
 					text_size.cx = text_size.cx + text_rc.right - text_rc.left;
 				}
-				else
-				{
+				else {
 					double factor;
 
 					if ((uTextFormat & DT_RESIZE_SMILEYS) && piece->smiley_height > text_size.cy)
-					{
 						factor = text_size.cy / (double) piece->smiley_height;
-					}
 					else
-					{
 						factor = 1;
-					}
 
 					text_size.cx = text_size.cx + (LONG)(factor * piece->smiley_width);
 				}

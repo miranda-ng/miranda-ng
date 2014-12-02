@@ -501,7 +501,7 @@ RECT GetRect(HDC hdc, RECT rc, const TCHAR *text, const TCHAR *def_text, Protoco
 	if (smileys)
 		DRAW_TEXT(hdc, tmp2, (int)_tcslen(tmp2), &r_tmp, uFormat | DT_CALCRECT, proto->name);
 	else
-		DrawText(hdc, tmp2, (int)_tcslen(tmp2), &r_tmp, uFormat | DT_CALCRECT);
+		DrawText(hdc, tmp2, -1, &r_tmp, uFormat | DT_CALCRECT);
 
 	free(tmp2);
 
@@ -807,7 +807,7 @@ void CalcRectangles(HWND hwnd)
 
 		// Text size
 		RECT r_tmp = r;
-		DrawText(hdc, proto->status_name, (int)_tcslen(proto->status_name), &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+		DrawText(hdc, proto->status_name, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 		SIZE s;
 		s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -901,7 +901,7 @@ void CalcRectangles(HWND hwnd)
 
 			// Text size
 			RECT r_tmp = r;
-			DrawText(hdc, proto->listening_to, (int)_tcslen(proto->listening_to), &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+			DrawText(hdc, proto->listening_to, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 			SIZE s;
 			s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -1221,7 +1221,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_PROTO]);
 		SetTextColor(hdc, font_colour[FONT_PROTO]);
 
-		DrawText(hdc, proto->description, (int)_tcslen(proto->description), &rr, uFormat);
+		DrawText(hdc, proto->description, -1, &rr, uFormat);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, NULL);
@@ -1336,7 +1336,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 			SetTextColor(hdc, font_colour[FONT_LISTENING_TO]);
 
-			DrawText(hdc, proto->listening_to, (int)_tcslen(proto->listening_to), &rc, uFormat);
+			DrawText(hdc, proto->listening_to, -1, &rc, uFormat);
 
 			SelectClipRgn(hdc, NULL);
 			DeleteObject(rgn);

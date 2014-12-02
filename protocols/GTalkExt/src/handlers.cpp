@@ -45,7 +45,7 @@ GoogleTalkAcc* isGoogle(LPARAM lParam)
 void FormatMessageUrl(LPCTSTR format, LPTSTR buf, LPCTSTR mailbox, LPCTSTR tid)
 {
 	ULARGE_INTEGER iTid; iTid.QuadPart = _tstoi64(tid);
-	int l = mir_tstrlen(buf);
+	size_t l = mir_tstrlen(buf);
 	mir_sntprintf(buf, l, format, mailbox, iTid.HighPart, iTid.LowPart);
 	assert(l >= mir_tstrlen(buf));
 }

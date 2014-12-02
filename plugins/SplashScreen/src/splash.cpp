@@ -273,10 +273,8 @@ int SplashThread(void *arg)
 			}
 
 			SetTextColor(SplashBmp->getDC(), (0xFFFFFFFFUL-SplashBmp->getRow(y)[x])&0x00FFFFFFUL);
-			//SplashBmp->DrawText(verString,SplashBmp->getWidth()/2-(v_sz.cx/2),SplashBmp->getHeight()-30);	 
 			SetBkMode(SplashBmp->getDC(), TRANSPARENT);
 			SplashBmp->DrawText(verString, x, y);
-			//free (ptr_verString);
 	}
 
 	SetWindowLongPtr(hwndSplash, GWL_EXSTYLE, GetWindowLongPtr(hwndSplash, GWL_EXSTYLE) | WS_EX_LAYERED);

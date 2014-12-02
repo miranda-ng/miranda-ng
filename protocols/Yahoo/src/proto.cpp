@@ -513,7 +513,6 @@ int __cdecl CYahooProto::SetStatus(int iNewStatus)
 
 void __cdecl CYahooProto::get_status_thread(void *param)
 {
-	int l;
 	DBVARIANT dbv;
 	char *gm = NULL, *sm = NULL, *fm;
 	MCONTACT hContact = (MCONTACT)param;
@@ -538,7 +537,7 @@ void __cdecl CYahooProto::get_status_thread(void *param)
 		if (sm) sm = strdup(sm); /* we need this to go global FREE later */
 	}
 
-	l = 0;
+	size_t l = 0;
 	if (gm)
 		l += mir_strlen(gm) + 3;
 

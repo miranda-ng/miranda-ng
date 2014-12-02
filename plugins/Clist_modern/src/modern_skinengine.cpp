@@ -2798,8 +2798,10 @@ BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT form
 	DWORD form = 0, color = 0;
 	RECT r = *lpRect;
 	OffsetRect(&r, 1, 1);
-	if (format & DT_RTLREADING) SetTextAlign(hdc, TA_RTLREADING);
-	if (format & DT_CALCRECT) return DrawText(hdc, lpString, nCount, lpRect, format);
+	if (format & DT_RTLREADING)
+		SetTextAlign(hdc, TA_RTLREADING);
+	if (format & DT_CALCRECT)
+		return DrawText(hdc, lpString, nCount, lpRect, format);
 	if (format & DT_FORCENATIVERENDER || g_CluiData.fDisableSkinEngine)
 		return DrawText(hdc, lpString, nCount, lpRect, format&~DT_FORCENATIVERENDER);
 

@@ -2572,7 +2572,7 @@ LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
 			mir_snprintf(buf, SIZEOF(buf), "Main,ID=StatusMenu,Selected=%s,Hot=%s", (dis->itemState&ODS_SELECTED) ? "True" : "False", (dis->itemState&ODS_HOTLIGHT) ? "True" : "False");
 			SkinDrawGlyph(dis->hDC, &dis->rcItem, &dis->rcItem, buf);
 			SetTextColor(dis->hDC, (dis->itemState&ODS_SELECTED/*|dis->itemState&ODS_HOTLIGHT*/) ? dat->MenuTextHiColor : dat->MenuTextColor);
-			DrawText(dis->hDC, TranslateT("Status"), mir_tstrlen(TranslateT("Status")), &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			DrawText(dis->hDC, TranslateT("Status"), -1, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			nStatusMenuState = dis->itemState;
 		}
 		else {

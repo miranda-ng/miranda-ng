@@ -158,7 +158,7 @@ static BOOL sttDrawItem_Group(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	TCHAR *name = sttGetGroupName(-INT_PTR(lpdis->itemData));
 	if (!options->bSysColors)
 		SelectObject(lpdis->hDC, g_Options.hfntName);
-	DrawText(lpdis->hDC, name, mir_tstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_CENTER);
+	DrawText(lpdis->hDC, name, -1, &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_CENTER);
 
 	SelectObject(lpdis->hDC, hfntSave);
 
@@ -306,7 +306,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 		if (!options->bSysColors)
 			SelectObject(hdcTemp, g_Options.hfntName);
 		SetTextColor(hdcTemp, clLine1);
-		DrawText(hdcTemp, name, mir_tstrlen(name), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
+		DrawText(hdcTemp, name, -1, &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		SIZE sz;
 		GetTextExtentPoint32(hdcTemp, name, mir_tstrlen(name), &sz);
@@ -324,7 +324,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 
 		if (!options->bSysColors) SelectObject(hdcTemp, g_Options.hfntSecond);
 		SetTextColor(hdcTemp, clLine2);
-		DrawText(hdcTemp, title, mir_tstrlen(title), &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
+		DrawText(hdcTemp, title, -1, &lpdis->rcItem, DT_NOPREFIX | DT_SINGLELINE | DT_TOP | DT_LEFT);
 
 		if (bFree) mir_free(title);
 	}

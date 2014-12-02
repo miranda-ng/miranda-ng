@@ -370,16 +370,9 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 
 	if (!item.text.empty()) {
 		RECT rText = rItem;
-
 		rText.top += (rItem.bottom - rItem.top + m_IconSize.cy - textHeight) / 2;
 		rItem.bottom -= textHeight;
-
-		DrawText(
-			hDC,
-			item.text.c_str(),
-			item.text.length(),
-			&rText,
-			DT_TOP | DT_CENTER | DT_END_ELLIPSIS | DT_WORD_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
+		DrawText(hDC, item.text.c_str(), -1, &rText, DT_TOP | DT_CENTER | DT_END_ELLIPSIS | DT_WORD_ELLIPSIS | DT_NOPREFIX | DT_SINGLELINE);
 	}
 
 	if (item.nIcon != -1) {

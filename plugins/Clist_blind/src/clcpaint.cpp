@@ -434,7 +434,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				rc.top = y + ((dat->rowHeight - fontHeight) >> 1);
 				rc.right = (clRect.right - clRect.left);
 				rc.bottom = rc.top;
-				DrawText(hdcMem, szText, mir_tstrlen(szText), &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
+				DrawText(hdcMem, szText, -1, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 			}
 			if (selected) {
 				if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {

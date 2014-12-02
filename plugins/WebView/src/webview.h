@@ -135,7 +135,8 @@ void ReadFromFile(void *hContact);
  * some globals for window settings
  */
 
-extern DWORD Xposition, Yposition, BackgoundClr, TextClr, WindowHeight, WindowWidth;
+extern int Xposition, Yposition, WindowHeight, WindowWidth;
+extern COLORREF BackgoundClr, TextClr;
 extern UINT_PTR timerId, Countdown;
 extern LOGFONT lf;
 extern HFONT h_font;

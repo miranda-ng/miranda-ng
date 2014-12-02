@@ -1059,15 +1059,13 @@ static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPr
 	rect.right = lpDrawItem->rcItem.right;
 	rect.bottom = lpDrawItem->rcItem.bottom;
 
-	if (lpDrawItem->itemState & ODS_SELECTED)
-	{
+	if (lpDrawItem->itemState & ODS_SELECTED) {
 		SetDCBrushColor(lpDrawItem->hDC, GetSysColor(COLOR_MENUHILIGHT));
 		FillRect(lpDrawItem->hDC, &lpDrawItem->rcItem, (HBRUSH)GetStockObject(DC_BRUSH));
 
 		SetTextColor(lpDrawItem->hDC, GetSysColor(COLOR_HIGHLIGHTTEXT));
 	}
-	else
-	{
+	else {
 		SetDCBrushColor(lpDrawItem->hDC, GetSysColor(COLOR_MENU));
 		FillRect(lpDrawItem->hDC, &lpDrawItem->rcItem, (HBRUSH)GetStockObject(DC_BRUSH));
 
@@ -1075,21 +1073,19 @@ static void PaintColorPresetMenuItem(LPDRAWITEMSTRUCT lpDrawItem, struct ColorPr
 	}
 
 	SetBkMode(lpDrawItem->hDC, TRANSPARENT);
-	DrawText(lpDrawItem->hDC,clrPresets->szName,-1,&rect,DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
+	DrawText(lpDrawItem->hDC, clrPresets->szName, -1, &rect, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
 
-	{
-		int h = lpDrawItem->rcItem.bottom - lpDrawItem->rcItem.top;
-		rect.left = lpDrawItem->rcItem.left + 5;
-		rect.top = lpDrawItem->rcItem.top + ((h-14)>>1);
-		rect.right = rect.left + 40;
-		rect.bottom = rect.top + 14;
+	int h = lpDrawItem->rcItem.bottom - lpDrawItem->rcItem.top;
+	rect.left = lpDrawItem->rcItem.left + 5;
+	rect.top = lpDrawItem->rcItem.top + ((h-14)>>1);
+	rect.right = rect.left + 40;
+	rect.bottom = rect.top + 14;
 
-		FrameRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
-		rect.left++; rect.top++;
-		rect.right--; rect.bottom--;
-		SetDCBrushColor(lpDrawItem->hDC, clrPresets->color);
-		FillRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(DC_BRUSH));
-	}
+	FrameRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
+	rect.left++; rect.top++;
+	rect.right--; rect.bottom--;
+	SetDCBrushColor(lpDrawItem->hDC, clrPresets->color);
+	FillRect(lpDrawItem->hDC, &rect, (HBRUSH)GetStockObject(DC_BRUSH));
 }
 
 static BOOL GetClipboardText_Title(char *pOut, int size)
@@ -1285,8 +1281,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 
 			// paint title bar contents (time stamp and buttons)
 
-			if (SN && SN->title)
-			{
+			if (SN && SN->title) {
 				RECT R;
 				SelectObject(hdc,hCaptionFont);
 				R.top = 3+1; R.bottom = 3+11; R.left = 3+2; R.right = rect.right-3-1;
@@ -1295,11 +1290,10 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 
 				SetTextColor(hdc,SN->FgColor ? (SN->FgColor&0xffffff) : CaptionFontColor);
 				SetBkMode(hdc, TRANSPARENT);
-				DrawText(hdc,SN->title,-1,&R,DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
+				DrawText(hdc, SN->title, -1, &R, DT_LEFT | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
 			}
 
-			if (g_ShowNoteButtons)
-			{
+			if (g_ShowNoteButtons) {
 				HICON hcIcon;
 				if (SN->OnTop)
 					hcIcon = Skin_GetIconByHandle(iconList[4].hIcolib);
@@ -1318,13 +1312,12 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 			}
 
 			if (wParam && wParam != 1)
-			{
 				SelectClipRgn(hdc, NULL);
-			}
 
 			ReleaseDC(hdlg, hdc);
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_NCCALCSIZE:
 		{
 			RECT *pRect = wParam ? &((NCCALCSIZE_PARAMS*)lParam)->rgrc[0] : (RECT*)lParam;

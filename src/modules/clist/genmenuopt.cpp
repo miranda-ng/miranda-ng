@@ -467,7 +467,7 @@ static int handleCustomDraw(HWND hWndTreeView, LPNMTVCUSTOMDRAW pNMTVCD)
 				SetBkColor(pNMTVCD->nmcd.hdc, pNMTVCD->clrTextBk);
 				FillRect(pNMTVCD->nmcd.hdc, &rc, br);
 				DeleteObject(br);
-				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, (int)mir_tstrlen(tvi.pszText), &pNMTVCD->nmcd.rc, DT_LEFT | DT_VCENTER | DT_NOPREFIX);
+				DrawText(pNMTVCD->nmcd.hdc, tvi.pszText, -1, &pNMTVCD->nmcd.rc, DT_LEFT | DT_VCENTER | DT_NOPREFIX);
 
 				retVal |= CDRF_SKIPDEFAULT;
 			}

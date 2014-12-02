@@ -559,12 +559,12 @@ static void BoxPreview_OnPaint(HWND hwnd, HDC mydc, int mode)
 			rc.left += 30; //  10+16+4 -- icon
 			rc.right -= (rc.right-rc.left)/3;
 			rc.bottom -= (rc.bottom-rc.top)/3;
-			DrawText(mydc, _T(MODULNAME_LONG), (int)mir_tstrlen(_T(MODULNAME_LONG)), &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+			DrawText(mydc, _T(MODULNAME_LONG), -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 			GetClientRect(hwnd, &rc);
 			rc.left += 30; //  10+16+4 -- icon
 			rc.left += (rc.right-rc.left)/3;
 			rc.top += (rc.bottom-rc.top)/3;
-			DrawText(mydc, _T(MODULNAME_LONG), (int)mir_tstrlen(_T(MODULNAME_LONG)), &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+			DrawText(mydc, _T(MODULNAME_LONG), -1, &rc, DT_CENTER | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 			GetClientRect(hwnd, &rc);
 			FrameRect(mydc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 			SelectObject(mydc, hfnt);
