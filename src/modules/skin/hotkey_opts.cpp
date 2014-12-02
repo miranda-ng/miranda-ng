@@ -413,11 +413,10 @@ static void sttOptionsStartEdit(HWND hwndDlg, HWND hwndHotkey)
 
 static void sttOptionsDrawTextChunk(HDC hdc, TCHAR *text, RECT *rc)
 {
-	int len = (int)mir_tstrlen(text);
 	DrawText(hdc, text, -1, rc, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS);
 
 	SIZE sz;
-	GetTextExtentPoint32(hdc, text, len, &sz);
+	GetTextExtentPoint32(hdc, text, (int)mir_tstrlen(text), &sz);
 	rc->left += sz.cx;
 }
 

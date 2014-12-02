@@ -2511,7 +2511,7 @@ LRESULT CLUI::OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam)
 		HDC hdc = GetDC(m_hWnd);
 		TCHAR *ptszStr = TranslateT("Status");
 		SIZE textSize;
-		GetTextExtentPoint32(hdc, ptszStr, mir_tstrlen(ptszStr), &textSize);
+		GetTextExtentPoint32(hdc, ptszStr, (int)mir_tstrlen(ptszStr), &textSize);
 		pmis->itemWidth = textSize.cx;
 		pmis->itemHeight = 0;
 		ReleaseDC(m_hWnd, hdc);

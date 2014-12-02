@@ -124,7 +124,7 @@ SIZE GetControlTextSize(HWND hCtrl)
 	TCHAR buffer[maxSize];
 	SIZE size;
 	GetWindowText(hCtrl, buffer, SIZEOF(buffer));
-	GetTextExtentPoint32(hDC, buffer, (int) _tcslen(buffer), &size);
+	GetTextExtentPoint32(hDC, buffer, (int)_tcslen(buffer), &size);
 	SelectObject(hDC, oldFont);
 	ReleaseDC(hCtrl, hDC);
 	return size;

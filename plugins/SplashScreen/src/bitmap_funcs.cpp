@@ -162,7 +162,7 @@ void MyBitmap::Blend(MyBitmap *bmp, int x, int y, int w, int h)
 
 void MyBitmap::DrawText(TCHAR *str, int x, int y)
 {
-	SIZE sz; GetTextExtentPoint32(this->getDC(), str, mir_tstrlen(str), &sz);
+	SIZE sz; GetTextExtentPoint32(this->getDC(), str, (int)mir_tstrlen(str), &sz);
 	RECT rc; SetRect(&rc, x, y, x+10000, y+10000);
 	this->saveAlpha(x-2,y-2,sz.cx+2,sz.cy+2);
 	::DrawText(this->getDC(), str, -1, &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);

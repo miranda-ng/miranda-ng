@@ -97,7 +97,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 				SIZE size;
 				TCHAR *szText = (TCHAR*)malloc(Len * sizeof(TCHAR));
 				GetWindowText(hWnd, szText, Len);
-				GetTextExtentPoint32(hdc, szText, mir_tstrlen(szText), &size);
+				GetTextExtentPoint32(hdc, szText, (int)mir_tstrlen(szText), &size);
 				free(szText);
 				rcText.right = size.cx;
 				rcText.bottom = size.cy;
@@ -292,7 +292,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 					GetThemeTextExtent(hTheme, hdcMem, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szTextT, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, 0, &rcText);
 				else {
 					SIZE size;
-					GetTextExtentPoint32(hdcMem, szTextT, mir_tstrlen(szTextT), &size);
+					GetTextExtentPoint32(hdcMem, szTextT, (int)mir_tstrlen(szTextT), &size);
 					rcText.right = size.cx;
 					rcText.bottom = size.cy;
 				}

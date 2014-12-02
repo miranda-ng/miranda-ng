@@ -853,7 +853,7 @@ void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 	lvg.cbSize = sizeof(lvg);
 	lvg.mask = LVGF_HEADER | LVGF_GROUPID;
 	lvg.pszHeader = name;
-	lvg.cchHeader = mir_tstrlen(lvg.pszHeader);
+	lvg.cchHeader = (int)mir_tstrlen(lvg.pszHeader);
 	lvg.iGroupId = iGroupId;
 	InsertGroup(-1, &lvg);
 }
@@ -2316,7 +2316,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(const TCHAR *szText)
 
 	if (szText) {
 		curText = szText;
-		curLength = mir_tstrlen(curText);
+		curLength = (int)mir_tstrlen(curText);
 	}
 	else {
 		curLength = GetWindowTextLength(m_hwnd) + 1;
@@ -2326,7 +2326,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(const TCHAR *szText)
 	}
 
 	if (!_tcsstr(curText, m_proto_interface->m_tszUserName)) {
-		int length = curLength + mir_tstrlen(m_proto_interface->m_tszUserName) + 256;
+		size_t length = curLength + mir_tstrlen(m_proto_interface->m_tszUserName) + 256;
 		TCHAR *text = (TCHAR *)_alloca(length * sizeof(TCHAR));
 		mir_sntprintf(text, length, _T("%s [%s: %s]"), curText, TranslateT("Account"), m_proto_interface->m_tszUserName);
 		SetWindowText(m_hwnd, text);
@@ -2339,7 +2339,7 @@ void CProtoIntDlgBase::UpdateStatusBar()
 
 	HDC hdc = GetDC(m_hwndStatus);
 	HFONT hFntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-	GetTextExtentPoint32(hdc, m_proto_interface->m_tszUserName, mir_tstrlen(m_proto_interface->m_tszUserName), &sz);
+	GetTextExtentPoint32(hdc, m_proto_interface->m_tszUserName, (int)mir_tstrlen(m_proto_interface->m_tszUserName), &sz);
 	sz.cx += GetSystemMetrics(SM_CXSMICON) * 3;
 	SelectObject(hdc, hFntSave);
 	ReleaseDC(m_hwndStatus, hdc);

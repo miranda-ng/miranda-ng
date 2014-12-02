@@ -411,19 +411,19 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				//DrawIconEx(dis->hDC,dis->rcItem.left,(dis->rcItem.top + dis->rcItem.bottom - GetSystemMetrics(SM_CYSMICON))>>1,hIcon,0, 0, 0, NULL, DI_NORMAL);
 				DrawIconEx(dis->hDC,dis->rcItem.left,dis->rcItem.top + ((options.row_height - 16)>>1),hIcon,0, 0, 0, NULL, DI_NORMAL);
 
-				GetTextExtentPoint32(dis->hDC,itemData.pszLabel,mir_tstrlen(itemData.pszLabel),&textSize);
-				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,itemData.pszLabel,mir_tstrlen(itemData.pszLabel));
+				GetTextExtentPoint32(dis->hDC, itemData.pszLabel, (int)mir_tstrlen(itemData.pszLabel),&textSize);
+				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,itemData.pszLabel,(int)mir_tstrlen(itemData.pszLabel));
 
 				if(itemData.status != PS_DISABLED) {
 					TCHAR buf[256];
 					if(itemData.responding) {
 						mir_sntprintf(buf, 256, TranslateT("%d ms"), itemData.round_trip_time);
-						GetTextExtentPoint32(dis->hDC,buf,mir_tstrlen(buf),&textSize);
-						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,mir_tstrlen(buf));
+						GetTextExtentPoint32(dis->hDC, buf, (int)mir_tstrlen(buf), &textSize);
+						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,(int)mir_tstrlen(buf));
 					} else if(itemData.miss_count > 0) {
 						mir_sntprintf(buf, 256, _T("[%d]"), itemData.miss_count);
-						GetTextExtentPoint32(dis->hDC,buf,mir_tstrlen(buf),&textSize);
-						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,mir_tstrlen(buf));
+						GetTextExtentPoint32(dis->hDC, buf, (int)mir_tstrlen(buf), &textSize);
+						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,(int)mir_tstrlen(buf));
 					}
 				}
 				SetBkMode(dis->hDC, OPAQUE);
