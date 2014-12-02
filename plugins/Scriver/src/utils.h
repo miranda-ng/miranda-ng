@@ -48,7 +48,7 @@ int SetRichTextEncoded(HWND hwnd, const char *text, int codepage);
 void SearchWord(TCHAR * word, int engine);
 HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility);
 void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton * buttons, int controlVisibility, int state);
-void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...);
+void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...);
 int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 int DrawMenuItem(WPARAM wParam, LPARAM lParam);
 void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList);

@@ -48,42 +48,41 @@ struct LogStreamData
 
 static char szSep2[40], szSep2_RTL[50];
 
-static void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...)
+static void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
 {
 	va_list va;
 	int charsDone;
 
 	va_start(va, fmt);
 	for (;;) {
-		charsDone = mir_vsnprintf(*buffer + *cbBufferEnd, *cbBufferAlloced - *cbBufferEnd, fmt, va);
+		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
 		if (charsDone >= 0)
 			break;
-		*cbBufferAlloced += 1024;
-		*buffer = (char *) mir_realloc(*buffer, *cbBufferAlloced);
+		cbBufferAlloced += 1024;
+		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
 	}
 	va_end(va);
-	*cbBufferEnd += charsDone;
+	cbBufferEnd += charsDone;
 }
 
 static const TCHAR *bbcodes[] = { _T("[b]"), _T("[i]"), _T("[u]"), _T("[s]"), _T("[/b]"), _T("[/i]"), _T("[/u]"), _T("[/s]") };
 static const char *bbcodefmt[] = { "\\b ", "\\i ", "\\ul ", "\\strike ", "\\b0 ", "\\i0 ", "\\ul0 ", "\\strike0 " };
 
-static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, TCHAR* line)
+static int AppendToBufferWithRTF(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, TCHAR* line)
 {
 	DWORD textCharsCount = 0;
 	char *d;
-	int lineLen;
 
 	if (line == NULL)
 		return 0;
 
-	lineLen = (int)_tcslen(line) * 9 + 8;
-	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
-		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
-		*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
+	size_t lineLen = _tcslen(line) * 9 + 8;
+	if (cbBufferEnd + lineLen > cbBufferAlloced) {
+		cbBufferAlloced += lineLen + 1024 - lineLen % 1024;
+		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
 	}
 
-	d = *buffer + *cbBufferEnd;
+	d = buffer + cbBufferEnd;
 	strcpy(d, "{\\uc1 ");
 	d += 6;
 
@@ -160,7 +159,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 	*(d++) = '}';
 	*d = 0;
 
-	*cbBufferEnd = (int)(d - *buffer);
+	cbBufferEnd = (int)(d - buffer);
 	return textCharsCount;
 }
 
@@ -171,39 +170,37 @@ static char *CreateRTFHeader(SrmmWindowData *dat)
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 	ReleaseDC(NULL, hdc);
-	int bufferEnd = 0;
-	int bufferAlloced = 1024;
+	size_t bufferEnd = 0, bufferAlloced = 1024;
 	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 
 	LOGFONT lf;
 	for (int i = 0; LoadMsgDlgFont(i, &lf, NULL); i++)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, FONT_FORMAT, i, lf.lfCharSet, lf.lfFaceName);
 
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ");
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}{\\colortbl ");
 	COLORREF colour;
 	for (int i = 0; LoadMsgDlgFont(i, NULL, &colour); i++)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 
 	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
 		colour = RGB(0, 0, 255);
 	else
 		colour = GetSysColor(COLOR_HOTLIGHT);
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}");
-	//AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}\\pard");
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
+	//AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}\\pard");
 	return buffer;
 }
 
 //mir_free() the return value
 static char *CreateRTFTail(SrmmWindowData *dat)
 {
-	int bufferEnd = 0;
-	int bufferAlloced = 1024;
+	size_t bufferEnd = 0, bufferAlloced = 1024;
 	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
-	AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "}");
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
 	return buffer;
 }
 
@@ -232,7 +229,6 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 //mir_free() the return value
 static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
 {
-	int bufferAlloced, bufferEnd;
 	int showColon = 0;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
@@ -253,33 +249,33 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	else if (dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		db_event_markRead(hContact, hDbEvent);
 	}
-	bufferEnd = 0;
-	bufferAlloced = 1024;
+	
+	size_t bufferEnd = 0, bufferAlloced = 1024;
 	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	if (!dat->bIsAutoRTL && !streamData->isEmpty)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
 
 	if (dbei.flags & DBEF_RTL) {
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\rtlpar");
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlpar");
 		dat->bIsAutoRTL = TRUE;
 	}
-	else AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrpar");
+	else AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrpar");
 
 	streamData->isEmpty = 0;
 
 	if (dat->bIsAutoRTL) {
 		if (dbei.flags & DBEF_RTL)
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\ltrch\\rtlch");
+			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrch\\rtlch");
 		else
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\rtlch\\ltrch");
+			AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\rtlch\\ltrch");
 	}
 
 	if (g_dat.flags & SMF_SHOWICONS) {
 		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
 		
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\f0\\fs14");
 		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
 			bufferAlloced += 1024;
 		buffer = (char *)mir_realloc(buffer, bufferAlloced);
@@ -298,8 +294,8 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 
 		tmi.printTimeStamp(NULL, dbei.timestamp, szFormat, str, SIZEOF(str), 0);
 
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, str);
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, str);
 		showColon = 1;
 	}
 
@@ -318,15 +314,15 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, szName);
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYNAME : MSGFONTID_YOURNAME));
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, szName);
 		showColon = 1;
 		if (ci.pszVal)
 			mir_free(ci.pszVal);
 	}
 
 	if (showColon)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s :", SetToStyle(dbei.flags & DBEF_SENT ? MSGFONTID_MYCOLON : MSGFONTID_YOURCOLON));
 
 	TCHAR *msg, *szName;
 	switch (dbei.eventType) {
@@ -348,13 +344,13 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, szName);
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, _T(" "));
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, szName);
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, _T(" "));
 
 		msg = DbGetEventTextT(&dbei, CP_ACP);
 		if (msg) {
-			AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, msg);
+			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, msg);
 			mir_free(msg);
 		}
 		break;
@@ -364,17 +360,17 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 		char* descr = filename + strlen(filename) + 1;
 		TCHAR* ptszFileName = DbGetEventStringT(&dbei, filename);
 
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, ": ");
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, ptszFileName);
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, ": ");
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszFileName);
 		mir_free(ptszFileName);
 
 		if (*descr != 0) {
 			TCHAR* ptszDescr = DbGetEventStringT(&dbei, descr);
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " (");
-			AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, ptszDescr);
-			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, ")");
+			AppendToBuffer(buffer, bufferEnd, bufferAlloced, " (");
+			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszDescr);
+			AppendToBuffer(buffer, bufferEnd, bufferAlloced, ")");
 			mir_free(ptszDescr);
 		}
 		break;
@@ -382,14 +378,14 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	case EVENTTYPE_MESSAGE:
 	default:
 		msg = DbGetEventTextT(&dbei, CP_ACP);
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(&buffer, &bufferEnd, &bufferAlloced, msg);
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
+		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, msg);
 		mir_free(msg);
 
 	}
 
 	if (dat->bIsAutoRTL)
-		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\par");
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
 
 	mir_free(dbei.pBlob);
 	return buffer;
