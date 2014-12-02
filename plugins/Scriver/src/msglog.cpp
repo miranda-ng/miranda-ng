@@ -253,12 +253,13 @@ static void freeEvent(EventData *evt)
 
 static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const WCHAR *line, size_t maxLen, BOOL isAnsii)
 {
-	int textCharsCount = 0;
-	int wasEOL = 0;
+	if (maxLen == -1)
+		maxLen = wcslen(line);
+	
 	const WCHAR *maxLine = line + maxLen;
-	int lineLen = (int)wcslen(line) * 9 + 8;
+	size_t lineLen = maxLen*9 + 8;
 	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
-		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
+		cbBufferAlloced[0] += int(lineLen + 1024 - lineLen % 1024);
 		*buffer = (char*)mir_realloc(*buffer, *cbBufferAlloced);
 	}
 
@@ -272,7 +273,8 @@ static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *c
 		d += 6;
 	}
 
-	for (; *line && (maxLen == -1 || line < maxLine); line++, textCharsCount++) {
+	int wasEOL = 0, textCharsCount = 0;
+	for (; line < maxLine; line++, textCharsCount++) {
 		wasEOL = 0;
 		if (*line == '\r' && line[1] == '\n') {
 			CopyMemory(d, "\\line ", 6);
@@ -316,13 +318,12 @@ static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *c
 
 static int AppendAnsiToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *line)
 {
-	ptrT tszLine(mir_a2t(line));
-	return AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, tszLine, mir_tstrlen(tszLine), TRUE);
+	return AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, _A2T(line), -1, TRUE);
 }
 
 static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const WCHAR *line)
 {
-	return AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, line, mir_wstrlen(line), FALSE);
+	return AppendUnicodeOrAnsiiToBufferL(buffer, cbBufferEnd, cbBufferAlloced, line, -1, FALSE);
 }
 
 // mir_free() the return value
