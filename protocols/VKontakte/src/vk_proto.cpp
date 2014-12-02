@@ -272,7 +272,7 @@ void CVkProto::InitMenus()
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool bisFriend = getByte(hContact, "Auth", -1)==0;
+	bool bisFriend = (getByte(hContact, "Auth", -1) == 0);
 	bool bisBroadcast = !(CMString(db_get_tsa(hContact, m_szModuleName, "AudioUrl")).IsEmpty());
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact));
@@ -649,7 +649,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 	debugLogA("CVkProto::UserIsTyping");
 	if (PROTOTYPE_SELFTYPING_ON == type) {
 		LONG userID = getDword(hContact, "ID", -1);
-		if ((userID == -1)||(!IsOnline()))
+		if (userID == -1 || !IsOnline())
 			return 1;
 		
 		if (m_iMarkMessageReadOn == markOnTyping)
