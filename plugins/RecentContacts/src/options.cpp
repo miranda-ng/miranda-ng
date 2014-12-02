@@ -17,7 +17,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		mir_snprintf(str, SIZEOF(str), "%d", LastUCOpt.MaxShownContacts);
 		SetDlgItemTextA(hwndDlg, IDC_SHOWNCONTACTS, str);
 
-		mir_snprintf(str, SIZEOF(str), "%s", LastUCOpt.DateTimeFormat.c_str());
+		strncpy_s(str, LastUCOpt.DateTimeFormat.c_str(), _TRUNCATE);
 		SetDlgItemTextA(hwndDlg, IDC_DATETIME, str);
 
 		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lParam);

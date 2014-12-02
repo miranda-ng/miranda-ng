@@ -441,7 +441,7 @@ void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
-			mir_snprintf(buf, maxlen, "%s", ci.pszVal);
+			strncpy_s(buf, maxlen, (char*)ci.pszVal, _TRUNCATE);
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:

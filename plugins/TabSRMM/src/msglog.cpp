@@ -1197,7 +1197,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 static void SetupLogFormatting(TWindowData *dat)
 {
 	if (dat->hHistoryEvents)
-		mir_snprintf(dat->szMicroLf, SIZEOF(dat->szMicroLf), "%s", "\\v\\cf%d \\ ~-+%d+-~\\v0 ");
+		strncpy_s(dat->szMicroLf, "\\v\\cf%d \\ ~-+%d+-~\\v0 ", _TRUNCATE);
 	else
 		mir_snprintf(dat->szMicroLf, SIZEOF(dat->szMicroLf), "%s\\par\\ltrpar\\sl-1%s ", GetRTFFont(MSGDLGFONTCOUNT), GetRTFFont(MSGDLGFONTCOUNT));
 }

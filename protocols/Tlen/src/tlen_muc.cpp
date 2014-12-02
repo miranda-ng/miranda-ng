@@ -154,7 +154,7 @@ static int TlenMUCSendPresence(TlenProtocol *proto, const char *roomID, const ch
 	if (nick != NULL) {
 		mir_snprintf(str, SIZEOF(str), "%s/%s", roomID, nick);
 	} else {
-		mir_snprintf(str, SIZEOF(str), "%s", roomID);
+		strncpy_s(str, roomID, _TRUNCATE);
 	}
 	if ((jid = TlenTextEncode(str)) != NULL) {
 		switch (desiredStatus) {

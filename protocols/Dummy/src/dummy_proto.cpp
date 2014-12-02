@@ -75,7 +75,7 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT hContact)
 		if (uniqueIdSetting[0] == '\0') {
 			ptrA setting(getStringA(DUMMY_ID_TEXT));
 			if (setting != NULL)
-				mir_snprintf(uniqueIdSetting, SIZEOF(uniqueIdSetting), "%s", setting);
+				strncpy_s(uniqueIdSetting, setting, _TRUNCATE);
 		}
 		return (DWORD_PTR)uniqueIdSetting;
 
@@ -83,7 +83,7 @@ DWORD_PTR CDummyProto::GetCaps(int type, MCONTACT hContact)
 		if (uniqueIdText[0] == '\0') {
 			ptrA setting(getStringA(DUMMY_ID_SETTING));
 			if (setting != NULL)
-				mir_snprintf(uniqueIdText, SIZEOF(uniqueIdText), "%s", setting);
+				strncpy_s(uniqueIdText, setting, _TRUNCATE);
 		}
 		return (DWORD_PTR)uniqueIdText;
 	}

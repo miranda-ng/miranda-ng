@@ -329,7 +329,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					gethst = 0;
 
 			if (gethst == 0)
-				mir_snprintf(ipaddr, SIZEOF(ipaddr), "%s", proto->msnLoggedIn ? proto->MyConnection.GetMyExtIPStr() : "");
+				strncpy_s(ipaddr, (proto->msnLoggedIn ? proto->MyConnection.GetMyExtIPStr() : ""), _TRUNCATE);
 
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_SETCURSEL, gethst, 0);
 			if (ipaddr[0])

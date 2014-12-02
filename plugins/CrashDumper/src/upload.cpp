@@ -40,10 +40,10 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 	DBVARIANT dbv;
 
 	if (db_get_s(NULL, PluginName, "Username", &dbv) == 0) {
-		mir_snprintf(user, szuser, "%s", dbv.pszVal);
+		strncpy_s(user, szuser, dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
-	}
-	else user[0] = 0;
+	} else
+		user[0] = 0;
 
 	if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
 		BYTE hash[16];
@@ -56,8 +56,8 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 		arrayToHex(hash, sizeof(hash), pass);
 
 		db_free(&dbv);
-	}
-	else pass[0] = 0;
+	} else
+		pass[0] = 0;
 }
 
 void OpenAuthUrl(const char* url)

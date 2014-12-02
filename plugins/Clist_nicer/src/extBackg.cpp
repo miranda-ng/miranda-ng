@@ -973,7 +973,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 	ImageItem *imgItem = g_ImageItems;
 
 	memset(&tmpItem, 0, sizeof(tmpItem));
-	mir_snprintf(tmpItem.szName, SIZEOF(tmpItem.szName), "%s", &itemName[1]);
+	strncpy_s(tmpItem.szName, &itemName[1], _TRUNCATE);
 	tmpItem.width = GetPrivateProfileIntA(itemName, "Width", 16, file);
 	tmpItem.height = GetPrivateProfileIntA(itemName, "Height", 16, file);
 	tmpItem.xOff = GetPrivateProfileIntA(itemName, "xoff", 0, file);
@@ -1048,7 +1048,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 		tmpItem.szService[0] = 0;
 		GetPrivateProfileStringA(itemName, "Service", "None", szBuffer, 1000, file);
 		if (_stricmp(szBuffer, "None")) {
-			mir_snprintf(tmpItem.szService, 256, "%s", szBuffer);
+			strncpy_s(tmpItem.szService, szBuffer, _TRUNCATE);
 			tmpItem.dwFlags |= BUTTON_ISSERVICE;
 			tmpItem.uId = nextButtonID++;
 		}
@@ -1057,7 +1057,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 		tmpItem.szService[0] = 0;
 		GetPrivateProfileStringA(itemName, "Service", "None", szBuffer, 1000, file);
 		if (_stricmp(szBuffer, "None")) {
-			mir_snprintf(tmpItem.szService, 256, "%s", szBuffer);
+			strncpy_s(tmpItem.szService, szBuffer, _TRUNCATE);
 			tmpItem.dwFlags |= BUTTON_ISPROTOSERVICE;
 			tmpItem.uId = nextButtonID++;
 		}
@@ -1067,10 +1067,10 @@ static void BTN_ReadItem(char *itemName, char *file)
 
 		GetPrivateProfileStringA(itemName, "Module", "None", szBuffer, 1000, file);
 		if (_stricmp(szBuffer, "None"))
-			mir_snprintf(tmpItem.szModule, 256, "%s", szBuffer);
+			strncpy_s(tmpItem.szModule, szBuffer, _TRUNCATE);
 		GetPrivateProfileStringA(itemName, "Setting", "None", szBuffer, 1000, file);
 		if (_stricmp(szBuffer, "None"))
-			mir_snprintf(tmpItem.szSetting, 256, "%s", szBuffer);
+			strncpy_s(tmpItem.szSetting, szBuffer, _TRUNCATE);
 		if (GetPrivateProfileIntA(itemName, "contact", 0, file) != 0)
 			tmpItem.dwFlags |= BUTTON_DBACTIONONCONTACT;
 
@@ -1286,10 +1286,10 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 				char UIN[40];
 				switch (dbv.type) {
 				case DBVT_DWORD:
-					mir_snprintf(UIN, 40, "%d", dbv.dVal);
+					mir_snprintf(UIN, SIZEOF(UIN), "%d", dbv.dVal);
 					break;
 				case DBVT_ASCIIZ:
-					mir_snprintf(UIN, 40, "%s", dbv.pszVal);
+					strncpy_s(UIN, dbv.pszVal, _TRUNCATE);
 					db_free(&dbv);
 					break;
 				default:

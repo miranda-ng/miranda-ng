@@ -663,7 +663,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt, ...)
 	int thisTrid = 0;
 
 	if (fmt == NULL)
-		mir_snprintf(str, strsize, "%s", cmd);
+		strncpy_s(str, strsize, cmd, _TRUNCATE);
 	else {
 		thisTrid = InterlockedIncrement(&mTrid);
 		if (fmt[0] == '\0')

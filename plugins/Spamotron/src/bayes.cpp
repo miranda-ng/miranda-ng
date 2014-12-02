@@ -28,7 +28,7 @@ int CheckBayes()
 	if (hBayesFolder)
 		FoldersGetCustomPath(hBayesFolder, bayesdb_fullpath, MAX_PATH, bayesdb_tmp);
 	else
-		mir_snprintf(bayesdb_fullpath, SIZEOF(bayesdb_fullpath), "%s", bayesdb_tmp);
+		strncpy_s(bayesdb_fullpath, bayesdb_tmp, _TRUNCATE);
 
 	strcat(bayesdb_fullpath, "\\"BAYESDB_FILENAME);
 	if (_access(bayesdb_fullpath,0) == 0)

@@ -524,7 +524,7 @@ BOOL Xfire_base::getGamename(unsigned int gameid, char* out, int outsize){
 		char dbstr[80] = "";
 		mir_snprintf(dbstr, XFIRE_MAXSIZEOFGAMENAME, "customgamename_%d", gameid);
 		if (!db_get(NULL, protocolname, dbstr, &dbv)) {
-			mir_snprintf(out, outsize, "%s", dbv.pszVal);
+			strncpy_s(out, outsize, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
 			return TRUE;
 		}

@@ -90,6 +90,7 @@ size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 		memcpy(pOut, pSrc, (dwSrcLen * sizeof(TCHAR)));
 		pOut[dwSrcLen] = 0;
 		return dwSrcLen;
+	}
 	if (pSrc[0] == '.')
 		return (mir_sntprintf(pOut, MAX_PATH, _T("%s\\%s"), cfg::dat.tszProfilePath, pSrc));
 

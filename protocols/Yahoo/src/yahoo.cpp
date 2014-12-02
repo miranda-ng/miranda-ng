@@ -794,12 +794,12 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	if (lname && fname)
 		mir_snprintf(nick, SIZEOF(nick), "%s %s", fname, lname);
 	else if (lname)
-		mir_snprintf(nick, SIZEOF(nick), "%s", lname);
+		strncpy_s(nick, lname, _TRUNCATE);
 	else if (fname)
-		mir_snprintf(nick, SIZEOF(nick), "%s", fname);
+		strncpy_s(nick, fname, _TRUNCATE);
 
-	if (nick[0] == '\0') 
-		mir_snprintf(nick, SIZEOF(nick), "%s", who);
+	if (nick[0] == '\0')
+		strncpy_s(nick, who, _TRUNCATE);
 
 	if (fname) SetStringUtf(hContact, "FirstName", fname);
 	if (lname) SetStringUtf(hContact, "LastName", lname);
@@ -1546,14 +1546,10 @@ void CYahooProto::ext_login(enum yahoo_status login_mode)
 	
 	if 	(host[0] == '\0') {
 		if (!getString(YAHOO_LOGINSERVER, &dbv)) {
-			mir_snprintf(host, SIZEOF(host), "%s", dbv.pszVal);
+			strncpy_s(host, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);
-		}
-		else {
-			mir_snprintf(host, SIZEOF(host), "%s", 
-							getByte("YahooJapan",0) != 0 ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER :
-															YAHOO_DEFAULT_LOGIN_SERVER
-					);
+		} else {
+			strncpy_s(host, (getByte("YahooJapan",0) ? YAHOO_DEFAULT_JAPAN_LOGIN_SERVER : YAHOO_DEFAULT_LOGIN_SERVER), _TRUNCATE);
 		}
 	}
 	
