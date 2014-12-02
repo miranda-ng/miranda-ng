@@ -32,7 +32,6 @@
 #define WINVER 0x0600
 #define _WIN32_WINNT 0x0600
 #define _WIN32_IE 0x0501
-#define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
 #include <commdlg.h>
@@ -81,6 +80,7 @@
 #include <m_toptoolbar.h>
 #include <m_string.h>
 #include <m_db_int.h>
+#include <m_netlib.h>
 
 #include <m_ieview.h>
 #include <m_metacontacts.h>
