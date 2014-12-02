@@ -58,7 +58,7 @@ TCHAR* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 	return pszText;
 }
 
-VOID Transliterate(TCHAR *&str)
+void Transliterate(TCHAR *&str)
 {
 	TCHAR *newStr = (TCHAR*)mir_alloc(sizeof(TCHAR) * _tcslen(str) * 3 + 1);
 	newStr[0] = 0;
@@ -349,12 +349,11 @@ VOID Transliterate(TCHAR *&str)
 	mir_free(newStr);
 }
 
-VOID Invert(TCHAR *str)
+void Invert(TCHAR *str)
 {
 	while (*str) {
-		if (IsCharUpper(*str)) {
+		if (IsCharUpper(*str))
 			*str = (TCHAR)CharLower((LPTSTR)*str);
-		}
 		else if (IsCharLower(*str))
 			*str = (TCHAR)CharUpper((LPTSTR)*str);
 		str++;
@@ -363,314 +362,280 @@ VOID Invert(TCHAR *str)
 	keybd_event(VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
 }
 
-VOID SwitchLayout(bool lastword)
+void SwitchLayout(bool lastword)
 {
 	HWND hwnd = GetForegroundWindow();
+	if (hwnd == NULL)
+		return;
 
-	if (hwnd != NULL) {
-		DWORD dwProcessID;
-		DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
-		HWND hwnd2 = GetFocus();
+	DWORD dwProcessID;
+	DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
+	HWND hwnd2 = GetFocus();
+	if (hwnd2 == NULL)
+		return;
 
-		if (hwnd2 != NULL) {
-			TCHAR szClassName[MAX_PATH];
+	TCHAR szClassName[MAX_PATH];
+	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	if ((mir_tstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
+		TCHAR buf[2048];
+		if (mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) {
+			IEVIEWEVENT event;
+			HWND hwnd3 = GetParent(GetParent(hwnd2));
+			memset(&event, 0, sizeof(event));
+			event.cbSize = sizeof(IEVIEWEVENT);
+			event.hContact = 0;
+			event.dwFlags = 0;
+			event.iType = IEE_GET_SELECTION;
+			event.hwnd = hwnd3;
+			TCHAR *selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
+			mir_tstrncpy(buf, selected, SIZEOF(buf));
+		}
+		else SendMessage(hwnd2, WM_GETTEXT, SIZEOF(buf), (LPARAM)buf);		// gimme, gimme, gimme...
 
-			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
-			if ((mir_tstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE)) {	// make popup here
-				TCHAR buf[2048];
+		size_t slen = _tcslen(buf);
+		if (slen != 0) {
+			HKL hkl;
+			ActivateKeyboardLayout((HKL)HKL_NEXT, KLF_ACTIVATE); // go to next layout before....
+			hkl = GetKeyboardLayout(dwThreadID);
+			ActivateKeyboardLayout((HKL)HKL_PREV, KLF_ACTIVATE); // return to prev layout
 
-				if (mir_tstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) {
-					TCHAR *selected = 0;
-					IEVIEWEVENT event;
-					HWND hwnd3 = GetParent(GetParent(hwnd2));
-					memset(&event, 0, sizeof(event));
-					event.cbSize = sizeof(IEVIEWEVENT);
-					event.hContact = 0;
-					event.dwFlags = 0;
-					event.iType = IEE_GET_SELECTION;
-					event.hwnd = hwnd3;
-					selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
-					mir_tstrcpy(buf, selected);
-				}
-				else
-					SendMessage(hwnd2, WM_GETTEXT, SIZEOF(buf), (LPARAM)buf);		// gimme, gimme, gimme...
-
-				size_t slen = _tcslen(buf);
-				if (slen != 0) {
-					HKL hkl;
-					ActivateKeyboardLayout((HKL)HKL_NEXT, KLF_ACTIVATE); // go to next layout before....
-					hkl = GetKeyboardLayout(dwThreadID);
-					ActivateKeyboardLayout((HKL)HKL_PREV, KLF_ACTIVATE); // return to prev layout
-
-					if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
-						memset(&smgp, 0, sizeof(smgp));
-						smgp.cbSize = sizeof(smgp);
-						smgp.str = buf;
-						smgp.flag = SAFL_TCHAR;
-						smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
-					}
-
-					for (size_t i = 0; i < slen; i++) {
-						SHORT vks;
-						BYTE keys[256] = { 0 };
-
-						vks = VkKeyScanEx(buf[i], hkl);
-
-						keys[VK_SHIFT] = (HIBYTE(vks) & 1) ? 0xFF : 0x00; // shift
-						keys[VK_CONTROL] = (HIBYTE(vks) & 2) ? 0xFF : 0x00; // ctrl
-						keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
-
-						if (!isItSmiley(DWORD(i))) {
-							TCHAR tchr;
-							if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
-								buf[i] = tchr;
-						}
-					}
-
-					if (smileyPrs != NULL)
-						CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
-
-					POPUPDATAT pd = { 0 };
-					pd.lchIcon = Skin_GetIcon("Switch Layout and Send");
-					_tcsncpy(pd.lptzText, buf, SIZEOF(pd.lptzText));
-					_tcsncpy(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
-					PUAddPopupT(&pd);
-				}
+			if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
+				memset(&smgp, 0, sizeof(smgp));
+				smgp.cbSize = sizeof(smgp);
+				smgp.str = buf;
+				smgp.flag = SAFL_TCHAR;
+				smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
 			}
-			else if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
-				DWORD dwStart, dwEnd;
-				size_t i, slen, start = 0, end = 0;
-				TCHAR *sel, tchr;
-				bool somethingIsSelected = true;
+
+			for (size_t i = 0; i < slen; i++) {
 				SHORT vks;
 				BYTE keys[256] = { 0 };
-				HKL hkl = GetKeyboardLayout(dwThreadID);
 
-				SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
+				vks = VkKeyScanEx(buf[i], hkl);
 
-				if (dwStart == dwEnd)
-					somethingIsSelected = false;
+				keys[VK_SHIFT] = (HIBYTE(vks) & 1) ? 0xFF : 0x00; // shift
+				keys[VK_CONTROL] = (HIBYTE(vks) & 2) ? 0xFF : 0x00; // ctrl
+				keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
 
-				if (somethingIsSelected)
-					sel = Message_GetFromStream(hwnd2, SF_TEXT | SF_UNICODE | SFF_SELECTION);
-				else
-					sel = Message_GetFromStream(hwnd2, SF_TEXT | SF_UNICODE);
-
-				slen = _tcslen(sel);
-
-				if (slen != 0) {
-					if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
-						memset(&smgp, 0, sizeof(smgp));
-						smgp.cbSize = sizeof(smgp);
-						smgp.str = sel;
-						smgp.flag = SAFL_TCHAR;
-						smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
-					}
-
-					end = slen;
-					if (lastword && !somethingIsSelected) {
-						end = (size_t)dwStart;
-						while (end < slen) {
-							if (_istspace(sel[end]) || isItSmiley((int)end))
-								break;
-							end++;
-						}
-						start = (size_t)dwStart - 1;
-						while (start > 0 && start < (size_t)dwStart) {
-							if ((_istspace(sel[start]) && !_istspace(sel[start + 1])) || isItSmiley((int)start))
-								break;
-							start--;
-						}
-					}
-
-					ActivateKeyboardLayout((HKL)HKL_PREV, KLF_ACTIVATE);
-
-					for (i = start; i < end; i++) {
-						vks = VkKeyScanEx(sel[i], hkl);
-
-						keys[VK_SHIFT] = (HIBYTE(vks) & 1) ? 0xFF : 0x00; // shift
-						keys[VK_CONTROL] = (HIBYTE(vks) & 2) ? 0xFF : 0x00; // ctrl
-						keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
-
-						if (!isItSmiley((int)i)) {
-							if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
-								sel[i] = tchr;
-						}
-					}
-
-					if (smileyPrs != NULL)
-						CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
-
-					if (somethingIsSelected)
-						SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)sel);
-					else
-						SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)sel);
-
-					SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
+				if (!isItSmiley(DWORD(i))) {
+					TCHAR tchr;
+					if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
+						buf[i] = tchr;
 				}
-				mir_free(sel);
 			}
+
+			if (smileyPrs != NULL)
+				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
+
+			POPUPDATAT pd = { 0 };
+			pd.lchIcon = Skin_GetIcon("Switch Layout and Send");
+			_tcsncpy_s(pd.lptzText, buf, _TRUNCATE);
+			_tcsncpy_s(pd.lptzContactName, TranslateT("TranslitSwitcher"), _TRUNCATE);
+			PUAddPopupT(&pd);
 		}
+	}
+	else if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
+		size_t i, start = 0, end = 0;
+		SHORT vks;
+		BYTE keys[256] = { 0 };
+		HKL hkl = GetKeyboardLayout(dwThreadID);
+
+		DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
+		SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
+		bool somethingIsSelected = (dwStart != dwEnd);
+		if (somethingIsSelected)
+			dwFlags += SFF_SELECTION;
+
+		TCHAR *sel = Message_GetFromStream(hwnd2, dwFlags);
+		size_t slen = mir_tstrlen(sel);
+		if (slen != 0) {
+			if (ServiceExists(MS_SMILEYADD_BATCHPARSE)) {
+				memset(&smgp, 0, sizeof(smgp));
+				smgp.cbSize = sizeof(smgp);
+				smgp.str = sel;
+				smgp.flag = SAFL_TCHAR;
+				smileyPrs = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smgp);
+			}
+
+			end = slen;
+			if (lastword && !somethingIsSelected) {
+				end = (size_t)dwStart;
+				while (end < slen) {
+					if (_istspace(sel[end]) || isItSmiley((int)end))
+						break;
+					end++;
+				}
+				start = dwStart - 1;
+				while (start > 0 && start < dwStart) {
+					if ((_istspace(sel[start]) && !_istspace(sel[start + 1])) || isItSmiley((int)start))
+						break;
+					start--;
+				}
+			}
+
+			ActivateKeyboardLayout((HKL)HKL_PREV, KLF_ACTIVATE);
+
+			for (i = start; i < end; i++) {
+				vks = VkKeyScanEx(sel[i], hkl);
+
+				keys[VK_SHIFT] = (HIBYTE(vks) & 1) ? 0xFF : 0x00; // shift
+				keys[VK_CONTROL] = (HIBYTE(vks) & 2) ? 0xFF : 0x00; // ctrl
+				keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
+
+				if (!isItSmiley((int)i)) {
+					TCHAR tchr;
+					if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
+						sel[i] = tchr;
+				}
+			}
+
+			if (smileyPrs != NULL)
+				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
+
+			if (somethingIsSelected)
+				SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)sel);
+			else
+				SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)sel);
+
+			SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
+		}
+		mir_free(sel);
 	}
 }
 
 void TranslitLayout(bool lastword)
 {
 	HWND hwnd = GetForegroundWindow();
+	if (hwnd == NULL)
+		return;
 
-	if (hwnd != NULL)
-	{
-		DWORD dwProcessID;
-		DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
-		HWND hwnd2 = GetFocus();
+	HWND hwnd2 = GetFocus();
+	if (hwnd2 == NULL)
+		return;
 
-		if (hwnd2 != NULL) {
-			TCHAR szClassName[16];
+	TCHAR szClassName[16];
+	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) != 0)
+		return;
 
-			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
+	SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
+	bool somethingIsSelected = (dwStart != dwEnd);
+	if (somethingIsSelected)
+		dwFlags += SFF_SELECTION;
 
-			if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
-				DWORD dwStart, dwEnd;
-				size_t slen, start = 0, end = 0;
-				TCHAR *sel, *boo = NULL;
-				bool somethingIsSelected = true;
-
-				SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
-
-				if (dwStart == dwEnd)
-					somethingIsSelected = false;
-
-				if (somethingIsSelected)
-					sel = Message_GetFromStream(hwnd2, SF_TEXT | SF_UNICODE | SFF_SELECTION);
-				else
-					sel = Message_GetFromStream(hwnd2, SF_TEXT | SF_UNICODE);
-
-				slen = _tcslen(sel);
-
-				if (slen != 0) {
-					end = slen;
-					if (lastword && !somethingIsSelected) {
-						end = (size_t)dwStart;
-						while (end < slen) {
-							if (_istspace(sel[end]) || isItSmiley((int)end))
-								break;
-							end++;
-						}
-						start = (size_t)dwStart - 1;
-						while (start > 0 && start < (size_t)dwStart) {
-							if ((_istspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
-								break;
-							start--;
-						}
-						boo = (TCHAR*)mir_alloc((end - start + 1) * sizeof(TCHAR));
-						_tcsncpy(boo, sel + start, end - start);
-						boo[end - start] = 0;
-					}
-					else {
-						boo = (TCHAR*)mir_alloc((slen + 1) * sizeof(TCHAR));
-						_tcscpy(boo, sel);
-					}
-
-					Transliterate(boo);
-
-					if (somethingIsSelected)
-						SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)boo);
-					else {
-						TCHAR *NewText = (TCHAR*)mir_alloc((start + _tcslen(boo) + (slen - start) + 1) * sizeof(TCHAR));
-						NewText[0] = 0;
-						_tcsncat(NewText, sel, start);
-						_tcscat(NewText, boo);
-						_tcsncat(NewText, sel + end, slen - end);
-						SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)NewText);
-						mir_free(NewText);
-					}
-
-					SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
-				}
-				mir_free(sel);
-				mir_free(boo);
+	TCHAR *boo, *sel = Message_GetFromStream(hwnd2, dwFlags);
+	size_t slen = mir_tstrlen(sel), start = 0, end = 0;
+	if (slen != 0) {
+		end = slen;
+		if (lastword && !somethingIsSelected) {
+			end = (size_t)dwStart;
+			while (end < slen) {
+				if (_istspace(sel[end]) || isItSmiley((int)end))
+					break;
+				end++;
 			}
+			start = (size_t)dwStart - 1;
+			while (start > 0 && start < (size_t)dwStart) {
+				if ((_istspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
+					break;
+				start--;
+			}
+			boo = (TCHAR*)mir_alloc((end - start + 1) * sizeof(TCHAR));
+			_tcsncpy(boo, sel + start, end - start);
+			boo[end - start] = 0;
 		}
+		else {
+			boo = (TCHAR*)mir_alloc((slen + 1) * sizeof(TCHAR));
+			_tcscpy(boo, sel);
+		}
+
+		Transliterate(boo);
+
+		if (somethingIsSelected)
+			SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)boo);
+		else {
+			TCHAR *NewText = (TCHAR*)mir_alloc((start + _tcslen(boo) + (slen - start) + 1) * sizeof(TCHAR));
+			NewText[0] = 0;
+			_tcsncat(NewText, sel, start);
+			_tcscat(NewText, boo);
+			_tcsncat(NewText, sel + end, slen - end);
+			SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)NewText);
+			mir_free(NewText);
+		}
+
+		SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
 	}
+	mir_free(sel);
+	mir_free(boo);
 }
 
 void InvertCase(bool lastword)
 {
 	HWND hwnd = GetForegroundWindow();
+	if (hwnd == NULL)
+		return;
 
-	if (hwnd != NULL) {
-		DWORD dwProcessID;
-		DWORD dwThreadID = GetWindowThreadProcessId(hwnd, &dwProcessID);
-		HWND hwnd2 = GetFocus();
+	HWND hwnd2 = GetFocus();
+	if (hwnd2 == NULL)
+		return;
 
-		if (hwnd2 != NULL) {
-			TCHAR szClassName[16];
+	TCHAR szClassName[16];
 
-			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
+	if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) != 0)
+		return;
+		
+	DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
+	SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
+	bool somethingIsSelected = (dwStart != dwEnd);
+	if (somethingIsSelected)
+		dwFlags += SFF_SELECTION;
 
-			if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) == 0) {
-				DWORD dwStart, dwEnd;
-				size_t slen, start = 0, end = 0;
-				TCHAR *sel, *boo = NULL;
-				bool somethingIsSelected = true;
-
-				SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
-
-				if (dwStart == dwEnd)
-					somethingIsSelected = false;
-
-				if (somethingIsSelected)
-					sel = Message_GetFromStream(hwnd2, SF_TEXT | SF_UNICODE | SFF_SELECTION);
-				else
-					sel = Message_GetFromStream(hwnd2, SF_TEXT | SF_UNICODE);
-
-				slen = _tcslen(sel);
-
-				if (slen != 0) {
-					end = slen;
-					if (lastword && !somethingIsSelected) {
-						end = (size_t)dwStart;
-						while (end < slen) {
-							if (_istspace(sel[end]) || isItSmiley((int)end))
-								break;
-							end++;
-						}
-						start = (size_t)dwStart - 1;
-						while (start > 0 && start < (size_t)dwStart) {
-							if ((_istspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
-								break;
-							start--;
-						}
-						boo = (TCHAR*)mir_alloc((end - start + 1) * sizeof(TCHAR));
-						_tcsncpy(boo, sel + start, end - start);
-						boo[end - start] = 0;
-					}
-					else {
-						boo = (TCHAR*)mir_alloc((slen + 1) * sizeof(TCHAR));
-						_tcscpy(boo, sel);
-					}
-
-					Invert(boo);
-
-					if (somethingIsSelected)
-						SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)boo);
-					else {
-						TCHAR *NewText = (TCHAR*)mir_alloc((start + _tcslen(boo) + (slen - start) + 1) * sizeof(TCHAR));
-						NewText[0] = 0;
-						_tcsncat(NewText, sel, start);
-						_tcscat(NewText, boo);
-						_tcsncat(NewText, sel + end, slen - end);
-						SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)NewText);
-						mir_free(NewText);
-					}
-
-					SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
-				}
-				mir_free(sel);
-				mir_free(boo);
+	TCHAR *boo, *sel = Message_GetFromStream(hwnd2, dwFlags);
+	size_t slen = mir_tstrlen(sel), start = 0, end = 0;
+	if (slen != 0) {
+		end = slen;
+		if (lastword && !somethingIsSelected) {
+			end = (size_t)dwStart;
+			while (end < slen) {
+				if (_istspace(sel[end]) || isItSmiley((int)end))
+					break;
+				end++;
 			}
+			start = (size_t)dwStart - 1;
+			while (start > 0 && start < (size_t)dwStart) {
+				if ((_istspace(sel[start]) && (end - start > 2)) || isItSmiley((int)start))
+					break;
+				start--;
+			}
+			boo = (TCHAR*)mir_alloc((end - start + 1) * sizeof(TCHAR));
+			_tcsncpy(boo, sel + start, end - start);
+			boo[end - start] = 0;
 		}
+		else {
+			boo = (TCHAR*)mir_alloc((slen + 1) * sizeof(TCHAR));
+			_tcscpy(boo, sel);
+		}
+
+		Invert(boo);
+
+		if (somethingIsSelected)
+			SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)boo);
+		else {
+			TCHAR *NewText = (TCHAR*)mir_alloc((start + _tcslen(boo) + (slen - start) + 1) * sizeof(TCHAR));
+			NewText[0] = 0;
+			_tcsncat(NewText, sel, start);
+			_tcscat(NewText, boo);
+			_tcsncat(NewText, sel + end, slen - end);
+			SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)NewText);
+			mir_free(NewText);
+		}
+
+		SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
 	}
+	mir_free(sel);
+	mir_free(boo);
 }
 
 int OnButtonPressed(WPARAM wParam, LPARAM lParam)
