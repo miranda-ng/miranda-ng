@@ -39,32 +39,22 @@ bool isItSmiley(unsigned int position)
 
 static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	static int sendBufferSize;
-	char **ppText = (char **)dwCookie;
-
-	if (*ppText == NULL)
-		sendBufferSize = 0;
-
-	*ppText = (char *)mir_realloc(*ppText, size_t(sendBufferSize + cb + 2));
-	memcpy(*ppText + sendBufferSize, pbBuff, (size_t)cb);
-	sendBufferSize += cb;
-	*((TCHAR *)(*ppText + sendBufferSize)) = '\0';
+	TCHAR **ppText = (TCHAR**)dwCookie;
+	*ppText = mir_tstrndup((TCHAR*)pbBuff, cb / sizeof(TCHAR));
 	*pcb = cb;
 	return 0;
 }
 
 TCHAR* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 {
-	EDITSTREAM stream = { 0 };
-	TCHAR *pszText = NULL;
-
 	if (hwndRtf == 0)
 		return NULL;
 
+	TCHAR *pszText = NULL;
+	EDITSTREAM stream = { 0 };
 	stream.pfnCallback = StreamOutCallback;
 	stream.dwCookie = (DWORD_PTR)&pszText;
 	SendMessage(hwndRtf, EM_STREAMOUT, (WPARAM)dwPassedFlags, (LPARAM)&stream);
-
 	return pszText;
 }
 
@@ -430,7 +420,7 @@ VOID SwitchLayout(bool lastword)
 						keys[VK_CONTROL] = (HIBYTE(vks) & 2) ? 0xFF : 0x00; // ctrl
 						keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
 
-						if (!isItSmiley(i)) {
+						if (!isItSmiley(DWORD(i))) {
 							TCHAR tchr;
 							if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
 								buf[i] = tchr;
@@ -686,27 +676,40 @@ void InvertCase(bool lastword)
 int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
-	if (mir_strcmp(cbcd->pszModule, "Switch Layout and Send") == 0) {
-		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-		if (!hEdit)
-			hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
 
-		BYTE byKeybState[256];
-		GetKeyboardState(byKeybState);
-		byKeybState[VK_CONTROL] = 128;
-		SetKeyboardState(byKeybState);
-		SendMessage(hEdit, WM_KEYDOWN, VK_UP, 0);
-		byKeybState[VK_CONTROL] = 0;
-		SetKeyboardState(byKeybState);
+	int iType;
+	if (!mir_strcmp(cbcd->pszModule, "Switch Layout and Send"))
+		iType = 1;
+	else if (!mir_strcmp(cbcd->pszModule, "Translit and Send"))
+		iType = 2;
+	else if (!mir_strcmp(cbcd->pszModule, "Invert Case and Send"))
+		iType = 3;
+	else
+		return 0;
 
-		DWORD dwProcessID;
-		DWORD dwThreadID = GetWindowThreadProcessId(cbcd->hwndFrom, &dwProcessID);
-		HKL hkl = GetKeyboardLayout(dwThreadID);
+	HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
+	if (!hEdit)
+		hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
 
-		TCHAR *sel = Message_GetFromStream(hEdit, SF_TEXT | SF_UNICODE);
-		size_t slen = _tcslen(sel);
+	BYTE byKeybState[256];
+	GetKeyboardState(byKeybState);
+	byKeybState[VK_CONTROL] = 128;
+	SetKeyboardState(byKeybState);
+	SendMessage(hEdit, WM_KEYDOWN, VK_UP, 0);
+	byKeybState[VK_CONTROL] = 0;
+	SetKeyboardState(byKeybState);
 
-		if (slen != 0) {
+	TCHAR *sel = Message_GetFromStream(hEdit, SF_TEXT | SF_UNICODE);
+	size_t slen = _tcslen(sel);
+	if (slen != 0) {
+		switch (iType) {
+		case 3: Invert(sel); break;
+		case 2: Transliterate(sel); break;
+		case 1:
+			DWORD dwProcessID;
+			DWORD dwThreadID = GetWindowThreadProcessId(cbcd->hwndFrom, &dwProcessID);
+			HKL hkl = GetKeyboardLayout(dwThreadID);
+
 			memset(&smgp, 0, sizeof(smgp));
 			smgp.cbSize = sizeof(smgp);
 			smgp.str = sel;
@@ -733,116 +736,28 @@ int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 			}
 			if (smileyPrs != NULL)
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smileyPrs);
-
-			ptrT tszSymbol(db_get_tsa(NULL, "TranslitSwitcher", "ResendSymbol"));
-			if (tszSymbol == NULL) {
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
-				SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
-				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-			}
-			else {
-				if (_tcsncmp(sel, tszSymbol, _tcslen(tszSymbol)) == 0) {
-					SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
-					SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
-					SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-				}
-				else {
-					size_t FinalLen = slen + _tcslen(tszSymbol) + 1;
-					TCHAR *FinalString = (TCHAR*)mir_alloc((FinalLen + 1)*sizeof(TCHAR));
-					mir_sntprintf(FinalString, FinalLen, _T("%s %s"), tszSymbol, sel);
-					SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)FinalString);
-					SendMessage(hEdit, EM_SETSEL, 0, FinalLen);
-					SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-					mir_free(FinalString);
-				}
-			}
+			break;
 		}
-		mir_free(sel);
-		return 1;
 	}
-	if (mir_strcmp(cbcd->pszModule, "Translit and Send") == 0) {
-		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-		if (!hEdit)
-			hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
 
-		BYTE byKeybState[256];
-		GetKeyboardState(byKeybState);
-		byKeybState[VK_CONTROL] = 128;
-		SetKeyboardState(byKeybState);
-		SendMessage(hEdit, WM_KEYDOWN, VK_UP, 0);
-		byKeybState[VK_CONTROL] = 0;
-		SetKeyboardState(byKeybState);
-
-		TCHAR *sel = Message_GetFromStream(hEdit, SF_TEXT | SF_UNICODE);
-		size_t slen = _tcslen(sel);
-		if (slen != 0)
-			Transliterate(sel);
-		ptrT tszSymbol(db_get_tsa(NULL, "TranslitSwitcher", "ResendSymbol"));
-		if (tszSymbol == NULL) {
-			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
-			SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
-			SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-		}
-		else {
-			if (_tcsncmp(sel, tszSymbol, _tcslen(tszSymbol)) == 0) {
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
-				SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
-				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-			}
-			else {
-				size_t FinalLen = _tcslen(sel) + _tcslen(tszSymbol) + 1;
-				TCHAR *FinalString = (TCHAR*)mir_alloc((FinalLen + 1)*sizeof(TCHAR));
-				mir_sntprintf(FinalString, FinalLen, _T("%s %s"), tszSymbol, sel);
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)FinalString);
-				SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)FinalLen);
-				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-				mir_free(FinalString);
-			}
-		}
-		mir_free(sel);
-		return 1;
+	ptrT tszSymbol(db_get_tsa(NULL, "TranslitSwitcher", "ResendSymbol"));
+	if (tszSymbol == NULL) {
+		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
+		SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
+		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 	}
-	if (mir_strcmp(cbcd->pszModule, "Invert Case and Send") == 0) {
-		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
-		if (!hEdit)
-			hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
-
-		BYTE byKeybState[256];
-		GetKeyboardState(byKeybState);
-		byKeybState[VK_CONTROL] = 128;
-		SetKeyboardState(byKeybState);
-		SendMessage(hEdit, WM_KEYDOWN, VK_UP, 0);
-		byKeybState[VK_CONTROL] = 0;
-		SetKeyboardState(byKeybState);
-
-		TCHAR *sel = Message_GetFromStream(hEdit, SF_TEXT | SF_UNICODE);
-		size_t slen = _tcslen(sel);
-		if (slen != 0)
-			Invert(sel);
-		ptrT tszSymbol(db_get_tsa(NULL, "TranslitSwitcher", "ResendSymbol"));
-		if (tszSymbol == NULL) {
-			SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
-			SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
-			SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-		}
-		else {
-			if (_tcsncmp(sel, tszSymbol, _tcslen(tszSymbol)) == 0) {
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
-				SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
-				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-			}
-			else {
-				size_t FinalLen = slen + _tcslen(tszSymbol) + 1;
-				TCHAR *FinalString = (TCHAR*)mir_alloc((FinalLen + 1)*sizeof(TCHAR));
-				mir_sntprintf(FinalString, FinalLen, _T("%s %s"), tszSymbol, sel);
-				SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)FinalString);
-				SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)FinalLen);
-				SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
-				mir_free(FinalString);
-			}
-		}
-		mir_free(sel);
-		return 1;
+	else if (_tcsncmp(sel, tszSymbol, _tcslen(tszSymbol)) == 0) {
+		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
+		SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
+		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 	}
-	return 0;
+	else {
+		CMString tszFinal(FORMAT, _T("%s %s"), tszSymbol, sel);
+		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)tszFinal.GetString());
+		SendMessage(hEdit, EM_SETSEL, 0, tszFinal.GetLength());
+		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
+	}
+
+	mir_free(sel);
+	return 1;
 }
