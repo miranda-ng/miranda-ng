@@ -79,9 +79,9 @@ void RefreshInfobar(InfobarWindowData* idat)
 	TCHAR szText[2048];
 	SETTEXTEX st;
 	if ( szXStatusMsg && *szXStatusMsg )
-		mir_sntprintf(szText, 2047, _T("%s (%s)"), TranslateTS(szXStatusName), szXStatusMsg);
+		mir_sntprintf(szText, SIZEOF(szText), _T("%s (%s)"), TranslateTS(szXStatusName), szXStatusMsg);
 	else
-		mir_sntprintf(szText, 2047, _T("%s"), TranslateTS(szXStatusName));
+		_tcsncpy_s(szText, TranslateTS(szXStatusName), _TRUNCATE);
 	st.flags = ST_DEFAULT;
 	st.codepage = 1200;
 	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactName);

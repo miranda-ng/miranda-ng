@@ -831,7 +831,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		case IDC_MUC_OPENLOGBASEDIR:
 			{
 				TCHAR	tszTemp[MAX_PATH + 20];
-				mir_sntprintf(tszTemp, MAX_PATH + 20, _T("%s"), g_Settings.pszLogDir);
+				_tcsncpy_s(tszTemp, g_Settings.pszLogDir, _TRUNCATE);
 
 				TCHAR *p = tszTemp;
 				while(*p && (*p == '\\' || *p == '.'))
@@ -841,10 +841,10 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					if (TCHAR *p1 = _tcschr(p, '\\'))
 						*p1 = 0;
 
-				TCHAR	tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
-				mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s%s"), M.getChatLogPath(), p);
+				TCHAR tszInitialDir[_MAX_DRIVE + _MAX_PATH + 10];
+				mir_sntprintf(tszInitialDir, SIZEOF(tszInitialDir), _T("%s%s"), M.getChatLogPath(), p);
 				if (!PathFileExists(tszInitialDir))
-					mir_sntprintf(tszInitialDir, MAX_PATH, _T("%s"), M.getChatLogPath());
+					_tcsncpy_s(tszInitialDir, M.getChatLogPath(), _TRUNCATE);
 
 				TCHAR	tszReturnName[MAX_PATH]; tszReturnName[0] = 0;
 				mir_sntprintf(tszTemp, SIZEOF(tszTemp), _T("%s%c*.*%c%c"), TranslateT("All Files"), 0, 0, 0);

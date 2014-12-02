@@ -141,7 +141,7 @@ void TSAPI CreateSystrayIcon(int create)
 	nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 	nim.hIcon = PluginConfig.g_iconContainer;
 	nim.uCallbackMessage = DM_TRAYICONNOTIFY;
-	mir_sntprintf(nim.szTip, 64, _T("%s"), _T("tabSRMM"));
+	_tcsncpy_s(nim.szTip, _T("tabSRMM"), _TRUNCATE);
 	if (create && !nen_options.bTrayExist) {
 		Shell_NotifyIcon(NIM_ADD, &nim);
 		nen_options.bTrayExist = TRUE;
@@ -230,11 +230,9 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 	TCHAR			szFinalNick[100];
 
 	if (szNickname == NULL)
-		mir_sntprintf(szFinalNick, SIZEOF(szFinalNick), _T("%s"), pcli->pfnGetContactDisplayName(hContact, 0));
-	else {
-		_tcsncpy(szFinalNick, szNickname, 100);
-		szFinalNick[99] = 0;
-	}
+		_tcsncpy_s(szFinalNick, pcli->pfnGetContactDisplayName(hContact, 0), _TRUNCATE);
+	else
+		_tcsncpy_s(szFinalNick, szNickname, _TRUNCATE);
 
 	if (szProto == NULL)
 		szProto = GetContactProto(hContact);

@@ -495,12 +495,12 @@ static INT_PTR IsFlashingActiveService(WPARAM, LPARAM)
 
 INT_PTR NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR strAux[MAX_PATH+1], *strIn = (TCHAR *)lParam;
+	TCHAR strAux[MAX_PATH + 1], *strIn = (TCHAR*)lParam;
 
-	mir_sntprintf(strAux, MAX_PATH, _T("%s"), strIn);
-	mir_sntprintf(strIn, MAX_PATH, _T("%s"), normalizeCustomString(strAux));
+	_tcsncpy_s(strAux, strIn, _TRUNCATE);
+	_tcsncpy_s(strIn, MAX_PATH, normalizeCustomString(strAux), _TRUNCATE);
 
-	return (int)strIn;
+	return (INT_PTR)strIn;
 }
 
 
@@ -698,10 +698,10 @@ void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 	while (str = _tcschr(profileName, _T('\\')))
 		*str = _T('/');
 	if ((len = _tcslen(profileName)) <= maxLen)
-		_tcscpy(prefixName, profileName);
+		_tcsncpy_s(prefixName, maxLen, profileName, _TRUNCATE);
 	else {
 		str = profileName + len - maxLen / 2;
-		mir_sntprintf(prefixName, maxLen / 2, _T("%s"), profileName);
+		_tcsncpy_s(prefixName, (maxLen / 2), profileName, _TRUNCATE);
 		_tcscat(prefixName, str);
 	}
 }

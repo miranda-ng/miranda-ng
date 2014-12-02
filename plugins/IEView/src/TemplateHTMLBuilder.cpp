@@ -195,7 +195,7 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 	}
 	mir_snprintf(tempStr, SIZEOF(tempStr), "%snoavatar.png", tempBase);
 	TCHAR szNoAvatarPath[MAX_PATH];
-	mir_sntprintf(szNoAvatarPath, SIZEOF(szNoAvatarPath), _T("%s"), _A2T(protoSettings->getSRMMTemplateFilename()));
+	_tcsncpy_s(szNoAvatarPath, _A2T(protoSettings->getSRMMTemplateFilename()), _TRUNCATE);
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;
@@ -370,7 +370,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	}
 
 	TCHAR szNoAvatarPath[MAX_PATH];
-	mir_sntprintf(szNoAvatarPath, SIZEOF(szNoAvatarPath), _T("%s"), _A2T(protoSettings->getSRMMTemplateFilename()));
+	_tcsncpy_s(szNoAvatarPath, _A2T(protoSettings->getSRMMTemplateFilename()), _TRUNCATE);
 	TCHAR *szNoAvatarPathTmp = _tcsrchr(szNoAvatarPath, '\\');
 	if (szNoAvatarPathTmp != NULL)
 		*szNoAvatarPathTmp = 0;

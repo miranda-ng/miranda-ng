@@ -52,7 +52,7 @@ void SendQueue::handleError(TWindowData *dat, const int iEntry) const
 	TCHAR szErrorMsg[500];
 
 	dat->iCurrentQueueError = iEntry;
-	mir_sntprintf(szErrorMsg, 500, _T("%s"), m_jobs[iEntry].szErrorMsg);
+	_tcsncpy_s(szErrorMsg, m_jobs[iEntry].szErrorMsg, _TRUNCATE);
 	logError(dat, iEntry, szErrorMsg);
 	recallFailed(dat, iEntry);
 	showErrorControls(dat, TRUE);

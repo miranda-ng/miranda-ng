@@ -75,7 +75,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
-			mir_sntprintf(szUid, SIZEOF(szUid), _T("%s"), ci.pszVal);
+			_tcsncpy_s(szUid, ci.pszVal, _TRUNCATE);
 			mir_free(ci.pszVal);
 			break;
 

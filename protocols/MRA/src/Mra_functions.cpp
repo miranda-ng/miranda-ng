@@ -872,7 +872,7 @@ void CMraProto::ShowFormattedErrorMessage(LPWSTR lpwszErrText, DWORD dwErrorCode
 	size_t dwErrDescriptionSize;
 
 	if (dwErrorCode == NO_ERROR)
-		mir_sntprintf(szErrorText, SIZEOF(szErrorText), _T("%s"), TranslateTS(lpwszErrText));
+		_tcsncpy_s(szErrorText, TranslateTS(lpwszErrText), _TRUNCATE);
 	else {
 		dwErrDescriptionSize = (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwErrorCode, 0, szErrDescription, (SIZEOF(szErrDescription) - sizeof(WCHAR)), NULL) - 2);
 		szErrDescription[dwErrDescriptionSize] = 0;

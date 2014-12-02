@@ -1002,7 +1002,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
 				switch (ci.type) {
 				case CNFT_ASCIIZ:
-					mir_sntprintf(buf, SIZEOF(buf), _T("%s"), ci.pszVal);
+					_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
 					mir_free(ci.pszVal);
 					break;
 
@@ -1113,7 +1113,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 							switch (ci.type) {
 							case CNFT_ASCIIZ:
-								mir_sntprintf(buf, SIZEOF(buf), _T("%s"), (TCHAR*)ci.pszVal);
+								_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
 								mir_free(ci.pszVal);
 								break;
 							case CNFT_DWORD:

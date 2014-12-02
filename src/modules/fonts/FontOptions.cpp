@@ -522,7 +522,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	if (F.flags & FIDF_APPENDNAME)
 		mir_snprintf(str, SIZEOF(str), "%sName", F.prefix);
 	else
-		mir_snprintf(str, SIZEOF(str), "%s", F.prefix);
+		strncpy_s(str, F.prefix, _TRUNCATE);
 
 	if (db_set_ts(NULL, F.dbSettingsGroup, str, F.value.szFace)) {
 		char buff[1024];
@@ -1185,7 +1185,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			for (i=0; i < colour_id_list_w2.getCount(); i++) {
 				ColourInternal& C = colour_id_list_w2[i];
 
-				mir_snprintf(str, SIZEOF(str), "%s", C.setting);
+				strncpy_s(str, C.setting, _TRUNCATE);
 				db_set_dw(NULL, C.dbSettingsGroup, str, C.value);
 			}
 

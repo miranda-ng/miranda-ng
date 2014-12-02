@@ -72,10 +72,10 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (off)
 					mir_sntprintf(name + off, SIZEOF(name) - off, _T(" (%s)"), nickT);
 				else
-					mir_sntprintf(name, SIZEOF(name), _T("%s"), nickT);
+					_tcsncpy_s(name, nickT, _TRUNCATE);
 			}
 			if (!name[0])
-				_tcscpy(name, TranslateT("<Unknown>"));
+				_tcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
 
 			TCHAR hdr[256];
 			if (uin && emailT[0])
@@ -197,10 +197,10 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (off)
 					mir_sntprintf(name + off, SIZEOF(name) - off, _T(" (%s)"), (TCHAR*)nickT);
 				else
-					mir_sntprintf(name, SIZEOF(name), _T("%s"), (TCHAR*)nickT);
+					_tcsncpy_s(name, nickT, _TRUNCATE);
 			}
 			if (!name[0])
-				_tcscpy(name, TranslateT("<Unknown>"));
+				_tcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
 
 			TCHAR hdr[256];
 			if (uin && emailT[0])

@@ -2387,7 +2387,7 @@ LABEL_SHOWWINDOW:
 				MODULEINFO *pInfo = pci->MM_FindModule(si->pszModule);
 				if (pInfo) {
 					TCHAR szFile[MAX_PATH], szName[MAX_PATH], szFolder[MAX_PATH];
-					mir_sntprintf(szName, MAX_PATH, _T("%s"), pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule));
+					_tcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
 					ValidateFilename(szName);
 
 					mir_sntprintf(szFolder, MAX_PATH, _T("%s\\%s"), g_Settings.pszLogDir, szName);

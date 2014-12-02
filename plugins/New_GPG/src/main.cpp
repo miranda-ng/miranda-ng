@@ -154,19 +154,18 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							{
 								boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 								TCHAR buf[5];
-								mir_sntprintf(buf, 5, _T("%s"), expire_date);
+								_tcsncpy_s(buf, expire_date, _TRUNCATE);
 								int year = _ttoi(buf);
 								if(year < now.date().year())
 									expired = true;
 								else if(year == now.date().year())
 								{
-									mir_sntprintf(buf, 3, _T("%s"), expire_date+5);
+									_tcsncpy_s(buf, (expire_date + 5), _TRUNCATE);
 									int month = _ttoi(buf);
 									if(month < now.date().month())
 										expired = true;
-									else if(month == now.date().month())
-									{
-										mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
+									else if(month == now.date().month()) {
+										_tcsncpy_s(buf, (expire_date + 8), _TRUNCATE);
 										unsigned day = _ttoi(buf);
 										if(day <= now.date().day_number())
 											expired = true;
@@ -2125,19 +2124,19 @@ void InitCheck()
 					{
 						boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 						TCHAR buf[5];
-						mir_sntprintf(buf, 5, _T("%s"), expire_date);
+						_tcsncpy_s(buf, expire_date, _TRUNCATE);
 						int year = _ttoi(buf);
 						if(year < now.date().year())
 							expired = true;
 						else if(year == now.date().year())
 						{
-							mir_sntprintf(buf, 3, _T("%s"), expire_date+5);
+							_tcsncpy_s(buf, (expire_date + 5), _TRUNCATE);
 							int month = _ttoi(buf);
 							if(month < now.date().month())
 								expired = true;
 							else if(month == now.date().month())
 							{
-								mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
+								_tcsncpy_s(buf, (expire_date + 8), _TRUNCATE);
 								unsigned day = _ttoi(buf);
 								if(day <= now.date().day_number())
 									expired = true;
@@ -2192,19 +2191,19 @@ void InitCheck()
 			{
 				boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
 				TCHAR buf[5];
-				mir_sntprintf(buf, 5, _T("%s"), expire_date);
+				_tcsncpy_s(buf, expire_date, _TRUNCATE);
 				int year = _ttoi(buf);
 				if(year < now.date().year())
 					expired = true;
 				else if(year == now.date().year())
 				{
-					mir_sntprintf(buf, 3, _T("%s"), expire_date+5);
+					_tcsncpy_s(buf, (expire_date + 5), _TRUNCATE);
 					int month = _ttoi(buf);
 					if(month < now.date().month())
 						expired = true;
 					else if(month == now.date().month())
 					{
-						mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
+						_tcsncpy_s(buf, (expire_date + 8), _TRUNCATE);
 						unsigned day = _ttoi(buf);
 						if(day <= now.date().day_number())
 							expired = true;

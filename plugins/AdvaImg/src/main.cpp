@@ -294,7 +294,7 @@ static INT_PTR serviceBmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam)
 			&& width > bminfo.bmWidth && height > bminfo.bmHeight))
 	{
 		// Do nothing
-		return (int) info->hBmp;
+		return (INT_PTR)info->hBmp;
 	}
 	else
 	{
@@ -847,18 +847,18 @@ static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
 		// ok, let's load the file
 		FIBITMAP *dib;
 
-		if(lParam & IMGL_WCHAR)
+		if (lParam & IMGL_WCHAR)
 			dib = FreeImage_LoadU(fif, (wchar_t *)lpszFilename, 0);
 		else
 			dib = FreeImage_Load(fif, lpszFilename, 0);
 
 		if(dib == NULL || (lParam & IMGL_RETURNDIB))
-			return (int)dib;
+			return (INT_PTR)dib;
 
 		HBITMAP hbm = FreeImage_CreateHBITMAPFromDIB(dib);
 		FreeImage_Unload(dib);
 		FI_CorrectBitmap32Alpha(hbm, FALSE);
-		return((INT_PTR)hbm);
+		return ((INT_PTR)hbm);
 	}
 	return NULL;
 }

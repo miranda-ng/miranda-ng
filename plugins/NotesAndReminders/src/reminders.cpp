@@ -1017,7 +1017,7 @@ static BOOL ParseTime(LPCSTR s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAl
 // returns TRUE if combo box list displays time offsets ("23:34 (5 Minutes)" etc.)
 __inline static BOOL IsRelativeCombo(HWND Dialog, UINT nIDTime)
 {
-	return (int)SendDlgItemMessage(Dialog,nIDTime,CB_GETITEMDATA,0,0) >= 0;
+	return (((int)SendDlgItemMessage(Dialog,nIDTime,CB_GETITEMDATA,0,0)) >= 0);
 }
 
 static void PopulateTimeCombo(HWND Dialog, UINT nIDTime, BOOL bRelative, const SYSTEMTIME *tmUtc)

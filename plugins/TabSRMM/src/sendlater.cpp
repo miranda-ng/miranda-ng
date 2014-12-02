@@ -127,7 +127,7 @@ CSendLaterJob::~CSendLaterJob()
 
 				POPUPDATAT ppd = {0};
 				ppd.lchContact = hContact;
-				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : TranslateT("'(Unknown Contact)'"));
+				_tcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown Contact)'")), _TRUNCATE);
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
 					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("A send later job completed successfully.\nThe original message: %s"),
@@ -603,7 +603,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, LPARAM(&lvItem));
 
 			if (p->lastSent == 0)
-				mir_sntprintf(tszTimestamp, 30, _T("%s"), _T("Never"));
+				_tcsncpy_s(tszTimestamp, _T("Never"), _TRUNCATE);
 			else {
 				_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&p->lastSent));
 				tszTimestamp[29] = 0;

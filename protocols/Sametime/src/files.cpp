@@ -35,8 +35,8 @@ void mwFileTransfer_offered(mwFileTransfer* ft) {
 		TCHAR* messageT = mir_utf8decodeT(message);
 		mir_sntprintf(descriptionT, SIZEOF(descriptionT), _T("%s - %s"), filenameT, messageT);
 		mir_free(messageT);
-	}
-	else mir_sntprintf(descriptionT, SIZEOF(descriptionT), _T("%s"), filenameT);
+	} else
+		_tcsncpy_s(descriptionT, filenameT, _TRUNCATE);
 
 	PROTORECVFILET pre = {0};
 	pre.flags = PREF_TCHAR;

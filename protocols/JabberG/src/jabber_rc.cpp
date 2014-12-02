@@ -584,8 +584,8 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 				if (cbBlob < dbei.cbBlob) { // rest of message contains a sender's resource
 					ptrT szOResource( mir_utf8decodeT((LPSTR)dbei.pBlob + cbBlob+1));
 					mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s/%s"), tszJid, szOResource);
-				}
-				else mir_sntprintf(szOFrom, SIZEOF(szOFrom), _T("%s"), tszJid);
+				} else
+					_tcsncpy_s(szOFrom, tszJid, _TRUNCATE);
 
 				addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("ofrom")) << XATTR(_T("jid"), szOFrom);
 				addressesNode << XCHILD(_T("address")) << XATTR(_T("type"), _T("oto")) << XATTR(_T("jid"), m_ThreadInfo->fullJID);

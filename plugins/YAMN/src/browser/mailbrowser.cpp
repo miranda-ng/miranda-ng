@@ -1479,14 +1479,14 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			WCHAR *title=0;
 			size_t size = (From ? wcslen(From) : 0) + (Subj ? wcslen(Subj) : 0) + 4;
 			title = new WCHAR[size];
-			if (From&&Subj)
+			if (From && Subj)
 				mir_sntprintf(title, size, L"%s (%s)", Subj, From);
 			else if (From)
-				mir_sntprintf(title, size, L"%s", From);
+				_tcsncpy_s(title, size, From, _TRUNCATE);
 			else if (Subj)
-				mir_sntprintf(title, size, L"%s", Subj);
+				_tcsncpy_s(title, size, Subj, _TRUNCATE);
 			else
-				mir_sntprintf(title, size, L"none");
+				_tcsncpy_s(title, size, L"none", _TRUNCATE);
 			if (Subj) delete[] Subj;
 			if (From) delete[] From;
 			SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)title);

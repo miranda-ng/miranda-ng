@@ -127,7 +127,7 @@ wchar_t *StrReplace(wchar_t *source, const wchar_t *what, const wchar_t *withWha
 
 char *StrTrim(char *szText, const char *szTrimChars)
 {
-	int i = (int)strlen(szText) - 1;
+	size_t i = strlen(szText) - 1;
 	while (i >= 0 && strchr(szTrimChars, szText[i]))
 		szText[i--] = '\0';
 
@@ -143,7 +143,7 @@ char *StrTrim(char *szText, const char *szTrimChars)
 
 wchar_t *StrTrim(wchar_t *szText, const wchar_t *szTrimChars)
 {
-	int i = (int)wcslen(szText) - 1;
+	size_t i = wcslen(szText) - 1;
 	while (i >= 0 && wcschr(szTrimChars, szText[i]))
 		szText[i--] = '\0';
 

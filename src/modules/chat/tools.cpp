@@ -489,7 +489,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		if (gce->ptszUserInfo)
 			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s (%s)"), szTemp2, gce->ptszUserInfo);
 		else
-			mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s"), szTemp2);
+			_tcsncpy_s(szTemp, szTemp2, _TRUNCATE);
 		pszNick = szTemp;
 	}
 
@@ -546,7 +546,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	case GC_EVENT_INFORMATION:
 		p = '!';
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s"), ci.RemoveFormatting(gce->ptszText));
+		_tcsncpy_s(szBuffer, ci.RemoveFormatting(gce->ptszText), _TRUNCATE);
 		break;
 	case GC_EVENT_ADDSTATUS:
 		p = '+';

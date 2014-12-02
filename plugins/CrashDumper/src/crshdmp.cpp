@@ -375,7 +375,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 	if (catchcrashes && !needrestart)
 		mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
-	mir_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
+	_tcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
 
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

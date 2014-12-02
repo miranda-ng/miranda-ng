@@ -836,7 +836,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	mir_sntprintf(szPath + tPathLen, MAX_PATH - tPathLen, _T("\\%s"), dat->lpszFileName);
 	if ((pImgext = gg_img_hasextension(szPath)) == NULL)
 		pImgext = szPath + _tcslen(szPath);
-	mir_sntprintf(imgext, SIZEOF(imgext), _T("%s"), pImgext);
+	_tcsncpy_s(imgext, pImgext, _TRUNCATE);
 	for (i = 1; ; ++i)
 	{
 		if ((res = gg_img_isexists(szPath, dat)) != -1) break;

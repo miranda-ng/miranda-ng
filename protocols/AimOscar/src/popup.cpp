@@ -80,7 +80,7 @@ void CAimProto::ShowPopup(const char* msg, int flags, char* url)
 	}
 
 	TCHAR *msgt = (flags & TCHAR_POPUP) ? mir_tstrdup((TCHAR*)msg) : mir_a2t(msg);
-	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), _T("%s"), TranslateTS(msgt));
+	_tcsncpy_s(ppd.lptzText, TranslateTS(msgt), _TRUNCATE);
 	mir_free(msgt);
 
 	if (!ServiceExists(MS_POPUP_ADDPOPUPT))

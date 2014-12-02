@@ -189,7 +189,7 @@ __inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *path
 	if (res) {
 		wchar_t buffer[MAX_PATH];
 		PathToAbsoluteW(notFoundW, buffer);
-		mir_sntprintf(pathW, size, _T("%s"), buffer);
+		_tcsncpy_s(pathW, size, buffer, _TRUNCATE);
 	}
 
 	return res;
@@ -228,7 +228,7 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 	if (res) {
 		wchar_t buffer[MAX_PATH];
 		PathToAbsoluteW(notFoundW, buffer);
-		mir_sntprintf(pathW, size, _T("%s"), buffer);
+		wcsncpy_s(pathW, size, buffer, _TRUNCATE);
 	}
 
 	if (pathW[0] != '\0')

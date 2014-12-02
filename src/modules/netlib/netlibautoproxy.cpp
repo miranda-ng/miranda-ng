@@ -176,7 +176,7 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 		mir_snprintf(szUrl, SIZEOF(szUrl), "http://%s", nlc->nloc.szHost);
 	else
 	{
-		mir_snprintf(szUrl, SIZEOF(szUrl), "%s", nlc->nloc.szHost);
+		strncpy_s(szUrl, nlc->nloc.szHost, _TRUNCATE);
 		noHttp = true;
 	}
 

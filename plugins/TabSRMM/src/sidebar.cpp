@@ -146,7 +146,7 @@ const SIZE& CSideBarButton::measureItem()
 
 		HFONT oldFont = reinterpret_cast<HFONT>(::SelectObject(dc, ::GetStockObject(DEFAULT_GUI_FONT)));
 
-		mir_sntprintf(tszLabel, 255, _T("%s"), m_dat->newtitle);
+		_tcsncpy_s(tszLabel, m_dat->newtitle, _TRUNCATE);
 		::GetTextExtentPoint32(dc, tszLabel, (int)mir_tstrlen(tszLabel), &sz);
 
 		sz.cx += 28;

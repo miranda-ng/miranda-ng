@@ -172,7 +172,7 @@ INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM)
 
 	if (g_SetAwayMsgPage.GetWnd()) { // already setting something
 		SetForegroundWindow(g_SetAwayMsgPage.GetWnd());
-		return (int)g_SetAwayMsgPage.GetWnd();
+		return (INT_PTR)g_SetAwayMsgPage.GetWnd();
 	}
 	SetAwayMsgData *dat = new SetAwayMsgData;
 	memset(dat, 0, sizeof(SetAwayMsgData));

@@ -1412,7 +1412,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 			MCONTACT hContact = HContactFromJID(pNode->GetJid());
 			if (!hContact) {
 				JABBER_SEARCH_RESULT jsr={0};
-				mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s"), jid);
+				_tcsncpy_s(jsr.jid, jid, _TRUNCATE);
 				jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
 				hContact = (MCONTACT)CallProtoService(m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
 			}

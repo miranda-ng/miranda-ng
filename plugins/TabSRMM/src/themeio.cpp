@@ -400,9 +400,9 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 						db_set_utf(NULL, TEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
-						mir_sntprintf(LTR_Active.szTemplates[i], TEMPLATE_LENGTH, L"%s", decoded);
+						_tcsncpy_s(LTR_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
-						mir_sntprintf(dat->ltr_templates->szTemplates[i], TEMPLATE_LENGTH, L"%s", decoded);
+						_tcsncpy_s(dat->ltr_templates->szTemplates[i], decoded, _TRUNCATE);
 					mir_free(decoded);
 				}
 
@@ -413,9 +413,9 @@ void TSAPI ReadThemeFromINI(const TCHAR *szIniFilenameT, TContainerData *dat, in
 						db_set_utf(NULL, RTLTEMPLATES_MODULE, TemplateNames[i], szTemplateBuffer);
 					decoded = mir_utf8decodeW(szTemplateBuffer);
 					if (dat == 0)
-						mir_sntprintf(RTL_Active.szTemplates[i], TEMPLATE_LENGTH, L"%s", decoded);
+						_tcsncpy_s(RTL_Active.szTemplates[i], decoded, _TRUNCATE);
 					else
-						mir_sntprintf(dat->rtl_templates->szTemplates[i], TEMPLATE_LENGTH, L"%s", decoded);
+						_tcsncpy_s(dat->rtl_templates->szTemplates[i], decoded, _TRUNCATE);
 					mir_free(decoded);
 				}
 			}
@@ -435,7 +435,7 @@ const TCHAR* TSAPI GetThemeFileName(int iMode)
 	OPENFILENAME ofn = {0};
 	TCHAR szInitialDir[MAX_PATH];
 
-	mir_sntprintf(szInitialDir, MAX_PATH, _T("%s"), M.getSkinPath());
+	_tcsncpy_s(szInitialDir, M.getSkinPath(), _TRUNCATE);
 
 	szFilename[0] = 0;
 

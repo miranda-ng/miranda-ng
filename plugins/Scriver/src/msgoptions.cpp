@@ -112,8 +112,8 @@ void RegisterFontServiceFonts()
 {
 	int i;
 	FontIDT fid = { sizeof(fid) };
-	mir_sntprintf(fid.group, SIZEOF(fid.group), _T("%s"), LPGENT("Messaging"));
-	mir_sntprintf(fid.backgroundGroup, SIZEOF(fid.backgroundGroup), _T("%s"), LPGENT("Messaging"));
+	_tcsncpy_s(fid.group, LPGENT("Messaging"), _TRUNCATE);
+	_tcsncpy_s(fid.backgroundGroup, LPGENT("Messaging"), _TRUNCATE);
 	strncpy(fid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID | FIDF_DEFAULTVALID;
 	for (i = 0; i < SIZEOF(fontOptionsList); i++) {
@@ -133,7 +133,7 @@ void RegisterFontServiceFonts()
 	}
 
 	ColourIDT cid = { sizeof(cid) };
-	mir_sntprintf(cid.group, SIZEOF(cid.group), _T("%s"), LPGENT("Messaging"));
+	_tcsncpy_s(cid.group, LPGENT("Messaging"), _TRUNCATE);
 	strncpy(cid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	cid.flags = 0;
 	for (i = 0; i < SIZEOF(colourOptionsList); i++) {

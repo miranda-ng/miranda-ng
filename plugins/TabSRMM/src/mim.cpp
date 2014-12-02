@@ -101,21 +101,25 @@ void CMimAPI::configureCustomFolders()
 
 INT_PTR CMimAPI::foldersPathChanged()
 {
-	TCHAR szTemp[MAX_PATH + 2] = {'\0'};
+	TCHAR szTemp[MAX_PATH + 2];
 
 	if (m_hDataPath) {
+		szTemp[0] = 0;
 		FoldersGetCustomPathT(m_hDataPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getDataPath()));
-		mir_sntprintf(m_szProfilePath, MAX_PATH, _T("%s"), szTemp);
+		_tcsncpy_s(m_szProfilePath, szTemp, _TRUNCATE);
 
+		szTemp[0] = 0;
 		FoldersGetCustomPathT(m_hSkinsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getSkinPath()));
-		mir_sntprintf(m_szSkinsPath, MAX_PATH - 1, _T("%s"), szTemp);
+		_tcsncpy_s(m_szSkinsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
 		Utils::ensureTralingBackslash(m_szSkinsPath);
 
+		szTemp[0] = 0;
 		FoldersGetCustomPathT(m_hAvatarsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getSavedAvatarPath()));
-		mir_sntprintf(m_szSavedAvatarsPath, MAX_PATH, _T("%s"), szTemp);
+		_tcsncpy_s(m_szSavedAvatarsPath, szTemp, _TRUNCATE);
 
+		szTemp[0] = 0;
 		FoldersGetCustomPathT(m_hChatLogsPath, szTemp, MAX_PATH, const_cast<TCHAR *>(getChatLogPath()));
-		mir_sntprintf(m_szChatLogsPath, MAX_PATH, _T("%s"), szTemp);
+		_tcsncpy_s(m_szChatLogsPath, (MAX_PATH - 1), szTemp, _TRUNCATE);
 		Utils::ensureTralingBackslash(m_szChatLogsPath);
 	}
 
