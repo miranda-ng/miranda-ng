@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#define MIRANDA_0_5
-
 #define LOGICON_MSG_IN      0
 #define LOGICON_MSG_OUT     1
 #define LOGICON_MSG_NOTICE  2
@@ -39,6 +37,8 @@ static HIMAGELIST g_hImageList;
 #define STREAMSTAGE_EVENTS  1
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
+
+#define SMF_AFTERMASK (SMF_SHOWTIME | SMF_GROUPMESSAGES | SMF_MARKFOLLOWUPS)
 
 struct EventData
 {
@@ -272,7 +272,7 @@ static int AppendUnicodeOrAnsiiToBufferL(char **buffer, int *cbBufferEnd, int *c
 		d += 6;
 	}
 
-	for (; *line && (maxLen < 0 || line < maxLine); line++, textCharsCount++) {
+	for (; *line && (maxLen == -1 || line < maxLine); line++, textCharsCount++) {
 		wasEOL = 0;
 		if (*line == '\r' && line[1] == '\n') {
 			CopyMemory(d, "\\line ", 6);
@@ -670,7 +670,7 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, struct Glob
 		}
 	}
 
-	if (gdat->flags & (SMF_SHOWTIME | SMF_GROUPMESSAGES | SMF_MARKFOLLOWUPS) && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
+	if ((gdat->flags & SMF_AFTERMASK) == SMF_AFTERMASK && evt->eventType == EVENTTYPE_MESSAGE && isGroupBreak) {
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, " %s ", SetToStyle(evt->dwFlags & IEEDF_SENT ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME));
 		AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, TimestampToString(gdat->flags, evt->time, 2));
 		showColon = 1;
