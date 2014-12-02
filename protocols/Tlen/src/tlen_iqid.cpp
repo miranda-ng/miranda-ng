@@ -257,7 +257,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 		if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) return;
 			if (strchr(jid, '@') != NULL) {
-				mir_snprintf(text, SIZEOF(text), "%s", jid);
+				strncpy_s(text, jid, _TRUNCATE);
 			} else {
 				mir_snprintf(text, SIZEOF(text),  "%s@%s", jid, dbv.pszVal);	// Add @tlen.pl
 			}
@@ -419,7 +419,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 				if (!strcmp(itemNode->name, "item")) {
 					if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 						if (strchr(jid, '@') != NULL) {
-							mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s", jid);
+							strncpy_s(jsr.jid, jid, _TRUNCATE);
 						} else {
 							mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s@%s", jid, dbv.pszVal);
 						}
@@ -467,7 +467,7 @@ void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 			if (proto->searchJID != NULL) {
 				if (!found) {
 					if (strchr(proto->searchJID, '@') != NULL) {
-						mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s", proto->searchJID);
+						strncpy_s(jsr.jid, proto->searchJID, _TRUNCATE);
 					} else {
 						mir_snprintf(jsr.jid, SIZEOF(jsr.jid), "%s@%s", proto->searchJID, dbv.pszVal);
 					}

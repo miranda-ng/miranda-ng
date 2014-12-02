@@ -637,8 +637,8 @@ bool CMsnProto::MSN_ABFind(const char* szMethod, const char* szGuid, bool deltas
 			}
 
 			ezxml_t abinf = ezxml_child(ab, "abInfo");
-			mir_snprintf(mycid, SIZEOF(mycid), "%s", ezxml_txt(ezxml_child(abinf, "OwnerCID")));
-			mir_snprintf(mypuid, SIZEOF(mypuid), "%s", ezxml_txt(ezxml_child(abinf, "ownerPuid")));
+			strncpy_s(mycid, ezxml_txt(ezxml_child(abinf, "OwnerCID")), _TRUNCATE);
+			strncpy_s(mypuid, ezxml_txt(ezxml_child(abinf, "ownerPuid")), _TRUNCATE);
 
 			if (MyOptions.ManageServer) {
 				ezxml_t grp = ezxml_get(body, szGroups, 0, "Group", -1);

@@ -93,8 +93,9 @@ void AddNewGroup(char *newGroup)
 	
 	char tmp[128];
 	char group[1024];
+
 	*group = 1;
-	mir_snprintf((group + 1), (SIZEOF(group) - 1), "%s", newGroup);
+	strncpy_s((group + 1), (SIZEOF(group) - 1), newGroup, _TRUNCATE);
 	
 	mir_snprintf(tmp, SIZEOF(tmp), "%d", index);
 	const int MAX_SIZE = 1024;
@@ -129,7 +130,7 @@ void CreateGroup(char *group)
 			strncat(buffer, sub, sizeof(buffer));
 		}
 		else{
-			mir_snprintf(buffer, SIZEOF(buffer), "%s", sub);
+			strncpy_s(buffer, sub, _TRUNCATE);
 		}
 		
 		if (!availableGroups.Contains(buffer))
@@ -149,7 +150,7 @@ void CreateGroup(char *group)
 			strncat(buffer, sub, sizeof(buffer));
 		}
 		else{
-			mir_snprintf(buffer, SIZEOF(buffer), "%s", sub);
+			strncpy_s(buffer, sub, _TRUNCATE);
 		}
 		
 		if (!availableGroups.Contains(buffer))

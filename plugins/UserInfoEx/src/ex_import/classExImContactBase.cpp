@@ -297,7 +297,7 @@ void CExImContactBase::toIni(FILE* file, int modCount)
 					mir_snprintf(name, SIZEOF(name),"(UNKNOWN) (%s)", _pszProto);
 			}
 			else
-				mir_snprintf(name, SIZEOF(name),"%s", "(UNKNOWN)");
+				strncpy_s(name, "(UNKNOWN)", _TRUNCATE);
 		}
 		else {
 			// Proto loadet - GetContactName(hContact,pszProto,0)

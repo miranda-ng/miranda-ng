@@ -219,7 +219,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
-			mir_snprintf(buf, SIZEOF(buf), "%s", ci.pszVal);
+			strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
@@ -233,7 +233,7 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
-			mir_snprintf(buf, SIZEOF(buf), "%s", ci.pszVal);
+			strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
 			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:

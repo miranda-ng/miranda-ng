@@ -257,7 +257,7 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 
 			UpdateStoreHost("GetProfile", body ? storeUrl : NULL);
 
-			mir_snprintf(proresid, SIZEOF(proresid), "%s", ezxml_txt(ezxml_child(body, "ResourceID")));
+			strncpy_s(proresid, ezxml_txt(ezxml_child(body, "ResourceID")), _TRUNCATE);
 
 			ezxml_t expr = ezxml_child(body, "ExpressionProfile");
 			if (expr == NULL) {
@@ -272,10 +272,10 @@ bool CMsnProto::MSN_StoreGetProfile(bool allowRecurse)
 				const char* szStatus = ezxml_txt(ezxml_child(expr, "PersonalStatus"));
 				replaceStr(msnLastStatusMsg, szStatus);
 
-				mir_snprintf(expresid, SIZEOF(expresid), "%s", ezxml_txt(ezxml_child(expr, "ResourceID")));
+				strncpy_s(expresid, ezxml_txt(ezxml_child(expr, "ResourceID")), _TRUNCATE);
 
 				ezxml_t photo = ezxml_child(expr, "Photo");
-				mir_snprintf(photoid, SIZEOF(photoid), "%s", ezxml_txt(ezxml_child(photo, "ResourceID")));
+				strncpy_s(photoid, ezxml_txt(ezxml_child(photo, "ResourceID")), _TRUNCATE);
 
 				ezxml_t docstr = ezxml_get(photo, "DocumentStreams", 0, "DocumentStream", -1);
 				while (docstr) {
@@ -565,7 +565,7 @@ bool CMsnProto::MSN_StoreCreateDocument(const TCHAR *sztName, const char *szMime
 		if (status == 200) {
 			ezxml_t xmlm = ezxml_parse_str(tResult, strlen(tResult));
 			ezxml_t bdy = getSoapResponse(xmlm, "CreateDocument");
-			mir_snprintf(photoid, SIZEOF(photoid), "%s", ezxml_txt(bdy));
+			strncpy_s(photoid, ezxml_txt(bdy), _TRUNCATE);
 			ezxml_free(xmlm);
 		}
 		else if (status == 500) {

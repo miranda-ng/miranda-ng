@@ -117,9 +117,8 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 					}
 					mir_snprintf(str, SIZEOF(str), "%s (%s)", pszStatus, pXName);
 					SAFE_FREE((void**)&pXName);
-				}
-				else
-					mir_snprintf(str, SIZEOF(str), "%s", pszStatus);
+				} else
+					strncpy_s(str, pszStatus, _TRUNCATE);
 
 				bUtf = 1;
 				SAFE_FREE(&pszStatus);

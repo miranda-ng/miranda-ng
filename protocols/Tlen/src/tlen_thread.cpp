@@ -1190,7 +1190,7 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 		if (strchr(from, '@') == NULL) {
 			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, info->server);
 		} else {
-			mir_snprintf(jid, SIZEOF(jid), "%s", from);
+			strncpy_s(jid, from, _TRUNCATE);
 		}
 		if ((e=TlenXmlGetAttrValue(node, "e")) != NULL) {
 			if (!strcmp(e, "1")) {

@@ -50,7 +50,7 @@ static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 				switch(ci.type) {
 				case CNFT_ASCIIZ:
 					hasName = 1;
-					mir_snprintf(buf, SIZEOF(buf), "%s", ci.pszVal);
+					strncpy_s(buf, (char*)ci.pszVal, _TRUNCATE);
 					mir_free(ci.pszVal);
 					break;
 				case CNFT_DWORD:

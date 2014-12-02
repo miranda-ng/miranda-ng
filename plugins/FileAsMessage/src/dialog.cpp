@@ -1191,7 +1191,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 					if(size != -1)
 						mir_snprintf(str, SIZEOF(str), Translate("Size: %d bytes"), size);
 					else
-						mir_snprintf(str, SIZEOF(str), "%s", Translate("Can't get a file size"));
+						strncpy_s(str, Translate("Can't get a file size"), _TRUNCATE);
 					SetDlgItemText(hDlg, IDC_FILESIZE, str);					
 
 					break;

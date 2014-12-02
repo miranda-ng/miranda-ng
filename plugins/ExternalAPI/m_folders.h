@@ -172,7 +172,7 @@ __inline static INT_PTR FoldersGetCustomPath(HANDLE hFolderEntry, char *path, co
 	if (res) {
 		char buffer[MAX_PATH];
 		PathToAbsolute(notFound, buffer);
-		mir_snprintf(path, size, "%s", buffer);
+		strncpy_s(path, size, buffer, _TRUNCATE);
 	}
 
 	return res;
@@ -205,7 +205,7 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 	if (res) {
 		char buffer[MAX_PATH];
 		PathToAbsolute(notFound, buffer);
-		mir_snprintf(path, size, "%s", buffer);
+		strncpy_s(path, size, buffer, _TRUNCATE);
 	}
 
 	if (path[0] != '\0')

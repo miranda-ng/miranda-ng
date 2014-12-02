@@ -1398,7 +1398,7 @@ void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const c
 
 			newThread->mType = SERVER_P2P_DIRECT;
 			newThread->mInitialContactWLID = mir_strdup(wlid);
-			mir_snprintf(newThread->mCookie, SIZEOF(newThread->mCookie), "%s", szCallID);
+			strncpy_s(newThread->mCookie, szCallID, _TRUNCATE);
 			mir_snprintf(newThread->mServer, SIZEOF(newThread->mServer),
 				ipv6 ? "[%s]:%s" : "%s:%s", pAddrTokBeg, pPortTokBeg);
 

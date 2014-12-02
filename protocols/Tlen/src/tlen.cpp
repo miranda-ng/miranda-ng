@@ -239,11 +239,11 @@ int TlenProtocol::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		if (db_get_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 			db_set_w(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
-	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Incoming mail"));
+	strncpy_s(str, LPGEN("Incoming mail"), _TRUNCATE);
 	SkinAddNewSoundEx("TlenMailNotify", m_szModuleName, str);
-	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Alert"));
+	strncpy_s(str, LPGEN("Alert"), _TRUNCATE);
 	SkinAddNewSoundEx("TlenAlertNotify", m_szModuleName, str);
-	mir_snprintf(str, SIZEOF(str), "%s", LPGEN("Voice chat"));
+	strncpy_s(str, LPGEN("Voice chat"), _TRUNCATE);
 	SkinAddNewSoundEx("TlenVoiceNotify", m_szModuleName, str);
 
 	HookProtoEvent(ME_USERINFO_INITIALISE, &TlenProtocol::UserInfoInit);

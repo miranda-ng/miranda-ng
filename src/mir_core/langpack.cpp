@@ -329,8 +329,8 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 			return 3;
 
 		*pszColon++ = 0;
-		if (!mir_strcmp(line, "Language")) { 
-			mir_snprintf(szLanguage, SIZEOF(szLanguage), "%s", pszColon); 
+		if (!mir_strcmp(line, "Language")) {
+			strncpy_s(szLanguage, pszColon, _TRUNCATE);
 			lrtrim(szLanguage);
 		}
 		else if (!mir_strcmp(line, "Last-Modified-Using")) {
