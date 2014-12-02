@@ -87,7 +87,7 @@ struct GlobalMessageData
 	HANDLE hParentWindowList;
 	ParentWindowData *lastParent;
 	ParentWindowData *lastChatParent;
-	int limitNamesLength;
+	DWORD limitNamesLength;
 	int activeAlpha;
 	int inactiveAlpha;
 	HMENU hMenuANSIEncoding;

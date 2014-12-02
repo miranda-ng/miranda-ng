@@ -269,21 +269,21 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 	return NULL;
 }
 
-void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...)
+void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
 {
 	va_list va;
 	int charsDone;
 
 	va_start(va, fmt);
 	for (;;) {
-		charsDone = mir_vsnprintf(*buffer + *cbBufferEnd, *cbBufferAlloced - *cbBufferEnd, fmt, va);
+		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
 		if (charsDone >= 0)
 			break;
-		*cbBufferAlloced += 1024;
-		*buffer = (char*)mir_realloc(*buffer, *cbBufferAlloced);
+		cbBufferAlloced += 1024;
+		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
 	}
 	va_end(va);
-	*cbBufferEnd += charsDone;
+	cbBufferEnd += charsDone;
 }
 
 

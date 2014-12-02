@@ -39,14 +39,11 @@ static const TCHAR *titleTokenNames[] = {_T("%name%"), _T("%status%"), _T("%stat
 
 TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 {
-	int isTemplate;
-	int i, j;
 	TCHAR* tokens[4] = { 0 };
 	size_t tokenLen[4] = { 0 };
 	TCHAR *p, *tmplt, *title;
-	char *accModule;
 	TCHAR *pszNewTitleEnd = mir_tstrdup(TranslateT("Message Session"));
-	isTemplate = 0;
+	int isTemplate = 0;
 	if (hContact && szProto) {
 		tokens[0] = GetNickname(hContact, szProto);
 		tokenLen[0] = mir_tstrlen(tokens[0]);
@@ -55,7 +52,8 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 		tokens[2] = db_get_tsa(hContact, "CList", "StatusMsg");
 		if (tokens[2] != NULL) {
 			tokenLen[2] = mir_tstrlen(tokens[2]);
-			for (i = j = 0; i < tokenLen[2]; i++) {
+			size_t j = 0;
+			for (size_t i = 0; i < tokenLen[2]; i++) {
 				if (tokens[2][i] == '\r')
 					continue;
 				if (tokens[2][i] == '\n')
@@ -67,7 +65,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 			tokenLen[2] = j;
 		}
 
-		accModule = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
+		char *accModule = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 		if (accModule != NULL) {
 			PROTOACCOUNT* proto = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accModule);
 			if (proto != NULL) {
@@ -87,7 +85,7 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 	}
 	else tmplt = _T("");
 
-	size_t len;
+	size_t i, len;
 	for (len = 0, p = tmplt; *p; p++, len++) {
 		if (*p == '%') {
 			for (i = 0; i < SIZEOF(titleTokenNames); i++) {
@@ -117,7 +115,8 @@ TCHAR* GetWindowTitle(MCONTACT hContact, const char *szProto)
 					break;
 				}
 			}
-			if (i < SIZEOF(titleTokenNames)) continue;
+			if (i < SIZEOF(titleTokenNames))
+				continue;
 		}
 		title[len++] = *p;
 	}
