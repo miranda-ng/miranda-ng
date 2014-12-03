@@ -51,43 +51,43 @@ static int ttbButtonCount = 0;
 HANDLE hTTBModuleLoadedHook;
 
 // these are some lame functions, if you have a better solution, mail me. :s
-static INT_PTR profileService0(WPARAM wParam, LPARAM lParam)
+static INT_PTR profileService0(WPARAM, LPARAM)
 {
 	LoadAndSetProfile((WPARAM)menuprofiles[0], 0);
 	return 0;
 }
 
-static INT_PTR profileService1(WPARAM wParam, LPARAM lParam)
+static INT_PTR profileService1(WPARAM, LPARAM)
 {
 	LoadAndSetProfile((WPARAM)menuprofiles[1], 0);
 	return 0;
 }
 
-static INT_PTR profileService2(WPARAM wParam, LPARAM lParam)
+static INT_PTR profileService2(WPARAM, LPARAM)
 {
 	LoadAndSetProfile((WPARAM)menuprofiles[2], 0);
 	return 0;
 }
 
-static INT_PTR profileService3(WPARAM wParam, LPARAM lParam)
+static INT_PTR profileService3(WPARAM, LPARAM)
 {
 	LoadAndSetProfile((WPARAM)menuprofiles[3], 0);
 	return 0;
 }
 
-static INT_PTR profileService4(WPARAM wParam, LPARAM lParam)
+static INT_PTR profileService4(WPARAM, LPARAM)
 {
 	LoadAndSetProfile((WPARAM)menuprofiles[4], 0);
 	return 0;
 }
 
-static INT_PTR profileService5(WPARAM wParam, LPARAM lParam)
+static INT_PTR profileService5(WPARAM, LPARAM)
 {
 	LoadAndSetProfile((WPARAM)menuprofiles[5], 0);
 	return 0;
 }
 
-static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
+static int CreateMainMenuItems(WPARAM, LPARAM)
 {
 	char servicename[128];
 	int i, count;
@@ -146,14 +146,14 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 {
 	int profile = (int)wParam;
-	TCHAR* buf = (TCHAR*)lParam;
-	if (wParam < 0) // get default profile
+	if (profile < 0) // get default profile
 		profile = db_get_w(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 
 	int count = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
 	if (profile >= count && count > 0)
 		return -1;
 
+	TCHAR* buf = (TCHAR*)lParam;
 	if (count == 0) {
 		_tcsncpy(buf, TranslateT("default"), 128-1);
 		return 0;
@@ -170,7 +170,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam)
+INT_PTR GetProfileCount(WPARAM wParam, LPARAM)
 {
 	int *def = (int*)wParam;
 	int count = db_get_w(NULL, MODULENAME, SETTING_PROFILECOUNT, 1);
@@ -219,7 +219,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 		pce[pceCount].msg = _tcsdup(dbv.ptszVal);
 		db_free(&dbv);
 	}
-	pceCount += 1;
+	pceCount++;
 
 	return pce[pceCount-1].msg;
 }
@@ -246,7 +246,7 @@ int GetProfile( int profile, TSettingsList& arSettings )
 	return ( arSettings.getCount() == 0 ) ? -1 : 0;
 }
 
-static VOID CALLBACK releaseTtbTimerFunction(HWND hwnd,UINT message, UINT_PTR idEvent,DWORD dwTime)
+static void CALLBACK releaseTtbTimerFunction(HWND hwnd,UINT message, UINT_PTR idEvent,DWORD dwTime)
 {
 	KillTimer(NULL, releaseTtbTimerId);
 	for(int i=0; i < ttbButtonCount; i++)

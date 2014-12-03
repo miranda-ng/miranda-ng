@@ -133,7 +133,7 @@ static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
 	if ( protoSettings.getCount() == 0 )
 		return NULL;
 
-	CMString result( _T(SHORTCUT_DESC));
+	CMString result(SHORTCUT_DESC);
 	for (int i=0; i < protoSettings.getCount(); i++) {
 		TSSSetting &p = protoSettings[i];
 
@@ -159,20 +159,19 @@ static TCHAR* GetLinkDescription(TSettingsList& protoSettings)
 
 HRESULT CreateLink(TSettingsList& protoSettings)
 {
-	HRESULT hres;
-	IShellLink* psl;
 	TCHAR savePath[MAX_PATH];
-	char *args = GetCMDLArguments(protoSettings);
-	TCHAR *desc = GetLinkDescription(protoSettings);
-
 	if (SHGetSpecialFolderPath(NULL, savePath, 0x10, FALSE))
-		_tcscat(savePath, _T(SHORTCUT_FILENAME));
+		_tcsncat(savePath, SHORTCUT_FILENAME, SIZEOF(savePath));
 	else
-		mir_sntprintf(savePath, SIZEOF(savePath), _T(".\\%s"), _T(SHORTCUT_FILENAME));
+		mir_sntprintf(savePath, SIZEOF(savePath), _T(".\\%s"), SHORTCUT_FILENAME);
 
 	// Get a pointer to the IShellLink interface.
-	hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, ( void** )&psl);
+	IShellLink *psl;
+	HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, ( void** )&psl);
 	if (SUCCEEDED(hres)) {
+		char *args = GetCMDLArguments(protoSettings);
+		TCHAR *desc = GetLinkDescription(protoSettings);
+
 		// Set the path to the shortcut target, and add the
 		// description.
 		TCHAR path[MAX_PATH];
@@ -183,22 +182,19 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 
 		// Query IShellLink for the IPersistFile interface for saving the
 		// shortcut in persistent storage.
-		IPersistFile* ppf;
+		IPersistFile *ppf;
 		hres = psl->QueryInterface(IID_IPersistFile, ( void** )&ppf);
 
 		if (SUCCEEDED(hres)) {
-
-				WCHAR* wsz = savePath;
-
 			// Save the link by calling IPersistFile::Save.
-			hres = ppf->Save(wsz, TRUE);
+			hres = ppf->Save(savePath, TRUE);
 			ppf->Release();
 		}
 		psl->Release();
+		free(args);
+		free(desc);
 	}
 
-	free(args);
-	free(desc);
 	return hres;
 }
 
