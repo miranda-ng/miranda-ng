@@ -84,7 +84,6 @@ extern "C" __declspec(dllexport) int CListInitialise()
 	CHECKRES ( PreLoadContactListModule ( )	);
 	CHECKRES ( SubclassClistInterface ( )	);
 	CHECKRES ( CreateHookableEvents ( )		);
-	CHECKRES ( XPThemesLoadModule ( )		);
 	CHECKRES ( SkinEngineLoadModule ( )		);
 	CHECKRES ( BackgroundsLoadModule ( )	);
 	CHECKRES ( CluiLoadModule ( )			);

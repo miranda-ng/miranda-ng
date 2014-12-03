@@ -13,176 +13,128 @@ typedef struct _tagXPTObject
 } XPTObject;
 
 static OBJLIST<XPTObject> xptObjectList(1);
-static CRITICAL_SECTION xptCS;
-
-#define xptlock() EnterCriticalSection(&xptCS)
-#define xptunlock() LeaveCriticalSection(&xptCS)
+static mir_cs xptCS;
 
 static void _sttXptCloseThemeData(XPTObject * xptObject)
 {
 	CloseThemeData(xptObject->hThemeHandle);
 	xptObject->hThemeHandle = NULL;
 }
+
 static void _sttXptReloadThemeData(XPTObject * xptObject)
 {
 	CloseThemeData(xptObject->hThemeHandle);
 	xptObject->hThemeHandle = OpenThemeData(xptObject->hOwnerWindow, xptObject->lpcwClassObject);
 }
 
-
-HRESULT XPThemesLoadModule()
-{
-	InitializeCriticalSection(&xptCS);
-	return S_OK;
-}
-
 void XPThemesUnloadModule()
 {
-	xptlock();
-	xptunlock();
 	xptObjectList.destroy();
-	DeleteCriticalSection(&xptCS);
 }
-
 
 BOOL xpt_IsThemed(XPTHANDLE xptHandle)
 {
-	BOOL res = FALSE;
 	if (!xptHandle) return FALSE;
-	xptlock();
-	{
-		if (xpt_IsValidHandle(xptHandle) && ((XPTObject*) xptHandle)->hThemeHandle)
-			res = TRUE;
-	}
-	xptunlock();
-	return res;	
+
+	mir_cslock lck(xptCS);
+	return xpt_IsValidHandle(xptHandle) && ((XPTObject*)xptHandle)->hThemeHandle;
 }
 
 BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 {
-	BOOL res = FALSE;
 	if (!xptHandle) return FALSE;
-	xptlock();
-	{
-		if (xptObjectList.indexOf((XPTObject*)xptHandle) != -1) 
-			res = TRUE;
-	}
-	xptunlock();
-	return res;
+
+	mir_cslock lck(xptCS);
+	return xptObjectList.indexOf((XPTObject*)xptHandle) != -1;
 }
 
 XPTHANDLE xpt_AddThemeHandle(HWND hwnd, LPCWSTR className)
 {
-	XPTHANDLE res = NULL;
-	xptlock();
-	{
-		XPTObject* xptObject = new XPTObject;
-		xptObject->lpcwClassObject = className;
-		xptObject->hOwnerWindow = hwnd;
-		_sttXptReloadThemeData(xptObject);
-		xptObjectList.insert(xptObject);
-		res = (XPTHANDLE)xptObject;
-	}
-	xptunlock();
-	return res;
+	mir_cslock lck(xptCS);
+	XPTObject* xptObject = new XPTObject;
+	xptObject->lpcwClassObject = className;
+	xptObject->hOwnerWindow = hwnd;
+	_sttXptReloadThemeData(xptObject);
+	xptObjectList.insert(xptObject);
+	return (XPTHANDLE)xptObject;
 }
 
 void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
 {
-   xptlock();
-   if (xpt_IsValidHandle(xptHandle))
-   {
-	   XPTObject* xptObject = (XPTObject*)xptHandle;
-	   _sttXptCloseThemeData(xptObject);
-	   mir_free(xptHandle);
-		xptObjectList.remove( xptObjectList.indexOf(xptObject));
-   }
-   xptunlock();
+	mir_cslock lck(xptCS);
+	if (xpt_IsValidHandle(xptHandle)) {
+		XPTObject* xptObject = (XPTObject*)xptHandle;
+		_sttXptCloseThemeData(xptObject);
+		mir_free(xptHandle);
+		xptObjectList.remove(xptObjectList.indexOf(xptObject));
+	}
 }
+
 void xpt_FreeThemeForWindow(HWND hwnd)
 {
-	xptlock();
-	{
-		for (int i=0; i < xptObjectList.getCount(); )
-		{
-		   XPTObject& xptObject = xptObjectList[i];
-		   if (xptObject.hOwnerWindow == hwnd)
-			{
-				_sttXptCloseThemeData(&xptObject);
-				xptObjectList.remove(i);		   
-			}
-			else i++;
+	mir_cslock lck(xptCS);
+	for (int i = 0; i < xptObjectList.getCount();) {
+		XPTObject& xptObject = xptObjectList[i];
+		if (xptObject.hOwnerWindow == hwnd) {
+			_sttXptCloseThemeData(&xptObject);
+			xptObjectList.remove(i);
 		}
+		else i++;
 	}
-	xptunlock();
 }
 
 void xpt_OnWM_THEMECHANGED()
 {
-	xptlock();
-	{
-		for (int i=0; i < xptObjectList.getCount(); i++)
-			_sttXptReloadThemeData(&xptObjectList[i]);
-	}
-	xptunlock();
+	mir_cslock lck(xptCS);
+
+	for (int i = 0; i < xptObjectList.getCount(); i++)
+		_sttXptReloadThemeData(&xptObjectList[i]);
 }
 
 HRESULT	xpt_DrawThemeBackground(XPTHANDLE xptHandle, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)
 {
-	HRESULT res = S_FALSE;
-	xptlock();
+	mir_cslock lck(xptCS);
 	if (xpt_IsThemed(xptHandle))
-		res = DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
-	xptunlock();
-	return res;
+		return DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
+
+	return S_FALSE;
 }
 
-BOOL xpt_IsThemeBackgroundPartiallyTransparent(XPTHANDLE xptHandle, int type,  int state)
+BOOL xpt_IsThemeBackgroundPartiallyTransparent(XPTHANDLE xptHandle, int type, int state)
 {
-	BOOL res = FALSE;
-	xptlock();
+	mir_cslock lck(xptCS);
 	if (xpt_IsThemed(xptHandle))
-		res = IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state);
-	xptunlock();
-	return res;
+		return IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle, type, state);
+
+	return FALSE;
 }
 
 HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)
 {
-	HRESULT res = S_FALSE;
-	xptlock();
-	if (xpt_IsThemed(xptHandle))
-	{
-		if (IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle,  type, state)) {
-			DrawThemeParentBackground(hwnd,hdc,sizeRect);
-			res = DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
+	mir_cslock lck(xptCS);
+	if (xpt_IsThemed(xptHandle)) {
+		if (IsThemeBackgroundPartiallyTransparent(((XPTObject*)xptHandle)->hThemeHandle, type, state)) {
+			DrawThemeParentBackground(hwnd, hdc, sizeRect);
+			return DrawThemeBackground(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, sizeRect, clipRect);
 		}
 	}
-	xptunlock();
-	return res;
+
+	return S_FALSE;
 }
 
 HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, DWORD flag1, DWORD flag2, const RECT *textRect)
 {
-	HRESULT res = S_FALSE;
-	xptlock();
+	mir_cslock lck(xptCS);
 	if (xpt_IsThemed(xptHandle))
-		DrawThemeText(((XPTObject*)xptHandle)->hThemeHandle,  hdc,  type,  state,  (LPCWSTR)lpStr,  len,  flag1,  flag2,  textRect);
+		DrawThemeText(((XPTObject*)xptHandle)->hThemeHandle, hdc, type, state, (LPCWSTR)lpStr, len, flag1, flag2, textRect);
 	else
-		ske_DrawText(hdc,lpStr,len, (RECT*)textRect, flag1);
-	xptunlock();
+		ske_DrawText(hdc, lpStr, len, (RECT*)textRect, flag1);
+
 	return S_OK;
 }
+
 BOOL xpt_EnableThemeDialogTexture(HWND hwnd, DWORD flags)
 {
-	BOOL res = FALSE;
-	xptlock();
-	res = EnableThemeDialogTexture(hwnd, flags);
-	xptunlock();
-	return res;
+	mir_cslock lck(xptCS);
+	return SUCCEEDED(EnableThemeDialogTexture(hwnd, flags));
 }
-//usage outside
-// add theme data
-// in WM_DESTROY - release theme data
-// in paint xpt_DrawTheme
-
