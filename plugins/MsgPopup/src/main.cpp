@@ -19,6 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
+
 #include "common.h"
 
 HINSTANCE hInst;
@@ -58,39 +59,38 @@ MSGBOXPROC prevMessageBox;
 
 void popupMessage(LPCTSTR lpText, LPCTSTR lpCaption, UINT uType)
 {
-	POPUPDATAT ppd = {0};	
+	POPUPDATAT ppd = { 0 };
 	int iIcon;
 	int indx;
 
-	switch(uType & 0xF0)
-	{
-		case MB_ICONHAND:
-			indx = 1;
-			iIcon = OIC_HAND;
-			break;
-		case MB_ICONEXCLAMATION:
-			indx = 2;
-			iIcon = OIC_BANG;
-			break;
-		case MB_ICONQUESTION:
-			indx = 3;
-			iIcon = OIC_QUES;
-			break;
-		default:
-			indx = 0;
-			iIcon = OIC_NOTE;
-			break;
-			
+	switch (uType & 0xF0) {
+	case MB_ICONHAND:
+		indx = 1;
+		iIcon = OIC_HAND;
+		break;
+	case MB_ICONEXCLAMATION:
+		indx = 2;
+		iIcon = OIC_BANG;
+		break;
+	case MB_ICONQUESTION:
+		indx = 3;
+		iIcon = OIC_QUES;
+		break;
+	default:
+		indx = 0;
+		iIcon = OIC_NOTE;
+		break;
+
 	}
 	ppd.colorBack = options.BG[indx];
 	ppd.colorText = options.FG[indx];
-	ppd.iSeconds  = options.Timeout[indx];
+	ppd.iSeconds = options.Timeout[indx];
 
 	ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(iIcon), IMAGE_ICON, SM_CXSMICON, SM_CYSMICON, LR_SHARED);
 	mir_tstrcpy(ppd.lptzContactName, lpCaption);
 	mir_tstrcpy(ppd.lptzText, lpText);
 	PUAddPopupT(&ppd);
-	if(options.Sound)
+	if (options.Sound)
 		MessageBeep(uType);
 }
 
@@ -99,62 +99,51 @@ int WINAPI newMessageBox(HWND hWnd, LPCTSTR lpText, LPCTSTR lpCaption, UINT uTyp
 	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) == CALLSERVICE_NOTFOUND || (uType & 0x0F))
 		return prevMessageBox(hWnd, lpText, lpCaption, uType);
 
-	popupMessage(lpText, lpCaption,uType);
+	popupMessage(lpText, lpCaption, uType);
 	return IDOK;
 }
 
 BOOL g_HookError = FALSE;
 BOOL g_HookError2 = FALSE;
-int g_mod = 0;
+int  g_mod = 0;
 
-void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD lpNewFunc)
+void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID lpNewFunc)
 {
 	ULONG ulSize;
-	PIMAGE_IMPORT_DESCRIPTOR pImportDesc = (PIMAGE_IMPORT_DESCRIPTOR) ImageDirectoryEntryToData(
-		hModule, 
-		TRUE,
-		IMAGE_DIRECTORY_ENTRY_IMPORT,
-		&ulSize);
-	if(pImportDesc == NULL) return;
+	PIMAGE_IMPORT_DESCRIPTOR pImportDesc = (PIMAGE_IMPORT_DESCRIPTOR)
+		ImageDirectoryEntryToData(hModule, TRUE, IMAGE_DIRECTORY_ENTRY_IMPORT, &ulSize);
+	if (pImportDesc == NULL)
+		return;
 
-	for(; pImportDesc->Name; pImportDesc++) 
-	{
+	for (; pImportDesc->Name; pImportDesc++) {
 		char *pszModName = (char *)((PBYTE)hModule + pImportDesc->Name);
-		
-		if (mir_strcmpi(lpszImpModName, pszModName) == 0)
-		{
-			PIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA)((PBYTE)hModule + pImportDesc->FirstThunk);
+		if (mir_strcmpi(lpszImpModName, pszModName) != 0)
+			continue;
 
-			for (; pThunk->u1.Function; pThunk++) 
-			{
-				DWORD* ppfn = (DWORD*) &pThunk->u1.Function;
+		PIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA)((PBYTE)hModule + pImportDesc->FirstThunk);
+		for (; pThunk->u1.Function; pThunk++) {
+			PVOID* ppfn = (PVOID*)&pThunk->u1.Function;
+			if (*ppfn != lpOrigFunc)
+				continue;
 
-				if(*ppfn == lpOrigFunc)
-				{
-					DWORD oldProtect;
+			DWORD oldProtect;
 
-					g_mod++;
+			g_mod++;
 
-					if(!VirtualProtect((LPVOID)ppfn, 4, PAGE_EXECUTE_READWRITE, &oldProtect))
-					{
-						if(!g_HookError)
-						{
-							TCHAR buf[200];
+			if (!VirtualProtect((LPVOID)ppfn, sizeof(void*), PAGE_EXECUTE_READWRITE, &oldProtect)) {
+				if (!g_HookError) {
+					TCHAR buf[200];
 
-							g_HookError = TRUE;
-							mir_sntprintf(buf, SIZEOF(buf), TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
-							prevMessageBox(0, buf, TranslateT("Error"), MB_OK);
-						}
-					}
-					*(DWORD*)ppfn = lpNewFunc;
-					if(*(DWORD*)ppfn != lpNewFunc)
-					{
-						if(!g_HookError2)
-						{
-							g_HookError2 = TRUE;
-							prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("Error"), MB_OK);
-						}
-					}
+					g_HookError = TRUE;
+					mir_sntprintf(buf, SIZEOF(buf), TranslateT("VirtualProtect failed. Code %d\nTry to call the author"), GetLastError());
+					prevMessageBox(0, buf, TranslateT("Error"), MB_OK);
+				}
+			}
+			*(PVOID*)ppfn = lpNewFunc;
+			if (*(PVOID*)ppfn != lpNewFunc) {
+				if (!g_HookError2) {
+					g_HookError2 = TRUE;
+					prevMessageBox(0, TranslateT("Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author"), TranslateT("Error"), MB_OK);
 				}
 			}
 		}
@@ -163,37 +152,31 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, DWORD lpOrigFunc, DWORD
 
 void HookAPI()
 {
-	DWORD lpMessageBox = (DWORD)GetProcAddress(GetModuleHandle(_T("USER32.DLL")), "MessageBoxW");
-	DWORD lpPopupMsgBox = (DWORD)newMessageBox;
+	PVOID lpMessageBox = (PVOID)GetProcAddress(GetModuleHandle(_T("USER32.DLL")), "MessageBoxW");
+	PVOID lpPopupMsgBox = (PVOID)newMessageBox;
 
 	prevMessageBox = (MSGBOXPROC)lpMessageBox;
 
-	BOOL          bFound      = FALSE; 
-	HANDLE        hModuleSnap = NULL; 
-	MODULEENTRY32 me32        = {0}; 
+	HANDLE hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
+	if (hModuleSnap == INVALID_HANDLE_VALUE)
+		return;
 
-	hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
-	if(hModuleSnap == INVALID_HANDLE_VALUE) 
-		return; 
- 
-	me32.dwSize = sizeof(MODULEENTRY32); 
-	if(Module32First(hModuleSnap, &me32)) 
-	{ 
-		do 
-		{ 
+	MODULEENTRY32 me32 = { 0 };
+	me32.dwSize = sizeof(MODULEENTRY32);
+
+	BOOL bFound = FALSE;
+	if (Module32First(hModuleSnap, &me32)) {
+		do {
 			HookOnImport(me32.hModule, "USER32.DLL", lpMessageBox, lpPopupMsgBox);
-		} 
-		while (!bFound && Module32Next(hModuleSnap, &me32)); 
-	} 
-	CloseHandle (hModuleSnap); 
-
-	return; 
+		}
+			while (!bFound && Module32Next(hModuleSnap, &me32));
+	}
+	CloseHandle(hModuleSnap);
 }
 
 int HookedInit(WPARAM wParam, LPARAM lParam)
 {
 	HookAPI();
-
 	return 0;
 }
 
@@ -214,13 +197,8 @@ int HookedOptions(WPARAM wParam, LPARAM lParam)
 
 void LoadConfig()
 {
-	char szNameFG[4];
-	char szNameBG[4];
-	char szNameTO[4];
-	int indx;
-
-	for(indx = 0; indx < 4; indx++)
-	{
+	for (int indx = 0; indx < 4; indx++) {
+		char szNameFG[4], szNameBG[4], szNameTO[4];
 		mir_snprintf(szNameFG, SIZEOF(szNameFG), "FG%d", indx);
 		mir_snprintf(szNameBG, SIZEOF(szNameBG), "BG%d", indx);
 		mir_snprintf(szNameTO, SIZEOF(szNameTO), "TO%d", indx);
@@ -228,17 +206,17 @@ void LoadConfig()
 		options.BG[indx] = db_get_dw(NULL, SERVICENAME, szNameBG, optionsDefault.BG[indx]);
 		options.Timeout[indx] = db_get_dw(NULL, SERVICENAME, szNameTO, (DWORD)optionsDefault.Timeout[indx]);
 	}
-	options.Sound = db_get_b(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
 
+	options.Sound = db_get_b(NULL, SERVICENAME, "Sound", (DWORD)optionsDefault.Sound);
 }
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-    HookEvent(ME_OPT_INITIALISE, HookedOptions);
+	HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
 	LoadConfig();
-
 	return 0;
 }
 
