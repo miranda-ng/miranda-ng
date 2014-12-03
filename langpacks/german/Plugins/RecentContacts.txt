@@ -19,7 +19,7 @@ Format von Datum und Uhrzeit\n(Siehe Readme für Hilfe zu Platzhaltern)
 [Hide offline contacts]
 Offlinekontakte ausblenden
 [Resize window according to contact list]
-
+Größe des Fensters automatisch an Kontaktliste anpassen
 ;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Kontakte

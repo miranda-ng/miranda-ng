@@ -69,13 +69,13 @@ Beim Antworten
 [on typing]
 Beim Tippen
 [Sync history on protocol online...]
-
+Verlauf synchronisieren wenn Protokoll online geht...
 [automatically]
-
+Automatisch
 [for last 1 day]
-
+Den letzten Tag
 [for last 3 days]
-
+Die letzten 3 Tage
 [Bots challenge test]
 Bot-Challenge-Test
 [Instruction:]
@@ -208,15 +208,15 @@ Raum zerstören
 [Open broadcast]
 Übertragung öffnen
 [Reload messages from vk.com...]
-
+Nachrichten von vk.com neu laden...
 [for last week]
-
+Die letzte Woche
 [for last 30 days]
-
+Die letzten 30 Tage
 [for last 90 days]
-
+Die letzten 90 Tage
 [for all time]
-
+Für immer
 [Errors]
 Fehler
 [Notification]

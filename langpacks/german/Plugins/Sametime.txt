@@ -164,7 +164,7 @@ Nicht genügend Resourcen
 [Requested channel is not supported]
 Angefragter Channel wird nicht unterstützt
 [Requested channel already exists]
-Angefragter Channel wird nicht unterstützt
+Angefragter Channel existiert bereits
 [Requested service is not supported]
 Angefragter Dienst wird nicht unterstützt
 [Requested protocol is not supported]
@@ -244,11 +244,11 @@ Benutzer eingeschränkt
 [Incorrect Username/Password]
 Falscher Benutzername/Passwort
 [Encryption mismatch]
-
+Verschlüsselung stimmt nicht überein
 [User unregistered]
 Benutzer nicht registriert
 [Login verification down or unavailable]
-
+Anmeldeüberprüfung tot oder nicht erreichbar
 [User too idle]
 Benutzer zu untätig
 [The guest name is currently being used]
@@ -262,7 +262,7 @@ Falscher Name
 [Registration error]
 Registrierungsfehler
 [Privilege error]
-
+Berechtigungsfehler
 [Need email]
 E-Mail benötigt
 [DNS error]
@@ -302,7 +302,7 @@ Benutzer ist in Bitte-Nicht-Stören-Modus
 [Already logged in elsewhere]
 Bereits woanders angemeldet
 [Cannot register a reserved type]
-
+Kann einen reservierten Typ nicht registrieren
 [Requested type is already registered]
 Angeforderter Typ ist bereits registriert
 [Requested type is not registered]
@@ -312,7 +312,7 @@ Nicht komplett aufgelöst
 [Resolve name not unique]
 Aufgelöster Name nicht eindeutig
 [Resolve name not resolvable]
-
+Aufzulösender Name nicht auflösbar
 [Operation succeeded]
 Operation erfolgreich
 [Operation failed]
@@ -320,7 +320,7 @@ Operation fehlgeschlagen
 [Request accepted but will be served later]
 Anfrage akzeptiert, wird aber später beantwortet
 [Request is invalid due to invalid state or parameters]
-
+Anfrage ist wegen ungültigem Zustand oder Parameter ungültig
 [Not logged in to community]
 
 [Unauthorized to perform an action or access a resource]
@@ -390,9 +390,9 @@ Nicht ausreichend Resourcen für Verbinding (Socket-ID)
 [Hardware error occurred]
 Hardwarefehler aufgetreten
 [Network down]
-
+Netzwerk tot
 [Host down]
-
+Host tot
 [TCP/IP protocol error]
 TCP/IP-Protokollfehler
 [The message is too large]
@@ -406,7 +406,7 @@ Kann nicht verbinden
 [User has been removed from the server]
 Benutzer wurde vom Server entfernt
 [Virtual Places protocol error]
-
+Virtual-Places-Protokollfehler
 [Cannot connect because user has been restricted]
 
 [Incorrect login]
@@ -414,7 +414,7 @@ Ungültige Anmeldedaten
 [User is unregistered]
 Benutzer ist nicht registriert
 [Verification service down]
-
+Überprüfungsdienst tot
 [User has been idle for too long]
 Der Benutzer war zu lange untätig
 [The user is already signed on]
@@ -426,7 +426,7 @@ Der Name kann nicht verwendet werden
 [The registration mode is not supported]
 Der Registrierungsmodus wird nicht unterstützt
 [User does not have appropriate privilege level]
-
+Benutzer hat keine ausreichenden Berechtigungen
 [Email address must be used]
 E-Mail-Adresse muss verwendet werden
 [Error in DNS]
