@@ -1,6 +1,6 @@
 /* Wrapper for XP theme */
 typedef void * XPTHANDLE;
-typedef HANDLE HTHEME; 
+typedef HANDLE HTHEME;
 
 XPTHANDLE	xpt_AddThemeHandle(HWND hwnd, LPCWSTR className);
 void		xpt_FreeThemeHandle(XPTHANDLE xptHandle);
@@ -15,7 +15,6 @@ BOOL		xpt_IsThemed(XPTHANDLE xptHandle);
 BOOL		xpt_EnableThemeDialogTexture(HWND hwnd, DWORD flags);
 
 // next will be called only from one place
-HRESULT XPThemesLoadModule();
 void		XPThemesUnloadModule();
 void		xpt_OnWM_THEMECHANGED();
 
@@ -25,7 +24,7 @@ void		xpt_OnWM_THEMECHANGED();
 
 //#include <tmschema.h>
 //TODO: ADD HERE other definitions of part and states from	<tmschema.h>
-//WINDOW 
+//WINDOW
 #define WP_CAPTION			1
 #define WP_SMALLCAPTION     2
 #define WP_SMALLMINCAPTION  4
