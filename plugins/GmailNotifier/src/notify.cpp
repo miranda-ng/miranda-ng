@@ -184,8 +184,8 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 			else {
 				mir_strcat(lpPathBuffer, LINK);
 				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->name));
-				mir_strcat(lpPathBuffer, "&Passwd=");
-				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->pass));
+				//mir_strcat(lpPathBuffer, "&Passwd=");
+				//mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->pass));
 				if (opt.AutoLogin == 1)
 					mir_strcat(lpPathBuffer, "&PersistentCookie=yes");
 			}
