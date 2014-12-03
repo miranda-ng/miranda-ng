@@ -99,15 +99,15 @@ Nachrichten auf dem Server als ungelesen belassen ("Gesehen"-Info nicht senden)
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Sticker als Custom Smileys anzeigen (EXPERIMENTELL)
 [Multi user chats]
-
+Mehrbenutzerchats
 [Enable multi user chats support]
-
+Unterstützung für Mehrbenutzerchats aktivieren
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [History synchronization]
-
+Verlaufssybchronisation
 [Load last messages (24 hours old) on login (EXPERIMENTAL)]
-
+Letzte Nachrichten (24 Stunden alt) bei Anmeldung laden (EXPERIMENTELL)
 [Load last messages on opening message window (EXPERIMENTAL)]
 Letzte Nachrichten beim Öffnen des Nachrichtenfensters laden (EXPERIMENTELL)
 [Number of messages to load:]
