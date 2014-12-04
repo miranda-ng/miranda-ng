@@ -898,9 +898,8 @@ int CVkProto::PollServer()
 			break;
 		debugLogA("CVkProto::PollServer is dead");
 		m_pollingConn = NULL;
-		if (iPollConnRetry && !m_bTerminated){
-			iPollConnRetry--;
-			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry);
+		if (iPollConnRetry && !m_bTerminated){	
+			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry + 1);
 			Sleep(1000);	
 		}
 		else {
@@ -908,7 +907,7 @@ int CVkProto::PollServer()
 			ShutdownSession();
 			return 0;
 		}	
-	} while (iPollConnRetry && !m_bTerminated);
+	} while(!m_bTerminated && iPollConnRetry--);
 	
 	mir_free(szUrl);
 
