@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int RTL_Detect(WCHAR *pszwText);
 static int logPixelSY;
-static PBYTE pLogIconBmpBits[3];
-static int logIconBmpSize[SIZEOF(pLogIconBmpBits)];
+static char* pLogIconBmpBits[3];
+static size_t logIconBmpSize[SIZEOF(pLogIconBmpBits)];
 static HIMAGELIST g_hImageList;
 
 #define STREAMSTAGE_HEADER  0
@@ -327,7 +327,7 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 }
 
 // mir_free() the return value
-static char *CreateRTFHeader(SrmmWindowData *dat, struct GlobalMessageData *gdat)
+static char* CreateRTFHeader(SrmmWindowData *dat, GlobalMessageData *gdat)
 {
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -538,7 +538,7 @@ static void AppendWithCustomLinks(EventData *evt, int style, char *&buffer, size
 }
 
 //mir_free() the return value
-static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, struct GlobalMessageData *gdat, struct LogStreamData *streamData)
+static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessageData *gdat, LogStreamData *streamData)
 {
 	int style, showColon = 0;
 	int isGroupBreak = TRUE;
@@ -738,7 +738,7 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, struct Glob
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	struct LogStreamData *dat = (struct LogStreamData *)dwCookie;
+	LogStreamData *dat = (LogStreamData*)dwCookie;
 
 	if (dat->buffer == NULL) {
 		dat->bufferOffset = 0;
@@ -796,10 +796,10 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat)
+void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 {
 	SrmmWindowData dat = { 0 };
-	struct LogStreamData streamData = { 0 };
+	LogStreamData streamData = { 0 };
 	streamData.isFirst = TRUE;
 	streamData.events = GetTestEvents();
 	streamData.dlgDat = &dat;
@@ -816,7 +816,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 {
 	FINDTEXTEXA fi;
 	EDITSTREAM stream = { 0 };
-	struct LogStreamData streamData = { 0 };
+	LogStreamData streamData = { 0 };
 	SrmmWindowData *dat = (SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 
@@ -915,6 +915,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 }
 
 #define RTFPICTHEADERMAXSIZE   78
+
 void LoadMsgLogIcons(void)
 {
 	HICON hIcon = NULL;
@@ -958,9 +959,10 @@ void LoadMsgLogIcons(void)
 			hBrush = hBkgBrush;
 			break;
 		}
-		pLogIconBmpBits[i] = (PBYTE)mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
-		//I can't seem to get binary mode working. No matter.
-		int rtfHeaderSize = sprintf((char*)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (UINT)bih.biWidth, (UINT)bih.biHeight); //!!!!!!!!!!!
+		
+		pLogIconBmpBits[i] = (char*)mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
+		size_t rtfHeaderSize = sprintf(pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (UINT)bih.biWidth, (UINT)bih.biHeight); //!!!!!!!!!!!
+
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
@@ -968,14 +970,12 @@ void LoadMsgLogIcons(void)
 		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *)& bih, DIB_RGB_COLORS);
 		DestroyIcon(hIcon);
 
-		int n;
-		for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
-			sprintf((char*)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE)& bih)[n]); //!!!!!!!!!!!!!!
-		for (n = 0; n < widthBytes * bih.biHeight; n += 4)
-			sprintf((char*)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]); //!!!!!!!!!!!!!!!!
+		char *szDest = pLogIconBmpBits[i] + rtfHeaderSize;
+		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
+		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
+		strcpy(szDest, "}");
 
-		logIconBmpSize[i] = rtfHeaderSize + (bih.biSize + widthBytes * bih.biHeight) * 2 + 1;
-		pLogIconBmpBits[i][logIconBmpSize[i] - 1] = '}';
+		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);

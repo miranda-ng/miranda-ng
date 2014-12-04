@@ -23,17 +23,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern IconItem iconList[];
 
-static int logPixelSY;
 #define LOGICON_MSG_IN      0
 #define LOGICON_MSG_OUT     1
 #define LOGICON_MSG_NOTICE  2
-static PBYTE pLogIconBmpBits[3];
-static int logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
+
+static char *pLogIconBmpBits[3];
+static size_t logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
 
 #define STREAMSTAGE_HEADER  0
 #define STREAMSTAGE_EVENTS  1
 #define STREAMSTAGE_TAIL    2
 #define STREAMSTAGE_STOP    3
+
 struct LogStreamData
 {
 	int stage;
@@ -46,6 +47,7 @@ struct LogStreamData
 	SrmmWindowData *dlgDat;
 };
 
+static int logPixelSY;
 static char szSep2[40], szSep2_RTL[50];
 
 static void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
@@ -190,7 +192,6 @@ static char *CreateRTFHeader(SrmmWindowData *dat)
 		colour = GetSysColor(COLOR_HOTLIGHT);
 	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}");
-	//AppendToBuffer(buffer, bufferEnd, bufferAlloced, "}\\pard");
 	return buffer;
 }
 
@@ -355,33 +356,32 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 		}
 		break;
 
-	case EVENTTYPE_FILE: {
-		char* filename = (char*)dbei.pBlob + sizeof(DWORD);
-		char* descr = filename + strlen(filename) + 1;
-		TCHAR* ptszFileName = DbGetEventStringT(&dbei, filename);
+	case EVENTTYPE_FILE:
+		{
+			char* filename = (char*)dbei.pBlob + sizeof(DWORD);
+			char* descr = filename + strlen(filename) + 1;
+			
+			ptrT ptszFileName(DbGetEventStringT(&dbei, filename));
+			AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
+			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
+			AppendToBuffer(buffer, bufferEnd, bufferAlloced, ": ");
+			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszFileName);
 
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle(MSGFONTID_NOTICE));
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, (dbei.flags & DBEF_SENT) ? TranslateT("File sent") : TranslateT("File received"));
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, ": ");
-		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszFileName);
-		mir_free(ptszFileName);
-
-		if (*descr != 0) {
-			TCHAR* ptszDescr = DbGetEventStringT(&dbei, descr);
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, " (");
-			AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszDescr);
-			AppendToBuffer(buffer, bufferEnd, bufferAlloced, ")");
-			mir_free(ptszDescr);
+			if (*descr != 0) {
+				ptrT ptszDescr(DbGetEventStringT(&dbei, descr));
+				AppendToBuffer(buffer, bufferEnd, bufferAlloced, " (");
+				AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, ptszDescr);
+				AppendToBuffer(buffer, bufferEnd, bufferAlloced, ")");
+			}
 		}
 		break;
-	}
+
 	case EVENTTYPE_MESSAGE:
 	default:
 		msg = DbGetEventTextT(&dbei, CP_ACP);
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " %s ", SetToStyle((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? MSGFONTID_MYMSG : MSGFONTID_YOURMSG) : MSGFONTID_NOTICE));
 		AppendToBufferWithRTF(buffer, bufferEnd, bufferAlloced, msg);
 		mir_free(msg);
-
 	}
 
 	if (dat->bIsAutoRTL)
@@ -529,24 +529,22 @@ void LoadMsgLogIcons(void)
 	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
 		HICON hIcon = Skin_GetIconByHandle(iconList[i].hIcolib);
 		size_t size = RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2;
-		pLogIconBmpBits[i] = (PBYTE)mir_alloc(size);
-		//I can't seem to get binary mode working. No matter.
-		int rtfHeaderSize = mir_snprintf((char*)pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
+		pLogIconBmpBits[i] = (char*)mir_alloc(size);
+		size_t rtfHeaderSize = mir_snprintf(pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
 		Skin_ReleaseIcon(hIcon);
 
 		SelectObject(hdcMem, hoBmp);
-		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *)& bih, DIB_RGB_COLORS);
+		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO*)&bih, DIB_RGB_COLORS);
 
-		for (int n = 0; n < sizeof(BITMAPINFOHEADER); n++)
-			sprintf((char*)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE)& bih)[n]); //!!!!!!!!!!!!!
-		for (int n = 0; n < widthBytes * bih.biHeight; n += 4)
-			sprintf((char*)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]); //!!!!!!!!!!!!!
+		char *szDest = pLogIconBmpBits[i] + rtfHeaderSize;
+		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
+		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
+		strcpy(szDest, "}");
 
-		logIconBmpSize[i] = rtfHeaderSize + (bih.biSize + widthBytes * bih.biHeight) * 2 + 1;
-		pLogIconBmpBits[i][logIconBmpSize[i] - 1] = '}';
+		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);
