@@ -27,6 +27,7 @@
 #include <m_protoint.h>
 #include <win2k.h>
 
+#include <map>
 #include <vector>
 #include <string>
 

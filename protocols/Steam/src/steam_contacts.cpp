@@ -108,6 +108,9 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	else
 		delSetting(hContact, "Country");
 
+	node = json_get(data, "timecreated");
+	setDword(hContact, "MemberTS", json_as_int(node));
+
 	// only for contacts
 	if (hContact)
 	{
@@ -137,6 +140,44 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 			delSetting(hContact, "GameID");
 		}
 	}
+}
+
+void CSteamProto::ContactIsRemoved(MCONTACT hContact)
+{
+	if (!getDword(hContact, "DeletedTS", 0) && getByte(hContact, "Auth", 0) == 0)
+	{
+		setByte(hContact, "Auth", 1);
+		setDword(hContact, "DeletedTS", ::time(NULL));
+		setWord(hContact, "Status", ID_STATUS_OFFLINE);
+
+		ptrT nick(getTStringA(hContact, "Nick"));
+		TCHAR message[MAX_PATH];
+		mir_sntprintf(message, MAX_PATH, TranslateT("%s has been removed from your contact list"), nick);
+
+		ShowNotification(_T("Steam"), message);
+	}
+}
+
+void CSteamProto::ContactIsFriend(MCONTACT hContact)
+{
+	if (getDword(hContact, "DeletedTS", 0) || getByte(hContact, "Auth", 0) != 0)
+	{
+		delSetting(hContact, "Auth");
+		delSetting(hContact, "DeletedTS");		
+		delSetting(hContact, "Grant");
+
+		ptrT nick(getTStringA(hContact, "Nick"));
+		TCHAR message[MAX_PATH];
+		mir_sntprintf(message, MAX_PATH, TranslateT("%s is back in your contact list"), nick);
+
+		ShowNotification(_T("Steam"), message);
+	}
+}
+
+void CSteamProto::ContactIsIgnored(MCONTACT hContact)
+{
+	// todo
+	setByte(hContact, "Block", 1);
 }
 
 MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
@@ -172,6 +213,34 @@ MCONTACT CSteamProto::AddContact(const char *steamId, bool isTemporary)
 	return hContact;
 }
 
+void CSteamProto::ProcessContact(std::map<std::string, JSONNODE*>::iterator *it, MCONTACT hContact)
+{
+	std::string steamId = (*it)->first;
+	JSONNODE *child = (*it)->second;
+
+	if (!hContact)
+		hContact = AddContact(steamId.c_str());
+
+	JSONNODE *node = json_get(child, "friend_since");
+	db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
+
+	node = json_get(child, "relationship");
+	ptrA relationship(mir_u2a(json_as_string(node)));
+	if (!lstrcmpiA(relationship, "friend"))
+	{
+		ContactIsFriend(hContact);
+	}
+	else if (!lstrcmpiA(relationship, "ignoredfriend"))
+	{
+		ContactIsIgnored(hContact);
+	}
+	else if (!lstrcmpiA(relationship, "requestrecipient"))
+	{
+		// todo
+		//RaiseAuthRequestThread((void*)hContact);
+	}
+}
+
 void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL)
@@ -183,6 +252,9 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 
 	std::string steamIds = ptrA(getStringA("SteamID"));
 
+	std::map<std::string, JSONNODE*> friends;
+
+	// Remember contacts on server
 	JSONNODE *node = json_get(root, "friends");
 	JSONNODE *nroot = json_as_array(node);
 	if (nroot != NULL)
@@ -194,36 +266,51 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 				break;
 
 			node = json_get(child, "steamid");
-			ptrA steamId(mir_u2a(json_as_string(node)));
-			steamIds.append(",").append(steamId);
+			if (node == NULL)
+				continue;
 
-			MCONTACT hContact = FindContact(steamId);
-			if (!hContact)
-				hContact = AddContact(steamId);
-
-			node = json_get(child, "relationship");
-			ptrA relationship(mir_u2a(json_as_string(node)));
-			/*if (!lstrcmpiA(relationship, "friend"))
-			{
-				if (!FindContact(steamId))
-				{
-					AddContact(steamId);
-					steamIds.append(steamId).append(",");
-				}
-			}
-			else */if (!lstrcmpiA(relationship, "ignoredfriend"))
-			{
-				// todo
-				setByte(hContact, "Block", 1);
-			}
-			else if (!lstrcmpiA(relationship, "requestrecipient"))
-			{
-				// todo
-				//RaiseAuthRequestThread((void*)hContact);
-			}
-			else continue;
+			std::string steamId = _T2A(json_as_string(node));
+			friends.insert(std::make_pair(steamId, child));
 		}
 	}
+
+	// Check and update contacts in database
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
+	{
+		if (isChatRoom(hContact))
+			continue;
+
+		ptrA id(getStringA(hContact, "SteamID"));
+		if (id == NULL)
+			continue;
+
+		std::map<std::string, JSONNODE*>::iterator it = friends.find(std::string(id));
+
+		if (it != friends.end())
+		{
+			// Contact is on server-list, update (and eventually notify) it
+			ProcessContact(&it, hContact);
+
+			steamIds.append(",").append(it->first);
+			friends.erase(it);
+		}
+		else
+		{
+			// Contact was removed from server-list, notify it
+			ContactIsRemoved(hContact);
+		}
+	}
+
+	// Check remaining contacts in map and add them to contact list
+	for (std::map<std::string, JSONNODE*>::iterator it = friends.begin(); it != friends.end();)
+	{
+		// Contact is on server-list, but not in database, add (but not notify) it
+		ProcessContact(&it, NULL);
+		
+		steamIds.append(",").append(it->first);
+		it = friends.erase(it);
+	}
+	friends.clear();
 
 	if (!steamIds.empty())
 	{

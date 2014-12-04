@@ -104,33 +104,23 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 					MCONTACT hContact = FindContact(steamId);
 					if (hContact)
 					{
-						setByte(hContact, "Auth", 1);
-
-						TCHAR message[MAX_PATH];
-						mir_sntprintf(
-							message, MAX_PATH,
-							TranslateT("%s has been removed from your contact list"),
-							ptrT(mir_a2t(steamId)));
-
-						ShowNotification(_T("Steam"), message);
+						ContactIsRemoved(hContact);
 					}
 				}
 				break;
 
 			case 1:
-				// ignored
-				// todo
-				{
+				{// ignored
 					MCONTACT hContact = FindContact(steamId);
 					if (hContact)
 					{
-						setByte(hContact, "Block", 1);
+						ContactIsIgnored(hContact);
 					}
 				}
 				break;
 
 			case 2:
-				{	// auth request
+				{// auth request
 					/*MCONTACT hContact = FindContact(steamId);
 					if (!hContact)
 						hContact = AddContact(steamId, true);*/

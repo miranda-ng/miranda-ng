@@ -195,6 +195,11 @@ protected:
 	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
 
 	void UpdateContact(MCONTACT hContact, JSONNODE *data);
+	void ProcessContact(std::map<std::string, JSONNODE*>::iterator *it, MCONTACT hContact);
+	
+	void ContactIsRemoved(MCONTACT hContact);
+	void ContactIsFriend(MCONTACT hContact);
+	void ContactIsIgnored(MCONTACT hContact);
 
 	MCONTACT FindContact(const char *steamId);
 	MCONTACT AddContact(const char *steamId, bool isTemporary = false);
