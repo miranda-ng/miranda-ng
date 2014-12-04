@@ -94,13 +94,8 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 
 	// avatar
 	node = json_get(data, "avatarfull");
-	ptrA avatarUrl(mir_u2a(json_as_string(node)));
-	setString(hContact, "AvatarUrl", avatarUrl);
-
-	PushRequest(
-		new SteamWebApi::GetAvatarRequest(avatarUrl),
-		&CSteamProto::OnGotAvatar,
-		(void*)hContact);
+	std::string avatarUrl = _T2A(json_as_string(node));
+	CheckAvatarChange(hContact, avatarUrl);
 
 	// set country
 	node = json_get(data, "loccountrycode");
@@ -317,28 +312,30 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *ar
 
 void CSteamProto::OnGotAvatar(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	MCONTACT hContact = (MCONTACT)arg;
+	PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
+	pai.hContact = (MCONTACT)arg;
+	GetDbAvatarInfo(pai);
 
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
-		ptrA steamId(getStringA(hContact, "SteamID"));
+		ptrA steamId(getStringA(pai.hContact, "SteamID"));
 		debugLogA("CSteamProto::OnGotAvatar: failed to get avatar %s", steamId);
+
+		if (pai.hContact)
+			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&pai, 0);
 		return;
 	}
 
-	ptrW avatarPath(GetAvatarFilePath(hContact));
-	FILE *fp = _wfopen(avatarPath, L"wb");
+	FILE *fp = _tfopen(pai.filename, _T("wb"));
 	if (fp)
 	{
 		fwrite(response->pData, sizeof(char), response->dataLength, fp);
 		fclose(fp);
 
-		PROTO_AVATAR_INFORMATIONW pai = { sizeof(pai) };
-		pai.format = PA_FORMAT_JPEG;
-		pai.hContact = hContact;
-		wcscpy(pai.filename, avatarPath);
-
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+		if (pai.hContact)
+			ProtoBroadcastAck(pai.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+		else
+			CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 	}
 }
 
