@@ -25,8 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // The code for streaming the text is to a large extent copied from
 // the srmm module and then modified to fit the chat module.
 
-PBYTE pLogIconBmpBits[14];
-int logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
+char*  pLogIconBmpBits[14];
+size_t logIconBmpSize[ SIZEOF(pLogIconBmpBits) ];
 
 #define RTFCACHELINESIZE 128
 static char	CHAT_rtfFontsGlobal[OPTIONS_FONTCOUNT][RTFCACHELINESIZE];
@@ -87,29 +87,28 @@ char* Log_SetStyle(int style)
 	return "";
 }
 
-static void Log_Append(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...)
+static void Log_Append(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const char *fmt, ...)
 {
 	va_list va;
 	int charsDone = 0;
 
 	va_start(va, fmt);
 	for (;;) {
-		charsDone = mir_vsnprintf(*buffer + *cbBufferEnd, *cbBufferAlloced - *cbBufferEnd, fmt, va);
+		charsDone = mir_vsnprintf(buffer + cbBufferEnd, cbBufferAlloced - cbBufferEnd, fmt, va);
 		if (charsDone >= 0)
 			break;
-		*cbBufferAlloced += 4096;
-		*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
+		cbBufferAlloced += 4096;
+		buffer = (char*)mir_realloc(buffer, cbBufferAlloced);
 	}
 	va_end(va);
-	*cbBufferEnd += charsDone;
+	cbBufferEnd += charsDone;
 }
 
-static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const TCHAR *fmt, ...)
+static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced, const TCHAR *fmt, ...)
 {
 	va_list va;
 	int lineLen, textCharsCount = 0;
 	TCHAR* line = (TCHAR*)alloca(8001 * sizeof(TCHAR));
-	char* d;
 
 	va_start(va, fmt);
 	lineLen = mir_vsntprintf(line, 8000, fmt, va);
@@ -118,12 +117,12 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 	va_end(va);
 
 	lineLen = lineLen * 20 + 8;
-	if (*cbBufferEnd + lineLen > *cbBufferAlloced) {
-		cbBufferAlloced[0] += (lineLen + 1024 - lineLen % 1024);
-		*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
+	if (cbBufferEnd + lineLen > cbBufferAlloced) {
+		cbBufferAlloced += (lineLen + 1024 - lineLen % 1024);
+		buffer = (char *)mir_realloc(buffer, cbBufferAlloced);
 	}
 
-	d = *buffer + *cbBufferEnd;
+	char *d = buffer + cbBufferEnd;
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
@@ -217,11 +216,11 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 		else d += sprintf(d, "\\u%u ?", (WORD)*line); //!!!!!!!!!!!
 	}
 
-	*cbBufferEnd = (int)(d - *buffer);
+	cbBufferEnd = (int)(d - buffer);
 	return textCharsCount;
 }
 
-static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, LOGSTREAMDATA *streamData)
+static void AddEventToBuffer(char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, LOGSTREAMDATA *streamData)
 {
 	TCHAR szTemp[512], szTemp2[512];
 	TCHAR* pszNick = NULL;
@@ -326,15 +325,14 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 	MODULEINFO *mi = ci.MM_FindModule(streamData->si->pszModule);
 
 	// guesstimate amount of memory for the RTF
-	int bufferEnd = 0;
-	int bufferAlloced = streamData->bRedraw ? 1024 * (streamData->si->iEventCount + 2) : 2048;
+	size_t bufferEnd = 0, bufferAlloced = streamData->bRedraw ? 1024 * (streamData->si->iEventCount + 2) : 2048;
 	char *buffer = (char *)mir_alloc(bufferAlloced);
 	buffer[0] = '\0';
 
 	// ### RTF HEADER
 	char *header = mi->pszHeader;
 	if (header)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, header);
+		Log_Append(buffer, bufferEnd, bufferAlloced, header);
 
 	// ### RTF BODY (one iteration per event that should be streamed in)
 	for (LOGINFO *lin = streamData->lin; lin; lin = lin->prev) {
@@ -345,13 +343,13 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 
 		// create new line, and set font and color
 		if (lin->next != NULL)
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par ");
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0));
+			Log_Append(buffer, bufferEnd, bufferAlloced, "\\par ");
+		Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(0));
 
 		// Insert icon
 		if ((lin->iType & g_Settings->dwIconFlags) || lin->bIsHighlighted && (g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT)) {
 			int iIndex = (lin->bIsHighlighted && g_Settings->dwIconFlags & GC_EVENT_HIGHLIGHT) ? ICON_HIGHLIGHT : EventToIcon(lin);
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\f0\\fs14");
+			Log_Append(buffer, bufferEnd, bufferAlloced, "\\f0\\fs14");
 			while (bufferAlloced - bufferEnd < logIconBmpSize[0])
 				bufferAlloced += 4096;
 			buffer = (char *)mir_realloc(buffer, bufferAlloced);
@@ -367,18 +365,18 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 				int iii = lin->bIsHighlighted ? 16 : (lin->bIsMe ? 2 : 1);
 				mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
+				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
 			}
 			else {
 				int iii = lin->bIsHighlighted ? 16 : EventToIndex(lin);
 				mir_snprintf(szStyle, SIZEOF(szStyle), "\\f0\\cf%u\\ul0\\highlight0\\b%d\\i%d\\fs%u", iii + 1, lf.lfWeight >= FW_BOLD ? 1 : 0, lf.lfItalic, 2 * abs(lf.lfHeight) * 74 / ci.logPixelSY);
-				Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", szStyle);
+				Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", szStyle);
 			}
 		}
-		else Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(0));
+		else Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(0));
 
 		if (g_Settings->dwIconFlags)
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
+			Log_Append(buffer, bufferEnd, bufferAlloced, "\\tab ");
 
 		//insert timestamp
 		if (g_Settings->bShowTime) {
@@ -388,46 +386,45 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			mir_tstrncpy(szOldTimeStamp, MakeTimeStamp(g_Settings->pszTimeStamp, streamData->si->LastTime), 30);
 			if (!g_Settings->bShowTimeIfChanged || streamData->si->LastTime == 0 || mir_tstrcmp(szTimeStamp, szOldTimeStamp)) {
 				streamData->si->LastTime = lin->time;
-				Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, _T("%s"), szTimeStamp);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, _T("%s"), szTimeStamp);
 			}
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tab ");
+			Log_Append(buffer, bufferEnd, bufferAlloced, "\\tab ");
 		}
 
 		// Insert the nick
 		if (lin->ptszNick && lin->iType == GC_EVENT_MESSAGE) {
 			TCHAR pszTemp[300], *p1;
 
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
+			Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsMe ? 2 : 1));
 			mir_tstrncpy(pszTemp, lin->bIsMe ? g_Settings->pszOutgoingNick : g_Settings->pszIncomingNick, 299);
 			p1 = _tcsstr(pszTemp, _T("%n"));
 			if (p1)
 				p1[1] = 's';
 
-			Log_AppendRTF(streamData, TRUE, &buffer, &bufferEnd, &bufferAlloced, pszTemp, lin->ptszNick);
-			Log_Append(&buffer, &bufferEnd, &bufferAlloced, " ");
+			Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, pszTemp, lin->ptszNick);
+			Log_Append(buffer, bufferEnd, bufferAlloced, " ");
 		}
 
 		// Insert the message
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
+		Log_Append(buffer, bufferEnd, bufferAlloced, "%s ", Log_SetStyle(lin->bIsHighlighted ? 16 : EventToIndex(lin)));
 		streamData->lin = lin;
-		AddEventToBuffer(&buffer, &bufferEnd, &bufferAlloced, streamData);
+		AddEventToBuffer(buffer, bufferEnd, bufferAlloced, streamData);
 	}
 
 	// ### RTF END
 	if (streamData->bRedraw)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\par}");
+		Log_Append(buffer, bufferEnd, bufferAlloced, "\\par}");
 	else
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}");
+		Log_Append(buffer, bufferEnd, bufferAlloced, "}");
 	return buffer;
 }
 
 char* Log_CreateRtfHeader(MODULEINFO *mi)
 {
-	int bufferAlloced, bufferEnd, i;
+	int i;
 
 	// guesstimate amount of memory for the RTF header
-	bufferEnd = 0;
-	bufferAlloced = 4096;
+	size_t bufferEnd = 0, bufferAlloced = 4096;
 	char *buffer = (char *)mir_realloc(mi->pszHeader, bufferAlloced);
 	buffer[0] = '\0';
 
@@ -440,37 +437,37 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 	// ### RTF HEADER
 
 	// font table
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+	Log_Append(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, ci.aFonts[i].lf.lfCharSet, ci.aFonts[i].lf.lfFaceName);
+		Log_Append(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u%S;}", i, ci.aFonts[i].lf.lfCharSet, ci.aFonts[i].lf.lfFaceName);
 
 	// colour table
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}{\\colortbl ;");
+	Log_Append(buffer, bufferEnd, bufferAlloced, "}{\\colortbl ;");
 
 	for (i = 0; i < OPTIONS_FONTCOUNT; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(ci.aFonts[i].color), GetGValue(ci.aFonts[i].color), GetBValue(ci.aFonts[i].color));
+		Log_Append(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(ci.aFonts[i].color), GetGValue(ci.aFonts[i].color), GetBValue(ci.aFonts[i].color));
 
 	for (i = 0; i < mi->nColorCount; i++)
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
+		Log_Append(buffer, bufferEnd, bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(mi->crColors[i]), GetGValue(mi->crColors[i]), GetBValue(mi->crColors[i]));
 
 	// new paragraph
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "}\\pard");
+	Log_Append(buffer, bufferEnd, bufferAlloced, "}\\pard");
 
 	// set tabs and indents
 	int iIndent = 0;
 
 	if (g_Settings->dwIconFlags) {
 		iIndent += (14 * 1440) / ci.logPixelSX;
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent);
+		Log_Append(buffer, bufferEnd, bufferAlloced, "\\tx%u", iIndent);
 	}
 	if (g_Settings->bShowTime) {
 		int iSize = (g_Settings->LogTextIndent * 1440) / ci.logPixelSX;
-		Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\tx%u", iIndent + iSize);
+		Log_Append(buffer, bufferEnd, bufferAlloced, "\\tx%u", iIndent + iSize);
 		if (g_Settings->bLogIndentEnabled)
 			iIndent += iSize;
 	}
 
-	Log_Append(&buffer, &bufferEnd, &bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
+	Log_Append(buffer, bufferEnd, bufferAlloced, "\\fi-%u\\li%u", iIndent, iIndent);
 	return buffer;
 }
 
@@ -498,24 +495,23 @@ void LoadMsgLogBitmaps(void)
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
 	for (int i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
-		HICON hIcon = ci.hIcons[i];
 		size_t size = RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2;
-		pLogIconBmpBits[i] = (PBYTE)mir_alloc(size);
-		int rtfHeaderSize = mir_snprintf((char *)pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
+		pLogIconBmpBits[i] = (char*)mir_alloc(size);
+		size_t rtfHeaderSize = mir_snprintf((char *)pLogIconBmpBits[i], size, "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);
+
+		HICON hIcon = ci.hIcons[i];
 		HBITMAP hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
 		SelectObject(hdcMem, hoBmp);
 		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *)& bih, DIB_RGB_COLORS);
 
-		int n;
-		for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
-			sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE)& bih)[n]); //!!!!!!!!!!!!!
-		for (n = 0; n < widthBytes * bih.biHeight; n += 4)
-			sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]); //!!!!!!!!!!!!!
+		char *szDest = pLogIconBmpBits[i] + rtfHeaderSize;
+		bin2hex(&bih, sizeof(bih), szDest); szDest += sizeof(bih) * 2;
+		bin2hex(pBmpBits, widthBytes * bih.biHeight, szDest); szDest += widthBytes * bih.biHeight * 2;
+		strcpy(szDest, "}");
 
-		logIconBmpSize[i] = rtfHeaderSize + (bih.biSize + widthBytes * bih.biHeight) * 2 + 1;
-		pLogIconBmpBits[i][logIconBmpSize[i] - 1] = '}';
+		logIconBmpSize[i] = size_t(szDest - pLogIconBmpBits[i]) + 1;
 	}
 	mir_free(pBmpBits);
 	DeleteDC(hdcMem);

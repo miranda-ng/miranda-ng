@@ -137,16 +137,13 @@ void TSAPI CacheLogFonts()
 	_tcsncpy(szYesterday, TranslateT("Yesterday"), 20);
 	szToday[19] = szYesterday[19] = 0;
 
-	/*
-	 * cache/create the info panel fonts
-	 */
-
-	COLORREF clr;
-	LOGFONTA lf;
-
+	// cache/create the info panel fonts
 	for (int i = 0; i < IPFONTCOUNT; i++) {
 		if (CInfoPanel::m_ipConfig.hFonts[i])
 			DeleteObject(CInfoPanel::m_ipConfig.hFonts[i]);
+
+		COLORREF clr;
+		LOGFONTA lf;
 		LoadLogfont(i + 100, &lf, &clr, FONTMODULE);
 		lf.lfUnderline = 0;
 		CInfoPanel::m_ipConfig.hFonts[i] = CreateFontIndirectA(&lf);
@@ -310,9 +307,8 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 	return textCharsCount;
 }
 
-/*
- * same as above but does "\r\n"->"\\par " and "\t"->"\\tab " too
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// same as above but does "\r\n"->"\\par " and "\t"->"\\tab " too
 
 static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...)
 {
@@ -422,7 +418,6 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, TWindowData *dat)
 {
 	int i;
-	char szTemp[30];
 	LOGFONTA *logFonts = dat->pContainer->theme.logFonts;
 	COLORREF *fontColors = dat->pContainer->theme.fontColors;
 	TLogTheme *theme = &dat->pContainer->theme;
@@ -462,6 +457,7 @@ static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 
 	// custom template colors...
 	for (i = 1; i <= 5; i++) {
+		char szTemp[30];
 		mir_snprintf(szTemp, 10, "cc%d", i);
 		colour = theme->custom_colors[i - 1];
 		if (colour == 0)
@@ -560,7 +556,6 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	struct tm event_time;
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
 	DWORD dwFormattingParams = MAKELONG(PluginConfig.m_FormatWholeWordsOnly, 0);
-	char *rtfMessage = NULL;
 
 	size_t bufferEnd = 0, bufferAlloced = 1024;
 	char *buffer = (char *)mir_alloc(bufferAlloced); buffer[0] = '\0';
@@ -588,17 +583,15 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		dat->cache->updateStats(TSessionStats::SET_LAST_RCV, mir_strlen((char *)dbei.pBlob));
 
 	TCHAR *formatted = NULL;
-	if (rtfMessage == NULL) {
-		TCHAR *msg = DbGetEventTextT(&dbei, dat->codePage);
-		if (!msg) {
-			mir_free(dbei.pBlob);
-			mir_free(buffer);
-			return NULL;
-		}
-		TrimMessage(msg);
-		formatted = const_cast<TCHAR *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
-		mir_free(msg);
+	TCHAR *msg = DbGetEventTextT(&dbei, dat->codePage);
+	if (!msg) {
+		mir_free(dbei.pBlob);
+		mir_free(buffer);
+		return NULL;
 	}
+	TrimMessage(msg);
+	formatted = const_cast<TCHAR *>(Utils::FormatRaw(dat, msg, dwFormattingParams, FALSE));
+	mir_free(msg);
 
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
@@ -704,9 +697,8 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			TCHAR cc = szTemplate[i + 1];
 			skipToNext = FALSE;
 			skipFont = FALSE;
-			/*
-			 * handle modifiers
-			 */
+
+			// handle modifiers
 			while (cc == '#' || cc == '$' || cc == '&' || cc == '?' || cc == '\\') {
 				switch (cc) {
 				case '#':
@@ -975,11 +967,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 					else if (!skipFont)
 						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMSG + iFontIDOffset : MSGFONTID_YOURMSG + iFontIDOffset));
 
-					if (rtfMessage != NULL)
-						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s", rtfMessage);
-					else
-						AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, formatted, MAKELONG(isSent, dat->bIsHistory));
-
+					AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, formatted, MAKELONG(isSent, dat->bIsHistory));
 					AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s", "\\b0\\ul0\\i0 ");
 					break;
 
@@ -988,18 +976,17 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYMISC + iFontIDOffset : MSGFONTID_YOURMISC + iFontIDOffset));
 					{
 						char *szFileName = (char *)dbei.pBlob + sizeof(DWORD);
+						ptrT tszFileName(DbGetEventStringT(&dbei, szFileName));
+
 						char *szDescr = szFileName + mir_strlen(szFileName) + 1;
-						TCHAR *tszFileName = DbGetEventStringT(&dbei, szFileName);
 						if (*szDescr != 0) {
-							TCHAR *tszDescr = DbGetEventStringT(&dbei, szDescr);
+							ptrT tszDescr(DbGetEventStringT(&dbei, szDescr));
+
 							TCHAR buf[1000];
 							mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), tszFileName, tszDescr);
 							AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, buf, 0);
-							mir_free(tszDescr);
 						}
 						else AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, tszFileName, 0);
-
-						mir_free(tszFileName);
 					}
 					break;
 
@@ -1139,7 +1126,7 @@ skip:
 
 static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
-	LogStreamData *dat = (LogStreamData *)dwCookie;
+	LogStreamData *dat = (LogStreamData*)dwCookie;
 
 	if (dat->buffer == NULL) {
 		dat->bufferOffset = 0;
@@ -1389,7 +1376,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		event.hDbEventFirst = hDbEventFirst;
 		event.count = count;
 		CallService(MS_HPP_EG_EVENT, 0, (LPARAM)&event);
-		//SendMessage(hwndDlg, DM_FORCESCROLL, (WPARAM)&pt, (LPARAM)&si);
+
 		DM_ScrollToBottom(dat, 0, 0);
 		if (fAppend)
 			dat->hDbEventLast = hDbEventFirst;
