@@ -73,14 +73,11 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 		std::wstring realname = json_as_string(node);
 		if (!realname.empty())
 		{
-			size_t pos = realname.find(' ', 1);
-			if (pos != std::string::npos)
+			size_t pos = realname.find(L' ', 1);
+			if (pos != std::wstring::npos)
 			{
-				const wchar_t *firstName = realname.substr(0, pos).c_str();
-				const wchar_t *lastName = realname.substr(pos + 1).c_str();
-
-				setWString(hContact, "FirstName", firstName);
-				setWString(hContact, "LastName", lastName);
+				setWString(hContact, "FirstName", realname.substr(0, pos).c_str());
+				setWString(hContact, "LastName", realname.substr(pos + 1).c_str());
 			}
 			else
 			{
@@ -98,7 +95,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	// avatar
 	node = json_get(data, "avatarfull");
 	ptrA avatarUrl(mir_u2a(json_as_string(node)));
-	setString("AvatarUrl", avatarUrl);
+	setString(hContact, "AvatarUrl", avatarUrl);
 
 	PushRequest(
 		new SteamWebApi::GetAvatarRequest(avatarUrl),
@@ -114,16 +111,16 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 		setString(hContact, "Country", country);
 	}
 	else
-		this->delSetting(hContact, "Country");
+		delSetting(hContact, "Country");
 
 	// only for contacts
 	if (hContact)
 	{
 		node = json_get(data, "lastlogoff");
-		setDword(hContact, "LastEventDateTS", json_as_int(node));
+		setDword(hContact, "LogoffTS", json_as_int(node));
 
 		node = json_get(data, "gameid");
-		DWORD gameId = atol(ptrA(mir_u2a(json_as_string(node))));
+		DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
 		if (gameId > 0)
 		{
 			node = json_get(data, "gameextrainfo");
@@ -203,13 +200,11 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 
 			node = json_get(child, "steamid");
 			ptrA steamId(mir_u2a(json_as_string(node)));
+			steamIds.append(steamId).append(",");
 
 			MCONTACT hContact = FindContact(steamId);
 			if (!hContact)
-			{
 				hContact = AddContact(steamId);
-				steamIds.append(steamId).append(",");
-			}
 
 			node = json_get(child, "relationship");
 			ptrA relationship(mir_u2a(json_as_string(node)));
