@@ -146,17 +146,9 @@ void GetData(void *param)
 				db_set_ts(hContact, "CList", "StatusMsg", statusText);
 			}
 			if (nlhrReply->dataLength) {
-				size_t cbLen = mir_strlen(nlhrReply->pData);
-				char *szInfo = (char*)malloc(cbLen + 2);
-				mir_strncpy(szInfo, nlhrReply->pData, cbLen);
-				downloadsize = (ULONG)mir_strlen(nlhrReply->pData);
-
 				trunccount = 0;
-				mir_strncpy(truncated2, szInfo, MAXSIZE2);
-				free(szInfo);
-
-				////////////////////////////////////////////
-				sprintf(truncated2, "%s", nlhrReply->pData);
+				downloadsize = (ULONG)mir_strlen(nlhrReply->pData);
+				strncpy_s(truncated2, nlhrReply->pData, _TRUNCATE);
 				AlreadyDownloading = 1;
 			} // END DATELENGTH
 		} // END REPLY

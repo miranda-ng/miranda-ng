@@ -367,7 +367,6 @@ int SplitmsgShutdown(void)
 	delete Win7Taskbar;
 	delete mREOLECallback;
 
-	OleUninitialize();
 	DestroyMenu(PluginConfig.g_hMenuContext);
 	if (PluginConfig.g_hMenuContainer)
 		DestroyMenu(PluginConfig.g_hMenuContainer);
@@ -454,7 +453,6 @@ int LoadSendRecvMessageModule(void)
 
 	Utils::loadSystemLibrary(L"\\Msftedit.dll");
 
-	OleInitialize(NULL);
 	mREOLECallback = new REOLECallback;
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();

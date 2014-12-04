@@ -22,25 +22,30 @@
 #include "resource.h"
 #include "version.h"
 
+
 #define MS_AB_BACKUP		"AB/Backup"
 #define MS_AB_SAVEAS		"AB/SaveAs"
 
-#define SUB_DIR L"\\AutoBackups"
-#define DIR L"%miranda_userdata%"
+#define SUB_DIR			L"\\AutoBackups"
+#define DIR			L"%miranda_userdata%"
 
 
-void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath);
-INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam);
-INT_PTR ABService(WPARAM wParam, LPARAM lParam);
-int Backup(TCHAR* backup_filename);
-int SetBackupTimer(void);
-int OptionsInit(WPARAM wParam, LPARAM lParam);
-int LoadOptions(void);
-HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle);
-void BackupThread(void* backup_filename);
-bool MakeZip(LPCTSTR szSource, LPCTSTR szDest);
+int	SetBackupTimer(void);
+int	OptionsInit(WPARAM wParam, LPARAM lParam);
+int	LoadOptions(void);
+void	BackupStart(TCHAR *backup_filename);
 
-extern HINSTANCE hInst;
-extern TCHAR* profilePath;
+
+extern HINSTANCE g_hInstance;
+extern TCHAR	*profilePath;
+
+
+
+static IconItem iconList[] = {
+	{ LPGEN("Backup profile"),     "backup", IDI_ICON1 },
+	{ LPGEN("Save profile as..."), "saveas", IDI_ICON1 }
+};
+
+
 
 #endif

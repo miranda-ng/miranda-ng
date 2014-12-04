@@ -503,7 +503,6 @@ int OnUnloadModule(void)
 	ReleaseIcons();
 	FreeMsgLogIcons();
 	FreeLibrary(GetModuleHandleA("Msftedit.dll"));
-	OleUninitialize();
 	RichUtil_Unload();
 	FreeGlobals();
 	return 0;
@@ -522,7 +521,6 @@ int OnLoadModule(void)
 
 	InitGlobals();
 	RichUtil_Load();
-	OleInitialize(NULL);
 	InitStatusIcons();
 	RegisterIcons();
 	RegisterFontServiceFonts();

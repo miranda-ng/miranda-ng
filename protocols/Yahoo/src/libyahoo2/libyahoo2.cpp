@@ -2780,7 +2780,7 @@ static void yahoo_process_mail(struct yahoo_input_data *yid, struct yahoo_packet
 		if (who) {
 			snprintf(from, sizeof(from), "\"%s\" <%s>", who, email);
 		} else {
-			snprintf(from, sizeof(from), "%s", email);
+			strncpy_s(from, email, _TRUNCATE);
 		}
 		
 		YAHOO_CALLBACK(ext_yahoo_mail_notify)(yd->client_id, from, subj, count);

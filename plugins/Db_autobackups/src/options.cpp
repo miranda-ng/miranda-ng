@@ -1,7 +1,37 @@
 #include "headers.h"
 
-HWND hPathTip;
-Options options;
+HWND	hPathTip;
+Options	options;
+
+
+
+HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
+{
+	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
+		TOOLTIPS_CLASS, NULL,
+		(WS_POPUP | TTS_NOPREFIX),
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		hwndParent, NULL, g_hInstance, NULL);
+
+	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, (SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE));
+
+	TOOLINFO ti = { 0 };
+	ti.cbSize = sizeof(TOOLINFO);
+	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
+	ti.hwnd = hwndParent;
+	ti.hinst = g_hInstance;
+	ti.lpszText = ptszText;
+	GetClientRect (hwndParent, &ti.rect);
+	ti.rect.left = -80;
+
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
+	SendMessage(hwndTT, TTM_SETMAXTIPWIDTH, 0, (LPARAM)650);
+
+	return hwndTT;
+}
+
 
 int LoadOptions(void)
 {
@@ -16,9 +46,9 @@ int LoadOptions(void)
 			TCHAR *tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
 			if (_tcslen(tmp) >= 2 && tmp[1] == ':')
-				_tcsncpy(options.folder, dbv.ptszVal, MAX_PATH-1);
+				_tcsncpy_s(options.folder, dbv.ptszVal, _TRUNCATE);
 			else
-				mir_sntprintf(options.folder, MAX_PATH, _T("%s\\%s"), profilePath, dbv.ptszVal);
+				mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s\\%s"), profilePath, dbv.ptszVal);
 
 			db_free(&dbv);
 			mir_free(tmp);
@@ -40,11 +70,12 @@ int SaveOptions(void)
 	TCHAR prof_dir[MAX_PATH];
 
 	db_set_b(0, "AutoBackups", "BackupType", (BYTE)options.backup_types);
-	if (options.period < 1) options.period = 1;
+	if (options.period < 1)
+		options.period = 1;
 	db_set_w(0, "AutoBackups", "Period", (WORD)options.period);
 	db_set_b(0, "AutoBackups", "PeriodType", (BYTE)options.period_type);
 
-	mir_sntprintf(prof_dir, MAX_PATH, _T("%s\\"), profilePath);
+	mir_sntprintf(prof_dir, SIZEOF(prof_dir), _T("%s\\"), profilePath);
 	size_t prof_len = _tcslen(prof_dir);
 	size_t opt_len = _tcslen(options.folder);
 
@@ -54,11 +85,9 @@ int SaveOptions(void)
 		db_set_ts(0, "AutoBackups", "Folder", options.folder);
 
 	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
-	if (_tcslen(tmp) < 2 || tmp[1] != ':')
-	{
-		TCHAR *buf = mir_tstrdup(options.folder);
-		mir_sntprintf(options.folder, MAX_PATH, _T("%s\\%s"), profilePath, buf);
-		mir_free(buf);
+	if (_tcslen(tmp) < 2 || tmp[1] != ':') {
+		_tcsncpy_s(prof_dir, options.folder, _TRUNCATE);
+		mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s\\%s"), profilePath, prof_dir);
 	}
 	mir_free(tmp);
 	db_set_w(0, "AutoBackups", "NumBackups", (WORD)options.num_backups);
@@ -155,17 +184,17 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			ShowWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), SW_SHOW);
 		}
 		else {
-			TCHAR tszTooltipText[1024];
+			TCHAR tszTooltipText[4096];
 			mir_sntprintf(tszTooltipText, SIZEOF(tszTooltipText), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-				_T("%miranda_path%"),			TranslateT("path to Miranda root folder"),
-				_T("%miranda_profilesdir%"),		TranslateT("path to folder containing Miranda profiles"),
+				_T("%miranda_path%"),		TranslateT("path to Miranda root folder"),
+				_T("%miranda_profilesdir%"),	TranslateT("path to folder containing Miranda profiles"),
 				_T("%miranda_profilename%"),	TranslateT("name of current Miranda profile (filename, without extension)"),
-				_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
-				_T("%appdata%"),				TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
-				_T("%username%"),				TranslateT("username for currently logged-on Windows user"),
-				_T("%mydocuments%"),			TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
-				_T("%desktop%"),				TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
-				_T("%xxxxxxx%"),				TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)")
+				_T("%miranda_userdata%"),	TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
+				_T("%appdata%"),		TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
+				_T("%username%"),		TranslateT("username for currently logged-on Windows user"),
+				_T("%mydocuments%"),		TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
+				_T("%desktop%"),		TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
+				_T("%xxxxxxx%"),		TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)")
 				);
 			hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_ED_FOLDER), tszTooltipText, TranslateT("Variables"));
 		}
@@ -259,7 +288,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					break;
 				}
 			case IDC_BUT_NOW:
-				mir_forkthread(BackupThread, NULL);
+				BackupStart(NULL);
 				break;
 			case IDC_CHK_NOPROG:
 				new_options.disable_progress = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOPROG);
@@ -312,9 +341,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
 
 				if (_tcslen(tmp) >= 2 && tmp[1] == ':')
-					_tcsncpy(backupfolder, tmp, MAX_PATH-1);
+					_tcsncpy_s(backupfolder, tmp, _TRUNCATE);
 				else
-					mir_sntprintf(backupfolder, MAX_PATH, _T("%s\\%s"), profilePath, tmp);
+					mir_sntprintf(backupfolder, SIZEOF(backupfolder), _T("%s\\%s"), profilePath, tmp);
 				mir_free(tmp);
 
 				int err = CreateDirectoryTreeT(backupfolder);
@@ -326,11 +355,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 
 				if (folder_ok) {
-					_tcsncpy(new_options.folder, folder_buff, MAX_PATH-1);
+					_tcsncpy_s(new_options.folder, folder_buff, _TRUNCATE);
 					memcpy(&options, &new_options, sizeof(Options));
 					SaveOptions();
-				}
-				else {
+				} else {
 					memcpy(&new_options, &options, sizeof(Options));
 					SetDlgState(hwndDlg);
 				}
@@ -355,13 +383,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+
 	odp.position = -790000000;
-	odp.hInstance = hInst;
+	odp.hInstance = g_hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Automatic backups");
 	odp.pszGroup = LPGEN("Database");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
+
 	return 0;
 }

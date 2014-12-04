@@ -81,29 +81,27 @@ LRESULT CALLBACK ButtWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPar
 int BrowseForFolder(HWND hwnd,char *szPath)
 {
 	int result=0;
+	LPMALLOC pMalloc;
 
-	if (SUCCEEDED(OleInitialize(NULL))) {
-		LPMALLOC pMalloc;
-		if (SUCCEEDED(CoGetMalloc(1,&pMalloc))) {
-			ptrT tszPath( mir_a2t(szPath));
-			BROWSEINFO bi={0};
-			bi.hwndOwner = hwnd;
-			bi.pszDisplayName = tszPath;
-			bi.lpszTitle = TranslateT("Select Folder");
-			bi.ulFlags = BIF_EDITBOX | BIF_RETURNONLYFSDIRS;				// Use this combo instead of BIF_USENEWUI
-			bi.lParam = (LPARAM)szPath;
+	if (SUCCEEDED(CoGetMalloc(1,&pMalloc))) {
+		ptrT tszPath( mir_a2t(szPath));
+		BROWSEINFO bi={0};
+		bi.hwndOwner = hwnd;
+		bi.pszDisplayName = tszPath;
+		bi.lpszTitle = TranslateT("Select Folder");
+		bi.ulFlags = BIF_EDITBOX | BIF_RETURNONLYFSDIRS;				// Use this combo instead of BIF_USENEWUI
+		bi.lParam = (LPARAM)szPath;
 
-			ITEMIDLIST *pidlResult = SHBrowseForFolder(&bi);
-			if (pidlResult) {
-				SHGetPathFromIDListA(pidlResult, szPath);
-				mir_strcat(szPath,"\\");
-				result = 1;
-			}
-			pMalloc->Free(pidlResult);
-			pMalloc->Release();
+		ITEMIDLIST *pidlResult = SHBrowseForFolder(&bi);
+		if (pidlResult) {
+			SHGetPathFromIDListA(pidlResult, szPath);
+			mir_strcat(szPath,"\\");
+			result = 1;
 		}
-		OleUninitialize();
+		pMalloc->Free(pidlResult);
+		pMalloc->Release();
 	}
+
 	return result;
 }
 

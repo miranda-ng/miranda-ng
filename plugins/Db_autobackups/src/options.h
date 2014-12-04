@@ -26,14 +26,14 @@ typedef enum { BT_DISABLED = 0, BT_START = 1, BT_EXIT = 2, BT_PERIODIC = 4} Back
 typedef enum { PT_DAYS, PT_HOURS, PT_MINUTES} PeriodType;
 
 typedef struct Options_tag {
-	int backup_types;
+	int	backup_types;
 	unsigned int period;
 	PeriodType period_type;
-	TCHAR folder[MAX_PATH];
-	unsigned int num_backups;
-	BOOL disable_progress;
-	BOOL disable_popups;
-	BOOL use_zip;
+	TCHAR	folder[MAX_PATH];
+	size_t	num_backups;
+	BOOL	disable_progress;
+	BOOL	disable_popups;
+	BOOL	use_zip;
 } Options;
 
 extern Options options;

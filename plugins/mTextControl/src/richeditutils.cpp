@@ -122,7 +122,6 @@ LRESULT CALLBACK RichEditProxyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 void LoadRichEdit()
 {
-	OleInitialize(NULL);
 	reOleCallback = new CREOleCallback;
 
 	WNDCLASSEX wcl;
@@ -144,7 +143,6 @@ void LoadRichEdit()
 void UnloadRichEdit()
 {
 	delete reOleCallback;
-	OleUninitialize();
 }
 
 HWND CreateProxyWindow(ITextServices *ts)
