@@ -181,7 +181,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 	if (root == NULL)
 		return;
 
-	std::string steamIds;
+	std::string steamIds = ptrA(getStringA("SteamID"));
 
 	JSONNODE *node = json_get(root, "friends");
 	JSONNODE *nroot = json_as_array(node);
@@ -195,7 +195,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 
 			node = json_get(child, "steamid");
 			ptrA steamId(mir_u2a(json_as_string(node)));
-			steamIds.append(steamId).append(",");
+			steamIds.append(",").append(steamId);
 
 			MCONTACT hContact = FindContact(steamId);
 			if (!hContact)
@@ -227,7 +227,7 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 
 	if (!steamIds.empty())
 	{
-		steamIds.pop_back();
+		//steamIds.pop_back();
 		ptrA token(getStringA("TokenSecret"));
 
 		PushRequest(
@@ -301,9 +301,12 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *ar
 			node = json_get(item, "steamid");
 			ptrA steamId(mir_u2a(json_as_string(node)));
 
-			MCONTACT hContact = FindContact(steamId);
-			if (!hContact)
-				hContact = AddContact(steamId);
+			MCONTACT hContact = NULL;
+			if (!IsMe(steamId)) {
+				hContact = FindContact(steamId);
+				if (!hContact)
+					hContact = AddContact(steamId);
+			}
 
 			UpdateContact(hContact, item);
 		}
