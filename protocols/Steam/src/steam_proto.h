@@ -240,7 +240,9 @@ protected:
 	void OnInitStatusMenu();
 
 	// avatars
-	wchar_t * GetAvatarFilePath(MCONTACT hContact);
+	TCHAR* GetAvatarFilePath(MCONTACT hContact);
+	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &pai);
+	void CheckAvatarChange(MCONTACT hContact, std::string avatarUrl);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
