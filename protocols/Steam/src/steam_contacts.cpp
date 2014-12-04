@@ -463,7 +463,10 @@ void CSteamProto::OnFriendRemoved(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 	{
-		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", ptrA((char*)arg));
+		MCONTACT hContact = (MCONTACT)arg;
+		ptrA who(getStringA(hContact, "SteamID"));
+
+		debugLogA("CSteamProto::OnFriendRemoved: failed to remove friend %s", who);
 		return;
 	}
 }
