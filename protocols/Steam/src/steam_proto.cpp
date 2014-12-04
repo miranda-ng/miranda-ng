@@ -386,15 +386,21 @@ int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM
 	case EV_PROTO_ONCONTACTDELETED:
 		if (IsOnline())
 		{
+			MCONTACT hContact = (MCONTACT)wParam;
+
 			ptrA token(getStringA("TokenSecret"));
 			ptrA sessionId(getStringA("SessionID"));
 			ptrA steamId(getStringA("SteamID"));
-			char *who = getStringA(wParam, "SteamID");
+			ptrA who(getStringA(hContact, "SteamID"));
+
+			// Don't request delete contact from server when we're not friends anyway
+			if (getByte(hContact, "Auth", 0) != 0)
+				return 0;
 
 			PushRequest(
 				new SteamWebApi::RemoveFriendRequest(token, sessionId, steamId, who),
 				&CSteamProto::OnFriendRemoved,
-				who);
+				(void*)hContact);
 		}
 		return 0;
 
