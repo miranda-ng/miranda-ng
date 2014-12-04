@@ -14,28 +14,30 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			break;
 
 		node = json_get(item, "steamid_from");
-		ptrA steamId(mir_u2a(json_as_string(node)));
+		ptrA steamId(mir_t2a(json_as_string(node)));
 
 		node = json_get(item, "utc_timestamp");
-		time_t timestamp = atol(ptrA(mir_u2a(json_as_string(node))));
+		time_t timestamp = atol(ptrA(mir_t2a(json_as_string(node))));
 
 		node = json_get(item, "type");
-		ptrW type(json_as_string(node));
-		if (!lstrcmpi(type, L"saytext") || !lstrcmpi(type, L"emote") ||
-			!lstrcmpi(type, L"my_saytext") || !lstrcmpi(type, L"my_emote"))
+		ptrT type(json_as_string(node));
+		if (!lstrcmpi(type, _T("saytext")) || !lstrcmpi(type, _T("emote")) ||
+			!lstrcmpi(type, _T("my_saytext")) || !lstrcmpi(type, _T("my_emote")))
 		{
 			node = json_get(item, "text");
-			const wchar_t *text = json_as_string(node);
+			const TCHAR *text = json_as_string(node);
 
-			if (_tcsstr(type, L"my_") == NULL)
+			if (_tcsstr(type, _T("my_")) == NULL)
 			{
 				MCONTACT hContact = FindContact(steamId);
 				if (hContact)
 				{
+					ptrA szMessage(mir_utf8encodeT(text));
+
 					PROTORECVEVENT recv = { 0 };
 					recv.flags = PREF_UTF;
 					recv.timestamp = timestamp;
-					recv.szMessage = mir_utf8encodeW(text);
+					recv.szMessage = szMessage;
 
 					ProtoChainRecvMsg(hContact, &recv);
 				}
@@ -44,13 +46,17 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			{
 				MCONTACT hContact = FindContact(steamId);
 				if (hContact)
-					AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, lstrlen(text), (BYTE*)mir_utf8encodeW(text));
+				{
+					ptrA szMessage(mir_utf8encodeT(text));
+
+					AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, mir_strlen(szMessage) + 1, (PBYTE)(char*)szMessage);
+				}
 			}
 		}
-		/*else if (!lstrcmpi(type, L"typing"))
+		/*else if (!lstrcmpi(type, _T("typing")))
 		{
 		}*/
-		else if (!lstrcmpi(type, L"personastate"))
+		else if (!lstrcmpi(type, _T("personastate")))
 		{
 			node = json_get(item, "persona_state");
 			int status = SteamToMirandaStatus(json_as_int(node));
@@ -58,7 +64,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			if (IsMe(steamId))
 			{
 				node = json_get(item, "persona_name");
-				setWString("Nick", json_as_string(node));
+				setTString("Nick", json_as_string(node));
 
 				if (status == ID_STATUS_OFFLINE)
 					continue;
@@ -81,12 +87,12 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			setWord(hContact, "Status", status);
 
 			node = json_get(item, "persona_name");
-			setWString(hContact, "Nick", json_as_string(node));
+			setTString(hContact, "Nick", json_as_string(node));
 
 			// todo: find difference between state changing and info changing
 			steamIds.append(steamId).append(",");
 		}
-		else if (!lstrcmpi(type, L"personarelationship"))
+		else if (!lstrcmpi(type, _T("personarelationship")))
 		{
 			node = json_get(item, "persona_state");
 			int state = json_as_int(node);
@@ -100,13 +106,13 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 					{
 						setByte(hContact, "Auth", 1);
 
-						wchar_t message[MAX_PATH];
+						TCHAR message[MAX_PATH];
 						mir_sntprintf(
 							message, MAX_PATH,
 							TranslateT("%s has been removed from your contact list"),
-							ptrW(mir_a2u(steamId)));
+							ptrT(mir_a2t(steamId)));
 
-						ShowNotification(L"Steam", message);
+						ShowNotification(_T("Steam"), message);
 					}
 				}
 				break;
@@ -148,7 +154,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			default: continue;
 			}
 		}
-		/*else if (!lstrcmpi(type, L"leftconversation"))
+		/*else if (!lstrcmpi(type, _T("leftconversation")))
 		{
 		}*/
 		else
@@ -201,9 +207,9 @@ void CSteamProto::PollingThread(void*)
 
 		JSONROOT root(response->pData);
 		JSONNODE *node = json_get(root, "error");
-		ptrW error(json_as_string(node));
+		ptrT error(json_as_string(node));
 
-		if (!lstrcmpi(error, L"OK"))
+		if (!lstrcmpi(error, _T("OK")))
 		{
 			node = json_get(root, "messagelast");
 			messageId = json_as_int(node);
@@ -216,16 +222,16 @@ void CSteamProto::PollingThread(void*)
 
 			m_pollingConnection = response->nlc;
 		}
-		else if (!lstrcmpi(error, L"Timeout"))
+		else if (!lstrcmpi(error, _T("Timeout")))
 		{
 			continue;
 		}
-		/*else if (!lstrcmpi(error, L"Not Logged On")) // 'else' below will handle this error, we don't need this particular check right now
+		/*else if (!lstrcmpi(error, _T("Not Logged On"))) // 'else' below will handle this error, we don't need this particular check right now
 		{
 			if (!IsOnline())
 			{
 				// need to relogin
-				debugLogA("CSteamProto::PollingThread: not logged on");
+				debugLog(_T("CSteamProto::PollingThread: not logged on"));
 
 				SetStatus(ID_STATUS_OFFLINE);
 			}
@@ -254,7 +260,7 @@ void CSteamProto::PollingThread(void*)
 
 	if (!isTerminated)
 	{
-		debugLogA("CSteamProto::PollingThread: unexpected termination; switching protocol to offline");
+		debugLog(_T("CSteamProto::PollingThread: unexpected termination; switching protocol to offline"));
 		SetStatus(ID_STATUS_OFFLINE);
 	}
 }
