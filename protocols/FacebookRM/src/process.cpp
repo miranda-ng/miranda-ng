@@ -182,6 +182,13 @@ void FacebookProto::ProcessFriendList(void*)
 		if ( isChatRoom(hContact))
 			continue;
 
+		// TODO RM: change name of "Deleted" key to "DeletedTS", remove this code in some next version
+		int deletedTS = getDword(hContact, "Deleted", 0);
+		if (deletedTS != 0) {
+			delSetting(hContact, "Deleted");
+			setDword(hContact, FACEBOOK_KEY_DELETED, deletedTS);
+		}
+
 		facebook_user *fbu;
 		ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 		if (id != NULL) {
