@@ -1,11 +1,9 @@
 #include "headers.h"
 
-HINSTANCE hInst;
-
-TCHAR *profilePath;
-int hLangpack;
-
-HANDLE hFolder;
+int	hLangpack;
+HINSTANCE g_hInstance;
+TCHAR	*profilePath;
+HANDLE	hFolder;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -21,27 +19,95 @@ PLUGININFOEX pluginInfo={
 	{0x81c220a6, 0x226, 0x4ad6, {0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53}}
 };
 
-static IconItem iconList[] = {
-	{ LPGEN("Backup profile"),     "backup", IDI_ICON1 },
-	{ LPGEN("Save profile as..."), "saveas", IDI_ICON1 }
-};
+int ModulesLoad(WPARAM, LPARAM);
+int PreShutdown(WPARAM, LPARAM);
 
-static int FoldersGetBackupPath(WPARAM, LPARAM)
+
+BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
 {
-	FoldersGetCustomPathT(hFolder, options.folder, MAX_PATH, DIR SUB_DIR);
+	switch (dwReason) {
+	case DLL_PROCESS_ATTACH:
+		g_hInstance = hInstance;
+		DisableThreadLibraryCalls(hInstance);
+		break;
+	case DLL_PROCESS_DETACH:
+		/* Nothink to do. */
+		break;
+	}
+
+	return TRUE;
+}
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfo;
+}
+
+extern "C" __declspec(dllexport) int Load(void)
+{
+	mir_getLP(&pluginInfo);
+
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
+
+	Icon_Register(g_hInstance, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
+
 	return 0;
 }
 
-static void FoldersInit(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
+	return 0;
+}
+
+
+
+static int FoldersGetBackupPath(WPARAM, LPARAM)
+{
+	FoldersGetCustomPathT(hFolder, options.folder, SIZEOF(options.folder), DIR SUB_DIR);
+	return 0;
+}
+INT_PTR ABService(WPARAM wParam, LPARAM lParam)
+{
+	BackupStart(NULL);
+	return 0;
+}
+INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR fname_buff[MAX_PATH], tszFilter[200];
+	OPENFILENAME ofn = {0};
+	CallService(MS_DB_GETPROFILENAMET, SIZEOF(fname_buff), (LPARAM)fname_buff);
+
+	mir_sntprintf(tszFilter, SIZEOF(tszFilter), _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"), 
+		TranslateT("Miranda NG databases"), 0, 0, 
+		TranslateT("Compressed Miranda NG databases"), 0, 0, 
+		TranslateT("All files"), 0, 0);
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.lpstrFile = fname_buff;
+	ofn.nMaxFile = SIZEOF(fname_buff);
+	ofn.Flags = OFN_NOREADONLYRETURN | OFN_OVERWRITEPROMPT;
+	ofn.lpstrFilter = tszFilter;
+	ofn.nFilterIndex = 1;
+	ofn.lpstrDefExt = _T("dat");
+
+	if (GetSaveFileName(&ofn))
+		BackupStart(fname_buff);
+	return 0;
+}
+
+int ModulesLoad(WPARAM, LPARAM)
+{
+	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+
 	if (hFolder = FoldersRegisterCustomPathT(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 		FoldersGetBackupPath(0, 0);
 	}
-}
 
-static void MenuInit(void)
-{
+	CreateServiceFunction(MS_AB_BACKUP, ABService);
+	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
+
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = LPGEN("Database");
 
@@ -56,18 +122,12 @@ static void MenuInit(void)
 	mi.icolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
-}
 
-static int ModulesLoad(WPARAM, LPARAM)
-{
-	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-
-	MenuInit();
-	FoldersInit();
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	LoadOptions();
 
 	if (options.backup_types & BT_START)
-		mir_forkthread(BackupThread, NULL);
+		BackupStart(NULL);
 	return 0;
 }
 
@@ -77,110 +137,8 @@ int PreShutdown(WPARAM, LPARAM)
 {
 	if (options.backup_types & BT_EXIT) {
 		options.disable_popups = 1; // Don't try to show popups on exit
-		mir_forkthread(BackupThread, NULL);
+		BackupStart(NULL);
 	}
 	return 0;
 }
 
-void SysInit()
-{
-	mir_getLP(&pluginInfo);
-	OleInitialize(0);
-
-	CreateServiceFunction(MS_AB_BACKUP, ABService);
-	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
-
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
-
-	Icon_Register(hInst, LPGEN("Database")"/"LPGEN("Database backups"), iconList, SIZEOF(iconList));
-}
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
-{
-	hInst = hinstDLL;
-	return TRUE;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) int Load(void)
-{
-	SysInit();
-	return 0;
-}
-
-extern "C" __declspec(dllexport) int Unload(void)
-{
-	OleUninitialize();
-	return 0;
-}
-
-LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg)
-	{
-		case WM_COMMAND:
-		{
-			TCHAR* ptszPath = (TCHAR*)PUGetPluginData(hWnd);
-			if (ptszPath != 0)
-				ShellExecute(0, _T("open"), ptszPath, NULL, NULL, SW_SHOW);
-
-			PUDeletePopup(hWnd);
-			break;
-		}
-		case WM_CONTEXTMENU:
-			PUDeletePopup(hWnd);
-			break;
-
-		case UM_FREEPLUGINDATA:
-			TCHAR* ptszPath = (TCHAR*)PUGetPluginData(hWnd);
-			mir_free(ptszPath);
-			break;
-	}
-	return DefWindowProc(hWnd, msg, wParam, lParam);
-}
-
-void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath)
-{
-	POPUPDATAT ppd = {0};
-
-	mir_tstrcpy(ppd.lptzText, ptszText);
-	mir_tstrcpy(ppd.lptzContactName, ptszHeader);
-	if (ptszPath != NULL)
-		ppd.PluginData = (void*)mir_tstrdup(ptszPath);
-	ppd.PluginWindowProc = DlgProcPopup;
-	ppd.lchIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
-
-	PUAddPopupT(&ppd);
-}
-
-HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
-{
-	HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
-		TOOLTIPS_CLASS, NULL,
-		WS_POPUP | TTS_NOPREFIX,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT,
-		hwndParent, NULL, hInst, NULL);
-
-	SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-
-	TOOLINFO ti = {0};
-	ti.cbSize = sizeof(TOOLINFO);
-	ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
-	ti.hwnd = hwndParent;
-	ti.hinst = hInst;
-	ti.lpszText = ptszText;
-	GetClientRect (hwndParent, &ti.rect);
-	ti.rect.left = -80;
-
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
-	SendMessage(hwndTT, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
-	SendMessage(hwndTT, TTM_SETMAXTIPWIDTH, 0, (LPARAM)650);
-	return hwndTT;
-}

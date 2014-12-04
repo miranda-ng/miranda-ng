@@ -360,8 +360,6 @@ void IEView::init()
 
 	isInited = true;
 	InitializeCriticalSection(&mutex);
-	if (FAILED(OleInitialize(NULL)))
-		MessageBox(NULL, TranslateT("OleInitialize failed."), TranslateT("ERROR"), MB_OK);
 }
 
 void IEView::release()

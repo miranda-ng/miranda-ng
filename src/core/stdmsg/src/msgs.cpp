@@ -390,7 +390,6 @@ int LoadSendRecvMessageModule(void)
 
 	InitGlobals();
 	RichUtil_Load();
-	OleInitialize(NULL);
 	InitOptions();
 	msgQueue_init();
 
@@ -445,7 +444,6 @@ int SplitmsgShutdown(void)
 
 	FreeMsgLogIcons();
 	FreeLibrary(GetModuleHandleA("Msftedit"));
-	OleUninitialize();
 	RichUtil_Unload();
 	msgQueue_destroy();
 	return 0;

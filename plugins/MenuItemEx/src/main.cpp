@@ -268,24 +268,21 @@ BOOL isMetaContact(MCONTACT hContact)
 	return FALSE;
 }
 
-void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID)
+void GetID(MCONTACT hContact, LPSTR szProto, LPSTR szID, size_t dwIDSize)
 {
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if (uID == (LPSTR)CALLSERVICE_NOTFOUND)
 		uID = NULL;
 
-	*szID = '\0';
-
+	szID[0] = 0;
 	if (uID && db_get(hContact, szProto, uID, &dbv_uniqueid) == 0) {
 		if (dbv_uniqueid.type == DBVT_DWORD)
-			wsprintfA(szID, "%u", dbv_uniqueid.dVal); //!!!!!!!!!
+			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.dVal);
 		else if (dbv_uniqueid.type == DBVT_WORD)
-			wsprintfA(szID, "%u", dbv_uniqueid.wVal); //!!!!!!!!!
-		else if (dbv_uniqueid.type == DBVT_BLOB)
-			wsprintfA(szID, "%s", dbv_uniqueid.cpbVal); //!!!!!!!!!
+			mir_snprintf(szID, dwIDSize, "%u", dbv_uniqueid.wVal);
 		else
-			wsprintfA(szID, "%s", dbv_uniqueid.pszVal); //!!!!!!!!
+			strncpy_s(szID, dwIDSize, (char*)dbv_uniqueid.cpbVal, _TRUNCATE);
 
 		db_free(&dbv_uniqueid);
 	}
@@ -512,7 +509,7 @@ void ModifyCopyID(MCONTACT hContact, BOOL bShowID, BOOL bTrimID)
 
 	TCHAR buffer[256];
 	char szID[256];
-	GetID(hContact, szProto, (LPSTR)&szID);
+	GetID(hContact, szProto, (LPSTR)&szID, SIZEOF(szID));
 	if (szID[0])  {
 		if (bShowID) {
 			if (bTrimID && (strlen(szID) > MAX_IDLEN)) {
@@ -589,7 +586,7 @@ void ModifyCopyMirVer(MCONTACT hContact)
 
 INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 {
-	char szID[128] = { 0 }, buffer[256] = { 0 };
+	char szID[256], buffer[256];
 
 	MCONTACT hContact = (MCONTACT)wparam;
 	if (isMetaContact(hContact)) {
@@ -603,7 +600,7 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 	if (szProto == NULL)
 		return 0;
 
-	GetID(hContact, szProto, (LPSTR)&szID);
+	GetID(hContact, szProto, (LPSTR)&szID, SIZEOF(szID));
 
 	if (db_get_dw(NULL, MODULENAME, "flags", vf_default) & VF_CIDN) {
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
@@ -612,8 +609,8 @@ INT_PTR onCopyID(WPARAM wparam, LPARAM lparam)
 			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", pa->szProtoName, szID);
 		else
 			mir_snprintf(buffer, SIZEOF(buffer), "%s: %s", szProto, szID);
-	}
-	else strcpy(buffer, szID);
+	} else
+		strcpy(buffer, szID);
 
 	CopyToClipboard((HWND)lparam, buffer, 0);
 	if (CTRL_IS_PRESSED && bPopupService)

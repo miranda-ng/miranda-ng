@@ -332,12 +332,10 @@ static int CountDroppedFiles( char **ppDroppedItems, int nCount  )
 // Init/destroy
 void InitFileDropping()
 {
-	OleInitialize( NULL );
 }
 
 void FreeFileDropping(void)
 {
-	OleUninitialize();
 }
 
 void RegisterFileDropping( HWND hwnd, CDropTarget* pdropTarget )
