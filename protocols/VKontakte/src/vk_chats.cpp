@@ -79,7 +79,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	setDword(gci.hContact, "vk_chat_id", id);
 	db_unset(gci.hContact, m_szModuleName,  "off");
 
-	if (json_as_int(json_get(pDlg, "left")) == 1){
+	if (json_as_int(json_get(pDlg, "left")) == 1) {
 		setByte(gci.hContact, "off", 1);
 		m_chats.remove(c);
 		return NULL;
@@ -115,7 +115,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo) 
 		<< CHAR_PARAM("code", szQuery)
-		<< VER_API )->pUserInfo = cc;
+		<< VER_API)->pUserInfo = cc;
 }
 
 void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -145,7 +145,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			gce.ptszText = tszTitle;
 			CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 		}
-		if ((json_as_int(json_get(info, "left")) == 1) || (json_as_int(json_get(info, "kicked")) == 1)){
+		if ((json_as_int(json_get(info, "left")) == 1) || (json_as_int(json_get(info, "kicked")) == 1)) {
 			setByte(cc->m_hContact, "kicked", (int)true);
 			LeaveChat(cc->m_chatid);
 			return;
@@ -215,7 +215,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (msgs != NULL) {
 		int numMessages = json_as_int(json_get(msgs, "count"));
 		msgs = json_get(msgs, "items");
-		if (msgs != NULL){
+		if (msgs != NULL) {
 			for (int i = 0; i < numMessages; i++) {
 				JSONNODE *pMsg = json_at(msgs, i);
 				if (pMsg == NULL)
@@ -561,7 +561,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 	MCONTACT chatContact = FindChat(chat_id);
 	bool off = false;
 	if (chatContact)
-		if(getBool(chatContact, "off", false))
+		if (getBool(chatContact, "off", false))
 			return;
 
 	if (user_id == m_myUserId)

@@ -58,13 +58,13 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		else if (pReq->bIsMainConn) {
 			if (m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 				ConnectionFailed(LOGINERR_NONETWORK);
-			else if (pReq->m_iRetry && !m_bTerminated){
+			else if (pReq->m_iRetry && !m_bTerminated) {
 				pReq->bNeedsRestart = true;
 				Sleep(1000); //Pause for fix err 
 				pReq->m_iRetry--;
 				debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
 			}
-			else{
+			else {
 				debugLogA("CVkProto::ExecuteRequest ShutdownSession");
 				ShutdownSession();
 			}
@@ -110,14 +110,14 @@ void CVkProto::WorkerThread(void*)
 			<< VER_API)->m_bApiReq = false;;
 	}
 
-	while(true) {
+	while (true) {
 		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
 
 		AsyncHttpRequest *pReq;
 		bool need_sleep = false;
-		while(true) {
+		while (true) {
 			{
 				mir_cslock lck(m_csRequestsQueue);
 				if (m_arRequestsQueue.getCount() == 0)

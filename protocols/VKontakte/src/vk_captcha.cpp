@@ -34,8 +34,8 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG: {
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle( GetIconHandle(IDI_KEYS), TRUE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle( GetIconHandle(IDI_KEYS)));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(GetIconHandle(IDI_KEYS), TRUE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(GetIconHandle(IDI_KEYS)));
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
@@ -44,7 +44,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		return TRUE;
 	}
 	case WM_CTLCOLORSTATIC:
-		switch(GetWindowLongPtr((HWND)lParam, GWL_ID)) {
+		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
 		case IDC_WHITERECT:
 		case IDC_INSTRUCTION:
 		case IDC_TITLE:
@@ -149,8 +149,8 @@ bool CVkProto::ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE *pErrorNode)
 	if (!IsOnline())
 		return false;
 	
-	char *szUrl = NEWSTR_ALLOCA( _T2A( json_as_string( json_get(pErrorNode, "captcha_img"))));
-	char *szSid = NEWSTR_ALLOCA( _T2A( json_as_string( json_get(pErrorNode, "captcha_sid"))));
+	char *szUrl = NEWSTR_ALLOCA(_T2A(json_as_string(json_get(pErrorNode, "captcha_img"))));
+	char *szSid = NEWSTR_ALLOCA(_T2A(json_as_string(json_get(pErrorNode, "captcha_sid"))));
 	if (szUrl == NULL || szSid == NULL)
 		return false;
 

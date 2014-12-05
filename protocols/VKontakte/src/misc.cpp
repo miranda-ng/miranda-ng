@@ -20,7 +20,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 TCHAR* CVkProto::GetUserStoredPassword()
 {
 	debugLogA("CVkProto::GetUserStoredPassword");
-	ptrA szRawPass( getStringA("Password"));
+	ptrA szRawPass(getStringA("Password"));
 	return (szRawPass != NULL) ? mir_utf8decodeT(szRawPass) : NULL;
 }
 
@@ -123,7 +123,7 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 	debugLogA("CVkProto::CheckJsonResult %d", iErrorCode);
 	CVkFileUploadParam * fup = (CVkFileUploadParam *)pReq->pUserInfo;
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	switch (iErrorCode){
+	switch (iErrorCode) {
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		break;
@@ -146,13 +146,13 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply,
 	case VKERR_UNKNOWN:
 	case VKERR_TOO_MANY_REQ_PER_SEC:
 	case VKERR_INTERNAL_SERVER_ERR:
-		if (pReq->m_iRetry > 0){
+		if (pReq->m_iRetry > 0) {
 			pReq->bNeedsRestart = true;
 			Sleep(500); //Pause for fix err 
 			debugLogA("CVkProto::CheckJsonResult Retry = %d", pReq->m_iRetry);
 			pReq->m_iRetry--;
 		}
-		else{
+		else {
 			CMString msg, msgformat = TranslateT("Error %d. Data will not be sent or received.");
 			msg.AppendFormat(msgformat, iErrorCode);
 			MsgPopup(NULL, msg.GetBuffer(), TranslateT("Error"), true);
@@ -225,7 +225,7 @@ static CMStringA getAttr(char *szSrc, LPCSTR szAttrName)
 	}
 
 	p1 += mir_strlen(szAttrName);
-	if (p1[0] != '=' || p1[1] != '\"'){
+	if (p1[0] != '=' || p1[1] != '\"') {
 		*pEnd = '>';
 		return "";
 	}
@@ -363,7 +363,7 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 		CMStringA szValue = nhr->headers[i].szValue, szCookieName, szCookieVal, szDomain;
 		int iStart = 0;
 		while (true) {
-			bool bFirstToken = iStart == 0;
+			bool bFirstToken = (iStart == 0);
 			CMStringA szToken = szValue.Tokenize(";", iStart).Trim();
 			if (iStart == -1)
 				break;
@@ -386,7 +386,7 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 				}
 			}
 			if (k == m_cookies.getCount())
-				m_cookies.insert( new Cookie(szCookieName, szCookieVal, szDomain));
+				m_cookies.insert(new Cookie(szCookieName, szCookieVal, szDomain));
 		}
 	}
 }
@@ -477,7 +477,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 {
 	if (hContact == NULL || hContact == INVALID_CONTACT_ID)
 		return;
-	if (platform == -1){
+	if (platform == -1) {
 		db_unset(hContact, m_szModuleName, "MirVer");
 		return;
 	}
@@ -486,7 +486,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	OldMirVer = db_get_sa(hContact, m_szModuleName, "MirVer");
 	bool bSetFlag = true;
 
-	switch (platform){
+	switch (platform) {
 	case VK_APP_ID:
 		MirVer = "Miranda NG VKontakte";
 		break;
@@ -591,7 +591,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	char HeadMsg[32] = { 0 };
 	char* retMsg = NULL;
 	iRes = sscanf(Msg, "[sticker:%d]", &stickerid);
-	if (iRes == 1){
+	if (iRes == 1) {
 		mir_snprintf(HeadMsg, 32, "[sticker:%d]", stickerid);
 		size_t retLen = mir_strlen(HeadMsg);
 		if (retLen < mir_strlen(Msg))
@@ -613,7 +613,7 @@ int  CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
-	if (!strcmp(cws->szSetting, szListeningTo.GetBuffer())){
+	if (!strcmp(cws->szSetting, szListeningTo.GetBuffer())) {
 		int iOldMusicSendMetod = getByte("OldMusicSendMetod", 3);
 		
 		if (cws->value.bVal == 0)

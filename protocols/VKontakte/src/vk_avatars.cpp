@@ -62,7 +62,7 @@ INT_PTR CVkProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 
 void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 {
-	if (!hContact){
+	if (!hContact) {
 		CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		return;
 	}
@@ -88,7 +88,7 @@ INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (::_taccess(AI->filename, 0) == 0 && !getBool(AI->hContact, "NeedNewAvatar", 0))
 		return GAIR_SUCCESS;
 
-	if ( IsOnline()) {
+	if (IsOnline()) {
 		AsyncHttpRequest *pReq = new AsyncHttpRequest();
 		pReq->flags = NLHRF_NODUMP | NLHRF_REDIRECT;
 		pReq->m_szUrl = szUrl;
