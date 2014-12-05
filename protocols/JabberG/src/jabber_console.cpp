@@ -44,9 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct StringBuf
 {
 	char *buf;
-	int size;
-	int offset;
-	int streamOffset;
+	size_t size, offset, streamOffset;
 };
 
 static void sttAppendBufRaw(StringBuf *buf, const char *str);
@@ -263,13 +261,14 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 DWORD CALLBACK sttStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	StringBuf *buf = (StringBuf *)dwCookie;
-	*pcb = 0;
 
 	if (buf->streamOffset < buf->offset) {
-		*pcb = min(cb, buf->offset - buf->streamOffset);
-		memcpy(pbBuff, buf->buf + buf->streamOffset, *pcb);
-		buf->streamOffset += *pcb;
+		size_t cbLen = min(size_t(cb), buf->offset - buf->streamOffset);
+		memcpy(pbBuff, buf->buf + buf->streamOffset, cbLen);
+		buf->streamOffset += cbLen;
+		*pcb = (LONG)cbLen;
 	}
+	else *pcb = 0;
 
 	return 0;
 }
