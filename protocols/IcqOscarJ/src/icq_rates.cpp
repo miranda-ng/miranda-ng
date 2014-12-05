@@ -76,18 +76,21 @@ rates::rates(CIcqProto *ppro, BYTE *pBuffer, size_t wLen)
 	// Parse Group associated pairs
 	for (i = 0; i < wCount; i++) {
 		rates_group *pGroup = &groups[i];
-		WORD wNum;
 
-		if (wLen < 4) break;
+		if (wLen < 4)
+			break;
+
 		pBuffer += 2; // Group ID
+		WORD wNum;
 		unpackWord(&pBuffer, &wNum);
 		wLen -= 4;
-		if (wLen < wNum * 4) break;
+		if (wLen < (size_t)wNum * 4)
+			break;
+
 		pGroup->nPairs = wNum;
 		pGroup->pPairs = (WORD*)SAFE_MALLOC(wNum * 4);
-		for (int n = 0; n < wNum * 2; n++) {
+		for (size_t n = 0; n < (size_t)wNum * 2; n++) {
 			WORD wItem;
-
 			unpackWord(&pBuffer, &wItem);
 			pGroup->pPairs[n] = wItem;
 		}

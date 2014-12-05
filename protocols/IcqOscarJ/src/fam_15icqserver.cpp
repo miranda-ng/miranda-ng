@@ -207,31 +207,27 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, size_t wPacketLen, WO
 			// Todo: This overlaps with META_SET_AFFINFO_ACK.
 			// Todo: Check what happens if result != A
 			if (wPacketLen > 8) {
-				WORD wNetworkNameLen;
-				WORD wAckLen;
-				char *pszInfo;
-
 				databuf += 6;    // Some unknowns
 				wPacketLen -= 6;
 
+				size_t wNetworkNameLen, wAckLen;
 				unpackWord(&databuf, &wNetworkNameLen);
 				if (wPacketLen >= (wNetworkNameLen + 2)) {
 					databuf += wNetworkNameLen;
 					wPacketLen -= wNetworkNameLen;
 
 					unpackWord(&databuf, &wAckLen);
-					if (pszInfo = (char *)_alloca(wAckLen + 1)) {
-						// Terminate buffer
-						if (wAckLen > 0)
-							memcpy(pszInfo, databuf, wAckLen);
-						pszInfo[wAckLen] = 0;
+					char *pszInfo = (char*)_alloca(wAckLen + 1);
+					// Terminate buffer
+					if (wAckLen > 0)
+						memcpy(pszInfo, databuf, wAckLen);
+					pszInfo[wAckLen] = 0;
 
-						ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SENTREQUEST, (HANDLE)wCookie, (LPARAM)pszInfo);
-						FreeCookie(wCookie);
+					ProtoBroadcastAck(NULL, ICQACKTYPE_SMS, ACKRESULT_SENTREQUEST, (HANDLE)wCookie, (LPARAM)pszInfo);
+					FreeCookie(wCookie);
 
-						// Parsing success
-						break;
-					}
+					// Parsing success
+					break;
 				}
 			}
 

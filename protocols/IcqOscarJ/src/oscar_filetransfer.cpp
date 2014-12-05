@@ -1722,7 +1722,7 @@ void CIcqProto::handleOFT2FramePacket(oscar_connection *oc, WORD datatype, BYTE 
 			ft->szThisFile = ansi_to_utf8(ft->rawFileName);
 
 		// convert dir markings to normal backslashes
-		for (int i = 0; i < mir_strlen(ft->szThisFile); i++)
+		for (size_t i = 0; i < mir_strlen(ft->szThisFile); i++)
 			if (ft->szThisFile[i] == 0x01)
 				ft->szThisFile[i] = '\\';
 
@@ -2044,7 +2044,7 @@ void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 	strcat(pszThisFileName, ExtractFileName(ft->szThisFile));
 	
 	// convert backslashes to dir markings
-	for (int i = 0; i < mir_strlen(pszThisFileName); i++)
+	for (size_t i = 0; i < mir_strlen(pszThisFileName); i++)
 		if (pszThisFileName[i] == '\\' || pszThisFileName[i] == '/')
 			pszThisFileName[i] = 0x01;
 

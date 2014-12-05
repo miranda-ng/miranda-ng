@@ -773,7 +773,7 @@ HANDLE __cdecl CIcqProto::SearchBasic(const PROTOCHAR *pszSearch)
 
 	char pszUIN[255];
 	int nHandle = 0;
-	int i, j;
+	size_t i, j;
 
 	if (!m_bAimEnabled) {
 		for (i = j = 0; (i < mir_wstrlen(pszSearch)) && (j < 255); i++) { // we take only numbers
