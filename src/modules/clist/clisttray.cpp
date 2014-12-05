@@ -33,7 +33,8 @@ static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
 static BOOL mToolTipTrayTips = FALSE;
 static UINT_PTR RefreshTimerId = 0;   /////by FYR
-static CRITICAL_SECTION trayLockCS;
+
+mir_cs trayLockCS;
 
 // don't move to win2k.h, need new and old versions to work on 9x/2000/XP
 #define NIF_STATE       0x00000008
@@ -47,18 +48,16 @@ static BOOL fTrayInited = FALSE;
 
 static TCHAR* sttGetXStatus(const char *szProto)
 {
-	TCHAR* result = NULL;
-
-	if (CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
+	if (CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
 		TCHAR tszStatus[512];
 		CUSTOM_STATUS cs = { sizeof(cs) };
 		cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
 		cs.ptszMessage = tszStatus;
-		if ( CallProtoServiceInt(NULL, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
-			result = mir_tstrdup(tszStatus);
+		if (CallProtoServiceInt(NULL, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
+			return mir_tstrdup(tszStatus);
 	}
 
-	return result;
+	return NULL;
 }
 
 static HICON lastTaskBarIcon;
@@ -391,7 +390,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 {
 	if (!fTrayInited) {
-LBL_Error:
+	LBL_Error:
 		DestroyIcon(hIcon);
 		return -1;
 	}
@@ -410,9 +409,9 @@ LBL_Error:
 			return i;
 		}
 		if ((cli.pfnGetProtocolVisibility(szPreferredProto)) &&
-			 (cli.pfnGetAverageMode(NULL) == -1) &&
-			 (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
-			 !(db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
+			(cli.pfnGetAverageMode(NULL) == -1) &&
+			(db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
+			!(db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
 	}
 
@@ -860,7 +859,7 @@ void fnInitTray(void)
 		}
 		FreeLibrary(hLib);
 	}
-	InitializeCriticalSection(&trayLockCS);
+
 	if (cli.shellVersion >= 5)
 		CreateServiceFunction(MS_CLIST_SYSTRAY_NOTIFY, pfnCListTrayNotifyStub);
 	fTrayInited = TRUE;
@@ -869,19 +868,6 @@ void fnInitTray(void)
 void fnUninitTray(void)
 {
 	fTrayInited = FALSE;
-	DeleteCriticalSection(&trayLockCS);
-}
-
-void fnLockTray(void)
-{
-	initcheck;
-	EnterCriticalSection(&trayLockCS);
-}
-
-void fnUnlockTray(void)
-{
-	initcheck;
-	LeaveCriticalSection(&trayLockCS);
 }
 
 #undef initcheck

@@ -493,8 +493,7 @@ type
     pfnStub2           : function (_para1:int):int; cdecl;
 
     pfnGetProtocolVisibility : function (_para1:PAnsiChar):int; cdecl;
-    pfnGetProtoIndexByPos    : function (var proto:PPROTOCOLDESCRIPTOR;
-                               protoCnt:int; Pos:int):int; cdecl;
+    pfnGetProtoIndexByPos    : function (var proto:PPROTOCOLDESCRIPTOR; protoCnt:int; Pos:int):int; cdecl;
     pfnReloadProtoMenus      : procedure ; cdecl;
 
   (*************************************************************************************
@@ -509,26 +508,21 @@ type
     szTip             : TChar;
     bTrayMenuOnScreen : bool;
 
-    pfnGetIconFromStatusMode  : function  (hContact:TMCONTACT; szProto:PAnsiChar;
-                                status:int):HICON; cdecl;
+    pfnGetIconFromStatusMode  : function  (hContact:TMCONTACT; szProto:PAnsiChar; status:int):HICON; cdecl;
 
     pfnInitTray               : procedure ; cdecl;
-    pfnTrayIconAdd            : function  (hwnd:HWND; szProto:PAnsiChar; szIconProto:PAnsiChar;
-                                status:int):int; cdecl;
+    pfnUninitTray             : procedure ; cdecl;
+
+    pfnTrayIconAdd            : function  (hwnd:HWND; szProto:PAnsiChar; szIconProto:PAnsiChar; status:int):int; cdecl;
     pfnTrayIconDestroy        : function  (hwnd:HWND):int; cdecl;
     pfnTrayIconInit           : function  (hwnd:HWND):int; cdecl;
     pfnTrayIconMakeTooltip    : function  (szPrefix:TChar; szProto:PAnsiChar):TChar; cdecl;
     pfnTrayIconRemove         : procedure (hwnd:HWND; szProto:PAnsiChar); cdecl;
     pfnTrayIconSetBaseInfo    : function  (hIcon:HICON; szPreferredProto:PAnsiChar):int; cdecl;
     pfnTrayIconTaskbarCreated : procedure (hwnd:HWND); cdecl;
-    pfnTrayIconUpdate         : function  (hNewIcon:HICON; szNewTip:TChar;
-                                szPreferredProto:PAnsiChar; isBase:int):int; cdecl;
+    pfnTrayIconUpdate         : function  (hNewIcon:HICON; szNewTip:TChar; szPreferredProto:PAnsiChar; isBase:int):int; cdecl;
 
-    pfnUninitTray : procedure ; cdecl;
-    pfnLockTray   : procedure ; cdecl;
-    pfnUnlockTray : procedure ; cdecl;
-
-    pfnTrayCycleTimerProc : procedure(hwnd:HWND;message:uint;idEvent:uint_ptr;dwTime:dword); stdcall;
+    pfnTrayCycleTimerProc : procedure(hwnd:HWND; message:uint; idEvent:uint_ptr; dwTime:dword); stdcall;
 
   (*************************************************************************************
   * version 6 additions (0.8.0.x) - accounts
@@ -536,18 +530,17 @@ type
     pfnGetAccountIndexByPos : function (pos:int):int; cdecl;
     pfnConvertMenu: function( clitem:PCLISTMENUITEM; moitem:PMO_MenuItem):int; cdecl;
 
-	(*************************************************************************************
-	 * version 7 additions (0.11.0.x) - extra images
-	 *************************************************************************************)
+  (*************************************************************************************
+  * version 7 additions (0.11.0.x) - extra images
+  *************************************************************************************)
     pfnReloadExtraIcons: procedure; cdecl;
     pfnSetAllExtraIcons: procedure(hContact:TMCONTACT); cdecl;
 
-	(*************************************************************************************
-	 * Miranda NG additions
-	 *************************************************************************************)
-
-	  pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
-	  pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
+  (*************************************************************************************
+  * Miranda NG additions
+  *************************************************************************************)
+	 pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
+	 pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
     pfnGetAverageMode:function(pNetProtoCount:pint):int; cdecl;
     pfnInitAutoRebuild:procedure(hwnd:HWND); cdecl;
   end;

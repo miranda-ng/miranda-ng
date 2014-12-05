@@ -89,13 +89,12 @@ static void ShowEventsInTray()
 
 	// in case if we have several icons in tray and several events with different protocols
 	// lets use several icon to show events from protocols in different icons
-	cli.pfnLockTray();
+	mir_cslock lck(trayLockCS);
 	char **pTrayProtos = (char**)_alloca(sizeof(char*)*cli.trayIconCount);
 	int nTrayProtoCnt = 0;
-	for (int i = 0; i < cli.trayIconCount; i++) {
-		if (cli.trayIcon[i].id == 0 || !cli.trayIcon[i].szProto) continue;
-		pTrayProtos[nTrayProtoCnt++] = cli.trayIcon[i].szProto;
-	}
+	for (int i = 0; i < cli.trayIconCount; i++)
+		if (cli.trayIcon[i].id != 0 && cli.trayIcon[i].szProto)
+			pTrayProtos[nTrayProtoCnt++] = cli.trayIcon[i].szProto;
 
 	for (int i = 0; i < cli.events.count; i++) {
 		char *iEventProto = GetEventProtocol(i);
@@ -110,7 +109,6 @@ static void ShowEventsInTray()
 			ShowOneEventInTray(i); // show it
 		pTrayProtos[j] = NULL;    // and clear slot
 	}
-	cli.pfnUnlockTray();
 }
 
 static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
@@ -255,7 +253,7 @@ CLISTEVENT* fnGetEvent(MCONTACT hContact, int idx)
 
 int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 {
-	for (int i=0; i < cli.events.count; i++) {
+	for (int i = 0; i < cli.events.count; i++) {
 		if (cli.events.items[i]->cle.hContact == hContact) {
 			HANDLE hDbEvent = cli.events.items[i]->cle.hDbEvent;
 			CallService(cli.events.items[i]->cle.pszService, (WPARAM)(HWND)NULL, (LPARAM)& cli.events.items[i]->cle);
@@ -270,72 +268,73 @@ int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 int fnEventsProcessTrayDoubleClick(int index)
 {
 	BOOL click_in_first_icon = FALSE;
-	if (cli.events.count) {
-		MCONTACT hContact;
-		HANDLE hDbEvent;
-		int eventIndex = 0;
-		cli.pfnLockTray();
-		if (cli.trayIconCount > 1 && index > 0) {
-			int i;
-			char *szProto = NULL;
-			for (i = 0; i < cli.trayIconCount; i++)
-				if (cli.trayIcon[i].id == index) {
-					szProto = cli.trayIcon[i].szProto;
-					if (i == 0) click_in_first_icon = TRUE;
-					break;
-				}
-			if (szProto) {
-				for (i = 0; i < cli.events.count; i++) {
-					char * eventProto = NULL;
-					if (cli.events.items[i]->cle.hContact)
-						eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
-					if (!eventProto)
-						eventProto = cli.events.items[i]->cle.lpszProtocol;
+	if (cli.events.count == 0)
+		return 1;
 
-					if (!eventProto || !_strcmpi(eventProto, szProto)) {
-						eventIndex = i;
-						break;
-					}
-				}
+	int eventIndex = 0;
 
-				if (i == cli.events.count) { //EventNotFound
-					//lets  process backward try to find first event without desired proto in tray
-					int j;
-					if (click_in_first_icon)
-						for (i = 0; i < cli.events.count; i++) {
-							char *eventProto = NULL;
-							if (cli.events.items[i]->cle.hContact)
-								eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
-							if (!eventProto)
-								eventProto = cli.events.items[i]->cle.lpszProtocol;
-							if (eventProto) {
-								for (j = 0; j < cli.trayIconCount; j++)
-									if (cli.trayIcon[j].szProto && !_strcmpi(eventProto, cli.trayIcon[j].szProto))
-										break;
-
-								if (j == cli.trayIconCount) {
-									eventIndex = i;
-									break;
-								}
-							}
-						}
-					if (i == cli.events.count) { //not found
-						cli.pfnUnlockTray();
-						return 1;	//continue processing to show contact list
-					}
-				}
+	mir_cslockfull lck(trayLockCS);
+	if (cli.trayIconCount > 1 && index > 0) {
+		int i;
+		char *szProto = NULL;
+		for (i = 0; i < cli.trayIconCount; i++) {
+			if (cli.trayIcon[i].id == index) {
+				szProto = cli.trayIcon[i].szProto;
+				if (i == 0)
+					click_in_first_icon = TRUE;
+				break;
 			}
 		}
+		if (szProto) {
+			for (i = 0; i < cli.events.count; i++) {
+				char *eventProto = NULL;
+				if (cli.events.items[i]->cle.hContact)
+					eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
+				if (!eventProto)
+					eventProto = cli.events.items[i]->cle.lpszProtocol;
 
-		cli.pfnUnlockTray();
-		hContact = cli.events.items[eventIndex]->cle.hContact;
-		hDbEvent = cli.events.items[eventIndex]->cle.hDbEvent;
-		//	; may be better to show send msg?
-		CallService(cli.events.items[eventIndex]->cle.pszService, (WPARAM)NULL, (LPARAM)& cli.events.items[eventIndex]->cle);
-		cli.pfnRemoveEvent(hContact, hDbEvent);
-		return 0;
+				if (!eventProto || !_strcmpi(eventProto, szProto)) {
+					eventIndex = i;
+					break;
+				}
+			}
+
+			// let's process backward try to find first event without desired proto in tray
+			if (i == cli.events.count) {
+				if (click_in_first_icon) {
+					for (i = 0; i < cli.events.count; i++) {
+						char *eventProto = NULL;
+						if (cli.events.items[i]->cle.hContact)
+							eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
+						if (!eventProto)
+							eventProto = cli.events.items[i]->cle.lpszProtocol;
+						if (!eventProto)
+							continue;
+
+						int j;
+						for (j = 0; j < cli.trayIconCount; j++)
+							if (cli.trayIcon[j].szProto && !_strcmpi(eventProto, cli.trayIcon[j].szProto))
+								break;
+
+						if (j == cli.trayIconCount) {
+							eventIndex = i;
+							break;
+						}
+					}
+				}
+				if (i == cli.events.count) //not found
+					return 1;	//continue processing to show contact list
+			}
+		}
 	}
-	return 1;
+	lck.unlock();
+
+	MCONTACT hContact = cli.events.items[eventIndex]->cle.hContact;
+	HANDLE hDbEvent = cli.events.items[eventIndex]->cle.hDbEvent;
+	//	; may be better to show send msg?
+	CallService(cli.events.items[eventIndex]->cle.pszService, 0, (LPARAM)& cli.events.items[eventIndex]->cle);
+	cli.pfnRemoveEvent(hContact, hDbEvent);
+	return 0;
 }
 
 static int RemoveEventsForContact(WPARAM wParam, LPARAM)
@@ -403,7 +402,7 @@ CListEvent* fnCreateEvent(void)
 	return (CListEvent*)mir_calloc(sizeof(CListEvent));
 }
 
-void fnFreeEvent(CListEvent* p)
+void fnFreeEvent(CListEvent *p)
 {
 	mir_free(p->cle.pszService);
 	mir_free(p->cle.pszTooltip);

@@ -154,8 +154,6 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM)
 		cli.szTip                              = szTip;
 		cli.pfnInitTray                        = fnInitTray;
 		cli.pfnUninitTray                      = fnUninitTray;
-		cli.pfnLockTray                        = fnLockTray;
-		cli.pfnUnlockTray                      = fnUnlockTray;
 
 		cli.pfnTrayCycleTimerProc              = fnTrayCycleTimerProc;
 		cli.pfnTrayIconAdd                     = fnTrayIconAdd;
