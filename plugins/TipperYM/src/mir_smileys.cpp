@@ -41,7 +41,7 @@ SMILEYPARSEINFO Smileys_PreParse(LPCTSTR lpString, int nCount, const char *proto
 		return NULL;
 
 	if (nCount == -1)
-		nCount = mir_tstrlen(lpString);
+		nCount = (int)mir_tstrlen(lpString);
 
 	SMILEYPARSEINFO info = (SMILEYPARSEINFO) mir_calloc(sizeof(tagSMILEYPARSEINFO));
 	info->pieces = ReplaceSmileys(lpString, nCount, protocol, &info->max_height);
@@ -72,7 +72,7 @@ void Smileys_FreeParse(SMILEYPARSEINFO parseInfo)
 int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat, const char *protocol, SMILEYPARSEINFO parseInfo)
 {
 	if (nCount == -1)
-		nCount = mir_tstrlen(lpString);
+		nCount = (int)mir_tstrlen(lpString);
 
 	if (uFormat & DT_CALCRECT) {
 		SIZE text_size = GetTextSize(hDC, lpString, parseInfo, uFormat, parseInfo->max_height, (lpRect->right - lpRect->left));
