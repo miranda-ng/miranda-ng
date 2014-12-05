@@ -93,8 +93,8 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	PROTOSEARCHBYNAME *pParam = (PROTOSEARCHBYNAME *)pReq->pUserInfo;
 	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
-	if (reply->resultCode != 200){
-		if (pParam){
+	if (reply->resultCode != 200) {
+		if (pParam) {
 			mir_free(pParam->pszFirstName);
 			mir_free(pParam->pszLastName);
 			mir_free(pParam->pszNick);
@@ -106,8 +106,8 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL){
-		if (pParam){
+	if (pResponse == NULL) {
+		if (pParam) {
 			mir_free(pParam->pszFirstName);
 			mir_free(pParam->pszLastName);
 			mir_free(pParam->pszNick);
@@ -119,7 +119,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	int iCount = json_as_int(json_get(pResponse, "count"));
 	JSONNODE *pItems = json_get(pResponse, "items");
-	if (!pItems){
+	if (!pItems) {
 		pItems = pResponse;
 		iCount = 1;
 	} 
@@ -140,7 +140,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "domain")));
 		
 		bool filter = true;
-		if (pParam){
+		if (pParam) {
 			if (psr.firstName&&pParam->pszFirstName)
 				filter = tlstrstr(psr.firstName, pParam->pszFirstName) && filter;
 			if (psr.lastName&&pParam->pszLastName)
@@ -154,7 +154,7 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-	if (pParam){
+	if (pParam) {
 		mir_free(pParam->pszFirstName);
 		mir_free(pParam->pszLastName);
 		mir_free(pParam->pszNick);
@@ -165,20 +165,20 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnSearch %d", reply->resultCode);
-	if (reply->resultCode != 200){
+	if (reply->resultCode != 200) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
 
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	if (pResponse == NULL){
+	if (pResponse == NULL) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}
 
 	JSONNODE *pItems = json_get(pResponse, "found");
-	if (!pItems){
+	if (!pItems) {
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		return;
 	}

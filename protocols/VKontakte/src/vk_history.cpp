@@ -145,7 +145,7 @@ void CVkProto::GetHistoryDlg(MCONTACT hContact, int iLastMsg)
 {
 	debugLogA("CVkProto::GetHistoryDlg %d", iLastMsg);
 	int lastmsgid = -1;
-	switch (m_iSyncHistoryMetod){
+	switch (m_iSyncHistoryMetod) {
 	case syncAuto:
 		lastmsgid = getDword(hContact, "lastmsgid", -1);
 		if (lastmsgid == -1 || !IsOnline()) {

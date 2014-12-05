@@ -366,7 +366,7 @@ int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 
 DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
 {
-	switch(type) {
+	switch (type) {
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH | PF1_SEARCHBYNAME | PF1_SEARCHBYEMAIL | PF1_MODEMSG | PF1_FILESEND | PF1_FILERESUME;
 
@@ -451,7 +451,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	if (!m_bServerDelivery)
 		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, msgId));
 	
-	if (retMsg){
+	if (retMsg) {
 		int _flags = flags | PREF_UTF;
 		Sleep(330);
 		SendMsg(hContact, _flags, retMsg);
@@ -480,7 +480,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		}
 	}
 
-	if (param->iMsgID == -1){
+	if (param->iMsgID == -1) {
 		CVkFileUploadParam *fup = (CVkFileUploadParam *)param->iCount;
 		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup, 0);
 		delete fup;
@@ -532,7 +532,7 @@ int CVkProto::SetStatus(int iNewStatus)
 
 int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
-	switch(event) {
+	switch (event) {
 	case EV_PROTO_ONLOAD:
 		return OnModulesLoaded(wParam,lParam);
 
@@ -587,13 +587,13 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 {
 	debugLogA("CVkProto::OnReceiveAuthRequest %d", reply->resultCode);
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
-	if (reply->resultCode == 200){
+	if (reply->resultCode == 200) {
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 		if (pResponse != NULL) {
 			int iRet = json_as_int(pResponse);
 			setByte(param->hContact, "Auth", 0);
-			if (iRet == 2){
+			if (iRet == 2) {
 				CMString msg,
 					msgformat = TranslateT("User %s added as friend"),
 					tszNick = db_get_tsa(param->hContact, m_szModuleName, "Nick");
@@ -603,8 +603,8 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
 			}
 		} 
-		else{
-			switch (param->iCount){
+		else {
+			switch (param->iCount) {
 			case VKERR_HIMSELF_AS_FRIEND:
 				MsgPopup(param->hContact, TranslateT("You cannot add yourself as friend"), TranslateT("Error"), true);
 				break;

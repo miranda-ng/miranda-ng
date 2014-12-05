@@ -29,7 +29,7 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CVkProto*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, 1));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
@@ -67,7 +67,7 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 			ppro->setTString("Login", str);
 			
 			GetDlgItemText(hwndDlg, IDC_PASSWORD, str, SIZEOF(str));
-			ptrA szRawPasswd( mir_utf8encodeT(str));
+			ptrA szRawPasswd(mir_utf8encodeT(str));
 			if (szRawPasswd != NULL)
 				ppro->setString("Password", szRawPasswd);
 		}
