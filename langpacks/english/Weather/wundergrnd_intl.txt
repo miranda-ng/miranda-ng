@@ -280,3 +280,4 @@
 [Ice Pellets 80% Chance Of Precipitation]
 [Cloudy]
 [Light Snow Freezing Fog]
+[Drizzle]

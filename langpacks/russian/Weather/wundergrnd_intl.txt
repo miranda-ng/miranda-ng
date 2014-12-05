@@ -558,3 +558,5 @@
 Облачно
 [Light Snow Freezing Fog]
 Слабый снег, изморось, туман
+[Drizzle]
+Морось
