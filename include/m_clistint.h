@@ -446,6 +446,8 @@ typedef struct
 	HICON  (*pfnGetIconFromStatusMode)(MCONTACT hContact, const char *szProto, int status);
 
 	void   (*pfnInitTray)(void);
+	void   (*pfnUninitTray)(void);
+
 	int    (*pfnTrayIconAdd)(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 	int    (*pfnTrayIconDestroy)(HWND hwnd);
 	int    (*pfnTrayIconInit)(HWND hwnd);
@@ -454,10 +456,6 @@ typedef struct
 	int    (*pfnTrayIconSetBaseInfo)(HICON hIcon, const char *szPreferredProto);
 	void   (*pfnTrayIconTaskbarCreated)(HWND hwnd);
 	int    (*pfnTrayIconUpdate)(HICON hNewIcon, const TCHAR *szNewTip, const char *szPreferredProto, int isBase);
-
-	void   (*pfnUninitTray)(void);
-	void   (*pfnLockTray)(void);
-	void   (*pfnUnlockTray)(void);
 
 	VOID   (CALLBACK *pfnTrayCycleTimerProc)(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime);
 

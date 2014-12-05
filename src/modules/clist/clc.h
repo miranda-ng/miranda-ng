@@ -157,10 +157,10 @@ TCHAR* fnGetStatusModeDescription(int wParam, int lParam);
 int    fnGetWindowVisibleState(HWND hWnd, int iStepX, int iStepY);
 
 /* clisttray.c */
+extern mir_cs trayLockCS;
+
 void   fnInitTray(void);
 void   fnUninitTray(void);
-void   fnLockTray(void);
-void   fnUnlockTray(void);
 int    fnCListTrayNotify(MIRANDASYSTRAYNOTIFY *msn);
 int    fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
 int    fnTrayIconDestroy(HWND hwnd);
