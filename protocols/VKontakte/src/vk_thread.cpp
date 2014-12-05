@@ -879,37 +879,33 @@ int CVkProto::PollServer()
 	debugLogA("CVkProto::PollServer (online)");
 	int iPollConnRetry = MAX_RETRIES;
 	NETLIBHTTPREQUEST *reply;
-	char *szUrl = NULL;
-	do {
-		NETLIBHTTPREQUEST req = { sizeof(req) };
-		req.requestType = REQUEST_GET;
-		mir_free(szUrl);
-		CMStringA szReqUrl;
-		szReqUrl.AppendFormat("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
-		// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
-		szUrl = mir_strdup(szReqUrl.GetBuffer());
-		req.szUrl = szUrl;
-		req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
-		req.timeout = 30000;
-		req.nlc = m_pollingConn;
+	CMStringA szReqUrl;
+	szReqUrl.AppendFormat("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
+	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
+	NETLIBHTTPREQUEST req = { sizeof(req) };
+	req.requestType = REQUEST_GET;
+	req.szUrl = mir_strdup(szReqUrl.GetBuffer());
+	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
+	req.timeout = 30000;
+	req.nlc = m_pollingConn;
 
-		reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req);
-		if (reply != NULL)
-			break;
+	while ((reply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)&req)) == NULL) {
 		debugLogA("CVkProto::PollServer is dead");
 		m_pollingConn = NULL;
-		if (iPollConnRetry && !m_bTerminated){	
-			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry + 1);
-			Sleep(1000);	
+		if (iPollConnRetry && !m_bTerminated){
+			iPollConnRetry--;
+			debugLogA("CVkProto::PollServer restarting %d", MAX_RETRIES - iPollConnRetry);
+			Sleep(1000);
 		}
 		else {
 			debugLogA("CVkProto::PollServer => ShutdownSession");
+			mir_free(req.szUrl);
 			ShutdownSession();
 			return 0;
-		}	
-	} while(!m_bTerminated && iPollConnRetry--);
-	
-	mir_free(szUrl);
+		}
+	}
+
+	mir_free(req.szUrl);
 
 	int retVal = 0;
 	if (reply->resultCode == 200) {
