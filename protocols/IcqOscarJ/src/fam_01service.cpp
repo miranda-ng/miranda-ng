@@ -393,7 +393,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 		while (wBufferLength > 4) { // loop thru all items
 			WORD itemType = pBuffer[0] * 0x10 | pBuffer[1];
 			BYTE itemFlags = pBuffer[2];
-			BYTE itemLen = pBuffer[3];
+			size_t itemLen = pBuffer[3];
 
 			if (itemType == AVATAR_HASH_PHOTO) { /// TODO: handle photo item
 				// skip photo item

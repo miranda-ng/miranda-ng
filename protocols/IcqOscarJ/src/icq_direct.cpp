@@ -372,13 +372,13 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 
 		if (dc.type == DIRECTCONN_CLOSING)
 			packetRecv.bytesUsed = packetRecv.bytesAvailable;
-		else if (packetRecv.bytesAvailable < nSkipPacketBytes) { // the whole buffer needs to be skipped
+		else if (packetRecv.bytesAvailable < (int)nSkipPacketBytes) { // the whole buffer needs to be skipped
 			nSkipPacketBytes -= packetRecv.bytesAvailable;
 			packetRecv.bytesUsed = packetRecv.bytesAvailable;
 		}
 		else {
 			size_t i;
-			for (i = nSkipPacketBytes, nSkipPacketBytes = 0; i + 2 <= packetRecv.bytesAvailable;) {
+			for (i = nSkipPacketBytes, nSkipPacketBytes = 0; (int)i + 2 <= packetRecv.bytesAvailable;) {
 				size_t wLen = *(WORD*)(packetRecv.buffer + i);
 
 				if (bFirstPacket) {
@@ -389,16 +389,14 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 					}
 					bFirstPacket = FALSE;
 				}
-				else {
-					if (packetRecv.bytesAvailable >= i + 2 && wLen > 8190) { // check for too big packages
-						NetLog_Direct("Error: Package too big: %d bytes, skipping.");
-						nSkipPacketBytes = wLen;
-						packetRecv.bytesUsed = int(i + 2);
-						break;
-					}
+				else if (packetRecv.bytesAvailable >= (int)i + 2 && wLen > 8190) { // check for too big packages
+					NetLog_Direct("Error: Package too big: %d bytes, skipping.");
+					nSkipPacketBytes = wLen;
+					packetRecv.bytesUsed = int(i + 2);
+					break;
 				}
 
-				if (wLen + 2 + i > packetRecv.bytesAvailable)
+				if (wLen + 2 + i > (size_t)packetRecv.bytesAvailable)
 					break;
 
 				if (dc.type == DIRECTCONN_STANDARD && wLen && packetRecv.buffer[i + 2] == 2) {

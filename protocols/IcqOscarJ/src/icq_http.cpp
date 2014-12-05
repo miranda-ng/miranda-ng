@@ -154,7 +154,7 @@ PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 		unpackWord(&tbuf, &wLen);
 		if (wLen < 12)
 			break;
-		if (tbuf - buf + wLen > len)
+		if (tbuf - buf + wLen > (size_t)len)
 			break;
 		tbuf += 2;    /* version */
 		unpackWord(&tbuf, &wType);
