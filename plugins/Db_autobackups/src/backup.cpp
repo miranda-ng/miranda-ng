@@ -87,9 +87,10 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 	WIN32_FILE_ATTRIBUTE_DATA fad = { 0 };
 	zip_fileinfo fi = { 0 };
 	HWND hProgBar;
-	DWORD dwTotalBytes = 0, dwRead;
+	DWORD dwRead;
 	MSG msg;
 	char buf[(256 * 1024)];	// 256 KB
+	DWORDLONG dwSrcFileSize, dwTotalBytes = 0;
 
 	ptrA szSourceName(mir_u2a(dbname));
 	ptrT tszDestPath(DoubleSlash(tszDest));
@@ -97,8 +98,10 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 	hSrc = CreateFile(tszSource, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hSrc == INVALID_HANDLE_VALUE)
 		return ret;
-	if (GetFileAttributesEx(tszSource, GetFileExInfoStandard, &fad) == FALSE ||
-	    fad.nFileSizeLow == 0)
+	if (GetFileAttributesEx(tszSource, GetFileExInfoStandard, &fad) == FALSE)
+		goto err_out;
+	dwSrcFileSize = ((DWORDLONG)fad.nFileSizeLow | (((DWORDLONG)fad.nFileSizeHigh) << 32));
+	if (dwSrcFileSize == 0) /* Prevent division by zero error. */
 		goto err_out;
 	FileTimeToLocalFileTime(&fad.ftLastWriteTime, &fad.ftLastWriteTime);
 	FileTimeToSystemTime(&fad.ftLastWriteTime, &st);
@@ -124,7 +127,7 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 			if (zipWriteInFileInZip(hZip, buf, dwRead) != ZIP_OK)
 				break;
 			dwTotalBytes += dwRead;
-			SendMessage(hProgBar, PBM_SETPOS, (WPARAM)((100 * dwTotalBytes) / fad.nFileSizeLow), 0);
+			SendMessage(hProgBar, PBM_SETPOS, (WPARAM)((100 * dwTotalBytes) / dwSrcFileSize), 0);
 			while (PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0) {
 				if (!IsDialogMessage(progress_dialog, &msg)) {
 					TranslateMessage(&msg);
@@ -297,6 +300,8 @@ int Backup(TCHAR* backup_filename)
 void BackupThread(void *backup_filename)
 {
 	Backup((TCHAR*)backup_filename);
+	InterlockedExchange((volatile LONG*)&m_state, 0); /* Backup done. */
+	mir_free(backup_filename);
 }
 
 void BackupStart(TCHAR *backup_filename)
@@ -306,7 +311,7 @@ void BackupStart(TCHAR *backup_filename)
 
 	cur_state = InterlockedCompareExchange((volatile LONG*)&m_state, 1, 0);
 	if (cur_state != 0) { /* Backup allready in process. */
-		/* Show error message :) */
+		ShowPopup(TranslateT("Database back up in process..."), TranslateT("Error"), NULL); /* Show error message :) */
 		return;
 	}
 	if (backup_filename != NULL)
