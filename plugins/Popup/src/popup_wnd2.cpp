@@ -1360,7 +1360,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, L
 
 void	WindowThread(void *arg)
 {
-	Coinitializе(NULL); // we may need OLE in this thread for smiley substitution
+	CoInitialize(NULL); // we may need OLE in this thread for smiley substitution
 
 	PopupWnd2 *wnd = (PopupWnd2 *)arg;
 	wnd->buildMText();
