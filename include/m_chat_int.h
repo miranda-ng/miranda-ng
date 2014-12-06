@@ -389,6 +389,7 @@ struct CHAT_MANAGER
 	int           (*ShowPopup)(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 	BOOL          (*LogToFile)(SESSION_INFO *si, GCEVENT *gce);
 	TCHAR*        (*GetChatLogsFilename)(SESSION_INFO *si, time_t tTime);
+	int           (*GetColorIndex)(const char *pszModule, COLORREF cr);
 	char*         (*Log_SetStyle)(int style);
 
 	BOOL          (*IsHighlighted)(SESSION_INFO *si, GCEVENT *pszText);

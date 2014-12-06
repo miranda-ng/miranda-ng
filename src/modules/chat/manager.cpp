@@ -1465,6 +1465,7 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.ShowPopup = ShowPopup;
 	ci.LogToFile = LogToFile;
 	ci.GetChatLogsFilename = GetChatLogsFilename;
+	ci.GetColorIndex = GetColorIndex;
 	ci.Log_SetStyle = Log_SetStyle;
 
 	ci.IsHighlighted = IsHighlighted;

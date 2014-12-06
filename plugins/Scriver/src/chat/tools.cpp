@@ -21,19 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 
-int GetColorIndex(const char* pszModule, COLORREF cr)
-{
-	MODULEINFO *pMod = pci->MM_FindModule(pszModule);
-	if (!pMod || pMod->nColorCount == 0)
-		return -1;
-
-	for (int i = 0; i < pMod->nColorCount; i++)
-		if (pMod->crColors[i] == cr)
-			return i;
-
-	return -1;
-}
-
 TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 {
 	for (int i = 0; s1[i]; i++)
@@ -130,88 +117,4 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 			DestroyMenu(mi.hSubMenu);
 		RemoveMenu(*hMenu, iIndex, MF_BYPOSITION);
 	}
-}
-
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
-{
-	SESSION_INFO *si = pci->SM_FindSession(pszID, pszModule);
-	if (si == NULL)
-		return FALSE;
-	
-	GCDEST *gcd = (GCDEST*)mir_calloc(sizeof(GCDEST));
-	gcd->pszModule = mir_strdup(pszModule);
-	gcd->ptszID = mir_tstrdup(pszID);
-	gcd->iType = iType;
-
-	GCHOOK *gch = (GCHOOK*)mir_calloc(sizeof(GCHOOK));
-	replaceStrT(gch->ptszUID, pszUID);
-	replaceStrT(gch->ptszText, pszText);
-	gch->dwData = dwItem;
-	gch->pDest = gcd;
-	PostMessage(hwnd, GC_FIREHOOK, 0, (LPARAM)gch);
-	return TRUE;
-}
-
-TCHAR* GetChatLogsFilename(MCONTACT hContact, time_t tTime)
-{
-	REPLACEVARSARRAY rva[11];
-	TCHAR *p = { 0 }, *tszParsedName = { 0 };
-
-	if (g_Settings.pszLogDir[_tcslen(g_Settings.pszLogDir) - 1] == '\\')
-		_tcscat(g_Settings.pszLogDir, _T("%userid%.log"));
-	if (!tTime)
-		time(&tTime);
-
-	// day 1-31
-	rva[0].lptzKey = _T("d");
-	rva[0].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%#d"), tTime));
-	// day 01-31
-	rva[1].lptzKey = _T("dd");
-	rva[1].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%d"), tTime));
-	// month 1-12
-	rva[2].lptzKey = _T("m");
-	rva[2].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%#m"), tTime));
-	// month 01-12
-	rva[3].lptzKey = _T("mm");
-	rva[3].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%m"), tTime));
-	// month text short
-	rva[4].lptzKey = _T("mon");
-	rva[4].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%b"), tTime));
-	// month text
-	rva[5].lptzKey = _T("month");
-	rva[5].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%B"), tTime));
-	// year 01-99
-	rva[6].lptzKey = _T("yy");
-	rva[6].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%y"), tTime));
-	// year 1901-9999
-	rva[7].lptzKey = _T("yyyy");
-	rva[7].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%Y"), tTime));
-	// weekday short
-	rva[8].lptzKey = _T("wday");
-	rva[8].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%a"), tTime));
-	// weekday
-	rva[9].lptzKey = _T("weekday");
-	rva[9].lptzValue = mir_tstrdup(pci->MakeTimeStamp(_T("%A"), tTime));
-	// end of array
-	rva[10].lptzKey = NULL;
-	rva[10].lptzValue = NULL;
-
-	REPLACEVARSDATA dat = { sizeof(dat) };
-	dat.dwFlags = RVF_TCHAR;
-	dat.hContact = hContact;
-	dat.variables = rva;
-	tszParsedName = (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
-
-	static TCHAR tszFileName[MAX_PATH];
-	_tcsncpy(tszFileName, tszParsedName, MAX_PATH);
-	mir_free(tszParsedName);
-
-	for (int i = 0; i < SIZEOF(rva); i++)
-		mir_free(rva[i].lptzValue);
-
-	for (p = tszFileName + 2; *p; ++p)
-		if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|')
-			*p = _T('_');
-
-	return tszFileName;
 }
