@@ -93,7 +93,6 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);
 void   LoadMsgLogBitmaps(void);
 void   FreeMsgLogBitmaps(void);
-TCHAR* GetChatLogsFilename(MCONTACT hContact, time_t tTime);
 
 // window.c
 int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth);
@@ -111,7 +110,6 @@ char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 
 // tools.c
 BOOL          DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-int           GetColorIndex(const char* pszModule, COLORREF cr);
 TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2) ;
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
