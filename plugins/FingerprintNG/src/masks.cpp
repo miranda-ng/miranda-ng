@@ -590,7 +590,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################################################
 //#################################   Facebook   ##########################################################################################################################
 //#########################################################################################################################################################################
-	{"client_Facebook_mobile",  _T("*Facebook*mobile*"),                        _T("Facebook (mobile)"),             IDI_FACEBOOK_MOBILE,     FACEBOOK_CASE               },
 	{"client_Facebook_other",   _T("*Facebook*other*"),                         _T("Facebook (other)"),              IDI_FACEBOOK_OTHER,      FACEBOOK_CASE               },
 	{"client_Facebook_app",     _T("*Facebook*App*"),                           _T("Facebook App"),                  IDI_FACEBOOK_APP,        FACEBOOK_CASE               },
 	{"client_Facebook_mess",    _T("*Facebook*Messenger*"),                     _T("Facebook Messenger"),            IDI_FACEBOOK_MESSENGER,  FACEBOOK_CASE               },
@@ -757,6 +756,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{"client_on_Android",       _T("|*Android*|*(android)*"),               LPGENT("Android overlay"),               IDI_PLATFORM_ANDROID,    OVERLAYS_PLATFORM_CASE      },
 	{"client_on_Website",       _T("*(website)*"),                          LPGENT("Website overlay"),               IDI_PLATFORM_WEBSITE,    OVERLAYS_PLATFORM_CASE      },
 	{"client_on_WinPhone",      _T("*(wphone)*"),                           LPGENT("Windows Phone overlay"),         IDI_PLATFORM_WINPHONE,   OVERLAYS_PLATFORM_CASE      },
+	{"client_on_mobile",        _T("*(mobile)*"),                           LPGENT("Mobile overlay"),                IDI_PLATFORM_MOBILE,     OVERLAYS_PLATFORM_CASE      },
 };
 
 int DEFAULT_KN_FP_OVERLAYS_COUNT = SIZEOF(def_kn_fp_overlays_mask);
