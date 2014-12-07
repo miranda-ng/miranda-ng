@@ -47,7 +47,7 @@ void CSteamProto::StopQueue()
 
 		int count = requestsQueue.getCount();
 		while (count > 0)
-			requestsQueue.remove(count - 1);
+			requestsQueue.remove(--count);
 	}
 
 	// logoff
