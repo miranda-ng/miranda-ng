@@ -1016,12 +1016,12 @@ static int UM_CompareItem(USERINFO * u1, const TCHAR *pszNick, WORD wStatus)
 		if ((dw2 & 1) && !(dw1 & 1))
 			return 1;
 		if ((dw1 & 1) && (dw2 & 1))
-			return mir_tstrcmp(u1->pszNick, pszNick);
+			return mir_tstrcmpi(u1->pszNick, pszNick);
 
 		dw1 = dw1 >> 1;
 		dw2 = dw2 >> 1;
 	}
-	return mir_tstrcmp(u1->pszNick, pszNick);
+	return mir_tstrcmpi(u1->pszNick, pszNick);
 }
 
 static USERINFO* UM_SortUser(USERINFO** ppUserList, const TCHAR *pszUID)
