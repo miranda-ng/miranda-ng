@@ -186,13 +186,13 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
-		i ++;
 		bftmp = (backupFile*)mir_realloc(bf, ((i + 1) * sizeof(backupFile)));
 		if (bftmp == NULL)
 			goto err_out;
 		bf = bftmp;
 		_tcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
 		bf[i].CreationTime = FindFileData.ftCreationTime;
+		i ++;
 	} while (FindNextFile(hFind, &FindFileData));
 
 	if (i > 0)
