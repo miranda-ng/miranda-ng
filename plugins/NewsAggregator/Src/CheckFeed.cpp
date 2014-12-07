@@ -119,9 +119,6 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 	else
 		StrReplace(_T("#<category>#"), category, message);
 
-	if (stamp == 0)
-		stamp = time(NULL);
-
 	DBEVENTINFO olddbei = { 0 };
 	olddbei.cbSize = sizeof(olddbei);
 
@@ -137,7 +134,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 		db_event_get(hDbEvent, &olddbei);
 
 		// there's no need to look for the elder events
-		if (olddbei.timestamp < (DWORD)stamp)
+		if (stamp > 0 && olddbei.timestamp < (DWORD)stamp)
 			break;
 
 		if (strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
@@ -148,6 +145,9 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 	mir_free(pbBuffer);
 
 	if (!MesExist) {
+		if (stamp == 0)
+			stamp = time(NULL);
+
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_TCHAR;
 		recv.timestamp = stamp;
