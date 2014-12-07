@@ -117,14 +117,8 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 			Netlib_LogfT(hNetlibUser,_T("Code %d: Failed getting feed data %s."), nlhrReply->resultCode, tszUrl);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
-	else {
+	else
 		Netlib_LogfT(hNetlibUser,_T("Failed getting feed data %s, no response."), tszUrl);
-		ItemInfo SelItem = {0};
-		SelItem.hwndList = hwndDlg;
-		SelItem.hContact = hContact;
-		if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
-			GetNewsData(tszUrl, szData, hContact, hwndDlg);
-	}
 
 	mir_free(szUrl);
 }
