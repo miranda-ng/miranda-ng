@@ -186,6 +186,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 	do {
 		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			continue;
+		i ++;
 		bftmp = (backupFile*)mir_realloc(bf, ((i + 1) * sizeof(backupFile)));
 		if (bftmp == NULL)
 			goto err_out;
