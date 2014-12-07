@@ -206,10 +206,12 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 		}
 	}
 	else {
-		TCHAR weekday[4], monthstr[4], timezonesign[2];
+		TCHAR *weekday, monthstr[4], timezonesign[2];
 		int day, month, year, hour, min, sec, timezoneh, timezonem;
 		if (_tcsstr(p, _T(","))) {
-			_stscanf(p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			weekday = _tcstok(p, _T(","));
+			p = _tcstok(NULL, _T(","));
+			_stscanf(p + 1, _T("%d %3s %d %d:%d:%d %1s%02d%02d"), &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!mir_tstrcmpi(monthstr, _T("Jan")))
 				month = 1;
 			if (!mir_tstrcmpi(monthstr, _T("Feb")))
