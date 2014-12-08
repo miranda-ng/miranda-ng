@@ -130,10 +130,10 @@ void ReloadFonts()
 	char setting[256];
 	for (int i = 0; i < gTreeData.getCount(); i++) {
 		if (gTreeData[i]->typ == 2) {
-			mir_snprintf(setting, 256, "%s/TextCol", gTreeData[i]->pupClass.pszName);
+			mir_snprintf(setting, SIZEOF(setting), "%s/TextCol", gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText = 
 				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
-			mir_snprintf(setting, 256, "%s/BgCol", gTreeData[i]->pupClass.pszName);
+			mir_snprintf(setting, SIZEOF(setting), "%s/BgCol", gTreeData[i]->pupClass.pszName);
 			gTreeData[i]->colorBack = gTreeData[i]->pupClass.colorBack = 
 				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 		}

@@ -740,14 +740,14 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 
 			dat->ppro->setByte(DBSETTING_XSTATUS_ID, dat->bXStatus);
 			char *szValue = GetDlgItemTextUtf(hwndDlg,IDC_XMSG);
-			mir_snprintf(szSetting, 64, "XStatus%dMsg", dat->bXStatus);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", dat->bXStatus);
 			db_set_utf(NULL, dat->ppro->m_szModuleName, szSetting, szValue);
 			db_set_utf(NULL, dat->ppro->m_szModuleName, DBSETTING_XSTATUS_MSG, szValue);
 			SAFE_FREE(&szValue);
 
 			if (dat->ppro->m_bXStatusEnabled) {
 				szValue = GetDlgItemTextUtf(hwndDlg,IDC_XTITLE);
-				mir_snprintf(szSetting, 64, "XStatus%dName", dat->bXStatus);
+				mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dName", dat->bXStatus);
 				db_set_utf(NULL, dat->ppro->m_szModuleName, szSetting, szValue);
 				db_set_utf(NULL, dat->ppro->m_szModuleName, DBSETTING_XSTATUS_NAME, szValue);
 				SAFE_FREE(&szValue);
@@ -793,13 +793,13 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 		char *szName = NULL, *szMsg = NULL;
 
 		if (m_bXStatusEnabled) {
-			mir_snprintf(szSetting, 64, "XStatus%dName", bXStatus);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dName", bXStatus);
 			szName = getSettingStringUtf(NULL, szSetting, ICQTranslateUtfStatic(nameXStatus[bXStatus-1], str, MAX_PATH));
 		}
-		mir_snprintf(szSetting, 64, "XStatus%dMsg", bXStatus);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", bXStatus);
 		szMsg = getSettingStringUtf(NULL, szSetting, "");
 
-		mir_snprintf(szSetting, 64, "XStatus%dStat", bXStatus);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dStat", bXStatus);
 		if (!bQuiet && !getByte(szSetting, 0)) {
 			InitXStatusData init;
 			init.ppro = this;

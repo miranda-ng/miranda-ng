@@ -265,13 +265,13 @@ int MAnnivDate::DBGetReminderOpts(MCONTACT hContact)
 		_wDaysEarlier = db_get_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, (WORD)-1);
 	}
 	else if (_wID <= ANID_LAST) {
-		CHAR pszSetting[MAXSETTING];
+		char pszSetting[MAXSETTING];
 
 		// read reminder option
-		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dReminder", _wID);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dReminder", _wID);
 		_bRemind = db_get_b(hContact, Module(), pszSetting, BST_INDETERMINATE);
 		// read offset
-		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dOffset", _wID);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dOffset", _wID);
 		_wDaysEarlier = db_get_w(hContact, Module(), pszSetting, (WORD)-1);
 	}
 	else {
@@ -305,16 +305,16 @@ int MAnnivDate::DBWriteReminderOpts(MCONTACT hContact)
 			db_set_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, _wDaysEarlier);
 	}
 	else if (_wID <= ANID_LAST) {
-		CHAR pszSetting[MAXSETTING];
+		char pszSetting[MAXSETTING];
 		// read reminder option
-		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dReminder", _wID);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dReminder", _wID);
 		if (_bRemind == BST_INDETERMINATE)
 			db_unset(hContact, USERINFO, pszSetting);
 		else
 			db_set_b(hContact, USERINFO, pszSetting, _bRemind);
 
 		// read offset
-		mir_snprintf(pszSetting, MAXSETTING, "Anniv%dOffset", _wID);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), "Anniv%dOffset", _wID);
 		if (_wDaysEarlier == (WORD)-1)
 			db_unset(hContact, USERINFO, pszSetting);
 		else

@@ -66,7 +66,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != NULL) {
 		if (szProto) {
 			char szBuf[128];
-			mir_snprintf(szBuf, 128, "%s_conn", szProto);
+			mir_snprintf(szBuf, SIZEOF(szBuf), "%s_conn", szProto);
 			*phIcon = Skin_GetIcon(szBuf);
 		}
 	}

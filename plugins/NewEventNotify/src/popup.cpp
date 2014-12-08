@@ -254,7 +254,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			char *pszLast = pszFirst + strlen(pszFirst) + 1;
 			char *pszEmail = pszLast + strlen(pszLast) + 1;
 
-			mir_snprintf(szUin, 16, "%d", *((DWORD*)dbei->pBlob));
+			mir_snprintf(szUin, SIZEOF(szUin), "%d", *((DWORD*)dbei->pBlob));
 			if (strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszNick);
@@ -290,7 +290,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 			char *pszLast  = pszFirst + strlen(pszFirst) + 1;
 			char *pszEmail = pszLast + strlen(pszLast) + 1;
 
-			mir_snprintf(szUin, 16, "%d", *((DWORD*)dbei->pBlob));
+			mir_snprintf(szUin, SIZEOF(szUin), "%d", *((DWORD*)dbei->pBlob));
 			if (strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeT(pszNick);

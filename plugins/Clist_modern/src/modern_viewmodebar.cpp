@@ -363,17 +363,17 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 	CLVM_EnumModes( DeleteAutoModesCallback );
 
 	char szSetting[512];
-	mir_snprintf(szSetting, 512, "%c%s_PF", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, name);
 	db_set_s(NULL, CLVM_MODULE, szSetting, szProtoFilter);
-	mir_snprintf(szSetting, 512, "%c%s_GF", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, name);
 	db_set_ws(NULL, CLVM_MODULE, szSetting, szGroupFilter);
-	mir_snprintf(szSetting, 512, "%c%s_SM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, name);
 	db_set_dw(NULL, CLVM_MODULE, szSetting, statusMask);
-	mir_snprintf(szSetting, 512, "%c%s_SSM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, name);
 	db_set_dw(NULL, CLVM_MODULE, szSetting, stickyStatusMask);
-	mir_snprintf(szSetting, 512, "%c%s_OPT", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, name);
 	db_set_dw(NULL, CLVM_MODULE, szSetting, options);
-	mir_snprintf(szSetting, 512, "%c%s_LM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, name);
 	db_set_dw(NULL, CLVM_MODULE, szSetting, lmdat);
 
 	db_set_dw(NULL, CLVM_MODULE, name, MAKELONG((unsigned short)operators, (unsigned short)stickies));
@@ -522,22 +522,22 @@ static void UpdateFilters()
 	szBuf = mir_utf8encodeT(szTempBuf);
 	strncpy(g_szModename, szBuf, SIZEOF(g_szModename));
 	g_szModename[SIZEOF(g_szModename) - 1] = 0;
-	mir_sntprintf(szTemp, 100, TranslateT("Configuring view mode: %s"), szTempBuf);
+	mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Configuring view mode: %s"), szTempBuf);
 	SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
-	mir_snprintf(szSetting, 128, "%c%s_PF", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, szBuf);
 	if (db_get_s(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
-	mir_snprintf(szSetting, 128, "%c%s_GF", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, szBuf);
 	if (db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
-	mir_snprintf(szSetting, 128, "%c%s_OPT", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, szBuf);
 	if ((opt = db_get_dw(NULL, CLVM_MODULE, szSetting, -1)) != -1)
 	{
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
-	mir_snprintf(szSetting, 128, "%c%s_SM", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, szBuf);
 	statusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
-	mir_snprintf(szSetting, 128, "%c%s_SSM", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, szBuf);
 	stickyStatusMask = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 	dwFlags = db_get_dw(NULL, CLVM_MODULE, szBuf, 0);
 	{
@@ -555,7 +555,7 @@ static void UpdateFilters()
 		{
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-			mir_snprintf(szMask, 256, "%s|", szTemp);
+			mir_snprintf(szMask, SIZEOF(szMask), "%s|", szTemp);
 			if (dbv_pf.pszVal && strstr(dbv_pf.pszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -616,7 +616,7 @@ static void UpdateFilters()
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMSGVALUE), useLastMsg);
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMESSAGEUNIT), useLastMsg);
 
-		mir_snprintf(szSetting, 128, "%c%s_LM", 246, szBuf);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, szBuf);
 		lmdat = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
@@ -638,15 +638,15 @@ void DeleteViewMode( char * szName )
 {
 	char szSetting[256];
 
-	mir_snprintf(szSetting, 256, "%c%s_PF", 246, szName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, szName);
 	db_unset(NULL, CLVM_MODULE, szSetting);
-	mir_snprintf(szSetting, 256, "%c%s_GF", 246, szName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, szName);
 	db_unset(NULL, CLVM_MODULE, szSetting);
-	mir_snprintf(szSetting, 256, "%c%s_SM", 246, szName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, szName);
 	db_unset(NULL, CLVM_MODULE, szSetting);
-	mir_snprintf(szSetting, 256, "%c%s_VA", 246, szName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_VA", 246, szName);
 	db_unset(NULL, CLVM_MODULE, szSetting);
-	mir_snprintf(szSetting, 256, "%c%s_SSM", 246, szName);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, szName);
 	db_unset(NULL, CLVM_MODULE, szSetting);
 	db_unset(NULL, CLVM_MODULE, szName);
 
@@ -1268,7 +1268,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 
 	g_CluiData.bFilterEffective = 0;
 
-	mir_snprintf(szSetting, 256, "%c_LastMode", 246);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c_LastMode", 246);
 
 	if (!Name) { // Name is null - apply last stored view mode
 		if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
@@ -1283,7 +1283,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		g_CluiData.bFilterEffective = 0;
 
 		// remove last applied view mode
-		mir_snprintf(szSetting, 256, "%c_LastMode", 246);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c_LastMode", 246);
 		db_unset(NULL, CLVM_MODULE, szSetting);
 
 		if (g_CluiData.bOldUseGroups != (BYTE)-1)
@@ -1304,7 +1304,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 	}
 
 	if (!onlySelector) {
-		mir_snprintf(szSetting, 256, "%c%s_PF", 246, Name);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, Name);
 		if (!db_get_s(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_strlen(dbv.pszVal) >= 2) {
 				strncpy(g_CluiData.protoFilter, dbv.pszVal, SIZEOF(g_CluiData.protoFilter));
@@ -1313,7 +1313,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			}
 			mir_free(dbv.pszVal);
 		}
-		mir_snprintf(szSetting, 256, "%c%s_GF", 246, Name);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, Name);
 		if (!db_get_ts(NULL, CLVM_MODULE, szSetting, &dbv)) {
 			if (mir_tstrlen(dbv.ptszVal) >= 2) {
 				_tcsncpy(g_CluiData.groupFilter, dbv.ptszVal, SIZEOF(g_CluiData.groupFilter));
@@ -1322,12 +1322,12 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			}
 			mir_free(dbv.ptszVal);
 		}
-		mir_snprintf(szSetting, 256, "%c%s_SM", 246, Name);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, Name);
 		g_CluiData.statusMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 		if (g_CluiData.statusMaskFilter >= 1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STATUS;
 
-		mir_snprintf(szSetting, 256, "%c%s_SSM", 246, Name);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, Name);
 		g_CluiData.stickyMaskFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, -1);
 		if (g_CluiData.stickyMaskFilter != -1)
 			g_CluiData.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
@@ -1337,14 +1337,14 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 
 		if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
-			mir_snprintf(szSetting, 256, "%c%s_OPT", 246, Name);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, Name);
 			DWORD timerexpire = LOWORD(db_get_dw(NULL, CLVM_MODULE, szSetting, 0));
 			strncpy(g_CluiData.old_viewmode, g_CluiData.current_viewmode, 256);
 			g_CluiData.old_viewmode[255] = 0;
 			CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, NULL);
 		}
 		else { //store last selected view mode only if it is not autoclear
-			mir_snprintf(szSetting, 256, "%c_LastMode", 246);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "%c_LastMode", 246);
 			db_set_s(NULL, CLVM_MODULE, szSetting, Name);
 		}
 		strncpy(g_CluiData.current_viewmode, Name, 256);
@@ -1361,7 +1361,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			g_CluiData.bSortByOrder[0] = bSaved;
 
 			g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG;
-			mir_snprintf(szSetting, 256, "%c%s_LM", 246, Name);
+			mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, Name);
 			g_CluiData.lastMsgFilter = db_get_dw(NULL, CLVM_MODULE, szSetting, 0);
 			if (LOBYTE(HIWORD(g_CluiData.lastMsgFilter)))
 				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;

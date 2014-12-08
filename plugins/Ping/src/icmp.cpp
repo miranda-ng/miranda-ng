@@ -68,7 +68,7 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 		{
 			char winmsg[512], msg[1024];
 			FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM, 0, code, 0, winmsg, 512, 0);
-			mir_snprintf(msg, 1024, "Ping error (%d): %s", code, winmsg);
+			mir_snprintf(msg, SIZEOF(msg), "Ping error (%d): %s", code, winmsg);
 			PUShowMessage(msg, SM_NOTIFY);
 			return false;
 		}

@@ -116,7 +116,7 @@ void _DebugTraceA(const char *fmt, ...)
 		FILE *f;
 
 		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "clist_nicer.log");
+		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\%s", szDataPath, "clist_nicer.log");
 		f = fopen(szLogFileName, "a+");
 		if (f) {
 			fputs(debug, f);

@@ -43,7 +43,7 @@ int GGPROTO::gc_init()
 
 		gc_enabled = TRUE;
 		// create & hook event
-		mir_snprintf(service, 64, GG_GC_GETCHAT, m_szModuleName);
+		mir_snprintf(service, SIZEOF(service), GG_GC_GETCHAT, m_szModuleName);
 		debugLogA("gc_init(): Registered with groupchat plugin.");
 	}
 	else debugLogA("gc_init(): Cannot register with groupchat plugin !!!");

@@ -299,7 +299,7 @@ static INT_PTR GetWindowAPI(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 {
 	char *szBuf = (char*)wParam;
-	int size = (int)lParam;
+	size_t size = (size_t)lParam;
 	mir_snprintf(szBuf, size, "Scriver");
 	return 0;
 }

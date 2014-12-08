@@ -570,11 +570,12 @@ int UpdateValues(WPARAM hContact,LPARAM lparam)
 			db_set_b(hContact, S_MOD, "Offline", 1);
 			{
 				DWORD t;
-				char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
-				mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",proto);
-				t = db_get_dw(NULL,S_MOD,str,0);
-				if (!t) t = time(NULL);
-				free(str);
+				char str[MAXMODULELABELLENGTH + 9];
+
+				mir_snprintf(str, SIZEOF(str), "OffTime-%s", proto);
+				t = db_get_dw(NULL, S_MOD, str, 0);
+				if (!t)
+					t = time(NULL);
 				DBWriteTimeTS(t, hContact);
 			}
 
@@ -653,10 +654,9 @@ static void cleanThread(void *param)
 			}
 		}
 
-		char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
-		mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
-		db_unset(NULL,S_MOD,str);
-		free(str);
+		char str[MAXMODULELABELLENGTH + 9];
+		mir_snprintf(str, SIZEOF(str), "OffTime-%s", infoParam->sProtoName);
+		db_unset(NULL, S_MOD, str);
 	}
 	free(infoParam);
 }
@@ -690,12 +690,12 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 	else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off
 		if (IsWatchedProtocol(ack->szModule)) {
-			char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
+			char str[MAXMODULELABELLENGTH + 9];
 			time_t t;
+
 			time(&t);
-			mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",ack->szModule);
-			db_set_dw(NULL,S_MOD,str,t);
-			free(str);
+			mir_snprintf(str, SIZEOF(str), "OffTime-%s", ack->szModule);
+			db_set_dw(NULL, S_MOD, str, t);
 		}
 	}
 	

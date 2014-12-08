@@ -534,7 +534,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				for(int i = 0; i < STATUS_COUNT ; i++) {
 					char buff[128];
-					mir_snprintf(buff,_countof(buff), "Status%d", i);
+					mir_snprintf(buff, SIZEOF(buff), "Status%d", i);
 					settingStatus[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_STATUS), i) ? TRUE : FALSE);
 					db_set_b(0, PLUGINNAME, buff, settingStatus[i] ? 1 : 0);
 				}

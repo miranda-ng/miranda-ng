@@ -110,7 +110,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 
 	GetLocalTime(&st);
 
-	mir_snprintf(tszTime, 50, "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	mir_snprintf(tszTime, SIZEOF(tszTime), "%02d.%02d.%04d - %02d:%02d:%02d.%04d: ", st.wDay, st.wMonth, st.wYear, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
 
 
 	mir_vsntprintf(debug, ibsize - 10, fmt, va);
@@ -122,7 +122,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 		FILE *f;
 
 		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "tabsrmm_debug.log");
+		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\%s", szDataPath, "tabsrmm_debug.log");
 		f = fopen(szLogFileName, "a+");
 		if (f) {
 			char *szDebug = mir_utf8encodeT(debug);
@@ -156,7 +156,7 @@ int _DebugTraceA(const char *fmt, ...)
 	{
 		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
 		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, MAX_PATH, "%s\\tabsrmm_debug.log", szDataPath);
+		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\tabsrmm_debug.log", szDataPath);
 		FILE *f = fopen(szLogFileName, "a+");
 		if (f) {
 			fputs(debug, f);

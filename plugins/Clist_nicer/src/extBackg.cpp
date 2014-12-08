@@ -287,12 +287,12 @@ void LoadExtBkSettingsFromDB()
 		*p = _StatusItems[0];
 		ID_EXTBK_LAST++;
 
-		mir_snprintf(p->szDBname, 30, "EXBK_%s", accs[i]->szModuleName);
+		mir_snprintf(p->szDBname, SIZEOF(p->szDBname), "EXBK_%s", accs[i]->szModuleName);
 		if (i == 0) {
-			mir_strncpy(p->szName, "{-}", 30);
-			strncat(p->szName, accs[i]->szModuleName, 30);
+			mir_strncpy(p->szName, "{-}", SIZEOF(p->szName));
+			strncat(p->szName, accs[i]->szModuleName, SIZEOF(p->szName));
 		}
-		else mir_strncpy(p->szName, accs[i]->szModuleName, 30);
+		else mir_strncpy(p->szName, accs[i]->szModuleName, SIZEOF(p->szName));
 		p->statusID = ID_EXTBK_LAST;
 		arStatusItems.insert(p);
 	}
@@ -487,34 +487,34 @@ void extbk_export(char *file)
 	}
 
 	for (n = 0; n <= FONTID_LAST; n++) {
-		mir_snprintf(szSection, 255, "Font%d", n);
+		mir_snprintf(szSection, SIZEOF(szSection), "Font%d", n);
 
-		mir_snprintf(szKey, 255, "Font%dName", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dName", n);
 		if (!cfg::getString(NULL, "CLC", szKey, &dbv)) {
 			WritePrivateProfileStringA(szSection, "Name", dbv.pszVal, file);
 			mir_free(dbv.pszVal);
 		}
-		mir_snprintf(szKey, 255, "Font%dSize", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dSize", n);
 		data = (DWORD)cfg::getByte("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Size", &data, 1, file);
 
-		mir_snprintf(szKey, 255, "Font%dSty", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dSty", n);
 		data = (DWORD)cfg::getByte("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Style", &data, 1, file);
 
-		mir_snprintf(szKey, 255, "Font%dSet", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dSet", n);
 		data = (DWORD)cfg::getByte("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Set", &data, 1, file);
 
-		mir_snprintf(szKey, 255, "Font%dCol", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dCol", n);
 		data = cfg::getDword("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Color", &data, 4, file);
 
-		mir_snprintf(szKey, 255, "Font%dFlags", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dFlags", n);
 		data = (DWORD)cfg::getDword("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Flags", &data, 4, file);
 
-		mir_snprintf(szKey, 255, "Font%dAs", n);
+		mir_snprintf(szKey, SIZEOF(szKey), "Font%dAs", n);
 		data = (DWORD)cfg::getWord("CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 	}
@@ -713,12 +713,12 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	mir_snprintf(def_color, 15, "%6.6x", clr);
+	mir_snprintf(def_color, SIZEOF(def_color), "%6.6x", clr);
 	GetPrivateProfileStringA(szItem, "Color1", def_color, buffer, 400, file);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	mir_snprintf(def_color, 15, "%6.6x", clr);
+	mir_snprintf(def_color, SIZEOF(def_color), "%6.6x", clr);
 	GetPrivateProfileStringA(szItem, "Color2", def_color, buffer, 400, file);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
@@ -790,7 +790,7 @@ done_with_glyph:
 		strncpy(tmpItem.szName, &itemname[1], sizeof(tmpItem.szName));
 		tmpItem.szName[sizeof(tmpItem.szName) - 1] = 0;
 		_splitpath(szFileName, szDrive, szPath, NULL, NULL);
-		mir_snprintf(szFinalName, MAX_PATH, "%s\\%s\\%s", szDrive, szPath, buffer);
+		mir_snprintf(szFinalName, SIZEOF(szFinalName), "%s\\%s\\%s", szDrive, szPath, buffer);
 		tmpItem.alpha = GetPrivateProfileIntA(itemname, "Alpha", 100, szFileName);
 		tmpItem.alpha = min(tmpItem.alpha, 100);
 		tmpItem.alpha = (BYTE)((FLOAT)(((FLOAT)tmpItem.alpha) / 100) * 255);
@@ -868,7 +868,7 @@ done_with_glyph:
 			goto imgread_done;
 		}
 		for (n = 0; ; n++) {
-			mir_snprintf(szItemNr, 30, "Item%d", n);
+			mir_snprintf(szItemNr, SIZEOF(szItemNr), "Item%d", n);
 			GetPrivateProfileStringA(itemname, szItemNr, "None", buffer, 500, szFileName);
 			if (!strcmp(buffer, "None"))
 				break;
@@ -1365,38 +1365,38 @@ void extbk_import(char *file, HWND hwndDlg)
 	GetPrivateProfileStructA("Global", "Version", &version, 4, file);
 	if (version >= 2) {
 		for (n = 0; n <= FONTID_LAST; n++) {
-			mir_snprintf(szSection, 255, "Font%d", n);
+			mir_snprintf(szSection, SIZEOF(szSection), "Font%d", n);
 
-			mir_snprintf(szKey, 255, "Font%dName", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dName", n);
 			GetPrivateProfileStringA(szSection, "Name", "Arial", buffer, sizeof(buffer), file);
 			cfg::writeString(NULL, "CLC", szKey, buffer);
 
-			mir_snprintf(szKey, 255, "Font%dSize", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dSize", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Size", &data, 1, file);
 			cfg::writeByte("CLC", szKey, (BYTE)data);
 
-			mir_snprintf(szKey, 255, "Font%dSty", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dSty", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Style", &data, 1, file);
 			cfg::writeByte("CLC", szKey, (BYTE)data);
 
-			mir_snprintf(szKey, 255, "Font%dSet", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dSet", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Set", &data, 1, file);
 			cfg::writeByte("CLC", szKey, (BYTE)data);
 
-			mir_snprintf(szKey, 255, "Font%dCol", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dCol", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Color", &data, 4, file);
 			cfg::writeDword("CLC", szKey, data);
 
-			mir_snprintf(szKey, 255, "Font%dFlags", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dFlags", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Flags", &data, 4, file);
 			cfg::writeDword("CLC", szKey, (WORD)data);
 
-			mir_snprintf(szKey, 255, "Font%dAs", n);
+			mir_snprintf(szKey, SIZEOF(szKey), "Font%dAs", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 			cfg::writeDword("CLC", szKey, (WORD)data);

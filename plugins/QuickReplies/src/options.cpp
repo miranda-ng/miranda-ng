@@ -139,7 +139,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						int pos = -1, prev = 0;
 						while ((pos = replies.Find(_T("\r\n"), prev)) != -1)
 						{
-							mir_snprintf(key, 64, "Reply_%x_%x", iNumber, count++);
+							mir_snprintf(key, SIZEOF(key), "Reply_%x_%x", iNumber, count++);
 							db_set_ws(NULL, MODULE, key, replies.Mid(prev, pos - prev).GetBuffer());
 							prev = pos + 2;
 						}

@@ -387,9 +387,9 @@ BYTE Exists(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 
 void DeleteArray(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszFormat, int iStart)
 {
-	CHAR pszSetting[MAXSETTING];
+	char pszSetting[MAXSETTING];
 	do {
-		mir_snprintf(pszSetting, MAXSETTING, pszFormat, iStart++);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), pszFormat, iStart++);
 	}
 		while (!db_unset(hContact, pszModule, pszSetting));
 }

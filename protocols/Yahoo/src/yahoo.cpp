@@ -1292,7 +1292,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 
 		if (nlhr.requestType == REQUEST_POST) {
 			httpHeaders[nlhr.headersCount].szName="Content-Length";
-			mir_snprintf(z, 1024, "%d", content_length);
+			mir_snprintf(z, SIZEOF(z), "%d", content_length);
 			httpHeaders[nlhr.headersCount].szValue=z;
 	
 			nlhr.headersCount++;

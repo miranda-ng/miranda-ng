@@ -3081,13 +3081,13 @@ INT_PTR SearchAddtoList(WPARAM wParam, LPARAM lParam)
 
 void CreateGroup(char*grpn, char*field) {
 	DBVARIANT dbv;
-	char* grp[255];
+	char grp[255];
 
 	int val = db_get_b(NULL, protocolname, field, 0);
 
 	if (val == 0)
 	{
-		strcpy_s((char*)grp, 255, grpn);//((char*)clan->name[i].c_str());
+		strcpy_s(grp, SIZEOF(grp), grpn);//((char*)clan->name[i].c_str());
 	}
 	else
 	{
@@ -3097,12 +3097,12 @@ void CreateGroup(char*grpn, char*field) {
 		db_get_s(NULL, "CListGroups", temp, &dbv);
 		if (dbv.pszVal != NULL)
 		{
-			mir_snprintf((char*)grp, 255, "%s\\%s", &dbv.pszVal[1], (char*)grpn);
+			mir_snprintf(grp, SIZEOF(grp), "%s\\%s", &dbv.pszVal[1], grpn);
 			db_free(&dbv);
 		}
 		else //gruppe existiert nciht mehr, auf root alles legen
 		{
-			strcpy_s((char*)grp, 255, grpn);
+			strcpy_s(grp, SIZEOF(grp), grpn);
 			db_set_b(NULL, protocolname, field, 0);
 		}
 	}
@@ -3126,7 +3126,7 @@ void CreateGroup(char*grpn, char*field) {
 		db_free(&dbv);
 	}
 	strcpy_s(group, 255, "D");
-	strcat_s(group, 255, (char*)grp);
+	strcat_s(group, 255, grp);
 	group[0] = 1 | GROUPF_EXPANDED;
 	mir_snprintf(temp, SIZEOF(temp), "%d", i + 1);
 	db_set_s(NULL, "CListGroups", temp, group);

@@ -221,7 +221,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 			char fileName[MAX_PATH];
 			char *ext = TlenXmlGetAttrValue(node, "ext");
 			char *tmpPath = Utils_ReplaceVars( "%miranda_userdata%" );
-			int tPathLen = mir_snprintf(fileName, MAX_PATH, "%s\\Images\\Tlen", tmpPath);
+			int tPathLen = mir_snprintf(fileName, SIZEOF(fileName), "%s\\Images\\Tlen", tmpPath);
 			long oldSize = 0, lSize = atol(size);
 			DWORD dwAttributes = GetFileAttributesA( fileName );
 			if ( dwAttributes == 0xffffffff || ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ) == 0 )
@@ -229,7 +229,7 @@ void TlenProcessPic(XmlNode *node, TlenProtocol *proto) {
 
 			mir_free(tmpPath);
 			fileName[ tPathLen++ ] = '\\';
-			mir_snprintf( fileName + tPathLen, MAX_PATH - tPathLen, "%s.%s", crc, ext );
+			mir_snprintf( fileName + tPathLen, SIZEOF(fileName) - tPathLen, "%s.%s", crc, ext );
 			fp = fopen( fileName, "rb" );
 			if (fp) {
 				fseek(fp, 0, SEEK_END);

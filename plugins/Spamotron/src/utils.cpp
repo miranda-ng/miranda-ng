@@ -468,9 +468,9 @@ int LogToSystemHistory(char *message, char *origmessage)
 	dbei.szModule = PLUGIN_NAME;
 	dbei.pBlob = (PBYTE)msg;
 	if (origmessage)
-		dbei.cbBlob = (1 + mir_snprintf(msg, MAX_BUFFER_LENGTH, "%s: %s%s %s: %s", PLUGIN_NAME, message, DOT(message), Translate("Their message was"), origmessage));
+		dbei.cbBlob = (1 + mir_snprintf(msg, SIZEOF(msg), "%s: %s%s %s: %s", PLUGIN_NAME, message, DOT(message), Translate("Their message was"), origmessage));
 	else 
-		dbei.cbBlob = (1 + mir_snprintf(msg, MAX_BUFFER_LENGTH, "%s: %s%s", PLUGIN_NAME, message, DOT(message)));
+		dbei.cbBlob = (1 + mir_snprintf(msg, SIZEOF(msg), "%s: %s%s", PLUGIN_NAME, message, DOT(message)));
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_READ;
 	db_event_add(NULL, &dbei);

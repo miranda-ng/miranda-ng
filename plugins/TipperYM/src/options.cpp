@@ -324,16 +324,16 @@ void LoadObsoleteSkinSetting()
 
 	for (int i = 0; i < SKIN_ITEMS_COUNT; i++)
 	{
-		mir_snprintf(setting, 128, "SPaintMode%d", i);
+		mir_snprintf(setting, SIZEOF(setting), "SPaintMode%d", i);
 		opt.transfMode[i] = (TransformationMode)db_get_b(0, MODULE, setting, 0);
-		mir_snprintf(setting, 128, "SImgFile%d", i);
+		mir_snprintf(setting, SIZEOF(setting), "SImgFile%d", i);
 		if (!db_get_ts(NULL, MODULE, setting, &dbv))
 		{
 			opt.szImgFile[i] = mir_tstrdup(dbv.ptszVal);
 			db_free(&dbv);
 		}
 
-		mir_snprintf(setting, 128, "SGlyphMargins%d", i);
+		mir_snprintf(setting, SIZEOF(setting), "SGlyphMargins%d", i);
 		DWORD margins = db_get_dw(NULL, MODULE, setting, 0);
 		opt.margins[i].top = LOBYTE(LOWORD(margins));
 		opt.margins[i].right = HIBYTE(LOWORD(margins));

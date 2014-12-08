@@ -682,10 +682,10 @@ void Utils::ContainerToSettings(TContainerData *pContainer)
 
 void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce)
 {
-	char	szCname[50];
+	char szCname[50];
 	TContainerSettings csTemp = {0};
 
-	mir_snprintf(szCname, 40, "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
+	mir_snprintf(szCname, SIZEOF(szCname), "%s%d_Blob", CNT_BASEKEYNAME, pContainer->iContainerIndex);
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
 	if (csTemp.fPrivate || fForce) {
 		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
@@ -698,14 +698,14 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 
 void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSetting)
 {
-	char	szCName[50];
+	char szCName[50];
 
 	pContainer->dwFlags &= ~(CNT_DEFERREDCONFIGURE | CNT_CREATE_MINIMIZED | CNT_DEFERREDSIZEREQUEST | CNT_CREATE_CLONED);
 	if (pContainer->settings->fPrivate) {
-		mir_snprintf(szCName, 40, "%s%d_Blob", szSetting, pContainer->iContainerIndex);
+		mir_snprintf(szCName, SIZEOF(szCName), "%s%d_Blob", szSetting, pContainer->iContainerIndex);
 		WriteContainerSettingsToDB(0, pContainer->settings, szCName);
 	}
-	mir_snprintf(szCName, 40, "%s%d_theme", szSetting, pContainer->iContainerIndex);
+	mir_snprintf(szCName, SIZEOF(szCName), "%s%d_theme", szSetting, pContainer->iContainerIndex);
 	if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
 		if (pContainer->fPrivateThemeChanged == TRUE) {
 			PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());

@@ -556,7 +556,7 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 		char z[1024];
 		struct yahoo_file_info *fi = (struct yahoo_file_info *) f->data;
 
-		mir_snprintf(z, 1024, "%s (%lu)\r\n", fi->filename, fi->filesize);
+		mir_snprintf(z, SIZEOF(z), "%s (%lu)\r\n", fi->filename, fi->filesize);
 		mir_strcat(fn, z);
 		fc++;
 	}

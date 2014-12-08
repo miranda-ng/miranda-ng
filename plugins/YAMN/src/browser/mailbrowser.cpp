@@ -654,7 +654,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	if ((nflags & YAMN_ACC_CONT) && (MN->Real.PopupRun+MN->Virtual.PopupRun))
 	{
 		char sMsg[250];
-		mir_snprintf(sMsg, 249, Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
+		mir_snprintf(sMsg, SIZEOF(sMsg), Translate("%s : %d new mail message(s), %d total"), ActualAccount->Name, MN->Real.PopupNC + MN->Virtual.PopupNC, MN->Real.PopupTC + MN->Virtual.PopupTC);
 		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT cEvent;
 			cEvent.cbSize = sizeof(CLISTEVENT);

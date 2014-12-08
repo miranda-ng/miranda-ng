@@ -77,8 +77,8 @@ MIR_CORE_DLL(int) PathToAbsolute(const char *pSrc, char *pOut, const char *base)
 
 	if (pSrc[0] == '\\')
 		pSrc++;
-	mir_snprintf(buf, MAX_PATH, "%s%s", base, pSrc);
-	return GetFullPathNameA(buf, MAX_PATH, pOut, NULL);
+	mir_snprintf(buf, SIZEOF(buf), "%s%s", base, pSrc);
+	return GetFullPathNameA(buf, SIZEOF(buf), pOut, NULL);
 }
 
 MIR_CORE_DLL(void) CreatePathToFile(char *szFilePath)

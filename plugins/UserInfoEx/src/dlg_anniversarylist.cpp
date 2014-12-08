@@ -868,11 +868,11 @@ public:
 		if (_hDlg) {
 			// save list state
 			if (_hList) {
-				CHAR pszSetting[MAXSETTING];
+				char pszSetting[MAXSETTING];
 				int c, cc = Header_GetItemCount(ListView_GetHeader(_hList));
 
 				for (c = 0; c < cc; c++) {
-					mir_snprintf(pszSetting, MAXSETTING, "AnnivDlg_Col%d", c);
+					mir_snprintf(pszSetting, SIZEOF(pszSetting), "AnnivDlg_Col%d", c);
 					db_set_w(NULL, MODNAME, pszSetting, (WORD)ListView_GetColumnWidth(_hList, c));
 				}
 				DeleteAllItems();

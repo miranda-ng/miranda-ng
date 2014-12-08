@@ -329,7 +329,7 @@ void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg) {
 
 void ShowMessageInlineUtf(const MCONTACT hContact, const char *msg) {
 	char buff[1024];
-	mir_snprintf(buff, 1024, "%s%s", Translate(LANG_INLINE_PREFIX), msg);
+	mir_snprintf(buff, SIZEOF(buff), "%s%s", Translate(LANG_INLINE_PREFIX), msg);
 
 	PROTORECVEVENT pre = {0};
 	pre.timestamp = time(0);
