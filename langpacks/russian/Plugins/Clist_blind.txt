@@ -162,7 +162,7 @@
 [Show bevels on panels]
 Бордюры на панелях
 [Show resize grip indicator]
-Индикатор изм. размера
+Индикатор изменения размера
 [&Main menu]
 &Главное меню
 [E&xit]
