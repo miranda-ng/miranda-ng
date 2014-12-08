@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_12.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
@@ -74,9 +74,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Sametime", "..\protoc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MetaContacts", "..\src\icons\proto_metacontacts\Proto_MetaContacts_12.vcxproj", "{793B6174-89B0-4682-A957-A32BE7F61502}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\WhatsApp\WhatsApp_12.vcxproj", "{13E796AD-BEA4-4213-A1B8-E18E2397E544}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Dummy", "..\protocols\Dummy\proto_dummy\Proto_Dummy_12.vcxproj", "{018F801B-E80F-4E49-A640-E30BC445E74A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Steam", "..\protocols\Steam\proto_steam\Proto_Steam_12.vcxproj", "{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -374,14 +374,6 @@ Global
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|Win32.Build.0 = Release|Win32
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.ActiveCfg = Release|x64
 		{793B6174-89B0-4682-A957-A32BE7F61502}.Release|x64.Build.0 = Release|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|Win32.ActiveCfg = Debug|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|Win32.Build.0 = Debug|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|x64.ActiveCfg = Debug|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Debug|x64.Build.0 = Debug|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.ActiveCfg = Release|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.Build.0 = Release|Win32
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.ActiveCfg = Release|x64
-		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.Build.0 = Release|x64
 		{018F801B-E80F-4E49-A640-E30BC445E74A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{018F801B-E80F-4E49-A640-E30BC445E74A}.Debug|Win32.Build.0 = Debug|Win32
 		{018F801B-E80F-4E49-A640-E30BC445E74A}.Debug|x64.ActiveCfg = Debug|x64
@@ -390,6 +382,14 @@ Global
 		{018F801B-E80F-4E49-A640-E30BC445E74A}.Release|Win32.Build.0 = Release|Win32
 		{018F801B-E80F-4E49-A640-E30BC445E74A}.Release|x64.ActiveCfg = Release|x64
 		{018F801B-E80F-4E49-A640-E30BC445E74A}.Release|x64.Build.0 = Release|x64
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Debug|Win32.Build.0 = Debug|Win32
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Debug|x64.ActiveCfg = Debug|x64
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Debug|x64.Build.0 = Debug|x64
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|Win32.ActiveCfg = Release|Win32
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|Win32.Build.0 = Release|Win32
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|x64.ActiveCfg = Release|x64
+		{523D76E4-1AB3-49B6-AFF0-E6057FAB9BC0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

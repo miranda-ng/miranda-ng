@@ -414,6 +414,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\Wh
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dummy", "..\protocols\Dummy\dummy_10.vcxproj", "{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Steam", "..\protocols\Steam\Steam_10.vcxproj", "{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1848,6 +1850,14 @@ Global
 		{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}.Release|Win32.Build.0 = Release|Win32
 		{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}.Release|x64.ActiveCfg = Release|x64
 		{D3B4DDFF-D3A5-4452-AE9D-B43B3C97C821}.Release|x64.Build.0 = Release|x64
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Debug|Win32.Build.0 = Debug|Win32
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Debug|x64.ActiveCfg = Debug|x64
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Debug|x64.Build.0 = Debug|x64
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Release|Win32.ActiveCfg = Release|Win32
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Release|Win32.Build.0 = Release|Win32
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Release|x64.ActiveCfg = Release|x64
+		{8236EA1F-579A-4AFB-9DFE-5FA056AEDDBB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
