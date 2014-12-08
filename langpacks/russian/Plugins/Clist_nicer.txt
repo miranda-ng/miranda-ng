@@ -72,7 +72,7 @@
 [Set base visiblity on the frames menu]
 Установить базовую видимость меню фреймов
 [Auto mode]
-Режим авто
+Показывать при необходимости
 [System tray icon when using multiple protocols]
 Значки протоколов в системном лотке
 [Show]
@@ -129,7 +129,7 @@
 потом
 [Finally by]
 последнее
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 Перемещать события наверх списка или группы
 [Do not separate offline contacts]
 Не отделять отключённые контакты
@@ -236,9 +236,9 @@
 [Items]
 Элементы
 [Show divider between online and offline contacts]
-Граница между подкл. и откл. пользователями
+Граница между подключёнными и отключёнными пользователями
 [Hot track items as mouse passes over]
-Подсветка под курсором мыши
+Подсветка при наведении курсора мыши
 [Disable drag and drop of items]
 Отключить перетаскивание элементов
 [Disable rename of items by clicking twice]
@@ -282,7 +282,7 @@
 [Stretch proportionally]
 Растянуть
 [Use these settings to skin the entire background]
-Использовать данные настройки для всего фона
+Использовать эти настройки для всего фона
 [If you enable this, the background settings will affect the entire contact list frame.]
 При включении настройки фона будут использованы для всего фрейма списка контактов
 [Status bar]
@@ -304,7 +304,7 @@
 [Show bevels on panels]
 Бордюры на панелях
 [Show resize grip indicator]
-Индикатор изм. размера
+Индикатор изменения размера
 [Draw background skin]
 Использовать скин для фона
 [Show ICQ extended status icons]
