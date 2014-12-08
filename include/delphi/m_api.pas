@@ -182,76 +182,71 @@ var
   this means only one module can return info, you shouldn't be merging them anyway! }
   PluginInfo: TPLUGININFOEX;
 
-  {$include m_database.inc}
-  {$include m_db_int.inc}
-  {$include m_findadd.inc}
-  {$include m_awaymsg.inc}
-  {$include m_email.inc}
-  {$include m_history.inc}
-  {$include m_message.inc}
-  {$include m_url.inc}
-  {$include m_clui.inc}
-  {$include m_idle.inc}
-  {$include m_ignore.inc}
-  {$include m_skin.inc}
-  {$include m_file.inc}
-  {$include m_netlib.inc}
-  {$include m_langpack.inc}
   {$include m_clist.inc}
-  {$include m_clc.inc}
-  {$include m_userinfo.inc}
+  {$include m_genmenu.inc}
   {$include m_protosvc.inc}
-  {$include m_options.inc}
-  {$include m_ssl.inc}
-  {$include m_icq.inc}
   {$include m_protoint.inc}
   {$include m_protocols.inc}
-  {$include m_protomod.inc}
-  {$include m_utils.inc}
+
+  {$include m_acc.inc}
   {$include m_addcontact.inc}
-  {$include statusmodes.inc}
-  {$include m_contacts.inc}
-  {$include m_genmenu.inc}
-  {$include m_icolib.inc}
-  {$include m_fontservice.inc}
-  {$include m_chat.inc}
-  {$include m_fingerprint.inc}
-  {$include m_variables.inc}
-  {$include m_cluiframes.inc}
-  {$include m_popup.inc}
   {$include m_avatars.inc}
-  {$include m_smileyadd.inc}
-  {$include m_tipper.inc}
+  {$include m_awaymsg.inc}
   {$include m_button.inc}
   {$include m_button_int.inc}
-  {$include m_dbeditorpp.inc}
-  {$include m_userinfoex.inc}
-  {$include m_imgsrvc.inc}
-  {$include m_hotkeys.inc}
-  {$include m_acc.inc}
-  {$include m_xml.inc}
-  {$include m_modernopt.inc}
-  {$include m_descbutton.inc}
-  {$include m_iconheader.inc}
-  {$include m_extraicons.inc}
-  {$include m_proto_listeningto.inc}
-  {$include m_toptoolbar.inc}
-  {$include m_json.inc}
-  {$include m_xstatus.inc}
-  {$include m_sms.inc}
-  {$include m_zlib.inc}
-  {$include m_pluginupdater.inc}
-  {$include m_metacontacts.inc}
-  {$include m_timezones.inc}
+  {$include m_chat.inc}
+  {$include m_clc.inc}
+  {$include m_clistint.inc}
+  {$include m_clui.inc}
+  {$include m_cluiframes.inc}
+  {$include m_contacts.inc}
   {$include m_crypto.inc}
+  {$include m_database.inc}
+  {$include m_db_int.inc}
+  {$include m_descbutton.inc}
+  {$include m_email.inc}
+  {$include m_extraicons.inc}
+  {$include m_file.inc}
+  {$include m_findadd.inc}
+  {$include m_fontservice.inc}
+  {$include m_history.inc}
+  {$include m_hotkeys.inc}
+  {$include m_icolib.inc}
+  {$include m_iconheader.inc}
+  {$include m_icq.inc}
+  {$include m_idle.inc}
+  {$include m_ignore.inc}
+  {$include m_imgsrvc.inc}
+  {$include m_json.inc}
+  {$include m_langpack.inc}
+  {$include m_message.inc}
+  {$include m_metacontacts.inc}
+  {$include m_modernopt.inc}
+  {$include m_netlib.inc}
+  {$include m_options.inc}
+  {$include m_pluginupdater.inc}
+  {$include m_popup.inc}
+  {$include m_protomod.inc}
+  {$include m_skin.inc}
+  {$include m_sms.inc}
+  {$include m_ssl.inc}
+  {$include statusmodes.inc}
+  {$include m_timezones.inc}
+  {$include m_url.inc}
+  {$include m_userinfo.inc}
+  {$include m_utils.inc}
+  {$include m_xml.inc}
+  {$include m_xstatus.inc}
+  {$include m_zlib.inc}
+
+  {$include custom_api.inc}
+
 {$define M_API_UNIT}
   {$include m_helpers.inc}
-  {$include m_clistint.inc}
 
 implementation
 
 {$undef M_API_UNIT}
   {$include m_helpers.inc}
-  {$include m_clistint.inc}
 
 end.

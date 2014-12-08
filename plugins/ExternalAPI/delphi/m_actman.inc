@@ -5,6 +5,9 @@
 //const MIID_ACTMANAGER:MUUID='{9584DA04-FB4F-40c1-9325-E4F9CAAFCB5D}';
 
 const
+  DBBranch = 'ActMan';
+
+const
   AutoStartName:PWideChar = '#Autostart';
 const
   // Get list service (full share)
