@@ -278,7 +278,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Show divider between online and offline contacts]
 Граница между подкл. и откл. пользователями
 [Hot track items as mouse passes over]
-Подсветка под курсором мыши
+Подсветка при наведении курсора мыши
 [Disable drag and drop of items]
 Отключить перетаскивание элементов
 [Disable rename of items by clicking twice]
