@@ -120,24 +120,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	WORD steamStatus = json_as_int(node);
 	WORD status = SteamToMirandaStatus(steamStatus);
 	if (hContact != NULL)
-	{
-		// contact status
 		setWord(hContact, "Status", status);
-	}
-	else
-	{
-		// my status
-		// TODO: uncomment when invisible status is used in Steam proto
-		/*if (status == ID_STATUS_OFFLINE)
-			status = ID_STATUS_INVISIBLE;*/
-
-		if (status != ID_STATUS_OFFLINE)
-		{
-			int old_status = m_iStatus;
-			m_iStatus = m_iDesiredStatus = status;
-			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-		}
-	}
 
 	node = json_get(data, "gameid");
 	DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
@@ -156,7 +139,8 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	{
 		if (hContact != NULL)
 			db_unset(hContact, "CList", "StatusMsg");
-		
+
+		delSetting(hContact, "GameInfo");
 		delSetting(hContact, "GameID");
 	}
 }
