@@ -625,7 +625,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,36,234,8
     CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,47,246,10
     CONTROL         "Hide groups icon",IDC_HIDE_GROUPSICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,75,127,8
-    CONTROL         "Always show ""Always visibile"" icon",IDC_ALWAYS_VISIBLEICON,
+    CONTROL         "Always show ""Always visible"" icon",IDC_ALWAYS_VISIBLEICON,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,88,127,8
     CONTROL         "Use extra status icon instead protocol",IDC_USEXSTATUS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,101,236,8
