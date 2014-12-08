@@ -81,8 +81,6 @@
  был добавлен.
 [RESULT]
 результат
-[ERROR]
-ОШИБКА
 [%s has joined.]
 %s вошел.
 [%s has left.]

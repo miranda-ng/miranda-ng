@@ -13,8 +13,8 @@
 Показывать значок "Разрешить"
 [Plugin settings]
 Настройки
-[Enable menu item (*)]
-Добавить пункт меню (*)
+[Enable menu item (restart required)]
+Добавить пункт меню (необходим перезапуск)
 [Show icons only for recently added contacts]
 Значки только для недавно добавленных
 [Disable AuthState icons]
