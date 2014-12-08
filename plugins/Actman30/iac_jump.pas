@@ -52,6 +52,13 @@ const
   ACF_BACK  = $00000020;
   ACF_VALUE = $00000100;
 
+const // V2
+  ADV_ACT_BREAK = 1;
+  ADV_COND_NOT  = $80;
+  ADV_COND_GT   = 1;
+  ADV_COND_LT   = 2;
+  ADV_COND_EQ   = 3;
+
 type
   tJumpAction = class(tBaseAction)
   private
@@ -219,9 +226,11 @@ end;
 procedure tJumpAction.Load(node:pointer;fmt:integer);
 var
   section: array [0..127] of AnsiChar;
+  buf:array [0..31] of WideChar;
   pc:pAnsiChar;
   tmp:pWideChar;
   sub:HXML;
+  oper,cond:byte;
 begin
   inherited Load(node,fmt);
   case fmt of
@@ -235,6 +244,50 @@ begin
       if (flags and ACF_BREAK)=0 then
       begin
         StrCopy(pc,opt_label); actlabel:=DBReadUnicode(0,DBBranch,section,nil);
+      end;
+    end;
+
+    100..199: begin
+      pc:=StrCopyE(section,pAnsiChar(node));
+      if fmt<>101 then // condition
+      begin
+        StrCopy(pc,opt_condition); cond:=DBReadByte(0,DBBranch,section);
+        if (cond and $F0)=0 then
+          flags:=flags or ACF_NOP
+        else
+        begin
+          if (cond and ADV_COND_NOT)<>0 then flags:=flags or ACF_NOT;
+          flags:=flags or ACF_MATH;
+          StrCopy(pc,opt_value); StrDupW(value,IntToStr(buf,DBReadDWord(0,DBBranch,section)));
+
+          case cond and $0F of
+            ADV_COND_GT: condition:=aeGT;
+            ADV_COND_LT: condition:=aeLT;
+            ADV_COND_EQ: condition:=aeEQ;
+          end;
+        end;
+      end
+      else // skip condition, jump
+      begin
+        flags:=flags or ACF_NOP
+      end;
+
+      if fmt>101 then // inverse condition, jump to label
+      begin
+        flags:=flags xor ACF_NOT;
+        buf[0]:='$'; buf[1]:='$';
+        IntToStr(PWideChar(@buf[2]),fmt-102);
+        StrDupW(actlabel,buf);
+      end
+      else
+      begin
+        StrCopy(pc,'oper'); oper:=DBReadByte(0,DBBranch,section) and $0F;
+        if (oper and ADV_ACT_BREAK)<>0 then
+          flags:= flags or ACF_BREAK
+        else
+        begin
+          StrCopy(pc,'operval'); actlabel:=DBReadUnicode(0,DBBranch,section);
+        end;
       end;
     end;
 
@@ -359,6 +412,17 @@ begin
     1: begin
     end;
 }
+    13: begin
+{
+  ACF_NOP   = $00000001;
+  ACF_MATH  = $00000002;
+  ACF_NOT   = $00000004;
+  ACF_CASE  = $00000008;
+  ACF_BREAK = $00000010;
+  ACF_BACK  = $00000020;
+  ACF_VALUE = $00000100;
+}
+    end;
   end;
 end;
 

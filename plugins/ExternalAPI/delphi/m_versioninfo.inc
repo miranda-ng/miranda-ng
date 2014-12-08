@@ -27,7 +27,7 @@ const
   wParam - not used
   lParam - not used
 }
-  MS_VERSIONINFO_MENU_COMMAND = 'VersionInfo/MenuCommand';
+  MS_VERSIONINFO_MENU_COMMAND:PAnsiChar = 'VersionInfo/MenuCommand';
 
 {
   Returns a string containing the versioninfo post
@@ -44,6 +44,6 @@ how to use:
   if GetInfoService(TRUE,LPARAM(@data))=0 then
     //success
 }
-  MS_VERSIONINFO_GETINFO = 'Versioninfo/GetInfo';
+  MS_VERSIONINFO_GETINFO:PAnsiChar = 'Versioninfo/GetInfo';
 
 {$ENDIF}

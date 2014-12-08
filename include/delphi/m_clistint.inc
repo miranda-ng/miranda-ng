@@ -20,7 +20,8 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 }
 
-{$IFDEF M_API_UNIT}
+{$IFNDEF M_CLISTINT}
+{$DEFINE M_CLISTINT}
 
 {Type
   P_menuProto           = ^_menuProto;
@@ -45,10 +46,6 @@ const
   HCONTACT_ISINFO  = $FFFF0000;
   MAX_TIP_SIZE     = 2048;
   EXTRA_ICON_COUNT = 10;
-
-function IsHContactGroup  (h:TMCONTACT):bool;
-function IsHContactInfo   (h:TMCONTACT):bool;
-function IsHContactContact(h:TMCONTACT):bool;
 
 const
   INTM_NAMECHANGED         = WM_USER+10;
@@ -263,12 +260,6 @@ const
   TRAYICON_ID_BASE = 100;
   TIM_CALLBACK     = WM_USER+1857;
   TIM_CREATE       = WM_USER+1858;
-
-function CLCDEFAULT_BKCOLOUR:dword;
-function CLCDEFAULT_TEXTCOLOUR:dword;
-function CLCDEFAULT_SELBKCOLOUR:dword;
-function CLCDEFAULT_SELTEXTCOLOUR:dword;
-function CLCDEFAULT_HOTTEXTCOLOUR:dword;
 
 const
 {
@@ -520,9 +511,10 @@ type
     pfnTrayIconRemove         : procedure (hwnd:HWND; szProto:PAnsiChar); cdecl;
     pfnTrayIconSetBaseInfo    : function  (hIcon:HICON; szPreferredProto:PAnsiChar):int; cdecl;
     pfnTrayIconTaskbarCreated : procedure (hwnd:HWND); cdecl;
-    pfnTrayIconUpdate         : function  (hNewIcon:HICON; szNewTip:TChar; szPreferredProto:PAnsiChar; isBase:int):int; cdecl;
+    pfnTrayIconUpdate         : function  (hNewIcon:HICON; szNewTip:TChar;
+                                szPreferredProto:PAnsiChar; isBase:int):int; cdecl;
 
-    pfnTrayCycleTimerProc : procedure(hwnd:HWND; message:uint; idEvent:uint_ptr; dwTime:dword); stdcall;
+    pfnTrayCycleTimerProc : procedure(hwnd:HWND;message:uint;idEvent:uint_ptr;dwTime:dword); stdcall;
 
   (*************************************************************************************
   * version 6 additions (0.8.0.x) - accounts
@@ -530,68 +522,26 @@ type
     pfnGetAccountIndexByPos : function (pos:int):int; cdecl;
     pfnConvertMenu: function( clitem:PCLISTMENUITEM; moitem:PMO_MenuItem):int; cdecl;
 
-  (*************************************************************************************
-  * version 7 additions (0.11.0.x) - extra images
-  *************************************************************************************)
+	(*************************************************************************************
+	 * version 7 additions (0.11.0.x) - extra images
+	 *************************************************************************************)
     pfnReloadExtraIcons: procedure; cdecl;
     pfnSetAllExtraIcons: procedure(hContact:TMCONTACT); cdecl;
 
-  (*************************************************************************************
-  * Miranda NG additions
-  *************************************************************************************)
-	 pfnGetContactIcon: function(hContact:TMCONTACT):int; cdecl;
-	 pfnTrayCalcChanged:function(szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
-    pfnGetAverageMode:function(pNetProtoCount:pint):int; cdecl;
-    pfnInitAutoRebuild:procedure(hwnd:HWND); cdecl;
+	(*************************************************************************************
+	 * Miranda NG additions
+	 *************************************************************************************)
+
+    pfnGetContactIcon      :function (hContact:TMCONTACT):int; cdecl;
+    pfnTrayCalcChanged     :function (szChangedProto:PAnsiChar; averageMode:int; iProtoCount:int):int; cdecl;
+    pfnGetAverageMode      :function (pNetProtoCount:pint):int; cdecl;
+    pfnInitAutoRebuild     :procedure(hwnd:HWND); cdecl;
+    pfnSetContactCheckboxes:procedure(cc:PClcContact; checked:int); cdecl;
   end;
 
 {
 var
   cli : CLIST_INTERFACE;cvar;external;
 }
-
-{$ELSE}
-
-function IsHContactGroup(h:TMCONTACT):bool;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=(h xor HCONTACT_ISGROUP)<(HCONTACT_ISGROUP xor HCONTACT_ISINFO);
-end;
-function IsHContactInfo(h:TMCONTACT):bool;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=(h and HCONTACT_ISINFO)=HCONTACT_ISINFO;
-end;
-function IsHContactContact(h:TMCONTACT):bool;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
- result:=(h and HCONTACT_ISGROUP)=0;
-end;
-
-function CLCDEFAULT_BKCOLOUR:dword;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=GetSysColor(COLOR_3DFACE);
-end;
-function CLCDEFAULT_TEXTCOLOUR:dword;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=GetSysColor(COLOR_WINDOWTEXT);
-end;
-function CLCDEFAULT_SELBKCOLOUR:dword;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=GetSysColor(COLOR_HIGHLIGHT);
-end;
-function CLCDEFAULT_SELTEXTCOLOUR:dword;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=GetSysColor(COLOR_HIGHLIGHTTEXT);
-end;
-function CLCDEFAULT_HOTTEXTCOLOUR:dword;
-  {$IFDEF AllowInline}inline;{$ENDIF}
-begin
-  result:=RGB(0,0,255);
-end;
 
 {$ENDIF}

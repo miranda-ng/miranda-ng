@@ -40,7 +40,7 @@ ME_SYSTEM_MODULESLOADED is fired.
  lParam : (PFILETYPEDESC)ftd
 Returns 0 on success, nonzero otherwise.
 }
-  MS_ASSOCMGR_ADDNEWFILETYPE = 'AssocMgr/AddNewFileType';
+  MS_ASSOCMGR_ADDNEWFILETYPE:PAnsiChar = 'AssocMgr/AddNewFileType';
 
 type
   PFILETYPEDESC = ^TFILETYPEDESC;
@@ -115,7 +115,7 @@ associated with the file type.
  lParam : (PAnsiChar)pszFileExt
 Returns 0 on success, nonzero otherwise.
 }
-  MS_ASSOCMGR_REMOVEFILETYPE = 'AssocMgr/RemoveFileType';
+  MS_ASSOCMGR_REMOVEFILETYPE:PAnsiChar = 'AssocMgr/RemoveFileType';
 
 { Add a new url protocol type   v0.1.0.0+
 Add a new url type to be registered with Windows.
@@ -125,7 +125,7 @@ ME_SYSTEM_MODULESLOADED is fired.
  lParam : (PURLTYPEDESC)utd
 Returns 0 on success, nonzero otherwise.
 }
-  MS_ASSOCMGR_ADDNEWURLTYPE = 'AssocMgr/AddNewUrlType';
+  MS_ASSOCMGR_ADDNEWURLTYPE:PAnsiChar = 'AssocMgr/AddNewUrlType';
 
 type
   PURLTYPEDESC = ^TURLTYPEDESC;
@@ -171,6 +171,6 @@ associated with the url type.
  lParam : (PAnsiChar)pszProtoPrefix
 Returns 0 on success, nonzero otherwise.
 }
-  MS_ASSOCMGR_REMOVEURLTYPE = 'AssocMgr/RemoveUrlType';
+  MS_ASSOCMGR_REMOVEURLTYPE:PAnsiChar = 'AssocMgr/RemoveUrlType';
 
 {$ENDIF}

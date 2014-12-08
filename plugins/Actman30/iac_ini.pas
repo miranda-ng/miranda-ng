@@ -7,7 +7,7 @@ implementation
 uses
   windows,messages,commctrl,
   iac_global,global,
-  common,m_api,wrapper,
+  common,m_api,wrapper, inouttext,
   dbsettings,editwrapper,mirutils;
 
 {$include i_cnst_ini.inc}
@@ -215,6 +215,21 @@ begin
     1: begin
     end;
 }
+    13: begin
+      tTextExport(node).AddFlag('write'     ,(flags and ACF_INI_WRITE )<>0);
+      tTextExport(node).AddFlag('delete'    ,(flags and ACF_INI_DELETE)<>0);
+      tTextExport(node).AddFlag('lastresult',(flags and ACF_INI_LR    )<>0);
+      tTextExport(node).AddFlag('utf'       ,(flags and ACF_INI_UTF   )<>0);
+      if flags and (ACF_INI_WRITE or ACF_INI_DELETE or ACF_INI_LR or ACF_INI_UTF)<>0 then
+        tTextExport(node).AddNewLine();
+      tTextExport(node).AddTextW('inifile'  ,inifile  ); tTextExport(node).AddNewLine();
+      tTextExport(node).AddTextW('section'  ,section  ); tTextExport(node).AddNewLine();
+      tTextExport(node).AddTextW('parameter',parameter); tTextExport(node).AddNewLine();
+      if flags and (ACF_INI_DELETE or ACF_INI_LR)=0 then
+      begin
+        tTextExport(node).AddTextW('value',value); tTextExport(node).AddNewLine();
+      end;
+    end;
   end;
 end;
 

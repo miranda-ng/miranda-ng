@@ -7,7 +7,7 @@ implementation
 uses
   windows, messages, commctrl,
   iac_global, global,
-  mirutils, common, dbsettings,
+  mirutils, mircontacts, common, dbsettings,
   wrapper, editwrapper, io, syswin,
   m_api;
 
@@ -41,6 +41,9 @@ const
   ACF_TEXTSEND  = $00000400;
   // dummy
   ACF_MESSAGE = 0;
+
+const // V2
+  ACF2_TXT_FILE = $00000001;
   
 type
   tInOutAction = class(tBaseAction)
@@ -302,6 +305,7 @@ var
   section: array [0..127] of AnsiChar;
   pc:pAnsiChar;
   tmp:pWideChar;
+  flags2:dword;
 begin
   inherited Load(node,fmt);
   case fmt of
@@ -311,6 +315,18 @@ begin
       begin
         StrCopy(pc,opt_file); tfile:=DBReadUnicode(0,DBBranch,section,nil);
       end;
+    end;
+
+    100: begin
+      pc:=StrCopyE(section,pAnsiChar(node));
+      if (flags and ACF_FILE)<>0 then
+      begin
+        StrCopy(pc,opt_file); tfile:=DBReadUnicode(0,DBBranch,section,nil);
+      end;
+
+      StrCopy(pc,'flags2'); flags2:=DBReadDWord(0,DBBranch,section,0);
+      if (flags2 and ACF2_TXT_FILE)<>0 then
+        flags:=flags or ACF_FILE_PATH;
     end;
 
     1: begin
@@ -405,6 +421,22 @@ begin
     1: begin
     end;
 }
+    13: begin
+{
+  ACF_CLIPBRD   = $00000002; // Clipboard operations, not window
+  ACF_ANSI      = $00000004; // File: ANSI or Unicode (UTF8/UTF16) text
+  ACF_COPYTO    = $00000008; // Clipboard operations: 'copy to' or 'paste from'
+
+  ACF_FILE      = $00000010; // File operations
+  ACF_FWRITE    = $00000020; // read/write file
+  ACF_FAPPEND   = $00000040; // append file
+  ACF_UTF8      = $00000080; // File: UTF8 or UTF16
+  ACF_SIGN      = $00000100; // File: with signature or not
+  ACF_FILE_PATH = $00000200;
+
+  ACF_TEXTSEND  = $00000400;
+}
+    end;
   end;
 end;
 

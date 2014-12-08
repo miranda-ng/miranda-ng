@@ -34,6 +34,7 @@ begin
   SetDlgItemTextW(Dialog,IDC_EDIT_FORMAT,'');
 
   CheckDlgButton(Dialog,IDC_FR_FLAG,BST_UNCHECKED);
+  CheckDlgButton(Dialog,IDC_VL_FLAG,BST_UNCHECKED);
 end;
 
 function DlgProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
@@ -79,7 +80,13 @@ begin
           stat:=BST_CHECKED
         else
           stat:=BST_UNCHECKED;
-          CheckDlgButton(Dialog,IDC_FR_FLAG,stat);
+        CheckDlgButton(Dialog,IDC_FR_FLAG,stat);
+
+        if (lp and ACF_VOLATILE)<>0 then
+          stat:=BST_CHECKED
+        else
+          stat:=BST_UNCHECKED;
+        CheckDlgButton(Dialog,IDC_VL_FLAG,stat);
       end;
     end;
 
@@ -108,6 +115,17 @@ begin
                 lp:=lp and not ACF_FIRSTRUN
               else
                 lp:=lp or ACF_FIRSTRUN;
+              LV_SetLParam(MacroListWindow,lp);
+
+              SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
+            end;
+
+            IDC_VL_FLAG: begin
+              lp:=LV_GetLParam(MacroListWindow);
+              if IsDlgButtonChecked(Dialog,IDC_VL_FLAG)=BST_UNCHECKED then
+                lp:=lp and not ACF_VOLATILE
+              else
+                lp:=lp or ACF_VOLATILE;
               LV_SetLParam(MacroListWindow,lp);
 
               SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);

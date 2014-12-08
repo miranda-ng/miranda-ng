@@ -72,7 +72,7 @@ const
   lparam = (LPARAM) state
   returns: 0 on success, -1 on failure.
 }
-  TTBST_PUSHED   = 1;
+  TTBST_PUSHED = 1;
 
   MS_TTB_SETBUTTONSTATE:PAnsiChar = 'TopToolBar/SetState';
 

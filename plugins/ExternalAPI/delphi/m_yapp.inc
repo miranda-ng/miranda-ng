@@ -9,13 +9,13 @@ type
   TPopupData = record
     cbSize    :int;
     flags     :int;      // OR of PDF_* flags below
-    hContact  :HANDLE;
+    hContact  :THANDLE;
     hIcon     :HICON;
     szTitle   :TChar;
     szText    :TChar;
     colorBack :COLORREF; // if colorBack and colorText are equal, defaults will be used
     colorText :COLORREF;
-    windowProc:WNDPROC;  // optional custom window procedure
+    windowProc:TWNDPROC; // optional custom window procedure
     timeout   :int;      // -1 == infinite, 0 == default, otherwise timeout in seconds
     opaque    :pointer;
   end;
@@ -32,19 +32,19 @@ const
 //wParam = &PopupData
 //lParam = 0
 // returns -1 if popups disabled
-  MS_YAPP_SHOWPOPUP = 'YAPP/ShowPopup';
+  MS_YAPP_SHOWPOPUP:PAnsiChar = 'YAPP/ShowPopup';
 
 // get hContact from PopupData
 // wParam = hWnd
 // lParam = 0
 // return hContact
-  MS_YAPP_GETCONTACT = 'YAPP/GetContact';
+  MS_YAPP_GETCONTACT:PAnsiChar = 'YAPP/GetContact';
 
 // get opaque from PopupData
 // wParam = hWnd
 // lParam = 0
 // returns opaque
-  MS_YAPP_GETOPAQUE = 'YAPP/GetOpaque';
+  MS_YAPP_GETOPAQUE:PAnsiChar = 'YAPP/GetOpaque';
 
 //------------- Class API ----------------//
 
@@ -57,7 +57,7 @@ type
     hIcon        :HICON;
     colorBack    :COLORREF;
     colorText    :COLORREF;
-    windowProc   :WNDPROC;
+    windowProc   :TWNDPROC;
     timeout      :int;
   end;
 
@@ -66,7 +66,7 @@ const
 
 // wParam = 0
 // lParam = (POPUPCLASS *)&pc
-  MS_POPUP_REGISTERCLASS = 'Popup/RegisterClass';
+  MS_POPUP_REGISTERCLASS:PAnsiChar = 'PopUp/RegisterClass';
 
 type
   TPopupClassInstance = record
@@ -75,12 +75,12 @@ type
     szTitle     :TChar;
     szText      :TChar;
     opaque      :pointer;
-    hContact    :HANDLE;
+    hContact    :THANDLE;
   end;
 
 const
 // wParam = 0
 // lParam = (POPUPDATACLASS *)&pdc
-  MS_POPUP_ADDPOPUPCLASS = 'Popup/AddPopupClass';
+  MS_POPUP_ADDPOPUPCLASS:PAnsiChar = 'PopUp/AddPopupClass';
 
 {$ENDIF}

@@ -7,10 +7,9 @@ const
   IDC_RW_SETTING    = 2608;
   IDC_RW_VALUE      = 2610;
   IDC_RW_DATATYPE   = 2611;
-  IDC_RW_CURRENT    = 2614;
-  IDC_RW_PARAM      = 2615;
-  IDC_RW_MANUAL     = 2616;
-  IDC_RW_RESULT     = 2619;
+
+  IDC_CONTACTTYPE   = 2614;
+
   IDC_RW_LAST       = 2620;
   IDC_RW_SAVE       = 2621;
 

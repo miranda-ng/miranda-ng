@@ -7,24 +7,17 @@
 const
   AutoStartName:PWideChar = '#Autostart';
 const
-  DBBranch = 'ActMan';
-const
-  ACCF_DISABLED = $10000000;  // action disabled
-  ACCF_EXPORT   = $08000000;  // action to export
-  ACCF_VOLATILE = $04000000;  // don't save in DB
-  ACCF_IMPORTED = ACCF_EXPORT;
-  ACCF_FLAGS    = ACCF_DISABLED or ACCF_EXPORT or ACCF_IMPORTED or ACCF_VOLATILE;
-  ACCF_OVERLOAD = $01000000;  // imported action overwrite old
+  // Get list service (full share)
+  ACCF_EXPORT   = $08000000;   // action to export (UA export)
+  ACCF_IMPORT   = ACCF_EXPORT; // (UA import)
 
-  ACCF_ID       = $02000000;  // for MS_ACT_SELECT, lParam is ID (else name)
-  ACCF_CLEAR    = $01000000;  // clear other flags, else - set
 type
   pChain = ^tChain;
   tChain = record
-    descr:PWideChar;
+    descr:pWideChar;
     id   :dword;
-    flags:dword; // ACCF_* flags
-    order:dword;
+    flags:dword; // ACCF_* flags ?? right now - just selection/overload
+    order:dword; // ??
   end;
 
 const
@@ -58,26 +51,27 @@ const
 }
   MS_ACT_RUNPARAMS:PAnsiChar = 'Actions/RunWithParams';
 const
-  ACTP_BYNAME = 1;
-  ACTP_WAIT   = 2;
+  ACTP_BYNAME     =  1; // id points on unicode name
+  ACTP_WAIT       =  2; // waiting for macro finish
+  ACTP_NOTIFY     =  4; // notify (raise event) for start/finish macro
+  ACTP_SAMETHREAD =  8; // execute macro in same thread (with finish waiting)
+  ACTP_KEEPRESULT = 16; // (internal) keep last result
 type
   pAct_Param = ^tAct_Param;
   tAct_Param = record
-    flags :dword; // ACTP_*
     Id    :uint_ptr; // Id or name
     wParam:WPARAM;
     lParam:LPARAM;
+    flags :dword; // ACTP_*
+    lPType:dword; // last result (in lParam) type
   end;
 
 const
-  ACTM_NEW    = $00000001;
-  ACTM_DELETE = $00000002;
-  ACTM_RELOAD = $00000004;
-  ACTM_RENAME = $00000008;
-  ACTM_SORT   = $00000010;
-  ACTM_ACT    = $10000000; // do not check, internal
-  ACTM_ACTS   = $20000000; // do not check, internal
-  ACTM_LOADED = $80000000;
+  ACTM_NEW    = $00000001; // new macros was added
+  ACTM_DELETE = $00000002; // some macros was deleted
+  ACTM_RENAME = $00000008; // possible, some macro names was changed
+  ACTM_SORT   = $00000010; // possible, macro order in list was changed
+  ACTM_LOADED = $80000000; // All macros loaded and ready to work (at plugin start)
 
   {
     Event: action group list was changed: some was added or deleted
@@ -107,9 +101,9 @@ const
 
   {
     Select/unselect specified action
-    wParam - set of ACCF_* consts
+    wParam - mask (bit 0 = ID if set/name; bit 1 = clear if set/set; bit 2 = get if set/set)
     lParam - unicode action name / number
-    Return - -1 if unsuccesful
+    Return - 0 if unsuccesful
   }
   MS_ACT_SELECT:PAnsiChar = 'Actions/Select';
 

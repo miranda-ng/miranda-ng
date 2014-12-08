@@ -16,11 +16,8 @@ const
     copyright  :'(c) 2003 J. Random Hacker';
     homepage   :'http://miranda-icq.sourceforge.net/';
     flags      :UNICODE_AWARE;
-    replacesDefaultModule:0;
     uuid:'{00000000-0000-0000-0000-000000000000}'
   );
-var
-  PluginInterfaces:array [0..1] of MUUID;
 
 var
   hook:integer;
@@ -58,7 +55,19 @@ end;
 function GetInfo(var SongInfo:tSongInfo;flags:integer):integer;cdecl;
 begin
   PluginLink^.CallService(MS_WAT_WINAMPINFO,integer(@SongInfo),flags);
-  SongInfo.plyver:=$1234;
+  // static player data
+  if (flags and WAT_OPT_PLAYERDATA)<>0 then
+  begin
+    SongInfo.plyver:=$1234;
+  end
+  // changing during playing data
+  else if (flags and WAT_OPT_CHANGES)<>0 then
+  begin
+  end
+  // track info static data
+  else
+  begin
+  end;
   result:=0;
 end;
 
@@ -98,13 +107,13 @@ begin
   result:=0;
 end;
 
-function MirandaPluginInfo(mirandaVersion:DWORD):PPLUGININFO; cdecl;
+function MirandaPluginInfo(mirandaVersion:dword):PPLUGININFO; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize:=SizeOf(TPLUGININFO);
 end;
 
-function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
+function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize:=SizeOf(TPLUGININFOEX);
@@ -112,7 +121,7 @@ end;
 
 function Load(link: PPLUGINLINK): int; cdecl;
 begin
-  PLUGINLINK := Pointer(link);
+  PLUGINLINK := pointer(link);
   InitMMI;
   Result:=0;
   hook:=HookEvent(ME_SYSTEM_MODULESLOADED,@OnModuleLoaded);
@@ -123,17 +132,9 @@ begin
   Result:=0;
 end;
 
-function MirandaPluginInterfaces:PMUUID; cdecl;
-begin
-  PluginInterfaces[0]:=PluginInfo.uuid;
-  PluginInterfaces[1]:=MIID_LAST;
-  result:=@PluginInterfaces;
-end;
-
 exports
   Load, Unload,
-  MirandaPluginInfo
-  ,MirandaPluginInterfaces,MirandaPluginInfoEx;
+  MirandaPluginInfoEx;
 
 begin
 end.

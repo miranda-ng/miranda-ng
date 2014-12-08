@@ -8,7 +8,7 @@ uses
   editwrapper,
   windows, messages, commctrl,
   global, iac_global, m_api, wrapper, syswin,
-  mirutils, common, dbsettings;
+  mirutils, mircontacts, common, dbsettings;
 
 {$include i_cnst_program.inc}
 {$resource iac_program.res}
@@ -18,6 +18,12 @@ const
   ACF_PRTHREAD = $00000002; // parallel Program
   ACF_PRG_PRG  = $00000004; // script for program path
   ACF_PRG_ARG  = $00000008; // script for program args
+
+const // V2
+  ACF_OLD_CURPATH  = $00000002;
+  ACF_OLD_PRTHREAD = $00000004;
+  ACF2_PRG_PRG     = $00000001;
+  ACF2_PRG_ARG     = $00000002;
 
 const
   opt_prg      = 'program';
@@ -207,6 +213,7 @@ var
   section: array [0..127] of AnsiChar;
   pc:pAnsiChar;
   tmp:pWideChar;
+  flags2,lflags:dword;
 begin
   inherited Load(node,fmt);
   case fmt of
@@ -216,6 +223,24 @@ begin
       StrCopy(pc,opt_args); args   :=DBReadUnicode(0,DBBranch,section,nil);
       StrCopy(pc,opt_time); time   :=DBReadDWord  (0,DBBranch,section,0);
       StrCopy(pc,opt_show); show   :=DBReadDWord  (0,DBBranch,section,SW_SHOW);
+    end;
+
+    100: begin
+      pc:=StrCopyE(section,pAnsiChar(node));
+      StrCopy(pc,opt_prg ); prgname:=DBReadUnicode(0,DBBranch,section,nil);
+      StrCopy(pc,opt_args); args   :=DBReadUnicode(0,DBBranch,section,nil);
+      StrCopy(pc,opt_time); time   :=DBReadDWord  (0,DBBranch,section,0);
+      StrCopy(pc,opt_show); show   :=DBReadDWord  (0,DBBranch,section,SW_SHOW);
+
+      StrCopy(pc,'flags2'); flags2:=DBReadDWord(0,DBBranch,section,0);
+      lflags:=flags;
+      flags:=flags and not ACF_MASK;
+
+      if (lflags and ACF_OLD_CURPATH )<>0 then flags:=flags or ACF_CURPATH;
+      if (lflags and ACF_OLD_PRTHREAD)<>0 then flags:=flags or ACF_PRTHREAD;
+
+      if (flags2 and ACF2_PRG_PRG)<>0 then flags:=flags or ACF_PRG_PRG;
+      if (flags2 and ACF2_PRG_ARG)<>0 then flags:=flags or ACF_PRG_ARG;
     end;
 
     1: begin
@@ -290,6 +315,8 @@ begin
     1: begin
     end;
 }
+    13: begin
+    end;
   end;
 end;
 

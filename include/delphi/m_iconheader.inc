@@ -45,10 +45,10 @@ const
 // structure is used for storing info about single tab
 type
   TMIcoTab = record
-    hIcon:HICON;
+    hIcon :HICON;
     szName:TChar;
-    flag:dword;
-    data:LPARAM;
+    flag  :dword;
+    data  :LPARAM;
   end;
 
 {$ENDIF}

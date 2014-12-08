@@ -37,7 +37,7 @@ function DBDeleteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiCh
 
 function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
 
-function DBDeleteModule(szModule:PAnsiChar):integer; // 0.8.0+
+function DBDeleteModule(hContact:TMCONTACT;szModule:PAnsiChar):integer;
 
 function DBGetSettingType(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;
 
@@ -236,6 +236,13 @@ var
   len:cardinal;
   mask:array [0..31] of AnsiChar;
 begin
+  if (prefix=nil) or (prefix^=#0) then
+  begin
+    DBDeleteModule(hContact,szModule);
+    result:=0;
+    exit;
+  end;
+
   ces.szModule:=szModule;
   num:=0;
   //calculate size for setting names buffer
@@ -308,10 +315,10 @@ begin
   FreeMem(p);
 end;
 
-function DBDeleteModule(szModule:PAnsiChar):integer;
+function DBDeleteModule(hContact:TMCONTACT;szModule:PAnsiChar):integer;
 begin
   result:=0;
-  CallService(MS_DB_MODULE_DELETE,0,lParam(szModule));
+  CallService(MS_DB_MODULE_DELETE,hContact,lParam(szModule));
 end;
 
 function DBGetSettingType(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):integer;

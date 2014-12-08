@@ -5,32 +5,32 @@ interface
 uses windows;
 
 const
-  clScrollBar       = TCOLORREF(COLOR_SCROLLBAR or $80000000);
-  clBackground      = TCOLORREF(COLOR_BACKGROUND or $80000000);
-  clActiveCaption   = TCOLORREF(COLOR_ACTIVECAPTION or $80000000);
-  clInactiveCaption = TCOLORREF(COLOR_INACTIVECAPTION or $80000000);
-  clMenu            = TCOLORREF(COLOR_MENU or $80000000);
-  clWindow          = TCOLORREF(COLOR_WINDOW or $80000000);
-  clWindowFrame     = TCOLORREF(COLOR_WINDOWFRAME or $80000000);
-  clMenuText        = TCOLORREF(COLOR_MENUTEXT or $80000000);
-  clWindowText      = TCOLORREF(COLOR_WINDOWTEXT or $80000000);
-  clCaptionText     = TCOLORREF(COLOR_CAPTIONTEXT or $80000000);
-  clActiveBorder    = TCOLORREF(COLOR_ACTIVEBORDER or $80000000);
-  clInactiveBorder  = TCOLORREF(COLOR_INACTIVEBORDER or $80000000);
-  clAppWorkSpace    = TCOLORREF(COLOR_APPWORKSPACE or $80000000);
-  clHighlight       = TCOLORREF(COLOR_HIGHLIGHT or $80000000);
-  clHighlightText   = TCOLORREF(COLOR_HIGHLIGHTTEXT or $80000000);
-  clBtnFace         = TCOLORREF(COLOR_BTNFACE or $80000000);
-  clBtnShadow       = TCOLORREF(COLOR_BTNSHADOW or $80000000);
-  clGrayText        = TCOLORREF(COLOR_GRAYTEXT or $80000000);
-  clGreyText        = TCOLORREF(COLOR_GRAYTEXT or $80000000);
-  clBtnText         = TCOLORREF(COLOR_BTNTEXT or $80000000);
+  clScrollBar           = TCOLORREF(COLOR_SCROLLBAR           or $80000000);
+  clBackground          = TCOLORREF(COLOR_BACKGROUND          or $80000000);
+  clActiveCaption       = TCOLORREF(COLOR_ACTIVECAPTION       or $80000000);
+  clInactiveCaption     = TCOLORREF(COLOR_INACTIVECAPTION     or $80000000);
+  clMenu                = TCOLORREF(COLOR_MENU                or $80000000);
+  clWindow              = TCOLORREF(COLOR_WINDOW              or $80000000);
+  clWindowFrame         = TCOLORREF(COLOR_WINDOWFRAME         or $80000000);
+  clMenuText            = TCOLORREF(COLOR_MENUTEXT            or $80000000);
+  clWindowText          = TCOLORREF(COLOR_WINDOWTEXT          or $80000000);
+  clCaptionText         = TCOLORREF(COLOR_CAPTIONTEXT         or $80000000);
+  clActiveBorder        = TCOLORREF(COLOR_ACTIVEBORDER        or $80000000);
+  clInactiveBorder      = TCOLORREF(COLOR_INACTIVEBORDER      or $80000000);
+  clAppWorkSpace        = TCOLORREF(COLOR_APPWORKSPACE        or $80000000);
+  clHighlight           = TCOLORREF(COLOR_HIGHLIGHT           or $80000000);
+  clHighlightText       = TCOLORREF(COLOR_HIGHLIGHTTEXT       or $80000000);
+  clBtnFace             = TCOLORREF(COLOR_BTNFACE             or $80000000);
+  clBtnShadow           = TCOLORREF(COLOR_BTNSHADOW           or $80000000);
+  clGrayText            = TCOLORREF(COLOR_GRAYTEXT            or $80000000);
+  clGreyText            = TCOLORREF(COLOR_GRAYTEXT            or $80000000);
+  clBtnText             = TCOLORREF(COLOR_BTNTEXT             or $80000000);
   clInactiveCaptionText = TCOLORREF(COLOR_INACTIVECAPTIONTEXT or $80000000);
-  clBtnHighlight    = TCOLORREF(COLOR_BTNHIGHLIGHT or $80000000);
-  cl3DDkShadow      = TCOLORREF(COLOR_3DDKSHADOW or $80000000);
-  cl3DLight         = TCOLORREF(COLOR_3DLIGHT or $80000000);
-  clInfoText        = TCOLORREF(COLOR_INFOTEXT or $80000000);
-  clInfoBk          = TCOLORREF(COLOR_INFOBK or $80000000);
+  clBtnHighlight        = TCOLORREF(COLOR_BTNHIGHLIGHT        or $80000000);
+  cl3DDkShadow          = TCOLORREF(COLOR_3DDKSHADOW          or $80000000);
+  cl3DLight             = TCOLORREF(COLOR_3DLIGHT             or $80000000);
+  clInfoText            = TCOLORREF(COLOR_INFOTEXT            or $80000000);
+  clInfoBk              = TCOLORREF(COLOR_INFOBK              or $80000000);
 
   clBlack   = TCOLORREF( $000000 );
   clMaroon  = TCOLORREF( $000080 );
@@ -67,9 +67,9 @@ const
 
   clGRushHiLight = TCOLORREF( $F3706C );
   clGRushLighten = TCOLORREF( $F1EEDF );
-  clGRushLight   = TCOLORREF( $e1cebf );
-  clGRushNormal  = TCOLORREF( $D1beaf );
-  clGRushMedium  = TCOLORREF( $b6bFc6 );
+  clGRushLight   = TCOLORREF( $E1CEBF );
+  clGRushNormal  = TCOLORREF( $D1BEAF );
+  clGRushMedium  = TCOLORREF( $B6BFC6 );
   clGRushDark    = TCOLORREF( $9EACB4 );
 
 function ColorToRGB(Color: TCOLORREF):TCOLORREF;

@@ -2,21 +2,27 @@
 {$DEFINE M_DROPBOX}
 
 const
-//upload file on Dropbox
-//wParam = (MCONTACT)hContact
-//lParam = (LPARAM)(const wchar_t*)path - full path to file
+// upload file on Dropbox
+// wParam = (MCONTACT)hContact - NULL to send to the Dropbox contact
+// lParam = (LPARAM)(const wchar_t*)path - full path to file
 // returns file htansfer handle or NULL on failure
 // returns immediately, without waiting for the send
+// note, that you can track progress by using ME_PROTO_ACK
   MS_DROPBOX_SEND_FILE:PAnsiChar = 'Dropbox/Send/File';
 
-// notifies a caller about file send end
-// wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(const wchar_t*)url - "\r\n" separated download link to file
-  ME_DROPBOX_SEND_SUCCEEDED:PAnsiChar = 'Dropbox/Send/Succeeded';
+// if you want to get download links of sent files
+// use ME_DROPBOX_SENT hook. you'll get:
+type
+  TTRANSFERINFO = record
+    hProcess:THANDLE; // hProcess
+    status  :int;     // status of transfer. 0 on success otherwise fail
+    data    :pointer; // NULL ended array of download links
+  end;
 
-// notifies a caller about file send failure
+const
+// notifies a caller that file has been sent
 // wParam = (MCONTACT)hContact
-// lParam = (LPARAM)(HANDLE)hProcess
-  ME_DROPBOX_SEND_FAILED:PAnsiChar = 'Dropbox/Send/Failed';
+// lParam = (LPARAM)(TRANSFERINFO*)info - transfer info
+  ME_DROPBOX_SENT:PAnsiChar = 'Dropbox/Sent/Event';
 
 {$ENDIF}

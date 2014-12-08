@@ -239,7 +239,7 @@ lparam=
 must be popupname=lparam to place your items in right popup of main menu.
     use
           MS_CLIST_ADDMAINMENUITEM
-          MS_CLIST_REMOVEMAINMENUITEM
+          MO_REMOVEMENUITEM
 
 }
   ME_CLIST_PREBUILDFRAMEMENU:PAnsiChar = 'CList/PreBuildFrameMenu';

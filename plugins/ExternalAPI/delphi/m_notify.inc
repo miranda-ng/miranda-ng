@@ -8,60 +8,59 @@ like osd, popup, ticker etc.
 
 const
 { Options UI event and service. The same as for miranda options }
-  ME_NOTIFY_OPT_INITIALISE = 'Notify/Opt/Initialise';
-  MS_NOTIFY_OPT_ADDPAGE    = 'Notify/Opt/AddPage';
+  ME_NOTIFY_OPT_INITIALISE:PAnsiChar = 'Notify/Opt/Initialise';
+  MS_NOTIFY_OPT_ADDPAGE:PAnsiChar    = 'Notify/Opt/AddPage';
 
 type
-  tagMNOTIFYACTIONINFO = record
+  PMNOTIFYACTIONINFO = ^TMNOTIFYACTIONINFO;
+  TMNOTIFYACTIONINFO = record
     icon   :HICON;
     name   :array [0..MAXMODULELABELLENGTH-1] of AnsiChar;
     service:array [0..MAXMODULELABELLENGTH-1] of AnsiChar;
     cookie :dword;
   end;
-  MNOTIFYACTIONINFO = tagMNOTIFYACTIONINFO;
 
 // Just like miranda pluginLink... This should work faster then services,
 // we need some reactivity in notifications.
 type
-  tagMNNOTIFYLINK = record
+  PMNOTIFYLINK = ^TMNOTIFYLINK;
+  TMNOTIFYLINK = record
     // Create a new notification type
-    function Register(name:PAnsiChar;icon:HICON):THANDLE;cdecl;
+    Register:function(name:PAnsiChar;icon:HICON):THANDLE;cdecl;
 
     // Create a new notification object
-    function Create(atype:THANDLE):THANDLE;cdecl;
+    Create:function(atype:THANDLE):THANDLE;cdecl;
 
     // Check is handle is a valid notification object
-    function IsValid(notify:THANDLE):integer;cdecl;
+    IsValid:function(notify:THANDLE):integer;cdecl;
 
     // Set/get information about object, or type defaults
-    function Set(notifyORtype:THANDLE;name:PAnsiChar;val:TDBVARIANT):integer;cdecl;
-    function Get(notifyORtype:THANDLE;name:PAnsiChar;val:PDBVARIANT):integer;cdecl;
+    _Set:function(notifyORtype:THANDLE;name:PAnsiChar;val:TDBVARIANT):integer;cdecl;
+    _Get:function(notifyORtype:THANDLE;name:PAnsiChar;val:PDBVARIANT):integer;cdecl;
 
     // Set/get actions
-    function AddAction (notifyORtype:THANDLE;icon:HICON;name:PAnsiChar;service:PAnsiChar;cookie:dword):integer;cdecl;
-    function GetActions(notifyORtype:THANDLE;actions:PMNOTIFYACTIONINFO):integer;cdecl;
+    AddAction :function(notifyORtype:THANDLE;icon:HICON;name:PAnsiChar;service:PAnsiChar;cookie:dword):integer;cdecl;
+    GetActions:function(notifyORtype:THANDLE;actions:PMNOTIFYACTIONINFO):integer;cdecl;
 
     // Increment/decrement refer count of notification object. Unreferred objects are destroyed
-    function AddRef (notify:THANDLE):integer;cdecl;
-    function Release(notify:THANDLE):integer;cdecl;
+    AddRef :function(notify:THANDLE):integer;cdecl;
+    Release:function(notify:THANDLE):integer;cdecl;
 
     // Notify user
-    procedure Show  (notify:THANDLE);cdecl;
-    procedure Update(notify:THANDLE);cdecl;
-    procedure Remove(notify:THANDLE);cdecl;
+    Show  :procedure(notify:THANDLE);cdecl;
+    Update:procedure(notify:THANDLE);cdecl;
+    Remove:procedure(notify:THANDLE);cdecl;
   end;
-  PMNOTIFYLINK = ^TMNOTIFYLINK;
-  TMNOTIFYLINK = tagMNOTIFYLINK;
 
 const
 // Get the MNOTIFYLINK struct
 // result = (LRESULT)(MNOTIFYLINK* )notifyLink
-  MS_NOTIFY_GETLINK = 'Notify/GetLink';
+  MS_NOTIFY_GETLINK:PAnsiChar = 'Notify/GetLink';
 
 // Hook this to process corresponding actions
-  ME_NOTIFY_SHOW   = 'Notify/Show';
-  ME_NOTIFY_UPDATE = 'Notify/Update';
-  ME_NOTIFY_REMOVE = 'Notify/Remove';
+  ME_NOTIFY_SHOW  :PAnsiChar = 'Notify/Show';
+  ME_NOTIFY_UPDATE:PAnsiChar = 'Notify/Update';
+  ME_NOTIFY_REMOVE:PAnsiChar = 'Notify/Remove';
 
 var
   notifyLink:PMNOTIFYLINK;

@@ -9,7 +9,7 @@ uses
   global, iac_global,
   m_api,
   sedit,strans,mApiCardM,
-  mirutils,dbsettings, editwrapper,
+  mirutils,mircontacts,dbsettings, editwrapper,
   sparam,srvblock,
   syswin,wrapper,common;
 
@@ -36,6 +36,31 @@ const
   ACF_SCRIPT_SERVICE = $00002000;
   // dummy
   ACF_STRING = 0;
+
+const // V2
+  ACF2_SRV_WPAR = $00000001;
+  ACF2_SRV_LPAR = $00000002;
+  ACF2_SRV_SRVC = $00000004;
+  ACF2_FREEMEM  = $00000100;
+  ACF_OLD_WPARNUM  = $00000001;
+  ACF_OLD_LPARNUM  = $00000002;
+  ACF_OLD_WUNICODE = $00000004;
+  ACF_OLD_LUNICODE = $00000008;
+  ACF_OLD_WCURRENT = $00000010;
+  ACF_OLD_LCURRENT = $00000020;
+  ACF_OLD_WPARHEX  = $00000040;
+  ACF_OLD_LPARHEX  = $00000080;
+
+  ACF_OLD_WRESULT  = $00010000;
+  ACF_OLD_LRESULT  = $00020000;
+  ACF_OLD_WPARAM   = $00040000;
+  ACF_OLD_LPARAM   = $00080000;
+  ACF_OLD_WSTRUCT  = $00100000;
+  ACF_OLD_LSTRUCT  = $00200000;
+
+  ACF_OLD_STRING   = $00000800;
+  ACF_OLD_UNICODE  = $00001000;
+  ACF_OLD_STRUCT   = $00008000;
 
 const
   opt_service  = 'service';
@@ -354,10 +379,12 @@ end;
 }
 procedure tServiceAction.Load(node:pointer;fmt:integer);
 var
-  section: array [0..127] of AnsiChar;
+  section:array [0..127] of AnsiChar;
+  buf:array [0..31] of WideChar;
   pc:pAnsiChar;
   sub:HXML;
   tmp:pWideChar;
+  lflags,lflags2:dword;
 begin
   inherited Load(node,fmt);
 
@@ -370,6 +397,67 @@ begin
 
       StrCopy(pc,opt_wparam); LoadParam(section,flags ,pointer(wparam));
       StrCopy(pc,opt_lparam); LoadParam(section,flags2,pointer(lparam));
+    end;
+
+    100: begin
+      pc:=StrCopyE(section,pAnsiChar(node));
+
+      StrCopy(pc,opt_service); service:=DBReadString(0,DBBranch,section,nil);
+      StrCopy(pc,opt_flags2 ); flags2 :=DBReadDword (0,DBBranch,section);
+
+
+      if (flags and (ACF_OLD_WCURRENT or ACF_OLD_WRESULT or ACF_OLD_WPARAM))=0 then
+      begin
+        StrCopy(pc,opt_wparam);
+
+        if (flags and ACF_OLD_WSTRUCT)<>0 then
+          wparam:=PWideChar(DBReadUTF8(0,DBBranch,section,nil))
+        else if ((flags and ACF_OLD_WPARNUM)=0) or ((flags2 and ACF2_SRV_WPAR)<>0) then
+          wparam:=DBReadUnicode(0,DBBranch,section,nil)
+        else
+          StrDupW(wparam,IntToStr(buf,DBReadDWord(0,DBBranch,section)));
+      end;
+
+      if (flags and (ACF_OLD_LCURRENT or ACF_OLD_LRESULT or ACF_OLD_LPARAM))=0 then
+      begin
+        StrCopy(pc,opt_lparam);
+
+        if (flags and ACF_OLD_LSTRUCT)<>0 then
+          lparam:=PWideChar(DBReadUTF8(0,DBBranch,section,nil))
+        else if ((flags and ACF_OLD_LPARNUM)=0) or ((flags2 and ACF2_SRV_LPAR)<>0) then
+          lparam:=DBReadUnicode(0,DBBranch,section,nil)
+        else
+          StrDupW(lparam,IntToStr(buf,DBReadDWord(0,DBBranch,section)));
+      end;
+
+      lflags :=flags;
+      lflags2:=flags2;
+      flags :=flags and not ACF_MASK;
+      flags2:=0;
+
+      if (lflags2 and ACF2_SRV_SRVC)<>0 then flags:=flags or ACF_SCRIPT_SERVICE;
+      
+      if (lflags  and ACF_OLD_WPARNUM )<>0 then flags:=flags or ACF_PARNUM;
+      if (lflags  and ACF_OLD_WUNICODE)<>0 then flags:=flags or ACF_UNICODE;
+      if (lflags  and ACF_OLD_WCURRENT)<>0 then flags:=flags or ACF_CURRENT;
+      if (lflags  and ACF_OLD_WRESULT )<>0 then flags:=flags or ACF_RESULT;
+      if (lflags  and ACF_OLD_WPARAM  )<>0 then flags:=flags or ACF_PARAM;
+      if (lflags  and ACF_OLD_WSTRUCT )<>0 then flags:=flags or ACF_STRUCT;
+      if (lflags2 and ACF2_SRV_WPAR   )<>0 then flags:=flags or ACF_SCRIPT_PARAM;
+
+      if (lflags  and ACF_OLD_LPARNUM )<>0 then flags2:=flags2 or ACF_PARNUM;
+      if (lflags  and ACF_OLD_LUNICODE)<>0 then flags2:=flags2 or ACF_UNICODE;
+      if (lflags  and ACF_OLD_LCURRENT)<>0 then flags2:=flags2 or ACF_CURRENT;
+      if (lflags  and ACF_OLD_LRESULT )<>0 then flags2:=flags2 or ACF_RESULT;
+      if (lflags  and ACF_OLD_LPARAM  )<>0 then flags2:=flags2 or ACF_PARAM;
+      if (lflags  and ACF_OLD_LSTRUCT )<>0 then flags2:=flags2 or ACF_STRUCT;
+      if (lflags2 and ACF2_SRV_LPAR   )<>0 then flags2:=flags2 or ACF_SCRIPT_PARAM;
+
+      if (lflags  and ACF_OLD_STRING )<>0 then flags:=flags or ACF_RSTRING;
+      if (lflags  and ACF_OLD_UNICODE)<>0 then flags:=flags or ACF_RUNICODE;
+      if (lflags  and ACF_OLD_STRUCT )<>0 then flags:=flags or ACF_RSTRUCT;
+      if (lflags2 and ACF2_FREEMEM   )<>0 then flags:=flags or ACF_RFREEMEM;
+
     end;
 
     1: begin
@@ -462,6 +550,8 @@ begin
     1: begin
     end;
 }
+    13: begin
+    end;
   end;
 end;
 

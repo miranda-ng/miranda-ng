@@ -12,7 +12,7 @@ implementation
 
 uses
   common,
-  dbsettings, playlist, mirutils,
+  dbsettings, playlist, mirutils, mircontacts,
   rglobal, rbass,
   Dynamic_Bass,
   syswin;

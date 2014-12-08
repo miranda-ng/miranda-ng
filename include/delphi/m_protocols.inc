@@ -273,18 +273,18 @@ type
   end;
   tagACCOUNT = TPROTOACCOUNT;
 
+const
 //account enumeration service
 //wParam=(WPARAM)(int)piNumAccounts
 //lParam=(LPARAM)(PROTOACCOUNT**)paAccounts
-const
   MS_PROTO_ENUMACCOUNTS:PAnsiChar = 'Proto/EnumAccounts';
 
-  MS_PROTO_ENUMPROTOS:PAnsiChar = 'Proto/EnumProtos';   // MIRANDA_VER >= $800
+  MS_PROTO_ENUMPROTOS   :PAnsiChar = 'Proto/EnumProtos';   // MIRANDA_VER >= $800
 
 type
-  PACC_CREATE = ^ACC_CREATE;
-  ACC_CREATE = record
-	 pszBaseProto   :PAnsiChar;
+  PACC_CREATE = ^TACC_CREATE;
+  TACC_CREATE = record
+    pszBaseProto   :PAnsiChar;
     pszInternal    :PAnsiChar;
     ptszAccountName:PWideChar;
   end;
@@ -292,7 +292,7 @@ type
 const
 // creates new account
 // wParam = 0
-// lParam = (LPARAM)(ACC_CREATE*) account definition
+// lParam = (LPARAM)(PACC_CREATE) account definition
 // return value = PROTOACCOUNT* or NULL
   MS_PROTO_CREATEACCOUNT:PAnsiChar = 'Proto/CreateAccount';
 

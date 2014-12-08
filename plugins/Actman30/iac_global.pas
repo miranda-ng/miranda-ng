@@ -21,10 +21,14 @@ const
   WM_ACT_SAVE       = WM_USER + 15;
   WM_ACT_LISTCHANGE = WM_USER + 16; // group, action
 
+// Action flags
 const
-  ACF_DISABLED   = $10000000;  // action disabled
-  ACF_REPLACED   = $20000000;  // action replaced by new in options
-  ACF_INTRODUCED = $40000000;  // action is newly created (not saved) in options
+  ACF_DISABLED   = $10000000; // action disabled
+  // options editor only
+  ACF_REPLACED   = $20000000; // action replaced by new in options
+  ACF_INTRODUCED = $40000000; // action is newly created (not saved) in options
+const
+  ACF_MASK       = $00FFFFFF; // mask for private action flags
 
 type
   tLRType = record
@@ -86,15 +90,19 @@ function GetResultNumber(var WorkData:tWorkData;num:integer=-1):uint_ptr;
 
 procedure InsertString(wnd:HWND;num:dword;str:PAnsiChar);
 
+function GetLinkName(hash:dword):PAnsiChar;
 function GetLink(hash:dword):pActModule;
 function GetLinkByName(name:pAnsiChar):pActModule;
 
 function ImportContact   (node:HXML   ):TMCONTACT;
 function ImportContactINI(node:pointer):TMCONTACT;
 
+
 implementation
 
-uses Common, global, dbsettings, mirutils;
+uses Common, global, dbsettings, inouttext,
+  mirutils, mircontacts;
+
 
 //----- tBaseAction code -----
 const
@@ -149,6 +157,7 @@ var
   pc:pAnsiChar;
 begin
   case fmt of
+    100..199, // for V2
     0: begin
       pc:=StrCopyE(section,pAnsiChar(node));
       mFreeMem(ActionDescr); // created by constructor
@@ -180,7 +189,7 @@ end;
 procedure tBaseAction.Save(node:pointer;fmt:integer);
 var
   section: array [0..127] of AnsiChar;
-  pc:pAnsiChar;
+  pc:PAnsiChar;
 begin
   case fmt of
     0: begin
@@ -193,6 +202,13 @@ begin
     1: begin
     end;
 }
+    13: begin
+      tTextExport(node).AddText ('type'    ,GetLinkName(UID));
+      tTextExport(node).AddTextW('name'    ,ActionDescr);
+      tTextExport(node).AddFlag ('disabled',(flags and ACF_DISABLED)<>0);
+      tTextExport(node).AddNewLine();
+      tTextExport(node).ShiftRight();
+    end;
   end;
 end;
 
@@ -279,6 +295,19 @@ begin
   SendMessageW(wnd,CB_INSERTSTRING,num,
       dword(TranslateW(FastAnsiToWideBuf(str,buf))));
 }
+end;
+
+function GetLinkName(hash:dword):PAnsiChar;
+var
+  link:pActModule;
+begin
+  link:=ModuleLink;
+  while (link<>nil) and (link.Hash<>hash) do
+    link:=link^.Next;
+  if link<>nil then
+    result:=link^.Name
+  else
+    result:=nil;
 end;
 
 function GetLink(hash:dword):pActModule;
@@ -431,8 +460,8 @@ end;
 //----- DLL Handle Cache -----
 type
   tDLLCacheElement = record
-    DLLName  :PAnsiChar;
-    DLLHandle:THANDLE;
+    DllName  :PAnsiChar;
+    DllHandle:THANDLE;
     count    :word; // count for end-of-macro flag
     flags    :byte; // handle free mode
   end;

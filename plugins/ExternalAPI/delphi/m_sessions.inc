@@ -66,7 +66,7 @@ type
     dwFrom  :dword;   // SDR_*, SDR_ALL is not a good thing
     wParam  :WPARAM;
     lParam  :LPARAM;
-    reserved[0..1] of dword; // is actually apart of the structure and is used internally
+    reserved:array [0..1] of dword; // is actually apart of the structure and is used internally
   end;
 
 {
@@ -78,7 +78,7 @@ a message to an entity by name, e.g. "ICQ" it will only goto "ICQ" and not
 to anyone else.
 }
 const
-  MS_SION_PIPE = 'Sion/PipeCall';
+  MS_SION_PIPE:PAnsiChar = 'Sion/PipeCall';
 
 {
 wParam=0
@@ -104,7 +104,7 @@ you know what your entity name is already, you should not rely on .szEntity
 being anything, but if it is there, the message is for you only and no one else
 will get it and the value of .szEntity is dependant on the message.
 }
-  MS_SION_PIPEHOOK = 'Sion/PipeHook';
+  MS_SION_PIPEHOOK:PAnsiChar = 'Sion/PipeHook';
 
 {
 wParam=0
@@ -115,14 +115,14 @@ switch threads if it needs to to send ENTITY_CREATE to both .szUI and .szProto
 }
 type
   SION_ENTITY_DESCRIPTOR = record
-    cbSize:int;
-    szUI:PAnsiChar;
-    szProto:PAnsiChar;
+    cbSize  :int;
+    szUI    :PAnsiChar;
+    szProto :PAnsiChar;
     hSession:THANDLE;	// returned if successful
   end;
 
 const
-  MS_SION_ENTITY_CREATE = 'Sion/EntityCreate';
+  MS_SION_ENTITY_CREATE:PAnsiChar = 'Sion/EntityCreate';
 
 {
 wParam=0
@@ -136,7 +136,7 @@ During handle shutdown, ENTITY_DESTROY will be sent to the protocol and then the
 note that you do not need to give .szUI or .szProto because the handle knows
 who it is binded to.
 }
-  MS_SION_ENTITY_RELEASE = 'Sion/EntityRelease';
+  MS_SION_ENTITY_RELEASE:PAnsiChar = 'Sion/EntityRelease';
 
 {
 wParam=0
@@ -144,7 +144,7 @@ lParam=HANDLE
 
 Add one to the reference count of HANDLE.
 }
-  MS_SION_ENTITY_CLONE = 'Sion/EntityClone';
+  MS_SION_ENTITY_CLONE:PAnsiChar = 'Sion/EntityClone';
 
 {
 wParam=0
@@ -166,7 +166,7 @@ type
     persist :int;     // if TRUE and data is NULL then data will not be wiped
   end;
 const
-  MS_SION_ENTITY_SETCOOKIE = 'Sion/EntitySetCookie';
+  MS_SION_ENTITY_SETCOOKIE:PAnsiChar = 'Sion/EntitySetCookie';
 
 {
 wParam=0
@@ -176,7 +176,7 @@ Given .data and SDR_code, finds the associated .hSession and returns
 a reference to it, note that .data can not be NULL, .dwSdr is used
 to match the type of cookie.
 }
-  MS_SION_ENTITY_FINDCOOKIE = 'Sion/EntityFindCookie';
+  MS_SION_ENTITY_FINDCOOKIE:PAnsiChar = 'Sion/EntityFindCookie';
 
 (*
 // -- Helper functions --

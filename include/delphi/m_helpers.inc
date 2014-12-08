@@ -1,5 +1,17 @@
 {$IFDEF M_API_UNIT}
 
+//----- CListint -----
+function IsHContactGroup  (h:TMCONTACT):bool;
+function IsHContactInfo   (h:TMCONTACT):bool;
+function IsHContactContact(h:TMCONTACT):bool;
+
+function CLCDEFAULT_BKCOLOUR:dword;
+function CLCDEFAULT_TEXTCOLOUR:dword;
+function CLCDEFAULT_SELBKCOLOUR:dword;
+function CLCDEFAULT_SELTEXTCOLOUR:dword;
+function CLCDEFAULT_HOTTEXTCOLOUR:dword;
+
+
 function CreateVersionString(version:dword;buf:PAnsiChar):PAnsiChar;
 function CreateVersionStringPlugin(pluginInfo:PPluginInfoEx;buf:PAnsiChar):PAnsiChar;
 function PLUGIN_MAKE_VERSION(a,b,c,d: Cardinal): int;
@@ -88,11 +100,59 @@ function Options_OpenPage(ood:POPENOPTIONSDIALOG):HWND;
 procedure MIcoTab_AddItem (hwnd:HWND; lptzName:PAnsiChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
 procedure MIcoTab_AddItemW(hwnd:HWND; lptzName:PWideChar; hIcon:HICON; data:LPARAM; bSharedIcon:bool);
 
-function Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
+function  Crypto_RegisterEngine(pProvider:PCRYPTO_PROVIDER):THANDLE;
 procedure Crypto_EnumProviders(var numProvs:int; var pResult:array of PCRYPTO_PROVIDER);
-function Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
+function  Crypto_GetProvider(pszName:PAnsiChar):PCRYPTO_PROVIDER;
 
 {$ELSE}
+
+var
+  hLangpack:int = 0;
+
+//----- CListint -----
+
+function IsHContactGroup(h:TMCONTACT):bool;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=(h xor HCONTACT_ISGROUP)<(HCONTACT_ISGROUP xor HCONTACT_ISINFO);
+end;
+function IsHContactInfo(h:TMCONTACT):bool;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=(h and HCONTACT_ISINFO)=HCONTACT_ISINFO;
+end;
+function IsHContactContact(h:TMCONTACT):bool;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+ result:=(h and HCONTACT_ISGROUP)=0;
+end;
+
+function CLCDEFAULT_BKCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=GetSysColor(COLOR_3DFACE);
+end;
+function CLCDEFAULT_TEXTCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=GetSysColor(COLOR_WINDOWTEXT);
+end;
+function CLCDEFAULT_SELBKCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=GetSysColor(COLOR_HIGHLIGHT);
+end;
+function CLCDEFAULT_SELTEXTCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=GetSysColor(COLOR_HIGHLIGHTTEXT);
+end;
+function CLCDEFAULT_HOTTEXTCOLOUR:dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=RGB(0,0,255);
+end;
+
 
 function CreateVersionString(version:dword;buf:PAnsiChar):PAnsiChar;
 var
@@ -333,7 +393,8 @@ end;
 
 function Langpack_Register:int_ptr;
 begin
-  result:=CallService(MS_LANGPACK_REGISTER,WPARAM(@hLangpack),LPARAM(@PluginInfo));
+  CallService(MS_LANGPACK_REGISTER,WPARAM(@hLangpack),LPARAM(@PluginInfo));
+  result:=hLangpack;
 end;
 
 

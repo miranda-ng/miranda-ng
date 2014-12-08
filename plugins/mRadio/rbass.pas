@@ -17,10 +17,10 @@ procedure EQ_OFF;
 procedure SetSndVol(arg:integer);
 procedure SetBassConfig;
 
-procedure MyFreeBASS;
-function MyInitBASS:bool;
+procedure MyFreeBass;
+function MyInitBass:bool;
 procedure MyUnloadBass;
-function MyLoadBASS:bool;
+function MyLoadBass:bool;
 function CheckBassStatus:bool;
 
 implementation
@@ -281,7 +281,7 @@ begin
   MyFreeBASS;
   if BassStatus=rbs_load then
   begin
-    mFreeMem(Proxy);
+    mFreeMem(proxy);
 
     BASS_PluginFree(0);
     Unload_BASSDLL;
@@ -423,7 +423,7 @@ begin
   begin
     SetBassConfig;
 
-    mFreeMem(Proxy);
+    mFreeMem(proxy);
     proxy:=GetProxy(hNetLib);
     BASS_SetConfigPtr(BASS_CONFIG_NET_PROXY,proxy);
   end;

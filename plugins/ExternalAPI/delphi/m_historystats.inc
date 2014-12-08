@@ -7,7 +7,7 @@ const
  *
  * @version 0.1.5.1+
  *)
-  MIID_HISTORYSTATS:TGUD:= '$AF0DAD8E-$0695-$414B-$B306-$F4C7B7B41DA0';
+  MIID_HISTORYSTATS:TGUID = '{AF0DAD8E-0695-414B-B306-F4C7B7B41DA0}';
 
 (**
  * Checks if a specified contact is set to be excluded from the statistics generated
@@ -20,7 +20,7 @@ const
  * @param   lParam Must be set to 0.
  * @return  Returns 1 if the specified contact is set to be excluded and 0 otherwise.
  *)
-  MS_HISTORYSTATS_ISEXCLUDED = 'HistoryStats/IsExcluded';
+  MS_HISTORYSTATS_ISEXCLUDED:PAnsiChar = 'HistoryStats/IsExcluded';
 
 (**
  * Sets if a specified contact should be included in or excluded from the statistics
@@ -36,6 +36,6 @@ const
  *                 0 if you no longer want to exclude the specified contact.
  * @return  Always returns 0.
  *)
-  MS_HISTORYSTATS_SETEXCLUDE = 'HistoryStats/SetExclude';
+  MS_HISTORYSTATS_SETEXCLUDE:PAnsiChar = 'HistoryStats/SetExclude';
 
 {$ENDIF}

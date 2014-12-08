@@ -9,7 +9,7 @@ uses
   global, iac_global,
   m_api,dbsettings,
   common,mirutils,wrapper,
-  editwrapper,contact,dlgshare;
+  editwrapper,mircontacts,dlgshare;
 
 {$include i_cnst_database.inc}
 {$resource iac_database.res}
@@ -64,6 +64,23 @@ const
   ACF_RW_MODULE  = $00001000; // script for module name
   ACF_RW_SETTING = $00002000; // script for setting name
   ACF_RW_VALUE   = $00004000; // script for data value
+
+const // V2
+  ACF_OLD_DBWRITE  = $00000001;
+  ACF_OLD_DBBYTE   = $00000002;
+  ACF_OLD_DBWORD   = $00000004;
+  ACF_OLD_PARAM    = $00000008;
+  ACF_OLD_CURRENT  = $00000010;
+  ACF_OLD_RESULT   = $00000020;
+  ACF_OLD_LAST     = $00000040;
+  ACF_OLD_DBUTEXT  = $00000080;
+  ACF_OLD_DBANSI   = $00000082;
+  ACF_OLD_DBDELETE = $00000100;
+  ACF_OLD_NOCNTCT  = ACF_OLD_PARAM or ACF_OLD_CURRENT or ACF_OLD_RESULT;
+
+  ACF2_RW_MVAR  = $00000001;
+  ACF2_RW_SVAR  = $00000002;
+  ACF2_RW_TVAR  = $00000004;
 
 type
   tDataBaseAction = class(tBaseAction)
@@ -134,6 +151,11 @@ var
   avalue:uint_ptr;
 begin
   result:=0;
+
+  if dbmodule=nil then
+    exit;
+  if (dbsetting=nil) and ((flags and ACF_DBDELETE)=0) then
+    exit;
   // contact
   case (flags and ACF_NOCONTACT) of
     ACF_CURRENT: hContact:=0;
@@ -168,23 +190,30 @@ begin
   StrReplace(ambuf,protostr,proto);
 
   // now process settings
-  if (flags and ACF_RW_SETTING)<>0 then
+  if dbsetting<>nil then
   begin
-    tmp:=ParseVarString(dbsetting,hContact,ls);
-    StrCopyW(bufw,tmp);
-    mFreeMem(tmp);
+    if (flags and ACF_RW_SETTING)<>0 then
+    begin
+      tmp:=ParseVarString(dbsetting,hContact,ls);
+      StrCopyW(bufw,tmp);
+      mFreeMem(tmp);
+    end
+    else
+      StrCopyW(bufw,dbsetting);
+    StrReplaceW(@bufw,'<last>',ls);
+    FastWideToAnsiBuf(bufw,asbuf,SizeOf(asbuf)-1);
+    StrReplace(asbuf,protostr,proto);
   end
   else
-    StrCopyW(bufw,dbsetting);
-  StrReplaceW(@bufw,'<last>',ls);
-  FastWideToAnsiBuf(bufw,asbuf,SizeOf(asbuf)-1);
-  StrReplace(asbuf,protostr,proto);
+    asbuf[0]:=#0;
 
   // Delete data
   if (flags and ACF_DBDELETE)<>0 then
   begin
     if (asbuf[0]='*') or (asbuf[StrLen(asbuf)-1]='*') then
       DBDeleteGroup(hContact,ambuf,asbuf)
+    else if asbuf[0]=#0 then
+      DBDeleteModule(hContact,ambuf)
     else
       DBDeleteSetting(hContact,ambuf,asbuf);
   end
@@ -302,8 +331,10 @@ end;
 procedure tDataBaseAction.Load(node:pointer;fmt:integer);
 var
   section: array [0..127] of AnsiChar;
+  buf:array [0..31] of WideChar;
   pc:pAnsiChar;
   tmp:pWideChar;
+  lflags,flags2:dword;
 begin
   inherited Load(node,fmt);
   case fmt of
@@ -313,11 +344,48 @@ begin
       pc:=StrCopyE(section,pAnsiChar(node));
       StrCopy(pc,opt_module ); dbmodule :=DBReadUnicode(0,DBBranch,section);
       StrCopy(pc,opt_setting); dbsetting:=DBReadUnicode(0,DBBranch,section);
-      if ((flags and ACF_DBDELETE)=0) and
-         ((flags and ACF_LAST)=0)  then
+      if (flags and (ACF_DBDELETE or ACF_LAST))=0 then
       begin
         StrCopy(pc,opt_value); dbvalue:=DBReadUnicode(0,DBBranch,section);
       end;
+    end;
+
+    100: begin
+      if (flags and ACF_OLD_NOCNTCT)=0 then
+        dbcontact:=LoadContact(DBBranch,node);
+      pc:=StrCopyE(section,pAnsiChar(node));
+
+      // auto convert ansi to unicode
+      StrCopy(pc,opt_module ); dbmodule :=DBReadUnicode(0,DBBranch,section);
+      StrCopy(pc,opt_setting); dbsetting:=DBReadUnicode(0,DBBranch,section);
+
+      StrCopy(pc,'flags2'); flags2:=DBReadDWord(0,DBBranch,section,0);
+
+      if (flags and (ACF_OLD_DBDELETE or ACF_OLD_LAST))=0 then
+      begin
+        StrCopy(pc,opt_value);
+        if ((flags and ACF_OLD_DBUTEXT)=0) and ((flags2 and ACF2_RW_TVAR)=0) then
+          StrDupW(dbvalue,IntToStr(buf,DBReadDWord(0,DBBranch,section)))
+        else
+          dbvalue:=DBReadUnicode(0,DBBranch,section);
+      end;
+
+      lflags:=flags;
+      flags:=flags and not ACF_MASK;
+      if (lflags and ACF_OLD_DBWRITE )<>0 then flags:=flags or ACF_DBWRITE;
+      if (lflags and ACF_OLD_DBDELETE)<>0 then flags:=flags or ACF_DBDELETE;
+      if (lflags and ACF_OLD_PARAM   )<>0 then flags:=flags or ACF_PARAM;
+      if (lflags and ACF_OLD_CURRENT )<>0 then flags:=flags or ACF_CURRENT;
+      if (lflags and ACF_OLD_RESULT  )<>0 then flags:=flags or ACF_RESULT;
+      if (lflags and ACF_OLD_LAST    )<>0 then flags:=flags or ACF_LAST;
+      if (lflags and ACF_OLD_DBBYTE  )=ACF_OLD_DBBYTE  then flags:=flags or ACF_DBBYTE;
+      if (lflags and ACF_OLD_DBWORD  )=ACF_OLD_DBWORD  then flags:=flags or ACF_DBWORD;
+      if (lflags and ACF_OLD_DBUTEXT )=ACF_OLD_DBUTEXT then flags:=flags or ACF_DBUTEXT;
+      if (lflags and ACF_OLD_DBANSI  )=ACF_OLD_DBANSI  then flags:=(flags or ACF_DBANSI) and not (ACF_DBBYTE or ACF_DBUTEXT);
+      if (flags2 and ACF2_RW_MVAR)<>0 then flags:=flags or ACF_RW_MODULE;
+      if (flags2 and ACF2_RW_SVAR)<>0 then flags:=flags or ACF_RW_SETTING;
+      if (flags2 and ACF2_RW_TVAR)<>0 then flags:=flags or ACF_RW_VALUE;
+
     end;
 
     1: begin
@@ -420,10 +488,22 @@ begin
     1: begin
     end;
 }
+    13: begin
+    end;
   end;
 end;
 
 //----- Dialog realization -----
+
+procedure MakeContactTypeList(wnd:HWND);
+begin
+  SendMessage(wnd,CB_RESETCONTENT,0,0);
+  InsertString(wnd,0,'Own settings');
+  InsertString(wnd,1,'Parameter');
+  InsertString(wnd,2,'Last result');
+  InsertString(wnd,3,'Manual');
+  SendMessage(wnd,CB_SETCURSEL,0,0);
+end;
 
 procedure MakeDataTypeList(wnd:HWND);
 begin
@@ -440,11 +520,6 @@ procedure ClearFields(Dialog:HWND);
 begin
   CheckDlgButton(Dialog,IDC_RW_LAST,BST_UNCHECKED);
   CheckDlgButton(Dialog,IDC_RW_SAVE,BST_UNCHECKED);
-
-  CheckDlgButton(Dialog,IDC_RW_CURRENT,BST_UNCHECKED);
-  CheckDlgButton(Dialog,IDC_RW_MANUAL ,BST_UNCHECKED);
-  CheckDlgButton(Dialog,IDC_RW_PARAM  ,BST_UNCHECKED);
-  CheckDlgButton(Dialog,IDC_RW_RESULT ,BST_UNCHECKED);
 
   CheckDlgButton(Dialog,IDC_RW_READ  ,BST_UNCHECKED);
   CheckDlgButton(Dialog,IDC_RW_WRITE ,BST_UNCHECKED);
@@ -466,7 +541,8 @@ begin
     WM_INITDIALOG: begin
       TranslateDialogDefault(Dialog);
 
-      MakeDataTypeList(GetDlgItem(Dialog,IDC_RW_DATATYPE));
+      MakeContactTypeList(GetDlgItem(Dialog,IDC_CONTACTTYPE));
+      MakeDataTypeList   (GetDlgItem(Dialog,IDC_RW_DATATYPE));
 
       wnd:=GetDlgItem(Dialog,IDC_CNT_REFRESH);
       OptSetButtonIcon(wnd,ACI_REFRESH);
@@ -492,18 +568,18 @@ begin
 
         // contact
         bb:=false;
+        wnd:=GetDlgItem(Dialog,IDC_CONTACTLIST);
         case (flags and ACF_NOCONTACT) of
-          ACF_CURRENT: i:=IDC_RW_CURRENT;
-          ACF_PARAM  : i:=IDC_RW_PARAM;
-          ACF_RESULT : i:=IDC_RW_RESULT;
+          ACF_CURRENT: i:=0;
+          ACF_PARAM  : i:=1;
+          ACF_RESULT : i:=2;
         else
-          i:=IDC_RW_MANUAL;
+          i:=3;
           bb:=true;
-          SendDlgItemMessage(Dialog,IDC_CONTACTLIST,CB_SETCURSEL,
-            FindContact(GetDlgItem(Dialog,IDC_CONTACTLIST),dbcontact),0);
+          SendMessage(wnd,CB_SETCURSEL,FindContact(wnd,dbcontact),0);
         end;
-        CheckDlgButton(Dialog,i,BST_CHECKED);
-        EnableWindow(GetDlgItem(Dialog,IDC_CONTACTLIST),bb);
+        CB_SelectData(GetDlgItem(Dialog,IDC_CONTACTTYPE),i);
+        EnableWindow(wnd,bb);
 
         SetDlgItemTextW(Dialog,IDC_RW_MODULE ,dbmodule);
         SetDlgItemTextW(Dialog,IDC_RW_SETTING,dbsetting);
@@ -545,6 +621,8 @@ begin
       NoProcess:=true;
       ClearFields(Dialog);
 
+      CB_SelectData(GetDlgItem(Dialog,IDC_CONTACTTYPE),0);
+
       SetDlgItemTextW(Dialog,IDC_RW_MODULE ,nil);
       SetDlgItemTextW(Dialog,IDC_RW_SETTING,nil);
       SetDlgItemTextW(Dialog,IDC_RW_VALUE  ,nil);
@@ -554,7 +632,7 @@ begin
 
       CB_SelectData(GetDlgItem(Dialog,IDC_RW_DATATYPE),0);
       CheckDlgButton(Dialog,IDC_RW_READ  ,BST_CHECKED);
-      CheckDlgButton(Dialog,IDC_RW_MANUAL,BST_CHECKED);
+      CheckDlgButton(Dialog,IDC_RW_SAVE  ,BST_CHECKED);
 
       EnableWindow(GetDlgItem(Dialog,IDC_CONTACTLIST),true);
       EnableWindow(GetDlgItem(Dialog,IDC_RW_VALUE),true);
@@ -565,12 +643,16 @@ begin
       with tDataBaseAction(lParam) do
       begin
         // contact
-        if      IsDlgButtonChecked(Dialog,IDC_RW_CURRENT)=BST_CHECKED then flags:=flags or ACF_CURRENT
-        else if IsDlgButtonChecked(Dialog,IDC_RW_RESULT )=BST_CHECKED then flags:=flags or ACF_RESULT
-        else if IsDlgButtonChecked(Dialog,IDC_RW_PARAM  )=BST_CHECKED then flags:=flags or ACF_PARAM
-        else
-          dbcontact:=SendDlgItemMessage(Dialog,IDC_CONTACTLIST,CB_GETITEMDATA,
-              SendDlgItemMessage(Dialog,IDC_CONTACTLIST,CB_GETCURSEL,0,0),0);
+        i:=CB_GetData(GetDlgItem(Dialog,IDC_CONTACTTYPE));
+        case i of
+          0: flags:=flags or ACF_CURRENT;
+          1: flags:=flags or ACF_PARAM;
+          2: flags:=flags or ACF_RESULT;
+          3: begin
+            wnd:=GetDlgItem(Dialog,IDC_CONTACTLIST);
+            dbcontact:=SendMessage(wnd,CB_GETITEMDATA,SendMessage(wnd,CB_GETCURSEL,0,0),0);
+          end;
+        end;
 
         {mFreeMem(dbmodule ); }dbmodule :=GetDlgText(Dialog,IDC_RW_MODULE);
         {mFreeMem(dbsetting); }dbsetting:=GetDlgText(Dialog,IDC_RW_SETTING);
@@ -606,7 +688,21 @@ begin
 
     WM_COMMAND: begin
       case wParam shr 16 of
-        CBN_SELCHANGE,
+        CBN_SELCHANGE: begin
+          if loword(wParam)=IDC_CONTACTTYPE then
+          begin
+            i:=CB_GetData(lParam);
+            case i of
+              0,1,2: bb:=false;
+            else // 3
+              bb:=true;
+            end;
+            EnableWindow(GetDlgItem(Dialog,IDC_CONTACTLIST),bb);
+          end;
+          if not NoProcess then
+            SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
+        end;
+
         EN_CHANGE: if not NoProcess then
             SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
 
@@ -625,10 +721,6 @@ begin
               bb:=loword(wParam)=IDC_RW_WRITE;
               EnableWindow(GetDlgItem(Dialog,IDC_RW_SAVE),bb);
             end;
-            IDC_RW_CURRENT,
-            IDC_RW_PARAM,
-            IDC_RW_RESULT: EnableWindow(GetDlgItem(Dialog,IDC_CONTACTLIST),false);
-            IDC_RW_MANUAL: EnableWindow(GetDlgItem(Dialog,IDC_CONTACTLIST),true);
 
             IDC_RW_LAST: begin
               EnableEditField(GetDlgItem(Dialog,IDC_RW_VALUE),

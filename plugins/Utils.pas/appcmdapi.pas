@@ -91,7 +91,7 @@ const
 function SendMMCommand(wnd:HWND; cmd:integer):integer;
 begin
 //  result:=ord(SendMessageW(wnd,WM_APPCOMMAND,wnd,cmd shl 16));
-  result:=ord(SendnotifyMessageW(wnd,WM_APPCOMMAND,wnd,cmd shl 16));
+  result:=ord(SendNotifyMessageW(wnd,WM_APPCOMMAND,wnd,cmd shl 16));
 end;
 
 end.

@@ -7,7 +7,7 @@ implementation
 
 uses
   windows,messages,commctrl,
-  common,m_api,mirutils,protocols,dbsettings,wrapper,
+  common,m_api,mirutils,mircontacts,protocols,dbsettings,wrapper,
   global,wat_api,hlpdlg,CBEx,myRTF,Tmpl;
 
 const

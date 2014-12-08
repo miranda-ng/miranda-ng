@@ -45,6 +45,7 @@ uses
   syswin,
   question,
   mApiCardM,
+  mircontacts,
   global,
   sedit,
   strans,

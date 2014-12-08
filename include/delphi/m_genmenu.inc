@@ -66,15 +66,16 @@ plugin may add different menu items with some service.
 
 
 25-11-2002    Full support of runtime build of all menus.
-   Contact      MS_CLIST_ADDCONTACTMENUITEM
+   Contact MS_CLIST_ADDCONTACTMENUITEM
            MS_CLIST_MENUBUILDCONTACT
            ME_CLIST_PREBUILDCONTACTMENU
 
-   MainMenu    MS_CLIST_ADDMAINMENUITEM
+   MainMenu  MS_CLIST_ADDMAINMENUITEM
              MS_CLIST_MENUBUILDMAIN
              ME_CLIST_PREBUILDMAINMENU
 
-   FrameMenu    MS_CLIST_ADDCONTEXTFRAMEMENUITEM
+   FrameMenu MS_CLIST_ADDCONTEXTFRAMEMENUITEM
+             MS_CLIST_REMOVECONTEXTFRAMEMENUITEM
              MS_CLIST_MENUBUILDFRAMECONTEXT
              ME_CLIST_PREBUILDFRAMEMENU
 
@@ -87,8 +88,6 @@ plugin may add different menu items with some service.
 
 const
 {
-  SubGroup MENU
-
   builds the SubGroup menu
   wParam=lParam=0
   returns a HMENU identifying the menu.
@@ -139,7 +138,6 @@ const
 }
   ME_CLIST_PREBUILDGROUPMENU:PAnsiChar = 'CList/PreBuildGroupMenu';
 
-// Group MENU
 
 // TRAY MENU
 {

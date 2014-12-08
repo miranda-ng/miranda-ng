@@ -188,7 +188,7 @@ const
 
   {
    set a local picture for the given protocol
-
+   
    wParam = (AnsiChar *) protocol name or NULL for all protocols
    lParam = either a full picture filename or NULL. If lParam == NULL, the service
    will open a file selection dialog.
@@ -197,7 +197,7 @@ const
 
   {
    see if is possible to set the avatar for the expecified protocol
-
+   
    wParam = (AnsiChar *) protocol name
    lParam = 0
    return = 1 if can set, 0 if can't
@@ -263,7 +263,7 @@ const
     wParam = hContact
     lParam = struct CONTACTAVATARCHANGEDNOTIFICATION *cacn
     the event CAN pass a NULL pointer in lParam which means that the contact deleted its avatar
-  }
+  } 
   ME_AV_CONTACTAVATARCHANGED:PAnsiChar = 'SV_Avatars/ContactAvatarChanged';
 
   {
@@ -286,8 +286,6 @@ const
  * flags for internal use ONLY
 }
 
-  MC_ISMASTERCONTACT    = 1;
-  MC_ISSUBCONTACT       = 2;
   AVH_MUSTNOTIFY        = 4; // node->dwFlags (loader thread must notify avatar
                              // history about change/delete event)
   AVS_DELETENODEFOREVER = 8;
@@ -356,7 +354,7 @@ const
 // lParam = 0
 // return = 1 (allowed) or 0 (depending on remote contact status mode)
   AF_FETCHIFCONTACTOFFLINE = 9;
-
+ 
 {
   Query avatar caps for a protocol
   wParam = One of AF_*
