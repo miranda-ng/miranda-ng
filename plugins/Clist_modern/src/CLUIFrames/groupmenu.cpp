@@ -53,26 +53,20 @@ typedef struct
 
 INT_PTR BuildGroupMenu(WPARAM wParam, LPARAM lParam)
 {
-	ListParam param = { 0 };
-	param.MenuObjectHandle = hGroupMenuObject;
-
-	//hMenu = hMainMenu;
-	HMENU hMenu = CreatePopupMenu();
-	//hMenu = wParam;
-	int tick = GetTickCount();
-
 	NotifyEventHooks(g_CluiData.hEventPreBuildGroupMenu, 0, 0);
 
-	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
-	//DrawMenuBar((HWND)CallService("CLUI/GetHwnd", 0, 0));
-	tick = GetTickCount()-tick;
+	HMENU hMenu = CreatePopupMenu();
+
+	ListParam param = { 0 };
+	param.MenuObjectHandle = hGroupMenuObject;
+	CallService(MO_BUILDMENU, (WPARAM)hMenu, (LPARAM)&param);
 	return (INT_PTR)hMenu;
 }
 
 static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 {
-	TMO_MenuItem tmi;
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	TMO_MenuItem tmi;
 	if (!pcli->pfnConvertMenu(mi, &tmi))
 		return NULL;
 
@@ -363,27 +357,20 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
 
 INT_PTR BuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
 {
+	NotifyEventHooks(g_CluiData.hEventPreBuildSubGroupMenu, wParam, 0);
+
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hSubGroupMenuObject;
 	param.wParam = wParam;
 	param.lParam = lParam;
 
-	//hMenu = hMainMenu;
 	HMENU hMenu = CreatePopupMenu();
-	//hMenu = wParam;
-	int tick = GetTickCount();
-
-	NotifyEventHooks(g_CluiData.hEventPreBuildSubGroupMenu,wParam,0);
-
 	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
-	//DrawMenuBar((HWND)CallService("CLUI/GetHwnd", 0, 0));
-	tick = GetTickCount()-tick;
 	return (INT_PTR)hMenu;
 }
 
 HMENU cliBuildGroupPopupMenu(ClcGroup *group)
 {
-	//HWND wnd = GetForegroundWindow();
 	return (HMENU)CallService(MS_CLIST_MENUBUILDSUBGROUP,(WPARAM)group,0);
 }
 

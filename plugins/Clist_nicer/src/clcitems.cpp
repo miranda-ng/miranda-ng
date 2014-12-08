@@ -247,7 +247,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			db_free( &dbv );
 		result = cfg::getTString(hContact, szProto, "XStatusName", &dbv);
 		if ( !result && mir_tstrlen(dbv.ptszVal) > 1) {
-			int iLen = mir_tstrlen(dbv.ptszVal);
+			size_t iLen = mir_tstrlen(dbv.ptszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 			p->statusMsg = (TCHAR *)realloc(p->statusMsg, (iLen + 2) * sizeof(TCHAR));
 			_tcsncpy(p->statusMsg, dbv.ptszVal, iLen + 1);
@@ -291,7 +291,7 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 	if (p->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];
 		memset(infoTypeC2, 0, sizeof(infoTypeC2));
-		int iLen = min(mir_wstrlen(p->statusMsg), 10);
+		int iLen = min((int)mir_wstrlen(p->statusMsg), 10);
 		GetStringTypeW(CT_CTYPE2, p->statusMsg, iLen, infoTypeC2);
 		p->dwCFlags &= ~ECF_RTLSTATUSMSG;
 		for (int i = 0; i < 10; i++) {
@@ -345,9 +345,7 @@ void ReloadExtraInfo(MCONTACT hContact)
 void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 {
 	WORD infoTypeC2[12];
-	int i;
-	TCHAR *szText = NULL;
-	DWORD iLen;
+	TCHAR *szText;
 	TExtraCache *p;
 
 	memset(infoTypeC2, 0, sizeof(infoTypeC2));
@@ -361,10 +359,10 @@ void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 		p = contact->pExtra;
 	}
 	if (p) {
-		iLen = min(mir_wstrlen(szText), 10);
+		int iLen = min((int)mir_wstrlen(szText), 10);
 		GetStringTypeW(CT_CTYPE2, szText, iLen, infoTypeC2);
 		p->dwCFlags &= ~ECF_RTLNICK;
-		for (i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
 				p->dwCFlags |= ECF_RTLNICK;
 				return;
@@ -376,15 +374,13 @@ void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 void RTL_DetectGroupName(ClcContact *group)
 {
 	WORD infoTypeC2[12];
-	int i;
-	DWORD iLen;
 
 	group->isRtl = 0;
 
 	if (group->szText) {
-		iLen = min(mir_wstrlen(group->szText), 10);
+		int iLen = min((int)mir_wstrlen(group->szText), 10);
 		GetStringTypeW(CT_CTYPE2, group->szText, iLen, infoTypeC2);
-		for (i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
 				group->isRtl = 1;
 				return;
