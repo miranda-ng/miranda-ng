@@ -9,7 +9,7 @@
         num);
   {
     SendMessageW(wnd,CB_INSERTSTRING,num,
-        dword(TranslateW(FastAnsiToWideBuf(str,buf))));
+        LPARAM(TranslateW(FastAnsiToWideBuf(str,buf))));
   }
   end;
 
