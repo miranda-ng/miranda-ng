@@ -12,6 +12,8 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 
 	InitQueue();
 
+	m_idleTS = 0;
+
 	// icons
 	wchar_t filePath[MAX_PATH];
 	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
@@ -31,6 +33,9 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	sid.ptszDescription = LPGENT("Protocol icon");
 	sid.iDefaultIndex = -IDI_STEAM;
 	Skin_AddIcon(&sid);
+
+	// temporary DB settings
+	db_set_resident(m_szModuleName, "IdleTS");
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
@@ -196,7 +201,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAGNUM_4:
-		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
+		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_SUPPORTIDLE;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
 	case PFLAGNUM_5:
 		return PF2_SHORTAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH;
 	case PFLAG_UNIQUEIDTEXT:

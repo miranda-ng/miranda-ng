@@ -3,6 +3,7 @@
 int CSteamProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInit, this);
+	HookProtoEvent(ME_IDLE_CHANGED, &CSteamProto::OnIdleChanged);
 
 	TCHAR name[128];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
@@ -62,6 +63,39 @@ int CSteamProto::OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	mir_free(title);
+
+	return 0;
+}
+
+int CSteamProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
+{
+	bool idle = (lParam & IDF_ISIDLE) != 0;
+	bool privacy = (lParam & IDF_PRIVACY) != 0;
+
+	// Respect user choice about (not) notifying idle to protocols
+	if (privacy)
+		return 0;
+
+	// We don't want to reset idle time when we're already in idle state
+	if (idle && m_idleTS > 0)
+		return 0;
+
+	if (idle)
+	{
+		// User started being idle
+		MIRANDA_IDLE_INFO mii = { sizeof(mii) };
+		CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
+		
+		// Compute time when user really became idle
+		m_idleTS = time(0) - mii.idleTime * 60;
+		setDword("IdleTS", m_idleTS);
+	}
+	else
+	{
+		// User stopped being idle
+		m_idleTS = 0;
+		delSetting("IdleTS");
+	}
 
 	return 0;
 }

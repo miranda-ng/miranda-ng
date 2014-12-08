@@ -25,6 +25,7 @@
 #include <m_protomod.h>
 #include <m_protosvc.h>
 #include <m_protoint.h>
+#include <m_idle.h>
 #include <win2k.h>
 
 #include <map>
