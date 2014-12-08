@@ -4,9 +4,15 @@
 // defined in interfaces.inc
 //const MIID_ACTMANAGER:MUUID='{9584DA04-FB4F-40c1-9325-E4F9CAAFCB5D}';
 
+// Old Actman compatibility
 const
   DBBranch = 'ActMan';
+const
+  ACCF_DISABLED = $10000000;  // action disabled
+  ACCF_OVERLOAD = $01000000;  // imported action overwrite old
+  ACCF_IMPORTED = $08000000;
 
+// new and common Actman data
 const
   AutoStartName:PWideChar = '#Autostart';
 const
