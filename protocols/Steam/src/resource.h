@@ -23,6 +23,7 @@
 #define IDC_REGISTER                    1018
 #define IDC_DEFAULT_GROUP               1020
 #define IDC_GROUP                       1021
+#define IDC_BIGGER_AVATARS              1030
 #define IDC_CONTACTS                    1050
 #define IDC_BLOCK                       1059
 #define IDC_BM_LIST                     1064

@@ -149,9 +149,12 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			ptrA password(proto->getStringA("Password"));
 			SetDlgItemTextA(hwnd, IDC_PASSWORD, password);
 
-			ptrW groupName(proto->getWStringA(NULL, "DefaultGroup"));
+			ptrW groupName(proto->getWStringA("DefaultGroup"));
 			SetDlgItemText(hwnd, IDC_GROUP, groupName);
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
+
+			BOOL biggerAvatars = proto->getBool("UseBigAvatars", false);
+			CheckDlgButton(hwnd, IDC_BIGGER_AVATARS, biggerAvatars);
 
 			if (proto->IsOnline())
 			{
@@ -226,6 +229,9 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			}
 			else
 				proto->delSetting(NULL, "DefaultGroup");
+
+			BOOL biggerAvatars = IsDlgButtonChecked(hwnd, IDC_BIGGER_AVATARS);
+			proto->setByte("UseBigAvatars", biggerAvatars);
 
 			return TRUE;
 		}
