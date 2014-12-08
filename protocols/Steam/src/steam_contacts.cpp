@@ -61,10 +61,13 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 
 	// set common data
 	node = json_get(data, "personaname");
-	setWString(hContact, "Nick", json_as_string(node));
+	setTString(hContact, "Nick", json_as_string(node));
 
 	node = json_get(data, "profileurl");
-	setString(hContact, "Homepage", ptrA(mir_u2a(json_as_string(node))));
+	setString(hContact, "Homepage", _T2A(json_as_string(node)));
+
+	node = json_get(data, "primaryclanid");
+	setString(hContact, "PrimaryClanID", _T2A(json_as_string(node)));
 
 	// set name
 	node = json_get(data, "realname");
@@ -109,9 +112,25 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	else
 		delSetting(hContact, "Country");
 
+	// state code
+	node = json_get(data, "locstatecode");
+	if (node)
+		setDword(hContact, "StateCode", json_as_int(node));
+	else
+		delSetting(hContact, "StateCode");
+
+	// city id
+	node = json_get(data, "loccityid");
+	if (node)
+		setDword(hContact, "CityID", json_as_int(node));
+	else
+		delSetting(hContact, "CityID");
+
+	// account created
 	node = json_get(data, "timecreated");
 	setDword(hContact, "MemberTS", json_as_int(node));
 
+	// last logout time
 	node = json_get(data, "lastlogoff");
 	setDword(hContact, "LogoffTS", json_as_int(node));
 
@@ -122,26 +141,60 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	if (hContact != NULL)
 		setWord(hContact, "Status", status);
 
+	// client
+	node = json_get(data, "personastateflags");
+	int stateflags = node ? json_as_int(node) : -1;
+	switch (stateflags)
+	{
+	case 0:
+		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
+		if (steamStatus == 1 || steamStatus == 5 || steamStatus == 6)
+			setTString(hContact, "MirVer", _T("Steam"));
+		break;
+	case 256:
+		// on website
+		setTString(hContact, "MirVer", _T("Steam (website)"));
+		break;
+	case 512:
+		// on mobile
+		setTString(hContact, "MirVer", _T("Steam (mobile)"));
+		break;
+	default:
+		// none/unknown (e.g. when contact is offline)
+		delSetting(hContact, "MirVer");
+		break;
+	}
+
+	// playing game
 	node = json_get(data, "gameid");
 	DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
 	if (gameId > 0)
 	{
+		setDword(hContact, "GameID", gameId);
+
 		node = json_get(data, "gameextrainfo");
-		const wchar_t *gameInfo = json_as_string(node);
+		const TCHAR *gameInfo = json_as_string(node);
 
 		if (hContact != NULL)
-			db_set_ws(hContact, "CList", "StatusMsg", gameInfo);
+			db_set_ts(hContact, "CList", "StatusMsg", gameInfo);
+		setTString(hContact, "GameInfo", gameInfo);
 
-		setWString(hContact, "GameInfo", gameInfo);
-		setDword(hContact, "GameID", gameId);
+		node = json_get(data, "gameserverip");
+		setString(hContact, "GameServerIP", _T2A(json_as_string(node)));
+
+		node = json_get(data, "gameserversteamid");
+		setString(hContact, "GameServerID", _T2A(json_as_string(node)));
 	}
 	else
 	{
 		if (hContact != NULL)
 			db_unset(hContact, "CList", "StatusMsg");
 
-		delSetting(hContact, "GameInfo");
 		delSetting(hContact, "GameID");
+		delSetting(hContact, "GameInfo");
+		delSetting(hContact, "GameServerIP");
+		delSetting(hContact, "GameServerID");
+		delSetting(hContact, "GameInfo");
 	}
 }
 

@@ -37,6 +37,10 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	// temporary DB settings
 	db_set_resident(m_szModuleName, "Status"); // NOTE: XStatus cannot be temporary
 	db_set_resident(m_szModuleName, "IdleTS");
+	db_set_resident(m_szModuleName, "GameID");
+	db_set_resident(m_szModuleName, "GameInfo");
+	db_set_resident(m_szModuleName, "GameServerIP");
+	db_set_resident(m_szModuleName, "GameServerID");
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
