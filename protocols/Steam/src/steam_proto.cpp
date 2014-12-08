@@ -204,7 +204,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_SUPPORTIDLE;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
 	case PFLAGNUM_5:
-		return 0;
+		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREEFORCHAT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("SteamID");
 	case PFLAG_UNIQUEIDSETTING:
@@ -326,15 +326,10 @@ int CSteamProto::SetStatus(int new_status)
 	// Routing statuses not supported by Steam
 	switch (new_status)
 	{
-	case ID_STATUS_OCCUPIED:
-		new_status = ID_STATUS_DND;
+	case ID_STATUS_OFFLINE:
 		break;
 
-	case ID_STATUS_ONTHEPHONE:
-		new_status = ID_STATUS_AWAY;
-		break;
-
-	case ID_STATUS_INVISIBLE:
+	default:
 		new_status = ID_STATUS_ONLINE;
 		break;
 	}
@@ -367,16 +362,6 @@ int CSteamProto::SetStatus(int new_status)
 
 		//ForkThread(&CSteamProto::LogInThread, NULL);
 		StartQueue();
-	}
-	else {
-		ptrA token(getStringA("TokenSecret"));
-		ptrA sessionId(getStringA("SessionID"));
-		int state = MirandaToSteamState(new_status);
-
-		PushRequest(
-			new SteamWebApi::SetStatusRequest(token, sessionId, state),
-			&CSteamProto::OnStatusChanged,
-			(void *)new_status);
 	}
 
 	return 0;

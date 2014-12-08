@@ -188,7 +188,6 @@ protected:
 	void OnGotSession(const NETLIBHTTPREQUEST *response, void *arg);
 
 	void OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg);
-	void OnStatusChanged(const NETLIBHTTPREQUEST *response, void *arg);
 
 	// contacts
 	void SetContactStatus(MCONTACT hContact, WORD status);
