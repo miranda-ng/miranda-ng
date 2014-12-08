@@ -4,14 +4,6 @@
 // defined in interfaces.inc
 //const MIID_ACTMANAGER:MUUID='{9584DA04-FB4F-40c1-9325-E4F9CAAFCB5D}';
 
-// Old Actman compatibility
-const
-  DBBranch = 'ActMan';
-const
-  ACCF_DISABLED = $10000000;  // action disabled
-  ACCF_OVERLOAD = $01000000;  // imported action overwrite old
-  ACCF_IMPORTED = $08000000;
-
 // new and common Actman data
 const
   AutoStartName:PWideChar = '#Autostart';
@@ -19,6 +11,23 @@ const
   // Get list service (full share)
   ACCF_EXPORT   = $08000000;   // action to export (UA export)
   ACCF_IMPORT   = ACCF_EXPORT; // (UA import)
+
+//----- Old Actman compatibility -----
+const
+  DBBranch = 'ActMan';
+const
+  ACCF_DISABLED = $10000000;  // action disabled
+  ACCF_OVERLOAD = $01000000;  // imported action overwrite old
+  ACCF_IMPORTED = ACCF_EXPORT;
+  ACCF_VOLATILE = $04000000;  // don't save in DB
+  ACCF_ID       = $02000000;  // for MS_ACT_SELECT, lParam is ID (else name)
+  ACCF_CLEAR    = $01000000;  // clear other flags, else - set
+  ACCF_FLAGS    = ACCF_DISABLED or ACCF_EXPORT or ACCF_IMPORTED or ACCF_VOLATILE;
+const
+  ACTM_ACT    = $10000000; // do not check, internal
+  ACTM_ACTS   = $20000000; // do not check, internal
+  ACTM_RELOAD = $00000004;
+//----- End of compatibility block -----
 
 type
   pChain = ^tChain;

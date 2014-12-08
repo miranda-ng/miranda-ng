@@ -7,7 +7,7 @@ implementation
 uses
   windows, messages, commctrl,
   m_api, global, iac_global, common,
-  mircontacts, dlgshare, syswin, inouttext, base64,
+  mircontacts, dlgshare, syswin, inouttext,
   wrapper, mirutils, dbsettings;
 
 {$include i_cnst_contact.inc}
@@ -146,9 +146,9 @@ begin
           end;
           DBVT_WCHAR : node.AddTextW('id',cws.szVal.W);
           DBVT_BLOB  : begin
-            p1:=Base64Encode(cws.pbVal,cws.cpbVal);
+            p1:=mir_base64_encode(cws.pbVal,cws.cpbVal);
             node.AddText('id',p1);
-            mFreeMem(p1);
+            mir_free(p1);
           end;
         end;
       end;

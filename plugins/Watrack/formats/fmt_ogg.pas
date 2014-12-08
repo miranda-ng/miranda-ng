@@ -3,14 +3,14 @@ unit fmt_OGG;
 {$include compilers.inc}
 
 interface
-uses wat_api, m_api;
+uses wat_api;
 
-function ReadOGG(var Info:tSongInfo):boolean; cdecl;
-function ReadSPX(var Info:tSongInfo):boolean; cdecl;
-function ReadfLaC(var Info:tSongInfo):boolean; cdecl;
+function ReadOGG(var Info:wat_api.tSongInfo):boolean; cdecl;
+function ReadSPX(var Info:wat_api.tSongInfo):boolean; cdecl;
+function ReadfLaC(var Info:wat_api.tSongInfo):boolean; cdecl;
 
 implementation
-uses windows,common,io,tags,srv_format,utils;
+uses windows,common,io,tags,srv_format,utils, m_api;
 
 const
   OGGSign = $5367674F; //OggS
@@ -109,7 +109,7 @@ type
     MD5:array [0..15] of byte;
   end;
 
-procedure OGGGetComment(ptr:PAnsiChar;size:integer;var Info:tSongInfo);
+procedure OGGGetComment(ptr:PAnsiChar;size:integer;var Info:wat_api.tSongInfo);
 var
   alen,len,values:dword;
   clen:int;
@@ -185,7 +185,7 @@ begin
   end;
 end;
 
-function ReadSPX(var Info:tSongInfo):boolean; cdecl;
+function ReadSPX(var Info:wat_api.tSongInfo):boolean; cdecl;
 var
   f:THANDLE;
   OGGHdr:tOGGHdr;
@@ -243,7 +243,7 @@ begin
     result:=0;
 end;
 
-function ReadOGG(var Info:tSongInfo):boolean; cdecl;
+function ReadOGG(var Info:wat_api.tSongInfo):boolean; cdecl;
 var
   f:THANDLE;
   OGGHdr:tOGGHdr;
@@ -368,7 +368,7 @@ begin
   CloseHandle(f);
 end;
 
-function ReadfLaC(var Info:tSongInfo):boolean; cdecl;
+function ReadfLaC(var Info:wat_api.tSongInfo):boolean; cdecl;
 var
   f:THANDLE;
   data64:int64;

@@ -817,7 +817,7 @@ begin
             DBVT_BLOB  : begin
               p1:=mir_base64_encode(cws.pbVal,cws.cpbVal);
               AddAttr(node,ioCUID,FastAnsiToWide(p1,p));
-              mFreeMem(p1);
+              mir_free(p1);
               mFreeMem(p);
             end;
           end;
