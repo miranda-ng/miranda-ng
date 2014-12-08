@@ -166,6 +166,17 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 		ptrA steamId(getStringA("SteamID"));
 		ptrA who(getStringA(hContact, "SteamID"));
 
+		/*
+		posilame: (kdyz my zadame)
+		sessionID	MjYzNDM4NDgw
+		steamid	76561198166125402
+		accept_invite	0
+
+		pri uspesnem pozadavku vrati: {"invited":["76561198166125402"],"success":1}
+		kdyz nas ignoruje: {"failed_invites":["76561198166125402"],"failed_invites_result":[41],"success":1}
+
+		*/
+
 		PushRequest(
 			new SteamWebApi::AddFriendRequest(token, sessionId, steamId, who),
 			&CSteamProto::OnFriendAdded,
@@ -208,7 +219,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_SUPPORTIDLE;// | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING;
 	case PFLAGNUM_5:
-		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREEFORCHAT;
+		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("SteamID");
 	case PFLAG_UNIQUEIDSETTING:
