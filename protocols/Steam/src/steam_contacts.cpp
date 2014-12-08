@@ -93,7 +93,8 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	}
 
 	// avatar
-	node = json_get(data, "avatarfull");
+	bool biggerAvatars = getBool("UseBigAvatars", false);
+	node = json_get(data, biggerAvatars ? "avatarfull" : "avatarmedium");
 	std::string avatarUrl = _T2A(json_as_string(node));
 	CheckAvatarChange(hContact, avatarUrl);
 
