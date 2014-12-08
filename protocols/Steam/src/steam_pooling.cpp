@@ -177,7 +177,7 @@ void CSteamProto::PollingThread(void*)
 	bool breaked = false;
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
-		SteamWebApi::PollRequest *request = new SteamWebApi::PollRequest(token, umqId, messageId);
+		SteamWebApi::PollRequest *request = new SteamWebApi::PollRequest(token, umqId, messageId, IdleSeconds());
 		debugLogA("CSteamProto::PollingThread: %s", request->szUrl);
 		request->szUrl = (char*)request->url.c_str();
 		request->nlc = m_pollingConnection;

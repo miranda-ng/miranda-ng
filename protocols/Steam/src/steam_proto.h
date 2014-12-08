@@ -146,6 +146,7 @@ public:
 
 protected:
 	bool isTerminated;
+	time_t m_idleTS;
 	HANDLE m_evRequestsQueue, m_hQueueThread;
 	HANDLE m_pollingConnection, m_hPollingThread;
 	ULONG  hAuthProcess;
@@ -256,6 +257,7 @@ protected:
 	//events
 	int OnModulesLoaded(WPARAM, LPARAM);
 	int OnPreShutdown(WPARAM, LPARAM);
+	int __cdecl OnIdleChanged(WPARAM, LPARAM);
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 	static int __cdecl OnOptionsInit(void *obj, WPARAM wParam, LPARAM lParam);
 
@@ -276,6 +278,9 @@ protected:
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK BlockListOptionsSubProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK BlockListOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+	// helpers
+	inline int IdleSeconds() { return m_idleTS ? time(0) - m_idleTS : 0; }
 };
 
 #endif //_STEAM_PROTO_H_
