@@ -64,3 +64,6 @@ const
   IDC_REFRESH            = 1033;
   IDC_STATUSBAR          = 1034;
   IDC_CB_PROTOCOLS       = 1035;
+
+  IDC_FRAME_OPEN         = 1050;
+  IDC_FRAME_EDIT         = 1051;

@@ -48,48 +48,11 @@ type
     hdr : TPROTOSEARCHRESULT;
     uin : dword;
     auth: byte;
-{
-    // not presents in new version
-    uid          :PAnsiChar;
-    nick         :PAnsiChar; // utf-8
-    firstName    :PAnsiChar;
-    lastName     :PAnsiChar;
-}
     gender       :byte;
     age          :byte;
     country      :dword;
     maritalStatus:byte;
   end;
-(*
-{
-  start a search of all ICQ users by e-mail
-  wParam=0
-  lParam=(LPARAM)(const AnsiChar* )email
-  returns a handle to the search on success, NULL on failure
-  Results are returned using the same scheme documented in PSS_BASICSEARCH
-  **DEPRECATED** in favour of PS_SEARCHBYEMAIL
-}
-const
-   MS_ICQ_SEARCHBYEMAIL = '/SearchByEmail';
-{
-  start a search of all ICQ users by details
-  wParam=0
-  lParam=(LPARAM)(ICQDETAILSSEARCH* )&ids
-  returns a handle to the search on success, NULL on failure
-  Results are returned using the same scheme documented in PSS_BASICSEARCH
-  **DEPRECATED** in favour of PS_SEARCHBYNAME
-}
-type
-  PICQDETAILSSEARCH = ^TICQDETAILSSEARCH;
-  TICQDETAILSSEARCH = record
-    nick      : PAnsiChar;
-    firstName : PAnsiChar;
-    lastName  : PAnsiChar;
-  end;
-
-const
-   MS_ICQ_SEARCHBYDETAILS = '/SearchByDetails';
-*)
 {
   Request authorization
   wParam=(WPARAM)hContact
@@ -123,6 +86,7 @@ const
   wParam=(WPARAM)hContact;
 }
    MS_XSTATUS_SHOWDETAILS = '/ShowXStatusDetails';
+
 {Send an SMS via the ICQ network
 wParam=(WPARAM)(const AnsiChar*)szPhoneNumber
 lParam=(LPARAM)(const AnsiChar*)szMessage
@@ -150,9 +114,6 @@ SMSes received from phones come through this same ack, again to avoid having
 an XML parser in the protocol module. Here's one I got:
 "<sms_message><source>MTN</source><destination_UIN>[UIN of recipient, ie this account]</destination_UIN><sender>[sending phone number, without +]</sender><senders_network>[contains one space, because I sent from ICQ]</senders_network><text>[body of the message]</text><time>Fri, 16 Nov 2001 03:12:33 GMT</time></sms_message>"
 }
-  ICQACKTYPE_SMS   = 1001;
-  ICQEVENTTYPE_SMS = 2001;     {database event type }
-  MS_ICQ_SENDSMS = '/SendSMS';
 
 {
   e-mail express
@@ -230,23 +191,6 @@ an XML parser in the protocol module. Here's one I got:
   ME_ICQ_STATUSMSGREQ = '/StatusMsgReq';
 
 {
-  get size limit for avatar image
-  wParam=(int *)max width of avatar - will be set
-  lParam=(int *)max height of avatar - will be set
-  return=0 for sucess
-}
-  PS_ICQ_GETMYAVATARMAXSIZE = '/GetMyAvatarMaxSize';
-
-{
-  check if image format supported for avatars
-  wParam = 0
-  lParam = PA_FORMAT_*   // avatar format
-  return = 1 (supported) or 0 (not supported)
-}
-  PS_ICQ_ISAVATARFORMATSUPPORTED = '/IsAvatarFormatSupported';
-
-
-{
   Request Custom status details (messages) for specified contact
   wParam = hContact  // request custom status details for this contact
   lParam = 0
@@ -256,19 +200,31 @@ an XML parser in the protocol module. Here's one I got:
 }
   PS_ICQ_REQUESTCUSTOMSTATUS = '/RequestXStatusDetails';
 
+const
+  MAX_CAPNAME = 64;
+
+type
+  TICQ_CUSTOMCAP = record
+    cbSize: int;
+    caps  : array [0..15] of AnsiChar;
+    hIcon : THANDLE;
+    name  : array [0..MAX_CAPNAME-1] of AnsiChar;
+  end;
+
+const
 {
-  Called when contact changes custom status and extra icon is set to clist_mw
-  wParam = hContact    // contact changing status
-  lParam = hIcon       // HANDLE to clist extra icon set as custom status
+  Add a custom icq capability.
+  wParam = 0;
+  lParam = (LPARAM)(ICQ_CUSTOMCAP *)&icqCustomCap;
 }
-  ME_ICQ_CUSTOMSTATUS_EXTRAICON_CHANGED = '/XStatusExtraIconChanged';
+  PS_ICQ_ADDCAPABILITY = '/IcqAddCapability';
 
 {
-  Called when a contact changes its custom status 
-  wParam = hContact
-  lParam = 0
+  Check if capability is supportes. Only icqCustomCap.caps does matter.
+  wParam = (WPARAM)(HANDLE)hContact;
+  lParam = (LPARAM)(ICQ_CUSTOMCAP *)&icqCustomCap;
+  returns non-zero if capability is supported
 }
-  ME_ICQ_CUSTOMSTATUS_CHANGED = '/XStatusChanged';
-
+  PS_ICQ_CHECKCAPABILITY = '/IcqCheckCapability';
 
 {$ENDIF}

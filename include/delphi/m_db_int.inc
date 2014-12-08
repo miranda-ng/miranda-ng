@@ -162,6 +162,7 @@ const
   EGROKPRF_UNKHEADER = 2; // header not supported, not a supported profile
   EGROKPRF_VERNEWER  = 3; // header correct, version in profile newer than reader/writer
   EGROKPRF_DAMAGED   = 4; // header/version fine, other internal data missing, damaged.
+  EGROKPRF_OBSOLETE  = 5; // obsolete database version detected, requiring conversion 
 
 // makeDatabase() error codes
   EMKPRF_CREATEFAILED = 1; // for some reason CreateFile() didnt like something

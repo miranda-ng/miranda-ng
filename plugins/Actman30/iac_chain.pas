@@ -6,7 +6,7 @@ implementation
 
 uses
   windows, messages, commctrl,
-  global, iac_global, mirutils, m_api,
+  global, iac_global, mirutils, m_api, inouttext,
   dlgshare,lowlevelc,common,dbsettings, wrapper;
 
 {$include m_actman.inc}
@@ -135,6 +135,12 @@ begin
       end;
     end;
 
+    100: begin
+      flags:=flags and not ACF_BYNAME;
+      pc:=StrCopyE(section,pAnsiChar(node));
+      StrCopy(pc,'text'); id:=DBReadDWord(0,DBBranch,section);
+    end;
+
     1: begin
       with xmlparser do
       begin
@@ -205,6 +211,13 @@ begin
                ]);
     end;
 }
+    13: begin
+      tTextExport(node).AddTextW('actionname',actname);
+      tTextExport(node).AddFlag('samethread',(flags or ACF_SAMETHREAD)<>0);
+      tTextExport(node).AddFlag('nowait'    ,(flags or ACF_NOWAIT    )<>0);
+      tTextExport(node).AddFlag('keepold'   ,(flags or ACF_KEEPOLD   )<>0);
+      tTextExport(node).AddNewLine();
+    end;
   end;
 end;
 

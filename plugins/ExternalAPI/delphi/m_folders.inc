@@ -41,7 +41,7 @@ const
   FOLDER_LOGS           = PROFILE_PATH+'\'+CURRENT_PROFILE+'\logs';
   FOLDER_RECEIVED_FILES = PROFILE_PATH+'\'+CURRENT_PROFILE+'\received files';
   FOLDER_DOCS           = MIRANDA_PATH+'\'+'docs';
-
+  
   FOLDER_CONFIG  = PLUGINS_PATH+'\config';
   FOLDER_SCRIPTS = MIRANDA_PATH+'\scripts';
   FOLDER_UPDATES = MIRANDA_PATH+'\updates';
@@ -84,7 +84,7 @@ const
   Returns a handle to the registered path or 0 on error.
   You need to use this to call the other services.
 }
-  MS_FOLDERS_REGISTER_PATH = 'Folders/Register/Path';
+  MS_FOLDERS_REGISTER_PATH:PAnsiChar = 'Folders/Register/Path';
 
 {
   Folders/Get/PathSize service
@@ -94,7 +94,7 @@ const
   it will either call strlen() or wcslen() to get the length of the string.
   Returns the size of the buffer.
 }
-  MS_FOLDERS_GET_SIZE = 'Folders/Get/PathSize';
+  MS_FOLDERS_GET_SIZE:PAnsiChar = 'Folders/Get/PathSize';
 
 type
   TFOLDERSGETDATA = record
@@ -114,7 +114,7 @@ const
   lParam - (LPARAM) (FOLDERSGETDATA *) pointer to a FOLDERSGETDATA that has all the relevant fields filled.
   Should return 0 on success, or nonzero otherwise.
 }
-  MS_FOLDERS_GET_PATH = 'Folders/Get/Path';
+  MS_FOLDERS_GET_PATH:PAnsiChar = 'Folders/Get/Path';
 
 {
   Folders/On/Path/Changed
@@ -122,6 +122,6 @@ const
 	lParam - (LPARAM) 0
 	Triggered when the folders change, you should reget the paths you registered.
 }
-  ME_FOLDERS_PATH_CHANGED = 'Folders/On/Path/Changed';
+  ME_FOLDERS_PATH_CHANGED:PAnsiChar = 'Folders/On/Path/Changed';
 
 {$ENDIF}

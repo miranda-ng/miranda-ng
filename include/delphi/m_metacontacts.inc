@@ -30,44 +30,50 @@ const
     wParam=(HANDLE)hMetaContact
     lParam=0
     returns a handle to the 'most online' contact }
-  MS_MC_GETMOSTONLINECONTACT = 'MetaContacts/GetMostOnline';
+  MS_MC_GETMOSTONLINECONTACT:PAnsiChar = 'MetaContacts/GetMostOnline';
 
   { fired when a metacontact's default contact changes (fired upon creation of metacontact also, when default is initially set)
     wParam=(HANDLE)hMetaContact
     lParam=(HANDLE)hDefaultContact }
-  ME_MC_DEFAULTTCHANGED = 'MetaContacts/DefaultChanged';
+  ME_MC_DEFAULTTCHANGED:PAnsiChar = 'MetaContacts/DefaultChanged';
 
   { fired when a metacontact's subcontacts change (fired upon creation of
     metacontact, when contacts are added or removed, and when contacts are
     reordered) - a signal to re-read metacontact data
     wParam=(HANDLE)hMetaContact
     lParam=0 }
-  ME_MC_SUBCONTACTSCHANGED = 'MetaContacts/SubcontactsChanged';
+  ME_MC_SUBCONTACTSCHANGED:PAnsiChar = 'MetaContacts/SubcontactsChanged';
 
   { signalizes that metacontacts are enabled or disabled
     wParam=(BOOL)bEnabled
     lParam=0
   }
-  ME_MC_ENABLED = 'MetaContacts/OnEnabled';
+  ME_MC_ENABLED:PAnsiChar = 'MetaContacts/OnEnabled';
 
   { wParam=(HANDLE)hContact
     lParam=0
     convert a given contact into a metacontact
   }
-  MS_MC_CONVERTTOMETA = 'MetaContacts/ConvertToMetacontact';
+  MS_MC_CONVERTTOMETA:PAnsiChar = 'MetaContacts/ConvertToMetacontact';
 
   { wParam=(HANDLE)hContact
     lParam=(HANDLE)hMeta
     add an existing contact to a metacontact
   }
-  MS_MC_ADDTOMETA = 'MetaContacts/AddToMetacontact';
+  MS_MC_ADDTOMETA:PAnsiChar = 'MetaContacts/AddToMetacontact';
 
   { wParam=0
     lParam=(HANDLE)hContact
     remove a contact from a metacontact
   }
-  MS_MC_REMOVEFROMMETA = 'MetaContacts/RemoveFromMetacontact';
+  MS_MC_REMOVEFROMMETA:PAnsiChar = 'MetaContacts/RemoveFromMetacontact';
 
+  {
+    wParam=(HANDLE)hContact
+    lParam=(HANDLE)hMeta
+    add an existing contact to a metacontact
+  }
+  MS_MC_GETSRMMSUB:PAnsiChar = 'MetaContacts/GetSrmmSub';
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // binary interface to MC

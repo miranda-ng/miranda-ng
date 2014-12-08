@@ -21,54 +21,56 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 {$DEFINE M_FLAGS}
 
 const
-
-{
- Country Flags Plugin v0.1.0.3
-}
-
-{ interface id }
-  MIID_FLAGS: TGUID = '{88A3B66E-C438-4381-BC17-71D99D225F9C}';
-
-{ Load a country flag icon from the skin library.   v0.1.0.0+
+{* Load a country flag icon from the skin library.   v0.1.0.0+
 The retrieved icon should be released using MS_SKIN2_RELEASEICON after use.
 The country numbers can be retrieved using MS_UTILS_GETCOUNTRYLIST.
 Another way to get the country numbers are the CTRY_* constants in winnls.h of WinAPI.
 To retrieve the country number from a locale, call GetLocaleInfo().
 with LOCALE_ICOUNTRY.
- wParam : countryNumber
- lParam : (bool)fReturnHandle (nonzero to to retrieve the icolib handle instead of the icon)
+ wParam=countryNumber
+ lParam=(BOOL)fReturnHandle (nonzero to to retrieve the icolib handle instead of the icon)
 Returns a icon handle (HICON) on success, NULL on error.
-}
-  MS_FLAGS_LOADCOUNTRYFLAGICON = 'Flags/LoadCountryFlagIcon';
+*}
+  MS_FLAGS_LOADFLAGICON:PAnsiChar = 'Flags/LoadFlagIcon';
 
-{ Create a merged country flag icon.   v0.1.0.0+
+  CTRY_UNSPECIFIED = 0;
+  CTRY_OTHER       = 9999;
+  CTRY_UNKNOWN     = $FFFF;
+
+{* Create a merged country flag icon.   v0.1.0.0+
 The retrieved icon should be released using DestroyIcon() after use.
- wParam : countryNumberUpper
- lParam : countryNumberLower
+ wParam=countryNumberUpper
+ lParam=countryNumberLower
 Returns a icon handle (HICON) on success, NULL on error.
-}
-  MS_FLAGS_CREATEMERGEDFLAGICON = 'Flags/CreateMergedFlagIcon';
+*}
+  MS_FLAGS_CREATEMERGEDFLAGICON:PAnsiChar = 'Flags/CreateMergedFlagIcon';
 
-{ Get a corresponding country given an (external) IP address.   v0.1.0.0+
+{* Get a corresponding country given an (external) IP address.   v0.1.0.0+
 The retrieved number can be converted to a normal country name
 using MS_UTILS_GETCOUNTRYBYNUMBER.
- wParam : dwExternalIP (same format as used Netlib)
- lParam : 0
+ wParam=dwExternalIP (same format as used in Netlib)
+ lParam=0
 Returns a country number on success,
 or 0xFFFF on failure (MS_UTILS_GETCOUNTRYBYNUMBER returns "Unknown" for this).
-}
-  MS_FLAGS_IPTOCOUNTRY = 'Flags/IpToCountry';
+*}
+  MS_FLAGS_IPTOCOUNTRY:PAnsiChar = 'Flags/IpToCountry';
 
-{ Detect the origin country of a contact.   v0.1.0.0+
+{* Detect the origin country of a contact.   v0.1.0.0+
 This uses the contacts's IP first, and falls back on using
 CNF_COUNTRY and CNF_COCOUNTRY of contact details.
 To get the contact's IP it relies on the db setting
 "RealIP" in the proto module.
- wParam : (WPARAM)(HANDLE)hContact
- lParam : 0
+ wParam=(WPARAM)(HANDLE)hContact
+ lParam=0
 Returns a country number on success,
 or 0xFFFF on failure (MS_UTILS_GETCOUNTRYBYNUMBER returns "Unknown" for this).
-}
-  MS_FLAGS_DETECTCONTACTORIGINCOUNTRY = 'Flags/DetectContactOriginCountry';
+*}
+  MS_FLAGS_DETECTCONTACTORIGINCOUNTRY:PAnsiChar = 'Flags/DetectContactOriginCountry';
+  MS_FLAGS_GETCONTACTORIGINCOUNTRY   :PAnsiChar = 'Flags/GetContactOriginCountry';//for beta version 0.1.1.0
+
+  SETTING_SHOWSTATUSICONFLAG_DEFAULT = 1;
+  SETTING_SHOWEXTRAIMGFLAG_DEFAULT   = 1;
+  SETTING_USEUNKNOWNFLAG_DEFAULT     = 1;
+  SETTING_USEIPTOCOUNTRY_DEFAULT     = 1;
 
 {$ENDIF}

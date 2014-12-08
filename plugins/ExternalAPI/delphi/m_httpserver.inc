@@ -27,10 +27,10 @@ type
   PSTFileShareInfo = ^TSTFileShareInfo;
   TSTFileShareInfo = record
     lStructSize  :dword; // Set to sizeof(STFileShareInfo)
-    pszSrvPath   :PAnsiChar; // Server path
+    pszSrvPath   :TChar; // Server path
     dwMaxSrvPath :dword; // Buffer allocated for Server path only used when information
                          // is requested from HTTP server.
-    pszRealPath  :PAnsiChar; // Real path can be relative or complete
+    pszRealPath  :TChar; // Real path can be relative or complete
     dwMaxRealPath:dword; // Buffer allocated for Real path only used when information is
                          // requested from HTTP server.
     dwAllowedIP  :dword; // The IP address which is allowed to access this share
@@ -58,7 +58,7 @@ const
 // will just be updated with the new settings.
 //
 // returns 0 on success, nonzero on failure
-  MS_HTTP_ADD_CHANGE_REMOVE = 'HTTPServer/AddChangeRemove';
+  MS_HTTP_ADD_CHANGE_REMOVE:PAnsiChar = 'HTTPServer/AddChangeRemove';
 
 /////////////////////////////////////////////
 //////    Service MS_HTTP_GET_SHARE    //////
@@ -71,7 +71,7 @@ const
 //
 // returns 0 on success, nonzero on failure
 
-  MS_HTTP_GET_SHARE = 'HTTPServer/GetShare';
+  MS_HTTP_GET_SHARE:PAnsiChar = 'HTTPServer/GetShare';
 
 /////////////////////////////////////////////
 ///  Service MS_HTTP_ACCEPT_CONNECTIONS   ///
@@ -84,7 +84,7 @@ const
 //
 // returns 0 on success, nonzero on failure
 
-  MS_HTTP_ACCEPT_CONNECTIONS = 'HTTPServer/AcceptConnections';
+  MS_HTTP_ACCEPT_CONNECTIONS:PAnsiChar = 'HTTPServer/AcceptConnections';
 
 /////////////////////////////////////////////
 ////   Service MS_HTTP_GET_ALL_SHARES   /////
@@ -99,7 +99,7 @@ const
 //
 // returns the count of shares in the buffer pointed to by LPSTFileShareInfo
 
-  MS_HTTP_GET_ALL_SHARES = 'HTTPServer/GetAllShares';
+  MS_HTTP_GET_ALL_SHARES:PAnsiChar = 'HTTPServer/GetAllShares';
 
 /////////////////////////////////////////////
 ////   Service MS_HTTP_GET_LINK         /////
@@ -112,6 +112,6 @@ const
 //
 // Return the URL link to the pszSrvPath
 
-  MS_HTTP_GET_LINK = 'HTTPServer/GetLink';
+  MS_HTTP_GET_LINK:PAnsiChar = 'HTTPServer/GetLink';
 
 {$ENDIF}

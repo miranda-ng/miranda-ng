@@ -45,7 +45,7 @@ wParam: SPELLCHECKER_ITEM *
 lParam: ignored
 return: 0 on success
 }
-  MS_SPELLCHECKER_ADD_RICHEDIT = 'SpellChecker/AddRichedit';
+  MS_SPELLCHECKER_ADD_RICHEDIT:PAnsiChar = 'SpellChecker/AddRichedit';
 
 {
 Removes a richedit control for the spell checker to check
@@ -54,7 +54,7 @@ wParam: HWND
 lParam: ignored
 return: 0 on success
 }
-  MS_SPELLCHECKER_REMOVE_RICHEDIT = 'SpellChecker/RemoveRichedit';
+  MS_SPELLCHECKER_REMOVE_RICHEDIT:PAnsiChar = 'SpellChecker/RemoveRichedit';
 
 {
 Show context menu
@@ -63,6 +63,6 @@ wParam: SPELLCHECKER_POPUPMENU
 lParam: ignored
 return: the control id selected by the user, 0 if no one was selected, < 0 on error
 }
-  MS_SPELLCHECKER_SHOW_POPUP_MENU = 'SpellChecker/ShowPopupMenu';
+  MS_SPELLCHECKER_SHOW_POPUP_MENU:PAnsiChar = 'SpellChecker/ShowPopupMenu';
 
 {$ENDIF}

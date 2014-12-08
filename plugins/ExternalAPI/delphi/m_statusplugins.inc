@@ -80,17 +80,17 @@ const
 
 // -- AdvancedAutoAway --
 type
-  STATES = [
+  STATES = (
     ACTIVE,        // user is active
     STATUS1_SET,   // first status change happened 
     STATUS2_SET,   // second status change happened
     SET_ORGSTATUS, // user was active again, original status will be restored
 
-    HIDDEN_ACTIVE, // user is active, but this is not shown to the outside world
+    HIDDEN_ACTIVE  // user is active, but this is not shown to the outside world
 
 //    STATUS1_SET2,  // first status change happened, but user may be active ('on inactive only was disabled')
 //    STATUS2_SET2   // second status change happened, but user may be active ('on inactive only was disabled')
-  ];
+  );
 
 type
   AUTOAWAYSETTING = record
@@ -160,6 +160,7 @@ const
 // returns 0
   MS_KS_ANNOUNCESTATUSCHANGE:PAnsiChar = 'KeepStatus/AnnounceStatusChange';
 
+{
 function announce_status_change(szProto:PAnsiChar;newstatus:integer;szMsg:TChar):integer;// cdecl;
 var
   ps:PROTOCOLSETTINGEX;
@@ -177,5 +178,5 @@ begin
 
   result:=CallService(MS_KS_ANNOUNCESTATUSCHANGE, 0,dword(@ps));
 end;
-
+}
 {$ENDIF}

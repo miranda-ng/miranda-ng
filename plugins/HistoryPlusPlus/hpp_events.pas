@@ -197,7 +197,7 @@ var
     (EventType: EVENTTYPE_CONTACTS;              MessageType: mtContacts;      TextFunction: GetEventTextForContacts),
     (EventType: EVENTTYPE_STATUSCHANGE;          MessageType: mtStatus;        TextFunction: GetEventTextForStatusChange),
     (EventType: EVENTTYPE_SMTPSIMPLE;            MessageType: mtSMTPSimple;    TextFunction: GetEventTextForMessage),
-    (EventType: ICQEVENTTYPE_SMS;                MessageType: mtSMS;           TextFunction: GetEventTextForSMS),
+    (EventType: EVENTTYPE_SMS;                   MessageType: mtSMS;           TextFunction: GetEventTextForSMS),
     (EventType: ICQEVENTTYPE_WEBPAGER;           MessageType: mtWebPager;      TextFunction: GetEventTextForWebPager),
     (EventType: ICQEVENTTYPE_EMAILEXPRESS;       MessageType: mtEmailExpress;  TextFunction: GetEventTextForEmailExpress),
     (EventType: EVENTTYPE_NICKNAMECHANGE;        MessageType: mtNickChange;    TextFunction: GetEventTextForMessage),

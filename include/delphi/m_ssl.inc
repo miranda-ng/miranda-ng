@@ -45,7 +45,7 @@ type
 a service to obtain the SSL API 
 
 wParam = 0;
-lParam = (LPARAM)(SSL_API*).
+lParam = (LPARAM)(SSL_API* ).
 
 returns TRUE if all is Ok, and FALSE otherwise
 }

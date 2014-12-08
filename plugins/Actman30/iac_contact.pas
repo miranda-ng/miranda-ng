@@ -7,7 +7,7 @@ implementation
 uses
   windows, messages, commctrl,
   m_api, global, iac_global, common,
-  contact, dlgshare, syswin,
+  mircontacts, dlgshare, syswin, inouttext, base64,
   wrapper, mirutils, dbsettings;
 
 {$include i_cnst_contact.inc}
@@ -106,6 +106,62 @@ begin
   end;
 end;
 
+function ExportContactText(node:tTextExport;hContact:TMCONTACT):integer;
+var
+  proto,uid:pAnsiChar;
+  cws:TDBVARIANT;
+  p1:pAnsiChar;
+  p:pWideChar;
+  tmpbuf:array [0..63] of WideChar;
+  is_chat:boolean;
+begin
+  result:=0;
+  proto:=GetContactProtoAcc(hContact);
+  if proto<>nil then
+  begin
+    is_chat:=IsChat(hContact);
+    if is_chat then
+    begin
+      p:=DBReadUnicode(hContact,proto,'ChatRoomID');
+      node.AddTextW('id',p);
+      mFreeMem(p);
+      result:=1;
+    end
+    else
+    begin
+      uid:=pAnsiChar(CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
+      if DBReadSetting(hContact,proto,uid,@cws)=0 then
+      begin
+        result:=1;
+        node.AddDWord('ctype',cws._type);
+        case cws._type of
+          DBVT_BYTE  : node.AddDWord('id',cws.bVal);
+          DBVT_WORD  : node.AddDWord('id',cws.wVal);
+          DBVT_DWORD : node.AddDWord('id',cws.dVal);
+          DBVT_ASCIIZ: begin
+            node.AddText('id',cws.szVal.A); // ansi to utf
+          end;
+          DBVT_UTF8  : begin
+            node.AddText('id',cws.szVal.A);
+          end;
+          DBVT_WCHAR : node.AddTextW('id',cws.szVal.W);
+          DBVT_BLOB  : begin
+            p1:=Base64Encode(cws.pbVal,cws.cpbVal);
+            node.AddText('id',p1);
+            mFreeMem(p1);
+          end;
+        end;
+      end;
+      DBFreeVariant(@cws);
+    end;
+    if result<>0 then
+    begin
+      node.AddText('protocol',proto);
+      node.AddFlag('ischat'  ,is_chat);
+    end;
+  end;
+end;
+
 procedure tContactAction.Save(node:pointer;fmt:integer);
 begin
   inherited Save(node,fmt);
@@ -120,6 +176,11 @@ begin
         if (flags and ACF_KEEPONLY)<>0 then AddAttrInt(sub,ioKeepOnly,1);
     end;
 }
+    13: begin
+      tTextExport(node).AddFlag('keeponly' ,(flags or ACF_KEEPONLY )<>0);
+      tTextExport(node).AddFlag('getactive',(flags or ACF_GETACTIVE)<>0);
+      ExportContactText(tTextExport(node),contact);
+    end;
   end;
 end;
 

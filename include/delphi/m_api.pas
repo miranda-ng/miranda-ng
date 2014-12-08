@@ -189,7 +189,6 @@ var
   {$include m_email.inc}
   {$include m_history.inc}
   {$include m_message.inc}
-  {$include m_tabsrmm.inc}
   {$include m_url.inc}
   {$include m_clui.inc}
   {$include m_idle.inc}
@@ -237,9 +236,9 @@ var
   {$include m_extraicons.inc}
   {$include m_proto_listeningto.inc}
   {$include m_toptoolbar.inc}
-  {$include m_msg_buttonsbar.inc}
   {$include m_json.inc}
   {$include m_xstatus.inc}
+  {$include m_sms.inc}
   {$include m_zlib.inc}
   {$include m_pluginupdater.inc}
   {$include m_metacontacts.inc}

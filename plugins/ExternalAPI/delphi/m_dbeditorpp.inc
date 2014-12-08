@@ -11,7 +11,7 @@ const
 
 {
   Import settings\contacts from file
-  wParam=(HANDLE)hContact
+  wParam=hContact
   lParam=(char*)FilePath
   always returns 0
 }

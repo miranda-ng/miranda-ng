@@ -40,7 +40,7 @@ type
     procedure DoKeyUp( Sender: PControl; var Key: Longint; Shift: dword);
     procedure DoChar( Sender: PControl; var Key: KOLChar; Shift: dword);
   public
-    destructor destroy;virtual;
+    destructor Destroy; virtual;//override;
     procedure Connect(aName: KOLString; aControl: pControl; flags:cardinal=0);
     procedure DisConnect(aControl: pControl);
     procedure Paintgrid(sender:pControl;DC:HDC);

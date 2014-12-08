@@ -6,18 +6,18 @@ const
 // wParam - HWND or NULL for current window
 // lParam must be 0
 // returns 0 on success and returns non-zero (-1) on error.
-  MS_CKL_CHANGELAYOUT 'ChangeKeyboardLayout/ChangeLayout';
+  MS_CKL_CHANGELAYOUT:PAnsiChar = 'ChangeKeyboardLayout/ChangeLayout';
 
 //wParam должен быть ноль.
 //lParam - LPCTSTR текста, раскладку которого требуется определить,
 //Возвращает HKL раскладку текста, или NULL в случае ошибки.
 //Примечание: При определении раскладки учитывается опция "Раскладка текста - текущая раскладка"
-  MS_CKL_GETLAYOUTOFTEXT = 'ChangeKeyboardLayout/GetLayoutOfText';
+  MS_CKL_GETLAYOUTOFTEXT:PAnsiChar = 'ChangeKeyboardLayout/GetLayoutOfText';
 
 type
   CKLLayouts = record
     hklFrom:HKL;   // layout of the current text
-    hklTo :HKL;    // layout of the result text
+    hklTo  :HKL;   // layout of the result text
     bTwoWay:bool;
   end;
 
@@ -26,6 +26,6 @@ const
 //lParam - указатель на структуру CKLLayouts, содержащую раскладки для 
 //изменения текста и опцию "двунаправленного преобразования"
 //Возвращает LPTSTR на результирующую строку
-  MS_CKL_CHANGETEXTLAYOUT = 'ChangeKeyboardLayout/ChangeTextLayout';
+  MS_CKL_CHANGETEXTLAYOUT:PAnsiChar = 'ChangeKeyboardLayout/ChangeTextLayout';
 
 {$ENDIF}

@@ -16,6 +16,7 @@ uses
   sr_optdialog,
   sr_global,
   sr_window,
+  sr_frame,
   mirutils,
   common;
 
@@ -171,6 +172,8 @@ begin
 
   HookEvent(ME_TTB_MODULELOADED,@OnTTBLoaded);
 
+  CreateFrame(0);
+
   Result:=0;
 end;
 
@@ -187,6 +190,7 @@ function Unload:integer;cdecl;
 begin
   result:=0;
   removetoolbar; //??
+  DestroyFrame;
 
 //  unreghotkeys;
 

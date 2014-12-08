@@ -18,7 +18,8 @@ function IsLeapYear(Year:word):Boolean;
 function EncodeTime(Hour, Minute, Sec: cardinal):TDateTime;
 function EncodeDate(Year, Month , Day: cardinal):TDateTime;
 
-function Timestamp(Year,Month,Day:cardinal;Hour:cardinal=0;Minute:cardinal=0;Sec:cardinal=0):dword;
+function Timestamp(Year,Month,Day:cardinal;Hour:cardinal=0;Minute:cardinal=0;Sec:cardinal=0):dword; overload;
+function Timestamp(const st:TSystemTime):dword; overload;
 function GetCurrentTimestamp:DWord;
 
 procedure UnixTimeToFileTime(ts:int_ptr; var pft:TFILETIME);
@@ -30,6 +31,10 @@ function TimestampToSystemTime(Time:DWord; var ST:TSystemTime):PSystemTime;
 function DateTimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
 function DateToStr    (Time:Dword; Format:pWideChar=nil):pWideChar;
 function TimeToStr    (Time:Dword; Format:pWideChar=nil):pWideChar;
+
+function CompareDate(const one,two:TSystemTime):integer;
+function CompareTime(const one,two:TSystemTime):integer;
+function TimeToMidnight(const t:TSystemTime):integer;
 
 implementation
 
@@ -81,6 +86,12 @@ begin
   else
     t := t - EncodeTime(Hour, Minute, Sec);
   result:=Round((t - UnixDateDelta) * SecondsPerDay);
+end;
+
+function Timestamp(const st:TSystemTime):dword;
+  {$IFDEF AllowInline}inline;{$ENDIF}
+begin
+  result:=Timestamp(st.wYear,st.wMonth,st.wDay,st.wHour,st.wMinute,st.wSecond);
 end;
 
 function GetCurrentTimestamp:dword;
@@ -169,6 +180,51 @@ begin
   TimestampToSystemTime(Time,ST);
   GetTimeFormatW(LOCALE_USER_DEFAULT,0,@ST,Format,@buf,300);
   StrDupW(result,buf);
+end;
+
+function CompareDate(const one,two:TSystemTime):integer;
+var
+  t1,t2:integer;
+begin
+  t1:=((one.wYear*12)+one.wMonth)*32+one.wDay;
+  t2:=((two.wYear*12)+two.wMonth)*32+two.wDay;
+  result:=t1-t2;
+{
+  result:=one.wYear-two.wYear;
+  if result=0 then
+  begin
+    result:=one.wMonth-two.wMonth;
+    if result=0 then
+    begin
+      result:=one.wDay-two.wDay;
+    end;
+  end;
+}
+end;
+
+function CompareTime(const one,two:TSystemTime):integer;
+var
+  t1,t2:integer;
+begin
+  t1:=one.wHour*3600+one.wMinute*60+one.wSecond;
+  t2:=two.wHour*3600+two.wMinute*60+two.wSecond;
+  result:=t1-t2;
+{
+  result:=one.wHour-two.wHour;
+  if result=0 then
+  begin
+    result:=one.wMinute-two.wMinute;
+    if result=0 then
+    begin
+      result:=one.wSecond-two.wSecond;
+    end;
+  end;
+}
+end;
+
+function TimeToMidnight(const t:TSystemTime):integer;
+begin
+  result:=SecondsPerDay-(t.wHour*3600+t.wMinute*60+t.wSecond);
 end;
 
 end.

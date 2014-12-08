@@ -7,7 +7,7 @@ implementation
 uses
   windows, messages, commctrl,
   global, iac_global, m_api, editwrapper,
-  dbsettings, common, io,
+  dbsettings, common, io, inouttext,
   mirutils, syswin, wrapper;
 
 {$include i_cnst_text.inc}
@@ -25,6 +25,9 @@ const
 const
   ACF_TEXTSCRIPT  = $00000001;
   ACF_POSTPROCESS = $00000002;
+
+const // V2
+  ACF2_TXT_TEXT = $00000002;
 
 type
   tTextAction = class(tBaseAction)
@@ -330,6 +333,7 @@ procedure tTextAction.Load(node:pointer;fmt:integer);
 var
   section: array [0..127] of AnsiChar;
   pc:pAnsiChar;
+  flags2:dword;
 begin
   inherited Load(node,fmt);
   case fmt of
@@ -337,6 +341,23 @@ begin
       pc:=StrCopyE(section,pAnsiChar(node));
 
       StrCopy(pc,opt_text); text:=DBReadUnicode(0,DBBranch,section,nil);
+    end;
+
+    100: begin
+      pc:=StrCopyE(section,pAnsiChar(node));
+
+      StrCopy(pc,opt_text); text:=DBReadUnicode(0,DBBranch,section,nil);
+
+      StrCopy(pc,'flags2'); flags2:=DBReadDWord(0,DBBranch,section,0);
+      flags:=flags and not ACF_MASK;
+
+      if (flags2 and ACF2_TXT_TEXT)<>0 then flags:=flags or ACF_TEXTSCRIPT;
+    end;
+
+    101: begin // v2, from "Advanced"
+      pc:=StrCopyE(section,pAnsiChar(node));
+      StrCopy(pc,'varval'); text:=DBReadUnicode(0,DBBranch,section);
+      flags:=flags or ACF_TEXTSCRIPT;
     end;
 
     1: begin
@@ -375,6 +396,11 @@ begin
     1: begin
     end;
 }
+    13: begin
+      tTextExport(node).AddTextW('text'       ,text);
+      tTextExport(node).AddFlag ('script'     ,(flags or ACF_TEXTSCRIPT )<>0);
+      tTextExport(node).AddFlag ('postprocess',(flags or ACF_POSTPROCESS)<>0);
+    end;
   end;
 end;
 

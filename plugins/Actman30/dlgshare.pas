@@ -27,7 +27,7 @@ procedure OptFillContactList(wnd:HWND);
 
 implementation
 
-uses messages, m_api, dbsettings, contact, common, global;
+uses messages, m_api, dbsettings, mircontacts, common, global;
 
 {$include i_cnst_dlgshare.inc}
 {$resource dlgshare.res}

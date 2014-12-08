@@ -7,7 +7,7 @@ implementation
 uses
   windows, messages,
   common, wrapper,
-  mirutils,m_api,dbsettings,
+  mirutils,m_api,dbsettings, inouttext,
   global,iac_global;
 
 {$include i_cnst_storage.inc}
@@ -179,6 +179,10 @@ begin
     1: begin
     end;
 }
+    13: begin
+      tTextExport(node).AddDWord('slot',Number);
+      tTextExport(node).AddFlag ('copy',(flags or ACF_COPYFROM)<>0);
+    end;
   end;
 end;
 

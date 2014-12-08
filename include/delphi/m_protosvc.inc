@@ -116,20 +116,19 @@ const
   PFLAGNUM_3 = 3; //the status modes that the protocol supports
                   //away-style messages for. Uses the PF2_ flags.
 
-  PFLAGNUM_4           = 4;         // another bunch of flags
-
+  PFLAGNUM_4           = 4;         // v0.3+: flag asking a protocol plugin how auths are handled
   PF4_FORCEAUTH        = $00000001; // protocol has to send auth's for things to work
   PF4_FORCEADDED       = $00000002; // protocol has to tell people that they were added (otherwise things don't work)
   PF4_NOCUSTOMAUTH     = $00000004; // protocol can't send a custom message while asking others for auth
-  PF4_SUPPORTTYPING    = $00000008; // protocol supports user is typing messages
-  PF4_SUPPORTIDLE      = $00000010; // protocol understands idle
-  PF4_AVATARS          = $00000020; // protocol has avatar support
-  PF4_OFFLINEFILES     = $00000040; // protocols supports sending files to offline users
-  PF4_IMSENDUTF        = $00000080; // protocol is able to process messages in utf-8
-  PF4_IMSENDOFFLINE    = $00000100; // protocol supports sending offline messages
-  PF4_INFOSETTINGSVC   = $00000200; // protocol supports user info translation services
-  PF4_NOAUTHDENYREASON = $00000400; // protocol doesn't support authorization deny reason
-  PF4_GROUPCHATFILES   = $00000800; // protocol supports sending files to group chats
+  PF4_SUPPORTTYPING    = $00000008; // protocol supports user is typing messages v0.3.3+
+  PF4_SUPPORTIDLE      = $00000010; // protocol understands idle, added during v0.3.4+ (2004/09/13)
+  PF4_AVATARS          = $00000020; // protocol has avatar support, added during v0.3.4 (2004/09/13)
+  PF4_OFFLINEFILES     = $00000040; // protocols supports sending files to offline users (v0.5.2)
+  PF4_IMSENDUTF        = $00000080; // protocol is able to process messages in utf-8 (v.0.7.0+)
+  PF4_IMSENDOFFLINE    = $00000100; // protocol supports sending offline messages (v0.8.0+)
+  PF4_INFOSETTINGSVC   = $00000200; // protocol supports user info translation services (v0.8.0+)
+  PF4_NOAUTHDENYREASON = $00000400; // protocol doesn't support authorization deny reason (v0.9.0+)
+  PF4_GROUPCHATFILES   = $00000800; // protocol supports sending files to group chats (v0.95.2+)
   PF4_SINGLEFILEONLY   = $00001000; // protocol supports sending files one by one only
 
   PFLAG_UNIQUEIDTEXT         = 100; // returns a static buffer of text describing the unique field by which this protocol identifies users (already translated), or NULL

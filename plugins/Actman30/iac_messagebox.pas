@@ -143,7 +143,7 @@ begin
       pc:=StrCopyE(section,pAnsiChar(node));
       StrCopy(pc,opt_msgtitle); msgtitle:=DBReadUnicode(0,DBBranch,section);
       StrCopy(pc,opt_msgtext ); msgtext :=DBReadUnicode(0,DBBranch,section);
-      StrCopy(pc,opt_boxopts ); boxopts :=DBReadDword  (0,DBBranch,section);
+      StrCopy(pc,opt_boxopts ); boxopts :=DBReadDword  (0,DBBranch,section); // v2 = byte
     end;
 
     1: begin
@@ -187,6 +187,8 @@ begin
     1: begin
     end;
 }
+    13: begin
+    end;
   end;
 end;
 

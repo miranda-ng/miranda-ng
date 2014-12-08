@@ -549,6 +549,7 @@ begin
   dbetd.textService:=nil;
   dbetd.iconService:=nil;
   p:='WATrack_Info';
+  dbetd.eventIcon  :=CallService(MS_SKIN2_GETICON,0,tlparam(p)); //!! from popups
 
   for i:=0 to HIGH(cdbetd) do
   begin

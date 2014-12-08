@@ -12,7 +12,7 @@ uses
   Windows,messages,commctrl
   ,common,io,wrapper,wrapdlgs,syswin
   ,Dynamic_Bass
-  ,m_api,dbsettings,mirutils,memini,
+  ,m_api,dbsettings,mirutils,mircontacts,memini,
   rbass,rglobal,rccenter,rframeapi,roptions;
 
 {$include mr_rc.inc}

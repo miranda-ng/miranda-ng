@@ -38,7 +38,7 @@ function IsExeRunning(exename:PWideChar):boolean; {hwnd}
 implementation
 
 uses
-  {$IFNDEF FPC}shellapi,{$ENDIF}
+//  {$IFNDEF FPC}shellapi,{$ENDIF}
 {$IFDEF COMPILER_16_UP}
   WinAPI.PsApi,
 {$ELSE}
@@ -46,12 +46,13 @@ uses
 {$ENDIF}
   common,messages;
 
-{ shellapi import
+{$IFNDEF FPC} // shellapi import
 function FindExecutableA(FileName, Directory: PAnsiChar; Result: PAnsiChar): HINST; stdcall;
          external 'shell32.dll' name 'FindExecutableA';
 function FindExecutableW(FileName, Directory: PWideChar; Result: PWideChar): HINST; stdcall;
          external 'shell32.dll' name 'FindExecutableW';
-}
+{$ENDIF}
+
 {$IFDEF COMPILER_16_UP}
 type  pqword = ^int64;
 {$ENDIF}
@@ -197,7 +198,7 @@ begin
     len:=4;
     typ:=REG_DWORD;
     if RegQueryValueEx(lKey,'GlobalUserOffline',NIL,@typ,@result,@len)=ERROR_SUCCESS then
-    ;
+      ;
     RegCloseKey(lKey);
   end;
 end;

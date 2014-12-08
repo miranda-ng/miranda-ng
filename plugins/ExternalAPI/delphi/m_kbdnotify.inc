@@ -22,38 +22,38 @@ const
 //wParam=0
 //lParam=0
 //returns 0
-  MS_KBDNOTIFY_ENABLE = 'KeyboardNotify/Enable';
+  MS_KBDNOTIFY_ENABLE:PAnsiChar = 'KeyboardNotify/Enable';
 
 //Disables all notifications (for use by BossKey)
 //wParam=0
 //lParam=0
 //returns 0
-  MS_KBDNOTIFY_DISABLE = 'KeyboardNotify/Disable';
+  MS_KBDNOTIFY_DISABLE:PAnsiChar = 'KeyboardNotify/Disable';
 
 //Makes the flashing begin
 //wParam=(unsigned int)eventCount
 //lParam=(AnsiChar *)szFlashingSequence or NULL if you want the plugin to use current settings
 //returns 0
-  MS_KBDNOTIFY_STARTBLINK = 'KeyboardNotify/StartBlinking';
+  MS_KBDNOTIFY_STARTBLINK:PAnsiChar = 'KeyboardNotify/StartBlinking';
 
 //Receives the number of events that were opened (usuful for the 'until events opened' setting)
 //wParam=(unsigned int)eventCount
 //lParam=0
 //returns 0
-  MS_KBDNOTIFY_EVENTSOPENED = 'KeyboardNotify/EventsWereOpened';
+  MS_KBDNOTIFY_EVENTSOPENED:PAnsiChar = 'KeyboardNotify/EventsWereOpened';
 
 
 //Informs if the flashing is active
 //wParam=0
 //lParam=0
 //returns 0 if the flashing is inactive or a pointer to the string representing the sequence being used 
-  MS_KBDNOTIFY_FLASHINGACTIVE = 'KeyboardNotify/IsFlashingActive';
+  MS_KBDNOTIFY_FLASHINGACTIVE:PAnsiChar = 'KeyboardNotify/IsFlashingActive';
 
 
 //Normalizes the flashing sequence informed
 //wParam=0
 //lParam=(AnsiChar *)szFlashingSequence <- it is rewritten
 //returns a pointer to the string representing the sequence normalized (which is in fact lParam)
-  MS_KBDNOTIFY_NORMALSEQUENCE = 'KeyboardNotify/NormalizeSequence';
+  MS_KBDNOTIFY_NORMALSEQUENCE:PAnsiChar = 'KeyboardNotify/NormalizeSequence';
 
 {$ENDIF}

@@ -27,5 +27,6 @@ wParam: ignored
 lParam: ignored
 }
 const
-  MS_QC_SHOW_DIALOG = 'QuickContacts/ShowDialog';
+  MS_QC_SHOW_DIALOG:PAnsiChar = 'QuickContacts/ShowDialog';
+
 {$ENDIF}

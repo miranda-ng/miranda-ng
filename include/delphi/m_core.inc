@@ -622,6 +622,7 @@ function mir_realloc(para1:pointer; para2:size_t):pointer; cdecl;
                  external CoreDLL name 'mir_realloc';
 procedure mir_free(para1:pointer); cdecl;
                  external CoreDLL name 'mir_free';
+
 function mir_strdup(const src:PAnsiChar):PAnsiChar; stdcall;
                  external CoreDLL name 'mir_strdup';
 function mir_wstrdup(const src:PWideChar):PWideChar; stdcall;
@@ -630,10 +631,12 @@ function mir_strndup(const src:PAnsiChar; len:size_t):PAnsiChar; stdcall;
                  external CoreDLL name 'mir_strndup';
 function mir_wstrndup(const src:PWideChar; len:size_t):PWideChar; stdcall;
                  external CoreDLL name 'mir_wstrndup';
+
 function mir_strlen(const src:PAnsiChar):size_t; stdcall;
                  external CoreDLL name 'mir_strlen';
 function mir_wstrlen(const src:PWideChar):size_t; stdcall;
                  external CoreDLL name 'mir_wstrlen';
+
 function mir_strcpy(dst:PAnsiChar; const src:PAnsiChar):PAnsiChar; stdcall;
                  external CoreDLL name 'mir_strcpy';
 function mir_wstrcpy(dst:PWideChar; const src:PWideChar):PWideChar; stdcall;
@@ -642,6 +645,7 @@ function mir_strncpy(dst:PAnsiChar; const src:PAnsiChar; len:size_t):PAnsiChar; 
                  external CoreDLL name 'mir_strncpy';
 function mir_wstrncpy(dst:PWideChar; const src:PWideChar; len:size_t):PWideChar; stdcall;
                  external CoreDLL name 'mir_wstrncpy';
+
 function mir_strcat(dst:PAnsiChar; const src:PAnsiChar):PAnsiChar; stdcall;
                  external CoreDLL name 'mir_strcat';
 function mir_wstrcat(dst:PWideChar; const src:PWideChar):PWideChar; stdcall;
@@ -650,6 +654,7 @@ function mir_strncat(dst:PAnsiChar; const src:PAnsiChar; len:size_t):PAnsiChar; 
                  external CoreDLL name 'mir_strncat';
 function mir_wstrncat(dst:PWideChar; const src:PWideChar; len:size_t):PWideChar; stdcall;
                  external CoreDLL name 'mir_wstrncat';
+
 function mir_strcmp(const p1,p2:PAnsiChar):int; stdcall;
                  external CoreDLL name 'mir_strcmp';
 function mir_wstrcmp(const p1,p2:PWideChar):int; stdcall;

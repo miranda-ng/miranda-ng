@@ -63,15 +63,11 @@ const
   Z_DEFLATED = 8;
 
 type
-  alloc_func = function(opaque: pointer; items, size: integer): pointer;
-                 cdecl;
-  free_func  = procedure(opaque, address: pointer);
-                 cdecl;
+  alloc_func = function(opaque: pointer; items, size: integer): pointer; cdecl;
+  free_func  = procedure(opaque, address: pointer); cdecl;
 
-  in_func    = function(opaque: pointer; var buf: PByte): integer;
-                 cdecl;
-  out_func   = function(opaque: pointer; buf: PByte; size: integer): integer;
-                 cdecl;
+  in_func    = function(opaque: pointer; var buf: PByte): integer; cdecl;
+  out_func   = function(opaque: pointer; buf: PByte; size: integer): integer; cdecl;
 
   z_streamp = ^z_stream;
   z_stream = packed record
