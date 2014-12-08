@@ -21,6 +21,8 @@ Behaviour
 Minimise to tray
 [Border color:]
 Border colour:
+[Use old render method (fast, but has artifacts)]
+Use old render method (fast, but has artefacts)
 [Special colors]
 Special colours
 [3rd party frames transparent back color]

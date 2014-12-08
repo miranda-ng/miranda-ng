@@ -608,7 +608,7 @@ BEGIN
     CONTROL         "",IDC_AVATAR_WIDTH_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,102,120,11,12
     RTEXT           "Max width",IDC_AVATAR_SIZE_PIXELS,31,122,44,8
     CONTROL         "Animate avatars",IDC_SHOW_ANIAVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,246,8
-    CONTROL         "Use old render method (fast, but has artefacts)",IDC_AVATAR_FASTDRAW,
+    CONTROL         "Use old render method (fast, but has artifacts)",IDC_AVATAR_FASTDRAW,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,37,232,8
 END
 
