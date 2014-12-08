@@ -223,6 +223,8 @@ QQ 2000 оверлей
 Оверлей веб-сайта
 [Windows Phone overlay]
 Оверлей Windows Phone
+[Mobile overlay]
+Оверлей mobile
 [debug overlay]
 Оверлей debug
 [office overlay]

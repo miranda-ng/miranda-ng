@@ -41,28 +41,32 @@
 Резервная копия профиля Miranda NG
 [Created by:]
 Создана:
-[Miranda NG databases]
-Профили Miranda NG
-[Compressed Miranda NG databases]
-Сжатые профили Miranda NG
-[All files]
-Все файлы
 [Backup in progress]
 Резервирование в процессе
 [Copying database file...]
 Копирование файла профиля...
 [Database backed up]
 Профиль зарезервирован
+[Database back up in process...]
+Производится резервное копирование профиля...
+[Error]
+Ошибка
 [Backup profile]
 Резервировать профиль
 [Save profile as...]
 Сохранить профиль как...
-[Database backups]
-Резервирование профиля
-[Backup folder]
-Папка резервирования
 [Database]
 Профиль
+[Database backups]
+Резервирование профиля
+[Miranda NG databases]
+Профили Miranda NG
+[Compressed Miranda NG databases]
+Сжатые профили Miranda NG
+[All files]
+Все файлы
+[Backup folder]
+Папка резервирования
 [path to Miranda root folder]
 путь к папке программы
 [path to folder containing Miranda profiles]

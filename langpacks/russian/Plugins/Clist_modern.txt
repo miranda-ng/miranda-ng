@@ -92,7 +92,7 @@
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
 ВНИМАНИЕ: \tСкины могут изменять Ваш профиль. Откат невозможен. \n\t\tПожалуйста, сделайте РЕЗЕРВНУЮ КОПИЮ профиля.
 [* Restart may be required for all changes to take effect]
-* Необходим рестарт для вступления изменений в силу
+* Необходим перезапуск для вступления изменений в силу
 [Skin folder]
 Папка скинов
 [Available view modes]
@@ -451,7 +451,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 высота
 [Max width]
 Ширина
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 Старый метод отрисовки (быстрее, но могут быть "артефакты")
 [Hide icon when showing avatar]
 Прятать значок протокола
@@ -459,7 +459,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Значки на месте аватара
 [Hide groups icon]
 Скрыть значок групп
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 Значок видимости всегда
 [Use extra status icon instead protocol]
 Значок xСтатуса вместо протокола
