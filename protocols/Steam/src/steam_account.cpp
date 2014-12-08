@@ -221,7 +221,8 @@ void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL) {
+	if (response == NULL)
+	{
 		// set status to offline
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
@@ -262,4 +263,36 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 
 	// go to online now
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
+}
+
+void CSteamProto::OnStatusChanged(const NETLIBHTTPREQUEST *response, void *arg)
+{
+	if (response == NULL)
+	{
+		m_iDesiredStatus = m_iStatus;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iStatus);
+		return;
+	}
+
+	JSONROOT root(response->pData);
+
+	/*JSONNODE *node = json_get(root, "success");
+	if (!json_as_bool(node)) {
+	return;
+	}
+
+	JSONNODE *node = json_get(root, "error");
+	ptrW error(json_as_string(node));
+	if (lstrcmpi(error, L"OK")/* || response->resultCode == HTTP_STATUS_UNAUTHORIZED*//*)
+	{
+	// set status to offline
+	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
+	return;
+	}*/
+
+	int new_status = (int)arg;
+	int old_status = m_iStatus;
+	m_iStatus = m_iDesiredStatus = new_status;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 }

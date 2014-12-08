@@ -6,17 +6,18 @@ WORD CSteamProto::SteamToMirandaStatus(int state)
 	{
 	case 0: //Offline
 		return ID_STATUS_OFFLINE;
+	case 1: //Online
+		return ID_STATUS_ONLINE;
 	case 2: //Busy
 		return ID_STATUS_DND;
 	case 3: //Away
 		return ID_STATUS_AWAY;
-	case 4: //Playing
+	case 4: //Snoozing
+		return ID_STATUS_NA;
+	case 5: //Looking to trade
 		return ID_STATUS_OUTTOLUNCH;
-		/*case 5: //Looking to trade
-		return "trade";
-		case 6: //Looking to play
-		return "play";*/
-		//case 1: //Online
+	case 6: //Looking to play
+		return ID_STATUS_FREECHAT;
 	default:
 		return ID_STATUS_ONLINE;
 	}
@@ -28,19 +29,20 @@ int CSteamProto::MirandaToSteamState(int status)
 	{
 	case ID_STATUS_OFFLINE:
 		return 0; //Offline
+	case ID_STATUS_ONLINE:
+		return 1; //Online
 	case ID_STATUS_DND:
 		return 2; //Busy
 	case ID_STATUS_AWAY:
 		return 3; //Away
-	/*case PF2_OUTTOLUNCH:
-		return 4; //Playing
-	case 5: //Looking to trade
-		return "trade";
-	case 6: //Looking to play
-		return "play";*/
-		//case 1: //Online
+	case ID_STATUS_NA:
+		return 4; //Snoozing
+	case ID_STATUS_OUTTOLUNCH:
+		return 5; //Looking to trade
+	case ID_STATUS_FREECHAT:
+		return 6; //Looking to play
 	default:
-		return ID_STATUS_ONLINE;
+		return 1;
 	}
 }
 

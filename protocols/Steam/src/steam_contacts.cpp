@@ -112,34 +112,52 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	node = json_get(data, "timecreated");
 	setDword(hContact, "MemberTS", json_as_int(node));
 
-	// only for contacts
-	if (hContact)
+	node = json_get(data, "lastlogoff");
+	setDword(hContact, "LogoffTS", json_as_int(node));
+
+	// status
+	node = json_get(data, "personastate");
+	WORD steamStatus = json_as_int(node);
+	WORD status = SteamToMirandaStatus(steamStatus);
+	if (hContact != NULL)
 	{
-		node = json_get(data, "lastlogoff");
-		setDword(hContact, "LogoffTS", json_as_int(node));
+		// contact status
+		setWord(hContact, "Status", status);
+	}
+	else
+	{
+		// my status
+		// TODO: uncomment when invisible status is used in Steam proto
+		/*if (status == ID_STATUS_OFFLINE)
+			status = ID_STATUS_INVISIBLE;*/
 
-		node = json_get(data, "gameid");
-		DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
-		if (gameId > 0)
+		if (status != ID_STATUS_OFFLINE)
 		{
-			node = json_get(data, "gameextrainfo");
-			const wchar_t *gameInfo = json_as_string(node);
+			int old_status = m_iStatus;
+			m_iStatus = m_iDesiredStatus = status;
+			ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
+		}
+	}
 
+	node = json_get(data, "gameid");
+	DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
+	if (gameId > 0)
+	{
+		node = json_get(data, "gameextrainfo");
+		const wchar_t *gameInfo = json_as_string(node);
+
+		if (hContact != NULL)
 			db_set_ws(hContact, "CList", "StatusMsg", gameInfo);
-			setWord(hContact, "Status", ID_STATUS_OUTTOLUNCH);
 
-			setWString(hContact, "GameInfo", gameInfo);
-			setDword(hContact, "GameID", gameId);
-		}
-		else
-		{
-			node = json_get(data, "personastate");
-			WORD status = SteamToMirandaStatus(json_as_int(node));
-			setWord(hContact, "Status", status);
-
+		setWString(hContact, "GameInfo", gameInfo);
+		setDword(hContact, "GameID", gameId);
+	}
+	else
+	{
+		if (hContact != NULL)
 			db_unset(hContact, "CList", "StatusMsg");
-			delSetting(hContact, "GameID");
-		}
+		
+		delSetting(hContact, "GameID");
 	}
 }
 
