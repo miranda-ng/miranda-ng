@@ -144,12 +144,12 @@ static void FillGameList(LPVOID hwndDlg) {
 						if (z2 != zahlbuffer2)
 						{
 							listentry.gameid = MAKELONG(gameid, atoi(zahlbuffer2));
-							mir_snprintf(gameidtemp, 10, "%d_%d", gameid, atoi(zahlbuffer2));
+							mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d_%d", gameid, atoi(zahlbuffer2));
 						}
 						else
 						{
 							listentry.gameid = gameid;
-							mir_snprintf(gameidtemp, 10, "%d", gameid);
+							mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid);
 						}
 
 
@@ -345,13 +345,13 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg,
 				int gameid2 = HIWORD(gameids);
 
 				if (gameid2 != 0)
-					mir_snprintf(gameidtemp, 10, "%d_%d", gameid1, gameid2);
+					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d_%d", gameid1, gameid2);
 				else
-					mir_snprintf(gameidtemp, 10, "%d", gameid1);
+					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid1);
 
 				//spielnamen holen
 				if (xfire_GetPrivateProfileString(gameidtemp, "LongName", "", ret, 512, inipath)) {
-					mir_snprintf(gameidtemp, 10, "%d", gameid1);
+					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid1);
 
 					//einige felder vorbelegen
 					SetDlgItemTextA(hPage, IDC_ADD_NAME, ret);
@@ -389,9 +389,9 @@ INT_PTR CALLBACK DlgAddGameProc(HWND hwndDlg,
 				char ret[512];
 
 				if (gameid2 != 0)
-					mir_snprintf(gameidtemp, 10, "%d_%d", gameid1, gameid2);
+					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d_%d", gameid1, gameid2);
 				else
-					mir_snprintf(gameidtemp, 10, "%d", gameid1);
+					mir_snprintf(gameidtemp, SIZEOF(gameidtemp), "%d", gameid1);
 
 				//neuen gameeintrag anlegen
 				Xfire_game* newgame = new Xfire_game();

@@ -142,11 +142,11 @@ static void DoSplitSendW(LPVOID param)
 	SendJob *job = sendQueue->getJobByIndex((int)param);
 	BOOL     fFirstSend = FALSE;
 	WCHAR   *wszSaved, savedChar;
-	int      iCur = 0, iSavedCur = 0, i;
+	size_t iCur = 0, iSavedCur = 0, i;
 	BOOL     fSplitting = TRUE;
 	MCONTACT hContact = job->hContact;
 	DWORD    dwFlags = job->dwFlags;
-	int      chunkSize = job->chunkSize / 2;
+	size_t chunkSize = job->chunkSize / 2;
 	char    *szProto = GetContactProto(hContact);
 
 	size_t iLen = mir_strlen(job->szSendBuffer);
@@ -812,8 +812,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, MCONTACT hContact, b
 			time_t now = time(0);
 			TCHAR tszTimestamp[30];
 			_tcsftime(tszTimestamp, SIZEOF(tszTimestamp), _T("%Y.%m.%d - %H:%M"), _localtime32((__time32_t *)&now));
-			tszTimestamp[29] = 0;
-			mir_snprintf(szKeyName, 20, "S%d", now);
+			mir_snprintf(szKeyName, SIZEOF(szKeyName), "S%d", now);
 			mir_sntprintf(tszHeader, SIZEOF(tszHeader), TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}
 		else mir_sntprintf(tszHeader, SIZEOF(tszHeader), _T("M%d|"), time(0));

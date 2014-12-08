@@ -2627,7 +2627,7 @@ void CIcqProto::handleTypingNotification(BYTE *buf, size_t wLen, WORD wFlags, DW
 			char szMsg[MAX_PATH];
 			char *nick = NickFromHandleUtf(hContact);
 
-			mir_snprintf(szMsg, MAX_PATH, ICQTranslateUtfStatic(LPGEN("Contact \"%s\" has closed the message window."), szFormat, MAX_PATH), nick);
+			mir_snprintf(szMsg, SIZEOF(szMsg), ICQTranslateUtfStatic(LPGEN("Contact \"%s\" has closed the message window."), szFormat, MAX_PATH), nick);
 			ShowPopupMsg(hContact, ICQTranslateUtfStatic(LPGEN("ICQ Note"), szFormat, MAX_PATH), szMsg, LOG_NOTE);
 			SAFE_FREE((void**)&nick);
 

@@ -5,16 +5,16 @@ LPSTR splitMsg(LPSTR szMsg, int iLen)
 {
 	Sent_NetLog("split: msg: -----\n%s\n-----\n", szMsg);
 
-	int len = (int)strlen(szMsg);
+	size_t len = strlen(szMsg);
 	LPSTR out = (LPSTR)mir_alloc(len * 2);
 	LPSTR buf = out;
 
 	WORD msg_id = db_get_w(0, MODULENAME, "msgid", 0) + 1;
 	db_set_w(0, MODULENAME, "msgid", msg_id);
 
-	int part_all = (len + iLen - 1) / iLen;
-	for (int part_num = 0; part_num<part_all; part_num++) {
-		int sz = (len>iLen) ? iLen : len;
+	size_t part_all = (len + iLen - 1) / iLen;
+	for (size_t part_num = 0; part_num<part_all; part_num++) {
+		size_t sz = (len>iLen) ? iLen : len;
 		mir_snprintf(buf, 32, "%s%04X%02X%02X", SIG_SECP, msg_id, part_num, part_all);
 		memcpy(buf + LEN_SECP + 8, szMsg, sz);
 		*(buf + LEN_SECP + 8 + sz) = '\0';

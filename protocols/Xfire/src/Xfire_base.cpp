@@ -113,7 +113,7 @@ void Xfire_base::readStringfromDB(char*name, unsigned int dbid, char**to)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	if (!db_get_s(NULL, protocolname, temp, &dbv))
 	{
 		//string setzen
@@ -131,7 +131,7 @@ void Xfire_base::readStringfromDB(char*name, unsigned int dbid, int id, char**to
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i_%i", name, dbid, id);
 	if (!db_get_s(NULL, protocolname, temp, &dbv))
 	{
 		//string setzen
@@ -149,7 +149,7 @@ void Xfire_base::readUtf8StringfromDB(char*name, unsigned int dbid, char**to)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	if (!db_get_utf(NULL, protocolname, temp, &dbv))
 	{
 		//string setzen
@@ -167,7 +167,7 @@ void Xfire_base::readUtf8StringfromDB(char*name, unsigned int dbid, int id, char
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i_%i", name, dbid, id);
 	if (!db_get_utf(NULL, protocolname, temp, &dbv))
 	{
 		//string setzen
@@ -186,7 +186,7 @@ void Xfire_base::writeStringtoDB(char*name, unsigned int dbid, int id, char*val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i_%i", name, dbid, id);
 	db_set_s(NULL, protocolname, temp, val);
 }
 
@@ -198,7 +198,7 @@ void Xfire_base::writeStringtoDB(char*name, unsigned int dbid, char*val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	db_set_s(NULL, protocolname, temp, val);
 }
 
@@ -210,7 +210,7 @@ void Xfire_base::writeUtf8StringtoDB(char*name, unsigned int dbid, int id, char*
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i_%i", name, dbid, id);
 	db_set_utf(NULL, protocolname, temp, val);
 }
 
@@ -222,7 +222,7 @@ void Xfire_base::writeUtf8StringtoDB(char*name, unsigned int dbid, char*val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	db_set_utf(NULL, protocolname, temp, val);
 }
 
@@ -235,7 +235,7 @@ void Xfire_base::writeBytetoDB(char*name, unsigned int dbid, int val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	db_set_b(NULL, protocolname, temp, val);
 }
 
@@ -247,7 +247,7 @@ void Xfire_base::writeWordtoDB(char*name, unsigned int dbid, int val)
 		return;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	db_set_w(NULL, protocolname, temp, val);
 }
 
@@ -260,7 +260,7 @@ unsigned char Xfire_base::readBytefromDB(char*name, unsigned int dbid, int defau
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	return db_get_b(NULL, protocolname, temp, defaultval);
 }
 
@@ -272,7 +272,7 @@ unsigned int Xfire_base::readWordfromDB(char*name, unsigned int dbid, int defaul
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 	return db_get_w(NULL, protocolname, temp, defaultval);
 }
 
@@ -284,7 +284,7 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid)
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i", name, dbid);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i", name, dbid);
 
 	//eintrag entfernen
 	if (!db_get(NULL, protocolname, temp, &dbv))
@@ -305,7 +305,7 @@ BOOL Xfire_base::removeDBEntry(char*name, unsigned int dbid, int id)
 		return 0;
 
 	//wert aus der dblesen
-	mir_snprintf(temp, 128, "%s_%i_%i", name, dbid, id);
+	mir_snprintf(temp, SIZEOF(temp), "%s_%i_%i", name, dbid, id);
 
 	//eintrag entfernen
 	if (!db_get(NULL, protocolname, temp, &dbv))
@@ -479,7 +479,7 @@ BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char
 		return FALSE; //kein pfad bug?!?!
 
 	if (subid == 0) {
-		mir_snprintf(idstring, 15, "%d", gameid);
+		mir_snprintf(idstring, SIZEOF(idstring), "%d", gameid);
 
 		if (xfire_GetPrivateProfileString(idstring, valname, "", out, sizeofout, path))
 			return TRUE;
@@ -487,7 +487,7 @@ BOOL Xfire_base::getIniValue(unsigned int gameid, unsigned int subid, const char
 		subid++;
 	}
 
-	mir_snprintf(idstring, 15, "%d_%d", gameid, subid);
+	mir_snprintf(idstring, SIZEOF(idstring), "%d_%d", gameid, subid);
 
 	if (xfire_GetPrivateProfileString(idstring, valname, "", out, sizeofout, path))
 		return TRUE;
@@ -521,8 +521,8 @@ BOOL Xfire_base::getGamename(unsigned int gameid, char* out, int outsize){
 	{
 		//customnamen laden, wenn vorhanden
 		DBVARIANT dbv;
-		char dbstr[80] = "";
-		mir_snprintf(dbstr, XFIRE_MAXSIZEOFGAMENAME, "customgamename_%d", gameid);
+		char dbstr[XFIRE_MAXSIZEOFGAMENAME];
+		mir_snprintf(dbstr, SIZEOF(dbstr), "customgamename_%d", gameid);
 		if (!db_get(NULL, protocolname, dbstr, &dbv)) {
 			strncpy_s(out, outsize, dbv.pszVal, _TRUNCATE);
 			db_free(&dbv);

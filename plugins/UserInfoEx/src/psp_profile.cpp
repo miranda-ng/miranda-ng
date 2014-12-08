@@ -487,12 +487,12 @@ static int ProfileList_AddItemlistFromDB(
 
 	for (i = 0, lvi.iItem = iItem; ; i++) {
 		// read the setting from db
-		mir_snprintf(pszSetting, MAXSETTING, szValFormat, i);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), szValFormat, i);
 		if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbvVal))
 			break;
 		if (dbvVal.type != DBVT_TCHAR)
 			continue;
-		mir_snprintf(pszSetting, MAXSETTING, szCatFormat, i);
+		mir_snprintf(pszSetting, SIZEOF(pszSetting), szCatFormat, i);
 		DB::Setting::GetAString(hContact, pszModule, pszSetting, &dbvCat);
 		// create the itemobject
 		if (!(pItem = (LPLCITEM)mir_alloc(sizeof(LCITEM)))) {
@@ -1219,10 +1219,10 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 								if (!pItem->pszText[1] || !*pItem->pszText[1])
 									continue;
 								if (!(pItem->wFlags & (CTRLF_HASPROTO|CTRLF_HASMETA))) {
-									mir_snprintf(pszSetting, MAXSETTING, pFmt[iFmt].szValFmt, iItem);
+									mir_snprintf(pszSetting, SIZEOF(pszSetting), pFmt[iFmt].szValFmt, iItem);
 									db_set_ts(hContact, pszModule, pszSetting, pItem->pszText[1]);
 									// save category
-									mir_snprintf(pszSetting, MAXSETTING, pFmt[iFmt].szCatFmt, iItem);
+									mir_snprintf(pszSetting, SIZEOF(pszSetting), pFmt[iFmt].szCatFmt, iItem);
 									if (pItem->idstrList && pItem->iListItem > 0 && pItem->iListItem < pItem->idstrListCount)
 										db_set_s(hContact, pszModule, pszSetting, (LPSTR)pItem->idstrList[pItem->iListItem].pszText);
 									else if (pItem->pszText[0] && *pItem->pszText[0])

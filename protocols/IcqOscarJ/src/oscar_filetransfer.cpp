@@ -1587,7 +1587,7 @@ int CIcqProto::oft_handleFileData(oscar_connection *oc, BYTE *buf, size_t len)
 			char *pszMsg = ICQTranslateUtf(LPGEN("The checksum of file \"%s\" does not match, the file is probably damaged."));
 			char szBuf[MAX_PATH];
 
-			mir_snprintf(szBuf, MAX_PATH, pszMsg, ExtractFileName(ft->szThisFile));
+			mir_snprintf(szBuf, SIZEOF(szBuf), pszMsg, ExtractFileName(ft->szThisFile));
 			icq_LogMessage(LOG_ERROR, szBuf);
 
 			SAFE_FREE(&pszMsg);

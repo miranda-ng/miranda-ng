@@ -453,11 +453,11 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			char setting[256];
 			for (int i = 0; i < arClasses.getCount(); i++) {
 				POPUPCLASS *pc = arClasses[i];
-				mir_snprintf(setting, 256, "%s/Timeout", pc->pszName);
+				mir_snprintf(setting, SIZEOF(setting), "%s/Timeout", pc->pszName);
 				db_set_w(0, MODULE, setting, pc->iSeconds);
-				mir_snprintf(setting, 256, "%s/TextCol", pc->pszName);
+				mir_snprintf(setting, SIZEOF(setting), "%s/TextCol", pc->pszName);
 				db_set_dw(0, MODULE, setting, (DWORD)pc->colorText);
-				mir_snprintf(setting, 256, "%s/BgCol", pc->pszName);
+				mir_snprintf(setting, SIZEOF(setting), "%s/BgCol", pc->pszName);
 				db_set_dw(0, MODULE, setting, (DWORD)pc->colorBack);
 			}
 			return TRUE;

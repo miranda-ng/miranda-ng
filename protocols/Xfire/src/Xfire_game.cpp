@@ -57,7 +57,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 			//port begrenzen
 			port = port % 65535;
 			//port in string wandeln
-			mir_snprintf(portstr, 6, "%d", port);
+			mir_snprintf(portstr, SIZEOF(portstr), "%d", port);
 
 			str_replace(mynetworkparams, "%UA_GAME_HOST_NAME%", ip);
 			str_replace(mynetworkparams, "%UA_GAME_HOST_PORT%", portstr);

@@ -61,7 +61,7 @@ void UpdateMyXFireIni(LPVOID dummy) {
 	strcat(file2, "xfire_games.ini");
 	strcat(file3, "xfire_games.old");
 
-	mir_snprintf(request, 1024, "%s%d", INI_URLREQUEST, getfilesize(file2));
+	mir_snprintf(request, SIZEOF(request), "%s%d", INI_URLREQUEST, getfilesize(file2));
 
 	if (CheckWWWContent(request))
 	{
@@ -101,7 +101,7 @@ void UpdateMyIcons(LPVOID dummy) {
 	strcat(file2, "icons.dll");
 	strcat(file3, "icons.old");
 
-	mir_snprintf(request, 1024, "%s%d", ICO_URLREQUEST, getfilesize(file2));
+	mir_snprintf(request, SIZEOF(request), "%s%d", ICO_URLREQUEST, getfilesize(file2));
 
 	if (CheckWWWContent(request))
 	{

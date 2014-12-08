@@ -1448,14 +1448,14 @@ panel_found:
 				pContainer->settings = &PluginConfig.globalContainerSettings;
 
 				pContainer->szRelThemeFile[0] = pContainer->szAbsThemeFile[0] = 0;
-				mir_snprintf(szCname, 40, "%s_theme", CONTAINER_PREFIX);
+				mir_snprintf(szCname, SIZEOF(szCname), "%s_theme", CONTAINER_PREFIX);
 				if (!db_get_ts(pContainer->hContactFrom, SRMSGMOD_T, szCname, &dbv))
 					szThemeName = dbv.ptszVal;
 			}
 			else {
 				Utils::ReadPrivateContainerSettings(pContainer);
 				if (szThemeName == NULL) {
-					mir_snprintf(szCname, 40, "%s%d_theme", CONTAINER_PREFIX, pContainer->iContainerIndex);
+					mir_snprintf(szCname, SIZEOF(szCname), "%s%d_theme", CONTAINER_PREFIX, pContainer->iContainerIndex);
 					if (!db_get_ts(NULL, SRMSGMOD_T, szCname, &dbv))
 						szThemeName = dbv.ptszVal;
 				}
@@ -1839,13 +1839,13 @@ panel_found:
 					}
 					else {
 						char szCName[40];
-						mir_snprintf(szCName, 40, "%s%dx", CONTAINER_PREFIX, pContainer->iContainerIndex);
+						mir_snprintf(szCName, SIZEOF(szCName), "%s%dx", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.left);
-						mir_snprintf(szCName, 40, "%s%dy", CONTAINER_PREFIX, pContainer->iContainerIndex);
+						mir_snprintf(szCName, SIZEOF(szCName), "%s%dy", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.top);
-						mir_snprintf(szCName, 40, "%s%dwidth", CONTAINER_PREFIX, pContainer->iContainerIndex);
+						mir_snprintf(szCName, SIZEOF(szCName), "%s%dwidth", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.right - wp.rcNormalPosition.left);
-						mir_snprintf(szCName, 40, "%s%dheight", CONTAINER_PREFIX, pContainer->iContainerIndex);
+						mir_snprintf(szCName, SIZEOF(szCName), "%s%dheight", CONTAINER_PREFIX, pContainer->iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
 						db_set_b(0, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
@@ -1864,7 +1864,7 @@ panel_found:
 						SendMessage((HWND)item.lParam, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
 
 						char szCName[40];
-						mir_snprintf(szCName, 40, "%s_theme", CONTAINER_PREFIX);
+						mir_snprintf(szCName, SIZEOF(szCName), "%s_theme", CONTAINER_PREFIX);
 						if (mir_tstrlen(pContainer->szRelThemeFile) > 1) {
 							if (pContainer->fPrivateThemeChanged == TRUE) {
 								PathToRelativeT(pContainer->szRelThemeFile, pContainer->szAbsThemeFile, M.getDataPath());
@@ -1988,7 +1988,7 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 
 int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size)
 {
-	int cutMax = PluginConfig.m_CutContactNameTo;
+	size_t cutMax = PluginConfig.m_CutContactNameTo;
 
 	if (mir_tstrlen(oldname) <= cutMax)
 		_tcsncpy_s(newname, size, oldname, _TRUNCATE);
@@ -2169,17 +2169,17 @@ void TSAPI DeleteContainer(int iIndex)
 	}
 
 	char szSetting[CONTAINER_NAMELEN + 30];
-	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Flags", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%d_Flags", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%d_Trans", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%d_Trans", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dwidth", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dwidth", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dheight", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dheight", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dx", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dx", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
-	mir_snprintf(szSetting, CONTAINER_NAMELEN + 15, "%s%dy", CONTAINER_PREFIX, iIndex);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%s%dy", CONTAINER_PREFIX, iIndex);
 	db_unset(NULL, SRMSGMOD_T, szSetting);
 }
 

@@ -43,7 +43,7 @@
 static TCHAR* getMenuEntry(int i)
 {
 	char MEntry[256];
-	mir_snprintf(MEntry, 255, "MenuEntry_%u", i);
+	mir_snprintf(MEntry, SIZEOF(MEntry), "MenuEntry_%u", i);
 	return db_get_tsa(NULL, "tabmodplus", MEntry);
 }
 

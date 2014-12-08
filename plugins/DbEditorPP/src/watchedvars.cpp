@@ -102,19 +102,19 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 		break;
 
 	case DBVT_BYTE:
-		mir_snprintf(data, 32, "0x%02X (%s)", dbv->bVal, itoa(dbv->bVal,tmp,10));
+		mir_snprintf(data, SIZEOF(data), "0x%02X (%s)", dbv->bVal, itoa(dbv->bVal,tmp,10));
 		ListView_SetItemText(hwnd2list,index,4,data);
 		ListView_SetItemText(hwnd2list,index,3,"BYTE");
 		break;
 
 	case DBVT_WORD:
-		mir_snprintf(data, 32, "0x%04X (%s)", dbv->wVal, itoa(dbv->wVal,tmp,10));
+		mir_snprintf(data, SIZEOF(data), "0x%04X (%s)", dbv->wVal, itoa(dbv->wVal,tmp,10));
 		ListView_SetItemText(hwnd2list,index,4,data);
 		ListView_SetItemText(hwnd2list,index,3,"WORD");
 		break;
 
 	case DBVT_DWORD:
-		mir_snprintf(data, 32, "0x%08X (%s)", dbv->dVal, itoa(dbv->dVal,tmp,10));
+		mir_snprintf(data, SIZEOF(data), "0x%08X (%s)", dbv->dVal, itoa(dbv->dVal,tmp,10));
 		ListView_SetItemText(hwnd2list,index,4,data);
 		ListView_SetItemText(hwnd2list,index,3,"DWORD");
 		break;
@@ -295,9 +295,9 @@ void popupWatchedVar(MCONTACT hContact,const char* module,const char* setting)
 		// contacts nick
 		char szProto[256];
 		if (GetValue(hContact,"Protocol","p",szProto,SIZEOF(szProto)))
-			mir_snprintf(lpzContactName, MAX_SECONDLINE, "%s (%s)", (char*)GetContactName(hContact, szProto, 0), szProto);
+			mir_snprintf(lpzContactName, SIZEOF(lpzContactName), "%s (%s)", (char*)GetContactName(hContact, szProto, 0), szProto);
 		else
-			mir_snprintf(lpzContactName, MAX_SECONDLINE, nick_unknown);
+			mir_snprintf(lpzContactName, SIZEOF(lpzContactName), nick_unknown);
 	}
 	else strcpy(lpzContactName,Translate("Settings"));
 

@@ -64,7 +64,7 @@ bool CSendLaterJob::mustDelete()
 void CSendLaterJob::cleanDB()
 {
 	if (isPersistentJob()) {
-		char	szKey[100];
+		char szKey[100];
 
 		db_unset(hContact, "SendLater", szId);
 		int iCount = db_get_dw(hContact, "SendLater", "count", 0);
@@ -73,7 +73,7 @@ void CSendLaterJob::cleanDB()
 		db_set_dw(hContact, "SendLater", "count", iCount);
 
 		// delete flags
-		mir_snprintf(szKey, 100, "$%s", szId);
+		mir_snprintf(szKey, SIZEOF(szKey), "$%s", szId);
 		db_unset(hContact, "SendLater", szKey);
 	}
 }
@@ -84,10 +84,10 @@ void CSendLaterJob::cleanDB()
 void CSendLaterJob::readFlags()
 {
 	if (isPersistentJob()) {
-		char	szKey[100];
-		DWORD	localFlags;
+		char szKey[100];
+		DWORD localFlags;
 
-		mir_snprintf(szKey, 100, "$%s", szId);
+		mir_snprintf(szKey, SIZEOF(szKey), "$%s", szId);
 		localFlags = db_get_dw(hContact, "SendLater", szKey, 0);
 
 		if (localFlags & SLF_SUSPEND)
@@ -102,9 +102,9 @@ void CSendLaterJob::writeFlags()
 {
 	if (isPersistentJob()) {
 		DWORD localFlags = (bCode == JOB_HOLD ? SLF_SUSPEND : 0);
-		char	szKey[100];
+		char szKey[100];
 
-		mir_snprintf(szKey, 100, "$%s", szId);
+		mir_snprintf(szKey, SIZEOF(szKey), "$%s", szId);
 		db_set_dw(hContact, "SendLater", szKey, localFlags);
 	}
 }

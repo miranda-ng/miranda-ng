@@ -61,7 +61,7 @@ bool GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 	*avatarurl = *avatarts = NULL;
 
 	char szUrl[128];
-	mir_snprintf(szUrl, 128, "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
+	mir_snprintf(szUrl, SIZEOF(szUrl), "http://api.gadu-gadu.pl/avatars/%d/0.xml", uin);
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
@@ -391,7 +391,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	size_t avatarFileB64EncLen = strlen(avatarFileB64Enc);
 
 	char dataPrefix[64];
-	mir_snprintf(dataPrefix, 64, "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
+	mir_snprintf(dataPrefix, SIZEOF(dataPrefix), "uin=%d&photo=", getDword(GG_KEY_UIN, 0));
 	size_t dataPrefixLen = strlen(dataPrefix);
 
 	size_t dataLen = dataPrefixLen + avatarFileB64EncLen;

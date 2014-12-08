@@ -329,9 +329,9 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 
 	char *szUser = (logOptions.showUser) ? (nlu == NULL ? NULL : nlu->user.szSettingsModule) : NULL;
 	if (szUser)
-		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
+		mir_snprintf(szHead, SIZEOF(szHead), "[%s%04X] [%s] ", szTime, GetCurrentThreadId(), szUser);
 	else
-		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%04X] ", szTime, GetCurrentThreadId());
+		mir_snprintf(szHead, SIZEOF(szHead), "[%s%04X] ", szTime, GetCurrentThreadId());
 
 	if (logOptions.toOutputDebugString) {
 		if (szHead[0])

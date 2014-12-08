@@ -377,7 +377,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	LoadClassSettings(ptd, PU_MODULCLASS);
 
 	// we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
-	mir_snprintf(setting, 256, "%s/TextCol", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/TextCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorText = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
 	FontIDT fid = {0};
 	fid.cbSize = sizeof(FontIDT);
@@ -395,7 +395,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	FontRegisterT(&fid);
 
 	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
-	mir_snprintf(setting, 256, "%s/BgCol", ptd->pupClass.pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/BgCol", ptd->pupClass.pszName);
 	ptd->pupClass.colorBack = (COLORREF)db_get_dw(NULL, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 	ColourIDT cid = {0};
 	cid.cbSize = sizeof(ColourIDT);

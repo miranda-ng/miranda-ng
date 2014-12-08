@@ -1349,7 +1349,7 @@ int CtrlContactAddMyItemsFromDB(
 	cbi.pszIcon = szIcon;
 
 	for (i = 0;
-		SUCCEEDED(mir_snprintf(pszSetting, MAXSETTING, szFormatVal, i)) &&
+		SUCCEEDED(mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatVal, i)) &&
 		(cbi.wFlags = DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, pszSetting, &dbv));
 		i++)
 	{
@@ -1360,7 +1360,7 @@ int CtrlContactAddMyItemsFromDB(
 		dbv.ptszVal = NULL;
 
 		// read category
-		if (SUCCEEDED(mir_snprintf(pszSetting, MAXSETTING, szFormatCat, i))) {
+		if (SUCCEEDED(mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatCat, i))) {
 			if (cbi.wFlags & CTRLF_HASCUSTOM) {
 				if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbv))
 					dbv.type = DBVT_DELETED;
@@ -1480,13 +1480,13 @@ int CtrlContactWriteMyItemsToDB(
 			if (cbi.wFlags & CBEXIF_SMS) {
 				mir_tstrncat(szVal, _T(" SMS"), SIZEOF(szVal));
 			}
-			mir_snprintf(pszSetting, MAXSETTING, szFormatCat, i);
+			mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatCat, i);
 			if (*szCat && _tcsncmp(szCat, pszOther, ccOther)) {
 				if (db_set_ts(hContact, pszModule, pszSetting, szCat)) return 1;
 			}
 			else
 				db_unset(hContact, pszModule, pszSetting);
-			mir_snprintf(pszSetting, MAXSETTING, szFormatVal, i);
+			mir_snprintf(pszSetting, SIZEOF(pszSetting), szFormatVal, i);
 			if (db_set_ts(hContact, pszModule, pszSetting, szVal)) return 1;
 			cbi.wFlags &= ~CTRLF_CHANGED;
 			cbi.wMask = CBEXIM_FLAGS;

@@ -338,12 +338,12 @@ static INT_PTR RegisterPopupClass(WPARAM wParam, LPARAM lParam)
 		pc->pszDescription = mir_strdup(pc->pszDescription);
 	
 	char setting[256];
-	mir_snprintf(setting, 256, "%s/Timeout", pc->pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/Timeout", pc->pszName);
 	pc->iSeconds = db_get_w(0, MODULE, setting, pc->iSeconds);
 	if (pc->iSeconds == (WORD)-1) pc->iSeconds = -1;
-	mir_snprintf(setting, 256, "%s/TextCol", pc->pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/TextCol", pc->pszName);
 	pc->colorText = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorText);
-	mir_snprintf(setting, 256, "%s/BgCol", pc->pszName);
+	mir_snprintf(setting, SIZEOF(setting), "%s/BgCol", pc->pszName);
 	pc->colorBack = (COLORREF)db_get_dw(0, MODULE, setting, (DWORD)pc->colorBack);
 
 	arClasses.insert(pc);

@@ -302,17 +302,17 @@ void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szPr
 {
 	char szSetting[512];
 
-	mir_snprintf(szSetting, 512, "%c%s_PF", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, name);
 	cfg::writeString(NULL, CLVM_MODULE, szSetting, szProtoFilter);
-	mir_snprintf(szSetting, 512, "%c%s_GF", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, name);
 	cfg::writeTString(NULL, CLVM_MODULE, szSetting, szGroupFilter);
-	mir_snprintf(szSetting, 512, "%c%s_SM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, name);
 	cfg::writeDword(CLVM_MODULE, szSetting, statusMask);
-	mir_snprintf(szSetting, 512, "%c%s_SSM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, name);
 	cfg::writeDword(CLVM_MODULE, szSetting, stickyStatusMask);
-	mir_snprintf(szSetting, 512, "%c%s_OPT", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, name);
 	cfg::writeDword(CLVM_MODULE, szSetting, options);
-	mir_snprintf(szSetting, 512, "%c%s_LM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, name);
 	cfg::writeDword(CLVM_MODULE, szSetting, lmdat);
 
 	cfg::writeDword(CLVM_MODULE, name, MAKELONG((unsigned short)operators, (unsigned short)stickies));
@@ -449,21 +449,21 @@ void UpdateFilters()
 	SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szBuf);
 	strncpy(g_szModename, szBuf, sizeof(g_szModename));
 	g_szModename[sizeof(g_szModename) - 1] = 0;
-	mir_snprintf(szTemp, 100, Translate("Current view mode: %s"), g_szModename);
+	mir_snprintf(szTemp, SIZEOF(szTemp), Translate("Current view mode: %s"), g_szModename);
 	SetDlgItemTextA(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
-	mir_snprintf(szSetting, 128, "%c%s_PF", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, szBuf);
 	if (db_get(NULL, CLVM_MODULE, szSetting, &dbv_pf))
 		goto cleanup;
-	mir_snprintf(szSetting, 128, "%c%s_GF", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, szBuf);
 	if (cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv_gf))
 		goto cleanup;
-	mir_snprintf(szSetting, 128, "%c%s_OPT", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, szBuf);
 	if ((opt = cfg::getDword(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
 		SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 	}
-	mir_snprintf(szSetting, 128, "%c%s_SM", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, szBuf);
 	statusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
-	mir_snprintf(szSetting, 128, "%c%s_SSM", 246, szBuf);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, szBuf);
 	stickyStatusMask = cfg::getDword(CLVM_MODULE, szSetting, -1);
 	dwFlags = cfg::getDword(CLVM_MODULE, szBuf, 0);
 	{
@@ -480,7 +480,7 @@ void UpdateFilters()
 		for (i = 0; i < ListView_GetItemCount(hwndList); i++) {
 			item.iItem = i;
 			SendMessageA(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-			mir_snprintf(szMask, 256, "%s|", szTemp);
+			mir_snprintf(szMask, SIZEOF(szMask), "%s|", szTemp);
 			if (dbv_pf.pszVal && strstr(dbv_pf.pszVal, szMask))
 				ListView_SetCheckState(hwndList, i, TRUE)
 			else
@@ -538,7 +538,7 @@ void UpdateFilters()
 		Utils::enableDlgControl(clvmHwnd, IDC_LASTMSGVALUE, useLastMsg);
 		Utils::enableDlgControl(clvmHwnd, IDC_LASTMESSAGEUNIT, useLastMsg);
 
-		mir_snprintf(szSetting, 128, "%c%s_LM", 246, szBuf);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, szBuf);
 		lmdat = cfg::getDword(CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(clvmHwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
@@ -652,15 +652,15 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						char *szBuf = (char*)malloc(iLen + 1);
 						if (szBuf) {
 							SendDlgItemMessageA(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szBuf);
-							mir_snprintf(szSetting, 256, "%c%s_PF", 246, szBuf);
+							mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
-							mir_snprintf(szSetting, 256, "%c%s_GF", 246, szBuf);
+							mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
-							mir_snprintf(szSetting, 256, "%c%s_SM", 246, szBuf);
+							mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
-							mir_snprintf(szSetting, 256, "%c%s_VA", 246, szBuf);
+							mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_VA", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
-							mir_snprintf(szSetting, 256, "%c%s_SSM", 246, szBuf);
+							mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, szBuf);
 							db_unset(NULL, CLVM_MODULE, szSetting);
 							db_unset(NULL, CLVM_MODULE, szBuf);
 							if (!strcmp(cfg::dat.current_viewmode, szBuf) && mir_strlen(szBuf) == mir_strlen(cfg::dat.current_viewmode)) {
@@ -1048,7 +1048,7 @@ void ApplyViewMode(const char *name)
 
 	cfg::dat.bFilterEffective = 0;
 
-	mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_PF", 246, name);
 	if (!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_strlen(dbv.pszVal) >= 2) {
 			strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
@@ -1057,7 +1057,7 @@ void ApplyViewMode(const char *name)
 		}
 		mir_free(dbv.pszVal);
 	}
-	mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_GF", 246, name);
 	if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (mir_tstrlen(dbv.ptszVal) >= 2) {
 			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, SIZEOF(cfg::dat.groupFilter));
@@ -1066,12 +1066,12 @@ void ApplyViewMode(const char *name)
 		}
 		mir_free(dbv.ptszVal);
 	}
-	mir_snprintf(szSetting, 256, "%c%s_SM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SM", 246, name);
 	cfg::dat.statusMaskFilter = cfg::getDword(CLVM_MODULE, szSetting, -1);
 	if (cfg::dat.statusMaskFilter >= 1)
 		cfg::dat.bFilterEffective |= CLVM_FILTER_STATUS;
 
-	mir_snprintf(szSetting, 256, "%c%s_SSM", 246, name);
+	mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_SSM", 246, name);
 	cfg::dat.stickyMaskFilter = cfg::getDword(CLVM_MODULE, szSetting, -1);
 	if (cfg::dat.stickyMaskFilter != -1)
 		cfg::dat.bFilterEffective |= CLVM_FILTER_STICKYSTATUS;
@@ -1082,7 +1082,7 @@ void ApplyViewMode(const char *name)
 
 	if (cfg::dat.filterFlags & CLVM_AUTOCLEAR) {
 		DWORD timerexpire;
-		mir_snprintf(szSetting, 256, "%c%s_OPT", 246, name);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_OPT", 246, name);
 		timerexpire = LOWORD(cfg::getDword(CLVM_MODULE, szSetting, 0));
 		strncpy(cfg::dat.old_viewmode, cfg::dat.current_viewmode, 256);
 		cfg::dat.old_viewmode[255] = 0;
@@ -1103,7 +1103,7 @@ void ApplyViewMode(const char *name)
 		cfg::dat.sortOrder[0] = bSaved;
 
 		cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG;
-		mir_snprintf(szSetting, 256, "%c%s_LM", 246, name);
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%c%s_LM", 246, name);
 		cfg::dat.lastMsgFilter = cfg::getDword(CLVM_MODULE, szSetting, 0);
 		if (LOBYTE(HIWORD(cfg::dat.lastMsgFilter)))
 			cfg::dat.bFilterEffective |= CLVM_FILTER_LASTMSG_NEWERTHAN;

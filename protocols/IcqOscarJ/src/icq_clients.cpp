@@ -479,7 +479,7 @@ const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUse
 
 			strcpy(szClientBuf, "QIP Infium");
 			if (dwFT1) {
-				mir_snprintf(ver, 10, " (%d)", dwFT1);
+				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
 			}
 			if (dwFT2 == 0x0B)
@@ -490,7 +490,7 @@ const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUse
 		else if (MatchCapability(caps, wLen, &capQip2010, 12)) {
 			strcpy(szClientBuf, "QIP 2010");
 			if (dwFT1) {
-				mir_snprintf(ver, 10, " (%d)", dwFT1);
+				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
 			}
 
@@ -499,7 +499,7 @@ const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUse
 		else if (MatchCapability(caps, wLen, &capQip2012, 12)) {
 			strcpy(szClientBuf, "QIP 2012");
 			if (dwFT1) {
-				mir_snprintf(ver, 10, " (%d)", dwFT1);
+				mir_snprintf(ver, SIZEOF(ver), " (%d)", dwFT1);
 				strcat(szClientBuf, ver);
 			}
 
@@ -513,7 +513,7 @@ const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUse
 
 			mir_snprintf(szClientBuf, 64, cliQip, ver);
 			if (dwFT1 && dwFT2 == 0x0E) {
-				mir_snprintf(ver, 10, " (%d%d%d%d)", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF, (dwFT1 >> 0x08) & 0xFF, dwFT1 & 0xFF);
+				mir_snprintf(ver, SIZEOF(ver), " (%d%d%d%d)", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF, (dwFT1 >> 0x08) & 0xFF, dwFT1 & 0xFF);
 				strcat(szClientBuf, ver);
 			}
 			szClient = szClientBuf;
@@ -534,7 +534,7 @@ const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUse
 			if (dwFT2 == 0x0FFFF0011 && dwFT3 == 0x1100FFFF && (dwFT1 >> 0x18)) {
 				char ver[16];
 
-				mir_snprintf(ver, 10, " %d.%d", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF);
+				mir_snprintf(ver, SIZEOF(ver), " %d.%d", dwFT1 >> 0x18, (dwFT1 >> 0x10) & 0xFF);
 				if ((dwFT1 & 0xFF) == 0x0B)
 					strcat(ver, " Beta");
 				strcat(szClientBuf, ver);
@@ -946,7 +946,7 @@ const char* CIcqProto::detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUse
 		capstr* capId;
 		if (capId = MatchCapability(caps, wLen, &capMimPack, 4)) {
 			char szPack[16];
-			mir_snprintf(szPack, 16, " [%.12s]", (*capId)+4);
+			mir_snprintf(szPack, SIZEOF(szPack), " [%.12s]", (*capId)+4);
 
 			// make sure client string is not constant
 			if (szClient != szClientBuf) {

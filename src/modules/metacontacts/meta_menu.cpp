@@ -296,7 +296,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 
 		// show hide nudge menu item
 		char serviceFunc[256];
-		mir_snprintf(serviceFunc, 256, "%s%s", GetContactProto(Meta_GetMostOnline(cc)), PS_SEND_NUDGE);
+		mir_snprintf(serviceFunc, SIZEOF(serviceFunc), "%s%s", GetContactProto(Meta_GetMostOnline(cc)), PS_SEND_NUDGE);
 		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, ServiceExists(serviceFunc));
 		return 0;
 	}

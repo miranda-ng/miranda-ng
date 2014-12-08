@@ -592,7 +592,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	char* retMsg = NULL;
 	iRes = sscanf(Msg, "[sticker:%d]", &stickerid);
 	if (iRes == 1) {
-		mir_snprintf(HeadMsg, 32, "[sticker:%d]", stickerid);
+		mir_snprintf(HeadMsg, SIZEOF(HeadMsg), "[sticker:%d]", stickerid);
 		size_t retLen = mir_strlen(HeadMsg);
 		if (retLen < mir_strlen(Msg))
 			retMsg = mir_strdup(&Msg[retLen]); 

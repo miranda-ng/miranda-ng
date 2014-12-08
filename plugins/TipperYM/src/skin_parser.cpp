@@ -172,15 +172,15 @@ char *GetSettingName(TCHAR *szValue, char *szPostfix, char *buff)
 	buff[0] = 0;
 
 	if (_tcsstr(szValue, _T("traytitle")))
-		mir_snprintf(buff, 64, "FontTrayTitle%s", szPostfix);
+		mir_snprintf(buff, SIZEOF(buff), "FontTrayTitle%s", szPostfix);
 	else if (_tcsstr(szValue, _T("title")))
-		mir_snprintf(buff, 64, "FontFirst%s", szPostfix);
+		mir_snprintf(buff, SIZEOF(buff), "FontFirst%s", szPostfix);
 	else if (_tcsstr(szValue, _T("label")))
-		mir_snprintf(buff, 64, "FontLabels%s", szPostfix);
+		mir_snprintf(buff, SIZEOF(buff), "FontLabels%s", szPostfix);
 	else if (_tcsstr(szValue, _T("value")))
-		mir_snprintf(buff, 64, "FontValues%s", szPostfix);
+		mir_snprintf(buff, SIZEOF(buff), "FontValues%s", szPostfix);
 	else if (_tcsstr(szValue, _T("divider")))
-		mir_snprintf(buff, 64, "Divider%s", szPostfix);
+		mir_snprintf(buff, SIZEOF(buff), "Divider%s", szPostfix);
 
 	if (buff[0]) return buff;
 	else return NULL;

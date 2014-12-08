@@ -144,6 +144,6 @@ void CIcqProto::icq_LogFatalParam(const char *szMsg, WORD wError)
 	char str[MAX_PATH];
 	char buf[MAX_PATH];
 
-	mir_snprintf(buf, MAX_PATH, ICQTranslateUtfStatic(szMsg, str, MAX_PATH), wError);
+	mir_snprintf(buf, SIZEOF(buf), ICQTranslateUtfStatic(szMsg, str, SIZEOF(str)), wError);
 	icq_LogMessage(LOG_FATAL, buf);
 }

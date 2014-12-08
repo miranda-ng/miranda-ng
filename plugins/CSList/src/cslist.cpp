@@ -261,14 +261,14 @@ void importCustomStatuses(CSWindow* csw, int result)
 		StatusItem* si = new StatusItem();
 		si->m_iIcon = i-1;
 
-		mir_snprintf(bufTitle, 32, "XStatus%dName", i);
+		mir_snprintf(bufTitle, SIZEOF(bufTitle), "XStatus%dName", i);
 		if ( !db_get_ts( NULL, protoName, bufTitle, &dbv )) {
 			mir_tstrcpy(si->m_tszTitle, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else si->m_tszTitle[0] = 0;
 
-		mir_snprintf(bufMessage, 32, "XStatus%dMsg", i);
+		mir_snprintf(bufMessage, SIZEOF(bufMessage), "XStatus%dMsg", i);
 		if ( !db_get_ts( NULL, protoName, bufMessage, &dbv )) {
 			mir_tstrcpy(si->m_tszMessage, dbv.ptszVal);
 			db_free(&dbv);

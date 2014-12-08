@@ -311,8 +311,8 @@ int API::Ex_ShowDialog(EXCEPTION_POINTERS *ep, const char *szFile, int line, TCH
 	memcpy(&exRecord, ep->ExceptionRecord, sizeof(EXCEPTION_RECORD));
 	memcpy(&exCtx, ep->ContextRecord, sizeof(CONTEXT));
 
-	mir_snprintf(exSzFile, MAX_PATH, "%s%s", szName, szExt);
-	mir_sntprintf(exReason, 256, _T("An application error has occured: %s"), szReason);
+	mir_snprintf(exSzFile, SIZEOF(exSzFile), "%s%s", szName, szExt);
+	mir_sntprintf(exReason, SIZEOF(exReason), _T("An application error has occured: %s"), szReason);
 	exLine = line;
 	exLastResult = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_EXCEPTION), 0, Ex_DlgProc, 0);
 	exAllowContinue = fAllowContinue;

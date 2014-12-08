@@ -266,7 +266,7 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 					else {
 						char szTemp[10];
 						int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
-						mir_snprintf(szTemp, 4, "%02d", colindex);
+						mir_snprintf(szTemp, SIZEOF(szTemp), "%02d", colindex);
 						d[3] = szTemp[0];
 						d[4] = szTemp[1];
 						d[5] = ' ';
@@ -364,7 +364,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 						if (!begin) {
 							char szTemp[10];
 							int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
-							mir_snprintf(szTemp, 4, "%02d", colindex);
+							mir_snprintf(szTemp, SIZEOF(szTemp), "%02d", colindex);
 							(*buffer)[i + 3] = szTemp[0];
 							(*buffer)[i + 4] = szTemp[1];
 						}
@@ -458,7 +458,7 @@ static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	// custom template colors...
 	for (i = 1; i <= 5; i++) {
 		char szTemp[30];
-		mir_snprintf(szTemp, 10, "cc%d", i);
+		mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i);
 		colour = theme->custom_colors[i - 1];
 		if (colour == 0)
 			colour = RGB(1, 1, 1);
@@ -622,7 +622,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	if (dwEffectiveFlags & MWF_DIVIDERWANTED) {
 		static char szStyle_div[128] = "\0";
 		if (szStyle_div[0] == 0)
-			mir_snprintf(szStyle_div, 128, "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS, 0, 0, 5);
+			mir_snprintf(szStyle_div, SIZEOF(szStyle_div), "\\f%u\\cf%u\\ul0\\b%d\\i%d\\fs%u", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS, 0, 0, 5);
 
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\sl-1\\slmult0\\highlight%d\\cf%d\\-\\par\\sl0", H_MSGFONTID_DIVIDERS, H_MSGFONTID_DIVIDERS);
 		dat->dwFlags &= ~MWF_DIVIDERWANTED;
@@ -1105,7 +1105,7 @@ skip:
 		}
 		else {
 			char temp[24];
-			mir_snprintf(temp, 24, "{\\uc1\\u%d?}", (int)ci);
+			mir_snprintf(temp, SIZEOF(temp), "{\\uc1\\u%d?}", (int)ci);
 			AppendToBuffer(buffer, bufferEnd, bufferAlloced, temp);
 			i++;
 		}
@@ -1291,7 +1291,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 
 	if (dat->hHistoryEvents && dat->curHistory == dat->maxHistory) {
 		char szPattern[50];
-		mir_snprintf(szPattern, 40, "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
+		mir_snprintf(szPattern, SIZEOF(szPattern), "~-+%d+-~", (INT_PTR)dat->hHistoryEvents[0]);
 
 		FINDTEXTEXA fi;
 		fi.lpstrText = szPattern;

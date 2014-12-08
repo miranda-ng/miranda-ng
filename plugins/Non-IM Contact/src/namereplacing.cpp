@@ -422,7 +422,7 @@ int lastChecked(char *newStr, const char *str)
 		if (GetLastWriteTime(hFile, tszFileName)) {
 			CloseHandle(hFile);
 			strcat(newStr, tszFileName);
-			mir_snprintf(tszFileName, MAX_PATH, "%s%d))", szPattern, file);
+			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s%d))", szPattern, file);
 			return (int)strlen(tszFileName);
 		}
 		CloseHandle(hFile);

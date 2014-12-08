@@ -195,8 +195,8 @@ static void sttEmptyBuf(StringBuf *buf)
 
 static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 {
-	char *indentLevel = (char *)mir_alloc(128);
-	mir_snprintf(indentLevel, 128, RTF_INDENT_FMT, (int)(indent*200));
+	char indentLevel[128];
+	mir_snprintf(indentLevel, SIZEOF(indentLevel), RTF_INDENT_FMT, (int)(indent*200));
 
 	sttAppendBufRaw(buf, RTF_BEGINTAG);
 	sttAppendBufRaw(buf, indentLevel);
@@ -229,10 +229,9 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	if (xmlGetText(node)) {
 		if (xmlGetChildCount(node)) {
 			sttAppendBufRaw(buf, RTF_BEGINTEXT);
-			char *indentTextLevel = (char *)mir_alloc(128);
-			mir_snprintf(indentTextLevel, 128, RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
+			char indentTextLevel[128];
+			mir_snprintf(indentTextLevel, SIZEOF(indentTextLevel), RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
 			sttAppendBufRaw(buf, indentTextLevel);
-			mir_free(indentTextLevel);
 		}
 
 		sttAppendBufT(buf, xmlGetText(node));
@@ -255,7 +254,6 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	else sttAppendBufRaw(buf, " />");
 
 	sttAppendBufRaw(buf, RTF_ENDTAG);
-	mir_free(indentLevel);
 }
 
 DWORD CALLBACK sttStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)

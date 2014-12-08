@@ -93,11 +93,11 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, MCONTACT hContac
 				if (dbv.wVal != 0) {
 					char szExtra[80];
 
-					mir_snprintf(str, 250, "%d", dbv.wVal);
+					mir_snprintf(str, SIZEOF(str), "%d", dbv.wVal);
 					pstr = str;
 
 					if (hContact && ppro->IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 1)) {
-						ICQTranslateUtfStatic(LPGEN(" (DC Established)"), szExtra, 80);
+						ICQTranslateUtfStatic(LPGEN(" (DC Established)"), szExtra, SIZEOF(szExtra));
 						strcat(str, (char*)szExtra);
 						bUtf = 1;
 					}

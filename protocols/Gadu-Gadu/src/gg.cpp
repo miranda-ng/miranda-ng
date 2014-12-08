@@ -439,7 +439,7 @@ void gg_debughandler(int level, const char *format, va_list ap)
    strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
 
    char prefix[6];
-   mir_snprintf(prefix, PREFIXLEN, "%lu", GetCurrentThreadId());
+   mir_snprintf(prefix, SIZEOF(prefix), "%lu", GetCurrentThreadId());
    size_t prefixLen = strlen(prefix);
    if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
    memcpy(szText, prefix, PREFIXLEN);

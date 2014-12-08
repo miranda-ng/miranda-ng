@@ -117,7 +117,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 #ifdef DEBUG_LOAD_TIME
 	t = __rdtsc() - t;
 	char dest[101];
-	mir_snprintf(dest, 100, "%I64d ticks\n", t / 3200000);
+	mir_snprintf(dest, SIZEOF(dest), "%I64d ticks\n", t / 3200000);
 	MessageBoxA(NULL, dest, NULL, 0);
 	//exit(0);
 #endif

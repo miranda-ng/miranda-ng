@@ -141,7 +141,7 @@ void Xfire_voicechat::resetSendGameStatus2Packet(SendGameStatus2Packet* packet) 
 //schreibt derzetigen status in die mirandadb für variables usw
 void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 	//für sprintf
-	char temp[32] = "";
+	char temp[32];
 
 	if (packet == NULL || packet->gameid == XFIREVOICECHAT_NOVOICE) {
 		//einträge aus der db entfernen
@@ -151,7 +151,7 @@ void Xfire_voicechat::writeToDatabase(SendGameStatus2Packet* packet) {
 		return;
 	}
 	//ip speichern
-	mir_snprintf(temp, 32, "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0], packet->port);
+	mir_snprintf(temp, SIZEOF(temp), "%d.%d.%d.%d:%d", (unsigned char)packet->ip[3], (unsigned char)packet->ip[2], (unsigned char)packet->ip[1], (unsigned char)packet->ip[0], packet->port);
 	db_set_s(NULL, protocolname, "VServerIP", temp);
 	//namen jeh nach id schreiben
 	switch (packet->gameid) {
