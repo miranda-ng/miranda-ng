@@ -250,9 +250,6 @@ var
 
 implementation
 
-var
-  hLangpack:int = 0;
-
 {$undef M_API_UNIT}
   {$include m_helpers.inc}
   {$include m_clistint.inc}
