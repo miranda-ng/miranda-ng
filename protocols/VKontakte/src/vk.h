@@ -40,7 +40,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKFLAG_MSGCHAT		16	// сообщение отправлено через чат
 #define VKFLAG_MSGFRIENDS	32	// сообщение отправлено другом
 #define VKFLAG_MSGSPAM		64	// сообщение помечено как "Спам"
-#define VKFLAG_MSGDELЕTЕD	128	// сообщение удалено (в корзине)
+#define VKFLAG_MSGDELETED	128	// сообщение удалено (в корзине)
 #define VKFLAG_MSGFIXED		256	// сообщение проверено пользователем на спам
 #define VKFLAG_MSGMEDIA		512	// сообщение содержит медиаконтент
 
