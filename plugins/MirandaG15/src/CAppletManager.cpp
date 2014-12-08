@@ -1210,7 +1210,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	GCEVENT *gce = (GCEVENT*)lParam;
 	GCDEST *gcd;
 	
-	if (gce == NULL || gcd == NULL)
+	if (gce == NULL || gce->pDest == NULL)
 		TRACE(_T("<< [%s] skipping invalid event\n"));
 	gcd = (GCDEST*)gce->pDest;
 
