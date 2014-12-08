@@ -110,6 +110,9 @@
     <ClInclude Include="src\Steam\session.h">
       <Filter>Header Files\Steam</Filter>
     </ClInclude>
+    <ClInclude Include="src\Steam\status.h">
+      <Filter>Header Files\Steam</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">

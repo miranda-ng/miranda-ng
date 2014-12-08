@@ -204,6 +204,7 @@
     <ClInclude Include="src\Steam\poll.h" />
     <ClInclude Include="src\Steam\rsa_key.h" />
     <ClInclude Include="src\Steam\session.h" />
+	<ClInclude Include="src\Steam\status.h" />
     <ClInclude Include="src\Steam\steam.h" />
     <ClInclude Include="src\steam_proto.h" />
     <ClInclude Include="src\version.h" />

@@ -117,7 +117,7 @@ namespace SteamWebApi
 				steamId,
 				ptrA(mir_urlEncode(text)));
 
-			SetData(data, data.GetLength()); // FIXME: Is correct to give CMStringA or does it cause memory leak inside that method?
+			SetData(data, data.GetLength());
 		}
 	};
 }
