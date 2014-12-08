@@ -196,8 +196,8 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 	} while (FindNextFile(hFind, &FindFileData));
 
 	if (i > 0)
-		qsort(bf, (i + 1), sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
-	for (; i >= (options.num_backups - 1); i --) {
+		qsort(bf, i, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
+	for (i --; i >= (options.num_backups - 1); i --) {
 		mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\%s"), backupfolder, bf[i].Name);
 		DeleteFile(backupfolderTmp);
 	}
