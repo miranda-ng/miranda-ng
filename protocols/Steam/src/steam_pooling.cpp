@@ -82,7 +82,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			
 			MCONTACT hContact = FindContact(steamId);
 			if (hContact == NULL)
-				hContact = AddContact(steamId);
+				continue; // probably this is info about random player playing on same server, so we ignore it
 
 			setWord(hContact, "Status", status);
 
