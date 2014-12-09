@@ -44,12 +44,11 @@ static int g_status_events[] = {
 };
 
 static int g_status_events_size = 0;
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
 bool TSAPI IsStatusEvent(int eventType)
 {
 	if (g_status_events_size == 0)
-		g_status_events_size = MAX_REGS(g_status_events);
+		g_status_events_size = SIZEOF(g_status_events);
 
 	for (int i = 0; i < g_status_events_size; i++) {
 		if (eventType == g_status_events[i])
