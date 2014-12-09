@@ -84,7 +84,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			if (hContact == NULL)
 				continue; // probably this is info about random player playing on same server, so we ignore it
 
-			setWord(hContact, "Status", status);
+			SetContactStatus(hContact, status);
 
 			node = json_get(item, "persona_name");
 			setTString(hContact, "Nick", json_as_string(node));

@@ -17,6 +17,14 @@ int CSteamProto::GetContactXStatus(MCONTACT hContact)
 	return getDword(hContact, "XStatusId", 0) ? 1 : 0;
 }
 
+void SetContactExtraIcon(MCONTACT hContact, int status)
+{
+	char iconName[100];
+	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
+
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (status > 0) ? Skin_GetIconHandle(iconName) : NULL);
+}
+
 INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;

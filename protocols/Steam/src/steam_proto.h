@@ -292,5 +292,6 @@ protected:
 };
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);
+void SetContactExtraIcon(MCONTACT hContact, int status);
 
 #endif //_STEAM_PROTO_H_

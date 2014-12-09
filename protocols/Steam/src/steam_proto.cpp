@@ -62,7 +62,6 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::OnGetXStatusEx);
 	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);
 	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::OnRequestAdvStatusIconIdx);
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
 }
 
 CSteamProto::~CSteamProto()

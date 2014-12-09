@@ -3,6 +3,8 @@
 int hLangpack;
 HINSTANCE g_hInstance;
 
+HANDLE hExtraXStatus;
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -42,6 +44,13 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.fnInit = (pfnInitProto)CSteamProto::InitProtoInstance;
 	pd.fnUninit = (pfnUninitProto)CSteamProto::UninitProtoInstance;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+
+	char iconName[100];
+	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
+
+	// extra statuses
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
+	hExtraXStatus = ExtraIcon_Register("steam_game", LPGEN("Steam game"), iconName);
 
 	CSteamProto::InitMenus();
 

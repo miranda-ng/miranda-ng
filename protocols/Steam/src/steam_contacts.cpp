@@ -4,7 +4,19 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 {
 	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (oldStatus != status)
+	{
 		setWord(hContact, "Status", status);
+		
+		// If contact is offline, clear also xstatus
+		if (status == ID_STATUS_OFFLINE)
+		{
+			delSetting(hContact, "XStatusId");
+			delSetting(hContact, "XStatusName");
+			delSetting(hContact, "XStatusMsg");
+
+			SetContactExtraIcon(hContact, NULL);
+		}
+	}
 }
 
 void CSteamProto::SetAllContactsStatus(WORD status)
@@ -13,8 +25,8 @@ void CSteamProto::SetAllContactsStatus(WORD status)
 	{
 		if (this->isChatRoom(hContact))
 			continue;
-		//if (this->IsContactOnline(hContact))
-		setWord(hContact, "Status", status);
+
+		SetContactStatus(hContact, status);
 	}
 }
 
@@ -190,6 +202,8 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 		setDword(hContact, "XStatusId", gameId);
 		setTString(hContact, "XStatusName", TranslateT("Playing"));
 		setTString(hContact, "XStatusMsg", message);
+
+		SetContactExtraIcon(hContact, gameId);
 	}
 	else
 	{
@@ -200,6 +214,8 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 		delSetting(hContact, "XStatusId");
 		delSetting(hContact, "XStatusName");
 		delSetting(hContact, "XStatusMsg");
+
+		SetContactExtraIcon(hContact, NULL);
 	}
 }
 
@@ -209,7 +225,7 @@ void CSteamProto::ContactIsRemoved(MCONTACT hContact)
 	{
 		setByte(hContact, "Auth", 1);
 		setDword(hContact, "DeletedTS", ::time(NULL));
-		setWord(hContact, "Status", ID_STATUS_OFFLINE);
+		SetContactStatus(hContact, ID_STATUS_OFFLINE);
 
 		ptrT nick(getTStringA(hContact, "Nick"));
 		TCHAR message[MAX_PATH];
