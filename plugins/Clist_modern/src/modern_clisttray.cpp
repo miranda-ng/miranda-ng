@@ -216,10 +216,8 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 						return pcli->pfnTrayIconSetBaseInfo(hIcon, szChangedProto);
 				}
 				else if (pcli->pfnGetProtocolVisibility(szChangedProto)) {
-					int avg = pcli->pfnGetAverageMode(NULL);
 					int i = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0)), szChangedProto);
 					if (i < 0) {
-						Netlib_Logf(NULL, "Connection icon disabled for %s", szChangedProto);
 						pcli->pfnTrayIconDestroy(hwnd);
 						pcli->pfnTrayIconInit(hwnd);
 						return -1;
