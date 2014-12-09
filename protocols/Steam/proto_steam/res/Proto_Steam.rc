@@ -54,8 +54,11 @@ END
 IDI_ICON1               ICON                    "Offline.ico"
 IDI_ICON2               ICON                    "Online.ico"
 IDI_ICON3               ICON                    "Away.ico"
-IDI_ICON4               ICON                    "DND.ico"
-IDI_ICON5               ICON                    "Out2Lunch.ico"
+IDI_ICON5               ICON                    "NA.ico"
+IDI_ICON6               ICON                    "DND.ico"
+IDI_ICON8               ICON                    "Lunch.ico"
+IDI_ICON9               ICON                    "Phone.ico"
+IDI_ICON10              ICON                    "FFC.ico"
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
