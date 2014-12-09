@@ -442,13 +442,13 @@ TCHAR *GetStatusName(struct ClcContact *item)
 		return status_name;
 
 	// Get XStatusName
-	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusName", status_name, MAX_REGS(status_name), NULL);
+	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusName", status_name, SIZEOF(status_name), NULL);
 	if (status_name[0] != _T('\0'))
 		return status_name;
 
 	// Get status name
 	status = db_get_w(item->hContact, item->proto, "Status", ID_STATUS_OFFLINE);
-	mir_tstrncpy(status_name, pcli->pfnGetStatusModeDescription(status, GSMDF_TCHAR), MAX_REGS(status_name));
+	mir_tstrncpy(status_name, pcli->pfnGetStatusModeDescription(status, GSMDF_TCHAR), SIZEOF(status_name));
 
 	return status_name;
 }
@@ -462,12 +462,12 @@ TCHAR *GetStatusMessage(struct ClcContact *item)
 		return status_message;
 
 	// Get XStatusMsg
-	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusMsg", status_message, MAX_REGS(status_message), NULL);
+	MyDBGetContactSettingTString(item->hContact, item->proto, "XStatusMsg", status_message, SIZEOF(status_message), NULL);
 	if (status_message[0] != _T('\0'))
 		return status_message;
 
 	// Get status message
-	MyDBGetContactSettingTString(item->hContact, "CList", "StatusMsg", status_message, MAX_REGS(status_message), NULL);
+	MyDBGetContactSettingTString(item->hContact, "CList", "StatusMsg", status_message, SIZEOF(status_message), NULL);
 
 	return status_message;
 }
@@ -484,7 +484,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 	proto_name[0] = '\0';
 	if (item->hContact == NULL || item->proto == NULL)
 	{
-		mir_tstrncpy(proto_name, TranslateT("Unknown Protocol"), MAX_REGS(proto_name));
+		mir_tstrncpy(proto_name, TranslateT("Unknown Protocol"), SIZEOF(proto_name));
 		return proto_name;
 	}
 
@@ -501,7 +501,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 		return proto_name;
 	}
 
-	mir_tstrncpy(proto_name, acc->tszAccountName, MAX_REGS(proto_name));
+	mir_tstrncpy(proto_name, acc->tszAccountName, SIZEOF(proto_name));
 
 	return proto_name;
 }
@@ -542,7 +542,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 	group = &dat->list;
 	group->scanIndex = 0;
 	text = tmp;
-	size = MAX_REGS(tmp);
+	size = SIZEOF(tmp);
 	while(1)
 	{
 		if (group->scanIndex == group->cl.count)
@@ -588,7 +588,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 					count[0] = _T('\0');
 				}
 
-				txt = ParseText(template_group, t, MAX_REGS(t), v, MAX_REGS(v));
+				txt = ParseText(template_group, t, SIZEOF(t), v, SIZEOF(v));
 				if (txt != NULL)
 					mir_tstrncpy(text, txt, (int)size);
 				mir_free(txt);
@@ -610,7 +610,7 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 					GetStatusMessage(item)
 				};
 
-				TCHAR *txt = ParseText(template_contact, t, MAX_REGS(t), v, MAX_REGS(v));
+				TCHAR *txt = ParseText(template_contact, t, SIZEOF(t), v, SIZEOF(v));
 				if (txt != NULL)
 					mir_tstrncpy(text, txt, (int)size);
 				mir_free(txt);

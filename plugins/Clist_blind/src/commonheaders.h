@@ -62,5 +62,3 @@ extern CLIST_INTERFACE coreCli;
   * easy search and replace
 
 */
-
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
