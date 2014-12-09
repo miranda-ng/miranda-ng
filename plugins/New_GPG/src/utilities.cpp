@@ -1541,11 +1541,11 @@ void ExportGpGKeysFunc(int type)
 		file.close();
 	TCHAR msg[512];
 	if(type == 2)
-		mir_sntprintf(msg, 512, TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully exported %d public keys and all private keys."), exported_keys);
 	else if(type == 1)
-		mir_sntprintf(msg, 512, TranslateT("We have successfully exported all private keys."));
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully exported all private keys."));
 	else if(!type)
-		mir_sntprintf(msg, 512, TranslateT("We have successfully exported %d public keys."), exported_keys);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully exported %d public keys."), exported_keys);
 	MessageBox(NULL, msg, TranslateT("Keys export result"), MB_OK);
 }
 
@@ -1890,9 +1890,9 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 		file.close();
 	TCHAR msg[512];
 	if(processed_private_keys)
-		mir_sntprintf(msg, 512, TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully processed %d public keys and some private keys."), processed_keys);
 	else
-		mir_sntprintf(msg, 512, TranslateT("We have successfully processed %d public keys."), processed_keys);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("We have successfully processed %d public keys."), processed_keys);
 	MessageBox(NULL, msg, TranslateT("Keys import result"), MB_OK);
 	return 0;
 }

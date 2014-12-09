@@ -128,7 +128,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 
 		bufSize = textlenght + 12;
 		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
-		mir_sntprintf(pszFormatedText, bufSize*sizeof(TCHAR), _T("[img]%s[/img]"), pszText);
+		mir_sntprintf(pszFormatedText, bufSize, _T("[img]%s[/img]"), pszText);
 
 		bbd.ptszTooltip = 0;
 		bbd.hIcon = 0;

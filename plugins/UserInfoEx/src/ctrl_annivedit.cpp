@@ -404,7 +404,7 @@ INT_PTR CAnnivEditCtrl::SetCurSel(WORD wIndex)
 	}
 	else {
 		TCHAR szText[MAX_DESC];
-		mir_sntprintf(szText, MAX_DESC, _T("'%s'"), TranslateT("Unspecified"));
+		mir_sntprintf(szText, SIZEOF(szText), _T("'%s'"), TranslateT("Unspecified"));
 		DateTime_SetSystemtime(_hwndDate, GDT_NONE, NULL);
 		DateTime_SetFormat(_hwndDate, szText);
 	}

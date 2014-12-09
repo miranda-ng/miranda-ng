@@ -419,8 +419,8 @@ HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 		return 0;
 
 	if (!file || _tcschr( file, _T('%'))) {
-		mir_sntprintf(sd->File, MAX_PATH, _T("%%Default Skin%%"));
-		mir_sntprintf(sd->Name, 100, TranslateT("%Default Skin%"));
+		mir_sntprintf(sd->File, SIZEOF(sd->File), _T("%%Default Skin%%"));
+		mir_sntprintf(sd->Name, SIZEOF(sd->Name), TranslateT("%Default Skin%"));
 		_tcsncpy(fullName, TranslateT("Default Skin"), SIZEOF(fullName));
 	}
 	else {

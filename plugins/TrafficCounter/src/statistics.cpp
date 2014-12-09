@@ -319,7 +319,7 @@ void Stat_ReadFile(BYTE n)
 	
 	pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\statistics"));
 	CreateDirectoryTreeT(pszPath);
-	mir_sntprintf(FileName, MAX_PATH, _T("%s\\%S.stat"), pszPath, ProtoList[n].name);
+	mir_sntprintf(FileName, SIZEOF(FileName), _T("%s\\%S.stat"), pszPath, ProtoList[n].name);
 	mir_free(pszPath);
 	GetLocalTime(&stNow);
 	ProtoList[n].hFile = CreateFile(FileName, GENERIC_READ | GENERIC_WRITE,

@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 
 				GetDlgItemText(hDlg, EDIT_AREA, szArea, SIZEOF(szArea));
 				GetDlgItemText(hDlg, EDIT_NUMBER, szData, SIZEOF(szData));
-				mir_sntprintf(szPhone, MAXDATASIZE, _T("+%u (%s) %s"), nCountry, szArea, szData);
+				mir_sntprintf(szPhone, SIZEOF(szPhone), _T("+%u (%s) %s"), nCountry, szArea, szData);
 				noRecursion = 1;
 				SetDlgItemText(hDlg, EDIT_PHONE, szPhone);
 				noRecursion = 0;
@@ -777,7 +777,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 						!cbex->pItems ||
 						cbex->iSelectedItem < 0 ||
 						cbex->iSelectedItem >= cbex->numItems ||
-						FAILED(mir_sntprintf(szMsg, MAXDATASIZE, TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
+						FAILED(mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Do you really want to delete the current selected item?\n\t%s\n\t%s"),
 						cbex->pItems[cbex->iSelectedItem].szCat, cbex->pItems[cbex->iSelectedItem].pszVal))
 			)
 				{
@@ -943,7 +943,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 
 		// set category string
 		if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[cbex->numItems].szCat, pItem->pszCat, MAX_CAT)) {
-			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, MAX_CAT, _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
+			mir_sntprintf(cbex->pItems[cbex->numItems].szCat, SIZEOF(cbex->pItems[cbex->numItems].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 		}
 
 		// set value string
@@ -983,7 +983,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
 			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, SIZEOF(cbex->pItems[pItem->iItem].szCat))) 
-				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, MAX_CAT, _T("%s %d\0"), TranslateT("Other"), ++cbex->numOther);
+				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, SIZEOF(cbex->pItems[pItem->iItem].szCat), _T("%s %d\0"), TranslateT("Other"), ++cbex->numOther);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
 		}

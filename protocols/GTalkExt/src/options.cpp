@@ -157,8 +157,8 @@ INT_PTR CALLBACK AccOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lPa
 void ShowTestPopup(HWND wnd)
 {
 	POPUPDATAT data = { 0 };
-	mir_sntprintf(data.lptzContactName, MAX_CONTACTNAME, TranslateTS(TEST_LETTER_INBOX));
-	mir_sntprintf(data.lptzText, MAX_SECONDLINE, TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
+	mir_sntprintf(data.lptzContactName, SIZEOF(data.lptzContactName), TranslateTS(TEST_LETTER_INBOX));
+	mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), TranslateTS(TEST_LETTER_SUBJECT), TranslateTS(TEST_LETTER_SENDER), TranslateTS(TEST_LETTER_SNIP));
 
 	int len = SendDlgItemMessage(wnd, IDC_TIMEOUTEDIT, WM_GETTEXTLENGTH, 0, 0) + 1;
 	LPTSTR timeout = (LPTSTR)malloc(len * sizeof(TCHAR));

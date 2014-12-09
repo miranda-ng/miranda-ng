@@ -141,9 +141,9 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			TCHAR buff[100];
 			if (min >= 60)
-				mir_sntprintf(buff, 100, TranslateT("%dh %dm"), min / 60, min % 60);
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT("%dh %dm"), min / 60, min % 60);
 			else
-				mir_sntprintf(buff, 100, TranslateT("%dm"), min);
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT("%dm"), min);
 
 			GetTextExtentPoint32(dis->hDC,buff,(int)mir_tstrlen(buff),&timeSize);
 

@@ -282,7 +282,7 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case 3:
 			TCHAR path[MAX_PATH];
-			mir_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+			mir_sntprintf(path, SIZEOF(path), TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 			ShellExecute(NULL, TEXT("open"), path, NULL, NULL, SW_SHOW);
 			break;
 

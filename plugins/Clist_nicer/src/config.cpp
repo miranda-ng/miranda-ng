@@ -378,7 +378,7 @@ void CRTException::display() const
 	TCHAR*	tszMsg = mir_a2t(what());
 	TCHAR  	tszBoxMsg[500];
 
-	mir_sntprintf(tszBoxMsg, 500, _T("%s\n\n(%s)"), tszMsg, m_szParam);
+	mir_sntprintf(tszBoxMsg, SIZEOF(tszBoxMsg), _T("%s\n\n(%s)"), tszMsg, m_szParam);
 	::MessageBox(0, tszBoxMsg, _T("Clist_nicer runtime error"), MB_OK | MB_ICONERROR);
 	mir_free(tszMsg);
 }

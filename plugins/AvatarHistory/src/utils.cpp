@@ -151,7 +151,7 @@ TCHAR* GetContactFolder(TCHAR *fn, MCONTACT hContact)
 	
 #ifdef DBGPOPUPS
 	TCHAR log[1024];
-	mir_sntprintf(log, MAX_REGS(log), _T("Path: %s\nProto: %S\nUIN: %s"), fn, proto, uin);
+	mir_sntprintf(log, SIZEOF(log), _T("Path: %s\nProto: %S\nUIN: %s"), fn, proto, uin);
 	ShowPopup(hContact, _T("AVH Debug: GetContactFolder"), log);
 #endif
 

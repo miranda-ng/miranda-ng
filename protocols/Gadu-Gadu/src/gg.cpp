@@ -155,20 +155,20 @@ void GGPROTO::cleanuplastplugin(DWORD version)
       debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
 
       TCHAR avatarsPath[MAX_PATH];
-      mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
+      mir_sntprintf(avatarsPath, SIZEOF(avatarsPath), _T("%s\\%s"), VARST( _T("%miranda_avatarcache%")), m_tszUserName);
 
       debugLog(_T("cleanuplastplugin() 1: miranda_avatarcache = %s"), avatarsPath);
 
       if (avatarsPath !=  NULL){
          HANDLE hFind = INVALID_HANDLE_VALUE;
          TCHAR spec[MAX_PATH + 10];
-         mir_sntprintf(spec, MAX_PATH + 10, _T("%s\\*.(null)"), avatarsPath);
+         mir_sntprintf(spec, SIZEOF(spec), _T("%s\\*.(null)"), avatarsPath);
          WIN32_FIND_DATA ffd;
          hFind = FindFirstFile(spec, &ffd);
          if (hFind != INVALID_HANDLE_VALUE) {
             do {
                TCHAR filePathT [2*MAX_PATH + 10];
-               mir_sntprintf(filePathT, 2*MAX_PATH + 10, _T("%s\\%s"), avatarsPath, ffd.cFileName);
+               mir_sntprintf(filePathT, SIZEOF(filePathT), _T("%s\\%s"), avatarsPath, ffd.cFileName);
                if (!_taccess(filePathT, 0)){
                   debugLog(_T("cleanuplastplugin() 1: remove file = %s"), filePathT);
                   _tremove(filePathT);

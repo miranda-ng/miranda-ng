@@ -726,7 +726,7 @@ void Options::InitCodepageCB(HWND hwndCB, unsigned int codepage)
 	if(selCpIdx == -1)
 	{
 		TCHAR buf[10];
-		mir_sntprintf(buf, 10, _T("%d"), codepage);
+		mir_sntprintf(buf, SIZEOF(buf), _T("%d"), codepage);
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else
@@ -750,7 +750,7 @@ void Options::SetCodepageCB(HWND hwndCB, unsigned int codepage)
 	if(selCpIdx == -1)
 	{
 		TCHAR buf[10];
-		mir_sntprintf(buf, 10, _T("%d"), codepage);
+		mir_sntprintf(buf, SIZEOF(buf), _T("%d"), codepage);
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else

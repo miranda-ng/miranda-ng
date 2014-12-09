@@ -706,7 +706,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							if(!szKey)
 							{
 								TCHAR msg[64];
-								mir_sntprintf(msg, 64, TranslateT("Failed to lock memory with error %d"), GetLastError());
+								mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed to lock memory with error %d"), GetLastError());
 								MessageBox(0, msg, TranslateT("Error"), MB_OK);
 								GlobalFree(hMem);
 							}
@@ -718,7 +718,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							{
 								GlobalFree(hMem);
 								TCHAR msg[64];
-								mir_sntprintf(msg, 64, TranslateT("Failed write to clipboard with error %d"), GetLastError());
+								mir_sntprintf(msg, SIZEOF(msg), TranslateT("Failed write to clipboard with error %d"), GetLastError());
 								MessageBox(0, msg, TranslateT("Error"), MB_OK);
 							}
 							CloseClipboard();

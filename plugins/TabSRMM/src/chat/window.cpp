@@ -2078,11 +2078,11 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					else if (diff > 59) {
 						DWORD hours = diff / 60;
 						DWORD minutes = diff % 60;
-						mir_sntprintf(mi->tszIdleMsg, 60, TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
+						mir_sntprintf(mi->tszIdleMsg, SIZEOF(mi->tszIdleMsg), TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
 							TranslateT("hours") : TranslateT("hour"),
 							minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
 					}
-					else mir_sntprintf(mi->tszIdleMsg, 60, TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
+					else mir_sntprintf(mi->tszIdleMsg, SIZEOF(mi->tszIdleMsg), TranslateT(", %d %s idle"), diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 				}
 				mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 			}

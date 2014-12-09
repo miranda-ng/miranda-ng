@@ -689,7 +689,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 
 	SIZE szTitle;
 	TCHAR	szPrefix[100];
-	mir_sntprintf(szPrefix, 100, TranslateT("Topic is: %s"), _T(""));
+	mir_sntprintf(szPrefix, SIZEOF(szPrefix), TranslateT("Topic is: %s"), _T(""));
 	::GetTextExtentPoint32(hdc, szPrefix, (int)mir_tstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
 	if (m_hoverFlags & HOVER_UIN)
@@ -910,11 +910,11 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 			return;
 
 		TCHAR temp[1024];
-		mir_sntprintf(temp, 1024, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+		mir_sntprintf(temp, SIZEOF(temp), RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
 
 		tstring *str = new tstring(temp);
 
-		mir_sntprintf(temp, 1024, TranslateT("\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s"),
+		mir_sntprintf(temp, SIZEOF(temp), TranslateT("\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s"),
 			m_dat->cache->getStatusMsg() ? m_dat->cache->getStatusMsg() : TranslateT("No status message"));
 		str->append(temp);
 
@@ -928,7 +928,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 			if (tszXStatusName) {
 				str->append(TranslateT("\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par "));
-				mir_sntprintf(temp, 1024, _T("%s%s%s"), tszXStatusName, m_dat->cache->getXStatusMsg() ? _T(" / ") : _T(""),
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s%s"), tszXStatusName, m_dat->cache->getXStatusMsg() ? _T(" / ") : _T(""),
 								m_dat->cache->getXStatusMsg() ? m_dat->cache->getXStatusMsg() : _T(""));
 				str->append(temp);
 				if (dbv.ptszVal)
@@ -937,12 +937,12 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		}
 
 		if (m_dat->cache->getListeningInfo()) {
-			mir_sntprintf(temp, 1024, TranslateT("\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->cache->getListeningInfo());
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->cache->getListeningInfo());
 			str->append(temp);
 		}
 
 		if (0 == db_get_ts(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
-			mir_sntprintf(temp, 1024, TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
 			::db_free(&dbv);
 			str->append(temp);
 		}
@@ -1107,11 +1107,11 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 		{
 			TCHAR	tszTitle[100];
-			mir_sntprintf(tszTitle, 100, TranslateT("Set panel visibility for this %s"),
+			mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("Set panel visibility for this %s"),
 				m_isChat ? TranslateT("chat room") : TranslateT("contact"));
 			::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
 
-			mir_sntprintf(tszTitle, 100, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
+			mir_sntprintf(tszTitle, SIZEOF(tszTitle), m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
 				TranslateT("Do not synchronize the panel height with group chat windows"));
 
 			::SetDlgItemText(hwnd, IDC_NOSYNC, tszTitle);
@@ -1562,7 +1562,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			HANDLE hTheme = 0;
 
 			TCHAR szTitle[128];
-			mir_sntprintf(szTitle, 128, m_szTitle ? _T("%s (%s)") : _T("%s%s"), c->getNick(), m_szTitle ? m_szTitle : _T(""));
+			mir_sntprintf(szTitle, SIZEOF(szTitle), m_szTitle ? _T("%s (%s)") : _T("%s%s"), c->getNick(), m_szTitle ? m_szTitle : _T(""));
 
 			if (m_panel) {
 				HDC hdcMem = ::CreateCompatibleDC(hdc);

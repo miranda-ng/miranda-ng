@@ -154,11 +154,11 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 
 	TCHAR szBaseName[MAX_PATH];
 	if (isOwnPic)
-		mir_sntprintf(szBaseName, MAX_PATH, _T("My Avatar_%s"), szTimestamp);
+		mir_sntprintf(szBaseName, SIZEOF(szBaseName), _T("My Avatar_%s"), szTimestamp);
 	else
-		mir_sntprintf(szBaseName, MAX_PATH, _T("%s_%s"), dat->cache->getNick(), szTimestamp);
+		mir_sntprintf(szBaseName, SIZEOF(szBaseName), _T("%s_%s"), dat->cache->getNick(), szTimestamp);
 
-	mir_sntprintf(szFinalFilename, MAX_PATH, _T("%s.png"), szBaseName);
+	mir_sntprintf(szFinalFilename, SIZEOF(szFinalFilename), _T("%s.png"), szBaseName);
 
 	// do not allow / or \ or % in the filename
 	Utils::sanitizeFilename(szFinalFilename);
@@ -1341,7 +1341,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 		TCHAR	szKey[20];
 		DWORD	dwLID = _tcstoul(szKLName, &stopped, 16);
 
-		mir_sntprintf(szKey, 20, _T("%04.04x"), LOWORD(dwLID));
+		mir_sntprintf(szKey, SIZEOF(szKey), _T("%04.04x"), LOWORD(dwLID));
 		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, _T("MIME\\Database\\Rfc1766"), 0, KEY_READ, &hKey)) {
 			DWORD dwLength = 255;
 			if (ERROR_SUCCESS == RegQueryValueEx(hKey, szKey, 0, 0, (unsigned char *)szLI, &dwLength)) {

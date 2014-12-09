@@ -428,7 +428,7 @@ int _notify(MCONTACT hContact, BYTE type, TCHAR *message, TCHAR *origmessage)
 {
 	char *tmp, *tmporig;
 	TCHAR msg[MAX_BUFFER_LENGTH];
-	mir_sntprintf(msg, MAX_BUFFER_LENGTH, message, CONTACT_NAME(hContact));
+	mir_sntprintf(msg, SIZEOF(msg), message, CONTACT_NAME(hContact));
 
 	if (_getOptB("LogActions", defaultLogActions)) {
 		tmp = mir_u2a(msg);

@@ -544,7 +544,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage* pmsg)
 					sParams += _T(" ") + pmsg->parameters[i];
 
 				TCHAR temp[4000];
-				mir_sntprintf(temp, 3999, TranslateT("%s sets mode %s%s"), pmsg->prefix.sNick.c_str(), sModes.c_str(), sParams.c_str());
+				mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s sets mode %s%s"), pmsg->prefix.sNick.c_str(), sModes.c_str(), sParams.c_str());
 				DoEvent(GC_EVENT_INFORMATION, pmsg->parameters[0].c_str(), pmsg->prefix.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
 			}
 
@@ -1677,7 +1677,7 @@ bool CIrcProto::OnIrc_WHOIS_OTHER(const CIrcMessage* pmsg)
 		TCHAR temp[1024], temp2[1024];
 		m_whoisDlg->m_InfoOther.GetText(temp, 1000);
 		mir_tstrcat(temp, _T("%s\r\n"));
-		mir_sntprintf(temp2, 1020, temp, pmsg->parameters[2].c_str());
+		mir_sntprintf(temp2, SIZEOF(temp2), temp, pmsg->parameters[2].c_str());
 		m_whoisDlg->m_InfoOther.SetText(temp2);
 	}
 	ShowMessage(pmsg);
@@ -1713,13 +1713,13 @@ bool CIrcProto::OnIrc_WHOIS_IDLE(const CIrcMessage* pmsg)
 
 		TCHAR temp[100];
 		if (D)
-			mir_sntprintf(temp, 99, TranslateT("%ud, %uh, %um, %us"), D, H, M, S);
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%ud, %uh, %um, %us"), D, H, M, S);
 		else if (H)
-			mir_sntprintf(temp, 99, TranslateT("%uh, %um, %us"), H, M, S);
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%uh, %um, %us"), H, M, S);
 		else if (M)
-			mir_sntprintf(temp, 99, TranslateT("%um, %us"), M, S);
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%um, %us"), M, S);
 		else if (S)
-			mir_sntprintf(temp, 99, TranslateT("%us"), S);
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%us"), S);
 		else
 			temp[0] = 0;
 

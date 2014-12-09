@@ -482,15 +482,15 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
 {
 	bool	fAddEllipsis = false;
-	int iPreviewLimit = nen_options.iLimitPreview;
+	size_t iPreviewLimit = nen_options.iLimitPreview;
 	if (iPreviewLimit > 500 || iPreviewLimit == 0)
 		iPreviewLimit = 500;
 
 	TCHAR* buf = DbGetEventTextT(dbe, CP_ACP);
 	if (mir_tstrlen(buf) > iPreviewLimit) {
 		fAddEllipsis = true;
-		int iIndex = iPreviewLimit;
-		int iWordThreshold = 20;
+		size_t iIndex = iPreviewLimit;
+		size_t iWordThreshold = 20;
 		while(iIndex && buf[iIndex] != ' ' && iWordThreshold--)
 			buf[iIndex--] = 0;
 
@@ -578,7 +578,7 @@ static int PopupUpdateT(MCONTACT hContact, HANDLE hEvent)
 
 	TCHAR timestamp[MAX_DATASIZE];
 	_tcsftime(timestamp, MAX_DATASIZE, _T("%Y.%m.%d %H:%M"), _localtime32((__time32_t *)&dbe.timestamp));
-	mir_sntprintf(pdata->eventData[pdata->nrMerged].tszText, MAX_SECONDLINE, _T("\n\n%s\n"), timestamp);
+	mir_sntprintf(pdata->eventData[pdata->nrMerged].tszText, SIZEOF(pdata->eventData[pdata->nrMerged].tszText), _T("\n\n%s\n"), timestamp);
 
 	TCHAR *szPreview = GetPreviewT(dbe.eventType, &dbe);
 	if (szPreview) {

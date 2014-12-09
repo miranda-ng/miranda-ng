@@ -135,13 +135,13 @@ search_again:
 
 						TCHAR szTemp[5];
 						message.insert(beginmark, _T("cxxx "));
-						mir_sntprintf(szTemp, 4, _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
+						mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%02d"), MSGDLGFONTCOUNT + 13 + ii);
 						message[beginmark + 3] = szTemp[0];
 						message[beginmark + 4] = szTemp[1];
 						clr_found = true;
 						if (was_added) {
 							TCHAR wszTemp[100];
-							mir_sntprintf(wszTemp, 100, _T("##col##%06u:%04u"), endmark - closing, ii);
+							mir_sntprintf(wszTemp, SIZEOF(wszTemp), _T("##col##%06u:%04u"), endmark - closing, ii);
 							wszTemp[99] = 0;
 							message.insert(beginmark, wszTemp);
 						}
@@ -941,7 +941,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 
 			TCHAR	szFilename[MAX_PATH];
-			mir_sntprintf(szFilename, MAX_PATH, _T("%s%s"), tszPath, tszFilename);
+			mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s%s"), tszPath, tszFilename);
 			if (!fForceOverwrite)
 				if (PathFileExists(szFilename))
 					return true;
@@ -1331,7 +1331,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
 
-			mir_sntprintf(temp, 1024, RTF_DEFAULT_HEADER, 0, 0, 0, 30*15);
+			mir_sntprintf(temp, SIZEOF(temp), RTF_DEFAULT_HEADER, 0, 0, 0, 30*15);
 			tstring *str = new tstring(temp);
 
 			str->append(m_szText);

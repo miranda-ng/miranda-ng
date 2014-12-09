@@ -311,7 +311,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 		}
 
 		TCHAR buf[80];
-		mir_sntprintf(buf, 80, TEXT(" (build %d)"), osvi.dwBuildNumber);
+		mir_sntprintf(buf, SIZEOF(buf), TEXT(" (build %d)"), osvi.dwBuildNumber);
 		StringCchCat(pszOS, BUFSIZE, buf);
 		return TRUE;
 	}

@@ -155,7 +155,7 @@ void __cdecl SessionAnnounce(struct mwSession* session, struct mwLoginInfo* from
 	TCHAR stzFromBuff[256];
 	stzFrom = mir_utf8decodeT(from->user_name);
 	stzText = mir_utf8decodeT(text);
-	mir_sntprintf(stzFromBuff, 256, TranslateT("Session announcement - from '%s'"), stzFrom);
+	mir_sntprintf(stzFromBuff, SIZEOF(stzFromBuff), TranslateT("Session announcement - from '%s'"), stzFrom);
 	MessageBox(0, TranslateTS(stzText), stzFromBuff, MB_OK);
 	mir_free(stzText);
 	mir_free(stzFrom);
@@ -213,7 +213,7 @@ void __cdecl SessionSetUserStatus(struct mwSession* session)
 
 	default:
 		TCHAR buff[512];
-		mir_sntprintf(buff, 512, TranslateT("Unknown user status: %d"), us.status);
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT("Unknown user status: %d"), us.status);
 		proto->showPopup(buff, SAMETIME_POPUP_ERROR);
 		proto->debugLog(buff);
 

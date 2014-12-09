@@ -346,11 +346,11 @@ void EventList::InitNames()
 	TCHAR str[200];
 	if (hContact) {
 		_tcscpy_s(contactName, 256, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR ));
-		mir_sntprintf(str,200,TranslateT("History for %s"),contactName);
+		mir_sntprintf(str, SIZEOF(str), TranslateT("History for %s"),contactName);
 	}
 	else {
 		_tcscpy_s(contactName, 256, TranslateT("System"));
-		mir_sntprintf(str,200,TranslateT("History"));
+		mir_sntprintf(str, SIZEOF(str), TranslateT("History"));
 	}
 
 	if (isWnd)

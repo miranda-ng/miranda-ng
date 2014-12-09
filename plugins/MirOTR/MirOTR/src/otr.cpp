@@ -54,7 +54,7 @@ INT_PTR CALLBACK GenKeyDlgFunc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 				SetClassLongPtr(hWndDlg, GCLP_HICON, (LONG_PTR)LoadIcon(ICON_OTR,1) );
 				TCHAR buff[256];
 				TCHAR *proto = mir_a2t((char*)lParam);
-				mir_sntprintf(buff, 256, TranslateT(LANG_GENERATE_KEY), proto);
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_GENERATE_KEY), proto);
 				mir_free(proto);
 				SetDlgItemText(hWndDlg, IDC_GENERATE, buff);
 				GenKeyData *data = (GenKeyData *)mir_calloc(sizeof(GenKeyData));
@@ -184,7 +184,7 @@ extern "C" {
 		if(options.msg_popup) {
 			TCHAR buff[512];
 			TCHAR* proto = mir_a2t(protocol);
-			mir_sntprintf(buff, 512, TranslateT(LANG_OTR_USERMESSAGE), contact_get_nameT((MCONTACT)opdata), proto);
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_USERMESSAGE), contact_get_nameT((MCONTACT)opdata), proto);
 			mir_free(proto);
 			TCHAR *msg_t = mir_utf8decodeT(msg);
 			ShowPopup(buff, TranslateTS(msg_t), 0);	
@@ -240,12 +240,12 @@ extern "C" {
 		SetEncryptionStatus((MCONTACT)opdata, trusted);
 		TCHAR buff[1024];
 		if(trusted == TRUST_PRIVATE) {
-			mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_START_OTR), contact_get_nameT((MCONTACT)opdata));
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR), contact_get_nameT((MCONTACT)opdata));
 		} else if (trusted == TRUST_UNVERIFIED) {
 			if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-			mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
 		} else { // should never happen
-			mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
 		}
 		// opdata is hContact
 		ShowMessage((MCONTACT)opdata, buff);
@@ -256,7 +256,7 @@ extern "C" {
 	void otr_gui_gone_insecure(void *opdata, ConnContext *context) {
 		DEBUGOUT_T("OTR_GUI_GONE_INSECURE")
 		TCHAR buff[512];
-		mir_sntprintf(buff, 512, TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT((MCONTACT)opdata));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT((MCONTACT)opdata));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
 		if (!Miranda_Terminated()) {
 			ShowMessage((MCONTACT)opdata, buff);
@@ -275,22 +275,22 @@ extern "C" {
 		TCHAR buff[1024];
 		if (!is_reply) {
 			if(trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT((MCONTACT)opdata));
 			} else if (trusted == TRUST_UNVERIFIED) {
 				if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-				mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
 			} else { // should never happen
-				mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
 			}
 			// opdata is hContact
 			ShowMessage((MCONTACT)opdata, buff);
 		} else {
 			if(trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT((MCONTACT)opdata));
 			} else if (trusted == TRUST_UNVERIFIED) {
-				mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
 			} else { // should never happen
-				mir_sntprintf(buff, 1024, TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
 			}
 			
 		}

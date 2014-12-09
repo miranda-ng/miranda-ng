@@ -32,12 +32,11 @@ int m_log(const TCHAR *function, const TCHAR *fmt, ...)
     TCHAR text[1024];
 	size_t len;
 
-	mir_sntprintf(text, MAX_REGS(text) - 10, _T("[%08u - %08u] [%s] "), 
+	len = mir_sntprintf(text, SIZEOF(text), _T("[%08u - %08u] [%s] "), 
 				 GetCurrentThreadId(), GetTickCount(), function);
-	len = mir_tstrlen(text);
 
     va_start(va, fmt);
-    mir_vsntprintf(&text[len], MAX_REGS(text) - len, fmt, va);
+    mir_vsntprintf(&text[len], SIZEOF(text) - len, fmt, va);
     va_end(va);
 
 	BOOL writeBOM = (GetFileAttributes(_T("c:\\miranda_listeningto.log.txt")) == INVALID_FILE_ATTRIBUTES);

@@ -91,7 +91,7 @@ static void TrayAnimThread(LPVOID vParam)
 void TSAPI CreateTrayMenus(int mode)
 {
 	if (mode) {
-		mir_sntprintf(g_eventName, 100, _T("tsr_evt_%d"), GetCurrentThreadId());
+		mir_sntprintf(g_eventName, SIZEOF(g_eventName), _T("tsr_evt_%d"), GetCurrentThreadId());
 		g_hEvent = CreateEvent(NULL, FALSE, FALSE, g_eventName);
 		isAnimThreadRunning = TRUE;
 		hTrayAnimThread = mir_forkthread(TrayAnimThread, NULL);

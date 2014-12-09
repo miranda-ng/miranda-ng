@@ -280,13 +280,12 @@ static unsigned int CALLBACK regen_key_thread(void* param)
 {
 	Thread_Push(0);
 	PROTOREGENKEYOPTIONS *opts = (PROTOREGENKEYOPTIONS *)param;
-	TCHAR *buff = (TCHAR*) mir_alloc(512*sizeof(TCHAR));
-	mir_sntprintf(buff, 512, TranslateT(LANG_OTR_ASK_NEWKEY), opts->proto);
+	TCHAR buff[512];
+
+	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_ASK_NEWKEY), opts->proto);
 	EnableWindow(opts->refresh, FALSE);
 	if (IDYES == MessageBox(opts->refresh, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION|MB_YESNO))
 	{
-		mir_free(buff);
-
 		char* proto = mir_t2a(opts->proto);
 		otr_gui_create_privkey(0, proto, proto);
 		SendMessage(opts->refresh, WMU_REFRESHPROTOLIST, 0, 0);
@@ -299,8 +298,6 @@ static unsigned int CALLBACK regen_key_thread(void* param)
 		mir_free(fpt);
 		mir_free(proto);
 		*/
-	} else {
-		mir_free(buff);
 	}
 	EnableWindow(opts->refresh, TRUE);
 	delete opts;
@@ -413,7 +410,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 								TCHAR buff_proto[128];
 								ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), sel, 0, buff_proto, SIZEOF(buff_proto));
 								TCHAR buff[512];
-								mir_sntprintf(buff, 512, TranslateT(LANG_OTR_ASK_REMOVEKEY), buff_proto);
+								mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_ASK_REMOVEKEY), buff_proto);
 								if (IDYES == MessageBox(hwndDlg, buff, TranslateT(LANG_OTR_INFO), MB_ICONQUESTION|MB_YESNO))
 								{
 									char* proto = mir_t2a(buff_proto);
@@ -818,7 +815,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 								if (fp->context->active_fingerprint == fp) {
 									TCHAR buff[1024], hash[45];
 									otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-									mir_sntprintf(buff, 1024, TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT((MCONTACT)fp->context->app_data));
+									mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_FINGERPRINT_STILL_IN_USE), hash, contact_get_nameT((MCONTACT)fp->context->app_data));
 									ShowError(buff);
 								} else {
 									FPModifyMap* fpm = (FPModifyMap*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -847,7 +844,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 						if (it->first->context->active_fingerprint == it->first) {
 							TCHAR buff[1024], hash[45];
 							otrl_privkey_hash_to_humanT(hash, it->first->fingerprint);
-							mir_sntprintf(buff, 1024, TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT((MCONTACT)it->first->context->app_data));
+							mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_FINGERPRINT_NOT_DELETED), hash, contact_get_nameT((MCONTACT)it->first->context->app_data));
 							ShowError(buff);
 						} else {
 							otrl_context_forget_fingerprint(it->first, 1);

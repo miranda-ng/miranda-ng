@@ -67,7 +67,7 @@ INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 	CreateDirectoryTree(VersionInfoFolder);
 
 	TCHAR path[MAX_PATH];
-	mir_sntprintf(path, MAX_PATH, TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
+	mir_sntprintf(path, SIZEOF(path), TEXT("%s\\VersionInfo.txt"), VersionInfoFolder);
 
 	HANDLE hDumpFile = CreateFile(path, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hDumpFile != INVALID_HANDLE_VALUE) {
@@ -374,7 +374,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
 	profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 	if (catchcrashes && !needrestart)
-		mir_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
+		mir_sntprintf(CrashLogFolder, SIZEOF(CrashLogFolder), TEXT("%s\\CrashLog"), profpath);
 	_tcsncpy_s(VersionInfoFolder, profpath, _TRUNCATE);
 
 

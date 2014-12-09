@@ -45,12 +45,12 @@ void TSAPI DM_SaveLogAsRTF(const TWindowData *dat)
 	else if (dat) {
 		TCHAR szFilter[MAX_PATH], szFilename[MAX_PATH];
 		mir_sntprintf(szFilter, SIZEOF(szFilter), _T("%s%c*.rtf%c%c"), TranslateT("Rich Edit file"), 0, 0, 0);
-		mir_sntprintf(szFilename, MAX_PATH, _T("%s.rtf"), dat->cache->getNick());
+		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s.rtf"), dat->cache->getNick());
 
 		Utils::sanitizeFilename(szFilename);
 
 		TCHAR szInitialDir[MAX_PATH + 2];
-		mir_sntprintf(szInitialDir, MAX_PATH, _T("%s%s\\"), M.getDataPath(), _T("\\Saved message logs"));
+		mir_sntprintf(szInitialDir, SIZEOF(szInitialDir), _T("%s%s\\"), M.getDataPath(), _T("\\Saved message logs"));
 		CreateDirectoryTreeT(szInitialDir);
 
 		OPENFILENAME ofn = { 0 };
@@ -1011,7 +1011,7 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 		if (!PluginConfig.m_dontUseDefaultKbd) {
 			TCHAR	szBuf[20];
 			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
-			mir_sntprintf(szKLName, KL_NAMELENGTH, _T("0000%s"), szBuf);
+			mir_sntprintf(szKLName, SIZEOF(szKLName), _T("0000%s"), szBuf);
 			db_set_ts(dat->hContact, SRMSGMOD_T, "locale", szKLName);
 		}
 		else {
@@ -1769,7 +1769,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 				if (mir_tstrlen(newcontactname) != 0 && dat->szStatus != NULL) {
 					if (PluginConfig.m_StatusOnTabs)
-						mir_sntprintf(newtitle, 127, _T("%s (%s)"), newcontactname, dat->szStatus);
+						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s)"), newcontactname, dat->szStatus);
 					else
 						_tcsncpy_s(newtitle, newcontactname, _TRUNCATE);
 				} else

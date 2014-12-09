@@ -85,7 +85,7 @@ void GenericJob::getFilesFromOpenDialog()
 		TCHAR *ptr = this->stzFilePath + length + 1;
 		while (ptr[0]) 
 		{
-			mir_sntprintf(stzFile, MAX_PATH, _T("%s\\%s"), this->stzFilePath, ptr);
+			mir_sntprintf(stzFile, SIZEOF(stzFile), _T("%s\\%s"), this->stzFilePath, ptr);
 			this->addFile(stzFile);
 			ptr += _tcslen(ptr) + 1;
 		}
@@ -113,7 +113,7 @@ int GenericJob::getFilesFromFolder(TCHAR *stzFolder)
 	{
 		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) 
 		{
-			mir_sntprintf(stzFile, MAX_PATH, _T("%s\\%s"), stzFolder, ffd.cFileName);
+			mir_sntprintf(stzFile, SIZEOF(stzFile), _T("%s\\%s"), stzFolder, ffd.cFileName);
 			this->addFile(stzFile);
 		}
 

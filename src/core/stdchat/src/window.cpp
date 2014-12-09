@@ -2295,11 +2295,12 @@ LABEL_SHOWWINDOW:
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
 						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(mir_tstrlen(ui->pszUID) + 3));
+						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 3);
+						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
 						if (start == 0)
-							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
+							mir_sntprintf(pszName, dwNameLenMax, _T("%s: "), ui->pszUID);
 						else
-							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
+							mir_sntprintf(pszName, dwNameLenMax, _T("%s "), ui->pszUID);
 
 						SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
@@ -2390,11 +2391,11 @@ LABEL_SHOWWINDOW:
 					_tcsncpy_s(szName, (pInfo->ptszModDispName ? pInfo->ptszModDispName : _A2T(si->pszModule)), _TRUNCATE);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFolder, MAX_PATH, _T("%s\\%s"), g_Settings.pszLogDir, szName);
-					mir_sntprintf(szName, MAX_PATH, _T("%s.log"), si->ptszID);
+					mir_sntprintf(szFolder, SIZEOF(szFolder), _T("%s\\%s"), g_Settings.pszLogDir, szName);
+					mir_sntprintf(szName, SIZEOF(szName), _T("%s.log"), si->ptszID);
 					ValidateFilename(szName);
 
-					mir_sntprintf(szFile, MAX_PATH, _T("%s\\%s"), szFolder, szName);
+					mir_sntprintf(szFile, SIZEOF(szFile), _T("%s\\%s"), szFolder, szName);
 					ShellExecute(hwndDlg, _T("open"), szFile, NULL, NULL, SW_SHOW);
 				}
 			}

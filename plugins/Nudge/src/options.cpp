@@ -90,14 +90,14 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 		TranslateDialogDefault(hwnd);
 		{
 			TCHAR szBuf[20];
-			mir_sntprintf(szBuf, 10, _T("%d"), shake.nMoveClist);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%d"), shake.nMoveClist);
 			SetDlgItemText(hwnd, IDC_LNUMBER_CLIST, szBuf);
-			mir_sntprintf(szBuf, 10, _T("%d"), shake.nMoveChat);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%d"), shake.nMoveChat);
 			SetDlgItemText(hwnd, IDC_LNUMBER_CHAT, szBuf);
 
-			mir_sntprintf(szBuf, 10, _T("%d"), shake.nScaleClist);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%d"), shake.nScaleClist);
 			SetDlgItemText(hwnd, IDC_LSCALE_CLIST, szBuf);
-			mir_sntprintf(szBuf, 10, _T("%d"), shake.nScaleChat);
+			mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%d"), shake.nScaleChat);
 			SetDlgItemText(hwnd, IDC_LSCALE_CHAT, szBuf);
 		}
 

@@ -1142,7 +1142,7 @@ void NotifyOnSend(void)
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	//
-	mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d kilobytes sent"),
+	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes sent"),
 		notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	//
 	ppd.colorBack = Traffic_PopupBkColor;
@@ -1161,7 +1161,7 @@ void NotifyOnRecv(void)
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);
 	//
-	mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d kilobytes received"),
+	mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d kilobytes received"),
 		notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	//
 	ppd.colorBack = Traffic_PopupBkColor;

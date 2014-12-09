@@ -633,11 +633,11 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		// restore position
 		Utils_RestoreWindowPositionEx(hwndDlg,RWPF_HIDDEN,NULL,"Console","Console");
 
-		CallService(MS_DB_GETPROFILENAMET,(WPARAM)MAX_PATH,(LPARAM)name);
+		CallService(MS_DB_GETPROFILENAMET,(WPARAM)SIZEOF(name),(LPARAM)name);
 
-		CallService(MS_DB_GETPROFILEPATHT,(WPARAM)MAX_PATH,(LPARAM)path);
+		CallService(MS_DB_GETPROFILEPATHT,(WPARAM)SIZEOF(path),(LPARAM)path);
 
-		mir_sntprintf(title, MAX_PATH, _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
+		mir_sntprintf(title, SIZEOF(title), _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
 
 		SetWindowText(hwndDlg, title);
 		SendMessage(hwndDlg,WM_SETICON,ICON_BIG,(LPARAM)hIcons[0]);

@@ -497,7 +497,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		TranslateDialogDefault(hwndDlg);
 		if (hContact) {
 			TCHAR szTitle[512];
-			mir_sntprintf(szTitle, 500, TranslateT("Set avatar options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
+			mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Set avatar options for %s"), pcli->pfnGetContactDisplayName(hContact, 0));
 			SetWindowText(hwndDlg, szTitle);
 		}
 		SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);

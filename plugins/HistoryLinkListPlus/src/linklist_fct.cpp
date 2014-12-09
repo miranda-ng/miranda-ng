@@ -487,7 +487,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					type = _T("[UNK ]");
 				}
 
-				mir_sntprintf(textLine, _countof(textLine), _T("%s%s%s%s%s%s%s\n"),
+				mir_sntprintf(textLine, SIZEOF(textLine), _T("%s%s%s%s%s%s%s\n"),
 					options.showDirection ? (actualElement->direction==DIRECTION_IN?_T("[in ]"):_T("[out]")) : _T(""),
 					options.showDirection? _T(" ") : _T(""),
 					options.showType ? type : _T(""),

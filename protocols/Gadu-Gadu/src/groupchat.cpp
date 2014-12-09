@@ -305,7 +305,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	// Create new chat window
 	TCHAR status[256];
 	TCHAR *senderName = sender ? pcli->pfnGetContactDisplayName(getcontact(sender, 1, 0, NULL), 0) : NULL;
-	mir_sntprintf(status, 255, (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
+	mir_sntprintf(status, SIZEOF(status), (sender) ? TranslateT("%s initiated the conference.") : TranslateT("This is my own conference."), senderName);
 
 	GCSESSION gcwindow = { sizeof(gcwindow) };
 	gcwindow.iType = GCW_CHATROOM;

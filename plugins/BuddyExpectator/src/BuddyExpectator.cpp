@@ -230,11 +230,11 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 		ppd.lchContact = hContact;
 		ppd.lchIcon = Skin_GetIcon("enabled_icon");
 
-		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, TranslateT("Hiding %s (%S)"), 
+		mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), TranslateT("Hiding %s (%S)"), 
 			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), 
 			GetContactProto(hContact));
 
-		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d days since last message"), daysSinceMessage);
+		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("%d days since last message"), daysSinceMessage);
 
 		if (!options.iUsePopupColors) {
 			ppd.colorBack = options.iPopupColorBack;
@@ -288,7 +288,7 @@ void ReturnNotify(MCONTACT hContact, TCHAR *message)
 
 		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
 		TCHAR tmpMsg[512];
-		mir_sntprintf(tmpMsg, 512, _T("%s %s"), nick, message);
+		mir_sntprintf(tmpMsg, SIZEOF(tmpMsg), _T("%s %s"), nick, message);
 		cle.ptszTooltip = tmpMsg;
 
 		CallServiceSync(MS_CLIST_ADDEVENT, 0, (LPARAM) &cle);
@@ -326,7 +326,7 @@ void GoneNotify(MCONTACT hContact, TCHAR *message)
 
 		TCHAR* nick = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
 		TCHAR tmpMsg[512];
-		mir_sntprintf(tmpMsg, 512, _T("%s %s"), nick, message);
+		mir_sntprintf(tmpMsg, SIZEOF(tmpMsg), _T("%s %s"), nick, message);
 		cle.ptszTooltip = tmpMsg;
 		cle.flags = CLEF_TCHAR;
 

@@ -357,7 +357,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	TCHAR szEventName[100];
 	int result = 0;
 
-	mir_sntprintf(szEventName, 100, _T("avs_loaderthread_%d"), GetCurrentThreadId());
+	mir_sntprintf(szEventName, SIZEOF(szEventName), _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
 	SetThreadPriority(mir_forkthread(PicLoader, 0), THREAD_PRIORITY_IDLE);
 

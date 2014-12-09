@@ -47,7 +47,7 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 	int diff = time(NULL) - db_get_dw(hContact, "Nudge", "LastSent", time(NULL) - 30);
 	if (diff < GlobalNudge.sendTimeSec) {
 		TCHAR msg[500];
-		mir_sntprintf(msg, 500, TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
+		mir_sntprintf(msg, SIZEOF(msg), TranslateT("You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)"), GlobalNudge.sendTimeSec, 30 - diff);
 		if (GlobalNudge.useByProtocol) {
 			for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
 				if (!strcmp(protoName, n->item.ProtocolName))

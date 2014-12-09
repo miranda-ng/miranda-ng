@@ -47,7 +47,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				PSGetBoldFont(hDlg, hBoldFont);
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
-				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address"), TranslateT("home"));
+				mir_sntprintf(szAddr, SIZEOF(szAddr), _T("%s (%s)"), TranslateT("Address"), TranslateT("home"));
 				SetDlgItemText(hDlg, IDC_PAGETITLE, szAddr);
 				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
 				TranslateDialogDefault(hDlg);
@@ -194,7 +194,7 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				PSGetBoldFont(hDlg, hBoldFont);
 				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
 
-				mir_sntprintf(szAddr, MAX_PATH, _T("%s (%s)"), TranslateT("Address and contact"), TranslateT("company"));
+				mir_sntprintf(szAddr, SIZEOF(szAddr), _T("%s (%s)"), TranslateT("Address and contact"), TranslateT("company"));
 				SetDlgItemText(hDlg, IDC_PAGETITLE, szAddr);
 				SendDlgItemMessage(hDlg, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
 				TranslateDialogDefault(hDlg);
