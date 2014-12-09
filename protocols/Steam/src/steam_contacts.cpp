@@ -176,10 +176,11 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	setDword(hContact, "LogoffTS", json_as_int(node));
 
 	// status
-	node = json_get(data, "personastate");
-	WORD steamStatus = json_as_int(node);
-	WORD status = SteamToMirandaStatus(steamStatus);
+	// NOTE: this here is wrong info, probably depending on publicity of steam profile, but we don't need this at all, we get status updates by polling
+	/*node = json_get(data, "personastate");
+	status = SteamToMirandaStatus(json_as_int(node));
 	SetContactStatus(hContact, status);
+	*/
 
 	// client
 	node = json_get(data, "personastateflags");
@@ -187,9 +188,12 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	switch (stateflags)
 	{
 	case 0:
-		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
-		if (steamStatus == 1 || steamStatus == 5 || steamStatus == 6)
-			setTString(hContact, "MirVer", _T("Steam"));
+		{
+			// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
+			WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+			if (status == ID_STATUS_ONLINE || status == ID_STATUS_OUTTOLUNCH || status == ID_STATUS_FREECHAT)
+				setTString(hContact, "MirVer", _T("Steam"));
+		}
 		break;
 	case 256:
 		// on website
