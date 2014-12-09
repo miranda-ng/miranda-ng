@@ -60,6 +60,7 @@ IDI_ICON6               ICON                    "DND.ico"
 IDI_ICON7               ICON                    "Occupied.ico"
 IDI_ICON8               ICON                    "Lunch.ico"
 IDI_ICON9               ICON                    "Phone.ico"
+IDI_ICON10              ICON                    "FFC.ico"
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
