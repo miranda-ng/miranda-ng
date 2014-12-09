@@ -9,6 +9,7 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_CREATEACCMGRUI, &CSteamProto::OnAccountManagerInit);
 
 	InitializeCriticalSection(&this->contact_search_lock);
+	InitializeCriticalSection(&this->set_status_lock);
 
 	InitQueue();
 
@@ -69,6 +70,7 @@ CSteamProto::~CSteamProto()
 	UninitQueue();
 
 	DeleteCriticalSection(&this->contact_search_lock);
+	DeleteCriticalSection(&this->set_status_lock);
 }
 
 MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
@@ -350,6 +352,8 @@ int __cdecl CSteamProto::SetApparentMode(MCONTACT hContact, int mode) { return 0
 
 int CSteamProto::SetStatus(int new_status)
 {
+	mir_cslock lock(set_status_lock);
+
 	// Routing statuses not supported by Steam
 	switch (new_status)
 	{
