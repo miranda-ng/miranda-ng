@@ -38,11 +38,12 @@ std::wstring GetFile(const TCHAR* ext, HWND hwnd, bool open)
 	TCHAR filter[512];
 	std::locale loc;
 	TCHAR extUpper[32];
+
 	_tcscpy_s(extUpper, ext);
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, SIZEOF(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = _tcslen(filter) + 1;
-	mir_sntprintf(filter + len, 512 - len, _T("*.%s"), ext);
+	mir_sntprintf(filter + len, SIZEOF(filter) - len, _T("*.%s"), ext);
 	len += _tcslen(filter + len);
 	filter[++len] = 0;
 	TCHAR stzFilePath[1024];

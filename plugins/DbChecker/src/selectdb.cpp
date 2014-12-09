@@ -114,7 +114,7 @@ static int AddDatabaseToList(HWND hwndList, const TCHAR* filename, TCHAR* dir)
 		pName++;
 
 	TCHAR szName[MAX_PATH];
-	mir_sntprintf(szName, MAX_PATH, _T("%s%s"), dir, pName);
+	mir_sntprintf(szName, SIZEOF(szName), _T("%s%s"), dir, pName);
 
 	TCHAR *pDot = _tcsrchr(szName, '.');
 	if (pDot != NULL && !_tcsicmp(pDot, _T(".dat")))

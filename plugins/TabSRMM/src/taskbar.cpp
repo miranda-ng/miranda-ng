@@ -696,7 +696,7 @@ void CThumbBase::renderBase()
 		wchar_t	tszTemp[30];
 
 		m_rcIcon.top += m_sz.cy;
-		mir_sntprintf(tszTemp, 30, TranslateT("%d Unread"), m_dat->dwUnread);
+		mir_sntprintf(tszTemp, SIZEOF(tszTemp), TranslateT("%d Unread"), m_dat->dwUnread);
 		CSkin::RenderText(m_hdc, m_dat->hTheme, tszTemp, &m_rcIcon, m_dtFlags | DT_CENTER | DT_WORD_ELLIPSIS, 10, 0, true);
 	}
 	m_rcIcon= m_rcTop;
@@ -875,7 +875,7 @@ void CThumbMUC::renderContent()
 
 		if (mi) {
 			if (m_dat->dwUnread) {
-				mir_sntprintf(szTemp, 30, TranslateT("%d Unread"), m_dat->dwUnread);
+				mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%d Unread"), m_dat->dwUnread);
 				CSkin::RenderText(m_hdc, m_dat->hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 				m_rcIcon.top += m_sz.cy;
 			}

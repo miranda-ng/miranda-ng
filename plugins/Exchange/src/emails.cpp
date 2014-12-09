@@ -278,9 +278,9 @@ int CExchangeServer::Check(int bNoEmailsNotify)
 	if (((count > 0) || ((bNoEmailsNotify) && (count >= 0))) && (count != -1)) {
 		TCHAR buffer[1024];
 		if (count != 1)
-			mir_sntprintf(buffer,_countof(buffer), TranslateT("You have %d unread emails..."), count);
+			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("You have %d unread emails..."), count);
 		else
-			mir_sntprintf(buffer, _countof(buffer),TranslateT("You have one unread email..."));
+			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("You have one unread email..."));
 
 		ShowMessage(buffer, count);
 	}

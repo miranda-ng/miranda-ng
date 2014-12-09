@@ -94,7 +94,7 @@ public:
 	CImageItem(const TCHAR *szName)
 	{
 		memset(this, 0, sizeof(CImageItem));
-		mir_sntprintf(m_szName, 40, szName);
+		mir_sntprintf(m_szName, SIZEOF(m_szName), szName);
 		m_szName[39] = 0;
 	}
 

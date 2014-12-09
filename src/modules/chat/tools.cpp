@@ -182,11 +182,11 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 		pd.lchIcon = LoadIconEx("window", FALSE);
 
 	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
-	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME - 1, _T("%s - %s"), 
+	mir_sntprintf(pd.lptzContactName, SIZEOF(pd.lptzContactName), _T("%s - %s"), 
 		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
 		cli.pfnGetContactDisplayName(hContact, 0));
 
-	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), MAX_SECONDLINE);
+	mir_tstrncpy(pd.lptzText, TranslateTS(szBuf), SIZEOF(pd.lptzText));
 	pd.iSeconds = g_Settings->iPopupTimeout;
 
 	if (g_Settings->iPopupStyle == 2) {
@@ -588,11 +588,11 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				_tsplitpath(si->pszLogFileName, tszDrive, tszDir, tszName, tszExt);
 
 				TCHAR tszNewPath[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewPath, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%sarchived\\"), tszDrive, tszDir);
+				mir_sntprintf(tszNewPath, SIZEOF(tszNewPath), _T("%s%sarchived\\"), tszDrive, tszDir);
 				CreateDirectoryTreeT(tszNewPath);
 
 				TCHAR tszNewName[_MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20];
-				mir_sntprintf(tszNewName, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
+				mir_sntprintf(tszNewName, SIZEOF(tszNewName), _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
 				fclose(hFile);
 				hFile = 0;
 				if (!PathFileExists(tszNewName))

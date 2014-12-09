@@ -815,7 +815,7 @@ bool OpenFileDlg(HWND hwndDlg, HWND hwndEdit, const TCHAR* defName, const TCHAR*
 	extUpper[0] = std::toupper(ext[0], loc);
 	mir_sntprintf(filter, SIZEOF(filter), TranslateT("%s Files (*.%s)"), extUpper, ext);
 	size_t len = _tcslen(filter) + 1;
-	mir_sntprintf(filter + len, 1024 - len, _T("*.%s"), ext);
+	mir_sntprintf(filter + len, SIZEOF(filter) - len, _T("*.%s"), ext);
 	len += _tcslen(filter + len) + 1;
 	_tcscpy_s(filter + len, 1024 - len, TranslateT("All Files (*.*)"));
 	len += _tcslen(filter + len) + 1;
@@ -1291,7 +1291,7 @@ void InitCodepageCB(HWND hwndCB, unsigned int codepage, const std::wstring& name
 
 	if (selCpIdx == -1) {
 		TCHAR buf[300];
-		mir_sntprintf(buf, 300, _T("%d;%s"), codepage, name.c_str());
+		mir_sntprintf(buf, SIZEOF(buf), _T("%d;%s"), codepage, name.c_str());
 		ComboBox_SetText(hwndCB, buf);	
 	}
 	else ComboBox_SetCurSel(hwndCB, selCpIdx);	

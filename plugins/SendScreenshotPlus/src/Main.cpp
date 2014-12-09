@@ -371,7 +371,8 @@ TCHAR* GetCustomPath() {
 	int result = CreateDirectoryTreeT(pszPath);
 	if(result){
 		TCHAR szError[MAX_PATH];
-		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
+
+		mir_sntprintf(szError, SIZEOF(szError), TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"), result, pszPath);
 		MessageBox(NULL, szError, _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		mir_free(pszPath);
 		return 0;

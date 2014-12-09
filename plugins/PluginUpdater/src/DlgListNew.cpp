@@ -113,7 +113,7 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 				TCHAR *p = _tcschr(tszFileName, L'.'); *p = 0;
 
 				TCHAR link[MAX_PATH];
-				mir_sntprintf(link, MAX_PATH, _T("http://miranda-ng.org/p/%s"), tszFileName);
+				mir_sntprintf(link, SIZEOF(link), _T("http://miranda-ng.org/p/%s"), tszFileName);
 				CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM) link);
 			}
 		}

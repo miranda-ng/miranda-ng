@@ -254,7 +254,7 @@ void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unread
 	POPUPDATAT data = {0};
 
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
-	mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateT("You've received an e-mail\n%s unread threads"), unreadCount);
+	mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateT("You've received an e-mail\n%s unread threads"), unreadCount);
 
 	ShowNotification(acc, &data, jid, url, unreadCount);
 }
@@ -276,9 +276,9 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 	}
 
 	if ( ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
-		mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
+		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
 	else
-		mir_sntprintf(&data.lptzText[0], SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
+		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
 
 	free(senders);
 

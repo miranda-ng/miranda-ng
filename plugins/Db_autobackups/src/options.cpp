@@ -53,7 +53,7 @@ int LoadOptions(void)
 			db_free(&dbv);
 			mir_free(tmp);
 		} else
-			mir_sntprintf(options.folder, MAX_PATH, _T("%s%s"), DIR, SUB_DIR);
+			mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s%s"), DIR, SUB_DIR);
 	}
 	options.num_backups = (unsigned int)db_get_w(0, "AutoBackups", "NumBackups", 3);
 

@@ -1644,7 +1644,7 @@ int ske_GetFullFilename(TCHAR *buf, const TCHAR *file, TCHAR *skinfolder, BOOL m
 
 	TCHAR b2[MAX_PATH];
 	if (file[0] != '\\' && file[1] != ':')
-		mir_sntprintf(b2, MAX_PATH, _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
+		mir_sntprintf(b2, SIZEOF(b2), _T("%s\\%s"), (skinfolder == NULL) ? SkinPlace : ((INT_PTR)skinfolder != -1) ? skinfolder : _T(""), file);
 	else
 		_tcsncpy(b2, file, SIZEOF(b2));
 

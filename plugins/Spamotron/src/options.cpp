@@ -438,17 +438,17 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 			
 			EnableControlsBayes(optDlg, bEnabled);
 
-			mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%0.02f"), (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
+			mir_sntprintf(buf, SIZEOF(buf), _T("%0.02f"), (double)_getOptD("BayesSpamScore", defaultBayesSpamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_SPAM_SCORE, buf);
-			mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%.02f"), (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
+			mir_sntprintf(buf, SIZEOF(buf), _T("%.02f"), (double)_getOptD("BayesHamScore", defaultBayesHamScore)*SCORE_C);
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_HAM_SCORE, buf);
-			mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
+			mir_sntprintf(buf, SIZEOF(buf), _T("%d"), _getOptD("BayesWaitApprove", defaultBayesWaitApprove));
 			SetDlgItemText(optDlg, IDC_OPT_BAYES_WAIT_APPROVE, buf);
 
 			if (bEnabled) {
-				mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), get_msg_count(SPAM));
+				mir_sntprintf(buf, SIZEOF(buf), _T("%d"), get_msg_count(SPAM));
 				SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-				mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), get_msg_count(HAM));
+				mir_sntprintf(buf, SIZEOF(buf), _T("%d"), get_msg_count(HAM));
 				SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 			}
 
@@ -492,9 +492,9 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
 					free(dbuf);
 
-					mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), get_msg_count(SPAM));
+					mir_sntprintf(buf, SIZEOF(buf), _T("%d"), get_msg_count(SPAM));
 					SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-					mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), get_msg_count(HAM));
+					mir_sntprintf(buf, SIZEOF(buf), _T("%d"), get_msg_count(HAM));
 					SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 					return FALSE;
 
@@ -509,9 +509,9 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 					SetDlgItemText(optDlg, IDC_OPT_BAYES_LEARNBOX, _T(""));
 					free(dbuf);
 
-					mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), get_msg_count(SPAM));
+					mir_sntprintf(buf, SIZEOF(buf), _T("%d"), get_msg_count(SPAM));
 					SetDlgItemText(optDlg, IDC_STATIC_SPAM_COUNT, buf);
-					mir_sntprintf(buf, MAX_BUFFER_LENGTH, _T("%d"), get_msg_count(HAM));
+					mir_sntprintf(buf, SIZEOF(buf), _T("%d"), get_msg_count(HAM));
 					SetDlgItemText(optDlg, IDC_STATIC_HAM_COUNT, buf);
 					return FALSE;
 

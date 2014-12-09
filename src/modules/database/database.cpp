@@ -251,7 +251,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 					continue;
 
 				TCHAR newProfile[MAX_PATH];
-				mir_sntprintf(newProfile, MAX_PATH, _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
+				mir_sntprintf(newProfile, SIZEOF(newProfile), _T("%s\\%s\\%s.dat"), profiledir, ffd.cFileName, ffd.cFileName);
 				if (_taccess(newProfile, 0) != 0)
 					continue;
 

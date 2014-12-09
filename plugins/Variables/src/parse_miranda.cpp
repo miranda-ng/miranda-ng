@@ -738,7 +738,7 @@ static TCHAR *parseMirandaCoreVar(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 
 	TCHAR corevar[MAX_PATH];
-	mir_sntprintf(corevar, MAX_PATH, _T("%%%s%%"), ai->targv[0]);
+	mir_sntprintf(corevar, SIZEOF(corevar), _T("%%%s%%"), ai->targv[0]);
 	return Utils_ReplaceVarsT(corevar);
 }
 

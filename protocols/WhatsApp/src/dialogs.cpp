@@ -150,7 +150,7 @@ INT_PTR CALLBACK WhatsAppInputBoxProc(HWND hwndDlg, UINT message, WPARAM wparam,
 			ib = reinterpret_cast<input_box*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 			size_t len = SendDlgItemMessage(hwndDlg, IDC_VALUE, WM_GETTEXTLENGTH, 0, 0);
 			TCHAR str[4];
-			mir_sntprintf(str, 4, TEXT("%d"), ib->limit - len);
+			mir_sntprintf(str, SIZEOF(str), TEXT("%d"), ib->limit - len);
 			//SetDlgItemText(hwndDlg,IDC_CHARACTERS,str);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_OK), len > 0);

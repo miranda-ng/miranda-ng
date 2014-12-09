@@ -26,18 +26,18 @@ int StartOTR(MCONTACT hContact) {
 INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
+	TCHAR buff[512];
+
 	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
-		TCHAR msg[512];
-		mir_sntprintf(msg, 512, TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
-		ShowError(msg);
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
+		ShowError(buff);
 		return 0;
 	}
 
-	TCHAR buff[512];
-	mir_sntprintf(buff, 512, TranslateT(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
+	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_REQUEST_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
 	return StartOTR(hContact);
@@ -46,18 +46,18 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 {
 	MCONTACT hSub;
+	TCHAR buff[512];
+
 	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
-		TCHAR msg[512];
-		mir_sntprintf(msg, 512, TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
-		ShowError(msg);
+		mir_sntprintf(buff, 512, TranslateT(LANG_OTR_SECUREIM_STARTED), contact_get_nameT(hContact));
+		ShowError(buff);
 		return 0;
 	}
 	
-	TCHAR buff[512];
-	mir_sntprintf(buff, 512, TranslateT(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
+	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TRY_CONTINUE_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 
 	int res = StartOTR(hContact);
@@ -92,7 +92,7 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 	SetEncryptionStatus(hContact, TRUST_NOT_PRIVATE);
 
 	TCHAR buff[512];
-	mir_sntprintf(buff, 512, TranslateT(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
+	mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_OTR), contact_get_nameT(hContact));
 	ShowMessage(hContact, buff);
 	return 0;
 }

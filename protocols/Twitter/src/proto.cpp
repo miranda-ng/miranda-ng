@@ -404,8 +404,8 @@ int TwitterProto::ShowPinDialog()
 void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 {
 	POPUPDATAT popup = {};
-	mir_sntprintf(popup.lptzContactName,MAX_CONTACTNAME,TranslateT("%s Protocol"),m_tszUserName);
-	wcs_to_tcs(CP_UTF8,text,popup.lptzText,MAX_SECONDLINE);
+	mir_sntprintf(popup.lptzContactName, SIZEOF(popup.lptzContactName), TranslateT("%s Protocol"), m_tszUserName);
+	wcs_to_tcs(CP_UTF8, text, popup.lptzText, SIZEOF(popup.lptzText));
 
 	if (Error) {
 		popup.iSeconds = -1;
@@ -422,8 +422,8 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 void TwitterProto::ShowPopup(const char *text, int Error)
 {
 	POPUPDATAT popup = {};
-	mir_sntprintf(popup.lptzContactName,MAX_CONTACTNAME,TranslateT("%s Protocol"),m_tszUserName);
-	mbcs_to_tcs(CP_UTF8,text,popup.lptzText,MAX_SECONDLINE);
+	mir_sntprintf(popup.lptzContactName, SIZEOF(popup.lptzContactName), TranslateT("%s Protocol"), m_tszUserName);
+	mbcs_to_tcs(CP_UTF8, text, popup.lptzText, SIZEOF(popup.lptzText));
 	if (Error) {
 		popup.iSeconds = -1;
 		popup.colorBack = 0x000000FF;

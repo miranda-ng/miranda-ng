@@ -195,7 +195,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SetWindowText(GetDlgItem(hWnd, IDC_DAYS_IN_ADVANCE), buffer);
 			_itot(commonData.checkInterval, buffer, 10);
 			SetWindowText(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), buffer);
-			mir_sntprintf(buffer, 1024, _T("%d|%d"), commonData.popupTimeout, commonData.popupTimeoutToday);
+			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d|%d"), commonData.popupTimeout, commonData.popupTimeoutToday);
 			SetWindowText(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), buffer);
 			_itot(commonData.cSoundNearDays, buffer, 10);
 			SetWindowText(GetDlgItem(hWnd, IDC_SOUND_NEAR_DAYS_EDIT), buffer);

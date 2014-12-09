@@ -95,10 +95,10 @@ void CIcqProto::GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat
 void CIcqProto::GetAvatarFileName(int dwUin, const char *szUid, TCHAR *pszDest, size_t cbLen)
 {
 	TCHAR szPath[MAX_PATH * 2];
-	mir_sntprintf(szPath, MAX_PATH * 2, _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
+	mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%S\\"), VARST(_T("%miranda_avatarcache%")), m_szModuleName);
 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
-	fgd.nMaxPathSize = MAX_PATH * 2;
+	fgd.nMaxPathSize = SIZEOF(szPath);
 	fgd.szPathT = szPath;
 	fgd.flags = FF_TCHAR;
 

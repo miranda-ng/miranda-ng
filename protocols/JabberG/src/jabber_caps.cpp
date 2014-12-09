@@ -201,7 +201,7 @@ JabberCapsBits CJabberProto::GetTotalJidCapabilites(const TCHAR *jid)
 	if (item) {
 		for (int i = 0; i < item->arResources.getCount(); i++) {
 			TCHAR szFullJid[JABBER_MAX_JID_LEN];
-			mir_sntprintf(szFullJid, JABBER_MAX_JID_LEN, _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
+			mir_sntprintf(szFullJid, SIZEOF(szFullJid), _T("%s/%s"), szBareJid, item->arResources[i]->m_tszResourceName);
 			JabberCapsBits jcb = GetResourceCapabilites(szFullJid, FALSE);
 			if (!(jcb & JABBER_RESOURCE_CAPS_ERROR))
 				jcbToReturn |= jcb;

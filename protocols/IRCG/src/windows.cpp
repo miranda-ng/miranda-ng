@@ -970,7 +970,7 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 	TCHAR temp2[450];
 	TCHAR window[256];
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
-	mir_sntprintf(temp2, 450, _T("/MODE %s %s %s"), window, mode, _T("%question"));
+	mir_sntprintf(temp2, SIZEOF(temp2), _T("/MODE %s %s %s"), window, mode, _T("%question"));
 	SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 	dlg->Activate();
 }
@@ -1013,7 +1013,7 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 			TCHAR temp2[450];
 			TCHAR window[256];
 			GetDlgItemText(m_hwnd, IDC_CAPTION, window, SIZEOF(window));
-			mir_sntprintf(temp2, 450, _T("/MODE %s -%s %s%s/MODE %s +%s %s"), window, mode, user.c_str(), _T("%newl"), window, mode, _T("%question"));
+			mir_sntprintf(temp2, SIZEOF(temp2), _T("/MODE %s -%s %s%s/MODE %s +%s %s"), window, mode, user.c_str(), _T("%newl"), window, mode, _T("%question"));
 			SetDlgItemText(addban_hWnd, IDC_HIDDENEDIT, temp2);
 			dlg->Activate();
 		}
@@ -1192,9 +1192,9 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 			mir_tstrcat(temp, window);
 			mir_tstrcat(temp, _T(" "));
 			if (mir_tstrlen(toremove))
-				mir_sntprintf(temp, 499, _T("%s-%s"), temp, toremove);
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s-%s"), temp, toremove);
 			if (mir_tstrlen(toadd))
-				mir_sntprintf(temp, 499, _T("%s+%s"), temp, toadd);
+				mir_sntprintf(temp, SIZEOF(temp), _T("%s+%s"), temp, toadd);
 			if (!appendixremove.IsEmpty())
 				mir_tstrcat(temp, appendixremove.c_str());
 			if (!appendixadd.IsEmpty())

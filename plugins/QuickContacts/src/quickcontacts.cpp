@@ -708,11 +708,12 @@ BOOL MoveWindow(HWND hWnd, const RECT &rect, BOOL bRepaint)
 static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON icon)
 {
 	TCHAR tmp[256];
-	TCHAR *full;
+	TCHAR *full = tmp;
+
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(full = tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONSETASFLATBTN, 0, 0);
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONADDTOOLTIP, (LPARAM) full, BATF_TCHAR);
@@ -723,11 +724,12 @@ static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON
 static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 {
 	TCHAR tmp[256];
-	TCHAR *full;
+	TCHAR *full = tmp;
+
 	if (key == NULL)
 		full = TranslateTS(name);
 	else
-		mir_sntprintf(full = tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
+		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
 	SendMessage(GetDlgItem(hwndDlg, dlgItem), WM_SETTEXT, 0, (LPARAM) full);
 }

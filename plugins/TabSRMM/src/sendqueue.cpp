@@ -322,7 +322,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 
 		if (iSendLength >= iMinLength) {
 			TCHAR	tszError[256];
-			mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
+			mir_sntprintf(tszError, SIZEOF(tszError), TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
 			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 			sendQueue->clearJob(iEntry);
 			return 0;
@@ -388,7 +388,7 @@ send_unsplitted:
 
 			size_t iSendLength = getSendLength(iEntry, dat->sendMode);
 			if (iSendLength >= dat->nMax) {
-				mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
+				mir_sntprintf(tszError, SIZEOF(tszError), TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
 				SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, LPARAM(tszError));
 				clearJob(iEntry);
 				return 0;

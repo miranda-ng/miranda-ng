@@ -435,10 +435,9 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					bTranslated = blInit = LoadMind(c, line);
 					if (!bTranslated)
 					{
-						TCHAR* message = new TCHAR[5000];
-						mir_sntprintf(message, 5000, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+						TCHAR message[5000];
+						mir_sntprintf(message, SIZEOF(message), TranslateTS(FAILED_TO_LOAD_BASE), line, c);
 						MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
-						delete[] message;
 					}
 					break;
 				}

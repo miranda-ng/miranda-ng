@@ -813,7 +813,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 
 	if (hImagesFolder == NULL || FoldersGetCustomPathT(hImagesFolder, path, MAX_PATH, _T(""))) {
 		TCHAR *tmpPath = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
-		tPathLen = mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), tmpPath, m_tszUserName);
+		tPathLen = mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\%s\\ImageCache"), tmpPath, m_tszUserName);
 		mir_free(tmpPath);
 	}
 	else {
@@ -840,7 +840,7 @@ int GGPROTO::img_displayasmsg(MCONTACT hContact, void *img)
 	for (i = 1; ; ++i)
 	{
 		if ((res = gg_img_isexists(szPath, dat)) != -1) break;
-		mir_sntprintf(szPath, MAX_PATH, _T("%.*s (%u)%s"), pImgext - szPath, szPath, i, imgext);
+		mir_sntprintf(szPath, SIZEOF(szPath), _T("%.*s (%u)%s"), pImgext - szPath, szPath, i, imgext);
 	}
 
 	if (res == 0) {

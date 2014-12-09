@@ -63,23 +63,23 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CONNEC
 
 BOOL strrep(TCHAR *src,TCHAR *needle,TCHAR *newstring)
 {
-	TCHAR *found,begining[MAX_SETTING_STR],tail[MAX_SETTING_STR];
-	int pos=0;
+	TCHAR *found, begining[MAX_SETTING_STR], tail[MAX_SETTING_STR];
+	size_t pos = 0;
 
-	//strset(begining,' ');
-	//strset(tail,' ');
-	if (!(found=_tcsstr(src,needle)))
+	//strset(begining, ' ');
+	//strset(tail, ' ');
+	if (!(found=_tcsstr(src, needle)))
 		return FALSE;
 
-	pos=(int)(found-src);
+	pos = (found - src);
 	_tcsncpy_s(begining, src, pos);
-	begining[pos]='\0';
+	begining[pos] = 0;
 
-	pos=pos+(int)_tcslen(needle);
-	_tcsncpy_s(tail, src+pos, _TRUNCATE);
-	begining[pos]='\0';
+	pos = pos + _tcslen(needle);
+	_tcsncpy_s(tail, src + pos, _TRUNCATE);
+	begining[pos] = 0;
 
-	pos=mir_sntprintf(src,_tcslen(src),_T("%s%s%s"),begining,newstring,tail);
+	pos = mir_sntprintf(src, _tcslen(src), _T("%s%s%s"), begining, newstring, tail);
 	return TRUE;
 }
 
@@ -196,16 +196,16 @@ void fillExceptionsListView(HWND hwndDlg)
 		ListView_InsertItem(hwndList, &lvI);
 		lvI.iSubItem=1;
 		if (tmp->intIntPort==-1)
-			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:*"),tmp->strIntIp);
+			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:*"), tmp->strIntIp);
 		else
-			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:%d"),tmp->strIntIp,tmp->intIntPort);
+			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:%d"), tmp->strIntIp, tmp->intIntPort);
 		lvI.pszText=tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem=2;
 		if (tmp->intExtPort==-1)
-			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:*"),tmp->strExtIp);
+			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:*"), tmp->strExtIp);
 		else
-			mir_sntprintf(tmpAddress,_countof(tmpAddress),_T("%s:%d"),tmp->strExtIp,tmp->intExtPort);
+			mir_sntprintf(tmpAddress, SIZEOF(tmpAddress), _T("%s:%d"), tmp->strExtIp, tmp->intExtPort);
 		lvI.pszText=tmpAddress;
 		ListView_SetItem(hwndList, &lvI);
 		lvI.iSubItem=3;
@@ -722,7 +722,7 @@ static unsigned __stdcall checkthread(void *dummy)
 
 #ifdef _DEBUG
 				TCHAR msg[1024];
-				mir_sntprintf(msg,_countof(msg),_T("%s:%d\n%s:%d"),cur->strIntIp,cur->intIntPort,cur->strExtIp,cur->intExtPort);
+				mir_sntprintf(msg, SIZEOF(msg), _T("%s:%d\n%s:%d"), cur->strIntIp, cur->intIntPort, cur->strExtIp, cur->intExtPort);
 				_OutputDebugString(_T("New connection: %s"),msg);
 #endif
 				pid2name(cur->Pid, cur->PName, SIZEOF(cur->PName));
@@ -804,11 +804,11 @@ void showMsg(TCHAR *pName, DWORD pid,TCHAR *intIp,TCHAR *extIp,int intPort,int e
 	if (settingResolveIp) {
 		TCHAR hostName[128];
 		getDnsName(extIp, hostName, SIZEOF(hostName));
-		mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),hostName,extPort,intIp,intPort);
+		mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), _T("%s:%d\n%s:%d"), hostName, extPort, intIp, intPort);
 	}
-	else mir_sntprintf(ppd.lptzText,MAX_SECONDLINE,_T("%s:%d\n%s:%d"),extIp,extPort,intIp,intPort);
+	else mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), _T("%s:%d\n%s:%d"), extIp, extPort, intIp, intPort);
 
-	mir_sntprintf(ppd.lptzContactName,MAX_CONTACTNAME,_T("%s (%s)"),pName,tcpStates[state-1]);
+	mir_sntprintf(ppd.lptzContactName, SIZEOF(ppd.lptzContactName), _T("%s (%s)"), pName, tcpStates[state-1]);
 
 	if (settingSetColours) {
 		ppd.colorBack = settingBgColor; 

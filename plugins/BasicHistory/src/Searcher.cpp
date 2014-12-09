@@ -105,7 +105,7 @@ void Searcher::Find()
 	GetWindowText(context->findWindow, str, SIZEOF(str));
 	if (!str[0]) {
 		TCHAR buf[256];
-		mir_sntprintf(buf, 256, TranslateT("\"%s\" not found"), str);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("\"%s\" not found"), str);
 		MessageBox(context->hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 		return;
 	}
@@ -299,7 +299,7 @@ void Searcher::Find()
 	if (isStart) {
 		TCHAR buf[256];
 		GetWindowText(context->findWindow, str, SIZEOF(str));
-		mir_sntprintf(buf, 256, TranslateT("\"%s\" not found"), str);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("\"%s\" not found"), str);
 		MessageBox(context->hWnd, buf, TranslateT("Search"), MB_OK | MB_ICONINFORMATION);
 	}
 	else MessageBox(context->hWnd, TranslateTS(onlyGroup ? LPGENT("You have reached the end of the group.") : LPGENT("You have reached the end of the history.")), TranslateT("Search"), MB_OK | MB_ICONINFORMATION);

@@ -53,7 +53,7 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *s
 
 		if (pszWordText && pszWordText[0]) {
 			TCHAR szMenuText[4096];
-			mir_sntprintf(szMenuText, 4096, TranslateT("Look up '%s':"), pszWordText);
+			mir_sntprintf(szMenuText, SIZEOF(szMenuText), TranslateT("Look up '%s':"), pszWordText);
 			ModifyMenu(*hMenu, 4, MF_STRING | MF_BYPOSITION, 4, szMenuText);
 			SetSearchEngineIcons(*hMenu, g_dat.hSearchEngineIconList);
 		}

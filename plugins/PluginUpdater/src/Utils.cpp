@@ -625,7 +625,7 @@ bool PrepareEscalation()
 	else {
 		// Elevate the process. Create a pipe for a stub first
 		TCHAR tszPipeName[MAX_PATH];
-		mir_sntprintf(tszPipeName, MAX_PATH, _T("\\\\.\\pipe\\Miranda_Pu_%d"), GetCurrentProcessId());
+		mir_sntprintf(tszPipeName, SIZEOF(tszPipeName), _T("\\\\.\\pipe\\Miranda_Pu_%d"), GetCurrentProcessId());
 		hPipe = CreateNamedPipe(tszPipeName, PIPE_ACCESS_DUPLEX, PIPE_READMODE_BYTE | PIPE_WAIT, 1, 1024, 1024, NMPWAIT_USE_DEFAULT_WAIT, NULL);
 		if (hPipe == INVALID_HANDLE_VALUE) {
 			hPipe = NULL;

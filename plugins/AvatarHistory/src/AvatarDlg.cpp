@@ -139,8 +139,9 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd,UINT uMsg,WPARAM wParam,LPARAM l
 			if (displayName)
 			{
 				TCHAR title[MAX_PATH];
-				mir_sntprintf(title,MAX_PATH,TranslateT("Avatar History for %s"),displayName);
-				SetWindowText(hwnd,title);
+
+				mir_sntprintf(title, SIZEOF(title), TranslateT("Avatar History for %s"), displayName);
+				SetWindowText(hwnd, title);
 			}
 
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data->hContact);
@@ -380,7 +381,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
-	mir_sntprintf(path, MAX_PATH, _T("%s\\*.*"), dir);
+	mir_sntprintf(path, SIZEOF(path), _T("%s\\*.*"), dir);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -390,7 +391,7 @@ int FillAvatarListFromFiles(HWND list, MCONTACT hContact)
 	{
 		if (finddata.cFileName[0] != '.')
 		{
-			mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), dir, finddata.cFileName);
+			mir_sntprintf(path, SIZEOF(path), _T("%s\\%s"), dir, finddata.cFileName);
 			max_pos = AddFileToList(path,finddata.cFileName,finddata.cFileName,list);
 		}
 	}
@@ -407,7 +408,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 	WIN32_FIND_DATA finddata;
 
 	GetContactFolder(dir, hContact);
-	mir_sntprintf(path, MAX_PATH, _T("%s\\*.lnk"), dir);
+	mir_sntprintf(path, SIZEOF(path), _T("%s\\*.lnk"), dir);
 
 	HANDLE hFind = FindFirstFile(path, &finddata);
 	if (hFind == INVALID_HANDLE_VALUE)
@@ -418,7 +419,7 @@ int FillAvatarListFromFolder(HWND list, MCONTACT hContact)
 		if (finddata.cFileName[0] != '.')
 		{
 			TCHAR lnk[MAX_PATH];
-			mir_sntprintf(lnk, MAX_PATH, _T("%s\\%s"), dir, finddata.cFileName);
+			mir_sntprintf(lnk, SIZEOF(lnk), _T("%s\\%s"), dir, finddata.cFileName);
 			if (ResolveShortcut(lnk, path))
 				max_pos = AddFileToList(path,lnk,finddata.cFileName,list);
 		}

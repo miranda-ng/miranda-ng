@@ -71,8 +71,9 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							}
 
 							TCHAR *nick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
-							TCHAR *value = (TCHAR *)mir_alloc(sizeof(TCHAR) * (_tcslen(uid) + _tcslen(nick) + 4));
-							mir_sntprintf(value, _tcslen(uid) + _tcslen(nick) + 4, _T("%s (%s)"), nick, uid);
+							size_t value_max_len = (_tcslen(uid) + _tcslen(nick) + 4);
+							TCHAR *value = (TCHAR *)mir_alloc(sizeof(TCHAR) * value_max_len);
+							mir_sntprintf(value, value_max_len, _T("%s (%s)"), nick, uid);
 							SendMessage(GetDlgItem(hwndDlg, IDC_OPT_COMBO_USERS), CB_SETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_OPT_COMBO_USERS), CB_ADDSTRING, 0, (LPARAM)value), hContact);
 							mir_free(value);
 							db_free(&dbvuid);

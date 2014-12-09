@@ -147,13 +147,9 @@ const TCHAR* CMimAPI::getUserDir()
 
 void CMimAPI::InitPaths()
 {
-	m_szProfilePath[0] = 0;
-	m_szSkinsPath[0] = 0;
-	m_szSavedAvatarsPath[0] = 0;
-
 	const TCHAR *szUserdataDir = getUserDir();
 
-	mir_sntprintf(m_szProfilePath, MAX_PATH, _T("%stabSRMM"), szUserdataDir);
+	mir_sntprintf(m_szProfilePath, SIZEOF(m_szProfilePath), _T("%stabSRMM"), szUserdataDir);
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		_tcsncpy_s(m_szChatLogsPath, _T("%miranda_logpath%"), _TRUNCATE);
 		_tcsncpy_s(m_szSkinsPath, _T("%miranda_path%\\Skins\\TabSRMM"), _TRUNCATE);
@@ -168,7 +164,7 @@ void CMimAPI::InitPaths()
 
 	Utils::ensureTralingBackslash(m_szSkinsPath);
 
-	mir_sntprintf(m_szSavedAvatarsPath, MAX_PATH, _T("%s\\Saved Contact Pictures"), m_szProfilePath);
+	mir_sntprintf(m_szSavedAvatarsPath, SIZEOF(m_szSavedAvatarsPath), _T("%s\\Saved Contact Pictures"), m_szProfilePath);
 }
 
 bool CMimAPI::getAeroState()

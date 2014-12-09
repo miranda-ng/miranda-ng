@@ -1209,7 +1209,7 @@ void CSkin::LoadIcon(const TCHAR *szSection, const TCHAR *name, HICON &hIcon)
 		TCHAR szDrive[MAX_PATH], szDir[MAX_PATH], szImagePath[MAX_PATH];
 
 		_tsplitpath(m_tszFileName, szDrive, szDir, NULL, NULL);
-		mir_sntprintf(szImagePath, MAX_PATH, _T("%s\\%s\\%s"), szDrive, szDir, buffer);
+		mir_sntprintf(szImagePath, SIZEOF(szImagePath), _T("%s\\%s\\%s"), szDrive, szDir, buffer);
 		hIcon = (HICON)LoadImage(0, szImagePath, IMAGE_ICON, 16, 16, LR_LOADFROMFILE);
 	}
 	else hIcon = NULL;
@@ -1238,12 +1238,12 @@ void CSkin::ReadItem(const int id, const TCHAR *szItem)
 	this_item->ALPHA = min(this_item->ALPHA, 100);
 
 	clr = RGB(GetBValue(defaults->COLOR), GetGValue(defaults->COLOR), GetRValue(defaults->COLOR));
-	mir_sntprintf(def_color, 15, _T("%6.6x"), clr);
+	mir_sntprintf(def_color, SIZEOF(def_color), _T("%6.6x"), clr);
 	GetPrivateProfileString(szItem, _T("Color1"), def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR = HexStringToLong(buffer);
 
 	clr = RGB(GetBValue(defaults->COLOR2), GetGValue(defaults->COLOR2), GetRValue(defaults->COLOR2));
-	mir_sntprintf(def_color, 15, _T("%6.6x"), clr);
+	mir_sntprintf(def_color, SIZEOF(def_color), _T("%6.6x"), clr);
 	GetPrivateProfileString(szItem, _T("Color2"), def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
@@ -1313,7 +1313,7 @@ void CSkin::ReadImageItem(const TCHAR *itemname)
 
 	// handle the assignments of image items to skin items
 	for (int n = 0;; n++) {
-		mir_sntprintf(szItemNr, 30, _T("Item%d"), n);
+		mir_sntprintf(szItemNr, SIZEOF(szItemNr), _T("Item%d"), n);
 		GetPrivateProfileString(itemname, szItemNr, _T("None"), buffer, 500, m_tszFileName);
 		if (!_tcscmp(buffer, _T("None")))
 			break;
@@ -1478,7 +1478,7 @@ void CSkin::Load(void)
 	GetPrivateProfileString(_T("Theme"), _T("File"), _T("None"), buffer, MAX_PATH, m_tszFileName);
 
 	_tsplitpath(m_tszFileName, szDrive, szPath, NULL, NULL);
-	mir_sntprintf(szFinalName, MAX_PATH, _T("%s\\%s\\%s"), szDrive, szPath, buffer);
+	mir_sntprintf(szFinalName, SIZEOF(szFinalName), _T("%s\\%s\\%s"), szDrive, szPath, buffer);
 	if (PathFileExists(szFinalName)) {
 		ReadThemeFromINI(szFinalName, 0, FALSE, m_fLoadOnStartup ? 0 : M.GetByte("skin_loadmode", 0));
 		CacheLogFonts();
@@ -1676,9 +1676,9 @@ void CSkin::setupAeroSkins()
 
 	// load unknown avatar..
 	if (0 == PluginConfig.g_hbmUnknown) {
-		mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_unknown.png"), tszBasePath);
+		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_unknown.png"), tszBasePath);
 		if (!PathFileExists(tszFilename))
-			mir_sntprintf(tszFilename, MAX_PATH, _T("%sunknown.png"), tszBasePath);
+			mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%sunknown.png"), tszBasePath);
 		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 		if (PluginConfig.g_hbmUnknown == 0) {
 			HDC dc = GetDC(0);
@@ -1687,9 +1687,9 @@ void CSkin::setupAeroSkins()
 		}
 	}
 
-	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero.png"), tszBasePath);
+	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_tabskin_aero.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero.png"), tszBasePath);
+		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%stabskin_aero.png"), tszBasePath);
 
 	BOOL isOpaque = false;
 	if (CMimAPI::m_pfnDwmGetColorizationColor && M.isAero())
@@ -1774,9 +1774,9 @@ void CSkin::setupAeroSkins()
 	m_tabBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
 
-	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero_glow.png"), tszBasePath);
+	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_tabskin_aero_glow.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero_glow.png"), tszBasePath);
+		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%stabskin_aero_glow.png"), tszBasePath);
 
 	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
 
@@ -1807,9 +1807,9 @@ void CSkin::setupAeroSkins()
 	m_tabGlowBottom->setMetrics(bm.bmWidth, bm.bmHeight);
 
 	// background item for the button switch bar
-	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero_button.png"), tszBasePath);
+	mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%scustom_tabskin_aero_button.png"), tszBasePath);
 	if (!PathFileExists(tszFilename))
-		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero_button.png"), tszBasePath);
+		mir_sntprintf(tszFilename, SIZEOF(tszFilename), _T("%stabskin_aero_button.png"), tszBasePath);
 
 	hbm = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 

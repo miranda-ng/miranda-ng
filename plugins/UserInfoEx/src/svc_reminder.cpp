@@ -409,7 +409,7 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 					if (bNotify && !bOverflow) {
 						// first anniversary found
 						if (numAnniversaries == 1) {
-							mir_sntprintf(szAnniv, MAX_PATH,
+							mir_sntprintf(szAnniv, SIZEOF(szAnniv),
 								TranslateT("%s has the following anniversaries:\0"),
 								ContactGender(hContact));
 							mir_tstrncpy(strMsg, szAnniv, mir_tstrlen(szAnniv));
@@ -417,13 +417,13 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 
 						switch (Diff) {
 						case 0:
-							mir_sntprintf(szAnniv, MAX_PATH, TranslateT("%d. %s today\0"), mta.Age(), mta.Description());
+							mir_sntprintf(szAnniv, SIZEOF(szAnniv), TranslateT("%d. %s today\0"), mta.Age(), mta.Description());
 							break;
 						case 1:
-							mir_sntprintf(szAnniv, MAX_PATH, TranslateT("%d. %s tomorrow\0"), mta.Age() + 1, mta.Description());
+							mir_sntprintf(szAnniv, SIZEOF(szAnniv), TranslateT("%d. %s tomorrow\0"), mta.Age() + 1, mta.Description());
 							break;
 						default:
-							mir_sntprintf(szAnniv, MAX_PATH, TranslateT("%d. %s in %d days\0"), mta.Age() + 1, mta.Description(), Diff);
+							mir_sntprintf(szAnniv, SIZEOF(szAnniv), TranslateT("%d. %s in %d days\0"), mta.Age() + 1, mta.Description(), Diff);
 						}
 
 						if (mir_tstrlen(szAnniv) >= MAX_SECONDLINE - mir_tstrlen(strMsg)) {

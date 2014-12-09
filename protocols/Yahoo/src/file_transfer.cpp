@@ -309,7 +309,7 @@ static void dl_file(int id, INT_PTR fd, int error,	const char *filename, unsigne
 		 *
 		 * Don't rely on workingDir to be right, since it's not used to check if file exists.
 		 */
-		mir_sntprintf(filefull, MAX_PATH, _T("%s\\%s"), sf->pfts.tszWorkingDir, sf->pfts.tszCurrentFile);
+		mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), sf->pfts.tszWorkingDir, sf->pfts.tszCurrentFile);
 		FREE(sf->pfts.tszCurrentFile);
 		sf->pfts.tszCurrentFile = _tcsdup(filefull);		
 		

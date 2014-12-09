@@ -1715,11 +1715,12 @@ LABEL_SHOWWINDOW:
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
 						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
-						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(mir_tstrlen(ui->pszUID) + 3));
+						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 4);
+						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
 						if (start == 0)
-							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 3, _T("%s: "), ui->pszUID);
+							mir_sntprintf(pszName, dwNameLenMax, _T("%s: "), ui->pszUID);
 						else
-							mir_sntprintf(pszName, mir_tstrlen(ui->pszUID) + 2, _T("%s "), ui->pszUID);
+							mir_sntprintf(pszName, dwNameLenMax, _T("%s "), ui->pszUID);
 
 						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);

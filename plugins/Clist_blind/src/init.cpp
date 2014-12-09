@@ -494,7 +494,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 	{
 #ifdef UNICODE
 		CallProtoService(item->proto, PS_GETNAME, sizeof(description),(LPARAM) description);
-		mir_sntprintf(proto_name, MAX_REGS(proto_name), L"%S", description);
+		mir_sntprintf(proto_name, SIZEOF(proto_name), L"%S", description);
 #else
 		CallProtoService(item->proto, PS_GETNAME, sizeof(proto_name),(LPARAM) proto_name);
 #endif
@@ -578,9 +578,9 @@ void RebuildEntireListInternal(HWND hwnd, ClcData *tmp_dat, BOOL call_orig)
 				if (szCounts[0] != '\0')
 				{
 #ifdef UNICODE
-					mir_sntprintf(count, MAX_REGS(count), L"%S ", szCounts);
+					mir_sntprintf(count, SIZEOF(count), L"%S ", szCounts);
 #else
-					mir_sntprintf(count, MAX_REGS(count), "%s ", szCounts);
+					mir_sntprintf(count, SIZEOF(count), "%s ", szCounts);
 #endif
 				}
 				else

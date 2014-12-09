@@ -185,7 +185,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Dictionary *dict = languages[j];
 
 		TCHAR filename[MAX_PATH];
-		mir_sntprintf(filename, MAX_PATH, _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
+		mir_sntprintf(filename, SIZEOF(filename), _T("%s\\%s.ar"), customDictionariesFolder, dict->language);
 		dict->autoReplace = new AutoReplaceMap(filename, dict);
 
 		if (mir_tstrcmp(dict->language, opts.default_language) == 0)

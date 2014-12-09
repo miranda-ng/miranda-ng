@@ -85,8 +85,8 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 
 void VerifyFingerprintMessage(ConnContext *context, bool verify) {
 	TCHAR msg[1024];
-	mir_sntprintf(msg, 1024, (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((MCONTACT)context->app_data));
-	msg[1023] = '\0';
+
+	mir_sntprintf(msg, SIZEOF(msg), (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((MCONTACT)context->app_data));
 	ShowMessage((MCONTACT)context->app_data, msg);
 	SetEncryptionStatus((MCONTACT)context->app_data, otr_context_get_trust(context));
 }
@@ -315,7 +315,7 @@ void ShowErrorUtf(char* msg) {
 
 void ShowMessageInline(const MCONTACT hContact, const TCHAR *msg) {
 	TCHAR buff[1024];
-	mir_sntprintf(buff, 1024, _T("%s%s"), TranslateT(LANG_INLINE_PREFIX), msg);
+	mir_sntprintf(buff, SIZEOF(buff), _T("%s%s"), TranslateT(LANG_INLINE_PREFIX), msg);
 
 	PROTORECVEVENT pre = {0};
 	pre.timestamp = time(0);

@@ -1496,7 +1496,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						iCountOnline++;
 					iCount++;
 				}
-				mir_sntprintf(buff, 64, _T("(%d/%d)"), iCountOnline, iCount);
+				mir_sntprintf(buff, SIZEOF(buff), _T("(%d/%d)"), iCountOnline, iCount);
 			}
 			else buff[0] = 0;
 
@@ -1633,7 +1633,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 							if (opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO) {
 								TCHAR *swzProto = a2t(proto);
-								mir_sntprintf(swzName, 256, _T("%s (%s)"), swzNick, swzProto);
+								mir_sntprintf(swzName, SIZEOF(swzName), _T("%s (%s)"), swzNick, swzProto);
 								mir_free(swzProto);
 							}
 							else _tcscpy(swzName, swzNick);
@@ -1650,7 +1650,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					index -= iCount;
 
 				if (index >= 0 && (dwItems & TRAYTIP_NUMCONTACTS) && !((opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE) && iCountOnline == 0)) {
-					mir_sntprintf(buff, 64, _T("(%d/%d)"), iCountOnline, iCount);
+					mir_sntprintf(buff, SIZEOF(buff), _T("(%d/%d)"), iCountOnline, iCount);
 					pwd->rows[index].swzValue = mir_tstrdup(buff);
 				}
 			}

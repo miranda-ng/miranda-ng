@@ -103,7 +103,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 {
 	bool fValid = false;
 	TCHAR tszMask[MAX_PATH];
-	mir_sntprintf(tszMask, MAX_PATH, _T("%s*.*"), tszFolder);
+	mir_sntprintf(tszMask, SIZEOF(tszMask), _T("%s*.*"), tszFolder);
 
 	WIN32_FIND_DATA fd = { 0 };
 	HANDLE h = FindFirstFile(tszMask, &fd);
@@ -123,7 +123,7 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		LRESULT lr;
 		TCHAR	szBuf[255];
 
-		mir_sntprintf(tszFinalName, MAX_PATH, _T("%s%s"), tszFolder, fd.cFileName);
+		mir_sntprintf(tszFinalName, SIZEOF(tszFinalName), _T("%s%s"), tszFolder, fd.cFileName);
 
 		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, 500, tszFinalName);
 		if (!_tcscmp(szBuf, _T("None"))) {
@@ -159,7 +159,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	_tcsncpy_s(tszSkinRoot, M.getSkinPath(), _TRUNCATE);
 
 	SetDlgItemText(GetParent(hwndCombobox), IDC_SKINROOTFOLDER, tszSkinRoot);
-	mir_sntprintf(tszFindMask, MAX_PATH, _T("%s*.*"), tszSkinRoot);
+	mir_sntprintf(tszFindMask, SIZEOF(tszFindMask), _T("%s*.*"), tszSkinRoot);
 
 	SendMessage(hwndCombobox, CB_RESETCONTENT, 0, 0);
 	SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)TranslateT("<no skin>"));
@@ -169,7 +169,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	while (h != INVALID_HANDLE_VALUE) {
 		if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && fd.cFileName[0] != '.') {
 			TCHAR	tszSubDir[MAX_PATH];
-			mir_sntprintf(tszSubDir, MAX_PATH, _T("%s%s\\"), tszSkinRoot, fd.cFileName);
+			mir_sntprintf(tszSubDir, SIZEOF(tszSubDir), _T("%s%s\\"), tszSkinRoot, fd.cFileName);
 			ScanSkinDir(tszSubDir, hwndCombobox);
 		}
 		if (FindNextFile(h, &fd) == 0)
