@@ -153,6 +153,7 @@ protected:
 	ULONG  hMessageProcess;
 	CRITICAL_SECTION contact_search_lock;
 	CRITICAL_SECTION requests_queue_lock;
+	CRITICAL_SECTION set_status_lock;
 	LIST<QueueItem> requestsQueue;
 
 	// instances
