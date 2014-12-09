@@ -27,6 +27,7 @@
 #include <m_protoint.h>
 #include <m_idle.h>
 #include <m_xstatus.h>
+#include <m_extraicons.h>
 #include <win2k.h>
 
 #include <map>
@@ -41,6 +42,8 @@
 
 class CSteamProto;
 extern HINSTANCE g_hInstance;
+
+extern HANDLE hExtraXStatus;
 
 #include "Steam\steam.h"
 
