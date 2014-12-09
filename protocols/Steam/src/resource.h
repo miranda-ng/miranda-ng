@@ -7,10 +7,9 @@
 #define IDD_OPT_BLOCKED                 20
 #define IDD_OPT_BLOCK_LIST              20
 #define IDD_IGNORE_LIST                 21
+#define IDI_STEAM                       100
+#define IDI_GAMING                      101
 #define IDD_CAPTCHA                     118
-#define IDI_ICON1                       119
-#define IDI_STEAM                       119
-#define IDD_STEAMGUARD                  119
 #define IDD_GUARD                       119
 #define IDC_SN                          1001
 #define IDC_PW                          1002

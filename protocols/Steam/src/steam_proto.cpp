@@ -34,13 +34,20 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	sid.iDefaultIndex = -IDI_STEAM;
 	Skin_AddIcon(&sid);
 
+	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "gaming");
+	sid.ptszDescription = LPGENT("Gaming icon");
+	sid.iDefaultIndex = -IDI_GAMING;
+	Skin_AddIcon(&sid);
+
 	// temporary DB settings
-	db_set_resident(m_szModuleName, "Status"); // NOTE: XStatus cannot be temporary
+	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, "XStatusId");
+	db_set_resident(m_szModuleName, "XStatusName");
+	db_set_resident(m_szModuleName, "XStatusMsg");
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "GameID");
-	db_set_resident(m_szModuleName, "GameInfo");
-	db_set_resident(m_szModuleName, "GameServerIP");
-	db_set_resident(m_szModuleName, "GameServerID");
+	db_set_resident(m_szModuleName, "ServerIP");
+	db_set_resident(m_szModuleName, "ServerID");
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
@@ -50,6 +57,10 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETAVATARINFOT, &CSteamProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATART, &CSteamProto::GetMyAvatar);
+	// custom status API
+	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::GetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::GetXStatusIcon);
+	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::RequestAdvStatusIconIdx);
 }
 
 CSteamProto::~CSteamProto()

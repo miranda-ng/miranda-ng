@@ -63,6 +63,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_STEAM               ICON                    "steam.ico"
+IDI_GAMING              ICON                    "gaming.ico"
 #endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 

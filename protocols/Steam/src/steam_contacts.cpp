@@ -139,7 +139,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	WORD steamStatus = json_as_int(node);
 	WORD status = SteamToMirandaStatus(steamStatus);
 	if (hContact != NULL)
-		setWord(hContact, "Status", status);
+		SetContactStatus(hContact, status);
 
 	// client
 	node = json_get(data, "personastateflags");
@@ -170,31 +170,36 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
 	if (gameId > 0)
 	{
-		setDword(hContact, "GameID", gameId);
-
 		node = json_get(data, "gameextrainfo");
 		const TCHAR *gameInfo = json_as_string(node);
 
-		if (hContact != NULL)
-			db_set_ts(hContact, "CList", "StatusMsg", gameInfo);
-		setTString(hContact, "GameInfo", gameInfo);
-
 		node = json_get(data, "gameserverip");
-		setString(hContact, "GameServerIP", _T2A(json_as_string(node)));
+		const TCHAR *serverIP = json_as_string(node);
 
 		node = json_get(data, "gameserversteamid");
-		setString(hContact, "GameServerID", _T2A(json_as_string(node)));
+		const TCHAR *serverID = json_as_string(node);
+
+		setDword(hContact, "GameID", gameId);
+		setString(hContact, "ServerIP", _T2A(serverIP));
+		setString(hContact, "ServerID", _T2A(serverID));
+
+		CMString message(gameInfo);
+		if (serverIP[0] != '\0')
+			message.AppendFormat(TranslateT(" on server %s"), serverIP);
+		
+		setDword(hContact, "XStatusId", gameId);
+		setTString(hContact, "XStatusName", TranslateT("Playing"));
+		setTString(hContact, "XStatusMsg", message);
 	}
 	else
 	{
-		if (hContact != NULL)
-			db_unset(hContact, "CList", "StatusMsg");
-
 		delSetting(hContact, "GameID");
-		delSetting(hContact, "GameInfo");
-		delSetting(hContact, "GameServerIP");
-		delSetting(hContact, "GameServerID");
-		delSetting(hContact, "GameInfo");
+		delSetting(hContact, "ServerIP");
+		delSetting(hContact, "ServerID");
+
+		delSetting(hContact, "XStatusId");
+		delSetting(hContact, "XStatusName");
+		delSetting(hContact, "XStatusMsg");
 	}
 }
 
