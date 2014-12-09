@@ -202,6 +202,10 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
+
+			default:
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				break;
 			}
 		}
 		break;
