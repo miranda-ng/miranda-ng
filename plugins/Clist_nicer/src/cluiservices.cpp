@@ -34,21 +34,21 @@ static INT_PTR GetClistVersion(WPARAM wParam, LPARAM lParam)
 	static char g_szVersionString[256];
 
 	mir_snprintf(g_szVersionString, SIZEOF(g_szVersionString), "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
-	if ( !IsBadWritePtr((LPVOID)lParam, 4))
+	if (!IsBadWritePtr((LPVOID)lParam, 4))
 		*((DWORD *)lParam) = pluginInfo.version;
 
 	return (INT_PTR)g_szVersionString;
 }
 
 
-void FreeProtocolData( void )
+void FreeProtocolData(void)
 {
-	//free protocol data
-	int nParts = SendMessage(pcli->hwndStatus,SB_GETPARTS,0,0);
-	for (int nPanel=0; nPanel < nParts; nPanel++) {
+	// free protocol data
+	int nParts = SendMessage(pcli->hwndStatus, SB_GETPARTS, 0, 0);
+	for (int nPanel = 0; nPanel < nParts; nPanel++) {
 		ProtocolData *PD = (ProtocolData *)SendMessage(pcli->hwndStatus, SB_GETTEXT, nPanel, 0);
 		if (PD != NULL && !IsBadCodePtr((FARPROC)PD)) {
-			SendMessage(pcli->hwndStatus,SB_SETTEXT,(WPARAM)nPanel|SBT_OWNERDRAW,0);
+			SendMessage(pcli->hwndStatus, SB_SETTEXT, (WPARAM)nPanel | SBT_OWNERDRAW, 0);
 			if (PD->RealName) mir_free(PD->RealName);
 			if (PD) mir_free(PD);
 		}
@@ -58,19 +58,11 @@ void FreeProtocolData( void )
 int g_maxStatus = ID_STATUS_OFFLINE;
 char g_maxProto[100] = "";
 
-void CluiProtocolStatusChanged( int parStatus, const char* szProto )
+void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 {
-	int protoCount,i;
-	PROTOACCOUNT **accs;
-	int *partWidths,partCount;
-	int borders[3];
-	int status;
-	int toshow;
-	TCHAR *szStatus = NULL;
-	char *szMaxProto = NULL;
 	int maxOnline = 0, onlineness = 0;
-	WORD maxStatus = ID_STATUS_OFFLINE, wStatus;
-	DBVARIANT dbv = {0};
+	WORD maxStatus = ID_STATUS_OFFLINE;
+	DBVARIANT dbv = { 0 };
 	int iIcon = 0;
 	HICON hIcon = 0;
 	int rdelta = cfg::dat.bCLeft + cfg::dat.bCRight;
@@ -79,7 +71,9 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	if (pcli->hwndStatus == 0 || cfg::shutDown)
 		return;
 
-	ProtoEnumAccounts( &protoCount, &accs );
+	int protoCount;
+	PROTOACCOUNT **accs;
+	ProtoEnumAccounts(&protoCount, &accs);
 	if (protoCount == 0)
 		return;
 
@@ -87,107 +81,107 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	g_maxStatus = ID_STATUS_OFFLINE;
 	g_maxProto[0] = 0;
 
-	SendMessage(pcli->hwndStatus,SB_GETBORDERS,0,(LPARAM)&borders);
+	int borders[3];
+	SendMessage(pcli->hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
-	partWidths=(int*)_alloca(( protoCount+1)*sizeof(int));
+	int *partWidths = (int*)_alloca((protoCount + 1)*sizeof(int));
 
+	int partCount;
 	if (cfg::dat.bEqualSections) {
 		RECT rc;
-		int part;
-		//SendMessage(pcli->hwndStatus,WM_SIZE,0,0);        // XXX fix (may break status bar geometry)
-		GetClientRect(pcli->hwndStatus,&rc);
-		rc.right-=borders[0]*2;
-		toshow=0;
-		for ( i=0; i < protoCount; i++ )
-			if ( pcli->pfnGetProtocolVisibility( accs[i]->szModuleName ))
+		GetClientRect(pcli->hwndStatus, &rc);
+		rc.right -= borders[0] * 2;
+		int toshow = 0;
+		for (int i = 0; i < protoCount; i++)
+			if (pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
 				toshow++;
 
-		if ( toshow > 0 ) {
-			for ( part=0, i=0; i < protoCount; i++ ) {
-				if ( !pcli->pfnGetProtocolVisibility( accs[i]->szModuleName ))
+		if (toshow > 0) {
+			for (int part = 0, i = 0; i < protoCount; i++) {
+				if (!pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
 					continue;
 
-				partWidths[ part ] = ((rc.right-rc.left-rdelta)/toshow)*(part+1) + cfg::dat.bCLeft;
-				if ( part == toshow-1 )
-					partWidths[ part ] += cfg::dat.bCRight;
+				partWidths[part] = ((rc.right - rc.left - rdelta) / toshow)*(part + 1) + cfg::dat.bCLeft;
+				if (part == toshow - 1)
+					partWidths[part] += cfg::dat.bCRight;
 				part++;
-		}	}
+			}
+		}
 
-		partCount=toshow;
+		partCount = toshow;
 	}
 	else {
-		HDC hdc;
 		SIZE textSize;
-		BYTE showOpts = cfg::getByte("CLUI","SBarShow",1);
-		int x;
-		HFONT hofont;
+		BYTE showOpts = cfg::getByte("CLUI", "SBarShow", 1);
 		TCHAR szName[32];
-		PROTOACCOUNT *pa;
 
-		hdc=GetDC(NULL);
-		hofont = reinterpret_cast<HFONT>(SelectObject(hdc,(HFONT)SendMessage(pcli->hwndStatus,WM_GETFONT,0,0)));
+		HDC hdc = GetDC(NULL);
+		HFONT hofont = reinterpret_cast<HFONT>(SelectObject(hdc, (HFONT)SendMessage(pcli->hwndStatus, WM_GETFONT, 0, 0)));
 
-		for ( partCount=0,i=0; i < protoCount; i++ ) {      //count down since built in ones tend to go at the end
-			int idx = pcli->pfnGetAccountIndexByPos( i );
-			if ( idx == -1 )
+		// count down since built in ones tend to go at the end
+		for (int i = 0, partCount = 0; i < protoCount; i++) {
+			int idx = pcli->pfnGetAccountIndexByPos(i);
+			if (idx == -1)
 				continue;
 
-			pa = accs[idx];
-			if ( !pcli->pfnGetProtocolVisibility( pa->szModuleName ))
+			PROTOACCOUNT *pa = accs[idx];
+			if (!pcli->pfnGetProtocolVisibility(pa->szModuleName))
 				continue;
 
-			x=2;
+			int x = 2;
 			if (showOpts & 1)
 				x += 16;
 			if (showOpts & 2) {
-				mir_tstrncpy( szName, pa->tszAccountName, SIZEOF(szName));
-				szName[ SIZEOF(szName)-1 ] = 0;
-				if (( showOpts & 4 ) && mir_tstrlen(szName) < sizeof(szName)-1 )
-					mir_tstrcat( szName, _T(" "));
-				GetTextExtentPoint32( hdc, szName, (int)mir_tstrlen(szName), &textSize );
+				mir_tstrncpy(szName, pa->tszAccountName, SIZEOF(szName));
+				szName[SIZEOF(szName) - 1] = 0;
+				if ((showOpts & 4) && mir_tstrlen(szName) < sizeof(szName) - 1)
+					mir_tstrcat(szName, _T(" "));
+				GetTextExtentPoint32(hdc, szName, (int)mir_tstrlen(szName), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				TCHAR* modeDescr = pcli->pfnGetStatusModeDescription( CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0 ), 0 );
-				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize );
+				TCHAR* modeDescr = pcli->pfnGetStatusModeDescription(CallProtoService(accs[i]->szModuleName, PS_GETSTATUS, 0, 0), 0);
+				GetTextExtentPoint32(hdc, modeDescr, (int)mir_tstrlen(modeDescr), &textSize);
 				x += textSize.cx + GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
-			partWidths[partCount]=(partCount?partWidths[partCount-1]:cfg::dat.bCLeft)+ x + 2;
+			partWidths[partCount] = (partCount ? partWidths[partCount - 1] : cfg::dat.bCLeft) + x + 2;
 			partCount++;
 		}
-		SelectObject(hdc,hofont);
-		ReleaseDC(NULL,hdc);
+		SelectObject(hdc, hofont);
+		ReleaseDC(NULL, hdc);
 	}
-	if (partCount==0) {
-		SendMessage(pcli->hwndStatus,SB_SIMPLE,TRUE,0);
+	if (partCount == 0) {
+		SendMessage(pcli->hwndStatus, SB_SIMPLE, TRUE, 0);
 		return;
 	}
-	SendMessage(pcli->hwndStatus,SB_SIMPLE,FALSE,0);
+	SendMessage(pcli->hwndStatus, SB_SIMPLE, FALSE, 0);
 
-	partWidths[partCount-1]=-1;
+	partWidths[partCount - 1] = -1;
 	windowStyle = cfg::getByte("CLUI", "WindowStyle", 0);
-	SendMessage(pcli->hwndStatus,SB_SETMINHEIGHT, 18 + cfg::dat.bClipBorder + ((windowStyle == SETTING_WINDOWSTYLE_THINBORDER || windowStyle == SETTING_WINDOWSTYLE_NOBORDER) ? 3 : 0), 0);
+	SendMessage(pcli->hwndStatus, SB_SETMINHEIGHT, 18 + cfg::dat.bClipBorder + ((windowStyle == SETTING_WINDOWSTYLE_THINBORDER || windowStyle == SETTING_WINDOWSTYLE_NOBORDER) ? 3 : 0), 0);
 	SendMessage(pcli->hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
-	for ( partCount=0, i=0; i < protoCount; i++ ) {      //count down since built in ones tend to go at the end
-		int idx = pcli->pfnGetAccountIndexByPos( i );
-		if ( idx == -1 )
+	// count down since built in ones tend to go at the end
+	char *szMaxProto = NULL;
+	for (int i = 0, partCount = 0; i < protoCount; i++) {
+		int idx = pcli->pfnGetAccountIndexByPos(i);
+		if (idx == -1)
 			continue;
 
 		PROTOACCOUNT *pa = accs[idx];
-		if ( !pcli->pfnGetProtocolVisibility( pa->szModuleName ))
+		if (!pcli->pfnGetProtocolVisibility(pa->szModuleName))
 			continue;
 
-		status = CallProtoService( pa->szModuleName,PS_GETSTATUS,0,0);
-		ProtocolData *PD = ( ProtocolData* )mir_alloc(sizeof(ProtocolData));
-		PD->RealName = mir_strdup( pa->szModuleName );
+		int status = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
+		PD->RealName = mir_strdup(pa->szModuleName);
 		PD->protopos = partCount;
 		{
 			int flags;
 			flags = SBT_OWNERDRAW;
-			if ( cfg::getByte("CLUI","SBarBevel", 1)==0 )
+			if (cfg::getByte("CLUI", "SBarBevel", 1) == 0)
 				flags |= SBT_NOBORDERS;
-			SendMessageA( pcli->hwndStatus, SB_SETTEXTA, partCount|flags,(LPARAM)PD );
+			SendMessageA(pcli->hwndStatus, SB_SETTEXTA, partCount | flags, (LPARAM)PD);
 		}
 		int caps2 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 		int caps1 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -203,16 +197,17 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	}
 	// update the clui button
 
-	if ( !db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
+	WORD wStatus;
+	if (!db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ && mir_strlen(dbv.pszVal) > 1) {
-			wStatus = (WORD) CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);
-			iIcon = IconFromStatusMode(dbv.pszVal, (int) wStatus, 0, &hIcon);
+			wStatus = (WORD)CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);
+			iIcon = IconFromStatusMode(dbv.pszVal, (int)wStatus, 0, &hIcon);
 		}
 		mir_free(dbv.pszVal);
 	}
 	else {
 		wStatus = maxStatus;
-		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : NULL, (int) wStatus, 0, &hIcon);
+		iIcon = IconFromStatusMode((wStatus >= ID_STATUS_CONNECTING && wStatus < ID_STATUS_OFFLINE) ? szMaxProto : NULL, (int)wStatus, 0, &hIcon);
 		g_maxStatus = (int)wStatus;
 		if (szMaxProto)
 			strncpy_s(g_maxProto, SIZEOF(g_maxProto), szMaxProto, _TRUNCATE);
@@ -224,7 +219,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	* and uses timer based sort and redraw handling. This can improve performance
 	* when connecting multiple protocols significantly.
 	*/
-	szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
+	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(wStatus, 0);
 
 	/*
 	* set the global status icon and display the global (most online) status mode on the
@@ -232,22 +227,22 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	*/
 	if (szStatus && pcli->hwndContactList) {
 		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
-		if ( IsWindow(hwndClistBtn)) {
-			SendMessage(hwndClistBtn, WM_SETTEXT, 0, (LPARAM) szStatus);
-			if ( !hIcon)
-				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
+		if (IsWindow(hwndClistBtn)) {
+			SendMessage(hwndClistBtn, WM_SETTEXT, 0, (LPARAM)szStatus);
+			if (!hIcon)
+				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
 			else
-				SendMessage(hwndClistBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
+				SendMessage(hwndClistBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			InvalidateRect(hwndClistBtn, NULL, TRUE);
 		}
 
 		HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
-		if ( IsWindow(hwndTtbStatus)) {
+		if (IsWindow(hwndTtbStatus)) {
 			if (g_ButtonItems == NULL) {
-				if ( !hIcon)
-					SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
+				if (!hIcon)
+					SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
 				else
-					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
+					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 			}
 			InvalidateRect(hwndTtbStatus, NULL, TRUE);
 		}
