@@ -202,7 +202,7 @@ begin
   RegisterIcons;
   
   HookEvent(ME_OPT_INITIALISE ,@OnOptInitialise);
-  HookEvent(ME_SYSTEM_SHUTDOWN{ME_SYSTEM_OKTOEXIT},@PreShutdown);
+  HookEvent(ME_SYSTEM_PRESHUTDOWN{ME_SYSTEM_OKTOEXIT},@PreShutdown);
   NotifyEventHooks(hHookChanged,twparam(ACTM_LOADED),0);
 
   IsMultiThread:=true;
