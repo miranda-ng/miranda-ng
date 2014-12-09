@@ -252,7 +252,7 @@ begin
       if fmt<>101 then // condition
       begin
         StrCopy(pc,opt_condition); cond:=DBReadByte(0,DBBranch,section);
-        if (cond and $F0)=0 then
+        if (cond and $0F)=0 then
           flags:=flags or ACF_NOP
         else
         begin
@@ -281,7 +281,7 @@ begin
       end
       else
       begin
-        StrCopy(pc,'oper'); oper:=DBReadByte(0,DBBranch,section) and $0F;
+        StrCopy(pc,'action'); oper:=DBReadByte(0,DBBranch,section) and $0F;
         if (oper and ADV_ACT_BREAK)<>0 then
           flags:= flags or ACF_BREAK
         else
