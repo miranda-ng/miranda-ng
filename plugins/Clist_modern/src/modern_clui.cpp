@@ -49,12 +49,7 @@ struct PROTOTICKS
 	HIMAGELIST himlIconList;
 };
 
-static int CompareTicks(const PROTOTICKS *p1, const PROTOTICKS *p2)
-{
-	return mir_strcmp(p1->szProto, p2->szProto);
-}
-
-static OBJLIST<PROTOTICKS> arTicks(1, CompareTicks);
+static OBJLIST<PROTOTICKS> arTicks(1);
 
 int ContactSettingChanged(WPARAM, LPARAM);
 int MetaStatusChanged(WPARAM, LPARAM);
@@ -1032,7 +1027,7 @@ static bool StartTicksTimer(PROTOTICKS *pt)
 			DestroyIcon(ic);
 		}
 	}
-	CLUI_SafeSetTimer(pcli->hwndContactList, TM_STATUSBARUPDATE + pt->nIndex, (int)(nAnimatedIconStep) / 1, 0);
+	CLUI_SafeSetTimer(pcli->hwndContactList, TM_STATUSBARUPDATE + pt->nIndex, nAnimatedIconStep, 0);
 	pt->bTimerCreated = 1;
 	pt->nCycleStartTick = GetTickCount();
 	return true;
@@ -2041,23 +2036,23 @@ LRESULT CLUI::OnSetFocus(UINT msg, WPARAM wParam, LPARAM lParam)
 
 LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	int status;
-
 	for (int i = 0; i < arTicks.getCount(); i++) {
 		PROTOTICKS *pt = &arTicks[i];
-		if (pt->bTimerCreated) {
-			if (pt->bGlobal)
-				status = g_bMultiConnectionMode ? ID_STATUS_CONNECTING : 0;
-			else
-				status = CallProtoService(pt->szProto, PS_GETSTATUS, 0, 0);
+		if (!pt->bTimerCreated)
+			continue;
 
-			if (!(status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
-				pt->nCycleStartTick = 0;
-				ImageList_Destroy(pt->himlIconList);
-				pt->himlIconList = NULL;
-				KillTimer(m_hWnd, TM_STATUSBARUPDATE + pt->nIndex);
-				pt->bTimerCreated = 0;
-			}
+		int status;
+		if (pt->bGlobal)
+			status = g_bMultiConnectionMode ? ID_STATUS_CONNECTING : 0;
+		else
+			status = CallProtoService(pt->szProto, PS_GETSTATUS, 0, 0);
+
+		if (!(status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+			pt->nCycleStartTick = 0;
+			ImageList_Destroy(pt->himlIconList);
+			pt->himlIconList = NULL;
+			KillTimer(m_hWnd, TM_STATUSBARUPDATE + pt->nIndex);
+			pt->bTimerCreated = 0;
 		}
 	}
 
@@ -2167,7 +2162,7 @@ LRESULT CLUI::OnTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	if (MirandaExiting())
 		return FALSE;
 
-	if ((int)wParam >= TM_STATUSBARUPDATE && (int)wParam <= TM_STATUSBARUPDATE + 64) {
+	if (wParam >= TM_STATUSBARUPDATE && wParam <= TM_STATUSBARUPDATE + 64) {
 		if (!pcli->hwndStatus)
 			return FALSE;
 		return OnStatusBarUpdateTimer(msg, wParam, lParam);
