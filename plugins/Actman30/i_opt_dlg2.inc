@@ -842,7 +842,7 @@ begin
   ti.lpszText:=TranslateW('Test');
   OptSetButtonIcon(ti.uId,ACI_TEST);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
-
+{!!
   ti.uId     :=GetDlgItem(Dialog,IDC_GROUP_IMPORT);
   ti.lpszText:=TranslateW('Import');
   OptSetButtonIcon(ti.uId,ACI_IMPORT);
@@ -852,6 +852,7 @@ begin
   ti.lpszText:=TranslateW('Export');
   OptSetButtonIcon(ti.uId,ACI_EXPORT);
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,lparam(@ti));
+}
 end;
 
 function DlgProcOpt2(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
@@ -890,14 +891,14 @@ begin
 
       // action type combobox
       FillActTypeList(GetDlgItem(Dialog,IDC_ACTION_TYPE));
-
+{!!
       // XML import/export service
       if ServiceExists(MS_SYSTEM_GET_XI)=0 then
       begin
         EnableWindow(GetDlgItem(Dialog,IDC_GROUP_EXPORT),false);
         EnableWindow(GetDlgItem(Dialog,IDC_GROUP_IMPORT),false);
       end;
-      
+}      
       OldActTableProc  :=pointer(SetWindowLongPtrW(wnd,GWL_WNDPROC,long_ptr(@NewActTableProc)));
       OldGroupTableProc:=pointer(SetWindowLongPtrW(MacroListWindow,
             GWL_WNDPROC,long_ptr(@NewGroupTableProc)));
