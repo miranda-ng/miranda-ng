@@ -32,6 +32,7 @@
 #include <map>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "resource.h"
 #include "version.h"

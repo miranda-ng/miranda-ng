@@ -58,9 +58,10 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATART, &CSteamProto::GetMyAvatar);
 	// custom status API
-	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::GetXStatusEx);
-	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::GetXStatusIcon);
-	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::RequestAdvStatusIconIdx);
+	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CSteamProto::OnGetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CSteamProto::OnGetXStatusIcon);
+	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CSteamProto::OnRequestAdvStatusIconIdx);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
 }
 
 CSteamProto::~CSteamProto()
