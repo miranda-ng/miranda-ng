@@ -222,6 +222,7 @@
     </ClCompile>
     <ClCompile Include="src\steam_queue.cpp" />
     <ClCompile Include="src\steam_utils.cpp" />
+    <ClCompile Include="src\steam_xstatus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc" />
@@ -238,6 +239,7 @@
     <Image Include="res\skype.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\gaming.ico" />
     <None Include="res\steam.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -225,6 +225,7 @@
     <ClCompile Include="src\steam_queue.cpp" />
     <ClCompile Include="src\steam_pooling.cpp" />
     <ClCompile Include="src\steam_utils.cpp" />
+    <ClCompile Include="src\steam_xstatus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\Version.rc" />
@@ -232,6 +233,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\steam.ico" />
+    <None Include="res\gaming.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

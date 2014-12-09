@@ -57,6 +57,9 @@
     <ClCompile Include="src\steam_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\steam_xstatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -121,6 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\steam.ico">
+      <Filter>Resource Files\Icon</Filter>
+    </None>
+    <None Include="res\gaming.ico">
       <Filter>Resource Files\Icon</Filter>
     </None>
   </ItemGroup>

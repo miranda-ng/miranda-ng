@@ -254,7 +254,13 @@ protected:
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 
-	//events
+	// xstatuses
+	INT_PTR  __cdecl GetXStatusEx(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl GetXStatusIcon(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam);
+	int GetContactXStatus(MCONTACT hContact);
+
+	// events
 	int OnModulesLoaded(WPARAM, LPARAM);
 	int OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnIdleChanged(WPARAM, LPARAM);
