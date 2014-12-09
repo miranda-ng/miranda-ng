@@ -3,12 +3,21 @@
 #define STATUS_TITLE_MAX 64
 #define STATUS_DESC_MAX  255
 
+static std::vector<int> xstatusIconsValid;
+static std::map<int, int> xstatusIcons;
+
+int OnReloadIcons(WPARAM wParam, LPARAM lParam)
+{
+	xstatusIconsValid.clear();
+	return 0;
+}
+
 int CSteamProto::GetContactXStatus(MCONTACT hContact)
 {
 	return getDword(hContact, "XStatusId", 0) ? 1 : 0;
 }
 
-INT_PTR CSteamProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR CSteamProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 
@@ -73,7 +82,19 @@ INT_PTR CSteamProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CSteamProto::GetXStatusIcon(WPARAM wParam, LPARAM lParam)
+HICON CSteamProto::GetXStatusIcon(int status, UINT flags)
+{
+	if (status < 1)
+		return 0;
+
+	char iconName[100];
+	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
+
+	HICON icon = Skin_GetIcon(iconName, (flags & LR_BIGICON) ? 32 : 16);
+	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
+}
+
+INT_PTR CSteamProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 {
 	if (!wParam)
 		wParam = GetContactXStatus(NULL);
@@ -81,18 +102,42 @@ INT_PTR CSteamProto::GetXStatusIcon(WPARAM wParam, LPARAM lParam)
 	if (wParam < 1)
 		return 0;
 
-	char iconName[100];
-	mir_snprintf(iconName, SIZEOF(iconName), "%s_%s", MODULE, "gaming");
-
-	HICON icon = Skin_GetIcon(iconName, (lParam & LR_BIGICON) ? 32 : 16);
-	return (lParam & LR_SHARED) ? (INT_PTR)icon : (INT_PTR)CopyIcon(icon);
+	return (INT_PTR)GetXStatusIcon(wParam, lParam);
 }
 
-INT_PTR CSteamProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
+INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
 {
 	int status = GetContactXStatus(wParam);
-	if (status < 1)
-		return -1;
+	if (status)
+	{
+		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) == xstatusIconsValid.end())
+		{
+			// adding/updating icon
+			HIMAGELIST clistImageList = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
+			if (clistImageList)
+			{
+				HICON hXStatusIcon = GetXStatusIcon(status, LR_SHARED);
 
-	return ((status & 0xFFFF) << 16);
+				std::map<int, int>::iterator it = xstatusIcons.find(status);
+				if (it != xstatusIcons.end() && it->second > 0)
+					ImageList_ReplaceIcon(clistImageList, it->first, hXStatusIcon);
+				else
+					xstatusIcons.insert(std::make_pair(status, ImageList_AddIcon(clistImageList, hXStatusIcon)));
+
+				// mark icon index in the array as valid
+				xstatusIconsValid.push_back(status);
+
+				Skin_ReleaseIcon(hXStatusIcon);
+			}
+		}
+
+		if (std::find(xstatusIconsValid.begin(), xstatusIconsValid.end(), status) != xstatusIconsValid.end())
+		{
+			std::map<int, int>::iterator it = xstatusIcons.find(status);
+			if (it != xstatusIcons.end())
+				return (it->second & 0xFFFF) << 16;
+		}
+	}
+
+	return -1;
 }

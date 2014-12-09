@@ -255,9 +255,10 @@ protected:
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 
 	// xstatuses
-	INT_PTR  __cdecl GetXStatusEx(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl GetXStatusIcon(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl OnGetXStatusEx(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl OnGetXStatusIcon(WPARAM wParam, LPARAM lParam);
+	INT_PTR  __cdecl OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam);
+	HICON GetXStatusIcon(int status, UINT flags);
 	int GetContactXStatus(MCONTACT hContact);
 
 	// events
@@ -288,5 +289,7 @@ protected:
 	// helpers
 	inline int IdleSeconds() { return m_idleTS ? time(0) - m_idleTS : 0; }
 };
+
+int OnReloadIcons(WPARAM wParam, LPARAM lParam);
 
 #endif //_STEAM_PROTO_H_
