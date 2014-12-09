@@ -6,15 +6,44 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
 	if (oldStatus != status)
 	{
 		setWord(hContact, "Status", status);
-		
-		// If contact is offline, clear also xstatus
-		if (status == ID_STATUS_OFFLINE)
-		{
-			delSetting(hContact, "XStatusId");
-			delSetting(hContact, "XStatusName");
-			delSetting(hContact, "XStatusMsg");
 
-			SetContactExtraIcon(hContact, NULL);
+		// Special handling of some statuses
+		switch (status)
+		{
+		case ID_STATUS_FREECHAT:
+			{
+				// Contact is looking to play, save it to as status message
+				if (hContact)
+					db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Looking to play"));
+			}
+			break;
+
+		case ID_STATUS_OUTTOLUNCH:
+			{
+				// Contact is looking to trade, save it to as status message
+				if (hContact)
+					db_set_ts(hContact, "CList", "StatusMsg", TranslateT("Looking to trade"));
+			}
+			break;
+
+		case ID_STATUS_OFFLINE:
+			{
+				// If contact is offline, clear also xstatus
+				delSetting(hContact, "XStatusId");
+				delSetting(hContact, "XStatusName");
+				delSetting(hContact, "XStatusMsg");
+
+				if (hContact)
+					SetContactExtraIcon(hContact, NULL);
+			}
+			// no break intentionally
+
+		default:
+			{
+				if (hContact)
+					db_unset(hContact, "CList", "StatusMsg");
+			}
+			break;
 		}
 	}
 }
@@ -150,8 +179,7 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	node = json_get(data, "personastate");
 	WORD steamStatus = json_as_int(node);
 	WORD status = SteamToMirandaStatus(steamStatus);
-	if (hContact != NULL)
-		SetContactStatus(hContact, status);
+	SetContactStatus(hContact, status);
 
 	// client
 	node = json_get(data, "personastateflags");
