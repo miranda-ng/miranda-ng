@@ -32,7 +32,6 @@ int cliShowHide(WPARAM wParam, LPARAM lParam);
 int g_mutex_bOnTrayRightClick = 0;
 
 BOOL g_bMultiConnectionMode = FALSE;
-static int RefreshTimerId = 0;   /////by FYR
 static VOID CALLBACK RefreshTimerProc(HWND hwnd,UINT message,UINT idEvent,DWORD dwTime); ///// by FYR
 static HMENU hMainMenu, hStatusMenu;
 static HANDLE hTrayMenuObject;
@@ -123,26 +122,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam, LPARAM lparam)
 	return curstatus ? curstatus : ID_STATUS_OFFLINE;
 }
 
-////////////////////////////////////////////////////////////
-///// Need to refresh trays icon  after timely changing/////
-////////////////////////////////////////////////////////////
-
-static VOID CALLBACK RefreshTimerProc(HWND hwnd, UINT message, UINT idEvent, DWORD dwTime)
-{
-	if (RefreshTimerId) {
-		KillTimer(NULL, RefreshTimerId);
-		RefreshTimerId = 0;
-	}
-
-	int count;
-	PROTOACCOUNT **accs;
-	ProtoEnumAccounts(&count, &accs);
-	for (int i = 0; i < count; i++)
-		if (pcli->pfnGetProtocolVisibility(accs[i]->szModuleName))
-			pcli->pfnTrayIconUpdateBase(accs[i]->szModuleName);
-
-}
-//////// End by FYR /////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
 {
@@ -239,16 +219,17 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 					int avg = pcli->pfnGetAverageMode(NULL);
 					int i = pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL, szChangedProto, CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0)), szChangedProto);
 					if (i < 0) {
+						Netlib_Logf(NULL, "Connection icon disabled for %s", szChangedProto);
 						pcli->pfnTrayIconDestroy(hwnd);
 						pcli->pfnTrayIconInit(hwnd);
 						return -1;
 					}
 
 					status = CallProtoService(szChangedProto, PS_GETSTATUS, 0, 0);
-					if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
+					if (g_StatusBarData.bConnectingIcon && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 						if (hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0))
 							return pcli->pfnTrayIconSetBaseInfo(hIcon, szChangedProto);
-					}
+
 					return i;
 				}
 				break;

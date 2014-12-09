@@ -198,7 +198,7 @@ void fnTrayIconRemove(HWND hwnd, const char *szProto)
 
 	mir_cslock lck(trayLockCS);
 	for (int i = 0; i < cli.trayIconCount; i++) {
-		struct trayIconInfo_t* pii = &cli.trayIcon[i];
+		trayIconInfo_t *pii = &cli.trayIcon[i];
 		if (pii->id != 0 && !mir_strcmp(szProto, pii->szProto)) {
 			NOTIFYICONDATA nid = { SIZEOFNID };
 			nid.hWnd = hwnd;
@@ -234,14 +234,13 @@ int fnTrayIconInit(HWND hwnd)
 	cli.trayIconCount = 1;
 
 	if (netProtoCount) {
-		cli.trayIcon = (trayIconInfo_t *)mir_calloc(sizeof(trayIconInfo_t) * accounts.getCount());
+		cli.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * accounts.getCount());
 
 		int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
 		if (trayIconSetting == SETTING_TRAYICON_SINGLE) {
 			DBVARIANT dbv = { DBVT_DELETED };
 			char *szProto;
-			if (!db_get_s(NULL, "CList", "PrimaryStatus", &dbv)
-				&& (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysPrimary", 0)))
+			if (!db_get_s(NULL, "CList", "PrimaryStatus", &dbv) && (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysPrimary", 0)))
 				szProto = dbv.pszVal;
 			else
 				szProto = NULL;
@@ -268,7 +267,7 @@ int fnTrayIconInit(HWND hwnd)
 		}
 	}
 	else {
-		cli.trayIcon = (trayIconInfo_t *)mir_calloc(sizeof(trayIconInfo_t));
+		cli.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t));
 		cli.pfnTrayIconAdd(hwnd, NULL, NULL, CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 	}
 
@@ -299,7 +298,7 @@ int fnTrayIconDestroy(HWND hwnd)
 	return 0;
 }
 
-//called when Explorer crashes and the taskbar is remade
+// called when Explorer crashes and the taskbar is remade
 void fnTrayIconTaskbarCreated(HWND hwnd)
 {
 	initcheck;
@@ -329,8 +328,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 	if (!hNewIcon)
 		return -1;
 
-	int i;
-	for (i = 0; i < cli.trayIconCount; i++) {
+	for (int i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		if (mir_strcmp(cli.trayIcon[i].szProto, szPreferredProto))
@@ -353,8 +351,8 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		return i;
 	}
 
-	//if there wasn't a suitable icon, change all the icons
-	for (i = 0; i < cli.trayIconCount; i++) {
+	// if there wasn't a suitable icon, change all the icons
+	for (int i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
 		nid.uID = cli.trayIcon[i].id;
@@ -376,10 +374,12 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 			DWORD time1 = db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
 			DWORD time2 = db_get_w(NULL, "CList", "IconFlashTime", 550) + 1000;
 			DWORD time = max(max(2000, time1), time2);
-			if (RefreshTimerId) {
-				KillTimer(NULL, RefreshTimerId); RefreshTimerId = 0;
-			}
-			RefreshTimerId = SetTimer(NULL, 0, time, RefreshTimerProc);	// if unknown base was changed - than show preffered proto icon for 2 sec and reset it to original one after timeout
+			if (RefreshTimerId)
+				KillTimer(NULL, RefreshTimerId);
+
+			// if unknown base was changed - than show preffered proto icon for 2 sec
+			// and reset it to original one after timeout
+			RefreshTimerId = SetTimer(NULL, 0, time, RefreshTimerProc);
 		}
 		return i;
 	}
@@ -415,7 +415,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 			goto LBL_Error;
 	}
 
-	//if there wasn't a specific icon, there will only be one suitable
+	// if there wasn't a specific icon, there will only be one suitable
 	for (int i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
@@ -545,7 +545,7 @@ void fnTrayIconSetToBase(char *szPreferredProto)
 		return;
 	}
 
-	//if there wasn't a specific icon, there will only be one suitable
+	// if there wasn't a specific icon, there will only be one suitable
 	for (i = 0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
