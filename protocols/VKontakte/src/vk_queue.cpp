@@ -107,7 +107,7 @@ void CVkProto::WorkerThread(void*)
 			<< CHAR_PARAM("redirect_uri", szBlankUrl) 
 			<< CHAR_PARAM("display", "mobile") 
 			<< CHAR_PARAM("response_type", "token")
-			<< VER_API)->m_bApiReq = false;;
+			<< VER_API)->m_bApiReq = false;
 	}
 
 	while (true) {
