@@ -64,7 +64,7 @@
 [Date]
 Дата
 [Parting line]
-Розділ. лінію
+Роздільник
 [Timestamp]
 Час
 [Direction]

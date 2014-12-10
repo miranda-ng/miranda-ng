@@ -13,8 +13,8 @@
 Показувати значок "Дозволити"
 [Plugin settings]
 Налаштування
-[Enable menu item (*)]
-Додати пункт меню (*)
+[Enable menu item (restart required)]
+Додати пункт меню (потрібен перезапуск)
 [Show icons only for recently added contacts]
 Значки тільки для нещодавно доданих
 [Disable AuthState icons]

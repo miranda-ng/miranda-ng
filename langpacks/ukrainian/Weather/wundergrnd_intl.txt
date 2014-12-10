@@ -3,13 +3,13 @@
 ;  Module: weather
 ;============================================================
 [Light Rain Showers]
-Іде слабкий дощ
+Слабкий дощ
 [Thunderstorms And Rain]
 Дощ з грозою
 [Light Thunderstorm]
 Невелика гроза
 [Light Drizzle Mist]
-Легка мряка, серпанок
+Слабка мряка, серпанок
 [Light Showers Rain Mist]
 Слабкі дощі, серпанок
 [Mostly Sunny]
@@ -35,7 +35,7 @@
 [Light Showers Rain]
 Слабкі дощі
 [Light Showers Snow]
-Легкий снігопад
+Слабкий снігопад
 [Showers Rain]
 Зливові дощі
 [Shallow Fog]
@@ -291,7 +291,7 @@
 [Rain]
 Дощ
 [Light Drizzle]
-Легка імла
+Слабка мряка
 [Light Rain Mist]
 Слабкі дощі, серпанок
 [Light Snow]
@@ -351,9 +351,9 @@
 [Low Drifting Snow]
 Снігова поземка
 [Light Freezing Rain Mist]
-Легкий крижаний дощ, серпанок
+Слабкий крижаний дощ, серпанок
 [Light Freezing Rain]
-Легкий крижаний дощ
+Слабкий крижаний дощ
 [Light Showers Snow Light Blowing Snow]
 Сильний сніг з дощем
 [Showers Snow Heavy Blowing Snow]
@@ -379,7 +379,7 @@
 [Heavy Showers Snow Blowing Snow]
 Сильний дощ зі снігом, хуртовина
 [Light Freezing Rain Light Showers Snow]
-Легкий крижаний дощ, слабкий сніг
+Слабкий крижаний дощ, слабкий сніг
 [Light Freezing Drizzle Light Snow]
 Слабка мряка, слабкий сніг
 [Heavy Fog]
@@ -411,7 +411,7 @@
 [Snow 50% Chance Of Precipitation]
 Сніг, 50% імовірність опадів
 [Drizzle Fog]
-Дощ, туман
+Мряка, туман
 [Local Time]
 Місцевий час
 [Moonrise]
@@ -423,7 +423,7 @@
 [Heavy Showers Snow Mist]
 Сильний сніг, серпанок
 [Light Freezing Rain Light Showers Snow Mist]
-Легкий крижаний дощ, сніг, серпанок
+Слабкий крижаний дощ, сніг, серпанок
 [Light Drizzle Fog]
 Слабка мряка, туман
 [Snow Rain Mist]
@@ -443,7 +443,7 @@
 [Showers Snow Low Drifting Snow]
 Сильний снігопад, снігова поземка
 [Light Freezing Rain Light Snow]
-Легкий крижаний дощ, сніг
+Слабкий крижаний дощ, сніг
 [Day Length Diff]
 Зміна тривалості дня
 [Elevation]
@@ -558,3 +558,5 @@
 Хмарно
 [Light Snow Freezing Fog]
 Слабкий сніг, туман
+[Drizzle]
+Мряка

@@ -81,8 +81,6 @@
  додано до списку.
 [RESULT]
 Результат
-[ERROR]
-Помилка
 [%s has joined.]
 %s увійшов.
 [%s has left.]

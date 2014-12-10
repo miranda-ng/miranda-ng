@@ -2,6 +2,3 @@
 [Tree Hide Offline]
 [Tree Gray Out]
 [Editing view mode]
-[Display options]
-[When space allows it]
-[When space is available]

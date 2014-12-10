@@ -44,7 +44,7 @@
 [Round corners]
 Заокруглені кути
 [Don't steal focus unless idle]
-Якщо не активний, не перехоплювати фокус
+Якщо не активний, не забирати фокус
 [Preview]
 Тест
 [Alarm]
