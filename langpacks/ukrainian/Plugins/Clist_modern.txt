@@ -406,9 +406,9 @@ x100 мс
 [Order of items:]
 Порядок елементів:
 [Min row height:]
-Мін. висота лінії:
+Мін. висота рядка:
 [Row border:]
-Межа лінії:
+Межа рядка:
 [Variable row height]
 Змінна висота рядка
 [Align left items to left]
@@ -449,7 +449,7 @@ x100 мс
 висота
 [Max width]
 Ширина
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 Старий метод відтворення (швидше, але можуть бути "артефакти")
 [Hide icon when showing avatar]
 Ховати значок протоколу
@@ -457,7 +457,7 @@ x100 мс
 Значки на місці аватарів
 [Hide groups icon]
 Сховати значок груп
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 Значок видимості завжди
 [Use extra status icon instead protocol]
 Значок xСтатусу замість протоколу

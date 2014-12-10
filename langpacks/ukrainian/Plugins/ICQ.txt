@@ -152,11 +152,11 @@
 [Display popup when spambot is detected]
 Вікно при виявленні спам-бота
 [Look && Feel]
-&Відображення
+Зовнішній вигляд
 [Back Color]
-Колір фону
+Фон
 [Text Color]
-Колір тексту
+Текст
 [Timeout]
 Таймаут
 [Note]

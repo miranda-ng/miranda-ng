@@ -41,28 +41,32 @@
 База даних Miranda NG
 [Created by:]
 Створена:
-[Miranda NG databases]
-Бази даних Miranda NG
-[Compressed Miranda NG databases]
-Стиснуті бази даних Miranda NG
-[All files]
-Усі файли
 [Backup in progress]
 Резервування в процесі
 [Copying database file...]
 Копіювання файлу бази даних...
 [Database backed up]
 Профіль зарезервовано
+[Database back up in process...]
+Резервування профілю...
+[Error]
+Помилка
 [Backup profile]
 Резервувати профіль
 [Save profile as...]
 Зберегти профіль як...
-[Database backups]
-Резервування профілю
-[Backup folder]
-Папка резервування
 [Database]
 База даних
+[Database backups]
+Резервування профілю
+[Miranda NG databases]
+Бази даних Miranda NG
+[Compressed Miranda NG databases]
+Стиснуті бази даних Miranda NG
+[All files]
+Усі файли
+[Backup folder]
+Папка резервування
 [path to Miranda root folder]
 шлях до папки програми
 [path to folder containing Miranda profiles]

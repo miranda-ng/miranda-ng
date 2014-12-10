@@ -223,6 +223,8 @@ Gadu-Gadu v8 клієнт
 Оверлей веб-сайту
 [Windows Phone overlay]
 Оверлей Windows Phone
+[Mobile overlay]
+Оверлей mobile
 [debug overlay]
 Оверлей debug
 [office overlay]

@@ -48,7 +48,7 @@
 [Insert text]
 Вставити текст
 [Text]
-Вставити текст
+Текст
 [Advanced]
 Розширене
 [Link to action]

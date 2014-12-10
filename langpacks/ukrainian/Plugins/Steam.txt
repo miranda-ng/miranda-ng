@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.2.0
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -15,6 +15,10 @@
 Група:
 [Account]
 Обліковий запис
+[Contacts]
+Контакти
+[Use bigger avatars]
+Великі аватари
 [Captcha]
 Перевірочний код
 [Cancel]
@@ -25,6 +29,12 @@
 Перейти до поштової скринки
 [Block]
 Заблокувати
+[ on server %s]
+ на сервері %s
+[%s has been removed from your contact list]
+%s видалений з вашого списку контактів
+[%s is back in your contact list]
+%s знову у вашому списку контактів
 [%s has added you to his or her Friend List]
 %s додав(ла) вас до списку друзів
 [Fatal error, image services not found. Avatar services will be disabled.]
@@ -45,8 +55,6 @@
 Запитати авторизацію
 [Join to game]
 Приєднатися до гри
-[%s has been removed from your contact list]
-%s видалений з вашого списку контактів
 [Protocols]
 Протоколи
 [Protocol icon]

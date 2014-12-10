@@ -269,7 +269,7 @@
 [Light Rain / Wind]
 Слабкий дощ / вітер
 [Light Drizzle]
-Легка імла
+Слабка мряка
 [Haze]
 Імла
 [Smoke]
@@ -297,9 +297,9 @@
 [Cloudy And Windy]
 Хмарно вітер
 [Light Drizzle And Windy]
-Легка імла і вітер
+Слабка мряка і вітер
 [Light Drizzle And Fog]
-Легкий імла і туман
+Слабка мряка і туман
 [Fog And Windy]
 Туман і вітер
 [Light Snow Early]

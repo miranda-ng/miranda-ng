@@ -54,11 +54,11 @@
 [Apply last active view mode]
 Застосувати останній активний режим
 [Contact list layout]
-Відображення списку контактів
+Зовнішній вигляд
 [Show menu and status buttons]
 Показ. кнопки меню і статусу
 [Draw sunken edge]
-Втоплений край
+Утоплений край
 [System tray icon]
 Значок у треї
 [Single click interface]
@@ -72,7 +72,7 @@
 [Set base visiblity on the frames menu]
 Встановити базову видимість меню фреймів
 [Auto mode]
-Режим авто
+Показувати, якщо є нові події
 [System tray icon when using multiple protocols]
 Значки протоколів у треї
 [Show]
@@ -129,7 +129,7 @@
 Потім
 [Finally by]
 Нарешті
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 Переміщати події наверх списку або групи
 [Do not separate offline contacts]
 Не відокремлювати відключені контакти
@@ -417,6 +417,8 @@
 Сховати контакт зі списку
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
 Щоб повернути прихований контакт до списку, відкрийте Налаштування -> Контакти -> Ігнорувати, знайдіть контакт і поставте позначку навпроти його імені.
+[Display options]
+Параметри показу
 [Show contact with priority]
 Контакт з пріоритетом
 [Show avatar:]
@@ -424,7 +426,7 @@
 [Show 2nd line:]
 Другий рядок:
 [Draw overlay icon on avatar]
-Значок поверх аватарів
+Значок поверх аватара
 [Show local time]
 Місцевий час
 [&Main menu]
@@ -488,7 +490,7 @@
 [Show additional buttons]
 Показувати додаткові кнопки
 [Draw sunken frame]
-Втоплений фрейм
+Утоплений фрейм
 [Skin items]
 Елементи скіна
 [General]
@@ -544,7 +546,7 @@
 [Raised]
 Підведений
 [Sunken]
-Втоплений
+Утоплений
 [Bumped]
 Опуклий
 [Etched]
@@ -617,6 +619,8 @@
 Тільки для RTL
 [RTL TEXT only]
 Для RTL-тексту
+[When space allows it]
+Якщо є місце
 [When needed]
 Коли необхідно
 [With nickname - left]
@@ -646,17 +650,19 @@
 [Add permanently]
 Додати до списку
 [Revert to default]
-Повернути за замовчанням
+Скинути на стандартні
 [Default (global setting)]
 За замовчанням (глобально)
 [Show always when available]
 Завжди коли доступно
 [Hide always]
 Завжди ховати
+[When space is available]
+Якщо є місце
 [When needed by status message]
-Коли потрібно статус-повідомленню
+Якщо є статусне повідомлення
 [Contact list display and ignore options for %s]
-Налаштування відображення та ігнорування для %s
+Налаштування показу та ігнорування для %s
 [&Contact list settings...]
 Налаштування списку...
 [Global]
@@ -762,9 +768,9 @@
 [Minutes]
 хвилин
 [Hours]
-Годин
+годин
 [Days]
-Днів
+днів
 [Current view mode: %s]
 Поточний режим перегляду: %s
 [Filtering]
