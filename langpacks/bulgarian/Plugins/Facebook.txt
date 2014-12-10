@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ URL:
 Отказ
 [User details]
 Подробности за потребителя
-[Contacts Settings]
-Настройки за контактите
+[Network]
+Мрежа
+[Force secure (HTTPS) connection]
+Задължително ползване на сигурна (HTTPS) връзка
+[Use secure connection also for channel requests]
+
+[Contacts]
+Контакти
 [Default group:]
 Стандартна група
 [Automatically set 'Ignore status change' flag]
@@ -58,45 +64,23 @@ URL:
 Други събития
 [Client notifications]
 Уведомявания
+[Use this server for opening links:]
+
 [Use balloon notifications in system tray instead of popups]
 Ползване на балонни известия в трея вместо popup
 [Use logging notifications into special chatroom]
 
 [Preview]
 Образец
-[Advanced Settings]
-Допълнителни настройки
-[Force secure (HTTPS) connection]
-Задължително ползване на сигурна (HTTPS) връзка
+[Statuses]
+
 [Post Miranda statuses to Wall]
 Публикуване на състоянията от Miranda на стената
-[Use secure connection also for channel requests]
-
 [Turn off chat on Facebook when going to offline in Miranda]
 
 [Map unsupported statuses to Invisible (instead of Online)]
 
 [Allow posting statuses to my pages (may slow down login)]
-
-[Use this server for opening links:]
-
-[Show stickers as custom smileys (EXPERIMENTAL)]
-
-[Use local time for received messages]
-
-[Message sessions]
-Разговори
-[Keep messages as unread on server (don't send "seen" info)]
-
-[Receive messages from "inbox" folder only]
-
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-[Do not open chat windows on creation]
-
-[Synchronize last 24 hours on login]
 
 [Bots challenge test]
 Тест за ботове
@@ -104,6 +88,30 @@ URL:
 Инструкции:
 [Submit]
 Пращане
+[Messages]
+Съобщения
+[Receive messages from "inbox" folder only]
+
+[Use local time for received messages]
+
+[Keep messages as unread on server (don't send "seen" info)]
+
+[Show stickers as custom smileys (EXPERIMENTAL)]
+
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
+
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Въведете текста, който виждате
@@ -122,8 +130,6 @@ URL:
 Подробности за потребителя
 [User &history]
 История на потребителя
-[Notification]
-Уведомяване
 ;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 
@@ -259,14 +265,12 @@ URL:
 
 [Facebook ID must be numeric value.]
 
-[Network]
-Мрежа
 [Account]
 Акаунт
 [Events]
 Събития
-[Advanced]
-Разширени
+[Messaging]
+Съобщения
 [Share status...]
 
 [Own wall]
@@ -287,6 +291,8 @@ URL:
 
 [Show 'Share status' window]
 
+[Notification]
+Уведомяване
 [News Feed]
 Новина
 [Other Event]

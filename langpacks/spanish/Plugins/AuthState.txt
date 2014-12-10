@@ -14,8 +14,8 @@ Mostrar icono de autenticación
 Mostrar icono de concesión
 [Plugin settings]
 Configuración de plugin
-[Enable menu item (*)]
-Activar opción de menú (*)
+[Enable menu item (restart required)]
+Activar opción de menú (requiere un reinicio)
 [Show icons only for recently added contacts]
 Mostrar sólo iconos de los contactos agregados recientemente
 ;file \plugins\AuthState\src\main.cpp

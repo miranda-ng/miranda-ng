@@ -39,5 +39,3 @@
 [&Check Lotus]
 [Lotus Notify]
 [New Lotus document detected]
-[LotusNotify.dll cannot work with 64bit Miranda. (Lotus client is 32bit only)]
-[LotusNotify]

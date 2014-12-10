@@ -71,6 +71,5 @@
 [Update completed]
 [Update failed]
 [Plugin info]
-[Plugin list]
 [Plugin Updater HTTP connection]
 [An error occurred while checking for new updates.]

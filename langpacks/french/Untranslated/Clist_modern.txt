@@ -10,7 +10,7 @@
 [Ignore empty extra icons places (arrange to right).]
 [Remove status message if contact became offline]
 [Avoid double click expand]
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 [Use protocol smileys]
 [Show second line]
 [Status message]

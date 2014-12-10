@@ -159,6 +159,8 @@ Symbian
 Amiga
 [Android overlay]
 Android
+[Mobile overlay]
+Мабільны
 [debug overlay]
 debug
 [office overlay]

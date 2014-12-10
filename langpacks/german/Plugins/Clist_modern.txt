@@ -452,7 +452,7 @@ Kontakticon
 Höhe
 [Max width]
 Max. Breite
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 Nutze alte Methode (Schnell, aber mit Artefakten)
 [Hide icon when showing avatar]
 Icon ausblenden bei Avatar
@@ -460,7 +460,7 @@ Icon ausblenden bei Avatar
 Icon zentriert zum Avatar
 [Hide groups icon]
 Icon für Gruppen verstecken
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 Dauerhaftes "Immer-sichtbar"-Icon
 [Use extra status icon instead protocol]
 Nutze extra Statusicon anstatt Protokoll

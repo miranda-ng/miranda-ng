@@ -43,29 +43,34 @@
 База от данни на Miranda NG
 [Created by:]
 Създадена от:
-[Miranda NG databases]
-База от данни на Miranda NG
-[Compressed Miranda NG databases]
-Компресирана база от данни на Miranda NG
-[All files]
-Всички файлове
 [Backup in progress]
 Създава се резервно копие
 [Copying database file...]
 Копира се файла на базата от данни...
 [Database backed up]
 Създадено е резервно копие на базата от данни
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+
+[Error]
+Грешка
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 Създаване резервно копие на профила
 [Save profile as...]
 Запис на профила като...
-[Database backups]
-
-[Backup folder]
-
+;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 База от данни
+[Database backups]
+
+[Miranda NG databases]
+База от данни на Miranda NG
+[Compressed Miranda NG databases]
+Компресирана база от данни на Miranda NG
+[All files]
+Всички файлове
+[Backup folder]
+
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 път до главната папка на Miranda

@@ -227,6 +227,8 @@ Android
 
 [Windows Phone overlay]
 
+[Mobile overlay]
+Mobile
 [debug overlay]
 debug
 [office overlay]

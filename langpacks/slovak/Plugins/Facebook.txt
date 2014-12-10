@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.3
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ URL:
 Storno
 [User details]
 
-[Contacts Settings]
+[Network]
+Sieť
+[Force secure (HTTPS) connection]
 
+[Use secure connection also for channel requests]
+
+[Contacts]
+Kontakty
 [Default group:]
 
 [Automatically set 'Ignore status change' flag]
@@ -58,17 +64,17 @@ Storno
 
 [Client notifications]
 
-[Preview]
+[Use this server for opening links:]
 
 [Use balloon notifications in system tray instead of popups]
 
-[Advanced Settings]
+[Use logging notifications into special chatroom]
 
-[Force secure (HTTPS) connection]
+[Preview]
+
+[Statuses]
 
 [Post Miranda statuses to Wall]
-
-[Use secure connection also for channel requests]
 
 [Turn off chat on Facebook when going to offline in Miranda]
 
@@ -76,29 +82,35 @@ Storno
 
 [Allow posting statuses to my pages (may slow down login)]
 
-[Use this server for opening links:]
-
-[Show stickers as custom smileys (EXPERIMENTAL)]
-
-[Use local time for received messages]
-
-[Message sessions]
-
-[Keep messages as unread on server (don't send "seen" info)]
-
-[Receive messages from "inbox" folder only]
-
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-[Do not open chat windows on creation]
-
 [Bots challenge test]
 
 [Instruction:]
 Inštrukcie:
 [Submit]
+
+[Messages]
+
+[Receive messages from "inbox" folder only]
+
+[Use local time for received messages]
+
+[Keep messages as unread on server (don't send "seen" info)]
+
+[Show stickers as custom smileys (EXPERIMENTAL)]
+
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
 
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
@@ -253,14 +265,12 @@ Prednastavené
 
 [Facebook ID must be numeric value.]
 
-[Network]
-Sieť
 [Account]
 
 [Events]
 Udalosti
-[Advanced]
-Podrobne
+[Messaging]
+Rozhovor
 [Share status...]
 
 [Own wall]

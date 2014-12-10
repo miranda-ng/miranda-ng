@@ -558,3 +558,5 @@ Eisgraupel, 80% Niederschlagswahrscheinlichkeit
 Wolkig
 [Light Snow Freezing Fog]
 
+[Drizzle]
+

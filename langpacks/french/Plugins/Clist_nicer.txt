@@ -132,7 +132,7 @@ D'abord par
 Puis par
 [Finally by]
 Finalement par
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 Déplacer les évènements au début de la liste/groupe
 [Do not separate offline contacts]
 Ne pas séparer les contacts hors ligne

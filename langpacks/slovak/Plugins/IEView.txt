@@ -93,10 +93,6 @@ Príchádzajúci súbor
 
 [C++ Event Sink]
 
-[OleInitialize failed.]
-
-[ERROR]
-Chyba
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 

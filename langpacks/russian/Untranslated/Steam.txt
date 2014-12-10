@@ -3,8 +3,6 @@
 [Steam game]
 [Looking to play]
 [Looking to trade]
-[ on server %s]
 [Playing]
-[%s is back in your contact list]
 [Gaming icon]
 [SteamID]

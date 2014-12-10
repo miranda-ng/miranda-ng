@@ -93,10 +93,6 @@ IID_IOleInPlaceObject nie powiódł się.
 Nie udało się doradzić
 [C++ Event Sink]
 Zamarcie zdarzenia C++
-[OleInitialize failed.]
-OleInitialize nie powiodło się.
-[ERROR]
-BŁĄD
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 % dołączył.

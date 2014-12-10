@@ -130,7 +130,7 @@
 потым
 [Finally by]
 апошняе
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 Перасоўваць падзеі наверх спісу ці гурта
 [Do not separate offline contacts]
 Не адлучаць адключаныя кантакты

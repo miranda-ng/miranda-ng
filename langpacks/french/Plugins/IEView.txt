@@ -93,10 +93,6 @@ Transfert de fichier entrant
 
 [C++ Event Sink]
 
-[OleInitialize failed.]
-
-[ERROR]
-ERREUR
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s est arrivé.

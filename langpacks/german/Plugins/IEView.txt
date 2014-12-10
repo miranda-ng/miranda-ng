@@ -93,10 +93,6 @@ Ergebnis
 
 [C++ Event Sink]
 
-[OleInitialize failed.]
-
-[ERROR]
-FEHLER
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s ist beigetreten.

@@ -43,29 +43,32 @@
 Рэзервовая копія профіля
 [Created by:]
 Створана:
-[Miranda NG databases]
-Базы данных Miranda NG
-[Compressed Miranda NG databases]
-Сціснутыя профілі Miranda NG
-[All files]
-Усе файлы
 [Backup in progress]
 Рэзерваванне падчас
 [Copying database file...]
 Капіяванне файла базы...
 [Database backed up]
 Профіль зарэзерваваны
-;file \plugins\Db_autobackups\src\main.cpp
+[Error]
+Памылка
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 Рэзерваваць профіль
 [Save profile as...]
 Захаваць профіль як...
-[Database backups]
-Рэзерваванне профіля
-[Backup folder]
-Тэчка рэзервавання
+;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Профіль
+[Database backups]
+Рэзерваванне профіля
+[Miranda NG databases]
+Базы данных Miranda NG
+[Compressed Miranda NG databases]
+Сціснутыя профілі Miranda NG
+[All files]
+Усе файлы
+[Backup folder]
+Тэчка рэзервавання
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 шлях да тэчкі праграмы

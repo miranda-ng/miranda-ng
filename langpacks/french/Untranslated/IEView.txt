@@ -11,7 +11,6 @@
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]
-[OleInitialize failed.]
 [IEView]
 [Template]
 [All Images]

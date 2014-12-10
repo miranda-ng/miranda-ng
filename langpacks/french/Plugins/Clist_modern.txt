@@ -452,7 +452,7 @@ Icône du contact
 hauteur
 [Max width]
 Taille maxi
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 
 [Hide icon when showing avatar]
 Cacher l'icône si l'avatar est visible
@@ -460,7 +460,7 @@ Cacher l'icône si l'avatar est visible
 Mettre l'icône dans l'espace avatar
 [Hide groups icon]
 Masquer l'icône des groupes
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 Montrer l'icône "Toujours visible"
 [Use extra status icon instead protocol]
 Utiliser l'icône xStatus à la place du protocole

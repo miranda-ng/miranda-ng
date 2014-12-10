@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TranslitSwitcher.dll
 ;  Plugin: Switch layout or transliterate
-;  Version: 0.0.1.0
+;  Version: 0.1.0.1
 ;  Authors: Mataes, tico-tico, Tim
 ;============================================================
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]

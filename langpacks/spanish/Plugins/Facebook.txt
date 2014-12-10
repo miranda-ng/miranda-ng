@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.3
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ Compartir
 Cancelar
 [User details]
 Detalles del usuario
-[Contacts Settings]
-Configuración de contactos
+[Network]
+Red
+[Force secure (HTTPS) connection]
+Forzar conexión segura (HTTPS)
+[Use secure connection also for channel requests]
+Usar conexión segura también para solicitudes de canal
+[Contacts]
+Contactos
 [Default group:]
 Grupo predeterminado:
 [Automatically set 'Ignore status change' flag]
@@ -58,47 +64,53 @@ Tipos de noticias a notificar:
 Otros eventos
 [Client notifications]
 Notificaciones cliente
-[Preview]
-Previsualizar
+[Use this server for opening links:]
+Abrir enlaces con este servidor:
 [Use balloon notifications in system tray instead of popups]
 Globos de aviso en la  bandeja en vez de ventanas emergentes
-[Advanced Settings]
-Opciones avanzadas
-[Force secure (HTTPS) connection]
-Forzar conexión segura (HTTPS)
+[Use logging notifications into special chatroom]
+
+[Preview]
+Previsualizar
+[Statuses]
+
 [Post Miranda statuses to Wall]
 Enviar estados de Miranda al Muro
-[Use secure connection also for channel requests]
-Usar conexión segura también para solicitudes de canal
 [Turn off chat on Facebook when going to offline in Miranda]
 
 [Map unsupported statuses to Invisible (instead of Online)]
 
 [Allow posting statuses to my pages (may slow down login)]
 Permitir publicar estados a mis páginas (puede ralentizar sesión)
-[Use this server for opening links:]
-Abrir enlaces con este servidor:
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Activar soporte para emoticonos personalizados (EXPERIMENTAL)
-[Use local time for received messages]
-Usar la hora local para los mensajes recibidos
-[Message sessions]
-Sesiones de mensaje
-[Keep messages as unread on server (don't send "seen" info)]
-
-[Receive messages from "inbox" folder only]
-
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-[Do not open chat windows on creation]
-
 [Bots challenge test]
 
 [Instruction:]
 
 [Submit]
+
+[Messages]
+Mensajes
+[Receive messages from "inbox" folder only]
+
+[Use local time for received messages]
+Usar la hora local para los mensajes recibidos
+[Keep messages as unread on server (don't send "seen" info)]
+
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Activar soporte para emoticonos personalizados (EXPERIMENTAL)
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
 
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
@@ -253,14 +265,12 @@ No se puede obtener la conexión Netlib para Facebook
 
 [Facebook ID must be numeric value.]
 Facebook ID debe ser un valor numérico.
-[Network]
-Red
 [Account]
 Cuenta
 [Events]
 Eventos
-[Advanced]
-Avanzado
+[Messaging]
+Mensajería
 [Share status...]
 Compartir estado...
 [Own wall]
