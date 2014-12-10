@@ -25,18 +25,21 @@
 ;file \plugins\Db_autobackups\src\backup.cpp
 [Miranda NG database]
 [Created by:]
-[Miranda NG databases]
-[Compressed Miranda NG databases]
-[All files]
 [Backup in progress]
 [Copying database file...]
 [Database backed up]
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+[Error]
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 [Save profile as...]
-[Database backups]
-[Backup folder]
+;file \plugins\Db_autobackups\src\main.cpp
 [Database]
+[Database backups]
+[Miranda NG databases]
+[Compressed Miranda NG databases]
+[All files]
+[Backup folder]
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 [path to folder containing Miranda profiles]
