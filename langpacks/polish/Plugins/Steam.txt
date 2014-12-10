@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.2.0
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -16,6 +16,10 @@ Hasło:
 Domyślna grupa:
 [Account]
 Konto
+[Contacts]
+Kontakty
+[Use bigger avatars]
+Używaj większych awatarów
 [Captcha]
 Kod Captcha
 [Cancel]
@@ -28,7 +32,22 @@ Jako środek bezpieczeństwa dodanego konta, będziesz musiał udzielić dostęp
 Przejdź do domeny e-mail
 [Block]
 Zablokuj
+;file \protocols\Steam\src\stdafx.cpp
+[Steam game]
+Gra Steam
 ;file \protocols\Steam\src\steam_contacts.cpp
+[Looking to play]
+Szuka partnera do gry
+[Looking to trade]
+Szuka partnera do wymiany
+[ on server %s]
+ na serwerze %s
+[Playing]
+Gra
+[%s has been removed from your contact list]
+%s został usunięty z listy kontaktów
+[%s is back in your contact list]
+%s jest z powrotem na twojej liście kontaktów
 [%s has added you to his or her Friend List]
 %s dodał cię do listy kontaktów
 ;file \protocols\Steam\src\steam_dialogs.cpp
@@ -52,13 +71,13 @@ Wybór menu Steam
 Poproś o autoryzację
 [Join to game]
 Dołącz do gry
-;file \protocols\Steam\src\steam_pooling.cpp
-[%s has been removed from your contact list]
-%s został usunięty z listy kontaktów
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły
 [Protocol icon]
 Ikona protokołu
+[Gaming icon]
+Ikona grania
 [SteamID]
 SteamID
+;file \protocols\Steam\src\steam_xstatus.cpp

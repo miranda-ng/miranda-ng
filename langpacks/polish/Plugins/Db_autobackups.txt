@@ -43,29 +43,34 @@ Wyłącz popupy
 Baza danych Mirandy NG
 [Created by:]
 Utworzona przez:
-[Miranda NG databases]
-Bazy danych Mirandy NG
-[Compressed Miranda NG databases]
-Skompresowane bazy danych Miranda NG
-[All files]
-Wszystkie pliki
 [Backup in progress]
 Tworzenie kopii zapasowej...
 [Copying database file...]
 Kopiowanie pliku profilu...
 [Database backed up]
 Kopia zapasowa utworzona
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+Tworzenie kopii zapasowej bazy danych w toku...
+[Error]
+Błąd
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 Kopia zapasowa profilu
 [Save profile as...]
 Zapisz profil w...
-[Database backups]
-Kopia zapasowa
-[Backup folder]
-Folder kopii zapasowych
+;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Profil
+[Database backups]
+Kopia zapasowa
+[Miranda NG databases]
+Bazy danych Mirandy NG
+[Compressed Miranda NG databases]
+Skompresowane bazy danych Miranda NG
+[All files]
+Wszystkie pliki
+[Backup folder]
+Folder kopii zapasowych
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 folder docelowy Mirandy

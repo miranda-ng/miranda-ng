@@ -452,16 +452,16 @@ Ikona kontaktu
 wysokość
 [Max width]
 Maks. szerokość
-[Use old render method (fast, but has artefacts)]
-Użyj starej metody renderowania (szybka, ale z artefaktami)
+[Use old render method (fast, but has artifacts)]
+Używaj starej metody renderowania (szybka, ale posiada artefakty)
 [Hide icon when showing avatar]
 Ukryj ikonę, gdy pokazany jest awatar
 [Draw icon in avatar space]
 Rysuj ikonę w przestrzeni awataru
 [Hide groups icon]
 Ukryj ikonę grup
-[Always show "Always visibile" icon]
-Pokazuj ikonę "zawsze widoczny"
+[Always show "Always visible" icon]
+Zawsze pokazuj ikonę "zawsze widoczny"
 [Use extra status icon instead protocol]
 Użyj dodatkowej ikony statusu zamiast protokołu
 [Draw normal status as overlay]

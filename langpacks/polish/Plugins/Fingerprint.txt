@@ -227,6 +227,8 @@ Nakładka Android
 Nakładka stron internetowych
 [Windows Phone overlay]
 Nakładka Windows Phone
+[Mobile overlay]
+Nakładka mobilna
 [debug overlay]
 Nakładka Kodowanie
 [office overlay]

@@ -14,8 +14,8 @@ Pokaz ikonę autoryzacji
 Pokaż ikonę przyznania
 [Plugin settings]
 Ustawienia wtyczki
-[Enable menu item (*)]
-Dodaj element do menu (*}
+[Enable menu item (restart required)]
+Włącz element w menu głównym (wymaga restartu)
 [Show icons only for recently added contacts]
 Pokazuj ikony tylko dla nowo dodanych kontaktów
 ;file \plugins\AuthState\src\main.cpp

@@ -132,8 +132,8 @@ Pierwszy
 Drugi
 [Finally by]
 Trzeci
-[Move events to the top of list\nor group]
-Przenieś zdarzenia na początek listy\nlub grupy
+[Move events to the top of list or group]
+Przenieś zdarzenia na górę listy lub grupy
 [Do not separate offline contacts]
 Nie oddzielaj rozłączonych kontaktów
 [Hide as offline]
