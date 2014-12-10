@@ -365,8 +365,12 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		setTString(hContact, "About", tszValue.GetBuffer());
 
 	tszValue = json_as_string(json_get(pItem, "domain"));
-	if (!tszValue.IsEmpty())
+	if (!tszValue.IsEmpty()){
 		setTString(hContact, "domain", tszValue.GetBuffer());
+		CMString tszUrl("https://vk.com/");
+		tszUrl.Append(tszValue);
+		setTString(hContact, "Homepage", tszUrl.GetBuffer());
+	}
 
 	return hContact;
 }
