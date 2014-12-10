@@ -152,8 +152,6 @@
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Пра плагін
-[Plugin list]
-Спіс плагінаў
 [Plugin Updater HTTP connection]
 HTTP падлучэнне Plugin Updater
 [An error occurred while checking for new updates.]

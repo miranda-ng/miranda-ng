@@ -43,29 +43,34 @@ Popups deaktivieren
 Miranda-NG-Datenbank
 [Created by:]
 Erstellt von:
-[Miranda NG databases]
-Miranda-NG-Datenbanken
-[Compressed Miranda NG databases]
-Komprimierte Miranda-NG-Datenbanken
-[All files]
-Alle Dateien
 [Backup in progress]
 Sicherheitskopie wird erstellt
 [Copying database file...]
 Kopiere Datenbank...
 [Database backed up]
 Datenbank gesichert
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+
+[Error]
+Fehler
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 Sicherheitskopie des Profils erstellen
 [Save profile as...]
 Profil speichern unter...
-[Database backups]
-Datenbanksicherung
-[Backup folder]
-Sicherungsordner
+;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Datenbank
+[Database backups]
+Datenbanksicherung
+[Miranda NG databases]
+Miranda-NG-Datenbanken
+[Compressed Miranda NG databases]
+Komprimierte Miranda-NG-Datenbanken
+[All files]
+Alle Dateien
+[Backup folder]
+Sicherungsordner
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis

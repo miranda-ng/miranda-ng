@@ -83,8 +83,6 @@ URL атрыманы
 [ was added.]
  быў дададзены.
 ;file \plugins\IEView\src\IEView.cpp
-[ERROR]
-ПАМЫЛКА
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [%s has joined.]
 %s увайшоў.

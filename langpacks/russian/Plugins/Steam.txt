@@ -27,8 +27,12 @@
 Перейти в почтовый ящик
 [Block]
 Заблокировать
+[ on server %s]
+ на сервере %s
 [%s has been removed from your contact list]
 %s удалён из вашего списка контактов
+[%s is back in your contact list]
+%s возвращён в ваш список контактов
 [%s has added you to his or her Friend List]
 Вы добавлены в список друзей %s
 [Fatal error, image services not found. Avatar services will be disabled.]

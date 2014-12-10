@@ -43,28 +43,33 @@ Désactiver la barre de progression
 Profil Miranda-IM
 [Created by:]
 
-[Miranda NG databases]
-
-[Compressed Miranda NG databases]
-
-[All files]
-Tous les fichiers
 [Backup in progress]
 Sauvegarde en cours
 [Copying database file...]
 Copie de la base de données...
 [Database backed up]
 
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+
+[Error]
+Erreur
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 Sauvegarder votre profil
 [Save profile as...]
 
+;file \plugins\Db_autobackups\src\main.cpp
+[Database]
+
 [Database backups]
 Profil sauvegardé
-[Backup folder]
+[Miranda NG databases]
 
-[Database]
+[Compressed Miranda NG databases]
+
+[All files]
+Tous les fichiers
+[Backup folder]
 
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]

@@ -14,8 +14,8 @@
 Показване на икона "Разрешено"
 [Plugin settings]
 Настройване на приставката
-[Enable menu item (*)]
-Елемент в менюто*
+[Enable menu item (restart required)]
+Елемент в менюто (изисква рестарт)
 [Show icons only for recently added contacts]
 Показване на икони само за скоро добавените контакти
 ;file \plugins\AuthState\src\main.cpp

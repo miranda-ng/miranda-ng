@@ -182,8 +182,6 @@ Ikony
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 
-[Plugin list]
-
 [Plugin Updater HTTP connection]
 
 [An error occurred while checking for new updates.]

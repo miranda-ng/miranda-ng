@@ -132,8 +132,8 @@ Zuerst nach
 Danach nach
 [Finally by]
 Zuletzt nach
-[Move events to the top of list\nor group]
-Ereignisse in Liste oder Gruppe\nnach oben schieben
+[Move events to the top of list or group]
+Ereignisse in Liste oder Gruppe nach oben schieben
 [Do not separate offline contacts]
 Offlinekontakte nicht trennen
 [Hide as offline]

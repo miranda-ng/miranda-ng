@@ -27,3 +27,4 @@
 [Chance Of T-Storms 90% Chance Of Precipitation]
 [Chance Of T-Storms 80% Chance Of Precipitation]
 [Light Snow Freezing Fog]
+[Drizzle]

@@ -182,8 +182,6 @@ Plugin Updater
 ;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Инф. за приставката
-[Plugin list]
-Списък на приставките
 [Plugin Updater HTTP connection]
 HTTP връзки на приставката Plugin Updater
 [An error occurred while checking for new updates.]

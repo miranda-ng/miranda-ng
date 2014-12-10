@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.3
+;  Version: 0.2.9.7
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ Partager
 Annuler
 [User details]
 Détails du contact
-[Contacts Settings]
-Configuration des contacts
+[Network]
+Réseau
+[Force secure (HTTPS) connection]
+Se connecter via une connection sécurisée HTTPS
+[Use secure connection also for channel requests]
+
+[Contacts]
+Contacts
 [Default group:]
 Groupes :
 [Automatically set 'Ignore status change' flag]
@@ -58,41 +64,23 @@ Notifications
 Autres événements
 [Client notifications]
 
-[Preview]
-Aperçu
+[Use this server for opening links:]
+Utiliser ce serveur pour ouvrir les liens :
 [Use balloon notifications in system tray instead of popups]
 
-[Advanced Settings]
-Options Avancées
-[Force secure (HTTPS) connection]
-Se connecter via une connection sécurisée HTTPS
+[Use logging notifications into special chatroom]
+
+[Preview]
+Aperçu
+[Statuses]
+
 [Post Miranda statuses to Wall]
 Poster les statuts de Miranda sur le mur
-[Use secure connection also for channel requests]
-
 [Turn off chat on Facebook when going to offline in Miranda]
 
 [Map unsupported statuses to Invisible (instead of Online)]
 
 [Allow posting statuses to my pages (may slow down login)]
-
-[Use this server for opening links:]
-Utiliser ce serveur pour ouvrir les liens :
-[Show stickers as custom smileys (EXPERIMENTAL)]
-
-[Use local time for received messages]
-Utiliser l'heure locale pour les messages reçus
-[Message sessions]
-Sessions de message
-[Keep messages as unread on server (don't send "seen" info)]
-Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
-[Receive messages from "inbox" folder only]
-Recevoir uniquement les messages de la boîte de réception
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-[Do not open chat windows on creation]
 
 [Bots challenge test]
 
@@ -100,6 +88,30 @@ Recevoir uniquement les messages de la boîte de réception
 Instruction :
 [Submit]
 Soumettre
+[Messages]
+Messages
+[Receive messages from "inbox" folder only]
+Recevoir uniquement les messages de la boîte de réception
+[Use local time for received messages]
+Utiliser l'heure locale pour les messages reçus
+[Keep messages as unread on server (don't send "seen" info)]
+Conserver les messages comme non lus sur le serveur (ne pas envoyer "vu")
+[Show stickers as custom smileys (EXPERIMENTAL)]
+
+[Multi user chats]
+
+[Enable multi user chats support]
+
+[Do not open chat windows on creation]
+
+[History synchronization]
+
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+
+[Load last messages on opening message window (EXPERIMENTAL)]
+
+[Number of messages to load:]
+
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 
@@ -253,14 +265,12 @@ Le contact n'est plus sur la liste du serveur.
 
 [Facebook ID must be numeric value.]
 
-[Network]
-Réseau
 [Account]
 Compte
 [Events]
 Évènements
-[Advanced]
-Avancées
+[Messaging]
+Envoi de message
 [Share status...]
 Partager le statut
 [Own wall]

@@ -14,8 +14,8 @@
 Паказваць абразок "Дазволіць"
 [Plugin settings]
 Налады
-[Enable menu item (*)]
-Дадаць пункт меню (*)
+[Enable menu item (restart required)]
+Дадаць пункт меню (патрэбен перазапуск)
 [Show icons only for recently added contacts]
 Значкі толькі для нядаўна дададзеных
 ;file \plugins\AuthState\src\main.cpp

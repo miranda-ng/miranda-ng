@@ -43,28 +43,33 @@ Storno
 
 [Created by:]
 
-[Miranda NG databases]
-
-[Compressed Miranda NG databases]
-
-[All files]
-Všetky súbory
 [Backup in progress]
 
 [Copying database file...]
 
 [Database backed up]
 
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+
+[Error]
+Chyba
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 
 [Save profile as...]
 
+;file \plugins\Db_autobackups\src\main.cpp
+[Database]
+
 [Database backups]
 
-[Backup folder]
+[Miranda NG databases]
 
-[Database]
+[Compressed Miranda NG databases]
+
+[All files]
+Všetky súbory
+[Backup folder]
 
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]

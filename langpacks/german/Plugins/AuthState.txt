@@ -14,8 +14,8 @@ Falls ein Kontakt Sie nicht autorisiert hat, zeigt dieses Plugin ein Icon vor se
 'Kontakt ist nicht autorisiert'-Icon anzeigen
 [Plugin settings]
 Plugin-Einstellungen
-[Enable menu item (*)]
-Hauptmenüeintrag anzeigen (*)
+[Enable menu item (restart required)]
+Hauptmenüeintrag anzeigen (erfordert Neustart)
 [Show icons only for recently added contacts]
 Icons nur für kürzlich hinzugefügte Kontakte
 ;file \plugins\AuthState\src\main.cpp

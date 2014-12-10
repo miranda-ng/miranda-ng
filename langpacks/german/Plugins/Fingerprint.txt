@@ -227,6 +227,8 @@ Android overlay
 Website overlay
 [Windows Phone overlay]
 Windows Phone overlay
+[Mobile overlay]
+Mobil-Overlay
 [debug overlay]
 Debug-overlay
 [office overlay]

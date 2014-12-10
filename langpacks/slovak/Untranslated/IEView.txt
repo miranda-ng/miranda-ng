@@ -35,7 +35,6 @@
 [IID_IOleInPlaceObject failed.]
 [Failed to Advise]
 [C++ Event Sink]
-[OleInitialize failed.]
 [%s has joined.]
 [%s has left.]
 [The topic is %s.]

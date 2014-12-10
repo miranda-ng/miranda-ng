@@ -450,7 +450,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 вышыня
 [Max width]
 Шырыня
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 Стары метад адмалёўкі (хутчэй, але могуць быць "артэфакты")
 [Hide icon when showing avatar]
 Хаваць абразок конта
@@ -458,7 +458,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Значкі на месцы аватара
 [Hide groups icon]
 Схаваць абразок гуртоў
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 Абразок бачнасці заўсёды
 [Use extra status icon instead protocol]
 Абразок xСтатуса замест конту

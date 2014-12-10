@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: GmailNotifier.dll
 ;  Plugin: Gmail Multiple Notifier
-;  Version: 0.3.1.0
+;  Version: 0.3.1.1
 ;  Authors: Mixwind
 ;============================================================
 ;file \plugins\GmailNotifier\res\options.rc

@@ -132,8 +132,8 @@ ms
 След това според
 [Finally by]
 Накрая по
-[Move events to the top of list\nor group]
-Премествай събитията на върха\nна списъка (или групата)
+[Move events to the top of list or group]
+Премествай събитията на върха на списъка (или групата)
 [Do not separate offline contacts]
 Без отделяне на контактите "Извън линия"
 [Hide as offline]
