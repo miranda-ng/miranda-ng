@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.2.0
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -11,13 +11,23 @@
 [Password:]
 [Default group:]
 [Account]
+[Contacts]
+[Use bigger avatars]
 [Captcha]
 [Cancel]
 [Steam Guard]
 [As an added account security measure, you'll need to grant access by entering the special code we've just sent to your email address.]
 [Go to email domain]
 [Block]
+;file \protocols\Steam\src\stdafx.cpp
+[Steam game]
 ;file \protocols\Steam\src\steam_contacts.cpp
+[Looking to play]
+[Looking to trade]
+[ on server %s]
+[Playing]
+[%s has been removed from your contact list]
+[%s is back in your contact list]
 [%s has added you to his or her Friend List]
 ;file \protocols\Steam\src\steam_dialogs.cpp
 [Fatal error, image services not found. Avatar services will be disabled.]
@@ -31,9 +41,9 @@
 [Steam menu chooser]
 [Request authorization]
 [Join to game]
-;file \protocols\Steam\src\steam_pooling.cpp
-[%s has been removed from your contact list]
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 [Protocol icon]
+[Gaming icon]
 [SteamID]
+;file \protocols\Steam\src\steam_xstatus.cpp

@@ -69,7 +69,7 @@
 [First by]
 [Then by]
 [Finally by]
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 [Do not separate offline contacts]
 [Hide as offline]
 [Tree Hide Offline]
