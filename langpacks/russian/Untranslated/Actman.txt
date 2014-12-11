@@ -75,5 +75,4 @@
 [WhenWasIt Birthday Reminder (whenwasit.dll)]
 [display birthdays window]
 [&OK]
-[Your Actman settings is for old version. If you ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion]
 [Select as Volatile]
