@@ -559,4 +559,4 @@ Pochmurno
 [Light Snow Freezing Fog]
 Delikatny Śnieg Zamrożona Mgła
 [Drizzle]
-
+Mrzawka
