@@ -51,7 +51,7 @@ typedef struct {
 	int Param1,Param2;
 } GroupMenuExecParam, *lpGroupMenuExecParam;
 
-static INT_PTR BuildGroupMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 {
 	int tick;
 	HMENU hMenu;
@@ -103,7 +103,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-INT_PTR GroupMenuCheckService(WPARAM wParam, LPARAM lParam)
+INT_PTR GroupMenuCheckService(WPARAM, LPARAM)
 {
 	return 0;
 }
@@ -163,7 +163,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR FreeOwnerDataGroupMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 {
 	lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)lParam;
 	if (mmep != NULL) {
@@ -173,7 +173,7 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR HideGroupsHelper(WPARAM wParam, LPARAM lParam)
+INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
 	cfg::writeByte("CList", "HideEmptyGroups", (BYTE)newVal);
@@ -181,7 +181,7 @@ INT_PTR HideGroupsHelper(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR UseGroupsHelper(WPARAM wParam, LPARAM lParam)
+INT_PTR UseGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), GWL_STYLE) & CLS_USEGROUPS);
 	cfg::writeByte("CList", "UseGroups", (BYTE)newVal);
@@ -189,7 +189,7 @@ INT_PTR UseGroupsHelper(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR HideOfflineRootHelper(WPARAM wParam, LPARAM lParam)
+INT_PTR HideOfflineRootHelper(WPARAM, LPARAM)
 {
 	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_SETHIDEOFFLINEROOT,
 		!SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), CLM_GETHIDEOFFLINEROOT, 0, 0),
@@ -197,7 +197,7 @@ INT_PTR HideOfflineRootHelper(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnBuildGroupMenu(WPARAM wParam, LPARAM lParam)
+static int OnBuildGroupMenu(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | (cfg::getByte("CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? CMIF_CHECKED : 0);
@@ -378,7 +378,7 @@ typedef struct {
 	int Param1, Param2;
 } SubGroupMenuExecParam, *lpSubGroupMenuExecParam;
 
-static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
+static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM)
 {
 	ClcGroup *group = (ClcGroup *)wParam;
 	if (group == 0)
@@ -391,7 +391,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR BuildSubGroupMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR BuildSubGroupMenu(WPARAM wParam, LPARAM)
 {
 	ListParam param = {0};
 	param.MenuObjectHandle = hSubGroupMenuObject;
@@ -438,15 +438,14 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-INT_PTR SubGroupMenuCheckService(WPARAM wParam, LPARAM lParam) {
-	//not used
+INT_PTR SubGroupMenuCheckService(WPARAM, LPARAM)
+{
 	return 0;
-};
+}
 
-INT_PTR SubGroupMenuonAddService(WPARAM wParam, LPARAM lParam) {
-
+INT_PTR SubGroupMenuonAddService(WPARAM wParam, LPARAM)
+{
 	MENUITEMINFO *mii = (MENUITEMINFO *)wParam;
-
 	if (mii == NULL) return 0;
 
 	/*
@@ -486,7 +485,7 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam, LPARAM lParam) {
 	return 1;
 }
 
-INT_PTR FreeOwnerDataSubGroupMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR FreeOwnerDataSubGroupMenu(WPARAM, LPARAM lParam)
 {
 	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)lParam;
 	if (mmep != NULL) {
@@ -496,8 +495,8 @@ INT_PTR FreeOwnerDataSubGroupMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-//wparam menu handle to pass to clc.c
-INT_PTR GroupMenuExecProxy(WPARAM wParam, LPARAM lParam)
+// wparam menu handle to pass to clc.c
+INT_PTR GroupMenuExecProxy(WPARAM wParam, LPARAM)
 {
 	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0), WM_COMMAND, wParam, 0);
 	return 0;
@@ -509,10 +508,6 @@ void InitSubGroupMenus(void)
 	CreateServiceFunction("CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu", FreeOwnerDataSubGroupMenu);
 	CreateServiceFunction("CLISTMENUSSubGroup/SubGroupMenuonAddService", SubGroupMenuonAddService);
 	CreateServiceFunction("CLISTMENUSSubGroup/GroupMenuExecProxy", GroupMenuExecProxy);
-
-	//CreateServiceFunction("CLISTMENUSSubGroup/HideSubGroupsHelper", HideSubGroupsHelper);
-	//CreateServiceFunction("CLISTMENUSSubGroup/UseSubGroupsHelper", UseSubGroupsHelper);
-	//CreateServiceFunction("CLISTMENUSSubGroup/HideOfflineRootHelper", HideOfflineRootHelper);
 
 	CreateServiceFunction("CList/AddSubGroupMenuItem", AddSubGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDSUBGROUP, BuildSubGroupMenu);

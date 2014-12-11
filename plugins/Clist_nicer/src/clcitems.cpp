@@ -24,7 +24,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <commonheaders.h>
 
-static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c, const char *szProto);
+/*
+* load time zone information for the contact
+* if TzName is set, use it. It has to be a standard windows time zone name
+* Currently, it can only be set by using UserInfoEx plugin
+*
+* Fallback: use ordinary GMT offsets (incorrect, in some cases due to DST
+* differences.
+*/
+
+static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c)
+{
+	DWORD flags = 0;
+	if (cfg::dat.bShowLocalTimeSelective)
+		flags |= TZF_DIFONLY;
+	c->hTimeZone = tmi.createByContact(hContact, 0, flags);
+}
 
 //routines for managing adding/removal of items in the list, including sorting
 
@@ -223,30 +238,30 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 	p->bStatusMsgValid = STATUSMSG_NOTFOUND;
 	MCONTACT hContact = p->hContact;
 
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	INT_PTR result = cfg::getTString(hContact, "CList", "StatusMsg", &dbv);
-	if ( !result && mir_tstrlen(dbv.ptszVal) > 0)
+	if (!result && mir_tstrlen(dbv.ptszVal) > 0)
 		p->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
-		if ( !szProto)
+		if (!szProto)
 			szProto = GetContactProto(hContact);
 		if (szProto) {
-			if ( !result )
-				db_free( &dbv );
-			if ( !( result = cfg::getTString(hContact, szProto, "YMsg", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
+			if (!result)
+				db_free(&dbv);
+			if (!(result = cfg::getTString(hContact, szProto, "YMsg", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_YIM;
-			else if ( !(result = cfg::getTString(hContact, szProto, "StatusDescr", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
+			else if (!(result = cfg::getTString(hContact, szProto, "StatusDescr", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_GG;
-			else if ( !(result = cfg::getTString(hContact, szProto, "XStatusMsg", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
+			else if (!(result = cfg::getTString(hContact, szProto, "XStatusMsg", &dbv)) && mir_tstrlen(dbv.ptszVal) > 0)
 				p->bStatusMsgValid = STATUSMSG_XSTATUS;
 		}
 	}
 
 	if (p->bStatusMsgValid == STATUSMSG_NOTFOUND) { // no status msg, consider xstatus name (if available)
-		if ( !result )
-			db_free( &dbv );
+		if (!result)
+			db_free(&dbv);
 		result = cfg::getTString(hContact, szProto, "XStatusName", &dbv);
-		if ( !result && mir_tstrlen(dbv.ptszVal) > 1) {
+		if (!result && mir_tstrlen(dbv.ptszVal) > 1) {
 			size_t iLen = mir_tstrlen(dbv.ptszVal);
 			p->bStatusMsgValid = STATUSMSG_XSTATUSNAME;
 			p->statusMsg = (TCHAR *)realloc(p->statusMsg, (iLen + 2) * sizeof(TCHAR));
@@ -262,9 +277,9 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 			cst.status = &xStatus;
 			if (ProtoServiceExists(szProto, PS_GETCUSTOMSTATUSEX) && !ProtoCallService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst) && xStatus > 0) {
 				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
- 				cst.wParam = &xStatus2;
+				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
-				if ( !CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
+				if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, hContact, (LPARAM)&cst)) {
 					TCHAR *szwXstatusName = TranslateTS(xStatusName);
 					p->statusMsg = (TCHAR *)realloc(p->statusMsg, (mir_tstrlen(szwXstatusName) + 2) * sizeof(TCHAR));
 					_tcsncpy(p->statusMsg, szwXstatusName, mir_tstrlen(szwXstatusName) + 1);
@@ -285,8 +300,8 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		}
 		p->statusMsg[j] = 0;
 	}
-	if ( !result )
-		db_free( &dbv );
+	if (!result)
+		db_free(&dbv);
 
 	if (p->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];
@@ -303,25 +318,8 @@ BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
 	}
 
 	if (p->hTimeZone == NULL)
-		TZ_LoadTimeZone(hContact, p, szProto);
+		TZ_LoadTimeZone(hContact, p);
 	return p->bStatusMsgValid;
-}
-
-/*
- * load time zone information for the contact
- * if TzName is set, use it. It has to be a standard windows time zone name
- * Currently, it can only be set by using UserInfoEx plugin
- *
- * Fallback: use ordinary GMT offsets (incorrect, in some cases due to DST
- * differences.
- */
-
-static void TZ_LoadTimeZone(MCONTACT hContact, struct TExtraCache *c, const char *szProto)
-{
-	DWORD flags = 0;
-	if (cfg::dat.bShowLocalTimeSelective)
-		flags |= TZF_DIFONLY;
-	c->hTimeZone = tmi.createByContact(hContact, 0, flags);
 }
 
 void ReloadExtraInfo(MCONTACT hContact)
@@ -329,9 +327,7 @@ void ReloadExtraInfo(MCONTACT hContact)
 	if (hContact && pcli->hwndContactTree) {
 		TExtraCache *p = cfg::getCache(hContact, NULL);
 		if (p) {
-			char *szProto = GetContactProto(hContact);
-
-			TZ_LoadTimeZone(hContact, p, szProto);
+			TZ_LoadTimeZone(hContact, p);
 			InvalidateRect(pcli->hwndContactTree, NULL, FALSE);
 		}
 	}
@@ -414,7 +410,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 	p->isChatRoom = cfg::getByte(contact->hContact, contact->proto, "ChatRoom", 0);
 }
 
-void LoadSkinItemToCache(TExtraCache *cEntry, const char *szProto)
+void LoadSkinItemToCache(TExtraCache *cEntry)
 {
 	MCONTACT hContact = cEntry->hContact;
 
@@ -457,7 +453,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 {
 	int dbHidden = cfg::getByte(hContact, "CList", "Hidden", 0);		// default hidden state, always respect it.
 	int filterResult = 1;
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	char szTemp[64];
 	TCHAR szGroupMask[256];
 	DWORD dwLocalMask;
@@ -467,7 +463,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 	if (dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))
 		return 1;
 
-	if ( !cfg::dat.bFilterEffective)
+	if (!cfg::dat.bFilterEffective)
 		return dbHidden;
 
 	if (szProto == NULL)
@@ -488,7 +484,7 @@ int __fastcall CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, str
 		filterResult = strstr(cfg::dat.protoFilter, szTemp) ? 1 : 0;
 	}
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
-		if ( !cfg::getTString(hContact, "CList", "Group", &dbv)) {
+		if (!cfg::getTString(hContact, "CList", "Group", &dbv)) {
 			mir_sntprintf(szGroupMask, SIZEOF(szGroupMask), _T("%s|"), &dbv.ptszVal[1]);
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0));
 			mir_free(dbv.ptszVal);

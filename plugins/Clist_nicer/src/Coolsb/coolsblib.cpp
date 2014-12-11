@@ -38,31 +38,29 @@ static TCHAR szPropStr[] = _T("CoolSBSubclassPtr");
 
 LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-SCROLLWND *GetScrollWndFromHwnd(HWND hwnd)
+SCROLLWND* GetScrollWndFromHwnd(HWND hwnd)
 {
 	return (SCROLLWND *)GetProp(hwnd, szPropStr);
 }
 
-SCROLLBAR *GetScrollBarFromHwnd(HWND hwnd, UINT nBar)
+SCROLLBAR* GetScrollBarFromHwnd(HWND hwnd, UINT nBar)
 {
 	SCROLLWND *sw = GetScrollWndFromHwnd(hwnd);
-	
-	if ( !sw) return 0;
-	
+	if (!sw)
+		return 0;
+
 	if (nBar == SB_HORZ)
 		return &sw->sbarHorz;
-	else if (nBar == SB_VERT)
+	if (nBar == SB_VERT)
 		return &sw->sbarVert;
-	else
-		return 0;
+	return 0;
 }
 
 BOOL WINAPI CoolSB_IsCoolScrollEnabled(HWND hwnd)
 {
 	if (GetScrollWndFromHwnd(hwnd))
 		return TRUE;
-	else
-		return FALSE;
+	return FALSE;
 }
 
 BOOL GetScrollRect(SCROLLWND *sw, UINT nBar, HWND hwnd, RECT *rect);
@@ -77,7 +75,7 @@ BOOL GetScrollRect(SCROLLWND *sw, UINT nBar, HWND hwnd, RECT *rect);
 //	using Detours (or any other LIB??)
 //
 
-typedef BOOL (WINAPI *WPROC)(HWND, UINT, UINT);
+typedef BOOL(WINAPI *WPROC)(HWND, UINT, UINT);
 
 static WPROC pEnableScrollBar = 0;
 
@@ -85,36 +83,32 @@ void WINAPI CoolSB_SetESBProc(WPROC proc)
 {
 	pEnableScrollBar = proc;
 }
-//
-//
 
 static void RedrawNonClient(HWND hwnd, BOOL fFrameChanged)
 {
-	if (fFrameChanged == FALSE)
-	{
+	if (fFrameChanged == FALSE) {
 		/*
 		RECT rect;
 		HRGN hrgn1, hrgn2;
-		
+
 		SCROLLWND *sw = GetScrollWndFromHwnd(hwnd);
-		
+
 		GetScrollRect(sw, SB_HORZ, hwnd, &rect);
 		hrgn1 = CreateRectRgnIndirect(&rect);
-		
+
 		GetScrollRect(sw, SB_VERT, hwnd, &rect);
 		hrgn2 = CreateRectRgnIndirect(&rect);
-		
+
 		CombineRgn(hrgn1, hrgn2, hrgn1, RGN_OR);
-		
+
 		SendMessage(hwnd, WM_NCPAINT, (WPARAM)hrgn1, 0);
-		
+
 		DeleteObject(hrgn1);
 		DeleteObject(hrgn2);*/
 
 		SendMessage(hwnd, WM_NCPAINT, 1, 0);
 	}
-	else
-	{
+	else {
 		SetWindowPos(hwnd, 0, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE
 			| SWP_FRAMECHANGED | SWP_DRAWFRAME);
 	}
@@ -134,13 +128,10 @@ int WINAPI CoolSB_GetDefaultMinThumbSize(void)
 	{
 		if (LOBYTE(LOWORD(dwVersion)) >= 5)
 			return MINTHUMBSIZE_2000;
-		else
-			return MINTHUMBSIZE_NT4;
-	}
-	else
-	{
 		return MINTHUMBSIZE_NT4;
 	}
+
+	return MINTHUMBSIZE_NT4;
 }
 
 static SCROLLINFO *GetScrollInfoFromHwnd(HWND hwnd, int fnBar)
@@ -150,12 +141,10 @@ static SCROLLINFO *GetScrollInfoFromHwnd(HWND hwnd, int fnBar)
 	if (sb == 0)
 		return FALSE;
 
-	if (fnBar == SB_HORZ)
-	{
+	if (fnBar == SB_HORZ) {
 		return &sb->scrollInfo;
 	}
-	else if (fnBar == SB_VERT)
-	{
+	else if (fnBar == SB_VERT) {
 		return &sb->scrollInfo;
 	}
 	else
@@ -182,8 +171,7 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 
 	//if we have already initialized Cool Scrollbars for this window,
 	//then stop the user from doing it again
-	if (GetScrollWndFromHwnd(hwnd) != 0)
-	{
+	if (GetScrollWndFromHwnd(hwnd) != 0) {
 		return FALSE;
 	}
 
@@ -193,12 +181,12 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 
 	si = &sw->sbarHorz.scrollInfo;
 	si->cbSize = sizeof(SCROLLINFO);
-	si->fMask  = SIF_ALL;
+	si->fMask = SIF_ALL;
 	GetScrollInfo(hwnd, SB_HORZ, si);
 
 	si = &sw->sbarVert.scrollInfo;
 	si->cbSize = sizeof(SCROLLINFO);
-	si->fMask  = SIF_ALL;
+	si->fMask = SIF_ALL;
 	GetScrollInfo(hwnd, SB_VERT, si);
 
 	//check to see if the window has left-aligned scrollbars
@@ -226,20 +214,20 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 
 	//need to be able to distinguish between horizontal and vertical
 	//scrollbars in some instances
-	sw->sbarHorz.nBarType	     = SB_HORZ;
-	sw->sbarVert.nBarType	     = SB_VERT;
+	sw->sbarHorz.nBarType = SB_HORZ;
+	sw->sbarVert.nBarType = SB_VERT;
 
-	sw->sbarHorz.fFlatScrollbar  = CSBS_NORMAL;
-	sw->sbarVert.fFlatScrollbar  = CSBS_NORMAL;
+	sw->sbarHorz.fFlatScrollbar = CSBS_NORMAL;
+	sw->sbarVert.fFlatScrollbar = CSBS_NORMAL;
 
 	//set the default arrow sizes for the scrollbars
-	sw->sbarHorz.nArrowLength	 = SYSTEM_METRIC;
-	sw->sbarHorz.nArrowWidth	 = SYSTEM_METRIC;
-	sw->sbarVert.nArrowLength	 = SYSTEM_METRIC;
-	sw->sbarVert.nArrowWidth	 = SYSTEM_METRIC;
+	sw->sbarHorz.nArrowLength = SYSTEM_METRIC;
+	sw->sbarHorz.nArrowWidth = SYSTEM_METRIC;
+	sw->sbarVert.nArrowLength = SYSTEM_METRIC;
+	sw->sbarVert.nArrowWidth = SYSTEM_METRIC;
 
-	sw->bPreventStyleChange		 = FALSE;
-	
+	sw->bPreventStyleChange = FALSE;
+
 	mir_subclassWindow(hwnd, CoolSBWndProc);
 
 	CoolSB_SetMinThumbSize(hwnd, SB_BOTH, CoolSB_GetDefaultMinThumbSize());
@@ -250,11 +238,11 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	InitCommonControlsEx(&ice);
 
 	sw->hwndToolTip = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TOOLWINDOW, TOOLTIPS_CLASS, _T(""),
-                            WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-                            CW_USEDEFAULT, CW_USEDEFAULT,
-                            CW_USEDEFAULT, CW_USEDEFAULT,
-                            hwnd, NULL, GetModuleHandle(0),
-                            NULL);
+		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		hwnd, NULL, GetModuleHandle(0),
+		NULL);
 
 	ti.cbSize = sizeof(TOOLINFO);
 	ti.uFlags = TTF_IDISHWND;
@@ -264,7 +252,7 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	ti.hinst   = GetModuleHandle(0);
 
 	SendMessage(sw->hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
-	
+
 #else
 
 	UNREFERENCED_PARAMETER(ice);
@@ -272,27 +260,25 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	sw->hwndToolTip = 0;
 
 #endif
-	
+
 	//send the window a frame changed message to update the scrollbars
 	RedrawNonClient(hwnd, TRUE);
 
 	return TRUE;
 }
 
-BOOL WINAPI CoolSB_EnableScrollBar	(HWND hwnd, int wSBflags, UINT wArrows)
+BOOL WINAPI CoolSB_EnableScrollBar(HWND hwnd, int wSBflags, UINT wArrows)
 {
 	SCROLLBAR *sbar;
 	UINT oldstate;
 	BOOL bFailed = FALSE;
 
-	if ( !CoolSB_IsCoolScrollEnabled(hwnd))
+	if (!CoolSB_IsCoolScrollEnabled(hwnd))
 		return EnableScrollBar(hwnd, wSBflags, wArrows);
 
-	if ((wSBflags == SB_HORZ || wSBflags == SB_BOTH) && 
-		(sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
-	{
+	if ((wSBflags == SB_HORZ || wSBflags == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ))) {
 		oldstate = sbar->fScrollFlags;
-		
+
 		//clear any existing state, and OR in the disabled flags
 		sbar->fScrollFlags = (sbar->fScrollFlags & ~ESB_DISABLE_BOTH) | wArrows;
 
@@ -301,11 +287,9 @@ BOOL WINAPI CoolSB_EnableScrollBar	(HWND hwnd, int wSBflags, UINT wArrows)
 
 	}
 
-	if ((wSBflags == SB_VERT || wSBflags == SB_BOTH) && 
-		(sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
-	{
+	if ((wSBflags == SB_VERT || wSBflags == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT))) {
 		oldstate = sbar->fScrollFlags;
-		
+
 		//clear any existing state, and OR in the disabled flags
 		sbar->fScrollFlags = (sbar->fScrollFlags & ~ESB_DISABLE_BOTH) | wArrows;
 
@@ -316,45 +300,33 @@ BOOL WINAPI CoolSB_EnableScrollBar	(HWND hwnd, int wSBflags, UINT wArrows)
 	return !bFailed;
 }
 
-BOOL WINAPI CoolSB_GetScrollBarInfo(HWND hwnd)
+BOOL WINAPI CoolSB_GetScrollInfo(HWND hwnd, int fnBar, LPSCROLLINFO lpsi)
 {
-//	SCROLLBARINFO sbi; not defined in winuser.h
-	return FALSE;	
-}
-
-BOOL WINAPI CoolSB_GetScrollInfo (HWND hwnd, int fnBar, LPSCROLLINFO lpsi)
-{
-	SCROLLINFO *mysi;
 	BOOL copied = FALSE;
-	
-	if ( !lpsi)
+
+	if (!lpsi)
 		return FALSE;
 
-	if ( !(mysi = GetScrollInfoFromHwnd(hwnd, fnBar)))
-	{
+	SCROLLINFO *mysi = GetScrollInfoFromHwnd(hwnd, fnBar);
+	if (!mysi)
 		return GetScrollInfo(hwnd, fnBar, lpsi);
-	}
-	
-	if (lpsi->fMask & SIF_PAGE)
-	{
+
+	if (lpsi->fMask & SIF_PAGE) {
 		lpsi->nPage = mysi->nPage;
 		copied = TRUE;
 	}
 
-	if (lpsi->fMask & SIF_POS)
-	{
+	if (lpsi->fMask & SIF_POS) {
 		lpsi->nPos = mysi->nPos;
 		copied = TRUE;
 	}
 
-	if (lpsi->fMask & SIF_TRACKPOS)
-	{
+	if (lpsi->fMask & SIF_TRACKPOS) {
 		lpsi->nTrackPos = mysi->nTrackPos;
 		copied = TRUE;
 	}
 
-	if (lpsi->fMask & SIF_RANGE)
-	{
+	if (lpsi->fMask & SIF_RANGE) {
 		lpsi->nMin = mysi->nMin;
 		lpsi->nMax = mysi->nMax;
 		copied = TRUE;
@@ -363,24 +335,22 @@ BOOL WINAPI CoolSB_GetScrollInfo (HWND hwnd, int fnBar, LPSCROLLINFO lpsi)
 	return copied;
 }
 
-int	WINAPI CoolSB_GetScrollPos (HWND hwnd, int nBar)
+int	WINAPI CoolSB_GetScrollPos(HWND hwnd, int nBar)
 {
-	SCROLLINFO *mysi;
-	
-	if ( !(mysi = GetScrollInfoFromHwnd(hwnd, nBar)))
+	SCROLLINFO *mysi = GetScrollInfoFromHwnd(hwnd, nBar);
+	if (!mysi)
 		return GetScrollPos(hwnd, nBar);
 
 	return mysi->nPos;
 }
 
-BOOL WINAPI CoolSB_GetScrollRange (HWND hwnd, int nBar, LPINT lpMinPos, LPINT lpMaxPos)
+BOOL WINAPI CoolSB_GetScrollRange(HWND hwnd, int nBar, LPINT lpMinPos, LPINT lpMaxPos)
 {
-	SCROLLINFO *mysi;
-	
-	if ( !lpMinPos || !lpMaxPos)
+	if (!lpMinPos || !lpMaxPos)
 		return FALSE;
 
-	if ( !(mysi = GetScrollInfoFromHwnd(hwnd, nBar)))
+	SCROLLINFO *mysi = GetScrollInfoFromHwnd(hwnd, nBar);
+	if (!mysi)
 		return GetScrollRange(hwnd, nBar, lpMinPos, lpMaxPos);
 
 	*lpMinPos = mysi->nMin;
@@ -389,95 +359,73 @@ BOOL WINAPI CoolSB_GetScrollRange (HWND hwnd, int nBar, LPINT lpMinPos, LPINT lp
 	return TRUE;
 }
 
-int	WINAPI CoolSB_SetScrollInfo (HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL fRedraw)
+int	WINAPI CoolSB_SetScrollInfo(HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL fRedraw)
 {
-	SCROLLINFO *mysi;
-	SCROLLBAR *sbar;
-	BOOL       fRecalcFrame = FALSE;
+	BOOL fRecalcFrame = FALSE;
 
-	if ( !lpsi)
+	if (!lpsi)
 		return FALSE;
 
-	if ( !(mysi = GetScrollInfoFromHwnd(hwnd, fnBar)))
+	SCROLLINFO *mysi = GetScrollInfoFromHwnd(hwnd, fnBar);
+	if (!mysi)
 		return SetScrollInfo(hwnd, fnBar, lpsi, fRedraw);
 
-	//if (CoolSB_IsThumbTracking(hwnd))
-	//	return mysi->nPos;
-
-	if (lpsi->fMask & SIF_RANGE)
-	{
+	if (lpsi->fMask & SIF_RANGE) {
 		mysi->nMin = lpsi->nMin;
 		mysi->nMax = lpsi->nMax;
 	}
 
 	//The nPage member must specify a value from 0 to nMax - nMin +1. 
-	if (lpsi->fMask & SIF_PAGE)
-	{
+	if (lpsi->fMask & SIF_PAGE) {
 		UINT t = (UINT)(mysi->nMax - mysi->nMin + 1);
 		mysi->nPage = min(lpsi->nPage, t);
 	}
 
 	//The nPos member must specify a value between nMin and nMax - max(nPage - 1, 0).
-	if (lpsi->fMask & SIF_POS)
-	{
+	if (lpsi->fMask & SIF_POS) {
 		mysi->nPos = max(lpsi->nPos, mysi->nMin);
 		mysi->nPos = min((UINT)mysi->nPos, mysi->nMax - max(mysi->nPage - 1, 0));
 	}
 
-	sbar = GetScrollBarFromHwnd(hwnd, fnBar);
+	SCROLLBAR *sbar = GetScrollBarFromHwnd(hwnd, fnBar);
 
-	if ((lpsi->fMask & SIF_DISABLENOSCROLL) || (sbar->fScrollFlags & CSBS_THUMBALWAYS))
-	{
-		if ( !sbar->fScrollVisible)
-		{
+	if ((lpsi->fMask & SIF_DISABLENOSCROLL) || (sbar->fScrollFlags & CSBS_THUMBALWAYS)) {
+		if (!sbar->fScrollVisible) {
 			CoolSB_ShowScrollBar(hwnd, fnBar, TRUE);
 			fRecalcFrame = TRUE;
 		}
 	}
-	else
-	{
-		if (    mysi->nPage >  (UINT)mysi->nMax 
+	else {
+		if (mysi->nPage > (UINT)mysi->nMax
 			|| mysi->nPage == (UINT)mysi->nMax && mysi->nMax == 0
-			|| mysi->nMax  <= mysi->nMin)
-		{
-			if (sbar->fScrollVisible)
-			{
+			|| mysi->nMax <= mysi->nMin) {
+			if (sbar->fScrollVisible) {
 				CoolSB_ShowScrollBar(hwnd, fnBar, FALSE);
 				fRecalcFrame = TRUE;
 			}
 		}
-		else
-		{
-			if ( !sbar->fScrollVisible)
-			{
+		else {
+			if (!sbar->fScrollVisible) {
 				CoolSB_ShowScrollBar(hwnd, fnBar, TRUE);
 				fRecalcFrame = TRUE;
 			}
-
 		}
-
 	}
 
 	if (fRedraw && !CoolSB_IsThumbTracking(hwnd))
 		RedrawNonClient(hwnd, fRecalcFrame);
-	
+
 	return mysi->nPos;
 }
 
 
 int WINAPI CoolSB_SetScrollPos(HWND hwnd, int nBar, int nPos, BOOL fRedraw)
 {
-	SCROLLINFO *mysi;
 	int oldpos;
-	
-	if ( !(mysi = GetScrollInfoFromHwnd(hwnd, nBar)))
-	{
-		return SetScrollPos(hwnd, nBar, nPos, fRedraw);
-	}
 
-	//this is what should happen, but real scrollbars don't work like this..
-	//if (CoolSB_IsThumbTracking(hwnd))
-	//	return mysi->nPos;
+	SCROLLINFO *mysi = GetScrollInfoFromHwnd(hwnd, nBar);
+	if (!mysi)
+		return SetScrollPos(hwnd, nBar, nPos, fRedraw);
 
 	//validate and set the scollbar position
 	oldpos = mysi->nPos;
@@ -490,11 +438,10 @@ int WINAPI CoolSB_SetScrollPos(HWND hwnd, int nBar, int nPos, BOOL fRedraw)
 	return oldpos;
 }
 
-int WINAPI CoolSB_SetScrollRange (HWND hwnd, int nBar, int nMinPos, int nMaxPos, BOOL fRedraw)
+int WINAPI CoolSB_SetScrollRange(HWND hwnd, int nBar, int nMinPos, int nMaxPos, BOOL fRedraw)
 {
-	SCROLLINFO *mysi;
-	
-	if ( !(mysi = GetScrollInfoFromHwnd(hwnd, nBar)))
+	SCROLLINFO *mysi = GetScrollInfoFromHwnd(hwnd, nBar);
+	if (!mysi)
 		return SetScrollRange(hwnd, nBar, nMinPos, nMaxPos, fRedraw);
 
 	if (CoolSB_IsThumbTracking(hwnd))
@@ -504,7 +451,7 @@ int WINAPI CoolSB_SetScrollRange (HWND hwnd, int nBar, int nMinPos, int nMaxPos,
 	//nMax-nMin must not be greater than MAXLONG
 	mysi->nMin = nMinPos;
 	mysi->nMax = nMaxPos;
-	
+
 	if (fRedraw)
 		RedrawNonClient(hwnd, FALSE);
 
@@ -514,19 +461,17 @@ int WINAPI CoolSB_SetScrollRange (HWND hwnd, int nBar, int nMinPos, int nMaxPos,
 //
 //	Show or hide the specified scrollbars
 //
-BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
+BOOL WINAPI CoolSB_ShowScrollBar(HWND hwnd, int wBar, BOOL fShow)
 {
 	SCROLLBAR *sbar;
 	BOOL bFailed = FALSE;
 	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
-	if ( !CoolSB_IsCoolScrollEnabled(hwnd))
+	if (!CoolSB_IsCoolScrollEnabled(hwnd))
 		return ShowScrollBar(hwnd, wBar, fShow);
 
-	if ((wBar == SB_HORZ || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
-	{
-		sbar->fScrollFlags  =  sbar->fScrollFlags & ~CSBS_VISIBLE;
+	if ((wBar == SB_HORZ || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ))) {
+		sbar->fScrollFlags = sbar->fScrollFlags & ~CSBS_VISIBLE;
 		sbar->fScrollFlags |= fShow ? CSBS_VISIBLE : 0;
 		//bFailed = TRUE;
 
@@ -534,10 +479,8 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 		else		SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~WS_HSCROLL);
 	}
 
-	if ((wBar == SB_VERT || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
-	{
-		sbar->fScrollFlags  =  sbar->fScrollFlags & ~CSBS_VISIBLE;
+	if ((wBar == SB_VERT || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT))) {
+		sbar->fScrollFlags = sbar->fScrollFlags & ~CSBS_VISIBLE;
 		sbar->fScrollFlags |= fShow ? CSBS_VISIBLE : 0;
 		//bFailed = TRUE;
 
@@ -545,22 +488,20 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 		else		SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~WS_VSCROLL);
 	}
 
-	if (bFailed)
-	{
+	if (bFailed) {
 		return FALSE;
 	}
-	else
-	{
+	else {
 		//DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 		//style |= WS_VSCROLL;
-		
+
 		//if (s
 		//SetWindowLongPtr(hwnd, GWL_STYLE, style);
 
-		SetWindowPos(hwnd, 0, 0, 0, 0, 0, 
-			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | 
+		SetWindowPos(hwnd, 0, 0, 0, 0, 0,
+			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER |
 			SWP_NOACTIVATE | SWP_FRAMECHANGED);
-		
+
 		return TRUE;
 	}
 }
@@ -570,9 +511,9 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 //
 HRESULT WINAPI UninitializeCoolSB(HWND hwnd)
 {
-	int i = 0;
 	SCROLLWND *sw = GetScrollWndFromHwnd(hwnd);
-	if ( !sw) return E_FAIL;
+	if (!sw)
+		return E_FAIL;
 
 	RemoveProp(hwnd, szPropStr);
 	//SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
@@ -611,7 +552,7 @@ BOOL WINAPI CoolSB_InsertButton(HWND hwnd, int wSBflags, UINT nPos, SCROLLBUT *p
 
 	if ( !(sbar = GetScrollBarFromHwnd(hwnd, wSBflags)))
 		return FALSE;
-	
+
 	//check that we havn't reached the maximum allowed buttons yet
 	if (sbar->nButtons == MAX_COOLSB_BUTS)
 		return FALSE;
@@ -685,9 +626,9 @@ BOOL WINAPI CoolSB_InsertButton(HWND hwnd, int wSBflags, UINT nPos, SCROLLBUT *p
 		We don't use the callback function anymore. The uButType
 		member must now specify SBBT_OWNERDRAW, and a WM_NOTIFY will
 		be sent when a button must be drawn
-	if ((psb->fMask & SBBF_OWNERDRAW) && ((psb->uButType & SBBT_MASK) == SBBT_OWNERDRAW))
+		if ((psb->fMask & SBBF_OWNERDRAW) && ((psb->uButType & SBBT_MASK) == SBBT_OWNERDRAW))
 		pDrawProc	 = psb->pDrawProc;
-	else
+		else
 		pDrawProc	 = 0;*/
 
 	sbar->nButtons++;
@@ -767,7 +708,7 @@ BOOL WINAPI CoolSB_ModifyButton (HWND hwnd, int wSBflags, UINT uItem, BOOL fByCm
 	if (psb->fMask & SBBF_BITMAP)		sbut->hBmp		 = psb->hBmp;
 	if (psb->fMask & SBBF_ENHMETAFILE)	sbut->hEmf		 = psb->hEmf;
 	if (psb->fMask & SBBF_CURSOR)		sbut->hCurs		 = psb->hCurs;
-	
+
 	if (psb->fMask & SBBF_BUTMINMAX)
 	{
 		sbut->nMinSize = psb->nMinSize;
@@ -816,7 +757,7 @@ BOOL WINAPI CoolSB_RemoveButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd
 	}
 
 	sbar->nButtons--;
-	
+
 	RedrawNonClient(hwnd, TRUE);
 
 	return TRUE;
@@ -861,20 +802,20 @@ BOOL WINAPI CoolSB_GetButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd, S
 
 #else
 
-BOOL WINAPI CoolSB_InsertButton(HWND hwnd, int wSBflags, UINT nPos,  SCROLLBUT *psb)				{	return FALSE; }
-BOOL WINAPI CoolSB_ModifyButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd, SCROLLBUT *psb)	{	return FALSE; }
-BOOL WINAPI CoolSB_RemoveButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd)					{	return FALSE; }
-BOOL WINAPI CoolSB_GetButton   (HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd, SCROLLBUT *psb)	{	return FALSE; }
+BOOL WINAPI CoolSB_InsertButton(HWND, int, UINT, SCROLLBUT*) { return FALSE; }
+BOOL WINAPI CoolSB_ModifyButton(HWND, int, UINT, BOOL, SCROLLBUT*) { return FALSE; }
+BOOL WINAPI CoolSB_RemoveButton(HWND, int, UINT, BOOL) { return FALSE; }
+BOOL WINAPI CoolSB_GetButton(HWND, int, UINT, BOOL, SCROLLBUT*) { return FALSE; }
 
 #endif //INCLUDE_BUTTONS
 
 //
 //	Set the size of the scrollbars
 //
-BOOL WINAPI CoolSB_SetSize	(HWND hwnd, int wBar, int nLength, int nWidth)
+BOOL WINAPI CoolSB_SetSize(HWND hwnd, int wBar, int nLength, int nWidth)
 {
 	SCROLLBAR *sbar;
-	
+
 	if (nLength == 0 || nWidth == 0)
 		return FALSE;
 
@@ -884,28 +825,22 @@ BOOL WINAPI CoolSB_SetSize	(HWND hwnd, int wBar, int nLength, int nWidth)
 	if (nLength > 256 || nWidth > 256)
 		return FALSE;
 
-	if ( !GetScrollWndFromHwnd(hwnd))
+	if (!GetScrollWndFromHwnd(hwnd))
 		return FALSE;
 
-	if ((wBar == SB_HORZ || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
-	{
+	if ((wBar == SB_HORZ || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ))) {
 		sbar->nArrowLength = nLength;
-		sbar->nArrowWidth  = nWidth;
+		sbar->nArrowWidth = nWidth;
 	}
 
-	if ((wBar == SB_VERT || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
-	{
+	if ((wBar == SB_VERT || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT))) {
 		sbar->nArrowLength = nLength;
-		sbar->nArrowWidth  = nWidth;
+		sbar->nArrowWidth = nWidth;
 	}
 
 	RedrawNonClient(hwnd, TRUE);
-
 	return TRUE;
 }
-
 
 //
 //	Alter the display mode of the scrollbars
@@ -916,23 +851,16 @@ BOOL WINAPI CoolSB_SetStyle(HWND hwnd, int wBar, UINT nStyle)
 {
 	SCROLLBAR *sbar;
 
-	if ( !GetScrollWndFromHwnd(hwnd))
+	if (!GetScrollWndFromHwnd(hwnd))
 		return FALSE;
 
-	if ((wBar == SB_HORZ || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
-	{
+	if ((wBar == SB_HORZ || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
 		sbar->fFlatScrollbar = nStyle;
-	}
 
-	if ((wBar == SB_VERT || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
-	{
+	if ((wBar == SB_VERT || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
 		sbar->fFlatScrollbar = nStyle;
-	}
 
 	RedrawNonClient(hwnd, FALSE);
-
 	return TRUE;
 }
 
@@ -945,23 +873,19 @@ BOOL WINAPI CoolSB_SetThumbAlways(HWND hwnd, int wBar, BOOL fThumbAlways)
 {
 	SCROLLBAR *sbar;
 
-	if ( !GetScrollWndFromHwnd(hwnd))
+	if (!GetScrollWndFromHwnd(hwnd))
 		return FALSE;
 
-	if ((wBar == SB_HORZ || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
-	{
+	if ((wBar == SB_HORZ || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ))) {
 		if (fThumbAlways)
-			sbar->fScrollFlags |=  CSBS_THUMBALWAYS;
+			sbar->fScrollFlags |= CSBS_THUMBALWAYS;
 		else
 			sbar->fScrollFlags &= ~CSBS_THUMBALWAYS;
 	}
 
-	if ((wBar == SB_VERT || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
-	{
+	if ((wBar == SB_VERT || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT))) {
 		if (fThumbAlways)
-			sbar->fScrollFlags |=  CSBS_THUMBALWAYS;
+			sbar->fScrollFlags |= CSBS_THUMBALWAYS;
 		else
 			sbar->fScrollFlags &= ~CSBS_THUMBALWAYS;
 	}
@@ -978,23 +902,17 @@ BOOL WINAPI CoolSB_SetMinThumbSize(HWND hwnd, UINT wBar, UINT size)
 {
 	SCROLLBAR *sbar;
 
-	if ( !GetScrollWndFromHwnd(hwnd))
+	if (!GetScrollWndFromHwnd(hwnd))
 		return FALSE;
 
 	if (size == -1)
 		size = CoolSB_GetDefaultMinThumbSize();
 
-	if ((wBar == SB_HORZ || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
-	{
+	if ((wBar == SB_HORZ || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_HORZ)))
 		sbar->nMinThumbSize = size;
-	}
 
-	if ((wBar == SB_VERT || wBar == SB_BOTH) && 
-	   (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
-	{
+	if ((wBar == SB_VERT || wBar == SB_BOTH) && (sbar = GetScrollBarFromHwnd(hwnd, SB_VERT)))
 		sbar->nMinThumbSize = size;
-	}
 
 	return TRUE;
 }

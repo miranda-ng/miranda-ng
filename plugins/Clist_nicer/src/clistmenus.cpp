@@ -48,7 +48,7 @@ void DestroyTrayMenu(HMENU hMenu)
 	DestroyMenu(hMenu);
 }
 
-INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
+INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	int k;
 	cfg::shutDown = 1;
@@ -117,8 +117,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					TCHAR szTitle[512];
 					DWORD dwFlags = cfg::getDword(hContact, "CList", "CLN_Flags", 0);
 					BYTE bSecondLine = cfg::getByte(hContact, "CList", "CLN_2ndline", -1);
-					DWORD dwXMask = cfg::getDword(hContact, "CList", "CLN_xmask", 0);
-					int i = 0;
 
 					mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Contact list display and ignore options for %s"), contact ? contact->szText : (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 
@@ -168,23 +166,29 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case IDC_IGN_PRIORITY:
 			SendMessage(pcli->hwndContactTree, CLM_TOGGLEPRIORITYCONTACT, hContact, 0);
 			return 0;
+
 		case IDC_IGN_ALL:
 			SendMessage(hWnd, WM_USER + 100, hContact, (LPARAM)0xffffffff);
 			return 0;
+
 		case IDC_IGN_NONE:
 			SendMessage(hWnd, WM_USER + 100, hContact, 0);
 			return 0;
+
 		case IDC_IGN_ALWAYSONLINE:
 			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
 				CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, FALSE);
 			break;
+
 		case IDC_IGN_ALWAYSOFFLINE:
 			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
 				CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, FALSE);
 			break;
+
 		case IDC_HIDECONTACT:
 			cfg::writeByte(hContact, "CList", "Hidden", (BYTE)(IsDlgButtonChecked(hWnd, IDC_HIDECONTACT) ? 1 : 0));
 			break;
+
 		case IDC_IGN_ADDPERMANENTLY:
 			{
 				ADDCONTACTSTRUCT acs = {0};
@@ -192,18 +196,16 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				acs.handleType = HANDLE_CONTACT;
 				CallService(MS_ADDCONTACT_SHOW, (WPARAM)hWnd, (LPARAM)&acs);
 				Utils::enableDlgControl(hWnd, IDC_IGN_ADDPERMANENTLY, cfg::getByte(hContact, "CList", "NotOnList", 0));
-				break;
 			}
-		case IDC_DSP_LOADDEFAULT:
-			{
-				int i = 0;
+			break;
 
-				SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 0, 0);
-				SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
-				SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
-				SendDlgItemMessage(hWnd, IDC_LOCALTIME, BM_SETCHECK, BST_INDETERMINATE, 0);
-				break;
-			}
+		case IDC_DSP_LOADDEFAULT:
+			SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
+			SendDlgItemMessage(hWnd, IDC_LOCALTIME, BM_SETCHECK, BST_INDETERMINATE, 0);
+			break;
+
 		case IDOK:
 			{
 				DWORD newMask = 0;
@@ -217,7 +219,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					LRESULT iSel = SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_GETCURSEL, 0, 0);
 					DWORD dwFlags = cfg::getDword(hContact, "CList", "CLN_Flags", 0), dwXMask = 0;
 					LRESULT  checked = 0;
-					int i = 0;
 
 					FindItem(pcli->hwndContactTree, cfg::clcdat, (HANDLE)hContact, &contact, NULL, NULL);
 					if (iSel != CB_ERR) {
@@ -322,15 +323,13 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 			if (FindItem(pcli->hwndContactTree, cfg::clcdat, (HANDLE)hContact, &contact, NULL, NULL)) {
 				if (contact) {
-					WORD wApparentMode = 0, oldApparentMode = cfg::getWord(hContact, contact->proto, "ApparentMode", 0);
+					WORD wApparentMode = 0;
 
 					if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
 						wApparentMode = ID_STATUS_ONLINE;
 					else if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
 						wApparentMode = ID_STATUS_OFFLINE;
 
-					//db_set_w(hContact, contact->proto, "ApparentMode", wApparentMode);
-					//if (oldApparentMode != wApparentMode)
 					CallContactService(hContact, PSS_SETAPPARENTMODE, (WPARAM)wApparentMode, 0);
 					SendMessage(hWnd, WM_USER + 120, 0, 0);
 				}
@@ -356,7 +355,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
  *
  * if dialog is already open, focus it.
 */
-static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM lParam)
+static INT_PTR SetContactIgnore(WPARAM wParam, LPARAM)
 {
 	HWND hWnd = 0;
 

@@ -183,7 +183,6 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				if (ctl->buttonItem) {
 					RECT rcParent;
 					POINT pt;
-					HWND hwndParent = pcli->hwndContactList;
 					ImageItem *imgItem = ctl->stateId == PBS_HOT ? ctl->buttonItem->imgHover : (ctl->stateId == PBS_PRESSED ? ctl->buttonItem->imgPressed : ctl->buttonItem->imgNormal);
 					LONG *glyphMetrics = ctl->stateId == PBS_HOT ? ctl->buttonItem->hoverGlyphMetrics : (ctl->stateId == PBS_PRESSED ? ctl->buttonItem->pressedGlyphMetrics : ctl->buttonItem->normalGlyphMetrics);
 
@@ -206,7 +205,6 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 				else if (ctl->bIsSkinned) { // skinned
 					RECT rcParent;
 					POINT pt;
-					HWND hwndParent = pcli->hwndContactList;
 					StatusItems_t *item;
 					int item_id;
 
