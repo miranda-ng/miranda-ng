@@ -114,7 +114,7 @@ begin
     // compact list
     if num<HIGH(UActionList) then
     begin
-      move(UActionList[num+1],UActionList[num],(HIGH(UACtionList)-num)*SizeOf(tMyActionItem));
+      move(UActionList[num+1],UActionList[num],(HIGH(UActionList)-num)*SizeOf(tMyActionItem));
     end;
     SetLength(UActionList,Length(UActionList)-1);
   end;

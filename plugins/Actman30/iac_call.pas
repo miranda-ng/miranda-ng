@@ -834,7 +834,7 @@ begin
 
             IDC_CLOSE_RES: begin
               // close buttons
-              EnableWindow(LParam,false);
+              EnableWindow(lParam,false);
               EnableWindow(GetDlgItem(Dialog,IDC_CLOSE_ARG),true);
               CheckDlgButton(Dialog,IDC_CLOSE_ARG,BST_UNCHECKED);
 
@@ -844,7 +844,7 @@ begin
 
             IDC_CLOSE_ARG: begin
               // close buttons
-              EnableWindow(LParam,false);
+              EnableWindow(lParam,false);
               EnableWindow(GetDlgItem(Dialog,IDC_CLOSE_RES),true);
               CheckDlgButton(Dialog,IDC_CLOSE_RES,BST_UNCHECKED);
 

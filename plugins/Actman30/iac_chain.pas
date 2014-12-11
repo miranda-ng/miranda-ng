@@ -9,7 +9,6 @@ uses
   global, iac_global, mirutils, m_api, inouttext,
   dlgshare,lowlevelc,common,dbsettings, wrapper;
 
-{$include m_actman.inc}
 {$include i_cnst_chain.inc}
 {$resource iac_chain.res}
 

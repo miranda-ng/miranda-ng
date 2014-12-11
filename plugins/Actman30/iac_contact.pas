@@ -112,7 +112,7 @@ var
   cws:TDBVARIANT;
   p1:pAnsiChar;
   p:pWideChar;
-  tmpbuf:array [0..63] of WideChar;
+//  tmpbuf:array [0..63] of WideChar;
   is_chat:boolean;
 begin
   result:=0;

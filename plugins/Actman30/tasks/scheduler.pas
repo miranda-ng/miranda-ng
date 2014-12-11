@@ -11,8 +11,6 @@ uses
 
 {$R tasks.res}
 
-{$include m_actman.inc}
-
 var
   hevent: THANDLE;
 

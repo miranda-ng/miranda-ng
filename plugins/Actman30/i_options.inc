@@ -84,7 +84,7 @@ begin
   while OldNumMacros>NumMacros do
   begin
     dec(OldNumMacros);
-    p:=IntToStr(p1,OldNumMacros);
+    IntToStr(p1,OldNumMacros);
     DBDeleteGroup(0,DBBranch,section);
   end;
 end;
@@ -411,6 +411,7 @@ var
   v2:bool;
 begin
   NumMacros:=DBReadWord(0,DBBranch,opt_nummacro,0);
+  v2:=false;
 
   // Check if old actman version used
   if NumMacros>0 then
@@ -422,7 +423,6 @@ begin
     begin
       if MessageBoxW(0,TranslateW(OldVersion),'Actman',MB_OKCANCEL or MB_ICONWARNING)<>IDOK then
       begin
-        NumMacros:=0;
         MacroList:=tMacroList.Create(0);
         exit;
       end;

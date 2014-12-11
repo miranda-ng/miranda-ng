@@ -30,11 +30,12 @@ const
   ACF_INI_VALUE   = $00000080;
 type
   tINIAction = class(tBaseAction)
+  private
     inifile  :pWideChar;
     section  :pWideChar;
     parameter:pWideChar;
     value    :pWideChar;
-
+  public
     constructor Create(uid:dword);
     destructor Destroy; override;
 //    function  Clone:tBaseAction; override;

@@ -142,7 +142,7 @@ begin
     result:=nil;
 end;
 
-function Split(buf:PWideChar;macro:PWideChar;var r:trec):integer;
+function Split(buf:PWideChar;amacro:PWideChar;var r:trec):integer;
 type
   tconv = packed record
     case boolean of
@@ -155,11 +155,11 @@ var
   ls:array [0..511] of WideChar;
 begin
   result:=0;
-  i:=StrIndexW(buf,macro);
+  i:=StrIndexW(buf,amacro);
   if i>0 then
   begin
     dec(i);
-    p:=buf+i+StrLenW(macro);
+    p:=buf+i+StrLenW(amacro);
     pp:=p;
     while (p^<>#0) and (p^<>')') do
       inc(p);

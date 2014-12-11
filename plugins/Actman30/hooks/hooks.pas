@@ -11,8 +11,6 @@ uses
 
 {$R hooks.res}
 
-{$include m_actman.inc}
-
 {$include i_hook.inc}
 {$include i_hconst.inc}
 {$include i_options.inc}
