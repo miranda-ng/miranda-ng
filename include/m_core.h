@@ -71,6 +71,8 @@ typedef UINT32 MCONTACT;
 #endif
 #define DBVTF_VARIABLELENGTH  0x80
 
+#pragma warning(disable:4201)
+
 typedef struct
 {
 	BYTE type;

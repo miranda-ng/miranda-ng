@@ -145,6 +145,8 @@ typedef struct {
 
 extern int hLangpack;
 
+#pragma warning(disable:4505)
+
 static HANDLE ExtraIcon_Register(
 	const char *name, const char *description, const char *descIcon,
 	MIRANDAHOOK RebuildIcons,

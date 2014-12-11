@@ -79,6 +79,7 @@ public:
 class mir_cslock
 {
 	CRITICAL_SECTION& cs;
+	__inline mir_cslock& operator = (const mir_cslock&) { return *this; }
 
 public:
 	__inline mir_cslock(CRITICAL_SECTION& _cs) : cs(_cs) { ::EnterCriticalSection(&cs); }
@@ -92,6 +93,7 @@ class mir_cslockfull
 {
 	CRITICAL_SECTION& cs;
 	bool bIsLocked;
+	__inline mir_cslockfull& operator = (const mir_cslockfull&) { return *this; }
 
 public:
 	__inline void lock() { bIsLocked = true; EnterCriticalSection(&cs); }
