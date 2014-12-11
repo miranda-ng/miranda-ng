@@ -584,6 +584,8 @@ UTF16+сигнатура
 [Registered actions]
 Зарегистрированные действия
 ; Actman30
+[Your Actman settings is for old version. If you ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion]
+Ваши настройки Actman предназначены для устаревшей версии плагина. Выберите "ОК", чтобы преобразовать настройки в новый формат, либо выберите "Отмена", если собираетесь самостоятельно вернуть прежнюю версию плагина или сделать резервную копию настроек. Если вы ранее экспортировали макросы, не забудьте импортировать их обратно перед преобразованием в новый формат, поскольку новая версия плагина не может импортировать макросы, экспортированные прежней версией
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check it - their logic was changed.]
 Не используйте проверку макросов при наличии несохранённых макросов. Если макросы содержат действия из категории "Расширенное" или операции записи в файл, не забудьте проверить их работоспособность, поскольку изменилась логика этих действий.
 [Actman settings converted to new version]
