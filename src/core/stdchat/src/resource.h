@@ -36,7 +36,6 @@
 #define IDI_TAG1                        149
 #define IDI_TAG2                        150
 #define IDR_MENU                        151
-#define IDD_COLORCHOOSER                152
 #define IDI_STATUS3                     153
 #define IDI_STATUS2                     154
 #define IDI_STATUS4                     155
@@ -94,7 +93,6 @@
 #define IDC_HIGHLIGHT                   1068
 #define IDC_TEXTO                       1069
 #define IDC_LOGGING                     1069
-#define IDC_COLORTEXT                   1070
 #define IDC_LIST                        1072
 #define IDC_TAB                         1074
 #define IDC_1                           1075

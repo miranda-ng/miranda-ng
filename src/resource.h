@@ -23,6 +23,7 @@
 #define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
 #define IDD_ENTER_STRING                116
+
 #define IDD_URLSEND                     119
 #define IDD_URLRECV                     120
 #define IDD_AUTHREQ                     121
@@ -78,6 +79,7 @@
 #define IDD_HISTORY_FIND                192
 #define IDI_SENDEMAIL                   193
 #define IDD_FILERECV                    194
+#define IDD_COLORCHOOSER                195
 #define IDD_PROFILEMANAGER              197
 #define IDI_MAINMENU                    198
 #define IDR_CLISTMENU                   199
@@ -217,6 +219,7 @@
 #define IDC_ABOUT                       1032
 #define IDC_MYNOTES                     1033
 #define IDC_URLS                        1037
+#define IDC_COLORTEXT                   1038
 #define IDC_REPLY                       1039
 #define IDC_URL                         1041
 #define IDC_FONTGROUP                   1042

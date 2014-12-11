@@ -63,9 +63,6 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\chat\colorchooser.cpp">
-      <Filter>Source Files\chat</Filter>
-    </ClCompile>
     <ClCompile Include="src\chat\log.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>

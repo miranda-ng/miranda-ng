@@ -341,15 +341,6 @@ BEGIN
     LTEXT           "(0 means default setting, -1 means indefinite time)",IDC_STATIC,170,208,130,19
 END
 
-IDD_COLORCHOOSER DIALOGEX 0, 0, 198, 150
-STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_BORDER
-EXSTYLE WS_EX_TOPMOST
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,172,136,26,14,NOT WS_TABSTOP
-    CTEXT           "",IDC_CHAT_COLORTEXT,0,0,197,12,SS_CENTERIMAGE
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -277,7 +277,6 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -287,42 +286,6 @@ END
 // remains consistent on all systems.
 IDI_TAG1                ICON                    "tag1.ico"
 IDI_TAG2                ICON                    "tag2.ico"
-#endif    // Neutral (Default) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Swedish resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
-#ifdef _WIN32
-LANGUAGE LANG_SWEDISH, SUBLANG_DEFAULT
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_COLORCHOOSER DIALOGEX 0, 0, 198, 150
-STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | 
-	WS_VISIBLE | WS_BORDER
-EXSTYLE WS_EX_TOPMOST
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,172,136,26,14,NOT WS_TABSTOP
-    CTEXT           "",IDC_COLORTEXT,0,0,197,12,SS_CENTERIMAGE
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
 IDI_BUNDERLINE          ICON                    "underline.ico"
 IDI_BBOLD               ICON                    "bold.ico"
 IDI_BITALICS            ICON                    "italics.ico"
@@ -359,33 +322,6 @@ IDI_CLOSE               ICON                    "close.ico"
 IDI_OVERLAY             ICON                    "overlay.ico"
 IDI_NICKLIST2           ICON                    "nicklist2.ico"
 IDI_FILTER2             ICON                    "filter2.ico"
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "..\\src\\resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include ""winres.h""\r\n"
-    "#include ""richedit.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -438,9 +374,8 @@ BEGIN
     END
 END
 
-#endif    // Swedish resources
+#endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
-
 
 
 #ifndef APSTUDIO_INVOKED

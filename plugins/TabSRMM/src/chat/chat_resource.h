@@ -8,7 +8,6 @@
 #define IDD_OPTIONS2                    403
 #define IDD_FILTER                      404
 #define IDD_OPTIONSPOPUP                405
-#define IDD_COLORCHOOSER                406
 #define IDD_OPTIONS3                    407
 #define IDD_OPTIONS4                    408
 #define IDD_ADDHIGHLIGHT                409
@@ -48,7 +47,6 @@
 #define IDC_TIMEOUT                     1067
 #define IDC_TEXTO                       1069
 #define IDC_LOGGING                     1069
-#define IDC_COLORTEXT                   1070
 #define IDC_TEXTO2                      1070
 #define IDC_TEXTO3                      1071
 #define IDC_LIST                        1072

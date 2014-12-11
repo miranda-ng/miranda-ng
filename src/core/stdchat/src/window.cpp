@@ -1121,6 +1121,7 @@ static void __cdecl phase2(void * lParam)
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
 	SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	RECT rc;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -1876,7 +1877,6 @@ LABEL_SHOWWINDOW:
 	case GC_SPLITTERMOVED:
 		{
 			POINT pt;
-			RECT rc;
 			RECT rcLog;
 			BOOL bFormat = IsWindowVisible(GetDlgItem(hwndDlg,IDC_SMILEY));
 
@@ -1940,7 +1940,6 @@ LABEL_SHOWWINDOW:
 
 	case GC_SHOWFILTERMENU:
 		{
-			RECT rc;
 			HWND hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), hwndDlg, FilterWndProc, (LPARAM)si);
 			TranslateDialogDefault(hwnd);
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_FILTER), &rc);
@@ -1949,38 +1948,25 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_SHOWCOLORCHOOSER:
-		{
-			BOOL bFG = lParam == IDC_COLOR ? TRUE : FALSE;
-			COLORCHOOSER * pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
-
-			RECT rc;
-			GetWindowRect(GetDlgItem(hwndDlg, bFG ? IDC_COLOR : IDC_BKGCOLOR), &rc);
-			pCC->hWndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
-			pCC->pModule = pci->MM_FindModule(si->pszModule);
-			pCC->xPosition = rc.left+3;
-			pCC->yPosition = IsWindowVisible(GetDlgItem(hwndDlg, IDC_COLOR))?rc.top-1:rc.top+20;
-			pCC->bForeground = bFG;
-			pCC->si = si;
-
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COLORCHOOSER), hwndDlg, DlgProcColorToolWindow, (LPARAM) pCC);
-		}
+		pci->ColorChooser(si, lParam == IDC_COLOR, hwndDlg, GetDlgItem(hwndDlg, IDC_MESSAGE), GetDlgItem(hwndDlg, lParam));
 		break;
 
 	case GC_SCROLLTOBOTTOM:
-		{
+		if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL) != 0) {
 			SCROLLINFO si = { 0 };
-			if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL) != 0) {
-				CHARRANGE sel;
-				si.cbSize = sizeof(si);
-				si.fMask = SIF_PAGE | SIF_RANGE;
-				GetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &si);
-				si.fMask = SIF_POS;
-				si.nPos = si.nMax - si.nPage + 1;
-				SetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &si, TRUE);
-				sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
-				SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXSETSEL, 0, (LPARAM) &sel);
-				PostMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-		}	}
+			si.cbSize = sizeof(si);
+			si.fMask = SIF_PAGE | SIF_RANGE;
+			GetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &si);
+
+			si.fMask = SIF_POS;
+			si.nPos = si.nMax - si.nPage + 1;
+			SetScrollInfo(GetDlgItem(hwndDlg, IDC_LOG), SB_VERT, &si, TRUE);
+
+			CHARRANGE sel;
+			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
+			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXSETSEL, 0, (LPARAM) &sel);
+			PostMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
+		}
 		break;
 
 	case WM_TIMER:
@@ -2363,10 +2349,9 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_SMILEY:
-			{
-				RECT rc;
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEY), &rc);
-
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEY), &rc);
+			
+			if (SmileyAddInstalled) {
 				SMADD_SHOWSEL3 smaddInfo = { sizeof(smaddInfo) };
 				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
 				smaddInfo.targetMessage = EM_REPLACESEL;
@@ -2377,9 +2362,7 @@ LABEL_SHOWWINDOW:
 				smaddInfo.yPosition = rc.top - 1;
 				smaddInfo.hContact = si->hContact;
 				smaddInfo.hwndParent = hwndDlg;
-
-				if (SmileyAddInstalled)
-					CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM) &smaddInfo);
+				CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
 			}
 			break;
 

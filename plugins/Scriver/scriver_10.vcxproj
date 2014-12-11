@@ -211,9 +211,6 @@
     <ClCompile Include="src\statusicon.cpp" />
     <ClCompile Include="src\srmm.cpp" />
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="src\chat\colorchooser.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\chat\log.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

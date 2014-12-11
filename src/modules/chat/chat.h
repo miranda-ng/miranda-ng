@@ -68,6 +68,9 @@ INT_PTR  LeaveChat(WPARAM wParam, LPARAM lParam);
 int      PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
 INT_PTR  PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam);
 
+// colorchooser.c
+void ColorChooser(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);
+
 // options.c
 int    OptionsInit(void);
 int    OptionsUnInit(void);

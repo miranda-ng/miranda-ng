@@ -73,21 +73,8 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 };
 extern GlobalLogSettings g_Settings;
 
-typedef struct{
-	MODULEINFO*   pModule;
-	int           xPosition;
-	int           yPosition;
-	HWND          hWndTarget;
-	BOOL          bForeground;
-	SESSION_INFO *si;
-}
-	COLORCHOOSER;
-
 // main.c
 void UpgradeCheck(void);
-
-// colorchooser.c
-INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // log.c
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw);

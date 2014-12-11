@@ -137,22 +137,8 @@ struct CREOleCallback : public IRichEditOleCallback
 
 extern CREOleCallback reOleCallback;
 
-struct COLORCHOOSER
-{
-	MODULEINFO*   pModule;
-	int           xPosition;
-	int           yPosition;
-	HWND          hWndTarget;
-	BOOL          bForeground;
-	SESSION_INFO *si;
-};
-
 //main.c
-
 void LoadIcons(void);
-
-//colorchooser.c
-INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // log.c
 void Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, BOOL bRedraw, BOOL bPhaseTwo);
