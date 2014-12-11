@@ -535,7 +535,6 @@ static int GetButtonSize(SCROLLBAR *sbar, HWND hwnd, UINT uBeforeAfter)
 //
 static int CalcThumbSize(SCROLLBAR *sbar, const RECT *rect, int *pthumbsize, int *pthumbpos)
 {
-	SCROLLINFO *si;
 	int scrollsize;			//total size of the scrollbar including arrow buttons
 	int workingsize;		//working area (where the thumb can slide)
 	int siMaxMin;
@@ -543,29 +542,16 @@ static int CalcThumbSize(SCROLLBAR *sbar, const RECT *rect, int *pthumbsize, int
 	int startcoord;
 	int thumbpos = 0, thumbsize = 0;
 
-	int adjust=0;
 	static int count=0;
 
 	//work out the width (for a horizontal) or the height (for a vertical)
 	//of a standard scrollbar button
 	butsize = GetScrollMetric(sbar, SM_SCROLL_LENGTH);
 
-	if (1) //sbar->nBarType == SB_HORZ)
-	{
-		scrollsize = rect->right - rect->left;
-		startcoord = rect->left;
-	}
-	/*else if (sbar->nBarType == SB_VERT)
-	{
-		scrollsize = rect->bottom - rect->top;
-		startcoord = rect->top;
-	}
-	else
-	{
-		return 0;
-	}*/
+	scrollsize = rect->right - rect->left;
+	startcoord = rect->left;
 
-	si = &sbar->scrollInfo;
+	SCROLLINFO *si = &sbar->scrollInfo;
 	siMaxMin = si->nMax - si->nMin + 1;
 	workingsize = scrollsize - butsize * 2;
 
@@ -613,7 +599,7 @@ static int CalcThumbSize(SCROLLBAR *sbar, const RECT *rect, int *pthumbsize, int
 //	the rectangle must not include space for any inserted buttons 
 //	(i.e, JUST the scrollbar area)
 //
-static UINT GetHorzScrollPortion(SCROLLBAR *sbar, HWND hwnd, const RECT *rect, int x, int y)
+static UINT GetHorzScrollPortion(SCROLLBAR *sbar, const RECT *rect, int x, int y)
 {
 	int thumbwidth, thumbpos;
 	int butwidth = GetScrollMetric(sbar, SM_SCROLL_LENGTH);
@@ -670,12 +656,12 @@ static UINT GetHorzScrollPortion(SCROLLBAR *sbar, HWND hwnd, const RECT *rect, i
 //	For vertical scrollbars, rotate all coordinates by -90 degrees
 //	so that we can use the horizontal version of this function
 //
-static UINT GetVertScrollPortion(SCROLLBAR *sb, HWND hwnd, RECT *rect, int x, int y)
+static UINT GetVertScrollPortion(SCROLLBAR *sb, RECT *rect, int x, int y)
 {
 	UINT r;
 	
 	RotateRect(rect);
-	r = GetHorzScrollPortion(sb, hwnd, rect, y, x);
+	r = GetHorzScrollPortion(sb, rect, y, x);
 	RotateRect(rect);
 	return r;
 }
@@ -750,7 +736,7 @@ static LRESULT PostCustomDrawNotify(HWND hwnd, HDC hdc, UINT nBar, RECT *prect, 
 #endif
 */
 
-static LRESULT PostMouseNotify0(HWND hwnd, UINT msg, UINT nBar, RECT *prect, UINT nCmdId, POINT pt)
+static LRESULT PostMouseNotify0(HWND hwnd, UINT nBar, RECT *prect, UINT nCmdId, POINT pt)
 {
 #ifdef NOTIFY_MOUSE
 	NMCOOLBUTMSG	nmcb;
@@ -810,7 +796,6 @@ static LRESULT NCDrawHScrollbar(SCROLLBAR *sb, HWND hwnd, HDC hdc, const RECT *r
 	COLORREF crInverse1 = InvertCOLORREF(crCheck1);
 	COLORREF crInverse2 = InvertCOLORREF(crCheck2);
 
-	UINT uDFCFlat = sb->fFlatScrollbar ? DFCS_FLAT : 0;
 	UINT uDEFlat  = sb->fFlatScrollbar ? BF_FLAT   : 0;
 
 	//drawing flags to modify the appearance of the scrollbar buttons
@@ -1380,32 +1365,10 @@ static LRESULT DrawVertButtons(SCROLLBAR *sbar, HDC hdc, const RECT *rect, int l
 //	NOT needed if we don't bother to mask the scrollbars we draw
 //	to prevent the old window procedure from accidently drawing over them
 //
-HDC CoolSB_GetDC(HWND hwnd, WPARAM wParam)
+HDC CoolSB_GetDC(HWND hwnd, WPARAM)
 {
 	// I just can't figure out GetDCEx, so I'll just use this:
 	return GetWindowDC(hwnd);
-
-    /*
-    RECT rc;
-	DWORD flags = 0x10000;
-	HRGN hrgn = (HRGN)wParam;
-
-	if (hrgn == (HRGN)1)
-	{
-		GetWindowRect(hwnd, &rc);
-		OffsetRect(&rc, -rc.left, -rc.top);
-		hrgn = CreateRectRgnIndirect(&rc);
-	}
-
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_CLIPCHILDREN)
-		flags |= DCX_CLIPCHILDREN;
-
-	if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_CLIPSIBLINGS)
-		flags |= DCX_CLIPSIBLINGS;
-
-	return GetDCEx(hwnd, hrgn, flags | DCX_CACHE|DCX_NORESETATTRS|DCX_WINDOW | DCX_INTERSECTUPDATE);
-    */
-	//return GetDCEx(hwnd, NULL, flags | DCX_WINDOW| DCX_NORESETATTRS);
 }
 
 static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
@@ -1431,8 +1394,6 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	sb = &sw->sbarHorz;
 	if (sb->fScrollVisible)
 	{
-		int hbarwidth = 0, leftright = 0;
-
 		//get the screen coordinates of the whole horizontal scrollbar area
 		GetHScrollRect(sw, hwnd, &rect);
 
@@ -1451,8 +1412,6 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	sb = &sw->sbarVert;
 	if (sb->fScrollVisible)
 	{
-		int vbarheight = 0, updown = 0;
-
 		//get the screen cooridinates of the whole horizontal scrollbar area
 		GetVScrollRect(sw, hwnd, &rect);
 
@@ -1575,7 +1534,7 @@ static LRESULT NCHitTest(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 //	Return a HT* value indicating what part of the scrollbar was clicked
 //	Rectangle is not adjusted
 //
-static UINT GetHorzPortion(SCROLLBAR *sb, HWND hwnd, RECT *rect, int x, int y)
+static UINT GetHorzPortion(SCROLLBAR *sb, RECT *rect, int x, int y)
 {
 	RECT rc = *rect;
 
@@ -1609,17 +1568,17 @@ static UINT GetHorzPortion(SCROLLBAR *sb, HWND hwnd, RECT *rect, int x, int y)
 
 	//Now we have the rectangle for the scrollbar itself, so work out
 	//what part we clicked on.
-	return GetHorzScrollPortion(sb, hwnd, &rc, x, y);
+	return GetHorzScrollPortion(sb, &rc, x, y);
 }
 
 //
 //	Just call the horizontal version, with adjusted coordinates
 //
-static UINT GetVertPortion(SCROLLBAR *sb, HWND hwnd, RECT *rect, int x, int y)
+static UINT GetVertPortion(SCROLLBAR *sb, RECT *rect, int x, int y)
 {
 	UINT ret;
 	RotateRect(rect);
-	ret = GetHorzPortion(sb, hwnd, rect, y, x);
+	ret = GetHorzPortion(sb, rect, y, x);
 	RotateRect(rect);
 	return ret;
 }
@@ -1627,12 +1586,12 @@ static UINT GetVertPortion(SCROLLBAR *sb, HWND hwnd, RECT *rect, int x, int y)
 //
 //	Wrapper function for GetHorzPortion and GetVertPortion
 //
-static UINT GetPortion(SCROLLBAR *sb, HWND hwnd, RECT *rect, int x, int y)
+static UINT GetPortion(SCROLLBAR *sb, RECT *rect, int x, int y)
 {
 	if (sb->nBarType == SB_HORZ)
-		return GetHorzPortion(sb, hwnd, rect, x, y);
+		return GetHorzPortion(sb, rect, x, y);
 	else if (sb->nBarType == SB_VERT)
-		return GetVertPortion(sb, hwnd, rect, x, y);
+		return GetVertPortion(sb, rect, x, y);
 	else
 		return HTSCROLL_NONE;
 }
@@ -1847,7 +1806,6 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 	RECT rect, winrect;
 	HDC hdc;
 	SCROLLBAR *sb;
-	SCROLLBUT *sbut = 0;
 	POINT pt;
 
 	pt.x = LOWORD(lParam);
@@ -1866,7 +1824,7 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 
 		//get the total area of the normal Horz scrollbar area
 		GetHScrollRect(sw, hwnd, &rect);
-		uCurrentScrollPortion = GetHorzPortion(sb, hwnd, &rect, LOWORD(lParam), HIWORD(lParam));
+		uCurrentScrollPortion = GetHorzPortion(sb, &rect, LOWORD(lParam), HIWORD(lParam));
 	}
 	//
 	//	VERTICAL SCROLLBAR PROCESSING
@@ -1879,7 +1837,7 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 
 		//get the total area of the normal Horz scrollbar area
 		GetVScrollRect(sw, hwnd, &rect);
-		uCurrentScrollPortion = GetVertPortion(sb, hwnd, &rect, LOWORD(lParam), HIWORD(lParam));
+		uCurrentScrollPortion = GetVertPortion(sb, &rect, LOWORD(lParam), HIWORD(lParam));
 	}
 	//
 	//	NORMAL PROCESSING
@@ -1991,9 +1949,9 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 		// If the scroll thumb has moved under the mouse in response to 
 		// a call to SetScrollPos etc, then we don't hilight the scrollbar margin
 		if (uCurrentScrollbar == SB_HORZ)
-			uScrollTimerPortion = GetHorzScrollPortion(sb, hwnd, &rect, pt.x, pt.y);
+			uScrollTimerPortion = GetHorzScrollPortion(sb, &rect, pt.x, pt.y);
 		else
-			uScrollTimerPortion = GetVertScrollPortion(sb, hwnd, &rect, pt.x, pt.y);
+			uScrollTimerPortion = GetVertScrollPortion(sb, &rect, pt.x, pt.y);
 
 		GetWindowRect(hwnd, &winrect);
 		OffsetRect(&rect, -winrect.left, -winrect.top);
@@ -2035,7 +1993,6 @@ static LRESULT LButtonUp(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	HDC hdc;
 	POINT pt;
 	RECT winrect;
-	UINT buttonIdx = 0;
 	
 	//current scrollportion is the button that we clicked down on
 	if (uCurrentScrollPortion != HTSCROLL_NONE)
@@ -2340,7 +2297,6 @@ static LRESULT MouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 
 	LPARAM nlParam;
 	SCROLLBAR *sb = &sw->sbarHorz;
-	SCROLLBUT *sbut = 0;
 
 	nlParam = GetMessagePos();
 
@@ -2364,7 +2320,7 @@ static LRESULT MouseMove(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 		
 	//see if we clicked in the inserted buttons / normal scrollbar
 	//thisportion = GetPortion(sb, hwnd, &rect, LOWORD(lParam), HIWORD(lParam));
-	thisportion = GetPortion(sb, hwnd, &rect, pt.x, pt.y);
+	thisportion = GetPortion(sb, &rect, pt.x, pt.y);
 		
 	//we need to do different things depending on if the
 	//user is activating the scrollbar itself, or one of
@@ -2578,7 +2534,6 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	NCCALCSIZE_PARAMS *nccsp;
 	RECT *rect;
 	RECT oldrect;
-	BOOL fCalcValidRects = (wParam == TRUE);
 	SCROLLBAR *sb;
 	LRESULT ret;
 	DWORD dwStyle;
@@ -2744,12 +2699,12 @@ static LRESULT CoolSB_Timer(SCROLLWND *swnd, HWND hwnd, WPARAM wTimerId, LPARAM 
 			if (uMouseOverScrollbar == SB_HORZ)
 			{
 				sbar = &swnd->sbarHorz;
-				uHitTestPortion = GetHorzPortion(sbar, hwnd, &MouseOverRect, pt.x, pt.y);
+				uHitTestPortion = GetHorzPortion(sbar, &MouseOverRect, pt.x, pt.y);
 			}
 			else
 			{
 				sbar = &swnd->sbarVert;
-				uHitTestPortion = GetVertPortion(sbar, hwnd, &MouseOverRect, pt.x, pt.y);
+				uHitTestPortion = GetVertPortion(sbar, &MouseOverRect, pt.x, pt.y);
 			}
 
 			if (uLastHitTestPortion != uHitTestPortion)
@@ -2824,7 +2779,7 @@ static LRESULT CoolSB_StyleChange(SCROLLWND *swnd, HWND hwnd, UINT msg, WPARAM w
 }
 
 static UINT curTool = -1;
-static LRESULT CoolSB_Notify(SCROLLWND *swnd, HWND hwnd, WPARAM wParam, LPARAM lParam)
+static LRESULT CoolSB_Notify(SCROLLWND* /*swnd*/, HWND hwnd, WPARAM wParam, LPARAM lParam)
 {
 #ifdef COOLSB_TOOLTIPS
 
@@ -2864,7 +2819,7 @@ static LRESULT SendToolTipMessage0(HWND hwndTT, UINT message, WPARAM wParam, LPA
 //	We must intercept any calls to SetWindowLongPtr, to make sure that
 //	the user does not set the WS_VSCROLL or WS_HSCROLL styles
 //
-static LRESULT CoolSB_SetCursor(SCROLLWND *swnd, HWND hwnd, WPARAM wParam, LPARAM lParam)
+static LRESULT CoolSB_SetCursor(SCROLLWND* /*swnd*/, HWND hwnd, WPARAM wParam, LPARAM lParam)
 {
 #ifdef INCLUDE_BUTTONS
 	UINT lo = LOWORD(lParam);

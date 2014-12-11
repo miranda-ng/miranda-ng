@@ -232,7 +232,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			cfg::writeByte("CLUI", "ShowMainMenu", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU));
 			cfg::writeByte("CLUI", "ClientAreaDrag", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLIENTDRAG));
 
-			ApplyCLUIBorderStyle(pcli->hwndContactList);
+			ApplyCLUIBorderStyle();
 
 			if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
 				SetMenu(pcli->hwndContactList, NULL);
@@ -431,7 +431,7 @@ DWORD GetCLUIWindowStyle(BYTE style)
 	return dwBasic;
 }
 
-void ApplyCLUIBorderStyle(HWND hwnd)
+void ApplyCLUIBorderStyle()
 {
 	BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 	WINDOWPLACEMENT p;

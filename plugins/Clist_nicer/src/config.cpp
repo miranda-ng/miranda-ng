@@ -163,7 +163,7 @@ TExtraCache* cfg::getCache(const MCONTACT hContact, const char *szProto)
 	mir_cslock lck(cachecs);
 	TExtraCache *p = (TExtraCache*)calloc(sizeof(TExtraCache), 1);
 	p->hContact = hContact;
-	LoadSkinItemToCache(p, szProto);
+	LoadSkinItemToCache(p);
 	p->dwDFlags = db_get_dw(hContact, "CList", "CLN_Flags", 0);
 	GetCachedStatusMsg(p, const_cast<char *>(szProto));
 	p->dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
@@ -175,9 +175,7 @@ void ReloadSkinItemsToCache()
 {
 	for (int i = 0; i < cfg::arCache.getCount(); i++) {
 		TExtraCache *p = cfg::arCache[i];
-		char *szProto = GetContactProto(p->hContact);
-		if (szProto)
-			LoadSkinItemToCache(p, szProto);
+		LoadSkinItemToCache(p);
 	}
 }
 
@@ -253,7 +251,7 @@ void API::Ex_CopyEditToClipboard(HWND hWnd)
 	SendMessage(hWnd, EM_SETSEL, 0, 0);
 }
 
-INT_PTR CALLBACK API::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK API::Ex_DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM)
 {
 	WORD wNotifyCode, wID;
 

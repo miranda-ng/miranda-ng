@@ -127,14 +127,14 @@ void _DebugTraceA(const char *fmt, ...)
 #endif
 }
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	DisableThreadLibraryCalls(g_hInst);
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -147,7 +147,7 @@ int LoadCLCModule(void);
 void LoadCLUIModule(void);
 void OnCreateClc(void);
 
-static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int systemModulesLoaded(WPARAM, LPARAM)
 {
 	GetSystemTime(&cfg::dat.st);
 	SystemTimeToFileTime(&cfg::dat.st, &cfg::dat.ft);

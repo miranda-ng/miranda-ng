@@ -116,7 +116,6 @@ static void Tweak_It(COLORREF clr)
 static void LayoutButtons(HWND hwnd, RECT *rc)
 {
 	RECT rect;
-	BYTE rightButton = 1, leftButton = 0;
 	BYTE left_offset = cfg::dat.bCLeft - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
 	BYTE right_offset = cfg::dat.bCRight - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
 	BYTE delta = left_offset + right_offset;
@@ -147,7 +146,7 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 
 }
 
-static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
+static int FS_FontsChanged(WPARAM, LPARAM)
 {
 	COLORREF clr_cluiframes = cfg::getDword("CLUI", "clr_frameborder", RGB(40, 40, 40));
 
@@ -178,14 +177,13 @@ static HWND PreCreateCLC(HWND parent)
 }
 
 // create internal frames, including the last frame (actual CLC control)
-static int CreateCLC(HWND parent)
+static int CreateCLC()
 {
 	pcli->pfnReloadExtraIcons();
 	CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)oldhideoffline, 0);
 	disableautoupd = 0;
-
 	{
-		CLISTFrame frame = {0};
+		CLISTFrame frame = { 0 };
 		frame.cbSize = sizeof(frame);
 		frame.tname = _T("EventArea");
 		frame.TBtname = TranslateT("Event area");
@@ -200,10 +198,8 @@ static int CreateCLC(HWND parent)
 		HideShowNotifyFrame();
 		CreateViewModeFrame();
 	}
-
 	{
-		CLISTFrame Frame = {0};
-		memset(&Frame, 0, sizeof(Frame));
+		CLISTFrame Frame = { 0 };
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.hWnd = pcli->hwndContactTree;
 		Frame.align = alClient;
@@ -213,7 +209,6 @@ static int CreateCLC(HWND parent)
 		Frame.TBtname = TranslateT("My contacts");
 		Frame.height = 200;
 		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-		//free(Frame.name);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My contacts"));
 
 		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
@@ -315,7 +310,7 @@ void CLN_LoadAllIcons(BOOL mode)
 	CacheClientIcons();
 }
 
-void ConfigureEventArea(HWND hwnd)
+void ConfigureEventArea()
 {
 	int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
 	DWORD dwFlags = cfg::dat.dwFlags;
@@ -368,8 +363,7 @@ void ConfigureCLUIGeometry(int mode)
 			GetWindowRect(pcli->hwndStatus, &rcStatus);
 			cfg::dat.statusBarHeight = (rcStatus.bottom - rcStatus.top);
 		}
-		else
-			cfg::dat.statusBarHeight = 0;
+		else cfg::dat.statusBarHeight = 0;
 	}
 
 	cfg::dat.topOffset = cfg::dat.bCTop;
@@ -430,21 +424,20 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 		}
 		else {
 			switch (buttonItem->type) {
-				case DBVT_BYTE: {
-					BYTE val = cfg::getByte(hFinalContact, szModule, szSetting, 0);
-					result = (val == buttonItem->bValuePush[0]);
-					break;
-				}
-				case DBVT_WORD: {
-					WORD val = cfg::getWord(hFinalContact, szModule, szSetting, 0);
-					result = (val == *((WORD *)&buttonItem->bValuePush));
-					break;
-				}
-				case DBVT_DWORD: {
-					DWORD val = cfg::getDword(hFinalContact, szModule, szSetting, 0);
-					result = (val == *((DWORD *)&buttonItem->bValuePush));
-					break;
-				}
+			case DBVT_BYTE: {
+				BYTE val = cfg::getByte(hFinalContact, szModule, szSetting, 0);
+				result = (val == buttonItem->bValuePush[0]);
+				break;
+			}
+			case DBVT_WORD: {
+				WORD val = cfg::getWord(hFinalContact, szModule, szSetting, 0);
+				result = (val == *((WORD *)&buttonItem->bValuePush));
+				break;
+			}
+			case DBVT_DWORD:
+				DWORD val = cfg::getDword(hFinalContact, szModule, szSetting, 0);
+				result = (val == *((DWORD *)&buttonItem->bValuePush));
+				break;
 			}
 		}
 		SendMessage(buttonItem->hWnd, BM_SETCHECK, (WPARAM)result, 0);
@@ -453,7 +446,7 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 }
 
 // set states of standard buttons (pressed/unpressed)
-void SetButtonStates(HWND hwnd)
+void SetButtonStates()
 {
 	ButtonItem *buttonItem = g_ButtonItems;
 
@@ -461,15 +454,15 @@ void SetButtonStates(HWND hwnd)
 		while (buttonItem) {
 			if (buttonItem->dwFlags & BUTTON_ISINTERNAL) {
 				switch (buttonItem->uId) {
-					case IDC_STBSOUND:
-							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
-							break;
-					case IDC_STBHIDEOFFLINE:
-							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-							break;
-					case IDC_STBHIDEGROUPS:
-							SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-							break;
+				case IDC_STBSOUND:
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED, 0);
+					break;
+				case IDC_STBHIDEOFFLINE:
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "HideOffline", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					break;
+				case IDC_STBHIDEGROUPS:
+					SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+					break;
 				}
 			}
 			buttonItem = buttonItem->nextItem;
@@ -477,7 +470,7 @@ void SetButtonStates(HWND hwnd)
 	}
 }
 
-void BlitWallpaper(HDC hdc, RECT *rc, RECT *rcPaint, struct ClcData *dat)
+void BlitWallpaper(HDC hdc, RECT *rc, struct ClcData *dat)
 {
 	int x, y;
 	int bitx, bity;
@@ -803,7 +796,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
 		if (!cfg::dat.bFirstRun)
-			ConfigureEventArea(hwnd);
+			ConfigureEventArea();
 		ConfigureCLUIGeometry(0);
 		CluiProtocolStatusChanged(0, 0);
 
@@ -858,7 +851,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 
 			SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
-			ApplyCLUIBorderStyle(pcli->hwndContactList);
+			ApplyCLUIBorderStyle();
 
 			SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
 		}
@@ -866,9 +859,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		if (cfg::dat.bSkinnedButtonMode)
 			SetButtonToSkinned();
 		ConfigureFrame();
-		SetButtonStates(hwnd);
+		SetButtonStates();
 
-		CreateCLC(hwnd);
+		CreateCLC();
 		cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
 
 		if (cfg::dat.bFullTransparent) {
@@ -1000,7 +993,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
 					InflateRect(&rcFrame, -1, -1);
 					if (cfg::dat.bmpBackground)
-						BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
+						BlitWallpaper(hdc, &rcFrame, cfg::clcdat);
 					cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
 					ClientToScreen(hwnd, &cfg::dat.ptW);
 				}
@@ -1011,7 +1004,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 			else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
 				if (cfg::dat.bmpBackground)
-					BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
+					BlitWallpaper(hdc, &rcFrame, cfg::clcdat);
 				cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
 				ClientToScreen(hwnd, &cfg::dat.ptW);
 			}
@@ -1051,17 +1044,6 @@ skipbg:
 
 	case WM_SIZING:
 		break;
-		/*
-		RECT *szrect = (RECT *)lParam;
-		if (Docking_IsDocked(0, 0))
-			break;
-		g_SizingRect = *((RECT *)lParam);
-		if (wParam != WMSZ_BOTTOM && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_BOTTOMLEFT)
-			szrect->bottom = g_PreSizeRect.bottom;
-		if (wParam != WMSZ_RIGHT && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_TOPRIGHT)
-			szrect->right = g_PreSizeRect.right;
-		*/
-		return TRUE;
 
 	case WM_WINDOWPOSCHANGED:
 		if (Docking_IsDocked(0, 0))
@@ -1200,7 +1182,6 @@ skipbg:
 		LRESULT result;
 		RECT r;
 		POINT pt;
-		int k = 0;
 		int clip = cfg::dat.bClipBorder;
 
 		GetWindowRect(hwnd, &r);
@@ -1276,17 +1257,8 @@ skipbg:
 
 			if (cfg::dat.forceResize && wParam != SW_HIDE) {
 				cfg::dat.forceResize = FALSE;
-				if (0) { //!g_CluiData.fadeinout && MySetLayeredWindowAttributes && g_CluiData.bLayeredHack) {
-					SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), 0, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-					SendMessage(hwnd, WM_SIZE, 0, 0);
-					ShowWindow(hwnd, SW_SHOW);
-					RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
-					SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), 255, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-				}
-				else {
-					SendMessage(hwnd, WM_SIZE, 0, 0);
-					PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
-				}
+				SendMessage(hwnd, WM_SIZE, 0, 0);
+				PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
 			}
 			PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
 
@@ -1321,9 +1293,7 @@ skipbg:
 				}
 				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 			}
-			SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)destAlpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 		}
-		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_SYSCOMMAND:
 		{
@@ -1563,7 +1533,7 @@ buttons_done:
 					cfg::writeByte("CList", "UseGroups", (BYTE)newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 					ClcSetButtonState(IDC_TBHIDEGROUPS, newVal);
-					SetButtonStates(hwnd);
+					SetButtonStates();
 				}
 				break;
 			case POPUP_HIDEMIRANDA:
@@ -1590,7 +1560,7 @@ buttons_done:
 					ConfigureFrame();
 					ConfigureCLUIGeometry(1);
 				}
-				ConfigureEventArea(pcli->hwndContactList);
+				ConfigureEventArea();
 				PostMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			}
@@ -1691,8 +1661,6 @@ buttons_done:
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 
 			if (hbmLockedPoint == 0) {
-				RECT rc = {0, 0, 5, 5};
-
 				hdcLockedPoint = CreateCompatibleDC(dis->hDC);
 				hbmLockedPoint = CreateCompatibleBitmap(dis->hDC, 5, 5);
 				hbmOldLockedPoint = reinterpret_cast<HBITMAP>(SelectObject(hdcLockedPoint, hbmLockedPoint));
@@ -1860,9 +1828,6 @@ static BOOL g_AboutDlgActive = 0;
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	COLORREF url_visited = RGB(128, 0, 128);
-	COLORREF url_unvisited = RGB(0, 0, 255);
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1944,14 +1909,14 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	return FALSE;
 }
 
-static INT_PTR CLN_ShowAbout(WPARAM wParam, LPARAM lParam)
+static INT_PTR CLN_ShowAbout(WPARAM, LPARAM)
 {
 	if (!g_AboutDlgActive)
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CLNABOUT), 0, DlgProcAbout, 0);
 	return 0;
 }
 
-static INT_PTR CLN_ShowMainMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR CLN_ShowMainMenu(WPARAM, LPARAM)
 {
 	HMENU hMenu;
 	POINT pt;
@@ -1962,7 +1927,7 @@ static INT_PTR CLN_ShowMainMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR CLN_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR CLN_ShowStatusMenu(WPARAM, LPARAM)
 {
 	HMENU hMenu;
 	POINT pt;

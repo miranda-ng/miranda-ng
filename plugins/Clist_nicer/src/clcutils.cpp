@@ -102,7 +102,7 @@ size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
  * shares all the init stuff with HitTest()
  */
 
-int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *hitcontact, DWORD *flags, int indent, int hit)
+int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, ClcContact *hitcontact, DWORD *flags, int indent, int hit)
 {
 	RECT clRect;
 	int right, checkboxWidth, width;
@@ -196,9 +196,9 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 
 int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags)
 {
-	ClcContact *hitcontact;
-	ClcGroup *hitgroup;
-	int hit, indent, width, i;
+	ClcContact *hitcontact = NULL;
+	ClcGroup *hitgroup = NULL;
+	int indent, width, i;
 	int checkboxWidth;
 	SIZE textSize;
 	RECT clRect;
@@ -227,7 +227,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 			*flags |= CLCHT_INLEFTMARGIN | CLCHT_NOWHERE;
 		return -1;
 	}
-	hit = RowHeight::hitTest(dat, dat->yScroll + testy);
+	int hit = RowHeight::hitTest(dat, dat->yScroll + testy);
 	if (hit != -1)
 		hit = pcli->pfnGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 
@@ -241,17 +241,17 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	if (group)
 		*group = hitgroup;
 
-	for (indent = 0; hitgroup->parent; indent++,hitgroup = hitgroup->parent)
+	for (indent = 0; hitgroup->parent; indent++, hitgroup = hitgroup->parent)
 		;
 
 	if ( !dat->bisEmbedded) {
 		if (hitcontact->type == CLCIT_CONTACT) {
 			if (mirror_mode == 1 || (mirror_mode == 2 && hitcontact->pExtra->dwCFlags & ECF_RTLNICK))
-				return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
+				return RTL_HitTest(hwnd, dat, testx, hitcontact, flags, indent, hit);
 		}
 		else if (hitcontact->type == CLCIT_GROUP) {
 			if (cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT || (hitcontact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO))
-				return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
+				return RTL_HitTest(hwnd, dat, testx, hitcontact, flags, indent, hit);
 		}
 	}
 

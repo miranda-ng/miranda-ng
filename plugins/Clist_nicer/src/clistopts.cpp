@@ -196,7 +196,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
 				ConfigureFrame();
 				ConfigureCLUIGeometry(1);
-				ConfigureEventArea(pcli->hwndContactList);
+				ConfigureEventArea();
 				HideShowNotifyFrame();
 				SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 				SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);

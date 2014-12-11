@@ -321,13 +321,15 @@ struct TCluiData {
 #define SORTBY_FREQUENCY 5
 #define SORTBY_PRIOCONTACTS 6
 
-struct IconDesc {
+struct IconDesc
+{
 	char *szName;
 	char *szDesc;
 	int uId;           // icon ID
 };
 
-struct NotifyMenuItemExData {
+struct NotifyMenuItemExData
+{
 	MCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
@@ -336,7 +338,8 @@ struct NotifyMenuItemExData {
 
 // #define NOTIFY_HEIGHT 24
 
-struct CluiTopButton {
+struct CluiTopButton
+{
 	int ctrlid;
 	char *pszButtonID, *pszButtonDn, *pszButtonName;
 	int isPush, isVis, isAction;
@@ -344,32 +347,35 @@ struct CluiTopButton {
 	HWND hwndButton;
 };
 
-struct TrayIconInfo {
-	union {
+struct TrayIconInfo
+{
+	union
+	{
 		HICON hIcon;
 		int iIcon;
 	};
 };
 
-typedef struct {
+struct protoMenu
+{
 	char protoName[50];
 	UINT menuID;
 	BOOL added;
 	HICON hIcon;
-} protoMenu;
+};
 
-//clcidents.c
+// clcidents.c
 int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
 HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
-//clcitems.c
+// clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
 DWORD INTSORT_GetLastMsgTime(MCONTACT hContact);
 
-//clcmsgs.c
+// clcmsgs.c
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
-//clcutils.c
+// clcutils.c
 void 	SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void 	DoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
 int 	FindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
@@ -396,7 +402,7 @@ void GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
 extern LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void HideShowNotifyFrame();
 DWORD GetCLUIWindowStyle(BYTE style);
-void ApplyCLUIBorderStyle(HWND hwnd);
+void ApplyCLUIBorderStyle();
 
 int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
 int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
@@ -405,14 +411,14 @@ void FreeProtocolData( void );
 
 void GetClientID(ClcContact *contact, char *client);
 int LoadCLCButtonModule(void);
-void SetButtonStates(HWND hwnd);
+void SetButtonStates();
 void ConfigureCLUIGeometry(int mode);
 void IcoLibReloadIcons();
 int CompareContacts(const ClcContact* p1, const ClcContact* p2);
 void PaintNotifyArea(HDC hDC, RECT *rc);
 int AvatarChanged(WPARAM wParam, LPARAM lParam);
 void ConfigureFrame();
-void ConfigureEventArea(HWND hwnd);
+void ConfigureEventArea();
 void ClearIcons(int mode);
 void SkinDrawBg(HWND hwnd, HDC hdc);
 int GetBasicFontID(ClcContact * contact);
@@ -426,7 +432,7 @@ void ApplyViewMode(const char *name);
 void ClcSetButtonState(int ctrlId, int status);
 HWND ClcGetButtonWindow(int ctrlid);
 
-//clcpaint.c
+// clcpaint.c
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);
 void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
 void Reload3dBevelColors();
@@ -437,12 +443,12 @@ void RTL_DetectGroupName(ClcContact *group);
 void CLN_LoadAllIcons(BOOL mode);
 void ReloadSkinItemsToCache();
 
-//clcopts.c
+// clcopts.c
 int ClcOptInit(WPARAM wParam, LPARAM lParam);
 void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
-void CluiProtocolStatusChanged( int parStatus, const char* szProto );
+void CluiProtocolStatusChanged(int, const char*);
 
-void LoadSkinItemToCache(struct TExtraCache *cEntry, const char *szProto);
+void LoadSkinItemToCache(struct TExtraCache *cEntry);
 
 // debugging support
 

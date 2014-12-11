@@ -37,8 +37,7 @@ BOOL RowHeight::Init(ClcData *dat)
 
 void RowHeight::Free(ClcData *dat)
 {
-	if (dat->row_heights != NULL)
-	{
+	if (dat->row_heights != NULL) {
 		free(dat->row_heights);
 		dat->row_heights = NULL;
 	}
@@ -55,15 +54,14 @@ void RowHeight::Clear(ClcData *dat)
 
 BOOL RowHeight::Alloc(ClcData *dat, int size)
 {
-	if (size > dat->row_heights_size)
-	{
+	if (size > dat->row_heights_size) {
 		if (size > dat->row_heights_allocated) {
 			int size_grow = size;
 
 			size_grow += 100 - (size_grow % 100);
 
 			if (dat->row_heights != NULL) {
-				int *tmp = (int *) realloc((void *)dat->row_heights, sizeof(int) * size_grow);
+				int *tmp = (int *)realloc((void *)dat->row_heights, sizeof(int) * size_grow);
 
 				if (tmp == NULL) {
 					Free(dat);
@@ -73,7 +71,7 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 				dat->row_heights = tmp;
 			}
 			else {
-				dat->row_heights = (int *) malloc(sizeof(int) * size_grow);
+				dat->row_heights = (int *)malloc(sizeof(int) * size_grow);
 
 				if (dat->row_heights == NULL) {
 					Free(dat);
@@ -91,26 +89,24 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 {
 	int max_height = 0, i;
-	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
+	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
-    int contact_fonts[] = {FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS};
-    int other_fonts[] = {FONTID_GROUPS, FONTID_GROUPCOUNTS, FONTID_DIVIDERS};
+	int contact_fonts[] = { FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS };
+	int other_fonts[] = { FONTID_GROUPS, FONTID_GROUPCOUNTS, FONTID_DIVIDERS };
 
-    // Get contact font size
-    for (i = 0 ; i < SIZEOF(contact_fonts) ; i++)
-    {
-        if (max_height < dat->fontInfo[contact_fonts[i]].fontHeight)
-            max_height = dat->fontInfo[contact_fonts[i]].fontHeight;
-    }
+	// Get contact font size
+	for (i = 0; i < SIZEOF(contact_fonts); i++)
+		if (max_height < dat->fontInfo[contact_fonts[i]].fontHeight)
+			max_height = dat->fontInfo[contact_fonts[i]].fontHeight;
 
-    if (cfg::dat.dualRowMode == 1 && !dat->bisEmbedded)
-        max_height += ROW_SPACE_BEETWEEN_LINES + dat->fontInfo[FONTID_STATUS].fontHeight;
+	if (cfg::dat.dualRowMode == 1 && !dat->bisEmbedded)
+		max_height += ROW_SPACE_BEETWEEN_LINES + dat->fontInfo[FONTID_STATUS].fontHeight;
 
-    // Get other font sizes
-    for (i = 0 ; i < SIZEOF(other_fonts) ; i++) {
-        if (max_height < dat->fontInfo[other_fonts[i]].fontHeight)
-            max_height = dat->fontInfo[other_fonts[i]].fontHeight;
-    }
+	// Get other font sizes
+	for (i = 0; i < SIZEOF(other_fonts); i++) {
+		if (max_height < dat->fontInfo[other_fonts[i]].fontHeight)
+			max_height = dat->fontInfo[other_fonts[i]].fontHeight;
+	}
 
 	// Avatar size
 	if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS && !dat->bisEmbedded)
@@ -123,7 +119,7 @@ int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 	//max_height += 2 * dat->row_border;
 	// Min size
 	max_height = max(max_height, dat->min_row_heigh);
-    max_height += cfg::dat.bRowSpacing;
+	max_height += cfg::dat.bRowSpacing;
 
 	dat->rowHeight = max_height;
 
@@ -136,24 +132,22 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 	int indent, subindex, line_num;
 	ClcContact *Drawing;
 	ClcGroup *group;
-    DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
+	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	// Draw lines
-	group=&dat->list;
-	group->scanIndex=0;
-	indent=0;
+	group = &dat->list;
+	group->scanIndex = 0;
+	indent = 0;
 	//subindex=-1;
 	line_num = -1;
 
 	Clear(dat);
 
-	while(TRUE)
-	{
-        if (group->scanIndex==group->cl.count)
-		{
-			group=group->parent;
+	while (true) {
+		if (group->scanIndex == group->cl.count) {
+			group = group->parent;
 			indent--;
-			if (group==NULL) break;	// Finished list
+			if (group == NULL) break;	// Finished list
 			group->scanIndex++;
 			continue;
 		}
@@ -163,19 +157,18 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 		line_num++;
 
 		// Calc row height
-		getRowHeight(dat, hwnd, Drawing, line_num, dwStyle);
+		getRowHeight(dat, Drawing, line_num, dwStyle);
 
-		if (group->cl.items[group->scanIndex]->type==CLCIT_GROUP && /*!IsBadCodePtr((FARPROC)group->cl.items[group->scanIndex]->group) && */ (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
-			group=group->cl.items[group->scanIndex]->group;
+		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && /*!IsBadCodePtr((FARPROC)group->cl.items[group->scanIndex]->group) && */ (group->cl.items[group->scanIndex]->group->expanded & 0x0000ffff)) {
+			group = group->cl.items[group->scanIndex]->group;
 			indent++;
-			group->scanIndex=0;
-			subindex=-1;
+			group->scanIndex = 0;
+			subindex = -1;
 			continue;
 		}
 		group->scanIndex++;
 	}
 }
-
 
 // Calc item top Y (using stored data)
 int RowHeight::getItemTopY(ClcData *dat, int item)
@@ -186,8 +179,7 @@ int RowHeight::getItemTopY(ClcData *dat, int item)
 	if (item >= dat->row_heights_size)
 		return -1;
 
-	for (i = 0 ; i < item ; i++)
-	{
+	for (i = 0; i < item; i++) {
 		y += dat->row_heights[i];
 	}
 
@@ -204,8 +196,7 @@ int RowHeight::getItemBottomY(ClcData *dat, int item)
 	if (item >= dat->row_heights_size)
 		return -1;
 
-	for (i = 0 ; i <= item ; i++)
-	{
+	for (i = 0; i <= item; i++) {
 		y += dat->row_heights[i];
 	}
 
@@ -216,13 +207,10 @@ int RowHeight::getItemBottomY(ClcData *dat, int item)
 // Calc total height of rows (using stored data)
 int RowHeight::getTotalHeight(ClcData *dat)
 {
-	int i;
 	int y = 0;
 
-	for (i = 0 ; i < dat->row_heights_size ; i++)
-	{
+	for (int i = 0; i < dat->row_heights_size; i++)
 		y += dat->row_heights[i];
-	}
 
 	return y;
 }
@@ -230,16 +218,12 @@ int RowHeight::getTotalHeight(ClcData *dat)
 // Return the line that pos_y is at or -1 (using stored data)
 int RowHeight::hitTest(ClcData *dat, int pos_y)
 {
-	int i;
-	int y = 0;
-
 	if (pos_y < 0)
 		return -1;
 
-	for (i = 0 ; i < dat->row_heights_size ; i++)
-	{
+	int y = 0;
+	for (int i = 0; i < dat->row_heights_size; i++) {
 		y += dat->row_heights[i];
-
 		if (pos_y < y)
 			return i;
 	}
@@ -249,14 +233,8 @@ int RowHeight::hitTest(ClcData *dat, int pos_y)
 
 int RowHeight::getHeight(ClcData *dat, int item)
 {
-	if ( dat->row_heights == 0 )
+	if (dat->row_heights == 0)
 		return 0;
 
-	return dat->row_heights[ item ];
-}
-
-int RowHeight::getFloatingRowHeight(const ClcData *dat, HWND hwnd, ClcContact *contact, DWORD dwFlags)
-{
-	int height = max(dat->fontInfo[GetBasicFontID(contact)].fontHeight, dat->min_row_heigh);
-	return height + cfg::dat.bRowSpacing;
+	return dat->row_heights[item];
 }

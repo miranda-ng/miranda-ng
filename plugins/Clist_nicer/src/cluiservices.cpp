@@ -29,7 +29,7 @@ extern HIMAGELIST hCListImages;
 extern ButtonItem *g_ButtonItems;
 extern PLUGININFOEX pluginInfo;
 
-static INT_PTR GetClistVersion(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetClistVersion(WPARAM, LPARAM lParam)
 {
 	static char g_szVersionString[256];
 
@@ -58,7 +58,7 @@ void FreeProtocolData(void)
 int g_maxStatus = ID_STATUS_OFFLINE;
 char g_maxProto[100] = "";
 
-void CluiProtocolStatusChanged(int parStatus, const char* szProto)
+void CluiProtocolStatusChanged(int, const char*)
 {
 	int maxOnline = 0, onlineness = 0;
 	WORD maxStatus = ID_STATUS_OFFLINE;
@@ -198,7 +198,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	}
 	// update the clui button
 
-	WORD wStatus;
+	WORD wStatus = 0;
 	if (!db_get(NULL, "CList", "PrimaryStatus", &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ && mir_strlen(dbv.pszVal) > 1) {
 			wStatus = (WORD)CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);

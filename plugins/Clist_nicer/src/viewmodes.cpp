@@ -432,7 +432,7 @@ void UpdateFilters()
 	char szSetting[128];
 	char *szBuf = NULL;
 	int iLen;
-	DWORD statusMask = 0, localMask = 0;
+	DWORD statusMask = 0;
 	DWORD dwFlags;
 	DWORD opt;
 	char szTemp[100];
@@ -797,7 +797,7 @@ static int menuCounter = 0;
 
 static int FillMenuCallback(char *szSetting)
 {
-	if (szSetting[0] == (char)246)
+	if ((BYTE)szSetting[0] == 246)
 		return 1;
 
 	AppendMenuA(hViewModeMenu, MF_STRING, menuCounter++, szSetting);
@@ -984,7 +984,7 @@ clvm_reset_command:
 				SetWindowTextA(GetDlgItem(hwnd, IDC_SELECTMODE), Translate("No view mode"));
 				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)cfg::dat.boldHideOffline, 0);
 				cfg::dat.boldHideOffline = (BYTE)-1;
-				SetButtonStates(pcli->hwndContactList);
+				SetButtonStates();
 				cfg::dat.current_viewmode[0] = 0;
 				cfg::dat.old_viewmode[0] = 0;
 				cfg::writeString(NULL, "CList", "LastViewMode", "");
@@ -1134,7 +1134,7 @@ void ApplyViewMode(const char *name)
 	CallService(MS_CLIST_SETHIDEOFFLINE, 0, 0);
 	SetWindowTextA(hwndSelector, name);
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-	SetButtonStates(pcli->hwndContactList);
+	SetButtonStates();
 
 	cfg::writeString(NULL, "CList", "LastViewMode", cfg::dat.current_viewmode);
 }

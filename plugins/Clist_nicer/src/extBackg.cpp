@@ -562,64 +562,54 @@ static StatusItems_t default_item = {
 
 static void PreMultiply(HBITMAP hBitmap, int mode)
 {
-	BYTE *p = NULL;
-	DWORD dwLen;
-	int width, height, x, y;
 	BITMAP bmp;
-	BYTE alpha;
-
 	GetObject(hBitmap, sizeof(bmp), &bmp);
-	width = bmp.bmWidth;
-	height = bmp.bmHeight;
-	dwLen = width * height * 4;
-	p = (BYTE *)malloc(dwLen);
-	if (p) {
-		GetBitmapBits(hBitmap, dwLen, p);
-		for (y = 0; y < height; ++y) {
-			BYTE *px = p + width * 4 * y;
 
-			for (x = 0; x < width; ++x) {
-				if (mode) {
-					alpha = px[3];
-					px[0] = px[0] * alpha/255;
-					px[1] = px[1] * alpha/255;
-					px[2] = px[2] * alpha/255;
-				}
-				else
-					px[3] = 255;
-				px += 4;
+	int width = bmp.bmWidth;
+	int height = bmp.bmHeight;
+	DWORD dwLen = width * height * 4;
+	BYTE *p = (BYTE *)malloc(dwLen);
+	if (p == NULL)
+		return;
+
+	GetBitmapBits(hBitmap, dwLen, p);
+	for (int y = 0; y < height; ++y) {
+		BYTE *px = p + width * 4 * y;
+
+		for (int x = 0; x < width; ++x) {
+			if (mode) {
+				BYTE alpha = px[3];
+				px[0] = px[0] * alpha/255;
+				px[1] = px[1] * alpha/255;
+				px[2] = px[2] * alpha/255;
 			}
+			else px[3] = 255;
+			px += 4;
 		}
-		dwLen = SetBitmapBits(hBitmap, dwLen, p);
-		free(p);
 	}
+	SetBitmapBits(hBitmap, dwLen, p);
+	free(p);
 }
 
 static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 {
 	BITMAP bmp;
-	DWORD dwLen;
-	BYTE *p;
-	int x, y;
-	BOOL fixIt = TRUE;
-
 	GetObject(hBitmap, sizeof(bmp), &bmp);
-
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	p = (BYTE *)malloc(dwLen);
+	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	BYTE *p = (BYTE*)calloc(1, dwLen);
 	if (p == NULL)
 		return;
-	memset(p, 0, dwLen);
 
 	GetBitmapBits(hBitmap, dwLen, p);
 
-	for (y = 0; y < bmp.bmHeight; ++y) {
+	BOOL fixIt = TRUE;
+	for (int y = 0; y < bmp.bmHeight; ++y) {
 		BYTE *px = p + bmp.bmWidth * 4 * y;
 
-		for (x = 0; x < bmp.bmWidth; ++x) {
+		for (int x = 0; x < bmp.bmWidth; ++x) {
 			if (px[3] != 0)
 				fixIt = FALSE;
 			else
@@ -634,11 +624,9 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 	free(p);
 }
 
-static HBITMAP LoadPNG(const char *szFilename, ImageItem *item)
+static HBITMAP LoadPNG(const char *szFilename)
 {
-	HBITMAP hBitmap = 0;
-
-	hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)szFilename);
+	HBITMAP hBitmap = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)szFilename);
 	if (hBitmap != 0)
 		CorrectBitmap32Alpha(hBitmap);
 
@@ -647,15 +635,14 @@ static HBITMAP LoadPNG(const char *szFilename, ImageItem *item)
 
 static void IMG_CreateItem(ImageItem *item, const char *fileName, HDC hdc)
 {
-	HBITMAP hbm = LoadPNG(fileName, item);
-	BITMAP bm;
-
+	HBITMAP hbm = LoadPNG(fileName);
 	if (hbm) {
 		item->hbm = hbm;
 		item->bf.BlendFlags = 0;
 		item->bf.BlendOp = AC_SRC_OVER;
 		item->bf.AlphaFormat = 0;
 
+		BITMAP bm;
 		GetObject(hbm, sizeof(bm), &bm);
 		if (bm.bmBitsPixel == 32) {
 			PreMultiply(hbm, 1);
@@ -849,8 +836,6 @@ done_with_glyph:
 			if (!(tmpItem.dwFlags & IMAGE_GLYPH))
 				IMG_CreateItem(&tmpItem, szFinalName, hdc);
 			if (tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
-				ImageItem *pItem = g_ImageItems;
-
 				newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
 				memset(newItem, 0, sizeof(ImageItem));
 				*newItem = tmpItem;
@@ -1192,8 +1177,6 @@ void IMG_LoadItems()
 	if (!PathFileExists(tszFileName))
 		return;
 
-	int i = 0;
-
 	IMG_DeleteItems();
 
 	char *szSections = reinterpret_cast<char *>(malloc(3002));
@@ -1215,7 +1198,7 @@ void IMG_LoadItems()
 		p += (mir_strlen(p) + 1);
 	}
 	if (pcli && pcli->hwndContactList)
-		SetButtonStates(pcli->hwndContactList);
+		SetButtonStates();
 	free(szSections);
 
 	if (g_ImageItems) {
@@ -1227,7 +1210,7 @@ void IMG_LoadItems()
 		cfg::dat.dwFlags &= ~CLUI_FRAME_CLISTSUNKEN;
 		cfg::writeByte("CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
 		cfg::writeByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_NOBORDER);
-		ApplyCLUIBorderStyle(pcli->hwndContactList);
+		ApplyCLUIBorderStyle();
 		SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 		SetLayeredWindowAttributes(pcli->hwndContactList, cfg::dat.colorkey, 0, LWA_COLORKEY);
 	}
@@ -1518,7 +1501,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_UNLOAD:
 			IMG_DeleteItems();
 			ConfigureFrame();
-			SetButtonStates(pcli->hwndContactList);
+			SetButtonStates();
 			SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 			PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			break;

@@ -39,7 +39,7 @@ extern int       g_maxStatus;
 extern HANDLE    hSvc_GetContactStatusMsg;
 extern ImageItem *g_CLUIImageItem;
 
-static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetStatusMode(WPARAM, LPARAM)
 {
 	return(g_maxStatus == ID_STATUS_OFFLINE ? pcli->currentDesiredStatusMode : g_maxStatus);
 }
@@ -74,12 +74,7 @@ int IconFromStatusMode(const char *szProto, int status, MCONTACT hContact, HICON
 	return coreCli.pfnIconFromStatusMode(szFinalProto, finalStatus, hContact);
 }
 
-static int MenuItem_LockAvatar(WPARAM wParam, LPARAM lParam)
-{
-	return 0;
-}
-
-static int ContactListShutdownProc(WPARAM wParam, LPARAM lParam)
+static int ContactListShutdownProc(WPARAM, LPARAM)
 {
 	UninitCustomMenus();
 	return 0;
@@ -124,7 +119,7 @@ Begin of Hrk's code for bug
 
 int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
-	RECT rc = { 0 }, rcUpdate = { 0 };
+	RECT rc = { 0 };
 	POINT pt = { 0 };
 	register int i = 0, j = 0, width = 0, height = 0, iCountedDots = 0, iNotCoveredDots = 0;
 	BOOL bPartiallyCovered = FALSE;
@@ -201,7 +196,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	return GWVS_PARTIALLY_COVERED;
 }
 
-int ShowHide(WPARAM wParam, LPARAM lParam)
+int ShowHide(WPARAM, LPARAM)
 {
 	BOOL bShow = FALSE;
 

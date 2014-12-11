@@ -24,19 +24,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <commonheaders.h>
 
-struct {
-	int status,order;
-} statusModeOrder[]={
-	{ID_STATUS_OFFLINE,500},
-	{ID_STATUS_ONLINE,10},
-	{ID_STATUS_AWAY,200},
-	{ID_STATUS_DND,110},
-	{ID_STATUS_NA,450},
-	{ID_STATUS_OCCUPIED,100},
-	{ID_STATUS_FREECHAT,0},
-	{ID_STATUS_INVISIBLE,20},
-	{ID_STATUS_ONTHEPHONE,150},
-	{ID_STATUS_OUTTOLUNCH,425}
+struct
+{
+	int status, order;
+} statusModeOrder[] = {
+	{ ID_STATUS_OFFLINE, 500 },
+	{ ID_STATUS_ONLINE, 10 },
+	{ ID_STATUS_AWAY, 200 },
+	{ ID_STATUS_DND, 110 },
+	{ ID_STATUS_NA, 450 },
+	{ ID_STATUS_OCCUPIED, 100 },
+	{ ID_STATUS_FREECHAT, 0 },
+	{ ID_STATUS_INVISIBLE, 20 },
+	{ ID_STATUS_ONTHEPHONE, 150 },
+	{ ID_STATUS_OUTTOLUNCH, 425 }
 };
 
 static int GetContactStatus(MCONTACT hContact)
@@ -63,40 +64,39 @@ HANDLE hThreadMFUpdate = 0;
 
 static void MF_CalcFrequency(MCONTACT hContact, DWORD dwCutoffDays, int doSleep)
 {
-    DWORD  curTime = time(NULL);
-    DWORD  frequency, eventCount;
-    HANDLE hEvent = db_event_last(hContact);
-    DWORD  firstEventTime = 0, lastEventTime = 0;
+	DWORD  curTime = time(NULL);
+	DWORD  frequency, eventCount;
+	HANDLE hEvent = db_event_last(hContact);
 
-    eventCount = 0;
+	eventCount = 0;
 
-	 DBEVENTINFO dbei = { sizeof(dbei) };
-	 while(hEvent) {
-		 db_event_get(hEvent, &dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	while (hEvent) {
+		db_event_get(hEvent, &dbei);
 
-		 if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
-			 eventCount++;
-		 }
-		 if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
-			 break;
-		 hEvent = db_event_prev(hContact, hEvent);
-		 if (doSleep && mf_updatethread_running == FALSE)
-			 return;
-		 if (doSleep)
-			 Sleep(100);
-	 }
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) { // record time of last event
+			eventCount++;
+		}
+		if (eventCount >= 100 || dbei.timestamp < curTime - (dwCutoffDays * 86400))
+			break;
+		hEvent = db_event_prev(hContact, hEvent);
+		if (doSleep && mf_updatethread_running == FALSE)
+			return;
+		if (doSleep)
+			Sleep(100);
+	}
 
-	 if (eventCount == 0) {
-		 frequency = 0x7fffffff;
-		 cfg::writeDword(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
-	 }
-	 else {
-		 frequency = (curTime - dbei.timestamp) / eventCount;
-		 cfg::writeDword(hContact, "CList", "mf_firstEvent", dbei.timestamp);
-	 }
+	if (eventCount == 0) {
+		frequency = 0x7fffffff;
+		cfg::writeDword(hContact, "CList", "mf_firstEvent", curTime - (dwCutoffDays * 86400));
+	}
+	else {
+		frequency = (curTime - dbei.timestamp) / eventCount;
+		cfg::writeDword(hContact, "CList", "mf_firstEvent", dbei.timestamp);
+	}
 
-	 cfg::writeDword(hContact, "CList", "mf_freq", frequency);
-	 cfg::writeDword(hContact, "CList", "mf_count", eventCount);
+	cfg::writeDword(hContact, "CList", "mf_freq", frequency);
+	cfg::writeDword(hContact, "CList", "mf_count", eventCount);
 }
 
 extern TCHAR g_ptszEventName[];
@@ -108,7 +108,7 @@ void MF_UpdateThread(LPVOID)
 	WaitForSingleObject(hEvent, 20000);
 	ResetEvent(hEvent);
 
-	while(mf_updatethread_running) {
+	while (mf_updatethread_running) {
 		for (MCONTACT hContact = db_find_first(); hContact && mf_updatethread_running; hContact = db_find_next(hContact)) {
 			MF_CalcFrequency(hContact, 50, 1);
 			if (mf_updatethread_running)
@@ -126,10 +126,9 @@ void LoadContactTree(void)
 {
 	int i, status, hideOffline;
 	BYTE bMsgFrequency = cfg::getByte("CList", "fhistdata", 0);
-	DBVARIANT dbv = { 0 };
 
 	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
-	for (i = 1; ; i++) {
+	for (i = 1;; i++) {
 		if (pcli->pfnGetGroupName(i, NULL) == NULL)
 			break;
 		CallService(MS_CLUI_GROUPADDED, i, 0);
@@ -143,7 +142,7 @@ void LoadContactTree(void)
 			pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
 
 		// build initial data for message frequency
-		if ( !bMsgFrequency)
+		if (!bMsgFrequency)
 			MF_CalcFrequency(hContact, 100, 0);
 	}
 	cfg::writeByte("CList", "fhistdata", 1);
@@ -163,11 +162,11 @@ DWORD INTSORT_GetLastMsgTime(MCONTACT hContact)
 
 int __forceinline GetProtoIndex(char * szName)
 {
-	if ( !szName )
+	if (!szName)
 		return -1;
 
-	PROTOACCOUNT *pa = ProtoGetAccount( szName );
-	return ( pa == NULL ) ? -1 : pa->iOrder;
+	PROTOACCOUNT *pa = ProtoGetAccount(szName);
+	return (pa == NULL) ? -1 : pa->iOrder;
 }
 
 int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact* c2, UINT bywhat)
@@ -209,11 +208,11 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 			return 0;
 	}
 
-    // separate contacts treated as "offline"
-	if ( !cfg::dat.bDontSeparateOffline && ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE )))
+	// separate contacts treated as "offline"
+	if (!cfg::dat.bDontSeparateOffline && ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)))
 		return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 
-	switch( bywhat ) {
+	switch (bywhat) {
 	case SORTBY_NAME:
 		namea = (TCHAR *)c1->szText;
 		nameb = (TCHAR *)c2->szText;
@@ -229,20 +228,20 @@ int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact
 		}
 
 	case SORTBY_FREQUENCY:
-		if ( c1->pExtra && c2->pExtra)
+		if (c1->pExtra && c2->pExtra)
 			return c1->pExtra->msgFrequency - c2->pExtra->msgFrequency;
 		break;
 
 	case SORTBY_PROTO:
-      if (c1->bIsMeta)
-         szProto1 = c1->metaProto ? c1->metaProto : c1->proto;
-      if (c2->bIsMeta)
-         szProto2 = c2->metaProto ? c2->metaProto : c2->proto;
+		if (c1->bIsMeta)
+			szProto1 = c1->metaProto ? c1->metaProto : c1->proto;
+		if (c2->bIsMeta)
+			szProto2 = c2->metaProto ? c2->metaProto : c2->proto;
 
-      rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
+		rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
 
-      if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
-         return rc;
+		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
+			return rc;
 	}
 	return 0;
 }
@@ -265,7 +264,7 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 
 #undef SAFESTRING
 
-int SetHideOffline(WPARAM wParam, LPARAM lParam)
+int SetHideOffline(WPARAM wParam, LPARAM)
 {
 	int newVal = (int)wParam;
 	switch ((int)wParam) {
@@ -278,7 +277,7 @@ int SetHideOffline(WPARAM wParam, LPARAM lParam)
 		cfg::writeByte("CList", "HideOffline", (BYTE)newVal);
 		break;
 	}
-	SetButtonStates(pcli->hwndContactList);
+	SetButtonStates();
 	ClcSetButtonState(IDC_TBHIDEOFFLINE, newVal);
 	LoadContactTree();
 	return 0;

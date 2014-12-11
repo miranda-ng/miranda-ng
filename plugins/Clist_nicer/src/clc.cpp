@@ -97,7 +97,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM lParam)
+static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM)
 {
 	if (bMetaEnabled != cfg::dat.bMetaEnabled) {
 		cfg::dat.bMetaEnabled = (BYTE)bMetaEnabled;
@@ -123,7 +123,6 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 				ReloadExtraInfo(hContact);
 		}
 		else if (hContact != 0 && (szProto = GetContactProto(hContact)) != NULL) {
-			char *id = NULL;
 			if ( !__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
 				pcli->pfnClcBroadcast(INTM_PROTOCHANGED, hContact, lParam);
@@ -171,11 +170,11 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!__strcmp(cws->szModule, "Skin") && !__strcmp(cws->szSetting, "UseSound")) {
 		cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
 		ClcSetButtonState(IDC_TBSOUND, cfg::dat.soundsOff ? BST_CHECKED : BST_UNCHECKED);
-		SetButtonStates(pcli->hwndContactList);
+		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "CList") && !__strcmp(cws->szSetting, "UseGroups")) {
 		ClcSetButtonState(IDC_TBHIDEGROUPS, cfg::getByte(cws->szModule, cws->szSetting, SETTING_USEGROUPS_DEFAULT));
-		SetButtonStates(pcli->hwndContactList);
+		SetButtonStates();
 	}
 	else if (!__strcmp(cws->szModule, "TopToolBar") && !__strcmp(cws->szSetting, "UseFlatButton")) {
 		SetButtonToSkinned();
