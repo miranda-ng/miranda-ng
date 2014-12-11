@@ -40,7 +40,7 @@ end;
 procedure SaveMacros;
 var
   Macro:pMacroRecord;
-  NumMacros:integer;
+  OldNumMacros,NumMacros:integer;
   i:integer;
   section:array [0..127] of AnsiChar;
   p,p1:PAnsiChar;
@@ -61,7 +61,7 @@ begin
     begin
       if (flags and (ACF_ASSIGNED or ACF_VOLATILE))=ACF_ASSIGNED then
       begin
-        p:=StrEnd(IntToStr(p1,NumMacro));
+        p:=StrEnd(IntToStr(p1,NumMacros));
         p^:='/'; inc(p);
 
         StrCopy(p,opt_id   ); DBWriteDWord(0,DBBranch,section,id);
@@ -83,8 +83,8 @@ begin
   // deleting old unused macro settings
   while OldNumMacros>NumMacros do
   begin
-    dec(OldNumMacro);
-    p:=IntToStr(p1,OldNumMacro);
+    dec(OldNumMacros);
+    p:=IntToStr(p1,OldNumMacros);
     DBDeleteGroup(0,DBBranch,section);
   end;
 end;
