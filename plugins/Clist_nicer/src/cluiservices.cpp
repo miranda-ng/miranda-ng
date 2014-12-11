@@ -119,7 +119,8 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 		HFONT hofont = reinterpret_cast<HFONT>(SelectObject(hdc, (HFONT)SendMessage(pcli->hwndStatus, WM_GETFONT, 0, 0)));
 
 		// count down since built in ones tend to go at the end
-		for (int i = 0, partCount = 0; i < protoCount; i++) {
+		partCount = 0;
+		for (int i = 0; i < protoCount; i++) {
 			int idx = pcli->pfnGetAccountIndexByPos(i);
 			if (idx == -1)
 				continue;
