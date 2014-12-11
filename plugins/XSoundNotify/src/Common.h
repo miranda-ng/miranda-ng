@@ -13,6 +13,7 @@
 #include <m_skin.h>
 #include <win2k.h>
 #include <m_options.h>
+#include <m_chat_int.h>
 
 #include "resource.h"
 #include "Version.h"
