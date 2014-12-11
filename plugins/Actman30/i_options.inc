@@ -40,7 +40,7 @@ end;
 procedure SaveMacros;
 var
   Macro:pMacroRecord;
-  NumMacro:integer;
+  NumMacros:integer;
   i:integer;
   section:array [0..127] of AnsiChar;
   p,p1:PAnsiChar;
@@ -48,11 +48,11 @@ begin
 // even if crap in settings, skip on read
   DBWriteByte(0,DBBranch,'version'  ,3);
 
-  DBDeleteGroup(0,DBBranch,opt_group); //!!
+  OldNumMacros:=DBReadWord(0,DBBranch,opt_nummacro,0);
 
   Macro:=MacroList[0];
   i:=MacroList.Count;
-  NumMacro:=0;
+  NumMacros:=0;
 
   p1:=StrCopyE(section,opt_group);
   while i>0 do
@@ -72,13 +72,21 @@ begin
 
         SaveActions(Macro,section);
 
-        inc(NumMacro);
+        inc(NumMacros);
       end;
     end;
     inc(Macro);
     dec(i);
   end;
-  DBWriteWord(0,DBBranch,opt_nummacro,NumMacro);
+  DBWriteWord(0,DBBranch,opt_nummacro,NumMacros);
+
+  // deleting old unused macro settings
+  while OldNumMacros>NumMacros do
+  begin
+    dec(OldNumMacro);
+    p:=IntToStr(p1,OldNumMacro);
+    DBDeleteGroup(0,DBBranch,section);
+  end;
 end;
 
 //===== Load settings =====
