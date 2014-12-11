@@ -28,15 +28,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_statusbar.h"
 
-int cliShowHide(WPARAM wParam, LPARAM lParam);
 int g_mutex_bOnTrayRightClick = 0;
-
 BOOL g_bMultiConnectionMode = FALSE;
-static VOID CALLBACK RefreshTimerProc(HWND hwnd,UINT message,UINT idEvent,DWORD dwTime); ///// by FYR
 static HMENU hMainMenu, hStatusMenu;
 static HANDLE hTrayMenuObject;
 BOOL IS_WM_MOUSE_DOWN_IN_TRAY;
-
 BOOL g_trayTooltipActive = FALSE;
 POINT tray_hover_pos = {0};
 
