@@ -5,7 +5,6 @@
 {$ENDIF}
 {$IMAGEBASE $13200000}
 library actman;
-{%File 'm_actman.inc'}
 {%File 'i_const.inc'}
 {%File 'i_opt_dlg2.inc'}
 {%File 'i_opt_dlg.inc'}
@@ -34,13 +33,8 @@ uses
   commctrl,
   common,
   wrapper,
-  io,
   dbsettings,
   mirutils,
-  syswin,
-  base64,
-  question,
-  mApiCardM,
   global,
   lowlevelc,
   dlgshare,
@@ -60,8 +54,6 @@ uses
   iac_ini,
   iac_notes,
   inoutxml,
-  sedit,
-  strans,
   ua in 'ua\ua.pas',
   hooks in 'hooks\hooks.pas',
   scheduler in 'tasks\scheduler.pas';
@@ -72,8 +64,6 @@ const
   PluginName  = 'Action Manager';
 var
   hevaction,hHookChanged,hevinout:THANDLE;
-
-{$include m_actman.inc}
 
 
 function MirandaPluginInfoEx(mirandaVersion:dword):PPLUGININFOEX; cdecl;
@@ -188,6 +178,7 @@ begin
       StrCopy(p,opt_flags); DBWriteDWord(0,DBBranch,section,Macro^.flags);
     end;
   end;
+
 end;
 
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;

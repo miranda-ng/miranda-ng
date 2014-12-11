@@ -194,7 +194,7 @@ begin
   case fmt of
     0: begin
       pc:=StrCopyE(section,pAnsiChar(node));
-      StrCopy(pc,opt_uid  ); DBWriteDWord  (0,DBBranch,section,uid);
+      StrCopy(pc,opt_uid  ); DBWriteDWord  (0,DBBranch,section,UID);
       StrCopy(pc,opt_flags); DBWriteDWord  (0,DBBranch,section,flags);
       StrCopy(pc,opt_descr); DBWriteUnicode(0,DBBranch,section,ActionDescr);
     end;

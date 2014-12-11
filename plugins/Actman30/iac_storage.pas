@@ -23,8 +23,9 @@ const
   ACF_COPYFROM = $00000001;
 type
   tStorageAction = class(tBaseAction)
+  private
     Number:integer;
-
+  public
     constructor Create(uid:dword);
     destructor Destroy; override;
 //    function  Clone:tBaseAction; override;

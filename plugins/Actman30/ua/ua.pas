@@ -11,8 +11,6 @@ uses
 
 {$R ua.res}
 
-{$include m_actman.inc}
-
 {$include i_uconst.inc}
 {$include i_uavars.inc}
 
