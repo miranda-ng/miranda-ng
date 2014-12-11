@@ -584,6 +584,10 @@ UTF16+сигнатура
 [Registered actions]
 Зарегистрированные действия
 ; Actman30
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check it - their logic was changed.]
+Не используйте проверку макросов при наличии несохранённых макросов. Если макросы содержат действия из категории "Расширенное" или операции записи в файл, не забудьте проверить их работоспособность, поскольку изменилась логика этих действий.
+[Actman settings converted to new version]
+Настройки преобразованы
 [INI]
 Файл INI
 [INI file name]
@@ -666,6 +670,8 @@ UTF16+сигнатура
 Выравнивание по правому краю
 [Database]
 Профиль
+[Contact type]
+Тип контакта
 [Save value]
 Сохранить значение
 [Storage]
