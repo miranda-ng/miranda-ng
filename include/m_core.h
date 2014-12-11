@@ -38,6 +38,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIR_CORE_DLL(T) MIR_CORE_EXPORT T __stdcall
 #define MIR_C_CORE_DLL(T) MIR_CORE_EXPORT T __cdecl
 
+#pragma warning(disable:4201 4127 4706)
+
 #if defined(__cplusplus)
 extern "C"
 {
@@ -70,8 +72,6 @@ typedef UINT32 MCONTACT;
   #define DBVT_TCHAR DBVT_ASCIIZ
 #endif
 #define DBVTF_VARIABLELENGTH  0x80
-
-#pragma warning(disable:4201)
 
 typedef struct
 {
