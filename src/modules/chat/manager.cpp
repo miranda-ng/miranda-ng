@@ -1179,6 +1179,9 @@ static BOOL LM_RemoveAll(LOGINFO **ppLogListStart, LOGINFO **ppLogListEnd)
 
 INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 {
+	if (lParam == NULL)
+		return (INT_PTR)&ci;
+
 	// wipe out old junk
 	memset(PBYTE(&ci) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER)-offsetof(CHAT_MANAGER, OnCreateModule));
 
