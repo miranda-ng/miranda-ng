@@ -301,6 +301,9 @@
     <ClCompile Include="modules\chat\clist.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="modules\chat\colorchooser.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="modules\chat\log.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

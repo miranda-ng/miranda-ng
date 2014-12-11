@@ -636,6 +636,9 @@
     <ClCompile Include="modules\langpack\langpack.cpp">
       <Filter>Modules\langpack</Filter>
     </ClCompile>
+    <ClCompile Include="modules\chat\colorchooser.cpp">
+      <Filter>Modules\chat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

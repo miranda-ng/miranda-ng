@@ -1823,6 +1823,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	CHARFORMAT2 cf;
 	POINT pt, tmp, cur;
+	RECT rc;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -1935,7 +1936,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
 			SendMessage(hwndDlg, GC_UPDATETITLE, 0, 1);
 
-			RECT rc;
 			SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 			SetWindowPos(hwndDlg, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), 0);
 			ShowWindow(hwndDlg, SW_SHOW);
@@ -2121,7 +2121,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 			BB_SetButtonsPos(dat);
 
-			RECT rc;
 			GetClientRect(hwndDlg, &rc);
 			int cx = rc.right;
 
@@ -2415,8 +2414,8 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case DM_SPLITTERMOVED:
+		RECT rcLog;
 		{
-			RECT rc, rcLog;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rcLog);
 			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SPLITTERX)) {
 				GetClientRect(hwndDlg, &rc);
@@ -2485,15 +2484,15 @@ LABEL_SHOWWINDOW:
 	case GC_SHOWFILTERMENU:
 		si->hwndStatus = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), dat->pContainer->hwnd, FilterWndProc, (LPARAM)si);
 		TranslateDialogDefault(si->hwndStatus);
-		{
-			RECT rcFilter, rcLog;
-			GetClientRect(si->hwndStatus, &rcFilter);
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rcLog);
-			POINT pt = { rcLog.right, rcLog.bottom };
-			ScreenToClient(dat->pContainer->hwnd, &pt);
 
-			SetWindowPos(si->hwndStatus, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
-		}
+		RECT rcFilter;
+		GetClientRect(si->hwndStatus, &rcFilter);
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_LOG), &rcLog);
+
+		pt.x = rcLog.right; pt.y = rcLog.bottom;
+		ScreenToClient(dat->pContainer->hwnd, &pt);
+
+		SetWindowPos(si->hwndStatus, HWND_TOP, pt.x - rcFilter.right, pt.y - rcFilter.bottom, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW);
 		break;
 
 	case DM_SPLITTERGLOBALEVENT:
@@ -2501,20 +2500,7 @@ LABEL_SHOWWINDOW:
 		return 0;
 
 	case GC_SHOWCOLORCHOOSER:
-		{
-			bool bFG = (lParam == IDC_COLOR);
-
-			RECT rc;
-			GetWindowRect(GetDlgItem(hwndDlg, bFG ? IDC_COLOR : IDC_BKGCOLOR), &rc);
-			COLORCHOOSER *pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
-			pCC->hWndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);
-			pCC->pModule = pci->MM_FindModule(si->pszModule);
-			pCC->xPosition = rc.left + 3;
-			pCC->yPosition = IsWindowVisible(GetDlgItem(hwndDlg, IDC_COLOR)) ? rc.top - 1 : rc.top + 20;
-			pCC->bForeground = bFG;
-			pCC->si = si;
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COLORCHOOSER), hwndDlg, DlgProcColorToolWindow, (LPARAM)pCC);
-		}
+		pci->ColorChooser(si, lParam == IDC_COLOR, hwndDlg, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), GetDlgItem(hwndDlg, lParam));
 		break;
 
 	case GC_SCROLLTOBOTTOM:
@@ -3048,7 +3034,6 @@ LABEL_SHOWWINDOW:
 		case IDC_SMILEY:
 		case IDC_SMILEYBTN:
 			{
-				RECT rc;
 				if (lParam == 0)
 					GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYBTN), &rc);
 				else
@@ -3414,7 +3399,6 @@ LABEL_SHOWWINDOW:
 				TabCtrl_GetItem(hwndTab, i, &item);         // retrieve dialog hwnd for the now active tab...
 				dat->pContainer->hwndActive = (HWND) item.lParam;
 
-				RECT rc;
 				SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 				SetWindowPos(dat->pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);
 				ShowWindow((HWND)item.lParam, SW_SHOW);

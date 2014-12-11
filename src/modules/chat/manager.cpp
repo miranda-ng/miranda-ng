@@ -1314,6 +1314,7 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.IsHighlighted = IsHighlighted;
 	ci.RemoveFormatting = RemoveFormatting;
 	ci.ReloadSettings = LoadGlobalSettings;
+	ci.ColorChooser = ColorChooser;
 
 	ci.pLogIconBmpBits = pLogIconBmpBits;
 	ci.logIconBmpSize = logIconBmpSize;

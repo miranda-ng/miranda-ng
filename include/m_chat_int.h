@@ -396,6 +396,8 @@ struct CHAT_MANAGER
 	TCHAR*        (*RemoveFormatting)(const TCHAR *pszText);
 	void          (*ReloadSettings)(void);
 
+	void          (*ColorChooser)(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);
+
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;
 	TCHAR *szActiveWndID;

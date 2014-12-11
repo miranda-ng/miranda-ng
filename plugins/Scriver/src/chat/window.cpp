@@ -1058,6 +1058,7 @@ static void __cdecl phase2(void *lParam)
 static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static HMENU hToolbarMenu;
+	RECT rc;
 
 	SESSION_INFO *si = (SESSION_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (!si && uMsg != WM_INITDIALOG)
@@ -1256,7 +1257,6 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 		if (wParam == SIZE_RESTORED || wParam == SIZE_MAXIMIZED) {
 			int dlgWidth, dlgHeight;
-			RECT rc;
 			dlgWidth = LOWORD(lParam);
 			dlgHeight = HIWORD(lParam);
 			GetClientRect(hwndDlg, &rc);
@@ -1526,7 +1526,6 @@ LABEL_SHOWWINDOW:
 	case GC_SPLITTERMOVED:
 		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERX)) {
 			POINT pt;
-			RECT rc;
 			GetClientRect(hwndDlg, &rc);
 			pt.x = wParam; pt.y = 0;
 			ScreenToClient(hwndDlg, &pt);
@@ -1541,7 +1540,6 @@ LABEL_SHOWWINDOW:
 		}
 		else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CHAT_SPLITTERY)) {
 			POINT pt;
-			RECT rc;
 			GetClientRect(hwndDlg, &rc);
 			pt.x = 0; pt.y = wParam;
 			ScreenToClient(hwndDlg, &pt);
@@ -1573,7 +1571,6 @@ LABEL_SHOWWINDOW:
 
 	case GC_SHOWFILTERMENU:
 		{
-			RECT rc;
 			HWND hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_FILTER), hwndDlg, FilterWndProc, (LPARAM)si);
 			TranslateDialogDefault(hwnd);
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_FILTER), &rc);
@@ -1582,36 +1579,24 @@ LABEL_SHOWWINDOW:
 		break;
 
 	case GC_SHOWCOLORCHOOSER:
-		{
-			RECT rc;
-			BOOL bFG = lParam == IDC_CHAT_COLOR ? TRUE : FALSE;
-			COLORCHOOSER * pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
-			GetWindowRect(GetDlgItem(hwndDlg, bFG ? IDC_CHAT_COLOR : IDC_CHAT_BKGCOLOR), &rc);
-			pCC->hWndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);
-			pCC->pModule = pci->MM_FindModule(si->pszModule);
-			pCC->xPosition = rc.left + 3;
-			pCC->yPosition = IsWindowVisible(GetDlgItem(hwndDlg, IDC_CHAT_COLOR)) ? rc.top - 1 : rc.top + 20;
-			pCC->bForeground = bFG;
-			pCC->si = si;
-			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_COLORCHOOSER), hwndDlg, DlgProcColorToolWindow, (LPARAM)pCC);
-		}
+		pci->ColorChooser(si, lParam == IDC_CHAT_COLOR, hwndDlg, GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), GetDlgItem(hwndDlg, lParam));
 		break;
 
 	case GC_SCROLLTOBOTTOM:
-		{
+		if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHAT_LOG), GWL_STYLE) & WS_VSCROLL) != 0) {
 			SCROLLINFO si = { 0 };
-			if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHAT_LOG), GWL_STYLE) & WS_VSCROLL) != 0) {
-				CHARRANGE sel;
-				si.cbSize = sizeof(si);
-				si.fMask = SIF_PAGE | SIF_RANGE;
-				GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &si);
-				si.fMask = SIF_POS;
-				si.nPos = si.nMax - si.nPage + 1;
-				SetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &si, TRUE);
-				sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG), CP_ACP, FALSE);
-				SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXSETSEL, 0, (LPARAM)&sel);
-				PostMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
-			}
+			si.cbSize = sizeof(si);
+			si.fMask = SIF_PAGE | SIF_RANGE;
+			GetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &si);
+
+			si.fMask = SIF_POS;
+			si.nPos = si.nMax - si.nPage + 1;
+			SetScrollInfo(GetDlgItem(hwndDlg, IDC_CHAT_LOG), SB_VERT, &si, TRUE);
+
+			CHARRANGE sel;
+			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG), CP_ACP, FALSE);
+			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXSETSEL, 0, (LPARAM)&sel);
+			PostMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 		}
 		break;
 
@@ -1785,24 +1770,21 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_CHAT_SMILEY:
-			{
-				RECT rc;
-				GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_SMILEY), &rc);
+			GetWindowRect(GetDlgItem(hwndDlg, IDC_CHAT_SMILEY), &rc);
 
-				SMADD_SHOWSEL3 smaddInfo;
-				smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
-				smaddInfo.hwndParent = GetParent(hwndDlg);
-				smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);
-				smaddInfo.targetMessage = EM_REPLACESEL;
-				smaddInfo.targetWParam = TRUE;
-				smaddInfo.Protocolname = si->pszModule;
-				//smaddInfo.Direction = 3;
-				smaddInfo.Direction = 0;
-				smaddInfo.xPosition = rc.left;
-				smaddInfo.yPosition = rc.bottom;
-				smaddInfo.hContact = si->hContact;
-				CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
-			}
+			SMADD_SHOWSEL3 smaddInfo;
+			smaddInfo.cbSize = sizeof(SMADD_SHOWSEL3);
+			smaddInfo.hwndParent = GetParent(hwndDlg);
+			smaddInfo.hwndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);
+			smaddInfo.targetMessage = EM_REPLACESEL;
+			smaddInfo.targetWParam = TRUE;
+			smaddInfo.Protocolname = si->pszModule;
+			//smaddInfo.Direction = 3;
+			smaddInfo.Direction = 0;
+			smaddInfo.xPosition = rc.left;
+			smaddInfo.yPosition = rc.bottom;
+			smaddInfo.hContact = si->hContact;
+			CallService(MS_SMILEYADD_SHOWSELECTION, 0, (LPARAM)&smaddInfo);
 			break;
 
 		case IDC_CHAT_HISTORY:

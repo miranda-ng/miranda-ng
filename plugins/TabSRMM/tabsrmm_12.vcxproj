@@ -197,9 +197,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\buttonsbar.cpp" />
-    <ClCompile Include="src\chat\colorchooser.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\chat\log.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

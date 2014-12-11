@@ -106,21 +106,9 @@ struct FLASH_PARAMS
 extern TMUCSettings g_Settings;
 extern CHAT_MANAGER saveCI;
 
-struct COLORCHOOSER
-{
-	MODULEINFO *pModule;
-	int   xPosition, yPosition;
-	HWND  hWndTarget;
-	bool  bForeground;
-	SESSION_INFO *si;
-};
-
 #pragma comment(lib,"comctl32.lib")
 
 //////////////////////////////////////////////////////////////////////////////////
-
-// colorchooser.c
-INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // log.c
 void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo);
