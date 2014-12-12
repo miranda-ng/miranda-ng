@@ -27,434 +27,328 @@ LISTOPTIONS options;
 /*
 MainDlgProc handles messages to the main dialog box
 */
-INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
+INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ENLINK* pENLink;
-	DIALOGPARAM *DlgParam;
-	HMENU listMenu = GetMenu(hDlg);
-	
-	DlgParam = (DIALOGPARAM *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	switch ( msg )
-	{
-		case WM_INITDIALOG:
-		{
-			MCONTACT hContact;
-			TCHAR title[256];
-			TCHAR filter[FILTERTEXT];
-			RECT rc;
-			POINT pt;
-			
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
-			DlgParam = (DIALOGPARAM *)lParam;
-			TranslateDialogDefault(hDlg);
-			TranslateMenu(listMenu);
+	DIALOGPARAM *DlgParam = (DIALOGPARAM*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	HMENU listMenu;
 
-			if ( db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
-				hContact = NULL;
-			else 
-				hContact = DlgParam->hContact;
+	switch (msg) {
+	case WM_INITDIALOG: {
+		MCONTACT hContact;
+		TCHAR title[256];
+		TCHAR filter[FILTERTEXT];
+		RECT rc;
+		POINT pt;
 			
-			if ( db_get_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 0) == 0 )
-			{
-				// First use of this plugin! Set default size!
-				db_set_dw(hContact, LINKLIST_MODULE, "LinklistWidth", 400);
-				db_set_dw(hContact, LINKLIST_MODULE, "LinklistHeight", 450);
-				db_set_dw(hContact, LINKLIST_MODULE, "LinklistX", 0);
-				db_set_dw(hContact, LINKLIST_MODULE, "LinklistY", 0);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
+		DlgParam = (DIALOGPARAM*)lParam;
+		listMenu = GetMenu(hDlg);
+		TranslateDialogDefault(hDlg);
+		TranslateMenu(listMenu);
+
+		hContact = ((db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0) == 0) ? NULL: DlgParam->hContact);
+		if (db_get_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 0) == 0) {
+			// First use of this plugin! Set default size!
+			db_set_dw(hContact, LINKLIST_MODULE, "LinklistWidth", 400);
+			db_set_dw(hContact, LINKLIST_MODULE, "LinklistHeight", 450);
+			db_set_dw(hContact, LINKLIST_MODULE, "LinklistX", 0);
+			db_set_dw(hContact, LINKLIST_MODULE, "LinklistY", 0);
 				
-				db_set_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 1);
+			db_set_b(hContact, LINKLIST_MODULE, LINKLIST_FIRST, 1);
+		}
+
+		DlgParam->splitterPosNew = (int)db_get_dw(hContact, LINKLIST_MODULE, LINKLIST_SPLITPOS, -1);
+
+		GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rc);
+		DlgParam->minSize.cx = rc.right - rc.left;
+		DlgParam->minSize.cy = rc.bottom - rc.top;
+
+		GetWindowRect(GetDlgItem(hDlg, IDC_SPLITTER), &rc);
+		pt.y = (rc.top + rc.bottom) / 2;
+		pt.x = 0;
+		ScreenToClient(hDlg, &pt);
+			
+		DlgParam->splitterPosOld = rc.bottom - 20 - pt.y;
+		if(DlgParam->splitterPosNew == -1)
+			DlgParam->splitterPosNew = DlgParam->splitterPosOld;
+			
+		Utils_RestoreWindowPosition(hDlg, hContact, LINKLIST_MODULE, "Linklist");
+
+		SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON))); 
+		WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
+		mir_sntprintf(title, SIZEOF(title), _T("%s [%s]"), TranslateT("Linklist plugin"), (LPCTSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)DlgParam->hContact, GCDNF_TCHAR));
+		SetWindowText(hDlg, title);
+		GetFilterText(listMenu, filter, SIZEOF(filter));
+		SetDlgItemText(hDlg, IDC_STATUS, filter);
+			
+		mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterProc);
+			
+		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK);
+		SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
+		// This is used in srmm... and I think he knew what he did... :)
+		SendDlgItemMessage(hDlg, IDC_MAIN, EM_LIMITTEXT, (WPARAM)-1, 0);
+
+		WriteLinkList(hDlg, WLL_ALL, (LISTELEMENT*)DlgParam->listStart, NULL, 0);
+
+		return TRUE;
+		} break;
+	// open browser an load url if link is pressed
+	// found at
+	// http://www.tech-archive.net/Archive/Development/microsoft.public.win32.programmer.ui/2004-03/0133.html
+	//
+	// Popup menu on right mouse button is mainly taken from the miranda 
+	// send/receive messaging plugin.
+	case WM_NOTIFY: {  
+		if (lParam == NULL)
+			break;
+		if (((LPNMHDR)lParam)->code != EN_LINK)
+			break;
+		LPTSTR link;
+		BYTE openNewWindow, mouseEvent;
+		ENLINK *pENLink = (ENLINK*)lParam;
+
+		mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+
+		switch (pENLink->msg) {
+		case WM_MOUSEMOVE:
+			if (mouseEvent != 0x01)
+				break;
+			CopyMemory(&DlgParam->chrg, &pENLink->chrg, sizeof(CHARRANGE));
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg);
+			WriteMessage(hDlg, DlgParam->listStart, SendDlgItemMessage(hDlg, IDC_MAIN, EM_LINEFROMCHAR, -1, 0));
+			break;
+		case WM_LBUTTONUP:
+			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 2) * sizeof(TCHAR));
+			if (link == NULL)
+				break;
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&pENLink->chrg)); 
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
+			if (_tcsstr(link, _T("mailto:")) != NULL) {
+				ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
+			} else {
+				openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
+				if (openNewWindow == 0xFF)
+					openNewWindow = 0;
+				CallService(MS_UTILS_OPENURL, openNewWindow, (LPARAM)link);
 			}
+			mir_free(link);
+			break;
+		case WM_RBUTTONDOWN: { 
+			HMENU hPopup, hSubMenu;
+			POINT pt;
+			hPopup = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU2));
+			hSubMenu = GetSubMenu(hPopup, 0);
 
-			DlgParam->splitterPosNew = (int)db_get_dw(hContact, LINKLIST_MODULE, LINKLIST_SPLITPOS, -1);
+			// Disable Menuoption if "mouse over" events are active
+			mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
+			if (mouseEvent == 0x01)
+				EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);	
+			TranslateMenu(hSubMenu);
+			link = (LPTSTR)mir_alloc((pENLink->chrg.cpMax - pENLink->chrg.cpMin + 2) * sizeof(TCHAR));
+			if (link == NULL)
+				break;
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&(pENLink->chrg))); 
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
 
-			GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rc);
-			DlgParam->minSize.cx = rc.right - rc.left;
-            DlgParam->minSize.cy = rc.bottom - rc.top;
+			pt.x = (short)LOWORD(pENLink->lParam);
+			pt.y = (short)HIWORD(pENLink->lParam);
+			ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
 
-            GetWindowRect(GetDlgItem(hDlg, IDC_SPLITTER), &rc);
-            pt.y = (rc.top + rc.bottom) / 2;
-			pt.x = 0;
-			ScreenToClient(hDlg, &pt);
-			
-			DlgParam->splitterPosOld = rc.bottom - 20 - pt.y;
-			if(DlgParam->splitterPosNew == -1)
-				DlgParam->splitterPosNew = DlgParam->splitterPosOld;
-			
-			Utils_RestoreWindowPosition(hDlg, hContact, LINKLIST_MODULE, "Linklist");
+			switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL)) {
+			case IDM_LINK_OPEN:
+				if (_tcsstr(link, _T("mailto:")) != NULL)
+					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
+				else
+					CallService(MS_UTILS_OPENURL, 0, (LPARAM)link);
+				break;
+			case IDM_LINK_OPENNEW:
+				if (_tcsstr(link, _T("mailto:")) != NULL)
+					ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
+				else
+					CallService(MS_UTILS_OPENURL, 1, (LPARAM)link);
+				break;
+			case IDM_LINK_COPY: {
+				size_t dataLen;
+				HGLOBAL hData;
+				if (!OpenClipboard(hDlg))
+					break;
+				EmptyClipboard();
 
-			SetClassLongPtr(hDlg, GCLP_HICON, (LONG_PTR)LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON))); 
-			WindowList_Add(hWindowList, hDlg, DlgParam->hContact);
-			mir_sntprintf(title, SIZEOF(title), _T("%s [%s]"), TranslateT("Linklist plugin"), (LPCTSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)DlgParam->hContact, GCDNF_TCHAR));
-			SetWindowText(hDlg, title);
-			GetFilterText(listMenu, filter, _countof(filter));
+				dataLen = (_tcslen(link) + 1) * sizeof(TCHAR);
+				hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
+				_tcscpy_s((LPTSTR)GlobalLock(hData), dataLen / 2, link);
+				GlobalUnlock(hData);
+				SetClipboardData(CF_TEXT, hData);
+				CloseClipboard();
+				} break;
+			case IDM_SHOWMESSAGE:
+				WriteMessage(hDlg, DlgParam->listStart, SendDlgItemMessage(hDlg, IDC_MAIN, EM_LINEFROMCHAR, -1, 0));
+				break;
+			}
+			mir_free(link);
+			DestroyMenu(hPopup);
+			} break;
+		}
+		} break;
+	case WM_COMMAND: {
+		TCHAR filter[40];
+
+		listMenu = GetMenu(hDlg);
+		switch (wParam) {
+		case IDM_SEARCH: // open Search Box
+			if (DlgParam != 0) {	
+				HWND hWndSearchDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SEARCH_DLG), hDlg, SearchDlgProc, (LPARAM)DlgParam);
+				EnableMenuItem(listMenu, IDM_SEARCH, (MF_BYCOMMAND | MF_DISABLED | MF_GRAYED));
+				ShowWindow(hWndSearchDlg, SW_SHOW);
+				SetFocus(GetDlgItem(hWndSearchDlg, IDC_SEARCHSTRING));
+			}
+			break;
+		case IDM_CLEARSEARCH: // clear search results
+			GetFilterText(listMenu, filter, SIZEOF(filter));
 			SetDlgItemText(hDlg, IDC_STATUS, filter);
-			
-			mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterProc);
-			
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)ENM_LINK );
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
-			// This is used in srmm... and I think he knew what he did... :)
-			SendDlgItemMessage(hDlg, IDC_MAIN, EM_LIMITTEXT, (WPARAM)-1, 0);
-
-			WriteLinkList( hDlg, WLL_ALL, (LISTELEMENT *)DlgParam->listStart, NULL, 0);
-
-			return TRUE;
-		}
-
-		// open browser an load url if link is pressed
-		// found at
-		// http://www.tech-archive.net/Archive/Development/microsoft.public.win32.programmer.ui/2004-03/0133.html
-		//
-		// Popup menu on right mouse button is mainly taken from the miranda 
-		// send/receive messaging plugin.
-		case WM_NOTIFY:
-		{  
-			LPNMHDR lpNmhdr;
-	
-			lpNmhdr = (LPNMHDR)lParam;
-			if ( lpNmhdr->code == EN_LINK )
-			{ 
-				LPTSTR link;
-				char shEvent[10+1];
-				BYTE openNewWindow, mouseEvent;
-				
-				memset(shEvent, 0, sizeof(shEvent));
-
-				pENLink = (ENLINK*)lpNmhdr;
-
-				mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
-
-				if ( pENLink->msg == WM_MOUSEMOVE && mouseEvent == 0x01 )
-				{
-					CopyMemory(&DlgParam->chrg, &pENLink->chrg, sizeof(CHARRANGE));
-					SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg);  
-					WriteMessage(hDlg, DlgParam->listStart, SendDlgItemMessage(hDlg, IDC_MAIN, EM_LINEFROMCHAR, -1, 0));
-				}
-				else if ( pENLink->msg == WM_LBUTTONUP )
-				{ 
-					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR));
-					SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&pENLink->chrg)); 
-					SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
-					
-					if ( _tcsstr(link, _T("mailto:")) != NULL )
-						ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
-					else
-					{
-						openNewWindow = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_OPEN_WINDOW, 0xFF);
-						if ( openNewWindow == 0xFF )
-							openNewWindow = 0;
-	
-						CallService(MS_UTILS_OPENURL, openNewWindow, (LPARAM)link);
-					}
-					free(link);
-				} 
-				else if ( pENLink->msg == WM_RBUTTONDOWN )
-				{ 
-					HMENU hPopup, hSubMenu;
-					POINT pt;
-					hPopup = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU2));
-					hSubMenu = GetSubMenu(hPopup, 0);
-
-					// Disable Menuoption if "mouse over" events are active
-					mouseEvent = db_get_b(NULL, LINKLIST_MODULE, LINKLIST_MOUSE_EVENT, 0xFF);
-					if (mouseEvent == 0x01 )
-						EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
-					
-					TranslateMenu(hSubMenu);
-					
-					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR));
-					SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&(pENLink->chrg))); 
-					SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
-					
-					pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-	                pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
-					ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
-				
-					switch ( TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL)) 
-					{
-						case IDM_LINK_OPEN:
-						{
-							if ( _tcsstr(link, _T("mailto:")) != NULL )
-								ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
-							else
-								CallService(MS_UTILS_OPENURL, 0, (LPARAM)link);
-	
-							break;
-						}
-						case IDM_LINK_OPENNEW:
-						{
-							if ( _tcsstr(link, _T("mailto:")) != NULL )
-								ShellExecute(HWND_TOP, NULL, link, NULL, NULL, SW_SHOWNORMAL); 
-							else
-								CallService(MS_UTILS_OPENURL, 1, (LPARAM)link);
-
-							break;
-						}
-						case IDM_LINK_COPY:
-						{
-							size_t dataLen;
-							HGLOBAL hData;
-							if ( !OpenClipboard(hDlg))
-								break;
-							EmptyClipboard();
-
-							dataLen = (_tcslen(link)+1)*sizeof(TCHAR);
-							hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
-							_tcscpy_s((LPTSTR)GlobalLock(hData), dataLen/2, link);
-							GlobalUnlock(hData);
-							SetClipboardData(CF_TEXT, hData);
-							CloseClipboard();
-						    break;
-						}
-						case IDM_SHOWMESSAGE:
-						{
-							WriteMessage(hDlg, DlgParam->listStart, SendDlgItemMessage(hDlg, IDC_MAIN, EM_LINEFROMCHAR, -1, 0));
-						    break;
-						}
-					}
-					free(link);
-					DestroyMenu(hPopup);
-				} 
+			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			break;
+		case IDM_SAVE: // save button
+			SaveEditAsStream(hDlg);
+			SetFocus(GetDlgItem(hDlg, IDC_MAIN));
+			break;
+		case IDCANCEL: // Esc or Close pressed
+		case IDM_CLOSE:
+			SendMessage(hDlg, WM_CLOSE, 0, 0);
+			break;
+		case IDM_DIR_IN: // view only incoming messages
+			GetFilterText(listMenu, filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
+			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
+				break; // not possible if search dialog is open
+			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			if (GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED) {
+				CheckMenuItem(listMenu, IDM_DIR_IN, MF_UNCHECKED);
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			} else {
+				CheckMenuItem(listMenu, IDM_DIR_IN, MF_CHECKED);
+				CheckMenuItem(listMenu, IDM_DIR_OUT, MF_UNCHECKED);
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			}		
+			GetFilterText(GetMenu(hDlg), filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
+			break;
+		case IDM_DIR_OUT: // view only outgoing messages
+			GetFilterText(listMenu, filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
+			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
+				break; // not possible if search dialog is open
+			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			if (GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED) {
+				CheckMenuItem(listMenu, IDM_DIR_OUT, MF_UNCHECKED);		
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			} else {
+				CheckMenuItem(listMenu, IDM_DIR_OUT, MF_CHECKED);
+				CheckMenuItem(listMenu, IDM_DIR_IN, MF_UNCHECKED);
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
 			}
+			GetFilterText(listMenu, filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
+			break;
+		case IDM_TYPE_WEB: // view only e-mail addresses
+			GetFilterText(listMenu, filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
+			// not possible if search dialog is open
+			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
+				break;
+			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			if (GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_CHECKED) {
+				CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_UNCHECKED);		
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			} else {
+				CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_CHECKED);
+				CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_UNCHECKED);
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			}
+			GetFilterText(listMenu, filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
+			break;
+		case IDM_TYPE_MAIL: // view only URLs
+			if ((GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
+				break; // not possible if search dialog is open
+			SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+			if (GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED) {
+				CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_UNCHECKED);		
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);				
+			} else {
+				CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_CHECKED);
+				CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_UNCHECKED);
+				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
+			}
+			GetFilterText(listMenu, filter, SIZEOF(filter));
+			SetDlgItemText(hDlg, IDC_STATUS, filter);
 			break;
 		}
-		
-		case WM_COMMAND:
-		{
-			TCHAR filter[40];
+		} break;
+	// Taken from srmm.
+	// Btw: The longer I searched the source of this plugin
+	// to learn how things work, the more I became a fan of
+	// the programmer! 
+	case WM_GETMINMAXINFO: {
+		MINMAXINFO *mmi = (MINMAXINFO *)lParam;
+		RECT rcWindow, rcMain;
 
-			// open Search Box
-			if ( wParam == IDM_SEARCH )
-			{
+		GetWindowRect(hDlg, &rcWindow);
+		GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rcMain);
+		mmi->ptMinTrackSize.x = rcWindow.right - rcWindow.left - ((rcMain.right - rcMain.left) - DlgParam->minSize.cx);
+		mmi->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top - ((rcMain.bottom - rcMain.top) - DlgParam->minSize.cy);
+		} break;
+	case WM_SIZE: {
+		UTILRESIZEDIALOG urd = {0};
 
-				HWND hWndSearchDlg;
-				if ( DlgParam != 0 )
-				{	
-					hWndSearchDlg = CreateDialogParam( hInst, MAKEINTRESOURCE(IDD_SEARCH_DLG), hDlg, SearchDlgProc, (LPARAM)DlgParam);
-					EnableMenuItem(listMenu, IDM_SEARCH, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
-					ShowWindow(hWndSearchDlg, SW_SHOW);
-					SetFocus(GetDlgItem(hWndSearchDlg, IDC_SEARCHSTRING));
-				}
-				
-				break;
-			}
-			// clear search results
-			else if ( wParam == IDM_CLEARSEARCH )
-			{	
-				GetFilterText(listMenu, filter, _countof(filter));
-				SetDlgItemText(hDlg, IDC_STATUS, filter);
-				SetDlgItemText(hDlg, IDC_MAIN, _T(""));
-				WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-			}
-			// save button
-			else if ( wParam == IDM_SAVE )
-			{
-				SaveEditAsStream(hDlg);
-				SetFocus(GetDlgItem( hDlg, IDC_MAIN ));
-				break;
-			}
-			// Esc or Close pressed
-			else if ( wParam == IDCANCEL || wParam == IDM_CLOSE )
-			{
-				SendMessage(hDlg, WM_CLOSE, 0, 0);
-				break;
-			}
+		urd.cbSize = sizeof(urd);
+		urd.hwndDlg = hDlg;
+		urd.hInstance = hInst;
+		urd.lpTemplate = MAKEINTRESOURCEA(IDD_MAIN_DLG);
+		urd.pfnResizer = LinklistResizer;
+		urd.lParam = (LPARAM)DlgParam;
+		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		// To get some scrollbars if needed...
+		RedrawWindow(GetDlgItem(hDlg, IDC_MAIN), NULL, NULL, RDW_INVALIDATE);
+		RedrawWindow(GetDlgItem(hDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
+		} break;
+	case DM_LINKSPLITTER: {
+		POINT pt;
+		RECT rc;
+		int splitPosOld;
+
+		GetClientRect(hDlg, &rc);
+		pt.x = 0;
+		pt.y = wParam;
+		ScreenToClient(hDlg, &pt);
+
+		splitPosOld = DlgParam->splitterPosNew;
+		DlgParam->splitterPosNew = rc.bottom - pt.y;
 			
-			// view only incoming messages
-			else if ( wParam == IDM_DIR_IN )
-			{
-				GetFilterText(listMenu, filter, _countof(filter));
-				SetDlgItemText(hDlg, IDC_STATUS, filter);
-				
-				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
-				{
-					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
+		GetWindowRect(GetDlgItem(hDlg, IDC_MESSAGE), &rc);
+		if (rc.bottom - rc.top + (DlgParam->splitterPosNew - splitPosOld) < 0)
+			DlgParam->splitterPosNew = splitPosOld + 0 - (rc.bottom - rc.top);
 
-					if ( GetMenuState(listMenu, IDM_DIR_IN, MF_BYCOMMAND) == MF_CHECKED )
-					{
-						CheckMenuItem(listMenu, IDM_DIR_IN, MF_UNCHECKED);
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-					else
-					{
-						CheckMenuItem(listMenu, IDM_DIR_IN, MF_CHECKED);
-						CheckMenuItem(listMenu, IDM_DIR_OUT, MF_UNCHECKED);
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-					
-					GetFilterText(GetMenu(hDlg), filter, _countof(filter));
-					SetDlgItemText(hDlg, IDC_STATUS, filter);
-				}
-				break;
-			}			
-			
-			// view only outgoing messages
-			else if ( wParam == IDM_DIR_OUT )
-			{
-				GetFilterText(listMenu, filter, _countof(filter));
-				SetDlgItemText(hDlg, IDC_STATUS, filter);
-
-				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
-				{
-					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
-					if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
-					{
-						CheckMenuItem(listMenu, IDM_DIR_OUT, MF_UNCHECKED);		
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-					else
-					{
-						CheckMenuItem(listMenu, IDM_DIR_OUT, MF_CHECKED);
-						CheckMenuItem(listMenu, IDM_DIR_IN, MF_UNCHECKED);
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-
-					GetFilterText(listMenu, filter, _countof(filter));
-					SetDlgItemText(hDlg, IDC_STATUS, filter);
-				}
-				break;
-			}	
-			
-			// view only e-mailaddresses
-			else if ( wParam == IDM_TYPE_WEB )
-			{
-				GetFilterText(listMenu, filter, _countof(filter));
-				SetDlgItemText(hDlg, IDC_STATUS, filter);
-
-				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
-				{
-					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
-					if ( GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_CHECKED )
-					{
-						CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_UNCHECKED);		
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-					else
-					{
-						CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_CHECKED);
-						CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_UNCHECKED);
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-
-					GetFilterText(listMenu, filter, _countof(filter));
-					SetDlgItemText(hDlg, IDC_STATUS, filter);
-				}
-				break;
-			}	
-			
-			// view only URLs
-			else if ( wParam == IDM_TYPE_MAIL )
-			{
-				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
-				{
-					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
-					if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED )
-					{
-						CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_UNCHECKED);		
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);				
-					}
-					else
-					{
-						CheckMenuItem(listMenu, IDM_TYPE_MAIL, MF_CHECKED);
-						CheckMenuItem(listMenu, IDM_TYPE_WEB, MF_UNCHECKED);
-						WriteLinkList( hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, 0);
-					}
-
-					GetFilterText(listMenu, filter, _countof(filter));
-					SetDlgItemText(hDlg, IDC_STATUS, filter);
-				}
-				break;
-			}
-			
-
-			break;
-		}
-
-		// Taken from srmm.
-		// Btw: The longer I searched the source of this plugin
-		// to learn how things work, the more I became a fan of
-		// the programmer! 
-		case WM_GETMINMAXINFO:
-        {
-			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			RECT rcWindow, rcMain;
-			GetWindowRect(hDlg, &rcWindow);
-            GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rcMain);
-            mmi->ptMinTrackSize.x = rcWindow.right - rcWindow.left - ((rcMain.right - rcMain.left) - DlgParam->minSize.cx);
-            mmi->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top - ((rcMain.bottom - rcMain.top) - DlgParam->minSize.cy);
-            return 0;
-        }
-
-		case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd = {0};
-		
-			urd.cbSize = sizeof(urd);
-			urd.hwndDlg = hDlg;
-			urd.hInstance = hInst;
-			urd.lpTemplate = MAKEINTRESOURCEA(IDD_MAIN_DLG);
-			urd.pfnResizer = LinklistResizer;
-			urd.lParam = (LPARAM)DlgParam;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			
-			// To get some scrollbars if needed...
-			RedrawWindow(GetDlgItem(hDlg, IDC_MAIN), NULL, NULL, RDW_INVALIDATE);
-			RedrawWindow(GetDlgItem(hDlg, IDC_MESSAGE), NULL, NULL, RDW_INVALIDATE);
-			break;
-		}
-
-		case DM_LINKSPLITTER:
-		{
-			POINT pt;
-            RECT rc;
-			int splitPosOld;
-
-			GetClientRect(hDlg, &rc);
-			pt.x = 0;
-			pt.y = wParam;
-			ScreenToClient(hDlg, &pt);
-
-			splitPosOld = DlgParam->splitterPosNew;
-			DlgParam->splitterPosNew = rc.bottom - pt.y;
-			
-			GetWindowRect(GetDlgItem(hDlg, IDC_MESSAGE), &rc);
-			if (rc.bottom - rc.top + (DlgParam->splitterPosNew - splitPosOld) < 0)
-				DlgParam->splitterPosNew = splitPosOld + 0 - (rc.bottom - rc.top);
-
-			GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rc);
-			if (rc.bottom - rc.top - (DlgParam->splitterPosNew - splitPosOld) < DlgParam->minSize.cy)
-				DlgParam->splitterPosNew = splitPosOld - DlgParam->minSize.cy + (rc.bottom - rc.top);
-	
-            SendMessage(hDlg, WM_SIZE, 0, 0);
-			break;
-		}
-
-		case WM_CLOSE:
-		{
-			DestroyWindow(hDlg);
-			break;
-		}
-
-		case WM_DESTROY:
-		{
-			MCONTACT hContact;
-			if ( db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
-				hContact = NULL;
-			else
-				hContact = DlgParam->hContact;
+		GetWindowRect(GetDlgItem(hDlg, IDC_MAIN), &rc);
+		if (rc.bottom - rc.top - (DlgParam->splitterPosNew - splitPosOld) < DlgParam->minSize.cy)
+			DlgParam->splitterPosNew = splitPosOld - DlgParam->minSize.cy + (rc.bottom - rc.top);
+		SendMessage(hDlg, WM_SIZE, 0, 0);
+		} break;
+	case WM_CLOSE:
+		DestroyWindow(hDlg);
+		break;
+	case WM_DESTROY:
+		if (DlgParam != NULL) {
+			MCONTACT hContact = ((db_get_b(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0) == 0) ? NULL: DlgParam->hContact);
 			Utils_SaveWindowPosition(hDlg, hContact, LINKLIST_MODULE, "Linklist");
 			db_set_dw(NULL, LINKLIST_MODULE, LINKLIST_SPLITPOS, DlgParam->splitterPosNew);
 			RemoveList(DlgParam->listStart);
-			free(DlgParam);
-			// Remove entry from Window list
-			WindowList_Remove(hWindowList, hDlg);
-			break;
+			mir_free(DlgParam);
 		}
-		
+		// Remove entry from Window list
+		WindowList_Remove(hWindowList, hDlg);
+		break;
 	}
 	return FALSE;
 }
@@ -462,74 +356,65 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 /*
 This function handles the search dialog messages
 */
-INT_PTR WINAPI SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
+INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	HWND hListDlg;
-	DIALOGPARAM *DlgParam;
-	
-	DlgParam = (DIALOGPARAM *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-	switch( msg )
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hDlg);
-			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-			SetWindowText(hDlg, TXT_SEARCH);
-			SendDlgItemMessage(hDlg, IDC_DIR_ALL, BM_SETCHECK, BST_CHECKED, 0);
-			SendDlgItemMessage(hDlg, IDC_TYPE_ALL, BM_SETCHECK, BST_CHECKED, 0);
+	DIALOGPARAM *DlgParam  = (DIALOGPARAM *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
+		SetWindowText(hDlg, TXT_SEARCH);
+		SendDlgItemMessage(hDlg, IDC_DIR_ALL, BM_SETCHECK, BST_CHECKED, 0);
+		SendDlgItemMessage(hDlg, IDC_TYPE_ALL, BM_SETCHECK, BST_CHECKED, 0);
+		return TRUE;
+		break;
+	case WM_COMMAND: {
+		HWND hWndMain;
+		hWndMain = WindowList_Find(hWindowList,DlgParam->hContact);
+			
+		switch (wParam) {
+		case IDCLOSE:
+		case IDCANCEL: {
+			HMENU listMenu = GetMenu(hWndMain);
+			EnableMenuItem(listMenu, 101, MF_BYCOMMAND | MF_ENABLED);
+			DestroyWindow(hDlg);
 			return TRUE;
-		}
-		case WM_COMMAND:
-		{
-			HWND hWndMain;
-			hWndMain = WindowList_Find(hWindowList,DlgParam->hContact);
+			} break;
+		case IDSEARCH: {
+			BYTE flags = 0x00;
+			TCHAR filter[FILTERTEXT];
+			LPTSTR buffer;
+			int length;
 			
-			if ( wParam == IDCLOSE || wParam == IDCANCEL )
-			{
-				HMENU listMenu = GetMenu(hWndMain);
-				EnableMenuItem(listMenu, 101, MF_BYCOMMAND | MF_ENABLED);
-				DestroyWindow(hDlg);
-				return TRUE;
-			}
-			else if ( wParam == IDSEARCH )
-			{
-				BYTE flags = 0x00;
-				TCHAR filter[FILTERTEXT];
-				LPTSTR buffer;
-				int length;
-
-				hListDlg = WindowList_Find(hWindowList, DlgParam->hContact);
-				if ( hListDlg )
-				{
-					SetDlgItemText(hListDlg, IDC_MAIN, _T(""));
-				
-					if ( SendDlgItemMessage(hDlg, IDC_TYPE_WEB, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
-						flags = flags | WLL_MAIL;
-	
-					if ( SendDlgItemMessage(hDlg, IDC_TYPE_MAIL, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
-						flags = flags | WLL_URL;
-	
-					if ( SendDlgItemMessage(hDlg, IDC_DIR_IN, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
-						flags = flags | WLL_OUT;
-	
-					if ( SendDlgItemMessage(hDlg, IDC_DIR_OUT, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
-						flags = flags | WLL_IN;					
-			
-					if ( SendDlgItemMessage(hDlg, IDC_WHOLE_MESSAGE, BM_GETCHECK, 0, 0) == BST_CHECKED )
-						flags = flags | SLL_DEEP;
-
-					length = GetWindowTextLength(GetDlgItem(hDlg, IDC_SEARCHSTRING))+1;
-					buffer = (LPTSTR)malloc( (length + 1)*sizeof(TCHAR));
-					GetDlgItemText(hDlg, IDC_SEARCHSTRING, buffer, length);
-					WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
-					free(buffer);
-					
-					mir_sntprintf(filter, SIZEOF(filter), _T("%s: %s"), TXT_FILTER, TXT_SEARCHFILTER);
-					SetDlgItemText(hWndMain, IDC_STATUS, filter);
-				}
+			hListDlg = WindowList_Find(hWindowList, DlgParam->hContact);
+			if (hListDlg == NULL)
 				break;
-			}
+			SetDlgItemText(hListDlg, IDC_MAIN, _T(""));
+			if (SendDlgItemMessage(hDlg, IDC_TYPE_WEB, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				flags |= WLL_MAIL;
+			if (SendDlgItemMessage(hDlg, IDC_TYPE_MAIL, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				flags |= WLL_URL;
+			if (SendDlgItemMessage(hDlg, IDC_DIR_IN, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				flags |= WLL_OUT;
+			if (SendDlgItemMessage(hDlg, IDC_DIR_OUT, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				flags |= WLL_IN;					
+			if (SendDlgItemMessage(hDlg, IDC_WHOLE_MESSAGE, BM_GETCHECK, 0, 0) == BST_CHECKED)
+				flags |= SLL_DEEP;
+
+			length = GetWindowTextLength(GetDlgItem(hDlg, IDC_SEARCHSTRING)) + 1;
+			buffer = (LPTSTR)mir_alloc((length + 1) * sizeof(TCHAR));
+			if (buffer) {
+				GetDlgItemText(hDlg, IDC_SEARCHSTRING, buffer, length);
+				WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
+				mir_free(buffer);
+			}		
+			mir_sntprintf(filter, SIZEOF(filter), _T("%s: %s"), TXT_FILTER, TXT_SEARCHFILTER);
+			SetDlgItemText(hWndMain, IDC_STATUS, filter);
+			} break;
 		}
+		} break;
 	}
 	return FALSE;
 }
@@ -912,28 +797,21 @@ Progressbar
 */
 LRESULT CALLBACK ProgressBarDlg(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	static HWND hwndBN_OK, hwndBN_Cancel, hwndEdit, hwndPB;
-	static int cxChar, cyChar;
+	static HWND hwndPB;
 
-	switch ( message )
-	{
-		case WM_CREATE:
-		{
-			cxChar = LOWORD(GetDialogBaseUnits());
-			cyChar = HIWORD(GetDialogBaseUnits());
-			InitCommonControls();
-			hwndPB = CreateWindowEx(0, PROGRESS_CLASS, _T(""), WS_CHILD | WS_VISIBLE, 0, 2, 343, 17, hwnd, NULL, hInst, NULL);
+	switch (message) {
+	case WM_CREATE:
+		hwndPB = CreateWindowEx(0, PROGRESS_CLASS, _T(""), WS_CHILD | WS_VISIBLE, 0, 2, 343, 17, hwnd, NULL, hInst, NULL);
          	SendMessage(hwndPB, PBM_SETRANGE, 0, MAKELPARAM (0, 100)); 
-			return 0;
-		}
-		case WM_COMMAND:
-		{
-			if ( wParam == 100 )
-				SendMessage(hwndPB, PBM_SETPOS, (WPARAM)lParam, 0);
-			return 0;
-		}
-		case WM_DESTROY:
-			return 0;
+		return 0;
+		break;
+	case WM_COMMAND:
+		if (wParam == 100)
+			SendMessage(hwndPB, PBM_SETPOS, (WPARAM)lParam, 0);
+		return 0;
+		break;
+	case WM_DESTROY:
+		return 0;
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
@@ -946,32 +824,29 @@ Taken from srmm-plugin....
 */
 LRESULT CALLBACK SplitterProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)
-	{
+
+	switch (msg) {
 	case WM_NCHITTEST:
 		return HTCLIENT;
-
-	case WM_SETCURSOR:
-	{
+		break;
+	case WM_SETCURSOR: {
 		RECT rc;
 		GetClientRect(hWnd, &rc);
 		SetCursor(splitCursor);
 		return TRUE;
-	}
-
+		} break;
 	case WM_LBUTTONDOWN:
 		SetCapture(hWnd);
 		return 0;
-
+		break;
 	case WM_MOUSEMOVE:
-		if ( GetCapture() == hWnd )
-		{
+		if (GetCapture() == hWnd) {
 			RECT rc;
 			GetClientRect(hWnd, &rc);
 			SendMessage( GetParent(hWnd), DM_LINKSPLITTER, (WPARAM)(HIWORD(GetMessagePos()) + rc.bottom / 2), (LPARAM)hWnd);
 		}
 		return 0;
-
+		break;
 	case WM_LBUTTONUP:
 		ReleaseCapture();
 		return 0;

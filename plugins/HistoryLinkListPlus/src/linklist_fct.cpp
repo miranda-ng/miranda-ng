@@ -29,196 +29,172 @@ Great job! It works! ;-)
 */
 int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 {
-	int wordStart,i,iLastAlphaNum, linkFound=0;
-	int charCount=0,cpLastAlphaNum=0,cpWordStart;
+	size_t wordStart, i, j, wordlen, iLastAlphaNum;
+	size_t charCount = 0, cpLastAlphaNum = 0, cpWordStart;
 	LPCTSTR msg;
 	LPTSTR word, wordsearch, date_ptr, time_ptr;
+	LPTSTR tok_ctx;
 	static LPCTSTR hyperlinkPrefixes[] = {
 		_T("http://"),_T("ftp://"),_T("https://"),_T("mailto:"),_T("www."),_T("ftp."),
 		_T("icq#"),_T("gopher://"),_T("news://"),_T("file://"),_T("\\\\")
 	};
 	static LPCTSTR hyperlinkSubstrings[] = {
-		_T(".com/"),_T(".net/"),_T(".org/"),_T(".co.uk"),_T(".ru")
+		_T(".com"),_T(".net"),_T(".org"),_T(".co.uk"),_T(".ru")
 	};
 	DBTIMETOSTRINGT dbtimestring;
 	LISTELEMENT *newElement, *actualElement;
-	TCHAR templink[LINK_MAX+1];
-	TCHAR dbdate[DATE_SIZE + TIME_SIZE];
 	BYTE type = LINK_UNKNOWN;
-	int direction;
-	TCHAR date[DATE_SIZE+1];
-	TCHAR time[TIME_SIZE+1];
-	TCHAR link[LINK_MAX+1];
+	int direction, isLink, linkFound = 0;
+	TCHAR date[DATE_SIZE + 1];
+	TCHAR time[TIME_SIZE + 1];
+	TCHAR link[LINK_MAX + 1];
+	TCHAR templink[LINK_MAX + 1];
+	TCHAR dbdate[DATE_SIZE + TIME_SIZE];
 
-	if ( listStart == NULL )
+	if (listStart == NULL)
 		return -1;
 
-	memset(link, 0, sizeof(link));
-	memset(date, 0, sizeof(date));
-	memset(time, 0, sizeof(time));
+	link[0] = 0;
+	date[0] = 0;
+	time[0] = 0;
 
 	msg = DbGetEventTextT(dbei, CP_ACP);
-	
-	if ( msg == NULL )
+	if (msg == NULL)
 		return 0;
 
-	for ( i=0; msg[i]; ) 
-	{
+	for (i = 0; msg[i]; ) {
 		//hyperlinks are delimited by: <non-alphanumeric>"hyperlink"<whitespace>
 		//then all punctuation is stripped from the end of "hyperlink"
 		iLastAlphaNum = 0;
-		while ( msg[i] && !_istalnum(msg[i]))
-		{
+		while (msg[i] && !_istalnum(msg[i])) {
 			// support for files
-			if ( (msg[i]==_T('\\')) && (msg[i+1]==_T('\\')) && (_istalnum(msg[i+2])))
-			{ 
+			if (msg[i] == _T('\\') && msg[i + 1] == _T('\\') && _istalnum(msg[i + 2]))
 				break;
-			}
-
-			if(IsDBCSLeadByte(msg[i]) && msg[i+1]) i++;
-
-			i++;
-			if ( msg[i] != _T('\n')) charCount++;
+			if(IsDBCSLeadByte(msg[i]) && msg[i + 1])
+				i ++;
+			i ++;
+			if (msg[i] != _T('\n'))
+				charCount ++;
 		}
-		if ( msg[i] == _T('\0')) break;
-
+		if (msg[i] == _T('\0'))
+			break;
 		cpWordStart = charCount;
 		wordStart = i;
 			
-		while ( msg[i] && !_istspace(msg[i])) 
-		{
-
-			if ( IsDBCSLeadByte(msg[i] ) && msg[i+1]) i++;
-			else
-
-			if ( _istalnum(msg[i]) || msg[i]==_T('/')) 
-			{
-				cpLastAlphaNum = charCount; 
-				iLastAlphaNum = i;
+		while (msg[i] && !_istspace(msg[i])) {
+			if (IsDBCSLeadByte(msg[i]) && msg[i + 1]) {
+				i ++;
+			} else {
+				if (_istalnum(msg[i]) || msg[i]==_T('/')) {
+					cpLastAlphaNum = charCount; 
+					iLastAlphaNum = i;
+				}
 			}
-			charCount++;
-			i++;
+			charCount ++;
+			i ++;
 		}
 
-		charCount = cpLastAlphaNum+1;
-		i = iLastAlphaNum+1;
+		charCount = cpLastAlphaNum + 1;
+		i = iLastAlphaNum + 1;
 
-		if ( i-wordStart >= 7 ) 
-		{
-			int j, isLink = 0, wordlen;
+		if ((i - wordStart) < 8)
+			continue;
+		isLink = 0;
 
-			wordlen = i-wordStart+1;
-			word = (LPTSTR)malloc(wordlen*sizeof(TCHAR));
-			wordsearch = (LPTSTR)malloc(wordlen*sizeof(TCHAR));
-			
-			_tcsncpy_s(word, wordlen, msg+wordStart, wordlen-1);
-			_tcsncpy_s(wordsearch, wordlen, msg+wordStart, wordlen-1);
-			CharLower(wordsearch);
-			
-			for ( j=0; j<_countof(hyperlinkPrefixes); j++ )
-			{
-				if ( !_tcsncmp(wordsearch, hyperlinkPrefixes[j], _tcslen(hyperlinkPrefixes[j]))) 
-				{
-					isLink = 1; 
+		wordlen = (i - wordStart + 1);
+		word = (LPTSTR)mir_alloc(wordlen * sizeof(TCHAR));
+		wordsearch = (LPTSTR)mir_alloc(wordlen * sizeof(TCHAR));
+		if (word == NULL || wordsearch == NULL) {
+			mir_free(word);
+			mir_free(wordsearch);
+			linkFound = -1;
+			break;
+		}
+
+		_tcsncpy_s(word, wordlen, msg + wordStart, (wordlen - 1));
+		_tcsncpy_s(wordsearch, wordlen, msg + wordStart, (wordlen - 1));
+		CharLower(wordsearch);
+
+		for (j = 0; j < SIZEOF(hyperlinkPrefixes); j ++) {
+			if (!_tcsncmp(wordsearch, hyperlinkPrefixes[j], _tcslen(hyperlinkPrefixes[j]))) {
+				isLink = 1;
+				break;
+			}
+		}
+		if (!isLink) {
+			for (j = 0; j < SIZEOF(hyperlinkSubstrings); j ++) {
+				if (_tcsstr(wordsearch + 1,hyperlinkSubstrings[j])) {
+					isLink = 1;
 					break;
 				}
 			}
-			
-			if ( !isLink ) {
-				for ( j=0; j<_countof(hyperlinkSubstrings); j++ )
-				{
-					if ( _tcsstr(wordsearch+1,hyperlinkSubstrings[j]))
-					{
-						isLink = 1; 
-						break;
-					}
-				}
-			}
-		
-			if ( _tcschr(wordsearch,_T('@')) && _tcschr(wordsearch,_T('.')) && !_tcschr(wordsearch,_T(':')) && !_tcschr(wordsearch,_T('/')))
-			{
-				isLink = 1;	//e-mail addresses
-				type = LINK_MAIL;
-			}
-			else if ( isLink ) {
-				type = LINK_URL;
-			}
-			
-			if ( isLink && ( (i-wordStart+1) <= (int)(LINK_MAX - _mstrlen(_T("http://")))))
-			{
-				LPTSTR tok_ctx;
-
-				if ( (_tcsstr(wordsearch, _T("www.")) != NULL) && (_tcsstr(wordsearch, _T("http://")) == NULL))
-				{
-					_tcsncpy_s(link, _T("http://"), _mstrlen(_T("http://")));
-					// Link longer than defined max -> cut link to max
-					if ( (i-wordStart+1) > (int)(LINK_MAX-_mstrlen(_T("http://"))))
-						_tcsncpy_s(link + _mstrlen(_T("http://")), _countof(link), word, LINK_MAX - _mstrlen(_T("http://")));
-					else
-						_tcsncpy_s(link + _mstrlen(_T("http://")), _countof(link), word, i-wordStart+1);
-				}
-				else
-				{
-					size_t link_size;
-					if ( (i-wordStart+1) > LINK_MAX )
-						link_size = LINK_MAX;
-					else
-						link_size = i-wordStart+1;
-					_tcsncpy_s(link, word, link_size);
-				}
-
-				dbtimestring.szFormat = _T("d-t");
-				dbtimestring.szDest = dbdate;
-				dbtimestring.cbDest = _countof(dbdate);
-				CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,(WPARAM)dbei->timestamp, (LPARAM)&dbtimestring);
-				date_ptr = _tcstok_s(dbdate, _T("-"), &tok_ctx);
-				time_ptr = _tcstok_s(NULL, _T("-"), &tok_ctx);
-				_tcsncpy_s(date, date_ptr, _TRUNCATE);
-				_tcsncpy_s(time, time_ptr, _TRUNCATE);
-				// Prevent overflow
-				date[DATE_SIZE] = _T('\0');
-				time[TIME_SIZE] = _T('\0');
-
-				if ( dbei->flags & DBEF_SENT ) {
-					direction = DIRECTION_OUT;
-				} else {
-					direction = DIRECTION_IN;
-				}
-
-				if ( type == LINK_MAIL && _tcsstr(link, _T("mailto:")) == NULL )
-				{
-					_tcsncpy_s(templink, link, _TRUNCATE);
-					_tcsncpy_s(link, _T("mailto:"), _TRUNCATE);
-					_tcsncpy_s(link + _mstrlen(_T("mailto:")), _countof(link), templink, _TRUNCATE);
-				}
-				
-				// Add new Element to list:
-				newElement = (LISTELEMENT*)malloc(sizeof(LISTELEMENT));
-				if ( newElement == NULL )
-					return -1;
-
-				memset(newElement, 0, sizeof(LISTELEMENT));
-				newElement->direction = direction;
-				newElement->type = type;
-				_tcsncpy_s(newElement->date, date, _TRUNCATE);
-				_tcsncpy_s(newElement->time, time, _TRUNCATE);
-				_tcsncpy_s(newElement->link, link, _TRUNCATE);
-				newElement->hEvent = hEvent;
-				
-				actualElement = listStart;
-				while ( actualElement->nextElement != NULL )
-				{
-					actualElement = actualElement->nextElement; 
-				}
-				
-				actualElement->nextElement = newElement;
-				linkFound++;
-			}
-			free(word);
-			free(wordsearch);
 		}
-	}
 
+		if (_tcschr(wordsearch,_T('@')) && _tcschr(wordsearch,_T('.')) && !_tcschr(wordsearch,_T(':')) && !_tcschr(wordsearch,_T('/')))	{
+			isLink = 1; //e-mail addresses
+			type = LINK_MAIL;
+		} else if (isLink) {
+			type = LINK_URL;
+		}
+
+		if (isLink && wordlen <= (LINK_MAX - _mstrlen(_T("http://")))) {
+			if (_tcsstr(wordsearch, _T("www.")) != NULL && _tcsstr(wordsearch, _T("http://")) == NULL) {
+				_tcsncpy_s(link, _T("http://"), _mstrlen(_T("http://")));
+				// Link longer than defined max -> cut link to max
+				if (wordlen > (LINK_MAX - _mstrlen(_T("http://"))))
+					_tcsncpy_s((link + _mstrlen(_T("http://"))), (SIZEOF(link) - _mstrlen(_T("http://"))), word, LINK_MAX - _mstrlen(_T("http://")));
+				else
+					_tcsncpy_s((link + _mstrlen(_T("http://"))), (SIZEOF(link) - _mstrlen(_T("http://"))), word, wordlen);
+			} else {
+				_tcsncpy_s(link, word, ((wordlen > LINK_MAX) ? LINK_MAX : wordlen));
+			}
+
+			dbtimestring.szFormat = _T("d-t");
+			dbtimestring.szDest = dbdate;
+			dbtimestring.cbDest = SIZEOF(dbdate);
+			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT,(WPARAM)dbei->timestamp, (LPARAM)&dbtimestring);
+			date_ptr = _tcstok_s(dbdate, _T("-"), &tok_ctx);
+			time_ptr = _tcstok_s(NULL, _T("-"), &tok_ctx);
+			_tcsncpy_s(date, date_ptr, _TRUNCATE);
+			_tcsncpy_s(time, time_ptr, _TRUNCATE);
+
+			if (dbei->flags & DBEF_SENT) {
+				direction = DIRECTION_OUT;
+			} else {
+				direction = DIRECTION_IN;
+			}
+
+			if (type == LINK_MAIL && _tcsstr(link, _T("mailto:")) == NULL) {
+				_tcsncpy_s(templink, link, _TRUNCATE);
+				_tcsncpy_s(link, _T("mailto:"), _TRUNCATE);
+				_tcsncpy_s((link + _mstrlen(_T("mailto:"))), (SIZEOF(link) - _mstrlen(_T("mailto:"))), templink, _TRUNCATE);
+			}
+
+			// Add new Element to list:
+			newElement = (LISTELEMENT*)mir_alloc(sizeof(LISTELEMENT));
+			if (newElement == NULL) {
+				linkFound = -1;
+				break;
+			}
+			memset(newElement, 0, sizeof(LISTELEMENT));
+			newElement->direction = direction;
+			newElement->type = type;
+			_tcsncpy_s(newElement->date, date, _TRUNCATE);
+			_tcsncpy_s(newElement->time, time, _TRUNCATE);
+			_tcsncpy_s(newElement->link, link, _TRUNCATE);
+			newElement->hEvent = hEvent;
+				
+			actualElement = listStart;
+			while (actualElement->nextElement != NULL) {
+				actualElement = actualElement->nextElement; 
+			}
+				
+			actualElement->nextElement = newElement;
+			linkFound ++;
+		}
+		mir_free(word);
+		mir_free(wordsearch);
+	}
 	mir_free((void*)msg);
 
 	return linkFound;
@@ -239,10 +215,10 @@ int RemoveList(LISTELEMENT *listStart)
 	while ( actualElement != NULL )
 	{
 		tempElement = actualElement->nextElement;
-		free(actualElement);
+		mir_free(actualElement);
 		actualElement = tempElement;
 	}
-	free(listStart);
+	mir_free(listStart);
 	return 0;
 }
 
@@ -311,7 +287,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		cf.cbSize = sizeof(cf);
 		cf.dwMask = CFM_COLOR;
 		cf.crTextColor = colourSet.text;
-		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION|SCF_WORD, (LPARAM)&cf);
+		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_AUTOURLDETECT, TRUE, 0 );
 		SendDlgItemMessage( hDlg, IDC_MESSAGE, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
 
@@ -337,7 +313,6 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				_tcscpy_s(cf.szFaceName, _T("Arial"));
 				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
 				
-				memset(searchText, 0, sizeof(searchText));
 				mir_sntprintf(searchText, SIZEOF(searchText), _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
 				linePos += 2;
@@ -413,14 +388,14 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					{
 						DBEVENTINFO dbe = { sizeof(dbe) };
 						dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
-						dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
+						dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 						db_event_get(actualElement->hEvent, &dbe);
 						dbe.pBlob[dbe.cbBlob] = 0;
 						LPTSTR msg = DbGetEventTextT(&dbe, CP_ACP);
 						if ( _tcsstr(msg, searchString))
 							filter3 = 1;						
 						
-						free(dbe.pBlob);
+						mir_free(dbe.pBlob);
 						mir_free(msg);
 					}
 					else filter3 = 0;
@@ -647,14 +622,14 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 			if (hEvent != NULL ) {
 				DBEVENTINFO dbe = { sizeof(dbe) };
 				dbe.cbBlob = db_event_getBlobSize(hEvent);
-				dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
+				dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 				db_event_get(hEvent, &dbe);
 				dbe.pBlob[dbe.cbBlob] = 0;
 				LPCTSTR msg = DbGetEventTextT(&dbe, CP_ACP);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, WM_SETTEXT , 0, 0);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 				mir_free((void*)msg);
-				free(dbe.pBlob);
+				mir_free(dbe.pBlob);
 			}
 			break;
 		}
@@ -804,13 +779,13 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 				{
 					DBEVENTINFO dbe = { sizeof(dbe) };
 					dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
-					dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
+					dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob+1);
 					db_event_get(actualElement->hEvent, &dbe);
 					dbe.pBlob[dbe.cbBlob] = 0;
 					if ( _tcsstr((LPTSTR)dbe.pBlob, searchString))
 						filter3 = 1;						
 					
-					free(dbe.pBlob);
+					mir_free(dbe.pBlob);
 				}
 				else
 					filter3 = 0;
@@ -1215,7 +1190,7 @@ int DBUpdate(WPARAM wParam, LPARAM lParam)
 	if(hDlg) {
 		DBEVENTINFO dbe = { sizeof(dbe) };
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)malloc((size_t)dbe.cbBlob+1);
+		dbe.pBlob = (PBYTE)mir_alloc((size_t)dbe.cbBlob+1);
 		db_event_get(hEvent, &dbe);
 		if (dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
@@ -1223,7 +1198,7 @@ int DBUpdate(WPARAM wParam, LPARAM lParam)
 			if ( linkNum > 0 )
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, NULL, linkNum); 
 		}
-		free(dbe.pBlob);
+		mir_free(dbe.pBlob);
 	}
 	return 0;
 }
