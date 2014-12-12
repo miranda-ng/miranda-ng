@@ -739,11 +739,11 @@ Gepackte Struktur
 Eingetragene Aktionen
 ; Actman30
 [Your Actman settings is for old version. If you ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion]
-
+Ihre Actman-Einstellungen sind für eine alte Version. Wenn Sie bereit für eine Umwandlung Ihrer Einstellungen sind dann klicken Sie auf OK. Sonst klicken Sie auf Abbrechen und verwenden Sie die alte Version von ActMan, oder sichern Sie Ihre Einstellungen. Um Ihre bereits exportierten Makros beizubehalten importieren Sie diese bitte bevor Sie Ihre Einstellungen umwandeln.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check it - their logic was changed.]
-
+Bitte testen Sie keine nicht-gespeicherten Makros. Wenn Sie "Erweiterte" oder Daten-Schreiben-Aktionen verwendet haben dann überprüfen Sie diese bitte - ihre Logik wurde geändert.
 [Actman settings converted to new version]
-
+Actman-Einstellungen wurden zur neuen Version umgewandelt.
 [INI]
 INI
 [INI file name]
@@ -827,7 +827,7 @@ Rechts ausgerichteter Text
 [Database]
 Datenbank
 [Contact type]
-
+Kontakttyp
 [Save value]
 Wert speichern
 [Storage]
@@ -879,7 +879,7 @@ Ausgewähltes Makro
 [Select for FirstRun]
 Für FirstRun auswählen
 [Select as Volatile]
-
+Als Flüchtig auswählen
 [Miranda event help]
 Miranda-Ereignishilfe
 [contact list]

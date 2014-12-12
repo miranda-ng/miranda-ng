@@ -83,7 +83,7 @@ Min. Größe Eingabefeld
 [lines]
 Linien
 [Message Window Event Log]
-Nachrichtenfenster-Ereignislog
+Nachrichtenfenster-Ereignisverlauf
 [Enable IEView]
 IEView aktivieren
 [Show icons]
@@ -233,7 +233,7 @@ Andere Nicks
 [Timestamp]
 Zeitstempel
 [Log timestamp]
-Zeitstempel in Logdatei
+Zeitstempel in Verlaufsdatei
 [Limit log text to (events):]
 Textbegrenzung (Ereignisse):
 [Enable highlighting]
@@ -241,7 +241,7 @@ Hervorhebungen aktivieren
 [Words to highlight (wildcards allowed)]
 Wörter zum Hervorheben (Wildcards möglich)
 [Save logs]
-Logs speichern
+Verlauf speichern
 [Location]
 Ort
 [Trim to]
@@ -527,9 +527,9 @@ Unbekannter Kontakt
 [Me]
 Ich
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
-O Herr, segne diese deine Handgranate, mit ihr darfst du deine Feinde schlagen.
+O Herr, segne diese deine Handgranate, mit ihr darfst du deine Feinde schlagen
 [to tiny bits, in Thy mercy]
-zu winzige sind die Bits, in deiner Barmherzigkeit
+in winzige Stücke, in deiner Barmherzigkeit
 [My Contact]
 Mein Kontakt
 [Lorem ipsum dolor sit amet,]
@@ -552,7 +552,7 @@ URL empfangen
 [General]
 Allgemein
 [Event Log]
-Ereignislog
+Ereignisverlauf
 [Group Chat Log]
 Gruppenchatverlauf
 [Outgoing messages]
@@ -629,7 +629,7 @@ Nachricht von %s
 [Typing Notification]
 Tippbenachrichtigungen
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda konnte nicht das eingebaute Nachrichtenmodul laden, Msftedit.dll fehlt. Falls Sie Wine benutzen, stellen Sie sicher das sie die Msftedit.dll installiert haben. Drücken Sie "Ja" um Miranda NG weiter laden zu können.
+Miranda konnte das eingebaute Nachrichtenmodul nicht laden, Msftedit.dll fehlt. Falls Sie Wine benutzen, stellen Sie sicher, dass sie die Msftedit.dll installiert haben. Klicken Sie auf 'Ja', um das Laden von Miranda fortzusetzen.
 [Instant messages]
 Sofortnachrichten
 [Incoming (Focused Window)]
@@ -801,9 +801,9 @@ wie Umgebungsvariable %APPDATA% für den aktuell angemeldeten Windows-Benutzer
 [username for currently logged-on Windows user]
 Benutzername für den aktuell angemeldeten Windows-Benutzer.
 ["My Documents" folder for currently logged-on Windows user]
-"Meine Dokumente" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
+"Meine Dokumente"-Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 ["Desktop" folder for currently logged-on Windows user]
-"Desktop" Verzeichnis für den aktuell angemeldeten Windows-Benutzer
+"Desktop"-Verzeichnis für den aktuell angemeldeten Windows-Benutzer
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %systemroot%, %allusersprofile% usw.)
 [day of month, 1-31]
@@ -831,7 +831,7 @@ Variablen
 [Appearance]
 Erscheinungsbild
 [Default events to show in new chat rooms if the 'event filter' is enabled]
-Standard-Ereignisse in neuen Chaträumen wenn Ereignisfilter aktiviert ist
+Standard-Ereignisse in neuen Chaträumen, wenn Ereignisfilter aktiviert ist
 [Select Folder]
 Ordner wählen
 [Popups]
@@ -863,7 +863,7 @@ Schrifthintergrundfarbe wählen (Strg+L)
 [Select a foreground color for the text (CTRL+K)]
 Schriftfarbe wählen (Strg+K)
 [Show the history (CTRL+H)]
-Logdatei öffnen (Strg+H)
+Verlaufsdatei öffnen (Strg+H)
 [Show/hide the nick list (CTRL+N)]
 Benutzerliste anzeigen/verstecken (Strg+N)
 [Control this room (CTRL+O)]

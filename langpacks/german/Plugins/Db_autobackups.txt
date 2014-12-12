@@ -50,7 +50,7 @@ Kopiere Datenbank...
 [Database backed up]
 Datenbank gesichert
 [Database back up in process...]
-
+Datenbank wird gerade gesichert...
 [Error]
 Fehler
 ;file \plugins\Db_autobackups\src\headers.h
