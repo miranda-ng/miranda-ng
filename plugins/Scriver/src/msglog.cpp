@@ -220,24 +220,24 @@ static EventData* GetTestEvents()
 {
 	EventData *evt, *firstEvent, *prevEvent;
 	firstEvent = prevEvent = evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_tstrdup(LPGENT("Me"));
-	evt->pszTextT = mir_tstrdup(LPGENT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
+	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
+	evt->pszTextT = mir_tstrdup(TranslateT("O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies"));
 
 	evt = GetTestEvent(IEEDF_SENT);
-	evt->pszNickT = mir_tstrdup(LPGENT("Me"));
-	evt->pszTextT = mir_tstrdup(LPGENT("to tiny bits, in Thy mercy"));
+	evt->pszNickT = mir_tstrdup(TranslateT("Me"));
+	evt->pszTextT = mir_tstrdup(TranslateT("to tiny bits, in Thy mercy"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(LPGENT("My Contact"));
-	evt->pszTextT = mir_tstrdup(LPGENT("Lorem ipsum dolor sit amet,"));
+	evt->pszNickT = mir_tstrdup(TranslateT("My Contact"));
+	evt->pszTextT = mir_tstrdup(TranslateT("Lorem ipsum dolor sit amet,"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 
 	evt = GetTestEvent(0);
-	evt->pszNickT = mir_tstrdup(LPGENT("My Contact"));
-	evt->pszTextT = mir_tstrdup(LPGENT("consectetur adipisicing elit"));
+	evt->pszNickT = mir_tstrdup(TranslateT("My Contact"));
+	evt->pszTextT = mir_tstrdup(TranslateT("consectetur adipisicing elit"));
 	prevEvent->next = evt;
 	prevEvent = evt;
 	return firstEvent;
