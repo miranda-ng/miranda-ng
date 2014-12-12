@@ -565,9 +565,9 @@ void TranslitLayout(bool lastword)
 		}
 
 		SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
+		mir_free(boo);
 	}
 	mir_free(sel);
-	mir_free(boo);
 }
 
 void InvertCase(bool lastword)
@@ -633,9 +633,9 @@ void InvertCase(bool lastword)
 		}
 
 		SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
+		mir_free(boo);
 	}
 	mir_free(sel);
-	mir_free(boo);
 }
 
 int OnButtonPressed(WPARAM, LPARAM lParam)
