@@ -42,7 +42,7 @@ RECT rc;
 POINT pt;
 BOOL bChecked = FALSE;
 
-int OpLoadSessionContacts(WPARAM wparam, LPARAM lparam)
+int OpLoadSessionContacts(WPARAM, LPARAM lparam)
 {
 	memset(session_list_t, 0, sizeof(session_list_t));
 
@@ -488,7 +488,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 	return 0;
 }
 
-int OptionsInit(WPARAM wparam, LPARAM lparam)
+int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 955000000;

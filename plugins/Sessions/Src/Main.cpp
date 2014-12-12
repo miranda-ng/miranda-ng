@@ -30,7 +30,7 @@ bool g_hghostw;
 HWND hClistControl;
 
 int g_ses_limit;
-int g_ses_count;
+size_t g_ses_count;
 bool g_bExclHidden;
 bool g_bWarnOnHidden;
 bool g_bOtherWarnings;
@@ -74,7 +74,7 @@ IconItem iconList[] =
 	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
 };
 
-INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK ExitDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -121,7 +121,6 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 		{
-			HWND hList = GetDlgItem(hdlg, IDC_LIST);
 			LoadSessionToCombobox(hdlg, 1, 5, "UserSessionDsc", 0);
 
 			LoadPosition(hdlg, "SaveDlg");
@@ -250,7 +249,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 	return TRUE;
 }
 
-INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 {
 	static int ses_count;
 
@@ -395,7 +394,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 	return TRUE;
 }
 
-INT_PTR CloseCurrentSession(WPARAM wparam, LPARAM lparam)
+INT_PTR CloseCurrentSession(WPARAM, LPARAM)
 {
 	HWND hWnd;
 	int i = 0;
@@ -422,7 +421,7 @@ INT_PTR CloseCurrentSession(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-int SaveSessionHandles(WPARAM wparam, LPARAM lparam)
+int SaveSessionHandles(WPARAM, LPARAM lparam)
 {
 	if (session_list[0] == 0)
 		return 1;
@@ -445,7 +444,7 @@ int SaveSessionHandles(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-INT_PTR SaveUserSessionHandles(WPARAM wparam, LPARAM lparam)
+INT_PTR SaveUserSessionHandles(WPARAM, LPARAM)
 {
 	if (g_hSDlg) {
 		ShowWindow(g_hSDlg, SW_SHOW);
@@ -456,7 +455,7 @@ INT_PTR SaveUserSessionHandles(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-INT_PTR OpenSessionsManagerWindow(WPARAM wparam, LPARAM lparam)
+INT_PTR OpenSessionsManagerWindow(WPARAM, LPARAM)
 {
 	if (g_hDlg) {
 		ShowWindow(g_hDlg, SW_SHOW);
@@ -535,7 +534,7 @@ INT_PTR LoadLastSession(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-int LoadSession(WPARAM wparam, LPARAM lparam)
+int LoadSession(WPARAM, LPARAM lparam)
 {
 	int dup = 0;
 	int hidden[255] = { '0' };
@@ -659,7 +658,7 @@ int DeleteAutoSession(int ses_count)
 	return 0;
 }
 
-int SessionPreShutdown(WPARAM wparam, LPARAM lparam)
+int SessionPreShutdown(WPARAM, LPARAM)
 {
 	DONT = 1;
 
@@ -674,7 +673,7 @@ int SessionPreShutdown(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-int OkToExit(WPARAM wparam, LPARAM lparam)
+int OkToExit(WPARAM, LPARAM)
 {
 	int exitmode = db_get_b(NULL, MODNAME, "ShutdownMode", 2);
 	DONT = 1;
@@ -690,7 +689,7 @@ int OkToExit(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static int GetContactHandle(WPARAM wparam, LPARAM lParam)
+static int GetContactHandle(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 	if (MWeventdata->uType == MSG_WINDOW_EVT_OPEN) {
@@ -707,7 +706,7 @@ static int GetContactHandle(WPARAM wparam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR BuildFavMenu(WPARAM wparam, LPARAM lparam)
+INT_PTR BuildFavMenu(WPARAM, LPARAM)
 {
 	POINT pt;
 	GetCursorPos(&pt);
@@ -720,7 +719,7 @@ INT_PTR BuildFavMenu(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static int CreateButtons(WPARAM wparam, LPARAM lparam)
+static int CreateButtons(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
@@ -747,7 +746,7 @@ static int CreateButtons(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static INT_PTR LaunchSessions(WPARAM wParam, LPARAM lParam)
+static INT_PTR LaunchSessions(WPARAM wParam, LPARAM)
 {
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
 	CloseHandle((HANDLE)wParam);
@@ -764,7 +763,7 @@ static INT_PTR LaunchSessions(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int PluginInit(WPARAM wparam, LPARAM lparam)
+static int PluginInit(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_WINDOWEVENT, GetContactHandle);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
@@ -829,7 +828,7 @@ static int PluginInit(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -839,7 +838,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD, LPVOID)
 {
 	g_hInst = hinst;
 	return 1;
