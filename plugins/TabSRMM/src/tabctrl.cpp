@@ -35,7 +35,7 @@ static WNDPROC		OldTabControlClassProc;
 
 static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, POINT& pt)
 {
-	TCHITTESTINFO tci = {0};
+	TCHITTESTINFO tci = { 0 };
 	tci.pt.x = pt.x;
 	tci.pt.y = pt.y;
 	int iTab;
@@ -65,19 +65,17 @@ static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, P
 	return -1;
 }
 
-/*
- * tabctrl helper function
- * Finds leftmost down item.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// tabctrl helper function
+// Finds leftmost down item.
 
 static UINT FindLeftDownItem(HWND hwnd)
 {
-	RECT rctLeft = {100000, 0, 0, 0}, rctCur;
+	RECT rctLeft = { 100000, 0, 0, 0 }, rctCur;
 	int nCount = TabCtrl_GetItemCount(hwnd) - 1;
 	UINT nItem = 0;
-	int i;
 
-	for (i=0;i < nCount;i++) {
+	for (int i = 0; i < nCount; i++) {
 		TabCtrl_GetItemRect(hwnd, i, &rctCur);
 		if (rctCur.left > 0 && rctCur.left <= rctLeft.left) {
 			if (rctCur.bottom > rctLeft.bottom) {
@@ -89,11 +87,11 @@ static UINT FindLeftDownItem(HWND hwnd)
 	return nItem;
 }
 
-/*
- * tab control color definitions, including the database setting key names
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// tab control color definitions, including the database setting key names
 
-static struct colOptions {
+static struct colOptions
+{
 	UINT defclr;
 	char *szKey;
 	char *szSkinnedKey;
@@ -109,9 +107,8 @@ static struct colOptions {
 	0, 0, NULL, NULL
 };
 
-/*
- * hints for drawing functions
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// hints for drawing functions
 
 #define HINT_ACTIVATE_RIGHT_SIDE 1
 #define HINT_ACTIVE_ITEM 2
@@ -147,12 +144,11 @@ void TSAPI FillTabBackground(const HDC hdc, int iStateId, const TWindowData *dat
 		CSkin::FillBack(hdc, rc);
 }
 
-/*
- * draws the item contents (icon and label)
- * it obtains the label and icon handle directly from the message window data
- * no image list is used and necessary, the message window dialog procedure has to provide a valid
- * icon handle in dat->hTabIcon
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// draws the item contents (icon and label)
+// it obtains the label and icon handle directly from the message window data
+// no image list is used and necessary, the message window dialog procedure has to provide a valid
+// icon handle in dat->hTabIcon
 
 static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int nItem, TWindowData *dat)
 {
@@ -204,7 +200,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 			CSkin::m_default_bf.SourceConstantAlpha = 150;
 
 		GdiAlphaBlend(dc, rcItem->right - 16 - tabdat->m_xpad, (rcItem->bottom + rcItem->top - 16) / 2, 16, 16, CSkin::m_tabCloseHDC,
-								0, 0, 16, 16, CSkin::m_default_bf);
+			0, 0, 16, 16, CSkin::m_default_bf);
 
 		rcItem->right -= (18 + tabdat->m_xpad);
 		CSkin::m_default_bf.SourceConstantAlpha = 255;
@@ -213,7 +209,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHLABEL)) {
 		DWORD dwTextFlags = DT_SINGLELINE | DT_VCENTER;
 		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
-		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) { // || (tabdat->m_moderntabs && leftMost)) {
+		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) {
 			rcItem->right -= tabdat->m_xpad;
 			dwTextFlags |= DT_WORD_ELLIPSIS;
 		}
@@ -224,11 +220,10 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 		SetBkMode(dc, oldMode);
 }
 
-/*
- * draws the item rect (the "tab") in *classic* style (no visual themes
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// draws the item rect (the "tab") in *classic* style (no visual themes
 
-static RECT rcTabPage = {0};
+static RECT rcTabPage = { 0 };
 
 static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int iItem, const TWindowData *dat)
 {
@@ -238,11 +233,8 @@ static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint
 	rcItem->bottom -= 1;
 	if (rcItem->left >= 0) {
 
-		/*
-		 * draw "button style" tabs... raised edge for hottracked, sunken edge for active (pushed)
-		 * otherwise, they get a normal border
-		 */
-
+		// draw "button style" tabs... raised edge for hottracked, sunken edge for active (pushed)
+		// otherwise, they get a normal border
 		if (dwStyle & TCS_BUTTONS) {
 			BOOL bClassicDraw = (tabdat->m_VisualStyles == FALSE);
 
@@ -285,10 +277,12 @@ static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint
 					if (!item->IGNORED) {
 						CSkin::SkinDrawBG(tabdat->hwnd, tabdat->pContainer->hwnd, tabdat->pContainer, rcItem, dc);
 						CSkin::DrawItem(dc, rcItem, item);
-					} else
+					}
+					else
 						goto b_nonskinned;
-				} else {
-b_nonskinned:
+				}
+				else {
+				b_nonskinned:
 					if (nHint & HINT_ACTIVE_ITEM)
 						DrawEdge(dc, rcItem, EDGE_ETCHED, BF_RECT | BF_SOFT);
 					else if (nHint & HINT_HOTTRACK)
@@ -296,7 +290,8 @@ b_nonskinned:
 					else
 						DrawEdge(dc, rcItem, EDGE_RAISED, BF_RECT | BF_SOFT);
 				}
-			} else {
+			}
+			else {
 				if (M.isAero() && !(dwStyle & TCS_BOTTOM))
 					FillRect(dc, rcItem, CSkin::m_BrushBack);
 				else
@@ -312,7 +307,8 @@ b_nonskinned:
 				if (!CSkin::m_skinEnabled)
 					CSkin::FillBack(dc, rcItem);
 				rcItem->bottom += 2;
-			} else {
+			}
+			else {
 				rcItem->bottom += 2;
 				if (!CSkin::m_skinEnabled)
 					CSkin::FillBack(dc, rcItem);
@@ -333,13 +329,12 @@ b_nonskinned:
 		}
 		if (CSkin::m_skinEnabled) {
 			CSkinItem *item = &SkinItems[dwStyle & TCS_BOTTOM ? (nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACKBOTTOM : ID_EXTBKTABITEMBOTTOM) :
-													   (nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACK : ID_EXTBKTABITEM)];
+				(nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACK : ID_EXTBKTABITEM)];
 			if (!item->IGNORED) {
 				if (dwStyle & TCS_BOTTOM)
 					rcItem->top = (rcItem->top > rcTabPage.bottom + 5) ? --rcItem->top : rcItem->top;
 				else
 					rcItem->bottom++;
-				//rcItem->bottom = (rcItem->bottom < rcTabPage.top - 5) ? ++rcItem->bottom : rcItem->bottom;
 
 				rcItem->left += item->MARGIN_LEFT;
 				rcItem->right -= item->MARGIN_RIGHT;
@@ -360,8 +355,9 @@ b_nonskinned:
 			SelectObject(dc, PluginConfig.tabConfig.m_hPenItemShadow);
 			LineTo(dc, rcItem->right - 2, rcItem->bottom - 1);
 			MoveToEx(dc, rcItem->right - 3, rcItem->bottom - 1, &pt);
-		LineTo(dc, rcItem->left + 2, rcItem->bottom - 1);
-		} else {
+			LineTo(dc, rcItem->left + 2, rcItem->bottom - 1);
+		}
+		else {
 			MoveToEx(dc, rcItem->left, rcItem->bottom, &pt);
 			LineTo(dc, rcItem->left, rcItem->top + 2);
 			LineTo(dc, rcItem->left + 2, rcItem->top);
@@ -414,9 +410,9 @@ static HRESULT DrawThemesPartWithAero(const TabControlData *tabdat, HDC hDC, int
 
 	return hResult;
 }
-/*
- * draws a theme part (identifier in uiPartNameID) using the given clipping rectangle
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// draws a theme part (identifier in uiPartNameID) using the given clipping rectangle
 
 static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId, int iStateId, LPRECT prcBox)
 {
@@ -428,69 +424,58 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 	return hResult;
 }
 
-/*
- * draw a themed tab item. either a tab or the body pane
- * handles image mirroring for tabs at the bottom
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// draw a themed tab item. either a tab or the body pane
+// handles image mirroring for tabs at the bottom
 
 static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, TWindowData *dat)
 {
-	BOOL bBody  = (uiFlag & 1) ? TRUE : FALSE;
-	BOOL bSel   = (uiFlag & 2) ? TRUE : FALSE;
-	BOOL bHot   = (uiFlag & 4) ? TRUE : FALSE;
+	BOOL bBody = (uiFlag & 1) ? TRUE : FALSE;
+	BOOL bSel = (uiFlag & 2) ? TRUE : FALSE;
+	BOOL bHot = (uiFlag & 4) ? TRUE : FALSE;
 	BOOL bBottom = (uiFlag & 8) ? TRUE : FALSE;	// mirror
-	SIZE szBmp;
-	HDC  dcMem;
-	HBITMAP bmpMem, pBmpOld;
-	RECT rcMem;
-	BITMAPINFO biOut;
-	BITMAPINFOHEADER *bihOut;
-	int nBmpWdtPS;
-	int nSzBuffPS;
-	LPBYTE pcImg = NULL, pcImg1 = NULL;
+	LPBYTE pcImg = NULL;
 	int nStart = 0, nLenSub = 0;
+
+	SIZE szBmp;
 	szBmp.cx = rcItem->right - rcItem->left;
 	szBmp.cy = rcItem->bottom - rcItem->top;
 
-	/*
-	 * for top row tabs, it's easy. Just draw to the provided dc (it's a mem dc already)
-	 */
-
+	// for top row tabs, it's easy. Just draw to the provided dc (it's a mem dc already)
 	if (!bBottom) {
 		if (bBody) {
 			if (PluginConfig.m_bIsVista) {
-				rcItem->right += 2;							// hide right tab sheet shadow (only draw the actual border line)
+				rcItem->right += 2; // hide right tab sheet shadow (only draw the actual border line)
 				rcItem->bottom += 1;
 			}
 			DrawThemesPart(tabdat, pDC, 9, 0, rcItem);	// TABP_PANE id = 9
-		} else {
-			int iStateId = bSel ? 3 : (bHot ? 2 : 1);                       // leftmost item has different part id
+		}
+		else {
+			int iStateId = bSel ? 3 : (bHot ? 2 : 1); // leftmost item has different part id
 			DrawThemesPartWithAero(tabdat, pDC, rcItem->left < 20 ? 2 : 1, iStateId, rcItem, dat);
 		}
 		return;
 	}
 	else if (tabdat->fAeroTabs && !bBody) {
-		int iStateId = bSel ? 3 : (bHot ? 2 : 1);                       // leftmost item has different part id
+		int iStateId = bSel ? 3 : (bHot ? 2 : 1); // leftmost item has different part id
 		DrawThemesPartWithAero(tabdat, pDC, rcItem->left < 20 ? 2 : 1, iStateId, rcItem, dat);
 		return;
 	}
 
-	/*
-	 * remaining code is for bottom tabs only.
-	 */
+	// remaining code is for bottom tabs only.
+	HDC dcMem = CreateCompatibleDC(pDC);
+	HBITMAP bmpMem = CreateCompatibleBitmap(pDC, szBmp.cx, szBmp.cy);
+	HBITMAP pBmpOld = (HBITMAP)SelectObject(dcMem, bmpMem);
 
-	dcMem = CreateCompatibleDC(pDC);
-	bmpMem = CreateCompatibleBitmap(pDC, szBmp.cx, szBmp.cy);
-
-	pBmpOld = (HBITMAP)SelectObject(dcMem, bmpMem);
-
+	RECT rcMem;
 	rcMem.left = rcMem.top = 0;
 	rcMem.right = szBmp.cx;
 	rcMem.bottom = szBmp.cy;
 
+	BITMAPINFO biOut;
 	memset(&biOut, 0, sizeof(BITMAPINFO));	// Fill local pixel arrays
-	bihOut = &biOut.bmiHeader;
-
+	
+	BITMAPINFOHEADER *bihOut = &biOut.bmiHeader;
 	bihOut->biSize = sizeof(BITMAPINFOHEADER);
 	bihOut->biCompression = BI_RGB;
 	bihOut->biPlanes = 1;
@@ -498,28 +483,22 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 	bihOut->biWidth = szBmp.cx;
 	bihOut->biHeight = szBmp.cy;
 
-	nBmpWdtPS = DWordAlign(szBmp.cx * 3);
-	nSzBuffPS = ((nBmpWdtPS * szBmp.cy) / 8 + 2) * 8;
+	int nBmpWdtPS = DWordAlign(szBmp.cx * 3);
+	int nSzBuffPS = ((nBmpWdtPS * szBmp.cy) / 8 + 2) * 8;
 
-	/*
-	 * blit the background to the memory dc, so that transparent tabs will draw properly
-	 * for bottom tabs, it's more complex, because the background part must not be mirrored
-	 * the body part does not need that (filling with the background color is much faster
-	 * and sufficient for the tab "page" part.
-	 */
-
+	// blit the background to the memory dc, so that transparent tabs will draw properly
+	// for bottom tabs, it's more complex, because the background part must not be mirrored
+	// the body part does not need that (filling with the background color is much faster
+	// and sufficient for the tab "page" part.
 	if (!bSel)
 		CSkin::FillBack(dcMem, &rcMem);
 	else {
-		/*
-		 * mirror the background horizontally for bottom selected tabs (they can overwrite others)
-		 * needed, because after drawing the theme part the images will again be mirrored
-		 * to "flip" the tab item.
-		 */
+		// mirror the background horizontally for bottom selected tabs (they can overwrite others)
+		// needed, because after drawing the theme part the images will again be mirrored
+		// to "flip" the tab item.
 		BitBlt(dcMem, 0, 0, szBmp.cx, szBmp.cy, pDC, rcItem->left, rcItem->top, SRCCOPY);
 
-		pcImg1 = (BYTE *)mir_alloc(nSzBuffPS);
-
+		BYTE *pcImg1 = (BYTE*)mir_alloc(nSzBuffPS);
 		if (pcImg1) {
 			GetDIBits(pDC, bmpMem, nStart, szBmp.cy - nLenSub, pcImg1, &biOut, DIB_RGB_COLORS);
 			bihOut->biHeight = -szBmp.cy; 				// to mirror bitmap is eough to use negative height between Get/SetDIBits
@@ -528,17 +507,14 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 		}
 	}
 
-	/*
-	 * body may be *large* so rotating the final image can be very slow.
-	 * workaround: draw the skin item (tab pane) into a small dc, rotate this (small) image and render
-	 * it to the final DC with the IMG_RenderItem() routine.
-	 */
-
+	// body may be *large* so rotating the final image can be very slow.
+	// workaround: draw the skin item (tab pane) into a small dc, rotate this (small) image and render
+	// it to the final DC with the IMG_RenderItem() routine.
 	if (bBody) {
 		HDC hdcTemp = CreateCompatibleDC(pDC);
 		HBITMAP hbmTemp = CreateCompatibleBitmap(pDC, 100, 50);
 		HBITMAP hbmTempOld = (HBITMAP)SelectObject(hdcTemp, hbmTemp);
-		RECT rcTemp = {0};
+		RECT rcTemp = { 0 };
 
 		rcTemp.right = 100;
 		rcTemp.bottom = 50;
@@ -552,18 +528,17 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 		CSkin::FillBack(hdcTemp, &rcTemp);
 		DrawThemesPart(tabdat, hdcTemp, 9, 0, &rcTemp);	// TABP_PANE id = 9
 		pcImg = (BYTE *)mir_alloc(nSzBuffPS);
-		if (pcImg)	{									// get bits:
+		if (pcImg) {									// get bits:
 			GetDIBits(hdcTemp, hbmTemp, nStart, 50 - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);
 			bihOut->biHeight = -50;
 			SetDIBits(hdcTemp, hbmTemp, nStart, 50 - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);
 			mir_free(pcImg);
 		}
 		CImageItem tempItem(10, 10, 10, 10, hdcTemp, 0, IMAGE_FLAG_DIVIDED | IMAGE_FILLSOLID,
-							GetSysColorBrush(COLOR_3DFACE), 255, 30, 80, 50, 100);
+			GetSysColorBrush(COLOR_3DFACE), 255, 30, 80, 50, 100);
 
-		if (PluginConfig.m_bIsVista)	{								// hide right tab sheet shadow (only draw the actual border line)
+		if (PluginConfig.m_bIsVista) // hide right tab sheet shadow (only draw the actual border line)
 			rcItem->right += 2;
-		}
 
 		tempItem.Render(pDC, rcItem, true);
 		tempItem.Clear();
@@ -575,7 +550,8 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 		DeleteObject(bmpMem);
 		DeleteDC(dcMem);
 		return;
-	} else {
+	}
+	else {
 		int iStateId = bSel ? 3 : (bHot ? 2 : 1);
 		DrawThemesPart(tabdat, dcMem, rcItem->left < 20 ? 2 : 1, iStateId, &rcMem);
 	}
@@ -583,33 +559,30 @@ static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, 
 	bihOut->biHeight = szBmp.cy;
 	pcImg = (BYTE *)mir_alloc(nSzBuffPS);
 
-	if (pcImg)	{									// get bits:
+	if (pcImg) {									// get bits:
 		GetDIBits(pDC, bmpMem, nStart, szBmp.cy - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);
 		bihOut->biHeight = -szBmp.cy;
 		SetDIBits(pDC, bmpMem, nStart, szBmp.cy - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);
 		mir_free(pcImg);
 	}
 
-	/*
-	 * finally, blit the result to the destination dc
-	 */
-
+	// finally, blit the result to the destination dc
 	BitBlt(pDC, rcItem->left, rcItem->top, szBmp.cx, szBmp.cy, dcMem, 0, 0, SRCCOPY);
 	SelectObject(dcMem, pBmpOld);
 	DeleteObject(bmpMem);
 	DeleteDC(dcMem);
 }
 
-static POINT ptMouseT = {0};
+static POINT ptMouseT = { 0 };
 
 static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 {
 	PAINTSTRUCT ps;
 	HDC hdc;
 	RECT rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
-	RECT rectUpDn = {0, 0, 0, 0};
+	RECT rectUpDn = { 0, 0, 0, 0 };
 	int nCount = TabCtrl_GetItemCount(hwnd), i;
-	TCITEM item = {0};
+	TCITEM item = { 0 };
 	int iActive, hotItem;
 	POINT pt;
 	DWORD dwStyle = tabdat->dwStyle;
@@ -620,7 +593,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	bool  isAero = M.isAero();
 	HANDLE hpb = 0;
 	BOOL bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
-	if ( GetUpdateRect(hwnd, NULL, TRUE) == 0)
+	if (GetUpdateRect(hwnd, NULL, TRUE) == 0)
 		return;
 
 	item.mask = TCIF_PARAM;
@@ -636,19 +609,16 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		else
 			tabdat->fAeroTabs = 0;
 
-		tabdat->helperItem =  (dwStyle & TCS_BOTTOM) ? CSkin::m_tabBottom : CSkin::m_tabTop;
+		tabdat->helperItem = (dwStyle & TCS_BOTTOM) ? CSkin::m_tabBottom : CSkin::m_tabTop;
 		tabdat->helperGlowItem = (dwStyle & TCS_BOTTOM) ? CSkin::m_tabGlowBottom : CSkin::m_tabGlowTop;
 	}
 	else tabdat->fAeroTabs = FALSE;
 
 	HDC hdcreal = BeginPaint(hwnd, &ps);
 
-	/*
-	* switchbar is active, don't paint a single pixel, the tab control won't be visible at all
-	* same when we have only ONE tab and do not want it to be visible because of the container
-	* option "Show tab bar only when needed".
-	*/
-
+	// switchbar is active, don't paint a single pixel, the tab control won't be visible at all
+	// same when we have only ONE tab and do not want it to be visible because of the container
+	// option "Show tab bar only when needed".
 	if ((tabdat->pContainer->dwFlags & CNT_SIDEBAR) || (nCount == 1 && tabdat->pContainer->dwFlags & CNT_HIDETABS)) {
 		if (nCount == 0)
 			FillRect(hdcreal, &ps.rcPaint, GetSysColorBrush(COLOR_3DFACE)); // avoid flickering/ugly black background during container creation
@@ -663,10 +633,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	int cx = rctPage.right - rctPage.left;
 	int cy = rctPage.bottom - rctPage.top;
 
-	/*
-	* draw everything to a memory dc to avoid flickering
-	*/
-
+	// draw everything to a memory dc to avoid flickering
 	if (CMimAPI::m_haveBufferedPaint)
 		hpb = tabdat->hbp = CSkin::InitiateBufferedPaint(hdcreal, rctPage, hdc);
 	else {
@@ -713,10 +680,8 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	else memset(&rctClip, 0, sizeof(RECT));
 
 	HPEN hPenOld = (HPEN)SelectObject(hdc, PluginConfig.tabConfig.m_hPenLight);
-	/*
-	* visual style support
-	*/
 
+	// visual style support
 	CopyRect(&rcTabPage, &rctPage);
 	if (!tabdat->bRefreshWithoutClip)
 		ExcludeClipRect(hdc, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
@@ -727,7 +692,8 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		if (dwStyle & TCS_BOTTOM) {
 			rcClient.bottom = rctPage.bottom;
 			uiFlags |= uiBottom;
-		} else
+		}
+		else
 			rcClient.top = rctPage.top;
 		if (PluginConfig.m_fillColor)
 			DrawCustomTabPage(hdc, rcClient);
@@ -736,13 +702,11 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		if (tabdat->bRefreshWithoutClip)
 			goto skip_tabs;
 	}
-	else if ( IntersectRect(&rectTemp, &rctPage, &ps.rcPaint)) {
+	else if (IntersectRect(&rectTemp, &rctPage, &ps.rcPaint)) {
 		if (CSkin::m_skinEnabled) {
 			CSkinItem *item = &SkinItems[ID_EXTBKTABPAGE];
-
 			if (!item->IGNORED) {
-				DrawAlpha(hdc, &rctPage, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
-					item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
+				DrawAlpha(hdc, &rctPage, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
 				goto page_done;
 			}
 		}
@@ -825,14 +789,10 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		}
 	}
 page_done:
-	/*
-	* if aero is active _and_ the infopanel is visible in the current window, we "flatten" out the top area
-	* of the tab page by overpainting it black (thus it will appear transparent)
-	*/
+	// if aero is active _and_ the infopanel is visible in the current window, we "flatten" out the top area
+	// of the tab page by overpainting it black (thus it will appear transparent)
 	if (isAero && tabdat->helperDat) {
-		RECT	rcLog, rcPage;
-		POINT	pt;
-
+		RECT rcLog, rcPage;
 		GetClientRect(hwnd, &rcPage);
 		if (dwStyle & TCS_BOTTOM) {
 			GetWindowRect(tabdat->helperDat->hwnd, &rcLog);
@@ -844,6 +804,8 @@ page_done:
 			rcPage.top = 0;
 		}
 		GetWindowRect(GetDlgItem(tabdat->helperDat->hwnd, tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcLog);
+
+		POINT	pt;
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;
 		ScreenToClient(hwnd, &pt);
@@ -852,10 +814,8 @@ page_done:
 	}
 
 	uiFlags = 0;
-	/*
-	* figure out hottracked item (if any)
-	*/
 
+	// figure out hottracked item (if any)
 	if (tabdat->bRefreshWithoutClip)
 		goto skip_tabs;
 
@@ -863,7 +823,7 @@ page_done:
 	ScreenToClient(hwnd, &hti.pt);
 	hti.flags = 0;
 	hotItem = TabCtrl_HitTest(hwnd, &hti);
-	for (i=0; i < nCount; i++) {
+	for (i = 0; i < nCount; i++) {
 		TWindowData *dat = 0;
 
 		if (i != iActive) {
@@ -892,9 +852,7 @@ page_done:
 		}
 	}
 
-	/*
-	* draw the active item
-	*/
+	// draw the active item
 	if (!bClassicDraw && uiBottom) {
 		rctActive.top -= PluginConfig.tabConfig.m_bottomAdjust;
 		rctActive.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
@@ -937,9 +895,7 @@ skip_tabs:
 	if (hPenOld)
 		SelectObject(hdc, hPenOld);
 
-	/*
-	* finally, bitblt the contents of the memory dc to the real dc
-	*/
+	// finally, bitblt the contents of the memory dc to the real dc
 	if (!tabdat->bRefreshWithoutClip)
 		ExcludeClipRect(hdcreal, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
 
@@ -968,12 +924,12 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	switch (msg) {
 	case WM_NCCREATE:
 		{
-			WNDCLASSEXA wcl = {0};
+			WNDCLASSEX wcl = { 0 };
 			wcl.cbSize = sizeof(wcl);
-			GetClassInfoExA(g_hInst, "SysTabControl32", &wcl);
+			GetClassInfoEx(g_hInst, _T("SysTabControl32"), &wcl);
 			OldTabControlClassProc = wcl.lpfnWndProc;
 
-			tabdat = (TabControlData *)mir_calloc(sizeof(TabControlData));
+			tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
 			tabdat->hwnd = hwnd;
 			tabdat->cx = GetSystemMetrics(SM_CXSMICON);
@@ -999,27 +955,20 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return 0;
 
 	case EM_SEARCHSCROLLER:
-		{
-			HWND hwndChild;
-			/*
-			* search the updown control (scroll arrows) to subclass it...
-			* the control is dynamically created and may not exist as long as it is
-			* not needed. So we have to search it everytime we need to paint. However,
-			* it is sufficient to search it once. So this message is called, whenever
-			* a new tab is inserted
-			*/
+		// search the updown control (scroll arrows) to subclass it...
+		// the control is dynamically created and may not exist as long as it is
+		// not needed. So we have to search it everytime we need to paint. However,
+		// it is sufficient to search it once. So this message is called, whenever
+		// a new tab is inserted
+		HWND hwndChild;
+		if ((hwndChild = FindWindowEx(hwnd, 0, _T("msctls_updown32"), NULL)) != 0)
+			DestroyWindow(hwndChild);
 
-			if ((hwndChild = FindWindowEx(hwnd, 0, _T("msctls_updown32"), NULL)) != 0)
-				DestroyWindow(hwndChild);
-		}
 		return 0;
 
 	case EM_VALIDATEBOTTOM:
-		{
-			BOOL bClassicDraw = (tabdat->m_VisualStyles == FALSE);
-			if ((tabdat->dwStyle & TCS_BOTTOM) && !bClassicDraw && PluginConfig.tabConfig.m_bottomAdjust != 0)
-				InvalidateRect(hwnd, NULL, FALSE);
-		}
+		if ((tabdat->dwStyle & TCS_BOTTOM) && tabdat->m_VisualStyles != 0 && PluginConfig.tabConfig.m_bottomAdjust != 0)
+			InvalidateRect(hwnd, NULL, FALSE);
 		break;
 
 	case EM_REFRESHWITHOUTCLIP:
@@ -1034,16 +983,14 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case TCM_INSERTITEM:
 	case TCM_DELETEITEM:
 		tabdat->iHoveredCloseIcon = -1;
-		if (!(tabdat->dwStyle & TCS_MULTILINE) || tabdat->dwStyle & TCS_BUTTONS) {
-			LRESULT result;
-			RECT rc;
+		if (!(tabdat->dwStyle & TCS_MULTILINE) || (tabdat->dwStyle & TCS_BUTTONS)) {
 			int iTabs = TabCtrl_GetItemCount(hwnd);
 			if (iTabs >= 1 && msg == TCM_INSERTITEM) {
+				RECT rc;
 				TabCtrl_GetItemRect(hwnd, 0, &rc);
 				TabCtrl_SetItemSize(hwnd, 10, rc.bottom - rc.top);
 			}
-			result = CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
-			TabCtrl_GetItemRect(hwnd, 0, &rc);
+			LRESULT result = CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 			SendMessage(hwnd, WM_SIZE, 0, 0);
 			return result;
 		}
@@ -1073,7 +1020,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case WM_SETCURSOR:
 		GetCursorPos(&pt);
 		SendMessage(GetParent(hwnd), msg, wParam, lParam);
-		if (abs(pt.x - ptMouseT.x) < 4  && abs(pt.y - ptMouseT.y) < 4)
+		if (abs(pt.x - ptMouseT.x) < 4 && abs(pt.y - ptMouseT.y) < 4)
 			return 1;
 		ptMouseT = pt;
 		if (tabdat->fTipActive) {
@@ -1091,12 +1038,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			int iTabs = TabCtrl_GetItemCount(hwnd);
 
 			if (!(tabdat->dwStyle & TCS_MULTILINE)) {
-				RECT rcClient, rc;
-				DWORD newItemSize;
 				if (iTabs > (tabdat->pContainer->dwFlags & CNT_HIDETABS ? 1 : 0)) {
+					RECT rcClient, rc;
 					GetClientRect(hwnd, &rcClient);
 					TabCtrl_GetItemRect(hwnd, iTabs - 1, &rc);
-					newItemSize = (rcClient.right - 6) - (tabdat->dwStyle & TCS_BUTTONS ? (iTabs) * 10 : 0);
+					DWORD newItemSize = (rcClient.right - 6) - (tabdat->dwStyle & TCS_BUTTONS ? (iTabs)* 10 : 0);
 					newItemSize = newItemSize / iTabs;
 					if (newItemSize < PluginConfig.tabConfig.m_fixedwidth)
 						TabCtrl_SetItemSize(hwnd, newItemSize, rc.bottom - rc.top);
@@ -1106,12 +1052,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					SendMessage(hwnd, EM_SEARCHSCROLLER, 0, 0);
 				}
 			}
-			else if (tabdat->dwStyle & TCS_BUTTONS && iTabs > 0) {
+			else if ((tabdat->dwStyle & TCS_BUTTONS) && iTabs > 0) {
 				RECT rcClient, rcItem;
-				int nrTabsPerLine;
 				GetClientRect(hwnd, &rcClient);
 				TabCtrl_GetItemRect(hwnd, 0, &rcItem);
-				nrTabsPerLine = (rcClient.right) / PluginConfig.tabConfig.m_fixedwidth;
+				int nrTabsPerLine = (rcClient.right) / PluginConfig.tabConfig.m_fixedwidth;
 				if (iTabs >= nrTabsPerLine && nrTabsPerLine > 0)
 					TabCtrl_SetItemSize(hwnd, ((rcClient.right - 6) / nrTabsPerLine) - (tabdat->dwStyle & TCS_BUTTONS ? 8 : 0), rcItem.bottom - rcItem.top);
 				else
@@ -1121,8 +1066,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_LBUTTONDBLCLK:
-		if (!(tabdat->pContainer->settings->dwFlagsEx & TCF_CLOSEBUTTON))
-		{
+		if (!(tabdat->pContainer->settings->dwFlagsEx & TCF_CLOSEBUTTON)) {
 			GetCursorPos(&pt);
 			SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
 		}
@@ -1140,15 +1084,14 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		tabdat->fTipActive = FALSE;
 
 		if (GetKeyState(VK_CONTROL) & 0x8000) {
-			TCHITTESTINFO tci = {0};
+			TCHITTESTINFO tci = { 0 };
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-				int i;
 				tci.flags = TCHT_ONITEM;
 
 				ScreenToClient(hwnd, &tci.pt);
-				i = TabCtrl_HitTest(hwnd, &tci);
+				int i = TabCtrl_HitTest(hwnd, &tci);
 				if (i != -1) {
 					TCITEM tc;
 					TWindowData *dat = NULL;
@@ -1156,7 +1099,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
 					dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
-					if (dat)	{
+					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
 						tabdat->hwndDrag = (HWND)tc.lParam;
@@ -1174,7 +1117,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 
 		if (GetKeyState(VK_MENU) & 0x8000) {
-			TCHITTESTINFO tci = {0};
+			TCHITTESTINFO tci = { 0 };
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
@@ -1185,12 +1128,11 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 				i = TabCtrl_HitTest(hwnd, &tci);
 				if (i != -1) {
 					TCITEM tc;
-					TWindowData *dat = NULL;
-
 					tc.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hwnd, i, &tc);
-					dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
-					if (dat)	{
+
+					TWindowData *dat = (TWindowData*)GetWindowLongPtr((HWND)tc.lParam, GWLP_USERDATA);
+					if (dat) {
 						tabdat->bDragging = TRUE;
 						tabdat->iBeginIndex = i;
 						tabdat->hwndDrag = (HWND)tc.lParam;
@@ -1227,15 +1169,15 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_MOUSEMOVE:
 		if (tabdat->bDragging) {
-			TCHITTESTINFO tci = {0};
+			TCHITTESTINFO tci = { 0 };
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
 			ScreenToClient(hwnd, &tci.pt);
 			ImageList_DragMove(tci.pt.x, tci.pt.y);
 		}
+
 		if (tabdat->fCloseButton) {
 			POINT	pt;
-
 			GetCursorPos(&pt);
 			int iOldHovered = tabdat->iHoveredCloseIcon;
 			tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
@@ -1247,7 +1189,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case WM_LBUTTONUP:
 		CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 		if (tabdat->bDragging && ReleaseCapture()) {
-			TCHITTESTINFO tci = {0};
+			TCHITTESTINFO tci = { 0 };
 			int i;
 			tci.pt.x = (short)LOWORD(GetMessagePos());
 			tci.pt.y = (short)HIWORD(GetMessagePos());
@@ -1260,7 +1202,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			i = TabCtrl_HitTest(hwnd, &tci);
 			if (i != -1 && i != tabdat->iBeginIndex)
 				RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->fSavePos);
-			tabdat->hwndDrag = (HWND) - 1;
+			tabdat->hwndDrag = (HWND)-1;
 			tabdat->dragDat = NULL;
 			if (tabdat->himlDrag) {
 				ImageList_RemoveAll(tabdat->himlDrag);
@@ -1288,16 +1230,16 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_TIMER:
 		if (wParam == TIMERID_HOVER_T &&  M.GetByte("d_tooltips", 0)) {
-			POINT pt;
-			CLCINFOTIP ti = {0};
-			ti.cbSize = sizeof(ti);
-
 			KillTimer(hwnd, TIMERID_HOVER_T);
+
+			POINT pt;
 			GetCursorPos(&pt);
 			if (abs(pt.x - ptMouseT.x) < 5 && abs(pt.y - ptMouseT.y) < 5) {
+				CLCINFOTIP ti = { 0 };
+				ti.cbSize = sizeof(ti);
 				ti.ptCursor = pt;
 
-				TCITEM item = {0};
+				TCITEM item = { 0 };
 				item.mask = TCIF_PARAM;
 				int nItem = GetTabItemFromMouse(hwnd, &pt);
 				if (nItem >= 0 && nItem < TabCtrl_GetItemCount(hwnd)) {
@@ -1341,9 +1283,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	return CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 }
 
-/*
-* load the tab control configuration data (colors, fonts, flags...
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// load the tab control configuration data (colors, fonts, flags...
 
 void TSAPI ReloadTabConfig()
 {
@@ -1384,16 +1325,15 @@ void TSAPI FreeTabConfig()
 	if (PluginConfig.tabConfig.m_hMenuFont)
 		DeleteObject(PluginConfig.tabConfig.m_hMenuFont);
 
-	for (int i=0; i < SIZEOF(PluginConfig.tabConfig.m_brushes); i++)
+	for (int i = 0; i < SIZEOF(PluginConfig.tabConfig.m_brushes); i++)
 		if (PluginConfig.tabConfig.m_brushes[i])
 			DeleteObject(PluginConfig.tabConfig.m_brushes[i]);
 
 	memset(&PluginConfig.tabConfig, 0, sizeof(PluginConfig.tabConfig));
 }
 
-/*
-* options dialog for setting up tab options
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// options dialog for setting up tab options
 
 static bool tconfig_init = false;
 
@@ -1439,36 +1379,33 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		return 0;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				{
-					BOOL translated;
+				BOOL translated;
 
-					db_set_b(0, SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
-					db_set_b(0, SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
-					db_set_b(0, SRMSGMOD_T, "tborder", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
-					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
-					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
-					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERTOP, &translated, FALSE));
-					db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE) GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
-					db_set_dw(0, SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
+				db_set_b(0, SRMSGMOD_T, "y-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE)));
+				db_set_b(0, SRMSGMOD_T, "x-pad", (BYTE)(GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE)));
+				db_set_b(0, SRMSGMOD_T, "tborder", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDER, &translated, FALSE));
+				db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_left" : "tborder_outer_left", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTER, &translated, FALSE));
+				db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_right" : "tborder_outer_right", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERRIGHT, &translated, FALSE));
+				db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_top" : "tborder_outer_top", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERTOP, &translated, FALSE));
+				db_set_b(0, SRMSGMOD_T, CSkin::m_skinEnabled ? "S_tborder_outer_bottom" : "tborder_outer_bottom", (BYTE)GetDlgItemInt(hwndDlg, IDC_TABBORDEROUTERBOTTOM, &translated, FALSE));
+				db_set_dw(0, SRMSGMOD_T, "bottomadjust", GetDlgItemInt(hwndDlg, IDC_BOTTOMTABADJUST, &translated, TRUE));
 
-					int fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
-					fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
-					db_set_dw(0, SRMSGMOD_T, "fixedwidth", fixedWidth);
-					FreeTabConfig();
-					ReloadTabConfig();
+				int fixedWidth = GetDlgItemInt(hwndDlg, IDC_TABWIDTH, &translated, FALSE);
+				fixedWidth = (fixedWidth < 60 ? 60 : fixedWidth);
+				db_set_dw(0, SRMSGMOD_T, "fixedwidth", fixedWidth);
+				FreeTabConfig();
+				ReloadTabConfig();
 
-					for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-						TabCtrl_SetPadding(GetDlgItem(p->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
-						RedrawWindow(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
-					}
-					return TRUE;
+				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
+					TabCtrl_SetPadding(GetDlgItem(p->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
+					RedrawWindow(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
 				}
+				return TRUE;
 			}
-			break;
 		}
 		break;
 
@@ -1482,7 +1419,7 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_TABBORDEROUTERBOTTOM:
 		case IDC_TABBORDEROUTERRIGHT:
 		case IDC_TABBORDEROUTERTOP:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
+			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return TRUE;
 			break;
 		}
@@ -1496,9 +1433,8 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	return FALSE;
 }
 
-/*
- * register the new tab control as a window class (TSTabCtrlClass)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// register the new tab control as a window class (TSTabCtrlClass)
 
 int TSAPI RegisterTabCtrlClass(void)
 {

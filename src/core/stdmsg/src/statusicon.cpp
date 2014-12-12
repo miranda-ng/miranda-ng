@@ -36,25 +36,27 @@ static int OnSrmmIconChanged(WPARAM hContact, LPARAM)
 	return 0;
 }
 
-void DrawStatusIcons(MCONTACT hContact, HDC hDC, RECT r, int gap)
+void DrawStatusIcons(MCONTACT hContact, HDC hDC, const RECT &rc, int gap)
 {
-	int x = r.left;
+	int x = rc.left;
+	int cx_icon = GetSystemMetrics(SM_CXSMICON);
+	int cy_icon = GetSystemMetrics(SM_CYSMICON);
 
 	int nIcon = 0;
 	StatusIconData *sid;
-	while ((sid = Srmm_GetNthIcon(hContact, nIcon++)) != 0 && x < r.right) {
+	while ((sid = Srmm_GetNthIcon(hContact, nIcon++)) != 0 && x < rc.right) {
 		HICON hIcon = ((sid->flags & MBF_DISABLED) && sid->hIconDisabled) ? sid->hIconDisabled : sid->hIcon;
 
 		SetBkMode(hDC, TRANSPARENT);
-		DrawIconEx(hDC, x, (r.top + r.bottom - GetSystemMetrics(SM_CYSMICON)) >> 1, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+		DrawIconEx(hDC, x, (rc.top + rc.bottom - cy_icon) >> 1, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
-		x += GetSystemMetrics(SM_CYSMICON) + gap;
+		x += cx_icon + gap;
 	}
 }
 
-void CheckIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
+void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT &rc, int gap, int click_flags)
 {
-	int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
+	int iconNum = (pt.x - rc.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
 	StatusIconData *sid = Srmm_GetNthIcon(hContact, iconNum);
 	if (sid == NULL)
 		return;

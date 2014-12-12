@@ -981,8 +981,8 @@ int SI_InitStatusIcons();
 int SI_DeinitStatusIcons();
 
 int  GetStatusIconsCount();
-void DrawStatusIcons(TWindowData *dat, HDC hdc, RECT r, int gap);
-void SI_CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, RECT rc, int gap, int code);
+void DrawStatusIcons(TWindowData *dat, HDC hdc, const RECT &r, int gap);
+void CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, const RECT &rc, int gap, int code);
 
 struct SKINDESC
 {
