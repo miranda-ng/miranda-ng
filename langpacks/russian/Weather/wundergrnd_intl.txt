@@ -562,3 +562,5 @@
 Морось
 [Snow Showers 80% Chance Of Precipitation]
 Снег, 80% вероятность осадков
+[Snow 100% Chance Of Precipitation]
+Снег, 100% вероятность осадков
