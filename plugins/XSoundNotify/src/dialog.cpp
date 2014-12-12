@@ -202,7 +202,7 @@ static INT_PTR CALLBACK DlgProcContactsOptions(HWND hwndDlg, UINT msg, WPARAM wP
 	return FALSE;
 }
 
-INT_PTR ShowDialog(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 {
 	HWND hChangeSoundDlg = WindowList_Find(hChangeSoundDlgList, wParam);
 	if (!hChangeSoundDlg) {
