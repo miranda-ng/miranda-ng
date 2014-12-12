@@ -113,10 +113,10 @@ const
   ACF_OLD_FAPPEND  = $00000040; // append file
 
 const
-  OldVersion = 'Your Actman settings is for old version. If you are ready to upgrade settings, ' +
+  OldVersion = 'Your Actman settings are for old version. If you are ready to upgrade settings, ' +
                'press OK. Else press Cancel and change manually Actman plugin back to old version ' +
                'or make settings backup. To keep previously exported macros please import them back ' +
-               'before conversion';
+               'before conversion.';
   Notes      = 'Please, don''t use macro test for non-saved macros. If you had ''Advanced'' or file ' +
                'writing actions previously, check them - their logic was changed.';
   ConvResult = 'Actman settings converted to new version';
