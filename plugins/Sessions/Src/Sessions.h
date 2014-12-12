@@ -65,7 +65,7 @@ extern HINSTANCE g_hInst;
 extern MCONTACT session_list_recovered[255];
 extern MCONTACT session_list[255];
 extern int g_ses_limit;
-extern int g_ses_count;
+extern size_t g_ses_count;
 extern bool g_bExclHidden;	
 extern bool g_bWarnOnHidden;
 extern bool g_bOtherWarnings;

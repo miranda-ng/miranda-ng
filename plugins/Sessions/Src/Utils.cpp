@@ -50,7 +50,7 @@ void AddSessionMark(MCONTACT hContact, int mode, char bit)
 			else pszBuffer = szValue.detouch();
 
 			char temp_1 = pszBuffer[0];
-			for (int i = 0; i < g_ses_count; i++) {
+			for (size_t i = 0; i < g_ses_count; i++) {
 				char temp_2 = pszBuffer[i + 1];
 				pszBuffer[i + 1] = temp_1;
 				temp_1 = temp_2;
@@ -126,8 +126,6 @@ bool LoadContactsFromMask(MCONTACT hContact, int mode, int count)
 
 void AddInSessionOrder(MCONTACT hContact, int mode, int ordernum, int writemode)
 {
-	char szDst[256] = { '\0' };
-
 	char szFormNumBuf[100];
 	mir_snprintf(szFormNumBuf, SIZEOF(szFormNumBuf), "%02u", ordernum);
 
@@ -203,8 +201,6 @@ int GetInSessionOrder(MCONTACT hContact, int mode, int count)
 
 void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int ordernum)
 {
-	int iOrder = 0;
-
 	char szTemp[3];
 	mir_snprintf(szTemp, SIZEOF(szTemp), "%02u", ordernum);
 
@@ -226,10 +222,8 @@ void SetInSessionOrder(MCONTACT hContact, int mode, int count, unsigned int orde
 	}
 }
 
-BOOL ResaveSettings(char* szName, int iFirst, int iLimit, TCHAR* szBuffer)
+BOOL ResaveSettings(char *szName, int iFirst, int iLimit, TCHAR *szBuffer)
 {
-	BYTE marked, marked_t;
-
 	for (int i = iFirst; i < iLimit; i++) {
 		if (szBuffer == NULL)
 			break;
@@ -241,9 +235,8 @@ BOOL ResaveSettings(char* szName, int iFirst, int iLimit, TCHAR* szBuffer)
 		db_set_ts(NULL, MODNAME, szNameBuf, szBuffer);
 		mir_free(szBuffer);
 
-		marked = IsMarkedUserDefSession(i);
-		MarkUserDefSession(i, (BYTE)((i == iFirst) ? IsMarkedUserDefSession(iFirst - 1) : marked_t));
-		marked_t = marked;
+		BYTE marked = IsMarkedUserDefSession(i);
+		MarkUserDefSession(i, (BYTE)((i == iFirst) ? IsMarkedUserDefSession(iFirst - 1) : marked));
 
 		if (ptszTemp == NULL) // read failed
 			return 0;
@@ -255,7 +248,7 @@ BOOL ResaveSettings(char* szName, int iFirst, int iLimit, TCHAR* szBuffer)
 	return 1;
 }
 
-int AddToCurSession(MCONTACT wparam, LPARAM lparam)
+int AddToCurSession(MCONTACT wparam, LPARAM)
 {
 	if (CheckForDuplicate(session_list, wparam) == -1) {
 		for (int i = 0;; i++) {
@@ -268,7 +261,7 @@ int AddToCurSession(MCONTACT wparam, LPARAM lparam)
 	return 0;
 }
 
-int DelFromCurSession(MCONTACT wparam, LPARAM lparam)
+int DelFromCurSession(MCONTACT wparam, LPARAM)
 {
 	for (int i = 0; session_list[i] != 0; i++) {
 		if (session_list[i] == wparam) {
@@ -292,7 +285,6 @@ int CheckForDuplicate(MCONTACT contact_list[], MCONTACT lparam)
 		if (s_list[i] == 0)
 			return -1;
 	}
-	return 0;
 }
 
 int LoadSessionToCombobox(HWND hdlg, BOOL mode, int iLimit, char* pszSetting, int iFirstNum)
