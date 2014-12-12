@@ -707,7 +707,7 @@ int GetClosestLanguage(TCHAR *lang_name)
 		if (p == NULL)
 			continue;
 
-		int prefix_len = p - languages[i]->language;
+		size_t prefix_len = p - languages[i]->language;
 		if (prefix_len != len)
 			continue;
 
@@ -867,7 +867,7 @@ void ModifyIcon(Dialog *dlg)
 	}
 }
 
-INT_PTR AddContactTextBoxService(WPARAM wParam, LPARAM lParam)
+INT_PTR AddContactTextBoxService(WPARAM wParam, LPARAM)
 {
 	SPELLCHECKER_ITEM *sci = (SPELLCHECKER_ITEM *)wParam;
 	if (sci == NULL || sci->cbSize != sizeof(SPELLCHECKER_ITEM))
@@ -947,7 +947,7 @@ void FreePopupData(Dialog *dlg)
 	}
 }
 
-INT_PTR RemoveContactTextBoxService(WPARAM wParam, LPARAM lParam)
+INT_PTR RemoveContactTextBoxService(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = (HWND)wParam;
 	if (hwnd == NULL)
@@ -1149,8 +1149,6 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 		menus[hwndOwner] = dlg;
 	}
 
-	BOOL wrong_word = FALSE;
-
 	// Make menu
 	if (GetMenuItemCount(hMenu) > 0)
 		InsertMenu(hMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
@@ -1283,7 +1281,7 @@ BOOL HandleMenuSelection(Dialog *dlg, POINT pt, unsigned selection)
 	return ret;
 }
 
-int MsgWindowPopup(WPARAM wParam, LPARAM lParam)
+int MsgWindowPopup(WPARAM, LPARAM lParam)
 {
 	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
 	if (mwpd == NULL || mwpd->cbSize < sizeof(MessageWindowPopupData) || mwpd->uFlags != MSG_WINDOWPOPUP_INPUT)
@@ -1306,7 +1304,7 @@ int MsgWindowPopup(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM lParam)
+INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM)
 {
 	SPELLCHECKER_POPUPMENU *scp = (SPELLCHECKER_POPUPMENU *)wParam;
 	if (scp == NULL || scp->cbSize != sizeof(SPELLCHECKER_POPUPMENU))
@@ -1354,7 +1352,7 @@ int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
 	return selection;
 }
 
-int MsgWindowEvent(WPARAM wParam, LPARAM lParam)
+int MsgWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *event = (MessageWindowEventData *)lParam;
 	if (event == NULL)
@@ -1436,8 +1434,6 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	DialogMapType::iterator dlgit = menus.find(hwnd);
 	if (dlgit == menus.end())
 		return -1;
-
-	Dialog *dlg = dlgit->second;
 
 	switch (msg) {
 	case WM_INITMENUPOPUP:

@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "commons.h"
@@ -52,7 +52,7 @@ void AutoReplaceMap::loadAutoReplaceMap()
 				tmp[pos] = '\0';
 
 				// Get from
-				BOOL useVars;
+				BOOL useVars = false;
 				char *p;
 				if ((p = strstr(tmp, "->")) != NULL) {
 					*p = '\0';
