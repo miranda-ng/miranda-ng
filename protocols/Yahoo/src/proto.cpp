@@ -92,7 +92,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	MenuContactInit();
-
+	ChatRegister();
 	return 0;
 }
 
