@@ -25,26 +25,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hHookIconPressedEvt;
 
-void DrawStatusIcons(MCONTACT hContact, HDC hDC, RECT r, int gap)
+void DrawStatusIcons(MCONTACT hContact, HDC hDC, const RECT &r, int gap)
 {
-	HICON hIcon;
 	int x = r.left;
+	int cx_icon = GetSystemMetrics(SM_CXSMICON);
+	int cy_icon = GetSystemMetrics(SM_CYSMICON);
 
 	int nIcon = 0;
 	while (StatusIconData *si = Srmm_GetNthIcon(hContact, nIcon++)) {
-		if ((si->flags & MBF_DISABLED) && si->hIconDisabled) hIcon = si->hIconDisabled;
-		else hIcon = si->hIcon;
+		HICON hIcon = ((si->flags & MBF_DISABLED) && si->hIconDisabled) ? si->hIconDisabled : si->hIcon;
 
 		SetBkMode(hDC, TRANSPARENT);
-		DrawIconEx(hDC, x, (r.top + r.bottom - GetSystemMetrics(SM_CYSMICON)) >> 1, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
+		DrawIconEx(hDC, x, (r.top + r.bottom - cy_icon) >> 1, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
 
-		x += GetSystemMetrics(SM_CYSMICON) + gap;
+		x += cx_icon + gap;
 	}
 }
 
-void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT r, int gap, int click_flags)
+void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT &rc, int gap, int click_flags)
 {
-	unsigned int iconNum = (pt.x - r.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
+	unsigned int iconNum = (pt.x - rc.left) / (GetSystemMetrics(SM_CXSMICON) + gap);
 	StatusIconData *si = Srmm_GetNthIcon(hContact, iconNum);
 	if (si == NULL)
 		return;

@@ -27,6 +27,6 @@ int InitStatusIcons();
 int DeinitStatusIcons();
 
 int  GetStatusIconsCount(MCONTACT hContact);
-void DrawStatusIcons(MCONTACT hContact, HDC hdc, RECT r, int gap);
-void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, RECT rc, int gap, int flags);
+void DrawStatusIcons(MCONTACT hContact, HDC hdc, const RECT &r, int gap);
+void CheckStatusIconClick(MCONTACT hContact, HWND hwndFrom, POINT pt, const RECT &rc, int gap, int flags);
 #endif
