@@ -43,21 +43,6 @@ void NetlibUnInit()
 	hNetlibUser = NULL;
 }
 
-static void arrayToHex(BYTE *data, size_t datasz, char *res)
-{
-	char *resptr = res;
-	for (unsigned i = 0; i < datasz; i++) {
-		const BYTE ch = data[i];
-
-		const char ch0 = (char)(ch >> 4);
-		*resptr++ = (char)((ch0 <= 9) ? ('0' + ch0) : (('a' - 10) + ch0));
-
-		const char ch1 = (char)(ch & 0xF);
-		*resptr++ = (char)((ch1 <= 9) ? ('0' + ch1) : (('a' - 10) + ch1));
-	}
-	*resptr = '\0';
-} 
-
 void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
 	Netlib_LogfT(hNetlibUser,_T("Getting feed data %s."), tszUrl);
@@ -207,7 +192,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 	}
 	else {
 		TCHAR *weekday, monthstr[4], timezonesign[2];
-		int day, month, year, hour, min, sec, timezoneh, timezonem;
+		int day, month = 0, year, hour, min, sec, timezoneh, timezonem;
 		if (_tcsstr(p, _T(","))) {
 			weekday = _tcstok(p, _T(","));
 			p = _tcstok(NULL, _T(","));

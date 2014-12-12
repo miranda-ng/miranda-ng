@@ -84,7 +84,7 @@ INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM lp)
+INT_PTR NewsAggrGetCaps(WPARAM wp, LPARAM)
 {
 	switch(wp) {
 	case PFLAGNUM_1:
@@ -126,7 +126,7 @@ INT_PTR NewsAggrGetStatus(WPARAM, LPARAM)
 	return g_nStatus;
 }
 
-INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam)
+INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM )
 {
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
@@ -144,7 +144,7 @@ INT_PTR NewsAggrGetInfo(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CheckAllFeeds(WPARAM wParam, LPARAM lParam)
+INT_PTR CheckAllFeeds(WPARAM, LPARAM lParam)
 {
 	for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
 		if (lParam && db_get_dw(hContact, MODULE, "UpdateTime", DEFAULT_UPDATE_TIME))
@@ -191,7 +191,7 @@ INT_PTR ExportFeeds(WPARAM, LPARAM)
 	return 0;
 }
 
-INT_PTR CheckFeed(WPARAM hContact, LPARAM lParam)
+INT_PTR CheckFeed(WPARAM hContact, LPARAM)
 {
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
