@@ -282,3 +282,4 @@
 [Light Snow Freezing Fog]
 [Drizzle]
 [Snow Showers 80% Chance Of Precipitation]
+[Snow 100% Chance Of Precipitation]
