@@ -738,9 +738,9 @@ Struktura spakowana
 [Registered actions]
 Zarejestrowane akcje
 ; Actman30
-[Your Actman settings is for old version. If you ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion]
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
 Twoje ustawienia Actman są kompatybilne ze starszą wersją wtyczki. Jeżeli jesteś gotów do aktualizacji, naciśnij OK. W przeciwnym razie naciśnij Anuluj i ręcznie zamień wtyczkę na jej starszą wersję bądź dokonaj kopii zapasowej ustawień. Aby pozostawić uprzednio wyeksportowane makra, zaimportuj je z powrotem przed dokonaniem konwersji.
-[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check it - their logic was changed.]
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
 Proszę, nie używaj testu makra dla niezapisanych makr. Jeżeli poprzednio używałeś akcji "zaawansowanych" lub zapisu pliku, sprawdź je - ich logika się zmieniła.
 [Actman settings converted to new version]
 Skonwertowano ustawienia Actman do nowej wersji

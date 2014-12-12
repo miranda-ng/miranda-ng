@@ -602,6 +602,12 @@ UTF16+сигнатури
 [Registered actions]
 Зареєстровані дії
 ; Actman30
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+Ваші налаштування Actman призначені для застарілої версії плагіна. Виберіть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новый формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+Не користуйтеся перевіркою макросів, якщо є незбережені макроси. Якщо макроси містять дії з категорії "Розширене" або операції запису у файл, не забудьте перевірити правильність їх роботи, оскільки логіку цих дій було змінено.
+[Actman settings converted to new version]
+Налаштування Actman конвертовано
 [INI]
 Файл INI
 [INI file name]
@@ -684,6 +690,8 @@ UTF16+сигнатури
 Вирівнювання праворуч
 [Database]
 Профіль
+[Contact type]
+Тип контакту
 [Save value]
 Збер. значення
 [Storage]
