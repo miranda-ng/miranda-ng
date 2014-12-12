@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "commons.h"
@@ -841,7 +841,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 			TCHAR *lang = ffd.cFileName;
 
 			// Replace - for _
-			for (int i = 0; i < mir_tstrlen(lang); i++)
+			for (size_t i = 0; i < mir_tstrlen(lang); i++)
 				if (lang[i] == _T('-'))
 					lang[i] = _T('_');
 
@@ -856,8 +856,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, TCHAR *path, TCH
 				file[mir_tstrlen(file) - 4] = _T('\0');
 				dicts.insert(new HunspellDictionary(lang, file, user_path, source));
 			}
-		}
-		while (FindNextFile(hFFD, &ffd));
+		} while (FindNextFile(hFFD, &ffd));
 
 		FindClose(hFFD);
 	}

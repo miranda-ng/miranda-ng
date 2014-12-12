@@ -142,7 +142,7 @@ struct Dialog
 	vector<WrongWordPopupMenuData> *wrong_words;
 };
 
-BOOL CenterParent(HWND hwnd);
+static BOOL CenterParent(HWND hwnd);
 TCHAR *lstrtrim(TCHAR *str);
 BOOL lstreq(TCHAR *a, TCHAR *b, size_t len = -1);
 BOOL IsNumber(TCHAR c);
