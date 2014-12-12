@@ -141,6 +141,8 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 	MCONTACT hContact = pci->FindRoom(gcd->pszModule, gcd->ptszID);
 	if (hContact != 0) {
 		ptrT nick(db_get_tsa(hContact, gcd->pszModule, "MyNick"));
+		if (nick == NULL || gce->ptszText == NULL)
+			return 0;
 		if (_tcsstr(gce->ptszText, nick)) {
 			isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);
 			DBVARIANT dbv;
