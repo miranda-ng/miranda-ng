@@ -18,8 +18,8 @@
 #include "linklist.h"
 
 // Global variables
-HINSTANCE hInst;                                    
-HINSTANCE hRichEdit;                                
+HINSTANCE hInst;
+                             
 
 HANDLE hWindowList;
 HCURSOR splitCursor;
@@ -49,16 +49,6 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	//  Load Rich Edit control
-	hRichEdit = LoadLibrary(_T("Msftedit.DLL"));
-	if (!hRichEdit)
-	{   
-		//  If Rich Edit DLL load fails, exit
-		MessageBox(NULL, _T("Unable to load the Rich Edit control!"), _T("Error"), MB_OK | MB_ICONEXCLAMATION);
-		FreeLibrary(hRichEdit);
-		return 1;
-	}
-
 #ifdef DEBUG
 	{
 		int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
@@ -75,7 +65,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.ptszName = LPGENT("&Create Linklist");
 	mi.pszService = "Linklist/MenuCommand";
 	Menu_AddContactMenuItem(&mi);
-	
+
 	hWindowList = WindowList_Create();
 
 	WNDCLASS wndclass = { 0 };
@@ -89,10 +79,10 @@ extern "C" __declspec(dllexport) int Load(void)
 	RegisterClass(&wndclass);
 
 	splitCursor = LoadCursor(NULL, IDC_SIZENS);
-	
+
 	HookEvent(ME_OPT_INITIALISE, InitOptionsDlg);
 	HookEvent(ME_DB_EVENT_ADDED, DBUpdate);
-	
+
 	return 0;
 }
 
@@ -124,18 +114,17 @@ int InitOptionsDlg(WPARAM wParam, LPARAM)
 static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 {
 	HWND hWnd = WindowList_Find(hWindowList, hContact);
-	if ( hWnd != NULL ) {
-		int len;
+	if (hWnd != NULL) {
 		SetForegroundWindow(hWnd);
 		SetFocus(hWnd);
-		len = GetWindowTextLength(GetDlgItem(hWnd, IDC_MAIN));
+		int len = GetWindowTextLength(GetDlgItem(hWnd, IDC_MAIN));
 		PostMessage(GetDlgItem(hWnd, IDC_MAIN), EM_SETSEL, (WPARAM)len, (LPARAM)len);
 		return 0;
 	}	
 	
 	HANDLE hEvent = db_event_first(hContact);
 	if (hEvent == NULL) {
-		MessageBox(NULL, TXT_EMPTYHISTORY, TXT_PLUGINNAME, MB_OK | MB_ICONINFORMATION );
+		MessageBox(NULL, TXT_EMPTYHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;
 	}
 
@@ -143,68 +132,68 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 
 	DBEVENTINFO dbe = { sizeof(dbe) };
 	dbe.cbBlob = db_event_getBlobSize(hEvent);
-	dbe.pBlob  = (PBYTE)malloc(dbe.cbBlob+1);
+	dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
 	db_event_get(hEvent, &dbe);
 	dbe.pBlob[dbe.cbBlob] = 0;
 
 	RECT DesktopRect;
 	GetWindowRect(GetDesktopWindow(), &DesktopRect);
 	HWND hWndProgress = CreateWindow(_T("Progressbar"), TranslateT("Processing history..."), WS_OVERLAPPED, CW_USEDEFAULT, CW_USEDEFAULT, 350, 45, NULL, NULL, hInst, NULL);
-	if ( hWndProgress == 0 ) {
-		free(dbe.pBlob);
+	if (hWndProgress == NULL) {
+		mir_free(dbe.pBlob);
 		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
 		return -1;
 	}
-	SetWindowPos(hWndProgress, HWND_TOP, (int)(DesktopRect.right*0.5)-175, (int)(DesktopRect.bottom*0.5)-22, 0, 0, SWP_NOSIZE);
+	SetWindowPos(hWndProgress, HWND_TOP, (int)((DesktopRect.right / 2) - 175), (int)((DesktopRect.bottom / 2) - 22), 0, 0, SWP_NOSIZE);
 	ShowWindow(hWndProgress, SW_SHOW);
 	SetForegroundWindow(hWndProgress);
 
-	LISTELEMENT *listStart = (LISTELEMENT*)malloc(sizeof(LISTELEMENT));
+	LISTELEMENT *listStart = (LISTELEMENT*)mir_alloc(sizeof(LISTELEMENT));
 	memset(listStart, 0, sizeof(LISTELEMENT));
 
-	while( 1 ) {
-		if ( dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE ) {
+	for (;;) {
+		if (dbe.eventType == EVENTTYPE_URL || dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
-			if ( ExtractURI(&dbe, hEvent, listStart) < 0 ) {
-				free(dbe.pBlob);
+			if (ExtractURI(&dbe, hEvent, listStart) < 0) {
+				mir_free(dbe.pBlob);
 				RemoveList(listStart);
 				MessageBox(NULL, TranslateT("Could not allocate memory!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
 				return -1;
 			}
 		}
-		actCount++;
-		if ( ((int)(((float)actCount/histCount)*100.00)) % 10 == 0 )
-			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount/histCount)*100.00)));
+		actCount ++;
+		if (((int)(((float)actCount / histCount) * 100.00)) % 10 == 0)
+			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount / histCount) * 100.00)));
 		
 		hEvent = db_event_next(hContact, hEvent);
-		if ( hEvent == NULL )
+		if (hEvent == NULL)
 			break;
-
-		free(dbe.pBlob);
+		mir_free(dbe.pBlob);
 		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
+		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
 		db_event_get(hEvent, &dbe);
 		dbe.pBlob[dbe.cbBlob] = 0;
 	}
-	free(dbe.pBlob);
+	mir_free(dbe.pBlob);
 	SendMessage(hWndProgress, WM_CLOSE, 0, 0);
-	if ( ListCount(listStart) <= 0 ) {	
+	if (ListCount(listStart) <= 0) {	
 		RemoveList(listStart);
-		MessageBox(NULL, TXT_NOLINKINHISTORY, TXT_PLUGINNAME, MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TXT_NOLINKINHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;
 	}
 
-	DIALOGPARAM *DlgParam = (DIALOGPARAM*)malloc(sizeof(DIALOGPARAM));
-	DlgParam->hContact    = hContact;
-	DlgParam->listStart   = listStart;
+	DIALOGPARAM *DlgParam = (DIALOGPARAM*)mir_alloc(sizeof(DIALOGPARAM));
+	DlgParam->hContact = hContact;
+	DlgParam->listStart = listStart;
 	DlgParam->findMessage = 0;
-	DlgParam->chrg.cpMax  = -1;
-	DlgParam->chrg.cpMin  = -1;
+	DlgParam->chrg.cpMax = -1;
+	DlgParam->chrg.cpMin = -1;
 
 	HWND hWndMain = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_MAIN_DLG), NULL, MainDlgProc, (LPARAM)DlgParam);
-	if (hWndMain == 0) {
+	if (hWndMain == NULL) {
+		mir_free(DlgParam);
 		RemoveList(listStart);
-		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION );
+		MessageBox(NULL, TranslateT("Could not create window!"), TranslateT("Error"), (MB_OK | MB_ICONEXCLAMATION));
 		return -1;
 	}
 

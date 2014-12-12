@@ -45,11 +45,11 @@
 #define WLL_FILE	0x04
 #define WLL_IN		0x08
 #define WLL_OUT		0x10
-#define WLL_ALL		(WLL_URL|WLL_MAIL|WLL_FILE|WLL_IN|WLL_OUT)
+#define WLL_ALL		(WLL_URL | WLL_MAIL | WLL_FILE | WLL_IN | WLL_OUT)
 #define SLL_DEEP	0x20
 
 // String length
-#define LINK_MAX 1024
+#define LINK_MAX	1024
 #define DIR_SIZE	6
 #define TYPE_SIZE	5
 #define DATE_SIZE	11
@@ -57,9 +57,9 @@
 
 // Link types
 #define LINK_UNKNOWN	0x00
-#define LINK_URL		0x01
-#define LINK_MAIL		0x02
-#define LINK_FILE		0x03
+#define LINK_URL	0x01
+#define LINK_MAIL	0x02
+#define LINK_FILE	0x03
 
 // Directions
 #define DIRECTION_IN	1
@@ -84,7 +84,7 @@ struct LISTELEMENT {
 	struct LISTELEMENT *nextElement;
 } ;
 
-typedef struct{
+typedef struct {
 	BYTE openNewWindow;
 	BYTE updateWindow;
 	BYTE mouseEvent;
@@ -94,9 +94,9 @@ typedef struct{
 	BYTE showTime;
 	BYTE showDirection;
 	BYTE showType;
-}LISTOPTIONS;
+} LISTOPTIONS;
 
-typedef struct{
+typedef struct {
 	DWORD incoming;
 	DWORD outgoing;
 	DWORD background;
@@ -111,24 +111,24 @@ typedef struct{
 #define LINKLIST_BG_COL			"BGColour"
 #define LINKLIST_TXT_COL		"TxtColour"
 #define LINKLIST_USE_DEF		"UseMirandaDefault"
-#define LINKLIST_OPEN_WINDOW	"OpenNewWindow"
-#define LINKLIST_UPDATE_WINDOW	"UpdateWindow"
-#define LINKLIST_MOUSE_EVENT	"MessageView"
+#define LINKLIST_OPEN_WINDOW		"OpenNewWindow"
+#define LINKLIST_UPDATE_WINDOW		"UpdateWindow"
+#define LINKLIST_MOUSE_EVENT		"MessageView"
 #define LINKLIST_LEFT			"WindowLeft"
 #define LINKLIST_RIGHT			"WindowRight"
 #define LINKLIST_BOTTOM			"WindowBottom"
 #define LINKLIST_TOP			"WindowTop"
 #define LINKLIST_SPLITPOS		"SplitterPos"
-#define LINKLIST_SAVESPECIAL	"SavePosSpecial"
+#define LINKLIST_SAVESPECIAL		"SavePosSpecial"
 #define LINKLIST_FIRST			"FirstStartup"
 #define LINKLIST_SHOW_DATE		"ShowDate"
 #define LINKLIST_SHOW_LINE		"ShowLine"
 #define LINKLIST_SHOW_TIME		"ShowTime"
-#define LINKLIST_SHOW_DIRECTION	"ShowMessageDirection"
+#define LINKLIST_SHOW_DIRECTION		"ShowMessageDirection"
 #define LINKLIST_SHOW_TYPE		"ShowMessageType"
 
 
-#define _mstrlen(x) (_countof(x)-1)
+#define _mstrlen(x) (SIZEOF(x) - 1)
 #define MAKE_TXT_COL(BGCol) ((DWORD)~BGCol & 0x00FFFFFF)
 
 #define DM_LINKSPLITTER			WM_USER+99
@@ -136,7 +136,7 @@ typedef struct{
 typedef struct LISTELEMENT LISTELEMENT;
 
 // Dialogbox Parameter
-typedef struct{
+typedef struct {
 	MCONTACT hContact;
 	LISTELEMENT *listStart;
 	UINT findMessage;
