@@ -560,3 +560,5 @@
 Слабый снег, изморось, туман
 [Drizzle]
 Морось
+[Snow Showers 80% Chance Of Precipitation]
+Снег, 80% вероятность осадков
