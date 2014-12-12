@@ -34,20 +34,20 @@ Gehe zur E-Mail-Domain
 Blockieren
 ;file \protocols\Steam\src\stdafx.cpp
 [Steam game]
-
+Steam-Spiel
 ;file \protocols\Steam\src\steam_contacts.cpp
 [Looking to play]
-
+Auf der Suche nach einem Spiel
 [Looking to trade]
-
+Auf der Suche nach einem Handel
 [ on server %s]
-
+ auf Server %s
 [Playing]
 Spielen
 [%s has been removed from your contact list]
 %s wurde aus Ihrer Kontaktliste entfernt
 [%s is back in your contact list]
-
+%s ist wieder in Ihrer Kontaktliste
 [%s has added you to his or her Friend List]
 %s hat Sie zu seiner/ihrer Freundesliste hinzugefügt.
 ;file \protocols\Steam\src\steam_dialogs.cpp
@@ -77,7 +77,7 @@ Protokolle
 [Protocol icon]
 Protokollicon
 [Gaming icon]
-
+Spiel-Icon
 [SteamID]
 SteamID
 ;file \protocols\Steam\src\steam_xstatus.cpp

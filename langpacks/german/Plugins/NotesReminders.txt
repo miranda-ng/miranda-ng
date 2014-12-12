@@ -222,7 +222,7 @@ Alle Notizen &löschen
 [&Bring All to Front]
 Alle in Vordergrund &bringen
 [Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda konnte das 'Note & Reminders'-Plugin nicht laden, Msftedit.dll fehlt. Wenn Sie WINE nutzen, dann stellen Sie sicher, dass Sie Msftedit.dll haben. Drücken Sie 'Ja' Um Miranda zu laden.
+Miranda konnte das 'Note & Reminders'-Plugin nicht laden, Msftedit.dll fehlt. Falls Sie Wine benutzen, stellen Sie sicher, dass sie die Msftedit.dll installiert haben. Klicken Sie auf 'Ja', um das Laden von Miranda fortzusetzen.
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]
 Schwarz
