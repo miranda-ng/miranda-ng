@@ -560,3 +560,7 @@
 Слабкий сніг, туман
 [Drizzle]
 Мряка
+[Snow Showers 80% Chance Of Precipitation]
+Сніг, 80% імовірність опадів
+[Snow 100% Chance Of Precipitation]
+Сніг, 100% імовірність опадів

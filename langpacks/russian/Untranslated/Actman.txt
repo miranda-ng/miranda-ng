@@ -75,4 +75,3 @@
 [WhenWasIt Birthday Reminder (whenwasit.dll)]
 [display birthdays window]
 [&OK]
-[Select as Volatile]
