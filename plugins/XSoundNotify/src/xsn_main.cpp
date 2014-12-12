@@ -32,7 +32,7 @@ PLUGININFOEX pluginInfo = {
 	{ 0x8b86253, 0xec6e, 0x4d09, { 0xb7, 0xa9, 0x64, 0xac, 0xdf, 0x6, 0x27, 0xb8 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -82,7 +82,7 @@ void InitSelfSounds()
 	}
 }
 
-static int ProtoAck(WPARAM wParam, LPARAM lParam)
+static int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack != 0 && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS) {
@@ -166,7 +166,7 @@ static int OnPlaySound(WPARAM, LPARAM)
 	return 0;
 }
 
-static int OnLoadInit(WPARAM wParam, LPARAM lParam)
+static int OnLoadInit(WPARAM, LPARAM)
 {
 	mir_getCI(NULL);
 
@@ -182,7 +182,7 @@ static int OnLoadInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+static int PrebuildContactMenu(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = wParam;
 	if (hContact) {
