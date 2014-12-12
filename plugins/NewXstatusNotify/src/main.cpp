@@ -182,16 +182,15 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 
 TCHAR *GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 {
-	TCHAR tmp[1024];
-
-	if (tmplt == NULL || tmplt[0] == _T('\0'))
+	if (n == NULL || tmplt == NULL || tmplt[0] == _T('\0'))
 		return NULL;
 
 	TCHAR *str = (TCHAR *)mir_alloc(2048 * sizeof(TCHAR));
 	str[0] = _T('\0');
-	int len = mir_tstrlen(tmplt);
+	size_t len = mir_tstrlen(tmplt);
 
-	for (int i = 0; i < len; i++) {
+	TCHAR tmp[1024];
+	for (size_t i = 0; i < len; i++) {
 		tmp[0] = _T('\0');
 
 		if (tmplt[i] == _T('%')) {
