@@ -44,40 +44,40 @@ static IconItem iconList[] =
 	{ LPGEN("Invert Case and Send"), "Invert Case and Send", IDI_INVERTSEND },
 };
 
-bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+bool WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return true;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
 //-------------------------------------------------------------------------------------------------------
 #define MS_TS_SWITCHLAYOUT "TranslitSwitcher/SwitchLayout"
-INT_PTR ServiceSwitch(WPARAM wParam, LPARAM lParam)
+INT_PTR ServiceSwitch(WPARAM, LPARAM lParam)
 {
 	SwitchLayout(lParam != 0);
 	return 0;
 }
 
 #define MS_TS_TRANSLITLAYOUT "TranslitSwitcher/TranslitLayout"
-INT_PTR ServiceTranslit(WPARAM wParam, LPARAM lParam)
+INT_PTR ServiceTranslit(WPARAM, LPARAM lParam)
 {
 	TranslitLayout(lParam != 0);
 	return 0;
 }
 
 #define MS_TS_INVERTCASE "TranslitSwitcher/InvertCase"
-INT_PTR ServiceInvert(WPARAM wParam, LPARAM lParam)
+INT_PTR ServiceInvert(WPARAM, LPARAM lParam)
 {
 	InvertCase(lParam != 0);
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed);
 	if (ServiceExists(MS_BB_ADDBUTTON)) {
@@ -110,7 +110,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnPreShutdown(WPARAM, LPARAM)
 {
 	if (ServiceExists(MS_BB_REMOVEBUTTON)) {
 		BBButton bbd = { 0 };

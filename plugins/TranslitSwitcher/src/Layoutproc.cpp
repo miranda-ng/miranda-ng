@@ -585,7 +585,7 @@ void InvertCase(bool lastword)
 	GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
 	if (mir_tstrcmpi(szClassName, _T("RichEdit50W")) != 0)
 		return;
-		
+
 	DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
 	SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
 	bool somethingIsSelected = (dwStart != dwEnd);
@@ -638,7 +638,7 @@ void InvertCase(bool lastword)
 	mir_free(boo);
 }
 
-int OnButtonPressed(WPARAM wParam, LPARAM lParam)
+int OnButtonPressed(WPARAM, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
 
