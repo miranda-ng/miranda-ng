@@ -25,7 +25,7 @@ UPDATELIST *UpdateListHead = NULL;
 UPDATELIST *UpdateListTail = NULL;
 
 // main auto-update timer
-void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK timerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	// only run if it is not current updating and the auto update option is enabled
 	if (!ThreadRunning && !Miranda_Terminated()) {
@@ -46,7 +46,7 @@ void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 
 // temporary timer for first run
 // when this is run, it kill the old startup timer and create the permenant one above
-void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+void CALLBACK timerProc2(HWND, UINT, UINT_PTR, DWORD)
 {
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;

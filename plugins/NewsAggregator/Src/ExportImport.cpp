@@ -457,7 +457,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	return FALSE;
 }
 
-INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	HWND FeedsList = GetDlgItem(hwndDlg, IDC_FEEDSLIST);
 	HWND FeedsExportList = GetDlgItem(hwndDlg, IDC_FEEDSEXPORTLIST);
@@ -507,7 +507,7 @@ INT_PTR CALLBACK DlgProcExportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					HXML hXml = xi.createNode(_T("opml"), NULL, FALSE);
 					xi.addAttr(hXml, _T("version"), _T("1.0"));
 					HXML header = xi.addChild(hXml, _T("head"), NULL);
-					HXML title = xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
+					xi.addChild(header, _T("title"), _T("Miranda NG NewsAggregator plugin export"));
 					header = xi.addChild(hXml, _T("body"), NULL);
 
 					int count = SendMessage(FeedsExportList, LB_GETCOUNT, 0, 0);
