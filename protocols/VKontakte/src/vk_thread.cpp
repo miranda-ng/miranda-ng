@@ -384,7 +384,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	CMString userIDs, code;
 	userIDs.AppendFormat(_T("%i"), userID);
 	CMString codeformat("var userIDs=\"%s\";"
-		"return{\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};");
+		"return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};");
 		
 	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(fieldsName).GetBuffer());
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
@@ -412,10 +412,10 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 	if (flag)
 		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
 			"var res=[];var index=US.length;while(index >0){index=index-1;if(US[index].online==1){res.unshift(US[index]);};};"
-			"return{\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
+			"return{\"freeoffline\":1,\"users\":res,\"requests\":API.friends.getRequests({\"extended\":0,\"need_mutual\":0,\"out\":0})};");
 	else
 		codeformat += CMString("var res=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
-			"return{\"users\":res};");
+			"return{\"freeoffline\":0,\"users\":res};");
 	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(flag ? "online,status" : fieldsName).GetBuffer());
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
@@ -449,16 +449,16 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	for (size_t i = 0; (hContact = SetContactInfo(json_at(pUsers, i))) != INVALID_CONTACT_ID; i++)
 		if (hContact)
 			arContacts.remove((HANDLE)hContact);
-
-	for (int i = 0; i < arContacts.getCount(); i++) {
-		hContact = (MCONTACT)arContacts[i];
-		if (getDword(hContact, "ID", -1) == m_myUserId)
-			continue;
-		if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
-			setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			SetMirVer(hContact, -1);
+	if (json_as_int(json_get(pResponse, "freeoffline")))
+		for (int i = 0; i < arContacts.getCount(); i++) {
+			hContact = (MCONTACT)arContacts[i];
+			if (getDword(hContact, "ID", -1) == m_myUserId)
+				continue;
+			if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
+				SetMirVer(hContact, -1);
+			}
 		}
-	}
 	arContacts.destroy();
 
 	JSONNODE *pRequests = json_get(pResponse, "requests");
