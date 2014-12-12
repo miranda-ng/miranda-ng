@@ -80,30 +80,27 @@ TCHAR *GetStatusTypeAsString(int type, TCHAR *buff)
 {
 	switch (type) {
 	case TYPE_JABBER_MOOD:
-		_tcscpy(buff, TranslateT("Mood")); break;
+		_tcscpy(buff, TranslateT("Mood")); return buff;
 	case TYPE_JABBER_ACTIVITY:
-		_tcscpy(buff, TranslateT("Activity")); break;
+		_tcscpy(buff, TranslateT("Activity")); return buff;
 	case TYPE_ICQ_XSTATUS:
-		_tcscpy(buff, TranslateT("xStatus")); break;
+		_tcscpy(buff, TranslateT("xStatus")); return buff;
 	default:
-		_tcscpy(buff, TranslateT("<unknown>"));
+		_tcscpy(buff, TranslateT("<unknown>")); return buff;
 	}
-
-	return buff;
 }
 
 TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 {
-	TCHAR tmp[1024];
-
-	if (tmplt == NULL || tmplt[0] == _T('\0'))
+	if (xsc == NULL || tmplt == NULL || tmplt[0] == _T('\0'))
 		return NULL;
 
 	TCHAR *str = (TCHAR *)mir_alloc(2048 * sizeof(TCHAR));
 	str[0] = _T('\0');
-	int len = mir_tstrlen(tmplt);
+	size_t len = mir_tstrlen(tmplt);
 
-	for (int i = 0; i < len; i++) {
+	TCHAR tmp[1024];
+	for (size_t i = 0; i < len; i++) {
 		tmp[0] = _T('\0');
 
 		if (tmplt[i] == _T('%')) {
@@ -179,6 +176,9 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 
 void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 {
+	if (xsc == NULL)
+		return;
+
 	HICON hIcon = NULL;
 
 	switch (xsc->type) {
@@ -239,6 +239,9 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 
 void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 {
+	if (xsc == NULL)
+		return;
+
 	HICON hIcon = NULL;
 	TCHAR str[256] = {0};
 	TCHAR stzType[32];
@@ -274,19 +277,19 @@ void PlayXStatusSound(MCONTACT hContact, int action)
 {
 	switch (action) {
 	case NOTIFY_NEW_XSTATUS:
-		PlayChangeSound(hContact, XSTATUS_SOUND_CHANGED); break;
+		PlayChangeSound(hContact, XSTATUS_SOUND_CHANGED); return;
 	case NOTIFY_REMOVE_XSTATUS:
-		PlayChangeSound(hContact, XSTATUS_SOUND_REMOVED); break;
+		PlayChangeSound(hContact, XSTATUS_SOUND_REMOVED); return;
 	case NOTIFY_NEW_MESSAGE:
-		PlayChangeSound(hContact, XSTATUS_SOUND_MSGCHANGED); break;
+		PlayChangeSound(hContact, XSTATUS_SOUND_MSGCHANGED); return;
 	case NOTIFY_REMOVE_MESSAGE:
-		PlayChangeSound(hContact, XSTATUS_SOUND_MSGREMOVED); break;
+		PlayChangeSound(hContact, XSTATUS_SOUND_MSGREMOVED); return;
 	}
 }
 
 void LogChangeToDB(XSTATUSCHANGE *xsc)
 {
-	if (opt.XLogToDB_WinOpen && !CheckMsgWnd(xsc->hContact))
+	if (xsc == NULL || (opt.XLogToDB_WinOpen && !CheckMsgWnd(xsc->hContact)))
 		return;
 
 	TCHAR *Template = _T("");
@@ -337,6 +340,9 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 void LogChangeToFile(XSTATUSCHANGE *xsc)
 {
+	if (xsc == NULL)
+		return;
+
 	TCHAR stzDate[32], stzTime[32], stzText[MAX_TEXT_LEN];
 
 	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("HH':'mm"), stzTime, SIZEOF(stzTime));

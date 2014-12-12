@@ -111,7 +111,7 @@ WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
 TCHAR *AddCR(const TCHAR *stzText)
 {
 	const TCHAR *found;
-	int i = 0, len = mir_tstrlen(stzText), j;
+	size_t i = 0, len = mir_tstrlen(stzText), j;
 	TCHAR *tmp = (TCHAR *)mir_alloc(1024 * sizeof(TCHAR));
 	*tmp = _T('\0');
 	while ((found = _tcsstr((stzText + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024) {
