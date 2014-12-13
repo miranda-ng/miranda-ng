@@ -829,8 +829,8 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 		nid.hWnd = cli.hwndContactList;
 		nid.uID = iconId;
 		nid.uFlags = NIF_INFO;
-		mir_strncpy(nid.szInfo, msn->szInfo, sizeof(nid.szInfo));
-		mir_strncpy(nid.szInfoTitle, msn->szInfoTitle, sizeof(nid.szInfoTitle));
+		strncpy_s(nid.szInfo, msn->szInfo, _TRUNCATE);
+		strncpy_s(nid.szInfoTitle, msn->szInfoTitle, _TRUNCATE);
 		nid.uTimeout = msn->uTimeout;
 		nid.dwInfoFlags = msn->dwInfoFlags;
 		return Shell_NotifyIconA(NIM_MODIFY, &nid) == 0;

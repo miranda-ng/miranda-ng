@@ -75,9 +75,10 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 static INT_PTR GetCachedAvatar(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR hash[128];
-	mir_tstrncpy(hash, (TCHAR *) lParam, sizeof(hash));
-	ConvertToFilename(hash, sizeof(hash));
-	return (INT_PTR) GetCachedAvatar((char *) wParam, hash);
+
+	_tcsncpy_s(hash, (TCHAR*)lParam, _TRUNCATE);
+	ConvertToFilename(hash, SIZEOF(hash));
+	return (INT_PTR)GetCachedAvatar((char*)wParam, hash);
 }
 
 static INT_PTR IsEnabled(WPARAM wParam, LPARAM lParam)
@@ -169,8 +170,9 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			else {
 				// See if we already have the avatar
 				TCHAR hash[128];
-				mir_tstrncpy(hash, avatar->hash, sizeof(hash));
-				ConvertToFilename(hash, sizeof(hash));
+
+				_tcsncpy_s(hash, avatar->hash, _TRUNCATE);
+				ConvertToFilename(hash, SIZEOF(hash));
 
 				TCHAR *file = GetCachedAvatar(proto, hash);
 

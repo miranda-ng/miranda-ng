@@ -30,32 +30,32 @@ void SkypeProfile_Load(SkypeProfile *pstProf)
 	DBVARIANT dbv;
 	if(!db_get_ts(NULL,SKYPE_PROTONAME,"Nick",&dbv)) 
 	{	
-		_tcsncpy (pstProf->FullName, dbv.ptszVal, sizeof(pstProf->FullName)/sizeof(TCHAR));
+		_tcsncpy_s(pstProf->FullName, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL,SKYPE_PROTONAME,"HomePage",&dbv)) 
 	{	
-		strncpy (pstProf->HomePage, dbv.pszVal, sizeof(pstProf->HomePage));
+		strncpy_s(pstProf->HomePage, dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if(!db_get_ts(NULL,SKYPE_PROTONAME,"Province",&dbv)) 
 	{	
-		_tcsncpy (pstProf->Province, dbv.ptszVal, sizeof(pstProf->Province)/sizeof(TCHAR));
+		_tcsncpy_s(pstProf->Province, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if(!db_get_ts(NULL,SKYPE_PROTONAME,"City",&dbv)) 
 	{	
-		_tcsncpy (pstProf->City, dbv.ptszVal, sizeof(pstProf->City)/sizeof(TCHAR));
+		_tcsncpy_s(pstProf->City, dbv.ptszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL,SKYPE_PROTONAME,"OfficePhone",&dbv)) 
 	{	
-		strncpy (pstProf->OfficePhone, dbv.pszVal, sizeof(pstProf->OfficePhone));
+		strncpy_s(pstProf->OfficePhone, dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 	if(!db_get_s(NULL,SKYPE_PROTONAME,"HomePhone",&dbv)) 
 	{	
-		strncpy (pstProf->HomePhone, dbv.pszVal, sizeof(pstProf->HomePhone));
+		strncpy_s(pstProf->HomePhone, dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
 	}
 }

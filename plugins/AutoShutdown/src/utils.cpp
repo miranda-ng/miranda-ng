@@ -260,12 +260,13 @@ int FontService_RegisterColor(const char *pszDbModule,const char *pszDbName,cons
 int FontService_GetColor(const TCHAR *pszSection,const TCHAR *pszDescription,COLORREF *pclr)
 {
 	ColourIDT cid;
+
 	memset(&cid, 0, sizeof(cid));
-	cid.cbSize=sizeof(cid);
-	mir_tstrncpy(cid.group,pszSection,sizeof(cid.group)); /* buffer safe */
-	mir_tstrncpy(cid.name,pszDescription,sizeof(cid.name)); /* buffer safe */
-	*pclr=(COLORREF)CallService(MS_COLOUR_GETT,(WPARAM)&cid,0);
-	return (int)*pclr==-1;
+	cid.cbSize = sizeof(cid);
+	_tcsncpy_s(cid.group, pszSection, _TRUNCATE);
+	_tcsncpy_s(cid.name, pszDescription, _TRUNCATE);
+	*pclr = (COLORREF)CallService(MS_COLOUR_GETT, (WPARAM)&cid, 0);
+	return (int)*pclr == -1;
 }
 
 /************************* Skin ***********************************/

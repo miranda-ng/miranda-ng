@@ -125,7 +125,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 			if (ActualAccount->Plugin->Fcn != NULL && ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr != NULL) {
 				Message1W = ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				mir_tstrncpy(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				_tcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
 				if (ShowPopup)
 					PUAddPopupT(&BadConnectPopup);
 			}
@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 			{
 				Message1W=ActualAccount->Plugin->Fcn->GetErrorStringWFcnPtr(ErrorCode);
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				mir_tstrncpy(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				_tcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
 				if (ShowPopup)
 					PUAddPopupT(&BadConnectPopup);
 			}
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg,UINT msg,WPARAM wParam,LPARA
 			{
 				Message1W=TranslateT("Unknown error");
 				SetDlgItemText(hDlg,IDC_STATICMSG,Message1W);
-				mir_tstrncpy(BadConnectPopup.lptzText,Message1W,sizeof(BadConnectPopup.lptzText));
+				_tcsncpy_s(BadConnectPopup.lptzText, Message1W, _TRUNCATE);
 				if (ShowPopup)
 					PUAddPopupT(&BadConnectPopup);
 			}

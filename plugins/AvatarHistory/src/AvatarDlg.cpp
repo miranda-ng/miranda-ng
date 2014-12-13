@@ -554,7 +554,7 @@ int ShowSaveDialog(HWND hwnd, TCHAR* fn, MCONTACT hContact)
 	ofn.lpstrFilter = filter;
 	
 	ofn.nFilterIndex = 1;
-	mir_tstrncpy(file, _tcsrchr(fn, '\\')+1, sizeof(file));
+	_tcsncpy_s(file, (_tcsrchr(fn, '\\') + 1), _TRUNCATE);
 	ofn.lpstrFile = file;
 
 	TCHAR *displayName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR);
