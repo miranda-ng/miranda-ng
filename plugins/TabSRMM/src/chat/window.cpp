@@ -752,7 +752,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					else if (wParam == VK_DOWN)
 						wp = MAKEWPARAM(SB_LINEDOWN, 0);
 
-					SendMessage(GetDlgItem(hwndParent, IDC_CHAT_LOG), WM_VSCROLL, wp, 0);
+					SendDlgItemMessage(hwndParent, IDC_CHAT_LOG, WM_VSCROLL, wp, 0);
 					return 0;
 				}
 			}
@@ -1261,7 +1261,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			return DM_WMCopyHandler(hwnd, LogSubclassProc, msg, wParam, lParam);
 
 		SetFocus(GetDlgItem(hwndParent, IDC_CHAT_MESSAGE));
-		SendMessage(GetDlgItem(hwndParent, IDC_CHAT_MESSAGE), WM_CHAR, wParam, lParam);
+		SendDlgItemMessage(hwndParent, IDC_CHAT_MESSAGE, WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -1669,7 +1669,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			GetCursorPos(&pt);
 			ScreenToClient(hwnd, &pt);
 
-			DWORD nItemUnderMouse = (DWORD)SendMessage(GetDlgItem(dat->hwnd, IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+			DWORD nItemUnderMouse = (DWORD)SendDlgItemMessage(dat->hwnd, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 			if (HIWORD(nItemUnderMouse) == 1)
 				nItemUnderMouse = (DWORD)(-1);
 			else
@@ -1819,7 +1819,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			BB_InitDlgButtons(dat);
 			DM_InitTip(dat);
 
-			SendMessage(GetDlgItem(hwndDlg,IDC_COLOR), BUTTONSETASPUSHBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg,IDC_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
 
 			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
 			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_SPLITTERY), SplitterSubclassProc);
@@ -1848,7 +1848,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				UpdateTrayMenu(0, dat->wStatus, dat->szProto, dat->szStatus, dat->hContact, FALSE);
 
 			DM_ThemeChanged(dat);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_HIDESELECTION, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			CustomizeButton( CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
 				hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));
@@ -1903,7 +1903,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			DM_InitRichEdit(dat);
 			SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASNORMAL, TRUE, 0);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)g_Settings.iNickListFontHeight);
+			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETITEMHEIGHT, 0, (LPARAM)g_Settings.iNickListFontHeight);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_LIST), NULL, TRUE);
 
 			SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONSETOVERLAYICON,
@@ -2281,9 +2281,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_UPDATENICKLIST:
 		{
-			int i = SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_GETTOPINDEX, 0, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETCOUNT, si->nUsersInNicklist, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETTOPINDEX, i, 0);
+			int i = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETTOPINDEX, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCOUNT, si->nUsersInNicklist, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETTOPINDEX, i, 0);
 			SendMessage(hwndDlg, GC_UPDATETITLE, 0, 0);
 		}
 		break;
@@ -2496,7 +2496,7 @@ LABEL_SHOWWINDOW:
 				}
 				if (msg == WM_KEYDOWN) {
 					if ((wp == VK_INSERT && isShift && !isCtrl && !isMenu) || (wp == 'V' && !isShift && !isMenu && isCtrl)) {
-						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
+						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 						((MSGFILTER*)lParam)->msg = WM_NULL;
 						((MSGFILTER*)lParam)->wParam = 0;
 						((MSGFILTER*)lParam)->lParam = 0;
@@ -2552,12 +2552,12 @@ LABEL_SHOWWINDOW:
 					pszWord[0] = '\0';
 					POINTL ptl = { pt.x, pt.y };
 					ScreenToClient(GetDlgItem(hwndDlg, IDC_CHAT_LOG), (LPPOINT)&ptl);
-					int iCharIndex = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_CHARFROMPOS, 0, (LPARAM)&ptl);
+					int iCharIndex = SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_CHARFROMPOS, 0, (LPARAM)&ptl);
 					if (iCharIndex < 0)
 						break;
 
-					int start = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
-					int end = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
+					int start = SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
+					int end = SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
 
 					if (end - start > 0) {
 						static char szTrimString[] = ":;,.!?\'\"><()[]- \r\n";
@@ -2569,7 +2569,7 @@ LABEL_SHOWWINDOW:
 						TEXTRANGE tr = { 0 };
 						tr.chrg = cr;
 						tr.lpstrText = (TCHAR*)pszWord;
-						int iRes = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+						int iRes = SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						if (iRes > 0) {
 							size_t iLen = mir_tstrlen(pszWord) - 1;
@@ -2844,11 +2844,11 @@ LABEL_SHOWWINDOW:
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_LIST), &hti.pt);
 
-				int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+				int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
 				USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, item);
 				if (ui) {
 					if (g_Settings.bDoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
-						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
+						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						CMString tszName;
 						if (start == 0)
@@ -2856,7 +2856,7 @@ LABEL_SHOWWINDOW:
 						else
 							tszName.Format(_T("%s "), ui->pszNick);
 
-						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
+						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 					}

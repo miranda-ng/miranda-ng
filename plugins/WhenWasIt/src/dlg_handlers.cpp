@@ -99,18 +99,18 @@ int AddInfoToComboBoxes(HWND hWnd)
 	int i;
 
 	for (i = 0; i < cShowAgeMode; i++)
-		SendMessage(GetDlgItem(hWnd, IDC_AGE_COMBOBOX), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szShowAgeMode[i]));
+		SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_ADDSTRING, 0, (LPARAM) TranslateTS(szShowAgeMode[i]));
 
 	for (i = 0; i < cSaveModule; i++)
-		SendMessage(GetDlgItem(hWnd, IDC_DEFAULT_MODULE), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szSaveModule[i]));
+		SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_ADDSTRING, 0, (LPARAM) TranslateTS(szSaveModule[i]));
 
 	for (i = 0; i < cPopupClick; i++) {
-		SendMessage(GetDlgItem(hWnd, IDC_LEFT_CLICK), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szPopupClick[i]));
-		SendMessage(GetDlgItem(hWnd, IDC_RIGHT_CLICK), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szPopupClick[i]));
+		SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_ADDSTRING, 0, (LPARAM) TranslateTS(szPopupClick[i]));
+		SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_ADDSTRING, 0, (LPARAM) TranslateTS(szPopupClick[i]));
 	}
 
 	for (i = 0; i < cNotifyFor; i++)
-		SendMessage(GetDlgItem(hWnd, IDC_NOTIFYFOR), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szNotifyFor[i]));
+		SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_ADDSTRING, 0, (LPARAM) TranslateTS(szNotifyFor[i]));
 
 	return i;
 }
@@ -177,16 +177,16 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			AddInfoToComboBoxes(hWnd);
 
-			SendMessage(GetDlgItem(hWnd, IDC_FOREGROUND), CPM_SETDEFAULTCOLOUR, 0, FOREGROUND_COLOR);
-			SendMessage(GetDlgItem(hWnd, IDC_BACKGROUND), CPM_SETDEFAULTCOLOUR, 0, BACKGROUND_COLOR);
+			SendDlgItemMessage(hWnd, IDC_FOREGROUND, CPM_SETDEFAULTCOLOUR, 0, FOREGROUND_COLOR);
+			SendDlgItemMessage(hWnd, IDC_BACKGROUND, CPM_SETDEFAULTCOLOUR, 0, BACKGROUND_COLOR);
 
-			SendMessage(GetDlgItem(hWnd, IDC_FOREGROUND), CPM_SETCOLOUR, 0, commonData.foreground);
-			SendMessage(GetDlgItem(hWnd, IDC_BACKGROUND), CPM_SETCOLOUR, 0, commonData.background);
+			SendDlgItemMessage(hWnd, IDC_FOREGROUND, CPM_SETCOLOUR, 0, commonData.foreground);
+			SendDlgItemMessage(hWnd, IDC_BACKGROUND, CPM_SETCOLOUR, 0, commonData.background);
 
-			SendMessage(GetDlgItem(hWnd, IDC_DEFAULT_MODULE), CB_SETCURSEL, commonData.cDefaultModule, 0);
-			SendMessage(GetDlgItem(hWnd, IDC_LEFT_CLICK), CB_SETCURSEL, commonData.lPopupClick, 0);
-			SendMessage(GetDlgItem(hWnd, IDC_RIGHT_CLICK), CB_SETCURSEL, commonData.rPopupClick, 0);
-			SendMessage(GetDlgItem(hWnd, IDC_NOTIFYFOR), CB_SETCURSEL, commonData.notifyFor, 0);
+			SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_SETCURSEL, commonData.cDefaultModule, 0);
+			SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_SETCURSEL, commonData.lPopupClick, 0);
+			SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_SETCURSEL, commonData.rPopupClick, 0);
+			SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_SETCURSEL, commonData.notifyFor, 0);
 
 			CreateToolTip(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), TranslateT("Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]"), 400);
 
@@ -207,7 +207,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_OPENINBACKGROUND, (commonData.bOpenInBackground) ? BST_CHECKED : BST_UNCHECKED);
 
 			CheckDlgButton(hWnd, IDC_NOBIRTHDAYS_POPUP, (commonData.bNoBirthdaysPopup) ? BST_CHECKED : BST_UNCHECKED);
-			SendMessage(GetDlgItem(hWnd, IDC_AGE_COMBOBOX), CB_SETCURSEL, commonData.cShowAgeMode, 0);
+			SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_SETCURSEL, commonData.cShowAgeMode, 0);
 
 			CheckDlgButton(hWnd, IDC_IGNORE_SUBCONTACTS, (commonData.bIgnoreSubcontacts) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -287,20 +287,20 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY: 
-				commonData.foreground = SendMessage(GetDlgItem(hWnd, IDC_FOREGROUND), CPM_GETCOLOUR, 0, 0);
-				commonData.background = SendMessage(GetDlgItem(hWnd, IDC_BACKGROUND), CPM_GETCOLOUR, 0, 0);
+				commonData.foreground = SendDlgItemMessage(hWnd, IDC_FOREGROUND, CPM_GETCOLOUR, 0, 0);
+				commonData.background = SendDlgItemMessage(hWnd, IDC_BACKGROUND, CPM_GETCOLOUR, 0, 0);
 				commonData.popupTimeout = POPUP_TIMEOUT;
 				commonData.popupTimeoutToday = POPUP_TIMEOUT;
 				commonData.bUsePopups = IsDlgButtonChecked(hWnd, IDC_USE_POPUPS);
 				commonData.bUseDialog = IsDlgButtonChecked(hWnd, IDC_USE_DIALOG);
 				commonData.bIgnoreSubcontacts = IsDlgButtonChecked(hWnd, IDC_IGNORE_SUBCONTACTS);
 				commonData.bNoBirthdaysPopup = IsDlgButtonChecked(hWnd, IDC_NOBIRTHDAYS_POPUP);
-				commonData.cShowAgeMode = SendMessage(GetDlgItem(hWnd, IDC_AGE_COMBOBOX), CB_GETCURSEL, 0, 0);
-				commonData.cDefaultModule = SendMessage(GetDlgItem(hWnd, IDC_DEFAULT_MODULE), CB_GETCURSEL, 0, 0);
-				commonData.lPopupClick = SendMessage(GetDlgItem(hWnd, IDC_LEFT_CLICK), CB_GETCURSEL, 0, 0);
-				commonData.rPopupClick = SendMessage(GetDlgItem(hWnd, IDC_RIGHT_CLICK), CB_GETCURSEL, 0, 0);
+				commonData.cShowAgeMode = SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_GETCURSEL, 0, 0);
+				commonData.cDefaultModule = SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_GETCURSEL, 0, 0);
+				commonData.lPopupClick = SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_GETCURSEL, 0, 0);
+				commonData.rPopupClick = SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_GETCURSEL, 0, 0);
 				commonData.bOncePerDay = IsDlgButtonChecked(hWnd, IDC_ONCE_PER_DAY);
-				commonData.notifyFor = SendMessage(GetDlgItem(hWnd, IDC_NOTIFYFOR), CB_GETCURSEL, 0, 0);
+				commonData.notifyFor = SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_GETCURSEL, 0, 0);
 				commonData.bOpenInBackground = IsDlgButtonChecked(hWnd, IDC_OPENINBACKGROUND);
 				{
 					const int maxSize = 1024;
@@ -406,9 +406,9 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hAddBirthdayContact, 1));
 		{
 			for (int i = 0; i < cSaveModule; i++)
-				SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szSaveModule[i]));
+				SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szSaveModule[i]));
 
-			SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_SETCURSEL, commonData.cDefaultModule, 0);
+			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, commonData.cDefaultModule, 0);
 		}
 		break;
 
@@ -491,7 +491,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 			HWND hDate = GetDlgItem(hWnd, IDC_DATE);
 			if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID) {
-				int mode = SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_GETCURSEL, 0, 0); //SAVE modes  in date_utils.h are synced
+				int mode = SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_GETCURSEL, 0, 0); //SAVE modes  in date_utils.h are synced
 				SaveBirthday(hContact, st.wYear, st.wMonth, st.wDay, mode);
 			}
 			else SaveBirthday(hContact, 0, 0, 0, SAVE_MODE_DELETEALL);

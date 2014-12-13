@@ -526,9 +526,9 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 		_tcsncpy(dat->szFilterString, pos, SIZEOF(dat->szFilterString));
 	}
 	else {
-		int sel = SendMessage(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), (UINT)CB_GETCURSEL, 0, 0);
+		int sel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, (UINT)CB_GETCURSEL, 0, 0);
 		if (sel != -1) {
-			HINSTANCE hinst = (HINSTANCE)SendMessage(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), (UINT)CB_GETITEMDATA, sel, 0);
+			HINSTANCE hinst = (HINSTANCE)SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, (UINT)CB_GETITEMDATA, sel, 0);
 			TCHAR szFileName[300];
 			GetModuleFileName(hinst, szFileName, SIZEOF(szFileName));
 			TCHAR *pos = _tcsrchr(szFileName, _T('\\'));

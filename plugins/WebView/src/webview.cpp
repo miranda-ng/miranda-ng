@@ -117,7 +117,7 @@ void BGclrLoop()
 	for (MCONTACT hContact = db_find_first(MODULENAME); hContact != NULL; hContact = db_find_next(hContact, MODULENAME)) {
 		HWND hwndDlg = (WindowList_Find(hWindowList, hContact));
 		SetDlgItemText(hwndDlg, IDC_DATA, _T(""));
-		SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_SETBKGNDCOLOR, 0, BackgoundClr);
+		SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETBKGNDCOLOR, 0, BackgoundClr);
 		InvalidateRect(hwndDlg, NULL, 1);
 	}
 }

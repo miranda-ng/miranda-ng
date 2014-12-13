@@ -320,7 +320,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			SendMessage(cmb, CB_ADDSTRING, 0, (WPARAM)TranslateT(LANG_POLICY_OPP));
 			SendMessage(cmb, CB_ADDSTRING, 0, (WPARAM)TranslateT(LANG_POLICY_MANUAL));
 			SendMessage(cmb, CB_ADDSTRING, 0, (WPARAM)TranslateT(LANG_POLICY_NEVER));
-			SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), CB_SETCURSEL, (LPARAM)-1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_SETCURSEL, (LPARAM)-1, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_NEWKEY), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_FORGET), FALSE);
@@ -451,7 +451,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			&& (((LPNMLISTVIEW)lParam)->uNewState & LVIS_SELECTED )) {
 			int sel = ListView_GetSelectionMark(((LPNMHDR) lParam)->hwndFrom);
 			if (sel == -1) {
-				SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), CB_SETCURSEL, (LPARAM)-1, 0);
+				SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_SETCURSEL, (LPARAM)-1, 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_NEWKEY), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_FORGET), FALSE);
@@ -461,7 +461,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_PROTO_FORGET), TRUE);
 				TCHAR buff[50];
 				ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 1, buff, SIZEOF(buff));
-				SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTO_POLICY), CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
+				SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 			}
 
 		} else if (((LPNMHDR)lParam)->code == (UINT) PSN_APPLY ) {
@@ -629,13 +629,13 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			if (code == (UINT) LVN_ITEMCHANGED && (((LPNMLISTVIEW)lParam)->uNewState & LVIS_SELECTED )) {
 				int sel = ListView_GetSelectionMark(((LPNMHDR) lParam)->hwndFrom);
 				if (sel == -1) {
-					SendMessage(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), CB_SETCURSEL, (LPARAM)-1, 0);
+					SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_SETCURSEL, (LPARAM)-1, 0);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), FALSE);
 				} else {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), TRUE);
 					TCHAR buff[50];
 					ListView_GetItemText(((LPNMHDR)lParam)->hwndFrom, sel, 2, buff, SIZEOF(buff));
-					SendMessage(GetDlgItem(hwndDlg, IDC_CMB_CONT_POLICY), CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
+					SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_SELECTSTRING, (LPARAM)-1, (WPARAM)buff);
 				}
 			} else if (code == (UINT) NM_CLICK) {
 				if (((LPNMLISTVIEW)lParam)->iSubItem == 3) {

@@ -39,19 +39,19 @@ INT_PTR CALLBACK HelpDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			RECT rc;
 			g_varhelpDlg=hdlg;
 			TranslateDialogDefault(hdlg); 
-			hFont = (HFONT)SendMessage(GetDlgItem(hdlg, IDC_STATICTITLE), WM_GETFONT, 0, 0);
+			hFont = (HFONT)SendDlgItemMessage(hdlg, IDC_STATICTITLE, WM_GETFONT, 0, 0);
 			GetObject(hFont, sizeof logFont, &logFont);
 			logFont.lfWeight = FW_BOLD;
 			hFont = CreateFontIndirect(&logFont);
-			SendMessage(GetDlgItem(hdlg, IDC_STATICTITLE), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_STATICTITLE2), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARTEXT), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARCLIP), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARPUNAME), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARPLNAME), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARCNAME), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARCFNAME), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_VARCLNAME), WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_STATICTITLE, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_STATICTITLE2, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARTEXT, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARCLIP, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARPUNAME, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARPLNAME, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARCNAME, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARCFNAME, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_VARCLNAME, WM_SETFONT, (WPARAM)hFont, 0);
 
 			GetWindowRect(g_opHdlg,&rc);
 			SetWindowPos(hdlg,0,rc.left,rc.top,0,0,SWP_SHOWWINDOW|SWP_NOSIZE);
@@ -552,11 +552,11 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			EnableWindow(GetDlgItem(hdlg,IDC_MENUNAME),FALSE);	
 			ShowWindow(GetDlgItem(hdlg,IDC_WARNING),SW_SHOW);
 
-			hFont = (HFONT)SendMessage(GetDlgItem(hdlg, IDC_WARNING), WM_GETFONT, 0, 0);
-			GetObject(hFont, sizeof logFont, &logFont);
+			hFont = (HFONT)SendDlgItemMessage(hdlg, IDC_WARNING, WM_GETFONT, 0, 0);
+			GetObject(hFont, sizeof(logFont), &logFont);
 			logFont.lfWeight = FW_BOLD;
 			hFont = CreateFontIndirect(&logFont);
-			SendMessage(GetDlgItem(hdlg, IDC_WARNING), WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hdlg, IDC_WARNING, WM_SETFONT, (WPARAM)hFont, 0);
 			break;
 		}
 

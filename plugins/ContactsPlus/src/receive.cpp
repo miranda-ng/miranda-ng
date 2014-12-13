@@ -98,7 +98,7 @@ static TCHAR* ListView_GetItemTextEx(HWND hLV, int iItem, int iSubItem)
 
 static void EnableGroupCombo(HWND hwndDlg)
 {
-	EnableDlgItem(hwndDlg, IDC_GROUPS, SendMessage(GetDlgItem(hwndDlg, IDC_ENABLEGROUPS), BM_GETCHECK, 0, 0));
+	EnableDlgItem(hwndDlg, IDC_GROUPS, SendDlgItemMessage(hwndDlg, IDC_ENABLEGROUPS, BM_GETCHECK, 0, 0));
 }
 
 static void RebuildGroupCombo(HWND hwndDlg)
@@ -192,7 +192,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			RecvListView_AddColumn(hLV, 100, TranslateT("Last Name"),  3);
 
 			// fill in groups
-			SendMessage(GetDlgItem(hwndDlg, IDC_ENABLEGROUPS), BM_SETCHECK, (WPARAM)BST_UNCHECKED, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ENABLEGROUPS, BM_SETCHECK, (WPARAM)BST_UNCHECKED, 0);
 			RebuildGroupCombo(hwndDlg);
 
 			{ // fill listview with received contacts

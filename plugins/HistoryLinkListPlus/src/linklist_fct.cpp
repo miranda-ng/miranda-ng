@@ -342,8 +342,8 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			}
 			gtl.flags = GTL_PRECISE; 
 			gtl.codepage = CP_ACP; 
-			sel.cpMin = sel.cpMax = SendMessage(GetDlgItem(hDlg, IDC_MAIN), EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0); 
-			SendMessage(GetDlgItem(hDlg, IDC_MAIN), EM_EXSETSEL, 0, (LPARAM) &sel); 
+			sel.cpMin = sel.cpMax = SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0); 
+			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM) &sel); 
 		}
 
 		if ( append == 0 )

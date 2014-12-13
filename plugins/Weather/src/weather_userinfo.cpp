@@ -68,7 +68,7 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	switch (msg) {
 	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg,IDC_MOREDETAIL), BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_MOREDETAIL, BUTTONSETASFLATBTN, TRUE, 0);
 		// save the contact handle for later use
 		hContact = lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);

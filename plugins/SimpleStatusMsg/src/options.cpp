@@ -117,9 +117,9 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)data);
 
 			SendDlgItemMessage(hwndDlg, IDC_OPTEDIT1, EM_LIMITTEXT, 1024, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_SMAXLENGTH), UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_EMAXLENGTH), 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_SMAXLENGTH), UDM_SETRANGE32, 1, 1024);
-			SendMessage(GetDlgItem(hwndDlg, IDC_EMAXLENGTH), EM_LIMITTEXT, 4, 0);
+			SendDlgItemMessage(hwndDlg, IDC_SMAXLENGTH, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_EMAXLENGTH), 0);
+			SendDlgItemMessage(hwndDlg, IDC_SMAXLENGTH, UDM_SETRANGE32, 1, 1024);
+			SendDlgItemMessage(hwndDlg, IDC_EMAXLENGTH, EM_LIMITTEXT, 4, 0);
 
 			data->status_msg = (struct SingleStatusMsg *)mir_alloc(sizeof(struct SingleStatusMsg)*(accounts->count + 1));
 
@@ -127,13 +127,13 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			{
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i))
 				{
-					index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(i, 0));
+					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(i, 0));
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
 						int j;
 						char setting[80];
 
-						SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETITEMDATA, (WPARAM)index, (LPARAM)i - ID_STATUS_ONLINE);
+						SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i - ID_STATUS_ONLINE);
 
 						val = db_get_b(NULL, "SimpleStatusMsg", (char *)StatusModeToDbSetting(i, "Flags"), STATUS_DEFAULT);
 						data->status_msg[0].flags[i - ID_STATUS_ONLINE] = val;
@@ -155,7 +155,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					}
 				}
 			}
-			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETCURSEL, 0, 0);
 
 			data->proto_msg = (struct SingleProtoMsg *)mir_alloc(sizeof(struct SingleProtoMsg)*(accounts->count + 1));
 			if (!data->proto_msg)
@@ -175,7 +175,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 				data->proto_ok = TRUE;
 
-				index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_ADDSTRING, 0, (LPARAM)TranslateT("Global status change"));
+				index = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Global status change"));
 
 				if (index != CB_ERR && index != CB_ERRSPACE)
 				{
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					val = db_get_b(NULL, "SimpleStatusMsg", "ProtoFlags", PROTO_DEFAULT);
 					data->proto_msg[0].flags = val;
 					data->proto_msg[0].max_length = 0;
-					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETITEMDATA, (WPARAM)index, 0);
+					SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, 0);
 				}
 
 				for (i = 0; i < accounts->count; ++i)
@@ -197,8 +197,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						continue;
 					}
 
-					index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
-					//					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETITEMDATA, index, (LPARAM)i + 1);
+					index = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
+					// SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, index, (LPARAM)i + 1);
 					if (index != CB_ERR && index != CB_ERRSPACE)
 					{
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sDefault", accounts->pa[i]->szModuleName);
@@ -211,7 +211,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						mir_snprintf(setting, SIZEOF(setting), "Proto%sMaxLen", accounts->pa[i]->szModuleName);
 						val = db_get_w(NULL, "SimpleStatusMsg", setting, 1024);
 						data->proto_msg[i+1].max_length = val;
-						SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETITEMDATA, (WPARAM)index, (LPARAM)i + 1);
+						SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i + 1);
 					}
 				}
 
@@ -219,9 +219,9 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				{
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTPROTO), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), FALSE);
-					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETCURSEL, 1, 0);
+					SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETCURSEL, 1, 0);
 				}
-				else SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_SETCURSEL, 0, 0);
+				else SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_SETCURSEL, 0, 0);
 
 				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CBOPTPROTO, CBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_CBOPTPROTO));
 			}
@@ -241,14 +241,14 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				}
 
 				if (hIcon != NULL)
-					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 				else
 					SetDlgItemText(hwndDlg, IDC_VARSHELP, _T("V"));
 
 				if (szTipInfo == NULL)
-					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open string formatting help"), 0);
+					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open string formatting help"), 0);
 				else
-					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);
+					SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);
 
 				SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONSETASFLATBTN, TRUE, 0);
 			}
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 						SetDlgItemInt(hwndDlg, IDC_EMAXLENGTH, 1, FALSE);
 					val = GetDlgItemInt(hwndDlg, IDC_EMAXLENGTH, &translated, FALSE);
 
-					i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+					i = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 					data->proto_msg[i].max_length = val;
 					break;
 				}
@@ -381,18 +381,18 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					else
 						status_modes = accounts->statusMsgFlags;
 
-					j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
-					SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_RESETCONTENT, 0, 0);
+					j = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
+					SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_RESETCONTENT, 0, 0);
 
 					for (l=ID_STATUS_ONLINE; l<=ID_STATUS_OUTTOLUNCH; l++)
 					{
 						int	 index;
 						if (status_modes & Proto_Status2Flag(l))
 						{
-							index = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(l, 0));
+							index = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(l, 0));
 							if (index != CB_ERR && index != CB_ERRSPACE)
 							{
-								SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_ONLINE);
+								SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_ONLINE);
 								if (j == l-ID_STATUS_ONLINE)
 									newindex=index;
 							}
@@ -401,11 +401,11 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 					if (!newindex)
 					{
-						SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETCURSEL, 0, 0);
-						j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
+						SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETCURSEL, 0, 0);
+						j = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
 					}
 					else
-						SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_SETCURSEL, (WPARAM)newindex, 0);
+						SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_SETCURSEL, (WPARAM)newindex, 0);
 
 					if (data->status_msg[i].flags[j] & STATUS_SHOW_DLG)
 						CheckDlgButton(hwndDlg, IDC_COPTMSG1, BST_CHECKED);
@@ -517,8 +517,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				{
 					int	i, j;
 
-					i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
-					j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
+					i = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
+					j = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
 
 					data->proto_msg[i].flags = 0;
 
@@ -670,7 +670,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					int	i, j;
 
 					i = SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
-					j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+					j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
 					if (data->status_msg[j].flags[i] & STATUS_SHOW_DLG)
 						CheckDlgButton(hwndDlg, IDC_COPTMSG1, BST_CHECKED);
@@ -759,8 +759,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				{
 					int	i, j;
 
-					i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
-					j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+					i = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
+					j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 					if (IsDlgButtonChecked(hwndDlg, IDC_COPTMSG1) == BST_CHECKED)
 						data->status_msg[j].flags[i] |= STATUS_SHOW_DLG;
 					else
@@ -780,8 +780,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				{
 					int	i, j;
 
-					i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
-					j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+					i = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
+					j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
 					if (LOWORD(wParam) == IDC_ROPTMSG4 && data->proto_msg[j].flags & PROTO_THIS_MSG)
 						break;
@@ -869,8 +869,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 
 		case IDC_OPTEDIT1:
 			{
-				int i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
-				int j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+				int i = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
+				int j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
 				if (HIWORD(wParam) == EN_KILLFOCUS)
 				{
@@ -914,7 +914,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 		case IDC_BOPTPROTO:
 			{
 				int	i, j, k;
-				j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+				j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
 				if (j)
 				{
@@ -983,8 +983,8 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			{
 				int status_modes, i, j, k;
 
-				i = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTSTATUS), CB_GETCURSEL, 0, 0), 0);
-				j = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTPROTO), CB_GETCURSEL, 0, 0), 0);
+				i = SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTSTATUS, CB_GETCURSEL, 0, 0), 0);
+				j = SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_CBOPTPROTO, CB_GETCURSEL, 0, 0), 0);
 
 				if (j)
 					status_modes = CallProtoService(accounts->pa[j-1]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
@@ -1219,15 +1219,15 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			TranslateDialogDefault(hwndDlg);
 
 			// Layout
-			int i_btnhide = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_ADDSTRING, 0, (LPARAM)TranslateT("Hide"));
-			int i_btndown = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_ADDSTRING, 0, (LPARAM)TranslateT("Show next to cancel button"));
-			int i_btndownflat = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_ADDSTRING, 0, (LPARAM)TranslateT("Flat, next to cancel button"));
-			int i_btnlist = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_ADDSTRING, 0, (LPARAM)TranslateT("Show in message list"));
+			int i_btnhide = SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Hide"));
+			int i_btndown = SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show next to cancel button"));
+			int i_btndownflat = SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Flat, next to cancel button"));
+			int i_btnlist = SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_ADDSTRING, 0, (LPARAM)TranslateT("Show in message list"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETITEMDATA, (WPARAM)i_btnhide, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETITEMDATA, (WPARAM)i_btndown, DLG_SHOW_BUTTONS);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETITEMDATA, (WPARAM)i_btndownflat, DLG_SHOW_BUTTONS_FLAT);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETITEMDATA, (WPARAM)i_btnlist, DLG_SHOW_BUTTONS_INLIST);
+			SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETITEMDATA, (WPARAM)i_btnhide, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETITEMDATA, (WPARAM)i_btndown, DLG_SHOW_BUTTONS);
+			SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETITEMDATA, (WPARAM)i_btndownflat, DLG_SHOW_BUTTONS_FLAT);
+			SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETITEMDATA, (WPARAM)i_btnlist, DLG_SHOW_BUTTONS_INLIST);
 
 			settingValue = db_get_b(NULL, "SimpleStatusMsg", "DlgFlags", DLG_SHOW_DEFAULT);
 			CheckDlgButton(hwndDlg, IDC_CSTATUSLIST, settingValue & DLG_SHOW_STATUS ? BST_CHECKED : BST_UNCHECKED);
@@ -1241,13 +1241,13 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			}
 
 			if (settingValue & DLG_SHOW_BUTTONS)
-				SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETCURSEL, (WPARAM)i_btndown, 0);
+				SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETCURSEL, (WPARAM)i_btndown, 0);
 			else if (settingValue & DLG_SHOW_BUTTONS_FLAT)
-				SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETCURSEL, (WPARAM)i_btndownflat, 0);
+				SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETCURSEL, (WPARAM)i_btndownflat, 0);
 			else if (settingValue & DLG_SHOW_BUTTONS_INLIST)
-				SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETCURSEL, (WPARAM)i_btnlist, 0);
+				SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETCURSEL, (WPARAM)i_btnlist, 0);
 			else
-				SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_SETCURSEL, (WPARAM)i_btnhide, 0);
+				SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_SETCURSEL, (WPARAM)i_btnhide, 0);
 
 			if (!ServiceExists(MS_SS_GETPROFILECOUNT)) {
 				TCHAR szText[100];
@@ -1404,9 +1404,9 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			if (IsDlgButtonChecked(hwndDlg, IDC_CPROFILES) == BST_CHECKED)
 				flags |= DLG_SHOW_STATUS_PROFILES;
 
-			curSel = SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_GETCURSEL, 0, 0);
+			curSel = SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_GETCURSEL, 0, 0);
 			if (curSel != CB_ERR)
-				flags |= SendMessage(GetDlgItem(hwndDlg, IDC_CBOPTBUTTONS), CB_GETITEMDATA, (WPARAM)curSel, 0);
+				flags |= SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_GETITEMDATA, (WPARAM)curSel, 0);
 
 			db_set_b(NULL, "SimpleStatusMsg", "DlgFlags", (BYTE)flags);
 
@@ -1454,7 +1454,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				if (!IsAccountEnabled(accounts->pa[i]) || !(CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) &~ CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0)))
 					continue;
 
-				index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
+				index = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_ADDSTRING, 0, (LPARAM)accounts->pa[i]->tszAccountName);
 				if (index != LB_ERR && index != LB_ERRSPACE)
 				{
 					char setting[80];
@@ -1462,22 +1462,22 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_OFFLINE);
 					mir_snprintf(setting, SIZEOF(setting), "Set%sStatusDelay", accounts->pa[i]->szModuleName);
 					data->setdelay[i] = db_get_w(NULL, "SimpleStatusMsg", setting, 300);
-					SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
+					SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 				}
 			}
-			SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETCURSEL, 0, 0);
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LISTPROTO, LBN_SELCHANGE), (LPARAM)GetDlgItem(hwndDlg, IDC_LISTPROTO));
 
 			data->setglobaldelay = db_get_w(NULL, "SimpleStatusMsg", "SetStatusDelay", 300);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SSETSTATUS), UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESETSTATUS), 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_SSETSTATUS), UDM_SETRANGE32, 0, 9000);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ESETSTATUS), EM_LIMITTEXT, 4, 0);
+			SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_ESETSTATUS), 0);
+			SendDlgItemMessage(hwndDlg, IDC_SSETSTATUS, UDM_SETRANGE32, 0, 9000);
+			SendDlgItemMessage(hwndDlg, IDC_ESETSTATUS, EM_LIMITTEXT, 4, 0);
 
 			if (!db_get_b(NULL, "SimpleStatusMsg", "GlobalStatusDelay", 1))
 			{
 				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_CHECKED);
-				i = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETCURSEL, 0, 0), 0);
+				i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 				SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
 			}
 			else
@@ -1503,7 +1503,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SPECSET), FALSE);
 				CheckDlgButton(hwndDlg, IDC_SPECSET, BST_UNCHECKED); //should work like when checked, but should not be checked
-				i = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETCURSEL, 0, 0), 0);
+				i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 				SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
 			}
 
@@ -1530,7 +1530,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1))
 					{
-						int	i = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETCURSEL, 0, 0), 0);
+						int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 						data->setdelay[i] = val;
 					}
 					else
@@ -1546,7 +1546,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			case BN_CLICKED:
 				if (SendMessage((HWND)lParam, BM_GETCHECK, 0, 0) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1))
 				{
-					int	i = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETCURSEL, 0, 0), 0);
+					int i = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 					SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
 				}
 				else
@@ -1585,30 +1585,30 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 					i = SendMessage((HWND)lParam, LB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, LB_GETCURSEL, 0, 0), 0);
 					status_modes = CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) & ~CallProtoService(accounts->pa[i]->szModuleName, PS_GETCAPS, PFLAGNUM_5, 0);
 
-					SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_RESETCONTENT, 0, 0);
+					SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_RESETCONTENT, 0, 0);
 					for (l = ID_STATUS_OFFLINE; l <= ID_STATUS_OUTTOLUNCH; l++)
 					{
 						if (status_modes & Proto_Status2Flag(l) || l == ID_STATUS_OFFLINE)
 						{
-							index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(l, 0));
+							index = SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_INSERTSTRING, -1, (LPARAM)pcli->pfnGetStatusModeDescription(l, 0));
 							if (index != LB_ERR && index != LB_ERRSPACE)
 							{
-								SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_OFFLINE);
+								SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_SETITEMDATA, (WPARAM)index, (LPARAM)l - ID_STATUS_OFFLINE);
 								if (data->status[i] == l)
 									newindex = index;
 							}
 						}
 					}
 
-					index = SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_INSERTSTRING, -1, (LPARAM)TranslateT("<last status>"));
+					index = SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_INSERTSTRING, -1, (LPARAM)TranslateT("<last status>"));
 					if (index != LB_ERR && index != LB_ERRSPACE)
 					{
-						SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_SETITEMDATA, (WPARAM)index, (LPARAM)ID_STATUS_CURRENT-ID_STATUS_OFFLINE);
+						SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_SETITEMDATA, (WPARAM)index, (LPARAM)ID_STATUS_CURRENT - ID_STATUS_OFFLINE);
 						if (data->status[i] == ID_STATUS_CURRENT)
 							newindex = index;
 					}
 
-					SendMessage(GetDlgItem(hwndDlg, IDC_LISTSTATUS), LB_SETCURSEL, (WPARAM)newindex, 0);
+					SendDlgItemMessage(hwndDlg, IDC_LISTSTATUS, LB_SETCURSEL, (WPARAM)newindex, 0);
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_SPECSET) == BST_CHECKED || (accounts->statusCount == 1 && accounts->statusMsgCount == 1))
 						SetDlgItemInt(hwndDlg, IDC_ESETSTATUS, data->setdelay[i], FALSE);
@@ -1622,7 +1622,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 			case LBN_SELCHANGE:
 				{
 					int i = SendMessage((HWND)lParam, LB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, LB_GETCURSEL, 0, 0), 0);
-					int j = SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETITEMDATA, (WPARAM)SendMessage(GetDlgItem(hwndDlg, IDC_LISTPROTO), LB_GETCURSEL, 0, 0), 0);
+					int j = SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_GETCURSEL, 0, 0), 0);
 					data->status[j] = i + ID_STATUS_OFFLINE;
 					break;
 				}

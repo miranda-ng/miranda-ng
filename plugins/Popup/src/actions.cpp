@@ -188,7 +188,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		TranslateDialogDefault(hwnd);
 
-		SendMessage(GetDlgItem(hwnd, IDC_ICO_INFO), STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY, 0), 0);
+		SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY, 0), 0);
 
 		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions & ACT_ENABLE ? TRUE : FALSE);
 		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions & ACT_DEF_IMONLY ? TRUE : FALSE);

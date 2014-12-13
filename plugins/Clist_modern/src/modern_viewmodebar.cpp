@@ -82,7 +82,7 @@ static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn
 		GetWindowRect(GetDlgItem(hWnd, _buttons[i]),&childRect);
 		Offset.x = childRect.left-MyRect.left;
 		Offset.y = childRect.top-MyRect.top;
-		SendMessage(GetDlgItem(hWnd, _buttons[i]),BUTTONDRAWINPARENT,(WPARAM)hDC,(LPARAM)&Offset);
+		SendDlgItemMessage(hWnd, _buttons[i], BUTTONDRAWINPARENT, (WPARAM)hDC, (LPARAM)&Offset);
 
 	}
 	return 0;
@@ -439,7 +439,7 @@ void SaveState()
 				statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 	}
 
-	int iLen = SendMessage(GetDlgItem(clvmHwnd, IDC_VIEWMODES), LB_GETTEXTLEN, clvm_curItem, 0);
+	int iLen = SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
 	if (iLen) {
 		unsigned int stickies = 0;
 
@@ -688,10 +688,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = 0;
 			tci.pszText = TranslateT("Sticky contacts");
-			SendMessage(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEM, 0, (LPARAM)&tci);
+			SendDlgItemMessage(hwndDlg, IDC_TAB, TCM_INSERTITEM, 0, (LPARAM)&tci);
 
 			tci.pszText = TranslateT("Filtering");
-			SendMessage(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEM, 0, (LPARAM)&tci);
+			SendDlgItemMessage(hwndDlg, IDC_TAB, TCM_INSERTITEM, 0, (LPARAM)&tci);
 
 			TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_TAB), 0);
 
@@ -1013,11 +1013,11 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_USER + 100:
-		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0,
-			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", LPGEN("Contact list"), LPGEN("Reset view mode"), NULL, 0, g_hInst, IDI_RESETVIEW ));
+		SendDlgItemMessage(hwnd, IDC_RESETMODES, MBM_SETICOLIBHANDLE, 0,
+			(LPARAM)RegisterIcolibIconHandle("CLN_CLVM_reset", LPGEN("Contact list"), LPGEN("Reset view mode"), NULL, 0, g_hInst, IDI_RESETVIEW));
 
-		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0,
-			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", LPGEN("Contact list"), LPGEN("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW ));
+		SendDlgItemMessage(hwnd, IDC_CONFIGUREMODES, MBM_SETICOLIBHANDLE, 0,
+			(LPARAM)RegisterIcolibIconHandle("CLN_CLVM_set", LPGEN("Contact list"), LPGEN("Setup view modes"), NULL, 0, g_hInst, IDI_SETVIEW));
 
 		{
 			for (int i=0; _buttons[i] != 0; i++) {
@@ -1072,7 +1072,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				GetWindowRect(GetDlgItem(hwnd, _buttons[i]), &childRect);
 				Offset.x = childRect.left - MyRect.left;
 				Offset.y = childRect.top - MyRect.top;
-				SendMessage(GetDlgItem(hwnd, _buttons[i]), BUTTONDRAWINPARENT, (WPARAM)hdc2, (LPARAM)&Offset);
+				SendDlgItemMessage(hwnd, _buttons[i], BUTTONDRAWINPARENT, (WPARAM)hdc2, (LPARAM)&Offset);
 			}
 
 			BitBlt(hdc, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, hdc2, rc.left, rc.top, SRCCOPY);

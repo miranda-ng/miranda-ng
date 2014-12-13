@@ -57,7 +57,7 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
-		SendMessage(GetDlgItem(hwnd, IDC_SBAR), SB_SETTEXT, 0, (LPARAM)Translate("Enter a string to search the database for"));
+		SendDlgItemMessage(hwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)Translate("Enter a string to search the database for"));
 		CheckDlgButton(hwnd, IDC_MODNAME, 1);
 		CheckDlgButton(hwnd, IDC_SETTINGNAME, 1);
 		CheckDlgButton(hwnd, IDC_SETTINGVALUE, 1);
@@ -490,7 +490,7 @@ void __cdecl FindSettings(LPVOID di)
 		return;
 	}
 
-	SendMessage(GetDlgItem(GetParent(hwnd), IDC_SBAR), SB_SETTEXT, 0, (LPARAM)Translate("Searching..."));
+	SendDlgItemMessage(GetParent(hwnd), IDC_SBAR, SB_SETTEXT, 0, (LPARAM)Translate("Searching..."));
 
 	hContact = 0;
 
@@ -618,7 +618,7 @@ void __cdecl FindSettings(LPVOID di)
 	}
 	else mir_snprintf(szTmp, SIZEOF(szTmp), Translate("Finished. %d items were found."), foundCount);
 
-	SendMessage(GetDlgItem(prnthwnd, IDC_SBAR), SB_SETTEXT, 0, (LPARAM)szTmp);
+	SendDlgItemMessage(prnthwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)szTmp);
 
 	SetWindowLongPtr(GetDlgItem(prnthwnd, IDC_SEARCH), GWLP_USERDATA, 0);
 

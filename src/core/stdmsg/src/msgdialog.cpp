@@ -547,7 +547,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 			GetWindowText(h, buf, SIZEOF(buf));
 
 			HDC hdc = GetDC(h);
-			HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(GetDlgItem(hwndDlg, IDOK), WM_GETFONT, 0, 0));
+			HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0));
 
 			SIZE textSize;
 			GetTextExtentPoint32(hdc, buf, (int)mir_tstrlen(buf), &textSize);

@@ -90,17 +90,17 @@ static void InitButtons(HWND hwndDlg, SESSION_INFO *si)
 	SendDlgItemMessage( hwndDlg, IDC_FILTER,       BUTTONSETASFLATBTN, TRUE, 0 );
 	SendDlgItemMessage( hwndDlg, IDC_CLOSE,        BUTTONSETASFLATBTN, TRUE, 0 );
 
-	SendMessage(GetDlgItem(hwndDlg, IDC_SMILEY), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_BOLD), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_ITALICS), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_UNDERLINE), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_BKGCOLOR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_COLOR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_HISTORY), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_SHOWNICKLIST), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nick list (CTRL+N)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_CHANMGR), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_FILTER), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
-	SendMessage(GetDlgItem(hwndDlg, IDC_CLOSE), BUTTONADDTOOLTIP, (WPARAM)LPGEN("Close current tab (CTRL+F4)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_SMILEY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Insert a smiley"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_BOLD, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text bold (CTRL+B)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text italicized (CTRL+I)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Make the text underlined (CTRL+U)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_BKGCOLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a background color for the text (CTRL+L)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Select a foreground color for the text (CTRL+K)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_HISTORY, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show the history (CTRL+H)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_SHOWNICKLIST, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show/hide the nick list (CTRL+N)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_CHANMGR, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Control this room (CTRL+O)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_FILTER, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Enable/disable the event filter (CTRL+F)"), 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLOSE, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Close current tab (CTRL+F4)"), 0);
 	SendDlgItemMessage(hwndDlg, IDC_BOLD, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_ITALICS, BUTTONSETASPUSHBTN, TRUE, 0);
 	SendDlgItemMessage(hwndDlg, IDC_UNDERLINE, BUTTONSETASPUSHBTN, TRUE, 0);
@@ -263,7 +263,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		return 0;
 
 	case WM_MOUSEWHEEL:
-		SendMessage(GetDlgItem(GetParent(hwnd), IDC_LOG), WM_MOUSEWHEEL, wParam, lParam);
+		SendDlgItemMessage(GetParent(hwnd), IDC_LOG, WM_MOUSEWHEEL, wParam, lParam);
 		dat->lastEnterTime = 0;
 		return TRUE;
 
@@ -837,7 +837,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_CHAR:
 		SetFocus(GetDlgItem(GetParent(hwnd), IDC_MESSAGE));
-		SendMessage(GetDlgItem(GetParent(hwnd), IDC_MESSAGE), WM_CHAR, wParam, lParam);
+		SendDlgItemMessage(GetParent(hwnd), IDC_MESSAGE, WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -1027,7 +1027,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 			else ScreenToClient(hwnd, &hti.pt);
 
-			int item = LOWORD(SendMessage(GetDlgItem(GetParent(hwnd), IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+			int item = LOWORD(SendDlgItemMessage(GetParent(hwnd), IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
 			USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 			if (ui) {
 				USERINFO uinew;
@@ -1187,7 +1187,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEY), TRUE);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_HIDESELECTION, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
 			SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
@@ -1214,7 +1214,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx( "window", TRUE ));
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx( "window", FALSE ));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_SETBKGNDCOLOR , 0, g_Settings.crLogBackground);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 
 			if (g_Settings.bTabsEnable) {
 				LONG_PTR mask = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TAB), GWL_STYLE);
@@ -1231,9 +1231,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				cf.dwEffects = 0;
 				cf.crTextColor = g_Settings.MessageAreaColor;
 				cf.crBackColor = (COLORREF)db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
-				SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETBKGNDCOLOR , 0, db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW)));
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM) g_Settings.MessageAreaFont, MAKELPARAM(TRUE, 0));
-				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, (WPARAM)SCF_ALL , (LPARAM)&cf);
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW)));
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETFONT, (WPARAM)g_Settings.MessageAreaFont, MAKELPARAM(TRUE, 0));
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, (WPARAM)SCF_ALL, (LPARAM)&cf);
 
 				// nicklist
 				int ih = GetTextPixelSize( _T("AQGglo"), g_Settings.UserListFont,FALSE);
@@ -1245,7 +1245,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				if (g_Settings.bShowContactStatus)
 					font = font > 16 ? font : 16;
 
-				SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
+				SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
 				InvalidateRect(GetDlgItem(hwndDlg, IDC_LIST), NULL, TRUE);
 			}
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -1806,9 +1806,9 @@ END_REMOVETAB:
 
 	case GC_UPDATENICKLIST:
 		{
-			int i = SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_GETTOPINDEX, 0, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETCOUNT, si->nUsersInNicklist, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_SETTOPINDEX, i, 0);
+			int i = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETTOPINDEX, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCOUNT, si->nUsersInNicklist, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETTOPINDEX, i, 0);
 			SendMessage(hwndDlg, GC_UPDATETITLE, 0, 0);
 		}
 		break;
@@ -1964,7 +1964,7 @@ LABEL_SHOWWINDOW:
 
 			CHARRANGE sel;
 			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG));
-			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXSETSEL, 0, (LPARAM) &sel);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) &sel);
 			PostMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 		}
 		break;
@@ -2102,14 +2102,14 @@ LABEL_SHOWWINDOW:
 
 				POINTL ptl = { (LONG)pt.x, (LONG)pt.y };
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_LOG), (LPPOINT)&ptl);
-				long iCharIndex = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_CHARFROMPOS, 0, (LPARAM)&ptl);
+				long iCharIndex = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_CHARFROMPOS, 0, (LPARAM)&ptl);
 				if (iCharIndex < 0)
 					break;
 					
-				long iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXLINEFROMCHAR, 0, (LPARAM)iCharIndex);
-				long iChars = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_LINEINDEX, (WPARAM)iLineIndex, 0);
-				long start = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
-				long end = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
+				long iLineIndex = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXLINEFROMCHAR, 0, (LPARAM)iCharIndex);
+				long iChars = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_LINEINDEX, (WPARAM)iLineIndex, 0);
+				long start = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_FINDWORDBREAK, WB_LEFT, iCharIndex);//-iChars;
+				long end = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);//-iChars;
 
 				if (end - start > 0) {
 					TEXTRANGE tr;
@@ -2120,7 +2120,7 @@ LABEL_SHOWWINDOW:
 					cr.cpMax = end;
 					tr.chrg = cr;
 					tr.lpstrText = pszWord;
-					long iRes = SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+					long iRes = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					if (iRes > 0) {
 						int iLen = (int)mir_tstrlen(pszWord)-1;
 						while (iLen >= 0 && _tcschr(szTrimString, pszWord[iLen])) {
@@ -2252,7 +2252,7 @@ LABEL_SHOWWINDOW:
 				POINT p;
 				GetCursorPos(&p);
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_LIST), &p);
-				int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
+				int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
 				USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 				if (ui != NULL) {
 					static TCHAR ptszBuf[1024];
@@ -2275,11 +2275,11 @@ LABEL_SHOWWINDOW:
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_LIST), &hti.pt);
 
-				int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+				int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
 				USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 				if (ui) {
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
-						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_GETSEL, 0, 0);
+						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 3);
 						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
@@ -2288,7 +2288,7 @@ LABEL_SHOWWINDOW:
 						else
 							mir_sntprintf(pszName, dwNameLenMax, _T("%s "), ui->pszUID);
 
-						SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
+						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					}
 					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);

@@ -184,7 +184,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 			ClearLog(dat);
 			break;
 		case ID_LOG_FREEZELOG:
-			SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_KEYDOWN, VK_F12, 0);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, WM_KEYDOWN, VK_F12, 0);
 			break;
 		case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
 			PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
@@ -717,7 +717,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 					wp = MAKEWPARAM(SB_LINEDOWN, 0);
 
 				if (mwdat->hwndIEView == 0 && mwdat->hwndHPP == 0)
-					SendMessage(GetDlgItem(hwndParent, IDC_LOG), WM_VSCROLL, wp, 0);
+					SendDlgItemMessage(hwndParent, IDC_LOG, WM_VSCROLL, wp, 0);
 				else
 					SendMessage(mwdat->hwndIWebBrowserControl, WM_VSCROLL, wp, 0);
 				return 0;
@@ -1309,8 +1309,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				!SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED)
 				isThemed = FALSE;
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_ADD), BUTTONSETASFLATBTN, TRUE, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CANCELADD), BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ADD, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CANCELADD, BUTTONSETASFLATBTN, TRUE, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASFLATBTN, TRUE, 0);
 			SendDlgItemMessage(hwndDlg, IDC_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, isThemed, 0);
@@ -1325,8 +1325,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
 				TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SAVE), BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
-			SendMessage(GetDlgItem(hwndDlg, IDC_PROTOCOL), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
 
 			SetWindowText(GetDlgItem(hwndDlg, IDC_RETRY), TranslateT("Retry"));
 
@@ -1825,7 +1825,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					}
 					if (msg == WM_KEYDOWN) {
 						if ((wp == VK_INSERT && isShift && !isCtrl) || (wp == 'V' && isCtrl && !isShift && !isAlt)) {
-							SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
+							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 							_clrMsgFilter(lParam);
 							return(_dlgReturn(hwndDlg, 1));
 						}
@@ -1899,7 +1899,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (msg == WM_KEYDOWN && wp == VK_TAB) {
 						if (PluginConfig.m_AllowTab) {
 							if (((NMHDR*)lParam)->idFrom == IDC_MESSAGE)
-								SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)"\t");
+								SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)"\t");
 							_clrMsgFilter(lParam);
 							if (((NMHDR*)lParam)->idFrom != IDC_MESSAGE)
 								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
@@ -1928,9 +1928,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							short wDirection = (short)HIWORD(wp);
 							if (LOWORD(wp) & MK_SHIFT) {
 								if (wDirection < 0)
-									SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
+									SendDlgItemMessage(hwndDlg, IDC_LOG, WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);
 								else if (wDirection > 0)
-									SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
+									SendDlgItemMessage(hwndDlg, IDC_LOG, WM_VSCROLL, MAKEWPARAM(SB_PAGEUP, 0), 0);
 								return 0;
 							}
 							return 0;
@@ -2003,7 +2003,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					case WM_LBUTTONUP:
 						if (((NMHDR*) lParam)->idFrom == IDC_LOG) {
 							CHARRANGE cr;
-							SendMessage(GetDlgItem(hwndDlg, IDC_LOG), EM_EXGETSEL, 0, (LPARAM)&cr);
+							SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&cr);
 							if (cr.cpMax != cr.cpMin) {
 								cr.cpMin = cr.cpMax;
 								if (isCtrl && M.GetByte("autocopy", 1)) {
@@ -2015,13 +2015,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 										streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), dat, (CP_UTF8 << 16) | (SF_TEXT | SFF_SELECTION | SF_USECODEPAGE));
 									if (streamOut) {
 										Utils::FilterEventMarkers(streamOut);
-										SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
+										SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
 										mir_free(streamOut);
 									}
 									SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 								}
 								else if (M.GetByte("autocopy", 1) && !isShift) {
-									SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_COPY, 0, 0);
+									SendDlgItemMessage(hwndDlg, IDC_LOG, WM_COPY, 0, 0);
 									SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 									if (m_pContainer->hwndStatus)
 										SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)TranslateT("Selection copied to clipboard"));

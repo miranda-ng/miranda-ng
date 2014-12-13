@@ -185,7 +185,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_COLOR3, CPM_SETCOLOUR, 0, M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
 			SendDlgItemMessage(hwndDlg, IDC_COLOR4, CPM_SETCOLOUR, 0, M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
 			SendDlgItemMessage(hwndDlg, IDC_COLOR5, CPM_SETCOLOUR, 0, M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
-			SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 		}
 		return TRUE;
 
@@ -217,7 +217,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					teInfo->changed = FALSE;
 					teInfo->selchanging = FALSE;
 					SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
-					SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, FALSE, 0);
+					SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, FALSE, 0);
 				}
 				break;
 
@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					teInfo->inEdit = iIndex;
 					teInfo->changed = FALSE;
 				}
-				SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
+				SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 			}
 			break;
 
@@ -264,7 +264,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 				InvalidateRect(GetDlgItem(hwndDlg, IDC_TEMPLATELIST), NULL, FALSE);
 				db_set_ts(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit], newTemplate);
-				SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
+				SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 			}
 			break;
 
@@ -280,7 +280,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 			teInfo->selchanging = FALSE;
-			SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 			break;
 
 		case IDC_REVERT:
@@ -297,7 +297,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_TEMPLATELIST, TRUE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), EM_SETREADONLY, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_SETREADONLY, TRUE, 0);
 			break;
 
 		case IDC_UPDATEPREVIEW:

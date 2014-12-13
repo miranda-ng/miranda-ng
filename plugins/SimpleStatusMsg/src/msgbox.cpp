@@ -411,7 +411,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 		EnableMenuItem(hmenuTrackPopup, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
 		EnableMenuItem(hmenuTrackPopup, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 	}
-	if (SendMessage(edit_control, WM_GETTEXTLENGTH, 0, 0) == 0)
+	if (GetWindowTextLength(edit_control) == 0)
 		EnableMenuItem(hmenuTrackPopup, IDM_DELETE, MF_BYCOMMAND | MF_GRAYED);
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
@@ -690,15 +690,15 @@ void DisplayCharsCount(struct MsgBoxData *dlg_data, HWND hwndDlg)
 
 	len = GetDlgItemText(hwndDlg, IDC_EDIT1, msg, SIZEOF(msg));
 	if (db_get_b(NULL, "SimpleStatusMsg", "RemoveCR", 0)) {
-		int index, num_lines = SendMessage(GetDlgItem(hwndDlg, IDC_EDIT1), EM_GETLINECOUNT, 0, 0);
+		int index, num_lines = SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_GETLINECOUNT, 0, 0);
 		for (int i = 1; i < num_lines; ++i) {
-			index = SendMessage(GetDlgItem(hwndDlg, IDC_EDIT1), EM_LINEINDEX, (WPARAM)i, 0);
+			index = SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_LINEINDEX, (WPARAM)i, 0);
 			if (msg[index - 1] == '\n')
 				lines++;
 		}
 	}
 	mir_sntprintf(status_text, SIZEOF(status_text), TranslateT("OK (%d)"), len - (lines - 1));
-	SendMessage(GetDlgItem(hwndDlg, IDC_OK), WM_SETTEXT, 0, (LPARAM)status_text);
+	SendDlgItemMessage(hwndDlg, IDC_OK, WM_SETTEXT, 0, (LPARAM)status_text);
 }
 
 void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)
@@ -957,23 +957,23 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				copy_init_data->other_icons = AddOtherIconsToImageList(copy_init_data);
 
 			if ((copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
-				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONADDTOOLTIP, (WPARAM)Translate("Add to predefined"), 0);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_ADD]);
+				SendDlgItemMessage(hwndDlg, IDC_BADD, BUTTONADDTOOLTIP, (WPARAM)Translate("Add to predefined"), 0);
+				SendDlgItemMessage(hwndDlg, IDC_BADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_ADD]);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BADD), TRUE);
 
-				SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BUTTONADDTOOLTIP, (WPARAM)Translate("Delete selected"), 0);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_DEL]);
+				SendDlgItemMessage(hwndDlg, IDC_BDEL, BUTTONADDTOOLTIP, (WPARAM)Translate("Delete selected"), 0);
+				SendDlgItemMessage(hwndDlg, IDC_BDEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_DEL]);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BDEL), TRUE);
 
-				SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BUTTONADDTOOLTIP, (WPARAM)Translate("Clear history"), 0);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_CLEAR]);
+				SendDlgItemMessage(hwndDlg, IDC_BCLEAR, BUTTONADDTOOLTIP, (WPARAM)Translate("Clear history"), 0);
+				SendDlgItemMessage(hwndDlg, IDC_BCLEAR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)copy_init_data->icon[I_ICON_CLEAR]);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_BCLEAR), TRUE);
 
 				if (copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT) {
-					SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONSETASFLATBTN, TRUE, 0);
-					SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BUTTONSETASFLATBTN, TRUE, 0);
-					SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BUTTONSETASFLATBTN, TRUE, 0);
+					SendDlgItemMessage(hwndDlg, IDC_BADD, BUTTONSETASFLATBTN, TRUE, 0);
+					SendDlgItemMessage(hwndDlg, IDC_BDEL, BUTTONSETASFLATBTN, TRUE, 0);
+					SendDlgItemMessage(hwndDlg, IDC_BCLEAR, BUTTONSETASFLATBTN, TRUE, 0);
 				}
 			}
 			else {
@@ -1065,7 +1065,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_EDIT1), EditBoxSubProc);
 			if (!init_data->m_bOnEvent && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
 				SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
-				SendMessage(GetDlgItem(hwndDlg, IDC_EDIT1), EM_SETSEL, 0, -1);
+				SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_SETSEL, 0, -1);
 			}
 			else
 				SetFocus(GetDlgItem(hwndDlg, IDC_OK));
@@ -1441,7 +1441,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 						if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EDIT1))) {
 							SetFocus(GetDlgItem(hwndDlg, IDC_EDIT1));
-							SendMessage(GetDlgItem(hwndDlg, IDC_EDIT1), EM_SETSEL, 0, -1);
+							SendDlgItemMessage(hwndDlg, IDC_EDIT1, EM_SETSEL, 0, -1);
 						}
 						break;
 					}
@@ -1567,9 +1567,9 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					ImageList_ReplaceIcon(msgbox_data->other_icons, i, msgbox_data->icon[i]);
 			}
 			if ((msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (msgbox_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) {
-				SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_ADD]);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_CLEAR]);
-				SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_DEL]);
+				SendDlgItemMessage(hwndDlg, IDC_BADD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_ADD]);
+				SendDlgItemMessage(hwndDlg, IDC_BCLEAR, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_CLEAR]);
+				SendDlgItemMessage(hwndDlg, IDC_BDEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)msgbox_data->icon[I_ICON_DEL]);
 			}
 			break;
 

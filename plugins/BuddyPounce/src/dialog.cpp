@@ -271,7 +271,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		}
 		populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 		populateContacts(wi->hContact, GetDlgItem(hwnd, IDC_CONTACTS));
-		SendMessage(GetDlgItem(hwnd,IDC_SPIN), UDM_SETRANGE, 0, (LPARAM) MAKELONG ((short) 1024, (short) 0));
+		SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
 		db_set_b(wi->hContact, modname, "LastSetting", 0);
 		return FALSE;
 
@@ -290,7 +290,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_SIMPLE:
 		case IDOK:
 			{
-				MCONTACT hContact = (MCONTACT)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETITEMDATA, SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETCURSEL,0,0),0);
+				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETITEMDATA, SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETCURSEL, 0, 0), 0);
 				int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE))+1;
 				if (length>1) {
 					TCHAR *text = (TCHAR*)mir_alloc(length*sizeof(TCHAR));
@@ -339,7 +339,7 @@ INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_SETTINGS:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {	
-				int item = SendMessage(GetDlgItem(hwnd, IDC_SETTINGS), LB_GETCURSEL, 0, 0);
+				int item = SendDlgItemMessage(hwnd, IDC_SETTINGS, LB_GETCURSEL, 0, 0);
 				TCHAR temp[5];
 				saveLastSetting(wi->hContact, hwnd);
 				hideAll(hwnd);
@@ -403,7 +403,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			mir_sntprintf(msg, SIZEOF(msg), TranslateT("The Message    (%d Characters)"), GetWindowTextLength(GetDlgItem(hwnd, IDC_MESSAGE)));
 			SetDlgItemText(hwnd, GRP_MSG, msg);	
 			populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
-			SendMessage(GetDlgItem(hwnd,IDC_SPIN), UDM_SETRANGE, 0, (LPARAM) MAKELONG ((short) 1024, (short) 0));
+			SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
 			CheckDlgButton(hwnd, IDC_USEADVANCED, db_get_b(NULL, modname, "UseAdvanced", 0));
 			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, db_get_b(NULL, modname, "ShowDeliveryMessages", 1));
 			db_set_b(wi->hContact, modname, "LastSetting", 0);
@@ -459,7 +459,7 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		case IDC_SETTINGS:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {	
 				windowInfo *wi = (windowInfo *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				int item = SendMessage(GetDlgItem(hwnd, IDC_SETTINGS), LB_GETCURSEL, 0, 0);
+				int item = SendDlgItemMessage(hwnd, IDC_SETTINGS, LB_GETCURSEL, 0, 0);
 				TCHAR temp[5];
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				saveLastSetting(wi->hContact, hwnd);

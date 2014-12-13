@@ -347,7 +347,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd,UINT msg,WPARAM w
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			{
-				int len = GetWindowTextLengthA(hwnd) + 1;
+				int len = GetWindowTextLength(hwnd) + 1;
 				char *value = (char*)_alloca(len);
 				WCHAR *wc = NULL;
 				DBVARIANT dbv = { 0 };

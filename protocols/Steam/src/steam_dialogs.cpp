@@ -277,7 +277,7 @@ LRESULT CALLBACK CSteamProto::BlockListOptionsSubProc(HWND hwnd, UINT msg, WPARA
 					ListView_DeleteItem(hwnd, lvi.iItem);
 
 					int nItem = SendMessage(::GetDlgItem(GetParent(hwnd), IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)sid);
-					SendMessage(GetDlgItem(GetParent(hwnd), IDC_CONTACTS), CB_SETITEMDATA, nItem, hContact);
+					SendDlgItemMessage(GetParent(hwnd), IDC_CONTACTS, CB_SETITEMDATA, nItem, hContact);
 				}*/
 			}
 		}
@@ -397,7 +397,7 @@ INT_PTR CALLBACK CSteamProto::BlockListOptionsProc(HWND hwndDlg, UINT msg, WPARA
 		{
 			int i = ::SendMessage(::GetDlgItem(hwndDlg, IDC_CONTACTS), CB_GETCURSEL, 0, 0);
 
-			MCONTACT hContact = (MCONTACT)::SendMessage(GetDlgItem(hwndDlg, IDC_CONTACTS), CB_GETITEMDATA, i, 0);
+			MCONTACT hContact = (MCONTACT)::SendDlgItemMessage(hwndDlg, IDC_CONTACTS, CB_GETITEMDATA, i, 0);
 			if (!hContact)
 				break;
 

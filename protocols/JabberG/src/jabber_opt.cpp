@@ -255,7 +255,7 @@ protected:
 			else
 				SetDlgItemText(m_hwnd, IDC_REG_STATUS, (TCHAR*)lParam);
 
-			SendMessage(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), PBM_SETPOS, wParam, 0);
+			SendDlgItemMessage(m_hwnd, IDC_PROGRESS_REG, PBM_SETPOS, wParam, 0);
 			if (wParam >= 100)
 				m_btnOk.SetText(TranslateT("Close"));
 			else

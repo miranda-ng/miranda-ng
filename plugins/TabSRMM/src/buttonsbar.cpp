@@ -784,11 +784,11 @@ void BB_RefreshTheme(const TWindowData *dat)
 {
 	for (int i = 0; i < RButtonsList.getCount(); i++) {
 		CustomButtonData* cbd = RButtonsList[i];
-		SendMessage(GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
+		SendDlgItemMessage(dat->hwnd, cbd->dwButtonCID, WM_THEMECHANGED, 0, 0);
 	}
 	for (int i = 0; i < LButtonsList.getCount(); i++) {
 		CustomButtonData* cbd = LButtonsList[i];
-		SendMessage(GetDlgItem(dat->hwnd, cbd->dwButtonCID), WM_THEMECHANGED, 0, 0);
+		SendDlgItemMessage(dat->hwnd, cbd->dwButtonCID, WM_THEMECHANGED, 0, 0);
 	}
 }
 

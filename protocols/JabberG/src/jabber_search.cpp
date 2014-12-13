@@ -431,7 +431,7 @@ static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat)
 	if (dat->xNode)
 		xi.destroyNode(dat->xNode);
 
-	SendMessage(GetDlgItem(hwndDlg,IDC_FRAME), WM_SETFONT, (WPARAM)SendMessage(hwndDlg, WM_GETFONT, 0, 0),0);
+	SendDlgItemMessage(hwndDlg,IDC_FRAME, WM_SETFONT, (WPARAM)SendMessage(hwndDlg, WM_GETFONT, 0, 0),0);
 	dat->nJSInfCount=0;
 	ShowWindow(GetDlgItem(hwndDlg,IDC_VSCROLL),SW_HIDE);
 	SetDlgItemText(hwndDlg,IDC_INSTRUCTIONS,TranslateT("Select/type search service URL above and press <Go>"));
@@ -481,7 +481,7 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData * dat)
 
 static void JabberSearchAddUrlToRecentCombo(HWND hwndDlg, const TCHAR *szAddr)
 {
-	int lResult = SendMessage(GetDlgItem(hwndDlg,IDC_SERVER), (UINT) CB_FINDSTRING, 0, (LPARAM)szAddr);
+	int lResult = SendDlgItemMessage(hwndDlg, IDC_SERVER, (UINT) CB_FINDSTRING, 0, (LPARAM)szAddr);
 	if (lResult == -1)
 		SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, (LPARAM)szAddr);
 }

@@ -98,100 +98,100 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), FALSE);
 
 		//iAbsencePeriod
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_RESETCONTENT, 0, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_RESETCONTENT, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
 		if (options.iAbsencePeriod % 365 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/365, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 3, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_SETCURSEL, 3, 0);
 		}
 		else if (options.iAbsencePeriod % 30 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/30, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 2, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_SETCURSEL, 2, 0);
 		}
 		else if (options.iAbsencePeriod % 7 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/7, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_SETCURSEL, 1, 0);
 		}
 		else {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_SETCURSEL, 0, 0);
 		}
 
 		//iAbsencePeriod2
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_RESETCONTENT, 0, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_RESETCONTENT, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
 
 		if (options.iAbsencePeriod2 % 365 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/365, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 3, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_SETCURSEL, 3, 0);
 		}
 		else if (options.iAbsencePeriod2 % 30 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/30, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 2, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_SETCURSEL, 2, 0);
 		}
 		else if (options.iAbsencePeriod2 % 7 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/7, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_SETCURSEL, 1, 0);
 		}
 		else {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2,options.iAbsencePeriod2, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_SETCURSEL, 0, 0);
 		}
 
 		//iSilencePeriod
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_RESETCONTENT, 0, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_RESETCONTENT, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
 
 		if (options.iSilencePeriod % 365 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/365, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 3, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_SETCURSEL, 3, 0);
 		}
 		else if (options.iSilencePeriod % 30 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/30, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 2, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_SETCURSEL, 2, 0);
 		}
 		else if (options.iSilencePeriod % 7 == 0) {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/7, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 1, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_SETCURSEL, 1, 0);
 		}
 		else {
 			SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR,options.iSilencePeriod, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_SETCURSEL, 0, 0);
 		}
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_SETCHECK, options.iShowPopup > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON), BM_SETCHECK, options.iShowEvent > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_UDETAILS), BM_SETCHECK, (options.iShowUDetails > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MSGWINDOW), BM_SETCHECK, (options.iShowMessageWindow > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FIRSTSIGHT), BM_SETCHECK, options.notifyFirstOnline ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_NOMSGS), BM_SETCHECK, options.hideInactive ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MISSYOU), BM_SETCHECK, options.enableMissYou ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_POPUP, BM_SETCHECK, options.iShowPopup > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_FLASHICON, BM_SETCHECK, options.iShowEvent > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_UDETAILS, BM_SETCHECK, (options.iShowUDetails > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_MSGWINDOW, BM_SETCHECK, (options.iShowMessageWindow > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_FIRSTSIGHT, BM_SETCHECK, options.notifyFirstOnline ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_NOMSGS, BM_SETCHECK, options.hideInactive ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_MISSYOU, BM_SETCHECK, options.enableMissYou ? BST_CHECKED : BST_UNCHECKED, 0);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_SETCHECK, options.iShowPopup2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON2), BM_SETCHECK, options.iShowEvent2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_POPUP2, BM_SETCHECK, options.iShowPopup2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHECK_FLASHICON2, BM_SETCHECK, options.iShowEvent2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_RESETCONTENT, 0, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Do nothing"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Delete the contact"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open User Details"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open message window"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_SETCURSEL, options.action2, 0);
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_RESETCONTENT, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_ADDSTRING, 0, (LPARAM) TranslateT("Do nothing"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_ADDSTRING, 0, (LPARAM) TranslateT("Delete the contact"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_ADDSTRING, 0, (LPARAM) TranslateT("Open User Details"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_ADDSTRING, 0, (LPARAM) TranslateT("Open message window"));
+		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_SETCURSEL, options.action2, 0);
 		return TRUE;
 
 	case WM_COMMAND:
 		if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE)
-			|| ((HIWORD(wParam) == EN_CHANGE) && (SendMessage(GetDlgItem(hwndDlg, IDC_EDIT_ABSENCE), EM_GETMODIFY, 0, 0)))
-			|| ((HIWORD(wParam) == EN_CHANGE) && (SendMessage(GetDlgItem(hwndDlg, IDC_EDIT_ABSENCE2), EM_GETMODIFY, 0, 0)))
-			|| ((HIWORD(wParam) == EN_CHANGE) && (SendMessage(GetDlgItem(hwndDlg, IDC_EDIT_SILENTFOR), EM_GETMODIFY, 0, 0))))
+			|| ((HIWORD(wParam) == EN_CHANGE) && (SendDlgItemMessage(hwndDlg, IDC_EDIT_ABSENCE, EM_GETMODIFY, 0, 0)))
+			|| ((HIWORD(wParam) == EN_CHANGE) && (SendDlgItemMessage(hwndDlg, IDC_EDIT_ABSENCE2, EM_GETMODIFY, 0, 0)))
+			|| ((HIWORD(wParam) == EN_CHANGE) && (SendDlgItemMessage(hwndDlg, IDC_EDIT_SILENTFOR, EM_GETMODIFY, 0, 0))))
 		{
 			SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 		}
@@ -204,7 +204,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			case PSN_APPLY:
 				//iAbsencePeriod
 				int num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, 0, FALSE);
-				switch (SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_GETCURSEL, 0, 0)) {
+				switch (SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD, CB_GETCURSEL, 0, 0)) {
 					case 1: options.iAbsencePeriod = 7 * num; break;
 					case 2: options.iAbsencePeriod = 30 * num; break;
 					case 3: options.iAbsencePeriod = 365 * num; break;
@@ -213,7 +213,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 				//iAbsencePeriod2
 				num = GetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, 0, FALSE);
-				switch (SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_GETCURSEL, 0, 0)) {
+				switch (SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD2, CB_GETCURSEL, 0, 0)) {
 					case 1: options.iAbsencePeriod2 = 7 * num; break;
 					case 2: options.iAbsencePeriod2 = 30 * num; break;
 					case 3: options.iAbsencePeriod2 = 365 * num; break;
@@ -222,25 +222,25 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 				//iSilencePeriod
 				num = GetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, 0, FALSE);
-				switch (SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_GETCURSEL, 0, 0)) {
+				switch (SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_GETCURSEL, 0, 0)) {
 					case 1: options.iSilencePeriod = 7 * num; break;
 					case 2: options.iSilencePeriod = 30 * num; break;
 					case 3: options.iSilencePeriod = 365 * num; break;
 					default: options.iSilencePeriod = num; break;
 				}
 
-				options.iShowPopup = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
-				options.iShowEvent = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
-				options.iShowUDetails = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_UDETAILS), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
-				options.iShowMessageWindow = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MSGWINDOW), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
-				options.notifyFirstOnline = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FIRSTSIGHT), BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
-				options.hideInactive = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_NOMSGS), BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
-				options.enableMissYou = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_MISSYOU), BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
+				options.iShowPopup = SendDlgItemMessage(hwndDlg, IDC_CHECK_POPUP, BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowEvent = SendDlgItemMessage(hwndDlg, IDC_CHECK_FLASHICON, BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowUDetails = SendDlgItemMessage(hwndDlg, IDC_CHECK_UDETAILS, BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowMessageWindow = SendDlgItemMessage(hwndDlg, IDC_CHECK_MSGWINDOW, BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.notifyFirstOnline = SendDlgItemMessage(hwndDlg, IDC_CHECK_FIRSTSIGHT, BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
+				options.hideInactive = SendDlgItemMessage(hwndDlg, IDC_CHECK_NOMSGS, BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
+				options.enableMissYou = SendDlgItemMessage(hwndDlg, IDC_CHECK_MISSYOU, BM_GETCHECK, 0, 0) == BST_CHECKED ? true : false;
 
-				options.iShowPopup2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
-				options.iShowEvent2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowPopup2 = SendDlgItemMessage(hwndDlg, IDC_CHECK_POPUP2, BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
+				options.iShowEvent2 = SendDlgItemMessage(hwndDlg, IDC_CHECK_FLASHICON2, BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
 
-				options.action2 = (GoneContactAction)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_GETCURSEL, 0, 0);
+				options.action2 = (GoneContactAction)SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_GETCURSEL, 0, 0);
 
 				// save values to the DB
 				SaveOptions();
@@ -296,15 +296,15 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 		//iPopupDelay
 		SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 5, FALSE);
 		if (options.iPopupDelay < 0) {
-			SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_SETCHECK, BST_CHECKED, 0);
+			SendDlgItemMessage(hwndDlg, IDC_DELAY_PERM, BM_SETCHECK, BST_CHECKED, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), false);
 		}
 		else if(options.iPopupDelay == 0) {
-			SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_DEF), BM_SETCHECK, BST_CHECKED, 0);
+			SendDlgItemMessage(hwndDlg, IDC_DELAY_DEF, BM_SETCHECK, BST_CHECKED, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), false);
 		}
 		else {
-			SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_CUST), BM_SETCHECK, BST_CHECKED, 0);
+			SendDlgItemMessage(hwndDlg, IDC_DELAY_CUST, BM_SETCHECK, BST_CHECKED, 0);
 			SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, options.iPopupDelay, FALSE);
 		}
 
@@ -318,9 +318,9 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 
 			//iPopupDelay
 			options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
-			if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_GETCHECK, 0, 0) == BST_CHECKED)
+			if (SendDlgItemMessage(hwndDlg, IDC_DELAY_PERM, BM_GETCHECK, 0, 0) == BST_CHECKED)
 				options.iPopupDelay = -1;
-			else if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_DEF), BM_GETCHECK, 0, 0) == BST_CHECKED)
+			else if (SendDlgItemMessage(hwndDlg, IDC_DELAY_DEF, BM_GETCHECK, 0, 0) == BST_CHECKED)
 				options.iPopupDelay = 0;
 
 			ppd.lchContact = NULL;
@@ -410,9 +410,9 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 
 				//iPopupDelay
 				options.iPopupDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
-				if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_GETCHECK, 0, 0) == BST_CHECKED)
+				if (SendDlgItemMessage(hwndDlg, IDC_DELAY_PERM, BM_GETCHECK, 0, 0) == BST_CHECKED)
 					options.iPopupDelay = -1;
-				else if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_DEF), BM_GETCHECK, 0, 0) == BST_CHECKED)
+				else if (SendDlgItemMessage(hwndDlg, IDC_DELAY_DEF, BM_GETCHECK, 0, 0) == BST_CHECKED)
 					options.iPopupDelay = 0;
 
 				// save value to the DB
@@ -483,9 +483,9 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			else
 				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, _T(""));
 
-			SendMessage(GetDlgItem(hdlg, IDC_CHECK_MISSYOU), BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NOTIFYALWAYS), BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendMessage(GetDlgItem(hdlg, IDC_CHECK_NEVERHIDE), BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendDlgItemMessage(hdlg, IDC_CHECK_MISSYOU, BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendDlgItemMessage(hdlg, IDC_CHECK_NOTIFYALWAYS, BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			SendDlgItemMessage(hdlg, IDC_CHECK_NEVERHIDE, BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
 
 			TranslateDialogDefault(hdlg);
 			return TRUE;
@@ -503,9 +503,9 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 					if (hContact)
 					{
 						db_set_dw(hContact, MODULE_NAME, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, 0, FALSE));
-						db_set_b(hContact, MODULE_NAME, "MissYou", (SendMessage(GetDlgItem(hdlg, IDC_CHECK_MISSYOU), BM_GETCHECK, 0, 0) == BST_CHECKED) ? 1 : 0);
-						db_set_b(hContact, MODULE_NAME, "MissYouNotifyAlways", (SendMessage(GetDlgItem(hdlg, IDC_CHECK_NOTIFYALWAYS), BM_GETCHECK, 0, 0) == BST_CHECKED) ? 1 : 0);
-						db_set_b(hContact, MODULE_NAME, "NeverHide", (SendMessage(GetDlgItem(hdlg, IDC_CHECK_NEVERHIDE), BM_GETCHECK, 0, 0) == BST_CHECKED) ? 1 : 0);
+						db_set_b(hContact, MODULE_NAME, "MissYou", (SendDlgItemMessage(hdlg, IDC_CHECK_MISSYOU, BM_GETCHECK, 0, 0) == BST_CHECKED) ? 1 : 0);
+						db_set_b(hContact, MODULE_NAME, "MissYouNotifyAlways", (SendDlgItemMessage(hdlg, IDC_CHECK_NOTIFYALWAYS, BM_GETCHECK, 0, 0) == BST_CHECKED) ? 1 : 0);
+						db_set_b(hContact, MODULE_NAME, "NeverHide", (SendDlgItemMessage(hdlg, IDC_CHECK_NEVERHIDE, BM_GETCHECK, 0, 0) == BST_CHECKED) ? 1 : 0);
 					}
 					break;
 				}

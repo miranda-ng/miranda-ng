@@ -259,9 +259,9 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 			pstShare = (STFileShareInfo *)((OPENFILENAME *)lParam)->lCustData;
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)pstShare);
 
-			SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, pstShare->nMaxDownloads, true);
-			SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IPADDRESS), IPM_SETADDRESS,  0, pstShare->dwAllowedIP);
-			SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IP_MASK), IPM_SETADDRESS,  0, pstShare->dwAllowedMask);
+			SetDlgItemInt(hDlg, IDC_MAX_DOWNLOADS, pstShare->nMaxDownloads, TRUE);
+			SendDlgItemMessage(hDlg, IDC_ALLOWED_IPADDRESS, IPM_SETADDRESS, 0, pstShare->dwAllowedIP);
+			SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_SETADDRESS, 0, pstShare->dwAllowedMask);
 
 			if (*pstShare->pszSrvPath)
 				nInit = 2;
@@ -364,8 +364,8 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 					if (pstShare->nMaxDownloads <= 0 && pstShare->nMaxDownloads != -1)
 						bTranslated = false;
 
-					SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IPADDRESS), IPM_GETADDRESS,  0, (LPARAM)&(pstShare->dwAllowedIP));
-					SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IP_MASK), IPM_GETADDRESS,  0, (LPARAM)&(pstShare->dwAllowedMask));
+					SendDlgItemMessage(hDlg, IDC_ALLOWED_IPADDRESS, IPM_GETADDRESS, 0, (LPARAM)&(pstShare->dwAllowedIP));
+					SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM)&(pstShare->dwAllowedMask));
 
 					//if( ! (pstShare->dwAllowedIP & pstShare->dwAllowedMask)
 
@@ -406,8 +406,8 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 			switch (LOWORD(wParam)) {
 				case IDC_TOGGLE_MASK: {
 						DWORD dwCur;
-						SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IP_MASK), IPM_GETADDRESS,  0, (LPARAM)&dwCur);
-						SendMessage(GetDlgItem(hDlg, IDC_ALLOWED_IP_MASK), IPM_SETADDRESS,  0, (LPARAM) dwCur == 0xFFFFFFFF ? 0 : 0xFFFFFFFF);
+						SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM)&dwCur);
+						SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_SETADDRESS, 0, (LPARAM) dwCur == 0xFFFFFFFF ? 0 : 0xFFFFFFFF);
 						return TRUE;
 					}
 			}

@@ -175,7 +175,7 @@ static INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wPa
 					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a metacontact"), TranslateT("No metacontact selected"), MB_ICONHAND);
 
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				MCONTACT hMeta = (MCONTACT)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, item, 0);
+				MCONTACT hMeta = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_METALIST, LB_GETITEMDATA, item, 0);
 				if (!Meta_Assign(hContact, hMeta, FALSE))
 					MessageBox(hwndDlg, TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
 			}

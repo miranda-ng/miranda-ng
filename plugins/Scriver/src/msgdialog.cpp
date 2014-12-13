@@ -425,7 +425,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	case WM_MOUSEWHEEL:
 		if ((GetWindowLongPtr(hwnd, GWL_STYLE) & WS_VSCROLL) == 0)
-			SendMessage(GetDlgItem(GetParent(hwnd), IDC_LOG), WM_MOUSEWHEEL, wParam, lParam);
+			SendDlgItemMessage(GetParent(hwnd), IDC_LOG, WM_MOUSEWHEEL, wParam, lParam);
 		break;
 
 	case WM_LBUTTONDOWN:
@@ -1065,7 +1065,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				char idbuf[128], buf[128];
 				GetContactUniqueId(dat, idbuf, sizeof(idbuf));
 				mir_snprintf(buf, SIZEOF(buf), Translate("User Menu - %s"), idbuf);
-				SendMessage(GetDlgItem(hwndDlg, IDC_USERMENU), BUTTONADDTOOLTIP, (WPARAM)buf, 0);
+				SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, 0);
 
 				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status")))
 					dat->wStatus = cws->value.wVal;
@@ -1751,7 +1751,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (buffer != NULL) {
 					TCHAR *quotedBuffer = GetQuotedTextW(buffer);
-					SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
+					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 					mir_free(quotedBuffer);
 					mir_free(buffer);
 				}
@@ -1766,7 +1766,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						TCHAR *buffer = DbGetEventTextT(&dbei, CP_ACP);
 						if (buffer != NULL) {
 							TCHAR *quotedBuffer = GetQuotedTextW(buffer);
-							SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
+							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)quotedBuffer);
 							mir_free(quotedBuffer);
 							mir_free(buffer);
 						}
@@ -1825,7 +1825,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			case WM_CHAR:
 				if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
 					SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-					SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
+					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, ((MSGFILTER *)lParam)->msg, ((MSGFILTER *)lParam)->wParam, ((MSGFILTER *)lParam)->lParam);
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
 				}
 				return TRUE;
@@ -1896,7 +1896,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_CHAR:
 		SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), msg, wParam, lParam);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, msg, wParam, lParam);
 		break;
 
 	case WM_DESTROY:

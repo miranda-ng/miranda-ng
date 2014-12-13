@@ -157,7 +157,7 @@ INT_PTR CALLBACK DlgDownload(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPar
 	case WM_INITDIALOG:
 		SetWindowText(GetDlgItem(hDlg, IDC_LABEL), tszDialogMsg);
 		SetWindowLongPtr(GetDlgItem(hDlg, IDC_PB), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg, IDC_PB), GWL_STYLE) | PBS_MARQUEE);
-		SendMessage(GetDlgItem(hDlg, IDC_PB), PBM_SETMARQUEE, 1, 50);
+		SendDlgItemMessage(hDlg, IDC_PB, PBM_SETMARQUEE, 1, 50);
 		return TRUE;
 	}
 	return FALSE;

@@ -132,11 +132,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			options.no_test_icon = IsDlgButtonChecked(hwndDlg, IDC_CHK_NOTESTICON) == BST_CHECKED;
 
-			options.indent = SendMessage(GetDlgItem(hwndDlg, IDC_SP_INDENT), UDM_GETPOS, 0, 0);
-			options.row_height = SendMessage(GetDlgItem(hwndDlg, IDC_SP_ROWHEIGHT), UDM_GETPOS, 0, 0);
+			options.indent = SendDlgItemMessage(hwndDlg, IDC_SP_INDENT, UDM_GETPOS, 0, 0);
+			options.row_height = SendDlgItemMessage(hwndDlg, IDC_SP_ROWHEIGHT, UDM_GETPOS, 0, 0);
 
-			DWORD new_retries = GetDlgItemInt( hwndDlg, IDC_RPT, &trans_success, FALSE);
-			if(trans_success) {
+			DWORD new_retries = GetDlgItemInt(hwndDlg, IDC_RPT, &trans_success, FALSE);
+			if (trans_success) {
 				options.retries = new_retries;
 			}
 

@@ -60,8 +60,8 @@ INT_PTR CALLBACK FBAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 		if (!proto->isOffline())
 		{
-			SendMessage(GetDlgItem(hwnd, IDC_UN), EM_SETREADONLY, 1, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0);
+			SendDlgItemMessage(hwnd, IDC_UN, EM_SETREADONLY, 1, 0);
+			SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, 1, 0);
 		}
 		return TRUE;
 	}
@@ -356,10 +356,9 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		if (password!= NULL)
 			SetDlgItemTextA(hwnd, IDC_PW, password);
 
-		if (!proto->isOffline())
-	    {
-			SendMessage(GetDlgItem(hwnd,IDC_UN),EM_SETREADONLY,TRUE,0);
-			SendMessage(GetDlgItem(hwnd,IDC_PW),EM_SETREADONLY,TRUE,0);
+		if (!proto->isOffline()) {
+			SendDlgItemMessage(hwnd, IDC_UN, EM_SETREADONLY, TRUE, 0);
+			SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, TRUE, 0);
 		}
 
 		LoadDBCheckState(proto, hwnd, IDC_SECURE, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS);

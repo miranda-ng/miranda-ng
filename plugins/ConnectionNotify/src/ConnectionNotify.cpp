@@ -266,7 +266,7 @@ static INT_PTR CALLBACK FilterEditProc(HWND hWnd, UINT message, WPARAM wParam, L
 					GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEditModal->strExtIp, SIZEOF(connCurrentEditModal->strExtIp));
 					GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEditModal->PName, SIZEOF(connCurrentEditModal->PName));
 
-					connCurrentEditModal->Pid=!(BOOL)SendMessage(GetDlgItem(hWnd,ID_CBO_ACTION),CB_GETCURSEL, 0, 0);
+					connCurrentEditModal->Pid = !(BOOL)SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_GETCURSEL, 0, 0);
 					
 					connCurrentEditModal=NULL;
 					EndDialog(hWnd,IDOK);

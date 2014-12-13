@@ -540,10 +540,10 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hwndDlg);
 
 		// make the buttons flat
-		SendMessage(GetDlgItem(hwndDlg,IDC_STEP1), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg,IDC_STEP2), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg,IDC_STEP3), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg,IDC_STEP4), BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg,IDC_STEP1, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg,IDC_STEP2, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg,IDC_STEP3, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg,IDC_STEP4, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set icons
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG,   (LPARAM)LoadIconEx("main", TRUE));

@@ -625,7 +625,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dbces.lParam = (LPARAM)hwndDlg;
 		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_REMUSER), BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
+		SendDlgItemMessage(hwndDlg, IDC_REMUSER, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 
 		strcpy(inipath, XFireGetFoldersPath("IniFile"));
 		SetDlgItemTextA(hwndDlg, IDC_FILESSHOULDBE, inipath);
@@ -777,7 +777,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		//gamelist füllen
 		SendMessage(hwndDlg, WM_FILLGAMELIST, 0, 0);
 
-		//SendMessage(GetDlgItem(hwndDlg,IDC_CREATETXTLIST),BM_SETIMAGE,IMAGE_ICON,(WPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
+		//SendDlgItemMessage(hwndDlg, IDC_CREATETXTLIST), BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
 
 		return TRUE;
 	}
@@ -975,10 +975,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					HICON hicon = xgamelist.iconmngr.getGameIcon(gameid);
 					//iconhandle holen und setzen
-					if (hicon)
-						SendMessage(GetDlgItem(hwndDlg, IDC_GAMEICO), STM_SETICON, (WPARAM)hicon, 0);
-					else
-						SendMessage(GetDlgItem(hwndDlg, IDC_GAMEICO), STM_SETICON, 0, 0);
+					SendDlgItemMessage(hwndDlg, IDC_GAMEICO, STM_SETICON, (WPARAM)hicon, 0);
 
 					//elemente aktivieren
 					EnableDlgItem(hwndDlg, IDC_DONTDETECT, TRUE);

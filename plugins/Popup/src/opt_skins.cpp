@@ -366,9 +366,9 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
 
 			// Skin List reload button
-			SendMessage(GetDlgItem(hwndDlg, IDC_BTN_RELOAD), BUTTONSETASFLATBTN, TRUE, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_BTN_RELOAD), BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_RELOAD,0));
-			SendMessage(GetDlgItem(hwndDlg, IDC_BTN_RELOAD), BUTTONADDTOOLTIP, (WPARAM)Translate("Refresh List"), 0);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONSETASFLATBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_RELOAD,0));
+			SendDlgItemMessage(hwndDlg, IDC_BTN_RELOAD, BUTTONADDTOOLTIP, (WPARAM)Translate("Refresh List"), 0);
 
 			// Skin Option List
 			SkinOptionList_Update (skinOptions, &skinOptionsCount, hwndDlg);

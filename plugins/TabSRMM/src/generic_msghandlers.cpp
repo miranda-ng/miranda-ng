@@ -1194,7 +1194,7 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwda
 		RECT	rcNicklist;
 		GetWindowRect(GetDlgItem(mwdat->hwnd, IDC_LIST), &rcNicklist);
 		if (PtInRect(&rcNicklist, pt)) {
-			SendMessage(GetDlgItem(mwdat->hwnd, IDC_LIST), WM_MOUSEWHEEL, wParam, lParam);
+			SendDlgItemMessage(mwdat->hwnd, IDC_LIST, WM_MOUSEWHEEL, wParam, lParam);
 			return 0;
 		}
 	}
@@ -1790,7 +1790,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 				TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
 				bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
+			SendDlgItemMessage(hwndDlg, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);
 		}
 	}
 	else _tcsncpy_s(newtitle, _T("Message Session"), _TRUNCATE);

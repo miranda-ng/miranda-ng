@@ -660,8 +660,8 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				dat->hContact = init->hContact;
 				dat->bXStatus = dat->ppro->getContactXStatus(dat->hContact);
 				dat->okButtonFormat = NULL;
-				SendMessage(GetDlgItem(hwndDlg, IDC_XTITLE), EM_SETREADONLY, 1, 0);
-				SendMessage(GetDlgItem(hwndDlg, IDC_XMSG), EM_SETREADONLY, 1, 0);
+				SendDlgItemMessage(hwndDlg, IDC_XTITLE, EM_SETREADONLY, 1, 0);
+				SendDlgItemMessage(hwndDlg, IDC_XMSG, EM_SETREADONLY, 1, 0);
 
 				if (dat->ppro->CheckContactCapabilities(dat->hContact, CAPF_XSTATUS) && !dat->ppro->getByte("XStatusAuto", DEFAULT_XSTATUS_AUTO)) {
 					SetDlgItemText(hwndDlg,IDOK,TranslateT("Cancel"));

@@ -288,8 +288,8 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 				case IDC_OPT_MODE:
 					if (HIWORD(wParam) != CBN_SELCHANGE)
 						return FALSE;
-					i = SendMessage(GetDlgItem(optDlg, IDC_OPT_MODE), CB_GETCURSEL, 0, 0);
-					selectedMode = SendMessage(GetDlgItem(optDlg, IDC_OPT_MODE), CB_GETITEMDATA, i, 0);
+					i = SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_GETCURSEL, 0, 0);
+					selectedMode = SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_GETITEMDATA, i, 0);
 					buf = (TCHAR*)malloc(buflen*sizeof(TCHAR));
 					switch (selectedMode) {
 						case SPAMOTRON_MODE_PLAIN:	
@@ -355,8 +355,8 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 		case WM_NOTIFY:
 			switch (((NMHDR*)lParam)->code) {
 				case PSN_APPLY:
-					i = SendMessage(GetDlgItem(optDlg, IDC_OPT_MODE), CB_GETCURSEL, 0, 0);
-					selectedMode = SendMessage(GetDlgItem(optDlg, IDC_OPT_MODE), CB_GETITEMDATA, i, 0);
+					i = SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_GETCURSEL, 0, 0);
+					selectedMode = SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_GETITEMDATA, i, 0);
 					_setOptB("Mode", selectedMode);
 					_setOptB("ReplyOnSuccess", SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_SUCCESS, BM_GETCHECK, 0, 0));
 					_setOptB("ReplyOnAuth", SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_AUTH, BM_GETCHECK, 0, 0));

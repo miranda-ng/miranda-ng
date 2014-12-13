@@ -302,7 +302,7 @@ INT_PTR SendMessageCommand_Worker(MCONTACT hContact, LPCSTR pszMsg, bool isWchar
 	if (hwnd) {
 		if (pszMsg) {
 			HWND hEdit = GetDlgItem(hwnd, IDC_MESSAGE);
-			SendMessage(hEdit, EM_SETSEL, -1, SendMessage(hEdit, WM_GETTEXTLENGTH, 0, 0));
+			SendMessage(hEdit, EM_SETSEL, -1, GetWindowTextLength(hEdit));
 			if (isWchar)
 				SendMessageW(hEdit, EM_REPLACESEL, FALSE, (LPARAM)pszMsg);
 			else

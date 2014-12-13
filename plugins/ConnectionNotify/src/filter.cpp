@@ -110,8 +110,8 @@ static INT_PTR CALLBACK ConnectionFilterEditProc(HWND hWnd, UINT message, WPARAM
 							GetDlgItemText(hWnd, ID_TXT_REMOTE_IP, connCurrentEdit->strExtIp, SIZEOF(connCurrentEdit->strExtIp));
 							GetDlgItemText(hWnd, ID_TEXT_NAME, connCurrentEdit->PName, SIZEOF(connCurrentEdit->PName));
 
-							connCurrentEdit->Pid=!(BOOL)SendMessage(GetDlgItem(hWnd,ID_CBO_ACTION),CB_GETCURSEL, 0, 0);
-							connCurrentEdit=NULL;
+							connCurrentEdit->Pid = !(BOOL)SendDlgItemMessage(hWnd, ID_CBO_ACTION, CB_GETCURSEL, 0, 0);
+							connCurrentEdit = NULL;
 							saveSettingsConnections(connExceptions);
 							ReleaseMutex(hExceptionsMutex);
 					}

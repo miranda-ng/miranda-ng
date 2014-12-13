@@ -579,9 +579,9 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			TCITEM tabItem = { 0 };
 			tabItem.pszText = TranslateT("Text search");
 			tabItem.mask = TCIF_TEXT;
-			SendMessage(GetDlgItem(hWnd, IDC_TABS), TCM_INSERTITEM, 0, (LPARAM)&tabItem);
+			SendDlgItemMessage(hWnd, IDC_TABS, TCM_INSERTITEM, 0, (LPARAM)&tabItem);
 			tabItem.pszText = TranslateT("Time search");
-			SendMessage(GetDlgItem(hWnd, IDC_TABS), TCM_INSERTITEM, 1, (LPARAM)&tabItem);
+			SendDlgItemMessage(hWnd, IDC_TABS, TCM_INSERTITEM, 1, (LPARAM)&tabItem);
 		}
 
 		CheckDlgButton(hWnd, IDC_DIRECTION_DOWN, TRUE);
@@ -609,11 +609,11 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case IDC_TABS:
 			switch (((LPNMHDR)lParam)->code) {
 			case TCN_SELCHANGE:
-				int tab = SendMessage(GetDlgItem(hWnd, IDC_TABS), TCM_GETCURSEL, 0, 0);
+				int tab = SendDlgItemMessage(hWnd, IDC_TABS, TCM_GETCURSEL, 0, 0);
 				ShowWindow(GetDlgItem(hWnd, IDC_SEARCH_DATE), (tab == 1) ? SW_SHOW : SW_HIDE);
 				ShowWindow(GetDlgItem(hWnd, IDC_SEARCH_TIME), (tab == 1) ? SW_SHOW : SW_HIDE);
 				ShowWindow(GetDlgItem(hWnd, IDC_SEARCH_TEXT), (tab == 0) ? SW_SHOW : SW_HIDE);
-				SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TEXT_STATIC), WM_SETTEXT, 0, (LPARAM)((tab == 0) ? TranslateT("Text:") : TranslateT("Time:")));
+				SendDlgItemMessage(hWnd, IDC_SEARCH_TEXT_STATIC, WM_SETTEXT, 0, (LPARAM)((tab == 0) ? TranslateT("Text:") : TranslateT("Time:")));
 				break;
 			}
 			break;
@@ -637,7 +637,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		case IDC_FIND_NEXT:
 			const HistoryWindowData *histData = (HistoryWindowData *)GetWindowLongPtr(data->hHistoryWindow, DWLP_USER);
 			int direction = IsDlgButtonChecked(hWnd, IDC_DIRECTION_UP) ? DIRECTION_BACK : DIRECTION_FORWARD;
-			int tab = SendMessage(GetDlgItem(hWnd, IDC_TABS), TCM_GETCURSEL, 0, 0);
+			int tab = SendDlgItemMessage(hWnd, IDC_TABS, TCM_GETCURSEL, 0, 0);
 			int type = (tab == 0) ? SEARCH_TEXT : SEARCH_TIME;
 			SearchResult searchResult;
 			if (data->hLastFoundEvent == NULL)
@@ -647,15 +647,15 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 			if (type == SEARCH_TEXT) { //text search
 				TCHAR text[2048]; //TODO buffer overrun
-				SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TEXT), WM_GETTEXT, SIZEOF(text), (LPARAM)text);
+				SendDlgItemMessage(hWnd, IDC_SEARCH_TEXT, WM_GETTEXT, SIZEOF(text), (LPARAM)text);
 				searchResult = SearchHistory(data->contact, data->hLastFoundEvent, text, direction, type);
 			}
 			else { //time search
 				TimeSearchData tsData = { 0 };
 				SYSTEMTIME date = { 0 }, time = { 0 };
-				int res = SendMessage(GetDlgItem(hWnd, IDC_SEARCH_DATE), DTM_GETSYSTEMTIME, 0, (LPARAM)&date);
+				int res = SendDlgItemMessage(hWnd, IDC_SEARCH_DATE, DTM_GETSYSTEMTIME, 0, (LPARAM)&date);
 				tsData.flags = (res == GDT_VALID) ? TSDF_DATE_SET : 0;
-				res = SendMessage(GetDlgItem(hWnd, IDC_SEARCH_TIME), DTM_GETSYSTEMTIME, 0, (LPARAM)&time);
+				res = SendDlgItemMessage(hWnd, IDC_SEARCH_TIME, DTM_GETSYSTEMTIME, 0, (LPARAM)&time);
 				if (res == GDT_VALID) {
 					tsData.flags |= TSDF_TIME_SET;
 					date.wHour = time.wHour;

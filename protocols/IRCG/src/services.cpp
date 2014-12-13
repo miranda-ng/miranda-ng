@@ -353,7 +353,7 @@ INT_PTR __cdecl CIrcProto::OnJoinMenuCommand(WPARAM, LPARAM)
 
 	SetDlgItemText(m_joinDlg->GetHwnd(), IDC_CAPTION, TranslateT("Join channel"));
 	SetWindowText(GetDlgItem(m_joinDlg->GetHwnd(), IDC_TEXT), TranslateT("Please enter a channel to join"));
-	SendMessage(GetDlgItem(m_joinDlg->GetHwnd(), IDC_ENICK), EM_SETSEL, 0, MAKELPARAM(0, -1));
+	SendDlgItemMessage(m_joinDlg->GetHwnd(), IDC_ENICK, EM_SETSEL, 0, MAKELPARAM(0, -1));
 	ShowWindow(m_joinDlg->GetHwnd(), SW_SHOW);
 	SetActiveWindow(m_joinDlg->GetHwnd());
 	return 0;
