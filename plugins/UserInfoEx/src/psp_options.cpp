@@ -858,9 +858,9 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			DBWriteColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK);
 			DBWriteColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT);
 			db_set_b(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLORTYPE, 
-				SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL)
+				IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)
 				? POPUP_COLOR_DEFAULT
-				: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL)
+				: IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)
 				? POPUP_COLOR_WINDOWS
 				: POPUP_COLOR_CUSTOM);
 
@@ -868,16 +868,16 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			DBWriteColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK);
 			DBWriteColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT);
 			db_set_b(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLORTYPE, 
-				SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL)
+				IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_ADEFCLR)
 				? POPUP_COLOR_DEFAULT
-				: SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL)
+				: IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_AWINCLR)
 				? POPUP_COLOR_WINDOWS
 				: POPUP_COLOR_CUSTOM);
 
 			// save delay
-			if (SendDlgItemMessage(hDlg, RADIO_OPT_POPUP_PERMANENT, BM_GETCHECK, NULL, NULL))
+			if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_PERMANENT))
 				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, 255);
-			else if (SendDlgItemMessage(hDlg, RADIO_OPT_POPUP_CUSTOM, BM_GETCHECK, NULL, NULL)) {
+			else if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_CUSTOM)) {
 				TCHAR szDelay[4];
 				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, SIZEOF(szDelay));
 				db_set_b(NULL, MODNAME, SET_POPUP_DELAY, (BYTE)_tcstol(szDelay, NULL, 10));
@@ -957,8 +957,8 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case CHECK_OPT_POPUP_DEFCLR:
 		case CHECK_OPT_POPUP_WINCLR:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				int bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_DEFCLR, BM_GETCHECK, NULL, NULL);
-				int bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_WINCLR, BM_GETCHECK, NULL, NULL);
+				int bDefClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR);
+				int bWinClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR);
 
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_DEFCLR, !bWinClr);
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_WINCLR, !bDefClr);
@@ -974,8 +974,8 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 		case CHECK_OPT_POPUP_ADEFCLR:
 		case CHECK_OPT_POPUP_AWINCLR:
 			if (HIWORD(wParam) == BN_CLICKED) {
-				int bDefClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_ADEFCLR, BM_GETCHECK, NULL, NULL);
-				int bWinClr = SendDlgItemMessage(hDlg, CHECK_OPT_POPUP_AWINCLR, BM_GETCHECK, NULL, NULL);
+				int bDefClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_ADEFCLR);
+				int bWinClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_AWINCLR);
 
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_ADEFCLR, !bWinClr);
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_AWINCLR, !bDefClr);

@@ -144,27 +144,27 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			case PSN_KILLACTIVE:
 
 				// read all data from options frame
-				if (SendDlgItemMessage(hwndDlg, IDC_RADIO_ALL, BM_GETCHECK, 0, 0) == BST_CHECKED)
+				if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_ALL) == BST_CHECKED)
 					hForwardFrom = 0;
 				else
 					hForwardFrom = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_COMBO_FROM, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_COMBO_FROM, CB_GETCURSEL, 0, 0), 0);
 
 				hForwardTo = (MCONTACT)SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_COMBO_TO, CB_GETCURSEL, 0, 0), 0);
 				iForwardOnStatus = 0;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK1, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_OFFLINE;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK2, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_ONLINE;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK3, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_AWAY;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK4, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_NA;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK5, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_OCCUPIED;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK6, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_DND;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK7, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_FREECHAT;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK8, BM_GETCHECK, 0, 0) == BST_CHECKED) iForwardOnStatus |= STATUS_INVISIBLE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK1) == BST_CHECKED) iForwardOnStatus |= STATUS_OFFLINE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK2) == BST_CHECKED) iForwardOnStatus |= STATUS_ONLINE;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK3) == BST_CHECKED) iForwardOnStatus |= STATUS_AWAY;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK4) == BST_CHECKED) iForwardOnStatus |= STATUS_NA;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK5) == BST_CHECKED) iForwardOnStatus |= STATUS_OCCUPIED;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK6) == BST_CHECKED) iForwardOnStatus |= STATUS_DND;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK7) == BST_CHECKED) iForwardOnStatus |= STATUS_FREECHAT;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK8) == BST_CHECKED) iForwardOnStatus |= STATUS_INVISIBLE;
 				GetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate, SIZEOF(tszForwardTemplate));
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK_SPLIT, BM_GETCHECK, 0, 0) == BST_CHECKED) iSplit = 1; else iSplit = 0;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_SPLIT) == BST_CHECKED) iSplit = 1; else iSplit = 0;
 				iSplitMaxSize = GetDlgItemInt(hwndDlg, IDC_EDIT_MAXSIZE, NULL, FALSE);
 				iSendParts = GetDlgItemInt(hwndDlg, IDC_EDIT_SENDPARTS, NULL, FALSE);
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK_MARKREAD, BM_GETCHECK, 0, 0) == BST_CHECKED) iMarkRead = 1; else iMarkRead = 0;
-				if (SendDlgItemMessage(hwndDlg, IDC_CHECK_SAVEHISTORY, BM_GETCHECK, 0, 0) == BST_CHECKED) iSendAndHistory = 1; else iSendAndHistory = 0;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_MARKREAD) == BST_CHECKED) iMarkRead = 1; else iMarkRead = 0;
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_SAVEHISTORY) == BST_CHECKED) iSendAndHistory = 1; else iSendAndHistory = 0;
 				if (iSplitMaxSize <= 0)
 					iSplitMaxSize = 1;
 

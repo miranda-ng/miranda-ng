@@ -98,7 +98,7 @@ static TCHAR* ListView_GetItemTextEx(HWND hLV, int iItem, int iSubItem)
 
 static void EnableGroupCombo(HWND hwndDlg)
 {
-	EnableDlgItem(hwndDlg, IDC_GROUPS, SendDlgItemMessage(hwndDlg, IDC_ENABLEGROUPS, BM_GETCHECK, 0, 0));
+	EnableDlgItem(hwndDlg, IDC_GROUPS, IsDlgButtonChecked(hwndDlg, IDC_ENABLEGROUPS));
 }
 
 static void RebuildGroupCombo(HWND hwndDlg)

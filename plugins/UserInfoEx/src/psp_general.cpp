@@ -110,9 +110,9 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 							// gender
 							{
 								BYTE gender
-									= SendDlgItemMessage(hDlg, RADIO_FEMALE, BM_GETCHECK, NULL, NULL)
+									= IsDlgButtonChecked(hDlg, RADIO_FEMALE)
 									? 'F'
-									: SendDlgItemMessage(hDlg, RADIO_MALE, BM_GETCHECK, NULL, NULL)
+									: IsDlgButtonChecked(hDlg, RADIO_MALE)
 									? 'M'
 									: 0;
 

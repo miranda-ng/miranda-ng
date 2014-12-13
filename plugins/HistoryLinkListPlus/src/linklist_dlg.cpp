@@ -395,15 +395,15 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if (hListDlg == NULL)
 				break;
 			SetDlgItemText(hListDlg, IDC_MAIN, _T(""));
-			if (SendDlgItemMessage(hDlg, IDC_TYPE_WEB, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+			if (IsDlgButtonChecked(hDlg, IDC_TYPE_WEB) == BST_UNCHECKED)
 				flags |= WLL_MAIL;
-			if (SendDlgItemMessage(hDlg, IDC_TYPE_MAIL, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+			if (IsDlgButtonChecked(hDlg, IDC_TYPE_MAIL) == BST_UNCHECKED)
 				flags |= WLL_URL;
-			if (SendDlgItemMessage(hDlg, IDC_DIR_IN, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+			if (IsDlgButtonChecked(hDlg, IDC_DIR_IN) == BST_UNCHECKED)
 				flags |= WLL_OUT;
-			if (SendDlgItemMessage(hDlg, IDC_DIR_OUT, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+			if (IsDlgButtonChecked(hDlg, IDC_DIR_OUT) == BST_UNCHECKED)
 				flags |= WLL_IN;					
-			if (SendDlgItemMessage(hDlg, IDC_WHOLE_MESSAGE, BM_GETCHECK, 0, 0) == BST_CHECKED)
+			if (IsDlgButtonChecked(hDlg, IDC_WHOLE_MESSAGE) == BST_CHECKED)
 				flags |= SLL_DEEP;
 
 			length = GetWindowTextLength(GetDlgItem(hDlg, IDC_SEARCHSTRING)) + 1;
@@ -591,8 +591,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( LOWORD(wParam) == IDC_CHECK1 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if ( SendDlgItemMessage(hDlg, IDC_CHECK1, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
-				{
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK1) == BST_UNCHECKED) {
 					EnableWindow(GetDlgItem(hDlg, IDC_INCOMING), TRUE);
 					EnableWindow(GetDlgItem(hDlg, IDC_OUTGOING), TRUE);
 					EnableWindow(GetDlgItem(hDlg, IDC_BACKGROUND), TRUE);
@@ -643,7 +642,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK2 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if ( SendDlgItemMessage(hDlg, IDC_CHECK2, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK2) == BST_UNCHECKED)
 					options.openNewWindow = 0;
 				else
 					options.openNewWindow = 1;
@@ -655,7 +654,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK3 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if ( SendDlgItemMessage(hDlg, IDC_CHECK3, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK3) == BST_UNCHECKED)
 					options.updateWindow = 0;
 				else
 					options.updateWindow = 1;
@@ -668,7 +667,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK4 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if ( SendDlgItemMessage(hDlg, IDC_CHECK4, BM_GETCHECK, 0, 0) == BST_UNCHECKED )
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK4) == BST_UNCHECKED )
 					options.mouseEvent = 0;
 				else
 					options.mouseEvent = 1;	
@@ -681,7 +680,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK5 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if(SendDlgItemMessage(hDlg, IDC_CHECK5, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK5) == BST_UNCHECKED)
 					options.saveSpecial = 0;
 				else
 					options.saveSpecial = 1;
@@ -694,7 +693,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK6 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if(SendDlgItemMessage(hDlg, IDC_CHECK6, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK6) == BST_UNCHECKED)
 					options.showDate = 0;
 				else
 					options.showDate = 1;
@@ -707,7 +706,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK7 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if(SendDlgItemMessage(hDlg, IDC_CHECK7, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK7) == BST_UNCHECKED)
 					options.showLine = 0;
 				else
 					options.showLine = 1;	
@@ -720,7 +719,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK8 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if(SendDlgItemMessage(hDlg, IDC_CHECK8, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK8) == BST_UNCHECKED)
 					options.showTime = 0;
 				else
 					options.showTime = 1;	
@@ -735,7 +734,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK9 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if(SendDlgItemMessage(hDlg, IDC_CHECK9, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK9) == BST_UNCHECKED)
 					options.showDirection = 0;
 				else
 					options.showDirection = 1;	
@@ -750,7 +749,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( wParam == IDC_CHECK10 )
 			{
 				SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-				if(SendDlgItemMessage(hDlg, IDC_CHECK10, BM_GETCHECK, 0, 0) == BST_UNCHECKED)
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK10) == BST_UNCHECKED)
 					options.showType = 0;
 				else
 					options.showType = 1;
@@ -769,10 +768,9 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if ( ((LPNMHDR)lParam)->code == PSN_APPLY )
 			{
 				// Write Settings to Database
-				if ( SendDlgItemMessage(hDlg, IDC_CHECK1, BM_GETCHECK, 0, 0) == BST_CHECKED )
+				if (IsDlgButtonChecked(hDlg, IDC_CHECK1) == BST_CHECKED)
 					db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x01);
-				else
-				{
+				else {
 					db_set_b(NULL, LINKLIST_MODULE, LINKLIST_USE_DEF, 0x00);
 					colourSet.incoming = SendDlgItemMessage(hDlg, IDC_INCOMING, CPM_GETCOLOUR, 0, 0);
 					colourSet.outgoing = SendDlgItemMessage(hDlg, IDC_OUTGOING, CPM_GETCOLOUR, 0, 0);

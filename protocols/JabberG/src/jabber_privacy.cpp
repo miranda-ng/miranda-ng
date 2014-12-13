@@ -518,13 +518,13 @@ public:
 		m_pRule->SetAction(nCurSel ? TRUE : FALSE);
 
 		DWORD dwPackets = 0;
-		if (BST_CHECKED == SendDlgItemMessage(m_hwnd, IDC_CHECK_MESSAGES, BM_GETCHECK, 0, 0))
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_MESSAGES))
 			dwPackets |= JABBER_PL_RULE_TYPE_MESSAGE;
-		if (BST_CHECKED == SendDlgItemMessage(m_hwnd, IDC_CHECK_PRESENCE_IN, BM_GETCHECK, 0, 0))
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_IN))
 			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_IN;
-		if (BST_CHECKED == SendDlgItemMessage(m_hwnd, IDC_CHECK_PRESENCE_OUT, BM_GETCHECK, 0, 0))
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_OUT))
 			dwPackets |= JABBER_PL_RULE_TYPE_PRESENCE_OUT;
-		if (BST_CHECKED == SendDlgItemMessage(m_hwnd, IDC_CHECK_QUERIES, BM_GETCHECK, 0, 0))
+		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_QUERIES))
 			dwPackets |= JABBER_PL_RULE_TYPE_IQ;
 		if (!dwPackets)
 			dwPackets = JABBER_PL_RULE_TYPE_ALL;

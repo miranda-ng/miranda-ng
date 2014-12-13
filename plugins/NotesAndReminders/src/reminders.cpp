@@ -1747,7 +1747,7 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 
 						if (pReminder->handle == Dialog)
 						{
-							if (SendDlgItemMessage(Dialog, IDC_AFTER, BM_GETCHECK, 0, 0) == BST_CHECKED)
+							if (IsDlgButtonChecked(Dialog, IDC_AFTER) == BST_CHECKED)
 							{
 								// delta time
 
@@ -1810,7 +1810,7 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 								pReminder->When = li;
 								pReminder->When.QuadPart += (TT * FILETIME_TICKS_PER_SEC);
 							}
-							else if (SendDlgItemMessage(Dialog, IDC_ONDATE, BM_GETCHECK, 0, 0) == BST_CHECKED)
+							else if (IsDlgButtonChecked(Dialog, IDC_ONDATE) == BST_CHECKED)
 							{
 								SYSTEMTIME Date;
 

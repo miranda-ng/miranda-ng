@@ -60,12 +60,12 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			case PSN_APPLY:
 				{
 					db_set_dw(NULL, pluginName, "maxQuestCount", gbMaxQuestCount =	GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE));
-					db_set_b(NULL, pluginName, "infTalkProtection", gbInfTalkProtection =  BST_CHECKED == SendDlgItemMessage(hwnd, ID_INFTALKPROT, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "addPermanent", gbAddPermanent = BST_CHECKED == SendDlgItemMessage(hwnd, ID_ADDPERMANENT, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = BST_CHECKED == SendDlgItemMessage(hwnd, ID_HANDLEAUTHREQ, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "HideContacts",  gbHideContacts = BST_CHECKED == SendDlgItemMessage(hwnd, ID_HIDECONTACTS, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "IgnoreContacts",  gbIgnoreContacts = BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNORESPAMMERS, BM_GETCHECK, 0, 0));
-					db_set_b(NULL, pluginName, "LogSpamToFile",  gbLogToFile = BST_CHECKED == SendDlgItemMessage(hwnd, ID_LOGSPAMTOFILE, BM_GETCHECK, 0, 0));
+					db_set_b(NULL, pluginName, "infTalkProtection", gbInfTalkProtection =  BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
+					db_set_b(NULL, pluginName, "addPermanent", gbAddPermanent = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
+					db_set_b(NULL, pluginName, "handleAuthReq", gbHandleAuthReq = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
+					db_set_b(NULL, pluginName, "HideContacts",  gbHideContacts = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HIDECONTACTS));
+					db_set_b(NULL, pluginName, "IgnoreContacts",  gbIgnoreContacts = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_IGNORESPAMMERS));
+					db_set_b(NULL, pluginName, "LogSpamToFile",  gbLogToFile = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_LOGSPAMTOFILE));
 				}
 				return TRUE;
 			}
@@ -299,9 +299,9 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		NMHDR* nmhdr = (NMHDR*)lParam;
 		switch (nmhdr->code) {
 		case PSN_APPLY:
-			db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "DOSIntegration",  gbDosServiceIntegration = BST_CHECKED == SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "CaseInsensitive", gbCaseInsensitive = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_CASE_INSENSITIVE));
+			db_set_b(NULL, pluginName, "DisableInInvis", gbInvisDisable = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_INVIS_DISABLE));
+			db_set_b(NULL, pluginName, "DOSIntegration",  gbDosServiceIntegration = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_DOS_INTEGRATION));
 			{
 				static tstring NewGroupName, CurrentGroupName;
 				NewGroupName = GetDlgItemString(hwnd, ID_SPECIALGROUPNAME);
@@ -314,18 +314,18 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						CreateCListGroup((TCHAR*)gbSpammersGroup.c_str());
 				}
 			}
-			db_set_b(NULL, pluginName, "SpecialGroup",  gbSpecialGroup = BST_CHECKED == SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "ExcludeContacts",  gbExclude = BST_CHECKED == SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "DelExcluded",  gbDelExcluded = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "DelAllTempory",  gbDelAllTempory = BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "IgnoreURL",  gbIgnoreURL =	BST_CHECKED == SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "SpecialGroup",  gbSpecialGroup = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_SPECIALGROUP));
+			db_set_b(NULL, pluginName, "ExcludeContacts",  gbExclude = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_EXCLUDE));
+			db_set_b(NULL, pluginName, "DelExcluded",  gbDelExcluded = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP));
+			db_set_b(NULL, pluginName, "DelAllTempory",  gbDelAllTempory = BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP_ALL));
+			db_set_b(NULL, pluginName, "IgnoreURL",  gbIgnoreURL =	BST_CHECKED == IsDlgButtonChecked(hwnd, ID_IGNOREURL));
 
-			db_set_b(NULL, pluginName, "AutoAuth",  gbAutoAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "AutoAddToServerList",  gbAutoAddToServerList = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "AutoReqAuth",  gbAutoReqAuth = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "RegexMatch",  gbRegexMatch = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_REGEX, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "HistoryLog",  gbHistoryLog = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_GETCHECK, 0, 0));
-			db_set_b(NULL, pluginName, "MathExpression",  gbMathExpression = BST_CHECKED == SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_GETCHECK, 0, 0));
+			db_set_b(NULL, pluginName, "AutoAuth",  gbAutoAuth = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_AUTOAUTH));
+			db_set_b(NULL, pluginName, "AutoAddToServerList",  gbAutoAddToServerList = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_ADDTOSRVLST));
+			db_set_b(NULL, pluginName, "AutoReqAuth",  gbAutoReqAuth = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_REQAUTH));
+			db_set_b(NULL, pluginName, "RegexMatch",  gbRegexMatch = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_REGEX));
+			db_set_b(NULL, pluginName, "HistoryLog",  gbHistoryLog = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_HISTORY_LOG));
+			db_set_b(NULL, pluginName, "MathExpression",  gbMathExpression = BST_CHECKED == IsDlgButtonChecked(hwnd, IDC_MATH_QUESTION));
 
 			{
 				static tstring NewAGroupName, CurrentAGroupName;

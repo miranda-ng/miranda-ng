@@ -687,7 +687,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 		case IDC_NO_KEYRINGS:
 		{
-			BOOL bNoKR = (SendDlgItemMessage(hDlg, IDC_NO_KEYRINGS, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+			BOOL bNoKR = (IsDlgButtonChecked(hDlg, IDC_NO_KEYRINGS) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hDlg, IDC_SET_KEYRINGS), !bNoKR);
 			EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), bNoKR);
 			SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bNoKR ? Translate(sim225) : ((bPGP9) ? Translate(sim220) : (bPGPkeyrings ? Translate(sim216) : Translate(sim217))));
@@ -1227,28 +1227,28 @@ void ApplyGeneralSettings(HWND hDlg)
 	mir_itoa(tmp, timeout, 10);
 	SetDlgItemText(hDlg, IDC_OKT, timeout);
 
-	bSFT = (SendDlgItemMessage(hDlg, IDC_SFT, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bSOM = (SendDlgItemMessage(hDlg, IDC_SOM, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bASI = (SendDlgItemMessage(hDlg, IDC_ASI, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bMCD = (SendDlgItemMessage(hDlg, IDC_MCD, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bSCM = (SendDlgItemMessage(hDlg, IDC_SCM, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bDGP = (SendDlgItemMessage(hDlg, IDC_DGP, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bAIP = (SendDlgItemMessage(hDlg, IDC_AIP, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bNOL = (SendDlgItemMessage(hDlg, IDC_NOL, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bAAK = (SendDlgItemMessage(hDlg, IDC_AAK, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bMCM = (SendDlgItemMessage(hDlg, IDC_MCM, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bSFT = (IsDlgButtonChecked(hDlg, IDC_SFT) == BST_CHECKED);
+	bSOM = (IsDlgButtonChecked(hDlg, IDC_SOM) == BST_CHECKED);
+	bASI = (IsDlgButtonChecked(hDlg, IDC_ASI) == BST_CHECKED);
+	bMCD = (IsDlgButtonChecked(hDlg, IDC_MCD) == BST_CHECKED);
+	bSCM = (IsDlgButtonChecked(hDlg, IDC_SCM) == BST_CHECKED);
+	bDGP = (IsDlgButtonChecked(hDlg, IDC_DGP) == BST_CHECKED);
+	bAIP = (IsDlgButtonChecked(hDlg, IDC_AIP) == BST_CHECKED);
+	bNOL = (IsDlgButtonChecked(hDlg, IDC_NOL) == BST_CHECKED);
+	bAAK = (IsDlgButtonChecked(hDlg, IDC_AAK) == BST_CHECKED);
+	bMCM = (IsDlgButtonChecked(hDlg, IDC_MCM) == BST_CHECKED);
 
 	SetFlags();
 
 	// PGP &| GPG flags
 	{
 		tmp = 0;
-		i = SendDlgItemMessage(hDlg, IDC_PGP, BM_GETCHECK, 0L, 0L) == BST_CHECKED;
+		i = (IsDlgButtonChecked(hDlg, IDC_PGP) == BST_CHECKED);
 		if (i != bPGP) {
 			bPGP = i; tmp++;
 			db_set_b(0, MODULENAME, "pgp", bPGP);
 		}
-		i = SendDlgItemMessage(hDlg, IDC_GPG, BM_GETCHECK, 0L, 0L) == BST_CHECKED;
+		i = (IsDlgButtonChecked(hDlg, IDC_GPG) == BST_CHECKED);
 		if (i != bGPG) {
 			bGPG = i; tmp++;
 			db_set_b(0, MODULENAME, "gpg", bGPG);
@@ -1310,7 +1310,7 @@ void ApplyProtoSettings(HWND hDlg)
 
 void ApplyPGPSettings(HWND hDlg)
 {
-	bUseKeyrings = !(SendDlgItemMessage(hDlg, IDC_NO_KEYRINGS, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bUseKeyrings = !(IsDlgButtonChecked(hDlg, IDC_NO_KEYRINGS) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "ukr", bUseKeyrings);
 
 	char *priv = db_get_sa(0, MODULENAME, "tpgpPrivKey");
@@ -1332,17 +1332,17 @@ void ApplyGPGSettings(HWND hDlg)
 	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgHome", tmp);
 
-	bSavePass = (SendDlgItemMessage(hDlg, IDC_SAVEPASS_CBOX, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bSavePass = (IsDlgButtonChecked(hDlg, IDC_SAVEPASS_CBOX) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgSaveFlag", bSavePass);
 
-	BOOL bgpgLogFlag = (SendDlgItemMessage(hDlg, IDC_LOGGINGON_CBOX, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	BOOL bgpgLogFlag = (IsDlgButtonChecked(hDlg, IDC_LOGGINGON_CBOX) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgLogFlag", bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgLog", tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
-	BOOL bgpgTmpFlag = (SendDlgItemMessage(hDlg, IDC_TMPPATHON_CBOX, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	BOOL bgpgTmpFlag = (IsDlgButtonChecked(hDlg, IDC_TMPPATHON_CBOX) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgTmpFlag", bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgTmp", tmp);

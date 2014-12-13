@@ -25,7 +25,7 @@ void EnablePopupControls(HWND hwnd, BOOL enable)
 void EnablePopupColors(HWND hwnd, BOOL enableDefault, BOOL enableWindows)
 {
 	BOOL enable, bEnabled;
-	bEnabled = SendDlgItemMessage(hwnd, IDC_OPT_POPUPS_ENABLED, BM_GETCHECK, 0, 0);
+	bEnabled = IsDlgButtonChecked(hwnd, IDC_OPT_POPUPS_ENABLED);
 	enable = enableDefault || enableWindows;
 	EnableWindow(GetDlgItem(hwnd, IDC_OPT_POPUPS_BLOCKED_FOREGROUND), !enable && bEnabled);
 	EnableWindow(GetDlgItem(hwnd, IDC_OPT_POPUPS_BLOCKED_BACKGROUND), !enable && bEnabled);
@@ -40,7 +40,7 @@ void EnablePopupColors(HWND hwnd, BOOL enableDefault, BOOL enableWindows)
 
 void EnablePopupTimeouts(HWND hwnd, BOOL enable)
 {
-	BOOL bEnabled = SendDlgItemMessage(hwnd, IDC_OPT_POPUPS_ENABLED, BM_GETCHECK, 0, 0);
+	BOOL bEnabled = IsDlgButtonChecked(hwnd, IDC_OPT_POPUPS_ENABLED);
 	EnableWindow(GetDlgItem(hwnd, IDC_OPT_POPUPS_BLOCKED_TIMEOUT), !enable && bEnabled);
 	EnableWindow(GetDlgItem(hwnd, IDC_OPT_POPUPS_APPROVED_TIMEOUT), !enable && bEnabled);
 	EnableWindow(GetDlgItem(hwnd, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT), !enable && bEnabled);
@@ -73,7 +73,7 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_APPROVED_BACKGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupApprovedBackground", defaultPopupApprovedBackground));
 			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_CHALLENGE_FOREGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupChallengeForeground", defaultPopupChallengeForeground));
 			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_CHALLENGE_BACKGROUND, CPM_SETCOLOUR, 0, _getOptD("PopupChallengeBackground", defaultPopupChallengeBackground));
-			EnablePopupTimeouts(optDlg, SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, BM_GETCHECK, 0, 0));
+			EnablePopupTimeouts(optDlg, IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT));
 			EnablePopupColors(optDlg,
 				_getOptB("PopupDefaultColors", defaultPopupDefaultColors),
 				_getOptB("PopupWindowsColors", defaultPopupWindowsColors));
@@ -85,7 +85,7 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 				return FALSE;
 			switch (LOWORD(wParam)) {
 				case IDC_OPT_POPUPS_ENABLED:
-					bEnabled = SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_ENABLED, BM_GETCHECK, 0, 0);
+					bEnabled = IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_ENABLED);
 					EnablePopupControls(optDlg, bEnabled);
 				case IDC_OPT_POPUPS_NOTIFY_BLOCKED:
 				case IDC_OPT_POPUPS_NOTIFY_APPROVED:
@@ -94,9 +94,9 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 				case IDC_OPT_POPUPS_WINDOWS_COLORS:
 				case IDC_OPT_POPUPS_DEFAULT_TIMEOUT:
 					EnablePopupColors(optDlg,
-						SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, BM_GETCHECK, 0, 0),
-						SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, BM_GETCHECK, 0, 0));
-					EnablePopupTimeouts(optDlg, SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, BM_GETCHECK, 0, 0));
+						IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS),
+						IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS));
+					EnablePopupTimeouts(optDlg, IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT));
 
 					if (HIWORD(wParam) != BN_CLICKED)
 						return FALSE;
@@ -118,13 +118,13 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 		case WM_NOTIFY:
 			switch (((NMHDR*)lParam)->code) {
 				case PSN_APPLY:
-					_setOptB("NotifyPopup", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_ENABLED, BM_GETCHECK, 0, 0));
-					_setOptB("NotifyPopupBlocked", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED, BM_GETCHECK, 0, 0));
-					_setOptB("NotifyPopupApproved", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED, BM_GETCHECK, 0, 0));
-					_setOptB("NotifyPopupChallenge", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE, BM_GETCHECK, 0, 0));
-					_setOptB("PopupDefaultColors", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, BM_GETCHECK, 0, 0));
-					_setOptB("PopupWindowsColors", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, BM_GETCHECK, 0, 0));
-					_setOptB("PopupDefaultTimeout", SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, BM_GETCHECK, 0, 0));
+					_setOptB("NotifyPopup", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_ENABLED));
+					_setOptB("NotifyPopupBlocked", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED));
+					_setOptB("NotifyPopupApproved", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED));
+					_setOptB("NotifyPopupChallenge", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE));
+					_setOptB("PopupDefaultColors", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS));
+					_setOptB("PopupWindowsColors", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS));
+					_setOptB("PopupDefaultTimeout", IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT));
 					_saveDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, "PopupBlockedTimeout");
 					_saveDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, "PopupApprovedTimeout");
 					_saveDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, "PopupChallengeTimeout");
@@ -171,17 +171,17 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, TCHAR *line1, TCHAR *line2)
 			ppdp.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			break;
 	}
-	if (SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, BM_GETCHECK, 0, 0)) {
+	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS)) {
 		ppdp.colorText = GetSysColor(COLOR_WINDOWTEXT);
 		ppdp.colorBack = GetSysColor(COLOR_WINDOW);
 	}
-	if (SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, BM_GETCHECK, 0, 0)) {
+	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS)) {
 		ppdp.colorText = NULL;
 		ppdp.colorBack = NULL;
 	}
 	if (ppdp.iSeconds < 1)
 		ppdp.iSeconds = -1;
-	if (SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, BM_GETCHECK, 0, 0) || popupType == POPUP_DEFAULT)
+	if (IsDlgButtonChecked(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT) || popupType == POPUP_DEFAULT)
 		ppdp.iSeconds = 0;
 
 	ppdp.lchContact = NULL;

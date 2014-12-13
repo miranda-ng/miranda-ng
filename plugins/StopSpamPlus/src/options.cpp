@@ -48,12 +48,12 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			case PSN_APPLY:
 				{
 					plSets->MaxQuestCount=GetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, NULL, FALSE);
-					plSets->InfTalkProtection=(BST_CHECKED == SendDlgItemMessage(hwnd, ID_INFTALKPROT, BM_GETCHECK, 0, 0));
-					plSets->AddPermanent=(BST_CHECKED == SendDlgItemMessage(hwnd, ID_ADDPERMANENT, BM_GETCHECK, 0, 0));
-					plSets->HandleAuthReq=(BST_CHECKED == SendDlgItemMessage(hwnd, ID_HANDLEAUTHREQ, BM_GETCHECK, 0, 0));
-					plSets->AnswNotCaseSens=(BST_CHECKED == SendDlgItemMessage(hwnd, ID_NOTCASESENS, BM_GETCHECK, 0, 0));
-					plSets->RemTmpAll=(BST_CHECKED == SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_GETCHECK, 0, 0));
-					plSets->HistLog=(BST_CHECKED == SendDlgItemMessage(hwnd, ID_HISTORY_LOG, BM_GETCHECK, 0, 0));
+					plSets->InfTalkProtection=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_INFTALKPROT));
+					plSets->AddPermanent=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_ADDPERMANENT));
+					plSets->HandleAuthReq=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HANDLEAUTHREQ));
+					plSets->AnswNotCaseSens=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_NOTCASESENS));
+					plSets->RemTmpAll=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_REMOVE_TMP_ALL));
+					plSets->HistLog=(BST_CHECKED == IsDlgButtonChecked(hwnd, ID_HISTORY_LOG));
 				}
 				return TRUE;
 			}
