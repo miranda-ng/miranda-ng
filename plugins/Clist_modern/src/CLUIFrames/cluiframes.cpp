@@ -2989,8 +2989,8 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 				AppendMenu(hmenu,MF_SEPARATOR,16,_T(""));
 
 				if (g_pfwFrames[framepos].Locked)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_lock,TranslateT("Lock Frame"));}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_lock,TranslateT("Lock Frame"));};
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_lock,TranslateT("Lock frame"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_lock,TranslateT("Lock frame"));};
 
 				if (g_pfwFrames[framepos].visible)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_visible,TranslateT("Visible"));}

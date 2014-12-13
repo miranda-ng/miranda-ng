@@ -140,7 +140,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							_T("fyr.mirandaim.ru"),
 							TranslateT("Inside library"));
 					}
-					MessageBox( hwndDlg, text, TranslateT("Skin Information"), MB_OK|MB_ICONINFORMATION );
+					MessageBox( hwndDlg, text, TranslateT("Skin information"), MB_OK|MB_ICONINFORMATION );
 				}
 				break;
 			case IDC_BUTTON_APPLY_SKIN:

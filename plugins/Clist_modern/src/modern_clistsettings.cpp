@@ -488,6 +488,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 int OnLoadLangpack(WPARAM, LPARAM)
 {
-	UnknownConctactTranslatedName = TranslateT("(Unknown Contact)");
+	UnknownConctactTranslatedName = TranslateT("(Unknown contact)");
 	return 0;
 }

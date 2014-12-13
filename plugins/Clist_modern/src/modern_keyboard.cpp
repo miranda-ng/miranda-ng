@@ -62,7 +62,7 @@ int InitSkinHotKeys(void)
 	shk.pszService = "CLIST/HK/RestoreStatus";
 	Hotkey_Register(&shk);
 
-	shk.ptszDescription = LPGENT("Show/Hide Offline Users");
+	shk.ptszDescription = LPGENT("Show/Hide offline users");
 	shk.pszName = "ShowHideOfflineUsers";
 	shk.ptszSection = LPGENT("Main");
 	shk.pszService = MS_CLIST_TOGGLEHIDEOFFLINE;
