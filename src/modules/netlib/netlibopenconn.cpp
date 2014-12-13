@@ -113,7 +113,7 @@ bool RecvUntilTimeout(NetlibConnection *nlc, char *buf, int len, int flags, DWOR
 static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	//	http://www.socks.nec.com/protocol/socks4.protocol and http://www.socks.nec.com/protocol/socks4a.protocol
-	if (!nloc->szHost || !nloc->szHost[0]) return 0;
+	if (!nloc || !nloc->szHost || !nloc->szHost[0]) return 0;
 
 	size_t nHostLen = strlen(nloc->szHost) + 1;
 	size_t nUserLen = nlu->settings.szProxyAuthUser ? strlen(nlu->settings.szProxyAuthUser) + 1 : 1;
@@ -208,7 +208,6 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		}
 	}
 
-	PBYTE pInit;
 	size_t nHostLen;
 	DWORD hostIP;
 
@@ -222,7 +221,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 			return 0;
 		nHostLen = 4;
 	}
-	pInit = (PBYTE)mir_alloc(6 + nHostLen);
+	PBYTE pInit = (PBYTE)mir_alloc(6 + nHostLen);
 	pInit[0] = 5;   //SOCKS5
 	pInit[1] = nloc->flags & NLOCF_UDP ? 3 : 1; //connect or UDP
 	pInit[2] = 0;   //reserved
@@ -296,7 +295,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	//rfc2817
-	NETLIBHTTPREQUEST nlhrSend = { 0 }, *nlhrReply;
+	NETLIBHTTPREQUEST nlhrSend = { 0 };
 	char szUrl[512];
 
 	nlhrSend.cbSize = sizeof(nlhrSend);
@@ -318,7 +317,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		return 0;
 	}
 
-	nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
+	NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, MSG_DUMPPROXY | MSG_RAW, MSG_DUMPPROXY | MSG_RAW, true);
 	nlc->usingHttpGateway = false;
 	if (nlhrReply == NULL)
 		return false;
@@ -357,16 +356,15 @@ static void FreePartiallyInitedConnection(NetlibConnection *nlc)
 	SetLastError(dwOriginalLastError);
 }
 
-static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
+static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 {
 	int rc = 0, retrycnt = 0;
 	u_long notblocking = 1;
 	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
 
-	unsigned int dwTimeout = (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
-	if (dwTimeout == 0) dwTimeout = 30;
+	unsigned int dwTimeout = (nloc && (nloc->cbSize == sizeof(NETLIBOPENCONNECTION)) && (nloc->flags & NLOCF_V2) && (nloc->timeout>0)) ? nloc->timeout : 30;
 
 	// this is for XP SP2 where there is a default connection attempt limit of 10/second
 	if (connectionTimeout) {

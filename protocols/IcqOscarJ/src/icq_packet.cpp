@@ -634,6 +634,7 @@ void ppackTLVBlockItem(PBYTE *buf, size_t *buflen, WORD wType, PBYTE *pItem, WOR
 		packWord(*buf + *buflen + 6, *wLength);
 		memcpy(*buf + *buflen + 8, *pItem, *wLength);
 		*buflen += 8 + *wLength;
+		*wLength = 0;
 	}
 	else {
 		*buf = (PBYTE)SAFE_REALLOC(*buf, 6 + *buflen);
@@ -644,7 +645,6 @@ void ppackTLVBlockItem(PBYTE *buf, size_t *buflen, WORD wType, PBYTE *pItem, WOR
 	}
 
 	SAFE_FREE((void**)pItem);
-	*wLength = 0;
 }
 
 
@@ -653,7 +653,7 @@ void __fastcall unpackByte(BYTE **pSource, BYTE *byDestination)
 	if (byDestination)
 		*byDestination = *(*pSource)++;
 	else
-		*pSource += 1;
+		(*pSource)++;
 }
 
 void __fastcall unpackWord(BYTE **pSource, WORD *wDestination)
