@@ -162,8 +162,12 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 
 static int OnPlaySound(WPARAM, LPARAM)
 {
-	if (isIgnoreSound || isOwnSound)
+	if (isIgnoreSound)
 		return 1;
+	if (isOwnSound) {
+		isOwnSound = 0;
+		return 1;
+	}
 
 	return 0;
 }
