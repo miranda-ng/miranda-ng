@@ -202,7 +202,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						int length = (int)strlen(tmp) + 1;
 						WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
 						MultiByteToWideChar(CP_UTF8, 0, tmp, -1, wc, length);
-						SendMessageW(GetDlgItem(hwnd, IDC_STRING), WM_SETTEXT, 0, (LPARAM)wc);
+						SendDlgItemMessageW(hwnd, IDC_STRING, WM_SETTEXT, 0, (LPARAM)wc);
 
 						SetWindowText(hwnd, Translate("Edit UNICODE value"));
 						SetDlgItemText(hwnd, IDC_SETTINGNAME, ((struct DBsetting*)lParam)->setting);
@@ -344,7 +344,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						if (valueLength)
 						{
 							if (dbsetting->dbv.type == DBVT_UTF8)
-								SendMessageW(GetDlgItem(hwnd, valueID), WM_GETTEXT, valueLength+2, (LPARAM)value);
+								SendDlgItemMessageW(hwnd, valueID, WM_GETTEXT, valueLength+2, (LPARAM)value);
 							else
 								GetWindowText(GetDlgItem(hwnd, valueID), value, valueLength+1);
 						}

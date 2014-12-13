@@ -277,7 +277,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 			struct yahoo_buddy *b = (struct yahoo_buddy *) l->data;
 
 			LOG(("[DlgProcYahooOptsIgnore] Buddy: %s", b->id ))
-			SendMessageA(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_ADDSTRING, 0, (LPARAM)b->id);
+			SendDlgItemMessageA(hwndDlg, IDC_YIGN_LIST, LB_ADDSTRING, 0, (LPARAM)b->id);
 			l = l->next;
 		}
 		LOG(("[DlgProcYahooOptsIgnore] End of Ignore List..."))
@@ -316,7 +316,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 					break;
 				}
 				ppro->IgnoreBuddy(id, 0);
-				SendMessageA(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_ADDSTRING, 0, (LPARAM)id);
+				SendDlgItemMessageA(hwndDlg, IDC_YIGN_LIST, LB_ADDSTRING, 0, (LPARAM)id);
 				SetDlgItemTextA(hwndDlg, IDC_YIGN_EDIT, "");
 			}
 			break;
@@ -337,7 +337,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 					break;
 				}
 
-				SendMessageA(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_GETTEXT, i, (LPARAM)id);
+				SendDlgItemMessageA(hwndDlg, IDC_YIGN_LIST, LB_GETTEXT, i, (LPARAM)id);
 
 				ppro->IgnoreBuddy(id, 1);
 				SendDlgItemMessage(hwndDlg,IDC_YIGN_LIST, LB_DELETESTRING, i, 0);

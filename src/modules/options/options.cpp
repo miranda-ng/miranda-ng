@@ -170,7 +170,7 @@ static void SaveOptionsTreeState(HWND hdlg)
 	tvi.cchTextMax = SIZEOF(str);
 	tvi.hItem = TreeView_GetRoot(GetDlgItem(hdlg, IDC_PAGETREE));
 	while (tvi.hItem != NULL) {
-		if (SendMessageA(GetDlgItem(hdlg, IDC_PAGETREE), TVM_GETITEMA, 0, (LPARAM)&tvi)) {
+		if (SendDlgItemMessageA(hdlg, IDC_PAGETREE, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
 			mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
 			db_set_b(NULL, "Options", buf, (BYTE)((tvi.state & TVIS_EXPANDED) ? 1 : 0));
 		}

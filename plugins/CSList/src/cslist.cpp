@@ -543,7 +543,7 @@ void CSAMWindow::checkFieldLimit( WORD action, WORD item )
 			mir_sntprintf(tszPopupTip, SIZEOF(tszPopupTip), TranslateT("This field doesn't accept string longer than %d characters. The string will be truncated."), limit);
 			ebt.pszText = tszPopupTip;
 			ebt.ttiIcon = TTI_WARNING;
-			SendMessage( GetDlgItem( m_handle, item ), EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt );
+			SendDlgItemMessage(m_handle, item, EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt);
 #endif
 			TCHAR* ptszOutputText = (TCHAR*)mir_alloc((limit + 1) * sizeof(TCHAR));
 			GetDlgItemText( m_handle, item, ptszOutputText, limit + 1 );

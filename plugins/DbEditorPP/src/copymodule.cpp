@@ -80,8 +80,8 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					mir_snwprintf(nick, SIZEOF(nick), L"%s (%s)", GetContactName(hContact, szProto, 1), protoW);
 			}
 
-			index = SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)nick);
-			SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, hContact);
+			index = SendDlgItemMessageW(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)nick);
+			SendDlgItemMessageW(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, hContact);
 		}
 
 		index = (int)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));

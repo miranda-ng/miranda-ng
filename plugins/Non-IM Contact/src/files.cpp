@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (Openfile(file,1))
 				{
 					db_set_s(NULL, MODNAME, fn, file);
-					index = SendMessageA(GetDlgItem(hwnd, IDC_FILE_LIST),CB_ADDSTRING,0,(LPARAM)(char*)file);
+					index = SendDlgItemMessageA(hwnd, IDC_FILE_LIST, CB_ADDSTRING, 0, (LPARAM)(char*)file);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETITEMDATA,index,(LPARAM)(int)i);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETCURSEL, index ,0);
 					SetDlgItemTextA(hwnd, IDC_FN, _itoa(i, fn, 10));

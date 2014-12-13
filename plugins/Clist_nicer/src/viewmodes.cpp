@@ -378,7 +378,7 @@ void SaveState()
 		if (ListView_GetCheckState(hwndList, i - ID_STATUS_OFFLINE))
 			statusMask |= (1 << (i - ID_STATUS_OFFLINE));
 
-	iLen = SendMessageA(GetDlgItem(clvmHwnd, IDC_VIEWMODES), LB_GETTEXTLEN, clvm_curItem, 0);
+	iLen = SendDlgItemMessageA(clvmHwnd, IDC_VIEWMODES, LB_GETTEXTLEN, clvm_curItem, 0);
 	if (iLen) {
 		unsigned int stickies = 0;
 		DWORD dwGlobalMask, dwLocalMask;
@@ -583,10 +583,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = 0;
 			tci.pszText = Translate("Sticky contacts");
-			SendMessageA(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEMA, 0, (LPARAM)&tci);
+			SendDlgItemMessageA(hwndDlg, IDC_TAB, TCM_INSERTITEMA, 0, (LPARAM)&tci);
 
 			tci.pszText = Translate("Filtering");
-			SendMessageA(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEMA, 0, (LPARAM)&tci);
+			SendDlgItemMessageA(hwndDlg, IDC_TAB, TCM_INSERTITEMA, 0, (LPARAM)&tci);
 
 			TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_TAB), 0);
 
