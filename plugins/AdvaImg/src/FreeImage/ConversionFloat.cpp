@@ -159,6 +159,7 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 				for(unsigned x = 0; x < width; x++) {
 					// convert (assume pixel values are in the range [0..1])
 					dst_pixel[x] = LUMA_REC709(src_pixel[x].red, src_pixel[x].green, src_pixel[x].blue);
+					dst_pixel[x] = CLAMP(dst_pixel[x], 0.0F, 1.0F);
 				}
 				src_bits += src_pitch;
 				dst_bits += dst_pitch;
@@ -175,6 +176,7 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 				for(unsigned x = 0; x < width; x++) {
 					// convert (assume pixel values are in the range [0..1])
 					dst_pixel[x] = LUMA_REC709(src_pixel[x].red, src_pixel[x].green, src_pixel[x].blue);
+					dst_pixel[x] = CLAMP(dst_pixel[x], 0.0F, 1.0F);
 				}
 				src_bits += src_pitch;
 				dst_bits += dst_pitch;

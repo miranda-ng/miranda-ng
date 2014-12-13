@@ -515,17 +515,18 @@ processExifTag(FIBITMAP *dib, FITAG *tag, char *pval, BOOL msb_order, TagLib::MD
 }
 
 /**
-	Process Exif directory
+Process Exif directory
 
-	@param dib Input FIBITMAP
-	@param tiffp Pointer to the TIFF header
-	@param offset 0th IFD offset
-	@param length Length of the datafile
-	@param msb_order Endianess order of the datafile
-	@return 
+@param dib Input FIBITMAP
+@param tiffp Pointer to the TIFF header
+@param offset 0th IFD offset
+@param length Length of the datafile
+@param msb_order Endianess order of the datafile
+@param starting_md_model Metadata model of the IFD (should be TagLib::EXIF_MAIN for a jpeg)
+@return Returns TRUE if sucessful, returns FALSE otherwise
 */
 static BOOL 
-jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsigned int length, BOOL msb_order) {
+jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsigned int length, BOOL msb_order, TagLib::MDMODEL starting_md_model) {
 	WORD de, nde;
 
 	std::stack<WORD>			destack;	// directory entries stack
@@ -548,7 +549,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 
 	// set the metadata model to Exif
 
-	TagLib::MDMODEL md_model = TagLib::EXIF_MAIN;
+	TagLib::MDMODEL md_model = starting_md_model;
 
 	// set the pointer to the first IFD (0th IFD) and follow it were it leads.
 
@@ -787,6 +788,8 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 	return TRUE;
 }
 
+// --------------------------------------------------------------------------
+
 /**
 	Read and decode JPEG_APP1 marker (Exif profile)
 	@param dib Input FIBITMAP
@@ -795,7 +798,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 	@return Returns TRUE if successful, FALSE otherwise
 */
 BOOL  
-jpeg_read_exif_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
+jpeg_read_exif_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned datalen) {
     // marker identifying string for Exif = "Exif\0\0"
     BYTE exif_signature[6] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
 	BYTE lsb_first[4] = { 0x49, 0x49, 0x2A, 0x00 };		// Intel order
@@ -849,11 +852,140 @@ jpeg_read_exif_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen)
 		}
 		*/
 
-		// process Exif directories
-		return jpeg_read_exif_dir(dib, profile, first_offset, length, bMotorolaOrder);
+		// process Exif directories, starting with Exif-TIFF IFD
+		return jpeg_read_exif_dir(dib, profile, first_offset, length, bMotorolaOrder, TagLib::EXIF_MAIN);
 	}
 
 	return FALSE;
 }
 
+/**
+	Read JPEG_APP1 marker (Exif profile)
+	@param dib Input FIBITMAP
+	@param dataptr Pointer to the APP1 marker
+	@param datalen APP1 marker length
+	@return Returns TRUE if successful, FALSE otherwise
+*/
+BOOL  
+jpeg_read_exif_profile_raw(FIBITMAP *dib, const BYTE *profile, unsigned length) {
+    // marker identifying string for Exif = "Exif\0\0"
+    BYTE exif_signature[6] = { 0x45, 0x78, 0x69, 0x66, 0x00, 0x00 };
 
+	// verify the identifying string
+	if(memcmp(exif_signature, profile, sizeof(exif_signature)) != 0) {
+		// not an Exif profile
+		return FALSE;
+	}
+
+	// create a tag
+	FITAG *tag = FreeImage_CreateTag();
+	if(tag) {
+		FreeImage_SetTagKey(tag, g_TagLib_ExifRawFieldName);
+		FreeImage_SetTagLength(tag, (DWORD)length);
+		FreeImage_SetTagCount(tag, (DWORD)length);
+		FreeImage_SetTagType(tag, FIDT_BYTE);
+		FreeImage_SetTagValue(tag, profile);
+
+		// store the tag
+		FreeImage_SetMetadata(FIMD_EXIF_RAW, dib, FreeImage_GetTagKey(tag), tag);
+
+		// destroy the tag
+		FreeImage_DeleteTag(tag);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
+Read and decode JPEG-XR Exif IFD
+@param dib Input FIBITMAP
+@param profile Pointer to the Exif marker
+@param length Exif marker length
+@return Returns TRUE if successful, FALSE otherwise
+*/
+BOOL  
+jpegxr_read_exif_profile(FIBITMAP *dib, const BYTE *profile, unsigned length) {
+	// assume Little Endian order
+	BOOL bMotorolaOrder = FALSE;
+	
+	// process Exif specific IFD
+	return jpeg_read_exif_dir(dib, profile, 0, length, bMotorolaOrder, TagLib::EXIF_EXIF);
+}
+
+/**
+Read and decode JPEG-XR Exif-GPS IFD
+@param dib Input FIBITMAP
+@param profile Pointer to the Exif-GPS marker
+@param length Exif-GPS marker length
+@return Returns TRUE if successful, FALSE otherwise
+*/
+BOOL  
+jpegxr_read_exif_gps_profile(FIBITMAP *dib, const BYTE *profile, unsigned length) {
+	// assume Little Endian order
+	BOOL bMotorolaOrder = FALSE;
+	
+	// process Exif GPS IFD
+	return jpeg_read_exif_dir(dib, profile, 0, length, bMotorolaOrder, TagLib::EXIF_GPS);
+}
+
+/**
+Rotate a dib according to Exif info
+@param dib Input / Output dib to rotate
+@see PluginJPEG.cpp
+*/
+void 
+RotateExif(FIBITMAP **dib) {
+	// check for Exif rotation
+	if(FreeImage_GetMetadataCount(FIMD_EXIF_MAIN, *dib)) {
+		FIBITMAP *rotated = NULL;
+		// process Exif rotation
+		FITAG *tag = NULL;
+		FreeImage_GetMetadata(FIMD_EXIF_MAIN, *dib, "Orientation", &tag);
+		if(tag != NULL) {
+			if(FreeImage_GetTagID(tag) == TAG_ORIENTATION) {
+				unsigned short orientation = *((unsigned short *)FreeImage_GetTagValue(tag));
+				switch (orientation) {
+					case 1:		// "top, left side" => 0°
+						break;
+					case 2:		// "top, right side" => flip left-right
+						FreeImage_FlipHorizontal(*dib);
+						break;
+					case 3:		// "bottom, right side"; => -180°
+						rotated = FreeImage_Rotate(*dib, 180);
+						FreeImage_Unload(*dib);
+						*dib = rotated;
+						break;
+					case 4:		// "bottom, left side" => flip up-down
+						FreeImage_FlipVertical(*dib);
+						break;
+					case 5:		// "left side, top" => +90° + flip up-down
+						rotated = FreeImage_Rotate(*dib, 90);
+						FreeImage_Unload(*dib);
+						*dib = rotated;
+						FreeImage_FlipVertical(*dib);
+						break;
+					case 6:		// "right side, top" => -90°
+						rotated = FreeImage_Rotate(*dib, -90);
+						FreeImage_Unload(*dib);
+						*dib = rotated;
+						break;
+					case 7:		// "right side, bottom" => -90° + flip up-down
+						rotated = FreeImage_Rotate(*dib, -90);
+						FreeImage_Unload(*dib);
+						*dib = rotated;
+						FreeImage_FlipVertical(*dib);
+						break;
+					case 8:		// "left side, bottom" => +90°
+						rotated = FreeImage_Rotate(*dib, 90);
+						FreeImage_Unload(*dib);
+						*dib = rotated;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+	}
+}

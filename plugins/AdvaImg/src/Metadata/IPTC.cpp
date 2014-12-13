@@ -91,7 +91,7 @@ read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
         offset++;
 
 		int directoryType	= profile[offset++];
-        int tagType			= profile[offset++];
+        int tagType			= profile[offset++];;
         int tagByteCount	= ((profile[offset] & 0xFF) << 8) | (profile[offset + 1] & 0xFF);
         offset += 2;
 

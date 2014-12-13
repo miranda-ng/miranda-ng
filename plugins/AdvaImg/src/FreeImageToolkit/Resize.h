@@ -163,14 +163,15 @@ private:
 
 	/**
 	Performs horizontal image filtering
-	@param src
-	@param height
-	@param src_width
+
+	@param src Source image
+	@param height Source / Destination image height
+	@param src_width Source image width
 	@param src_offset_x
 	@param src_offset_y
 	@param src_pal
-	@param dst
-	@param dst_width
+	@param dst Destination image
+	@param dst_width Destination image width
 	*/
 	void horizontalFilter(FIBITMAP * const src, const unsigned height, const unsigned src_width,
 			const unsigned src_offset_x, const unsigned src_offset_y, const RGBQUAD * const src_pal,
@@ -178,14 +179,14 @@ private:
 
 	/**
 	Performs vertical image filtering
-	@param src
-	@param width
-	@param src_height
+	@param src Source image
+	@param width Source / Destination image width
+	@param src_height Source image height
 	@param src_offset_x
 	@param src_offset_y
 	@param src_pal
-	@param dst
-	@param dst_height
+	@param dst Destination image
+	@param dst_height Destination image height
 	*/
 	void verticalFilter(FIBITMAP * const src, const unsigned width, const unsigned src_height,
 			const unsigned src_offset_x, const unsigned src_offset_y, const RGBQUAD * const src_pal,

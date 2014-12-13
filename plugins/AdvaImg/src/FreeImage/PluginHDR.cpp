@@ -73,7 +73,7 @@ typedef enum {
 	rgbe_read_error,
 	rgbe_write_error,
 	rgbe_format_error,
-	rgbe_memory_error,
+	rgbe_memory_error
 } rgbe_error_code;
 
 // ----------------------------------------------------------

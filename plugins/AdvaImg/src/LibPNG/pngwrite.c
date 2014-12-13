@@ -1,8 +1,8 @@
 
 /* pngwrite.c - general routines to write a PNG file
  *
- * Last changed in libpng 1.6.2 [April 25, 2013]
- * Copyright (c) 1998-2013 Glenn Randers-Pehrson
+ * Last changed in libpng 1.6.10 [March 6, 2014]
+ * Copyright (c) 1998-2014 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
@@ -127,10 +127,6 @@ png_write_info_before_PLTE(png_structrp png_ptr, png_const_inforp info_ptr)
     * application continues writing the PNG.  So check the 'invalid' flag here
     * too.
     */
-#ifdef PNG_WRITE_APNG_SUPPORTED
-   if (info_ptr->valid & PNG_INFO_acTL)
-      png_write_acTL(png_ptr, info_ptr->num_frames, info_ptr->num_plays);
-#endif
 #ifdef PNG_GAMMA_SUPPORTED
 #  ifdef PNG_WRITE_gAMA_SUPPORTED
       if (!(info_ptr->colorspace.flags & PNG_COLORSPACE_INVALID) &&
@@ -355,11 +351,6 @@ png_write_end(png_structrp png_ptr, png_inforp info_ptr)
 
    if (!(png_ptr->mode & PNG_HAVE_IDAT))
       png_error(png_ptr, "No IDATs written into file");
-
-#ifdef PNG_WRITE_APNG_SUPPORTED
-   if (png_ptr->num_frames_written != png_ptr->num_frames_to_write)
-      png_error(png_ptr, "Not enough frames written");
-#endif
 
 #ifdef PNG_WRITE_CHECK_FOR_INVALID_INDEX_SUPPORTED
    if (png_ptr->num_palette_max > png_ptr->num_palette)
@@ -615,6 +606,71 @@ png_write_image(png_structrp png_ptr, png_bytepp image)
       }
    }
 }
+
+#ifdef PNG_MNG_FEATURES_SUPPORTED
+/* Performs intrapixel differencing  */
+static void
+png_do_write_intrapixel(png_row_infop row_info, png_bytep row)
+{
+   png_debug(1, "in png_do_write_intrapixel");
+
+   if ((row_info->color_type & PNG_COLOR_MASK_COLOR))
+   {
+      int bytes_per_pixel;
+      png_uint_32 row_width = row_info->width;
+      if (row_info->bit_depth == 8)
+      {
+         png_bytep rp;
+         png_uint_32 i;
+
+         if (row_info->color_type == PNG_COLOR_TYPE_RGB)
+            bytes_per_pixel = 3;
+
+         else if (row_info->color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+            bytes_per_pixel = 4;
+
+         else
+            return;
+
+         for (i = 0, rp = row; i < row_width; i++, rp += bytes_per_pixel)
+         {
+            *(rp)     = (png_byte)((*rp       - *(rp + 1)) & 0xff);
+            *(rp + 2) = (png_byte)((*(rp + 2) - *(rp + 1)) & 0xff);
+         }
+      }
+
+#ifdef PNG_WRITE_16BIT_SUPPORTED
+      else if (row_info->bit_depth == 16)
+      {
+         png_bytep rp;
+         png_uint_32 i;
+
+         if (row_info->color_type == PNG_COLOR_TYPE_RGB)
+            bytes_per_pixel = 6;
+
+         else if (row_info->color_type == PNG_COLOR_TYPE_RGB_ALPHA)
+            bytes_per_pixel = 8;
+
+         else
+            return;
+
+         for (i = 0, rp = row; i < row_width; i++, rp += bytes_per_pixel)
+         {
+            png_uint_32 s0   = (*(rp    ) << 8) | *(rp + 1);
+            png_uint_32 s1   = (*(rp + 2) << 8) | *(rp + 3);
+            png_uint_32 s2   = (*(rp + 4) << 8) | *(rp + 5);
+            png_uint_32 red  = (png_uint_32)((s0 - s1) & 0xffffL);
+            png_uint_32 blue = (png_uint_32)((s2 - s1) & 0xffffL);
+            *(rp    ) = (png_byte)((red >> 8) & 0xff);
+            *(rp + 1) = (png_byte)(red & 0xff);
+            *(rp + 4) = (png_byte)((blue >> 8) & 0xff);
+            *(rp + 5) = (png_byte)(blue & 0xff);
+         }
+      }
+#endif /* PNG_WRITE_16BIT_SUPPORTED */
+   }
+}
+#endif /* PNG_MNG_FEATURES_SUPPORTED */
 
 /* Called by user to write a row of image data */
 void PNGAPI
@@ -1490,81 +1546,117 @@ png_write_png(png_structrp png_ptr, png_inforp info_ptr,
    if (png_ptr == NULL || info_ptr == NULL)
       return;
 
+   if ((info_ptr->valid & PNG_INFO_IDAT) == 0)
+   {
+      png_app_error(png_ptr, "no rows for png_write_image to write");
+      return;
+   }
+
    /* Write the file header information. */
    png_write_info(png_ptr, info_ptr);
 
    /* ------ these transformations don't touch the info structure ------- */
 
-#ifdef PNG_WRITE_INVERT_SUPPORTED
    /* Invert monochrome pixels */
    if (transforms & PNG_TRANSFORM_INVERT_MONO)
+#ifdef PNG_WRITE_INVERT_SUPPORTED
       png_set_invert_mono(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_INVERT_MONO not supported");
 #endif
 
-#ifdef PNG_WRITE_SHIFT_SUPPORTED
    /* Shift the pixels up to a legal bit depth and fill in
     * as appropriate to correctly scale the image.
     */
-   if ((transforms & PNG_TRANSFORM_SHIFT)
-       && (info_ptr->valid & PNG_INFO_sBIT))
-      png_set_shift(png_ptr, &info_ptr->sig_bit);
+   if (transforms & PNG_TRANSFORM_SHIFT)
+#ifdef PNG_WRITE_SHIFT_SUPPORTED
+      if (info_ptr->valid & PNG_INFO_sBIT)
+         png_set_shift(png_ptr, &info_ptr->sig_bit);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_SHIFT not supported");
 #endif
 
-#ifdef PNG_WRITE_PACK_SUPPORTED
    /* Pack pixels into bytes */
    if (transforms & PNG_TRANSFORM_PACKING)
-       png_set_packing(png_ptr);
+#ifdef PNG_WRITE_PACK_SUPPORTED
+      png_set_packing(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_PACKING not supported");
 #endif
 
-#ifdef PNG_WRITE_SWAP_ALPHA_SUPPORTED
    /* Swap location of alpha bytes from ARGB to RGBA */
    if (transforms & PNG_TRANSFORM_SWAP_ALPHA)
+#ifdef PNG_WRITE_SWAP_ALPHA_SUPPORTED
       png_set_swap_alpha(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_SWAP_ALPHA not supported");
 #endif
 
+   /* Remove a filler (X) from XRGB/RGBX/AG/GA into to convert it into
+    * RGB, note that the code expects the input color type to be G or RGB; no
+    * alpha channel.
+    */
+   if (transforms &
+      (PNG_TRANSFORM_STRIP_FILLER_AFTER|PNG_TRANSFORM_STRIP_FILLER_BEFORE))
+   {
 #ifdef PNG_WRITE_FILLER_SUPPORTED
-   /* Pack XRGB/RGBX/ARGB/RGBA into RGB (4 channels -> 3 channels) */
-   if (transforms & PNG_TRANSFORM_STRIP_FILLER_AFTER)
-      png_set_filler(png_ptr, 0, PNG_FILLER_AFTER);
+      if (transforms & PNG_TRANSFORM_STRIP_FILLER_AFTER)
+      {
+         if (transforms & PNG_TRANSFORM_STRIP_FILLER_BEFORE)
+            png_app_error(png_ptr,
+               "PNG_TRANSFORM_STRIP_FILLER: BEFORE+AFTER not supported");
 
-   else if (transforms & PNG_TRANSFORM_STRIP_FILLER_BEFORE)
-      png_set_filler(png_ptr, 0, PNG_FILLER_BEFORE);
+         /* Continue if ignored - this is the pre-1.6.10 behavior */
+         png_set_filler(png_ptr, 0, PNG_FILLER_AFTER);
+      }
+
+      else if (transforms & PNG_TRANSFORM_STRIP_FILLER_BEFORE)
+         png_set_filler(png_ptr, 0, PNG_FILLER_BEFORE);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_STRIP_FILLER not supported");
 #endif
+   }
 
-#ifdef PNG_WRITE_BGR_SUPPORTED
    /* Flip BGR pixels to RGB */
    if (transforms & PNG_TRANSFORM_BGR)
+#ifdef PNG_WRITE_BGR_SUPPORTED
       png_set_bgr(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_BGR not supported");
 #endif
 
-#ifdef PNG_WRITE_SWAP_SUPPORTED
    /* Swap bytes of 16-bit files to most significant byte first */
    if (transforms & PNG_TRANSFORM_SWAP_ENDIAN)
+#ifdef PNG_WRITE_SWAP_SUPPORTED
       png_set_swap(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_SWAP_ENDIAN not supported");
 #endif
 
-#ifdef PNG_WRITE_PACKSWAP_SUPPORTED
    /* Swap bits of 1, 2, 4 bit packed pixel formats */
    if (transforms & PNG_TRANSFORM_PACKSWAP)
+#ifdef PNG_WRITE_PACKSWAP_SUPPORTED
       png_set_packswap(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_PACKSWAP not supported");
 #endif
 
-#ifdef PNG_WRITE_INVERT_ALPHA_SUPPORTED
    /* Invert the alpha channel from opacity to transparency */
    if (transforms & PNG_TRANSFORM_INVERT_ALPHA)
+#ifdef PNG_WRITE_INVERT_ALPHA_SUPPORTED
       png_set_invert_alpha(png_ptr);
+#else
+      png_app_error(png_ptr, "PNG_TRANSFORM_INVERT_ALPHA not supported");
 #endif
 
    /* ----------------------- end of transformations ------------------- */
 
    /* Write the bits */
-   if (info_ptr->valid & PNG_INFO_IDAT)
-       png_write_image(png_ptr, info_ptr->row_pointers);
+   png_write_image(png_ptr, info_ptr->row_pointers);
 
    /* It is REQUIRED to call this to finish writing the rest of the file */
    png_write_end(png_ptr, info_ptr);
 
-   PNG_UNUSED(transforms)   /* Quiet compiler warnings */
    PNG_UNUSED(params)
 }
 #endif
@@ -1647,14 +1739,16 @@ png_write_image_16bit(png_voidp argument)
 
    if (image->format & PNG_FORMAT_FLAG_ALPHA)
    {
-      if (image->format & PNG_FORMAT_FLAG_AFIRST)
-      {
-         aindex = -1;
-         ++input_row; /* To point to the first component */
-         ++output_row;
-      }
+#     ifdef PNG_SIMPLIFIED_WRITE_AFIRST_SUPPORTED
+         if (image->format & PNG_FORMAT_FLAG_AFIRST)
+         {
+            aindex = -1;
+            ++input_row; /* To point to the first component */
+            ++output_row;
+         }
 
-      else
+         else
+#     endif
          aindex = channels;
    }
 
@@ -1803,14 +1897,16 @@ png_write_image_8bit(png_voidp argument)
       png_bytep row_end;
       int aindex;
 
-      if (image->format & PNG_FORMAT_FLAG_AFIRST)
-      {
-         aindex = -1;
-         ++input_row; /* To point to the first component */
-         ++output_row;
-      }
+#     ifdef PNG_SIMPLIFIED_WRITE_AFIRST_SUPPORTED
+         if (image->format & PNG_FORMAT_FLAG_AFIRST)
+         {
+            aindex = -1;
+            ++input_row; /* To point to the first component */
+            ++output_row;
+         }
 
-      else
+         else
+#     endif
          aindex = channels;
 
       /* Use row_end in place of a loop counter: */
@@ -1890,7 +1986,8 @@ png_image_set_PLTE(png_image_write_control *display)
    const png_uint_32 format = image->format;
    const int channels = PNG_IMAGE_SAMPLE_CHANNELS(format);
 
-#  ifdef PNG_FORMAT_BGR_SUPPORTED
+#  if defined(PNG_FORMAT_BGR_SUPPORTED) &&\
+      defined(PNG_SIMPLIFIED_WRITE_AFIRST_SUPPORTED)
       const int afirst = (format & PNG_FORMAT_FLAG_AFIRST) != 0 &&
          (format & PNG_FORMAT_FLAG_ALPHA) != 0;
 #  else
@@ -2336,42 +2433,4 @@ png_image_write_to_file(png_imagep image, const char *file_name,
 }
 #endif /* PNG_STDIO_SUPPORTED */
 #endif /* SIMPLIFIED_WRITE */
-
-#ifdef PNG_WRITE_APNG_SUPPORTED
-void PNGAPI
-png_write_frame_head(png_structp png_ptr, png_infop info_ptr,
-    png_bytepp row_pointers, png_uint_32 width, png_uint_32 height,
-    png_uint_32 x_offset, png_uint_32 y_offset,
-    png_uint_16 delay_num, png_uint_16 delay_den, png_byte dispose_op,
-    png_byte blend_op)
-{
-    png_debug(1, "in png_write_frame_head");
-
-    /* there is a chance this has been set after png_write_info was called,
-    * so it would be set but not written. is there a way to be sure? */
-    if (!(info_ptr->valid & PNG_INFO_acTL))
-        png_error(png_ptr, "png_write_frame_head(): acTL not set");
-
-    png_write_reset(png_ptr);
-
-    png_write_reinit(png_ptr, info_ptr, width, height);
-
-    if ( !(png_ptr->num_frames_written == 0 &&
-           (png_ptr->apng_flags & PNG_FIRST_FRAME_HIDDEN) ) )
-        png_write_fcTL(png_ptr, width, height, x_offset, y_offset,
-                       delay_num, delay_den, dispose_op, blend_op);
-
-    PNG_UNUSED(row_pointers)
-}
-
-void PNGAPI
-png_write_frame_tail(png_structp png_ptr, png_infop info_ptr)
-{
-    png_debug(1, "in png_write_frame_tail");
-
-    png_ptr->num_frames_written++;
-
-    PNG_UNUSED(info_ptr)
-}
-#endif /* PNG_WRITE_APNG_SUPPORTED */
 #endif /* PNG_WRITE_SUPPORTED */

@@ -506,6 +506,10 @@ bool psdParser::ReadImageResources(FreeImageIO *io, fi_handle handle, LONG lengt
 		oResource.Reset();
 		
 		n = (int)io->read_proc(&oResource._OSType, sizeof(oResource._OSType), 1, handle);
+		if(n != 1) {
+			FreeImage_OutputMessageProc(_fi_format_id, "This file contains damaged data causing an unexpected end-of-file - stop reading resources");
+			return false;
+		}
 		nBytes += n * sizeof(oResource._OSType);
 
 		if( (nBytes % 2) != 0 ) {
