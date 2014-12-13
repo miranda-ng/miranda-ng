@@ -37,10 +37,10 @@ INT_PTR doubleClick(WPARAM wParam,LPARAM lParam)
 			if (!db_get_static(wParam, MODNAME, "ProgramParams", params) )
 				strcpy(params, "");
 			if (strstr(program, "http://") || strstr(program, "https://"))
-				CallService(MS_UTILS_OPENURL,1,(LPARAM)program);
+				CallService(MS_UTILS_OPENURL,OUF_NEWWINDOW,(LPARAM)program);
 			else shellEXEerror = (int)ShellExecuteA(NULL, NULL, program, params, NULL, SW_SHOW);  //ignore the warning, its M$'s backwards compatabilty screwup :)
 			if (shellEXEerror == ERROR_FILE_NOT_FOUND || shellEXEerror == ERROR_PATH_NOT_FOUND)
-				CallService(MS_UTILS_OPENURL,1,(LPARAM)program);
+				CallService(MS_UTILS_OPENURL,OUF_NEWWINDOW,(LPARAM)program);
 		}
 		else editContact((WPARAM)(HANDLE)wParam, (LPARAM)NULL);
 		return 1;

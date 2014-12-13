@@ -1869,7 +1869,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			DestroyWindow(hwndDlg);
 			return TRUE;
 		case IDC_SUPPORT:
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://miranda-ng.org/");
 			break;
 		}
 		break;

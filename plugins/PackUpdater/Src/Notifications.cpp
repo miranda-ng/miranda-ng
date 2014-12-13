@@ -381,7 +381,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 							tszExt = &todo[i].File.tszDownloadURL[mir_tstrlen(todo[i].File.tszDownloadURL)-5];
 							if (mir_tstrcmp(tszExt, _T(".html")) == 0) {
 								char* szUrl = mir_t2a(todo[i].File.tszDownloadURL);
-								CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl);
+								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl);
 								mir_free(szUrl);
 							}
 							else {
@@ -530,7 +530,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				int sel = ListView_GetSelectionMark(hwndList);
 				vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 				char* szUrl = mir_t2a(todo[sel].tszInfoURL);
-				CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)szUrl);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl);
 				mir_free(szUrl);
 			}
 			break;

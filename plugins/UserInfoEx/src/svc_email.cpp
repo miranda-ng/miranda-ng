@@ -96,7 +96,7 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 			mir_snprintf(szUrl, len + 1, "mailto:%s", val);
 			mir_free(val);
 
-			result = CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
+			result = CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl);
 		}
 		else {
 			result = 1;

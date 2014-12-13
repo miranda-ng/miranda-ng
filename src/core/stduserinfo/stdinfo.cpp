@@ -345,7 +345,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
 				char szPage[256];
 				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, SIZEOF(szPage));
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM)szPage);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szPage);
 			}
 		}
 		break;
@@ -483,7 +483,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
 				char szPage[256];
 				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, SIZEOF(szPage));
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM)szPage);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szPage);
 			}
 			break;
 		}

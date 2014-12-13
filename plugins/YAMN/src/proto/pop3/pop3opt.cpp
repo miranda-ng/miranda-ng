@@ -120,7 +120,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam
 			{
 				char str[1024];
 				GetDlgItemTextA(hDlg,IDC_STWWW,str,SIZEOF(str));
-				CallService(MS_UTILS_OPENURL,1,(LPARAM)str);
+				CallService(MS_UTILS_OPENURL,OUF_NEWWINDOW,(LPARAM)str);
 				break;
 			}
 

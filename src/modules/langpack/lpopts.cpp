@@ -126,12 +126,12 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				char buf[512];
 				mir_strcpy(buf, "mailto:");
 				if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), &buf[7], SIZEOF(buf)-7))
-					CallService(MS_UTILS_OPENURL, FALSE, (LPARAM)buf);
+					CallService(MS_UTILS_OPENURL, 0, (LPARAM)buf);
 			}
 			break;
 
 		case IDC_MORELANG:
-			CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)"http://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda-ng.org/index.php?title=Langpacks/en#Download");
 			break;
 
 		case IDC_LANGUAGES:

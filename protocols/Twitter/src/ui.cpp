@@ -61,7 +61,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NEWACCOUNTLINK) {
-			CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>("https://twitter.com/signup"));
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, reinterpret_cast<LPARAM>("https://twitter.com/signup"));
 			return true;
 		}
 

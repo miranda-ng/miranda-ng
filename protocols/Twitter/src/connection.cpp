@@ -526,7 +526,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
 		std::string *url = (std::string *)PUGetPluginData(hwnd);
 		if (url != NULL) {
 			//std::string url = profile_base_url("https://twitter.com/") + http::url_encode(dbv.pszVal);
-			CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>(url->c_str()));
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, reinterpret_cast<LPARAM>(url->c_str()));
 		}
 		// Intentionally no break here
 	}

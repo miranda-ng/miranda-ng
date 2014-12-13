@@ -32,7 +32,7 @@ BOOL Xfire_game::start_game(char*ip, unsigned int port, char*pw) {
 			this->launchparams[3] == 'p'&&
 			this->launchparams[4] == ':')
 		{
-			return CallService(MS_UTILS_OPENURL, 1, (LPARAM)this->launchparams);
+			return CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)this->launchparams);
 		}
 	}
 

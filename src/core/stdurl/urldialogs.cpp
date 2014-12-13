@@ -170,7 +170,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				GetDlgItemTextA(hwndDlg, IDC_URL, url, SIZEOF(url));
 				switch(TrackPopupMenu(hSubMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL)) {
 					case IDM_OPENNEW:
-						CallService(MS_UTILS_OPENURL, 1, (LPARAM)url);
+						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)url);
 						break;
 					case IDM_OPENEXISTING:
 						CallService(MS_UTILS_OPENURL, 0, (LPARAM)url);
