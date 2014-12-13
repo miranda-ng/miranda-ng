@@ -561,7 +561,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 			SendMessage(hwnd, WM_KEYDOWN, VK_LEFT, 0);
 			SendMessage(hwnd, EM_GETSEL, (WPARAM)&start, (LPARAM) (PDWORD) NULL);
 			WCHAR *text = GetWindowTextUcs(hwnd);
-			MoveMemory(text + start, text + end, sizeof(WCHAR) * (mir_wstrlen(text) + 1 - end));
+			memmove(text + start, text + end, sizeof(WCHAR) * (mir_wstrlen(text) + 1 - end));
 			SetWindowTextUcs(hwnd, text);
 			SAFE_FREE(&text);
 			SendMessage(hwnd, EM_SETSEL, start, start);

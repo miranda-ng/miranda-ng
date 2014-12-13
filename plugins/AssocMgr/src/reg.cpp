@@ -149,7 +149,7 @@ TCHAR *MakeRunCommand(BOOL fMirExe,BOOL fFixedDbProfile)
 		/* surround by quotes if failed */
 		DWORD len = mir_tstrlen(szExe);
 		if ( _tcschr(szExe,_T(' ')) != NULL && (len+2) < SIZEOF(szExe)) {
-			MoveMemory(szExe, szExe+1, (len+1)*sizeof(TCHAR));
+			memmove(szExe, szExe+1, (len+1)*sizeof(TCHAR));
 			szExe[len+2] = szExe[0] = _T('\"');
 			szExe[len+3] = 0;
 		}
@@ -354,7 +354,7 @@ static BOOL ReadDbBackupData(const char *pszSetting,DWORD *pdwType,BYTE **ppData
 			*pdwType=*(DWORD*)dbv.pbVal;
 			*ppData=dbv.pbVal;
 			*pcbData=dbv.cpbVal-sizeof(DWORD);
-			MoveMemory(*ppData,*ppData+sizeof(DWORD),*pcbData);
+			memmove(*ppData,*ppData+sizeof(DWORD),*pcbData);
 			return TRUE;
 		}
 		db_free(&dbv);
@@ -552,7 +552,7 @@ void CleanupRegTreeBackupSettings(void)
 					}
 
 					mir_free(ppszSettings[j]);
-					MoveMemory(&ppszSettings[j], &ppszSettings[j+1], ((--nSettingsCount)-j) * sizeof(char*));
+					memmove(&ppszSettings[j], &ppszSettings[j+1], ((--nSettingsCount)-j) * sizeof(char*));
 					--j; /* reiterate current index */
 				}
 			}

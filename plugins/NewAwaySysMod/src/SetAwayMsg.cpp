@@ -80,7 +80,7 @@ static LRESULT CALLBACK MsgEditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 				int nLen = GetWindowTextLength(hWnd);
 				TCHAR *text = (TCHAR*)malloc((nLen + 1) * sizeof(TCHAR));
 				GetWindowText(hWnd, text, nLen + 1);
-				MoveMemory(text + start, text + end, sizeof(TCHAR)* (_tcslen(text) + 1 - end));
+				memmove(text + start, text + end, sizeof(TCHAR)* (_tcslen(text) + 1 - end));
 				SetWindowText(hWnd, text);
 				free(text);
 				SendMessage(hWnd, EM_SETSEL, start, start);

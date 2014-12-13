@@ -176,7 +176,7 @@ LPSTR __cdecl _gpg_encrypt(LPCSTR message, LPCSTR keyid)
 
 		encmessagelen = strlen(buffer)+1;
 		encmessage = (char *) LocalAlloc(LPTR,encmessagelen);
-		MoveMemory(encmessage, buffer, encmessagelen);
+		memmove(encmessage, buffer, encmessagelen);
 	}
 
 	return encmessage;
@@ -256,7 +256,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
 
 		decmessagelen = strlen(buffer)+1;
 		decmessage = (char *) LocalAlloc(LPTR,decmessagelen);
-		MoveMemory(decmessage, buffer, decmessagelen);
+		memmove(decmessage, buffer, decmessagelen);
 	}
 
 	return decmessage;

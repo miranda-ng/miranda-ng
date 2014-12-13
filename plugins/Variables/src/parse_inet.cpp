@@ -39,7 +39,7 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai)
 			return NULL;
 
 		char hex[8];
-		MoveMemory(res + cur + 3, res + cur + 1, strlen(res + cur + 1) + 1);
+		memmove(res + cur + 3, res + cur + 1, strlen(res + cur + 1) + 1);
 		mir_snprintf(hex, SIZEOF(hex), "%%%x", *(res + cur));
 		strncpy(res + cur, hex, strlen(hex));
 		cur += strlen(hex);
@@ -66,7 +66,7 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai)
 			memset(hex, '\0', sizeof(hex));
 			strncpy(hex, res + cur + 1, 2);
 			*(res + cur) = (char)strtol(hex, NULL, 16);
-			MoveMemory(res + cur + 1, res + cur + 3, strlen(res + cur + 3) + 1);
+			memmove(res + cur + 1, res + cur + 3, strlen(res + cur + 3) + 1);
 		}
 		cur++;
 	}

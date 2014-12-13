@@ -88,7 +88,7 @@ BOOL List_InsertElementAt(TYP_LIST *pstHandle, void *pItem, unsigned int uiPos)
 	}
 
 	if (uiPos<pstHandle->uiCount)
-		MoveMemory (&pstHandle->apStorage[uiPos+1], &pstHandle->apStorage[uiPos], (pstHandle->uiCount-uiPos)*sizeof(void*));
+		memmove (&pstHandle->apStorage[uiPos+1], &pstHandle->apStorage[uiPos], (pstHandle->uiCount-uiPos)*sizeof(void*));
 	pstHandle->apStorage[uiPos] = pItem;
     pstHandle->uiCount++;
 	LeaveCriticalSection (&pstHandle->cs);
@@ -102,7 +102,7 @@ void *List_RemoveElementAt(TYP_LIST *pstHandle, unsigned int uiPos)
 	EnterCriticalSection (&pstHandle->cs);
     pRet = pstHandle->apStorage[uiPos];
 	if (uiPos<pstHandle->uiCount)
-		MoveMemory (&pstHandle->apStorage[uiPos], &pstHandle->apStorage[uiPos+1], (pstHandle->uiCount-uiPos)*sizeof(void*));
+		memmove (&pstHandle->apStorage[uiPos], &pstHandle->apStorage[uiPos+1], (pstHandle->uiCount-uiPos)*sizeof(void*));
     pstHandle->uiCount--;
 	LeaveCriticalSection (&pstHandle->cs);
     return pRet;

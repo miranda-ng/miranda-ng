@@ -81,7 +81,7 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes)
 	if (x > 0)
 		memset((m_pDbCache + ofsDest + bytes - x), 0, x);
 	if (ofsSource < m_dwFileSize)
-		MoveMemory(m_pDbCache + ofsDest, m_pDbCache + ofsSource, bytes - x);
+		memmove(m_pDbCache + ofsDest, m_pDbCache + ofsSource, bytes - x);
 
 	logg();
 }
@@ -108,7 +108,7 @@ void CDb3Mmap::DBWrite(DWORD ofs, PVOID pData, int bytes)
 	//log2("write %d@%08x",bytes,ofs);
 	if (ofs+bytes > m_dwFileSize)
 		ReMap(ofs+bytes-m_dwFileSize);
-	MoveMemory(m_pDbCache+ofs,pData,bytes);
+	memmove(m_pDbCache+ofs,pData,bytes);
 	logg();
 }
 

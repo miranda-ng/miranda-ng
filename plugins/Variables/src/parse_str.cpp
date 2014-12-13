@@ -86,7 +86,7 @@ static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai)
 		int loc = cur - res;
 		res = (TCHAR*)mir_realloc(res, (_tcslen(res) + 2)*sizeof(TCHAR));
 		cur = res + loc;
-		MoveMemory(cur + 2, cur + 1, (_tcslen(cur + 1) + 1)*sizeof(TCHAR));
+		memmove(cur + 2, cur + 1, (_tcslen(cur + 1) + 1)*sizeof(TCHAR));
 		memcpy(cur, _T("\r\n"), 2 * sizeof(TCHAR));
 		cur += 2;
 	}
@@ -147,7 +147,7 @@ static TCHAR *parseFixeol2(ARGUMENTSINFO *ai)
 				res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szReplacement) - _tcslen(szEol) + 1)*sizeof(TCHAR));
 				cur = res + pos;
 			}
-			MoveMemory(cur + _tcslen(szReplacement), cur + _tcslen(szEol), (_tcslen(cur + _tcslen(szEol)) + 1)*sizeof(TCHAR));
+			memmove(cur + _tcslen(szReplacement), cur + _tcslen(szEol), (_tcslen(cur + _tcslen(szEol)) + 1)*sizeof(TCHAR));
 			memcpy(cur, szReplacement, _tcslen(szReplacement)*sizeof(TCHAR));
 			pos += _tcslen(szReplacement) - 1;
 		}
@@ -408,7 +408,7 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai)
 					res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(ai->targv[i + 1]) - _tcslen(ai->targv[i]) + 1)*sizeof(TCHAR));
 					cur = res + pos;
 				}
-				MoveMemory(cur + _tcslen(ai->targv[i + 1]), cur + _tcslen(ai->targv[i]), (_tcslen(cur + _tcslen(ai->targv[i])) + 1)*sizeof(TCHAR));
+				memmove(cur + _tcslen(ai->targv[i + 1]), cur + _tcslen(ai->targv[i]), (_tcslen(cur + _tcslen(ai->targv[i])) + 1)*sizeof(TCHAR));
 				memcpy(cur, ai->targv[i + 1], _tcslen(ai->targv[i + 1])*sizeof(TCHAR));
 				pos += _tcslen(ai->targv[i + 1]) - 1;
 			}
@@ -461,7 +461,7 @@ static TCHAR *parseScroll(ARGUMENTSINFO *ai)
 	memset(res, 0, ((2 * _tcslen(ai->targv[1]) + 1) * sizeof(TCHAR)));
 	_tcscpy(res, ai->targv[1]);
 	_tcscat(res, ai->targv[1]);
-	MoveMemory(res, res + move, (_tcslen(res + move) + 1)*sizeof(TCHAR));
+	memmove(res, res + move, (_tcslen(res + move) + 1)*sizeof(TCHAR));
 	*(res + display) = 0;
 	res = (TCHAR*)mir_realloc(res, (_tcslen(res) + 1)*sizeof(TCHAR));
 

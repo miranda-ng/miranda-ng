@@ -61,7 +61,7 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg)
 					if (res == NULL)
 						return NULL;
 				}
-				MoveMemory(res + ecur + (_tcslen(rArg) - _tcslen(tArg)), res + ecur, (_tcslen(res + ecur) + 1)*sizeof(TCHAR));
+				memmove(res + ecur + (_tcslen(rArg) - _tcslen(tArg)), res + ecur, (_tcslen(res + ecur) + 1)*sizeof(TCHAR));
 				_tcsncpy(res + cur, rArg, _tcslen(rArg));
 			}
 		}

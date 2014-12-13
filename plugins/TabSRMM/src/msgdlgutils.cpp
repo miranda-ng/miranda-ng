@@ -883,7 +883,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 	TCHAR InsertThis[50];
 	p1 += 5;
 
-	MoveMemory(pszText, p1, (mir_tstrlen(p1) + 1) * sizeof(TCHAR));
+	memmove(pszText, p1, (mir_tstrlen(p1) + 1) * sizeof(TCHAR));
 	p1 = pszText;
 	// iterate through all characters, if rtf control character found then take action
 	while (*p1 != '\0') {
@@ -1075,7 +1075,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 		// move the memory and paste in new commands instead of the old RTF
 		if (InsertThis[0] || iRemoveChars) {
 			size_t cbLen = _tcslen(InsertThis);
-			MoveMemory(p1 + cbLen, p1 + iRemoveChars, (mir_tstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
+			memmove(p1 + cbLen, p1 + iRemoveChars, (mir_tstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
 			memcpy(p1, InsertThis, cbLen * sizeof(TCHAR));
 			p1 += cbLen;
 		}

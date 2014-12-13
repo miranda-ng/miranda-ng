@@ -122,7 +122,7 @@ static TCHAR *GetWinampSong(void)
 
 	if (pstr < szTitle + (iTitleLen / 2))
 	{
-		MoveMemory(szTitle, pstr + 9, _tcslen(pstr + 9) * sizeof(TCHAR));
+		memmove(szTitle, pstr + 9, _tcslen(pstr + 9) * sizeof(TCHAR));
 		pstr = _tcsstr(pstr + 1, _T(" - Winamp"));
 		if (pstr == NULL)
 		{
@@ -163,7 +163,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 					if (i + 2 <= 1024 && msg[i + 2])
 					{
 						count++;
-						MoveMemory(p, p + 1, (mir_tstrlen(p) - 1) * sizeof(TCHAR));
+						memmove(p, p + 1, (mir_tstrlen(p) - 1) * sizeof(TCHAR));
 					}
 					else
 					{
@@ -197,7 +197,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			if (mir_tstrlen(ptszWinampTitle) > 12)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(ptszWinampTitle) - 12) * sizeof(TCHAR));
 
-			MoveMemory(msg + i + mir_tstrlen(ptszWinampTitle), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(ptszWinampTitle), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
 			memcpy(msg + i, ptszWinampTitle, mir_tstrlen(ptszWinampTitle) * sizeof(TCHAR));
 
 			mir_free(ptszWinampTitle);
@@ -232,7 +232,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			if (mir_tstrlen(substituteStr) > 6)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
 
-			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 		else if (!_tcsnicmp(msg + i, _T("%date%"), 6))
@@ -242,7 +242,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			if (mir_tstrlen(substituteStr) > 6)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
 
-			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 		else if (!_tcsnicmp(msg+i, _T("%rand("), 6))
@@ -264,7 +264,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				if (mir_tstrlen(substituteStr) > k - i)
 					msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - (k - i)) * sizeof(TCHAR));
 
-				MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + (k - i), (mir_tstrlen(msg) - i - (k - i - 1)) * sizeof(TCHAR));
+				memmove(msg + i + mir_tstrlen(substituteStr), msg + i + (k - i), (mir_tstrlen(msg) - i - (k - i - 1)) * sizeof(TCHAR));
 				memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 			}
 			mir_free(temp);
@@ -314,7 +314,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			if (mir_tstrlen(substituteStr) > 9)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 9) * sizeof(TCHAR));
 
-			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 9, (mir_tstrlen(msg) - i - 8) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 9, (mir_tstrlen(msg) - i - 8) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 		else if (!_tcsnicmp(msg+i, _T("%randdefmsg%"), 12))
@@ -362,7 +362,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			if (mir_tstrlen(substituteStr) > 12)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg)+1+mir_tstrlen(substituteStr)-12) * sizeof(TCHAR));
 
-			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
+			memmove(msg + i + mir_tstrlen(substituteStr), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
 			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 	}

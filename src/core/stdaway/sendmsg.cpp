@@ -133,7 +133,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 
 			if (mir_tstrlen(substituteStr) > 6)
 				dbv.ptszVal = (TCHAR*)mir_realloc(dbv.ptszVal, (mir_tstrlen(dbv.ptszVal) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
-			MoveMemory(dbv.ptszVal + i + mir_tstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_tstrlen(dbv.ptszVal) - i - 5) * sizeof(TCHAR));
+			memmove(dbv.ptszVal + i + mir_tstrlen(substituteStr), dbv.ptszVal + i + 6, (mir_tstrlen(dbv.ptszVal) - i - 5) * sizeof(TCHAR));
 			memcpy(dbv.ptszVal+i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 	}

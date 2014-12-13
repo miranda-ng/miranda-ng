@@ -228,7 +228,7 @@ static void TrimString(char *str)
 	len=mir_strlen(str);
 	while(str[0]!='\0' && (unsigned char)str[len-1]<=' ') str[--len]=0;
 	for(start=0;str[start] && (unsigned char)str[start]<=' ';++start);
-	MoveMemory(str,str+start,len-start+1);
+	memmove(str,str+start,len-start+1);
 }
 
 static BOOL IsEmpty(const char *str)

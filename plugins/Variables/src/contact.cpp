@@ -379,7 +379,7 @@ static int contactSettingChanged(WPARAM hContact, LPARAM lParam)
 			/* remove from cache */
 			mir_free(cce[i].tszContact);
 			if (cacheSize > 1) {
-				MoveMemory(&cce[i], &cce[cacheSize-1], sizeof(CONTACTCE));
+				memmove(&cce[i], &cce[cacheSize-1], sizeof(CONTACTCE));
 				cce = ( CONTACTCE* )mir_realloc(cce, (cacheSize-1)*sizeof(CONTACTCE));
 				cacheSize -= 1;
 			}

@@ -70,7 +70,7 @@ PBYTE YAHOO_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, i
         *outBufLen = 0;
         return buf;
     } else  if ( (buf[4] == 'Y') && (buf[5] == 'M') && (buf[6] == 'S') && (buf[7] == 'G')) {
-		MoveMemory( buf, buf + 4, len - 4);
+		memmove( buf, buf + 4, len - 4);
 		*outBufLen = len-4;// we take off 4 bytes from the beginning
 		 
 		return buf;                 
