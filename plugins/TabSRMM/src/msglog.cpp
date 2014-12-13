@@ -1317,9 +1317,6 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	// calc time limit for grouping
 	HWND hwndrtf = dat->hwndIEView ? dat->hwndIWebBrowserControl : GetDlgItem(hwndDlg, IDC_LOG);
 
-	SCROLLINFO si = { 0 }, *psi = &si;
-	si.cbSize = sizeof(si);
-
 	rtfFonts = dat->pContainer->theme.rtfFonts ? dat->pContainer->theme.rtfFonts : &(rtfFontsGlobal[0][0]);
 	time_t now = time(NULL);
 
@@ -1428,6 +1425,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		dat->isAutoRTL = 0;
 	}
 
+	// begin to draw
 	SendMessage(hwndrtf, WM_SETREDRAW, FALSE, 0);
 
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
@@ -1465,7 +1463,10 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	ReplaceIcons(hwndDlg, dat, startAt, fAppend, isSent);
 	dat->clr_added = FALSE;
 
-	SendMessage(hwndDlg, DM_FORCESCROLL, (WPARAM)&pt, (LPARAM)psi);
+	SCROLLINFO si = { 0 };
+	si.cbSize = sizeof(si);
+	SendMessage(hwndDlg, DM_FORCESCROLL, (WPARAM)&pt, (LPARAM)&si);
+
 	SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);

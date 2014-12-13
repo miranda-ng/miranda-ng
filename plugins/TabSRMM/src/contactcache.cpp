@@ -341,7 +341,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 
 		if (m_dat->dwFlags & MWF_NEEDHISTORYSAVE) {
 			m_iHistoryCurrent = m_iHistoryTop;
-			if (::GetWindowTextLengthA(hwndEdit) > 0)
+			if (::GetWindowTextLength(hwndEdit) > 0)
 				saveHistory(m_iHistorySize, 0);
 			else
 				m_history[m_iHistorySize].szText[0] = (TCHAR)'\0';

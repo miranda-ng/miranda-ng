@@ -3475,7 +3475,7 @@ LABEL_SHOWWINDOW:
 
 	case DM_ADDDIVIDER:
 		if (!(dat->dwFlags & MWF_DIVIDERSET) && g_Settings.bUseDividers) {
-			if (GetWindowTextLengthA(GetDlgItem(hwndDlg, IDC_CHAT_LOG)) > 0) {
+			if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG)) > 0) {
 				dat->dwFlags |= MWF_DIVIDERWANTED;
 				dat->dwFlags |= MWF_DIVIDERSET;
 			}

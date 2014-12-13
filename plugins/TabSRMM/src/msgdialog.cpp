@@ -359,16 +359,9 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 
 		dat->Panel->Invalidate();
 
-		if (dat->dwFlags & MWF_DEFERREDSCROLL && dat->hwndIEView == 0 && dat->hwndHPP == 0) {
-			HWND hwnd = GetDlgItem(hwndDlg, IDC_LOG);
-
-			SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-			dat->dwFlags &= ~MWF_DEFERREDSCROLL;
-			SendMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_TOP, 0), 0);
-			SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
+		if (dat->dwFlags & MWF_DEFERREDSCROLL && dat->hwndIEView == 0 && dat->hwndHPP == 0)
 			DM_ScrollToBottom(dat, 0, 1);
-			PostMessage(hwnd, WM_VSCROLL, MAKEWPARAM(SB_PAGEDOWN, 0), 0);    // XXX was post()
-		}
+
 		DM_SetDBButtonStates(hwndDlg, dat);
 
 		if (dat->hwndIEView) {
@@ -2210,7 +2203,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_ADDDIVIDER:
 		if (!(dat->dwFlags & MWF_DIVIDERSET) && PluginConfig.m_UseDividers) {
-			if (GetWindowTextLengthA(GetDlgItem(hwndDlg, IDC_LOG)) > 0) {
+			if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG)) > 0) {
 				dat->dwFlags |= MWF_DIVIDERWANTED;
 				dat->dwFlags |= MWF_DIVIDERSET;
 			}
@@ -2381,32 +2374,22 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case DM_FORCESCROLL:
-		{
-			SCROLLINFO *psi = (SCROLLINFO *)lParam;
-			POINT *ppt = (POINT *)wParam;
+		if (wParam == 0 && lParam == 0)
+			DM_ScrollToBottom(dat, 0, 1);
+		else {
+			SCROLLINFO *psi = (SCROLLINFO*)lParam;
+			POINT *ppt = (POINT*)wParam;
 
-			HWND hwnd = GetDlgItem(hwndDlg, IDC_LOG);
-			int len;
-
-			if (wParam == 0 && lParam == 0) {
-				DM_ScrollToBottom(dat, 0, 1);
-				return 0;
-			}
-
+			HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 			if (dat->hwndIEView == 0 && dat->hwndHPP == 0) {
-				len = GetWindowTextLengthA(GetDlgItem(hwndDlg, IDC_LOG));
-				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETSEL, len - 1, len - 1);
+				int len = GetWindowTextLength(hwndLog);
+				SendMessage(hwndLog, EM_SETSEL, len - 1, len - 1);
 			}
 
-			if (psi == NULL) {
-				DM_ScrollToBottom(dat, 0, 0);
-				return 0;
-			}
-
-			if ((UINT)psi->nPos >= (UINT)psi->nMax - psi->nPage - 5 || psi->nMax - psi->nMin - psi->nPage < 50)
+			if (psi == NULL || psi->nPos >= psi->nMax - (int)psi->nPage - 5 || psi->nMax - psi->nMin - (int)psi->nPage < 50)
 				DM_ScrollToBottom(dat, 0, 0);
 			else
-				SendMessage((dat->hwndIEView || dat->hwndHPP) ? (dat->hwndIEView ? dat->hwndIEView : dat->hwndHPP) : hwnd, EM_SETSCROLLPOS, 0, (LPARAM)ppt);
+				SendMessage((dat->hwndIEView || dat->hwndHPP) ? (dat->hwndIEView ? dat->hwndIEView : dat->hwndHPP) : hwndLog, EM_SETSCROLLPOS, 0, (LPARAM)ppt);
 		}
 		return 0;
 

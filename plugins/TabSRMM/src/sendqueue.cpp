@@ -541,11 +541,13 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 {
 	if (dat == NULL)
 		return;
-	int iLen = GetWindowTextLengthA(GetDlgItem(dat->hwnd, IDC_MESSAGE));
+	
+	int iLen = GetWindowTextLength(GetDlgItem(dat->hwnd, IDC_MESSAGE));
 	NotifyDeliveryFailure(dat);
 	if (iLen != 0)
 		return;
-	/* message area is empty, so we can recall the failed message... */
+	
+	// message area is empty, so we can recall the failed message...
 	SETTEXTEX stx = {ST_DEFAULT, 1200};
 	if (m_jobs[iEntry].dwFlags & PREF_UNICODE)
 		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)&m_jobs[iEntry].szSendBuffer[mir_strlen(m_jobs[iEntry].szSendBuffer) + 1]);
