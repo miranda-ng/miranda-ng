@@ -107,7 +107,7 @@ public:
 	static HMODULE  loadSystemLibrary(const wchar_t* szFilename);
 
 	static INT_PTR  CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	static LPCTSTR  extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
+	static LPTSTR   extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
 
 	static size_t   CopyToClipBoard(const wchar_t *str, const HWND hwndOwner);
 

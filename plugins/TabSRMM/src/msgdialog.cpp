@@ -2064,24 +2064,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
 					{
-						CHARRANGE sel;
-						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&sel);
-						if (sel.cpMin != sel.cpMax)
-							break;
-
-						TEXTRANGEW tr;
-						tr.chrg = ((ENLINK*)lParam)->chrg;
-						tr.lpstrText = (TCHAR*)_alloca(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
-						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-						if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
-							memmove(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
-							memcpy(tr.lpstrText, _T("mailto:"), 7);
-						}
-						if (!IsStringValidLink(tr.lpstrText))
+						ptrT tszUrl(Utils::extractURLFromRichEdit((ENLINK*)lParam, GetDlgItem(hwndDlg, IDC_LOG)));
+						if (!IsStringValidLink(tszUrl))
 							break;
 
 						if (((ENLINK*)lParam)->msg != WM_RBUTTONDOWN) {
-							CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)tr.lpstrText);
+							CallService(MS_UTILS_OPENURL, OUF_TCHAR, tszUrl);
 							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 							break;
 						}
@@ -2093,11 +2081,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
 						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 						case IDM_OPENNEW:
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)tr.lpstrText);
+							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, tszUrl);
 							break;
 
 						case IDM_OPENEXISTING:
-							CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)tr.lpstrText);
+							CallService(MS_UTILS_OPENURL, OUF_TCHAR, tszUrl);
 							break;
 
 						case IDM_COPYLINK:
@@ -2105,9 +2093,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								break;
 
 							EmptyClipboard();
-							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tr.lpstrText) + 1));
+							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tszUrl) + 1));
 							TCHAR *buf = (TCHAR*)GlobalLock(hData);
-							mir_tstrcpy(buf, tr.lpstrText);
+							mir_tstrcpy(buf, tszUrl);
 							GlobalUnlock(hData);
 							SetClipboardData(CF_UNICODETEXT, hData);
 							CloseClipboard();

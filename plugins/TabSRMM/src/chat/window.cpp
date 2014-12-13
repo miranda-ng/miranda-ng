@@ -204,6 +204,7 @@ bool IsStringValidLink(TCHAR* pszText)
 {
 	if (pszText == NULL)
 		return false;
+	
 	if (mir_tstrlen(pszText) < 5 || _tcschr(pszText, '"'))
 		return false;
 
