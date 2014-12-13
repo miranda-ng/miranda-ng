@@ -2055,7 +2055,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 			case EN_LINK:
-				switch (((ENLINK *)lParam)->msg) {
+				switch (((ENLINK*)lParam)->msg) {
 				case WM_SETCURSOR:
 					SetCursor(PluginConfig.hCurHyperlinkHand);
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);

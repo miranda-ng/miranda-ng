@@ -2613,7 +2613,7 @@ LABEL_SHOWWINDOW:
 				if (((LPNMHDR)lParam)->idFrom == IDC_CHAT_LOG && ((MSGFILTER *) lParam)->msg == WM_RBUTTONUP) {
 					CHARRANGE sel, all = { 0, -1 };
 
-					POINT pt = { (short)LOWORD(((ENLINK *) lParam)->lParam), (short)HIWORD(((ENLINK *) lParam)->lParam) };
+					POINT pt = { (short)LOWORD(((ENLINK*) lParam)->lParam), (short)HIWORD(((ENLINK*) lParam)->lParam) };
 					ClientToScreen(((LPNMHDR)lParam)->hwndFrom, &pt);
 
 					// fixing stuff for searches
@@ -2714,7 +2714,7 @@ LABEL_SHOWWINDOW:
 
 		case EN_LINK:
 			if (((LPNMHDR)lParam)->idFrom == IDC_CHAT_LOG) {
-				switch (((ENLINK *) lParam)->msg) {
+				switch (((ENLINK*) lParam)->msg) {
 				case WM_SETCURSOR:
 					if (g_Settings.bClickableNicks) {
 						if (!hCurHyperlinkHand)
@@ -2734,22 +2734,22 @@ LABEL_SHOWWINDOW:
 						if (sel.cpMin != sel.cpMax)
 							break;
 
-						UINT msg = ((ENLINK *) lParam)->msg;
+						UINT msg = ((ENLINK*) lParam)->msg;
 						dat->pContainer->MenuBar->Cancel();
 
 						TEXTRANGE tr;
 						tr.lpstrText = NULL;
-						tr.chrg = ((ENLINK *) lParam)->chrg;
+						tr.chrg = ((ENLINK*) lParam)->chrg;
 						tr.lpstrText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (tr.chrg.cpMax - tr.chrg.cpMin + 2));
 						SendMessage(((LPNMHDR)lParam)->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 
 						BOOL isLink = IsStringValidLink(tr.lpstrText);
 						if (isLink) {
-							if (((ENLINK *) lParam)->msg == WM_RBUTTONDOWN) {
+							if (((ENLINK*) lParam)->msg == WM_RBUTTONDOWN) {
 								HMENU hSubMenu = GetSubMenu(g_hMenu, 2);
 								TranslateMenu(hSubMenu);
-								pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-								pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
+								pt.x = (short) LOWORD(((ENLINK*) lParam)->lParam);
+								pt.y = (short) HIWORD(((ENLINK*) lParam)->lParam);
 								ClientToScreen(((NMHDR*) lParam)->hwndFrom, &pt);
 								switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
 								case ID_NEW:
@@ -2775,7 +2775,7 @@ LABEL_SHOWWINDOW:
 								mir_free(tr.lpstrText);
 								return TRUE;
 							}
-							if (((ENLINK *) lParam)->msg == WM_LBUTTONUP) {
+							if (((ENLINK*) lParam)->msg == WM_LBUTTONUP) {
 								CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW|OUF_TCHAR, (LPARAM)tr.lpstrText);
 								SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 								mir_free(tr.lpstrText);
@@ -2795,8 +2795,8 @@ LABEL_SHOWWINDOW:
 									if ( mir_tstrcmp(ui->pszNick, tr.lpstrText))
 										continue;
 
-									pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
-									pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
+									pt.x = (short) LOWORD(((ENLINK*) lParam)->lParam);
+									pt.y = (short) HIWORD(((ENLINK*) lParam)->lParam);
 									ClientToScreen(((NMHDR*) lParam)->hwndFrom, &pt);
 									memcpy(&uiNew, ui, sizeof(USERINFO));
 									UINT uID = CreateGCMenu(hwndDlg, &hMenu, 0, pt, si, uiNew.pszUID, uiNew.pszNick);

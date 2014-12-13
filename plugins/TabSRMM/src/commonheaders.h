@@ -38,14 +38,16 @@
 #include <shellapi.h>
 #include <uxtheme.h>
 #include <tom.h>
-#include <time.h>
 #include <shlwapi.h>
 #include <shlobj.h>
-#include <assert.h>
-#include <mbstring.h>
 #include <richedit.h>
 #include <richole.h>
-#include <string>
+
+#include <assert.h>
+#include <time.h>
+#include <mbstring.h>
+#include <malloc.h>
+#include <locale.h>
 
 #include <msapi\vsstyle.h>
 #include <m_avatars.h>
@@ -222,12 +224,7 @@ enum DWMWINDOWATTRIBUTE
 	#undef _USE_32BIT_TIME_T
 #endif
 
-/*
-* tchar-like std::string
-*/
-typedef std::basic_string<TCHAR> tstring;
-
-extern NEN_OPTIONS	nen_options;
+extern NEN_OPTIONS nen_options;
 extern HINSTANCE g_hInst;
 extern CSkinItem SkinItems[];
 extern TContainerData *pFirstContainer, *pLastActiveContainer;

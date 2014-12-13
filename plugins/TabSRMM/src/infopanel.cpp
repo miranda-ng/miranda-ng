@@ -72,9 +72,8 @@ void CInfoPanel::setActive(const int newActive)
 	m_active = newActive ? true : false;
 }
 
-/**
-* Load height. Private panel height is indicated by 0xffff for the high word
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load height. Private panel height is indicated by 0xffff for the high word
 
 void CInfoPanel::loadHeight()
 {
@@ -98,11 +97,10 @@ void CInfoPanel::loadHeight()
 		m_height = DEGRADE_THRESHOLD;					// standard height for 2 lines
 }
 
-/**
-* Save current panel height to the database
-*
-* @param fFlush bool: flush values to database (usually only requested by destructor)
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Save current panel height to the database
+//
+// @param fFlush bool: flush values to database (usually only requested by destructor)
 
 void CInfoPanel::saveHeight(bool fFlush)
 {
@@ -135,14 +133,13 @@ void CInfoPanel::saveHeight(bool fFlush)
 	}
 }
 
-/**
-* Sets the new height of the panel and broadcasts it to all
-* open sessions
-*
-* @param newHeight  LONG: the new height.
-* @param fBroadcast bool: broadcast the new height to all open sessions, respect
-*          container's private setting flag.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Sets the new height of the panel and broadcasts it to all
+// open sessions
+//
+// @param newHeight  LONG: the new height.
+// @param fBroadcast bool: broadcast the new height to all open sessions, respect
+//        container's private setting flag.
 
 void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 {
@@ -220,12 +217,11 @@ void CInfoPanel::showHide() const
 	}
 }
 
-/**
-* Decide if info panel must be visible for this session. Uses container setting and,
-* if applicable, local (per contact) override.
-*
-* @return bool: panel is visible for this session
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Decide if info panel must be visible for this session. Uses container setting and,
+// if applicable, local (per contact) override.
+//
+// @return bool: panel is visible for this session
 
 bool CInfoPanel::getVisibility()
 {
@@ -258,14 +254,13 @@ void CInfoPanel::mapRealRectOnTop(const RECT& rcSrc, RECT& rcDest, const SIZE& s
 	rcDest.bottom = rcDest.top + sz.cy;
 }
 
-/**
-* create an underlined version of the original font and select it
-* in the given device context
-*
-* returns the previosuly selected font
-*
-* caller should not forget to delete the font!
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// create an underlined version of the original font and select it
+// in the given device context
+//
+// returns the previosuly selected font
+//
+// caller should not forget to delete the font!
 
 HFONT CInfoPanel::setUnderlinedFont(const HDC hdc, HFONT hFontOrig)
 {
@@ -277,14 +272,13 @@ HFONT CInfoPanel::setUnderlinedFont(const HDC hdc, HFONT hFontOrig)
 	return (HFONT)::SelectObject(hdc, hFontNew);
 }
 
-/**
-* Render the info panel background.
-*
-* @param hdc	 HDC: target device context
-* @param rc     RECT&: target rectangle
-* @param item   CSkinItem *: The item to render in non-aero mode
-* @param bAero  bool: aero active
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Render the info panel background.
+//
+// @param hdc	 HDC: target device context
+// @param rc     RECT&: target rectangle
+// @param item   CSkinItem *: The item to render in non-aero mode
+// @param bAero  bool: aero active
 
 void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, bool fAutoCalc) const
 {
@@ -309,10 +303,9 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, 
 		rc.bottom -= 2;
 		CSkin::SkinDrawBG(m_dat->hwnd, m_dat->pContainer->hwnd, m_dat->pContainer, &rc, hdc);
 		item = &SkinItems[ID_EXTBKINFOPANELBG];
-		/*
-		* if new (= tabsrmm 3.x) skin item is not defined, use the old info panel
-		* field background items. That should break less skins
-		*/
+		
+		// if new (= tabsrmm 3.x) skin item is not defined, use the old info panel
+		// field background items. That should break less skins
 		if (!item->IGNORED)
 			CSkin::DrawItem(hdc, &rc, item);
 		return;
@@ -326,21 +319,19 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool bAero, 
 	}
 }
 
-/**
-* render the content of the info panel. The target area is derived from the
-* precalculated RECT structures in _MessageWindowData (calculated in the
-* message window's WM_SIZE handler).
-*
-* @param hdc HDC: target device context
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// render the content of the info panel. The target area is derived from the
+// precalculated RECT structures in _MessageWindowData (calculated in the
+// message window's WM_SIZE handler).
+//
+// @param hdc HDC: target device context
 
 void CInfoPanel::renderContent(const HDC hdc)
 {
 	if (!m_active)
 		return;
 
-	if (!m_isChat) {
-		// panel picture
+	if (!m_isChat) { // panel picture
 		DRAWITEMSTRUCT dis = {0};
 		dis.rcItem = m_dat->rcPic;
 		dis.hDC = hdc;
@@ -363,8 +354,7 @@ void CInfoPanel::renderContent(const HDC hdc)
 		RenderIPStatus(hdc, rc);
 	}
 	else {
-		RECT rc;
-		rc = m_dat->rcNick;
+		RECT rc = m_dat->rcNick;
 
 		if (m_height >= DEGRADE_THRESHOLD)
 			rc.top -= 2; rc.bottom -= 2;
@@ -377,26 +367,25 @@ void CInfoPanel::renderContent(const HDC hdc)
 	}
 }
 
-/**
-* Render the nickname in the info panel.
-* This will also show the status message (if one is available)
-* The field will dynamically adjust itself to the available info panel space. If
-* the info panel is too small to show both nick and UIN fields, this field will show
-* the UIN _instead_ of the nickname (most people have the nickname in the title
-* bar anyway).
-*
-* @param hdc    HDC: target DC for drawing
-*
-* @param rcItem RECT &: target rectangle
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Render the nickname in the info panel.
+// This will also show the status message (if one is available)
+// The field will dynamically adjust itself to the available info panel space. If
+// the info panel is too small to show both nick and UIN fields, this field will show
+// the UIN _instead_ of the nickname (most people have the nickname in the title
+// bar anyway).
+//
+// @param hdc    HDC: target DC for drawing
+//
+// @param rcItem RECT &: target rectangle
 
-void CInfoPanel::RenderIPNickname(const HDC hdc, RECT& rcItem)
+void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 {
-	const TCHAR*	szStatusMsg = NULL;
-	CSkinItem*		item = &SkinItems[ID_EXTBKINFOPANEL];
-	const TCHAR* 	szTextToShow = 0;
-	bool			fShowUin = false;
-	COLORREF		clr = 0;
+	const TCHAR *szStatusMsg = NULL;
+	CSkinItem *item = &SkinItems[ID_EXTBKINFOPANEL];
+	const TCHAR *szTextToShow = 0;
+	bool fShowUin = false;
+	COLORREF clr = 0;
 
 	if (m_height < DEGRADE_THRESHOLD) {
 		szTextToShow = m_dat->cache->getUIN();
@@ -479,12 +468,11 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT& rcItem)
 	}
 }
 
-/**
-* Draws the UIN field for the info panel.
-*
-* @param hdc    HDC: device context for drawing.
-* @param rcItem RECT &: target rectangle for drawing
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draws the UIN field for the info panel.
+//
+// @param hdc    HDC: device context for drawing.
+// @param rcItem RECT &: target rectangle for drawing
 
 void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 {
@@ -533,10 +521,9 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		::SelectObject(hdc, hOldFont);
 }
 
-/**
-* Render the info panel status field. Usually in the 2nd line, right aligned
-* @param hdc    : target device context
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Render the info panel status field. Usually in the 2nd line, right aligned
+// @param hdc    : target device context
 
 void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 {
@@ -547,9 +534,7 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 	if (m_dat->szStatus[0])
 		GetTextExtentPoint32(hdc, m_dat->szStatus, (int)mir_tstrlen(m_dat->szStatus), &sStatus);
 
-	/*
-	* figure out final account name
-	*/
+	// figure out final account name
 	const TCHAR *szFinalProto = m_dat->cache->getRealAccount();
 	if (szFinalProto) {
 		SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_PROTO]);
@@ -609,16 +594,15 @@ void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 		SelectObject(hdc, hOldFont);
 }
 
-/**
-* Draws the Nickname field (first line) in a MUC window
-*
-* @param hdc    HDC: device context for drawing.
-* @param rcItem RECT &: target rectangle for drawing
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draws the Nickname field (first line) in a MUC window
+//
+// @param hdc    HDC: device context for drawing.
+// @param rcItem RECT &: target rectangle for drawing
 
 void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 {
-	SESSION_INFO *si = reinterpret_cast<SESSION_INFO *>(m_dat->si);
+	SESSION_INFO *si = reinterpret_cast<SESSION_INFO*>(m_dat->si);
 	if (si == 0)
 		return;
 
@@ -629,9 +613,8 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 
 	if (m_height < DEGRADE_THRESHOLD) {
 		TCHAR	tszText[2048];
-
-		mir_sntprintf(tszText, SIZEOF(tszText), TranslateT("Topic is: %s"), si->ptszTopic ? si->ptszTopic :
-					  TranslateT("no topic set."));
+		mir_sntprintf(tszText, SIZEOF(tszText), TranslateT("Topic is: %s"), 
+			si->ptszTopic ? si->ptszTopic : TranslateT("no topic set."));
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
 		CSkin::RenderText(hdc, m_dat->hThemeIP, tszText, &rcItem, DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX | DT_VCENTER,
@@ -659,10 +642,9 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 		if (si->ptszStatusbarText) {
 			TCHAR *pTmp = _tcschr(si->ptszStatusbarText, ']');
 			pTmp += 2;
-			TCHAR tszTemp[30];
-			if (si->ptszStatusbarText[0] == '[' && pTmp > si->ptszStatusbarText && ((pTmp - si->ptszStatusbarText) < SIZEOF(tszTemp))) {
-				memcpy(tszTemp, si->ptszStatusbarText, ((pTmp - si->ptszStatusbarText) * sizeof(TCHAR)));
-				tszTemp[(pTmp - si->ptszStatusbarText)] = 0;
+			
+			if (si->ptszStatusbarText[0] == '[' && pTmp > si->ptszStatusbarText) {
+				CMString tszTemp(si->ptszStatusbarText, pTmp - si->ptszStatusbarText);
 				CSkin::RenderText(hdc, m_dat->hThemeIP, tszTemp, &rcItem, DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX | DT_VCENTER,
 								  CSkin::m_glowSize, m_ipConfig.clrs[IPFONTID_STATUS]);
 			}
@@ -671,16 +653,15 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 	if (hOldFont)
 		::SelectObject(hdc, hOldFont);
 }
-/**
-* Draw 2nd line of text in the info panel.
-* @param hdc	 : target device context
-* @param rcItem : target rectangle
-*/
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Draw 2nd line of text in the info panel.
+// @param hdc	 : target device context
+// @param rcItem : target rectangle
 
 void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 {
-	SESSION_INFO	*si = reinterpret_cast<SESSION_INFO *>(m_dat->si);
-
+	SESSION_INFO *si = reinterpret_cast<SESSION_INFO*>(m_dat->si);
 	if (si == 0)
 		return;
 
@@ -707,9 +688,9 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	if (hOldFont)
 		::SelectObject(hdc, hOldFont);
 }
-/**
-* Invalidate the info panel rectangle
-*/
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Invalidate the info panel rectangle
 
 void CInfoPanel::Invalidate(BOOL fErase) const
 {
@@ -721,10 +702,9 @@ void CInfoPanel::Invalidate(BOOL fErase) const
 	}
 }
 
-/**
-* build the left click contextual menu for the info panel
-* @return HMENU: menu handle for the fully prepared menu
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// build the left click contextual menu for the info panel
+// @return HMENU: menu handle for the fully prepared menu
 
 HMENU CInfoPanel::constructContextualMenu() const
 {
@@ -757,14 +737,13 @@ HMENU CInfoPanel::constructContextualMenu() const
 	return m;
 }
 
-/**
-* process internal menu commands from info panel fields
-* if this does not handle the selected command, Utils::CmdDispatcher() will be called
-* to chain the command through message window command handlers.
-*
-* @param cmd		command id
-* @return			0 if command was processed, != 0 otherwise
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// process internal menu commands from info panel fields
+// if this does not handle the selected command, Utils::CmdDispatcher() will be called
+// to chain the command through message window command handlers.
+// 
+// @param cmd		command id
+// @return			0 if command was processed, != 0 otherwise
 
 LRESULT CInfoPanel::cmdHandler(UINT cmd)
 {
@@ -791,11 +770,10 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
 	return S_FALSE;				// not handled
 }
 
-/**
-* handle mouse clicks on the info panel.
-*
-* @param pt: mouse cursor pos
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// handle mouse clicks on the info panel.
+//
+// @param pt: mouse cursor pos
 
 void CInfoPanel::handleClick(const POINT& pt)
 {
@@ -818,13 +796,12 @@ void CInfoPanel::handleClick(const POINT& pt)
 	Invalidate(TRUE);
 }
 
-/**
-* peforms a hit test on the given position. returns 0, if cursor is NOT
-* inside any of the 3 relevant hovering areas.
-*
-* @param pt	POINT (in screen coordinates)
-* @return		Hit test result or 0 if none applies.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// peforms a hit test on the given position. returns 0, if cursor is NOT
+// inside any of the 3 relevant hovering areas.
+//
+// @param pt	POINT (in screen coordinates)
+// @return		Hit test result or 0 if none applies.
 
 int CInfoPanel::hitTest(POINT pt)
 {
@@ -840,12 +817,11 @@ int CInfoPanel::hitTest(POINT pt)
 	return(HTNIRVANA);
 }
 
-/**
-* track mouse movements inside the panel. Needed for tooltip activation
-* and to hover the info panel fields.
-*
-* @param pt : mouse coordinates (screen)
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// track mouse movements inside the panel. Needed for tooltip activation
+// and to hover the info panel fields.
+// 
+// @param pt : mouse coordinates (screen)
 
 void CInfoPanel::trackMouse(POINT &pt)
 {
@@ -886,20 +862,19 @@ void CInfoPanel::trackMouse(POINT &pt)
 		m_dat->dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
 }
 
-/**
-* activate a tooltip
-* @param ctrlId : control id
-* @param lParam : typically a TCHAR * for the tooltip text
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// activate a tooltip
+// @param ctrlId : control id
+// @param lParam : typically a TCHAR * for the tooltip text
 
 void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 {
 	if (!m_active || !m_dat->hwndTip)
 		return;
 
-	HWND	hwndDlg = m_dat->hwnd;
+	HWND hwndDlg = m_dat->hwnd;
 
-	RECT 	rc;
+	RECT rc;
 	::GetWindowRect(GetDlgItem(hwndDlg, ctrlId), &rc);
 
 	::SendMessage(m_dat->hwndTip, TTM_TRACKPOSITION, 0, (LPARAM)MAKELONG(rc.left, rc.bottom));
@@ -909,14 +884,10 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 		if (m_hwndConfig)
 			return;
 
-		TCHAR temp[1024];
-		mir_sntprintf(temp, SIZEOF(temp), RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
+		CMString str(FORMAT, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
 
-		tstring *str = new tstring(temp);
-
-		mir_sntprintf(temp, SIZEOF(temp), TranslateT("\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s"),
+		str.AppendFormat(TranslateT("\\ul\\b Status message:\\ul0\\b0 \\par %s"),
 			m_dat->cache->getStatusMsg() ? m_dat->cache->getStatusMsg() : TranslateT("No status message"));
-		str->append(temp);
 
 		DBVARIANT dbv = { 0 };
 		if (BYTE xStatus = m_dat->cache->getXStatusId()) {
@@ -927,42 +898,31 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 				tszXStatusName = xStatusDescr[xStatus - 1];
 
 			if (tszXStatusName) {
-				str->append(TranslateT("\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par "));
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s%s%s"), tszXStatusName, m_dat->cache->getXStatusMsg() ? _T(" / ") : _T(""),
+				str.Append(TranslateT("\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par "));
+				str.AppendFormat(_T("%s%s%s"), tszXStatusName, m_dat->cache->getXStatusMsg() ? _T(" / ") : _T(""),
 								m_dat->cache->getXStatusMsg() ? m_dat->cache->getXStatusMsg() : _T(""));
-				str->append(temp);
+
 				if (dbv.ptszVal)
 					mir_free(dbv.ptszVal);
 			}
 		}
 
-		if (m_dat->cache->getListeningInfo()) {
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->cache->getListeningInfo());
-			str->append(temp);
-		}
+		if (m_dat->cache->getListeningInfo())
+			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->cache->getListeningInfo());
 
 		if (0 == db_get_ts(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
-			mir_sntprintf(temp, SIZEOF(temp), TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
+			str.AppendFormat(TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
 			::db_free(&dbv);
-			str->append(temp);
 		}
-		str->append(_T("}"));
+		str.AppendChar('}');
 
-		/*
-		* convert line breaks to rtf
-		*/
-
-		size_t pos;
-		while ((pos = str->find(_T("\n"))) != str->npos) {
-			str->erase(pos, 1);
-			str->insert(pos, _T("\\line "));
-		}
+		// convert line breaks to rtf
+		str.Replace(_T("\n"), _T("\\line "));
 
 		POINT pt;
 		RECT rc = {0, 0, 400, 600};
 		GetCursorPos(&pt);
-		m_tip = new CTip(m_dat->hwnd, m_dat->hContact, str->c_str(), this);
-		delete str;
+		m_tip = new CTip(m_dat->hwnd, m_dat->hContact, str, this);
 		m_tip->show(rc, pt, m_dat->hTabIcon, m_dat->szStatus);
 		return;
 	}
@@ -975,12 +935,11 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 	::GetCursorPos(&m_dat->ptTipActivation);
 }
 
-/**
-* hide a tooltip (if it was created)
-* this is only used from outside (i.e. container window dialog)
-*
-* hwndNew = window to become active (as reported by WM_ACTIVATE).
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// hide a tooltip (if it was created)
+// this is only used from outside (i.e. container window dialog)
+// 
+// hwndNew = window to become active (as reported by WM_ACTIVATE).
 
 void CInfoPanel::hideTip(const HWND hwndNew)
 {
@@ -993,12 +952,11 @@ void CInfoPanel::hideTip(const HWND hwndNew)
 	}
 }
 
-/**
-* draw the background (and border) of the parent control that holds the avs-based avatar display
-* (ACC window class). Only required when support for animated avatars is enabled because
-* native avatar rendering does not support animated images.
-* To avoid clipping issues, this is done during WM_ERASEBKGND.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// draw the background (and border) of the parent control that holds the avs-based avatar display
+// (ACC window class). Only required when support for animated avatars is enabled because
+// native avatar rendering does not support animated images.
+// To avoid clipping issues, this is done during WM_ERASEBKGND.
 
 LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1008,9 +966,7 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 		break;
 
 	case WM_ERASEBKGND:
-		/*
-		 * parent window of the infopanel ACC control
-		 */
+		// parent window of the infopanel ACC control
 		RECT rc, rcItem;
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		if (dat == 0)
@@ -1074,12 +1030,11 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 	return mir_callNextSubclass(hwnd, CInfoPanel::avatarParentSubclass, msg, wParam, lParam);
 }
 
-/**
-* Stub for the dialog procedure. Just handles INITDIALOG and sets
-* our userdata. Real processing is done by ConfigDlgProc()
-*
-* @params Like a normal dialog procedure
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Stub for the dialog procedure. Just handles INITDIALOG and sets
+// our userdata. Real processing is done by ConfigDlgProc()
+//
+// @params Like a normal dialog procedure
 
 INT_PTR CALLBACK CInfoPanel::ConfigDlgProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1097,9 +1052,8 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProcStub(HWND hwnd, UINT msg, WPARAM wPara
 	return FALSE;
 }
 
-/**
-* dialog procedure for the info panel config popup
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// dialog procedure for the info panel config popup
 
 INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1284,11 +1238,10 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
-/**
-* invoke info panel config popup dialog
-* @param pt : mouse coordinates (screen)
-* @return   : always 0
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// invoke info panel config popup dialog
+// @param pt : mouse coordinates (screen)
+// @return   : always 0
 
 int CInfoPanel::invokeConfigDialog(const POINT& pt)
 {
@@ -1328,11 +1281,10 @@ int CInfoPanel::invokeConfigDialog(const POINT& pt)
 	return 0;
 }
 
-/**
-* remove the info panel configuration dialog
-* @param fForced: bool, if true, dismiss it under any circumstances, even
-* with the pointer still inside the dialog.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// remove the info panel configuration dialog
+// @param fForced: bool, if true, dismiss it under any circumstances, even
+// with the pointer still inside the dialog.
 
 void CInfoPanel::dismissConfig(bool fForced)
 {
@@ -1353,21 +1305,20 @@ void CInfoPanel::dismissConfig(bool fForced)
 	m_fDialogCreated = false;
 }
 
-/**
-* construct a richedit tooltip object.
-*
-* @param hwndParent		HWND    owner (used only for position calculation)
-* @param hContact			HANDLE  contact handle
-* @param pszText			TCHAR*  the content of the rich edit control
-* @param panel			CInfoPanel* the panel which owns it
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// construct a richedit tooltip object.
+//
+// @param hwndParent HWND owner (used only for position calculation)
+// @param hContact HANDLE contact handle
+// @param pszText TCHAR* the content of the rich edit control
+// @param panel CInfoPanel* the panel which owns it
 
 CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText, const CInfoPanel* panel)
 {
 	m_hwnd = ::CreateWindowEx(WS_EX_TOOLWINDOW, _T("RichEditTipClass"), _T(""), (M.isAero() ? WS_THICKFRAME : WS_BORDER) | WS_POPUPWINDOW | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 		0, 0, 40, 40, 0, 0, g_hInst, this);
 
-	m_hRich = ::CreateWindowEx(0, RICHEDIT_CLASS, _T(""), WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
+	m_hRich = ::CreateWindowEx(0, _T("RICHEDIT50W"), _T(""), WS_CHILD | ES_MULTILINE | ES_AUTOVSCROLL | ES_NOHIDESEL | ES_READONLY | WS_VSCROLL | WS_TABSTOP,
 		0, 0, 40, 40, m_hwnd, reinterpret_cast<HMENU>(1000), g_hInst, NULL);
 
 	::SendMessage(m_hRich, EM_AUTOURLDETECT, TRUE, 0);
@@ -1384,17 +1335,16 @@ CTip::CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText,
 	mir_subclassWindow(m_hRich, RichEditProc);
 }
 
-/**
-* Show the tooltip at the given position (the position can be adjusted to keep it on screen and
-* inside its parent window.
-*
-* it will auto-adjust the size (height only) of the richedit control to fit the m_pszText
-*
-* @param rc			dimensions of the tip (left and top should be 0)
-* @param pt			point in screen coordinates
-* @param hIcon			optional icon to display in the tip header
-* @param szTitle		optional title to display in the tip header
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Show the tooltip at the given position (the position can be adjusted to keep it on screen and
+// inside its parent window.
+//
+// it will auto-adjust the size (height only) of the richedit control to fit the m_pszText
+//
+// @param rc dimensions of the tip (left and top should be 0)
+// @param pt point in screen coordinates
+// @param hIcon optional icon to display in the tip header
+// @param szTitle optional title to display in the tip header
 
 void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTitle)
 {
@@ -1466,9 +1416,8 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTit
 	::ReleaseDC(m_hwnd, hdc);
 }
 
-/**
-* register richedit tooltip window class
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// register richedit tooltip window class
 
 void CTip::registerClass()
 {
@@ -1482,10 +1431,9 @@ void CTip::registerClass()
 	RegisterClassEx(&wc);
 }
 
-/**
-* subclass the rich edit control inside the tip. Needed to hide the blinking
-* caret and prevent all scrolling actions.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclass the rich edit control inside the tip. Needed to hide the blinking
+// caret and prevent all scrolling actions.
 
 LRESULT CALLBACK CTip::RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1509,10 +1457,9 @@ LRESULT CALLBACK CTip::RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	return ::mir_callNextSubclass(hwnd, CTip::RichEditProc, msg, wParam, lParam);
 }
 
-/**
-* stub for the tip control window procedure. Just handle WM_CREATE and set the
-* this pointer.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// stub for the tip control window procedure. Just handle WM_CREATE and set the
+// this pointer.
 
 LRESULT CALLBACK CTip::WndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1528,12 +1475,14 @@ LRESULT CALLBACK CTip::WndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return ::DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-/**
-* the window procedure for the tooltip window.
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// the window procedure for the tooltip window.
 
 INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	POINT	pt;
+	RECT	rc;
+
 	switch (msg) {
 	case WM_ACTIVATE:
 	case WM_SETCURSOR:
@@ -1550,9 +1499,9 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		break;
 
 	case WM_ERASEBKGND:
+		TCHAR szTitle[128];
 		{
 			HDC hdc = (HDC)wParam;
-			RECT rc;
 			COLORREF	clr = CInfoPanel::m_ipConfig.clrs[IPFONTID_NICK];
 			GetClientRect(hwnd, &rc);
 			CContactCache* c = CContactCache::getContactCache(m_hContact);
@@ -1561,7 +1510,6 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			LONG cy = rc.bottom;
 			HANDLE hTheme = 0;
 
-			TCHAR szTitle[128];
 			mir_sntprintf(szTitle, SIZEOF(szTitle), m_szTitle ? _T("%s (%s)") : _T("%s%s"), c->getNick(), m_szTitle ? m_szTitle : _T(""));
 
 			if (m_panel) {
@@ -1624,7 +1572,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		switch (((NMHDR*)lParam)->code) {
 		case EN_LINK:
 			::SetFocus(m_hRich);
-			switch (((ENLINK *)lParam)->msg) {
+			switch (((ENLINK*)lParam)->msg) {
 			case WM_LBUTTONUP:
 				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
 				const TCHAR *tszUrl = Utils::extractURLFromRichEdit(e, m_hRich);
@@ -1644,9 +1592,6 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_TIMER:
 		if (wParam == 1000) {
-			POINT	pt;
-			RECT	rc;
-
 			::KillTimer(hwnd, 1000);
 			::GetCursorPos(&pt);
 			::GetWindowRect(hwnd, &rc);
