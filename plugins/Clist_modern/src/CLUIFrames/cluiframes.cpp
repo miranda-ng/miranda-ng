@@ -2866,26 +2866,19 @@ int DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid)
 					textrc.left += 2;
 					textrc.top += 2;
 				}
-
 			}
 			else
 			{
 				textrc.left += GetSystemMetrics(SM_CXSMICON)+2;
 				textrc.top += 2;
 			}
-			ske_TextOut(hdcMem,textrc.left,textrc.top,g_pfwFrames[pos].TitleBar.tbname,mir_tstrlen(g_pfwFrames[pos].TitleBar.tbname));
-
+			ske_TextOut(hdcMem, textrc.left, textrc.top, g_pfwFrames[pos].TitleBar.tbname, (int)mir_tstrlen(g_pfwFrames[pos].TitleBar.tbname));
 		}
+
 		if (!AlignCOLLIconToLeft)
-		{
 			mod_DrawIconEx_helper(hdcMem,g_pfwFrames[pos].TitleBar.wndSize.right-GetSystemMetrics(SM_CXSMICON)-2,rc.top+((g_nTitleBarHeight>>1)-(GetSystemMetrics(SM_CXSMICON)>>1)),g_pfwFrames[pos].collapsed?LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN):LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT),GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), 0, NULL,DI_NORMAL);
-		}
 		else
-		{
 			mod_DrawIconEx_helper(hdcMem,rc.left,rc.top+((g_nTitleBarHeight>>1)-(GetSystemMetrics(SM_CXSMICON)>>1)),g_pfwFrames[pos].collapsed?LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN):LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT),GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), 0, NULL,DI_NORMAL);
-		}
-
-
 	}
 	{
 		BLENDFUNCTION bf = {AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
