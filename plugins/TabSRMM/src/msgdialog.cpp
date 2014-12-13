@@ -2038,11 +2038,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						break;
 
 					case WM_MOUSEMOVE:
-						POINT	pt;
-						HCURSOR hCur = GetCursor();
 						GetCursorPos(&pt);
 						DM_DismissTip(dat, pt);
 						dat->Panel->trackMouse(pt);
+
+						HCURSOR hCur = GetCursor();
 						if (hCur == LoadCursor(NULL, IDC_SIZENS) || hCur == LoadCursor(NULL, IDC_SIZEWE) || hCur == LoadCursor(NULL, IDC_SIZENESW) || hCur == LoadCursor(NULL, IDC_SIZENWSE))
 							SetCursor(LoadCursor(NULL, IDC_ARROW));
 						break;
@@ -2055,7 +2055,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 			case EN_LINK:
-				switch (((ENLINK*)lParam)->msg) {
+				ENLINK *pLink = (ENLINK*)lParam;
+				switch (pLink->msg) {
 				case WM_SETCURSOR:
 					SetCursor(PluginConfig.hCurHyperlinkHand);
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
@@ -2063,48 +2064,46 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				case WM_RBUTTONDOWN:
 				case WM_LBUTTONUP:
-					{
-						ptrT tszUrl(Utils::extractURLFromRichEdit((ENLINK*)lParam, GetDlgItem(hwndDlg, IDC_LOG)));
-						if (!IsStringValidLink(tszUrl))
-							break;
+					ptrT tszUrl(Utils::extractURLFromRichEdit((ENLINK*)lParam, GetDlgItem(hwndDlg, IDC_LOG)));
+					if (!IsStringValidLink(tszUrl))
+						break;
 
-						if (((ENLINK*)lParam)->msg != WM_RBUTTONDOWN) {
-							CallService(MS_UTILS_OPENURL, OUF_TCHAR, tszUrl);
-							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-							break;
-						}
-						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-						HMENU hSubMenu = GetSubMenu(hMenu, 1);
-						TranslateMenu(hSubMenu);
-						pt.x = (short)LOWORD(((ENLINK*)lParam)->lParam);
-						pt.y = (short)HIWORD(((ENLINK*)lParam)->lParam);
-						ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
-						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
-						case IDM_OPENNEW:
-							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, tszUrl);
-							break;
-
-						case IDM_OPENEXISTING:
-							CallService(MS_UTILS_OPENURL, OUF_TCHAR, tszUrl);
-							break;
-
-						case IDM_COPYLINK:
-							if (!OpenClipboard(hwndDlg))
-								break;
-
-							EmptyClipboard();
-							HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tszUrl) + 1));
-							TCHAR *buf = (TCHAR*)GlobalLock(hData);
-							mir_tstrcpy(buf, tszUrl);
-							GlobalUnlock(hData);
-							SetClipboardData(CF_UNICODETEXT, hData);
-							CloseClipboard();
-							break;
-						}
-						DestroyMenu(hMenu);
-						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
-						return TRUE;
+					if (pLink->msg != WM_RBUTTONDOWN) {
+						CallService(MS_UTILS_OPENURL, OUF_TCHAR, tszUrl);
+						SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+						break;
 					}
+					HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+					HMENU hSubMenu = GetSubMenu(hMenu, 1);
+					TranslateMenu(hSubMenu);
+					pt.x = (short)LOWORD(pLink->lParam);
+					pt.y = (short)HIWORD(pLink->lParam);
+					ClientToScreen(((NMHDR*)lParam)->hwndFrom, &pt);
+					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL)) {
+					case IDM_OPENNEW:
+						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, tszUrl);
+						break;
+
+					case IDM_OPENEXISTING:
+						CallService(MS_UTILS_OPENURL, OUF_TCHAR, tszUrl);
+						break;
+
+					case IDM_COPYLINK:
+						if (!OpenClipboard(hwndDlg))
+							break;
+
+						EmptyClipboard();
+						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(tszUrl) + 1));
+						TCHAR *buf = (TCHAR*)GlobalLock(hData);
+						mir_tstrcpy(buf, tszUrl);
+						GlobalUnlock(hData);
+						SetClipboardData(CF_UNICODETEXT, hData);
+						CloseClipboard();
+						break;
+					}
+					DestroyMenu(hMenu);
+					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE);
+					return TRUE;
 				}
 			}
 		}
