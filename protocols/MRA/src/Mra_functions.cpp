@@ -217,7 +217,7 @@ bool DB_GetStaticStringW(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszValueN
 	if (db_get_ws(hContact, lpszModule, lpszValueName, &dbv) == 0) {
 		dwReadedStringLen = mir_wstrlen(dbv.pwszVal);
 		if (lpwszRetBuff && (dwRetBuffSize > dwReadedStringLen)) {
-			memmove(lpwszRetBuff, dbv.pszVal, (dwReadedStringLen*sizeof(WCHAR)));//include null terminated
+			memcpy(lpwszRetBuff, dbv.pszVal, (dwReadedStringLen*sizeof(WCHAR)));//include null terminated
 			(*((WCHAR*)(lpwszRetBuff + dwReadedStringLen))) = 0;
 			bRet = true;
 		}
@@ -289,7 +289,7 @@ bool DB_GetContactSettingBlob(MCONTACT hContact, LPCSTR lpszModule, LPCSTR lpszV
 	if (db_get(hContact, lpszModule, lpszValueName, &dbv) == 0) {
 		if (dbv.type == DBVT_BLOB) {
 			if (dwRetBuffSize >= dbv.cpbVal) {
-				memmove(lpRet, dbv.pbVal, dbv.cpbVal);
+				memcpy(lpRet, dbv.pbVal, dbv.cpbVal);
 				bRet = true;
 			}
 			if (pdwRetBuffSize) (*pdwRetBuffSize) = dbv.cpbVal;
@@ -670,7 +670,7 @@ void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &
 			if (getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX)) {
 				strncpy(szServiceFunction, m_szModuleName, MAX_PATH);
 				pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
-				memmove(pszServiceFunctionName, MRA_GOTO_INBOX, sizeof(MRA_GOTO_INBOX));
+				memcpy(pszServiceFunctionName, MRA_GOTO_INBOX, sizeof(MRA_GOTO_INBOX));
 				cle.pszService = szServiceFunction;
 			}
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
@@ -1239,7 +1239,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 		prdsiItems = (RECURSION_DATA_STACK_ITEM*)mir_calloc(dwRecDeepAllocated*sizeof(RECURSION_DATA_STACK_ITEM));
 		if (prdsiItems) {
 			dwPathLen = dwFolderLen;
-			memmove(szPath, lpszFolder, (dwPathLen*sizeof(WCHAR)));
+			memcpy(szPath, lpszFolder, (dwPathLen*sizeof(WCHAR)));
 			if (szPath[(dwPathLen - 1)] != '\\') {
 				szPath[dwPathLen] = '\\';
 				dwPathLen++;
@@ -1259,7 +1259,7 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T("."), 1) != CSTR_EQUAL)
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T(".."), 2) != CSTR_EQUAL) {
 								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1);
-								memmove((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
+								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
 								mir_tstrcat(szPath, _T("\\*.*"));
 								dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
 
@@ -1279,13 +1279,13 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 						else {// file
 							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, lpszFileName, dwFileNameLen) == CSTR_EQUAL) {
 								prdsiItems[dwRecDeepCurPos].dwFileNameLen = mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
-								memmove((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, ((prdsiItems[dwRecDeepCurPos].dwFileNameLen + 1)*sizeof(WCHAR)));
+								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, ((prdsiItems[dwRecDeepCurPos].dwFileNameLen + 1)*sizeof(WCHAR)));
 								dwFilePathLen = (dwPathLen + prdsiItems[dwRecDeepCurPos].dwFileNameLen);
 
 								if (pdwRetFilePathLen) (*pdwRetFilePathLen) = dwFilePathLen;
 								if (lpszRetFilePathName && dwRetFilePathLen) {
 									dwFilePathLen = min(dwFilePathLen, dwRetFilePathLen);
-									memmove(lpszRetFilePathName, szPath, ((dwFilePathLen + 1)*sizeof(WCHAR)));
+									memcpy(lpszRetFilePathName, szPath, ((dwFilePathLen + 1)*sizeof(WCHAR)));
 								}
 
 								dwRetErrorCode = NO_ERROR;

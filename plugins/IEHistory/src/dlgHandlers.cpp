@@ -190,7 +190,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 			messages[i] = (PBYTE)realloc(messages[i], newSize);
 			dbInfo.cbBlob = newSize;
 			if (!db_event_get(dbEvent, &dbInfo)) {
-				memmove(messages[i], dbInfo.pBlob, newSize);
+				memcpy(messages[i], dbInfo.pBlob, newSize);
 				FillIEViewInfo(&ieData[i], dbInfo, messages[i]);
 			}
 			//FillIEViewEventData(&ieData[i], dbEvent);

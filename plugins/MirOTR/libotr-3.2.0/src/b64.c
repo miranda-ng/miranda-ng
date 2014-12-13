@@ -202,7 +202,7 @@ char *otrl_base64_otr_encode(const unsigned char *buf, size_t buflen)
     if (base64buf == NULL) {
 	return NULL;
     }
-    memmove(base64buf, "?OTR:", 5);
+    memcpy(base64buf, "?OTR:", 5);
     otrl_base64_encode(base64buf+5, buf, buflen);
     base64buf[5 + base64len] = '.';
     base64buf[5 + base64len + 1] = '\0';

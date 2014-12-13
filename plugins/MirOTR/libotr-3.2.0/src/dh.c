@@ -273,7 +273,7 @@ gcry_error_t otrl_dh_compute_v2_auth_keys(const DH_keypair *our_dh,
     }
     sdata[0] = 0x00;
     gcry_md_hash_buffer(GCRY_MD_SHA256, hashdata, sdata, slen+5);
-    memmove(sessionid, hashdata, 8);
+    memcpy(sessionid, hashdata, 8);
     *sessionidlenp = 8;
 
     /* Calculate the encryption keys */
@@ -398,7 +398,7 @@ gcry_error_t otrl_dh_compute_v1_session_id(const DH_keypair *our_dh,
     }
     sdata[0] = 0x00;
     gcry_md_hash_buffer(GCRY_MD_SHA1, hashdata, sdata, slen+5);
-    memmove(sessionid, hashdata, 20);
+    memcpy(sessionid, hashdata, 20);
     *sessionidlenp = 20;
 
     /* Which half should be bold? */

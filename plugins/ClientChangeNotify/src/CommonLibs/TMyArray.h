@@ -171,7 +171,7 @@ __forceinline void TMyArray<T, ARG_T, GrowBy, FreeThreshold>::MoveElem(int nInde
 		return; // nothing to do
 	}
 	char Elem[sizeof(T)];
-	memmove(Elem, pData + nIndex, sizeof(T));
+	memcpy(Elem, pData + nIndex, sizeof(T));
 	if (nIndex < nMoveTo)
 	{
 		memmove(pData + nIndex, pData + nIndex + 1, sizeof(T) * (nMoveTo - nIndex));
@@ -179,7 +179,7 @@ __forceinline void TMyArray<T, ARG_T, GrowBy, FreeThreshold>::MoveElem(int nInde
 	{
 		memmove(pData + nMoveTo + 1, pData + nMoveTo, sizeof(T) * (nIndex - nMoveTo));
 	}
-	memmove(pData + nMoveTo, Elem, sizeof(T));
+	memcpy(pData + nMoveTo, Elem, sizeof(T));
 }
 
 template <class T, class ARG_T, int GrowBy, int FreeThreshold>

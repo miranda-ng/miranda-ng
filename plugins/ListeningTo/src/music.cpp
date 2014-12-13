@@ -139,7 +139,7 @@ int ChangedListeningInfo()
 
 			FreeListeningInfo(&current);
 
-			memmove(&current, &lti, sizeof(current));
+			memcpy(&current, &lti, sizeof(current));
 
 			changed = 1;
 		}

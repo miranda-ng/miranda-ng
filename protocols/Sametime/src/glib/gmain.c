@@ -1799,7 +1799,7 @@ g_get_current_time (GTimeVal *result)
   g_return_if_fail (result != NULL);
 
   GetSystemTimeAsFileTime (&ft);
-  memmove (&time64, &ft, sizeof (FILETIME));
+  memcpy(&time64, &ft, sizeof (FILETIME));
 
   /* Convert from 100s of nanoseconds since 1601-01-01
    * to Unix epoch. Yes, this is Y2038 unsafe.

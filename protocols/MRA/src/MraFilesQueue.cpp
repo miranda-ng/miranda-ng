@@ -241,7 +241,7 @@ size_t CMraProto::MraFilesQueueGetLocalAddressesList(LPSTR lpszBuff, size_t dwBu
 
 		dwSelfExternalIP = ntohl(getDword("IP", 0));
 		if (dwSelfExternalIP) {
-			memmove(&btAddress, &dwSelfExternalIP, sizeof(DWORD));
+			memcpy(&btAddress, &dwSelfExternalIP, sizeof(DWORD));
 			lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize - ((size_t)lpszCurPos - (size_t)lpszBuff)), "%lu.%lu.%lu.%lu:%lu;", btAddress[0], btAddress[1], btAddress[2], btAddress[3], dwPort);
 		}
 
@@ -277,7 +277,7 @@ DWORD CMraProto::MraFilesQueueAccept(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 		MRA_FILES_THREADPROC_PARAMS *pmftpp = (MRA_FILES_THREADPROC_PARAMS*)mir_calloc(sizeof(MRA_FILES_THREADPROC_PARAMS));
 		dat->lpwszPath = (LPWSTR)mir_calloc((dwPathSize*sizeof(WCHAR)));
 		dat->dwPathSize = dwPathSize;
-		memmove(dat->lpwszPath, lpwszPath, (dwPathSize*sizeof(WCHAR)));
+		memcpy(dat->lpwszPath, lpwszPath, (dwPathSize*sizeof(WCHAR)));
 
 		if ((*(WCHAR*)(dat->lpwszPath + (dat->dwPathSize - 1))) != '\\') {// add slash at the end if needed
 			(*(WCHAR*)(dat->lpwszPath + dat->dwPathSize)) = '\\';
@@ -542,13 +542,13 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 				ShowFormattedErrorMessage(L"Files exchange: cant create listen soscket, will try connect to remonte host. Error", GetLastError());
 
 				//dwAddrListSize = 0;
-				memmove(szAddrList, MRA_FILES_NULL_ADDRR, sizeof(MRA_FILES_NULL_ADDRR));
+				memcpy(szAddrList, MRA_FILES_NULL_ADDRR, sizeof(MRA_FILES_NULL_ADDRR));
 				dwAddrListSize = (sizeof(MRA_FILES_NULL_ADDRR)-1);
 			}
 		}
 		// подставляем ложный адрес, чтобы точно не подключились и не слушаем порт
 		else {
-			memmove(szAddrList, MRA_FILES_NULL_ADDRR, sizeof(MRA_FILES_NULL_ADDRR));
+			memcpy(szAddrList, MRA_FILES_NULL_ADDRR, sizeof(MRA_FILES_NULL_ADDRR));
 			dwAddrListSize = (sizeof(MRA_FILES_NULL_ADDRR)-1);
 		}
 
@@ -777,8 +777,8 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				//pfts.currentFileTime;  //as seconds since 1970
 
 				if ((dat->dwPathSize + dat->pmfqfFiles[i].dwNameLen) < SIZEOF(wszFileName)) {
-					memmove(wszFileName, dat->lpwszPath, (dat->dwPathSize*sizeof(WCHAR)));
-					memmove((wszFileName + dat->dwPathSize), dat->pmfqfFiles[i].lpwszName, ((dat->pmfqfFiles[i].dwNameLen + 1)*sizeof(WCHAR)));
+					memcpy(wszFileName, dat->lpwszPath, (dat->dwPathSize*sizeof(WCHAR)));
+					memcpy((wszFileName + dat->dwPathSize), dat->pmfqfFiles[i].lpwszName, ((dat->pmfqfFiles[i].dwNameLen + 1)*sizeof(WCHAR)));
 					wszFileName[dat->dwPathSize + dat->pmfqfFiles[i].dwNameLen] = 0;
 				}
 				else {
@@ -794,7 +794,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
 
 				//dwBuffSizeUsed = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %S", MRA_FT_GET_FILE, dat->pmfqfFiles[i].lpwszName)+1);
-				memmove(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE));
+				memcpy(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE));
 				btBuff[(sizeof(MRA_FT_GET_FILE)-1)] = ' ';
 				dwBuffSizeUsed = sizeof(MRA_FT_GET_FILE)+WideCharToMultiByte(MRA_CODE_PAGE, 0, dat->pmfqfFiles[i].lpwszName, dat->pmfqfFiles[i].dwNameLen, (LPSTR)(btBuff + sizeof(MRA_FT_GET_FILE)), (SIZEOF(btBuff) - sizeof(MRA_FT_GET_FILE)), NULL, NULL);
 				btBuff[dwBuffSizeUsed] = 0;

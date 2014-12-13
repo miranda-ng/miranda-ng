@@ -417,9 +417,9 @@ gcry_error_t otrl_proto_create_data(char **encmessagep, ConnContext *context,
     bufp = buf;
     lenp = buflen;
     if (version == 1) {
-	memmove(bufp, "\x00\x01\x03", 3);  /* header */
+	memcpy(bufp, "\x00\x01\x03", 3);  /* header */
     } else {
-	memmove(bufp, "\x00\x02\x03", 3);  /* header */
+	memcpy(bufp, "\x00\x02\x03", 3);  /* header */
     }
     debug_data("Header", bufp, 3);
     bufp += 3; lenp -= 3;
@@ -435,7 +435,7 @@ gcry_error_t otrl_proto_create_data(char **encmessagep, ConnContext *context,
     write_mpi(context->our_dh_key.pub, pubkeylen, "Y");      /* Y */
 
     otrl_dh_incctr(sess->sendctr);
-    memmove(bufp, sess->sendctr, 8);      /* Counter (top 8 bytes only) */
+    memcpy(bufp, sess->sendctr, 8);      /* Counter (top 8 bytes only) */
     debug_data("Counter", bufp, 8);
     bufp += 8; lenp -= 8;
 
@@ -454,7 +454,7 @@ gcry_error_t otrl_proto_create_data(char **encmessagep, ConnContext *context,
 
     gcry_md_reset(sess->sendmac);
     gcry_md_write(sess->sendmac, buf, bufp-buf);
-    memmove(bufp, gcry_md_read(sess->sendmac, GCRY_MD_SHA1), 20);
+    memcpy(bufp, gcry_md_read(sess->sendmac, GCRY_MD_SHA1), 20);
     debug_data("MAC", bufp, 20);
     bufp += 20;                                         /* MAC */
     lenp -= 20;
@@ -463,7 +463,7 @@ gcry_error_t otrl_proto_create_data(char **encmessagep, ConnContext *context,
     debug_int("Revealed MAC length", bufp-4);
 
     if (reveallen > 0) {
-	memmove(bufp, context->saved_mac_keys, reveallen);
+	memcpy(bufp, context->saved_mac_keys, reveallen);
 	debug_data("Revealed MAC data", bufp, reveallen);
 	bufp += reveallen; lenp -= reveallen;
 	free(context->saved_mac_keys);
@@ -480,7 +480,7 @@ gcry_error_t otrl_proto_create_data(char **encmessagep, ConnContext *context,
 	err = gcry_error(GPG_ERR_ENOMEM);
 	goto err;
     }
-    memmove(base64buf, "?OTR:", 5);
+    memcpy(base64buf, "?OTR:", 5);
     otrl_base64_encode(base64buf+5, buf, buflen);
     base64buf[5 + base64len] = '.';
     base64buf[5 + base64len + 1] = '\0';
@@ -636,7 +636,7 @@ gcry_error_t otrl_proto_accept_data(char **plaintextp, OtrlTLV **tlvsp,
     read_int(recipient_keyid);
     read_mpi(sender_next_y);
     require_len(8);
-    memmove(ctr, bufp, 8);
+    memcpy(ctr, bufp, 8);
     bufp += 8; lenp -= 8;
     read_int(datalen);
     require_len(datalen);
@@ -645,12 +645,12 @@ gcry_error_t otrl_proto_accept_data(char **plaintextp, OtrlTLV **tlvsp,
 	err = gcry_error(GPG_ERR_ENOMEM);
 	goto err;
     }
-    memmove(data, bufp, datalen);
+    memcpy(data, bufp, datalen);
     data[datalen] = '\0';
     bufp += datalen; lenp -= datalen;
     macend = bufp;
     require_len(20);
-    memmove(givenmac, bufp, 20);
+    memcpy(givenmac, bufp, 20);
     bufp += 20; lenp -= 20;
     read_int(reveallen);
     require_len(reveallen);
@@ -698,7 +698,7 @@ gcry_error_t otrl_proto_accept_data(char **plaintextp, OtrlTLV **tlvsp,
     }
 
     /* Decrypt the message */
-    memmove(sess->rcvctr, ctr, 8);
+    memcpy(sess->rcvctr, ctr, 8);
     err = gcry_cipher_reset(sess->rcvenc);
     if (err) goto err;
     err = gcry_cipher_setctr(sess->rcvenc, sess->rcvctr, 16);

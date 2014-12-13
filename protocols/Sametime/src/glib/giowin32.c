@@ -1048,7 +1048,7 @@ g_io_win32_msg_read (GIOChannel *channel,
   if (!PeekMessage (&msg, win32_channel->hwnd, 0, 0, PM_REMOVE))
     return G_IO_STATUS_AGAIN;
 
-  memmove (buf, &msg, sizeof (MSG));
+  memcpy(buf, &msg, sizeof (MSG));
   *bytes_read = sizeof (MSG);
 
   return G_IO_STATUS_NORMAL;
@@ -1072,7 +1072,7 @@ g_io_win32_msg_write (GIOChannel  *channel,
     }
   
   /* In case of alignment problems */
-  memmove (&msg, buf, sizeof (MSG));
+  memcpy(&msg, buf, sizeof (MSG));
   if (!PostMessage (win32_channel->hwnd, msg.message, msg.wParam, msg.lParam))
     {
       gchar *emsg = g_win32_error_message (GetLastError ());

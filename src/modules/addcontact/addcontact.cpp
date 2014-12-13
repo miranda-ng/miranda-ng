@@ -241,11 +241,11 @@ INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
 		return 1;
 	
 	ADDCONTACTSTRUCT *acs = (ADDCONTACTSTRUCT*)mir_alloc(sizeof(ADDCONTACTSTRUCT));
-	memmove(acs, (ADDCONTACTSTRUCT*)lParam, sizeof(ADDCONTACTSTRUCT));
+	memcpy(acs, (ADDCONTACTSTRUCT*)lParam, sizeof(ADDCONTACTSTRUCT));
 	if (acs->psr) {
 		// bad! structures that are bigger than psr will cause crashes if they define pointers within unreachable structural space
 		PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)mir_alloc(acs->psr->cbSize);
-		memmove(psr, acs->psr, acs->psr->cbSize);
+		memcpy(psr, acs->psr, acs->psr->cbSize);
 		psr->nick = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->nick) : mir_a2t((char*)psr->nick);
 		psr->firstName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->firstName) : mir_a2t((char*)psr->firstName);
 		psr->lastName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->lastName) : mir_a2t((char*)psr->lastName);
