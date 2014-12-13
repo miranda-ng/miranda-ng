@@ -44,7 +44,7 @@ char* GetRichTextRTF(HWND hwnd);
 char* GetRichTextEncoded(HWND hwnd, int codepage);
 TCHAR *GetRichTextWord(HWND hwnd, POINTL *pt);
 int SetRichTextRTF(HWND hwnd, const char *text);
-int SetRichTextEncoded(HWND hwnd, const char *text, int codepage);
+int SetRichTextEncoded(HWND hwnd, const char *text);
 void SearchWord(TCHAR * word, int engine);
 HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility);
 void ShowToolbarControls(HWND hwndDlg, int cControls, const ToolbarButton * buttons, int controlVisibility, int state);

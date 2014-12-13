@@ -124,7 +124,7 @@ char *GetRichTextEncoded(HWND hwnd, int codepage)
 	return textUtf;
 }
 
-int SetRichTextEncoded(HWND hwnd, const char *text, int codepage)
+int SetRichTextEncoded(HWND hwnd, const char *text)
 {
 	TCHAR *textToSet;
 	SETTEXTEX  st;
@@ -287,7 +287,7 @@ void AppendToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbBufferAlloced,
 }
 
 
-int MeasureMenuItem(WPARAM wParam, LPARAM lParam)
+int MeasureMenuItem(WPARAM, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
 	if (mis->itemData != (ULONG_PTR)g_dat.hButtonIconList && mis->itemData != (ULONG_PTR)g_dat.hSearchEngineIconList && mis->itemData != (ULONG_PTR)g_dat.hChatButtonIconList) {
@@ -298,7 +298,7 @@ int MeasureMenuItem(WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-int DrawMenuItem(WPARAM wParam, LPARAM lParam)
+int DrawMenuItem(WPARAM, LPARAM lParam)
 {
 	int y;
 	int id;

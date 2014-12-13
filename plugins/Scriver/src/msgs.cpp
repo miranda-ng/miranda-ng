@@ -72,7 +72,7 @@ int IsAutoPopup(MCONTACT hContact) {
 	return 0;
 }
 
-static INT_PTR ReadMessageCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *pcle = (CLISTEVENT*)lParam;
 	MCONTACT hContact = db_mc_tryMeta(pcle->hContact);
@@ -184,7 +184,7 @@ static INT_PTR SendMessageCommand(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR TypingMessageCommand(WPARAM wParam, LPARAM lParam)
+static INT_PTR TypingMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	if (cle)
@@ -242,7 +242,7 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int ContactDeleted(WPARAM wParam, LPARAM lParam)
+static int ContactDeleted(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
 	if ((hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam)))
@@ -291,7 +291,7 @@ static void RestoreUnreadMessageAlerts(void)
 	}
 }
 
-static INT_PTR GetWindowAPI(WPARAM wParam, LPARAM lParam)
+static INT_PTR GetWindowAPI(WPARAM, LPARAM)
 {
 	return PLUGIN_MAKE_VERSION(0,0,0,3);
 }
@@ -346,7 +346,7 @@ static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (hContact == 0)
 		return 0;
@@ -432,7 +432,7 @@ int StatusIconPressed(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int ModuleLoad(WPARAM wParam, LPARAM lParam)
+static int ModuleLoad(WPARAM, LPARAM)
 {
 	g_dat.smileyAddInstalled = ServiceExists(MS_SMILEYADD_SHOWSELECTION) && ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	g_dat.popupInstalled = ServiceExists(MS_POPUP_ADDPOPUPT);
@@ -604,37 +604,37 @@ STDMETHODIMP_(ULONG) CREOleCallback::Release()
 	return refCount;
 }
 
-STDMETHODIMP CREOleCallback::ContextSensitiveHelp(BOOL fEnterMode)
+STDMETHODIMP CREOleCallback::ContextSensitiveHelp(BOOL)
 {
 	return S_OK;
 }
 
-STDMETHODIMP CREOleCallback::DeleteObject(LPOLEOBJECT lpoleobj)
+STDMETHODIMP CREOleCallback::DeleteObject(LPOLEOBJECT)
 {
 	return S_OK;
 }
 
-STDMETHODIMP CREOleCallback::GetClipboardData(CHARRANGE * lpchrg, DWORD reco, LPDATAOBJECT * lplpdataobj)
+STDMETHODIMP CREOleCallback::GetClipboardData(CHARRANGE*, DWORD, LPDATAOBJECT*)
 {
 	return E_NOTIMPL;
 }
 
-STDMETHODIMP CREOleCallback::GetContextMenu(WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE * lpchrg, HMENU * lphmenu)
+STDMETHODIMP CREOleCallback::GetContextMenu(WORD, LPOLEOBJECT, CHARRANGE*, HMENU*)
 {
 	return E_INVALIDARG;
 }
 
-STDMETHODIMP CREOleCallback::GetDragDropEffect(BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect)
+STDMETHODIMP CREOleCallback::GetDragDropEffect(BOOL, DWORD, LPDWORD)
 {
 	return S_OK;
 }
 
-STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME * lplpFrame, LPOLEINPLACEUIWINDOW * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo)
+STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEUIWINDOW*, LPOLEINPLACEFRAMEINFO)
 {
 	return E_INVALIDARG;
 }
 
-STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
+STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
 {
 	TCHAR sztName[64];
 	mir_sntprintf(sztName, SIZEOF(sztName), _T("s%u"), nextStgId++);
@@ -643,22 +643,22 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
 	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 }
 
-STDMETHODIMP CREOleCallback::QueryAcceptData(LPDATAOBJECT lpdataobj, CLIPFORMAT * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)
+STDMETHODIMP CREOleCallback::QueryAcceptData(LPDATAOBJECT, CLIPFORMAT*, DWORD, BOOL, HGLOBAL)
 {
 	return S_OK;
 }
 
-STDMETHODIMP CREOleCallback::QueryInsertObject(LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp)
+STDMETHODIMP CREOleCallback::QueryInsertObject(LPCLSID, LPSTORAGE, LONG)
 {
 	return S_OK;
 }
 
-STDMETHODIMP CREOleCallback::ShowContainerUI(BOOL fShow)
+STDMETHODIMP CREOleCallback::ShowContainerUI(BOOL)
 {
 	return S_OK;
 }
 
-STDMETHODIMP CREOleCallback2::QueryAcceptData(LPDATAOBJECT lpdataobj, CLIPFORMAT * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)
+STDMETHODIMP CREOleCallback2::QueryAcceptData(LPDATAOBJECT, CLIPFORMAT *lpcfFormat, DWORD, BOOL, HGLOBAL)
 {
 	*lpcfFormat = CF_TEXT;
 	return S_OK;

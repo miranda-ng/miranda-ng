@@ -95,17 +95,12 @@ static const colourOptionsList[] = {
 	{ LPGENT("Line between messages"), SRMSGSET_LINECOLOUR, 0, COLOR_3DLIGHT},
 };
 
-int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam)
+int FontServiceFontsChanged(WPARAM, LPARAM)
 {
 	LoadMsgLogIcons();
 	LoadInfobarFonts();
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_OPTIONSAPPLIED, 0, 0);
 	return 0;
-}
-
-static BYTE MsgDlgGetFontDefaultCharset(const TCHAR *szFont)
-{
-	return DEFAULT_CHARSET;
 }
 
 void RegisterFontServiceFonts()
@@ -126,7 +121,7 @@ void RegisterFontServiceFonts()
 		fid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fid.deffontsettings.size = fontOptionsList[i].defSize;
 		fid.deffontsettings.style = fontOptionsList[i].defStyle;
-		fid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
+		fid.deffontsettings.charset = DEFAULT_CHARSET;
 		_tcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fid.deffontsettings.szFace));
 		_tcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fid.backgroundName));
 		FontRegisterT(&fid);
@@ -149,7 +144,7 @@ void RegisterFontServiceFonts()
 	}
 }
 
-int IconsChanged(WPARAM wParam, LPARAM lParam)
+int IconsChanged(WPARAM, LPARAM)
 {
 	ReleaseIcons();
 	LoadGlobalIcons();
@@ -161,7 +156,7 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int SmileySettingsChanged(WPARAM wParam, LPARAM lParam)
+int SmileySettingsChanged(WPARAM wParam, LPARAM)
 {
 	WindowList_Broadcast(g_dat.hMessageWindowList, DM_REMAKELOG, wParam, 0);
 	return 0;
@@ -201,7 +196,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 			_tcsncpy(lf->lfFaceName, tszFace, SIZEOF(lf->lfFaceName));
 
 		mir_snprintf(str, SIZEOF(str), "%s%dSet", "SRMFont", i);
-		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, MsgDlgGetFontDefaultCharset(lf->lfFaceName));
+		lf->lfCharSet = db_get_b(NULL, SRMMMOD, str, DEFAULT_CHARSET);
 	}
 }
 
@@ -956,7 +951,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-int OptInitialise(WPARAM wParam, LPARAM lParam)
+int OptInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;

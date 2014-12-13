@@ -21,16 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 
-static int RTFColorToIndex(int *pIndex, int iCol, SESSION_INFO *si)
-{
-	MODULEINFO *pMod = pci->MM_FindModule(si->pszModule);
-	for (int i = 0; i < pMod->nColorCount; i++)
-		if (pIndex[i] == iCol)
-			return i;
-
-	return -1;
-}
-
 static void CreateColorMap(char* Text, int *pIndex, SESSION_INFO *si)
 {
 	static const char* lpszFmt = "\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];";

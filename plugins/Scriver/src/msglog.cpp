@@ -133,9 +133,9 @@ int DbEventIsMessageOrCustom(DBEVENTINFO* dbei)
 	return dbei->eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei);
 }
 
-int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)
+int DbEventIsShown(DBEVENTINFO &dbei)
 {
-	switch (dbei->eventType) {
+	switch (dbei.eventType) {
 	case EVENTTYPE_MESSAGE:
 		return 1;
 
@@ -148,7 +148,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, SrmmWindowData *dat)
 		return 1;
 	}
 
-	return DbEventIsCustomForMsgWindow(dbei);
+	return DbEventIsCustomForMsgWindow(&dbei);
 }
 
 EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent)
@@ -159,7 +159,7 @@ EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEven
 		return NULL;
 	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 	db_event_get(hDbEvent, &dbei);
-	if (!DbEventIsShown(&dbei, dat)) {
+	if (!DbEventIsShown(dbei)) {
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
@@ -327,7 +327,7 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 }
 
 // mir_free() the return value
-static char* CreateRTFHeader(SrmmWindowData *dat, GlobalMessageData *gdat)
+static char* CreateRTFHeader()
 {
 	HDC hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -744,7 +744,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferOffset = 0;
 		switch (dat->stage) {
 		case STREAMSTAGE_HEADER:
-			dat->buffer = CreateRTFHeader(dat->dlgDat, dat->gdat);
+			dat->buffer = CreateRTFHeader();
 			dat->stage = STREAMSTAGE_EVENTS;
 			break;
 		case STREAMSTAGE_EVENTS:
