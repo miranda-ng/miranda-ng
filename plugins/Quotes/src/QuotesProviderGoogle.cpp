@@ -342,7 +342,7 @@ namespace
 							g_aWatchedRates.push_back(ri);
 							tstring sRate = make_rate_name(ri.m_from,ri.m_to);
 							LPCTSTR pszRateName = sRate.c_str();
-							::SendMessage(::GetDlgItem(hdlg,IDC_LIST_RATES),LB_ADDSTRING,0,reinterpret_cast<LPARAM>(pszRateName));
+							::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRateName));
 						}
 					}
 				}
@@ -362,15 +362,15 @@ namespace
 				case IDC_COMBO_CONVERT_FROM:
 				case IDC_COMBO_CONVERT_INTO:
 					{
-						int nFrom = static_cast<int>(::SendMessage(::GetDlgItem(hdlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
-						int nTo = static_cast<int>(::SendMessage(::GetDlgItem(hdlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
+						int nFrom = static_cast<int>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
+						int nTo = static_cast<int>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 						bool bEnableAddButton = ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo));
 						EnableWindow(GetDlgItem(hdlg,IDC_BUTTON_ADD),bEnableAddButton);
 					}
 					break;
 				case IDC_LIST_RATES:
 					{
-						int nSel = ::SendMessage(::GetDlgItem(hdlg,IDC_LIST_RATES),LB_GETCURSEL,0,0);
+						int nSel = ::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_GETCURSEL, 0, 0);
 						::EnableWindow(::GetDlgItem(hdlg,IDC_BUTTON_REMOVE),(LB_ERR != nSel));
 					}
 					break;
@@ -381,8 +381,8 @@ namespace
 				{
 				case IDC_BUTTON_ADD:
 					{
-						size_t nFrom = static_cast<size_t>(::SendMessage(::GetDlgItem(hdlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
-						size_t nTo = static_cast<size_t>(::SendMessage(::GetDlgItem(hdlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
+						size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
+						size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hdlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 						if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo))
 						{
 							const CQuotesProviderGoogle::CQuoteSection& rSection = get_quotes();
@@ -397,7 +397,7 @@ namespace
 
 								tstring sRate = make_rate_name(ri.m_from,ri.m_to);
 								LPCTSTR pszRateName = sRate.c_str();
-								::SendMessage(::GetDlgItem(hdlg,IDC_LIST_RATES),LB_ADDSTRING,0,reinterpret_cast<LPARAM>(pszRateName));
+								::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRateName));
 								PropSheet_Changed(::GetParent(hdlg),hdlg);
 							}
 						}
@@ -431,7 +431,7 @@ namespace
 // 				{
 // 				case IDC_LIST_RATES:
 // 					{
-// 						int nSel = ::SendMessage(::GetDlgItem(hdlg,IDC_LIST_RATES),LB_GETCURSEL,0,0);
+// 						int nSel = ::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_GETCURSEL, 0, 0);
 // 						::EnableWindow(::GetDlgItem(hdlg,IDC_BUTTON_REMOVE),(-1 != nSel));
 // 					}
 // 				}

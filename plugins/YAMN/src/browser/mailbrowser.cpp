@@ -721,7 +721,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	else 
 		if (hDlg != NULL)								//else insert icon and set window if new mails
 		{
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_SCROLL,0,(LPARAM)0x7ffffff);
+			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_SCROLL, 0, (LPARAM)0x7ffffff);
 
 			if ((nflags & YAMN_ACC_ICO) && (MN->Real.SysTrayUC+MN->Virtual.SysTrayUC))
 			{
@@ -1714,19 +1714,19 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			DebugLog(SynchroFile,"MailBrowser:INIT:ActualAccountSO-read enter\n");
 #endif
 
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNAPP),WM_SETTEXT,0,(LPARAM)TranslateW(L"Run application"));
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNDEL),WM_SETTEXT,0,(LPARAM)TranslateW(L"Delete selected"));
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNCHECKALL),WM_SETTEXT,0,(LPARAM)TranslateW(L"Select All"));
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNOK),WM_SETTEXT,0,(LPARAM)TranslateW(L"OK"));
+			SendDlgItemMessageW(hDlg, IDC_BTNAPP, WM_SETTEXT,0,(LPARAM)TranslateW(L"Run application"));
+			SendDlgItemMessageW(hDlg, IDC_BTNDEL, WM_SETTEXT,0,(LPARAM)TranslateW(L"Delete selected"));
+			SendDlgItemMessageW(hDlg, IDC_BTNCHECKALL, WM_SETTEXT,0,(LPARAM)TranslateW(L"Select All"));
+			SendDlgItemMessageW(hDlg, IDC_BTNOK, WM_SETTEXT,0,(LPARAM)TranslateW(L"OK"));
 
 			LVCOLUMNW lvc0={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,FromWidth,TranslateW(L"From"),0,0};
 			LVCOLUMNW lvc1={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SubjectWidth,TranslateW(L"Subject"),0,0};
 			LVCOLUMNW lvc2={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SizeWidth,TranslateW(L"Size"),0,0};
 			LVCOLUMNW lvc3={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SizeDate,TranslateW(L"Date"),0,0};
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,0,(LPARAM)&lvc0);
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,1,(LPARAM)&lvc1);
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)2,(LPARAM)&lvc2);
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)3,(LPARAM)&lvc3);
+			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMNW, 0, (LPARAM)&lvc0);
+			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMNW, 1, (LPARAM)&lvc1);
+			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMNW, (WPARAM)2, (LPARAM)&lvc2);
+			SendDlgItemMessageW(hDlg, IDC_LISTMAILS, LVM_INSERTCOLUMNW, (WPARAM)3, (LPARAM)&lvc3);
 
 			if ((ActualAccount->NewMailN.App != NULL) && (wcslen(ActualAccount->NewMailN.App)))
 				EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),TRUE);

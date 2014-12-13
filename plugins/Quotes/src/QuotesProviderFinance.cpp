@@ -225,7 +225,7 @@ namespace
 			case IDC_LIST_RATES:
 				if(CBN_SELCHANGE == HIWORD(wParam))
 				{
-					int nSel = ::SendMessage(::GetDlgItem(hDlg,IDC_LIST_RATES),LB_GETCURSEL,0,0);
+					int nSel = ::SendDlgItemMessage(hDlg, IDC_LIST_RATES, LB_GETCURSEL, 0, 0);
 					::EnableWindow(::GetDlgItem(hDlg,IDC_BUTTON_REMOVE),(LB_ERR != nSel));
 				}
 				return (TRUE);

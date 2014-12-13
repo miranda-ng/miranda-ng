@@ -178,7 +178,7 @@ void CommonOptionDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp,CCommonDlgProcDa
 				{
 					BOOL bOk = FALSE;
 					UINT nRefreshRate = ::GetDlgItemInt(hWnd,IDC_EDIT_REFRESH_RATE,&bOk,FALSE);
-					ERefreshRateType nType = static_cast<ERefreshRateType>(::SendMessage(::GetDlgItem(hWnd,IDC_COMBO_REFRESH_RATE),CB_GETCURSEL,0,0));
+					ERefreshRateType nType = static_cast<ERefreshRateType>(::SendDlgItemMessage(hWnd, IDC_COMBO_REFRESH_RATE, CB_GETCURSEL, 0, 0));
 					switch(nType)
 					{
 					default:
@@ -223,7 +223,7 @@ void CommonOptionDlgProc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp,CCommonDlgProcDa
 					BOOL bOk = FALSE;
 					UINT nRefreshRate = ::GetDlgItemInt(hWnd,IDC_EDIT_REFRESH_RATE,&bOk,FALSE);
 					assert(TRUE == bOk);
-					ERefreshRateType nType = static_cast<ERefreshRateType>(::SendMessage(::GetDlgItem(hWnd,IDC_COMBO_REFRESH_RATE),CB_GETCURSEL,0,0));
+					ERefreshRateType nType = static_cast<ERefreshRateType>(::SendDlgItemMessage(hWnd, IDC_COMBO_REFRESH_RATE, CB_GETCURSEL, 0, 0));
 
 					assert(rData.m_pQuotesProvider);
 

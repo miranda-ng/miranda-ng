@@ -54,8 +54,8 @@ namespace
 
 	inline void update_convert_button(HWND hDlg)
 	{
-		int nFrom = static_cast<int>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
-		int nTo = static_cast<int>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
+		int nFrom = static_cast<int>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
+		int nTo = static_cast<int>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 		bool bEnableButton = ((CB_ERR != nFrom) 
 			&& (CB_ERR != nTo) 
 			&& (nFrom != nTo)
@@ -65,8 +65,8 @@ namespace
 
 	inline void update_swap_button(HWND hDlg)
 	{
-		int nFrom = static_cast<int>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
-		int nTo = static_cast<int>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
+		int nFrom = static_cast<int>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
+		int nTo = static_cast<int>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 		bool bEnableButton = ((CB_ERR != nFrom) 
 			&& (CB_ERR != nTo) 
 			&& (nFrom != nTo));
@@ -143,7 +143,7 @@ namespace
 
 				::SetDlgItemText(hDlg,IDC_SYSLINK_PROVIDER,o.str().c_str());
 
-				::SendMessage(::GetDlgItem(hDlg,IDC_BUTTON_SWAP),BM_SETIMAGE,IMAGE_ICON,
+				::SendDlgItemMessage(hDlg, IDC_BUTTON_SWAP, BM_SETIMAGE, IMAGE_ICON,
 					reinterpret_cast<LPARAM>(Quotes_LoadIconEx(ICON_STR_SWAP)));
 				
 				update_convert_button(hDlg);
@@ -205,8 +205,8 @@ namespace
 					{
 						Quotes_DBWriteDouble(NULL,QUOTES_MODULE_NAME,DB_STR_CC_AMOUNT,dAmount);
 
-						size_t nFrom = static_cast<size_t>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
-						size_t nTo = static_cast<size_t>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
+						size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));
+						size_t nTo = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_INTO, CB_GETCURSEL, 0, 0));
 						if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo))
 						{
 							const CQuotesProviderGoogle::CQuoteSection& rSection = get_quotes();
