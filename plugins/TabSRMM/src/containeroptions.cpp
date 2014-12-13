@@ -338,8 +338,8 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 					pContainer->szRelThemeFile[0] = pContainer->szAbsThemeFile[0] = 0;
 
-					if (GetWindowTextLengthA(GetDlgItem(hwndDlg, IDC_THEME)) > 0) {
-						wchar_t	szFinalThemeFile[MAX_PATH], szFilename[MAX_PATH];
+					if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_THEME)) > 0) {
+						wchar_t szFinalThemeFile[MAX_PATH], szFilename[MAX_PATH];
 
 						GetDlgItemText(hwndDlg, IDC_THEME, szFilename, SIZEOF(szFilename));
 						szFilename[MAX_PATH - 1] = 0;

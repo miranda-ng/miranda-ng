@@ -87,7 +87,7 @@ void TSAPI DM_CheckAutoHide(const TWindowData *dat, WPARAM wParam, LPARAM lParam
 	if (dat && lParam) {
 		BOOL	*fResult = (BOOL *)lParam;
 
-		if (GetWindowTextLengthA(GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE)) > 0) {
+		if (GetWindowTextLength(GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE)) > 0) {
 			*fResult = FALSE;
 			return;				// text entered in the input area -> prevent autohide/cose
 		}
@@ -798,7 +798,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	COLORREF colour = fIsChat ? g_Settings.crLogBackground : dat->pContainer->theme.bg;
 	COLORREF inputcharcolor;
 
-	if (!fIsChat && GetWindowTextLengthA(hwndEdit) > 0)
+	if (!fIsChat && GetWindowTextLength(hwndEdit) > 0)
 		szStreamOut = Message_GetFromStream(hwndEdit, dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE));
 
 	SendMessage(hwndLog, EM_SETBKGNDCOLOR, 0, colour);
@@ -975,7 +975,7 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	if (wParam == 1 && lParam == 1) {
 		RECT rc;
 		GetClientRect(hwnd, &rc);
-		int len = GetWindowTextLengthA(hwnd);
+		int len = GetWindowTextLength(hwnd);
 		SendMessage(hwnd, EM_SETSEL, len - 1, len - 1);
 	}
 
