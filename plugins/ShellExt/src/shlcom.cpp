@@ -387,7 +387,7 @@ void __stdcall ipcService(ULONG_PTR dwParam)
 			// translate from client space to cloned heap memory
 			pMMT->pServerBaseAddress = pMMT->pClientBaseAddress;
 			pMMT->pClientBaseAddress = cloned;
-			CopyMemory(cloned, pMMT, IPC_PACKET_SIZE);
+			memcpy(cloned, pMMT, IPC_PACKET_SIZE);
 			ipcFixupAddresses(true, cloned);
 			DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &cloned->Param, THREAD_SET_CONTEXT, false, 0);
 			mir_forkthread(&IssueTransferThread, cloned);

@@ -15,7 +15,7 @@ static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 	EditStreamData *esd = (EditStreamData*)dwCookie;
 	esd->cbBuff += cb;
 	esd->pbBuff = (PBYTE)realloc(esd->pbBuff, esd->cbBuff + sizeof(TCHAR));
-	CopyMemory(esd->pbBuff + esd->iCurrent, pbBuff, cb);
+	memcpy(esd->pbBuff + esd->iCurrent, pbBuff, cb);
 	esd->iCurrent += cb;
 	esd->pbBuff[esd->iCurrent] = 0;
 	esd->pbBuff[esd->iCurrent + 1] = 0;

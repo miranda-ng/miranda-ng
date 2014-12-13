@@ -896,7 +896,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	while (sendOff < (DWORD)num)
 	{
 		cbMessage = min(Sizes.cbMaximumMessage, (DWORD)num - sendOff);
-		CopyMemory(pbMessage, buf+sendOff, cbMessage);
+		memcpy(pbMessage, buf+sendOff, cbMessage);
 
 		Buffers[0].pvBuffer = pbDataBuffer;
 		Buffers[0].cbBuffer = Sizes.cbHeader;

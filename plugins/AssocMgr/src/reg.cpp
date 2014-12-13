@@ -339,7 +339,7 @@ static void WriteDbBackupData(const char *pszSetting,DWORD dwType,BYTE *pData,DW
 	PBYTE buf = (PBYTE)mir_alloc(cbLen);
 	if (buf) {
 		*(DWORD*)buf = dwType;
-		CopyMemory(buf+sizeof(DWORD), pData, cbData);
+		memcpy(buf+sizeof(DWORD), pData, cbData);
 		db_set_blob(NULL, "AssocMgr", pszSetting, buf, (unsigned)cbLen);
 		mir_free(buf);
 	}

@@ -117,7 +117,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 				if (dbei.pBlob)
 				{
 					dbei.cbBlob=mir_snprintf((LPSTR)dbei.pBlob,dbei.cbBlob,"SMS Confirmation From: +%s\r\nSMS was not sent succesfully: ",szPhone);
-					CopyMemory((dbei.pBlob+dbei.cbBlob),lpszData,dwDataSize);
+					memcpy((dbei.pBlob+dbei.cbBlob),lpszData,dwDataSize);
 					dbei.cbBlob+=(dwDataSize+sizeof(DWORD));
 					(*((DWORD*)(dbei.pBlob+(dbei.cbBlob-sizeof(DWORD)))))=0;
 				}
@@ -225,7 +225,7 @@ int handleNewMessage(WPARAM hContact, LPARAM lParam)
 	dbei.pBlob = (PBYTE)MEMALLOC(dbei.cbBlob);
 	if ( !dbei.pBlob)
 		return 0;
-	CopyMemory(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
+	memcpy(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
 	pszServiceFunctionName = szServiceFunction + PROTOCOL_NAME_LEN;
 
 	if (db_event_get(hDbEvent, &dbei) == 0)
@@ -238,7 +238,7 @@ int handleNewMessage(WPARAM hContact, LPARAM lParam)
 					db_event_markRead(hContact, hDbEvent);
 			}
 			else {
-				CopyMemory(pszServiceFunctionName,SMS_READ,sizeof(SMS_READ));
+				memcpy(pszServiceFunctionName,SMS_READ,sizeof(SMS_READ));
 				mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Message from %s"),GetContactNameW(hContact));
 
 				CLISTEVENT cle = { sizeof(cle) };
@@ -261,7 +261,7 @@ int handleNewMessage(WPARAM hContact, LPARAM lParam)
 		else {
 			UINT iIcon;
 			if (GetDataFromMessage((LPSTR)dbei.pBlob, dbei.cbBlob, NULL, NULL, 0, NULL, &iIcon)) {
-				CopyMemory(pszServiceFunctionName,SMS_READ_ACK,sizeof(SMS_READ_ACK));
+				memcpy(pszServiceFunctionName,SMS_READ_ACK,sizeof(SMS_READ_ACK));
 				mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Confirmation from %s"),GetContactNameW(hContact));
 
 				CLISTEVENT cle = { sizeof(cle) };

@@ -50,7 +50,7 @@ static void Docking_GetMonitorRectFromPoint(POINT pt,RECT *rc)
 
 	if (GetMonitorInfo(hMonitor, &monitorInfo))
 	{
-		CopyMemory(rc,&monitorInfo.rcMonitor,sizeof(RECT));
+		memcpy(rc,&monitorInfo.rcMonitor,sizeof(RECT));
 		return;
 	}
 

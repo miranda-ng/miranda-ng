@@ -299,7 +299,7 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO *si)
 		// move the memory and paste in new commands instead of the old RTF
 		if (InsertThis[0] || iRemoveChars) {
 			MoveMemory(p1 + mir_strlen(InsertThis) , p1 + iRemoveChars, mir_strlen(p1) - iRemoveChars + 1);
-			CopyMemory(p1, InsertThis, mir_strlen(InsertThis));
+			memcpy(p1, InsertThis, mir_strlen(InsertThis));
 			p1 += mir_strlen(InsertThis);
 		}
 		else p1++;

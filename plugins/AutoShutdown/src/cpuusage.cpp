@@ -160,8 +160,8 @@ static void WinNT_PollThread(void *vparam)
 		}
 		else fIsFirst=FALSE;
 		/* store current sampling for next */
-		CopyMemory(&liPrevCounterValue,&liCurrentCounterValue,sizeof(LARGE_INTEGER)); 
-		CopyMemory(&liPrevPerfTime100nSec,&pPerfData->PerfTime100nSec,sizeof(LARGE_INTEGER)); 
+		memcpy(&liPrevCounterValue,&liCurrentCounterValue,sizeof(LARGE_INTEGER)); 
+		memcpy(&liPrevPerfTime100nSec,&pPerfData->PerfTime100nSec,sizeof(LARGE_INTEGER)); 
 	}
 
 	/* uninit */

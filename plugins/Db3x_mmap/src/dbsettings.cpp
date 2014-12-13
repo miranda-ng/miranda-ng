@@ -98,7 +98,7 @@ LBL_Seek:
 				dbv->pszVal = cbOrigPtr;
 				if (cbLen < cbOrigLen)
 					cbOrigLen = cbLen;
-				CopyMemory(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
+				memcpy(dbv->pszVal, pCachedValue->pszVal, cbOrigLen);
 				dbv->pszVal[cbOrigLen] = 0;
 				dbv->cchVal = cbLen;
 			}
@@ -813,7 +813,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBCONTACTE
 		NeedBytes(1);
 		NeedBytes(1 + pBlob[0]);
 		char szSetting[256];
-		CopyMemory(szSetting, pBlob + 1, pBlob[0]); szSetting[pBlob[0]] = 0;
+		memcpy(szSetting, pBlob + 1, pBlob[0]); szSetting[pBlob[0]] = 0;
 		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
 		MoveAlong(1 + pBlob[0]);
 		NeedBytes(3);

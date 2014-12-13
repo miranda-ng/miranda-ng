@@ -332,7 +332,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 					fi->err = EMEM;
 					return NULL;
 				}
-				CopyMemory(tcur+1, tcur, strlen(tcur)+1);
+				memcpy(tcur+1, tcur, strlen(tcur)+1);
 				tcur++;
 			}
 		}*/
@@ -353,7 +353,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		scur = string+scurPos;
 		cur = string+curPos;
 		MoveMemory(scur + parsedTokenLen, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
-		CopyMemory(scur, parsedToken, parsedTokenLen*sizeof(TCHAR));
+		memcpy(scur, parsedToken, parsedTokenLen*sizeof(TCHAR));
 		{
 			size_t len = _tcslen(string);
 			string = (TCHAR*)mir_realloc(string, (len+1)*sizeof(TCHAR));
@@ -390,12 +390,12 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam)
 
  	if (((FORMATINFO *)wParam)->cbSize >= sizeof(FORMATINFO)) {
 		memset(&tempFi, 0, sizeof(FORMATINFO));
-		CopyMemory(&tempFi, (FORMATINFO *)wParam, sizeof(FORMATINFO));
+		memcpy(&tempFi, (FORMATINFO *)wParam, sizeof(FORMATINFO));
 		fi = &tempFi;
 	}
  	else if (((FORMATINFO *)wParam)->cbSize == FORMATINFOV2_SIZE) {
  		memset(&tempFi, 0, sizeof(FORMATINFO));
- 		CopyMemory(&tempFi, (FORMATINFO *)wParam, FORMATINFOV2_SIZE);
+ 		memcpy(&tempFi, (FORMATINFO *)wParam, FORMATINFOV2_SIZE);
  		fi = &tempFi;
  	}
 	else {

@@ -109,7 +109,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const TCHAR *buf)
 			dat->files[nTemp] = (TCHAR*)mir_alloc(sizeof(TCHAR)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array
-			CopyMemory(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(TCHAR));
+			memcpy(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(TCHAR));
 			dat->files[nTemp][fileOffset - 1] = '\\';
 			_tcscpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
 

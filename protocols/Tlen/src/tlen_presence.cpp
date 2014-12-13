@@ -283,7 +283,7 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 						else continue;
 						if (strlen(substituteStr)>6) ptr=(char*)mir_realloc(ptr,strlen(ptr)+1+strlen(substituteStr)-6);
 						MoveMemory(ptr+i+strlen(substituteStr),ptr+i+6,strlen(ptr)-i-5);
-						CopyMemory(ptr+i,substituteStr,strlen(substituteStr));
+						memcpy(ptr+i,substituteStr,strlen(substituteStr));
 					}
 				}
 			}

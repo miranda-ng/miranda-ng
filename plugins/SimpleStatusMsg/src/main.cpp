@@ -198,7 +198,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(ptszWinampTitle) - 12) * sizeof(TCHAR));
 
 			MoveMemory(msg + i + mir_tstrlen(ptszWinampTitle), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
-			CopyMemory(msg + i, ptszWinampTitle, mir_tstrlen(ptszWinampTitle) * sizeof(TCHAR));
+			memcpy(msg + i, ptszWinampTitle, mir_tstrlen(ptszWinampTitle) * sizeof(TCHAR));
 
 			mir_free(ptszWinampTitle);
 		}
@@ -233,7 +233,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
 
 			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
-			CopyMemory(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 		else if (!_tcsnicmp(msg + i, _T("%date%"), 6))
 		{
@@ -243,7 +243,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 6) * sizeof(TCHAR));
 
 			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 6, (mir_tstrlen(msg) - i - 5) * sizeof(TCHAR));
-			CopyMemory(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 		else if (!_tcsnicmp(msg+i, _T("%rand("), 6))
 		{
@@ -265,7 +265,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 					msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - (k - i)) * sizeof(TCHAR));
 
 				MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + (k - i), (mir_tstrlen(msg) - i - (k - i - 1)) * sizeof(TCHAR));
-				CopyMemory(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+				memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 			}
 			mir_free(temp);
 		}
@@ -315,7 +315,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg) + 1 + mir_tstrlen(substituteStr) - 9) * sizeof(TCHAR));
 
 			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 9, (mir_tstrlen(msg) - i - 8) * sizeof(TCHAR));
-			CopyMemory(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 		else if (!_tcsnicmp(msg+i, _T("%randdefmsg%"), 12))
 		{
@@ -363,7 +363,7 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 				msg = (TCHAR *)mir_realloc(msg, (mir_tstrlen(msg)+1+mir_tstrlen(substituteStr)-12) * sizeof(TCHAR));
 
 			MoveMemory(msg + i + mir_tstrlen(substituteStr), msg + i + 12, (mir_tstrlen(msg) - i - 11) * sizeof(TCHAR));
-			CopyMemory(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
+			memcpy(msg + i, substituteStr, mir_tstrlen(substituteStr) * sizeof(TCHAR));
 		}
 	}
 

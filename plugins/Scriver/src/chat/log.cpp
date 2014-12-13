@@ -38,7 +38,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 
 		// give the RTF to the RE control
 		*pcb = min(cb, LONG(lstrdat->bufferLen - lstrdat->bufferOffset));
-		CopyMemory(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
+		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
 		lstrdat->bufferOffset += *pcb;
 
 		// free stuff if the streaming operation is complete

@@ -357,7 +357,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			GetCursorPos(&pt);
 			GetWindowRect(hwndDlg, &rcWindow);
 
-			CopyMemory(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(TitleBtn) * 3);
+			memcpy(&pContainer->oldbuttons[0], &pContainer->buttons[0], sizeof(TitleBtn) * 3);
 			memset(&pContainer->buttons[0], 0, (sizeof(TitleBtn) * 3));
 			isMin = isMax = isClose = FALSE;
 

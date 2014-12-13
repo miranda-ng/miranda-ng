@@ -510,13 +510,13 @@ void LoadOptions()
 
 	if (!db_get(NULL, MODULE, "IconOrder", &dbv))
 	{
-		CopyMemory(opt.exIconsOrder,dbv.pbVal,dbv.cpbVal);
+		memcpy(opt.exIconsOrder,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
 	}
 
 	if (!db_get(NULL, MODULE, "icons_vis", &dbv))
 	{
-		CopyMemory(opt.exIconsVis,dbv.pbVal,dbv.cpbVal);
+		memcpy(opt.exIconsVis,dbv.pbVal,dbv.cpbVal);
 		db_free(&dbv);
 	}
 

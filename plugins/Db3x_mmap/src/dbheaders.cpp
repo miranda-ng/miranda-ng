@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 {
-	CopyMemory(m_dbHeader.signature, &_sign, sizeof(m_dbHeader.signature));
+	memcpy(m_dbHeader.signature, &_sign, sizeof(m_dbHeader.signature));
 
 	m_dbHeader.version = DB_095_1_VERSION;
 	m_dbHeader.ofsFileEnd = sizeof(struct DBHeader);

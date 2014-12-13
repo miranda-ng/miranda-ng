@@ -48,7 +48,7 @@ int CDb3Mmap::PeekSegment(DWORD ofs, PVOID buf, int cbBytes)
 		return ERROR_READ_FAULT;
 	}
 
-	CopyMemory(buf, m_pDbCache + ofs, bytesRead);
+	memcpy(buf, m_pDbCache + ofs, bytesRead);
 
 	if ((int)bytesRead<cbBytes) return ERROR_HANDLE_EOF;
 	return ERROR_SUCCESS;

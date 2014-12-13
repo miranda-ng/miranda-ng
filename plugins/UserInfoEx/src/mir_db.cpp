@@ -97,7 +97,7 @@ DWORD	WhenAdded(DWORD dwUIN, LPCSTR pszProto)
 			if (!DB::Event::GetInfoWithData(edbe, &dbei)) {
 				// extract UIN and compare with given one
 				DWORD dwEvtUIN;
-				CopyMemory(&dwEvtUIN, dbei.pBlob, sizeof(DWORD));
+				memcpy(&dwEvtUIN, dbei.pBlob, sizeof(DWORD));
 				MIR_FREE(dbei.pBlob);
 				if (dwEvtUIN == dwUIN)
 					return dbei.timestamp;

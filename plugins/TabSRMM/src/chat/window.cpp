@@ -2798,7 +2798,7 @@ LABEL_SHOWWINDOW:
 									pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 									pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 									ClientToScreen(((NMHDR*) lParam)->hwndFrom, &pt);
-									CopyMemory(&uiNew, ui, sizeof(USERINFO));
+									memcpy(&uiNew, ui, sizeof(USERINFO));
 									UINT uID = CreateGCMenu(hwndDlg, &hMenu, 0, pt, si, uiNew.pszUID, uiNew.pszNick);
 									switch (uID) {
 									case 0:

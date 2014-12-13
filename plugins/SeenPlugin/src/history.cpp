@@ -253,14 +253,14 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 	case WM_GETMINMAXINFO:
 		{
 			MINMAXINFO mmi;
-			CopyMemory (&mmi, (LPMINMAXINFO) lparam, sizeof (MINMAXINFO));
+			memcpy (&mmi, (LPMINMAXINFO) lparam, sizeof (MINMAXINFO));
 
 			/* The minimum width in points*/
 			mmi.ptMinTrackSize.x = 200;
 			/* The minimum height in points*/
 			mmi.ptMinTrackSize.y = 190;
 
-			CopyMemory ((LPMINMAXINFO) lparam, &mmi, sizeof (MINMAXINFO));
+			memcpy ((LPMINMAXINFO) lparam, &mmi, sizeof (MINMAXINFO));
 		}
 		break;
 

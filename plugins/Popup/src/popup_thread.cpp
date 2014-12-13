@@ -77,7 +77,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 		MONITORINFOEX mnti; 
 		mnti.cbSize = sizeof(MONITORINFOEX);
 		if ( GetMonitorInfo(hMonitor, &mnti) == TRUE)
-			CopyMemory(&rc, &(mnti.rcWork), sizeof(RECT));
+			memcpy(&rc, &(mnti.rcWork), sizeof(RECT));
 		else
 			SystemParametersInfo(SPI_GETWORKAREA,0,&rc,0);
 	}

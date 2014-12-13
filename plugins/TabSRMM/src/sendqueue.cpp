@@ -96,7 +96,7 @@ entry_found:
 
 	SendJob &job = m_jobs[iFound];
 	job.szSendBuffer = (char*)mir_alloc(iLen);
-	CopyMemory(job.szSendBuffer, dat->sendBuffer, iLen);
+	memcpy(job.szSendBuffer, dat->sendBuffer, iLen);
 
 	job.dwFlags = dwFlags;
 	job.dwTime = time(NULL);
@@ -128,7 +128,7 @@ static int SendChunkW(WCHAR *chunk, MCONTACT hContact, DWORD dwFlags)
 
 	ptrA pBuf((char*)mir_alloc(memRequired));
 	WideCharToMultiByte(codePage, 0, chunk, -1, pBuf, mbcsSize, 0, 0);
-	CopyMemory(&pBuf[mbcsSize], chunk, (wLen+1) * sizeof(WCHAR));
+	memcpy(&pBuf[mbcsSize], chunk, (wLen+1) * sizeof(WCHAR));
 	return CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)pBuf);
 }
 
@@ -152,7 +152,7 @@ static void DoSplitSendW(LPVOID param)
 	size_t iLen = mir_strlen(job->szSendBuffer);
 	WCHAR *wszBegin = (WCHAR*) & job->szSendBuffer[iLen + 1];
 	WCHAR *wszTemp = (WCHAR*)mir_alloc(sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
-	CopyMemory(wszTemp, wszBegin, sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
+	memcpy(wszTemp, wszBegin, sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
 	wszBegin = wszTemp;
 
 	do {
@@ -222,7 +222,7 @@ static void DoSplitSendA(LPVOID param)
 
 	size_t iLen = mir_strlen(job->szSendBuffer);
 	szTemp = (char *)mir_alloc(iLen + 1);
-	CopyMemory(szTemp, job->szSendBuffer, iLen + 1);
+	memcpy(szTemp, job->szSendBuffer, iLen + 1);
 	szBegin = szTemp;
 
 	do {

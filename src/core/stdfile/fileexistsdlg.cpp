@@ -63,7 +63,7 @@ static void DoAnnoyingShellCommand(HWND hwnd, const TCHAR *szFilename, int cmd, 
 					pidlNext = (ITEMIDLIST*)((PBYTE)pidl + pidl->mkid.cb);
 					if (pidlNext->mkid.cb == 0) {
 						pidlFilename = (ITEMIDLIST*)CoTaskMemAlloc(pidl->mkid.cb + sizeof(pidl->mkid.cb));
-						CopyMemory(pidlFilename, pidl, pidl->mkid.cb + sizeof(pidl->mkid.cb));
+						memcpy(pidlFilename, pidl, pidl->mkid.cb + sizeof(pidl->mkid.cb));
 						pidl->mkid.cb = 0;
 						break;
 					}
@@ -312,7 +312,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 
 			PROTOFILERESUME *pfrCopy = (PROTOFILERESUME*)mir_alloc(sizeof(pfr));
-			CopyMemory(pfrCopy, &pfr, sizeof(pfr));
+			memcpy(pfrCopy, &pfr, sizeof(pfr));
 			PostMessage((HWND)GetPropA(hwndDlg, "Miranda.ParentWnd"), M_FILEEXISTSDLGREPLY, (WPARAM)mir_tstrdup(fts->tszCurrentFile), (LPARAM)pfrCopy);
 			DestroyWindow(hwndDlg);
 		}

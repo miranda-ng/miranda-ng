@@ -113,7 +113,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_MOUSEMOVE:
 			if (mouseEvent != 0x01)
 				break;
-			CopyMemory(&DlgParam->chrg, &pENLink->chrg, sizeof(CHARRANGE));
+			memcpy(&DlgParam->chrg, &pENLink->chrg, sizeof(CHARRANGE));
 			SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)&pENLink->chrg);
 			WriteMessage(hDlg, DlgParam->listStart, SendDlgItemMessage(hDlg, IDC_MAIN, EM_LINEFROMCHAR, -1, 0));
 			break;

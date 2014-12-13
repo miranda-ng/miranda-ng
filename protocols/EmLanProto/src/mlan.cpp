@@ -298,7 +298,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					cont->m_status = ID_STATUS_OFFLINE;
 					int nlen = (int)strlen(pak.strName);
 					cont->m_nick = new char[nlen+1];
-					CopyMemory(cont->m_nick, pak.strName, nlen+1);
+					memcpy(cont->m_nick, pak.strName, nlen+1);
 					m_pRootContact = cont;
 				}
 				else
@@ -308,7 +308,7 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 						delete[] cont->m_nick;
 						int nlen = (int)strlen(pak.strName);
 						cont->m_nick = new char[nlen+1];
-						CopyMemory(cont->m_nick, pak.strName, nlen+1);
+						memcpy(cont->m_nick, pak.strName, nlen+1);
 					}
 				}
 				cont->m_time = MLAN_CHECK + MLAN_TIMEOUT;
@@ -716,7 +716,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 	{
 		*pb++ = 1+nameLen+1;
 		*pb++ = MCODE_SND_NAME;
-		CopyMemory(pb, pak.strName, nameLen);
+		memcpy(pb, pak.strName, nameLen);
 		pb += nameLen;
 		*pb++ = 0;
 	}
@@ -739,7 +739,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 		*((u_int*)pb) = pak.idMessage;
 		pb += sizeof(u_int);
 		if (mesLen)
-			CopyMemory(pb, pak.strMessage, mesLen);
+			memcpy(pb, pak.strMessage, mesLen);
 		pb += mesLen;
 		*pb++ = 0;
 	}
@@ -772,7 +772,7 @@ u_char* CMLan::CreatePacket(TPacket& pak, int* pBufLen)
 		*((u_int*)pb) = pak.idAckAwayMessage;
 		pb += sizeof(u_int);
 		if (awayLen)
-			CopyMemory(pb, pak.strAwayMessage, awayLen);
+			memcpy(pb, pak.strAwayMessage, awayLen);
 		pb += awayLen;
 		*pb++ = 0;
 	}

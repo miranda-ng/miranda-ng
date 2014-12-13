@@ -651,7 +651,7 @@ static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		if (psd == NULL)
 			return FALSE;
 		memset(psd, 0, sizeof(SKINDESCRIPTION));
-		CopyMemory(psd, (void *)lParam, sizeof(SKINDESCRIPTION));
+		memcpy(psd, (void *)lParam, sizeof(SKINDESCRIPTION));
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)psd);
 
 		ID_EXTBK_FIRST = psd->firstItem;

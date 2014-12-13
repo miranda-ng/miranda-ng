@@ -10,7 +10,7 @@ BOOL DB_GetStaticStringW(MCONTACT hContact,LPSTR lpszModule,LPSTR lpszValueName,
 		dwReadedStringLen=mir_wstrlen(dbv.pwszVal);
 		if (lpwszRetBuff && (dwRetBuffSize>dwReadedStringLen))
 		{
-			CopyMemory(lpwszRetBuff,dbv.pszVal,(dwReadedStringLen*sizeof(WCHAR)));//include null terminated
+			memcpy(lpwszRetBuff,dbv.pszVal,(dwReadedStringLen*sizeof(WCHAR)));//include null terminated
 			(*((WCHAR*)(lpwszRetBuff+dwReadedStringLen)))=0;
 			bRet=TRUE;
 		}else{
@@ -310,7 +310,7 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML,size_t dwXMLSize,LPSTR lpszBuff,size_t dwBu
 						if (lpszDataStart)
 						{
 							size_t dwBuffSizeRet=min((dwBuffSize-2),(size_t)((lpszTagStart-1)-lpszDataStart));
-							if (lpszBuff && dwBuffSize) CopyMemory(lpszBuff,lpszDataStart,dwBuffSizeRet);(*((WORD*)(lpszBuff+dwBuffSizeRet)))=0;
+							if (lpszBuff && dwBuffSize) memcpy(lpszBuff,lpszDataStart,dwBuffSizeRet);(*((WORD*)(lpszBuff+dwBuffSizeRet)))=0;
 							if (pdwBuffSizeRet) (*pdwBuffSizeRet)=dwBuffSizeRet;
 							bRet=TRUE;
 						}
@@ -373,8 +373,8 @@ DWORD ReplaceInBuff(LPVOID lpInBuff,size_t dwInBuffSize,size_t dwReplaceItemsCou
 		if (plpszFound[dwFirstFoundedIndex]) {
 			dwMemPartToCopy=(plpszFound[dwFirstFoundedIndex]-lpszMessageCurPrev);
 			if (lpszMessageConvertedMax > (lpszMessageConvertedCur+(dwMemPartToCopy+pdwInReplaceItemsCounts[dwFirstFoundedIndex]))) {
-				CopyMemory(lpszMessageConvertedCur,lpszMessageCurPrev,dwMemPartToCopy);lpszMessageConvertedCur+=dwMemPartToCopy;
-				CopyMemory(lpszMessageConvertedCur,plpOutReplaceItems[dwFirstFoundedIndex],pdwOutReplaceItemsCounts[dwFirstFoundedIndex]);lpszMessageConvertedCur+=pdwOutReplaceItemsCounts[dwFirstFoundedIndex];
+				memcpy(lpszMessageConvertedCur,lpszMessageCurPrev,dwMemPartToCopy);lpszMessageConvertedCur+=dwMemPartToCopy;
+				memcpy(lpszMessageConvertedCur,plpOutReplaceItems[dwFirstFoundedIndex],pdwOutReplaceItemsCounts[dwFirstFoundedIndex]);lpszMessageConvertedCur+=pdwOutReplaceItemsCounts[dwFirstFoundedIndex];
 				lpszMessageCurPrev=(plpszFound[dwFirstFoundedIndex]+pdwInReplaceItemsCounts[dwFirstFoundedIndex]);
 
 				for(i=0;i<dwReplaceItemsCount;i++)
@@ -397,7 +397,7 @@ DWORD ReplaceInBuff(LPVOID lpInBuff,size_t dwInBuffSize,size_t dwReplaceItemsCou
 		}
 	}
 	lpszMessageCur=(((LPBYTE)lpInBuff)+dwInBuffSize);
-	CopyMemory(lpszMessageConvertedCur,lpszMessageCurPrev,(lpszMessageCur-lpszMessageCurPrev));lpszMessageConvertedCur+=(lpszMessageCur-lpszMessageCurPrev);
+	memcpy(lpszMessageConvertedCur,lpszMessageCurPrev,(lpszMessageCur-lpszMessageCurPrev));lpszMessageConvertedCur+=(lpszMessageCur-lpszMessageCurPrev);
 	(*((WORD*)lpszMessageConvertedCur))=0;
 
 	MEMFREE(plpszFound);

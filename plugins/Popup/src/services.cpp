@@ -107,7 +107,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 
 	POPUPDATA2 ppdFixed = {0};
 	POPUPDATA2 *ppd = &ppdFixed;
-	CopyMemory(ppd, ppdIn, min(ppdIn->cbSize, sizeof(POPUPDATA2)));
+	memcpy(ppd, ppdIn, min(ppdIn->cbSize, sizeof(POPUPDATA2)));
 
 	DWORD disableWhen;
 	FillNotificationData(ppd, &disableWhen);

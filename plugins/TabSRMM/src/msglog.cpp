@@ -236,28 +236,28 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 				int begin = (code == '1');
 				switch (line[1]) {
 				case 'b':
-					CopyMemory(d, begin ? "\\b " : "\\b0 ", begin ? 3 : 4);
+					memcpy(d, begin ? "\\b " : "\\b0 ", begin ? 3 : 4);
 					d += (begin ? 3 : 4);
 					line += 3;
 					continue;
 				case 'i':
-					CopyMemory(d, begin ? "\\i " : "\\i0 ", begin ? 3 : 4);
+					memcpy(d, begin ? "\\i " : "\\i0 ", begin ? 3 : 4);
 					d += (begin ? 3 : 4);
 					line += 3;
 					continue;
 				case 'u':
-					CopyMemory(d, begin ? "\\ul " : "\\ul0 ", begin ? 4 : 5);
+					memcpy(d, begin ? "\\ul " : "\\ul0 ", begin ? 4 : 5);
 					d += (begin ? 4 : 5);
 					line += 3;
 					continue;
 				case 's':
-					CopyMemory(d, begin ? "\\strike " : "\\strike0 ", begin ? 8 : 9);
+					memcpy(d, begin ? "\\strike " : "\\strike0 ", begin ? 8 : 9);
 					d += (begin ? 8 : 9);
 					line += 3;
 					continue;
 				case 'c':
 					begin = (code == 'x');
-					CopyMemory(d, "\\cf", 3);
+					memcpy(d, "\\cf", 3);
 					if (begin) {
 						d[3] = (char)line[3];
 						d[4] = (char)line[4];
@@ -278,16 +278,16 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 			}
 		}
 		if (*line == '\r' && line[1] == '\n') {
-			CopyMemory(d, "\\line ", 6);
+			memcpy(d, "\\line ", 6);
 			line++;
 			d += 6;
 		}
 		else if (*line == '\n') {
-			CopyMemory(d, "\\line ", 6);
+			memcpy(d, "\\line ", 6);
 			d += 6;
 		}
 		else if (*line == '\t') {
-			CopyMemory(d, "\\tab ", 5);
+			memcpy(d, "\\tab ", 5);
 			d += 5;
 		}
 		else if (*line == '\\' || *line == '{' || *line == '}') {
@@ -341,26 +341,26 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 					}
 					switch (tag) {
 					case 'b':
-						CopyMemory(*buffer + i, begin ? "\\b1 " : "\\b0 ", 4);
+						memcpy(*buffer + i, begin ? "\\b1 " : "\\b0 ", 4);
 						continue;
 					case 'i':
-						CopyMemory(*buffer + i, begin ? "\\i1 " : "\\i0 ", 4);
+						memcpy(*buffer + i, begin ? "\\i1 " : "\\i0 ", 4);
 						continue;
 					case 'u':
 						MoveMemory(*buffer + i + 2, *buffer + i + 1, *cbBufferEnd - i);
-						CopyMemory(*buffer + i, begin ? "\\ul1 " : "\\ul0 ", 5);
+						memcpy(*buffer + i, begin ? "\\ul1 " : "\\ul0 ", 5);
 						*cbBufferEnd += 1;
 						continue;
 					case 's':
 						*cbBufferAlloced += 20;
 						*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 						MoveMemory(*buffer + i + 6, *buffer + i + 1, (*cbBufferEnd - i) + 1);
-						CopyMemory(*buffer + i, begin ? "\\strike1 " : "\\strike0 ", begin ? 9 : 9);
+						memcpy(*buffer + i, begin ? "\\strike1 " : "\\strike0 ", begin ? 9 : 9);
 						*cbBufferEnd += 5;
 						continue;
 					case 'c':
 						begin = (code == 'x');
-						CopyMemory(*buffer + i, "\\cf", 3);
+						memcpy(*buffer + i, "\\cf", 3);
 						if (!begin) {
 							char szTemp[10];
 							int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
@@ -380,7 +380,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 6, *buffer + i + 2, *cbBufferEnd - i - 1);
-			CopyMemory(*buffer + i, "\\line ", 6);
+			memcpy(*buffer + i, "\\line ", 6);
 			*cbBufferEnd += 4;
 		}
 		else if ((*buffer)[i] == '\n') {
@@ -389,7 +389,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 6, *buffer + i + 1, *cbBufferEnd - i);
-			CopyMemory(*buffer + i, "\\line ", 6);
+			memcpy(*buffer + i, "\\line ", 6);
 			*cbBufferEnd += 5;
 		}
 		else if ((*buffer)[i] == '\t') {
@@ -398,7 +398,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
 			MoveMemory(*buffer + i + 5, *buffer + i + 1, *cbBufferEnd - i);
-			CopyMemory(*buffer + i, "\\tab ", 5);
+			memcpy(*buffer + i, "\\tab ", 5);
 			*cbBufferEnd += 4;
 		}
 		else if ((*buffer)[i] == '\\' || (*buffer)[i] == '{' || (*buffer)[i] == '}') {
@@ -1169,7 +1169,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferLen = (int)mir_strlen(dat->buffer);
 	}
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
-	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
+	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
 	if (dat->bufferOffset == dat->bufferLen)
 		replaceStr(dat->buffer, NULL);

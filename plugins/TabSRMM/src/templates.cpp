@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				TCHAR newTemplate[TEMPLATE_LENGTH + 2];
 
 				GetWindowText(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE), newTemplate, SIZEOF(newTemplate));
-				CopyMemory(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(TCHAR) * TEMPLATE_LENGTH);
+				memcpy(tSet->szTemplates[teInfo->inEdit], newTemplate, sizeof(TCHAR) * TEMPLATE_LENGTH);
 				teInfo->changed = FALSE;
 				teInfo->updateInfo[teInfo->inEdit] = FALSE;
 				Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
@@ -288,7 +288,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			teInfo->changed = FALSE;
 			teInfo->updateInfo[teInfo->inEdit] = FALSE;
 			teInfo->selchanging = TRUE;
-			CopyMemory(tSet->szTemplates[teInfo->inEdit], LTR_Default.szTemplates[teInfo->inEdit], sizeof(TCHAR) * TEMPLATE_LENGTH);
+			memcpy(tSet->szTemplates[teInfo->inEdit], LTR_Default.szTemplates[teInfo->inEdit], sizeof(TCHAR) * TEMPLATE_LENGTH);
 			SetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit]);
 			db_unset(teInfo->hContact, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, TemplateNames[teInfo->inEdit]);
 			SetFocus(GetDlgItem(hwndDlg, IDC_EDITTEMPLATE));
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TCHAR szTemp[TEMPLATE_LENGTH + 2];
 
 		if (teInfo->changed) {
-			CopyMemory(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(TCHAR)));
+			memcpy(szTemp, tSet->szTemplates[teInfo->inEdit], (TEMPLATE_LENGTH * sizeof(TCHAR)));
 			GetDlgItemText(hwndDlg, IDC_EDITTEMPLATE, tSet->szTemplates[teInfo->inEdit], TEMPLATE_LENGTH);
 		}
 		dbei.szModule = dat->szProto;
@@ -366,7 +366,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		StreamInEvents(hwndDlg, 0, 1, 1, &dbei);
 		SendDlgItemMessage(hwndDlg, IDC_PREVIEW, EM_SETSEL, -1, -1);
 		if (teInfo->changed)
-			CopyMemory(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(TCHAR));
+			memcpy(tSet->szTemplates[teInfo->inEdit], szTemp, TEMPLATE_LENGTH * sizeof(TCHAR));
 		break;
 											 }
 	case WM_DESTROY:

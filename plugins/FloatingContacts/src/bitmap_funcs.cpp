@@ -298,7 +298,7 @@ void MyBitmap::Draw(MyBitmap *bmp, int x, int y, int w, int h)
 	if (!x && !y && (w == width) && (h == height) && (w == bmp->width) && (h == bmp->height))
 	{
 		// fast bitmap copy is possible good for animated avatars
-		CopyMemory(bits, bmp->bits, width*height*sizeof(COLOR32));
+		memcpy(bits, bmp->bits, width*height*sizeof(COLOR32));
 		return;
 	}
 

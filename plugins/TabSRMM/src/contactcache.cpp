@@ -312,7 +312,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
 					}
 				}
 			}
-			::CopyMemory(m_history[m_iHistoryTop].szText, szFromStream, iStreamLength);
+			::memcpy(m_history[m_iHistoryTop].szText, szFromStream, iStreamLength);
 			if (!oldTop) {
 				if (m_iHistoryTop < m_iHistorySize) {
 					m_iHistoryTop++;

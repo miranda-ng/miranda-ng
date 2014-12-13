@@ -170,7 +170,7 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 	TCHAR *res = mir_tstrdup(_T(""));
 
 	FORMATINFO fi;
-	CopyMemory(&fi, ai->fi, sizeof(fi));
+	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.eCount = fi.pCount = 0;
 	fi.tszFormat = ai->targv[1];
 	mir_free(formatString(&fi));
