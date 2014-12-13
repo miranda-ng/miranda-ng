@@ -497,6 +497,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		MirVer = "VKontakte (mobile)";
 		break;
 	case 3087106: // iPhone
+	case 3140623:
 	case 2:
 		MirVer = "VKontakte (iphone)";
 		break;
