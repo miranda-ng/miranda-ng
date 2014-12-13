@@ -58,7 +58,7 @@ LRESULT _dlgReturn(HWND hWnd, LRESULT result)
 TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 {
 	tstring text(wszText);
-	INT_PTR beginmark = 0, endmark = 0;
+	size_t beginmark = 0, endmark = 0;
 
 	while (true) {
 		if ((beginmark = text.find(_T("~-+"))) != text.npos) {
@@ -96,10 +96,10 @@ TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent)
 {
 	bool 	clr_was_added = false, was_added;
-	static 	tstring message(msg);
-	INT_PTR beginmark = 0, endmark = 0, tempmark = 0, index;
-	int 	i, endindex;
-	TCHAR 	endmarker;
+	static tstring message(msg);
+	size_t beginmark = 0, endmark = 0, tempmark = 0, index;
+	int i, endindex;
+	TCHAR endmarker;
 	DWORD	dwFlags = dat->dwFlags;
 	message.assign(msg);
 
@@ -330,8 +330,7 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 			break;
 		}
 		case 'x': {
-			TCHAR *szFinalStatus = NULL;
-			BYTE  xStatus = dat->cache->getXStatusId();
+			BYTE xStatus = dat->cache->getXStatusId();
 
 			if (dat->wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 				DBVARIANT dbv = {0};
@@ -406,7 +405,7 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 char* Utils::FilterEventMarkers(char *szText)
 {
 	std::string text(szText);
-	INT_PTR beginmark = 0, endmark = 0;
+	size_t beginmark = 0, endmark = 0;
 
 	while (true) {
 		if ((beginmark = text.find("~-+")) != text.npos) {
@@ -440,7 +439,7 @@ const TCHAR* Utils::DoubleAmpersands(TCHAR *pszText)
 {
 	tstring text(pszText);
 
-	INT_PTR textPos = 0;
+	size_t textPos = 0;
 
 	while (true) {
 		if ((textPos = text.find(_T("&"),textPos)) != text.npos) {
@@ -464,17 +463,19 @@ const TCHAR* Utils::DoubleAmpersands(TCHAR *pszText)
 
 TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 {
-	size_t   uRequired;
-	TCHAR*	 p = 0, cSaved;
+	size_t uRequired;
+	TCHAR *p = 0, cSaved;
 	bool	 fEllipsis = false;
 
-	if (_tcslen(szText) <= iMaxLen)
+	if (_tcslen(szText) <= iMaxLen) {
 		uRequired = _tcslen(szText) + 4;
+		cSaved = 0;
+	}
 	else {
 		TCHAR *p = &szText[iMaxLen - 1];
 		fEllipsis = true;
 
-		while(p >= szText && *p != ' ')
+		while (p >= szText && *p != ' ')
 			p--;
 		if (p == szText)
 			p = szText + iMaxLen - 1;
@@ -567,8 +568,6 @@ void Utils::CreateColorMap(TCHAR *Text)
 
 	for (i=0; i < RTF_CTABLE_DEFSIZE; i++)
 		rtf_ctable[i].index = 0;
-
-	COLORREF default_color = (COLORREF)M.GetDword(FONTMODULE, "Font16Col", 0);
 
 	while (p2 && p2 < pEnd) {
 		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
@@ -876,16 +875,12 @@ int Utils::mustPlaySound(const TWindowData *dat)
 		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_MINIMIZED ? 1 : 0);
 
 	// window in foreground
-	if (fActiveWindow) {
-		if (fActiveTab)
-			return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
-		else
-			return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
-	}
-	else
+	if (!fActiveWindow)
 		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_UNFOCUSED ? 1 : 0);
 
-	return 1;
+	if (fActiveTab)
+		return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_FOCUSED ? 1 : 0);
+	return(dat->pContainer->dwFlagsEx & CNT_EX_SOUNDS_INACTIVETABS ? 1 : 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

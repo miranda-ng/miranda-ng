@@ -129,7 +129,7 @@ public:
 	CSideBar(TContainerData *pContainer);
 	~CSideBar();
 
-   void                  Init(const bool fForce = false);
+   void                  Init();
    void                  addSession(const TWindowData *dat, int position);
    HRESULT               removeSession(const TWindowData *dat);
    void                  updateSession(const TWindowData *dat);

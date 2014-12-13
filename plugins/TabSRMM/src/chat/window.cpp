@@ -51,75 +51,7 @@ struct MESSAGESUBDATA
 	SESSION_INFO *lastSession;
 };
 
-static const CLSID IID_ITextDocument= { 0x8CC497C0,0xA1DF,0x11CE, { 0x80,0x98, 0x00,0xAA, 0x00,0x47,0xBE,0x5D} };
-
-static void Chat_SetMessageLog(TWindowData *dat)
-{
-	unsigned int iLogMode = M.GetByte(CHAT_MODULE, "useIEView", 0);
-
-	if (iLogMode == WANT_IEVIEW_LOG && dat->hwndIEView == 0) {
-		IEVIEWWINDOW ieWindow;
-		IEVIEWEVENT iee;
-
-		//CheckAndDestroyHPP(dat);
-		memset(&ieWindow, 0, sizeof(ieWindow));
-		memset(&iee, 0, sizeof(iee));
-		ieWindow.cbSize = sizeof(ieWindow);
-		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwFlags = 0;
-		ieWindow.dwMode = IEWM_TABSRMM;
-		ieWindow.parent = dat->hwnd;
-		ieWindow.x = 0;
-		ieWindow.y = 0;
-		ieWindow.cx = 200;
-		ieWindow.cy = 300;
-		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
-		dat->hwndIEView = ieWindow.hwnd;
-
-		memset(&iee, 0, sizeof(iee));
-		iee.cbSize = sizeof(iee);
-		iee.iType = IEE_CLEAR_LOG;
-		iee.hwnd = dat->hwndIEView;
-		iee.hContact = dat->hContact;
-		iee.codepage = dat->codePage;
-
-		SESSION_INFO *si = dat->si;
-
-		iee.pszProto = si->pszModule;
-		CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&iee);
-
-		Utils::showDlgControl(dat->hwnd, IDC_CHAT_LOG, SW_HIDE);
-		Utils::enableDlgControl(dat->hwnd, IDC_CHAT_LOG, FALSE);
-	}
-	else if (iLogMode == WANT_HPP_LOG && dat->hwndHPP == 0) {
-		IEVIEWWINDOW ieWindow;
-
-		memset(&ieWindow, 0, sizeof(ieWindow));
-		//CheckAndDestroyIEView(dat);
-		ieWindow.cbSize = sizeof(IEVIEWWINDOW);
-		ieWindow.iType = IEW_CREATE;
-		ieWindow.dwFlags = 0;
-		ieWindow.dwMode = IEWM_MUCC;
-		ieWindow.parent = dat->hwnd;
-		ieWindow.x = 0;
-		ieWindow.y = 0;
-		ieWindow.cx = 10;
-		ieWindow.cy = 10;
-		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
-		dat->hwndHPP = ieWindow.hwnd;
-		Utils::showDlgControl(dat->hwnd, IDC_CHAT_LOG, SW_HIDE);
-		Utils::enableDlgControl(dat->hwnd, IDC_CHAT_LOG, FALSE);
-	}
-	else {
-		if (iLogMode != WANT_IEVIEW_LOG)
-			CheckAndDestroyIEView(dat);
-		Utils::showDlgControl(dat->hwnd, IDC_CHAT_LOG, SW_SHOW);
-		Utils::enableDlgControl(dat->hwnd, IDC_CHAT_LOG, TRUE);
-		dat->hwndIEView = 0;
-		dat->hwndIWebBrowserControl = 0;
-		dat->hwndHPP = 0;
-	}
-}
+const CLSID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D } };
 
 /*
  * checking if theres's protected text at the point
@@ -385,7 +317,6 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	rc.bottom = rc.top = rc.left = rc.right = 0;
 
 	GetClientRect(hwndDlg, &rcTabs);
-	int TabHeight = rcTabs.bottom - rcTabs.top;
 
 	if (dat->bIsAutosizingInput)
 		Utils::showDlgControl(hwndDlg, IDC_SPLITTERY, SW_HIDE);
@@ -620,7 +551,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		{
 			MODULEINFO *mi = pci->MM_FindModule(Parentsi->pszModule);
 			CHARRANGE sel, all = { 0, -1};
-			int iPrivateBG = M.GetByte(mwdat->hContact, "private_bg", 0);
 			int idFrom = IDC_CHAT_MESSAGE;
 
 			POINT pt;
@@ -1120,7 +1050,7 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	case WM_CLOSE:
 		if (wParam == 1 && lParam == 1) {
 			int iFlags = 0, i;
-			DWORD dwMask = 0, dwFlags = 0;
+			DWORD dwMask = 0;
 
 			for (i=0; i < SIZEOF(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
@@ -1343,7 +1273,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
  * show the userinfo - tooltip.
  */
 
-static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESSION_INFO * parentdat)
+static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
 {
 	static int currentHovered = -1;
 	static HWND hwndToolTip = NULL;
@@ -1606,7 +1536,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
 			SESSION_INFO *parentdat = dat->si;
 
-			int height;
+			int height = 0;
 			TVHITTESTINFO hti;
 			hti.pt.x = (short) LOWORD(lParam);
 			hti.pt.y = (short) HIWORD(lParam);
@@ -1715,7 +1645,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					if (nItemUnderMouse != -1)
 						SetTimer(hwnd, 1, 450, 0);
 				}
-				else ProcessNickListHovering(hwnd, (int)nItemUnderMouse, &pt, parentdat);
+				else ProcessNickListHovering(hwnd, (int)nItemUnderMouse, parentdat);
 			}
 			else {
 				if (M.GetByte("adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip")) {
@@ -1725,7 +1655,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 						isToolTip = FALSE;
 					}
 				}
-				else ProcessNickListHovering(hwnd, -1, &pt, NULL);
+				else ProcessNickListHovering(hwnd, -1, NULL);
 			}
 		}
 		break;
@@ -1790,7 +1720,7 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth)
 	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 
 	RECT rc = {0};
-	int i = DrawText(hdc, pszText , -1, &rc, DT_CALCRECT);
+	DrawText(hdc, pszText , -1, &rc, DT_CALCRECT);
 
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(NULL, hdc);
@@ -1960,7 +1890,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case DM_LOADBUTTONBARICONS:
-		BB_UpdateIcons(hwndDlg, dat);
+		BB_UpdateIcons(hwndDlg);
 		return 0;
 
 	case GC_SETWNDPROPS:
@@ -1999,7 +1929,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 
 			TCHAR szTemp[100];
-			HICON hIcon;
+			HICON hIcon = 0;
 
 			switch (si->iType) {
 			case GCW_CHATROOM:
@@ -2017,7 +1947,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				break;
 			case GCW_SERVER:
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s: Server"), szNick);
-				hIcon = LoadIconEx(IDI_CHANMGR, "window", 16, 16);
+				hIcon = LoadIconEx("window");
 				break;
 			}
 
@@ -2160,10 +2090,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					if ((si->iType != GCW_CHATROOM && si->iType != GCW_PRIVMESS) || !si->bFilterEnabled || (si->iLogFilterFlags&pLog->iType) != 0)
 						index++;
 				}
-				Log_StreamInEvent(hwndDlg, pLog, si, TRUE, FALSE);
+				Log_StreamInEvent(hwndDlg, pLog, si, TRUE);
 				mir_forkthread(phase2, si);
 			}
-			else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
+			else Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
 		}
 		else SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
 		break;
@@ -2171,13 +2101,13 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case GC_REDRAWLOG2:
 		si->LastTime = 0;
 		if (si->pLog)
-			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, FALSE);
+			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
 		break;
 
 	case GC_REDRAWLOG3:
 		si->LastTime = 0;
 		if (si->pLog)
-			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE, TRUE);
+			Log_StreamInEvent(hwndDlg, si->pLogEnd, si, TRUE);
 		break;
 
 	case GC_ADDLOG:
@@ -2196,7 +2126,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			}
 
 			if (si->pLogEnd)
-				Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE, FALSE);
+				Log_StreamInEvent(hwndDlg, si->pLog, si, FALSE);
 			else
 				SendMessage(hwndDlg, GC_EVENT_CONTROL + WM_USER + 500, WINDOW_CLEARLOG, 0);
 		}
@@ -2444,7 +2374,7 @@ LABEL_SHOWWINDOW:
 				if (si->iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
 					si->iSplitterY = rc.bottom - rc.top - DPISCALEY_S(40);
 				g_Settings.iSplitterY = si->iSplitterY;
-				CSkin::UpdateToolbarBG(dat, RDW_ALLCHILDREN);
+				CSkin::UpdateToolbarBG(dat);
 				SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 			}
 			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_PANELSPLITTER)) {
@@ -2626,8 +2556,6 @@ LABEL_SHOWWINDOW:
 					if (iCharIndex < 0)
 						break;
 
-					int iLineIndex = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXLINEFROMCHAR, 0, iCharIndex);
-					int iChars = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_LINEINDEX, iLineIndex, 0);
 					int start = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_LEFT, iCharIndex);
 					int end = SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_FINDWORDBREAK, WB_RIGHT, iCharIndex);
 
@@ -2819,7 +2747,6 @@ LABEL_SHOWWINDOW:
 								return TRUE;
 							}
 							else if (msg == WM_LBUTTONUP) {
-								USERINFO	*ui = si->pUsers;
 								SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_EXGETSEL, 0, (LPARAM)&chr);
 								size_t bufSize = mir_tstrlen(tr.lpstrText) + mir_tstrlen(tszAplTmpl) + 3;
 								tszTmp = tszAppeal = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
@@ -3203,7 +3130,6 @@ LABEL_SHOWWINDOW:
 			UINT item_ids[3] = {ID_EXTBKUSERLIST, ID_EXTBKHISTORY, ID_EXTBKINPUTAREA};
 			UINT ctl_ids[3] = {IDC_LIST, IDC_CHAT_LOG, IDC_CHAT_MESSAGE};
 			bool 	bAero = M.isAero();
-			bool 	bInfoPanel = dat->Panel->isActive();
 			HANDLE 	hbp = 0;
 			HDC 	hdcMem = 0;
 			HBITMAP hbm, hbmOld;
@@ -3212,8 +3138,10 @@ LABEL_SHOWWINDOW:
 			LONG cx = rcClient.right - rcClient.left;
 			LONG cy = rcClient.bottom - rcClient.top;
 
-			if (CMimAPI::m_haveBufferedPaint)
+			if (CMimAPI::m_haveBufferedPaint) {
 				hbp = CSkin::InitiateBufferedPaint(hdc, rcClient, hdcMem);
+				hbm = hbmOld = 0;
+			}
 			else {
 				hdcMem = CreateCompatibleDC(hdc);
 				hbm =  CSkin::CreateAeroCompatibleBitmap(rcClient, hdc);
@@ -3276,7 +3204,7 @@ LABEL_SHOWWINDOW:
 	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwndDlg, &ps);
+			BeginPaint(hwndDlg, &ps);
 			EndPaint(hwndDlg, &ps);
 		}
 		return 0;
@@ -3508,7 +3436,7 @@ LABEL_SHOWWINDOW:
 		if (lParam)
 			CB_DestroyButton(hwndDlg, dat, (DWORD)wParam, (DWORD)lParam);
 		else
-			CB_DestroyAllButtons(hwndDlg, dat);
+			CB_DestroyAllButtons(hwndDlg);
 		break;
 
 	case DM_CONFIGURETOOLBAR:

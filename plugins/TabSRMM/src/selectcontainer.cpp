@@ -38,7 +38,6 @@ INT_PTR CALLBACK SelectContainerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case WM_INITDIALOG: {
 			TCHAR szNewTitle[128];
 			RECT rc, rcParent;
-			TContainerData *pContainer = 0;
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) lParam);
 			hwndMsgDlg = (HWND) lParam;

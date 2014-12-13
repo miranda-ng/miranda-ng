@@ -64,13 +64,9 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			BYTE bIEView = M.GetByte(hContact, "ieview", 0);
 			BYTE bHPP = M.GetByte(hContact, "hpplog", 0);
 			int iLocalFormat = M.GetDword(hContact, "sendformat", 0);
-			BYTE bRTL = M.GetByte(hContact, "RTL", 0);
-			BYTE bLTR = M.GetByte(hContact, "RTL", 1);
 			BYTE bSplit = M.GetByte(hContact, "splitoverride", 0);
 			BYTE bInfoPanel = M.GetByte(hContact, "infopanel", 0);
 			BYTE bAvatarVisible = M.GetByte(hContact, "hideavatar", -1);
-			char *szProto = GetContactProto(hContact);
-			int  def_log_index = 1, hpp_log_index = 1, ieview_log_index = 1;
 
 			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
 			have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
@@ -166,7 +162,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
 			int		iIndex = CB_ERR, iMode = -1;
 			DWORD	newCodePage;
-			unsigned int iOldIEView;
+			unsigned int iOldIEView = 0;
 			HWND	hWnd = M.FindWindow(hContact);
 			DWORD	sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
 			BYTE	bInfoPanel, bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
@@ -175,7 +171,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (hWnd) {
 				dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat)
-					iOldIEView = GetIEViewMode(hWnd, dat->hContact);
+					iOldIEView = GetIEViewMode(dat->hContact);
 			}
 			iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
 			iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
@@ -202,7 +198,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				}
 				if (hWnd && dat) {
-					iNewIEView = GetIEViewMode(hWnd, dat->hContact);
+					iNewIEView = GetIEViewMode(dat->hContact);
 					if (iNewIEView != iOldIEView) {
 						if (pdwActionToTake)
 							*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
@@ -321,7 +317,7 @@ checkboxes[] = {
 // ALWAYS mask dat->dwFlags with MWF_LOG_ALL to only affect real flag bits and
 // ignore temporary bits.
 
-int TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat)
+int TSAPI LoadLocalFlags(TWindowData *dat)
 {
 	if (dat == NULL)
 		return NULL;
@@ -530,7 +526,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (dat) {
 					DWORD dwOldFlags = (dat->dwFlags & MWF_LOG_ALL);
 					SetDialogToType(hwnd);
-					LoadLocalFlags(hwnd, dat);
+					LoadLocalFlags(dat);
 					if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 						bool	fShouldHide = true;
 						if (IsIconic(dat->pContainer->hwnd))

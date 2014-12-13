@@ -71,9 +71,6 @@ bool             CGlobals::m_exAllowContinue = false;
  */
 void CGlobals::reloadSystemStartup()
 {
-	HDC			hScrnDC;
-	DBVARIANT 	dbv = {0};
-
 	m_WinVerMajor = WinVerMajor();
 	m_WinVerMinor = WinVerMinor();
 	m_bIsVista = IsWinVerVistaPlus() != 0;
@@ -99,9 +96,9 @@ void CGlobals::reloadSystemStartup()
 	if (hCurHyperlinkHand == NULL)
 		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 
-	hScrnDC = GetDC(0);
-	g_DPIscaleX = 						GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
-	g_DPIscaleY = 						GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
+	HDC hScrnDC = GetDC(0);
+	g_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
+	g_DPIscaleY = GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
 	ReleaseDC(0, hScrnDC);
 
 	reloadSettings(false);
@@ -158,8 +155,6 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 {
 	m_ncm.cbSize = sizeof(NONCLIENTMETRICS);
 	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &m_ncm, 0);
-
-	DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 	m_SendOnShiftEnter = M.GetByte("sendonshiftenter", 0);
 	m_SendOnEnter = M.GetByte(SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER);
@@ -473,7 +468,7 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // event fired when a contact has been deleted. Make sure to close its message session
 
-int CGlobals::DBContactDeleted(WPARAM hContact, LPARAM lParam)
+int CGlobals::DBContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		CContactCache *c = CContactCache::getContactCache(hContact);
@@ -488,7 +483,7 @@ int CGlobals::DBContactDeleted(WPARAM hContact, LPARAM lParam)
 // our contact cache and, if a message window exists, tell it to update
 // relevant information.
 
-int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM lParam)
+int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		CContactCache *c = CContactCache::getContactCache(hContact);
@@ -504,7 +499,7 @@ int CGlobals::MetaContactEvent(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
+int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 {
 	g_bShutdown = true;
 
@@ -533,7 +528,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CGlobals::OkToExit(WPARAM wParam, LPARAM lParam)
+int CGlobals::OkToExit(WPARAM, LPARAM)
 {
 	::CreateSystrayIcon(0);
 	::CreateTrayMenus(0);

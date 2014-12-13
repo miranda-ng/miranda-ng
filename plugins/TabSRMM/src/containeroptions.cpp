@@ -57,7 +57,6 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
  */
 void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT mode, bool fForceResize)
 {
-	DWORD dwOld = pContainer->dwFlags;
 	bool  isEx = (mode & 0xffff0000) ? true : false;
 	bool  set = (mode & 0x01) ? true : false;
 

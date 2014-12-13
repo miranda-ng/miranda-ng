@@ -382,7 +382,6 @@ void CInfoPanel::renderContent(const HDC hdc)
 void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 {
 	const TCHAR *szStatusMsg = NULL;
-	CSkinItem *item = &SkinItems[ID_EXTBKINFOPANEL];
 	const TCHAR *szTextToShow = 0;
 	bool fShowUin = false;
 	COLORREF clr = 0;
@@ -527,7 +526,6 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 
 void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 {
-	const char *szProto = m_dat->cache->getActiveProto();
 	SIZE sProto = { 0 }, sStatus = { 0 }, sTime = { 0 };
 	DWORD oldPanelStatusCX = m_dat->panelStatusCX;
 
@@ -994,10 +992,10 @@ LRESULT CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 				FillRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 			else {
 				if (CSkin::m_pCurrentAeroEffect->m_finalAlpha == 0)
-					CSkin::ApplyAeroEffect(hdc, &rc, CSkin::AERO_EFFECT_AREA_INFOPANEL, 0);
+					CSkin::ApplyAeroEffect(hdc, &rc, CSkin::AERO_EFFECT_AREA_INFOPANEL);
 				else {
 					FillRect(hdc, &rc, CSkin::m_BrushBack);
-					CSkin::ApplyAeroEffect(hdc, &rc, CSkin::AERO_EFFECT_AREA_INFOPANEL, 0);
+					CSkin::ApplyAeroEffect(hdc, &rc, CSkin::AERO_EFFECT_AREA_INFOPANEL);
 				}
 			}
 			BitBlt(dcWin, 0, 0, cx, cy, hdc, 0, 0, SRCCOPY);
@@ -1524,7 +1522,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				HBRUSH br = ::CreateSolidBrush(PluginConfig.m_ipBackgroundGradientHigh);
 				if (M.isAero()) {
 					::FillRect(hdcMem, &rc, reinterpret_cast<HBRUSH>(::GetStockObject(BLACK_BRUSH)));
-					CSkin::ApplyAeroEffect(hdcMem, &rcText, CSkin::AERO_EFFECT_AREA_MENUBAR, 0);
+					CSkin::ApplyAeroEffect(hdcMem, &rcText, CSkin::AERO_EFFECT_AREA_MENUBAR);
 					::FillRect(hdcMem, &m_rcRich, br);
 
 					hTheme = OpenThemeData(m_hwnd, L"BUTTON");

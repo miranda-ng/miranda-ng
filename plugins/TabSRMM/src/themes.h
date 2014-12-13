@@ -294,13 +294,13 @@ public:
 	static void TSAPI		MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc);
 	static void TSAPI		RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindow);
 	static HBITMAP TSAPI	ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &mustFree);
-	static void	TSAPI		ApplyAeroEffect(const HDC hdc, const RECT* rc, int iEffectArea, HANDLE hbp = 0);
+	static void	TSAPI		ApplyAeroEffect(const HDC hdc, const RECT* rc, int iEffectArea);
 	static void	TSAPI		setAeroEffect(const LRESULT effect);
 	static void	TSAPI		initAeroEffect();
 	static HANDLE TSAPI		InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut);
 	static void TSAPI		FinalizeBufferedPaint(HANDLE hbp, RECT *rc);
 	static bool __fastcall	DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item);
-	static void	TSAPI		UpdateToolbarBG(TWindowData *dat, DWORD dwRdwOptFlags = 0);
+	static void	TSAPI		UpdateToolbarBG(TWindowData *dat);
 	static void TSAPI		FillBack(const HDC hdc, RECT* rc);
 
 public:

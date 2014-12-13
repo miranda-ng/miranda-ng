@@ -625,7 +625,7 @@ void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGl
 	BOOL isGlyph = ((m_dwFlags & IMAGE_GLYPH) && Skin->haveGlyphItem());
 	BOOL fCleanUp = TRUE;
 	HDC hdcSrc = 0;
-	HBITMAP hbmOld;
+	HBITMAP hbmOld = 0;
 	LONG srcOrigX = isGlyph ? m_glyphMetrics[0] : 0;
 	LONG srcOrigY = isGlyph ? m_glyphMetrics[1] : 0;
 
@@ -1528,8 +1528,6 @@ void CSkin::LoadItems()
 	TCHAR *p, *p1;
 	TIconDesc tmpIconDesc = { 0 };
 
-	CImageItem *pItem = m_ImageItems;
-
 	if (m_skinIcons == NULL)
 		m_skinIcons = (TIconDescW *)mir_calloc(sizeof(TIconDescW) * NR_MAXSKINICONS);
 
@@ -2323,7 +2321,7 @@ void CSkin::FinalizeBufferedPaint(HANDLE hbp, RECT *rc)
 //  			 default is none, needed forsome special
 //  			 effects. default paramenter is 0
 
-void CSkin::ApplyAeroEffect(const HDC hdc, const RECT *rc, int iEffectArea, HANDLE hbp)
+void CSkin::ApplyAeroEffect(const HDC hdc, const RECT *rc, int iEffectArea)
 {
 	if (m_pCurrentAeroEffect == 0 || m_aeroEffect == AERO_EFFECT_NONE)
 		return;
@@ -2457,31 +2455,31 @@ void CSkin::extractSkinsAndLogo(bool fForceOverwrite) const
 /////////////////////////////////////////////////////////////////////////////////////////
 // redraw the splitter area between the message input and message log area only
 
-void CSkin::UpdateToolbarBG(TWindowData *dat, DWORD dwRdwOptFlags)
+void CSkin::UpdateToolbarBG(TWindowData *dat)
 {
-	RECT	rcUpdate, rcTmp;
+	if (dat == NULL)
+		return;
+
+	RECT rcUpdate, rcTmp;
+	::GetWindowRect(::GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcTmp);
+
 	POINT	pt;
+	pt.x = rcTmp.left;
+	pt.y = rcTmp.top;
+	::ScreenToClient(dat->hwnd, &pt);
 
-	if (dat) {
-		::GetWindowRect(::GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcTmp);
+	rcUpdate.left = 0;
+	rcUpdate.top = pt.y;
 
-		pt.x = rcTmp.left;
-		pt.y = rcTmp.top;
-		::ScreenToClient(dat->hwnd, &pt);
+	::GetClientRect(dat->hwnd, &rcTmp);
+	rcUpdate.right = rcTmp.right;
+	rcUpdate.bottom = rcTmp.bottom;
 
-		rcUpdate.left = 0;
-		rcUpdate.top = pt.y;
-
-		::GetClientRect(dat->hwnd, &rcTmp);
-		rcUpdate.right = rcTmp.right;
-		rcUpdate.bottom = rcTmp.bottom;
-
-		if (M.isAero() || M.isDwmActive())
-			dat->fLimitedUpdate = true; 	// skip unrelevant window updates when we have buffered paint avail
-		::RedrawWindow(dat->hwnd, &rcUpdate, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
-		::BB_RedrawButtons(dat);
-		dat->fLimitedUpdate = false;
-	}
+	if (M.isAero() || M.isDwmActive())
+		dat->fLimitedUpdate = true; 	// skip unrelevant window updates when we have buffered paint avail
+	::RedrawWindow(dat->hwnd, &rcUpdate, 0, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW);
+	::BB_RedrawButtons(dat);
+	dat->fLimitedUpdate = false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

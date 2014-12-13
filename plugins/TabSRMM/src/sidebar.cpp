@@ -171,12 +171,10 @@ const SIZE& CSideBarButton::measureItem()
  */
 void CSideBarButton::RenderThis(const HDC hdc) const
 {
-	RECT		rc;
-	LONG		cx, cy;
-	HDC			hdcMem = 0;
-	bool		fVertical = (m_sideBarLayout->dwFlags & CSideBar::SIDEBARLAYOUT_VERTICALORIENTATION) ? true : false;
-	HBITMAP		hbmMem, hbmOld;
-	HANDLE		hbp = 0;
+	RECT rc;
+	LONG cx, cy;
+	bool fVertical = (m_sideBarLayout->dwFlags & CSideBar::SIDEBARLAYOUT_VERTICALORIENTATION) ? true : false;
+	HBITMAP hbmMem, hbmOld;
 
 	::GetClientRect(m_hwnd, &rc);
 
@@ -192,15 +190,14 @@ void CSideBarButton::RenderThis(const HDC hdc) const
 		cy = rc.bottom;
 	}
 
-	hdcMem = ::CreateCompatibleDC(hdc);
+	HDC hdcMem = ::CreateCompatibleDC(hdc);
 
 	if (fVertical) {
 		RECT	rcFlipped = {0,0,cx,cy};
 		hbmMem = CSkin::CreateAeroCompatibleBitmap(rcFlipped, hdcMem);
 		rc = rcFlipped;
 	}
-	else
-		hbmMem = CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
+	else hbmMem = CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
 
 	hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbmMem));
 
@@ -368,7 +365,7 @@ CSideBar::CSideBar(TContainerData *pContainer) :
 	m_activeItem = 0;
 	m_isVisible = true;
 
-	Init(true);
+	Init();
 }
 
 CSideBar::~CSideBar()
@@ -379,7 +376,7 @@ CSideBar::~CSideBar()
 		::DestroyWindow(m_hwndScrollWnd);
 }
 
-void CSideBar::Init(const bool fForce)
+void CSideBar::Init()
 {
 	m_iTopButtons = m_iBottomButtons = 0;
 	m_topHeight = m_bottomHeight = 0;
@@ -600,7 +597,7 @@ HRESULT CSideBar::removeSession(const TWindowData *dat)
  */
 void CSideBar::scrollIntoView(const CSideBarButton *item)
 {
-	LONG	spaceUsed = 0, itemHeight;
+	LONG	spaceUsed = 0, itemHeight = 0;
 	bool	fNeedLayout = false;
 
 	if (!m_isActive)
@@ -728,8 +725,6 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 	HDWP hdwp = ::BeginDeferWindowPos(1);
 
-	int 	topCount = 0, bottomCount = 0;
-	size_t j = 0;
 	BOOL 	topEnabled = FALSE, bottomEnabled = FALSE;
 	HWND 	hwnd;
 	LONG 	spaceUsed = 0;
@@ -866,7 +861,7 @@ void CSideBar::processScrollerButtons(UINT commandID)
 	Layout(0);
 }
 
-void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG width, LONG height) const
+void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG, LONG height) const
 {
 	if (!m_isVisible || !m_isActive) {
 		::ShowWindow(m_hwndScrollWnd, SW_HIDE);
@@ -913,8 +908,10 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			HANDLE  hbp = 0;
 			HBITMAP hbm, hbmOld;
 
-			if (CMimAPI::m_haveBufferedPaint)
+			if (CMimAPI::m_haveBufferedPaint) {
 				hbp = CSkin::InitiateBufferedPaint(hdc, rc, hdcMem);
+				hbm = hbmOld = 0;
+			}
 			else {
 				hdcMem = ::CreateCompatibleDC(hdc);
 				hbm =  CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
@@ -1058,12 +1055,9 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rcBox,
 												   const CSideBarButton *item)
 {
-	UINT 				id = item->getID();
-	const TWindowData* 	dat = item->getDat();
-	int	  				stateID = item->m_buttonControl->stateId;
-
-	LONG	cx = rcBox->right - rcBox->left;
-	LONG	cy = rcBox->bottom - rcBox->top;
+	const TWindowData *dat = item->getDat();
+	UINT id = item->getID();
+	int stateID = item->m_buttonControl->stateId;
 
 	if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
 		::DrawIconEx(hdc, (rcBox->left + rcBox->right) / 2 - 8, (rcBox->top + rcBox->bottom) / 2 - 8, id == IDC_SIDEBARUP ? PluginConfig.g_buttonBarIcons[26] : PluginConfig.g_buttonBarIcons[16],
@@ -1082,9 +1076,8 @@ void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rc
 void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *rcBox,
 	const CSideBarButton *item)
 {
-	UINT				id = item->getID();
-	const TWindowData*	dat = item->getDat();
-	int					stateID = item->m_buttonControl->stateId;
+	const TWindowData *dat = item->getDat();
+	UINT id = item->getID();
 
 	LONG	cx = rcBox->right - rcBox->left;
 	LONG	cy = rcBox->bottom - rcBox->top;

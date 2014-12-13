@@ -146,7 +146,7 @@ LONG CMenuBar::getHeight() const
 // @return LRESULT: message processing result. Win32 conform.
 //  -1 means: nothing processed, caller should continue as usual.
 
-LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM lParam)
+LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM, const LPARAM lParam)
 {
 	if (msg == WM_NOTIFY) {
 		NMHDR *pNMHDR = (NMHDR*)lParam;
@@ -166,7 +166,7 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM wParam, const LPARAM 
 			{
 				NMTBHOTITEM *nmtb = (NMTBHOTITEM *)lParam;
 				if (nmtb->idNew != 0 && m_fTracking && nmtb->idNew != m_activeID && m_activeID != 0) {
-					cancel(0);
+					cancel();
 					return 0;
 				}
 				else if (m_fTracking == true && m_activeID == 0 && nmtb->idNew != 0) {
@@ -371,9 +371,7 @@ LONG_PTR CMenuBar::Handle(const NMTOOLBAR *nmtb)
 	if (nmtb->hdr.hwndFrom != m_hwndToolbar)
 		return TBDDRET_NODEFAULT;
 
-	const int index = idToIndex(nmtb->iItem);
 	invoke(nmtb->iItem);
-
 	return TBDDRET_DEFAULT;
 }
 
@@ -411,7 +409,7 @@ void CMenuBar::invoke(const int id)
 	::ClientToScreen(m_hwndToolbar, &pt);
 
 	if (m_activeID)
-		cancel(0);
+		cancel();
 
 	m_activeMenu = hMenu;
 	m_activeSubMenu = 0;
@@ -423,7 +421,7 @@ void CMenuBar::invoke(const int id)
 	::TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, m_pContainer->hwnd, 0);
 }
 
-void CMenuBar::cancel(const int id)
+void CMenuBar::cancel()
 {
 	releaseHook();
 	if (m_activeID)
@@ -436,7 +434,7 @@ void CMenuBar::cancel(const int id)
 
 void CMenuBar::Cancel(void)
 {
-	cancel(0);
+	cancel();
 	m_fTracking = false;
 	autoShow(0);
 }
@@ -664,7 +662,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 				::SendMessage(m_Owner->m_hwndToolbar, TB_SETHOTITEM, (WPARAM)iIndex, 0);
 			::SetFocus(m_Owner->m_hwndToolbar);
 			::SendMessage(m_Owner->m_hwndToolbar, TB_SETSTATE, (WPARAM)m_Owner->m_activeID, TBSTATE_ENABLED | TBSTATE_PRESSED);
-			m_Owner->cancel(0);
+			m_Owner->cancel();
 			m_Owner->m_fTracking = false;
 		}
 	}
@@ -747,8 +745,10 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			HBITMAP hbm, hbmOld;
 			HANDLE hbp = 0;
 			HDC hdcMem;
-			if (CMimAPI::m_haveBufferedPaint)
+			if (CMimAPI::m_haveBufferedPaint) {
 				hbp = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, NULL, &hdcMem);
+				hbm = hbmOld = 0;
+			}
 			else {
 				hdcMem = CreateCompatibleDC(hdc);
 				hbm = CSkin::CreateAeroCompatibleBitmap(rcClient, hdc);
@@ -837,7 +837,6 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				}
 
 				int height = itemRect.bottom - itemRect.top;
-				int width = itemRect.right - itemRect.left;
 				HICON hIcon = (HICON)SendMessage(hWnd, SB_GETICON, i, 0);
 
 				TCHAR szText[1024]; szText[0] = 0;

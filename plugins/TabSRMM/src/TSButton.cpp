@@ -109,8 +109,10 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 	GetClientRect(ctl->hwnd, const_cast<RECT *>(&rcClient));
 	CopyRect(&rcContent, &rcClient);
 
-	if (CMimAPI::m_haveBufferedPaint)
+	if (CMimAPI::m_haveBufferedPaint) {
 		hbp = CMimAPI::m_pfnBeginBufferedPaint(hdcPaint, &rcContent, BPBF_TOPDOWNDIB, NULL, &hdcMem);
+		hbmMem = hOld = 0;
+	}
 	else {
 		hdcMem = CreateCompatibleDC(hdcPaint);
 		hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);

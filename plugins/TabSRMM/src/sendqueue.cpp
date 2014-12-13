@@ -147,7 +147,6 @@ static void DoSplitSendW(LPVOID param)
 	MCONTACT hContact = job->hContact;
 	DWORD    dwFlags = job->dwFlags;
 	size_t chunkSize = job->chunkSize / 2;
-	char    *szProto = GetContactProto(hContact);
 
 	size_t iLen = mir_strlen(job->szSendBuffer);
 	WCHAR *wszBegin = (WCHAR*) & job->szSendBuffer[iLen + 1];
@@ -750,7 +749,7 @@ inform_and_discard:
 	return 0;
 }
 
-LRESULT SendQueue::WarnPendingJobs(unsigned int uNrMessages)
+LRESULT SendQueue::WarnPendingJobs(unsigned int)
 {
 	return MessageBox(0,
 		TranslateT("There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?"),

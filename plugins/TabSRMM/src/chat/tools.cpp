@@ -92,7 +92,7 @@ BOOL DoTrayIcon(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...)
+int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR*, COLORREF crBkg, const TCHAR* fmt, ...)
 {
 	POPUPDATAT pd = { 0 };
 	va_list marker;
@@ -110,7 +110,7 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 	if (hIcon)
 		pd.lchIcon = hIcon;
 	else
-		pd.lchIcon = LoadIconEx(IDI_CHANMGR, "window", 0, 0);
+		pd.lchIcon = LoadIconEx("window");
 
 	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
 	mir_sntprintf(pd.lptzContactName, SIZEOF(pd.lptzContactName), _T("%s - %s"),

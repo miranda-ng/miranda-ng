@@ -393,92 +393,6 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int IcoLibIconsChanged(WPARAM, LPARAM)
-{
-	LoadFromIconLib();
-	CacheMsgLogIcons();
-	return 0;
-}
-
-int IconsChanged(WPARAM, LPARAM)
-{
-	CreateImageList(FALSE);
-	CacheMsgLogIcons();
-	M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
-	M.BroadcastMessage(DM_UPDATEWINICON, 0, 0);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// initialises the internal API, services, events etc...
-
-static void TSAPI InitAPI()
-{
-	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
-	CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
-	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
-	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
-	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
-	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
-
-	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
-	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
-	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
-	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
-	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
-
-	CreateServiceFunction(MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags);
-	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
-
-	SI_InitStatusIcons();
-	CB_InitCustomButtons();
-
-	// the event API
-	PluginConfig.m_event_MsgWin = CreateHookableEvent(ME_MSG_WINDOWEVENT);
-	PluginConfig.m_event_MsgPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
-	PluginConfig.m_event_WriteEvent = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
-}
-
-int LoadSendRecvMessageModule(void)
-{
-	if (FIF == 0) {
-		MessageBox(0, TranslateT("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
-		return 1;
-	}
-
-	INITCOMMONCONTROLSEX icex;
-	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	icex.dwICC = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;
-	InitCommonControlsEx(&icex);
-
-	Utils::loadSystemLibrary(L"\\Msftedit.dll");
-
-	mREOLECallback = new REOLECallback;
-	Win7Taskbar = new CTaskbarInteract;
-	Win7Taskbar->updateMetrics();
-
-	memset(&nen_options, 0, sizeof(nen_options));
-	M.m_hMessageWindowList = WindowList_Create();
-	PluginConfig.hUserPrefsWindowList = WindowList_Create();
-	sendQueue = new SendQueue;
-	Skin = new CSkin;
-	sendLater = new CSendLater;
-
-	InitOptions();
-
-	InitAPI();
-
-	PluginConfig.reloadSystemStartup();
-	ReloadTabConfig();
-	NEN_ReadOptions(&nen_options);
-
-	db_set_b(0, TEMPLATES_MODULE, "setup", 2);
-	LoadDefaultTemplates();
-
-	BuildCodePageList();
-	return 0;
-}
-
 STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
 {
 	LPLOCKBYTES lpLockBytes = NULL;
@@ -549,8 +463,6 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 
 HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
 {
-	DBVARIANT dbv = { 0 };
-
 	if (M.FindWindow(hContact) != 0) {
 		_DebugPopup(hContact, _T("Warning: trying to create duplicate window"));
 		return 0;
@@ -558,7 +470,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	// if we have a max # of tabs/container set and want to open something in the default container...
 	if (hContact != 0 && M.GetByte("limittabs", 0) && !_tcsncmp(pContainer->szName, _T("default"), 6)) {
-		if ((pContainer = FindMatchingContainer(_T("default"), hContact)) == NULL) {
+		if ((pContainer = FindMatchingContainer(_T("default"))) == NULL) {
 			TCHAR szName[CONTAINER_NAMELEN + 1];
 			mir_sntprintf(szName, SIZEOF(szName), _T("default"));
 			if ((pContainer = CreateContainer(szName, CNT_CREATEFLAG_CLONED, hContact)) == NULL)
@@ -589,7 +501,6 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	}
 	else _tcsncpy_s(newcontactname, _T("_U_"), _TRUNCATE);
 
-	WORD wStatus = (szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE));
 	TCHAR *szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(newData.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
 	if (M.GetByte("tabstatus", 1))
@@ -707,7 +618,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 // it searches a container with "room" for the new tabs or otherwise creates
 // a new (cloned) one.
 
-TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hContact)
+TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName)
 {
 	int iMaxTabs = M.GetDword("maxtabs", 0);
 	if (iMaxTabs > 0 && M.GetByte("limittabs", 0) && !_tcsncmp(szName, _T("default"), 6)) {
@@ -726,9 +637,6 @@ TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hConta
 
 void TSAPI CreateImageList(BOOL bInitial)
 {
-	int cxIcon = GetSystemMetrics(SM_CXSMICON);
-	int cyIcon = GetSystemMetrics(SM_CYSMICON);
-
 	// the imagelist is now a fake. It is still needed to provide the tab control with a
 	// image list handle. This will make sure that the tab control will reserve space for
 	// an icon on each tab. This is a blank and empty icon
@@ -994,4 +902,92 @@ static void UnloadIcons()
 	for (int i = 0; i < 4; i++)
 		if (PluginConfig.m_AnimTrayIcons[i])
 			DestroyIcon(PluginConfig.m_AnimTrayIcons[i]);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int IcoLibIconsChanged(WPARAM, LPARAM)
+{
+	LoadFromIconLib();
+	CacheMsgLogIcons();
+	return 0;
+}
+
+int IconsChanged(WPARAM, LPARAM)
+{
+	CreateImageList(FALSE);
+	CacheMsgLogIcons();
+	M.BroadcastMessage(DM_OPTIONSAPPLIED, 0, 0);
+	M.BroadcastMessage(DM_UPDATEWINICON, 0, 0);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// initialises the internal API, services, events etc...
+
+static void TSAPI InitAPI()
+{
+	CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
+	CreateServiceFunction(MS_MSG_SENDMESSAGE "W", SendMessageCommand_W);
+	CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
+	CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
+	CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);
+	CreateServiceFunction(MS_MSG_SETSTATUSTEXT, SetStatusText);
+
+	CreateServiceFunction("SRMsg/ReadMessage", ReadMessageCommand);
+	CreateServiceFunction("SRMsg/TypingMessage", TypingMessageCommand);
+	CreateServiceFunction(MS_TABMSG_SETUSERPREFS, SetUserPrefs);
+	CreateServiceFunction(MS_TABMSG_TRAYSUPPORT, Service_OpenTrayMenu);
+	CreateServiceFunction(MS_TABMSG_SLQMGR, CSendLater::svcQMgr);
+
+	CreateServiceFunction(MS_MSG_MOD_GETWINDOWFLAGS, GetMessageWindowFlags);
+	CreateServiceFunction(MS_MSG_MOD_MESSAGEDIALOGOPENED, MessageWindowOpened);
+
+	SI_InitStatusIcons();
+	CB_InitCustomButtons();
+
+	// the event API
+	PluginConfig.m_event_MsgWin = CreateHookableEvent(ME_MSG_WINDOWEVENT);
+	PluginConfig.m_event_MsgPopup = CreateHookableEvent(ME_MSG_WINDOWPOPUP);
+	PluginConfig.m_event_WriteEvent = CreateHookableEvent(ME_MSG_PRECREATEEVENT);
+}
+
+int LoadSendRecvMessageModule(void)
+{
+	if (FIF == 0) {
+		MessageBox(0, TranslateT("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
+		return 1;
+	}
+
+	INITCOMMONCONTROLSEX icex;
+	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	icex.dwICC = ICC_COOL_CLASSES | ICC_BAR_CLASSES | ICC_LISTVIEW_CLASSES;
+	InitCommonControlsEx(&icex);
+
+	Utils::loadSystemLibrary(L"\\Msftedit.dll");
+
+	mREOLECallback = new REOLECallback;
+	Win7Taskbar = new CTaskbarInteract;
+	Win7Taskbar->updateMetrics();
+
+	memset(&nen_options, 0, sizeof(nen_options));
+	M.m_hMessageWindowList = WindowList_Create();
+	PluginConfig.hUserPrefsWindowList = WindowList_Create();
+	sendQueue = new SendQueue;
+	Skin = new CSkin;
+	sendLater = new CSendLater;
+
+	InitOptions();
+
+	InitAPI();
+
+	PluginConfig.reloadSystemStartup();
+	ReloadTabConfig();
+	NEN_ReadOptions(&nen_options);
+
+	db_set_b(0, TEMPLATES_MODULE, "setup", 2);
+	LoadDefaultTemplates();
+
+	BuildCodePageList();
+	return 0;
 }

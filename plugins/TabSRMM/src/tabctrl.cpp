@@ -225,7 +225,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 
 static RECT rcTabPage = { 0 };
 
-static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, int iItem, const TWindowData *dat)
+static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, const TWindowData *dat)
 {
 	POINT pt;
 	DWORD dwStyle = tabdat->dwStyle;
@@ -428,7 +428,7 @@ static HRESULT DrawThemesPart(const TabControlData *tabdat, HDC hDC, int iPartId
 // draw a themed tab item. either a tab or the body pane
 // handles image mirroring for tabs at the bottom
 
-static void DrawThemesXpTabItem(HDC pDC, int ixItem, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, TWindowData *dat)
+static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlData *tabdat, TWindowData *dat)
 {
 	BOOL bBody = (uiFlag & 1) ? TRUE : FALSE;
 	BOOL bSel = (uiFlag & 2) ? TRUE : FALSE;
@@ -589,7 +589,6 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	UINT uiFlags = 1;
 	UINT uiBottom = 0;
 	TCHITTESTINFO hti;
-	HBITMAP bmpMem, bmpOld;
 	bool  isAero = M.isAero();
 	HANDLE hpb = 0;
 	BOOL bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
@@ -634,8 +633,11 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	int cy = rctPage.bottom - rctPage.top;
 
 	// draw everything to a memory dc to avoid flickering
-	if (CMimAPI::m_haveBufferedPaint)
+	HBITMAP bmpMem, bmpOld;
+	if (CMimAPI::m_haveBufferedPaint) {
 		hpb = tabdat->hbp = CSkin::InitiateBufferedPaint(hdcreal, rctPage, hdc);
+		bmpMem = bmpOld = 0;
+	}
 	else {
 		hdc = CreateCompatibleDC(hdcreal);
 		bmpMem = tabdat->fAeroTabs ? CSkin::CreateAeroCompatibleBitmap(rctPage, hdcreal) : CreateCompatibleBitmap(hdcreal, cx, cy);
@@ -698,7 +700,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		if (PluginConfig.m_fillColor)
 			DrawCustomTabPage(hdc, rcClient);
 		else
-			DrawThemesXpTabItem(hdc, -1, &rcClient, uiFlags, tabdat, 0);	// TABP_PANE=9,0,'TAB'
+			DrawThemesXpTabItem(hdc, &rcClient, uiFlags, tabdat, 0);	// TABP_PANE=9,0,'TAB'
 		if (tabdat->bRefreshWithoutClip)
 			goto skip_tabs;
 	}
@@ -838,14 +840,14 @@ page_done:
 			if (IntersectRect(&rectTemp, &rcItem, &ps.rcPaint) || bClassicDraw) {
 				int nHint = 0;
 				if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
-					DrawThemesXpTabItem(hdc, i, &rcItem, uiFlags | uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
+					DrawThemesXpTabItem(hdc, &rcItem, uiFlags | uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
 					DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 				}
 				else {
 					if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
 						DrawThemesPartWithAero(tabdat, hdc, 0, (i == hotItem ? PBS_HOT : PBS_NORMAL), &rcItem, dat);
 					else
-						DrawItemRect(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
+						DrawItemRect(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), dat);
 					DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 				}
 			}
@@ -868,7 +870,7 @@ page_done:
 
 		if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
 			InflateRect(&rcItem, 2, 2);
-			DrawThemesXpTabItem(hdc, iActive, &rcItem, 2 | uiBottom, tabdat, dat);
+			DrawThemesXpTabItem(hdc, &rcItem, 2 | uiBottom, tabdat, dat);
 			DrawItem(tabdat, hdc, &rcItem, nHint | HINT_ACTIVE_ITEM, iActive, dat);
 		}
 		else {
@@ -886,7 +888,7 @@ page_done:
 					rcItem.top -= 2;
 				DrawThemesPartWithAero(tabdat, hdc, 0, PBS_PRESSED, &rcItem, dat);
 			}
-			else DrawItemRect(tabdat, hdc, &rcItem, HINT_ACTIVATE_RIGHT_SIDE | HINT_ACTIVE_ITEM | nHint, iActive, dat);
+			else DrawItemRect(tabdat, hdc, &rcItem, HINT_ACTIVATE_RIGHT_SIDE | HINT_ACTIVE_ITEM | nHint, dat);
 
 			DrawItem(tabdat, hdc, &rcItem, HINT_ACTIVE_ITEM | nHint, iActive, dat);
 		}

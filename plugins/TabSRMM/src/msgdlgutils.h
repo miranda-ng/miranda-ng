@@ -49,7 +49,7 @@ BOOL   TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat);
 void   TSAPI GetMYUIN(TWindowData *dat);
 void   TSAPI SetMessageLog(TWindowData *dat);
 void   TSAPI SwitchMessageLog(TWindowData *dat, int iMode);
-UINT   TSAPI GetIEViewMode(HWND hwndDlg, MCONTACT hContact);
+UINT   TSAPI GetIEViewMode(MCONTACT hContact);
 void   TSAPI FindFirstEvent(TWindowData *dat);
 void   TSAPI SaveSplitter(TWindowData *dat);
 void   TSAPI LoadSplitter(TWindowData *dat);

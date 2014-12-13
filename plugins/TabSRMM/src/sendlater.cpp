@@ -400,7 +400,6 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return 0;
 
 	WORD wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-	WORD wContactStatus = c->getActiveStatus();
 
 	// status mode checks
 	if (wMyStatus == ID_STATUS_OFFLINE) {
@@ -872,7 +871,7 @@ void CSendLater::invokeQueueMgrDlg()
 
 // service function to invoke the queue manager
 //
-INT_PTR CSendLater::svcQMgr(WPARAM wParam, LPARAM lParam)
+INT_PTR CSendLater::svcQMgr(WPARAM, LPARAM)
 {
 	sendLater->invokeQueueMgrDlg();
 	return 0;

@@ -80,7 +80,7 @@ LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	return SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&mf);
 }
 
-static INT_PTR HotkeyProcessor(WPARAM wParam, LPARAM lParam)
+static INT_PTR HotkeyProcessor(WPARAM, LPARAM lParam)
 {
 	if (lParam == TABSRMM_HK_LASTUNREAD)
 		PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);

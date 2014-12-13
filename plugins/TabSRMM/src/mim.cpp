@@ -81,7 +81,7 @@ INT_PTR CMimAPI::RemoveWindow(HWND hWnd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMimAPI::FoldersPathChanged(WPARAM wParam, LPARAM lParam)
+int CMimAPI::FoldersPathChanged(WPARAM, LPARAM)
 {
 	return M.foldersPathChanged();
 }
@@ -228,7 +228,7 @@ void CMimAPI::InitAPI()
 
 int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 {
-	int issplit = 1, foundWin = 0, preTyping = 0;
+	int foundWin = 0, preTyping = 0;
 	BOOL fShowOnClist = TRUE;
 
 	HWND hwnd = M.FindWindow(hContact);
@@ -329,13 +329,12 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 //
 // ACKTYPE_AVATAR no longer handled here, because we have avs services now.
 
-int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
+int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA*)lParam;
 	if (lParam == 0)
 		return 0;
 
-	HWND hwndDlg = 0;
 	int i = 0, iFound = SendQueue::NR_SENDJOBS;
 	SendJob *jobs = sendQueue->getJobByIndex(0);
 
@@ -365,7 +364,7 @@ int CMimAPI::ProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (hContact == NULL)
 		return NULL;
@@ -477,7 +476,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		case EVENTTYPE_FILE:
-			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
+			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule);
 			return 0;
 		}
 	}
@@ -520,7 +519,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != NULL) {
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->szName, L"default", 6)) {
-				if ((pContainer = FindMatchingContainer(L"default", hContact)) != NULL) {
+				if ((pContainer = FindMatchingContainer(L"default")) != NULL) {
 					CreateNewTabForContact(pContainer, hContact, 0, NULL, bActivate, bPopup, TRUE, hDbEvent);
 					return 0;
 				}
@@ -558,7 +557,7 @@ nowindowcreate:
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
-		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule, 0);
+		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, 0, 0, dbei.szModule);
 	}
 	return 0;
 }

@@ -42,10 +42,9 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_AddButton(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_GetButtonState(WPARAM wParam, LPARAM lParam);
 static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam);
-static void CB_GetButtonSettings(MCONTACT hContact,CustomButtonData *cbd);
+static void CB_GetButtonSettings(MCONTACT hContact, CustomButtonData *cbd);
 
-void CB_WriteButtonSettings(MCONTACT hContact,CustomButtonData *cbd);
-int  sstSortButtons(const void * vmtbi1, const void * vmtbi2);
+void CB_WriteButtonSettings(MCONTACT hContact, CustomButtonData *cbd);
 
 void CB_DeInitCustomButtons();
 void CB_InitCustomButtons();
@@ -53,10 +52,10 @@ void CB_InitDefaultButtons();
 void CB_ReInitCustomButtons();
 
 /* MinGW doesn't like this struct declatations below */
-void BB_UpdateIcons(HWND hdlg,TWindowData *dat);
+void BB_UpdateIcons(HWND hdlg);
 void BB_RefreshTheme(const TWindowData *dat);
-void CB_DestroyAllButtons(HWND hwndDlg,TWindowData *dat);
-void CB_DestroyButton(HWND hwndDlg,TWindowData *dat,DWORD dwButtonCID,DWORD dwFlags);
-void CB_ChangeButton(HWND hwndDlg,TWindowData *dat,CustomButtonData* cbd);
+void CB_DestroyAllButtons(HWND hwndDlg);
+void CB_DestroyButton(HWND hwndDlg, TWindowData *dat, DWORD dwButtonCID, DWORD dwFlags);
+void CB_ChangeButton(HWND hwndDlg, TWindowData *dat, CustomButtonData* cbd);
 
 #endif
