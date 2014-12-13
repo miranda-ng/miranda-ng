@@ -101,7 +101,7 @@ void TSAPI RearrangeTab(HWND hwndDlg, const TWindowData *dat, int iMode, BOOL fS
 // subclassing for the save as file dialog (needed to set it to thumbnail view on Windows 2000
 // or later
 
-static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -223,7 +223,6 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 
 	BOOL bBottomToolBar = dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR;
 	BOOL bToolBar = dat->pContainer->dwFlags & CNT_HIDETOOLBAR ? 0 : 1;
-	bool bInfoPanel = dat->Panel->isActive();
 	int  iSplitOffset = dat->bIsAutosizingInput ? 1 : 0;
 
 	double picAspect = (bminfo->bmWidth == 0 || bminfo->bmHeight == 0) ? 1.0 : (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
@@ -252,13 +251,9 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 
 int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 {
-	HWND	hwndDlg = dat->hwnd;
-	bool 	bInfoPanel = dat->Panel->isActive();
+	bool bInfoPanel = dat->Panel->isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		SESSION_INFO *si = dat->si;
-		int iTabs = TabCtrl_GetItemCount(GetParent(hwndDlg));
-
 		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0) ? MF_GRAYED : MF_ENABLED);
 		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(dat->hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	}
@@ -352,10 +347,10 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				BYTE avOverrideMode;
 				if (selection == ID_VISIBILITY_DEFAULT)
 					avOverrideMode = -1;
-				else if (selection == ID_VISIBILITY_HIDDENFORTHISCONTACT)
-					avOverrideMode = 0;
 				else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
 					avOverrideMode = 1;
+				else
+					avOverrideMode = 0;
 				db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
 			}
 
@@ -401,12 +396,6 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 		}
 	}
 	else if (menuId == MENU_LOGMENU) {
-		int iLocalTime = 0;
-		int iRtl = (PluginConfig.m_RTLDefault == 0 ? M.GetByte(dat->hContact, "RTL", 0) : M.GetByte(dat->hContact, "RTL", 1));
-		int iLogStatus = (PluginConfig.m_LogStatusChanges != 0) && M.GetByte(dat->hContact, "logstatuschanges", 0);
-
-		DWORD dwOldFlags = dat->dwFlags;
-
 		switch (selection) {
 		case ID_MESSAGELOGSETTINGS_GLOBAL:
 			{
@@ -509,7 +498,6 @@ void TSAPI UpdateStatusBar(const TWindowData *dat)
 void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon)
 {
 	TCITEM item = { 0 };
-	HICON iOldIcon = dat->hTabIcon;
 
 	if (iIcon == (HICON)-1) { // restore status image
 		if (dat->dwFlags & MWF_ERRORSTATE)
@@ -867,7 +855,6 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 
 	// used to filter out attributes which are already set for the default message input area font
 	LOGFONTA lf = dat->pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
-	COLORREF color = dat->pContainer->theme.fontColors[MSGFONTID_MESSAGEAREA];
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
@@ -1114,7 +1101,7 @@ void TSAPI GetMYUIN(TWindowData *dat)
 static int g_IEViewAvail = -1;
 static int g_HPPAvail = -1;
 
-UINT TSAPI GetIEViewMode(HWND hwndDlg, MCONTACT hContact)
+UINT TSAPI GetIEViewMode(MCONTACT hContact)
 {
 	int iWantIEView = 0, iWantHPP = 0;
 
@@ -1139,7 +1126,7 @@ UINT TSAPI GetIEViewMode(HWND hwndDlg, MCONTACT hContact)
 void TSAPI SetMessageLog(TWindowData *dat)
 {
 	HWND		 hwndDlg = dat->hwnd;
-	unsigned int iLogMode = GetIEViewMode(hwndDlg, dat->hContact);
+	unsigned int iLogMode = GetIEViewMode(dat->hContact);
 
 	if (iLogMode == WANT_IEVIEW_LOG && dat->hwndIEView == 0) {
 		IEVIEWWINDOW ieWindow;
@@ -1210,7 +1197,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 				dbei.cbBlob = 0;
 				dat->hDbEventFirst = hPrevEvent;
 				db_event_get(dat->hDbEventFirst, &dbei);
-				if (!DbEventIsShown(dat, &dbei))
+				if (!DbEventIsShown(&dbei))
 					i++;
 			}
 		}
@@ -1325,7 +1312,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 	WORD   wCtype2[3];
 	PARAFORMAT2 pf2;
 	BOOL fLocaleNotSet;
-	char szTest[4] = { (char)0xe4, (char)0xf6, (char)0xfc, 0 };
+	BYTE szTest[4] = { 0xe4, 0xf6, 0xfc, 0 };
 
 	szLI[0] = szLI[1] = 0;
 
@@ -1361,7 +1348,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 	}
 	fLocaleNotSet = (dat->lcID[0] == 0 && dat->lcID[1] == 0);
 	mir_sntprintf(dat->lcID, SIZEOF(dat->lcID), szLI);
-	GetStringTypeA(dat->lcid, CT_CTYPE2, szTest, 3, wCtype2);
+	GetStringTypeA(dat->lcid, CT_CTYPE2, (char*)szTest, 3, wCtype2);
 	pf2.cbSize = sizeof(pf2);
 	pf2.dwMask = PFM_RTLPARA;
 	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
@@ -1463,14 +1450,12 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 
 int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 {
-	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-
 	if (!dat)
 		return 0;
 
-	bool	bAero = M.isAero();
 	HWND	hwndDlg = dat->hwnd;
 
+	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 	if (dis->CtlType == ODT_MENU && dis->hwndItem == (HWND)GetSubMenu(PluginConfig.g_hMenuContext, 7)) {
 		RECT rc = { 0 };
 		HBRUSH old, col;
@@ -1524,11 +1509,9 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		if (hbmAvatar == NULL)
 			return TRUE;
 
-		int  iMaxHeight = 0, top, cx, cy;
+		int top, cx, cy;
 		RECT rcClient, rcFrame;
 		bool bPanelPic = dis->hwndItem == hwndDlg;
-		bool bDrawOwnAvatar = dat->Panel->isActive() && dat->pContainer->avatarMode != 3;
-
 		if (bPanelPic && !dat->bShowInfoAvatar)
 			return TRUE;
 
@@ -2040,7 +2023,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData *dat, HBITMAP hbmp)
 	ii.fif = FIF_JPEG;
 	CallService(MS_IMG_SAVE, (WPARAM)&ii, IMGL_TCHAR);
 
-	int fileCount = 1, totalCount = 0;
+	int totalCount = 0;
 	TCHAR** ppFiles = NULL;
 	Utils::AddToFileList(&ppFiles, &totalCount, filename);
 

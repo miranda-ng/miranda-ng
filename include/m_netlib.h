@@ -698,6 +698,8 @@ typedef struct
 //#include <stdarg.h> and <stdio.h> before including this header in order to
 //use it.
 #if defined va_start && (defined _STDIO_DEFINED || defined _STDIO_H_) && (!defined NETLIB_NOLOGGING)
+#pragma warning(disable:4505)
+
 static INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 {
 	va_list va;

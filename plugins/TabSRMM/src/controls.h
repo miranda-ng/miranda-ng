@@ -42,12 +42,11 @@ public:
 	~CMenuBar();
 
 	const RECT&  getClientRect();
-	void         Resize(WORD wWidth, WORD wHeight, BOOL redraw) const
+	void         Resize(WORD wWidth) const
 	{
-		::SetWindowPos(m_hwndToolbar, 0, 4, 0, wWidth, m_size_y, SWP_NOZORDER | SWP_NOACTIVATE |
-					   SWP_NOCOPYBITS|SWP_NOREDRAW);
-
+		::SetWindowPos(m_hwndToolbar, 0, 4, 0, wWidth, m_size_y, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOREDRAW);
 	}
+
 	LONG         getHeight() const;
 	void         Show(int showCmd) const
 	{
@@ -120,7 +119,7 @@ private:
 	LONG_PTR	 customDrawWorker(NMCUSTOMDRAW *nm);
 	void		 updateState(const HMENU hMenu) const;
 	void		 invoke(const int id);
-	void		 cancel(const int id);
+	void		 cancel();
 	void 		 obtainHook();
 	void		 releaseHook();
 	void      checkButtons();

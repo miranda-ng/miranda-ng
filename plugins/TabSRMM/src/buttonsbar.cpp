@@ -57,7 +57,7 @@ void CB_DeInitCustomButtons()
 	DestroyServiceFunction(hButtonsBarSetButtonState);
 }
 
-void CB_DestroyAllButtons(HWND hwndDlg, TWindowData *dat)
+void CB_DestroyAllButtons(HWND hwndDlg)
 {
 	HWND hwndBtn = NULL;
 	for (int i=0; i < LButtonsList.getCount(); i++) {
@@ -384,7 +384,7 @@ static INT_PTR CB_ModifyButton(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void BB_UpdateIcons(HWND hdlg, TWindowData *dat)
+void BB_UpdateIcons(HWND hdlg)
 {
 	HWND hwndBtn = NULL;
 
@@ -420,16 +420,12 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 	if (hdlg == 0)
 		return;
 	RECT rect;
-	int i;
 	int lwidth = 0, rwidth = 0;
 	RECT rcSplitter;
 	POINT ptSplitter;
 	int splitterY;
 	BYTE gap = DPISCALEX_S(PluginConfig.g_iButtonsBarGap);
 	BOOL isThemed = TRUE;
-	int cx = 0, cy = 0;
-	int lcount = LButtonsList.getCount();
-	int rcount = RButtonsList.getCount();
 
 	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED &&
 		 !SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED) {
@@ -446,7 +442,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 
 	HWND hwndBtn = NULL;
 
-	for (i = 0; i < RButtonsList.getCount(); i++) {
+	for (int i = 0; i < RButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = RButtonsList[i];
 		if (((dat->bType == SESSIONTYPE_IM && cbd->bIMButton) || (dat->bType == SESSIONTYPE_CHAT && cbd->bChatButton))) {
 			if (!cbd->bHidden)
@@ -485,7 +481,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 
 	hwndBtn = NULL;
 
-	for (i = 0; i < LButtonsList.getCount(); i++) {
+	for (int i = 0; i < LButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = LButtonsList[i];
 		if (((dat->bType == SESSIONTYPE_IM && cbd->bIMButton) || (dat->bType == SESSIONTYPE_CHAT && cbd->bChatButton))) {
 			if (!cbd->bSeparator && !GetDlgItem(hdlg, cbd->dwButtonCID)) {

@@ -83,7 +83,7 @@ static int ReadInteger(const char* p, int* result)
 
 TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO *si)
 {
-	int i, iRemoveChars, cp = CP_ACP;
+	int i, iRemoveChars;
 	char InsertThis[50];
 	BOOL bJustRemovedRTF = TRUE;
 	BOOL bTextHasStarted = FALSE;

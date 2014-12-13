@@ -47,7 +47,7 @@ static TCHAR* getMenuEntry(int i)
 	return db_get_tsa(NULL, "tabmodplus", MEntry);
 }
 
-static int RegisterCustomButton(WPARAM wParam, LPARAM lParam)
+static int RegisterCustomButton(WPARAM, LPARAM)
 {
 	if (!ServiceExists(MS_BB_ADDBUTTON))
 		return 1;
@@ -162,7 +162,7 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-int ModPlus_Init(WPARAM wparam, LPARAM lparam)
+int ModPlus_Init(WPARAM, LPARAM)
 {
 	HookEvent(ME_MSG_BUTTONPRESSED, CustomButtonPressed);
 	HookEvent(ME_MSG_TOOLBARLOADED, RegisterCustomButton);

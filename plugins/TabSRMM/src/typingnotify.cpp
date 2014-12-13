@@ -41,7 +41,7 @@ static colorPicker[4] =
 	{ IDC_TYPEOFF_TX, "OFF_TX", RGB(0,0,0)}
 };
 
-static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)
+static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	Disabled = !Disabled;
 
@@ -52,7 +52,8 @@ static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)
 		if (!Disabled) {
 			mi.pszName = LPGEN("Disable &typing notification");
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ENABLED));
-		} else {
+		}
+		else {
 			mi.pszName = LPGEN("Enable &typing notification");
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
@@ -78,7 +79,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		PUDeletePopup(hWnd);
 		return 1;
 
-	case UM_INITPOPUP: 
+	case UM_INITPOPUP:
 		WindowList_Add(hPopupsList, hWnd, PUGetContact(hWnd));
 		return 1;
 
@@ -92,7 +93,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 void TN_TypingMessage(MCONTACT hContact, int iMode)
 {
 	// hidden & ignored contacts check
-	if (db_get_b(hContact, "CList", "Hidden", 0) || (db_get_dw(hContact, "Ignore", "Mask1",0) & 1)) // 9 - online notification
+	if (db_get_b(hContact, "CList", "Hidden", 0) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
 	if (!PluginConfig.g_PopupAvail || Disabled)
@@ -131,8 +132,8 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 
 	switch (ColorMode) {
 	case COLOR_OWN:
-		ppd.colorBack = colorPicker[2* notyping ].color;
-		ppd.colorText = colorPicker[2* notyping + 1].color;
+		ppd.colorBack = colorPicker[2 * notyping].color;
+		ppd.colorText = colorPicker[2 * notyping + 1].color;
 		break;
 	case COLOR_WINDOWS:
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -156,7 +157,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 		default:
 			ppd.iSeconds = 0;
 			break;
-		}
+	}
 	else
 		switch (TimeoutMode) {
 		case TIMEOUT_CUSTOM:
@@ -172,7 +173,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 		default:
 			ppd.iSeconds = 0;
 			break;
-		}
+	}
 
 	ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 	ppd.lchContact = hContact;
@@ -201,7 +202,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			CheckDlgButton(hwndDlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 		}
 
-		for (i=0; i < SIZEOF(colorPicker); i++) {
+		for (i = 0; i < SIZEOF(colorPicker); i++) {
 			SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_SETCOLOUR, 0, colorPicker[i].color);
 			Utils::enableDlgControl(hwndDlg, colorPicker[i].res, (ColorMode == COLOR_OWN));
 		}
@@ -259,7 +260,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						bEnableOthers = TRUE;
 					}
 
-					for (i=0; i < SIZEOF(colorPicker); i++)
+					for (i = 0; i < SIZEOF(colorPicker); i++)
 						Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
 
 					Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, bEnableOthers);
@@ -281,7 +282,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						bEnableOthers = TRUE;
 					}
 
-					for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
+					for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
 						Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
 
 					Utils::enableDlgControl(hwndDlg, IDC_USEWINCOLORS, bEnableOthers);
@@ -304,7 +305,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDC_PREVIEW:
 				if (PluginConfig.g_PopupAvail) {
 					POPUPDATAT ppd = { 0 };
-					for (i=0; i < 2; i++) {
+					for (i = 0; i < 2; i++) {
 						int notyping;
 						if (i == PROTOTYPE_CONTACTTYPING_OFF) {
 							_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
@@ -319,8 +320,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 						switch (newColorMode) {
 						case COLOR_OWN:
-							ppd.colorText = SendDlgItemMessage(hwndDlg, colorPicker[2*notyping + 1].res, CPM_GETCOLOUR, 0, 0);
-							ppd.colorBack = SendDlgItemMessage(hwndDlg, colorPicker[2*notyping ].res, CPM_GETCOLOUR, 0, 0);
+							ppd.colorText = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
+							ppd.colorBack = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
 							break;
 						case COLOR_WINDOWS:
 							ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -429,36 +430,34 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			case IDC_TIMEOUT_VALUE:
 			case IDC_TIMEOUT_VALUE2:
-				{
-					int newValue = GetDlgItemInt(hwndDlg, idCtrl, NULL, 0);
+				int newValue = GetDlgItemInt(hwndDlg, idCtrl, NULL, 0);
 
-					if (wNotifyCode == EN_KILLFOCUS) {
-						int oldValue;
-
-						if (idCtrl == IDC_TIMEOUT_VALUE)
-							oldValue = newTimeout;
-						else
-							oldValue = newTimeout2;
-
-						if (newValue != oldValue)
-							SetDlgItemInt(hwndDlg, idCtrl, oldValue, 0);
-						return TRUE;
-					}
-					if (wNotifyCode != EN_CHANGE || (HWND) lParam != GetFocus())
-						return TRUE;
-
-					if (newValue > TIMEOUT_MAXVALUE)
-						newValue = TIMEOUT_MAXVALUE;
-					else if (newValue < TIMEOUT_MINVALUE)
-						newValue = TIMEOUT_MINVALUE;
+				if (wNotifyCode == EN_KILLFOCUS) {
+					int oldValue;
 
 					if (idCtrl == IDC_TIMEOUT_VALUE)
-						newTimeout = newValue;
+						oldValue = newTimeout;
 					else
-						newTimeout2 = newValue;
+						oldValue = newTimeout2;
 
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					if (newValue != oldValue)
+						SetDlgItemInt(hwndDlg, idCtrl, oldValue, 0);
+					return TRUE;
 				}
+				if (wNotifyCode != EN_CHANGE || (HWND)lParam != GetFocus())
+					return TRUE;
+
+				if (newValue > TIMEOUT_MAXVALUE)
+					newValue = TIMEOUT_MAXVALUE;
+				else if (newValue < TIMEOUT_MINVALUE)
+					newValue = TIMEOUT_MINVALUE;
+
+				if (idCtrl == IDC_TIMEOUT_VALUE)
+					newTimeout = newValue;
+				else
+					newTimeout2 = newValue;
+
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
 		break;
@@ -466,9 +465,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				for (i=0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
+				for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
 					colorPicker[i].color = SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_GETCOLOUR, 0, 0);
 					db_set_dw(0, Module, colorPicker[i].desc, colorPicker[i].color);
 				}
@@ -487,12 +486,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				db_set_b(0, Module, SET_ONEPOPUP, OnePopup);
 				db_set_b(0, Module, SET_SHOWDISABLEMENU, ShowMenu);
-				db_set_b(0, Module, SET_DISABLED, (BYTE) (StartDisabled | StopDisabled));
+				db_set_b(0, Module, SET_DISABLED, (BYTE)(StartDisabled | StopDisabled));
 				db_set_b(0, Module, SET_COLOR_MODE, ColorMode);
 				db_set_b(0, Module, SET_TIMEOUT_MODE, TimeoutMode);
-				db_set_b(0, Module, SET_TIMEOUT, (BYTE) Timeout);
+				db_set_b(0, Module, SET_TIMEOUT, (BYTE)Timeout);
 				db_set_b(0, Module, SET_TIMEOUT_MODE2, TimeoutMode2);
-				db_set_b(0, Module, SET_TIMEOUT2, (BYTE) Timeout2);
+				db_set_b(0, Module, SET_TIMEOUT2, (BYTE)Timeout2);
 				return TRUE;
 			}
 		}
@@ -501,9 +500,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
+int TN_OptionsInitialize(WPARAM wParam, LPARAM)
 {
-	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 		odp.position = 100000000;
 		odp.hInstance = g_hInst;
@@ -537,8 +536,8 @@ int TN_ModuleInit()
 	Timeout2 = M.GetByte(Module, SET_TIMEOUT2, DEF_TIMEOUT2);
 
 	if (!(M.GetDword(Module, colorPicker[0].desc, 1) && !M.GetDword(Module, colorPicker[0].desc, 0)))
-		for (i=0; i < SIZEOF(colorPicker); i++)
-			colorPicker[i].color = M.GetDword(Module,colorPicker[i].desc,0);
+		for (i = 0; i < SIZEOF(colorPicker); i++)
+			colorPicker[i].color = M.GetDword(Module, colorPicker[i].desc, 0);
 
 	mir_sntprintf(szStart, SIZEOF(szStart), TranslateT("...is typing a message."));
 	mir_sntprintf(szStop, SIZEOF(szStop), TranslateT("...has stopped typing."));
@@ -561,13 +560,13 @@ int TN_ModuleInit()
 	}
 
 	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
-	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
+	SkinAddNewSoundEx("TNStop", LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 	return 0;
 }
 
 int TN_ModuleDeInit()
 {
 	WindowList_Destroy(hPopupsList);
-	db_set_b(0, Module, SET_DISABLED, (BYTE) (Disabled | StartDisabled | StopDisabled));
+	db_set_b(0, Module, SET_DISABLED, (BYTE)(Disabled | StartDisabled | StopDisabled));
 	return 0;
 }

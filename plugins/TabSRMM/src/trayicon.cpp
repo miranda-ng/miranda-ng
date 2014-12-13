@@ -35,7 +35,7 @@ HANDLE  g_hEvent = 0;
 
 static TCHAR g_eventName[100];
 
-static void TrayAnimThread(LPVOID vParam)
+static void TrayAnimThread(LPVOID)
 {
 	int     iAnimMode = (PluginConfig.m_AnimTrayIcons[0] && PluginConfig.m_AnimTrayIcons[1] && PluginConfig.m_AnimTrayIcons[2] &&
 						 PluginConfig.m_AnimTrayIcons[3]);
@@ -151,39 +151,6 @@ void TSAPI CreateSystrayIcon(int create)
 	else if (create == FALSE && nen_options.bTrayExist) {
 		Shell_NotifyIcon(NIM_DELETE, &nim);
 		nen_options.bTrayExist = FALSE;
-	}
-}
-
-static BOOL CALLBACK FindTrayWnd(HWND hwnd, LPARAM lParam)
-{
-	TCHAR szClassName[256];
-	GetClassName(hwnd, szClassName, 255);
-
-	if (_tcscmp(szClassName, _T("TrayNotifyWnd")) == 0) {
-		RECT *pRect = (RECT *) lParam;
-		GetWindowRect(hwnd, pRect);
-		return TRUE;
-	}
-	if (_tcscmp(szClassName, _T("TrayClockWClass")) == 0) {
-		RECT *pRect = (RECT *) lParam;
-		RECT rectClock;
-		GetWindowRect(hwnd, &rectClock);
-		if (rectClock.bottom < pRect->bottom - 5) // 10 = random fudge factor.
-			pRect->top = rectClock.bottom;
-		else
-			pRect->right = rectClock.left;
-		return FALSE;
-	}
-	return TRUE;
-}
-
-static void GetTrayWindowRect(LPRECT lprect)
-{
-	HWND hShellTrayWnd = FindWindow(_T("Shell_TrayWnd"), NULL);
-	if (hShellTrayWnd) {
-		GetWindowRect(hShellTrayWnd, lprect);
-		EnumChildWindows(hShellTrayWnd, FindTrayWnd, (LPARAM)lprect);
-		return;
 	}
 }
 

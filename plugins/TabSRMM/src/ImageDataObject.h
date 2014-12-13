@@ -75,7 +75,7 @@ public:
 	}
 
 	// IDataObject Interface
-	STDMETHOD(GetData)(FORMATETC *pformatetcIn, STGMEDIUM *pmedium) {
+	STDMETHOD(GetData)(FORMATETC*, STGMEDIUM *pmedium) {
 		HANDLE hDst;
 		hDst = ::OleDuplicateData(m_stgmed.hBitmap, CF_BITMAP, 0);
 		if (hDst == NULL)
@@ -88,39 +88,37 @@ public:
 		return S_OK;
 	}
 
-	STDMETHOD(GetDataHere)(FORMATETC* pformatetc, STGMEDIUM*  pmedium ) {
+	STDMETHOD(GetDataHere)(FORMATETC*, STGMEDIUM*) {
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(QueryGetData)(FORMATETC*  pformatetc ) {
+	STDMETHOD(QueryGetData)(FORMATETC*) {
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(GetCanonicalFormatEtc)(FORMATETC*  pformatectIn ,FORMATETC* pformatetcOut ) 	{
+	STDMETHOD(GetCanonicalFormatEtc)(FORMATETC*, FORMATETC*) 	{
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(SetData)(FORMATETC* pformatetc , STGMEDIUM*  pmedium , BOOL  fRelease ) {
+	STDMETHOD(SetData)(FORMATETC* pformatetc, STGMEDIUM* pmedium, BOOL) {
 		m_format = *pformatetc;
 		m_stgmed = *pmedium;
-
 		return S_OK;
 	}
 
-	STDMETHOD(EnumFormatEtc)(DWORD  dwDirection , IEnumFORMATETC**  ppenumFormatEtc ) {
+	STDMETHOD(EnumFormatEtc)(DWORD, IEnumFORMATETC**) {
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(DAdvise)(FORMATETC *pformatetc, DWORD advf, IAdviseSink *pAdvSink,
-		DWORD *pdwConnection) {
+	STDMETHOD(DAdvise)(FORMATETC*, DWORD, IAdviseSink*, DWORD*) {
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(DUnadvise)(DWORD dwConnection) {
+	STDMETHOD(DUnadvise)(DWORD) {
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(EnumDAdvise)(IEnumSTATDATA **ppenumAdvise) {
+	STDMETHOD(EnumDAdvise)(IEnumSTATDATA**) {
 		return E_NOTIMPL;
 	}
 

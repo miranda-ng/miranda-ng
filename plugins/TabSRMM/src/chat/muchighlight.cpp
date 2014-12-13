@@ -282,8 +282,6 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
  */
 INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	UINT	uCmd = ::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
 	switch(msg) {
 	case WM_INITDIALOG:
 		{
@@ -319,8 +317,6 @@ INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_CTLCOLORSTATIC:
 		{
 			HWND hwndChild = (HWND)lParam;
-			UINT id = ::GetDlgCtrlID(hwndChild);
-
 			if (hwndChild == ::GetDlgItem(hwndDlg, IDC_ADDHIGHLIGHTTITLE))
 				::SetTextColor((HDC)wParam, RGB(60, 60, 150));
 			::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));

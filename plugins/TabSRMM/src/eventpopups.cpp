@@ -36,6 +36,8 @@
 
 #include "commonheaders.h"
 
+static int TSAPI PopupPreview(NEN_OPTIONS *pluginOptions);
+
 static LIST<PLUGIN_DATAT> arPopupList(10, NumericKeySortT);
 
 BOOL bWmNotify = TRUE;
@@ -818,7 +820,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	return 0;
 }
 
-int tabSRMM_ShowPopup(MCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto, TWindowData *dat)
+int tabSRMM_ShowPopup(MCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;

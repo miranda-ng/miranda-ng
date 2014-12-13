@@ -57,12 +57,6 @@ HIMAGELIST CreateStateImageList()
 	return g_himlStates;
 }
 
-
-static BYTE MsgDlgGetFontDefaultCharset(const char* szFont)
-{
-	return DEFAULT_CHARSET;
-}
-
 void TSAPI LoadLogfont(int i, LOGFONTA * lf, COLORREF * colour, char *szModule)
 {
 	LOGFONT lfResult;
@@ -395,8 +389,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
-
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 
 			g_himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_WINDOWOPTIONS, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
@@ -1570,7 +1562,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 	return FALSE;
 }
 
-static int ModernOptInitialise(WPARAM wParam, LPARAM lParam)
+static int ModernOptInitialise(WPARAM wParam, LPARAM)
 {
 	static int iBoldControls[] =
 	{

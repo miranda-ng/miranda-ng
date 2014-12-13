@@ -636,16 +636,16 @@ public:
 			return (E_NOINTERFACE);
 	}
 
-	STDMETHOD(ContextSensitiveHelp) (BOOL fEnterMode)                                                                                           {   return (E_NOTIMPL);}
-	STDMETHOD(DeleteObject)         (LPOLEOBJECT lpoleobj)                                                                                      {   return (E_NOTIMPL);}
-	STDMETHOD(GetClipboardData)     (CHARRANGE FAR *lpchrg, DWORD reco, LPDATAOBJECT FAR *lplpdataobj)                                          {   return (E_NOTIMPL);}
-	STDMETHOD(GetContextMenu)       (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR *lpchrg, HMENU FAR *lphmenu)                             {   return (E_NOTIMPL);}
-	STDMETHOD(GetDragDropEffect)    (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect)                                                          {   return (E_NOTIMPL);}
-	STDMETHOD(GetInPlaceContext)    (LPOLEINPLACEFRAME FAR *lplpFrame, LPOLEINPLACEUIWINDOW FAR *lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo)    {   return (E_NOTIMPL);}
-	STDMETHOD(GetNewStorage)        (LPSTORAGE FAR *lplpstg);
-	STDMETHOD(QueryAcceptData)      (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR *lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)           {   return (E_NOTIMPL);}
-	STDMETHOD(QueryInsertObject)    (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp)                                                                 {   return (S_OK);}
-	STDMETHOD(ShowContainerUI)      (BOOL fShow)                                                                                                {   return (E_NOTIMPL);}
+	STDMETHOD(ContextSensitiveHelp) (BOOL) { return (E_NOTIMPL); }
+	STDMETHOD(DeleteObject)         (LPOLEOBJECT) { return (E_NOTIMPL); }
+	STDMETHOD(GetClipboardData)     (CHARRANGE*, DWORD, LPDATAOBJECT*) { return (E_NOTIMPL); }
+	STDMETHOD(GetContextMenu)       (WORD, LPOLEOBJECT, CHARRANGE*, HMENU*) { return (E_NOTIMPL); }
+	STDMETHOD(GetDragDropEffect)    (BOOL, DWORD, LPDWORD) { return (E_NOTIMPL); }
+	STDMETHOD(GetInPlaceContext)    (LPOLEINPLACEFRAME*, LPOLEINPLACEUIWINDOW*, LPOLEINPLACEFRAMEINFO) { return (E_NOTIMPL); }
+	STDMETHOD(GetNewStorage)        (LPSTORAGE*);
+	STDMETHOD(QueryAcceptData)      (LPDATAOBJECT, CLIPFORMAT*, DWORD, BOOL, HGLOBAL) { return (E_NOTIMPL); }
+	STDMETHOD(QueryInsertObject)    (LPCLSID, LPSTORAGE, LONG) { return (S_OK); }
+	STDMETHOD(ShowContainerUI)      (BOOL) { return (E_NOTIMPL); }
 private:
 	UINT  mRefCounter;
 };
@@ -982,7 +982,7 @@ int SI_DeinitStatusIcons();
 
 int  GetStatusIconsCount();
 void DrawStatusIcons(TWindowData *dat, HDC hdc, const RECT &r, int gap);
-void CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, const RECT &rc, int gap, int code);
+void CheckStatusIconClick(TWindowData *dat, POINT pt, const RECT &rc, int gap, int code);
 
 struct SKINDESC
 {

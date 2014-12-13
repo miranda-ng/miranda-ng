@@ -49,7 +49,6 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 int   TSAPI NEN_ReadOptions(NEN_OPTIONS *options);
 int   TSAPI NEN_WriteOptions(NEN_OPTIONS *options);
 int   TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szProto, const TCHAR *szStatus, MCONTACT hContact, DWORD fromEvent);
-int   TSAPI PopupPreview(NEN_OPTIONS *pluginOptions);
 void  TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask);
 
 /*
@@ -76,7 +75,7 @@ int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
 void  TSAPI CreateImageList(BOOL bInitial);
 
-TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName, MCONTACT hContact);
+TContainerData* TSAPI FindMatchingContainer(const TCHAR *szName);
 TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom);
 TContainerData* TSAPI FindContainerByName(const TCHAR *name);
 
@@ -87,9 +86,6 @@ void  TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc);
 void  TSAPI ReflashContainer(TContainerData *pContainer);
-
-TContainerData* TSAPI AppendToContainerList(TContainerData *pContainer);
-TContainerData* TSAPI RemoveContainerFromList(TContainerData *pContainer);
 
 void  TSAPI CloseAllContainers();
 void  TSAPI DeleteContainer(int iIndex);
@@ -118,19 +114,15 @@ void  TSAPI DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD ba
 
 void  TSAPI CacheMsgLogIcons();
 void  TSAPI CacheLogFonts();
-void  TSAPI InitAPI();
 void  TSAPI LoadIconTheme();
-int   TSAPI LoadFromIconLib();
-int   TSAPI SetupIconLibConfig();
 void  TSAPI RTF_CTableInit();
 
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 
 int   TSAPI InitOptions(void);
-int   TSAPI DbEventIsShown(TWindowData *dat, DBEVENTINFO *dbei);
+int   TSAPI DbEventIsShown(DBEVENTINFO *dbei);
 void  TSAPI StreamInEvents(HWND hwndDlg,HANDLE hDbEventFirst,int count,int fAppend, DBEVENTINFO *dbei_s);
 void  TSAPI LoadLogfont(int i,LOGFONTA *lf,COLORREF *colour, char *szModule);
 
@@ -154,16 +146,13 @@ int   _DebugMessage(HWND hwndDlg, TWindowData *dat, const char *fmt, ...);
 // themes
 
 const TCHAR* TSAPI GetThemeFileName(int iMode);
-void  TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTA *lf, COLORREF *colour, const char *szIniFilename);
 int   TSAPI CheckThemeVersion(const TCHAR *szIniFilename);
 void  TSAPI WriteThemeToINI(const TCHAR *szIniFilename, TWindowData *dat);
 void  TSAPI ReadThemeFromINI(const TCHAR *szIniFilename, TContainerData *dat, int noAdvanced, DWORD dwFlags);
 
-// compatibility
-
 // user prefs
 
-int   TSAPI LoadLocalFlags(HWND hwnd, TWindowData *dat);
+int   TSAPI LoadLocalFlags(TWindowData *dat);
 
 //TypingNotify
 int   TN_ModuleInit();

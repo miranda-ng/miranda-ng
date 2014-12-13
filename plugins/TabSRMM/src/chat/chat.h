@@ -111,7 +111,7 @@ extern CHAT_MANAGER saveCI;
 //////////////////////////////////////////////////////////////////////////////////
 
 // log.c
-void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo);
+void   Log_StreamInEvent(HWND hwndDlg, LOGINFO* lin, SESSION_INFO *si, bool bRedraw);
 char*  Log_CreateRtfHeader(MODULEINFO *mi);
 
 // window.c
@@ -122,10 +122,10 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth);
 enum { FONTSECTION_AUTO, FONTSECTION_IM, FONTSECTION_IP };
 void  LoadMsgDlgFont(int section, int i, LOGFONT * lf, COLORREF * colour, char* szMod);
 void  AddIcons(void);
-HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY);
+HICON LoadIconEx(char *pszIcoLibName);
 
 // services.c
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground);
+void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL);
 
 HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup);
 

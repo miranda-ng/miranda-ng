@@ -308,112 +308,6 @@ static int AppendUnicodeToBuffer(char *&buffer, size_t &cbBufferEnd, size_t &cbB
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// same as above but does "\r\n"->"\\par " and "\t"->"\\tab " too
-
-static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int *cbBufferAlloced, const char *fmt, ...)
-{
-	va_list va;
-	int charsDone, i;
-
-	va_start(va, fmt);
-	for (;;) {
-		charsDone = mir_vsnprintf(*buffer + *cbBufferEnd, *cbBufferAlloced - *cbBufferEnd, fmt, va);
-		if (charsDone >= 0)
-			break;
-		*cbBufferAlloced += 1024;
-		*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-	}
-	va_end(va);
-	*cbBufferEnd += charsDone;
-	for (i = *cbBufferEnd - charsDone; (*buffer)[i]; i++) {
-
-		if (1) {
-			if ((*buffer)[i] == '' && (*buffer)[i + 1] != 0) {
-				char code = (*buffer)[i + 2];
-				char tag = (*buffer)[i + 1];
-
-				if (((code == '0' || code == '1') && (*buffer)[i + 3] == ' ') || (tag == 'c' && (code == 'x' || code == '0'))) {
-					int begin = (code == '1');
-
-					if (*cbBufferEnd + 5 > *cbBufferAlloced) {
-						*cbBufferAlloced += 1024;
-						*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-					}
-					switch (tag) {
-					case 'b':
-						memcpy(*buffer + i, begin ? "\\b1 " : "\\b0 ", 4);
-						continue;
-					case 'i':
-						memcpy(*buffer + i, begin ? "\\i1 " : "\\i0 ", 4);
-						continue;
-					case 'u':
-						memmove(*buffer + i + 2, *buffer + i + 1, *cbBufferEnd - i);
-						memcpy(*buffer + i, begin ? "\\ul1 " : "\\ul0 ", 5);
-						*cbBufferEnd += 1;
-						continue;
-					case 's':
-						*cbBufferAlloced += 20;
-						*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-						memmove(*buffer + i + 6, *buffer + i + 1, (*cbBufferEnd - i) + 1);
-						memcpy(*buffer + i, begin ? "\\strike1 " : "\\strike0 ", begin ? 9 : 9);
-						*cbBufferEnd += 5;
-						continue;
-					case 'c':
-						begin = (code == 'x');
-						memcpy(*buffer + i, "\\cf", 3);
-						if (!begin) {
-							char szTemp[10];
-							int colindex = GetColorIndex(GetRTFFont(LOWORD(mode) ? (MSGFONTID_MYMSG + (HIWORD(mode) ? 8 : 0)) : (MSGFONTID_YOURMSG + (HIWORD(mode) ? 8 : 0))));
-							mir_snprintf(szTemp, SIZEOF(szTemp), "%02d", colindex);
-							(*buffer)[i + 3] = szTemp[0];
-							(*buffer)[i + 4] = szTemp[1];
-						}
-						continue;
-					}
-				}
-			}
-		}
-
-		if ((*buffer)[i] == '\r' && (*buffer)[i + 1] == '\n') {
-			if (*cbBufferEnd + 5 > *cbBufferAlloced) {
-				*cbBufferAlloced += 1024;
-				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-			}
-			memmove(*buffer + i + 6, *buffer + i + 2, *cbBufferEnd - i - 1);
-			memcpy(*buffer + i, "\\line ", 6);
-			*cbBufferEnd += 4;
-		}
-		else if ((*buffer)[i] == '\n') {
-			if (*cbBufferEnd + 6 > *cbBufferAlloced) {
-				*cbBufferAlloced += 1024;
-				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-			}
-			memmove(*buffer + i + 6, *buffer + i + 1, *cbBufferEnd - i);
-			memcpy(*buffer + i, "\\line ", 6);
-			*cbBufferEnd += 5;
-		}
-		else if ((*buffer)[i] == '\t') {
-			if (*cbBufferEnd + 5 > *cbBufferAlloced) {
-				*cbBufferAlloced += 1024;
-				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-			}
-			memmove(*buffer + i + 5, *buffer + i + 1, *cbBufferEnd - i);
-			memcpy(*buffer + i, "\\tab ", 5);
-			*cbBufferEnd += 4;
-		}
-		else if ((*buffer)[i] == '\\' || (*buffer)[i] == '{' || (*buffer)[i] == '}') {
-			if (*cbBufferEnd + 2 > *cbBufferAlloced) {
-				*cbBufferAlloced += 1024;
-				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-			}
-			memmove(*buffer + i + 1, *buffer + i, *cbBufferEnd - i + 1);
-			(*buffer)[i] = '\\';
-			++*cbBufferEnd;
-			i++;
-		}
-	}
-	return (int)(_mbslen((unsigned char *)*buffer + *cbBufferEnd));
-}
 
 static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAlloced, TWindowData *dat)
 {
@@ -501,7 +395,7 @@ static void AppendTimeStamp(TCHAR *szFinalTimestamp, int isSent, char *&buffer, 
 	}
 }
 
-static TCHAR* Template_MakeRelativeDate(TWindowData *dat, HANDLE hTimeZone, time_t check, int groupBreak, TCHAR code)
+static TCHAR* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, TCHAR code)
 {
 	static TCHAR szResult[100];
 	const TCHAR *szFormat;
@@ -526,7 +420,7 @@ static TCHAR* Template_MakeRelativeDate(TWindowData *dat, HANDLE hTimeZone, time
 }
 
 // mir_free() the return value
-static char *CreateRTFTail(TWindowData *dat)
+static char *CreateRTFTail()
 {
 	size_t bufferEnd = 0, bufferAlloced = 1024;
 	char *buffer = (char*)mir_alloc(bufferAlloced);
@@ -535,7 +429,7 @@ static char *CreateRTFTail(TWindowData *dat)
 	return buffer;
 }
 
-int TSAPI DbEventIsShown(TWindowData *dat, DBEVENTINFO *dbei)
+int TSAPI DbEventIsShown(DBEVENTINFO *dbei)
 {
 	if (!IsCustomEvent(dbei->eventType) || DbEventIsForMsgWindow(dbei))
 		return 1;
@@ -549,9 +443,9 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, int prefixParaBreak, LogStreamData *streamData)
+static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, LogStreamData *streamData)
 {
-	HANDLE hTimeZone;
+	HANDLE hTimeZone = NULL;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
 	struct tm event_time;
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
@@ -572,7 +466,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		}
 		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 		db_event_get(hDbEvent, &dbei);
-		if (!DbEventIsShown(dat, &dbei)) {
+		if (!DbEventIsShown(&dbei)) {
 			mir_free(dbei.pBlob);
 			mir_free(buffer);
 			return NULL;
@@ -778,14 +672,14 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				break;
 			case 'D': // long date
 				if (showTime && showDate) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)'D');
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'D');
 					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'E': // short date...
 				if (showTime && showDate) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)'E');
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, 'E');
 					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -810,7 +704,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				else skipToNext = TRUE;
 				break;
 			case 's': //second
-				if (showTime && dwEffectiveFlags & MWF_LOG_SHOWSECONDS) {
+				if (showTime && (dwEffectiveFlags & MWF_LOG_SHOWSECONDS)) {
 					if (skipFont)
 						AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%02d", event_time.tm_sec);
 					else
@@ -879,7 +773,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 'R':
 			case 'r': // long date
 				if (showTime && showDate) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, cc);
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, cc);
 					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
@@ -887,29 +781,29 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 			case 't':
 			case 'T':
 				if (showTime) {
-					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(dat, hTimeZone, dbei.timestamp, g_groupBreak, (TCHAR)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (TCHAR)'t'));
+					TCHAR	*szFinalTimestamp = Template_MakeRelativeDate(hTimeZone, dbei.timestamp, (TCHAR)((dwEffectiveFlags & MWF_LOG_SHOWSECONDS) ? cc : (TCHAR)'t'));
 					AppendTimeStamp(szFinalTimestamp, isSent, buffer, bufferEnd, bufferAlloced, skipFont, dat, iFontIDOffset);
 				}
 				else skipToNext = TRUE;
 				break;
 			case 'S': // symbol
 				if (dwEffectiveFlags & MWF_LOG_SYMBOLS) {
-					char c;
+					int c;
 					if ((dwEffectiveFlags & MWF_LOG_INOUTICONS) && dbei.eventType == EVENTTYPE_MESSAGE)
 						c = isSent ? 0x37 : 0x38;
 					else {
 						switch (dbei.eventType) {
 						case EVENTTYPE_MESSAGE:
-							c = (char)0xaa;
+							c = 0xaa;
 							break;
 						case EVENTTYPE_FILE:
-							c = (char)0xcd;
+							c = 0xcd;
 							break;
 						case EVENTTYPE_ERRMSG:
-							c = (char)0x72;
+							c = 0x72;
 							break;
 						default:
-							c = (char)0xaa;
+							c = 0xaa;
 							break;
 						}
 						if (bIsStatusChangeEvent)
@@ -1141,7 +1035,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			if (dat->eventsToInsert) {
 				do {
 					mir_free(dat->buffer);
-					dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, !dat->isEmpty, dat);
+					dat->buffer = Template_CreateRTFFromDbEvent(dat->dlgDat, dat->hContact, dat->hDbEvent, dat);
 					if (dat->buffer)
 						dat->hDbEventLast = dat->hDbEvent;
 					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
@@ -1158,7 +1052,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 			//fall through
 		case STREAMSTAGE_TAIL:
 			mir_free(dat->buffer);
-			dat->buffer = CreateRTFTail(dat->dlgDat);
+			dat->buffer = CreateRTFTail();
 			dat->stage = STREAMSTAGE_STOP;
 			break;
 
@@ -1312,7 +1206,6 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 	POINT pt = { 0 };
-	BOOL wasFirstAppend = (dat->isAutoRTL & 2) ? TRUE : FALSE;
 
 	// calc time limit for grouping
 	HWND hwndrtf = dat->hwndIEView ? dat->hwndIWebBrowserControl : GetDlgItem(hwndDlg, IDC_LOG);

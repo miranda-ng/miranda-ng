@@ -36,21 +36,10 @@
 TContainerData *pFirstContainer = 0;        // the linked list of struct ContainerWindowData
 TContainerData *pLastActiveContainer = NULL;
 
-static  bool	fForceOverlayIcons = false;
+static TContainerData* TSAPI AppendToContainerList(TContainerData*);
+static TContainerData* TSAPI RemoveContainerFromList(TContainerData*);
 
-static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, MCONTACT hContact)
-{
-	if (item->dwFlags & BUTTON_PASSHCONTACTW || item->dwFlags & BUTTON_PASSHCONTACTL || item->dwFlags & BUTTON_ISCONTACTDBACTION) {
-		if (hContact == 0)
-			return 0;
-		if (item->dwFlags & BUTTON_PASSHCONTACTW)
-			*wParam = hContact;
-		else if (item->dwFlags & BUTTON_PASSHCONTACTL)
-			*lParam = hContact;
-		return 1;
-	}
-	return 1;                                       // doesn't need a paramter
-}
+static bool fForceOverlayIcons = false;
 
 // Windows Vista+
 // extend the glassy area to get aero look for the status bar, tab bar, info panel
@@ -120,68 +109,6 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 	}
 }
 
-// CreateContainer MUST allocate a ContainerWindowData and pass its address
-// to CreateDialogParam() via the LPARAM. It also adds the struct to the linked list
-// of containers.
-//
-// The WM_DESTROY handler of the container DlgProc is responsible for mir_free()'ing the
-// pointer and for removing the struct from the linked list.
-
-TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom)
-{
-	if (CMimAPI::m_shutDown)
-		return NULL;
-
-	TContainerData *pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
-	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
-	AppendToContainerList(pContainer);
-
-	if (M.GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
-		iTemp |= CNT_CREATEFLAG_CLONED;
-
-	// save container name to the db
-	if (!M.GetByte("singlewinmode", 0)) {
-		int iFirstFree = -1, iFound = FALSE, i = 0;
-		do {
-			char szCounter[10];
-			itoa(i, szCounter, 10);
-			ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
-			if (tszName == NULL) {
-				if (iFirstFree != -1) {
-					pContainer->iContainerIndex = iFirstFree;
-					itoa(iFirstFree, szCounter, 10);
-				}
-				else pContainer->iContainerIndex = i;
-
-				db_set_ts(NULL, CONTAINER_KEY, szCounter, name);
-				BuildContainerMenu();
-				break;
-			}
-
-			if (!_tcsncmp(tszName, name, CONTAINER_NAMELEN)) {
-				pContainer->iContainerIndex = i;
-				iFound = TRUE;
-			}
-			else if (!_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
-				iFirstFree = i;
-		}
-			while (++i && iFound == FALSE);
-	}
-	else {
-		iTemp |= CNT_CREATEFLAG_CLONED;
-		pContainer->iContainerIndex = 1;
-	}
-
-	if (iTemp & CNT_CREATEFLAG_MINIMIZED)
-		pContainer->dwFlags = CNT_CREATE_MINIMIZED;
-	if (iTemp & CNT_CREATEFLAG_CLONED) {
-		pContainer->dwFlags |= CNT_CREATE_CLONED;
-		pContainer->hContactFrom = hContactFrom;
-	}
-	pContainer->hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), NULL, DlgProcContainer, (LPARAM)pContainer);
-	return pContainer;
-}
-
 static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
@@ -207,14 +134,12 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			HDC dcFrame = GetDCEx(hwndDlg, 0, DCX_WINDOW|/*DCX_INTERSECTRGN|*/0x10000); // GetWindowDC(hwndDlg);
 			POINT pt, pt1;
 			LONG clip_top, clip_left;
-			HRGN rgn = 0;
 			CSkinItem *item;
 			TCHAR szWindowText[512];
 			RECT rcText;
 			HDC dcMem = CreateCompatibleDC(pContainer->cachedDC ? pContainer->cachedDC : dcFrame);
 			HBITMAP hbmMem, hbmOld;
 			int i;
-			DRAWITEMSTRUCT dis = {0};
 
 			GetWindowRect(hwndDlg, &rcWindow);
 			GetClientRect(hwndDlg, &rcClient);
@@ -277,7 +202,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			for (i=0; i < 3; i++) {
 				RECT *rc = 0;
-				HICON hIcon;
+				HICON hIcon = 0;
 
 				switch (i) {
 				case 0:
@@ -402,7 +327,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				for (i=0; i < 3; i++) {
 					if (pContainer->buttons[i].isHot != pContainer->oldbuttons[i].isHot) {
 						RECT *rc = 0;
-						HICON hIcon;
+						HICON hIcon = 0;
 
 						switch (i) {
 						case 0:
@@ -486,7 +411,6 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		{
 			RECT r;
 			POINT pt;
-			int k = 0;
 			int clip = CSkin::m_bClipBorder;
 
 			if (!pContainer)
@@ -543,22 +467,17 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		fHaveTipper = ServiceExists("mToolTip/ShowTip");
+		fForceOverlayIcons = M.GetByte("forceTaskBarStatusOverlays", 0) ? true : false;
+
+		pContainer = (TContainerData*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pContainer);
+		mir_subclassWindow(hwndDlg, ContainerWndProc);
+
+		pContainer->hwnd = hwndDlg;
 		{
-			bool bAero = M.isAero();
-			BOOL isFlat = M.GetByte("tbflat", 1);
-			BOOL isThemed = !M.GetByte("nlflat", 0);
-
-			fHaveTipper = ServiceExists("mToolTip/ShowTip");
-			fForceOverlayIcons = M.GetByte("forceTaskBarStatusOverlays", 0) ? true : false;
-
-			pContainer = (TContainerData*)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) pContainer);
-			mir_subclassWindow(hwndDlg, ContainerWndProc);
-
-			pContainer->hwnd = hwndDlg;
 			DWORD dwCreateFlags = pContainer->dwFlags;
-
-			pContainer->isCloned = (pContainer->dwFlags & CNT_CREATE_CLONED);
+			pContainer->isCloned = (dwCreateFlags & CNT_CREATE_CLONED);
 			pContainer->fPrivateThemeChanged = FALSE;
 
 			SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);          // set options...
@@ -704,7 +623,6 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		else {
 			RECT rcClient, rcUnadjusted;
 			TCITEM item = {0};
-			POINT pt = {0};
 
 			GetClientRect(hwndDlg, &rcClient);
 			pContainer->MenuBar->getClientRect();
@@ -723,7 +641,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CopyRect(&pContainer->rcSaved, &rcClient);
 			rcUnadjusted = rcClient;
 
-			pContainer->MenuBar->Resize(LOWORD(lParam), HIWORD(lParam), FALSE);
+			pContainer->MenuBar->Resize(LOWORD(lParam));
 			LONG rebarHeight = pContainer->MenuBar->getHeight();
 			pContainer->MenuBar->Show((pContainer->dwFlags & CNT_NOMENUBAR) ? SW_HIDE : SW_SHOW);
 
@@ -817,7 +735,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			case NM_RCLICK:
 				RECT rc;
 				NMMOUSE *nm = (NMMOUSE*)lParam;
-				int nPanel, nParts = SendMessage(pContainer->hwndStatus, SB_GETPARTS, 0, 0);
+				int nPanel;
 				if (nm->dwItemSpec == 0xFFFFFFFE) {
 					nPanel = 2;
 					SendMessage(pContainer->hwndStatus, SB_GETRECT, nPanel, (LPARAM)&rc);
@@ -832,7 +750,7 @@ panel_found:
 					TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 					SendMessage(pContainer->hwndStatus, SB_GETRECT, nPanel, (LPARAM)&rc);
 					if (dat)
-						CheckStatusIconClick(dat, pContainer->hwndStatus, nm->pt, rc, 2, ((LPNMHDR)lParam)->code);
+						CheckStatusIconClick(dat, nm->pt, rc, 2, ((LPNMHDR)lParam)->code);
 				}
 				else if (((LPNMHDR)lParam)->code == NM_RCLICK) {
 					POINT pt;
@@ -906,7 +824,6 @@ panel_found:
 
 				int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt1.x, pt1.y, 0, hwndDlg, NULL);
 				if (iSelection >= IDM_CONTAINERMENU) {
-					DBVARIANT dbv = {0};
 					char szIndex[10];
 					itoa(iSelection - IDM_CONTAINERMENU, szIndex, 10);
 					if (iSelection - IDM_CONTAINERMENU >= 0) {
@@ -973,12 +890,8 @@ panel_found:
 			MCONTACT hContact;
 			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			DWORD dwOldFlags = pContainer->dwFlags;
-			ButtonItem *pItem = pContainer->buttonItems;
 
 			if (dat) {
-				DWORD dwOldMsgWindowFlags = dat->dwFlags;
-				DWORD dwOldEventIsShown = dat->dwFlagsEx;
-
 				if (fProcessContactMenu)
 					return(CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact));
 				else if (fProcessMainMenu) {
@@ -995,11 +908,9 @@ panel_found:
 			case IDC_TOGGLESIDEBAR:
 				{
 					RECT rc;
-					LONG dwNewLeft;
-					BOOL skinnedMode = bSkinned | (IsThemeActive() ? 1 : 0);
-
 					GetWindowRect(hwndDlg, &rc);
 
+					LONG dwNewLeft;
 					bool fVisible = pContainer->SideBar->isVisible();
 					if (fVisible) {
 						dwNewLeft = pContainer->SideBar->getWidth();
@@ -1254,9 +1165,9 @@ panel_found:
 					break;
 				iNewTab = lParam - 1;
 			}
+			else iNewTab = -1;
 
 			if (iNewTab != iCurrent) {
-				TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwndTab, GWLP_USERDATA);
 				memset(&item, 0, sizeof(item));
 				item.mask = TCIF_PARAM;
 				if (TabCtrl_GetItem(hwndTab, iNewTab, &item)) {
@@ -1389,7 +1300,7 @@ panel_found:
 	case WM_PAINT:
 		if (bSkinned || M.isAero()) {
 			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwndDlg, &ps);
+			BeginPaint(hwndDlg, &ps);
 			EndPaint(hwndDlg, &ps);
 			return 0;
 		}
@@ -1487,9 +1398,7 @@ panel_found:
 			DWORD ws, wsold, ex = 0, exold = 0;
 			HMENU hSysmenu = GetSystemMenu(hwndDlg, FALSE);
 			MCONTACT hContact = 0;
-			int i=0;
 			UINT sBarHeight;
-			bool bAero = M.isAero();
 
 			ws = wsold = GetWindowLongPtr(hwndDlg, GWL_STYLE);
 			if (!CSkin::m_frameSkins) {
@@ -1586,7 +1495,7 @@ panel_found:
 			int iItems = TabCtrl_GetItemCount(hwndTab);
 			TCITEM item = {0};
 
-			DWORD dwTimestamp, dwMostRecent = 0;
+			DWORD dwTimestamp;
 
 			RECENTINFO *ri = (RECENTINFO *)lParam;
 			ri->iFirstIndex = ri->iMostRecent = -1;
@@ -1702,10 +1611,6 @@ panel_found:
 	case WM_DRAWITEM:
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			int cx = PluginConfig.m_smcxicon;
-			int cy = PluginConfig.m_smcyicon;
-			int id = LOWORD(dis->itemID);
-
 			if (dis->hwndItem == pContainer->hwndStatus && !(pContainer->dwFlags & CNT_NOSTATUSBAR)) {
 				TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 				if (dat)
@@ -1880,6 +1785,68 @@ panel_found:
 		}
 	}
 	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CreateContainer MUST allocate a ContainerWindowData and pass its address
+// to CreateDialogParam() via the LPARAM. It also adds the struct to the linked list
+// of containers.
+//
+// The WM_DESTROY handler of the container DlgProc is responsible for mir_free()'ing the
+// pointer and for removing the struct from the linked list.
+
+TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hContactFrom)
+{
+	if (CMimAPI::m_shutDown)
+		return NULL;
+
+	TContainerData *pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
+	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
+	AppendToContainerList(pContainer);
+
+	if (M.GetByte("limittabs", 0) && !_tcscmp(name, _T("default")))
+		iTemp |= CNT_CREATEFLAG_CLONED;
+
+	// save container name to the db
+	if (!M.GetByte("singlewinmode", 0)) {
+		int iFirstFree = -1, iFound = FALSE, i = 0;
+		do {
+			char szCounter[10];
+			itoa(i, szCounter, 10);
+			ptrT tszName(db_get_tsa(NULL, CONTAINER_KEY, szCounter));
+			if (tszName == NULL) {
+				if (iFirstFree != -1) {
+					pContainer->iContainerIndex = iFirstFree;
+					itoa(iFirstFree, szCounter, 10);
+				}
+				else pContainer->iContainerIndex = i;
+
+				db_set_ts(NULL, CONTAINER_KEY, szCounter, name);
+				BuildContainerMenu();
+				break;
+			}
+
+			if (!_tcsncmp(tszName, name, CONTAINER_NAMELEN)) {
+				pContainer->iContainerIndex = i;
+				iFound = TRUE;
+			}
+			else if (!_tcsncmp(tszName, _T("**mir_free**"), CONTAINER_NAMELEN))
+				iFirstFree = i;
+		} while (++i && iFound == FALSE);
+	}
+	else {
+		iTemp |= CNT_CREATEFLAG_CLONED;
+		pContainer->iContainerIndex = 1;
+	}
+
+	if (iTemp & CNT_CREATEFLAG_MINIMIZED)
+		pContainer->dwFlags = CNT_CREATE_MINIMIZED;
+	if (iTemp & CNT_CREATEFLAG_CLONED) {
+		pContainer->dwFlags |= CNT_CREATE_CLONED;
+		pContainer->hContactFrom = hContactFrom;
+	}
+	pContainer->hwnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGCONTAINER), NULL, DlgProcContainer, (LPARAM)pContainer);
+	return pContainer;
 }
 
 // search the list of tabs and return the tab (by index) which "belongs" to the given
@@ -2070,8 +2037,6 @@ void TSAPI AdjustTabClientRect(TContainerData *pContainer, RECT *rc)
 
 	RECT rcTab, rcTabOrig;
 	GetClientRect(hwndTab, &rcTab);
-	DWORD dwBottom = rcTab.bottom;
-	DWORD dwTop = rcTab.top;
 	if (!(pContainer->dwFlags & CNT_SIDEBAR) && (pContainer->iChilds > 1 || !(pContainer->dwFlags & CNT_HIDETABS))) {
 		rcTabOrig = rcTab;
 		TabCtrl_AdjustRect(hwndTab, FALSE, &rcTab);

@@ -43,8 +43,6 @@ extern void ImageDataInsertBitmap(IRichEditOle *ole, HBITMAP hBm)
 
 int CacheIconToBMP(TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int sizeX, int sizeY)
 {
-	bool succeeded = false;
-
 	int IconSizeX = sizeX;
 	int IconSizeY = sizeY;
 

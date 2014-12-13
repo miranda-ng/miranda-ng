@@ -455,7 +455,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 		case ID_SENDMENU_SENDTOMULTIPLEUSERS:
 			dat->sendMode ^= SMODE_MULTIPLE;
 			if (dat->sendMode & SMODE_MULTIPLE)
-				HWND hwndClist = DM_CreateClist(dat);
+				DM_CreateClist(dat);
 			else if (IsWindow(GetDlgItem(hwndDlg, IDC_CLIST)))
 				DestroyWindow(GetDlgItem(hwndDlg, IDC_CLIST));
 			break;
@@ -608,11 +608,8 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 	return 1;
 }
 
-static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
-	COLORREF url_visited = RGB(128, 0, 128);
-	COLORREF url_unvisited = RGB(0, 0, 255);
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -1081,7 +1078,7 @@ void TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 /////////////////////////////////////////////////////////////////////////////////////////
 // save current keyboard layout for the given contact
 
-void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM, LPARAM lParam)
 {
 	if (!dat)
 		return;
@@ -1336,7 +1333,7 @@ void TSAPI DM_NotifyTyping(TWindowData *dat, int mode)
 	CallService(MS_PROTO_SELFISTYPING, hContact, dat->nTypeMode);
 }
 
-void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM, LPARAM lParam)
 {
 	if (dat == 0)
 		return;
@@ -1349,7 +1346,7 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		LoadThemeDefaults(dat->pContainer);
 		dat->dwFlags = dat->pContainer->theme.dwFlags;
 	}
-	LoadLocalFlags(hwndDlg, dat);
+	LoadLocalFlags(dat);
 
 	LoadTimeZone(dat);
 
@@ -1468,7 +1465,6 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
 	RECT rcWin;
 	short newMessagePos;
-	LONG newPos;
 	TWindowData *srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
 	TContainerData *srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
 	bool fCntGlobal = (!dat->pContainer->settings->fPrivate ? true : false);
@@ -1478,6 +1474,7 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 	GetWindowRect(dat->hwnd, &rcWin);
 
+	LONG newPos;
 	if (wParam == 0 && lParam == 0) {
 		if ((dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) && dat != srcDat)
 			return 0;
@@ -1488,6 +1485,8 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			newPos = PluginConfig.lastSPlitterPos.pos + PluginConfig.lastSPlitterPos.off_im;
 		else if (srcDat->bType == SESSIONTYPE_CHAT && dat->bType == SESSIONTYPE_IM)
 			newPos = PluginConfig.lastSPlitterPos.pos + PluginConfig.lastSPlitterPos.off_im;
+		else
+			newPos = 0;
 
 		if (dat == srcDat) {
 			if (dat->bType == SESSIONTYPE_IM) {
@@ -1558,7 +1557,6 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 {
 	TContainerData *m_pContainer = dat->pContainer;
-	DWORD dwTimestamp = 0;
 	HWND hwndDlg = dat->hwnd, hwndContainer = m_pContainer->hwnd, hwndTab = GetParent(dat->hwnd);
 	HANDLE hDbEvent = (HANDLE)lParam;
 
@@ -1570,7 +1568,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 	bool bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 	bool bDisableNotify = (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ));
 
-	if (!DbEventIsShown(dat, &dbei))
+	if (!DbEventIsShown(&dbei))
 		return;
 
 	if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
@@ -1602,7 +1600,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 			}
 		}
 		if (!bDisableNotify)
-			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto(), dat);
+			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->fHidden ? 0 : 1, m_pContainer, hwndDlg, dat->cache->getActiveProto());
 		if (IsWindowVisible(m_pContainer->hwnd))
 			m_pContainer->fHidden = false;
 	}
@@ -1729,7 +1727,7 @@ void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 	DM_ScrollToBottom(dat, 1, 0);
 }
 
-void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
+void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 {
 	TCHAR newtitle[128], newcontactname[128];
 	DWORD dwOldIdle = dat->idle;
@@ -1753,7 +1751,6 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 		if (dat->szProto) {
 			szActProto = dat->cache->getProto();
-			MCONTACT hActContact = dat->hContact;
 
 			bool bHasName = (dat->cache->getUIN()[0] != 0);
 			dat->idle = dat->cache->getIdleTS();
@@ -1905,7 +1902,7 @@ void DrawStatusIcons(TWindowData *dat, HDC hDC, const RECT &rc, int gap)
 	}
 }
 
-void CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, const RECT &rc, int gap, int code)
+void CheckStatusIconClick(TWindowData *dat, POINT pt, const RECT &rc, int gap, int code)
 {
 	if (dat && (code == NM_CLICK || code == NM_RCLICK)) {
 		POINT	ptScreen;
@@ -1914,7 +1911,7 @@ void CheckStatusIconClick(TWindowData *dat, HWND hwndFrom, POINT pt, const RECT 
 			return;
 	}
 
-	UINT iconNum = (pt.x - (rc.left + 0)) / (PluginConfig.m_smcxicon + gap), list_icons = 0;
+	UINT iconNum = (pt.x - (rc.left + 0)) / (PluginConfig.m_smcxicon + gap);
 	StatusIconData *si = Srmm_GetNthIcon((dat) ? dat->hContact : 0, iconNum);
 	if (si == NULL)
 		return;

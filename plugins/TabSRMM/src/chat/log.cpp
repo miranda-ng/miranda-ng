@@ -418,33 +418,6 @@ static int EventToIcon(LOGINFO * lin)
 	return 0;
 }
 
-/* replace pattern `ptrn' with the string `rplc' in string `src' points to */
-static TCHAR * _tcsrplc(TCHAR **src, const TCHAR *ptrn, const TCHAR *rplc)
-{
-	size_t lSrc, lPtrn, lRplc;
-	TCHAR *tszFound, *tszTail;
-
-	lSrc = mir_tstrlen(*src);
-	lPtrn = mir_tstrlen(ptrn);
-	lRplc = mir_tstrlen(rplc);
-	if (lPtrn && lSrc && lSrc >= lPtrn && (tszFound = _tcsstr(*src, ptrn)) != NULL) {
-		if (lRplc > lPtrn)
-			*src = (TCHAR*) mir_realloc((void*) * src,
-									 sizeof(TCHAR) * (lSrc + lRplc - lPtrn + 1));
-		if (tszTail = (TCHAR*) mir_alloc(sizeof(TCHAR) *
-									   (lSrc - (tszFound - *src) - lPtrn + 1))) {
-			/* save tail */
-			_tcscpy(tszTail, tszFound + lPtrn);
-			/* write replacement string */
-			_tcscpy(tszFound, rplc);
-			/* write tail */
-			_tcscpy(tszFound + lRplc, tszTail);
-			mir_free((void*) tszTail);
-		}
-	}
-	return *src;
-}
-
 /*
  * replace pattern `ptrn' with the string `rplc' in string `src',
  * `src' is supposed to be `n' character long (or no checking is done if n < 0).
@@ -786,7 +759,6 @@ char* Log_CreateRtfHeader(MODULEINFO *mi)
 
 static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 {
-	int me = 0;
 	LOGINFO *lin = streamData->lin;
 	MODULEINFO *mi = pci->MM_FindModule(streamData->si->pszModule);
 
@@ -954,7 +926,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	return 0;
 }
 
-void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedraw, bool bPhaseTwo)
+void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO *si, bool bRedraw)
 {
 	CHARRANGE oldsel, sel, newsel;
 	POINT point = {0};

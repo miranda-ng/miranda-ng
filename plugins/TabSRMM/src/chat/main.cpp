@@ -42,14 +42,6 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 		SendMessage(si->hWnd, GC_REDRAWLOG2, 0, 0);
 }
 
-static void OnGetLogName(SESSION_INFO *si, LPCTSTR ptszParsedName)
-{
-	if (!PathIsAbsoluteT(ptszParsedName))
-		mir_sntprintf(si->pszLogFileName, SIZEOF(si->pszLogFileName), _T("%s%s"), M.getChatLogPath(), ptszParsedName);
-	else
-		_tcsncpy_s(si->pszLogFileName, ptszParsedName, _TRUNCATE);
-}
-
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO *mi)
 {
 	Chat_SetFilters(si);
@@ -122,7 +114,7 @@ static void OnChangeNick(SESSION_INFO *si)
 	}
 }
 
-static void OnSetStatus(SESSION_INFO *si, int wStatus)
+static void OnSetStatus(SESSION_INFO *si, int)
 {
 	PostMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 }
@@ -205,7 +197,7 @@ static void OnLoadSettings()
 
 void Chat_ModulesLoaded()
 {
-	g_Settings.hIconOverlay = LoadIconEx(IDI_OVERLAY, "overlay", 16, 16);
+	g_Settings.hIconOverlay = LoadIconEx("overlay");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

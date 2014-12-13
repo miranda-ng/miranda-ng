@@ -288,57 +288,7 @@ static void SaveBranch(HWND hwndTree, branch_t *branch, int nValues)
 	}
 }
 
-static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
-{
-	if (hHeading == 0)
-		return;
-
-	BOOL bChecked = TRUE;
-
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_STATE;
-	tvi.hItem = TreeView_GetNextItem(hwndTree, hHeading, TVGN_CHILD);
-	while (tvi.hItem && bChecked) {
-		if (tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem) {
-			TreeView_GetItem(hwndTree, &tvi);
-			if (((tvi.state&TVIS_STATEIMAGEMASK) >> 12 == 2))
-				bChecked = FALSE;
-		}
-		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-	}
-	tvi.stateMask = TVIS_STATEIMAGEMASK;
-	tvi.state = INDEXTOSTATEIMAGEMASK(1); //bChecked ? 3 : 2);
-	tvi.hItem = hHeading;
-	TreeView_SetItem(hwndTree, &tvi);
-}
-
-static void CheckBranches(HWND hwndTree, HTREEITEM hHeading)
-{
-	if (hHeading == 0)
-		return;
-
-	BOOL bChecked = TRUE;
-
-	TVITEM tvi;
-	tvi.mask = TVIF_HANDLE | TVIF_STATE;
-	tvi.hItem = hHeading;
-	TreeView_GetItem(hwndTree, &tvi);
-	if (((tvi.state&TVIS_STATEIMAGEMASK) >> 12 == 3) || ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 1))
-		bChecked = FALSE;
-
-	tvi.stateMask = TVIS_STATEIMAGEMASK;
-	tvi.state = INDEXTOSTATEIMAGEMASK(bChecked ? 2 : 1);
-	TreeView_SetItem(hwndTree, &tvi);
-	tvi.hItem = TreeView_GetNextItem(hwndTree, hHeading, TVGN_CHILD);
-	while (tvi.hItem) {
-		tvi.state = INDEXTOSTATEIMAGEMASK(bChecked ? 3 : 2);
-		if (tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem)
-			TreeView_SetItem(hwndTree, &tvi);
-		tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
-	}
-}
-
-static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
+static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM)
 {
 	char szDir[MAX_PATH];
 	switch (uMsg) {
@@ -397,7 +347,7 @@ void Chat_AddIcons(void)
  * get icon by name from the core icon library service
  */
 
-HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY)
+HICON LoadIconEx(char *pszIcoLibName)
 {
 	char szTemp[256];
 	mir_snprintf(szTemp, SIZEOF(szTemp), "chat_%s", pszIcoLibName);
@@ -905,9 +855,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY) {
-			TCHAR *p2 = NULL;
-			char  *pszText = NULL;
-			TCHAR *ptszPath = NULL;
+			char *pszText = NULL;
 
 			int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 			if (iLen > 0) {
@@ -1029,7 +977,7 @@ static UINT _eventorder[] =
  * @return
  */
 
-INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:

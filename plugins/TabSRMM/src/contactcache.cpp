@@ -274,7 +274,7 @@ void CContactCache::setWindowData(const HWND hwnd, TWindowData *dat)
  * it's using streamout in UTF8 format - no unicode "issues" and all RTF formatting is saved to the history.
  */
 
-void CContactCache::saveHistory(WPARAM wParam, LPARAM lParam)
+void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 {
 	size_t 	iLength = 0, iStreamLength = 0;
 	int 	oldTop = 0;

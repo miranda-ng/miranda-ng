@@ -126,14 +126,13 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		teInfo = (TemplateEditorInfo *)dat->pContainer;
 		tSet = teInfo->rtl ? dat->pContainer->rtl_templates : dat->pContainer->ltr_templates;
 	}
+	else tSet = NULL;
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
 			TemplateEditorNew *teNew = (TemplateEditorNew *)lParam;
-			COLORREF url_visited = RGB(128, 0, 128);
-			COLORREF url_unvisited = RGB(0, 0, 255);
 			dat = (TWindowData*)mir_calloc( sizeof(TWindowData));
 			dat->pContainer = (TContainerData*)mir_alloc(sizeof(TContainerData));
 			memset(dat->pContainer, 0, sizeof(TContainerData));
