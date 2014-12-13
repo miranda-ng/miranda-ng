@@ -303,7 +303,7 @@ void CEditCtrl::OpenUrl()
 	}
 	if (szUrl && (GetWindowTextA(_hwnd, szUrl, lenUrl) > 0))
 	{
-		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
+		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)szUrl);
 	}
 	if (need_free)
 	{
@@ -356,7 +356,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 						LPSTR pszUrl = mir_t2a(tr.lpstrText);
 						if (pszUrl)
 						{
-							CallService(MS_UTILS_OPENURL, 1, (LPARAM)pszUrl);
+							CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)pszUrl);
 							mir_free(pszUrl);
 						}
 					}

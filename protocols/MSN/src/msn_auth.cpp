@@ -230,7 +230,7 @@ int CMsnProto::MSN_GetPassportAuth(void)
 				if (retVal != 0) {
 					if (errurl) {
 						debugLogA("Starting URL: '%s'", errurl);
-						CallService(MS_UTILS_OPENURL, 1, (LPARAM)errurl);
+						CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)errurl);
 					}
 
 					ezxml_t tokf = ezxml_get(xml, "S:Body", 0, "S:Fault", 0, "S:Detail", -1);

@@ -70,7 +70,7 @@ INT_PTR CALLBACK icq_FirstRunDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_REGISTER:
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)URL_REGISTER);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)URL_REGISTER);
 			break;
 
 		case IDC_UIN:

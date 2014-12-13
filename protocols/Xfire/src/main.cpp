@@ -1990,7 +1990,7 @@ static INT_PTR GotoProfile(WPARAM hContact, LPARAM lParam)
 	strcat_s(temp, 64, dbv.pszVal);
 	db_free(&dbv);
 
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp);
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)temp);
 
 	return 0;
 }
@@ -2010,7 +2010,7 @@ static INT_PTR GotoXFireClanSite(WPARAM hContact, LPARAM lParam)
 	strcat_s(temp, 64, dbv.pszVal);
 	db_free(&dbv);
 
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp);
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)temp);
 
 	return 0;
 }
@@ -2026,7 +2026,7 @@ static INT_PTR GotoProfile2(WPARAM wParam, LPARAM lParam)
 	strcat_s(temp, 64, dbv.pszVal);
 	db_free(&dbv);
 
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp);
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)temp);
 	return 0;
 }
 
@@ -2042,7 +2042,7 @@ static INT_PTR GotoProfileAct(WPARAM wParam, LPARAM lParam)
 	strcat_s(temp, 64, dbv.pszVal);
 	db_free(&dbv);
 
-	CallService(MS_UTILS_OPENURL, 1, (LPARAM)temp);
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)temp);
 	return 0;
 }
 

@@ -209,7 +209,7 @@ static INT_PTR CALLBACK sttEnterStringDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			SendMessage(param->nmhdr.hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)& tr);
 
 			char *tmp = mir_t2a(tr.lpstrText);
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)tmp);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)tmp);
 			mir_free(tmp);
 			mir_free(tr.lpstrText);
 		}

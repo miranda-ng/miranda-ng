@@ -238,7 +238,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 
 	debugLogA("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
 
-	CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)tUrl);
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)tUrl);
 }
 
 //=======================================================

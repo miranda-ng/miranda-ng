@@ -337,7 +337,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_HELP_GENERAL:
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/UsingSkins");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/UsingSkins");
 			break;
 
 		case IDC_SKIN_CLOSENOW:
@@ -448,7 +448,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 
 		case IDC_HELP_GENERAL:
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/GeneralSettings");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/GeneralSettings");
 			break;
 
 		case IDC_RESETWARNINGS:
@@ -912,7 +912,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				(IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN) || IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN)));
 			break;
 		case IDC_MTN_HELP:
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/TypingNotifications");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/TypingNotifications");
 			return 0;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1150,7 +1150,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 			Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS));
 			break;
 		case IDC_HELP_CONTAINERS:
-			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/Containers");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/Containers");
 			break;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

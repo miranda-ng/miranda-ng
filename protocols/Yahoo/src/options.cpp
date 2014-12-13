@@ -65,7 +65,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		switch ( LOWORD( wParam )) {
 		case IDC_NEWYAHOOACCOUNTLINK:
-			CallService(MS_UTILS_OPENURL, 1, 
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, 
 				ppro->getByte("YahooJapan", 0) ?
 				(LPARAM)"http://edit.yahoo.co.jp/config/eval_register" :
 			(LPARAM)"http://edit.yahoo.com/config/eval_register");

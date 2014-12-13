@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					CopyMemory(tr.lpstrText, "mailto:", 7);
 				}
 
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM) tr.lpstrText);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM) tr.lpstrText);
 				SetFocus(GetDlgItem(hwndDlg, IDC_DATA));
 
 				free(tr.lpstrText);

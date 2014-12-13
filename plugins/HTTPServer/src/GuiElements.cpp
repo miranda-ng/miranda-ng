@@ -931,7 +931,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 								CloseClipboard();
 							} else {
-								CallService(MS_UTILS_OPENURL, OUF_TCHAR, (LPARAM)sLink.c_str());
+								CallService(MS_UTILS_OPENURL, 0, (LPARAM)sLink.c_str());
 							}
 						} else {
 							MessageBox(hwndDlg, TranslateT("ListView_GetItem failed"), MSG_BOX_TITEL, MB_OK);

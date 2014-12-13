@@ -1340,7 +1340,7 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* g
 				char *bufPtr, *url = mir_t2a(p);
 				for (bufPtr = url; *bufPtr && !isspace(*bufPtr); ++bufPtr) ;
 				*bufPtr++ = 0;
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM)url);
+				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)url);
 				mir_free(url);
 				break;
 			}

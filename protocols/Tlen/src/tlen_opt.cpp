@@ -147,7 +147,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_REGISTERACCOUNT:
-			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) TLEN_REGISTER);
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)TLEN_REGISTER);
 			break;
 		}
 		break;
