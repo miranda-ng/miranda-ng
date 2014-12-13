@@ -141,12 +141,10 @@ void RegisterFonts(void)
 
 	for (int i = 0; i < SIZEOF(fontOptionsList); i++, index++) {
 		FontOptionsList &FO = fontOptionsList[i];
-		strncpy(fontid.dbSettingsGroup, CHATFONT_MODULE, sizeof(fontid.dbSettingsGroup));
+		strncpy_s(fontid.dbSettingsGroup, CHATFONT_MODULE, _TRUNCATE);
 		_tcsncpy_s(fontid.name, FO.szDescr, _TRUNCATE);
 
-		char idstr[10];
-		mir_snprintf(idstr, SIZEOF(idstr), "Font%d", index);
-		strncpy(fontid.prefix, idstr, sizeof(fontid.prefix));
+		mir_snprintf(fontid.prefix, SIZEOF(fontid.prefix), "Font%d", index);
 		fontid.order = index;
 
 		switch (i) {

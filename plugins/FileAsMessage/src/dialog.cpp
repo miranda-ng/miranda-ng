@@ -884,16 +884,19 @@ int FILEECHO::sendCmd(int id, int cmd, char *szParam, char *szPrefix)
 void CreateDirectoryTree(char *szDir)
 {
 	DWORD dwAttributes;
-	char *pszLastBackslash,szTestDir[MAX_PATH];
+	char *pszLastBackslash, szTestDir[MAX_PATH];
 
-	mir_tstrncpy(szTestDir,szDir,sizeof(szTestDir));
-	if((dwAttributes=GetFileAttributes(szTestDir))!=0xffffffff
-	   && dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
-	pszLastBackslash=strrchr(szTestDir,'\\');
-	if(pszLastBackslash==NULL) {GetCurrentDirectory(MAX_PATH,szDir); return;}
-	*pszLastBackslash='\0';
+	strncpy_s(szTestDir, szDir, _TRUNCATE);
+	if((dwAttributes = GetFileAttributes(szTestDir)) != 0xffffffff && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
+		return;
+	pszLastBackslash = strrchr(szTestDir, '\\');
+	if (pszLastBackslash == NULL) {
+		GetCurrentDirectory(MAX_PATH, szDir);
+		return;
+	}
+	*pszLastBackslash = 0;
 	CreateDirectoryTree(szTestDir);
-	CreateDirectory(szTestDir,NULL);
+	CreateDirectory(szTestDir, NULL);
 }
 
 LRESULT CALLBACK ProgressWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
