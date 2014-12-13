@@ -54,9 +54,8 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			RECT rc;
 			GetClientRect(hwnd, &rc);
 			SetCursor(rc.right > rc.bottom ? hCurSplitNS : hCurSplitWE);
-			return TRUE;
 		}
-		return 0;
+		return TRUE;
 
 	case WM_LBUTTONDOWN:
 		SetCapture(hwnd);
@@ -758,7 +757,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, LogSubclassProc, msg, wParam, lParam);
 }
 
-static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESSION_INFO * parentdat)
+static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO * parentdat)
 {
 	static int currentHovered = -1;
 	static HWND hwndToolTip = NULL;
@@ -1024,9 +1023,9 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else
 				nItemUnderMouse &= 0xFFFF;
 
-			ProcessNickListHovering(hwnd, (int)nItemUnderMouse, &pt, si);
+			ProcessNickListHovering(hwnd, (int)nItemUnderMouse, si);
 		}
-		else ProcessNickListHovering(hwnd, -1, &pt, NULL);
+		else ProcessNickListHovering(hwnd, -1, NULL);
 	}
 
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);
@@ -1041,7 +1040,7 @@ int GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth)
 	HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
 
 	RECT rc = { 0 };
-	int i = DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
+	DrawText(hdc, pszText, -1, &rc, DT_CALCRECT);
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(NULL, hdc);
 	return bWidth ? rc.right - rc.left : rc.bottom - rc.top;
@@ -1530,7 +1529,6 @@ LABEL_SHOWWINDOW:
 			pt.x = wParam; pt.y = 0;
 			ScreenToClient(hwndDlg, &pt);
 
-			int oldSplitterX = si->iSplitterX;
 			si->iSplitterX = rc.right - pt.x + 1;
 			if (si->iSplitterX < 35)
 				si->iSplitterX = 35;
@@ -1543,7 +1541,6 @@ LABEL_SHOWWINDOW:
 			GetClientRect(hwndDlg, &rc);
 			pt.x = 0; pt.y = wParam;
 			ScreenToClient(hwndDlg, &pt);
-			int oldSplitterY = si->iSplitterY;
 			si->iSplitterY = rc.bottom - pt.y;
 			g_Settings.iSplitterY = si->iSplitterY;
 		}
@@ -2012,7 +2009,7 @@ LABEL_SHOWWINDOW:
 	return FALSE;
 }
 
-void ShowRoom(SESSION_INFO *si, WPARAM wp, BOOL bSetForeground)
+void ShowRoom(SESSION_INFO *si, WPARAM, BOOL)
 {
 	if (si == NULL)
 		return;

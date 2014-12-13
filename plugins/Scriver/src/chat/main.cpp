@@ -101,7 +101,7 @@ static void OnNewUser(SESSION_INFO *si, USERINFO*)
 		SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 }
 
-static void OnSetStatus(SESSION_INFO *si, int wStatus)
+static void OnSetStatus(SESSION_INFO *si, int)
 {
 	PostMessage(si->hWnd, GC_FIXTABICONS, 0, 0);
 }
@@ -157,34 +157,6 @@ static void OnLoadSettings()
 	g_Settings.MessageBoxFont = CreateFontIndirect(&lf);
 }
 
-static void RegisterFonts()
-{
-	ColourIDT colourid = { sizeof(colourid) };
-	strncpy(colourid.dbSettingsGroup, CHAT_MODULE, sizeof(colourid.dbSettingsGroup));
-	_tcsncpy(colourid.group, LPGENT("Messaging")_T("/")LPGENT("Group chats"), SIZEOF(colourid.group));
-
-	strncpy(colourid.setting, "ColorLogBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Group chat log background"), SIZEOF(colourid.name));
-	mir_sntprintf(colourid.group, SIZEOF(colourid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group chats"));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Nick list background"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Nick list lines"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	ColourRegisterT(&colourid);
-
-	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
-	_tcsncpy(colourid.name, LPGENT("Nick list background (selected)"), SIZEOF(colourid.name));
-	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	ColourRegisterT(&colourid);
-}
-
 int Chat_Load()
 {
 	CHAT_MANAGER_INITDATA data = { &g_Settings, sizeof(MODULEINFO), sizeof(SESSION_INFO), LPGENT("Messaging")_T("/")LPGENT("Group chats"), FONTMODE_SKIP };
@@ -228,8 +200,8 @@ int Chat_Unload(void)
 	return 0;
 }
 
-int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam)
+int Chat_ModulesLoaded(WPARAM, LPARAM)
 {
 	OptionsInit();
- 	return 0;
+	return 0;
 }

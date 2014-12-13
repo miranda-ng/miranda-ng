@@ -332,7 +332,7 @@ static void AddChild(ParentWindowData *dat, HWND hwnd, MCONTACT hContact)
 	tci.lParam = (LPARAM)mwtd;
 	tci.iImage = -1;
 	tci.pszText = _T("");
-	int tabId = TabCtrl_InsertItem(dat->hwndTabs, dat->childrenCount - 1, &tci);
+	TabCtrl_InsertItem(dat->hwndTabs, dat->childrenCount - 1, &tci);
 	SetWindowPos(mwtd->hwnd, HWND_TOP, dat->childRect.left, dat->childRect.top, dat->childRect.right - dat->childRect.left, dat->childRect.bottom - dat->childRect.top, SWP_HIDEWINDOW);
 	SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 
@@ -1386,7 +1386,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lParam)
+static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM, LPARAM lParam)
 {
 	LPDRAWITEMSTRUCT lpDIS = (LPDRAWITEMSTRUCT)lParam;
 	int iTabIndex = lpDIS->itemID;
@@ -1395,7 +1395,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 
 	TabCtrlData *tcdat = (TabCtrlData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	HANDLE hTheme = NULL;
-	int tstate;
+	int tstate = 0;
 	TCHAR szLabel[1024];
 	TCITEM tci;
 	tci.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_STATE;

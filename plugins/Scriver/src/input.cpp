@@ -29,7 +29,7 @@ enum KB_ACTIONS {KB_PREV_TAB = 1, KB_NEXT_TAB, KB_SWITCHTOOLBAR,
 				 KB_SWITCHSTATUSBAR, KB_SWITCHTITLEBAR, KB_SWITCHINFOBAR, KB_MINIMIZE, KB_CLOSE, KB_CLEAR_LOG,
 				 KB_TAB1, KB_TAB2, KB_TAB3, KB_TAB4, KB_TAB5, KB_TAB6, KB_TAB7, KB_TAB8, KB_TAB9, KB_SEND_ALL, KB_PASTESEND, KB_QUOTE};
 
-void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, MCONTACT hContact)
+void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 {
 	POINT pt;
 	CHARRANGE sel, all = { 0, -1 };
@@ -239,7 +239,7 @@ int InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, Common
 					if (windowData->flags & CWDF_RTF_INPUT)
 						iLen = SetRichTextRTF(hwnd, cmdListNew->szCmd);
 					else
-						iLen = SetRichTextEncoded(hwnd, cmdListNew->szCmd, windowData->codePage);
+						iLen = SetRichTextEncoded(hwnd, cmdListNew->szCmd);
 
 					SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 					SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);

@@ -45,17 +45,6 @@ static ToolbarButton toolbarButtons[] = {
 	{LPGENT("Send"), IDOK, 1, 0, 38}
 };
 
-static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
-{
-	MessageSendQueueItem *msi = (MessageSendQueueItem *) dwCookie;
-	msi->sendBuffer = (char*)mir_realloc(msi->sendBuffer, msi->sendBufferSize + cb + 2);
-	memcpy (msi->sendBuffer + msi->sendBufferSize, pbBuff, cb);
-	msi->sendBufferSize += cb;
-	*((TCHAR*)(msi->sendBuffer+msi->sendBufferSize)) = '\0';
-	*pcb = cb;
-    return 0;
-}
-
 static TCHAR* GetIEViewSelection(SrmmWindowData *dat)
 {
 	IEVIEWEVENT evt = { sizeof(evt) };
@@ -668,7 +657,7 @@ static void NotifyTyping(SrmmWindowData *dat, int mode)
 	CallService(MS_PROTO_SELFISTYPING, dat->windowData.hContact, dat->nTypeMode);
 }
 
-static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -805,7 +794,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			else if (g_dat.flags & SMF_SAVEDRAFTS) {
 				TCmdList *draft = tcmdlist_get2(g_dat.draftList, dat->windowData.hContact);
 				if (draft != NULL)
-					len = SetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), draft->szCmd, dat->windowData.codePage);
+					len = SetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), draft->szCmd);
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
 			}
 
@@ -883,7 +872,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						dbei.cbBlob = 0;
 						dat->hDbEventFirst = hPrevEvent;
 						db_event_get(dat->hDbEventFirst, &dbei);
-						if (!DbEventIsShown(&dbei, dat))
+						if (!DbEventIsShown(dbei))
 							i++;
 					}
 					break;
@@ -905,7 +894,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						db_event_get(hPrevEvent, &dbei);
 						if (dbei.timestamp < firstTime)
 							break;
-						if (DbEventIsShown(&dbei, dat))
+						if (DbEventIsShown(dbei))
 							dat->hDbEventFirst = hPrevEvent;
 						hPrevEvent = db_event_prev(dat->windowData.hContact, hPrevEvent);
 					}
@@ -1365,7 +1354,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			db_event_get(hDbEvent, &dbei);
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;
-			if (DbEventIsShown(&dbei, dat)) {
+			if (DbEventIsShown(dbei)) {
 				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & (DBEF_SENT))) {
 					/* store the event when the container is hidden so that clist notifications can be removed */
 					if (!IsWindowVisible(GetParent(hwndDlg)) && dat->hDbUnreadEventFirst == NULL)

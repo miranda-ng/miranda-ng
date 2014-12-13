@@ -104,7 +104,7 @@ void RegisterIcons(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int ackevent(WPARAM wParam, LPARAM lParam)
+static int ackevent(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	if (!pAck)
@@ -274,19 +274,6 @@ static struct { UINT cpId; const TCHAR *cpName; } cpTable[] =
 	{ 1258, LPGENT("Vietnamese") }, //
 	{ 1361, LPGENT("Korean (Johab)") }
 };
-
-static BOOL CALLBACK LangAddCallback(CHAR * str)
-{
-	int i, count;
-	UINT cp;
-	cp = atoi(str);
-	count = sizeof(cpTable) / sizeof(cpTable[0]);
-	for (i = 0; i < count && cpTable[i].cpId != cp; i++);
-	if (i < count)
-		AppendMenu(g_dat.hMenuANSIEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
-
-	return TRUE;
-}
 
 void LoadInfobarFonts()
 {
