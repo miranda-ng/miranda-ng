@@ -458,7 +458,7 @@ bool CMraProto::MraAvatarsGetContactTime(MCONTACT hContact, LPSTR lpszValueName,
 		CMStringA szBuff;
 		if (mraGetStringA(hContact, lpszValueName, szBuff))
 		if (InternetTimeGetTime(szBuff, itAvatarLastModifiedTimeLocal) == NO_ERROR) {
-			memmove(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
+			memcpy(pstTime, &itAvatarLastModifiedTimeLocal.stTime, sizeof(SYSTEMTIME));
 			return true;
 		}
 	}
@@ -474,7 +474,7 @@ void CMraProto::MraAvatarsSetContactTime(MCONTACT hContact, LPSTR lpszValueName,
 	INTERNET_TIME itTime;
 	if (pstTime) {
 		itTime.lTimeZone = 0;
-		memmove(&itTime.stTime, pstTime, sizeof(SYSTEMTIME));
+		memcpy(&itTime.stTime, pstTime, sizeof(SYSTEMTIME));
 	}
 	else InternetTimeGetCurrentTime(&itTime);
 

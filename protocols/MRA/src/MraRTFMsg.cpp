@@ -161,7 +161,7 @@ DWORD MraSymbolsToRTFTags(DWORD dwFlags, LPSTR lpszMessage, size_t dwMessageSize
 			dwMemPartToCopy = (lpszFounded[dwFirstFoundIndex]-lpszMessageCurPrev);
 			if (lpszMessageConvertedMax > (lpszMessageConvertedCur+(dwMemPartToCopy+dwcRTFTagsCount[dwFirstFoundIndex]))) {
 				MraTextToRTFData(lpszMessageCurPrev, dwMemPartToCopy, lpszMessageConvertedCur, (lpszMessageConvertedMax-lpszMessageConvertedCur), &i);lpszMessageConvertedCur += i;
-				memmove(lpszMessageConvertedCur, lpszRTFTags[dwFirstFoundIndex], dwcRTFTagsCount[dwFirstFoundIndex]);lpszMessageConvertedCur += dwcRTFTagsCount[dwFirstFoundIndex];
+				memcpy(lpszMessageConvertedCur, lpszRTFTags[dwFirstFoundIndex], dwcRTFTagsCount[dwFirstFoundIndex]);lpszMessageConvertedCur += dwcRTFTagsCount[dwFirstFoundIndex];
 				lpszMessageCurPrev = (lpszFounded[dwFirstFoundIndex]+dwcSimbolsCount[dwFirstFoundIndex]);
 
 				for (i = 0;i<SYMBOLS_COUNT;i++) { // looking for the next time
@@ -232,9 +232,9 @@ DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMess
 	if ( !MraSymbolsToRTFTags(0, lpszMessage, wszMessage.GetLength(), lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), &dwtm)) {
 		lpszMessageRTFCur += dwtm;
 		if ((lpszBase + szMessageRTF.GetLength()) >= (lpszMessageRTFCur+sizeof(PAR)+sizeof(CRLF)+2)) {
-			memmove(lpszMessageRTFCur, PAR, sizeof(PAR));lpszMessageRTFCur += (sizeof(PAR)-1);
-			memmove(lpszMessageRTFCur, CRLF, sizeof(CRLF));lpszMessageRTFCur += (sizeof(CRLF)-1);
-			memmove(lpszMessageRTFCur, "}", 2);lpszMessageRTFCur += 2;
+			memcpy(lpszMessageRTFCur, PAR, sizeof(PAR));lpszMessageRTFCur += (sizeof(PAR)-1);
+			memcpy(lpszMessageRTFCur, CRLF, sizeof(CRLF));lpszMessageRTFCur += (sizeof(CRLF)-1);
+			memcpy(lpszMessageRTFCur, "}", 2);lpszMessageRTFCur += 2;
 			debugLogA("%s\n", szMessageRTF);
 			return NO_ERROR;
 		}

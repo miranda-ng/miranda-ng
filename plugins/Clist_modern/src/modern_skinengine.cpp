@@ -3727,7 +3727,7 @@ TCHAR *ske_ParseText(TCHAR *stzText)
 				break;
 			if (curpos - stpos > 0) {
 				TCHAR *var = (TCHAR *)mir_alloc((curpos - stpos + 1)*sizeof(TCHAR));
-				memmove(var, stzText + stpos, (curpos - stpos)*sizeof(TCHAR));
+				memcpy(var, stzText + stpos, (curpos - stpos)*sizeof(TCHAR));
 				var[curpos - stpos] = (TCHAR)'\0';
 				var = ske_ReplaceVar(var);
 				result = ske_ReAppend(result, var, 0);

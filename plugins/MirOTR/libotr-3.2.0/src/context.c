@@ -157,7 +157,7 @@ Fingerprint *otrl_context_find_fingerprint(ConnContext *context,
 	assert(f != NULL);
 	f->fingerprint = malloc(20);
 	assert(f->fingerprint != NULL);
-	memmove(f->fingerprint, fingerprint, 20);
+	memcpy(f->fingerprint, fingerprint, 20);
 	f->context = context;
 	f->trust = NULL;
 	f->next = context->fingerprint_root.next;
@@ -193,7 +193,7 @@ void otrl_context_set_preshared_secret(ConnContext *context,
 	if (secret_len) {
 	context->preshared_secret = malloc(secret_len);
 	if (context->preshared_secret) {
-		memmove(context->preshared_secret, secret, secret_len);
+		memcpy(context->preshared_secret, secret, secret_len);
 		context->preshared_secret_len = secret_len;
 	}
 	}

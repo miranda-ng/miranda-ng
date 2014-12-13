@@ -169,7 +169,7 @@ int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 		DWORD i;
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[mID]));
 		newAlocation = (MODERNMASK *)mir_alloc(sizeof(MODERNMASK)*mmTemplateList->dwMaskCnt-1);
-		memmove(newAlocation,mmTemplateList->pl_Masks,sizeof(MODERNMASK)*(mID+1));
+		memcpy(newAlocation,mmTemplateList->pl_Masks,sizeof(MODERNMASK)*(mID+1));
 		for (i = mID; i < mmTemplateList->dwMaskCnt-1; i++)
 		{
 			newAlocation[i] = mmTemplateList->pl_Masks[i+1];

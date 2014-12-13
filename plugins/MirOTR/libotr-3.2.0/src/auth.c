@@ -157,21 +157,21 @@ gcry_error_t otrl_auth_start_v2(OtrlAuthInfo *auth)
 	buf = bufp;
 	buflen = lenp;
 
-	memmove(bufp, "\x00\x02\x02", 3); /* header */
+	memcpy(bufp, "\x00\x02\x02", 3); /* header */
 	debug_data("Header", bufp, 3);
 	bufp += 3; lenp -= 3;
 
 	/* Encrypted g^x */
 	write_int(auth->encgx_len);
 	debug_int("Enc gx len", bufp-4);
-	memmove(bufp, auth->encgx, auth->encgx_len);
+	memcpy(bufp, auth->encgx, auth->encgx_len);
 	debug_data("Enc gx", bufp, auth->encgx_len);
 	bufp += auth->encgx_len; lenp -= auth->encgx_len;
 
 	/* Hashed g^x */
 	write_int(32);
 	debug_int("hashgx len", bufp-4);
-	memmove(bufp, auth->hashgx, 32);
+	memcpy(bufp, auth->hashgx, 32);
 	debug_data("hashgx", bufp, 32);
 	bufp += 32; lenp -= 32;
 
@@ -211,7 +211,7 @@ static gcry_error_t create_key_message(OtrlAuthInfo *auth)
 	bufp = buf;
 	lenp = buflen;
 
-	memmove(bufp, "\x00\x02\x0a", 3); /* header */
+	memcpy(bufp, "\x00\x02\x0a", 3); /* header */
 	debug_data("Header", bufp, 3);
 	bufp += 3; lenp -= 3;
 
@@ -263,14 +263,14 @@ gcry_error_t otrl_auth_handle_commit(OtrlAuthInfo *auth,
 	require_len(enclen);
 	encbuf = malloc(enclen);
 	if (encbuf == NULL && enclen > 0) goto memerr;
-	memmove(encbuf, bufp, enclen);
+	memcpy(encbuf, bufp, enclen);
 	bufp += enclen; lenp -= enclen;
 
 	/* Hashed g^x */
 	read_int(hashlen);
 	if (hashlen != 32) goto invval;
 	require_len(32);
-	memmove(hashbuf, bufp, 32);
+	memcpy(hashbuf, bufp, 32);
 	bufp += 32; lenp -= 32;
 
 	if (lenp != 0) goto invval;
@@ -289,7 +289,7 @@ gcry_error_t otrl_auth_handle_commit(OtrlAuthInfo *auth,
 		auth->encgx = encbuf;
 		encbuf = NULL;
 		auth->encgx_len = enclen;
-		memmove(auth->hashgx, hashbuf, 32);
+		memcpy(auth->hashgx, hashbuf, 32);
 
 		/* Create a D-H Key Message */
 		err = create_key_message(auth);
@@ -314,7 +314,7 @@ gcry_error_t otrl_auth_handle_commit(OtrlAuthInfo *auth,
 		auth->encgx = encbuf;
 		encbuf = NULL;
 		auth->encgx_len = enclen;
-		memmove(auth->hashgx, hashbuf, 32);
+		memcpy(auth->hashgx, hashbuf, 32);
 
 		/* Create a D-H Key Message */
 		err = create_key_message(auth);
@@ -329,7 +329,7 @@ gcry_error_t otrl_auth_handle_commit(OtrlAuthInfo *auth,
 		auth->encgx = encbuf;
 		encbuf = NULL;
 		auth->encgx_len = enclen;
-		memmove(auth->hashgx, hashbuf, 32);
+		memcpy(auth->hashgx, hashbuf, 32);
 		break;
 	}
 
@@ -385,7 +385,7 @@ static gcry_error_t calculate_pubkey_auth(unsigned char **authbufp,
 	bufp[0] = ((privkey->pubkey_type) >> 8) & 0xff;
 	bufp[1] = (privkey->pubkey_type) & 0xff;
 	bufp += 2; lenp -= 2;
-	memmove(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
+	memcpy(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
 	debug_data("Pubkey", bufp, privkey->pubkey_datalen);
 	bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
 	write_int(keyid);
@@ -396,7 +396,7 @@ static gcry_error_t calculate_pubkey_auth(unsigned char **authbufp,
 	/* Do the MAC */
 	gcry_md_reset(mackey);
 	gcry_md_write(mackey, buf, totallen);
-	memmove(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
+	memcpy(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
 
 	free(buf);
 	buf = NULL;
@@ -416,12 +416,12 @@ static gcry_error_t calculate_pubkey_auth(unsigned char **authbufp,
 	bufp[0] = ((privkey->pubkey_type) >> 8) & 0xff;
 	bufp[1] = (privkey->pubkey_type) & 0xff;
 	bufp += 2; lenp -= 2;
-	memmove(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
+	memcpy(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
 	debug_data("Pubkey", bufp, privkey->pubkey_datalen);
 	bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
 	write_int(keyid);
 	debug_int("Keyid", bufp-4);
-	memmove(bufp, sigbuf, siglen);
+	memcpy(bufp, sigbuf, siglen);
 	debug_data("Signature", bufp, siglen);
 	bufp += siglen; lenp -= siglen;
 	free(sigbuf);
@@ -523,7 +523,7 @@ static gcry_error_t check_pubkey_auth(unsigned char fingerprintbufp[20],
 	bufp[0] = (pubkey_type >> 8) & 0xff;
 	bufp[1] = pubkey_type & 0xff;
 	bufp += 2; lenp -= 2;
-	memmove(bufp, fingerprintstart, fingerprintend - fingerprintstart);
+	memcpy(bufp, fingerprintstart, fingerprintend - fingerprintstart);
 	debug_data("Pubkey", bufp, fingerprintend - fingerprintstart);
 	bufp += fingerprintend - fingerprintstart;
 	lenp -= fingerprintend - fingerprintstart;
@@ -535,7 +535,7 @@ static gcry_error_t check_pubkey_auth(unsigned char fingerprintbufp[20],
 	/* Do the MAC */
 	gcry_md_reset(mackey);
 	gcry_md_write(mackey, buf, totallen);
-	memmove(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
+	memcpy(macbuf, gcry_md_read(mackey, GCRY_MD_SHA256), 32);
 
 	free(buf);
 	buf = NULL;
@@ -588,20 +588,20 @@ static gcry_error_t create_revealsig_message(OtrlAuthInfo *auth,
 	bufp = buf;
 	lenp = buflen;
 
-	memmove(bufp, "\x00\x02\x11", 3); /* header */
+	memcpy(bufp, "\x00\x02\x11", 3); /* header */
 	debug_data("Header", bufp, 3);
 	bufp += 3; lenp -= 3;
 
 	/* r */
 	write_int(16);
-	memmove(bufp, auth->r, 16);
+	memcpy(bufp, auth->r, 16);
 	debug_data("r", bufp, 16);
 	bufp += 16; lenp -= 16;
 
 	/* Encrypted authenticator */
 	startmac = bufp;
 	write_int(authlen);
-	memmove(bufp, authbuf, authlen);
+	memcpy(bufp, authbuf, authlen);
 	debug_data("auth", bufp, authlen);
 	bufp += authlen; lenp -= authlen;
 	free(authbuf);
@@ -610,7 +610,7 @@ static gcry_error_t create_revealsig_message(OtrlAuthInfo *auth,
 	/* MAC it, but only take the first 20 bytes */
 	gcry_md_reset(auth->mac_m2);
 	gcry_md_write(auth->mac_m2, startmac, bufp - startmac);
-	memmove(bufp, gcry_md_read(auth->mac_m2, GCRY_MD_SHA256), 20);
+	memcpy(bufp, gcry_md_read(auth->mac_m2, GCRY_MD_SHA256), 20);
 	debug_data("MAC", bufp, 20);
 	bufp += 20; lenp -= 20;
 
@@ -660,14 +660,14 @@ static gcry_error_t create_signature_message(OtrlAuthInfo *auth,
 	bufp = buf;
 	lenp = buflen;
 
-	memmove(bufp, "\x00\x02\x12", 3); /* header */
+	memcpy(bufp, "\x00\x02\x12", 3); /* header */
 	debug_data("Header", bufp, 3);
 	bufp += 3; lenp -= 3;
 
 	/* Encrypted authenticator */
 	startmac = bufp;
 	write_int(authlen);
-	memmove(bufp, authbuf, authlen);
+	memcpy(bufp, authbuf, authlen);
 	debug_data("auth", bufp, authlen);
 	bufp += authlen; lenp -= authlen;
 	free(authbuf);
@@ -676,7 +676,7 @@ static gcry_error_t create_signature_message(OtrlAuthInfo *auth,
 	/* MAC it, but only take the first 20 bytes */
 	gcry_md_reset(auth->mac_m2p);
 	gcry_md_write(auth->mac_m2p, startmac, bufp - startmac);
-	memmove(bufp, gcry_md_read(auth->mac_m2p, GCRY_MD_SHA256), 20);
+	memcpy(bufp, gcry_md_read(auth->mac_m2p, GCRY_MD_SHA256), 20);
 	debug_data("MAC", bufp, 20);
 	bufp += 20; lenp -= 20;
 
@@ -825,7 +825,7 @@ gcry_error_t otrl_auth_handle_revealsig(OtrlAuthInfo *auth,
 	read_int(rlen);
 	if (rlen != 16) goto invval;
 	require_len(rlen);
-	memmove(auth->r, bufp, rlen);
+	memcpy(auth->r, bufp, rlen);
 	bufp += rlen; lenp -= rlen;
 
 	/* auth */
@@ -1086,7 +1086,7 @@ static gcry_error_t create_v1_key_exchange_message(OtrlAuthInfo *auth,
 	bufp = buf;
 	lenp = totallen;
 
-	memmove(bufp, "\x00\x01\x0a", 3); /* header */
+	memcpy(bufp, "\x00\x01\x0a", 3); /* header */
 	debug_data("Header", bufp, 3);
 	bufp += 3; lenp -= 3;
 
@@ -1094,7 +1094,7 @@ static gcry_error_t create_v1_key_exchange_message(OtrlAuthInfo *auth,
 	debug_data("Reply", bufp, 1);
 	bufp += 1; lenp -= 1;
 
-	memmove(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
+	memcpy(bufp, privkey->pubkey_data, privkey->pubkey_datalen);
 	debug_data("Pubkey", bufp, privkey->pubkey_datalen);
 	bufp += privkey->pubkey_datalen; lenp -= privkey->pubkey_datalen;
 
@@ -1110,7 +1110,7 @@ static gcry_error_t create_v1_key_exchange_message(OtrlAuthInfo *auth,
 	if (err) goto err;
 
 	if (siglen != 40) goto invval;
-	memmove(bufp, sigbuf, 40);
+	memcpy(bufp, sigbuf, 40);
 	debug_data("Signature", bufp, 40);
 	bufp += 40; lenp -= 40;
 	free(sigbuf);
@@ -1265,7 +1265,7 @@ gcry_error_t otrl_auth_handle_v1_key_exchange(OtrlAuthInfo *auth,
 	gcry_mpi_release(auth->their_pub);
 	auth->their_pub = received_pub;
 	received_pub = NULL;
-	memmove(auth->their_fingerprint, fingerprintbuf, 20);
+	memcpy(auth->their_fingerprint, fingerprintbuf, 20);
 
 	if (received_reply == 0x01) {
 	/* Don't send a reply to this. */

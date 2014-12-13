@@ -40,7 +40,7 @@ DWORD MraMrimProxySetData(HANDLE hMraMrimProxyData, const CMStringA &szEmail, DW
 	if (!szAddresses.IsEmpty())
 		MraAddrListGetFromBuff(szAddresses, &pmmpd->malAddrList);
 	if (pmguidSessionID)
-		memmove(&pmmpd->mguidSessionID, pmguidSessionID, sizeof(MRA_GUID));
+		memcpy(&pmmpd->mguidSessionID, pmguidSessionID, sizeof(MRA_GUID));
 
 	SetEvent(pmmpd->hWaitHandle);
 	return 0;
