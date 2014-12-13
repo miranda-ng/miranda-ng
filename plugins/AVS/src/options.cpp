@@ -209,8 +209,8 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	case WM_COMMAND:
 		if ((LOWORD(wParam) == IDC_BKG_NUM_POINTS || LOWORD(wParam) == IDC_BKG_COLOR_DIFFERENCE)
-			 && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			 return FALSE;
+			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+			return FALSE;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -343,19 +343,19 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 		break;
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-			if (dis->CtlType == ODT_BUTTON && dis->CtlID == IDC_PROTOPIC) {
-				AVATARDRAWREQUEST avdrq = { 0 };
-				avdrq.cbSize = sizeof(avdrq);
-				avdrq.hTargetDC = dis->hDC;
-				avdrq.dwFlags |= AVDRQ_PROTOPICT;
-				avdrq.szProto = g_selectedProto;
-				GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
-				CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq);
-			}
+	{
+		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+		if (dis->CtlType == ODT_BUTTON && dis->CtlID == IDC_PROTOPIC) {
+			AVATARDRAWREQUEST avdrq = { 0 };
+			avdrq.cbSize = sizeof(avdrq);
+			avdrq.hTargetDC = dis->hDC;
+			avdrq.dwFlags |= AVDRQ_PROTOPICT;
+			avdrq.szProto = g_selectedProto;
+			GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
+			CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq);
 		}
-		return TRUE;
+	}
+	return TRUE;
 
 	case WM_NOTIFY:
 		if (dialoginit)
@@ -365,20 +365,20 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_PROTOCOLS:
 			switch (((LPNMHDR)lParam)->code) {
 			case LVN_KEYDOWN:
-				{
-					NMLVKEYDOWN* ptkd = (NMLVKEYDOWN*)lParam;
-					if (ptkd&&ptkd->wVKey == VK_SPACE&&ListView_GetSelectedCount(ptkd->hdr.hwndFrom) == 1)
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
+			{
+				NMLVKEYDOWN* ptkd = (NMLVKEYDOWN*)lParam;
+				if (ptkd&&ptkd->wVKey == VK_SPACE&&ListView_GetSelectedCount(ptkd->hdr.hwndFrom) == 1)
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+			break;
 
 			case LVN_ITEMCHANGED:
-				{
-					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-					if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_PROTOCOLS)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
+			{
+				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+				if (IsWindowVisible(GetDlgItem(hwndDlg, IDC_PROTOCOLS)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+			break;
 
 			case NM_CLICK:
 				EnableWindow(hwndChoosePic, TRUE);
@@ -532,28 +532,28 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			break;
 
 		case IDOK:
-			{
-				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
-				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
-				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-					db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
+		{
+			BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
+			int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
+			SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
+			if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
+				db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
 
-				if (!locked && db_get_b(hContact, "ContactPhoto", "NeedUpdate", 0))
-					QueueAdd(hContact);
-			}
-			// Continue to the cancel handle
+			if (!locked && db_get_b(hContact, "ContactPhoto", "NeedUpdate", 0))
+				QueueAdd(hContact);
+		}
+		// Continue to the cancel handle
 
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
 			break;
 
 		case IDC_PROTECTAVATAR:
-			{
-				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
-				ProtectAvatar(hContact, locked ? 1 : 0);
-			}
-			break;
+		{
+			BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
+			ProtectAvatar(hContact, locked ? 1 : 0);
+		}
+		break;
 
 		case IDC_CHANGE:
 			SetAvatar(hContact, 0);
@@ -567,18 +567,18 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				break;
 
 		case IDC_MAKETRANSPBKG:
-			{
-				BOOL enable = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_SPIN), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_L), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), enable);
+		{
+			BOOL enable = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_SPIN), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_L), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), enable);
 
-				SendMessage(hwndDlg, DM_REALODAVATAR, 0, 0);
-			}
-			break;
+			SendMessage(hwndDlg, DM_REALODAVATAR, 0, 0);
+		}
+		break;
 
 		case IDC_RESET:
 			ProtectAvatar(hContact, 0);
@@ -627,69 +627,69 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-			if (dis->CtlType == ODT_BUTTON && dis->CtlID == IDC_PROTOPIC) {
-				AVATARDRAWREQUEST avdrq = { 0 };
-				GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
+	{
+		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+		if (dis->CtlType == ODT_BUTTON && dis->CtlID == IDC_PROTOPIC) {
+			AVATARDRAWREQUEST avdrq = { 0 };
+			GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
 
-				FillRect(dis->hDC, &avdrq.rcDraw, GetSysColorBrush(COLOR_BTNFACE));
+			FillRect(dis->hDC, &avdrq.rcDraw, GetSysColorBrush(COLOR_BTNFACE));
 
-				avdrq.hContact = hContact;
-				avdrq.cbSize = sizeof(avdrq);
-				avdrq.hTargetDC = dis->hDC;
-				avdrq.dwFlags |= AVDRQ_DRAWBORDER;
-				avdrq.clrBorder = GetSysColor(COLOR_BTNTEXT);
-				avdrq.radius = 6;
-				if (!CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq)) {
-					// Get text rectangle
-					RECT rc = avdrq.rcDraw;
-					rc.top += 10;
-					rc.bottom -= 10;
-					rc.left += 10;
-					rc.right -= 10;
+			avdrq.hContact = hContact;
+			avdrq.cbSize = sizeof(avdrq);
+			avdrq.hTargetDC = dis->hDC;
+			avdrq.dwFlags |= AVDRQ_DRAWBORDER;
+			avdrq.clrBorder = GetSysColor(COLOR_BTNTEXT);
+			avdrq.radius = 6;
+			if (!CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq)) {
+				// Get text rectangle
+				RECT rc = avdrq.rcDraw;
+				rc.top += 10;
+				rc.bottom -= 10;
+				rc.left += 10;
+				rc.right -= 10;
 
-					// Calc text size
-					RECT rc_ret = rc;
-					DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc_ret,
-								DT_WORDBREAK | DT_NOPREFIX | DT_CENTER | DT_CALCRECT);
+				// Calc text size
+				RECT rc_ret = rc;
+				DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc_ret,
+					DT_WORDBREAK | DT_NOPREFIX | DT_CENTER | DT_CALCRECT);
 
-					// Calc needed size
-					rc.top += ((rc.bottom - rc.top) - (rc_ret.bottom - rc_ret.top)) / 2;
-					rc.bottom = rc.top + (rc_ret.bottom - rc_ret.top);
-					DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc,
-								DT_WORDBREAK | DT_NOPREFIX | DT_CENTER);
-				}
-
-				FrameRect(dis->hDC, &avdrq.rcDraw, GetSysColorBrush(COLOR_BTNSHADOW));
+				// Calc needed size
+				rc.top += ((rc.bottom - rc.top) - (rc_ret.bottom - rc_ret.top)) / 2;
+				rc.bottom = rc.top + (rc_ret.bottom - rc_ret.top);
+				DrawText(dis->hDC, TranslateT("Contact has no avatar"), -1, &rc,
+					DT_WORDBREAK | DT_NOPREFIX | DT_CENTER);
 			}
+
+			FrameRect(dis->hDC, &avdrq.rcDraw, GetSysColorBrush(COLOR_BTNSHADOW));
 		}
-		return TRUE;
+	}
+	return TRUE;
 
 	case DM_SETAVATARNAME:
-		{
-			TCHAR szFinalName[MAX_PATH];
-			DBVARIANT dbv = { 0 };
-			BYTE is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
+	{
+		TCHAR szFinalName[MAX_PATH];
+		DBVARIANT dbv = { 0 };
+		BYTE is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
-			szFinalName[0] = 0;
+		szFinalName[0] = 0;
 
-			if (is_locked && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
-				MyPathToAbsolute(dbv.ptszVal, szFinalName);
-				db_free(&dbv);
-			}
-			else if (!db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
-				MyPathToAbsolute(dbv.ptszVal, szFinalName);
-				db_free(&dbv);
-			}
-			else if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
-				MyPathToAbsolute(dbv.ptszVal, szFinalName);
-				db_free(&dbv);
-			}
-			szFinalName[MAX_PATH - 1] = 0;
-			SetDlgItemText(hwndDlg, IDC_AVATARNAME, szFinalName);
+		if (is_locked && !db_get_ts(hContact, "ContactPhoto", "Backup", &dbv)) {
+			MyPathToAbsolute(dbv.ptszVal, szFinalName);
+			db_free(&dbv);
 		}
-		break;
+		else if (!db_get_ts(hContact, "ContactPhoto", "RFile", &dbv)) {
+			MyPathToAbsolute(dbv.ptszVal, szFinalName);
+			db_free(&dbv);
+		}
+		else if (!db_get_ts(hContact, "ContactPhoto", "File", &dbv)) {
+			MyPathToAbsolute(dbv.ptszVal, szFinalName);
+			db_free(&dbv);
+		}
+		szFinalName[MAX_PATH - 1] = 0;
+		SetDlgItemText(hwndDlg, IDC_AVATARNAME, szFinalName);
+	}
+	break;
 
 	case DM_REALODAVATAR:
 		SaveTransparentData(hwndDlg, hContact, IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR));
@@ -712,7 +712,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return FALSE;
 }
 
-int OptInit(WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;
@@ -749,7 +749,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		dat = (WindowData*) malloc(sizeof(WindowData));
+		dat = (WindowData*)malloc(sizeof(WindowData));
 		if (dat == NULL)
 			return FALSE;
 		dat->hContact = lParam;
@@ -799,21 +799,21 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			break;
 
 		case IDC_HIDEAVATAR:
-			{
-				int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
-				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
-					db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
-			}
-			break;
+		{
+			int hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) ? 1 : 0;
+			SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
+			if (hidden != db_get_b(hContact, "ContactPhoto", "Hidden", 0))
+				db_set_b(hContact, "ContactPhoto", "Hidden", hidden);
+		}
+		break;
 
 		case IDC_PROTECTAVATAR:
-			{
-				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
-				SaveTransparentData(hwndDlg, hContact, locked);
-				ProtectAvatar(hContact, locked ? 1 : 0);
-			}
-			break;
+		{
+			BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
+			SaveTransparentData(hwndDlg, hContact, locked);
+			ProtectAvatar(hContact, locked ? 1 : 0);
+		}
+		break;
 
 		case IDC_BKG_NUM_POINTS:
 		case IDC_BKG_COLOR_DIFFERENCE:
@@ -821,17 +821,17 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 				break;
 
 		case IDC_MAKETRANSPBKG:
-			{
-				BOOL enable = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_SPIN), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_L), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), enable);
-			}
-			SendMessage(hwndDlg, DM_REALODAVATAR, 0, 0);
-			break;
+		{
+			BOOL enable = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_SPIN), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_L), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN), enable);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), enable);
+		}
+		SendMessage(hwndDlg, DM_REALODAVATAR, 0, 0);
+		break;
 		case IDC_RESET:
 			ProtectAvatar(hContact, 0);
 			if (MessageBox(0, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
@@ -1049,28 +1049,28 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR nm = (LPNMHDR)lParam;
-			switch (nm->idFrom) {
-			case IDC_PROTOCOLS:
-				switch (nm->code) {
-				case LVN_ITEMCHANGED:
-					LPNMLISTVIEW li = (LPNMLISTVIEW)nm;
-					if (li->uNewState & LVIS_SELECTED) {
-						SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, li->lParam);
-						EnableDisableControls(hwndDlg, (char*)li->lParam);
-					}
-				}
-				break;
-
-			case IDC_PROTOPIC:
-				if (nm->code == NM_AVATAR_CHANGED) {
-					EnableDisableControls(hwndDlg, GetSelectedProtocol(hwndDlg));
-					break;
+	{
+		LPNMHDR nm = (LPNMHDR)lParam;
+		switch (nm->idFrom) {
+		case IDC_PROTOCOLS:
+			switch (nm->code) {
+			case LVN_ITEMCHANGED:
+				LPNMLISTVIEW li = (LPNMLISTVIEW)nm;
+				if (li->uNewState & LVIS_SELECTED) {
+					SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, li->lParam);
+					EnableDisableControls(hwndDlg, (char*)li->lParam);
 				}
 			}
+			break;
+
+		case IDC_PROTOPIC:
+			if (nm->code == NM_AVATAR_CHANGED) {
+				EnableDisableControls(hwndDlg, GetSelectedProtocol(hwndDlg));
+				break;
+			}
 		}
-		break;
+	}
+	break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {

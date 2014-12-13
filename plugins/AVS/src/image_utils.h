@@ -8,9 +8,9 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap);
 
 BOOL PreMultiply(HBITMAP hBitmap);
 BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap);
-HBITMAP MakeGrayscale(MCONTACT hContact, HBITMAP hBitmap);
+HBITMAP MakeGrayscale(HBITMAP hBitmap);
 DWORD GetImgHash(HBITMAP hBitmap);
 
-int SaveAvatar( const char* protocol, const TCHAR* tszFileName );
+int SaveAvatar(const char* protocol, const TCHAR* tszFileName);
 
 #endif // __IMAGE_UTILS_H__

@@ -43,18 +43,18 @@ HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 void   InitServices();
 
-static int ComparePicture( const protoPicCacheEntry* p1, const protoPicCacheEntry* p2 )
+static int ComparePicture(const protoPicCacheEntry* p1, const protoPicCacheEntry* p2)
 {
 	if ((mir_strcmp(p1->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
 		return -1;
 	if ((mir_strcmp(p2->szProtoname, "Global avatar") == 0) || strstr(p1->szProtoname, "Global avatar"))
 		return 1;
-	return mir_strcmp( p1->szProtoname, p2->szProtoname );
+	return mir_strcmp(p1->szProtoname, p2->szProtoname);
 }
 
 OBJLIST<protoPicCacheEntry>
-	g_ProtoPictures( 10, ComparePicture ),
-	g_MyAvatars( 10, ComparePicture );
+g_ProtoPictures(10, ComparePicture),
+g_MyAvatars(10, ComparePicture);
 
 char* g_szMetaName = NULL;
 
@@ -76,29 +76,10 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {E00F1643-263C-4599-B84B-053E5C511D29}
-	{0xe00f1643, 0x263c, 0x4599, {0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29}}
+	{ 0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x5, 0x3e, 0x5c, 0x51, 0x1d, 0x29 } }
 };
 
-static TCHAR* getJGMailID(char *szProto)
-{
-	static TCHAR szJID[MAX_PATH + 1]; szJID[0] = '\0';
-
-	DBVARIANT dbva, dbvb;
-	if (db_get_ts(NULL, szProto, "LoginName", &dbva))
-		return szJID;
-
-	if (db_get_ts(NULL, szProto, "LoginServer", &dbvb)) {
-		db_free(&dbva);
-		return szJID;
-	}
-
-	mir_sntprintf(szJID, SIZEOF(szJID), _T("%s@%s"), dbva.ptszVal, dbvb.ptszVal);
-	db_free(&dbva);
-	db_free(&dbvb);
-	return szJID;
-}
-
-static int ProtocolAck(WPARAM wParam, LPARAM lParam)
+static int ProtocolAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack != NULL && ack->type == ACKTYPE_AVATAR && !db_mc_isMeta(ack->hContact)) {
@@ -210,7 +191,7 @@ static int OnAccChanged(WPARAM wParam, LPARAM lParam)
 		if ((idx = g_MyAvatars.getIndex(&tmp)) != -1)
 			g_MyAvatars.remove(idx);
 	}
-		break;
+	break;
 	}
 
 	return 0;
@@ -229,13 +210,13 @@ static int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int ContactDeleted(WPARAM wParam, LPARAM lParam)
+static int ContactDeleted(WPARAM wParam, LPARAM)
 {
 	DeleteAvatarFromCache(wParam, TRUE);
 	return 0;
 }
 
-static int ShutdownProc(WPARAM wParam, LPARAM lParam)
+static int ShutdownProc(WPARAM, LPARAM)
 {
 	g_shutDown = true;
 	SetEvent(hLoaderEvent);
@@ -350,12 +331,10 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 	}
 }
 
-static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	int i;
-	DBVARIANT dbv = { 0 };
 	TCHAR szEventName[100];
-	int result = 0;
 
 	mir_sntprintf(szEventName, SIZEOF(szEventName), _T("avs_loaderthread_%d"), GetCurrentThreadId());
 	hLoaderEvent = CreateEvent(NULL, TRUE, FALSE, szEventName);
@@ -418,13 +397,13 @@ static int LoadAvatarModule()
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }

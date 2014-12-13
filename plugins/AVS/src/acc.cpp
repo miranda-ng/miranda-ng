@@ -158,7 +158,6 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 	data->ag.frame.height = fei->FI_GetHeight(dib);
 
 	//decode page
-	int palSize = fei->FI_GetColorsUsed(dib);
 	RGBQUAD *pal = fei->FI_GetPalette(dib);
 	bool have_transparent = false;
 	int transparent_color = -1;
@@ -206,7 +205,7 @@ void AnimatedGifDeleteTmpValues(ACCData* data)
 	}
 }
 
-void DestroyAnimatedGif(HWND hwnd, ACCData* data)
+void DestroyAnimatedGif(ACCData* data)
 {
 	if (!data->showingAnimatedGif)
 		return;
@@ -231,7 +230,7 @@ void DestroyAnimatedGif(HWND hwnd, ACCData* data)
 	data->ag.started = FALSE;
 }
 
-void StartAnimatedGif(HWND hwnd, ACCData* data)
+void StartAnimatedGif(ACCData* data)
 {
 	if (fei == NULL)
 		return;
@@ -292,14 +291,14 @@ ERR:
 	data->ag.multi = NULL;
 }
 
-void DestroyAnimation(HWND hwnd, ACCData* data)
+void DestroyAnimation(ACCData* data)
 {
-	DestroyAnimatedGif(hwnd, data);
+	DestroyAnimatedGif(data);
 }
 
-void StartAnimation(HWND hwnd, ACCData* data)
+void StartAnimation(ACCData* data)
 {
-	StartAnimatedGif(hwnd, data);
+	StartAnimatedGif(data);
 }
 
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect)
@@ -400,7 +399,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_NCDESTROY:
-		DestroyAnimation(hwnd, data);
+		DestroyAnimation(data);
 		if (data) {
 			UnhookEvent(data->hHook);
 			UnhookEvent(data->hHookMy);
@@ -418,8 +417,8 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		if (lParam == 0)
 			return FALSE;
 
-		if (data->hContact != lParam) {
-			DestroyAnimation(hwnd, data);
+		if (data->hContact != (MCONTACT)lParam) {
+			DestroyAnimation(data);
 
 			data->hContact = lParam;
 			if (lParam == NULL)
@@ -427,7 +426,7 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			else
 				mir_strncpy(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
 
-			StartAnimation(hwnd, data);
+			StartAnimation(data);
 
 			NotifyAvatarChange(hwnd);
 			Invalidate(hwnd);
@@ -437,12 +436,12 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case AVATAR_SETPROTOCOL:
 		szProto = (lParam == NULL) ? "" : (char*)lParam;
 		if (data->hContact != 0 || strcmp(szProto, data->proto)) {
-			DestroyAnimation(hwnd, data);
+			DestroyAnimation(data);
 
 			data->hContact = NULL;
 			strncpy_s(data->proto, szProto, _TRUNCATE);
 
-			StartAnimation(hwnd, data);
+			StartAnimation(data);
 			NotifyAvatarChange(hwnd);
 			Invalidate(hwnd);
 		}
@@ -494,52 +493,52 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		return(TRUE);
 
 	case AVATAR_GETUSEDSPACE:
-		{
-			int *width = (int*)wParam;
-			int *height = (int*)lParam;
+	{
+		int *width = (int*)wParam;
+		int *height = (int*)lParam;
 
-			RECT rc;
-			GetClientRect(hwnd, &rc);
+		RECT rc;
+		GetClientRect(hwnd, &rc);
 
-			// Get avatar
-			avatarCacheEntry *ace;
-			if (data->hContact == NULL)
-				ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)data->proto);
-			else
-				ace = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)data->hContact, 0);
+		// Get avatar
+		avatarCacheEntry *ace;
+		if (data->hContact == NULL)
+			ace = (avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)data->proto);
+		else
+			ace = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)data->hContact, 0);
 
-			if (ace == NULL || ace->bmHeight == 0 || ace->bmWidth == 0
-				 || (data->respectHidden && (ace->dwFlags & AVS_HIDEONCLIST))) {
-				*width = 0;
-				*height = 0;
-				return TRUE;
-			}
-
-			// Get its size
-			int targetWidth = rc.right - rc.left;
-			int targetHeight = rc.bottom - rc.top;
-
-			if (!data->resizeIfSmaller && ace->bmHeight <= targetHeight && ace->bmWidth <= targetWidth) {
-				*height = ace->bmHeight;
-				*width = ace->bmWidth;
-			}
-			else if (ace->bmHeight > ace->bmWidth) {
-				float dScale = targetHeight / (float)ace->bmHeight;
-				*height = targetHeight;
-				*width = (int)(ace->bmWidth * dScale);
-			}
-			else {
-				float dScale = targetWidth / (float)ace->bmWidth;
-				*height = (int)(ace->bmHeight * dScale);
-				*width = targetWidth;
-			}
+		if (ace == NULL || ace->bmHeight == 0 || ace->bmWidth == 0
+			|| (data->respectHidden && (ace->dwFlags & AVS_HIDEONCLIST))) {
+			*width = 0;
+			*height = 0;
+			return TRUE;
 		}
-		return TRUE;
+
+		// Get its size
+		int targetWidth = rc.right - rc.left;
+		int targetHeight = rc.bottom - rc.top;
+
+		if (!data->resizeIfSmaller && ace->bmHeight <= targetHeight && ace->bmWidth <= targetWidth) {
+			*height = ace->bmHeight;
+			*width = ace->bmWidth;
+		}
+		else if (ace->bmHeight > ace->bmWidth) {
+			float dScale = targetHeight / (float)ace->bmHeight;
+			*height = targetHeight;
+			*width = (int)(ace->bmWidth * dScale);
+		}
+		else {
+			float dScale = targetWidth / (float)ace->bmWidth;
+			*height = (int)(ace->bmHeight * dScale);
+			*width = targetWidth;
+		}
+	}
+	return TRUE;
 
 	case DM_AVATARCHANGED:
 		if (data->hContact == wParam) {
-			DestroyAnimation(hwnd, data);
-			StartAnimation(hwnd, data);
+			DestroyAnimation(data);
+			StartAnimation(data);
 
 			NotifyAvatarChange(hwnd);
 			Invalidate(hwnd);
@@ -548,8 +547,8 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_MYAVATARCHANGED:
 		if (data->hContact == NULL && strcmp(data->proto, (char*)wParam) == 0) {
-			DestroyAnimation(hwnd, data);
-			StartAnimation(hwnd, data);
+			DestroyAnimation(data);
+			StartAnimation(data);
 
 			NotifyAvatarChange(hwnd);
 			Invalidate(hwnd);
@@ -558,99 +557,99 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_NCPAINT:
 	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hwnd, &ps);
-			if (hdc == NULL)
-				break;
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+		if (hdc == NULL)
+			break;
 
-			int oldBkMode = SetBkMode(hdc, TRANSPARENT);
-			SetStretchBltMode(hdc, HALFTONE);
+		int oldBkMode = SetBkMode(hdc, TRANSPARENT);
+		SetStretchBltMode(hdc, HALFTONE);
 
-			RECT rc;
-			GetClientRect(hwnd, &rc);
+		RECT rc;
+		GetClientRect(hwnd, &rc);
 
-			// Draw background
-			if (data->bkgColor != -1) {
-				HBRUSH hbrush = CreateSolidBrush(data->bkgColor);
-				FillRect(hdc, &rc, hbrush);
-				DeleteObject(hbrush);
-			}
-
-			if (data->hContact == NULL && data->proto[0] == 0 && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
-				DrawText(hdc, data->hFont, rc, TranslateT("Protocols have different avatars"));
-
-			// Has an animated gif
-			// Has a "normal" image
-			else {
-				// Draw avatar
-				AVATARDRAWREQUEST avdrq = { 0 };
-				avdrq.cbSize = sizeof(avdrq);
-				avdrq.rcDraw = rc;
-				avdrq.hContact = data->hContact;
-				avdrq.szProto = data->proto;
-				avdrq.hTargetDC = hdc;
-				avdrq.dwFlags = AVDRQ_HIDEBORDERONTRANSPARENCY
-					| (data->respectHidden ? AVDRQ_RESPECTHIDDEN : 0)
-					| (data->hContact != NULL ? 0 : AVDRQ_OWNPIC)
-					| (data->avatarBorderColor == -1 ? 0 : AVDRQ_DRAWBORDER)
-					| (data->avatarRoundCornerRadius <= 0 ? 0 : AVDRQ_ROUNDEDCORNER)
-					| (data->fAero ? AVDRQ_AERO : 0)
-					| (data->resizeIfSmaller ? 0 : AVDRQ_DONTRESIZEIFSMALLER);
-				avdrq.clrBorder = data->avatarBorderColor;
-				avdrq.radius = data->avatarRoundCornerRadius;
-
-				INT_PTR ret;
-				if (data->showingAnimatedGif) {
-					InternalDrawAvatar(&avdrq, data->ag.hbms[data->ag.frame.num], data->ag.logicalWidth, data->ag.logicalHeight, 0);
-					ret = 1;
-
-					if (!data->ag.started) {
-						SetTimer(hwnd, 0, data->ag.times[data->ag.frame.num], NULL);
-						data->ag.started = TRUE;
-					}
-				}
-				else
-					ret = DrawAvatarPicture(0, (LPARAM)&avdrq);
-
-				if (ret == 0)
-					DrawText(hdc, data->hFont, rc, data->noAvatarText);
-			}
-
-			// Draw control border
-			if (data->borderColor != -1) {
-				HBRUSH hbrush = CreateSolidBrush(data->borderColor);
-				FrameRect(hdc, &rc, hbrush);
-				DeleteObject(hbrush);
-			}
-
-			SetBkMode(hdc, oldBkMode);
-
-			EndPaint(hwnd, &ps);
+		// Draw background
+		if (data->bkgColor != -1) {
+			HBRUSH hbrush = CreateSolidBrush(data->bkgColor);
+			FillRect(hdc, &rc, hbrush);
+			DeleteObject(hbrush);
 		}
-		return TRUE;
+
+		if (data->hContact == NULL && data->proto[0] == 0 && db_get_b(NULL, AVS_MODULE, "GlobalUserAvatarNotConsistent", 1))
+			DrawText(hdc, data->hFont, rc, TranslateT("Protocols have different avatars"));
+
+		// Has an animated gif
+		// Has a "normal" image
+		else {
+			// Draw avatar
+			AVATARDRAWREQUEST avdrq = { 0 };
+			avdrq.cbSize = sizeof(avdrq);
+			avdrq.rcDraw = rc;
+			avdrq.hContact = data->hContact;
+			avdrq.szProto = data->proto;
+			avdrq.hTargetDC = hdc;
+			avdrq.dwFlags = AVDRQ_HIDEBORDERONTRANSPARENCY
+				| (data->respectHidden ? AVDRQ_RESPECTHIDDEN : 0)
+				| (data->hContact != NULL ? 0 : AVDRQ_OWNPIC)
+				| (data->avatarBorderColor == -1 ? 0 : AVDRQ_DRAWBORDER)
+				| (data->avatarRoundCornerRadius <= 0 ? 0 : AVDRQ_ROUNDEDCORNER)
+				| (data->fAero ? AVDRQ_AERO : 0)
+				| (data->resizeIfSmaller ? 0 : AVDRQ_DONTRESIZEIFSMALLER);
+			avdrq.clrBorder = data->avatarBorderColor;
+			avdrq.radius = data->avatarRoundCornerRadius;
+
+			INT_PTR ret;
+			if (data->showingAnimatedGif) {
+				InternalDrawAvatar(&avdrq, data->ag.hbms[data->ag.frame.num], data->ag.logicalWidth, data->ag.logicalHeight, 0);
+				ret = 1;
+
+				if (!data->ag.started) {
+					SetTimer(hwnd, 0, data->ag.times[data->ag.frame.num], NULL);
+					data->ag.started = TRUE;
+				}
+			}
+			else
+				ret = DrawAvatarPicture(0, (LPARAM)&avdrq);
+
+			if (ret == 0)
+				DrawText(hdc, data->hFont, rc, data->noAvatarText);
+		}
+
+		// Draw control border
+		if (data->borderColor != -1) {
+			HBRUSH hbrush = CreateSolidBrush(data->borderColor);
+			FrameRect(hdc, &rc, hbrush);
+			DeleteObject(hbrush);
+		}
+
+		SetBkMode(hdc, oldBkMode);
+
+		EndPaint(hwnd, &ps);
+	}
+	return TRUE;
 
 	case WM_ERASEBKGND:
-		{
-			HDC hdc = (HDC)wParam;
-			RECT rc;
-			GetClientRect(hwnd, &rc);
+	{
+		HDC hdc = (HDC)wParam;
+		RECT rc;
+		GetClientRect(hwnd, &rc);
 
-			// Draw background
-			if (data->bkgColor != -1) {
-				HBRUSH hbrush = CreateSolidBrush(data->bkgColor);
-				FillRect(hdc, &rc, hbrush);
-				DeleteObject(hbrush);
-			}
-
-			// Draw control border
-			if (data->borderColor != -1) {
-				HBRUSH hbrush = CreateSolidBrush(data->borderColor);
-				FrameRect(hdc, &rc, hbrush);
-				DeleteObject(hbrush);
-			}
+		// Draw background
+		if (data->bkgColor != -1) {
+			HBRUSH hbrush = CreateSolidBrush(data->bkgColor);
+			FillRect(hdc, &rc, hbrush);
+			DeleteObject(hbrush);
 		}
-		return TRUE;
+
+		// Draw control border
+		if (data->borderColor != -1) {
+			HBRUSH hbrush = CreateSolidBrush(data->borderColor);
+			FrameRect(hdc, &rc, hbrush);
+			DeleteObject(hbrush);
+		}
+	}
+	return TRUE;
 
 	case WM_SIZE:
 		InvalidateRect(hwnd, NULL, TRUE);

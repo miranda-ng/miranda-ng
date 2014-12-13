@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2006 Ricardo Pescuma Domenecci, Nightwish
 
 This is free software; you can redistribute it and/or
@@ -14,15 +14,15 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
 #ifndef __ACC_H__
 # define __ACC_H__
 
-INT_PTR avSetAvatar(MCONTACT hContact, TCHAR* tszPath );
-INT_PTR avSetMyAvatar( char* szProto, TCHAR* tszPath );
+static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath);
+INT_PTR avSetMyAvatar(char *szProto, TCHAR *tszPath);
 
 int LoadACC();
 

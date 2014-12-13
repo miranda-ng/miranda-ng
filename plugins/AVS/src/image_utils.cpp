@@ -214,7 +214,7 @@ int BmpFilterSaveBitmap(HBITMAP hBmp, const TCHAR *ptszFile, int flags)
 
 	if (_tcslen(tszFilename) <= 4)
 		return -1;
-	
+
 	IMGSRVC_INFO i = { 0 };
 	i.cbSize = sizeof(IMGSRVC_INFO);
 	i.wszName = tszFilename;
@@ -248,8 +248,8 @@ void AddToStack(int *stack, int *topPos, int x, int y)
 	(*topPos)++;
 }
 
-BOOL GetColorForPoint(int colorDiff, BYTE *p, int width, int height,
-							 int x0, int y0, int x1, int y1, int x2, int y2, BOOL *foundBkg, BYTE colors[][3])
+BOOL GetColorForPoint(int colorDiff, BYTE *p, int width,
+	int x0, int y0, int x1, int y1, int x2, int y2, BOOL *foundBkg, BYTE colors[][3])
 {
 	BYTE *px1 = GET_PIXEL(p, x0, y0);
 	BYTE *px2 = GET_PIXEL(p, x1, y1);
@@ -296,7 +296,7 @@ DWORD GetImgHash(HBITMAP hBitmap)
 /*
  * Changes the handle to a grayscale image
  */
-HBITMAP MakeGrayscale(MCONTACT hContact, HBITMAP hBitmap)
+HBITMAP MakeGrayscale(HBITMAP hBitmap)
 {
 	if (hBitmap) {
 		FIBITMAP *dib = fei->FI_CreateDIBFromHBITMAP(hBitmap);
@@ -350,7 +350,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	// Top left
 	BYTE colors[8][3];
 	BOOL foundBkg[8];
-	if (!GetColorForPoint(colorDiff, p, width, height, 0, 0, 0, 1, 1, 0, &foundBkg[0], &colors[0])) {
+	if (!GetColorForPoint(colorDiff, p, width, 0, 0, 0, 1, 1, 0, &foundBkg[0], &colors[0])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -358,7 +358,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Top center
-	if (!GetColorForPoint(colorDiff, p, width, height, width / 2, 0, width / 2 - 1, 0, width / 2 + 1, 0, &foundBkg[1], &colors[1])) {
+	if (!GetColorForPoint(colorDiff, p, width, width / 2, 0, width / 2 - 1, 0, width / 2 + 1, 0, &foundBkg[1], &colors[1])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -366,7 +366,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Top Right
-	if (!GetColorForPoint(colorDiff, p, width, height,
+	if (!GetColorForPoint(colorDiff, p, width,
 		width - 1, 0, width - 1, 1, width - 2, 0, &foundBkg[2], &colors[2])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
@@ -375,7 +375,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Center left
-	if (!GetColorForPoint(colorDiff, p, width, height, 0, height / 2, 0, height / 2 - 1, 0, height / 2 + 1, &foundBkg[3], &colors[3])) {
+	if (!GetColorForPoint(colorDiff, p, width, 0, height / 2, 0, height / 2 - 1, 0, height / 2 + 1, &foundBkg[3], &colors[3])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -383,7 +383,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Center left
-	if (!GetColorForPoint(colorDiff, p, width, height, width - 1, height / 2, width - 1, height / 2 - 1, width - 1, height / 2 + 1, &foundBkg[4], &colors[4])) {
+	if (!GetColorForPoint(colorDiff, p, width, width - 1, height / 2, width - 1, height / 2 - 1, width - 1, height / 2 + 1, &foundBkg[4], &colors[4])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -391,7 +391,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Bottom left
-	if (!GetColorForPoint(colorDiff, p, width, height, 0, height - 1, 0, height - 2, 1, height - 1, &foundBkg[5], &colors[5])) {
+	if (!GetColorForPoint(colorDiff, p, width, 0, height - 1, 0, height - 2, 1, height - 1, &foundBkg[5], &colors[5])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -399,7 +399,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Bottom center
-	if (!GetColorForPoint(colorDiff, p, width, height, width / 2, height - 1, width / 2 - 1, height - 1, width / 2 + 1, height - 1, &foundBkg[6], &colors[6])) {
+	if (!GetColorForPoint(colorDiff, p, width, width / 2, height - 1, width / 2 - 1, height - 1, width / 2 + 1, height - 1, &foundBkg[6], &colors[6])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -407,7 +407,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Bottom Right
-	if (!GetColorForPoint(colorDiff, p, width, height, width - 1, height - 1, width - 1, height - 2, width - 2, height - 1, &foundBkg[7], &colors[7])) {
+	if (!GetColorForPoint(colorDiff, p, width, width - 1, height - 1, width - 1, height - 2, width - 2, height - 1, &foundBkg[7], &colors[7])) {
 		if (hBmpTmp != *hBitmap)
 			DeleteObject(hBmpTmp);
 		free(p);
@@ -429,7 +429,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	}
 
 	// Ok, X corners at least have a color, lets compare then
-	int maxCount = 0, selectedColor;
+	int maxCount = 0, selectedColor = 0;
 	for (i = 0; i < 8; i++) {
 		if (foundBkg[i]) {
 			count = 0;
@@ -521,10 +521,10 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 		if (px1[3] >= 253) {
 			if (ColorsAreTheSame(colorDiff, px1, (BYTE *)&colors[selectedColor])) {
 				px1[3] = (transpProportional) ? min(252,
-									 (abs(px1[0] - colors[selectedColor][0])
-									 + abs(px1[1] - colors[selectedColor][1])
-									 + abs(px1[2] - colors[selectedColor][2])) / 3) : 0;
-	
+					(abs(px1[0] - colors[selectedColor][0])
+					+ abs(px1[1] - colors[selectedColor][1])
+					+ abs(px1[2] - colors[selectedColor][2])) / 3) : 0;
+
 				// Add 4 neighbours
 				if (x + 1 < width)
 					AddToStack(stack, &topPos, x + 1, y);
