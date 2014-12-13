@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2006 Ricardo Pescuma Domenecci, Nightwish
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "commonheaders.h"
@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 /*
 It has 1 queue:
 A queue to request items. One request is done at a time, REQUEST_WAIT_TIME miliseconts after it has beeing fired
-   ACKRESULT_STATUS. This thread only requests the avatar (and maybe add it to the cache queue)
+ACKRESULT_STATUS. This thread only requests the avatar (and maybe add it to the cache queue)
 */
 
 #define REQUEST_WAIT_TIME 3000
@@ -100,7 +100,7 @@ static BOOL PollContactCanHaveAvatar(MCONTACT hContact, const char *szProto)
 }
 
 // Return true if this contact has to be checked
-static BOOL PollCheckContact(MCONTACT hContact, const char *szProto)
+static BOOL PollCheckContact(MCONTACT hContact)
 {
 	return !db_get_b(hContact, "ContactPhoto", "Locked", 0) && FindAvatarInCache(hContact, FALSE, TRUE) != NULL;
 }
@@ -157,8 +157,8 @@ void ProcessAvatarInfo(MCONTACT hContact, int type, PROTO_AVATAR_INFORMATIONT *p
 		db_set_w(hContact, "ContactPhoto", "Format", pai->format);
 
 		if (pai->format == PA_FORMAT_PNG || pai->format == PA_FORMAT_JPEG
-			 || pai->format == PA_FORMAT_ICON || pai->format == PA_FORMAT_BMP
-			 || pai->format == PA_FORMAT_GIF) {
+			|| pai->format == PA_FORMAT_ICON || pai->format == PA_FORMAT_BMP
+			|| pai->format == PA_FORMAT_GIF) {
 			// We can load it!
 			MakePathRelative(hContact, pai->filename);
 			ChangeAvatar(hContact, true, true, pai->format);
@@ -202,7 +202,7 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 	if (szProto != NULL && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?
 		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) ||
-			 (PollCheckProtocol(szProto) && PollCheckContact(hContact, szProto)))
+			(PollCheckProtocol(szProto) && PollCheckContact(hContact)))
 		{
 			// Request it
 			PROTO_AVATAR_INFORMATIONT pai_s = { 0 };

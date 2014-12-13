@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "commonheaders.h"
 
-void mir_sleep(int time) 
+void mir_sleep(int time)
 {
 	if (!g_shutDown)
 		WaitForSingleObject(hShutdownEvent, time);
@@ -67,10 +67,6 @@ void MakePathRelative(MCONTACT hContact)
 
 int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 {
-	char *szExt = NULL;
-	HANDLE hFile = INVALID_HANDLE_VALUE;
-	DWORD dwFileSizeHigh = 0, dwFileSize = 0, sizeLimit = 0;
-
 	ptrT  tszValue;
 	TCHAR tszFilename[MAX_PATH]; tszFilename[0] = 0;
 
@@ -203,7 +199,7 @@ int CreateAvatarInCache(MCONTACT hContact, avatarCacheEntry *ace, char *szProto)
 	}
 
 	if (db_get_b(0, AVS_MODULE, "MakeGrayscale", 0))
-		ace->hbmPic = MakeGrayscale(hContact, ace->hbmPic);
+		ace->hbmPic = MakeGrayscale(ace->hbmPic);
 
 	if (noTransparency) {
 		fei->FI_CorrectBitmap32Alpha(ace->hbmPic, TRUE);
@@ -261,8 +257,7 @@ int GetFileHash(TCHAR* filename)
 					remainder = (remainder << 1);
 			}
 		}
-	}
-		while (dwRead == 1024);
+	} while (dwRead == 1024);
 
 	CloseHandle(hFile);
 

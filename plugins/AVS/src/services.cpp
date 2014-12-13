@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM lParam)
+INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM)
 {
 	if (hContact == 0 || g_shutDown || fei == NULL)
 		return 0;
@@ -150,7 +150,7 @@ static INT_PTR avSetAvatar(MCONTACT hContact, TCHAR *tszPath)
 		ofn.lCustData = (LPARAM)&locking_request;
 		if (!GetOpenFileName(&ofn))
 			return 0;
-		
+
 		szFinalName = FileName;
 		is_locked = locking_request ? 1 : is_locked;
 	}
@@ -186,8 +186,8 @@ INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // see if is possible to set the avatar for the expecified protocol
- 
-static INT_PTR CanSetMyAvatar(WPARAM wParam, LPARAM lParam)
+
+static INT_PTR CanSetMyAvatar(WPARAM wParam, LPARAM)
 {
 	char *protocol = (char *)wParam;
 	if (protocol == NULL || fei == NULL)
@@ -260,7 +260,7 @@ static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 	filter.AppendFormat(_T("%s (*.bmp;*.jpg;*.gif;*.png"), TranslateT("All Files"));
 	if (swf) filter.Append(_T(";*.swf"));
 	if (xml) filter.Append(_T(";*.xml"));
-	
+
 	filter.AppendFormat(_T(")%c*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), 0);
 	if (swf) filter.Append(_T(";*.SWF"));
 	if (xml) filter.Append(_T(";*.XML"));
@@ -276,14 +276,14 @@ static void FilterGetStrings(CMString &filter, BOOL xml, BOOL swf)
 
 	if (xml)
 		filter.AppendFormat(_T("%s (*.xml)%c*.XML%c"), TranslateT("XML Files"), 0, 0);
-	
+
 	filter.AppendChar(0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Callback to set thumbnaill view to open dialog
 
-static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	OPENFILENAME *ofn = (OPENFILENAME *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	SetMyAvatarHookData *data;
@@ -426,8 +426,8 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 
 		// Check if can use original image
 		if (d.hBmpProto == hBmp
-			 && Proto_IsAvatarFormatSupported(protocol, originalFormat)
-			 && (d.max_size == 0 || GetFileSize(originalFilename) < d.max_size)) {
+			&& Proto_IsAvatarFormatSupported(protocol, originalFormat)
+			&& (d.max_size == 0 || GetFileSize(originalFilename) < d.max_size)) {
 			if (d.temp_file[0] != '\0')
 				DeleteFile(d.temp_file);
 
@@ -439,7 +439,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 		if (d.temp_file[0] == '\0') {
 			d.temp_file[0] = '\0';
 			if (GetTempPath(MAX_PATH, d.temp_file) == 0
-				 || GetTempFileName(d.temp_file, _T("mir_av_"), 0, d.temp_file) == 0) {
+				|| GetTempFileName(d.temp_file, _T("mir_av_"), 0, d.temp_file) == 0) {
 				DeleteObject(d.hBmpProto);
 				return -1;
 			}
@@ -473,8 +473,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, TCHAR *originalFilenam
 			d.width = orig_width * (4 - num_tries) / 4;
 			d.height = orig_height * (4 - num_tries) / 4;
 		}
-	}
-		while (!d.saved && d.need_smaller_size && num_tries < 4);
+	} while (!d.saved && d.need_smaller_size && num_tries < 4);
 
 	int ret;
 
@@ -724,7 +723,7 @@ static INT_PTR SetMyAvatarW(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-static INT_PTR ContactOptions(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactOptions(WPARAM wParam, LPARAM)
 {
 	if (wParam)
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_AVATAROPTIONS), 0, DlgProcAvatarOptions, (LPARAM)wParam);
@@ -733,7 +732,7 @@ static INT_PTR ContactOptions(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam)
+INT_PTR DrawAvatarPicture(WPARAM, LPARAM lParam)
 {
 	AVATARCACHEENTRY *ace = NULL;
 
@@ -833,7 +832,7 @@ static void ReloadMyAvatar(LPVOID lpParam)
 	free(lpParam);
 }
 
-INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM lParam)
+INT_PTR ReportMyAvatarChanged(WPARAM wParam, LPARAM)
 {
 	const char *proto = (const char*)wParam;
 	if (proto == NULL)
