@@ -349,7 +349,7 @@ LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 					{
 						if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) 
 						{
-							 MoveMemory(tr.lpstrText + (7*sizeof(TCHAR)), tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
+							 memmove(tr.lpstrText + (7*sizeof(TCHAR)), tr.lpstrText, (tr.chrg.cpMax - tr.chrg.cpMin + 1)*sizeof(TCHAR));
 							 memcpy(tr.lpstrText, _T("mailto:"), (7*sizeof(TCHAR)));
 						}
 

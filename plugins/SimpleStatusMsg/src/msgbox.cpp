@@ -544,7 +544,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			textLen = GetWindowTextLength(hwndDlg);
 			text = (TCHAR *)mir_alloc(sizeof(TCHAR) * (textLen + 1));
 			GetWindowText(hwndDlg, text, textLen + 1);
-			MoveMemory(text + start, text + end, sizeof(TCHAR) * (textLen + 1 - end));
+			memmove(text + start, text + end, sizeof(TCHAR) * (textLen + 1 - end));
 			SetWindowText(hwndDlg, text);
 			mir_free(text);
 			SendMessage(hwndDlg, EM_SETSEL, start, start);

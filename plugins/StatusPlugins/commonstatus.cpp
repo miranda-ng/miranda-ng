@@ -185,7 +185,7 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 
 			if (mir_tstrlen(substituteStr) > 6)
 				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(mir_tstrlen(tszMsg) + 1 + mir_tstrlen(substituteStr) - 6));
-			MoveMemory(tszMsg + j + mir_tstrlen(substituteStr), tszMsg + j + 6, sizeof(TCHAR)*(mir_tstrlen(tszMsg) - j - 5));
+			memmove(tszMsg + j + mir_tstrlen(substituteStr), tszMsg + j + 6, sizeof(TCHAR)*(mir_tstrlen(tszMsg) - j - 5));
 			memcpy(tszMsg + j, substituteStr, sizeof(TCHAR)*mir_tstrlen(substituteStr));
 		}
 

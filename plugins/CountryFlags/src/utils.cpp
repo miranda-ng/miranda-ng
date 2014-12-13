@@ -59,7 +59,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD
 			#endif
 			/* resize storage array */
 			if ((i+1)<nCallListCount)
-				MoveMemory(&callList[i],&callList[i+1],((nCallListCount-i-1)*sizeof(struct BufferedCallData)));
+				memmove(&callList[i],&callList[i+1],((nCallListCount-i-1)*sizeof(struct BufferedCallData)));
 			--nCallListCount;
 			--i; /* reiterate current */
 			if (nCallListCount) {

@@ -148,7 +148,7 @@ static int ProtoAck(WPARAM wParam,LPARAM lParam)
 			if (transfers[i]==ack->hProcess) {
 				/* remove from list */
 				if (i<(nTransfersCount-1))
-					MoveMemory(&transfers[i],&transfers[i+1],(nTransfersCount-i-1)*sizeof(HANDLE));
+					memmove(&transfers[i],&transfers[i+1],(nTransfersCount-i-1)*sizeof(HANDLE));
 				--nTransfersCount;
 				HANDLE *buf = (HANDLE*)mir_realloc(transfers,nTransfersCount*sizeof(HANDLE));
 				if (buf != NULL) transfers=buf;

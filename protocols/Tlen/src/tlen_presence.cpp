@@ -282,7 +282,7 @@ static void TlenSendPresenceTo(TlenProtocol *proto, int status, char *to)
 							GetDateFormatA(LOCALE_USER_DEFAULT,DATE_SHORTDATE,NULL,NULL,substituteStr,sizeof(substituteStr));
 						else continue;
 						if (strlen(substituteStr)>6) ptr=(char*)mir_realloc(ptr,strlen(ptr)+1+strlen(substituteStr)-6);
-						MoveMemory(ptr+i+strlen(substituteStr),ptr+i+6,strlen(ptr)-i-5);
+						memmove(ptr+i+strlen(substituteStr),ptr+i+6,strlen(ptr)-i-5);
 						memcpy(ptr+i,substituteStr,strlen(substituteStr));
 					}
 				}

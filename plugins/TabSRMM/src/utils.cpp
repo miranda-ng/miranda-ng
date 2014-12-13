@@ -976,7 +976,7 @@ const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRi
 	tr.lpstrText = (wchar_t *)mir_alloc(2 * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
 	::SendMessageW(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
-		::MoveMemory(tr.lpstrText + 7, tr.lpstrText, sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 1));
+		::memmove(tr.lpstrText + 7, tr.lpstrText, sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 1));
 		::memcpy(tr.lpstrText, L"mailto:", 7 * sizeof(wchar_t));
 	}
 	return(tr.lpstrText);

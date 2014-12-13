@@ -58,7 +58,7 @@ void TrimString(TCHAR *pszStr)
 		}
 		/* trim beginning */
 		for(psz=pszStr;(*psz && *psz==szChars[i]);psz=CharNext(psz));
-		MoveMemory(pszStr,psz,(mir_tstrlen(psz)+1)*sizeof(TCHAR));
+		memmove(pszStr,psz,(mir_tstrlen(psz)+1)*sizeof(TCHAR));
 	}
 }
 

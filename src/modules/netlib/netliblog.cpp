@@ -187,7 +187,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					return 1;
 
 				if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
-					MoveMemory(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
+					memmove(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
 					str[0] = '"';
 					mir_tstrcat(str, _T("\""));
 				}

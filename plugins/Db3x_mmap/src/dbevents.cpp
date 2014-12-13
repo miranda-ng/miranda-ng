@@ -298,7 +298,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 				memset(dbei->pBlob + len, 0, bytesToCopy - len);
 			mir_free(pBlob);
 		}
-		else MoveMemory(dbei->pBlob, pSrc, bytesToCopy);
+		else memmove(dbei->pBlob, pSrc, bytesToCopy);
 	}
 	return 0;
 }

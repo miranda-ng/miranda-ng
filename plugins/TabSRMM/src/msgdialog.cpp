@@ -2081,7 +2081,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						tr.lpstrText = (TCHAR*)_alloca(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 						if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
-							MoveMemory(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
+							memmove(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 							memcpy(tr.lpstrText, _T("mailto:"), 7);
 						}
 						if (!IsStringValidLink(tr.lpstrText))
@@ -2898,8 +2898,8 @@ quote_from_last:
 					}
 					if (dbei.eventType == EVENTTYPE_FILE) {
 						size_t iDescr = mir_strlen((char *)(szText + sizeof(DWORD)));
-						MoveMemory(szText, szText + sizeof(DWORD), iDescr);
-						MoveMemory(szText + iDescr + 2, szText + sizeof(DWORD)+iDescr, dbei.cbBlob - iDescr - sizeof(DWORD)-1);
+						memmove(szText, szText + sizeof(DWORD), iDescr);
+						memmove(szText + iDescr + 2, szText + sizeof(DWORD)+iDescr, dbei.cbBlob - iDescr - sizeof(DWORD)-1);
 						szText[iDescr] = '\r';
 						szText[iDescr + 1] = '\n';
 						szConverted = (TCHAR*)mir_alloc(sizeof(TCHAR)* (1 + mir_strlen((char *)szText)));

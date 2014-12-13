@@ -70,7 +70,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	else {
-		MoveMemory(nlpr->packetRecver.buffer, nlpr->packetRecver.buffer + nlprParam->bytesUsed, nlpr->packetRecver.bytesAvailable - nlprParam->bytesUsed);
+		memmove(nlpr->packetRecver.buffer, nlpr->packetRecver.buffer + nlprParam->bytesUsed, nlpr->packetRecver.bytesAvailable - nlprParam->bytesUsed);
 		nlpr->packetRecver.bytesAvailable -= nlprParam->bytesUsed;
 	}
 	

@@ -297,7 +297,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return TRUE;
 
 	case WM_TIMER:
-		MoveMemory(dat->bytesRecvedHistory + 1, dat->bytesRecvedHistory, sizeof(dat->bytesRecvedHistory) - sizeof(dat->bytesRecvedHistory[0]));
+		memmove(dat->bytesRecvedHistory + 1, dat->bytesRecvedHistory, sizeof(dat->bytesRecvedHistory) - sizeof(dat->bytesRecvedHistory[0]));
 		dat->bytesRecvedHistory[0] = dat->transferStatus.totalProgress;
 		if (dat->bytesRecvedHistorySize < SIZEOF(dat->bytesRecvedHistory))
 			dat->bytesRecvedHistorySize++;

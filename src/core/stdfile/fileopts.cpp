@@ -187,7 +187,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (str[0] == '"') {
 				TCHAR *pszQuote = _tcschr(str + 1, '"');
 				if (pszQuote) *pszQuote = 0;
-				MoveMemory(str, str + 1, (_tcslen(str) * sizeof(TCHAR)));
+				memmove(str, str + 1, (_tcslen(str) * sizeof(TCHAR)));
 			}
 			else {
 				TCHAR *pszSpace = _tcschr(str, ' ');
@@ -196,7 +196,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			ofn.nMaxFileTitle = MAX_PATH;
 			if (!GetOpenFileName(&ofn)) break;
 			if (_tcschr(str, ' ') != NULL) {
-				MoveMemory(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
+				memmove(str + 1, str, ((SIZEOF(str) - 2) * sizeof(TCHAR)));
 				str[0] = '"';
 				_tcscat(str, _T("\""));
 			}

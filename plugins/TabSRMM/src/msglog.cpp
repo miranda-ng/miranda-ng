@@ -347,14 +347,14 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 						memcpy(*buffer + i, begin ? "\\i1 " : "\\i0 ", 4);
 						continue;
 					case 'u':
-						MoveMemory(*buffer + i + 2, *buffer + i + 1, *cbBufferEnd - i);
+						memmove(*buffer + i + 2, *buffer + i + 1, *cbBufferEnd - i);
 						memcpy(*buffer + i, begin ? "\\ul1 " : "\\ul0 ", 5);
 						*cbBufferEnd += 1;
 						continue;
 					case 's':
 						*cbBufferAlloced += 20;
 						*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
-						MoveMemory(*buffer + i + 6, *buffer + i + 1, (*cbBufferEnd - i) + 1);
+						memmove(*buffer + i + 6, *buffer + i + 1, (*cbBufferEnd - i) + 1);
 						memcpy(*buffer + i, begin ? "\\strike1 " : "\\strike0 ", begin ? 9 : 9);
 						*cbBufferEnd += 5;
 						continue;
@@ -379,7 +379,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*cbBufferAlloced += 1024;
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
-			MoveMemory(*buffer + i + 6, *buffer + i + 2, *cbBufferEnd - i - 1);
+			memmove(*buffer + i + 6, *buffer + i + 2, *cbBufferEnd - i - 1);
 			memcpy(*buffer + i, "\\line ", 6);
 			*cbBufferEnd += 4;
 		}
@@ -388,7 +388,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*cbBufferAlloced += 1024;
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
-			MoveMemory(*buffer + i + 6, *buffer + i + 1, *cbBufferEnd - i);
+			memmove(*buffer + i + 6, *buffer + i + 1, *cbBufferEnd - i);
 			memcpy(*buffer + i, "\\line ", 6);
 			*cbBufferEnd += 5;
 		}
@@ -397,7 +397,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*cbBufferAlloced += 1024;
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
-			MoveMemory(*buffer + i + 5, *buffer + i + 1, *cbBufferEnd - i);
+			memmove(*buffer + i + 5, *buffer + i + 1, *cbBufferEnd - i);
 			memcpy(*buffer + i, "\\tab ", 5);
 			*cbBufferEnd += 4;
 		}
@@ -406,7 +406,7 @@ static int AppendToBufferWithRTF(int mode, char **buffer, int *cbBufferEnd, int 
 				*cbBufferAlloced += 1024;
 				*buffer = (char *)mir_realloc(*buffer, *cbBufferAlloced);
 			}
-			MoveMemory(*buffer + i + 1, *buffer + i, *cbBufferEnd - i + 1);
+			memmove(*buffer + i + 1, *buffer + i, *cbBufferEnd - i + 1);
 			(*buffer)[i] = '\\';
 			++*cbBufferEnd;
 			i++;
@@ -683,7 +683,7 @@ static char *Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 
 	if (dat->hHistoryEvents) {
 		if (dat->curHistory == dat->maxHistory) {
-			MoveMemory(dat->hHistoryEvents, &dat->hHistoryEvents[1], sizeof(HANDLE)* (dat->maxHistory - 1));
+			memmove(dat->hHistoryEvents, &dat->hHistoryEvents[1], sizeof(HANDLE)* (dat->maxHistory - 1));
 			dat->curHistory--;
 		}
 		dat->hHistoryEvents[dat->curHistory++] = hDbEvent;

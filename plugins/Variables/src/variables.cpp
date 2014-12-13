@@ -173,25 +173,25 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		pargv = argv = NULL;
 		// new round
 		if (*cur == DONTPARSE_CHAR) {
-			MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+			memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 			if (*cur == DONTPARSE_CHAR)
 				continue;
 
 			while ( (*cur != DONTPARSE_CHAR) && (*cur != 0))
 				cur++;
 
-			MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+			memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 			pos = cur-string-1;
 			continue;
 		}
 		// remove end of lines
 		else if ((!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL)) {
-			MoveMemory(cur, cur+2, (_tcslen(cur+2)+1)*sizeof(TCHAR));
+			memmove(cur, cur+2, (_tcslen(cur+2)+1)*sizeof(TCHAR));
 			pos = cur-string-1;
 			continue;
 		}
 		else if ((*cur == '\n' && gParseOpts.bStripEOL) || (*cur == ' ' && gParseOpts.bStripWS)) {
-			MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+			memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 			pos = cur - string - 1;
 			continue;
 		}
@@ -206,13 +206,13 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 				string = (TCHAR*)mir_realloc(string, (_tcslen(string)+1)*sizeof(TCHAR));
 				continue;
 			}
-			MoveMemory(scur, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
+			memmove(scur, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
 			pos = scur-string-1;
 			continue;
 		}
 		else if ((*cur != FIELD_CHAR) && (*cur != FUNC_CHAR) && (*cur != FUNC_ONCE_CHAR)) {
 			if (gParseOpts.bStripAll) {
-				MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
+				memmove(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 				pos = cur - string - 1;
 			}
 			continue;
@@ -352,7 +352,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		}
 		scur = string+scurPos;
 		cur = string+curPos;
-		MoveMemory(scur + parsedTokenLen, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
+		memmove(scur + parsedTokenLen, cur, (_tcslen(cur)+1)*sizeof(TCHAR));
 		memcpy(scur, parsedToken, parsedTokenLen*sizeof(TCHAR));
 		{
 			size_t len = _tcslen(string);

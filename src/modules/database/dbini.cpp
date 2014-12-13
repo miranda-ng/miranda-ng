@@ -347,7 +347,7 @@ LBL_NewLine:
 					case 'r': *pstr = '\r'; break;
 					default:  *pstr = pstr[1]; break;
 					}
-					MoveMemory(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
+					memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
 				}
 			}
 		case 'u':

@@ -471,7 +471,7 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 
 	/* resize storage array */
 	if ((index+1)<nAssocListCount)
-		MoveMemory(assoc, &pAssocList[index+1], ((nAssocListCount-index-1)*sizeof(ASSOCDATA)));
+		memmove(assoc, &pAssocList[index+1], ((nAssocListCount-index-1)*sizeof(ASSOCDATA)));
 	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount-1)*sizeof(ASSOCDATA));
 	if(pAssocListBuf!= NULL) pAssocList = pAssocListBuf;
 	--nAssocListCount;

@@ -147,8 +147,8 @@ LBL_Seek:
 					return 2;
 
 				case DBVT_BYTE:  dbv->bVal = pBlob[1]; break;
-				case DBVT_WORD:  MoveMemory(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
-				case DBVT_DWORD: MoveMemory(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
+				case DBVT_WORD:  memmove(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
+				case DBVT_DWORD: memmove(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
 				
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
@@ -158,13 +158,13 @@ LBL_Seek:
 						dbv->cchVal--;
 						if (varLen < dbv->cchVal)
 							dbv->cchVal = varLen;
-						MoveMemory(dbv->pszVal, pBlob + 3, dbv->cchVal); // decode
+						memmove(dbv->pszVal, pBlob + 3, dbv->cchVal); // decode
 						dbv->pszVal[dbv->cchVal] = 0;
 						dbv->cchVal = varLen;
 					}
 					else {
 						dbv->pszVal = (char*)mir_alloc(1 + varLen);
-						MoveMemory(dbv->pszVal, pBlob + 3, varLen);
+						memmove(dbv->pszVal, pBlob + 3, varLen);
 						dbv->pszVal[varLen] = 0;
 					}
 					break;
@@ -175,11 +175,11 @@ LBL_Seek:
 					if (isStatic) {
 						if (varLen < dbv->cpbVal)
 							dbv->cpbVal = varLen;
-						MoveMemory(dbv->pbVal, pBlob + 3, dbv->cpbVal);
+						memmove(dbv->pbVal, pBlob + 3, dbv->cpbVal);
 					}
 					else {
 						dbv->pbVal = (BYTE *)mir_alloc(varLen);
-						MoveMemory(dbv->pbVal, pBlob + 3, varLen);
+						memmove(dbv->pbVal, pBlob + 3, varLen);
 					}
 					dbv->cpbVal = varLen;
 					break;
@@ -201,13 +201,13 @@ LBL_Seek:
 							dbv->cchVal--;
 							if (varLen < dbv->cchVal)
 								dbv->cchVal = varLen;
-							MoveMemory(dbv->pszVal, decoded, dbv->cchVal);
+							memmove(dbv->pszVal, decoded, dbv->cchVal);
 							dbv->pszVal[dbv->cchVal] = 0;
 							dbv->cchVal = varLen;
 						}
 						else {
 							dbv->pszVal = (char*)mir_alloc(1 + varLen);
-							MoveMemory(dbv->pszVal, decoded, varLen);
+							memmove(dbv->pszVal, decoded, varLen);
 							dbv->pszVal[varLen] = 0;
 						}
 					}

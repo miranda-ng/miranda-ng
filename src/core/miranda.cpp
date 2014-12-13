@@ -389,8 +389,8 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 		return 1;
 
 	waitObjectCount--;
-	MoveMemory(&hWaitObjects[i], &hWaitObjects[i + 1], sizeof(HANDLE)*(waitObjectCount - i));
-	MoveMemory(&pszWaitServices[i], &pszWaitServices[i + 1], sizeof(char*)*(waitObjectCount - i));
+	memmove(&hWaitObjects[i], &hWaitObjects[i + 1], sizeof(HANDLE)*(waitObjectCount - i));
+	memmove(&pszWaitServices[i], &pszWaitServices[i + 1], sizeof(char*)*(waitObjectCount - i));
 	return 0;
 }
 

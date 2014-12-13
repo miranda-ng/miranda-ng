@@ -484,7 +484,7 @@ static void DoChatFormatting(TCHAR* pszText)
 				break;
 			}
 
-			MoveMemory(p1 + mir_tstrlen(InsertThis), p1 + iRemoveChars, sizeof(TCHAR)*(mir_tstrlen(p1) - iRemoveChars + 1));
+			memmove(p1 + mir_tstrlen(InsertThis), p1 + iRemoveChars, sizeof(TCHAR)*(mir_tstrlen(p1) - iRemoveChars + 1));
 			memcpy(p1, InsertThis, sizeof(TCHAR)*mir_tstrlen(InsertThis));
 			if (iRemoveChars || mir_tstrlen(InsertThis))
 				p1 += mir_tstrlen(InsertThis);
