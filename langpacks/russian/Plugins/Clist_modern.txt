@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
 [Transparency:]
 Прозрачность:
@@ -527,7 +527,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Настройки
 [Visible]
 Видимо
-[Show Title]
+[Show title]
 Заголовок
 [Locked]
 Заблокирован
@@ -535,7 +535,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рамка
 [Floating]
 Плавающее
-[Frames Order]
+[Frames order]
 Порядок фреймов
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 РАЗРАБАТЫВАЕТСЯ!!!           НЕ РАБОТАЕТ
@@ -773,7 +773,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Список
 [Window]
 Окно
-[No Events]
+[No events]
 Событий нет
 [Event area background]
 Фон области событий
@@ -807,7 +807,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Текст
 [Extra icons]
 Экстра значки
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 Анимировать аватары (требуется GDI+ и avs.dll)
 [Left align group names]
 Имена групп слева
@@ -819,7 +819,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Строка
 [Row design]
 Дизайн
-[(Unknown Contact)]
+[(Unknown contact)]
 (Неизвестный контакт)
 [Tray menu]
 Меню в трее
@@ -849,7 +849,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Главный
 [Restore last status]
 Восстановить последнее состояние статуса
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 Показать/Скрыть отключённых
 [Empty %s cell]
 Очистить %s ячейку
@@ -883,7 +883,7 @@ reVista для Modern v0.5
 Angeli-Ka (графика), FYR (шаблон)
 [Inside library]
 Внутри библиотеки
-[Skin Information]
+[Skin information]
 Информация о скине
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Предпросмотр недоступен\n\n%s\n----------------------\n\n%s\n\nАвтор(ы):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
@@ -1025,7 +1025,7 @@ Angeli-Ka (графика), FYR (шаблон)
 Показывать названия
 [Hide all title bars]
 Скрыть названия
-[Lock Frame]
+[Lock frame]
 Закрепить фрейм
 [Frame menu]
 Меню фреймов
