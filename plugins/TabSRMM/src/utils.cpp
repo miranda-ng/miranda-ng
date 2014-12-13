@@ -261,10 +261,8 @@ ok:
 // format the title bar string for IM chat sessions using placeholders.
 // the caller must mir_free() the returned string
 
-const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
+TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 {
-	TCHAR *szResult = 0;
-	INT_PTR length = 0;
 	INT_PTR tempmark = 0;
 	TCHAR szTemp[512];
 
@@ -401,14 +399,8 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 			break;
 		}
 	}
-	length = title.length();
 
-	szResult = (TCHAR*)mir_alloc((length + 2) * sizeof(TCHAR));
-	if (szResult) {
-		_tcsncpy(szResult, title.c_str(), length);
-		szResult[length] = 0;
-	}
-	return szResult;
+	return mir_tstrndup(title.c_str(), title.length());
 }
 
 char* Utils::FilterEventMarkers(char *szText)
