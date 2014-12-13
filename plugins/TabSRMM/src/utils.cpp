@@ -532,7 +532,7 @@ void Utils::RTF_CTableInit()
 
 	rtf_ctable = (TRTFColorTable *)mir_alloc(iSize);
 	memset(rtf_ctable, 0, iSize);
-	CopyMemory(rtf_ctable, _rtf_ctable, iSize);
+	memcpy(rtf_ctable, _rtf_ctable, iSize);
 	rtf_ctable_size = RTF_CTABLE_DEFSIZE;
 }
 
@@ -632,12 +632,12 @@ INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 
 int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)
 {
-	CopyMemory(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
+	memcpy(cs, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 
 	DBVARIANT dbv = { 0 };
 	if (0 == db_get(hContact, SRMSGMOD_T, szKey ? szKey : CNT_KEYNAME, &dbv)) {
 		if (dbv.type == DBVT_BLOB && dbv.cpbVal > 0 && dbv.cpbVal <= sizeof(TContainerSettings)) {
-			::CopyMemory((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
+			::memcpy((void*)cs, (void*)dbv.pbVal, dbv.cpbVal);
 			::db_free(&dbv);
 			if (hContact == 0 && szKey == 0)
 				cs->fPrivate = false;
@@ -690,7 +690,7 @@ void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce
 	if (csTemp.fPrivate || fForce) {
 		if (pContainer->settings == 0 || pContainer->settings == &PluginConfig.globalContainerSettings)
 			pContainer->settings = (TContainerSettings *)mir_alloc(sizeof(TContainerSettings));
-		CopyMemory((void*)pContainer->settings, (void*)&csTemp, sizeof(TContainerSettings));
+		memcpy((void*)pContainer->settings, (void*)&csTemp, sizeof(TContainerSettings));
 		pContainer->settings->fPrivate = true;
 	}
 	else pContainer->settings = &PluginConfig.globalContainerSettings;
@@ -977,7 +977,7 @@ const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRi
 	::SendMessageW(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
 		::MoveMemory(tr.lpstrText + 7, tr.lpstrText, sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 1));
-		::CopyMemory(tr.lpstrText, L"mailto:", 7 * sizeof(wchar_t));
+		::memcpy(tr.lpstrText, L"mailto:", 7 * sizeof(wchar_t));
 	}
 	return(tr.lpstrText);
 }
@@ -1082,7 +1082,7 @@ size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
 	EmptyClipboard();
 	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
 
-	CopyMemory((void*)GlobalLock(hData), str, i);
+	memcpy((void*)GlobalLock(hData), str, i);
 	GlobalUnlock(hData);
 	SetClipboardData(CF_UNICODETEXT, hData);
 	CloseClipboard();

@@ -516,7 +516,7 @@ int LoadContactsModule(void)
 
 	DBVARIANT dbv;
 	if (!db_get(NULL, "Contact", "NameOrder", &dbv)) {
-		CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
+		memcpy(nameOrder, dbv.pbVal, dbv.cpbVal);
 		db_free(&dbv);
 	}
 

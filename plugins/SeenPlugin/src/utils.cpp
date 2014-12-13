@@ -132,7 +132,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 	}	}	}
 
 	if (st)
-		CopyMemory (st, &lst, sizeof (SYSTEMTIME));
+		memcpy (st, &lst, sizeof (SYSTEMTIME));
 
 	return res;
 }

@@ -177,7 +177,7 @@ static void AppendToByteBuffer(struct ResizableByteBuffer *buffer,const void *ap
 		buffer->cbAlloced+=ALLOC_STEP+cbAppendSize;
 		OutputDebugStringA("reallocating memory...\n"); /* all ascii */
 	}
-	CopyMemory(&buffer->buf[buffer->cbLength],append,cbAppendSize);
+	memcpy(&buffer->buf[buffer->cbLength],append,cbAppendSize);
 	buffer->cbLength+=cbAppendSize;
 }
 

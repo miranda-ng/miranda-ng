@@ -322,7 +322,7 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				SendDlgItemMessage(hwndDlg, IDC_DATA, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
 				if (strchr(tr.lpstrText, '@') != NULL && strchr(tr.lpstrText, ':') == NULL && strchr(tr.lpstrText, '/') == NULL) {
 					MoveMemory(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
-					CopyMemory(tr.lpstrText, "mailto:", 7);
+					memcpy(tr.lpstrText, "mailto:", 7);
 				}
 
 				CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM) tr.lpstrText);
@@ -517,7 +517,7 @@ void ValidatePosition(HWND hwndDlg)
 	MONITORINFO monitorInfo;
 	monitorInfo.cbSize = sizeof(MONITORINFO);
 	if (GetMonitorInfo(hMonitor, &monitorInfo))
-		CopyMemory(&r, &monitorInfo.rcMonitor, sizeof(RECT));
+		memcpy(&r, &monitorInfo.rcMonitor, sizeof(RECT));
 
 	// /window going off right of screen*
 	if (Xposition + WindowWidth >= r.right)

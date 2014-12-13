@@ -541,7 +541,7 @@ HICON Xfire_base::createHICONfromdata(LPVOID data, unsigned int size) {
 	if (buffer) {
 		LPVOID data2 = GlobalLock(buffer);
 		if (data2) {
-			CopyMemory(data2, data, size);
+			memcpy(data2, data, size);
 
 			IStream* stream = NULL;
 			if (CreateStreamOnHGlobal(data2, FALSE, &stream) == S_OK)
@@ -571,7 +571,7 @@ HBITMAP Xfire_base::createHBITMAPfromdata(LPVOID data, unsigned int size) {
 	if (buffer) {
 		LPVOID data2 = GlobalLock(buffer);
 		if (data2) {
-			CopyMemory(data2, data, size);
+			memcpy(data2, data, size);
 
 			IStream* stream = NULL;
 			if (CreateStreamOnHGlobal(data2, FALSE, &stream) == S_OK)

@@ -2082,7 +2082,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 						if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
 							MoveMemory(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
-							CopyMemory(tr.lpstrText, _T("mailto:"), 7);
+							memcpy(tr.lpstrText, _T("mailto:"), 7);
 						}
 						if (!IsStringValidLink(tr.lpstrText))
 							break;
@@ -2783,13 +2783,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					dat->iSendBufferSize = memRequired;
 				}
 				if (utfResult) {
-					CopyMemory(dat->sendBuffer, utfResult, memRequired);
+					memcpy(dat->sendBuffer, utfResult, memRequired);
 					mir_free(utfResult);
 				}
 				else {
 					WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, bufSize, 0, 0);
 					if (flags & PREF_UNICODE)
-						CopyMemory(&dat->sendBuffer[bufSize], decoded, (mir_wstrlen(decoded) + 1) * sizeof(WCHAR));
+						memcpy(&dat->sendBuffer[bufSize], decoded, (mir_wstrlen(decoded) + 1) * sizeof(WCHAR));
 				}
 
 				if (memRequired == 0 || dat->sendBuffer[0] == 0)

@@ -4,13 +4,13 @@ int LoadServices(void)
 {
 	char szServiceFunction[MAX_PATH],*pszServiceFunctionName;
 
-	CopyMemory(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
+	memcpy(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
 	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
 
 	// Service creation
 	for (size_t i=0;i<SIZEOF(siPluginServices);i++)
 	{
-		CopyMemory(pszServiceFunctionName,siPluginServices[i].lpszName,(mir_strlen(siPluginServices[i].lpszName)+1));
+		memcpy(pszServiceFunctionName,siPluginServices[i].lpszName,(mir_strlen(siPluginServices[i].lpszName)+1));
 		CreateServiceFunction(szServiceFunction,(MIRANDASERVICE)siPluginServices[i].lpFunc);
 	}
 	return 0;

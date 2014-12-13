@@ -280,7 +280,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
 			bufferAlloced += 1024;
 		buffer = (char *)mir_realloc(buffer, bufferAlloced);
-		CopyMemory(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
+		memcpy(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
 		bufferEnd += logIconBmpSize[i];
 	}
 
@@ -432,7 +432,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferLen = (int)strlen(dat->buffer);
 	}
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
-	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
+	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
 	if (dat->bufferOffset == dat->bufferLen) {
 		mir_free(dat->buffer);

@@ -126,12 +126,12 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
-			CopyMemory(d, "\\par ", 5);
+			memcpy(d, "\\par ", 5);
 			line++;
 			d += 5;
 		}
 		else if (*line == '\n') {
-			CopyMemory(d, "\\line ", 6);
+			memcpy(d, "\\line ", 6);
 			d += 6;
 		}
 		else if (*line == '%' && !simpleMode) {
@@ -203,7 +203,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 			}
 		}
 		else if (*line == '\t' && !streamData->bStripFormat) {
-			CopyMemory(d, "\\tab ", 5);
+			memcpy(d, "\\tab ", 5);
 			d += 5;
 		}
 		else if ((*line == '\\' || *line == '{' || *line == '}') && !streamData->bStripFormat) {
@@ -353,7 +353,7 @@ char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 			while (bufferAlloced - bufferEnd < logIconBmpSize[0])
 				bufferAlloced += 4096;
 			buffer = (char *)mir_realloc(buffer, bufferAlloced);
-			CopyMemory(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
+			memcpy(buffer + bufferEnd, pLogIconBmpBits[iIndex], logIconBmpSize[iIndex]);
 			bufferEnd += logIconBmpSize[iIndex];
 		}
 

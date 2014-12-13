@@ -39,7 +39,7 @@ DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, 
 			*pcb = LONG(pCookie->cbSize - pCookie->cbCount)*sizeof(WCHAR);
 		else
 			*pcb = cb & ~1UL;
-		CopyMemory(pbBuff, pCookie->unicode + pCookie->cbCount, *pcb);
+		memcpy(pbBuff, pCookie->unicode + pCookie->cbCount, *pcb);
 		pCookie->cbCount += *pcb / sizeof(WCHAR);
 	}
 	else {
@@ -47,7 +47,7 @@ DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, 
 			*pcb = LONG(pCookie->cbSize - pCookie->cbCount);
 		else
 			*pcb = cb;
-		CopyMemory(pbBuff, pCookie->ansi + pCookie->cbCount, *pcb);
+		memcpy(pbBuff, pCookie->ansi + pCookie->cbCount, *pcb);
 		pCookie->cbCount += *pcb;
 	}
 

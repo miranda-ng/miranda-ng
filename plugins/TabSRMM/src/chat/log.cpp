@@ -515,11 +515,11 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 
 	for (; *line; line++, textCharsCount++) {
 		if (*line == '\r' && line[1] == '\n') {
-			CopyMemory(d, "\\par ", 5);
+			memcpy(d, "\\par ", 5);
 			line++;
 			d += 5;
 		} else if (*line == '\n') {
-			CopyMemory(d, "\\line ", 6);
+			memcpy(d, "\\line ", 6);
 			d += 6;
 		} else if (*line == '%' && !simpleMode) {
 			char szTemp[200]; szTemp[0] = '\0';
@@ -586,7 +586,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, BOOL simpleMode, char *&buff
 				d += iLen;
 			}
 		} else if (*line == '\t' && !streamData->bStripFormat) {
-			CopyMemory(d, "\\tab ", 5);
+			memcpy(d, "\\tab ", 5);
 			d += 5;
 		} else if ((*line == '\\' || *line == '{' || *line == '}') && !streamData->bStripFormat) {
 			*d++ = '\\';
@@ -837,7 +837,7 @@ static char* Log_CreateRTF(LOGSTREAMDATA *streamData)
 				while (bufferAlloced - bufferEnd < (pci->logIconBmpSize[0] + 20))
 					bufferAlloced += 4096;
 				buffer = (char *) mir_realloc(buffer, bufferAlloced);
-				CopyMemory(buffer + bufferEnd, pci->pLogIconBmpBits[iIndex], pci->logIconBmpSize[iIndex]);
+				memcpy(buffer + bufferEnd, pci->pLogIconBmpBits[iIndex], pci->logIconBmpSize[iIndex]);
 				bufferEnd += pci->logIconBmpSize[iIndex];
 			}
 
@@ -941,7 +941,7 @@ static DWORD CALLBACK Log_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 
 		// give the RTF to the RE control
 		*pcb = min(cb, lstrdat->bufferLen - lstrdat->bufferOffset);
-		CopyMemory(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
+		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
 		lstrdat->bufferOffset += *pcb;
 
 		// mir_free stuff if the streaming operation is complete

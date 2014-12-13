@@ -49,7 +49,7 @@ int CDb3Mmap::InitModuleNames(void)
 		int nameLen = dbmn->cbName;
 
 		char *mod = (char*)HeapAlloc(m_hModHeap,0,nameLen+1);
-		CopyMemory(mod,DBRead(ofsThis + offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
+		memcpy(mod,DBRead(ofsThis + offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
 		mod[nameLen] = 0;
 
 		AddToList(mod, nameLen, ofsThis);

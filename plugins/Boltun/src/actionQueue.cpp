@@ -93,7 +93,7 @@ static void TimerAnswer(MCONTACT hContact, const TalkBot::MessageInfo* info)
 	if (!WideCharToMultiByte(CP_ACP, 0, info->Answer.c_str(), -1, msg, size, 
 		NULL, NULL))
 		memset(msg, '-', (size - 1)); //In case of fault return "----" in ANSI part
-	CopyMemory(msg + size, info->Answer.c_str(), size * 2);
+	memcpy(msg + size, info->Answer.c_str(), size * 2);
 
 	CallContactService(hContact, PSS_MESSAGE, PREF_TCHAR, (LPARAM)msg);
 

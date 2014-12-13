@@ -277,18 +277,18 @@ static int AppendUnicodeOrAnsiiToBufferL(char *&buffer, size_t &cbBufferEnd, siz
 	for (; line < maxLine; line++, textCharsCount++) {
 		wasEOL = 0;
 		if (*line == '\r' && line[1] == '\n') {
-			CopyMemory(d, "\\line ", 6);
+			memcpy(d, "\\line ", 6);
 			wasEOL = 1;
 			d += 6;
 			line++;
 		}
 		else if (*line == '\n') {
-			CopyMemory(d, "\\line ", 6);
+			memcpy(d, "\\line ", 6);
 			wasEOL = 1;
 			d += 6;
 		}
 		else if (*line == '\t') {
-			CopyMemory(d, "\\tab ", 5);
+			memcpy(d, "\\tab ", 5);
 			d += 5;
 		}
 		else if (*line == '\\' || *line == '{' || *line == '}') {
@@ -306,7 +306,7 @@ static int AppendUnicodeOrAnsiiToBufferL(char *&buffer, size_t &cbBufferEnd, siz
 		}
 	}
 	if (wasEOL) {
-		CopyMemory(d, " ", 1);
+		memcpy(d, " ", 1);
 		d++;
 	}
 	strcpy(d, "}");
@@ -618,7 +618,7 @@ static char* CreateRTFFromEvent(SrmmWindowData *dat, EventData *evt, GlobalMessa
 		while (bufferAlloced - bufferEnd < logIconBmpSize[i])
 			bufferAlloced += 1024;
 		buffer = (char*)mir_realloc(buffer, bufferAlloced);
-		CopyMemory(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
+		memcpy(buffer + bufferEnd, pLogIconBmpBits[i], logIconBmpSize[i]);
 		bufferEnd += logIconBmpSize[i];
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, " ");
 	}
@@ -787,7 +787,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 		dat->bufferLen = mir_strlen(dat->buffer);
 	}
 	*pcb = min(cb, LONG(dat->bufferLen - dat->bufferOffset));
-	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
+	memcpy(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
 	if (dat->bufferOffset == dat->bufferLen) {
 		mir_free(dat->buffer);

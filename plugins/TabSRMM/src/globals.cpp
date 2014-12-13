@@ -222,7 +222,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_genericTxtColor = M.GetDword(FONTMODULE, "genericTxtClr", GetSysColor(COLOR_BTNTEXT));
 	m_cRichBorders = M.GetDword(FONTMODULE, "cRichBorders", 0);
 
-	::CopyMemory(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
+	::memcpy(&globalContainerSettings, &_cnt_default, sizeof(TContainerSettings));
 	Utils::ReadContainerSettingsFromDB(0, &globalContainerSettings);
 	globalContainerSettings.fPrivate = false;
 	if (fReloadSkins)

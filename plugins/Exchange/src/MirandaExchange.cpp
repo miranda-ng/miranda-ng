@@ -91,7 +91,7 @@ HRESULT HrMAPIFindDefaultMsgStore(    // RETURNS: return code
 			lpeid = NULL;
 		} else {
 			// Copy entry ID of message store
-			CopyMemory(lpeid, lpRows->aRow[i].lpProps[1].Value.bin.lpb, cbeid);
+			memcpy(lpeid, lpRows->aRow[i].lpProps[1].Value.bin.lpb, cbeid);
 		}
 		break;
 	}

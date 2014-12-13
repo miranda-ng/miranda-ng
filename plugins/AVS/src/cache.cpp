@@ -235,7 +235,7 @@ void PicLoader(LPVOID)
 				QueueAdd(node->hContact);
 
 			AVATARCACHEENTRY ace_temp;
-			CopyMemory(&ace_temp, node, sizeof(AVATARCACHEENTRY));
+			memcpy(&ace_temp, node, sizeof(AVATARCACHEENTRY));
 			ace_temp.hbmPic = 0;
 
 			int result = CreateAvatarInCache(node->hContact, &ace_temp, NULL);
@@ -251,7 +251,7 @@ void PicLoader(LPVOID)
 				HBITMAP oldPic = node->hbmPic;
 				{
 					mir_cslock l(cachecs);
-					CopyMemory(node, &ace_temp, sizeof(AVATARCACHEENTRY));
+					memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
 					node->loaded = TRUE;
 				}
 				if (oldPic)
@@ -262,7 +262,7 @@ void PicLoader(LPVOID)
 				HBITMAP oldPic = node->hbmPic;
 				{
 					mir_cslock l(cachecs);
-					CopyMemory(node, &ace_temp, sizeof(AVATARCACHEENTRY));
+					memcpy(node, &ace_temp, sizeof(AVATARCACHEENTRY));
 					node->loaded = FALSE;
 				}
 				if (oldPic)

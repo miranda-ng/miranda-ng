@@ -807,14 +807,14 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 
 	if (*ppText == NULL) {
 		*ppText = (char *)mir_alloc(cb + 2);
-		CopyMemory(*ppText, pbBuff, cb);
+		memcpy(*ppText, pbBuff, cb);
 		*pcb = cb;
 		dwRead = cb;
 		*(*ppText + cb) = '\0';
 	}
 	else {
 		char *p = (char *)mir_realloc(*ppText, dwRead + cb + 2);
-		CopyMemory(p + dwRead, pbBuff, cb);
+		memcpy(p + dwRead, pbBuff, cb);
 		*ppText = p;
 		*pcb = cb;
 		dwRead += cb;
@@ -1076,7 +1076,7 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 		if (InsertThis[0] || iRemoveChars) {
 			size_t cbLen = _tcslen(InsertThis);
 			MoveMemory(p1 + cbLen, p1 + iRemoveChars, (mir_tstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
-			CopyMemory(p1, InsertThis, cbLen * sizeof(TCHAR));
+			memcpy(p1, InsertThis, cbLen * sizeof(TCHAR));
 			p1 += cbLen;
 		}
 		else p1++;
@@ -1712,11 +1712,11 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 			}
 			if (pContainer->ltr_templates == NULL) {
 				pContainer->ltr_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
-				CopyMemory(pContainer->ltr_templates, &LTR_Active, sizeof(TTemplateSet));
+				memcpy(pContainer->ltr_templates, &LTR_Active, sizeof(TTemplateSet));
 			}
 			if (pContainer->rtl_templates == NULL) {
 				pContainer->rtl_templates = (TTemplateSet *)mir_alloc(sizeof(TTemplateSet));
-				CopyMemory(pContainer->rtl_templates, &RTL_Active, sizeof(TTemplateSet));
+				memcpy(pContainer->rtl_templates, &RTL_Active, sizeof(TTemplateSet));
 			}
 
 			pContainer->theme.logFonts = (LOGFONTA *)mir_alloc(sizeof(LOGFONTA) * (MSGDLGFONTCOUNT + 2));

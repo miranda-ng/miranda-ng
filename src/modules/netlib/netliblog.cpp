@@ -437,8 +437,8 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 		int sz = titleLineLen + len + 1;
 		useStack = sz <= 8192;
 		szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
-		CopyMemory(szBuf, szTitleLine, titleLineLen);
-		CopyMemory(szBuf + titleLineLen, (const char*)buf, len);
+		memcpy(szBuf, szTitleLine, titleLineLen);
+		memcpy(szBuf + titleLineLen, (const char*)buf, len);
 		szBuf[titleLineLen + len] = '\0';
 	}
 	// Binary data
@@ -448,7 +448,7 @@ void NetlibDumpData(NetlibConnection *nlc, PBYTE buf, int len, int sent, int fla
 		useStack = sz <= 8192;
 
 		szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
-		CopyMemory(szBuf, szTitleLine, titleLineLen);
+		memcpy(szBuf, szTitleLine, titleLineLen);
 		char *pszBuf = szBuf + titleLineLen;
 		for (line = 0;; line += 16) {
 			colsInLine = min(16, len - line);
