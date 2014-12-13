@@ -69,7 +69,7 @@ public:
 	static TCHAR*   GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen);
 	static TCHAR*   FilterEventMarkers(TCHAR *wszText);
 	static LPCTSTR  FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOOL isSent);
-	static LPCTSTR  FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat);
+	static LPTSTR   FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat);
 	static char*    FilterEventMarkers(char *szText);
 	static LPCTSTR  DoubleAmpersands(TCHAR *pszText);
 	static void     RTF_CTableInit();

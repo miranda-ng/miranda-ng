@@ -537,7 +537,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	int iItem = 0;
 	TCITEM item;
 
-	TContainerData *pContainer = (TContainerData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	BOOL bSkinned = CSkin::m_skinEnabled ? TRUE : FALSE;
 	HWND hwndTab = GetDlgItem(hwndDlg, IDC_MSGTABS);
 
@@ -815,11 +815,9 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			switch (((LPNMHDR)lParam)->code) {
 			case NM_CLICK:
 			case NM_RCLICK:
-				unsigned int nParts, nPanel;
-				NMMOUSE *nm = (NMMOUSE*)lParam;
 				RECT rc;
-
-				nParts = SendMessage(pContainer->hwndStatus, SB_GETPARTS, 0, 0);
+				NMMOUSE *nm = (NMMOUSE*)lParam;
+				int nPanel, nParts = SendMessage(pContainer->hwndStatus, SB_GETPARTS, 0, 0);
 				if (nm->dwItemSpec == 0xFFFFFFFE) {
 					nPanel = 2;
 					SendMessage(pContainer->hwndStatus, SB_GETRECT, nPanel, (LPARAM)&rc);
@@ -861,10 +859,10 @@ panel_found:
 			iItem = TabCtrl_GetCurSel(hwndTab);
 			item.mask = TCIF_PARAM;
 			if (TabCtrl_GetItem(hwndTab, iItem, &item)) {
-				if ((HWND)item.lParam != pContainer->hwndActive) {
+				if ((HWND)item.lParam != pContainer->hwndActive)
 					if (pContainer->hwndActive && IsWindow(pContainer->hwndActive))
 						ShowWindow(pContainer->hwndActive, SW_HIDE);
-				}
+
 				pContainer->hwndActive = (HWND)item.lParam;
 				SendMessage((HWND)item.lParam, DM_SAVESIZE, 0, 1);
 				ShowWindow((HWND)item.lParam, SW_SHOW);
@@ -1161,10 +1159,10 @@ panel_found:
 			}
 			if (dat) {
 				SendMessage(hwndDlg, DM_SETICON, (WPARAM)dat, (LPARAM)(dat->hXStatusIcon ? dat->hXStatusIcon : dat->hTabStatusIcon));
-				const TCHAR *szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
+				TCHAR *szNewTitle = Utils::FormatTitleBar(dat, pContainer->settings->szTitleFormat);
 				if (szNewTitle) {
 					SetWindowText(hwndDlg, szNewTitle);
-					mir_free((void*)szNewTitle);
+					mir_free(szNewTitle);
 				}
 			}
 		}
@@ -1172,7 +1170,6 @@ panel_found:
 
 	case WM_TIMER:
 		if (wParam == TIMERID_HEARTBEAT) {
-			TWindowData *dat = 0;
 			if (GetForegroundWindow() != hwndDlg && (pContainer->settings->autoCloseSeconds > 0) && !pContainer->fHidden) {
 				BOOL fResult = TRUE;
 				BroadCastContainer(pContainer, DM_CHECKAUTOHIDE, (WPARAM)pContainer->settings->autoCloseSeconds, (LPARAM)&fResult);
@@ -1180,7 +1177,8 @@ panel_found:
 				if (fResult && 0 == pContainer->hWndOptions)
 					PostMessage(hwndDlg, WM_CLOSE, 1, 0);
 			}
-			dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
+
+			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			if (dat && dat->bType == SESSIONTYPE_IM) {
 				if (dat->idle && pContainer->hwndActive && IsWindow(pContainer->hwndActive))
 					dat->Panel->Invalidate(TRUE);
@@ -1224,7 +1222,6 @@ panel_found:
 		case SC_MINIMIZE:
 			TWindowData *dat = reinterpret_cast<TWindowData *>(GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA));
 			if (dat) {
-				//GetWindowRect(GetDlgItem(pContainer->hwndActive, dat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &pContainer->rcLogSaved);
 				GetWindowRect(pContainer->hwndActive, &pContainer->rcLogSaved);
 				pContainer->ptLogSaved.x = pContainer->rcLogSaved.left;
 				pContainer->ptLogSaved.y = pContainer->rcLogSaved.top;
@@ -1235,8 +1232,6 @@ panel_found:
 
 	case DM_SELECTTAB:
 		switch (wParam) {
-		int iItems, iCurrent, iNewTab;
-
 		case DM_SELECT_BY_HWND:
 			ActivateTabFromHWND(hwndTab, (HWND)lParam);
 			break;
@@ -1244,11 +1239,12 @@ panel_found:
 		case DM_SELECT_NEXT:
 		case DM_SELECT_PREV:
 		case DM_SELECT_BY_INDEX:
-			iItems = TabCtrl_GetItemCount(hwndTab);
-			iCurrent = TabCtrl_GetCurSel(hwndTab);
-
+			int iItems = TabCtrl_GetItemCount(hwndTab);
 			if (iItems == 1)
 				break;
+
+			int iCurrent = TabCtrl_GetCurSel(hwndTab), iNewTab;
+
 			if (wParam == DM_SELECT_PREV)
 				iNewTab = iCurrent ? iCurrent - 1 : iItems - 1;     // cycle if current is already the leftmost tab..
 			else if (wParam == DM_SELECT_NEXT)

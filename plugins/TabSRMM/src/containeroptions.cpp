@@ -139,7 +139,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	TContainerData *pContainer = 0;
 	HWND   hwndTree = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
-	pContainer = (TContainerData*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 		case WM_INITDIALOG: {
@@ -152,7 +152,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			const 			TSideBarLayout* sblayouts = CSideBar::getLayouts(nr_layouts);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) lParam);
-			pContainer = (TContainerData*) lParam;
+			pContainer = (TContainerData*)lParam;
 			pContainer->hWndOptions = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
 			SetWindowText(hwndDlg, TranslateT("Container options"));
