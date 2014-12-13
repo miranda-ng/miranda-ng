@@ -155,47 +155,47 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 				moOptions.dwHotkey_Case = SendDlgItemMessage(hWnd, IDC_HOTKEY_CASE, HKM_GETHOTKEY, 0, 0);							
 
 				//Допишем к символам управляющие клавиши
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT_SHIFT, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_SHIFT)) 
 					moOptions.dwHotkey_Layout |= 0x00000100;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT_CTRL, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_CTRL)) 
 					moOptions.dwHotkey_Layout |= 0x00000200;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT_ALT, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_ALT)) 
 					moOptions.dwHotkey_Layout |= 0x00000400;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT_WIN, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_WIN)) 
 					moOptions.dwHotkey_Layout |= 0x00000800;
 
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT2_SHIFT, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_SHIFT)) 
 					moOptions.dwHotkey_Layout2 |= 0x00000100;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT2_CTRL, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_CTRL)) 
 					moOptions.dwHotkey_Layout2 |= 0x00000200;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT2_ALT, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_ALT)) 
 					moOptions.dwHotkey_Layout2 |= 0x00000400;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT2_WIN, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT2_WIN)) 
 					moOptions.dwHotkey_Layout2 |= 0x00000800;
 
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_CASE_SHIFT, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_SHIFT)) 
 					moOptions.dwHotkey_Case |= 0x00000100;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_CASE_CTRL, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_CTRL)) 
 					moOptions.dwHotkey_Case |= 0x00000200;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_CASE_ALT, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_ALT)) 
 					moOptions.dwHotkey_Case |= 0x00000400;
-				if (SendDlgItemMessage(hWnd, IDC_CHECK_CASE_WIN, BM_GETCHECK, 0, 0)) 
+				if (IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_WIN)) 
 					moOptions.dwHotkey_Case |= 0x00000800;
 
 
 				//Прочие опции
-				moOptions.CurrentWordLayout = SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT_MODE, BM_GETCHECK, 0, 0);
-				moOptions.CurrentWordLayout2 = SendDlgItemMessage(hWnd, IDC_CHECK_LAYOUT_MODE2, BM_GETCHECK, 0, 0);
-				moOptions.CurrentWordCase = SendDlgItemMessage(hWnd, IDC_CHECK_CASE_MODE, BM_GETCHECK, 0, 0);
-				moOptions.TwoWay = SendDlgItemMessage(hWnd, IDC_CHECK_TWOWAY, BM_GETCHECK, 0, 0);
-				moOptions.ChangeSystemLayout = SendDlgItemMessage(hWnd, IDC_CHECK_SYSTEMLAYOUT, BM_GETCHECK, 0, 0);
-				moOptions.CopyToClipboard = SendDlgItemMessage(hWnd, IDC_CHECK_CLIPBOARD, BM_GETCHECK, 0, 0);
-				moOptions.ShowPopup = SendDlgItemMessage(hWnd, IDC_CHECK_POPUP, BM_GETCHECK, 0, 0);
+				moOptions.CurrentWordLayout = IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_MODE);
+				moOptions.CurrentWordLayout2 = IsDlgButtonChecked(hWnd, IDC_CHECK_LAYOUT_MODE2);
+				moOptions.CurrentWordCase = IsDlgButtonChecked(hWnd, IDC_CHECK_CASE_MODE);
+				moOptions.TwoWay = IsDlgButtonChecked(hWnd, IDC_CHECK_TWOWAY);
+				moOptions.ChangeSystemLayout = IsDlgButtonChecked(hWnd, IDC_CHECK_SYSTEMLAYOUT);
+				moOptions.CopyToClipboard = IsDlgButtonChecked(hWnd, IDC_CHECK_CLIPBOARD);
+				moOptions.ShowPopup = IsDlgButtonChecked(hWnd, IDC_CHECK_POPUP);
 
 				// CapsLock
-				if (SendDlgItemMessage(hWnd, IDC_RADIO_OFFCAPS, BM_GETCHECK, 0, 0) == BST_CHECKED)
+				if (IsDlgButtonChecked(hWnd, IDC_RADIO_OFFCAPS) == BST_CHECKED)
 					moOptions.bCaseOperations = 1;
-				else if (SendDlgItemMessage(hWnd, IDC_RADIO_IGNORECAPS, BM_GETCHECK, 0, 0) == BST_CHECKED)
+				else if (IsDlgButtonChecked(hWnd, IDC_RADIO_IGNORECAPS) == BST_CHECKED)
 					moOptions.bCaseOperations = 2;
 				else moOptions.bCaseOperations = 0;								
 

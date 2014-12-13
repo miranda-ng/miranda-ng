@@ -234,13 +234,13 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 					dwFlags &= ~(ECF_FORCEOVERLAY | ECF_HIDEOVERLAY | ECF_FORCELOCALTIME | ECF_HIDELOCALTIME);
 
-					checked = SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_GETCHECK, 0, 0);
+					checked = IsDlgButtonChecked(hWnd, IDC_OVERLAYICON);
 					if (checked == BST_CHECKED)
 						dwFlags |= ECF_FORCEOVERLAY;
 					else if (checked == BST_UNCHECKED)
 						dwFlags |= ECF_HIDEOVERLAY;
 
-					checked = SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_GETCHECK, 0, 0);
+					checked = IsDlgButtonChecked(hWnd, IDC_SHOWLOCALTIME1);
 					if (checked == BST_CHECKED)
 						dwFlags |= ECF_FORCELOCALTIME;
 					else if (checked == BST_UNCHECKED)

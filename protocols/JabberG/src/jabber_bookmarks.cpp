@@ -73,7 +73,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 			if (item->nick) SetDlgItemText(hwndDlg, IDC_NICK, item->nick);
 			if (item->password) SetDlgItemText(hwndDlg, IDC_PASSWORD, item->password);
 			if (item->bAutoJoin) SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_CHECKED, 0);
-			if (SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED)
+			if (IsDlgButtonChecked(hwndDlg, IDC_ROOM_RADIO) == BST_CHECKED)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE);
 		}
 		else {
@@ -117,7 +117,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 
 				item = param->ppro->ListAdd(LIST_BOOKMARK, roomJID);
 
-				if (SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED)
+				if (IsDlgButtonChecked(hwndDlg, IDC_URL_RADIO) == BST_CHECKED)
 					replaceStrT(item->type, _T("url"));
 				else
 					replaceStrT(item->type, _T("conference"));
@@ -131,7 +131,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 				GetDlgItemText(hwndDlg, IDC_NAME, text, SIZEOF(text));
 				replaceStrT(item->name, (text[0] == 0) ? roomJID : text);
 
-				item->bAutoJoin = (SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_GETCHECK,0, 0) == BST_CHECKED);
+				item->bAutoJoin = (IsDlgButtonChecked(hwndDlg, IDC_CHECK_BM_AUTOJOIN) == BST_CHECKED);
 
 				XmlNodeIq iq( param->ppro->AddIQ(&CJabberProto::OnIqResultSetBookmarks, JABBER_IQ_TYPE_SET));
 				param->ppro->SetBookmarkRequest(iq);

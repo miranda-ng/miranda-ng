@@ -208,7 +208,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			SendMessage(hwndDlg, WM_CLOSE, 0, 0);
 			break;
 		case IDOK:
-			if (SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_GETCHECK, 0, 0) == BST_CHECKED)
+			if (IsDlgButtonChecked(hwndDlg, IDC_STATUSCHANGE) == BST_CHECKED)
 				db_set_b(hContact,S_MOD,"OnlineAlert",1);
 			else
 				db_set_b(hContact,S_MOD,"OnlineAlert",0);
