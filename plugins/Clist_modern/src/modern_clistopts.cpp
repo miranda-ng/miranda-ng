@@ -312,7 +312,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 		if (!ServiceExists(MS_AV_GETAVATARBITMAP)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_ANIAVATARS), FALSE);
-			SetDlgItemText(hwndDlg, IDC_SHOW_ANIAVATARS, TranslateT("Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)"));
+			SetDlgItemText(hwndDlg, IDC_SHOW_ANIAVATARS, TranslateT("Animate avatars (GDI+ and Avatar service module (avs.dll) are required)"));
 		}
 		break;
 
