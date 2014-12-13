@@ -50,12 +50,12 @@ namespace xfirelib {
 
 	VariableValue friends;
 
-	XDEBUG2( "Len: %ld\n", length );
+	XDEBUG2( "Len: %d\n", length );
 
 	index+=8; //paar bytes überspringen
 
     int numberOfIds = (unsigned char)buf[index];
-	XDEBUG2( "numberofId: %ld\n", numberOfIds );
+	XDEBUG2( "numberofId: %d\n", numberOfIds );
     index++;
     index++;//ignore 00
 	sids = new vector<char *>;

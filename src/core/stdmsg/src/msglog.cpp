@@ -301,17 +301,20 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 	}
 
 	if (!(g_dat.flags & SMF_HIDENAMES) && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
-		TCHAR* szName;
+		TCHAR *szName;
 		CONTACTINFO ci = { 0 };
 
 		if (dbei.flags & DBEF_SENT) {
 			ci.cbSize = sizeof(ci);
 			ci.szProto = dbei.szModule;
 			ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)& ci)) {
+			if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 				// CNF_DISPLAY always returns a string type
 				szName = ci.pszVal;
 			}
+			else
+				// Shouldn't happen?
+				szName = TranslateT("Me");
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 

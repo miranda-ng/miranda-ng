@@ -51,7 +51,7 @@ namespace xfirelib {
 
 	VariableValue friends;
 
-	XDEBUG2( "Len: %ld\n", length );
+	XDEBUG2( "Len: %d\n", length );
 
 	index+=2; //paar bytes überspringen
 
@@ -66,7 +66,7 @@ namespace xfirelib {
    
 	int numberOfIds = friends.getValueAsLong();
 
-	XDEBUG2( "numberofId: %ld\n", numberOfIds );
+	XDEBUG2( "numberofId: %d\n", numberOfIds );
 
     for(int i = 0 ; i < numberOfIds ; i++) {
       index += friends.readValue(buf,index,4);
@@ -74,13 +74,13 @@ namespace xfirelib {
       XDEBUG3( "UserID: %ld %ld\n",i+1, friends.getValueAsLong() );
     }
 
-	XDEBUG2( "NextByte: %ld\n",buf[index] );
-	XDEBUG2( "NextByte: %ld\n",buf[index+1] );
+	XDEBUG2( "NextByte: %c\n",buf[index] );
+	XDEBUG2( "NextByte: %c\n",buf[index+1] );
 
 	index+=3; //nächsten 3 skippen
 
-	XDEBUG2( "NextByte: %ld\n",buf[index] );
-	XDEBUG2( "NextByte: %ld\n",buf[index+1] );
+	XDEBUG2( "NextByte: %c\n",buf[index] );
+	XDEBUG2( "NextByte: %c\n",buf[index+1] );
 	
 	usernames = new vector<string>;
     index = readStrings(usernames,buf,index);

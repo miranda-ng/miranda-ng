@@ -718,25 +718,23 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			HXML n;
-			LONG frameExStyle;
-
 			// lParam is (JABBER_FORM_INFO *)
 			TranslateDialogDefault(hwndDlg);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_FRAME_TEXT), SW_HIDE);
 			jfi = (JABBER_FORM_INFO*)lParam;
 			if (jfi != NULL) {
+				HXML n;
+				LONG frameExStyle;
 				// Set dialog title
-				if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , "title")) != NULL && xmlGetText(n) != NULL)
+				if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , _T("title"))) != NULL && xmlGetText(n) != NULL)
 					SetWindowText(hwndDlg, xmlGetText(n));
 				else if (jfi->defTitle != NULL)
 					SetWindowText(hwndDlg, TranslateTS(jfi->defTitle));
 				// Set instruction field
-				if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , "instructions")) != NULL && xmlGetText(n) != NULL)
+				if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode , _T("instructions"))) != NULL && xmlGetText(n) != NULL)
 					JabberFormSetInstruction(hwndDlg, xmlGetText(n));
 				else {
-					if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode, "title")) != NULL && xmlGetText(n) != NULL)
+					if (jfi->xNode != NULL && (n = xmlGetChild(jfi->xNode, _T("title"))) != NULL && xmlGetText(n) != NULL)
 						JabberFormSetInstruction(hwndDlg, xmlGetText(n));
 					else if (jfi->defTitle != NULL)
 						JabberFormSetInstruction(hwndDlg, TranslateTS(jfi->defTitle));
@@ -752,26 +750,23 @@ static INT_PTR CALLBACK JabberFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					jfi->frameHeight = rect.bottom - rect.top;
 					JabberFormCreateUI(GetDlgItem(hwndDlg, IDC_FRAME), jfi->xNode, &(jfi->formHeight));
 				}
+
+				if (jfi->formHeight > jfi->frameHeight) {
+					HWND hwndScroll = GetDlgItem(hwndDlg, IDC_VSCROLL);
+					EnableWindow(hwndScroll, TRUE);
+					SetScrollRange(hwndScroll, SB_CTL, 0, jfi->formHeight - jfi->frameHeight, FALSE);
+					jfi->curPos = 0;
+				}
+
+				// Enable WS_EX_CONTROLPARENT on IDC_FRAME (so tab stop goes through all its children)
+				frameExStyle = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE);
+				frameExStyle |= WS_EX_CONTROLPARENT;
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
+
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) jfi);
+				if (jfi->pfnSubmit != NULL)
+					EnableWindow(GetDlgItem(hwndDlg, IDC_SUBMIT), TRUE);
 			}
-
-			if (jfi->formHeight > jfi->frameHeight) {
-				HWND hwndScroll;
-
-				hwndScroll = GetDlgItem(hwndDlg, IDC_VSCROLL);
-				EnableWindow(hwndScroll, TRUE);
-				SetScrollRange(hwndScroll, SB_CTL, 0, jfi->formHeight - jfi->frameHeight, FALSE);
-				jfi->curPos = 0;
-			}
-
-			// Enable WS_EX_CONTROLPARENT on IDC_FRAME (so tab stop goes through all its children)
-			frameExStyle = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE);
-			frameExStyle |= WS_EX_CONTROLPARENT;
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_FRAME), GWL_EXSTYLE, frameExStyle);
-
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) jfi);
-			if (jfi->pfnSubmit != NULL)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_SUBMIT), TRUE);
-		}
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
