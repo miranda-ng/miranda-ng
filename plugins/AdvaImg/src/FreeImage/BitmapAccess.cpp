@@ -234,8 +234,7 @@ FreeImage_AllocateHeaderT(BOOL header_only, FREE_IMAGE_TYPE type, int width, int
 		return NULL;
 	}
 
-	// we only store the masks (and allocate memory for
-	// them) for 16 images of type FIT_BITMAP
+	// we only store the masks (and allocate memory for them) for 16-bit images of type FIT_BITMAP
 	BOOL need_masks = FALSE;
 
 	// check pixel bit depth
@@ -248,7 +247,7 @@ FreeImage_AllocateHeaderT(BOOL header_only, FREE_IMAGE_TYPE type, int width, int
 					break;
 				case 16:
 					need_masks = TRUE;
-                    break;
+					break;
 				case 24:
 				case 32:
 					break;
@@ -556,6 +555,20 @@ FreeImage_GetColorType(FIBITMAP *dib) {
 	// special bitmap type
 	if(image_type != FIT_BITMAP) {
 		switch(image_type) {
+			case FIT_UINT16:
+			{
+				// 16-bit greyscale TIF can be either FIC_MINISBLACK (the most common case) or FIC_MINISWHITE
+				// you can check this using EXIF_MAIN metadata
+				FITAG *photometricTag = NULL;
+				if(FreeImage_GetMetadata(FIMD_EXIF_MAIN, dib, "PhotometricInterpretation", &photometricTag)) {
+					const short *value = (short*)FreeImage_GetTagValue(photometricTag);
+					// PHOTOMETRIC_MINISWHITE = 0 => min value is white
+					// PHOTOMETRIC_MINISBLACK = 1 => min value is black
+					return (*value == 0) ? FIC_MINISWHITE : FIC_MINISBLACK;
+				}
+				return FIC_MINISBLACK;
+			}
+			break;
 			case FIT_RGB16:
 			case FIT_RGBF:
 				return FIC_RGB;
@@ -668,20 +681,44 @@ FreeImage_HasRGBMasks(FIBITMAP *dib) {
 
 unsigned DLL_CALLCONV
 FreeImage_GetRedMask(FIBITMAP *dib) {
-	FREEIMAGERGBMASKS *masks = FreeImage_GetRGBMasks(dib);
-	return masks ? masks->red_mask : 0;
+	FREEIMAGERGBMASKS *masks = NULL;
+	FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
+	switch(image_type) {
+		case FIT_BITMAP:
+			// check for 16-bit RGB (565 or 555)
+			masks = FreeImage_GetRGBMasks(dib);
+			return masks ? masks->red_mask : FI_RGBA_RED_MASK;
+		default:
+			return 0;
+	}
 }
 
 unsigned DLL_CALLCONV
 FreeImage_GetGreenMask(FIBITMAP *dib) {
-	FREEIMAGERGBMASKS *masks = FreeImage_GetRGBMasks(dib);
-	return masks ? masks->green_mask : 0;
+	FREEIMAGERGBMASKS *masks = NULL;
+	FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
+	switch(image_type) {
+		case FIT_BITMAP:
+			// check for 16-bit RGB (565 or 555)
+			masks = FreeImage_GetRGBMasks(dib);
+			return masks ? masks->green_mask : FI_RGBA_GREEN_MASK;
+		default:
+			return 0;
+	}
 }
 
 unsigned DLL_CALLCONV
 FreeImage_GetBlueMask(FIBITMAP *dib) {
-	FREEIMAGERGBMASKS *masks = FreeImage_GetRGBMasks(dib);
-	return masks ? masks->blue_mask : 0;
+	FREEIMAGERGBMASKS *masks = NULL;
+	FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
+	switch(image_type) {
+		case FIT_BITMAP:
+			// check for 16-bit RGB (565 or 555)
+			masks = FreeImage_GetRGBMasks(dib);
+			return masks ? masks->blue_mask : FI_RGBA_BLUE_MASK;
+		default:
+			return 0;
+	}
 }
 
 // ----------------------------------------------------------

@@ -365,6 +365,13 @@ RGBA to RGB conversion
 */
 FIBITMAP* RemoveAlphaChannel(FIBITMAP* dib);
 
+/**
+Rotate a dib according to Exif info
+@param dib Input / Output dib to rotate
+@see Exif.cpp, PluginJPEG.cpp
+*/
+void RotateExif(FIBITMAP **dib);
+
 
 // ==========================================================
 //   Big Endian / Little Endian utility functions

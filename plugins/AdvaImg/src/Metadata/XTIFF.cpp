@@ -451,10 +451,20 @@ tiff_read_exif_tag(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib, TagLib& t
 			FreeImage_SetTagValue(fitag, raw_data);
 			break;
 
+		case TIFF_ASCII:
 		default: {
-			// remember that raw_data = _TIFFmalloc(value_size * value_count);
-			const int value_size = _TIFFDataSize(fip->field_type);
-			size_t length = value_size * value_count;
+			size_t length = 0;
+			if(!mem_alloc && (fip->field_type == TIFF_ASCII) && (fip->field_readcount == TIFF_VARIABLE)) {
+				// when metadata tag is of type ASCII and it's value is of variable size (TIFF_VARIABLE),
+				// tiff_read_exif_tag function gives length of 1 so all strings are truncated ...
+				// ... try to avoid this by using an explicit calculation for 'length'
+				length = strlen((char*)raw_data) + 1;
+			}
+			else {
+				// remember that raw_data = _TIFFmalloc(value_size * value_count);
+				const int value_size = _TIFFDataSize(fip->field_type);
+				length = value_size * value_count;
+			}
 			FreeImage_SetTagType(fitag, FIDT_ASCII);
 			FreeImage_SetTagLength(fitag, (DWORD)length);
 			FreeImage_SetTagCount(fitag, (DWORD)length);

@@ -361,7 +361,7 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 					header->fif = fif;
 					header->handle = handle;
 					header->changed = FALSE;
-					header->read_only = read_only;	
+					header->read_only = read_only;
 					header->m_cachefile = NULL;
 					header->cache_fif = fif;
 					header->load_flags = flags;
@@ -381,7 +381,7 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 					if (!read_only) {
 						// set up the cache
 						std::auto_ptr<CacheFile> cache_file (new CacheFile("", TRUE));
-						
+
 						if (cache_file->open()) {
 							header->m_cachefile = cache_file.release();
 						}
@@ -408,7 +408,7 @@ FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, 
 
 	// retrieve the plugin list to find the node belonging to this plugin
 	PluginList *list = FreeImage_GetPluginList();
-	
+
 	if (list) {
 		PluginNode *node = list->FindNodeFromFIF(fif);
 

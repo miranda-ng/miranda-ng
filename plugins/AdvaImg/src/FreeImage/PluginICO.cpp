@@ -339,7 +339,8 @@ LoadStandardIcon(FreeImageIO *io, fi_handle handle, int flags, BOOL header_only)
 	// bitmap has been loaded successfully!
 
 	// convert to 32bpp and generate an alpha channel
-	if((flags & ICO_MAKEALPHA) == ICO_MAKEALPHA) {
+	// apply the AND mask only if the image is not 32 bpp
+	if(((flags & ICO_MAKEALPHA) == ICO_MAKEALPHA) && (bit_count < 32)) {
 		FIBITMAP *dib32 = FreeImage_ConvertTo32Bits(dib);
 		FreeImage_Unload(dib);
 

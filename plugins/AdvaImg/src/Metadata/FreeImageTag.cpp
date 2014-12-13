@@ -117,11 +117,23 @@ FreeImage_CloneTag(FITAG *tag) {
 		// tag length
 		dst_tag->length = src_tag->length;
 		// tag value
-		dst_tag->value = (BYTE*)malloc(src_tag->length * sizeof(BYTE));
-		if(!dst_tag->value) {
-			throw FI_MSG_ERROR_MEMORY;
+		switch(dst_tag->type) {
+			case FIDT_ASCII:
+				dst_tag->value = (BYTE*)malloc((src_tag->length + 1) * sizeof(BYTE));
+				if(!dst_tag->value) {
+					throw FI_MSG_ERROR_MEMORY;
+				}
+				memcpy(dst_tag->value, src_tag->value, src_tag->length);
+				((BYTE*)dst_tag->value)[src_tag->length] = 0;
+				break;
+			default:
+				dst_tag->value = (BYTE*)malloc(src_tag->length * sizeof(BYTE));
+				if(!dst_tag->value) {
+					throw FI_MSG_ERROR_MEMORY;
+				}
+				memcpy(dst_tag->value, src_tag->value, src_tag->length);
+				break;
 		}
-		memcpy(dst_tag->value, src_tag->value, src_tag->length);
 
 		return clone;
 
