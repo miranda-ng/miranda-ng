@@ -40,9 +40,9 @@ void CDb3Mmap::ConvertOldEvent(DBEvent*& dbei)
 {
 	int msglen = (int)strlen((char*)dbei->blob) + 1, msglenW = 0;
 	if (msglen != (int)dbei->cbBlob) {
-		int i, count = ((dbei->cbBlob - msglen) / sizeof(WCHAR));
+		int count = ((dbei->cbBlob - msglen) / sizeof(WCHAR));
 		WCHAR* p = (WCHAR*)&dbei->blob[msglen];
-		for (i = 0; i < count; i++) {
+		for (int i = 0; i < count; i++) {
 			if (p[i] == 0) {
 				msglenW = i;
 				break;
@@ -132,9 +132,6 @@ DWORD CDb3Mmap::WriteEvent(DBEvent *dbe)
 
 int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 {
-	DBEvent *dbeNew, dbeOld;
-	DBEvent *dbePrev = NULL;
-	DWORD ofsDestThis;
 	int isUnread = 0;
 
 	if (firstTime) {
@@ -161,6 +158,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		return ERROR_NO_MORE_ITEMS;
 	}
 
+	DBEvent dbeOld;
 	if (!SignatureValid(ofsThisEvent, DBEVENT_SIGNATURE)) {
 		DWORD ofsNew = 0;
 		DWORD ofsTmp = dbc->ofsLastEvent;
@@ -221,6 +219,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		return ERROR_SUCCESS;
 	}
 
+	DBEvent *dbePrev = NULL;
 	if (dbePrevEvent && dbeOld.timestamp == lastTimestamp) {
 		int len = offsetof(DBEvent, blob) + dbePrevEvent->cbBlob;
 		dbePrev = (DBEvent*)malloc(len);
@@ -231,7 +230,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		memsize = offsetof(DBEvent, blob) + dbeOld.cbBlob;
 		memblock = (DBEvent*)realloc(memblock, memsize);
 	}
-	dbeNew = memblock;
+	DBEvent *dbeNew = memblock;
 
 	DWORD ret;
 	if (m_dbHeader.version < DB_095_1_VERSION) {
@@ -265,17 +264,8 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	if (dbeNew->contactID == 0)
 		dbeNew->contactID = dbc->dwContactID;
 
-	if (dbeOld.wEventType == EVENTTYPE_MESSAGE && cb->bConvertUtf && !(dbeOld.flags & DBEF_ENCRYPTED)) {
-		DWORD oldSize = dbeNew->cbBlob;
-		BYTE* pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
-		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
-		memmove(dbeNew->blob, pOldMemo, dbeNew->cbBlob); // decode
+	if (dbeOld.wEventType == EVENTTYPE_MESSAGE && cb->bConvertUtf && !(dbeOld.flags & DBEF_ENCRYPTED))
 		ConvertOldEvent(dbeNew);
-		if (dbeNew->cbBlob > oldSize)
-			pOldMemo = (BYTE*)_alloca(dbeNew->cbBlob);
-		memcpy(pOldMemo, dbeNew->blob, dbeNew->cbBlob);
-		memmove(dbeNew->blob, pOldMemo, dbeNew->cbBlob);   // encode
-	}
 
 	if (dbePrev) {
 		if (dbePrev->cbBlob == dbeNew->cbBlob &&
@@ -340,7 +330,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 			dbeNew->ofsPrev = 0;
 			dbeNew->ofsNext = dbc->ofsFirstEvent;
 
-			ofsDestThis = WriteEvent(dbeNew);
+			DWORD ofsDestThis = WriteEvent(dbeNew);
 			if (!ofsDestThis)
 				return ERROR_HANDLE_DISK_FULL;
 
@@ -357,7 +347,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 			dbeNew->ofsPrev = ofsTmp;
 			dbeNew->ofsNext = dbeTmp.ofsNext;
 
-			ofsDestThis = WriteEvent(dbeNew);
+			DWORD ofsDestThis = WriteEvent(dbeNew);
 			if (!ofsDestThis)
 				return ERROR_HANDLE_DISK_FULL;
 
@@ -383,7 +373,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	lastTimestamp = dbeNew->timestamp;
 	dbePrevEvent = dbeNew;
 
-	ofsDestThis = WriteEvent(dbeNew);
+	DWORD ofsDestThis = WriteEvent(dbeNew);
 	if (!ofsDestThis)
 		return ERROR_HANDLE_DISK_FULL;
 
