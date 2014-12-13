@@ -1575,11 +1575,10 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			switch (((ENLINK*)lParam)->msg) {
 			case WM_LBUTTONUP:
 				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
-				const TCHAR *tszUrl = Utils::extractURLFromRichEdit(e, m_hRich);
-				if (tszUrl) {
-					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)tszUrl);
-					mir_free(const_cast<TCHAR *>(tszUrl));
-				}
+				ptrT tszUrl(Utils::extractURLFromRichEdit(e, m_hRich));
+				if (tszUrl)
+					CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, tszUrl);
+
 				::DestroyWindow(hwnd);
 			}
 		}

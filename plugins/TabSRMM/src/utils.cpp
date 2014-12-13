@@ -959,23 +959,22 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *tszNam
 // @param 	hwndRich -  rich edit window handle
 // @return	wchar_t*	extracted URL
 
-const wchar_t* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
+TCHAR* Utils::extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich)
 {
-	TEXTRANGEW 	tr = {0};
-	CHARRANGE 	sel = {0};
-
-	::SendMessageW(hwndRich, EM_EXGETSEL, 0, (LPARAM)&sel);
+	CHARRANGE sel = {0};
+	::SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin != sel.cpMax)
 		return 0;
 
+	TEXTRANGE tr;
 	tr.chrg = _e->chrg;
-	tr.lpstrText = (wchar_t *)mir_alloc(2 * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
-	::SendMessageW(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
-	if (wcschr(tr.lpstrText, '@') != NULL && wcschr(tr.lpstrText, ':') == NULL && wcschr(tr.lpstrText, '/') == NULL) {
-		::memmove(tr.lpstrText + 7, tr.lpstrText, sizeof(wchar_t) * (tr.chrg.cpMax - tr.chrg.cpMin + 1));
-		::memcpy(tr.lpstrText, L"mailto:", 7 * sizeof(wchar_t));
+	tr.lpstrText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (tr.chrg.cpMax - tr.chrg.cpMin + 8));
+	::SendMessage(hwndRich, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
+	if (_tcschr(tr.lpstrText, '@') != NULL && _tcschr(tr.lpstrText, ':') == NULL && _tcschr(tr.lpstrText, '/') == NULL) {
+		mir_tstrncpy(tr.lpstrText, _T("mailto:"), 7);
+		mir_tstrncpy(tr.lpstrText + 7, tr.lpstrText, tr.chrg.cpMax - tr.chrg.cpMin + 1);
 	}
-	return(tr.lpstrText);
+	return tr.lpstrText;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
