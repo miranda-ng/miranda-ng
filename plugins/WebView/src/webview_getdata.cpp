@@ -492,7 +492,7 @@ LBL_Stop:			TCHAR *statusText = TranslateT("Processing data stopped by user.");
 				if (eventIndex == 2) {
 					CHARRANGE sel2 = {location, location2};
 
-					SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_EXSETSEL, 0, (LPARAM) & sel2);
+					SendDlgItemMessage(hwndDlg, IDC_DATA, EM_EXSETSEL, 0, (LPARAM)&sel2);
 					SetFocus(GetDlgItem(hwndDlg, IDC_DATA));
 
 					DWORD HiBackgoundClr = db_get_dw(NULL, MODULENAME, BG_COLOR_KEY, Def_color_bg);
@@ -505,14 +505,14 @@ LBL_Stop:			TCHAR *statusText = TranslateT("Processing data stopped by user.");
 					Format.dwEffects = CFE_BOLD;
 					Format.crBackColor = ((~HiBackgoundClr) & 0x00ffffff);
 					Format.crTextColor = ((~HiTextClr) & 0x00ffffff);
-					SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) & Format);
+					SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&Format);
 				}
 			}
 
 			SetDlgItemTextA(hwndDlg, IDC_STATUSBAR, timestring);
 			sprintf(BytesString, "%s: %d | %s: %lu", (Translate("Bytes in display")), (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_DATA))), (Translate("Bytes downloaded")), downloadsize);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_STATUSBAR), SB_SETTEXT, 1, (LPARAM) BytesString);
+			SendDlgItemMessage(hwndDlg, IDC_STATUSBAR, SB_SETTEXT, 1, (LPARAM)BytesString);
 		}
 		else SetDlgItemText(hwndDlg, IDC_STATUSBAR, TranslateT("Alert test conditions not met; press the refresh button to view content."));
 	}

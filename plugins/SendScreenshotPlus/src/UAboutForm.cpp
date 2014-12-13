@@ -101,7 +101,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	mir_free(pszPlug);
 	mir_free(pszVer);
 	SetDlgItemText( m_hWnd, IDC_HEADERBAR, newTitle );
-	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
 	//License
 	{	mir_tcsadd(pszTitle ,_T(__COPYRIGHT));
@@ -136,7 +136,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	//init controls
 	btnPageClick();
-	SendMessage(GetDlgItem(m_hWnd, IDA_CONTRIBLINK), BUTTONSETDEFAULT, 1, NULL);
+	SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONSETDEFAULT, 1, NULL);
 
 	TranslateDialogDefault(m_hWnd);
 	return FALSE;

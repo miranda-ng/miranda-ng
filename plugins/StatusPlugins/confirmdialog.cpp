@@ -77,7 +77,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam
 		switch (LOWORD(wParam)) {
 		case IDC_OK:
 			{
-				int len = SendMessage(GetDlgItem(hwndDlg, IDC_STSMSG), WM_GETTEXTLENGTH, 0, 0);
+				int len = SendDlgItemMessage(hwndDlg, IDC_STSMSG, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
 					protoSetting->szMsg = ( TCHAR* )realloc(protoSetting->szMsg, sizeof(TCHAR)*(len+1));
 					if (protoSetting->szMsg != NULL)

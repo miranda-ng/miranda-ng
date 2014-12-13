@@ -410,14 +410,14 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			case IDC_CONTTYPE:
 				if (HIWORD(wParam) == CBN_SELENDOK) {
 					TVITEM tv = {0};
-					int index = SendMessage(GetDlgItem(hwndDlg,IDC_CONTTYPE),CB_GETCURSEL, 0, 0);
+					int index = SendDlgItemMessage(hwndDlg, IDC_CONTTYPE, CB_GETCURSEL, 0, 0);
 					cell->type = index;
 					RefreshTree(hwndDlg,NULL);
 				}
 
 			case IDC_VALIGN:
 				if (HIWORD(wParam) == CBN_SELENDOK) {
-					switch (SendMessage(GetDlgItem(hwndDlg,IDC_VALIGN),CB_GETCURSEL, 0, 0)) {
+					switch (SendDlgItemMessage(hwndDlg, IDC_VALIGN, CB_GETCURSEL, 0, 0)) {
 					case 0:
 						cell->valign = TC_TOP;
 						break;
@@ -433,7 +433,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			case IDC_HALIGN:
 				if (HIWORD(wParam) == CBN_SELENDOK) {
-					switch (SendMessage(GetDlgItem(hwndDlg,IDC_HALIGN),CB_GETCURSEL, 0, 0)) {
+					switch (SendDlgItemMessage(hwndDlg, IDC_HALIGN, CB_GETCURSEL, 0, 0)) {
 					case 0:
 						cell->halign = TC_LEFT;
 						break;

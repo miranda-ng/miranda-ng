@@ -476,16 +476,16 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SetDlgItemText(hdlg, IDC_VARLIST, str);
 
 		// make the more variable and other buttons flat
-		SendMessage(GetDlgItem(hdlg, IDC_MORE), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM1), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM2), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM3), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM4), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM5), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM6), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM7), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_TM8), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg, IDC_RESET), BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_MORE, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM1, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM2, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM3, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM4, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM5, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM6, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM7, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_TM8, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_RESET, BUTTONSETASFLATBTN, TRUE, 0);
 		// load the settings
 		LoadTextSettings(hdlg);
 		opt_startup = FALSE;

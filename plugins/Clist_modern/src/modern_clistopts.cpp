@@ -176,7 +176,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 
 		if (LOWORD(wParam) == IDC_LIST_ORDER || LOWORD(wParam) == IDC_UP || LOWORD(wParam) == IDC_DOWN) {
-			int pos = SendMessage(GetDlgItem(hwndDlg, IDC_LIST_ORDER), LB_GETCURSEL, 0, 0);
+			int pos = SendDlgItemMessage(hwndDlg, IDC_LIST_ORDER, LB_GETCURSEL, 0, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_UP), pos != LB_ERR && pos > 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DOWN), pos != LB_ERR && pos < 4);
 		}
@@ -598,7 +598,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			if (tszText)
 				SetWindowText(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), tszText);
 		}
-		SendMessage(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
+		SendDlgItemMessage(hwndDlg, IDC_VARIABLE_TEXT, EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
 		{
 			int radio = db_get_w(NULL, "CList", "SecondLineType", TEXT_STATUS_MESSAGE);
 			CheckDlgButton(hwndDlg, IDC_STATUS, radio == TEXT_STATUS ? BST_CHECKED : BST_UNCHECKED);
@@ -765,7 +765,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				db_free(&dbv);
 			}
 		}
-		SendMessage(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
+		SendDlgItemMessage(hwndDlg, IDC_VARIABLE_TEXT, EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
 		{
 			int radio = db_get_w(NULL, "CList", "ThirdLineType", SETTING_THIRDLINE_TYPE_DEFAULT);
 			CheckDlgButton(hwndDlg, IDC_STATUS, radio == TEXT_STATUS ? BST_CHECKED : BST_UNCHECKED);

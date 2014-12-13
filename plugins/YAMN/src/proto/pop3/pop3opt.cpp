@@ -397,11 +397,11 @@ BOOL DlgShowAccount(HWND hDlg,WPARAM wParam,LPARAM lParam)
 		for (i=0;i<=CPLENSUPP;i++)
 			if ((i<CPLENSUPP) && (CodePageNamesSupp[i].CP==ActualAccount->CP))
 			{
-				SendMessage(GetDlgItem(hDlg,IDC_COMBOCP),CB_SETCURSEL,(WPARAM)i,0);
+				SendDlgItemMessage(hDlg, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)i, 0);
 				break;
 			}
 		if (i==CPLENSUPP)
-			SendMessage(GetDlgItem(hDlg,IDC_COMBOCP),CB_SETCURSEL,(WPARAM)CPDEFINDEX,0);
+			SendDlgItemMessage(hDlg, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
 
 		CheckDlgButton(hDlg,IDC_CHECK,ActualAccount->Flags & YAMN_ACC_ENA ? BST_CHECKED : BST_UNCHECKED); 
 		CheckDlgButton(hDlg,IDC_CHECKSND,ActualAccount->NewMailN.Flags & YAMN_ACC_SND ? BST_CHECKED : BST_UNCHECKED); 
@@ -471,7 +471,7 @@ BOOL DlgShowAccount(HWND hDlg,WPARAM wParam,LPARAM lParam)
 		SetDlgItemInt(hDlg,IDC_EDITPOPS,0,FALSE);
 		SetDlgItemInt(hDlg,IDC_EDITNPOPS,0,FALSE);
 		SetDlgItemInt(hDlg,IDC_EDITFPOPS,0,FALSE);
-		SendMessage(GetDlgItem(hDlg,IDC_COMBOCP),CB_SETCURSEL,(WPARAM)CPDEFINDEX,0);
+		SendDlgItemMessage(hDlg, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
 		CheckDlgButton(hDlg,IDC_CHECK,BST_CHECKED);
 		CheckDlgButton(hDlg,IDC_CHECKSND,BST_CHECKED);
 		CheckDlgButton(hDlg,IDC_CHECKMSG,BST_UNCHECKED);
@@ -689,7 +689,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 				SendDlgItemMessage(hDlg,IDC_COMBOCP,CB_ADDSTRING,0,(LPARAM)(info.CodePageName+7));
 			}
 
-			SendMessage(GetDlgItem(hDlg,IDC_COMBOCP),CB_SETCURSEL,(WPARAM)CPDEFINDEX,0);
+			SendDlgItemMessage(hDlg, IDC_COMBOCP, CB_SETCURSEL, (WPARAM)CPDEFINDEX, 0);
 			ActualAccount=NULL;			
 			TranslateDialogDefault(hDlg);
 			SendMessage(GetParent(hDlg),PSM_UNCHANGED,(WPARAM)hDlg,0);

@@ -1439,7 +1439,7 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 		return;                                     // feature disabled
 	}
 
-	SendMessage(GetDlgItem(dat->hwnd, ctrlID), EM_PASTESPECIAL, CF_UNICODETEXT, 0);
+	SendDlgItemMessage(dat->hwnd, ctrlID, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 	if (GetWindowTextLength(GetDlgItem(dat->hwnd, ctrlID)) > 0)
 		SendMessage(dat->hwnd, WM_COMMAND, IDOK, 0);
 }
@@ -1763,8 +1763,8 @@ LRESULT TSAPI GetSendButtonState(HWND hwnd)
 
 void TSAPI EnableSendButton(const TWindowData *dat, int iMode)
 {
-	SendMessage(GetDlgItem(dat->hwnd, IDOK), BUTTONSETASNORMAL, iMode, 0);
-	SendMessage(GetDlgItem(dat->hwnd, IDC_PIC), BUTTONSETASNORMAL, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
+	SendDlgItemMessage(dat->hwnd, IDOK, BUTTONSETASNORMAL, iMode, 0);
+	SendDlgItemMessage(dat->hwnd, IDC_PIC, BUTTONSETASNORMAL, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
 
 	HWND hwndOK = GetDlgItem(GetParent(GetParent(dat->hwnd)), IDOK);
 

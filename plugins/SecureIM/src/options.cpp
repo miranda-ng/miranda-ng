@@ -687,7 +687,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 
 		case IDC_NO_KEYRINGS:
 		{
-			BOOL bNoKR = (SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+			BOOL bNoKR = (SendDlgItemMessage(hDlg, IDC_NO_KEYRINGS, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hDlg, IDC_SET_KEYRINGS), !bNoKR);
 			EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), bNoKR);
 			SetDlgItemText(hDlg, IDC_KEYRING_STATUS, bNoKR ? Translate(sim225) : ((bPGP9) ? Translate(sim220) : (bPGPkeyrings ? Translate(sim216) : Translate(sim217))));
@@ -951,20 +951,20 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 
 	GetFlags();
 
-	SendMessage(GetDlgItem(hDlg, IDC_SFT), BM_SETCHECK, (bSFT) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_SOM), BM_SETCHECK, (bSOM) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_ASI), BM_SETCHECK, (bASI) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_MCD), BM_SETCHECK, (bMCD) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_SCM), BM_SETCHECK, (bSCM) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_DGP), BM_SETCHECK, (bDGP) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_AIP), BM_SETCHECK, (bAIP) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_NOL), BM_SETCHECK, (bNOL) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_AAK), BM_SETCHECK, (bAAK) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_MCM), BM_SETCHECK, (bMCM) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_SFT, BM_SETCHECK, (bSFT) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_SOM, BM_SETCHECK, (bSOM) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_ASI, BM_SETCHECK, (bASI) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_MCD, BM_SETCHECK, (bMCD) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_SCM, BM_SETCHECK, (bSCM) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_DGP, BM_SETCHECK, (bDGP) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_AIP, BM_SETCHECK, (bAIP) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_NOL, BM_SETCHECK, (bNOL) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_AAK, BM_SETCHECK, (bAAK) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_MCM, BM_SETCHECK, (bMCM) ? BST_CHECKED : BST_UNCHECKED, 0);
 
 	// Select {OFF,PGP,GPG}
-	SendMessage(GetDlgItem(hDlg, IDC_PGP), BM_SETCHECK, bPGP ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendMessage(GetDlgItem(hDlg, IDC_GPG), BM_SETCHECK, bGPG ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_PGP, BM_SETCHECK, bPGP ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendDlgItemMessage(hDlg, IDC_GPG, BM_SETCHECK, bGPG ? BST_CHECKED : BST_UNCHECKED, 0);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_STD_USERLIST);
@@ -1050,7 +1050,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 	SetDlgItemText(hDlg, IDC_KEYRING_STATUS, !bUseKeyrings ? Translate(sim225) : ((bPGP9) ? Translate(sim220) : (bPGPkeyrings ? Translate(sim216) : Translate(sim217))));
 
 	// Disable keyrings use
-	SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS), BM_SETCHECK, (bUseKeyrings) ? BST_UNCHECKED : BST_CHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_NO_KEYRINGS, BM_SETCHECK, (bUseKeyrings) ? BST_UNCHECKED : BST_CHECKED, 0L);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_PGP_USERLIST);
@@ -1097,15 +1097,15 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 		mir_free(path);
 	}
 	BOOL bGPGLogFlag = db_get_b(0, MODULENAME, "gpgLogFlag", 0);
-	SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX), BM_SETCHECK, (bGPGLogFlag) ? BST_CHECKED : BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_LOGGINGON_CBOX, BM_SETCHECK, (bGPGLogFlag) ? BST_CHECKED : BST_UNCHECKED, 0L);
 	path = db_get_sa(0, MODULENAME, "gpgLog");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, path);
 		mir_free(path);
 	}
-	SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX), BM_SETCHECK, (bSavePass) ? BST_CHECKED : BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_SAVEPASS_CBOX, BM_SETCHECK, (bSavePass) ? BST_CHECKED : BST_UNCHECKED, 0L);
 	BOOL bGPGTmpFlag = db_get_b(0, MODULENAME, "gpgTmpFlag", 0);
-	SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX), BM_SETCHECK, (bGPGTmpFlag) ? BST_CHECKED : BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_TMPPATHON_CBOX, BM_SETCHECK, (bGPGTmpFlag) ? BST_CHECKED : BST_UNCHECKED, 0L);
 	path = db_get_sa(0, MODULENAME, "gpgTmp");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, path);
@@ -1157,14 +1157,14 @@ void ResetGeneralDlg(HWND hDlg)
 	SetDlgItemText(hDlg, IDC_KET, _T("10"));
 	SetDlgItemText(hDlg, IDC_OKT, _T("2"));
 
-	SendMessage(GetDlgItem(hDlg, IDC_SFT), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_SOM), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_ASI), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_MCD), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_SCM), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_DGP), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_AIP), BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendMessage(GetDlgItem(hDlg, IDC_MCM), BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_SFT, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_SOM, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_ASI, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_MCD, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_SCM, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_DGP, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_AIP, BM_SETCHECK, BST_UNCHECKED, 0L);
+	SendDlgItemMessage(hDlg, IDC_MCM, BM_SETCHECK, BST_UNCHECKED, 0L);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_STD_USERLIST);
@@ -1227,28 +1227,28 @@ void ApplyGeneralSettings(HWND hDlg)
 	mir_itoa(tmp, timeout, 10);
 	SetDlgItemText(hDlg, IDC_OKT, timeout);
 
-	bSFT = (SendMessage(GetDlgItem(hDlg, IDC_SFT), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bSOM = (SendMessage(GetDlgItem(hDlg, IDC_SOM), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bASI = (SendMessage(GetDlgItem(hDlg, IDC_ASI), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bMCD = (SendMessage(GetDlgItem(hDlg, IDC_MCD), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bSCM = (SendMessage(GetDlgItem(hDlg, IDC_SCM), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bDGP = (SendMessage(GetDlgItem(hDlg, IDC_DGP), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bAIP = (SendMessage(GetDlgItem(hDlg, IDC_AIP), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bNOL = (SendMessage(GetDlgItem(hDlg, IDC_NOL), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bAAK = (SendMessage(GetDlgItem(hDlg, IDC_AAK), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
-	bMCM = (SendMessage(GetDlgItem(hDlg, IDC_MCM), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bSFT = (SendDlgItemMessage(hDlg, IDC_SFT, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bSOM = (SendDlgItemMessage(hDlg, IDC_SOM, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bASI = (SendDlgItemMessage(hDlg, IDC_ASI, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bMCD = (SendDlgItemMessage(hDlg, IDC_MCD, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bSCM = (SendDlgItemMessage(hDlg, IDC_SCM, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bDGP = (SendDlgItemMessage(hDlg, IDC_DGP, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bAIP = (SendDlgItemMessage(hDlg, IDC_AIP, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bNOL = (SendDlgItemMessage(hDlg, IDC_NOL, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bAAK = (SendDlgItemMessage(hDlg, IDC_AAK, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bMCM = (SendDlgItemMessage(hDlg, IDC_MCM, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 
 	SetFlags();
 
 	// PGP &| GPG flags
 	{
 		tmp = 0;
-		i = SendMessage(GetDlgItem(hDlg, IDC_PGP), BM_GETCHECK, 0L, 0L) == BST_CHECKED;
+		i = SendDlgItemMessage(hDlg, IDC_PGP, BM_GETCHECK, 0L, 0L) == BST_CHECKED;
 		if (i != bPGP) {
 			bPGP = i; tmp++;
 			db_set_b(0, MODULENAME, "pgp", bPGP);
 		}
-		i = SendMessage(GetDlgItem(hDlg, IDC_GPG), BM_GETCHECK, 0L, 0L) == BST_CHECKED;
+		i = SendDlgItemMessage(hDlg, IDC_GPG, BM_GETCHECK, 0L, 0L) == BST_CHECKED;
 		if (i != bGPG) {
 			bGPG = i; tmp++;
 			db_set_b(0, MODULENAME, "gpg", bGPG);
@@ -1310,7 +1310,7 @@ void ApplyProtoSettings(HWND hDlg)
 
 void ApplyPGPSettings(HWND hDlg)
 {
-	bUseKeyrings = !(SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bUseKeyrings = !(SendDlgItemMessage(hDlg, IDC_NO_KEYRINGS, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "ukr", bUseKeyrings);
 
 	char *priv = db_get_sa(0, MODULENAME, "tpgpPrivKey");
@@ -1332,17 +1332,17 @@ void ApplyGPGSettings(HWND hDlg)
 	GetDlgItemText(hDlg, IDC_GPGHOME_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgHome", tmp);
 
-	bSavePass = (SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	bSavePass = (SendDlgItemMessage(hDlg, IDC_SAVEPASS_CBOX, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgSaveFlag", bSavePass);
 
-	BOOL bgpgLogFlag = (SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	BOOL bgpgLogFlag = (SendDlgItemMessage(hDlg, IDC_LOGGINGON_CBOX, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgLogFlag", bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgLog", tmp);
 	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
-	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX), BM_GETCHECK, 0L, 0L) == BST_CHECKED);
+	BOOL bgpgTmpFlag = (SendDlgItemMessage(hDlg, IDC_TMPPATHON_CBOX, BM_GETCHECK, 0L, 0L) == BST_CHECKED);
 	db_set_b(0, MODULENAME, "gpgTmpFlag", bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, SIZEOF(tmp));
 	db_set_s(0, MODULENAME, "gpgTmp", tmp);

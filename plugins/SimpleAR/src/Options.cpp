@@ -62,7 +62,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					// First, save last, then load current
 					if (lastIndex>-1)
 					{
-						INT size=SendDlgItemMessage(hwndDlg,IDC_MESSAGE,WM_GETTEXTLENGTH,0,0)+1;
+						int size=SendDlgItemMessage(hwndDlg,IDC_MESSAGE,WM_GETTEXTLENGTH,0,0)+1;
 						GetDlgItemText(hwndDlg,IDC_MESSAGE,ptszMessage[lastIndex],size);
 					}
 					lastIndex=SendDlgItemMessage(hwndDlg,IDC_STATUSMODE,CB_GETCURSEL,0,0);

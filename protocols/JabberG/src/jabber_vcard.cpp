@@ -63,8 +63,8 @@ static INT_PTR CALLBACK PersonalDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (lParam) {
 			ppro = (CJabberProto*)lParam;
 			TranslateDialogDefault(hwndDlg);
-			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
-			SendMessage(GetDlgItem(hwndDlg, IDC_GENDER), CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
+			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
+			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			SendMessage(hwndDlg, WM_JABBER_REFRESH_VCARD, 0, 0);
 			ppro->WindowSubscribe(hwndDlg);
@@ -127,7 +127,7 @@ static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (int i=0; i < g_cbCountries; i++)	{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 					TCHAR *country = mir_a2t(g_countries[i].szName);
-					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
+					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
 					mir_free(country);
 				}
 			}
@@ -190,7 +190,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (int i=0; i < g_cbCountries; i++)	{
 				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 					TCHAR *country = mir_a2t(g_countries[i].szName);
-					SendMessage(GetDlgItem(hwndDlg, IDC_COUNTRY), CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
+					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateTS(country));
 					mir_free(country);
 				}
 			}
@@ -932,7 +932,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		setTString("LastName", text);
 		GetDlgItemText(hwndPage, IDC_BIRTH, text, SIZEOF(text));
 		setTString("BirthDate", text);
-		switch(SendMessage(GetDlgItem(hwndPage, IDC_GENDER), CB_GETCURSEL, 0, 0)) {
+		switch (SendDlgItemMessage(hwndPage, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
 			case 0:	setString("GenderString", "Male");   break;
 			case 1:	setString("GenderString", "Female"); break;
 			default: setString("GenderString", "");       break;
@@ -956,7 +956,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
 		setTString("ZIP", text);
 		{
-			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
+			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
 			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
 			setTString("Country", country);
 			mir_free(country);
@@ -982,7 +982,7 @@ void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 		GetDlgItemText(hwndPage, IDC_ZIP, text, SIZEOF(text));
 		setTString("CompanyZIP", text);
 		{
-			int i = SendMessage(GetDlgItem(hwndPage, IDC_COUNTRY), CB_GETCURSEL, 0, 0);
+			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
 			TCHAR *country = mir_a2t((i) ? g_countries[i+2].szName : g_countries[1].szName);
 			setTString("CompanyCountry", country);
 			mir_free(country);

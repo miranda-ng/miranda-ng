@@ -363,8 +363,8 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 		{
 			int i = 0;
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				BYTE res = (BYTE)SendMessage(GetDlgItem(hdlg, IDC_EMCLIST), CLM_GETCHECKMARK,
-					SendMessage(GetDlgItem(hdlg, IDC_EMCLIST), CLM_FINDCONTACT, hContact, 0), 0);
+				BYTE res = (BYTE)SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_GETCHECKMARK,
+					SendDlgItemMessage(hdlg, IDC_EMCLIST, CLM_FINDCONTACT, hContact, 0), 0);
 				if (res) {
 					SetSessionMark(hContact, 1, '1', opses_count);
 					SetInSessionOrder(hContact, 1, opses_count, i);

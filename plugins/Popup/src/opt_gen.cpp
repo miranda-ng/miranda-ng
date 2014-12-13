@@ -611,19 +611,19 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		EnableThemeDialogTexture(hwndDlg, ETDT_ENABLETAB);
 
-		GetObject((HFONT)SendMessage(GetDlgItem(hwndDlg, IDC_TITLE), WM_GETFONT, 0, 0), sizeof(lf), &lf);
+		GetObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_TITLE, WM_GETFONT, 0, 0), sizeof(lf), &lf);
 		lf.lfWeight = FW_BOLD;
 		lf.lfHeight *= 1.2;
 		hFontTitle = CreateFontIndirect(&lf);
-		SendMessage(GetDlgItem(hwndDlg, IDC_TITLE), WM_SETFONT, (WPARAM)hFontTitle, TRUE);
+		SendDlgItemMessage(hwndDlg, IDC_TITLE, WM_SETFONT, (WPARAM)hFontTitle, TRUE);
 
-		SendMessage(GetDlgItem(hwndDlg, IDOK), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDOK), BUTTONADDTOOLTIP, (WPARAM)_T("OK"), BATF_TCHAR);
-		SendMessage(GetDlgItem(hwndDlg, IDOK), BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_OK, 0));
+		SendDlgItemMessage(hwndDlg, IDOK, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDOK, BUTTONADDTOOLTIP, (WPARAM)_T("OK"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_OK, 0));
 
-		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BUTTONADDTOOLTIP, (WPARAM)_T("Cancel"), BATF_TCHAR);
-		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_CANCEL, 0));
+		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDCANCEL, BUTTONADDTOOLTIP, (WPARAM)_T("Cancel"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_CANCEL, 0));
 
 		SetDlgItemInt(hwndDlg, IDC_TXT_TOP, PopupOptions.gapTop, FALSE);
 		SetDlgItemInt(hwndDlg, IDC_TXT_BOTTOM, PopupOptions.gapBottom, FALSE);

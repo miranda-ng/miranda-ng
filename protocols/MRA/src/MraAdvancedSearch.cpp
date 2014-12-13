@@ -182,9 +182,9 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 					DWORD dwAgeTo = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_AGERANGE_TO);
 					if (dwAgeFrom == 0) dwAgeFrom++;
 					InitComboBoxNumders(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), dwAgeFrom, 100);
-					SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), CB_SETCURSEL, ((dwAgeTo - dwAgeFrom) + 1), 0);
+					SendDlgItemMessage(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, ((dwAgeTo - dwAgeFrom) + 1), 0);
 				}
-				SendMessage(GetDlgItem(hWndDlg, IDC_BIRTHDAY_YEAR), CB_SETCURSEL, 0, 0);
+				SendDlgItemMessage(hWndDlg, IDC_BIRTHDAY_YEAR, CB_SETCURSEL, 0, 0);
 			}
 			break;
 
@@ -199,9 +199,9 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				stTime.wDay = (WORD)GET_CURRENT_COMBO_DATA(hWndDlg, IDC_BIRTHDAY_DAY);
 
 				DWORD dwAge = GetYears(&stTime);
-				SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_FROM), CB_SETCURSEL, dwAge, 0);
-				SendMessage(GetDlgItem(hWndDlg, IDC_AGERANGE_TO), CB_SETCURSEL, dwAge, 0);
-				SendMessage(GetDlgItem(hWndDlg, IDC_ZODIAK), CB_SETCURSEL, 0, 0);
+				SendDlgItemMessage(hWndDlg, IDC_AGERANGE_FROM, CB_SETCURSEL, dwAge, 0);
+				SendDlgItemMessage(hWndDlg, IDC_AGERANGE_TO, CB_SETCURSEL, dwAge, 0);
+				SendDlgItemMessage(hWndDlg, IDC_ZODIAK, CB_SETCURSEL, 0, 0);
 			}
 			break;
 

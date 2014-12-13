@@ -560,14 +560,14 @@ static void OnListItemsChange(HWND hwndDlg)
 	SaveLatestChanges(hwndDlg);
 
 	// set new selection
-	last_selcount = SendMessage(GetDlgItem(hwndDlg, IDC_ITEMS), LB_GETSELCOUNT, 0, 0);
+	last_selcount = SendDlgItemMessage(hwndDlg, IDC_ITEMS, LB_GETSELCOUNT, 0, 0);
 	if (last_selcount > 0) {
 		int n, itemData, first_item;
 
-	// get selected indizes
-		SendMessage(GetDlgItem(hwndDlg, IDC_ITEMS), LB_GETSELITEMS, 64, (LPARAM) last_indizes);
+		// get selected indizes
+		SendDlgItemMessage(hwndDlg, IDC_ITEMS, LB_GETSELITEMS, 64, (LPARAM) last_indizes);
 
-	// initialize with first items value
+		// initialize with first items value
 
 		first_item = SendDlgItemMessage(hwndDlg, IDC_ITEMS, LB_GETITEMDATA, last_indizes[0], 0) - ID_EXTBK_FIRST;
 		StatusItems_t *pFirst = StatusItems[first_item];

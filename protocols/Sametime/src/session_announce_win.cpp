@@ -18,7 +18,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 			proto = arg->proto;
 			proto->debugLog(_T("SessionAnnounceDialogProc WM_INITDIALOG"));
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_LST_ANTO), LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+			SendDlgItemMessage(hwndDlg, IDC_LST_ANTO, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 			{
 				LVCOLUMN lvc;
 				// Initialize the LVCOLUMN structure.

@@ -135,8 +135,8 @@ static INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		MySetPos(hwndDlg);
 		ChangeLock++;
 		g_MessagesOptPage.SetWnd(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE), EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGDATA), EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 		// init image buttons
 		for (int i = 0; i < SIZEOF(Dlg1Buttons); i++) {
 			HWND hButton = GetDlgItem(hwndDlg, Dlg1Buttons[i].DlgItem);
@@ -536,9 +536,9 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_TCHAR);
 			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTMSG), BUTTONSETASTHEMEDBTN, TRUE, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTURL), BUTTONSETASTHEMEDBTN, TRUE, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTFILE), BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTMSG, BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTURL, BUTTONSETASTHEMEDBTN, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_MOREOPTDLG_EVNTFILE, BUTTONSETASTHEMEDBTN, TRUE, 0);
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
 
 			// init tooltips
@@ -689,8 +689,8 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		MySetPos(hwndDlg);
 		ChangeLock++;
 		g_MessagesOptPage.SetWnd(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGTITLE), EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGEDLG_MSGDATA), EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGTITLE, EM_LIMITTEXT, TREEITEMTITLE_MAXLEN, 0);
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGEDLG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 
 		// init image buttons
 		for (int i = 0; i < SIZEOF(Dlg4Buttons); i++) {

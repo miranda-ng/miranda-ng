@@ -399,8 +399,8 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 					GetDlgItemTextA(hwndDlg, IDC_HOST, buf, SIZEOF(buf));
 					db_set_s(NULL, SKYPE_PROTONAME, "Host", buf);
 					db_set_w(NULL, SKYPE_PROTONAME, "Port", (unsigned short)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, FALSE));
-					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_REQPASS), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "UseSkype2Socket", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_USES2S), BM_GETCHECK,0,0)));
+					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_REQPASS, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "UseSkype2Socket", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_USES2S, BM_GETCHECK, 0, 0)));
 					memset(buf, 0, sizeof(buf));
 					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, buf, SIZEOF(buf));
 					db_set_s(NULL, SKYPE_PROTONAME, "Password", buf);
@@ -413,12 +413,12 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			switch (LOWORD(wParam)) {
 				case IDC_USES2S:
 					for (i=0; i < SIZEOF(Skype2SocketControls); i++)
-						EnableWindow(GetDlgItem(hwndDlg, Skype2SocketControls[i]), SendMessage(GetDlgItem(hwndDlg, LOWORD(wParam)), BM_GETCHECK,0,0));
-					if (SendMessage(GetDlgItem(hwndDlg, LOWORD(wParam)), BM_GETCHECK,0,0))
+						EnableWindow(GetDlgItem(hwndDlg, Skype2SocketControls[i]), SendDlgItemMessage(hwndDlg, LOWORD(wParam), BM_GETCHECK, 0, 0));
+					if (SendDlgItemMessage(hwndDlg, LOWORD(wParam), BM_GETCHECK, 0, 0))
 						SendMessage(hwndDlg, WM_COMMAND, IDC_REQPASS, 0);
 					break;
 				case IDC_REQPASS:
-					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), SendMessage(GetDlgItem(hwndDlg, LOWORD(wParam)), BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), SendDlgItemMessage(hwndDlg, LOWORD(wParam), BM_GETCHECK, 0, 0));
 					break;
 
 			}
@@ -480,19 +480,19 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			switch (nmhdr->code){
 				case PSN_APPLY:
 				case PSN_KILLACTIVE:
-					db_set_b (NULL, SKYPE_PROTONAME, "EnableMenu", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_ENABLEMENU), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "UsePopup", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_USEPOPUP), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "UseGroupchat", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_GROUPCHAT), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "MarkGroupchatRead", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_GROUPCHATREAD), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "SuppressErrors", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_NOERRORS), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "KeepState", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_KEEPSTATE), BM_GETCHECK,0,0)));
-					db_set_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", SendDlgItemMessage(hwndDlg,IDC_SKYPEOUTSTAT,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_SKYPEOUTSTAT,CB_GETCURSEL,0,0),0));
-					db_set_b (NULL, SKYPE_PROTONAME, "UseTimeZonePatch", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_TIMEZONE), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "IgnoreTimeZones", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_IGNTZ), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "ShowDefaultSkypeAvatar", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_SHOWDEFAULTAVATAR), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "SuppressCallSummaryMessage", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_SUPPRESSCALLSUMMARYMESSAGE), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "NoSkype3Stats", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_NOSKYPE3STATS), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "ShowFullname", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_SHOWFULLNAME), BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "EnableMenu", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_ENABLEMENU, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "UsePopup", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_USEPOPUP, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "UseGroupchat", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_GROUPCHAT, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "MarkGroupchatRead", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_GROUPCHATREAD, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "SuppressErrors", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_NOERRORS, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "KeepState", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_KEEPSTATE, BM_GETCHECK, 0, 0)));
+					db_set_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", SendDlgItemMessage(hwndDlg, IDC_SKYPEOUTSTAT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SKYPEOUTSTAT, CB_GETCURSEL, 0, 0), 0));
+					db_set_b (NULL, SKYPE_PROTONAME, "UseTimeZonePatch", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_TIMEZONE, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "IgnoreTimeZones", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_IGNTZ, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "ShowDefaultSkypeAvatar", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_SHOWDEFAULTAVATAR, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "SuppressCallSummaryMessage", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_SUPPRESSCALLSUMMARYMESSAGE, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "NoSkype3Stats", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_NOSKYPE3STATS, BM_GETCHECK, 0, 0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "ShowFullname", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_SHOWFULLNAME, BM_GETCHECK, 0, 0)));
 					return TRUE;
 			}			
 			break; 
@@ -573,11 +573,11 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			for(i=0; i < sizeof(skypeLaunchControls)/sizeof(skypeLaunchControls[0]); i++)
 				EnableWindow(GetDlgItem(hwndDlg, skypeLaunchControls[i]), startSkype);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_COMMANDLINE), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), startSkype && SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK, 0, 0));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_COMMANDLINE), startSkype && SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK, 0, 0));
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEDP), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEDP), startSkype && SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK, 0, 0));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), startSkype && SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK, 0, 0));
 
             // LoginUserName
             if(!db_get_ts(NULL,SKYPE_PROTONAME,"LoginUserName",&dbv)) 
@@ -607,20 +607,20 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				case PSN_KILLACTIVE:
 				{
 					char text[500];
-                    TCHAR wtext[500];
+					TCHAR wtext[500];
 					char szRelativePath[MAX_PATH];
 
-					db_set_b (NULL, SKYPE_PROTONAME, "StartSkype", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_STARTSKYPE), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "nosplash", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_NOSPLASH), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "minimized", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_MINIMIZED), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "notray", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_NOTRAY), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "Shutdown", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_SHUTDOWN), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "UnloadOnOffline", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_UNLOADOFFLINE), BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "StartSkype", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_STARTSKYPE, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "nosplash", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_NOSPLASH, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "minimized", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_MINIMIZED, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "notray", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_NOTRAY, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "Shutdown", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_SHUTDOWN, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "UnloadOnOffline", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_UNLOADOFFLINE, BM_GETCHECK,0,0)));
 					db_set_w (NULL, SKYPE_PROTONAME, "ConnectionAttempts", (unsigned short)GetDlgItemInt(hwndDlg, IDC_CONNATTEMPTS, NULL, FALSE));
-					db_set_b (NULL, SKYPE_PROTONAME, "UseCustomCommand", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "datapath:", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "removable", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_REMOVEABLE), BM_GETCHECK,0,0)));
-					db_set_b (NULL, SKYPE_PROTONAME, "secondary", (BYTE)(SendMessage(GetDlgItem(hwndDlg, IDC_SECONDARY), BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "UseCustomCommand", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "datapath:", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "removable", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_REMOVEABLE, BM_GETCHECK,0,0)));
+					db_set_b (NULL, SKYPE_PROTONAME, "secondary", (BYTE)(SendDlgItemMessage(hwndDlg, IDC_SECONDARY, BM_GETCHECK,0,0)));
 
 					GetDlgItemTextA(hwndDlg,IDC_COMMANDLINE,text,SIZEOF(text));
 					strncpy(szRelativePath, text, sizeof(szRelativePath)-1);
@@ -650,27 +650,27 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				BOOL startSkype;
 				int i;
 				case IDC_STARTSKYPE:
-					startSkype=SendMessage(GetDlgItem(hwndDlg, IDC_STARTSKYPE), BM_GETCHECK,0,0);
+					startSkype = SendDlgItemMessage(hwndDlg, IDC_STARTSKYPE, BM_GETCHECK,0,0);
 
-					for(i=0; i < sizeof(skypeLaunchControls)/sizeof(skypeLaunchControls[0]); i++)
+					for (i = 0; i < SIZEOF(skypeLaunchControls); i ++)
 						EnableWindow(GetDlgItem(hwndDlg, skypeLaunchControls[i]), startSkype);
 
-					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_COMMANDLINE), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), startSkype && SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_COMMANDLINE), startSkype && SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK,0,0));
 
-					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEDP), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), startSkype && SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEDP), startSkype && SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), startSkype && SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK,0,0));
 					break;
 				case IDC_CLEANUP:
 					pthread_create(( pThreadFunc )CleanupNicknames, NULL);
 					break;
 				case IDC_DATAPATHO:
-					EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEDP), SendMessage(GetDlgItem(hwndDlg, IDC_DATAPATHO), BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_DATAPATH), SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSEDP), SendDlgItemMessage(hwndDlg, IDC_DATAPATHO, BM_GETCHECK,0,0));
 					break;
 				case IDC_CUSTOMCOMMAND:
-					EnableWindow(GetDlgItem(hwndDlg, IDC_COMMANDLINE), SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0));
-					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), SendMessage(GetDlgItem(hwndDlg, IDC_CUSTOMCOMMAND), BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_COMMANDLINE), SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK,0,0));
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), SendDlgItemMessage(hwndDlg, IDC_CUSTOMCOMMAND, BM_GETCHECK,0,0));
 					break;
 				case IDC_BROWSECMDL:
 				{
@@ -886,7 +886,7 @@ INT_PTR CALLBACK DetailsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 				GetDlgItemTextA(hwndDlg,IDC_OFFICEPHONE,myProfile.OfficePhone,SIZEOF(myProfile.OfficePhone));
 				GetDlgItemText(hwndDlg,IDC_CITY,myProfile.City,SIZEOF(myProfile.City));
 				GetDlgItemText(hwndDlg,IDC_PROVINCE,myProfile.Province,SIZEOF(myProfile.Province));
-				sex = SendMessage(GetDlgItem(hwndDlg,IDC_SEX),CB_GETCURSEL,0,0);
+				sex = SendDlgItemMessage(hwndDlg, IDC_SEX, CB_GETCURSEL, 0, 0);
 				
 				myProfile.Sex = 0;
 				if(sex == sexF) myProfile.Sex = 0x46; else

@@ -331,7 +331,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 					break;
 				}
 
-				i = SendMessage(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_GETCURSEL, 0, 0);
+				i = SendDlgItemMessage(hwndDlg,IDC_YIGN_LIST, LB_GETCURSEL, 0, 0);
 				if (i == LB_ERR) {
 					MessageBox(hwndDlg, TranslateT("Please select a buddy on the ignore list to remove."), TranslateT("Yahoo Ignore"), MB_OK| MB_ICONINFORMATION);
 					break;
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 				SendMessageA(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_GETTEXT, i, (LPARAM)id);
 
 				ppro->IgnoreBuddy(id, 1);
-				SendMessage(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_DELETESTRING, i, 0);
+				SendDlgItemMessage(hwndDlg,IDC_YIGN_LIST, LB_DELETESTRING, i, 0);
 			}	
 		}
 		break;

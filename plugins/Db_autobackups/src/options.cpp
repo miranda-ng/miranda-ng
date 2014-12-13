@@ -201,10 +201,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		SetDlgState(hwndDlg);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_PT), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_PT), CB_ADDSTRING, 0, (LPARAM) TranslateT("hours"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_PT), CB_ADDSTRING, 0, (LPARAM) TranslateT("minutes"));
-		switch(new_options.period_type){
+		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM) TranslateT("hours"));
+		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM) TranslateT("minutes"));
+		switch (new_options.period_type) {
 			case PT_DAYS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 0, 0); break;
 			case PT_HOURS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 1, 0); break;
 			case PT_MINUTES: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 2, 0); break;

@@ -190,7 +190,7 @@ void PasteIt(MCONTACT hContact, int mode)
 						// it->second is imput window, so now I can send to them 
 						// new text. Afterr all is sended MS_MSG_SENDMESSAGE 
 						// to focus window.
-						SendMessage(it->second, EM_SETSEL, -1, SendMessage(it->second, WM_GETTEXTLENGTH, 0, 0));
+						SendMessage(it->second, EM_SETSEL, -1, GetWindowTextLength(it->second));
 						SendMessageA(it->second, EM_REPLACESEL, FALSE, (LPARAM)pasteToWeb->szFileLink);
 						CallServiceSync(MS_MSG_SENDMESSAGE, hContact, NULL);
 					}

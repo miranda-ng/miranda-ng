@@ -149,10 +149,10 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				shake.nMoveClist = (int)SendMessage(GetDlgItem(hwnd, IDC_SNUMBER_CLIST), TBM_GETPOS, 0, 0);
-				shake.nMoveChat = (int)SendMessage(GetDlgItem(hwnd, IDC_SNUMBER_CHAT), TBM_GETPOS, 0, 0);
-				shake.nScaleClist = (int)SendMessage(GetDlgItem(hwnd, IDC_SSCALE_CLIST), TBM_GETPOS, 0, 0);
-				shake.nScaleChat = (int)SendMessage(GetDlgItem(hwnd, IDC_SSCALE_CHAT), TBM_GETPOS, 0, 0);
+				shake.nMoveClist = (int)SendDlgItemMessage(hwnd, IDC_SNUMBER_CLIST, TBM_GETPOS, 0, 0);
+				shake.nMoveChat = (int)SendDlgItemMessage(hwnd, IDC_SNUMBER_CHAT, TBM_GETPOS, 0, 0);
+				shake.nScaleClist = (int)SendDlgItemMessage(hwnd, IDC_SSCALE_CLIST, TBM_GETPOS, 0, 0);
+				shake.nScaleChat = (int)SendDlgItemMessage(hwnd, IDC_SSCALE_CHAT, TBM_GETPOS, 0, 0);
 				shake.Save();
 			}
 		}

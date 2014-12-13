@@ -282,19 +282,19 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		else
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD3);
 		//Colours. First step is configuring the colours.
-		SendDlgItemMessage(hdlg,IDC_BGCOLOUR,CPM_SETCOLOUR,0,opt.BGColour);
-		SendDlgItemMessage(hdlg,IDC_TEXTCOLOUR,CPM_SETCOLOUR,0,opt.TextColour);
+		SendDlgItemMessage(hdlg, IDC_BGCOLOUR, CPM_SETCOLOUR, 0, opt.BGColour);
+		SendDlgItemMessage(hdlg, IDC_TEXTCOLOUR, CPM_SETCOLOUR, 0, opt.TextColour);
 		//Second step is disabling them if we want to use default Windows ones.
-		CheckDlgButton(hdlg, IDC_USEWINCOLORS,opt.UseWinColors?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_USEWINCOLORS, opt.UseWinColors ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOUR), !opt.UseWinColors);
 		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOUR), !opt.UseWinColors);
 
 		// buttons
-		SendMessage(GetDlgItem(hdlg,IDC_PREVIEW), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_PDEF), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_LeftClick), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_RightClick), BUTTONSETASFLATBTN, TRUE, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_VAR3), BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_PREVIEW, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_PDEF, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_LeftClick, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_RightClick, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hdlg, IDC_VAR3, BUTTONSETASFLATBTN, TRUE, 0);
 		return TRUE;
 
 	case WM_COMMAND:

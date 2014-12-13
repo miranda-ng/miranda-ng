@@ -317,7 +317,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 	case WM_MOUSEWHEEL:
 		if ((GetWindowLongPtr(hwnd, GWL_STYLE) & WS_VSCROLL) == 0)
-			SendMessage(GetDlgItem(GetParent(hwnd), IDC_CHAT_LOG), WM_MOUSEWHEEL, wParam, lParam);
+			SendDlgItemMessage(GetParent(hwnd), IDC_CHAT_LOG, WM_MOUSEWHEEL, wParam, lParam);
 
 		dat->lastEnterTime = 0;
 		return TRUE;
@@ -750,7 +750,7 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_CHAR:
 		SetFocus(GetDlgItem(GetParent(hwnd), IDC_CHAT_MESSAGE));
-		SendMessage(GetDlgItem(GetParent(hwnd), IDC_CHAT_MESSAGE), WM_CHAR, wParam, lParam);
+		SendDlgItemMessage(GetParent(hwnd), IDC_CHAT_MESSAGE, WM_CHAR, wParam, lParam);
 		break;
 	}
 
@@ -1119,7 +1119,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_SMILEY), TRUE);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_HIDESELECTION, TRUE, 0);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_HIDESELECTION, TRUE, 0);
 
 			SendMessage(hwndDlg, GC_SETWNDPROPS, 0, 0);
 			SendMessage(hwndDlg, DM_UPDATESTATUSBAR, 0, 0);
@@ -1139,7 +1139,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 		SendMessage(hwndDlg, DM_UPDATETITLEBAR, 0, 0);
 		SendMessage(hwndDlg, GC_FIXTABICONS, 0, 0);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
+		SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETBKGNDCOLOR, 0, g_Settings.crLogBackground);
 		{
 			// messagebox
 			COLORREF crFore;
@@ -1151,7 +1151,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			cf.dwEffects = 0;
 			cf.crTextColor = crFore;
 			cf.crBackColor = db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETBKGNDCOLOR, 0, db_get_dw(NULL, SRMMMOD, SRMSGSET_INPUTBKGCOLOUR, SRMSGDEFSET_INPUTBKGCOLOUR));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETFONT, (WPARAM)g_Settings.MessageBoxFont, MAKELPARAM(TRUE, 0));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETCHARFORMAT, (WPARAM)SCF_ALL, (LPARAM)&cf);
 		
@@ -1164,7 +1164,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			if (db_get_b(NULL, CHAT_MODULE, "ShowContactStatus", 0))
 				font = font > 16 ? font : 16;
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_SETITEMHEIGHT, 0, (LPARAM)height > font ? height : font);
 			InvalidateRect(GetDlgItem(hwndDlg, IDC_CHAT_LIST), NULL, TRUE);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
@@ -1449,7 +1449,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 	case GC_UPDATENICKLIST:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, WM_SETREDRAW, FALSE, 0);
-		SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_RESETCONTENT, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_RESETCONTENT, 0, 0);
 		for (int index = 0; index < si->nUsersInNicklist; index++) {
 			USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, index);
 			if (ui) {
@@ -1457,9 +1457,9 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 				if (szIndicator > '\0') {
 					static TCHAR ptszBuf[128];
 					mir_sntprintf(ptszBuf, SIZEOF(ptszBuf), _T("%c%s"), szIndicator, ui->pszNick);
-					SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_ADDSTRING, 0, (LPARAM)ptszBuf);
+					SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ptszBuf);
 				}
-				else SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
+				else SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ADDSTRING, 0, (LPARAM)ui->pszNick);
 			}
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, WM_SETREDRAW, TRUE, 0);
@@ -1592,7 +1592,7 @@ LABEL_SHOWWINDOW:
 
 			CHARRANGE sel;
 			sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOG), CP_ACP, FALSE);
-			SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), EM_EXSETSEL, 0, (LPARAM)&sel);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
 			PostMessage(GetDlgItem(hwndDlg, IDC_CHAT_LOG), WM_VSCROLL, MAKEWPARAM(SB_BOTTOM, 0), 0);
 		}
 		break;
@@ -1663,7 +1663,7 @@ LABEL_SHOWWINDOW:
 					POINT p;
 					GetCursorPos(&p);
 					ScreenToClient(GetDlgItem(hwndDlg, IDC_CHAT_LIST), &p);
-					int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
+					int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(p.x, p.y)));
 					USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
 					if (ui != NULL) {
 						static TCHAR ptszBuf[1024];
@@ -1691,11 +1691,11 @@ LABEL_SHOWWINDOW:
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(GetDlgItem(hwndDlg, IDC_CHAT_LIST), &hti.pt);
 
-				int item = LOWORD(SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_LIST), LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
+				int item = LOWORD(SendDlgItemMessage(hwndDlg, IDC_CHAT_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
 				USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 				if (ui) {
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
-						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
+						LRESULT lResult = (LRESULT)SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						size_t dwNameLenMax = (mir_tstrlen(ui->pszUID) + 4);
 						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * dwNameLenMax);
@@ -1704,7 +1704,7 @@ LABEL_SHOWWINDOW:
 						else
 							mir_sntprintf(pszName, dwNameLenMax, _T("%s "), ui->pszUID);
 
-						SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM)pszName);
+						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)pszName);
 						PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 					}
 					else pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);

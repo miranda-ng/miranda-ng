@@ -60,7 +60,7 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
       CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE,
          db_get_b(0, SHLExt_Name, SHLExt_ShowNoOffline, BST_UNCHECKED));
       // give the Remove button a Vista icon
-      SendMessage(GetDlgItem(hwndDlg, IDC_REMOVE), BCM_SETSHIELD, 0, 1);
+      SendDlgItemMessage(hwndDlg, IDC_REMOVE, BCM_SETSHIELD, 0, 1);
 		return TRUE;
 	
   case WM_NOTIFY:

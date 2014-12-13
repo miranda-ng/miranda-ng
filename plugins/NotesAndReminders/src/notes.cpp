@@ -849,7 +849,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 		if (pNote->OnTop) flags |= 2;
 
 		// get note text
-		SzT = SendMessage(pNote->REHwnd, WM_GETTEXTLENGTH, 0, 0);
+		SzT = GetWindowTextLength(pNote->REHwnd);
 		if (SzT) // TODO: change to support unicode and rtf, use EM_STREAMOUT
 		{
 			if (SzT > MAX_NOTE_LEN) SzT = MAX_NOTE_LEN; // we want to be far below the 64k limit

@@ -95,7 +95,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				CMStringA szEmail;
 				WCHAR wszBuff[MAX_PATH];
 
-				SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETTEXT, SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETCURSEL, 0, 0), (LPARAM)wszBuff);
+				SendDlgItemMessage(hWndDlg, IDC_LIST_EMAILS, LB_GETTEXT, SendDlgItemMessage(hWndDlg, IDC_LIST_EMAILS, LB_GETCURSEL, 0, 0), (LPARAM)wszBuff);
 				szEmail = wszBuff;
 				szEmail.MakeLower();
 

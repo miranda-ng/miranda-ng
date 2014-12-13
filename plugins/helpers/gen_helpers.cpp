@@ -44,7 +44,7 @@ TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 
 TCHAR *Hlp_GetWindowText(HWND hwndDlg)
 {
-	int len = SendMessage(hwndDlg, WM_GETTEXTLENGTH, 0, 0);
+	int len = GetWindowTextLength(hwndDlg);
 	if (len < 0)
 		return NULL;
 

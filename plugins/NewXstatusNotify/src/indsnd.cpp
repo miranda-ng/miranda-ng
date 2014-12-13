@@ -587,7 +587,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_DESTROY:
-		HIMAGELIST hImageList = (HIMAGELIST)SendMessage(GetDlgItem(hwndDlg, IDC_INDSNDLIST), CLM_GETEXTRAIMAGELIST, 0, 0);
+		HIMAGELIST hImageList = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_INDSNDLIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 		for (int i = 0; i < ImageList_GetImageCount(hImageList); i++)
 			DestroyIcon(ImageList_GetIcon(hImageList, i, ILD_NORMAL));
 		ImageList_Destroy(hImageList);

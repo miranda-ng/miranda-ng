@@ -33,7 +33,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		ProtoEnumAccounts(&count, &protos);
 		for (int i = 0; i < count; i++)
 			if (IsSuitableProto(protos[i]))
-				SendMessage(GetDlgItem(hwndDlg, IDC_OPT_COMBO_PROTO), CB_SETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_OPT_COMBO_PROTO), CB_ADDSTRING, 0, (LPARAM)protos[i]->tszAccountName), (LPARAM)protos[i]);
+				SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_PROTO, CB_ADDSTRING, 0, (LPARAM)protos[i]->tszAccountName), (LPARAM)protos[i]);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -78,7 +78,7 @@ static INT_PTR CALLBACK OptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							size_t value_max_len = (_tcslen(uid) + _tcslen(nick) + 4);
 							TCHAR *value = (TCHAR *)mir_alloc(sizeof(TCHAR) * value_max_len);
 							mir_sntprintf(value, value_max_len, _T("%s (%s)"), nick, uid);
-							SendMessage(GetDlgItem(hwndDlg, IDC_OPT_COMBO_USERS), CB_SETITEMDATA, SendMessage(GetDlgItem(hwndDlg, IDC_OPT_COMBO_USERS), CB_ADDSTRING, 0, (LPARAM)value), hContact);
+							SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_SETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_OPT_COMBO_USERS, CB_ADDSTRING, 0, (LPARAM)value), hContact);
 							mir_free(value);
 							db_free(&dbvuid);
 						}

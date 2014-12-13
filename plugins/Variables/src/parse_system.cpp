@@ -347,7 +347,7 @@ static TCHAR *parseFindWindow(ARGUMENTSINFO *ai)
 	if (hWin == NULL)
 		return NULL;
 
-	int len = SendMessage(hWin, WM_GETTEXTLENGTH, 0, 0);
+	int len = GetWindowTextLength(hWin);
 	if (len == 0)
 		return NULL;
 

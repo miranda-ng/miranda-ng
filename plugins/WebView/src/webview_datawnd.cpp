@@ -99,7 +99,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 
 				CHARRANGE sel2 = {startsel, endsel};
-				SendMessage(GetDlgItem(ParentHwnd, IDC_DATA), EM_EXSETSEL, 0, (LPARAM) & sel2);
+				SendDlgItemMessage(ParentHwnd, IDC_DATA, EM_EXSETSEL, 0, (LPARAM)&sel2);
 				SetFocus(GetDlgItem(ParentHwnd, IDC_DATA));
 			}
 			return TRUE;
@@ -216,8 +216,8 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			InvalidateRect(hwndDlg, NULL, 1);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_AUTOURLDETECT, 1, 0);
-			int mask = (int) SendMessage(GetDlgItem(hwndDlg, IDC_DATA), EM_GETEVENTMASK, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_DATA, EM_AUTOURLDETECT, 1, 0);
+			int mask = (int)SendDlgItemMessage(hwndDlg, IDC_DATA, EM_GETEVENTMASK, 0, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_DATA, EM_SETEVENTMASK, 0, mask | ENM_LINK | ENM_MOUSEEVENTS);
 
@@ -368,8 +368,8 @@ INT_PTR CALLBACK DlgProcDisplayData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					hTopmost = HWND_TOPMOST;
 					ptszToolTip = TranslateT("Disable stick to the front");
 				}
-				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-				SendMessage(GetDlgItem(hwndDlg, IDC_STICK_BUTTON), BUTTONADDTOOLTIP, (WPARAM)ptszToolTip, BATF_TCHAR);
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_UNSTICK), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+				SendDlgItemMessage(hwndDlg, IDC_STICK_BUTTON, BUTTONADDTOOLTIP, (WPARAM)ptszToolTip, BATF_TCHAR);
 				SetWindowPos(hwndDlg, hTopmost, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 			}
 			break;

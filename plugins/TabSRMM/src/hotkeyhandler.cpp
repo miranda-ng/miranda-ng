@@ -502,7 +502,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		ReloadTabConfig();
 
 		for (p = pFirstContainer; p; p = p->pNext) {
-			SendMessage(GetDlgItem(p->hwnd, IDC_MSGTABS), EM_THEMECHANGED, 0, 0);
+			SendDlgItemMessage(p->hwnd, IDC_MSGTABS, EM_THEMECHANGED, 0, 0);
 			BroadCastContainer(p, EM_THEMECHANGED, 0, 0);
 		}
 		break;

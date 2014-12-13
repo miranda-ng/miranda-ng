@@ -185,7 +185,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 	mir_free(pt);
 
-	SendMessage(GetDlgItem(m_hWnd, IDC_HEADERBAR), WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
 
 	/// Timed controls
 	CheckDlgButton(m_hWnd,ID_chkTimed,				m_opt_chkTimed ? BST_CHECKED : BST_UNCHECKED);
@@ -866,12 +866,12 @@ void TfrmMain::cboxSendByChange() {
 	}
 	bState = (itemFlag & SS_DLG_DELETEAFTERSSEND);
 	hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
-	SendMessage(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
+	SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), bState);
 
 	bState = (itemFlag & SS_DLG_DESCRIPTION);
 	hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
-	SendMessage(GetDlgItem(m_hWnd, ID_btnDesc), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
+	SendDlgItemMessage(m_hWnd, ID_btnDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDesc), bState);
 }
 

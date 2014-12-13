@@ -84,9 +84,9 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, hContact);
 		}
 
-		index = (int)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));
-		SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, 0);
-		SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETCURSEL, index, 0);
+		index = (int)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));
+		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, 0);
+		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETCURSEL, index, 0);
 
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lParam);
 		TranslateDialogDefault(hwnd);
@@ -100,7 +100,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 		case IDOK:
 			if (!IsDlgButtonChecked(hwnd,CHK_COPY2ALL)) {
-				MCONTACT hContact = (MCONTACT)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETITEMDATA, SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_GETCURSEL, 0, 0), 0);
+				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETITEMDATA, SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETCURSEL, 0, 0), 0);
 				copyModule(mac->module, mac->hContact, hContact);
 			}
 			else {

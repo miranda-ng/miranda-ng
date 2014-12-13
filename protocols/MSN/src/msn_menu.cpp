@@ -206,7 +206,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx("main", true));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx("main"));
-		SendMessage(GetDlgItem(hwndDlg, IDC_NICKNAME), EM_LIMITTEXT, 129, 0);
+		SendDlgItemMessage(hwndDlg, IDC_NICKNAME, EM_LIMITTEXT, 129, 0);
 
 		DBVARIANT dbv;
 		if (!proto->getTString("Nick", &dbv)) {

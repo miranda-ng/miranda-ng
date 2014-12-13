@@ -44,7 +44,7 @@ void CheckControlsEnabled(HWND wnd)
 	EnableWindow(GetDlgItem(wnd, IDC_POPUPSINFULLSCREEN), PopupsEnabled);
 	EnableWindow(GetDlgItem(wnd, IDC_POPUPSINFULLSCREENLABEL), PopupsEnabled);
 
-	BOOL CListEnabled = (SendMessage(GetDlgItem(wnd, IDC_PSEUDOCONTACTENABLED), BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
+	BOOL CListEnabled = (SendDlgItemMessage(wnd, IDC_PSEUDOCONTACTENABLED, BM_GETSTATE, 0, 0) & BST_CHECKED) == BST_CHECKED;
 	EnableWindow(GetDlgItem(wnd, IDC_CLEARPSEUDOCONTACTLOG), CListEnabled);
 
 	EnableWindow(GetDlgItem(wnd, IDC_MARKEVENTREAD), PopupsEnabled && CListEnabled);

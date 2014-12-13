@@ -46,7 +46,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(GetDlgItem(hwndDlg, IDC_PROGRESS), PBM_SETPOS, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_PROGRESS, PBM_SETPOS, 0, 0);
 		break;
 	case WM_COMMAND:
 		if (HIWORD(wParam) != BN_CLICKED || LOWORD(wParam) != IDCANCEL)
@@ -263,7 +263,7 @@ int Backup(TCHAR* backup_filename)
 			SetFileTime(hFile, NULL, NULL, &ft);
 			CloseHandle(hFile);
 		}
-		SendMessage(GetDlgItem(progress_dialog, IDC_PROGRESS), PBM_SETPOS, (WPARAM)(100), 0);
+		SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 		UpdateWindow(progress_dialog);
 		db_set_dw(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
 		if (!options.disable_popups) {

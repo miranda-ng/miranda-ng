@@ -175,20 +175,20 @@ INT_PTR CALLBACK UploadDialog::UploadDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_TAB), TabControlProc);
 
 			LOGFONT logFont = {0};
-			HFONT hFont = (HFONT)SendMessage(GetDlgItem(hwndDlg, IDC_ST_FILE), WM_GETFONT, 0, 0);
+			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_ST_FILE, WM_GETFONT, 0, 0);
 			GetObject(hFont, sizeof(logFont), &logFont);
 			logFont.lfWeight = FW_BOLD;
 			hFont = CreateFontIndirect(&logFont);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ST_CONTACT), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ST_FILE), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ST_SERVER), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ST_SPEED), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ST_COMPLETED), WM_SETFONT, (WPARAM)hFont, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_ST_REMAIN), WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ST_CONTACT, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ST_FILE, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ST_SERVER, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ST_SPEED, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ST_COMPLETED, WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_ST_REMAIN, WM_SETFONT, (WPARAM)hFont, 0);
 
 			logFont.lfHeight -= 4;
 			hFont = CreateFontIndirect(&logFont);
-			SendMessage(GetDlgItem(hwndDlg, IDC_UP_CONTACT), WM_SETFONT, (WPARAM)hFont, 0);
+			SendDlgItemMessage(hwndDlg, IDC_UP_CONTACT, WM_SETFONT, (WPARAM)hFont, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_BTN_PROTO, BUTTONSETASFLATBTN, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_BTN_PROTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("User Info"), BATF_TCHAR);

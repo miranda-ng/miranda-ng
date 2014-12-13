@@ -877,17 +877,17 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				EnableWindow(hw, TRUE);
 			}
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_SNOOZE), UDM_SETRANGE, 0, (LPARAM)MAKELONG(360, 0));
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_SNOOZE), UDM_SETPOS, 0, temp_options.snooze_minutes);
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_SNOOZE, UDM_SETRANGE, 0, (LPARAM)MAKELONG(360, 0));
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_SNOOZE, UDM_SETPOS, 0, temp_options.snooze_minutes);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_ROWHEIGHT), UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 5));
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_ROWHEIGHT), UDM_SETPOS, 0, temp_options.row_height);
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_ROWHEIGHT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 5));
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_ROWHEIGHT, UDM_SETPOS, 0, temp_options.row_height);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_INDENT), UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_INDENT), UDM_SETPOS, 0, temp_options.indent);
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_INDENT, UDM_SETPOS, 0, temp_options.indent);
 
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_TRANS), UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
-			SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_TRANS), UDM_SETPOS, 0, temp_options.aw_trans);
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
+			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETPOS, 0, temp_options.aw_trans);
 		}
 
 		CheckDlgButton(hwndDlg, IDC_SHOWHIDE, temp_options.auto_showhide ? TRUE : FALSE);
@@ -897,8 +897,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		CheckDlgButton(hwndDlg, IDC_CHK_AWROUND, temp_options.aw_roundcorners ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_AWNOACTIVATE, temp_options.aw_dontstealfocus ? TRUE : FALSE);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_PERIOD), UDM_SETRANGE, 0, (LPARAM)MAKELONG(72, 1));
-		SendMessage(GetDlgItem(hwndDlg, IDC_SPIN_PERIOD), UDM_SETPOS, 0, temp_options.reminder_period);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_PERIOD, UDM_SETRANGE, 0, (LPARAM)MAKELONG(72, 1));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_PERIOD, UDM_SETPOS, 0, temp_options.reminder_period);
 
 		SendMessage( GetParent( hwndDlg ), PSM_UNCHANGED, 0, 0 ); 
 		return TRUE;

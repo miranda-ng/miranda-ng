@@ -56,7 +56,7 @@ void LoadProfilStatus(LPVOID lparam) {
 		HBITMAP hbitmap = xgamelist.createHBITMAPfromdata(buf, size);
 		//speicher freigeben
 		delete[] buf;
-		SendMessage(GetDlgItem(ghwndDlg, IDC_PROFILIMG), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hbitmap);
+		SendDlgItemMessage(ghwndDlg, IDC_PROFILIMG, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hbitmap);
 	}
 	delete[] lparam;
 }
@@ -293,12 +293,12 @@ static INT_PTR CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam
 
 						if (!db_get(hContact, protocolname, "GameId", &dbv))
 						{
-							SendMessage(GetDlgItem(hwndDlg, IDC_GAMEICO), STM_SETICON, (WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal), 0);
+							SendDlgItemMessage(hwndDlg, IDC_GAMEICO, STM_SETICON, (WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal), 0);
 							db_free(&dbv);
 						}
 						if (!db_get(hContact, protocolname, "VoiceId", &dbv))
 						{
-							SendMessage(GetDlgItem(hwndDlg, IDC_VOICEICO), STM_SETICON, (WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal), 0);
+							SendDlgItemMessage(hwndDlg, IDC_VOICEICO, STM_SETICON, (WPARAM)xgamelist.iconmngr.getGameIcon(dbv.wVal), 0);
 							db_free(&dbv);
 						}
 

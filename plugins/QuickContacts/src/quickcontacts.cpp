@@ -443,7 +443,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HISTORY), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MENU), FALSE);
 
-		SendMessage(GetDlgItem(hwndDlg, IDC_ICO), STM_SETICON, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_ICO, STM_SETICON, 0, 0);
 	}
 	else
 	{
@@ -467,7 +467,7 @@ void EnableButtons(HWND hwndDlg, MCONTACT hContact)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_MENU), TRUE);
 
 		HICON ico = ImageList_GetIcon(hIml, CallService(MS_CLIST_GETCONTACTICON, hContact, 0), ILD_IMAGE);
-		SendMessage(GetDlgItem(hwndDlg, IDC_ICO), STM_SETICON, (WPARAM) ico, 0);
+		SendDlgItemMessage(hwndDlg, IDC_ICO, STM_SETICON, (WPARAM) ico, 0);
 	}
 }
 
@@ -656,13 +656,13 @@ LRESULT CALLBACK HookProc(int code, WPARAM wparam, LPARAM lparam)
 	}
 
 	if (msg->message == WM_KEYDOWN && msg->wParam == VK_ESCAPE) {
-		switch(SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_GETDROPPEDSTATE, 0, 0)) {
+		switch (SendDlgItemMessage(hwndMain, IDC_USERNAME, CB_GETDROPPEDSTATE, 0, 0)) {
 		case FALSE:
 			SendMessage(hwndMain, WM_CLOSE, 0, 0);
 			break;
 
 		case TRUE:
-			SendMessage(GetDlgItem(hwndMain, IDC_USERNAME), CB_SHOWDROPDOWN, FALSE, 0);
+			SendDlgItemMessage(hwndMain, IDC_USERNAME, CB_SHOWDROPDOWN, FALSE, 0);
 			break;
 		}
 	}
@@ -715,9 +715,9 @@ static void FillButton(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key, HICON
 	else
 		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
-	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONSETASFLATBTN, 0, 0);
-	SendMessage(GetDlgItem(hwndDlg, dlgItem), BUTTONADDTOOLTIP, (LPARAM) full, BATF_TCHAR);
-	SendDlgItemMessage(hwndDlg, dlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM) icon);
+	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONSETASFLATBTN, 0, 0);
+	SendDlgItemMessage(hwndDlg, dlgItem, BUTTONADDTOOLTIP, (LPARAM)full, BATF_TCHAR);
+	SendDlgItemMessage(hwndDlg, dlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)icon);
 }
 
 
@@ -731,7 +731,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 	else
 		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
-	SendMessage(GetDlgItem(hwndDlg, dlgItem), WM_SETTEXT, 0, (LPARAM) full);
+	SendDlgItemMessage(hwndDlg, dlgItem, WM_SETTEXT, 0, (LPARAM)full);
 }
 
 
@@ -755,7 +755,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			hHook = SetWindowsHookEx(WH_MSGFILTER, HookProc, 0, GetCurrentThreadId());
 
 			// Combo
-			SendMessage(GetDlgItem(hwndDlg, IDC_USERNAME), EM_LIMITTEXT, (WPARAM)119,0);
+			SendDlgItemMessage(hwndDlg, IDC_USERNAME, EM_LIMITTEXT, (WPARAM)119, 0);
 			mir_subclassWindow(GetWindow(GetDlgItem(hwndDlg, IDC_USERNAME),GW_CHILD), EditProc);
 
 			// Buttons
