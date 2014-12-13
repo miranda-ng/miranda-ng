@@ -28,6 +28,10 @@
 
 #include "commonheaders.h"
 
+#include <string>
+
+typedef std::basic_string<TCHAR> tstring;
+
 #define MWF_LOG_BBCODE 1
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MSGDLGFONTCOUNT 22
@@ -1450,7 +1454,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		switch (((NMHDR*) lParam)->code) {
 		case EN_LINK:
-			switch (((ENLINK *) lParam)->msg) {
+			switch (((ENLINK*) lParam)->msg) {
 			case WM_LBUTTONUP:
 				ENLINK *e = reinterpret_cast<ENLINK *>(lParam);
 

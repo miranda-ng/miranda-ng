@@ -538,34 +538,26 @@ int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
  */
 TCHAR* CContactCache::getNormalizedStatusMsg(const TCHAR *src, bool fStripAll)
 {
-	size_t	k = 0, i = 0;
-	TCHAR*  tszResult = 0;
-
 	if (src == 0 || mir_tstrlen(src) < 2)
 		return 0;
 
-	tstring dest;
+	CMString dest;
 
-	for (i=0; i < _tcslen(src); i++) {
+	for (int i = 0; src[i] != 0; i++) {
 		if (src[i] == 0x0d || src[i] == '\t')
 			continue;
 		if (i && src[i] == (TCHAR)0x0a) {
 			if (fStripAll) {
-				dest.append(_T(" "));
+				dest.AppendChar(' ');
 				continue;
 			}
-			dest.append(_T("\n"));
+			dest.AppendChar('\n');
 			continue;
 		}
-		dest += src[i];
+		dest.AppendChar(src[i]);
 	}
 
-	if (i) {
-		tszResult = (TCHAR*)mir_alloc((dest.length() + 1) * sizeof(TCHAR));
-		_tcscpy(tszResult, dest.c_str());
-		tszResult[dest.length()] = 0;
-	}
-	return tszResult;
+	return mir_tstrndup(dest, dest.GetLength());
 }
 
 /**
