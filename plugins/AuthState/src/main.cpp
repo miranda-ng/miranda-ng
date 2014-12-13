@@ -50,18 +50,18 @@ PLUGININFOEX pluginInfo = {
 	{ 0xdace7d41, 0xdfa9, 0x4772, { 0x89, 0xae, 0xa5, 0x9a, 0x61, 0x53, 0xe6, 0xb2 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	g_hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-INT_PTR getIconToUse(MCONTACT hContact, LPARAM lParam)
+INT_PTR getIconToUse(MCONTACT hContact, LPARAM)
 {
 	char *proto = GetContactProto(hContact);
 	//	if (lParam == 1) return icon_none;
@@ -120,7 +120,7 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int onDBContactAdded(WPARAM hContact, LPARAM lParam)
+int onDBContactAdded(WPARAM hContact, LPARAM)
 {
 	// A new contact added, mark it as recent
 	db_set_b((MCONTACT)hContact, MODULENAME, "ShowIcons", 1);
@@ -129,7 +129,7 @@ int onDBContactAdded(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM lParam)
+INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM)
 {
 	byte enabled = db_get_b((MCONTACT)hContact, "AuthState", "ShowIcons", 1);
 	db_set_b((MCONTACT)hContact, MODULENAME, "ShowIcons", !enabled);
@@ -138,7 +138,7 @@ INT_PTR onAuthMenuSelected(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int onPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *proto = GetContactProto((MCONTACT)hContact);
 	if (!proto)
