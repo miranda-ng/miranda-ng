@@ -79,7 +79,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Mra.h</PrecompiledHeaderFile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4312;4267</DisableSpecificWarnings>
@@ -107,7 +107,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Mra.h</PrecompiledHeaderFile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4312;4267</DisableSpecificWarnings>
     </ClCompile>
@@ -133,7 +133,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <PrecompiledHeaderFile>Mra.h</PrecompiledHeaderFile>
@@ -165,7 +165,7 @@
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <AdditionalIncludeDirectories>..\..\include;..\..\plugins\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
       <PrecompiledHeaderFile>Mra.h</PrecompiledHeaderFile>
