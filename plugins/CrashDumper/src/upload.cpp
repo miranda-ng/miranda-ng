@@ -42,7 +42,8 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 	if (db_get_s(NULL, PluginName, "Username", &dbv) == 0) {
 		strncpy_s(user, szuser, dbv.pszVal, _TRUNCATE);
 		db_free(&dbv);
-	} else
+	}
+	else
 		user[0] = 0;
 
 	if (db_get_s(NULL, PluginName, "Password", &dbv) == 0) {
@@ -56,7 +57,8 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 		arrayToHex(hash, sizeof(hash), pass);
 
 		db_free(&dbv);
-	} else
+	}
+	else
 		pass[0] = 0;
 }
 

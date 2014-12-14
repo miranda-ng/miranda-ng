@@ -127,7 +127,7 @@ bool IsPluginEnabled(TCHAR* filename);
 PLUGININFOEX* GetMirInfo(HMODULE hModule);
 const PLUGININFOEX* GetPluginInfoEx(void);
 
-void CreateMiniDump   (HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);
+void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);
 void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHAR* msg);
 void PrintVersionInfo(CMString& buffer, unsigned flags = VI_FLAG_PRNVAR);
 bool ProcessVIHash(bool store);
@@ -141,8 +141,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void DestroyAllWindows(void);
 
-void UploadInit(void); 
-void UploadClose(void); 
+void UploadInit(void);
+void UploadClose(void);
 void OpenAuthUrl(const char* url);
 void __cdecl VersionInfoUploadThread(void* arg);
 

@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 static HINSTANCE hKernel = GetModuleHandleA("kernel32.dll");
 
-typedef BOOL (WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+typedef BOOL(WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 tGetProductInfo pGetProductInfo = (tGetProductInfo)GetProcAddress(hKernel, "GetProductInfo");
 
 void GetOSDisplayString(CMString &buffer)
