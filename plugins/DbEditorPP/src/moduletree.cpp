@@ -11,10 +11,8 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 	HTREEITEM contact;
 	ModuleTreeInfoStruct *lParam;
 	ModSetLinkLinkItem *module;
-	int count = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
 	int itemscount = 0;
 	int loaded, i = 0, icon = 0;
-	HWND hwnd = GetParent(hwnd2Tree);
 	int hItem = -1;
 
 	SetWindowText(hwnd2mainWindow, Translate("Loading contacts..."));
@@ -51,7 +49,6 @@ int doContacts(HWND hwnd2Tree, HTREEITEM contactsRoot, ModuleSettingLL *modlist,
 			lParam->type |= EMPTY;
 
 		// contacts name
-		DBVARIANT dbv = {0};
 		WCHAR nick[256];
 		WCHAR protoW[256]; // unicode proto
 
@@ -128,7 +125,7 @@ void doItems(HWND hwnd2Tree, ModuleSettingLL *modlist, int count)
 	char percent[96], title[64];
 	mir_snprintf(title, SIZEOF(title), Translate("Loading modules..."));
 
-	TVITEM item = {0};
+	TVITEM item = { 0 };
 	item.mask = TVIF_STATE | TVIF_PARAM;
 
 	HTREEITEM contact = TreeView_GetChild(hwnd2Tree, TVI_ROOT);
@@ -255,8 +252,8 @@ void freeTree(HWND hwnd2Tree, MCONTACT hContact)
 }
 
 BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char *module)
-	/* the following code to go through the whole tree is nicked from codeguru..
-	http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680 */
+/* the following code to go through the whole tree is nicked from codeguru..
+http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?thread=7680 */
 {
 	TVITEM item;
 	HTREEITEM lastItem, prelastItem;
@@ -279,7 +276,7 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char *module)
 				/* these next lines are not from code guru..... */
 				if (item.lParam) {
 					ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)item.lParam;
-					if (hContact == mtis->hContact && !mir_strcmp(text,module)) {
+					if (hContact == mtis->hContact && !mir_strcmp(text, module)) {
 						mir_free(mtis);
 						TreeView_DeleteItem(hwnd2Tree, item.hItem);
 						lastItem = prelastItem;
@@ -294,7 +291,7 @@ BOOL findAndRemoveDuplicates(HWND hwnd2Tree, MCONTACT hContact, char *module)
 
 		while (!(item.hItem = TreeView_GetNextSibling(hwnd2Tree, lastItem)) && (lastItem = item.hItem = TreeView_GetParent(hwnd2Tree, lastItem))) {}
 
-	} while ( item.hItem );
+	} while (item.hItem);
 	/*****************************************************************************/
 
 	return Result;
@@ -322,7 +319,7 @@ void replaceTreeItem(HWND hwnd, MCONTACT hContact, const char *module, const cha
 	}
 
 	if (hParent && newModule) {
-		TVINSERTSTRUCT tvi = {0};
+		TVINSERTSTRUCT tvi = { 0 };
 		ModuleTreeInfoStruct *lParam;
 
 		tvi.hParent = hParent;
@@ -354,8 +351,8 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 {
 	TVINSERTSTRUCT tvi;
 	HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow, IDC_MODULES);
-	char SelectedModule[256] = {0};
-	char SelectedSetting[256] = {0};
+	char SelectedModule[256] = { 0 };
+	char SelectedSetting[256] = { 0 };
 	MCONTACT hSelectedContact = hRestore;
 	MCONTACT hContact;
 	HTREEITEM contact, contactsRoot;
@@ -380,7 +377,7 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di)
 	switch ((int)di) {
 	case 1: // restore after rebuild
 		if (HTREEITEM item = TreeView_GetSelection(hwnd2Tree)) {
-			TVITEM tvi = {0};
+			TVITEM tvi = { 0 };
 			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 			tvi.pszText = SelectedModule;
 			tvi.cchTextMax = SIZEOF(SelectedModule);
@@ -534,7 +531,7 @@ static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd, UINT msg, WPA
 
 void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam);
 
-void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hwnd here is to the main window, NOT the treview
+void moduleListWM_NOTIFY(HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)// hwnd here is to the main window, NOT the treview
 {
 	switch (((NMHDR *)lParam)->code) {
 	case TVN_ITEMEXPANDINGA:
@@ -543,7 +540,6 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)((LPNMTREEVIEW)lParam)->itemNew.lParam;
 			if (mtis && (mtis->type == (CONTACT | EMPTY))) {
 				TVINSERTSTRUCT tvi;
-				HTREEITEM item = {0};
 				ModuleTreeInfoStruct *_lParam;
 				HWND hwnd2Tree = GetDlgItem(hwnd2mainWindow, IDC_MODULES);
 				ModSetLinkLinkItem *module;
@@ -585,96 +581,96 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 
 	case TVN_SELCHANGEDA:
 	case TVN_SELCHANGEDW:
-		{
-			ModuleTreeInfoStruct *mtis;
-			LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
-			TVITEM tvi = {0};
-			char text[264];
-			MCONTACT hContact;
-			HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
-			tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
-			tvi.hItem = pnmtv->itemNew.hItem;
-			tvi.pszText = text;
-			tvi.cchTextMax = SIZEOF(text);
-			TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
+	{
+		ModuleTreeInfoStruct *mtis;
+		LPNMTREEVIEW pnmtv = (LPNMTREEVIEW)lParam;
+		TVITEM tvi = { 0 };
+		char text[264];
+		MCONTACT hContact;
+		HWND hwnd2Settings = GetDlgItem(hwnd, IDC_SETTINGS);
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
+		tvi.hItem = pnmtv->itemNew.hItem;
+		tvi.pszText = text;
+		tvi.cchTextMax = SIZEOF(text);
+		TreeView_GetItem(pnmtv->hdr.hwndFrom, &tvi);
 
-			if (tvi.lParam) {
-				mtis = (ModuleTreeInfoStruct *)tvi.lParam;
-				hContact = mtis->hContact;
+		if (tvi.lParam) {
+			mtis = (ModuleTreeInfoStruct *)tvi.lParam;
+			hContact = mtis->hContact;
 
-				if (mtis->type == STUB)
-					break;
+			if (mtis->type == STUB)
+				break;
 
-				if (populating)
-					Select = 0;
+			if (populating)
+				Select = 0;
 
-				if (mtis->type == MODULE) {
-					SettingListInfo *info = (SettingListInfo *)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
-					BOOL refresh = 1;
+			if (mtis->type == MODULE) {
+				SettingListInfo *info = (SettingListInfo *)GetWindowLongPtr(hwnd2Settings, GWLP_USERDATA);
+				BOOL refresh = 1;
 
-					if (info) {
-						if (info->hContact == hContact && !mir_strcmp(info->module, text))
-							refresh = 0;
-					}
-
-					if (refresh)
-						PopulateSettings(hwnd2Settings, hContact, text);
+				if (info) {
+					if (info->hContact == hContact && !mir_strcmp(info->module, text))
+						refresh = 0;
 				}
-				else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
-					char data[32], szProto[256];
-					int index, loaded, multi = 0;
-					LVITEM lvi = {0};
-					lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
-					lvi.iImage = 6;
 
-					ClearListview(hwnd2Settings);
-					SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
-					if (himl2)
-						ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
-
-					if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {
-						multi = 1;
-						hContact = db_find_first();
-					}
-
-					while (hContact && hwnd2mainWindow) {
-						if (multi) {
-							// filter
-							if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
-								loaded = IsProtocolLoaded(szProto);
-							else
-								loaded = 0;
-
-							if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED)) {
-								hContact = db_find_next(hContact);
-								continue;
-							}
-						}
-
-						lvi.iItem = 0;
-						lvi.pszText = (char *)GetContactName(hContact, NULL, FALSE);
-
-						index = ListView_InsertItem(hwnd2Settings, &lvi);
-
-						mir_snprintf(data, SIZEOF(data), "0x%08X (%ld)", hContact, hContact);
-
-						ListView_SetItemText(hwnd2Settings, index, 1, data);
-						ListView_SetItemText(hwnd2Settings, index, 2, Translate("HANDLE"));
-						ListView_SetItemText(hwnd2Settings, index, 3, "0x0004 (4)");
-
-						if (!multi)
-							break;
-
-						hContact = db_find_next(hContact);
-					}
-				}
-				else
-					ClearListview(hwnd2Settings);
+				if (refresh)
+					PopulateSettings(hwnd2Settings, hContact, text);
 			}
-			else // clear any settings that may be there...
+			else if (((mtis->type & CONTACT) == CONTACT && hContact) || (mtis->type == CONTACT_ROOT_ITEM && !hContact)) {
+				char data[32], szProto[256];
+				int index, loaded, multi = 0;
+				LVITEM lvi = { 0 };
+				lvi.mask = LVIF_IMAGE | LVIF_TEXT | LVIF_PARAM;
+				lvi.iImage = 6;
+
+				ClearListview(hwnd2Settings);
+				SetWindowLongPtr(hwnd2Settings, GWLP_USERDATA, 0);
+				if (himl2)
+					ListView_SetImageList(hwnd2Settings, himl2, LVSIL_SMALL);
+
+				if (mtis->type == CONTACT_ROOT_ITEM && !hContact) {
+					multi = 1;
+					hContact = db_find_first();
+				}
+
+				while (hContact && hwnd2mainWindow) {
+					if (multi) {
+						// filter
+						if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
+							loaded = IsProtocolLoaded(szProto);
+						else
+							loaded = 0;
+
+						if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED)) {
+							hContact = db_find_next(hContact);
+							continue;
+						}
+					}
+
+					lvi.iItem = 0;
+					lvi.pszText = (char *)GetContactName(hContact, NULL, FALSE);
+
+					index = ListView_InsertItem(hwnd2Settings, &lvi);
+
+					mir_snprintf(data, SIZEOF(data), "0x%08X (%ld)", hContact, hContact);
+
+					ListView_SetItemText(hwnd2Settings, index, 1, data);
+					ListView_SetItemText(hwnd2Settings, index, 2, Translate("HANDLE"));
+					ListView_SetItemText(hwnd2Settings, index, 3, "0x0004 (4)");
+
+					if (!multi)
+						break;
+
+					hContact = db_find_next(hContact);
+				}
+			}
+			else
 				ClearListview(hwnd2Settings);
 		}
-		break; //TVN_SELCHANGED:
+		else // clear any settings that may be there...
+			ClearListview(hwnd2Settings);
+	}
+	break; //TVN_SELCHANGED:
 
 	case NM_RCLICK:
 		if (((NMHDR *)lParam)->code == NM_RCLICK)
@@ -683,23 +679,23 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 
 	case TVN_BEGINLABELEDITA: // subclass it..
 	case TVN_BEGINLABELEDITW:
-		{
-			LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
-			ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
-			HWND hwnd2Edit = TreeView_GetEditControl(GetDlgItem(hwnd, IDC_MODULES));
-			if (!mtis->type || (mtis->type == CONTACT)) {
-				SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-				break;
-			}
-			mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
-			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+	{
+		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
+		ModuleTreeInfoStruct *mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
+		HWND hwnd2Edit = TreeView_GetEditControl(GetDlgItem(hwnd, IDC_MODULES));
+		if (!mtis->type || (mtis->type == CONTACT)) {
+			SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
+			break;
 		}
-		break;
+		mir_subclassWindow(hwnd2Edit, ModuleTreeLabelEditSubClassProc);
+		SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+	}
+	break;
 
 	case TVN_ENDLABELEDITA:
 	case TVN_ENDLABELEDITW:
 		LPNMTVDISPINFO ptvdi = (LPNMTVDISPINFO)lParam;
-		TVITEM tvi = {0};
+		TVITEM tvi = { 0 };
 		char text[264];
 		char *newtext;
 		ModuleTreeInfoStruct *mtis;
@@ -740,7 +736,7 @@ void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)// hw
 	}
 }
 
-void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here is to the main window, NOT the treview
+void moduleListRightClick(HWND hwnd, WPARAM, LPARAM lParam) // hwnd here is to the main window, NOT the treview
 {
 	TVHITTESTINFO hti;
 	hti.pt.x = (short)LOWORD(GetMessagePos());
@@ -749,7 +745,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 
 	if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
 		if (hti.flags & TVHT_ONITEM) {
-			TVITEM tvi = {0};
+			TVITEM tvi = { 0 };
 			HMENU hMenu, hSubMenu;
 			int menuNumber;
 			char module[256];
@@ -781,57 +777,57 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 				switch (menuNumber) {
 				case 1: // null module
 				case 5: // contact module
-					{
-						// check if we r already watching the module
-						int i, watching = 0;
-						// check if the setting is being watched and if it is then check the menu item
-						if (WatchListArray.item)
-							for (i = 0; i < WatchListArray.count; i++)
-								if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact)) {
-									if (!mir_strcmp(module, WatchListArray.item[i].module) && !WatchListArray.item[i].setting) {
-										// yes so uncheck it
-										CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
-										watching = 1;
-										break;
-									}
+				{
+					// check if we r already watching the module
+					int i = 0, watching = 0;
+					// check if the setting is being watched and if it is then check the menu item
+					if (WatchListArray.item)
+						for (i = 0; i < WatchListArray.count; i++)
+							if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact)) {
+								if (!mir_strcmp(module, WatchListArray.item[i].module) && !WatchListArray.item[i].setting) {
+									// yes so uncheck it
+									CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
+									watching = 1;
+									break;
 								}
-
-						switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
-						case MENU_RENAME_MOD:
-							TreeView_EditLabel(GetDlgItem(hwnd, IDC_MODULES), tvi.hItem);
-							break;
-
-						case MENU_DELETE_MOD:
-							if (deleteModule(module, hContact, 0)) {
-								TreeView_DeleteItem(((LPNMHDR)lParam)->hwndFrom, hti.hItem);
-								mir_free(mtis);
 							}
-							break;
 
-						case MENU_COPY_MOD:
-							copyModuleMenuItem(module, hContact);
-							break;
+					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
+					case MENU_RENAME_MOD:
+						TreeView_EditLabel(GetDlgItem(hwnd, IDC_MODULES), tvi.hItem);
+						break;
 
-							////////////////////////////////////////////////////////////////////// divider
-						case MENU_WATCH_ITEM:
-							if (!watching)
-								addSettingToWatchList(hContact, module, 0);
-							else
-								freeWatchListItem(i);
-							if (hwnd2watchedVarsWindow)
-								PopulateWatchedWindow(GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS));
-							break;
-
-						case MENU_EXPORTMODULE:
-							exportDB(hContact, module);
-							break;
-
-						case MENU_EXPORTDB:
-							exportDB(INVALID_CONTACT_ID, module);
-							break;
+					case MENU_DELETE_MOD:
+						if (deleteModule(module, hContact, 0)) {
+							TreeView_DeleteItem(((LPNMHDR)lParam)->hwndFrom, hti.hItem);
+							mir_free(mtis);
 						}
+						break;
+
+					case MENU_COPY_MOD:
+						copyModuleMenuItem(module, hContact);
+						break;
+
+						////////////////////////////////////////////////////////////////////// divider
+					case MENU_WATCH_ITEM:
+						if (!watching)
+							addSettingToWatchList(hContact, module, 0);
+						else
+							freeWatchListItem(i);
+						if (hwnd2watchedVarsWindow)
+							PopulateWatchedWindow(GetDlgItem(hwnd2watchedVarsWindow, IDC_VARS));
+						break;
+
+					case MENU_EXPORTMODULE:
+						exportDB(hContact, module);
+						break;
+
+					case MENU_EXPORTDB:
+						exportDB(INVALID_CONTACT_ID, module);
+						break;
 					}
-					break;
+				}
+				break;
 
 				case 2: // contact
 					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
@@ -857,7 +853,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 						}
 						break;
 
-					////////////////////////////////////////////////////////////////////// divider
+						////////////////////////////////////////////////////////////////////// divider
 					case MENU_EXPORTCONTACT:
 						exportDB(hContact, 0);
 						break;
@@ -868,28 +864,28 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam, LPARAM lParam) // hwnd here 
 						ImportSettingsFromFileMenuItem(hContact, "");
 						break;
 
-					////////////////////////////////////////////////////////////////////// divider
+						////////////////////////////////////////////////////////////////////// divider
 					case MENU_ADD_MODULE:
-						{
-							HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, hContact);
-							char msg[1024];
-							mir_snprintf(msg, SIZEOF(msg), Translate("Add module to contact \"%s\""), module);
-							SetWindowText(AddModhwnd, module);
-						}
-						break;
+					{
+						HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, hContact);
+						char msg[1024];
+						mir_snprintf(msg, SIZEOF(msg), Translate("Add module to contact \"%s\""), module);
+						SetWindowText(AddModhwnd, module);
+					}
+					break;
 					}
 					break;
 
 				case 3: // NULL contact
 					switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, hti.pt.x, hti.pt.y, 0, hwnd, NULL)) {
 					case MENU_ADD_MODULE:
-						{
-							HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, hContact);
-							char msg[1024];
-							mir_snprintf(msg, SIZEOF(msg), Translate("Add module to contact \"%s\""), module);
-							SetWindowText(AddModhwnd, module);
-						}
-						break;
+					{
+						HWND AddModhwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd, AddModDlgProc, hContact);
+						char msg[1024];
+						mir_snprintf(msg, SIZEOF(msg), Translate("Add module to contact \"%s\""), module);
+						SetWindowText(AddModhwnd, module);
+					}
+					break;
 					case MENU_EXPORTCONTACT:
 						exportDB(NULL, 0);
 						break;

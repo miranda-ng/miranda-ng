@@ -31,7 +31,7 @@ typedef struct {
 } FindInfo;
 
 
-int FindDialogResize(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
+int FindDialogResize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_LIST:
@@ -87,8 +87,8 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					break;
 
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_MODNAME) &&
-					 BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGNAME) &&
-					 BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGVALUE))
+					BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGNAME) &&
+					BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGVALUE))
 					break;
 
 				FindInfo *fi = (FindInfo*)mir_calloc(sizeof(FindInfo));
@@ -152,24 +152,24 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		break;
 	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO*)lParam;
-			mmi->ptMinTrackSize.x = 520;
-			mmi->ptMinTrackSize.y = 300;
-		}
-		return 0;
+	{
+		MINMAXINFO *mmi = (MINMAXINFO*)lParam;
+		mmi->ptMinTrackSize.x = 520;
+		mmi->ptMinTrackSize.y = 300;
+	}
+	return 0;
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd;
-			memset(&urd, 0, sizeof(urd));
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwnd;
-			urd.lpTemplate = MAKEINTRESOURCE(IDD_FIND);
-			urd.pfnResizer = FindDialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-		}
-		break;
+	{
+		UTILRESIZEDIALOG urd;
+		memset(&urd, 0, sizeof(urd));
+		urd.cbSize = sizeof(urd);
+		urd.hInstance = hInst;
+		urd.hwndDlg = hwnd;
+		urd.lpTemplate = MAKEINTRESOURCE(IDD_FIND);
+		urd.pfnResizer = FindDialogResize;
+		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+	}
+	break;
 
 	case WM_DESTROY:
 		freeItems(hwnd);
@@ -178,26 +178,25 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return 0;
 }
 
-void ItemFound(HWND hwnd, MCONTACT hContact,const char *module,const char *setting,const char* value,int type)
+void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *setting, const char* value, int type)
 {
 	ItemInfo *ii = (ItemInfo*)mir_calloc(sizeof(ItemInfo));
 	if (!ii) return;
 
 	int index;
 	char text[256] = "";
-	int result = 0;
 	char szValue[256];
 	char *name, *mode;
 
 	if (type & FW_REPLACED)
 		mode = Translate("Replaced with");
 	else
-	if (type & FW_DELETED)
-		mode = Translate("Deleted");
-	else
-		mode = Translate("Found");
+		if (type & FW_DELETED)
+			mode = Translate("Deleted");
+		else
+			mode = Translate("Found");
 
-	name = hContact?(char*)GetContactName(hContact,NULL,0):Translate("Settings");
+	name = hContact ? (char*)GetContactName(hContact, NULL, 0) : Translate("Settings");
 
 	switch (type & 0xFF) {
 	case FW_MODULE:
@@ -219,7 +218,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact,const char *module,const char *setti
 		break;
 	}
 
-	index = SendMessage(hwnd,LB_ADDSTRING,0,(LPARAM)text);
+	index = SendMessage(hwnd, LB_ADDSTRING, 0, (LPARAM)text);
 	if (type & FW_DELETED) {
 		SendMessage(hwnd, LB_SETITEMDATA, index, 0);
 		mir_free(ii);
@@ -266,7 +265,6 @@ int replaceValue(HWND hwnd, MCONTACT hContact, const char *module, const char *s
 {
 	int count = 0;
 	DWORD num = 0;
-	BOOL write = 0;
 	int isNumeric;
 	char *myreplace = NULL;
 	DBVARIANT val = { 0 };

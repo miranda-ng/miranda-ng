@@ -19,7 +19,7 @@ void FreeModuleSettingLL(ModuleSettingLL* msll)
 	msll->last = 0;
 }
 
-int enumModulesSettingsProc( const char *szName , DWORD ofsModuleName , LPARAM lParam)
+int enumModulesSettingsProc(const char *szName, DWORD, LPARAM lParam)
 {
 	ModuleSettingLL *msll = (ModuleSettingLL *)lParam;
 	if (!msll->first) {
@@ -68,7 +68,7 @@ int EnumSettings(MCONTACT hContact, char* module, ModuleSettingLL *msll)
 	return !CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 }
 
-int CheckIfModuleIsEmptyProc(const char *szSetting, LPARAM lParam)
+int CheckIfModuleIsEmptyProc(const char *, LPARAM)
 {
 	return 1;
 }

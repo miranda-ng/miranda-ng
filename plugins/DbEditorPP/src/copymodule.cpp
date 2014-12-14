@@ -39,13 +39,13 @@ void copyModule(char* module, MCONTACT hContactFrom, MCONTACT hContactTo)
 
 INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ModuleAndContact *mac = (ModuleAndContact *)GetWindowLongPtr(hwnd,GWLP_USERDATA);
+	ModuleAndContact *mac = (ModuleAndContact *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (msg == WM_INITDIALOG)
 	{
 		int index, loaded;
 		char szProto[256];
 		for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-			if (GetValue(hContact,"Protocol","p",szProto,SIZEOF(szProto)))
+			if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
 				loaded = IsProtocolLoaded(szProto);
 			else
 				loaded = 0;
@@ -55,7 +55,6 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				continue;
 
 			// contacts name
-			DBVARIANT dbv ={0};
 			WCHAR nick[256];
 			WCHAR protoW[256]; // unicode proto
 
@@ -88,27 +87,27 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETITEMDATA, index, 0);
 		SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_SETCURSEL, index, 0);
 
-		SetWindowLongPtr(hwnd,GWLP_USERDATA,lParam);
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		TranslateDialogDefault(hwnd);
 	}
 	else if (msg == WM_COMMAND)
 	{
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case CHK_COPY2ALL:
-			EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS),BST_UNCHECKED == IsDlgButtonChecked(hwnd,CHK_COPY2ALL));
+			EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS), BST_UNCHECKED == IsDlgButtonChecked(hwnd, CHK_COPY2ALL));
 			break;
 
 		case IDOK:
-			if (BST_UNCHECKED == IsDlgButtonChecked(hwnd,CHK_COPY2ALL)) {
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, CHK_COPY2ALL)) {
 				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETITEMDATA, SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETCURSEL, 0, 0), 0);
 				copyModule(mac->module, mac->hContact, hContact);
 			}
 			else {
-				SetCursor(LoadCursor(NULL,IDC_WAIT));
+				SetCursor(LoadCursor(NULL, IDC_WAIT));
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 					copyModule(mac->module, mac->hContact, hContact);
 
-				SetCursor(LoadCursor(NULL,IDC_ARROW));
+				SetCursor(LoadCursor(NULL, IDC_ARROW));
 			}
 			mir_free(mac);
 			refreshTree(1);
