@@ -202,7 +202,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						int length = (int)strlen(tmp) + 1;
 						WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
 						MultiByteToWideChar(CP_UTF8, 0, tmp, -1, wc, length);
-						SendDlgItemMessageW(hwnd, IDC_STRING, WM_SETTEXT, 0, (LPARAM)wc);
+						SetDlgItemTextW(hwnd, IDC_STRING, wc);
 
 						SetWindowText(hwnd, Translate("Edit UNICODE value"));
 						SetDlgItemText(hwnd, IDC_SETTINGNAME, ((struct DBsetting*)lParam)->setting);

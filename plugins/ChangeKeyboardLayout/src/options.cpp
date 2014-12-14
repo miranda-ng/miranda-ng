@@ -63,9 +63,9 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 
 		// Отображаем пример конфиг.строки
 		ptszMemLay = ptszLayStrings[0];
-		SendDlgItemMessage(hWnd, IDC_EDIT_EXAMPLE, WM_SETTEXT, 0, (LPARAM)ptszMemLay);
+		SetDlgItemText(hWnd, IDC_EDIT_EXAMPLE, ptszMemLay);
 		ptszShortNameLay = GetShortNameOfLayout(hklLayouts[0]);
-		SendDlgItemMessage(hWnd, IDC_STATIC_EXAMPLE, WM_SETTEXT, 0, (LPARAM)ptszShortNameLay);
+		SetDlgItemText(hWnd, IDC_STATIC_EXAMPLE, ptszShortNameLay);
 		mir_free(ptszShortNameLay);
 
 		// Заполняем комбобокс с текущими раскладками
@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		//Отображаем первую раскладку в списке
 		SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_SETCURSEL, 0, 0);
 		ptszMemLay = ptszLayStrings[0];
-		SendDlgItemMessage(hWnd, IDC_EDIT_SET, WM_SETTEXT, 0, (LPARAM)ptszMemLay);
+		SetDlgItemText(hWnd, IDC_EDIT_SET, ptszMemLay);
 			
 		if (bLayNum != 2) EnableWindow(GetDlgItem(hWnd, IDC_CHECK_TWOWAY), FALSE);		
 		MainDialogLock = FALSE;
@@ -123,7 +123,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 			if ((HIWORD(wParam) == CBN_SELCHANGE)) {
 				MainDialogLock = TRUE;
 				ptszMemLay = ptszLayStrings[SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0)];
-				SendDlgItemMessage(hWnd, IDC_EDIT_SET, WM_SETTEXT, 0, (LPARAM)ptszMemLay);
+				SetDlgItemText(hWnd, IDC_EDIT_SET, ptszMemLay);
 				MainDialogLock = FALSE;
 			}
 			break;
@@ -136,7 +136,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 		case IDC_BUTTON_DEFAULT:
 			if ((HIWORD(wParam) == BN_CLICKED )) {
 				ptszGenLay = GenerateLayoutString(hklLayouts[SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0)]);
-				SendDlgItemMessage(hWnd, IDC_EDIT_SET, WM_SETTEXT, 0, (LPARAM)ptszGenLay);
+				SetDlgItemText(hWnd, IDC_EDIT_SET, ptszGenLay);
 				mir_free(ptszGenLay);
 				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 			}
@@ -221,7 +221,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 				mir_free(ptszFormLay);							
 
 				ptszMemLay = ptszLayStrings[0];
-				SendDlgItemMessage(hWnd, IDC_EDIT_EXAMPLE, WM_SETTEXT, 0, (LPARAM)ptszMemLay);
+				SetDlgItemText(hWnd, IDC_EDIT_EXAMPLE, ptszMemLay);
 
 				UnhookWindowsHookEx(kbHook_All);
 				kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());

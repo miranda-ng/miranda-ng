@@ -1373,7 +1373,7 @@ static INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 	case GC_ACKMESSAGE:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
+		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
 		return TRUE;
 
 	case WM_CTLCOLORLISTBOX:
@@ -1735,7 +1735,7 @@ LABEL_SHOWWINDOW:
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
-				else SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
+				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
 
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 

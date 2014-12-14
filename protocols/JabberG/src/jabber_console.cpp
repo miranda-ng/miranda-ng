@@ -526,7 +526,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				mir_free(textToSend);
 
-				SendDlgItemMessage(m_hwnd, IDC_CONSOLEIN, WM_SETTEXT, 0, (LPARAM)_T(""));
+				SetDlgItemText(m_hwnd, IDC_CONSOLEIN, _T(""));
 			}
 			return TRUE;
 
