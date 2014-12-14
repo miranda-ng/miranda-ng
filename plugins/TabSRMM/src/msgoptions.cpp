@@ -869,7 +869,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, FALSE);
-			SetWindowText(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), TranslateT("Show balloon popup (unsupported system)"));
+			SetDlgItemText(hwndDlg, IDC_NOTIFYBALLOON, TranslateT("Show balloon popup (unsupported system)"));
 		}
 
 		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
@@ -1611,7 +1611,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		SetWindowText(hwndDlg, TranslateT("Choose status modes"));
 		{
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-				SetWindowText(GetDlgItem(hwndDlg, i), pcli->pfnGetStatusModeDescription(i, GSMDF_TCHAR));
+				SetDlgItemText(hwndDlg, i, pcli->pfnGetStatusModeDescription(i, GSMDF_TCHAR));
 				if (dwStatusMask != -1 && (dwStatusMask & (1 << (i - ID_STATUS_ONLINE))))
 					CheckDlgButton(hwndDlg, i, BST_CHECKED);
 				Utils::enableDlgControl(hwndDlg, i, dwStatusMask != -1);

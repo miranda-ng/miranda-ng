@@ -354,7 +354,7 @@ void CJabberDlgConsole::OnInitDialog()
 		mir_tstrncpy(m_proto->m_filterInfo.pattern, tszPattern, SIZEOF(m_proto->m_filterInfo.pattern));
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
-	SetWindowText(GetDlgItem(m_hwnd, IDC_CB_FILTER), m_proto->m_filterInfo.pattern);
+	SetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern);
 
 	struct
 	{

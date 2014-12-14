@@ -724,7 +724,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				if (newString != NULL) {
 					TCHAR *oldString = Hlp_GetDlgItemText(hwndDlg, IDC_RESULT);
 					if (oldString == NULL || _tcscmp(oldString, newString))
-						SetWindowText(GetDlgItem(hwndDlg, IDC_RESULT), newString);
+						SetDlgItemText(hwndDlg, IDC_RESULT, newString);
 
 					mir_free(newString);
 					if (oldString != NULL)
@@ -873,7 +873,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					}
 				}
 				if (dat->vhs->fi != NULL || dat->vhs->hwndCtrl != NULL) {
-					SetWindowText(GetDlgItem(hwndDlg, IDC_CANCEL), TranslateT("Cancel"));
+					SetDlgItemText(hwndDlg, IDC_CANCEL, TranslateT("Cancel"));
 					ShowWindow(GetDlgItem(hwndDlg, IDC_OK), SW_SHOW);
 				}
 			}

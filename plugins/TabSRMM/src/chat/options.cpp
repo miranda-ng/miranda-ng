@@ -412,7 +412,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 			TCHAR* pszGroup = NULL;
 			InitSetting(pszGroup, "AddToGroup", _T("Chat rooms"));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_GROUP), pszGroup);
+			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
 			mir_free(pszGroup);
 			Utils::showDlgControl(hwndDlg, IDC_STATIC_MESSAGE, SW_HIDE);
 		}
@@ -834,7 +834,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 
 						TCHAR tszTemp[MAX_PATH];
 						PathToRelativeT(tszDirectory, tszTemp, szUserDir);
-						SetWindowText(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+						SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 					}
 					psMalloc->Free(idList);
 					psMalloc->Release();

@@ -117,14 +117,14 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 					fi->replace = mir_tstrdup(replace);
 
-					SetWindowText(GetDlgItem(hwnd, IDOK), Translate("Stop"));
+					SetDlgItemText(hwnd, IDOK, Translate("Stop"));
 					EnableWindow(GetDlgItem(hwnd, IDC_SEARCH), 0);
 
 					if (IsDlgButtonChecked(hwnd, IDC_CASESENSITIVE))
 						fi->mode |= RW_CASE;
 				}
 				else {
-					SetWindowText(GetDlgItem(hwnd, IDC_SEARCH), Translate("Stop"));
+					SetDlgItemText(hwnd, IDC_SEARCH, Translate("Stop"));
 					EnableWindow(GetDlgItem(hwnd, IDOK), 0);
 				}
 
@@ -625,10 +625,10 @@ void __cdecl FindSettings(LPVOID di)
 	if (GetWindowLongPtr(GetDlgItem(prnthwnd, IDC_REPLACE), GWLP_USERDATA)) {
 		SetWindowLongPtr(GetDlgItem(prnthwnd, IDC_REPLACE), GWLP_USERDATA, 0);
 		EnableWindow(GetDlgItem(prnthwnd, IDC_SEARCH), 1);
-		SetWindowText(GetDlgItem(prnthwnd, IDOK), Translate("&Replace"));
+		SetDlgItemText(prnthwnd, IDOK, Translate("&Replace"));
 	}
 	else {
-		SetWindowText(GetDlgItem(prnthwnd, IDC_SEARCH), Translate("&Search"));
+		SetDlgItemText(prnthwnd, IDC_SEARCH, Translate("&Search"));
 		EnableWindow(GetDlgItem(prnthwnd, IDOK), 1);
 	}
 

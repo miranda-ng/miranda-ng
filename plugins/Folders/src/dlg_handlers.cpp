@@ -21,7 +21,7 @@ static void GetEditText(HWND hWnd, TCHAR *buffer, int size)
 static void SetEditText(HWND hWnd, const TCHAR *buffer)
 {
 	bInitializing = 1;
-	SetWindowText(GetDlgItem(hWnd, IDC_FOLDER_EDIT), buffer);
+	SetDlgItemText(hWnd, IDC_FOLDER_EDIT, buffer);
 	bInitializing = 0;
 }
 
@@ -74,7 +74,7 @@ static void RefreshPreview(HWND hWnd)
 	TCHAR tmp[MAX_FOLDER_SIZE], res[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, tmp, MAX_FOLDER_SIZE);
 	ExpandPath(res, tmp, MAX_FOLDER_SIZE);
-	SetWindowText(GetDlgItem(hWnd, IDC_PREVIEW_EDIT), res);
+	SetDlgItemText(hWnd, IDC_PREVIEW_EDIT, res);
 }
 
 static void LoadItem(HWND hWnd, PFolderItem item)

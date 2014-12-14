@@ -559,18 +559,18 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			SendDlgItemMessage(hwndDlg, IDC_COMMANDLINE, EM_SETLIMITTEXT, MAX_PATH-1, 0L);
 			if(!db_get_s(NULL,SKYPE_PROTONAME,"CommandLine",&dbv)) 
 			{
-				SetWindowTextA(GetDlgItem(hwndDlg, IDC_COMMANDLINE), dbv.pszVal);
+				SetDlgItemTextA(hwndDlg, IDC_COMMANDLINE, dbv.pszVal);
 				db_free(&dbv);
 			}
 
 			SendDlgItemMessage(hwndDlg, IDC_DATAPATH, EM_SETLIMITTEXT, MAX_PATH-1, 0L);
 			if(!db_get_s(NULL,SKYPE_PROTONAME,"datapath",&dbv)) 
 			{
-				SetWindowTextA(GetDlgItem(hwndDlg, IDC_DATAPATH), dbv.pszVal);
+				SetDlgItemTextA(hwndDlg, IDC_DATAPATH, dbv.pszVal);
 				db_free(&dbv);
 			}
 
-			for(i=0; i < sizeof(skypeLaunchControls)/sizeof(skypeLaunchControls[0]); i++)
+			for(i=0; i < SIZEOF(skypeLaunchControls); i++)
 				EnableWindow(GetDlgItem(hwndDlg, skypeLaunchControls[i]), startSkype);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSECMDL), startSkype && IsDlgButtonChecked(hwndDlg, IDC_CUSTOMCOMMAND));
@@ -582,14 +582,14 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
             // LoginUserName
             if(!db_get_ts(NULL,SKYPE_PROTONAME,"LoginUserName",&dbv)) 
 			{
-				SetWindowText(GetDlgItem(hwndDlg, IDC_USERNAME), dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_USERNAME, dbv.ptszVal);
 				db_free(&dbv);
 			}
 
             // LoginPassword
             if(!db_get_ts(NULL,SKYPE_PROTONAME,"LoginPassword",&dbv)) 
 			{
-				SetWindowText(GetDlgItem(hwndDlg, IDC_PASSWORD), dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_PASSWORD, dbv.ptszVal);
 				db_free(&dbv);
 			}
 
@@ -699,7 +699,7 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 					}
 
 					if(gofnResult)
-						SetWindowTextA(GetDlgItem(hwndDlg, IDC_COMMANDLINE), szFileName);
+						SetDlgItemTextA(hwndDlg, IDC_COMMANDLINE, szFileName);
 
 					break;
 				}
@@ -935,8 +935,8 @@ void DoAutoDetect(HWND dlg)
 	{
  		if (acc = ezxml_get(f1, "Lib", 0, "Account", 0, "Default", -1))
 		{
-			if (GetDlgItemTextA(dlg, IDC_USERNAME, tmpUser, sizeof(tmpUser)))
-				SetWindowTextA(GetDlgItem(dlg, IDC_USERNAME), acc->txt);
+			if (GetDlgItemTextA(dlg, IDC_USERNAME, tmpUser, SIZEOF(tmpUser)))
+				SetDlgItemTextA(dlg, IDC_USERNAME, acc->txt);
 			/* Can't find this stuff in current Skype verions??
 			sprintf (fileName, "%s\\%s\\config.xml", basePath, acc->txt);
 			if ((acc = ezxml_get(f1, "UI", 0, "Messages", 0, "OpenWindowInCompactMode", -1)) && *acc->txt!='0')

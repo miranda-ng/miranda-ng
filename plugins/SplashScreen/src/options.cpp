@@ -111,9 +111,9 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (options.showversion)
 					CheckDlgButton(hwndDlg, IDC_SHOWVERSION, BST_CHECKED);
 
-				SetWindowText(GetDlgItem(hwndDlg, IDC_SHOWTIME), _itot(options.showtime, inBuf, 10));
-				SetWindowText(GetDlgItem(hwndDlg, IDC_FISTEP), _itot(options.fisteps, inBuf, 10));
-				SetWindowText(GetDlgItem(hwndDlg, IDC_FOSTEP), _itot(options.fosteps, inBuf, 10));
+				SetDlgItemText(hwndDlg, IDC_SHOWTIME, _itot(options.showtime, inBuf, 10));
+				SetDlgItemText(hwndDlg, IDC_FISTEP, _itot(options.fisteps, inBuf, 10));
+				SetDlgItemText(hwndDlg, IDC_FOSTEP, _itot(options.fosteps, inBuf, 10));
 
 				SendDlgItemMessage(hwndDlg, IDC_SHOWTIME, EM_LIMITTEXT, 5, 0);
 			}
@@ -227,7 +227,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								}
 							}
 
-							SetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH), szPath2Spash);
+							SetDlgItemText(hwndDlg, IDC_SPLASHPATH, szPath2Spash);
 						}
 
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -279,7 +279,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						// Make path relative
 						int result = PathToRelativeT(szTempPath, szSoundFilePath);			
 						if(result && mir_tstrlen(szSoundFile) > 0)
-							SetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH),szSoundFilePath);
+							SetDlgItemText(hwndDlg, IDC_SNDPATH, szSoundFilePath);
 
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}

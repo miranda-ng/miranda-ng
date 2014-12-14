@@ -614,13 +614,13 @@ void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess)
 	TCHAR msg[256];
 	if (SentSuccess) {
 		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Message successfully sent to %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
-		SetWindowText(GetDlgItem(hwnd, IDOK), TranslateT("OK"));
+		SetDlgItemText(hwnd, IDOK, TranslateT("OK"));
 		ShowWindow(GetDlgItem(hwnd, IDCANCEL), 0);
 	}
 	else {
 		mir_sntprintf(msg, SIZEOF(msg), TranslateT("Message failed to send to %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
-		SetWindowText(GetDlgItem(hwnd, IDOK), TranslateT("Retry"));
+		SetDlgItemText(hwnd, IDOK, TranslateT("Retry"));
 	}
-	SetWindowText(GetDlgItem(hwnd, LBL_CONTACT), msg);
+	SetDlgItemText(hwnd, LBL_CONTACT, msg);
 	SetWindowText(hwnd, TranslateT(modFullname));
 }

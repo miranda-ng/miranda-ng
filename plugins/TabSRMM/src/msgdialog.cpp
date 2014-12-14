@@ -417,7 +417,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 			dat->bNotOnList = TRUE;
 			ShowMultipleControls(hwndDlg, addControls, 2, SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_SHOW);
-			SetWindowText(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), TranslateT("Contact not on list. You may add it..."));
+			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 		}
 		else {
 			ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
@@ -1328,7 +1328,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			SendDlgItemMessage(hwndDlg, IDC_SAVE, BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, BATF_TCHAR);
 			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Click for contact menu\nClick dropdown for window settings"), BATF_TCHAR);
 
-			SetWindowText(GetDlgItem(hwndDlg, IDC_RETRY), TranslateT("Retry"));
+			SetDlgItemText(hwndDlg, IDC_RETRY, TranslateT("Retry"));
 
 			UINT _ctrls[] = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
 			for (int i = 0; i < SIZEOF(_ctrls); i++) {
@@ -1337,8 +1337,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendDlgItemMessage(hwndDlg, _ctrls[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
 			}
 
-			SetWindowText(GetDlgItem(hwndDlg, IDC_CANCELSEND), TranslateT("Cancel"));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_MSGSENDLATER), TranslateT("Send later"));
+			SetDlgItemText(hwndDlg, IDC_CANCELSEND, TranslateT("Cancel"));
+			SetDlgItemText(hwndDlg, IDC_MSGSENDLATER, TranslateT("Send later"));
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETUNDOLIMIT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);

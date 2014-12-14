@@ -74,11 +74,11 @@ static INT_PTR CALLBACK sttEnterPassword(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 				EnableWindow(hwndCtrl, FALSE);
 				hwndCtrl = GetDlgItem(hwndDlg, IDOK);
 				EnableWindow(hwndCtrl, FALSE);
-				SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Too many errors!"));
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Too many errors!"));
 			}
-			else SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Password is not correct!"));
+			else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Password is not correct!"));
 		}
-		else SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Please type in your password"));
+		else SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Please type in your password"));
 
 		oldLangID = 0;
 		SetTimer(hwndDlg, 1, 200, NULL);
@@ -145,7 +145,7 @@ static bool CheckOldPassword(HWND hwndDlg, CDb3Mmap *db)
 		GetDlgItemText(hwndDlg, IDC_OLDPASS, buf, SIZEOF(buf));
 		ptrA oldPass(mir_utf8encodeT(buf));
 		if (!db->m_crypto->checkPassword(oldPass)) {
-			SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Wrong old password entered!"));
+			SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Wrong old password entered!"));
 			return false;
 		}
 	}
@@ -209,7 +209,7 @@ LBL_Error:
 
 			GetDlgItemText(hwndDlg, IDC_USERPASS2, buf, SIZEOF(buf));
 			if (_tcscmp(buf2, buf)) {
-				SetWindowText(GetDlgItem(hwndDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, TranslateT("Passwords do not match!"));
 				goto LBL_Error;
 			}
 

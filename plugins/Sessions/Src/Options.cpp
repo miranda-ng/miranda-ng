@@ -333,7 +333,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				ShowWindow(GetDlgItem(hdlg, IDC_OPCLIST), SW_HIDE);
 				EnableWindow(GetDlgItem(hdlg, IDC_DEL), FALSE);
 				//EnableWindow(GetDlgItem(hdlg,IDC_SAVE),TRUE);
-				SetWindowText(GetDlgItem(hdlg, IDC_EDIT), TranslateT("View"));
+				SetDlgItemText(hdlg, IDC_EDIT, TranslateT("View"));
 				hOpClistControl = CreateWindowEx(WS_EX_STATICEDGE, _T(CLISTCONTROL_CLASS), _T(""),
 					WS_TABSTOP | WS_VISIBLE | WS_CHILD,
 					14, 198, 161, 163, hdlg, (HMENU)IDC_EMCLIST, g_hInst, 0);
@@ -353,7 +353,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				ShowWindow(GetDlgItem(hdlg, IDC_OPCLIST), SW_SHOWNA);
 				EnableWindow(GetDlgItem(hdlg, IDC_DEL), TRUE);
 				EnableWindow(GetDlgItem(hdlg, IDC_SAVE), FALSE);
-				SetWindowText(GetDlgItem(hdlg, IDC_EDIT), TranslateT("Edit"));
+				SetDlgItemText(hdlg, IDC_EDIT, TranslateT("Edit"));
 				DestroyWindow(hOpClistControl);
 				hOpClistControl = NULL;
 			}

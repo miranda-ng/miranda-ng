@@ -513,7 +513,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			TCHAR buffer[40];
 			_itot_s(count, buffer, 10);
-			SetWindowText(GetDlgItem(hWnd, IDC_EVENTS_COUNT), buffer);
+			SetDlgItemText(hWnd, IDC_EVENTS_COUNT, buffer);
 		}
 		break;
 

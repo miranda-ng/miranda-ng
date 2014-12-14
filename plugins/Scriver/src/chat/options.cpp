@@ -252,7 +252,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		{
 			TCHAR* pszGroup = NULL;
 			InitSetting(&pszGroup, "AddToGroup", _T("Chat rooms"));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_CHAT_GROUP), pszGroup);
+			SetDlgItemText(hwndDlg, IDC_CHAT_GROUP, pszGroup);
 			mir_free(pszGroup);
 		}
 		break;
@@ -467,7 +467,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 					SHGetPathFromIDList(idList, tszDirectory);
 					mir_tstrcat(tszDirectory, _T("\\"));
 					PathToRelativeT(tszDirectory, tszTemp);
-					SetWindowText(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY), mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
+					SetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, mir_tstrlen(tszTemp) > 1 ? tszTemp : DEFLOGFILENAME);
 				}
 				psMalloc->Free(idList);
 				psMalloc->Release();

@@ -37,7 +37,7 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
 		mir_sntprintf(szBuf, SIZEOF(szBuf), _T("%s (%s)"), 
 			TranslateTS(COM_OKSTR[ (comReg & COMREG_OK) != 0 ]),
 			TranslateTS(COM_APPROVEDSTR[ (comReg & COMREG_APPROVED) != 0 ]));
-      SetWindowText(GetDlgItem(hwndDlg, IDC_STATUS), szBuf);
+      SetDlgItemText(hwndDlg, IDC_STATUS, szBuf);
       // auto size the static windows to fit their text
       // they're rendering in a font not selected into the DC.
       AutoSize(GetDlgItem(hwndDlg, IDC_CAPMENUS));

@@ -777,12 +777,12 @@ static void __stdcall DoInputRequestAliasApcStub(void* _par)
 		SetDlgItemText(question_hWnd, IDC_CAPTION, TranslateT("Input command"));
 
 	if (infotext)
-		SetWindowText(GetDlgItem(question_hWnd, IDC_TEXT), infotext);
+		SetDlgItemText(question_hWnd, IDC_TEXT, infotext);
 	else
-		SetWindowText(GetDlgItem(question_hWnd, IDC_TEXT), TranslateT("Please enter the reply"));
+		SetDlgItemText(question_hWnd, IDC_TEXT, TranslateT("Please enter the reply"));
 
 	if (defaulttext)
-		SetWindowText(GetDlgItem(question_hWnd, IDC_EDIT), defaulttext);
+		SetDlgItemText(question_hWnd, IDC_EDIT, defaulttext);
 
 	SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, command.c_str());
 	dlg->Activate();

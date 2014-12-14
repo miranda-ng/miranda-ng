@@ -438,7 +438,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 			}
 			else if (!pa->ppro) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
-				SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT("Account is disabled. Please activate it to access options."));
+				SetDlgItemText(hwndDlg, IDC_TXT_INFO, TranslateT("Account is disabled. Please activate it to access options."));
 			}
 			else {
 				HWND hwnd = (HWND)ProtoCallService(pa->szModuleName, PS_CREATEACCMGRUI, 0, (LPARAM)hwndDlg);
@@ -455,7 +455,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 				}
 				else {
 					ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
-					SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), legacyMsg);
+					SetDlgItemText(hwndDlg, IDC_TXT_INFO, legacyMsg);
 				}
 			}
 			return;
@@ -468,7 +468,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
 
 	ShowWindow(GetDlgItem(hwndDlg, IDC_TXT_INFO), SW_SHOW);
-	SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), welcomeMsg);
+	SetDlgItemText(hwndDlg, IDC_TXT_INFO, welcomeMsg);
 }
 
 INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)

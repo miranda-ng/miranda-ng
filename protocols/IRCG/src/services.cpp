@@ -352,7 +352,7 @@ INT_PTR __cdecl CIrcProto::OnJoinMenuCommand(WPARAM, LPARAM)
 	}
 
 	SetDlgItemText(m_joinDlg->GetHwnd(), IDC_CAPTION, TranslateT("Join channel"));
-	SetWindowText(GetDlgItem(m_joinDlg->GetHwnd(), IDC_TEXT), TranslateT("Please enter a channel to join"));
+	SetDlgItemText(m_joinDlg->GetHwnd(), IDC_TEXT, TranslateT("Please enter a channel to join"));
 	SendDlgItemMessage(m_joinDlg->GetHwnd(), IDC_ENICK, EM_SETSEL, 0, MAKELPARAM(0, -1));
 	ShowWindow(m_joinDlg->GetHwnd(), SW_SHOW);
 	SetActiveWindow(m_joinDlg->GetHwnd());
@@ -398,7 +398,7 @@ INT_PTR __cdecl CIrcProto::OnChangeNickMenuCommand(WPARAM, LPARAM)
 	}
 
 	SetDlgItemText(m_nickDlg->GetHwnd(), IDC_CAPTION, TranslateT("Change nickname"));
-	SetWindowText(GetDlgItem(m_nickDlg->GetHwnd(), IDC_TEXT), TranslateT("Please enter a unique nickname"));
+	SetDlgItemText(m_nickDlg->GetHwnd(), IDC_TEXT, TranslateT("Please enter a unique nickname"));
 	m_nickDlg->m_Enick.SetText(m_info.sNick.c_str());
 	m_nickDlg->m_Enick.SendMsg(CB_SETEDITSEL, 0, MAKELPARAM(0, -1));
 	ShowWindow(m_nickDlg->GetHwnd(), SW_SHOW);
@@ -579,7 +579,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
 					HWND question_hWnd = dlg->GetHwnd();
 					HWND hEditCtrl = GetDlgItem(question_hWnd, IDC_EDIT);
 					SetDlgItemText(question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
-					SetWindowText(GetDlgItem(question_hWnd, IDC_TEXT), TranslateT("Please enter your password"));
+					SetDlgItemText(question_hWnd, IDC_TEXT, TranslateT("Please enter your password"));
 					SetDlgItemText(question_hWnd, IDC_HIDDENEDIT, _T("/nickserv IDENTIFY %question=\"%s\",\"%s\""));
 					SetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE,
 						(LONG)GetWindowLongPtr(GetDlgItem(question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
