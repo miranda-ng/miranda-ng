@@ -70,6 +70,7 @@ extern BYTE gl_TrimText;
 class thread_catcher
 {
 	HANDLE &m_ptr;
+	__forceinline thread_catcher& operator = (const thread_catcher &) {}
 
 public:
 	__forceinline thread_catcher(HANDLE &param) : m_ptr(param) {}

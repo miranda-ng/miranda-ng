@@ -135,11 +135,9 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 					HDC hdc = CreateCompatibleDC(NULL);
 					g_clcPainter.ChangeToFont(hdc, dat, g_clcPainter.GetBasicFontID(contact), NULL);
 					g_clcPainter.GetTextSize(&size, hdc, dummyRect, contact->szText, contact->ssText.plText, 0, dat->text_resize_smileys ? 0 : contact->ssText.iMaxSmileyHeight);
-					if (contact->type == CLCIT_GROUP)
-					{
-						char * szCounts = pcli->pfnGetGroupCountsText(dat, contact);
-						if (szCounts && strlen(szCounts) > 0)
-						{
+					if (contact->type == CLCIT_GROUP) {
+						char *szCounts = pcli->pfnGetGroupCountsText(dat, contact);
+						if (szCounts && strlen(szCounts) > 0) {
 							RECT count_rc = { 0 };
 							// calc width and height
 							g_clcPainter.ChangeToFont(hdc, dat, contact->group->expanded ? FONTID_OPENGROUPCOUNTS : FONTID_CLOSEDGROUPCOUNTS, NULL);
@@ -147,7 +145,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 							size.cx += count_rc.right - count_rc.left;
 							count_rc.right = 0;
 							count_rc.left = 0;
-							ske_DrawTextA(hdc, szCounts, mir_strlen(szCounts), &count_rc, DT_CALCRECT);
+							ske_DrawTextA(hdc, szCounts, (int)mir_strlen(szCounts), &count_rc, DT_CALCRECT);
 							size.cx += count_rc.right - count_rc.left;
 							tmp = max(tmp, count_rc.bottom - count_rc.top);
 						}
@@ -303,7 +301,7 @@ int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int i
 							g_clcPainter.ChangeToFont(hdc, dat, FONTID_CONTACT_TIME, NULL);
 
 							// Get text size
-							text_size.cy = ske_DrawText(hdc, szResult, mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
+							text_size.cy = ske_DrawText(hdc, szResult, (int)mir_tstrlen(szResult), &rc, DT_CALCRECT | DT_NOPREFIX | DT_SINGLELINE);
 							SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
 							ske_ResetTextEffect(hdc);
 							DeleteDC(hdc);

@@ -176,7 +176,6 @@ int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag)
 
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
-	TRACEVAR("cliFreeCacheItem hContact = %d", hContact);
 	p->freeName();
 	mir_free_and_nil(p->tszGroup);
 	mir_free_and_nil(p->szSecondLineText);
