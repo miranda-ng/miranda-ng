@@ -27,9 +27,7 @@ DWORD MraSendQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phSendQueueHan
 	if (!phSendQueueHandle)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)mir_calloc(sizeof(MRA_SEND_QUEUE));
-	if (!pmrasqSendQueue)
-		return GetLastError();
+	MRA_SEND_QUEUE *pmrasqSendQueue = new MRA_SEND_QUEUE();
 
 	DWORD dwRetErrorCode = ListMTInitialize(pmrasqSendQueue);
 	if (dwRetErrorCode == NO_ERROR) {
@@ -55,7 +53,7 @@ void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 	}
 
 	ListMTDestroy(pmrasqSendQueue);
-	mir_free(pmrasqSendQueue);
+	delete pmrasqSendQueue;
 }
 
 

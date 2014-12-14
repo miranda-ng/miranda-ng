@@ -56,7 +56,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	if (phAvatarsQueueHandle == NULL)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)mir_calloc(sizeof(MRA_AVATARS_QUEUE));
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
 	if (pmraaqAvatarsQueue == NULL)
 		return GetLastError();
 
@@ -131,7 +131,7 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 
 	ListMTDestroy(pmraaqAvatarsQueue);
 	Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
-	mir_free(pmraaqAvatarsQueue);
+	delete pmraaqAvatarsQueue;
 }
 
 DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, MCONTACT hContact, DWORD *pdwAvatarsQueueID)
