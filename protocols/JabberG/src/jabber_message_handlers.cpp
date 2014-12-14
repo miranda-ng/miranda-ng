@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "jabber.h"
 
-BOOL CJabberProto::OnMessageError(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessageError(HXML node, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	// we check if is message delivery failure
 	int id = JabberGetPacketID(node);
@@ -55,7 +55,7 @@ BOOL CJabberProto::OnMessageError(HXML node, ThreadData *pThreadData, CJabberMes
 	return TRUE;
 }
 
-BOOL CJabberProto::OnMessageIbb(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessageIbb(HXML, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	BOOL bOk = FALSE;
 	const TCHAR *sid = xmlGetAttrValue(pInfo->GetChildNode(), _T("sid"));
@@ -66,13 +66,13 @@ BOOL CJabberProto::OnMessageIbb(HXML node, ThreadData *pThreadData, CJabberMessa
 	return TRUE;
 }
 
-BOOL CJabberProto::OnMessagePubsubEvent(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessagePubsubEvent(HXML node, ThreadData*, CJabberMessageInfo*)
 {
 	OnProcessPubsubEvent(node);
 	return TRUE;
 }
 
-BOOL CJabberProto::OnMessageGroupchat(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::OnMessageGroupchat(HXML node, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	JABBER_LIST_ITEM *chatItem = ListGetItemPtr(LIST_CHATROOM, pInfo->GetFrom());
 	if (chatItem) // process GC message

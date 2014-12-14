@@ -396,7 +396,6 @@ public:
 
 		RECT rcTmp, rc;
 		GetClientRect(m_hwnd, &rc);
-		int maxHeight = rc.bottom - 10;
 		rc.bottom = 0;
 
 		SelectObject(hdc, m_hfntBold);

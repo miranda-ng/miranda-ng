@@ -200,7 +200,7 @@ void CJabberProto::OnLoggedIn()
 	m_pepServices.ResetPublishAll();
 }
 
-void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo*)
 {
 	// RECVED: result of the request for authentication method
 	// ACTION: send account authentication information to log in
@@ -248,7 +248,7 @@ void CJabberProto::OnIqResultGetAuth(HXML iqNode, CJabberIqInfo *pInfo)
 		m_ThreadInfo = NULL;	// To disallow auto reconnect
 }	}
 
-void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultSetAuth(HXML iqNode, CJabberIqInfo*)
 {
 	const TCHAR *type;
 
@@ -303,7 +303,7 @@ void CJabberProto::OnIqResultBind(HXML iqNode, CJabberIqInfo *pInfo)
 	}
 }
 
-void CJabberProto::OnIqResultSession(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultSession(HXML, CJabberIqInfo *pInfo)
 {
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT)
 		OnLoggedIn();
@@ -573,7 +573,7 @@ void CJabberProto::OnIqResultSetRegister(HXML iqNode, CJabberIqInfo*)
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberIqResultGetVcard - processes the server-side v-card
 
-void CJabberProto::OnIqResultGetVcardPhoto(const TCHAR *jid, HXML n, MCONTACT hContact, bool &hasPhoto)
+void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasPhoto)
 {
 	debugLogA("JabberIqResultGetVcardPhoto: %d", hasPhoto);
 	if (hasPhoto)
@@ -991,7 +991,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 				}
 			}
 			else if (!mir_tstrcmp(xmlGetName(n), _T("PHOTO")))
-				OnIqResultGetVcardPhoto(jid, n, hContact, hasPhoto);
+				OnIqResultGetVcardPhoto(n, hContact, hasPhoto);
 	}	}
 
 	if (hasFn && !hasNick) {
@@ -1253,7 +1253,7 @@ void CJabberProto::OnIqResultExtSearch(HXML iqNode, CJabberIqInfo*)
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id, 0);
 }
 
-void CJabberProto::OnIqResultSetPassword(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultSetPassword(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdSetPassword");
 
@@ -1348,7 +1348,7 @@ void CJabberProto::OnIqResultGetClientAvatar(HXML iqNode, CJabberIqInfo*)
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultGetServerAvatar(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdResultGetServerAvatar");
 
@@ -1449,7 +1449,7 @@ LBL_ErrFormat:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Bookmarks
 
-void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultDiscoBookmarks(HXML iqNode, CJabberIqInfo*)
 {
 	// RECVED: list of bookmarks
 	// ACTION: refresh bookmarks dialog
@@ -1537,7 +1537,7 @@ void CJabberProto::SetBookmarkRequest (XmlNodeIq& iq)
 	}
 }
 
-void CJabberProto::OnIqResultSetBookmarks(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultSetBookmarks(HXML iqNode, CJabberIqInfo*)
 {
 	// RECVED: server's response
 	// ACTION: refresh bookmarks list dialog

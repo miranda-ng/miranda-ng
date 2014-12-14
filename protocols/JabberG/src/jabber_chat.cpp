@@ -1033,7 +1033,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			mir_sntprintf(jsr.jid, SIZEOF(jsr.jid), _T("%s/%s"), item->jid, him->m_tszResourceName);
 			jsr.hdr.cbSize = sizeof(JABBER_SEARCH_RESULT);
 
-			JABBER_LIST_ITEM *item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
+			ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
 			MCONTACT hContact = (MCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);
@@ -1173,7 +1173,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			szTitle.Format(_T("%s/%s"), item->jid, resourceName_copy);
 
 			XmlNode msg(_T("message"));
-			HXML invite = msg << XATTR(_T("to"), szTitle) << XATTRID(ppro->SerialNext())
+			msg << XATTR(_T("to"), szTitle) << XATTRID(ppro->SerialNext())
 				<< XCHILD(_T("x"), szBuffer)
 					<< XATTR(_T("xmlns"), JABBER_FEAT_DIRECT_MUC_INVITE)
 					<< XATTR(_T("jid"), szInviteTo)
@@ -1206,7 +1206,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (TCHAR *tmp = _tcschr(jsr.jid, _T('/')))
 				*tmp = 0;
 
-			JABBER_LIST_ITEM *item = ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
+			ppro->ListAdd(LIST_VCARD_TEMP, jsr.jid);
 			ppro->ListAddResource(LIST_VCARD_TEMP, jsr.jid, him->m_iStatus, him->m_tszStatusMessage, him->m_iPriority);
 
 			hContact = (MCONTACT)CallProtoService(ppro->m_szModuleName, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&jsr);

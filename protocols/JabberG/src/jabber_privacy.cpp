@@ -1441,7 +1441,7 @@ void CJabberDlgPrivacyLists::CListBuildList(HWND hwndList, CPrivacyList *pList)
 	DWORD dwPackets = 0;
 
 	HANDLE hItem;
-	TCHAR *szJid;
+	TCHAR *szJid = NULL;
 
 	pList->RemoveAllRules();
 

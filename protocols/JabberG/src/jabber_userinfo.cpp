@@ -38,8 +38,7 @@ struct UserInfoStringBuf
 	enum { STRINGBUF_INCREMENT = 1024 };
 
 	TCHAR *buf;
-	int size;
-	int offset;
+	size_t size, offset;
 
 	UserInfoStringBuf() { buf = 0; size = 0; offset = 0; }
 	~UserInfoStringBuf() { mir_free(buf); }
@@ -47,7 +46,7 @@ struct UserInfoStringBuf
 	void append(TCHAR *str) {
 		if (!str) return;
 
-		int length = mir_tstrlen(str);
+		size_t length = mir_tstrlen(str);
 		if (size - offset < length + 1) {
 			size += (length + STRINGBUF_INCREMENT);
 			buf = (TCHAR *)mir_realloc(buf, size * sizeof(TCHAR));
@@ -56,7 +55,7 @@ struct UserInfoStringBuf
 		offset += length;
 	}
 
-	TCHAR *allocate(int length) {
+	TCHAR* allocate(int length) {
 		if (size - offset < length) {
 			size += (length + STRINGBUF_INCREMENT);
 			buf = (TCHAR *)mir_realloc(buf, size * sizeof(TCHAR));
@@ -258,8 +257,9 @@ static void sttFillResourceInfo(CJabberProto *ppro, HWND hwndTree, HTREEITEM hti
 	// Idle
 	if (r->m_dwIdleStartTime > 0) {
 		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
-		int len = mir_tstrlen(buf);
-		if (len > 0) buf[len-1] = 0;
+		size_t len = _tcslen(buf);
+		if (len > 0)
+			buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
 		mir_tstrncpy(buf, TranslateT("unknown"), SIZEOF(buf));
@@ -366,8 +366,9 @@ static void sttFillUserInfo(CJabberProto *ppro, HWND hwndTree, JABBER_LIST_ITEM 
 	JABBER_RESOURCE_STATUS *r = item->getTemp();
 	if (r->m_dwIdleStartTime > 0) {
 		mir_tstrncpy(buf, _tctime(&r->m_dwIdleStartTime), SIZEOF(buf));
-		int len = mir_tstrlen(buf);
-		if (len > 0) buf[len-1] = 0;
+		size_t len = _tcslen(buf);
+		if (len > 0)
+			buf[len-1] = 0;
 	}
 	else if (!r->m_dwIdleStartTime)
 		mir_tstrncpy(buf, TranslateT("unknown"), SIZEOF(buf));

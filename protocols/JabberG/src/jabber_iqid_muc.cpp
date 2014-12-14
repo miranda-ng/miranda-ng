@@ -39,7 +39,7 @@ void CJabberProto::SetMucConfig(HXML node, void *from)
 
 // RECVED: room config form
 // ACTION: show the form
-void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultGetMuc(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdGetMuc");
 	LPCTSTR type = xmlGetAttrValue(iqNode, _T("type"));

@@ -1113,7 +1113,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleResource(WPARAM hContact, LPARAM, LPAR
 	return 0;
 }
 
-INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM lParam, LPARAM res)
+INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM, LPARAM res)
 {
 	if (!m_bJabberOnline || !hContact)
 		return 0;

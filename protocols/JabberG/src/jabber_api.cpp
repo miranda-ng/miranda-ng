@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber.h"
 
 // Jabber API functions
-INT_PTR __cdecl CJabberProto::JabberGetApi(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::JabberGetApi(WPARAM, LPARAM lParam)
 {
 	IJabberInterface **ji = (IJabberInterface**)lParam;
 	if (!ji)
@@ -133,19 +133,19 @@ BOOL CJabberProto::ExternalIqHandler(HXML node, CJabberIqInfo *pInfo)
 	return d->Func(this, node, d->pUserData);
 }
 
-BOOL CJabberProto::ExternalMessageHandler(HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo)
+BOOL CJabberProto::ExternalMessageHandler(HXML node, ThreadData*, CJabberMessageInfo* pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);
 }
 
-BOOL CJabberProto::ExternalPresenceHandler(HXML node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo)
+BOOL CJabberProto::ExternalPresenceHandler(HXML node, ThreadData*, CJabberPresenceInfo* pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);
 }
 
-BOOL CJabberProto::ExternalSendHandler(HXML node, ThreadData *pThreadData, CJabberSendInfo* pInfo)
+BOOL CJabberProto::ExternalSendHandler(HXML node, ThreadData*, CJabberSendInfo* pInfo)
 {
 	sHandlerData *d = (sHandlerData*)pInfo->GetUserData();
 	return d->Func(this, node, d->pUserData);

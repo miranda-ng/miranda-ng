@@ -132,7 +132,7 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat)
 ////////////////////////////////////////////////////////////////////////////////
 // Available search field request result handler  (XEP-0055. Examples 2, 7)
 
-void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultGetSearchFields(HXML iqNode, CJabberIqInfo*)
 {
 	if (!searchHandleDlg)
 		return;
@@ -302,7 +302,7 @@ TCHAR* CopyKey(TCHAR* key)
 ////////////////////////////////////////////////////////////////////////////////
 // Search field request result handler  (XEP-0055. Examples 3, 8)
 
-void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo *pInfo)
+void CJabberProto::OnIqResultAdvancedSearch(HXML iqNode, CJabberIqInfo*)
 {
 	const TCHAR *type;
 	int id;
