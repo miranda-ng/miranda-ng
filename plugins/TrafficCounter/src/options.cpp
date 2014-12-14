@@ -217,11 +217,11 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		// Строки формата для счётчиков
 		EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), bVariablesExists);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_COUNTER_FORMAT), Traffic_CounterFormat);
+		SetDlgItemText(hwndDlg, IDC_EDIT_COUNTER_FORMAT, Traffic_CounterFormat);
 
 		// Формат всплывающей подсказки
 		EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_TOOLTIP_FORMAT), bTooltipExists);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat);
+		SetDlgItemText(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
 		// Display traffic for current...
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_AUTO_CLEAR, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Day"));

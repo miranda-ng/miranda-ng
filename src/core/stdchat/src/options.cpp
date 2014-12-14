@@ -478,7 +478,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 		{
 			TCHAR* pszGroup = NULL;
 			InitSetting(&pszGroup, "AddToGroup", _T("Chat rooms"));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_GROUP), pszGroup);
+			SetDlgItemText(hwndDlg, IDC_GROUP, pszGroup);
 			mir_free(pszGroup);
 		}
 		{

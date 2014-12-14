@@ -192,17 +192,17 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			TCHAR buffer[1024];
 			_itot(commonData.daysInAdvance, buffer, 10);
-			SetWindowText(GetDlgItem(hWnd, IDC_DAYS_IN_ADVANCE), buffer);
+			SetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer);
 			_itot(commonData.checkInterval, buffer, 10);
-			SetWindowText(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), buffer);
+			SetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer);
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d|%d"), commonData.popupTimeout, commonData.popupTimeoutToday);
-			SetWindowText(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), buffer);
+			SetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer);
 			_itot(commonData.cSoundNearDays, buffer, 10);
-			SetWindowText(GetDlgItem(hWnd, IDC_SOUND_NEAR_DAYS_EDIT), buffer);
+			SetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer);
 			_itot(commonData.cDlgTimeout, buffer, 10);
-			SetWindowText(GetDlgItem(hWnd, IDC_DLG_TIMEOUT), buffer);
+			SetDlgItemText(hWnd, IDC_DLG_TIMEOUT, buffer);
 			_itot(commonData.daysAfter, buffer, 10);
-			SetWindowText(GetDlgItem(hWnd, IDC_DAYS_AFTER), buffer);
+			SetDlgItemText(hWnd, IDC_DAYS_AFTER, buffer);
 
 			CheckDlgButton(hWnd, IDC_OPENINBACKGROUND, (commonData.bOpenInBackground) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -881,7 +881,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			const int MAX_SIZE = 512;
 			TCHAR buffer[MAX_SIZE];
 			mir_sntprintf(buffer, SIZEOF(buffer), (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), --timeout);
-			SetWindowText(GetDlgItem(hWnd, IDC_CLOSE), buffer);
+			SetDlgItemText(hWnd, IDC_CLOSE, buffer);
 
 			if (timeout <= 0)
 				SendMessage(hWnd, WM_CLOSE, 0, 0);

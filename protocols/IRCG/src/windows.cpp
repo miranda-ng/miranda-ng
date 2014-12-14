@@ -965,7 +965,7 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 	dlg->Show();
 	HWND addban_hWnd = dlg->GetHwnd();
 	SetDlgItemText(addban_hWnd, IDC_CAPTION, temp);
-	SetWindowText(GetDlgItem(addban_hWnd, IDC_TEXT), TranslateT("Please enter the hostmask (nick!user@host)"));
+	SetDlgItemText(addban_hWnd, IDC_TEXT, TranslateT("Please enter the hostmask (nick!user@host)"));
 
 	TCHAR temp2[450];
 	TCHAR window[256];
@@ -1003,8 +1003,8 @@ void CManagerDlg::OnEdit(CCtrlButton*)
 			dlg->Show();
 			HWND addban_hWnd = dlg->GetHwnd();
 			SetDlgItemText(addban_hWnd, IDC_CAPTION, temp);
-			SetWindowText(GetDlgItem(addban_hWnd, IDC_TEXT), TranslateT("Please enter the hostmask (nick!user@host)"));
-			SetWindowText(GetDlgItem(addban_hWnd, IDC_EDIT), user.c_str());
+			SetDlgItemText(addban_hWnd, IDC_TEXT, TranslateT("Please enter the hostmask (nick!user@host)"));
+			SetDlgItemText(addban_hWnd, IDC_EDIT, user.c_str());
 
 			m_add.Disable();
 			m_edit.Disable();
@@ -1275,7 +1275,7 @@ void CManagerDlg::CloseQuestion()
 
 void CManagerDlg::InitManager(int mode, const TCHAR* window)
 {
-	SetWindowText(GetDlgItem(m_hwnd, IDC_CAPTION), window);
+	SetDlgItemText(m_hwnd, IDC_CAPTION, window);
 
 	CHANNELINFO *wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if (wi) {

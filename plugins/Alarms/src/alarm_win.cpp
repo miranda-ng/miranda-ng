@@ -168,7 +168,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WMU_FAKEALARM:
 		{
 			SetWindowText(hwndDlg, TranslateT("Example alarm"));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_TITLE), TranslateT("Example alarm"));
+			SetDlgItemText(hwndDlg, IDC_TITLE, TranslateT("Example alarm"));
 			SetDlgItemText(hwndDlg, IDC_ED_DESC, TranslateT("Some example text. Example, example, example."));
 		}
 		return TRUE;

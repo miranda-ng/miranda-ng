@@ -669,7 +669,7 @@ static void RebuildPageTree(HWND hdlg, OptionsDlgData *dat)
 	}
 
 	if (dat->szFilterString[0] == 0) // Clear the keyword combo box
-		SetWindowText(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), _T(""));
+		SetDlgItemText(hdlg, IDC_KEYWORD_FILTER, _T(""));
 	if (!bRemoveFocusFromFilter)
 		SetFocus(GetDlgItem(hdlg, IDC_KEYWORD_FILTER)); //set the focus back to the combo box
 

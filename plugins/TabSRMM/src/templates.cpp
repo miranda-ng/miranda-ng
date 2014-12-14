@@ -357,7 +357,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		dbei.flags |= (teInfo->rtl ? DBEF_RTL : 0);
 		dat->lastEventTime = (iIndex == 4 || iIndex == 5) ? time(NULL) - 1 : 0;
 		dat->iLastEventType = MAKELONG(dbei.flags, dbei.eventType);
-		SetWindowText(GetDlgItem(hwndDlg, IDC_PREVIEW), _T(""));
+		SetDlgItemText(hwndDlg, IDC_PREVIEW, _T(""));
 		dat->dwFlags = MWF_LOG_ALL;
 		dat->dwFlags = (teInfo->rtl ? dat->dwFlags | MWF_LOG_RTL : dat->dwFlags & ~MWF_LOG_RTL);
 		dat->dwFlags = (iIndex == 0 || iIndex == 1) ? dat->dwFlags & ~MWF_LOG_GROUPMODE : dat->dwFlags | MWF_LOG_GROUPMODE;

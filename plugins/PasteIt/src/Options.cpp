@@ -391,7 +391,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 						++i;
 					}
 					ComboBox_SetCurSel(cb, sel);	
-					SetWindowText(GetDlgItem(hwndDlg,IDC_COMBO1_DESC), optsPagesData->webOptions[optsPagesData->lastPage]->combo1Desc.c_str());
+					SetDlgItemText(hwndDlg, IDC_COMBO1_DESC, optsPagesData->webOptions[optsPagesData->lastPage]->combo1Desc.c_str());
 				}
 				else
 				{

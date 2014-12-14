@@ -400,7 +400,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 						db_free(&dbv);
 					}
 					else {
-						SetWindowText(GetDlgItem(hwndDlg, IDC_PROTOAVATARNAME), _T(""));
+						SetDlgItemText(hwndDlg, IDC_PROTOAVATARNAME, _T(""));
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, TRUE);
 					}
 				}

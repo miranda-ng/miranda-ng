@@ -891,9 +891,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		if (cfg::dat.bFilterEffective)
-			SetWindowTextA(GetDlgItem(hwnd, IDC_SELECTMODE), cfg::dat.current_viewmode);
+			SetDlgItemTextA(hwnd, IDC_SELECTMODE, cfg::dat.current_viewmode);
 		else
-			SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("No view mode"));
+			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("No view mode"));
 		break;
 
 	case WM_ERASEBKGND:
@@ -981,7 +981,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 clvm_reset_command:
 				cfg::dat.bFilterEffective = 0;
 				pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-				SetWindowTextA(GetDlgItem(hwnd, IDC_SELECTMODE), Translate("No view mode"));
+				SetDlgItemTextA(hwnd, IDC_SELECTMODE, Translate("No view mode"));
 				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)cfg::dat.boldHideOffline, 0);
 				cfg::dat.boldHideOffline = (BYTE)-1;
 				SetButtonStates();

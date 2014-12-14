@@ -266,7 +266,7 @@ int CJabberProto::AdHoc_OnJAHMProcessResult(HWND hwndDlg, HXML workNode, JabberA
 
 		if (!status || _tcscmp(status, _T("executing"))) {
 			ShowDlgItem(hwndDlg, IDC_SUBMIT, SW_HIDE);
-			SetWindowText(GetDlgItem(hwndDlg, IDCANCEL), TranslateT("Done"));
+			SetDlgItemText(hwndDlg, IDCANCEL, TranslateT("Done"));
 		}
 	}
 	else if (!mir_tstrcmp(type, _T("error"))) {

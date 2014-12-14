@@ -1226,7 +1226,7 @@ void CAddIgnoreDlg::OnInitDialog()
 {
 	if (szOldMask[0] == 0) {
 		if (m_proto->IsConnected())
-			SetWindowText(GetDlgItem(m_hwnd, IDC_NETWORK), m_proto->m_info.sNetwork.c_str());
+			SetDlgItemText(m_hwnd, IDC_NETWORK, m_proto->m_info.sNetwork.c_str());
 		CheckDlgButton(m_hwnd, IDC_Q, BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_N, BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_I, BST_CHECKED);
@@ -1538,8 +1538,8 @@ void CIgnorePrefsDlg::OnEdit(CCtrlButton*)
 		if (_tcschr(szFlags, 'm'))
 			CheckDlgButton(hWnd, IDC_M, BST_CHECKED);
 	}
-	SetWindowText(GetDlgItem(hWnd, IDC_MASK), szMask);
-	SetWindowText(GetDlgItem(hWnd, IDC_NETWORK), szNetwork);
+	SetDlgItemText(hWnd, IDC_MASK, szMask);
+	SetDlgItemText(hWnd, IDC_NETWORK, szNetwork);
 	m_add.Disable();
 	m_edit.Disable();
 	m_del.Disable();

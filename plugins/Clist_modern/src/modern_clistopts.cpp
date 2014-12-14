@@ -596,7 +596,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 		{
 			ptrT tszText(db_get_tsa(NULL, "CList", "SecondLineText"));
 			if (tszText)
-				SetWindowText(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), tszText);
+				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, tszText);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_VARIABLE_TEXT, EM_SETLIMITTEXT, TEXT_TEXT_MAX_LENGTH, 0);
 		{
@@ -761,7 +761,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 		{
 			DBVARIANT dbv;
 			if (!db_get_ts(NULL, "CList", "ThirdLineText", &dbv)) {
-				SetWindowText(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), dbv.ptszVal);
+				SetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, dbv.ptszVal);
 				db_free(&dbv);
 			}
 		}

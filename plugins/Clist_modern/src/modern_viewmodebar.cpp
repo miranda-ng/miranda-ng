@@ -1027,9 +1027,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 
 		if (g_CluiData.bFilterEffective)
-			SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), ptrT(mir_utf8decodeT(g_CluiData.current_viewmode)));
+			SetDlgItemText(hwnd, IDC_SELECTMODE, ptrT(mir_utf8decodeT(g_CluiData.current_viewmode)));
 		else
-			SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("All contacts"));
+			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("All contacts"));
 		break;
 
 	case WM_ERASEBKGND:
@@ -1291,7 +1291,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
-		SetWindowText(GetDlgItem(g_hwndViewModeFrame, IDC_SELECTMODE), TranslateT("All contacts"));
+		SetDlgItemText(g_hwndViewModeFrame, IDC_SELECTMODE, TranslateT("All contacts"));
 		if (g_CluiData.boldHideOffline != (BYTE)-1)
 			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)g_CluiData.boldHideOffline, 0);
 		if (g_CluiData.bOldUseGroups != (BYTE)-1)

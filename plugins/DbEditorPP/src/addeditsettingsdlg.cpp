@@ -294,7 +294,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 									sscanf(setting, "%d", &tmp);
 									mir_snprintf(temp, SIZEOF(temp), "%X", tmp);
 								}
-								SetWindowText(GetDlgItem(hwnd, IDC_SETTINGVALUE), temp);
+								SetDlgItemText(hwnd, IDC_SETTINGVALUE, temp);
 							}
 						}
 					}

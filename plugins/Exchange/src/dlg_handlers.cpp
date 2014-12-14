@@ -42,13 +42,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 			TCHAR buffer[4096];
 			GetStringFromDatabase("Username", _T(""), buffer, SIZEOF(buffer));
-			SetWindowText(GetDlgItem(hWnd, IDC_USER_EDIT), buffer);
+			SetDlgItemText(hWnd, IDC_USER_EDIT, buffer);
 
 			GetStringFromDatabase("Password", _T(""), buffer, SIZEOF(buffer));
-			SetWindowText(GetDlgItem(hWnd, IDC_PASSWORD_EDIT), buffer);
+			SetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer);
 
-			GetStringFromDatabase("Server", _T(""), buffer, sizeof(buffer));
-			SetWindowText(GetDlgItem(hWnd, IDC_SERVER_EDIT), buffer);
+			GetStringFromDatabase("Server", _T(""), buffer, SIZEOF(buffer));
+			SetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer);
 
 			SetDlgItemInt(hWnd, IDC_PORT_EDIT, db_get_dw(NULL, ModuleName, "Port", EXCHANGE_PORT), FALSE);
 
