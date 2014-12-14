@@ -111,16 +111,16 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 				db_set_b(NULL, ModuleName, "Check", IsDlgButtonChecked(hWnd, IDC_CHECK_EMAILS));
 
 				TCHAR buffer[4096];
-				GetWindowText(GetDlgItem(hWnd, IDC_USER_EDIT), buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_USER_EDIT, buffer, SIZEOF(buffer));
 				db_set_ts(NULL, ModuleName, "Username", buffer);
 
-				GetWindowText(GetDlgItem(hWnd, IDC_PASSWORD_EDIT), buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_PASSWORD_EDIT, buffer, SIZEOF(buffer));
 				db_set_ts(NULL, ModuleName, "Password", buffer);
 
-				GetWindowText(GetDlgItem(hWnd, IDC_SERVER_EDIT), buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_SERVER_EDIT, buffer, SIZEOF(buffer));
 				db_set_ts(NULL, ModuleName, "Server", buffer);
 
-				GetWindowText(GetDlgItem(hWnd, IDC_PORT_EDIT), buffer, SIZEOF(buffer));
+				GetDlgItemText(hWnd, IDC_PORT_EDIT, buffer, SIZEOF(buffer));
 				db_set_dw(NULL, ModuleName, "Port", GetDlgItemInt(hWnd,IDC_PORT_EDIT,NULL,FALSE));
 
 				db_set_dw(NULL, ModuleName, "Interval", GetDlgItemInt(hWnd,IDC_INTERVAL_EDIT,NULL,FALSE));

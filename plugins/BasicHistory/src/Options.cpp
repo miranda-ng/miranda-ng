@@ -1767,7 +1767,7 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				toCp.importType = (enum IImport::ImportType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE));
 				toCp.compress = Button_GetCheck(GetDlgItem(hwndDlg, IDC_COMPRESS)) != 0;
 				char bufC[100];
-				GetWindowTextA(GetDlgItem(hwndDlg, IDC_PASSWORD), bufC, SIZEOF(bufC));
+				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, bufC, SIZEOF(bufC));
 				toCp.zipPassword = bufC;
 				HWND exportPath = GetDlgItem(hwndDlg, IDC_EXPORT_PATH);
 				int exLen = Edit_GetTextLength(exportPath);

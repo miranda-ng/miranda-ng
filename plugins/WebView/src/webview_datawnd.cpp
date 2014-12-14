@@ -57,7 +57,7 @@ INT_PTR CALLBACK DlgProcFind(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				char *tempbuffer = (char*)malloc(len + 2);
 
-				GetWindowTextA(GetDlgItem(ParentHwnd, IDC_DATA), tempbuffer, len);
+				GetDlgItemTextA(ParentHwnd, IDC_DATA, tempbuffer, len);
 				strncpy(buff, tempbuffer, SIZEOF(buff));
 				free(tempbuffer);
 

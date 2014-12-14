@@ -727,7 +727,7 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 				db_set_w(NULL, "CList", "SecondLineType", (WORD)radio);
 
 				TCHAR t[TEXT_TEXT_MAX_LENGTH];
-				GetWindowText(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), t, SIZEOF(t));
+				GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, SIZEOF(t));
 				t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
 				db_set_ts(NULL, "CList", "SecondLineText", t);
 
@@ -894,7 +894,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 				{
 					TCHAR t[TEXT_TEXT_MAX_LENGTH];
 
-					GetWindowText(GetDlgItem(hwndDlg, IDC_VARIABLE_TEXT), t, SIZEOF(t));
+					GetDlgItemText(hwndDlg, IDC_VARIABLE_TEXT, t, SIZEOF(t));
 					t[TEXT_TEXT_MAX_LENGTH - 1] = '\0';
 
 					db_set_ws(NULL, "CList", "ThirdLineText", t);

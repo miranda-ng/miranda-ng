@@ -283,7 +283,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							if (setting)
 							{
 								// havta convert it with mir_snprintf()
-								GetWindowText(GetDlgItem(hwnd, IDC_SETTINGVALUE), setting, settingLength+1);
+								GetDlgItemText(hwnd, IDC_SETTINGVALUE, setting, settingLength + 1);
 								if (LOWORD(wParam) == CHK_DECIMAL && IsDlgButtonChecked(hwnd, CHK_DECIMAL))
 								{
 									sscanf(setting, "%X", &tmp);
@@ -339,14 +339,14 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							break;
 						}
 
-						GetWindowText(GetDlgItem(hwnd, IDC_SETTINGNAME), setting, settingLength+1);
+						GetDlgItemText(hwnd, IDC_SETTINGNAME, setting, settingLength + 1);
 
 						if (valueLength)
 						{
 							if (dbsetting->dbv.type == DBVT_UTF8)
 								GetDlgItemTextW(hwnd, valueID, (LPWSTR)value, (valueLength + 2));
 							else
-								GetWindowText(GetDlgItem(hwnd, valueID), value, valueLength+1);
+								GetDlgItemText(hwnd, valueID, value, valueLength + 1);
 						}
 						else
 						if (IsWindowVisible(GetDlgItem(hwnd,IDC_STRING)) || (saveAsType(hwnd)==3))

@@ -506,7 +506,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			else {
 				int length = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_CONSOLEIN)) + 1;
 				TCHAR *textToSend = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
-				GetWindowText(GetDlgItem(m_hwnd, IDC_CONSOLEIN), textToSend, length);
+				GetDlgItemText(m_hwnd, IDC_CONSOLEIN, textToSend, length);
 
 				int bytesProcessed = 0;
 				XmlNode xmlTmp(textToSend, &bytesProcessed, NULL);
@@ -562,7 +562,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else if (HIWORD(wParam) == CBN_EDITCHANGE) {
 				mir_cslock lck(m_proto->m_filterInfo.csPatternLock);
-				GetWindowText(GetDlgItem(m_hwnd, IDC_CB_FILTER), m_proto->m_filterInfo.pattern, SIZEOF(m_proto->m_filterInfo.pattern));
+				GetDlgItemText(m_hwnd, IDC_CB_FILTER, m_proto->m_filterInfo.pattern, SIZEOF(m_proto->m_filterInfo.pattern));
 			}
 			break;
 

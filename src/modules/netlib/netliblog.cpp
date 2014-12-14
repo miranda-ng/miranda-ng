@@ -209,11 +209,11 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			db_set_ts(NULL, "Netlib", "RunAtStart", str);
 			db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
-			GetWindowText(GetDlgItem(hwndDlg, IDC_FILENAME), str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_FILENAME, str, SIZEOF(str));
 			logOptions.tszUserFile = rtrimt(str);
 			db_set_ts(NULL, "Netlib", "File", str);
 
-			GetWindowText(GetDlgItem(hwndDlg, IDC_PATH), str, SIZEOF(str));
+			GetDlgItemText(hwndDlg, IDC_PATH, str, SIZEOF(str));
 			logOptions.tszFile = rtrimt(str);
 
 			db_set_b(NULL, "Netlib", "DumpRecv", logOptions.dumpRecv = IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV));

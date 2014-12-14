@@ -438,7 +438,7 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 	TCHAR filter[MAX_FILTER_SIZE];
 	DeleteOldEvents(hWnd, renderer); //delete events
 		
-	GetWindowText(GetDlgItem(hWnd, IDC_HISTORY_FILTER), filter, SIZEOF(filter)); //get filter text
+	GetDlgItemText(hWnd, IDC_HISTORY_FILTER, filter, SIZEOF(filter)); //get filter text
 	
 	AddEvents(hWnd, renderer, filter, MatchesFilter);
 	
