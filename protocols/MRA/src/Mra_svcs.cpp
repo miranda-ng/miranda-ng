@@ -589,25 +589,20 @@ INT_PTR CMraProto::GetUnreadEmailCount(WPARAM, LPARAM)
 
 INT_PTR CMraProto::MraGetAvatarCaps(WPARAM wParam, LPARAM)
 {
+
 	switch (wParam) {
 	case AF_MAXSIZE:
 		return -1;
-
 	case AF_PROPORTION:
 		return PIP_NONE;
-
 	case AF_FORMATSUPPORTED:
 		return 0; // no formats to set
-
 	case AF_ENABLED:
 		return 1; // always on
-
 	case AF_DONTNEEDDELAYS:
 		return 0; // need delay
-
 	case AF_MAXFILESIZE:
 		return 0;
-
 	case AF_DELAYAFTERFAIL:
 		return 5000;
 	}
