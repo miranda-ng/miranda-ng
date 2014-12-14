@@ -36,8 +36,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE g_hInst = 0;
 CLIST_INTERFACE *pcli = NULL;
-CLIST_INTERFACE corecli = {0};
-CLUIDATA g_CluiData = {0};
+CLIST_INTERFACE corecli = { 0 };
+CLUIDATA g_CluiData = { 0 };
 int hLangpack;
 
 TIME_API tmi;
@@ -57,39 +57,39 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {043909B6-AAD8-4D82-8EB5-9F64CFE867CD}
-	{0x43909b6, 0xaad8, 0x4d82, {0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd}}
+	{ 0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd } }
 };
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CLIST, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_CLIST, MIID_LAST };
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	DisableThreadLibraryCalls(g_hInst);
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
 extern "C" __declspec(dllexport) int CListInitialise()
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	mir_getTMI(&tmi);
 
 	g_dwMainThreadID = GetCurrentThreadId();
 
-	CHECKRES ( PreLoadContactListModule ( )	);
-	CHECKRES ( SubclassClistInterface ( )	);
-	CHECKRES ( CreateHookableEvents ( )		);
-	CHECKRES ( SkinEngineLoadModule ( )		);
-	CHECKRES ( BackgroundsLoadModule ( )	);
-	CHECKRES ( CluiLoadModule ( )			);
-	CHECKRES ( ClcLoadModule ( )			);
-	CHECKRES ( ToolbarButtonLoadModule( )   );
-	CHECKRES ( ToolbarLoadModule()			);
+	CHECKRES(PreLoadContactListModule());
+	CHECKRES(SubclassClistInterface());
+	CHECKRES(CreateHookableEvents());
+	CHECKRES(SkinEngineLoadModule());
+	CHECKRES(BackgroundsLoadModule());
+	CHECKRES(CluiLoadModule());
+	CHECKRES(ClcLoadModule());
+	CHECKRES(ToolbarButtonLoadModule());
+	CHECKRES(ToolbarLoadModule());
 
 	TRACE("CListInitialise Modern Contact List ... Done\r\n");
 
@@ -139,75 +139,75 @@ static HRESULT SubclassClistInterface()
 	pcli->hInst = g_hInst;
 	pcli->bDisplayLocked = TRUE;
 
-	pcli->pfnCheckCacheItem	= cliCheckCacheItem;
+	pcli->pfnCheckCacheItem = cliCheckCacheItem;
 	pcli->pfnFreeCacheItem = cliFreeCacheItem;
 	pcli->pfnInvalidateDisplayNameCacheEntry = cliInvalidateDisplayNameCacheEntry;
 
 	pcli->pfnTrayIconPauseAutoHide = cliTrayIconPauseAutoHide;
-	pcli->pfnTrayCalcChanged       = cliTrayCalcChanged;
+	pcli->pfnTrayCalcChanged = cliTrayCalcChanged;
 	pcli->pfnCluiProtocolStatusChanged = cliCluiProtocolStatusChanged;
 
-	pcli->pfnBeginRenameSelection  = cliBeginRenameSelection;
-	pcli->pfnCreateClcContact      = cliCreateClcContact;
-	pcli->pfnCreateCacheItem       = cliCreateCacheItem;
-	pcli->pfnGetRowBottomY         = cliGetRowBottomY;
-	pcli->pfnGetRowHeight          = cliGetRowHeight;
-	pcli->pfnGetRowTopY            = cliGetRowTopY;
-	pcli->pfnGetRowTotalHeight     = cliGetRowTotalHeight;
-	pcli->pfnInvalidateRect        = CLUI__cliInvalidateRect;
-	pcli->pfnGetCacheEntry         = cliGetCacheEntry;
-	pcli->pfnOnCreateClc           = CLUI::cliOnCreateClc;
-	pcli->pfnPaintClc              = CLCPaint::cliPaintClc;
-	pcli->pfnRebuildEntireList     = cliRebuildEntireList;
-	pcli->pfnRecalcScrollBar       = cliRecalcScrollBar;
-	pcli->pfnRowHitTest            = cliRowHitTest;
-	pcli->pfnScrollTo              = cliScrollTo;
-	pcli->pfnShowHide              = cliShowHide;
-	pcli->pfnHitTest               = cliHitTest;
-	pcli->pfnCompareContacts       = cliCompareContacts;
-	pcli->pfnBuildGroupPopupMenu   = cliBuildGroupPopupMenu;
+	pcli->pfnBeginRenameSelection = cliBeginRenameSelection;
+	pcli->pfnCreateClcContact = cliCreateClcContact;
+	pcli->pfnCreateCacheItem = cliCreateCacheItem;
+	pcli->pfnGetRowBottomY = cliGetRowBottomY;
+	pcli->pfnGetRowHeight = cliGetRowHeight;
+	pcli->pfnGetRowTopY = cliGetRowTopY;
+	pcli->pfnGetRowTotalHeight = cliGetRowTotalHeight;
+	pcli->pfnInvalidateRect = CLUI__cliInvalidateRect;
+	pcli->pfnGetCacheEntry = cliGetCacheEntry;
+	pcli->pfnOnCreateClc = CLUI::cliOnCreateClc;
+	pcli->pfnPaintClc = CLCPaint::cliPaintClc;
+	pcli->pfnRebuildEntireList = cliRebuildEntireList;
+	pcli->pfnRecalcScrollBar = cliRecalcScrollBar;
+	pcli->pfnRowHitTest = cliRowHitTest;
+	pcli->pfnScrollTo = cliScrollTo;
+	pcli->pfnShowHide = cliShowHide;
+	pcli->pfnHitTest = cliHitTest;
+	pcli->pfnCompareContacts = cliCompareContacts;
+	pcli->pfnBuildGroupPopupMenu = cliBuildGroupPopupMenu;
 	pcli->pfnGetIconFromStatusMode = cliGetIconFromStatusMode;
-	pcli->pfnFindItem              = cliFindItem;
-	pcli->pfnGetRowByIndex         = cliGetRowByIndex;
-	pcli->pfnGetRowsPriorTo        = cliGetRowsPriorTo;
+	pcli->pfnFindItem = cliFindItem;
+	pcli->pfnGetRowByIndex = cliGetRowByIndex;
+	pcli->pfnGetRowsPriorTo = cliGetRowsPriorTo;
 	pcli->pfnGetGroupContentsCount = cliGetGroupContentsCount;
-	pcli->pfnCreateEvent           = cliCreateEvent;
-	pcli->pfnFindRowByText         = cliFindRowByText;
+	pcli->pfnCreateEvent = cliCreateEvent;
+	pcli->pfnFindRowByText = cliFindRowByText;
 
 	//partialy overloaded - call default handlers from inside
-	pcli->pfnGetContactIcon        = cli_GetContactIcon;
-	pcli->pfnIconFromStatusMode    = cli_IconFromStatusMode;
-	pcli->pfnLoadCluiGlobalOpts    = CLUI_cli_LoadCluiGlobalOpts;
-	pcli->pfnSortCLC               = cli_SortCLC;
-	pcli->pfnAddGroup              = cli_AddGroup;
-	pcli->pfnGetGroupCountsText    = cli_GetGroupCountsText;
-	pcli->pfnAddContactToTree      = cli_AddContactToTree;
-	pcli->pfnAddInfoItemToGroup    = cli_AddInfoItemToGroup;
-	pcli->pfnAddItemToGroup        = cli_AddItemToGroup;
-	pcli->pfnContactListWndProc    = CLUI::cli_ContactListWndProc;
-	pcli->pfnDeleteItemFromTree    = cli_DeleteItemFromTree;
-	pcli->pfnFreeContact           = cli_FreeContact;
-	pcli->pfnFreeGroup             = cli_FreeGroup;
-	pcli->pfnChangeContactIcon     = cli_ChangeContactIcon;
-	pcli->pfnSetContactCheckboxes  = cli_SetContactCheckboxes;
+	pcli->pfnGetContactIcon = cli_GetContactIcon;
+	pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
+	pcli->pfnLoadCluiGlobalOpts = CLUI_cli_LoadCluiGlobalOpts;
+	pcli->pfnSortCLC = cli_SortCLC;
+	pcli->pfnAddGroup = cli_AddGroup;
+	pcli->pfnGetGroupCountsText = cli_GetGroupCountsText;
+	pcli->pfnAddContactToTree = cli_AddContactToTree;
+	pcli->pfnAddInfoItemToGroup = cli_AddInfoItemToGroup;
+	pcli->pfnAddItemToGroup = cli_AddItemToGroup;
+	pcli->pfnContactListWndProc = CLUI::cli_ContactListWndProc;
+	pcli->pfnDeleteItemFromTree = cli_DeleteItemFromTree;
+	pcli->pfnFreeContact = cli_FreeContact;
+	pcli->pfnFreeGroup = cli_FreeGroup;
+	pcli->pfnChangeContactIcon = cli_ChangeContactIcon;
+	pcli->pfnSetContactCheckboxes = cli_SetContactCheckboxes;
 	pcli->pfnTrayIconProcessMessage = cli_TrayIconProcessMessage;
 	pcli->pfnSaveStateAndRebuildList = cli_SaveStateAndRebuildList;
 	pcli->pfnContactListControlWndProc = cli_ContactListControlWndProc;
 	pcli->pfnProcessExternalMessages = cli_ProcessExternalMessages;
-	pcli->pfnAddEvent              = cli_AddEvent;
-	pcli->pfnRemoveEvent           = cli_RemoveEvent;
+	pcli->pfnAddEvent = cli_AddEvent;
+	pcli->pfnRemoveEvent = cli_RemoveEvent;
 	pcli->pfnDocking_ProcessWindowMessage = Docking_ProcessWindowMessage;
 	return S_OK;
 }
 
 static HRESULT CreateHookableEvents()
 {
-	g_CluiData.hEventBkgrChanged               = CreateHookableEvent(ME_BACKGROUNDCONFIG_CHANGED);
-	g_CluiData.hEventPreBuildTrayMenu          = CreateHookableEvent(ME_CLIST_PREBUILDTRAYMENU);
-	g_CluiData.hEventPreBuildGroupMenu         = CreateHookableEvent(ME_CLIST_PREBUILDGROUPMENU);
-	g_CluiData.hEventPreBuildSubGroupMenu      = CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
-	g_CluiData.hEventStatusBarShowToolTip      = CreateHookableEvent(ME_CLIST_FRAMES_SB_SHOW_TOOLTIP);
-	g_CluiData.hEventStatusBarHideToolTip      = CreateHookableEvent(ME_CLIST_FRAMES_SB_HIDE_TOOLTIP);
-	g_CluiData.hEventSkinServicesCreated       = CreateHookableEvent(ME_SKIN_SERVICESCREATED);
+	g_CluiData.hEventBkgrChanged = CreateHookableEvent(ME_BACKGROUNDCONFIG_CHANGED);
+	g_CluiData.hEventPreBuildTrayMenu = CreateHookableEvent(ME_CLIST_PREBUILDTRAYMENU);
+	g_CluiData.hEventPreBuildGroupMenu = CreateHookableEvent(ME_CLIST_PREBUILDGROUPMENU);
+	g_CluiData.hEventPreBuildSubGroupMenu = CreateHookableEvent(ME_CLIST_PREBUILDSUBGROUPMENU);
+	g_CluiData.hEventStatusBarShowToolTip = CreateHookableEvent(ME_CLIST_FRAMES_SB_SHOW_TOOLTIP);
+	g_CluiData.hEventStatusBarHideToolTip = CreateHookableEvent(ME_CLIST_FRAMES_SB_HIDE_TOOLTIP);
+	g_CluiData.hEventSkinServicesCreated = CreateHookableEvent(ME_SKIN_SERVICESCREATED);
 	return S_OK;
 }

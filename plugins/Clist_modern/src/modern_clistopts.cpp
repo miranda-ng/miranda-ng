@@ -477,7 +477,7 @@ static INT_PTR CALLBACK DlgProcItemIconOpts(HWND hwndDlg, UINT msg, WPARAM wPara
 }
 
 
-static INT_PTR CALLBACK DlgProcItemContactTimeOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcItemContactTimeOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -937,7 +937,7 @@ static row_opt_items[] =
 	{ LPGEN("Third line"), IDD_OPT_ITEM_THIRD_LINE, DlgProcItemThirdLineOpts },
 };
 
-int CListOptInit(WPARAM wParam, LPARAM lParam)
+int CListOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -200000000;

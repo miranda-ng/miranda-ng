@@ -71,32 +71,32 @@ struct FontOptionsList {
 #define DEFAULT_SMALLSIZE	-8
 
 static struct FontOptionsList fontOptionsList[] = {
-	{ FIDF_CLASSGENERAL, FONTID_CONTACTS,              CLCGROUP,       LPGENT("Standard contacts"),                                           DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_AWAY,                  CLCGROUP,       LPGENT("Away contacts"),                                               DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_DND,                   CLCGROUP,       LPGENT("DND contacts"),                                                DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_NA,                    CLCGROUP,       LPGENT("NA contacts"),                                                 DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_OCCUPIED,              CLCGROUP,       LPGENT("Occupied contacts"),                                           DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_CHAT,                  CLCGROUP,       LPGENT("Free for chat contacts"),                                      DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_INVISIBLE,             CLCGROUP,       LPGENT("Invisible contacts"),                                          DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_PHONE,                 CLCGROUP,       LPGENT("On the phone contacts"),                                       DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_LUNCH,                 CLCGROUP,       LPGENT("Out to lunch contacts"),                                       DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_OFFLINE,               CLCGROUP,       LPGENT("Offline contacts"),                                            DEFAULT_GREYCOLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_INVIS,                 CLCGROUP,       LPGENT("Online contacts to whom you have a different visibility"),     DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_OFFINVIS,              CLCGROUP,       LPGENT("Offline contacts to whom you have a different visibility"),    DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_NOTONLIST,             CLCGROUP,       LPGENT("Contacts who are 'not on list'"),                              DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSHEADER,  FONTID_OPENGROUPS,            CLCGROUP,       LPGENT("Open groups"),                                                 DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_BOLD, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSHEADER,  FONTID_OPENGROUPCOUNTS,       CLCGROUP,       LPGENT("Open group member counts"),                                    DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSHEADER,  FONTID_CLOSEDGROUPS,          CLCGROUP,       LPGENT("Closed groups"),                                               DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_BOLD, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSHEADER,  FONTID_CLOSEDGROUPCOUNTS,     CLCGROUP,       LPGENT("Closed group member counts"),                                  DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSSMALL,   FONTID_DIVIDERS,              CLCGROUP,       LPGENT("Dividers"),                                                    DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_CONTACTS, CLCGROUP, LPGENT("Standard contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_AWAY, CLCGROUP, LPGENT("Away contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_DND, CLCGROUP, LPGENT("DND contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_NA, CLCGROUP, LPGENT("NA contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_OCCUPIED, CLCGROUP, LPGENT("Occupied contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_CHAT, CLCGROUP, LPGENT("Free for chat contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_INVISIBLE, CLCGROUP, LPGENT("Invisible contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_PHONE, CLCGROUP, LPGENT("On the phone contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_LUNCH, CLCGROUP, LPGENT("Out to lunch contacts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_OFFLINE, CLCGROUP, LPGENT("Offline contacts"), DEFAULT_GREYCOLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_INVIS, CLCGROUP, LPGENT("Online contacts to whom you have a different visibility"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_OFFINVIS, CLCGROUP, LPGENT("Offline contacts to whom you have a different visibility"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_NOTONLIST, CLCGROUP, LPGENT("Contacts who are 'not on list'"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSHEADER, FONTID_OPENGROUPS, CLCGROUP, LPGENT("Open groups"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_BOLD, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSHEADER, FONTID_OPENGROUPCOUNTS, CLCGROUP, LPGENT("Open group member counts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSHEADER, FONTID_CLOSEDGROUPS, CLCGROUP, LPGENT("Closed groups"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_BOLD, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSHEADER, FONTID_CLOSEDGROUPCOUNTS, CLCGROUP, LPGENT("Closed group member counts"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSSMALL, FONTID_DIVIDERS, CLCGROUP, LPGENT("Dividers"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
 
-	{ FIDF_CLASSSMALL,   FONTID_SECONDLINE,            CLCLINESGROUP,  LPGENT("Second line"),                                                 DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SMALLSIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSSMALL,   FONTID_THIRDLINE,             CLCLINESGROUP,  LPGENT("Third line"),                                                  DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SMALLSIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSSMALL,   FONTID_CONTACT_TIME,          CLCLINESGROUP,  LPGENT("Contact time"),                                                DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SMALLSIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSSMALL, FONTID_SECONDLINE, CLCLINESGROUP, LPGENT("Second line"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SMALLSIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSSMALL, FONTID_THIRDLINE, CLCLINESGROUP, LPGENT("Third line"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SMALLSIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSSMALL, FONTID_CONTACT_TIME, CLCLINESGROUP, LPGENT("Contact time"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SMALLSIZE, DEFAULT_EFFECT },
 
-	{ FIDF_CLASSGENERAL, FONTID_STATUSBAR_PROTONAME,   CLCFRAMESGROUP, LPGENT("Status bar text"),                                             DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_EVENTAREA,             CLCFRAMESGROUP, LPGENT("Event area text"),                                             DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
-	{ FIDF_CLASSGENERAL, FONTID_VIEMODES,              CLCFRAMESGROUP, LPGENT("Current view mode text"),                                      DEFAULT_COLOUR,     DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_STATUSBAR_PROTONAME, CLCFRAMESGROUP, LPGENT("Status bar text"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_EVENTAREA, CLCFRAMESGROUP, LPGENT("Event area text"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
+	{ FIDF_CLASSGENERAL, FONTID_VIEMODES, CLCFRAMESGROUP, LPGENT("Current view mode text"), DEFAULT_COLOUR, DEFAULT_FAMILY, DEFAULT_CHARSET, FONTF_NORMAL, DEFAULT_SIZE, DEFAULT_EFFECT },
 };
 
 struct ColourOptionsList {
@@ -108,19 +108,19 @@ struct ColourOptionsList {
 };
 
 static struct ColourOptionsList colourOptionsList[] = {
-	{ "CLC",            "BkColour",          CLCGROUP,         LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
-	{ "CLC",            "Rows_BkColour",     CLCLINESGROUP,    LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
-	{ "CLC",            "Frames_BkColour",   CLCFRAMESGROUP,   LPGENT("Background"),                              CLCDEFAULT_BKCOLOUR },
+	{ "CLC", "BkColour", CLCGROUP, LPGENT("Background"), CLCDEFAULT_BKCOLOUR },
+	{ "CLC", "Rows_BkColour", CLCLINESGROUP, LPGENT("Background"), CLCDEFAULT_BKCOLOUR },
+	{ "CLC", "Frames_BkColour", CLCFRAMESGROUP, LPGENT("Background"), CLCDEFAULT_BKCOLOUR },
 
-	{ "CLC",            "HotTextColour",     CLCCOLOURSGROUP,  LPGENT("Hot text"),                                CLCDEFAULT_MODERN_HOTTEXTCOLOUR },
-	{ "CLC",            "SelTextColour",     CLCCOLOURSGROUP,  LPGENT("Selected text"),                           CLCDEFAULT_MODERN_SELTEXTCOLOUR },
-	{ "CLC",            "QuickSearchColour", CLCCOLOURSGROUP,  LPGENT("Quick search text"),                       CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR },
+	{ "CLC", "HotTextColour", CLCCOLOURSGROUP, LPGENT("Hot text"), CLCDEFAULT_MODERN_HOTTEXTCOLOUR },
+	{ "CLC", "SelTextColour", CLCCOLOURSGROUP, LPGENT("Selected text"), CLCDEFAULT_MODERN_SELTEXTCOLOUR },
+	{ "CLC", "QuickSearchColour", CLCCOLOURSGROUP, LPGENT("Quick search text"), CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR },
 
-	{ "Menu",           "TextColour",        CLCCOLOURSGROUP,  LPGENT("Menu text"),                               CLCDEFAULT_TEXTCOLOUR },
-	{ "Menu",           "SelTextColour",     CLCCOLOURSGROUP,  LPGENT("Selected menu text"),                      CLCDEFAULT_MODERN_SELTEXTCOLOUR },
-	{ "FrameTitleBar",  "TextColour",        CLCCOLOURSGROUP,  LPGENT("Frame title text"),                        CLCDEFAULT_TEXTCOLOUR },
-	{ "StatusBar",      "TextColour",        CLCCOLOURSGROUP,  LPGENT("Status bar text"),                          CLCDEFAULT_TEXTCOLOUR },
-	{ "ModernSettings", "KeyColor",          CLCCOLOURSGROUP,  LPGENT("3rd party frames transparent back color"), SETTING_KEYCOLOR_DEFAULT }
+	{ "Menu", "TextColour", CLCCOLOURSGROUP, LPGENT("Menu text"), CLCDEFAULT_TEXTCOLOUR },
+	{ "Menu", "SelTextColour", CLCCOLOURSGROUP, LPGENT("Selected menu text"), CLCDEFAULT_MODERN_SELTEXTCOLOUR },
+	{ "FrameTitleBar", "TextColour", CLCCOLOURSGROUP, LPGENT("Frame title text"), CLCDEFAULT_TEXTCOLOUR },
+	{ "StatusBar", "TextColour", CLCCOLOURSGROUP, LPGENT("Status bar text"), CLCDEFAULT_TEXTCOLOUR },
+	{ "ModernSettings", "KeyColor", CLCCOLOURSGROUP, LPGENT("3rd party frames transparent back color"), SETTING_KEYCOLOR_DEFAULT }
 };
 
 void RegisterCLUIFonts(void)
@@ -199,7 +199,6 @@ DWORD GetDefaultExStyle(void)
 
 void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, BYTE *effect, COLORREF *eColour1, COLORREF *eColour2)
 {
-	DBVARIANT dbv = { 0 };
 	char idstr[32];
 
 	int index;
@@ -1216,16 +1215,16 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		break;
 
 	case WM_HSCROLL:
-		{
-			char str[10];
-			mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
-			SetDlgItemTextA(hwndDlg, IDC_INACTIVEPERC, str);
-			mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
-			SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
-		}
-		if (wParam != 0x12345678)
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-		break;
+	{
+		char str[10];
+		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0) / 255);
+		SetDlgItemTextA(hwndDlg, IDC_INACTIVEPERC, str);
+		mir_snprintf(str, SIZEOF(str), "%d%%", 100 * SendDlgItemMessage(hwndDlg, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0) / 255);
+		SetDlgItemTextA(hwndDlg, IDC_ACTIVEPERC, str);
+	}
+	if (wParam != 0x12345678)
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+	break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
@@ -1406,72 +1405,72 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		return TRUE;
 
 	case M_BKGR_GETSTATE:
-		{
-			int indx = wParam;
-			if (indx == CB_ERR || indx >= dat->count)
-				break;
+	{
+		int indx = wParam;
+		if (indx == CB_ERR || indx >= dat->count)
+			break;
 
-			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
+		indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
-			dat->item[indx].useBitmap = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
-			dat->item[indx].useWinColours = IsDlgButtonChecked(hwndDlg, IDC_USEWINCOL);
-			dat->item[indx].bkColor = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
-			dat->item[indx].selColor = SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_GETCOLOUR, 0, 0);
+		dat->item[indx].useBitmap = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
+		dat->item[indx].useWinColours = IsDlgButtonChecked(hwndDlg, IDC_USEWINCOL);
+		dat->item[indx].bkColor = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
+		dat->item[indx].selColor = SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_GETCOLOUR, 0, 0);
 
-			GetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename, SIZEOF(dat->item[indx].filename));
+		GetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename, SIZEOF(dat->item[indx].filename));
 
-			WORD flags = 0;
-			if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH)) flags |= CLB_STRETCHH;
-			if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV)) flags |= CLB_STRETCHV;
-			if (IsDlgButtonChecked(hwndDlg, IDC_TILEH)) flags |= CLBF_TILEH;
-			if (IsDlgButtonChecked(hwndDlg, IDC_TILEV)) flags |= CLBF_TILEV;
-			if (IsDlgButtonChecked(hwndDlg, IDC_SCROLL)) flags |= CLBF_SCROLL;
-			if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
-			if (IsDlgButtonChecked(hwndDlg, IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
-			dat->item[indx].flags = flags;
-		}
-		break;
+		WORD flags = 0;
+		if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH)) flags |= CLB_STRETCHH;
+		if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV)) flags |= CLB_STRETCHV;
+		if (IsDlgButtonChecked(hwndDlg, IDC_TILEH)) flags |= CLBF_TILEH;
+		if (IsDlgButtonChecked(hwndDlg, IDC_TILEV)) flags |= CLBF_TILEV;
+		if (IsDlgButtonChecked(hwndDlg, IDC_SCROLL)) flags |= CLBF_SCROLL;
+		if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
+		if (IsDlgButtonChecked(hwndDlg, IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
+		dat->item[indx].flags = flags;
+	}
+	break;
 
 	case M_BKGR_SETSTATE:
-		{
-			int flags;
-			int indx = wParam;
-			if (indx == -1) break;
-			flags = dat->item[indx].flags;
-			if (indx == CB_ERR || indx >= dat->count) break;
-			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
+	{
+		int flags;
+		int indx = wParam;
+		if (indx == -1) break;
+		flags = dat->item[indx].flags;
+		if (indx == CB_ERR || indx >= dat->count) break;
+		indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
-			CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_USEWINCOL, dat->item[indx].useWinColours ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USEWINCOL, dat->item[indx].useWinColours ? BST_CHECKED : BST_UNCHECKED);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), !dat->item[indx].useWinColours);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SELCOLOUR), !dat->item[indx].useWinColours);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), !dat->item[indx].useWinColours);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_SELCOLOUR), !dat->item[indx].useWinColours);
 
-			SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_BKCOLOUR);
-			SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].bkColor);
-			SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_SELBKCOLOUR);
-			SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].selColor);
-			SetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename);
+		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_BKCOLOUR);
+		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].bkColor);
+		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETDEFAULTCOLOUR, 0, DEFAULT_SELBKCOLOUR);
+		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0, dat->item[indx].selColor);
+		SetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename);
 
-			CheckDlgButton(hwndDlg, IDC_STRETCHH, flags&CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_STRETCHV, flags&CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEH, flags&CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEV, flags&CLBF_TILEV ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SCROLL, flags&CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, flags&CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TILEVROWH, flags&CLBF_TILEVTOROWHEIGHT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STRETCHH, flags&CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STRETCHV, flags&CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TILEH, flags&CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TILEV, flags&CLBF_TILEV ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SCROLL, flags&CLBF_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_PROPORTIONAL, flags&CLBF_PROPORTIONAL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TILEVROWH, flags&CLBF_TILEVTOROWHEIGHT ? BST_CHECKED : BST_UNCHECKED);
 
-			SendMessage(hwndDlg, M_BKGR_UPDATE, 0, 0);
-		}
-		break;
+		SendMessage(hwndDlg, M_BKGR_UPDATE, 0, 0);
+	}
+	break;
 
 	case M_BKGR_UPDATE:
-		{
-			int isChecked = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
-			for (int indx = 0; indx < SIZEOF(bitmapRelatedControls); indx++)
-				EnableWindow(GetDlgItem(hwndDlg, bitmapRelatedControls[indx]), isChecked);
-		}
-		break;
+	{
+		int isChecked = IsDlgButtonChecked(hwndDlg, IDC_BITMAP);
+		for (int indx = 0; indx < SIZEOF(bitmapRelatedControls); indx++)
+			EnableWindow(GetDlgItem(hwndDlg, bitmapRelatedControls[indx]), isChecked);
+	}
+	break;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_BROWSE) {
@@ -1877,7 +1876,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int ModernOptInit(WPARAM wParam, LPARAM lParam)
+int ModernOptInit(WPARAM wParam, LPARAM)
 {
 	static int iBoldControls[] =
 	{
@@ -1925,7 +1924,7 @@ static clist_opt_items[] =
 	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, 0 }
 };
 
-int ClcOptInit(WPARAM wParam, LPARAM lParam)
+int ClcOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = g_hInst;

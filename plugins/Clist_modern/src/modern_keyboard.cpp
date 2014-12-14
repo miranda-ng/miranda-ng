@@ -27,13 +27,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int InitSkinHotKeys(void);
 
-INT_PTR hkCloseMiranda(WPARAM wParam, LPARAM lParam)
+INT_PTR hkCloseMiranda(WPARAM, LPARAM)
 {
 	CallService("CloseAction", 0, 0);
 	return 0;
 }
 
-INT_PTR hkRestoreStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR hkRestoreStatus(WPARAM, LPARAM)
 {
 	int nStatus = db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE);
 	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
@@ -43,10 +43,10 @@ INT_PTR hkRestoreStatus(WPARAM wParam, LPARAM lParam)
 
 int InitSkinHotKeys(void)
 {
-	CreateServiceFunction("CLIST/HK/CloseMiranda",hkCloseMiranda);
-	CreateServiceFunction("CLIST/HK/RestoreStatus",hkRestoreStatus);
+	CreateServiceFunction("CLIST/HK/CloseMiranda", hkCloseMiranda);
+	CreateServiceFunction("CLIST/HK/RestoreStatus", hkRestoreStatus);
 
-	HOTKEYDESC shk = {0};
+	HOTKEYDESC shk = { 0 };
 	shk.cbSize = sizeof(shk);
 	shk.dwFlags = HKD_TCHAR;
 

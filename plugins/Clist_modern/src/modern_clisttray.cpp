@@ -34,7 +34,7 @@ static HMENU hMainMenu, hStatusMenu;
 static HANDLE hTrayMenuObject;
 BOOL IS_WM_MOUSE_DOWN_IN_TRAY;
 BOOL g_trayTooltipActive = FALSE;
-POINT tray_hover_pos = {0};
+POINT tray_hover_pos = { 0 };
 
 // don't move to win2k.h, need new and old versions to work on 9x/2000/XP
 #define NIF_STATE       0x00000008
@@ -68,16 +68,16 @@ char * g_szConnectingProto = NULL;
 int GetStatusVal(int status)
 {
 	switch (status) {
-		case ID_STATUS_OFFLINE:               return 50;
-		case ID_STATUS_ONLINE:                return 100;
-		case ID_STATUS_FREECHAT:              return 110;
-		case ID_STATUS_INVISIBLE:             return 120;
-		case ID_STATUS_AWAY:                  return 200;
-		case ID_STATUS_DND:                   return 210;
-		case ID_STATUS_NA:                    return 220;
-		case ID_STATUS_OCCUPIED:              return 230;
-		case ID_STATUS_ONTHEPHONE:            return 400;
-		case ID_STATUS_OUTTOLUNCH:            return 410;
+	case ID_STATUS_OFFLINE:               return 50;
+	case ID_STATUS_ONLINE:                return 100;
+	case ID_STATUS_FREECHAT:              return 110;
+	case ID_STATUS_INVISIBLE:             return 120;
+	case ID_STATUS_AWAY:                  return 200;
+	case ID_STATUS_DND:                   return 210;
+	case ID_STATUS_NA:                    return 220;
+	case ID_STATUS_OCCUPIED:              return 230;
+	case ID_STATUS_ONTHEPHONE:            return 400;
+	case ID_STATUS_OUTTOLUNCH:            return 410;
 	}
 
 	if (status < ID_STATUS_OFFLINE && status > 0) return 600; //connecting is most priority
@@ -91,7 +91,7 @@ int GetStatusOrder(int currentStatus, int newStatus)
 	return (current > newstat) ? currentStatus : newStatus;
 }
 
-INT_PTR CListTray_GetGlobalStatus(WPARAM wparam, LPARAM lparam)
+INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 {
 	int curstatus = 0;
 	int connectingCount = 0;
@@ -99,7 +99,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam, LPARAM lparam)
 		ClcProtoStatus &p = pcli->clcProto[i];
 		if (!pcli->pfnGetProtocolVisibility(p.szProto))
 			continue;
-		
+
 		if (p.dwStatus >= ID_STATUS_CONNECTING  && p.dwStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 			connectingCount++;
 			if (connectingCount == 1)
@@ -140,7 +140,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 			}
 			else {
 				if (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_SINGLE &&
-					 db_get_b(NULL, "CList", "AlwaysPrimary", SETTING_ALWAYSPRIMARY_DEFAULT)) {
+					db_get_b(NULL, "CList", "AlwaysPrimary", SETTING_ALWAYSPRIMARY_DEFAULT)) {
 					ptrA szProto(db_get_sa(NULL, "CList", "PrimaryStatus"));
 					return pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL, szProto, averageMode), NULL);
 				}
@@ -248,7 +248,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 
 static UINT_PTR autoHideTimerId;
 
-static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 {
 	KillTimer(hwnd, idEvent);
 	HWND hwndClui = pcli->hwndContactList;
@@ -256,11 +256,11 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd, UINT message, UINT_PTR idE
 	if (ActiveWindow == hwndClui) return;
 	if (CLUI_CheckOwnedByClui(ActiveWindow)) return;
 
-	CListMod_HideWindow(hwndClui, SW_HIDE);
+	CListMod_HideWindow();
 	SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 }
 
-int cliTrayIconPauseAutoHide(WPARAM wParam, LPARAM lParam)
+int cliTrayIconPauseAutoHide(WPARAM, LPARAM)
 {
 	if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 		if (GetActiveWindow() != pcli->hwndContactList && GetWindow(GetParent(GetActiveWindow()), GW_OWNER) != pcli->hwndContactList) {
@@ -365,7 +365,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 HGENMENU hTrayMainMenuItemProxy, hTrayStatusMenuItemProxy, hTrayHideShowMainMenuItem;
 
-static INT_PTR BuildTrayMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR BuildTrayMenu(WPARAM, LPARAM)
 {
 	NotifyEventHooks(g_CluiData.hEventPreBuildTrayMenu, 0, 0);
 
@@ -377,7 +377,7 @@ static INT_PTR BuildTrayMenu(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)hMenu;
 }
 
-static INT_PTR AddTrayMenuItem(WPARAM wParam, LPARAM lParam)
+static INT_PTR AddTrayMenuItem(WPARAM, LPARAM lParam)
 {
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
@@ -430,7 +430,7 @@ INT_PTR TrayMenuExecService(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR FreeOwnerDataTrayMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR FreeOwnerDataTrayMenu(WPARAM, LPARAM lParam)
 {
 	mir_free((char*)lParam);
 	return 0;

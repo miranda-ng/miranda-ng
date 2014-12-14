@@ -49,10 +49,10 @@ struct CURRWNDIMAGEDATA
 	HBITMAP hBackDIB, hBackOld;
 	BYTE * hImageDIBByte;
 	BYTE * hBackDIBByte;
-	int Width,Height;
+	int Width, Height;
 };
 
-struct EFFECTSSTACKITEM 
+struct EFFECTSSTACKITEM
 {
 	HDC hdc;
 	BYTE EffectID;
@@ -93,7 +93,7 @@ public:
 
 	enum { IT_UNKNOWN, IT_FILE, IT_RESOURCE };
 
-	typedef HRESULT (*ParserCallback_t)( const char * szSection, const char * szKey, const char * szValue, IniParser * This );
+	typedef HRESULT(*ParserCallback_t)(const char * szSection, const char * szKey, const char * szValue, IniParser * This);
 
 	IniParser(TCHAR * szFileName, BYTE flags = FLAG_WITH_SETTINGS);
 	IniParser(HINSTANCE hInst, const char *resourceName, const char *resourceType, BYTE flags = FLAG_ONLY_OBJECTS);
@@ -102,12 +102,12 @@ public:
 	bool CheckOK() { return _isValid; }
 	HRESULT Parse(ParserCallback_t pLineCallBackProc, LPARAM lParam);
 
-	static HRESULT WriteStrToDb( const char * szSection, const char * szKey, const char * szValue, IniParser * This);
-	static int GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolderName );
+	static HRESULT WriteStrToDb(const char * szSection, const char * szKey, const char * szValue, IniParser * This);
+	static int GetSkinFolder(IN const TCHAR * szFileName, OUT TCHAR * pszFolderName);
 
 private:
 	// common
-	enum {	MAX_LINE_LEN = 512 };
+	enum { MAX_LINE_LEN = 512 };
 	int		 _eType;
 	bool	_isValid;
 	char *	_szSection;
@@ -116,16 +116,16 @@ private:
 	int		_nLine;
 
 	void _DoInit();
-	BOOL _DoParseLine( char * szLine );
+	BOOL _DoParseLine(char * szLine);
 
 	// Processing File
 	HRESULT _DoParseFile();
 	FILE *	_hFile;
 
 	// Processing resource
-	void _LoadResourceIni( HINSTANCE hInst, const char *  resourceName, const char * resourceType  );
+	void _LoadResourceIni(HINSTANCE hInst, const char *  resourceName, const char * resourceType);
 	HRESULT _DoParseResource();
-	const char * _RemoveTailings( const char * szLine, size_t& len );
+	const char * _RemoveTailings(const char * szLine, size_t& len);
 
 	HGLOBAL _hGlobalRes;
 	DWORD   _dwSizeOfRes;
@@ -138,7 +138,7 @@ private:
 
 
 int ske_UnloadSkin(SKINOBJECTSLIST * Skin);
-int ske_AddDescriptorToSkinObjectList (SKINOBJECTDESCRIPTOR *lpDescr, SKINOBJECTSLIST* Skin);
+int ske_AddDescriptorToSkinObjectList(SKINOBJECTDESCRIPTOR *lpDescr, SKINOBJECTSLIST* Skin);
 INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam);
 
 

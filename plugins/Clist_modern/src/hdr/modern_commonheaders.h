@@ -47,13 +47,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #if defined (_DEBUG)
 #define TRACE(str)  { log0(str); }
 #else
-  #define TRACE(str)
+#define TRACE(str)
 #endif
 
 #if defined (_DEBUG)
-  #define TRACEVAR(str,n) { log1(str,n); }
+#define TRACEVAR(str,n) { log1(str,n); }
 #else
-  #define TRACEVAR(str,n)
+#define TRACEVAR(str,n)
 #endif
 
 #if defined (_DEBUG)
@@ -143,7 +143,7 @@ extern TCHAR SkinsFolder[MAX_PATH];
 #define SCF_TOP     3
 #define SCF_BOTTOM  6
 
-char* __cdecl strstri( char *a, const char *b);
+char* __cdecl strstri(char *a, const char *b);
 BOOL __cdecl mir_bool_strcmpi(const char *a, const char *b);
 BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b);
 DWORD exceptFunction(LPEXCEPTION_POINTERS EP);
@@ -237,7 +237,7 @@ int AniAva_RemoveInvalidatedAvatars();					   // all avatars without validated p
 int AniAva_RemoveAvatar(MCONTACT hContact);				   // remove avatar
 int AniAva_RedrawAllAvatars(BOOL updateZOrder);			   // request to repaint all
 void AniAva_UpdateParent();
-int AniAva_RenderAvatar(MCONTACT hContact, HDC hdcMem, RECT *rc );
+int AniAva_RenderAvatar(MCONTACT hContact, HDC hdcMem, RECT *rc);
 
 #define CCI_NAME            1
 #define CCI_GROUP          (1<<1)
@@ -264,12 +264,12 @@ int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam);
 WORD pdnce___GetStatus(ClcCacheEntry *pdnce);
 
 /* move to list module */
-typedef void (*ItemDestuctor)(void*);
+typedef void(*ItemDestuctor)(void*);
 
 #ifdef __cplusplus
-const ROWCELL * rowAddCell(ROWCELL* &, int );
+const ROWCELL * rowAddCell(ROWCELL* &, int);
 void rowDeleteTree(ROWCELL *cell);
-BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &sequence, ROWCELL** RowTabAccess );
+BOOL rowParse(ROWCELL* &cell, ROWCELL* parent, char *tbuf, int &hbuf, int &sequence, ROWCELL** RowTabAccess);
 void rowSizeWithReposition(ROWCELL* &root, int width);
 #endif
 
@@ -294,34 +294,34 @@ class HashStringKeyNoCase
 {
 public:
 
-	HashStringKeyNoCase( const char* szKey )
+	HashStringKeyNoCase(const char* szKey)
 	{
-		_strKey=_strdup( szKey );
+		_strKey = _strdup(szKey);
 		_CreateHashKey();
 	}
 
-	HashStringKeyNoCase( const HashStringKeyNoCase& hsKey )
+	HashStringKeyNoCase(const HashStringKeyNoCase& hsKey)
 	{
-		_strKey = _strdup( hsKey._strKey );
-		_dwKey  = hsKey._dwKey;
+		_strKey = _strdup(hsKey._strKey);
+		_dwKey = hsKey._dwKey;
 	}
 
-	HashStringKeyNoCase& operator= ( const HashStringKeyNoCase& hsKey )
+	HashStringKeyNoCase& operator= (const HashStringKeyNoCase& hsKey)
 	{
-		_strKey = _strdup( hsKey._strKey );
-		_dwKey  = hsKey._dwKey;
+		_strKey = _strdup(hsKey._strKey);
+		_dwKey = hsKey._dwKey;
 	}
 
 #ifdef _UNICODE
-	HashStringKeyNoCase( const wchar_t* szKey )
+	HashStringKeyNoCase(const wchar_t* szKey)
 	{
-		int codepage=0;
-		int cbLen = WideCharToMultiByte( codepage, 0, szKey, -1, NULL, 0, NULL, NULL );
-		char* result = ( char* )malloc( cbLen+1 );
-		WideCharToMultiByte( codepage, 0, szKey, -1, result, cbLen, NULL, NULL );
-		result[ cbLen ] = 0;
+		int codepage = 0;
+		int cbLen = WideCharToMultiByte(codepage, 0, szKey, -1, NULL, 0, NULL, NULL);
+		char* result = (char*)malloc(cbLen + 1);
+		WideCharToMultiByte(codepage, 0, szKey, -1, result, cbLen, NULL, NULL);
+		result[cbLen] = 0;
 
-		_strKey=result;
+		_strKey = result;
 		_CreateHashKey();
 	}
 #endif
@@ -330,7 +330,7 @@ public:
 	{
 		free(_strKey);
 		_strKey = NULL;
-		_dwKey=0;
+		_dwKey = 0;
 	}
 
 private:
@@ -339,23 +339,25 @@ private:
 
 	void  _CreateHashKey()
 	{
-		_strKey=_strupr( _strKey );
-		_dwKey = mod_CalcHash( _strKey );
+		_strKey = _strupr(_strKey);
+		_dwKey = mod_CalcHash(_strKey);
 	}
 
 public:
-	bool operator< ( const HashStringKeyNoCase& second ) const
+	bool operator< (const HashStringKeyNoCase& second) const
 	{
-		if ( this->_dwKey != second._dwKey )
-			return ( this->_dwKey < second._dwKey );
+		if (this->_dwKey != second._dwKey)
+			return (this->_dwKey < second._dwKey);
 		else
-			return ( mir_strcmp( this->_strKey, second._strKey ) < 0 ); // already maked upper so in any case - will be case insensitive
+			return (mir_strcmp(this->_strKey, second._strKey) < 0); // already maked upper so in any case - will be case insensitive
 	}
 
 	struct HashKeyLess
 	{
-		bool operator() ( const HashStringKeyNoCase& first, const HashStringKeyNoCase& second ) const
-		{	return ( first < second ); }
+		bool operator() (const HashStringKeyNoCase& first, const HashStringKeyNoCase& second) const
+		{
+			return (first < second);
+		}
 	};
 };
 

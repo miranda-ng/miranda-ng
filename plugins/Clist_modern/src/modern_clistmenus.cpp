@@ -33,7 +33,7 @@ int UnloadFavoriteContactMenu();
 
 #pragma hdrstop
 
-INT_PTR CloseAction(WPARAM wParam, LPARAM lParam)
+INT_PTR CloseAction(WPARAM, LPARAM)
 {
 	int k;
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
@@ -85,10 +85,10 @@ static TCHAR *rates[] = {
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Contact rate: none"),   "Rate1",  IDI_FAVORITE_0 },
-	{ LPGEN("Contact rate: low"),    "Rate2",  IDI_FAVORITE_1 },
-	{ LPGEN("Contact rate: medium"), "Rate3",  IDI_FAVORITE_2 },
-	{ LPGEN("Contact rate: high"),   "Rate4",  IDI_FAVORITE_3 }
+	{ LPGEN("Contact rate: none"), "Rate1", IDI_FAVORITE_0 },
+	{ LPGEN("Contact rate: low"), "Rate2", IDI_FAVORITE_1 },
+	{ LPGEN("Contact rate: medium"), "Rate3", IDI_FAVORITE_2 },
+	{ LPGEN("Contact rate: high"), "Rate4", IDI_FAVORITE_3 }
 };
 
 static int FAV_OnContactMenuBuild(WPARAM hContact, LPARAM)
@@ -171,7 +171,7 @@ INT_PTR FAV_SetRate(WPARAM hContact, LPARAM nRate)
 	return 0;
 }
 
-INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM lParam)
+INT_PTR FAV_ToggleShowOffline(WPARAM hContact, LPARAM)
 {
 	if (hContact)
 		db_set_b(hContact, "CList", "noOffline", !db_get_b(hContact, "CList", "noOffline", 0));

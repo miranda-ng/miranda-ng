@@ -39,8 +39,8 @@ void Cache_GetThirdLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce);
 void Cache_GetAvatar(ClcData *dat, ClcContact *contact);
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact);
 int Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority,
-					  BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,
-					  BOOL pdnce_time_show_only_if_different);
+	BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus,
+	BOOL pdnce_time_show_only_if_different);
 
 void amRequestAwayMsg(MCONTACT hContact);
 

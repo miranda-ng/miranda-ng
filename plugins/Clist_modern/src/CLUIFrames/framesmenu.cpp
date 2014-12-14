@@ -11,9 +11,9 @@ typedef struct{
 	char *szServiceName;
 	int Frameid;
 	INT_PTR param1;
-}FrameMenuExecParam,*lpFrameMenuExecParam;
+}FrameMenuExecParam, *lpFrameMenuExecParam;
 
-INT_PTR FreeOwnerDataFrameMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR FreeOwnerDataFrameMenu(WPARAM, LPARAM lParam)
 {
 	lpFrameMenuExecParam cmep = (lpFrameMenuExecParam)lParam;
 	if (cmep != NULL){
@@ -23,7 +23,7 @@ INT_PTR FreeOwnerDataFrameMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR AddContextFrameMenuItem(WPARAM wParam, LPARAM lParam)
+static INT_PTR AddContextFrameMenuItem(WPARAM, LPARAM lParam)
 {
 	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 
@@ -59,7 +59,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam, LPARAM lParam)
 }
 
 //true - ok,false ignore
-INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM lParam)
+INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM)
 {
 	PCheckProcParam pcpp = (PCheckProcParam)wParam;
 	if (pcpp == NULL)
@@ -79,7 +79,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ContextFrameMenuNotify(WPARAM wParam, LPARAM lParam)
 {
-	NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
+	NotifyEventHooks(hPreBuildFrameMenuEvent, wParam, lParam);
 	return 0;
 }
 

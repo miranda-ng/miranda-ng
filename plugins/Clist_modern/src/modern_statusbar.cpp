@@ -13,8 +13,8 @@ POINT lastpnt;
 
 HWND hModernStatusBar = NULL;
 HANDLE hFramehModernStatusBar = NULL;
-extern void ApplyViewMode(const char *Name, bool onlySelector = false );
-extern void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options,  unsigned int stickies, unsigned int operators, unsigned int lmdat);
+extern void ApplyViewMode(const char *Name, bool onlySelector = false);
+extern void SaveViewMode(const char *name, const TCHAR *szGroupFilter, const char *szProtoFilter, DWORD statusMask, DWORD stickyStatusMask, unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat);
 
 //int FindFrameID(HWND FrameHwnd);
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor);
@@ -42,7 +42,7 @@ struct ProtoItemData : public MZeroedObject
 	int    iProtoPos;
 	int    fullWidth;
 	RECT   protoRect;
-	
+
 	BYTE   xStatusMode;     // 0-only main, 1-xStatus, 2-main as overlay
 	bool   bDoubleIcons;
 	bool   bShowProtoIcon;
@@ -59,7 +59,7 @@ struct ProtoItemData : public MZeroedObject
 
 static OBJLIST<ProtoItemData> ProtosData(5);
 
-STATUSBARDATA g_StatusBarData = {0};
+STATUSBARDATA g_StatusBarData = { 0 };
 
 char* ApendSubSetting(char * buf, int size, char *first, char *second)
 {
@@ -122,7 +122,7 @@ int LoadStatusBarData()
 		g_StatusBarData.bkUseWinColors = db_get_b(NULL, "StatusBar", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 		g_StatusBarData.backgroundBmpUse = db_get_w(NULL, "StatusBar", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
-	
+
 	SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 	return 1;
 }
@@ -136,7 +136,7 @@ int BgStatusBarChange(WPARAM, LPARAM)
 }
 
 // ProtocolData;
-int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
+int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
 {
 	return ModernDrawStatusBar(hWnd, hDC);
 }
@@ -153,7 +153,7 @@ int ModernDrawStatusBar(HWND hwnd, HDC hDC)
 
 int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 {
-	int iconHeight = GetSystemMetrics(SM_CYSMICON)+2;
+	int iconHeight = GetSystemMetrics(SM_CYSMICON) + 2;
 	int i;
 
 	// Count visible protos
@@ -305,7 +305,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		rc.top += g_StatusBarData.rectBorders.top;
 		rc.bottom -= g_StatusBarData.rectBorders.bottom;
 
-		int aligndx = 0, maxwidth = 0, xstatus = 0, SumWidth = 0;
+		int aligndx = 0, maxwidth = 0, SumWidth = 0;
 
 		int height = (rowheight*linecount);
 		if (height > (rc.bottom - rc.top)) {
@@ -315,7 +315,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 		int rowsdy = ((rc.bottom - rc.top) - height) / 2;
 		if (rowheight*(line)+rowsdy < rc.top - rowheight) continue;
-		if (rowheight*(line + 1) + rowsdy>rc.bottom + rowheight)
+		if (rowheight*(line + 1) + rowsdy > rc.bottom + rowheight)
 			break;
 
 		if (g_StatusBarData.VAlign == 0) { //top
@@ -439,7 +439,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		r.left += g_StatusBarData.rectBorders.left + aligndx;
 		for (i = 0; i < visProtoCount; i++) {
 			ProtoItemData& p = ProtosData[line*protosperline + i];
-			HRGN rgn;
+			HRGN rgn = NULL;
 			HICON hIcon = NULL;
 			HICON hxIcon = NULL;
 			BOOL NeedDestroy = FALSE;
@@ -610,7 +610,7 @@ static BOOL _ModernStatus_OnExtraIconClick(ProtoItemData *p)
 			return FALSE;
 
 		// Show Moods
-		#define PS_JABBER_MOOD "/AdvStatusSet/Mood"
+#define PS_JABBER_MOOD "/AdvStatusSet/Mood"
 		if (ProtoServiceExists(p->szAccountName, PS_JABBER_MOOD)) {
 			ProtoCallService(p->szAccountName, PS_JABBER_MOOD, 0, 0);
 			return TRUE;
@@ -690,16 +690,16 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_GETMINMAXINFO:
-		{
-			RECT rct;
-			GetWindowRect(hwnd, &rct);
-			memset((LPMINMAXINFO)lParam, 0, sizeof(MINMAXINFO));
-			((LPMINMAXINFO)lParam)->ptMinTrackSize.x = 16;
-			((LPMINMAXINFO)lParam)->ptMinTrackSize.y = 16;
-			((LPMINMAXINFO)lParam)->ptMaxTrackSize.x = 1600;
-			((LPMINMAXINFO)lParam)->ptMaxTrackSize.y = 1600;
-		}
-		return 0;
+	{
+		RECT rct;
+		GetWindowRect(hwnd, &rct);
+		memset((LPMINMAXINFO)lParam, 0, sizeof(MINMAXINFO));
+		((LPMINMAXINFO)lParam)->ptMinTrackSize.x = 16;
+		((LPMINMAXINFO)lParam)->ptMinTrackSize.y = 16;
+		((LPMINMAXINFO)lParam)->ptMaxTrackSize.x = 1600;
+		((LPMINMAXINFO)lParam)->ptMaxTrackSize.y = 1600;
+	}
+	return 0;
 
 	case WM_SHOWWINDOW:
 		if (tooltipshoing) {
@@ -763,7 +763,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case WM_SETCURSOR:
-		if (g_CluiData.bBehindEdgeSettings) CLUI_UpdateTimer(0);
+		if (g_CluiData.bBehindEdgeSettings) CLUI_UpdateTimer();
 		{
 			POINT pt;
 			GetCursorPos(&pt);

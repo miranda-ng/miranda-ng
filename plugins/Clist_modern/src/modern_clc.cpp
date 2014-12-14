@@ -62,13 +62,13 @@ static int clcProceedDragToScroll(HWND hwnd, int Y);
 static int clcExitDragToScroll();
 
 
-int ReloadSkinFolder(WPARAM wParam, LPARAM lParam)
+int ReloadSkinFolder(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathT(hSkinFolder, SkinsFolder, SIZEOF(SkinsFolder), _T(DEFAULT_SKIN_FOLDER));
 	return 0;
 }
 
-static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
+static int clcHookModulesLoaded(WPARAM, LPARAM)
 {
 	if (MirandaExiting())
 		return 0;
@@ -141,7 +141,7 @@ static int clcHookModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int clcHookSmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam)
+static int clcHookSmileyAddOptionsChanged(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
@@ -154,7 +154,7 @@ static int clcHookProtoAck(WPARAM wParam, LPARAM lParam)
 	return ClcDoProtoAck(wParam, (ACKDATA*)lParam);
 }
 
-static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
+static int clcHookIconsChanged(WPARAM, LPARAM)
 {
 	int i;
 	if (MirandaExiting()) return 0;
@@ -190,7 +190,7 @@ static int clcMetaModeChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static int clcMetacontactChanged(WPARAM hMeta, LPARAM)
+static int clcMetacontactChanged(WPARAM, LPARAM)
 {
 	pcli->pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	return 0;
@@ -355,7 +355,7 @@ static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR 
 	return -1;
 }
 
-static BOOL clcItemNotHiddenOffline(ClcData *dat, ClcGroup* group, ClcContact *contact)
+static BOOL clcItemNotHiddenOffline(ClcGroup *group, ClcContact *contact)
 {
 	if (g_CluiData.bFilterEffective) return FALSE;
 
@@ -414,12 +414,12 @@ static LRESULT clcOnCreate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPA
 	return 0;
 }
 
-static LRESULT clcOnHitTest(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnHitTest(ClcData *, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	return DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
 }
 
-static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnCommand(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
 {
 	ClcContact *contact;
 	int hit = pcli->pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
@@ -510,7 +510,7 @@ static LRESULT clcOnChar(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARA
 {
 	if (wParam == 27 && dat->szQuickSearch[0] == '\0') { //escape and not quick search
 		// minimize clist
-		CListMod_HideWindow(pcli->hwndContactList, SW_HIDE);
+		CListMod_HideWindow();
 	}
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
@@ -528,12 +528,12 @@ static LRESULT clcOnPaint(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-static LRESULT clcOnEraseBkGround(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnEraseBkGround(ClcData *, HWND, UINT, WPARAM, LPARAM)
 {
 	return 1;
 }
 
-static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnKeyDown(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == VK_CONTROL)
 		return 0;
@@ -715,10 +715,10 @@ void clcSetDelayTimer(UINT_PTR uIDEvent, HWND hwnd, int nDelay)
 	int delay = nDelay;
 	if (delay == -1) {
 		switch (uIDEvent) {
-			case TIMERID_DELAYEDRESORTCLC: delay = 10;  break;
-			case TIMERID_RECALCSCROLLBAR:  delay = 10;  break;
-			case TIMERID_REBUILDAFTER:     delay = 50;  break;
-			default:                       delay = 100; break;
+		case TIMERID_DELAYEDRESORTCLC: delay = 10;  break;
+		case TIMERID_RECALCSCROLLBAR:  delay = 10;  break;
+		case TIMERID_REBUILDAFTER:     delay = 50;  break;
+		default:                       delay = 100; break;
 		}
 	}
 	CLUI_SafeSetTimer(hwnd, uIDEvent, delay, NULL);
@@ -734,14 +734,14 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_INVALIDATE:
-		{
-			time_t cur_time = (time(NULL) / 60);
-			if (cur_time != dat->last_tick_time) {
-				CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
-				dat->last_tick_time = cur_time;
-			}
+	{
+		time_t cur_time = (time(NULL) / 60);
+		if (cur_time != dat->last_tick_time) {
+			CLUI__cliInvalidateRect(hwnd, NULL, FALSE);
+			dat->last_tick_time = cur_time;
 		}
-		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+	}
+	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	case TIMERID_SUBEXPAND:
 		KillTimer(hwnd, TIMERID_SUBEXPAND);
@@ -785,7 +785,6 @@ static LRESULT clcOnTimer(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	default:
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	}
-	return 0;
 }
 
 
@@ -801,7 +800,7 @@ static LRESULT clcOnActivate(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, L
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
 
-static LRESULT clcOnSetCursor(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnSetCursor(ClcData *, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (!CLUI_IsInMainWindow(hwnd))
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -810,13 +809,13 @@ static LRESULT clcOnSetCursor(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		CLUI_ShowFromBehindEdge();
 
 	if (g_CluiData.bBehindEdgeSettings)
-		CLUI_UpdateTimer(0);
+		CLUI_UpdateTimer();
 
 	int lResult = CLUI_TestCursorOnBorders();
 	return lResult ? lResult : DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lParam)
 {
 	POINT pt = { LOWORD(lParam), HIWORD(lParam) };
 	ClientToScreen(hwnd, &pt);
@@ -866,8 +865,6 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 
 	if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact)
 		if (hitFlags & CLCHT_ONITEMICON && dat->expandMeta) {
-			BYTE doubleClickExpand = db_get_b(NULL, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT);
-
 			hitcontact = contact;
 			HitPoint.x = (short)LOWORD(lParam);
 			HitPoint.y = (short)HIWORD(lParam);
@@ -954,7 +951,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		return TRUE;
 }
 
-static LRESULT clcOnCaptureChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnCaptureChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lParam)
 {
 	if ((HWND)lParam != hwnd) {
 		if (dat->iHotTrack != -1) {
@@ -968,12 +965,12 @@ static LRESULT clcOnCaptureChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	return 0;
 }
 
-static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	BOOL isOutside = FALSE;
 	if (CLUI_IsInMainWindow(hwnd)) {
 		if (g_CluiData.bBehindEdgeSettings)
-			CLUI_UpdateTimer(0);
+			CLUI_UpdateTimer();
 		CLUI_TestCursorOnBorders();
 	}
 
@@ -1240,7 +1237,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					}
 					else {
 						hcontact = contSour->hContact;
-						MCONTACT hfrom = contSour->subcontacts->hContact;
 						MCONTACT hdest = contDest->hContact;
 						mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?"), contDest->szText, contSour->szText, contSour->subcontacts->szText);
 						int res = MessageBox(hwnd, Wording, TranslateT("Converting to metacontact (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
@@ -1285,7 +1281,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				}
 				else {
 					MCONTACT hcontact = contSour->hContact;
-					MCONTACT hfrom = contSour->subcontacts->hContact;
 					MCONTACT handle = contDest->hContact;
 					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->szText);
 					int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
@@ -1316,13 +1311,12 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					if (res == 1) {
 						if (!handle)
 							return 0;
-						
+
 						CallService(MS_MC_ADDTOMETA, hcontact, handle);
 					}
 				}
 				else if (contSour->subcontacts != contDest->subcontacts) {
 					MCONTACT hcontact = contSour->hContact;
-					MCONTACT hfrom = contSour->subcontacts->hContact;
 					MCONTACT handle = contDest->subcontacts->hContact;
 					mir_sntprintf(Wording, SIZEOF(Wording), TranslateT("Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?"), contSour->szText, contSour->subcontacts->szText, contDest->subcontacts->szText);
 					int res = MessageBox(hwnd, Wording, TranslateT("Changing metacontacts (moving)"), MB_OKCANCEL | MB_ICONQUESTION);
@@ -1342,39 +1336,38 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_INSERTION:
-			{
-				ClcContact *contact, *destcontact;
-				ClcGroup *group, *destgroup;
-				BOOL NeedRename = FALSE;
-				TCHAR newName[128] = { 0 };
-				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-				int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
-				if (i != -1 && group->groupId != destgroup->groupId) {
-					TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
-					TCHAR *shortGroup = NULL;
-					TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
-					if (groupName) {
-						int len = (int)_tcslen(groupName);
-						do { len--; }
-						while (len >= 0 && groupName[len] != '\\');
-						if (len >= 0) shortGroup = groupName + len + 1;
-						else shortGroup = groupName;
-					}
-					if (shortGroup) {
-						NeedRename = TRUE;
-						if (sourceGrName)
-							mir_sntprintf(newName, SIZEOF(newName), _T("%s\\%s"), sourceGrName, shortGroup);
-						else
-							_tcsncpy_s(newName, shortGroup, _TRUNCATE);
-					}
-					mir_free(groupName);
-					mir_free(sourceGrName);
+		{
+			ClcContact *contact, *destcontact;
+			ClcGroup *group, *destgroup;
+			BOOL NeedRename = FALSE;
+			TCHAR newName[128] = { 0 };
+			pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
+			int i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
+			if (i != -1 && group->groupId != destgroup->groupId) {
+				TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId, 0));
+				TCHAR *shortGroup = NULL;
+				TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId, 0));
+				if (groupName) {
+					int len = (int)_tcslen(groupName);
+					do { len--; } while (len >= 0 && groupName[len] != '\\');
+					if (len >= 0) shortGroup = groupName + len + 1;
+					else shortGroup = groupName;
 				}
-				int newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
-				newIndex = newIndex ? newIndex : contact->groupId;
-				if (NeedRename) pcli->pfnRenameGroup(newIndex, newName);
+				if (shortGroup) {
+					NeedRename = TRUE;
+					if (sourceGrName)
+						mir_sntprintf(newName, SIZEOF(newName), _T("%s\\%s"), sourceGrName, shortGroup);
+					else
+						_tcsncpy_s(newName, shortGroup, _TRUNCATE);
+				}
+				mir_free(groupName);
+				mir_free(sourceGrName);
 			}
-			break;
+			int newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1) ? destcontact->groupId : 0);
+			newIndex = newIndex ? newIndex : contact->groupId;
+			if (NeedRename) pcli->pfnRenameGroup(newIndex, newName);
+		}
+		break;
 
 		case DROPTARGET_OUTSIDE:
 			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
@@ -1392,7 +1385,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	return 0;
 }
 
-static LRESULT clcOnLButtonDblClick(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnLButtonDblClick(ClcData *, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	KillTimer(hwnd, TIMERID_SUBEXPAND);
 	hitcontact = NULL;
@@ -1427,7 +1420,7 @@ static LRESULT clcOnDestroy(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 	return 0;
 }
 
-static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
 {
 	WORD iExtraImage[EXTRA_ICON_COUNT];
 	BYTE flags = 0;
@@ -1460,13 +1453,12 @@ static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	return 0;
 }
 
-static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact = NULL;
 	ClcGroup *group = NULL;
 	int recalcScrollBar = 0, shouldShow;
 	BOOL needRepaint = FALSE;
-	RECT iconRect = { 0 };
 	int contacticon = corecli.pfnGetContactIcon(wParam);
 	MCONTACT hSelItem = NULL;
 	ClcContact *selcontact = NULL;
@@ -1508,7 +1500,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 		if (contact && contact->iImage == lParam)
 			return 0;
 
-		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline) && clcItemNotHiddenOffline(dat, group, contact))
+		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline) && clcItemNotHiddenOffline(group, contact))
 			shouldShow = TRUE;
 
 		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) { // CLVM changed
@@ -1558,7 +1550,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	return 0;
 }
 
-static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnIntmAvatarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
 {
 	ClcContact *contact;
 	if (FindItem(hwnd, dat, wParam, &contact, NULL, NULL, FALSE))
@@ -1605,7 +1597,7 @@ static LRESULT clcOnIntmNameChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	return ret;
 }
 
-static LRESULT clcOnIntmApparentModeChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnIntmApparentModeChanged(ClcData *, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
@@ -1647,7 +1639,7 @@ static LRESULT clcOnIntmNotOnListChanged(ClcData *dat, HWND hwnd, UINT msg, WPAR
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
 
-static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT clcOnIntmScrollBarChanged(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM)
 {
 	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
 		if (dat->noVScrollbar)
@@ -1726,7 +1718,7 @@ int ClcUnloadModule()
 	return 0;
 }
 
-int ClcDoProtoAck(MCONTACT wParam, ACKDATA * ack)
+int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
 {
 	if (MirandaExiting()) return 0;
 	if (ack->type == ACKTYPE_STATUS) {
@@ -1789,7 +1781,7 @@ int ClcGetShortData(ClcData* pData, struct SHORTDATA *pShortData)
 {
 	if (!pData || !pShortData)
 		return -1;
-	
+
 	pShortData->hWnd = pData->hWnd;
 	pShortData->text_replace_smileys = pData->text_replace_smileys;
 	pShortData->text_smiley_height = pData->text_smiley_height;
@@ -1884,5 +1876,4 @@ LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wPara
 	default:
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	}
-	return TRUE;
 }

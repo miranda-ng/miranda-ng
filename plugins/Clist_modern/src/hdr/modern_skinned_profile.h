@@ -10,38 +10,38 @@
 
 class MString
 {
-private: 
+private:
 	TCHAR * _buffer;
 public:
-	MString() : _buffer( NULL ) {};
-	MString( const TCHAR * str ) {	_buffer = str ? _tcsdup( str ) : NULL;	}
-	MString( const MString& str )      {	_buffer = str._buffer ? _tcsdup( str._buffer ) : NULL;	}
-	MString& operator=( const MString& str )    
+	MString() : _buffer(NULL) {};
+	MString(const TCHAR * str) { _buffer = str ? _tcsdup(str) : NULL; }
+	MString(const MString& str)      { _buffer = str._buffer ? _tcsdup(str._buffer) : NULL; }
+	MString& operator=(const MString& str)
 	{
-		if ( _buffer ) free( _buffer );
-		_buffer = str._buffer ? _tcsdup( str._buffer ) : NULL;	
+		if (_buffer) free(_buffer);
+		_buffer = str._buffer ? _tcsdup(str._buffer) : NULL;
 	}
-	TCHAR* operator()( const MString& str ) { return _buffer; }
+	TCHAR* operator()(const MString& str) { return _buffer; }
 	~MString()
 	{
-		if ( _buffer ) 
-			free( _buffer );
+		if (_buffer)
+			free(_buffer);
 		_buffer = NULL;
 	}
 
 #ifdef _UNICODE
-	MString( const char * str) 
-	{	
-		if (!str ) 
+	MString(const char * str)
+	{
+		if (!str)
 			_buffer = NULL;
 		else
 		{
-			int cbLen = MultiByteToWideChar( 0, 0, str, -1, NULL, 0 );
-			wchar_t* _buffer = ( wchar_t* )malloc( sizeof( wchar_t )*(cbLen+1));
-			if ( _buffer == NULL ) return;
-			MultiByteToWideChar( 0, 0, str, -1, _buffer, cbLen );
-			_buffer[ cbLen ] = 0;
-		}	
+			int cbLen = MultiByteToWideChar(0, 0, str, -1, NULL, 0);
+			wchar_t* _buffer = (wchar_t*)malloc(sizeof(wchar_t)*(cbLen + 1));
+			if (_buffer == NULL) return;
+			MultiByteToWideChar(0, 0, str, -1, _buffer, cbLen);
+			_buffer[cbLen] = 0;
+		}
 	}
 #endif
 
@@ -51,40 +51,40 @@ class CAutoCriticalSection
 {
 public:
 	CAutoCriticalSection()  //Init critical section here
-		: _pLinkedCS( NULL )
+		: _pLinkedCS(NULL)
 	{
-		InitializeCriticalSection( &_CS );
+		InitializeCriticalSection(&_CS);
 		_ifCSOwner = true;
-		_ifLocked  = false;
+		_ifLocked = false;
 	}
-	CAutoCriticalSection( CAutoCriticalSection& Locker, bool doLock = true )
-		: _pLinkedCS ( &Locker )
+	CAutoCriticalSection(CAutoCriticalSection& Locker, bool doLock = true)
+		: _pLinkedCS(&Locker)
 	{
 		_ifCSOwner = false;
-		_ifLocked  = false;
-		if ( doLock ) 
+		_ifLocked = false;
+		if (doLock)
 			Lock();
 	}
 	~CAutoCriticalSection() 	// Leave if auto locker, and destroy if not
 	{
-		if ( _ifLocked  ) 
+		if (_ifLocked)
 			Unlock();
-		if ( _ifCSOwner ) 
-			DeleteCriticalSection( &_CS );
+		if (_ifCSOwner)
+			DeleteCriticalSection(&_CS);
 	}
 
 	void Lock()					// Enter Section
 	{
-		if ( _ifLocked ) return;
-		if ( _ifCSOwner ) EnterCriticalSection( &_CS );			
+		if (_ifLocked) return;
+		if (_ifCSOwner) EnterCriticalSection(&_CS);
 		else  			 _pLinkedCS->Lock();
 		_ifLocked = true;
 		return;
-	}		
+	}
 	void Unlock()	// Leave Section
 	{
-		if (!_ifLocked ) return;
-		if ( _ifCSOwner ) LeaveCriticalSection( &_CS );			
+		if (!_ifLocked) return;
+		if (_ifCSOwner) LeaveCriticalSection(&_CS);
 		else  			 _pLinkedCS->Unlock();
 		_ifLocked = false;
 	}
@@ -99,26 +99,26 @@ private:
 class ValueVariant
 {
 public:
-	ValueVariant() : _type( VVT_EMPTY ) {};
-	ValueVariant( BYTE bValue )    : _type( VVT_BYTE ),   _bValue( bValue )    {};
-	ValueVariant( WORD wValue )    : _type( VVT_WORD ),   _wValue( wValue )    {};
-	ValueVariant( DWORD dwValue )  : _type( VVT_DWORD ),  _dwValue( dwValue )  {};
-	ValueVariant( const MString& strValue ) : _type( VVT_STRING ), _strValue( strValue ) {};
-	ValueVariant( const char * szValue ) : _type( VVT_STRING ), _strValue( szValue ) {};
+	ValueVariant() : _type(VVT_EMPTY) {};
+	ValueVariant(BYTE bValue) : _type(VVT_BYTE), _bValue(bValue)    {};
+	ValueVariant(WORD wValue) : _type(VVT_WORD), _wValue(wValue)    {};
+	ValueVariant(DWORD dwValue) : _type(VVT_DWORD), _dwValue(dwValue)  {};
+	ValueVariant(const MString& strValue) : _type(VVT_STRING), _strValue(strValue) {};
+	ValueVariant(const char * szValue) : _type(VVT_STRING), _strValue(szValue) {};
 #ifdef _UNICODE
-	ValueVariant( const wchar_t * szValue ) : _type( VVT_STRING ), _strValue( szValue ) {};
+	ValueVariant(const wchar_t * szValue) : _type(VVT_STRING), _strValue(szValue) {};
 #endif
-	
+
 	BYTE GetByte()
 	{
-		switch ( _type )
+		switch (_type)
 		{
 		case VVT_BYTE:
-			return ( BYTE ) _bValue;
+			return (BYTE)_bValue;
 		case VVT_WORD:
 		case VVT_DWORD:
 			DebugBreak();
-			return ( BYTE ) _bValue;
+			return (BYTE)_bValue;
 		default:
 			DebugBreak();
 		}
@@ -127,15 +127,15 @@ public:
 
 	WORD GetWord()
 	{
-		switch ( _type )
-		{		
+		switch (_type)
+		{
 		case VVT_WORD:
-			return ( WORD ) _wValue;
+			return (WORD)_wValue;
 
 		case VVT_BYTE:
 		case VVT_DWORD:
 			DebugBreak();
-			return ( WORD ) _wValue;
+			return (WORD)_wValue;
 		default:
 			DebugBreak();
 		}
@@ -144,15 +144,15 @@ public:
 
 	DWORD GetDword()
 	{
-		switch ( _type )
-		{		
+		switch (_type)
+		{
 		case VVT_DWORD:
-			return ( DWORD ) _dwValue;
+			return (DWORD)_dwValue;
 
 		case VVT_BYTE:
 		case VVT_WORD:
 			DebugBreak();
-			return ( DWORD ) _dwValue;
+			return (DWORD)_dwValue;
 		default:
 			DebugBreak();
 		}
@@ -160,8 +160,8 @@ public:
 	}
 	MString GetString()
 	{
-		switch ( _type )
-		{		
+		switch (_type)
+		{
 		case VVT_STRING:
 			return _strValue;
 
@@ -172,8 +172,8 @@ public:
 	}
 	const MString& GetStringStatic()
 	{
-		switch ( _type )
-		{		
+		switch (_type)
+		{
 		case VVT_STRING:
 			return _strValue;
 
@@ -182,10 +182,10 @@ public:
 		}
 		return _strValue;
 	}
-	bool IsEmpty() { return _type==VVT_EMPTY; }
+	bool IsEmpty() { return _type == VVT_EMPTY; }
 
 private:
-	enum 
+	enum
 	{
 		VVT_EMPTY = 0,
 		VVT_BYTE,
@@ -223,7 +223,7 @@ private:
 
 	KeyList_t SkinnedProfile;
 
-	ValueVariant* _GetValue( const char * szSection, const char * szKey );
+	ValueVariant* _GetValue(const char * szSection, const char * szKey);
 
 	CAutoCriticalSection _Lock; // critical section to matable skinned profile access
 
@@ -233,10 +233,10 @@ public:
 	HRESULT Init();
 	HRESULT Clear();
 
-	static BYTE  SpiGetSkinByte (MCONTACT hContact, const char * szSection, const char * szKey, const BYTE defValue );
-	static WORD  SpiGetSkinWord (MCONTACT hContact, const char * szSection, const char * szKey, const WORD defValue );
-	static DWORD SpiGetSkinDword(MCONTACT hContact, const char * szSection, const char * szKey, const DWORD defValue );
-	static BOOL  SpiCheckSkinned(MCONTACT hContact, const char * szSection, const char * szKey );
+	static BYTE  SpiGetSkinByte(MCONTACT hContact, const char * szSection, const char * szKey, const BYTE defValue);
+	static WORD  SpiGetSkinWord(MCONTACT hContact, const char * szSection, const char * szKey, const WORD defValue);
+	static DWORD SpiGetSkinDword(MCONTACT hContact, const char * szSection, const char * szKey, const DWORD defValue);
+	static BOOL  SpiCheckSkinned(MCONTACT hContact, const char * szSection, const char * szKey);
 
 };
 

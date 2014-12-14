@@ -27,25 +27,24 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_awaymsg.h"
 
-void InsertContactIntoTree(MCONTACT hContact,int status);
-void CListSettings_FreeCacheItemDataOption( ClcCacheEntry *pDst, DWORD flag );
+void InsertContactIntoTree(MCONTACT hContact, int status);
+void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
 
 static int displayNameCacheSize;
 
 LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
 char*  GetProtoForContact(MCONTACT hContact);
-int    GetStatusForContact(MCONTACT hContact,char *szProto);
+int    GetStatusForContact(MCONTACT hContact, char *szProto);
 TCHAR* UnknownConctactTranslatedName = NULL;
 
-void InvalidateDNCEbyPointer(MCONTACT hContact,ClcCacheEntry *pdnce,int SettingType);
+void InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int SettingType);
 
 void InitCacheAsync();
 void UninitCacheAsync();
 
 void InitDisplayNameCache(void)
 {
-	int i = 0;
 	InitCacheAsync();
 	InitAwayMsgModule();
 }
@@ -177,7 +176,6 @@ int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag)
 
 void cliFreeCacheItem(ClcCacheEntry *p)
 {
-	MCONTACT hContact = p->hContact;
 	TRACEVAR("cliFreeCacheItem hContact = %d", hContact);
 	p->freeName();
 	mir_free_and_nil(p->tszGroup);
@@ -342,7 +340,7 @@ void ClcCacheEntry::getName()
 	freeName();
 
 	if (m_bProtoNotExists || !m_cache_cszProto) {
-LBL_Unknown:
+	LBL_Unknown:
 		tszName = UnknownConctactTranslatedName;
 		isUnknown = true;
 		return;
@@ -376,7 +374,7 @@ int GetContactCachedStatus(MCONTACT hContact)
 	return pdnce___GetStatus(cacheEntry);
 }
 
-int ContactAdded(WPARAM hContact, LPARAM lParam)
+int ContactAdded(WPARAM hContact, LPARAM)
 {
 	if (!MirandaExiting()) {
 		cli_ChangeContactIcon(hContact, pcli->pfnIconFromStatusMode((char*)GetContactCachedProtocol(hContact), ID_STATUS_OFFLINE, hContact), 1); ///by FYR
@@ -385,7 +383,7 @@ int ContactAdded(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int MetaStatusChanged(WPARAM hMeta, LPARAM hSub)
+int MetaStatusChanged(WPARAM hMeta, LPARAM)
 {
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hMeta);
 	if (pdnce)
@@ -417,7 +415,6 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 		if (!mir_strcmp(cws->szSetting, "Status") || wildcmp(cws->szSetting, "Status?")) {
 			if (!mir_strcmp(cws->szModule, META_PROTO) && mir_strcmp(cws->szSetting, "Status")) {
-				int res = 0;
 				if (pcli->hwndContactTree && g_flag_bOnModulesLoadedCalled)
 					pcli->pfnInitAutoRebuild(pcli->hwndContactTree);
 

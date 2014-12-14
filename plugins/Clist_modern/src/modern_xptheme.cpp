@@ -7,9 +7,9 @@
 
 typedef struct _tagXPTObject
 {
-  HANDLE  hThemeHandle;
-  HWND    hOwnerWindow;
-  LPCWSTR lpcwClassObject;
+	HANDLE  hThemeHandle;
+	HWND    hOwnerWindow;
+	LPCWSTR lpcwClassObject;
 } XPTObject;
 
 static OBJLIST<XPTObject> xptObjectList(1);

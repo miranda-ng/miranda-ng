@@ -57,7 +57,7 @@ void cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add)
 
 static int GetStatusModeOrdering(int statusMode)
 {
-	for (int i=0; i < SIZEOF(statusModeOrder); i++)
+	for (int i = 0; i < SIZEOF(statusModeOrder); i++)
 		if (statusModeOrder[i].status == statusMode)
 			return statusModeOrder[i].order;
 	return 1000;
@@ -66,7 +66,7 @@ static int GetStatusModeOrdering(int statusMode)
 DWORD CompareContacts2_getLMTime(MCONTACT hContact)
 {
 	HANDLE hDbEvent = db_event_last(hContact);
-	while(hDbEvent) {
+	while (hDbEvent) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT))
@@ -84,9 +84,9 @@ int GetProtoIndex(char * szName)
 	if (szName) {
 		PROTOACCOUNT **accs = NULL;
 		int accCount = 0;
-		ProtoEnumAccounts( &accCount, &accs );
+		ProtoEnumAccounts(&accCount, &accs);
 
-		for (int i=0; i < accCount; i++)
+		for (int i = 0; i < accCount; i++)
 			if (!mir_strcmpi(szName, accs[i]->szModuleName))
 				return accs[i]->iOrder;
 	}
@@ -94,11 +94,11 @@ int GetProtoIndex(char * szName)
 	return -1;
 }
 
-int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int by)
+int CompareContacts2(const ClcContact *contact1, const ClcContact *contact2, int by)
 {
 	TCHAR *namea, *nameb;
-	int statusa,statusb;
-	char *szProto1,*szProto2;
+	int statusa, statusb;
+	char *szProto1, *szProto2;
 
 	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100) return 0;
 
@@ -114,7 +114,7 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 	szProto2 = contact2->proto;
 
 	if (by == SORTBY_STATUS) { //status
-		int ordera,orderb;
+		int ordera, orderb;
 		ordera = GetStatusModeOrdering(statusa);
 		orderb = GetStatusModeOrdering(statusb);
 		return (ordera != orderb) ? ordera - orderb : 0;
@@ -122,25 +122,25 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 
 	//one is offline: offline goes below online
 	if (g_CluiData.fSortNoOfflineBottom == 0 && (statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
-		return 2*(statusa == ID_STATUS_OFFLINE)-1;
+		return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 
 	if (by == SORTBY_NAME) //name
-		return mir_tstrcmpi(namea,nameb);
+		return mir_tstrcmpi(namea, nameb);
 
 	if (by == SORTBY_NAME_LOCALE) {
 		//name
 		static int LocaleId = -1;
 		if (LocaleId == -1) LocaleId = CallService(MS_LANGPACK_GETLOCALE, 0, 0);
-		return (CompareString(LocaleId,NORM_IGNORECASE,SAFETSTRING(namea),-1,SAFETSTRING(nameb),-1))-2;
+		return (CompareString(LocaleId, NORM_IGNORECASE, SAFETSTRING(namea), -1, SAFETSTRING(nameb), -1)) - 2;
 	}
 	if (by == SORTBY_LASTMSG) {
 		//last message
 		DWORD ta = CompareContacts2_getLMTime(a);
 		DWORD tb = CompareContacts2_getLMTime(b);
-		return tb-ta;
+		return tb - ta;
 	}
 	if (by == SORTBY_PROTO) {
-		int rc = GetProtoIndex(szProto1)-GetProtoIndex(szProto2);
+		int rc = GetProtoIndex(szProto1) - GetProtoIndex(szProto2);
 		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL))
 			return rc;
 	}
@@ -150,10 +150,10 @@ int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int 
 	return 0;
 }
 
-int cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2)
+int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 {
 	int i, r;
-	for (i=0; i < SIZEOF(g_CluiData.bSortByOrder); i++)
+	for (i = 0; i < SIZEOF(g_CluiData.bSortByOrder); i++)
 	{
 		r = CompareContacts2(contact1, contact2, g_CluiData.bSortByOrder[i]);
 		if (r != 0)
@@ -164,35 +164,35 @@ int cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2)
 
 #undef SAFESTRING
 
-INT_PTR ToggleHideOffline(WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleHideOffline(WPARAM, LPARAM)
 {
-	return pcli->pfnSetHideOffline((WPARAM)-1,0);
+	return pcli->pfnSetHideOffline((WPARAM)-1, 0);
 }
 
-INT_PTR ToggleGroups(WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleGroups(WPARAM, LPARAM)
 {
 	db_set_b(NULL, "CList", "UseGroups",
-				(BYTE) !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+		(BYTE)!db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	pcli->pfnLoadContactTree();
 	return 0;
 }
 
-INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
+INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 {
-	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
-	if ( wParam != -1 )
+	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE)&CLS_USEGROUPS);
+	if (wParam != -1)
 	{
-		if (!newVal == wParam ) return 0;
+		if (!newVal == (int)wParam) return 0;
 		newVal = wParam;
 	}
-	db_set_b(NULL,"CList","UseGroups",(BYTE)newVal);
-	SendMessage(pcli->hwndContactTree,CLM_SETUSEGROUPS,newVal,0);
+	db_set_b(NULL, "CList", "UseGroups", (BYTE)newVal);
+	SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 	return 0;
 }
 
-INT_PTR ToggleSounds(WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleSounds(WPARAM, LPARAM)
 {
 	db_set_b(NULL, "Skin", "UseSound",
-		(BYTE) !db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));
+		(BYTE)!db_get_b(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 	return 0;
 }

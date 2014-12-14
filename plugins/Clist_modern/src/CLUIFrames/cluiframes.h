@@ -1,5 +1,5 @@
 /*
-Miranda ICQ: the free icq client for MS Windows 
+Miranda ICQ: the free icq client for MS Windows
 Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 
 This program is free software; you can redistribute it and/or
@@ -36,7 +36,7 @@ typedef struct tagProtocolData {
 	boolean show;
 } ProtocolData;
 
-typedef struct 
+typedef struct
 {
 	int order;
 	int realpos;
