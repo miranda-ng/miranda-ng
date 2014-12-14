@@ -397,7 +397,7 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM 
 		if (dat->bSending == FALSE) {
 			// receiving
 			dwBuffSize = mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1;
-			if (dwBuffSize == Netlib_Send(hConnection, (LPSTR)btBuff, (int)dwBuffSize, 0)) {
+			if (dwBuffSize == (size_t)Netlib_Send(hConnection, (LPSTR)btBuff, (int)dwBuffSize, 0)) {
 				// my email sended
 				ProtoBroadcastAck(dat->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)dat->dwIDRequest, 0);
 				dwBuffSize = Netlib_Recv(hConnection, (LPSTR)btBuff, sizeof(btBuff), 0);
@@ -418,7 +418,7 @@ bool CMraProto::MraFilesQueueHandCheck(HANDLE hConnection, MRA_FILES_QUEUE_ITEM 
 				if (!_memicmp(btBuff, btBuff + dwBuffSize, dwBuffSize)) {
 					// email verified
 					dwBuffSize = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %s", MRA_FT_HELLO, szEmailMy.c_str()) + 1);
-					if (dwBuffSize == Netlib_Send(hConnection, (LPSTR)btBuff, dwBuffSize, 0))
+					if (dwBuffSize == (size_t)Netlib_Send(hConnection, (LPSTR)btBuff, dwBuffSize, 0))
 						return true;
 				}
 			}
@@ -800,7 +800,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				btBuff[dwBuffSizeUsed] = 0;
 				dwBuffSizeUsed++;
 
-				if (dwBuffSizeUsed == Netlib_Send(dat->hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0)) {// file request sended
+				if (dwBuffSizeUsed == (size_t)Netlib_Send(dat->hConnection, (LPSTR)btBuff, dwBuffSizeUsed, 0)) {// file request sended
 					hFile = CreateFileW(wszFileName, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 					if (hFile != INVALID_HANDLE_VALUE) {// file opened/created, pre allocating disk space, for best perfomance
 						bOK = FALSE;

@@ -1064,7 +1064,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 		debugLogA("Groups: %s\n", szGroupMask);
 		DWORD dwID = 0;
 		for (DWORD i = 0; i < dwGroupsCount; i++) { //groups handle
-			DWORD dwControlParam = 0, dwGroupFlags;
+			DWORD dwControlParam = 0, dwGroupFlags = 0;
 			for (int j = 0; j < szGroupMask.GetLength(); j++) { //enumerating parameters
 				switch (szGroupMask[j]) {
 				case 's'://LPS

@@ -456,7 +456,7 @@ int CMraProto::SetApparentMode(MCONTACT hContact, int mode)
 
 	// Only 3 modes are supported
 	if (hContact && (mode == 0 || mode == ID_STATUS_ONLINE || mode == ID_STATUS_OFFLINE)) {
-		DWORD dwOldMode = getWord(hContact, "ApparentMode", 0);
+		int dwOldMode = (int)getDword(hContact, "ApparentMode", 0);
 
 		// Dont send redundant updates
 		if (mode != dwOldMode) {
