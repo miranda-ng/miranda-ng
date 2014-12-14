@@ -495,7 +495,7 @@ static void DoChatFormatting(TCHAR* pszText)
 	}
 }
 
-int __cdecl CIrcProto::GCEventHook(WPARAM wParam, LPARAM lParam)
+int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
 	CMString S = _T("");

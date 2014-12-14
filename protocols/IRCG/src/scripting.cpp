@@ -48,7 +48,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawOut( WPARAM, LPARAM lParam )
 	return 1;
 }
 
-INT_PTR __cdecl CIrcProto::Scripting_InsertGuiIn(WPARAM wParam,LPARAM lParam)
+INT_PTR __cdecl CIrcProto::Scripting_InsertGuiIn(WPARAM, LPARAM)
 {
 	return 1;
 }
