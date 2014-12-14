@@ -211,11 +211,11 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraAuthorize(const CMStringA &szEmail);
 	DWORD  MraChangeStatus(DWORD dwStatus, const CMStringA &szStatusUri, const CMStringW &wszStatusTitle, const CMStringW &wszStatusDesc, DWORD dwFutureFlags);
 	DWORD  MraFileTransfer(const CMStringA &szEmail, DWORD dwIdRequest, DWORD dwFilesTotalSize, const CMStringW &lpwszFiles, const CMStringA &szAddresses);
-	DWORD  MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIdRequest, const CMStringA &szDescription);
+	DWORD  MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIdRequest, LPBYTE lpbDescription, size_t dwDescriptionSize);
 	HANDLE MraWPRequestW(MCONTACT hContact, DWORD dwAckType, DWORD dwRequestFlags, const CMStringA &szUser, const CMStringA &szDomain, const CMStringW &wszNickName, const CMStringW &wszFirstName, const CMStringW &wszLastName, DWORD dwSex, DWORD dwDate1, DWORD dwDate2, DWORD dwCityID, DWORD dwZodiak, DWORD dwBirthdayMonth, DWORD dwBirthdayDay, DWORD dwCountryID, DWORD dwOnline);
 	HANDLE MraWPRequestByEMail(MCONTACT hContact, DWORD dwAckType, CMStringA &szEmail);
 	DWORD  MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD dwGameMsg, DWORD dwGameMsgID, const CMStringA &lpszData);
-	DWORD  MraLogin2W(const CMStringA &szLogin, const CMStringA &szPassword, DWORD dwStatus, const CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent);
+	DWORD  MraLogin2W(CMStringA &szLogin, CMStringA &szPassword, DWORD dwStatus, CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent);
 	DWORD  MraSMSW(MCONTACT hContact, const CMStringA &lpszPhone, const CMStringW &lpwszMessage);
 	DWORD  MraProxy(const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID);
 	DWORD  MraProxyAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, DWORD dwDataType, const CMStringA &lpszData, const CMStringA &szAddresses, MRA_GUID mguidSessionID);
@@ -249,7 +249,7 @@ struct CMraProto : public PROTO<CMraProto>
 	DWORD  MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus);
 	DWORD  MraContactCapabilitiesGet(MCONTACT hContact);
 	void   MraContactCapabilitiesSet(MCONTACT hContact, DWORD dwFutureFlags);
-	void   MraUpdateEmailStatus(const CMStringA &szFrom, const CMStringA &szSubject, bool force_display);
+	void   MraUpdateEmailStatus(const CMStringA &szFrom, const CMStringA &szSubject, DWORD dwDate, DWORD dwUIDL, bool force_display);
 	DWORD  MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMessageRTF);
 
 	DWORD  StartConnect();
@@ -341,8 +341,8 @@ struct CMraProto : public PROTO<CMraProto>
 	void    MraAvatarsSetContactTime	(MCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime);
 	DWORD   MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, MCONTACT hContact, DWORD dwFormat, CMStringW &res);
 	DWORD   MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFlags, MCONTACT hContact, DWORD *pdwAvatarsQueueID, DWORD *pdwFormat, LPTSTR lpszPath);
-   DWORD   MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, MCONTACT hContact);
-   DWORD   MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, MCONTACT hContact);
+	DWORD   MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWORD dwFlags, MCONTACT hContact);
+	DWORD   MraAvatarsDeleteContactAvatarFile(HANDLE hAvatarsQueueHandle, MCONTACT hContact);
 
 	void    __cdecl MraAvatarsThreadProc(LPVOID lpParameter);
 };

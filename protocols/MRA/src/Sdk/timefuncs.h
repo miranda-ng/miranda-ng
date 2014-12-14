@@ -51,6 +51,20 @@ typedef union {
         } FT;
 
 
+inline __time32_t _time32(__time32_t *timeptr)
+{
+	__time64_t tim;
+	FT nt_time;
+
+	GetSystemTimeAsFileTime(&(nt_time.ft_struct));
+	tim=(__time64_t)((nt_time.ft_scalar-EPOCH_BIAS)/10000000i64);
+	if (tim > (__time64_t)(_MAX__TIME32_T)) tim=(__time64_t)(-1);
+	if (timeptr) *timeptr = (__time32_t)(tim);// store time if requested
+
+return(__time32_t)(tim);
+}
+
+
 inline __time32_t MakeTime32FromLocalSystemTime(CONST PSYSTEMTIME pcstSystemTime)
 {
 	__time64_t tim=0;

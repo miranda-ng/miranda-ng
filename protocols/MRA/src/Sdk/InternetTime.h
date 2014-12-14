@@ -129,31 +129,35 @@ __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 {
 	char lpszBuff[100];
 	LPSTR lpszCurPos = lpszBuff;
-	size_t dwTimeLen=0,dwtm;
+	size_t dwTimeLen = 0, dwtm;
 
 	// day of weak// date of mounth// mounth name// year// hours // minutes// seconds
-	dwtm=wsprintfA(lpszCurPos,"%s, %02lu %s %04lu %02lu:%02lu:%02lu ",lpcszenmDayOfWeakEnum[pitTime->stTime.wDayOfWeek],pitTime->stTime.wDay,lpcszenmMonthEnum[pitTime->stTime.wMonth],pitTime->stTime.wYear,pitTime->stTime.wHour,pitTime->stTime.wMinute,pitTime->stTime.wSecond);
-	lpszCurPos+=dwtm;
-	dwTimeLen+=dwtm;
+	dwtm = wsprintfA(lpszCurPos, "%s, %02lu %s %04lu %02lu:%02lu:%02lu ",
+		lpcszenmDayOfWeakEnum[pitTime->stTime.wDayOfWeek],
+		pitTime->stTime.wDay,
+		lpcszenmMonthEnum[pitTime->stTime.wMonth],
+		pitTime->stTime.wYear,
+		pitTime->stTime.wHour,
+		pitTime->stTime.wMinute,
+		pitTime->stTime.wSecond);
+	lpszCurPos += dwtm;
+	dwTimeLen += dwtm;
 
 	// time zone
-	if (pitTime->lTimeZone)
-	{
-		if (pitTime->lTimeZone < 0)
-		{// нужно добавить плюсик, минус добавляется автоматом
-			(*((BYTE*)lpszCurPos))='+';
-			lpszCurPos++;
-			dwTimeLen++;
+	if (pitTime->lTimeZone) {
+		if (pitTime->lTimeZone < 0) { // нужно добавить плюсик, минус добавляется автоматом
+			(*((BYTE*)lpszCurPos)) = '+';
+			lpszCurPos ++;
+			dwTimeLen ++;
 		}
 
-		dwtm=wsprintfA(lpszCurPos,"%04ld",-(((pitTime->lTimeZone/60)*100)+pitTime->lTimeZone%60));
-		lpszCurPos+=dwtm;
-		dwTimeLen+=dwtm;
-	}
-	else{
-		dwtm=wsprintfA(lpszCurPos,"GMT");
-		lpszCurPos+=dwtm;
-		dwTimeLen+=dwtm;
+		dwtm = wsprintfA(lpszCurPos, "%04ld", -(((pitTime->lTimeZone / 60) * 100) + pitTime->lTimeZone % 60));
+		lpszCurPos += dwtm;
+		dwTimeLen += dwtm;
+	} else {
+		dwtm = wsprintfA(lpszCurPos, "GMT");
+		lpszCurPos += dwtm;
+		dwTimeLen += dwtm;
 	}
 
 	return lpszBuff;
