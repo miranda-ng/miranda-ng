@@ -413,7 +413,7 @@ private:
 	bool   RunCaptchaForm(LPCSTR szUrl, CMStringA&);
 	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
 
-	bool      CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNODE*);
+	bool      CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE*);
 	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
 	bool      ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE*);
 
@@ -482,7 +482,7 @@ private:
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);
 	void AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory);
-	void AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory);
+	void AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory);
 	void RetrieveChatInfo(CVkChatInfo*);
 	void OnReceiveChatInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendChatMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);

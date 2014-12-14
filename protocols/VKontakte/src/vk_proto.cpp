@@ -98,7 +98,7 @@ CVkProto::~CVkProto()
 	vk_Instances.remove(this);
 }
 
-int CVkProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int CVkProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	// Chats
 	GCREGISTER gcr = { sizeof(gcr) };
@@ -353,7 +353,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTi
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int CVkProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	debugLogA("CVkProto::OnPreShutdown");
 		
@@ -364,7 +364,7 @@ int CVkProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CVkProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -548,7 +548,7 @@ int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////
 
-MCONTACT CVkProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT CVkProto::AddToList(int, PROTOSEARCHRESULT* psr)
 {
 	debugLogA("CVkProto::AddToList");
 
@@ -566,7 +566,7 @@ int CVkProto::AuthRequest(MCONTACT hContact,const PROTOCHAR* message)
 	debugLogA("CVkProto::AuthRequest");
 	if (!IsOnline())
 		return 1;
-	bool bIsFriend = getByte(hContact, "Auth", -1)==0;
+
 	LONG userID = getDword(hContact, "ID", -1);
 	if ((userID == -1) || !hContact)
 		return 1;
@@ -632,7 +632,7 @@ int CVkProto::Authorize(HANDLE hDbEvent)
 	return AuthRequest(hContact, NULL);
 }
 
-int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
+int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR*)
 {
 	debugLogA("CVkProto::AuthDeny");
 	if (!IsOnline())
@@ -664,17 +664,17 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 	return 1;
 }
 
-MCONTACT CVkProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+MCONTACT CVkProto::AddToListByEvent(int, int, HANDLE)
 {
 	return NULL;
 }
 
-int CVkProto::AuthRecv(MCONTACT hContact,PROTORECVEVENT *)
+int CVkProto::AuthRecv(MCONTACT, PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int CVkProto::GetInfo(MCONTACT hContact, int infoType)
+int CVkProto::GetInfo(MCONTACT hContact, int)
 {
 	debugLogA("CVkProto::GetInfo");
 	LONG userID = getDword(hContact, "ID", -1);
@@ -684,42 +684,42 @@ int CVkProto::GetInfo(MCONTACT hContact, int infoType)
 	return 0;
 }
 
-int CVkProto::RecvContacts(MCONTACT hContact,PROTORECVEVENT *)
+int CVkProto::RecvContacts(MCONTACT, PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int CVkProto::RecvUrl(MCONTACT hContact,PROTORECVEVENT *)
+int CVkProto::RecvUrl(MCONTACT, PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int CVkProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int CVkProto::SendContacts(MCONTACT, int, int, MCONTACT*)
 {
 	return 1;
 }
 
-int CVkProto::SendUrl(MCONTACT hContact,int flags,const char *url)
+int CVkProto::SendUrl(MCONTACT, int, const char*)
 {
 	return 1;
 }
 
-int CVkProto::SetApparentMode(MCONTACT hContact,int mode)
+int CVkProto::SetApparentMode(MCONTACT, int)
 {
 	return 1;
 }
 
-int CVkProto::RecvAwayMsg(MCONTACT hContact,int mode,PROTORECVEVENT *evt)
+int CVkProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 {
 	return 1;
 }
 
-HANDLE CVkProto::GetAwayMsg(MCONTACT hContact)
+HANDLE CVkProto::GetAwayMsg(MCONTACT)
 {
 	return 0; // Status messages are disabled
 }
 
-int CVkProto::SetAwayMsg(int status, const PROTOCHAR *msg)
+int CVkProto::SetAwayMsg(int, const PROTOCHAR*)
 {
 	return 0; // Status messages are disabled
 }

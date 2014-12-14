@@ -71,7 +71,7 @@ void CVkProto::ReloadAvatarInfo(MCONTACT hContact)
 	SvcGetAvatarInfo(0, (LPARAM)&AI);
 }
 
-INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM wParam, LPARAM lParam)
+INT_PTR CVkProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
 
