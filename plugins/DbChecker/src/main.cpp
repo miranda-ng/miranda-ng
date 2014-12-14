@@ -24,7 +24,7 @@ int hLangpack = 0;
 bool bServiceMode, bLaunchMiranda, bShortMode;
 HANDLE hService;
 
-DbToolOptions opts = {0};
+DbToolOptions opts = { 0 };
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -38,24 +38,24 @@ PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
 	// {A0138FC6-4C52-4501-AF93-7D3E20BCAE5B}
-	{0xa0138fc6, 0x4c52, 0x4501, {0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b}}
+	{ 0xa0138fc6, 0x4c52, 0x4501, { 0xaf, 0x93, 0x7d, 0x3e, 0x20, 0xbc, 0xae, 0x5b } }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
 // we implement service mode interface
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICEMODE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

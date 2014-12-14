@@ -39,7 +39,7 @@ int OpenDatabase(HWND hdlg, INT iNextPage)
 			mir_sntprintf(tszMsg, SIZEOF(tszMsg),
 				TranslateT("Database Checker cannot find a suitable database plugin to open '%s'."),
 				opts.filename);
-LBL_Error:
+		LBL_Error:
 			MessageBox(hdlg, tszMsg, TranslateT("Error"), MB_OK | MB_ICONERROR);
 			return false;
 		}
@@ -257,39 +257,39 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			break;
 
 		case IDC_OTHER:
-			{
-				OPENFILENAME ofn = { 0 };
-				TCHAR str[MAX_PATH];
+		{
+			OPENFILENAME ofn = { 0 };
+			TCHAR str[MAX_PATH];
 
-				// _T("Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0");
-				TCHAR *filter, *tmp, *tmp1, *tmp2;
-				tmp1 = TranslateT("Miranda Databases (*.dat)");
-				tmp2 = TranslateT("All Files");
-				filter = tmp = (TCHAR*)_alloca((_tcslen(tmp1) + _tcslen(tmp2) + 11)*sizeof(TCHAR));
-				tmp = addstring(tmp, tmp1);
-				tmp = addstring(tmp, _T("*.DAT"));
-				tmp = addstring(tmp, tmp2);
-				tmp = addstring(tmp, _T("*"));
-				*tmp = 0;
+			// _T("Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0");
+			TCHAR *filter, *tmp, *tmp1, *tmp2;
+			tmp1 = TranslateT("Miranda Databases (*.dat)");
+			tmp2 = TranslateT("All Files");
+			filter = tmp = (TCHAR*)_alloca((_tcslen(tmp1) + _tcslen(tmp2) + 11)*sizeof(TCHAR));
+			tmp = addstring(tmp, tmp1);
+			tmp = addstring(tmp, _T("*.DAT"));
+			tmp = addstring(tmp, tmp2);
+			tmp = addstring(tmp, _T("*"));
+			*tmp = 0;
 
-				GetDlgItemText(hdlg, IDC_FILE, str, SIZEOF(str));
-				ofn.lStructSize = sizeof(ofn);
-				ofn.hwndOwner = hdlg;
-				ofn.hInstance = NULL;
-				ofn.lpstrFilter = filter;
-				ofn.lpstrDefExt = _T("dat");
-				ofn.lpstrFile = str;
-				ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
-				ofn.nMaxFile = SIZEOF(str);
-				ofn.nMaxFileTitle = MAX_PATH;
-				if (GetOpenFileName(&ofn)) {
-					int i = AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), str, _T(""));
-					if (i == -1)
-						i = 0;
-					ListView_SetItemState(GetDlgItem(hdlg, IDC_DBLIST), i, LVIS_SELECTED, LVIS_SELECTED);
-				}
+			GetDlgItemText(hdlg, IDC_FILE, str, SIZEOF(str));
+			ofn.lStructSize = sizeof(ofn);
+			ofn.hwndOwner = hdlg;
+			ofn.hInstance = NULL;
+			ofn.lpstrFilter = filter;
+			ofn.lpstrDefExt = _T("dat");
+			ofn.lpstrFile = str;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+			ofn.nMaxFile = SIZEOF(str);
+			ofn.nMaxFileTitle = MAX_PATH;
+			if (GetOpenFileName(&ofn)) {
+				int i = AddDatabaseToList(GetDlgItem(hdlg, IDC_DBLIST), str, _T(""));
+				if (i == -1)
+					i = 0;
+				ListView_SetItemState(GetDlgItem(hdlg, IDC_DBLIST), i, LVIS_SELECTED, LVIS_SELECTED);
 			}
-			break;
+		}
+		break;
 
 		case IDC_BACK:
 			if (!bShortMode)
@@ -328,7 +328,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			free((char*)lvi.lParam);
 		}
 	}
-		break;
+	break;
 	}
 	return FALSE;
 }
