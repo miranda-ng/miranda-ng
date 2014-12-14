@@ -59,13 +59,13 @@ struct  PROTO_INTERFACE : public MZeroedObject
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
 
-	__forceinline void debugLogA(LPCSTR szFormat, ...)
+	__inline void debugLogA(LPCSTR szFormat, ...)
 	{
 		va_list args;
 		va_start(args, szFormat);
 		ProtoLogA(this, szFormat, args);
 	}
-	__forceinline void debugLogW(LPCWSTR wszFormat, ...)
+	__inline void debugLogW(LPCWSTR wszFormat, ...)
 	{
 		va_list args;
 		va_start(args, wszFormat);
