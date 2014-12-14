@@ -1,7 +1,7 @@
 #include "Mra.h"
 #include "proto.h"
 
-const LPSTR lpcszStatusUri[] =
+LPCSTR lpcszStatusUri[] =
 {
 	"", // offline // "status_0",
 	"STATUS_ONLINE", // "status_1",
@@ -64,7 +64,7 @@ const LPSTR lpcszStatusUri[] =
 	NULL
 };
 
-const LPWSTR lpcszXStatusNameDef[] =
+LPCWSTR lpcszXStatusNameDef[] =
 {
 	LPGENT("None"),
 	LPGENT("Sick"),
@@ -159,7 +159,7 @@ void CMraProto::SetExtraIcons(MCONTACT hContact)
 	ExtraIcon_SetIcon(hExtraInfo, hContact, (dwIconID != -1) ? gdiExtraStatusIconsItems[dwIconID].hIcolib : NULL);
 }
 
-INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)
+INT_PTR CMraProto::MraXStatusMenu(WPARAM, LPARAM, LPARAM param)
 {
 	if (MraRequestXStatusDetails(param) == FALSE)
 		MraSetXStatusInternal(param);
@@ -168,7 +168,7 @@ INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::MraContactDeleted(WPARAM hContact, LPARAM lParam)
+int CMraProto::MraContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (!m_bLoggedIn || !hContact)
 		return 0;
@@ -293,13 +293,13 @@ int CMraProto::MraDbSettingChanged(WPARAM hContact, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Extra icons
 
-int CMraProto::MraExtraIconsApply(WPARAM wParam, LPARAM lParam)
+int CMraProto::MraExtraIconsApply(WPARAM wParam, LPARAM)
 {
 	SetExtraIcons(wParam);
 	return 0;
 }
 
-INT_PTR CMraProto::MraSetListeningTo(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraSetListeningTo(WPARAM, LPARAM lParam)
 {
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 
@@ -379,7 +379,7 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 	return dwOldStatusMode;
 }
 
-INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraSetXStatusEx(WPARAM, LPARAM lParam)
 {
 	INT_PTR iRet = 1;
 	DWORD dwXStatus;
@@ -564,31 +564,30 @@ INT_PTR CMraProto::MraSendSMS(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraSendNudge(WPARAM hContact, LPARAM lParam)
+INT_PTR CMraProto::MraSendNudge(WPARAM hContact, LPARAM)
 {
 	if (m_bLoggedIn && hContact) {
 		LPWSTR lpwszAlarmMessage = TranslateW(MRA_ALARM_MESSAGE);
 
 		CMStringA szEmail;
 		if (mraGetStringA(hContact, "e-mail", szEmail))
-		if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF | MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
-			return 0;
+			if (MraMessage(FALSE, hContact, 0, (MESSAGE_FLAG_RTF | MESSAGE_FLAG_ALARM), szEmail, lpwszAlarmMessage, NULL, 0))
+				return 0;
 	}
 	return 1;
 }
 
-INT_PTR CMraProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::GetUnreadEmailCount(WPARAM, LPARAM)
 {
-	if ( !m_bLoggedIn )
+	if (!m_bLoggedIn)
 		return 0;
 	return m_dwEmailMessagesUnread;
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Avatars
 
-INT_PTR CMraProto::MraGetAvatarCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraGetAvatarCaps(WPARAM wParam, LPARAM)
 {
 	switch (wParam) {
 	case AF_MAXSIZE:

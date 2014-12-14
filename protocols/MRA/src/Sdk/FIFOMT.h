@@ -44,13 +44,10 @@ typedef PCLIST_MT_ITEM		PCFIFO_MT_ITEM, LPCFIFO_MT_ITEM;
 typedef LIST_MT_ITERATOR	FIFO_MT_ITERATOR, *PFIFO_MT_ITERATOR, *LPFIFO_MT_ITERATOR;
 typedef PCLIST_MT_ITERATOR	PCFIFO_MT_ITERATOR, LPCFIFO_MT_ITERATOR;
 
-#define FifoMTInitialize(pcpmtFifoMT,dwSpinCount) ListMTInitialize(pcpmtFifoMT,dwSpinCount)
-#define FifoMTDestroy(pcpmtFifoMT) ListMTDestroy(pcpmtFifoMT)
-
 
 __inline size_t FifoMTItemPush(PCFIFO_MT pcpmtFifoMT,PCFIFO_MT_ITEM pcffmtiFifoItem,LPVOID lpData)
 {
-	mt_lock l(pcpmtFifoMT);
+	mir_cslock l(pcpmtFifoMT->cs);
 	return ListMTItemAdd(pcpmtFifoMT,pcffmtiFifoItem,lpData);
 }
 
@@ -60,7 +57,7 @@ __inline DWORD FifoMTItemPop(PCFIFO_MT pcpmtFifoMT,PFIFO_MT_ITEM *ppffmtiFifoIte
 	DWORD dwRetErrorCode;
 	PLIST_MT_ITEM plmtiItem;
 
-	mt_lock l(pcpmtFifoMT);
+	mir_cslock l(pcpmtFifoMT->cs);
 	if ((dwRetErrorCode=ListMTItemGetFirst(pcpmtFifoMT,&plmtiItem,plpData))==NO_ERROR)
 	{
 		if (ppffmtiFifoItem) (*ppffmtiFifoItem)=plmtiItem;

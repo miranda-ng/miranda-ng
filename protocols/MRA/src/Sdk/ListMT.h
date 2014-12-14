@@ -57,10 +57,10 @@ typedef CONST PLIST_MT_ITEM	PCLIST_MT_ITEM, LPCLIST_MT_ITEM;
 // структура для работы со списком, заголовок списка
 typedef struct _LIST_MT
 {
-	size_t				nCount;			// *колличество элементов в списке
-	PLIST_MT_ITEM		plmtiFirst;		// *указывает на первый элемент в списке
-	PLIST_MT_ITEM		plmtiLast;		// *указывает на последний элемент в списке
-	CRITICAL_SECTION	cs;				// *section for exclysive access to List
+	size_t        nCount;     // *количество элементов в списке
+	PLIST_MT_ITEM plmtiFirst; // *указывает на первый элемент в списке
+	PLIST_MT_ITEM plmtiLast;  // *указывает на последний элемент в списке
+	mir_cs        cs;         // *section for exclysive access to List
 }LIST_MT, *PLIST_MT, *LPLIST_MT;
 typedef CONST PLIST_MT	PCLIST_MT, LPCLIST_MT;
 
@@ -76,25 +76,12 @@ typedef CONST PLIST_MT_ITERATOR	PCLIST_MT_ITERATOR, LPCLIST_MT_ITERATOR;
 
 
 
-__inline DWORD ListMTInitialize(PCLIST_MT pclmtListMT,DWORD dwSpinCount)
+__inline DWORD ListMTInitialize(PCLIST_MT pclmtListMT)
 {
-	DWORD dwRetErrorCode;
-
-#if (_WIN32_WINNT >= 0x0403)
-	if (InitializeCriticalSectionAndSpinCount(&pclmtListMT->cs,((dwSpinCount)? (dwSpinCount | 0x80000000):0L)))
-#else
-	InitializeCriticalSection(&pclmtListMT->cs);
-	if (TRUE)
-#endif
-	{
-		InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
-		pclmtListMT->plmtiFirst=NULL;
-		pclmtListMT->plmtiLast=NULL;
-		dwRetErrorCode=NO_ERROR;
-	}else{
-		dwRetErrorCode=GetLastError();
-	}
-return(dwRetErrorCode);
+	InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
+	pclmtListMT->plmtiFirst=NULL;
+	pclmtListMT->plmtiLast=NULL;
+	return NO_ERROR;
 }
 
 
@@ -103,25 +90,9 @@ __inline void ListMTDestroy(PCLIST_MT pclmtListMT)
 	InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
 	pclmtListMT->plmtiFirst=NULL;
 	pclmtListMT->plmtiLast=NULL;
-	DeleteCriticalSection(&pclmtListMT->cs);
 	SecureZeroMemory(&pclmtListMT->cs,sizeof(CRITICAL_SECTION));
 }
 
-
-class mt_lock
-{
-	PCLIST_MT m_list;
-
-public:
-	__forceinline mt_lock(PCLIST_MT _pList) :
-		m_list( _pList )
-	{	EnterCriticalSection(&_pList->cs);
-	}
-
-	__forceinline ~mt_lock()
-	{	LeaveCriticalSection(&m_list->cs);
-	}
-};
 
 __inline size_t ListMTGetCount(PCLIST_MT pclmtListMT)
 {

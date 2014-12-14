@@ -113,7 +113,7 @@ void InitXStatusIcons()
 		sid.pszName = szBuff;
 
 		int iCurIndex = i+IDI_XSTATUS1-1;
-		sid.ptszDescription = lpcszXStatusNameDef[i];
+		sid.ptszDescription = (TCHAR*)lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
 
 		hXStatusAdvancedStatusIcons[i] = Skin_AddIcon(&sid);

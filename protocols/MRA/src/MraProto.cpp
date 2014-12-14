@@ -75,7 +75,7 @@ CMraProto::~CMraProto()
 	DeleteCriticalSection(&csCriticalSectionSend);
 }
 
-INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT),
 		(HWND)lParam, DlgProcAccount, LPARAM(this));
@@ -161,7 +161,7 @@ MCONTACT CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddToListByEmail(psr->email, psr->nick, psr->firstName, psr->lastName, flags);
 }
 
-MCONTACT CMraProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT CMraProto::AddToListByEvent(int, int, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
@@ -233,20 +233,20 @@ int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
 	return 0;
 }
 
-int CMraProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
+int CMraProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
 }
 
-int CMraProto::AuthRequest(MCONTACT hContact, const TCHAR *lptszMessage)
+int CMraProto::AuthRequest(MCONTACT, const TCHAR*)
 {
 	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HANDLE CMraProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath)
+HANDLE CMraProto::FileAllow(MCONTACT, HANDLE hTransfer, const TCHAR *szPath)
 {
 	if (szPath != NULL)
 		if (MraFilesQueueAccept(hFilesQueueHandle, (DWORD)hTransfer, szPath, mir_tstrlen(szPath)) == NO_ERROR)
@@ -272,7 +272,7 @@ int CMraProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD_PTR CMraProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR CMraProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -309,7 +309,7 @@ DWORD_PTR CMraProto::GetCaps(int type, MCONTACT hContact)
 	}
 }
 
-int CMraProto::GetInfo(MCONTACT hContact, int infoType)
+int CMraProto::GetInfo(MCONTACT hContact, int)
 {
 	return MraUpdateContactInfo(hContact) != 0;
 }
@@ -323,16 +323,16 @@ HANDLE CMraProto::SearchBasic(const TCHAR *id)
 
 HANDLE CMraProto::SearchByEmail(const TCHAR *email)
 {
-	if (m_bLoggedIn && email)
-		return MraWPRequestByEMail(NULL, ACKTYPE_SEARCH, CMStringA(email));
+	if (m_bLoggedIn && email) {
+		CMStringA szEmail(email);
+		return MraWPRequestByEMail(NULL, ACKTYPE_SEARCH, szEmail);
+	}
 
 	return NULL;
 }
 
 HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, const TCHAR *pszLastName)
 {
-	INT_PTR iRet = 0;
-
 	if (m_bLoggedIn && (*pszNick || *pszFirstName || *pszLastName)) {
 		DWORD dwRequestFlags = 0;
 		if (*pszNick)      SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
@@ -371,7 +371,7 @@ int CMraProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int CMraProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	INT_PTR iRet = 0;
 
@@ -397,15 +397,16 @@ int CMraProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTAC
 	return iRet;
 }
 
-HANDLE CMraProto::SendFile(MCONTACT hContact, const TCHAR* szDescription, TCHAR** ppszFiles)
+HANDLE CMraProto::SendFile(MCONTACT hContact, const TCHAR*, TCHAR **ppszFiles)
 {
-	INT_PTR iRet = 0;
+	if (!m_bLoggedIn || !hContact || !ppszFiles)
+		return NULL;
 
-	if (m_bLoggedIn && hContact && ppszFiles) {
-		size_t dwFilesCount;
-		for (dwFilesCount = 0; ppszFiles[dwFilesCount]; dwFilesCount++);
-		MraFilesQueueAddSend(hFilesQueueHandle, 0, hContact, ppszFiles, dwFilesCount, (DWORD*)&iRet);
-	}
+	size_t dwFilesCount;
+	for (dwFilesCount = 0; ppszFiles[dwFilesCount]; dwFilesCount++);
+
+	DWORD iRet = 0;
+	MraFilesQueueAddSend(hFilesQueueHandle, 0, hContact, ppszFiles, dwFilesCount, &iRet);
 	return (HANDLE)iRet;
 }
 
@@ -417,33 +418,31 @@ int CMraProto::SendMsg(MCONTACT hContact, int flags, const char *lpszMessage)
 	}
 
 	DWORD dwFlags = 0;
-	LPWSTR lpwszMessage = NULL;
-	int iRet = 0;
+	CMStringW wszMessage;
 
 	if (flags & PREF_UNICODE)
-		lpwszMessage = (LPWSTR)(lpszMessage + mir_strlen(lpszMessage) + 1);
+		wszMessage = (LPWSTR)(lpszMessage + mir_strlen(lpszMessage) + 1);
 	else if (flags & PREF_UTF)
-		lpwszMessage = mir_utf8decodeT(lpszMessage);
+		wszMessage = ptrW(mir_utf8decodeT(lpszMessage));
 	else
-		lpwszMessage = mir_a2t(lpszMessage);
+		wszMessage = ptrW(mir_a2t(lpszMessage));
 
-	if (!lpwszMessage) {
+	if (wszMessage.IsEmpty()) {
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, NULL, (LPARAM)"Cant allocate buffer for convert to unicode.");
 		return 0;
 	}
 
 	CMStringA szEmail;
-	if (mraGetStringA(hContact, "e-mail", szEmail)) {
-		BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
-		if (getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
-			dwFlags |= MESSAGE_FLAG_RTF;
+	if (!mraGetStringA(hContact, "e-mail", szEmail))
+		return 0;
+		
+	BOOL bSlowSend = getByte("SlowSend", MRA_DEFAULT_SLOW_SEND);
+	if (getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) && (MraContactCapabilitiesGet(hContact) & FEATURE_FLAG_RTF_MESSAGE))
+		dwFlags |= MESSAGE_FLAG_RTF;
 
-		iRet = MraMessage(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, lpwszMessage, NULL, 0);
-		if (bSlowSend == FALSE)
-			ProtoBroadcastAckAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
-	}
-
-	mir_free(lpwszMessage);
+	int iRet = MraMessage(bSlowSend, hContact, ACKTYPE_MESSAGE, dwFlags, szEmail, wszMessage, NULL, 0);
+	if (bSlowSend == FALSE)
+		ProtoBroadcastAckAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
 	return iRet;
 }
 

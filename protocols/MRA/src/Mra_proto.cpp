@@ -30,10 +30,8 @@ DWORD CMraProto::StartConnect()
 	return ERROR_OPERATION_ABORTED;
 }
 
-void CMraProto::MraThreadProc(LPVOID lpParameter)
+void CMraProto::MraThreadProc(LPVOID)
 {
-	DWORD dwRetErrorCode = NO_ERROR;
-
 	BOOL bConnected = FALSE;
 	CMStringA szHost;
 	DWORD dwConnectReTryCount, dwCurConnectReTryCount;
@@ -371,7 +369,7 @@ bool CMraProto::CmdHelloAck(BinBuffer &buf)
 	if (!mraGetStringA(NULL, "e-mail", szEmail))
 		return false;
 
-	MraLogin2W(szEmail, szPass, dwStatus, CMStringA(lpcszStatusUri[dwXStatus]), wszStatusTitle, wszStatusDesc, dwFutureFlags, szUserAgentFormatted, szSelfVersionString);
+	MraLogin2W(szEmail, szPass, dwStatus, lpcszStatusUri[dwXStatus], wszStatusTitle, wszStatusDesc, dwFutureFlags, szUserAgentFormatted, szSelfVersionString);
 	return true;
 }
 
@@ -382,7 +380,7 @@ bool CMraProto::CmdLoginAck()
 	m_dwNextPingSendTickTime = 0; // force send ping
 	MraSendCMD(MRIM_CS_PING, NULL, 0);
 	SetStatus(m_iDesiredStatus);
-	MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, NULL, 0);
+	MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, NULL);
 	return true;
 }
 
@@ -518,7 +516,7 @@ bool CMraProto::CmdUserInfo(BinBuffer &buf)
 		}
 		else _CrtDbgBreak();
 	}
-	MraUpdateEmailStatus("", "", 0, 0, false);
+	MraUpdateEmailStatus("", "", false);
 	return true;
 }
 
@@ -1052,7 +1050,7 @@ bool CMraProto::CmdClist2(BinBuffer &buf)
 	if (dwTemp == GET_CONTACTS_OK) { // received contact list
 		m_groups.destroy();
 
-		DWORD dwGroupsCount, dwContactFlag, dwGroupID, dwContactSeverFlags, dwStatus, dwXStatus, dwFutureFlags, dwBlogStatusTime;
+		DWORD dwGroupsCount, dwContactFlag = 0, dwGroupID = 0, dwContactSeverFlags = 0, dwStatus = 0, dwXStatus, dwFutureFlags = 0, dwBlogStatusTime = 0;
 		ULARGE_INTEGER dwBlogStatusID;
 		CMStringA szGroupMask, szContactMask, szEmail, szString;
 		CMStringA szCustomPhones, szSpecStatusUri, szUserAgentFormatted;
@@ -1425,7 +1423,7 @@ bool CMraProto::CmdNewMail(BinBuffer &buf)
 	DWORD dwSave = m_dwEmailMessagesUnread;
 	m_dwEmailMessagesUnread = dwUnreadCount;// store new value
 	if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwSave < dwUnreadCount || dwUnreadCount == 0)
-		MraUpdateEmailStatus(szEmail, szString, dwDate, dwUIDL, false);
+		MraUpdateEmailStatus(szEmail, szString, false);
 	return true;
 }
 
@@ -1506,7 +1504,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 		dwAckType = m_dwEmailMessagesUnread;// save old value
 		m_dwEmailMessagesUnread = dwTemp;// store new value
 		if (getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) == 0 || dwAckType < dwTemp || dwTemp == 0)
-			MraUpdateEmailStatus("", "", 0, 0, false);
+			MraUpdateEmailStatus("", "", false);
 		break;
 
 	case MRIM_CS_SMS_ACK:
@@ -1551,7 +1549,7 @@ bool CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader)
 // Сообщение
 DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, CMStringA &plpsFrom, CMStringA &plpsText, CMStringA &plpsRFTText, CMStringA &plpsMultiChatData)
 {
-	DWORD dwRetErrorCode = NO_ERROR, dwBackColour;
+	DWORD dwBackColour;
 	CMStringA lpszMessageExt;
 	CMStringW wszMessage;
 

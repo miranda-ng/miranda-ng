@@ -1,31 +1,31 @@
 #include "Mra.h"
 #include "proto.h"
 
-INT_PTR CMraProto::MraGotoInbox(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraGotoInbox(WPARAM, LPARAM)
 {
 	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_WIN_INBOX_URL);
 	return 0;
 }
 
-INT_PTR CMraProto::MraShowInboxStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraShowInboxStatus(WPARAM, LPARAM)
 {
-	MraUpdateEmailStatus("", "", 0, 0, true);
+	MraUpdateEmailStatus("", "", true);
 	return 0;
 }
 
-INT_PTR CMraProto::MraEditProfile(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraEditProfile(WPARAM, LPARAM)
 {
 	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_EDIT_PROFILE_URL);
 	return 0;
 }
 
-INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraWebSearch(WPARAM, LPARAM)
 {
 	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)MRA_SEARCH_URL);
 	return 0;
 }
 
-INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM, LPARAM)
 {
 	if (!m_bLoggedIn)
 		return 0;
@@ -40,20 +40,20 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM, LPARAM)
 {
 	if (MessageBox(NULL, TranslateT("Are you sure?"), TranslateT(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 			CMStringA szEmail;
 			if (mraGetStringA(hContact, "e-mail", szEmail))
 			if (!IsEMailChatAgent(szEmail))
-				MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact, 0);
+				MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact);
 		}
 	}
 	return 0;
 }
 
-INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraRequestAuthForAll(WPARAM, LPARAM)
 {
 	if (!m_bLoggedIn)
 		return 0;
@@ -69,7 +69,7 @@ INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM lParam)
+INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM)
 {
 	if (!hContact || !m_bLoggedIn)
 		return 0;
@@ -93,7 +93,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM hContact, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM)
 {
 	if (!m_bLoggedIn || !wParam)
 		return 0;
@@ -106,7 +106,7 @@ INT_PTR CMraProto::MraGrantAuthorization(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraSendEmail(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraSendEmail(WPARAM wParam, LPARAM)
 {
 	DWORD dwContactEMailCount = GetContactEMailCount(wParam, FALSE);
 	if (dwContactEMailCount) {
@@ -123,7 +123,7 @@ INT_PTR CMraProto::MraSendEmail(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM)
 {
 	DWORD dwContactEMailCount = GetContactEMailCount(wParam, FALSE);
 	if (dwContactEMailCount) {
@@ -140,7 +140,7 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM)
 {
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
@@ -154,7 +154,7 @@ INT_PTR CMraProto::MraViewAlbum(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM)
 {
 	if (!m_bLoggedIn)
 		return 0;
@@ -167,7 +167,7 @@ INT_PTR CMraProto::MraReplyBlogStatus(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM)
 {
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
@@ -181,7 +181,7 @@ INT_PTR CMraProto::MraViewVideo(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM)
 {
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
@@ -195,7 +195,7 @@ INT_PTR CMraProto::MraAnswers(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
+INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM)
 {
 	DWORD dwContactEMailMRCount = GetContactEMailCount(wParam, TRUE);
 	if (dwContactEMailMRCount) {
@@ -211,7 +211,7 @@ INT_PTR CMraProto::MraWorld(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM lParam)
+int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool bIsContactMRA, bHasEMail, bHasEMailMR, bChatAgent;
 	DWORD dwContactSeverFlags = 0;
@@ -275,7 +275,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
+int CMraProto::MraRebuildStatusMenu(WPARAM, LPARAM)
 {
 	CHAR szServiceFunction[MAX_PATH * 2], *pszServiceFunctionName, szValueName[MAX_PATH];
 	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
@@ -305,12 +305,12 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 			if (mraGetStringW(NULL, szValueName, szStatusTitle))
 				mi.ptszName = (TCHAR*)szStatusTitle.c_str();
 			else
-				mi.ptszName = lpcszXStatusNameDef[i];
+				mi.ptszName = (TCHAR*)lpcszXStatusNameDef[i];
 
 			mi.icolibItem = hXStatusAdvancedStatusIcons[i];
 		}
 		else {
-			mi.ptszName = lpcszXStatusNameDef[i];
+			mi.ptszName = (TCHAR*)lpcszXStatusNameDef[i];
 			mi.hIcon = NULL;
 		}
 		hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi);
