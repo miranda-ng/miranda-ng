@@ -647,7 +647,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 			if (type == SEARCH_TEXT) { //text search
 				TCHAR text[2048]; //TODO buffer overrun
-				SendDlgItemMessage(hWnd, IDC_SEARCH_TEXT, WM_GETTEXT, SIZEOF(text), (LPARAM)text);
+				GetDlgItemText(hWnd, IDC_SEARCH_TEXT, text, SIZEOF(text));
 				searchResult = SearchHistory(data->contact, data->hLastFoundEvent, text, direction, type);
 			}
 			else { //time search

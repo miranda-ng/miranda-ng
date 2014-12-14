@@ -284,7 +284,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 
 					HWND hFileName = GetDlgItem(hWndFileDlg, edt1);
 					char pszFileName[MAX_PATH];
-					SendMessage(hFileName, WM_GETTEXT, SIZEOF(pszFileName), (LPARAM)pszFileName);
+					GetWindowText(hFileName, pszFileName, SIZEOF(pszFileName));
 
 					if (strcmp(pstShare->pszSrvPath, szSelection) &&
 					    strcmp(pszFileName, pszShareDirStr)) {

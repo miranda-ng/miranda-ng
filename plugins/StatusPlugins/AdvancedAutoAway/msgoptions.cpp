@@ -119,8 +119,8 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					if (settings[last]->msg == NULL)
 						settings[last]->msg = ( char* )malloc(len+1);
 					else
-						settings[last]->msg = ( char* )realloc(settings[last]->msg, len+1);
-					SendDlgItemMessageA(hwndDlg, IDC_STATUSMSG, WM_GETTEXT, (LPARAM)(len+1), (WPARAM)settings[last]->msg);
+						settings[last]->msg = (char*)realloc(settings[last]->msg, len+1);
+					GetDlgItemTextA(hwndDlg, IDC_STATUSMSG, settings[last]->msg, (len+1));
 				}
 
 				if (i != -1) {

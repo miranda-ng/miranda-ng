@@ -390,7 +390,7 @@ void SwitchLayout(bool lastword)
 			TCHAR *selected = (TCHAR *)CallService(MS_IEVIEW_EVENT, 0, (LPARAM)&event);
 			mir_tstrncpy(buf, selected, SIZEOF(buf));
 		}
-		else SendMessage(hwnd2, WM_GETTEXT, SIZEOF(buf), (LPARAM)buf);		// gimme, gimme, gimme...
+		else GetWindowText(hwnd2, buf, SIZEOF(buf));		// gimme, gimme, gimme...
 
 		size_t slen = _tcslen(buf);
 		if (slen != 0) {

@@ -300,7 +300,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			if (WindowType == WTYPE_Edit) {
 				ptszTemp = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-				iRes = SendMessage(hTextWnd, WM_GETTEXT, (WPARAM)MaxTextSize, (LPARAM)ptszTemp);
+				iRes = GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
 					_tcsncpy(ptszInText, &ptszTemp[crSelection.cpMin], crSelection.cpMax - crSelection.cpMin);
 					ptszInText[crSelection.cpMax - crSelection.cpMin] = 0;
@@ -337,7 +337,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			}
 			if (WindowType == WTYPE_Edit) {
 				ptszInText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-				iRes = SendMessage(hTextWnd, WM_GETTEXT, (WPARAM)MaxTextSize, (LPARAM)ptszInText);
+				iRes = GetWindowText(hTextWnd, ptszInText, MaxTextSize);
 
 				if (!IsBadStringPtr(ptszInText, MaxTextSize) && (iRes > 0)) {
 					crTemp.cpMin = 0;
@@ -520,7 +520,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		}
 		else {
 			ptszTemp = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-			SendMessage(hTextWnd, WM_GETTEXT, (WPARAM)MaxTextSize, (LPARAM)ptszTemp);
+			GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 			for (i = crTemp.cpMin; i < crTemp.cpMax; i++)
 				ptszTemp[i] = ptszOutText[i - crTemp.cpMin];
 			SendMessage(hTextWnd, WM_SETTEXT, 0, (LPARAM)ptszTemp);

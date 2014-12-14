@@ -1034,13 +1034,13 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		if (LOWORD(wParam) == IDC_ALLOWADD)
 		{
 			char nick[80];
-			SendDlgItemMessageA(hwndDlg, IDC_ALLOWEDIT, WM_GETTEXT, SIZEOF(nick), (LPARAM)nick);
+			GetDlgItemTextA(hwndDlg, IDC_ALLOWEDIT, nick, SIZEOF(nick));
 			SendDlgItemMessageA(hwndDlg, IDC_ALLOWLIST, LB_ADDSTRING, 0, (LPARAM)trim_str(nick));
 		}
 		else if (LOWORD(wParam) == IDC_BLOCKADD)
 		{
 			char nick[80];
-			SendDlgItemMessageA(hwndDlg, IDC_BLOCKEDIT, WM_GETTEXT, SIZEOF(nick), (LPARAM)nick);
+			GetDlgItemTextA(hwndDlg, IDC_BLOCKEDIT, nick, SIZEOF(nick));
 			SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_ADDSTRING, 0, (LPARAM)trim_str(nick));
 		}
 		else if (LOWORD(wParam) == IDC_ALLOWREMOVE)

@@ -344,7 +344,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						if (valueLength)
 						{
 							if (dbsetting->dbv.type == DBVT_UTF8)
-								SendDlgItemMessageW(hwnd, valueID, WM_GETTEXT, valueLength+2, (LPARAM)value);
+								GetDlgItemTextW(hwnd, valueID, (LPWSTR)value, (valueLength + 2));
 							else
 								GetWindowText(GetDlgItem(hwnd, valueID), value, valueLength+1);
 						}

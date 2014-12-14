@@ -202,7 +202,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 				WriteMainOptions();
 
 				ptszFormLay = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
-				SendDlgItemMessage(hWnd, IDC_EDIT_SET, WM_GETTEXT, (WPARAM) MaxTextSize, (LPARAM)ptszFormLay);
+				GetDlgItemText(hWnd, IDC_EDIT_SET, ptszFormLay, MaxTextSize);
 				i = SendDlgItemMessage(hWnd, IDC_COMBO_LANG, CB_GETCURSEL, 0, 0);
 				ptszMemLay = ptszLayStrings[i];
 				if (_tcscmp(ptszMemLay, ptszFormLay) != 0) {

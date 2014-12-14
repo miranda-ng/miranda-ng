@@ -1829,8 +1829,8 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 							if (SzT)
 							{
 								if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
-								ReminderText = (char*)malloc(SzT+1);
-								SendDlgItemMessage(Dialog, IDC_REMDATA, WM_GETTEXT, SzT+1, (LPARAM)ReminderText);
+								ReminderText = (char*)malloc(SzT + 1);
+								GetDlgItemText(Dialog, IDC_REMDATA, ReminderText, SzT + 1);
 							}
 							if (pReminder->Reminder)
 								free(pReminder->Reminder);
@@ -1867,7 +1867,7 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 							{
 								if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
 								ReminderText = (char*)malloc(SzT+1);
-								SendDlgItemMessage(Dialog, IDC_REMDATA, WM_GETTEXT, SzT+1, (LPARAM)ReminderText);
+								GetDlgItemText(Dialog, IDC_REMDATA, ReminderText, SzT + 1);
 							}
 
 							SetFocus(NewNote(0, 0, -1, -1, ReminderText, 0, TRUE, TRUE, 0)->REHwnd);
@@ -2164,8 +2164,8 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 					if (SzT)
 					{
 						if (SzT > MAX_REMINDER_LEN) SzT = MAX_REMINDER_LEN;
-						ReminderText = (char*)malloc(SzT+1);
-						SendDlgItemMessage(Dialog,IDC_REMINDER,WM_GETTEXT,SzT+1,(LPARAM)ReminderText);
+						ReminderText = (char*)malloc(SzT + 1);
+						GetDlgItemText(Dialog, IDC_REMINDER, ReminderText, SzT + 1);
 					}
 
 					if (NewReminderVisible != 2)

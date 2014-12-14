@@ -68,7 +68,7 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 
 	case VARM_GETEXTRATEXT:
 		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT,
-			SendDlgItemMessage(hwndDlg, IDC_EXTRATEXT, WM_GETTEXT, wParam, lParam));
+			GetDlgItemText(hwndDlg, IDC_EXTRATEXT, (LPWSTR)lParam, wParam));
 		return TRUE;
 
 	case WM_SIZE:
@@ -747,7 +747,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 
 	case VARM_GETINPUTTEXT:
 		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT,
-			SendDlgItemMessage(hwndDlg, IDC_TESTSTRING, WM_GETTEXT, wParam, lParam));
+			GetDlgItemText(hwndDlg, IDC_TESTSTRING, (LPWSTR)lParam, wParam));
 		return TRUE;
 
 	case WM_TIMER:

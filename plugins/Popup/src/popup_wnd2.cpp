@@ -908,7 +908,7 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 				TCHAR msg[2048];
 				LPTSTR bufW = NULL;
 
-				SendMessage(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
+				GetWindowText(hwnd, msg, SIZEOF(msg));
 
 				if (wcslen(msg) == 0){
 					DestroyWindow(hwnd);

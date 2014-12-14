@@ -410,8 +410,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			SzT = (WORD)SendDlgItemMessage(hdlg,IDC_EDIT_EMAILSMS,WM_GETTEXTLENGTH,0,0);
 			if (SzT != 0) 
 			{
-				g_RemindSMS = (char*)realloc(g_RemindSMS,SzT+1);
-				SendDlgItemMessage(hdlg,IDC_EDIT_EMAILSMS ,WM_GETTEXT,SzT+1,(LPARAM)g_RemindSMS);
+				g_RemindSMS = (char*)realloc(g_RemindSMS, SzT + 1);
+				GetDlgItemText(hdlg, IDC_EDIT_EMAILSMS, g_RemindSMS, SzT + 1);
 			}
 			P = g_RemindSMS;
 			db_set_blob(0,MODULENAME,"RemindEmail",P,SzT);
@@ -419,8 +419,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			SzT = (WORD)SendDlgItemMessage(hdlg,IDC_EDIT_ALTBROWSER,WM_GETTEXTLENGTH,0,0);
 			if (SzT != 0) 
 			{
-				g_lpszAltBrowser = (TCHAR*)mir_realloc(g_lpszAltBrowser,SzT+1);
-				SendDlgItemMessage(hdlg,IDC_EDIT_ALTBROWSER,WM_GETTEXT,SzT+1,(LPARAM)g_lpszAltBrowser);
+				g_lpszAltBrowser = (TCHAR*)mir_realloc(g_lpszAltBrowser, SzT + 1);
+				GetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, g_lpszAltBrowser, SzT + 1);
 				TrimString(g_lpszAltBrowser);
 				if (!*g_lpszAltBrowser)
 				{
@@ -476,7 +476,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				ofn.lpstrInitialDir = _T(".");
 				ofn.Flags = OFN_FILEMUSTEXIST | OFN_LONGNAMES | OFN_ENABLESIZING | OFN_DONTADDTORECENT;
 
-				SendDlgItemMessage(hdlg,IDC_EDIT_ALTBROWSER,WM_GETTEXT,(WPARAM)ofn.nMaxFile,(LPARAM)s);
+				GetDlgItemText(hdlg, IDC_EDIT_ALTBROWSER, s, ofn.nMaxFile);
 
 				if ( GetOpenFileName(&ofn) )
 				{

@@ -565,7 +565,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			int ret = SendMessage(hdlg,EM_GETSEL,(WPARAM)&start,(LPARAM)&end);
 
-			SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
+			GetWindowText(hdlg, sztext, SIZEOF(sztext));
 
 			BOOL at_end = (mir_tstrlen(sztext) == (int)end);
 
@@ -585,7 +585,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				}
 
 				SendMessage(hdlg,EM_REPLACESEL,0,(LPARAM)sztext);
-				SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
+				GetWindowText(hdlg, sztext, SIZEOF(sztext));
 			}
 
 			CheckText(hdlg, sztext, !at_end);
@@ -611,7 +611,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			}
 			else if (wparam == VK_DELETE)
 			{
-				SendMessage(hdlg,WM_GETTEXT,(WPARAM)SIZEOF(sztext),(LPARAM)sztext);
+				GetWindowText(hdlg, sztext, SIZEOF(sztext));
 				CheckText(hdlg, sztext, TRUE);
 			}
 
@@ -958,7 +958,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
 					SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)_T(""));
 
-				SendMessage(hEdit, WM_GETTEXT, (WPARAM)SIZEOF(sztext), (LPARAM)sztext);
+				GetWindowText(hEdit, sztext, SIZEOF(sztext));
 
 				// Fill combo			
 				BOOL all = IsDlgButtonChecked(hwndDlg, IDC_SHOW_ALL_CONTACTS);
