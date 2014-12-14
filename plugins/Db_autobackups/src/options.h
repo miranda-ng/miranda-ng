@@ -22,8 +22,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-typedef enum { BT_DISABLED = 0, BT_START = 1, BT_EXIT = 2, BT_PERIODIC = 4} BackupType;
-typedef enum { PT_DAYS, PT_HOURS, PT_MINUTES} PeriodType;
+typedef enum { BT_DISABLED = 0, BT_START = 1, BT_EXIT = 2, BT_PERIODIC = 4 } BackupType;
+typedef enum { PT_DAYS, PT_HOURS, PT_MINUTES } PeriodType;
 
 typedef struct Options_tag {
 	int	backup_types;
