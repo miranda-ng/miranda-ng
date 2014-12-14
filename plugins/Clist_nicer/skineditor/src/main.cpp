@@ -66,23 +66,23 @@ static void ReActiveCombo(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_TB), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_BT), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BASECOLOUR2), !IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR2LABLE), !IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BASECOLOUR2), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR2LABLE), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_TL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_TR), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BR), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_BL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
-		ChangeControlItems(hwndDlg, !IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
+		ChangeControlItems(hwndDlg, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
 	} else {
-		ChangeControlItems(hwndDlg, !IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
+		ChangeControlItems(hwndDlg, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_IGNORE), IDC_IGNORE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_LR), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_RL), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_TB), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_GRADIENT_BT), IsDlgButtonChecked(hwndDlg, IDC_GRADIENT));
 
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BASECOLOUR2), !IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
-		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR2LABLE), !IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BASECOLOUR2), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR2LABLE), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_COLOR2_TRANSPARENT));
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_TL), IsDlgButtonChecked(hwndDlg, IDC_CORNER));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CORNER_TR), IsDlgButtonChecked(hwndDlg, IDC_CORNER));

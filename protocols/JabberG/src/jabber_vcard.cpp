@@ -559,10 +559,10 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			mir_snprintf(idstr, SIZEOF(idstr), "e-mailFlag%d", lParam);
 			WORD nFlag = dat->ppro->getWord(idstr, 0);
-			if (nFlag & JABBER_VCEMAIL_HOME) CheckDlgButton(hwndDlg, IDC_HOME, TRUE);
-			if (nFlag & JABBER_VCEMAIL_WORK) CheckDlgButton(hwndDlg, IDC_WORK, TRUE);
-			if (nFlag & JABBER_VCEMAIL_INTERNET) CheckDlgButton(hwndDlg, IDC_INTERNET, TRUE);
-			if (nFlag & JABBER_VCEMAIL_X400) CheckDlgButton(hwndDlg, IDC_X400, TRUE);
+			if (nFlag & JABBER_VCEMAIL_HOME) CheckDlgButton(hwndDlg, IDC_HOME, BST_CHECKED);
+			if (nFlag & JABBER_VCEMAIL_WORK) CheckDlgButton(hwndDlg, IDC_WORK, BST_CHECKED);
+			if (nFlag & JABBER_VCEMAIL_INTERNET) CheckDlgButton(hwndDlg, IDC_INTERNET, BST_CHECKED);
+			if (nFlag & JABBER_VCEMAIL_X400) CheckDlgButton(hwndDlg, IDC_X400, BST_CHECKED);
 		}
 		break;
 
@@ -621,18 +621,18 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			mir_snprintf(idstr, SIZEOF(idstr), "PhoneFlag%d", dat->id);
 			int nFlag = dat->ppro->getWord(idstr, 0);
-			if (nFlag & JABBER_VCTEL_HOME)  CheckDlgButton(hwndDlg, IDC_HOME, TRUE);
-			if (nFlag & JABBER_VCTEL_WORK)  CheckDlgButton(hwndDlg, IDC_WORK, TRUE);
-			if (nFlag & JABBER_VCTEL_VOICE) CheckDlgButton(hwndDlg, IDC_VOICE, TRUE);
-			if (nFlag & JABBER_VCTEL_FAX)   CheckDlgButton(hwndDlg, IDC_FAX, TRUE);
-			if (nFlag & JABBER_VCTEL_PAGER) CheckDlgButton(hwndDlg, IDC_PAGER, TRUE);
-			if (nFlag & JABBER_VCTEL_MSG)   CheckDlgButton(hwndDlg, IDC_MSG, TRUE);
-			if (nFlag & JABBER_VCTEL_CELL)  CheckDlgButton(hwndDlg, IDC_CELL, TRUE);
-			if (nFlag & JABBER_VCTEL_VIDEO) CheckDlgButton(hwndDlg, IDC_VIDEO, TRUE);
-			if (nFlag & JABBER_VCTEL_BBS)   CheckDlgButton(hwndDlg, IDC_BBS, TRUE);
-			if (nFlag & JABBER_VCTEL_MODEM) CheckDlgButton(hwndDlg, IDC_MODEM, TRUE);
-			if (nFlag & JABBER_VCTEL_ISDN)  CheckDlgButton(hwndDlg, IDC_ISDN, TRUE);
-			if (nFlag & JABBER_VCTEL_PCS)   CheckDlgButton(hwndDlg, IDC_PCS, TRUE);
+			if (nFlag & JABBER_VCTEL_HOME)  CheckDlgButton(hwndDlg, IDC_HOME, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_WORK)  CheckDlgButton(hwndDlg, IDC_WORK, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_VOICE) CheckDlgButton(hwndDlg, IDC_VOICE, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_FAX)   CheckDlgButton(hwndDlg, IDC_FAX, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_PAGER) CheckDlgButton(hwndDlg, IDC_PAGER, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_MSG)   CheckDlgButton(hwndDlg, IDC_MSG, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_CELL)  CheckDlgButton(hwndDlg, IDC_CELL, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_VIDEO) CheckDlgButton(hwndDlg, IDC_VIDEO, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_BBS)   CheckDlgButton(hwndDlg, IDC_BBS, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_MODEM) CheckDlgButton(hwndDlg, IDC_MODEM, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_ISDN)  CheckDlgButton(hwndDlg, IDC_ISDN, BST_CHECKED);
+			if (nFlag & JABBER_VCTEL_PCS)   CheckDlgButton(hwndDlg, IDC_PCS, BST_CHECKED);
 		}
 		break;
 

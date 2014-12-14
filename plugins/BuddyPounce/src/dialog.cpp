@@ -166,16 +166,16 @@ void statusModes(windowInfo *wi, int myStatusMode) // myStatusMode=1 sendIfMySta
 			SetDlgItemText(hwnd, IDC_CHECK10, TranslateT("To Out To Lunch"));
 		}
 	}
-	CheckDlgButton(hwnd, IDC_CHECK1, statusFlag&ANY);
-	CheckDlgButton(hwnd, IDC_CHECK2, (statusFlag&ONLINE)>>1);
-	CheckDlgButton(hwnd, IDC_CHECK3, (statusFlag&AWAY)>>2);
-	CheckDlgButton(hwnd, IDC_CHECK4, (statusFlag&NA)>>3);
-	CheckDlgButton(hwnd, IDC_CHECK5, (statusFlag&OCCUPIED)>>4);
-	CheckDlgButton(hwnd, IDC_CHECK6, (statusFlag&DND)>>5);
-	CheckDlgButton(hwnd, IDC_CHECK7, (statusFlag&FFC)>>6);
-	CheckDlgButton(hwnd, IDC_CHECK8, (statusFlag&INVISIBLE)>>7);
-	CheckDlgButton(hwnd, IDC_CHECK9, (statusFlag&PHONE)>>8);
-	CheckDlgButton(hwnd, IDC_CHECK10, (statusFlag&LUNCH)>>9);
+	CheckDlgButton(hwnd, IDC_CHECK1, statusFlag&ANY ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK2, (statusFlag&ONLINE)>>1 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK3, (statusFlag&AWAY)>>2 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK4, (statusFlag&NA)>>3 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK5, (statusFlag&OCCUPIED)>>4 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK6, (statusFlag&DND)>>5 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK7, (statusFlag&FFC)>>6 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK8, (statusFlag&INVISIBLE)>>7 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK9, (statusFlag&PHONE)>>8 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwnd, IDC_CHECK10, (statusFlag&LUNCH)>>9 ? BST_CHECKED : BST_UNCHECKED);
 }
 
 void deletePounce(MCONTACT hContact)
@@ -404,8 +404,8 @@ INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			SetDlgItemText(hwnd, GRP_MSG, msg);	
 			populateSettingsList(GetDlgItem(hwnd, IDC_SETTINGS));
 			SendDlgItemMessage(hwnd, IDC_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG((short)1024, (short)0));
-			CheckDlgButton(hwnd, IDC_USEADVANCED, db_get_b(NULL, modname, "UseAdvanced", 0));
-			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, db_get_b(NULL, modname, "ShowDeliveryMessages", 1));
+			CheckDlgButton(hwnd, IDC_USEADVANCED, db_get_b(NULL, modname, "UseAdvanced", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_SHOWDELIVERYMSGS, db_get_b(NULL, modname, "ShowDeliveryMessages", 1) ? BST_CHECKED : BST_UNCHECKED);
 			db_set_b(wi->hContact, modname, "LastSetting", 0);
 		}
 		return FALSE;

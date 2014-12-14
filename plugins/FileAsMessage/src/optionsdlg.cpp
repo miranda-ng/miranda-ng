@@ -49,7 +49,7 @@ INT_PTR CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				else
 					SetDlgItemInt(hwndDlg, -settingId[indx], db_get_dw(NULL, SERVICE_NAME, settingName[indx], settingDefault[indx]), FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_ALPHANUM, db_get_dw(NULL, SERVICE_NAME, "base64", 1)?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ALPHANUM, db_get_dw(NULL, SERVICE_NAME, "base64", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			return TRUE;
 

@@ -338,7 +338,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				SendMessage(hwnd, BUTTONADDTOOLTIP,(WPARAM)TranslateTS(ctrls[i].tooltip), BATF_TCHAR);
 			}
 
-			CheckDlgButton(hwndDlg,IDC_SCROLL,dat->Scroll?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SCROLL, dat->Scroll ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg,IDC_SCROLL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[(dat->Scroll?ICON_SCROLL:ICON_NOSCROLL)]);
 
 			if (gSingleMode) {
@@ -475,13 +475,13 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				lvi.iItem = 0x7FFFFFFF;
 				lvi.pszText = (dat->Paused) ? TranslateT("*** Console paused ***") : TranslateT("*** Console resumed ***");
 				ListView_InsertItem(dat->hList, &lvi);
-				CheckDlgButton(hwndDlg,IDC_PAUSE,(dat->Paused)?BST_CHECKED:BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_PAUSE, (dat->Paused) ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg,IDC_PAUSE,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[((dat->Paused)?ICON_PAUSED:ICON_STARTED)]);
 				break;
 			}
 		case IDC_SCROLL:
 			dat->Scroll = !(dat->Scroll);
-			CheckDlgButton(hwndDlg,IDC_SCROLL,(dat->Scroll)?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SCROLL, (dat->Scroll) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg,IDC_SCROLL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[((dat->Scroll)?ICON_SCROLL:ICON_NOSCROLL)]);
 			break;
 
@@ -1044,10 +1044,10 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0));
-		CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode);
-		CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons);
-		CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator);
+		CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SINGLE, gSingleMode ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWICONS, gIcons ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SEPARATOR, gSeparator ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
 		SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
 		break;

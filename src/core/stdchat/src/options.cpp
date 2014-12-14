@@ -491,9 +491,9 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 		SetDlgItemText(hwndDlg, IDC_TIMESTAMP, g_Settings.pszTimeStamp);
 		SetDlgItemText(hwndDlg, IDC_OUTSTAMP, g_Settings.pszOutgoingNick);
 		SetDlgItemText(hwndDlg, IDC_INSTAMP, g_Settings.pszIncomingNick);
-		CheckDlgButton(hwndDlg, IDC_HIGHLIGHT, g_Settings.bHighlightEnabled);
+		CheckDlgButton(hwndDlg, IDC_HIGHLIGHT, g_Settings.bHighlightEnabled ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HIGHLIGHTWORDS), g_Settings.bHighlightEnabled ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOGGING, g_Settings.bLoggingEnabled);
+		CheckDlgButton(hwndDlg, IDC_LOGGING, g_Settings.bLoggingEnabled ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), g_Settings.bLoggingEnabled ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_FONTCHOOSE), g_Settings.bLoggingEnabled ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_LIMIT), g_Settings.bLoggingEnabled ? TRUE : FALSE);

@@ -467,10 +467,10 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					dat->info[dat->oldPage].usePrevious = IsDlgButtonChecked(hwndDlg, IDC_USEPREVIOUS);
 					GetDlgItemText(hwndDlg, IDC_MSG, dat->info[dat->oldPage].msg, SIZEOF(dat->info[dat->oldPage].msg));
 				}
-				CheckDlgButton(hwndDlg, IDC_DONTREPLY, i < 0 ? 0 : dat->info[i].ignore);
-				CheckDlgButton(hwndDlg, IDC_NODIALOG, i < 0 ? 0 : dat->info[i].noDialog);
-				CheckDlgButton(hwndDlg, IDC_USEPREVIOUS, i < 0 ? 0 : dat->info[i].usePrevious);
-				CheckDlgButton(hwndDlg, IDC_USESPECIFIC, i < 0 ? 0 : !dat->info[i].usePrevious);
+				CheckDlgButton(hwndDlg, IDC_DONTREPLY, (i < 0 ? 0 : dat->info[i].ignore) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_NODIALOG, (i < 0 ? 0 : dat->info[i].noDialog) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_USEPREVIOUS, (i < 0 ? 0 : dat->info[i].usePrevious) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_USESPECIFIC, (i < 0 ? 0 : !dat->info[i].usePrevious) ? BST_CHECKED : BST_UNCHECKED);
 
 				SetDlgItemText(hwndDlg, IDC_MSG, i < 0 ? _T("") : dat->info[i].msg);
 

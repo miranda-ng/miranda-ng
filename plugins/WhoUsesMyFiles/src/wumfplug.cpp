@@ -295,9 +295,9 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_COLOR_WIN, WumfOptions.UseWinColor?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_COLOR_DEF, WumfOptions.UseDefColor?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_COLOR_SET, WumfOptions.SelectColor?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_COLOR_WIN, WumfOptions.UseWinColor ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_COLOR_DEF, WumfOptions.UseDefColor ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_COLOR_SET, WumfOptions.SelectColor ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_BACK), WumfOptions.SelectColor);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_COLOR_TEXT), WumfOptions.SelectColor);
 		if (WumfOptions.SelectColor) {
@@ -308,17 +308,17 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			DisableDelayOptions(hwndDlg);
 			break;
 		}
-		CheckDlgButton(hwndDlg, IDC_DELAY_INF, WumfOptions.DelayInf?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DELAY_DEF, WumfOptions.DelayDef?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DELAY_SET, WumfOptions.DelaySet?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DELAY_INF, WumfOptions.DelayInf ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DELAY_DEF, WumfOptions.DelayDef ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DELAY_SET, WumfOptions.DelaySet ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY_SEC), WumfOptions.DelaySet);
 		SetDlgItemInt(hwndDlg, IDC_DELAY_SEC, WumfOptions.DelaySec, FALSE);
 		//Logging & alerts
-		CheckDlgButton(hwndDlg, IDC_LOG_FOLDER, WumfOptions.LogFolders?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALERT_FOLDER, WumfOptions.AlertFolders?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_UNC, WumfOptions.LogUNC?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ALERT_UNC, WumfOptions.AlertUNC?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOG_COMP, WumfOptions.LogComp?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_FOLDER, WumfOptions.LogFolders ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALERT_FOLDER, WumfOptions.AlertFolders ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_UNC, WumfOptions.LogUNC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALERT_UNC, WumfOptions.AlertUNC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_COMP, WumfOptions.LogComp ? BST_CHECKED : BST_UNCHECKED);
 
 		if (WumfOptions.LogToFile) {
 			CheckDlgButton(hwndDlg,IDC_LOG_INTO_FILE,BST_CHECKED);

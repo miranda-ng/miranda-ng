@@ -88,8 +88,8 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 								Flags.W = DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv);
 								if (Flags.B.hasCustom || Flags.B.hasProto || Flags.B.hasMeta) {
 									if (dbv.type == DBVT_BYTE) {
-										CheckDlgButton(hDlg, RADIO_FEMALE, (dbv.bVal == 'F'));
-										CheckDlgButton(hDlg, RADIO_MALE, (dbv.bVal == 'M'));
+										CheckDlgButton(hDlg, RADIO_FEMALE, (dbv.bVal == 'F') ? BST_CHECKED : BST_UNCHECKED);
+										CheckDlgButton(hDlg, RADIO_MALE, (dbv.bVal == 'M') ? BST_CHECKED : BST_UNCHECKED);
 
 										bEnable = !hContact || Flags.B.hasCustom || !db_get_b(NULL, MODNAME, SET_PROPSHEET_PCBIREADONLY, 0);
 										EnableWindow(GetDlgItem(hDlg, RADIO_FEMALE), bEnable);

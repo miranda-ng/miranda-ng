@@ -294,7 +294,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						ShowWindow(GetDlgItem(hwnd, ctrlsContact[i]), ptd->notification.dwFlags&PNF_CONTACT ? SW_SHOW : SW_HIDE);
 					// statusButtons state
 					for (i = 0; i < SIZEOF(statusButtons); ++i)
-						CheckDlgButton(hwnd, statusButtons[i].idCtrl, ptd->disableWhen & statusButtons[i].disableWhenFlag ? TRUE : FALSE);
+						CheckDlgButton(hwnd, statusButtons[i].idCtrl, ptd->disableWhen & statusButtons[i].disableWhenFlag ? BST_CHECKED : BST_UNCHECKED);
 				}
 				// element typ2 (CLASS Plugins)
 				else if (ptd->typ == 2) {
@@ -308,7 +308,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					}
 				}
 				// checkbox enable notify
-				CheckDlgButton(hwnd, IDC_ENABLE, ptd->enabled ? TRUE : FALSE);
+				CheckDlgButton(hwnd, IDC_ENABLE, ptd->enabled ? BST_CHECKED : BST_UNCHECKED);
 				// combo left action (SELECT)
 				hCtrl = GetDlgItem(hwnd, IDC_LACTION);
 				ComboBox_SelectItem (hCtrl, -1, ptd->leftAction);	// use Workaround for MS bug ComboBox_SelectItemData

@@ -407,9 +407,9 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		SetDlgItemText(hwndDlg, IDC_CHAT_TIMESTAMP, g_Settings.pszTimeStamp);
 		SetDlgItemText(hwndDlg, IDC_CHAT_OUTSTAMP, g_Settings.pszOutgoingNick);
 		SetDlgItemText(hwndDlg, IDC_CHAT_INSTAMP, g_Settings.pszIncomingNick);
-		CheckDlgButton(hwndDlg, IDC_CHAT_HIGHLIGHT, g_Settings.bHighlightEnabled);
+		CheckDlgButton(hwndDlg, IDC_CHAT_HIGHLIGHT, g_Settings.bHighlightEnabled ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS), g_Settings.bHighlightEnabled ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHAT_LOGGING, g_Settings.bLoggingEnabled);
+		CheckDlgButton(hwndDlg, IDC_CHAT_LOGGING, g_Settings.bLoggingEnabled ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY), g_Settings.bLoggingEnabled ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRCHOOSE), g_Settings.bLoggingEnabled ? TRUE : FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_LIMIT), g_Settings.bLoggingEnabled ? TRUE : FALSE);

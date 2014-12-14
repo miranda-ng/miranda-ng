@@ -514,8 +514,8 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TreeView_SetImageList( GetDlgItem(hwndDlg, IDC_MENUOBJECTS), himlCheckBoxes, TVSIL_NORMAL);
 			TreeView_SetImageList( GetDlgItem(hwndDlg, IDC_MENUITEMS), himlCheckBoxes, TVSIL_NORMAL);
 		}
-		CheckDlgButton(hwndDlg, dat->iInitMenuValue ? IDC_RADIO2 : IDC_RADIO1, TRUE);
-		CheckDlgButton(hwndDlg, IDC_DISABLEMENUICONS, bIconsDisabled);
+		CheckDlgButton(hwndDlg, dat->iInitMenuValue ? IDC_RADIO2 : IDC_RADIO1, BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEMENUICONS, bIconsDisabled ? BST_CHECKED : BST_UNCHECKED);
 		BuildMenuObjectsTree(hwndDlg);
 		return TRUE;
 

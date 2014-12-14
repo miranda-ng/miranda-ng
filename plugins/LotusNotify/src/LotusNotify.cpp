@@ -1044,22 +1044,22 @@ INT_PTR CALLBACK DlgProcLotusNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemInt(hwndDlg, IDC_INTERVAL1, settingInterval1,TRUE);
 				SetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand);
 				SetDlgItemTextA(hwndDlg, IDC_PARAMETERS, settingParameters);
-				CheckDlgButton(hwndDlg, IDC_ONCEONLY, settingOnceOnly);
-				CheckDlgButton(hwndDlg, IDC_SHOWERROR, settingShowError);
-				CheckDlgButton(hwndDlg, IDC_NEWEST, settingNewest);
-				CheckDlgButton(hwndDlg, IDC_NONCLICKEDONLY, settingNonClickedOnly);
-				CheckDlgButton(hwndDlg, IDC_BUTTON_CHECK, settingIniCheck );
+				CheckDlgButton(hwndDlg, IDC_ONCEONLY, settingOnceOnly ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_SHOWERROR, settingShowError ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_NEWEST, settingNewest ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_NONCLICKEDONLY, settingNonClickedOnly ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_BUTTON_CHECK, settingIniCheck ? BST_CHECKED : BST_UNCHECKED);
 
 				if(!settingOnceOnly) {
 					HWND hwnd = GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY);
 					EnableWindow(hwnd, FALSE);
 				}
-				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? TRUE : FALSE);
+				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
 				SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
 				if(!settingSetColours) {
 					HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-					CheckDlgButton(hwndDlg, IDC_SETCOLOURS, FALSE);
+					CheckDlgButton(hwndDlg, IDC_SETCOLOURS, BST_UNCHECKED);
 					EnableWindow(hwnd, FALSE);
 					hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
 					EnableWindow(hwnd, FALSE);

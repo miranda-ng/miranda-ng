@@ -133,7 +133,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ppro->setByte("UseYAB", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USE_YAB)); 
 			ppro->setByte("ShowAvatars", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_AVATARS)); 
 			ppro->setByte("MailAutoLogin", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MAIL_AUTOLOGIN)); 
-			ppro->setByte("DisableYahoomail", (BYTE)!IsDlgButtonChecked(hwndDlg, IDC_DISABLEYAHOOMAIL));
+			ppro->setByte("DisableYahoomail", (BYTE)BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DISABLEYAHOOMAIL));
 			ppro->setByte("ShowErrors", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOW_ERRORS)); 
 
 			if (reconnectRequired) {
@@ -261,14 +261,14 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam );
 
 		if ( ppro->getByte("IgnoreUnknown", 0)) {
-			CheckDlgButton(hwndDlg, IDC_OPT_IGN_UNKNOWN, 1);
+			CheckDlgButton(hwndDlg, IDC_OPT_IGN_UNKNOWN, BST_CHECKED);
 
 			EnableWindow( GetDlgItem(hwndDlg, IDC_IGN_ADD), 0);
 			EnableWindow( GetDlgItem(hwndDlg, IDC_IGN_REMOVE), 0);
 			EnableWindow( GetDlgItem(hwndDlg, IDC_YIGN_EDIT), 0);
 			EnableWindow( GetDlgItem(hwndDlg, IDC_YIGN_LIST), 0);
 		}
-		else CheckDlgButton(hwndDlg, IDC_OPT_IGN_LIST, 1);
+		else CheckDlgButton(hwndDlg, IDC_OPT_IGN_LIST, BST_CHECKED);
 
 		/* show our current ignore list */
 		LOG(("[DlgProcYahooOptsIgnore] Grabbing current ignore list..."))

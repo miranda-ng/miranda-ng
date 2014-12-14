@@ -168,7 +168,7 @@ public:
 	void DBToMem(CString &sModule, CString *sDBSettingPrefix = NULL) {Value = (GetIntDBVal(sModule, false, sDBSettingPrefix) == ValueMask) ? BST_CHECKED : BST_UNCHECKED; COptItem::DBToMem(sModule, sDBSettingPrefix);}
 	void MemToDB(CString &sModule, CString *sDBSettingPrefix = NULL) {if ((Value == BST_CHECKED)) SetIntDBVal(sModule, ValueMask, sDBSettingPrefix); COptItem::MemToDB(sModule, sDBSettingPrefix);}
 	void WndToMem(HWND hWnd) {Value = IsDlgButtonChecked(hWnd, DlgItemID); COptItem::WndToMem(hWnd);}
-	void MemToWnd(HWND hWnd) {CheckDlgButton(hWnd, DlgItemID, Value); COptItem::MemToWnd(hWnd);}
+	void MemToWnd(HWND hWnd) {CheckDlgButton(hWnd, DlgItemID, Value ? BST_CHECKED : BST_UNCHECKED); COptItem::MemToWnd(hWnd);}
 
 	void SetValue(int Value) {this->Value = Value; COptItem::SetValue(Value);}
 	void SetDefValue(int DefValue) {this->DefValue = DefValue; COptItem::SetDefValue(DefValue);}

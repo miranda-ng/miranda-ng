@@ -148,8 +148,8 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				SendDlgItemMessage(hWndDlg, IDC_CITY, CB_SETCURSEL, ppro->getWord("AdvancedSearchCityID", 0), 0);
 
 
-				CheckDlgButton(hWndDlg, IDC_ONLINEONLY, ppro->getByte("AdvancedSearchOnlineOnly", FALSE));
-				CheckDlgButton(hWndDlg, IDC_CHK_REMEMBER, TRUE);
+				CheckDlgButton(hWndDlg, IDC_ONLINEONLY, ppro->getByte("AdvancedSearchOnlineOnly", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hWndDlg, IDC_CHK_REMEMBER, BST_CHECKED);
 			}
 			TranslateDialogDefault(hWndDlg);
 		}

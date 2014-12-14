@@ -350,7 +350,7 @@ class CAnnivList
 					EnableWindow(hCtrl, pDlg->_bRemindEnable);
 				}
 
-				CheckDlgButton(hDlg, CHECK_POPUP, db_get_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, FALSE));
+				CheckDlgButton(hDlg, CHECK_POPUP, db_get_b(NULL, MODNAME, SET_ANNIVLIST_POPUP, FALSE) ? BST_CHECKED : BST_UNCHECKED);
 				// set number of days to show contact in advance
 				SetDlgItemInt(hDlg, EDIT_DAYS, pDlg->_filter.wDaysBefore, FALSE);
 				if (hCtrl = GetDlgItem(hDlg, CHECK_DAYS)) {

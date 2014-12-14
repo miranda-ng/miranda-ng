@@ -525,7 +525,7 @@ void UpdateFilters()
 	}
 	SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_SETCURSEL, dwFlags & CLVM_PROTOGROUP_OP ? 1 : 0, 0);
 	SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_SETCURSEL, dwFlags & CLVM_GROUPSTATUS_OP ? 1 : 0, 0);
-	CheckDlgButton(clvmHwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? 1 : 0);
+	CheckDlgButton(clvmHwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? BST_CHECKED : BST_UNCHECKED);
 	UpdateStickies();
 
 	{
@@ -533,7 +533,7 @@ void UpdateFilters()
 		DWORD lmdat;
 		BYTE bTmp;
 
-		CheckDlgButton(clvmHwnd, IDC_LASTMSG, useLastMsg);
+		CheckDlgButton(clvmHwnd, IDC_LASTMSG, useLastMsg ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(clvmHwnd, IDC_LASTMESSAGEOP, useLastMsg);
 		Utils::enableDlgControl(clvmHwnd, IDC_LASTMSGVALUE, useLastMsg);
 		Utils::enableDlgControl(clvmHwnd, IDC_LASTMESSAGEUNIT, useLastMsg);

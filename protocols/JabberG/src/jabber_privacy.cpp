@@ -390,13 +390,13 @@ public:
 		if (!dwPackets)
 			dwPackets = JABBER_PL_RULE_TYPE_ALL;
 		if (dwPackets & JABBER_PL_RULE_TYPE_IQ)
-			SendDlgItemMessage(m_hwnd, IDC_CHECK_QUERIES, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(m_hwnd, IDC_CHECK_QUERIES, BST_CHECKED);
 		if (dwPackets & JABBER_PL_RULE_TYPE_MESSAGE)
-			SendDlgItemMessage(m_hwnd, IDC_CHECK_MESSAGES, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(m_hwnd, IDC_CHECK_MESSAGES, BST_CHECKED);
 		if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN)
-			SendDlgItemMessage(m_hwnd, IDC_CHECK_PRESENCE_IN, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(m_hwnd, IDC_CHECK_PRESENCE_IN, BST_CHECKED);
 		if (dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT)
-			SendDlgItemMessage(m_hwnd, IDC_CHECK_PRESENCE_OUT, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(m_hwnd, IDC_CHECK_PRESENCE_OUT, BST_CHECKED);
 
 		if (m_pRule->GetValue() && (m_pRule->GetType() == Jid || m_pRule->GetType() == Group))
 			SetDlgItemText(m_hwnd, IDC_EDIT_VALUE, m_pRule->GetValue());
@@ -815,12 +815,12 @@ void CJabberDlgPrivacyLists::OnInitDialog()
 	if ( m_proto->getByte("plistsWnd_simpleMode", 1)) {
 		UIShowControls(m_hwnd, idSimpleControls, SW_SHOW);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_HIDE);
-		CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, TRUE);
+		CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, BST_CHECKED);
 	}
 	else {
 		UIShowControls(m_hwnd, idSimpleControls, SW_HIDE);
 		UIShowControls(m_hwnd, idAdvancedControls, SW_SHOW);
-		CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, TRUE);
+		CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, BST_CHECKED);
 	}
 
 	mir_subclassWindow( GetDlgItem(m_hwnd, IDC_LB_LISTS), LstListsSubclassProc);
@@ -1611,8 +1611,8 @@ BOOL CJabberDlgPrivacyLists::CanExit()
 
 void CJabberDlgPrivacyLists::btnSimple_OnClick(CCtrlButton *)
 {
-	CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, TRUE);
-	CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, FALSE);
+	CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, BST_CHECKED);
+	CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, BST_UNCHECKED);
 	UIShowControls(m_hwnd, idSimpleControls, SW_SHOW);
 	UIShowControls(m_hwnd, idAdvancedControls, SW_HIDE);
 	CListApplyList(GetDlgItem(m_hwnd, IDC_CLIST), GetSelectedList(m_hwnd));
@@ -1620,8 +1620,8 @@ void CJabberDlgPrivacyLists::btnSimple_OnClick(CCtrlButton *)
 
 void CJabberDlgPrivacyLists::btnAdvanced_OnClick(CCtrlButton *)
 {
-	CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, FALSE);
-	CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, TRUE);
+	CheckDlgButton(m_hwnd, IDC_BTN_SIMPLE, BST_UNCHECKED);
+	CheckDlgButton(m_hwnd, IDC_BTN_ADVANCED, BST_CHECKED);
 	UIShowControls(m_hwnd, idSimpleControls, SW_HIDE);
 	UIShowControls(m_hwnd, idAdvancedControls, SW_SHOW);
 	CListBuildList(GetDlgItem(m_hwnd, IDC_CLIST), GetSelectedList(m_hwnd));

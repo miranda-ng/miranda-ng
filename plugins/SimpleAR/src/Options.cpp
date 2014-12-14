@@ -14,7 +14,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			TCHAR* pszStatus;
 			char tszStatus[6]={0};
 
-			CheckDlgButton(hwndDlg,IDC_ENABLEREPLIER,db_get_b(NULL,protocolname,KEY_ENABLED,1)==1);
+			CheckDlgButton(hwndDlg,IDC_ENABLEREPLIER,db_get_b(NULL,protocolname,KEY_ENABLED,1)==1 ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hwndDlg,IDC_INTERVAL,db_get_w(NULL,protocolname,KEY_REPEATINTERVAL,300)/60,FALSE);
 
 			if (!db_get_ts(NULL,protocolname,KEY_HEADING,&dbv))

@@ -130,7 +130,7 @@ INT_PTR CALLBACK TlenAccMgrUIDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE));
+			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", BST_CHECKED));
 
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_EDIT_USERNAME), TlenValidateUsernameWndProc);
 		}
@@ -216,17 +216,17 @@ static INT_PTR CALLBACK TlenBasicOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				SetDlgItemTextA(hwndDlg, IDC_EDIT_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", TRUE));
+			CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, db_get_b(NULL, proto->m_szModuleName, "SavePassword", BST_CHECKED));
 
-			CheckDlgButton(hwndDlg, IDC_RECONNECT, proto->tlenOptions.reconnect);
-			CheckDlgButton(hwndDlg, IDC_ROSTER_SYNC, proto->tlenOptions.rosterSync);
-			CheckDlgButton(hwndDlg, IDC_SHOW_OFFLINE, proto->tlenOptions.offlineAsInvisible);
-			CheckDlgButton(hwndDlg, IDC_OFFLINE_MESSAGE, proto->tlenOptions.leaveOfflineMessage);
-			CheckDlgButton(hwndDlg, IDC_IGNORE_ADVERTISEMENTS, proto->tlenOptions.ignoreAdvertisements);
-			CheckDlgButton(hwndDlg, IDC_AVATARS, proto->tlenOptions.enableAvatars);
-			CheckDlgButton(hwndDlg, IDC_VERSIONINFO, proto->tlenOptions.enableVersion);
-			CheckDlgButton(hwndDlg, IDC_NUDGE_SUPPORT, proto->tlenOptions.useNudge);
-			CheckDlgButton(hwndDlg, IDC_LOG_ALERTS, proto->tlenOptions.logAlerts);
+			CheckDlgButton(hwndDlg, IDC_RECONNECT, proto->tlenOptions.reconnect ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ROSTER_SYNC, proto->tlenOptions.rosterSync ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOW_OFFLINE, proto->tlenOptions.offlineAsInvisible ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OFFLINE_MESSAGE, proto->tlenOptions.leaveOfflineMessage ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IGNORE_ADVERTISEMENTS, proto->tlenOptions.ignoreAdvertisements ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AVATARS, proto->tlenOptions.enableAvatars ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_VERSIONINFO, proto->tlenOptions.enableVersion ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NUDGE_SUPPORT, proto->tlenOptions.useNudge ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_LOG_ALERTS, proto->tlenOptions.logAlerts ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_ALERT_POLICY, CB_ADDSTRING, 0, (LPARAM)TranslateT("Accept all alerts"));
 			SendDlgItemMessage(hwndDlg, IDC_ALERT_POLICY, CB_ADDSTRING, 0, (LPARAM)TranslateT("Ignore alerts from unauthorized contacts"));
@@ -429,16 +429,16 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			SetDlgItemInt(hwndDlg, IDC_HOSTPORT, db_get_w(NULL, proto->m_szModuleName, "ManualPort", TLEN_DEFAULT_PORT), FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_KEEPALIVE, db_get_b(NULL, proto->m_szModuleName, "KeepAlive", TRUE));
+			CheckDlgButton(hwndDlg, IDC_KEEPALIVE, db_get_b(NULL, proto->m_szModuleName, "KeepAlive", TRUE) ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_USE_SSL, db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE));
+			CheckDlgButton(hwndDlg, IDC_USE_SSL, db_get_b(NULL, proto->m_szModuleName, "UseEncryption", TRUE) ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_VISIBILITY_SUPPORT, db_get_b(NULL, proto->m_szModuleName, "VisibilitySupport", FALSE));
+			CheckDlgButton(hwndDlg, IDC_VISIBILITY_SUPPORT, db_get_b(NULL, proto->m_szModuleName, "VisibilitySupport", FALSE) ? BST_CHECKED : BST_UNCHECKED);
 			// File transfer options
 			bChecked = FALSE;
 			if (db_get_b(NULL, proto->m_szModuleName, "UseFileProxy", FALSE) == TRUE) {
 				bChecked = TRUE;
-				CheckDlgButton(hwndDlg, IDC_FILE_USE_PROXY, TRUE);
+				CheckDlgButton(hwndDlg, IDC_FILE_USE_PROXY, BST_CHECKED);
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_TYPE_LABEL), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_TYPE), bChecked);
@@ -448,7 +448,7 @@ static INT_PTR CALLBACK TlenAdvOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_PORT), bChecked);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILE_PROXY_USE_AUTH), bChecked);
 			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE) == TRUE)
-				CheckDlgButton(hwndDlg, IDC_FILE_PROXY_USE_AUTH, TRUE);
+				CheckDlgButton(hwndDlg, IDC_FILE_PROXY_USE_AUTH, BST_CHECKED);
 			else
 				bChecked = FALSE;
 
@@ -619,17 +619,17 @@ static INT_PTR CALLBACK TlenPopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				proto = (TlenProtocol *)lParam;
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)proto);
 				TranslateDialogDefault(hwndDlg);
-				CheckDlgButton(hwndDlg, IDC_ENABLEPOPUP, db_get_b(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE));
+				CheckDlgButton(hwndDlg, IDC_ENABLEPOPUP, db_get_b(NULL, proto->m_szModuleName, "MailPopupEnabled", TRUE) ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg, IDC_COLORBKG, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, "MailPopupBack", POPUP_DEFAULT_COLORBKG));
 				SendDlgItemMessage(hwndDlg, IDC_COLORTXT, CPM_SETCOLOUR, 0, db_get_dw(NULL, proto->m_szModuleName, "MailPopupText", POPUP_DEFAULT_COLORTXT));
 				SetDlgItemInt(hwndDlg, IDC_DELAY, db_get_dw(NULL, proto->m_szModuleName, "MailPopupDelay", 4), FALSE);
 				delayMode = db_get_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
 				if (delayMode == 1) {
-					CheckDlgButton(hwndDlg, IDC_DELAY_CUSTOM, TRUE);
+					CheckDlgButton(hwndDlg, IDC_DELAY_CUSTOM, BST_CHECKED);
 				} else if (delayMode == 2) {
-					CheckDlgButton(hwndDlg, IDC_DELAY_PERMANENT, TRUE);
+					CheckDlgButton(hwndDlg, IDC_DELAY_PERMANENT, BST_CHECKED);
 				} else {
-					CheckDlgButton(hwndDlg, IDC_DELAY_POPUP, TRUE);
+					CheckDlgButton(hwndDlg, IDC_DELAY_POPUP, BST_CHECKED);
 				}
 				return TRUE;
 			}

@@ -164,7 +164,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		// Border
-		CheckDlgButton(hwndDlg, IDC_DRAWBORDER, db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER));
+		CheckDlgButton(hwndDlg, IDC_DRAWBORDER, db_get_b(NULL, MODULE, "DrawBorder", FLT_DEFAULT_DRAWBORDER) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, M_REFRESHBORDERPICKERS, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_SETDEFAULTCOLOUR, 0, FLT_DEFAULT_LTEDGESCOLOR);
 		SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODULE, "LTEdgesColor", FLT_DEFAULT_LTEDGESCOLOR));
@@ -176,7 +176,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 
 		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETDEFAULTCOLOUR, 0, FLT_DEFAULT_BKGNDCOLOR);
 		SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_SETCOLOUR, 0, db_get_dw(NULL, MODULE, "BkColor", FLT_DEFAULT_BKGNDCOLOR));
-		CheckDlgButton(hwndDlg, IDC_BITMAP, db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP));
+		CheckDlgButton(hwndDlg, IDC_BITMAP, db_get_b(NULL, MODULE, "BkUseBitmap", FLT_DEFAULT_BKGNDUSEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, M_REFRESHBKGBOXES, 0, 0);
 		{
 			DBVARIANT dbv;

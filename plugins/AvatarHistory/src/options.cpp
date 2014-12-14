@@ -72,10 +72,10 @@ static void PopupsEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_LEFT_ACTION), enabled);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PREV), enabled);
 	
-	EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), enabled && !IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
-	EnableWindow(GetDlgItem(hwndDlg, IDC_TEXTCOLOR), enabled && !IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), enabled && !IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
-	EnableWindow(GetDlgItem(hwndDlg, IDC_WINCOLORS), enabled && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_TEXTCOLOR), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_WINCOLORS), enabled && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
 
 	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), enabled && IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM));
 

@@ -265,11 +265,11 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		DestroyMenu(hMenu);
 
 		// other options
-		CheckDlgButton(hdlg, IDC_E, opt.UsePopup);
-		CheckDlgButton(hdlg, IDC_POP2, opt.AlertPopup);
-		CheckDlgButton(hdlg, IDC_POP1, opt.UpdatePopup);
-		CheckDlgButton(hdlg, IDC_CH, opt.PopupOnChange);
-		CheckDlgButton(hdlg, IDC_W, opt.ShowWarnings);
+		CheckDlgButton(hdlg, IDC_E, opt.UsePopup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP2, opt.AlertPopup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_POP1, opt.UpdatePopup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CH, opt.PopupOnChange ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_W, opt.ShowWarnings ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hdlg,IDC_PText, opt.pText);
 		SetDlgItemText(hdlg,IDC_PTitle, opt.pTitle);
 		// setting popup delay option

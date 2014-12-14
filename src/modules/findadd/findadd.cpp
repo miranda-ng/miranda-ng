@@ -793,7 +793,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		if (lParam && dat->hwndTinySearch == (HWND)lParam &&
 			HIWORD(wParam) == EN_SETFOCUS && LOWORD(wParam) == 0 &&
-			!IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM))
+			BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_BYCUSTOM))
 		{
 			CheckSearchTypeRadioButton(hwndDlg, IDC_BYCUSTOM);
 		}

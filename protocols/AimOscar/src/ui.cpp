@@ -492,7 +492,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwEffects = isBold ? 0 : CFE_BOLD;
 				cf.dwMask = CFM_BOLD;
-				CheckDlgButton(hwndDlg, IDC_BOLD, !isBold);
+				CheckDlgButton(hwndDlg, IDC_BOLD, !isBold ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
 			}
@@ -510,7 +510,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwEffects = isItalic ? 0 : CFE_ITALIC;
 				cf.dwMask = CFM_ITALIC;
-				CheckDlgButton(hwndDlg, IDC_ITALIC, !isItalic);
+				CheckDlgButton(hwndDlg, IDC_ITALIC, !isItalic ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
 			}
@@ -528,7 +528,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cf.cbSize = sizeof(CHARFORMAT2);
 				cf.dwEffects = isUnderline ? 0 : CFE_UNDERLINE;
 				cf.dwMask = CFM_UNDERLINE;
-				CheckDlgButton(hwndDlg, IDC_UNDERLINE, !isUnderline);
+				CheckDlgButton(hwndDlg, IDC_UNDERLINE, !isUnderline ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 				SetFocus(GetDlgItem(hwndDlg, IDC_PROFILE));
 			}
@@ -811,20 +811,20 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			SetDlgItemInt(hwndDlg, IDC_PN, ppro->get_default_port(), FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_DC, ppro->getByte(AIM_KEY_DC, 0));//Message Delivery Confirmation
-			CheckDlgButton(hwndDlg, IDC_FP, ppro->getByte(AIM_KEY_FP, 0));//force proxy
-			CheckDlgButton(hwndDlg, IDC_AT, ppro->getByte(AIM_KEY_AT, 0));//Account Type Icons
-			CheckDlgButton(hwndDlg, IDC_ES, ppro->getByte(AIM_KEY_ES, 0));//Extended Status Type Icons
-			CheckDlgButton(hwndDlg, IDC_HF, ppro->getByte(AIM_KEY_HF, 0));//Fake hiptopness
-			CheckDlgButton(hwndDlg, IDC_DM, ppro->getByte(AIM_KEY_DM, 0));//Disable Sending Mode Message
-			CheckDlgButton(hwndDlg, IDC_FI, ppro->getByte(AIM_KEY_FI, 1));//Format incoming messages
-			CheckDlgButton(hwndDlg, IDC_FO, ppro->getByte(AIM_KEY_FO, 1));//Format outgoing messages
-			CheckDlgButton(hwndDlg, IDC_II, ppro->getByte(AIM_KEY_II, 0));//Instant Idle
-			CheckDlgButton(hwndDlg, IDC_CM, ppro->getByte(AIM_KEY_CM, 0));//Check Mail
-			CheckDlgButton(hwndDlg, IDC_MG, ppro->getByte(AIM_KEY_MG, 1));//Manage Groups
-			CheckDlgButton(hwndDlg, IDC_DA, ppro->getByte(AIM_KEY_DA, 0));//Disable Avatars
-			CheckDlgButton(hwndDlg, IDC_DSSL, ppro->getByte(AIM_KEY_DSSL, 0));//Disable SSL
-			CheckDlgButton(hwndDlg, IDC_FSC, ppro->getByte(AIM_KEY_FSC, 0));//Force Single Client
+			CheckDlgButton(hwndDlg, IDC_DC, ppro->getByte(AIM_KEY_DC, 0) ? BST_CHECKED : BST_UNCHECKED);//Message Delivery Confirmation
+			CheckDlgButton(hwndDlg, IDC_FP, ppro->getByte(AIM_KEY_FP, 0) ? BST_CHECKED : BST_UNCHECKED);//force proxy
+			CheckDlgButton(hwndDlg, IDC_AT, ppro->getByte(AIM_KEY_AT, 0) ? BST_CHECKED : BST_UNCHECKED);//Account Type Icons
+			CheckDlgButton(hwndDlg, IDC_ES, ppro->getByte(AIM_KEY_ES, 0) ? BST_CHECKED : BST_UNCHECKED);//Extended Status Type Icons
+			CheckDlgButton(hwndDlg, IDC_HF, ppro->getByte(AIM_KEY_HF, 0) ? BST_CHECKED : BST_UNCHECKED);//Fake hiptopness
+			CheckDlgButton(hwndDlg, IDC_DM, ppro->getByte(AIM_KEY_DM, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable Sending Mode Message
+			CheckDlgButton(hwndDlg, IDC_FI, ppro->getByte(AIM_KEY_FI, 1) ? BST_CHECKED : BST_UNCHECKED);//Format incoming messages
+			CheckDlgButton(hwndDlg, IDC_FO, ppro->getByte(AIM_KEY_FO, 1) ? BST_CHECKED : BST_UNCHECKED);//Format outgoing messages
+			CheckDlgButton(hwndDlg, IDC_II, ppro->getByte(AIM_KEY_II, 0) ? BST_CHECKED : BST_UNCHECKED);//Instant Idle
+			CheckDlgButton(hwndDlg, IDC_CM, ppro->getByte(AIM_KEY_CM, 0) ? BST_CHECKED : BST_UNCHECKED);//Check Mail
+			CheckDlgButton(hwndDlg, IDC_MG, ppro->getByte(AIM_KEY_MG, 1) ? BST_CHECKED : BST_UNCHECKED);//Manage Groups
+			CheckDlgButton(hwndDlg, IDC_DA, ppro->getByte(AIM_KEY_DA, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable Avatars
+			CheckDlgButton(hwndDlg, IDC_DSSL, ppro->getByte(AIM_KEY_DSSL, 0) ? BST_CHECKED : BST_UNCHECKED);//Disable SSL
+			CheckDlgButton(hwndDlg, IDC_FSC, ppro->getByte(AIM_KEY_FSC, 0) ? BST_CHECKED : BST_UNCHECKED);//Force Single Client
 		}
 		break;
 
@@ -1027,7 +1027,7 @@ static INT_PTR CALLBACK privacy_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		for (i=0; i<ppro->block_list.getCount(); ++i)
 			SendDlgItemMessageA(hwndDlg, IDC_BLOCKLIST, LB_ADDSTRING, 0, (LPARAM)ppro->block_list[i].name);
 
-		CheckDlgButton (hwndDlg, IDC_SIS, (ppro->pref1_flags & 0x400) ? BST_CHECKED : BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_SIS, (ppro->pref1_flags & 0x400) ? BST_CHECKED : BST_CHECKED);
 		break;
 
 	case WM_COMMAND:

@@ -47,7 +47,7 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 		ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT),hasPopups?SW_SHOW:SW_HIDE);
 		ShowWindow(GetDlgItem(hdlg, IDC_LABTTITLE),hasPopups?SW_SHOW:SW_HIDE);
 		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT),hasPopups?SW_SHOW:SW_HIDE);
-		CheckDlgButton(hdlg, IDC_POPUPS,db_get_b(NULL,S_MOD,"UsePopups",0)&hasPopups);
+		CheckDlgButton(hdlg, IDC_POPUPS, (db_get_b(NULL,S_MOD,"UsePopups",0) & hasPopups) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_POPUPS),hasPopups);
 		hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
 		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP),hasPopups);
@@ -180,15 +180,15 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 
-		CheckDlgButton(hdlg, IDC_MENUITEM,db_get_b(NULL,S_MOD,"MenuItem",1));
-		CheckDlgButton(hdlg, IDC_USERINFO,db_get_b(NULL,S_MOD,"UserinfoTab",1));
-		CheckDlgButton(hdlg, IDC_FILE,db_get_b(NULL,S_MOD,"FileOutput",0));
-		CheckDlgButton(hdlg, IDC_HISTORY,db_get_b(NULL,S_MOD,"KeepHistory",0));
-		CheckDlgButton(hdlg, IDC_IGNOREOFFLINE,db_get_b(NULL,S_MOD,"IgnoreOffline",1));
-		CheckDlgButton(hdlg, IDC_MISSEDONES,db_get_b(NULL,S_MOD,"MissedOnes",0));
-		CheckDlgButton(hdlg, IDC_SHOWICON,db_get_b(NULL,S_MOD,"ShowIcon",1));
-		CheckDlgButton(hdlg, IDC_COUNT,db_get_b(NULL,S_MOD,"MissedOnes_Count",0));
-		CheckDlgButton(hdlg, IDC_IDLESUPPORT,db_get_b(NULL,S_MOD,"IdleSupport",1));
+		CheckDlgButton(hdlg, IDC_MENUITEM,db_get_b(NULL,S_MOD,"MenuItem",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_USERINFO,db_get_b(NULL,S_MOD,"UserinfoTab",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_FILE,db_get_b(NULL,S_MOD,"FileOutput",0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_HISTORY,db_get_b(NULL,S_MOD,"KeepHistory",0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_IGNOREOFFLINE,db_get_b(NULL,S_MOD,"IgnoreOffline",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_MISSEDONES,db_get_b(NULL,S_MOD,"MissedOnes",0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_SHOWICON,db_get_b(NULL,S_MOD,"ShowIcon",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_COUNT,db_get_b(NULL,S_MOD,"MissedOnes_Count",0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_IDLESUPPORT,db_get_b(NULL,S_MOD,"IdleSupport",1) ? BST_CHECKED : BST_UNCHECKED);
 
 		EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP),IsDlgButtonChecked(hdlg, IDC_MENUITEM));
 		EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON),IsDlgButtonChecked(hdlg, IDC_MENUITEM));

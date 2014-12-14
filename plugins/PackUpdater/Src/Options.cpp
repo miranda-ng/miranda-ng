@@ -36,10 +36,10 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, (int)UpdateOnStartup);
-		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, (int)OnlyOnceADay);
+		CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, UpdateOnStartup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, OnlyOnceADay ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), UpdateOnStartup);
-		CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, (int)UpdateOnPeriod);
+		CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, UpdateOnPeriod ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), UpdateOnPeriod);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), UpdateOnPeriod);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), UpdateOnPeriod);
@@ -54,7 +54,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), 1, TranslateT("days"));
 		ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), PeriodMeasure);
 
-		CheckDlgButton(hwndDlg, IDC_REMINDER, (int)Reminder);
+		CheckDlgButton(hwndDlg, IDC_REMINDER, Reminder ? BST_CHECKED : BST_UNCHECKED);
 		if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 			ShowWindow(GetDlgItem(hwndDlg, IDC_NOTIFY2), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG_BOXES2), SW_HIDE);
@@ -293,7 +293,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Test");
 			for (int i = 0; i < POPUPS; i++) {
-				if ((!IsDlgButtonChecked(hdlg, (i+40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i+40071)))))
+				if ((BST_UNCHECKED == IsDlgButtonChecked(hdlg, (i+40071))) || (!IsWindowEnabled(GetDlgItem(hdlg, (i+40071)))))
 					continue;
 				show_popup(0, Title, Text, i, 0);
 			}
@@ -302,7 +302,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_TIMEOUT_VALUE:
 		case IDC_MSG_BOXES:
 		case IDC_ERRORS:
-			if (!IsDlgButtonChecked(hdlg, IDC_ERRORS))
+			if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_ERRORS))
 				EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), TRUE);
 			else
 				EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), FALSE);
@@ -311,7 +311,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_INFO_MESSAGES:
-			if (!IsDlgButtonChecked(hdlg, IDC_INFO_MESSAGES))
+			if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_INFO_MESSAGES))
 				EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), TRUE);
 			else
 				EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), FALSE);
@@ -320,7 +320,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_PROGR_DLG:
-			if (!IsDlgButtonChecked(hdlg, IDC_PROGR_DLG))
+			if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_PROGR_DLG))
 				EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), TRUE);
 			else
 				EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), FALSE);

@@ -222,8 +222,8 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		CheckDlgButton(hwndDlg, IDC_USESKIN, M.GetByte("useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		loadMode = M.GetByte("skin_loadmode", 0);
-		CheckDlgButton(hwndDlg, IDC_SKIN_LOADFONTS, loadMode & THEME_READ_FONTS);
-		CheckDlgButton(hwndDlg, IDC_SKIN_LOADTEMPLATES, loadMode & THEME_READ_TEMPLATES);
+		CheckDlgButton(hwndDlg, IDC_SKIN_LOADFONTS, loadMode & THEME_READ_FONTS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SKIN_LOADTEMPLATES, loadMode & THEME_READ_TEMPLATES ? BST_CHECKED : BST_UNCHECKED);
 
 		SendMessage(hwndDlg, WM_USER + 100, 0, 0);
 		SetTimer(hwndDlg, 1000, 100, 0);
@@ -849,15 +849,15 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		ResetCList(hwndDlg);
 		RebuildList(hwndDlg, hItemNew, hItemUnknown);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING));
-		CheckDlgButton(hwndDlg, IDC_TYPEFLASHWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH));
+		CheckDlgButton(hwndDlg, IDC_SHOWNOTIFY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPING, SRMSGDEFSET_SHOWTYPING) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TYPEFLASHWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_TYPENOWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1));
-		CheckDlgButton(hwndDlg, IDC_TYPEWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1));
-		CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST));
+		CheckDlgButton(hwndDlg, IDC_TYPENOWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TYPEWIN, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTIFYTRAY, M.GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIFYBALLOON, M.GetByte(SRMSGMOD, "ShowTypingBalloon", 0));
 
-		CheckDlgButton(hwndDlg, IDC_NOTIFYPOPUP, M.GetByte(SRMSGMOD, "ShowTypingPopup", 0));
+		CheckDlgButton(hwndDlg, IDC_NOTIFYPOPUP, M.GetByte(SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
 		Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
@@ -983,7 +983,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				tabItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), &tvi);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0));
+			CheckDlgButton(hwndDlg, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
 			SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(NULL, SRMSGMOD_T, "cut_at", 15));
 
@@ -1095,15 +1095,15 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_CONTAINERGROUPMODE, M.GetByte("useclistgroups", 0));
-		CheckDlgButton(hwndDlg, IDC_LIMITTABS, M.GetByte("limittabs", 0));
+		CheckDlgButton(hwndDlg, IDC_CONTAINERGROUPMODE, M.GetByte("useclistgroups", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LIMITTABS, M.GetByte("limittabs", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_TABLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 1));
 		SendDlgItemMessage(hwndDlg, IDC_TABLIMITSPIN, UDM_SETPOS, 0, (int)M.GetDword("maxtabs", 1));
 		SetDlgItemInt(hwndDlg, IDC_TABLIMIT, (int)M.GetDword("maxtabs", 1), FALSE);
 		Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS));
-		CheckDlgButton(hwndDlg, IDC_SINGLEWINDOWMODE, M.GetByte("singlewinmode", 0));
-		CheckDlgButton(hwndDlg, IDC_DEFAULTCONTAINERMODE, !(IsDlgButtonChecked(hwndDlg, IDC_CONTAINERGROUPMODE) || IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) || IsDlgButtonChecked(hwndDlg, IDC_SINGLEWINDOWMODE)));
+		CheckDlgButton(hwndDlg, IDC_SINGLEWINDOWMODE, M.GetByte("singlewinmode", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DEFAULTCONTAINERMODE, !(IsDlgButtonChecked(hwndDlg, IDC_CONTAINERGROUPMODE) || IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) || IsDlgButtonChecked(hwndDlg, IDC_SINGLEWINDOWMODE)) ? BST_CHECKED : BST_UNCHECKED);
 
 		SetDlgItemInt(hwndDlg, IDC_NRFLASH, M.GetByte("nrflash", 4), FALSE);
 		SendDlgItemMessage(hwndDlg, IDC_NRFLASHSPIN, UDM_SETRANGE, 0, MAKELONG(255, 1));
@@ -1113,8 +1113,8 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETRANGE, 0, MAKELONG(10000, 500));
 		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETPOS, 0, (int)M.GetDword("flashinterval", 1000));
 		SendDlgItemMessage(hwndDlg, IDC_FLASHINTERVALSPIN, UDM_SETACCEL, 0, (int)M.GetDword("flashinterval", 1000));
-		CheckDlgButton(hwndDlg, IDC_USEAERO, M.GetByte("useAero", 1));
-		CheckDlgButton(hwndDlg, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1));
+		CheckDlgButton(hwndDlg, IDC_USEAERO, M.GetByte("useAero", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USEAEROPEEK, M.GetByte("useAeroPeek", 1) ? BST_CHECKED : BST_UNCHECKED);
 		for (int i = 0; i < CSkin::AERO_EFFECT_LAST; i++)
 			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(CSkin::m_aeroEffects[i].tszName));
 
@@ -1470,7 +1470,7 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
 			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, maxhist != 0);
 			Utils::enableDlgControl(hwndDlg, IDC_TRIM, maxhist != 0);
-			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM, maxhist != 0);
+			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM, maxhist != 0 ? BST_CHECKED : BST_UNCHECKED);
 
 			BOOL bTabOptGroups = M.GetByte("useclistgroups", 0);
 			BOOL bTabOptLimit = M.GetByte("limittabs", 0);
@@ -1613,12 +1613,12 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				SetWindowText(GetDlgItem(hwndDlg, i), pcli->pfnGetStatusModeDescription(i, GSMDF_TCHAR));
 				if (dwStatusMask != -1 && (dwStatusMask & (1 << (i - ID_STATUS_ONLINE))))
-					CheckDlgButton(hwndDlg, i, TRUE);
+					CheckDlgButton(hwndDlg, i, BST_CHECKED);
 				Utils::enableDlgControl(hwndDlg, i, dwStatusMask != -1);
 			}
 		}
 		if (dwStatusMask == -1)
-			CheckDlgButton(hwndDlg, IDC_ALWAYS, TRUE);
+			CheckDlgButton(hwndDlg, IDC_ALWAYS, BST_CHECKED);
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);
 		return TRUE;
 
@@ -1647,7 +1647,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 		case IDC_ALWAYS:
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-				Utils::enableDlgControl(hwndDlg, i, !IsDlgButtonChecked(hwndDlg, IDC_ALWAYS));
+				Utils::enableDlgControl(hwndDlg, i, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_ALWAYS));
 			break;
 		}
 

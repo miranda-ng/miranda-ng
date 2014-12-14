@@ -124,12 +124,12 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 			hIconFile = (HICON)CopyImage(LoadSkinnedIcon(SKINICON_EVENT_FILE), IMAGE_ICON, 16, 16, LR_COPYFROMRESOURCE);
 			SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIconFile, 0);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_MESSAGEREAD, Options.MessageRead?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_MESSAGESEND, Options.MessageSend?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_URLREAD, Options.UrlRead?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_URLSEND, Options.UrlSend?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_FILEREAD, Options.FileRead?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_FILESEND, Options.FileSend?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_MESSAGEREAD, Options.MessageRead ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_MESSAGESEND, Options.MessageSend ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_URLREAD, Options.UrlRead ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_URLSEND, Options.UrlSend ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_FILEREAD, Options.FileRead ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_FILESEND, Options.FileSend ? BST_CHECKED : BST_UNCHECKED);
 
 			switch(Options.ChangeTo) {
 				case ID_STATUS_OFFLINE : CheckDlgButton(hwndDlg, IDC_RAD_OFFLINE, BST_CHECKED); break;
@@ -145,16 +145,16 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 				break;
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CHK_OFFLINE, Options.IfOffline?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_ONLINE, Options.IfOnline?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_AWAY, Options.IfAway?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_DND, Options.IfDND?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_NA, Options.IfNA?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_OCCUPIED, Options.IfOccupied?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_FREECHAT, Options.IfFreeforchat?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_INVISIBLE, Options.IfInvisible?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_ONTHEPHONE, Options.IfOnthephone?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHK_OUTTOLUNCH, Options.IfOuttolunch?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_OFFLINE, Options.IfOffline ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_ONLINE, Options.IfOnline ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_AWAY, Options.IfAway ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_DND, Options.IfDND ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_NA, Options.IfNA ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_OCCUPIED, Options.IfOccupied ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_FREECHAT, Options.IfFreeforchat ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_INVISIBLE, Options.IfInvisible ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_ONTHEPHONE, Options.IfOnthephone ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_OUTTOLUNCH, Options.IfOuttolunch ? BST_CHECKED : BST_UNCHECKED);
 			return TRUE;
 
 		case WM_COMMAND:

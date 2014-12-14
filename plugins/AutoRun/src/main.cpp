@@ -78,7 +78,7 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg,IDC_AUTORUN,CmpCurrentAndRegistry()); // Check chekbox if Registry value exists
+		CheckDlgButton(hwndDlg, IDC_AUTORUN, CmpCurrentAndRegistry() ? BST_CHECKED : BST_UNCHECKED); // Check chekbox if Registry value exists
 		return TRUE;
 
 	case WM_COMMAND:

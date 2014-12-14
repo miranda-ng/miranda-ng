@@ -204,18 +204,18 @@ static void UpdateSRMMProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 	if (proto != NULL) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isSRMMEnableTemp());
-		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getSRMMModeTemp() == Options::MODE_TEMPLATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getSRMMModeTemp() == Options::MODE_CSS ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getSRMMModeTemp() == Options::MODE_COMPATIBLE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getSRMMFlagsTemp() & Options::LOG_IMAGE_ENABLED ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getSRMMFlagsTemp() & Options::LOG_IMAGE_SCROLL ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_NICKNAMES ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_TIME ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_SECONDS ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getSRMMFlagsTemp() & Options::LOG_LONG_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getSRMMFlagsTemp() & Options::LOG_RELATIVE_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getSRMMFlagsTemp() & Options::LOG_GROUP_MESSAGES ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getSRMMModeTemp() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getSRMMModeTemp() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getSRMMModeTemp() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getSRMMFlagsTemp() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getSRMMFlagsTemp() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getSRMMFlagsTemp() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getSRMMFlagsTemp() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getSRMMFlagsTemp() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getSRMMFlagsTemp() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
 		if (proto->getSRMMBackgroundFilenameTemp() != NULL) {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getSRMMBackgroundFilenameTemp());
 		} else {
@@ -242,18 +242,18 @@ static void UpdateChatProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 	if (proto != NULL) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isChatEnableTemp());
-		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getChatModeTemp() == Options::MODE_TEMPLATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getChatModeTemp() == Options::MODE_CSS ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getChatModeTemp() == Options::MODE_COMPATIBLE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getChatFlagsTemp() & Options::LOG_IMAGE_ENABLED ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getChatFlagsTemp() & Options::LOG_IMAGE_SCROLL ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getChatFlagsTemp() & Options::LOG_SHOW_NICKNAMES ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getChatFlagsTemp() & Options::LOG_SHOW_TIME ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getChatFlagsTemp() & Options::LOG_SHOW_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getChatFlagsTemp() & Options::LOG_SHOW_SECONDS ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getChatFlagsTemp() & Options::LOG_LONG_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getChatFlagsTemp() & Options::LOG_RELATIVE_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getChatFlagsTemp() & Options::LOG_GROUP_MESSAGES ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getChatModeTemp() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getChatModeTemp() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getChatModeTemp() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getChatFlagsTemp() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getChatFlagsTemp() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getChatFlagsTemp() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getChatFlagsTemp() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getChatFlagsTemp() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getChatFlagsTemp() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getChatFlagsTemp() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getChatFlagsTemp() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getChatFlagsTemp() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
 		if (proto->getChatBackgroundFilenameTemp() != NULL) {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getChatBackgroundFilenameTemp());
 		} else {
@@ -280,18 +280,18 @@ static void UpdateHistoryProtoInfo(HWND hwndDlg, ProtocolSettings *proto)
 	if (proto != NULL) {
 		HWND hProtoList = GetDlgItem(hwndDlg, IDC_PROTOLIST);
 		TreeView_SetCheckState(hProtoList, TreeView_GetSelection(hProtoList), proto->isHistoryEnableTemp());
-		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getHistoryModeTemp() == Options::MODE_TEMPLATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getHistoryModeTemp() == Options::MODE_CSS ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getHistoryModeTemp() == Options::MODE_COMPATIBLE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getHistoryFlagsTemp() & Options::LOG_IMAGE_ENABLED ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getHistoryFlagsTemp() & Options::LOG_IMAGE_SCROLL ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_NICKNAMES ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_TIME ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_SECONDS ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getHistoryFlagsTemp() & Options::LOG_LONG_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getHistoryFlagsTemp() & Options::LOG_RELATIVE_DATE ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getHistoryFlagsTemp() & Options::LOG_GROUP_MESSAGES ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_MODE_TEMPLATE, proto->getHistoryModeTemp() == Options::MODE_TEMPLATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MODE_CSS, proto->getHistoryModeTemp() == Options::MODE_CSS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MODE_COMPATIBLE, proto->getHistoryModeTemp() == Options::MODE_COMPATIBLE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BACKGROUND_IMAGE, proto->getHistoryFlagsTemp() & Options::LOG_IMAGE_ENABLED ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SCROLL_BACKGROUND_IMAGE, proto->getHistoryFlagsTemp() & Options::LOG_IMAGE_SCROLL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_NICKNAMES, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_NICKNAMES ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_TIME, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_TIME ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_DATE, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_SHOW_SECONDS, proto->getHistoryFlagsTemp() & Options::LOG_SHOW_SECONDS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_LONG_DATE, proto->getHistoryFlagsTemp() & Options::LOG_LONG_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_RELATIVE_DATE, proto->getHistoryFlagsTemp() & Options::LOG_RELATIVE_DATE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOG_GROUP_MESSAGES, proto->getHistoryFlagsTemp() & Options::LOG_GROUP_MESSAGES ? BST_CHECKED : BST_UNCHECKED);
 		if (proto->getHistoryBackgroundFilenameTemp() != NULL) {
 			SetDlgItemTextA(hwndDlg, IDC_BACKGROUND_IMAGE_FILENAME, proto->getHistoryBackgroundFilenameTemp());
 		} else {
@@ -483,19 +483,19 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			MarkInitialized(1);
 			TranslateDialogDefault(hwndDlg);
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_BBCODES) {
-				CheckDlgButton(hwndDlg, IDC_ENABLE_BBCODES, TRUE);
+				CheckDlgButton(hwndDlg, IDC_ENABLE_BBCODES, BST_CHECKED);
 			}
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_FLASH) {
-				CheckDlgButton(hwndDlg, IDC_ENABLE_FLASH, TRUE);
+				CheckDlgButton(hwndDlg, IDC_ENABLE_FLASH, BST_CHECKED);
 			}
 			if (Options::getGeneralFlags() & Options::GENERAL_SMILEYINNAMES) {
-				CheckDlgButton(hwndDlg, IDC_SMILEYS_IN_NAMES, TRUE);
+				CheckDlgButton(hwndDlg, IDC_SMILEYS_IN_NAMES, BST_CHECKED);
 			}
 			if (Options::getGeneralFlags() & Options::GENERAL_NO_BORDER) {
-				CheckDlgButton(hwndDlg, IDC_NO_BORDER, TRUE);
+				CheckDlgButton(hwndDlg, IDC_NO_BORDER, BST_CHECKED);
 			}
 			if (Options::getGeneralFlags() & Options::GENERAL_ENABLE_EMBED) {
-				CheckDlgButton(hwndDlg, IDC_ENABLE_EMBED, TRUE);
+				CheckDlgButton(hwndDlg, IDC_ENABLE_EMBED, BST_CHECKED);
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SMILEYS_IN_NAMES), Options::isSmileyAdd());
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EMBED_SIZE), IsDlgButtonChecked(hwndDlg, IDC_ENABLE_EMBED));

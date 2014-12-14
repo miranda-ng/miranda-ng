@@ -54,7 +54,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				TreeView_SetCheckState(hTree, hti, checkState(ii[i].type));
 			}
 
-			CheckDlgButton(hwndDlg, IDC_IGNORE_IGNOREALL, bUseMirandaSettings );
+			CheckDlgButton(hwndDlg, IDC_IGNORE_IGNOREALL, bUseMirandaSettings ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILTER), !bUseMirandaSettings);
 			bInitializing = false;
 		}
@@ -63,7 +63,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_IGNORE_IGNOREALL:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_FILTER),  !IsDlgButtonChecked(hwndDlg,IDC_IGNORE_IGNOREALL));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_FILTER),  BST_UNCHECKED == IsDlgButtonChecked(hwndDlg,IDC_IGNORE_IGNOREALL));
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}

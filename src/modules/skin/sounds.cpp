@@ -164,7 +164,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		SendMessage(hwndDlg, DM_REBUILD_STREE, 0, 0);
 		TreeView_SetItemState(hwndTree, 0, TVIS_SELECTED, TVIS_SELECTED);
-		CheckDlgButton(hwndDlg, IDC_ENABLESOUNDS, db_get_b(NULL, "Skin", "UseSound", 0));
+		CheckDlgButton(hwndDlg, IDC_ENABLESOUNDS, db_get_b(NULL, "Skin", "UseSound", 0) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, DM_CHECKENABLED, 0, 0);
 		return TRUE;
 
@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case DM_CHECKENABLED:
 		EnableWindow( GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
-		if (!IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
 			SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		else if (TreeView_GetSelection(hwndTree) && TreeView_GetParent(hwndTree, TreeView_GetSelection(hwndTree)))
 			SendMessage(hwndDlg, DM_SHOWPANE, 0, 0);

@@ -192,7 +192,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			RecvListView_AddColumn(hLV, 100, TranslateT("Last Name"),  3);
 
 			// fill in groups
-			SendDlgItemMessage(hwndDlg, IDC_ENABLEGROUPS, BM_SETCHECK, (WPARAM)BST_UNCHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_ENABLEGROUPS, BST_UNCHECKED);
 			RebuildGroupCombo(hwndDlg);
 
 			{ // fill listview with received contacts

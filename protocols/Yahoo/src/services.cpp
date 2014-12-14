@@ -135,7 +135,7 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 				EnableWindow( GetDlgItem(hwndDlg, IDOK ), FALSE );
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CUSTSTATBUSY,  ppro->getByte("BusyCustStat", 0));
+			CheckDlgButton(hwndDlg, IDC_CUSTSTATBUSY,  ppro->getByte("BusyCustStat", 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
 

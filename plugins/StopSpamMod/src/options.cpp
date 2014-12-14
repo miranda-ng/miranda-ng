@@ -31,12 +31,12 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemTextA(hwnd, ID_DESCRIPTION, pluginDescription);
 			TranslateDialogDefault(hwnd);
 			SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, gbMaxQuestCount, FALSE);
-			SendDlgItemMessage(hwnd, ID_INFTALKPROT, BM_SETCHECK, gbInfTalkProtection ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_ADDPERMANENT, BM_SETCHECK, gbAddPermanent ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_HANDLEAUTHREQ, BM_SETCHECK, gbHandleAuthReq ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_HIDECONTACTS, BM_SETCHECK, gbHideContacts ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_IGNORESPAMMERS, BM_SETCHECK, gbIgnoreContacts ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_LOGSPAMTOFILE, BM_SETCHECK, gbLogToFile ? BST_CHECKED : BST_UNCHECKED, 0);
+			CheckDlgButton(hwnd, ID_INFTALKPROT, gbInfTalkProtection ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_ADDPERMANENT, gbAddPermanent ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_HANDLEAUTHREQ, gbHandleAuthReq ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_HIDECONTACTS, gbHideContacts ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_IGNORESPAMMERS, gbIgnoreContacts ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_LOGSPAMTOFILE, gbLogToFile ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
 	case WM_COMMAND:{
@@ -249,22 +249,22 @@ INT_PTR CALLBACK AdvancedDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
-		SendDlgItemMessage(hwnd, IDC_INVIS_DISABLE, BM_SETCHECK, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_CASE_INSENSITIVE, BM_SETCHECK, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED, 0);
+		CheckDlgButton(hwnd, IDC_INVIS_DISABLE, gbInvisDisable ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CASE_INSENSITIVE, gbCaseInsensitive ? BST_CHECKED : BST_UNCHECKED);
 		gbDosServiceExist?EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION),1):EnableWindow(GetDlgItem(hwnd, ID_DOS_INTEGRATION),0);
-		SendDlgItemMessage(hwnd, ID_DOS_INTEGRATION, BM_SETCHECK, gbDosServiceIntegration ? BST_CHECKED : BST_UNCHECKED, 0);
+		CheckDlgButton(hwnd, ID_DOS_INTEGRATION, gbDosServiceIntegration ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hwnd, ID_SPECIALGROUPNAME, gbSpammersGroup.c_str());
-		SendDlgItemMessage(hwnd, ID_SPECIALGROUP, BM_SETCHECK, gbSpecialGroup ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, ID_EXCLUDE, BM_SETCHECK, gbExclude ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, ID_REMOVE_TMP, BM_SETCHECK, gbDelExcluded ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_SETCHECK, gbDelAllTempory ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, ID_IGNOREURL, BM_SETCHECK, gbIgnoreURL ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_AUTOAUTH, BM_SETCHECK, gbAutoAuth ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_ADDTOSRVLST, BM_SETCHECK, gbAutoAddToServerList ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_REQAUTH, BM_SETCHECK, gbAutoReqAuth ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_REGEX, BM_SETCHECK, gbRegexMatch ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_HISTORY_LOG, BM_SETCHECK, gbHistoryLog ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_MATH_QUESTION, BM_SETCHECK, gbMathExpression ? BST_CHECKED : BST_UNCHECKED, 0 );
+		CheckDlgButton(hwnd, ID_SPECIALGROUP, gbSpecialGroup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_EXCLUDE, gbExclude ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_REMOVE_TMP, gbDelExcluded ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_REMOVE_TMP_ALL, gbDelAllTempory ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, ID_IGNOREURL, gbIgnoreURL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_AUTOAUTH, gbAutoAuth ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_ADDTOSRVLST, gbAutoAddToServerList ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_REQAUTH, gbAutoReqAuth ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_REGEX, gbRegexMatch ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_HISTORY_LOG, gbHistoryLog ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_MATH_QUESTION, gbMathExpression ? BST_CHECKED : BST_UNCHECKED);
 
 		SetDlgItemText(hwnd, IDC_AUTOADDGROUP, gbAutoAuthGroup.c_str());
 		return TRUE;

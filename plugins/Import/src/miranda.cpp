@@ -293,36 +293,36 @@ INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wP
 		case IDC_INCOMING:
 		case IDC_OUTGOING:
 			if (LOWORD(wParam) == IDC_ALL)
-				for (int i = 0; i < sizeof(SysControls) / sizeof(SysControls[0]); i++)
-					CheckDlgButton(hwndDlg, SysControls[i], !IsDlgButtonChecked(hwndDlg, SysControls[i]));
+				for (int i = 0; i < SIZEOF(SysControls); i++)
+					CheckDlgButton(hwndDlg, SysControls[i], IsDlgButtonChecked(hwndDlg, SysControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 			if (LOWORD(wParam) != IDC_OUTGOING)
-				for (int i = 0; i < sizeof(InControls) / sizeof(InControls[0]); i++)
-					CheckDlgButton(hwndDlg, InControls[i], !IsDlgButtonChecked(hwndDlg, InControls[i]));
+				for (int i = 0; i < SIZEOF(InControls); i++)
+					CheckDlgButton(hwndDlg, InControls[i], IsDlgButtonChecked(hwndDlg, InControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 			if (LOWORD(wParam) != IDC_INCOMING)
-				for (int i = 0; i < sizeof(OutControls) / sizeof(OutControls[0]); i++)
-					CheckDlgButton(hwndDlg, OutControls[i], !IsDlgButtonChecked(hwndDlg, OutControls[i]));
+				for (int i = 0; i < SIZEOF(OutControls); i++)
+					CheckDlgButton(hwndDlg, OutControls[i], IsDlgButtonChecked(hwndDlg, OutControls[i]) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_MSG:
-			CheckDlgButton(hwndDlg, IDC_IN_MSG, !IsDlgButtonChecked(hwndDlg, IDC_IN_MSG));
-			CheckDlgButton(hwndDlg, IDC_OUT_MSG, !IsDlgButtonChecked(hwndDlg, IDC_OUT_MSG));
+			CheckDlgButton(hwndDlg, IDC_IN_MSG, IsDlgButtonChecked(hwndDlg, IDC_IN_MSG) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OUT_MSG, IsDlgButtonChecked(hwndDlg, IDC_OUT_MSG) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_URL:
-			CheckDlgButton(hwndDlg, IDC_IN_URL, !IsDlgButtonChecked(hwndDlg, IDC_IN_URL));
-			CheckDlgButton(hwndDlg, IDC_OUT_URL, !IsDlgButtonChecked(hwndDlg, IDC_OUT_URL));
+			CheckDlgButton(hwndDlg, IDC_IN_URL, IsDlgButtonChecked(hwndDlg, IDC_IN_URL) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OUT_URL, IsDlgButtonChecked(hwndDlg, IDC_OUT_URL) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_FT:
-			CheckDlgButton(hwndDlg, IDC_IN_FT, !IsDlgButtonChecked(hwndDlg, IDC_IN_FT));
-			CheckDlgButton(hwndDlg, IDC_OUT_FT, !IsDlgButtonChecked(hwndDlg, IDC_OUT_FT));
+			CheckDlgButton(hwndDlg, IDC_IN_FT, IsDlgButtonChecked(hwndDlg, IDC_IN_FT) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OUT_FT, IsDlgButtonChecked(hwndDlg, IDC_OUT_FT) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_OTHER:
-			CheckDlgButton(hwndDlg, IDC_IN_OTHER, !IsDlgButtonChecked(hwndDlg, IDC_IN_OTHER));
-			CheckDlgButton(hwndDlg, IDC_OUT_OTHER, !IsDlgButtonChecked(hwndDlg, IDC_OUT_OTHER));
+			CheckDlgButton(hwndDlg, IDC_IN_OTHER, IsDlgButtonChecked(hwndDlg, IDC_IN_OTHER) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OUT_OTHER, IsDlgButtonChecked(hwndDlg, IDC_OUT_OTHER) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 			break;
 		}
 		break;

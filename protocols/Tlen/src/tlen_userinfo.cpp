@@ -245,9 +245,9 @@ static INT_PTR CALLBACK TlenUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 				SendDlgItemMessage(hwndDlg, IDC_LOOKFOR, CB_SETCURSEL, 0, 0);
 			}
 			i = db_get_w(data->hContact, data->proto->m_szModuleName, "VoiceChat", 0);
-			CheckDlgButton(hwndDlg, IDC_VOICECONVERSATIONS, i);
+			CheckDlgButton(hwndDlg, IDC_VOICECONVERSATIONS, i ? BST_CHECKED : BST_UNCHECKED);
 			i = db_get_w(data->hContact, data->proto->m_szModuleName, "PublicStatus", 0);
-			CheckDlgButton(hwndDlg, IDC_PUBLICSTATUS, i);
+			CheckDlgButton(hwndDlg, IDC_PUBLICSTATUS, i ? BST_CHECKED : BST_UNCHECKED);
 			if (!db_get(data->hContact, data->proto->m_szModuleName, "jid", &dbv)) {
 				jid = TlenTextDecode(dbv.pszVal);
 				SetDlgItemTextA(hwndDlg, IDC_INFO_JID, jid);

@@ -34,18 +34,18 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault( hwndDlg );
 		options_changes = options;
 
-		CheckDlgButton(hwndDlg, IDC_CHK_SUPPRESSSTATUS, options_changes.bSuppressStatus);
+		CheckDlgButton(hwndDlg, IDC_CHK_SUPPRESSSTATUS, options_changes.bSuppressStatus ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_RAD_UID, options_changes.menu_contact_label == DNT_UID);
-		CheckDlgButton(hwndDlg, IDC_RAD_DID, options_changes.menu_contact_label == DNT_DID);
+		CheckDlgButton(hwndDlg, IDC_RAD_UID, options_changes.menu_contact_label == DNT_UID ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RAD_DID, options_changes.menu_contact_label == DNT_DID ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_RAD_MSG, options_changes.menu_function == FT_MSG);
-		CheckDlgButton(hwndDlg, IDC_RAD_MENU, options_changes.menu_function == FT_MENU);
-		CheckDlgButton(hwndDlg, IDC_RAD_INFO, options_changes.menu_function == FT_INFO);
+		CheckDlgButton(hwndDlg, IDC_RAD_MSG, options_changes.menu_function == FT_MSG ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RAD_MENU, options_changes.menu_function == FT_MENU ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RAD_INFO, options_changes.menu_function == FT_INFO ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_RAD_NICK, options_changes.clist_contact_name == CNNT_NICK);
-		CheckDlgButton(hwndDlg, IDC_RAD_NAME, options_changes.clist_contact_name == CNNT_DISPLAYNAME);
-		CheckDlgButton(hwndDlg, IDC_CHK_LOCKHANDLE, options_changes.bLockHandle);
+		CheckDlgButton(hwndDlg, IDC_RAD_NICK, options_changes.clist_contact_name == CNNT_NICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RAD_NAME, options_changes.clist_contact_name == CNNT_DISPLAYNAME ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_LOCKHANDLE, options_changes.bLockHandle ? BST_CHECKED : BST_UNCHECKED);
 		{
 			TCHAR buff[40];
 			_itot(options_changes.days_history, buff, SIZEOF(buff));
@@ -63,52 +63,52 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case IDC_RAD_UID:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_UID)) {
 					options_changes.menu_contact_label = DNT_UID;
-					CheckDlgButton(hwndDlg, IDC_RAD_DID, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_DID, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_DID:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DID)) {
 					options_changes.menu_contact_label = DNT_DID;
-					CheckDlgButton(hwndDlg, IDC_RAD_UID, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_UID, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_MSG:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_MSG)) {
 					options_changes.menu_function = FT_MSG;
-					CheckDlgButton(hwndDlg, IDC_RAD_MENU, FALSE);
-					CheckDlgButton(hwndDlg, IDC_RAD_INFO, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_MENU, BST_UNCHECKED);
+					CheckDlgButton(hwndDlg, IDC_RAD_INFO, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_MENU:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_MENU)) {
 					options_changes.menu_function = FT_MENU;
-					CheckDlgButton(hwndDlg, IDC_RAD_MSG, FALSE);
-					CheckDlgButton(hwndDlg, IDC_RAD_INFO, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_MSG, BST_UNCHECKED);
+					CheckDlgButton(hwndDlg, IDC_RAD_INFO, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_INFO:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_INFO)) {
 					options_changes.menu_function = FT_INFO;
-					CheckDlgButton(hwndDlg, IDC_RAD_MSG, FALSE);
-					CheckDlgButton(hwndDlg, IDC_RAD_MENU, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_MSG, BST_UNCHECKED);
+					CheckDlgButton(hwndDlg, IDC_RAD_MENU, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_NICK:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NICK)) {
 					options_changes.clist_contact_name = CNNT_NICK;
-					CheckDlgButton(hwndDlg, IDC_RAD_NAME, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_NAME, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_NAME:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NAME)) {
 					options_changes.clist_contact_name = CNNT_DISPLAYNAME;
-					CheckDlgButton(hwndDlg, IDC_RAD_NICK, FALSE);
+					CheckDlgButton(hwndDlg, IDC_RAD_NICK, BST_UNCHECKED);
 				}
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;

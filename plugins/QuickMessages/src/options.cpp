@@ -583,9 +583,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
 		EnableWindow(GetDlgItem(hdlg,IDC_INQMENU),FALSE);
 		EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),FALSE);
-		CheckDlgButton(hdlg,IDC_RAUTOSEND,(g_bRClickAuto=db_get_b(NULL,PLGNAME,"RClickAuto",0)));
-		CheckDlgButton(hdlg,IDC_LAUTOSEND,(g_bLClickAuto=db_get_b(NULL,PLGNAME,"LClickAuto",0)));
-		CheckDlgButton(hdlg,IDC_ENABLEQUICKMENU,(g_bQuickMenu=db_get_b(NULL, PLGNAME,"QuickMenu", 1)));
+		CheckDlgButton(hdlg,IDC_RAUTOSEND,(g_bRClickAuto=db_get_b(NULL,PLGNAME,"RClickAuto",0)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg,IDC_LAUTOSEND,(g_bLClickAuto=db_get_b(NULL,PLGNAME,"LClickAuto",0)) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg,IDC_ENABLEQUICKMENU,(g_bQuickMenu=db_get_b(NULL, PLGNAME,"QuickMenu", 1)) ? BST_CHECKED : BST_UNCHECKED);
 
 		bOptionsInit=FALSE;
 							 }break;
@@ -882,8 +882,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 								EnableWindow(GetDlgItem(hdlg,IDC_INQMENU),FALSE);
 							SetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE),_T(""));
 						}
-						CheckDlgButton(hdlg,IDC_INQMENU,bd->bOpInQMenu);
-						CheckDlgButton(hdlg,IDC_ISSERVNAME,bd->bIsOpServName);
+						CheckDlgButton(hdlg,IDC_INQMENU,bd->bOpInQMenu ? BST_CHECKED : BST_UNCHECKED);
+						CheckDlgButton(hdlg,IDC_ISSERVNAME,bd->bIsOpServName ? BST_CHECKED : BST_UNCHECKED);
 					}
 				}
 			}break;
@@ -961,7 +961,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					SetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE),_T(""));
 					EnableWindow(GetDlgItem(hdlg,IDC_RCLICKVALUE),TRUE);
 					EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME2),TRUE);
-					CheckDlgButton(hdlg,IDC_ISSERVNAME2,((ListData*)tvi.lParam)->bIsOpServName);
+					CheckDlgButton(hdlg,IDC_ISSERVNAME2,((ListData*)tvi.lParam)->bIsOpServName ? BST_CHECKED : BST_UNCHECKED);
 
 					if (((ListData*)tvi.lParam)->ptszOPQValue) 
 						SetWindowText(GetDlgItem(hdlg,IDC_RCLICKVALUE),((ListData*)tvi.lParam)->ptszOPQValue);

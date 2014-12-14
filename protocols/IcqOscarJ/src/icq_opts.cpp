@@ -39,7 +39,7 @@ static const TCHAR* szLogLevelDescr[] = {
 
 static void LoadDBCheckState(CIcqProto* ppro, HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
 {
-	CheckDlgButton(hwndDlg, idCtrl, ppro->getByte(szSetting, bDef));
+	CheckDlgButton(hwndDlg, idCtrl, ppro->getByte(szSetting, bDef) ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void StoreDBCheckState(CIcqProto* ppro, HWND hwndDlg, int idCtrl, const char* szSetting)
@@ -200,11 +200,11 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			}
 			else ShowDlgItem(hwndDlg, IDC_STATIC_NOTONLINE, SW_HIDE);
 
-			CheckDlgButton(hwndDlg, IDC_DCALLOW_ANY, (nDcType == 0));
-			CheckDlgButton(hwndDlg, IDC_DCALLOW_CLIST, (nDcType == 1));
-			CheckDlgButton(hwndDlg, IDC_DCALLOW_AUTH, (nDcType == 2));
-			CheckDlgButton(hwndDlg, IDC_ADD_ANY, (nAddAuth == 0));
-			CheckDlgButton(hwndDlg, IDC_ADD_AUTH, (nAddAuth == 1));
+			CheckDlgButton(hwndDlg, IDC_DCALLOW_ANY, (nDcType == 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DCALLOW_CLIST, (nDcType == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DCALLOW_AUTH, (nDcType == 2) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ADD_ANY, (nAddAuth == 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ADD_AUTH, (nAddAuth == 1) ? BST_CHECKED : BST_UNCHECKED);
 			LoadDBCheckState(ppro, hwndDlg, IDC_WEBAWARE, "WebAware", 0);
 			LoadDBCheckState(ppro, hwndDlg, IDC_PUBLISHPRIMARY, "PublishPrimaryEmail", 0);
 			LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_CLIST, "StatusMsgReplyCList", 0);
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			}
 			else {
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
-				CheckDlgButton(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
+				CheckDlgButton(hwndDlg, IDC_STATUSMSG_VISIBLE, BST_UNCHECKED);
 			}
 			break;
 		default:
@@ -349,19 +349,19 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
 			BYTE byData = ppro->getByte("UtfEnabled", DEFAULT_UTF_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_UTFENABLE, byData ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_UTFALL, byData == 2 ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_UTFENABLE, byData ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UTFALL, byData == 2 ? BST_CHECKED : BST_UNCHECKED);
 			icq_EnableMultipleControls(hwndDlg, icqUnicodeControls, SIZEOF(icqUnicodeControls), byData ? TRUE : FALSE);
 			LoadDBCheckState(ppro, hwndDlg, IDC_TEMPVISIBLE, "TempVisListEnabled", DEFAULT_TEMPVIS_ENABLED);
 			LoadDBCheckState(ppro, hwndDlg, IDC_SLOWSEND, "SlowSend", DEFAULT_SLOWSEND);
 			byData = ppro->getByte("DirectMessaging", DEFAULT_DCMSG_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_DCENABLE, byData ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_DCPASSIVE, byData == 1 ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_DCENABLE, byData ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DCPASSIVE, byData == 1 ? BST_CHECKED : BST_UNCHECKED);
 			icq_EnableMultipleControls(hwndDlg, icqDCMsgControls, SIZEOF(icqDCMsgControls), byData ? TRUE : FALSE);
 			BYTE byXStatusEnabled = ppro->getByte("XStatusEnabled", DEFAULT_XSTATUS_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_XSTATUSENABLE, byXStatusEnabled);
+			CheckDlgButton(hwndDlg, IDC_XSTATUSENABLE, byXStatusEnabled ? BST_CHECKED : BST_UNCHECKED);
 			BYTE byMoodsEnabled = ppro->getByte("MoodsEnabled", DEFAULT_MOODS_ENABLED);
-			CheckDlgButton(hwndDlg, IDC_MOODSENABLE, byMoodsEnabled);
+			CheckDlgButton(hwndDlg, IDC_MOODSENABLE, byMoodsEnabled ? BST_CHECKED : BST_UNCHECKED);
 			icq_EnableMultipleControls(hwndDlg, icqXStatusControls, SIZEOF(icqXStatusControls), byXStatusEnabled);
 			icq_EnableMultipleControls(hwndDlg, icqCustomStatusControls, SIZEOF(icqCustomStatusControls), byXStatusEnabled || byMoodsEnabled);
 			LoadDBCheckState(ppro, hwndDlg, IDC_XSTATUSAUTO, "XStatusAuto", DEFAULT_XSTATUS_AUTO);

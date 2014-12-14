@@ -46,7 +46,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU, cfg::getByte("CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, cfg::getByte("CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_FADEINOUT, cfg::dat.fadeinout ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AUTOSIZE, cfg::dat.autosize);
+			CheckDlgButton(hwndDlg, IDC_AUTOSIZE, cfg::dat.autosize ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DROPSHADOW, cfg::getByte("CList", "WindowShadow", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_ONDESKTOP, cfg::getByte("CList", "OnDesktop", 0) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -79,7 +79,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Utils::enableDlgControl(hwndDlg, IDC_HIDETIME, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			Utils::enableDlgControl(hwndDlg, IDC_HIDETIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			Utils::enableDlgControl(hwndDlg, IDC_STATIC01, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
-			if (!IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE)) {
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC21, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC22, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_MAXSIZEHEIGHT, FALSE);
@@ -98,7 +98,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			CheckDlgButton(hwndDlg, IDC_TRANSPARENT, cfg::dat.isTransparent ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_FULLTRANSPARENT, cfg::dat.bFullTransparent ? BST_CHECKED : BST_UNCHECKED);
 
-			if (!IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC11, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC12, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_TRANSACTIVE, FALSE);
@@ -112,7 +112,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendDlgItemMessage(hwndDlg, IDC_TRANSINACTIVE, TBM_SETPOS, TRUE, cfg::dat.autoalpha);
 			SendMessage(hwndDlg, WM_HSCROLL, 0x12345678, 0);
 
-			CheckDlgButton(hwndDlg, IDC_ROUNDEDBORDER, cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME);
+			CheckDlgButton(hwndDlg, IDC_ROUNDEDBORDER, cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_FRAMEGAPSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
 			SendDlgItemMessage(hwndDlg, IDC_FRAMEGAPSPIN, UDM_SETPOS, 0, (LPARAM)cfg::dat.gapBetweenFrames);
 		}
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			ApplyCLUIBorderStyle();
 
-			if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
 				SetMenu(pcli->hwndContactList, NULL);
 			else
 				SetMenu(pcli->hwndContactList, pcli->hMenuMain);
@@ -328,15 +328,15 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			CheckDlgButton(hwndDlg, IDC_SHOWSTATUS, showOpts & 4 ? BST_CHECKED : BST_UNCHECKED);
 		}
 		CheckDlgButton(hwndDlg, IDC_RIGHTSTATUS, cfg::getByte("CLUI", "SBarRightClk", 0) ? BST_UNCHECKED : BST_CHECKED);
-		CheckDlgButton(hwndDlg, IDC_RIGHTMIRANDA, !IsDlgButtonChecked(hwndDlg, IDC_RIGHTSTATUS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RIGHTMIRANDA, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_RIGHTSTATUS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_EQUALSECTIONS, cfg::dat.bEqualSections ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SBPANELBEVEL, cfg::getByte("CLUI", "SBarBevel", 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWGRIP, cfg::getByte("CLUI", "ShowGrip", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SKINBACKGROUND, cfg::dat.bSkinnedStatusBar);
-		CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, cfg::dat.bShowXStatusOnSbar);
-		CheckDlgButton(hwndDlg, IDC_MARKLOCKED, cfg::getByte("CLUI", "sbar_showlocked", 1));
+		CheckDlgButton(hwndDlg, IDC_SKINBACKGROUND, cfg::dat.bSkinnedStatusBar ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, cfg::dat.bShowXStatusOnSbar ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MARKLOCKED, cfg::getByte("CLUI", "sbar_showlocked", 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWICON, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWPROTO, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWSTATUS, FALSE);

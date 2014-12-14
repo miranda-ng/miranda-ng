@@ -801,8 +801,8 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendDlgItemMessage(hwndDlg, IDC_SPEAKER, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
 				ReleaseIcolibIcon(hIcon);
 			}
-			CheckDlgButton(hwndDlg, IDC_MICROPHONE, TRUE);
-			CheckDlgButton(hwndDlg, IDC_SPEAKER, TRUE);
+			CheckDlgButton(hwndDlg, IDC_MICROPHONE, BST_CHECKED);
+			CheckDlgButton(hwndDlg, IDC_SPEAKER, BST_CHECKED);
 			TlenVoiceInitVUMeters();
 			SetDlgItemText(hwndDlg, IDC_STATUS, TranslateT("...???..."));
 			counter = 0;
@@ -882,12 +882,12 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				}
 			case IDC_MICROPHONE:
 				if (proto->recordingControl != NULL) {
-					proto->recordingControl->bDisable = !IsDlgButtonChecked(hwndDlg, IDC_MICROPHONE);
+					proto->recordingControl->bDisable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MICROPHONE);
 				}
 				break;
 			case IDC_SPEAKER:
 				if (proto->playbackControl != NULL) {
-					proto->playbackControl->bDisable = !IsDlgButtonChecked(hwndDlg, IDC_SPEAKER);
+					proto->playbackControl->bDisable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SPEAKER);
 				}
 				break;
 			}

@@ -26,12 +26,12 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		else
 			SetDlgItemText(hwndDlg, IDC_AUTH_STATUS, TranslateT("you are not authorized yet"));
 
-		CheckDlgButton(hwndDlg, IDC_USE_SHORT_LINKS, db_get_b(NULL, MODULE, "UseSortLinks", 1));
+		CheckDlgButton(hwndDlg, IDC_USE_SHORT_LINKS, db_get_b(NULL, MODULE, "UseSortLinks", 1) ? BST_CHECKED : BST_UNCHECKED);
 		if (db_get_b(NULL, MODULE, "UrlAutoSend", 1))
-			SendDlgItemMessage(hwndDlg, IDC_URL_AUTOSEND, BM_SETCHECK, BST_CHECKED, 1);
+			CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, BST_CHECKED);
 		else if (db_get_b(NULL, MODULE, "UrlPasteToMessageInputArea", 1))
-			SendDlgItemMessage(hwndDlg, IDC_URL_COPYTOMIA, BM_SETCHECK, BST_CHECKED, 1);
-		CheckDlgButton(hwndDlg, IDC_URL_COPYTOCB, db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0));
+			CheckDlgButton(hwndDlg, IDC_URL_COPYTOMIA, BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_URL_COPYTOCB, db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0) ? BST_CHECKED : BST_UNCHECKED);
 	}
 		return TRUE;
 

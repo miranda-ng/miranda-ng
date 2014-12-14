@@ -184,10 +184,10 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWWARNINGS, db_get_b(0, AVS_MODULE, "warnings", 0));
-		CheckDlgButton(hwndDlg, IDC_MAKE_GRAYSCALE, db_get_b(0, AVS_MODULE, "MakeGrayscale", 0));
-		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSPARENT_BKG, db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0));
-		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL, db_get_b(0, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0));
+		CheckDlgButton(hwndDlg, IDC_SHOWWARNINGS, db_get_b(0, AVS_MODULE, "warnings", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_GRAYSCALE, db_get_b(0, AVS_MODULE, "MakeGrayscale", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSPARENT_BKG, db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL, db_get_b(0, AVS_MODULE, "MakeTransparencyProportionalToColorDiff", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5));
@@ -252,8 +252,8 @@ static INT_PTR CALLBACK DlgProcOptionsOwn(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP, db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0));
-		CheckDlgButton(hwndDlg, IDC_SET_MAKE_SQUARE, db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0));
+		CheckDlgButton(hwndDlg, IDC_MAKE_MY_AVATARS_TRANSP, db_get_b(0, AVS_MODULE, "MakeMyAvatarsTransparent", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SET_MAKE_SQUARE, db_get_b(0, AVS_MODULE, "SetAllwaysMakeSquare", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		return TRUE;
 
@@ -435,7 +435,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 
 static void LoadTransparentData(HWND hwndDlg, MCONTACT hContact)
 {
-	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)));
+	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", db_get_b(0, AVS_MODULE, "MakeTransparentBkg", 0)) ? BST_CHECKED : BST_UNCHECKED);
 	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", db_get_w(0, AVS_MODULE, "TranspBkgNumPoints", 5)));
 	SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", db_get_w(0, AVS_MODULE, "TranspBkgColorDiff", 10)));
 
@@ -503,8 +503,8 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), NULL, FALSE);
-		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -558,7 +558,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		case IDC_CHANGE:
 			SetAvatar(hContact, 0);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_BKG_NUM_POINTS:
@@ -765,8 +765,8 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 			hContact = lParam;
 			TranslateDialogDefault(hwndDlg);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, db_get_b(hContact, "ContactPhoto", "Hidden", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 			SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -795,7 +795,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 		case IDC_CHANGE:
 			SetAvatar(hContact, 0);
 			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
 			break;
 
 		case IDC_HIDEAVATAR:
@@ -1043,7 +1043,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
 
 			// Check if should show per protocol avatars
-			CheckDlgButton(hwndDlg, IDC_PER_PROTO, db_get_b(NULL, AVS_MODULE, "PerProtocolUserAvatars", 1));
+			CheckDlgButton(hwndDlg, IDC_PER_PROTO, db_get_b(NULL, AVS_MODULE, "PerProtocolUserAvatars", 1) ? BST_CHECKED : BST_UNCHECKED);
 			EnableDisableProtocols(hwndDlg, TRUE);
 		}
 		break;
@@ -1075,7 +1075,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_CHANGE:
-			if (!IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO))
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO))
 				avSetMyAvatar(NULL, NULL);
 			else {
 				char *proto = GetSelectedProtocol(hwndDlg);
@@ -1085,7 +1085,7 @@ static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wP
 			break;
 
 		case IDC_DELETE:
-			if (!IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global Avatar"), MB_YESNO) == IDYES)
 					avSetMyAvatar(NULL, _T(""));
 			}

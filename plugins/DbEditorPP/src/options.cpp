@@ -8,10 +8,10 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case WM_INITDIALOG:
 		{
 			bInitDone = false;
-			CheckDlgButton(hwnd,IDC_EXPANDSETTINGS,db_get_b(NULL,modname,"ExpandSettingsOnOpen",0));
-			CheckDlgButton(hwnd,IDC_RESTORESETTINGS,db_get_b(NULL,modname,"RestoreOnOpen",1));
-			CheckDlgButton(hwnd,IDC_WARNONDEL,db_get_b(NULL,modname,"WarnOnDelete",1));
-			CheckDlgButton(hwnd,IDC_POPUPS,usePopups);
+			CheckDlgButton(hwnd, IDC_EXPANDSETTINGS, db_get_b(NULL, modname, "ExpandSettingsOnOpen", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_RESTORESETTINGS, db_get_b(NULL, modname, "RestoreOnOpen", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_WARNONDEL, db_get_b(NULL, modname, "WarnOnDelete", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_POPUPS, usePopups ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,db_get_w(NULL,modname,"PopupDelay",4),0);
 			SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_SETCOLOUR, 0, (LPARAM)db_get_dw(NULL,modname,"PopupColour",RGB(255,0,0)));
 			TranslateDialogDefault(hwnd);

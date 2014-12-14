@@ -44,15 +44,15 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_CONFIRMDLGCOUNTDOWN,UDM_SETPOS,0,MAKELPARAM(setting,0));
 			SetDlgItemInt(hwndDlg,IDC_EDIT_CONFIRMDLGCOUNTDOWN,setting,FALSE);
 		}
-		CheckDlgButton(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK,db_get_b(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT) != 0);
-		CheckDlgButton(hwndDlg,IDC_CHECK_REMEMBERONRESTART,db_get_b(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT) != 0);
-		CheckDlgButton(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG,db_get_b(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT) != 0);
+		CheckDlgButton(hwndDlg,IDC_CHECK_SMARTOFFLINECHECK,db_get_b(NULL,"AutoShutdown","SmartOfflineCheck",SETTING_SMARTOFFLINECHECK_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_CHECK_REMEMBERONRESTART,db_get_b(NULL,"AutoShutdown","RememberOnRestart",SETTING_REMEMBERONRESTART_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_CHECK_SHOWCONFIRMDLG,db_get_b(NULL,"AutoShutdown","ShowConfirmDlg",SETTING_SHOWCONFIRMDLG_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		{
 			BOOL enabled = ServiceIsTypeEnabled(SDSDT_SHUTDOWN,0);
 			if (enabled) {
 				if (ServiceExists(MS_WEATHER_UPDATE)) {
 					EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_WEATHER),TRUE);
-					CheckDlgButton(hwndDlg,IDC_CHECK_WEATHER,db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT) != 0);
+					CheckDlgButton(hwndDlg,IDC_CHECK_WEATHER,db_get_b(NULL,"AutoShutdown","WeatherShutdown",SETTING_WEATHERSHUTDOWN_DEFAULT) != 0 ? BST_CHECKED : BST_UNCHECKED);
 				}
 			}
 		}

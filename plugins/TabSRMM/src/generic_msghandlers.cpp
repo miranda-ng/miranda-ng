@@ -227,22 +227,22 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			if (cmd == IDC_FONTBOLD) {
 				cf.dwEffects = isBold ? 0 : CFE_BOLD;
 				cf.dwMask = CFM_BOLD;
-				CheckDlgButton(hwndDlg, IDC_FONTBOLD, !isBold);
+				CheckDlgButton(hwndDlg, IDC_FONTBOLD, !isBold ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else if (cmd == IDC_FONTITALIC) {
 				cf.dwEffects = isItalic ? 0 : CFE_ITALIC;
 				cf.dwMask = CFM_ITALIC;
-				CheckDlgButton(hwndDlg, IDC_FONTITALIC, !isItalic);
+				CheckDlgButton(hwndDlg, IDC_FONTITALIC, !isItalic ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else if (cmd == IDC_FONTUNDERLINE) {
 				cf.dwEffects = isUnderline ? 0 : CFE_UNDERLINE;
 				cf.dwMask = CFM_UNDERLINE;
-				CheckDlgButton(hwndDlg, IDC_FONTUNDERLINE, !isUnderline);
+				CheckDlgButton(hwndDlg, IDC_FONTUNDERLINE, !isUnderline ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else if (cmd == IDC_FONTSTRIKEOUT) {
 				cf.dwEffects = isStrikeout ? 0 : CFM_STRIKEOUT;
 				cf.dwMask = CFM_STRIKEOUT;
-				CheckDlgButton(hwndDlg, IDC_FONTSTRIKEOUT, !isStrikeout);
+				CheckDlgButton(hwndDlg, IDC_FONTSTRIKEOUT, !isStrikeout ? BST_CHECKED : BST_UNCHECKED);
 			}
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}

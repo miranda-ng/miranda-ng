@@ -190,14 +190,14 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		SendDlgItemMessage(hwnd, IDC_ICO_INFO, STM_SETICON, (WPARAM)IcoLib_GetIcon(ICO_MISC_NOTIFY, 0), 0);
 
-		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions & ACT_ENABLE ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions & ACT_DEF_IMONLY ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_CONTACTSONLY, PopupOptions.actions & ACT_DEF_NOGLOBAL ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_DONTCLOSE, PopupOptions.actions & ACT_DEF_KEEPWND ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_CHK_LARGEICONS, PopupOptions.actions & ACT_LARGE ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_RD_TEXT, PopupOptions.actions & ACT_TEXT ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_RD_LEFTICONS, PopupOptions.actions & ACT_LEFTICONS ? TRUE : FALSE);
-		CheckDlgButton(hwnd, IDC_RD_RIGHTICONS, PopupOptions.actions & ACT_RIGHTICONS ? TRUE : FALSE);
+		CheckDlgButton(hwnd, IDC_CHK_ENABLEACTIONS, PopupOptions.actions & ACT_ENABLE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHK_IMCONTACTSONLY, PopupOptions.actions & ACT_DEF_IMONLY ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHK_CONTACTSONLY, PopupOptions.actions & ACT_DEF_NOGLOBAL ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHK_DONTCLOSE, PopupOptions.actions & ACT_DEF_KEEPWND ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHK_LARGEICONS, PopupOptions.actions & ACT_LARGE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_RD_TEXT, PopupOptions.actions & ACT_TEXT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_RD_LEFTICONS, PopupOptions.actions & ACT_LEFTICONS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_RD_RIGHTICONS, PopupOptions.actions & ACT_RIGHTICONS ? BST_CHECKED : BST_UNCHECKED);
 
 		{
 			DWORD dwActiveItem = 0;

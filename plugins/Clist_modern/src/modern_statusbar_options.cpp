@@ -47,13 +47,13 @@ static void UpdateXStatusIconOptions(HWND hwndDlg, BOOL perProto, StatusBarProto
 {
 	int en = IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR) && IsDlgButtonChecked(hwndDlg,IDC_SHOWICON );
 
-	if (IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH)) CheckDlgButton(hwndDlg,IDC_SHOWNORMAL,FALSE);
-	EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWBOTH),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) && !IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL));
+	if (IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH)) CheckDlgButton(hwndDlg,IDC_SHOWNORMAL, BST_UNCHECKED);
+	EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWBOTH),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL));
 
-	if (IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL))	CheckDlgButton(hwndDlg,IDC_SHOWBOTH,FALSE);
-	EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWNORMAL),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) &&  !IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH));
+	if (IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL))	CheckDlgButton(hwndDlg,IDC_SHOWBOTH, BST_UNCHECKED);
+	EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWNORMAL),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) &&  BST_UNCHECKED == IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH));
 
-	EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENTOVERLAY),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL) &&  !IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH));
+	EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENTOVERLAY),en && IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg,IDC_SHOWNORMAL) &&  BST_UNCHECKED == IsDlgButtonChecked(hwndDlg,IDC_SHOWBOTH));
 
 	BYTE val = 0;
 	if (IsDlgButtonChecked(hwndDlg,IDC_SHOWXSTATUS)) {
@@ -106,7 +106,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 		CheckDlgButton(hwndDlg, IDC_SHOWSTATUS, showOpts & 4 ? BST_CHECKED : BST_UNCHECKED);
 	}
 	CheckDlgButton(hwndDlg, IDC_RIGHTSTATUS, sbpo.SBarRightClk ? BST_UNCHECKED : BST_CHECKED);
-	CheckDlgButton(hwndDlg, IDC_RIGHTMIRANDA, !IsDlgButtonChecked(hwndDlg, IDC_RIGHTSTATUS) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_RIGHTMIRANDA, IsDlgButtonChecked(hwndDlg, IDC_RIGHTSTATUS) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 	SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_SETRANGE, 0, MAKELONG(50, 0));
 	SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_SETPOS, 0, MAKELONG(sbpo.PaddingLeft, 2));
@@ -283,9 +283,9 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USECONNECTINGICON), en && en_icons);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWXSTATUSNAME), en);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWXSTATUS), en && en_icons);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWBOTH), en && en_icons && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && !IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), en && en_icons && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && !IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTH));
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), en && en_icons && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL) && !IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTH));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWBOTH), en && en_icons && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), en && en_icons && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTH));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), en && en_icons && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTH));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWUNREADEMAIL), en);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_OFFSETICON_LEFT), en);

@@ -29,10 +29,10 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG, bShowStatusIcon);
-		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG, bShowExtraIcon);
-		CheckDlgButton(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG, bUseUnknown);
-		CheckDlgButton(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY, bUseIpToCountry);
+		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWSTATUSICONFLAG, bShowStatusIcon ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_SHOWEXTRAIMGFLAG, bShowExtraIcon ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_USEUNKNOWNFLAG, bUseUnknown ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY, bUseIpToCountry ? BST_CHECKED : BST_UNCHECKED);
 		
 		SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
 		return TRUE; /* default focus */

@@ -160,7 +160,7 @@ namespace
 				::SendDlgItemMessage(hWnd,IDC_BGCOLOR,CPM_SETCOLOUR,0,pSettings->GetColourBk());
 				::SendDlgItemMessage(hWnd,IDC_TEXTCOLOR,CPM_SETCOLOUR,0,pSettings->GetColourText());
 
-				::CheckDlgButton(hWnd,IDC_CHECK_DONT_USE_POPUPHISTORY,pSettings->GetHistoryFlag());
+				::CheckDlgButton(hWnd, IDC_CHECK_DONT_USE_POPUPHISTORY, pSettings->GetHistoryFlag() ? BST_CHECKED : BST_UNCHECKED);
 
 				::CheckRadioButton(hWnd,IDC_RADIO_DEFAULT_COLOURS,IDC_RADIO_USER_DEFINED_COLOURS,(CPopupSettings::colourDefault == pSettings->GetColourMode()) ? IDC_RADIO_DEFAULT_COLOURS : IDC_RADIO_USER_DEFINED_COLOURS);
 				UINT n;
@@ -281,23 +281,23 @@ namespace
 				CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
 
 				BYTE bUseContactSpecific = db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0);
-				::CheckDlgButton(hWnd,IDC_CHECK_CONTACT_SPECIFIC,bUseContactSpecific);
+				::CheckDlgButton(hWnd, IDC_CHECK_CONTACT_SPECIFIC, bUseContactSpecific ? BST_CHECKED : BST_UNCHECKED);
 
 				CAdvProviderSettings setGlobal(pProvider.get());
 				// log to history
 				WORD dwLogMode = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,setGlobal.GetLogMode());
 				UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
-				::CheckDlgButton(hWnd,IDC_CHECK_INTERNAL_HISTORY,nCheck);
+				::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
 				tstring sHistoryFrmt = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_HISTORY,setGlobal.GetHistoryFormat().c_str());
 				::SetDlgItemText(hWnd,IDC_EDIT_HISTORY_FORMAT,sHistoryFrmt.c_str());
 
 				WORD wOnlyIfChanged = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_HISTORY_CONDITION,setGlobal.GetHistoryOnlyChangedFlag());
-				::CheckDlgButton(hWnd,IDC_CHECK_HISTORY_CONDITION,(1 == wOnlyIfChanged) ? 1 : 0);
+				::CheckDlgButton(hWnd, IDC_CHECK_HISTORY_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 				// log to file
 				nCheck = (dwLogMode&lmExternalFile) ? 1 : 0;
-				::CheckDlgButton(hWnd,IDC_CHECK_EXTERNAL_FILE,nCheck);
+				::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
 				tstring sLogFileName = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE);
 				if(true == sLogFileName.empty())
@@ -310,15 +310,15 @@ namespace
 				::SetDlgItemText(hWnd,IDC_EDIT_LOG_FILE_FORMAT,sLogFileFrmt.c_str());
 
 				wOnlyIfChanged = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE_CONDITION,setGlobal.GetLogOnlyChangedFlag());
-				::CheckDlgButton(hWnd,IDC_CHECK_LOG_FILE_CONDITION,(1 == wOnlyIfChanged) ? 1 : 0);
+				::CheckDlgButton(hWnd, IDC_CHECK_LOG_FILE_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 				// popup
 				nCheck = (dwLogMode&lmPopup) ? 1 : 0;
-				::CheckDlgButton(hWnd,IDC_CHECK_SHOW_POPUP,nCheck);
+				::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
 				tstring sPopupFrmt = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_POPUP,setGlobal.GetPopupFormat().c_str());
 				::SetDlgItemText(hWnd,IDC_EDIT_POPUP_FORMAT,sPopupFrmt.c_str());
 				bool bOnlyIfChanged = 1 == db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_CONDITION,setGlobal.GetShowPopupIfValueChangedFlag());
-				::CheckDlgButton(hWnd,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED,(true == bOnlyIfChanged) ? 1 : 0);
+				::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (bOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 				update_all_controls(hWnd);
 
@@ -541,25 +541,25 @@ namespace
 				// log to history
 				WORD dwLogMode = pAdvSettings->GetLogMode();
 				UINT nCheck = (dwLogMode&lmInternalHistory) ? 1 : 0;
-				::CheckDlgButton(hWnd,IDC_CHECK_INTERNAL_HISTORY,nCheck);
+				::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 				::SetDlgItemText(hWnd,IDC_EDIT_HISTORY_FORMAT,pAdvSettings->GetHistoryFormat().c_str());
-				::CheckDlgButton(hWnd,IDC_CHECK_HISTORY_CONDITION,(true == pAdvSettings->GetHistoryOnlyChangedFlag()) ? 1 : 0);
+				::CheckDlgButton(hWnd, IDC_CHECK_HISTORY_CONDITION, (pAdvSettings->GetHistoryOnlyChangedFlag()) ? BST_CHECKED : BST_UNCHECKED);
 
 				// log to file
 				nCheck = (dwLogMode&lmExternalFile) ? 1 : 0;
-				::CheckDlgButton(hWnd,IDC_CHECK_EXTERNAL_FILE,nCheck);
+				::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 				::SetDlgItemText(hWnd,IDC_EDIT_FILE_NAME,pAdvSettings->GetLogFileName().c_str());
 				::SetDlgItemText(hWnd,IDC_EDIT_LOG_FILE_FORMAT,pAdvSettings->GetLogFormat().c_str());
-				::CheckDlgButton(hWnd,IDC_CHECK_LOG_FILE_CONDITION,(true == pAdvSettings->GetLogOnlyChangedFlag()) ? 1 : 0);
+				::CheckDlgButton(hWnd, IDC_CHECK_LOG_FILE_CONDITION, (pAdvSettings->GetLogOnlyChangedFlag()) ? BST_CHECKED : BST_UNCHECKED);
 
 				update_file_controls(hWnd);
 				update_history_controls(hWnd);
 
 				// popup
 				nCheck = (dwLogMode&lmPopup) ? 1 : 0;
-				::CheckDlgButton(hWnd,IDC_CHECK_SHOW_POPUP,nCheck);
+				::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
 				::SetDlgItemText(hWnd,IDC_EDIT_POPUP_FORMAT,pAdvSettings->GetPopupFormat().c_str());
-				::CheckDlgButton(hWnd,IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED,(true == pAdvSettings->GetShowPopupIfValueChangedFlag()) ? 1 : 0);
+				::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (pAdvSettings->GetShowPopupIfValueChangedFlag()) ? BST_CHECKED : BST_UNCHECKED);
 
 				if(true == enable_popup_controls(hWnd))
 				{

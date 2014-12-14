@@ -266,7 +266,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) db_get_b(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
 		SendDlgItemMessage(hwndDlg, IDC_IDLE1STTIME, EM_LIMITTEXT, (WPARAM)2, 0);
 
-		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		for (j = 0; j < SIZEOF(aa_Status); j++)
 			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
 

@@ -146,13 +146,13 @@ void DialogConfigActive::load(HWND window)
 	TranslateDialogDefault(window);
 
 	// initialise the checkboxes
-	CheckDlgButton(window, IDC_ACTIVE_ONLINE,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Online));
-	CheckDlgButton(window, IDC_ACTIVE_AWAY,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Away));
-	CheckDlgButton(window, IDC_ACTIVE_DND,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Dnd));
-	CheckDlgButton(window, IDC_ACTIVE_NA,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Na));
-	CheckDlgButton(window, IDC_ACTIVE_OCCUPIED,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Occupied));
-	CheckDlgButton(window, IDC_ACTIVE_FREEFORCHAT,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat));
-	CheckDlgButton(window, IDC_ACTIVE_INVISIBLE,         m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Invisible));
+	CheckDlgButton(window, IDC_ACTIVE_ONLINE, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Online) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_ACTIVE_AWAY, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Away) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_ACTIVE_DND, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Dnd) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_ACTIVE_NA, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Na) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_ACTIVE_OCCUPIED, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Occupied) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_ACTIVE_FREEFORCHAT, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_FreeForChat) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_ACTIVE_INVISIBLE, m_db.getActiveFlag(ConfigDatabase::ActiveFlag_Invisible) ? BST_CHECKED : BST_UNCHECKED);
 
 	HWND listview = GetDlgItem(window, IDC_ACTIVE_USERS);
 

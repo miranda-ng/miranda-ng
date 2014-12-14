@@ -505,11 +505,11 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			EnableWindow(GetDlgItem(hWnd, IDC_EVENTS_COUNT), count > 0);
 			EnableWindow(GetDlgItem(hWnd, IDC_SHOW_LAST_FIRST), count > 0);
 
-			CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0);
-			CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0);
-			CheckDlgButton(hWnd, IDC_ENABLE_RTL, (BOOL)db_get_b(NULL, ModuleName, "EnableRTL", 0));
-			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, (BOOL)db_get_b(NULL, ModuleName, "ShowLastPageFirst", 0));
-			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, (BOOL)db_get_b(NULL, ModuleName, "UseWorkerThread", 0));
+			CheckDlgButton(hWnd, IDC_LOAD_ALL, count <= 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_LOAD_NUMBER, count > 0 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_ENABLE_RTL, db_get_b(NULL, ModuleName, "EnableRTL", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_SHOW_LAST_FIRST, db_get_b(NULL, ModuleName, "ShowLastPageFirst", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWnd, IDC_LOAD_BACKGROUND, db_get_b(NULL, ModuleName, "UseWorkerThread", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			TCHAR buffer[40];
 			_itot_s(count, buffer, 10);
@@ -584,7 +584,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			SendDlgItemMessage(hWnd, IDC_TABS, TCM_INSERTITEM, 1, (LPARAM)&tabItem);
 		}
 
-		CheckDlgButton(hWnd, IDC_DIRECTION_DOWN, TRUE);
+		CheckDlgButton(hWnd, IDC_DIRECTION_DOWN, BST_CHECKED);
 		return TRUE;
 
 	case WM_SHOWWINDOW:

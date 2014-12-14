@@ -57,7 +57,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessage(hwndDlg, WMU_OPTSETALARM, (WPARAM)param->edit, (LPARAM)param->alarm_ptr);
 
 			// use invisible checkbox to store 'self_add' setting - naughty hack
-			CheckDlgButton(hwndDlg, IDC_CHK_INVIS, param->self_add);
+			CheckDlgButton(hwndDlg, IDC_CHK_INVIS, param->self_add ? BST_CHECKED : BST_UNCHECKED);
 
 			delete param;
 
@@ -81,7 +81,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemText(hwndDlg, IDC_DESC, add_edit_alarm->szDesc);
 				switch(add_edit_alarm->occurrence) {
 				case OC_DAILY:
-					CheckDlgButton(hwndDlg, IDC_RAD_DAILY, TRUE);
+					CheckDlgButton(hwndDlg, IDC_RAD_DAILY, BST_CHECKED);
 					hw = GetDlgItem(hwndDlg, IDC_BTN_CAL);
 					EnableWindow(hw, FALSE);
 					hw = GetDlgItem(hwndDlg, IDC_DATE);
@@ -95,7 +95,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 
 				case OC_WEEKDAYS:
-					CheckDlgButton(hwndDlg, IDC_RAD_WEEKDAYS, TRUE);
+					CheckDlgButton(hwndDlg, IDC_RAD_WEEKDAYS, BST_CHECKED);
 					hw = GetDlgItem(hwndDlg, IDC_BTN_CAL);
 					EnableWindow(hw, FALSE);
 					hw = GetDlgItem(hwndDlg, IDC_DATE);
@@ -111,7 +111,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 	
 				case OC_ONCE:
-					CheckDlgButton(hwndDlg, IDC_RAD_ONCE, TRUE);
+					CheckDlgButton(hwndDlg, IDC_RAD_ONCE, BST_CHECKED);
 					hw = GetDlgItem(hwndDlg, IDC_DAY);
 					EnableWindow(hw, FALSE);
 					hw = GetDlgItem(hwndDlg, IDC_DAYNUM);
@@ -121,7 +121,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 	
 				case OC_WEEKLY:
-					CheckDlgButton(hwndDlg, IDC_RAD_WEEKLY, TRUE);
+					CheckDlgButton(hwndDlg, IDC_RAD_WEEKLY, BST_CHECKED);
 					hw = GetDlgItem(hwndDlg, IDC_BTN_CAL);
 					EnableWindow(hw, FALSE);
 					hw = GetDlgItem(hwndDlg, IDC_DATE);
@@ -135,7 +135,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 			
 				case OC_MONTHLY:
-					CheckDlgButton(hwndDlg, IDC_RAD_MONTHLY, TRUE);
+					CheckDlgButton(hwndDlg, IDC_RAD_MONTHLY, BST_CHECKED);
 					hw = GetDlgItem(hwndDlg, IDC_BTN_CAL);
 					EnableWindow(hw, FALSE);
 					hw = GetDlgItem(hwndDlg, IDC_DATE);
@@ -149,7 +149,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 	
 				case OC_YEARLY:
-					CheckDlgButton(hwndDlg, IDC_RAD_YEARLY, TRUE);
+					CheckDlgButton(hwndDlg, IDC_RAD_YEARLY, BST_CHECKED);
 					hw = GetDlgItem(hwndDlg, IDC_DAY);
 					EnableWindow(hw, FALSE);
 					hw = GetDlgItem(hwndDlg, IDC_DAYNUM);
@@ -159,9 +159,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 				}
 				
-				CheckDlgButton(hwndDlg, IDC_CHK_SUSPEND, (add_edit_alarm->flags & ALF_SUSPENDED) ? TRUE : FALSE);
-				CheckDlgButton(hwndDlg, IDC_CHK_NOSTARTUP, (add_edit_alarm->flags & ALF_NOSTARTUP) ? TRUE : FALSE);
-				CheckDlgButton(hwndDlg, IDC_CHK_NOREMINDER, (add_edit_alarm->flags & ALF_NOREMINDER) ? TRUE : FALSE);
+				CheckDlgButton(hwndDlg, IDC_CHK_SUSPEND, (add_edit_alarm->flags & ALF_SUSPENDED) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_CHK_NOSTARTUP, (add_edit_alarm->flags & ALF_NOSTARTUP) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_CHK_NOREMINDER, (add_edit_alarm->flags & ALF_NOREMINDER) ? BST_CHECKED : BST_UNCHECKED);
 				
 				SendDlgItemMessage(hwndDlg, IDC_DAY, CB_SETCURSEL, add_edit_alarm->time.wDayOfWeek, 0);
 				SendDlgItemMessage(hwndDlg, IDC_TIME, DTM_SETSYSTEMTIME, (WPARAM)GDT_VALID, (LPARAM)&add_edit_alarm->time);
@@ -170,23 +170,23 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemInt(hwndDlg, IDC_RELMIN, MinutesInFuture(add_edit_alarm->time, add_edit_alarm->occurrence), FALSE);
 
 				if (add_edit_alarm->action & AAF_SOUND) {
-					CheckDlgButton(hwndDlg, IDC_CHK_ASOUND, TRUE);
+					CheckDlgButton(hwndDlg, IDC_CHK_ASOUND, BST_CHECKED);
 					switch(add_edit_alarm->sound_num) {
 						case 1:
-							CheckDlgButton(hwndDlg, IDC_RAD_SND1, TRUE);
+							CheckDlgButton(hwndDlg, IDC_RAD_SND1, BST_CHECKED);
 							break;
 						case 2:
-							CheckDlgButton(hwndDlg, IDC_RAD_SND2, TRUE);
+							CheckDlgButton(hwndDlg, IDC_RAD_SND2, BST_CHECKED);
 							break;
 						case 3:
-							CheckDlgButton(hwndDlg, IDC_RAD_SND3, TRUE);
+							CheckDlgButton(hwndDlg, IDC_RAD_SND3, BST_CHECKED);
 							break;
 						case 4:
 							if (!ServiceExists("Speak/Say")) {
 								add_edit_alarm->sound_num = 1;
-								CheckDlgButton(hwndDlg, IDC_RAD_SND1, TRUE);
+								CheckDlgButton(hwndDlg, IDC_RAD_SND1, BST_CHECKED);
 							} else
-								CheckDlgButton(hwndDlg, IDC_RAD_SPK, TRUE);
+								CheckDlgButton(hwndDlg, IDC_RAD_SPK, BST_CHECKED);
 							
 							break;
 					}
@@ -200,9 +200,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					EnableWindow(hw, FALSE);
 				}
 				if (add_edit_alarm->action & AAF_POPUP)
-					CheckDlgButton(hwndDlg, IDC_CHK_APOPUP, TRUE);
+					CheckDlgButton(hwndDlg, IDC_CHK_APOPUP, BST_CHECKED);
 				if (add_edit_alarm->action & AAF_COMMAND) {
-					CheckDlgButton(hwndDlg, IDC_CHK_ACOMMAND, TRUE);
+					CheckDlgButton(hwndDlg, IDC_CHK_ACOMMAND, BST_CHECKED);
 					SetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_alarm->szCommand);
 					SetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_alarm->szCommandParams);
 				}
@@ -220,7 +220,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				// set time to 10 mins in future to help prevent 'alarm in past' error
 				TimeForMinutesInFuture(10, &now);
 				
-				CheckDlgButton(hwndDlg, IDC_RAD_ONCE, TRUE);
+				CheckDlgButton(hwndDlg, IDC_RAD_ONCE, BST_CHECKED);
 				HWND hw = GetDlgItem(hwndDlg, IDC_DAY);
 				EnableWindow(hw, FALSE);
 				hw = GetDlgItem(hwndDlg, IDC_DAYNUM);
@@ -233,9 +233,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_SETCURSEL, now.wDay - 1, 0);
 				SetDlgItemInt(hwndDlg, IDC_RELMIN, MinutesInFuture(now, OC_ONCE), FALSE);
 
-				CheckDlgButton(hwndDlg, IDC_CHK_ASOUND, TRUE);
-				CheckDlgButton(hwndDlg, IDC_RAD_SND1, TRUE);
-				CheckDlgButton(hwndDlg, IDC_CHK_APOPUP, TRUE);
+				CheckDlgButton(hwndDlg, IDC_CHK_ASOUND, BST_CHECKED);
+				CheckDlgButton(hwndDlg, IDC_RAD_SND1, BST_CHECKED);
+				CheckDlgButton(hwndDlg, IDC_CHK_APOPUP, BST_CHECKED);
 
 				hw = GetDlgItem(hwndDlg, IDC_ED_COMMAND);
 				EnableWindow(hw, FALSE);
@@ -829,7 +829,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			}
 
 			if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
-				CheckDlgButton(hwndDlg, IDC_CHK_POPUPS, temp_options.use_popup_module ? TRUE : FALSE);
+				CheckDlgButton(hwndDlg, IDC_CHK_POPUPS, temp_options.use_popup_module ? BST_CHECKED : BST_UNCHECKED);
 				if (options.use_popup_module) {
 					HWND hw = GetDlgItem(hwndDlg, IDC_CHK_LOOPSOUND);
 					EnableWindow(hw, FALSE);
@@ -844,7 +844,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					hw = GetDlgItem(hwndDlg, IDC_BTN_PREVIEW);
 					EnableWindow(hw, FALSE);
 				} else {
-					CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? TRUE : FALSE);
+					CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? BST_CHECKED : BST_UNCHECKED);
 					HWND hw = GetDlgItem(hwndDlg, IDC_CHK_LOOPSOUND);
 					EnableWindow(hw, TRUE);
 					hw = GetDlgItem(hwndDlg, IDC_CHK_AWROUND);
@@ -861,7 +861,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			} else {
 				HWND hw = GetDlgItem(hwndDlg, IDC_CHK_POPUPS);
 				EnableWindow(hw, FALSE);
-				CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? TRUE : FALSE);
+				CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? BST_CHECKED : BST_UNCHECKED);
 			
 				hw = GetDlgItem(hwndDlg, IDC_CHK_LOOPSOUND);
 				EnableWindow(hw, TRUE);
@@ -890,12 +890,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETPOS, 0, temp_options.aw_trans);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_SHOWHIDE, temp_options.auto_showhide ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_SHOWHIDE2, temp_options.hide_with_clist ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_AUTOSIZEVERT, temp_options.auto_size_vert ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_SHOWHIDE, temp_options.auto_showhide ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWHIDE2, temp_options.hide_with_clist ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOSIZEVERT, temp_options.auto_size_vert ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_AWROUND, temp_options.aw_roundcorners ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_AWNOACTIVATE, temp_options.aw_dontstealfocus ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_CHK_AWROUND, temp_options.aw_roundcorners ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_AWNOACTIVATE, temp_options.aw_dontstealfocus ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_PERIOD, UDM_SETRANGE, 0, (LPARAM)MAKELONG(72, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_PERIOD, UDM_SETPOS, 0, temp_options.reminder_period);
@@ -999,8 +999,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case IDC_CHK_POPUPS: 
 				{
 					BOOL chk = IsDlgButtonChecked(hwndDlg, IDC_CHK_POPUPS);
-					if (chk) CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, FALSE);
-					else CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound);
+					if (chk) CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, BST_UNCHECKED);
+					else CheckDlgButton(hwndDlg, IDC_CHK_LOOPSOUND, temp_options.loop_sound ? BST_CHECKED : BST_UNCHECKED);
 
 					HWND hw = GetDlgItem(hwndDlg, IDC_CHK_LOOPSOUND);
 					EnableWindow(hw, !chk);

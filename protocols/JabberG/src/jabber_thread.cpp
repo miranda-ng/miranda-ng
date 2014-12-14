@@ -88,7 +88,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_SAVE_PERM:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVEPASSWORD), !IsDlgButtonChecked(hwndDlg, IDC_SAVE_PERM));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SAVEPASSWORD), BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SAVE_PERM));
 			break;
 		case IDOK:
 			param->saveOnlinePassword = IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD);

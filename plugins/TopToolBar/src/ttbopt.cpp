@@ -209,9 +209,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_GAP, UDM_SETRANGE, 0, MAKELONG(20,0));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_GAP, UDM_SETPOS, 0, MAKELONG(g_ctrl->nButtonSpace,0));
 
-		CheckDlgButton(hwndDlg, IDC_USEFLAT, g_ctrl->bFlatButtons);
-		CheckDlgButton(hwndDlg, IDC_AUTORESIZE, g_ctrl->bAutoSize);
-		CheckDlgButton(hwndDlg, IDC_SINGLELINE, g_ctrl->bSingleLine);
+		CheckDlgButton(hwndDlg, IDC_USEFLAT, g_ctrl->bFlatButtons ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTORESIZE, g_ctrl->bAutoSize ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SINGLELINE, g_ctrl->bSingleLine ? BST_CHECKED : BST_UNCHECKED);
 
 		BuildTree(hwndDlg);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);

@@ -103,11 +103,11 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		// Group: History
 		{
-			CheckDlgButton(hwnd, IDC_ENABLE_HISTORY, PopupOptions.EnableHistory);
+			CheckDlgButton(hwnd, IDC_ENABLE_HISTORY, PopupOptions.EnableHistory ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hwnd, IDC_HISTORYSIZE, PopupOptions.HistorySize, FALSE);
 			SendDlgItemMessage(hwnd, IDC_HISTORYSIZE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwnd, IDC_HISTORYSIZE), 0);
 			SendDlgItemMessage(hwnd, IDC_HISTORYSIZE_SPIN, UDM_SETRANGE, 0, MAKELONG(SETTING_HISTORYSIZE_MAX, 1));
-			CheckDlgButton(hwnd, IDC_HPPLOG, PopupOptions.UseHppHistoryLog);
+			CheckDlgButton(hwnd, IDC_HPPLOG, PopupOptions.UseHppHistoryLog ? BST_CHECKED : BST_UNCHECKED);
 
 			HWND hCtrl = GetDlgItem(hwnd, IDC_SHOWHISTORY);
 			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
@@ -124,8 +124,8 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		// Group: Avatars
 		{
 			// Borders
-			CheckDlgButton(hwnd, IDC_AVT_BORDER, PopupOptions.avatarBorders);
-			CheckDlgButton(hwnd, IDC_AVT_PNGBORDER, PopupOptions.avatarPNGBorders);
+			CheckDlgButton(hwnd, IDC_AVT_BORDER, PopupOptions.avatarBorders ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_AVT_PNGBORDER, PopupOptions.avatarPNGBorders ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwnd, IDC_AVT_PNGBORDER), PopupOptions.avatarBorders);
 			// Radius
 			SetDlgItemInt(hwnd, IDC_AVT_RADIUS, PopupOptions.avatarRadius, FALSE);
@@ -139,7 +139,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				max(PopupOptions.avatarSize, SETTING_AVTSIZE_MIN));
 			SetDlgItemInt(hwnd, IDC_AVT_SIZE, PopupOptions.avatarSize, FALSE);
 			// Request avatars
-			CheckDlgButton(hwnd, IDC_AVT_REQUEST, PopupOptions.EnableAvatarUpdates);
+			CheckDlgButton(hwnd, IDC_AVT_REQUEST, PopupOptions.EnableAvatarUpdates ? BST_CHECKED : BST_UNCHECKED);
 		}
 		// Group: Monitor
 		{
@@ -147,8 +147,8 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			bMonitor = GetSystemMetrics(SM_CMONITORS) > 1;
 
-			CheckDlgButton(hwnd, IDC_MIRANDAWND, bMonitor ? (PopupOptions.Monitor == MN_MIRANDA) : TRUE);
-			CheckDlgButton(hwnd, IDC_ACTIVEWND, bMonitor ? (PopupOptions.Monitor == MN_ACTIVE) : FALSE);
+			CheckDlgButton(hwnd, IDC_MIRANDAWND, bMonitor ? ((PopupOptions.Monitor == MN_MIRANDA) ? BST_CHECKED : BST_UNCHECKED) : BST_CHECKED);
+			CheckDlgButton(hwnd, IDC_ACTIVEWND, bMonitor ? ((PopupOptions.Monitor == MN_ACTIVE) ? BST_CHECKED : BST_UNCHECKED) : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwnd, IDC_GRP_MULTIMONITOR), bMonitor);
 			EnableWindow(GetDlgItem(hwnd, IDC_MULTIMONITOR_DESC), bMonitor);
 			EnableWindow(GetDlgItem(hwnd, IDC_MIRANDAWND), bMonitor);
@@ -157,13 +157,13 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		// Group: Transparency
 		{
 			// win2k+
-			CheckDlgButton(hwnd, IDC_TRANS, PopupOptions.UseTransparency);
+			CheckDlgButton(hwnd, IDC_TRANS, PopupOptions.UseTransparency ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 			SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_SETPOS, TRUE, PopupOptions.Alpha);
 			mir_subclassWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER), AlphaTrackBarWndProc);
 			mir_sntprintf(tstr, SIZEOF(tstr), _T("%d%%"), Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
-			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.OpaqueOnHover);
+			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopupOptions.OpaqueOnHover ? BST_CHECKED : BST_UNCHECKED);
 			{
 				BOOL how = TRUE;
 
@@ -178,7 +178,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		// Group: Effects
 		{
 			// Use Animations
-			CheckDlgButton(hwnd, IDC_USEANIMATIONS, PopupOptions.UseAnimations);
+			CheckDlgButton(hwnd, IDC_USEANIMATIONS, PopupOptions.UseAnimations ? BST_CHECKED : BST_UNCHECKED);
 			// Fade
 			SetDlgItemInt(hwnd, IDC_FADEIN, PopupOptions.FadeIn, FALSE);
 			SetDlgItemInt(hwnd, IDC_FADEOUT, PopupOptions.FadeOut, FALSE);

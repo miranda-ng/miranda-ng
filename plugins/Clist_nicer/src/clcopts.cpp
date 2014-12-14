@@ -160,7 +160,7 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				CheckDlgButton(hwndDlg, checkBoxToGroupStyleEx[i].id, (exStyle & checkBoxToGroupStyleEx[i].flag) ^ (checkBoxToGroupStyleEx[i].flag * checkBoxToGroupStyleEx[i].not_t) ? BST_CHECKED : BST_UNCHECKED);
 
 			CheckDlgButton(hwndDlg, IDC_NOGROUPICON, (cfg::dat.dwFlags & CLUI_FRAME_NOGROUPICON) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, cfg::getByte("CLCExt", "EXBK_CenterGroupnames", 0));
+			CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, cfg::getByte("CLCExt", "EXBK_CenterGroupnames", 0) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_SETCURSEL, cfg::dat.bGroupAlign, 0);
 
 			SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
@@ -257,7 +257,7 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, sizeof(offlineValues) / sizeof(offlineValues[0]), cfg::getDword("CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
 			CheckDlgButton(hwndDlg, IDC_EVENTSONTOP, (cfg::dat.dwFlags & CLUI_STICKYEVENTS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, cfg::dat.bDontSeparateOffline);
+			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, cfg::dat.bDontSeparateOffline ? BST_CHECKED : BST_UNCHECKED);
 			for (int i = 0; sortCtrlIDs[i] != 0; i++)
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_SETCURSEL, cfg::dat.sortOrder[i], 0);
 
@@ -355,7 +355,7 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 		}
 
-		CheckDlgButton(hwndDlg, IDC_NOAVATARSOFFLINE, cfg::dat.bNoOfflineAvatars);
+		CheckDlgButton(hwndDlg, IDC_NOAVATARSOFFLINE, cfg::dat.bNoOfflineAvatars ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_SETCURSEL, cfg::dat.dualRowMode, 0);
 		CheckDlgButton(hwndDlg, IDC_CLISTAVATARS, (cfg::dat.dwFlags & CLUI_FRAME_AVATARS) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -376,8 +376,8 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 		Utils::enableDlgControl(hwndDlg, IDC_RADIUSSPIN, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
 		Utils::enableDlgControl(hwndDlg, IDC_AVATARBORDERCLR, IsDlgButtonChecked(hwndDlg, IDC_AVATARSBORDER) ? TRUE : FALSE);
 
-		CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIME, cfg::dat.bShowLocalTime ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, cfg::dat.bShowLocalTimeSelective ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIME, cfg::dat.bShowLocalTime ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, cfg::dat.bShowLocalTimeSelective ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME));
 
 		if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT)
@@ -607,7 +607,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 		CheckDlgButton(hwndDlg, IDC_FULLROWSELECT, (cfg::dat.dwFlags & CLUI_FULLROWSELECT) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_DBLCLKAVATARS, cfg::dat.bDblClkAvatars);
+		CheckDlgButton(hwndDlg, IDC_DBLCLKAVATARS, cfg::dat.bDblClkAvatars ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_GREYOUT, cfg::getDword("CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS) ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(hwndDlg, IDC_SMOOTHTIME, IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
 		Utils::enableDlgControl(hwndDlg, IDC_GREYOUTOPTS, IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
@@ -706,8 +706,8 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_BITMAP, cfg::getByte("CLC", "UseBitmap", CLCDEFAULT_USEBITMAP) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, WM_USER + 10, 0, 0);
-		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, cfg::getByte("CLC", "UseWinColours", 0));
-		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode);
+		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, cfg::getByte("CLC", "UseWinColours", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SKINMODE, cfg::dat.bWallpaperMode ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DBVARIANT dbv;
 			if (!cfg::getTString(NULL, "CLC", "BkBitmap", &dbv)) {

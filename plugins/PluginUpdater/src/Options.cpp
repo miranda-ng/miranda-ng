@@ -25,14 +25,14 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 	{
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, opts.bUpdateOnStartup);
-		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, opts.bOnlyOnceADay);
+		CheckDlgButton(hwndDlg, IDC_UPDATEONSTARTUP, opts.bUpdateOnStartup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYONCEADAY, opts.bOnlyOnceADay ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ONLYONCEADAY), opts.bUpdateOnStartup);
-		CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, opts.bUpdateOnPeriod);
+		CheckDlgButton(hwndDlg, IDC_UPDATEONPERIOD, opts.bUpdateOnPeriod ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIOD), opts.bUpdateOnPeriod);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODSPIN), opts.bUpdateOnPeriod);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PERIODMEASURE), opts.bUpdateOnPeriod);
-		CheckDlgButton(hwndDlg, IDC_SILENTMODE, opts.bSilentMode);
+		CheckDlgButton(hwndDlg, IDC_SILENTMODE, opts.bSilentMode ? BST_CHECKED : BST_UNCHECKED);
 		if (db_get_b(NULL, MODNAME, DB_SETTING_NEED_RESTART, 0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_NEEDRESTARTLABEL), SW_SHOW);
 
@@ -57,18 +57,18 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		switch (GetUpdateMode()) {
 			case UPDATE_MODE_STABLE:
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL));
-				CheckDlgButton(hwndDlg, IDC_STABLE, TRUE);
+				CheckDlgButton(hwndDlg, IDC_STABLE, BST_CHECKED);
 				break;
 			case UPDATE_MODE_TRUNK:
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL_TRUNK));
-				CheckDlgButton(hwndDlg, IDC_TRUNK, TRUE);
+				CheckDlgButton(hwndDlg, IDC_TRUNK, BST_CHECKED);
 				break;
 			case UPDATE_MODE_TRUNK_SYMBOLS:
 				SetDlgItemText(hwndDlg, IDC_CUSTOMURL, _T(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS));
-				CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, TRUE);
+				CheckDlgButton(hwndDlg, IDC_TRUNK_SYMBOLS, BST_CHECKED);
 				break;
 			default:
-				CheckDlgButton(hwndDlg, IDC_CUSTOM, TRUE);
+				CheckDlgButton(hwndDlg, IDC_CUSTOM, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMURL), TRUE);
 
 				ptrT url(db_get_tsa(NULL, MODNAME, DB_SETTING_UPDATE_URL));
@@ -316,19 +316,19 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			case IDC_TIMEOUT_VALUE:
 			case IDC_MSG_BOXES:
 			case IDC_ERRORS:
-				EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), !IsDlgButtonChecked(hdlg, IDC_ERRORS));
+				EnableWindow(GetDlgItem(hdlg, IDC_ERRORS_MSG), BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_ERRORS));
 				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
 					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_INFO_MESSAGES:
-				EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), !IsDlgButtonChecked(hdlg, IDC_INFO_MESSAGES));
+				EnableWindow(GetDlgItem(hdlg, IDC_INFO_MESSAGES_MSG), BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_INFO_MESSAGES));
 				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
 					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				break;
 
 			case IDC_PROGR_DLG:
-				EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), !IsDlgButtonChecked(hdlg, IDC_PROGR_DLG));
+				EnableWindow(GetDlgItem(hdlg, IDC_PROGR_DLG_MSG), BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_PROGR_DLG));
 				if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE) && (HWND)lParam == GetFocus())
 					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				break;

@@ -720,17 +720,17 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARA
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		si = (SESSION_INFO*)lParam;
-		CheckDlgButton(hwndDlg, IDC_1, si->iLogFilterFlags & GC_EVENT_ACTION);
-		CheckDlgButton(hwndDlg, IDC_2, si->iLogFilterFlags & GC_EVENT_MESSAGE);
-		CheckDlgButton(hwndDlg, IDC_3, si->iLogFilterFlags & GC_EVENT_NICK);
-		CheckDlgButton(hwndDlg, IDC_4, si->iLogFilterFlags & GC_EVENT_JOIN);
-		CheckDlgButton(hwndDlg, IDC_5, si->iLogFilterFlags & GC_EVENT_PART);
-		CheckDlgButton(hwndDlg, IDC_6, si->iLogFilterFlags & GC_EVENT_TOPIC);
-		CheckDlgButton(hwndDlg, IDC_7, si->iLogFilterFlags & GC_EVENT_ADDSTATUS);
-		CheckDlgButton(hwndDlg, IDC_8, si->iLogFilterFlags & GC_EVENT_INFORMATION);
-		CheckDlgButton(hwndDlg, IDC_9, si->iLogFilterFlags & GC_EVENT_QUIT);
-		CheckDlgButton(hwndDlg, IDC_10, si->iLogFilterFlags & GC_EVENT_KICK);
-		CheckDlgButton(hwndDlg, IDC_11, si->iLogFilterFlags & GC_EVENT_NOTICE);
+		CheckDlgButton(hwndDlg, IDC_1, si->iLogFilterFlags & GC_EVENT_ACTION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_2, si->iLogFilterFlags & GC_EVENT_MESSAGE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_3, si->iLogFilterFlags & GC_EVENT_NICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_4, si->iLogFilterFlags & GC_EVENT_JOIN ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_5, si->iLogFilterFlags & GC_EVENT_PART ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_6, si->iLogFilterFlags & GC_EVENT_TOPIC ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_7, si->iLogFilterFlags & GC_EVENT_ADDSTATUS ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_8, si->iLogFilterFlags & GC_EVENT_INFORMATION ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_9, si->iLogFilterFlags & GC_EVENT_QUIT ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_10, si->iLogFilterFlags & GC_EVENT_KICK ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_11, si->iLogFilterFlags & GC_EVENT_NOTICE ? BST_CHECKED : BST_UNCHECKED);
 		break;
 
 	case WM_CTLCOLOREDIT:

@@ -179,28 +179,28 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		// set default policy radio
 		switch(options.default_policy) {
 			case OTRL_POLICY_OPPORTUNISTIC:
-				CheckDlgButton(hwndDlg, IDC_RAD_OPP, TRUE);
+				CheckDlgButton(hwndDlg, IDC_RAD_OPP, BST_CHECKED);
 				break;
 			case OTRL_POLICY_MANUAL_MOD:
-				CheckDlgButton(hwndDlg, IDC_RAD_MANUAL, TRUE);
+				CheckDlgButton(hwndDlg, IDC_RAD_MANUAL, BST_CHECKED);
 				break;
 			case OTRL_POLICY_ALWAYS:
-				CheckDlgButton(hwndDlg, IDC_RAD_ALWAYS, TRUE);
+				CheckDlgButton(hwndDlg, IDC_RAD_ALWAYS, BST_CHECKED);
 				break;
 			case OTRL_POLICY_NEVER:
-				CheckDlgButton(hwndDlg, IDC_RAD_NEVER, TRUE);
+				CheckDlgButton(hwndDlg, IDC_RAD_NEVER, BST_CHECKED);
 				break;
 		}
 
-		CheckDlgButton(hwndDlg, IDC_CHK_PREFIX, options.prefix_messages ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_MSGINLINE, options.msg_inline ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_MSGPOPUP, options.msg_popup ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_TIMEFINISH, options.timeout_finished ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_PREVENTSAVE, options.delete_history ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_PREVENTSYSSAVE, options.delete_systeminfo ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_AUTOSHOW_VERIFY, options.autoshow_verify ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_ENDOFFLINE, options.end_offline ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_ENDCLOSE, options.end_window_close ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_CHK_PREFIX, options.prefix_messages ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_MSGINLINE, options.msg_inline ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_MSGPOPUP, options.msg_popup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_TIMEFINISH, options.timeout_finished ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_PREVENTSAVE, options.delete_history ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_PREVENTSYSSAVE, options.delete_systeminfo ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_AUTOSHOW_VERIFY, options.autoshow_verify ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ENDOFFLINE, options.end_offline ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ENDCLOSE, options.end_window_close ? BST_CHECKED : BST_UNCHECKED);
 
 		prefix = mir_utf8decodeT(options.prefix);
 		SetDlgItemText(hwndDlg, IDC_ED_PREFIX, prefix);

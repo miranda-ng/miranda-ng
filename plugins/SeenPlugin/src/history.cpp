@@ -176,8 +176,8 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 
-		if ( db_get_b(hContact,S_MOD,"OnlineAlert",0))
-			SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_SETCHECK, (WPARAM)BST_CHECKED, 0);
+		if (db_get_b(hContact,S_MOD,"OnlineAlert", 0))
+			CheckDlgButton(hwndDlg, IDC_STATUSCHANGE, BST_CHECKED);
 		
 		SendDlgItemMessage(hwndDlg, IDC_DETAILS,  BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
 		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));

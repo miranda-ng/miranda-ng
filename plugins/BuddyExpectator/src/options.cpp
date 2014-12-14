@@ -168,16 +168,16 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 			SendDlgItemMessage(hwndDlg, IDC_COMBO_PERIOD3, CB_SETCURSEL, 0, 0);
 		}
 
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_POPUP, BM_SETCHECK, options.iShowPopup > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_FLASHICON, BM_SETCHECK, options.iShowEvent > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_UDETAILS, BM_SETCHECK, (options.iShowUDetails > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_MSGWINDOW, BM_SETCHECK, (options.iShowMessageWindow > 0 ? BST_CHECKED : BST_UNCHECKED), 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_FIRSTSIGHT, BM_SETCHECK, options.notifyFirstOnline ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_NOMSGS, BM_SETCHECK, options.hideInactive ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_MISSYOU, BM_SETCHECK, options.enableMissYou ? BST_CHECKED : BST_UNCHECKED, 0);
+		CheckDlgButton(hwndDlg, IDC_CHECK_POPUP, options.iShowPopup > 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_FLASHICON, options.iShowEvent > 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_UDETAILS, (options.iShowUDetails > 0 ? BST_CHECKED : BST_UNCHECKED));
+		CheckDlgButton(hwndDlg, IDC_CHECK_MSGWINDOW, (options.iShowMessageWindow > 0 ? BST_CHECKED : BST_UNCHECKED));
+		CheckDlgButton(hwndDlg, IDC_CHECK_FIRSTSIGHT, options.notifyFirstOnline ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_NOMSGS, options.hideInactive ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_MISSYOU, options.enableMissYou ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_POPUP2, BM_SETCHECK, options.iShowPopup2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHECK_FLASHICON2, BM_SETCHECK, options.iShowEvent2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
+		CheckDlgButton(hwndDlg, IDC_CHECK_POPUP2, options.iShowPopup2 > 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECK_FLASHICON2, options.iShowEvent2 > 0 ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_RESETCONTENT, 0, 0);
 		SendDlgItemMessage(hwndDlg, IDC_COMBO_ACTIONS, CB_ADDSTRING, 0, (LPARAM) TranslateT("Do nothing"));
@@ -296,15 +296,15 @@ static INT_PTR CALLBACK PopupOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 		//iPopupDelay
 		SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 5, FALSE);
 		if (options.iPopupDelay < 0) {
-			SendDlgItemMessage(hwndDlg, IDC_DELAY_PERM, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_DELAY_PERM, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), false);
 		}
 		else if(options.iPopupDelay == 0) {
-			SendDlgItemMessage(hwndDlg, IDC_DELAY_DEF, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_DELAY_DEF, BST_CHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), false);
 		}
 		else {
-			SendDlgItemMessage(hwndDlg, IDC_DELAY_CUST, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_DELAY_CUST, BST_CHECKED);
 			SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, options.iPopupDelay, FALSE);
 		}
 
@@ -483,9 +483,9 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			else
 				SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, _T(""));
 
-			SendDlgItemMessage(hdlg, IDC_CHECK_MISSYOU, BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hdlg, IDC_CHECK_NOTIFYALWAYS, BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hdlg, IDC_CHECK_NEVERHIDE, BM_SETCHECK, db_get_b((MCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+			CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYou", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, db_get_b((MCONTACT)lparam, MODULE_NAME, "MissYouNotifyAlways", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_NEVERHIDE, db_get_b((MCONTACT)lparam, MODULE_NAME, "NeverHide", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			TranslateDialogDefault(hdlg);
 			return TRUE;

@@ -1195,7 +1195,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			case IDC_NOSYNC:
 				db_set_b(0, SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
-				if (!IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
+				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
 					loadHeight();
 					if (!m_dat->pContainer->settings->fPrivate)
 						M.BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);

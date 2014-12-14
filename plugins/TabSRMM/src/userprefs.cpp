@@ -117,20 +117,20 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_TEXTFORMATTING, CB_SETCURSEL, iLocalFormat == 0 ? 0 : (iLocalFormat == -1 ? 2 : (1)), 0);
 
 			if (CheckMenuItem(PluginConfig.g_hMenuFavorites, (UINT_PTR)lParam, MF_BYCOMMAND | MF_UNCHECKED) == -1)
-				CheckDlgButton(hwndDlg, IDC_ISFAVORITE, FALSE);
+				CheckDlgButton(hwndDlg, IDC_ISFAVORITE, BST_UNCHECKED);
 			else
-				CheckDlgButton(hwndDlg, IDC_ISFAVORITE, TRUE);
+				CheckDlgButton(hwndDlg, IDC_ISFAVORITE, BST_CHECKED);
 
 			CheckDlgButton(hwndDlg, IDC_PRIVATESPLITTER, bSplit);
-			CheckDlgButton(hwndDlg, IDC_TEMPLOVERRIDE, db_get_b(hContact, TEMPLATES_MODULE, "enabled", 0));
-			CheckDlgButton(hwndDlg, IDC_RTLTEMPLOVERRIDE, db_get_b(hContact, RTLTEMPLATES_MODULE, "enabled", 0));
-			CheckDlgButton(hwndDlg, IDC_LOADONLYACTUAL, M.GetByte(hContact, "ActualHistory", 0));
+			CheckDlgButton(hwndDlg, IDC_TEMPLOVERRIDE, db_get_b(hContact, TEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_RTLTEMPLOVERRIDE, db_get_b(hContact, RTLTEMPLATES_MODULE, "enabled", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_LOADONLYACTUAL, M.GetByte(hContact, "ActualHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 5));
 			SendDlgItemMessage(hwndDlg, IDC_TRIMSPIN, UDM_SETPOS, 0, maxhist);
 			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, maxhist != 0);
 			Utils::enableDlgControl(hwndDlg, IDC_TRIM, maxhist != 0);
-			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM2, maxhist != 0);
+			CheckDlgButton(hwndDlg, IDC_ALWAYSTRIM2, maxhist != 0 ? BST_CHECKED : BST_UNCHECKED);
 
 			hCpCombo = GetDlgItem(hwndDlg, IDC_CODEPAGES);
 			DWORD sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
@@ -143,8 +143,8 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					if (SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)i, 0) == (LRESULT)sCodePage)
 						SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, (WPARAM)i, 0);
 			}
-			CheckDlgButton(hwndDlg, IDC_FORCEANSI, M.GetByte(hContact, "forceansi", 0) ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_IGNORETIMEOUTS, M.GetByte(hContact, "no_ack", 0));
+			CheckDlgButton(hwndDlg, IDC_FORCEANSI, M.GetByte(hContact, "forceansi", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IGNORETIMEOUTS, M.GetByte(hContact, "no_ack", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			ShowWindow(hwndDlg, SW_SHOW);
 		}
