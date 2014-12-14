@@ -538,7 +538,6 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge(WPARAM hContact, LPARAM)
 	else
 		_tcsncpy_s(tszJid, jid, _TRUNCATE);
 
-	JabberCapsBits jcb = GetResourceCapabilites(tszJid, FALSE);
 	m_ThreadInfo->send(
 		XmlNode(_T("message")) << XATTR(_T("type"), _T("headline")) << XATTR(_T("to"), tszJid)
 			<< XCHILDNS(_T("attention"), JABBER_FEAT_ATTENTION));

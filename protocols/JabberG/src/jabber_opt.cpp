@@ -332,15 +332,7 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 
 static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
 {
-	TCHAR *user = txtUsername.GetText();
-	TCHAR *server = cbServer.GetText();
-	int len = mir_tstrlen(user) + mir_tstrlen(server) + 2;
-	TCHAR *jid = (TCHAR *)mir_alloc(len * sizeof(TCHAR));
-	mir_sntprintf(jid, len, _T("%s@%s"), user, server);
-	ppro->setTString("jid", jid);
-	mir_free(jid);
-	mir_free(server);
-	mir_free(user);
+	ppro->setTString("jid", CMString(FORMAT, _T("%s@%s"), ptrT(txtUsername.GetText()), ptrT(cbServer.GetText())));
 }
 
 class CDlgOptAccount: public CJabberDlgBase

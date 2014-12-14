@@ -248,7 +248,7 @@ void TScramAuth::Hi(BYTE* res, char* passw, size_t passwLen, char* salt, size_t 
 
 char* TScramAuth::getChallenge(const TCHAR *challenge)
 {
-	unsigned chlLen, saltLen;
+	unsigned chlLen, saltLen = 0;
 	ptrA snonce, salt;
 	int ind = -1;
 

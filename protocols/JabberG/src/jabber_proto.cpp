@@ -843,7 +843,7 @@ int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 {
 	ptrA szResUtf(mir_utf8encodeT((LPCTSTR)evt->lParam));
 	evt->pCustomData = szResUtf;
-	evt->cbCustomDataSize = mir_strlen(szResUtf);
+	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
 	Proto_RecvMessage(hContact, evt);
 	return 0;
 }
@@ -859,7 +859,7 @@ int __cdecl CJabberProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int __cdecl CJabberProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (!m_bJabberOnline)
 		return 0;

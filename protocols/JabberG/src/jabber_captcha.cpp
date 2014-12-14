@@ -181,8 +181,8 @@ void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData *info, LPCTSTR from,
 void CJabberProto::sendCaptchaError(ThreadData *info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge)
 {
 	XmlNode message(_T("message"));
-	HXML query= message << XATTR(_T("type"), _T("error")) << XATTR(_T("to"), from) << XATTR(_T("id"), challenge) << XATTR(_T("from"), to)
-		  << XCHILD(_T("error")) << XATTR(_T("type"), _T("modify"))
-	      << XCHILD(_T("not-acceptable")) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"));
-	info -> send (message);
+	message << XATTR(_T("type"), _T("error")) << XATTR(_T("to"), from) << XATTR(_T("id"), challenge) << XATTR(_T("from"), to)
+		<< XCHILD(_T("error")) << XATTR(_T("type"), _T("modify"))
+			<< XCHILD(_T("not-acceptable")) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"));
+	info->send(message);
 }

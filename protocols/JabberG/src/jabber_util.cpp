@@ -986,8 +986,8 @@ const TCHAR *JabberStrIStr(const TCHAR *str, const TCHAR *substr)
 	TCHAR *str_up = NEWTSTR_ALLOCA(str);
 	TCHAR *substr_up = NEWTSTR_ALLOCA(substr);
 
-	CharUpperBuff(str_up, mir_tstrlen(str_up));
-	CharUpperBuff(substr_up, mir_tstrlen(substr_up));
+	CharUpperBuff(str_up, (DWORD)mir_tstrlen(str_up));
+	CharUpperBuff(substr_up, (DWORD)mir_tstrlen(substr_up));
 
 	TCHAR *p = _tcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : NULL;

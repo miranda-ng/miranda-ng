@@ -317,11 +317,12 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 	if (lpdis->CtlID != IDC_CB_MODES)
 		return FALSE;
 
-	if (lpdis->itemData == -1) return FALSE;
+	if (lpdis->itemData == -1)
+		return FALSE;
 
 	CStatusMode *mode = &m_modes[lpdis->itemData];
 
-	TEXTMETRIC tm = {0};
+	TEXTMETRIC tm = { 0 };
 	GetTextMetrics(lpdis->hDC, &tm);
 
 	SetBkMode(lpdis->hDC, TRANSPARENT);
@@ -345,14 +346,14 @@ BOOL CJabberDlgPepSimple::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		}
 		else mir_tstrncpy(text, mode->m_title, SIZEOF(text));
 
-		DrawIconEx(lpdis->hDC, lpdis->rcItem.left+2, (lpdis->rcItem.top+lpdis->rcItem.bottom-16)/2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
-		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top+lpdis->rcItem.bottom-tm.tmHeight)/2, text, mir_tstrlen(text));
+		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 2, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		TextOut(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_tstrlen(text));
 	}
 	else {
 		TCHAR text[128];
 		mir_sntprintf(text, SIZEOF(text), _T("...%s"), mode->m_title);
-		DrawIconEx(lpdis->hDC, lpdis->rcItem.left+23, (lpdis->rcItem.top+lpdis->rcItem.bottom-16)/2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
-		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top+lpdis->rcItem.bottom-tm.tmHeight)/2, text, mir_tstrlen(text));
+		DrawIconEx(lpdis->hDC, lpdis->rcItem.left + 23, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2, mode->m_hIcon, 16, 16, 0, NULL, DI_NORMAL);
+		TextOut(lpdis->hDC, lpdis->rcItem.left + 44, (lpdis->rcItem.top + lpdis->rcItem.bottom - tm.tmHeight) / 2, text, (int)mir_tstrlen(text));
 	}
 
 	return TRUE;
@@ -446,7 +447,7 @@ void CPepGuiService::InitGui()
 	char szService[128];
 	mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
 
-	int (__cdecl CPepGuiService::*serviceProc)(WPARAM, LPARAM);
+	int(__cdecl CPepGuiService::*serviceProc)(WPARAM, LPARAM);
 	serviceProc = &CPepGuiService::OnMenuItemClick;
 	m_hMenuService = CreateServiceFunctionObj(szService, (MIRANDASERVICEOBJ)*(void **)&serviceProc, this);
 
@@ -902,16 +903,18 @@ static int ActivityCheck(LPCTSTR szFirstNode, LPCTSTR szSecondNode)
 	return nFirst;
 }
 
-char *returnActivity (int id){
-	if (g_arrActivities[id].szFirst)
-			return g_arrActivities[id].szFirst;
-	if (g_arrActivities[id].szSecond)
-			return g_arrActivities[id].szSecond;
-	return NULL;}
-
-char *ActivityGetFirst(int id)
+char* returnActivity(int id)
 {
-	if (id >= SIZEOF(g_arrActivities)-1)
+	if (g_arrActivities[id].szFirst)
+		return g_arrActivities[id].szFirst;
+	if (g_arrActivities[id].szSecond)
+		return g_arrActivities[id].szSecond;
+	return NULL;
+}
+
+char* ActivityGetFirst(int id)
+{
+	if (id >= SIZEOF(g_arrActivities) - 1)
 		return NULL;
 
 	while (id >= 0) {
@@ -1105,7 +1108,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, LPCTSTR szFirst, LPCTSTR szSec
 	else m_proto->ResetAdvStatus(hContact, ADVSTATUS_ACTIVITY);
 }
 
-void CPepActivity::ShowSetDialog(BYTE bQuiet)
+void CPepActivity::ShowSetDialog(BYTE)
 {
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
 	for (int i=0; i < SIZEOF(g_arrActivities); i++)
@@ -1139,7 +1142,6 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 
 HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 {
-	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(JABBER_FEAT_USER_MOOD);
 	HICON icon = g_MoodIcons.GetIcon(g_arrMoods[bStatus].szTag, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
@@ -1409,7 +1411,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM, LPARAM lParam)
 {
 	if (!m_bPepSupported || !m_bJabberOnline)
 		return 1;
