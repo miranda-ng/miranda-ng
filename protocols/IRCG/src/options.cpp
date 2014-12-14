@@ -1247,8 +1247,8 @@ void CAddIgnoreDlg::OnOk(CCtrlButton*)
 	if (IsDlgButtonChecked(m_hwnd, IDC_C) == BST_CHECKED) flags += 'c';
 	if (IsDlgButtonChecked(m_hwnd, IDC_M) == BST_CHECKED) flags += 'm';
 
-	GetWindowText(GetDlgItem(m_hwnd, IDC_MASK), szMask, SIZEOF(szMask));
-	GetWindowText(GetDlgItem(m_hwnd, IDC_NETWORK), szNetwork, SIZEOF(szNetwork));
+	GetDlgItemText(m_hwnd, IDC_MASK, szMask, SIZEOF(szMask));
+	GetDlgItemText(m_hwnd, IDC_NETWORK, szNetwork, SIZEOF(szNetwork));
 
 	CMString Mask = GetWord(szMask, 0);
 	if (Mask.GetLength() != 0) {

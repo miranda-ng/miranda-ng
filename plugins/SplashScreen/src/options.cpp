@@ -307,25 +307,25 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					{
 						TCHAR tmp[MAX_PATH];
 
-						GetWindowText(GetDlgItem(hwndDlg, IDC_SPLASHPATH), tmp, SIZEOF(tmp));
+						GetDlgItemText(hwndDlg, IDC_SPLASHPATH, tmp, SIZEOF(tmp));
 						db_set_ts(NULL, MODNAME, "Path", tmp);
 
-						GetWindowText(GetDlgItem(hwndDlg, IDC_SNDPATH), tmp, SIZEOF(tmp));
+						GetDlgItemText(hwndDlg, IDC_SNDPATH, tmp, SIZEOF(tmp));
 						db_set_ts(NULL, MODNAME, "Sound", tmp);
 
-						GetWindowText(GetDlgItem(hwndDlg, IDC_VERSIONPREFIX), tmp, SIZEOF(tmp));
+						GetDlgItemText(hwndDlg, IDC_VERSIONPREFIX, tmp, SIZEOF(tmp));
 						db_set_ts(NULL, MODNAME, "VersionPrefix", tmp);
 						_tcscpy_s(szPrefix, tmp);
 
-						GetWindowText(GetDlgItem(hwndDlg, IDC_SHOWTIME), tmp, SIZEOF(tmp));
+						GetDlgItemText(hwndDlg, IDC_SHOWTIME, tmp, SIZEOF(tmp));
 						db_set_dw(NULL, MODNAME, "TimeToShow", _ttoi(tmp));
 						options.showtime = _ttoi(tmp);
 
-						GetWindowText(GetDlgItem(hwndDlg, IDC_FISTEP), tmp, SIZEOF(tmp));
+						GetDlgItemText(hwndDlg, IDC_FISTEP, tmp, SIZEOF(tmp));
 						db_set_dw(NULL, MODNAME, "FadeinSpeed", _ttoi(tmp));
 						options.fisteps = _ttoi(tmp);
 
-						GetWindowText(GetDlgItem(hwndDlg, IDC_FOSTEP), tmp, SIZEOF(tmp));
+						GetDlgItemText(hwndDlg, IDC_FOSTEP, tmp, SIZEOF(tmp));
 						db_set_dw(NULL, MODNAME, "FadeoutSpeed", _ttoi(tmp));
 						options.fosteps = _ttoi(tmp);
 

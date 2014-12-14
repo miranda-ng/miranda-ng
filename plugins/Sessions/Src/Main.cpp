@@ -202,7 +202,7 @@ INT_PTR CALLBACK SaveSessionDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				int i = 0, length = GetWindowTextLength(GetDlgItem(hdlg, IDC_LIST));
 				SavePosition(hdlg, "SaveDlg");
 				if (length > 0) {
-					GetWindowText(GetDlgItem(hdlg, IDC_LIST), szUserSessionName, SIZEOF(szUserSessionName));
+					GetDlgItemText(hdlg, IDC_LIST, szUserSessionName, SIZEOF(szUserSessionName));
 					szUserSessionName[length + 1] = '\0';
 					if (IsDlgButtonChecked(hdlg, IDC_SELCONTACTS) && bSC) {
 						for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {

@@ -600,8 +600,8 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					SendDlgItemMessage(m_hwnd, IDC_ROOM, CB_RESETCONTENT, 0, 0);
 
 					int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_SERVER)) + 1;
-					TCHAR *server = (TCHAR *)_alloca(len * sizeof(TCHAR));
-					GetWindowText(GetDlgItem(m_hwnd, IDC_SERVER), server, len);
+					TCHAR *server = (TCHAR*)_alloca(len * sizeof(TCHAR));
+					GetDlgItemText(m_hwnd, IDC_SERVER, server, len);
 
 					if (*server) {
 						sttRoomListAppend(GetDlgItem(m_hwnd, IDC_ROOM), RoomInfo::ROOM_WAIT, TranslateT("Loading..."), TranslateT("Please wait for room list to download."), _T(""));

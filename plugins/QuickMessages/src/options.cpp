@@ -123,7 +123,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		{
 			ListData* ld = ( ListData* )tvi.lParam;
 			TCHAR szValue[256];
-			GetWindowText(GetDlgItem(hdlg,IDC_RCLICKVALUE), szValue, SIZEOF(szValue));
+			GetDlgItemText(hdlg, IDC_RCLICKVALUE, szValue, SIZEOF(szValue));
 			if(_tcslen(szValue))
 			{
 				if(ld->ptszOPQValue&&(ld->ptszOPQValue!=ld->ptszQValue))
@@ -144,7 +144,7 @@ void SetMenuEntryProperties(HWND hdlg)
 		{
 			ButtonData* bd = ( ButtonData* )tvi.lParam;
 			TCHAR szValue[256];
-			GetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE), szValue, SIZEOF(szValue));
+			GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, SIZEOF(szValue));
 			if(_tcslen(szValue))
 			{
 				if(_tcslen(bd->pszOpValue)&&(bd->pszOpValue!=bd->pszValue))
@@ -836,7 +836,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					bd = ( ButtonData* )tvi.lParam;
 					if (bd) {
 						TCHAR szValue[256];
-						GetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE), szValue, SIZEOF(szValue));
+						GetDlgItemText(hdlg, IDC_MENUVALUE, szValue, SIZEOF(szValue));
 						if(_tcslen(szValue))
 						{
 							if(bd->pszOpValue&&(bd->pszOpValue!=bd->pszValue))
@@ -1005,7 +1005,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 
-				GetWindowText(GetDlgItem(hdlg,IDC_BUTTONNAME),namebuff,SIZEOF(namebuff));
+				GetDlgItemText(hdlg, IDC_BUTTONNAME, namebuff, SIZEOF(namebuff));
 
 				tvis.item.mask=TVIF_PARAM|TVIF_TEXT;
 				tvis.item.pszText=(_tcslen(namebuff))?namebuff:TranslateT("New Button");
@@ -1055,7 +1055,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				bd = (ButtonData *)mir_alloc(sizeof(ButtonData));
 				memset(bd,0,sizeof(ButtonData));
 
-				GetWindowText(GetDlgItem(hdlg,IDC_MENUNAME),namebuff,SIZEOF(namebuff));
+				GetDlgItemText(hdlg, IDC_MENUNAME, namebuff, SIZEOF(namebuff));
 
 				bd->dwOPPos=TreeView_GetCount(hMenuTree)-1;
 				bd->pszOpName=_tcslen(namebuff)?mir_tstrdup(namebuff):mir_tstrdup(TranslateT("New Menu Entry"));

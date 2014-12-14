@@ -1632,7 +1632,7 @@ void CJabberDlgPrivacyLists::btnAddJid_OnClick(CCtrlButton *)
 {
 	int len = GetWindowTextLength(GetDlgItem(m_hwnd, IDC_NEWJID))+1;
 	TCHAR *buf = (TCHAR *)_alloca(sizeof(TCHAR) * len);
-	GetWindowText(GetDlgItem(m_hwnd, IDC_NEWJID), buf, len);
+	GetDlgItemText(m_hwnd, IDC_NEWJID, buf, len);
 	SetWindowText(GetDlgItem(m_hwnd, IDC_NEWJID), _T(""));
 	CListAddContact(GetDlgItem(m_hwnd, IDC_CLIST), buf);
 }

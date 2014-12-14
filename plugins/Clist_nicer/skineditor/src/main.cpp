@@ -424,31 +424,31 @@ static void UpdateStatusStructSettingsFromOptDlg(HWND hwndDlg, int index)
 		p->TEXTCOLOR = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0);
 
 	if (ChangedSItems.bALPHA) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_ALPHA), buf, 10);		// can be removed now
+		GetDlgItemTextA(hwndDlg, IDC_ALPHA, buf, 10);		// can be removed now
 		if (buf[0] != 0)
 			p->ALPHA = (BYTE) SendDlgItemMessage(hwndDlg, IDC_ALPHASPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_LEFT) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_LEFT), buf, 10);
+		GetDlgItemTextA(hwndDlg, IDC_MRGN_LEFT, buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_LEFT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_LEFT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_TOP) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_TOP), buf, 10);
+		GetDlgItemTextA(hwndDlg, IDC_MRGN_TOP, buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_TOP = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_TOP_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_RIGHT) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_RIGHT), buf, 10);
+		GetDlgItemTextA(hwndDlg, IDC_MRGN_RIGHT, buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_RIGHT = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_RIGHT_SPIN, UDM_GETPOS, 0, 0);
 	}
 
 	if (ChangedSItems.bMARGIN_BOTTOM) {
-		GetWindowTextA(GetDlgItem(hwndDlg, IDC_MRGN_BOTTOM), buf, 10);
+		GetDlgItemTextA(hwndDlg, IDC_MRGN_BOTTOM, buf, 10);
 		if (buf[0] != 0)
 			p->MARGIN_BOTTOM = (BYTE) SendDlgItemMessage(hwndDlg, IDC_MRGN_BOTTOM_SPIN, UDM_GETPOS, 0, 0);
 	}

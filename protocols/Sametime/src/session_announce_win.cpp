@@ -113,7 +113,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 					}
 
 					if (send_count > 0) {
-						GetWindowText(GetDlgItem(hwndDlg, IDC_ED_ANMSG), safArg->msg, MAX_MESSAGE_SIZE);
+						GetDlgItemText(hwndDlg, IDC_ED_ANMSG, safArg->msg, MAX_MESSAGE_SIZE);
 						safArg->proto = proto;
 						SendAnnouncementFunc sendAnnouncementFunc = arg->sendAnnouncementFunc;
 						sendAnnouncementFunc(safArg);

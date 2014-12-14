@@ -125,7 +125,7 @@ INT_PTR CALLBACK DlgLangpackOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				char buf[512];
 				mir_strcpy(buf, "mailto:");
-				if (GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), &buf[7], SIZEOF(buf)-7))
+				if (GetDlgItemTextA(hwndDlg, LOWORD(wParam), &buf[7], SIZEOF(buf) - 7))
 					CallService(MS_UTILS_OPENURL, 0, (LPARAM)buf);
 			}
 			break;

@@ -935,8 +935,8 @@ void DoAutoDetect(HWND dlg)
 	{
  		if (acc = ezxml_get(f1, "Lib", 0, "Account", 0, "Default", -1))
 		{
-			if (GetWindowTextA(GetDlgItem(dlg,IDC_USERNAME),tmpUser,sizeof(tmpUser)))
-				SetWindowTextA(GetDlgItem(dlg,IDC_USERNAME),acc->txt);
+			if (GetDlgItemTextA(dlg, IDC_USERNAME, tmpUser, sizeof(tmpUser)))
+				SetWindowTextA(GetDlgItem(dlg, IDC_USERNAME), acc->txt);
 			/* Can't find this stuff in current Skype verions??
 			sprintf (fileName, "%s\\%s\\config.xml", basePath, acc->txt);
 			if ((acc = ezxml_get(f1, "UI", 0, "Messages", 0, "OpenWindowInCompactMode", -1)) && *acc->txt!='0')

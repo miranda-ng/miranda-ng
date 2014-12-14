@@ -593,9 +593,9 @@ INT_PTR CALLBACK PounceSentDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		case IDOK:
 			{
 				TCHAR text[2048];
-				GetWindowText(GetDlgItem(hwnd, IDOK), text, SIZEOF(text));
+				GetDlgItemText(hwnd, IDOK, text, SIZEOF(text));
 				if (!_tcscmp(text, TranslateT("Retry"))) {
-					GetWindowText(GetDlgItem(hwnd,IDC_MESSAGE), text, SIZEOF(text));
+					GetDlgItemText(hwnd, IDC_MESSAGE, text, SIZEOF(text));
 					SendPounce(text, hContact);
 				}
 			}
