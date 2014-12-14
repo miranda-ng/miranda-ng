@@ -36,7 +36,7 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 	m_dbHeader.ofsFirstContact = 0;
 	m_dbHeader.ofsModuleNames = 0;
 	m_dbHeader.ofsUser = 0;
-	
+
 	// create user
 	m_dbHeader.ofsUser = m_dbHeader.ofsFileEnd;
 	m_dbHeader.ofsFileEnd += sizeof(DBContact);
@@ -55,16 +55,16 @@ int CDb3Mmap::CreateDbHeaders(const DBSignature& _sign)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static TCHAR tszOldHeaders[] = 
-	LPGENT("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?");
+static TCHAR tszOldHeaders[] =
+LPGENT("This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?");
 
 int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 {
 	if (memcmp(m_dbHeader.signature, &dbSignatureU, sizeof(m_dbHeader.signature)) &&
-		 memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
+		memcmp(m_dbHeader.signature, &dbSignatureE, sizeof(m_dbHeader.signature)))
 	{
 		if (!memcmp(&m_dbHeader.signature, &dbSignatureIM, sizeof(m_dbHeader.signature)) ||
-			 !memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
+			!memcmp(&m_dbHeader.signature, &dbSignatureSA, sizeof(m_dbHeader.signature)))
 			return EGROKPRF_OBSOLETE;
 
 		if (!memcmp(&m_dbHeader.signature, &dbSignatureSD, sizeof(m_dbHeader.signature))) {
@@ -102,7 +102,7 @@ int CDb3Mmap::CheckDbHeaders(bool bInteractive)
 	default:
 		return EGROKPRF_VERNEWER;
 	}
-	
+
 	if (m_dbHeader.ofsUser == 0)
 		return EGROKPRF_DAMAGED;
 

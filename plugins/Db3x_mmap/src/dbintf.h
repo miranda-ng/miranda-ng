@@ -26,22 +26,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* tree diagram
 
 DBHeader
- |-->end of file (plain offset)
- |-->first contact (DBContact)
- |   |-->next contact (DBContact)
- |   |   \--> ...
- |   |-->first settings (DBContactSettings)
- |   |	 |-->next settings (DBContactSettings)
- |   |   |   \--> ...
- |   |   \-->module name (DBModuleName)
- |   \-->first/last/firstunread event
- |-->user contact (DBContact)
- |   |-->next contact = NULL
- |   |-->first settings	as above
- |   \-->first/last/firstunread event as above
- \-->first module name (DBModuleName)
-     \-->next module name (DBModuleName)
-	     \--> ...
+|-->end of file (plain offset)
+|-->first contact (DBContact)
+|   |-->next contact (DBContact)
+|   |   \--> ...
+|   |-->first settings (DBContactSettings)
+|   |	 |-->next settings (DBContactSettings)
+|   |   |   \--> ...
+|   |   \-->module name (DBModuleName)
+|   \-->first/last/firstunread event
+|-->user contact (DBContact)
+|   |-->next contact = NULL
+|   |-->first settings	as above
+|   \-->first/last/firstunread event as above
+\-->first module name (DBModuleName)
+\-->next module name (DBModuleName)
+\--> ...
 */
 
 #define DBMODE_SHARED    0x0001
@@ -62,7 +62,7 @@ DBHeader
 
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
 
-#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,(n),&bytesRemaining)
+#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
 
 DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
@@ -91,9 +91,9 @@ struct DBHeader
 	DWORD version;          // as 4 bytes, ie 1.2.3.10 = 0x0102030a
 	DWORD ofsFileEnd;       // offset of the end of the database - place to write new structures
 	DWORD slackSpace;       // a counter of the number of bytes that have been
-	                        // wasted so far due to deleting structures and/or
-	                        // re-making them at the end. We should compact when
-	                        // this gets above a threshold
+	// wasted so far due to deleting structures and/or
+	// re-making them at the end. We should compact when
+	// this gets above a threshold
 	DWORD contactCount;     // number of contacts in the chain,excluding the user
 	DWORD ofsFirstContact;  // offset to first DBContact in the chain
 	DWORD ofsUser;          // offset to DBContact representing the user
@@ -105,11 +105,11 @@ struct DBContact
 {
 	DWORD signature;
 	DWORD ofsNext;          // offset to the next contact in the chain. zero if
-	                        // this is the 'user' contact or the last contact in the chain
+	// this is the 'user' contact or the last contact in the chain
 	DWORD ofsFirstSettings;	// offset to the first DBContactSettings in the chain for this contact.
 	DWORD eventCount;       // number of events in the chain for this contact
 	DWORD ofsFirstEvent,    // offsets to the first and 
-		   ofsLastEvent;     // last DBEvent in the chain for this contact
+		ofsLastEvent;     // last DBEvent in the chain for this contact
 	DWORD ofsFirstUnread;   // offset to the first (chronological) unread event	in the chain, 0 if all are read
 	DWORD tsFirstUnread;    // timestamp of the event at ofsFirstUnread
 	DWORD dwContactID;
@@ -131,10 +131,10 @@ struct DBContactSettings
 	DWORD ofsNext;          // offset to the next contactsettings in the chain
 	DWORD ofsModuleName;	   // offset to the DBModuleName of the owner of these settings
 	DWORD cbBlob;           // size of the blob in bytes. May be larger than the
-	                        // actual size for reducing the number of moves
-	                        // required using granularity in resizing
+	// actual size for reducing the number of moves
+	// required using granularity in resizing
 	BYTE blob[1];           // the blob. a back-to-back sequence of DBSetting
-	                        // structs, the last has cbName = 0
+	// structs, the last has cbName = 0
 };
 
 #define DBEVENT_SIGNATURE  0x45DECADEu
@@ -157,9 +157,9 @@ struct DBEvent
 	DWORD signature;
 	MCONTACT contactID;     // a contact this event belongs to
 	DWORD ofsPrev, ofsNext;	// offset to the previous and next events in the
-	                        // chain. Chain is sorted chronologically
+	// chain. Chain is sorted chronologically
 	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
-	                        // the owner of this event
+	// the owner of this event
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
 	DWORD flags;            // see m_database.h, db/event/add
 	WORD  wEventType;       // module-defined event type
@@ -167,7 +167,8 @@ struct DBEvent
 	BYTE  blob[1];          // the blob. module-defined formatting
 
 	bool __forceinline markedRead() const
-	{	return (flags & MARKED_READ) != 0;
+	{
+		return (flags & MARKED_READ) != 0;
 	}
 };
 
@@ -246,12 +247,12 @@ protected:
 	STDMETHODIMP_(VOID)     Destroy();
 
 protected:
-	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsContact, DWORD ofsModuleName);
-	void  InvalidateSettingsGroupOfsCacheEntry(DWORD ofsSettingsGroup) {}
+	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
+	void  InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
 	int   WorkInitialCheckHeaders(void);
 
 	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
-	PBYTE DBRead(DWORD ofs, int bytesRequired, int *bytesAvail);
+	PBYTE DBRead(DWORD ofs, int *bytesAvail);
 	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
 	void  DBFill(DWORD ofs, int bytes);
 	void  DBFlush(int setting);
@@ -308,7 +309,7 @@ protected:
 
 	////////////////////////////////////////////////////////////////////////////
 	// contacts
-	
+
 	int      WipeContactHistory(DBContact *dbc);
 
 	////////////////////////////////////////////////////////////////////////////
@@ -321,7 +322,7 @@ protected:
 	MCONTACT m_hLastCachedContact;
 	ModuleName *m_lastmn;
 
-	void     AddToList(char *name, DWORD len, DWORD ofs);
+	void     AddToList(char *name, DWORD ofs);
 	DWORD    FindExistingModuleNameOfs(const char *szName);
 	int      InitModuleNames(void);
 	DWORD    GetModuleNameOfs(const char *szName);
@@ -340,7 +341,7 @@ protected:
 	void     ConvertOldEvent(DBEvent*& dbei);
 
 	int      GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic);
-	int      WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime);
+	int      WorkSettingsChain(DBContact *dbc, int firstTime);
 	int      WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime);
 
 	DWORD    WriteSegment(DWORD ofs, PVOID buf, int cbBytes);

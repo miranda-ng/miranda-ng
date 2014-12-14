@@ -45,14 +45,14 @@ static int stringCompare2(const char *p1, const char *p2)
 }
 
 CDb3Mmap::CDb3Mmap(const TCHAR *tszFileName, int iMode) :
-	m_hDbFile(INVALID_HANDLE_VALUE),
-	m_safetyMode(true),
-	m_bReadOnly((iMode & DBMODE_READONLY) != 0),
-	m_bShared((iMode & DBMODE_SHARED) != 0),
-	m_dwMaxContactId(1),
-	m_lMods(50, ModCompare),
-	m_lOfs(50, OfsCompare),
-	m_lResidentSettings(50, stringCompare2)
+m_hDbFile(INVALID_HANDLE_VALUE),
+m_safetyMode(true),
+m_bReadOnly((iMode & DBMODE_READONLY) != 0),
+m_bShared((iMode & DBMODE_SHARED) != 0),
+m_dwMaxContactId(1),
+m_lMods(50, ModCompare),
+m_lOfs(50, OfsCompare),
+m_lResidentSettings(50, stringCompare2)
 {
 	m_tszProfileName = mir_tstrdup(tszFileName);
 	InitDbInstance(this);
@@ -194,7 +194,7 @@ int CDb3Mmap::PrepareCheck(int *error)
 STDMETHODIMP_(void) CDb3Mmap::SetCacheSafetyMode(BOOL bIsSet)
 {
 	{	mir_cslock lck(m_csDbAccess);
-		m_safetyMode = bIsSet != 0;
+	m_safetyMode = bIsSet != 0;
 	}
 	DBFlush(1);
 }
@@ -204,7 +204,7 @@ STDMETHODIMP_(void) CDb3Mmap::SetCacheSafetyMode(BOOL bIsSet)
 
 typedef int (CDb3Mmap::*CheckWorker)(int);
 
-static CheckWorker Workers[6] = 
+static CheckWorker Workers[6] =
 {
 	&CDb3Mmap::WorkInitialChecks,
 	&CDb3Mmap::WorkModuleChain,

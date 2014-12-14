@@ -41,12 +41,12 @@ DWORD CDb3Mmap::CreateNewSpace(int bytes)
 
 void CDb3Mmap::DeleteSpace(DWORD ofs, int bytes)
 {
-	if (ofs+bytes == m_dbHeader.ofsFileEnd)	{
-		log2("freespace %d@%08x",bytes,ofs);
+	if (ofs + bytes == m_dbHeader.ofsFileEnd)	{
+		log2("freespace %d@%08x", bytes, ofs);
 		m_dbHeader.ofsFileEnd = ofs;
 	}
 	else {
-		log2("deletespace %d@%08x",bytes,ofs);
+		log2("deletespace %d@%08x", bytes, ofs);
 		m_dbHeader.slackSpace += bytes;
 	}
 	DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
@@ -59,16 +59,16 @@ DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 		return ofs;
 
 	DWORD ofsNew;
-	if (ofs+oldSize == m_dbHeader.ofsFileEnd) {
+	if (ofs + oldSize == m_dbHeader.ofsFileEnd) {
 		ofsNew = ofs;
-		m_dbHeader.ofsFileEnd += newSize-oldSize;
+		m_dbHeader.ofsFileEnd += newSize - oldSize;
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 		log3("adding newspace %d@%08x+%d", newSize, ofsNew, oldSize);
 	}
 	else {
 		ofsNew = CreateNewSpace(newSize);
 		DBMoveChunk(ofsNew, ofs, oldSize);
-		DeleteSpace(ofs,oldSize);
+		DeleteSpace(ofs, oldSize);
 	}
 	return ofsNew;
 }
@@ -79,7 +79,7 @@ static DWORD DatabaseCorrupted = 0;
 static TCHAR *msg = NULL;
 static DWORD dwErr = 0;
 
-void __cdecl dbpanic(void *arg)
+void __cdecl dbpanic(void *)
 {
 	if (msg)
 	{
@@ -90,12 +90,12 @@ void __cdecl dbpanic(void *arg)
 
 		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
 
-		MessageBox(0,err,TranslateT("Database Error"),MB_SETFOREGROUND|MB_TOPMOST|MB_APPLMODAL|MB_ICONWARNING|MB_OK);
+		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
 	}
 	else
-		MessageBox(0,TranslateT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down."),
-					TranslateT("Database Panic"),MB_SETFOREGROUND|MB_TOPMOST|MB_APPLMODAL|MB_ICONWARNING|MB_OK);
-	TerminateProcess(GetCurrentProcess(),255);
+		MessageBox(0, TranslateT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down."),
+		TranslateT("Database Panic"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
+	TerminateProcess(GetCurrentProcess(), 255);
 }
 
 void CDb3Mmap::DatabaseCorruption(TCHAR *text)
@@ -108,7 +108,8 @@ void CDb3Mmap::DatabaseCorruption(TCHAR *text)
 		kill++;
 		msg = text;
 		dwErr = GetLastError();
-	} else {
+	}
+	else {
 		/* db is already corrupted, someone else is dealing with it, wait here
 		so that we don't do any more damage */
 		LeaveCriticalSection(&m_csDbAccess);
@@ -117,7 +118,7 @@ void CDb3Mmap::DatabaseCorruption(TCHAR *text)
 	}
 	LeaveCriticalSection(&m_csDbAccess);
 	if (kill) {
-		_beginthread(dbpanic,0,NULL);
+		_beginthread(dbpanic, 0, NULL);
 		Sleep(INFINITE);
 	}
 }
@@ -130,13 +131,13 @@ char* printVariant(DBVARIANT* p)
 	static char boo[1000];
 
 	switch (p->type) {
-		case DBVT_BYTE:	 mir_snprintf(boo, SIZEOF(boo), "byte: %d", p->bVal ); break;
-		case DBVT_WORD:	 mir_snprintf(boo, SIZEOF(boo), "word: %d", p->wVal ); break;
-		case DBVT_DWORD:	 mir_snprintf(boo, SIZEOF(boo), "dword: %d", p->dVal ); break;
-		case DBVT_UTF8:
-		case DBVT_ASCIIZ:  mir_snprintf(boo, SIZEOF(boo), "string: '%s'", p->pszVal); break;
-		case DBVT_DELETED: strcpy(boo, "deleted"); break;
-		default:				 mir_snprintf(boo, SIZEOF(boo), "crap: %d", p->type ); break;
+	case DBVT_BYTE:	 mir_snprintf(boo, SIZEOF(boo), "byte: %d", p->bVal ); break;
+	case DBVT_WORD:	 mir_snprintf(boo, SIZEOF(boo), "word: %d", p->wVal ); break;
+	case DBVT_DWORD:	 mir_snprintf(boo, SIZEOF(boo), "dword: %d", p->dVal ); break;
+	case DBVT_UTF8:
+	case DBVT_ASCIIZ:  mir_snprintf(boo, SIZEOF(boo), "string: '%s'", p->pszVal); break;
+	case DBVT_DELETED: strcpy(boo, "deleted"); break;
+	default:				 mir_snprintf(boo, SIZEOF(boo), "crap: %d", p->type ); break;
 	}
 	return boo;
 }

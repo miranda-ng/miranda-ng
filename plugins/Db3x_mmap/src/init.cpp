@@ -37,7 +37,7 @@ static PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE | STATIC_PLUGIN,
 	//{F7A6B27C-9D9C-4A42-BE86-A448AE109161}
-    {0xf7a6b27c, 0x9d9c, 0x4a42, {0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61}}
+	{ 0xf7a6b27c, 0x9d9c, 0x4a42, { 0xbe, 0x86, 0xa4, 0x48, 0xae, 0x10, 0x91, 0x61 } }
 };
 
 HINSTANCE g_hInst = NULL;
@@ -115,7 +115,7 @@ static DATABASELINK dblink =
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -133,7 +133,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD, LPVOID)
 {
 	g_hInst = hInstDLL;
 	return TRUE;

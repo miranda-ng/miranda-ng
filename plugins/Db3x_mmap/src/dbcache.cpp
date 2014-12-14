@@ -87,7 +87,7 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes)
 }
 
 //we are assumed to be in a mutex here
-PBYTE CDb3Mmap::DBRead(DWORD ofs, int bytesRequired, int *bytesAvail)
+PBYTE CDb3Mmap::DBRead(DWORD ofs, int *bytesAvail)
 {
 	// buggy read
 	if (ofs >= m_dwFileSize) {
@@ -106,9 +106,9 @@ PBYTE CDb3Mmap::DBRead(DWORD ofs, int bytesRequired, int *bytesAvail)
 void CDb3Mmap::DBWrite(DWORD ofs, PVOID pData, int bytes)
 {
 	//log2("write %d@%08x",bytes,ofs);
-	if (ofs+bytes > m_dwFileSize)
-		ReMap(ofs+bytes-m_dwFileSize);
-	memmove(m_pDbCache+ofs,pData,bytes);
+	if (ofs + bytes > m_dwFileSize)
+		ReMap(ofs + bytes - m_dwFileSize);
+	memmove(m_pDbCache + ofs, pData, bytes);
 	logg();
 }
 
@@ -121,7 +121,7 @@ void CDb3Mmap::DBFill(DWORD ofs, int bytes)
 	logg();
 }
 
-static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK DoBufferFlushTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	for (int i = 0; i < g_Dbs.getCount(); i++) {
 		CDb3Mmap *db = g_Dbs[i];
@@ -182,11 +182,11 @@ int CDb3Mmap::InitMap(void)
 	return 0;
 }
 
-DWORD CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsContact, DWORD ofsModuleName)
+DWORD CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName)
 {
 	DWORD ofsThis = dbc->ofsFirstSettings;
 	while (ofsThis) {
-		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, sizeof(DBContactSettings), NULL);
+		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, NULL);
 		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(NULL);
 		if (dbcs->ofsModuleName == ofsModuleName)
 			return ofsThis;

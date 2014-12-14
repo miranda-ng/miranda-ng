@@ -42,7 +42,7 @@ int CDb3Mmap::WorkContactChain(int firstTime)
 	switch (phase) {
 	case 0:
 		if (ofsThisContact == 0) {
-LBL_FinishUp:
+		LBL_FinishUp:
 			if (contactCount != m_dbHeader.contactCount)
 				cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Contact count marked wrongly: correcting"));
 			m_dbHeader.contactCount = contactCount;
@@ -78,16 +78,16 @@ LBL_FinishUp:
 		contactCount++;
 		phase++; first = 1;
 
-	// fall thru
+		// fall thru
 	case 1:
-		ret = WorkSettingsChain(ofsDestThis, &dbc, first);
+		ret = WorkSettingsChain(&dbc, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
 			phase++; first = 1;
 		}
 		else if (ret) return ret;
 		else break;
 
-	// fall thru
+		// fall thru
 	case 2:
 		ret = WorkEventChain(ofsDestThis, &dbc, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
@@ -96,7 +96,7 @@ LBL_FinishUp:
 		else if (ret) return ret;
 		else break;
 
-	// fall thru
+		// fall thru
 	case 3:
 		if (WriteSegment(ofsDestThis, &dbc, sizeof(DBContact)) == WS_ERROR)
 			return ERROR_HANDLE_DISK_FULL;

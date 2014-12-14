@@ -29,22 +29,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* tree diagram
 
 DBHeader
- |-->end of file (plain offset)
- |-->first contact (DBContact)
- |   |-->next contact (DBContact)
- |   |   \--> ...
- |   |-->first settings (DBContactSettings)
- |   |	 |-->next settings (DBContactSettings)
- |   |   |   \--> ...
- |   |   \-->module name (DBModuleName)
- |   \-->first/last/firstunread event
- |-->user contact (DBContact)
- |   |-->next contact = NULL
- |   |-->first settings	as above
- |   \-->first/last/firstunread event as above
- \-->first module name (DBModuleName)
-     \-->next module name (DBModuleName)
-	     \--> ...
+|-->end of file (plain offset)
+|-->first contact (DBContact)
+|   |-->next contact (DBContact)
+|   |   \--> ...
+|   |-->first settings (DBContactSettings)
+|   |	 |-->next settings (DBContactSettings)
+|   |   |   \--> ...
+|   |   \-->module name (DBModuleName)
+|   \-->first/last/firstunread event
+|-->user contact (DBContact)
+|   |-->next contact = NULL
+|   |-->first settings	as above
+|   \-->first/last/firstunread event as above
+\-->first module name (DBModuleName)
+\-->next module name (DBModuleName)
+\--> ...
 */
 
 //#define DBLOGGING

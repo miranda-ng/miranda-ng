@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\commonheaders.h"
 
-int CDb3Mmap::WorkFinalTasks(int firstTime)
+int CDb3Mmap::WorkFinalTasks(int)
 {
 	FreeModuleChain();
 	cb->pfnAddLogMessage(STATUS_MESSAGE, TranslateT("Processing final tasks"));

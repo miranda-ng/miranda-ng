@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static DWORD ofsThisSettings, ofsDestPrevSettings;
 
-int CDb3Mmap::WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime)
+int CDb3Mmap::WorkSettingsChain(DBContact *dbc, int firstTime)
 {
 	DWORD ofsDestThis;
 	int ret;
@@ -57,7 +57,7 @@ int CDb3Mmap::WorkSettingsChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		ofsThisSettings = dbcsOld.ofsNext;
 		return ERROR_SUCCESS;
 	}
-	
+
 	if (dbcsNew->blob[0] == 0) {
 		cb->pfnAddLogMessage(STATUS_MESSAGE, TranslateT("Empty settings group at %08X: skipping"), ofsThisSettings);
 		ofsThisSettings = dbcsOld.ofsNext;

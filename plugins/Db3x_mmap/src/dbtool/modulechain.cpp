@@ -20,13 +20,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\commonheaders.h"
 
 struct ModChainEntry {
-	DWORD ofsOld,ofsNew;
+	DWORD ofsOld, ofsNew;
 	int size;
 	char name[257];
 } static *modChain = NULL;
 static int modChainCount;
 static DWORD ofsCurrent;
-static int phase,iCurrentModName;
+static int phase, iCurrentModName;
 static DWORD ofsLast;
 static int last_mod = 0;
 
@@ -87,7 +87,7 @@ int CDb3Mmap::WorkModuleChain(int firstTime)
 				return ERROR_NO_MORE_ITEMS;
 			if ((modChain[iCurrentModName].ofsNew = WriteSegment(WSOFS_END, newModName, modChain[iCurrentModName].size)) == WS_ERROR)
 				return ERROR_HANDLE_DISK_FULL;
-			
+
 			// check duplicated modulenames
 			int i, n = 0;
 			for (i = iCurrentModName + 1; i < modChainCount; i++)

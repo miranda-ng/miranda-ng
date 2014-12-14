@@ -195,7 +195,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		dbeOld.ofsPrev = 0;
 		lastTimestamp = dbeOld.timestamp;
 	}
-	
+
 	if (dbeOld.flags & 1)
 		dbeOld.flags &= ~1;
 
@@ -269,8 +269,8 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 
 	if (dbePrev) {
 		if (dbePrev->cbBlob == dbeNew->cbBlob &&
-			 dbePrev->ofsModuleName == dbeNew->ofsModuleName &&
-			 dbePrev->wEventType == dbeNew->wEventType &&
+			dbePrev->ofsModuleName == dbeNew->ofsModuleName &&
+			dbePrev->wEventType == dbeNew->wEventType &&
 			(dbePrev->flags & DBEF_SENT) == (dbeNew->flags & DBEF_SENT) && !memcmp(dbePrev->blob, dbeNew->blob, dbeNew->cbBlob))
 		{
 			cb->pfnAddLogMessage(STATUS_WARNING, TranslateT("Duplicate event was found: skipping"));
@@ -286,8 +286,8 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 	}
 	else if (!firstTime && dbeNew->timestamp < lastTimestamp) {
 		DWORD found = 0;
-		DBEvent dbeTmp;
-		DWORD ofsTmp;
+		DBEvent dbeTmp = { 0 };
+		DWORD ofsTmp = 0;
 
 		if (cb->bCheckOnly) {
 			if (!cb->bAggressive) {
