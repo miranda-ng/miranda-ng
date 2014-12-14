@@ -298,7 +298,7 @@ static int clcProceedDragToScroll(HWND hwnd, int Y)
 static int clcSearchNextContact(HWND hwnd, ClcData *dat, int index, const TCHAR *text, int prefixOk, BOOL fSearchUp)
 {
 	ClcGroup *group = &dat->list;
-	int testlen = mir_tstrlen(text);
+	int testlen = (int)mir_tstrlen(text);
 	BOOL fReturnAsFound = FALSE;
 	int	 nLastFound = -1;
 	if (index == -1) fReturnAsFound = TRUE;
