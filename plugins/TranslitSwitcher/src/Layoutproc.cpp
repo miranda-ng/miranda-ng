@@ -495,7 +495,7 @@ void SwitchLayout(bool lastword)
 			if (somethingIsSelected)
 				SendMessage(hwnd2, EM_REPLACESEL, false, (LPARAM)sel);
 			else
-				SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)sel);
+				SetWindowText(hwnd2, sel);
 
 			SendMessage(hwnd2, EM_SETSEL, (WPARAM)dwStart, (LPARAM)dwEnd);
 		}
@@ -560,7 +560,7 @@ void TranslitLayout(bool lastword)
 			_tcsncat(NewText, sel, start);
 			_tcscat(NewText, boo);
 			_tcsncat(NewText, sel + end, slen - end);
-			SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)NewText);
+			SetWindowText(hwnd2, NewText);
 			mir_free(NewText);
 		}
 
@@ -628,7 +628,7 @@ void InvertCase(bool lastword)
 			_tcsncat(NewText, sel, start);
 			_tcscat(NewText, boo);
 			_tcsncat(NewText, sel + end, slen - end);
-			SendMessage(hwnd2, WM_SETTEXT, 0, (LPARAM)NewText);
+			SetWindowText(hwnd2, NewText);
 			mir_free(NewText);
 		}
 
@@ -707,18 +707,18 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 
 	ptrT tszSymbol(db_get_tsa(NULL, "TranslitSwitcher", "ResendSymbol"));
 	if (tszSymbol == NULL) {
-		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
+		SetWindowText(hEdit, sel);
 		SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
 		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 	}
 	else if (_tcsncmp(sel, tszSymbol, _tcslen(tszSymbol)) == 0) {
-		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)sel);
+		SetWindowText(hEdit, sel);
 		SendMessage(hEdit, EM_SETSEL, 0, (LPARAM)slen);
 		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 	}
 	else {
 		CMString tszFinal(FORMAT, _T("%s %s"), tszSymbol, sel);
-		SendMessage(hEdit, WM_SETTEXT, 0, (LPARAM)tszFinal.GetString());
+		SetWindowText(hEdit, tszFinal.GetString());
 		SendMessage(hEdit, EM_SETSEL, 0, tszFinal.GetLength());
 		SendMessage(cbcd->hwndFrom, WM_COMMAND, IDOK, 0);
 	}

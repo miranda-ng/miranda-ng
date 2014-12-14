@@ -223,7 +223,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,size
 			mir_sntprintf(wszTitle,SIZEOF(wszTitle),_T("%s - %s"),lpwszContactDisplayName,lpwszTitlepart);
 			MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
 
-			SendMessageW(prswdWindowData->hWnd,WM_SETTEXT,NULL,(LPARAM)wszTitle);
+			SetWindowText(prswdWindowData->hWnd, wszTitle);
 			SetDlgItemText(prswdWindowData->hWnd,IDC_NAME,lpwszContactDisplayName);
 			SetDlgItemText(prswdWindowData->hWnd,IDC_NUMBER,wszPhoneLocal);
 			SetDlgItemText(prswdWindowData->hWnd,IDC_MESSAGE,lpwszMessage);

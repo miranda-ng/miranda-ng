@@ -1401,7 +1401,7 @@ void SetFontFromOptions(ITextFont *TextFont, int caps, Options::Fonts fontId)
 
 void HistoryWindow::SelectEventGroup(int sel)
 {
-	SendMessage(editWindow, WM_SETTEXT, 0, (LPARAM)_T(""));
+	SetWindowText(editWindow, _T(""));
 	currentGroup.clear();
 	selected = sel;
 	if (sel < 0 || sel >= (int)eventList.size())

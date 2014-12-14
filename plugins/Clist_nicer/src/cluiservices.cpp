@@ -229,7 +229,7 @@ void CluiProtocolStatusChanged(int, const char*)
 	if (szStatus && pcli->hwndContactList) {
 		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
 		if (IsWindow(hwndClistBtn)) {
-			SendMessage(hwndClistBtn, WM_SETTEXT, 0, (LPARAM)szStatus);
+			SetWindowText(hwndClistBtn, szStatus);
 			if (!hIcon)
 				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM)hCListImages, (LPARAM)iIcon);
 			else

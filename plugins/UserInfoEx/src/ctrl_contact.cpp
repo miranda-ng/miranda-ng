@@ -578,11 +578,11 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 	{
 		HICON hIcon = Skin_GetIcon(ICO_BTN_ADD);
 		SendMessage(cbex->hBtnAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SendMessage(cbex->hBtnAdd, WM_SETTEXT, NULL, (LPARAM)(hIcon ? _T("") : _T("+")));
+		SetWindowText(cbex->hBtnAdd, (hIcon ? _T("") : _T("+")));
 
 		hIcon = Skin_GetIcon(ICO_BTN_DELETE);
 		SendMessage(cbex->hBtnDel, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SendMessage(cbex->hBtnDel, WM_SETTEXT, NULL, (LPARAM)(hIcon ? _T("") : _T("-")));
+		SetWindowText(cbex->hBtnDel, (hIcon ? _T("") : _T("-")));
 
 		if (cbex->pItems && cbex->numItems > 0) {
 			for (int i = 0; i < cbex->numItems; i++)

@@ -440,7 +440,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 			break;
 
 		case IDM_DELETE:
-			SendMessage(edit_control, WM_SETTEXT, 0, (LPARAM)"");
+			SetWindowText(edit_control, _T(""));
 			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(IDC_EDIT1, EN_CHANGE), (LPARAM)edit_control);
 			break;
 

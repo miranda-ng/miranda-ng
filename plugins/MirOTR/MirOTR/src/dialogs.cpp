@@ -36,7 +36,7 @@ INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			TCHAR title[512], *proto = mir_a2t(contact_get_proto((MCONTACT)context->app_data));
 			const TCHAR *name =contact_get_nameT((MCONTACT)context->app_data);
 			mir_sntprintf(title, SIZEOF(title), TranslateT(LANG_SMP_PROGRESS_TITLE), name, proto);
-			SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)title);
+			SetWindowText(hwndDlg, title);
 			mir_sntprintf(title, SIZEOF(title), TranslateT(LANG_SMP_PROGRESS_DESC), name, proto);
 			mir_free(proto);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEADPRO, title);
@@ -171,7 +171,7 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TCHAR buff[512], *proto = mir_a2t(contact_get_proto((MCONTACT)context->app_data));
 			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SMP_VERIFY_TITLE), contact_get_nameT((MCONTACT)context->app_data), proto);
 			mir_free(proto);
-			SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)buff);
+			SetWindowText(hwndDlg, buff);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, buff);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)context);
 
@@ -318,7 +318,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TCHAR title[512], *proto = mir_a2t(contact_get_proto((MCONTACT)context->app_data));
 			mir_sntprintf(title, SIZEOF(title), TranslateT(LANG_SMP_VERIFY_TITLE), contact_get_nameT((MCONTACT)context->app_data), proto);
 			mir_free(proto);
-			SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)title);
+			SetWindowText(hwndDlg, title);
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, title);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
@@ -617,7 +617,7 @@ INT_PTR CALLBACK DlgProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				EndDialog(hwndDlg, IDCANCEL);
 				return FALSE;
 			}
-			SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)_T(LANG_OTR_FPVERIFY_TITLE));
+			SetWindowText(hwndDlg, _T(LANG_OTR_FPVERIFY_TITLE));
 			SetDlgItemText(hwndDlg, IDC_STC_SMP_HEAD, _T(LANG_OTR_FPVERIFY_TITLE));
 			TranslateDialogDefault( hwndDlg );
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);

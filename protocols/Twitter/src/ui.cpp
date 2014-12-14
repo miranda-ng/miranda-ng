@@ -113,7 +113,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 		// Set window title
 		TCHAR title[512];
 		mir_sntprintf(title, SIZEOF(title), _T("Send Tweet for %s"), proto->m_tszUserName);
-		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)title);
+		SetWindowText(hwndDlg, title);
 		return true;
 
 	case WM_COMMAND:

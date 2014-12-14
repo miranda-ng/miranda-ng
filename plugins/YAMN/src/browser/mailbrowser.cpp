@@ -413,7 +413,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 
 		mir_snprintf(TitleStrA, len, Translate(MAILBROWSERTITLE), ActualAccount->Name, MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display);
 		MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,TitleStrA,-1,TitleStrW,(int)strlen(TitleStrA)+1);
-		SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)TitleStrW);
+		SetWindowTextW(hDlg, TitleStrW);
 		delete[] TitleStrA;
 		delete[] TitleStrW;
 	}
@@ -1455,7 +1455,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					}
 				}
 				if (!bodyDecoded)ConvertStringToUnicode(localBody?localBody:body,MailParam->mail->MailData->CP,&bodyDecoded);
-				SendMessageW(hEdit,WM_SETTEXT,0,(LPARAM)bodyDecoded);
+				SetWindowTextW(hEdit, bodyDecoded);
 				delete[] bodyDecoded;
 				if (localBody) delete[] localBody;
 				SetFocus(hEdit);
@@ -1489,7 +1489,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				_tcsncpy_s(title, size, L"none", _TRUNCATE);
 			if (Subj) delete[] Subj;
 			if (From) delete[] From;
-			SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)title);
+			SetWindowTextW(hDlg, title);
 			delete[] title;
 			// turn on redrawing
 			SendMessage(hListView, WM_SETREDRAW, 1, 0);
