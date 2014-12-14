@@ -318,6 +318,7 @@
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\CacheFile.h" />
     <ClInclude Include="src\LibJPEG\cderror.h" />
     <ClInclude Include="src\LibJPEG\cdjpeg.h" />
     <ClInclude Include="src\LibJPEG\jconfig.h" />
@@ -332,7 +333,6 @@
     <ClInclude Include="src\LibJPEG\transupp.h" />
     <ClInclude Include="src\LibPNG\png.h" />
     <ClInclude Include="src\LibPNG\pngconf.h" />
-    <ClInclude Include="src\FreeImage\CacheFile.h" />
     <ClInclude Include="src\LibPNG\pngdebug.h" />
     <ClInclude Include="src\LibPNG\pnginfo.h" />
     <ClInclude Include="src\LibPNG\pnglibconf.h" />
