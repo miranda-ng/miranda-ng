@@ -342,11 +342,10 @@ int __inline SkinEngInvalidateImageFrame(HWND hwnd, CONST RECT * rcUpdate, DWORD
 }
 
 
-int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT* lpRect,BOOL bErase)
+int __inline SkinInvalidateFrame(HWND hWnd, CONST RECT* lpRect)
 {
-	return SkinEngInvalidateImageFrame(hWnd,lpRect,0,0);
+	return SkinEngInvalidateImageFrame(hWnd, lpRect, 0, 0);
 }
-// Alpha channel GDI replacements/helpers
 
 //
 // Paints text with correct alpha channel
