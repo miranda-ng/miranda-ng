@@ -395,12 +395,12 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
 			_tcsncpy_s(LangPackStr1, TranslateTS(LangPackStr), _TRUNCATE);
-			CharLowerBuff(LangPackStr1, _tcslen(LangPackStr1));
+			CharLowerBuff(LangPackStr1, (DWORD)_tcslen(LangPackStr1));
 			if (_tcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
 		} 
-			while ( _tcscmp(TranslateTS(LangPackStr), LangPackStr));
+			while (_tcscmp(TranslateTS(LangPackStr), LangPackStr));
 	}
 
 	return NA;
