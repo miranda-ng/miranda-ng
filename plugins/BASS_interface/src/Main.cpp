@@ -207,7 +207,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			if (hBass != NULL) {
 				SYSTEMTIME systime = {0};
 
-				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, WM_GETTEXT, SIZEOF(tmp), (LPARAM)tmp);
+				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, SIZEOF(tmp));
 				db_set_ts(NULL, ModuleName, OPT_OUTDEVICE, tmp);
 
 				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);

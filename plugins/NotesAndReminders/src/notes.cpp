@@ -853,9 +853,9 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 		if (SzT) // TODO: change to support unicode and rtf, use EM_STREAMOUT
 		{
 			if (SzT > MAX_NOTE_LEN) SzT = MAX_NOTE_LEN; // we want to be far below the 64k limit
-			tData = (char*)malloc(SzT+1);
+			tData = (char*)malloc(SzT + 1);
 			if (tData)
-				SendMessage(pNote->REHwnd, WM_GETTEXT, SzT+1, (LPARAM)tData);
+				GetWindowText(pNote->REHwnd, tData, SzT + 1);
 		}
 
 		if (pNote == pModified)
