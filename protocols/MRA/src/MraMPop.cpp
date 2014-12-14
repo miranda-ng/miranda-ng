@@ -11,8 +11,8 @@ struct MRA_MPOP_SESSION_QUEUE : public FIFO_MT
 
 struct MRA_MPOP_SESSION_QUEUE_ITEM : public FIFO_MT_ITEM
 {
-	LPSTR        lpszUrl;	/* Url to open. */
-	size_t       dwUrlSize;
+	LPSTR   lpszUrl;	/* Url to open. */
+	size_t  dwUrlSize;
 };
 
 void MraMPopSessionQueueClear(HANDLE hMPopSessionQueue);
@@ -24,14 +24,10 @@ DWORD MraMPopSessionQueueInitialize(HANDLE *phMPopSessionQueue)
 	if ((*phMPopSessionQueue))
 		return ERROR_ALREADY_INITIALIZED;
 
-	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)mir_calloc(sizeof(MRA_MPOP_SESSION_QUEUE));
+	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = new MRA_MPOP_SESSION_QUEUE();
 	if (!pmpsqMPopSessionQueue)
 		return GetLastError();
 
-	pmpsqMPopSessionQueue->bKeyValid = false;
-	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
-	pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
-	ListMTInitialize(pmpsqMPopSessionQueue);
 	*phMPopSessionQueue = (HANDLE)pmpsqMPopSessionQueue;
 	return NO_ERROR;
 }
@@ -59,8 +55,7 @@ void MraMPopSessionQueueDestroy(HANDLE hMPopSessionQueue)
 
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
 	MraMPopSessionQueueClear(hMPopSessionQueue);
-	ListMTDestroy(pmpsqMPopSessionQueue);
-	mir_free(pmpsqMPopSessionQueue);
+	delete pmpsqMPopSessionQueue;
 }
 
 DWORD CMraProto::MraMPopSessionQueueAddUrl(HANDLE hMPopSessionQueue, const CMStringA &lpszUrl)
@@ -149,7 +144,7 @@ void CMraProto::MraMPopSessionQueueFlush(HANDLE hMPopSessionQueue)
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
 	MRA_MPOP_SESSION_QUEUE_ITEM *pmpsqi;
 
-	while ( FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
+	while (FifoMTItemPop(pmpsqMPopSessionQueue, NULL, (LPVOID*)&pmpsqi) == NO_ERROR) {
 		CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)pmpsqi->lpszUrl);
 		mir_free(pmpsqi);
 	}
@@ -170,7 +165,7 @@ DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, const CMStringA
 		pmpsqMPopSessionQueue->bKeyValid = true;
 		pmpsqMPopSessionQueue->dwMPOPKeySize = szKey.GetLength();
 		memcpy(pmpsqMPopSessionQueue->lpszMPOPKey, szKey, szKey.GetLength());
-		(*(pmpsqMPopSessionQueue->lpszMPOPKey + szKey.GetLength())) = 0;
+		*(pmpsqMPopSessionQueue->lpszMPOPKey + szKey.GetLength()) = 0;
 		return NO_ERROR;
 	}
 

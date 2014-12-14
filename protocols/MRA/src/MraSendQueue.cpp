@@ -28,13 +28,9 @@ DWORD MraSendQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phSendQueueHan
 		return ERROR_INVALID_HANDLE;
 
 	MRA_SEND_QUEUE *pmrasqSendQueue = new MRA_SEND_QUEUE();
-
-	DWORD dwRetErrorCode = ListMTInitialize(pmrasqSendQueue);
-	if (dwRetErrorCode == NO_ERROR) {
-		pmrasqSendQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
-		*phSendQueueHandle = (HANDLE)pmrasqSendQueue;
-	}
-	return dwRetErrorCode;
+	pmrasqSendQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
+	*phSendQueueHandle = (HANDLE)pmrasqSendQueue;
+	return NO_ERROR;
 }
 
 void MraSendQueueDestroy(HANDLE hSendQueueHandle)
@@ -52,7 +48,6 @@ void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 		}
 	}
 
-	ListMTDestroy(pmrasqSendQueue);
 	delete pmrasqSendQueue;
 }
 

@@ -55,7 +55,7 @@ typedef CONST PLIST_MT_ITEM	PCLIST_MT_ITEM, LPCLIST_MT_ITEM;
 
 
 // структура для работы со списком, заголовок списка
-typedef struct _LIST_MT
+typedef struct _LIST_MT : public MZeroedObject
 {
 	size_t        nCount;     // *количество элементов в списке
 	PLIST_MT_ITEM plmtiFirst; // *указывает на первый элемент в списке
@@ -72,26 +72,6 @@ typedef struct _LIST_MT_ITERATOR
 }LIST_MT_ITERATOR, *PLIST_MT_ITERATOR, *LPLIST_MT_ITERATOR;
 //typedef LIST_MT_ITEM			LIST_MT_ITERATOR, *PLIST_MT_ITERATOR, *LPLIST_MT_ITERATOR;
 typedef CONST PLIST_MT_ITERATOR	PCLIST_MT_ITERATOR, LPCLIST_MT_ITERATOR;
-
-
-
-
-__inline DWORD ListMTInitialize(PCLIST_MT pclmtListMT)
-{
-	InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
-	pclmtListMT->plmtiFirst=NULL;
-	pclmtListMT->plmtiLast=NULL;
-	return NO_ERROR;
-}
-
-
-__inline void ListMTDestroy(PCLIST_MT pclmtListMT)
-{
-	InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
-	pclmtListMT->plmtiFirst=NULL;
-	pclmtListMT->plmtiLast=NULL;
-	SecureZeroMemory(&pclmtListMT->cs,sizeof(CRITICAL_SECTION));
-}
 
 
 __inline size_t ListMTGetCount(PCLIST_MT pclmtListMT)

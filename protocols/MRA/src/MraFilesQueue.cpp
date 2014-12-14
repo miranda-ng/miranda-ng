@@ -7,7 +7,7 @@
 
 struct MRA_FILES_QUEUE : public LIST_MT
 {
-	DWORD			dwSendTimeOutInterval;
+	DWORD	dwSendTimeOutInterval;
 };
 
 struct MRA_FILES_QUEUE_FILE
@@ -141,18 +141,13 @@ DWORD MraFilesQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phFilesQueueH
 	if (!phFilesQueueHandle)
 		return ERROR_INVALID_HANDLE;
 
-	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)mir_calloc(sizeof(MRA_FILES_QUEUE));
+	MRA_FILES_QUEUE *pmrafqFilesQueue = new MRA_FILES_QUEUE();
 	if (!pmrafqFilesQueue)
 		return GetLastError();
 
-	DWORD dwRetErrorCode = ListMTInitialize(pmrafqFilesQueue);
-	if (dwRetErrorCode == NO_ERROR) {
-		pmrafqFilesQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
-		*phFilesQueueHandle = (HANDLE)pmrafqFilesQueue;
-	}
-	else mir_free(pmrafqFilesQueue);
-
-	return dwRetErrorCode;
+	pmrafqFilesQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
+	*phFilesQueueHandle = (HANDLE)pmrafqFilesQueue;
+	return NO_ERROR;
 }
 
 void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
@@ -167,8 +162,7 @@ void MraFilesQueueDestroy(HANDLE hFilesQueueHandle)
 		while (ListMTItemGetFirst(pmrafqFilesQueue, NULL, (LPVOID*)&dat) == NO_ERROR)
 			MraFilesQueueItemFree(dat);
 	}
-	ListMTDestroy(pmrafqFilesQueue);
-	mir_free(pmrafqFilesQueue);
+	delete pmrafqFilesQueue;
 }
 
 DWORD MraFilesQueueItemFindByID(HANDLE hFilesQueueHandle, DWORD dwIDRequest, MRA_FILES_QUEUE_ITEM **ppmrafqFilesQueueItem)
