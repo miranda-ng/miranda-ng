@@ -57,14 +57,13 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 		}
 }
 
-static void CALLBACK VKSetTimer(void *pObject)
+static void CALLBACK VKSetTimer(void*)
 {
 	CVkProto::m_timer = SetTimer(NULL, 0, 60000, TimerProc);
 }
 
-static void CALLBACK VKUnsetTimer(void *pObject)
+static void CALLBACK VKUnsetTimer(void*)
 {
-	CVkProto *ppro = (CVkProto*)pObject;
 	if (CVkProto::m_timer)
 		KillTimer(NULL, CVkProto::m_timer);
 	CVkProto::m_timer = 0;
@@ -452,7 +451,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	if (json_as_int(json_get(pResponse, "freeoffline")))
 		for (int i = 0; i < arContacts.getCount(); i++) {
 			hContact = (MCONTACT)arContacts[i];
-			if (getDword(hContact, "ID", -1) == m_myUserId)
+			if (getDword(hContact, "ID", -1) == (DWORD)m_myUserId)
 				continue;
 			if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -727,7 +726,6 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 				MarkMessagesRead(hContact);
 		}
 		else if (numUnread) {
-			int mid = json_as_int(json_get(pDlg, "id"));
 			int uid = json_as_int(json_get(pDlg, "user_id"));
 			MCONTACT hContact = FindUser(uid, true);
 			GetServerHistory(hContact, 0, numUnread, 0, 0, true);
@@ -920,7 +918,7 @@ int CVkProto::PollServer()
 			retVal = -1;
 			debugLogA("Polling key expired, restarting polling thread");
 		}
-		else if (CheckJsonResult(NULL, reply, pRoot)) {
+		else if (CheckJsonResult(NULL, pRoot)) {
 			m_pollingTs = mir_t2a(ptrT(json_as_string(json_get(pRoot, "ts"))));
 			JSONNODE *pUpdates = json_get(pRoot, "updates");
 			if (pUpdates != NULL)
@@ -1040,11 +1038,12 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		<< VER_API);
 }
 
-INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 {
 	debugLogA("CVkProto::SvcSetListeningTo");
 	if (m_iMusicSendMetod == sendNone)
 		return 1;
+
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
 	CMStringW wszListeningTo;
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO)) 

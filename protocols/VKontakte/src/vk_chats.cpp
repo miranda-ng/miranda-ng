@@ -229,7 +229,7 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	for (int j = 0; j < cc->m_msgs.getCount(); j++) {
 		CVkChatMessage &p = cc->m_msgs[j];
-		AppendChatMessage(cc, p.m_mid, p.m_uid, p.m_date, p.m_tszBody, p.m_bHistory);
+		AppendChatMessage(cc, p.m_uid, p.m_date, p.m_tszBody, p.m_bHistory);
 	}
 	cc->m_msgs.destroy();
 }
@@ -244,7 +244,6 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 		return;
 
 	int mid = json_as_int(json_get(pMsg, "id"));
-	int isOut = json_as_int(json_get(pMsg, "out"));
 	int uid = json_as_int(json_get(pMsg, "user_id"));
 
 	int msgTime = json_as_int(json_get(pMsg, "date"));
@@ -258,7 +257,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 		tszBody = mir_tstrdup(CMString(tszBody) + GetAttachmentDescr(pAttachments));
 
 	if (cc->m_bHistoryRead)
-		AppendChatMessage(cc, mid, uid, msgTime, tszBody, bIsHistory);
+		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory);
 	else {
 		CVkChatMessage *cm = cc->m_msgs.find((CVkChatMessage *)&mid);
 		if (cm == NULL)
@@ -271,7 +270,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 	}
 }
 
-void CVkProto::AppendChatMessage(CVkChatInfo *cc, int mid, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory)
+void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR ptszBody, bool bIsHistory)
 {
 	debugLogA("CVkProto::AppendChatMessage2");
 	CVkChatUser *cu = cc->m_users.find((CVkChatUser*)&uid);
@@ -387,7 +386,7 @@ void CVkProto::OnSendChatMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	debugLogA("CVkProto::OnSendChatMsg %d", reply->resultCode);
 	if (reply->resultCode == 200) {
 		JSONROOT pRoot;
-		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+		CheckJsonResponse(pReq, reply, pRoot);
 	}
 }
 
@@ -559,7 +558,6 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 	debugLogA("CVkProto::KickFromChat (%d)", user_id);
 
 	MCONTACT chatContact = FindChat(chat_id);
-	bool off = false;
 	if (chatContact)
 		if (getBool(chatContact, "off", false))
 			return;
@@ -580,8 +578,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 		else
 			msg += TranslateT("(Unknown contact)");
 	}
-	else
-		AppendChatMessage(chat_id, pMsg, false);
+	else AppendChatMessage(chat_id, pMsg, false);
 
 	MsgPopup(hContact, msg, TranslateT("Chat"));
 	setByte(cc->m_hContact, "kicked", 1);

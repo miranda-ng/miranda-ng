@@ -103,13 +103,13 @@ JSONNODE* CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST 
 	if (pRoot == NULL)
 		return NULL;
 
-	if (!CheckJsonResult(pReq, reply, pRoot))
+	if (!CheckJsonResult(pReq, pRoot))
 		return NULL;
 
 	return json_get(pRoot, "response");
 }
 
-bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONNODE *pNode)
+bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE *pNode)
 {
 	debugLogA("CVkProto::CheckJsonResult");
 	if (pNode == NULL)

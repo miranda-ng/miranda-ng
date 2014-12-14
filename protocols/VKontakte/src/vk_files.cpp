@@ -17,11 +17,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CVkProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *path) { return NULL; }
-int CVkProto::FileCancel(MCONTACT hContact, HANDLE hTransfer) {	return 1; }
-int CVkProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *reason) { return 1; }
-int CVkProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR **filename) { return 1; }
-int CVkProto::RecvFile(MCONTACT hContact, PROTORECVFILET *) { return 1; }
+HANDLE CVkProto::FileAllow(MCONTACT, HANDLE, const PROTOCHAR*) { return NULL; }
+int CVkProto::FileCancel(MCONTACT, HANDLE) {	return 1; }
+int CVkProto::FileDeny(MCONTACT, HANDLE, const PROTOCHAR*) { return 1; }
+int CVkProto::FileResume(HANDLE, int*, const PROTOCHAR**) { return 1; }
+int CVkProto::RecvFile(MCONTACT, PROTORECVFILET *) { return 1; }
 
 CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files) :
 hContact(_hContact), filetype(typeInvalid), atr(NULL), fname(NULL), iErrorCode(0)
@@ -250,7 +250,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 
 	JSONROOT pRoot;
-	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
+	CheckJsonResponse(pReq, reply, pRoot);
 
 	CMString server = json_as_string(json_get(pRoot, "server"));
 	CMString hash = json_as_string(json_get(pRoot, "hash"));
