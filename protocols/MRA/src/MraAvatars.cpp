@@ -57,35 +57,30 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
-	if (pmraaqAvatarsQueue == NULL)
-		return GetLastError();
 
-	DWORD dwRetErrorCode = ListMTInitialize(pmraaqAvatarsQueue);
-	if (dwRetErrorCode == NO_ERROR) {
-		char szBuffer[MAX_PATH];
-		mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s %s", m_szModuleName, Translate("Avatars' plugin connections"));
+	char szBuffer[MAX_PATH];
+	mir_snprintf(szBuffer, SIZEOF(szBuffer), "%s %s", m_szModuleName, Translate("Avatars' plugin connections"));
 
-		NETLIBUSER nlu = { sizeof(nlu) };
-		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
-		nlu.szSettingsModule = MRA_AVT_SECT_NAME;
-		nlu.szDescriptiveName = szBuffer;
-		pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-		if (pmraaqAvatarsQueue->hNetlibUser) {
-			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
-			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-			pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
-			if (pmraaqAvatarsQueue->iThreadsCount == 0)
-				pmraaqAvatarsQueue->iThreadsCount = 1;
-			if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
-				pmraaqAvatarsQueue->iThreadsCount = MAXIMUM_WAIT_OBJECTS;
-			for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
-				pmraaqAvatarsQueue->hThread[i] = ForkThreadEx(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue, 0);
+	NETLIBUSER nlu = { sizeof(nlu) };
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.szSettingsModule = MRA_AVT_SECT_NAME;
+	nlu.szDescriptiveName = szBuffer;
+	pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+	if (pmraaqAvatarsQueue->hNetlibUser) {
+		InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
+		pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+		pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
+		if (pmraaqAvatarsQueue->iThreadsCount == 0)
+			pmraaqAvatarsQueue->iThreadsCount = 1;
+		if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
+			pmraaqAvatarsQueue->iThreadsCount = MAXIMUM_WAIT_OBJECTS;
+		for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
+			pmraaqAvatarsQueue->hThread[i] = ForkThreadEx(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue, 0);
 
-			*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
-		}
+		*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
 	}
 
-	return dwRetErrorCode;
+	return NO_ERROR;
 }
 
 void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
@@ -129,7 +124,6 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 
 	MraAvatarsQueueClear(hAvatarsQueueHandle);
 
-	ListMTDestroy(pmraaqAvatarsQueue);
 	Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
 	delete pmraaqAvatarsQueue;
 }
