@@ -1,34 +1,34 @@
 /* ========================================================================
 
-                              Custom Status List
-                              __________________
+							  Custom Status List
+							  __________________
 
-  Custom Status List plugin for Miranda-IM (www.miranda-im.org)
-  Follower of Custom Status History List by HANAX
-  Copyright © 2006-2008 HANAX
-  Copyright © 2007-2009 jarvis
+							  Custom Status List plugin for Miranda-IM (www.miranda-im.org)
+							  Follower of Custom Status History List by HANAX
+							  Copyright © 2006-2008 HANAX
+							  Copyright © 2007-2009 jarvis
 
-  This program is free software; you can redistribute it and/or
-  modify it under the terms of the GNU General Public License
-  as published by the Free Software Foundation; either version 2
-  of the License, or (at your option) any later version.
+							  This program is free software; you can redistribute it and/or
+							  modify it under the terms of the GNU General Public License
+							  as published by the Free Software Foundation; either version 2
+							  of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+							  This program is distributed in the hope that it will be useful,
+							  but WITHOUT ANY WARRANTY; without even the implied warranty of
+							  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+							  GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+							  You should have received a copy of the GNU General Public License
+							  along with this program; if not, write to the Free Software
+							  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-  DESCRIPTION:
+							  DESCRIPTION:
 
-  Offers List of your Custom Statuses.
+							  Offers List of your Custom Statuses.
 
-  ============================================================================
+							  ============================================================================
 
-// ====[ INCLUDES AND DEFINITIONS ]======================================== */
+							  // ====[ INCLUDES AND DEFINITIONS ]======================================== */
 
 #ifndef __CSLIST_H
 #define __CSLIST_H 1
@@ -87,7 +87,7 @@
 // set which row is selected (cannot be only focused, but fully selected - second param ;))
 #define ListView_GetSelectedItemMacro( hwnd )   ListView_GetNextItem( hwnd, -1, LVNI_FOCUSED | LVNI_SELECTED );
 #ifndef ListView_SetSelectionMark
-  #define ListView_SetSelectionMark( x, y )     0
+#define ListView_SetSelectionMark( x, y )     0
 #endif
 
 #define getByte(setting, error)           db_get_b(NULL, MODNAME, setting, error)
@@ -101,13 +101,13 @@
 #define deleteSetting(setting)            db_unset(NULL, MODNAME, setting)
 
 // --
-typedef void (__cdecl *pForAllProtosFunc)( char*, void *);
+typedef void(__cdecl *pForAllProtosFunc)(char*, void *);
 
 
 // ====[ STRUCTURES ]=========================================================
 
 struct StatusItem // list item structure
-{ 
+{
 	int     m_iIcon;
 	TCHAR   m_tszTitle[EXTRASTATUS_TITLE_LIMIT];
 	TCHAR   m_tszMessage[EXTRASTATUS_MESSAGE_LIMIT];
@@ -121,11 +121,11 @@ struct StatusItem // list item structure
 		m_bFavourite = FALSE;
 	}
 
-	StatusItem( const StatusItem& p )
+	StatusItem(const StatusItem& p)
 	{
 		m_iIcon = p.m_iIcon;
-		mir_tstrcpy( m_tszTitle, p.m_tszTitle );
-		mir_tstrcpy( m_tszMessage, p.m_tszMessage );
+		mir_tstrcpy(m_tszTitle, p.m_tszTitle);
+		mir_tstrcpy(m_tszMessage, p.m_tszMessage);
 		m_bFavourite = p.m_bFavourite;
 	}
 
@@ -176,13 +176,13 @@ template< class T > struct ListItem
 		delete m_item;
 	}
 
-	ListItem( StatusItem* si )
+	ListItem(StatusItem* si)
 	{
 		m_item = si;
 		m_next = NULL;
 	}
 
-	ListItem( const ListItem& p )
+	ListItem(const ListItem& p)
 	{
 		m_item = p.item;
 		m_next = NULL;
@@ -197,10 +197,10 @@ private:
 	unsigned int   m_count;
 
 public:
-	typedef int ( *compareFunc )( const T* p1, const T* p2 );
+	typedef int(*compareFunc)(const T* p1, const T* p2);
 	compareFunc m_compare;
 
-	List( compareFunc compFnc )
+	List(compareFunc compFnc)
 	{
 		m_items = NULL;
 		m_count = 0;
@@ -222,31 +222,31 @@ public:
 		return m_count;
 	}
 
-	int add( T* csi )
+	int add(T* csi)
 	{
 		int position = 0;
-		ListItem< T >* item = new ListItem< T >( csi );
-		if ( m_items == NULL )
+		ListItem< T >* item = new ListItem< T >(csi);
+		if (m_items == NULL)
 			m_items = item;
 		else
 		{
 			ListItem< T >* help = item;
 			item->m_next = m_items;
-			while ( help->m_next != NULL )
+			while (help->m_next != NULL)
 			{
-				int cmp = m_compare( item->m_item, help->m_next->m_item );
-				if ( cmp == 1 )
+				int cmp = m_compare(item->m_item, help->m_next->m_item);
+				if (cmp == 1)
 					help = help->m_next;
-				else if ( cmp == 0 )
+				else if (cmp == 0)
 				{
 					delete item;
 					return -1;
 				}
 				else
-				    break;
+					break;
 				position++;
 			}
-			if ( help != item )
+			if (help != item)
 			{
 				item->m_next = help->m_next;
 				help->m_next = item;
@@ -265,14 +265,14 @@ public:
 
 		ListItem< T >* help = m_items;
 		ListItem< T >* removed;
-		if ( item == 0 )
+		if (item == 0)
 		{
 			m_items = m_items->m_next;
 			removed = help;
 		}
 		else
 		{
-			for ( unsigned int i = 0; i < item - 1; i++ )
+			for (unsigned int i = 0; i < item - 1; i++)
 			{
 				help = help->m_next;
 				position++;
@@ -285,23 +285,23 @@ public:
 		return position;
 	}
 
-	T* get( const unsigned int item )
+	T* get(const unsigned int item)
 	{
 		ListItem< T >* help = m_items;
-		for ( unsigned int i = 0; i < item; i++ )
+		for (unsigned int i = 0; i < item; i++)
 			help = help->m_next;
 		return help->m_item;
 	}
 
-	T* operator[]( const unsigned int item )
+	T* operator[](const unsigned int item)
 	{
-		return get( item );
+		return get(item);
 	}
 
 	void destroy()
 	{
-		while ( m_count > 0 )
-			remove( 0 );
+		while (m_count > 0)
+			remove(0);
 	}
 };
 
@@ -316,14 +316,14 @@ struct CSListView
 	HWND        m_handle;
 	CSWindow*   m_parent;
 
-	CSListView( HWND, CSWindow* );
+	CSListView(HWND, CSWindow*);
 
-	void    addItem( StatusItem* item, int itemNumber );
-	void    initItems( ListItem< StatusItem >* items );
-	void    reinitItems( ListItem< StatusItem >* items );
+	void    addItem(StatusItem* item, int itemNumber);
+	void    initItems(ListItem< StatusItem >* items);
+	void    reinitItems(ListItem< StatusItem >* items);
 	void    removeItems();
 	int     getPositionInList();
-	void    setFullFocusedSelection( int selection );
+	void    setFullFocusedSelection(int selection);
 };
 
 
@@ -331,7 +331,7 @@ struct CSItemsList
 {
 	List< StatusItem > *m_list;
 
-	static int compareItems( const StatusItem* p1, const StatusItem* p2 );
+	static int compareItems(const StatusItem* p1, const StatusItem* p2);
 	void loadItems(char *protoName);
 	void saveItems(char *protoName);
 
@@ -351,7 +351,7 @@ struct CSWindow
 	BOOL            m_bSomethingChanged;
 	TCHAR*          m_filterString;
 	char *          m_protoName;
-	
+
 	CSWindow(char *protoName);
 	~CSWindow();
 
@@ -362,9 +362,9 @@ struct CSWindow
 	BOOL    toggleButtons();
 	void    toggleEmptyListMessage();
 	void    toggleFilter();
-	BOOL    itemPassedFilter( ListItem< StatusItem >* li );
+	BOOL    itemPassedFilter(ListItem< StatusItem >* li);
 
-	void __inline saveWindowPosition( HWND hwnd )
+	void __inline saveWindowPosition(HWND hwnd)
 	{
 		if (getByte("RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION) == TRUE)
 			Utils_SaveWindowPosition(hwnd, NULL, MODNAME, "Position");
@@ -382,13 +382,13 @@ struct CSAMWindow
 	HWND        m_hCombo;
 	HWND        m_hMessage;
 
-	CSAMWindow( WORD action, CSWindow* parent );
+	CSAMWindow(WORD action, CSWindow* parent);
 	~CSAMWindow();
 
 	void    exec();
 	void    setCombo();
 	void    fillDialog();
-	void    checkFieldLimit( WORD action, WORD item );
+	void    checkFieldLimit(WORD action, WORD item);
 	void    checkItemValidity();
 };
 
@@ -406,9 +406,9 @@ void SetStatus(WORD code, StatusItem* item, char *protoName);
 
 // ====[ PROCEDURES ]=========================================================
 
-INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
-INT_PTR CALLBACK CSAMWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
-INT_PTR CALLBACK CSRNWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
-INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam );
+INT_PTR CALLBACK CSWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+INT_PTR CALLBACK CSAMWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+INT_PTR CALLBACK CSRNWindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+INT_PTR CALLBACK CSOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
 
 #endif /* __CSLIST_H */
