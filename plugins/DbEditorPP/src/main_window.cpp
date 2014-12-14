@@ -12,7 +12,7 @@ extern BOOL bServiceMode;
 void moduleListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void SettingsListWM_NOTIFY(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int DialogResize(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
+int DialogResize(HWND, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_MODULES:
@@ -53,12 +53,12 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return HTCLIENT;
 
 	case WM_SETCURSOR:
-		{
-			RECT rc;
-			GetClientRect(hwnd, &rc);
-			SetCursor(rc.right > rc.bottom ? LoadCursor(NULL, IDC_SIZENS) : LoadCursor(NULL, IDC_SIZEWE));
-		}
-		return TRUE;
+	{
+		RECT rc;
+		GetClientRect(hwnd, &rc);
+		SetCursor(rc.right > rc.bottom ? LoadCursor(NULL, IDC_SIZENS) : LoadCursor(NULL, IDC_SIZEWE));
+	}
+	return TRUE;
 
 	case WM_LBUTTONDOWN:
 		SetCapture(hwnd);
@@ -84,18 +84,18 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 {
 	switch (msg) {
 	case WM_RBUTTONDOWN:
-		{
-			TVHITTESTINFO hti;
-			hti.pt.x = (short)LOWORD(GetMessagePos());
-			hti.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(hwnd, &hti.pt);
+	{
+		TVHITTESTINFO hti;
+		hti.pt.x = (short)LOWORD(GetMessagePos());
+		hti.pt.y = (short)HIWORD(GetMessagePos());
+		ScreenToClient(hwnd, &hti.pt);
 
-			if (TreeView_HitTest(hwnd, &hti)) {
-				if (hti.flags&TVHT_ONITEM)
-					TreeView_SelectItem(hwnd, hti.hItem);
-			}
+		if (TreeView_HitTest(hwnd, &hti)) {
+			if (hti.flags&TVHT_ONITEM)
+				TreeView_SelectItem(hwnd, hti.hItem);
 		}
-		break;
+	}
+	break;
 
 	case WM_CHAR:
 		if (GetKeyState(VK_CONTROL) & 0x8000 && wParam == 6)
@@ -304,63 +304,63 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case GC_SPLITTERMOVED:
-		{
-			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+	{
+		int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
 
-			RECT rc2;
-			GetWindowRect(hwnd, &rc2);
+		RECT rc2;
+		GetWindowRect(hwnd, &rc2);
 
-			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
-				RECT rc;
-				GetClientRect(hwnd, &rc);
-				POINT pt = { wParam, 0 };
-				ScreenToClient(hwnd, &pt);
+		if ((HWND)lParam == GetDlgItem(hwnd, IDC_SPLITTER)) {
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			POINT pt = { wParam, 0 };
+			ScreenToClient(hwnd, &pt);
 
-				splitterPos = rc.left + pt.x + 1;
-				if (splitterPos < 65)
-					splitterPos = 65;
-				if (splitterPos > rc2.right - rc2.left - 65)
-					splitterPos = rc2.right - rc2.left - 65;
-				SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
-				db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
-			}
-			PostMessage(hwnd, WM_SIZE, 0, 0);
+			splitterPos = rc.left + pt.x + 1;
+			if (splitterPos < 65)
+				splitterPos = 65;
+			if (splitterPos > rc2.right - rc2.left - 65)
+				splitterPos = rc2.right - rc2.left - 65;
+			SetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
+			db_set_w(NULL, modname, "Splitter", (WORD)splitterPos);
 		}
-		break;
+		PostMessage(hwnd, WM_SIZE, 0, 0);
+	}
+	break;
 
 	case WM_GETMINMAXINFO:
-		{
-			MINMAXINFO *mmi = (MINMAXINFO *)lParam;
-			int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+	{
+		MINMAXINFO *mmi = (MINMAXINFO *)lParam;
+		int splitterPos = GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
 
-			if (splitterPos + 40 > 200)
-				mmi->ptMinTrackSize.x = splitterPos + 65;
-			else
-				mmi->ptMinTrackSize.x = 200;
-			mmi->ptMinTrackSize.y = 150;
-		}
-		return 0;
+		if (splitterPos + 40 > 200)
+			mmi->ptMinTrackSize.x = splitterPos + 65;
+		else
+			mmi->ptMinTrackSize.x = 200;
+		mmi->ptMinTrackSize.y = 150;
+	}
+	return 0;
 
 	case WM_MOVE:
 	case WM_SIZE:
-		{
-			UTILRESIZEDIALOG urd;
+	{
+		UTILRESIZEDIALOG urd;
 
-			memset(&urd, 0, sizeof(urd));
-			urd.cbSize = sizeof(urd);
-			urd.hInstance = hInst;
-			urd.hwndDlg = hwnd;
-			urd.lParam = (LPARAM)GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
-			urd.lpTemplate = MAKEINTRESOURCE(IDD_MAIN);
-			urd.pfnResizer = DialogResize;
-			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
+		memset(&urd, 0, sizeof(urd));
+		urd.cbSize = sizeof(urd);
+		urd.hInstance = hInst;
+		urd.hwndDlg = hwnd;
+		urd.lParam = (LPARAM)GetWindowLongPtr(GetDlgItem(hwnd, IDC_SPLITTER), GWLP_USERDATA);
+		urd.lpTemplate = MAKEINTRESOURCE(IDD_MAIN);
+		urd.pfnResizer = DialogResize;
+		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 
-			if (msg == WM_SIZE && wParam == SIZE_MAXIMIZED || wParam == SIZE_MINIMIZED)
-				db_set_b(NULL, modname, "Maximised", 1);
-			else if (msg == WM_SIZE && wParam == SIZE_RESTORED)
-				db_set_b(NULL, modname, "Maximised", 0);
-		}
-		break;
+		if (msg == WM_SIZE && wParam == SIZE_MAXIMIZED || wParam == SIZE_MINIMIZED)
+			db_set_b(NULL, modname, "Maximised", 1);
+		else if (msg == WM_SIZE && wParam == SIZE_RESTORED)
+			db_set_b(NULL, modname, "Maximised", 0);
+	}
+	break;
 
 	case WM_DESTROY: // free our shit!
 		if (db_get_b(NULL, modname, "RestoreOnOpen", 1)) {
@@ -464,8 +464,8 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			else
 				ClearListview(GetDlgItem(hwnd, IDC_SETTINGS));
 		}
-			break;
-			///////////////////////// // watches
+		break;
+		///////////////////////// // watches
 		case MENU_VIEW_WATCHES:
 			if (!hwnd2watchedVarsWindow) // so only opens 1 at a time
 				hwnd2watchedVarsWindow = CreateDialog(hInst, MAKEINTRESOURCE(IDD_WATCH_DIAG), 0, WatchDlgProc);
@@ -548,7 +548,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SAVE_POSITION, MF_BYCOMMAND | (save ? MF_CHECKED : MF_UNCHECKED));
 			db_set_b(NULL, modname, "RestoreOnOpen", (byte)save);
 		}
-			break;
+		break;
 		case MENU_SORT_ORDER:
 			Order = !Order;
 			CheckMenuItem(GetSubMenu(GetMenu(hwnd), 5), MENU_SORT_ORDER, MF_BYCOMMAND | (Order ? MF_CHECKED : MF_UNCHECKED));

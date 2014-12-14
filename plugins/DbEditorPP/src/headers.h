@@ -61,7 +61,7 @@ extern MCONTACT hRestore;
 /////////////////////
 
 #ifndef NDEBUG
-	#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 
 //=======================================================
@@ -97,7 +97,7 @@ extern MCONTACT hRestore;
 /***********************
 	ModuleTreeInfoStruct
 	this gets dumped as the lparam for each module tree item
-************************/
+	************************/
 // types
 #define CONTACT_ROOT_ITEM 0
 #define CONTACT 1
@@ -187,7 +187,7 @@ int GetSetting(MCONTACT hContact, const char *szModule, const char *szSetting, D
 int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, char *Value, int length);
 int GetValueW(MCONTACT hContact, const char *szModule, const char *szSetting, WCHAR *Value, int length);
 char *u2a(wchar_t *src);
-wchar_t *a2u(char *src , wchar_t *buffer, int len);
+wchar_t *a2u(char *src, wchar_t *buffer, int len);
 WCHAR *GetContactName(MCONTACT hContact, const char *szProto, int unicode);
 BOOL IsProtocolLoaded(char *pszProtocolName);
 

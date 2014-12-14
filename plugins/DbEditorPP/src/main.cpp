@@ -18,7 +18,7 @@ IconItem iconList[];
 //  MirandaPluginInfo
 //========================
 
-PLUGININFOEX pluginInfoEx = 
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -30,21 +30,21 @@ PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {A8A417EF-07AA-4F37-869F-7BFD74886534}
-	{0xa8a417ef, 0x7aa, 0x4f37, {0x86, 0x9f, 0x7b, 0xfd, 0x74, 0x88, 0x65, 0x34}}
+	{ 0xa8a417ef, 0x7aa, 0x4f37, { 0x86, 0x9f, 0x7b, 0xfd, 0x74, 0x88, 0x65, 0x34 } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
 
 // we implement service mode interface
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SERVICEMODE, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_LAST };
 
 //========================
 //  WINAPI DllMain
 //========================
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -54,7 +54,7 @@ void settingChanged(HWND hwnd2Settings, MCONTACT hContact, char *module, char *s
 
 int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING *)lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	char *setting;
 	SettingListInfo *info;
 
@@ -80,7 +80,7 @@ int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			}
 		}
 	}
-	
+
 	// watch list
 	if (!hwnd2watchedVarsWindow && !usePopups)
 		return 0;
@@ -101,7 +101,7 @@ int DBSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM lParam)
+INT_PTR DBEditorppMenuCommand(WPARAM wParam, LPARAM)
 {
 	if (!hwnd2mainWindow) { // so only opens 1 at a time
 		hRestore = wParam;
@@ -129,7 +129,7 @@ BOOL IsCP_UTF8(void)
 	return GetCPInfo(CP_UTF8, &CPInfo);
 }
 
-static int OnTTBLoaded(WPARAM wParam, LPARAM lParam)
+static int OnTTBLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -141,7 +141,7 @@ static int OnTTBLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	addIcons();
 
@@ -192,7 +192,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int PreShutdown(WPARAM wParam, LPARAM lParam)
+int PreShutdown(WPARAM, LPARAM)
 {
 	if (hwnd2watchedVarsWindow) DestroyWindow(hwnd2watchedVarsWindow);
 	if (hwnd2mainWindow) DestroyWindow(hwnd2mainWindow);
@@ -200,7 +200,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ServiceMode(WPARAM wParam, LPARAM lParam)
+INT_PTR ServiceMode(WPARAM, LPARAM)
 {
 	addIcons();
 	bServiceMode = TRUE;
@@ -266,8 +266,6 @@ int DBGetContactSettingStringStatic(MCONTACT hContact, char *szModule, char *szS
 		db_free(&dbv);
 		return 0;
 	}
-
-	return 0;
 }
 
 int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue, int len)
@@ -310,7 +308,7 @@ int GetSetting(MCONTACT hContact, const char *szModule, const char *szSetting, D
 
 int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, char *Value, int length)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 
 	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
 		switch (dbv.type) {
@@ -350,7 +348,7 @@ int GetValue(MCONTACT hContact, const char *szModule, const char *szSetting, cha
 
 int GetValueW(MCONTACT hContact, const char *szModule, const char *szSetting, WCHAR *Value, int length)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	WCHAR *wc;
 	int len;
 
@@ -465,40 +463,40 @@ WCHAR* GetContactName(MCONTACT hContact, const char *szProto, int unicode)
 					break;
 
 			case 5: // Unique id
-				{
-					// protocol must define a PFLAG_UNIQUEIDSETTING
-					char *uid = (char *)CallProtoService(proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-					if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
-						r = GetDatabaseString(hContact, proto, uid, res, SIZEOF(res), unicode);
-				}
-				break;
+			{
+				// protocol must define a PFLAG_UNIQUEIDSETTING
+				char *uid = (char *)CallProtoService(proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+				if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
+					r = GetDatabaseString(hContact, proto, uid, res, SIZEOF(res), unicode);
+			}
+			break;
 			case 6: // first + last name
-				{
-					int len = 0;
+			{
+				int len = 0;
 
-					if (r = GetDatabaseString(hContact, proto, "FirstName", res, SIZEOF(res), unicode)) {
-						if (unicode)
-							len = (int)wcslen(res);
-						else
-							len = (int)strlen((char *)res);
-					}
+				if (r = GetDatabaseString(hContact, proto, "FirstName", res, SIZEOF(res), unicode)) {
+					if (unicode)
+						len = (int)wcslen(res);
 					else
-						res[0] = 0;
-
-					if (len && len < SIZEOF(res) - 2) {
-						if (unicode)
-							wcscat(res, L" ");
-						else
-							strcat((char*)res, " ");
-
-						len++;
-					}
-
-					if (SIZEOF(res) - len > 1)
-						r |= GetDatabaseString(hContact, proto, "LastName", &res[len], SIZEOF(res) - len, unicode);
-
-					break;
+						len = (int)strlen((char *)res);
 				}
+				else
+					res[0] = 0;
+
+				if (len && len < SIZEOF(res) - 2) {
+					if (unicode)
+						wcscat(res, L" ");
+					else
+						strcat((char*)res, " ");
+
+					len++;
+				}
+
+				if (SIZEOF(res) - len > 1)
+					r |= GetDatabaseString(hContact, proto, "LastName", &res[len], SIZEOF(res) - len, unicode);
+
+				break;
+			}
 			}
 
 			if (r)
