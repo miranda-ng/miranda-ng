@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				else
 					EnableWindow(GetDlgItem(hwndDlg, IDC_USEDEFCOLORS), WM_ENABLE);
 			}
-			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & BST_UNCHECKED == IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
+			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), !IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
 
 		case IDC_USEDEFCOLORS:
 			bEnabled = IsDlgButtonChecked(hwndDlg,IDC_POPUPS_ENABLED);
@@ -152,7 +152,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				else
 					EnableWindow(GetDlgItem(hwndDlg, IDC_USEWINCOLORS), WM_ENABLE);
 			}
-			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & BST_UNCHECKED == IsDlgButtonChecked(hwndDlg,IDC_USEDEFCOLORS));
+			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), !IsDlgButtonChecked(hwndDlg,IDC_USEDEFCOLORS));
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_POPUP_LOG0_TIMEOUT:
