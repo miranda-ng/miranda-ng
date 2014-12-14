@@ -50,14 +50,14 @@ PLUGININFOEX pluginInfo = {
 	{ 0x73a9615c, 0x7d4e, 0x4555, { 0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff } } // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}
 };
 
-extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -79,7 +79,7 @@ static int icqProtoUninit(PROTO_INTERFACE* ppro)
 	return 0;
 }
 
-int ModuleLoad(WPARAM wParam, LPARAM lParam)
+int ModuleLoad(WPARAM, LPARAM)
 {
 	bPopupService = ServiceExists(MS_POPUP_ADDPOPUPT);
 	return 0;

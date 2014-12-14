@@ -167,7 +167,7 @@ void CIcqProto::handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD w
 	else debugLogA("Error: Invalid Xtraz Notify message");
 }
 
-void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD wCookie, char* szMsg, size_t nMsgLen)
+void CIcqProto::handleXtrazNotifyResponse(MCONTACT hContact, WORD wCookie, char* szMsg)
 {
 	char *szMem, *szRes, *szEnd;
 	size_t nResLen;
@@ -263,7 +263,7 @@ void CIcqProto::handleXtrazNotifyResponse(DWORD dwUin, MCONTACT hContact, WORD w
 	else debugLogA("Error: Invalid Xtraz Notify response");
 }
 
-static char* getXmlPidItem(const char* szData, size_t nLen)
+static char* getXmlPidItem(const char* szData)
 {
 	const char *szPid = strstrnull(szData, "<PID>");
 	const char *szEnd = strstrnull(szData, "</PID>");
@@ -276,13 +276,13 @@ static char* getXmlPidItem(const char* szData, size_t nLen)
 }
 
 
-void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC)
+void CIcqProto::handleXtrazInvitation(DWORD dwUin, char* szMsg, BOOL bThruDC)
 {
 	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
-	char *szPluginID = getXmlPidItem(szMsg, nMsgLen);
+	char *szPluginID = getXmlPidItem(szMsg);
 	if (!strcmpnull(szPluginID, "ICQChatRecv"))  // it is a invitation to multi-user chat
 		;
 	else 
@@ -292,16 +292,13 @@ void CIcqProto::handleXtrazInvitation(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WO
 }
 
 
-void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, size_t nMsgLen, BOOL bThruDC)
+void CIcqProto::handleXtrazData(DWORD dwUin, char* szMsg, BOOL bThruDC)
 {
-	MCONTACT hContact;
-	char* szPluginID;
-
-	hContact = HContactFromUIN(dwUin, NULL);
+	MCONTACT hContact = HContactFromUIN(dwUin, NULL);
 	if (hContact) // user sent us xtraz, he supports it
 		SetContactCapabilities(hContact, CAPF_XTRAZ);
 
-	szPluginID = getXmlPidItem(szMsg, nMsgLen);
+	char *szPluginID = getXmlPidItem(szMsg);
 	if (!strcmpnull(szPluginID, "viewCard")) { // it is a greeting card
 		char *szWork, *szEnd, *szUrl, *szNum;
 

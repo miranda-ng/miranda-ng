@@ -105,7 +105,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 	if (wCommand == DIRECT_MESSAGE) {
 		switch (bMsgType) {
 		case MTYPE_FILEREQ: // File inits
-			handleFileRequest(buf, wLen, dc->dwRemoteUin, wCookie, 0, 0, pszText, 7, TRUE);
+			handleFileRequest(buf, dc->dwRemoteUin, wCookie, 0, 0, pszText, 7, TRUE);
 			break;
 
 		case MTYPE_AUTOAWAY:
@@ -121,7 +121,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 			break;
 
 		case MTYPE_PLUGIN: // Greeting
-			handleDirectGreetingMessage(dc, buf, wLen, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags, pszText);
+			handleDirectGreetingMessage(dc, buf, wLen, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags);
 			break;
 
 		default:
@@ -174,11 +174,11 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 					break;
 
 				case MTYPE_FILEREQ: // File acks
-					handleFileAck(buf, wLen, dc->dwRemoteUin, wCookie, wStatus, pszText);
+					handleFileAck(buf, wLen, dc->dwRemoteUin, wCookie, wStatus);
 					break;
 
 				case MTYPE_PLUGIN: // Greeting
-					handleDirectGreetingMessage(dc, buf, wLen, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags, pszText);
+					handleDirectGreetingMessage(dc, buf, wLen, wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags);
 					break;
 
 				default:
@@ -198,7 +198,7 @@ void CIcqProto::handleDirectMessage(directconnect* dc, PBYTE buf, size_t wLen)
 		NetLog_Direct("Unknown wCommand, packet skipped");
 }
 
-void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t wLen, WORD wCommand, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wStatus, WORD wFlags, char* pszText)
+void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t wLen, WORD wCommand, WORD wCookie, BYTE bMsgType, BYTE bMsgFlags, WORD wStatus, WORD wFlags)
 {
 	NetLog_Direct("Handling PEER_MSG_GREETING, command %u, cookie %u, messagetype %u, messageflags %u, status %u, flags %u", wCommand, wCookie, bMsgType, bMsgFlags, wStatus, wFlags);
 
@@ -231,7 +231,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t
 		szMsg[dwDataLength] = '\0';
 		wLen -= dwDataLength;
 
-		handleFileRequest(buf, wLen, dc->dwRemoteUin, wCookie, 0, 0, szMsg, 8, TRUE);
+		handleFileRequest(buf, dc->dwRemoteUin, wCookie, 0, 0, szMsg, 8, TRUE);
 	}
 	else if (typeId == MTYPE_FILEREQ && wCommand == DIRECT_ACK) {
 		NetLog_Direct("This is file ack");
@@ -241,7 +241,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t
 		wLen -= dwDataLength;
 
 		// 50 - file request granted/refused
-		handleFileAck(buf, wLen, dc->dwRemoteUin, wCookie, wStatus, szMsg);
+		handleFileAck(buf, wLen, dc->dwRemoteUin, wCookie, wStatus);
 	}
 	else if (typeId && wCommand == DIRECT_MESSAGE) {
 		uid_str szUID;
@@ -294,7 +294,7 @@ void CIcqProto::handleDirectGreetingMessage(directconnect* dc, PBYTE buf, size_t
 						memcpy(szMsg, buf, dwDataLength);
 					szMsg[dwDataLength] = '\0';
 
-					handleXtrazNotifyResponse(dc->dwRemoteUin, dc->hContact, wCookie, szMsg, dwDataLength);
+					handleXtrazNotifyResponse(dc->hContact, wCookie, szMsg);
 				}
 				break;
 

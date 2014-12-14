@@ -251,7 +251,6 @@ DWORD oft_calc_checksum(int offset, const BYTE *buffer, int len, DWORD dwChecksu
 
 	for (int i = 0; i < len; i++) {
 		WORD val = buffer[i];
-		DWORD oldchecksum = checksum;
 
 		if (((i + offset) & 1) == 0)
 			val = val << 8;
@@ -696,7 +695,7 @@ static void oft_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, v
 static char* oftGetFileContainer(oscar_filetransfer* oft, const char** files, int iFile)
 {
 	char szPath[MAX_PATH];
-	char* szFileName = FindFilePathContainer(files, iFile, szPath);
+	FindFilePathContainer(files, iFile, szPath);
 	char *szPathUtf = ansi_to_utf8(szPath);
 	int i;
 
@@ -887,7 +886,7 @@ HANDLE CIcqProto::oftFileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR 
 	return hTransfer; // Success
 }
 
-DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason)
+DWORD CIcqProto::oftFileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR*)
 {
 	oscar_filetransfer *ft = (oscar_filetransfer*)hTransfer;
 	DWORD dwUin;

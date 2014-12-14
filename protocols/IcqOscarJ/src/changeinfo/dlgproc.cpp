@@ -142,7 +142,7 @@ void ChangeInfoData::PaintItemSetting(HDC hdc, RECT *rc, int i, UINT itemState)
 	DrawTextUtf(hdc, text, rc, DT_END_ELLIPSIS | DT_LEFT | DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER, NULL);
 }
 
-static int ChangeInfoDlg_Resize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
+static int ChangeInfoDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_LIST:

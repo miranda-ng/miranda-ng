@@ -251,7 +251,7 @@ void CIcqProto::StopAvatarThread()
 }
 
 // handle Owner's avatar hash changes
-void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, size_t nDataLen)
+void CIcqProto::handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen)
 {
 	if (nDataLen < 0x14 || !m_bAvatarsEnabled)
 		return;
@@ -371,14 +371,14 @@ void CIcqProto::handleAvatarOwnerHash(WORD wItemID, BYTE bFlags, BYTE *pData, si
 }
 
 // handle Contact's avatar hash
-void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, size_t nHashLen, WORD wOldStatus)
+void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, size_t nHashLen)
 {
 	int bJob = FALSE;
 	BOOL avatarInfoPresent = FALSE;
 	int avatarType = -1;
 	BYTE *pAvatarHash = NULL;
-	size_t cbAvatarHash;
-	BYTE emptyItem[0x10] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+	size_t cbAvatarHash = 0;
+	BYTE emptyItem[0x10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	if (!m_bAvatarsEnabled || nHashLen < 4)
 		return; // only if enabled
@@ -386,7 +386,6 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 	while (nHashLen >= 4) { // parse online message items one by one
 		WORD itemType = pHash[0] << 8 | pHash[1];
 		size_t itemLen = pHash[3];
-		BYTE itemFlags = pHash[2];
 
 		// just some validity check
 		if (itemLen + 4 > nHashLen)
@@ -551,12 +550,9 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 
 	m_avatarsMutex->Enter();
 
-	if (m_avatarsConnection && m_avatarsConnection->isReady()) // check if we are ready
-	{	// check if requests for this user are not blocked
-		DWORD dwNow = GetTickCount();
-		avatars_request *ar = m_avatarsQueue;
-
-		while (ar) {
+	if (m_avatarsConnection && m_avatarsConnection->isReady()) { // check if we are ready
+		// check if requests for this user are not blocked
+		for (avatars_request *ar = m_avatarsQueue; ar; ar = ar->pNext) {
 			if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found a block item
 				if (GetTickCount() > ar->timeOut) { // remove timeouted block
 					ar = ReleaseAvatarRequestInQueue(ar);
@@ -566,11 +562,9 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 				debugLogA("Avatars: Requests for %s avatar are blocked.", strUID(dwUin, pszUid));
 				return 0;
 			}
-			ar = ar->pNext;
 		}
 
 		avatars_server_connection *pConnection = m_avatarsConnection;
-
 		pConnection->_Lock();
 		m_avatarsMutex->Leave();
 
@@ -657,8 +651,6 @@ int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, siz
 	// we failed to send request, or avatar thread not ready
 
 	// check if any request for this user is not already in the queue
-	int bYet = 0;
-
 	avatars_request *ar = m_avatarsQueue;
 	while (ar) {
 		if (ar->hContact == hContact && ar->type == ART_UPLOAD) { // we found it, return error
@@ -1072,7 +1064,7 @@ int avatars_server_connection::handleServerPackets(BYTE *buf, size_t buflen)
 
 		switch (channel) {
 		case ICQ_LOGIN_CHAN:
-			handleLoginChannel(buf, datalen);
+			handleLoginChannel(buf);
 			break;
 
 		case ICQ_DATA_CHAN:
@@ -1093,7 +1085,7 @@ int avatars_server_connection::handleServerPackets(BYTE *buf, size_t buflen)
 	return (int)bytesUsed;
 }
 
-void avatars_server_connection::handleLoginChannel(BYTE *buf, size_t datalen)
+void avatars_server_connection::handleLoginChannel(BYTE *buf)
 {
 	if (*(DWORD*)buf == 0x1000000) {  // here check if we received SRV_HELLO
 		wLocalSequence = generate_flap_sequence();

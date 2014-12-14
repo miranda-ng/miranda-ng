@@ -63,7 +63,7 @@ static INT_PTR CALLBACK AskAuthProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				// auth bug fix (thx Bio)
 				if (dat->ppro->m_bSsiEnabled && dwUin)
-					dat->ppro->resetServContactAuthState(dat->hContact, dwUin);
+					dat->ppro->resetServContactAuthState(dat->hContact);
 
 				EndDialog(hwndDlg, 0);
 			}
@@ -84,7 +84,7 @@ static INT_PTR CALLBACK AskAuthProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-INT_PTR CIcqProto::RequestAuthorization(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::RequestAuthorization(WPARAM wParam, LPARAM)
 {
 	AskAuthParam param = { this, wParam };
 	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ASKAUTH), NULL, AskAuthProc, (LPARAM)&param);

@@ -419,7 +419,7 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 					break;
 				}
 				// process owner avatar hash changed notification
-				handleAvatarOwnerHash(itemType, itemFlags, pBuffer, itemLen + 4);
+				handleAvatarOwnerHash(itemFlags, pBuffer, itemLen + 4);
 			}
 			else if (itemType == 0x02) {
 				debugLogA("Status message item recognized");

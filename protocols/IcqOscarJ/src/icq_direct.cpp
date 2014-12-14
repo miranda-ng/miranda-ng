@@ -159,7 +159,7 @@ BOOL CIcqProto::IsDirectConnectionOpen(MCONTACT hContact, int type, int bPassive
 
 // This function is called from the Netlib when someone is connecting to
 // one of our incomming DC ports
-void icq_newConnectionReceived(HANDLE hNewConnection, DWORD dwRemoteIP, void *pExtra)
+void icq_newConnectionReceived(HANDLE hNewConnection, DWORD, void *pExtra)
 {
 	// Start a new thread for the incomming connection
 	CIcqProto* ppro = (CIcqProto*)pExtra;
@@ -197,8 +197,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 	HANDLE hPacketRecver;
 	BOOL bFirstPacket = TRUE;
 	size_t nSkipPacketBytes = 0;
-	DWORD dwReqMsgID1;
-	DWORD dwReqMsgID2;
+	DWORD dwReqMsgID1 = 0, dwReqMsgID2 = 0;
 
 	srand(time(NULL));
 	{
@@ -515,7 +514,7 @@ void CIcqProto::handleDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 			DWORD dwUin;
 			DWORD dwPort;
 			DWORD dwCookie;
-			MCONTACT hContact;
+			MCONTACT hContact = 0;
 
 			if (wLen != 0x30) {
 				NetLog_Direct("Error: Received malformed PEER_INIT");

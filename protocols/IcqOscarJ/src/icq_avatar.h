@@ -59,7 +59,7 @@ protected:
 
 	int    handleServerPackets(BYTE *buf, size_t buflen);
 
-	void   handleLoginChannel(BYTE *buf, size_t datalen);
+	void   handleLoginChannel(BYTE *buf);
 	void   handleDataChannel(BYTE *buf, size_t datalen);
 
 	void   handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);

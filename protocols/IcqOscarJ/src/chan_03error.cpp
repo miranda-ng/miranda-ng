@@ -24,7 +24,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleErrorChannel(unsigned char* buf, size_t datalen)
+void CIcqProto::handleErrorChannel(unsigned char*, size_t)
 {
 	debugLogA("Ignoring server packet on ERROR channel");
 }

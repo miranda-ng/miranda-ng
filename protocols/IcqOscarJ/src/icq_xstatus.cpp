@@ -35,7 +35,7 @@ static HANDLE hXStatusIcons[XSTATUS_COUNT];
 static int    hXStatusCListIcons[XSTATUS_COUNT];
 static BOOL   bXStatusCListIconsValid[XSTATUS_COUNT];
 
-int OnReloadIcons(WPARAM wParam, LPARAM lParam)
+int OnReloadIcons(WPARAM, LPARAM)
 {
 	memset(bXStatusCListIconsValid, 0, sizeof(bXStatusCListIconsValid));
 	return 0;
@@ -829,7 +829,7 @@ void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 	}
 }
 
-INT_PTR CIcqProto::menuXStatus(WPARAM wParam,LPARAM lParam,LPARAM fParam)
+INT_PTR CIcqProto::menuXStatus(WPARAM, LPARAM, LPARAM fParam)
 {
 	setXStatusEx((BYTE)fParam, 0);
 	return 0;
@@ -906,7 +906,7 @@ void InitXStatusIcons()
 	memset(hXStatusCListIcons, -1, sizeof(hXStatusCListIcons));
 }
 
-INT_PTR CIcqProto::ShowXStatusDetails(WPARAM hContact, LPARAM lParam)
+INT_PTR CIcqProto::ShowXStatusDetails(WPARAM hContact, LPARAM)
 {
 	InitXStatusData init;
 	init.ppro = this;
@@ -917,7 +917,7 @@ INT_PTR CIcqProto::ShowXStatusDetails(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CIcqProto::SetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::SetXStatusEx(WPARAM, LPARAM lParam)
 {
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
@@ -1085,7 +1085,7 @@ INT_PTR CIcqProto::GetXStatusIcon(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CIcqProto::RequestXStatusDetails(WPARAM hContact, LPARAM lParam)
+INT_PTR CIcqProto::RequestXStatusDetails(WPARAM hContact, LPARAM)
 {
 	if (!m_bXStatusEnabled)
 		return 0;
@@ -1097,7 +1097,7 @@ INT_PTR CIcqProto::RequestXStatusDetails(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::RequestAdvStatusIconIdx(WPARAM wParam, LPARAM)
 {
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
 		return -1;

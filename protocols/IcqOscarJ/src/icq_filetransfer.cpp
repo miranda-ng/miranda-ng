@@ -233,6 +233,9 @@ void CIcqProto::icq_sendFileResume(filetransfer *ft, int action, const char *szF
 		ft->szThisFile = null_strdup(szFilename);
 		ft->dwFileBytesDone = 0;
 		break;
+
+	default:
+		openFlags = 0;
 	}
 
 	ft->fileId = OpenFileUtf(ft->szThisFile, openFlags, _S_IREAD | _S_IWRITE);

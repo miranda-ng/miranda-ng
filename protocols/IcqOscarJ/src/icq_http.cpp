@@ -29,7 +29,7 @@
 
 #include "icqoscar.h"
 
-int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr)
+int icq_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST *nlhr)
 {
 	// initial response from ICQ http gateway
 	size_t wLen, wVersion, wType;
@@ -139,7 +139,7 @@ int icq_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDA
 
 
 
-PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int* outBufLen, void *(*NetlibRealloc)(void *, size_t))
+PBYTE icq_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST*, PBYTE buf, int len, int* outBufLen, void *(*)(void *, size_t))
 {
 	size_t wLen, wType;
 	DWORD dwPackSeq;
