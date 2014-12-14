@@ -21,7 +21,7 @@ void CDropbox::InitializeIcons()
 		MODULE,
 		"main");
 
-	SKINICONDESC sid = {0};
+	SKINICONDESC sid = { 0 };
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszDefaultFile = filePath;

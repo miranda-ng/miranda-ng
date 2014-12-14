@@ -25,7 +25,7 @@ int CDropbox::SendFile(const char *fileName, const char *data, int length)
 	return HandleHttpResponseError(hNetlibUser, response);
 }
 
-int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset)
+int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset)
 {
 	HttpRequest *request = new HttpRequest(hNetlibUser, REQUEST_PUT, DROPBOX_APICONTENT_URL "/chunked_upload");
 	request->AddBearerAuthHeader(db_get_sa(NULL, MODULE, "TokenSecret"));
@@ -54,7 +54,7 @@ int CDropbox::SendFileChunkedFirst(const char *data, int length, char *uploadId,
 	return HandleHttpResponseError(hNetlibUser, response);
 }
 
-int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset)
+int CDropbox::SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset)
 {
 	CMStringA url = DROPBOX_APICONTENT_URL "/chunked_upload";
 	url.AppendFormat("?upload_id=%s&offset=%i", uploadId, offset);
@@ -226,7 +226,7 @@ UINT CDropbox::SendFilesAsync(void *owner, void *arg)
 				ProtoBroadcastAck(MODULE, ftp->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ftp->hProcess, (LPARAM)&ftp->pfts);
 
 				//
-				int offset = 0;
+				size_t offset = 0;
 				char *uploadId = new char[32];
 
 				int chunkSize = DROPBOX_FILE_CHUNK_SIZE / 4;

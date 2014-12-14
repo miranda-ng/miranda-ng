@@ -10,7 +10,7 @@ HANDLE CDropbox::CreateProtoServiceFunctionObj(const char *szService, MIRANDASER
 
 INT_PTR CDropbox::ProtoGetCaps(WPARAM wParam, LPARAM)
 {
-	switch(wParam)
+	switch (wParam)
 	{
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILESEND;
@@ -78,7 +78,7 @@ INT_PTR CDropbox::ProtoSendFile(void *obj, WPARAM, LPARAM lParam)
 				ftp->pfts.wszWorkingDir = (wchar_t*)mir_alloc(sizeof(wchar_t) * (length + 1));
 				mir_tstrncpy(ftp->pfts.wszWorkingDir, paths[j], length + 1);
 				ftp->pfts.wszWorkingDir[length] = '\0';
-				
+
 			}
 
 			ftp->pfts.pwszFiles[k] = mir_wstrdup(paths[i]);
@@ -172,10 +172,8 @@ INT_PTR CDropbox::ProtoSendMessage(void *obj, WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CDropbox::ProtoReceiveMessage(void *obj, WPARAM, LPARAM lParam)
+INT_PTR CDropbox::ProtoReceiveMessage(void *, WPARAM, LPARAM lParam)
 {
-	CDropbox *instance = (CDropbox*)obj;
-
 	CCSDATA *pccsd = (CCSDATA*)lParam;
 
 	char *message = (char*)pccsd->lParam;

@@ -45,7 +45,7 @@ private:
 	ULONG  hMessageProcess;
 
 	HANDLE hFileSentEventHook;
-	
+
 	MCONTACT hDefaultContact;
 	MCONTACT hTransferContact;
 
@@ -95,8 +95,8 @@ private:
 
 	// transrers
 	int SendFile(const char *fileName, const char *data, int length);
-	int SendFileChunkedFirst(const char *data, int length, char *uploadId, int &offset);
-	int SendFileChunkedNext(const char *data, int length, const char *uploadId, int &offset);
+	int SendFileChunkedFirst(const char *data, int length, char *uploadId, size_t &offset);
+	int SendFileChunkedNext(const char *data, int length, const char *uploadId, size_t &offset);
 	int SendFileChunkedLast(const char *fileName, const char *uploadId);
 
 	int CreateFolder(const char *folderName);
