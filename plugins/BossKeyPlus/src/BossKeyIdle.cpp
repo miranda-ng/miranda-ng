@@ -33,29 +33,29 @@ VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT idEvent, DWORD dwTime);
 static bool IsUserIdle()
 {
 	DWORD dwTick;
-	if ( g_wMaskAdv & OPT_HIDEIFMIRIDLE ) {
+	if (g_wMaskAdv & OPT_HIDEIFMIRIDLE) {
 		CallService(MS_SYSTEM_GETIDLE, 0, (LPARAM)&dwTick);
 		return GetTickCount() - dwTick > (minutes * 60 * 1000);
 	}
 
 	LASTINPUTINFO ii = { sizeof(ii) };
-	if ( GetLastInputInfo(&ii))
+	if (GetLastInputInfo(&ii))
 		return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
 
 	return FALSE;
 }
 
-VOID CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
-	if ( hTimer == idEvent && !g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) ||
-		 (g_wMaskAdv & OPT_HIDEIFSCRSVR) && IsScreenSaverRunning()))
+	if (hTimer == idEvent && !g_bWindowHidden && ((g_wMaskAdv & (OPT_HIDEIFWINIDLE | OPT_HIDEIFMIRIDLE) && IsUserIdle()) ||
+		(g_wMaskAdv & OPT_HIDEIFSCRSVR) && IsScreenSaverRunning()))
 		BossKeyHideMiranda(0, 0);
 }
 
 void InitIdleTimer()
 {
-	minutes = db_get_b(NULL,MOD_NAME,"time",10);
-	hTimer=SetTimer(NULL, 0, 2000, IdleTimer);
+	minutes = db_get_b(NULL, MOD_NAME, "time", 10);
+	hTimer = SetTimer(NULL, 0, 2000, IdleTimer);
 }
 
 void UninitIdleTimer()
