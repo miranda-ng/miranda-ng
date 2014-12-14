@@ -72,7 +72,7 @@ static INT_PTR CALLBACK DlgProcSetNickname(HWND hwndDlg, UINT msg, WPARAM wParam
 				TCHAR tmp[128];
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("Set my nickname for %s"), proto->description);
 
-				SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)tmp);
+				SetWindowText(hwndDlg, tmp);
 
 				HICON hIcon = (HICON)CallProtoService(proto->name, PS_LOADICON, PLI_PROTOCOL, 0);
 				if (hIcon != NULL) {
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 
 				TCHAR title[256];
 				mir_sntprintf(title, SIZEOF(title), TranslateT("Set my status message for %s"), proto->description);
-				SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)title);
+				SetWindowText(hwndDlg, title);
 
 				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, proto->GetStatusMsg());
 			}
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK DlgProcSetStatusMessage(HWND hwndDlg, UINT msg, WPARAM w
 				TCHAR title[256];
 				mir_sntprintf(title, SIZEOF(title), TranslateT("Set my status message for %s"),
 					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, data->status, GSMDF_TCHAR));
-				SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)title);
+				SetWindowText(hwndDlg, title);
 
 				SetDlgItemText(hwndDlg, IDC_STATUSMESSAGE, protocols->GetDefaultStatusMsg(data->status));
 			}

@@ -523,7 +523,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 			GetWindowText(hTextWnd, ptszTemp, MaxTextSize);
 			for (i = crTemp.cpMin; i < crTemp.cpMax; i++)
 				ptszTemp[i] = ptszOutText[i - crTemp.cpMin];
-			SendMessage(hTextWnd, WM_SETTEXT, 0, (LPARAM)ptszTemp);
+			SetWindowText(hTextWnd, ptszTemp);
 			SendMessage(hTextWnd, EM_SETSEL, crSelection.cpMin, crSelection.cpMax);
 			mir_free(ptszTemp);
 		}

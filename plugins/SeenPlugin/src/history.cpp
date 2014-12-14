@@ -172,7 +172,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		mir_sntprintf(sztemp, SIZEOF(sztemp), _T("%s: %s"),
 			CallService(MS_CLIST_GETCONTACTDISPLAYNAME,hContact,GCDNF_TCHAR),
 			TranslateT("last seen history"));
-		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)sztemp);
+		SetWindowText(hwndDlg, sztemp);
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 

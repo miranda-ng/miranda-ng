@@ -1149,7 +1149,7 @@ static void SetNoteTextControl(STICKYNOTE *SN)
 	SendMessage(SN->REHwnd, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&CF);
 
 	if (SN->data) // TODO: use EM_STREAMIN
-		SendMessage(SN->REHwnd, WM_SETTEXT, 0, (LPARAM)(SN->data));
+		SetWindowText(SN->REHwnd, SN->data);
 }
 
 
@@ -1569,7 +1569,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						}
 
 						// clear text first to force a reformatting w.r.t scrollbar
-						SendMessage(H, WM_SETTEXT, 0, (LPARAM)"");
+						SetWindowText(H, "");
 						SendMessage(H, WM_SETFONT, (WPARAM)(SN->pCustomFont ? SN->pCustomFont->hFont : hBodyFont), FALSE);
 						SetNoteTextControl(SN);
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);
@@ -1606,7 +1606,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 						SN->pCustomFont = NULL;
 
 						// clear text first to force a reformatting w.r.t scrollbar
-						SendMessage(H, WM_SETTEXT, 0, (LPARAM)"");
+						SetWindowText(H, "");
 						SendMessage(H, WM_SETFONT, (WPARAM)hBodyFont, FALSE);
 						SetNoteTextControl(SN);
 						RedrawWindow(SN->SNHwnd, NULL, NULL, RDW_INVALIDATE|RDW_FRAME|RDW_UPDATENOW);

@@ -69,13 +69,13 @@ static BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
 
 				if(!db_get_ws(NULL,SKYPE_PROTONAME,"LoginUserName",&dbv)) 
 				{
-					SendMessageW(userName, WM_SETTEXT, 0, (LPARAM)dbv.pwszVal);
+					SetWindowTextW(userName, dbv.pwszVal);
 					db_free(&dbv);    
 				}
 
 				if(!db_get_ws(NULL,SKYPE_PROTONAME,"LoginPassword",&dbv)) 
 				{
-					SendMessageW(password, WM_SETTEXT, 0, (LPARAM)dbv.pwszVal);
+					SetWindowTextW(password, dbv.pwszVal);
 					db_free(&dbv);
 					SendMessageW(password, WM_CHAR, 13, 0);
 				}

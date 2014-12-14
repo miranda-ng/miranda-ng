@@ -499,8 +499,8 @@ int CheckText(HWND hdlg, TCHAR *sztext, BOOL only_enable = FALSE)
 		{
 			if (lstreq(sztext, GetListName(contacts[loop]), len) == 0)
 			{
-				SendMessage(hdlg, WM_SETTEXT, 0, (LPARAM) GetListName(contacts[loop]));
-				SendMessage(hdlg, EM_SETSEL, (WPARAM) len, (LPARAM) -1);
+				SetWindowText(hdlg, GetListName(contacts[loop]));
+				SendMessage(hdlg, EM_SETSEL, (WPARAM) len, (LPARAM)-1);
 				EnableButtons(hwndMain, contacts[loop]->hcontact);
 				return 0;
 			}
