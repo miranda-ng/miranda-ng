@@ -248,6 +248,7 @@ begin
     end;
 
     100..199: begin
+      flags:=flags and not ACF_MASK;
       pc:=StrCopyE(section,pAnsiChar(node));
       if fmt<>101 then // condition
       begin
