@@ -33,7 +33,7 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			CheckDlgButton(hwndDlg, IDC_URL_COPYTOMIA, BST_CHECKED);
 		CheckDlgButton(hwndDlg, IDC_URL_COPYTOCB, db_get_b(NULL, MODULE, "UrlCopyToClipboard", 0) ? BST_CHECKED : BST_UNCHECKED);
 	}
-		return TRUE;
+	return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
@@ -51,7 +51,7 @@ INT_PTR CALLBACK CDropbox::MainOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			GetDlgItemTextA(hwndDlg, IDC_REQUEST_CODE, requestToken, SIZEOF(requestToken));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AUTHORIZE), strlen(requestToken) != 0);
 		}
-			break;
+		break;
 
 		case IDC_AUTHORIZE:
 			mir_forkthreadowner(CDropbox::RequestAcceessTokenAsync, instance, hwndDlg, 0);

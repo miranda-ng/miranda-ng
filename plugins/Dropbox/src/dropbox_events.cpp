@@ -1,6 +1,6 @@
 #include "common.h"
 
-int CDropbox::OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam)
+int CDropbox::OnModulesLoaded(void *obj, WPARAM, LPARAM)
 {
 	HookEventObj(ME_DB_CONTACT_DELETED, OnContactDeleted, obj);
 	HookEventObj(ME_OPT_INITIALISE, OnOptionsInitialized, obj);
@@ -40,7 +40,7 @@ int CDropbox::OnModulesLoaded(void *obj, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam)
+int CDropbox::OnPreShutdown(void *, WPARAM, LPARAM)
 {
 	if (ServiceExists(MS_BB_ADDBUTTON))
 	{
@@ -54,7 +54,7 @@ int CDropbox::OnPreShutdown(void *obj, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM lParam)
+int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
@@ -67,7 +67,7 @@ int CDropbox::OnContactDeleted(void *obj, WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM lParam)
+int CDropbox::OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
@@ -84,7 +84,7 @@ int CDropbox::OnOptionsInitialized(void *obj, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam)
+int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
@@ -111,7 +111,7 @@ int CDropbox::OnSrmmWindowOpened(void *obj, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam)
+int CDropbox::OnTabSrmmButtonPressed(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
@@ -132,7 +132,7 @@ int CDropbox::OnTabSrmmButtonPressed(void *obj, WPARAM wParam, LPARAM lParam)
 		CallService(MS_BB_SETBUTTONSTATE, cbc->hContact, (LPARAM)&bbd);
 	}
 
-	return 0; 
+	return 0;
 }
 
 void __stdcall EnableTabSrmmButtonAsync(void *arg)
@@ -146,7 +146,7 @@ void __stdcall EnableTabSrmmButtonAsync(void *arg)
 	CallService(MS_BB_SETBUTTONSTATE, hContact, (LPARAM)&bbd);
 }
 
-int CDropbox::OnFileDialogCancelled(void *obj, WPARAM hContact, LPARAM lParam)
+int CDropbox::OnFileDialogCancelled(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
@@ -162,7 +162,7 @@ int CDropbox::OnFileDialogCancelled(void *obj, WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnFileDialogSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
+int CDropbox::OnFileDialogSuccessed(void *obj, WPARAM, LPARAM lParam)
 {
 	CDropbox *instance = (CDropbox*)obj;
 
@@ -177,9 +177,9 @@ int CDropbox::OnFileDialogSuccessed(void *obj, WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int CDropbox::OnProtoAck(void *obj, WPARAM wParam, LPARAM lParam)
+int CDropbox::OnProtoAck(void *, WPARAM, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA*) lParam;
+	ACKDATA *ack = (ACKDATA*)lParam;
 
 	if (!strcmp(ack->szModule, MODULE))
 		return 0; // don't rebroadcast our own acks
@@ -205,7 +205,7 @@ int CDropbox::OnProtoAck(void *obj, WPARAM wParam, LPARAM lParam)
 				bbd.pszModuleName = MODULE;
 				bbd.dwButtonID = BBB_ID_FILE_SEND;
 				bbd.bbbFlags = BBSF_RELEASED;
-			
+
 				if (status == ID_STATUS_OFFLINE && !canSendOffline)
 					bbd.bbbFlags = BBSF_DISABLED;
 

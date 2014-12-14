@@ -37,7 +37,7 @@ void CDropbox::InitializeMenus()
 	CreateServiceFunctionObj(mi.pszService, SendFilesToDropboxCommand, this);
 }
 
-int CDropbox::OnPrebuildContactMenu(void *obj, WPARAM hContact, LPARAM lParam)
+int CDropbox::OnPrebuildContactMenu(void *obj, WPARAM hContact, LPARAM)
 {
 	CDropbox *instance = (CDropbox*)obj;
 

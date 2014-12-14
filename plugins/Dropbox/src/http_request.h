@@ -31,7 +31,7 @@ public:
 
 	~HttpRequest()
 	{
-		for (int i=0; i < headersCount; i++)
+		for (int i = 0; i < headersCount; i++)
 		{
 			mir_free(headers[i].szName);
 			mir_free(headers[i].szValue);
@@ -43,7 +43,7 @@ public:
 
 	void AddHeader(LPCSTR szName, LPCSTR szValue)
 	{
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup(szName);
 		headers[headersCount].szValue = mir_strdup(szValue);
 		headersCount++;
@@ -70,7 +70,7 @@ public:
 
 		mir_free(ePair);
 
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup("Authorization");
 		headers[headersCount].szValue = mir_strdup(value);
 		headersCount++;
@@ -85,7 +85,7 @@ public:
 			"Bearer %s",
 			szValue);
 
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount+1));
+		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
 		headers[headersCount].szName = mir_strdup("Authorization");
 		headers[headersCount].szValue = mir_strdup(value);
 		headersCount++;
@@ -93,18 +93,18 @@ public:
 
 	/*void AddParameter(LPCSTR szName, LPCSTR szValue)
 	{
-		if (m_szUrl.Find('?') == -1)
-			m_szUrl.AppendFormat("?%s=%s", szName, szValue);
-		else
-			m_szUrl.AppendFormat("&%s=%s", szName, szValue);
+	if (m_szUrl.Find('?') == -1)
+	m_szUrl.AppendFormat("?%s=%s", szName, szValue);
+	else
+	m_szUrl.AppendFormat("&%s=%s", szName, szValue);
 	}
 
 	void AddParameter(LPCSTR szName, int value)
 	{
-		if (m_szUrl.Find('?') == -1)
-			m_szUrl.AppendFormat("?%s=%i", szName, value);
-		else
-			m_szUrl.AppendFormat("&%s=%i", szName, value);
+	if (m_szUrl.Find('?') == -1)
+	m_szUrl.AppendFormat("?%s=%i", szName, value);
+	else
+	m_szUrl.AppendFormat("&%s=%i", szName, value);
 	}*/
 
 	NETLIBHTTPREQUEST *Send()
