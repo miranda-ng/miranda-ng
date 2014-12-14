@@ -36,7 +36,7 @@ static ThreadData* FindThreadConn(HANDLE hConn)
 // Fake function - it does nothing but confirms successful session initialization
 //=======================================================================================
 
-int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION* nloc, NETLIBHTTPREQUEST* nlhr)
+int msn_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION*, NETLIBHTTPREQUEST*)
 {
 	NETLIBHTTPPROXYINFO nlhpi = { 0 };
 	nlhpi.cbSize = sizeof(nlhpi);
@@ -71,7 +71,7 @@ int msn_httpGatewayWrapSend(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDA
 // SessionID & gateway IP values
 //=======================================================================================
 
-PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void *, size_t))
+PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int *outBufLen, void *(*)(void *, size_t))
 {
 	*outBufLen = len;
 

@@ -412,7 +412,6 @@ CMStringA CMsnProto::HotmailLogin(const char* url)
 	unsigned char nonce[24];
 	CallService(MS_UTILS_GETRANDOM, sizeof(nonce), (LPARAM)nonce);
 
-	const size_t hotSecretlen = strlen(hotSecretToken);
 	unsigned key1len;
 	BYTE *key1 = (BYTE*)mir_base64_decode(hotSecretToken, &key1len);
 

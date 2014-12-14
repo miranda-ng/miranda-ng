@@ -614,7 +614,7 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initialize options pages
 
-int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = -790000000;
@@ -646,7 +646,7 @@ int CMsnProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMsnProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
+INT_PTR CMsnProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGRUI),
 		(HWND)lParam, DlgProcAccMgrUI, (LPARAM)this);

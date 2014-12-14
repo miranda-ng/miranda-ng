@@ -179,7 +179,7 @@ INT_PTR CMsnProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 //	MsnSetAvatar - sets an avatar without UI
 
-INT_PTR CMsnProto::SetAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR* szFileName = (TCHAR*)lParam;
 
@@ -209,7 +209,7 @@ INT_PTR CMsnProto::SetAvatar(WPARAM wParam, LPARAM lParam)
 		TCHAR ext[_MAX_EXT];
 		_tsplitpath(szFileName, drive, dir, fname, ext);
 
-		int fmt = MSN_SetMyAvatar(fname, pData, dwPngSize);
+		MSN_SetMyAvatar(fname, pData, dwPngSize);
 
 		StoreAvatarData* par = (StoreAvatarData*)mir_alloc(sizeof(StoreAvatarData));
 		par->szName = mir_tstrdup(fname);
@@ -239,7 +239,7 @@ INT_PTR CMsnProto::SetNickName(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendNudge - Sending a nudge
 
-INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM lParam)
+INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM)
 {
 	if (!msnLoggedIn) return 0;
 
@@ -285,7 +285,7 @@ INT_PTR CMsnProto::SendNudge(WPARAM hContact, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 //	GetCurrentMedia - get current media
 
-INT_PTR CMsnProto::GetCurrentMedia(WPARAM wParam, LPARAM lParam)
+INT_PTR CMsnProto::GetCurrentMedia(WPARAM, LPARAM lParam)
 {
 	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
 
@@ -309,7 +309,7 @@ INT_PTR CMsnProto::GetCurrentMedia(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 //	SetCurrentMedia - set current media
 
-INT_PTR CMsnProto::SetCurrentMedia(WPARAM wParam, LPARAM lParam)
+INT_PTR CMsnProto::SetCurrentMedia(WPARAM, LPARAM lParam)
 {
 	// Clear old info
 	mir_free(msnCurrentMedia.ptszArtist);
@@ -368,7 +368,7 @@ INT_PTR CMsnProto::SetCurrentMedia(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnContactDeleted - called when a contact is deleted from list
 
-int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
+int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	if (!msnLoggedIn)  //should never happen for MSN contacts
 		return 0;
@@ -383,7 +383,7 @@ int CMsnProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 	else {
 		char szEmail[MSN_MAX_EMAIL_LEN];
 		if (MSN_IsMeByContact(hContact, szEmail))
-			CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)1);
+			CallService(MS_CLIST_REMOVEEVENT, hContact, 1);
 
 		if (szEmail[0]) {
 			debugLogA("Deleted Handler Email");
@@ -492,7 +492,7 @@ int CMsnProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnIdleChanged - transitions to Idle
 
-int CMsnProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	if (m_iStatus == ID_STATUS_INVISIBLE || m_iStatus <= ID_STATUS_OFFLINE)
 		return 0;
@@ -515,7 +515,7 @@ int CMsnProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnWindowEvent - creates session on window open
 
-int CMsnProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData* msgEvData = (MessageWindowEventData*)lParam;
 
@@ -545,7 +545,7 @@ int CMsnProto::OnWindowEvent(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnWindowEvent - creates session on window open
 
-int CMsnProto::OnWindowPopup(WPARAM wParam, LPARAM lParam)
+int CMsnProto::OnWindowPopup(WPARAM, LPARAM lParam)
 {
 	MessageWindowPopupData *mwpd = (MessageWindowPopupData *)lParam;
 	if (!MSN_IsMyContact(mwpd->hContact) || isChatRoom(mwpd->hContact))
@@ -568,7 +568,7 @@ int CMsnProto::OnWindowPopup(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetUnread - returns the actual number of unread emails in the INBOX
 
-INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
+INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM, LPARAM)
 {
 	if (!msnLoggedIn)
 		return 0;
@@ -578,7 +578,7 @@ INT_PTR CMsnProto::GetUnreadEmailCount(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnLeaveChat - closes MSN chat window
 
-INT_PTR CMsnProto::OnLeaveChat(WPARAM hContact, LPARAM lParam)
+INT_PTR CMsnProto::OnLeaveChat(WPARAM hContact, LPARAM)
 {
 	if (isChatRoom(hContact) != 0) {
 		DBVARIANT dbv;
