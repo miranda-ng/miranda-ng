@@ -29,19 +29,19 @@
 
 #include "icqoscar.h"
 
-INT_PTR CIcqProto::AddServerContact(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::AddServerContact(WPARAM hContact, LPARAM)
 {
 	if (!m_bSsiEnabled) return 0;
 
 	// Does this contact have a UID?
 	DWORD dwUin;
 	uid_str szUid;
-	if (!getContactUid(wParam, &dwUin, &szUid) && !getWord(wParam, DBSETTING_SERVLIST_ID, 0) && !getWord(wParam, DBSETTING_SERVLIST_IGNORE, 0)) {
+	if (!getContactUid(hContact, &dwUin, &szUid) && !getWord(hContact, DBSETTING_SERVLIST_ID, 0) && !getWord(hContact, DBSETTING_SERVLIST_IGNORE, 0)) {
 		/// TODO: remove possible 0x6A TLV in contact server-list data!!!
 		// Read group from DB
-		char *pszGroup = getContactCListGroup(wParam);
+		char *pszGroup = getContactCListGroup(hContact);
 
-		servlistAddContact(wParam, pszGroup);
+		servlistAddContact(hContact, pszGroup);
 		SAFE_FREE((void**)&pszGroup);
 	}
 	return 0;
@@ -151,7 +151,7 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM hContact, LPARAM lParam)
 	return rc;
 }
 
-INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::ChangeInfoEx(WPARAM wParam, LPARAM)
 {
 	if (!icqOnline() || !wParam)
 		return 0;
@@ -401,7 +401,7 @@ INT_PTR CIcqProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 }
 
 
-INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM)
 {
 	if (icqOnline() && wParam != 0) {
 		DWORD dwUin;
@@ -418,7 +418,7 @@ INT_PTR CIcqProto::GrantAuthorization(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CIcqProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
+int CIcqProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	int bIdle = (lParam & IDF_ISIDLE);
 	int bPrivacy = (lParam & IDF_PRIVACY);
@@ -434,7 +434,7 @@ int CIcqProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CIcqProto::RevokeAuthorization(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::RevokeAuthorization(WPARAM wParam, LPARAM)
 {
 	if (icqOnline() && wParam != 0) {
 		DWORD dwUin;
@@ -460,7 +460,7 @@ INT_PTR CIcqProto::SendSms(WPARAM wParam, LPARAM lParam)
 	return 0; // Failure
 }
 
-INT_PTR CIcqProto::SendYouWereAdded(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::SendYouWereAdded(WPARAM, LPARAM lParam)
 {
 	if (lParam && icqOnline()) {
 		CCSDATA* ccs = (CCSDATA*)lParam;
@@ -482,7 +482,7 @@ INT_PTR CIcqProto::SendYouWereAdded(WPARAM wParam, LPARAM lParam)
 	return 1; // Failure
 }
 
-INT_PTR CIcqProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR CIcqProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR* tszFile = (TCHAR*)lParam;
 	int iRet = -1;
@@ -610,7 +610,7 @@ void CIcqProto::ICQAddRecvEvent(MCONTACT hContact, WORD wType, PROTORECVEVENT* p
 	AddEvent(hContact, wType, pre->timestamp, flags, cbBlob, pBlob);
 }
 
-INT_PTR __cdecl CIcqProto::IcqAddCapability(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CIcqProto::IcqAddCapability(WPARAM, LPARAM lParam)
 {
 	ICQ_CUSTOMCAP *icqCustomCapIn = (ICQ_CUSTOMCAP*)lParam;
 	ICQ_CUSTOMCAP *icqCustomCap = new ICQ_CUSTOMCAP;
@@ -638,7 +638,7 @@ INT_PTR __cdecl CIcqProto::IcqCheckCapability(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR icq_getEventTextMissedMessage(WPARAM wParam, LPARAM lParam)
+INT_PTR icq_getEventTextMissedMessage(WPARAM, LPARAM lParam)
 {
 	DBEVENTGETTEXT *pEvent = (DBEVENTGETTEXT *)lParam;
 

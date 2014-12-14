@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus, char* pszText)
+void CIcqProto::handleFileAck(PBYTE buf, size_t wLen, DWORD dwUin, DWORD dwCookie, WORD wStatus)
 {
 	char* pszFileName = NULL;
 	DWORD dwFileSize;
@@ -109,7 +109,7 @@ filetransfer* CIcqProto::CreateFileTransfer(MCONTACT hContact, DWORD dwUin, int 
 
 // pszDescription points to a string with the reason
 // buf points to the first data after the string
-void CIcqProto::handleFileRequest(PBYTE buf, size_t cbLen, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
+void CIcqProto::handleFileRequest(PBYTE buf, DWORD dwUin, DWORD dwCookie, DWORD dwID1, DWORD dwID2, char* pszDescription, int nVersion, BOOL bDC)
 {
 	BOOL bEmptyDesc = FALSE;
 	if (mir_strlen(pszDescription) == 0) {
@@ -167,14 +167,14 @@ void CIcqProto::handleFileRequest(PBYTE buf, size_t cbLen, DWORD dwUin, DWORD dw
 	mir_free(ptszFileName);
 }
 
-void CIcqProto::handleDirectCancel(directconnect *dc, PBYTE buf, size_t wLen, WORD wCommand, DWORD dwCookie, WORD wMessageType, WORD wStatus, WORD wFlags, char* pszText)
+void CIcqProto::handleDirectCancel()
 {
 	NetLog_Direct("handleDirectCancel: Unhandled cancel");
 }
 
 // *******************************************************************************
 
-void CIcqProto::icq_CancelFileTransfer(MCONTACT hContact, filetransfer* ft)
+void CIcqProto::icq_CancelFileTransfer(filetransfer* ft)
 {
 	DWORD dwCookie;
 	if (FindCookieByData(ft, &dwCookie, NULL))

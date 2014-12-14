@@ -32,7 +32,7 @@
 /* set maxTlvs<=0 to get all TLVs in length, or a positive integer to get at most the first n */
 oscar_tlv_chain* readIntoTLVChain(BYTE **buf, size_t wLen, int maxTlvs)
 {
-	oscar_tlv_chain *now, *last, *chain = NULL;
+	oscar_tlv_chain *now, *last = NULL, *chain = NULL;
 	WORD now_tlv_len;
 
 	if (!buf || !wLen)
@@ -280,7 +280,7 @@ void disposeChain(oscar_tlv_chain **chain)
 
 oscar_tlv_record_list* readIntoTLVRecordList(BYTE **buf, size_t wLen, int nCount)
 {
-	oscar_tlv_record_list *list = NULL, *last;
+	oscar_tlv_record_list *list = NULL, *last = NULL;
 
 	while (wLen >= 2) {
 		WORD wRecordSize;

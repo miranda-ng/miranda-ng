@@ -624,10 +624,8 @@ static INT_PTR CALLBACK DlgProcUploadList(HWND hwndDlg, UINT message, WPARAM wPa
 							// we have a group the contact should be in, move it
 							if (wNewGroupId && (wNewGroupId != wCurrentGroupId)) {
 								WORD wCurrentContactId = ppro->getWord(hContact, DBSETTING_SERVLIST_ID, 0);
-								BYTE bAuth = ppro->getByte(hContact, "Auth", 0);
 
 								pszNick = ppro->getSettingStringUtf(hContact, "CList", "MyHandle", NULL);
-
 								if (pszNick)
 									AppendToUploadLog(hwndDlg, ICQTranslateUtfStatic(LPGEN("Moving %s to group \"%s\"..."), str, MAX_PATH), pszNick, pszGroup);
 								else

@@ -180,7 +180,7 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, size_t wPacketLen, WO
 
 		switch (wReplySubtype) {
 		case META_SET_PASSWORD_ACK:
-			parseUserInfoUpdateAck(databuf, wPacketLen, wCookie, wReplySubtype, bResultCode);
+			parseUserInfoUpdateAck(wCookie, wReplySubtype, bResultCode);
 			break;
 
 		case SRV_RANDOM_FOUND:
@@ -245,7 +245,7 @@ void CIcqProto::handleExtensionMetaResponse(BYTE *databuf, size_t wPacketLen, WO
 
 		case META_DIRECTORY_UPDATE_ACK:
 			if (bResultCode == 0x0A)
-				handleDirectoryUpdateResponse(databuf, wPacketLen, wCookie, wReplySubtype);
+				handleDirectoryUpdateResponse(databuf, wPacketLen, wCookie);
 			else
 				debugLogA("Error: Directory request failed, code %u", bResultCode);
 			break;
@@ -442,7 +442,7 @@ void CIcqProto::parseSearchReplies(unsigned char *databuf, size_t wPacketLen, WO
 	}
 }
 
-void CIcqProto::parseUserInfoUpdateAck(unsigned char *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype, BYTE bResultCode)
+void CIcqProto::parseUserInfoUpdateAck(WORD wCookie, WORD wReplySubtype, BYTE bResultCode)
 {
 	switch (wReplySubtype) {
 	case META_SET_PASSWORD_ACK:  // Set user password server ack
@@ -689,7 +689,7 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, size_t wPacketLen, W
 	if (pDirectoryData) {
 		switch (pCookieData->bRequestType) {
 		case DIRECTORYREQUEST_INFOOWNER:
-			parseDirectoryUserDetailsData(NULL, pDirectoryData, wCookie, pCookieData, wReplySubtype);
+			parseDirectoryUserDetailsData(NULL, pDirectoryData, pCookieData, wReplySubtype);
 			break;
 
 		case DIRECTORYREQUEST_INFOUSER:
@@ -713,11 +713,11 @@ void CIcqProto::handleDirectoryQueryResponse(BYTE *databuf, size_t wPacketLen, W
 			}
 
 		case DIRECTORYREQUEST_INFOMULTI:
-			parseDirectoryUserDetailsData(hContact, pDirectoryData, wCookie, pCookieData, wReplySubtype);
+			parseDirectoryUserDetailsData(hContact, pDirectoryData, pCookieData, wReplySubtype);
 			break;
 
 		case DIRECTORYREQUEST_SEARCH:
-			parseDirectorySearchData(pDirectoryData, wCookie, pCookieData, wReplySubtype);
+			parseDirectorySearchData(pDirectoryData, wCookie, wReplySubtype);
 			break;
 
 		default:
@@ -750,7 +750,7 @@ static int calcAgeFromBirthDate(double dDate)
 	return 0;
 }
 
-void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain *cDetails, DWORD dwCookie, cookie_directory_data *pCookieData, WORD wReplySubType)
+void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain *cDetails, cookie_directory_data *pCookieData, WORD wReplySubType)
 {
 	if (pCookieData->bRequestType == DIRECTORYREQUEST_INFOMULTI && !hContact) {
 		DWORD dwUin = 0;
@@ -924,7 +924,7 @@ void CIcqProto::parseDirectoryUserDetailsData(MCONTACT hContact, oscar_tlv_chain
 }
 
 
-void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCookie, cookie_directory_data *pCookieData, WORD wReplySubType)
+void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCookie, WORD wReplySubType)
 {
 	char *szUid = cDetails->getString(0x32, 1); // User ID
 
@@ -1009,7 +1009,7 @@ void CIcqProto::parseDirectorySearchData(oscar_tlv_chain *cDetails, DWORD dwCook
 }
 
 
-void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie, WORD wReplySubtype)
+void CIcqProto::handleDirectoryUpdateResponse(BYTE *databuf, size_t wPacketLen, WORD wCookie)
 {
 	WORD wBytesRemaining = 0;
 	snac_header requestSnac = { 0 };

@@ -77,7 +77,6 @@ void __cdecl CIcqProto::servlistQueueThread(void *param)
 		WORD wItemAction;
 		icq_packet groupPacket = { 0 };
 		icq_packet groupPacket2 = { 0 };
-		cookie_servlist_action* pGroupCookie = NULL;
 		int nEndOperations;
 
 		// first check if the state is calm
@@ -1658,7 +1657,7 @@ int CIcqProto::servlistCreateGroup_gotParentGroup(const char *szGroup, WORD wGro
 }
 
 
-int CIcqProto::servlistCreateGroup_Ready(const char *szGroup, WORD groupID, LPARAM param, int nResult)
+int CIcqProto::servlistCreateGroup_Ready(const char *szGroup, WORD groupID, LPARAM, int nResult)
 {
 	WORD wGroupID = 0;
 
@@ -1690,17 +1689,12 @@ int CIcqProto::servlistCreateGroup_Ready(const char *szGroup, WORD groupID, LPAR
 		}
 	}
 	else { // this is a sub-group
-		char* szSub = null_strdup(szGroup); // create subgroup, recursive, event-driven, possibly relocate
-		cookie_servlist_action* ack;
-		char *szLast;
+		char *szSub = null_strdup(szGroup); // create subgroup, recursive, event-driven, possibly relocate
+		char *szLast = strrchr(szSub, '\\') + 1;
+		szLast[-1] = '\0';
 
-		if (strstrnull(szSub, "\\")) { // determine parent group
-			szLast = strrchr(szSub, '\\') + 1;
-
-			szLast[-1] = '\0';
-		}
 		// make parent group id
-		ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
+		cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));
 		if (ack) {
 			ack->szGroupName = null_strdup(szLast); // groupname
 			servlistCreateGroup(szSub, (LPARAM)ack, &CIcqProto::servlistCreateGroup_gotParentGroup);
@@ -1722,7 +1716,8 @@ void CIcqProto::servlistCreateGroup(const char *szGroupPath, LPARAM param, PENDI
 {
 	char *szGroup = (char*)szGroupPath;
 
-	if (!mir_strlen(szGroup)) szGroup = DEFAULT_SS_GROUP;
+	if (!mir_strlen(szGroup))
+		szGroup = DEFAULT_SS_GROUP;
 
 	servlistPendingAddGroup(szGroup, 0, 0, &CIcqProto::servlistCreateGroup_Ready, TRUE, param, callback);
 }
@@ -1733,7 +1728,7 @@ void CIcqProto::servlistCreateGroup(const char *szGroupPath, LPARAM param, PENDI
 *
 */
 
-int CIcqProto::servlistAddContact_gotGroup(const char *szGroup, WORD wGroupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistAddContact_gotGroup(const char*, WORD wGroupID, LPARAM lParam, int nResult)
 {
 	cookie_servlist_action* ack = (cookie_servlist_action*)lParam;
 	if (ack)
@@ -1774,7 +1769,7 @@ int CIcqProto::servlistAddContact_gotGroup(const char *szGroup, WORD wGroupID, L
 }
 
 // Need to be called when Pending Contact is active
-int CIcqProto::servlistAddContact_Ready(MCONTACT hContact, WORD wContactID, WORD wGroupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistAddContact_Ready(MCONTACT hContact, WORD, WORD, LPARAM lParam, int nResult)
 {
 	cookie_servlist_action* ack = (cookie_servlist_action*)lParam;
 
@@ -1944,7 +1939,7 @@ int CIcqProto::servlistMoveContact_gotTargetGroup(const char *szGroup, WORD wNew
 	return CALLBACK_RESULT_CONTINUE;
 }
 
-int CIcqProto::servlistMoveContact_Ready(MCONTACT hContact, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
+int CIcqProto::servlistMoveContact_Ready(MCONTACT, WORD contactID, WORD groupID, LPARAM lParam, int nResult)
 {
 	cookie_servlist_action *ack = (cookie_servlist_action*)lParam;
 
@@ -2237,7 +2232,7 @@ void CIcqProto::servlistRemoveGroup(const char *szGroup, WORD wGroupId)
 	servlistPendingAddGroup(szGroup, wGroupId, (LPARAM)ack, &CIcqProto::servlistRemoveGroup_Ready, TRUE);
 }
 
-void CIcqProto::resetServContactAuthState(MCONTACT hContact, DWORD dwUin)
+void CIcqProto::resetServContactAuthState(MCONTACT hContact)
 {
 	WORD wContactId = getWord(hContact, DBSETTING_SERVLIST_ID, 0);
 	WORD wGroupId = getWord(hContact, DBSETTING_SERVLIST_GROUP, 0);
@@ -2301,7 +2296,7 @@ int CIcqProto::ServListDbSettingChanged(WPARAM hContact, LPARAM lParam)
 }
 
 
-int CIcqProto::ServListDbContactDeleted(WPARAM hContact, LPARAM lParam)
+int CIcqProto::ServListDbContactDeleted(WPARAM hContact, LPARAM)
 {
 	DeleteFromContactsCache(hContact);
 

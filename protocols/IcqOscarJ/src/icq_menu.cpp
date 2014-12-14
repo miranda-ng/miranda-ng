@@ -173,7 +173,7 @@ void g_MenuUninit(void)
 }
 
 
-INT_PTR CIcqProto::OpenWebProfile(WPARAM hContact, LPARAM lParam)
+INT_PTR CIcqProto::OpenWebProfile(WPARAM hContact, LPARAM)
 {
 	DWORD dwUin = getContactUin(hContact);
 	char url[256];
@@ -223,7 +223,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnPreBuildStatusMenu event
 
-int CIcqProto::OnPreBuildStatusMenu(WPARAM wParam, LPARAM lParam)
+int CIcqProto::OnPreBuildStatusMenu(WPARAM, LPARAM)
 {
 	InitXStatusItems(TRUE);
 	return 0;

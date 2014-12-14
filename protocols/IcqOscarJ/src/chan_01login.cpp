@@ -25,7 +25,7 @@
 
 #include "icqoscar.h"
 
-void CIcqProto::handleLoginChannel(BYTE *buf, size_t datalen, serverthread_info *info)
+void CIcqProto::handleLoginChannel(BYTE*, size_t, serverthread_info *info)
 {
 	icq_packet packet;
 

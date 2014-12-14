@@ -150,7 +150,7 @@ int unpackSessionDataItem(oscar_tlv_chain *pChain, WORD wItemType, BYTE **ppItem
 // TLV(2F) unknown key
 // TLV(30) unknown timestamp
 
-void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info *info)
+void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info*)
 {
 	DWORD dwPort = 0;
 	DWORD dwRealIP = 0;
@@ -372,7 +372,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info *info
 
 			char *szCurrentClient = wOldStatus == ID_STATUS_OFFLINE ? NULL : getSettingStringUtf(hContact, "MirVer", NULL);
 
-			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, szCurrentClient, wVersion, dwFT1, dwFT2, dwFT3, nTCPFlag, dwDirectConnCookie, dwWebPort, capBuf, capLen, &bClientId, szStrBuf);
+			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, szCurrentClient, wVersion, dwFT1, dwFT2, dwFT3, dwDirectConnCookie, dwWebPort, capBuf, capLen, &bClientId, szStrBuf);
 			// Check if the client changed, if not do not change
 			if (szCurrentClient && !strcmpnull(szCurrentClient, szClient))
 				szClient = (const char*)-1;
@@ -385,7 +385,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info *info
 			// no capability
 			debugLogA("No capability info TLVs");
 
-			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, NULL, wVersion, dwFT1, dwFT2, dwFT3, nTCPFlag, dwDirectConnCookie, dwWebPort, NULL, capLen, &bClientId, szStrBuf);
+			szClient = detectUserClient(hContact, nIsICQ, wClass, dwOnlineSince, NULL, wVersion, dwFT1, dwFT2, dwFT3, dwDirectConnCookie, dwWebPort, NULL, capLen, &bClientId, szStrBuf);
 		}
 		else  // Capabilities not present in update packet, do not touch
 			szClient = (const char*)-1; // we don't want to client be overwritten
@@ -432,9 +432,9 @@ void CIcqProto::handleUserOnline(BYTE *buf, size_t wLen, serverthread_info *info
 		// Process Avatar Hash
 		pTLV = pChain->getTLV(0x1D, 1);
 		if (pTLV)
-			handleAvatarContactHash(dwUIN, szUID, hContact, pTLV->pData, pTLV->wLen, wOldStatus);
+			handleAvatarContactHash(dwUIN, szUID, hContact, pTLV->pData, pTLV->wLen);
 		else
-			handleAvatarContactHash(dwUIN, szUID, hContact, NULL, 0, wOldStatus);
+			handleAvatarContactHash(dwUIN, szUID, hContact, NULL, 0);
 
 		// Process Status Note
 		parseStatusNote(dwUIN, szUID, hContact, pChain);
@@ -526,9 +526,6 @@ void CIcqProto::handleUserOffline(BYTE *buf, size_t wLen)
 
 	do {
 		oscar_tlv_chain *pChain = NULL;
-		WORD wTLVCount;
-		DWORD dwAwaySince;
-
 		// Unpack the sender's user ID
 		if (!unpackUID(&buf, &wLen, &dwUIN, &szUID)) return;
 
@@ -536,10 +533,12 @@ void CIcqProto::handleUserOffline(BYTE *buf, size_t wLen)
 		buf += 2;
 
 		// TLV Count
+		WORD wTLVCount;
 		unpackWord(&buf, &wTLVCount);
 		wLen -= 4;
 
 		// Skip the TLV chain
+		DWORD dwAwaySince = 0;
 		while (wTLVCount && wLen >= 4) {
 			WORD wTLVType;
 			WORD wTLVLen;
@@ -581,9 +580,9 @@ void CIcqProto::handleUserOffline(BYTE *buf, size_t wLen)
 			// Process Avatar Hash
 			oscar_tlv *pAvatarTLV = pChain ? pChain->getTLV(0x1D, 1) : NULL;
 			if (pAvatarTLV)
-				handleAvatarContactHash(dwUIN, szUID, hContact, pAvatarTLV->pData, pAvatarTLV->wLen, wOldStatus);
+				handleAvatarContactHash(dwUIN, szUID, hContact, pAvatarTLV->pData, pAvatarTLV->wLen);
 			else
-				handleAvatarContactHash(dwUIN, szUID, hContact, NULL, 0, wOldStatus);
+				handleAvatarContactHash(dwUIN, szUID, hContact, NULL, 0);
 
 			// Process Status Note (offline status note)
 			parseStatusNote(dwUIN, szUID, hContact, pChain);

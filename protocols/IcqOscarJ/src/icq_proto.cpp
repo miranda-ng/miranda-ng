@@ -265,7 +265,7 @@ CIcqProto::~CIcqProto()
 ////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoadedEx - performs hook registration
 
-int CIcqProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int CIcqProto::OnModulesLoaded(WPARAM, LPARAM)
 {
 	char pszP2PName[MAX_PATH];
 	char pszGroupsName[MAX_PATH];
@@ -298,7 +298,7 @@ int CIcqProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CIcqProto::OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int CIcqProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	// signal info update thread to stop
 	icq_InfoUpdateCleanup();
@@ -551,8 +551,7 @@ int __cdecl CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 			return 1; // Invalid transfer
 
 		if (dwUin && ft->ft_magic == FT_MAGIC_ICQ) { // cancel old fashioned file transfer
-			filetransfer * ft = (filetransfer*)hTransfer;
-			icq_CancelFileTransfer(hContact, ft);
+			icq_CancelFileTransfer((filetransfer*)hTransfer);
 			return 0; // Success
 		}
 		else if (ft->ft_magic == FT_MAGIC_OSCAR) { // cancel oscar file transfer
@@ -983,7 +982,7 @@ int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CIcqProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
+int __cdecl CIcqProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -992,7 +991,7 @@ int __cdecl CIcqProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONTACT *hContactsList)
 {
 	if (hContact && hContactsList) {
 		int i;
@@ -1164,7 +1163,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 						char *pBody, *pBuffer = pBody = (char *)SAFE_MALLOC(nBodyLength);
 						null_strcpy(pBuffer, szCount, nBodyLength - 1);
 						pBuffer += mir_strlen(pBuffer);
-						*pBuffer++ = (char)0xFE;
+						*pBuffer++ = char(0xFE);
 						for (i = 0; i < nContacts; i++) {
 							if (contacts[i].uin) {
 								_itoa(contacts[i].uin, szContactUin, 10);
@@ -1173,10 +1172,10 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 							else
 								strcpy(pBuffer, contacts[i].uid);
 							pBuffer += mir_strlen(pBuffer);
-							*pBuffer++ = (char)0xFE;
+							*pBuffer++ = char(0xFE);
 							strcpy(pBuffer, contacts[i].szNick);
 							pBuffer += mir_strlen(pBuffer);
-							*pBuffer++ = (char)0xFE;
+							*pBuffer++ = char(0xFE);
 						}
 
 						for (i = 0; i < nContacts; i++) { // release memory
@@ -1188,7 +1187,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 						cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_CONTACTS, hContact, dwUin, TRUE);
 
 						if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
-							int iRes = icq_SendDirectMessage(hContact, pBody, nBodyLength, 1, pCookieData, NULL);
+							int iRes = icq_SendDirectMessage(hContact, pBody, nBodyLength, pCookieData, NULL);
 
 							if (iRes) {
 								SAFE_FREE((void**)&pBody);
@@ -1401,7 +1400,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			// Set up the ack type
 			pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, TRUE);
 			pCookieData->nAckType = ACKTYPE_CLIENT;
-			dwCookie = icq_SendDirectMessage(hContact, dc_msg, mir_strlen(dc_msg), 1, pCookieData, dc_cap);
+			dwCookie = icq_SendDirectMessage(hContact, dc_msg, mir_strlen(dc_msg), pCookieData, dc_cap);
 
 			SAFE_FREE(&szUserAnsi);
 			if (dwCookie) { // free the buffers if alloced
@@ -1474,7 +1473,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int flags, const char* url)
+int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 {
 	if (hContact == NULL || url == NULL)
 		return 0;
@@ -1501,11 +1500,11 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int flags, const char* url)
 	size_t nBodyLen = nUrlLen + nDescLen + 2;
 	char *szBody = (char *)_alloca(nBodyLen);
 	strcpy(szBody, szDesc);
-	szBody[nDescLen] = (char)0xFE; // Separator
+	szBody[nDescLen] = char(0xFE); // Separator
 	strcpy(szBody + nDescLen + 1, url);
 
 	if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
-		int iRes = icq_SendDirectMessage(hContact, szBody, nBodyLen, 1, pCookieData, NULL);
+		int iRes = icq_SendDirectMessage(hContact, szBody, nBodyLen, pCookieData, NULL);
 		if (iRes)
 			return iRes; // we succeded, return
 	}
@@ -1840,7 +1839,7 @@ HANDLE __cdecl CIcqProto::GetAwayMsg(MCONTACT hContact)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG - processes received status mode message
 
-int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
+int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 {
 	if (evt->flags & PREF_UTF) {
 		setStatusMsgVar(hContact, evt->szMessage, false);

@@ -157,31 +157,32 @@ void CIcqProto::handleServCListFam(BYTE *pBuffer, size_t wBufferLength, snac_hea
 
 					// process item change
 					if (pSnacHeader->wSubtype == ICQ_LISTS_ADDTOLIST)
-						handleServerCListItemAdd(szRecordName, wGroupId, wItemId, wItemType, pChain);
+						handleServerCListItemAdd(wItemId, wItemType, pChain);
 					else if (pSnacHeader->wSubtype == ICQ_LISTS_UPDATEGROUP)
-						handleServerCListItemUpdate(szRecordName, wGroupId, wItemId, wItemType, pChain);
+						handleServerCListItemUpdate(szRecordName, wItemType, pChain);
 					else if (pSnacHeader->wSubtype == ICQ_LISTS_REMOVEFROMLIST)
-						handleServerCListItemDelete(szRecordName, wGroupId, wItemId, wItemType, pChain);
+						handleServerCListItemDelete(szRecordName, wItemId, wItemType);
 
 					// release memory
 					disposeChain(&pChain);
 				}
 			}
-			{
-				// log packet basics
-				char *szChange;
 
-				if (pSnacHeader->wSubtype == ICQ_LISTS_ADDTOLIST)
-					szChange = "Server added %u item(s) to list";
-				else if (pSnacHeader->wSubtype == ICQ_LISTS_UPDATEGROUP)
-					szChange = "Server updated %u item(s) on list";
-				else if (pSnacHeader->wSubtype == ICQ_LISTS_REMOVEFROMLIST)
-					szChange = "Server removed %u item(s) from list";
+			// log packet basics
+			char *szChange;
 
-				char szLogText[MAX_PATH];
-				mir_snprintf(szLogText, SIZEOF(szLogText), szChange, nItems);
-				debugLogA("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
-			}
+			if (pSnacHeader->wSubtype == ICQ_LISTS_ADDTOLIST)
+				szChange = "Server added %u item(s) to list";
+			else if (pSnacHeader->wSubtype == ICQ_LISTS_UPDATEGROUP)
+				szChange = "Server updated %u item(s) on list";
+			else if (pSnacHeader->wSubtype == ICQ_LISTS_REMOVEFROMLIST)
+				szChange = "Server removed %u item(s) from list";
+			else
+				break;
+
+			char szLogText[MAX_PATH];
+			mir_snprintf(szLogText, SIZEOF(szLogText), szChange, nItems);
+			debugLogA("Server sent SNAC(x13,x%02x) - %s", pSnacHeader->wSubtype, szLogText);
 		}
 		break;
 
@@ -1216,7 +1217,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, size_t wLen, WORD wFlags, serv
 	else debugLogA("Waiting for more packets");
 }
 
-void CIcqProto::handleServerCListItemAdd(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
+void CIcqProto::handleServerCListItemAdd(WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
 {
 	if (wItemType == SSI_ITEM_IMPORTTIME) {
 		if (pItemData) {
@@ -1232,7 +1233,7 @@ void CIcqProto::handleServerCListItemAdd(const char *szRecordName, WORD wGroupId
 	ReserveServerID(wItemId, wItemType == SSI_ITEM_GROUP ? SSIT_GROUP : SSIT_ITEM, SSIF_UNHANDLED);
 }
 
-void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
+void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wItemType, oscar_tlv_chain *pItemData)
 {
 	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
@@ -1333,7 +1334,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 		debugLogA("Server updated our group \"%s\" on list", szRecordName);
 }
 
-void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wGroupId, WORD wItemId, WORD wItemType, oscar_tlv_chain *pItemData)
+void CIcqProto::handleServerCListItemDelete(const char *szRecordName, WORD wItemId, WORD wItemType)
 {
 	MCONTACT hContact = (wItemType == SSI_ITEM_BUDDY || wItemType == SSI_ITEM_DENY || wItemType == SSI_ITEM_PERMIT || wItemType == SSI_ITEM_IGNORE) ? HContactFromRecordName(szRecordName, NULL) : NULL;
 
@@ -1442,24 +1443,25 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, size_t wLen)
 
 void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 {
-	DWORD dwUin;
-	uid_str szUid;
 	PBYTE pBlob, pCurBlob;
-	int bAdded;
-	char* szNick;
 	DBVARIANT dbv = { 0 };
 
-	if (!unpackUID(&buf, &wLen, &dwUin, &szUid)) return;
+	DWORD dwUin;
+	uid_str szUid;
+	if (!unpackUID(&buf, &wLen, &dwUin, &szUid))
+		return;
 
 	if (dwUin && IsOnSpammerList(dwUin)) {
 		debugLogA("Ignored Message from known Spammer");
 		return;
 	}
 
+	int bAdded;
 	MCONTACT hContact = HContactFromUID(dwUin, szUid, &bAdded);
 
 	size_t nNickLen, cbBlob = sizeof(DWORD) * 2 + 4;
 
+	char *szNick = NULL;
 	if (dwUin) {
 		if (getString(hContact, "Nick", &dbv))
 			nNickLen = 0;
@@ -1475,7 +1477,7 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 	pCurBlob = pBlob = (PBYTE)_alloca(cbBlob);
 	/*blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ) */
 	*(DWORD*)pCurBlob = dwUin; pCurBlob += sizeof(DWORD);
-	*(DWORD*)pCurBlob = DWORD(hContact); pCurBlob += sizeof(DWORD);
+	*(DWORD*)pCurBlob = hContact; pCurBlob += sizeof(DWORD);
 	if (nNickLen && dwUin) { // if we have nick we add it, otherwise keep trailing zero
 		memcpy(pCurBlob, szNick, nNickLen);
 		pCurBlob += nNickLen;
@@ -1484,10 +1486,10 @@ void CIcqProto::handleRecvAdded(unsigned char *buf, size_t wLen)
 		memcpy(pCurBlob, szUid, nNickLen);
 		pCurBlob += nNickLen;
 	}
-	*(char *)pCurBlob = 0; pCurBlob++;
-	*(char *)pCurBlob = 0; pCurBlob++;
-	*(char *)pCurBlob = 0; pCurBlob++;
-	*(char *)pCurBlob = 0;
+	*(char*)pCurBlob = 0; pCurBlob++;
+	*(char*)pCurBlob = 0; pCurBlob++;
+	*(char*)pCurBlob = 0; pCurBlob++;
+	*(char*)pCurBlob = 0;
 	// TODO: Change for new auth system
 
 	AddEvent(NULL, EVENTTYPE_ADDED, time(NULL), 0, cbBlob, pBlob);

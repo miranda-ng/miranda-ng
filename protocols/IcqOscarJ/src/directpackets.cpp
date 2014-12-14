@@ -219,7 +219,7 @@ int CIcqProto::icq_sendFileSendDirectv8(filetransfer *ft, const char *pszFiles)
 }
 
 
-DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, size_t nBodyLength, WORD wPriority, cookie_message_data *pCookieData, char *szCap)
+DWORD CIcqProto::icq_SendDirectMessage(MCONTACT hContact, const char *szMessage, size_t nBodyLength, cookie_message_data *pCookieData, char *szCap)
 {
 	DWORD dwCookie = AllocateCookie(CKT_MESSAGE, 0, hContact, (void*)pCookieData);
 
