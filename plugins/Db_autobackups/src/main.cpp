@@ -5,7 +5,7 @@ HINSTANCE g_hInstance;
 TCHAR	*profilePath;
 HANDLE	hFolder;
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -16,29 +16,20 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {81C220A6-0226-4Ad6-BFCA-217B17A16053}
-	{0x81c220a6, 0x226, 0x4ad6, {0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53}}
+	{ 0x81c220a6, 0x226, 0x4ad6, { 0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53 } }
 };
 
 int ModulesLoad(WPARAM, LPARAM);
 int PreShutdown(WPARAM, LPARAM);
 
 
-BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID Reserved)
+BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 {
-	switch (dwReason) {
-	case DLL_PROCESS_ATTACH:
-		g_hInstance = hInstance;
-		DisableThreadLibraryCalls(hInstance);
-		break;
-	case DLL_PROCESS_DETACH:
-		/* Nothink to do. */
-		break;
-	}
-
+	g_hInstance = hInstance;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -67,20 +58,20 @@ static int FoldersGetBackupPath(WPARAM, LPARAM)
 	FoldersGetCustomPathT(hFolder, options.folder, SIZEOF(options.folder), DIR SUB_DIR);
 	return 0;
 }
-INT_PTR ABService(WPARAM wParam, LPARAM lParam)
+INT_PTR ABService(WPARAM, LPARAM)
 {
 	BackupStart(NULL);
 	return 0;
 }
-INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
+INT_PTR DBSaveAs(WPARAM, LPARAM)
 {
 	TCHAR fname_buff[MAX_PATH], tszFilter[200];
-	OPENFILENAME ofn = {0};
+	OPENFILENAME ofn = { 0 };
 	CallService(MS_DB_GETPROFILENAMET, SIZEOF(fname_buff), (LPARAM)fname_buff);
 
-	mir_sntprintf(tszFilter, SIZEOF(tszFilter), _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"), 
-		TranslateT("Miranda NG databases"), 0, 0, 
-		TranslateT("Compressed Miranda NG databases"), 0, 0, 
+	mir_sntprintf(tszFilter, SIZEOF(tszFilter), _T("%s (*.dat)%c*.dat%c%s (*.zip)%c*.zip%c%s (*.*)%c*%c"),
+		TranslateT("Miranda NG databases"), 0, 0,
+		TranslateT("Compressed Miranda NG databases"), 0, 0,
 		TranslateT("All files"), 0, 0);
 
 	ofn.lStructSize = sizeof(ofn);

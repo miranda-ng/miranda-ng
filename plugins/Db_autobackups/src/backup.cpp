@@ -41,7 +41,7 @@ void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath)
 	PUAddPopupT(&ppd);
 }
 
-INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcProgress(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -65,7 +65,7 @@ TCHAR* DoubleSlash(TCHAR *sorce)
 	ret = (TCHAR*)mir_alloc((MAX_PATH * sizeof(TCHAR)));
 	if (ret == NULL)
 		return NULL;
-	for (s = sorce, r = ret; *s && (r - ret) < (MAX_PATH - 1); s ++, r ++) {
+	for (s = sorce, r = ret; *s && (r - ret) < (MAX_PATH - 1); s++, r++) {
 		if (*s != _T('\\'))
 			*r = *s;
 		else {
@@ -115,7 +115,7 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 	fi.tmz_date.tm_mon = (st.wMonth - 1);
 	fi.tmz_date.tm_year = st.wYear;
 
-	if (zipOpenNewFileInZip(hZip, szSourceName, &fi, NULL, 0, NULL, 0, "",  Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK) {
+	if (zipOpenNewFileInZip(hZip, szSourceName, &fi, NULL, 0, NULL, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION) == ZIP_OK) {
 		hProgBar = GetDlgItem(progress_dialog, IDC_PROGRESS);
 		while (GetWindowLongPtr(progress_dialog, GWLP_USERDATA) != 1) {
 			if (!ReadFile(hSrc, buf, sizeof(buf), &dwRead, NULL))
@@ -140,8 +140,9 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 	if (ret) {
 		mir_snprintf(buf, SIZEOF(buf), "%s\r\n%s %s %d.%d.%d.%d\r\n",
 			Translate("Miranda NG database"), Translate("Created by:"),
-			__PLUGIN_NAME, __MAJOR_VERSION,	__MINOR_VERSION, __RELEASE_NUM,	__BUILD_NUM);
-	} else {
+			__PLUGIN_NAME, __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
+	}
+	else {
 		buf[0] = 0;
 	}
 	zipClose(hZip, buf);
@@ -165,7 +166,7 @@ int Comp(const void *i, const void *j)
 	backupFile *pj = (backupFile*)j;
 
 	if (pi->CreationTime.dwHighDateTime > pj->CreationTime.dwHighDateTime ||
-	    (pi->CreationTime.dwHighDateTime == pj->CreationTime.dwHighDateTime && pi->CreationTime.dwLowDateTime > pj->CreationTime.dwLowDateTime))
+		(pi->CreationTime.dwHighDateTime == pj->CreationTime.dwHighDateTime && pi->CreationTime.dwLowDateTime > pj->CreationTime.dwLowDateTime))
 		return -1;
 	else
 		return 1;
@@ -195,7 +196,7 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 
 		if (i > 0)
 			qsort(bf, i, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
-		for (i --; i >= (options.num_backups - 1); i --) {
+		for (i--; i >= (options.num_backups - 1); i--) {
 			mir_sntprintf(backupfolderTmp, MAX_PATH, _T("%s\\%s"), backupfolder, bf[i].Name);
 			DeleteFile(backupfolderTmp);
 		}
@@ -206,11 +207,11 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 }
 
 
-int Backup(TCHAR* backup_filename)
+int Backup(TCHAR *backup_filename)
 {
 	bool bZip = false;
 	TCHAR dbname[MAX_PATH], source_file[MAX_PATH] = { 0 }, dest_file[MAX_PATH];
-	HWND progress_dialog;
+	HWND progress_dialog = NULL;
 	SYSTEMTIME st;
 
 	CallService(MS_DB_GETPROFILENAMET, SIZEOF(dbname), (LPARAM)dbname);
@@ -234,7 +235,8 @@ int Backup(TCHAR* backup_filename)
 		GetComputerName(buffer, &size);
 		mir_sntprintf(dest_file, SIZEOF(dest_file), _T("%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.%s"), backupfolder, dbname, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, buffer, bZip ? _T("zip") : _T("dat"));
 		mir_free(backupfolder);
-	} else {
+	}
+	else {
 		_tcsncpy_s(dest_file, backup_filename, _TRUNCATE);
 		if (!_tcscmp(_tcsrchr(backup_filename, _T('.')), _T(".zip")))
 			bZip = true;
@@ -278,17 +280,19 @@ int Backup(TCHAR* backup_filename)
 				mir_tstrncpy(puText, dest_file, (i + 2));
 				mir_tstrcat(puText, _T("\n"));
 				mir_tstrcat(puText, (dest_file + i + 1));
-			} else
+			}
+			else
 				puText = mir_tstrdup(dest_file);
 
 			// Now we need to know, which folder we made a backup. Let's break unnecessary variables :)
-			while (dest_file[-- dest_file_len] != L'\\')
+			while (dest_file[--dest_file_len] != L'\\')
 				;
 			dest_file[dest_file_len] = 0;
 			ShowPopup(puText, TranslateT("Database backed up"), dest_file);
 			mir_free(puText);
 		}
-	} else
+	}
+	else
 		DeleteFile(dest_file);
 	mir_free(pathtmp);
 
@@ -321,7 +325,7 @@ void BackupStart(TCHAR *backup_filename)
 	}
 }
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	time_t t = time(NULL);
 	time_t diff = t - (time_t)db_get_dw(0, "AutoBackups", "LastBackupTimestamp", 0);

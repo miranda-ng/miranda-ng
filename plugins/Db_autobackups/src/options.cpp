@@ -22,10 +22,10 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 	ti.hwnd = hwndParent;
 	ti.hinst = g_hInstance;
 	ti.lpszText = ptszText;
-	GetClientRect (hwndParent, &ti.rect);
+	GetClientRect(hwndParent, &ti.rect);
 	ti.rect.left = -80;
 
-	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
+	SendMessage(hwndTT, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 	SendMessage(hwndTT, TTM_SETTITLE, 1, (LPARAM)ptszTitle);
 	SendMessage(hwndTT, TTM_SETMAXTIPWIDTH, 0, (LPARAM)650);
 
@@ -52,7 +52,8 @@ int LoadOptions(void)
 
 			db_free(&dbv);
 			mir_free(tmp);
-		} else
+		}
+		else
 			mir_sntprintf(options.folder, SIZEOF(options.folder), _T("%s%s"), DIR, SUB_DIR);
 	}
 	options.num_backups = (unsigned int)db_get_w(0, "AutoBackups", "NumBackups", 3);
@@ -81,7 +82,8 @@ int SaveOptions(void)
 
 	if (opt_len > prof_len && _tcsncmp(options.folder, prof_dir, prof_len) == 0) {
 		db_set_ts(0, "AutoBackups", "Folder", (options.folder + prof_len));
-	} else
+	}
+	else
 		db_set_ts(0, "AutoBackups", "Folder", options.folder);
 
 	TCHAR *tmp = Utils_ReplaceVarsT(options.folder);
@@ -121,7 +123,8 @@ int SetDlgState(HWND hwndDlg)
 		CheckDlgButton(hwndDlg, IDC_RAD_START, BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_RAD_EXIT, BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_RAD_PERIODIC, BST_UNCHECKED);
-	} else {
+	}
+	else {
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RAD_DISABLED), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_NUMBACKUPS), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ED_FOLDER), TRUE);
@@ -150,35 +153,35 @@ int SetDlgState(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPROG, new_options.disable_progress ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_NOPOPUP, new_options.disable_popups ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_CHK_USEZIP, new_options.use_zip ? BST_CHECKED : BST_UNCHECKED);
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (!ServiceExists(MS_POPUP_ADDPOPUPT))
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CHK_NOPOPUP), SW_HIDE);
 
 	return 0;
 }
 
-int CALLBACK BrowseProc(HWND hwnd,UINT uMsg, LPARAM lParam, LPARAM lpData)
+int CALLBACK BrowseProc(HWND hwnd, UINT uMsg, LPARAM, LPARAM)
 {
-	switch(uMsg)
+	switch (uMsg)
 	{
-		case BFFM_INITIALIZED:
-			TCHAR *folder = Utils_ReplaceVarsT(options.folder);
-			SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)folder);
-			mir_free(folder);
-			break;
+	case BFFM_INITIALIZED:
+		TCHAR *folder = Utils_ReplaceVarsT(options.folder);
+		SendMessage(hwnd, BFFM_SETSELECTION, TRUE, (LPARAM)folder);
+		mir_free(folder);
+		break;
 	}
 	return 0;
 }
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TCHAR folder_buff[MAX_PATH] = {0};
+	TCHAR folder_buff[MAX_PATH] = { 0 };
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		memcpy(&new_options, &options, sizeof(Options));
 
-		if ( ServiceExists(MS_FOLDERS_GET_PATH)) {
+		if (ServiceExists(MS_FOLDERS_GET_PATH)) {
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ED_FOLDER), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_BUT_BROWSE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_LNK_FOLDERS), SW_SHOW);
@@ -186,28 +189,28 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		else {
 			TCHAR tszTooltipText[4096];
 			mir_sntprintf(tszTooltipText, SIZEOF(tszTooltipText), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
-				_T("%miranda_path%"),		TranslateT("path to Miranda root folder"),
-				_T("%miranda_profilesdir%"),	TranslateT("path to folder containing Miranda profiles"),
-				_T("%miranda_profilename%"),	TranslateT("name of current Miranda profile (filename, without extension)"),
-				_T("%miranda_userdata%"),	TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
-				_T("%appdata%"),		TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
-				_T("%username%"),		TranslateT("username for currently logged-on Windows user"),
-				_T("%mydocuments%"),		TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
-				_T("%desktop%"),		TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
-				_T("%xxxxxxx%"),		TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)")
+				_T("%miranda_path%"), TranslateT("path to Miranda root folder"),
+				_T("%miranda_profilesdir%"), TranslateT("path to folder containing Miranda profiles"),
+				_T("%miranda_profilename%"), TranslateT("name of current Miranda profile (filename, without extension)"),
+				_T("%miranda_userdata%"), TranslateT("will return parsed string %miranda_profilesdir%\\%miranda_profilename%"),
+				_T("%appdata%"), TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
+				_T("%username%"), TranslateT("username for currently logged-on Windows user"),
+				_T("%mydocuments%"), TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
+				_T("%desktop%"), TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
+				_T("%xxxxxxx%"), TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)")
 				);
 			hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_ED_FOLDER), tszTooltipText, TranslateT("Variables"));
 		}
 
 		SetDlgState(hwndDlg);
 
-		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
-		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM) TranslateT("hours"));
-		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM) TranslateT("minutes"));
+		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM)TranslateT("days"));
+		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM)TranslateT("hours"));
+		SendDlgItemMessage(hwndDlg, IDC_PT, CB_ADDSTRING, 0, (LPARAM)TranslateT("minutes"));
 		switch (new_options.period_type) {
-			case PT_DAYS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 0, 0); break;
-			case PT_HOURS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 1, 0); break;
-			case PT_MINUTES: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 2, 0); break;
+		case PT_DAYS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 0, 0); break;
+		case PT_HOURS: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 1, 0); break;
+		case PT_MINUTES: SendDlgItemMessage(hwndDlg, IDC_PT, CB_SETCURSEL, 2, 0); break;
 		}
 
 		if (hPathTip)
@@ -215,19 +218,19 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_COMMAND:
-		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
-			switch( LOWORD( wParam )) {
+		if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+			switch (LOWORD(wParam)) {
 			case IDC_ED_PERIOD:
 			case IDC_ED_FOLDER:
 			case IDC_ED_NUMBACKUPS:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
-		if ( HIWORD( wParam ) == CBN_SELCHANGE)
+		if (HIWORD(wParam) == CBN_SELCHANGE)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
-		if ( HIWORD( wParam ) == BN_CLICKED ) {
-			switch( LOWORD( wParam )) {
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
 			case IDC_RAD_DISABLED:
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DISABLED))
 					new_options.backup_types = BT_DISABLED;
@@ -264,29 +267,29 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				break;
 
 			case IDC_BUT_BROWSE:
-				{
-					BROWSEINFO bi;
-					bi.hwndOwner = hwndDlg;
-					bi.pidlRoot = 0;
-					bi.pszDisplayName = folder_buff;
-					bi.lpszTitle = TranslateT("Select backup folder");
-					bi.ulFlags = BIF_NEWDIALOGSTYLE;
-					bi.lpfn = BrowseProc;
-					bi.lParam = 0;
-					bi.iImage = 0;
+			{
+				BROWSEINFO bi;
+				bi.hwndOwner = hwndDlg;
+				bi.pidlRoot = 0;
+				bi.pszDisplayName = folder_buff;
+				bi.lpszTitle = TranslateT("Select backup folder");
+				bi.ulFlags = BIF_NEWDIALOGSTYLE;
+				bi.lpfn = BrowseProc;
+				bi.lParam = 0;
+				bi.iImage = 0;
 
-					LPCITEMIDLIST pidl = SHBrowseForFolder(&bi);
-					if (pidl != 0) {
-						SHGetPathFromIDList(pidl, folder_buff);
+				LPCITEMIDLIST pidl = SHBrowseForFolder(&bi);
+				if (pidl != 0) {
+					SHGetPathFromIDList(pidl, folder_buff);
 
-						SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);
+					SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);
 
-						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
-						CoTaskMemFree((void *)pidl);
-					}
-					break;
+					CoTaskMemFree((void *)pidl);
 				}
+				break;
+			}
 			case IDC_BUT_NOW:
 				BackupStart(NULL);
 				break;
@@ -303,14 +306,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_LNK_FOLDERS:
-				{
-					OPENOPTIONSDIALOG ood = {0};
-					ood.cbSize = sizeof(ood);
-					ood.pszGroup = "Customize";
-					ood.pszPage = "Folders";
-					Options_Open(&ood);
-					break;
-				}
+			{
+				OPENOPTIONSDIALOG ood = { 0 };
+				ood.cbSize = sizeof(ood);
+				ood.pszGroup = "Customize";
+				ood.pszPage = "Folders";
+				Options_Open(&ood);
+				break;
+			}
 			}
 		}
 		break;
@@ -321,22 +324,22 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			TCHAR buff[10];
 			GetDlgItemText(hwndDlg, IDC_ED_PERIOD, buff, SIZEOF(buff));
 			new_options.period = _ttoi(buff);
 			GetDlgItemText(hwndDlg, IDC_ED_NUMBACKUPS, buff, SIZEOF(buff));
 			new_options.num_backups = _ttoi(buff);
 
-			switch(SendDlgItemMessage(hwndDlg, IDC_PT, CB_GETCURSEL, 0, 0)) {
-				case 0: new_options.period_type = PT_DAYS; break;
-				case 1: new_options.period_type = PT_HOURS; break;
-				case 2: new_options.period_type = PT_MINUTES; break;
+			switch (SendDlgItemMessage(hwndDlg, IDC_PT, CB_GETCURSEL, 0, 0)) {
+			case 0: new_options.period_type = PT_DAYS; break;
+			case 1: new_options.period_type = PT_HOURS; break;
+			case 2: new_options.period_type = PT_MINUTES; break;
 			}
 
 			GetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff, SIZEOF(folder_buff));
 			{
-				TCHAR backupfolder[MAX_PATH] = {0};
+				TCHAR backupfolder[MAX_PATH] = { 0 };
 				BOOL folder_ok = TRUE;
 				TCHAR *tmp = Utils_ReplaceVarsT(folder_buff);
 
@@ -358,7 +361,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					_tcsncpy_s(new_options.folder, folder_buff, _TRUNCATE);
 					memcpy(&options, &new_options, sizeof(Options));
 					SaveOptions();
-				} else {
+				}
+				else {
 					memcpy(&new_options, &options, sizeof(Options));
 					SetDlgState(hwndDlg);
 				}
@@ -380,7 +384,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-int OptionsInit(WPARAM wParam, LPARAM lParam)
+int OptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 

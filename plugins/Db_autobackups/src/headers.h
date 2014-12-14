@@ -42,7 +42,7 @@ extern TCHAR	*profilePath;
 
 
 static IconItem iconList[] = {
-	{ LPGEN("Backup profile"),     "backup", IDI_ICON1 },
+	{ LPGEN("Backup profile"), "backup", IDI_ICON1 },
 	{ LPGEN("Save profile as..."), "saveas", IDI_ICON1 }
 };
 
