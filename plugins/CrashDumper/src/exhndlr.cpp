@@ -1,7 +1,7 @@
 #include "utils.h"
 
 #ifndef FACILITY_VISUALCPP
-    #define FACILITY_VISUALCPP ((LONG)0x6d)
+#define FACILITY_VISUALCPP ((LONG)0x6d)
 #endif
 
 static PVOID exchndlr, exchndlrv;

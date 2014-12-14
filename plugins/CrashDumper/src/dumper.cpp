@@ -250,7 +250,6 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 			ListItem* lsttmp = dlllist;
 			ListItem* lsttmppv = NULL;
 			while (lsttmp != NULL) {
-				size_t sz = min(lsttmp->str.GetLength(), lst->str.GetLength()) - 2;
 				if (lsttmp->str.CompareNoCase(lst->str) > 0)
 					break;
 				lsttmppv = lsttmp;
@@ -268,8 +267,7 @@ static void GetPluginsString(CMString& buffer, unsigned& flags)
 			++count;
 		}
 		if (loaded) FreeLibrary(hModule);
-	}
-		while (FindNextFile(hFind, &FindFileData));
+	} while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 
 	buffer.AppendFormat(TEXT("\r\n%sActive Plugins (%u):%s\r\n"),
@@ -411,8 +409,7 @@ static void GetWeatherStrings(CMString& buffer, unsigned flags)
 				timebuf, id);
 			CloseHandle(hDumpFile);
 		}
-	}
-		while (FindNextFile(hFind, &FindFileData));
+	} while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 }
 
@@ -437,8 +434,7 @@ static void GetIconStrings(CMString& buffer)
 		GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
 		buffer.AppendFormat(TEXT(" %s [%s]\r\n"), FindFileData.cFileName, timebuf);
-	}
-		while (FindNextFile(hFind, &FindFileData));
+	} while (FindNextFile(hFind, &FindFileData));
 	FindClose(hFind);
 }
 

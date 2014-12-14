@@ -191,8 +191,8 @@ static int FoldersPathChanged(WPARAM, LPARAM)
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
 	fgd.nMaxPathSize = MAX_PATH;
 	fgd.flags = FF_TCHAR;
-//	fgd.szPathT = CrashLogFolder;
-//	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hCrashLogFolder, (LPARAM)&fgd);
+	//	fgd.szPathT = CrashLogFolder;
+	//	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hCrashLogFolder, (LPARAM)&fgd);
 
 	fgd.szPathT = VersionInfoFolder;
 	CallService(MS_FOLDERS_GET_PATH, (WPARAM)hVerInfoFolder, (LPARAM)&fgd);
@@ -250,7 +250,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		replaceStrT(profpath, _T("%miranda_userdata%"));
 
 		// Removed because it isn't available on Load()
-//		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
+		//		hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Crash Reports"), CrashLogFolder);
 		hVerInfoFolder = FoldersRegisterCustomPathT(PluginName, LPGEN("Version Information"), VersionInfoFolder);
 
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
@@ -337,7 +337,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hk.pszName = "ShowVerInfo";
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Hotkey_Register(&hk);
-	
+
 	UploadInit();
 
 	if (catchcrashes && !needrestart)
@@ -413,7 +413,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID /*lpvReserved*/)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
