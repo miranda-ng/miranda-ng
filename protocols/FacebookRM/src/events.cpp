@@ -63,16 +63,16 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 		break;
 	}
 
-	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY,DEFAULT_SYSTRAY_NOTIFY))
+	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY))
 	{
 		if (ServiceExists(MS_POPUP_ADDPOPUPCLASS)) {
-			
+
 			// TODO: if popup with particular ID is already showed, just update his content
 			// ... but f***ed up Popup Classes won't allow it now - they need to return hPopupWindow somehow
 			/* if (popup exists) {
 				if (PUChangeTextT(hWndPopup, info) > 0) // success
-					return;
-			}*/
+				return;
+				}*/
 
 			POPUPDATACLASS pd = { sizeof(pd) };
 			pd.ptszTitle = title;
@@ -89,24 +89,25 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 				pd.PluginData = data;
 			}
 
-			return (HWND) CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd);
+			return (HWND)CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&pd);
 		}
-	} else {
+	}
+	else {
 		if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY))
 		{
 			MIRANDASYSTRAYNOTIFY err;
 			int niif_flags = flags;
 			REMOVE_FLAG(niif_flags, FACEBOOK_EVENT_CLIENT |
-			                         FACEBOOK_EVENT_NEWSFEED |
-			                         FACEBOOK_EVENT_NOTIFICATION |
-			                         FACEBOOK_EVENT_OTHER);
+				FACEBOOK_EVENT_NEWSFEED |
+				FACEBOOK_EVENT_NOTIFICATION |
+				FACEBOOK_EVENT_OTHER);
 			err.szProto = m_szModuleName;
 			err.cbSize = sizeof(err);
 			err.dwInfoFlags = NIIF_INTERN_TCHAR | niif_flags;
 			err.tszInfoTitle = title;
 			err.tszInfo = info;
 			err.uTimeout = 10000;
-			if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & err) == 0)
+			if (CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)& err) == 0)
 				return NULL;
 		}
 	}

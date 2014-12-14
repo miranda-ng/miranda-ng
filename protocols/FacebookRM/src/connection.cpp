@@ -26,7 +26,7 @@ void FacebookProto::ChangeStatus(void*)
 {
 	ScopedLock s(signon_lock_);
 	ScopedLock b(facy.buddies_lock_);
-	
+
 	int new_status = m_iDesiredStatus;
 	int old_status = m_iStatus;
 
@@ -89,7 +89,7 @@ void FacebookProto::ChangeStatus(void*)
 		SYSTEMTIME t;
 		GetLocalTime(&t);
 		debugLogA("[%d.%d.%d] Using Facebook Protocol RM %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING_DOTS);
-		
+
 		debugLogA("***** Beginning SignOn process");
 
 		m_enableChat = getBool(FACEBOOK_KEY_ENABLE_CHATS, true);
@@ -100,7 +100,7 @@ void FacebookProto::ChangeStatus(void*)
 		ResetEvent(update_loop_lock_);
 
 		if (NegotiateConnection() && facy.home() && facy.reconnect())
-		{		
+		{
 			// Load all friends
 			ProcessFriendList(NULL);
 
@@ -120,7 +120,7 @@ void FacebookProto::ChangeStatus(void*)
 			ForkThread(&FacebookProto::ProcessPages, NULL);
 
 			setDword(FACEBOOK_KEY_LOGON_TS, (DWORD)time(NULL));
-			ForkThread(&FacebookProto::UpdateLoop,  NULL);
+			ForkThread(&FacebookProto::UpdateLoop, NULL);
 			ForkThread(&FacebookProto::MessageLoop, NULL);
 
 			if (getByte(FACEBOOK_KEY_SET_MIRANDA_STATUS, DEFAULT_SET_MIRANDA_STATUS))
@@ -165,15 +165,15 @@ bool FacebookProto::NegotiateConnection()
 {
 	debugLogA("***** Negotiating connection with Facebook");
 
-	ptrA username( getStringA(FACEBOOK_KEY_LOGIN));
+	ptrA username(getStringA(FACEBOOK_KEY_LOGIN));
 	if (!username || !strlen(username)) {
-		NotifyEvent(m_tszUserName,TranslateT("Please enter a username."),NULL,FACEBOOK_EVENT_CLIENT);
+		NotifyEvent(m_tszUserName, TranslateT("Please enter a username."), NULL, FACEBOOK_EVENT_CLIENT);
 		return false;
 	}
 
-	ptrA password( getStringA(FACEBOOK_KEY_PASS));
+	ptrA password(getStringA(FACEBOOK_KEY_PASS));
 	if (!password || !*password) {
-		NotifyEvent(m_tszUserName,TranslateT("Please enter a password."),NULL,FACEBOOK_EVENT_CLIENT);
+		NotifyEvent(m_tszUserName, TranslateT("Please enter a password."), NULL, FACEBOOK_EVENT_CLIENT);
 		return false;
 	}
 
@@ -189,10 +189,10 @@ bool FacebookProto::NegotiateConnection()
 	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef");
 
 	// Create default group for new contacts
-	ptrT groupName( getTStringA(FACEBOOK_KEY_DEF_GROUP));
+	ptrT groupName(getTStringA(FACEBOOK_KEY_DEF_GROUP));
 	if (groupName != NULL)
 		Clist_CreateGroup(0, groupName);
-	
+
 	return facy.login(username, password);
 }
 
@@ -243,7 +243,7 @@ BYTE FacebookProto::GetPollRate()
 	BYTE poll_rate = getByte(FACEBOOK_KEY_POLL_RATE, FACEBOOK_DEFAULT_POLL_RATE);
 
 	return (
-	    (poll_rate >= FACEBOOK_MINIMAL_POLL_RATE &&
-	      poll_rate <= FACEBOOK_MAXIMAL_POLL_RATE)
-	    ? poll_rate : FACEBOOK_DEFAULT_POLL_RATE);
+		(poll_rate >= FACEBOOK_MINIMAL_POLL_RATE &&
+		poll_rate <= FACEBOOK_MAXIMAL_POLL_RATE)
+		? poll_rate : FACEBOOK_DEFAULT_POLL_RATE);
 }

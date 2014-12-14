@@ -35,7 +35,7 @@ public:
 	int parse_notifications(void*, std::map< std::string, facebook_notification* >*);
 	int parse_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_notification* >*, bool inboxOnly);
 	int parse_unread_threads(void*, std::vector< std::string >*, bool inboxOnly);
-	int parse_thread_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, bool inboxOnly, int limit);
+	int parse_thread_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, bool inboxOnly);
 	int parse_thread_info(void* data, std::string* user_id);
 	int parse_user_info(void* data, facebook_user* fbu);
 	int parse_chat_info(void* data, facebook_chatroom* fbc);
