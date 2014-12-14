@@ -2134,7 +2134,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case GC_ACKMESSAGE:
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, FALSE, 0);
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
+		SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
 		return TRUE;
 
 	case DM_TYPING: {
@@ -2893,7 +2893,7 @@ LABEL_SHOWWINDOW:
 					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
-				else SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
+				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
 
 				Utils::enableDlgControl(hwndDlg, IDOK, FALSE);
 

@@ -1723,8 +1723,8 @@ END_REMOVETAB:
 		break;
 
 	case GC_ACKMESSAGE:
-		SendDlgItemMessage(hwndDlg,IDC_MESSAGE,EM_SETREADONLY,FALSE,0);
-		SendDlgItemMessage(hwndDlg,IDC_MESSAGE,WM_SETTEXT,0, (LPARAM)"");
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, FALSE, 0);
+		SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
 		return TRUE;
 
 	case WM_CTLCOLORLISTBOX:
@@ -2320,7 +2320,7 @@ LABEL_SHOWWINDOW:
 					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
-				else SendDlgItemMessage(hwndDlg, IDC_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
+				else SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
 
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 

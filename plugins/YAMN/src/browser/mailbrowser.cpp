@@ -1714,10 +1714,10 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			DebugLog(SynchroFile,"MailBrowser:INIT:ActualAccountSO-read enter\n");
 #endif
 
-			SendDlgItemMessageW(hDlg, IDC_BTNAPP, WM_SETTEXT,0,(LPARAM)TranslateW(L"Run application"));
-			SendDlgItemMessageW(hDlg, IDC_BTNDEL, WM_SETTEXT,0,(LPARAM)TranslateW(L"Delete selected"));
-			SendDlgItemMessageW(hDlg, IDC_BTNCHECKALL, WM_SETTEXT,0,(LPARAM)TranslateW(L"Select All"));
-			SendDlgItemMessageW(hDlg, IDC_BTNOK, WM_SETTEXT,0,(LPARAM)TranslateW(L"OK"));
+			SetDlgItemTextW(hDlg, IDC_BTNAPP, TranslateW(L"Run application"));
+			SetDlgItemTextW(hDlg, IDC_BTNDEL, TranslateW(L"Delete selected"));
+			SetDlgItemTextW(hDlg, IDC_BTNCHECKALL,TranslateW(L"Select All"));
+			SetDlgItemTextW(hDlg, IDC_BTNOK, TranslateW(L"OK"));
 
 			LVCOLUMNW lvc0={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,FromWidth,TranslateW(L"From"),0,0};
 			LVCOLUMNW lvc1={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SubjectWidth,TranslateW(L"Subject"),0,0};

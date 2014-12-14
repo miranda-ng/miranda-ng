@@ -127,7 +127,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 			SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_CURRPATH, WM_SETTEXT, 0, (LPARAM)CurrBassPath);
+			SetDlgItemText(hwndDlg, IDC_CURRPATH, CurrBassPath);
 
 			hwndOptSlider = GetDlgItem(hwndDlg, IDC_VOLUME);
 			SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
@@ -172,7 +172,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				DBVARIANT dbv = {0}; BASS_DEVICEINFO info; DWORD bassver = BASS_GetVersion();
 
 				mir_sntprintf(tmp, SIZEOF(tmp), TranslateT("un4seen's bass version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
-				SendDlgItemMessage(hwndDlg, IDC_BASSVERSION, WM_SETTEXT, 0, (LPARAM)tmp);
+				SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_RESETCONTENT, 0, 0);
 				SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_ADDSTRING, 0, (LPARAM)TranslateT("--default device--"));

@@ -698,7 +698,7 @@ void DisplayCharsCount(struct MsgBoxData *dlg_data, HWND hwndDlg)
 		}
 	}
 	mir_sntprintf(status_text, SIZEOF(status_text), TranslateT("OK (%d)"), len - (lines - 1));
-	SendDlgItemMessage(hwndDlg, IDC_OK, WM_SETTEXT, 0, (LPARAM)status_text);
+	SetDlgItemText(hwndDlg, IDC_OK, status_text);
 }
 
 void SetEditControlText(struct MsgBoxData *data, HWND hwndDlg, int iStatus)

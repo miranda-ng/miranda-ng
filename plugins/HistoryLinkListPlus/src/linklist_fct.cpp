@@ -527,7 +527,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETEVENTMASK, 0, (LPARAM)(ENM_LINK));
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_AUTOURLDETECT, TRUE, 0);
 	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETBKGNDCOLOR, FALSE, BGColourSel);
-	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, WM_SETTEXT , 0, 0);
+	SetDlgItemText(hDlg, IDC_OPTIONS_RE, NULL);
 
 	memset(&cf, 0, sizeof(cf));
 	cf.cbSize = sizeof(cf);
@@ -626,7 +626,7 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 				db_event_get(hEvent, &dbe);
 				dbe.pBlob[dbe.cbBlob] = 0;
 				LPCTSTR msg = DbGetEventTextT(&dbe, CP_ACP);
-				SendDlgItemMessage(hDlg, IDC_MESSAGE, WM_SETTEXT , 0, 0);
+				SetDlgItemText(hDlg, IDC_MESSAGE, NULL);
 				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
 				mir_free((void*)msg);
 				mir_free(dbe.pBlob);

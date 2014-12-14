@@ -731,7 +731,7 @@ static void FillCheckbox(HWND hwndDlg, int dlgItem, TCHAR *name, TCHAR *key)
 	else
 		mir_sntprintf(tmp, SIZEOF(tmp), _T("%s (%s)"), TranslateTS(name), key);
 
-	SendDlgItemMessage(hwndDlg, dlgItem, WM_SETTEXT, 0, (LPARAM)full);
+	SetDlgItemText(hwndDlg, dlgItem, full);
 }
 
 
