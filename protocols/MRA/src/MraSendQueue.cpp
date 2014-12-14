@@ -31,7 +31,7 @@ DWORD MraSendQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phSendQueueHan
 	if (!pmrasqSendQueue)
 		return GetLastError();
 
-	DWORD dwRetErrorCode = ListMTInitialize(pmrasqSendQueue, 0);
+	DWORD dwRetErrorCode = ListMTInitialize(pmrasqSendQueue);
 	if (dwRetErrorCode == NO_ERROR) {
 		pmrasqSendQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
 		*phSendQueueHandle = (HANDLE)pmrasqSendQueue;
@@ -47,7 +47,7 @@ void MraSendQueueDestroy(HANDLE hSendQueueHandle)
 	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
 	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
 	{
-		mt_lock l(pmrasqSendQueue);
+		mir_cslock l(pmrasqSendQueue->cs);
 		while ( !ListMTItemGetFirst(pmrasqSendQueue, NULL, (LPVOID*)&pmrasqiSendQueueItem)) {
 			ListMTItemDelete(pmrasqSendQueue, pmrasqiSendQueueItem);
 			mir_free(pmrasqiSendQueueItem);
@@ -79,7 +79,7 @@ DWORD MraSendQueueAdd(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD dwFlags, MC
 	pmrasqiSendQueueItem->lpbData = lpbData;
 	pmrasqiSendQueueItem->dwDataSize = dwDataSize;
 
-	mt_lock l(pmrasqSendQueue);
+	mir_cslock l(pmrasqSendQueue->cs);
 	ListMTItemAdd(pmrasqSendQueue, pmrasqiSendQueueItem, pmrasqiSendQueueItem);
 	return 0;
 }
@@ -93,7 +93,7 @@ DWORD MraSendQueueFree(HANDLE hSendQueueHandle, DWORD dwCMDNum)
 	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
 	LIST_MT_ITERATOR lmtiIterator;
 
-	mt_lock l(pmrasqSendQueue);
+	mir_cslock l(pmrasqSendQueue->cs);
 	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
 	do {
 		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
@@ -117,7 +117,7 @@ DWORD MraSendQueueFind(HANDLE hSendQueueHandle, DWORD dwCMDNum, DWORD *pdwFlags,
 	MRA_SEND_QUEUE_ITEM *pmrasqiSendQueueItem;
 	LIST_MT_ITERATOR lmtiIterator;
 
-	mt_lock l(pmrasqSendQueue);
+	mir_cslock l(pmrasqSendQueue->cs);
 	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);
 	do {
 		if ( !ListMTIteratorGet(&lmtiIterator, NULL, (LPVOID*)&pmrasqiSendQueueItem))
@@ -145,7 +145,7 @@ DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pd
 	(*((DWORDLONG*)&ftExpireTime))-=((DWORDLONG)dwTime*FILETIME_SECOND);
 
 	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
-	mt_lock l(pmrasqSendQueue);
+	mir_cslock l(pmrasqSendQueue->cs);
 
 	LIST_MT_ITERATOR lmtiIterator;
 	ListMTIteratorMoveFirst(pmrasqSendQueue, &lmtiIterator);

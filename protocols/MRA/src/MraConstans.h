@@ -226,8 +226,8 @@ static const LPSTR lpcszMailRuDomains[] =
 #define DBSETTING_BLOGSTATUS      "BlogStatus"
 #define DBSETTING_BLOGSTATUSMUSIC "ListeningTo"
 
-extern const LPSTR  lpcszStatusUri[];
-extern const LPWSTR lpcszXStatusNameDef[];
+extern LPCSTR  lpcszStatusUri[];
+extern LPCWSTR lpcszXStatusNameDef[];
 
 #define MRA_XSTATUS_COUNT       50 /* index = 0 - virtual status "none" */
 #define MRA_XSTATUS_OFF_CLI_COUNT 49 /* MRA_XSTATUS_COUNT - dating */

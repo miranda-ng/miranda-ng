@@ -125,7 +125,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM lParam)
+int CMraProto::OnPopupOptInit(WPARAM wParam, LPARAM)
 {
 	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -163,7 +163,7 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case UM_INITPOPUP:
 		if (dat->iPopupType == MRA_POPUP_TYPE_EMAIL_STATUS) {
 			// update/load avatar
-			dat->ppro->MraAvatarsQueueGetAvatarSimple(dat->ppro->hAvatarsQueueHandle, GAIF_FORCE, PUGetContact(hWndDlg), 0);
+			dat->ppro->MraAvatarsQueueGetAvatarSimple(dat->ppro->hAvatarsQueueHandle, GAIF_FORCE, PUGetContact(hWndDlg));
 
 			// delete old email popup
 			if (dat->ppro->hWndEMailPopupStatus)

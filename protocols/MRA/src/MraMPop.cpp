@@ -31,7 +31,7 @@ DWORD MraMPopSessionQueueInitialize(HANDLE *phMPopSessionQueue)
 	pmpsqMPopSessionQueue->bKeyValid = false;
 	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
 	pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
-	FifoMTInitialize(pmpsqMPopSessionQueue, 0);
+	ListMTInitialize(pmpsqMPopSessionQueue);
 	*phMPopSessionQueue = (HANDLE)pmpsqMPopSessionQueue;
 	return NO_ERROR;
 }
@@ -59,7 +59,7 @@ void MraMPopSessionQueueDestroy(HANDLE hMPopSessionQueue)
 
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)hMPopSessionQueue;
 	MraMPopSessionQueueClear(hMPopSessionQueue);
-	FifoMTDestroy(pmpsqMPopSessionQueue);
+	ListMTDestroy(pmpsqMPopSessionQueue);
 	mir_free(pmpsqMPopSessionQueue);
 }
 

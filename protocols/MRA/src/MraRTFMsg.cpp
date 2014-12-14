@@ -138,7 +138,7 @@ DWORD MraTextToRTFData(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessag
 	return ERROR_INVALID_HANDLE;
 }
 
-DWORD MraSymbolsToRTFTags(DWORD dwFlags, LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize)
+DWORD MraSymbolsToRTFTags(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessageConverted, size_t dwMessageConvertedBuffSize, size_t *pdwMessageConvertedSize)
 {
 	DWORD dwRetErrorCode = NO_ERROR;
 	LPSTR lpszFounded[SYMBOLS_COUNT], lpszMessageConvertedCur, lpszMessageCur, lpszMessageCurPrev, lpszMessageConvertedMax;
@@ -229,12 +229,12 @@ DWORD CMraProto::MraConvertToRTFW(const CMStringW &wszMessage, CMStringA &szMess
 			lpszStrikeOut = (lf.lfStrikeOut? "\\strike1":lpszNotfink);
 	lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), "\\viewkind4\\uc1\\pard\\cf1\\f0\\fs%lu%s%s%s%s", dwFontSize, lpszBold, lpszItalic, lpszUnderline, lpszStrikeOut);
 
-	if ( !MraSymbolsToRTFTags(0, lpszMessage, wszMessage.GetLength(), lpszMessageRTFCur, (szMessageRTF.GetLength()-(lpszMessageRTFCur-lpszBase)), &dwtm)) {
+	if (!MraSymbolsToRTFTags(lpszMessage, wszMessage.GetLength(), lpszMessageRTFCur, (szMessageRTF.GetLength() - (lpszMessageRTFCur - lpszBase)), &dwtm)) {
 		lpszMessageRTFCur += dwtm;
-		if ((lpszBase + szMessageRTF.GetLength()) >= (lpszMessageRTFCur+sizeof(PAR)+sizeof(CRLF)+2)) {
-			memcpy(lpszMessageRTFCur, PAR, sizeof(PAR));lpszMessageRTFCur += (sizeof(PAR)-1);
-			memcpy(lpszMessageRTFCur, CRLF, sizeof(CRLF));lpszMessageRTFCur += (sizeof(CRLF)-1);
-			memcpy(lpszMessageRTFCur, "}", 2);lpszMessageRTFCur += 2;
+		if ((lpszBase + szMessageRTF.GetLength()) >= (lpszMessageRTFCur + sizeof(PAR) + sizeof(CRLF) + 2)) {
+			memcpy(lpszMessageRTFCur, PAR, sizeof(PAR)); lpszMessageRTFCur += (sizeof(PAR) - 1);
+			memcpy(lpszMessageRTFCur, CRLF, sizeof(CRLF)); lpszMessageRTFCur += (sizeof(CRLF) - 1);
+			memcpy(lpszMessageRTFCur, "}", 2); lpszMessageRTFCur += 2;
 			debugLogA("%s\n", szMessageRTF);
 			return NO_ERROR;
 		}

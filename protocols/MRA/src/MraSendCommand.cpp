@@ -298,7 +298,7 @@ DWORD CMraProto::MraFileTransfer(const CMStringA &szEmail, DWORD dwIDRequest, DW
 }
 
 // Ответ на отправку файлов
-DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, LPBYTE lpbDescription, size_t dwDescriptionSize)
+DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DWORD dwIDRequest, const CMStringA &szDescription)
 {
 	if (szEmail.GetLength() <= 4)
 		return 0;
@@ -307,7 +307,7 @@ DWORD CMraProto::MraFileTransferAck(DWORD dwStatus, const CMStringA &szEmail, DW
 	buf.SetUL(dwStatus);
 	buf.SetLPSLowerCase(szEmail);
 	buf.SetUL(dwIDRequest);
-	buf.SetLPS(lpbDescription);
+	buf.SetLPS(szDescription);
 	return MraSendCMD(MRIM_CS_FILE_TRANSFER_ACK, buf.Data(), buf.Len());
 }
 
@@ -413,9 +413,8 @@ DWORD CMraProto::MraGame(const CMStringA &szEmail, DWORD dwGameSessionID, DWORD 
 }
 
 // Авторизация
-DWORD CMraProto::MraLogin2W(CMStringA &szLogin, CMStringA &szPassword, DWORD dwStatus, CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent)
+DWORD CMraProto::MraLogin2W(const CMStringA &szLogin, const CMStringA &szPassword, DWORD dwStatus, const CMStringA &szStatusUri, CMStringW &wszStatusTitle, CMStringW &wszStatusDesc, DWORD dwFutureFlags, CMStringA &szUserAgentFormatted, CMStringA &szUserAgent)
 {
-	if (szStatusUri.GetLength() > SPEC_STATUS_URI_MAX)     szStatusUri.Truncate(SPEC_STATUS_URI_MAX);
 	if (wszStatusTitle.GetLength() > STATUS_TITLE_MAX)     wszStatusTitle.Truncate(STATUS_TITLE_MAX);
 	if (wszStatusDesc.GetLength() > STATUS_DESC_MAX)       wszStatusDesc.Truncate(STATUS_DESC_MAX);
 	if (szUserAgentFormatted.GetLength() > USER_AGENT_MAX) szUserAgentFormatted.Truncate(USER_AGENT_MAX);

@@ -127,8 +127,6 @@ __inline void InternetTimeGetCurrentTime(INTERNET_TIME *pitTime)
 //	Переводит время из MAILTIME в строковое
 __inline CMStringA InternetTimeGetString(INTERNET_TIME *pitTime)
 {
-	DWORD dwRet=NO_ERROR;
-
 	char lpszBuff[100];
 	LPSTR lpszCurPos = lpszBuff;
 	size_t dwTimeLen=0,dwtm;

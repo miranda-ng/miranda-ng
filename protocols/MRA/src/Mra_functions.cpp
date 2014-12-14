@@ -29,7 +29,7 @@ LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 CMStringA MraGetSelfVersionString()
 {
 	WORD v[4];
-	DWORD dwMirVer = CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
+	CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
 	LPSTR	lpszSecIM = ServiceExists("SecureIM/IsContactSecured") ? " + SecureIM" : "";
 
 	CMStringA szSelfVersion;
@@ -569,7 +569,7 @@ bool CMraProto::MraUpdateContactInfo(MCONTACT hContact)
 	if (IsContactMra(hContact)) {
 		CMStringA szEmail;
 		if (mraGetStringA(hContact, "e-mail", szEmail)) {
-			MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, hContact, 0);
+			MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, GAIF_FORCE, hContact);
 			if (MraWPRequestByEMail(hContact, ACKTYPE_GETINFO, szEmail))
 				return true;
 		}
@@ -623,7 +623,7 @@ DWORD CMraProto::MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus)
 				if (bChatAgent)
 					MraChatSessionNew(hContact);
 			}
-			MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact, 0);
+			MraAvatarsQueueGetAvatarSimple(hAvatarsQueueHandle, 0, hContact);
 		}
 
 		setWord(hContact, "Status", (WORD)dwNewStatus);
@@ -631,7 +631,7 @@ DWORD CMraProto::MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus)
 	return dwOldStatus;
 }
 
-void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &pszSubject, DWORD dwDate, DWORD dwUIDL, bool force_display)
+void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &pszSubject, bool force_display)
 {
 	BOOL bTrayIconNewMailNotify;
 	WCHAR szStatusText[MAX_SECONDLINE];
@@ -1144,7 +1144,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg, UINT message, WPARAM w
 				DWORDLONG dwBlogStatusID;
 
 				TCHAR szBuff[MICBLOG_STATUS_MAX];
-				size_t dwBuffSize = GetDlgItemText(hWndDlg, IDC_MSG_TO_SEND, szBuff, SIZEOF(szBuff));
+				GetDlgItemText(hWndDlg, IDC_MSG_TO_SEND, szBuff, SIZEOF(szBuff));
 				if (dat->hContact) {
 					dwFlags = (MRIM_BLOG_STATUS_REPLY | MRIM_BLOG_STATUS_NOTIFY);
 
@@ -1224,85 +1224,83 @@ DWORD GetYears(CONST PSYSTEMTIME pcstSystemTime)
 
 DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD dwFileNameLen, LPWSTR lpszRetFilePathName, DWORD dwRetFilePathLen, DWORD *pdwRetFilePathLen)
 {
-	DWORD dwRetErrorCode;
+	if (!lpszFolder || !dwFolderLen || !lpszFileName || !dwFileNameLen)
+		return ERROR_INVALID_HANDLE;
 
-	if (lpszFolder && dwFolderLen && lpszFileName && dwFileNameLen) {
-		TCHAR szPath[32768];
-		DWORD dwPathLen, dwRecDeepAllocated, dwRecDeepCurPos, dwFilePathLen;
-		RECURSION_DATA_STACK_ITEM *prdsiItems;
+	TCHAR szPath[32768];
+	DWORD dwPathLen, dwRecDeepAllocated, dwRecDeepCurPos, dwFilePathLen;
+	RECURSION_DATA_STACK_ITEM *prdsiItems;
 
-		if (dwFolderLen == -1) dwFolderLen = mir_wstrlen(lpszFolder);
-		if (dwFileNameLen == -1) dwFileNameLen = mir_wstrlen(lpszFileName);
+	if (dwFolderLen == -1) dwFolderLen = mir_wstrlen(lpszFolder);
+	if (dwFileNameLen == -1) dwFileNameLen = mir_wstrlen(lpszFileName);
 
-		dwRecDeepCurPos = 0;
-		dwRecDeepAllocated = RECURSION_DATA_STACK_ITEMS_MIN;
-		prdsiItems = (RECURSION_DATA_STACK_ITEM*)mir_calloc(dwRecDeepAllocated*sizeof(RECURSION_DATA_STACK_ITEM));
-		if (prdsiItems) {
-			dwPathLen = dwFolderLen;
-			memcpy(szPath, lpszFolder, (dwPathLen*sizeof(WCHAR)));
-			if (szPath[(dwPathLen - 1)] != '\\') {
-				szPath[dwPathLen] = '\\';
-				dwPathLen++;
-			}
-			szPath[dwPathLen] = 0;
-			mir_tstrcat(szPath, _T("*.*"));
+	dwRecDeepCurPos = 0;
+	dwRecDeepAllocated = RECURSION_DATA_STACK_ITEMS_MIN;
+	prdsiItems = (RECURSION_DATA_STACK_ITEM*)mir_calloc(dwRecDeepAllocated*sizeof(RECURSION_DATA_STACK_ITEM));
+	if (prdsiItems == NULL)
+		return GetLastError();
 
-			prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
-			prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
-			if (prdsiItems[dwRecDeepCurPos].hFind != INVALID_HANDLE_VALUE) {
-				dwRetErrorCode = ERROR_FILE_NOT_FOUND;
-				do {
-					dwPathLen -= prdsiItems[dwRecDeepCurPos].dwFileNameLen;
-
-					while (dwRetErrorCode == ERROR_FILE_NOT_FOUND && FindNextFile(prdsiItems[dwRecDeepCurPos].hFind, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData)) {
-						if (prdsiItems[dwRecDeepCurPos].w32fdFindFileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {// folder
-							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T("."), 1) != CSTR_EQUAL)
-							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T(".."), 2) != CSTR_EQUAL) {
-								prdsiItems[dwRecDeepCurPos].dwFileNameLen = (mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1);
-								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
-								mir_tstrcat(szPath, _T("\\*.*"));
-								dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
-
-								dwRecDeepCurPos++;
-								if (dwRecDeepCurPos == dwRecDeepAllocated) { // need more space
-									dwRecDeepAllocated += RECURSION_DATA_STACK_ITEMS_MIN;
-									prdsiItems = (RECURSION_DATA_STACK_ITEM*)mir_realloc(prdsiItems, dwRecDeepAllocated*sizeof(RECURSION_DATA_STACK_ITEM));
-									if (prdsiItems == NULL) {
-										dwRecDeepCurPos = 0;
-										dwRetErrorCode = GetLastError();
-										break;
-									}
-								}
-								prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
-							}
-						}
-						else {// file
-							if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, lpszFileName, dwFileNameLen) == CSTR_EQUAL) {
-								prdsiItems[dwRecDeepCurPos].dwFileNameLen = mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
-								memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, ((prdsiItems[dwRecDeepCurPos].dwFileNameLen + 1)*sizeof(WCHAR)));
-								dwFilePathLen = (dwPathLen + prdsiItems[dwRecDeepCurPos].dwFileNameLen);
-
-								if (pdwRetFilePathLen) (*pdwRetFilePathLen) = dwFilePathLen;
-								if (lpszRetFilePathName && dwRetFilePathLen) {
-									dwFilePathLen = min(dwFilePathLen, dwRetFilePathLen);
-									memcpy(lpszRetFilePathName, szPath, ((dwFilePathLen + 1)*sizeof(WCHAR)));
-								}
-
-								dwRetErrorCode = NO_ERROR;
-							}
-						}
-					}
-
-					if (prdsiItems) FindClose(prdsiItems[dwRecDeepCurPos].hFind);
-					dwRecDeepCurPos--;
-				}
-				while (dwRecDeepCurPos != -1);
-			}
-			mir_free(prdsiItems);
-		}
-		else dwRetErrorCode = GetLastError();
+	DWORD dwRetErrorCode = ERROR_FILE_NOT_FOUND;
+	dwPathLen = dwFolderLen;
+	memcpy(szPath, lpszFolder, (dwPathLen*sizeof(WCHAR)));
+	if (szPath[(dwPathLen - 1)] != '\\') {
+		szPath[dwPathLen] = '\\';
+		dwPathLen++;
 	}
-	else dwRetErrorCode = ERROR_INVALID_HANDLE;
+	szPath[dwPathLen] = 0;
+	mir_tstrcat(szPath, _T("*.*"));
+
+	prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
+	prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
+	if (prdsiItems[dwRecDeepCurPos].hFind != INVALID_HANDLE_VALUE) {
+		do {
+			dwPathLen -= prdsiItems[dwRecDeepCurPos].dwFileNameLen;
+
+			while (dwRetErrorCode == ERROR_FILE_NOT_FOUND && FindNextFile(prdsiItems[dwRecDeepCurPos].hFind, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData)) {
+				if (prdsiItems[dwRecDeepCurPos].w32fdFindFileData.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) {// folder
+					if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T("."), 1) != CSTR_EQUAL)
+					if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, _T(".."), 2) != CSTR_EQUAL) {
+						prdsiItems[dwRecDeepCurPos].dwFileNameLen = (mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName) + 1);
+						memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, (prdsiItems[dwRecDeepCurPos].dwFileNameLen*sizeof(WCHAR)));
+						mir_tstrcat(szPath, _T("\\*.*"));
+						dwPathLen += prdsiItems[dwRecDeepCurPos].dwFileNameLen;
+
+						dwRecDeepCurPos++;
+						if (dwRecDeepCurPos == dwRecDeepAllocated) { // need more space
+							dwRecDeepAllocated += RECURSION_DATA_STACK_ITEMS_MIN;
+							prdsiItems = (RECURSION_DATA_STACK_ITEM*)mir_realloc(prdsiItems, dwRecDeepAllocated*sizeof(RECURSION_DATA_STACK_ITEM));
+							if (prdsiItems == NULL) {
+								dwRecDeepCurPos = 0;
+								dwRetErrorCode = GetLastError();
+								break;
+							}
+						}
+						prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
+					}
+				}
+				else {// file
+					if (CompareString(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, -1, lpszFileName, dwFileNameLen) == CSTR_EQUAL) {
+						prdsiItems[dwRecDeepCurPos].dwFileNameLen = mir_wstrlen(prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName);
+						memcpy((szPath + dwPathLen), prdsiItems[dwRecDeepCurPos].w32fdFindFileData.cFileName, ((prdsiItems[dwRecDeepCurPos].dwFileNameLen + 1)*sizeof(WCHAR)));
+						dwFilePathLen = (dwPathLen + prdsiItems[dwRecDeepCurPos].dwFileNameLen);
+
+						if (pdwRetFilePathLen) (*pdwRetFilePathLen) = dwFilePathLen;
+						if (lpszRetFilePathName && dwRetFilePathLen) {
+							dwFilePathLen = min(dwFilePathLen, dwRetFilePathLen);
+							memcpy(lpszRetFilePathName, szPath, ((dwFilePathLen + 1)*sizeof(WCHAR)));
+						}
+
+						dwRetErrorCode = NO_ERROR;
+					}
+				}
+			}
+
+			if (prdsiItems) FindClose(prdsiItems[dwRecDeepCurPos].hFind);
+			dwRecDeepCurPos--;
+		}
+			while (dwRecDeepCurPos != -1);
+	}
+	mir_free(prdsiItems);
 
 	return dwRetErrorCode;
 }
