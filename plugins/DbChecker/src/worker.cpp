@@ -72,7 +72,7 @@ static void Finalize(time_t& ts)
 			AddToStatus(STATUS_WARNING, TranslateT("Unable to rename output file"));
 }
 
-void __cdecl WorkerThread(void *unused)
+void __cdecl WorkerThread(void *)
 {
 	int task, firstTime;
 	time_t ts = time(NULL);

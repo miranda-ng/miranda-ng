@@ -7,7 +7,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -42,10 +42,10 @@ void AddToStatus(int flags, const TCHAR* fmt, ...)
 	InvalidateRect(hwndStatus, NULL, FALSE);
 	SendMessage(hwndStatus, LB_SETTOPINDEX, i, 0);
 
-	#ifdef _DEBUG
-		OutputDebugString(str);
-		OutputDebugStringA("\n");
-	#endif
+#ifdef _DEBUG
+	OutputDebugString(str);
+	OutputDebugStringA("\n");
+#endif
 
 	switch (flags & STATUS_CLASSMASK) {
 	case STATUS_ERROR:
@@ -74,7 +74,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 	if (DoMyControlProcessing(hdlg, message, wParam, lParam, &bReturn))
 		return bReturn;
 
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
 		EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
 		hdlgProgress = hdlg;
@@ -112,45 +112,45 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		return TRUE;
 
 	case WM_MEASUREITEM:
-		{
-			LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
-			mis->itemWidth = listWidth;
-			mis->itemHeight = fontHeight;
-		}
-		return TRUE;
+	{
+		LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
+		mis->itemWidth = listWidth;
+		mis->itemHeight = fontHeight;
+	}
+	return TRUE;
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-			TCHAR str[256];
-			int bold = 0;
-			HFONT hoFont;
-			if ((int)dis->itemID == -1) break;
-			SendMessage(dis->hwndItem, LB_GETTEXT, dis->itemID, (LPARAM)str);
-			switch(dis->itemData & STATUS_CLASSMASK) {
-			case STATUS_MESSAGE:
-				SetTextColor(dis->hDC, RGB(0, 0, 0));
-				break;
-			case STATUS_WARNING:
-				SetTextColor(dis->hDC, RGB(192, 128, 0));
-				break;
-			case STATUS_ERROR:
-				SetTextColor(dis->hDC, RGB(192, 0, 0));
-				break;
-			case STATUS_FATAL:
-				bold = 1;
-				SetTextColor(dis->hDC, RGB(192, 0, 0));
-				break;
-			case STATUS_SUCCESS:
-				bold = 1;
-				SetTextColor(dis->hDC, RGB(0, 192, 0));
-				break;
-			}
-			if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
-			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED|ETO_OPAQUE, &dis->rcItem, str, (UINT)_tcslen(str), NULL);
-			if (bold) SelectObject(dis->hDC, hoFont);
+	{
+		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+		TCHAR str[256];
+		int bold = 0;
+		HFONT hoFont = NULL;
+		if ((int)dis->itemID == -1) break;
+		SendMessage(dis->hwndItem, LB_GETTEXT, dis->itemID, (LPARAM)str);
+		switch (dis->itemData & STATUS_CLASSMASK) {
+		case STATUS_MESSAGE:
+			SetTextColor(dis->hDC, RGB(0, 0, 0));
+			break;
+		case STATUS_WARNING:
+			SetTextColor(dis->hDC, RGB(192, 128, 0));
+			break;
+		case STATUS_ERROR:
+			SetTextColor(dis->hDC, RGB(192, 0, 0));
+			break;
+		case STATUS_FATAL:
+			bold = 1;
+			SetTextColor(dis->hDC, RGB(192, 0, 0));
+			break;
+		case STATUS_SUCCESS:
+			bold = 1;
+			SetTextColor(dis->hDC, RGB(0, 192, 0));
+			break;
 		}
-		return TRUE;
+		if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
+		ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)_tcslen(str), NULL);
+		if (bold) SelectObject(dis->hDC, hoFont);
+	}
+	return TRUE;
 
 	case WM_PROCESSINGDONE:
 		SetProgressBar(1000);
@@ -202,7 +202,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		return TRUE;
 
 	case WM_COMMAND:
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDC_BACK:
 			ResetEvent(hEventRun);
 			if (!IsWindowEnabled(GetDlgItem(GetParent(hdlg), IDOK))) {
