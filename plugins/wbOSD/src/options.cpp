@@ -233,16 +233,16 @@ INT_PTR CALLBACK OptDlgProc(HWND hDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			CheckDlgButton(hDlg, IDC_RADIO1+ps->align-1, BST_CHECKED);
 			CheckDlgButton(hDlg, IDC_RADIO10+9-ps->salign, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECK1, ps->altShadow);
-			CheckDlgButton(hDlg, IDC_CHECK2, ps->showMsgWindow);
-			CheckDlgButton(hDlg, IDC_CHECK3, ps->transparent);
-			CheckDlgButton(hDlg, IDC_CHECK4, ps->showShadow);
-			CheckDlgButton(hDlg, IDC_CHECK5, ps->messages);
+			CheckDlgButton(hDlg, IDC_CHECK1, ps->altShadow ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, IDC_CHECK2, ps->showMsgWindow ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, IDC_CHECK3, ps->transparent ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, IDC_CHECK4, ps->showShadow ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, IDC_CHECK5, ps->messages ? BST_CHECKED : BST_UNCHECKED);
 			
 			SetDlgItemText(hDlg, IDC_EDIT2, ps->msgformat);
 
-			CheckDlgButton(hDlg, IDC_CHECK6, ps->a_user);
-			CheckDlgButton(hDlg, IDC_CHECK7, ps->showmystatus);
+			CheckDlgButton(hDlg, IDC_CHECK6, ps->a_user ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, IDC_CHECK7, ps->showmystatus ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hDlg, IDC_EDIT1, ps->distance, 0);
 
 			SendDlgItemMessage(hDlg, IDC_SLIDER1, TBM_SETRANGE, 0, MAKELONG(0, 255));

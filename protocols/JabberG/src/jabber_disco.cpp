@@ -648,7 +648,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 	m_btnViewAsTree.MakePush();
 	m_btnBookmarks.MakePush();
 
-	CheckDlgButton(m_hwnd, m_proto->getByte("discoWnd_useTree", 1) ? IDC_BTN_VIEWTREE : IDC_BTN_VIEWLIST, TRUE);
+	CheckDlgButton(m_hwnd, m_proto->getByte("discoWnd_useTree", 1) ? IDC_BTN_VIEWTREE : IDC_BTN_VIEWLIST, BST_CHECKED);
 
 	EnableWindow(GetDlgItem(m_hwnd, IDC_BTN_FILTERRESET), FALSE);
 
@@ -776,15 +776,15 @@ int CJabberDlgDiscovery::Resizer(UTILRESIZECONTROL *urc)
 
 void CJabberDlgDiscovery::btnViewAsTree_OnClick(CCtrlButton *)
 {
-	CheckDlgButton(m_hwnd, IDC_BTN_VIEWLIST, FALSE);
-	CheckDlgButton(m_hwnd, IDC_BTN_VIEWTREE, TRUE);
+	CheckDlgButton(m_hwnd, IDC_BTN_VIEWLIST, BST_UNCHECKED);
+	CheckDlgButton(m_hwnd, IDC_BTN_VIEWTREE, BST_CHECKED);
 	TreeList_SetMode(GetDlgItem(m_hwnd, IDC_TREE_DISCO), TLM_TREE);
 }
 
 void CJabberDlgDiscovery::btnViewAsList_OnClick(CCtrlButton *)
 {
-	CheckDlgButton(m_hwnd, IDC_BTN_VIEWLIST, TRUE);
-	CheckDlgButton(m_hwnd, IDC_BTN_VIEWTREE, FALSE);
+	CheckDlgButton(m_hwnd, IDC_BTN_VIEWLIST, BST_CHECKED);
+	CheckDlgButton(m_hwnd, IDC_BTN_VIEWTREE, BST_UNCHECKED);
 	TreeList_SetMode(GetDlgItem(m_hwnd, IDC_TREE_DISCO), TLM_REPORT);
 }
 
@@ -825,9 +825,9 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 	AppendMenu(hMenu, MF_STRING, 10+SD_BROWSE_CONFERENCES, TranslateT("Browse chatrooms"));
 
 	RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FAVORITE), &rc);
-	CheckDlgButton(m_hwnd, IDC_BTN_FAVORITE, TRUE);
+	CheckDlgButton(m_hwnd, IDC_BTN_FAVORITE, BST_CHECKED);
 	res = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL);
-	CheckDlgButton(m_hwnd, IDC_BTN_FAVORITE, FALSE);
+	CheckDlgButton(m_hwnd, IDC_BTN_FAVORITE, BST_UNCHECKED);
 	DestroyMenu(hMenu);
 
 	if (res >= 100) {
@@ -892,7 +892,7 @@ void CJabberDlgDiscovery::btnBookmarks_OnClick(CCtrlButton *)
 		PostMessage(m_hwnd, WM_COMMAND, MAKEWPARAM(IDC_BUTTON_BROWSE, 0), 0);
 	}
 
-	CheckDlgButton(m_hwnd, IDC_BTN_FAVORITE, FALSE);
+	CheckDlgButton(m_hwnd, IDC_BTN_FAVORITE, BST_UNCHECKED);
 }
 
 void CJabberDlgDiscovery::btnRefresh_OnClick(CCtrlButton *)

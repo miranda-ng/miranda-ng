@@ -598,7 +598,7 @@ static void UpdateFilters()
 	}
 	SendDlgItemMessage(clvmHwnd, IDC_PROTOGROUPOP, CB_SETCURSEL, dwFlags & CLVM_PROTOGROUP_OP ? 1 : 0, 0);
 	SendDlgItemMessage(clvmHwnd, IDC_GROUPSTATUSOP, CB_SETCURSEL, dwFlags & CLVM_GROUPSTATUS_OP ? 1 : 0, 0);
-	CheckDlgButton(clvmHwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? 1 : 0);
+	CheckDlgButton(clvmHwnd, IDC_AUTOCLEAR, dwFlags & CLVM_AUTOCLEAR ? BST_CHECKED : BST_UNCHECKED);
 	UpdateStickies();
 
 	{
@@ -609,8 +609,8 @@ static void UpdateFilters()
 		DWORD lmdat;
 		BYTE bTmp;
 
-		CheckDlgButton(clvmHwnd, IDC_LASTMSG, useLastMsg);
-		CheckDlgButton(clvmHwnd, IDC_USEGROUPS, useGroupsState);
+		CheckDlgButton(clvmHwnd, IDC_LASTMSG, useLastMsg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(clvmHwnd, IDC_USEGROUPS, useGroupsState ? BST_CHECKED : BST_UNCHECKED);
 
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMESSAGEOP), useLastMsg);
 		EnableWindow(GetDlgItem(clvmHwnd, IDC_LASTMSGVALUE), useLastMsg);

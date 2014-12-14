@@ -57,15 +57,15 @@ static void SetDialogItems(HWND hwndDlg, TAAAProtoSetting *setting)
 	bool bSaver = (setting->optionFlags & FLAG_ONSAVER) != 0;
 	bool bFullScr = (setting->optionFlags & FLAG_FULLSCREEN) != 0;
 
-	CheckDlgButton(hwndDlg, IDC_FULLSCREEN, bFullScr);
-	CheckDlgButton(hwndDlg, IDC_SCREENSAVE, bSaver);
-	CheckDlgButton(hwndDlg, IDC_ONLOCK, (setting->optionFlags & FLAG_ONLOCK) != 0);
-	CheckDlgButton(hwndDlg, IDC_TIMED, bIsTimed);
-	CheckDlgButton(hwndDlg, IDC_SETNA, bSetNA);
-	CheckDlgButton(hwndDlg, IDC_CONFIRM, (setting->optionFlags & FLAG_CONFIRM) != 0);
-	CheckDlgButton(hwndDlg, IDC_RESETSTATUS, (setting->optionFlags & FLAG_RESET) != 0);
-	CheckDlgButton(hwndDlg, IDC_MONITORMIRANDA, (setting->optionFlags & FLAG_MONITORMIRANDA) != 0);
-	CheckDlgButton(hwndDlg, IDC_LV2ONINACTIVE, (setting->optionFlags & FLAG_LV2ONINACTIVE) != 0);
+	CheckDlgButton(hwndDlg, IDC_FULLSCREEN, bFullScr ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SCREENSAVE, bSaver ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_ONLOCK, (setting->optionFlags & FLAG_ONLOCK) != 0 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_TIMED, bIsTimed ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SETNA, bSetNA ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_CONFIRM, (setting->optionFlags & FLAG_CONFIRM) != 0 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_RESETSTATUS, (setting->optionFlags & FLAG_RESET) != 0 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_MONITORMIRANDA, (setting->optionFlags & FLAG_MONITORMIRANDA) != 0 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_LV2ONINACTIVE, (setting->optionFlags & FLAG_LV2ONINACTIVE) != 0 ? BST_CHECKED : BST_UNCHECKED);
 
 	SetDlgItemInt(hwndDlg, IDC_AWAYTIME, setting->awayTime, FALSE);
 	SetDlgItemInt(hwndDlg, IDC_NATIME, setting->naTime, FALSE);
@@ -360,11 +360,11 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_IGNLOCK, db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE) != 0);
-		CheckDlgButton(hwndDlg, IDC_IGNSYSKEYS, db_get_b(NULL, MODULENAME, SETTING_IGNSYSKEYS, FALSE) != 0);
-		CheckDlgButton(hwndDlg, IDC_IGNALTCOMBO, db_get_b(NULL, MODULENAME, SETTING_IGNALTCOMBO, FALSE) != 0);
-		CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, db_get_b(NULL, MODULENAME, SETTING_MONITORMOUSE, TRUE) != 0);
-		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, db_get_b(NULL, MODULENAME, SETTING_MONITORKEYBOARD, TRUE) != 0);
+		CheckDlgButton(hwndDlg, IDC_IGNLOCK, db_get_b(NULL, MODULENAME, SETTING_IGNLOCK, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNSYSKEYS, db_get_b(NULL, MODULENAME, SETTING_IGNSYSKEYS, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IGNALTCOMBO, db_get_b(NULL, MODULENAME, SETTING_IGNALTCOMBO, FALSE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, db_get_b(NULL, MODULENAME, SETTING_MONITORMOUSE, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, db_get_b(NULL, MODULENAME, SETTING_MONITORKEYBOARD, BST_CHECKED) != 0 ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, db_get_w(NULL, MODULENAME, SETTING_AWAYCHECKTIMEINSECS, 5), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, db_get_w(NULL, MODULENAME, SETTING_CONFIRMDELAY, 5), FALSE);
 		CheckDlgButton(hwndDlg, bSettingSame ? IDC_SAMESETTINGS : IDC_PERPROTOCOLSETTINGS, BST_CHECKED);
@@ -381,11 +381,11 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 
 		switch(LOWORD(wParam)) {
 		case IDC_MONITORMOUSE:
-			CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, (((!IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))&&(!IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)))||(IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))?BST_CHECKED:BST_UNCHECKED));
+			CheckDlgButton(hwndDlg, IDC_MONITORMOUSE, (((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))&&(BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)))||(IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE)) ? BST_CHECKED : BST_UNCHECKED));
 			break;
 
 		case IDC_MONITORKEYBOARD:
-			CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, (((!IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))&&(!IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)))||(IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD))?BST_CHECKED:BST_UNCHECKED));
+			CheckDlgButton(hwndDlg, IDC_MONITORKEYBOARD, (((BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE))&&(BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)))||(IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD)) ? BST_CHECKED : BST_UNCHECKED));
 			break;
 
 		case IDC_SAMESETTINGS:

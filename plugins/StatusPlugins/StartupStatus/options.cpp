@@ -265,16 +265,16 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		bInitDone = FALSE;
 
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_SETPROFILE, db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_OVERRIDE, db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, db_get_b(NULL, MODULENAME, SETTING_SHOWDIALOG, 0)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_SETWINSTATE, db_get_b(NULL, MODULENAME, SETTING_SETWINSTATE, 0)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_SETWINLOCATION, db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_SETDOCKED, db_get_b(NULL, MODULENAME, SETTING_SETDOCKED, 0)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_SETWINSIZE, db_get_b(NULL, MODULENAME, SETTING_SETWINSIZE, 0)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_OFFLINECLOSE, db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 1)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_AUTODIAL, db_get_b(NULL, MODULENAME, SETTING_AUTODIAL, 0)?TRUE:FALSE);
-		CheckDlgButton(hwndDlg, IDC_AUTOHANGUP, db_get_b(NULL, MODULENAME, SETTING_AUTOHANGUP, 0)?TRUE:FALSE);
+		CheckDlgButton(hwndDlg, IDC_SETPROFILE, db_get_b(NULL, MODULENAME, SETTING_SETPROFILE, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OVERRIDE, db_get_b(NULL, MODULENAME, SETTING_OVERRIDE, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, db_get_b(NULL, MODULENAME, SETTING_SHOWDIALOG, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SETWINSTATE, db_get_b(NULL, MODULENAME, SETTING_SETWINSTATE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SETWINLOCATION, db_get_b(NULL, MODULENAME, SETTING_SETWINLOCATION, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SETDOCKED, db_get_b(NULL, MODULENAME, SETTING_SETDOCKED, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SETWINSIZE, db_get_b(NULL, MODULENAME, SETTING_SETWINSIZE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_OFFLINECLOSE, db_get_b(NULL, MODULENAME, SETTING_OFFLINECLOSE, 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTODIAL, db_get_b(NULL, MODULENAME, SETTING_AUTODIAL, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOHANGUP, db_get_b(NULL, MODULENAME, SETTING_AUTOHANGUP, 0) ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemInt(hwndDlg, IDC_SETPROFILEDELAY, db_get_dw(NULL, MODULENAME, SETTING_SETPROFILEDELAY, 500), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_DLGTIMEOUT, db_get_dw(NULL, MODULENAME, SETTING_DLGTIMEOUT, 5), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_XPOS, db_get_dw(NULL, MODULENAME, SETTING_XPOS, 0), TRUE);
@@ -315,7 +315,7 @@ static INT_PTR CALLBACK StartupStatusOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wPa
 		break;
 
 	case WM_TIMER:
-		if ( !IsDlgButtonChecked(hwndDlg, IDC_SETWINLOCATION) && !IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE)) {
+		if ( BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SETWINLOCATION) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SETWINSIZE)) {
 			SetDlgItemTextA(hwndDlg, IDC_CURWINSIZE, "");
 			SetDlgItemTextA(hwndDlg, IDC_CURWINLOC, "");
 			break;
@@ -580,12 +580,12 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		{
 			int sel = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA,
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-			CheckDlgButton(hwndDlg, IDC_CREATETTB, arProfiles[sel].createTtb?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, arProfiles[sel].showDialog?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CREATEMMI, arProfiles[sel].createMmi?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_INSUBMENU, arProfiles[sel].inSubMenu?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CREATETTB, arProfiles[sel].createTtb ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWDIALOG, arProfiles[sel].showDialog ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CREATEMMI, arProfiles[sel].createMmi ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_INSUBMENU, arProfiles[sel].inSubMenu ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_INSUBMENU), IsDlgButtonChecked(hwndDlg, IDC_CREATEMMI));
-			CheckDlgButton(hwndDlg, IDC_REGHOTKEY, arProfiles[sel].regHotkey?BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_REGHOTKEY, arProfiles[sel].regHotkey ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_SETHOTKEY, arProfiles[sel].hotKey, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), IsDlgButtonChecked(hwndDlg, IDC_REGHOTKEY));
 			SendDlgItemMessage(hwndDlg, IDC_PROTOCOL, LB_RESETCONTENT, 0, 0);

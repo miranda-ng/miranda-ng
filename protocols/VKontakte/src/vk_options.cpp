@@ -119,19 +119,19 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			SetDlgItemText(hwndDlg, IDC_GROUPNAME, ppro->getGroup());
 		}
 
-		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery);
-		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime);
-		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0));
+		CheckDlgButton(hwndDlg, IDC_DELIVERY, ppro->m_bServerDelivery ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USE_LOCAL_TIME, ppro->m_bUseLocalTime ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTOCLEAN, ppro->getByte("AutoClean", 0) ? BST_CHECKED : BST_UNCHECKED);
 		
-		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead));
-		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive));
-		CheckDlgButton(hwndDlg, IDC_ONREPLY, (ppro->m_iMarkMessageReadOn == markOnReply));
-		CheckDlgButton(hwndDlg, IDC_ONTYPING, (ppro->m_iMarkMessageReadOn == markOnTyping));
+		CheckDlgButton(hwndDlg, IDC_ONREAD, (ppro->m_iMarkMessageReadOn == markOnRead) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONRECEIVE, (ppro->m_iMarkMessageReadOn == markOnReceive) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONREPLY, (ppro->m_iMarkMessageReadOn == markOnReply) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONTYPING, (ppro->m_iMarkMessageReadOn == markOnTyping) ? BST_CHECKED : BST_UNCHECKED);
 		
-		CheckDlgButton(hwndDlg, IDC_SYNC_OFF, (ppro->m_iSyncHistoryMetod == syncOff));
-		CheckDlgButton(hwndDlg, IDC_SYNC_AUTO, (ppro->m_iSyncHistoryMetod == syncAuto));
-		CheckDlgButton(hwndDlg, IDC_SYNC_LAST1DAY, (ppro->m_iSyncHistoryMetod == sync1Days));
-		CheckDlgButton(hwndDlg, IDC_SYNC_LAST3DAY, (ppro->m_iSyncHistoryMetod == sync3Days));
+		CheckDlgButton(hwndDlg, IDC_SYNC_OFF, (ppro->m_iSyncHistoryMetod == syncOff) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SYNC_AUTO, (ppro->m_iSyncHistoryMetod == syncAuto) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SYNC_LAST1DAY, (ppro->m_iSyncHistoryMetod == sync1Days) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SYNC_LAST3DAY, (ppro->m_iSyncHistoryMetod == sync3Days) ? BST_CHECKED : BST_UNCHECKED);
 		
 		return TRUE;
 
@@ -242,21 +242,21 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, 1));
 		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
 
-		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats);
-		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread);
-		CheckDlgButton(hwndDlg, IDC_ADD_IMG_BBC, ppro->m_bAddImgBbc);
-		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles);
-		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity);
+		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ADD_IMG_BBC, ppro->m_bAddImgBbc ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse);
-		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory);
-		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_FRENDLIST, ppro->m_bRemoveFromFrendlist);
-		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_CLIST, ppro->m_bRemoveFromClist);
+		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_FRENDLIST, ppro->m_bRemoveFromFrendlist ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_REMOVE_FROM_CLIST, ppro->m_bRemoveFromClist ? BST_CHECKED : BST_UNCHECKED);
 		
-		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_NONE, (ppro->m_iMusicSendMetod == sendNone));
-		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST, (ppro->m_iMusicSendMetod == sendBroadcastOnly));
-		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_STATUS, (ppro->m_iMusicSendMetod == sendStatusOnly));
-		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST_AND_STATUS, (ppro->m_iMusicSendMetod == sendBroadcastAndStatus));
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_NONE, (ppro->m_iMusicSendMetod == sendNone) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST, (ppro->m_iMusicSendMetod == sendBroadcastOnly) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_STATUS, (ppro->m_iMusicSendMetod == sendStatusOnly) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST_AND_STATUS, (ppro->m_iMusicSendMetod == sendBroadcastAndStatus) ? BST_CHECKED : BST_UNCHECKED);
 
 		return TRUE;
 

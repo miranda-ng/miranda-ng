@@ -47,7 +47,7 @@ INT_PTR CALLBACK LoginPasswdDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			SendDlgItemMessage(hwndDlg, IDC_LOGINPW, EM_LIMITTEXT, PASSWORDMAXLEN - 1, 0);
 
-			CheckDlgButton(hwndDlg, IDC_SAVEPASS, ppro->getByte("RememberPass", 0));
+			CheckDlgButton(hwndDlg, IDC_SAVEPASS, ppro->getByte("RememberPass", 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		break;
 

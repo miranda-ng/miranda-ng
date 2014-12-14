@@ -119,9 +119,9 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		s = mir_utf8decodeT(proto->options.pword); SetDlgItemText(hwndDlg, IDC_ED_PWORD, s); mir_free(s);
 
 		SetDlgItemInt(hwndDlg, IDC_ED_PORT, proto->options.port, FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_GETSERVERCONTACTS, proto->options.get_server_contacts ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_ADDCONTACTS, proto->options.add_contacts ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_IDLEAWAY, proto->options.idle_as_away ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_CHK_GETSERVERCONTACTS, proto->options.get_server_contacts ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ADDCONTACTS, proto->options.add_contacts ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_IDLEAWAY, proto->options.idle_as_away ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_CMB_CLIENT, CB_RESETCONTENT, 0, 0);
 		int pos = 0;
@@ -171,15 +171,15 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		}
 
 		switch (proto->options.err_method) {
-			case ED_POP: CheckDlgButton(hwndDlg, IDC_RAD_ERRPOP, TRUE); break;
-			case ED_MB: CheckDlgButton(hwndDlg, IDC_RAD_ERRMB, TRUE); break;
-			case ED_BAL: CheckDlgButton(hwndDlg, IDC_RAD_ERRBAL, TRUE); break;
+			case ED_POP: CheckDlgButton(hwndDlg, IDC_RAD_ERRPOP, BST_CHECKED); break;
+			case ED_MB: CheckDlgButton(hwndDlg, IDC_RAD_ERRMB, BST_CHECKED); break;
+			case ED_BAL: CheckDlgButton(hwndDlg, IDC_RAD_ERRBAL, BST_CHECKED); break;
 		}
 
 		if (proto->options.encrypt_session)
-			CheckDlgButton(hwndDlg, IDC_RAD_ENC, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_ENC, BST_CHECKED);
 		else
-			CheckDlgButton(hwndDlg, IDC_RAD_NOENC, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_NOENC, BST_CHECKED);
 
 		return FALSE;
 	}
@@ -276,7 +276,7 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			case IDC_RAD_UTF7:
 			case IDC_RAD_USERCP:
 				HWND hw = GetDlgItem(hwndDlg, IDC_CHK_USERCP);
-				EnableWindow(hw, !IsDlgButtonChecked(hwndDlg, IDC_RAD_USERCP));
+				EnableWindow(hw, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_RAD_USERCP));
 
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				return TRUE;

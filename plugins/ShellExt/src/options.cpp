@@ -45,7 +45,7 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
       AutoSize(GetDlgItem(hwndDlg, IDC_CAPSHLSTATUS));
       // show all the options
       iCheck = db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED);
-      CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck);
+      CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck ? BST_CHECKED : BST_UNCHECKED);
       EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), iCheck = BST_CHECKED);
       CheckDlgButton(hwndDlg, IDC_CLISTGROUPS,
          db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED));

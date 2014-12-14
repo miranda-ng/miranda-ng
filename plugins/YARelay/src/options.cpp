@@ -85,26 +85,26 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 		}
 
 		if (hForwardFrom == 0)
-			SendDlgItemMessage(hwndDlg, IDC_RADIO_ALL, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_RADIO_ALL, BST_CHECKED);
 		else
-			SendDlgItemMessage(hwndDlg, IDC_RADIO_CUSTOM, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_RADIO_CUSTOM, BST_CHECKED);
 
 		// forward on statuses
-		if (iForwardOnStatus & STATUS_OFFLINE  ) SendDlgItemMessage(hwndDlg, IDC_CHECK1, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_ONLINE   ) SendDlgItemMessage(hwndDlg, IDC_CHECK2, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_AWAY     ) SendDlgItemMessage(hwndDlg, IDC_CHECK3, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_NA       ) SendDlgItemMessage(hwndDlg, IDC_CHECK4, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_OCCUPIED ) SendDlgItemMessage(hwndDlg, IDC_CHECK5, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_DND      ) SendDlgItemMessage(hwndDlg, IDC_CHECK6, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_FREECHAT ) SendDlgItemMessage(hwndDlg, IDC_CHECK7, BM_SETCHECK, BST_CHECKED, 0);
-		if (iForwardOnStatus & STATUS_INVISIBLE) SendDlgItemMessage(hwndDlg, IDC_CHECK8, BM_SETCHECK, BST_CHECKED, 0);
+		if (iForwardOnStatus & STATUS_OFFLINE  ) CheckDlgButton(hwndDlg, IDC_CHECK1, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_ONLINE   ) CheckDlgButton(hwndDlg, IDC_CHECK2, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_AWAY     ) CheckDlgButton(hwndDlg, IDC_CHECK3, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_NA       ) CheckDlgButton(hwndDlg, IDC_CHECK4, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_OCCUPIED ) CheckDlgButton(hwndDlg, IDC_CHECK5, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_DND      ) CheckDlgButton(hwndDlg, IDC_CHECK6, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_FREECHAT ) CheckDlgButton(hwndDlg, IDC_CHECK7, BST_CHECKED);
+		if (iForwardOnStatus & STATUS_INVISIBLE) CheckDlgButton(hwndDlg, IDC_CHECK8, BST_CHECKED);
 
 		// template
 		SetDlgItemText(hwndDlg, IDC_EDIT_TEMPLATE, tszForwardTemplate);
 
 		// split
 		if (iSplit > 0)
-			SendDlgItemMessage(hwndDlg, IDC_CHECK_SPLIT, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_CHECK_SPLIT, BST_CHECKED);
 
 		// max size
 		SetDlgItemInt(hwndDlg, IDC_EDIT_MAXSIZE, iSplitMaxSize, FALSE);
@@ -114,11 +114,11 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 		// mark 'read'
 		if (iMarkRead > 0)
-			SendDlgItemMessage(hwndDlg, IDC_CHECK_MARKREAD, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_CHECK_MARKREAD, BST_CHECKED);
 
 		// send and save
 		if (iSendAndHistory > 0)
-			SendDlgItemMessage(hwndDlg, IDC_CHECK_SAVEHISTORY, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_CHECK_SAVEHISTORY, BST_CHECKED);
 
 		// enable/disable controls
 		OptionsFrameEnableControls(hwndDlg);

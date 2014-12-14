@@ -119,7 +119,7 @@ int CJabberProto::AdHoc_ExecuteCommand(HWND hwndDlg, TCHAR*, JabberAdHocData* da
 		if (!itemNode)
 			break;
 
-		if (!IsDlgButtonChecked(GetDlgItem(hwndDlg, IDC_FRAME), i))
+		if (BST_UNCHECKED == IsDlgButtonChecked(GetDlgItem(hwndDlg, IDC_FRAME), i))
 			continue;
 
 		const TCHAR *node = xmlGetAttrValue(itemNode, _T("node"));

@@ -49,17 +49,17 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 		if (item = param->m_item) {
 			if (!mir_tstrcmp(item->type, _T("conference"))) {
 				if (!_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
-					SendDlgItemMessage(hwndDlg, IDC_AGENT_RADIO, BM_SETCHECK, BST_CHECKED, 0);
+					CheckDlgButton(hwndDlg, IDC_AGENT_RADIO, BST_CHECKED);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
 				}
-				else SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_SETCHECK, BST_CHECKED, 0);
+				else CheckDlgButton(hwndDlg, IDC_ROOM_RADIO, BST_CHECKED);
 			}
 			else {
-				SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hwndDlg, IDC_URL_RADIO, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-				SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
 			}
 
@@ -72,13 +72,13 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 			if (item->name) SetDlgItemText(hwndDlg, IDC_NAME, item->name);
 			if (item->nick) SetDlgItemText(hwndDlg, IDC_NICK, item->nick);
 			if (item->password) SetDlgItemText(hwndDlg, IDC_PASSWORD, item->password);
-			if (item->bAutoJoin) SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_CHECKED, 0);
+			if (item->bAutoJoin) CheckDlgButton(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BST_CHECKED);
 			if (IsDlgButtonChecked(hwndDlg, IDC_ROOM_RADIO) == BST_CHECKED)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE);
 		}
 		else {
 			EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
-			SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_SETCHECK, BST_CHECKED, 0);
+			CheckDlgButton(hwndDlg, IDC_ROOM_RADIO, BST_CHECKED);
 		}
 		return TRUE;
 
@@ -95,7 +95,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM 
 			case IDC_URL_RADIO:
 				EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
-				SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
 				break;
 			}

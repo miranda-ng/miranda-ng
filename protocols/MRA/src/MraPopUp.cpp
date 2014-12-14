@@ -45,11 +45,11 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 				DWORD dwType = GET_CURRENT_COMBO_DATA(hWndDlg, IDC_COMBO_POPUP_TYPE);
 
 				bEnabled = GetBit(ppro->getDword("PopupsEventFilter", MRA_DEFAULT_POPUPS_EVENT_FILTER), dwType);
-				CheckDlgButton(hWndDlg, IDC_CHK_ENABLE, bEnabled);
+				CheckDlgButton(hWndDlg, IDC_CHK_ENABLE, bEnabled ? BST_CHECKED : BST_UNCHECKED);
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SUseWinColors", lpcwszPopupsTypes[dwType]);
 				bUseWinColors = ppro->getByte(szBuff, MRA_DEFAULT_POPUP_USE_WIN_COLORS);
-				CheckDlgButton(hWndDlg, IDC_CHK_USE_WIN_COLORS, bUseWinColors);
+				CheckDlgButton(hWndDlg, IDC_CHK_USE_WIN_COLORS, bUseWinColors ? BST_CHECKED : BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hWndDlg, IDC_CHK_USE_WIN_COLORS), bEnabled);
 
 				mir_snprintf(szBuff, SIZEOF(szBuff), "PopupType%SColorBack", lpcwszPopupsTypes[dwType]);

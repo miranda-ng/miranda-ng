@@ -81,18 +81,18 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, lParam);
 		ppro = (CMraProto*)lParam;
 		{
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN));
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, ppro->getByte("FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV));
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND, ppro->getByte("FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND));
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS, ppro->getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS));
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES, ppro->getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES));
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS, ppro->getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ENABLE_DIRECT_CONN, ppro->getByte("FileSendEnableDirectConn", MRA_DEF_FS_ENABLE_DIRECT_CONN) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, ppro->getByte("FileSendNoOutConnOnRcv", MRA_DEF_FS_NO_OUT_CONN_ON_RCV) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_NOOUTCONNECTIONONSEND, ppro->getByte("FileSendNoOutConnOnSend", MRA_DEF_FS_NO_OUT_CONN_ON_SEND) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_IGNORYADDITIONALPORTS, ppro->getByte("FileSendIgnoryAdditionalPorts", MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_HIDE_MY_ADDRESSES, ppro->getByte("FileSendHideMyAddresses", MRA_DEF_FS_HIDE_MY_ADDRESSES) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ADD_EXTRA_ADDRESS, ppro->getByte("FileSendAddExtraAddresses", MRA_DEF_FS_ADD_EXTRA_ADDRESSES) ? BST_CHECKED : BST_UNCHECKED);
 
 			CMStringW szBuff;
 			if (ppro->mraGetStringW(NULL, "FileSendExtraAddresses", szBuff))
 				SetDlgItemText(hWndDlg, IDC_FILE_SEND_EXTRA_ADDRESS, szBuff.c_str());
 
-			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, ppro->getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS));
+			CheckDlgButton(hWndDlg, IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS, ppro->getByte("FileSendEnableMRIMProxyCons", MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS) ? BST_CHECKED : BST_UNCHECKED);
 
 			SetDlgItemInt(hWndDlg, IDC_FILE_SEND_BLOCK_SIZE, ppro->getDword("FileSendBlockSize", MRA_DEFAULT_FILE_SEND_BLOCK_SIZE), FALSE);
 

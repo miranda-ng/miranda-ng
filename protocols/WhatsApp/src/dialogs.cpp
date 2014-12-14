@@ -15,7 +15,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lparam);
 		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, 3, 0);
 		SendDlgItemMessage(hwndDlg, IDC_PW2, EM_LIMITTEXT, 3, 0);
-		CheckDlgButton(hwndDlg, IDC_SSL, db_get_b(NULL, proto->ModuleName(), WHATSAPP_KEY_SSL, 0));
+		CheckDlgButton(hwndDlg, IDC_SSL, db_get_b(NULL, proto->ModuleName(), WHATSAPP_KEY_SSL, 0) ? BST_CHECKED : BST_UNCHECKED);
 		DBVARIANT dbv;
 
 		if (!db_get_s(0, proto->ModuleName(), WHATSAPP_KEY_CC, &dbv, DBVT_ASCIIZ)) {

@@ -500,24 +500,24 @@ void CTooltipNotify::WriteSettingsToDlg(HWND hDlg)
 	SendDlgItemMessage(hDlg, IDC_DELAYONCONNSPIN, UDM_SETRANGE, 0, MAKELONG(30, 0));
 	SendDlgItemMessage(hDlg, IDC_DELAYONCONNSPIN, UDM_SETPOS, 0, MAKELONG(m_sOptions.wStartupDelay, 0));
 
-	CheckDlgButton(hDlg, IDC_OFFLINE, m_sOptions.bOffline ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_ONLINE, m_sOptions.bOnline ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_OTHER, m_sOptions.bOther ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_TYPING, m_sOptions.bTyping ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_IDLE, m_sOptions.bIdle ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_PREFIX_PROTO, m_sOptions.bPrefixProto ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_X2, m_sOptions.bX2 ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_CONJSOLN, m_sOptions.bConjSOLN ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_AUTOPOS, m_sOptions.bAutoPos ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_BALLONTIP, m_sOptions.bBallonTip ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_TRANSPARENCY, m_sOptions.bTransp ? BST_CHECKED:BST_UNCHECKED);
-	CheckDlgButton(hDlg, IDC_TRANSP_INPUT, m_sOptions.bTranspInput ? BST_CHECKED:BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_OFFLINE, m_sOptions.bOffline ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_ONLINE, m_sOptions.bOnline ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_OTHER, m_sOptions.bOther ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_TYPING, m_sOptions.bTyping ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_IDLE, m_sOptions.bIdle ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_PREFIX_PROTO, m_sOptions.bPrefixProto ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_X2, m_sOptions.bX2 ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_CONJSOLN, m_sOptions.bConjSOLN ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_AUTOPOS, m_sOptions.bAutoPos ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_BALLONTIP, m_sOptions.bBallonTip ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_TRANSPARENCY, m_sOptions.bTransp ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_TRANSP_INPUT, m_sOptions.bTranspInput ? BST_CHECKED : BST_UNCHECKED);
 
 	switch(m_sOptions.bLDblClick)
 	{
-		case SHOW_HIDE_CLIST:	CheckDlgButton(hDlg, IDC_RB_CLIST, TRUE);	break;
-		case OPEN_MSGDLG:		CheckDlgButton(hDlg, IDC_RB_MSGDLG, TRUE);	break;
-		default:				CheckDlgButton(hDlg, IDC_RB_CLIST, TRUE);	break;
+		case SHOW_HIDE_CLIST:	CheckDlgButton(hDlg, IDC_RB_CLIST, BST_CHECKED);	break;
+		case OPEN_MSGDLG:	CheckDlgButton(hDlg, IDC_RB_MSGDLG, BST_CHECKED);	break;
+		default:		CheckDlgButton(hDlg, IDC_RB_CLIST, BST_CHECKED);	break;
 	}
 
 	EnableWindow(GetDlgItem(hDlg, IDC_GB_TRANSP), m_bNt50);
@@ -575,7 +575,7 @@ BOOL CTooltipNotify::OptionsDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 					EnableWindow(GetDlgItem(hDlg, IDC_TRANSPERC), IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED);
 					EnableWindow(GetDlgItem(hDlg, IDC_TRANSPARENCY_SLIDER), IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED);
 					EnableWindow(GetDlgItem(hDlg, IDC_TRANSP_INPUT), IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED);
-					CheckDlgButton(hDlg, IDC_TRANSP_INPUT, IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED ? m_sOptions.bTranspInput : BST_UNCHECKED);
+					CheckDlgButton(hDlg, IDC_TRANSP_INPUT, IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED ? (m_sOptions.bTranspInput ? BST_CHECKED : BST_UNCHECKED) : BST_UNCHECKED);
 					SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(IDC_TRANSP_INPUT, 0), 0);
 					SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);					
 					break;

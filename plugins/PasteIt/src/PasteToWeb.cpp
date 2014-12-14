@@ -189,7 +189,7 @@ INT_PTR CALLBACK DlgProcFromFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if(Options::instance->webOptions[fromFileData->page]->isSendFileName)
 			{
 				bool sendFileName = Options::instance->webOptions[fromFileData->page]->sendFileName;
-				CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, sendFileName ? 1 : 0);
+				CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, sendFileName ? BST_CHECKED : BST_UNCHECKED);
 				Button_Enable(GetDlgItem(hwndDlg, IDC_FORMAT), sendFileName ? 0 : 1);
 				Button_Enable(GetDlgItem(hwndDlg, IDC_FORMATTEXT), sendFileName ? 0 : 1);
 			}

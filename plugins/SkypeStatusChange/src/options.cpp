@@ -247,8 +247,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 				TreeView_SetImageList(hwndTreeCtrl,hImage,TVSIL_STATE);
 			InitProtocolTree(hdlg,hwndTreeCtrl);
 		}
-		CheckDlgButton(hdlg,IDC_CHECK_SYNCK_STATUS_MSG,(true == g_Options.GetSyncStatusMsgFlag()) ? 1 : 0);
-		CheckDlgButton(hdlg,IDC_CHECK_STATUSES,(true == g_Options.GetSyncStatusStateFlag()) ? 1 : 0);				
+		CheckDlgButton(hdlg, IDC_CHECK_SYNCK_STATUS_MSG, (g_Options.GetSyncStatusMsgFlag()) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_STATUSES, (g_Options.GetSyncStatusStateFlag()) ? BST_CHECKED : BST_UNCHECKED);				
 		return TRUE;
 
 	case WM_NOTIFY:

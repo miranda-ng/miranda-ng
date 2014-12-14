@@ -43,17 +43,17 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 		SetDlgItemText(hWndDlg,IDC_SIGNATURE,tszSign);
 		{
 			BOOL bUseSign = DB_SMS_GetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
-			CheckDlgButton(hWndDlg,IDC_USESIGNATURE,bUseSign);
+			CheckDlgButton(hWndDlg, IDC_USESIGNATURE, bUseSign ? BST_CHECKED : BST_UNCHECKED);
 			EnableControlsArray(hWndDlg,(WORD*)&wSMSSignControlsList,SIZEOF(wSMSSignControlsList),bUseSign);
 
 			BOOL bSignBebefore=DB_SMS_GetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
-			CheckDlgButton(hWndDlg,IDC_BEGIN,bSignBebefore);
-			CheckDlgButton(hWndDlg,IDC_END,(!bSignBebefore));
+			CheckDlgButton(hWndDlg, IDC_BEGIN, bSignBebefore ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hWndDlg, IDC_END, (!bSignBebefore) ? BST_CHECKED : BST_UNCHECKED);
 		}
 
-		CheckDlgButton(hWndDlg,IDC_SHOWACK,DB_SMS_GetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK));
-		CheckDlgButton(hWndDlg,IDC_AUTOPOP,DB_SMS_GetByte(NULL,"AutoPopup",SMS_DEFAULT_AUTOPOP));
-		CheckDlgButton(hWndDlg,IDC_SAVEWINPOS,DB_SMS_GetByte(NULL,"SavePerContact",SMS_DEFAULT_SAVEWINPOS));
+		CheckDlgButton(hWndDlg, IDC_SHOWACK, DB_SMS_GetByte(NULL, "ShowACK", SMS_DEFAULT_SHOWACK) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_AUTOPOP, DB_SMS_GetByte(NULL, "AutoPopup", SMS_DEFAULT_AUTOPOP) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_SAVEWINPOS, DB_SMS_GetByte(NULL, "SavePerContact", SMS_DEFAULT_SAVEWINPOS) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:

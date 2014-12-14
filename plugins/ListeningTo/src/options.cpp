@@ -248,7 +248,7 @@ static void PlayersEnableDisableCtrls(HWND hwndDlg)
 	BOOL watrack_found = ServiceExists(MS_WAT_GETMUSICINFO);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_WATRACK), watrack_found);
 
-	BOOL enabled = !IsDlgButtonChecked(hwndDlg, IDC_WATRACK) || !watrack_found;
+	BOOL enabled = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_WATRACK) || !watrack_found;
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PLAYERS_L), enabled);
 
 	BOOL needPoll = FALSE;

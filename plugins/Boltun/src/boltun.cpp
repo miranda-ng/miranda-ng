@@ -254,7 +254,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 void UpdateEverybodyCheckboxes(HWND hwndDlg)
 {
-	bool Enable = !IsDlgButtonChecked(hwndDlg, IDC_EVERYBODY) == BST_CHECKED;
+	bool Enable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_EVERYBODY) == BST_CHECKED;
 	HWND wnd;
 	wnd = GetDlgItem(hwndDlg, IDC_NOTINLIST);
 	EnableWindow(wnd, Enable);
@@ -345,7 +345,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 
 void UpdateUnderstandAlwaysCheckbox(HWND hwndDlg)
 {
-	bool Enable = !IsDlgButtonChecked(hwndDlg, IDC_ENGINE_SILENT) == BST_CHECKED;
+	bool Enable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_ENGINE_SILENT) == BST_CHECKED;
 	HWND wnd;
 	wnd = GetDlgItem(hwndDlg, IDC_ENGINE_UNDERSTAND_ALWAYS);
 	EnableWindow(wnd, Enable);

@@ -242,7 +242,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 				options->bShowTime = IsDlgButtonChecked(hWnd, IDC_CHKSHOWTIME);
 				options->bShowHeaders = IsDlgButtonChecked(hWnd, IDC_CHKSHOWHEADERS);
 				options->bShowON = IsDlgButtonChecked(hWnd, IDC_RDOLD);
-				options->bShowON = !IsDlgButtonChecked(hWnd, IDC_RDNEW);
+				options->bShowON = BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_RDNEW);
 				options->bHideSend = IsDlgButtonChecked(hWnd, IDC_CHKHIDESEND);
 				options->iNumberMsg = GetDlgItemInt(hWnd, IDC_NUMBERMSG, NULL, FALSE);
 				options->bNoRSS = IsDlgButtonChecked(hWnd, IDC_SUPRESSRSS);

@@ -309,15 +309,15 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		SendDlgItemMessage(hdlg, IDC_AVATARSPIN, UDM_SETPOS, 0, opt.AvatarSize);
 		SendDlgItemMessage(hdlg, IDC_AVATARSIZE, EM_LIMITTEXT, 3, 0);
 
-		CheckDlgButton(hdlg, IDC_STARTUPUPD, opt.StartupUpdate);
-		CheckDlgButton(hdlg, IDC_UPDATE, opt.AutoUpdate);
-		CheckDlgButton(hdlg, IDC_PROTOCOND, !opt.NoProtoCondition);
-		CheckDlgButton(hdlg, IDC_UPDCONDCHG, opt.UpdateOnlyConditionChanged);
-		CheckDlgButton(hdlg, IDC_REMOVEOLD, opt.RemoveOldData);
-		CheckDlgButton(hdlg, IDC_MAKEI, opt.MakeItalic);
-		CheckDlgButton(hdlg, IDC_DISCONDICON, opt.DisCondIcon);
-		CheckDlgButton(hdlg, IDC_DONOTAPPUNITS, opt.DoNotAppendUnit);
-		CheckDlgButton(hdlg, IDC_NOFRAC, opt.NoFrac);
+		CheckDlgButton(hdlg, IDC_STARTUPUPD, opt.StartupUpdate ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_UPDATE, opt.AutoUpdate ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_PROTOCOND, !opt.NoProtoCondition ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_UPDCONDCHG, opt.UpdateOnlyConditionChanged ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_REMOVEOLD, opt.RemoveOldData ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_MAKEI, opt.MakeItalic ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_DISCONDICON, opt.DisCondIcon ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_DONOTAPPUNITS, opt.DoNotAppendUnit ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_NOFRAC, opt.NoFrac ? BST_CHECKED : BST_UNCHECKED);
 
 		// load units
 		switch (opt.tUnit) {	// temperature
@@ -383,7 +383,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, SIZEOF(opt.DegreeSign));
 			opt.StartupUpdate = IsDlgButtonChecked(hdlg, IDC_STARTUPUPD);
 			opt.AutoUpdate = IsDlgButtonChecked(hdlg, IDC_UPDATE);
-			opt.NoProtoCondition = !IsDlgButtonChecked(hdlg, IDC_PROTOCOND);
+			opt.NoProtoCondition = BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_PROTOCOND);
 			opt.DisCondIcon = IsDlgButtonChecked(hdlg, IDC_DISCONDICON);
 			opt.UpdateOnlyConditionChanged = (BYTE)IsDlgButtonChecked(hdlg, IDC_UPDCONDCHG);
 			opt.RemoveOldData = IsDlgButtonChecked(hdlg, IDC_REMOVEOLD);

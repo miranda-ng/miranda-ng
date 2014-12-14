@@ -133,9 +133,9 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, db_get_b(NULL, ModuleName, "StartupShutdownOlder", 0), 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, db_get_b(NULL, ModuleName, "StartupShutdownKeep", 0), 0);
 
-	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, db_get_b(NULL, ModuleName, "UnsafeMode", 0));
-	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, db_get_b(NULL, ModuleName, "SweepOnClose", 0));
-	CheckDlgButton(hwndDlg, IDC_HISTMW, db_get_b(NULL, ModuleName, "ChangeInMW", 0));
+	CheckDlgButton(hwndDlg, IDC_UNSAFEMODE, db_get_b(NULL, ModuleName, "UnsafeMode", 0) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_SWEEPONCLOSE, db_get_b(NULL, ModuleName, "SweepOnClose", 0) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hwndDlg, IDC_HISTMW, db_get_b(NULL, ModuleName, "ChangeInMW", 0) ? BST_CHECKED : BST_UNCHECKED);
 }//LoadSettings
 
 

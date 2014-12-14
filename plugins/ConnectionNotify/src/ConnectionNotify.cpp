@@ -312,15 +312,15 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			//connExceptionsTmp=LoadSettingsConnections();
 			SetDlgItemInt(hwndDlg, IDC_INTERVAL , settingInterval,FALSE);
 			SetDlgItemInt(hwndDlg, IDC_INTERVAL1 , settingInterval1,TRUE);
-			CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_RESOLVEIP, settingResolveIp ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, ID_CHK_DEFAULTACTION, settingDefaultAction ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_SETCOLOURS, settingSetColours ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_RESOLVEIP, settingResolveIp ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, ID_CHK_DEFAULTACTION, settingDefaultAction ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingBgColor);
 			SendDlgItemMessage(hwndDlg, IDC_FGCOLOR, CPM_SETCOLOUR, 0, (LPARAM)settingFgColor);
 			if (!settingSetColours) {
 				HWND hwnd = GetDlgItem(hwndDlg, IDC_BGCOLOR);
-				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, FALSE);
+				CheckDlgButton(hwndDlg, IDC_SETCOLOURS, BST_UNCHECKED);
 				EnableWindow(hwnd, FALSE);
 				hwnd = GetDlgItem(hwndDlg, IDC_FGCOLOR);
 				EnableWindow(hwnd, FALSE);

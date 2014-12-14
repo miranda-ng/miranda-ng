@@ -12,16 +12,16 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ATTACH), FALSE);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_ATTACH, options.attach_to_clist);
+		CheckDlgButton(hwndDlg, IDC_CHK_ATTACH, options.attach_to_clist ? BST_CHECKED : BST_UNCHECKED);
 
 		SetDlgItemInt(hwndDlg, IDC_PPM, options.ping_period, FALSE);
 		SetDlgItemInt(hwndDlg, IDC_PT, options.ping_timeout, FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHECKPOPUP, options.show_popup);
-		CheckDlgButton(hwndDlg, IDC_CHECKPOPUP2, options.show_popup2);
-		CheckDlgButton(hwndDlg, IDC_CHK_BLOCK, options.block_reps);
-		CheckDlgButton(hwndDlg, IDC_CHK_LOG, options.logging);
-		CheckDlgButton(hwndDlg, IDC_CHK_LOGCSV, options.log_csv);
-		CheckDlgButton(hwndDlg, IDC_CHK_NOTESTICON, options.no_test_icon);
+		CheckDlgButton(hwndDlg, IDC_CHECKPOPUP, options.show_popup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHECKPOPUP2, options.show_popup2 ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_BLOCK, options.block_reps ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_LOG, options.logging ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_LOGCSV, options.log_csv ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_NOTESTICON, options.no_test_icon ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_SP_INDENT, UDM_SETRANGE, 0, (LPARAM)MAKELONG(500, 0));
 		SendDlgItemMessage(hwndDlg, IDC_SP_INDENT, UDM_SETPOS, 0, options.indent);
@@ -182,7 +182,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		SetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand);
 		SetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_DESTTCP, add_edit_addr.port != -1);
+		CheckDlgButton(hwndDlg, IDC_CHK_DESTTCP, add_edit_addr.port != -1 ? BST_CHECKED : BST_UNCHECKED);
 		if(add_edit_addr.port != -1) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_DESTPORT), TRUE);
 			SetDlgItemInt(hwndDlg, IDC_ED_DESTPORT, add_edit_addr.port, FALSE);

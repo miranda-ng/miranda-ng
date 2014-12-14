@@ -591,9 +591,9 @@ INT_PTR CALLBACK DlgProcAddItem(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendDlgItemMessage(hwndDlg, IDC_CMB_TYPE, CB_SETCURSEL, index, 0);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CHK_LINEABOVE, di->bLineAbove ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_CHK_LINEABOVE, di->bLineAbove ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_VALNEWLINE, di->bValueNewline ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_PARSETIPPERFIRST, di->bParseTipperVarsFirst ? BST_CHECKED : BST_UNCHECKED);
 
 			for (int i = 0; presetItems[i].szID; i++)
 				SendDlgItemMessage(hwndDlg, IDC_CMB_PRESETITEMS, CB_ADDSTRING, 0, (LPARAM)TranslateTS(presetItems[i].swzName));
@@ -708,7 +708,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			switch (ds->type)
 			{
 				case DVT_PROTODB:
-					CheckDlgButton(hwndDlg, IDC_CHK_PROTOMOD, TRUE);
+					CheckDlgButton(hwndDlg, IDC_CHK_PROTOMOD, BST_CHECKED);
 					SetDlgItemTextA(hwndDlg, IDC_ED_SETTING, ds->szSettingName);
 					break;
 				case DVT_DB:
@@ -739,7 +739,7 @@ INT_PTR CALLBACK DlgProcAddSubst(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			HWND hw = GetDlgItem(hwndDlg, IDC_CHK_PROTOMOD);
 			EnableWindow(hw, TRUE);
 			hw = GetDlgItem(hwndDlg, IDC_ED_MODULE);
-			EnableWindow(hw, !IsDlgButtonChecked(hwndDlg, IDC_CHK_PROTOMOD));
+			EnableWindow(hw, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CHK_PROTOMOD));
 			hw = GetDlgItem(hwndDlg, IDC_ED_SETTING);
 			EnableWindow(hw, TRUE);
 			return TRUE;
@@ -1339,9 +1339,9 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TranslateDialogDefault( hwndDlg );
 
-			CheckDlgButton(hwndDlg, IDC_CHK_SHOWTITLE, opt.bShowTitle ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_CHK_NOFOCUS, opt.bShowNoFocus ? TRUE : FALSE);
-			CheckDlgButton(hwndDlg, IDC_CHK_SBAR, opt.bStatusBarTips ? TRUE : FALSE);
+			CheckDlgButton(hwndDlg, IDC_CHK_SHOWTITLE, opt.bShowTitle ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_NOFOCUS, opt.bShowNoFocus ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_SBAR, opt.bStatusBarTips ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("No icon"));
 			SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_ADDSTRING, 0, (LPARAM)TranslateT("Icon on left"));
@@ -1437,9 +1437,9 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetDlgItemInt(hwndDlg, IDC_ED_HOVER, opt.iTimeIn, FALSE);
 			SetDlgItemInt(hwndDlg, IDC_ED_SBWIDTH, opt.iSidebarWidth, FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, opt.bAvatarRound);
-			CheckDlgButton(hwndDlg, IDC_CHK_AVBORDER, opt.bAvatarBorder);
-			CheckDlgButton(hwndDlg, IDC_CHK_ORIGINALAVSIZE, opt.bOriginalAvatarSize);
+			CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, opt.bAvatarRound ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_AVBORDER, opt.bAvatarBorder ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_ORIGINALAVSIZE, opt.bOriginalAvatarSize ? BST_CHECKED : BST_UNCHECKED);
 
 			if (opt.bOriginalAvatarSize)
 				SetDlgItemText(hwndDlg, IDC_STATIC_AVATARSIZE, TranslateT("Max avatar size:"));
@@ -1558,15 +1558,15 @@ INT_PTR CALLBACK DlgProcOptsExtra(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		{
 			TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_WAITFORCONTENT, opt.bWaitForContent);
-			CheckDlgButton(hwndDlg, IDC_CHK_GETSTATUSMSG, opt.bGetNewStatusMsg);
-			CheckDlgButton(hwndDlg, IDC_CHK_DISABLEINVISIBLE, opt.bDisableIfInvisible);
-			CheckDlgButton(hwndDlg, IDC_CHK_RETRIEVEXSTATUS, opt.bRetrieveXstatus);
-			CheckDlgButton(hwndDlg, IDC_CHK_LIMITMSG, opt.bLimitMsg);
-			CheckDlgButton(hwndDlg, IDC_CHK_ENABLESMILEYS, opt.iSmileyAddFlags & SMILEYADD_ENABLE);
-			CheckDlgButton(hwndDlg, IDC_CHK_USEPROTOSMILEYS, opt.iSmileyAddFlags & SMILEYADD_USEPROTO);
-			CheckDlgButton(hwndDlg, IDC_CHK_ONLYISOLATED, opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED);
-			CheckDlgButton(hwndDlg, IDC_CHK_RESIZESMILEYS, opt.iSmileyAddFlags & SMILEYADD_RESIZE);
+			CheckDlgButton(hwndDlg, IDC_CHK_WAITFORCONTENT, opt.bWaitForContent ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_GETSTATUSMSG, opt.bGetNewStatusMsg ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_DISABLEINVISIBLE, opt.bDisableIfInvisible ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_RETRIEVEXSTATUS, opt.bRetrieveXstatus ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_LIMITMSG, opt.bLimitMsg ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_ENABLESMILEYS, opt.iSmileyAddFlags & SMILEYADD_ENABLE ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_USEPROTOSMILEYS, opt.iSmileyAddFlags & SMILEYADD_USEPROTO ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_ONLYISOLATED, opt.iSmileyAddFlags & SMILEYADD_ONLYISOLATED ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_RESIZESMILEYS, opt.iSmileyAddFlags & SMILEYADD_RESIZE ? BST_CHECKED : BST_UNCHECKED);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DISABLEINVISIBLE), opt.bGetNewStatusMsg);
 
@@ -1828,17 +1828,17 @@ void EnableControls(HWND hwndDlg, bool bEnableSkin)
 
 	if(!bEnableSkin)
 	{
-		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, FALSE);
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), FALSE);
 	}
 	else if (opt.iEnableColoring == -1)
 	{
-		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, TRUE);
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, BST_CHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), FALSE);
 	}
 	else
 	{
-		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_ENABLECOLORING), TRUE);
 	}
 }
@@ -1873,12 +1873,12 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SendDlgItemMessage(hwndDlg, IDC_SPIN_TRANS, UDM_SETRANGE, 0, (LPARAM)MAKELONG(100, 0));
 			SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_BORDER, opt.bBorder);
-			CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, opt.bRound);
-			CheckDlgButton(hwndDlg, IDC_CHK_SHADOW, opt.bDropShadow);
-			CheckDlgButton(hwndDlg, IDC_CHK_AEROGLASS, opt.bAeroGlass);
-			CheckDlgButton(hwndDlg, IDC_CHK_LOADFONTS, opt.bLoadFonts);
-			CheckDlgButton(hwndDlg, IDC_CHK_LOADPROPORTIONS, opt.bLoadProportions);
+			CheckDlgButton(hwndDlg, IDC_CHK_BORDER, opt.bBorder ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, opt.bRound ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_SHADOW, opt.bDropShadow ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_AEROGLASS, opt.bAeroGlass ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_LOADFONTS, opt.bLoadFonts ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_LOADPROPORTIONS, opt.bLoadProportions ? BST_CHECKED : BST_UNCHECKED);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_AEROGLASS), MyDwmEnableBlurBehindWindow != 0);
 
@@ -2063,8 +2063,8 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 			}
 		}
-		CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE);
-		CheckDlgButton(hwndDlg, IDC_CHK_APPENDPROTO, opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO);
+		CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.iFavoriteContFlags & FAVCONT_HIDE_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_APPENDPROTO, opt.iFavoriteContFlags & FAVCONT_APPEND_PROTO ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -2113,10 +2113,10 @@ INT_PTR CALLBACK DlgProcOptsTraytip(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		{
 			TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_CHK_ENABLETRAYTIP, opt.bTraytip);
-			CheckDlgButton(hwndDlg, IDC_CHK_HANDLEBYTIPPER, opt.bHandleByTipper);
-			CheckDlgButton(hwndDlg, IDC_CHK_EXPAND, opt.bExpandTraytip);
-			CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.bHideOffline);
+			CheckDlgButton(hwndDlg, IDC_CHK_ENABLETRAYTIP, opt.bTraytip ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_HANDLEBYTIPPER, opt.bHandleByTipper ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_EXPAND, opt.bExpandTraytip ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHK_HIDEOFFLINE, opt.bHideOffline ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_SPIN_EXPANDTIME, UDM_SETRANGE, 0, (LPARAM)MAKELONG(5000, 10));
 			SetDlgItemInt(hwndDlg, IDC_ED_EXPANDTIME, opt.iExpandTime, FALSE);
 			SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_CHK_ENABLETRAYTIP, 0), 0);

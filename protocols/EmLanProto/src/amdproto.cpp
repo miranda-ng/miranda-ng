@@ -201,14 +201,14 @@ INT_PTR CALLBACK EMPDlgProcMainOpts(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			SetDlgItemText(hwndDlg, IDC_EDIT_NAME, g_lan->GetName());
 			if (g_lan->GetUseHostName())
 			{
-				SendDlgItemMessage(hwndDlg, IDC_RADIO_USECOMPNAME, BM_SETCHECK, BST_CHECKED, 0);
-				SendDlgItemMessage(hwndDlg, IDC_RADIO_USEOWN, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hwndDlg, IDC_RADIO_USECOMPNAME, BST_CHECKED);
+				CheckDlgButton(hwndDlg, IDC_RADIO_USEOWN, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_NAME), FALSE);
 			}
 			else
 			{
-				SendDlgItemMessage(hwndDlg, IDC_RADIO_USECOMPNAME, BM_SETCHECK, BST_UNCHECKED, 0);
-				SendDlgItemMessage(hwndDlg, IDC_RADIO_USEOWN, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hwndDlg, IDC_RADIO_USECOMPNAME, BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_RADIO_USEOWN, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_NAME), TRUE);
 			}
 		}

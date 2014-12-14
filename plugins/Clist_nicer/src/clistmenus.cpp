@@ -125,7 +125,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					pCaps = CallProtoService(contact ? contact->proto : GetContactProto(hContact), PS_GETCAPS, PFLAGNUM_1, 0);
 					Utils::enableDlgControl(hWnd, IDC_IGN_ALWAYSONLINE, pCaps & PF1_INVISLIST ? TRUE : FALSE);
 					Utils::enableDlgControl(hWnd, IDC_IGN_ALWAYSOFFLINE, pCaps & PF1_VISLIST ? TRUE : FALSE);
-					CheckDlgButton(hWnd, IDC_IGN_PRIORITY, cfg::getByte(hContact, "CList", "Priority", 0) ? 1 : 0);
+					CheckDlgButton(hWnd, IDC_IGN_PRIORITY, cfg::getByte(hContact, "CList", "Priority", 0) ? BST_CHECKED : BST_UNCHECKED);
 					Utils::enableDlgControl(hWnd, IDC_IGN_PRIORITY, TRUE);
 					Utils::enableDlgControl(hWnd, IDC_AVATARDISPMODE, TRUE);
 					Utils::enableDlgControl(hWnd, IDC_SECONDLINEMODE, TRUE);
@@ -137,18 +137,18 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 						SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 0, 0);
 
 					if (dwFlags & ECF_FORCEOVERLAY)
-						SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_CHECKED, 0);
+						CheckDlgButton(hWnd, IDC_OVERLAYICON, BST_CHECKED);
 					else if (dwFlags & ECF_HIDEOVERLAY)
-						SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_UNCHECKED, 0);
+						CheckDlgButton(hWnd, IDC_OVERLAYICON, BST_UNCHECKED);
 					else
-						SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
+						CheckDlgButton(hWnd, IDC_OVERLAYICON, BST_INDETERMINATE);
 
 					if (dwFlags & ECF_FORCELOCALTIME)
-						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_CHECKED, 0);
+						CheckDlgButton(hWnd, IDC_SHOWLOCALTIME1, BST_CHECKED);
 					else if (dwFlags & ECF_HIDELOCALTIME)
-						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_UNCHECKED, 0);
+						CheckDlgButton(hWnd, IDC_SHOWLOCALTIME1, BST_UNCHECKED);
 					else
-						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_INDETERMINATE, 0);
+						CheckDlgButton(hWnd, IDC_SHOWLOCALTIME1, BST_INDETERMINATE);
 
 					if (bSecondLine == 0xff)
 						SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
@@ -177,12 +177,12 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 		case IDC_IGN_ALWAYSONLINE:
 			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))
-				CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, FALSE);
+				CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, BST_UNCHECKED);
 			break;
 
 		case IDC_IGN_ALWAYSOFFLINE:
 			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSOFFLINE))
-				CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, FALSE);
+				CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, BST_UNCHECKED);
 			break;
 
 		case IDC_HIDECONTACT:
@@ -202,8 +202,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case IDC_DSP_LOADDEFAULT:
 			SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 0, 0);
 			SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
-			SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
-			SendDlgItemMessage(hWnd, IDC_LOCALTIME, BM_SETCHECK, BST_INDETERMINATE, 0);
+			CheckDlgButton(hWnd, IDC_OVERLAYICON, BST_INDETERMINATE);
+			CheckDlgButton(hWnd, IDC_LOCALTIME, BST_INDETERMINATE);
 			break;
 
 		case IDOK:
@@ -311,8 +311,8 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				if (contact) {
 					WORD wApparentMode = cfg::getWord(contact->hContact, contact->proto, "ApparentMode", 0);
 
-					CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, wApparentMode == ID_STATUS_OFFLINE ? TRUE : FALSE);
-					CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, wApparentMode == ID_STATUS_ONLINE ? TRUE : FALSE);
+					CheckDlgButton(hWnd, IDC_IGN_ALWAYSOFFLINE, wApparentMode == ID_STATUS_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(hWnd, IDC_IGN_ALWAYSONLINE, wApparentMode == ID_STATUS_ONLINE ? BST_CHECKED : BST_UNCHECKED);
 				}
 			}
 			return 0;

@@ -58,10 +58,10 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwnd);
 		SendDlgItemMessage(hwnd, IDC_SBAR, SB_SETTEXT, 0, (LPARAM)Translate("Enter a string to search the database for"));
-		CheckDlgButton(hwnd, IDC_MODNAME, 1);
-		CheckDlgButton(hwnd, IDC_SETTINGNAME, 1);
-		CheckDlgButton(hwnd, IDC_SETTINGVALUE, 1);
-		CheckDlgButton(hwnd, IDC_FOUND, 1);
+		CheckDlgButton(hwnd, IDC_MODNAME, BST_CHECKED);
+		CheckDlgButton(hwnd, IDC_SETTINGNAME, BST_CHECKED);
+		CheckDlgButton(hwnd, IDC_SETTINGVALUE, BST_CHECKED);
+		CheckDlgButton(hwnd, IDC_FOUND, BST_CHECKED);
 		SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM)LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT)));
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_REPLACE), GWLP_USERDATA, 0);
 		SetWindowLongPtr(GetDlgItem(hwnd, IDC_SEARCH), GWLP_USERDATA, 0);
@@ -83,12 +83,12 @@ INT_PTR CALLBACK FindWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (GetWindowLongPtr(GetDlgItem(hwnd, IDC_REPLACE), GWLP_USERDATA) &&
 					!GetDlgItemText(hwnd, IDC_REPLACE, replace, SIZEOF(replace)) &&
-					!IsDlgButtonChecked(hwnd, IDC_ENTIRELY))
+					BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_ENTIRELY))
 					break;
 
-				if (!IsDlgButtonChecked(hwnd, IDC_MODNAME) &&
-					 !IsDlgButtonChecked(hwnd, IDC_SETTINGNAME) &&
-					 !IsDlgButtonChecked(hwnd, IDC_SETTINGVALUE))
+				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_MODNAME) &&
+					 BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGNAME) &&
+					 BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_SETTINGVALUE))
 					break;
 
 				FindInfo *fi = (FindInfo*)mir_calloc(sizeof(FindInfo));

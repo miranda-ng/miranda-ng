@@ -68,7 +68,7 @@ static settings[] =
 
 static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL,	MODULENAME, szSetting, bDef));
+	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL,	MODULENAME, szSetting, bDef) ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)

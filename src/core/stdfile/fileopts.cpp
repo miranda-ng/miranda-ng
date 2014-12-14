@@ -113,7 +113,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case M_UPDATEENABLING:
 		{
-			int on = !IsDlgButtonChecked(hwndDlg, IDC_NOSCANNER);
+			int on = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSCANNER);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ST_CMDLINE), on);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SCANCMDLINE), on);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SCANCMDLINEBROWSE), on);

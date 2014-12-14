@@ -126,22 +126,22 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_SETCOLOUR, 0, TextColour);
 			// Second step is disabling them if we want to use default Windows
 			// ones.
-			CheckDlgButton(hdlg, IDC_POP_USEWINCOLORS, db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0));
-			CheckDlgButton(hdlg, IDC_POP_USESAMECOLORS, db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1));
-			CheckDlgButton(hdlg, IDC_POP_USECUSTCOLORS, db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0));
+			CheckDlgButton(hdlg, IDC_POP_USEWINCOLORS, db_get_b(NULL, MODULENAME, POP_USEWINCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_POP_USESAMECOLORS, db_get_b(NULL, MODULENAME, POP_USESAMECLRS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_POP_USECUSTCOLORS, db_get_b(NULL, MODULENAME, POP_USECUSTCLRS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			if (IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS) || IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)) {
 				EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), 0);
 				EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), 0);
 			}
 
-			CheckDlgButton(hdlg, IDC_LCLK_WINDOW, db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0));
-			CheckDlgButton(hdlg, IDC_LCLK_WEB_PGE, db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0));
-			CheckDlgButton(hdlg, IDC_LCLK_DISMISS, db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1));
+			CheckDlgButton(hdlg, IDC_LCLK_WINDOW, db_get_b(NULL, MODULENAME, LCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_LCLK_WEB_PGE, db_get_b(NULL, MODULENAME, LCLK_WEB_PGE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_LCLK_DISMISS, db_get_b(NULL, MODULENAME, LCLK_DISMISS_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hdlg, IDC_RCLK_WINDOW, db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0));
-			CheckDlgButton(hdlg, IDC_RCLK_WEB_PGE, db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1));
-			CheckDlgButton(hdlg, IDC_RCLK_DISMISS, db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0));
+			CheckDlgButton(hdlg, IDC_RCLK_WINDOW, db_get_b(NULL, MODULENAME, RCLK_WINDOW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_RCLK_WEB_PGE, db_get_b(NULL, MODULENAME, RCLK_WEB_PGE_KEY, 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_RCLK_DISMISS, db_get_b(NULL, MODULENAME, RCLK_DISMISS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
 
@@ -307,10 +307,10 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetDlgItemText(hwndDlg, IDC_END2, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0));
-		CheckDlgButton(hwndDlg, IDC_ADD_DATE_NAME, db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0));
-		CheckDlgButton(hwndDlg, IDC_24_HOUR, db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0));
-		CheckDlgButton(hwndDlg, IDC_ALWAYS_LOG, db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0));
+		CheckDlgButton(hwndDlg, IDC_ENABLE_ALERTS, db_get_b(hContact, MODULENAME, ENABLE_ALERTS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ADD_DATE_NAME, db_get_b(hContact, MODULENAME, APND_DATE_NAME_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_24_HOUR, db_get_b(hContact, MODULENAME, USE_24_HOUR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALWAYS_LOG, db_get_b(hContact, MODULENAME, ALWAYS_LOG_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SetDlgItemText(hwndDlg, IDC_ALERT_TYPE, TranslateTS(AlertTypes[db_get_b(hContact, MODULENAME, ALRT_INDEX_KEY, 0)]));
 		SetDlgItemText(hwndDlg, IDC_EVENT_TYPE, TranslateTS(EventTypes[db_get_b(hContact, MODULENAME, EVNT_INDEX_KEY, 0)]));
@@ -429,8 +429,8 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_APPEND, db_get_b(hContact, MODULENAME, APPEND_KEY, 0));
-		CheckDlgButton(hwndDlg, IDC_SAVE_AS_RAW, db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0));
+		CheckDlgButton(hwndDlg, IDC_APPEND, db_get_b(hContact, MODULENAME, APPEND_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SAVE_AS_RAW, db_get_b(hContact, MODULENAME, SAVE_AS_RAW_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		if (db_get_b(hContact, MODULENAME, CONTACT_PREFIX_KEY, 1) == 1)
 			CheckRadioButton(hwndDlg, IDC_PREFIX, IDC_SUFFIX, IDC_PREFIX);
@@ -858,7 +858,7 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_CLEAN, db_get_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 0));
+		CheckDlgButton(hwndDlg, IDC_CLEAN, db_get_b(hContact, MODULENAME, CLEAR_DISPLAY_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETRANGE, FALSE, MAKELONG(0, 4));
 		SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_SETPOS, TRUE, db_get_b(hContact, MODULENAME, RWSPACE_KEY, 0));
@@ -1101,19 +1101,19 @@ INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			mir_forkthread(FillFontListThread, hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_DISABLEMENU, db_get_b(NULL, MODULENAME, MENU_OFF, 0));
-			CheckDlgButton(hwndDlg, IDC_SUPPRESS, db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_UPDATE_ONSTART, db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_UPDATE_ON_OPEN, db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_HIDE_STATUS_ICON, db_get_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_FONT_BOLD, db_get_b(NULL, MODULENAME, FONT_BOLD_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_FONT_ITALIC, db_get_b(NULL, MODULENAME, FONT_ITALIC_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_FONT_UNDERLINE, db_get_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_ERROR_POPUP, db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_UPDATE_ONALERT, db_get_b(NULL, MODULENAME, UPDATE_ONALERT_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_SAVE_INDIVID_POS, db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_NO_PROTECT, db_get_b(NULL, MODULENAME, NO_PROTECT_KEY, 0));
-			CheckDlgButton(hwndDlg, IDC_DATAPOPUP, db_get_b(NULL, MODULENAME, DATA_POPUP_KEY, 0));
+			CheckDlgButton(hwndDlg, IDC_DISABLEMENU, db_get_b(NULL, MODULENAME, MENU_OFF, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SUPPRESS, db_get_b(NULL, MODULENAME, SUPPRESS_ERR_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPDATE_ONSTART, db_get_b(NULL, MODULENAME, UPDATE_ONSTART_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPDATE_ON_OPEN, db_get_b(NULL, MODULENAME, UPDATE_ON_OPEN_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_HIDE_STATUS_ICON, db_get_b(NULL, MODULENAME, HIDE_STATUS_ICON_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FONT_BOLD, db_get_b(NULL, MODULENAME, FONT_BOLD_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FONT_ITALIC, db_get_b(NULL, MODULENAME, FONT_ITALIC_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FONT_UNDERLINE, db_get_b(NULL, MODULENAME, FONT_UNDERLINE_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ERROR_POPUP, db_get_b(NULL, MODULENAME, ERROR_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UPDATE_ONALERT, db_get_b(NULL, MODULENAME, UPDATE_ONALERT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SAVE_INDIVID_POS, db_get_b(NULL, MODULENAME, SAVE_INDIVID_POS_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NO_PROTECT, db_get_b(NULL, MODULENAME, NO_PROTECT_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DATAPOPUP, db_get_b(NULL, MODULENAME, DATA_POPUP_KEY, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			if (!db_get_ts(NULL, MODULENAME, FONT_FACE_KEY, &dbv)) {
 				SetDlgItemText(hwndDlg, IDC_TYPEFACE, dbv.ptszVal);

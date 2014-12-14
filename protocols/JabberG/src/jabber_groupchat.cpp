@@ -640,9 +640,9 @@ INT_PTR CJabberDlgGcJoin::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
 
 				RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BOOKMARKS), &rc);
-				CheckDlgButton(m_hwnd, IDC_BOOKMARKS, TRUE);
+				CheckDlgButton(m_hwnd, IDC_BOOKMARKS, BST_CHECKED);
 				int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL);
-				CheckDlgButton(m_hwnd, IDC_BOOKMARKS, FALSE);
+				CheckDlgButton(m_hwnd, IDC_BOOKMARKS, BST_UNCHECKED);
 				DestroyMenu(hMenu);
 
 				if (res == -1)

@@ -92,25 +92,25 @@ AnnounceDialog::load(HWND window)
 	TranslateDialogDefault(window);
 
 	// initialise the checkboxes
-	CheckDlgButton(window, IDC_STATUS_OFFLINE,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Offline));
-	CheckDlgButton(window, IDC_STATUS_ONLINE,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Online));
-	CheckDlgButton(window, IDC_STATUS_AWAY,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Away));
-	CheckDlgButton(window, IDC_STATUS_DND,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Dnd));
-	CheckDlgButton(window, IDC_STATUS_NA,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Na));
-	CheckDlgButton(window, IDC_STATUS_OCCUPIED,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Occupied));
-	CheckDlgButton(window, IDC_STATUS_FREEFORCHAT,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_FreeForChat));
-	CheckDlgButton(window, IDC_STATUS_INVISIBLE,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Invisible));
-	CheckDlgButton(window, IDC_SPEAK_STATUS_MSG,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SpeakStatusMsg));
-	CheckDlgButton(window, IDC_SUPPRESS_CONNECT,         m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect));
+	CheckDlgButton(window, IDC_STATUS_OFFLINE, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Offline) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_ONLINE, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Online) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_AWAY, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Away) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_DND, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Dnd) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_NA, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Na) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_OCCUPIED, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Occupied) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_FREEFORCHAT, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_FreeForChat) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_STATUS_INVISIBLE, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_Invisible) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_SPEAK_STATUS_MSG, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SpeakStatusMsg) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_SUPPRESS_CONNECT, m_db.getStatusFlag(AnnounceDatabase::StatusFlag_SuppressConnect) ? BST_CHECKED : BST_UNCHECKED);
 
-	CheckDlgButton(window, IDC_EVENT_MESSAGE,         m_db.getEventFlag(AnnounceDatabase::EventFlag_Message));
-	CheckDlgButton(window, IDC_EVENT_URL,         m_db.getEventFlag(AnnounceDatabase::EventFlag_Url));
-	CheckDlgButton(window, IDC_EVENT_FILE,         m_db.getEventFlag(AnnounceDatabase::EventFlag_File));
-	CheckDlgButton(window, IDC_EVENT_AUTHREQUEST,         m_db.getEventFlag(AnnounceDatabase::EventFlag_AuthRequest));
-	CheckDlgButton(window, IDC_EVENT_ADDED,         m_db.getEventFlag(AnnounceDatabase::EventFlag_Added));
-	CheckDlgButton(window, IDC_READ_MSG_LENGTH,         m_db.getEventFlag(AnnounceDatabase::EventFlag_ReadMsgLength));
-	CheckDlgButton(window, IDC_DIALOG_OPEN,         m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen));
-	CheckDlgButton(window, IDC_DIALOG_FOCUSED,         m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused));
+	CheckDlgButton(window, IDC_EVENT_MESSAGE, m_db.getEventFlag(AnnounceDatabase::EventFlag_Message) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_EVENT_URL, m_db.getEventFlag(AnnounceDatabase::EventFlag_Url) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_EVENT_FILE, m_db.getEventFlag(AnnounceDatabase::EventFlag_File) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_EVENT_AUTHREQUEST, m_db.getEventFlag(AnnounceDatabase::EventFlag_AuthRequest) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_EVENT_ADDED, m_db.getEventFlag(AnnounceDatabase::EventFlag_Added) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_READ_MSG_LENGTH, m_db.getEventFlag(AnnounceDatabase::EventFlag_ReadMsgLength) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_DIALOG_OPEN, m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogOpen) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(window, IDC_DIALOG_FOCUSED, m_db.getEventFlag(AnnounceDatabase::EventFlag_DialogFocused) ? BST_CHECKED : BST_UNCHECKED);
 
 	// initialise the welcome message box
 	SetDlgItemInt(window, IDC_MAX_MSG, m_db.getMaxMsgSize(), 0);

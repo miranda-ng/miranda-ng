@@ -107,13 +107,13 @@ INT_PTR CALLBACK DlgProcOptionsMain(HWND optDlg, UINT msg, WPARAM wParam, LPARAM
 			bInitializing = 1;
 			
 			///Main enable switch
-			SendDlgItemMessage(optDlg, IDC_OPT_OUT_MSG_APPROVE, BM_SETCHECK, _getOptB("ApproveOnMsgOut", defaultApproveOnMsgOut), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_IN_MSG_APPROVE, BM_SETCHECK, _getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG, BM_SETCHECK, _getOptB("DontReplySameMsg", defaultDontReplySameMsg), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_DONT_REPLY_MSG, BM_SETCHECK, _getOptB("DontReplyMsg", defaultDontReplyMsg), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, BM_SETCHECK, _getOptB("HideUnverified", defaultHideUnverified), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_ADD_PERMANENTLY, BM_SETCHECK, _getOptB("AddPermanently", defaultAddPermanently), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_LOG_ACTIONS, BM_SETCHECK, _getOptB("LogActions", defaultLogActions), 0);
+			CheckDlgButton(optDlg, IDC_OPT_OUT_MSG_APPROVE, _getOptB("ApproveOnMsgOut", defaultApproveOnMsgOut) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_IN_MSG_APPROVE, _getOptB("ApproveOnMsgIn", defaultApproveOnMsgIn) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_SAME_MSG, _getOptB("DontReplySameMsg", defaultDontReplySameMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_DONT_REPLY_MSG, _getOptB("DontReplyMsg", defaultDontReplyMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_HIDE_UNTIL_VERIFIED, _getOptB("HideUnverified", defaultHideUnverified) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_ADD_PERMANENTLY, _getOptB("AddPermanently", defaultAddPermanently) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_LOG_ACTIONS, _getOptB("LogActions", defaultLogActions) ? BST_CHECKED : BST_UNCHECKED);
 
 			SetDlgItemText(optDlg, IDC_OPT_IN_MSG_APPROVE_WORDLIST, _getOptS(buf, SIZEOF(buf), "ApproveOnMsgInWordlist", defaultApproveOnMsgInWordlist));
 			SetDlgItemText(optDlg, IDC_OPT_MAX_MSG_CONTACT, _itot((unsigned int)_getOptD("MaxMsgContactCountPerDay", defaultMaxMsgContactCountPerDay), buf, 10));
@@ -267,13 +267,13 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 					SetDlgItemText(optDlg, IDC_OPT_AUTH_CHALLENGE, _getOptS(buf, buflen, "AuthChallengeMath", defaultAuthChallengeMath));
 					break;
 			}
-			SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_SUCCESS, BM_SETCHECK, _getOptB("ReplyOnSuccess", defaultReplyOnSuccess), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_AUTH, BM_SETCHECK, _getOptB("ReplyOnAuth", defaultReplyOnAuth), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_MSG, BM_SETCHECK, _getOptB("ReplyOnMsg", defaultReplyOnMsg), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_KEEP_BLOCKED_MSG, BM_SETCHECK, _getOptB("KeepBlockedMsg", defaultKeepBlockedMsg), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL, BM_SETCHECK, _getOptB("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval), 0);
+			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_SUCCESS, _getOptB("ReplyOnSuccess", defaultReplyOnSuccess) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_AUTH, _getOptB("ReplyOnAuth", defaultReplyOnAuth) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_MSG, _getOptB("ReplyOnMsg", defaultReplyOnMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_KEEP_BLOCKED_MSG, _getOptB("KeepBlockedMsg", defaultKeepBlockedMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL, _getOptB("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL), _getOptB("KeepBlockedMsg", defaultKeepBlockedMsg));
-			SendDlgItemMessage(optDlg, IDC_OPT_CCRESPONSE, BM_SETCHECK, _getOptB("ResponseCC", defaultResponseCC), 0);
+			CheckDlgButton(optDlg, IDC_OPT_CCRESPONSE, _getOptB("ResponseCC", defaultResponseCC) ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemText(optDlg, IDC_OPT_RESPONSE, _getOptS(buf, buflen, "Response", defaultResponse));
 			SetDlgItemText(optDlg, IDC_OPT_SUCCESS_RESPONSE, _getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
 			free(buf);
@@ -338,16 +338,16 @@ INT_PTR CALLBACK DlgProcOptionsQuestion(HWND optDlg, UINT msg, WPARAM wParam, LP
 					ShowWindow(GetDlgItem(optDlg, IDC_OPT_RESPONSE), 1);
 					EnableWindow(GetDlgItem(optDlg, IDC_OPT_RESPONSE), TRUE);
 					SendDlgItemMessage(optDlg, IDC_OPT_MODE, CB_SETCURSEL, 0, 0);
-					SendDlgItemMessage(optDlg, IDC_OPT_CCRESPONSE, BM_SETCHECK, defaultResponseCC, 0);
+					CheckDlgButton(optDlg, IDC_OPT_CCRESPONSE, defaultResponseCC ? BST_CHECKED : BST_UNCHECKED);
 					SetDlgItemText(optDlg, IDC_OPT_CHALLENGE, defaultChallenge);
 					SetDlgItemText(optDlg, IDC_OPT_RESPONSE, defaultResponse);
 					SetDlgItemText(optDlg, IDC_OPT_SUCCESS_RESPONSE, defaultSuccessResponse);
 					SetDlgItemText(optDlg, IDC_OPT_AUTH_CHALLENGE, defaultAuthChallenge);
-					SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_SUCCESS, BM_SETCHECK, defaultReplyOnSuccess, 0);
-					SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_AUTH, BM_SETCHECK, defaultReplyOnAuth, 0);
-					SendDlgItemMessage(optDlg, IDC_OPT_REPLY_ON_MSG, BM_SETCHECK, defaultReplyOnMsg, 0);
-					SendDlgItemMessage(optDlg, IDC_OPT_KEEP_BLOCKED_MSG, BM_SETCHECK, defaultKeepBlockedMsg, 0);
-					SendDlgItemMessage(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL, BM_SETCHECK, defaultMarkMsgUnreadOnApproval, 0);
+					CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_SUCCESS, defaultReplyOnSuccess ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_AUTH, defaultReplyOnAuth ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(optDlg, IDC_OPT_REPLY_ON_MSG, defaultReplyOnMsg ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(optDlg, IDC_OPT_KEEP_BLOCKED_MSG, defaultKeepBlockedMsg ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(optDlg, IDC_OPT_MARK_MSG_UNREAD_ON_APPROVAL, defaultMarkMsgUnreadOnApproval ? BST_CHECKED : BST_UNCHECKED);
 					break;
 			}
 			SendMessage(GetParent(optDlg), PSM_CHANGED, 0, 0);
@@ -427,13 +427,13 @@ INT_PTR CALLBACK DlgProcOptionsBayes(HWND optDlg, UINT msg, WPARAM wParam, LPARA
 			bInitializing = 1;
 			TranslateDialogDefault(optDlg);
 			bEnabled = _getOptB("BayesEnabled", defaultBayesEnabled);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_ENABLED, BM_SETCHECK, bEnabled, 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_BLOCK_MSG, BM_SETCHECK, _getOptB("BayesBlockMsg", defaultBayesBlockMsg), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_AUTO_APPROVE, BM_SETCHECK, _getOptB("BayesAutoApprove", defaultBayesAutoApprove), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_AUTOLEARN_APPROVED, BM_SETCHECK, _getOptB("BayesAutolearnApproved", defaultBayesAutolearnApproved), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_AUTOLEARN_AUTOAPPROVED, BM_SETCHECK, _getOptB("BayesAutolearnAutoApproved", defaultBayesAutolearnAutoApproved), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_AUTOLEARN_NOT_APPROVED, BM_SETCHECK, _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_BAYES_AUTOLEARN_OUTGOING, BM_SETCHECK, _getOptB("BayesAutolearnOutgoing", defaultBayesAutolearnOutgoing), 0);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_ENABLED, bEnabled ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_BLOCK_MSG, _getOptB("BayesBlockMsg", defaultBayesBlockMsg) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTO_APPROVE, _getOptB("BayesAutoApprove", defaultBayesAutoApprove) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_APPROVED, _getOptB("BayesAutolearnApproved", defaultBayesAutolearnApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_AUTOAPPROVED, _getOptB("BayesAutolearnAutoApproved", defaultBayesAutolearnAutoApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_NOT_APPROVED, _getOptB("BayesAutolearnNotApproved", defaultBayesAutolearnNotApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_BAYES_AUTOLEARN_OUTGOING, _getOptB("BayesAutolearnOutgoing", defaultBayesAutolearnOutgoing) ? BST_CHECKED : BST_UNCHECKED);
 			
 			EnableControlsBayes(optDlg, bEnabled);
 

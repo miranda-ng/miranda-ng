@@ -146,7 +146,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (f != NULL)
 		{
 			fclose(f);
-			CheckDlgButton(hwndDlg, IDC_CHKG, 1);
+			CheckDlgButton(hwndDlg, IDC_CHKG, BST_CHECKED);
 			inifound = TRUE;
 		}
 		else
@@ -162,7 +162,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (f != NULL)
 		{
 			fclose(f);
-			CheckDlgButton(hwndDlg, IDC_CHKI, 1);
+			CheckDlgButton(hwndDlg, IDC_CHKI, BST_CHECKED);
 			dllfound = TRUE;
 		}
 		else
@@ -201,20 +201,13 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			for (int i = 0; i < size; i++)
 			{
 				EnableDlgItem(hwndDlg, xfireconfigitems[i].id, TRUE);
-				if (xfireconfig[xfireconfigitems[i].xfireconfigid].wasset == 0)
-				{
-					CheckDlgButton(hwndDlg, xfireconfigitems[i].id, 1);
-				}
-				else
-				{
-					CheckDlgButton(hwndDlg, xfireconfigitems[i].id, 0);
-				}
+				CheckDlgButton(hwndDlg, xfireconfigitems[i].id, (xfireconfig[xfireconfigitems[i].xfireconfigid].wasset == 0) ? BST_CHECKED : BST_UNCHECKED);
 			}
 			//wenn die erste option aktiv ist, untere aktivieren, sonst deaktivieren
 			if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_KONFIG_1))
 			{
-				CheckDlgButton(hwndDlg, IDC_KONFIG_2, 0);
-				CheckDlgButton(hwndDlg, IDC_KONFIG_3, 0);
+				CheckDlgButton(hwndDlg, IDC_KONFIG_2, BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_KONFIG_3, BST_UNCHECKED);
 				EnableDlgItem(hwndDlg, IDC_KONFIG_2, FALSE);
 				EnableDlgItem(hwndDlg, IDC_KONFIG_3, FALSE);
 			}
@@ -228,8 +221,8 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_COMMAND:
 		if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_KONFIG_1))
 		{
-			CheckDlgButton(hwndDlg, IDC_KONFIG_2, 0);
-			CheckDlgButton(hwndDlg, IDC_KONFIG_3, 0);
+			CheckDlgButton(hwndDlg, IDC_KONFIG_2, BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_KONFIG_3, BST_UNCHECKED);
 			EnableDlgItem(hwndDlg, IDC_KONFIG_2, FALSE);
 			EnableDlgItem(hwndDlg, IDC_KONFIG_3, FALSE);
 		}
@@ -475,8 +468,8 @@ static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_COMMAND:
-		CheckDlgButton(hwndDlg, IDC_CHKI, dllfound);
-		CheckDlgButton(hwndDlg, IDC_CHKG, inifound);
+		CheckDlgButton(hwndDlg, IDC_CHKI, dllfound ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHKG, inifound ? BST_CHECKED : BST_UNCHECKED);
 
 		if (HIWORD(wParam) == CBN_SELCHANGE)
 		{
@@ -594,7 +587,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (f != NULL)
 		{
 			fclose(f);
-			CheckDlgButton(hwndDlg, IDC_CHKG, 1);
+			CheckDlgButton(hwndDlg, IDC_CHKG, BST_CHECKED);
 			inifound = TRUE;
 		}
 		else
@@ -610,7 +603,7 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		if (f != NULL)
 		{
 			fclose(f);
-			CheckDlgButton(hwndDlg, IDC_CHKI, 1);
+			CheckDlgButton(hwndDlg, IDC_CHKI, BST_CHECKED);
 			dllfound = TRUE;
 		}
 		else
@@ -640,8 +633,8 @@ static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_COMMAND:
-		CheckDlgButton(hwndDlg, IDC_CHKI, dllfound);
-		CheckDlgButton(hwndDlg, IDC_CHKG, inifound);
+		CheckDlgButton(hwndDlg, IDC_CHKI, dllfound ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHKG, inifound ? BST_CHECKED : BST_UNCHECKED);
 
 		if (LOWORD(wParam) == IDC_REMUSER) //nutzer soll aus der blockierliste raus
 		{
@@ -689,14 +682,14 @@ static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	{
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_ENABLESTSMSG, db_get_b(NULL, protocolname, "autosetstatusmsg", 0));
-		CheckDlgButton(hwndDlg, IDC_CHGSTATUS, db_get_b(NULL, protocolname, "statuschgtype", 0));
-		CheckDlgButton(hwndDlg, IDC_DNDFIRST, db_get_b(NULL, protocolname, "dndfirst", 0));
+		CheckDlgButton(hwndDlg, IDC_ENABLESTSMSG, db_get_b(NULL, protocolname, "autosetstatusmsg", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHGSTATUS, db_get_b(NULL, protocolname, "statuschgtype", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DNDFIRST, db_get_b(NULL, protocolname, "dndfirst", 0) ? BST_CHECKED : BST_UNCHECKED);
 		if (!db_get(NULL, protocolname, "setstatusmsg", &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, dbv.pszVal);
 			db_free(&dbv);
 		}
-		if (!IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG))
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_ENABLESTSMSG))
 		{
 			EnableDlgItem(hwndDlg, IDC_STATUSMSG, FALSE);
 		}
@@ -999,11 +992,11 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//gameskip wert setzen
 					char temp[64] = "";
 					mir_snprintf(temp, SIZEOF(temp), "gameskip_%d", gameid);
-					CheckDlgButton(hwndDlg, IDC_DONTDETECT, db_get_b(NULL, protocolname, temp, 0));
+					CheckDlgButton(hwndDlg, IDC_DONTDETECT, db_get_b(NULL, protocolname, temp, 0) ? BST_CHECKED : BST_UNCHECKED);
 					mir_snprintf(temp, SIZEOF(temp), "gamenostatus_%d", gameid);
-					CheckDlgButton(hwndDlg, IDC_NOSTATUSMSG, db_get_b(NULL, protocolname, temp, 0));
+					CheckDlgButton(hwndDlg, IDC_NOSTATUSMSG, db_get_b(NULL, protocolname, temp, 0) ? BST_CHECKED : BST_UNCHECKED);
 					mir_snprintf(temp, SIZEOF(temp), "notinstartmenu_%d", gameid);
-					CheckDlgButton(hwndDlg, IDC_NOTINSTARTMENU, db_get_b(NULL, protocolname, temp, 0));
+					CheckDlgButton(hwndDlg, IDC_NOTINSTARTMENU, db_get_b(NULL, protocolname, temp, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 					//extra parameter auslesen, aber nur, wenn das spiel auch sowas unterstützt
 					if (xgtemp && xgtemp->haveExtraGameArgs())

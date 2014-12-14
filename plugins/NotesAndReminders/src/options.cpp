@@ -349,12 +349,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 			SendDlgItemMessage(hdlg,IDC_SLIDER_TRANSPARENCY,TBM_SETRANGE,TRUE,MAKELONG(0,255-MIN_ALPHA));
 			SendDlgItemMessage(hdlg,IDC_SLIDER_TRANSPARENCY,TBM_SETPOS,TRUE,255-g_Transparency);
 			
-			CheckDlgButton(hdlg,IDC_CHECK_HIDENOTES,!g_ShowNotesAtStart);
-			CheckDlgButton(hdlg,IDC_CHECK_MENUS,g_AddContListMI);
-			CheckDlgButton(hdlg,IDC_CHECK_BUTTONS,g_ShowNoteButtons);
-			CheckDlgButton(hdlg,IDC_CHECK_SCROLLBARS,g_ShowScrollbar);
-			CheckDlgButton(hdlg,IDC_CHECK_CLOSE,g_CloseAfterAddReminder);
-			CheckDlgButton(hdlg,IDC_CHECK_MSI,!g_UseDefaultPlaySound);
+			CheckDlgButton(hdlg, IDC_CHECK_HIDENOTES, !g_ShowNotesAtStart ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_MENUS, g_AddContListMI ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_BUTTONS, g_ShowNoteButtons ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_SCROLLBARS, g_ShowScrollbar ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_CLOSE, g_CloseAfterAddReminder ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hdlg, IDC_CHECK_MSI, !g_UseDefaultPlaySound ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(hdlg,IDC_EDIT_WIDTH,g_NoteWidth,FALSE);
 			SetDlgItemInt(hdlg,IDC_EDIT_HEIGHT,g_NoteHeight,FALSE);
 
@@ -503,12 +503,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				g_NoteTitleTime = 1;
 				g_CloseAfterAddReminder = TRUE;
 				g_UseDefaultPlaySound = FALSE;
-				CheckDlgButton(hdlg,IDC_CHECK_HIDENOTES,!g_ShowNotesAtStart);
-				CheckDlgButton(hdlg,IDC_CHECK_MENUS,g_AddContListMI);
-				CheckDlgButton(hdlg,IDC_CHECK_SCROLLBARS,g_ShowScrollbar);
-				CheckDlgButton(hdlg,IDC_CHECK_BUTTONS,g_ShowNoteButtons);
-				CheckDlgButton(hdlg,IDC_CHECK_CLOSE,g_CloseAfterAddReminder);
-				CheckDlgButton(hdlg,IDC_CHECK_MSI,!g_UseDefaultPlaySound);
+				CheckDlgButton(hdlg, IDC_CHECK_HIDENOTES, !g_ShowNotesAtStart ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hdlg, IDC_CHECK_MENUS, g_AddContListMI ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hdlg, IDC_CHECK_SCROLLBARS, g_ShowScrollbar ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hdlg, IDC_CHECK_BUTTONS, g_ShowNoteButtons ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hdlg, IDC_CHECK_CLOSE, g_CloseAfterAddReminder ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hdlg, IDC_CHECK_MSI, !g_UseDefaultPlaySound ? BST_CHECKED : BST_UNCHECKED);
 				SendDlgItemMessage(hdlg,IDC_COMBODATE,CB_SETCURSEL,(WPARAM)(g_NoteTitleDate-1),0);
 				SendDlgItemMessage(hdlg,IDC_COMBOTIME,CB_SETCURSEL,(WPARAM)(g_NoteTitleTime-1),0);
 				g_NoteWidth = 179;

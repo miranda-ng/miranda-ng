@@ -30,17 +30,17 @@ static void UpdateControls(HWND hwnd)
 	SetDlgItemInt(hwnd, IDC_SENDTIME, GlobalNudge.sendTimeSec, FALSE);
 	SetDlgItemInt(hwnd, IDC_RECVTIME, GlobalNudge.recvTimeSec, FALSE);
 	SetDlgItemInt(hwnd, IDC_RESENDDELAY, GlobalNudge.resendDelaySec, FALSE);
-	CheckDlgButton(hwnd, IDC_USEBYPROTOCOL, (WPARAM)GlobalNudge.useByProtocol);
+	CheckDlgButton(hwnd, IDC_USEBYPROTOCOL, GlobalNudge.useByProtocol ? BST_CHECKED : BST_UNCHECKED);
 
 	if (ActualNudge) { // fix NULL pointer then no nudge support protocols
-		CheckDlgButton(hwnd, IDC_CHECKPOP, (WPARAM)ActualNudge->showPopup);
-		CheckDlgButton(hwnd, IDC_CHECKCLIST, (WPARAM)ActualNudge->shakeClist);
-		CheckDlgButton(hwnd, IDC_CHECKCHAT, (WPARAM)ActualNudge->shakeChat);
-		CheckDlgButton(hwnd, IDC_CHECKSTATUS, (WPARAM)ActualNudge->showStatus);
-		CheckDlgButton(hwnd, IDC_AUTORESEND, (WPARAM)ActualNudge->autoResend);
-		CheckDlgButton(hwnd, IDC_OPENMESSAGE, (WPARAM)ActualNudge->openMessageWindow);
-		CheckDlgButton(hwnd, IDC_OPENCONTACTLIST, (WPARAM)ActualNudge->openContactList);
-		CheckDlgButton(hwnd, IDC_IGNORE, (WPARAM)ActualNudge->useIgnoreSettings);
+		CheckDlgButton(hwnd, IDC_CHECKPOP, ActualNudge->showPopup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHECKCLIST, ActualNudge->shakeClist ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHECKCHAT, ActualNudge->shakeChat ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_CHECKSTATUS, ActualNudge->showStatus ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_AUTORESEND, ActualNudge->autoResend ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_OPENMESSAGE, ActualNudge->openMessageWindow ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_OPENCONTACTLIST, ActualNudge->openContactList ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_IGNORE, ActualNudge->useIgnoreSettings ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwnd, IDC_RESENDDELAY), ActualNudge->autoResend);
 		CheckDlgButton(hwnd, IDC_CHECKST0, ActualNudge->statusFlags & NUDGE_ACC_ST0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwnd, IDC_CHECKST1, ActualNudge->statusFlags & NUDGE_ACC_ST1 ? BST_CHECKED : BST_UNCHECKED);

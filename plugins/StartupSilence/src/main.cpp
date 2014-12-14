@@ -372,26 +372,26 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		static BOOL initDlg=FALSE;
 		LoadSettings();
 		SetDlgItemText(hwndDlg,  IDC_HST, mir_a2t(hostname));
-		CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SSTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETRANGE32, 10, 300);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((delay), 0));
 		SendDlgItemMessage(hwndDlg, IDC_SSTIME, EM_LIMITTEXT, (WPARAM)3, 0);
 
-		CheckDlgButton(hwndDlg, IDC_DELAY2, (PopUp == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DELAY2, (PopUp == 1) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SSPOPUPTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETRANGE32, 1, 30);
 		SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((PopUpTime), 0));
 		SendDlgItemMessage(hwndDlg, IDC_SSPOPUPTIME, EM_LIMITTEXT, (WPARAM)3, 0);
 
-		CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		break;
 
@@ -462,16 +462,16 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_RESETDEFAULT:
 			DefSettings();
-			CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DELAY, (Enabled == 1) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_SSSPIN, UDM_SETPOS, 0, MAKELONG((delay), 0));
-			CheckDlgButton(hwndDlg, IDC_DELAY2, (PopUp == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DELAY2, (PopUp == 1) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_SSSPIN2, UDM_SETPOS, 0, MAKELONG((PopUpTime), 0));
-			CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_MENU, (MenuItem == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TTB, (TTBButtons == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFPOPUP, (DefPopup == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DEFSOUNDS, (DefSound == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_RESTORE, (DefEnabled == 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NONSTATUSES, (NonStatusAllow == 1) ? BST_CHECKED : BST_UNCHECKED);
 			break;
 		}
 		break;

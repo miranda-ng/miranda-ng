@@ -838,7 +838,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 /*				{
 					EnableWindow( 
 						GetDlgItem(hwndDlg, IDC_FILE_VIEWER ), 
-						!IsDlgButtonChecked(hwndDlg, IDC_USE_INTERNAL_VIEWER )
+						BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_USE_INTERNAL_VIEWER )
 						);
 				}// fall thru here !!*/
 				case IDC_REPLACE_MIRANDA_HISTORY:
@@ -1229,25 +1229,25 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 			switch( enRenameAction )
 			{
 				case eDAPromptUser: 
-					CheckDlgButton(hwndDlg, IDC_FC_PROMPT,  true);
+					CheckDlgButton(hwndDlg, IDC_FC_PROMPT, BST_CHECKED);
 					break;
 				case eDAAutomatic:
-					CheckDlgButton(hwndDlg, IDC_FC_RENAME,  true);
+					CheckDlgButton(hwndDlg, IDC_FC_RENAME, BST_CHECKED);
 					break;
 				case eDANothing:
-					CheckDlgButton(hwndDlg, IDC_FC_NOTHING,  true);
+					CheckDlgButton(hwndDlg, IDC_FC_NOTHING, BST_CHECKED);
 					break;
 			}
 			switch( enDeleteAction )
 			{
 				case eDAPromptUser: 
-					CheckDlgButton(hwndDlg, IDC_FD_PROMPT,  true);
+					CheckDlgButton(hwndDlg, IDC_FD_PROMPT, BST_CHECKED);
 					break;
 				case eDAAutomatic:
-					CheckDlgButton(hwndDlg, IDC_FD_DELETE,  true);
+					CheckDlgButton(hwndDlg, IDC_FD_DELETE, BST_CHECKED);
 					break;
 				case eDANothing:
-					CheckDlgButton(hwndDlg, IDC_FD_NOTHING,  true);
+					CheckDlgButton(hwndDlg, IDC_FD_NOTHING, BST_CHECKED);
 					break;
 			}
 			HWND hMapUser = GetDlgItem(hwndDlg, IDC_EXPORT_PROTOS);

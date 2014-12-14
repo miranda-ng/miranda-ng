@@ -410,7 +410,7 @@ void CSWindow::toggleFilter()
 	BOOL isEnabled = !IsWindowEnabled( hFilter ) ? TRUE : FALSE; // ! = + isEnabled = !isEnabled in one
 	EnableWindow( hFilter, isEnabled );
 	ShowWindow( hFilter, isEnabled );
-	CheckDlgButton( m_handle, IDC_FILTER, isEnabled );
+	CheckDlgButton(m_handle, IDC_FILTER, isEnabled ? BST_CHECKED : BST_UNCHECKED);
 	SetForegroundWindow( hFilter );
 	if ( isEnabled )
 		SetFocus( hFilter );

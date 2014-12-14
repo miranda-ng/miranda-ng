@@ -95,11 +95,11 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	{
 		switch(LOWORD(wParam)) {
 		case CHK_COPY2ALL:
-			EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS),!IsDlgButtonChecked(hwnd,CHK_COPY2ALL));
+			EnableWindow(GetDlgItem(hwnd, IDC_CONTACTS),BST_UNCHECKED == IsDlgButtonChecked(hwnd,CHK_COPY2ALL));
 			break;
 
 		case IDOK:
-			if (!IsDlgButtonChecked(hwnd,CHK_COPY2ALL)) {
+			if (BST_UNCHECKED == IsDlgButtonChecked(hwnd,CHK_COPY2ALL)) {
 				MCONTACT hContact = (MCONTACT)SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETITEMDATA, SendDlgItemMessage(hwnd, IDC_CONTACTS, CB_GETCURSEL, 0, 0), 0);
 				copyModule(mac->module, mac->hContact, hContact);
 			}

@@ -469,7 +469,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		CreateList(hwndList);
 		UpdateList(hwndList);
-		CheckDlgButton(hwndDlg, IDC_STARTUPRETRIEVE, db_get_b(NULL, MODULE, "StartupRetrieve", 1));
+		CheckDlgButton(hwndDlg, IDC_STARTUPRETRIEVE, db_get_b(NULL, MODULE, "StartupRetrieve", 1) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:

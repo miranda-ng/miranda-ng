@@ -305,7 +305,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				flags = tempSettings[iUser]->flags;
 			}
 			ShowMultipleControls(hwndDlg, outgoingConnectionsControls, SIZEOF(outgoingConnectionsControls), flags&NUF_OUTGOING ? SW_SHOW : SW_HIDE);
-			CheckDlgButton(hwndDlg, IDC_USEPROXY, settings.useProxy);
+			CheckDlgButton(hwndDlg, IDC_USEPROXY, settings.useProxy ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_RESETCONTENT, 0, 0);
 			if (settings.proxyType == 0) AddProxyTypeItem(hwndDlg, 0, settings.proxyType);
 			AddProxyTypeItem(hwndDlg, PROXYTYPE_SOCKS4, settings.proxyType);
@@ -317,20 +317,20 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			SetDlgItemTextA(hwndDlg, IDC_PROXYHOST, settings.szProxyServer ? settings.szProxyServer : "");
 			if (settings.wProxyPort) SetDlgItemInt(hwndDlg, IDC_PROXYPORT, settings.wProxyPort, FALSE);
 			else SetDlgItemTextA(hwndDlg, IDC_PROXYPORT, "");
-			CheckDlgButton(hwndDlg, IDC_PROXYAUTH, settings.useProxyAuth);
+			CheckDlgButton(hwndDlg, IDC_PROXYAUTH, settings.useProxyAuth ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemTextA(hwndDlg, IDC_PROXYUSER, settings.szProxyAuthUser ? settings.szProxyAuthUser : "");
 			SetDlgItemTextA(hwndDlg, IDC_PROXYPASS, settings.szProxyAuthPassword ? settings.szProxyAuthPassword : "");
-			CheckDlgButton(hwndDlg, IDC_PROXYDNS, settings.dnsThroughProxy);
-			CheckDlgButton(hwndDlg, IDC_VALIDATESSL, settings.validateSSL);
+			CheckDlgButton(hwndDlg, IDC_PROXYDNS, settings.dnsThroughProxy ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_VALIDATESSL, settings.validateSSL ? BST_CHECKED : BST_UNCHECKED);
 
 			ShowMultipleControls(hwndDlg, incomingConnectionsControls, SIZEOF(incomingConnectionsControls), flags&NUF_INCOMING ? SW_SHOW : SW_HIDE);
-			CheckDlgButton(hwndDlg, IDC_SPECIFYPORTS, settings.specifyIncomingPorts);
+			CheckDlgButton(hwndDlg, IDC_SPECIFYPORTS, settings.specifyIncomingPorts ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemTextA(hwndDlg, IDC_PORTSRANGE, settings.szIncomingPorts ? settings.szIncomingPorts : "");
 
-			CheckDlgButton(hwndDlg, IDC_SPECIFYPORTSO, settings.specifyOutgoingPorts);
+			CheckDlgButton(hwndDlg, IDC_SPECIFYPORTSO, settings.specifyOutgoingPorts ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemTextA(hwndDlg, IDC_PORTSRANGEO, settings.szOutgoingPorts ? settings.szOutgoingPorts : "");
 
-			CheckDlgButton(hwndDlg, IDC_ENABLEUPNP, settings.enableUPnP);
+			CheckDlgButton(hwndDlg, IDC_ENABLEUPNP, settings.enableUPnP ? BST_CHECKED : BST_UNCHECKED);
 
 			NetlibFreeUserSettingsStruct(&settings);
 			SendMessage(hwndDlg, M_REFRESHENABLING, 0, 0);

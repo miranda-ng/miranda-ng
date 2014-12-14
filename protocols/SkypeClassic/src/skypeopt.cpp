@@ -107,10 +107,10 @@ INT_PTR CALLBACK OptPopupDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			EnableWindow(GetDlgItem(hwnd,IDC_STATIC_POPUPTEXTCOLORERR),showPopupErr && ! popupWindowColorErr);
 			EnableWindow(GetDlgItem(hwnd,IDC_POPUPTIMEERR),showPopupErr);
 			EnableWindow(GetDlgItem(hwnd,IDC_PREVIEWERR),showPopupErr);
-			CheckDlgButton(hwnd, IDC_POPUPINCOMING, (WPARAM) showPopup);
-			CheckDlgButton(hwnd, IDC_USEWINCOLORS, (WPARAM) popupWindowColor);
-			CheckDlgButton(hwnd, IDC_POPUPERROR, (WPARAM) showPopupErr);
-			CheckDlgButton(hwnd, IDC_USEWINCOLORSERR, (WPARAM) popupWindowColorErr);
+			CheckDlgButton(hwnd, IDC_POPUPINCOMING, showPopup ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_USEWINCOLORS, popupWindowColor ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_POPUPERROR, showPopupErr ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, IDC_USEWINCOLORSERR, popupWindowColorErr ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwnd, IDC_POPUPTIME, EM_SETLIMITTEXT, 3, 0L);
 			SetDlgItemInt(hwnd, IDC_POPUPTIME, popupTimeSec,FALSE);
 			SendDlgItemMessage(hwnd, IDC_POPUPTIMEERR, EM_SETLIMITTEXT, 3, 0L);
@@ -378,8 +378,8 @@ INT_PTR CALLBACK OptionsProxyDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			} else SetDlgItemText(hwndDlg, IDC_HOST, _T("localhost"));
 			SendDlgItemMessage(hwndDlg, IDC_PORT, EM_SETLIMITTEXT, 5, 0L);
 			SetDlgItemInt(hwndDlg, IDC_PORT, db_get_w(NULL, SKYPE_PROTONAME, "Port", 1401), FALSE);
-			CheckDlgButton(hwndDlg, IDC_REQPASS, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "RequiresPassword", 0));
-			CheckDlgButton(hwndDlg, IDC_USES2S, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UseSkype2Socket", 0));
+			CheckDlgButton(hwndDlg, IDC_REQPASS, db_get_b(NULL, SKYPE_PROTONAME, "RequiresPassword", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_USES2S, db_get_b(NULL, SKYPE_PROTONAME, "UseSkype2Socket", 0) ? BST_CHECKED : BST_UNCHECKED);
 			if (!db_get_s(NULL, SKYPE_PROTONAME, "Password", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
@@ -438,19 +438,19 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			initDlg=TRUE;
 
 			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_ENABLEMENU, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "EnableMenu", 1));
-			CheckDlgButton(hwndDlg, IDC_NOERRORS, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "SuppressErrors", 0));
-			CheckDlgButton(hwndDlg, IDC_KEEPSTATE, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "KeepState", 0));
-			CheckDlgButton(hwndDlg, IDC_TIMEZONE, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UseTimeZonePatch", 0));
-			CheckDlgButton(hwndDlg, IDC_IGNTZ, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "IgnoreTimeZones", 0));
-			CheckDlgButton(hwndDlg, IDC_SHOWDEFAULTAVATAR, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "ShowDefaultSkypeAvatar", 0));
-			CheckDlgButton(hwndDlg, IDC_SUPPRESSCALLSUMMARYMESSAGE, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "SuppressCallSummaryMessage", 1));
-			CheckDlgButton(hwndDlg, IDC_NOSKYPE3STATS, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "NoSkype3Stats", 0));
-			CheckDlgButton(hwndDlg, IDC_SHOWFULLNAME, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "ShowFullname", 1));
+			CheckDlgButton(hwndDlg, IDC_ENABLEMENU, db_get_b(NULL, SKYPE_PROTONAME, "EnableMenu", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOERRORS, db_get_b(NULL, SKYPE_PROTONAME, "SuppressErrors", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_KEEPSTATE, db_get_b(NULL, SKYPE_PROTONAME, "KeepState", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TIMEZONE, db_get_b(NULL, SKYPE_PROTONAME, "UseTimeZonePatch", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IGNTZ, db_get_b(NULL, SKYPE_PROTONAME, "IgnoreTimeZones", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWDEFAULTAVATAR, db_get_b(NULL, SKYPE_PROTONAME, "ShowDefaultSkypeAvatar", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SUPPRESSCALLSUMMARYMESSAGE, db_get_b(NULL, SKYPE_PROTONAME, "SuppressCallSummaryMessage", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOSKYPE3STATS, db_get_b(NULL, SKYPE_PROTONAME, "NoSkype3Stats", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWFULLNAME, db_get_b(NULL, SKYPE_PROTONAME, "ShowFullname", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			if (ServiceExists(MS_GC_NEWSESSION) && (!bProtocolSet || protocol>=5)) {
-				CheckDlgButton(hwndDlg, IDC_GROUPCHAT, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0));
-				CheckDlgButton(hwndDlg, IDC_GROUPCHATREAD, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "MarkGroupchatRead", 0));
+				CheckDlgButton(hwndDlg, IDC_GROUPCHAT, db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_GROUPCHATREAD, db_get_b(NULL, SKYPE_PROTONAME, "MarkGroupchatRead", 0) ? BST_CHECKED : BST_UNCHECKED);
 			} else {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_GROUPCHAT), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_GROUPCHATREAD), FALSE);
@@ -458,7 +458,7 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 
 #ifdef USEPOPUP
 			if (ServiceExists(MS_POPUP_ADDPOPUPT))
-				CheckDlgButton(hwndDlg, IDC_USEPOPUP, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UsePopup", 0));
+				CheckDlgButton(hwndDlg, IDC_USEPOPUP, db_get_b(NULL, SKYPE_PROTONAME, "UsePopup", 0) ? BST_CHECKED : BST_UNCHECKED);
 			else
 #endif
 				EnableWindow(GetDlgItem(hwndDlg, IDC_USEPOPUP), FALSE);
@@ -540,22 +540,22 @@ INT_PTR CALLBACK OptionsDefaultDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			BOOL startSkype;
 			int i;
 
-			initDlg=TRUE;
+			initDlg = TRUE;
 			TranslateDialogDefault(hwndDlg);
 
-			startSkype=db_get_b(NULL, SKYPE_PROTONAME, "StartSkype", 1);
+			startSkype = db_get_b(NULL, SKYPE_PROTONAME, "StartSkype", 1);
 
-			CheckDlgButton(hwndDlg, IDC_STARTSKYPE, (BYTE)startSkype);
-			CheckDlgButton(hwndDlg, IDC_NOSPLASH, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "nosplash", 1));
-			CheckDlgButton(hwndDlg, IDC_MINIMIZED, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "minimized", 1));
-			CheckDlgButton(hwndDlg, IDC_NOTRAY, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "notray", 0));
-			CheckDlgButton(hwndDlg, IDC_REMOVEABLE, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "removable", 0));
-			CheckDlgButton(hwndDlg, IDC_SECONDARY, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "secondary", 0));
-			CheckDlgButton(hwndDlg, IDC_DATAPATHO, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "datapath:", 0));
-			CheckDlgButton(hwndDlg, IDC_SHUTDOWN, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "Shutdown", 0));
-			CheckDlgButton(hwndDlg, IDC_UNLOADOFFLINE, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UnloadOnOffline", 0));
+			CheckDlgButton(hwndDlg, IDC_STARTSKYPE, startSkype ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOSPLASH, db_get_b(NULL, SKYPE_PROTONAME, "nosplash", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_MINIMIZED, db_get_b(NULL, SKYPE_PROTONAME, "minimized", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTRAY, db_get_b(NULL, SKYPE_PROTONAME, "notray", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_REMOVEABLE, db_get_b(NULL, SKYPE_PROTONAME, "removable", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SECONDARY, db_get_b(NULL, SKYPE_PROTONAME, "secondary", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DATAPATHO, db_get_b(NULL, SKYPE_PROTONAME, "datapath:", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHUTDOWN, db_get_b(NULL, SKYPE_PROTONAME, "Shutdown", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UNLOADOFFLINE, db_get_b(NULL, SKYPE_PROTONAME, "UnloadOnOffline", 0) ? BST_CHECKED : BST_UNCHECKED);
 			
-			CheckDlgButton(hwndDlg, IDC_CUSTOMCOMMAND, (BYTE)db_get_b(NULL, SKYPE_PROTONAME, "UseCustomCommand", 0));
+			CheckDlgButton(hwndDlg, IDC_CUSTOMCOMMAND, db_get_b(NULL, SKYPE_PROTONAME, "UseCustomCommand", 0) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_COMMANDLINE, EM_SETLIMITTEXT, MAX_PATH-1, 0L);
 			if(!db_get_s(NULL,SKYPE_PROTONAME,"CommandLine",&dbv)) 
 			{

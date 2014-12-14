@@ -29,9 +29,9 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		if (bShortMode)
 			EnableWindow(GetDlgItem(GetParent(hdlg), IDC_BACK), FALSE);
-		CheckDlgButton(hdlg, IDC_CHECKONLY, opts.bCheckOnly);
-		CheckDlgButton(hdlg, IDC_BACKUP, opts.bBackup);
-		CheckDlgButton(hdlg, IDC_AGGRESSIVE, opts.bAggressive);
+		CheckDlgButton(hdlg, IDC_CHECKONLY, opts.bCheckOnly ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_BACKUP, opts.bBackup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_AGGRESSIVE, opts.bAggressive ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hdlg, WM_COMMAND, MAKEWPARAM(IDC_CHECKONLY, BN_CLICKED), 0);
 		TranslateDialogDefault(hdlg);
 		return TRUE;
@@ -57,8 +57,8 @@ INT_PTR CALLBACK FileAccessDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 			break;
 
 		case IDC_CHECKONLY:
-			EnableWindow(GetDlgItem(hdlg, IDC_BACKUP), !IsDlgButtonChecked(hdlg, IDC_CHECKONLY));
-			EnableWindow(GetDlgItem(hdlg, IDC_STBACKUP), !IsDlgButtonChecked(hdlg, IDC_CHECKONLY));
+			EnableWindow(GetDlgItem(hdlg, IDC_BACKUP), BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_CHECKONLY));
+			EnableWindow(GetDlgItem(hdlg, IDC_STBACKUP), BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_CHECKONLY));
 			break;
 		}
 		break;

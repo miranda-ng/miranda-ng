@@ -265,19 +265,19 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_CHPASS), SW_HIDE);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_FRIENDSONLY, gg->getByte(GG_KEY_FRIENDSONLY, GG_KEYDEF_FRIENDSONLY));
-			CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLE, gg->getByte(GG_KEY_SHOWINVISIBLE, GG_KEYDEF_SHOWINVISIBLE));
-			CheckDlgButton(hwndDlg, IDC_LEAVESTATUSMSG, gg->getByte(GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG));
+			CheckDlgButton(hwndDlg, IDC_FRIENDSONLY, gg->getByte(GG_KEY_FRIENDSONLY, GG_KEYDEF_FRIENDSONLY) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLE, gg->getByte(GG_KEY_SHOWINVISIBLE, GG_KEYDEF_SHOWINVISIBLE) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_LEAVESTATUSMSG, gg->getByte(GG_KEY_LEAVESTATUSMSG, GG_KEYDEF_LEAVESTATUSMSG) ? BST_CHECKED : BST_UNCHECKED);
 			if (gg->gc_enabled)
-				CheckDlgButton(hwndDlg, IDC_IGNORECONF, gg->getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF));
+				CheckDlgButton(hwndDlg, IDC_IGNORECONF, gg->getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF) ? BST_CHECKED : BST_UNCHECKED);
 			else
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_IGNORECONF), FALSE);
-				CheckDlgButton(hwndDlg, IDC_IGNORECONF, TRUE);
+				CheckDlgButton(hwndDlg, IDC_IGNORECONF, BST_CHECKED);
 			}
-			CheckDlgButton(hwndDlg, IDC_IMGRECEIVE, gg->getByte(GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE));
-			CheckDlgButton(hwndDlg, IDC_SHOWLINKS, gg->getByte(GG_KEY_SHOWLINKS, GG_KEYDEF_SHOWLINKS));
-			CheckDlgButton(hwndDlg, IDC_ENABLEAVATARS, gg->getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS));
+			CheckDlgButton(hwndDlg, IDC_IMGRECEIVE, gg->getByte(GG_KEY_IMGRECEIVE, GG_KEYDEF_IMGRECEIVE) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWLINKS, gg->getByte(GG_KEY_SHOWLINKS, GG_KEYDEF_SHOWLINKS) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ENABLEAVATARS, gg->getByte(GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS) ? BST_CHECKED : BST_UNCHECKED);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_LEAVESTATUS), IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IMGMETHOD), IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
@@ -594,20 +594,20 @@ static INT_PTR CALLBACK gg_advoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		else SetDlgItemTextA(hwndDlg, IDC_HOST, GG_KEYDEF_SERVERHOSTS);
 
-		CheckDlgButton(hwndDlg, IDC_KEEPALIVE, gg->getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE));
-		CheckDlgButton(hwndDlg, IDC_SHOWCERRORS, gg->getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS));
-		CheckDlgButton(hwndDlg, IDC_ARECONNECT, gg->getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT));
-		CheckDlgButton(hwndDlg, IDC_MSGACK, gg->getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK));
-		CheckDlgButton(hwndDlg, IDC_MANUALHOST, gg->getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST));
-		CheckDlgButton(hwndDlg, IDC_SSLCONN, gg->getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN));
+		CheckDlgButton(hwndDlg, IDC_KEEPALIVE, gg->getByte(GG_KEY_KEEPALIVE, GG_KEYDEF_KEEPALIVE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWCERRORS, gg->getByte(GG_KEY_SHOWCERRORS, GG_KEYDEF_SHOWCERRORS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ARECONNECT, gg->getByte(GG_KEY_ARECONNECT, GG_KEYDEF_ARECONNECT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MSGACK, gg->getByte(GG_KEY_MSGACK, GG_KEYDEF_MSGACK) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MANUALHOST, gg->getByte(GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SSLCONN, gg->getByte(GG_KEY_SSLCONN, GG_KEYDEF_SSLCONN) ? BST_CHECKED : BST_UNCHECKED);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_HOST), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PORT), IsDlgButtonChecked(hwndDlg, IDC_MANUALHOST));
 
-		CheckDlgButton(hwndDlg, IDC_DIRECTCONNS, gg->getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS));
+		CheckDlgButton(hwndDlg, IDC_DIRECTCONNS, gg->getByte(GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS) ? BST_CHECKED : BST_UNCHECKED);
 		if (num = gg->getWord(GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))
 			SetDlgItemTextA(hwndDlg, IDC_DIRECTPORT, ditoa(num));
-		CheckDlgButton(hwndDlg, IDC_FORWARDING, gg->getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING));
+		CheckDlgButton(hwndDlg, IDC_FORWARDING, gg->getByte(GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING) ? BST_CHECKED : BST_UNCHECKED);
 		if (!gg->getString(GG_KEY_FORWARDHOST, &dbv)) {
 			SetDlgItemTextA(hwndDlg, IDC_FORWARDHOST, dbv.pszVal);
 			db_free(&dbv);

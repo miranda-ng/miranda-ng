@@ -76,29 +76,29 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		if (!IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK), FALSE);
 		}
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS) || !IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS) || BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN), FALSE);
 		}
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_SHOW_PROTO_NAME))
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOW_PROTO_NAME))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_CYCLE_PROTO_BUTTON), FALSE);
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_SIZE_CHK)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_SIZE_CHK)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_CUSTOM_SIZE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_CUSTOM_SIZE_SPIN), FALSE);
 		}
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_CYCLE_THROUGH_PROTOS)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CYCLE_THROUGH_PROTOS)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLE_TIME), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CYCLE_TIME_SPIN), FALSE);
 		}
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_REPLACE_SMILEYS)) {
+		if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_REPLACE_SMILEYS)) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_USE_CONTACT_LIST_SMILEYS), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_RESIZE_SMILEYS), FALSE);
 		}

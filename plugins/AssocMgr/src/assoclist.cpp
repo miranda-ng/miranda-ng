@@ -751,12 +751,12 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
 			ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); /* size to fit window */
 			/* only while running */
-			CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT));
+			CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)db_get_b(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			/* autostart */
 			{	TCHAR *pszRunCmd;
 				pszRunCmd = MakeRunCommand(TRUE, TRUE);
 				if(pszRunCmd!= NULL) {
-					CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(_T("MirandaNG"), pszRunCmd));
+					CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(_T("MirandaNG"), pszRunCmd) ? BST_CHECKED : BST_UNCHECKED);
 					mir_free(pszRunCmd);
 				}
 			}

@@ -123,7 +123,7 @@ void rowOptShowSettings(HWND hwnd)
 	}
 	SendDlgItemMessage(hwnd, IDC_HALIGN, CB_SETCURSEL, param, 0);
 
-	CheckDlgButton(hwnd,IDC_CONTLAYER,cell->layer?BST_CHECKED:BST_UNCHECKED);
+	CheckDlgButton(hwnd,IDC_CONTLAYER,cell->layer ? BST_CHECKED : BST_UNCHECKED);
 }
 
 void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)

@@ -359,7 +359,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 					Utils::SettingsToContainer(pContainer);
 
-					if (!IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
+					if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 						ReloadGlobalContainerSettings(true);
 						::db_set_blob(0, SRMSGMOD_T, CNT_KEYNAME, &PluginConfig.globalContainerSettings, sizeof(TContainerSettings));
 					}
@@ -453,9 +453,9 @@ do_apply:
 				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlagsEx & TCF_SBARLEFT ? 2 : 3, 0);
 
 			if (LOBYTE(LOWORD(GetVersion())) >= 5 && fAllowTrans)
-				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY);
+				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, dwFlags & CNT_TRANSPARENCY ? BST_CHECKED : BST_UNCHECKED);
 			else
-				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, FALSE);
+				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, BST_UNCHECKED);
 
 			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, PluginConfig.m_WinVerMajor >= 5 && fAllowTrans ? TRUE : FALSE);
 

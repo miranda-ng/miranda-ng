@@ -977,7 +977,7 @@ void CManagerDlg::OnAdd(CCtrlButton*)
 
 void CManagerDlg::OnEdit(CCtrlButton*)
 {
-	if (!IsDlgButtonChecked(m_hwnd, IDC_NOTOP)) {
+	if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_NOTOP)) {
 		int i = m_list.GetCurSel();
 		if (i != LB_ERR) {
 			TCHAR* m = m_list.GetItemText(i);
@@ -1062,7 +1062,7 @@ void CManagerDlg::OnListDblClick(CCtrlListBox*)
 
 void CManagerDlg::OnChangeList(CCtrlListBox*)
 {
-	if (!IsDlgButtonChecked(m_hwnd, IDC_NOTOP)) {
+	if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_NOTOP)) {
 		m_edit.Enable();
 		m_remove.Enable();
 	}
@@ -1305,7 +1305,7 @@ void CManagerDlg::InitManager(int mode, const TCHAR* window)
 		if (wi->pszTopic)
 			m_topic.SetText(wi->pszTopic);
 
-		if (!IsDlgButtonChecked(m_proto->m_managerDlg->GetHwnd(), IDC_NOTOP))
+		if (BST_UNCHECKED == IsDlgButtonChecked(m_proto->m_managerDlg->GetHwnd(), IDC_NOTOP))
 			m_add.Enable();
 
 		bool add = false;

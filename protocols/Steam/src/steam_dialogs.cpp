@@ -154,7 +154,7 @@ INT_PTR CALLBACK CSteamProto::MainOptionsProc(HWND hwnd, UINT message, WPARAM wP
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
 
 			BOOL biggerAvatars = proto->getBool("UseBigAvatars", false);
-			CheckDlgButton(hwnd, IDC_BIGGER_AVATARS, biggerAvatars);
+			CheckDlgButton(hwnd, IDC_BIGGER_AVATARS, biggerAvatars ? BST_CHECKED : BST_UNCHECKED);
 
 			if (proto->IsOnline())
 			{

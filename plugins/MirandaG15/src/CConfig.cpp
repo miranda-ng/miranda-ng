@@ -389,14 +389,14 @@ INT_PTR CALLBACK CConfig::AppearanceDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			// Translate the dialog
 			TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_SKIP_DRIVER_ERROR,		m_abBoolSettings[SKIP_DRIVER_ERROR]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SKIP_DRIVER_ERROR,		m_abBoolSettings[SKIP_DRIVER_ERROR]	? BST_CHECKED	: BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_SCREENSAVER_LOCK,		m_abBoolSettings[SCREENSAVER_LOCK]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SCREENSAVER_LOCK,		m_abBoolSettings[SCREENSAVER_LOCK]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_TRANSITIONS,		m_abBoolSettings[TRANSITIONS]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CONTROL_BACKLIGHTS,		m_abBoolSettings[CONTROL_BACKLIGHTS]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOW_LABELS,			m_abBoolSettings[SHOW_LABELS]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_HOOK_VOLUMEWHEEL,		m_abBoolSettings[HOOK_VOLUMEWHEEL]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_TIMESTAMP_SECONDS,		m_abBoolSettings[TIMESTAMP_SECONDS]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CONTROL_BACKLIGHTS,		m_abBoolSettings[CONTROL_BACKLIGHTS]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOW_LABELS,			m_abBoolSettings[SHOW_LABELS]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_HOOK_VOLUMEWHEEL,		m_abBoolSettings[HOOK_VOLUMEWHEEL]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TIMESTAMP_SECONDS,		m_abBoolSettings[TIMESTAMP_SECONDS]	? BST_CHECKED	: BST_UNCHECKED);
 			
 			for(int i=0;i<FONT_SETTINGS;i++)
 			{
@@ -499,22 +499,22 @@ INT_PTR CALLBACK CConfig::ChatDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			// Translate the dialog
 			TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_MAXIMIZED_TITLE,			m_abBoolSettings[MAXIMIZED_TITLE]	? BST_UNCHECKED	: BST_CHECKED);
-			CheckDlgButton(hwndDlg, IDC_MAXIMIZED_LABELS,			m_abBoolSettings[MAXIMIZED_LABELS]	? BST_UNCHECKED	: BST_CHECKED);
+			CheckDlgButton(hwndDlg, IDC_MAXIMIZED_TITLE,		m_abBoolSettings[MAXIMIZED_TITLE]	? BST_UNCHECKED	: BST_CHECKED);
+			CheckDlgButton(hwndDlg, IDC_MAXIMIZED_LABELS,		m_abBoolSettings[MAXIMIZED_LABELS]	? BST_UNCHECKED	: BST_CHECKED);
 			CheckDlgButton(hwndDlg, IDC_SESSION_REPLY_MAXIMIZED,	m_abBoolSettings[SESSION_REPLY_MAXIMIZED]? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLL_MAXIMIZED,	m_abBoolSettings[SESSION_SCROLL_MAXIMIZED]? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SESSION_SHOWTYPING,		m_abBoolSettings[SESSION_SHOWTYPING]? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SESSION_SENDTYPING,		m_abBoolSettings[SESSION_SENDTYPING]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SESSION_LOADDB,			m_abBoolSettings[SESSION_LOADDB]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SESSION_MARKREAD,			m_abBoolSettings[SESSION_MARKREAD]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SESSION_SYMBOLS,			m_abBoolSettings[SESSION_SYMBOLS]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SESSION_TIMESTAMPS,			m_abBoolSettings[SESSION_TIMESTAMPS]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SESSION_CLOSE,			m_abBoolSettings[SESSION_CLOSE]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_LOADDB,		m_abBoolSettings[SESSION_LOADDB]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_MARKREAD,		m_abBoolSettings[SESSION_MARKREAD]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_SYMBOLS,		m_abBoolSettings[SESSION_SYMBOLS]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_TIMESTAMPS,		m_abBoolSettings[SESSION_TIMESTAMPS]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_CLOSE,		m_abBoolSettings[SESSION_CLOSE]? BST_CHECKED	: BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_SESSION_SENDRETURN,	m_abBoolSettings[SESSION_SENDRETURN]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_SENDRETURN,		m_abBoolSettings[SESSION_SENDRETURN]? BST_CHECKED	: BST_UNCHECKED);
 			
 			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLLNONE,		m_aiIntSettings[SESSION_AUTOSCROLL] == SESSION_AUTOSCROLL_NONE? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLLFIRST,		m_aiIntSettings[SESSION_AUTOSCROLL] == SESSION_AUTOSCROLL_FIRST? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLLFIRST,	m_aiIntSettings[SESSION_AUTOSCROLL] == SESSION_AUTOSCROLL_FIRST? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SESSION_SCROLLLAST,		m_aiIntSettings[SESSION_AUTOSCROLL] == SESSION_AUTOSCROLL_LAST? BST_CHECKED	: BST_UNCHECKED);
 			
 			_itoa_s(m_aiIntSettings[SESSION_LOGSIZE], buf, SIZEOF(buf), 10);
@@ -605,9 +605,9 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 		
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_TIMESTAMPS,		m_abBoolSettings[NOTIFY_TIMESTAMPS]			? BST_CHECKED	: BST_UNCHECKED);
 		
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_SHOWPROTO,	m_abBoolSettings[NOTIFY_SHOWPROTO]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_SHOWPROTO,		m_abBoolSettings[NOTIFY_SHOWPROTO]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_CHANNELCUTOFF,	m_abBoolSettings[NOTIFY_CHANNELCUTOFF]	? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_NICKCUTOFF,	m_abBoolSettings[NOTIFY_NICKCUTOFF]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_NICKCUTOFF,		m_abBoolSettings[NOTIFY_NICKCUTOFF]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_IRC_MESSAGES,	m_abBoolSettings[NOTIFY_IRC_MESSAGES]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_IRC_USERS,		m_abBoolSettings[NOTIFY_IRC_USERS]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_IRC_EMOTES,		m_abBoolSettings[NOTIFY_IRC_EMOTES]	? BST_CHECKED	: BST_UNCHECKED);
@@ -618,13 +618,13 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_PROTO_STATUS,	m_abBoolSettings[NOTIFY_PROTO_STATUS]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_PROTO_SIGNON,	m_abBoolSettings[NOTIFY_PROTO_SIGNON]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_PROTO_SIGNOFF,	m_abBoolSettings[NOTIFY_PROTO_SIGNOFF]	? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_SIGNON,			m_abBoolSettings[NOTIFY_SIGNON]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_SIGNOFF,			m_abBoolSettings[NOTIFY_SIGNOFF]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_STATUS,			m_abBoolSettings[NOTIFY_STATUS]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_MESSAGES,		m_abBoolSettings[NOTIFY_MESSAGES]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_FILE,			m_abBoolSettings[NOTIFY_FILE]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_CONTACTS,		m_abBoolSettings[NOTIFY_CONTACTS]		? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_URL,				m_abBoolSettings[NOTIFY_URL]			? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_SIGNON,		m_abBoolSettings[NOTIFY_SIGNON]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_SIGNOFF,		m_abBoolSettings[NOTIFY_SIGNOFF]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_STATUS,		m_abBoolSettings[NOTIFY_STATUS]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_MESSAGES,		m_abBoolSettings[NOTIFY_MESSAGES]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_FILE,		m_abBoolSettings[NOTIFY_FILE]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_CONTACTS,		m_abBoolSettings[NOTIFY_CONTACTS]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_URL,			m_abBoolSettings[NOTIFY_URL]		? BST_CHECKED	: BST_UNCHECKED);
 		
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_NO_SKIP_REPLY,	m_abBoolSettings[NOTIFY_NO_SKIP_REPLY]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOTIFY_SKIP_SIGNON,		m_abBoolSettings[NOTIFY_SKIP_SIGNON]	? BST_CHECKED	: BST_UNCHECKED);
@@ -644,9 +644,9 @@ INT_PTR CALLBACK CConfig::NotificationsDlgProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			_itoa_s(m_aiIntSettings[NOTIFY_DURATION], buf, SIZEOF(buf), 10);
 			SetDlgItemTextA(hwndDlg, IDC_NOTIFY_DURATION, buf);
 
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLEHIDE,		m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_HIDE? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLENAME,		m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_NAME? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLEINFO,		m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_INFO? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLEHIDE, m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_HIDE? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLENAME, m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_NAME? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOTIFY_TITLEINFO, m_aiIntSettings[NOTIFY_TITLE] == NOTIFY_TITLE_INFO? BST_CHECKED : BST_UNCHECKED);
 			
 			m_bInitializingDialog = false;
 			break;
@@ -778,15 +778,15 @@ INT_PTR CALLBACK CConfig::ContactlistDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 			FillTree(GetDlgItem(hwndDlg,IDC_CLIST_PROTOFILTER),true);
 			
-			CheckDlgButton(hwndDlg, IDC_CLIST_SELECTION,	m_abBoolSettings[CLIST_SELECTION]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLIST_COLUMNS,	m_abBoolSettings[CLIST_COLUMNS]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLIST_HIDEOFFLINE,	m_abBoolSettings[CLIST_HIDEOFFLINE]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLIST_USEIGNORE,	m_abBoolSettings[CLIST_USEIGNORE]			? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLIST_USEGROUPS,	m_abBoolSettings[CLIST_USEGROUPS]			? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_SELECTION,	m_abBoolSettings[CLIST_SELECTION]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_COLUMNS,	m_abBoolSettings[CLIST_COLUMNS]		? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_HIDEOFFLINE,	m_abBoolSettings[CLIST_HIDEOFFLINE]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_USEIGNORE,	m_abBoolSettings[CLIST_USEIGNORE]	? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_USEGROUPS,	m_abBoolSettings[CLIST_USEGROUPS]	? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLIST_SHOWPROTO,	m_abBoolSettings[CLIST_SHOWPROTO]? BST_CHECKED	: BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLIST_DRAWLINES,	m_abBoolSettings[CLIST_DRAWLINES]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLIST_POSITION,		m_abBoolSettings[CLIST_POSITION]? BST_CHECKED	: BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLIST_COUNTERS,		m_abBoolSettings[CLIST_COUNTERS]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_POSITION,	m_abBoolSettings[CLIST_POSITION]? BST_CHECKED	: BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLIST_COUNTERS,	m_abBoolSettings[CLIST_COUNTERS]? BST_CHECKED	: BST_UNCHECKED);
 
 			if(m_aiIntSettings[CLIST_GA] == CLIST_GA_NONE)
 				CheckDlgButton(hwndDlg, IDC_CLIST_GA_NONE, BST_CHECKED);

@@ -1583,8 +1583,8 @@ INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LP
 			ShowWindow(GetDlgItem(Dialog,IDC_TIMEAGAIN),SW_HIDE);
 			ShowWindow(GetDlgItem(Dialog,IDC_STATIC_DATE),SW_HIDE);
 			ShowWindow(GetDlgItem(Dialog,IDC_STATIC_TIME),SW_HIDE);
-			SendDlgItemMessage(Dialog,IDC_AFTER,BM_SETCHECK,1,0);
-			SendDlgItemMessage(Dialog,IDC_ONDATE,BM_SETCHECK,0,0);
+			CheckDlgButton(Dialog, IDC_AFTER, BST_CHECKED);
+			CheckDlgButton(Dialog, IDC_ONDATE, BST_UNCHECKED);
 			SendDlgItemMessage(Dialog,IDC_REMINDAGAININ,CB_SETCURSEL,0,0);
 
 			SendDlgItemMessage(Dialog, IDC_REMDATA, EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
@@ -1919,10 +1919,10 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 				SetDlgItemText(Dialog, IDC_REFTIME, s);
 			}
 
-			/*SendDlgItemMessage(Dialog,IDC_NONE,BM_SETCHECK,1,0);
-			SendDlgItemMessage(Dialog,IDC_DAILY,BM_SETCHECK,0,0);
-			SendDlgItemMessage(Dialog,IDC_WEEKLY,BM_SETCHECK,0,0);
-			SendDlgItemMessage(Dialog,IDC_MONTHLY,BM_SETCHECK,0,0);*/
+			/*CheckDlgButton(Dialog, IDC_NONE, BST_CHECKED);
+			CheckDlgButton(Dialog, IDC_DAILY, BST_UNCHECKED);
+			CheckDlgButton(Dialog, IDC_WEEKLY, BST_UNCHECKED);
+			CheckDlgButton(Dialog, IDC_MONTHLY, BST_UNCHECKED);*/
 
 			PopulateTimeCombo(Dialog, IDC_TIME, NewReminderVisible != 2, &tm);
 

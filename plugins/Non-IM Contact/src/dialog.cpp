@@ -22,7 +22,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			TCHAR tmp[5];
 			TranslateDialogDefault(hwnd);
-			CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0));
+			CheckDlgButton(hwnd, IDC_AWAYISNOTONLINE, db_get_b(NULL, MODNAME, "AwayAsStatus", 0) ? BST_CHECKED : BST_UNCHECKED);
 			if (db_get_w(NULL, MODNAME, "Timer", 1))
 			{
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),1);
@@ -31,7 +31,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 			else 
 			{
-				CheckDlgButton(hwnd, IDC_DISABLETIMER, 1);
+				CheckDlgButton(hwnd, IDC_DISABLETIMER, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_INT),0);
 				EnableWindow(GetDlgItem(hwnd,IDC_TIMER_TEXT),0);
 			}
@@ -67,7 +67,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			case PSN_APPLY:
 				TCHAR tmp[5];
 				db_set_b(NULL, MODNAME, "AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
-				if (!IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
+				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, SIZEOF(tmp));
 					db_set_w(NULL, MODNAME, "Timer",(WORD)_ttoi(tmp));
 				}

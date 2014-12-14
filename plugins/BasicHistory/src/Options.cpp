@@ -869,9 +869,9 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TranslateDialogDefault(hwndDlg);
 		{
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)FALSE);
-			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTS, instance->showContacts ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTGROUPS, instance->showContactGroups ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_FINDNOBORDER, instance->noFindBorder ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTS, instance->showContacts ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWCONTACTGROUPS, instance->showContactGroups ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FINDNOBORDER, instance->noFindBorder ? BST_CHECKED : BST_UNCHECKED);
 			HWND events = GetDlgItem(hwndDlg, IDC_EVENT);
 			HWND defFilter = GetDlgItem(hwndDlg, IDC_DEFFILTER);
 			HWND listFilter = GetDlgItem(hwndDlg, IDC_LIST_FILTERS);
@@ -1134,11 +1134,11 @@ INT_PTR CALLBACK Options::DlgProcOptsGroupList(HWND hwndDlg, UINT msg, WPARAM wP
 			OptsData* optsData = new OptsData();
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)optsData);
 
-			CheckDlgButton(hwndDlg, IDC_NEWONTOP, instance->groupNewOnTop ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWEVENTS, instance->groupShowEvents ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWTIME, instance->groupShowTime ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWNAME, instance->groupShowName ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWMESSAGE, instance->groupShowMessage ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_NEWONTOP, instance->groupNewOnTop ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWEVENTS, instance->groupShowEvents ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWTIME, instance->groupShowTime ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWNAME, instance->groupShowName ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWMESSAGE, instance->groupShowMessage ? BST_CHECKED : BST_UNCHECKED);
 			Edit_LimitText(GetDlgItem(hwndDlg, IDC_MESSAGELEN), 4);
 			SetDlgItemInt(hwndDlg, IDC_MESSAGELEN, instance->groupMessageLen, FALSE);
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_SHOWMESSAGE, BN_CLICKED), NULL);
@@ -1195,12 +1195,12 @@ INT_PTR CALLBACK Options::DlgProcOptsMessages(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_NEWONTOP, instance->messagesNewOnTop ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWDATE, instance->messagesShowDate ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWSECOND, instance->messagesShowSec ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWNAME, instance->messagesShowName ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWEVENTS, instance->messagesShowEvents ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_SHOWSMILEYS, instance->messagesUseSmileys ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_NEWONTOP, instance->messagesNewOnTop ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWDATE, instance->messagesShowDate ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWSECOND, instance->messagesShowSec ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWNAME, instance->messagesShowName ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWEVENTS, instance->messagesShowEvents ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWSMILEYS, instance->messagesUseSmileys ? BST_CHECKED : BST_UNCHECKED);
 		if (!g_SmileyAddAvail)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWSMILEYS), FALSE);
 		return TRUE;
@@ -1234,24 +1234,24 @@ INT_PTR CALLBACK Options::DlgProcOptsSearching(HWND hwndDlg, UINT msg, WPARAM wP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_FORLIST, instance->searchForInList ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_FORMES, instance->searchForInMess ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_MATCHCASE, instance->searchMatchCase ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_MATCHWHOLE, instance->searchMatchWhole ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_ONLYIN, instance->searchOnlyIn ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_ONLYOUT, instance->searchOnlyOut ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_ONLYGROUP, instance->searchOnlyGroup ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_ALLCONTACTS, instance->searchAllContacts ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_FORLIST, instance->searchForInList ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FORMES, instance->searchForInMess ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MATCHCASE, instance->searchMatchCase ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_MATCHWHOLE, instance->searchMatchWhole ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYIN, instance->searchOnlyIn ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYOUT, instance->searchOnlyOut ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ONLYGROUP, instance->searchOnlyGroup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALLCONTACTS, instance->searchAllContacts ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
 		if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_ONLYIN) {
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONLYIN) && IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT))
-				CheckDlgButton(hwndDlg, IDC_ONLYOUT, 0);
+				CheckDlgButton(hwndDlg, IDC_ONLYOUT, BST_UNCHECKED);
 		}
 		else if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_ONLYOUT) {
 			if (IsDlgButtonChecked(hwndDlg, IDC_ONLYOUT) && IsDlgButtonChecked(hwndDlg, IDC_ONLYIN))
-				CheckDlgButton(hwndDlg, IDC_ONLYIN, 0);
+				CheckDlgButton(hwndDlg, IDC_ONLYIN, BST_UNCHECKED);
 		}
 
 		if (HIWORD(wParam) == BN_CLICKED)
@@ -1342,16 +1342,16 @@ INT_PTR CALLBACK Options::DlgProcOptsExport(HWND hwndDlg, UINT msg, WPARAM wPara
 		InitCodepageCB(GetDlgItem(hwndDlg, IDC_TXTENC), instance->codepageTxt, instance->encodingTxt);
 		InitCodepageCB(GetDlgItem(hwndDlg, IDC_HTML1ENC), instance->codepageHtml1, instance->encodingHtml1);
 		InitCodepageCB(GetDlgItem(hwndDlg, IDC_HTML2ENC), instance->codepageHtml2, instance->encodingHtml2);
-		CheckDlgButton(hwndDlg, IDC_HTML1DATE, instance->exportHtml1ShowDate ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_HTML2DATE, instance->exportHtml2ShowDate ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_HTML2SHOWSMILEYS, instance->exportHtml2UseSmileys ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_HTML1DATE, instance->exportHtml1ShowDate ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HTML2DATE, instance->exportHtml2ShowDate ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HTML2SHOWSMILEYS, instance->exportHtml2UseSmileys ? BST_CHECKED : BST_UNCHECKED);
 		Edit_LimitText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), MAX_PATH);
 		if (instance->extCssHtml2.empty()) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CSS_BROWSE), FALSE);
 		}
 		else {
-			CheckDlgButton(hwndDlg, IDC_HTML2EXTCSS, TRUE);
+			CheckDlgButton(hwndDlg, IDC_HTML2EXTCSS, BST_CHECKED);
 			Edit_SetText(GetDlgItem(hwndDlg, IDC_HTML2EXTCSSFILE), instance->extCssHtml2.c_str());
 		}
 
@@ -1455,8 +1455,8 @@ INT_PTR CALLBACK Options::DlgProcOptsScheduler(HWND hwndDlg, UINT msg, WPARAM wP
 			if (!bPopupsEnabled)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SCHEDULER_ALERTS), FALSE);
 
-			CheckDlgButton(hwndDlg, IDC_SCHEDULER_ALERTS, instance->schedulerAlerts ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SCHEDULER_HISTORY_ALERTS, instance->schedulerHistoryAlerts ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_SCHEDULER_ALERTS, instance->schedulerAlerts ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SCHEDULER_HISTORY_ALERTS, instance->schedulerHistoryAlerts ? BST_CHECKED : BST_UNCHECKED);
 
 			EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_TASK), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE_TASK), FALSE);

@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static BOOL LoadDBCheckState(FacebookProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef)
 {
 	BOOL state = ppro->getByte(szSetting, bDef);
-	CheckDlgButton(hwnd, idCtrl, state);
+	CheckDlgButton(hwnd, idCtrl, state ? BST_CHECKED : BST_UNCHECKED);
 	return state;
 }
 

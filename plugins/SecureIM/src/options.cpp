@@ -951,20 +951,20 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 
 	GetFlags();
 
-	SendDlgItemMessage(hDlg, IDC_SFT, BM_SETCHECK, (bSFT) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_SOM, BM_SETCHECK, (bSOM) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_ASI, BM_SETCHECK, (bASI) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_MCD, BM_SETCHECK, (bMCD) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_SCM, BM_SETCHECK, (bSCM) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_DGP, BM_SETCHECK, (bDGP) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_AIP, BM_SETCHECK, (bAIP) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_NOL, BM_SETCHECK, (bNOL) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_AAK, BM_SETCHECK, (bAAK) ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_MCM, BM_SETCHECK, (bMCM) ? BST_CHECKED : BST_UNCHECKED, 0);
+	CheckDlgButton(hDlg, IDC_SFT, (bSFT) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_SOM, (bSOM) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_ASI, (bASI) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_MCD, (bMCD) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_SCM, (bSCM) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_DGP, (bDGP) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_AIP, (bAIP) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_NOL, (bNOL) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_AAK, (bAAK) ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_MCM, (bMCM) ? BST_CHECKED : BST_UNCHECKED);
 
 	// Select {OFF,PGP,GPG}
-	SendDlgItemMessage(hDlg, IDC_PGP, BM_SETCHECK, bPGP ? BST_CHECKED : BST_UNCHECKED, 0);
-	SendDlgItemMessage(hDlg, IDC_GPG, BM_SETCHECK, bGPG ? BST_CHECKED : BST_UNCHECKED, 0);
+	CheckDlgButton(hDlg, IDC_PGP, bPGP ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_GPG, bGPG ? BST_CHECKED : BST_UNCHECKED);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_STD_USERLIST);
@@ -1050,7 +1050,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit)
 	SetDlgItemText(hDlg, IDC_KEYRING_STATUS, !bUseKeyrings ? Translate(sim225) : ((bPGP9) ? Translate(sim220) : (bPGPkeyrings ? Translate(sim216) : Translate(sim217))));
 
 	// Disable keyrings use
-	SendDlgItemMessage(hDlg, IDC_NO_KEYRINGS, BM_SETCHECK, (bUseKeyrings) ? BST_UNCHECKED : BST_CHECKED, 0L);
+	CheckDlgButton(hDlg, IDC_NO_KEYRINGS, (bUseKeyrings) ? BST_UNCHECKED : BST_CHECKED);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_PGP_USERLIST);
@@ -1097,15 +1097,15 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit)
 		mir_free(path);
 	}
 	BOOL bGPGLogFlag = db_get_b(0, MODULENAME, "gpgLogFlag", 0);
-	SendDlgItemMessage(hDlg, IDC_LOGGINGON_CBOX, BM_SETCHECK, (bGPGLogFlag) ? BST_CHECKED : BST_UNCHECKED, 0L);
+	CheckDlgButton(hDlg, IDC_LOGGINGON_CBOX, (bGPGLogFlag) ? BST_CHECKED : BST_UNCHECKED);
 	path = db_get_sa(0, MODULENAME, "gpgLog");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, path);
 		mir_free(path);
 	}
-	SendDlgItemMessage(hDlg, IDC_SAVEPASS_CBOX, BM_SETCHECK, (bSavePass) ? BST_CHECKED : BST_UNCHECKED, 0L);
+	CheckDlgButton(hDlg, IDC_SAVEPASS_CBOX, (bSavePass) ? BST_CHECKED : BST_UNCHECKED);
 	BOOL bGPGTmpFlag = db_get_b(0, MODULENAME, "gpgTmpFlag", 0);
-	SendDlgItemMessage(hDlg, IDC_TMPPATHON_CBOX, BM_SETCHECK, (bGPGTmpFlag) ? BST_CHECKED : BST_UNCHECKED, 0L);
+	CheckDlgButton(hDlg, IDC_TMPPATHON_CBOX, (bGPGTmpFlag) ? BST_CHECKED : BST_UNCHECKED);
 	path = db_get_sa(0, MODULENAME, "gpgTmp");
 	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, path);
@@ -1157,14 +1157,14 @@ void ResetGeneralDlg(HWND hDlg)
 	SetDlgItemText(hDlg, IDC_KET, _T("10"));
 	SetDlgItemText(hDlg, IDC_OKT, _T("2"));
 
-	SendDlgItemMessage(hDlg, IDC_SFT, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_SOM, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_ASI, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_MCD, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_SCM, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_DGP, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_AIP, BM_SETCHECK, BST_UNCHECKED, 0L);
-	SendDlgItemMessage(hDlg, IDC_MCM, BM_SETCHECK, BST_UNCHECKED, 0L);
+	CheckDlgButton(hDlg, IDC_SFT, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_SOM, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_ASI, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_MCD, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_SCM, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_DGP, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_AIP, BST_UNCHECKED);
+	CheckDlgButton(hDlg, IDC_MCM, BST_UNCHECKED);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg, IDC_STD_USERLIST);

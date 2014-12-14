@@ -39,7 +39,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			default:
 				state = BST_INDETERMINATE; break;
 			}
-			CheckDlgButton(hwndDlg, NA_SOUND_CHECK, state);
+			CheckDlgButton(hwndDlg, NA_SOUND_CHECK, state ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
 

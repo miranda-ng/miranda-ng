@@ -15,12 +15,12 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemText(hwnd, ID_DESCRIPTION, pluginDescription);
 			TranslateDialogDefault(hwnd);
 			SetDlgItemInt(hwnd, ID_MAXQUESTCOUNT, plSets->MaxQuestCount.Get(), FALSE);
-			SendDlgItemMessage(hwnd, ID_INFTALKPROT, BM_SETCHECK, plSets->InfTalkProtection.Get() ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_ADDPERMANENT, BM_SETCHECK, plSets->AddPermanent.Get() ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_HANDLEAUTHREQ, BM_SETCHECK, plSets->HandleAuthReq.Get() ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_NOTCASESENS, BM_SETCHECK, plSets->AnswNotCaseSens.Get() ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_REMOVE_TMP_ALL, BM_SETCHECK, plSets->RemTmpAll.Get() ? BST_CHECKED : BST_UNCHECKED, 0);
-			SendDlgItemMessage(hwnd, ID_HISTORY_LOG, BM_SETCHECK, plSets->HistLog.Get() ? BST_CHECKED : BST_UNCHECKED, 0);
+			CheckDlgButton(hwnd, ID_INFTALKPROT, plSets->InfTalkProtection.Get() ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_ADDPERMANENT, plSets->AddPermanent.Get() ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_HANDLEAUTHREQ, plSets->HandleAuthReq.Get() ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_NOTCASESENS, plSets->AnswNotCaseSens.Get() ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_REMOVE_TMP_ALL, plSets->RemTmpAll.Get() ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwnd, ID_HISTORY_LOG, plSets->HistLog.Get() ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
 	case WM_COMMAND:{

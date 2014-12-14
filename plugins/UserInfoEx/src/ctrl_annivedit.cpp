@@ -412,9 +412,9 @@ INT_PTR CAnnivEditCtrl::SetCurSel(WORD wIndex)
 	SetWindowText(_hBtnEdit, _pDates[wIndex]->Description());
 
 	// set reminder options
-	CheckDlgButton(_hwndDlg, RADIO_REMIND1, _pDates[wIndex]->RemindOption() == BST_INDETERMINATE);
-	CheckDlgButton(_hwndDlg, RADIO_REMIND2, _pDates[wIndex]->RemindOption() == BST_CHECKED);
-	CheckDlgButton(_hwndDlg, RADIO_REMIND3, _pDates[wIndex]->RemindOption() == BST_UNCHECKED);
+	CheckDlgButton(_hwndDlg, RADIO_REMIND1, _pDates[wIndex]->RemindOption() == BST_INDETERMINATE ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(_hwndDlg, RADIO_REMIND2, _pDates[wIndex]->RemindOption() == BST_CHECKED ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(_hwndDlg, RADIO_REMIND3, _pDates[wIndex]->RemindOption() == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 
 	OnReminderChecked();
 	EnableCurrentItem();

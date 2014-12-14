@@ -80,9 +80,9 @@ INT_PTR CALLBACK Options::DlgProcOptsMain(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			CheckDlgButton(hwndDlg, IDC_AUTOUTF, instance->autoUTF ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_CONFDLG, instance->confDlg ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_AUTOSEND, instance->autoSend ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_AUTOUTF, instance->autoUTF ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CONFDLG, instance->confDlg ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOSEND, instance->autoSend ? BST_CHECKED : BST_UNCHECKED);
 
 			for(int i = 0; i < PasteToWeb::pages; ++i)
 			{
@@ -261,12 +261,12 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_WEBPAGE), 0);	
 			ReloadFormatsCombo(GetDlgItem(hwndDlg, IDC_DEFFORMAT), optsPagesData->webOptions[0]);
 			if(optsPagesData->webOptions[0]->isSendFileName)
-				CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, optsPagesData->webOptions[0]->sendFileName ? 1 : 0);
+				CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, optsPagesData->webOptions[0]->sendFileName ? BST_CHECKED : BST_UNCHECKED);
 			else
 				ShowWindow(GetDlgItem(hwndDlg,IDC_AUTOFORMAT),SW_HIDE);
 
 			if(Options::instance->webOptions[0]->isPublicPaste)
-				CheckDlgButton(hwndDlg, IDC_PUBLICPASTE, Options::instance->webOptions[0]->publicPaste ? 1 : 0);
+				CheckDlgButton(hwndDlg, IDC_PUBLICPASTE, Options::instance->webOptions[0]->publicPaste ? BST_CHECKED : BST_UNCHECKED);
 			else
 				ShowWindow(GetDlgItem(hwndDlg,IDC_PUBLICPASTE),SW_HIDE);
 
@@ -298,7 +298,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 				std::wstring pastebinUserKey = Options::instance->webOptions[0]->pastebinUserKey;
 				if(pastebinUserKey.empty())
 				{
-					CheckDlgButton(hwndDlg, IDC_GUEST, TRUE);
+					CheckDlgButton(hwndDlg, IDC_GUEST, BST_CHECKED);
 					Edit_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), FALSE);
 					Static_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY_DESC), FALSE);
 					Button_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_LOGIN), FALSE);
@@ -361,7 +361,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 				if(optsPagesData->webOptions[optsPagesData->lastPage]->isSendFileName)
 				{
 					ShowWindow(GetDlgItem(hwndDlg,IDC_AUTOFORMAT),SW_SHOW);
-					CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, optsPagesData->webOptions[optsPagesData->lastPage]->sendFileName ? 1 : 0);
+					CheckDlgButton(hwndDlg, IDC_AUTOFORMAT, optsPagesData->webOptions[optsPagesData->lastPage]->sendFileName ? BST_CHECKED : BST_UNCHECKED);
 				}
 				else
 					ShowWindow(GetDlgItem(hwndDlg,IDC_AUTOFORMAT),SW_HIDE);
@@ -369,7 +369,7 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 				if(optsPagesData->webOptions[optsPagesData->lastPage]->isPublicPaste)
 				{
 					ShowWindow(GetDlgItem(hwndDlg,IDC_PUBLICPASTE),SW_SHOW);
-					CheckDlgButton(hwndDlg, IDC_PUBLICPASTE, optsPagesData->webOptions[optsPagesData->lastPage]->publicPaste ? 1 : 0);
+					CheckDlgButton(hwndDlg, IDC_PUBLICPASTE, optsPagesData->webOptions[optsPagesData->lastPage]->publicPaste ? BST_CHECKED : BST_UNCHECKED);
 				}
 				else
 					ShowWindow(GetDlgItem(hwndDlg,IDC_PUBLICPASTE),SW_HIDE);
@@ -409,14 +409,14 @@ INT_PTR CALLBACK Options::DlgProcOptsPages(HWND hwndDlg, UINT msg, WPARAM wParam
 					std::wstring pastebinUserKey = optsPagesData->webOptions[optsPagesData->lastPage]->pastebinUserKey;
 					if(pastebinUserKey.empty())
 					{
-						CheckDlgButton(hwndDlg, IDC_GUEST, TRUE);
+						CheckDlgButton(hwndDlg, IDC_GUEST, BST_CHECKED);
 						Edit_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), FALSE);
 						Static_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY_DESC), FALSE);
 						Button_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_LOGIN), FALSE);
 					}
 					else
 					{
-						CheckDlgButton(hwndDlg, IDC_GUEST, FALSE);
+						CheckDlgButton(hwndDlg, IDC_GUEST, BST_UNCHECKED);
 						Edit_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY), TRUE);
 						Static_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_KEY_DESC), TRUE);
 						Button_Enable(GetDlgItem(hwndDlg, IDC_PASTEBIN_LOGIN), TRUE);

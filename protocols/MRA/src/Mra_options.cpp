@@ -120,22 +120,22 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg, UINT msg, WPARAM wParam, L
 		SetDlgItemInt(hWndDlg, IDC_SERVERPORT, ppro->getWord("ServerPort", MRA_DEFAULT_SERVER_PORT), FALSE);
 		// if set SSL proxy, setting will ignored
 
-		//CheckDlgButton(hWndDlg, IDC_KEEPALIVE, getByte("keepalive", 0));
-		CheckDlgButton(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER, ppro->getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER));
-		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON, ppro->getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON));
-		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST, ppro->getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST));
-		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS, ppro->getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS));
-		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_ON_WEB_SVCS, ppro->getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS));
+		//CheckDlgButton(hWndDlg, IDC_KEEPALIVE, getByte("keepalive", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_AUTO_ADD_CONTACTS_TO_SERVER, ppro->getByte("AutoAddContactsToServer", MRA_DEFAULT_AUTO_ADD_CONTACTS_TO_SERVER)) ? BST_CHECKED : BST_UNCHECKED;
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_REQ_ON_LOGON, ppro->getByte("AutoAuthRequestOnLogon", MRA_DEFAULT_AUTO_AUTH_REQ_ON_LOGON) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_IN_CLIST, ppro->getByte("AutoAuthGrandUsersInCList", MRA_DEFAULT_AUTO_AUTH_GRAND_IN_CLIST) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_GRAND_NEW_USERS, ppro->getByte("AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_AUTO_AUTH_ON_WEB_SVCS, ppro->getByte("AutoAuthOnWebServices", MRA_DEFAULT_AUTO_AUTH_ON_WEB_SVCS) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hWndDlg, IDC_SLOWSEND, ppro->getByte("SlowSend", MRA_DEFAULT_SLOW_SEND));
-		CheckDlgButton(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY, ppro->getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY));
-		CheckDlgButton(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY, ppro->getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY));
-		CheckDlgButton(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX, ppro->getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX));
+		CheckDlgButton(hWndDlg, IDC_SLOWSEND, ppro->getByte("SlowSend", MRA_DEFAULT_SLOW_SEND) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_INCREMENTAL_NEW_MAIL_NOTIFY, ppro->getByte("IncrementalNewMailNotify", MRA_DEFAULT_INC_NEW_MAIL_NOTIFY) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY, ppro->getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX, ppro->getByte("TrayIconNewMailClkToInbox", MRA_DEFAULT_TRAYICON_NEW_MAIL_CLK_TO_INBOX) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hWndDlg, IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX), ppro->getByte("TrayIconNewMailNotify", MRA_DEFAULT_TRAYICON_NEW_MAIL_NOTIFY));
 
-		CheckDlgButton(hWndDlg, IDC_RTF_RECEIVE_ENABLE, ppro->getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE));
+		CheckDlgButton(hWndDlg, IDC_RTF_RECEIVE_ENABLE, ppro->getByte("RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hWndDlg, IDC_RTF_SEND_ENABLE, ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
+		CheckDlgButton(hWndDlg, IDC_RTF_SEND_ENABLE, ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE) ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_SEND_SMART), ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
 		EnableWindow(GetDlgItem(hWndDlg, IDC_BUTTON_FONT), ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));
 		EnableWindow(GetDlgItem(hWndDlg, IDC_RTF_BGCOLOUR), ppro->getByte("RTFSendEnable", MRA_DEFAULT_RTF_SEND_ENABLE));

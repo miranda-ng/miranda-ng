@@ -85,7 +85,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 				ComboBox_AddString(GetDlgItem(hwndDlg, IDC_FTPLIST), ftpList[i]->stzName);
 
 			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
-			CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP);	
+			CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);	
 
 			ServerList::FTP *ftp = ftpList.getSelected();
 			ComboBox_AddString(GetDlgItem(hwndDlg, IDC_PROTOLIST), TranslateT("FTP (Standard)"));
@@ -101,14 +101,9 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 			SetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl);
 			SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
 			SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
-			CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
-			CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->bEnabled);
-			if (ftp->bEnabled)
-				CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
-			else {
-				CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
-				enableItems(hwndDlg, false);
-			}
+			CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->bEnabled ? BST_CHECKED : BST_UNCHECKED);
+			enableItems(hwndDlg, ftp->bEnabled);
 		}
 		return TRUE;
 
@@ -121,7 +116,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 		else if (HIWORD(wParam) == CBN_SELCHANGE) {
 			if (LOWORD(wParam) == IDC_FTPLIST) {
 				opt.selected = (BYTE)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST));
-				CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP);	
+				CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);	
 
 				ServerList::FTP *ftp = ftpList.getSelected();
 				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETCURSEL, ftp->ftpProto, 0);
@@ -132,16 +127,9 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 				SetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl);
 				SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
 				SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
-				CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
-
-				if (ftp->bEnabled) {
-					CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
-					enableItems(hwndDlg, true);
-				} 
-				else {
-					CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
-					enableItems(hwndDlg, false);
-				}
+				CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg, IDC_ENABLED, ftp->bEnabled ? BST_CHECKED : BST_UNCHECKED);	
+				enableItems(hwndDlg, ftp->bEnabled);
 			}
 			else if (LOWORD(wParam) == IDC_PROTOLIST) {
 				int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
@@ -197,16 +185,16 @@ INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, opt.bAutosend ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_URL_COPYTOML, opt.bCopyLink ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_USESUBMENU, opt.bUseSubmenu ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_HIDEINACTIVE, opt.bHideInactive ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_CLOSEDLG, opt.bCloseDlg ? 1 : 0);
-		CheckDlgButton(hwndDlg, IDC_AUTODELETE, opt.bAutoDelete ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, opt.bAutosend ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_URL_COPYTOML, opt.bCopyLink ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USESUBMENU, opt.bUseSubmenu ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEINACTIVE, opt.bHideInactive ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CLOSEDLG, opt.bCloseDlg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTODELETE, opt.bAutoDelete ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_LEVEL_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(9, 0));
 		SetDlgItemInt(hwndDlg, IDC_LEVEL, opt.iCompressionLevel, FALSE);
-		CheckDlgButton(hwndDlg, IDC_SETZIPNAME, opt.bSetZipName ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SETZIPNAME, opt.bSetZipName ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_DELETETIME_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(UD_MAXVAL, 1));
 		SetDlgItemInt(hwndDlg, IDC_DELETETIME, opt.iDeleteTime, FALSE);

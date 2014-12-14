@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef = 0)
 {
 	BOOL state = db_get_b(NULL, ppro->m_szModuleName, szSetting, bDef);
-	CheckDlgButton(hwnd, idCtrl, state);
+	CheckDlgButton(hwnd, idCtrl, state ? BST_CHECKED : BST_UNCHECKED);
 	return state;
 }
 

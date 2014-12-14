@@ -26,7 +26,7 @@ static INT_PTR CALLBACK DlgProcGpgAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 BOOL CheckStateLoadDB(HWND hwndDlg, int idCtrl, const char* szSetting, BYTE bDef)
 {
 	BOOL state = db_get_b(NULL, szGPGModuleName, szSetting, bDef);
-	CheckDlgButton(hwndDlg, idCtrl, state);
+	CheckDlgButton(hwndDlg, idCtrl, state ? BST_CHECKED : BST_UNCHECKED);
 	return state;
 }
 
@@ -746,7 +746,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			else
 			{
 				SetDlgItemText(hwndDlg, IDC_ENABLE_ENCRYPTION, TranslateT("Turn on encryption"));
-				CheckDlgButton(hwndDlg, IDC_ENABLE_ENCRYPTION, 1);
+				CheckDlgButton(hwndDlg, IDC_ENABLE_ENCRYPTION, BST_CHECKED);
 			}
 			if(hcnt)
 			{

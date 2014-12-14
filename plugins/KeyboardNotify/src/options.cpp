@@ -303,22 +303,22 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			createProcessListAux();
 			createXstatusListAux();
 
-			CheckDlgButton(hwndDlg, IDC_ONMESSAGE, bFlashOnMsg ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ONURL, bFlashOnURL ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ONFILE, bFlashOnFile ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ONOTHER, bFlashOnOther ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONMESSAGE, bFlashOnMsg ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONURL, bFlashOnURL ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONFILE, bFlashOnFile ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONOTHER, bFlashOnOther ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_FSCREEN, bFullScreenMode ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SSAVER, bScreenSaverRunning ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_LOCKED, bWorkstationLocked ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_PGMS, bProcessesAreRunning ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ACTIVE, bWorkstationActive ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FSCREEN, bFullScreenMode ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SSAVER, bScreenSaverRunning ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_LOCKED, bWorkstationLocked ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_PGMS, bProcessesAreRunning ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ACTIVE, bWorkstationActive ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_IFOPEN, bFlashIfMsgOpen ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_IFNOTTOP, bFlashIfMsgWinNotTop ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IFOPEN, bFlashIfMsgOpen ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IFNOTTOP, bFlashIfMsgWinNotTop ? BST_CHECKED : BST_UNCHECKED);
 			if (!bFlashIfMsgOpen)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_IFNOTTOP), FALSE);
-			CheckDlgButton(hwndDlg, IDC_IFOLDER, bFlashIfMsgOlder ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IFOLDER, bFlashIfMsgOlder ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SOLDER), 0);
 			SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_SETRANGE32, 1, MAKELONG(UD_MAXVAL, 0));
 			SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_SETPOS, 0, MAKELONG(wSecondsOlder, 0));
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OLDERSPIN), FALSE);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_UNTILBLK, bFlashUntil&UNTIL_NBLINKS ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UNTILBLK, bFlashUntil&UNTIL_NBLINKS ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SBLINK), 0);
 			SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE32, 1, MAKELONG(UD_MAXVAL, 0));
 			SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(wBlinksNumber, 0));
@@ -335,7 +335,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SBLINK), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BLINKSPIN), FALSE);
 			}
-			CheckDlgButton(hwndDlg, IDC_UNTILATTENDED, bFlashUntil&UNTIL_REATTENDED ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UNTILATTENDED, bFlashUntil&UNTIL_REATTENDED ? BST_CHECKED : BST_UNCHECKED);
 			for (int i = 0; i < 2; i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)AttendedName[i]);
 				if (index != CB_ERR && index != CB_ERRSPACE)
@@ -344,19 +344,19 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_SETCURSEL, (WPARAM)bMirandaOrWindows, 0);
 			if (!(bFlashUntil & UNTIL_REATTENDED))
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MIRORWIN), FALSE);
-			CheckDlgButton(hwndDlg, IDC_UNTILOPEN, bFlashUntil&UNTIL_EVENTSOPEN ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_UNTILCOND, bFlashUntil&UNTIL_CONDITIONS ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UNTILOPEN, bFlashUntil&UNTIL_EVENTSOPEN ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_UNTILCOND, bFlashUntil&UNTIL_CONDITIONS ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_ONLINE, wStatusMap&MAP_ONLINE ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AWAY, wStatusMap&MAP_AWAY ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_NA, wStatusMap&MAP_NA ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OCCUPIED, wStatusMap&MAP_OCCUPIED ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DND, wStatusMap&MAP_DND ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FREECHAT, wStatusMap&MAP_FREECHAT ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_INVISIBLE, wStatusMap&MAP_INVISIBLE ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ONTHEPHONE, wStatusMap&MAP_ONTHEPHONE ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OUTTOLUNCH, wStatusMap&MAP_OUTTOLUNCH ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OFFLINE, wStatusMap&MAP_OFFLINE ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONLINE, wStatusMap&MAP_ONLINE ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AWAY, wStatusMap&MAP_AWAY ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NA, wStatusMap&MAP_NA ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OCCUPIED, wStatusMap&MAP_OCCUPIED ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DND, wStatusMap&MAP_DND ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FREECHAT, wStatusMap&MAP_FREECHAT ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_INVISIBLE, wStatusMap&MAP_INVISIBLE ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ONTHEPHONE, wStatusMap&MAP_ONTHEPHONE ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OUTTOLUNCH, wStatusMap&MAP_OUTTOLUNCH ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OFFLINE, wStatusMap&MAP_OFFLINE ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_SREMCHECK), 0);
 			SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_SETRANGE32, 0, MAKELONG(UD_MAXVAL, 0));
@@ -554,13 +554,13 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			trillianLedsFile = bTrillianLedsFile;
 			trillianLedsOther = bTrillianLedsOther;
 
-			CheckDlgButton(hwndDlg, IDC_NUM, bFlashLed[0] ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CAPS, bFlashLed[1] ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SCROLL, bFlashLed[2] ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NUM, bFlashLed[0] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CAPS, bFlashLed[1] ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SCROLL, bFlashLed[2] ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_SAMETIME, bFlashEffect == FLASH_SAMETIME ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_INTURN, bFlashEffect == FLASH_INTURN ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_INSEQUENCE, bFlashEffect == FLASH_INSEQUENCE ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SAMETIME, bFlashEffect == FLASH_SAMETIME ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_INTURN, bFlashEffect == FLASH_INTURN ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_INSEQUENCE, bFlashEffect == FLASH_INSEQUENCE ? BST_CHECKED : BST_UNCHECKED);
 			for (i=0; i < 3; i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(OrderName[i]));
 				if (index != CB_ERR && index != CB_ERRSPACE)
@@ -569,7 +569,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_SETCURSEL, (WPARAM)bSequenceOrder, 0);
 			if (bFlashEffect != FLASH_INSEQUENCE)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SEQORDER), FALSE);
-			CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED : BST_UNCHECKED);
 			for (i=0; !db_get_ts(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
 				int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.ptszVal);
 				db_free(&dbv);
@@ -579,7 +579,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
 			if (bFlashEffect != FLASH_CUSTOM)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SCUSTOM), FALSE);
-			CheckDlgButton(hwndDlg, IDC_TRILLIAN, bFlashEffect == FLASH_TRILLIAN ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_TRILLIAN, bFlashEffect == FLASH_TRILLIAN ? BST_CHECKED : BST_UNCHECKED);
 			if (bFlashEffect != FLASH_TRILLIAN)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ASSIGNLEDS), FALSE);
 
@@ -590,7 +590,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_SETRANGE, FALSE, MAKELONG(0, 5));
 			SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_SETPOS, TRUE, bFlashSpeed);
 
-			CheckDlgButton(hwndDlg, IDC_KEYPRESSES, bEmulateKeypresses ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_KEYPRESSES, bEmulateKeypresses ? BST_CHECKED : BST_UNCHECKED);
 
 			initDlg=FALSE;
 			return TRUE;
@@ -734,7 +734,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 			}
 
-			CheckDlgButton(hwndDlg, IDC_OVERRIDE, bOverride ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OVERRIDE, bOverride ? BST_CHECKED : BST_UNCHECKED);
 
 			initDlg=FALSE;
 			return TRUE;
@@ -1223,21 +1223,21 @@ INT_PTR CALLBACK DlgProcEventLeds(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_MSGLEDNUM, trillianLedsMsg&2 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_MSGLEDCAPS, trillianLedsMsg&4 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_MSGLEDSCROLL, trillianLedsMsg&1 ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_MSGLEDNUM, trillianLedsMsg&2 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_MSGLEDCAPS, trillianLedsMsg&4 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_MSGLEDSCROLL, trillianLedsMsg&1 ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_FILELEDNUM, trillianLedsFile&2 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FILELEDCAPS, trillianLedsFile&4 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_FILELEDSCROLL, trillianLedsFile&1 ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FILELEDNUM, trillianLedsFile&2 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FILELEDCAPS, trillianLedsFile&4 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_FILELEDSCROLL, trillianLedsFile&1 ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_URLLEDNUM, trillianLedsURL&2 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_URLLEDCAPS, trillianLedsURL&4 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_URLLEDSCROLL, trillianLedsURL&1 ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_URLLEDNUM, trillianLedsURL&2 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_URLLEDCAPS, trillianLedsURL&4 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_URLLEDSCROLL, trillianLedsURL&1 ? BST_CHECKED : BST_UNCHECKED);
 
-			CheckDlgButton(hwndDlg, IDC_OTHERLEDNUM, trillianLedsOther&2 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OTHERLEDCAPS, trillianLedsOther&4 ? BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_OTHERLEDSCROLL, trillianLedsOther&1 ? BST_CHECKED:BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OTHERLEDNUM, trillianLedsOther&2 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OTHERLEDCAPS, trillianLedsOther&4 ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_OTHERLEDSCROLL, trillianLedsOther&1 ? BST_CHECKED : BST_UNCHECKED);
 
 			return TRUE;
 

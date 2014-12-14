@@ -369,8 +369,8 @@ INT_PTR CALLBACK SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		TranslateDialogDefault(hDlg);
 		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		SetWindowText(hDlg, TXT_SEARCH);
-		SendDlgItemMessage(hDlg, IDC_DIR_ALL, BM_SETCHECK, BST_CHECKED, 0);
-		SendDlgItemMessage(hDlg, IDC_TYPE_ALL, BM_SETCHECK, BST_CHECKED, 0);
+		CheckDlgButton(hDlg, IDC_DIR_ALL, BST_CHECKED);
+		CheckDlgButton(hDlg, IDC_TYPE_ALL, BST_CHECKED);
 		return TRUE;
 		break;
 	case WM_COMMAND: {
@@ -442,7 +442,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 				mCol = GetMirandaColour(&colourSet);
 				if(mCol == 0)
 				{
-					SendDlgItemMessage(hDlg, IDC_CHECK1, BM_SETCHECK, BST_CHECKED, 0);
+					CheckDlgButton(hDlg, IDC_CHECK1, BST_CHECKED);
 					EnableWindow(GetDlgItem(hDlg, IDC_INCOMING), FALSE);
 					EnableWindow(GetDlgItem(hDlg, IDC_OUTGOING), FALSE);
 					EnableWindow(GetDlgItem(hDlg, IDC_BACKGROUND), FALSE);
@@ -463,7 +463,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			if (useDefault == 0x00 )
 			{
 				GetDBColour(&colourSet);
-				SendDlgItemMessage(hDlg, IDC_CHECK1, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK1, BST_UNCHECKED);
 				SendDlgItemMessage(hDlg, IDC_INCOMING, CPM_SETCOLOUR, 0, colourSet.incoming);
 				SendDlgItemMessage(hDlg, IDC_OUTGOING, CPM_SETCOLOUR, 0, colourSet.outgoing);
 				SendDlgItemMessage(hDlg, IDC_BACKGROUND, CPM_SETCOLOUR, 0, colourSet.background);
@@ -477,49 +477,49 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 			GetListOptions(&options);
 
 			if(options.openNewWindow == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK2, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK2, BST_UNCHECKED);
 			if(options.openNewWindow == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK2, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK2, BST_CHECKED);
 
 			if(options.updateWindow == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK3, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK3, BST_UNCHECKED);
 			if(options.updateWindow == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK3, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK3, BST_CHECKED);
 
 			if(options.mouseEvent == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK4, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK4, BST_UNCHECKED);
 			if(options.mouseEvent == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK4, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK4, BST_CHECKED);
 
 			if(options.saveSpecial == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK5, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK5, BST_UNCHECKED);
 			if(options.saveSpecial == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK5, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK5, BST_CHECKED);
 
 			if(options.showDate == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK6, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK6, BST_UNCHECKED);
 			if(options.showDate == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK6, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK6, BST_CHECKED);
 
 			if(options.showLine == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK7, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK7, BST_UNCHECKED);
 			if(options.showLine == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK7, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK7, BST_CHECKED);
 
 			if(options.showTime == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK8, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK8, BST_UNCHECKED);
 			if(options.showTime == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK8, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK8, BST_CHECKED);
 
 			if(options.showDirection == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK9, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK9, BST_UNCHECKED);
 			if(options.showDirection == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK9, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK9, BST_CHECKED);
 
 			if(options.showType == 0x00)
-				SendDlgItemMessage(hDlg, IDC_CHECK10, BM_SETCHECK, BST_UNCHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK10, BST_UNCHECKED);
 			if(options.showType == 0x01)
-				SendDlgItemMessage(hDlg, IDC_CHECK10, BM_SETCHECK, BST_CHECKED, 0);
+				CheckDlgButton(hDlg, IDC_CHECK10, BST_CHECKED);
 
 			// Write example window
 			WriteOptionExample(hDlg, colourSet.incoming, colourSet.outgoing, colourSet.background, colourSet.text, &options);
@@ -616,7 +616,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
 					if(mCol == 1)
 					{
 						MessageBox(NULL, TXT_NOSETTING, TXT_ERROR, MB_OK | MB_ICONEXCLAMATION);
-						SendDlgItemMessage(hDlg, IDC_CHECK1, BM_SETCHECK, BST_UNCHECKED, 0);
+						CheckDlgButton(hDlg, IDC_CHECK1, BST_UNCHECKED);
 						break;
 					}
 					else

@@ -151,9 +151,9 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			db_free(&dbv);
 			/* timer */
-			CheckDlgButton(hwnd, CHK_USE_TIMER, db_get_b(hContact, MODNAME ,"UseTimer", 0));
+			CheckDlgButton(hwnd, CHK_USE_TIMER, db_get_b(hContact, MODNAME ,"UseTimer", 0) ? BST_CHECKED : BST_UNCHECKED);
 			if (db_get_w(hContact, MODNAME ,"Timer", 15)) {
-				CheckDlgButton(hwnd, CHK_USE_TIMER,1);
+				CheckDlgButton(hwnd, CHK_USE_TIMER, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd, IDC_TIMER), 1);
 				TCHAR string[512];
 				SetDlgItemText(hwnd, IDC_TIMER, _itot(db_get_w(hContact, MODNAME ,"Timer", 15), string, 10));
@@ -166,9 +166,9 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			/* always visible */
 			if (db_get_b(hContact, MODNAME ,"AlwaysVisible", 0)) {
-				CheckDlgButton(hwnd, IDC_ALWAYS_VISIBLE, 1);
+				CheckDlgButton(hwnd, IDC_ALWAYS_VISIBLE, BST_CHECKED);
 				EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE),1);
-				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME ,"VisibleUnlessOffline", 1));
+				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME ,"VisibleUnlessOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
 			}
 		}
 		return TRUE;
@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE)) {
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE),1);
-				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME ,"VisibleUnlessOffline", 1));
+				CheckDlgButton(hwnd, IDC_VISIBLE_UNLESS_OFFLINE, db_get_b(hContact, MODNAME ,"VisibleUnlessOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
 			}
 			else EnableWindow(GetDlgItem(hwnd, IDC_VISIBLE_UNLESS_OFFLINE),0);
 			break;

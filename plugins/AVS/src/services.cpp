@@ -86,7 +86,7 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 			data->locking_request = (BYTE *)ofn->lCustData;
 			data->setView = TRUE;
-			CheckDlgButton(hwnd, IDC_PROTECTAVATAR, *(data->locking_request));
+			CheckDlgButton(hwnd, IDC_PROTECTAVATAR, *(data->locking_request) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		break;
 

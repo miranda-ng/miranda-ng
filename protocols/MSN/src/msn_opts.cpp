@@ -106,12 +106,12 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MOBILESEND), proto->msnLoggedIn &&
 				proto->getByte("MobileEnabled", 0) && proto->getByte("MobileAllowed", 0));
 
-			CheckDlgButton(hwndDlg, IDC_MOBILESEND, proto->getByte("MobileAllowed", 0));
-			CheckDlgButton(hwndDlg, IDC_SENDFONTINFO, proto->getByte("SendFontInfo", 1));
-			CheckDlgButton(hwndDlg, IDC_MANAGEGROUPS, proto->getByte("ManageServer", 1));
+			CheckDlgButton(hwndDlg, IDC_MOBILESEND, proto->getByte("MobileAllowed", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SENDFONTINFO, proto->getByte("SendFontInfo", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_MANAGEGROUPS, proto->getByte("ManageServer", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			int tValue = proto->getByte("RunMailerOnHotmail", 0);
-			CheckDlgButton(hwndDlg, IDC_RUN_APP_ON_HOTMAIL, tValue);
+			CheckDlgButton(hwndDlg, IDC_RUN_APP_ON_HOTMAIL, tValue ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MAILER_APP), tValue);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ENTER_MAILER_APP), tValue);
 
@@ -122,7 +122,7 @@ static INT_PTR CALLBACK DlgProcMsnOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_MANAGEGROUPS), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DISABLE_ANOTHER_CONTACTS), FALSE);
 			}
-			else CheckDlgButton(hwndDlg, IDC_DISABLE_ANOTHER_CONTACTS, proto->msnOtherContactsBlocked);
+			else CheckDlgButton(hwndDlg, IDC_DISABLE_ANOTHER_CONTACTS, proto->msnOtherContactsBlocked ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
 
@@ -314,7 +314,7 @@ static INT_PTR CALLBACK DlgProcMsnConnOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 			else SetDlgItemTextA(hwndDlg, IDC_GATEWAYSERVER, MSN_DEFAULT_GATEWAY);
 
-			CheckDlgButton(hwndDlg, IDC_SLOWSEND, proto->getByte("SlowSend", 0));
+			CheckDlgButton(hwndDlg, IDC_SLOWSEND, proto->getByte("SlowSend", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Automatically obtain host/port"));
 			SendDlgItemMessage(hwndDlg, IDC_HOSTOPT, CB_ADDSTRING, 0, (LPARAM)TranslateT("Manually specify host/port"));
@@ -441,13 +441,13 @@ static INT_PTR CALLBACK DlgProcHotmailPopupOpts(HWND hwndDlg, UINT msg, WPARAM w
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		proto = (CMsnProto*)lParam;
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, proto->getByte("DisableHotmail", 0));
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY, proto->getByte("DisableHotmailTray", 1));
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL, proto->getByte("DisableHotmailCL", 0));
-		CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK, proto->getByte("DisableHotmailJunk", 0));
-		CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION, proto->getByte("EnableSessionPopup", 0));
-		CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG, proto->getByte("EnableDeliveryPopup", 0));
-		CheckDlgButton(hwndDlg, IDC_ERRORS_USING_POPUPS, proto->getByte("ShowErrorsAsPopups", 0));
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILPOPUP, proto->getByte("DisableHotmail", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILTRAY, proto->getByte("DisableHotmailTray", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTMAILCL, proto->getByte("DisableHotmailCL", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEHOTJUNK, proto->getByte("DisableHotmailJunk", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTIFY_ENDSESSION, proto->getByte("EnableSessionPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTIFY_FIRSTMSG, proto->getByte("EnableDeliveryPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ERRORS_USING_POPUPS, proto->getByte("ShowErrorsAsPopups", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		bEnabled = true;
 		return TRUE;

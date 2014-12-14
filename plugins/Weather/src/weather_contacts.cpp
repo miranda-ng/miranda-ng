@@ -185,7 +185,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ID, dbv.ptszVal);
 			// check if the station is a default station
-			CheckDlgButton(hwndDlg, IDC_DEFA, _tcscmp(dbv.ptszVal, opt.Default) != 0);
+			CheckDlgButton(hwndDlg, IDC_DEFA, _tcscmp(dbv.ptszVal, opt.Default) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			db_free(&dbv);
 		}
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
@@ -195,16 +195,16 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Log", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_LOG, dbv.ptszVal);
 			// if the log path is not empty, check the checkbox for external log
-			if (dbv.ptszVal[0]) CheckDlgButton(hwndDlg, IDC_External, TRUE);
+			if (dbv.ptszVal[0]) CheckDlgButton(hwndDlg, IDC_External, BST_CHECKED);
 			db_free(&dbv);
 		}
 		// enable/disable the browse button depending on the value of external log checkbox
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
 
 		// other checkbox options
-		CheckDlgButton(hwndDlg, IDC_DPop, db_get_b(hContact, WEATHERPROTONAME, "DPopUp", FALSE));
-		CheckDlgButton(hwndDlg, IDC_DAutoUpdate, db_get_b(hContact, WEATHERPROTONAME, "DAutoUpdate", FALSE));
-		CheckDlgButton(hwndDlg, IDC_Internal, db_get_b(hContact, WEATHERPROTONAME, "History", 0));
+		CheckDlgButton(hwndDlg, IDC_DPop, db_get_b(hContact, WEATHERPROTONAME, "DPopUp", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DAutoUpdate, db_get_b(hContact, WEATHERPROTONAME, "DAutoUpdate", FALSE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_Internal, db_get_b(hContact, WEATHERPROTONAME, "History", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		if ( !db_get_ts(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_IURL, dbv.ptszVal);

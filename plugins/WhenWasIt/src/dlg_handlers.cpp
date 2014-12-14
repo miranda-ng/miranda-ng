@@ -268,7 +268,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		case IDC_ONCE_PER_DAY:
 		case IDC_NOTIFYFOR:
 			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			EnableWindow(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), !IsDlgButtonChecked(hWnd, IDC_ONCE_PER_DAY));
+			EnableWindow(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_ONCE_PER_DAY));
 			break;
 
 		case IDC_PREVIEW:

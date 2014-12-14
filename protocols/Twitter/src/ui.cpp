@@ -178,7 +178,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			db_free(&dbv);
 		}
 
-		CheckDlgButton(hwndDlg, IDC_CHATFEED, db_get_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, 0));
+		CheckDlgButton(hwndDlg, IDC_CHATFEED, db_get_b(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		for (size_t i = 0; i < SIZEOF(sites); i++)
 			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(sites[i]));
@@ -193,7 +193,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		mir_snprintf(pollrate_str, SIZEOF(pollrate_str), "%d", db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, 80));
 		SetDlgItemTextA(hwndDlg, IDC_POLLRATE, pollrate_str);
 
-		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, db_get_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, 0));
+		CheckDlgButton(hwndDlg, IDC_TWEET_MSG, db_get_b(0, proto->ModuleName(), TWITTER_KEY_TWEET_TO_MSG, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 
 		// Do this last so that any events propagated by pre-filling the form don't
@@ -348,7 +348,7 @@ namespace popup_options
 
 void CheckAndUpdateDlgButton(HWND hWnd, int button, BOOL check)
 {
-	CheckDlgButton(hWnd, button, check);
+	CheckDlgButton(hWnd, button, check ? BST_CHECKED : BST_UNCHECKED);
 	SendMessage(hWnd, WM_COMMAND, MAKELONG(button, BN_CLICKED),
 		(LPARAM)GetDlgItem(hWnd, button));
 }
@@ -367,7 +367,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
 		CheckAndUpdateDlgButton(hwndDlg, IDC_SHOWPOPUPS, db_get_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, 0));
-		CheckDlgButton(hwndDlg, IDC_NOSIGNONPOPUPS, !db_get_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, 0));
+		CheckDlgButton(hwndDlg, IDC_NOSIGNONPOPUPS, !db_get_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, 0) ? BST_CHECKED : BST_UNCHECKED);
 
 		// ***** Get color information
 		back_color = db_get_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLBACK, 0);
@@ -449,7 +449,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			proto = reinterpret_cast<TwitterProto*>(GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
 			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS));
-			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, !IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
+			db_set_b(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
 
 			// ***** Write color settings
 			db_set_dw(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLBACK, get_back_color(hwndDlg, true));

@@ -379,7 +379,7 @@ void CJabberDlgConsole::OnInitDialog()
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
 		if (buttons[i].push) SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASPUSHBTN, TRUE, 0);
-		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, TRUE);
+		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, BST_CHECKED);
 	}
 
 	for (i=0; i < SIZEOF(filter_modes); i++)
@@ -575,9 +575,9 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					filter_modes[i].type + 1, TranslateTS(filter_modes[i].title));
 
 			RECT rc; GetWindowRect(GetDlgItem(m_hwnd, IDC_BTN_FILTER), &rc);
-			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, TRUE);
+			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_CHECKED);
 			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, rc.left, rc.top, 0, m_hwnd, NULL);
-			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, FALSE);
+			CheckDlgButton(m_hwnd, IDC_BTN_FILTER, BST_UNCHECKED);
 			DestroyMenu(hMenu);
 
 			if (res) {

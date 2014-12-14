@@ -140,8 +140,8 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	switch (msg) {
 	case WM_INITDIALOG:
 		// Seconds of delay
-		CheckDlgButton(hwnd, IDC_INFINITEDELAY, PopupOptions.InfiniteDelay);
-		CheckDlgButton(hwnd, IDC_LEAVEHOVERED, PopupOptions.LeaveHovered);
+		CheckDlgButton(hwnd, IDC_INFINITEDELAY, PopupOptions.InfiniteDelay ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwnd, IDC_LEAVEHOVERED, PopupOptions.LeaveHovered ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS), !PopupOptions.InfiniteDelay);
 		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC1), !PopupOptions.InfiniteDelay);
 		EnableWindow(GetDlgItem(hwnd, IDC_SECONDS_STATIC2), !PopupOptions.InfiniteDelay);
@@ -150,15 +150,15 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		SendDlgItemMessage(hwnd, IDC_SECONDS_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_LIFETIME_MAX, SETTING_LIFETIME_MIN));
 
 		// Dynamic Resize
-		CheckDlgButton(hwnd, IDC_DYNAMICRESIZE, PopupOptions.DynamicResize);
+		CheckDlgButton(hwnd, IDC_DYNAMICRESIZE, PopupOptions.DynamicResize ? BST_CHECKED : BST_UNCHECKED);
 		SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopupOptions.DynamicResize ? LPGENT("Maximum width") : LPGENT("Width"));
 		// Minimum Width
-		CheckDlgButton(hwnd, IDC_USEMINIMUMWIDTH, PopupOptions.UseMinimumWidth);
+		CheckDlgButton(hwnd, IDC_USEMINIMUMWIDTH, PopupOptions.UseMinimumWidth ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwnd, IDC_MINIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_MAXIMUMWIDTH_MAX, SETTING_MINIMUMWIDTH_MIN));
 		SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopupOptions.MinimumWidth, FALSE);
 		// Maximum Width
 		PopupOptions.UseMaximumWidth = PopupOptions.DynamicResize ? PopupOptions.UseMaximumWidth : TRUE;
-		CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, PopupOptions.UseMaximumWidth);
+		CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, PopupOptions.UseMaximumWidth ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwnd, IDC_MAXIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(SETTING_MAXIMUMWIDTH_MAX, SETTING_MINIMUMWIDTH_MIN));
 		SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopupOptions.MaximumWidth, FALSE);
 		// And finally let's enable/disable them.
@@ -192,11 +192,11 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage(hwnd, IDC_LAYOUT, CB_SETCURSEL, PopupOptions.Spreading, 0);
 		}
 		// miscellaneous
-		CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups);
+		CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups ? BST_CHECKED : BST_UNCHECKED);
 
 		// Popup enabled
 		CheckDlgButton(hwnd, IDC_POPUPENABLED, PopupOptions.ModuleIsEnabled ? BST_UNCHECKED : BST_CHECKED);
-		CheckDlgButton(hwnd, IDC_DISABLEINFS, PopupOptions.DisableWhenFullscreen);
+		CheckDlgButton(hwnd, IDC_DISABLEINFS, PopupOptions.DisableWhenFullscreen ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hwnd, IDC_DISABLEINFS), PopupOptions.ModuleIsEnabled);
 		EnableWindow(GetDlgItem(hwnd, IDC_STATUSES), PopupOptions.ModuleIsEnabled);
 
@@ -599,7 +599,7 @@ void Check_ReorderPopups(HWND hwnd) {
 	}
 	db_set_b(NULL, MODULNAME, "ReorderPopups", PopupOptions.ReorderPopups);
 	db_set_b(NULL, MODULNAME, "ReorderPopupsWarning", PopupOptions.ReorderPopupsWarning);
-	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups);
+	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups ? BST_CHECKED : BST_UNCHECKED);
 }
 
 INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)

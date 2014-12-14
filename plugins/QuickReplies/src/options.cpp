@@ -72,7 +72,7 @@ INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_REPLIES), MessageEditSubclassProc);
 
 			mir_snprintf(key, SIZEOF(key), "ImmediatelySend_%x", iNumber);
-			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, (BYTE)db_get_w(NULL, MODULE, key, 1));
+			CheckDlgButton(hwndDlg, IDC_IMMEDIATELY, db_get_w(NULL, MODULE, key, 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			mir_snprintf(key, SIZEOF(key), "RepliesCount_%x", iNumber);
 			count = db_get_w(NULL, MODULE, key, 0);

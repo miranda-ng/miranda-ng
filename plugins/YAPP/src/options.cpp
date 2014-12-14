@@ -150,7 +150,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_SETCURSEL, (int)options.av_layout, 0);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_GLOBALHOVER, options.global_hover ? TRUE : FALSE);
+		CheckDlgButton(hwndDlg, IDC_CHK_GLOBALHOVER, options.global_hover ? BST_CHECKED : BST_UNCHECKED);
 
 		{
 			// initialise and fill listbox
@@ -201,30 +201,30 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_PADDING, UDM_SETRANGE, 0, (LPARAM)MAKELONG(400, 0));
 
 		if (options.default_timeout == -1) {
-			CheckDlgButton(hwndDlg, IDC_RAD_NOTIMEOUT, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_NOTIMEOUT, BST_CHECKED);
 			HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
 			EnableWindow(hw, FALSE);
 			SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, 7, FALSE);
 		}
 		else {
-			CheckDlgButton(hwndDlg, IDC_RAD_TIMEOUT, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_TIMEOUT, BST_CHECKED);
 			SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, options.default_timeout, FALSE);
 		}
 		
 		if (options.right_icon)
-			CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_RIGHTICON, BST_CHECKED);
 		else
-			CheckDlgButton(hwndDlg, IDC_RAD_LEFTICON, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_LEFTICON, BST_CHECKED);
 
 		if (ServiceExists(MS_AV_DRAWAVATAR)) {
 			switch(options.av_layout) {
-				case PAV_NONE: CheckDlgButton(hwndDlg, IDC_RAD_NOAV, TRUE); break;
-				case PAV_RIGHT: CheckDlgButton(hwndDlg, IDC_RAD_RIGHTAV, TRUE); break;
-				case PAV_LEFT: CheckDlgButton(hwndDlg, IDC_RAD_LEFTAV, TRUE); break;
+				case PAV_NONE: CheckDlgButton(hwndDlg, IDC_RAD_NOAV, BST_CHECKED); break;
+				case PAV_RIGHT: CheckDlgButton(hwndDlg, IDC_RAD_RIGHTAV, BST_CHECKED); break;
+				case PAV_LEFT: CheckDlgButton(hwndDlg, IDC_RAD_LEFTAV, BST_CHECKED); break;
 			}
 		}
 		else {
-			CheckDlgButton(hwndDlg, IDC_RAD_NOAV, TRUE);
+			CheckDlgButton(hwndDlg, IDC_RAD_NOAV, BST_CHECKED);
 			HWND hw = GetDlgItem(hwndDlg, IDC_RAD_RIGHTAV);
 			EnableWindow(hw, FALSE);
 			hw = GetDlgItem(hwndDlg, IDC_RAD_LEFTAV);
@@ -239,23 +239,23 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetDlgItemInt(hwndDlg, IDC_ED_PADDING, options.padding, FALSE);
 
 		switch(options.location) {
-			case PL_BOTTOMRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMRIGHT, TRUE); break;
-			case PL_BOTTOMLEFT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMLEFT, TRUE); break;
-			case PL_TOPRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_TOPRIGHT, TRUE); break;
-			case PL_TOPLEFT: CheckDlgButton(hwndDlg, IDC_RAD_TOPLEFT, TRUE); break;
+			case PL_BOTTOMRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMRIGHT, BST_CHECKED); break;
+			case PL_BOTTOMLEFT: CheckDlgButton(hwndDlg, IDC_RAD_BOTTOMLEFT, BST_CHECKED); break;
+			case PL_TOPRIGHT: CheckDlgButton(hwndDlg, IDC_RAD_TOPRIGHT, BST_CHECKED); break;
+			case PL_TOPLEFT: CheckDlgButton(hwndDlg, IDC_RAD_TOPLEFT, BST_CHECKED); break;
 		}
 
 		SetDlgItemInt(hwndDlg, IDC_ED_TRANS, options.opacity, FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_BORDER, options.border);
-		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, options.round);
-		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, options.av_round);
+		CheckDlgButton(hwndDlg, IDC_CHK_BORDER, options.border ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERS, options.round ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_CHK_ROUNDCORNERSAV, options.av_round ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("No animate"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Horizontal animate"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Vertical animate"));
 		SendDlgItemMessage(hwndDlg, IDC_CMB_ANIMATE, CB_SETCURSEL, options.animate, 0);
 
-		CheckDlgButton(hwndDlg, IDC_CHK_TRANSBG, options.trans_bg);
+		CheckDlgButton(hwndDlg, IDC_CHK_TRANSBG, options.trans_bg ? BST_CHECKED : BST_UNCHECKED);
 		return FALSE;
 
 	case WM_COMMAND:
@@ -381,7 +381,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
 				SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_SETCOLOUR, 0, (LPARAM)arNewClasses[i]->colorText);
 				SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_SETCOLOUR, 0, (LPARAM)arNewClasses[i]->colorBack);
-				CheckDlgButton(hwndDlg, IDC_CHK_TIMEOUT, arNewClasses[i]->iSeconds != -1);
+				CheckDlgButton(hwndDlg, IDC_CHK_TIMEOUT, arNewClasses[i]->iSeconds != -1 ? BST_CHECKED : BST_UNCHECKED);
 				SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, arNewClasses[i]->iSeconds, TRUE);
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), index != -1 && IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT));

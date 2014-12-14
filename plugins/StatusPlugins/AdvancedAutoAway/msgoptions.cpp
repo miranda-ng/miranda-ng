@@ -98,14 +98,14 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		
 		switch(LOWORD(wParam)) {
 		case IDC_RADUSEMIRANDA:
-			CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, !IsDlgButtonChecked(hwndDlg, IDC_RADUSEMIRANDA));
+			CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_RADUSEMIRANDA) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
 			settings[SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_GETCURSEL,0,0)]->useCustom = IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM);
 			break;
 
 		case IDC_RADUSECUSTOM:
-			CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, !IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
+			CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM) ? BST_CHECKED : BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
 			EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM));
 			settings[SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_GETCURSEL,0,0)]->useCustom = IsDlgButtonChecked(hwndDlg, IDC_RADUSECUSTOM);
@@ -134,14 +134,14 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					if (settings[i]->useCustom) {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), TRUE);
-						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, TRUE);
-						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, FALSE);
+						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, BST_CHECKED);
+						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, BST_UNCHECKED);
 					}
 					else {
 						EnableWindow(GetDlgItem(hwndDlg, IDC_STATUSMSG), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_VARIABLESHELP), FALSE);
-						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, TRUE);
-						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, FALSE);
+						CheckDlgButton(hwndDlg, IDC_RADUSEMIRANDA, BST_CHECKED);
+						CheckDlgButton(hwndDlg, IDC_RADUSECUSTOM, BST_UNCHECKED);
 					}
 				}
 				last = i;

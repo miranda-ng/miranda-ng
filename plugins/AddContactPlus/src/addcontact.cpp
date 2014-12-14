@@ -285,7 +285,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					CallService(MS_CLIST_CONTACTCHANGEGROUP, hContact, item);
 				}
 
-				if (!IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
+				if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
 					db_unset(hContact, "CList", "NotOnList");
 
 					if (IsDlgButtonChecked(hdlg, IDC_ADDED))

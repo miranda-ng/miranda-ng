@@ -289,7 +289,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETDEFAULTCOLOUR, 0, CLCDEFAULT_SELBKCOLOUR);
 		SendDlgItemMessage(hwndDlg, IDC_SELCOLOUR, CPM_SETCOLOUR, 0,
 			db_get_dw(NULL, "CLC", "SelBkColour", CLCDEFAULT_SELBKCOLOUR));
-		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, db_get_b(NULL, "CLC", "UseWinColours", 0));
+		CheckDlgButton(hwndDlg, IDC_WINCOLOUR, db_get_b(NULL, "CLC", "UseWinColours", 0) ? BST_CHECKED : BST_UNCHECKED);
 		SendMessage(hwndDlg, WM_USER + 11, 0, 0);
 		{
 			DBVARIANT dbv;

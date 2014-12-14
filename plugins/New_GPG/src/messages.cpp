@@ -1004,7 +1004,7 @@ static INT_PTR CALLBACK DlgProcKeyPassword(HWND hwndDlg, UINT msg, WPARAM wParam
 					extern TCHAR *password;
 					if(IsDlgButtonChecked(hwndDlg, IDC_SAVE_PASSWORD))
 					{
-						if(inkeyid && inkeyid[0] && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD))
+						if(inkeyid && inkeyid[0] && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_DEFAULT_PASSWORD))
 						{
 							string dbsetting = "szKey_";
 							dbsetting += inkeyid;

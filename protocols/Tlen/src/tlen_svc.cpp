@@ -1100,7 +1100,7 @@ static INT_PTR CALLBACK TlenChangeAvatarDlgProc( HWND hwndDlg, UINT msg, WPARAM 
 			SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) hIcon);
 			ReleaseIcolibIcon(hIcon);
 		}
-		CheckDlgButton(hwndDlg, IDC_PUBLICAVATAR, TRUE);
+		CheckDlgButton(hwndDlg, IDC_PUBLICAVATAR, BST_CHECKED);
 		return TRUE;
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {

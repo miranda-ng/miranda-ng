@@ -1620,7 +1620,7 @@ bool CIrcProto::OnIrc_BANLISTEND(const CIrcMessage* pmsg)
 				m_managerDlg->m_radio2.Enable();
 			if (strchr(sChannelModes.c_str(), 'e'))
 				m_managerDlg->m_radio3.Enable();
-			if (!IsDlgButtonChecked(m_managerDlg->GetHwnd(), IDC_NOTOP))
+			if (BST_UNCHECKED == IsDlgButtonChecked(m_managerDlg->GetHwnd(), IDC_NOTOP))
 				m_managerDlg->m_add.Enable();
 		}
 	}

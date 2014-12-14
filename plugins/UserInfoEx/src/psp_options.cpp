@@ -136,7 +136,7 @@ static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEn
 static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE bDefault)
 {
 	BYTE val = (db_get_b(NULL, MODNAME, pszSetting, bDefault) & 1) == 1;
-	CheckDlgButton(hDlg, idCtrl, val);
+	CheckDlgButton(hDlg, idCtrl, val ? BST_CHECKED : BST_UNCHECKED);
 	return val;
 }
 
@@ -293,12 +293,12 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				}
 			}
 			// extra icon settings
-			CheckDlgButton(hDlg, CHECK_OPT_GENDER, g_eiGender);
-			CheckDlgButton(hDlg, CHECK_OPT_EMAILICON, g_eiEmail);
-			CheckDlgButton(hDlg, CHECK_OPT_PHONEICON, g_eiPhone);
-			CheckDlgButton(hDlg, CHECK_OPT_HOMEPAGEICON, g_eiHome);
-			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag);
-			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag);
+			CheckDlgButton(hDlg, CHECK_OPT_GENDER, g_eiGender ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, CHECK_OPT_EMAILICON, g_eiEmail ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, CHECK_OPT_PHONEICON, g_eiPhone ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, CHECK_OPT_HOMEPAGEICON, g_eiHome ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag ? BST_CHECKED : BST_UNCHECKED);
 
 			// misc
 			DBGetCheckBtn(hDlg, CHECK_OPT_ZODIACAVATAR, SET_ZODIAC_AVATARS, FALSE);
@@ -419,7 +419,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			DBGetCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN, TRUE);
 			DBGetCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE, TRUE);
 			if (tmi.getTimeZoneTime) {
-				CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, TRUE);
+				CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, BST_CHECKED);
 				EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE), FALSE);
 			}
 			else {
@@ -805,21 +805,21 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				DBGetColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT, RGB(0, 0, 0));
 				switch (db_get_b(NULL, MODNAME, SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 				case POPUP_COLOR_DEFAULT:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_DEFCLR, TRUE);
+					CheckDlgButton(hDlg, CHECK_OPT_POPUP_DEFCLR, BST_CHECKED);
 					break;
 
 				case POPUP_COLOR_WINDOWS:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_WINCLR, TRUE);
+					CheckDlgButton(hDlg, CHECK_OPT_POPUP_WINCLR, BST_CHECKED);
 				}
 
 				DBGetColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
 				DBGetColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT, RGB(0, 0, 0));
 				switch (db_get_b(NULL, MODNAME, SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
 				case POPUP_COLOR_DEFAULT:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_ADEFCLR, TRUE);
+					CheckDlgButton(hDlg, CHECK_OPT_POPUP_ADEFCLR, BST_CHECKED);
 					break;
 				case POPUP_COLOR_WINDOWS:
-					CheckDlgButton(hDlg, CHECK_OPT_POPUP_AWINCLR, TRUE);
+					CheckDlgButton(hDlg, CHECK_OPT_POPUP_AWINCLR, BST_CHECKED);
 				}
 
 				if (isEnabled) {
@@ -830,19 +830,19 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				bDelay = db_get_b(NULL, MODNAME, SET_POPUP_DELAY, 0);
 				switch (bDelay) {
 				case 0:
-					CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, TRUE);
+					CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, BST_CHECKED);
 					if (isEnabled)
 						EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
 					break;
 
 				case 255:
-					CheckDlgButton(hDlg, RADIO_OPT_POPUP_PERMANENT, TRUE);
+					CheckDlgButton(hDlg, RADIO_OPT_POPUP_PERMANENT, BST_CHECKED);
 					if (isEnabled)
 						EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
 					break;
 
 				default:
-					CheckDlgButton(hDlg, RADIO_OPT_POPUP_CUSTOM, TRUE);
+					CheckDlgButton(hDlg, RADIO_OPT_POPUP_CUSTOM, BST_CHECKED);
 					SetDlgItemInt(hDlg, EDIT_DELAY, bDelay, FALSE);
 				}
 				bInitialized = TRUE;
@@ -902,7 +902,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 				}
-				else if (!IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)) {
+				else if (BST_UNCHECKED == IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)) {
 					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_BBACK, CPM_GETCOLOUR, 0, 0);
 					ppd.colorText = SendDlgItemMessage(hDlg, CLR_BTEXT, CPM_GETCOLOUR, 0, 0);
 				}

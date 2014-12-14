@@ -87,12 +87,12 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			{
 				WORD watcherType=db_get_w(NULL,"AutoShutdown","WatcherFlags",SETTING_WATCHERFLAGS_DEFAULT);
 				CheckRadioButton(hwndDlg,IDC_RADIO_STTIME,IDC_RADIO_STCOUNTDOWN,(watcherType&SDWTF_ST_TIME)?IDC_RADIO_STTIME:IDC_RADIO_STCOUNTDOWN);
-				CheckDlgButton(hwndDlg,IDC_CHECK_SPECIFICTIME,(watcherType&SDWTF_SPECIFICTIME) != 0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,(watcherType&SDWTF_MESSAGE) != 0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,(watcherType&SDWTF_FILETRANSFER) != 0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_IDLE,(watcherType&SDWTF_IDLE) != 0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_STATUS,(watcherType&SDWTF_STATUS) != 0);
-				CheckDlgButton(hwndDlg,IDC_CHECK_CPUUSAGE,(watcherType&SDWTF_CPUUSAGE) != 0);
+				CheckDlgButton(hwndDlg,IDC_CHECK_SPECIFICTIME,(watcherType&SDWTF_SPECIFICTIME) != 0 ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,(watcherType&SDWTF_MESSAGE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,(watcherType&SDWTF_FILETRANSFER) != 0 ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg,IDC_CHECK_IDLE,(watcherType&SDWTF_IDLE) != 0 ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg,IDC_CHECK_STATUS,(watcherType&SDWTF_STATUS) != 0 ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hwndDlg,IDC_CHECK_CPUUSAGE,(watcherType&SDWTF_CPUUSAGE) != 0 ? BST_CHECKED : BST_UNCHECKED);
 			}
 			/* read-in countdown val */
 			{
@@ -159,18 +159,18 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			}
 			/* check if proto is installed that supports instant messages and check if a message dialog plugin is installed */
 			if (!AnyProtoHasCaps(PF1_IMRECV) || !ServiceExists(MS_MSG_SENDMESSAGE)) { /* no srmessage present? */
-				CheckDlgButton(hwndDlg,IDC_CHECK_MESSAGE,FALSE);
+				CheckDlgButton(hwndDlg, IDC_CHECK_MESSAGE, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_MESSAGE),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE),FALSE);
 			}
 			/* check if proto is installed that supports file transfers and check if a file transfer dialog is available */
 			if (!AnyProtoHasCaps(PF1_FILESEND) && !AnyProtoHasCaps(PF1_FILERECV)) {  /* no srfile present? */
-				CheckDlgButton(hwndDlg,IDC_CHECK_FILETRANSFER,FALSE);
+				CheckDlgButton(hwndDlg, IDC_CHECK_FILETRANSFER, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_FILETRANSFER),FALSE);
 			}
 			/* check if cpu usage can be detected */
 			if (!PollCpuUsage(DisplayCpuUsageProc,(LPARAM)GetDlgItem(hwndDlg,IDC_TEXT_CURRENTCPU),1800)) {
-				CheckDlgButton(hwndDlg,IDC_CHECK_CPUUSAGE,FALSE);
+				CheckDlgButton(hwndDlg, IDC_CHECK_CPUUSAGE, BST_UNCHECKED);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_CPUUSAGE),FALSE);
 			}
 			SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);

@@ -181,8 +181,8 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 			}
 
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, db_get_b(hContact, MODULE, "EnableSounds", 1));
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, db_get_b(hContact, MODULE, "EnablePopups", 1));
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, db_get_b(hContact, MODULE, "EnableSounds", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, db_get_b(hContact, MODULE, "EnablePopups", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_INDSNDLIST), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_TEXT_ENABLE_IS), opt.UseIndSnd ? SW_HIDE : SW_SHOW);

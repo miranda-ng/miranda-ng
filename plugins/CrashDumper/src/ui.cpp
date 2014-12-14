@@ -199,10 +199,10 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				db_free(&dbv);
 			}
-			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, PluginName, "UploadChanged", 0));
-			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates);
-			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr);
-			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes);
+			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, db_get_b(NULL, PluginName, "UploadChanged", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CATCHCRASHES, catchcrashes ? BST_CHECKED : BST_UNCHECKED);
 			if (!catchcrashes) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_CLASSICDATES), FALSE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DATESUBFOLDER), FALSE);

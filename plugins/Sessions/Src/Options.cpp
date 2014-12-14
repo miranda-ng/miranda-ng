@@ -252,7 +252,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 				db_set_b(NULL, MODNAME, "ShutdownMode", 1);
 
 			if (IsDlgButtonChecked(hdlg, IDC_STARTDIALOG)) {
-				if (!IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
+				if (BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
 					db_set_b(NULL, MODNAME, "StartupMode", 1);
 				else
 					db_set_b(NULL, MODNAME, "StartupMode", 3);

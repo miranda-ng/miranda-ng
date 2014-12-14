@@ -55,15 +55,15 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 			bInitializing = 1;
 			TranslateDialogDefault(optDlg);
 			bEnabled = _getOptB("NotifyPopup", defaultNotifyPopup);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_ENABLED, BM_SETCHECK, bEnabled, 0);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_ENABLED, bEnabled ? BST_CHECKED : BST_UNCHECKED);
 			EnablePopupControls(optDlg, bEnabled);
 
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED, BM_SETCHECK, _getOptB("NotifyPopupBlocked", defaultNotifyPopupBlocked), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED, BM_SETCHECK, _getOptB("NotifyPopupApproved", defaultNotifyPopupApproved), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE, BM_SETCHECK, _getOptB("NotifyPopupChallenge", defaultNotifyPopupChallenge), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, BM_SETCHECK, _getOptB("PopupDefaultColors", defaultPopupDefaultColors), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, BM_SETCHECK, _getOptB("PopupWindowsColors", defaultPopupWindowsColors), 0);
-			SendDlgItemMessage(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, BM_SETCHECK, _getOptB("PopupDefaultTimeout", defaultPopupDefaultTimeout), 0);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_BLOCKED, _getOptB("NotifyPopupBlocked", defaultNotifyPopupBlocked) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_APPROVED, _getOptB("NotifyPopupApproved", defaultNotifyPopupApproved) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_NOTIFY_CHALLENGE, _getOptB("NotifyPopupChallenge", defaultNotifyPopupChallenge) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_DEFAULT_COLORS, _getOptB("PopupDefaultColors", defaultPopupDefaultColors) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_WINDOWS_COLORS, _getOptB("PopupWindowsColors", defaultPopupWindowsColors) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(optDlg, IDC_OPT_POPUPS_DEFAULT_TIMEOUT, _getOptB("PopupDefaultTimeout", defaultPopupDefaultTimeout) ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_BLOCKED_TIMEOUT, _getOptD("PopupBlockedTimeout", defaultPopupBlockedTimeout), FALSE);
 			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_APPROVED_TIMEOUT, _getOptD("PopupApprovedTimeout", defaultPopupApprovedTimeout), FALSE);
 			SetDlgItemInt(optDlg, IDC_OPT_POPUPS_CHALLENGE_TIMEOUT, _getOptD("PopupChallengeTimeout", defaultPopupChallengeTimeout), FALSE);

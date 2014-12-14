@@ -714,7 +714,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			SetDlgItemText(hwndDlg, IDC_TIMESTAMP, g_Settings.pszTimeStamp);
 			SetDlgItemText(hwndDlg, IDC_OUTSTAMP, g_Settings.pszOutgoingNick);
 			SetDlgItemText(hwndDlg, IDC_INSTAMP, g_Settings.pszIncomingNick);
-			CheckDlgButton(hwndDlg, IDC_LOGGING, g_Settings.bLoggingEnabled);
+			CheckDlgButton(hwndDlg, IDC_LOGGING, g_Settings.bLoggingEnabled ? BST_CHECKED : BST_UNCHECKED);
 			SetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, g_Settings.pszLogDir);
 			Utils::enableDlgControl(hwndDlg, IDC_LOGDIRECTORY, g_Settings.bLoggingEnabled);
 			Utils::enableDlgControl(hwndDlg, IDC_FONTCHOOSE, g_Settings.bLoggingEnabled);

@@ -234,7 +234,7 @@ void COptItem_Checkbox::WndToMem(HWND hWnd)
 
 void COptItem_Checkbox::MemToWnd(HWND hWnd)
 {
-	CheckDlgButton(hWnd, DlgItemID, Value);
+	CheckDlgButton(hWnd, DlgItemID, Value ? BST_CHECKED : BST_UNCHECKED);
 	COptItem::MemToWnd(hWnd);
 }
 

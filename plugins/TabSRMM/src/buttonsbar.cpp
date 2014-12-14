@@ -285,8 +285,8 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	if (bbdi->bbbFlags) {
 		Utils::showDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_HIDDEN) ? SW_HIDE : SW_SHOW);
 		Utils::enableDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_DISABLED) ? 0 : 1);
-		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_PUSHED) ? 1 : 0);
-		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_RELEASED) ? 0 : 1);
+		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_PUSHED)  ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_RELEASED) ? BST_UNCHECKED : BST_CHECKED);
 	}
 	return 0;
 }
@@ -1373,9 +1373,9 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
 						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
 						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
-						CheckDlgButton(hwndDlg, IDC_IMCHECK, (cbd->bIMButton) ? 1 : 0);
-						CheckDlgButton(hwndDlg, IDC_CHATCHECK, (cbd->bChatButton) ? 1 : 0);
-						CheckDlgButton(hwndDlg, IDC_CANBEHIDDEN, (cbd->bCanBeHidden) ? 1 : 0);
+						CheckDlgButton(hwndDlg, IDC_IMCHECK, (cbd->bIMButton) ? BST_CHECKED : BST_UNCHECKED);
+						CheckDlgButton(hwndDlg, IDC_CHATCHECK, (cbd->bChatButton) ? BST_CHECKED : BST_UNCHECKED);
+						CheckDlgButton(hwndDlg, IDC_CANBEHIDDEN, (cbd->bCanBeHidden) ? BST_CHECKED : BST_UNCHECKED);
 					}
 				}
 				break;
@@ -1391,7 +1391,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
 							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
 							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
-							CheckDlgButton(hwndDlg, IDC_IMCHECK, 1);
+							CheckDlgButton(hwndDlg, IDC_IMCHECK, BST_CHECKED);
 						}
 						else {
 							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);

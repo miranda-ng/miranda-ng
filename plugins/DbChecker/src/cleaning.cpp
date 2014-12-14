@@ -27,10 +27,10 @@ INT_PTR CALLBACK CleaningDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 
 	switch (message) {
 	case WM_INITDIALOG:
-		CheckDlgButton(hdlg, IDC_ERASEHISTORY, opts.bEraseHistory);
+		CheckDlgButton(hdlg, IDC_ERASEHISTORY, opts.bEraseHistory ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_ERASEHISTORY), !opts.bAggressive);
-		CheckDlgButton(hdlg, IDC_MARKREAD, opts.bMarkRead);
-		CheckDlgButton(hdlg, IDC_CONVERTUTF, opts.bConvertUtf);
+		CheckDlgButton(hdlg, IDC_MARKREAD, opts.bMarkRead ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CONVERTUTF, opts.bConvertUtf ? BST_CHECKED : BST_UNCHECKED);
 		TranslateDialogDefault(hdlg);
 		return TRUE;
 
