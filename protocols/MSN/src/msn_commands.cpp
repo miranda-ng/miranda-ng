@@ -110,7 +110,6 @@ void CMsnProto::MSN_InviteMessage(ThreadData* info, char* msgBody, char* email, 
 	const char* IPAddress = tFileInfo["IP-Address"];
 	const char* IPAddressInt = tFileInfo["IP-Address-Internal"];
 	const char* Port = tFileInfo["Port"];
-	const char* PortX = tFileInfo["PortX"];
 	const char* PortXInt = tFileInfo["PortX-Internal"];
 	const char* AuthCookie = tFileInfo["AuthCookie"];
 	const char* SessionID = tFileInfo["Session-ID"];
@@ -292,7 +291,6 @@ void CMsnProto::MSN_CustomSmiley(const char* msgBody, char* email, char* nick, i
 			size_t slen = strlen(lastsml);
 			ptrA buf(mir_base64_encode((PBYTE)lastsml, (unsigned)slen));
 			ptrA smileyName(mir_urlEncode(buf));
-			int rlen = mir_strlen(buf);
 
 			TCHAR path[MAX_PATH];
 			MSN_GetCustomSmileyFileName(hContact, path, SIZEOF(path), smileyName, iSmileyType);

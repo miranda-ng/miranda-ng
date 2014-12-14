@@ -42,6 +42,8 @@
 #define SIZE_MAX UINT_MAX
 #endif
 
+#pragma warning(disable:4706)
+
 #define EZXML_WS   "\t\r\n "  // whitespace
 #define EZXML_ERRL 128        // maximum error string length
 

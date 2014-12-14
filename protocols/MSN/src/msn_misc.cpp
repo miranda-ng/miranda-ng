@@ -541,7 +541,7 @@ static ThreadData* FindThreadTimer(UINT timerId)
 	return res;
 }
 
-static VOID CALLBACK TypingTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+static VOID CALLBACK TypingTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 {
 	ThreadData* T = FindThreadTimer(idEvent);
 	if (T != NULL)
@@ -775,7 +775,6 @@ static const char postdataS[] = "ct=%u&bver=7&id=73625&ru=%s&js=yes&pl=%%3Fid%%3
 
 void CMsnProto::MsnInvokeMyURL(bool ismail, const char* url)
 {
-	char* hippy = NULL;
 	if (!url)
 		url = ismail ? "http://mail.live.com?rru=inbox" : "http://profile.live.com";
 
@@ -942,7 +941,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	CallService(MS_POPUP_ADDPOPUPCLASS, 0, (LPARAM)&ppd);
 }
 
-void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url, MCONTACT hContact)
+void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags, const char* url)
 {
 	if (Miranda_Terminated()) return;
 
@@ -960,7 +959,7 @@ void CMsnProto::MSN_ShowPopup(const TCHAR* nickname, const TCHAR* msg, int flags
 void CMsnProto::MSN_ShowPopup(const MCONTACT hContact, const TCHAR* msg, int flags)
 {
 	const TCHAR* nickname = hContact ? GetContactNameT(hContact) : _T("Me");
-	MSN_ShowPopup(nickname, msg, flags, NULL, hContact);
+	MSN_ShowPopup(nickname, msg, flags, NULL);
 }
 
 

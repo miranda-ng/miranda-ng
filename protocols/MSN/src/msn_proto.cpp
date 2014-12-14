@@ -248,7 +248,7 @@ MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		flags);
 }
 
-MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, HANDLE hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -267,7 +267,7 @@ MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 	return AddToListByEmail(email, nick, flags);
 }
 
-int CMsnProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
+int CMsnProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
@@ -341,7 +341,7 @@ int CMsnProto::Authorize(HANDLE hDbEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnAuthDeny - called after unsuccessful authorization
 
-int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
+int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 {
 	if (!msnLoggedIn)
 		return 1;
@@ -449,17 +449,17 @@ HANDLE __cdecl CMsnProto::SearchByEmail(const PROTOCHAR* email)
 }
 
 
-HANDLE __cdecl CMsnProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
+HANDLE __cdecl CMsnProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*)
 {
 	return NULL;
 }
 
-HWND __cdecl CMsnProto::SearchAdvanced(HWND hwndDlg)
+HWND __cdecl CMsnProto::SearchAdvanced(HWND)
 {
 	return NULL;
 }
 
-HWND __cdecl CMsnProto::CreateExtendedSearchUI(HWND parent)
+HWND __cdecl CMsnProto::CreateExtendedSearchUI(HWND)
 {
 	return NULL;
 }
@@ -490,7 +490,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 	ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
 }
 
-HANDLE __cdecl CMsnProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+HANDLE __cdecl CMsnProto::FileAllow(MCONTACT, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -516,7 +516,7 @@ HANDLE __cdecl CMsnProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileCancel - cancels the active file transfer
 
-int __cdecl CMsnProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int __cdecl CMsnProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -546,7 +546,7 @@ int __cdecl CMsnProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileDeny - rejects the file transfer request
 
-int __cdecl CMsnProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
+int __cdecl CMsnProto::FileDeny(MCONTACT, HANDLE hTransfer, const PROTOCHAR* /*szReason*/)
 {
 	filetransfer* ft = (filetransfer*)hTransfer;
 
@@ -644,7 +644,7 @@ HANDLE __cdecl CMsnProto::GetAwayMsg(MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetCaps - obtain the protocol capabilities
 
-DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -681,7 +681,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT hContact)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnGetInfo - nothing to do, cause we cannot obtain information from the server
 
-int __cdecl CMsnProto::GetInfo(MCONTACT hContact, int infoType)
+int __cdecl CMsnProto::GetInfo(MCONTACT, int)
 {
 	return 1;
 }
@@ -689,7 +689,7 @@ int __cdecl CMsnProto::GetInfo(MCONTACT hContact, int infoType)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvContacts
 
-int __cdecl CMsnProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
+int __cdecl CMsnProto::RecvContacts(MCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -720,7 +720,7 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 ////////////////////////////////////////////////////////////////////////////////////////
 // RecvUrl
 
-int __cdecl CMsnProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
+int __cdecl CMsnProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -728,7 +728,7 @@ int __cdecl CMsnProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendContacts
 
-int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int __cdecl CMsnProto::SendContacts(MCONTACT, int, int, MCONTACT*)
 {
 	return 1;
 }
@@ -736,7 +736,7 @@ int __cdecl CMsnProto::SendContacts(MCONTACT hContact, int flags, int nContacts,
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSendFile - initiates a file transfer
 
-HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
+HANDLE __cdecl CMsnProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR** ppszFiles)
 {
 	if (!msnLoggedIn)
 		return 0;
@@ -944,7 +944,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const TCHAR* msg)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PSR_AWAYMSG
 
-int __cdecl CMsnProto::RecvAwayMsg(MCONTACT hContact, int statusMode, PROTORECVEVENT* evt)
+int __cdecl CMsnProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
 {
 	return 1;
 }
@@ -1043,7 +1043,7 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendUrl
 
-int __cdecl CMsnProto::SendUrl(MCONTACT hContact, int flags, const char* url)
+int __cdecl CMsnProto::SendUrl(MCONTACT, int, const char*)
 {
 	return 1;
 }
