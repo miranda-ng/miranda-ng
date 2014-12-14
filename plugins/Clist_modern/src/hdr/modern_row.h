@@ -65,23 +65,23 @@ typedef struct tagRowCell
 
 	BOOL hasfixed;    // Параметр показывающий что есть вложенные фиксированные элементы
 	BOOL fitwidth;    // Параметр указывающий что последний элемент заполняет все оставшееся 
-                     // Пространство (расстягивает родителя.оверлей)
+	// Пространство (расстягивает родителя.оверлей)
 
-  int fixed_width;
-  int full_width;
+	int fixed_width;
+	int full_width;
 
-  RECT r;					// Прямоугольник для рисования элемента
-  struct tagRowCell * next;		// Поле связи 
-  struct tagRowCell * child;		// Поле связи см. файл описания
+	RECT r;					// Прямоугольник для рисования элемента
+	struct tagRowCell * next;		// Поле связи 
+	struct tagRowCell * child;		// Поле связи см. файл описания
 }
-	ROWCELL, *pROWCELL;
+ROWCELL, *pROWCELL;
 
 // Структура для доступа к контейнерам элемента контакта внутри дерева опивания
 #ifndef _CPPCODE
-  int cppCalculateRowHeight(ROWCELL	*RowRoot);
-  void cppCalculateRowItemsPos(ROWCELL	*RowRoot, int width);
-  ROWCELL *cppInitModernRow(ROWCELL	** tabAccess);
-  void cppDeleteTree(ROWCELL	* RowRoot);
+int cppCalculateRowHeight(ROWCELL	*RowRoot);
+void cppCalculateRowItemsPos(ROWCELL	*RowRoot, int width);
+ROWCELL *cppInitModernRow(ROWCELL	** tabAccess);
+void cppDeleteTree(ROWCELL	* RowRoot);
 #endif
 
 #endif // modern_row_h__

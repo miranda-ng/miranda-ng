@@ -46,8 +46,8 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 
 		if (iad->nodes != NULL)
 		{
-			IMAGE_ARRAY_DATA_NODE *tmp = (IMAGE_ARRAY_DATA_NODE *) realloc((void *)iad->nodes,
-											sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
+			IMAGE_ARRAY_DATA_NODE *tmp = (IMAGE_ARRAY_DATA_NODE *)realloc((void *)iad->nodes,
+				sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
 			if (tmp == NULL)
 			{
@@ -57,11 +57,11 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 			}
 
 			iad->nodes = tmp;
-			memset( &iad->nodes[iad->nodes_allocated_size], 0, (size_grow - iad->nodes_allocated_size) * sizeof(IMAGE_ARRAY_DATA_NODE));
+			memset(&iad->nodes[iad->nodes_allocated_size], 0, (size_grow - iad->nodes_allocated_size) * sizeof(IMAGE_ARRAY_DATA_NODE));
 		}
 		else
 		{
-			iad->nodes = (IMAGE_ARRAY_DATA_NODE *) malloc(sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
+			iad->nodes = (IMAGE_ARRAY_DATA_NODE *)malloc(sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
 			if (iad->nodes == NULL)
 			{
@@ -80,13 +80,13 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 	else if (size < iad->nodes_allocated_size)
 	{
 		// Give some more space to try to avoid a free
-		if ((iad->nodes_allocated_size - size) / iad->grow_step >= 2 )
+		if ((iad->nodes_allocated_size - size) / iad->grow_step >= 2)
 		{
 			IMAGE_ARRAY_DATA_NODE *tmp;
 
 			size_grow += iad->grow_step - (size_grow % iad->grow_step);
 
-			tmp = (IMAGE_ARRAY_DATA_NODE *) realloc((void *)iad->nodes, sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
+			tmp = (IMAGE_ARRAY_DATA_NODE *)realloc((void *)iad->nodes, sizeof(IMAGE_ARRAY_DATA_NODE) * size_grow);
 
 			if (tmp == NULL)
 			{
@@ -214,7 +214,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// Get bounds
-	if (!GetObject(hBmp,sizeof(BITMAP),&bm))
+	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
 	{
 		LeaveCriticalSection(&iad->cs);
 		return -1;
@@ -232,7 +232,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// Alloc image
-	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height,&(iad->lpBits));
+	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
 	if (hNewBmp == NULL)
 	{
 		LeaveCriticalSection(&iad->cs);
@@ -254,7 +254,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	hdc_old = CreateCompatibleDC(iad->hdc);
 	old_bmp = (HBITMAP)GetCurrentObject(hdc_old, OBJ_BITMAP);
 
-	SetBkMode(iad->hdc,TRANSPARENT);
+	SetBkMode(iad->hdc, TRANSPARENT);
 	{
 		POINT org;
 		GetBrushOrgEx(iad->hdc, &org);
@@ -274,7 +274,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				w = iad->width;
 				h = 0;
-				for (i=0; i < pos; i++)
+				for (i = 0; i < pos; i++)
 				{
 					h += iad->nodes[i].height;
 				}
@@ -283,7 +283,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				h = iad->height;
 				w = 0;
-				for (i=0; i < pos; i++)
+				for (i = 0; i < pos; i++)
 				{
 					w += iad->nodes[i].width;
 				}
@@ -339,7 +339,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// restore things
-	SelectObject(hdc_old,old_bmp);
+	SelectObject(hdc_old, old_bmp);
 	DeleteDC(hdc_old);
 	if (iad->img != NULL) DeleteObject(iad->img);
 	iad->img = hNewBmp;
@@ -347,7 +347,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	// Move array
 	if (!last_one && iad->nodes_size > 1)
 	{
-		memmove(&iad->nodes[pos+1], &iad->nodes[pos], (iad->nodes_size - pos) * sizeof(IMAGE_ARRAY_DATA_NODE));
+		memmove(&iad->nodes[pos + 1], &iad->nodes[pos], (iad->nodes_size - pos) * sizeof(IMAGE_ARRAY_DATA_NODE));
 	}
 	iad->nodes[pos].width = bm.bmWidth;
 	iad->nodes[pos].height = bm.bmHeight;
@@ -384,7 +384,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	EnterCriticalSection(&iad->cs);
 
 	// Get bounds
-	if (!GetObject(hBmp,sizeof(BITMAP),&bm))
+	if (!GetObject(hBmp, sizeof(BITMAP), &bm))
 	{
 		LeaveCriticalSection(&iad->cs);
 		return FALSE;
@@ -402,7 +402,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// Alloc image
-	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height,&(iad->lpBits));
+	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
 	if (hNewBmp == NULL)
 	{
 		LeaveCriticalSection(&iad->cs);
@@ -435,7 +435,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				w = iad->width;
 				h = 0;
-				for (i=0; i < pos; i++)
+				for (i = 0; i < pos; i++)
 				{
 					h += iad->nodes[i].height;
 				}
@@ -444,7 +444,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 			{
 				h = iad->height;
 				w = 0;
-				for (i=0; i < pos; i++)
+				for (i = 0; i < pos; i++)
 				{
 					w += iad->nodes[i].width;
 				}
@@ -547,7 +547,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 	}
 
 	// Alloc image
-	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height,&(iad->lpBits));
+	hNewBmp = ImageArray_CreateBitmapPoint(new_width, new_height, &(iad->lpBits));
 	if (hNewBmp == NULL)
 	{
 		LeaveCriticalSection(&iad->cs);
@@ -579,7 +579,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 			{
 				w = iad->width;
 				h = 0;
-				for (i=0; i < pos; i++)
+				for (i = 0; i < pos; i++)
 				{
 					h += iad->nodes[i].height;
 				}
@@ -588,7 +588,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 			{
 				h = iad->height;
 				w = 0;
-				for (i=0; i < pos; i++)
+				for (i = 0; i < pos; i++)
 				{
 					w += iad->nodes[i].width;
 				}
@@ -668,7 +668,7 @@ BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXD
 		{
 			w = 0;
 			h = 0;
-			for (i=0; i < pos; i++)
+			for (i = 0; i < pos; i++)
 			{
 				h += iad->nodes[i].height;
 			}
@@ -677,14 +677,14 @@ BOOL ImageArray_DrawImage(LP_IMAGE_ARRAY_DATA iad, int pos, HDC hdcDest, int nXD
 		{
 			h = 0;
 			w = 0;
-			for (i=0; i < pos; i++)
+			for (i = 0; i < pos; i++)
 			{
 				w += iad->nodes[i].width;
 			}
 		}
 		{
-			BLENDFUNCTION bf = {AC_SRC_OVER, 0, Alpha, AC_SRC_ALPHA };
-			/*ske_*/AlphaBlend(hdcDest, nXDest, nYDest, iad->nodes[pos].width, iad->nodes[pos].height, iad->hdc, w, h, iad->nodes[pos].width, iad->nodes[pos].height,bf);
+			BLENDFUNCTION bf = { AC_SRC_OVER, 0, Alpha, AC_SRC_ALPHA };
+			/*ske_*/AlphaBlend(hdcDest, nXDest, nYDest, iad->nodes[pos].width, iad->nodes[pos].height, iad->hdc, w, h, iad->nodes[pos].width, iad->nodes[pos].height, bf);
 		}
 	}
 

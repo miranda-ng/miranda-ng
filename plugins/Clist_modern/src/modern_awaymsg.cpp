@@ -85,18 +85,18 @@ static void amThreadProc(void *)
 		MCONTACT hContact = amGetCurrentChain();
 		while (hContact) {
 			DWORD time = GetTickCount();
-			if ((time-amRequestTick) < AMASKPERIOD) {
-				SleepEx(AMASKPERIOD-(time-amRequestTick)+10, TRUE);
-				if ( MirandaExiting())
+			if ((time - amRequestTick) < AMASKPERIOD) {
+				SleepEx(AMASKPERIOD - (time - amRequestTick) + 10, TRUE);
+				if (MirandaExiting())
 					return;
 			}
 			CListSettings_FreeCacheItemData(&dnce);
 			dnce.hContact = hContact;
-			Sync(CLUI_SyncGetPDNCE, (WPARAM) 0, (LPARAM)&dnce);
+			Sync(CLUI_SyncGetPDNCE, (WPARAM)0, (LPARAM)&dnce);
 
 			HANDLE ACK = 0;
 			if (dnce.ApparentMode != ID_STATUS_OFFLINE) //don't ask if contact is always invisible (should be done with protocol)
-				ACK = (HANDLE)CallContactService(hContact,PSS_GETAWAYMSG, 0, 0);
+				ACK = (HANDLE)CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
 			if (!ACK) {
 				ACKDATA ack;
 				ack.hContact = hContact;
@@ -112,20 +112,19 @@ static void amThreadProc(void *)
 			amRequestTick = time;
 			hContact = amGetCurrentChain();
 			if (hContact) {
-				DWORD i=0;
+				DWORD i = 0;
 				do {
 					i++;
 					SleepEx(50, TRUE);
-				}
-					while (i < AMASKPERIOD/50 && !MirandaExiting());
+				} while (i < AMASKPERIOD / 50 && !MirandaExiting());
 			}
 			else break;
-			if ( MirandaExiting())
+			if (MirandaExiting())
 				return;
 		}
 		WaitForSingleObjectEx(hamProcessEvent, INFINITE, TRUE);
 		ResetEvent(hamProcessEvent);
-		if ( MirandaExiting())
+		if (MirandaExiting())
 			break;
 	}
 }
@@ -157,7 +156,7 @@ void amRequestAwayMsg(MCONTACT hContact)
 void InitAwayMsgModule()
 {
 	InitializeCriticalSection(&amCS);
-	hamProcessEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
+	hamProcessEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	g_hAwayMsgThread = mir_forkthread(amThreadProc, 0);
 }
 

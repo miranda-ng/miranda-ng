@@ -34,7 +34,7 @@ BOOL RectHitTest(RECT *rc, int testx, int testy)
 	return testx >= rc->left && testx < rc->right && testy >= rc->top && testy < rc->bottom;
 }
 
-int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags)
+int cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags)
 {
 	ClcContact *hitcontact = NULL;
 	ClcGroup *hitgroup = NULL;
@@ -46,7 +46,7 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 		return -1;
 	}
 	if (flags) *flags = 0;
-	GetClientRect(hwnd,&clRect);
+	GetClientRect(hwnd, &clRect);
 	if (testx < 0 || testy < 0 || testy >= clRect.bottom || testx >= clRect.right) {
 		if (flags) {
 			if (testx < 0) *flags |= CLCHT_TOLEFT;
@@ -57,7 +57,7 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 		return -1;
 	}
 	if (testx < dat->leftMargin) {
-		if (flags) *flags |= CLCHT_INLEFTMARGIN|CLCHT_NOWHERE;
+		if (flags) *flags |= CLCHT_INLEFTMARGIN | CLCHT_NOWHERE;
 		return -1;
 	}
 
@@ -68,15 +68,15 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 		hit = cliGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 
 	if (hit == -1) {
-		if (flags) *flags |= CLCHT_NOWHERE|CLCHT_BELOWITEMS;
+		if (flags) *flags |= CLCHT_NOWHERE | CLCHT_BELOWITEMS;
 		return -1;
 	}
 	if (contact) *contact = hitcontact;
 	if (group) *group = hitgroup;
 	/////////
 
-	if (((testx < hitcontact->pos_indent) && !dat->text_rtl)  ||
-		((testx>clRect.right-hitcontact->pos_indent) && dat->text_rtl))
+	if (((testx < hitcontact->pos_indent) && !dat->text_rtl) ||
+		((testx>clRect.right - hitcontact->pos_indent) && dat->text_rtl))
 	{
 		if (flags) *flags |= CLCHT_ONITEMINDENT;
 		return hit;
@@ -105,11 +105,11 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 	{
 		//			int c = -1;
 		int i;
-		for (i=0; i < dat->extraColumnsCount; i++)
+		for (i = 0; i < dat->extraColumnsCount; i++)
 		{
 			if (RectHitTest(&hitcontact->pos_extra[i], testx, testy))
 			{
-				if (flags) *flags |= CLCHT_ONITEMEXTRA|(i << 24);
+				if (flags) *flags |= CLCHT_ONITEMEXTRA | (i << 24);
 				return hit;
 			}
 		}
@@ -131,54 +131,54 @@ int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,C
 	return hit;
 }
 
-void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
+void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 {
-	DWORD startTick,nowTick;
+	DWORD startTick, nowTick;
 	int oldy = dat->yScroll;
-	RECT clRect,rcInvalidate;
-	int maxy,previousy;
+	RECT clRect, rcInvalidate;
+	int maxy, previousy;
 
 	if (dat->iHotTrack != -1 && dat->yScroll != desty) {
-		pcli->pfnInvalidateItem(hwnd,dat,dat->iHotTrack);
+		pcli->pfnInvalidateItem(hwnd, dat, dat->iHotTrack);
 		dat->iHotTrack = -1;
 		ReleaseCapture();
 	}
-	GetClientRect(hwnd,&clRect);
+	GetClientRect(hwnd, &clRect);
 	rcInvalidate = clRect;
 	//maxy = dat->rowHeight*GetGroupContentsCount(&dat->list,2)-clRect.bottom;
-	maxy = cliGetRowTotalHeight(dat)-clRect.bottom;
-	if (desty>maxy) desty = maxy;
+	maxy = cliGetRowTotalHeight(dat) - clRect.bottom;
+	if (desty > maxy) desty = maxy;
 	if (desty < 0) desty = 0;
-	if (abs(desty-dat->yScroll) < 4) noSmooth = 1;
+	if (abs(desty - dat->yScroll) < 4) noSmooth = 1;
 	if (!noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth = 1;
 	previousy = dat->yScroll;
 
-	BOOL keyDown = (    ( GetKeyState( VK_UP    )
-						| GetKeyState( VK_DOWN  )
-						| GetKeyState( VK_LEFT  )
-						| GetKeyState( VK_RIGHT )
-						| GetKeyState( VK_PRIOR )
-						| GetKeyState( VK_NEXT  )
-						| GetKeyState( VK_HOME  )
-						| GetKeyState( VK_END   )) & 0x8000 );
+	BOOL keyDown = ((GetKeyState(VK_UP)
+		| GetKeyState(VK_DOWN)
+		| GetKeyState(VK_LEFT)
+		| GetKeyState(VK_RIGHT)
+		| GetKeyState(VK_PRIOR)
+		| GetKeyState(VK_NEXT)
+		| GetKeyState(VK_HOME)
+		| GetKeyState(VK_END)) & 0x8000);
 
 	if (!noSmooth && !keyDown)
 	{
 		startTick = GetTickCount();
 		for (;;) {
 			nowTick = GetTickCount();
-			if (nowTick >= startTick+dat->scrollTime) break;
-			dat->yScroll = oldy+(desty-oldy)*(int)(nowTick-startTick)/dat->scrollTime;
+			if (nowTick >= startTick + dat->scrollTime) break;
+			dat->yScroll = oldy + (desty - oldy)*(int)(nowTick - startTick) / dat->scrollTime;
 			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground == NULL  && */FALSE)
-				ScrollWindowEx(hwnd, 0, previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
+				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
 			else
 			{
-				CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0);
+				CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, (LPARAM)0);
 				//InvalidateRectZ(hwnd,NULL,FALSE);
 			}
 			previousy = dat->yScroll;
-			SetScrollPos(hwnd,SB_VERT,dat->yScroll,TRUE);
-			CallService(MS_SKINENG_UPTATEFRAMEIMAGE,(WPARAM) hwnd, (LPARAM) 0);
+			SetScrollPos(hwnd, SB_VERT, dat->yScroll, TRUE);
+			CallService(MS_SKINENG_UPTATEFRAMEIMAGE, (WPARAM)hwnd, (LPARAM)0);
 			UpdateWindow(hwnd);
 		}
 	}
@@ -188,20 +188,20 @@ void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 }
 
 
-void cliRecalcScrollBar(HWND hwnd,ClcData *dat)
+void cliRecalcScrollBar(HWND hwnd, ClcData *dat)
 {
-	SCROLLINFO si = {0};
+	SCROLLINFO si = { 0 };
 	RECT clRect;
 	NMCLISTCONTROL nm;
 	if (LOCK_RECALC_SCROLLBAR) return;
 
 	RowHeights_CalcRowHeights(dat, hwnd);
 
-	GetClientRect(hwnd,&clRect);
+	GetClientRect(hwnd, &clRect);
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = cliGetRowTotalHeight(dat)-1;
+	si.nMax = cliGetRowTotalHeight(dat) - 1;
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
@@ -210,38 +210,38 @@ void cliRecalcScrollBar(HWND hwnd,ClcData *dat)
 	nm.hdr.idFrom = 0;//GetDlgCtrlID(hwnd);
 	nm.pt.y = si.nMax;
 
-	SendMessage(GetParent(hwnd),WM_NOTIFY, 0, (LPARAM)&nm);       //post
+	SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM)&nm);       //post
 
-	GetClientRect(hwnd,&clRect);
+	GetClientRect(hwnd, &clRect);
 	si.cbSize = sizeof(si);
 	si.fMask = SIF_ALL;
 	si.nMin = 0;
-	si.nMax = cliGetRowTotalHeight(dat)-1;
+	si.nMax = cliGetRowTotalHeight(dat) - 1;
 	si.nPage = clRect.bottom;
 	si.nPos = dat->yScroll;
 
-	if ( GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
-		if ( dat->noVScrollbar == 0 ) SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
+	if (GetWindowLongPtr(hwnd, GWL_STYLE)&CLS_CONTACTLIST) {
+		if (dat->noVScrollbar == 0) SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 		//else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);
 	}
 	else
-		SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
+		SetScrollInfo(hwnd, SB_VERT, &si, TRUE);
 	g_mutex_bSizing = 1;
-	cliScrollTo(hwnd,dat,dat->yScroll,1);
+	cliScrollTo(hwnd, dat, dat->yScroll, 1);
 	g_mutex_bSizing = 0;
 }
 
 
 static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)  {
+	switch (msg)  {
 	case WM_KEYDOWN:
-		switch(wParam) {
+		switch (wParam) {
 		case VK_RETURN:
-			pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
+			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1);
 			return 0;
 		case VK_ESCAPE:
-			pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),0);
+			pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 0);
 			return 0;
 		}
 		break;
@@ -253,26 +253,26 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 		return DLGC_WANTMESSAGE;
 	case WM_KILLFOCUS:
-		pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
-		SendMessage(pcli->hwndContactTree,WM_SIZE, 0, 0);
+		pcli->pfnEndRename(GetParent(hwnd), (ClcData*)GetWindowLongPtr(hwnd, GWLP_USERDATA), 1);
+		SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);
 		return 0;
 	}
 	return mir_callNextSubclass(hwnd, RenameEditSubclassProc, msg, wParam, lParam);
 }
 
-void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
+void cliBeginRenameSelection(HWND hwnd, ClcData *dat)
 {
 	ClcContact *contact;
 	ClcGroup *group;
-	int indent,x,y,subident, h,w;
+	int indent, x, y, subident, h, w;
 	RECT clRect;
 	RECT r;
 
 
-	KillTimer(hwnd,TIMERID_RENAME);
+	KillTimer(hwnd, TIMERID_RENAME);
 	ReleaseCapture();
 	dat->iHotTrack = -1;
-	dat->selection = cliGetRowByIndex(dat,dat->selection,&contact,&group);
+	dat->selection = cliGetRowByIndex(dat, dat->selection, &contact, &group);
 	if (dat->selection == -1) return;
 	if (contact->type != CLCIT_CONTACT && contact->type != CLCIT_GROUP) return;
 
@@ -281,16 +281,16 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 	else
 		subident = 0;
 
-	for (indent = 0;group->parent;indent++,group = group->parent);
-	GetClientRect(hwnd,&clRect);
-	x = indent*dat->groupIndent+dat->iconXSpace-2+subident;
-	w = clRect.right-x;
-	y = cliGetRowTopY(dat, dat->selection)-dat->yScroll;
+	for (indent = 0; group->parent; indent++, group = group->parent);
+	GetClientRect(hwnd, &clRect);
+	x = indent*dat->groupIndent + dat->iconXSpace - 2 + subident;
+	w = clRect.right - x;
+	y = cliGetRowTopY(dat, dat->selection) - dat->yScroll;
 	h = dat->row_heights[dat->selection];
 	{
 		int i;
-		for (i=0; i <= FONTID_MODERN_MAX; i++)
-			if (h < dat->fontModernInfo[i].fontHeight+4) h = dat->fontModernInfo[i].fontHeight+4;
+		for (i = 0; i <= FONTID_MODERN_MAX; i++)
+			if (h < dat->fontModernInfo[i].fontHeight + 4) h = dat->fontModernInfo[i].fontHeight + 4;
 	}
 	//TODO contact->pos_label
 
@@ -299,17 +299,17 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 
 		RECT rectW;
 		int h2;
-		GetWindowRect(hwnd,&rectW);
+		GetWindowRect(hwnd, &rectW);
 		//       w = contact->pos_full_first_row.right-contact->pos_full_first_row.left;
 		//       h = contact->pos_full_first_row.bottom-contact->pos_full_first_row.top;
 		//w = clRect.right-x;
 		//w = clRect.right-x;
 		//x += rectW.left;//+contact->pos_full_first_row.left;
 		//y += rectW.top;//+contact->pos_full_first_row.top;
-		x = contact->pos_rename_rect.left+rectW.left;
-		y = contact->pos_label.top+rectW.top;
-		w = contact->pos_rename_rect.right-contact->pos_rename_rect.left;
-		h2 = contact->pos_label.bottom-contact->pos_label.top+4;
+		x = contact->pos_rename_rect.left + rectW.left;
+		y = contact->pos_label.top + rectW.top;
+		w = contact->pos_rename_rect.right - contact->pos_rename_rect.left;
+		h2 = contact->pos_label.bottom - contact->pos_label.top + 4;
 		h = h2;//max(h,h2);
 
 	}
@@ -323,106 +323,107 @@ void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 		}
 		if (dat->text_rtl) a |= EN_ALIGN_RTL_EC;
 		if (contact->type == CLCIT_GROUP)
-			dat->hwndRenameEdit = CreateWindow(_T("EDIT"),contact->szText,WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
+			dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
 		else
-			dat->hwndRenameEdit = CreateWindow(_T("EDIT"),pcli->pfnGetContactDisplayName(contact->hContact,0),WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
+			dat->hwndRenameEdit = CreateWindow(_T("EDIT"), pcli->pfnGetContactDisplayName(contact->hContact, 0), WS_POPUP | WS_BORDER | ES_AUTOHSCROLL | a, x, y, w, h, hwnd, NULL, g_hInst, NULL);
 	}
-	SetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE,GetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE)&(~WS_CAPTION)|WS_BORDER);
-	SetWindowLongPtr(dat->hwndRenameEdit,GWLP_USERDATA,(LONG_PTR)dat);
+	SetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE, GetWindowLongPtr(dat->hwndRenameEdit, GWL_STYLE)&(~WS_CAPTION) | WS_BORDER);
+	SetWindowLongPtr(dat->hwndRenameEdit, GWLP_USERDATA, (LONG_PTR)dat);
 	mir_subclassWindow(dat->hwndRenameEdit, RenameEditSubclassProc);
-	SendMessage(dat->hwndRenameEdit,WM_SETFONT,(WPARAM)(contact->type == CLCIT_GROUP?dat->fontModernInfo[FONTID_OPENGROUPS].hFont:dat->fontModernInfo[FONTID_CONTACTS].hFont),0);
-	SendMessage(dat->hwndRenameEdit,EM_SETMARGINS,EC_LEFTMARGIN|EC_RIGHTMARGIN|EC_USEFONTINFO,0);
-	SendMessage(dat->hwndRenameEdit,EM_SETSEL, 0, (LPARAM)(-1));
+	SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM)(contact->type == CLCIT_GROUP ? dat->fontModernInfo[FONTID_OPENGROUPS].hFont : dat->fontModernInfo[FONTID_CONTACTS].hFont), 0);
+	SendMessage(dat->hwndRenameEdit, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN | EC_USEFONTINFO, 0);
+	SendMessage(dat->hwndRenameEdit, EM_SETSEL, 0, (LPARAM)(-1));
 
 	r.top = 1;
-	r.bottom = h-1;
+	r.bottom = h - 1;
 	r.left = 0;
 	r.right = w;
 
 	//ES_MULTILINE
 
-	SendMessage(dat->hwndRenameEdit,EM_SETRECT, 0, (LPARAM)(&r));
+	SendMessage(dat->hwndRenameEdit, EM_SETRECT, 0, (LPARAM)(&r));
 
-	CLUI_ShowWindowMod(dat->hwndRenameEdit,SW_SHOW);
-	SetWindowPos(dat->hwndRenameEdit,HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
+	CLUI_ShowWindowMod(dat->hwndRenameEdit, SW_SHOW);
+	SetWindowPos(dat->hwndRenameEdit, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	SetFocus(dat->hwndRenameEdit);
 }
 
-int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
+int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 {
 	RECT clRect;
 	int hit;
-	ClcContact *contact = NULL,*movecontact = NULL;
-	ClcGroup *group,*movegroup;
+	ClcContact *contact = NULL, *movecontact = NULL;
+	ClcGroup *group, *movegroup;
 	DWORD hitFlags;
 	int nSetSelection = -1;
 
-	GetClientRect(hwnd,&clRect);
+	GetClientRect(hwnd, &clRect);
 	dat->selection = dat->iDragItem;
 	dat->iInsertionMark = -1;
 	dat->nInsertionLevel = 0;
-	if (!PtInRect(&clRect,pt)) return DROPTARGET_OUTSIDE;
+	if (!PtInRect(&clRect, pt)) return DROPTARGET_OUTSIDE;
 
-	hit = cliHitTest(hwnd,dat,pt.x,pt.y,&contact,&group,&hitFlags);
-	cliGetRowByIndex(dat,dat->iDragItem,&movecontact,&movegroup);
+	hit = cliHitTest(hwnd, dat, pt.x, pt.y, &contact, &group, &hitFlags);
+	cliGetRowByIndex(dat, dat->iDragItem, &movecontact, &movegroup);
 	if (hit == dat->iDragItem) return DROPTARGET_ONSELF;
 	if (hit == -1 || hitFlags&CLCHT_ONITEMEXTRA || !movecontact) return DROPTARGET_ONNOTHING;
 
 	if (movecontact->type == CLCIT_GROUP) {
-		ClcContact *bottomcontact = NULL,*topcontact = NULL;
+		ClcContact *bottomcontact = NULL, *topcontact = NULL;
 		ClcGroup *topgroup = NULL, *bottomgroup = NULL;
-		int topItem = -1,bottomItem = -1;
+		int topItem = -1, bottomItem = -1;
 		int ok = 0;
-		if (pt.y+dat->yScroll < cliGetRowTopY(dat,hit)+dat->insertionMarkHitHeight || contact->type != CLCIT_GROUP) {
+		if (pt.y + dat->yScroll < cliGetRowTopY(dat, hit) + dat->insertionMarkHitHeight || contact->type != CLCIT_GROUP) {
 			//could be insertion mark (above)
-			topItem = hit-1; bottomItem = hit;
+			topItem = hit - 1; bottomItem = hit;
 			bottomcontact = contact;
 			bottomgroup = group;
-			topItem = cliGetRowByIndex(dat,topItem,&topcontact,&topgroup);
+			topItem = cliGetRowByIndex(dat, topItem, &topcontact, &topgroup);
 			ok = 1;
-		} else if ((pt.y+dat->yScroll >= cliGetRowTopY(dat,hit+1)-dat->insertionMarkHitHeight)
-			 || (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count>0))
+		}
+		else if ((pt.y + dat->yScroll >= cliGetRowTopY(dat, hit + 1) - dat->insertionMarkHitHeight)
+			|| (contact->type == CLCIT_GROUP && contact->group->expanded && contact->group->cl.count > 0))
 		{
 			//could be insertion mark (below)
-			topItem = hit; bottomItem = hit+1;
+			topItem = hit; bottomItem = hit + 1;
 			topcontact = contact; topgroup = group;
-			bottomItem = cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
+			bottomItem = cliGetRowByIndex(dat, bottomItem, &bottomcontact, &bottomgroup);
 			ok = 1;
 		}
 		if (ok)
 		{
 			if (bottomItem == -1 && contact->type == CLCIT_GROUP)
 			{
-				bottomItem = topItem+1;
+				bottomItem = topItem + 1;
 			}
 			else
 			{
 				if (bottomItem == -1 && contact->type != CLCIT_GROUP && contact->groupId == 0)
 				{
 					bottomItem = topItem;
-					cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
+					cliGetRowByIndex(dat, bottomItem, &bottomcontact, &bottomgroup);
 				}
 				if (bottomItem != -1 && bottomcontact->type != CLCIT_GROUP)
 				{
 					ClcGroup *gr = bottomgroup;
 					do
 					{
-						bottomItem = cliGetRowByIndex(dat,bottomItem-1,&bottomcontact,&bottomgroup);}
-					while (bottomItem >= 0 && bottomcontact->type != CLCIT_GROUP && bottomgroup == gr);
+						bottomItem = cliGetRowByIndex(dat, bottomItem - 1, &bottomcontact, &bottomgroup);
+					} while (bottomItem >= 0 && bottomcontact->type != CLCIT_GROUP && bottomgroup == gr);
 					nSetSelection = bottomItem;
-					bottomItem = cliGetRowByIndex(dat,bottomItem+1,&bottomcontact,&bottomgroup);
+					bottomItem = cliGetRowByIndex(dat, bottomItem + 1, &bottomcontact, &bottomgroup);
 				}
 			}
 
-			if (bottomItem == -1)	bottomItem = topItem+1;
+			if (bottomItem == -1)	bottomItem = topItem + 1;
 			{
-				int bi = cliGetRowByIndex(dat,bottomItem,&bottomcontact,&bottomgroup);
+				int bi = cliGetRowByIndex(dat, bottomItem, &bottomcontact, &bottomgroup);
 				if (bi != -1)
 				{
 					group = bottomgroup;
 					if (bottomcontact == movecontact || group == movecontact->group)	return DROPTARGET_ONSELF;
 					dat->nInsertionLevel = -1; // decreasing here
-					for (;group;group = group->parent)
+					for (; group; group = group->parent)
 					{
 						dat->nInsertionLevel++;
 						if (group == movecontact->group) return DROPTARGET_ONSELF;
@@ -440,8 +441,8 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 		{
 			if (movecontact->type == CLCIT_GROUP)
 			{	 //check not moving onto its own subgroup
-				dat->iInsertionMark = hit+1;
-				for (;group;group = group->parent)
+				dat->iInsertionMark = hit + 1;
+				for (; group; group = group->parent)
 				{
 					dat->nInsertionLevel++;
 					if (group == movecontact->group) return DROPTARGET_ONSELF;
@@ -461,21 +462,21 @@ int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 }
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor)
 {
-	BOOL useWinColor = db_get_b(NULL, module, "UseWinColours",CLCDEFAULT_USEWINDOWSCOLOURS);
+	BOOL useWinColor = db_get_b(NULL, module, "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
 	if (useWinColor) return defColor;
 	else return db_get_dw(NULL, module, color, defColor);
 }
-void RegisterCLUIFonts( void );
-void LoadCLCFonts( HWND hwnd, ClcData *dat )
+void RegisterCLUIFonts(void);
+void LoadCLCFonts(HWND hwnd, ClcData *dat)
 {
 	RegisterCLUIFonts();
 
 	HDC hdc = GetDC(hwnd);
-	HFONT holdfont = (HFONT)GetCurrentObject( hdc, OBJ_FONT );
+	HFONT holdfont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
 
-	for ( int i=0 ; i <= FONTID_MODERN_MAX; i++ )
+	for (int i = 0; i <= FONTID_MODERN_MAX; i++)
 	{
-		if (!dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont )
+		if (!dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont)
 		{
 			DeleteObject(dat->fontModernInfo[i].hFont);
 		}
@@ -483,17 +484,17 @@ void LoadCLCFonts( HWND hwnd, ClcData *dat )
 
 		// Issue 40: Do not reload font colors for embedded clists
 		// Parent window is responsible to re-set fonts colors if needed
-		GetFontSetting( i, &lf, dat->force_in_dialog ? NULL: &dat->fontModernInfo[i].colour, &dat->fontModernInfo[i].effect, &dat->fontModernInfo[i].effectColour1, &dat->fontModernInfo[i].effectColour2 );
-		dat->fontModernInfo[i].hFont = CreateFontIndirect( &lf );
+		GetFontSetting(i, &lf, dat->force_in_dialog ? NULL : &dat->fontModernInfo[i].colour, &dat->fontModernInfo[i].effect, &dat->fontModernInfo[i].effectColour1, &dat->fontModernInfo[i].effectColour2);
+		dat->fontModernInfo[i].hFont = CreateFontIndirect(&lf);
 		dat->fontModernInfo[i].changed = 0;
 
-		SelectObject( hdc, dat->fontModernInfo[i].hFont );
+		SelectObject(hdc, dat->fontModernInfo[i].hFont);
 		SIZE fontSize;
-		GetTextExtentPoint32A( hdc, "x", 1, &fontSize );
+		GetTextExtentPoint32A(hdc, "x", 1, &fontSize);
 		dat->fontModernInfo[i].fontHeight = fontSize.cy;
 	}
-	SelectObject( hdc, holdfont );
-	ReleaseDC( hwnd, hdc );
+	SelectObject(hdc, holdfont);
+	ReleaseDC(hwnd, hdc);
 }
 
 void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
@@ -708,7 +709,6 @@ void LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst)
 
 int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand)
 {
-	ClcContact *ht = NULL;
 	KillTimer(hwnd, TIMERID_SUBEXPAND);
 	if (contact->type != CLCIT_CONTACT || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT))
 		return 0;

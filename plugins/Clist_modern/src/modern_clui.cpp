@@ -54,8 +54,8 @@ static OBJLIST<PROTOTICKS> arTicks(1);
 int ContactSettingChanged(WPARAM, LPARAM);
 int MetaStatusChanged(WPARAM, LPARAM);
 
-HRESULT (WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
-BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT& result );
+HRESULT(WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
+BOOL CALLBACK ProcessCLUIFrameInternalMsg(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, LRESULT& result);
 void DestroyTrayMenu(HMENU hMenu);
 
 // new sources
@@ -73,7 +73,7 @@ BOOL    g_mutex_bChangingMode = FALSE, g_mutex_bSizing = FALSE;
 
 BOOL    g_flag_bOnModulesLoadedCalled = FALSE;
 
-RECT    g_rcEdgeSizingRect={0};
+RECT    g_rcEdgeSizingRect = { 0 };
 
 /* Module global variables */
 
@@ -82,35 +82,35 @@ static BYTE bOldHideOffline;
 static BYTE bOldUseGroups;
 
 static WORD wBehindEdgeShowDelay,
-            wBehindEdgeHideDelay,
-            wBehindEdgeBorderSize;
+wBehindEdgeHideDelay,
+wBehindEdgeBorderSize;
 
-static BOOL mutex_bAnimationInProgress=FALSE,
-            mutex_bShowHideCalledFromAnimation=FALSE,
-            mutex_bIgnoreActivation=FALSE,
-            mutex_bDisableAutoUpdate=TRUE,
-            mutex_bDuringSizing=FALSE,
-            mutex_bDelayedSizing=FALSE;  //TBC is it need?
+static BOOL mutex_bAnimationInProgress = FALSE,
+mutex_bShowHideCalledFromAnimation = FALSE,
+mutex_bIgnoreActivation = FALSE,
+mutex_bDisableAutoUpdate = TRUE,
+mutex_bDuringSizing = FALSE,
+mutex_bDelayedSizing = FALSE;  //TBC is it need?
 
-static BOOL flag_bFirstTimeCall=FALSE;
+static BOOL flag_bFirstTimeCall = FALSE;
 
-static BOOL bTransparentFocus=TRUE,
-            bNeedFixSizingRect=FALSE,
-            bShowEventStarted=FALSE;
+static BOOL bTransparentFocus = TRUE,
+bNeedFixSizingRect = FALSE,
+bShowEventStarted = FALSE;
 
 static HGENMENU hRenameMenuItem, hShowAvatarMenuItem, hHideAvatarMenuItem;
 
-static UINT uMsgGetProfile=0;
+static UINT uMsgGetProfile = 0;
 
-static int nLastRequiredHeight=0,
-           nRequiredHeight=0,
-           nMirMenuState=0,
-           nStatusMenuState=0;
+static int nLastRequiredHeight = 0,
+nRequiredHeight = 0,
+nMirMenuState = 0,
+nStatusMenuState = 0;
 
-static RECT rcNewWindowRect={0},
-            rcOldWindowRect ={0},
-            rcSizingRect={0},
-            rcCorrectSizeRect={0};
+static RECT rcNewWindowRect = { 0 },
+rcOldWindowRect = { 0 },
+rcSizingRect = { 0 },
+rcCorrectSizeRect = { 0 };
 
 static HANDLE hFrameContactTree;
 
@@ -120,30 +120,30 @@ HIMAGELIST hAvatarOverlays = NULL;
 
 OVERLAYICONINFO g_pAvatarOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1] =
 {
-	{ "AVATAR_OVERLAY_OFFLINE",		LPGEN("Offline"),		IDI_AVATAR_OVERLAY_OFFLINE,   -1},
-	{ "AVATAR_OVERLAY_ONLINE",		LPGEN("Online"),		IDI_AVATAR_OVERLAY_ONLINE,	  -1},
-	{ "AVATAR_OVERLAY_AWAY",		LPGEN("Away"),			IDI_AVATAR_OVERLAY_AWAY,	  -1},
-	{ "AVATAR_OVERLAY_DND",			LPGEN("DND"),			IDI_AVATAR_OVERLAY_DND,		  -1},
-	{ "AVATAR_OVERLAY_NA",			LPGEN("NA"),			IDI_AVATAR_OVERLAY_NA,	 	  -1},
-	{ "AVATAR_OVERLAY_OCCUPIED",	LPGEN("Occupied"),		IDI_AVATAR_OVERLAY_OCCUPIED,  -1},
-	{ "AVATAR_OVERLAY_CHAT",		LPGEN("Free for chat"), IDI_AVATAR_OVERLAY_CHAT,	  -1},
-	{ "AVATAR_OVERLAY_INVISIBLE",	LPGEN("Invisible"),		IDI_AVATAR_OVERLAY_INVISIBLE, -1},
-	{ "AVATAR_OVERLAY_PHONE",		LPGEN("On the phone"),	IDI_AVATAR_OVERLAY_PHONE,	  -1},
-	{ "AVATAR_OVERLAY_LUNCH",		LPGEN("Out to lunch"),	IDI_AVATAR_OVERLAY_LUNCH,	  -1}
+	{ "AVATAR_OVERLAY_OFFLINE", LPGEN("Offline"), IDI_AVATAR_OVERLAY_OFFLINE, -1 },
+	{ "AVATAR_OVERLAY_ONLINE", LPGEN("Online"), IDI_AVATAR_OVERLAY_ONLINE, -1 },
+	{ "AVATAR_OVERLAY_AWAY", LPGEN("Away"), IDI_AVATAR_OVERLAY_AWAY, -1 },
+	{ "AVATAR_OVERLAY_DND", LPGEN("DND"), IDI_AVATAR_OVERLAY_DND, -1 },
+	{ "AVATAR_OVERLAY_NA", LPGEN("NA"), IDI_AVATAR_OVERLAY_NA, -1 },
+	{ "AVATAR_OVERLAY_OCCUPIED", LPGEN("Occupied"), IDI_AVATAR_OVERLAY_OCCUPIED, -1 },
+	{ "AVATAR_OVERLAY_CHAT", LPGEN("Free for chat"), IDI_AVATAR_OVERLAY_CHAT, -1 },
+	{ "AVATAR_OVERLAY_INVISIBLE", LPGEN("Invisible"), IDI_AVATAR_OVERLAY_INVISIBLE, -1 },
+	{ "AVATAR_OVERLAY_PHONE", LPGEN("On the phone"), IDI_AVATAR_OVERLAY_PHONE, -1 },
+	{ "AVATAR_OVERLAY_LUNCH", LPGEN("Out to lunch"), IDI_AVATAR_OVERLAY_LUNCH, -1 }
 };
 
 OVERLAYICONINFO g_pStatusOverlayIcons[ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE + 1] =
 {
-	{ "STATUS_OVERLAY_OFFLINE", LPGEN("Offline"), IDI_STATUS_OVERLAY_OFFLINE, -1},
-	{ "STATUS_OVERLAY_ONLINE", LPGEN("Online"), IDI_STATUS_OVERLAY_ONLINE, -1},
-	{ "STATUS_OVERLAY_AWAY", LPGEN("Away"), IDI_STATUS_OVERLAY_AWAY, -1},
-	{ "STATUS_OVERLAY_DND", LPGEN("DND"), IDI_STATUS_OVERLAY_DND, -1},
-	{ "STATUS_OVERLAY_NA", LPGEN("NA"), IDI_STATUS_OVERLAY_NA, -1},
-	{ "STATUS_OVERLAY_OCCUPIED", LPGEN("Occupied"), IDI_STATUS_OVERLAY_OCCUPIED, -1},
-	{ "STATUS_OVERLAY_CHAT", LPGEN("Free for chat"), IDI_STATUS_OVERLAY_CHAT, -1},
-	{ "STATUS_OVERLAY_INVISIBLE", LPGEN("Invisible"), IDI_STATUS_OVERLAY_INVISIBLE, -1},
-	{ "STATUS_OVERLAY_PHONE", LPGEN("On the phone"), IDI_STATUS_OVERLAY_PHONE, -1},
-	{ "STATUS_OVERLAY_LUNCH", LPGEN("Out to lunch"), IDI_STATUS_OVERLAY_LUNCH, -1}
+	{ "STATUS_OVERLAY_OFFLINE", LPGEN("Offline"), IDI_STATUS_OVERLAY_OFFLINE, -1 },
+	{ "STATUS_OVERLAY_ONLINE", LPGEN("Online"), IDI_STATUS_OVERLAY_ONLINE, -1 },
+	{ "STATUS_OVERLAY_AWAY", LPGEN("Away"), IDI_STATUS_OVERLAY_AWAY, -1 },
+	{ "STATUS_OVERLAY_DND", LPGEN("DND"), IDI_STATUS_OVERLAY_DND, -1 },
+	{ "STATUS_OVERLAY_NA", LPGEN("NA"), IDI_STATUS_OVERLAY_NA, -1 },
+	{ "STATUS_OVERLAY_OCCUPIED", LPGEN("Occupied"), IDI_STATUS_OVERLAY_OCCUPIED, -1 },
+	{ "STATUS_OVERLAY_CHAT", LPGEN("Free for chat"), IDI_STATUS_OVERLAY_CHAT, -1 },
+	{ "STATUS_OVERLAY_INVISIBLE", LPGEN("Invisible"), IDI_STATUS_OVERLAY_INVISIBLE, -1 },
+	{ "STATUS_OVERLAY_PHONE", LPGEN("On the phone"), IDI_STATUS_OVERLAY_PHONE, -1 },
+	{ "STATUS_OVERLAY_LUNCH", LPGEN("Out to lunch"), IDI_STATUS_OVERLAY_LUNCH, -1 }
 };
 
 //////////////// CLUI CLASS IMPLEMENTATION /////////////////////////////////
@@ -161,7 +161,7 @@ void CLUI::cliOnCreateClc(void)
 	m_pCLUI->CreateCluiFrames();
 }
 
-int CLUI::OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int CLUI::OnEvent_ModulesLoaded(WPARAM, LPARAM)
 {
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
 
@@ -186,7 +186,7 @@ int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
+int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
 {
 	if (MirandaExiting())
 		return 0;
@@ -227,7 +227,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR CLUI::Service_ShowMainMenu(WPARAM, LPARAM)
 {
 	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 
@@ -237,7 +237,7 @@ INT_PTR CLUI::Service_ShowMainMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
+INT_PTR CLUI::Service_ShowStatusMenu(WPARAM, LPARAM)
 {
 	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 
@@ -247,7 +247,7 @@ INT_PTR CLUI::Service_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM lParam)
+INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM)
 {
 	db_set_b(hContact, "CList", "HideContactAvatar", 0);
 
@@ -255,7 +255,7 @@ INT_PTR CLUI::Service_Menu_ShowContactAvatar(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM lParam)
+INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM)
 {
 	db_set_b(hContact, "CList", "HideContactAvatar", 1);
 
@@ -292,7 +292,7 @@ HRESULT CLUI::CreateCluiFrames()
 }
 
 CLUI::CLUI() :
-	m_hDwmapiDll(NULL)
+m_hDwmapiDll(NULL)
 {
 	m_pCLUI = this;
 	g_CluiData.bSTATE = STATE_CLUI_LOADING;
@@ -345,8 +345,8 @@ HRESULT CLUI::LoadDllsRuntime()
 }
 
 static IconItemT iconItem[] = {
-		{ LPGENT("Show avatar"), "ShowAvatar", IDI_SHOW_AVATAR },
-		{ LPGENT("Hide avatar"), "HideAvatar", IDI_HIDE_AVATAR }
+	{ LPGENT("Show avatar"), "ShowAvatar", IDI_SHOW_AVATAR },
+	{ LPGENT("Hide avatar"), "HideAvatar", IDI_HIDE_AVATAR }
 };
 
 HRESULT CLUI::RegisterAvatarMenu()
@@ -396,7 +396,7 @@ HRESULT CLUI::CreateUIFrames()
 	return S_OK;
 }
 
-HRESULT CLUI::FillAlphaChannel(HDC hDC, RECT *prcParent, BYTE bAlpha)
+HRESULT CLUI::FillAlphaChannel(HDC hDC, RECT *prcParent)
 {
 	RECT rcWindow;
 	GetWindowRect(m_hWnd, &rcWindow);
@@ -534,8 +534,6 @@ BOOL CLUI_CheckOwnedByClui(HWND hWnd)
 
 int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 {
-	int res = 0;
-
 	if (hWnd == pcli->hwndContactList && (nCmd == SW_HIDE || nCmd == SW_MINIMIZE)) {
 		AniAva_InvalidateAvatarPositions(NULL);
 		AniAva_RemoveInvalidatedAvatars();
@@ -568,12 +566,12 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 	return ShowWindow(hWnd, nCmd);
 }
 
-static BOOL CLUI_WaitThreadsCompletion(HWND hwnd)
+static BOOL CLUI_WaitThreadsCompletion()
 {
 	static BYTE bEntersCount = 0;
 	static const BYTE bcMAX_AWAITING_RETRY = 10; //repeat awaiting only 10 times
 	TRACE("CLUI_WaitThreadsCompletion Enter");
-	if (bEntersCount < bcMAX_AWAITING_RETRY && 
+	if (bEntersCount < bcMAX_AWAITING_RETRY &&
 		(g_mutex_nCalcRowHeightLock || g_CluiData.mutexPaintLock || g_hAwayMsgThread || g_hGetTextAsyncThread || g_hSmoothAnimationThread) && !Miranda_Terminated())
 	{
 		TRACE("Waiting threads");
@@ -724,7 +722,7 @@ void CLUI_ChangeWindowMode()
 			storedVisMode = TRUE;
 			mutex_bShowHideCalledFromAnimation = TRUE;
 			ShowWindow(pcli->hwndContactList, SW_HIDE);
-			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList, 0);
+			Sync(CLUIFrames_OnShowHide, 0);
 		}
 		SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, curStyleEx);
 		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, curStyle);
@@ -733,7 +731,6 @@ void CLUI_ChangeWindowMode()
 	CLUI_UpdateAeroGlass();
 
 	if (g_CluiData.fLayered || !db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT)) {
-		HMENU m = GetMenu(pcli->hwndContactList);
 		SetMenu(pcli->hwndContactList, NULL);
 	}
 	else SetMenu(pcli->hwndContactList, g_hMenuMain);
@@ -759,7 +756,7 @@ void CLUI_ChangeWindowMode()
 	//7- if it was visible - show
 	if (storedVisMode) {
 		ShowWindow(pcli->hwndContactList, SW_SHOW);
-		Sync(CLUIFrames_OnShowHide, pcli->hwndContactList, 1);
+		Sync(CLUIFrames_OnShowHide, 1);
 	}
 	mutex_bShowHideCalledFromAnimation = FALSE;
 
@@ -797,7 +794,7 @@ struct  _tagTimerAsync
 	TIMERPROC proc;
 };
 
-static UINT_PTR SetTimerSync(WPARAM wParam, LPARAM lParam)
+static UINT_PTR SetTimerSync(WPARAM wParam, LPARAM)
 {
 	struct  _tagTimerAsync * call = (struct  _tagTimerAsync *) wParam;
 	return SetTimer(call->hwnd, call->ID, call->Timeout, call->proc);
@@ -809,7 +806,7 @@ UINT_PTR CLUI_SafeSetTimer(HWND hwnd, int ID, int Timeout, TIMERPROC proc)
 	return Sync(SetTimerSync, (WPARAM)&param, (LPARAM)0);
 }
 
-int CLUI_UpdateTimer(BYTE BringIn)
+int CLUI_UpdateTimer()
 {
 	if (g_CluiData.nBehindEdgeState == 0) {
 		KillTimer(pcli->hwndContactList, TM_BRINGOUTTIMEOUT);
@@ -909,7 +906,7 @@ int CLUI_IsInMainWindow(HWND hwnd)
 	return 0;
 }
 
-int CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam)
+int CLUI_OnSkinLoad(WPARAM, LPARAM)
 {
 	ske_LoadSkinFromDB();
 	return 0;
@@ -1033,7 +1030,7 @@ static bool StartTicksTimer(PROTOTICKS *pt)
 	return true;
 }
 
-INT_PTR CLUI_GetConnectingIconService(WPARAM wParam, LPARAM lParam)
+INT_PTR CLUI_GetConnectingIconService(WPARAM wParam, LPARAM)
 {
 	char *szProto = (char*)wParam;
 	if (!szProto || !g_StatusBarData.bConnectingIcon)
@@ -1046,7 +1043,7 @@ INT_PTR CLUI_GetConnectingIconService(WPARAM wParam, LPARAM lParam)
 	if (pt->nCycleStartTick != 0 && pt->nIconsCount != 0) {
 		int b = ((GetTickCount() - pt->nCycleStartTick) / (nAnimatedIconStep)) % (pt->nIconsCount);
 		if (pt->himlIconList)
-			return (INT_PTR)ske_ImageList_GetIcon(pt->himlIconList, b, ILD_NORMAL);
+			return (INT_PTR)ske_ImageList_GetIcon(pt->himlIconList, b);
 	}
 
 	return NULL;
@@ -1275,7 +1272,7 @@ int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
 	return ClcGetShortData(dat, (struct SHORTDATA *)lParam);
 }
 
-int CLUI_IconsChanged(WPARAM wParam, LPARAM lParam)
+int CLUI_IconsChanged(WPARAM, LPARAM)
 {
 	if (MirandaExiting())
 		return 0;
@@ -1311,7 +1308,7 @@ int CLUI_TestCursorOnBorders()
 	HCURSOR hCurs1 = NULL;
 	RECT r;
 	POINT pt;
-	int k = 0, t = 0, fx, fy;
+	int k = 0, fx, fy;
 	HWND hAux;
 	BOOL mouse_in_window = 0;
 	HWND gf = GetForegroundWindow();
@@ -1423,9 +1420,9 @@ int CLUI_SizingOnBorder(POINT pt, int PerformSize)
 	return SCF_NONE;
 }
 
-static int CLUI_SyncSmoothAnimation(WPARAM wParam, LPARAM lParam)
+static int CLUI_SyncSmoothAnimation(WPARAM, LPARAM)
 {
-	return CLUI_SmoothAlphaThreadTransition((HWND)lParam);
+	return CLUI_SmoothAlphaThreadTransition();
 }
 
 static void CLUI_SmoothAnimationThreadProc(void *param)
@@ -1448,7 +1445,7 @@ static void CLUI_SmoothAnimationThreadProc(void *param)
 	}
 }
 
-static int CLUI_SmoothAlphaThreadTransition(HWND hwnd)
+static int CLUI_SmoothAlphaThreadTransition()
 {
 	int step;
 	int a;
@@ -1463,7 +1460,7 @@ static int CLUI_SmoothAlphaThreadTransition(HWND hwnd)
 			ske_JustUpdateWindowImage();
 			mutex_bShowHideCalledFromAnimation = 1;
 			CLUI_ShowWindowMod(pcli->hwndContactList, 0);
-			Sync(CLUIFrames_OnShowHide, hwnd, 0);
+			Sync(CLUIFrames_OnShowHide, 0);
 			mutex_bShowHideCalledFromAnimation = 0;
 			g_CluiData.bCurrentAlpha = 0;
 			if (!g_CluiData.fLayered) RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_ERASE | RDW_FRAME);
@@ -1484,7 +1481,7 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 			if (!IsWindowVisible(hwnd)) {
 				mutex_bShowHideCalledFromAnimation = 1;
 				CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
-				Sync(CLUIFrames_OnShowHide, hwnd, 1);
+				Sync(CLUIFrames_OnShowHide, 1);
 				mutex_bShowHideCalledFromAnimation = 0;
 				g_CluiData.bCurrentAlpha = GoalAlpha;
 				ske_UpdateWindowImage();
@@ -1495,7 +1492,7 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 			if (IsWindowVisible(hwnd)) {
 				mutex_bShowHideCalledFromAnimation = 1;
 				CLUI_ShowWindowMod(pcli->hwndContactList, 0);
-				Sync(CLUIFrames_OnShowHide, hwnd, 0);
+				Sync(CLUIFrames_OnShowHide, 0);
 				g_CluiData.bCurrentAlpha = GoalAlpha;
 				mutex_bShowHideCalledFromAnimation = 0;
 
@@ -1512,7 +1509,7 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 			if ((!IsWindowVisible(hwnd) || g_CluiData.bCurrentAlpha == 0) && bAlphaEnd > 0) {
 				mutex_bShowHideCalledFromAnimation = 1;
 				CLUI_ShowWindowMod(pcli->hwndContactList, SW_SHOWNA);
-				Sync(CLUIFrames_OnShowHide, hwnd, SW_SHOW);
+				Sync(CLUIFrames_OnShowHide, SW_SHOW);
 				mutex_bShowHideCalledFromAnimation = 0;
 				g_CluiData.bCurrentAlpha = 1;
 				ske_UpdateWindowImage();
@@ -1535,7 +1532,7 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 			ske_UpdateWindowImage();
 			mutex_bShowHideCalledFromAnimation = 1;
 			CLUI_ShowWindowMod(pcli->hwndContactList, 0);
-			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList, 0);
+			Sync(CLUIFrames_OnShowHide, 0);
 			mutex_bShowHideCalledFromAnimation = 0;
 			g_CluiData.bCurrentAlpha = 0;
 		}
@@ -1567,7 +1564,6 @@ BOOL CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase)
 
 static BOOL FileExists(TCHAR * tszFilename)
 {
-	BOOL result = FALSE;
 	FILE * f = _tfopen(tszFilename, _T("r"));
 	if (f == NULL) return FALSE;
 	fclose(f);
@@ -1739,35 +1735,35 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_EXITSIZEMOVE:
-		{
-			int res = DefWindowProc(m_hWnd, msg, wParam, lParam);
-			ReleaseCapture();
-			TRACE("WM_EXITSIZEMOVE\n");
-			SendMessage(m_hWnd, WM_ACTIVATE, (WPARAM)WA_ACTIVE, (LPARAM)m_hWnd);
-			return res;
-		}
+	{
+		int res = DefWindowProc(m_hWnd, msg, wParam, lParam);
+		ReleaseCapture();
+		TRACE("WM_EXITSIZEMOVE\n");
+		SendMessage(m_hWnd, WM_ACTIVATE, (WPARAM)WA_ACTIVE, (LPARAM)m_hWnd);
+		return res;
+	}
 
 	case WM_SIZING:
 		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 
 	case WM_MOVE:
-		{
-			RECT rc;
-			CallWindowProc(DefWindowProc, m_hWnd, msg, wParam, lParam);
-			mutex_bDuringSizing = 0;
-			GetWindowRect(m_hWnd, &rc);
-			CheckFramesPos(&rc);
-			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
-			if (!IsIconic(m_hWnd)) {
-				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) { //if g_CluiData.fDocked, dont remember pos (except for width)
-					db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-					db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
-					db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
-				}
-				db_set_dw(NULL, "CList", "Width", (DWORD)(rc.right - rc.left));
+	{
+		RECT rc;
+		CallWindowProc(DefWindowProc, m_hWnd, msg, wParam, lParam);
+		mutex_bDuringSizing = 0;
+		GetWindowRect(m_hWnd, &rc);
+		CheckFramesPos(&rc);
+		Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
+		if (!IsIconic(m_hWnd)) {
+			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) { //if g_CluiData.fDocked, dont remember pos (except for width)
+				db_set_dw(NULL, "CList", "Height", (DWORD)(rc.bottom - rc.top));
+				db_set_dw(NULL, "CList", "x", (DWORD)rc.left);
+				db_set_dw(NULL, "CList", "y", (DWORD)rc.top);
 			}
+			db_set_dw(NULL, "CList", "Width", (DWORD)(rc.right - rc.left));
 		}
-		return TRUE;
+	}
+	return TRUE;
 	case WM_SIZE:
 		if (g_mutex_bSizing) return 0;
 		if (wParam != SIZE_MINIMIZED /* &&  IsWindowVisible(m_hWnd)*/) {
@@ -1955,7 +1951,7 @@ LRESULT CLUI::OnPaint(UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(m_hWnd, msg, wParam, lParam);
 }
 
-LRESULT CLUI::OnCreate(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnCreate(UINT, WPARAM, LPARAM)
 {
 	TranslateMenu(GetMenu(m_hWnd));
 	DrawMenuBar(m_hWnd);
@@ -2026,7 +2022,7 @@ LRESULT CLUI::OnParentNotify(UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(m_hWnd, msg, wParam, lParam);
 }
 
-LRESULT CLUI::OnSetFocus(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnSetFocus(UINT, WPARAM, LPARAM)
 {
 	if (hFrameContactTree && (!CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, hFrameContactTree), 0)))
 		SetFocus(pcli->hwndContactTree);
@@ -2069,7 +2065,7 @@ LRESULT CLUI::OnStatusBarUpdateTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefCluiWndProc(msg, wParam, lParam);
 }
 
-LRESULT CLUI::OnAutoAlphaTimer(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnAutoAlphaTimer(UINT, WPARAM, LPARAM)
 {
 	int inwnd;
 
@@ -2088,7 +2084,6 @@ LRESULT CLUI::OnAutoAlphaTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	if (inwnd != bTransparentFocus) {
 		//change
-		HWND hwn = GetCapture();
 		bTransparentFocus = inwnd;
 		if (bTransparentFocus)
 			CLUI_SmoothAlphaTransition(m_hWnd, (BYTE)db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT), 1);
@@ -2100,13 +2095,13 @@ LRESULT CLUI::OnAutoAlphaTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-LRESULT CLUI::OnSmoothAlphaTransitionTimer(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnSmoothAlphaTransitionTimer(UINT, WPARAM, LPARAM)
 {
 	CLUI_SmoothAlphaTransition(m_hWnd, 0, 2);
 	return TRUE;
 }
 
-LRESULT CLUI::OnDelayedSizingTimer(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnDelayedSizingTimer(UINT, WPARAM, LPARAM)
 {
 	if (mutex_bDelayedSizing && !mutex_bDuringSizing) {
 		mutex_bDelayedSizing = 0;
@@ -2116,7 +2111,7 @@ LRESULT CLUI::OnDelayedSizingTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-LRESULT CLUI::OnBringOutTimer(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnBringOutTimer(UINT, WPARAM, LPARAM)
 {
 	//hide
 	KillTimer(m_hWnd, TM_BRINGINTIMEOUT);
@@ -2130,7 +2125,7 @@ LRESULT CLUI::OnBringOutTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-LRESULT CLUI::OnBringInTimer(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnBringInTimer(UINT, WPARAM, LPARAM)
 {
 	//show
 	KillTimer(m_hWnd, TM_BRINGINTIMEOUT);
@@ -2151,9 +2146,9 @@ LRESULT CLUI::OnBringInTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-LRESULT CLUI::OnUpdateBringTimer(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnUpdateBringTimer(UINT, WPARAM, LPARAM)
 {
-	CLUI_UpdateTimer(0);
+	CLUI_UpdateTimer();
 	return TRUE;
 }
 
@@ -2169,12 +2164,12 @@ LRESULT CLUI::OnTimer(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	switch (wParam) {
-		case TM_AUTOALPHA:				return OnAutoAlphaTimer(msg, wParam, lParam);
-		case TM_SMOTHALPHATRANSITION:	return OnSmoothAlphaTransitionTimer(msg, wParam, lParam);
-		case TM_DELAYEDSIZING:			return OnDelayedSizingTimer(msg, wParam, lParam);
-		case TM_BRINGOUTTIMEOUT:		return OnBringOutTimer(msg, wParam, lParam);
-		case TM_BRINGINTIMEOUT:			return OnBringInTimer(msg, wParam, lParam);
-		case TM_UPDATEBRINGTIMER:		return OnUpdateBringTimer(msg, wParam, lParam);
+	case TM_AUTOALPHA:				return OnAutoAlphaTimer(msg, wParam, lParam);
+	case TM_SMOTHALPHATRANSITION:	return OnSmoothAlphaTransitionTimer(msg, wParam, lParam);
+	case TM_DELAYEDSIZING:			return OnDelayedSizingTimer(msg, wParam, lParam);
+	case TM_BRINGOUTTIMEOUT:		return OnBringOutTimer(msg, wParam, lParam);
+	case TM_BRINGINTIMEOUT:			return OnBringInTimer(msg, wParam, lParam);
+	case TM_UPDATEBRINGTIMER:		return OnUpdateBringTimer(msg, wParam, lParam);
 	}
 	return DefCluiWndProc(msg, wParam, lParam);
 }
@@ -2186,7 +2181,7 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 	SendMessage(pcli->hwndContactTree, WM_ACTIVATE, wParam, lParam);
 	if (db_get_b(NULL, "ModernData", "HideBehind", SETTING_HIDEBEHIND_DEFAULT)) {
 		if (wParam == WA_INACTIVE && ((HWND)lParam != m_hWnd) && GetParent((HWND)lParam) != m_hWnd) {
-			if (!g_bCalledFromShowHide) CLUI_UpdateTimer(0);
+			if (!g_bCalledFromShowHide) CLUI_UpdateTimer();
 		}
 		else if (!g_bCalledFromShowHide)
 			CLUI_ShowFromBehindEdge();
@@ -2223,10 +2218,10 @@ LRESULT CLUI::OnActivate(UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(m_hWnd, msg, wParam, lParam);
 }
 
-LRESULT CLUI::OnSetCursor(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnSetCursor(UINT, WPARAM, LPARAM)
 {
 	HWND gf = GetForegroundWindow();
-	if (g_CluiData.nBehindEdgeState >= 0)  CLUI_UpdateTimer(1);
+	if (g_CluiData.nBehindEdgeState >= 0)  CLUI_UpdateTimer();
 	if (g_bTransparentFlag) {
 		if (!bTransparentFocus && gf != m_hWnd) {
 			CLUI_SmoothAlphaTransition(m_hWnd, db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT), 1);
@@ -2270,7 +2265,7 @@ LRESULT CLUI::OnNcLButtonDblClk(UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefCluiWndProc(msg, wParam, lParam);
 }
 
-LRESULT CLUI::OnNcHitTest(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnNcHitTest(UINT, WPARAM wParam, LPARAM lParam)
 {
 	LRESULT result = DefWindowProc(m_hWnd, WM_NCHITTEST, wParam, lParam);
 
@@ -2297,7 +2292,7 @@ LRESULT CLUI::OnNcHitTest(UINT msg, WPARAM wParam, LPARAM lParam)
 	return result;
 }
 
-LRESULT CLUI::OnShowWindow(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnShowWindow(UINT, WPARAM wParam, LPARAM lParam)
 {
 	if (lParam) return 0;
 	if (mutex_bShowHideCalledFromAnimation) return 1;
@@ -2305,7 +2300,7 @@ LRESULT CLUI::OnShowWindow(UINT msg, WPARAM wParam, LPARAM lParam)
 	BYTE gAlpha = (!wParam) ? 0 : (db_get_b(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT) ? db_get_b(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT) : 255);
 	if (wParam) {
 		g_CluiData.bCurrentAlpha = 0;
-		Sync(CLUIFrames_OnShowHide, pcli->hwndContactList, 1);
+		Sync(CLUIFrames_OnShowHide, 1);
 		ske_RedrawCompleteWindow();
 	}
 	CLUI_SmoothAlphaTransition(m_hWnd, gAlpha, 1);
@@ -2470,7 +2465,7 @@ LRESULT CLUI::OnNotify(UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefCluiWndProc(msg, wParam, lParam);
 }
 
-LRESULT CLUI::OnContextMenu(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnContextMenu(UINT, WPARAM, LPARAM lParam)
 {
 	POINT pt = UNPACK_POINT(lParam);
 	// x/y might be -1 if it was generated by a kb click
@@ -2493,7 +2488,7 @@ LRESULT CLUI::OnContextMenu(UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-LRESULT CLUI::OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnMeasureItem(UINT, WPARAM wParam, LPARAM lParam)
 {
 	LPMEASUREITEMSTRUCT pmis = (LPMEASUREITEMSTRUCT)lParam;
 	switch (pmis->itemData) {
@@ -2515,7 +2510,7 @@ LRESULT CLUI::OnMeasureItem(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 }
 
-LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnDrawItem(UINT, WPARAM wParam, LPARAM lParam)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(pcli->hwndContactTree, 0);
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
@@ -2593,7 +2588,7 @@ LRESULT CLUI::OnDrawItem(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 }
 
-LRESULT CLUI::OnDestroy(UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CLUI::OnDestroy(UINT, WPARAM, LPARAM)
 {
 	int state = db_get_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 	BOOL wait = FALSE;
@@ -2616,7 +2611,7 @@ LRESULT CLUI::OnDestroy(UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 
 	TRACE("CLUI.c: WM_DESTROY - WaitThreadsCompletion \n");
-	while (CLUI_WaitThreadsCompletion(m_hWnd)); //stop all my threads
+	while (CLUI_WaitThreadsCompletion()); //stop all my threads
 	TRACE("CLUI.c: WM_DESTROY - WaitThreadsCompletion DONE\n");
 
 	arTicks.destroy();

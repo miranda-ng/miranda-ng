@@ -67,7 +67,7 @@ int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
 int CLUIServices_LoadModule(void);
 INT_PTR CLUIServices_SortList(WPARAM wParam, LPARAM lParam);
 
-void Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);
+void Docking_GetMonitorRectFromWindow(HWND hWnd, RECT *rc);
 
 int EventArea_Create(HWND hCluiWnd);
 
@@ -76,7 +76,7 @@ int ExtraImage_ExtraIDToColumnNum(int extra);
 void GroupMenus_Init();
 
 int ModernSkinButtonLoadModule();
-int ModernSkinButton_ReposButtons(HWND parent, BYTE draw,RECT *r);
+int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r);
 
 void ske_ApplyTranslucency();
 HBITMAP ske_CreateDIB32(int cx, int cy);
@@ -100,7 +100,7 @@ int CLUI_SizingOnBorder(POINT pt, int size);
 int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam);
 int CLUI_TestCursorOnBorders();
 
-static int CLUI_SmoothAlphaThreadTransition(HWND hwnd);
+static int CLUI_SmoothAlphaThreadTransition();
 
 /*      structs         */
 

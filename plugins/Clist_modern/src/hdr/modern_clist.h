@@ -29,8 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadContactTree(void);
 HTREEITEM GetTreeItemByHContact(MCONTACT hContact);
-void cli_ChangeContactIcon(MCONTACT hContact,int iIcon,int add);
-int GetContactInfosForSort(MCONTACT hContact,char **Proto,TCHAR **Name,int *Status);
+void cli_ChangeContactIcon(MCONTACT hContact, int iIcon, int add);
+int GetContactInfosForSort(MCONTACT hContact, char **Proto, TCHAR **Name, int *Status);
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -40,17 +40,17 @@ public:
 	SortedList*	plText;
 	int			iMaxSmileyHeight;
 
-	CSmileyString()   : plText( NULL ), iMaxSmileyHeight( 0 ) {};
-	CSmileyString( const CSmileyString& ssIn )
+	CSmileyString() : plText(NULL), iMaxSmileyHeight(0) {};
+	CSmileyString(const CSmileyString& ssIn)
 	{
-		_CopySmileyList( ssIn.plText );
+		_CopySmileyList(ssIn.plText);
 		iMaxSmileyHeight = ssIn.iMaxSmileyHeight;
 	}
 
-	CSmileyString& operator= ( const CSmileyString& ssIn )
+	CSmileyString& operator= (const CSmileyString& ssIn)
 	{
 		DestroySmileyList();
-		_CopySmileyList( ssIn.plText );
+		_CopySmileyList(ssIn.plText);
 		iMaxSmileyHeight = ssIn.iMaxSmileyHeight;
 		return *this;
 	}
@@ -65,8 +65,8 @@ public:
 	/**	Destroy smiley list */
 	void DestroySmileyList();
 	/**  Copy Smiley List */
-	void _CopySmileyList( SortedList *plInput );
-	void AddListeningToIcon(struct SHORTDATA *dat, struct ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
+	void _CopySmileyList(SortedList *plInput);
+	void AddListeningToIcon(struct SHORTDATA *dat, TCHAR *szText);
 
 };
 

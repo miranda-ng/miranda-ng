@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int OnLoadLangpack(WPARAM, LPARAM);
 
-int CListMod_HideWindow(HWND hwndContactList, int mode);
+int CListMod_HideWindow();
 
 void GroupMenus_Init(void);
 int AddMainMenuItem(WPARAM wParam, LPARAM lParam);
@@ -77,10 +77,10 @@ HICON cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int statu
 		}
 	}
 
-	return ske_ImageList_GetIcon(g_himlCListClc, pcli->pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
+	return ske_ImageList_GetIcon(g_himlCListClc, pcli->pfnIconFromStatusMode(szProto, status, hContact));
 }
 
-int cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact)
+int cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact)
 {
 	if (hContact && szProto) {
 		char *szActProto = (char*)szProto;
@@ -114,7 +114,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, MCONTACT hContact)
 		return result;
 	}
 
-	return corecli.pfnIconFromStatusMode(szProto,nStatus,NULL);
+	return corecli.pfnIconFromStatusMode(szProto, nStatus, NULL);
 }
 
 int cli_GetContactIcon(MCONTACT hContact)
@@ -139,7 +139,7 @@ void UnLoadContactListModule()  //unhooks noncritical events
 	UninitCustomMenus();
 }
 
-int CListMod_ContactListShutdownProc(WPARAM wParam, LPARAM lParam)
+int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
 {
 	FreeDisplayNameCache();
 	return 0;
@@ -310,8 +310,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 							break;
 						}
 					}
-				}
-					while (hAux != NULL  && hAuxOld != hAux);
+				} while (hAux != NULL  && hAuxOld != hAux);
 
 				if (hWndFound) //There's  window!
 					iNotCoveredDots++; //Let's count the not covered dots.
@@ -334,7 +333,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 BYTE g_bCalledFromShowHide = 0;
 
-int cliShowHide(WPARAM wParam, LPARAM lParam)
+int cliShowHide(WPARAM, LPARAM lParam)
 {
 	BOOL bShow = FALSE;
 
@@ -377,7 +376,7 @@ int cliShowHide(WPARAM wParam, LPARAM lParam)
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);
 
 		if (!db_get_b(NULL, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList, 1);	//TO BE PROXIED
+			Sync(CLUIFrames_OnShowHide, 1);	//TO BE PROXIED
 			SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			g_bCalledFromShowHide = 1;
 			if (!db_get_b(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
@@ -386,7 +385,7 @@ int cliShowHide(WPARAM wParam, LPARAM lParam)
 		}
 		else {
 			SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList, 1);
+			Sync(CLUIFrames_OnShowHide, 1);
 			SetForegroundWindow(pcli->hwndContactList);
 		}
 		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
@@ -399,7 +398,7 @@ int cliShowHide(WPARAM wParam, LPARAM lParam)
 	}
 	else { //It needs to be hidden
 		if (GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) {
-			CListMod_HideWindow(pcli->hwndContactList, SW_HIDE);
+			CListMod_HideWindow();
 			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		}
 		else {
@@ -418,7 +417,7 @@ int cliShowHide(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CListMod_HideWindow(HWND hwndContactList, int mode)
+int CListMod_HideWindow()
 {
 	KillTimer(pcli->hwndContactList, 1/*TM_AUTOALPHA*/);
 	if (!CLUI_HideBehindEdge())  return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);

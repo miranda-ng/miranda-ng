@@ -31,12 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../hdr/modern_static_cluiframes_service.h" // contain services initialization and proxiation
 
-static const int UNCOLLAPSED_FRAME_SIZE		 = 0;
-static const int DEFAULT_TITLEBAR_HEIGHT	 = 18;
+static const int UNCOLLAPSED_FRAME_SIZE = 0;
+static const int DEFAULT_TITLEBAR_HEIGHT = 18;
 
 //GLOBALS
-FRAMEWND *g_pfwFrames		 = NULL;
-int g_nFramesCount	 = 0;
+FRAMEWND *g_pfwFrames = NULL;
+int g_nFramesCount = 0;
 int g_nTitleBarHeight = DEFAULT_TITLEBAR_HEIGHT;
 
 // STATIC
@@ -205,7 +205,7 @@ int CLUIFrames_SetParentForContainers(HWND parent)
 	return 0;
 }
 
-int CLUIFrames_OnShowHide(HWND hwnd, int mode)
+int CLUIFrames_OnShowHide(int mode)
 {
 	int i;
 	int prevFrameCount;
@@ -316,7 +316,7 @@ FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd)
 	return NULL;
 }
 
-static void DockThumbs(FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveLeft)
+static void DockThumbs(FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight)
 {
 	if ((pThumbRight->dockOpt.hwndLeft == NULL) && (pThumbLeft->dockOpt.hwndRight == NULL)) {
 		pThumbRight->dockOpt.hwndLeft = pThumbLeft->ContainerWnd;
@@ -494,11 +494,11 @@ static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 
 				if (bMoveTogether) {
 					if (bDockedRight) {
-						DockThumbs(pThumb, pCurThumb, TRUE);
+						DockThumbs(pThumb, pCurThumb);
 					}
 
 					if (bDockedLeft) {
-						DockThumbs(pCurThumb, pThumb, FALSE);
+						DockThumbs(pCurThumb, pThumb);
 					}
 				}
 
@@ -941,7 +941,7 @@ static int ModifyMItem(WPARAM wParam, LPARAM lParam)
 };
 
 
-static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM lParam)
+static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM)
 {
 	/* HOOK */
 	if (MirandaExiting()) return 0;
@@ -991,7 +991,7 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM lParam)
+static int CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM)
 {
 	//hiword(wParam) = frameid,loword(wParam) = flag
 	if (_fCluiFramesModuleNotStarted) return -1;
@@ -1045,7 +1045,7 @@ static int CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM lParam)
 }
 
 
-static INT_PTR _us_DoGetFrameOptions(WPARAM wParam, LPARAM lParam)
+static INT_PTR _us_DoGetFrameOptions(WPARAM wParam, LPARAM)
 {
 	INT_PTR retval;
 	BOOL bUnicodeText = (LOWORD(wParam) & FO_UNICODETEXT) != 0;
@@ -1299,7 +1299,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam, LPARAM lParam)
 }
 
 //wparam = lparam = 0
-static int _us_DoShowAllFrames(WPARAM wParam, LPARAM lParam)
+static int _us_DoShowAllFrames(WPARAM, LPARAM)
 {
 	int i;
 
@@ -1312,7 +1312,7 @@ static int _us_DoShowAllFrames(WPARAM wParam, LPARAM lParam)
 }
 
 //wparam = lparam = 0
-static int _us_DoShowTitles(WPARAM wParam, LPARAM lParam)
+static int _us_DoShowTitles(WPARAM, LPARAM)
 {
 	int i;
 
@@ -1325,13 +1325,11 @@ static int _us_DoShowTitles(WPARAM wParam, LPARAM lParam)
 }
 
 //wparam = lparam = 0
-static int _us_DoHideTitles(WPARAM wParam, LPARAM lParam)
+static int _us_DoHideTitles(WPARAM, LPARAM)
 {
-	int i;
-
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-	for (i = 0; i < g_nFramesCount; i++)
+	for (int i = 0; i < g_nFramesCount; i++)
 		g_pfwFrames[i].TitleBar.ShowTitleBar = FALSE;
 	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, 0);
 	return 0;
@@ -1435,12 +1433,12 @@ static int _us_DoMoveFrame(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int _us_DoMoveFrameUp(WPARAM wParam, LPARAM lParam)
+static int _us_DoMoveFrameUp(WPARAM wParam, LPARAM)
 {
 	return CLUIFrames_MoveFrame(wParam, (LPARAM)+1);
 }
 
-static int _us_DoMoveFrameDown(WPARAM wParam, LPARAM lParam)
+static int _us_DoMoveFrameDown(WPARAM wParam, LPARAM)
 {
 	return CLUIFrames_MoveFrame(wParam, (LPARAM)-1);
 }
@@ -1456,21 +1454,21 @@ static int _us_DoSetFrameAlign(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int _us_DoAlignFrameTop(WPARAM wParam, LPARAM lParam)
+static int _us_DoAlignFrameTop(WPARAM wParam, LPARAM)
 {
 	if (_fCluiFramesModuleNotStarted) return -1;
 
 	return CLUIFrames_SetFrameAlign(wParam, alTop);
 }
 
-static int _us_DoAlignFrameBottom(WPARAM wParam, LPARAM lParam)
+static int _us_DoAlignFrameBottom(WPARAM wParam, LPARAM)
 {
 	if (_fCluiFramesModuleNotStarted) return -1;
 
 	return CLUIFrames_SetFrameAlign(wParam, alBottom);
 }
 
-static int _us_DoAlignFrameClient(WPARAM wParam, LPARAM lParam)
+static int _us_DoAlignFrameClient(WPARAM wParam, LPARAM)
 {
 	if (_fCluiFramesModuleNotStarted) return -1;
 
@@ -1495,7 +1493,6 @@ static int _us_DoLockFrame(WPARAM wParam, LPARAM lParam)
 static int _us_DoSetFrameBorder(WPARAM wParam, LPARAM lParam)
 {
 	RECT rc;
-	int oldflags;
 
 	if (_fCluiFramesModuleNotStarted) return -1;
 
@@ -1503,7 +1500,7 @@ static int _us_DoSetFrameBorder(WPARAM wParam, LPARAM lParam)
 	if (FrameId == -1)
 		return -1;
 
-	int flt = oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, wParam), 0);
+	int oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, wParam), 0);
 	if (oldflags & F_NOBORDER)
 		oldflags &= ~F_NOBORDER;
 	else
@@ -1716,7 +1713,7 @@ static HFONT CLUILoadTitleBarFont()
 
 
 //wparam = (CLISTFrame*)clfrm
-static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
+static int _us_DoAddFrame(WPARAM wParam, LPARAM)
 {
 	int retval;
 	LONG_PTR style;
@@ -1869,7 +1866,7 @@ static int _us_DoAddFrame(WPARAM wParam, LPARAM lParam)
 	return retval;
 }
 
-static int _us_DoRemoveFrame(WPARAM wParam, LPARAM lParam)
+static int _us_DoRemoveFrame(WPARAM wParam, LPARAM)
 {
 	int pos;
 	if (_fCluiFramesModuleNotStarted) return -1;
@@ -2102,7 +2099,6 @@ static int CLUIFramesResizeFrames(const RECT newsize)
 	int i, j;
 	int sepw = GapBetweenFrames;
 	int topBorder = newsize.top;
-	int minHeight = CLUIFrames_GetTotalHeight();
 	SortData *sdarray;
 
 
@@ -2287,7 +2283,7 @@ static int _us_DoUpdateFrame(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CLUIFrames_OnClistResize_mod(WPARAM wParam, LPARAM mode)
+int CLUIFrames_OnClistResize_mod(WPARAM, LPARAM mode)
 {
 	RECT nRect;
 	int tick;
@@ -2526,7 +2522,7 @@ int CLUIFramesOnClistResize(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnFrameTitleBarBackgroundChange(WPARAM wParam, LPARAM lParam)
+int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
 	{
@@ -2565,10 +2561,7 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 	int y;
 	PAINTSTRUCT paintst = { 0 };
 	HBITMAP hBmpOsb, hOldBmp;
-	LONG_PTR style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	int grey = 0;
 	HFONT oFont;
-	HBRUSH hBrushAlternateGrey = NULL;
 
 	HFONT hFont;
 
@@ -2767,7 +2760,6 @@ int DrawTitleBar(HDC hdcMem2, RECT *rect, int Frameid)
 			mod_DrawIconEx_helper(hdcMem, rc.left, rc.top + ((g_nTitleBarHeight >> 1) - (GetSystemMetrics(SM_CXSMICON) >> 1)), g_pfwFrames[pos].collapsed ? LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN) : LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 	}
 	{
-		BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 		if (g_pfwFrames[pos].floating || (!g_CluiData.fLayered)) {
 			HRGN rgn = CreateRectRgn(rect->left, rect->top, rect->right, rect->bottom);
 			SelectClipRgn(hdcMem2, rgn);
@@ -3243,7 +3235,7 @@ static int CLUIFrameResizeFloatingFrame(int framepos)
 	return 0;
 };
 
-static int CLUIFrameOnMainMenuBuild(WPARAM wParam, LPARAM lParam)
+static int CLUIFrameOnMainMenuBuild(WPARAM, LPARAM)
 {
 	if (MirandaExiting()) return 0;
 	CLUIFramesLoadMainMenu();
@@ -3253,9 +3245,6 @@ static int CLUIFrameOnMainMenuBuild(WPARAM wParam, LPARAM lParam)
 
 static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	RECT rect = { 0 };
-	int Frameid = (GetWindowLongPtr(hwnd, GWLP_USERDATA));
-
 	switch (msg) {
 	case WM_ACTIVATE:
 		if (g_bTransparentFlag) {
@@ -3626,7 +3615,7 @@ static int _us_DoSetFrameFloat(WPARAM wParam, LPARAM lParam)
 		return 0;
 }
 
-int CLUIFrameOnModulesLoad(WPARAM wParam, LPARAM lParam)
+int CLUIFrameOnModulesLoad(WPARAM, LPARAM)
 {
 	/* HOOK */
 	CLUIFramesLoadMainMenu();
@@ -3634,7 +3623,7 @@ int CLUIFrameOnModulesLoad(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CLUIFrameOnModulesUnload(WPARAM wParam, LPARAM lParam)
+int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 {
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;
 

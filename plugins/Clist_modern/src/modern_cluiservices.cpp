@@ -25,29 +25,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_commonprototypes.h"
 
-INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam);
+INT_PTR CListTray_GetGlobalStatus(WPARAM wparam, LPARAM lparam);
 
-int CLUIUnreadEmailCountChanged(WPARAM wParam, LPARAM lParam)
+int CLUIUnreadEmailCountChanged(WPARAM, LPARAM)
 {
-	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, 0 ,0);
+	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, 0, 0);
 	return 0;
 }
 
-void cliCluiProtocolStatusChanged(int status,const char * proto)
+void cliCluiProtocolStatusChanged(int, const char * proto)
 {
-	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE,(WPARAM)pcli->hwndStatus,0);
+	CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)pcli->hwndStatus, 0);
 	if (proto)
 		pcli->pfnTrayIconUpdateBase(proto);
 }
 
-static INT_PTR MetaSupportCheck(WPARAM wParam, LPARAM lParam)
+static INT_PTR MetaSupportCheck(WPARAM, LPARAM)
 {
 	return 1;
 }
 
 int CLUIServices_LoadModule(void)
 {
-	CreateServiceFunction(MS_CLUI_METASUPPORT,MetaSupportCheck);
-	CreateServiceFunction(MS_CLIST_GETSTATUSMODE,CListTray_GetGlobalStatus);
+	CreateServiceFunction(MS_CLUI_METASUPPORT, MetaSupportCheck);
+	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, CListTray_GetGlobalStatus);
 	return 0;
 }

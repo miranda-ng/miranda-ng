@@ -8,10 +8,10 @@ class CLayeredWindowEngine
 private:
 	/*class CLweInfo
 	{
-		HWND hWnd;
-		HRGN hInvalidRgn;
+	HWND hWnd;
+	HRGN hInvalidRgn;
 	};
-	  */
+	*/
 	//typedef std::map<HWND, CLweInfo> WndInfos;
 
 	enum { state_invalid, state_normal };
@@ -29,18 +29,18 @@ public:
 	void _init();
 	void _deinit();
 
-	void lock() { EnterCriticalSection( &m_cs ); }
-	void unlock() { LeaveCriticalSection( &m_cs ); }
+	void lock() { EnterCriticalSection(&m_cs); }
+	void unlock() { LeaveCriticalSection(&m_cs); }
 
 	int get_state();
 
 public:
 	static void __cdecl LweValidatorProc();
-	
+
 	void LweValidatorProcWorker();
 
 	void LweValidatorWorker();
-	int LweInvalidateRect( HWND hWnd, const RECT *rect, BOOL bErase );
+	int LweInvalidateRect(HWND hWnd, const RECT *rect, BOOL bErase);
 	// int LweValidateWindowRect( HWND hWnd, RECT *rect );
 	// int RegisterWindow( HWND hwnd, tPaintCallbackProc pPaintCallBackProc );
 

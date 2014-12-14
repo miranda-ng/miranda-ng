@@ -153,7 +153,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 {
 	if (!cont)
 		return;
-	
+
 	cont->type = CLCIT_CONTACT;
 	cont->SubAllocated = 0;
 	cont->isSubcontact = 0;
@@ -184,7 +184,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcGroup *group, ClcData *dat, 
 			break;
 		default:
 			cont->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-		}
+	}
 
 	if (cacheEntry->NotOnList)
 		cont->flags |= CONTACTF_NOTONLIST;
@@ -225,7 +225,7 @@ static ClcContact* AddContactToGroup(ClcData *dat, ClcGroup *group, ClcCacheEntr
 	return group->cl.items[i];
 }
 
-void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
+void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName)
 {
 	int i = 0;
 	int f = 0;
@@ -242,9 +242,9 @@ void* AddTempGroup(HWND hwnd, ClcData *dat, const TCHAR *szName, DWORD flags, in
 
 	if (f)
 		return NULL;
-	
+
 	char buf[20];
-	_itoa_s(i-1, buf, 10);
+	_itoa_s(i - 1, buf, 10);
 
 	TCHAR b2[255];
 	mir_sntprintf(b2, SIZEOF(b2), _T("#%s"), szName);
@@ -326,7 +326,7 @@ int RestoreSelection(ClcData *dat, MCONTACT hSelected)
 void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	ClcGroup *group;
+	ClcGroup *group = NULL;
 	static int rebuildCounter = 0;
 
 	BOOL PlaceOfflineToRoot = db_get_b(NULL, "CList", "PlaceOfflineToRoot", SETTING_PLACEOFFLINETOROOT_DEFAULT);
@@ -371,7 +371,7 @@ void cliRebuildEntireList(HWND hwnd, ClcData *dat)
 				WORD wStatus = pdnce___GetStatus(cacheEntry);
 				if (wStatus == ID_STATUS_OFFLINE && PlaceOfflineToRoot)
 					group = &dat->list;
-		
+
 				group->totalMembers++;
 
 				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
@@ -441,10 +441,10 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 			group->scanIndex++;
 			continue;
 		}
-		
+
 		if (count >= selection)
 			return count;
-		
+
 		lastcount = count;
 		count++;
 		if (!direction && count > selection)
