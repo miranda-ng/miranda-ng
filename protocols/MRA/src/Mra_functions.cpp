@@ -631,7 +631,7 @@ DWORD CMraProto::MraSetContactStatus(MCONTACT hContact, DWORD dwNewStatus)
 	return dwOldStatus;
 }
 
-void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &pszSubject, DWORD dwDate, DWORD dwUIDL, bool force_display)
+void CMraProto::MraUpdateEmailStatus(const CMStringA &pszFrom, const CMStringA &pszSubject, bool force_display)
 {
 	BOOL bTrayIconNewMailNotify;
 	WCHAR szStatusText[MAX_SECONDLINE];
@@ -1249,10 +1249,10 @@ DWORD FindFile(LPWSTR lpszFolder, DWORD dwFolderLen, LPWSTR lpszFileName, DWORD 
 			szPath[dwPathLen] = 0;
 			mir_tstrcat(szPath, _T("*.*"));
 
+			dwRetErrorCode = ERROR_FILE_NOT_FOUND;
 			prdsiItems[dwRecDeepCurPos].dwFileNameLen = 0;
 			prdsiItems[dwRecDeepCurPos].hFind = FindFirstFileEx(szPath, FindExInfoStandard, &prdsiItems[dwRecDeepCurPos].w32fdFindFileData, FindExSearchNameMatch, NULL, 0);
 			if (prdsiItems[dwRecDeepCurPos].hFind != INVALID_HANDLE_VALUE) {
-				dwRetErrorCode = ERROR_FILE_NOT_FOUND;
 				do {
 					dwPathLen -= prdsiItems[dwRecDeepCurPos].dwFileNameLen;
 
