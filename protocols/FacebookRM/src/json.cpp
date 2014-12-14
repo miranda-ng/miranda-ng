@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user >* buddy_list)
 {
 	facebook_user* current = NULL;
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -45,14 +45,14 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 	for (List::Item< facebook_user >* i = buddy_list->begin(); i != NULL; i = i->next) {
 		i->data->status_id = ID_STATUS_OFFLINE;
 	}
-	
+
 	// Load last active times
 	JSONNODE *lastActive = json_get(list, "last_active_times");
 	if (lastActive != NULL) {
 		for (unsigned int i = 0; i < json_size(lastActive); i++) {
 			JSONNODE *it = json_at(lastActive, i);
 			const char *id = json_name(it);
-			
+
 			current = buddy_list->find(id);
 			if (current == NULL) {
 				buddy_list->insert(std::make_pair(id, new facebook_user()));
@@ -63,14 +63,14 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 			current->last_active = json_as_int(it);
 		}
 	}
-	
+
 	// Find mobile friends
 	JSONNODE *mobileFriends = json_get(list, "mobile_friends");
 	if (mobileFriends != NULL) {
 		for (unsigned int i = 0; i < json_size(mobileFriends); i++) {
 			JSONNODE *it = json_at(mobileFriends, i);
 			std::string id = json_as_pstring(it);
-			
+
 			current = buddy_list->find(id);
 			if (current == NULL) {
 				buddy_list->insert(std::make_pair(id, new facebook_user()));
@@ -85,11 +85,11 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 
 	// Find now available contacts
 	JSONNODE *nowAvailable = json_get(list, "nowAvailableList");
-	if (nowAvailable != NULL) {		
+	if (nowAvailable != NULL) {
 		for (unsigned int i = 0; i < json_size(nowAvailable); i++) {
 			JSONNODE *it = json_at(nowAvailable, i);
 			const char *id = json_name(it);
-			
+
 			current = buddy_list->find(id);
 			if (current == NULL) {
 				buddy_list->insert(std::make_pair(id, new facebook_user()));
@@ -98,7 +98,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 			}
 
 			current->status_id = ID_STATUS_ONLINE;
-			
+
 			JSONNODE *p = json_get(it, "p");
 			if (p != NULL) {
 				JSONNODE *status = json_get(p, "status"); // this seems to be "active" everytime
@@ -115,7 +115,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 
 				// "webStatus" and "otherStatus" are marked as "WEB" on FB website
 				if ((b = (json_as_pstring(webStatus) == "active")) || json_as_pstring(otherStatus) == "active") {
-					current->status_id = ID_STATUS_ONLINE;					
+					current->status_id = ID_STATUS_ONLINE;
 					current->client = b ? CLIENT_WEB : CLIENT_OTHER;
 				}
 
@@ -136,11 +136,11 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 
 	// Get aditional informations about contacts (if available)
 	JSONNODE *userInfos = json_get(list, "userInfos");
-	if (userInfos != NULL) {		
+	if (userInfos != NULL) {
 		for (unsigned int i = 0; i < json_size(userInfos); i++) {
 			JSONNODE *it = json_at(userInfos, i);
 			const char *id = json_name(it);
-			
+
 			current = buddy_list->find(id);
 			if (current == NULL)
 				continue;
@@ -150,7 +150,7 @@ int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user
 
 			if (name != NULL)
 				current->real_name = utils::text::slashu_to_utf8(json_as_pstring(name));
-			if (thumbSrc != NULL)			
+			if (thumbSrc != NULL)
 				current->image_url = utils::text::slashu_to_utf8(json_as_pstring(thumbSrc));
 		}
 	}
@@ -176,7 +176,7 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 	//JSONNODE *is_friend = json_get(it, "is_friend"); // e.g. "True"
 	//JSONNODE *type = json_get(it, "type"); // e.g. "friend" (classic contact) or "user" (disabled/deleted account)
 
-	
+
 	if (name)
 		fbu->real_name = utils::text::slashu_to_utf8(json_as_pstring(name));
 	if (thumbSrc)
@@ -192,14 +192,14 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 		case 2: // male
 			fbu->gender = 77;
 			break;
-		// case 7: not available female?
+			// case 7: not available female?
 	}
 }
 
 int facebook_json_parser::parse_friends(void* data, std::map< std::string, facebook_user* >* friends)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
-	
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
@@ -222,10 +222,10 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 }
 
 
-int facebook_json_parser::parse_notifications(void *data, std::map< std::string, facebook_notification* > *notifications) 
+int facebook_json_parser::parse_notifications(void *data, std::map< std::string, facebook_notification* > *notifications)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
-	
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
@@ -291,7 +291,7 @@ bool ignore_duplicits(FacebookProto *proto, const std::string &mid, const std::s
 		it->second++; // increase counter (for deleting it later)
 		return true;
 	}
-					
+
 	// remember this id to ignore duplicits
 	proto->facy.messages_ignore.insert(std::make_pair(mid, 1));
 	return false;
@@ -318,7 +318,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 			JSONNODE *url = json_get(itAttachment, "url");
 			if (url != NULL) {
 				std::string link = json_as_pstring(url);
-							
+
 				if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
 					// fix photo url
 					link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
@@ -327,7 +327,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 					bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
 					link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
 				}
-								
+
 				if (!link.empty()) {
 					std::string filename;
 					if (name != NULL)
@@ -366,11 +366,11 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 		if (!message_text->empty())
 			*message_text += "\n\n";
 
-		if (!attachments_text.empty()) {			
+		if (!attachments_text.empty()) {
 			// we can't use this as offline messages doesn't have it
 			/* JSONNODE *admin_snippet = json_get(it, "admin_snippet");
 			if (admin_snippet != NULL) {
-				*message_text += json_as_pstring(admin_snippet);
+			*message_text += json_as_pstring(admin_snippet);
 			} */
 
 			std::tstring newText;
@@ -388,7 +388,8 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 
 			*message_text += ptrA(mir_utf8encodeT(title));
 			*message_text += attachments_text;
-		} else {
+		}
+		else {
 			// TODO: better support for these attachments (parse it from "m_messaging" instead of "messaging"
 			*message_text += ptrA(mir_utf8encodeT(TranslateT("User sent an unsupported attachment. Open your browser to see it.")));
 		}
@@ -401,13 +402,14 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 	for (std::map<std::string, int>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end();) {
 		if (it->second > FACEBOOK_IGNORE_COUNTER_LIMIT) {
 			it = proto->facy.messages_ignore.erase(it);
-		} else {
+		}
+		else {
 			it->second++; // increase counter on each request
 			++it;
 		}
 	}
 
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -420,7 +422,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 	for (unsigned int i = 0; i < json_size(ms); i++) {
 		JSONNODE *it = json_at(ms, i);
-		
+
 		JSONNODE *type = json_get(it, "type");
 		if (type == NULL)
 			continue;
@@ -495,13 +497,15 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 						}
 					}
- 				} else { // classic contact
+				}
+				else { // classic contact
 					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
 					if (hContact) {
 						proto->facy.insert_reader(hContact, timestamp);
 					}
 				}
-			} else if (t == "deliver") {
+			}
+			else if (t == "deliver") {
 				// inbox message (multiuser or direct)
 
 				JSONNODE *msg = json_get(it, "message");
@@ -513,7 +517,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *sender_fbid = json_get(msg, "sender_fbid");
 				JSONNODE *sender_name = json_get(msg, "sender_name");
 				JSONNODE *body = json_get(msg, "body");
-				
+
 				// looks like there is either "tid" or "other_user_fbid" - or "tid" is removed forever?
 				JSONNODE *tid = json_get(msg, "tid");
 				JSONNODE *other_user_id_ = json_get(msg, "other_user_fbid");
@@ -567,7 +571,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 				messages->push_back(message);
 			}
-		} else if (t == "notification_json") {
+		}
+		else if (t == "notification_json") {
 			// event notification
 			JSONNODE *nodes = json_get(it, "nodes");
 
@@ -587,7 +592,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				JSONNODE *text = json_get(text_, "text");
 				JSONNODE *url = json_get(itNodes, "url");
 				JSONNODE *alert_id = json_get(itNodes, "alert_id");
-				
+
 				JSONNODE *time_ = json_get(itNodes, "timestamp");
 				if (time_ == NULL)
 					continue;
@@ -602,13 +607,13 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 					facebook_notification* notification = new facebook_notification();
 					notification->text = utils::text::slashu_to_utf8(json_as_pstring(text));
-  					notification->link = json_as_pstring(url);
+					notification->link = json_as_pstring(url);
 					notification->id = json_as_pstring(alert_id);
 					notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(timestamp);
 
 					std::string::size_type pos = notification->id.find(":");
 					if (pos != std::string::npos)
-						notification->id = notification->id.substr(pos+1);
+						notification->id = notification->id.substr(pos + 1);
 
 					// Write notification to chatroom
 					proto->UpdateNotificationsChatRoom(notification);
@@ -620,7 +625,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 						delete notification;
 				}
 			}
-		} else if (t == "typ") {
+		}
+		else if (t == "typ") {
 			// chat typing notification
 
 			JSONNODE *from = json_get(it, "from");
@@ -637,7 +643,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				proto->StartTyping(hContact);
 			else
 				proto->StopTyping(hContact);
-		} else if (t == "ttyp") {
+		}
+		else if (t == "ttyp") {
 			// multi chat typing notification
 			if (!proto->m_enableChat)
 				continue;
@@ -672,7 +679,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					if (json_as_int(st_) == 1) {
 						StatusTextData st = { 0 };
 						st.cbSize = sizeof(st);
-						
+
 						mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("%s is typing a message..."), name);
 
 						CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
@@ -684,7 +691,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					// TODO: support proper MS_PROTO_CONTACTISTYPING service for chatrooms (when it will be implemented)
 				}
 			}
-		} else if (t == "privacy_changed") {
+		}
+		else if (t == "privacy_changed") {
 			// settings changed
 
 			JSONNODE *event_type = json_get(it, "event");
@@ -697,32 +705,32 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (t == "visibility_update") {
 				// change of chat status
 				JSONNODE *visibility = json_get(event_data, "visibility");
-				
+
 				bool isVisible = (visibility != NULL) && json_as_bool(visibility);
 				proto->debugLogA("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
 				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
 			}
-		} else if (t == "buddylist_overlay") {
+		}
+		else if (t == "buddylist_overlay") {
 			// we opened/closed chat window - pretty useless info for us
 			continue;
-		} else if (t == "ticker_update:home") {
-			JSONNODE *actor_ = json_get(it, "actor");
-			JSONNODE *time_ = json_get(it, "actor");
+		}
+		else if (t == "ticker_update:home") {
 			JSONNODE *story_ = json_get(it, "story_xhp");
 
-			time_t time = json_as_float(time_);
 			std::string text = json_as_pstring(story_);
 			text = utils::text::slashu_to_utf8(text);
 
 			text = utils::text::trim(
-					utils::text::html_entities_decode(
-						utils::text::source_get_value(&text, 3, "<h5", ">", "</h5>")));
-			
+				utils::text::html_entities_decode(
+				utils::text::source_get_value(&text, 3, "<h5", ">", "</h5>")));
+
 			// TODO: notify ticker updates
 			/* if (!text.empty()) {
 				proto->NotifyEvent()
-			}*/
-		} else if (t == "mercury") {
+				}*/
+		}
+		else if (t == "mercury") {
 			// rename multi user chat, video call, ...
 
 			JSONNODE *actions_ = json_get(it, "actions");
@@ -731,7 +739,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 			for (unsigned int i = 0; i < json_size(actions_); i++) {
 				JSONNODE *action_ = json_at(actions_, i);
-		
+
 				JSONNODE *thread_id_ = json_get(action_, "thread_id");
 				JSONNODE *log_body_ = json_get(action_, "log_message_body");
 				JSONNODE *log_data_ = json_get(action_, "log_message_data");
@@ -749,9 +757,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 					JSONNODE *timestamp = json_get(action_, "timestamp");
 					JSONNODE *mid_ = json_get(action_, "message_id");
-					
+
 					std::string message_id = json_as_pstring(mid_);
-					
+
 					facebook_message* message = new facebook_message();
 					message->isChat = false;
 					message->isUnread = true;
@@ -765,7 +773,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					message->type = CALL;
 
 					messages->push_back(message);
-				} else {
+				}
+				else {
 					// TODO: check for other types, now we expect this is rename chat
 
 					if (!proto->m_enableChat)
@@ -780,7 +789,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					proto->UpdateChat(thread_id.c_str(), NULL, NULL, message_text.c_str());
 				}
 			}
-		} else if (t == "notifications_read" || t == "notifications_seen") {
+		}
+		else if (t == "notifications_read" || t == "notifications_seen") {
 			ScopedLock s(proto->facy.notifications_lock_);
 
 			JSONNODE *alerts = json_get(it, "alert_ids");
@@ -788,7 +798,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			for (unsigned int j = 0; j < json_size(alerts); j++) {
 				JSONNODE *itAlerts = json_at(alerts, j);
 				std::string id = json_as_pstring(itAlerts);
-				
+
 				std::map<std::string, facebook_notification*>::iterator it = notifications->find(id);
 				if (it != notifications->end()) {
 					if (it->second->hWndPopup != NULL)
@@ -798,7 +808,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					notifications->erase(it);
 				}
 			}
-		} else
+		}
+		else
 			continue;
 	}
 
@@ -807,8 +818,8 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 
 int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::string >* threads, bool inboxOnly)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
-	
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
 		return EXIT_FAILURE;
@@ -841,9 +852,9 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, bool inboxOnly, int limit)
+int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, bool inboxOnly)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -865,7 +876,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		for (unsigned int i = 0; i < json_size(roger); i++) {
 			JSONNODE *it = json_at(roger, i);
 			std::tstring id = _A2T(json_name(it));
-			
+
 			// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
 			if (id.substr(0, 3) == _T("id.")) {
 				facebook_chatroom *room = new facebook_chatroom(id);
@@ -882,9 +893,9 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		JSONNODE *thread_id = json_get(it, "thread_id");
 		JSONNODE *name = json_get(it, "name");
 		//JSONNODE *message_count = json_get(it, "message_count");
-		JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
+		//JSONNODE *unread_count = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
 		JSONNODE *folder = json_get(it, "folder");
-		
+
 		if (canonical == NULL || thread_id == NULL)
 			continue;
 
@@ -895,7 +906,8 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (iter != chatrooms->end()) {
 			if (json_as_bool(is_canonical_user)) {
 				chatrooms->erase(iter); // this is not chatroom
-			} else {
+			}
+			else {
 				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
 
 				JSONNODE *participants = json_get(it, "participants");
@@ -946,19 +958,19 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		std::string author_id = json_as_pstring(author);
 		std::string::size_type pos = author_id.find(":");
 		if (pos != std::string::npos)
-			author_id = author_id.substr(pos+1);
+			author_id = author_id.substr(pos + 1);
 
 		// Process attachements and stickers
 		parseAttachments(proto, &message_text, it, thread_id, ""); // FIXME: is here supported other_user_fbid ?
 
 		if (json_as_bool(filtered) && message_text.empty())
 			message_text = Translate("This message is no longer available, because it was marked as abusive or spam.");
-		
+
 		message_text = utils::text::trim(utils::text::slashu_to_utf8(message_text), true);
 		if (message_text.empty())
 			continue;
 
-		facebook_message* message = new facebook_message();	
+		facebook_message* message = new facebook_message();
 		message->message_text = message_text;
 		if (author_email != NULL)
 			message->sender_name = json_as_pstring(author_email);
@@ -977,16 +989,18 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			// this is chatroom message
 			message->isChat = true;
 			message->user_id = author_id;
-		} else {
+		}
+		else {
 			// this is standard message
 			message->isChat = false;
 			std::map<std::string, std::string>::iterator iter = thread_ids.find(thread_id);
 			if (iter != thread_ids.end()) {
 				message->user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-			} else {
+			}
+			else {
 				continue;
 			}
-		}		
+		}
 
 		messages->push_back(message);
 	}
@@ -996,7 +1010,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 
 int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -1017,7 +1031,7 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 		JSONNODE *it = json_at(threads, i);
 		JSONNODE *canonical = json_get(it, "canonical_fbid");
 		JSONNODE *thread_id = json_get(it, "thread_id");
-		JSONNODE *message_count = json_get(it, "message_count"); // TODO: this could be useful for loading history from server
+		//JSONNODE *message_count = json_get(it, "message_count"); // TODO: this could be useful for loading history from server
 
 		if (canonical == NULL || thread_id == NULL)
 			continue;
@@ -1035,7 +1049,7 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 
 int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -1054,7 +1068,7 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 	//std::map<std::string, std::string> user_ids;
 	for (unsigned int i = 0; i < json_size(profiles); i++) {
 		JSONNODE *it = json_at(profiles, i);
-		
+
 		// TODO: allow more users to parse at once
 		std::string id = json_name(it);
 
@@ -1069,7 +1083,7 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 
 int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 {
-	std::string jsonData = static_cast< std::string* >(data)->substr(9);
+	std::string jsonData = static_cast<std::string*>(data)->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -1088,18 +1102,18 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 
 	/*JSONNODE *roger = json_get(payload, "roger");
 	if (roger != NULL) {
-		for (unsigned int i = 0; i < json_size(roger); i++) {
-			JSONNODE *it = json_at(roger, i);
-			std::tstring id = _A2T(json_name(it));
+	for (unsigned int i = 0; i < json_size(roger); i++) {
+	JSONNODE *it = json_at(roger, i);
+	std::tstring id = _A2T(json_name(it));
 
-			// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
-			if (id.substr(0, 3) == _T("id.")) {
-				facebook_chatroom *room = new facebook_chatroom();
-				room->thread_id = id;
+	// Ignore "wrong" (duplicit) identifiers - these that doesn't begin with "id."
+	if (id.substr(0, 3) == _T("id.")) {
+	facebook_chatroom *room = new facebook_chatroom();
+	room->thread_id = id;
 
-				chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
-			}
-		}
+	chatrooms->insert(std::make_pair((char*)_T2A(room->thread_id.c_str()), room));
+	}
+	}
 	}*/
 
 	//std::map<std::string, std::string> thread_ids;
@@ -1110,8 +1124,7 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 		JSONNODE *thread_id_ = json_get(it, "thread_id");
 		JSONNODE *name_ = json_get(it, "name");
 		//JSONNODE *message_count_ = json_get(it, "message_count");
-		JSONNODE *unread_count_ = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
-		JSONNODE *folder_ = json_get(it, "folder");
+		//JSONNODE *unread_count_ = json_get(it, "unread_count"); // TODO: use it to check against number of loaded messages... but how?
 
 		if (thread_id_ == NULL || is_canonical_user_ == NULL || json_as_bool(is_canonical_user_))
 			continue;

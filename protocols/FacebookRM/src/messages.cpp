@@ -34,7 +34,7 @@ int FacebookProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 void FacebookProto::SendMsgWorker(void *p)
 {
-	if(p == NULL)
+	if (p == NULL)
 		return;
 
 	send_direct *data = static_cast<send_direct*>(p);
@@ -43,9 +43,11 @@ void FacebookProto::SendMsgWorker(void *p)
 
 	if (!isOnline()) {
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
-	} else if (id == NULL) {
+	}
+	else if (id == NULL) {
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, 0);
-	} else {
+	}
+	else {
 		int retries = 5;
 		std::string error_text;
 		int result = SEND_MESSAGE_ERROR;
@@ -69,7 +71,7 @@ void FacebookProto::SendMsgWorker(void *p)
 
 void FacebookProto::SendChatMsgWorker(void *p)
 {
-	if(p == NULL)
+	if (p == NULL)
 		return;
 
 	send_chat *data = static_cast<send_chat*>(p);
@@ -84,7 +86,8 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		std::string tid;
 		if (tid_ != NULL) {
 			tid = tid_;
-		} else {
+		}
+		else {
 			std::string post_data = "threads[group_ids][0]=" + utils::url::encode(data->chat_id);
 			post_data += "&fb_dtsg=" + facy.dtsg_;
 			post_data += "&__user=" + facy.self_.user_id;
@@ -95,8 +98,8 @@ void FacebookProto::SendChatMsgWorker(void *p)
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
 			setString(hContact, FACEBOOK_KEY_TID, tid.c_str());
 			debugLogA("      Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
-		}		
-		
+		}
+
 		if (!tid.empty()) {
 			if (facy.send_message(hContact, tid, data->msg, &err_message, MESSAGE_TID) == SEND_MESSAGE_OK)
 				UpdateChat(_A2T(data->chat_id.c_str()), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
@@ -113,14 +116,14 @@ int FacebookProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	// TODO: msg comes as Unicode (retyped wchar_t*), why should we convert it as ANSI to UTF-8? o_O
 	if (flags & PREF_UNICODE)
 		msg = mir_utf8encode(msg);
-  
+
 	facy.msgid_ = (facy.msgid_ % 1024) + 1;
 	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)facy.msgid_));
 	return facy.msgid_;
 }
 
-int FacebookProto::UserIsTyping(MCONTACT hContact,int type)
-{ 
+int FacebookProto::UserIsTyping(MCONTACT hContact, int type)
+{
 	if (hContact && isOnline())
 		ForkThread(&FacebookProto::SendTypingWorker, new send_typing(hContact, type));
 
@@ -148,13 +151,13 @@ void FacebookProto::SendTypingWorker(void *p)
 		delete typing;
 		return;
 	}
-	
+
 	const char *value = (isChatRoom(typing->hContact) ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID);
-	ptrA id( getStringA(typing->hContact, value));
+	ptrA id(getStringA(typing->hContact, value));
 	if (id != NULL) {
 		std::string data = "&source=mercury-chat";
 		data += (typing->status == PROTOTYPE_SELFTYPING_ON ? "&typ=1" : "&typ=0");
-		
+
 		data += "&to=";
 		if (isChatRoom(typing->hContact))
 			data += "&thread=";
@@ -163,7 +166,7 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&lsd=&__user=" + facy.self_.user_id;
 		data += "&phstamp=" + facy.phstamp(data);
-		
+
 		http::response resp = facy.flap(REQUEST_TYPING_SEND, &data);
 	}
 
@@ -174,7 +177,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 {
 	if (p == NULL)
 		return;
-	
+
 	if (getBool(FACEBOOK_KEY_KEEP_UNREAD, 0))
 		return;
 
@@ -188,7 +191,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 	std::string data = "fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
 	data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
-	
+
 	for (std::set<MCONTACT>::iterator it = hContacts->begin(); it != hContacts->end(); ++it) {
 		MCONTACT hContact = *it;
 
@@ -200,7 +203,7 @@ void FacebookProto::ReadMessageWorker(void *p)
 		ptrA id(getStringA(hContact, value));
 		if (id == NULL)
 			continue;
-		
+
 		data += "&ids[" + utils::url::encode(std::string(id)) + "]=true";
 	}
 	hContacts->clear();
@@ -211,11 +214,11 @@ void FacebookProto::ReadMessageWorker(void *p)
 
 void FacebookProto::StickerAsSmiley(std::string sticker, const std::string &url, MCONTACT hContact)
 {
-	std::string b64 = ptrA( mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
+	std::string b64 = ptrA(mir_base64_encode((PBYTE)sticker.c_str(), (unsigned)sticker.length()));
 	b64 = utils::url::encode(b64);
 
 	std::tstring filename = GetAvatarFolder() + _T("\\stickers\\") + (TCHAR*)_A2T(b64.c_str()) + _T(".png");
-	
+
 	// Check if we have this sticker already and download it it not
 	if (GetFileAttributes(filename.c_str()) == INVALID_FILE_ATTRIBUTES) {
 		HANDLE nlc = NULL;

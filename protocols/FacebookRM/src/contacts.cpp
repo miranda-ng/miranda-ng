@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void updateStringUtf(FacebookProto *proto, MCONTACT hContact, const char *key, const std::string &value) {
 	bool update_required = true;
-	
+
 	DBVARIANT dbv;
 	if (!proto->getStringUtf(hContact, key, &dbv)) {
 		update_required = strcmp(dbv.pszVal, value.c_str()) != 0;
@@ -153,7 +153,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 			break; // this shouldn't happen unless user manually deletes ID from FB contact in DB
 		}
 	}
-	
+
 	// We don't have any contact with this thread_id cached, we must ask server	
 	if (isOffline())
 		return "";
@@ -166,11 +166,11 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 
 	std::string user_id;
 	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
-	
+
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
 
-		facebook_json_parser* p = new facebook_json_parser(this);
+			facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_thread_info(&resp.data, &user_id);
 		delete p;
 
@@ -181,7 +181,7 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 
 		CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing thread info: %s", e.what());
+			debugLogA("***** Error processing thread info: %s", e.what());
 
 		CODE_BLOCK_END
 	}
@@ -196,13 +196,13 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 
 	// TODO: support for more friends at once
 	std::string get_query = "&ids[0]=" + utils::url::encode(fbu->user_id);
-	
+
 	http::response resp = facy.flap(REQUEST_USER_INFO, NULL, &get_query);
 
 	if (resp.code == HTTP_CODE_OK) {
 		CODE_BLOCK_TRY
 
-		facebook_json_parser* p = new facebook_json_parser(this);
+			facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_user_info(&resp.data, fbu);
 		delete p;
 
@@ -217,7 +217,7 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 }
 
 void FacebookProto::LoadParticipantsNames(facebook_chatroom *fbc)
-{	
+{
 	for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
 		if (it->second.empty()) {
 			if (!strcmp(it->first.c_str(), facy.self_.user_id.c_str()))
@@ -265,7 +265,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 		CODE_BLOCK_TRY
 
-		facebook_json_parser* p = new facebook_json_parser(this);
+			facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_chat_info(&resp.data, fbc);
 		delete p;
 
@@ -441,7 +441,8 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		}
 
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER);
-	} else {
+	}
+	else {
 		facy.client_notify(TranslateT("Error occurred when removing contact from server."));
 	}
 
@@ -582,7 +583,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (!id)
 		return;
-	
+
 	std::string query = "action=reject";
 	query += "&id=" + std::string(id);
 	query += "&__user=" + facy.self_.user_id;
@@ -632,7 +633,7 @@ void FacebookProto::SendPokeWorker(void *p)
 
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos) {
 		resp.data = utils::text::slashu_to_utf8(
-				utils::text::source_get_value(&resp.data, 2, "__html\":\"", "\"}"));
+			utils::text::source_get_value(&resp.data, 2, "__html\":\"", "\"}"));
 
 		std::string message = utils::text::source_get_value(&resp.data, 4, "<img", "<div", ">", "<\\/div>");
 
@@ -642,7 +643,7 @@ void FacebookProto::SendPokeWorker(void *p)
 		message = utils::text::html_entities_decode(
 			utils::text::remove_html(message));
 
-		ptrT tmessage( mir_utf8decodeT(message.c_str()));
+		ptrT tmessage(mir_utf8decodeT(message.c_str()));
 		NotifyEvent(m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER);
 	}
 
@@ -650,12 +651,12 @@ void FacebookProto::SendPokeWorker(void *p)
 }
 
 
-HANDLE FacebookProto::GetAwayMsg(MCONTACT hContact)
+HANDLE FacebookProto::GetAwayMsg(MCONTACT)
 {
 	return 0; // Status messages are disabled
 }
 
-int FacebookProto::OnContactDeleted(WPARAM wParam,LPARAM)
+int FacebookProto::OnContactDeleted(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 

@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 struct CAPTCHA_FORM_PARAMS
 {
 	HBITMAP bmp;
-	int w,h;
+	int w, h;
 	char Result[100];
 };
 
@@ -39,8 +39,8 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 	switch (msg) {
 	case WM_INITDIALOG: {
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle( GetIconHandle("key"), TRUE));
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle( GetIconHandle("key")));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(GetIconHandle("key"), TRUE));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(GetIconHandle("key")));
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		SetDlgItemText(hwndDlg, IDC_INSTRUCTION, TranslateT("Enter the text you see"));
@@ -49,7 +49,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		return TRUE;
 	}
 	case WM_CTLCOLORSTATIC:
-		switch(GetWindowLongPtr((HWND)lParam, GWL_ID)) {
+		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
 		case IDC_WHITERECT:
 		case IDC_INSTRUCTION:
 		case IDC_TITLE:
@@ -70,7 +70,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			int y = (rc.bottom + rc.top - params->h) / 2;
 			int x = (rc.right + rc.left - params->w) / 2;
-			BitBlt(hdc, x, y, params->w, params->h, hdcMem, 0,0, SRCCOPY);
+			BitBlt(hdc, x, y, params->w, params->h, hdcMem, 0, 0, SRCCOPY);
 			SelectObject(hdcMem, hOld);
 			DeleteDC(hdcMem);
 
@@ -129,15 +129,15 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 	memio.pBuf = reply->pData;
 	memio.fif = FIF_UNKNOWN; /* detect */
 	param.bmp = (HBITMAP)CallService(MS_IMG_LOADFROMMEM, (WPARAM)&memio, 0);
-	
-	BITMAP bmp = {0};
+
+	BITMAP bmp = { 0 };
 	GetObject(param.bmp, sizeof(bmp), &bmp);
 	param.w = bmp.bmWidth;
 	param.h = bmp.bmHeight;
 	int res = DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_CAPTCHAFORM), NULL, CaptchaFormDlgProc, (LPARAM)&param);
 	if (res == 0)
 		return false;
-	
+
 	debugLogA("RunCaptchaForm: user entered text %s", param.Result);
 	result = param.Result;
 	return true;

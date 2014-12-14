@@ -203,8 +203,8 @@ public:
 	int     choose_method(RequestType);
 	bool	notify_errors(RequestType);
 	std::string choose_proto(RequestType);
-	std::string choose_server(RequestType, std::string* data = NULL, std::string* get_data = NULL);
-	std::string choose_action(RequestType, std::string* data = NULL, std::string* get_data = NULL);
+	std::string choose_server(RequestType);
+	std::string choose_action(RequestType, std::string *get_data = NULL);
 
 	NETLIBHTTPHEADER*   get_request_headers(int request_type, int* headers_count);
 

@@ -51,7 +51,7 @@ std::string utils::time::mili_timestamp()
 	std::string timestamp = utils::time::unix_timestamp();
 	GetSystemTime(&st);
 	timestamp.append(utils::conversion::to_string((void*)&st.wMilliseconds, UTILS_CONV_UNSIGNED_NUMBER));
-	return timestamp.substr(0,13);
+	return timestamp.substr(0, 13);
 }
 
 DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
@@ -60,7 +60,7 @@ DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
 	if (mili_timestamp > 100000000000) {
 		mili_timestamp /= 1000;
 	}
-	return (DWORD) mili_timestamp;
+	return (DWORD)mili_timestamp;
 }
 
 DWORD utils::conversion::to_timestamp(const std::string &data)
@@ -78,15 +78,15 @@ std::string utils::conversion::to_string(void* data, WORD type)
 
 	switch (type)
 	{
-  	case UTILS_CONV_BOOLEAN:
+	case UTILS_CONV_BOOLEAN:
 		out << (data ? "true" : "false");
 
-    case UTILS_CONV_TIME_T:
+	case UTILS_CONV_TIME_T:
 		out << (*(time_t*)data);
 		break;
 
 	case UTILS_CONV_SIGNED_NUMBER:
-  		out << (*(signed int*)data);
+		out << (*(signed int*)data);
 		break;
 
 	case UTILS_CONV_UNSIGNED_NUMBER:
@@ -141,7 +141,7 @@ void utils::text::append_ordinal(unsigned long value, std::string* data)
 	{ // U+0080 .. U+07FF
 		*data += (char)(192 + (value / 64));
 		*data += (char)(128 + (value % 64));
-	} 
+	}
 	else if (value >= 2048 && value <= 65535)
 	{ // U+0800 .. U+FFFF
 		*data += (char)(224 + (value / 4096));
@@ -153,7 +153,7 @@ void utils::text::append_ordinal(unsigned long value, std::string* data)
 		*data += (char)((value >> 24) & 0xFF);
 		*data += (char)((value >> 16) & 0xFF);
 		*data += (char)((value >> 8) & 0xFF);
-		*data += (char)((value) & 0xFF);
+		*data += (char)((value)& 0xFF);
 	}
 }
 
@@ -165,7 +165,7 @@ std::string utils::text::html_entities_decode(std::string data)
 	utils::text::replace_all(&data, "&gt;", ">");
 
 	utils::text::replace_all(&data, "&hearts;", "\xE2\x99\xA5"); // direct byte replacement
-//	utils::text::replace_all(&data, "&hearts;", "\\u2665");      // indirect slashu replacement
+	//	utils::text::replace_all(&data, "&hearts;", "\\u2665");      // indirect slashu replacement
 
 	utils::text::replace_all(&data, "\\/", "/");
 	utils::text::replace_all(&data, "\\\\", "\\");
@@ -182,15 +182,16 @@ std::string utils::text::html_entities_decode(std::string data)
 	std::string new_string;
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
-		if (data.at(i) == '&' && (i+1) < data.length() && data.at(i+1) == '#')
+		if (data.at(i) == '&' && (i + 1) < data.length() && data.at(i + 1) == '#')
 		{
 			std::string::size_type comma = data.find(";", i);
 			if (comma != std::string::npos) {
 				bool hexa = false;
-				if ((i+2) < data.length() && data.at(i+2) == 'x') {
+				if ((i + 2) < data.length() && data.at(i + 2) == 'x') {
 					hexa = true;
 					i += 3;
-				} else {
+				}
+				else {
 					i += 2;
 				}
 
@@ -199,7 +200,7 @@ std::string utils::text::html_entities_decode(std::string data)
 					unsigned long udn = strtoul(num.c_str(), NULL, hexa ? 16 : 10);
 					utils::text::append_ordinal(udn, &new_string);
 				}
-				
+
 				i = comma;
 				continue;
 			}
@@ -216,7 +217,7 @@ std::string utils::text::edit_html(std::string data)
 	std::string::size_type end = 0;
 	std::string::size_type start = 0;
 	std::string new_string;
-  
+
 	while (end != std::string::npos)
 	{
 		end = data.find("<span class=\\\"text_exposed_hide", start);
@@ -224,7 +225,8 @@ std::string utils::text::edit_html(std::string data)
 		{
 			new_string += data.substr(start, end - start);
 			start = data.find("<\\/span", end);
-		} else {
+		}
+		else {
 			new_string += data.substr(start, data.length() - start);
 		}
 	}
@@ -240,7 +242,8 @@ std::string utils::text::edit_html(std::string data)
 		{
 			new_string += data.substr(start, end - start);
 			start = data.find("<\\/span", end);
-		} else {
+		}
+		else {
 			new_string += data.substr(start, data.length() - start);
 		}
 	}
@@ -256,7 +259,8 @@ std::string utils::text::edit_html(std::string data)
 		{
 			new_string += data.substr(start, end - start);
 			start = data.find("<\\/a", end);
-		} else {
+		}
+		else {
 			new_string += data.substr(start, data.length() - start);
 		}
 	}
@@ -270,7 +274,7 @@ std::string utils::text::edit_html(std::string data)
 
 		start = new_string.find(">", start);
 		if (start != std::string::npos)
-			new_string.insert(start+1, "\n\n");
+			new_string.insert(start + 1, "\n\n");
 
 		start = new_string.find("<\\/div>", start);
 		if (start != std::string::npos)
@@ -283,13 +287,13 @@ std::string utils::text::edit_html(std::string data)
 	{
 		start = new_string.find(">", start);
 		if (start != std::string::npos)
-			new_string.insert(start+1, "\n");
+			new_string.insert(start + 1, "\n");
 
 		start = new_string.find("<\\/div>", start);
 		if (start != std::string::npos)
 			new_string.insert(start, "\n");
 	}
-  
+
 	utils::text::replace_all(&new_string, "<br \\/>", "\n");
 	utils::text::replace_all(&new_string, "\n\n\n", "\n\n");
 	//utils::text::replace_all(&new_string, "\\t", "");
@@ -304,7 +308,7 @@ std::string utils::text::remove_html(const std::string &data)
 
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
-		if (data.at(i) == '<' && (i+1) < data.length() && data.at(i+1) != ' ')
+		if (data.at(i) == '<' && (i + 1) < data.length() && data.at(i + 1) != ' ')
 		{
 			i = data.find(">", i);
 			if (i == std::string::npos)
@@ -325,7 +329,7 @@ std::string utils::text::slashu_to_utf8(const std::string &data)
 
 	for (std::string::size_type i = 0; i < data.length(); i++)
 	{
-		if (data.at(i) == '\\' && (i+1) < data.length() && data.at(i+1) == 'u')
+		if (data.at(i) == '\\' && (i + 1) < data.length() && data.at(i + 1) == 'u')
 		{
 			unsigned long udn = strtoul(data.substr(i + 2, 4).c_str(), NULL, 16);
 			append_ordinal(udn, &new_string);
@@ -354,9 +358,9 @@ void utils::text::explode(std::string str, const std::string &separator, std::ve
 	pos = str.find_first_of(separator);
 	while (pos != std::string::npos) {
 		if (pos > 0) {
-			results->push_back(str.substr(0,pos));
+			results->push_back(str.substr(0, pos));
 		}
-		str = str.substr(pos+1);
+		str = str.substr(pos + 1);
 		pos = str.find_first_of(separator);
 	}
 	if (str.length() > 0) {
@@ -369,9 +373,9 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 	va_list arg;
 	std::string ret;
 	std::string::size_type start = 0, end = 0;
-	
+
 	va_start(arg, argument_count);
-	
+
 	for (unsigned int i = argument_count; i > 0; i--)
 	{
 		if (i == 1)
@@ -380,7 +384,8 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 			if (start == std::string::npos || end == std::string::npos)
 				break;
 			ret = data->substr(start, end - start);
-		} else {
+		}
+		else {
 			std::string term = va_arg(arg, char*);
 			start = data->find(term, start);
 			if (start == std::string::npos)
@@ -388,8 +393,8 @@ std::string utils::text::source_get_value(std::string* data, unsigned int argume
 			start += term.length();
 		}
 	}
-	
-	va_end(arg);	
+
+	va_end(arg);
 	return ret;
 }
 
@@ -405,7 +410,8 @@ std::string utils::text::source_get_value2(std::string* data, const char *term, 
 		end = data->find_first_of(endings, start);
 		if (end != std::string::npos) {
 			ret = data->substr(start, end - start);
-		} else if (wholeString) {
+		}
+		else if (wholeString) {
 			ret = data->substr(start);
 		}
 	}
@@ -419,7 +425,7 @@ std::string utils::text::source_get_form_data(std::string* data)
 
 	std::string::size_type start = 0;
 	start = data->find("<input", start);
-	while (start != std::string::npos) {		
+	while (start != std::string::npos) {
 		start++;
 		std::string attr, value;
 
@@ -430,7 +436,7 @@ std::string utils::text::source_get_form_data(std::string* data)
 			if (end != std::string::npos)
 				attr = data->substr(pos, end - pos);
 
-			
+
 			end = data->find(">", pos);
 			pos = data->find("value=\"", pos);
 			if (pos != std::string::npos && end != std::string::npos && pos < end) {
@@ -465,6 +471,6 @@ std::string utils::text::rand_string(int len, const char *chars)
 }
 
 int utils::number::random(int min, int max)
-{	
+{
 	return (rand() % (max - min)) + min;
 }

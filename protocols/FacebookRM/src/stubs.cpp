@@ -22,82 +22,82 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-MCONTACT FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+MCONTACT FacebookProto::AddToListByEvent(int, int, HANDLE)
 {
 	return NULL;
 }
 
-int FacebookProto::AuthRecv(MCONTACT hContact,PROTORECVEVENT *)
+int FacebookProto::AuthRecv(MCONTACT, PROTORECVEVENT *)
 {
 	return 1;
 }
 
-HANDLE FacebookProto::FileAllow(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *path)
+HANDLE FacebookProto::FileAllow(MCONTACT, HANDLE, const PROTOCHAR *)
 {
 	return NULL;
 }
 
-int FacebookProto::FileCancel(MCONTACT hContact,HANDLE hTransfer)
+int FacebookProto::FileCancel(MCONTACT, HANDLE)
 {
 	return 1;
 }
 
-int FacebookProto::FileDeny(MCONTACT hContact,HANDLE hTransfer,const PROTOCHAR *reason)
+int FacebookProto::FileDeny(MCONTACT, HANDLE, const PROTOCHAR *)
 {
 	return 1;
 }
 
-int FacebookProto::FileResume(HANDLE hTransfer,int *action,const PROTOCHAR **filename)
+int FacebookProto::FileResume(HANDLE, int *, const PROTOCHAR **)
 {
 	return 1;
 }
 
-HWND FacebookProto::SearchAdvanced(HWND owner)
+HWND FacebookProto::SearchAdvanced(HWND)
 {
 	return NULL;
 }
 
-HWND FacebookProto::CreateExtendedSearchUI(HWND owner)
+HWND FacebookProto::CreateExtendedSearchUI(HWND)
 {
 	return NULL;
 }
 
-int FacebookProto::RecvContacts(MCONTACT hContact,PROTORECVEVENT *)
+int FacebookProto::RecvContacts(MCONTACT, PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int FacebookProto::RecvFile(MCONTACT hContact,PROTORECVFILET *)
+int FacebookProto::RecvFile(MCONTACT, PROTORECVFILET *)
 {
 	return 1;
 }
 
-int FacebookProto::RecvUrl(MCONTACT hContact,PROTORECVEVENT *)
+int FacebookProto::RecvUrl(MCONTACT, PROTORECVEVENT *)
 {
 	return 1;
 }
 
-int FacebookProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+int FacebookProto::SendContacts(MCONTACT, int, int, MCONTACT *)
 {
 	return 1;
 }
 
-HANDLE FacebookProto::SendFile(MCONTACT hContact,const PROTOCHAR *desc, PROTOCHAR **files)
+HANDLE FacebookProto::SendFile(MCONTACT, const PROTOCHAR *, PROTOCHAR **)
 {
 	return NULL;
 }
 
-int FacebookProto::SendUrl(MCONTACT hContact,int flags,const char *url)
+int FacebookProto::SendUrl(MCONTACT, int, const char *)
 {
 	return 1;
 }
 
-int FacebookProto::SetApparentMode(MCONTACT hContact,int mode)
+int FacebookProto::SetApparentMode(MCONTACT, int)
 {
 	return 1;
 }
 
-int FacebookProto::RecvAwayMsg(MCONTACT hContact,int mode,PROTORECVEVENT *evt)
+int FacebookProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT *)
 {
 	return 1;
 }
