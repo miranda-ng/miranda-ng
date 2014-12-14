@@ -57,7 +57,7 @@ static bool ValidLookupName(LPCSTR szModule, LPCSTR szSetting)
 }
 
 int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR szSetting, DBVARIANT *dbv, int isStatic)
-{																											  
+{
 	if (szSetting == NULL || szModule == NULL)
 		return 1;
 
@@ -65,15 +65,15 @@ int CDb3Mmap::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCST
 	int settingNameLen = (int)strlen(szSetting);
 	int moduleNameLen = (int)strlen(szModule);
 	if (settingNameLen > 0xFE) {
-		#ifdef _DEBUG
-			OutputDebugStringA("GetContactSettingWorker() got a > 255 setting name length. \n");
-		#endif
+#ifdef _DEBUG
+		OutputDebugStringA("GetContactSettingWorker() got a > 255 setting name length. \n");
+#endif
 		return 1;
 	}
 	if (moduleNameLen > 0xFE) {
-		#ifdef _DEBUG
-			OutputDebugStringA("GetContactSettingWorker() got a > 255 module name length. \n");
-		#endif
+#ifdef _DEBUG
+		OutputDebugStringA("GetContactSettingWorker() got a > 255 module name length. \n");
+#endif
 		return 1;
 	}
 
@@ -122,19 +122,19 @@ LBL_Seek:
 
 	DWORD ofsModuleName = GetModuleNameOfs(szModule);
 
-	DBContact dbc = *(DBContact*)DBRead(ofsContact,sizeof(DBContact),NULL);
+	DBContact dbc = *(DBContact*)DBRead(ofsContact, NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
-	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsContact, ofsModuleName);
+	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
 	if (ofsSettingsGroup) {
 		int bytesRemaining;
 		unsigned varLen;
 		DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
-		PBYTE pBlob = DBRead(ofsBlobPtr, sizeof(DBContactSettings), &bytesRemaining);
+		PBYTE pBlob = DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
-			NeedBytes(1+settingNameLen);
-			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,szSetting,settingNameLen)) {
+			NeedBytes(1 + settingNameLen);
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, szSetting, settingNameLen)) {
 				MoveAlong(1 + settingNameLen);
 				NeedBytes(5);
 				if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
@@ -149,7 +149,7 @@ LBL_Seek:
 				case DBVT_BYTE:  dbv->bVal = pBlob[1]; break;
 				case DBVT_WORD:  memmove(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
 				case DBVT_DWORD: memmove(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
-				
+
 				case DBVT_UTF8:
 				case DBVT_ASCIIZ:
 					varLen = *(PWORD)(pBlob + 1);
@@ -168,7 +168,7 @@ LBL_Seek:
 						dbv->pszVal[varLen] = 0;
 					}
 					break;
-				
+
 				case DBVT_BLOB:
 					varLen = *(PWORD)(pBlob + 1);
 					NeedBytes(int(3 + varLen));
@@ -253,7 +253,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetContactSetting(MCONTACT contactID, LPCSTR szMod
 	if (GetContactSettingWorker(contactID, szModule, szSetting, dbv, 0))
 		return 1;
 
-	if (dbv->type == DBVT_UTF8 ) {
+	if (dbv->type == DBVT_UTF8) {
 		WCHAR *tmp = NULL;
 		char *p = NEWSTR_ALLOCA(dbv->pszVal);
 		if (mir_utf8decode(p, &tmp) != NULL) {
@@ -426,10 +426,10 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSetting(MCONTACT contactID, DBCONTACTW
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
 		break;
-	
+
 	case DBVT_ASCIIZ: case DBVT_UTF8:
 		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting);
-LBL_WriteString:
+	LBL_WriteString:
 		if (dbcwWork.value.pszVal == NULL)
 			return 1;
 		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
@@ -443,7 +443,7 @@ LBL_WriteString:
 			}
 		}
 		break;
-	
+
 	case DBVT_UNENCRYPTED:
 		dbcwNotif.value.type = dbcwWork.value.type = DBVT_UTF8;
 		goto LBL_WriteString;
@@ -474,11 +474,11 @@ LBL_WriteString:
 			bool bIsIdentical = false;
 			if (pCachedValue->type == dbcwWork.value.type) {
 				switch (dbcwWork.value.type) {
-					case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
-					case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
-					case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
-					case DBVT_UTF8:
-					case DBVT_ASCIIZ: bIsIdentical = strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
+				case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == dbcwWork.value.bVal;  break;
+				case DBVT_WORD:   bIsIdentical = pCachedValue->wVal == dbcwWork.value.wVal;  break;
+				case DBVT_DWORD:  bIsIdentical = pCachedValue->dVal == dbcwWork.value.dVal;  break;
+				case DBVT_UTF8:
+				case DBVT_ASCIIZ: bIsIdentical = strcmp(pCachedValue->pszVal, dbcwWork.value.pszVal) == 0; break;
 				}
 				if (bIsIdentical)
 					return 0;
@@ -497,7 +497,7 @@ LBL_WriteString:
 	log1(" write database as %s", printVariant(&dbcwWork.value));
 
 	DWORD ofsModuleName = GetModuleNameOfs(dbcwWork.szModule);
-	DBContact dbc = *(DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
+	DBContact dbc = *(DBContact*)DBRead(ofsContact, NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
@@ -505,7 +505,7 @@ LBL_WriteString:
 	PBYTE pBlob;
 	int bytesRequired, bytesRemaining;
 	DBContactSettings dbcs;
-	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsContact, ofsModuleName);
+	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
 		switch (dbcwWork.value.type) {
 		case DBVT_ASCIIZ: case DBVT_UTF8:
@@ -529,14 +529,14 @@ LBL_WriteString:
 		DBWrite(ofsContact, &dbc, sizeof(DBContact));
 		DBWrite(ofsSettingsGroup, &dbcs, sizeof(DBContactSettings));
 		ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
-		pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 	}
 	else {
-		dbcs = *(DBContactSettings*)DBRead(ofsSettingsGroup, sizeof(DBContactSettings), &bytesRemaining);
-		
+		dbcs = *(DBContactSettings*)DBRead(ofsSettingsGroup, &bytesRemaining);
+
 		// find if the setting exists
 		ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
-		pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(settingNameLen + 1);
 			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, dbcwWork.szSetting, settingNameLen))
@@ -553,9 +553,9 @@ LBL_WriteString:
 			MoveAlong(1 + settingNameLen);
 			// if different type or variable length and length is different
 			NeedBytes(3);
-			if (pBlob[0] != dbcwWork.value.type || 
-				 ((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob + 1) != dbcwWork.value.cchVal) ||
-				 ((pBlob[0] == DBVT_BLOB || pBlob[0] == DBVT_ENCRYPTED) && *(PWORD)(pBlob + 1) != dbcwWork.value.cpbVal))
+			if (pBlob[0] != dbcwWork.value.type ||
+				((pBlob[0] == DBVT_ASCIIZ || pBlob[0] == DBVT_UTF8) && *(PWORD)(pBlob + 1) != dbcwWork.value.cchVal) ||
+				((pBlob[0] == DBVT_BLOB || pBlob[0] == DBVT_ENCRYPTED) && *(PWORD)(pBlob + 1) != dbcwWork.value.cpbVal))
 			{
 				// bin it
 				NeedBytes(3);
@@ -572,7 +572,7 @@ LBL_WriteString:
 				}
 				DBMoveChunk(ofsSettingToCut, ofsSettingToCut + nameLen + valLen, ofsBlobPtr + 1 - ofsSettingToCut);
 				ofsBlobPtr -= nameLen + valLen;
-				pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+				pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 			}
 			else {
 				// replace existing setting at pBlob
@@ -601,7 +601,7 @@ LBL_WriteString:
 			}
 		}
 	}
-	
+
 	// cannot do a simple replace, add setting to end of list
 	// pBlob already points to end of list
 	// see if it fits
@@ -630,11 +630,11 @@ LBL_WriteString:
 		ofsDbcsPrev = dbc.ofsFirstSettings;
 		if (ofsDbcsPrev == ofsSettingsGroup) ofsDbcsPrev = 0;
 		else {
-			dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev, sizeof(DBContactSettings), NULL);
+			dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev, NULL);
 			while (dbcsPrev->ofsNext != ofsSettingsGroup) {
 				if (dbcsPrev->ofsNext == 0) DatabaseCorruption(NULL);
 				ofsDbcsPrev = dbcsPrev->ofsNext;
-				dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev, sizeof(DBContactSettings), NULL);
+				dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev, NULL);
 			}
 		}
 
@@ -649,15 +649,15 @@ LBL_WriteString:
 			DBWrite(ofsContact, &dbc, sizeof(DBContact));
 		}
 		else {
-			dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev, sizeof(DBContactSettings), NULL);
+			dbcsPrev = (DBContactSettings*)DBRead(ofsDbcsPrev, NULL);
 			dbcsPrev->ofsNext = ofsNew;
 			DBWrite(ofsDbcsPrev, dbcsPrev, offsetof(DBContactSettings, blob));
 		}
 		ofsBlobPtr += ofsNew - ofsSettingsGroup;
 		ofsSettingsGroup = ofsNew;
-		pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 	}
-	
+
 	// we now have a place to put it and enough space: make it
 	DBWrite(ofsBlobPtr, &settingNameLen, 1);
 	DBWrite(ofsBlobPtr + 1, (PVOID)dbcwWork.szSetting, settingNameLen);
@@ -727,19 +727,19 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 		mir_cslock lck(m_csDbAccess);
 		DWORD ofsModuleName = GetModuleNameOfs(szModule);
 		DWORD ofsContact = GetContactOffset(contactID);
-		DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
+		DBContact *dbc = (DBContact*)DBRead(ofsContact, NULL);
 		if (dbc->signature != DBCONTACT_SIGNATURE)
 			return 1;
 
 		// make sure the module group exists
-		DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsContact, ofsModuleName);
+		DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
 		if (ofsSettingsGroup == 0)
 			return 1;
 
 		// find if the setting exists
 		DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
 		int bytesRemaining;
-		PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+		PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(settingNameLen + 1);
 			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, szSetting, settingNameLen))
@@ -793,18 +793,18 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBCONTACTE
 	if (ofsContact == 0)
 		return -1;
 
-	DBContact *dbc = (DBContact*)DBRead(ofsContact, sizeof(DBContact), NULL);
+	DBContact *dbc = (DBContact*)DBRead(ofsContact, NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return -1;
 
 	DWORD ofsModuleName = GetModuleNameOfs(dbces->szModule);
-	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsContact, ofsModuleName);
+	dbces->ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
 	if (!dbces->ofsSettings)
 		return -1;
 
 	DWORD ofsBlobPtr = dbces->ofsSettings + offsetof(DBContactSettings, blob);
 	int bytesRemaining;
-	PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, 1, &bytesRemaining);
+	PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
 	if (pBlob[0] == 0)
 		return -1;
 

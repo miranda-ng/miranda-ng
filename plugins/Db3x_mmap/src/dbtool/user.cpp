@@ -54,7 +54,7 @@ int CDb3Mmap::WorkUser(int firstTime)
 	int ret;
 	switch (phase) {
 	case 0:
-		ret = WorkSettingsChain(ofsUser, &user, first);
+		ret = WorkSettingsChain(&user, first);
 		if (ret == ERROR_NO_MORE_ITEMS) {
 			phase++; first = 1;
 		}

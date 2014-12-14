@@ -34,13 +34,13 @@ struct DlgChangePassParam
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Logo"),     "logo",     IDI_LOGO     },
+	{ LPGEN("Logo"), "logo", IDI_LOGO },
 	{ LPGEN("Password"), "password", IDI_ICONPASS }
 };
 
 static HGENMENU hSetPwdMenu;
 
-static int oldLangID;
+static UINT oldLangID;
 void LanguageChanged(HWND hwndDlg)
 {
 	UINT LangID = (UINT)GetKeyboardLayout(0);
@@ -186,7 +186,7 @@ static INT_PTR CALLBACK sttChangePassword(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 		case IDREMOVE:
 			if (!CheckOldPassword(hwndDlg, param->db)) {
-LBL_Error:
+			LBL_Error:
 				SendDlgItemMessage(hwndDlg, IDC_HEADERBAR, WM_NCPAINT, 0, 0);
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS1, "");
 				SetDlgItemTextA(hwndDlg, IDC_USERPASS2, "");
@@ -270,7 +270,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			if (IsDlgButtonChecked(hwndDlg, IDC_TOTAL) != (BOOL)db->isEncrypted()) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_TOTAL) != (UINT)db->isEncrypted()) {
 				db->ToggleEncryption();
 				CheckRadioButton(hwndDlg, IDC_STANDARD, IDC_TOTAL, IDC_STANDARD + db->isEncrypted());
 			}

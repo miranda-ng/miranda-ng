@@ -23,39 +23,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-void CDb3Mmap::AddToList(char *name, DWORD len, DWORD ofs)
+void CDb3Mmap::AddToList(char *name, DWORD ofs)
 {
-	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap,0,sizeof(ModuleName));
+	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap, 0, sizeof(ModuleName));
 	mn->name = name;
 	mn->ofs = ofs;
 
 	if (m_lMods.getIndex(mn) != -1)
-		DatabaseCorruption( _T("%s (Module Name not unique)"));
+		DatabaseCorruption(_T("%s (Module Name not unique)"));
 	m_lMods.insert(mn);
 
 	if (m_lOfs.getIndex(mn) != -1)
-		DatabaseCorruption( _T("%s (Module Offset not unique)"));
+		DatabaseCorruption(_T("%s (Module Offset not unique)"));
 	m_lOfs.insert(mn);
 }
 
 int CDb3Mmap::InitModuleNames(void)
 {
 	DWORD ofsThis = m_dbHeader.ofsModuleNames;
-	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis, NULL);
 	while (ofsThis) {
 		if (dbmn->signature != DBMODULENAME_SIGNATURE)
 			DatabaseCorruption(NULL);
 
 		int nameLen = dbmn->cbName;
 
-		char *mod = (char*)HeapAlloc(m_hModHeap,0,nameLen+1);
-		memcpy(mod,DBRead(ofsThis + offsetof(struct DBModuleName,name),nameLen,NULL),nameLen);
+		char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);
+		memcpy(mod, DBRead(ofsThis + offsetof(struct DBModuleName, name), NULL), nameLen);
 		mod[nameLen] = 0;
 
-		AddToList(mod, nameLen, ofsThis);
+		AddToList(mod, ofsThis);
 
 		ofsThis = dbmn->ofsNext;
-		dbmn = (struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
+		dbmn = (struct DBModuleName*)DBRead(ofsThis, NULL);
 	}
 	return 0;
 }
@@ -103,8 +103,8 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 
 	// add to cache
 	char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);
-	strcpy(mod,szName);
-	AddToList(mod, nameLen, ofsNew);
+	strcpy(mod, szName);
+	AddToList(mod, ofsNew);
 
 	// quit
 	return ofsNew;
@@ -115,7 +115,7 @@ char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
 	if (m_lastmn && m_lastmn->ofs == ofs)
 		return m_lastmn->name;
 
-	ModuleName mn = {NULL, ofs};
+	ModuleName mn = { NULL, ofs };
 	int index = m_lOfs.getIndex(&mn);
 	if (index != -1) {
 		ModuleName *pmn = m_lOfs[index];
