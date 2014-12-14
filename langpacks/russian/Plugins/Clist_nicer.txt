@@ -69,7 +69,7 @@
 мс
 [Event area]
 Область событий
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 Установить базовую видимость меню фреймов
 [Auto mode]
 Показывать при необходимости
@@ -103,7 +103,7 @@
 Быстрый поиск только в открытых группах
 [No expand/collapse icon]
 Не показывать значок сворачивания/разворачивания
-[Center groupnames horizontally]
+[Center group names horizontally]
 Выравнивать названия групп по центру
 [Alignment]
 Выравнивание
