@@ -27,9 +27,6 @@
     <ClCompile Include="src\folders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\hooked_events.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

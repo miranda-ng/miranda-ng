@@ -185,7 +185,6 @@
     <ClCompile Include="src\events.cpp" />
     <ClCompile Include="src\folderItem.cpp" />
     <ClCompile Include="src\folders.cpp" />
-    <ClCompile Include="src\hooked_events.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
