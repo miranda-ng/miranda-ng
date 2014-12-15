@@ -37,10 +37,10 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {2F129563-2C7D-4A9A-B948-97DFCC0AFDD7}
-	{0x2f129563, 0x2c7d, 0x4a9a, {0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7}}
+	{ 0x2f129563, 0x2c7d, 0x4a9a, { 0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7 } }
 };
 
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) int Unload()
 	return 0;
 }
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInstance = hinstDLL;
 	return TRUE;

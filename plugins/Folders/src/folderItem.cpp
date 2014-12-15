@@ -47,7 +47,7 @@ void CFolderItem::SetFormat(const TCHAR *newFormat)
 {
 	mir_free(m_tszOldFormat);
 	m_tszOldFormat = m_tszFormat;
-	m_tszFormat = mir_tstrdup( *newFormat ? newFormat : MIRANDA_PATHT);
+	m_tszFormat = mir_tstrdup(*newFormat ? newFormat : MIRANDA_PATHT);
 }
 
 int CFolderItem::IsEqual(const CFolderItem *other)
@@ -62,7 +62,7 @@ int CFolderItem::IsEqual(const char *section, const TCHAR *name)
 
 int CFolderItem::IsEqualTranslated(const char *trSection, const TCHAR *trName)
 {
-	return !_tcscmp( TranslateTS(m_tszUserName), trName) && !strcmp(Translate(m_szSection), trSection);
+	return !_tcscmp(TranslateTS(m_tszUserName), trName) && !strcmp(Translate(m_szSection), trSection);
 }
 
 int CFolderItem::operator ==(const CFolderItem *other)
@@ -98,10 +98,10 @@ int CFolderItem::FolderCreateDirectory(int showFolder)
 
 int CFolderItem::FolderDeleteOldDirectory(int showFolder)
 {
-	if ( !m_tszOldFormat)
+	if (!m_tszOldFormat)
 		return FOLDER_SUCCESS;
 
-	if ( !_tcscmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
+	if (!_tcscmp(m_tszFormat, m_tszOldFormat)) //format wasn't changed
 		return FOLDER_SUCCESS;
 
 	TCHAR buffer[MAX_FOLDER_SIZE];

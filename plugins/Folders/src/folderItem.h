@@ -37,31 +37,31 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class CFolderItem
 {
-				char  *m_szSection, *m_szName;
-				TCHAR *m_tszFormat, *m_tszOldFormat, *m_tszUserName;
+	char  *m_szSection, *m_szName;
+	TCHAR *m_tszFormat, *m_tszOldFormat, *m_tszUserName;
 
-				void GetDataFromDatabase(const TCHAR *szNotFound);
-				void WriteDataToDatabase();
-		
-				int FolderCreateDirectory(int showFolder = 0);
-				int FolderDeleteOldDirectory(int showFolder = 0);
+	void GetDataFromDatabase(const TCHAR *szNotFound);
+	void WriteDataToDatabase();
+
+	int FolderCreateDirectory(int showFolder = 0);
+	int FolderDeleteOldDirectory(int showFolder = 0);
 public:
-				CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const TCHAR *userName);
-				virtual ~CFolderItem();
-				
-				void Expand(TCHAR *buffer, int size);
-				void Save();
-		
-				int IsEqual(const CFolderItem *other);
-				int IsEqual(const char *section, const TCHAR *name);
-				int IsEqualTranslated(const char *trSection, const TCHAR *trName);
-				int operator ==(const CFolderItem *other);
+	CFolderItem(const char *sectionName, const char *name, const TCHAR *format, const TCHAR *userName);
+	virtual ~CFolderItem();
+
+	void Expand(TCHAR *buffer, int size);
+	void Save();
+
+	int IsEqual(const CFolderItem *other);
+	int IsEqual(const char *section, const TCHAR *name);
+	int IsEqualTranslated(const char *trSection, const TCHAR *trName);
+	int operator ==(const CFolderItem *other);
 
 	__inline const char*  GetSection() const { return m_szSection; }
 	__inline const char*  GetName() const { return m_szName; }
 	__inline const TCHAR* GetUserName() const { return m_tszUserName; }
 	__inline const TCHAR* GetFormat() const { return m_tszFormat; }
-				void SetFormat(const TCHAR *newFormat);
+	void SetFormat(const TCHAR *newFormat);
 };
 
 typedef CFolderItem *PFolderItem;
