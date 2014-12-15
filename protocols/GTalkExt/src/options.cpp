@@ -226,7 +226,7 @@ INT_PTR CALLBACK PopupsOptionsDlgProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int OptionsInitialization(WPARAM wParam, LPARAM lParam)
+int OptionsInitialization(WPARAM wParam, LPARAM)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -239,7 +239,7 @@ int OptionsInitialization(WPARAM wParam, LPARAM lParam)
 		Options_AddPage(wParam, &odp);
 	}
 
-	for (int i=0; i < g_accs.getCount(); i++) {
+	for (int i = 0; i < g_accs.getCount(); i++) {
 		LPCSTR szProto = g_accs[i]->m_pa->szModuleName;
 		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		if (pa != NULL) {

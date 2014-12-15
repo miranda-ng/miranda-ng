@@ -31,7 +31,7 @@
 
 LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-XML_API xi = {0};
+XML_API xi = { 0 };
 
 #include <tchar.h>
 
@@ -74,7 +74,7 @@ LPTSTR ExtractJid(LPCTSTR jidWithRes)
 
 BOOL TimerHandler(IJabberInterface *ji, HXML node, void *pUserData);
 
-BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
+BOOL InternalListHandler(HXML node, LPCTSTR jid, LPCTSTR mailboxUrl)
 {
 	ULONGLONG maxTid = 0;
 	LPCTSTR sMaxTid = NULL;
@@ -112,7 +112,7 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 	}
 	else
 		for (int i = 0; i < xi.getChildCount(node); i++) {
-			MAIL_THREAD_NOTIFICATION mtn = {0};
+			MAIL_THREAD_NOTIFICATION mtn = { 0 };
 			HXML thread = xi.getChild(node, i);
 
 			mtn.subj = xi.getText(xi.getChildByPath(thread, NODENAME_SUBJECT, FALSE));
@@ -132,9 +132,9 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 			LPCTSTR url = xi.getAttrValue(thread, ATTRNAME_URL);
 			LPCTSTR tid = xi.getAttrValue(thread, ATTRNAME_TID);
 
-			if ( ReadCheckbox(0, IDC_STANDARDVIEW, settings))
+			if (ReadCheckbox(0, IDC_STANDARDVIEW, settings))
 				FormatMessageUrl(MESSAGE_URL_FORMAT_STANDARD, (LPTSTR)url, mailboxUrl, tid);
-			else if ( ReadCheckbox(0, IDC_HTMLVIEW, settings))
+			else if (ReadCheckbox(0, IDC_HTMLVIEW, settings))
 				FormatMessageUrl(MESSAGE_URL_FORMAT_HTML, (LPTSTR)url, mailboxUrl, tid);
 			else
 				MakeUrlHex((LPTSTR)url, tid);
@@ -149,7 +149,7 @@ BOOL InternalListHandler(IJabberInterface *ji, HXML node, LPCTSTR jid, LPCTSTR m
 	return TRUE;
 }
 
-BOOL MailListHandler(IJabberInterface *ji, HXML node, void *pUserData)
+BOOL MailListHandler(IJabberInterface *ji, HXML node, void *)
 {
 	LPCTSTR jidWithRes = xi.getAttrValue(node, ATTRNAME_TO);
 	__try {
@@ -163,13 +163,13 @@ BOOL MailListHandler(IJabberInterface *ji, HXML node, void *pUserData)
 
 		LPCTSTR url = xi.getAttrValue(node, ATTRNAME_URL);
 
-		return InternalListHandler(ji, node, jid, url);
+		return InternalListHandler(node, jid, url);
 	}
 	__finally {
 		if (jidWithRes)
 			ji->AddTemporaryIqHandler(TimerHandler, JABBER_IQ_TYPE_RESULT, 0,
-				(PVOID)_tcsdup(jidWithRes), TIMER_INTERVAL);
-			// Never get a real result stanza. Results elapsed request after WAIT_TIMER_INTERVAL ms
+			(PVOID)_tcsdup(jidWithRes), TIMER_INTERVAL);
+		// Never get a real result stanza. Results elapsed request after WAIT_TIMER_INTERVAL ms
 	}
 }
 
@@ -181,12 +181,12 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_FROM, jidWithRes);
 
 	UINT uID = ji->SerialNext();
-	ptrT jid( ExtractJid(jidWithRes));
+	ptrT jid(ExtractJid(jidWithRes));
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
-	ptrT 
-		lastMailTime( ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
-		lastThreadId( ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
+	ptrT
+		lastMailTime(ReadJidSetting(LAST_MAIL_TIME_FROM_JID, jid)),
+		lastThreadId(ReadJidSetting(LAST_THREAD_ID_FROM_JID, jid));
 
 	TCHAR id[30];
 	mir_sntprintf(id, SIZEOF(id), JABBER_IQID_FORMAT, uID);
@@ -204,14 +204,14 @@ void RequestMail(LPCTSTR jidWithRes, IJabberInterface *ji)
 	if (node) xi.destroyNode(node);
 }
 
-BOOL TimerHandler(IJabberInterface *ji, HXML node, void *pUserData)
+BOOL TimerHandler(IJabberInterface *ji, HXML, void *pUserData)
 {
 	RequestMail((LPCTSTR)pUserData, ji);
 	free(pUserData);
 	return FALSE;
 }
 
-BOOL NewMailHandler(IJabberInterface *ji, HXML node, void *pUserData)
+BOOL NewMailHandler(IJabberInterface *ji, HXML node, void *)
 {
 	HXML response = xi.createNode(NODENAME_IQ, NULL, FALSE);
 	__try {
@@ -245,7 +245,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	xi.addAttr(node, ATTRNAME_TYPE, IQTYPE_SET);
 	xi.addAttr(node, ATTRNAME_FROM, jidWithResource);
 
-	ptrT jid( ExtractJid(jidWithResource));
+	ptrT jid(ExtractJid(jidWithResource));
 	xi.addAttr(node, ATTRNAME_TO, jid);
 
 	TCHAR id[30];
@@ -264,7 +264,7 @@ void SetNotificationSetting(LPCTSTR jidWithResource, IJabberInterface *ji)
 	if (node) xi.destroyNode(node);
 }
 
-BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *pUserData)
+BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *)
 {
 	if (!node) return FALSE;
 
@@ -285,7 +285,7 @@ BOOL DiscoverHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	return FALSE;
 }
 
-BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
+BOOL SendHandler(IJabberInterface *ji, HXML node, void *)
 {
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta == NULL)
@@ -295,10 +295,10 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 	if (queryNode) {
 		LPCTSTR ptszId = xi.getAttrValue(node, ATTRNAME_ID);
 		if (ptszId)
-	 		ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _ttoi(ptszId+4), NULL, RESPONSE_TIMEOUT, 500);
+			ji->AddTemporaryIqHandler(DiscoverHandler, JABBER_IQ_TYPE_RESULT, _ttoi(ptszId + 4), NULL, RESPONSE_TIMEOUT, 500);
 	}
 
-	if ( !mir_tstrcmp(xi.getName(node), _T("presence")) && xi.getAttrValue(node, ATTRNAME_TO) == 0) {
+	if (!mir_tstrcmp(xi.getName(node), _T("presence")) && xi.getAttrValue(node, ATTRNAME_TO) == 0) {
 		if (!gta->m_bGoogleSharedStatus)
 			return FALSE;
 
@@ -317,7 +317,7 @@ BOOL SendHandler(IJabberInterface *ji, HXML node, void *pUserData)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Google shared status
 
-BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *pUserData)
+BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *)
 {
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta != NULL) {
@@ -327,7 +327,7 @@ BOOL OnIqResultGoogleSharedStatus(IJabberInterface *ji, HXML node, void *pUserDa
 	return FALSE;
 }
 
-BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *pUserData)
+BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *)
 {
 	GoogleTalkAcc *gta = isGoogle(LPARAM(ji));
 	if (gta == NULL)
@@ -343,7 +343,7 @@ BOOL OnIqSetGoogleSharedStatus(IJabberInterface *ji, HXML iqNode, void *pUserDat
 	if (0 == _tcsicmp(_T("true"), xi.getAttrValue(node, _T("value"))))
 		status = ID_STATUS_INVISIBLE;
 	else {
-		LPCTSTR txt = xi.getText( xi.getChildByPath(query, _T("show"), 0));
+		LPCTSTR txt = xi.getText(xi.getChildByPath(query, _T("show"), 0));
 		if (txt && 0 == _tcsicmp(_T("dnd"), txt))
 			status = ID_STATUS_DND;
 		else if (gta->m_pa->ppro->m_iStatus == ID_STATUS_DND || gta->m_pa->ppro->m_iStatus == ID_STATUS_INVISIBLE)
@@ -367,18 +367,18 @@ void GoogleTalkAcc::SendIqGoogleSharedStatus(LPCTSTR status, LPCTSTR msg)
 	xi.addChild(query, ATTRNAME_XMLNS, JABBER_FEAT_GTALK_SHARED_STATUS);
 	xi.addAttrInt(query, _T("version"), 2);
 
-	HXML statNode = xi.addChild(query, _T("status"), msg);
-	if ( !mir_tstrcmp(status, _T("invisible"))) {
+	xi.addChild(query, _T("status"), msg);
+	if (!mir_tstrcmp(status, _T("invisible"))) {
 		xi.addChild(query, _T("show"), _T("default"));
-		xi.addAttr( xi.addChild(query, _T("invisible"), 0), _T("value"), _T("true"));
+		xi.addAttr(xi.addChild(query, _T("invisible"), 0), _T("value"), _T("true"));
 	}
 	else {
-		if ( !mir_tstrcmp(status, _T("dnd")))
+		if (!mir_tstrcmp(status, _T("dnd")))
 			xi.addChild(query, _T("show"), _T("dnd"));
 		else
 			xi.addChild(query, _T("show"), _T("default"));
 
-		xi.addAttr( xi.addChild(query, _T("invisible"), 0), _T("value"), _T("false"));
+		xi.addAttr(xi.addChild(query, _T("invisible"), 0), _T("value"), _T("false"));
 	}
 	m_bGoogleSharedStatusLock = TRUE;
 	m_japi->SendXmlNode(iq);
@@ -394,7 +394,7 @@ int OnServerDiscoInfo(WPARAM wParam, LPARAM lParam)
 	// m_ThreadInfo->jabberServerCaps |= JABBER_CAPS_PING;
 
 	JABBER_DISCO_FIELD *fld = (JABBER_DISCO_FIELD*)wParam;
-	if ( !mir_tstrcmp(fld->category, _T("server")) && !mir_tstrcmp(fld->type, _T("im")) && !mir_tstrcmp(fld->name, _T("Google Talk"))) {
+	if (!mir_tstrcmp(fld->category, _T("server")) && !mir_tstrcmp(fld->type, _T("im")) && !mir_tstrcmp(fld->name, _T("Google Talk"))) {
 		HXML iq = xi.createNode(NODENAME_IQ, NULL, FALSE);
 		xi.addAttr(iq, ATTRNAME_TYPE, IQTYPE_GET);
 
@@ -440,7 +440,7 @@ static void sttCreateInstance(LPCSTR szModuleName)
 	if (japi == NULL)
 		return;
 
-	ptrA host( db_get_sa(NULL, szModuleName, "ManualHost"));
+	ptrA host(db_get_sa(NULL, szModuleName, "ManualHost"));
 	if (host == NULL || strcmp(host, "talk.google.com"))
 		return;
 
@@ -463,12 +463,12 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
 	int count;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
-	for (int i=0; i < count; i++)
+	for (int i = 0; i < count; i++)
 		sttCreateInstance(protos[i]->szModuleName);
 
 	HookEvent(ME_JABBER_MENUINIT, InitMenus);
