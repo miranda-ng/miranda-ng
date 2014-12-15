@@ -29,7 +29,7 @@
 
 extern HICON g_hPopupIcon;
 
-INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam, LPARAM param)
+INT_PTR OpenMailboxMenuHandler(WPARAM, LPARAM, LPARAM param)
 {
 	OpenContactInbox((LPCSTR)param);
 	return 0;

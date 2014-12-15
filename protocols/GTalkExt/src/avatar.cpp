@@ -84,7 +84,7 @@ struct AVACHANGED {
 	MCONTACT hContact;
 };
 
-VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN TimerOrWaitFired)
+VOID CALLBACK CallSetAvatar(PVOID lpParameter, BOOLEAN)
 {
 	Thread_Push(0);
 	__try {
@@ -145,7 +145,7 @@ void SetAvatar(MCONTACT hContact)
 		return;
 
 	HANDLE hFile;
-	ptrT avaFile( CreateAvaFile(&hFile));
+	ptrT avaFile(CreateAvaFile(&hFile));
 	if (avaFile == NULL)
 		return;
 

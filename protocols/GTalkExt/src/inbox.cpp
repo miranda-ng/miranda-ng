@@ -36,7 +36,7 @@
 
 #define TOKEN_AUTH_URL "https://www.google.com/accounts/TokenAuth?auth=%s&service=mail&continue=%s&source=googletalk"
 
-const NETLIBHTTPHEADER HEADER_URL_ENCODED = {"Content-Type", "application/x-www-form-urlencoded"};
+const NETLIBHTTPHEADER HEADER_URL_ENCODED = { "Content-Type", "application/x-www-form-urlencoded" };
 #define HTTP_OK 200
 
 #define SID_KEY_NAME  "SID="
@@ -77,7 +77,7 @@ LPSTR HttpPost(HANDLE hUser, LPSTR reqUrl, LPSTR reqParams)
 
 LPSTR MakeRequest(HANDLE hUser, LPSTR reqUrl, LPSTR reqParamsFormat, LPSTR p1, LPSTR p2)
 {
-	ptrA encodedP1( mir_urlEncode(p1)), encodedP2( mir_urlEncode(p2));
+	ptrA encodedP1(mir_urlEncode(p1)), encodedP2(mir_urlEncode(p2));
 	size_t size = mir_strlen(reqParamsFormat) + 1 + mir_strlen(encodedP1) + mir_strlen(encodedP2);
 	LPSTR reqParams = (LPSTR)alloca(size);
 	mir_snprintf(reqParams, size, reqParamsFormat, encodedP1, encodedP2);
@@ -106,7 +106,7 @@ LPSTR FindSid(LPSTR resp, LPSTR *LSID)
 
 void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 {
-	ptrA encodedUrl( mir_urlEncode(url)), encodedToken( mir_urlEncode(tokenResp));
+	ptrA encodedUrl(mir_urlEncode(url)), encodedToken(mir_urlEncode(tokenResp));
 	size_t size = mir_strlen(TOKEN_AUTH_URL) + 1 + mir_strlen(encodedToken) + mir_strlen(encodedUrl);
 	LPSTR composedUrl = (LPSTR)alloca(size);
 	mir_snprintf(composedUrl, size, TOKEN_AUTH_URL, encodedToken, encodedUrl);
@@ -115,13 +115,13 @@ void DoOpenUrl(LPSTR tokenResp, LPSTR url)
 
 BOOL AuthAndOpen(HANDLE hUser, LPSTR url, LPSTR mailbox, LPSTR pwd)
 {
-	ptrA authResp( MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd));
+	ptrA authResp(MakeRequest(hUser, AUTH_REQUEST_URL, AUTH_REQUEST_PARAMS, mailbox, pwd));
 	if (!authResp)
 		return FALSE;
 
 	LPSTR LSID;
 	LPSTR SID = FindSid(authResp, &LSID);
-	ptrA tokenResp( MakeRequest(hUser, ISSUE_TOKEN_REQUEST_URL, ISSUE_TOKEN_REQUEST_PARAMS, SID, LSID));
+	ptrA tokenResp(MakeRequest(hUser, ISSUE_TOKEN_REQUEST_URL, ISSUE_TOKEN_REQUEST_PARAMS, SID, LSID));
 	if (!tokenResp)
 		return FALSE;
 
@@ -148,14 +148,14 @@ HANDLE FindNetUserHandle(LPCSTR acc)
 void OpenUrlThread(void *param)
 {
 	OPEN_URL_HEADER* data = (OPEN_URL_HEADER*)param;
-	
+
 	HANDLE hUser = FindNetUserHandle(data->acc);
 	if (!hUser || !AuthAndOpen(hUser, data->url, data->mailbox, data->pwd))
 		CallService(MS_UTILS_OPENURL, 0, (LPARAM)data->url);
 	free(data);
 }
 
-int GetMailboxPwd(LPCSTR acc, LPCTSTR mailbox, LPSTR *pwd, int buffSize)
+int GetMailboxPwd(LPCSTR acc, LPSTR *pwd, int buffSize)
 {
 	char buff[256];
 	if (db_get_static(NULL, acc, LOGIN_PASS_SETTING_NAME, buff, sizeof(buff)))
@@ -174,7 +174,7 @@ int GetMailboxPwd(LPCSTR acc, LPCTSTR mailbox, LPSTR *pwd, int buffSize)
 
 BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 {
-	int pwdLen = GetMailboxPwd(acc, mailbox, NULL, 0);
+	int pwdLen = GetMailboxPwd(acc, NULL, 0);
 	if (!pwdLen++) return FALSE;
 
 	size_t urlLen = mir_tstrlen(url) + 1;
@@ -188,7 +188,7 @@ BOOL OpenUrlWithAuth(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 	memcpy(data->mailbox, _T2A(mailbox), mailboxLen);
 
 	data->pwd = data->mailbox + mailboxLen;
-	if (!GetMailboxPwd(acc, mailbox, &data->pwd, pwdLen))
+	if (!GetMailboxPwd(acc, &data->pwd, pwdLen))
 		return FALSE;
 
 	data->acc = acc;
@@ -211,7 +211,7 @@ void OpenUrl(LPCSTR acc, LPCTSTR mailbox, LPCTSTR url)
 
 void OpenContactInbox(LPCSTR szModuleName)
 {
-	ptrT tszJid( db_get_tsa(0, szModuleName, "jid"));
+	ptrT tszJid(db_get_tsa(0, szModuleName, "jid"));
 	if (tszJid == NULL)
 		return;
 

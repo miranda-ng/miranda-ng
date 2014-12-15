@@ -27,7 +27,7 @@
 #define JABBER_FEAT_GTALK_SHARED_STATUS _T("google:shared-status")
 
 #define JABBER_EXT_GTALK_PMUC      _T("pmuc-v1")
-									        
+
 #define NOTIFY_FEATURE_XMLNS       _T("google:mail:notify")
 #define SETTING_FEATURE_XMLNS      _T("google:setting")
 #define DISCOVERY_XMLNS            _T("http://jabber.org/protocol/disco#info")
@@ -48,7 +48,7 @@
 #define ATTRNAME_NEWER_THAN_TID    _T("newer-than-tid")
 #define ATTRNAME_VALUE             _T("value")
 #define ATTRNAME_VAR               _T("var")
-										     
+
 #define IQTYPE_RESULT              _T("result")
 #define IQTYPE_SET                 _T("set")
 #define IQTYPE_GET                 _T("get")

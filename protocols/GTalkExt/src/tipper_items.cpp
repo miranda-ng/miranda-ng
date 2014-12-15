@@ -74,15 +74,15 @@ void SetLabelProp(int index, LPSTR setting)
 {
 	sprintf(setting, LABEL_SETTING_PROP, index); //!!!!!!!!!!!!!!
 
-	ptrT tszProp( db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
+	ptrT tszProp(db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
 	if (tszProp == NULL)
 		return;
 
-	ptrT tszLastWritten( db_get_tsa(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING));
+	ptrT tszLastWritten(db_get_tsa(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING));
 	if (tszLastWritten == NULL)
 		return;
 
-	if ( !mir_tstrcmp(tszProp, tszLastWritten)) {
+	if (!mir_tstrcmp(tszProp, tszLastWritten)) {
 		LPTSTR label = TranslateTS(UNREAD_THREADS_LABEL);
 		db_set_ts(0, SHORT_PLUGIN_NAME, LAST_WRITTEN_LABEL_SETTING, label);
 		db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, label);
@@ -103,9 +103,9 @@ void AddTipperItem()
 
 	for (i = 0; i < itemCount; i++) {
 		mir_snprintf(setting, l, VALUE_SETTING_PROP, i);
-		ptrT tszSetting( db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
+		ptrT tszSetting(db_get_tsa(0, TIPPER_ITEMS_MOD_NAME, setting));
 		if (tszSetting) {
-			if ( !mir_tstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
+			if (!mir_tstrcmp(UNREAD_THREADS_RAW, tszSetting)) {
 				SetLabelProp(i, setting);
 				return;
 			}
@@ -115,10 +115,10 @@ void AddTipperItem()
 	for (i = 0; i < SIZEOF(TipperItemProps); i++)
 		ShiftTipperSettings(setting, itemCount, TipperItemProps[i]);
 
-	#define WRITE_TIPPER_PROPS(index, value)\
+#define WRITE_TIPPER_PROPS(index, value)\
 		mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
 		db_set_ts(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
-	#define WRITE_TIPPER_PROPB(index, value)\
+#define WRITE_TIPPER_PROPB(index, value)\
 		mir_snprintf(setting, l, TipperItemProps[##index##], 0);\
 		db_set_b(0, TIPPER_ITEMS_MOD_NAME, setting, ##value##)
 
@@ -133,5 +133,5 @@ void AddTipperItem()
 	WRITE_TIPPER_PROPS(4, UNREAD_THREADS_RAW);
 	WRITE_TIPPER_PROPB(5, 1);
 
-	db_set_w(0, TIPPER_ITEMS_MOD_NAME, TIPPER_ITEM_COUNT_SETTING, itemCount+1);
+	db_set_w(0, TIPPER_ITEMS_MOD_NAME, TIPPER_ITEM_COUNT_SETTING, itemCount + 1);
 }

@@ -52,10 +52,10 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	int count = 0;
 	PROTOACCOUNT **protos;
 	ProtoEnumAccounts(&count, &protos);
-	for (int i=0; i < count; i++) {
-		if ( getJabberApi(protos[i]->szModuleName)) {
-			ptrT tszJid( db_get_tsa(0, protos[i]->szModuleName, "jid"));
-			if ( !mir_tstrcmpi(jid, tszJid))
+	for (int i = 0; i < count; i++) {
+		if (getJabberApi(protos[i]->szModuleName)) {
+			ptrT tszJid(db_get_tsa(0, protos[i]->szModuleName, "jid"));
+			if (!mir_tstrcmpi(jid, tszJid))
 				return protos[i]->szModuleName;
 		}
 	}
@@ -66,10 +66,10 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 void MarkEventRead(MCONTACT hCnt, HANDLE hEvt)
 {
 	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
-	if ( ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
-		 ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
-		 ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
-		 db_event_markRead(hCnt, hEvt) != -1)
+	if (ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
+		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
+		ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
+		db_event_markRead(hCnt, hEvt) != -1)
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hCnt, (LPARAM)hEvt);
 }
 
@@ -107,20 +107,20 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	case UM_FREEPLUGINDATA:
-		{
-			HANDLE hHook = GetProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
-			RemoveProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
-			UnhookEvent(hHook);
-		}
+	{
+		HANDLE hHook = GetProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
+		RemoveProp(wnd, EVT_DELETED_HOOK_PROP_NAME);
+		UnhookEvent(hHook);
+	}
 
-		if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
-			ReadNotificationSettings(acc);
-			MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
-		}
-		RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
-		free(ppdh);
-		return 0;
+	if (ppdh->MarkRead && ppdh->hDbEvent && (acc = GetJidAcc(ppdh->jid))) {
+		ReadNotificationSettings(acc);
+		MarkEventRead(ppdh->hContact, ppdh->hDbEvent);
+		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)ppdh->hContact, (LPARAM)ppdh->hDbEvent);
+	}
+	RemoveProp(wnd, PLUGIN_DATA_PROP_NAME);
+	free(ppdh);
+	return 0;
 
 	case WM_LBUTTONUP:
 		acc = NULL;
@@ -144,7 +144,7 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 static bool DoAddPopup(POPUPDATAT *data)
 {
-	if ( ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings)) && IsFullScreen()) {
+	if (ReadCheckbox(0, IDC_POPUPSINFULLSCREEN, (DWORD)TlsGetValue(itlsSettings)) && IsFullScreen()) {
 		HWND handle = CreateWindowEx(WS_EX_TOOLWINDOW, TEMP_WINDOW_CLASS_NAME, NULL, WS_OVERLAPPED | WS_VISIBLE, -100, -100, 10, 10, 0, 0, 0, 0);
 		if (handle) {
 			ShowWindow(handle, SW_MINIMIZE);
@@ -158,7 +158,7 @@ static bool DoAddPopup(POPUPDATAT *data)
 
 void FormatPseudocontactDisplayName(LPTSTR buff, LPCTSTR jid, LPCTSTR unreadCount)
 {
-	if (mir_tstrcmp(unreadCount,  _T("0")))
+	if (mir_tstrcmp(unreadCount, _T("0")))
 		wsprintf(buff, _T("%s [%s]"), jid, unreadCount); //!!!!!!!!!!!
 	else
 		wsprintf(buff, _T("%s"), jid); //!!!!!!!!!!!
@@ -188,9 +188,9 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	return hContact;
 }
 
-HANDLE AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
+HANDLE AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR url)
 {
-	mir_ptr<char> szUrl( mir_utf8encodeT(url)), szText( mir_utf8encodeT(data->lptzText));
+	mir_ptr<char> szUrl(mir_utf8encodeT(url)), szText(mir_utf8encodeT(data->lptzText));
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = (LPSTR)acc;
@@ -215,7 +215,7 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 {
 	MCONTACT hCnt = SetupPseudocontact(jid, unreadCount, acc, &data->lptzContactName[0]);
 	HANDLE hEvt = ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, (DWORD)TlsGetValue(itlsSettings))
-		? AddCListNotification(hCnt, acc, data, jid, url, unreadCount) : NULL;
+		? AddCListNotification(hCnt, acc, data, url) : NULL;
 
 	if (!UsePopups())
 		return;
@@ -245,13 +245,13 @@ void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LP
 	memcpy(ppdh->url, url, lurl);
 	data->PluginData = ppdh;
 
-	if ( !DoAddPopup(data))
+	if (!DoAddPopup(data))
 		free(data->PluginData);
 }
 
 void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
 {
-	POPUPDATAT data = {0};
+	POPUPDATAT data = { 0 };
 
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
 	mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateT("You've received an e-mail\n%s unread threads"), unreadCount);
@@ -261,7 +261,7 @@ void UnreadMailNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unread
 
 void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount, const MAIL_THREAD_NOTIFICATION *mtn)
 {
-	POPUPDATAT data = {0};
+	POPUPDATAT data = { 0 };
 
 	FormatPseudocontactDisplayName(&data.lptzContactName[0], jid, unreadCount);
 	LPTSTR senders = (LPTSTR)malloc(SENDER_COUNT * 100 * sizeof(TCHAR));
@@ -275,7 +275,7 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 		currSender += mir_tstrlen(currSender);
 	}
 
-	if ( ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
+	if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
 		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
 	else
 		mir_sntprintf(data.lptzText, SIZEOF(data.lptzText), TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
@@ -332,10 +332,10 @@ void CloseNotifications(LPCSTR acc, LPCTSTR url, LPCTSTR jid, BOOL PopupsOnly)
 {
 	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
 	if (acc && !PopupsOnly &&
-		 ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
-		 ReadCheckbox(0, IDC_CLEARPSEUDOCONTACTLOG, settings))
+		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
+		ReadCheckbox(0, IDC_CLEARPSEUDOCONTACTLOG, settings))
 		ClearNotificationContactHistory(acc);
 
-	POPUP_IDENT_STRINGS pis = {url, jid};
+	POPUP_IDENT_STRINGS pis = { url, jid };
 	EnumWindows(ClosePopupFunc, (LPARAM)&pis);
 }
