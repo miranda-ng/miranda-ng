@@ -72,7 +72,8 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 HANDLE CVkProto::SendFile(MCONTACT hContact, const PROTOCHAR *desc, PROTOCHAR **files)
 {
 	debugLogA("CVkProto::SendFile");
-	if (!IsOnline())
+	LONG userID = getDword(hContact, "ID", -1);
+	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return (HANDLE)0;
 	CVkFileUploadParam *fup = new CVkFileUploadParam(hContact, desc, files);
 	ForkThread(&CVkProto::SendFileThread, (void *)fup);
@@ -348,7 +349,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	}
 	
 	LONG userID = getDword(fup->hContact, "ID", -1);
-	if (userID == -1) {
+	if (userID == -1 || userID == VK_FEED_USER) {
 		SendFileFiled(fup);
 		return;
 	}

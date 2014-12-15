@@ -193,6 +193,7 @@
     <ClCompile Include="src\vk_search.cpp" />
     <ClCompile Include="src\vk_thread.cpp" />
     <ClCompile Include="src\vk_history.cpp" />
+    <ClCompile Include="src\vk_feed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h" />

@@ -54,6 +54,7 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 		if (vk_Instances[i]->IsOnline()) {
 			vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
 			vk_Instances[i]->RetrieveUsersInfo(true);
+			vk_Instances[i]->RetrieveUnreadNews();
 		}
 }
 
@@ -244,7 +245,7 @@ void CVkProto::OnReceiveMyInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	RetrieveUserInfo(m_myUserId);
 	RetrieveUnreadMessages();
 	RetrieveFriends();
-	RetrievePollingInfo();
+	RetrievePollingInfo();	
 }
 
 MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
@@ -256,7 +257,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 
 	LONG userid = json_as_int(json_get(pItem, "id"));
 	debugLogA("CVkProto::SetContactInfo %d", userid);
-	if (userid == 0)
+	if (userid == 0 || userid == VK_FEED_USER)
 		return NULL;
 
 	MCONTACT hContact = FindUser(userid, flag);
@@ -377,7 +378,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 void CVkProto::RetrieveUserInfo(LONG userID)
 {
 	debugLogA("CVkProto::RetrieveUserInfo (%d)", userID);
-	if (!IsOnline())
+	if (userID == VK_FEED_USER || !IsOnline())
 		return;
 	
 	CMString userIDs, code;
@@ -400,7 +401,7 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 	CMString userIDs, code;
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		LONG userID = getDword(hContact, "ID", -1);
-		if (userID == -1)
+		if (userID == -1 || userID == VK_FEED_USER)
 			continue;
 		if (!userIDs.IsEmpty())
 			userIDs.AppendChar(',');
@@ -448,10 +449,12 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	for (size_t i = 0; (hContact = SetContactInfo(json_at(pUsers, i))) != INVALID_CONTACT_ID; i++)
 		if (hContact)
 			arContacts.remove((HANDLE)hContact);
+	
 	if (json_as_int(json_get(pResponse, "freeoffline")))
 		for (int i = 0; i < arContacts.getCount(); i++) {
 			hContact = (MCONTACT)arContacts[i];
-			if (getDword(hContact, "ID", -1) == (DWORD)m_myUserId)
+			LONG userID = getDword(hContact, "ID", -1);
+			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
 			if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -459,6 +462,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			}
 		}
 	arContacts.destroy();
+	AddFeedSpecialUser();
 
 	JSONNODE *pRequests = json_get(pResponse, "requests");
 	if (pRequests == NULL)
@@ -533,8 +537,13 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 		}
 
 	if (bCleanContacts)
-		for (int i = 0; i < arContacts.getCount(); i++)
-			CallService(MS_DB_CONTACT_DELETE, (WPARAM)arContacts[i], 0);
+		for (int i = 0; i < arContacts.getCount(); i++) {
+			MCONTACT hContact = (MCONTACT)arContacts[i];
+			LONG userID = getDword(hContact, "ID", -1);
+			if (userID == m_myUserId || userID == VK_FEED_USER)
+				continue;
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+		}
 	
 	arContacts.destroy();
 }
@@ -568,7 +577,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 	if (!IsOnline())
 		return;
 	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1)
+	if (userID == -1 || userID == VK_FEED_USER)
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
@@ -1066,7 +1075,8 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 INT_PTR __cdecl CVkProto::SvcAddAsFriend(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcAddAsFriend");
-	if (!IsOnline())
+	LONG userID = getDword(hContact, "ID", -1);
+	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 	CallContactService(hContact, PSS_AUTHREQUESTW, 0, (LPARAM)TranslateT("Please authorize me to add you to my friend list."));
 	return 0;
@@ -1076,7 +1086,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 {
 	debugLogA("CVkProto::SvcDeleteFriend");
 	LONG userID = getDword(hContact, "ID", -1);
-	if (!IsOnline() ||(userID == -1))
+	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 	
 	CMString formatstr = TranslateT("Are you sure to delete %s from your friend list?"),
@@ -1131,7 +1141,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcBanUser");
 	LONG userID = getDword(hContact, "ID", -1);
-	if (!IsOnline() || userID == -1)
+	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
 	CMStringA code;
@@ -1194,7 +1204,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcReportAbuse");
 	LONG userID = getDword(hContact, "ID", -1);
-	if (!IsOnline() || userID == -1)
+	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 
 	CMString formatstr = TranslateT("Are you sure to report abuse on %s?"),
