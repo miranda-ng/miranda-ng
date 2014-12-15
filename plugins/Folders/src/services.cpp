@@ -32,7 +32,7 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 	szResult[0] = '\0';
 
 	TCHAR *input = NULL;
-	if ( ServiceExists(MS_VARS_FORMATSTRING))
+	if (ServiceExists(MS_VARS_FORMATSTRING))
 		input = variables_parse(format, NULL, NULL);
 
 	if (input == NULL)
@@ -40,12 +40,12 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 
 	TCHAR *core_result = Utils_ReplaceVarsT(input);
 	_tcsncpy(szResult, core_result, size);
-	
+
 	mir_free(core_result);
 
-	StrReplace(szResult, PROFILE_PATHT,     szCurrentProfilePath);
-	StrReplace(szResult, CURRENT_PROFILET,  szCurrentProfile);
-	StrReplace(szResult, MIRANDA_PATHT,     szMirandaPath);
+	StrReplace(szResult, PROFILE_PATHT, szCurrentProfilePath);
+	StrReplace(szResult, CURRENT_PROFILET, szCurrentProfile);
+	StrReplace(szResult, MIRANDA_PATHT, szMirandaPath);
 	StrReplace(szResult, MIRANDA_USERDATAT, szUserDataPath);
 
 	StrTrim(szResult, _T("\t \\"));
@@ -55,7 +55,7 @@ INT_PTR ExpandPath(TCHAR *szResult, TCHAR *format, int size)
 	return _tcslen(szResult);
 }
 
-INT_PTR RegisterPathService(WPARAM wParam, LPARAM lParam)
+INT_PTR RegisterPathService(WPARAM, LPARAM lParam)
 {
 	FOLDERSDATA *data = (FOLDERSDATA*)lParam;
 	if (data == NULL)
@@ -79,7 +79,7 @@ INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam)
 	size_t len;
 
 	CFolderItem *p = (CFolderItem*)wParam;
-	if ( lstRegisteredFolders.getIndex(p) != -1) {
+	if (lstRegisteredFolders.getIndex(p) != -1) {
 		TCHAR tmp[MAX_FOLDER_SIZE];
 		p->Expand(tmp, SIZEOF(tmp));
 		len = _tcslen(tmp);
@@ -95,7 +95,7 @@ INT_PTR GetPathSizeService(WPARAM wParam, LPARAM lParam)
 INT_PTR GetPathService(WPARAM wParam, LPARAM lParam)
 {
 	CFolderItem *p = (CFolderItem*)wParam;
-	if ( lstRegisteredFolders.getIndex(p) == -1)
+	if (lstRegisteredFolders.getIndex(p) == -1)
 		return 1;
 
 	FOLDERSGETDATA* data = (FOLDERSGETDATA*)lParam;
@@ -121,10 +121,10 @@ int InitServices()
 	CallService(MS_DB_GETPROFILENAMET, SIZEOF(szCurrentProfile), (LPARAM)szCurrentProfile);
 	TCHAR *pos = _tcsrchr(szCurrentProfile, '.'); if (pos) *pos = 0;
 
-	GetModuleFileName( GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
+	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
 	pos = _tcsrchr(szMirandaPath, '\\'); if (pos) *pos = 0;
 
-	TCHAR *szTemp = Utils_ReplaceVarsT( _T("%miranda_userdata%"));
+	TCHAR *szTemp = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 	mir_sntprintf(szUserDataPath, SIZEOF(szUserDataPath), szTemp);
 	mir_free(szTemp);
 

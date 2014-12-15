@@ -9,13 +9,13 @@ static PFolderItem GetSelectedItem(HWND hWnd)
 	int index = SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETCURSEL, 0, 0);
 	if (index == LB_ERR)
 		return NULL;
-	
+
 	return (PFolderItem)SendDlgItemMessage(hWnd, IDC_FOLDERS_ITEMS_LIST, LB_GETITEMDATA, index, 0);
 }
 
 static void GetEditText(HWND hWnd, TCHAR *buffer, int size)
 {
-	GetWindowText( GetDlgItem(hWnd, IDC_FOLDER_EDIT), buffer, size);
+	GetWindowText(GetDlgItem(hWnd, IDC_FOLDER_EDIT), buffer, size);
 }
 
 static void SetEditText(HWND hWnd, const TCHAR *buffer)
@@ -35,10 +35,10 @@ static void LoadRegisteredFolderSections(HWND hWnd)
 {
 	HWND hwndList = GetDlgItem(hWnd, IDC_FOLDERS_SECTIONS_LIST);
 
-	for (int i=0; i < lstRegisteredFolders.getCount(); i++) {
+	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &tmp = lstRegisteredFolders[i];
-		TCHAR *translated = mir_a2t( tmp.GetSection());
-		if ( !ContainsSection(hWnd, TranslateTS(translated))) {
+		TCHAR *translated = mir_a2t(tmp.GetSection());
+		if (!ContainsSection(hWnd, TranslateTS(translated))) {
 			int idx = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)TranslateTS(translated));
 			SendMessage(hwndList, LB_SETITEMDATA, idx, (LPARAM)tmp.GetSection());
 		}
@@ -58,9 +58,9 @@ static void LoadRegisteredFolderItems(HWND hWnd)
 	HWND hwndItems = GetDlgItem(hWnd, IDC_FOLDERS_ITEMS_LIST);
 	SendMessage(hwndItems, LB_RESETCONTENT, 0, 0);
 
-	for (int i=0; i < lstRegisteredFolders.getCount(); i++) {
+	for (int i = 0; i < lstRegisteredFolders.getCount(); i++) {
 		CFolderItem &item = lstRegisteredFolders[i];
-		if ( !strcmp(szSection, item.GetSection())) {
+		if (!strcmp(szSection, item.GetSection())) {
 			idx = SendMessage(hwndItems, LB_ADDSTRING, 0, (LPARAM)TranslateTS(item.GetUserName()));
 			SendMessage(hwndItems, LB_SETITEMDATA, idx, (LPARAM)&item);
 		}
@@ -103,7 +103,7 @@ static int ChangesNotSaved(HWND hWnd, PFolderItem item)
 {
 	if (!item)
 		return 0;
-	
+
 	TCHAR buffer[MAX_FOLDER_SIZE];
 	GetEditText(hWnd, buffer, MAX_FOLDER_SIZE);
 	return _tcscmp(item->GetFormat(), buffer) != 0;
@@ -118,12 +118,12 @@ static void CheckForChanges(HWND hWnd, int bNeedConfirmation = 1)
 
 /************************************** DIALOG HANDLERS *************************************/
 
-static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM)
 {
 	TCHAR tszMessage[2048];
 
 	switch (msg) {
-	case WM_INITDIALOG: 
+	case WM_INITDIALOG:
 		mir_sntprintf(tszMessage, SIZEOF(tszMessage), _T("%s\r\n%s\r\n\r\n%s\t\t%s\r\n%%miranda_path%%\t\t%s\r\n%%profile_path%%\t\t%s\r\n\t\t\t%s\r\n%%current_profile%%\t\t%s\r\n\t\t\t%s\r\n\r\n\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n%s\r\n\r\n%s\r\n%s\r\n%s\r\n%%miranda_path%%\t\t\t%s\r\n%%profile_path%%\t\t\t%s\r\n%%current_profile%%\t\t\t%s\r\n%%temp%%\t\t\t\t%s\r\n%%profile_path%%\\%%current_profile%%\t%s\r\n%%miranda_path%%\\plugins\\config\t%s\r\n'   %%miranda_path%%\\\\\\\\     '\t\t%s\r\n\r\n%s"),
 			TranslateT("Don't forget to click on Apply to save the changes. If you don't then the changes won't"),
 			TranslateT("be saved to the database, they will only be valid for this session."),
@@ -197,7 +197,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_HELP_BUTTON:
-			ShowWindow( CreateDialog(hInstance, MAKEINTRESOURCE(IDD_VARIABLES_HELP), hWnd, DlgProcVariables), SW_SHOW);
+			ShowWindow(CreateDialog(hInstance, MAKEINTRESOURCE(IDD_VARIABLES_HELP), hWnd, DlgProcVariables), SW_SHOW);
 			break;
 
 		case IDC_FOLDERS_SECTIONS_LIST:
@@ -225,7 +225,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		break;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
@@ -235,7 +235,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 					LoadItem(hWnd, item);
 				}
 
-				for (int i=0; i < lstRegisteredFolders.getCount(); i++)
+				for (int i = 0; i < lstRegisteredFolders.getCount(); i++)
 					lstRegisteredFolders[i].Save();
 				CallPathChangedEvents();
 			}
@@ -246,7 +246,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 	return 0;
 }
 
-static int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
+static int OnOptionsInitialize(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;

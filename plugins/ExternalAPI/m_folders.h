@@ -36,17 +36,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MIRANDA_USERDATAW L"%miranda_userdata%"
 
 #ifdef _UNICODE
-	#define PROFILE_PATHT		PROFILE_PATHW
-	#define CURRENT_PROFILET	CURRENT_PROFILEW
-	#define MIRANDA_PATHT		MIRANDA_PATHW
-	#define PLUGINS_PATHT		PLUGINS_PATHW
-	#define MIRANDA_USERDATAT	MIRANDA_USERDATAW
+#define PROFILE_PATHT		PROFILE_PATHW
+#define CURRENT_PROFILET	CURRENT_PROFILEW
+#define MIRANDA_PATHT		MIRANDA_PATHW
+#define PLUGINS_PATHT		PLUGINS_PATHW
+#define MIRANDA_USERDATAT	MIRANDA_USERDATAW
 #else
-	#define PROFILE_PATHT		PROFILE_PATH
-	#define CURRENT_PROFILET	CURRENT_PROFILE
-	#define MIRANDA_PATHT		MIRANDA_PATH
-	#define PLUGINS_PATHT		PLUGINS_PATH
-	#define MIRANDA_USERDATAT	MIRANDA_USERDATA
+#define PROFILE_PATHT		PROFILE_PATH
+#define CURRENT_PROFILET	CURRENT_PROFILE
+#define MIRANDA_PATHT		MIRANDA_PATH
+#define PLUGINS_PATHT		PLUGINS_PATH
+#define MIRANDA_USERDATAT	MIRANDA_USERDATA
 #endif
 
 #define FOLDER_AVATARS                 PROFILE_PATHT _T("\\") CURRENT_PROFILET _T("\\avatars")
@@ -72,9 +72,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FF_UNICODE 0x00000001
 
 #if defined (UNICODE)
-	#define FF_TCHAR	FF_UNICODE
+#define FF_TCHAR	FF_UNICODE
 #else
-	#define FF_TCHAR	0
+#define FF_TCHAR	0
 #endif
 
 typedef struct
@@ -94,7 +94,7 @@ typedef struct
 		const TCHAR *szUserNameT;
 	};
 }
-	FOLDERSDATA;
+FOLDERSDATA;
 
 /*Folders/Register/Path service
   wParam - not used, must be 0
@@ -102,7 +102,7 @@ typedef struct
   the necessary information.
   Returns a handle to the registered path or 0 on error.
   You need to use this to call the other services.
-*/
+  */
 #define MS_FOLDERS_REGISTER_PATH "Folders/Register/Path"
 
 /*Folders/Get/PathSize service
@@ -111,7 +111,7 @@ typedef struct
   string (not including the null character). Depending on the flags set when creating the path
   it will either call strlen() or wcslen() to get the length of the string.
   Returns the size of the buffer.
-*/
+  */
 #define MS_FOLDERS_GET_SIZE "Folders/Get/PathSize"
 
 typedef struct{
@@ -129,14 +129,14 @@ typedef struct{
   wParam - (WPARAM) (int) - handle to registered path
   lParam - (LPARAM) (FOLDERSGETDATA *) pointer to a FOLDERSGETDATA that has all the relevant fields filled.
   Should return 0 on success, or nonzero otherwise.
-*/
+  */
 #define MS_FOLDERS_GET_PATH "Folders/Get/Path"
 
 /*Folders/On/Path/Changed
 	wParam - (WPARAM) 0
 	lParam - (LPARAM) 0
 	Triggered when the folders change, you should reget the paths you registered.
-*/
+	*/
 #define ME_FOLDERS_PATH_CHANGED "Folders/On/Path/Changed"
 
 __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char *name, const char *defaultPath)
@@ -146,7 +146,7 @@ __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char
 	fd.szSection = section;
 	fd.szName = name;
 	fd.szFormat = defaultPath;
-	return (HANDLE) CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM) &fd);
+	return (HANDLE)CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM)&fd);
 }
 
 #ifdef _UNICODE
@@ -159,7 +159,7 @@ __inline static HANDLE FoldersRegisterCustomPathW(const char *section, const cha
 	fd.szFormatW = defaultPathW;
 	fd.szUserNameW = userNameW;
 	fd.flags = FF_UNICODE;
-	return (HANDLE) CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM) &fd);
+	return (HANDLE)CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM)&fd);
 }
 #endif //_UNICODE
 
@@ -168,7 +168,7 @@ __inline static INT_PTR FoldersGetCustomPath(HANDLE hFolderEntry, char *path, co
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = size;
 	fgd.szPath = path;
-	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
+	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
 		char buffer[MAX_PATH];
 		PathToAbsolute(notFound, buffer);
@@ -185,7 +185,7 @@ __inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *path
 	fgd.nMaxPathSize = size;
 	fgd.szPathW = pathW;
 	fgd.flags = FF_UNICODE;
-	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
+	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
 		wchar_t buffer[MAX_PATH];
 		PathToAbsoluteW(notFoundW, buffer);
@@ -201,7 +201,7 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 	FOLDERSGETDATA fgd = { sizeof(fgd) };
 	fgd.nMaxPathSize = size;
 	fgd.szPath = path;
-	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
+	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
 		char buffer[MAX_PATH];
 		PathToAbsolute(notFound, buffer);
@@ -224,7 +224,7 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 	fgd.nMaxPathSize = size;
 	fgd.szPathW = pathW;
 	fgd.flags = FF_UNICODE;
-	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
+	INT_PTR res = CallService(MS_FOLDERS_GET_PATH, (WPARAM)hFolderEntry, (LPARAM)&fgd);
 	if (res) {
 		wchar_t buffer[MAX_PATH];
 		PathToAbsoluteW(notFoundW, buffer);
