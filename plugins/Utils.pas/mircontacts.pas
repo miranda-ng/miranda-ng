@@ -10,14 +10,14 @@ uses
 //----- Contact info -----
 
 function GetContactProtoAcc(hContact:TMCONTACT):PAnsiChar;
-function GetContactProto(hContact: TMCONTACT): pAnsiChar; overload;
-function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: pAnsiChar): pAnsiChar; overload;
-function GetContactDisplayName(hContact: TMCONTACT; Proto: pAnsiChar = nil; Contact: boolean = false): PWideChar;
-function GetContactID(hContact: TMCONTACT; Proto: pAnsiChar = nil; Contact: boolean = false): PAnsiChar;
+function GetContactProto(hContact: TMCONTACT): PAnsiChar; overload;
+function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: PAnsiChar): PAnsiChar; overload;
+function GetContactDisplayName(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PWideChar;
+function GetContactID(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PAnsiChar;
 
-function GetContactCodePage  (hContact: TMCONTACT; Proto: pAnsiChar; var UsedDefault: boolean): Cardinal; overload;
-function GetContactCodePage  (hContact: TMCONTACT; const Proto: pAnsiChar = nil): Cardinal; overload;
-function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: pAnsiChar = nil): boolean;
+function GetContactCodePage  (hContact: TMCONTACT; Proto: PAnsiChar; var UsedDefault: boolean): Cardinal; overload;
+function GetContactCodePage  (hContact: TMCONTACT; const Proto: PAnsiChar = nil): Cardinal; overload;
+function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: PAnsiChar = nil): boolean;
 
 function GetContactStatus(hContact:TMCONTACT):integer;
 
@@ -29,13 +29,13 @@ function IsMirandaUser(hContact:TMCONTACT):integer; // >0=Miranda; 0=Not miranda
 // -2 - deleted account, -1 - disabled account, 0 - hidden
 // 1 - metacontact, 2 - submetacontact, positive - active
 // proto - ASSIGNED buffer
-function IsContactActive(hContact:TMCONTACT;proto:pAnsiChar=nil):integer;
+function IsContactActive(hContact:TMCONTACT;Proto:PAnsiChar=nil):integer;
 
 //----- Save / Load contact -----
 
 function LoadContact(group,setting:PAnsiChar):TMCONTACT;
 function SaveContact(hContact:TMCONTACT;group,setting:PAnsiChar):integer;
-function FindContactHandle(proto:pAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):TMCONTACT;
+function FindContactHandle(Proto:PAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):TMCONTACT;
 
 //----- Another functions -----
 
@@ -71,13 +71,13 @@ begin
     result:=PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO,hContact,0));
 end;
 
-function GetContactProto(hContact: TMCONTACT): pAnsiChar;
+function GetContactProto(hContact: TMCONTACT): PAnsiChar;
 {$IFDEF AllowInline}inline;{$ENDIF}
 begin
   Result := PAnsiChar(CallService(MS_PROTO_GETCONTACTBASEPROTO, hContact, 0));
 end;
 
-function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: pAnsiChar): pAnsiChar;
+function GetContactProto(hContact: TMCONTACT; var SubContact: TMCONTACT; var SubProtocol: PAnsiChar): PAnsiChar;
 begin
   Result := GetContactProto(hContact);
   if StrCmp(Result, META_PROTO)=0 then
@@ -92,7 +92,7 @@ begin
   end;
 end;
 
-function GetContactDisplayName(hContact: TMCONTACT; Proto: pAnsiChar = nil; Contact: boolean = false): PWideChar;
+function GetContactDisplayName(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PWideChar;
 var
   ci: TContactInfo;
   pUnk:PWideChar;
@@ -129,7 +129,7 @@ begin
   end;
 end;
 
-function GetContactID(hContact: TMCONTACT; Proto: pAnsiChar = nil; Contact: boolean = false): PAnsiChar;
+function GetContactID(hContact: TMCONTACT; Proto: PAnsiChar = nil; Contact: boolean = false): PAnsiChar;
 var
   uid: PAnsiChar;
   dbv: TDBVARIANT;
@@ -142,7 +142,7 @@ begin
     if Proto = nil then
       Proto := GetContactProto(hContact);
     uid := PAnsiChar(CallProtoService(Proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));
-    if (int_ptr(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then
+    if (uid <> PAnsiChar(CALLSERVICE_NOTFOUND)) and (uid <> nil) then
     begin
       // DBGetContactSettingStr comparing to DBGetContactSetting don't translate strings
       // when uType=0 (DBVT_ASIS)
@@ -169,7 +169,7 @@ begin
   end;
 end;
 
-function GetContactCodePage(hContact: TMCONTACT; Proto: pAnsiChar; var UsedDefault: boolean) : Cardinal;
+function GetContactCodePage(hContact: TMCONTACT; Proto: PAnsiChar; var UsedDefault: boolean) : Cardinal;
 begin
   if Proto = nil then
     Proto := GetContactProto(hContact);
@@ -186,14 +186,14 @@ begin
     Result := GetACP();
 end;
 
-function GetContactCodePage(hContact: TMCONTACT; const Proto: pAnsiChar = nil): Cardinal;
+function GetContactCodePage(hContact: TMCONTACT; const Proto: PAnsiChar = nil): Cardinal;
 var
   def: boolean;
 begin
   Result := GetContactCodePage(hContact, Proto, def);
 end;
 
-function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: pAnsiChar = nil): boolean;
+function WriteContactCodePage(hContact: TMCONTACT; CodePage: Cardinal; Proto: PAnsiChar = nil): boolean;
 begin
   Result := false;
   if Proto = nil then
@@ -236,7 +236,7 @@ begin
     result:=-1;
 end;
 
-function IsContactActive(hContact:TMCONTACT;proto:pAnsiChar=nil):integer;
+function IsContactActive(hContact:TMCONTACT;Proto:PAnsiChar=nil):integer;
 var
   p:PPROTOACCOUNT;
   name: array [0..31] of AnsiChar;
@@ -268,14 +268,14 @@ begin
       if StrCmp(GetContactProto(hContact),META_PROTO)=0 then
         result:=1;
     end;
-    if proto<>nil then
-      StrCopy(proto,@name);
+    if Proto<>nil then
+      StrCopy(Proto,@name);
   end
   else
   begin
     result:=-2;
-    if proto<>nil then
-      proto^:=#0;
+    if Proto<>nil then
+      Proto^:=#0;
   end;
 end;
 
@@ -286,9 +286,9 @@ const
   opt_cuid   = 'cuid';
   opt_ischat = 'ischat';
 
-function FindContactHandle(proto:pAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):TMCONTACT;
+function FindContactHandle(Proto:PAnsiChar;const dbv:TDBVARIANT;is_chat:boolean=false):TMCONTACT;
 var
-  uid:pAnsiChar;
+  uid:PAnsiChar;
   ldbv:TDBVARIANT;
   hContact:TMCONTACT;
   pw:pWideChar;
@@ -297,8 +297,8 @@ begin
   uid:=nil;
   if not is_chat then
   begin
-    uid:=pAnsiChar(CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-    if uid=pAnsiChar(CALLSERVICE_NOTFOUND) then exit;
+    uid:=PAnsiChar(CallProtoService(Proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
+    if uid=PAnsiChar(CALLSERVICE_NOTFOUND) then exit;
   end;
 
   hContact:=db_find_first();
@@ -308,14 +308,14 @@ begin
     begin
       if IsChat(hContact) then
       begin
-        pw:=DBReadUnicode(hContact,proto,'ChatRoomID');
+        pw:=DBReadUnicode(hContact,Proto,'ChatRoomID');
         if StrCmpW(pw,dbv.szVal.W)=0 then result:=hContact;
         mFreeMem(pw);
       end
     end
     else
     begin
-      if DBReadSetting(hContact,proto,uid,@ldbv)=0 then
+      if DBReadSetting(hContact,Proto,uid,@ldbv)=0 then
       begin
         if dbv._type=ldbv._type then
         begin
@@ -347,13 +347,13 @@ end;
 
 function LoadContact(group,setting:PAnsiChar):TMCONTACT;
 var
-  p,proto:pAnsiChar;
+  p,Proto:PAnsiChar;
   section:array [0..63] of AnsiChar;
   dbv:TDBVARIANT;
   is_chat:boolean;
 begin
   p:=StrCopyE(section,setting);
-  StrCopy(p,opt_cproto); proto  :=DBReadString(0,group,section);
+  StrCopy(p,opt_cproto); Proto  :=DBReadString(0,group,section);
   StrCopy(p,opt_ischat); is_chat:=DBReadByte  (0,group,section,0)<>0;
   StrCopy(p,opt_cuid  );
   if is_chat then
@@ -361,9 +361,9 @@ begin
   else
     DBReadSetting(0,group,section,@dbv);
 
-  result:=FindContactHandle(proto,dbv,is_chat);
+  result:=FindContactHandle(Proto,dbv,is_chat);
 
-  mFreeMem(proto);
+  mFreeMem(Proto);
   if not is_chat then
     DBFreeVariant(@dbv)
   else
@@ -372,31 +372,31 @@ end;
 
 function SaveContact(hContact:TMCONTACT;group,setting:PAnsiChar):integer;
 var
-  p,proto,uid:pAnsiChar;
+  p,Proto,uid:PAnsiChar;
   cws:TDBVARIANT;
   section:array [0..63] of AnsiChar;
   pw:pWideChar;
   is_chat:boolean;
 begin
   result:=0;
-  proto:=GetContactProtoAcc(hContact);
-  if proto<>nil then
+  Proto:=GetContactProtoAcc(hContact);
+  if Proto<>nil then
   begin
     p:=StrCopyE(section,setting);
     is_chat:=IsChat(hContact);
     if is_chat then
     begin
-      pw:=DBReadUnicode(hContact,proto,'ChatRoomID');
+      pw:=DBReadUnicode(hContact,Proto,'ChatRoomID');
       StrCopy(p,opt_cuid); DBWriteUnicode(0,group,section,pw);
       mFreeMem(pw);
       result:=1;
     end
     else
     begin
-      uid:=pAnsiChar(CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-      if uid<>pAnsiChar(CALLSERVICE_NOTFOUND) then
+      uid:=PAnsiChar(CallProtoService(Proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
+      if uid<>PAnsiChar(CALLSERVICE_NOTFOUND) then
       begin
-        if DBReadSetting(hContact,proto,uid,@cws)=0 then
+        if DBReadSetting(hContact,Proto,uid,@cws)=0 then
         begin
           StrCopy(p,opt_cuid); DBWriteSetting(0,group,section,@cws);
           DBFreeVariant(@cws);
@@ -406,7 +406,7 @@ begin
     end;
     if result<>0 then
     begin
-      StrCopy(p,opt_cproto); DBWriteString(0,group,section,proto);
+      StrCopy(p,opt_cproto); DBWriteString(0,group,section,Proto);
       StrCopy(p,opt_ischat); DBWriteByte  (0,group,section,ord(is_chat));
     end;
   end;
@@ -564,9 +564,9 @@ var
   buf:array [0..511] of WideChar;
   buf1:array [0..63] of WideChar;
   p:PWideChar;
-  uid:pAnsiChar;
+  uid:PAnsiChar;
   ldbv:TDBVARIANT;
-  acc:pAnsiChar;
+  acc:PAnsiChar;
   lName,
   lGroup,
   lAccount,
@@ -619,8 +619,8 @@ begin
         end
         else
         begin
-          uid:=pAnsiChar(CallProtoService(acc,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-          if uid<>pAnsiChar(CALLSERVICE_NOTFOUND) then
+          uid:=PAnsiChar(CallProtoService(acc,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
+          if uid<>PAnsiChar(CALLSERVICE_NOTFOUND) then
           begin
             if DBReadSetting(hContact,acc,uid,@ldbv)=0 then
             begin

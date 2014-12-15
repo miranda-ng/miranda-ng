@@ -9,8 +9,8 @@ uses
   windows;
 
 const
-  ACF_SCRIPT_SERVICE = $01000000; // high byte of dword
-  ACF_SCRIPT_EXPAND  = $10000000; // all subblocks are visible
+  ACF_SCRIPT_SERVICE = $00800000; // high bit in low byte of hight word (lower uses in actions
+  ACF_SCRIPT_EXPAND  = $10000000; // all subblocks are visible (block creation only)
 
 type
   pServiceValue = ^tServiceValue;
@@ -153,9 +153,15 @@ begin
       GetClientRect(lpar,rc);
       SetWindowPos(res,HWND_TOP,pt.x,pt.y+rc.bottom+10,0,0,SWP_NOZORDER or SWP_NOSIZE);
     end;
+  else
+    wnd:=0;
+    wndb:=0;
   end;
-  EnableWindow(wnd ,false);
-  ShowWindow  (wndb,SW_SHOW);
+  if wnd<>0 then
+  begin
+    EnableWindow(wnd ,false);
+    ShowWindow  (wndb,SW_SHOW);
+  end;
 end;
 
 procedure ReloadService(Dialog:HWND;srv:pAnsiChar;setvalue:boolean);

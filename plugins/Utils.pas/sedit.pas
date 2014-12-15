@@ -1,5 +1,5 @@
 {structure editor}
-unit SEdit;
+unit sedit;
 
 interface
 
@@ -116,7 +116,7 @@ begin
   FillChar(ti,SizeOf(ti),0);
   ti.cbSize  :=sizeof(TOOLINFO);
   ti.uFlags  :=TTF_IDISHWND or TTF_SUBCLASS;
-  ti.hwnd    :=dialog;
+  ti.hwnd    :=Dialog;
   ti.hinst   :=hInstance;
   ti.uId     :=GetDlgItem(Dialog,IDC_DATA_NEW);
 {$IFDEF Miranda}
@@ -1064,7 +1064,7 @@ begin
       urd.lpTemplate:='IDD_STRUCTURE';//MAKEINTRESOURCEA(IDD_STRUCTURE);
       urd.lParam    :=0;
       urd.pfnResizer:=@StructEditDlgResizer;
-      CallService(MS_UTILS_RESIZEDIALOG,0,tlparam(@urd));
+      CallService(MS_UTILS_RESIZEDIALOG,0,TLPARAM(@urd));
 {$ELSE}
       GetWindowRect(Dialog,rc);
 
@@ -1231,7 +1231,7 @@ begin
                 li.iSubItem :=0;
                 li.StateMask:=LVIS_FOCUSED+LVIS_SELECTED;
                 li.State    :=LVIS_FOCUSED+LVIS_SELECTED;
-                SendMessageW(wnd,LVM_SETITEMW,0,tlparam(@li));
+                SendMessageW(wnd,LVM_SETITEMW,0,TLPARAM(@li));
               end;
               CheckList(Dialog);
             end;
@@ -1335,7 +1335,7 @@ begin
               if item.pszText<>nil then
               begin
                 item.mask:=LVIF_TEXT;
-                SendMessageW(hdr.hWndFrom,LVM_SETITEMW,0,tlparam(@item));
+                SendMessageW(hdr.hWndFrom,LVM_SETITEMW,0,TLPARAM(@item));
                 result:=1;
               end;
             end;

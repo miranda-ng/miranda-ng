@@ -33,7 +33,7 @@ const
 procedure GetEventInfo     (hDBEvent: THANDLE; var EventInfo: TDBEventInfo);
 function  GetEventTimestamp(hDBEvent: THANDLE): DWord;
 function  GetEventDateTime (hDBEvent: THANDLE): TDateTime;
-function  GetEventCoreText (const EventInfo: TDBEventInfo; CP: integer = CP_ACP): PWideChar;
+function  GetEventCoreText (const EventInfo: TDBEventInfo; cp: integer = CP_ACP): PWideChar;
 
 //----- Event check -----
 
@@ -91,14 +91,14 @@ begin
     EventInfo.cbBlob := 0;
 end;
 
-function GetEventCoreText(const EventInfo: TDBEventInfo; CP: integer = CP_ACP): PWideChar;
+function GetEventCoreText(const EventInfo: TDBEventInfo; cp: integer = CP_ACP): PWideChar;
 var
   dbegt: TDBEVENTGETTEXT;
   msg: pWideChar;
 begin
   dbegt.dbei     := @EventInfo;
   dbegt.datatype := DBVT_WCHAR;
-  dbegt.codepage := CP;
+  dbegt.codepage := cp;
 
   msg := pWideChar(CallService(MS_DB_EVENT_GETTEXT,0,LPARAM(@dbegt)));
 
@@ -258,13 +258,13 @@ const
     (Proto: 'outlook:/';  Idn: False;),
     (Proto: 'callto:/';   Idn: False;));
 
-function TextHasUrls(Text: pWideChar): Boolean;
+function TextHasUrls(text: pWideChar): Boolean;
 var
   i,len: Integer;
   buf,pPos: PWideChar;
 begin
   Result := False;
-  len := StrLenW(Text);
+  len := StrLenW(text);
   if len=0 then exit;
 
   // search in URL Prefixes like "www"
@@ -272,10 +272,10 @@ begin
 
   for i := 0 to High(UrlPrefix) do
   begin
-    pPos := StrPosW(Text, UrlPrefix[i]);
+    pPos := StrPosW(text, UrlPrefix[i]);
     if not Assigned(pPos) then
       continue;
-    Result := ((uint_ptr(pPos) = uint_ptr(Text)) or not IsWideCharAlphaNumeric((pPos - 1)^)) and
+    Result := ((uint_ptr(pPos) = uint_ptr(text)) or not IsWideCharAlphaNumeric((pPos - 1)^)) and
       IsWideCharAlphaNumeric((pPos + StrLenW(UrlPrefix[i]))^);
     if Result then
       exit;
@@ -283,9 +283,9 @@ begin
 
   // search in url protos like "http:/"
 
-  if StrPosW(Text,':/') = nil then exit;
+  if StrPosW(text,':/') = nil then exit;
 
-  StrDupW(buf,Text);
+  StrDupW(buf,text);
 
   CharLowerBuffW(buf,len);
   for i := 0 to High(UrlProto) do

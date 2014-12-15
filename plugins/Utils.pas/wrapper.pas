@@ -33,8 +33,8 @@ Procedure ListView_GetItemTextA(list:HWND;i:WPARAM;iSubItem:integer;pszText:poin
 Procedure ListView_GetItemTextW(list:HWND;i:WPARAM;iSubItem:integer;pszText:pointer;cchTextMax:integer);
 function  LV_GetLParam  (list:HWND;item:integer=-1):LRESULT;
 function  LV_SetLParam  (list:HWND;lParam:LPARAM;item:integer=-1):LRESULT;
-function  LV_ItemAtPos(list:HWND;pt:TPOINT;var SubItem:dword):integer; overload;
-function  LV_ItemAtPos(list:HWND;x,y:integer;var SubItem:dword):integer; overload;
+function  LV_ItemAtPos(list:HWND;pt:TPOINT;var subitem:dword):integer; overload;
+function  LV_ItemAtPos(list:HWND;x,y:integer;var subitem:dword):integer; overload;
 procedure LV_SetItem (list:HWND;str:PAnsiChar;item:integer;subitem:integer=0);
 procedure LV_SetItemW(list:HWND;str:PWideChar;item:integer;subitem:integer=0);
 function  LV_MoveItem(list:HWND;direction:integer;item:integer=-1):integer;
@@ -367,7 +367,7 @@ begin
   result:=lParam;
 end;
 
-function LV_ItemAtPos(list:HWND;Pt:TPOINT;var SubItem:dword):integer;
+function LV_ItemAtPos(list:HWND;Pt:TPOINT;var subitem:dword):integer;
 var
   HTI:LV_HITTESTINFO;
 begin
@@ -375,11 +375,11 @@ begin
   HTI.pt.y := pt.Y;
   SendMessage(list,LVM_SUBITEMHITTEST,0,lparam(@HTI));
   Result :=HTI.iItem;
-  if @SubItem<>nil then
-    SubItem:=HTI.iSubItem;
+  if @subitem<>nil then
+    subitem:=HTI.iSubItem;
 end;
 
-function LV_ItemAtPos(list:HWND;x,y:integer;var SubItem:dword):integer; overload;
+function LV_ItemAtPos(list:HWND;x,y:integer;var subitem:dword):integer; overload;
 var
   HTI:LV_HITTESTINFO;
 begin
@@ -387,8 +387,8 @@ begin
   HTI.pt.y := y;
   SendMessage(list,LVM_SUBITEMHITTEST,0,lparam(@HTI));
   Result :=HTI.iItem;
-  if @SubItem<>nil then
-    SubItem:=HTI.iSubItem;
+  if @subitem<>nil then
+    subitem:=HTI.iSubItem;
 end;
 
 function LV_Compare(lParam1,lParam2,param:LPARAM):integer; stdcall;

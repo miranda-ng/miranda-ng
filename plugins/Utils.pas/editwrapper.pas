@@ -1,4 +1,4 @@
-unit EditWrapper;
+unit editwrapper;
 
 interface
 

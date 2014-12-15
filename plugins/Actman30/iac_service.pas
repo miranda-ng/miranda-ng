@@ -31,9 +31,9 @@ const
   ACF_RUNICODE = $00020000; // Service result is Widestring
   ACF_RSTRUCT  = $00040000; // Service result in structure
   ACF_RFREEMEM = $00080000; // Need to free memory
-
-  ACF_SCRIPT_PARAM   = $00001000;
-  ACF_SCRIPT_SERVICE = $00002000;
+{
+  ACF_SCRIPT_PARAM set in "sparam" unit
+  ACF_SCRIPT_SERVICE set in "srvblock" unit
   // dummy
   ACF_STRING = 0;
 

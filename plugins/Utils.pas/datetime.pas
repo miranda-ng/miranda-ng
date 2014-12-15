@@ -1,4 +1,4 @@
-unit DateTime;
+unit datetime;
 
 interface
 
@@ -26,7 +26,7 @@ procedure UnixTimeToFileTime(ts:int_ptr; var pft:TFILETIME);
 function FileTimeToUnixTime(const pft: TFILETIME):int_ptr;
 function TimeStampToLocalTimeStamp(ts:int_ptr):int_ptr;
 function TimestampToDateTime(ts:int_ptr):TDateTime;
-function TimestampToSystemTime(Time:DWord; var ST:TSystemTime):PSystemTime;
+function TimestampToSystemTime(Time:DWord; var st:TSystemTime):PSystemTime;
 
 function DateTimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
 function DateToStr    (Time:Dword; Format:pWideChar=nil):pWideChar;
@@ -134,30 +134,30 @@ begin
   Result := UnixDateDelta + TimeStampToLocalTimeStamp(ts) / SecondsPerDay;
 end;
 
-function TimestampToSystemTime(Time:DWord; var ST:TSystemTime):PSystemTime;
+function TimestampToSystemTime(Time:DWord; var st:TSystemTime):PSystemTime;
 var
   aft,lft:TFILETIME;
 begin
   UnixTimeToFileTime(Time,aft);
   FileTimeToLocalFileTime(aft, lft);
-  FileTimeToSystemTime(lft,ST);
-  result:=@ST;
+  FileTimeToSystemTime(lft,st);
+  result:=@st;
 end;
 
 function DateTimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
 var
   buf:array [0..300] of WideChar;
-  ST: TSystemTime;
+  st: TSystemTime;
   pc:pWideChar;
 begin
-  TimestampToSystemTime(Time,ST);
-  GetDateFormatW(LOCALE_USER_DEFAULT,0,@ST,Format,@buf,300);
+  TimestampToSystemTime(Time,st);
+  GetDateFormatW(LOCALE_USER_DEFAULT,0,@st,Format,@buf,300);
   if Format<>nil then
-    GetTimeFormatW(LOCALE_USER_DEFAULT,0,@ST,@buf,@buf,300)
+    GetTimeFormatW(LOCALE_USER_DEFAULT,0,@st,@buf,@buf,300)
   else
   begin
     pc:=StrEndW(@buf); pc^:=' '; inc(pc);
-    GetTimeFormatW(LOCALE_USER_DEFAULT,0,@ST,nil,pc,300-(pc-pWideChar(@buf)))
+    GetTimeFormatW(LOCALE_USER_DEFAULT,0,@st,nil,pc,300-(pc-pWideChar(@buf)))
   end;
   StrDupW(result,buf);
 end;
@@ -165,20 +165,20 @@ end;
 function DateToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
 var
   buf:array [0..300] of WideChar;
-  ST: TSystemTime;
+  st: TSystemTime;
 begin
-  TimestampToSystemTime(Time,ST);
-  GetDateFormatW(LOCALE_USER_DEFAULT,0,@ST,Format,@buf,300);
+  TimestampToSystemTime(Time,st);
+  GetDateFormatW(LOCALE_USER_DEFAULT,0,@st,Format,@buf,300);
   StrDupW(result,buf);
 end;
 
 function TimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
 var
   buf:array [0..300] of WideChar;
-  ST: TSystemTime;
+  st: TSystemTime;
 begin
-  TimestampToSystemTime(Time,ST);
-  GetTimeFormatW(LOCALE_USER_DEFAULT,0,@ST,Format,@buf,300);
+  TimestampToSystemTime(Time,st);
+  GetTimeFormatW(LOCALE_USER_DEFAULT,0,@st,Format,@buf,300);
   StrDupW(result,buf);
 end;
 

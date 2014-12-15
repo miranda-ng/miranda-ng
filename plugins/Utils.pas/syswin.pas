@@ -22,9 +22,9 @@ procedure ProcessMessages;
 function GetFocusedChild(wnd:HWND):HWND;
 function GetAssoc(key:PAnsiChar):PAnsiChar;
 function GetFileFromWnd(wnd:HWND;Filter:tFFWFilterProc;
-         flags:dword=gffdMultiThread+gffdOld;timeout:cardinal=ThreadTimeout):pWideChar;
+         flags:dword=gffdMultiThread+gffdOld;TimeOut:cardinal=ThreadTimeout):pWideChar;
 
-function WaitFocusedWndChild(Wnd:HWND):HWND;
+function WaitFocusedWndChild(wnd:HWND):HWND;
 
 function ExecuteWaitW(AppPath:pWideChar; CmdLine:pWideChar=nil; DfltDirectory:PWideChar=nil;
          Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
@@ -60,7 +60,7 @@ type  pqword = ^int64;
 function ExecuteWaitW(AppPath:pWideChar; CmdLine:pWideChar=nil; DfltDirectory:PWideChar=nil;
          Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 var
-  Flags: dword;
+  flags: dword;
   {$IFDEF FPC}
   Startup: StartupInfo;
   {$ELSE}
@@ -76,9 +76,9 @@ begin
     exit;
   if lstrcmpiw(GetExt(AppPath,ext1,7),GetExt(App,ext2,7))<>0 then
     CmdLine:=AppPath;
-  Flags := CREATE_NEW_CONSOLE;
+  flags := CREATE_NEW_CONSOLE;
   if Show = SW_HIDE then
-    Flags := Flags or CREATE_NO_WINDOW;
+    flags := flags or CREATE_NO_WINDOW;
   FillChar(Startup, SizeOf(Startup),0);
   with Startup do
   begin
@@ -95,7 +95,7 @@ begin
     inc(p);
     StrCopyW(p,CmdLine);
   end;
-  if CreateProcessW(nil,App,nil,nil,FALSE,Flags,nil,DfltDirectory,Startup,ProcInf) then
+  if CreateProcessW(nil,App,nil,nil,FALSE,flags,nil,DfltDirectory,Startup,ProcInf) then
   begin
     if TimeOut<>0 then
     begin
@@ -123,7 +123,7 @@ end;
 function ExecuteWait(AppPath:PAnsiChar; CmdLine:PAnsiChar=nil; DfltDirectory:PAnsiChar=nil;
          Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 var
-  Flags: dword;
+  flags: dword;
   {$IFDEF FPC}
   Startup: StartupInfo;
   {$ELSE}
@@ -139,9 +139,9 @@ begin
     exit;
   if lstrcmpia(GetExt(AppPath,ext1,7),GetExt(App,ext2,7))<>0 then
     CmdLine:=AppPath;
-  Flags := CREATE_NEW_CONSOLE;
+  flags := CREATE_NEW_CONSOLE;
   if Show = SW_HIDE then
-    Flags := Flags or CREATE_NO_WINDOW;
+    flags := flags or CREATE_NO_WINDOW;
   FillChar(Startup, SizeOf(Startup),0);
   with Startup do
   begin
@@ -158,7 +158,7 @@ begin
     inc(p);
     StrCopy(p,CmdLine);
   end;
-  if CreateProcessA(nil,App,nil,nil,FALSE,Flags,nil,DfltDirectory,Startup,ProcInf) then
+  if CreateProcessA(nil,App,nil,nil,FALSE,flags,nil,DfltDirectory,Startup,ProcInf) then
   begin
     if TimeOut<>0 then
     begin
@@ -241,26 +241,26 @@ begin
     AttachThreadInput(dwThreadID,dwTargetOwner,FALSE);
 end;
 
-function WaitFocusedWndChild(Wnd:HWND):HWND;
+function WaitFocusedWndChild(wnd:HWND):HWND;
 var
   T1,T2:integer;
-  W:HWND;
+  w:HWND;
 begin
   Sleep(50);
   T1:=GetTickCount;
   repeat
-    W:=GetTopWindow(Wnd);
-    if W=0 then W:=Wnd;
-    W:=GetFocusedChild(W);
-    if W<>0 then
+    w:=GetTopWindow(wnd);
+    if w=0 then w:=wnd;
+    w:=GetFocusedChild(w);
+    if w<>0 then
     begin
-      Wnd:=W;
+      wnd:=w;
       break;
     end;
     T2:=GetTickCount;
     if Abs(T1-T2)>100 then break;
   until false;
-  Result:=Wnd;
+  Result:=wnd;
 end;
 
 function SendString(wnd:HWND;astr:PWideChar):integer;
@@ -586,7 +586,7 @@ const
   // depends of record align
   offset=SizeOf(pointer) div 2; // 4 for win64, 2 for win32
 var
-  TmpBuf:array [0..BufSize-1] of WideChar;
+  tmpbuf:array [0..BufSize-1] of WideChar;
 var
   dummy:longint;
   size:integer;
@@ -595,15 +595,15 @@ begin
   result:=0;
 
   if NtQueryObject(ptrec(param)^.handle,ObjectNameInformation,
-     @TmpBuf,BufSize*SizeOf(WideChar),dummy)=0 then
+     @tmpbuf,BufSize*SizeOf(WideChar),dummy)=0 then
   begin
     // UNICODE_STRING: 2b - length, 2b - maxlen, (align), next - pWideChar
-    size:=pword(@TmpBuf)^; // length in bytes
+    size:=pword(@tmpbuf)^; // length in bytes
     if size>=0 then
     begin
       GetMem(ptrec(param)^.fname,size+SizeOf(WideChar)); // length in bytes
 
-      pc:=pWideChar(pint_ptr(@TmpBuf[offset])^);
+      pc:=pWideChar(pint_ptr(@tmpbuf[offset])^);
       move(pc^,ptrec(param)^.fname^,size); // can be without zero
       pword(pAnsiChar(ptrec(param)^.fname)+size)^:=0;
     end
@@ -612,7 +612,7 @@ begin
   end;
 end;
 
-function TestHandle(Handle:THANDLE;MultiThread:bool;timeout:cardinal):pWideChar;
+function TestHandle(Handle:THANDLE;MultiThread:bool;TimeOut:cardinal):pWideChar;
 var
   hThread:THANDLE;
   rec:trec;
@@ -623,8 +623,8 @@ begin
 {
   // check what it - file
   if (NtQueryObject(Handle,ObjectTypeInformation,
-     @TmpBuf,BufSize*SizeOf(WideChar),dummy)<>0) or
-     (StrCmpW(TmpBuf+$30,'File')<>0) then
+     @tmpbuf,BufSize*SizeOf(WideChar),dummy)<>0) or
+     (StrCmpW(tmpbuf+$30,'File')<>0) then
     Exit;
 }
   // check what it disk file
@@ -642,7 +642,7 @@ begin
   else
   begin
     hThread:=BeginThread(nil,0,@GetName,@rec,0,res);
-    if WaitForSingleObject(hThread,timeout)=WAIT_TIMEOUT then
+    if WaitForSingleObject(hThread,TimeOut)=WAIT_TIMEOUT then
     begin
       TerminateThread(hThread,0);
     end
@@ -653,7 +653,7 @@ begin
 end;
 
 function GetFileFromWnd(wnd:HWND;Filter:tFFWFilterProc;
-         flags:dword=gffdMultiThread+gffdOld;timeout:cardinal=ThreadTimeout):pWideChar;
+         flags:dword=gffdMultiThread+gffdOld;TimeOut:cardinal=ThreadTimeout):pWideChar;
 var
   hProcess,h:THANDLE;
   pid:THANDLE;
@@ -680,7 +680,7 @@ begin
     begin
       if DuplicateHandle(pid,i,hProcess,@h,GENERIC_READ,false,0) then
       begin
-        pc:=TestHandle(h,(flags and gffdMultiThread)<>0,timeout);
+        pc:=TestHandle(h,(flags and gffdMultiThread)<>0,TimeOut);
         if pc<>nil then
         begin
   //        if GetFileType(h)=FILE_TYPE_DISK then
