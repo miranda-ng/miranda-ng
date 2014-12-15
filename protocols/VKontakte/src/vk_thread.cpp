@@ -314,7 +314,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	}
 
 	int iNewStatus = (json_as_int(json_get(pItem, "online")) == 0) ? ID_STATUS_OFFLINE : ID_STATUS_ONLINE;
-	if (getWord(hContact, "Status", 0) != iNewStatus)
+	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != iNewStatus)
 		setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
@@ -456,10 +456,9 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			LONG userID = getDword(hContact, "ID", -1);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
-			if (getWord(hContact, "Status", 0) != ID_STATUS_OFFLINE) {
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);
-				SetMirVer(hContact, -1);
-			}
+			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);			
+			SetMirVer(hContact, -1);
 		}
 	arContacts.destroy();
 	AddFeedSpecialUser();
