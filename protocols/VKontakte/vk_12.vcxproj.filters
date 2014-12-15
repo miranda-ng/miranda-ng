@@ -33,9 +33,6 @@
     <ClCompile Include="src\misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\vk_thread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\vk_queue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -55,6 +52,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vk_history.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vk_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vk_feed.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

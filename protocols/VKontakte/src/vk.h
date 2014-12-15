@@ -67,6 +67,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VK_API_VER "5.27"
 #define VER_API CHAR_PARAM("v", VK_API_VER)
 
+#define VK_FEED_USER 2147483647L
 
 #if defined(_DEBUG)
 	#define VK_NODUMPHEADERS 0

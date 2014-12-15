@@ -29,7 +29,7 @@ INT_PTR __cdecl CVkProto::SvcGetAllServerHistory(WPARAM hContact, LPARAM)
 		return 0;
 
 	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1)
+	if (userID == -1 || userID == VK_FEED_USER)
 		return 0;
 
 	HANDLE hDBEvent = db_event_first(hContact);
@@ -125,7 +125,7 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 		return;
 	
 	LONG userID = getDword(hContact, "ID", -1);
-	if (-1 == userID)
+	if (-1 == userID || userID == VK_FEED_USER)
 		return;
 
 	CMStringA code, formatcode = "var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"

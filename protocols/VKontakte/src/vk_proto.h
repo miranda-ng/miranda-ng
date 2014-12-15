@@ -47,11 +47,11 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 
 	CMStringA m_szUrl;
 	CMStringA m_szParam;
-	bool bNeedsRestart, bIsMainConn;
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
-	bool m_bApiReq;
 	int m_iRetry;
+	bool m_bApiReq;
+	bool bNeedsRestart, bIsMainConn;
 };
 
 struct PARAM
@@ -155,6 +155,25 @@ struct CVkFileUploadParam {
 	__forceinline bool IsAccess() { return ::_taccess(FileName, 0) == 0; }
 	__forceinline char* atrName() { return atr; }
 	__forceinline char* fileName() { return fname; }
+};
+
+struct CVkUserInfo : public MZeroedObject{
+	CVkUserInfo(LONG _UserId) : 
+		m_UserId(_UserId),
+		m_bIsGroup(false)
+	{}
+
+	CVkUserInfo(LONG _UserId, bool  _bIsGroup, CMString& _tszUserNick, CMString& _tszLink) :
+		m_UserId(_UserId),
+		m_bIsGroup(_bIsGroup),
+		m_tszUserNick(_tszUserNick),
+		m_tszLink(_tszLink)
+	{}
+	LONG m_UserId;
+
+	CMString m_tszUserNick;
+	CMString m_tszLink;
+	bool m_bIsGroup;
 };
 
 struct TFakeAckParams
@@ -286,6 +305,16 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReciveUpload(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReciveUploadFile(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	
+	//==== Feed ==========================================================================
+
+	void AddFeedSpecialUser();
+	void AddFeedEvent(CMString& tszBody, time_t tTime);
+	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);
+	CMString GetVkPhotoItem(JSONNODE *pPhotoItem);
+	CMString GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
+	void RetrieveUnreadNews();
+	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
@@ -445,7 +474,11 @@ private:
 		m_bPopUpSyncHistory,
 		m_bAddImgBbc,
 		m_bStikersAsSmyles,
-		m_bUserForceOnlineOnActivity;
+		m_bUserForceOnlineOnActivity,
+		m_bNewsEnabled,
+		m_bBBCOnNews;
+
+	int m_iNewsInterval;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int m_iMarkMessageReadOn; 
