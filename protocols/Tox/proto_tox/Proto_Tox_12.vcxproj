@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{44298314-7DD4-4EF7-B576-30E503257223}</ProjectGuid>
+    <ProjectGuid>{129A4E61-E476-45E8-BD50-5E03BA80E9AD}</ProjectGuid>
     <ProjectName>Proto_Tox</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
