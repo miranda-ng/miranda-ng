@@ -153,13 +153,13 @@ void RegisterIcons();
 extern HINSTANCE g_hInst;
 extern HANDLE hHeap;
 
-extern KN_FP_MASK 
-	def_kn_fp_mask[], 
-	def_kn_fp_overlays_mask[], 
-	def_kn_fp_overlays1_mask[], 
-	def_kn_fp_overlays2_mask[],
-	def_kn_fp_overlays3_mask[],
-	def_kn_fp_overlays4_mask[];
+extern KN_FP_MASK
+def_kn_fp_mask[],
+def_kn_fp_overlays_mask[],
+def_kn_fp_overlays1_mask[],
+def_kn_fp_overlays2_mask[],
+def_kn_fp_overlays3_mask[],
+def_kn_fp_overlays4_mask[];
 
 extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP_OVERLAYS2_COUNT, DEFAULT_KN_FP_OVERLAYS3_COUNT, DEFAULT_KN_FP_OVERLAYS4_COUNT;
 
