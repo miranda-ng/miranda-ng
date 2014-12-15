@@ -344,7 +344,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 	char *szRealProto = getProto(hRealContact);
 	char *szProto = getProto(event->pszProto, event->hContact);
 	tempBase[0] = '\0';
-	
+
 	TemplateMap *tmpm = getTemplateMap(protoSettings);
 	if (tmpm != NULL) {
 		strcpy(tempBase, "file://");
@@ -427,9 +427,9 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
 			bool isGroupBreak = true;
 			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
-				 && eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
-				 && (isSameDate(eventData->time, getLastEventTime()))
-				 && (((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
+				&& eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
+				&& (isSameDate(eventData->time, getLastEventTime()))
+				&& (((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
 				isGroupBreak = false;
 
 			if (isSent) {
@@ -445,7 +445,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			tmpltName[0] = groupTemplate;
 			tmpltName[1] = NULL;
 			groupTemplate = NULL;
-			
+
 			char *szName = NULL, *szText = NULL, *szFileDesc = NULL;
 			if (event->eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, szRealProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
@@ -507,7 +507,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				Template *tmplt = tmpm->getTemplate(tmpltName[i]);
 				if (tmplt == NULL)
 					continue;
-				
+
 				for (Token *token = tmplt->getTokens(); token != NULL; token = token->getNext()) {
 					const char *tokenVal;
 					tokenVal = NULL;

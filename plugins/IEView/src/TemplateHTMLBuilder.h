@@ -26,25 +26,25 @@ class TemplateHTMLBuilder;
 #include "HTMLBuilder.h"
 #include "Template.h"
 
-class TemplateHTMLBuilder:public HTMLBuilder
+class TemplateHTMLBuilder :public HTMLBuilder
 {
 protected:
-		char *timestampToString(DWORD dwFlags, time_t check, int mode);
-		time_t 		startedTime;
-		time_t 		getStartedTime();
-		const char *groupTemplate;
-		time_t 		flashAvatarsTime[2];
-		char *		flashAvatars[2];
-		const char *getFlashAvatar(const TCHAR *file, int index);
-		char *getAvatar(MCONTACT hContact, const char *szProto);
-		void buildHeadTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
-		void appendEventTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
-		virtual TemplateMap *getTemplateMap(ProtocolSettings *);
-		virtual int getFlags(ProtocolSettings *);
+	char *timestampToString(DWORD dwFlags, time_t check, int mode);
+	time_t 		startedTime;
+	time_t 		getStartedTime();
+	const char *groupTemplate;
+	time_t 		flashAvatarsTime[2];
+	char *		flashAvatars[2];
+	const char *getFlashAvatar(const TCHAR *file, int index);
+	char *getAvatar(MCONTACT hContact, const char *szProto);
+	void buildHeadTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
+	void appendEventTemplate(IEView *, IEVIEWEVENT *event, ProtocolSettings* protoSettings);
+	virtual TemplateMap *getTemplateMap(ProtocolSettings *);
+	virtual int getFlags(ProtocolSettings *);
 public:
-		TemplateHTMLBuilder();
-		virtual ~TemplateHTMLBuilder();
-//	void buildHead(IEView *, IEVIEWEVENT *event);
+	TemplateHTMLBuilder();
+	virtual ~TemplateHTMLBuilder();
+	//	void buildHead(IEView *, IEVIEWEVENT *event);
 };
 
 #endif

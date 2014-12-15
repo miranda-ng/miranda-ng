@@ -193,8 +193,8 @@ public:
 
 class Options {
 private:
-   	static int 		generalFlags;
-   	static bool     isInited;
+	static int 		generalFlags;
+	static bool     isInited;
 	static bool     bSmileyAdd;
 	static int      avatarServiceFlags;
 	static ProtocolSettings* protocolList;
@@ -205,26 +205,26 @@ public:
 		MODE_TEMPLATE = 2
 	};
 	enum OPTIONS {
-		GENERAL_ENABLE_BBCODES	= 0x000001,
-		GENERAL_ENABLE_FLASH 	= 0x000004,
-		GENERAL_SMILEYINNAMES  	= 0x000010,
-		GENERAL_NO_BORDER  		= 0x000020,
-		GENERAL_ENABLE_EMBED	= 0x000040,
+		GENERAL_ENABLE_BBCODES = 0x000001,
+		GENERAL_ENABLE_FLASH = 0x000004,
+		GENERAL_SMILEYINNAMES = 0x000010,
+		GENERAL_NO_BORDER = 0x000020,
+		GENERAL_ENABLE_EMBED = 0x000040,
 
-		LOG_SHOW_NICKNAMES    	= 0x000100,
-		LOG_SHOW_TIME         	= 0x000200,
-		LOG_SHOW_DATE         	= 0x000400,
-		LOG_SHOW_SECONDS      	= 0x000800,
-		LOG_LONG_DATE         	= 0x001000,
-		LOG_RELATIVE_DATE     	= 0x002000,
-		LOG_GROUP_MESSAGES	  	= 0x004000,
+		LOG_SHOW_NICKNAMES = 0x000100,
+		LOG_SHOW_TIME = 0x000200,
+		LOG_SHOW_DATE = 0x000400,
+		LOG_SHOW_SECONDS = 0x000800,
+		LOG_LONG_DATE = 0x001000,
+		LOG_RELATIVE_DATE = 0x002000,
+		LOG_GROUP_MESSAGES = 0x004000,
 
-		LOG_IMAGE_ENABLED		= 0x010000,
-		LOG_IMAGE_SCROLL        = 0x020000
+		LOG_IMAGE_ENABLED = 0x010000,
+		LOG_IMAGE_SCROLL = 0x020000
 
 	};
 	enum AVATARSERVICEFLAGS {
-		AVATARSERVICE_PRESENT     = 0x0001,
+		AVATARSERVICE_PRESENT = 0x0001,
 	};
 
 	static void     		setGeneralFlags(int flags);

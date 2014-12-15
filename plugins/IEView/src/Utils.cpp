@@ -35,7 +35,7 @@ wchar_t* Utils::toAbsolute(wchar_t* relative)
 	long len = (int)wcslen(bdir);
 	long tlen = len + (int)wcslen(relative);
 	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(tlen + 1));
-	if(result) {
+	if (result) {
 		wcscpy(result, bdir);
 		wcscpy(result + len, relative);
 	}
@@ -45,7 +45,7 @@ wchar_t* Utils::toAbsolute(wchar_t* relative)
 static int countNoWhitespace(const wchar_t *str)
 {
 	int c;
-	for (c=0; *str!='\n' && *str!='\r' && *str!='\t' && *str!=' ' && *str!='\0'; str++, c++);
+	for (c = 0; *str != '\n' && *str != '\r' && *str != '\t' && *str != ' ' && *str != '\0'; str++, c++);
 	return c;
 }
 
@@ -57,9 +57,9 @@ void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...)
 
 	if (str == NULL) return;
 
-	if (*str==NULL || *sizeAlloced<=0) {
+	if (*str == NULL || *sizeAlloced <= 0) {
 		*sizeAlloced = size = 2048;
-		*str = (char *) malloc(size);
+		*str = (char *)malloc(size);
 		len = 0;
 	}
 	else {
@@ -70,17 +70,17 @@ void Utils::appendText(char **str, int *sizeAlloced, const char *fmt, ...)
 	if (size < 128) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
-		*str = (char *) realloc(*str, *sizeAlloced);
+		*str = (char *)realloc(*str, *sizeAlloced);
 	}
 	p = *str + len;
 	va_start(vararg, fmt);
-	while (mir_vsnprintf(p, size  - 1, fmt, vararg) == -1) {
+	while (mir_vsnprintf(p, size - 1, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
-		*str = (char *) realloc(*str, *sizeAlloced);
+		*str = (char *)realloc(*str, *sizeAlloced);
 		p = *str + len;
 	}
-	p[ size - 1 ] = '\0';
+	p[size - 1] = '\0';
 	va_end(vararg);
 }
 
@@ -92,9 +92,9 @@ void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...)
 
 	if (str == NULL) return;
 
-	if (*str==NULL || *sizeAlloced<=0) {
+	if (*str == NULL || *sizeAlloced <= 0) {
 		*sizeAlloced = size = 2048;
-		*str = (wchar_t *) malloc(size);
+		*str = (wchar_t *)malloc(size);
 		len = 0;
 	}
 	else {
@@ -105,24 +105,24 @@ void Utils::appendText(wchar_t **str, int *sizeAlloced, const wchar_t *fmt, ...)
 	if (size < 128) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
-		*str = (wchar_t *) realloc(*str, *sizeAlloced);
+		*str = (wchar_t *)realloc(*str, *sizeAlloced);
 	}
 	p = *str + len;
 	va_start(vararg, fmt);
 	while (mir_vsnwprintf(p, size / sizeof(wchar_t) - 1, fmt, vararg) == -1) {
 		size += 2048;
 		(*sizeAlloced) += 2048;
-		*str = (wchar_t *) realloc(*str, *sizeAlloced);
+		*str = (wchar_t *)realloc(*str, *sizeAlloced);
 		p = *str + len;
 	}
-	p[ size / sizeof(wchar_t) - 1] = '\0';
+	p[size / sizeof(wchar_t) - 1] = '\0';
 	va_end(vararg);
 }
 
 void Utils::convertPath(char *path)
 {
 	if (path != NULL) {
-		for (; *path!='\0'; path++) {
+		for (; *path != '\0'; path++) {
 			if (*path == '\\') *path = '/';
 		}
 	}
@@ -131,7 +131,7 @@ void Utils::convertPath(char *path)
 void Utils::convertPath(wchar_t *path)
 {
 	if (path != NULL) {
-		for (; *path!='\0'; path++) {
+		for (; *path != '\0'; path++) {
 			if (*path == '\\') *path = '/';
 		}
 	}
@@ -140,15 +140,15 @@ void Utils::convertPath(wchar_t *path)
 int Utils::detectURL(const wchar_t *text)
 {
 	int i;
-	for (i=0;text[i]!='\0';i++) {
-		if (!((text[i] >= '0' && text[i]<='9') || iswalpha(text[i]))) {
+	for (i = 0; text[i] != '\0'; i++) {
+		if (!((text[i] >= '0' && text[i] <= '9') || iswalpha(text[i]))) {
 			break;
 		}
 	}
-	if (i > 0 && text[i]==':' && text[i+1]=='/' && text[i+2]=='/') {
-		i += countNoWhitespace(text+i);
-		for (; i > 0; i --) {
-			if ((text[i-1] >= '0' && text[i-1]<='9') || iswalpha(text[i-1]) || text[i-1]=='/') {
+	if (i > 0 && text[i] == ':' && text[i + 1] == '/' && text[i + 2] == '/') {
+		i += countNoWhitespace(text + i);
+		for (; i > 0; i--) {
+			if ((text[i - 1] >= '0' && text[i - 1] <= '9') || iswalpha(text[i - 1]) || text[i - 1] == '/') {
 				break;
 			}
 		}
@@ -169,7 +169,7 @@ char *Utils::escapeString(const char *a)
 			l++;
 		}
 	}
-	char *out = (char*)mir_alloc(l+1);
+	char *out = (char*)mir_alloc(l + 1);
 	for (i = l = 0; i < len; i++, l++) {
 		if (a[i] == '\\' || a[i] == '\n' || a[i] == '\r' || a[i] == '\"'
 			|| a[i] == '\'' || a[i] == '\b' || a[i] == '\t' || a[i] == '\f') {

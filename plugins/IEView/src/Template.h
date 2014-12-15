@@ -43,7 +43,7 @@ private:
 	Token *next;
 public:
 	enum TOKENS {
-		END      = 0,
+		END = 0,
 		BASE,
 		PLAIN,
 		TEXT,
@@ -65,7 +65,7 @@ public:
 		NICKOUT,
 		FILEDESC,
 	};
-	Token(int, const char *, int );
+	Token(int, const char *, int);
 	~Token();
 	int getType();
 	int getEscape();

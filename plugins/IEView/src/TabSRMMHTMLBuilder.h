@@ -25,7 +25,7 @@ class TabSRMMHTMLBuilder;
 
 #include "TemplateHTMLBuilder.h"
 
-class TabSRMMHTMLBuilder:public TemplateHTMLBuilder
+class TabSRMMHTMLBuilder :public TemplateHTMLBuilder
 {
 protected:
 	virtual void loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour);

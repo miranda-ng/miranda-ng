@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 INT_PTR HandleIEWindow(WPARAM, LPARAM lParam)
 {
-	IEVIEWWINDOW *window = (IEVIEWWINDOW *) lParam;
+	IEVIEWWINDOW *window = (IEVIEWWINDOW *)lParam;
 	IEView::init();
 	Options::init();
 	if (window->iType == IEW_CREATE) {
@@ -57,7 +57,7 @@ INT_PTR HandleIEWindow(WPARAM, LPARAM lParam)
 	else if (window->iType == IEW_SETPOS) {
 		IEView *view = IEView::get(window->hwnd);
 		if (view != NULL)
-			view->setWindowPos(window->x, window->y, window->cx,window->cy);
+			view->setWindowPos(window->x, window->y, window->cx, window->cy);
 	}
 	else if (window->iType == IEW_SCROLLBOTTOM) {
 		IEView *view = IEView::get(window->hwnd);
@@ -74,7 +74,7 @@ INT_PTR HandleIEWindow(WPARAM, LPARAM lParam)
 
 INT_PTR HandleIEEvent(WPARAM, LPARAM lParam)
 {
-	IEVIEWEVENT *event = (IEVIEWEVENT *) lParam;
+	IEVIEWEVENT *event = (IEVIEWEVENT *)lParam;
 	IEView::init();
 	Options::init();
 	IEView *view = IEView::get(event->hwnd);
@@ -95,7 +95,7 @@ INT_PTR HandleIEEvent(WPARAM, LPARAM lParam)
 
 INT_PTR HandleIENavigate(WPARAM, LPARAM lParam)
 {
-	IEVIEWNAVIGATE *navigate = (IEVIEWNAVIGATE *) lParam;
+	IEVIEWNAVIGATE *navigate = (IEVIEWNAVIGATE *)lParam;
 	IEView::init();
 	Options::init();
 	IEView *view = IEView::get(navigate->hwnd);

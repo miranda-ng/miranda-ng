@@ -210,12 +210,12 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL)
 		return;
 
- 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
+	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
 		buildHeadTemplate(view, event, protoSettings);
 		return;
 	}
- 	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
-	 	const char *externalCSS = protoSettings->getSRMMCssFilename();
+	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
+		const char *externalCSS = protoSettings->getSRMMCssFilename();
 		if (strncmp(externalCSS, "http://", 7))
 			Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"file://%s\"/></head><body class=\"body\">\n", externalCSS);
 		else
@@ -225,24 +225,24 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
-	 	DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
+		DWORD dwFlags = db_get_dw(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 		Utils::appendText(&output, &outputSize, "<html><head><style type=\"text/css\">\n");
 		COLORREF inColor, outColor;
 		COLORREF bkgColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "BkgColour", 0xFFFFFF);
-		bkgColor= (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
+		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		COLORREF gridColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "hgrid", 0xFFFFFF);
-		gridColor= (((gridColor & 0xFF) << 16) | (gridColor & 0xFF00) | ((gridColor & 0xFF0000) >> 16));
+		gridColor = (((gridColor & 0xFF) << 16) | (gridColor & 0xFF00) | ((gridColor & 0xFF0000) >> 16));
 		if (dwFlags & MWF_LOG_INDIVIDUALBKG) {
-			inColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "inbg", RGB(224,224,224));
-			outColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "outbg", RGB(224,224,224));
-			inColor= (((inColor & 0xFF) << 16) | (inColor & 0xFF00) | ((inColor & 0xFF0000) >> 16));
-			outColor= (((outColor & 0xFF) << 16) | (outColor & 0xFF00) | ((outColor & 0xFF0000) >> 16));
+			inColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "inbg", RGB(224, 224, 224));
+			outColor = db_get_dw(NULL, TABSRMM_FONTMODULE, "outbg", RGB(224, 224, 224));
+			inColor = (((inColor & 0xFF) << 16) | (inColor & 0xFF00) | ((inColor & 0xFF0000) >> 16));
+			outColor = (((outColor & 0xFF) << 16) | (outColor & 0xFF00) | ((outColor & 0xFF0000) >> 16));
 		}
 		else inColor = outColor = bkgColor;
 
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-			protoSettings->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getSRMMBackgroundFilename());
+				protoSettings->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getSRMMBackgroundFilename());
 		}
 		else Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n", (int)bkgColor);
 
@@ -251,26 +251,26 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) gridColor);
-			Utils::appendText(&output, &outputSize, ".divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) gridColor);
+			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)gridColor);
+			Utils::appendText(&output, &outputSize, ".divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)gridColor);
 			Utils::appendText(&output, &outputSize, ".divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) gridColor);
-			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) gridColor);
+			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)gridColor);
+			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)gridColor);
 		}
 		else {
 			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
+			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
 			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) gridColor, (int) inColor);
+				(int)gridColor, (int)inColor);
 			Utils::appendText(&output, &outputSize, ".divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) gridColor, (int) outColor);
-			Utils::appendText(&output, &outputSize, ".divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
+				(int)gridColor, (int)outColor);
+			Utils::appendText(&output, &outputSize, ".divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
 			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) gridColor, (int) inColor);
+				(int)gridColor, (int)inColor);
 			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) gridColor, (int) outColor);
+				(int)gridColor, (int)outColor);
 		}
 
 		for (int i = 0; i < FONT_NUM; i++) {
