@@ -7,7 +7,7 @@
 ;============================================================
 [A contact list for blind folks.]
 Список контактов для людей с нарушениями зрения.
-[Delete Contact]
+[Delete contact]
 Удалить контакт
 [Are you sure you want to delete %s?]
 Удалить %s из списка?
@@ -25,13 +25,13 @@
 Горячие клавиши
 [Show/Hide:]
 Показать/Спрятать:
-[Read Message:]
+[Read message:]
 Прочитать сообщение
-[Web Search:]
+[Web search:]
 Поиск в web:
 [Open in new browser window]
 Открыть в новом окне
-[Show Options]
+[Show options]
 Настройки
 [Hide offline users]
 Скрыть отключённых
@@ -131,7 +131,7 @@
 Скрыть счётчик, если нет пользователей в сети
 [Sort groups alphabetically]
 Сортировать группы по алфавиту
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Быстрый поиск только в открытых группах
 [Templates]
 Шаблоны
@@ -249,7 +249,7 @@
 Список
 [Global]
 Глобальные
-[Unknown Protocol]
+[Unknown protocol]
 Неизвестный протокол
 [Expanded]
 развернута
