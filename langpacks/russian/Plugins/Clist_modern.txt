@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Показывает контакты, события, статусы протоколов с расширенными функциями оформления (скины). Мультиоконная модификация, расширенная поддержка метаконтактов.
 [Transparency:]
 Прозрачность:
@@ -344,7 +344,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Allow internal requesting of status message text]
 Разрешить внутренние запросы статусных сообщений
 [Remove status message if contact became offline]
-Удалить статусное сообщение, если контакт оффлайн
+Удалить статусное сообщение, если контакт не в сети
 [Use improved search method in contact list]
 Поиск по списку контактов с фильтрацией результатов
 [Metacontacts stuff]
@@ -366,7 +366,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Appearance]
 Внешний вид
 [Pin to desktop]
-Прикрепить к рабочему столу
+Прикрепить к раб. столу
 [Client area margins]
 Границы списка контактов
 [Thin border main window]
@@ -389,12 +389,10 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Включить тень (нужен перезапуск)
 [Frames]
 Фреймы
-[Between frames:]
-Между фреймами
-[After captions:]
-После заголовка
-[Gaps]
-Интервалы
+[Gaps between frames:]
+Интервалы между фреймами:
+[Gaps after captions:]
+Интервалы после заголовка:
 [Use non-layered mode]
 Режим без скина
 [Round corners]
@@ -407,8 +405,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Стиль Аэро (Vista и выше)
 [Order of items:]
 Порядок элементов:
-[Min row height:]
-Мин. высота линии:
+[Minimum row height:]
+Минимальная высота линии:
 [Row border:]
 Граница линии:
 [Variable row height]
@@ -425,14 +423,14 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Левое поле:
 [Right margin:]
 Правое поле:
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Компактный режим\n(Показывать аватары и дополнительный текст только на выбранных контактах)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Компактный режим (показывать аватары и дополнительный текст только на выбранных контактах)
 [Draw border on avatar]
 Рамки на аватарах
 [Draw overlay icons]
 Значки на аватарах
-[Size:]
-Размер:
+[Max size (pixels):]
+Максимальный размер (пикселей):
 [Round corners of avatars]
 Закруглённые аватары
 [Ignore size for row height calcs]
@@ -449,8 +447,8 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Значок контакта
 [height]
 высота
-[Max width]
-Ширина
+[width]
+ширина
 [Use old render method (fast, but has artifacts)]
 Старый метод отрисовки (быстрее, но могут быть "артефакты")
 [Hide icon when showing avatar]
@@ -478,7 +476,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Align to right]
 Выровнять справа
 [Append nick if different from custom name]
-Добавлять ник, если он отличен от имени в списке
+Добавлять ник, если он отличается от имени в списке
 [Trim long text with ellipsis]
 Обрезать длинный текст многоточием
 [Show second line]

@@ -25,7 +25,7 @@
 Версия
 [Support and latest version information]
 Поддержка и информация о последней версии
-[Delete Contact]
+[Delete contact]
 Удалить контакт
 [No]
 Нет
@@ -99,7 +99,7 @@
 Прятать счётчик, когда все отключены
 [Sort groups alphabetically]
 Сортировать группы по алфавиту
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Быстрый поиск только в открытых группах
 [No expand/collapse icon]
 Не показывать значок сворачивания/разворачивания
@@ -487,7 +487,7 @@
 Переместить отмеченные контакты в эту группу
 [Appearance]
 Внешний вид
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 Показывать значки метаконтактов
 [Show additional buttons]
 Показывать дополнительные кнопки
