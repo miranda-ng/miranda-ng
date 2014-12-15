@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>YARelay</ProjectName>
-    <ProjectGuid>{62CDC1F5-AC64-4272-A12A-20B00CCC847A}</ProjectGuid>
+    <ProjectGuid>{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
