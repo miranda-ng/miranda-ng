@@ -484,7 +484,7 @@ TCHAR *GetProtoName(struct ClcContact *item)
 	proto_name[0] = '\0';
 	if (item->hContact == NULL || item->proto == NULL)
 	{
-		mir_tstrncpy(proto_name, TranslateT("Unknown Protocol"), SIZEOF(proto_name));
+		mir_tstrncpy(proto_name, TranslateT("Unknown protocol"), SIZEOF(proto_name));
 		return proto_name;
 	}
 
