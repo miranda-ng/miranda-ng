@@ -25,7 +25,7 @@ class MUCCHTMLBuilder;
 
 #include "HTMLBuilder.h"
 
-class MUCCHTMLBuilder:public HTMLBuilder
+class MUCCHTMLBuilder :public HTMLBuilder
 {
 protected:
 	void loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour);

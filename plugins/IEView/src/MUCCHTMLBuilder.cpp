@@ -51,7 +51,7 @@ void MUCCHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
-		lf->lfHeight = (char) db_get_b(NULL, MUCCMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(NULL, MUCCMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
@@ -99,17 +99,21 @@ char *MUCCHTMLBuilder::timestampToString(DWORD dwData, time_t check)
 	if (dwData&IEEDD_MUCC_SHOW_DATE && dwData&IEEDD_MUCC_SHOW_TIME) {
 		if (dwData&IEEDD_MUCC_LONG_DATE) {
 			dbtts.szFormat = dwData&IEEDD_MUCC_SECONDS ? (char *)"D s" : (char *)"D t";
-		} else {
+		}
+		else {
 			dbtts.szFormat = dwData&IEEDD_MUCC_SECONDS ? (char *)"d s" : (char *)"d t";
 		}
-	} else if (dwData&IEEDD_MUCC_SHOW_DATE) {
+	}
+	else if (dwData&IEEDD_MUCC_SHOW_DATE) {
 		dbtts.szFormat = dwData&IEEDD_MUCC_LONG_DATE ? (char *)"D" : (char *)"d";
-	} else if (dwData&IEEDD_MUCC_SHOW_TIME) {
+	}
+	else if (dwData&IEEDD_MUCC_SHOW_TIME) {
 		dbtts.szFormat = dwData&IEEDD_MUCC_SECONDS ? (char *)"s" : (char *)"t";
-	} else {
+	}
+	else {
 		dbtts.szFormat = (char *)"";
 	}
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
+	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
 	strncat(szResult, str, 500);
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
@@ -125,14 +129,15 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL) {
 		return;
 	}
- 	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE) {
-//		buildHeadTemplate(view, event);
+	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE) {
+		//		buildHeadTemplate(view, event);
 		return;
 	}
- 	if (protoSettings->getChatMode() == Options::MODE_CSS) {
-	 	const char *externalCSS = protoSettings->getChatCssFilename();
+	if (protoSettings->getChatMode() == Options::MODE_CSS) {
+		const char *externalCSS = protoSettings->getChatCssFilename();
 		Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
-	} else {
+	}
+	else {
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
@@ -140,14 +145,15 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, MUCCMOD, "BackgroundLog", 0xFFFFFF);
 		COLORREF inColor, outColor;
-		bkgColor= (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
+		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = outColor = bkgColor;
 		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-			protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getChatBackgroundFilename());
-		} else {
+				protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getChatBackgroundFilename());
+		}
+		else {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-				 		(int) bkgColor);
+				(int)bkgColor);
 		}
 		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
 		Utils::appendText(&output, &outputSize, ".img {vertical-align: middle;}\n");
@@ -157,22 +163,23 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 			Utils::appendText(&output, &outputSize, ".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-		} else {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
-			Utils::appendText(&output, &outputSize, ".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
 		}
-	 	for (int i = 0; i < FONT_NUM; i++) {
+		else {
+			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
+			Utils::appendText(&output, &outputSize, ".divUserJoined {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divUserLeft {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divTopicChange {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+		}
+		for (int i = 0; i < FONT_NUM; i++) {
 			loadMsgDlgFont(i, &lf, &color);
 			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
-			classNames[i],
-			lf.lfFaceName,
-			abs((signed char)lf.lfHeight) *  74 /logPixelSY ,
-			lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-			(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
-			lf.lfItalic ? "font-style: italic;" : "");
+				classNames[i],
+				lf.lfFaceName,
+				abs((signed char)lf.lfHeight) * 74 / logPixelSY,
+				lf.lfWeight >= FW_BOLD ? "bold" : "normal",
+				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
+				lf.lfItalic ? "font-style: italic;" : "");
 		}
 		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
 	}
@@ -186,7 +193,7 @@ void MUCCHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		DWORD dwData = eventData->dwData;
 		char *style = NULL;
 		int  styleSize;
@@ -208,11 +215,11 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", isSent ? "divOut" : "divIn");
 			if (dwData & IEEDD_MUCC_SHOW_TIME || dwData & IEEDD_MUCC_SHOW_DATE)
 				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s </span>",
-							isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
+				isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
 
 			if (dwData & IEEDD_MUCC_SHOW_NICK)
 				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: </span>",
-							isSent ? "nameOut" : "nameIn", szName);
+				isSent ? "nameOut" : "nameIn", szName);
 
 			if (dwData & IEEDD_MUCC_MSG_ON_NEW_LINE)
 				Utils::appendText(&output, &outputSize, "<br>");
@@ -221,9 +228,9 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			if (eventData->dwFlags & IEEDF_FORMAT_SIZE && eventData->fontSize > 0)
 				Utils::appendText(&style, &styleSize, "font-size:%dpt;", eventData->fontSize);
 
-			if (eventData->dwFlags & IEEDF_FORMAT_COLOR && eventData->color!=0xFFFFFFFF)
+			if (eventData->dwFlags & IEEDF_FORMAT_COLOR && eventData->color != 0xFFFFFFFF)
 				Utils::appendText(&style, &styleSize, "color:#%06X;", ((eventData->color & 0xFF) << 16) | (eventData->color & 0xFF00) | ((eventData->color & 0xFF0000) >> 16));
-			
+
 			if (eventData->dwFlags & IEEDF_FORMAT_FONT)
 				Utils::appendText(&style, &styleSize, "font-family:%s;", eventData->fontName);
 
@@ -232,7 +239,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 				Utils::appendText(&style, &styleSize, "font-style: %s;", eventData->fontStyle & IE_FONT_ITALIC ? "italic" : "normal");
 				Utils::appendText(&style, &styleSize, "text-decoration: %s;", eventData->fontStyle & IE_FONT_UNDERLINE ? "underline" : "none");
 			}
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\"><span style=\"%s\">%s</span></span>", className, style!=NULL ? style : "", szText);
+			Utils::appendText(&output, &outputSize, "<span class=\"%s\"><span style=\"%s\">%s</span></span>", className, style != NULL ? style : "", szText);
 			Utils::appendText(&output, &outputSize, "</div>\n");
 			if (style != NULL)
 				free(style);
@@ -260,7 +267,7 @@ void MUCCHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			Utils::appendText(&output, &outputSize, "<div class=\"%s\">", divName);
 			if (dwData & IEEDD_MUCC_SHOW_TIME || dwData & IEEDD_MUCC_SHOW_DATE)
 				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s </span>",
-							isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
+				isSent ? "timestamp" : "timestamp", timestampToString(dwData, eventData->time));
 
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">", className);
 			Utils::appendText(&output, &outputSize, Translate(eventText), szText);
@@ -289,7 +296,7 @@ void MUCCHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 		appendEventNonTemplate(view, event);
 }
 
-bool MUCCHTMLBuilder::isDbEventShown(DBEVENTINFO *dbei)
+bool MUCCHTMLBuilder::isDbEventShown(DBEVENTINFO *)
 {
 	return true;
 }

@@ -25,7 +25,7 @@ class ChatHTMLBuilder;
 
 #include "HTMLBuilder.h"
 
-class ChatHTMLBuilder:public HTMLBuilder
+class ChatHTMLBuilder :public HTMLBuilder
 {
 protected:
 	void loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour);

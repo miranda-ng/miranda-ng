@@ -55,7 +55,7 @@ void ChatHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
-		lf->lfHeight = (char) db_get_b(NULL, CHATFONTMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(NULL, CHATFONTMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
@@ -104,13 +104,14 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		return;
 	}
 	if (protoSettings->getChatMode() == Options::MODE_TEMPLATE) {
-//		buildHeadTemplate(view, event);
+		//		buildHeadTemplate(view, event);
 		return;
 	}
 	if (protoSettings->getChatMode() == Options::MODE_CSS) {
 		const char *externalCSS = protoSettings->getChatCssFilename();
 		Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
-	} else {
+	}
+	else {
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
@@ -118,33 +119,35 @@ void ChatHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
 		COLORREF bkgColor = db_get_dw(NULL, CHATMOD, "BackgroundLog", 0xFFFFFF);
 		COLORREF inColor, outColor;
-		bkgColor= (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
+		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
 		inColor = outColor = bkgColor;
 		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-			protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getChatBackgroundFilename());
-		} else {
+				protoSettings->getChatFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getChatBackgroundFilename());
+		}
+		else {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-						(int) bkgColor);
+				(int)bkgColor);
 		}
 		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
 		Utils::appendText(&output, &outputSize, ".img {vertical-align: middle;}\n");
 		if (protoSettings->getChatFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-		} else {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
 		}
-	 	for(int i = 0; i < FONT_NUM; i++) {
+		else {
+			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
+		}
+		for (int i = 0; i < FONT_NUM; i++) {
 			loadMsgDlgFont(i, &lf, &color);
 			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
-			classNames[i],
-			lf.lfFaceName,
-			abs((signed char)lf.lfHeight) *  74 /logPixelSY ,
-			lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-			(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
-			lf.lfItalic ? "font-style: italic;" : "");
+				classNames[i],
+				lf.lfFaceName,
+				abs((signed char)lf.lfHeight) * 74 / logPixelSY,
+				lf.lfWeight >= FW_BOLD ? "bold" : "normal",
+				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
+				lf.lfItalic ? "font-style: italic;" : "");
 		}
 		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
 	}
@@ -163,7 +166,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	DWORD iconFlags = db_get_dw(NULL, CHATMOD, CHAT_ICON_FLAGS, 0);
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		//DWORD dwFlags = eventData->dwFlags;
 		const char *iconFile = "";
 		DWORD dwData = eventData->dwData;
@@ -182,7 +185,7 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 		if (eventData->dwFlags & IEEDF_UNICODE_NICK)
 			szName = encodeUTF8(NULL, event->pszProto, eventData->pszNickW, ENF_NAMESMILEYS, true);
 		else
-			szName = encodeUTF8(NULL, event->pszProto, (char *) eventData->pszNick, ENF_NAMESMILEYS, true);
+			szName = encodeUTF8(NULL, event->pszProto, (char *)eventData->pszNick, ENF_NAMESMILEYS, true);
 
 		if (eventData->iType == IEED_GC_EVENT_MESSAGE) {
 			iconFile = isSent ? "message_out_chat.gif" : "message_in_chat.gif";
@@ -193,34 +196,44 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 			if (eventData->iType == IEED_GC_EVENT_ACTION) {
 				iconFile = "action.gif";
 				className = "action";
-			} else if (eventData->iType == IEED_GC_EVENT_JOIN) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_JOIN) {
 				iconFile = "join.gif";
 				className = "userJoined";
-			} else if (eventData->iType == IEED_GC_EVENT_PART) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_PART) {
 				iconFile = "part.gif";
 				className = "userLeft";
-			} else if (eventData->iType == IEED_GC_EVENT_QUIT) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_QUIT) {
 				iconFile = "quit.gif";
 				className = "userDisconnected";
-			} else if (eventData->iType == IEED_GC_EVENT_NICK) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_NICK) {
 				iconFile = "nick.gif";
 				className = "nickChange";
-			} else if (eventData->iType == IEED_GC_EVENT_KICK) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_KICK) {
 				iconFile = "kick.gif";
 				className = "userKicked";
-			} else if (eventData->iType == IEED_GC_EVENT_NOTICE) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_NOTICE) {
 				iconFile = "notice.gif";
 				className = "notice";
-			} else if (eventData->iType == IEED_GC_EVENT_TOPIC) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_TOPIC) {
 				iconFile = "topic.gif";
 				className = "topicChange";
-			} else if (eventData->iType == IEED_GC_EVENT_ADDSTATUS) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_ADDSTATUS) {
 				iconFile = "addstatus.gif";
 				className = "statusEnable";
-			} else if (eventData->iType == IEED_GC_EVENT_REMOVESTATUS) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_REMOVESTATUS) {
 				iconFile = "removestatus.gif";
 				className = "statusDisable";
-			} else if (eventData->iType == IEED_GC_EVENT_INFORMATION) {
+			}
+			else if (eventData->iType == IEED_GC_EVENT_INFORMATION) {
 				iconFile = "info.gif";
 				className = "information";
 			}
@@ -231,11 +244,11 @@ void ChatHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 		}
 		if (dwData & IEEDD_GC_SHOW_TIME) {
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s </span>",
-						isSent ? "timestamp" : "timestamp", timestampToString(eventData->time));
+				isSent ? "timestamp" : "timestamp", timestampToString(eventData->time));
 		}
 		if ((dwData & IEEDD_GC_SHOW_NICK) && eventData->iType == IEED_GC_EVENT_MESSAGE) {
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s: </span>",
-						isSent ? "nameOut" : "nameIn", szName);
+				isSent ? "nameOut" : "nameIn", szName);
 		}
 		if (dwData & IEEDD_GC_MSG_ON_NEW_LINE) {
 			Utils::appendText(&output, &outputSize, "<br>");
@@ -256,14 +269,14 @@ void ChatHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL) {
 		return;
 	}
-// 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
+	// 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
 	//	appendEventTemplate(view, event);
-//	} else {
-		appendEventNonTemplate(view, event);
-//	}
+	//	} else {
+	appendEventNonTemplate(view, event);
+	//	}
 }
 
-bool ChatHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
+bool ChatHTMLBuilder::isDbEventShown(DBEVENTINFO *)
 {
 	return true;
 }

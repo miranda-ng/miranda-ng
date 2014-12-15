@@ -93,7 +93,7 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
-		lf->lfHeight = (char) db_get_b(NULL, SRMMMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(NULL, SRMMMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
@@ -143,18 +143,20 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 		today = mktime(&tm_today);
 
-		if(dwFlags & SMF_LOG_USERELATIVEDATE && check >= today) {
+		if (dwFlags & SMF_LOG_USERELATIVEDATE && check >= today) {
 			strcpy(szResult, Translate("Today"));
 			if (mode == 0) {
 				strcat(szResult, ",");
 			}
-		} else if(dwFlags & SMF_LOG_USERELATIVEDATE && check > (today - 86400)) {
+		}
+		else if (dwFlags & SMF_LOG_USERELATIVEDATE && check > (today - 86400)) {
 			strcpy(szResult, Translate("Yesterday"));
 			if (mode == 0) {
 				strcat(szResult, ",");
 			}
-		} else {
-			if(dwFlags & SMF_LOG_USELONGDATE)
+		}
+		else {
+			if (dwFlags & SMF_LOG_USELONGDATE)
 				strcpy(format, "D");
 			else
 				strcpy(format, "d");
@@ -167,8 +169,8 @@ char *ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mod
 		strcat(format, (dwFlags & SMF_LOG_SHOWSECONDS) ? "s" : "t");
 	}
 	if (format[0] != '\0') {
-//		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
-		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
+		//		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
+		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
 		//_tcsncat(szResult, str, 500);
 		strncat(szResult, str, 500);
 	}
@@ -186,18 +188,20 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL) {
 		return;
 	}
- 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
+	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE) {
 		buildHeadTemplate(view, event, protoSettings);
 		return;
 	}
- 	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
-	 	const char *externalCSS = protoSettings->getSRMMCssFilename();
+	if (protoSettings->getSRMMMode() == Options::MODE_CSS) {
+		const char *externalCSS = protoSettings->getSRMMCssFilename();
 		if (strncmp(externalCSS, "http://", 7)) {
 			Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"file://%s\"/></head><body class=\"body\">\n", externalCSS);
-		} else {
+		}
+		else {
 			Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
 		}
-	} else {
+	}
+	else {
 		HDC hdc = GetDC(NULL);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(NULL, hdc);
@@ -207,55 +211,57 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		COLORREF inColor = db_get_dw(NULL, SRMMMOD, "IncomingBkgColour", 0xFFFFFF);
 		COLORREF outColor = db_get_dw(NULL, SRMMMOD, "OutgoingBkgColour", 0xFFFFFF);
 		COLORREF lineColor = db_get_dw(NULL, SRMMMOD, "LineColour", 0xFFFFFF);
-		bkgColor= (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
-		inColor= (((inColor & 0xFF) << 16) | (inColor & 0xFF00) | ((inColor & 0xFF0000) >> 16));
-		outColor= (((outColor & 0xFF) << 16) | (outColor & 0xFF00) | ((outColor & 0xFF0000) >> 16));
-		lineColor= (((lineColor & 0xFF) << 16) | (lineColor & 0xFF00) | ((lineColor & 0xFF0000) >> 16));
+		bkgColor = (((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16));
+		inColor = (((inColor & 0xFF) << 16) | (inColor & 0xFF00) | ((inColor & 0xFF0000) >> 16));
+		outColor = (((outColor & 0xFF) << 16) | (outColor & 0xFF00) | ((outColor & 0xFF0000) >> 16));
+		lineColor = (((lineColor & 0xFF) << 16) | (lineColor & 0xFF00) | ((lineColor & 0xFF0000) >> 16));
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-			protoSettings->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getSRMMBackgroundFilename());
-		} else {
+				protoSettings->getSRMMFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getSRMMBackgroundFilename());
+		}
+		else {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-				 		 (int) bkgColor);
+				(int)bkgColor);
 		}
 		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
 		Utils::appendText(&output, &outputSize, ".img {}\n");
 		if (protoSettings->getSRMMFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) lineColor);
-			Utils::appendText(&output, &outputSize, ".divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) lineColor);
+			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)lineColor);
+			Utils::appendText(&output, &outputSize, ".divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)lineColor);
 			Utils::appendText(&output, &outputSize, ".divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
 			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) lineColor);
-			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) lineColor);
-		} else {
-			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
+			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)lineColor);
+			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)lineColor);
+		}
+		else {
+			Utils::appendText(&output, &outputSize, ".divIn {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divOut {padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
 			Utils::appendText(&output, &outputSize, ".divInGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) lineColor, (int) inColor);
+				(int)lineColor, (int)inColor);
 			Utils::appendText(&output, &outputSize, ".divOutGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) lineColor, (int) outColor);
-			Utils::appendText(&output, &outputSize, ".divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) inColor);
-			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int) outColor);
+				(int)lineColor, (int)outColor);
+			Utils::appendText(&output, &outputSize, ".divInRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)inColor);
+			Utils::appendText(&output, &outputSize, ".divOutRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; background-color: #%06X;}\n", (int)outColor);
 			Utils::appendText(&output, &outputSize, ".divInGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) lineColor, (int) inColor);
+				(int)lineColor, (int)inColor);
 			Utils::appendText(&output, &outputSize, ".divOutGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X;}\n",
-				(int) lineColor, (int) outColor);
+				(int)lineColor, (int)outColor);
 		}
 		Utils::appendText(&output, &outputSize, ".divNotice {padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-		Utils::appendText(&output, &outputSize, ".divNoticeGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) lineColor);
+		Utils::appendText(&output, &outputSize, ".divNoticeGrid {padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)lineColor);
 		Utils::appendText(&output, &outputSize, ".divNoticeRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word;}\n");
-		Utils::appendText(&output, &outputSize, ".divNoticeGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int) lineColor);
-	 	for(int i = 0; i < FONT_NUM; i++) {
+		Utils::appendText(&output, &outputSize, ".divNoticeGridRTL {text-align: right; direction:RTL; unicode-bidi:embed; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X}\n", (int)lineColor);
+		for (int i = 0; i < FONT_NUM; i++) {
 			loadMsgDlgFont(i, &lf, &color);
 			Utils::appendText(&output, &outputSize, "%s {font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
-			classNames[i],
-			lf.lfFaceName,
-			abs((signed char)lf.lfHeight) *  74 /logPixelSY ,
-			lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-			(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
-			lf.lfItalic ? "font-style: italic;" : "");
+				classNames[i],
+				lf.lfFaceName,
+				abs((signed char)lf.lfHeight) * 74 / logPixelSY,
+				lf.lfWeight >= FW_BOLD ? "bold" : "normal",
+				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
+				lf.lfItalic ? "font-style: italic;" : "");
 		}
 		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
 	}
@@ -282,9 +288,9 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_MESSAGEONNEWLINE, 0) ? SMF_LOG_MSGONNEWLINE : 0;
 	dwFlags |= db_get_b(NULL, SRMMMOD, SRMSGSET_DRAWLINES, 0) ? SMF_LOG_DRAWLINES : 0;
 
-	ptrA szRealProto( getRealProto(event->hContact));
+	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		const char *className = "";
 		int outputSize;
 		char *output;
@@ -293,13 +299,13 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 		bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
 		showColon = false;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
-				eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
+			eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
 		{
 			int isGroupBreak = TRUE;
- 		  	if ((dwFlags & SMF_LOG_GROUPMESSAGES) && eventData->dwFlags == LOWORD(getLastEventType()) &&
-					eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
-					(isSameDate(eventData->time, getLastEventTime())) &&
-					(((eventData->time < startedTime) == (getLastEventTime() < startedTime)) || !(eventData->dwFlags & IEEDF_READ))) {
+			if ((dwFlags & SMF_LOG_GROUPMESSAGES) && eventData->dwFlags == LOWORD(getLastEventType()) &&
+				eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
+				(isSameDate(eventData->time, getLastEventTime())) &&
+				(((eventData->time < startedTime) == (getLastEventTime() < startedTime)) || !(eventData->dwFlags & IEEDF_READ))) {
 				isGroupBreak = FALSE;
 			}
 			ptrA szName, szText;
@@ -347,7 +353,7 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				char* timestampString = NULL;
 				if (dwFlags & SMF_LOG_GROUPMESSAGES) {
 					if (isGroupBreak) {
-						if  (!(dwFlags & SMF_LOG_MARKFOLLOWUPS))
+						if (!(dwFlags & SMF_LOG_MARKFOLLOWUPS))
 							timestampString = timestampToString(dwFlags, eventData->time, 0);
 						else if (dwFlags & SMF_LOG_SHOWDATE)
 							timestampString = timestampToString(dwFlags, eventData->time, 1);
@@ -359,22 +365,22 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 
 				if (timestampString != NULL)
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
-							isSent ? "timeOut" : "timeIn", timestampString);
+					isSent ? "timeOut" : "timeIn", timestampString);
 
 				if (eventData->iType != IEED_EVENT_MESSAGE)
 					Utils::appendText(&output, &outputSize, "<span class=\"%s\">: </span>",
-							isSent ? "colonOut" : "colonIn");
+					isSent ? "colonOut" : "colonIn");
 
 				showColon = true;
 			}
-			if ((dwFlags & SMF_LOG_SHOWNICK && eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) || eventData->iType == IEED_EVENT_STATUSCHANGE ) {
+			if ((dwFlags & SMF_LOG_SHOWNICK && eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) || eventData->iType == IEED_EVENT_STATUSCHANGE) {
 				if (eventData->iType == IEED_EVENT_MESSAGE) {
 					if (showColon)
 						Utils::appendText(&output, &outputSize, "<span class=\"%s\"> %s</span>",
-									isSent ? "nameOut" : "nameIn", szName);
+						isSent ? "nameOut" : "nameIn", szName);
 					else
 						Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
-									isSent ? "nameOut" : "nameIn", szName);
+						isSent ? "nameOut" : "nameIn", szName);
 
 					showColon = true;
 					if (dwFlags & SMF_LOG_GROUPMESSAGES) {
@@ -387,13 +393,13 @@ void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			if (dwFlags & SMF_LOG_SHOWTIME && dwFlags & SMF_LOG_GROUPMESSAGES && dwFlags & SMF_LOG_MARKFOLLOWUPS
 				&& eventData->iType == IEED_EVENT_MESSAGE && isGroupBreak) {
 				Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span>",
-							isSent ? "timeOut" : "timeIn",
-							timestampToString(dwFlags, eventData->time, 2));
+					isSent ? "timeOut" : "timeIn",
+					timestampToString(dwFlags, eventData->time, 2));
 				showColon = true;
 			}
 			if (showColon && eventData->iType == IEED_EVENT_MESSAGE)
 				Utils::appendText(&output, &outputSize, "<span class=\"%s\">: </span>",
-							isSent ? "colonOut" : "colonIn");
+				isSent ? "colonOut" : "colonIn");
 
 			if (eventData->iType == IEED_EVENT_MESSAGE) {
 				if (dwFlags & SMF_LOG_MSGONNEWLINE && showColon)
@@ -435,7 +441,7 @@ void ScriverHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL)
 		return;
 
- 	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)
+	if (protoSettings->getSRMMMode() == Options::MODE_TEMPLATE)
 		appendEventTemplate(view, event, protoSettings);
 	else
 		appendEventNonTemplate(view, event);

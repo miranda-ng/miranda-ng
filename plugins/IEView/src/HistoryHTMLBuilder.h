@@ -25,11 +25,11 @@ class HistoryHTMLBuilder;
 
 #include "TemplateHTMLBuilder.h"
 
-class HistoryHTMLBuilder:public TemplateHTMLBuilder
+class HistoryHTMLBuilder :public TemplateHTMLBuilder
 {
 protected:
 	void loadMsgDlgFont(const char *, LOGFONTA * lf, COLORREF * colour, COLORREF * bkgColour);
-	char *timestampToString(DWORD dwFlags, time_t check);
+	char *timestampToString(time_t check);
 	DWORD startedTime;
 	bool isDbEventShown(DBEVENTINFO * dbei);
 	void appendEventNonTemplate(IEView *, IEVIEWEVENT *event);

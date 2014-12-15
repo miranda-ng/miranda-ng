@@ -594,8 +594,8 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 					int len = match2 != NULL ? match2 - match : (int)wcslen(match);
 					match = mir_wstrdup(match);
 					match[len] = 0;
-					int width;
-					int height;
+					int width = 0;
+					int height = 0;
 					int Embedsize = Options::getEmbedsize();
 					switch (Embedsize){
 					case 0:
@@ -618,11 +618,11 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 					};
 
 					Utils::appendText(str, sizeAlloced, L"<div><object width=\"%d\" height=\"%d\">\
-														 																	 <param name=\"movie\" value=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\"/>\
-																															 																 <param name=\"allowFullScreen\" value=\"true\"/>\
-																																															 																 <param name=\"allowScriptAccess\" value=\"true\"/>\
-																																																															 																 <embed src=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" allowScriptAccess=\"always\" width=\"%d\" height=\"%d\"/>\
-																																																																															 																 </object></div>", width, height, match, match, width, height);
+														 														 																	 <param name=\"movie\" value=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\"/>\
+																																													 																															 																 <param name=\"allowFullScreen\" value=\"true\"/>\
+																																																																																												 																																															 																 <param name=\"allowScriptAccess\" value=\"true\"/>\
+																																																																																																																																																											 																																																															 																 <embed src=\"http://www.youtube.com/v/%s&feature=player_embedded&version=3\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" allowScriptAccess=\"always\" width=\"%d\" height=\"%d\"/>\
+																																																																																																																																																																																																																																										 																																																																															 																 </object></div>", width, height, match, match, width, height);
 					mir_free(match);
 					break;
 				}
@@ -630,15 +630,15 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 		}
 		Utils::appendText(str, sizeAlloced, L"<a class=\"link\" target=\"_self\" href=\"%s%s\">%s</a>", linkPrefix, eLink, eText);
 	}
-		break;
+	break;
 	case SMILEY:
 		eText = htmlEncode(wtext);
 		if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(wlink, L".swf") != NULL)) {
 			Utils::appendText(str, sizeAlloced,
 				L"<span title=\"%s\" class=\"img\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
-				 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
-								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
-								eText, wlink);
+				 				 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" >\
+																		<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></span>",
+																		eText, wlink);
 		}
 		else {
 			Utils::appendText(str, sizeAlloced, L"<img class=\"img\" src=\"file://%s\" title=\"%s\" alt=\"%s\" />", wlink, eText, eText);
@@ -676,9 +676,9 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && eText != NULL && (wcsstr(eText, L".swf") != NULL)) {
 					Utils::appendText(str, sizeAlloced,
 						L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
-						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
-										<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
-										eText);
+						 						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
+																								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
+																								eText);
 				}
 				else {
 					if (eText != NULL && wcsncmp(eText, L"http://", 7) && wcsncmp(eText, L"https://", 8)) {
@@ -695,9 +695,9 @@ void TextToken::toString(wchar_t **str, int *sizeAlloced)
 				if ((Options::getGeneralFlags()&Options::GENERAL_ENABLE_FLASH) && (wcsstr(eText, L".swf") != NULL)) {
 					Utils::appendText(str, sizeAlloced,
 						L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><object classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\" \
-						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
-										<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
-										eText);
+						 						 		codebase=\"http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0\" width=\"100%%\" >\
+																								<param NAME=\"movie\" VALUE=\"%s\"><param NAME=\"quality\" VALUE=\"high\"><PARAM NAME=\"loop\" VALUE=\"true\"></object></div>",
+																								eText);
 				}
 				else {
 					Utils::appendText(str, sizeAlloced, L"<div style=\"width: 100%%; border: 0; overflow: hidden;\"><img class=\"img\" style=\"width: expression((maxw = this.parentNode.offsetWidth ) > this.width ? 'auto' : maxw);\" src=\"file://%s\" /></div>", eText);

@@ -25,7 +25,7 @@ class ScriverHTMLBuilder;
 
 #include "TemplateHTMLBuilder.h"
 
-class ScriverHTMLBuilder:public TemplateHTMLBuilder
+class ScriverHTMLBuilder :public TemplateHTMLBuilder
 {
 protected:
 	void loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour);

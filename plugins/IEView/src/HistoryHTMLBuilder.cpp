@@ -79,7 +79,7 @@ bool HistoryHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 	}
 }
 
-char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check)
+char *HistoryHTMLBuilder::timestampToString(time_t check)
 {
 	static char szResult[512];
 	char str[80];
@@ -88,7 +88,7 @@ char *HistoryHTMLBuilder::timestampToString(DWORD dwFlags, time_t check)
 	dbtts.szDest = str;
 	szResult[0] = '\0';
 	dbtts.szFormat = (char *)"d t";
-	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
+	CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM)& dbtts);
 	strncat(szResult, str, 500);
 	mir_strncpy(szResult, ptrA(mir_utf8encode(szResult)), 500);
 	return szResult;
@@ -109,7 +109,7 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "Font.%s.Size", dbSetting);
-		lf->lfHeight = (char) db_get_b(NULL, HPPMOD, str, 10);
+		lf->lfHeight = (char)db_get_b(NULL, HPPMOD, str, 10);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
@@ -158,43 +158,46 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 	if (protoSettings == NULL) {
 		return;
 	}
- 	if (protoSettings->getHistoryMode() == Options::MODE_TEMPLATE) {
+	if (protoSettings->getHistoryMode() == Options::MODE_TEMPLATE) {
 		buildHeadTemplate(view, event, protoSettings);
 		return;
 	}
- 	if (protoSettings->getHistoryMode() == Options::MODE_CSS) {
+	if (protoSettings->getHistoryMode() == Options::MODE_CSS) {
 		const char *externalCSS = protoSettings->getHistoryCssFilename();
 		Utils::appendText(&output, &outputSize, "<html><head><link rel=\"stylesheet\" href=\"%s\"/></head><body class=\"body\">\n", externalCSS);
-	} else {
+	}
+	else {
 		Utils::appendText(&output, &outputSize, "<html><head>");
 		Utils::appendText(&output, &outputSize, "<style type=\"text/css\">\n");
 		COLORREF lineColor = db_get_dw(NULL, HPPMOD, "LineColour", 0xFFFFFF);
-		lineColor= 0;//(((lineColor & 0xFF) << 16) | (lineColor & 0xFF00) | ((lineColor & 0xFF0000) >> 16));
+		lineColor = 0;//(((lineColor & 0xFF) << 16) | (lineColor & 0xFF00) | ((lineColor & 0xFF0000) >> 16));
 		bkgColor = 0xFFFFFF;
 		if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED) {
 			Utils::appendText(&output, &outputSize, ".body {padding: 2px; text-align: left; background-attachment: %s; background-color: #%06X;  background-image: url('%s'); overflow: auto;}\n",
-			protoSettings->getHistoryFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int) bkgColor, protoSettings->getHistoryBackgroundFilename());
-		} else {
+				protoSettings->getHistoryFlags() & Options::LOG_IMAGE_SCROLL ? "scroll" : "fixed", (int)bkgColor, protoSettings->getHistoryBackgroundFilename());
+		}
+		else {
 			Utils::appendText(&output, &outputSize, ".body {margin: 0px; text-align: left; background-color: #%06X; overflow: auto;}\n",
-						(int) bkgColor);
+				(int)bkgColor);
 		}
 		Utils::appendText(&output, &outputSize, ".link {color: #0000FF; text-decoration: underline;}\n");
 		Utils::appendText(&output, &outputSize, ".img {float: left; vertical-align: middle;}\n");
-	 	for(i = 0; i < DIV_FONT_NUM; i++) {
+		for (i = 0; i < DIV_FONT_NUM; i++) {
 			loadMsgDlgFont(dbDivSettingNames[i], &lf, &color, &bkgColor);
 			if (protoSettings->getHistoryFlags() & Options::LOG_IMAGE_ENABLED) {
 				Utils::appendText(&output, &outputSize, "%s {float: left; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s}\n",
 					divClassNames[i],
-					(int) lineColor,
+					(int)lineColor,
 					lf.lfFaceName,
 					lf.lfHeight,
 					lf.lfWeight >= FW_BOLD ? "bold" : "normal",
 					(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
 					lf.lfItalic ? "font-style: italic;" : "");
-			} else {
+			}
+			else {
 				Utils::appendText(&output, &outputSize, "%s {float: left; padding-left: 2px; padding-right: 2px; word-wrap: break-word; border-top: 1px solid #%06X; background-color: #%06X; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s}\n",
 					divClassNames[i],
-					(int) lineColor,
+					(int)lineColor,
 					(int)(((bkgColor & 0xFF) << 16) | (bkgColor & 0xFF00) | ((bkgColor & 0xFF0000) >> 16)),
 					lf.lfFaceName,
 					lf.lfHeight,
@@ -203,16 +206,16 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 					lf.lfItalic ? "font-style: italic;" : "");
 			}
 		}
-		for(i = 0; i < SPAN_FONT_NUM; i++) {
+		for (i = 0; i < SPAN_FONT_NUM; i++) {
 			loadMsgDlgFont(dbSpanSettingNames[i], &lf, &color, NULL);
 			Utils::appendText(&output, &outputSize, "%s {float: %s; font-family: %s; font-size: %dpt; font-weight: %s; color: #%06X; %s }\n",
-			spanClassNames[i],
-			i < 2 ? "left" : "right; clear: right;",
-			lf.lfFaceName,
-			lf.lfHeight,
-			lf.lfWeight >= FW_BOLD ? "bold" : "normal",
-			(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
-			lf.lfItalic ? "font-style: italic;" : "");
+				spanClassNames[i],
+				i < 2 ? "left" : "right; clear: right;",
+				lf.lfFaceName,
+				lf.lfHeight,
+				lf.lfWeight >= FW_BOLD ? "bold" : "normal",
+				(int)(((color & 0xFF) << 16) | (color & 0xFF00) | ((color & 0xFF0000) >> 16)),
+				lf.lfItalic ? "font-style: italic;" : "");
 		}
 		Utils::appendText(&output, &outputSize, "</style></head><body class=\"body\">\n");
 	}
@@ -226,15 +229,14 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	DWORD dwFlags = db_get_b(NULL, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
-	ptrA szRealProto( getRealProto(event->hContact));
+	ptrA szRealProto(getRealProto(event->hContact));
 	IEVIEWEVENTDATA* eventData = event->eventData;
-	for (int eventIdx = 0; eventData!=NULL && (eventIdx < event->count || event->count==-1); eventData = eventData->next, eventIdx++) {
+	for (int eventIdx = 0; eventData != NULL && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		int outputSize;
 		char *output = NULL;
 		bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
-		bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
 		if (eventData->iType == IEED_EVENT_MESSAGE || eventData->iType == IEED_EVENT_STATUSCHANGE ||
-				eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
+			eventData->iType == IEED_EVENT_URL || eventData->iType == IEED_EVENT_FILE)
 		{
 			ptrA szName, szText;
 			if (eventData->dwFlags & IEEDF_UNICODE_NICK)
@@ -248,7 +250,6 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				szText = encodeUTF8(event->hContact, szRealProto, eventData->pszText, event->codepage, eventData->iType == IEED_EVENT_MESSAGE ? ENF_ALL : 0, isSent);
 
 			/* History++-specific formatting */
-			const char *className = NULL;
 			const char *iconFile = NULL;
 			switch (eventData->iType) {
 			case IEED_EVENT_SYSTEM:
@@ -272,7 +273,7 @@ void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 				Utils::appendText(&output, &outputSize, " ");
 
 			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s:</span>", isSent ? "nameOut" : "nameIn", szName);
-			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(dwFlags, eventData->time));
+			Utils::appendText(&output, &outputSize, "<span class=\"%s\">%s</span><br>", isSent ? "timeOut" : "timeIn", timestampToString(eventData->time));
 			if (eventData->iType == IEED_EVENT_FILE)
 				Utils::appendText(&output, &outputSize, "%s:<br> %s", isSent ? Translate("Outgoing File Transfer") : Translate("Incoming File Transfer"), szText);
 			else if (eventData->iType == IEED_EVENT_URL)
@@ -300,7 +301,8 @@ void HistoryHTMLBuilder::appendEvent(IEView *view, IEVIEWEVENT *event)
 	}
 	if (protoSettings->getHistoryMode() & Options::MODE_TEMPLATE) {
 		appendEventTemplate(view, event, protoSettings);
-	} else{
+	}
+	else{
 		appendEventNonTemplate(view, event);
 	}
 }

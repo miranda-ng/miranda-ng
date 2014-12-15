@@ -36,7 +36,7 @@ private:
 	static TextToken* 	tokenizeBBCodes(const wchar_t *text, int len);
 public:
 	enum TOKENS {
-		END      = 0,
+		END = 0,
 		TEXT,
 		LINK,
 		WWWLINK,
@@ -73,12 +73,12 @@ public:
 	void                setEnd(bool);
 	TextToken *			getNext();
 	void   				setNext(TextToken *);
-//	void				toString(char **str, int *sizeAlloced);
+	//	void				toString(char **str, int *sizeAlloced);
 	void				toString(wchar_t **str, int *sizeAlloced);
-//	static char *		htmlEncode(const char *str);
-//	static char *		urlEncode2(const char *str);
-//	static TextToken* 	tokenizeLinks(const char *text);
-//	static TextToken*	tokenizeSmileys(const char *proto, const char *text);
+	//	static char *		htmlEncode(const char *str);
+	//	static char *		urlEncode2(const char *str);
+	//	static TextToken* 	tokenizeLinks(const char *text);
+	//	static TextToken*	tokenizeSmileys(const char *proto, const char *text);
 	// UNICODE
 	wchar_t *			htmlEncode(const wchar_t *str);
 	static TextToken* 	tokenizeLinks(const wchar_t *wtext);
