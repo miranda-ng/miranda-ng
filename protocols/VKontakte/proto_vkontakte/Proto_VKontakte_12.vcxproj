@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3B490839-B3C2-4A53-85A0-1516E5415D76}</ProjectGuid>
+    <ProjectGuid>{5F8495EF-0765-4E03-905D-639BDBF05B4F}</ProjectGuid>
     <ProjectName>Proto_VKontakte</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
