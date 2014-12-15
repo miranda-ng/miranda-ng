@@ -195,7 +195,7 @@ begin
     if pp^<>#0 then
     begin
       dst[j+1]:='-'; dst[j+2]:=' '; inc(j,3);
-      FastAnsitoWideBuf(pp+1,dst+j);
+      FastAnsiToWideBuf(pp+1,dst+j);
       StrCopyW(dst+j,TranslateW(dst+j));
     end;
     ltype:=ACF_NUMBER;
@@ -203,7 +203,7 @@ begin
   else
   begin
     ltype:=FixParam(src);
-    StrCopyW(dst,TranslateW(FastAnsitoWideBuf(src,dst)));
+    StrCopyW(dst,TranslateW(FastAnsiToWideBuf(src,dst)));
   end;
 
   if pc<>nil then

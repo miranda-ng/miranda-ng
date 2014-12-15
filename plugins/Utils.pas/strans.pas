@@ -588,7 +588,7 @@ begin
   mGetMem (tmpl,summ);
   FillChar(tmpl^,summ,0);
 
-  res:=pByte(pAnsiChar(tmpl)+addsize-SizeOf(tStructResult)-SizeOf(dword));
+  res:=pByte(pAnsiChar(tmpl)+addsize-SizeOf(TStructResult)-SizeOf(dword));
   pdword(res)^:=amount; inc(res,SizeOf(dword));
   with PStructResult(res)^ do
   begin
@@ -597,7 +597,7 @@ begin
     offset:=ofs;
   end;
 
-  inc(res,SizeOf(tStructResult));
+  inc(res,SizeOf(TStructResult));
   result:=res;
 
   pc:=ppc;

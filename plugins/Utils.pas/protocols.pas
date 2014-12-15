@@ -218,7 +218,7 @@ procedure FillProtoList(list:HWND;withIcons:bool=false);
 var
   item:TLVITEMW;
   lvc:TLVCOLUMN;
-  i,NewItem:integer;
+  i,newItem:integer;
   cli:PCLIST_INTERFACE;
 begin
   FillChar(lvc,SizeOf(lvc),0);
@@ -280,7 +280,7 @@ procedure FillStatusList(proto:uint_ptr;list:HWND;withIcons:bool=false);
   procedure AddString(num:integer;enabled:boolean;cli:PCLIST_INTERFACE);
   var
     item:LV_ITEMW;
-    NewItem:integer;
+    newItem:integer;
   begin
     FillChar(item,SizeOf(item),0);
     item.iItem  :=num;
@@ -373,14 +373,14 @@ procedure CheckStatusList(list:HWND;ProtoNum:uint_ptr);
 
 var
   i:integer;
-  Item:TLVITEM;
+  item:TLVITEM;
 begin
   for i:=1 to ListView_GetItemCount(list)-1 do //skip default
   begin
-    Item.iItem:=i;
-    Item.mask:=LVIF_PARAM;
-    ListView_GetItem(list,Item);
-    SetStatusMask(Item.lParam,ListView_GetCheckState(list,i)=BST_CHECKED)
+    item.iItem:=i;
+    item.mask:=LVIF_PARAM;
+    ListView_GetItem(list,item);
+    SetStatusMask(item.lParam,ListView_GetCheckState(list,i)=BST_CHECKED)
   end;
 end;
 

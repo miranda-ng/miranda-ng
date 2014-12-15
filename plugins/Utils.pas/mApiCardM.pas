@@ -161,7 +161,7 @@ begin
         if pp^<>#0 then
         begin
           bufw[j]:=' '; bufw[j+1]:='-'; bufw[j+2]:=' '; inc(j,3);
-          FastAnsitoWideBuf(pp+1,tmp);
+          FastAnsiToWideBuf(pp+1,tmp);
           StrCopyW(bufw+j,TranslateW(tmp));
           SendMessageW(wnd,CB_ADDSTRING,0,lparam(@bufw));
         end
@@ -170,7 +170,7 @@ begin
       end
       else
       begin
-        FastAnsitoWideBuf(p,tmp);
+        FastAnsiToWideBuf(p,tmp);
         SendMessageW(wnd,CB_ADDSTRING,0,lparam(TranslateW(tmp)));
         if (p=@buf) and (StrCmp(p,'structure')=0) then
           break;
@@ -420,7 +420,7 @@ begin
       end;
       SendMessageW(HelpWindow,WM_SETTEXT,0,LPARAM(TranslateW(title)));
 
-      SendMessageW(GetDlgItem(HelpWindow,IDC_HLP_NOTE),WM_SETTEXT,0,LPARAM(TranslateW(Note)));
+      SendMessageW(GetDlgItem(HelpWindow,IDC_HLP_NOTE),WM_SETTEXT,0,LPARAM(TranslateW(note)));
     end;
   end
   else
@@ -438,11 +438,11 @@ end;
 
 constructor tmApiCard.Create(fname:pAnsiChar; lparent:HWND=0);
 var
-  IniFile: array [0..511] of AnsiChar;
+  INIFile: array [0..511] of AnsiChar;
 begin
   inherited Create;
 
-  StrCopy(@IniFile,fname);
+  StrCopy(@INIFile,fname);
   HelpWindow:=0;
   current:=nil;
   if fname<>nil then
@@ -456,7 +456,7 @@ begin
     end;
     parent:=lparent;
   end;
-  storage:=OpenStorage(pAnsiChar(@IniFile));
+  storage:=OpenStorage(pAnsiChar(@INIFile));
 end;
 
 destructor tmApiCard.Destroy;

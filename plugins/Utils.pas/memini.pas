@@ -52,7 +52,7 @@ type
   end;
   pStorage = ^tStorage;
   tStorage = record
-    Name     :pAnsiChar; // filename
+    name     :pAnsiChar; // filename
     buffer   :pAnsiChar; // source (INI) text
 
     numsect  :integer;

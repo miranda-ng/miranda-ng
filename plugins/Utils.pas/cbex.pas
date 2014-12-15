@@ -1,4 +1,5 @@
-unit CBEx;
+unit cbex;
+
 interface
 
 uses windows;

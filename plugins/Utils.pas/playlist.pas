@@ -62,7 +62,7 @@ type
   tM3UPlaylist = class(tPlaylist)
   private
   public
-    constructor Create(fName:pWideChar);
+    constructor Create(fname:pWideChar);
     constructor CreateBuf(buf:pointer);
   end;
 
@@ -163,19 +163,21 @@ begin
   mFreeMem(plBufW);
 end;
 
-constructor tM3UPlaylist.Create(fName:pWideChar);
+constructor tM3UPlaylist.Create(fname:pWideChar);
 var
   f:THANDLE;
   i:integer;
   plBuf:pAnsiChar;
 begin
-  f:=Reset(fName);
+  inherited;
+
+  f:=Reset(fname);
 
   if f<>THANDLE(INVALID_HANDLE_VALUE) then
   begin
     i:=integer(FileSize(f));
     if i=-1 then
-      i:=integer(GetFSize(fName));
+      i:=integer(GetFSize(fname));
     if i<>-1 then
     begin
       mGetMem(plBuf,i+1);
@@ -225,7 +227,7 @@ begin
   CloseStorage(storage);
 end;
 
-constructor tPLSPlaylist.Create(fName:pWideChar);
+constructor tPLSPlaylist.Create(fname:pWideChar);
 var
   buf:pAnsiChar;
   h:THANDLE;
@@ -283,7 +285,7 @@ begin
   end;
   plStrings:=nil;
 
-//  inherited;
+  inherited Free;
 end;
 
 procedure tPlaylist.AddLine(name,descr:pWideChar;new:boolean=true);
