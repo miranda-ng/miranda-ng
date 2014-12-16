@@ -390,7 +390,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Фрэймы
 [Gaps between frames:]
 Падзельнікі паміж фрэймамі:
-[Gaps after captions:
+[Gaps after captions:]
 Падзельнікі пасля загалоўка:
 [Use non-layered mode]
 Рэжым без скіна

@@ -76,11 +76,19 @@ Linki
 Transfery plików
 [Other]
 Inne
+[Choose appropriate accounts for import]
+
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Ignorowanie zdarzenia od/do siebie
 [Added contact %u (found in history)]
 Dodano kontakt %u (znaleziony w historii)
+[<New account>]
+<Nowe konto>
+[Old account]
+
+[New account]
+Nowe konto
 [Failed to add %S contact %s]
 Nie udało się dodać %S kontaktu %s
 [Added %S contact %s, '%s']
@@ -117,6 +125,8 @@ Brak sterownika profilu do otwarcia pliku, zamykanie.
 Błąd ładowania pliku źródłowego, zamykanie.
 [Number of contacts in database: %d]
 Liczba kontaktów w bazie: %d
+[Error mapping accounts, exiting.]
+
 [Importing groups.]
 Import grup.
 [Group import failed.]

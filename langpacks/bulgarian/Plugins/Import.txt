@@ -76,11 +76,19 @@ URL адреси
 Обмен на файлове
 [Other]
 Друго
+[Choose appropriate accounts for import]
+
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Пропуснато събитие от/към мен
 [Added contact %u (found in history)]
 Добавен контакт %u (открит в историята)
+[<New account>]
+<Нов акаунт>
+[Old account]
+
+[New account]
+Нов акаунт
 [Failed to add %S contact %s]
 
 [Added %S contact %s, '%s']
@@ -117,6 +125,8 @@ URL адреси
 
 [Number of contacts in database: %d]
 Брой контакти в базата от данни: %d
+[Error mapping accounts, exiting.]
+
 [Importing groups.]
 Внасяне на групи.
 [Group import failed.]

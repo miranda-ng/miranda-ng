@@ -76,11 +76,19 @@ URLs
 Dateiübertragungen
 [Other]
 Andere
+[Choose appropriate accounts for import]
+
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Ignoriertes Ereignis von/an sich selbst
 [Added contact %u (found in history)]
 Kontakt %u hinzugefügt (im Verlauf gefunden)
+[<New account>]
+<Neues Konto>
+[Old account]
+
+[New account]
+Neues Konto
 [Failed to add %S contact %s]
 Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Added %S contact %s, '%s']
@@ -117,6 +125,8 @@ Es gibt keinen Datenbanktreiber um die Quelldatei zu öffnen, beende.
 Fehler beim Laden der Quelldatei, beende.
 [Number of contacts in database: %d]
 Anzahl Kontakte in Datenbank: %d
+[Error mapping accounts, exiting.]
+
 [Importing groups.]
 Importiere Gruppen.
 [Group import failed.]
