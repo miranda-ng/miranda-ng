@@ -185,9 +185,6 @@ void CSmileyString::DestroySmileyList()
 
 void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
 {
-	SMADD_BATCHPARSE2 sp = { 0 };
-	SMADD_BATCHPARSERES *spr;
-
 	int last_pos = 0;
 	iMaxSmileyHeight = 0;
 
@@ -199,6 +196,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, 
 	int text_size = (int)_tcslen(szText);
 
 	// Call service for the first time to see if needs to be used...
+	SMADD_BATCHPARSE2 sp = { 0 };
 	sp.cbSize = sizeof(sp);
 
 	if (dat->text_use_protocol_smileys) {
@@ -215,7 +213,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, 
 	sp.str = szText;
 	sp.flag = SAFL_TCHAR;
 
-	spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
+	SMADD_BATCHPARSERES *spr = (SMADD_BATCHPARSERES*)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 
 	// Did not find a simley
 	if (spr == NULL || (INT_PTR)spr == CALLSERVICE_NOTFOUND)

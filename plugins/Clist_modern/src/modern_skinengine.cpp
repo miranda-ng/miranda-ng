@@ -2416,14 +2416,14 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	BITMAP  bmpDest;
 	GetObject(hDestBitmap, sizeof(BITMAP), &bmpDest);
 
-	BOOL destHasNotDIB = FALSE;
-	BYTE *pDestBits = NULL;
-	if (bmpDest.bmBits == NULL) {
-		destHasNotDIB = TRUE;
+	bool destHasNotDIB = (bmpDest.bmBits == NULL);
+	BYTE *pDestBits;
+	if (destHasNotDIB) {
 		pDestBits = (BYTE*)malloc(bmpDest.bmHeight * bmpDest.bmWidthBytes);
 		GetBitmapBits(hDestBitmap, bmpDest.bmHeight*bmpDest.bmWidthBytes, pDestBits);
 	}
-	else pDestBits = (BYTE*)bmpDest.bmBits;
+	else
+		pDestBits = (BYTE*)bmpDest.bmBits;
 
 	// Creating offscreen buffer
 	HDC hOffscreenDC = CreateCompatibleDC(hDC);
@@ -2436,8 +2436,11 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	RECT workRect = *lpRect;
 	int workRectWidth = workRect.right - workRect.left;
 	int workRectHeight = workRect.bottom - workRect.top;
-	if (workRectWidth <= 0 || workRectHeight <= 0)
+	if (workRectWidth <= 0 || workRectHeight <= 0) {
+		if(destHasNotDIB)
+			mir_free(pDestBits);
 		return 0;
+	}
 
 	SIZE textSize;
 	GetTextExtentPoint32(hOffscreenDC, lpString, nCount, &textSize);
@@ -2534,10 +2537,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 				DWORD width = textSize.cx;
 				DWORD heigh = textSize.cy;
 
-				BYTE *pDestScanLine;
-				BYTE *pBufScanLine;
-				BYTE *pix;
-				BYTE *bufpix;
+				BYTE *pDestScanLine, *pBufScanLine, *pix, *bufpix;
 
 				BYTE al = 255 - ((BYTE)(ARGBcolor >> 24));
 				BYTE r = GetRValue(ARGBcolor);
@@ -2728,9 +2728,12 @@ BOOL ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int 
 		return ImageList_DrawEx(himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 
 	BYTE alpha;
-	if (fStyle&ILD_BLEND25) alpha = 64;
-	else if (fStyle&ILD_BLEND50) alpha = 128;
-	else alpha = 255;
+	if (fStyle&ILD_BLEND25)
+		alpha = 64;
+	else if (fStyle&ILD_BLEND50)
+		alpha = 128;
+	else
+		alpha = 255;
 
 	HICON hIcon = ske_ImageList_GetIcon(himl, i);
 	if (hIcon == NULL)
@@ -2756,22 +2759,14 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 	ICONINFO ici;
 	BYTE alpha = (BYTE)((diFlags & 0xFF000000) >> 24);
 
-
-	HDC imDC;
-	HBITMAP oldBmp, imBmp, tBmp = NULL;
+	HBITMAP tBmp = NULL;
 	BITMAP imbt, immaskbt;
-	BYTE * imbits;
-	BYTE * imimagbits;
-	BYTE * immaskbits;
+	BYTE *imbits, *imimagbits, *immaskbits;
 	DWORD cx, cy, icy;
 	BYTE *t1, *t2, *t3;
 
-	BOOL NoDIBImage = FALSE;
 	//lockimagelist
-	BYTE hasmask = FALSE;
-	BYTE no32bit = FALSE;
-	BYTE noMirrorMask = FALSE;
-	BYTE hasalpha = FALSE;
+	BYTE hasmask = FALSE, no32bit = FALSE, noMirrorMask = FALSE, hasalpha = FALSE;
 	alpha = alpha ? alpha : 255;
 
 	if (g_CluiData.fDisableSkinEngine && !(diFlags & 0x80))
@@ -2790,27 +2785,27 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 	cy = imbt.bmHeight;
 
 	if (imbt.bmBitsPixel != 32) {
-		HBITMAP otBmp = NULL;
 		no32bit = TRUE;
 		HDC tempDC1 = CreateCompatibleDC(hdcDst);
 		tBmp = ske_CreateDIB32(imbt.bmWidth, imbt.bmHeight);
 		if (tBmp) {
 			GetObject(tBmp, sizeof(BITMAP), &imbt);
-			otBmp = (HBITMAP)SelectObject(tempDC1, tBmp);
+			HBITMAP otBmp = (HBITMAP)SelectObject(tempDC1, tBmp);
 			DrawIconEx(tempDC1, 0, 0, hIcon, imbt.bmWidth, imbt.bmHeight, istepIfAniCur, hbrFlickerFreeDraw, DI_IMAGE);
 			noMirrorMask = TRUE;
+			SelectObject(tempDC1, otBmp);
 
 		}
-		SelectObject(tempDC1, otBmp);
 		DeleteDC(tempDC1);
 	}
-
-	if (imbt.bmBits == NULL) {
-		NoDIBImage = TRUE;
+	
+	bool NoDIBImage = (imbt.bmBits == NULL);
+	if (NoDIBImage) {
 		imimagbits = (BYTE*)malloc(cy*imbt.bmWidthBytes);
 		GetBitmapBits(ici.hbmColor, cy*imbt.bmWidthBytes, (void*)imimagbits);
 	}
-	else imimagbits = (BYTE*)imbt.bmBits;
+	else
+		imimagbits = (BYTE*)imbt.bmBits;
 
 	if (immaskbt.bmBits == NULL) {
 		immaskbits = (BYTE*)malloc(cy*immaskbt.bmWidthBytes);
@@ -2820,19 +2815,17 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 
 	icy = imbt.bmHeight;
 	cx = imbt.bmWidth;
-	imDC = CreateCompatibleDC(hdcDst);
-	imBmp = ske_CreateDIB32Point(cx, icy, (void**)&imbits);
-	oldBmp = (HBITMAP)SelectObject(imDC, imBmp);
+	HDC imDC = CreateCompatibleDC(hdcDst);
+	HBITMAP imBmp = ske_CreateDIB32Point(cx, icy, (void**)&imbits);
+	HBITMAP oldBmp = (HBITMAP)SelectObject(imDC, imBmp);
 	if (imbits != NULL && imimagbits != NULL && immaskbits != NULL) {
-		int x; int y;
-		int bottom, right, top, h;
-		int mwb, mwb2;
-		mwb = immaskbt.bmWidthBytes;
-		mwb2 = imbt.bmWidthBytes;
-		bottom = icy;
-		right = cx;
-		top = 0;
-		h = icy;
+		int x, y;
+		int mwb = immaskbt.bmWidthBytes;
+		int mwb2 = imbt.bmWidthBytes;
+		int bottom = icy;
+		int right = cx;
+		int top = 0;
+		int h = icy;
 		for (y = top; (y < bottom) && !hasmask; y++) {
 			t1 = immaskbits + y*mwb;
 			for (x = 0; (x < mwb) && !hasmask; x++)
@@ -3633,7 +3626,6 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString)
 	if (!sf)
 		return;
 
-	char buf[255];
 	LOGFONTA logfont = { 0 };
 	logfont.lfCharSet = DEFAULT_CHARSET;
 	logfont.lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -3641,6 +3633,7 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString)
 	logfont.lfQuality = DEFAULT_QUALITY;
 	logfont.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
+	char buf[255];
 	strncpy(logfont.lfFaceName, GetParamN(szDefineString, buf, sizeof(buf), 0, ',', TRUE), 32);
 	logfont.lfHeight = atoi(GetParamN(szDefineString, buf, sizeof(buf), 1, ',', TRUE));
 	if (logfont.lfHeight < 0) {
@@ -3661,8 +3654,12 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString)
 		if (!gl_plSkinFonts)
 			gl_plSkinFonts = List_Create(0, 1);
 		if (gl_plSkinFonts)
-			List_Insert(gl_plSkinFonts, (void*)sf, gl_plSkinFonts->realCount);
+			List_Insert(gl_plSkinFonts, sf, gl_plSkinFonts->realCount);
+		else
+			mir_free(sf);
 	}
+	else
+		mir_free(sf);
 }
 
 /*
