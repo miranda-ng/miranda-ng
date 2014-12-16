@@ -308,7 +308,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			LVCOLUMN col = { 0 };
 			col.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_FMT | LVCF_SUBITEM;
 			col.fmt = LVCFMT_LEFT;
-			col.cx = 100;
+			col.cx = 140;
 			col.pszText = TranslateT("Old account");
 			ListView_InsertColumn(hwndList, 0, &col);
 
