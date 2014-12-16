@@ -35,7 +35,7 @@
 
 extern PLUGININFOEX pluginInfoEx;
 
-int OptionsInit(WPARAM,LPARAM);
+int OptionsInit(WPARAM, LPARAM);
 
 #define MAX_PROTOS	32
 #define MAX_GROUPS	32

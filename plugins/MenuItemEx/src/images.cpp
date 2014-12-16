@@ -24,11 +24,11 @@ void HalfBitmap32Alpha(HBITMAP hBitmap)
 	GetBitmapBits(hBitmap, dwLen, p);
 
 	for (y = 0; y < bmp.bmHeight; ++y) {
-        BYTE *px = p + bmp.bmWidth * 4 * y;
+		BYTE *px = p + bmp.bmWidth * 4 * y;
 
-        for (x = 0; x < bmp.bmWidth; ++x)
+		for (x = 0; x < bmp.bmWidth; ++x)
 		{
-			px[3]>>=1;
+			px[3] >>= 1;
 			px += 4;
 		}
 	}
@@ -87,9 +87,9 @@ void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 
 	fixIt = TRUE;
 	for (y = 0; fixIt && y < bmp.bmHeight; ++y) {
-        BYTE *px = p + bmp.bmWidth * 4 * y;
+		BYTE *px = p + bmp.bmWidth * 4 * y;
 
-        for (x = 0; fixIt && x < bmp.bmWidth; ++x)
+		for (x = 0; fixIt && x < bmp.bmWidth; ++x)
 		{
 			if (px[3] != 0 && !force)
 			{
@@ -138,10 +138,10 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
 	hDirectBitmap = CreateDIBSection(NULL,
-									(BITMAPINFO *)&RGB32BitsBITMAPINFO,
-									DIB_RGB_COLORS,
-									(void **)&ptPixels,
-									NULL, 0);
+		(BITMAPINFO *)&RGB32BitsBITMAPINFO,
+		DIB_RGB_COLORS,
+		(void **)&ptPixels,
+		NULL, 0);
 
 	// Copy data
 	if (bmp.bmBitsPixel != 32)
@@ -150,10 +150,10 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 		HBITMAP oldOrig, oldDest;
 
 		hdcOrig = CreateCompatibleDC(NULL);
-		oldOrig = (HBITMAP) SelectObject(hdcOrig, hBitmap);
+		oldOrig = (HBITMAP)SelectObject(hdcOrig, hBitmap);
 
 		hdcDest = CreateCompatibleDC(NULL);
-		oldDest = (HBITMAP) SelectObject(hdcDest, hDirectBitmap);
+		oldDest = (HBITMAP)SelectObject(hdcDest, hDirectBitmap);
 
 		BitBlt(hdcDest, 0, 0, bmp.bmWidth, bmp.bmHeight, hdcOrig, 0, 0, SRCCOPY);
 
@@ -201,7 +201,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 
 BOOL MakeBitmap32(HBITMAP *hBitmap)
 {
-    BITMAP bmp;
+	BITMAP bmp;
 
 	GetObject(*hBitmap, sizeof(bmp), &bmp);
 
@@ -270,10 +270,10 @@ HICON MakeHalfAlphaIcon(HICON SourceIcon)
 	HICON TargetIcon, TempIcon;
 
 	TempIcon = CopyIcon(SourceIcon);
-	if ( !GetIconInfo(TempIcon, &TargetIconInfo))
+	if (!GetIconInfo(TempIcon, &TargetIconInfo))
 		return NULL;
 
-	if ( !GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo))
+	if (!GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo))
 		return NULL;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
@@ -305,17 +305,17 @@ HICON MakeHalfAlphaIcon(HICON SourceIcon)
 //}
 
 
-HICON BindOverlayIcon(HICON SourceIcon,LPCSTR OverlayIconName)
+HICON BindOverlayIcon(HICON SourceIcon, LPCSTR OverlayIconName)
 {
 	ICONINFO OverlayIconInfo, TargetIconInfo;
 	BITMAP OverlayBitmapInfo, TargetBitmapInfo;
 	HBITMAP OldOverlayBitmap, OldTargetBitmap;
 	HICON OverlayIcon, TargetIcon, TempIcon;
 	HDC OverlayDC, TargetDC;
-	BLENDFUNCTION bf = {0,0,255,1};
+	BLENDFUNCTION bf = { 0, 0, 255, 1 };
 
 	TempIcon = CopyIcon(SourceIcon);
-	if ( !GetIconInfo( TempIcon, &TargetIconInfo ))
+	if (!GetIconInfo(TempIcon, &TargetIconInfo))
 		return NULL;
 
 	MakeBitmap32(&TargetIconInfo.hbmColor);
@@ -323,7 +323,7 @@ HICON BindOverlayIcon(HICON SourceIcon,LPCSTR OverlayIconName)
 	GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo);
 
 	OverlayIcon = Skin_GetIcon(OverlayIconName);
-	if ( !GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
+	if (!GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
 		return NULL;
 
 	TargetDC = CreateCompatibleDC(NULL);
@@ -333,13 +333,13 @@ HICON BindOverlayIcon(HICON SourceIcon,LPCSTR OverlayIconName)
 	OldOverlayBitmap = (HBITMAP)SelectObject(OverlayDC, OverlayIconInfo.hbmColor);
 
 	AlphaBlend(TargetDC, 0, 0, TargetBitmapInfo.bmWidth, TargetBitmapInfo.bmHeight,
-			   OverlayDC, 0, 0, OverlayBitmapInfo.bmWidth, OverlayBitmapInfo.bmHeight, bf);
+		OverlayDC, 0, 0, OverlayBitmapInfo.bmWidth, OverlayBitmapInfo.bmHeight, bf);
 
 	SelectObject(TargetDC, TargetIconInfo.hbmMask);
 	SelectObject(OverlayDC, OverlayIconInfo.hbmMask);
 
 	BitBlt(TargetDC, 0, 0, TargetBitmapInfo.bmWidth, TargetBitmapInfo.bmHeight,
-	       OverlayDC, 0, 0, SRCCOPY);
+		OverlayDC, 0, 0, SRCCOPY);
 
 	TargetIcon = CreateIconIndirect(&TargetIconInfo);
 	DestroyIcon(TempIcon);
