@@ -9,17 +9,17 @@
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
 [News and event notifications]
-
+Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
-
+WARNUNG: Verursacht exzessiven Netzwerkverkehr!!!
 [Enable news feeds]
-
+Newsfeeds aktivieren
 [Enable event notifications]
-
+Ereignisbenachrichtigungen aktivieren
 [BBCode support on news and event notifications]
-
+BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
 [Interval for updates (min):]
-
+Aktualisierungsintervall (Min.):
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
 [Password:]
@@ -175,13 +175,13 @@ Kontakt&profil
 [Photo]
 Foto
 [User was tagged in these photos:]
-
+Benutzer wurde in diesen Fotos markiert:
 [News from %s%s%s (%s)\n%s]
-
+Neuigkeiten von %s%s%s (%s)\n%s
 [\tRepost from %s%s%s (%s)\n%s]
-
+\tGeteilt von %s%s%s (%s)\n%s
 [\nNews link: %s]
-
+\nNeuigkeiten-Link: %s
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Konnte Datei nicht speichern.
@@ -214,7 +214,7 @@ Netzwerk
 [Account]
 Konto
 [News and notifications]
-
+Neuigkeiten und Benachrichtigungen
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung

@@ -391,9 +391,9 @@ Schatten aktivieren (Neustart nötig)
 [Frames]
 Frames
 [Gaps between frames:]
-
+Abstände zwischen Frames:
 [Gaps after captions:]
-
+Abstände zwischen Titelzeilen:
 [Use non-layered mode]
 Layerengine deaktivieren
 [Round corners]
@@ -431,7 +431,7 @@ Rand um Avatar zeichnen
 [Draw overlay icons]
 Avatare mit Icons überlagern
 [Max size (pixels):]
-
+Maximale Größe (Pixel):
 [Round corners of avatars]
 Avatarecken abrunden
 [Ignore size for row height calcs]

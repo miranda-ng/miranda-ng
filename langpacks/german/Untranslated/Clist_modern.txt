@@ -1,3 +1,0 @@
-﻿[Gaps between frames:]
-[Gaps after captions:]
-[Max size (pixels):]
