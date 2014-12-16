@@ -1,23 +1,23 @@
 /*
-    AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
-    KeepStatus Plugin for Miranda-IM (www.miranda-im.org)
-    StartupStatus Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
+	KeepStatus Plugin for Miranda-IM (www.miranda-im.org)
+	StartupStatus Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	*/
 #include "commonstatus.h"
 
 // handles for hooks and other Miranda thingies
@@ -26,7 +26,7 @@ static HANDLE hCSStatusChangedExEvent;
 OBJLIST<PROTOCOLSETTINGEX> *protoList;
 
 // prototypes
-char* StatusModeToDbSetting(int status,const char *suffix);
+char* StatusModeToDbSetting(int status, const char *suffix);
 DWORD StatusModeToProtoFlag(int status);
 INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam);
 int InitCommonStatus();
@@ -36,42 +36,42 @@ int GetProtoCount();
 extern INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam);
 
 // some helpers from awaymsg.c ================================================================
-char *StatusModeToDbSetting(int status,const char *suffix)
+char *StatusModeToDbSetting(int status, const char *suffix)
 {
 	char *prefix;
 	static char str[64];
 
-	switch(status) {
-		case ID_STATUS_AWAY: prefix="Away";	break;
-		case ID_STATUS_NA: prefix="Na";	break;
-		case ID_STATUS_DND: prefix="Dnd"; break;
-		case ID_STATUS_OCCUPIED: prefix="Occupied"; break;
-		case ID_STATUS_FREECHAT: prefix="FreeChat"; break;
-		case ID_STATUS_ONLINE: prefix="On"; break;
-		case ID_STATUS_OFFLINE: prefix="Off"; break;
-		case ID_STATUS_INVISIBLE: prefix="Inv"; break;
-		case ID_STATUS_ONTHEPHONE: prefix="Otp"; break;
-		case ID_STATUS_OUTTOLUNCH: prefix="Otl"; break;
-		default: return NULL;
+	switch (status) {
+	case ID_STATUS_AWAY: prefix = "Away";	break;
+	case ID_STATUS_NA: prefix = "Na";	break;
+	case ID_STATUS_DND: prefix = "Dnd"; break;
+	case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
+	case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
+	case ID_STATUS_ONLINE: prefix = "On"; break;
+	case ID_STATUS_OFFLINE: prefix = "Off"; break;
+	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
+	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
+	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
+	default: return NULL;
 	}
-	mir_strcpy(str,prefix); mir_strcat(str,suffix);
+	mir_strcpy(str, prefix); mir_strcat(str, suffix);
 	return str;
 }
 
 DWORD StatusModeToProtoFlag(int status)
 {
 	// *not* the same as in core, <offline>
-	switch(status) {
-		case ID_STATUS_ONLINE: return PF2_ONLINE;
-		case ID_STATUS_OFFLINE: return PF2_OFFLINE;
-		case ID_STATUS_INVISIBLE: return PF2_INVISIBLE;
-		case ID_STATUS_OUTTOLUNCH: return PF2_OUTTOLUNCH;
-		case ID_STATUS_ONTHEPHONE: return PF2_ONTHEPHONE;
-		case ID_STATUS_AWAY: return PF2_SHORTAWAY;
-		case ID_STATUS_NA: return PF2_LONGAWAY;
-		case ID_STATUS_OCCUPIED: return PF2_LIGHTDND;
-		case ID_STATUS_DND: return PF2_HEAVYDND;
-		case ID_STATUS_FREECHAT: return PF2_FREECHAT;
+	switch (status) {
+	case ID_STATUS_ONLINE: return PF2_ONLINE;
+	case ID_STATUS_OFFLINE: return PF2_OFFLINE;
+	case ID_STATUS_INVISIBLE: return PF2_INVISIBLE;
+	case ID_STATUS_OUTTOLUNCH: return PF2_OUTTOLUNCH;
+	case ID_STATUS_ONTHEPHONE: return PF2_ONTHEPHONE;
+	case ID_STATUS_AWAY: return PF2_SHORTAWAY;
+	case ID_STATUS_NA: return PF2_LONGAWAY;
+	case ID_STATUS_OCCUPIED: return PF2_LIGHTDND;
+	case ID_STATUS_DND: return PF2_HEAVYDND;
+	case ID_STATUS_FREECHAT: return PF2_FREECHAT;
 	}
 	return 0;
 }
@@ -96,18 +96,18 @@ int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 // helper, from core
 static TCHAR* GetDefaultMessage(int status)
 {
-	switch(status) {
-		case ID_STATUS_AWAY:       return TranslateT("I've been away since %time%.");
-		case ID_STATUS_NA:         return TranslateT("Give it up, I'm not in!");
-		case ID_STATUS_OCCUPIED:   return TranslateT("Not right now.");
-		case ID_STATUS_DND:        return TranslateT("Give a guy some peace, would ya?");
-		case ID_STATUS_FREECHAT:   return TranslateT("I'm a chatbot!");
-		case ID_STATUS_ONLINE:     return TranslateT("Yep, I'm here.");
-		case ID_STATUS_OFFLINE:    return TranslateT("Nope, not here.");
-		case ID_STATUS_INVISIBLE:  return TranslateT("I'm hiding from the mafia.");
-		case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
-		case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
-		case ID_STATUS_IDLE:       return TranslateT("idleeeeeeee");
+	switch (status) {
+	case ID_STATUS_AWAY:       return TranslateT("I've been away since %time%.");
+	case ID_STATUS_NA:         return TranslateT("Give it up, I'm not in!");
+	case ID_STATUS_OCCUPIED:   return TranslateT("Not right now.");
+	case ID_STATUS_DND:        return TranslateT("Give a guy some peace, would ya?");
+	case ID_STATUS_FREECHAT:   return TranslateT("I'm a chatbot!");
+	case ID_STATUS_ONLINE:     return TranslateT("Yep, I'm here.");
+	case ID_STATUS_OFFLINE:    return TranslateT("Nope, not here.");
+	case ID_STATUS_INVISIBLE:  return TranslateT("I'm hiding from the mafia.");
+	case ID_STATUS_ONTHEPHONE: return TranslateT("That'll be the phone.");
+	case ID_STATUS_OUTTOLUNCH: return TranslateT("Mmm... food.");
+	case ID_STATUS_IDLE:       return TranslateT("idleeeeeeee");
 	}
 	return NULL;
 }
@@ -204,7 +204,7 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 	mir_free(tszMsg);
 }
 
-INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 {
 	PROTOCOLSETTINGEX** protoSettings = *(PROTOCOLSETTINGEX***)wParam;
 	if (protoSettings == NULL)
@@ -261,7 +261,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM lParam)
 			SetStatusMsg(protoSettings[i], newstatus);
 
 		// set the status
-		if (newstatus != oldstatus /*&& !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))*/ ) {
+		if (newstatus != oldstatus /*&& !(b_Caps1 && b_Caps3 && ServiceExists(MS_NAS_SETSTATE))*/) {
 			log_debugA("CommonStatus sets status for %s to %d", szProto, newstatus);
 			CallProtoService(szProto, PS_SETSTATUS, newstatus, 0);
 		}
@@ -315,7 +315,7 @@ static int CreateServices()
 	return 0;
 }
 
-static int onShutdown(WPARAM wParam, LPARAM lParam)
+static int onShutdown(WPARAM, LPARAM)
 {
 	DestroyHookableEvent(hCSStatusChangedExEvent);
 	return 0;

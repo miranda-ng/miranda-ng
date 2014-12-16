@@ -1,23 +1,24 @@
 /*
-    AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
-    KeepStatus Plugin for Miranda-IM (www.miranda-im.org)
-    StartupStatus Plugin for Miranda-IM (www.miranda-im.org)
-    Copyright 2003-2006 P. Boon
+	AdvancedAutoAway Plugin for Miranda-IM (www.miranda-im.org)
+	KeepStatus Plugin for Miranda-IM (www.miranda-im.org)
+	StartupStatus Plugin for Miranda-IM (www.miranda-im.org)
+	Copyright 2003-2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	*/
+
 #ifndef COMMONSTATUSHEADER
 #define COMMONSTATUSHEADER
 
@@ -49,9 +50,9 @@
 #include <win2k.h>
 
 #if defined( _WIN64 )
-	#define __PLATFORM_NAME  "64"
+#define __PLATFORM_NAME  "64"
 #else
-	#define __PLATFORM_NAME  ""
+#define __PLATFORM_NAME  ""
 #endif
 
 #include "../helpers/gen_helpers.h"
@@ -69,8 +70,8 @@
 #define MIN_STATUS						ID_STATUS_OFFLINE
 #define DEF_CLOSE_TIME					5 //secs
 #define PF2_OFFLINE						0x00000200
-static int statusModeList[]={ID_STATUS_OFFLINE,ID_STATUS_ONLINE,ID_STATUS_AWAY,ID_STATUS_NA,ID_STATUS_OCCUPIED,ID_STATUS_DND,ID_STATUS_FREECHAT,ID_STATUS_INVISIBLE,ID_STATUS_ONTHEPHONE,ID_STATUS_OUTTOLUNCH};
-static int statusModePf2List[]={PF2_OFFLINE,PF2_ONLINE,PF2_SHORTAWAY,PF2_LONGAWAY,PF2_LIGHTDND,PF2_HEAVYDND,PF2_FREECHAT,PF2_INVISIBLE,PF2_ONTHEPHONE,PF2_OUTTOLUNCH};
+static int statusModeList[] = { ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_ONTHEPHONE, ID_STATUS_OUTTOLUNCH };
+static int statusModePf2List[] = { PF2_OFFLINE, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, PF2_HEAVYDND, PF2_FREECHAT, PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH };
 
 TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int status);
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting);
