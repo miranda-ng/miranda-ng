@@ -76,11 +76,19 @@ Adresses URL
 Transferts de fichiers
 [Other]
 Autre
+[Choose appropriate accounts for import]
+
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 
 [Added contact %u (found in history)]
 
+[<New account>]
+<Nouveau compte>
+[Old account]
+
+[New account]
+Nouveau compte
 [Failed to add %S contact %s]
 
 [Added %S contact %s, '%s']
@@ -116,6 +124,8 @@ Autre
 [Error loading source file, exiting.]
 
 [Number of contacts in database: %d]
+
+[Error mapping accounts, exiting.]
 
 [Importing groups.]
 
