@@ -176,32 +176,35 @@ int RotateBackups(TCHAR *backupfolder, TCHAR *dbname)
 {
 	size_t i = 0;
 	backupFile *bf = NULL, *bftmp;
+	HANDLE hFind;
 	TCHAR backupfolderTmp[MAX_PATH];
-	mir_sntprintf(backupfolderTmp, MAX_PATH, _T("%s\\%s*"), backupfolder, dbname);
 	WIN32_FIND_DATA FindFileData;
-	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
-	if (hFind != INVALID_HANDLE_VALUE) {
-		do {
-			if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				continue;
-			bftmp = (backupFile*)mir_realloc(bf, ((i + 1) * sizeof(backupFile)));
-			if (bftmp == NULL) {
-				mir_free(bf);
-				return 0;
-			}
-			bf = bftmp;
-			_tcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
-			bf[i++].CreationTime = FindFileData.ftCreationTime;
-		} while (FindNextFile(hFind, &FindFileData));
 
-		if (i > 0)
-			qsort(bf, i, sizeof(backupFile), Comp); //Sort the list of found files by date in descending order
-		for (i--; i >= (options.num_backups - 1); i--) {
-			mir_sntprintf(backupfolderTmp, MAX_PATH, _T("%s\\%s"), backupfolder, bf[i].Name);
-			DeleteFile(backupfolderTmp);
-		}
-		FindClose(hFind);
+	if (options.num_backups == 0)
+		return 0; /* Roration disabled. */
+	mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\%s*"), backupfolder, dbname);
+	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
+	if (hFind == INVALID_HANDLE_VALUE)
+		return 0;
+	do {
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			continue;
+		bftmp = (backupFile*)mir_realloc(bf, ((i + 1) * sizeof(backupFile)));
+		if (bftmp == NULL)
+			goto err_out;
+		bf = bftmp;
+		_tcsncpy_s(bf[i].Name, FindFileData.cFileName, _TRUNCATE);
+		bf[i].CreationTime = FindFileData.ftCreationTime;
+		i ++;
+	} while (FindNextFile(hFind, &FindFileData));
+	if (i > 0)
+		qsort(bf, i, sizeof(backupFile), Comp); /* Sort the list of found files by date in descending order. */
+	for (i; i >= options.num_backups; i --) {
+		mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\%s"), backupfolder, bf[(i - 1)].Name);
+		DeleteFile(backupfolderTmp);
 	}
+err_out:
+	FindClose(hFind);
 	mir_free(bf);
 	return 0;
 }
