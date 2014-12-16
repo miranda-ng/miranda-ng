@@ -697,7 +697,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	*colour = db_get_dw(NULL, "CLC", idstr, *colour);
 	
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSize", i);
-	lf->lfHeight = db_get_b(NULL, "CLC", idstr, lf->lfHeight);
+	lf->lfHeight = (char)db_get_b(NULL, "CLC", idstr, lf->lfHeight);
 	
 	mir_snprintf(idstr, SIZEOF(idstr), "Font%dSty", i);
 	BYTE style = (BYTE)db_get_b(NULL, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));

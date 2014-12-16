@@ -192,7 +192,7 @@ void LoadMsgDlgFont(int section, int i, LOGFONT *lf, COLORREF* colour, char *szM
 
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
-		lf->lfHeight = M.GetByte(szMod, str, fol[j].defSize);
+		lf->lfHeight = (char)M.GetByte(szMod, str, fol[j].defSize);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;

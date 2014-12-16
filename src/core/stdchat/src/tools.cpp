@@ -33,7 +33,7 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour)
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
-		lf->lfHeight = db_get_b(NULL, "SRMM", str, -12);
+		lf->lfHeight = (char)db_get_b(NULL, "SRMM", str, -12);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
