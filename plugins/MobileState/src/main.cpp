@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+   */
 
 #include "commonheaders.h"
 
@@ -24,7 +24,7 @@ int hLangpack;
 HANDLE hExtraIcon = NULL;
 
 PLUGININFOEX pluginInfo = {
-    sizeof(PLUGININFOEX),
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -34,23 +34,23 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {F0BA32D0-CD07-4A9C-926B-5A1FF21C3C10}
-	{0xf0ba32d0, 0xcd07, 0x4a9c, {0x92, 0x6b, 0x5a, 0x1f, 0xf2, 0x1c, 0x3c, 0x10}}
+	{ 0xf0ba32d0, 0xcd07, 0x4a9c, { 0x92, 0x6b, 0x5a, 0x1f, 0xf2, 0x1c, 0x3c, 0x10 } }
 };
 
 static IconItem icon = { LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	g_hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
-bool hasMobileClient(MCONTACT hContact, LPARAM lParam)
+bool hasMobileClient(MCONTACT hContact, LPARAM)
 {
 	char *proto = GetContactProto(hContact);
 
@@ -79,21 +79,21 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
+int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	char *proto = GetContactProto(wParam);
 	if (!proto)
 		return 0;
 
-	if (!mir_strcmp(cws->szModule,proto))
+	if (!mir_strcmp(cws->szModule, proto))
 		if (!mir_strcmp(cws->szSetting, "MirVer"))
 			ExtraIconsApply(wParam, 1);
 
 	return 0;
 }
 
-int onModulesLoaded(WPARAM wParam,LPARAM lParam)
+int onModulesLoaded(WPARAM, LPARAM)
 {
 	// Set initial value for all contacts
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
