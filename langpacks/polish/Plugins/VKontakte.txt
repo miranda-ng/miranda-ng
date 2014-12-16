@@ -9,17 +9,17 @@
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 ;file \protocols\VKontakte\res\resource.rc
 [News and event notifications]
-
+Powiadomienia o aktualnościach i zdarzeniach
 [WARNING: Causes excessive network traffic!!!]
-
+Ostrzeżenie: powoduje duże zużycie danych
 [Enable news feeds]
-
+Włącz kanały aktualności
 [Enable event notifications]
-
+Włącz powiadomienia o zdarzeniach
 [BBCode support on news and event notifications]
-
+Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
 [Interval for updates (min):]
-
+Aktualizuj co (min):
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
@@ -175,13 +175,13 @@ Dane &kontaktu
 [Photo]
 Zdjęcie
 [User was tagged in these photos:]
-
+Użytkownik został oznaczony na tych zdjęciach:
 [News from %s%s%s (%s)\n%s]
-
+Coś nowego u %s%s%s (%s)\n%s
 [\tRepost from %s%s%s (%s)\n%s]
-
+\tUdostępniony element %s%s%s (%s)\n%s
 [\nNews link: %s]
-
+\nLink do aktualności: %s
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Nie udało się zapisać pliku
@@ -214,7 +214,7 @@ Protokoły
 [Account]
 Konto
 [News and notifications]
-
+Aktualności i powiadomienia
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Połączenie %s
@@ -292,6 +292,6 @@ Post na tablicy
 [Link]
 Link
 [Image]
-
+Obraz
 [Unsupported or unknown attachment type: %s]
 Niewspierany albo nieznany typ załącznika: %s

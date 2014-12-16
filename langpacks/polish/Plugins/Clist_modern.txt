@@ -391,9 +391,9 @@ Włącz cieniowanie (wymaga restartu)
 [Frames]
 Ramki
 [Gaps between frames:]
-
+Odstępy między ramkami:
 [Gaps after captions:]
-
+Odstępy po opisach:
 [Use non-layered mode]
 Używaj trybu bezwarstwowego
 [Round corners]
@@ -431,7 +431,7 @@ Rysuj obramowanie awatara
 [Draw overlay icons]
 Rysuj nakładki ikon
 [Max size (pixels):]
-
+Maks. rozmiar (w pikselach):
 [Round corners of avatars]
 Zaokrąglone rogi awatarów
 [Ignore size for row height calcs]

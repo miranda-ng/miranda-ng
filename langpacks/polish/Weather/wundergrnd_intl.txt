@@ -561,10 +561,10 @@ Delikatny Śnieg Zamrożona Mgła
 [Drizzle]
 Mrzawka
 [Snow Showers 80% Chance Of Precipitation]
-
+Opady śniegu 80% szans opadów
 [Snow 100% Chance Of Precipitation]
-
+Śnieg 100% szans opadów
 [Ice Pellets 50% Chance Of Precipitation]
-
+Sople Lodu 50% szans opadów
 [Ice Pellets 60% Chance Of Precipitation]
-
+Sople Lodu 60% szans opadów
