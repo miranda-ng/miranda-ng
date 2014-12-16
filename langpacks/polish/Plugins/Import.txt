@@ -77,7 +77,7 @@ Transfery plików
 [Other]
 Inne
 [Choose appropriate accounts for import]
-
+Wybierz odpowiednie konta, by dokonać importowania
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Ignorowanie zdarzenia od/do siebie
@@ -86,7 +86,7 @@ Dodano kontakt %u (znaleziony w historii)
 [<New account>]
 <Nowe konto>
 [Old account]
-
+Stare konto
 [New account]
 Nowe konto
 [Failed to add %S contact %s]
@@ -126,7 +126,7 @@ Błąd ładowania pliku źródłowego, zamykanie.
 [Number of contacts in database: %d]
 Liczba kontaktów w bazie: %d
 [Error mapping accounts, exiting.]
-
+Błąd przypisania kont, zamykanie.
 [Importing groups.]
 Import grup.
 [Group import failed.]
