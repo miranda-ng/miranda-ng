@@ -123,13 +123,13 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 								if (NeedToImport) {
 									HXML parent = xi.getParent(node);
+									TCHAR tmpgroup[1024];
 									while (mir_tstrcmpi(xi.getName(parent), _T("body"))) {
 										for (int i = 0; i < xi.getAttrCount(parent); i++) {
 											if (!mir_tstrcmpi(xi.getAttrName(parent, i), _T("text"))) {
 												if ( !group)
 													group = (TCHAR *)xi.getAttrValue(parent, xi.getAttrName(parent, i));
 												else {
-													TCHAR tmpgroup[1024];
 													mir_sntprintf(tmpgroup, SIZEOF(tmpgroup), _T("%s\\%s"), xi.getAttrValue(parent, xi.getAttrName(parent, i)), group);
 													group = tmpgroup;
 												}
