@@ -564,3 +564,7 @@
 Сніг, 80% імовірність опадів
 [Snow 100% Chance Of Precipitation]
 Сніг, 100% імовірність опадів
+[Ice Pellets 50% Chance Of Precipitation]
+Сніг з утворенням льоду, 50% імовірність опадів
+[Ice Pellets 60% Chance Of Precipitation]
+Сніг з утворенням льоду, 60% імовірність опадів

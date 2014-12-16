@@ -1783,6 +1783,8 @@ UIN, E-mail тощо
 Останнє повідомлення отримано %s о %s
 [%s is typing a message...]
 %s друкує вам повідомлення...
+[Me]
+Я
 [File sent]
 Надіслано файл
 [Outgoing messages]

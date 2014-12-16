@@ -7,6 +7,18 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
+[News and event notifications]
+Новини і сповіщення
+[WARNING: Causes excessive network traffic!!!]
+Увага: підвищує споживання мережевого трафіку!
+[Enable news feeds]
+Увімкнути стрічку новин
+[Enable event notifications]
+Увімкнути сповіщення про події
+[BBCode support on news and event notifications]
+Підтримка BB-кодів у новинах і сповіщеннях
+[Interval for updates (min):]
+Інтервал оновлень (хв):
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]
@@ -157,6 +169,14 @@
 &Вигнати
 [Photo]
 Фото
+[User was tagged in these photos:]
+Користувач позначений на цих фотографіях:
+[News from %s%s%s (%s)\n%s]
+Новина від %s%s%s (%s)\n%s
+[\tRepost from %s%s%s (%s)\n%s]
+\tРепост від %s%s%s (%s)\n%s
+[\nNews link: %s]
+\nПосилання на новину: %s
 [Couldn't save file]
 Неможливо зберегти файл
 [Invalid album id]
@@ -185,6 +205,8 @@
 Мережа
 [Account]
 Обліковий запис
+[News and notifications]
+Новини і сповіщення
 [%s server connection]
 З'єднання з сервером %s
 [Create new chat]
@@ -259,5 +281,7 @@
 Запис на стіні
 [Link]
 Посилання
+[Image]
+Зображення
 [Unsupported or unknown attachment type: %s]
 Цей тип вкладень не підтримується: %s

@@ -742,6 +742,8 @@ UTF16+сигнатури
 Поточний макрос
 [Select for FirstRun]
 Вибрати для першого запуску
+[Select as Volatile]
+Позначити як змінюване
 [Miranda event help]
 Допомога по подіям
 [contact list]
