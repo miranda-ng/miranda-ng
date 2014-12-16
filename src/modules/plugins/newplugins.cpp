@@ -246,9 +246,7 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 
 int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion, int checkTypeAPI)
 {
-	HINSTANCE h = NULL;
-
-	h = LoadLibrary(plugin);
+	HINSTANCE h = LoadLibrary(plugin);
 	if (h == NULL)
 		return 0;
 
@@ -283,16 +281,15 @@ LBL_Ok:
 		bpi->hInst = h;
 		return 1;
 	}
-
 	// check clist ?
-	if (checkTypeAPI == CHECKAPI_CLIST) {
+	else if (checkTypeAPI == CHECKAPI_CLIST) {
 		bpi->clistlink = (CList_Initialise)GetProcAddress(h, "CListInitialise");
 		if (pi->flags & UNICODE_AWARE)
 			if (bpi->clistlink)
 				goto LBL_Ok;
 	}
-
-	goto LBL_Error;
+	else
+		goto LBL_Error;
 }
 
 // perform any API related tasks to freeing
@@ -310,11 +307,12 @@ void Plugin_Uninit(pluginEntry *p)
 		// we need to kill all resources which belong to that DLL before calling FreeLibrary
 		KillModuleEventHooks(hInst);
 		KillModuleServices(hInst);
+		UnregisterModule(hInst);
 
 		FreeLibrary(hInst);
 		memset(&p->bpi, 0, sizeof(p->bpi));
 	}
-	UnregisterModule(hInst);
+	
 	if (p == pluginList_crshdmp)
 		pluginList_crshdmp = NULL;
 	pluginList.remove(p);
@@ -382,18 +380,18 @@ void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
 	// create the search filter
 	TCHAR search[MAX_PATH];
 	mir_sntprintf(search, SIZEOF(search), _T("%s\\Plugins\\*.dll"), exe);
-	{
-		// FFFN will return filenames for things like dot dll+ or dot dllx
-		WIN32_FIND_DATA ffd;
-		HANDLE hFind = FindFirstFile(search, &ffd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			do {
-				if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && valid_library_name(ffd.cFileName))
-					cb(&ffd, exe, wParam, lParam);
-			} while (FindNextFile(hFind, &ffd));
-			FindClose(hFind);
-		} //if
-	}
+
+	// FFFN will return filenames for things like dot dll+ or dot dllx
+	WIN32_FIND_DATA ffd;
+	HANDLE hFind = FindFirstFile(search, &ffd);
+	if (hFind == INVALID_HANDLE_VALUE)
+		return;
+
+	do {
+		if (!(ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) && valid_library_name(ffd.cFileName))
+			cb(&ffd, exe, wParam, lParam);
+	} while (FindNextFile(hFind, &ffd));
+	FindClose(hFind);
 }
 
 pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
