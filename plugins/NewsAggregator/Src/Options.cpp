@@ -24,7 +24,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		SetWindowText(hwndDlg, TranslateT("Add Feed"));
 		SetDlgItemText(hwndDlg, IDC_FEEDURL, _T("http://"));
 		SetDlgItemText(hwndDlg, IDC_TAGSEDIT, TAGSDEFAULT);
@@ -54,7 +54,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 
 				MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-				CallService(MS_PROTO_ADDTOCONTACT, hContact, (LPARAM)MODULE);
+				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
 				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
 				db_set_ts(hContact, MODULE, "Nick", str);
 
@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowText(hwndDlg, TranslateT("Change Feed"));
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, UDM_SETRANGE32, 0, 999);
 
-			MCONTACT hContact = lParam;
+			MCONTACT hContact = (MCONTACT)lParam;
 			WindowList_Add(hChangeFeedDlgList, hwndDlg, hContact);
 			Utils_RestoreWindowPositionNoSize(hwndDlg, hContact, MODULE, "ChangeDlg");
 
@@ -512,7 +512,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					if (mir_tstrcmp(dbURL, url))
 						continue;
 
-					CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 					ListView_DeleteItem(hwndList, sel);
 					break;
 				}
