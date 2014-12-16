@@ -1360,12 +1360,12 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			res.AppendFormat(_T("%s: %s (%s)"), TranslateT("Link"), ptszTitle ? ptszTitle : _T(""), ptszUrl ? ptszUrl : _T(""));
 			if (!tszImage.IsEmpty())
 				if (m_bAddImgBbc)
-					res.AppendFormat(_T("\n\tImage: [img]%s[/img]"), tszImage.GetBuffer());
+					res.AppendFormat(_T("\n\t%s: [img]%s[/img]"), TranslateT("Image"), tszImage.GetBuffer());
 				else 
-					res.AppendFormat(_T("\n\tImage: %s"), tszImage.GetBuffer());
+					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), tszImage.GetBuffer());
 			
 			if (ptszDescription)
-				res.AppendFormat(_T("\n\t%s"), ptszDescription);			
+				res.AppendFormat(_T("\n\t%s"), ptszDescription ? ptszDescription: _T(""));
 
 		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
