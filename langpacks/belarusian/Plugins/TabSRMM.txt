@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1167,12 +1167,12 @@ TabSRMM: Набірае
 Зачыніць сесію
 [Copy To Clipboard]
 Капіяваць у буфер
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Паведамленне статусу:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b xСтатус:\\ul0\\b0 \\par\s
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-\\par\\par\\tab \\ul\\b Слухае:\\ul0\\b0 \\par %s
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\ul\\b Паведамленне статусу:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\ul\\b xСтатус:\\ul0\\b0 \\par\s
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\ul\\b Слухае:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Кліент:\\ul0\\b0  %s
 [TabSRMM Information]
@@ -1416,10 +1416,6 @@ TabSRMM: Набірае
 [Choose status modes]
 Выбар рэжымаў статусу
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не ўстаноўлены плагін службы малюнкаў (advaimg.dll)\n\nTabSRMM адключаны.
-[TabSRMM fatal error]
-Крытычная памылка TabSRMM
 [Image tag]
 Выява
 [Quote text]
@@ -1488,6 +1484,10 @@ TabSRMM: Набірае
 Выключана (выкарыстоўваецца як адбітак)
 [Feature enabled (used as overlay)]
 Уключана (выкарыстоўваецца як адбітак)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Не ўстаноўлены плагін службы малюнкаў (advaimg.dll)\n\nTabSRMM адключаны.
+[TabSRMM fatal error]
+Крытычная памылка TabSRMM
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Вокны паведамленняў - IM
@@ -1797,9 +1797,6 @@ tabSRMM: %s
 Зачыненне налад|Каб паказаць змены, злучаныя з імпартам схемы, у вакне налад, яно павінна быць зачынена пасля загрузкі схемы \\b1 і незахаваныя змены могуць быць страчаны\\b0 .\n\nВы жадаеце працягнуць?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка колераў і шрыфтоў можа змяніць налады, усталяваныя Вашым скінам.\n\nВы жадаеце працягнуць?
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Колер тэксту
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s увайшоў

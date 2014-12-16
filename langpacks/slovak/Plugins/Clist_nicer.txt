@@ -22,13 +22,13 @@ Zobrazuje kontakty, upozornenia na udalosti a statusy protokolov.
 
 [Clist Nicer+]
 
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Version]
 
 [Support and latest version information]
 
-[Delete Contact]
+[Delete contact]
 Zmazať kontakt
 [No]
 Nie
@@ -72,7 +72,7 @@ Nepoužívať dvojklik myšou
 
 [Event area]
 
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 
 [Auto mode]
 
@@ -102,11 +102,11 @@ Zvýrazniť názvy skupín oddelovacou čiarou
 
 [Sort groups alphabetically]
 Triediť skupiny podľa abecedy
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Rýchle hľadanie iba v otvorených skupinách
 [No expand/collapse icon]
 
-[Center groupnames horizontally]
+[Center group names horizontally]
 
 [Alignment]
 
@@ -132,13 +132,13 @@ Odsadzovanie skupín:
 
 [Finally by]
 
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 
 [Do not separate offline contacts]
 
 [Hide as offline]
 
-[Tree Hide Offline]
+[Tree hide offline]
 
 [Right align contacts]
 
@@ -268,7 +268,7 @@ milisekúnd
 
 [Gray out entire list when:]
 Potlačiť intenzitu u týchto položiek:
-[Tree Gray Out]
+[Tree gray out]
 
 [Contact list background]
 Pozadie zoznamu kontaktov
@@ -494,7 +494,7 @@ Zmazať skupinu
 
 [Appearance]
 
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 
 [Show additional buttons]
 

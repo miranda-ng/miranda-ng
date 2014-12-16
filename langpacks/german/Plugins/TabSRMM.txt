@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1167,12 +1167,12 @@ Raumeinstellungen...
 Sitzung schließen
 [Copy To Clipboard]
 In Zwischenablage kopieren
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Statusnachricht:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b Erweiterte Status-Informationen:\\ul0\\b0 \\par\s
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-\\par\\par\\tab \\ul\\b Hört gerade:\\ul0\\b0 \\par %s
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\ul\\b Statusnachricht:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\ul\\b Erweiterte Status-Informationen:\\ul0\\b0 \\par\s
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\ul\\b Hört gerade:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Client:\\ul0\\b0  %s
 [TabSRMM Information]
@@ -1416,10 +1416,6 @@ Hervorhebungen
 [Choose status modes]
 Wähle Statusmodi
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Das Bilddiensteplugin (advaimg.dll) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
-[TabSRMM fatal error]
-Schwerwiegender TabSRMM-Fehler
 [Image tag]
 Bild Tagschaltfläche
 [Quote text]
@@ -1488,6 +1484,10 @@ Uhrsymbol (für die Uhr im Infopanel)
 Funktion deaktiviert (als Overlay)
 [Feature enabled (used as overlay)]
 Funktion aktiviert (als Overlay)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Das Bilddiensteplugin (advaimg.dll) ist nicht richtig installiert.\n\nTabSRMM wird deaktiviert.
+[TabSRMM fatal error]
+Schwerwiegender TabSRMM-Fehler
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Nachrichtenfenster - Instant Messaging
@@ -1807,9 +1807,6 @@ Fenster schließen|Sie sind dabei ein Fenster mit mehreren Tabs zu schließen.\n
 Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes im Optionsdialog vorgenommen werden, zu übernehmen, muss der Dialog nach dem Laden eines Themes geschlossen werden \\b1und ungespeicherte Änderungen könnten verloren gehen\\b0.\n\nMöchten Sie den Vorgang fortsetzen?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Textfarbe
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s ist beigetreten

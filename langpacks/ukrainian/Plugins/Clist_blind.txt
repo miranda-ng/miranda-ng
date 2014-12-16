@@ -7,7 +7,7 @@
 ;============================================================
 [A contact list for blind folks.]
 Список контактів для людей з проблемами зору.
-[Delete Contact]
+[Delete contact]
 Видалити контакт
 [Are you sure you want to delete %s?]
 Справді видалити %s зі списку?
@@ -25,15 +25,15 @@
 Гарячі клавіші
 [Show/Hide:]
 Показати/Сховати:
-[Read Message:]
+[Read message:]
 Читати повідомлення:
-[Web Search:]
+[Web search:]
 Знайти:
 [URL:]
 Посилання:
 [Open in new browser window]
 Відкрити в новому вікні
-[Show Options]
+[Show options]
 Налаштування
 [Hide offline users]
 Сховати відключених
@@ -133,7 +133,7 @@
 Ховати лічильник, якщо нема користувачів у мережі
 [Sort groups alphabetically]
 Впорядкувати групи за абеткою
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Швидкий пошук лише у відкритих групах
 [Templates]
 Шаблони
@@ -251,7 +251,7 @@
 Список
 [Global]
 Глобальні
-[Unknown Protocol]
+[Unknown protocol]
 Невідомий протокол
 [Expanded]
 розгорнута

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1167,12 +1167,12 @@ TabSRMM Меню
 Затваряне на разговора
 [Copy To Clipboard]
 Копиране в клипборда
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Текст за състоянието:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b Допълнителна информация:\\ul0\\b0 \\par\s
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-\\par\\par\\tab \\ul\\b Слуша:\\ul0\\b0 \\par %s
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\ul\\b Текст за състоянието:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\ul\\b Допълнителна информация:\\ul0\\b0 \\par\s
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\ul\\b Слуша:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Клиент:\\ul0\\b0  %s
 [TabSRMM Information]
@@ -1416,10 +1416,6 @@ Latin I
 [Choose status modes]
 Избор на състояния
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Приставката осигуряваща услуги за изображения (advaimg.dll) не е инсталирана правилно.\n\nTabSRMM е изключена.
-[TabSRMM fatal error]
-TabSRMM - фатална грешка
 [Image tag]
 
 [Quote text]
@@ -1488,6 +1484,10 @@ TabSRMM - фатална грешка
 Изключена функция (насложена икона)
 [Feature enabled (used as overlay)]
 Включена функция (насложена икона)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Приставката осигуряваща услуги за изображения (advaimg.dll) не е инсталирана правилно.\n\nTabSRMM е изключена.
+[TabSRMM fatal error]
+TabSRMM - фатална грешка
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Прозорци за съобщения - IM
@@ -1807,9 +1807,6 @@ TabSRMM съобщение (%s)
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Цвят на текста
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s влезе

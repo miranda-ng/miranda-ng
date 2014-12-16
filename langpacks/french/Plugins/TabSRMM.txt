@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1167,11 +1167,11 @@ Sélecteur de smileys
 
 [Copy To Clipboard]
 Copier dans le Presse-Papiers
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
 
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
 
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
 
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 
@@ -1416,10 +1416,6 @@ Paramètres
 [Choose status modes]
 Choisir les modes d'état...
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-
-[TabSRMM fatal error]
-
 [Image tag]
 
 [Quote text]
@@ -1487,6 +1483,10 @@ Historique récent
 [Feature disabled (used as overlay)]
 
 [Feature enabled (used as overlay)]
+
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+
+[TabSRMM fatal error]
 
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
@@ -1807,9 +1807,6 @@ Utiliser IEView
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Couleur du texte
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s est arrivé

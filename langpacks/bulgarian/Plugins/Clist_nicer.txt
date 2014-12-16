@@ -28,7 +28,7 @@ Clist Nicer+
 Версия
 [Support and latest version information]
 Поддръжка и информация за последната версия
-[Delete Contact]
+[Delete contact]
 Изтриване на контакта
 [No]
 Не
@@ -72,7 +72,7 @@ Clist Nicer+
 ms
 [Event area]
 Зона за събития
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 
 [Auto mode]
 Авторежим
@@ -102,11 +102,11 @@ ms
 Скриване на броя, когато всички са "Извън линия"
 [Sort groups alphabetically]
 Сортиране на групите по азбучен ред
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Бързо търсене само в отворените групи
 [No expand/collapse icon]
 Без икона за разгръщане/сгъване
-[Center groupnames horizontally]
+[Center group names horizontally]
 Хоризонтално центриране имената на групите
 [Alignment]
 Подреждане
@@ -138,7 +138,7 @@ ms
 Без отделяне на контактите "Извън линия"
 [Hide as offline]
 
-[Tree Hide Offline]
+[Tree hide offline]
 
 [Right align contacts]
 Подреждане на контактите отдясно
@@ -268,7 +268,7 @@ ms
 Без вертикална лента за придвижване
 [Gray out entire list when:]
 Посивяване на списъка, когато:
-[Tree Gray Out]
+[Tree gray out]
 
 [Contact list background]
 Фон на списъка с контакти
@@ -494,7 +494,7 @@ URL събития
 Преместване на маркираните контакти в групата
 [Appearance]
 Външен вид
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 
 [Show additional buttons]
 Показване на допълнителни бутони

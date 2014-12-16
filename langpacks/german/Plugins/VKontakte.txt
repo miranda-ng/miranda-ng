@@ -2,12 +2,24 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.30
+;  Version: 0.1.0.31
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
+[News and event notifications]
+
+[WARNING: Causes excessive network traffic!!!]
+
+[Enable news feeds]
+
+[Enable event notifications]
+
+[BBCode support on news and event notifications]
+
+[Interval for updates (min):]
+
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
 [Password:]
@@ -159,6 +171,17 @@ Raum &zerstören
 Kontakt&profil
 [&Kick]
 &Kick
+;file \protocols\VKontakte\src\vk_feed.cpp
+[Photo]
+Foto
+[User was tagged in these photos:]
+
+[News from %s%s%s (%s)\n%s]
+
+[\tRepost from %s%s%s (%s)\n%s]
+
+[\nNews link: %s]
+
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Konnte Datei nicht speichern.
@@ -190,6 +213,8 @@ Achtung!
 Netzwerk
 [Account]
 Konto
+[News and notifications]
+
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -256,8 +281,6 @@ Wollen Sie %s wirklich bannen? %s%sFortfahren?
 Wollen Sie wirklich Missbrauch durch %s melden?
 [Attachments:]
 Anhänge:
-[Photo]
-Foto
 [Audio]
 Audio
 [Video]
@@ -266,5 +289,9 @@ Video
 Dokument
 [Wall post]
 Pinnwandeintrag
+[Link]
+Link
+[Image]
+Bild
 [Unsupported or unknown attachment type: %s]
 Nicht unterstützter oder unbekannter Anhangtyp: %s

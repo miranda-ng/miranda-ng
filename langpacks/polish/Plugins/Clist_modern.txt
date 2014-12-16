@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Wyświetla kontakty, powiadomienia zdarzeń, statusy protokołów z dobrymi modyfikacjami wizualnymi. Wspierane zmiany z MW, rozszerzona współpraca z metakontaktami.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -390,12 +390,10 @@ Opcje przezroczystości
 Włącz cieniowanie (wymaga restartu)
 [Frames]
 Ramki
-[Between frames:]
-Pomiędzy ramkami:
-[After captions:]
-Po napisach:
-[Gaps]
-Przerwy
+[Gaps between frames:]
+
+[Gaps after captions:]
+
 [Use non-layered mode]
 Używaj trybu bezwarstwowego
 [Round corners]
@@ -408,8 +406,8 @@ Wyłącz silnik skórkowania
 Włącz Aero Glass (Vista+)
 [Order of items:]
 Kolejność wyświetlania:
-[Min row height:]
-Min. wys. wiersza:
+[Minimum row height:]
+Minimalna wysokość wiersza:
 [Row border:]
 Obr. wiersza:
 [Variable row height]
@@ -426,14 +424,14 @@ W dół
 Lewy margines:
 [Right margin:]
 Prawy margines:
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Tryb kompaktowy\n(Pokaż awatary i dodatkowy tekst tylko przy zaznaczonych kontaktach)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Tryb kompaktowy (pokaż awatary i dodatkowy tekst tylko przy zaznaczonych kontaktach)
 [Draw border on avatar]
 Rysuj obramowanie awatara
 [Draw overlay icons]
 Rysuj nakładki ikon
-[Size:]
-Rozmiar:
+[Max size (pixels):]
+
 [Round corners of avatars]
 Zaokrąglone rogi awatarów
 [Ignore size for row height calcs]
@@ -450,8 +448,8 @@ Ikona statusu protokołu
 Ikona kontaktu
 [height]
 wysokość
-[Max width]
-Maks. szerokość
+[width]
+szerokość
 [Use old render method (fast, but has artifacts)]
 Używaj starej metody renderowania (szybka, ale posiada artefakty)
 [Hide icon when showing avatar]
@@ -528,7 +526,7 @@ Wyrównaj
 Opcje
 [Visible]
 Widoczny
-[Show Title]
+[Show title]
 Pokaż tytuł
 [Locked]
 Zablokowane
@@ -536,7 +534,7 @@ Zablokowane
 Obramowanie
 [Floating]
 Pływający
-[Frames Order]
+[Frames order]
 Kolejność ramek
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 W BUDOWIE!!!!           NA RAZIE NIE DZIAŁA
@@ -777,7 +775,7 @@ Lista
 [Window]
 Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
+[No events]
 Brak zdarzeń
 [Event area background]
 Tło obszaru zdarzeń
@@ -813,7 +811,7 @@ Ikona
 Tekst
 [Extra icons]
 Dodatkowe ikony
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 Animowane awatary (GDI + moduł avs.dll są wymagane)
 [Left align group names]
 Wyrównaj nazwy grup do lewej
@@ -826,7 +824,7 @@ Wiersz
 [Row design]
 Ułożenie wiersza
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Nieznany kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
@@ -859,7 +857,7 @@ Wyłącz Mirandę NG
 Ogólne
 [Restore last status]
 Przywróć ostatni status
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 Pokaż/Ukryj rozłączonych
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
@@ -896,7 +894,7 @@ To jest druga z domyślnych skórek Modern Contact list w stylu Vista Aero
 Angeli-Ka (grafika), FYR (szablon)
 [Inside library]
 W bibliotece
-[Skin Information]
+[Skin information]
 Informacje o skórce
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Podgląd jest niedostępny\n\n%s\n----------------------\n\n%s\n\nAutor(zy):\n%s\n\nKontakt:\n%s\n\nStrona domowa:\n%s
@@ -1043,7 +1041,7 @@ Pokaż wszystkie ramki
 Pokaż wszystkie paski tytułów
 [Hide all title bars]
 Ukryj wszystkie paski tytułów
-[Lock Frame]
+[Lock frame]
 Zablokuj ramkę
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]

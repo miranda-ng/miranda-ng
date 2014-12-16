@@ -8,7 +8,7 @@
 [A contact list for blind folks.]
 Zoznam kontaktov pre nevidiacich.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete Contact]
+[Delete contact]
 Zmazať kontakt
 [Are you sure you want to delete %s?]
 
@@ -26,15 +26,15 @@ Nie
 Klávesové skratky
 [Show/Hide:]
 Zobraziť/Skryť:
-[Read Message:]
+[Read message:]
 
-[Web Search:]
+[Web search:]
 
 [URL:]
 URL:
 [Open in new browser window]
 Otvoríť v novom prehliadacom okne
-[Show Options]
+[Show options]
 
 [Hide offline users]
 Skryť nepripojených užívateľov
@@ -134,7 +134,7 @@ Zobrazovať počet kontaktov v skupine za názvom skupiny
 Skryť počet kontaktov v skupine ak sú všetci odpojený
 [Sort groups alphabetically]
 Triediť skupiny podľa abecedy
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Rýchle hľadanie iba v otvorených skupinách
 [Templates]
 
@@ -256,7 +256,7 @@ Zoznam
 
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
-[Unknown Protocol]
+[Unknown protocol]
 
 [Expanded]
 

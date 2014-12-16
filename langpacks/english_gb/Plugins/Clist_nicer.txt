@@ -5,14 +5,14 @@
 ;  Version: 0.9.2.4
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-[Center groupnames horizontally]
-Centre groupnames horizontally
+[Center group names horizontally]
+Centre group names horizontally
 [Centered when possible]
 Centred when possible
 [Gray out entire list when:]
 Grey out entire list when:
-[Tree Gray Out]
-Tree Grey Out
+[Tree gray out]
+Tree grey out
 [Use Windows colors]
 Use Windows colours
 [Protocol skins override status text colors]

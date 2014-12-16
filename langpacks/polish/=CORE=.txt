@@ -1336,7 +1336,6 @@ Mmm... jedzonko.
 Bezczynnyyyyyyy
 [Status]
 Status
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Moduł czatu
@@ -1827,6 +1826,8 @@ Ostatnia wiadomość %s o %s.
 [%s is typing a message...]
 %s pisze wiadomość...
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
+Ja
 [File sent]
 Wysłano plik
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -2035,6 +2036,7 @@ Temat został zmieniony
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
 &Otwórz okno czatu
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s dołączył(a)

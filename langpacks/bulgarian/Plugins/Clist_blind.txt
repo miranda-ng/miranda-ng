@@ -8,7 +8,7 @@
 [A contact list for blind folks.]
 Списък за контакти предназначен за хора с увредено зрение.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete Contact]
+[Delete contact]
 Изтриване на контакта
 [Are you sure you want to delete %s?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
@@ -26,15 +26,15 @@
 Клавишни комбинации
 [Show/Hide:]
 Показване/Скриване:
-[Read Message:]
+[Read message:]
 Прочитане на съобщение:
-[Web Search:]
+[Web search:]
 Уеб търсене:
 [URL:]
 URL:
 [Open in new browser window]
 Отваряне в нов прозорец
-[Show Options]
+[Show options]
 Показване на настройките
 [Hide offline users]
 Скриване на контактите "Извън линия"
@@ -134,7 +134,7 @@ URL:
 Скриване на броя, когато всички са "Извън линия"
 [Sort groups alphabetically]
 Сортиране на групите по азбучен ред
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Бързо търсене само в отворените групи
 [Templates]
 Шаблони
@@ -256,7 +256,7 @@ URL:
 Общо
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
-[Unknown Protocol]
+[Unknown protocol]
 Непознат протокол
 [Expanded]
 Разгърната

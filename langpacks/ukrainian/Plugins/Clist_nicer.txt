@@ -25,7 +25,7 @@
 Версія
 [Support and latest version information]
 Підтримка та інформація про найновішу версію
-[Delete Contact]
+[Delete contact]
 Видалити контакт
 [No]
 Ні
@@ -69,7 +69,7 @@
 мс
 [Event area]
 Область подій
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 Встановити базову видимість меню фреймів
 [Auto mode]
 Показувати, якщо є нові події
@@ -99,11 +99,11 @@
 Ховати лічильник, якщо всі відключені
 [Sort groups alphabetically]
 Впорядкувати групи за абеткою
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Швидкий пошук лише у відкритих групах
 [No expand/collapse icon]
 Не показувати значок згортання/розгортання
-[Center groupnames horizontally]
+[Center group names horizontally]
 Вирівнювати назви груп по центру
 [Alignment]
 Вирівнювання
@@ -485,7 +485,7 @@
 Перемістити позначені контакти в цю групу
 [Appearance]
 Зовнішній вигляд
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 Показувати значки метаконтактів
 [Show additional buttons]
 Показувати додаткові кнопки

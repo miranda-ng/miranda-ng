@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Zobrazuje kontakty, upozornenia na udalosti a statusy protokolov s rozšírenými vizuálnymi úpravami.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -390,11 +390,9 @@ Minimalizovať do oznamovacej oblasti
 
 [Frames]
 
-[Between frames:]
+[Gaps between frames:]
 
-[After captions:]
-
-[Gaps]
+[Gaps after captions:]
 
 [Use non-layered mode]
 
@@ -408,7 +406,7 @@ Minimalizovať do oznamovacej oblasti
 
 [Order of items:]
 
-[Min row height:]
+[Minimum row height:]
 
 [Row border:]
 
@@ -426,14 +424,14 @@ Minimalizovať do oznamovacej oblasti
 јavý okraj
 [Right margin:]
 
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
+[Compact mode (show avatars and additional text on selected contacts only)]
 
 [Draw border on avatar]
 
 [Draw overlay icons]
 
-[Size:]
-Veľkosť:
+[Max size (pixels):]
+
 [Round corners of avatars]
 
 [Ignore size for row height calcs]
@@ -450,9 +448,9 @@ Veľkosť:
 
 [height]
 
-[Max width]
+[width]
 
-[Use old render method (fast, but has artefacts)]
+[Use old render method (fast, but has artifacts)]
 
 [Hide icon when showing avatar]
 
@@ -460,7 +458,7 @@ Veľkosť:
 
 [Hide groups icon]
 
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 
 [Use extra status icon instead protocol]
 
@@ -528,7 +526,7 @@ Prezívka
 
 [Visible]
 
-[Show Title]
+[Show title]
 
 [Locked]
 
@@ -536,7 +534,7 @@ Prezívka
 
 [Floating]
 
-[Frames Order]
+[Frames order]
 
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 
@@ -777,7 +775,7 @@ Zoznam
 [Window]
 Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
+[No events]
 
 [Event area background]
 
@@ -813,7 +811,7 @@ Okno
 Text
 [Extra icons]
 
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 
 [Left align group names]
 
@@ -826,7 +824,7 @@ Text
 [Row design]
 
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
@@ -859,7 +857,7 @@ Nastavenia...
 
 [Restore last status]
 
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
@@ -896,7 +894,7 @@ Chyba
 
 [Inside library]
 
-[Skin Information]
+[Skin information]
 
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 
@@ -1043,7 +1041,7 @@ Menu stavov
 
 [Hide all title bars]
 
-[Lock Frame]
+[Lock frame]
 
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]

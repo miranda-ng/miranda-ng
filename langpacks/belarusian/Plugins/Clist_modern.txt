@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Паказвае кантакты, падзеі, статусы пратаколаў з пашыранымі функцыямі афармлення (скіны). Мультываконная мадыфікацыя, пашыраная падтрымка метакантактаў.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -388,12 +388,10 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Уключыць цень (патрэбен перазапуск)
 [Frames]
 Фрэймы
-[Between frames:]
-Паміж фрэймамі
-[After captions:]
-Пасля загалоўка
-[Gaps]
-Падзельнікі
+[Gaps between frames:]
+Падзельнікі паміж фрэймамі:
+[Gaps after captions:
+Падзельнікі пасля загалоўка:
 [Use non-layered mode]
 Рэжым без скіна
 [Round corners]
@@ -406,7 +404,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Стыль Аэро (Vista+)
 [Order of items:]
 Парадак элементаў:
-[Min row height:]
+[Minimum row height:]
 Мін. вышыня лініі:
 [Row border:]
 Мяжа лініі:
@@ -424,14 +422,12 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Левае поле:
 [Right margin:]
 Правае поле:
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Кампактны рэжым\n(Аватары і дадатковы тэкст толькі ў абраных кантактаў)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Кампактны рэжым (аватары і дадатковы тэкст толькі ў абраных кантактаў)
 [Draw border on avatar]
 Рамкі на выявах
 [Draw overlay icons]
 Абразкі на аватарах
-[Size:]
-Памер:
 [Round corners of avatars]
 Закругленыя аватары
 [Ignore size for row height calcs]
@@ -448,8 +444,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Абразок кантакта
 [height]
 вышыня
-[Max width]
-Шырыня
+[width]
+шырыня
 [Use old render method (fast, but has artifacts)]
 Стары метад адмалёўкі (хутчэй, але могуць быць "артэфакты")
 [Hide icon when showing avatar]
@@ -526,7 +522,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Налады
 [Visible]
 Мабыць
-[Show Title]
+[Show title]
 Загаловак
 [Locked]
 Заблакавана
@@ -534,7 +530,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рамка
 [Floating]
 Плывучае
-[Frames Order]
+[Frames order]
 Рамка фрэймаў
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 У РАСПРАЦОЎЦЫ!!!                      ГЭТА НЕ ПРАЦУЕ
@@ -775,7 +771,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Window]
 Акно
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
+[No events]
 Падзей няма
 [Event area background]
 Фон вобласці падзей
@@ -811,7 +807,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Тэкст
 [Extra icons]
 Экстра абразкі
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 Анімаваныя аватары (патрэбны GDI+ і сервіс аватараў (avs.dll))
 [Left align group names]
 Імёны гуртоў злева
@@ -824,7 +820,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 [Row design]
 Дызайн радка
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Невядомы кантакт)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
@@ -853,7 +849,7 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Галоўны
 [Restore last status]
 Аднавіць апошні стан статусу
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 Паказаць/Скрыць адключаных
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
@@ -890,7 +886,7 @@ reVista для Modern v0.5
 Angeli-Ka (графіка), FYR (шаблон)
 [Inside library]
 Устроены
-[Skin Information]
+[Skin information]
 Інфармацыя
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Прадпрагляд не даступны\n\n%s\n----------------------\n\n%s\n\nАўтар(ы):\n%s\n\nКантакт:\n%s\n\nWeb:\n%s
@@ -1035,7 +1031,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Паказваць назвы
 [Hide all title bars]
 Схаваць назвы
-[Lock Frame]
+[Lock frame]
 Замацаваць фрэйм
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]

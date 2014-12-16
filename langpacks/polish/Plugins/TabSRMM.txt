@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1167,11 +1167,11 @@ Opcje pokoju...
 Zamknij sesję
 [Copy To Clipboard]
 Kopiuj do schowka
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\ul\\b Opis:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
 \\par\\par\\ul\\b xStatus:\\ul0\\b0 \\par \\par\s
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\ul\\b Teraz odtwarza:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Klient:\\ul0\\b0  %s
@@ -1416,10 +1416,6 @@ Podświetlanie
 [Choose status modes]
 Wybierz tryby statusu
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Usługa obrazków (advaimg.dll) nie jest zainstalowany.\n\nTabSRMM zostanie wyłączony.
-[TabSRMM fatal error]
-Błąd TabSRMM
 [Image tag]
 Tag obrazka
 [Quote text]
@@ -1488,6 +1484,10 @@ Symbol zegara (w panelu informacyjnym)
 Funkcja wyłączona (używany jako nakładka)
 [Feature enabled (used as overlay)]
 Funkcja włączona (używany jako nakładka)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Usługa obrazków (advaimg.dll) nie jest zainstalowany.\n\nTabSRMM zostanie wyłączony.
+[TabSRMM fatal error]
+Błąd TabSRMM
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Okno rozmowy - IM
@@ -1807,9 +1807,6 @@ Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma ka
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Ładowanie skórki| Załadowanie skórki kolorów i czcionek może nadpisać twoje ustawienia.\n\nCzy chcesz kontynuować?
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Kolor tekstu
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s dołączył(-a)

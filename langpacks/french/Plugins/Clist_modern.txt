@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Affiche les contacts, les notifications d'événements, l'état des protocoles avec des modifications visuelles avancées. Modifications MW prise en charge, support des metacontacts amélioré.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -390,12 +390,10 @@ Options de transparence
 Activer l'ombre portée (redémarrage requis)
 [Frames]
 Cadres
-[Between frames:]
-Entre les cadres :
-[After captions:]
-Après les légendes :
-[Gaps]
-transparence
+[Gaps between frames:]
+
+[Gaps after captions:]
+
 [Use non-layered mode]
 Désactiver la surcouche
 [Round corners]
@@ -408,7 +406,7 @@ Désactiver les skins
 Activer Aero Glass (Vista+)
 [Order of items:]
 Ordre des éléments :
-[Min row height:]
+[Minimum row height:]
 Taille mini rangée :
 [Row border:]
 Bord rangée :
@@ -426,14 +424,14 @@ Bas
 Marge gauche :
 [Right margin:]
 Marge droite :
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Mode compact\n(Voir les avatars et texte complémentaire sur les contacts sélectionnés seulement)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Mode compact (voir les avatars et texte complémentaire sur les contacts sélectionnés seulement)
 [Draw border on avatar]
 Cadre sur les avatars
 [Draw overlay icons]
 Superposer l'icône d'état
-[Size:]
-Taille :
+[Max size (pixels):]
+
 [Round corners of avatars]
 Arrondir les coins des avatars
 [Ignore size for row height calcs]
@@ -450,8 +448,8 @@ Icône d'état
 Icône du contact
 [height]
 hauteur
-[Max width]
-Taille maxi
+[width]
+largeur
 [Use old render method (fast, but has artifacts)]
 
 [Hide icon when showing avatar]
@@ -528,7 +526,7 @@ Position (verticale)
 Paramètres
 [Visible]
 Visible
-[Show Title]
+[Show title]
 Voir le titre
 [Locked]
 Verrouillé
@@ -536,7 +534,7 @@ Verrouillé
 Bordures
 [Floating]
 Flottant
-[Frames Order]
+[Frames order]
 Ordre des images
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 EN COURS DE CONCEPTION !!!   NE FONCTIONNE PAS ENCORE
@@ -777,7 +775,7 @@ Liste
 [Window]
 Fenêtre
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
+[No events]
 Pas d'évènement
 [Event area background]
 
@@ -813,7 +811,7 @@ Avatar
 Texte
 [Extra icons]
 Icônes d'accès rapide
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 
 [Left align group names]
 Aligner les groupes sur la gauche
@@ -826,7 +824,7 @@ Ligne
 [Row design]
 
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Contact inconnu)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
@@ -859,7 +857,7 @@ Fermer Miranda
 Principales
 [Restore last status]
 
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
@@ -896,7 +894,7 @@ Voici le second skin Aero Vista pour Modern CList
 
 [Inside library]
 Librairie interne
-[Skin Information]
+[Skin information]
 
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Aperçu non disponible\n\n%s\n----------------------\n\n%s\n\nAUTEUR(S) :\n%s\n\nCONTACT :\n%s\n\nPAGE WEB :\n%s
@@ -1043,7 +1041,7 @@ Montrer tous les cadres
 Montrer toutes les barres de titres
 [Hide all title bars]
 Cacher toutes les barres de titres
-[Lock Frame]
+[Lock frame]
 Cadre vérouillé
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]

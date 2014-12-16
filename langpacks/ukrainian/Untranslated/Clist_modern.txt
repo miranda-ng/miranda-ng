@@ -1,4 +1,6 @@
 ﻿[Editing view mode]
+[Minimum row height:]
+[Max size (pixels):]
 [Layered]
 [Row design]
 [Empty %s cell]

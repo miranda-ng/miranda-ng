@@ -8,7 +8,7 @@
 [A contact list for blind folks.]
 Lista kontaktów dla ludzi niewidomych.
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete Contact]
+[Delete contact]
 Usuń kontakt
 [Are you sure you want to delete %s?]
 Czy na pewno chcesz usunąć %s?
@@ -26,15 +26,15 @@ Użyj Opcje -> Kontakty -> Ignorowanie by pokazać kontakty.
 Skróty
 [Show/Hide:]
 Pokaż/Ukryj:
-[Read Message:]
+[Read message:]
 Czytaj wiadomość:
-[Web Search:]
+[Web search:]
 Wyszukiwarka:
 [URL:]
 Link:
 [Open in new browser window]
 Otwórz w nowej karcie przeglądarki
-[Show Options]
+[Show options]
 Otwórz opcje
 [Hide offline users]
 Ukryj rozłączonych
@@ -134,7 +134,7 @@ Pokaż liczbę kontaktów w grupach
 Ukryj liczbę kontaktów, jeśli nikt nie jest dostępny
 [Sort groups alphabetically]
 Sortuj grupy alfabetycznie
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Szybkie szukanie tylko w otwartych grupach
 [Templates]
 Szablony
@@ -256,7 +256,7 @@ Lista
 Globalne
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
-[Unknown Protocol]
+[Unknown protocol]
 Nieznany protokół
 [Expanded]
 Rozwinięta
