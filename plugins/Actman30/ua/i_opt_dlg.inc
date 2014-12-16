@@ -160,9 +160,7 @@ end;
 procedure InitActionSettings(Dialog:HWND);
 begin
   MakeEditField(Dialog,IDC_UA_TTNORMALV);
-  SetEditFlags(GetDlgItem(Dialog,IDC_UA_TTNORMALV),EF_FORCE,EF_FORCET);
   MakeEditField(Dialog,IDC_UA_TTPRESSEDV);
-  SetEditFlags(GetDlgItem(Dialog,IDC_UA_TTPRESSEDV),EF_FORCE,EF_FORCET);
 
   MakeEditField(Dialog,IDC_UA_POPUPV);
   MakeEditField(Dialog,IDC_UA_VARNAMESV);
@@ -241,6 +239,7 @@ procedure ShowSubAction(Dialog:HWND;aType:integer;item:integer=-1);
 var
   UA:pMyActionItem;
   s:HWND;
+  i:integer;
 begin
   s:=settings;
   settings:=0;
@@ -267,6 +266,11 @@ begin
       SetDlgItemTextA(Dialog,IDC_UA_TTNORMALV ,UA.szTTBTooltip);
       SetDlgItemTextA(Dialog,IDC_UA_TTPRESSEDV,UA.szTTBTooltipPressed);
       SetDlgItemTextW(Dialog,IDC_UA_SHOWVARV  ,UA.szTTBShowWhenVars);
+
+      if (UA.flags and UAF_TTBTTUV)<>0 then i:=EF_SCRIPT else i:=0;
+      SetEditFlags(Dialog,IDC_UA_TTNORMALV ,EF_ALL,i);
+      if (UA.flags and UAF_TTBTTPV)<>0 then i:=EF_SCRIPT else i:=0;
+      SetEditFlags(Dialog,IDC_UA_TTPRESSEDV,EF_ALL,i);
     end;
 
     uaTAB: begin // TabSRMM toolbar
@@ -284,6 +288,10 @@ begin
         SetDlgItemTextW(Dialog,IDC_UA_POPUPV   ,szMenuPopup);
         SetDlgItemTextW(Dialog,IDC_UA_VARNAMESV,szMenuNameVars);
         SetDlgItemTextW(Dialog,IDC_UA_SHOWVARV ,szMenuShowWhenVars);
+        if (menu_opt and UAF_MNAMVAR)<>0 then i:=EF_SCRIPT else i:=0;
+        SetEditFlags(Dialog,IDC_UA_VARNAMESV,EF_ALL,i);
+        if (menu_opt and UAF_MSUBVAR)<>0 then i:=EF_SCRIPT else i:=0;
+        SetEditFlags(Dialog,IDC_UA_POPUPV,EF_ALL,i);
       end;
     end;
 
@@ -383,6 +391,10 @@ begin
       menu_opt:=menu_opt or UAF_NOTRANS;
     if IsDlgButtonchecked(Dialog,IDC_UA_SEPARATE)<>BST_UNCHECKED then
       menu_opt:=menu_opt or UAF_MENUSEP;
+    if (GetEditFlags(Dialog,IDC_UA_VARNAMESV) and EF_SCRIPT)<>0 then
+      menu_opt:=menu_opt or UAF_MNAMVAR;
+    if (GetEditFlags(Dialog,IDC_UA_POPUPV) and EF_SCRIPT)<>0 then
+      menu_opt:=menu_opt or UAF_MSUBVAR;
   end;
 end;
 
@@ -436,6 +448,10 @@ begin
         mFreeMem(szTTBTooltip       ); szTTBTooltip       :=GetDlgText(Dialog,IDC_UA_TTNORMALV ,true);
         mFreeMem(szTTBTooltipPressed); szTTBTooltipPressed:=GetDlgText(Dialog,IDC_UA_TTPRESSEDV,true);
         mFreeMem(szTTBShowWhenVars  ); szTTBShowWhenVars  :=GetDlgText(Dialog,IDC_UA_SHOWVARV);
+        if (GetEditFlags(Dialog,IDC_UA_TTNORMALV ) and EF_SCRIPT)<>0 then
+          flags:=flags or UAF_TTBTTUV;
+        if (GetEditFlags(Dialog,IDC_UA_TTPRESSEDV) and EF_SCRIPT)<>0 then
+          flags:=flags or UAF_TTBTTPV;
       end;
 
       uaTAB: begin // TabSRMM toolbar

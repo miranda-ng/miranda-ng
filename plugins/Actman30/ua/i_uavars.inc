@@ -62,6 +62,8 @@ const
   UAF_REGTABB   = 1 shl  5; // TabSRMM toolbar
   UAF_USING     = UAF_REGHOTKEY or UAF_REGTTBB or UAF_REGTABB;
 
+  UAF_TTBTTPV   = 1 shl  9; // TTB pressed hint script
+  UAF_TTBTTUV   = 1 shl 10; // TTB unpressed hint script
   UAF_2STATE    = 1 shl 11; // Buttons/menu items are 2-state
   UAF_PRESSED   = 1 shl 12; // Button pressed/menu item selected
   UAF_SAVESTATE = 1 shl 13; // Save or not "pressed" state
@@ -77,6 +79,8 @@ const
 
   // menu options
   UAF_MENUSEP = 1 shl 1; // menu item separated
+  UAF_MSUBVAR = 1 shl 2; // submenu name script
+  UAF_MNAMVAR = 1 shl 3; // menu name script
   UAF_MENUUSE = 1 shl 8; // use this menu
   UAF_NOTRANS = 1 shl 9; // do not translate menus
 
