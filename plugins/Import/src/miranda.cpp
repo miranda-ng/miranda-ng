@@ -76,7 +76,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 
 			SearchForLists(hwndDlg, pfd2, pfn);
 			SearchForLists(hwndDlg, pfd1, NULL);
-			if (lstrcmpi(pfd, pfd2))
+			if (mir_tstrcmpi(pfd, pfd2))
 				SearchForLists(hwndDlg, pfd, NULL);
 		}
 		SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, 0, 0);
@@ -96,7 +96,7 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 				MessageBox(hwndDlg, TranslateT("The given file does not exist. Please check that you have entered the name correctly."), TranslateT("Miranda Import"), MB_OK);
 				break;
 			}
-			lstrcpy(importFile, filename);
+			mir_tstrcpy(importFile, filename);
 			PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_OPTIONS, (LPARAM)MirandaOptionsPageProc);
 			break;
 

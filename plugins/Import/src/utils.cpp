@@ -54,7 +54,7 @@ int CreateGroup(const TCHAR *group, MCONTACT hContact)
 		if (tszDbGroup == NULL)
 			break;
 
-		if (!lstrcmp((TCHAR*)tszDbGroup+1, tszGrpName+1)) {
+		if (!mir_tstrcmp((TCHAR*)tszDbGroup+1, tszGrpName+1)) {
 			if (hContact)
 				db_set_ts(hContact, "CList", "Group", tszGrpName + 1);
 			else
