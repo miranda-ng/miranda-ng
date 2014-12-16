@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.2.0
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -16,6 +16,10 @@
 Стандартна група
 [Account]
 Акаунт
+[Contacts]
+Контакти
+[Use bigger avatars]
+
 [Captcha]
 
 [Cancel]
@@ -28,7 +32,22 @@
 
 [Block]
 Блокиране
+;file \protocols\Steam\src\stdafx.cpp
+[Steam game]
+
 ;file \protocols\Steam\src\steam_contacts.cpp
+[Looking to play]
+
+[Looking to trade]
+
+[ on server %s]
+
+[Playing]
+
+[%s has been removed from your contact list]
+
+[%s is back in your contact list]
+
 [%s has added you to his or her Friend List]
 
 ;file \protocols\Steam\src\steam_dialogs.cpp
@@ -52,13 +71,13 @@
 Молба за упълномощаване
 [Join to game]
 
-;file \protocols\Steam\src\steam_pooling.cpp
-[%s has been removed from your contact list]
-
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Протоколи
 [Protocol icon]
 Икона на протокола
+[Gaming icon]
+
 [SteamID]
 
+;file \protocols\Steam\src\steam_xstatus.cpp

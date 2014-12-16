@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Изобразява контакти, уведомявания за събития, състояние на протоколите с предимство на визуалните модификации. Поддържа множество прозорци (в списъка) и работа с метаконтакти.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -390,12 +390,10 @@ ms между две мигания
 
 [Frames]
 Рамки
-[Between frames:]
-Между рамки:
-[After captions:]
+[Gaps between frames:]
 
-[Gaps]
-Пролуки
+[Gaps after captions:]
+
 [Use non-layered mode]
 Режим без слоеве
 [Round corners]
@@ -408,7 +406,7 @@ ms между две мигания
 
 [Order of items:]
 Ред на елементите:
-[Min row height:]
+[Minimum row height:]
 Мин. височина на ред:
 [Row border:]
 Рамка на ред:
@@ -426,14 +424,14 @@ ms между две мигания
 Ляв ръб:
 [Right margin:]
 Десен ръб:
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Компактен режим\n(Аватарът и допълнителната информация\nсе показват само за маркираните контакти)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Компактен режим (аватарът и допълнителната информация\nсе показват само за маркираните контакти)
 [Draw border on avatar]
 Рамка на аватара
 [Draw overlay icons]
 Наслагване на икони
-[Size:]
-Размер:
+[Max size (pixels):]
+
 [Round corners of avatars]
 Закръглени ъгли на аватарите
 [Ignore size for row height calcs]
@@ -450,9 +448,9 @@ ms между две мигания
 Икона на контакта
 [height]
 височина
-[Max width]
-Макс. ширина
-[Use old render method (fast, but has artefacts)]
+[width]
+
+[Use old render method (fast, but has artifacts)]
 
 [Hide icon when showing avatar]
 Скриване на иконата, когато има аватар
@@ -460,7 +458,7 @@ ms между две мигания
 Наслагване на икона върху аватара
 [Hide groups icon]
 Без икони за групите
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 
 [Use extra status icon instead protocol]
 Икона допълнителното състояние вместо тази на протокола
@@ -528,7 +526,7 @@ ms между две мигания
 Настройки
 [Visible]
 Видима
-[Show Title]
+[Show title]
 Показване на заглавие
 [Locked]
 Заключена
@@ -536,7 +534,7 @@ ms между две мигания
 Рамка
 [Floating]
 Плаващо
-[Frames Order]
+[Frames order]
 Подреждане на рамките
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 В РЕМОНТ!!!           НЕ РАБОТИ
@@ -777,7 +775,7 @@ Modern contact list
 [Window]
 Прозорец
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
+[No events]
 Няма събития
 [Event area background]
 
@@ -813,7 +811,7 @@ Modern contact list
 Текст
 [Extra icons]
 Допълнителни икони
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 Анимирани аватари (изисква се GDI+ и услугата за аватари - avs.dll)
 [Left align group names]
 Имената на групите вляво
@@ -826,7 +824,7 @@ Modern contact list
 [Row design]
 
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (Непознат контакт)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
@@ -859,7 +857,7 @@ Modern contact list
 Основна
 [Restore last status]
 Възстановя предишното състояние
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 Показване/Скриване на потребителите "Извън линия"
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
@@ -896,7 +894,7 @@ reVista за Modern v0.5
 Angeli-Ka (изображения), FYR (шаблон)
 [Inside library]
 
-[Skin Information]
+[Skin information]
 Информация за облика
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Няма наличен образец\n\n%s\n----------------------\n\n%s\n\nАвтор(и):\n%s\n\nЗа контакти:\n%s\n\nДомашна страница:\n%s
@@ -1043,7 +1041,7 @@ Angeli-Ka (изображения), FYR (шаблон)
 Показване на всички заглавни ленти
 [Hide all title bars]
 Скриване на всички заглавни ленти
-[Lock Frame]
+[Lock frame]
 Заключване на рамката
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]

@@ -653,16 +653,7 @@ Zawsze na wierzchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
-;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[Group chat log background]
-Tło dziennika czatu grupowego
-[Nick list background]
-Tło listy czcionek
-[Nick list lines]
-Linie listy członków
-[Nick list background (selected)]
-Kolor listy członków (zaznaczony)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze

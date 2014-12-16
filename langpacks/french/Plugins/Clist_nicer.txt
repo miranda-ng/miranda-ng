@@ -28,7 +28,7 @@ Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG pr
 Version
 [Support and latest version information]
 
-[Delete Contact]
+[Delete contact]
 Supprimer un contact
 [No]
 Non
@@ -72,7 +72,7 @@ Afficher l'état dans la bulle
 ms
 [Event area]
 Zone d'évènements
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 Définir la visibilité par défaut dans le menu des Cadres
 [Auto mode]
 Mode automatique
@@ -102,11 +102,11 @@ Voir le nombre de contact par groupe
 Cacher si tous hors ligne
 [Sort groups alphabetically]
 Classer les groupes par ordre alphabétique
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Recherche rapide uniquement sur les groupes ouverts
 [No expand/collapse icon]
 
-[Center groupnames horizontally]
+[Center group names horizontally]
 Centrer horizontalement les groupes
 [Alignment]
 Alignement
@@ -138,7 +138,7 @@ Déplacer les évènements au début de la liste/groupe
 Ne pas séparer les contacts hors ligne
 [Hide as offline]
 Considérer hors ligne
-[Tree Hide Offline]
+[Tree hide offline]
 
 [Right align contacts]
 Contacts sur la droite
@@ -268,7 +268,7 @@ millisecondes
 Cacher l'ascenseur vertical
 [Gray out entire list when:]
 Griser toute la liste quand :
-[Tree Gray Out]
+[Tree gray out]
 
 [Contact list background]
 Arrière-plan de la liste
@@ -494,7 +494,7 @@ Cacher Miranda
 Déplacer les contacts marqués de ce groupe
 [Appearance]
 Apparence
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 Voir l'icône du metacontact
 [Show additional buttons]
 Voir boutons supplémentaires

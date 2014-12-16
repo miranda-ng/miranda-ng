@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.11.1.1
+;  Version: 2.11.1.3
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -628,7 +628,7 @@ Mensaje de
 %s está escribiendo un mensaje
 [Typing Notification]
 Escribiendo notificación
-[Miranda could not load the built-in message module, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 
 [Instant messages]
 Mensajes instantáneos
@@ -653,16 +653,7 @@ Siempre en primer plano
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
-;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[Group chat log background]
-
-[Nick list background]
-Fondo de lista de usuarios
-[Nick list lines]
-Líneas de lista de usuarios
-[Nick list background (selected)]
-Fondo de lista de usuarios (seleccionado)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 

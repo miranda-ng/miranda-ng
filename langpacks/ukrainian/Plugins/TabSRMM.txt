@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1153,12 +1153,12 @@ TabSRMM: Набирає
 Закрити вкладку
 [Copy To Clipboard]
 Копіювати в буфер обміну
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Повідомлення статусу:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b xСтатус:\\ul0\\b0 \\par\s
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-\\par\\par\\tab \\ul\\b Слухає:\\ul0\\b0 \\par %s
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\ul\\b Повідомлення статусу:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\ul\\b xСтатус:\\ul0\\b0 \\par\s
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\ul\\b Слухає:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Клієнт:\\ul0\\b0  %s
 [TabSRMM Information]
@@ -1395,10 +1395,6 @@ TabSRMM: Набирає
 Підсвічування
 [Choose status modes]
 Вибір режимів статусу
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не встановлений плагін служби зображень (AdvaImg.dll)\n\nTabSRMM відключений.
-[TabSRMM fatal error]
-Критична помилка TabSRMM
 [Image tag]
 Зображення
 [Quote text]
@@ -1467,6 +1463,10 @@ TabSRMM: Набирає
 Можливість вимкнена (використовується як оверлей)
 [Feature enabled (used as overlay)]
 Можливість увімкнена (використовується як оверлей)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Не встановлений плагін служби зображень (AdvaImg.dll)\n\nTabSRMM відключений.
+[TabSRMM fatal error]
+Критична помилка TabSRMM
 [Message windows - IM]
 Вікна повідомлень - IM
 [Message windows - all]
@@ -1771,8 +1771,6 @@ TabSRMM: %s
 Закриття налаштувань|Щоб показати зміни, пов'язані з імпортом теми, у вікні налаштувань, воно повинно бути закрите після завантаження теми \\b1 і незбережені зміни можуть бути втрачені\\b0 .\n\nВи хочете продовжити?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Завантаження теми|Завантаження кольорів і шрифтів може змінити налаштування, встановлені вашим скіном.\n\nВи хочете продовжити?
-[Text color]
-Колір тексту
 [%s has joined]
 %s увійшов
 [You have joined %s]

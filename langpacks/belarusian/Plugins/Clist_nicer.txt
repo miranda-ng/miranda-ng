@@ -26,7 +26,7 @@
 Версія
 [Support and latest version information]
 Падтрымка і інфармацыя пра апошнюю версію
-[Delete Contact]
+[Delete contact]
 Выдаліць кантакт
 [No]
 Не
@@ -70,7 +70,7 @@
 мс
 [Event area]
 Вобласць падзей
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 Усталяваць базавую бачнасць меню фрэймаў
 [Auto mode]
 Рэжым аўта
@@ -100,11 +100,11 @@
 Хаваць лічыльнік калі ўсё адключаны
 [Sort groups alphabetically]
 Сартаваць гурты па алфавіце
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Хуткі пошук толькі ў адчыненых гуртах
 [No expand/collapse icon]
 Не паказваць абразок згортвання/разгортванні
-[Center groupnames horizontally]
+[Center group names horizontally]
 Выраўняць назвы гуртоў па цэнтры
 [Alignment]
 Выраўняць
@@ -488,7 +488,7 @@
 Перамясціць адзначаныя кантакты ў гэты гурт
 [Appearance]
 Знешні выгляд
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 Паказваць значкі метакантактаў
 [Show additional buttons]
 Паказваць дадатковыя кнопкі

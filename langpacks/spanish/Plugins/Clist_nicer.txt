@@ -22,13 +22,13 @@ Copiar al portapapeles
 
 [Clist Nicer+]
 
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Version]
 Versión
 [Support and latest version information]
 
-[Delete Contact]
+[Delete contact]
 Eliminar contacto
 [No]
 No
@@ -72,7 +72,7 @@ Mostrar estado sobre herramientas
 ms
 [Event area]
 
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 
 [Auto mode]
 
@@ -102,11 +102,11 @@ Dibujar una línea al lado de los nombres de grupos
 
 [Sort groups alphabetically]
 Ordenar grupos alfabéticamente
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Búsqueda rápida sólo en grupos abiertos
 [No expand/collapse icon]
 
-[Center groupnames horizontally]
+[Center group names horizontally]
 
 [Alignment]
 
@@ -132,13 +132,13 @@ Clasificación de la lista de contacto
 
 [Finally by]
 
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 
 [Do not separate offline contacts]
 
 [Hide as offline]
 
-[Tree Hide Offline]
+[Tree hide offline]
 
 [Right align contacts]
 
@@ -268,7 +268,7 @@ milisegundos
 Ocultar barra de desplazamiento vertical
 [Gray out entire list when:]
 Vista gris a la lista completa cuando:
-[Tree Gray Out]
+[Tree gray out]
 
 [Contact list background]
 Fondo de la lista de contactos
@@ -494,7 +494,7 @@ El&iminar grupo
 
 [Appearance]
 Apariencia
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 
 [Show additional buttons]
 

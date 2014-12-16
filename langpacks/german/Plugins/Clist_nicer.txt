@@ -28,7 +28,7 @@ Copyright 2004-2011 beim Miranda-IM-Projekt, 2012-2014 beim Miranda-NG-Projekt. 
 Version
 [Support and latest version information]
 Support und Informationen zur neusten Version
-[Delete Contact]
+[Delete contact]
 Kontakt löschen
 [No]
 Nein
@@ -72,7 +72,7 @@ Immer Status als Tooltip anzeigen
 ms
 [Event area]
 Ereignisbereich
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 Sichtbarkeit im Frames-Menü einstellen
 [Auto mode]
 Automatisch ausblenden
@@ -102,11 +102,11 @@ Anzahl Kontakte in einer Gruppe anzeigen
 Anzahl ausblenden, wenn alle offline
 [Sort groups alphabetically]
 Gruppen alphabetisch sortieren
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Schnellsuche nur in offenen Gruppen
 [No expand/collapse icon]
 Kein Gruppenicon
-[Center groupnames horizontally]
+[Center group names horizontally]
 Gruppennamen horizontal zentrieren
 [Alignment]
 Ausrichtung
@@ -138,7 +138,7 @@ Ereignisse in Liste oder Gruppe nach oben schieben
 Offlinekontakte nicht trennen
 [Hide as offline]
 Als 'offline' verstecken
-[Tree Hide Offline]
+[Tree hide offline]
 Auswahl 'Offline verstecken'
 [Right align contacts]
 Kontakte rechtsbündig
@@ -268,7 +268,7 @@ Millisekunden
 Vertikale Bildlaufleiste ausblenden
 [Gray out entire list when:]
 Liste grau färben, wenn:
-[Tree Gray Out]
+[Tree gray out]
 Auswahl 'Ausgrauen'
 [Contact list background]
 Hintergrund der Kontaktliste
@@ -494,7 +494,7 @@ Gruppe &löschen
 Markierte Kontakte in diese Gruppe verschieben
 [Appearance]
 Erscheinungsbild
-[Show metacontact proto icons]
+[Show metacontact protocol icons]
 Metakontaktprotokollicons zeigen
 [Show additional buttons]
 Zusätzliche Buttons anzeigen

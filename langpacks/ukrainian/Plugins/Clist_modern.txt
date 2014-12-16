@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Показує контакти, події, статуси протоколів з розширеними функціями оформлення (скіни). Мультивіконна модифікація, розширена підтримка метаконтактів.
 [Transparency:]
 Прозорість:
@@ -387,12 +387,10 @@ x100 мс
 Увімкнути тінь (потрібен перезапуск)
 [Frames]
 Фрейми
-[Between frames:]
-Між фреймами:
-[After captions:]
-Після заголовка:
-[Gaps]
-Інтервали
+[Gaps between frames:]
+Інтервали між фреймами:
+[Gaps after captions:]
+Інтервали після заголовка:
 [Use non-layered mode]
 Режим без скіна
 [Round corners]
@@ -405,8 +403,6 @@ x100 мс
 Стиль Аеро (Vista і вище)
 [Order of items:]
 Порядок елементів:
-[Min row height:]
-Мін. висота рядка:
 [Row border:]
 Межа рядка:
 [Variable row height]
@@ -423,14 +419,12 @@ x100 мс
 Ліве поле:
 [Right margin:]
 Праве поле:
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Компактний режим\n(Показувати аватари і додатковий текст тільки у вибраних контактів)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Компактний режим (показувати аватари і додатковий текст тільки у вибраних контактів)
 [Draw border on avatar]
 Рамки на аватарах
 [Draw overlay icons]
 Значки на аватарах
-[Size:]
-Розмір:
 [Round corners of avatars]
 Заокруглені кути аватарів
 [Ignore size for row height calcs]
@@ -447,8 +441,8 @@ x100 мс
 Значок контакту
 [height]
 висота
-[Max width]
-Ширина
+[width]
+ширина
 [Use old render method (fast, but has artifacts)]
 Старий метод відтворення (швидше, але можуть бути "артефакти")
 [Hide icon when showing avatar]
@@ -525,7 +519,7 @@ xСтатус: xПовідомлення
 Налаштування
 [Visible]
 Видимий
-[Show Title]
+[Show title]
 Заголовок
 [Locked]
 Заблокований
@@ -533,7 +527,7 @@ xСтатус: xПовідомлення
 Рамка
 [Floating]
 Плаваюче
-[Frames Order]
+[Frames order]
 Порядок фреймів
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 У розробці!!!           Не працює
@@ -769,7 +763,7 @@ xСтатус: xПовідомлення
 Список
 [Window]
 Вікно
-[No Events]
+[No events]
 Немає подій
 [Event area background]
 Фон області подій
@@ -803,7 +797,7 @@ xСтатус: xПовідомлення
 Текст
 [Extra icons]
 Додаткові значки
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 Анімація аватарів (потрібні GDI+ і AVS.dll)
 [Left align group names]
 Імена груп ліворуч
@@ -813,7 +807,7 @@ xСтатус: xПовідомлення
 Імена груп праворуч
 [Row]
 Рядок
-[(Unknown Contact)]
+[(Unknown contact)]
 (Невідомий контакт)
 [Tray menu]
 Меню в треї
@@ -843,7 +837,7 @@ xСтатус: xПовідомлення
 Головний
 [Restore last status]
 Відновити останній статус
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 Показати/сховати відключених
 [%s, contain %s]
 %s, містить %s
@@ -865,7 +859,7 @@ reVista для Modern v0.5
 Angeli-Ka (графіка), FYR (шаблон)
 [Inside library]
 Вбудований
-[Skin Information]
+[Skin information]
 Інформація про скін
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Попередній перегляд недоступний\n\n%s\n----------------------\n\n%s\n\nАвтор(и):\n%s\n\nКонтакт:\n%s\n\nWeb:\n%s
@@ -1007,7 +1001,7 @@ Angeli-Ka (графіка), FYR (шаблон)
 Показати назви
 [Hide all title bars]
 Сховати назви
-[Lock Frame]
+[Lock frame]
 Закріпити фрейм
 [Frame menu]
 Меню фреймів

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -89,8 +89,6 @@ Activate a minimised window when a new tab is created inside it
 Automatically switch existing tabs in minimised windows on incoming messages (ignored when using Aero Peek task bar features)
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Loading a theme|Loading a colour and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?
-[Text color]
-Text colour
 [Common colors]
 Common colours
 [Window fill color]

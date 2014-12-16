@@ -627,14 +627,6 @@ Unicode вимкнено
 Поверх усіх вікон
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
-[Group chat log background]
-Фон журналу чатів
-[Nick list background]
-Фон списку користувачів
-[Nick list lines]
-Лінії списку користувачів
-[Nick list background (selected)]
-Фон списку користувачів (вибране)
 [Flash when someone speaks]
 Блимання вікна, якщо є нове повідомлення
 [Flash when a word is highlighted]

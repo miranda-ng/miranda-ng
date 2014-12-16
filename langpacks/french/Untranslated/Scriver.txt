@@ -53,8 +53,6 @@
 [Line between messages]
 [Contact started typing]
 [Contact stopped typing]
-[Group chat log background]
-[Nick list background (selected)]
 [Flash when someone speaks]
 [Flash when a word is highlighted]
 [Show chat nick list]

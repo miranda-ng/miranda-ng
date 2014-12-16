@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -558,7 +558,7 @@ Cerrar
 
 [About TabSRMM]
 
-[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Support and latest version information]
 
@@ -1167,11 +1167,11 @@ Pegar y Enviar
 
 [Copy To Clipboard]
 
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
 
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
 
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
 
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 
@@ -1416,10 +1416,6 @@ Ajustes
 [Choose status modes]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-
-[TabSRMM fatal error]
-
 [Image tag]
 
 [Quote text]
@@ -1487,6 +1483,10 @@ Registro de mensaje
 [Feature disabled (used as overlay)]
 
 [Feature enabled (used as overlay)]
+
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+
+[TabSRMM fatal error]
 
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
@@ -1807,9 +1807,6 @@ El contacto dejó de escribir
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Color de texto
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s se ha unido

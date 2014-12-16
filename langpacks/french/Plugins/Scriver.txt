@@ -653,16 +653,7 @@ Toujours visible
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Délai d'envoi du message expiré
-;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[Group chat log background]
-
-[Nick list background]
-Fond de la liste
-[Nick list lines]
-Lignes de la liste
-[Nick list background (selected)]
-
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 

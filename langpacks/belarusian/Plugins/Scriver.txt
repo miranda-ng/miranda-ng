@@ -629,16 +629,7 @@ Miranda не змагла загрузіць убудаваную сістэму
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
-;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[Group chat log background]
-Фон для чатаў
-[Nick list background]
-Фон спісу кантактаў
-[Nick list lines]
-Лініі спісу
-[Nick list background (selected)]
-Фон спісу (абрана)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа

@@ -1,4 +1,4 @@
 ﻿[Clist Nicer+]
-[Tree Hide Offline]
-[Tree Gray Out]
+[Tree hide offline]
+[Tree gray out]
 [Editing view mode]

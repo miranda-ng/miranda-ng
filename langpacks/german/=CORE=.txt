@@ -1336,7 +1336,6 @@ Hmm... Essen.
 Langweilig
 [Status]
 Status
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Chatfenster
@@ -1827,6 +1826,8 @@ Letzte Nachricht am %s um %s erhalten.
 [%s is typing a message...]
 %s tippt eine Nachricht...
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
+Ich
 [File sent]
 Datei gesendet
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -2035,6 +2036,7 @@ Chat ver&lassen
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
 Chatfenster &öffnen
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s ist beigetreten
