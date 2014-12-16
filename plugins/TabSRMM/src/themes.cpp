@@ -1369,7 +1369,6 @@ void CSkin::Load(void)
 	if (!m_tszFileName[0] || !::PathFileExists(m_tszFileName))
 		return;
 
-	TCHAR *szSections = (TCHAR*)mir_alloc(6004);
 	int i = 1, j = 0;
 	UINT  data;
 	TCHAR buffer[500];
@@ -1403,6 +1402,7 @@ void CSkin::Load(void)
 
 	m_DisableScrollbars = M.GetByte("disableVScroll", 0) ? true : false;
 
+	TCHAR *szSections = (TCHAR*)mir_alloc(6004);
 	memset(szSections, 0, 6000);
 	GetPrivateProfileSectionNames(szSections, 3000, m_tszFileName);
 	szSections[3001] = szSections[3000] = 0;
