@@ -221,7 +221,7 @@ int GetCharsetFromString(char *input,size_t size)
 			*parser++=*pin++;
 	}
 
-	*parser=(char)0;
+	*parser = 0;
 
 #ifdef DEBUG_DECODECODEPAGE
 	DebugLog(DecodeFile,"<CodePage>%s</CodePage>",pout);
@@ -300,7 +300,7 @@ int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ)
 	char *DstTemp=Dst;
 	DebugLog(DecodeFile,"<Decode Quoted><Input>%s</Input>",Src);
 #endif
-	for (int Counter=0;((char)*Src != 0) && DstLen && (Counter++<DstLen);Src++,Dst++)
+	for (int Counter=0;(*Src != 0) && DstLen && (Counter++<DstLen);Src++,Dst++)
 		if (*Src=='=')
 		{
 			if (!isQ) {
@@ -333,7 +333,7 @@ int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ)
 		else
 CopyCharQuotedPrintable: // Yeah. Bad programming stile.
 			*Dst=*Src;
-	*Dst=(char)0;
+	*Dst=0;
 #ifdef DEBUG_DECODEQUOTED
 	DebugLog(DecodeFile,"<Output>%s</Output></Decode Quoted>",DstTemp);
 #endif
@@ -494,8 +494,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 						finder++;
 						finderend--;
 					}
-					//*finderend=(char)0;
-					char * oneWordEncoded = new char[finderend-finder+1];
+					char *oneWordEncoded = new char[finderend-finder+1];
 					strncpy(oneWordEncoded,finder,finderend-finder);
 					oneWordEncoded[finderend-finder]=0;
 					switch(Encoding)

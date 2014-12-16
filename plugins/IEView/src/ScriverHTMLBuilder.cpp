@@ -93,7 +93,7 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "SRMFont%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, SRMMMOD, str, 10);
+		lf->lfHeight = db_get_b(NULL, SRMMMOD, str, 10);
 		lf->lfHeight = abs(lf->lfHeight);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
