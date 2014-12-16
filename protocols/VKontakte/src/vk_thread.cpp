@@ -1347,6 +1347,27 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 					res.AppendFormat(_T("[img]%s[/img]"), ptszLink);
 			}
 		}
+		else if (!mir_tstrcmp(ptszType, _T("link"))){
+			JSONNODE *pLink = json_get(pAttach, "link");
+			if (pLink == NULL)
+				continue;
+			
+			ptrT ptszUrl(json_as_string(json_get(pLink, "url")));
+			ptrT ptszTitle(json_as_string(json_get(pLink, "title")));
+			ptrT ptszDescription(json_as_string(json_get(pLink, "description")));
+			CMString tszImage(json_as_string(json_get(pLink, "image_src")));
+			
+			res.AppendFormat(_T("%s: %s (%s)"), TranslateT("Link"), ptszTitle ? ptszTitle : _T(""), ptszUrl ? ptszUrl : _T(""));
+			if (!tszImage.IsEmpty())
+				if (m_bAddImgBbc)
+					res.AppendFormat(_T("\n\tImage: [img]%s[/img]"), tszImage.GetBuffer());
+				else 
+					res.AppendFormat(_T("\n\tImage: %s"), tszImage.GetBuffer());
+			
+			if (ptszDescription)
+				res.AppendFormat(_T("\n\t%s"), ptszDescription);			
+
+		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
 
 		res.AppendChar('\n');
