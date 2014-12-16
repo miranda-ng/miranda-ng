@@ -13,48 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// Neutral resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE
-BEGIN
-    "..\\src\\resource.h\0"
-END
-
-2 TEXTINCLUDE
-BEGIN
-    "#include <windows.h>\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_IMPORT              ICON                    "import.ico"
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -62,67 +25,53 @@ IDI_IMPORT              ICON                    "import.ico"
 //
 
 IDD_IMPORTTYPE DIALOGEX 0, 0, 220, 114
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Choose how you would like to import:",IDC_STATIC,5,16,
-                    210,8
-    CONTROL         "From a Miranda NG database.",IDC_MIRANDA,"Button",
-                    BS_AUTORADIOBUTTON,11,31,204,10
+    LTEXT           "Choose how you would like to import:",IDC_STATIC,5,16,210,8
+    CONTROL         "From a Miranda NG database.",IDC_MIRANDA,"Button",BS_AUTORADIOBUTTON,11,31,204,10
 END
 
 IDD_WIZARDINTRO DIALOGEX 0, 0, 220, 114
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "This wizard will help you import contacts and message history from another Miranda profile or from an external program.",
-                    IDC_STATIC,33,12,182,32
+    LTEXT           "This wizard will help you import contacts and message history from another Miranda profile or from an external program.",IDC_STATIC,33,12,182,32
     ICON            IDI_IMPORT,IDC_STATIC,5,12,20,20
-    LTEXT           "Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.",
-                    IDC_STATIC,33,49,182,25
-    LTEXT           "It is recommended that you create a backup of your current Miranda profile before importing.",
-                    IDC_STATIC,33,81,182,21
+    LTEXT           "Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.",IDC_STATIC,33,49,182,25
+    LTEXT           "It is recommended that you create a backup of your current Miranda profile before importing.",IDC_STATIC,33,81,182,21
 END
 
 IDD_FINISHED DIALOGEX 0, 0, 220, 114
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "If you wish to import more information, click ""Next"" to return to the start of the wizard, otherwise click ""Finish"" to start using Miranda.",
-                    IDC_STATIC,5,20,210,16
-    LTEXT           "You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.",
-                    IDC_STATIC,5,41,210,24
-    CONTROL         "Do not load the import plugin at startup again",
-                    IDC_DONTLOADPLUGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    6,97,210,10
+    LTEXT           "If you wish to import more information, click ""Next"" to return to the start of the wizard, otherwise click ""Finish"" to start using Miranda.",IDC_STATIC,5,20,210,16
+    LTEXT           "You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.",IDC_STATIC,5,41,210,24
+    CONTROL         "Do not load the import plugin at startup again",IDC_DONTLOADPLUGIN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,97,210,10
     LTEXT           "Import completed",IDC_STATIC,5,7,210,8
-    LTEXT           "If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.",
-                    IDC_STATIC,5,69,210,24
+    LTEXT           "If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.",IDC_STATIC,5,69,210,24
 END
 
 IDD_MIRANDADB DIALOGEX 0, 0, 220, 114
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click ""Other Profile"" if your profile is not listed, or if the list is empty.",
-                    IDC_STATIC,5,10,210,24
-    LISTBOX         IDC_LIST,5,36,210,36,LBS_SORT | LBS_NOINTEGRALHEIGHT |
-                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click ""Other Profile"" if your profile is not listed, or if the list is empty.",IDC_STATIC,5,10,210,24
+    LISTBOX         IDC_LIST,5,36,210,36,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "&Other Profile...",IDC_OTHER,149,74,66,14
     RTEXT           "&Filename:",IDC_STATIC,5,93,34,8
     EDITTEXT        IDC_FILENAME,41,91,174,12,ES_AUTOHSCROLL
 END
 
 IDD_PROGRESS DIALOGEX 0, 0, 220, 114
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     LTEXT           "Now importing...",IDC_STATIC,5,11,62,8
-    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH |
-                    WS_BORDER,5,24,210,10
-    LISTBOX         IDC_STATUS,5,38,210,61,NOT LBS_NOTIFY |
-                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | LBS_NOSEL |
-                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH | WS_BORDER,5,24,210,10
+    LISTBOX         IDC_STATUS,5,38,210,61,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
 END
 
 IDD_WIZARD DIALOGEX 0, 0, 220, 143
@@ -137,61 +86,53 @@ BEGIN
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 220, 114
-STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Import all contacts and all messages",IDC_RADIO_ALL,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP | BS_LEFT | BS_TOP,7,10,206,
-                    11
-    CONTROL         "Only import contacts",IDC_RADIO_CONTACTS,"Button",
-                    BS_AUTORADIOBUTTON | WS_TABSTOP,7,42,206,10
-    CONTROL         "Custom import",IDC_RADIO_CUSTOM,"Button",
-                    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_DISABLED,7,74,206,10
-    LTEXT           "Select this if you want to import as much data as possible. This is the recommended option.",
-                    IDC_STATIC_ALL,26,20,187,16
-    LTEXT           "Select this if you want to import contacts but don't want to import any message history.",
-                    IDC_STATIC_CONTACTS,26,52,187,16
-    LTEXT           "Select this if you want to customize what to import.",
-                    IDC_STATIC_CUSTOM,26,84,187,16,WS_DISABLED
+                    "Button",BS_AUTORADIOBUTTON | BS_LEFT | BS_TOP | WS_TABSTOP,7,10,206,11
+    CONTROL         "Only import contacts",IDC_RADIO_CONTACTS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,7,42,206,10
+    CONTROL         "Custom import",IDC_RADIO_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_TABSTOP,7,74,206,10
+    LTEXT           "Select this if you want to import as much data as possible. This is the recommended option.",IDC_STATIC_ALL,26,20,187,16
+    LTEXT           "Select this if you want to import contacts but don't want to import any message history.",IDC_STATIC_CONTACTS,26,52,187,16
+    LTEXT           "Select this if you want to customize what to import.",IDC_STATIC_CUSTOM,26,84,187,16,WS_DISABLED
 END
 
 IDD_ADVOPTIONS DIALOGEX 0, 0, 220, 114
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "New contacts && groups",IDC_CONTACTS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,16,100,10
-    CONTROL         "System history",IDC_SYSTEM,"Button",BS_AUTOCHECKBOX |
-                    WS_TABSTOP,120,16,98,10
+    CONTROL         "New contacts && groups",IDC_CONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,16,100,10
+    CONTROL         "System history",IDC_SYSTEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,120,16,98,10
     LTEXT           "Select items to import:",IDC_ALL,10,3,201,10,SS_NOTIFY
     CTEXT           "Incoming",IDC_INCOMING,2,34,86,10,SS_NOTIFY
     CTEXT           "Outgoing",IDC_OUTGOING,132,34,86,10,SS_NOTIFY
-    CONTROL         "",IDC_IN_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
-                    44,10,10
-    CONTROL         "",IDC_IN_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
-                    56,10,10
-    CONTROL         "",IDC_IN_FT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,68,
-                    10,10
-    CONTROL         "",IDC_IN_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
-                    80,10,10
-    CONTROL         "",IDC_OUT_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,
-                    44,10,10
-    CONTROL         "",IDC_OUT_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,
-                    56,10,10
-    CONTROL         "",IDC_OUT_FT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,
-                    68,10,10
-    CONTROL         "",IDC_OUT_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    170,80,10,10
-    CONTROL         "Only since:",IDC_SINCE,"Button",BS_AUTOCHECKBOX |
-                    WS_TABSTOP,10,99,100,10
-    CONTROL         "",IDC_DATETIMEPICKER,"SysDateTimePick32",DTS_RIGHTALIGN |
-                    WS_DISABLED | WS_TABSTOP,120,97,81,15
+    CONTROL         "",IDC_IN_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,44,10,10
+    CONTROL         "",IDC_IN_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,56,10,10
+    CONTROL         "",IDC_IN_FT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,68,10,10
+    CONTROL         "",IDC_IN_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,80,10,10
+    CONTROL         "",IDC_OUT_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,44,10,10
+    CONTROL         "",IDC_OUT_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,56,10,10
+    CONTROL         "",IDC_OUT_FT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,68,10,10
+    CONTROL         "",IDC_OUT_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,80,10,10
+    CONTROL         "Only since:",IDC_SINCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,99,100,10
+    CONTROL         "",IDC_DATETIMEPICKER,"SysDateTimePick32",DTS_RIGHTALIGN | WS_DISABLED | WS_TABSTOP,120,97,81,15
     CTEXT           "Messages",IDC_MSG,54,44,112,8,SS_NOTIFY
     CTEXT           "URLs",IDC_URL,54,56,112,8,SS_NOTIFY
     CTEXT           "File Transfers",IDC_FT,54,68,112,8,SS_NOTIFY
     CTEXT           "Other",IDC_OTHER,54,80,112,8,SS_NOTIFY
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,93,222,1
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,31,223,1
+END
+
+IDD_ACCMERGE DIALOGEX 0, 0, 312, 150
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Account merge"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,204,132,50,16
+    PUSHBUTTON      "Cancel",IDCANCEL,258,132,50,16
+    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,4,4,304,124
 END
 
 
@@ -271,11 +212,65 @@ BEGIN
         HORZGUIDE, 34
         HORZGUIDE, 104
     END
+
+    IDD_ACCMERGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 307
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 146
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.K.) resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_IMPORT              ICON                    "import.ico"
+#endif    // English (United Kingdom) resources
+/////////////////////////////////////////////////////////////////////////////
+
 
 
 #ifndef APSTUDIO_INVOKED
@@ -287,3 +282,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
