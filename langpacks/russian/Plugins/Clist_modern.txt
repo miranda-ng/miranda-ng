@@ -430,7 +430,7 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 [Draw overlay icons]
 Значки на аватарах
 [Max size (pixels):]
-Максимальный размер (пикселей):
+Макс. размер (в пикселях):
 [Round corners of avatars]
 Закруглённые аватары
 [Ignore size for row height calcs]
