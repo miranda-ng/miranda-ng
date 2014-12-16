@@ -334,12 +334,7 @@
 [Always On Top]
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
-;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[Group chat log background]
-[Nick list background]
-[Nick list lines]
-[Nick list background (selected)]
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 [Flash when a word is highlighted]

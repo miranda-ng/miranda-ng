@@ -677,7 +677,6 @@
 [Mmm... food.]
 [idleeeeeeee]
 [Status]
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 [Group chat log background]
@@ -935,6 +934,7 @@
 [Last message received on %s at %s.]
 [%s is typing a message...]
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
 [File sent]
 ;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
@@ -1046,6 +1046,7 @@
 [&Leave chat]
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 [You have joined %s]

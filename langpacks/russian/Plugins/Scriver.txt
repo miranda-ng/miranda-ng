@@ -623,14 +623,6 @@ Miranda не смогла загрузить встроенную систему
 Поверх всех окон
 [The message send timed out.]
 Таймаут отправки сообщения
-[Group chat log background]
-Фон журнала чата
-[Nick list background]
-Фон списка
-[Nick list lines]
-Линии списка
-[Nick list background (selected)]
-Фон списка (выбрано)
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
 [Flash when a word is highlighted]

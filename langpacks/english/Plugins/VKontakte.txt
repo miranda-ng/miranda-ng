@@ -2,11 +2,17 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.30
+;  Version: 0.1.0.31
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 ;file \protocols\VKontakte\res\resource.rc
+[News and event notifications]
+[WARNING: Causes excessive network traffic!!!]
+[Enable news feeds]
+[Enable event notifications]
+[BBCode support on news and event notifications]
+[Interval for updates (min):]
 [E-mail or phone number:]
 [Password:]
 [Open VKontakte site]
@@ -84,6 +90,12 @@
 [&Destroy room]
 [&User details]
 [&Kick]
+;file \protocols\VKontakte\src\vk_feed.cpp
+[Photo]
+[User was tagged in these photos:]
+[News from %s%s%s (%s)\n%s]
+[\tRepost from %s%s%s (%s)\n%s]
+[\nNews link: %s]
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 [Invalid album id]
@@ -101,6 +113,7 @@
 ;file \protocols\VKontakte\src\vk_options.cpp
 [Network]
 [Account]
+[News and notifications]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 [Create new chat]
@@ -135,9 +148,10 @@
 [\nIt will also]
 [Are you sure to report abuse on %s?]
 [Attachments:]
-[Photo]
 [Audio]
 [Video]
 [Document]
 [Wall post]
+[Link]
+[Image]
 [Unsupported or unknown attachment type: %s]

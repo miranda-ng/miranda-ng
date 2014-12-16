@@ -7,7 +7,7 @@
 ;============================================================
 [A contact list for blind folks.]
 ;file \plugins\Clist_blind\res\resource.rc
-[Delete Contact]
+[Delete contact]
 [Are you sure you want to delete %s?]
 [This will erase all history and settings for this contact!]
 [Yes]
@@ -16,11 +16,11 @@
 [Use Options->Contacts->Ignore to unhide contacts.]
 [Hotkeys]
 [Show/Hide:]
-[Read Message:]
-[Web Search:]
+[Read message:]
+[Web search:]
 [URL:]
 [Open in new browser window]
-[Show Options]
+[Show options]
 [Hide offline users]
 [Hide empty groups]
 [Disable groups]
@@ -70,7 +70,7 @@
 [Show counts of number of contacts in a group]
 [Hide group counts when there are none online]
 [Sort groups alphabetically]
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 [Templates]
 [Contact:]
 [Group:]
@@ -133,6 +133,6 @@
 [Global]
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
-[Unknown Protocol]
+[Unknown protocol]
 [Expanded]
 [Collapsed]

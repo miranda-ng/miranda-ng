@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1155,12 +1155,12 @@ TabSRMM: Набирает
 Закрыть вкладку
 [Copy To Clipboard]
 Копировать в буфер
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Сообщение статуса:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b xСтатус:\\ul0\\b0 \\par\s
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-\\par\\par\\tab \\ul\\b Слушает:\\ul0\\b0 \\par %s
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\ul\\b Сообщение статуса:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\ul\\b xСтатус:\\ul0\\b0 \\par\s
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\ul\\b Слушает:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Клиент:\\ul0\\b0  %s
 [TabSRMM Information]
@@ -1397,10 +1397,6 @@ TabSRMM: Набирает
 Подсветка
 [Choose status modes]
 Выбор режимов статуса
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключен.
-[TabSRMM fatal error]
-Критическая ошибка TabSRMM
 [Image tag]
 Изображение
 [Quote text]
@@ -1469,6 +1465,10 @@ TabSRMM: Набирает
 Возможность выключена (используется как оверлей)
 [Feature enabled (used as overlay)]
 Возможность включена (используется как оверлей)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Не установлен плагин службы изображений (advaimg.dll)\n\nTabSRMM отключен.
+[TabSRMM fatal error]
+Критическая ошибка TabSRMM
 [Message windows - IM]
 Окна сообщений - IM
 [Message windows - all]
@@ -1773,8 +1773,6 @@ TabSRMM: %s
 Закрытие настроек|Чтобы показать изменения, связанные с импортом схемы, в окне настроек, оно должно быть закрыто после загрузки схемы \\b1 и несохранённые изменения могут быть потеряны\\b0 .\n\nВы хотите продолжить?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка цветов и шрифтов может изменить настройки, установленные вашим скином.\n\nВы хотите продолжить?
-[Text color]
-Цвет текста
 [%s has joined]
 %s вошёл
 [You have joined %s]
