@@ -159,7 +159,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	}
 
 	mir_snprintf(idstr, SIZEOF(idstr), "%sSize", prefix);
-	lf->lfHeight = (char)db_get_b(NULL, settings_group, idstr, lf->lfHeight);
+	lf->lfHeight = db_get_b(NULL, settings_group, idstr, lf->lfHeight);
 
 	//mir_snprintf(idstr, SIZEOF(idstr), "%sFlags", prefix);
 	//if (db_get_dw(NULL, settings_group, idstr, 0) & FIDF_SAVEACTUALHEIGHT) {

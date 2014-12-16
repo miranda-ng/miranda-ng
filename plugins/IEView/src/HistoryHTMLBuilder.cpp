@@ -109,7 +109,7 @@ void HistoryHTMLBuilder::loadMsgDlgFont(const char *dbSetting, LOGFONTA * lf, CO
 	}
 	if (lf) {
 		mir_snprintf(str, SIZEOF(str), "Font.%s.Size", dbSetting);
-		lf->lfHeight = (char)db_get_b(NULL, HPPMOD, str, 10);
+		lf->lfHeight = db_get_b(NULL, HPPMOD, str, 10);
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;

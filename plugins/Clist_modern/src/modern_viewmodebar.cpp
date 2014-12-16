@@ -113,9 +113,9 @@ void CLVM_EnumModes(pfnEnumCallback EnumCallback)
 
 int FillModes(char *szsetting)
 {
-	if (szsetting[0] == (char)246)
+	if (BYTE(szsetting[0]) == 246)
 		return 1;
-	if (szsetting[0] == (char)13)
+	if (szsetting[0] == 13)
 		return 1;
 
 	TCHAR * temp;
@@ -351,7 +351,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 
 static int DeleteAutoModesCallback(char *szsetting)
 {
-	if (szsetting[0] == (char)13)
+	if (szsetting[0] == 13)
 		DeleteViewMode(szsetting);
 	return 1;
 }
@@ -925,9 +925,9 @@ static int menuCounter = 0;
 
 static int FillMenuCallback(char *szSetting)
 {
-	if (szSetting[0] == (char)246)
+	if (BYTE(szSetting[0]) == 246)
 		return 1;
-	if (szSetting[0] == (char)13)
+	if (szSetting[0] == 13)
 		return 1;
 
 	TCHAR *temp = mir_utf8decodeT(szSetting);
@@ -1416,7 +1416,7 @@ void ApplyViewMode(const char *Name, bool onlySelector)
 		}
 	}
 
-	SetWindowText(hwndSelector, ptrT(mir_utf8decodeW((Name[0] == (char)13) ? Name + 1 : Name)));
+	SetWindowText(hwndSelector, ptrT(mir_utf8decodeW((Name[0] == 13) ? Name + 1 : Name)));
 
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 	CLUI__cliInvalidateRect(pcli->hwndStatus, NULL, FALSE);

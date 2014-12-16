@@ -123,7 +123,7 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	if (lf) {
 		HDC hdc = GetDC(NULL);
 		mir_snprintf(str, SIZEOF(str), "Font%dSize", i);
-		lf->lfHeight = (char)db_get_b(NULL, TABSRMM_FONTMODULE, str, 10);
+		lf->lfHeight = db_get_b(NULL, TABSRMM_FONTMODULE, str, 10);
 		ReleaseDC(NULL, hdc);
 
 		lf->lfWidth = 0;
