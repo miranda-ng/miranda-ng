@@ -282,14 +282,12 @@ LBL_Ok:
 		return 1;
 	}
 	// check clist ?
-	else if (checkTypeAPI == CHECKAPI_CLIST) {
+	if (checkTypeAPI == CHECKAPI_CLIST) {
 		bpi->clistlink = (CList_Initialise)GetProcAddress(h, "CListInitialise");
-		if (pi->flags & UNICODE_AWARE)
-			if (bpi->clistlink)
-				goto LBL_Ok;
+		if ((pi->flags & UNICODE_AWARE) && bpi->clistlink)
+			goto LBL_Ok;
 	}
-	else
-		goto LBL_Error;
+	goto LBL_Error;
 }
 
 // perform any API related tasks to freeing
