@@ -152,7 +152,6 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate)
 {
 	debugLogA("CVkProto::GetVkNewsItem");
-	bool m_bBBCOnNews = true; //!!!
 	bool bPostLink = true;
 	CMString tszRes;
 	if (pItem == NULL)
