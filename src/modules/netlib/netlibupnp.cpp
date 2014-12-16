@@ -246,7 +246,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 	char szHost[256], szPath[256], szRes[16];
 	int sz = 0, res = 0;
 	unsigned short sPort;
-	bool needClose;
+	bool needClose = false;
 
 	const char* szPostHdr = soap_post_hdr;
 	char* szData = (char*)mir_alloc(4096);

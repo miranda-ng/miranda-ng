@@ -411,7 +411,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		return NULL;
 
 	if (!http)
-		return mir_strdup(szOutputToken);
+		return szOutputToken;
 
 	ptrA szProvider( mir_t2a(hNtlm->szProvider));
 	size_t resLen = strlen(szOutputToken) + strlen(szProvider) + 10;
@@ -432,7 +432,8 @@ static INT_PTR InitSecurityProviderService(WPARAM, LPARAM lParam)
 static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
 {
 	NETLIBNTLMINIT2 *req = (NETLIBNTLMINIT2*)lParam;
-	if (req->cbSize < sizeof(*req)) return 0;
+	if (req == NULL || req->cbSize < sizeof(*req))
+		return 0;
 
 	HANDLE hSecurity;
 
@@ -452,10 +453,13 @@ static INT_PTR DestroySecurityProviderService(WPARAM, LPARAM lParam)
 
 static INT_PTR NtlmCreateResponseService(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBNTLMREQUEST* req = (NETLIBNTLMREQUEST*)lParam;
-	unsigned complete;
+	NETLIBNTLMREQUEST *req = (NETLIBNTLMREQUEST*)lParam;
+	if (req == NULL)
+		return 0;
 
-	char* response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
+	unsigned complete = 0;
+
+	char *response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge,
 		StrConvT(req->userName), StrConvT(req->password), false, complete);
 
 	return (INT_PTR)response;
@@ -463,8 +467,9 @@ static INT_PTR NtlmCreateResponseService(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBNTLMREQUEST2* req = (NETLIBNTLMREQUEST2*)lParam;
-	if (req->cbSize < sizeof(*req)) return 0;
+	NETLIBNTLMREQUEST2 *req = (NETLIBNTLMREQUEST2*)lParam;
+	if (req == NULL || req->cbSize < sizeof(*req))
+		return 0;
 
 	char* response;
 
