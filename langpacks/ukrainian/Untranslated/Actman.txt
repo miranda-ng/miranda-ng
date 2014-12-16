@@ -66,4 +66,3 @@
 [display birthdays window]
 [&OK]
 [Unicode]
-[Select as Volatile]

@@ -1,5 +1,0 @@
-﻿[Choose appropriate accounts for import]
-[<New account>]
-[Old account]
-[New account]
-[Error mapping accounts, exiting.]

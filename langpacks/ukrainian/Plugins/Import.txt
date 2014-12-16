@@ -75,10 +75,18 @@
 Передачі файлів
 [Other]
 Інше
+[Choose appropriate accounts for import]
+Пошук відповідних облікових записів
 [Ignored event from/to self]
 Пропуск події від самого себе
 [Added contact %u (found in history)]
 Додано контакт %u (знайдено в історії)
+[<New account>]
+<Новий обліковий запис>
+[Old account]
+Старий обліковий запис
+[New account]
+Новий обліковий запис
 [Failed to add %S contact %s]
 Не вдалося додати %S контакт %s
 [Added %S contact %s, '%s']
@@ -115,6 +123,8 @@
 Помилка завантаження файлу-джерела, вихід.
 [Number of contacts in database: %d]
 Кількість контактів у базі: %d
+[Error mapping accounts, exiting.]
+Не знайдено відповідних облікових записів.
 [Importing groups.]
 Імпорт груп.
 [Group import failed.]

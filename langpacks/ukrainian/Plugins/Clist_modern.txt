@@ -403,6 +403,8 @@ x100 мс
 Стиль Аеро (Vista і вище)
 [Order of items:]
 Порядок елементів:
+[Minimum row height:]
+Мінімальна висота рядка:
 [Row border:]
 Межа рядка:
 [Variable row height]
@@ -425,6 +427,8 @@ x100 мс
 Рамки на аватарах
 [Draw overlay icons]
 Значки на аватарах
+[Max size (pixels):]
+Макс. розмір (у пікселях):
 [Round corners of avatars]
 Заокруглені кути аватарів
 [Ignore size for row height calcs]
@@ -444,7 +448,7 @@ x100 мс
 [width]
 ширина
 [Use old render method (fast, but has artifacts)]
-Старий метод відтворення (швидше, але можуть бути "артефакти")
+Старий метод відтворення (швидше; можуть бути "артефакти")
 [Hide icon when showing avatar]
 Ховати значок протоколу
 [Draw icon in avatar space]
