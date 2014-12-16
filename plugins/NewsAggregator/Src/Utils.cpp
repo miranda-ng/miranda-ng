@@ -86,8 +86,8 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
 			Netlib_LogfT(hNetlibUser,_T("Code 200: Succeeded getting feed data %s."), tszUrl);
 			// allocate memory and save the retrieved data
-			*szData = (char *)mir_alloc(nlhrReply->dataLength + 2);
-			memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
+			*szData = (char *)mir_alloc((size_t)(nlhrReply->dataLength + 2));
+			memcpy(*szData, nlhrReply->pData, (size_t)nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		else if (nlhrReply->resultCode == 401) {
@@ -280,7 +280,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 	t = mktime(&timestamp);
 
 	_tzset();
-	t -= _timezone;
+	t -= (time_t)_timezone;
 	return (t >= 0) ? t : 0;
 }
 
@@ -319,7 +319,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 	size_t nNewLen = _tcslen(lpszNew);
 
 	// loop once to figure out the size of the result string
-	int nCount = 0;
+	size_t nCount = 0;
 	TCHAR *pszStart = (TCHAR *)lpszStr;
 	TCHAR *pszEnd = (TCHAR *)lpszStr + nStrLen;
 	TCHAR *pszTarget = NULL;
@@ -347,7 +347,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 		// loop again to actually do the work
 		while (pszStart < pszEnd) {
 			while ((pszTarget = _tcsistr(pszStart, lpszOld)) != NULL) {
-				int nCopyLen = (int)(pszTarget - pszStart);
+				size_t nCopyLen = (size_t)(pszTarget - pszStart);
 				_tcsncpy(cp, &lpszStr[pszStart - lpszStr], nCopyLen);
 
 				cp += nCopyLen;
@@ -472,7 +472,7 @@ HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &messa
 		HRESULT hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pPersistStreamInit));
 		if (SUCCEEDED(hr)) {
 			// Initialize the root document to a default state -- ready for parsing.
-			hr = pPersistStreamInit->InitNew();
+			pPersistStreamInit->InitNew();
 
 			IMarkupServices *pMarkupServices = NULL;
 			hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pMarkupServices));
