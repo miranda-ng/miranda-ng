@@ -34,6 +34,7 @@ const
 {
   ACF_SCRIPT_PARAM set in "sparam" unit
   ACF_SCRIPT_SERVICE set in "srvblock" unit
+}
   // dummy
   ACF_STRING = 0;
 
