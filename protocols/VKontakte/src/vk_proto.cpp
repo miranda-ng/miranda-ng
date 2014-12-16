@@ -79,6 +79,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	szListeningTo += "Enabled";
 	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);
 	m_bNewsEnabled = getBool("NewsEnabled", false);
+	m_bNotificationsEnabled = getBool("NotificationsEnabled", false);
 	m_bBBCOnNews = getBool("BBCOnNews", false);
 	m_iNewsInterval = getDword("NewsInterval", 15);
 
@@ -424,8 +425,10 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	if (!IsOnline())
 		return 0;
 	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER)
+	if (userID == -1 || userID == VK_FEED_USER){
+		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, 0));
 		return 0;
+	}
 
 	ptrA szMsg;
 	if (flags & PREF_UTF)

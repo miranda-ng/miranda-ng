@@ -22,8 +22,9 @@ static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_
 
 void CVkProto::AddFeedSpecialUser()
 {
-	MCONTACT hContact = FindUser(VK_FEED_USER, m_bNewsEnabled);
-	if (!m_bNewsEnabled) {
+	bool bSpecialContact = m_bNewsEnabled || m_bNotificationsEnabled;
+	MCONTACT hContact = FindUser(VK_FEED_USER, bSpecialContact);
+	if (!bSpecialContact) {
 		if (hContact)
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 		return;
@@ -64,7 +65,7 @@ void CVkProto::AddFeedEvent(CMString& tszBody, time_t tTime)
 void CVkProto::RetrieveUnreadNews()
 {
 	debugLogA("CVkProto::RetrieveUnreadNews");
-	if (!IsOnline() || !m_bNewsEnabled)
+	if (!IsOnline() || !(m_bNewsEnabled || m_bNotificationsEnabled))
 		return;
 
 	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
