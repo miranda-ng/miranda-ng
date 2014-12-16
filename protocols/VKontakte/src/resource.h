@@ -8,6 +8,7 @@
 #define IDD_INVITE                      104
 #define IDD_GC_CREATE                   105
 #define IDD_OPT_ADV                     106
+#define IDD_OPT_FEEDS                   107
 #define IDI_NOTIFICATION                109
 #define IDI_FRIENDADD                   110
 #define IDI_BAN                         111
@@ -58,6 +59,11 @@
 #define IDC_SYNC_AUTO                   1051
 #define IDC_SYNC_LAST1DAY               1052
 #define IDC_SYNC_LAST3DAY               1053
+#define IDC_NEWS_ENBL                   1054
+#define IDC_NOTIF_ENBL                  1055
+#define IDC_BBC_NEWS                    1056
+#define IDC_ED_INT                      1057
+#define IDC_SPIN_INT                    1058
 
 // Next default values for new objects
 // 
@@ -66,7 +72,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1054
+#define _APS_NEXT_CONTROL_VALUE         1059
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

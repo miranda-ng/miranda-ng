@@ -338,6 +338,79 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 	return FALSE;
 }
 
+INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		ppro = (CVkProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, 1));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
+
+		CheckDlgButton(hwndDlg, IDC_NEWS_ENBL, ppro->m_bNewsEnabled ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTIF_ENBL, ppro->m_bNotificationsEnabled ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_BBC_NEWS, ppro->m_bBBCOnNews ? BST_CHECKED : BST_UNCHECKED);
+		
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT, UDM_SETPOS, 0, ppro->m_iNewsInterval);
+		
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_ED_INT:
+			if ((HWND)lParam == GetFocus() && (HIWORD(wParam) == EN_CHANGE))
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		
+		case IDC_NEWS_ENBL:
+		case IDC_NOTIF_ENBL:
+		case IDC_BBC_NEWS:
+			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == UDN_DELTAPOS)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			ppro->m_bNewsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NEWS_ENBL) == BST_CHECKED;
+			ppro->setByte("NewsEnabled", ppro->m_bNewsEnabled);
+
+			ppro->m_bNotificationsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NOT_ENBL) == BST_CHECKED;
+			ppro->setByte("NotificationsEnabled", ppro->m_bNotificationsEnabled);
+
+			ppro->m_bBBCOnNews = IsDlgButtonChecked(hwndDlg, IDC_BBC_NEWS) == BST_CHECKED;
+			ppro->setByte("BBCOnNews", ppro->m_bBBCOnNews);
+
+			TCHAR buffer[5] = { 0 };
+			GetDlgItemText(hwndDlg, IDC_ED_INT, buffer, SIZEOF(buffer));
+			ppro->setDword("NewsInterval", ppro->m_iNewsInterval = _ttoi(buffer));
+			
+		}
+		break;
+
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_DESTROY:
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		break;
+	}
+
+	return FALSE;
+}
+
 int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -357,6 +430,12 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 2;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADV);
 	odp.pfnDlgProc = &CVkProto::OptionsAdvProc;
+	Options_AddPage(wParam, &odp);
+
+	odp.ptszTab = LPGENT("News and notifications");
+	odp.position = 3;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FEEDS);
+	odp.pfnDlgProc = &CVkProto::OptionsFeedsProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

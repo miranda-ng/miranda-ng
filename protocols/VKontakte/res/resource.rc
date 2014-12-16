@@ -12,11 +12,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Английский (США) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -35,16 +35,6 @@ IDI_VISITPROFILE        ICON                    "home.ico"
 IDI_HISTORY             ICON                    "history.ico"
 IDI_KEYS                ICON                    "key.ico"
 IDI_BROADCAST           ICON                    "broadcast.ico"
-#endif    // Русский (Россия) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -54,6 +44,15 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_OPT_FEEDS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 297
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 97
+        HORZGUIDE, 77
+    END
+
     IDD_ACCMGRUI, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -105,6 +104,22 @@ END
 //
 // Dialog
 //
+
+IDD_OPT_FEEDS DIALOGEX 0, 0, 309, 106
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "News and event notifications",IDC_STATIC,4,8,293,83
+    CTEXT           "WARNING: Causes excessive network traffic!!!",IDC_STATIC,12,19,278,8
+    CONTROL         "Enable news feeds",IDC_NEWS_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
+    CONTROL         "Enable event notifications",IDC_NOTIF_ENBL,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,41,278,10
+    CONTROL         "BBCode support on news and event notifications",IDC_BBC_NEWS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
+    LTEXT           "Interval for updates (min):",IDC_STATIC,16,67,97,8
+    EDITTEXT        IDC_ED_INT,118,63,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,158,63,14,14
+END
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 186, 68
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD

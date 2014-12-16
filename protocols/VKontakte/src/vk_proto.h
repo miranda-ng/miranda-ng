@@ -476,6 +476,7 @@ private:
 		m_bStikersAsSmyles,
 		m_bUserForceOnlineOnActivity,
 		m_bNewsEnabled,
+		m_bNotificationsEnabled,
 		m_bBBCOnNews;
 
 	int m_iNewsInterval;
@@ -511,6 +512,7 @@ private:
 
 	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);
