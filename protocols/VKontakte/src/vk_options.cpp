@@ -385,7 +385,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			ppro->m_bNewsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NEWS_ENBL) == BST_CHECKED;
 			ppro->setByte("NewsEnabled", ppro->m_bNewsEnabled);
 
-			ppro->m_bNotificationsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NOT_ENBL) == BST_CHECKED;
+			ppro->m_bNotificationsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NOTIF_ENBL) == BST_CHECKED;
 			ppro->setByte("NotificationsEnabled", ppro->m_bNotificationsEnabled);
 
 			ppro->m_bBBCOnNews = IsDlgButtonChecked(hwndDlg, IDC_BBC_NEWS) == BST_CHECKED;
