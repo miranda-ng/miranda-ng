@@ -279,7 +279,6 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_PIXELS), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_WIDTH), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_WIDTH_SPIN), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_PIXELS2), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_ANIAVATARS), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_PIXELS3), FALSE);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_FASTDRAW), FALSE);
@@ -332,7 +331,6 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_L), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_SPIN), enabled);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_PIXELS2), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_AVATAR_SIZE_PIXELS3), enabled);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOW_ANIAVATARS), enabled && ServiceExists(MS_AV_GETAVATARBITMAP));
 

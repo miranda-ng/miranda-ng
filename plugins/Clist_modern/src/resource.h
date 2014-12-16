@@ -341,7 +341,6 @@
 #define IDC_AVATAR_SIZE_L               1803
 #define IDC_AVATAR_SIZE_PIXELS          1804
 #define IDC_IGNORE_SIZE                 1805
-#define IDC_AVATAR_SIZE_PIXELS2         1805
 #define IDC_ALIGN_RIGHT                 1806
 #define IDC_AVATAR_SIZE_PIXELS3         1806
 #define IDC_LAYERENGINE                 1807
