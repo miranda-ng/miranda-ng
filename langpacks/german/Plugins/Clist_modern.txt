@@ -425,7 +425,7 @@ Linker Rand:
 [Right margin:]
 Rechter Rand:
 [Compact mode (show avatars and additional text on selected contacts only)]
-Kompaktmodus (avatar und zusätzlichen Text nur beim ausgewählten Kontakt anzeigen)
+Kompaktmodus (Avatar und zusätzlichen Text nur beim ausgewählten Kontakt anzeigen)
 [Draw border on avatar]
 Rand um Avatar zeichnen
 [Draw overlay icons]
