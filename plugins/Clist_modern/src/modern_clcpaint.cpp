@@ -556,11 +556,10 @@ void  CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWO
 	AddParam(mpModernMask, HASH[dwParamIndex], HASHTEXT[dwValueIndex], HASH[dwValueIndex]);
 }
 
-MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat)
+MODERNMASK *CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContact *Drawing, int indent, int index, BOOL selected, BOOL hottrack, ClcData *dat)
 {
-	MODERNMASK *mpModernMask = NULL;
 	char buf[BUF2SIZE] = { 0 };
-	mpModernMask = (MODERNMASK*)mir_calloc(sizeof(MODERNMASK));
+	MODERNMASK *mpModernMask = (MODERNMASK*)mir_calloc(sizeof(MODERNMASK));
 
 	_AddParamShort(mpModernMask, hi_Module, hi_CL);
 	_AddParamShort(mpModernMask, hi_ID, hi_Row);
@@ -669,13 +668,11 @@ MODERNMASK* CLCPaint::_GetCLCContactRowBackModernMask(ClcGroup *group, ClcContac
 
 void CLCPaint::_RTLRect(RECT *rect, int width)
 {
-	int left, right;
 	if (!rect) return;
-	left = (width)-rect->right;
-	right = (width)-rect->left;
+	int left = (width)-rect->right;
+	int right = (width)-rect->left;
 	rect->left = left;//-offset;
 	rect->right = right;//-offset;
-	return;
 }
 
 void CLCPaint::_PaintRowItemsEx(HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int selected, int hottrack)
@@ -1701,14 +1698,9 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 
 		// Draw line, if needed
 		if (y > rcPaint->top - dat->row_heights[line_num]) {
-			int selected;
-			int hottrack;
-			int left_pos;
-			int right_pos;
 			int free_row_height;
 			RECT row_rc;
 			RECT free_row_rc;
-			MODERNMASK *mpRequest = NULL;
 			RECT rc;
 
 			// Get item to draw
@@ -1733,10 +1725,10 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 					RowHeight_CalcRowHeight(dat, hWnd, Drawing, line_num);
 
 				// Init settings
-				selected = ((line_num == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground) && Drawing->type != CLCIT_DIVIDER);
-				hottrack = dat->exStyle&CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == line_num;
-				left_pos = clRect.left + dat->leftMargin + indent * dat->groupIndent + subident;
-				right_pos = dat->rightMargin;   // Border
+				int selected = ((line_num == dat->selection) && (dat->hwndRenameEdit != NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || is_foreground) && Drawing->type != CLCIT_DIVIDER);
+				int hottrack = dat->exStyle&CLS_EX_TRACKSELECT && Drawing->type != CLCIT_DIVIDER && dat->iHotTrack == line_num;
+				int left_pos = clRect.left + dat->leftMargin + indent * dat->groupIndent + subident;
+				int right_pos = dat->rightMargin;   // Border
 
 				SetRect(&row_rc, clRect.left, y, clRect.right, y + dat->row_heights[line_num]);
 				free_row_rc = row_rc;
@@ -1770,6 +1762,7 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 					else
 						SkinDrawGlyph(pc.hdcMem, &row_rc, rcPaint, "CL,ID=GreyAlternate");
 				}
+				MODERNMASK *mpRequest = NULL;
 				if (!(paintMode & (DM_CLASSIC | DM_CONTROL))) {
 					// Row background
 					if (!(paintMode & DM_CONTROL)) {   //Build mpRequest string
@@ -1866,20 +1859,22 @@ void CLCPaint::_DrawLines(HWND hWnd, ClcData *dat, int paintMode, RECT* rcPaint,
 					Drawing->pos_check = rc;
 				}
 				_PaintRowItems(hWnd, pc.hdcMem, dat, Drawing, row_rc, free_row_rc, left_pos, right_pos, selected, hottrack, rcPaint);
-				if (mpRequest && !dat->force_in_dialog) {
-					free(mpRequest->pl_Params[1].szValue);
-					mpRequest->pl_Params[1].szValue = strdupn("Ovl", 3);
-					mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
-					{
-						RECT mrc = row_rc;
-						if (Drawing->type == CLCIT_GROUP  &&
-							Drawing->group->parent->groupId == 0 &&
-							Drawing->group->parent->cl.items[0] != Drawing) {
-							mrc.top += dat->row_before_group_space;
+				if (mpRequest) {
+					if (!dat->force_in_dialog) {
+						free(mpRequest->pl_Params[1].szValue);
+						mpRequest->pl_Params[1].szValue = strdupn("Ovl", 3);
+						mpRequest->pl_Params[1].dwValueHash = mod_CalcHash("Ovl");
+						{
+							RECT mrc = row_rc;
+							if (Drawing->type == CLCIT_GROUP  &&
+								Drawing->group->parent->groupId == 0 &&
+								Drawing->group->parent->cl.items[0] != Drawing) {
+								mrc.top += dat->row_before_group_space;
+							}
+							SkinDrawGlyphMask(pc.hdcMem, &mrc, rcPaint, mpRequest);
 						}
-						SkinDrawGlyphMask(pc.hdcMem, &mrc, rcPaint, mpRequest);
+						SkinSelector_DeleteMask(mpRequest);
 					}
-					SkinSelector_DeleteMask(mpRequest);
 					mir_free(mpRequest);
 				}
 			}
