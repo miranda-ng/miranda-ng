@@ -25,54 +25,53 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include <ctype.h>
 
-typedef struct {
-	TCHAR *szUrl;
+struct TOpenUrlInfo
+{
+	TOpenUrlInfo(TCHAR *_url, int _bNew) :
+		szUrl(_url),
+		newWindow(_bNew)
+	{}
+
+	ptrT szUrl;
 	int newWindow;
-}
-	TOpenUrlInfo;
+};
 
 static void OpenURLThread(void *arg)
 {
 	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
-	if (!hUrlInfo || !hUrlInfo->szUrl)
-		return;
 
-	//wack a protocol on it
-	size_t size = mir_tstrlen(hUrlInfo->szUrl)+9;
-	TCHAR *szResult = (TCHAR*)mir_alloc(sizeof(TCHAR)*size);
-	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\') {
-		mir_sntprintf(szResult, size, _T("file:///%s"), hUrlInfo->szUrl);
-	}
+	// wack a protocol on it
+	CMString tszUrl;
+	if ((isalpha(hUrlInfo->szUrl[0]) && hUrlInfo->szUrl[1] == ':') || hUrlInfo->szUrl[0] == '\\')
+		tszUrl.Format(_T("file:///%s"), hUrlInfo->szUrl);
 	else {
 		int i;
-		for (i=0; _istalpha(hUrlInfo->szUrl[i]); i++);
+		for (i = 0; _istalpha(hUrlInfo->szUrl[i]); i++);
 		if (hUrlInfo->szUrl[i] == ':')
-			mir_tstrcpy(szResult, hUrlInfo->szUrl);
+			tszUrl = hUrlInfo->szUrl;
 		else if (!_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
-			mir_sntprintf(szResult, size, _T("ftp://%s"), hUrlInfo->szUrl);
+			tszUrl.Format(_T("ftp://%s"), hUrlInfo->szUrl);
 		else
-			mir_sntprintf(szResult, size, _T("http://%s"), hUrlInfo->szUrl);
+			tszUrl.Format(_T("http://%s"), hUrlInfo->szUrl);
 	}
 
 	// check user defined browser for opening urls
-	TCHAR *tszBrowser = db_get_tsa(NULL, "Miranda", "OpenUrlBrowser");
-	if (tszBrowser) {
-		ShellExecute(NULL, _T("open"), tszBrowser, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
-		mir_free(tszBrowser);
-	}
-	else ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+	ptrT tszBrowser(db_get_tsa(NULL, "Miranda", "OpenUrlBrowser"));
+	if (tszBrowser)
+		ShellExecute(NULL, _T("open"), tszBrowser, tszUrl, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+	else
+		ShellExecute(NULL, _T("open"), tszUrl, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 
-	mir_free(szResult);
-	mir_free(hUrlInfo->szUrl);
-	mir_free(hUrlInfo);
+	delete hUrlInfo;
 }
 
 static INT_PTR OpenURL(WPARAM wParam, LPARAM lParam)
 {
-	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)mir_alloc(sizeof(TOpenUrlInfo));
-	hUrlInfo->szUrl = (wParam & OUF_UNICODE) ? mir_wstrdup((WCHAR*)lParam) : mir_a2t((char*)lParam);
-	hUrlInfo->newWindow = (wParam & OUF_NEWWINDOW) != 0;
-	forkthread(OpenURLThread, 0, (void*)hUrlInfo);
+	if (lParam == 0)
+		return 1;
+
+	TOpenUrlInfo *hUrlInfo = new TOpenUrlInfo((wParam & OUF_UNICODE) ? mir_wstrdup((WCHAR*)lParam) : mir_a2t((char*)lParam), wParam & OUF_NEWWINDOW);
+	forkthread(OpenURLThread, 0, hUrlInfo);
 	return 0;
 }
 
