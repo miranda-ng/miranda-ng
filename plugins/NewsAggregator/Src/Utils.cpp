@@ -552,6 +552,7 @@ LPCTSTR ClearText(CMString &result, const TCHAR *message)
 	}
 	else result = message;
 	SysFreeString(bstrHtml);
+	SysFreeString(bstrRes);
 
 	return result;
 }
