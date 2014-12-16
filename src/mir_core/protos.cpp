@@ -70,6 +70,8 @@ MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(const char *szModule, MCONTACT hContact,
 			MultiByteToWideChar(CP_ACP, 0, ai->filename, -1, aiw.filename, SIZEOF(aiw.filename));
 
 			hProcess = &aiw;
+			ACKDATA ack = { sizeof(ACKDATA), szModule, hContact, type, result, hProcess, lParam };
+			return NotifyEventHooks(hAckEvent, 0, (LPARAM)&ack);
 		}
 	}
 

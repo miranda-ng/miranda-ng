@@ -314,7 +314,7 @@ static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE
 			}
 			else
 				// Shouldn't happen?
-				szName = TranslateT("Me");
+				szName = mir_tstrdup(TranslateT("Me"));
 		}
 		else szName = pcli->pfnGetContactDisplayName(hContact, 0);
 

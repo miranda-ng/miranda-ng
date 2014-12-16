@@ -34,7 +34,7 @@ typedef struct {
 static void OpenURLThread(void *arg)
 {
 	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
-	if (!hUrlInfo->szUrl)
+	if (!hUrlInfo || !hUrlInfo->szUrl)
 		return;
 
 	//wack a protocol on it
@@ -47,20 +47,18 @@ static void OpenURLThread(void *arg)
 		int i;
 		for (i=0; _istalpha(hUrlInfo->szUrl[i]); i++);
 		if (hUrlInfo->szUrl[i] == ':')
-			szResult = mir_tstrdup(hUrlInfo->szUrl);
-		else {
-			if (!_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
-				mir_sntprintf(szResult, size, _T("ftp://%s"), hUrlInfo->szUrl);
-			else
-				mir_sntprintf(szResult, size, _T("http://%s"), hUrlInfo->szUrl);
-		}
+			mir_tstrcpy(szResult, hUrlInfo->szUrl);
+		else if (!_tcsnicmp(hUrlInfo->szUrl, _T("ftp."), 4))
+			mir_sntprintf(szResult, size, _T("ftp://%s"), hUrlInfo->szUrl);
+		else
+			mir_sntprintf(szResult, size, _T("http://%s"), hUrlInfo->szUrl);
 	}
 
 	// check user defined browser for opening urls
-	DBVARIANT dbv;
-	if (!db_get_ts(NULL, "Miranda", "OpenUrlBrowser", &dbv)) {
-		ShellExecute(NULL, _T("open"), dbv.ptszVal, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
-		db_free(&dbv);
+	TCHAR *tszBrowser = db_get_tsa(NULL, "Miranda", "OpenUrlBrowser");
+	if (tszBrowser) {
+		ShellExecute(NULL, _T("open"), tszBrowser, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
+		mir_free(tszBrowser);
 	}
 	else ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 

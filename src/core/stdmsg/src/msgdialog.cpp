@@ -1096,52 +1096,50 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_UPDATETITLE:
 		{
 			TCHAR newtitle[256];
-			if (dat->hContact) {
-				if (dat->szProto) {
-					int statusIcon = db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON);
+			if (dat->hContact && dat->szProto) {
+				int statusIcon = db_get_b(NULL, SRMMMOD, SRMSGSET_STATUSICON, SRMSGDEFSET_STATUSICON);
 
-					dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
-					TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
+				dat->wStatus = db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
+				TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
 
-					TCHAR buf[128] = _T("");
-					if (strcmp(dat->szProto, META_PROTO)) {
-						CONTACTINFO ci = { 0 };
-						ci.cbSize = sizeof(ci);
-						ci.hContact = dat->hContact;
-						ci.szProto = dat->szProto;
-						ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
-						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
-							switch (ci.type) {
-							case CNFT_ASCIIZ:
-								_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
-								mir_free(ci.pszVal);
-								break;
-							case CNFT_DWORD:
-								mir_sntprintf(buf, SIZEOF(buf), _T("%u"), ci.dVal);
-								break;
-							}
+				TCHAR buf[128] = _T("");
+				if (strcmp(dat->szProto, META_PROTO)) {
+					CONTACTINFO ci = { 0 };
+					ci.cbSize = sizeof(ci);
+					ci.hContact = dat->hContact;
+					ci.szProto = dat->szProto;
+					ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
+					if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
+						switch (ci.type) {
+						case CNFT_ASCIIZ:
+							_tcsncpy_s(buf, ci.pszVal, _TRUNCATE);
+							mir_free(ci.pszVal);
+							break;
+						case CNFT_DWORD:
+							mir_sntprintf(buf, SIZEOF(buf), _T("%u"), ci.dVal);
+							break;
 						}
 					}
-					if (buf[0])
-						SetDlgItemText(hwndDlg, IDC_NAME, buf);
-					else
-						SetDlgItemText(hwndDlg, IDC_NAME, contactName);
-
-					TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
-					if (statusIcon)
-						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateT("Message session"));
-					else
-						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
-					
-					DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
-					if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))) {
-						InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), NULL, TRUE);
-						if (statusIcon)
-							SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
-					}
-
-					dat->wOldStatus = dat->wStatus;
 				}
+				if (buf[0])
+					SetDlgItemText(hwndDlg, IDC_NAME, buf);
+				else
+					SetDlgItemText(hwndDlg, IDC_NAME, contactName);
+
+				TCHAR *szStatus = pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(dat->hContact, dat->szProto, "Status", ID_STATUS_OFFLINE), 0);
+				if (statusIcon)
+					mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s - %s"), contactName, TranslateT("Message session"));
+				else
+					mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message session"));
+					
+				DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)wParam;
+				if (!cws || (!strcmp(cws->szModule, dat->szProto) && !strcmp(cws->szSetting, "Status"))) {
+					InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOCOL), NULL, TRUE);
+					if (statusIcon)
+						SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
+				}
+
+				dat->wOldStatus = dat->wStatus;
 			}
 			else
 				mir_tstrncpy(newtitle, TranslateT("Message session"), SIZEOF(newtitle));

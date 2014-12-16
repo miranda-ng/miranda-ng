@@ -411,7 +411,7 @@ INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam)
 	if (!bIsGenMenuInited)
 		return -1;
 
-	PMO_IntMenuItem pimi;
+	PMO_IntMenuItem pimi = NULL;
 	{
 		mir_cslock lck(csMenuHook);
 		for (int i=0; i < g_menus.getCount(); i++)
