@@ -16,7 +16,7 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-*/
+   */
 
 #include "commonheaders.h"
 
@@ -33,21 +33,21 @@ INT currentFilter = 0;
 INT clistIcon = 0; //Icon slot to use
 
 IGNOREITEMS ii[] = {
-	{ LPGENT("All"),            IGNOREEVENT_ALL,           SKINICON_OTHER_FILLEDBLOB },
-	{ LPGENT("Messages"),       IGNOREEVENT_MESSAGE,       SKINICON_EVENT_MESSAGE    },
-	{ LPGENT("URL"),            IGNOREEVENT_URL,           SKINICON_EVENT_URL        },
-	{ LPGENT("Files"),          IGNOREEVENT_FILE,          SKINICON_EVENT_FILE       },
-	{ LPGENT("User Online"),    IGNOREEVENT_USERONLINE,    SKINICON_OTHER_USERONLINE },
-	{ LPGENT("Authorization"),  IGNOREEVENT_AUTHORIZATION, SKINICON_OTHER_MIRANDA    },
-	{ LPGENT("You Were Added"), IGNOREEVENT_YOUWEREADDED,  SKINICON_OTHER_ADDCONTACT },
-	{ LPGENT("Typing Notify"),  IGNOREEVENT_TYPINGNOTIFY,  SKINICON_OTHER_TYPING     }
+	{ LPGENT("All"), IGNOREEVENT_ALL, SKINICON_OTHER_FILLEDBLOB },
+	{ LPGENT("Messages"), IGNOREEVENT_MESSAGE, SKINICON_EVENT_MESSAGE },
+	{ LPGENT("URL"), IGNOREEVENT_URL, SKINICON_EVENT_URL },
+	{ LPGENT("Files"), IGNOREEVENT_FILE, SKINICON_EVENT_FILE },
+	{ LPGENT("User Online"), IGNOREEVENT_USERONLINE, SKINICON_OTHER_USERONLINE },
+	{ LPGENT("Authorization"), IGNOREEVENT_AUTHORIZATION, SKINICON_OTHER_MIRANDA },
+	{ LPGENT("You Were Added"), IGNOREEVENT_YOUWEREADDED, SKINICON_OTHER_ADDCONTACT },
+	{ LPGENT("Typing Notify"), IGNOREEVENT_TYPINGNOTIFY, SKINICON_OTHER_TYPING }
 };
 
 int nII = SIZEOF(ii);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -58,16 +58,16 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// A6872BCD-F2A1-41B8-B2F1-DD7CEC055734
-	{0xa6872bcd, 0xf2a1, 0x41b8, {0xb2, 0xf1, 0xdd, 0x7c, 0xec, 0x05, 0x57, 0x34}}
+	{ 0xa6872bcd, 0xf2a1, 0x41b8, { 0xb2, 0xf1, 0xdd, 0x7c, 0xec, 0x05, 0x57, 0x34 } }
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
-   g_hInst = hinstDLL;
-   return TRUE;
+	g_hInst = hinstDLL;
+	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 inline BOOL checkState(int type)
 {
-	return ((currentFilter>>(type-1))&1);
+	return ((currentFilter >> (type - 1)) & 1);
 }
 
 INT_PTR isIgnored(MCONTACT hContact, int type)
@@ -90,7 +90,7 @@ INT_PTR isIgnored(MCONTACT hContact, int type)
 		if (isIgnored(hContact, ii[i].type))
 			ii[i].filtered ? filtered++ : all++;
 
-	return (all+filtered == SIZEOF(ii)-1) ? 1 : (all > 0 ? -1 : 0) ;
+	return (all + filtered == SIZEOF(ii) - 1) ? 1 : (all > 0 ? -1 : 0);
 }
 
 void applyExtraImage(MCONTACT hContact)
@@ -110,7 +110,7 @@ void applyExtraImage(MCONTACT hContact)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Full Ignore"),    "ignore_full", IDI_IFULL },
+	{ LPGEN("Full Ignore"), "ignore_full", IDI_IFULL },
 	{ LPGEN("Partial Ignore"), "ignore_part", IDI_IPART },
 	{ LPGEN("Message Ignore"), "ignore_mess", IDI_IMESS },
 };
@@ -121,15 +121,15 @@ VOID fill_filter(void)
 
 	currentFilter = bUseMirandaSettings ? db_get_dw(NULL, "Ignore", "Default1", 0) : db_get_dw(NULL, MODULENAME, "Filter", 0x8);
 
-	for (int i=0; i < SIZEOF(ii); i++) {
+	for (int i = 0; i < SIZEOF(ii); i++) {
 		if (checkState((ii[i].type)))
-			ii[i].filtered =  true;
+			ii[i].filtered = true;
 		else
-			ii[i].filtered =  false;
+			ii[i].filtered = false;
 	}
 }
 
-int onModulesLoaded(WPARAM wParam,LPARAM lParam)
+int onModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
@@ -146,10 +146,10 @@ int onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
-	if ( !mir_strcmp(cws->szModule, "Ignore") && !mir_strcmp(cws->szSetting, "Mask1"))
+	if (!mir_strcmp(cws->szModule, "Ignore") && !mir_strcmp(cws->szSetting, "Mask1"))
 		applyExtraImage(hContact);
 	else if (hContact == 0) {
-		if (( !mir_strcmp(cws->szModule, MODULENAME) && !mir_strcmp(cws->szSetting, "Filter")) ||
+		if ((!mir_strcmp(cws->szModule, MODULENAME) && !mir_strcmp(cws->szSetting, "Filter")) ||
 			(bUseMirandaSettings && !mir_strcmp(cws->szModule, "Ignore") && !mir_strcmp(cws->szSetting, "Default1")))
 		{
 			fill_filter();
