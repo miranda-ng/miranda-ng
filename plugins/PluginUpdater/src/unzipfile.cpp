@@ -63,8 +63,10 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 
 	if (!(file_info.external_fa & FILE_ATTRIBUTE_DIRECTORY)) {
 		err = unzOpenCurrentFile(uf);
-		if (err != UNZ_OK)
+		if (err != UNZ_OK) {
+			mir_free(ptszNewName);
 			return false;
+		}
 
 		if (ptszBackPath != NULL) {
 			PrepareFileName(tszDestFile, SIZEOF(tszDestFile), ptszDestPath, ptszNewName);
