@@ -26,55 +26,55 @@ Boston, MA 02111-1307, USA.
 #include <m_system.h>
 
 
-void List_DestroyFreeContents( SortedList* p_list )
+void List_DestroyFreeContents(SortedList* p_list)
 {
-	if ( p_list == NULL )
+	if (p_list == NULL)
 		return;
 
-	if ( p_list->items != NULL )
+	if (p_list->items != NULL)
 	{
 		int i;
-		for ( i = 0 ; i < p_list->realCount ; i++ )
+		for (i = 0; i < p_list->realCount; i++)
 		{
-			if ( p_list->items[i] != NULL )
+			if (p_list->items[i] != NULL)
 			{
-				mir_free( p_list->items[i] );
+				mir_free(p_list->items[i]);
 			}
 		}
 	}
 
-	List_Destroy( p_list );
+	List_Destroy(p_list);
 }
 
 
-int List_Append( SortedList* p_list, void* p_value )
+int List_Append(SortedList* p_list, void* p_value)
 {
-	return List_Insert( p_list, p_value, p_list->realCount );
+	return List_Insert(p_list, p_value, p_list->realCount);
 }
 
 
-int List_InsertOrdered( SortedList* p_list, void* p_value )
+int List_InsertOrdered(SortedList* p_list, void* p_value)
 {
 	int index;
 
-	List_GetIndex( p_list, p_value, &index );
-	List_Insert( p_list, p_value, index );
+	List_GetIndex(p_list, p_value, &index);
+	List_Insert(p_list, p_value, index);
 
 	return index;
 }
 
 
-int List_RemoveByValue( SortedList* p_list, void* p_value )
+int List_RemoveByValue(SortedList* p_list, void* p_value)
 {
 	int ret = 0;
 
-	if ( p_list->items != NULL )
+	if (p_list->items != NULL)
 	{
 		int i;
-		for ( i = p_list->realCount - 1 ; i >= 0 ; i-- )
+		for (i = p_list->realCount - 1; i >= 0; i--)
 		{
-			if ( p_list->items[ i ] == p_value )
-				ret += List_Remove( p_list, i );
+			if (p_list->items[i] == p_value)
+				ret += List_Remove(p_list, i);
 		}
 	}
 
@@ -82,19 +82,19 @@ int List_RemoveByValue( SortedList* p_list, void* p_value )
 }
 
 
-int List_RemoveByValueFreeContents( SortedList* p_list, void* p_value )
+int List_RemoveByValueFreeContents(SortedList* p_list, void* p_value)
 {
 	int ret = 0;
 
-	if ( p_list->items != NULL )
+	if (p_list->items != NULL)
 	{
 		int i;
-		for ( i = p_list->realCount - 1 ; i >= 0 ; i-- )
+		for (i = p_list->realCount - 1; i >= 0; i--)
 		{
-			if ( p_list->items[ i ] == p_value )
+			if (p_list->items[i] == p_value)
 			{
-				mir_free( p_list->items[ i ] );
-				ret += List_Remove( p_list, i );
+				mir_free(p_list->items[i]);
+				ret += List_Remove(p_list, i);
 			}
 		}
 	}
@@ -103,36 +103,36 @@ int List_RemoveByValueFreeContents( SortedList* p_list, void* p_value )
 }
 
 
-void List_Push( SortedList* p_list, void* p_value )
+void List_Push(SortedList* p_list, void* p_value)
 {
-	List_Insert( p_list, p_value, p_list->realCount );
+	List_Insert(p_list, p_value, p_list->realCount);
 }
 
 
-void* List_Pop( SortedList* p_list )
+void* List_Pop(SortedList* p_list)
 {
 	void *ret;
 
-	if ( p_list->realCount <= 0 )
+	if (p_list->realCount <= 0)
 		return NULL;
 
-	ret = p_list->items[ p_list->realCount - 1 ];
-	List_Remove( p_list, p_list->realCount - 1 );
+	ret = p_list->items[p_list->realCount - 1];
+	List_Remove(p_list, p_list->realCount - 1);
 
 	return ret;
 }
 
 
-void* List_Peek( SortedList* p_list )
+void* List_Peek(SortedList* p_list)
 {
-	if ( p_list->realCount <= 0 )
+	if (p_list->realCount <= 0)
 		return NULL;
 
-	return p_list->items[ p_list->realCount - 1 ];
+	return p_list->items[p_list->realCount - 1];
 }
 
 
-BOOL List_HasItens( SortedList* p_list )
+BOOL List_HasItens(SortedList* p_list)
 {
 	return p_list->realCount > 0;
 }

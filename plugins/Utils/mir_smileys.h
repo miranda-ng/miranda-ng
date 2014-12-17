@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -41,7 +41,7 @@ typedef struct _SmileysParseInfo
 {
 	SortedList *pieces;
 	int max_height;
-} * SmileysParseInfo;
+} *SmileysParseInfo;
 
 SmileysParseInfo Smileys_PreParse(LPCSTR lpString, int nCount, const char *protocol);
 void Smileys_FreeParse(SmileysParseInfo parseInfo);

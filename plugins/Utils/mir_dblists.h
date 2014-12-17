@@ -27,19 +27,19 @@ Boston, MA 02111-1307, USA.
 
 // Need to be called on ME_SYSTEM_MODULESLOADED
 
-BOOL List_HasItens( SortedList* p_list );
+BOOL List_HasItens(SortedList* p_list);
 
-void List_DestroyFreeContents( SortedList* );
-int List_RemoveByValue( SortedList*, void* );
-int List_RemoveByValueFreeContents( SortedList*, void* );
+void List_DestroyFreeContents(SortedList*);
+int List_RemoveByValue(SortedList*, void*);
+int List_RemoveByValueFreeContents(SortedList*, void*);
 
-int List_Append( SortedList*, void* );
-int List_InsertOrdered( SortedList*, void* );
+int List_Append(SortedList*, void*);
+int List_InsertOrdered(SortedList*, void*);
 
 // Theese work on the end of the list
-void List_Push( SortedList* p_list, void* p_value );
-void* List_Pop( SortedList* p_list );
-void* List_Peek( SortedList* p_list );
+void List_Push(SortedList* p_list, void* p_value);
+void* List_Pop(SortedList* p_list);
+void* List_Peek(SortedList* p_list);
 
 
 

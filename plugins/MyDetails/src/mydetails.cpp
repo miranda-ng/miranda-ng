@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2005 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "commons.h"
@@ -26,7 +26,7 @@ bool g_bAvsExist;
 
 // Plugin data ////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
-	{0xa82baeb3, 0xa33c, 0x4036, {0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab}}
+	{ 0xa82baeb3, 0xa33c, 0x4036, { 0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab } }
 };
 
 static IconItem iconList[] =
@@ -49,36 +49,36 @@ static IconItem iconList[] =
 
 // Functions //////////////////////////////////////////////////////////////////////////////////////
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
 
 // Services ///////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR Menu_SetMyAvatarUI(WPARAM wParam, LPARAM lParam)
+static INT_PTR Menu_SetMyAvatarUI(WPARAM, LPARAM)
 {
 	return PluginCommand_SetMyAvatarUI(0, 0);
 }
 
-static INT_PTR Menu_SetMyNicknameUI(WPARAM wParam, LPARAM lParam)
+static INT_PTR Menu_SetMyNicknameUI(WPARAM, LPARAM)
 {
 	return PluginCommand_SetMyNicknameUI(0, 0);
 }
 
-static INT_PTR Menu_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
+static INT_PTR Menu_SetMyStatusMessageUI(WPARAM, LPARAM)
 {
 	return PluginCommand_SetMyStatusMessageUI(0, 0);
 }
 
 // Hook called after init
-static int MainInit(WPARAM wparam, LPARAM lparam)
+static int MainInit(WPARAM, LPARAM)
 {
 	g_bAvsExist = ServiceExists(MS_AV_GETMYAVATAR) != 0;
 	g_bFramesExist = ServiceExists(MS_CLIST_FRAMES_ADDFRAME) != 0;
@@ -128,7 +128,7 @@ static int MainInit(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static int MainUninit(WPARAM wParam, LPARAM lParam) 
+static int MainUninit(WPARAM, LPARAM)
 {
 	DeInitFrames();
 	return 0;

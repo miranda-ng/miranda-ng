@@ -52,11 +52,11 @@ typedef struct
 		};
 	};
 }
-	TextPiece;
+TextPiece;
 
 SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height);
 void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, SortedList *plText, UINT uTextFormat, int max_smiley_height);
-void DestroySmileyList( SortedList* p_list );
+void DestroySmileyList(SortedList* p_list);
 SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uTextFormat, int max_smiley_height);
 
 // Functions
@@ -80,7 +80,7 @@ int InitContactListSmileys()
 
 SmileysParseInfo Smileys_PreParse(const TCHAR* lpString, int nCount, const char *protocol)
 {
-	SmileysParseInfo info = (SmileysParseInfo) mir_calloc(sizeof(_SmileysParseInfo));
+	SmileysParseInfo info = (SmileysParseInfo)mir_calloc(sizeof(_SmileysParseInfo));
 
 	info->pieces = ReplaceSmileys(lpString, nCount, protocol, &info->max_height);
 
@@ -112,7 +112,7 @@ int skin_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFo
 }
 
 int skin_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth,
-					UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
+	UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
 {
 	if (ServiceExists(MS_SKINENG_DRAWICONEXFIX))
 		return mod_DrawIconEx_helper(hdc, xLeft, yTop, hIcon, cxWidth, cyWidth, istepIfAniCur, hbrFlickerFreeDraw, diFlags);
@@ -158,7 +158,7 @@ int Smileys_DrawText(HDC hDC, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT 
 	else
 	{
 		// Clipping rgn
-		HRGN oldRgn = CreateRectRgn(0,0,1,1);
+		HRGN oldRgn = CreateRectRgn(0, 0, 1, 1);
 		if (GetClipRgn(hDC, oldRgn) != 1)
 		{
 			DeleteObject(oldRgn);
@@ -217,7 +217,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 		text_size.cx = 0;
 	}
 	else {
-		RECT text_rc = {0, 0, 0x7FFFFFFF, 0x7FFFFFFF};
+		RECT text_rc = { 0, 0, 0x7FFFFFFF, 0x7FFFFFFF };
 
 		// Always need cy...
 		DrawText(hdcMem, szText, -1, &text_rc, DT_CALCRECT | uTextFormat);
@@ -226,17 +226,17 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 		if (plText == NULL)
 			text_size.cx = text_rc.right - text_rc.left;
 		else {
-			if ( !(uTextFormat & DT_RESIZE_SMILEYS))
+			if (!(uTextFormat & DT_RESIZE_SMILEYS))
 				text_size.cy = max(text_size.cy, max_smiley_height);
 
 			text_size.cx = 0;
 
 			// See each item of list
 			for (int i = 0; i < plText->realCount; i++) {
-				TextPiece *piece = (TextPiece *) plText->items[i];
+				TextPiece *piece = (TextPiece *)plText->items[i];
 
 				if (piece->type == TEXT_PIECE_TYPE_TEXT) {
-					RECT text_rc = {0, 0, 0x7FFFFFFF, 0x7FFFFFFF};
+					RECT text_rc = { 0, 0, 0x7FFFFFFF, 0x7FFFFFFF };
 
 					DrawText(hdcMem, &szText[piece->start_pos], piece->len, &text_rc, DT_CALCRECT | uTextFormat);
 					text_size.cx = text_size.cx + text_rc.right - text_rc.left;
@@ -245,7 +245,7 @@ SIZE GetTextSize(HDC hdcMem, const TCHAR *szText, SortedList *plText, UINT uText
 					double factor;
 
 					if ((uTextFormat & DT_RESIZE_SMILEYS) && piece->smiley_height > text_size.cy)
-						factor = text_size.cy / (double) piece->smiley_height;
+						factor = text_size.cy / (double)piece->smiley_height;
 					else
 						factor = 1;
 
@@ -293,7 +293,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 		// Draw text and smileys
 		for (; i < plText->realCount && i >= 0 && pos_x < free_rc.right - free_rc.left && len > 0; i += (uTextFormat & DT_RTLREADING ? -1 : 1))
 		{
-			TextPiece *piece = (TextPiece *) plText->items[i];
+			TextPiece *piece = (TextPiece *)plText->items[i];
 			RECT text_rc = free_rc;
 
 			if (uTextFormat & DT_RTLREADING)
@@ -330,7 +330,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 
 					if ((uTextFormat & DT_RESIZE_SMILEYS) && piece->smiley_height > row_height)
 					{
-						factor = row_height / (double) piece->smiley_height;
+						factor = row_height / (double)piece->smiley_height;
 					}
 					else
 					{
@@ -338,7 +338,7 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 					}
 
 					if (uTextFormat & DT_RTLREADING)
-						text_rc.left = max(text_rc.right - (LONG) (piece->smiley_width * factor), text_rc.left);
+						text_rc.left = max(text_rc.right - (LONG)(piece->smiley_width * factor), text_rc.left);
 
 					if ((LONG)(piece->smiley_width * factor) <= text_rc.right - text_rc.left)
 					{
@@ -361,19 +361,19 @@ void DrawTextSmiley(HDC hdcMem, RECT free_rc, const TCHAR *szText, int len, Sort
 }
 
 
-void DestroySmileyList( SortedList* p_list )
+void DestroySmileyList(SortedList* p_list)
 {
-	if ( p_list == NULL )
+	if (p_list == NULL)
 		return;
 
-	if ( p_list->items != NULL )
+	if (p_list->items != NULL)
 	{
 		int i;
-		for ( i = 0 ; i < p_list->realCount ; i++ )
+		for (i = 0; i < p_list->realCount; i++)
 		{
-			TextPiece *piece = (TextPiece *) p_list->items[i];
+			TextPiece *piece = (TextPiece *)p_list->items[i];
 
-			if ( piece != NULL )
+			if (piece != NULL)
 			{
 				if (piece->type == TEXT_PIECE_TYPE_SMILEY)
 					DestroyIcon(piece->smiley);
@@ -383,7 +383,7 @@ void DestroySmileyList( SortedList* p_list )
 		}
 	}
 
-	List_Destroy( p_list );
+	List_Destroy(p_list);
 }
 
 
@@ -401,7 +401,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	sp.Protocolname = protocol;
 	sp.str = (TCHAR*)text;
 	sp.flag = SAFL_TCHAR;
-	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *) CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
+	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 	if (spres == NULL)
 		// Did not find a simley
 		return NULL;
@@ -410,7 +410,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	SortedList *plText = List_Create(0, 10);
 
 	const TCHAR *next_text_pos = text;
-	const TCHAR *last_text_pos =  _tcsninc(text, text_size);
+	const TCHAR *last_text_pos = _tcsninc(text, text_size);
 
 	for (unsigned int i = 0; i < sp.numSmileys; i++) {
 		TCHAR* start = _tcsninc(text, spres[i].startChar);
@@ -419,7 +419,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 		if (spres[i].hIcon != NULL) { // For defective smileypacks
 			// Add text
 			if (start > next_text_pos) {
-				TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
+				TextPiece *piece = (TextPiece *)mir_calloc(sizeof(TextPiece));
 
 				piece->type = TEXT_PIECE_TYPE_TEXT;
 				piece->start_pos = next_text_pos - text;
@@ -432,7 +432,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 			{
 				BITMAP bm;
 				ICONINFO icon;
-				TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
+				TextPiece *piece = (TextPiece *)mir_calloc(sizeof(TextPiece));
 
 				piece->type = TEXT_PIECE_TYPE_SMILEY;
 				piece->len = end - start;
@@ -442,7 +442,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 				piece->smiley_height = 16;
 				if (GetIconInfo(piece->smiley, &icon))
 				{
-					if (GetObject(icon.hbmColor,sizeof(BITMAP),&bm))
+					if (GetObject(icon.hbmColor, sizeof(BITMAP), &bm))
 					{
 						piece->smiley_width = bm.bmWidth;
 						piece->smiley_height = bm.bmHeight;
@@ -464,7 +464,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 	// Add rest of text
 	if (last_text_pos > next_text_pos)
 	{
-		TextPiece *piece = (TextPiece *) mir_calloc(sizeof(TextPiece));
+		TextPiece *piece = (TextPiece *)mir_calloc(sizeof(TextPiece));
 
 		piece->type = TEXT_PIECE_TYPE_TEXT;
 		piece->start_pos = next_text_pos - text;
