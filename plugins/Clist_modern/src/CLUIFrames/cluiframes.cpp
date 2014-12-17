@@ -107,25 +107,20 @@ static int sortfunc(const void *a, const void *b)
 };
 int CLUIFrames_OnMoving(HWND hwnd, RECT *r)
 {
-	int i;
 	g_CluiData.mutexPreventDockMoving = 0;
-	for (i = 0; i < g_nFramesCount; i++) {
 
+	for (int i = 0; i < g_nFramesCount; i++) {
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != NULL  && g_pfwFrames[i].OwnerWindow != (HWND)-2) {
-			int x;
-			int y;
-			int dx, dy;
-			FRAMEWND * Frame;
 			POINT pt = { 0 };
 			RECT wr;
-			Frame = &(g_pfwFrames[i]);
+			FRAMEWND *Frame = &g_pfwFrames[i];
 
 			GetWindowRect(hwnd, &wr);
 			ClientToScreen(hwnd, &pt);
-			dx = (r->left - wr.left) + pt.x;
-			dy = (r->top - wr.top) + pt.y;
-			x = Frame->wndSize.left;
-			y = Frame->wndSize.top;
+			int dx = (r->left - wr.left) + pt.x;
+			int dy = (r->top - wr.top) + pt.y;
+			int x = Frame->wndSize.left;
+			int y = Frame->wndSize.top;
 			SetWindowPos(Frame->OwnerWindow, NULL, x + dx, y + dy, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING | SWP_ASYNCWINDOWPOS | SWP_DEFERERASE | SWP_NOOWNERZORDER);
 		};
 
@@ -134,17 +129,14 @@ int CLUIFrames_OnMoving(HWND hwnd, RECT *r)
 	AniAva_RedrawAllAvatars(FALSE);
 	return 0;
 }
+
 int SetAlpha(BYTE Alpha)
 {
-	int i;
-
-	for (i = 0; i < g_nFramesCount; i++) {
-
+	for (int i = 0; i < g_nFramesCount; i++) {
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != NULL  && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide) {
 			HWND hwnd = g_pfwFrames[i].OwnerWindow;
-			long l;
-			l = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
-			if (!(l&WS_EX_LAYERED)) {
+			long l = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+			if (!(l & WS_EX_LAYERED)) {
 				HWND parent = NULL;
 				if (g_CluiData.fOnDesktop) {
 					HWND hProgMan = FindWindow(_T("Progman"), NULL);
@@ -168,35 +160,32 @@ int SetAlpha(BYTE Alpha)
 
 int CLUIFrames_RepaintSubContainers()
 {
-	int i;
-	for (i = 0; i < g_nFramesCount; i++)
-		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide) {
+	for (int i = 0; i < g_nFramesCount; i++)
+		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide)
 			RedrawWindow(g_pfwFrames[i].hWnd, NULL, NULL, RDW_ALLCHILDREN | RDW_UPDATENOW | RDW_INVALIDATE | RDW_FRAME);
-		};
+
 	return 0;
 }
 
 int CLUIFrames_ActivateSubContainers(BOOL active)
 {
-	int i;
-	for (i = 0; i < g_nFramesCount; i++)
+	for (int i = 0; i < g_nFramesCount; i++) {
 		if (active && !g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide) {
 			if (db_get_b(NULL, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 				SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 				SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			}
 			else SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
-		};
+		}
+	}
 	return 0;
 }
+
 int CLUIFrames_SetParentForContainers(HWND parent)
 {
-	int i;
-	if (parent && parent != pcli->hwndContactList)
-		g_CluiData.fOnDesktop = 1;
-	else
-		g_CluiData.fOnDesktop = 0;
-	for (i = 0; i < g_nFramesCount; i++) {
+	g_CluiData.fOnDesktop = (parent && parent != pcli->hwndContactList);
+
+	for (int i = 0; i < g_nFramesCount; i++) {
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 && g_pfwFrames[i].OwnerWindow != (HWND)-2 && g_pfwFrames[i].visible && !g_pfwFrames[i].needhide) {
 			HWND hwnd = g_pfwFrames[i].OwnerWindow;
 			SetParent(hwnd, parent);
@@ -207,36 +196,36 @@ int CLUIFrames_SetParentForContainers(HWND parent)
 
 int CLUIFrames_OnShowHide(int mode)
 {
-	int i;
 	int prevFrameCount;
-	for (i = 0; i < g_nFramesCount; i++) {
+	for (int i = 0; i < g_nFramesCount; i++) {
 		if (!g_pfwFrames[i].floating && g_pfwFrames[i].OwnerWindow != (HWND)0 && g_pfwFrames[i].OwnerWindow != (HWND)-2) {
-			{
-				//Try to avoid crash on exit due to unlock.
-				HWND owner = g_pfwFrames[i].OwnerWindow;
-				HWND Frmhwnd = g_pfwFrames[i].hWnd;
-				BOOL visible = g_pfwFrames[i].visible;
-				BOOL needhide = g_pfwFrames[i].needhide;
-				needhide |= (!g_pfwFrames[i].collapsed || g_pfwFrames[i].height == 0);
-				prevFrameCount = g_nFramesCount;
-				ShowWindow(owner, (mode == SW_HIDE || !visible || needhide) ? SW_HIDE : mode);
-				ShowWindow(Frmhwnd, (mode == SW_HIDE || !visible || needhide) ? SW_HIDE : mode);
-			}
+			// Try to avoid crash on exit due to unlock.
+			HWND owner = g_pfwFrames[i].OwnerWindow;
+			HWND Frmhwnd = g_pfwFrames[i].hWnd;
+			BOOL visible = g_pfwFrames[i].visible;
+			BOOL needhide = g_pfwFrames[i].needhide;
+			needhide |= (!g_pfwFrames[i].collapsed || g_pfwFrames[i].height == 0);
+			prevFrameCount = g_nFramesCount;
+			ShowWindow(owner, (mode == SW_HIDE || !visible || needhide) ? SW_HIDE : mode);
+			ShowWindow(Frmhwnd, (mode == SW_HIDE || !visible || needhide) ? SW_HIDE : mode);
+		}
 
-			if (mode != SW_HIDE) {
+		if (mode != SW_HIDE) {
+			SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+			if (db_get_b(NULL, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
 				SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-				if (db_get_b(NULL, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT)) {
-					SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-					SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-				}
-				else SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
+				SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 			}
+			else SetWindowPos(g_pfwFrames[i].OwnerWindow, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOACTIVATE | SWP_NOSIZE | SWP_NOMOVE);
 		}
 	}
-	if (mode != SW_HIDE) SetForegroundWindow(pcli->hwndContactList);
+	
+	if (mode != SW_HIDE)
+		SetForegroundWindow(pcli->hwndContactList);
 	AniAva_RedrawAllAvatars(TRUE);
 	return 0;
 }
+
 static int RemoveItemFromList(int pos, FRAMEWND **lpFrames, int *FrameItemCount)
 {
 	memmove(&((*lpFrames)[pos]), &((*lpFrames)[pos + 1]), sizeof(FRAMEWND)*(*FrameItemCount - pos - 1));
@@ -247,11 +236,13 @@ static int RemoveItemFromList(int pos, FRAMEWND **lpFrames, int *FrameItemCount)
 
 static int id2pos(int id)
 {
-	int i;
 	if (_fCluiFramesModuleNotStarted) return -1;
-	for (i = 0; i < g_nFramesCount; i++)
-		if (g_pfwFrames[i].id == id) return(i);
-	return(-1);
+
+	for (int i = 0; i < g_nFramesCount; i++)
+		if (g_pfwFrames[i].id == id)
+			return i;
+	
+	return -1;
 };
 
 static int btoint(BOOLEAN b)
@@ -277,8 +268,7 @@ static FRAMEWND* FindFrameByWnd(HWND hwnd)
 
 int QueueAllFramesUpdating(BYTE queue)
 {
-	int i;
-	for (i = 0; i < g_nFramesCount; i++) {
+	for (int i = 0; i < g_nFramesCount; i++) {
 		if (!g_CluiData.fLayered) {
 			if (queue)
 				InvalidateRect(g_pfwFrames[i].hWnd, NULL, FALSE);
@@ -292,27 +282,26 @@ int QueueAllFramesUpdating(BYTE queue)
 			}
 			g_pfwFrames[i].UpdateRgn = 0;
 		}
-
 	}
 	return queue;
-
 }
+
 int FindFrameID(HWND FrameHwnd)
 {
-	FRAMEWND * frm = NULL;
-	if (FrameHwnd == NULL) return 0;
-	frm = FindFrameByItsHWND(FrameHwnd);
-	if (frm)
-		return frm->id;
-	else return 0;
+	if (FrameHwnd == NULL)
+		return 0;
+	
+	FRAMEWND *frm = FindFrameByItsHWND(FrameHwnd);
+	return (frm) ? frm->id : 0;
 }
-FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd)
+
+FRAMEWND* FindFrameByItsHWND(HWND FrameHwnd)
 {
-	int i;
 	if (FrameHwnd == NULL) return(NULL);
-	for (i = 0; i < g_nFramesCount; i++) {
-		if (g_pfwFrames[i].hWnd == FrameHwnd) { return(&g_pfwFrames[i]); };
-	};
+	for (int i = 0; i < g_nFramesCount; i++)
+		if (g_pfwFrames[i].hWnd == FrameHwnd)
+			return &g_pfwFrames[i];
+
 	return NULL;
 }
 
@@ -327,26 +316,22 @@ static void DockThumbs(FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight)
 
 static void UndockThumbs(FRAMEWND *pThumb1, FRAMEWND *pThumb2)
 {
-	if ((pThumb1 == NULL) || (pThumb2 == NULL)) {
+	if ((pThumb1 == NULL) || (pThumb2 == NULL))
 		return;
-	}
 
-	if (pThumb1->dockOpt.hwndRight == pThumb2->ContainerWnd) {
+	if (pThumb1->dockOpt.hwndRight == pThumb2->ContainerWnd)
 		pThumb1->dockOpt.hwndRight = NULL;
-	}
 
-	if (pThumb1->dockOpt.hwndLeft == pThumb2->ContainerWnd) {
+	if (pThumb1->dockOpt.hwndLeft == pThumb2->ContainerWnd)
 		pThumb1->dockOpt.hwndLeft = NULL;
-	}
 
-	if (pThumb2->dockOpt.hwndRight == pThumb1->ContainerWnd) {
+	if (pThumb2->dockOpt.hwndRight == pThumb1->ContainerWnd)
 		pThumb2->dockOpt.hwndRight = NULL;
-	}
 
-	if (pThumb2->dockOpt.hwndLeft == pThumb1->ContainerWnd) {
+	if (pThumb2->dockOpt.hwndLeft == pThumb1->ContainerWnd)
 		pThumb2->dockOpt.hwndLeft = NULL;
-	}
 }
+
 static void PositionThumb(FRAMEWND *pThumb, short nX, short nY)
 {
 	FRAMEWND	*pCurThumb = &g_pfwFrames[0];
@@ -2576,7 +2561,6 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 	GetClientRect(hwnd, &clRect);
 	if (rcPaint == NULL) rcPaint = &clRect;
 	if (rcPaint->right - rcPaint->left == 0 || rcPaint->top - rcPaint->bottom == 0) rcPaint = &clRect;
-	int y = -yScroll;
 	HDC hdcMem = CreateCompatibleDC(hdc);
 	HBITMAP hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
 	HBITMAP hOldBmp = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
@@ -2588,18 +2572,17 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 	DeleteObject(hBrush);
 	if (hBmpBackground) {
 		BITMAP bmp;
-		int x, y;
 		int destw, desth;
 
 		GetObject(hBmpBackground, sizeof(bmp), &bmp);
 		HDC hdcBmp = CreateCompatibleDC(hdcMem);
 		SelectObject(hdcBmp, hBmpBackground);
-		y = backgroundBmpUse&CLBF_SCROLL ? -yScroll : 0;
-		int maxx = backgroundBmpUse&CLBF_TILEH ? clRect.right : 1;
-		int maxy = backgroundBmpUse&CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
-		switch (backgroundBmpUse&CLBM_TYPE) {
+		int y = backgroundBmpUse & CLBF_SCROLL ? -yScroll : 0;
+		int maxx = backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
+		int maxy = backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
+		switch (backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
+			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				if (clRect.right*bmp.bmHeight < clRect.bottom*bmp.bmWidth) {
 					desth = clRect.bottom;
 					destw = desth*bmp.bmWidth / bmp.bmHeight;
@@ -2615,7 +2598,7 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 			}
 			break;
 		case CLB_STRETCHH:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
+			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				destw = clRect.right;
 				desth = destw*bmp.bmHeight / bmp.bmWidth;
 			}
@@ -2625,7 +2608,7 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 			}
 			break;
 		case CLB_STRETCHV:
-			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
+			if (backgroundBmpUse & CLBF_PROPORTIONAL) {
 				desth = clRect.bottom;
 				destw = desth*bmp.bmWidth / bmp.bmHeight;
 			}
@@ -2642,7 +2625,7 @@ void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColo
 		desth = clRect.bottom - clRect.top;
 		for (; y < maxy; y += desth) {
 			if (y < rcPaint->top - desth) continue;
-			for (x = 0; x < maxx; x += destw)
+			for (int x = 0; x < maxx; x += destw)
 				StretchBlt(hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
 		}
 		DeleteDC(hdcBmp);
