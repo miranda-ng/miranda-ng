@@ -22,7 +22,7 @@ struct COOKIE
 	size_t cbSize, cbCount;
 };
 
-extern HRESULT	(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
+extern HRESULT(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
 
 /////////////////////////////////////////////////////////////////////////////
 // IFormatttedTextDraw
@@ -42,15 +42,15 @@ public:
 	virtual ITextDocument *getTextDocument() = 0;
 	virtual void setParentWnd(HWND hwnd, RECT rect) = 0;
 
-// COM-like functions
-    virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
-    virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
+	// COM-like functions
+	virtual ULONG STDMETHODCALLTYPE AddRef(void) = 0;
+	virtual ULONG STDMETHODCALLTYPE Release(void) = 0;
 };
 
 
 /////////////////////////////////////////////////////////////////////////////
 // CFormattedTextDraw
-class CFormattedTextDraw:
+class CFormattedTextDraw :
 	public ITextHost,
 	public IFormattedTextDraw
 {
@@ -67,7 +67,7 @@ public:
 		SetRectEmpty(&m_rcClient);
 		SetRectEmpty(&m_rcViewInset);
 
-		m_pCF = (CHARFORMAT2W*) malloc(sizeof(CHARFORMAT2W));
+		m_pCF = (CHARFORMAT2W*)malloc(sizeof(CHARFORMAT2W));
 
 		InitDefaultCharFormat();
 		InitDefaultParaFormat();
@@ -88,26 +88,26 @@ public:
 			m_spTextDocument->Release();
 	}
 
-// Minimal COM functionality
-    HRESULT STDMETHODCALLTYPE QueryInterface( 
-        /* [in] */ REFIID riid,
-        /* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject)
+	// Minimal COM functionality
+	HRESULT STDMETHODCALLTYPE QueryInterface(
+		/* [in] */ REFIID,
+		/* [iid_is][out] */ void __RPC_FAR *__RPC_FAR *ppvObject)
 	{
 		*ppvObject = NULL;
 		return S_FALSE;
 	}
-    
-    ULONG STDMETHODCALLTYPE AddRef(void)
-	{
-		return 0;
-	}
-    
-    ULONG STDMETHODCALLTYPE Release(void)
+
+	ULONG STDMETHODCALLTYPE AddRef(void)
 	{
 		return 0;
 	}
 
-// IFormattedTextDraw
+	ULONG STDMETHODCALLTYPE Release(void)
+	{
+		return 0;
+	}
+
+	// IFormattedTextDraw
 public:
 	HRESULT get_NaturalSize(void *hdcDraw, long *Width, long *pVal);
 	HRESULT Create();
@@ -121,7 +121,7 @@ public:
 	ITextDocument *getTextDocument() { return m_spTextDocument; };
 	virtual void setParentWnd(HWND hwnd, RECT rect) { m_hwndParent = hwnd; m_rcClient = rect; }
 
-// ITextHost
+	// ITextHost
 	HDC TxGetDC();
 	INT TxReleaseDC(HDC hdc);
 	BOOL TxShowScrollBar(INT fnBar, BOOL fShow);
@@ -162,13 +162,13 @@ public:
 	void TxImmReleaseContext(HIMC himc);
 	HRESULT	TxGetSelectionBarWidth(LONG *lSelBarWidth);
 
-// Custom functions
+	// Custom functions
 	HRESULT CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont);
 	HRESULT InitDefaultCharFormat();
 	HRESULT InitDefaultParaFormat();
 	HRESULT CreateTextServicesObject();
 
-// Variables
+	// Variables
 	HWND			m_hwndParent;
 	RECT			m_rcClient;			// Client Rect
 	RECT			m_rcViewInset;		// view rect inset

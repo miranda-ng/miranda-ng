@@ -22,37 +22,37 @@ public:
 	//
 	// IUnknown members
 	//
-	HRESULT __stdcall QueryInterface (REFIID iid, void ** ppvObject);
-	ULONG   __stdcall AddRef (void);
-	ULONG   __stdcall Release (void);
-		
+	HRESULT __stdcall QueryInterface(REFIID iid, void ** ppvObject);
+	ULONG   __stdcall AddRef(void);
+	ULONG   __stdcall Release(void);
+
 	//
 	// IDataObject members
 	//
-	HRESULT __stdcall GetData				(FORMATETC *pFormatEtc,  STGMEDIUM *pMedium);
-	HRESULT __stdcall GetDataHere			(FORMATETC *pFormatEtc,  STGMEDIUM *pMedium);
-	HRESULT __stdcall QueryGetData			(FORMATETC *pFormatEtc);
-	HRESULT __stdcall GetCanonicalFormatEtc (FORMATETC *pFormatEct,  FORMATETC *pFormatEtcOut);
-	HRESULT __stdcall SetData				(FORMATETC *pFormatEtc,  STGMEDIUM *pMedium,  BOOL fRelease);
-	HRESULT __stdcall EnumFormatEtc			(DWORD      dwDirection, IEnumFORMATETC **ppEnumFormatEtc);
-	HRESULT __stdcall DAdvise				(FORMATETC *pFormatEtc,  DWORD advf, IAdviseSink *pAdvSink, DWORD *pdwConnection);
-	HRESULT __stdcall DUnadvise				(DWORD      dwConnection);
-	HRESULT __stdcall EnumDAdvise			(IEnumSTATDATA **ppEnumAdvise);
+	HRESULT __stdcall GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium);
+	HRESULT __stdcall GetDataHere(FORMATETC *pFormatEtc, STGMEDIUM *pMedium);
+	HRESULT __stdcall QueryGetData(FORMATETC *pFormatEtc);
+	HRESULT __stdcall GetCanonicalFormatEtc(FORMATETC *pFormatEct, FORMATETC *pFormatEtcOut);
+	HRESULT __stdcall SetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium, BOOL fRelease);
+	HRESULT __stdcall EnumFormatEtc(DWORD      dwDirection, IEnumFORMATETC **ppEnumFormatEtc);
+	HRESULT __stdcall DAdvise(FORMATETC *pFormatEtc, DWORD advf, IAdviseSink *pAdvSink, DWORD *pdwConnection);
+	HRESULT __stdcall DUnadvise(DWORD      dwConnection);
+	HRESULT __stdcall EnumDAdvise(IEnumSTATDATA **ppEnumAdvise);
 
 	//
 	// Constructor / Destructor
 	//
 	CDataObject(const FORMATETC *fmt, const STGMEDIUM *stgmed, int count);
 	~CDataObject();
-	
+
 private:
 
 	int LookupFormatEtc(FORMATETC *pFormatEtc);
 
-    //
+	//
 	// any private members and functions
 	//
-    LONG	   m_lRefCount;
+	LONG	   m_lRefCount;
 
 	FORMATETC *m_pFormatEtc;
 	STGMEDIUM *m_pStgMedium;
@@ -184,7 +184,7 @@ HRESULT __stdcall CDataObject::GetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium
 //
 //	IDataObject::GetDataHere
 //
-HRESULT __stdcall CDataObject::GetDataHere(FORMATETC *pFormatEtc, STGMEDIUM *pMedium)
+HRESULT __stdcall CDataObject::GetDataHere(FORMATETC *, STGMEDIUM *)
 {
 	// GetDataHere is only required for IStream and IStorage mediums
 	// It is an error to call GetDataHere for things like HGLOBAL and other clipboard formats
@@ -207,7 +207,7 @@ HRESULT __stdcall CDataObject::QueryGetData(FORMATETC *pFormatEtc)
 //
 //	IDataObject::GetCanonicalFormatEtc
 //
-HRESULT __stdcall CDataObject::GetCanonicalFormatEtc(FORMATETC *pFormatEct, FORMATETC *pFormatEtcOut)
+HRESULT __stdcall CDataObject::GetCanonicalFormatEtc(FORMATETC *, FORMATETC *pFormatEtcOut)
 {
 	// Apparently we have to set this field to NULL even though we don't do anything else
 	pFormatEtcOut->ptd = NULL;
@@ -217,7 +217,7 @@ HRESULT __stdcall CDataObject::GetCanonicalFormatEtc(FORMATETC *pFormatEct, FORM
 //
 //	IDataObject::SetData
 //
-HRESULT __stdcall CDataObject::SetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium, BOOL fRelease)
+HRESULT __stdcall CDataObject::SetData(FORMATETC *, STGMEDIUM *, BOOL)
 {
 	return E_NOTIMPL;
 }
@@ -241,7 +241,7 @@ HRESULT __stdcall CDataObject::EnumFormatEtc(DWORD dwDirection, IEnumFORMATETC *
 //
 //	IDataObject::DAdvise
 //
-HRESULT __stdcall CDataObject::DAdvise(FORMATETC *pFormatEtc, DWORD advf, IAdviseSink *pAdvSink, DWORD *pdwConnection)
+HRESULT __stdcall CDataObject::DAdvise(FORMATETC *, DWORD, IAdviseSink *, DWORD *)
 {
 	return OLE_E_ADVISENOTSUPPORTED;
 }
@@ -249,7 +249,7 @@ HRESULT __stdcall CDataObject::DAdvise(FORMATETC *pFormatEtc, DWORD advf, IAdvis
 //
 //	IDataObject::DUnadvise
 //
-HRESULT __stdcall CDataObject::DUnadvise(DWORD dwConnection)
+HRESULT __stdcall CDataObject::DUnadvise(DWORD)
 {
 	return OLE_E_ADVISENOTSUPPORTED;
 }
@@ -257,7 +257,7 @@ HRESULT __stdcall CDataObject::DUnadvise(DWORD dwConnection)
 //
 //	IDataObject::EnumDAdvise
 //
-HRESULT __stdcall CDataObject::EnumDAdvise(IEnumSTATDATA **ppEnumAdvise)
+HRESULT __stdcall CDataObject::EnumDAdvise(IEnumSTATDATA **)
 {
 	return OLE_E_ADVISENOTSUPPORTED;
 }

@@ -104,7 +104,7 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 }
 
 /// Paint ////////////////////////////////////
-LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM wParam, LPARAM lParam)
+LRESULT MTextControl_OnPaint(HWND hwnd, WPARAM, LPARAM)
 {
 	HDC hdc;
 	PAINTSTRUCT ps;

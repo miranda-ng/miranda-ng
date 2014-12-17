@@ -24,17 +24,17 @@ public:
 	//
 	// IUnknown members
 	//
-	HRESULT __stdcall  QueryInterface (REFIID iid, void ** ppvObject);
-	ULONG	__stdcall  AddRef (void);
-	ULONG	__stdcall  Release (void);
+	HRESULT __stdcall  QueryInterface(REFIID iid, void ** ppvObject);
+	ULONG	__stdcall  AddRef(void);
+	ULONG	__stdcall  Release(void);
 
 	//
 	// IEnumFormatEtc members
 	//
-	HRESULT __stdcall  Next  (ULONG celt, FORMATETC * rgelt, ULONG * pceltFetched);
-	HRESULT __stdcall  Skip  (ULONG celt); 
-	HRESULT __stdcall  Reset (void);
-	HRESULT __stdcall  Clone (IEnumFORMATETC ** ppEnumFormatEtc);
+	HRESULT __stdcall  Next(ULONG celt, FORMATETC * rgelt, ULONG * pceltFetched);
+	HRESULT __stdcall  Skip(ULONG celt);
+	HRESULT __stdcall  Reset(void);
+	HRESULT __stdcall  Clone(IEnumFORMATETC ** ppEnumFormatEtc);
 
 	//
 	// Construction / Destruction
