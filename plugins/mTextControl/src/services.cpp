@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 #include "headers.h"
 
-static HANDLE hService[11] = {0,0,0,0,0,0,0,0,0,0,0};
+static HANDLE hService[11] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 INT_PTR MText_Register(WPARAM, LPARAM);
 INT_PTR MText_Create(WPARAM, LPARAM);
@@ -37,13 +37,13 @@ struct TextObject
 {
 	DWORD options;
 	IFormattedTextDraw *ftd;
-	TextObject(): options(0), ftd(0) {}
+	TextObject() : options(0), ftd(0) {}
 	~TextObject() { if (ftd) delete ftd; }
 };
 
 //---------------------------------------------------------------------------
 // elper functions
-void MText_InitFormatting0(IFormattedTextDraw *ftd, DWORD options)
+void MText_InitFormatting0(IFormattedTextDraw *ftd, DWORD)
 {
 	LRESULT lResult;
 
@@ -150,7 +150,7 @@ INT_PTR MText_CreateW(WPARAM wParam, LPARAM lParam)
 //---------------------------------------------------------------------------
 // allocate text object (advanced)
 HANDLE DLL_CALLCONV
-MTI_MTextCreateEx(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags)
+MTI_MTextCreateEx(HANDLE userHandle, void *text, DWORD flags)
 {
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
@@ -170,7 +170,7 @@ INT_PTR MText_CreateEx(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE userHandle = (HANDLE)wParam;
 	MTEXTCREATE *textCreate = (MTEXTCREATE *)lParam;
-	MTI_MTextCreateEx(userHandle, textCreate->hContact, textCreate->text, textCreate->flags);
+	MTI_MTextCreateEx(userHandle, textCreate->text, textCreate->flags);
 	return 0;
 }
 
@@ -190,7 +190,7 @@ MTI_MTextMeasure(HDC dc, SIZE *sz, HANDLE text)
 	return 0;
 }
 
-INT_PTR MText_Measure(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_Measure(WPARAM wParam, LPARAM)
 {
 	LPMTEXTDISPLAY displayInfo = (LPMTEXTDISPLAY)wParam;
 	if (!displayInfo) return 0;
@@ -231,7 +231,7 @@ MTI_MTextDisplay(HDC dc, POINT pos, SIZE sz, HANDLE text)
 	return 0;
 }
 
-INT_PTR MText_Display(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_Display(WPARAM wParam, LPARAM)
 {
 	LPMTEXTDISPLAY displayInfo = (LPMTEXTDISPLAY)wParam;
 	if (!displayInfo) return 0;
@@ -250,7 +250,7 @@ MTI_MTextSetParent(HANDLE text, HWND hwnd, RECT rect)
 	return 0;
 }
 
-INT_PTR MText_SetParent(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_SetParent(WPARAM wParam, LPARAM)
 {
 	LPMTEXTSETPARENT info = (LPMTEXTSETPARENT)wParam;
 	//TextObject *text = (TextObject *)info->text;
@@ -278,10 +278,9 @@ MTI_MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lPa
 	return lResult;
 }
 
-INT_PTR MText_SendMessage(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_SendMessage(WPARAM wParam, LPARAM)
 {
 	LPMTEXTMESSAGE message = (LPMTEXTMESSAGE)wParam;
-	TextObject *text = (TextObject *)message->text;
 	if (!message->text) return 0;
 	return (INT_PTR)MTI_MTextSendMessage(message->hwnd, message->text, message->msg, message->wParam, message->lParam);
 }
@@ -295,7 +294,7 @@ MTI_MTextCreateProxy(HANDLE text)
 	return CreateProxyWindow(((TextObject *)text)->ftd->getTextService());
 }
 
-INT_PTR MText_CreateProxy(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_CreateProxy(WPARAM wParam, LPARAM)
 {
 	if (!wParam) return 0;
 	return (INT_PTR)MTI_MTextCreateProxy((HANDLE)wParam);
@@ -312,7 +311,7 @@ MTI_MTextDestroy(HANDLE text)
 	return 0;
 }
 
-INT_PTR MText_Destroy(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_Destroy(WPARAM wParam, LPARAM)
 {
 	HANDLE textHandle = (HANDLE)wParam;
 	TextObject *text = (TextObject *)textHandle;
@@ -322,7 +321,7 @@ INT_PTR MText_Destroy(WPARAM wParam, LPARAM lParam)
 
 //---------------------------------------------------------------------------
 // populate the interface
-INT_PTR MText_GetInterface(WPARAM wParam, LPARAM lParam)
+INT_PTR MText_GetInterface(WPARAM, LPARAM lParam)
 {
 	MTEXT_INTERFACE *MText = (MTEXT_INTERFACE *)lParam;
 	if (MText == NULL)

@@ -41,7 +41,7 @@ typedef struct _tagMTEXT_interface {
 	DWORD	version;
 	HANDLE	(DLL_CALLCONV *Register)	(const char *userTitle, DWORD options);
 	HANDLE	(DLL_CALLCONV *Create)		(HANDLE userHandle, TCHAR *text);
-	HANDLE	(DLL_CALLCONV *CreateEx)	(HANDLE userHandle, MCONTACT hContact, void *text, DWORD flags);
+	HANDLE	(DLL_CALLCONV *CreateEx)	(HANDLE userHandle, void *text, DWORD flags);
 	int		(DLL_CALLCONV *Measure)		(HDC dc, SIZE *sz, HANDLE text);
 	int		(DLL_CALLCONV *Display)		(HDC dc, POINT pos, SIZE sz, HANDLE text);
 	int		(DLL_CALLCONV *SetParent)	(HANDLE text, HWND hwnd, RECT rect);

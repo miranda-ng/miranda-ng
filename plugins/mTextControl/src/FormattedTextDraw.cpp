@@ -8,25 +8,25 @@
 
 
 const IID IID_ITextServices = { // 8d33f740-cf58-11ce-a89d-00aa006cadc5
-    0x8d33f740,
-    0xcf58,
-    0x11ce,
-    {0xa8, 0x9d, 0x00, 0xaa, 0x00, 0x6c, 0xad, 0xc5}
-  };
+	0x8d33f740,
+	0xcf58,
+	0x11ce,
+	{ 0xa8, 0x9d, 0x00, 0xaa, 0x00, 0x6c, 0xad, 0xc5 }
+};
 
 const IID IID_ITextHost = { // c5bdd8d0-d26e-11ce-a89e-00aa006cadc5
-    0xc5bdd8d0,
-    0xd26e,
-    0x11ce,
-    {0xa8, 0x9e, 0x00, 0xaa, 0x00, 0x6c, 0xad, 0xc5}
-  };
+	0xc5bdd8d0,
+	0xd26e,
+	0x11ce,
+	{ 0xa8, 0x9e, 0x00, 0xaa, 0x00, 0x6c, 0xad, 0xc5 }
+};
 
-static const IID IID_ITextDocument = {
+const IID IID_ITextDocument = {
 	0x8CC497C0,
 	0xA1DF,
 	0x11CE,
-	{0x80,0x98,0x00,0xAA,0x00,0x47,0xBE,0x5D}
-  };
+	{ 0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D }
+};
 
 /////////////////////////////////////////////////////////////////////////////
 // CallBack functions
@@ -73,7 +73,7 @@ HRESULT CFormattedTextDraw::putRTFTextA(char *newVal)
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	HRESULT hr = m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF), (LPARAM)&editStream, &lResult);
 	return S_OK;
 }
 
@@ -93,7 +93,7 @@ HRESULT CFormattedTextDraw::putRTFTextW(WCHAR *newVal)
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	HRESULT hr = m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF | SF_UNICODE), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF | SF_UNICODE), (LPARAM)&editStream, &lResult);
 	return S_OK;
 
 }
@@ -114,7 +114,7 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	HRESULT hr = m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_TEXT), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_TEXT), (LPARAM)&editStream, &lResult);
 
 	CHARFORMAT cf;
 	cf.cbSize = sizeof(cf);
@@ -142,7 +142,7 @@ HRESULT CFormattedTextDraw::putTextW(WCHAR *newVal)
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 
 	LRESULT lResult = 0;
-	HRESULT hr = m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_TEXT | SF_UNICODE), (LPARAM)&editStream, &lResult);
+	m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_TEXT | SF_UNICODE), (LPARAM)&editStream, &lResult);
 
 	CHARFORMAT cf;
 	cf.cbSize = sizeof(cf);
@@ -237,66 +237,66 @@ HDC CFormattedTextDraw::TxGetDC()
 	return NULL;
 }
 
-INT CFormattedTextDraw::TxReleaseDC(HDC hdc)
+INT CFormattedTextDraw::TxReleaseDC(HDC)
 {
 	return 1;
 }
 
-BOOL CFormattedTextDraw::TxShowScrollBar(INT fnBar, BOOL fShow)
+BOOL CFormattedTextDraw::TxShowScrollBar(INT, BOOL)
 {
 	return FALSE;
 }
 
-BOOL CFormattedTextDraw::TxEnableScrollBar(INT fuSBFlags, INT fuArrowflags)
+BOOL CFormattedTextDraw::TxEnableScrollBar(INT, INT)
 {
 	return FALSE;
 }
 
-BOOL CFormattedTextDraw::TxSetScrollRange(INT fnBar, LONG nMinPos, INT nMaxPos, BOOL fRedraw)
+BOOL CFormattedTextDraw::TxSetScrollRange(INT, LONG, INT, BOOL)
 {
 	return FALSE;
 }
 
-BOOL CFormattedTextDraw::TxSetScrollPos(INT fnBar, INT nPos, BOOL fRedraw)
+BOOL CFormattedTextDraw::TxSetScrollPos(INT, INT, BOOL)
 {
 	return FALSE;
 }
 
-void CFormattedTextDraw::TxInvalidateRect(LPCRECT prc, BOOL fMode)
+void CFormattedTextDraw::TxInvalidateRect(LPCRECT, BOOL)
 {}
 
-void CFormattedTextDraw::TxViewChange(BOOL fUpdate)
+void CFormattedTextDraw::TxViewChange(BOOL)
 {}
 
-BOOL CFormattedTextDraw::TxCreateCaret(HBITMAP hbmp, INT xWidth, INT yHeight)
+BOOL CFormattedTextDraw::TxCreateCaret(HBITMAP, INT, INT)
 {
 	return FALSE;
 }
 
-BOOL CFormattedTextDraw::TxShowCaret(BOOL fShow)
+BOOL CFormattedTextDraw::TxShowCaret(BOOL)
 {
 	return FALSE;
 }
 
-BOOL CFormattedTextDraw::TxSetCaretPos(INT x, INT y)
+BOOL CFormattedTextDraw::TxSetCaretPos(INT, INT)
 {
 	return FALSE;
 }
 
-BOOL CFormattedTextDraw::TxSetTimer(UINT idTimer, UINT uTimeout)
+BOOL CFormattedTextDraw::TxSetTimer(UINT, UINT)
 {
 	return FALSE;
 }
 
-void CFormattedTextDraw::TxKillTimer(UINT idTimer)
+void CFormattedTextDraw::TxKillTimer(UINT)
 {
 }
 
-void CFormattedTextDraw::TxScrollWindowEx(INT dx, INT dy, LPCRECT lprcScroll, LPCRECT lprcClip, HRGN hrgnUpdate, LPRECT lprcUpdate, UINT fuScroll)
+void CFormattedTextDraw::TxScrollWindowEx(INT, INT, LPCRECT, LPCRECT, HRGN, LPRECT, UINT)
 {
 }
 
-void CFormattedTextDraw::TxSetCapture(BOOL fCapture)
+void CFormattedTextDraw::TxSetCapture(BOOL)
 {
 }
 
@@ -327,12 +327,12 @@ BOOL CFormattedTextDraw::TxClientToScreen(LPPOINT lppt)
 	return ClientToScreen(m_hwndParent, lppt);
 }
 
-HRESULT	CFormattedTextDraw::TxActivate(LONG * plOldState)
+HRESULT	CFormattedTextDraw::TxActivate(LONG *)
 {
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxDeactivate(LONG lNewState)
+HRESULT	CFormattedTextDraw::TxDeactivate(LONG)
 {
 	return S_OK;
 }
@@ -384,7 +384,7 @@ HRESULT	CFormattedTextDraw::TxGetScrollBars(DWORD *pdwScrollBar)
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetPasswordChar(TCHAR *pch)
+HRESULT	CFormattedTextDraw::TxGetPasswordChar(TCHAR *)
 {
 	return S_FALSE;
 }
@@ -395,7 +395,7 @@ HRESULT	CFormattedTextDraw::TxGetAcceleratorPos(LONG *pcp)
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetExtent(LPSIZEL lpExtent)
+HRESULT	CFormattedTextDraw::TxGetExtent(LPSIZEL)
 {
 	return E_NOTIMPL;
 }
@@ -412,13 +412,13 @@ HRESULT	CFormattedTextDraw::OnTxParaFormatChange(const PARAFORMAT * ppf)
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxGetPropertyBits(DWORD dwMask, DWORD *pdwBits)
+HRESULT	CFormattedTextDraw::TxGetPropertyBits(DWORD, DWORD *pdwBits)
 {
 	*pdwBits = m_dwPropertyBits;
 	return S_OK;
 }
 
-HRESULT	CFormattedTextDraw::TxNotify(DWORD iNotify, void *pv)
+HRESULT	CFormattedTextDraw::TxNotify(DWORD, void *)
 {
 	return S_OK;
 }
@@ -428,7 +428,7 @@ HIMC CFormattedTextDraw::TxImmGetContext()
 	return NULL;
 }
 
-void CFormattedTextDraw::TxImmReleaseContext(HIMC himc)
+void CFormattedTextDraw::TxImmReleaseContext(HIMC)
 {}
 
 HRESULT	CFormattedTextDraw::TxGetSelectionBarWidth(LONG *lSelBarWidth)

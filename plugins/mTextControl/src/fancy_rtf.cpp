@@ -4,15 +4,17 @@ struct BBCodeInfo
 {
 	TCHAR *start;
 	TCHAR *end;
-	bool (* func)(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD cookie);
+	bool(*func)(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD cookie);
 	DWORD cookie;
 };
 
-enum { BBS_BOLD_S, BBS_BOLD_E, BBS_ITALIC_S, BBS_ITALIC_E, BBS_UNDERLINE_S, BBS_UNDERLINE_E,
+enum {
+	BBS_BOLD_S, BBS_BOLD_E, BBS_ITALIC_S, BBS_ITALIC_E, BBS_UNDERLINE_S, BBS_UNDERLINE_E,
 	BBS_STRIKEOUT_S, BBS_STRIKEOUT_E, BBS_COLOR_S, BBS_COLOR_E, BBS_URL1, BBS_URL2,
-	BBS_IMG1, BBS_IMG2 };
+	BBS_IMG1, BBS_IMG2
+};
 
-static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD cookie)
+static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *, DWORD cookie)
 {
 	CHARFORMAT cf = { 0 };
 	cf.cbSize = sizeof(cf);
@@ -58,7 +60,7 @@ static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *tx
 	return true;
 }
 
-static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD cookie)
+static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, TCHAR *txt, DWORD)
 {
 	ITextServices *ts = ftd->getTextService();
 	ITextDocument *td = ftd->getTextDocument();
@@ -114,7 +116,7 @@ void bbCodeParse(IFormattedTextDraw *ftd)
 		found = false;
 		CHARRANGE fRange; fRange.cpMin = -1;
 		TCHAR *fText = 0;
-		BBCodeInfo *fBBCode;
+		BBCodeInfo *fBBCode = NULL;
 
 		for (int i = 0; i < bbCodeCount; i++) {
 			CHARRANGE range;
