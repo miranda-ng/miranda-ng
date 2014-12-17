@@ -18,7 +18,6 @@ Boston, MA 02111-1307, USA.
 */
 
 #include "mir_smileys.h"
-#include "mir_memory.h"
 #include "utf8_helpers.h"
 
 #include <richedit.h>

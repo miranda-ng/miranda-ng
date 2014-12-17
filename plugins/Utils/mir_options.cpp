@@ -31,7 +31,6 @@ Boston, MA 02111-1307, USA.
 #include <m_system.h>
 
 #include "mir_options.h"
-#include "mir_memory.h"
 
 static TCHAR* MyDBGetContactSettingTString(MCONTACT hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)
 {

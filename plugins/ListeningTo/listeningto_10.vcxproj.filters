@@ -24,9 +24,6 @@
     <ClInclude Include="..\utils\mir_buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\utils\mir_memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_options.h">
       <Filter>Header Files</Filter>
     </ClInclude>

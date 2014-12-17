@@ -19,7 +19,6 @@ Boston, MA 02111-1307, USA.
 
 
 #include "mir_dblists.h"
-#include "mir_memory.h"
 
 #include <stdio.h>
 

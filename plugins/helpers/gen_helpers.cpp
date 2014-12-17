@@ -1,21 +1,22 @@
 /*
-    Helper functions for Miranda-IM (www.miranda-im.org)
-    Copyright 2006 P. Boon
+	Helper functions for Miranda-IM (www.miranda-im.org)
+	Copyright 2006 P. Boon
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	*/
+
 #include "commonheaders.h"
 #include "gen_helpers.h"
 
@@ -35,9 +36,9 @@ TCHAR *Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
-	GetDlgItemText(hwndDlg, nIDDlgItem, res, len+1);
+	GetDlgItemText(hwndDlg, nIDDlgItem, res, len + 1);
 
 	return res;
 }
@@ -48,9 +49,9 @@ TCHAR *Hlp_GetWindowText(HWND hwndDlg)
 	if (len < 0)
 		return NULL;
 
-	TCHAR *res = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
+	TCHAR *res = (TCHAR*)mir_alloc((len + 1)*sizeof(TCHAR));
 	memset(res, 0, ((len + 1) * sizeof(TCHAR)));
-	GetWindowText(hwndDlg, res, len+1);
+	GetWindowText(hwndDlg, res, len + 1);
 
 	return res;
 }
@@ -80,7 +81,7 @@ int AddDebugLogMessageA(const char* fmt, ...)
 	char szText[MAX_DEBUG], szFinal[MAX_DEBUG];
 	va_list va;
 
-	va_start(va,fmt);
+	va_start(va, fmt);
 	mir_vsnprintf(szText, SIZEOF(szText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
@@ -101,7 +102,7 @@ int AddDebugLogMessage(const TCHAR* fmt, ...)
 	char *szFinal;
 	va_list va;
 
-	va_start(va,fmt);
+	va_start(va, fmt);
 	mir_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
@@ -121,7 +122,7 @@ int AddDebugLogMessage(const TCHAR* fmt, ...)
 
 int ttoi(TCHAR *string)
 {
-	return ( string == NULL) ? 0 : _ttoi( string );
+	return (string == NULL) ? 0 : _ttoi(string);
 }
 
 TCHAR *itot(int num)
