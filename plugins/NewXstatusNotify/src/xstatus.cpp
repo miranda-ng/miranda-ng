@@ -15,7 +15,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+	*/
 
 #include "common.h"
 
@@ -107,11 +107,11 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
-				{
-					TCHAR stzType[32];
-					mir_tstrncpy(tmp, GetStatusTypeAsString(xsc->type, stzType), SIZEOF(tmp));
-				}
-				break;
+			{
+				TCHAR stzType[32];
+				mir_tstrncpy(tmp, GetStatusTypeAsString(xsc->type, stzType), SIZEOF(tmp));
+			}
+			break;
 
 			case 't':
 				if (xsc->stzTitle == NULL || xsc->stzTitle[0] == _T('\0'))
@@ -184,16 +184,16 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 	switch (xsc->type) {
 	case TYPE_JABBER_MOOD:
 	case TYPE_JABBER_ACTIVITY:
-		{
-			DBVARIANT dbv;
-			char szSetting[64];
-			mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
-			if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
-				hIcon = Skin_GetIcon(dbv.pszVal);
-				db_free(&dbv);
-			}
-			break;
+	{
+		DBVARIANT dbv;
+		char szSetting[64];
+		mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
+		if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
+			hIcon = Skin_GetIcon(dbv.pszVal);
+			db_free(&dbv);
 		}
+		break;
+	}
 	case TYPE_ICQ_XSTATUS:
 		int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
 		hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
@@ -228,7 +228,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 
 	TCHAR *stzPopupText = ReplaceVars(xsc, Template);
 
-	ShowChangePopup(xsc->hContact, xsc->szProto, hIcon, ID_STATUS_EXTRASTATUS, stzPopupText);
+	ShowChangePopup(xsc->hContact, hIcon, ID_STATUS_EXTRASTATUS, stzPopupText);
 	mir_free(stzPopupText);
 
 	if (copyText) {
@@ -243,7 +243,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 		return;
 
 	HICON hIcon = NULL;
-	TCHAR str[256] = {0};
+	TCHAR str[256] = { 0 };
 	TCHAR stzType[32];
 	mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, xsc->hContact, GCDNF_TCHAR), GetStatusTypeAsString(xsc->type, stzType));
 
@@ -269,7 +269,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	if (hIcon == NULL)
 		hIcon = LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
 
-	BlinkIcon(xsc->hContact, xsc->szProto, hIcon, str);
+	BlinkIcon(xsc->hContact, hIcon, str);
 	mir_free(str);
 }
 
@@ -310,13 +310,13 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 	stzLogText = ReplaceVars(xsc, Template);
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, SIZEOF(stzLastLog), _T(""));
 
-//	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)) {
+	//	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)) {
 	if (opt.XLogToDB/* || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)*/) {
 		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
 
 		char *blob = mir_utf8encodeT(stzLogText);
 
-		DBEVENTINFO dbei = {0};
+		DBEVENTINFO dbei = { 0 };
 		dbei.cbSize = sizeof(dbei);
 		dbei.cbBlob = (DWORD)strlen(blob) + 1;
 		dbei.pBlob = (PBYTE)blob;
@@ -345,8 +345,8 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 
 	TCHAR stzDate[32], stzTime[32], stzText[MAX_TEXT_LEN];
 
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("HH':'mm"), stzTime, SIZEOF(stzTime));
-	GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL,_T("dd/MM/yyyy"), stzDate, SIZEOF(stzDate));
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), stzTime, SIZEOF(stzTime));
+	GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("dd/MM/yyyy"), stzDate, SIZEOF(stzDate));
 
 	TCHAR *Template = _T("");
 	switch (xsc->action) {
@@ -375,7 +375,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 
 	BOOL bEnablePopup = true, bEnableSound = true, bEnableLog = opt.XLogToDB;
 
-	char buff[12] = {0};
+	char buff[12] = { 0 };
 	mir_snprintf(buff, SIZEOF(buff), "%d", ID_STATUS_EXTRASTATUS);
 	if ((db_get_b(0, MODULE, buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
@@ -439,7 +439,7 @@ TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int buffl
 	TCHAR nameBuff[64];
 	buff[0] = 0;
 
-	CUSTOM_STATUS xstatus = {0};
+	CUSTOM_STATUS xstatus = { 0 };
 	xstatus.cbSize = sizeof(CUSTOM_STATUS);
 	xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
 	xstatus.ptszName = nameBuff;
@@ -543,11 +543,11 @@ void AddSMsgEventThread(void *arg)
 	mir_free(smi.newstatusmsg);
 }
 
-int OnWindowEvent(WPARAM wParam, LPARAM lParam)
+int OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData *)lParam;
 	if (mwed->uType == MSG_WINDOW_EVT_CLOSE) {
-		if(opt.XLogToDB && opt.XLogToDB_WinOpen && opt.XLogToDB_Remove)
+		if (opt.XLogToDB && opt.XLogToDB_WinOpen && opt.XLogToDB_Remove)
 			RemoveLoggedEventsXStatus(mwed->hContact);
 
 		if (opt.LogToDB && opt.LogToDB_WinOpen && opt.LogToDB_Remove)

@@ -17,13 +17,13 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+	*/
 
 #include "common.h"
 
-void ShowChangePopup(MCONTACT hContact, char *szProto, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp)
+void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp)
 {
-	POPUPDATAT ppd = {0};
+	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = hIcon;//LoadSkinnedProtoIcon(szProto, iconStatus);
 	_tcsncpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_TCHAR), MAX_CONTACTNAME);
@@ -62,7 +62,7 @@ void ShowChangePopup(MCONTACT hContact, char *szProto, HICON hIcon, WORD newStat
 	PUAddPopupT(&ppd);
 }
 
-static int AwayMsgHook(WPARAM wParam, LPARAM lParam, LPARAM pObj)
+static int AwayMsgHook(WPARAM, LPARAM lParam, LPARAM pObj)
 {
 	PLUGINDATA *pdp = (PLUGINDATA *)pObj;
 	if (pdp == NULL)
@@ -124,14 +124,14 @@ void PopupAction(HWND hWnd, BYTE action)
 			break;
 
 		case PCA_OPENMENU:
-			{
-				POINT pt = {0};
-				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
-				GetCursorPos(&pt);
-				TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, NULL);
-				DestroyMenu(hMenu);
-			}
-			return;
+		{
+			POINT pt = { 0 };
+			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0);
+			GetCursorPos(&pt);
+			TrackPopupMenu(hMenu, 0, pt.x, pt.y, 0, hWnd, NULL);
+			DestroyMenu(hMenu);
+		}
+		return;
 
 		case PCA_OPENDETAILS:
 			CallServiceSync(MS_USERINFO_SHOWDIALOG, hContact, 0);

@@ -17,7 +17,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
+	*/
 
 #ifndef POPUP_H
 #define POPUP_H
@@ -58,7 +58,7 @@ static struct {
 	LPGENT("Do nothing"), PCA_DONOTHING
 };
 
-void ShowChangePopup(MCONTACT hContact, char *szProto, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp = NULL);
+void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp = NULL);
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif
