@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define SetProgress(n)  SendMessage(hdlgProgress,PROGM_SETPROGRESS,n,0)
 
-struct AccountMap
+struct AccountMap : public MZeroedObject
 {
 	AccountMap(const char *_src, int _origIdx, const TCHAR *_srcName) :
 		szSrcAcc(mir_strdup(_src)),
