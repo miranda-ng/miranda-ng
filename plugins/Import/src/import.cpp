@@ -26,12 +26,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct AccountMap
 {
-	AccountMap(const char *_src, const TCHAR *_srcName, PROTOACCOUNT *_dst, const char *szBaseProto) :
+	AccountMap(const char *_src, const TCHAR *_srcName, PROTOACCOUNT *_dst, const char *_szBaseProto) :
 		szSrcAcc(mir_strdup(_src)),
 		tszSrcName(mir_tstrdup(_srcName)),
-		szDstAcc(mir_strdup(_dst->szModuleName)),
+		szDstAcc((_dst == NULL) ? NULL : mir_strdup(_dst->szModuleName)),
 		pa(_dst),
-		szBaseProto(mir_strdup(szBaseProto))
+		szBaseProto(mir_strdup(_szBaseProto))
 	{}
 
 	~AccountMap() {}
