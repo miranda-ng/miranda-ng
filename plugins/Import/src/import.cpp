@@ -24,17 +24,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define SetProgress(n)  SendMessage(hdlgProgress,PROGM_SETPROGRESS,n,0)
 
-struct AccountMap : public MZeroedObject
+struct AccountMap
 {
 	AccountMap(const char *_src, int _origIdx, const TCHAR *_srcName) :
 		szSrcAcc(mir_strdup(_src)),
 		iSrcIndex(_origIdx),
-		tszSrcName(mir_tstrdup(_srcName))
+		tszSrcName(mir_tstrdup(_srcName)),
+		pa(NULL)
 	{}
 
 	~AccountMap() {}
 
-	ptrA szSrcAcc, szDstAcc, szBaseProto;
+	ptrA szSrcAcc, szBaseProto;
 	ptrT tszSrcName;
 	int iSrcIndex;
 	PROTOACCOUNT *pa;
@@ -374,10 +375,10 @@ static bool FindDestAccount(const char *szProto)
 {
 	for (int i = 0; i < arAccountMap.getCount(); i++) {
 		AccountMap &pam = arAccountMap[i];
-		if (pam.szDstAcc == NULL)
+		if (pam.pa == NULL)
 			continue;
 
-		if (!strcmp(pam.szDstAcc, szProto))
+		if (!strcmp(pam.pa->szModuleName, szProto))
 			return true;
 	}
 	
@@ -549,6 +550,11 @@ static MCONTACT AddContact(HWND hdlgProgress, char* szProto, char* pszUniqueSett
 
 void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 {
+	if (pda->pa == NULL)
+		return;
+
+	char *szDstAcc = pda->pa->szModuleName;
+
 	// Hidden?
 	DBVARIANT dbv;
 	if (!myGet(hSrc, "CList", "Hidden", &dbv)) {
@@ -564,37 +570,37 @@ void ImportContactSettings(AccountMap *pda, MCONTACT hSrc, MCONTACT hDst)
 
 	// Apparent mode
 	if (!myGet(hSrc, pda->szSrcAcc, "ApparentMode", &dbv)) {
-		db_set(hDst, pda->szDstAcc, "ApparentMode", &dbv);
+		db_set(hDst, szDstAcc, "ApparentMode", &dbv);
 		srcDb->FreeVariant(&dbv);
 	}
 
 	// Nick
 	if (!myGet(hSrc, pda->szSrcAcc, "Nick", &dbv)) {
-		db_set(hDst, pda->szDstAcc, "Nick", &dbv);
+		db_set(hDst, szDstAcc, "Nick", &dbv);
 		srcDb->FreeVariant(&dbv);
 	}
 
 	// Myhandle
 	if (!myGet(hSrc, pda->szSrcAcc, "MyHandle", &dbv)) {
-		db_set(hDst, pda->szDstAcc, "MyHandle", &dbv);
+		db_set(hDst, szDstAcc, "MyHandle", &dbv);
 		srcDb->FreeVariant(&dbv);
 	}
 
 	// First name
 	if (!myGet(hSrc, pda->szSrcAcc, "FirstName", &dbv)) {
-		db_set(hDst, pda->szDstAcc, "FirstName", &dbv);
+		db_set(hDst, szDstAcc, "FirstName", &dbv);
 		srcDb->FreeVariant(&dbv);
 	}
 
 	// Last name
 	if (!myGet(hSrc, pda->szSrcAcc, "LastName", &dbv)) {
-		db_set(hDst, pda->szDstAcc, "LastName", &dbv);
+		db_set(hDst, szDstAcc, "LastName", &dbv);
 		srcDb->FreeVariant(&dbv);
 	}
 
 	// About
 	if (!myGet(hSrc, pda->szSrcAcc, "About", &dbv)) {
-		db_set(hDst, pda->szDstAcc, "About", &dbv);
+		db_set(hDst, szDstAcc, "About", &dbv);
 		srcDb->FreeVariant(&dbv);
 	}
 }
@@ -770,18 +776,18 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	AccountMap *pda = arAccountMap.find((AccountMap*)&cc->szProto);
-	if (pda == NULL) {
+	if (pda == NULL || pda->pa == NULL) {
 		AddMessage(LPGENT("Skipping contact, account %S cannot be mapped."), cc->szProto);
 		return NULL;
 	}
 
-	if (!IsProtocolLoaded(pda->szDstAcc)) {
+	if (!IsProtocolLoaded(pda->pa->szModuleName)) {
 		AddMessage(LPGENT("Skipping contact, %S not installed."), cc->szProto);
 		return NULL;
 	}
 
 	// Skip protocols with no unique id setting (some non IM protocols return NULL)
-	char *pszUniqueSetting = (char*)CallProtoService(pda->szDstAcc, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+	char *pszUniqueSetting = (char*)CallProtoService(pda->pa->szModuleName, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 	if (!pszUniqueSetting || (INT_PTR)pszUniqueSetting == CALLSERVICE_NOTFOUND) {
 		AddMessage(LPGENT("Skipping non-IM contact (%S)"), cc->szProto);
 		return NULL;
@@ -798,13 +804,13 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	switch (dbv.type) {
 	case DBVT_DWORD:
 		pszUniqueID = _ltot(dbv.dVal, id, 10);
-		hDst = HContactFromNumericID(pda->szDstAcc, pszUniqueSetting, dbv.dVal);
+		hDst = HContactFromNumericID(pda->pa->szModuleName, pszUniqueSetting, dbv.dVal);
 		break;
 
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 		pszUniqueID = NEWTSTR_ALLOCA(_A2T(dbv.pszVal));
-		hDst = HContactFromID(pda->szDstAcc, pszUniqueSetting, pszUniqueID);
+		hDst = HContactFromID(pda->pa->szModuleName, pszUniqueSetting, pszUniqueID);
 		break;
 	}
 
@@ -819,9 +825,9 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	if (tszNick == NULL)
 		tszNick = myGetWs(hSrc, cc->szProto, "Nick");
 
-	hDst = AddContact(hdlgProgress, pda->szDstAcc, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
+	hDst = AddContact(hdlgProgress, pda->pa->szModuleName, pszUniqueSetting, &dbv, pszUniqueID, tszNick, tszGroup);
 	if (hDst == INVALID_CONTACT_ID) {
-		AddMessage(LPGENT("Unknown error while adding %S contact %s"), pda->szDstAcc, pszUniqueID);
+		AddMessage(LPGENT("Unknown error while adding %S contact %s"), pda->pa->szModuleName, pszUniqueID);
 		return INVALID_CONTACT_ID;
 	}
 
