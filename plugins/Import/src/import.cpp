@@ -26,18 +26,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct AccountMap
 {
-	AccountMap(const char *_src, const TCHAR *_srcName, PROTOACCOUNT *_dst, const char *_szBaseProto) :
+	AccountMap(const char *_src, int _origIdx, const TCHAR *_srcName) :
 		szSrcAcc(mir_strdup(_src)),
-		tszSrcName(mir_tstrdup(_srcName)),
-		szDstAcc((_dst == NULL) ? NULL : mir_strdup(_dst->szModuleName)),
-		pa(_dst),
-		szBaseProto(mir_strdup(_szBaseProto))
+		iSrcIndex(_origIdx),
+		tszSrcName(mir_tstrdup(_srcName))
 	{}
 
 	~AccountMap() {}
 
 	ptrA szSrcAcc, szDstAcc, szBaseProto;
 	ptrT tszSrcName;
+	int iSrcIndex;
 	PROTOACCOUNT *pa;
 };
 
@@ -217,15 +216,11 @@ static LRESULT CALLBACK ComboWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 			AccountMap *pMap = (AccountMap*)SendMessage(hwnd, CB_GETITEMDATA, 0, 0);
 
 			int idx = SendMessage(hwnd, CB_GETCURSEL, 0, 0);
-			if (idx == 0) {
-				pMap->tszSrcName = NULL;
+			if (idx == 0)
 				pMap->pa = NULL;
-			}
-			else {
-				PROTOACCOUNT *pa = (PROTOACCOUNT*)SendMessage(hwnd, CB_GETITEMDATA, idx, 0);
-				pMap->pa = pa;
-				pMap->tszSrcName = mir_tstrdup(pa->tszAccountName);
-			}
+			else
+				pMap->pa = (PROTOACCOUNT*)SendMessage(hwnd, CB_GETITEMDATA, idx, 0);
+
 			SetAccountName(iPrevIndex, pMap->pa);
 			iPrevIndex = -1;
 		}
@@ -340,6 +335,8 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		switch (LOWORD(wParam)) {
 		case IDOK:
+			if (hwndCombo != NULL)
+				SendMessage(hwndCombo, WM_KILLFOCUS, 0, (LPARAM)hwndCombo);
 			EndDialog(hwndDlg, IDOK);
 			break;
 
@@ -449,30 +446,28 @@ bool ImportAccounts()
 
 		itoa(800 + i, szSetting, 10);
 		ptrT tszName(myGetWs(NULL, "Protocols", szSetting));
+		AccountMap *pNew = new AccountMap(szProto, i, tszName);
+		arAccountMap.insert(pNew);
 
 		// check if it's an account-based proto or an old style proto
 		char szBaseProto[100];
-		if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto)) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, NULL, NULL));
+		if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto))
 			continue;
-		}
+
+		// save base proto for the future use
+		pNew->szBaseProto = mir_strdup(szBaseProto);
 
 		// try the precise match first
 		PROTOACCOUNT *pa = FindMyAccount(szProto, szBaseProto, tszName, true);
 		if (pa) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, pa, szBaseProto));
+			pNew->pa = pa;
 			continue;
 		}
 
 		// if fail, try to found an account by its name
 		if (pa = FindMyAccount(szProto, szBaseProto, tszName, false)) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, pa, szBaseProto));
+			pNew->pa = pa;
 			bNeedManualMerge = true;
-		}
-		else {
-			if (tszName == NULL)
-				tszName = mir_a2t(szProto);
-			arAccountMap.insert(new AccountMap(szProto, tszName, NULL, szBaseProto));
 		}
 	}
 
@@ -498,17 +493,23 @@ bool ImportAccounts()
 		}
 
 		char szSetting[100];
-		itoa(400 + i, szSetting, 10);
+		itoa(400 + p.iSrcIndex, szSetting, 10);
 		int iVal = myGetD(NULL, "Protocols", szSetting, 1);
 		itoa(400 + pa->iOrder, szSetting, 10);
 		db_set_dw(NULL, "Protocols", szSetting, iVal);
 		pa->bIsVisible = iVal != 0;
 
-		itoa(600 + i, szSetting, 10);
+		itoa(600 + p.iSrcIndex, szSetting, 10);
 		iVal = myGetD(NULL, "Protocols", szSetting, 1);
 		itoa(600 + pa->iOrder, szSetting, 10);
 		db_set_dw(NULL, "Protocols", szSetting, iVal);
 		pa->bIsEnabled = iVal != 0;
+
+		if (p.tszSrcName == NULL) {
+			pa->tszAccountName = mir_a2t(pa->szModuleName);
+			itoa(800 + pa->iOrder, szSetting, 10);
+			db_set_ts(NULL, "Protocols", szSetting, pa->tszAccountName);
+		}
 
 		CopySettings(NULL, p.szSrcAcc, NULL, pa->szModuleName);
 	}
@@ -743,7 +744,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 
 	PROTOACCOUNT *pa = ProtoGetAccount(META_PROTO);
 	if (pa) {
-		AccountMap pda(META_PROTO, _T(META_PROTO), pa, NULL);
+		AccountMap pda(META_PROTO, 0, _T(META_PROTO));
 		ImportContactSettings(&pda, ccSrc->contactID, ccDst->contactID);
 	}
 
