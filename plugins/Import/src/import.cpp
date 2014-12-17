@@ -303,6 +303,7 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		hwndAccMerge = hwndDlg;
 		hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 		{
 			LVCOLUMN col = { 0 };
@@ -344,6 +345,14 @@ static INT_PTR CALLBACK AccountsMatcherProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		case IDCANCEL:
 			EndDialog(hwndDlg, IDCANCEL);
 		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		hwndAccMerge = NULL;
 		break;
 
 	case WM_NOTIFY:

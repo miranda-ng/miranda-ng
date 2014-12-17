@@ -30,7 +30,7 @@ static HANDLE hImportService = NULL;
 HINSTANCE hInst;
 INT_PTR CALLBACK WizardDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-static HWND hwndWizard = NULL;
+HWND hwndWizard, hwndAccMerge;
 int hLangpack;
 
 PLUGININFOEX pluginInfo =
@@ -101,6 +101,8 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 {
 	if (hwndWizard)
 		SendMessage(hwndWizard, WM_CLOSE, 0, 0);
+	if (hwndAccMerge)
+		SendMessage(hwndAccMerge, WM_CLOSE, 0, 0);
 	return 0;
 }
 
