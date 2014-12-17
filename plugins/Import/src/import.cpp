@@ -487,8 +487,8 @@ bool ImportAccounts()
 		newacc.pszInternal = NULL;
 		newacc.ptszAccountName = p.tszSrcName;
 
-		PROTOACCOUNT *pa = ProtoCreateAccount(&newacc);
-		if (pa == NULL) {
+		p.pa = ProtoCreateAccount(&newacc);
+		if (p.pa == NULL) {
 			AddMessage(LPGENT("Unable to create an account %s of protocol %S"), p.tszSrcName, p.szBaseProto);
 			return false;
 		}
@@ -496,23 +496,23 @@ bool ImportAccounts()
 		char szSetting[100];
 		itoa(400 + p.iSrcIndex, szSetting, 10);
 		int iVal = myGetD(NULL, "Protocols", szSetting, 1);
-		itoa(400 + pa->iOrder, szSetting, 10);
+		itoa(400 + p.pa->iOrder, szSetting, 10);
 		db_set_dw(NULL, "Protocols", szSetting, iVal);
-		pa->bIsVisible = iVal != 0;
+		p.pa->bIsVisible = iVal != 0;
 
 		itoa(600 + p.iSrcIndex, szSetting, 10);
 		iVal = myGetD(NULL, "Protocols", szSetting, 1);
-		itoa(600 + pa->iOrder, szSetting, 10);
+		itoa(600 + p.pa->iOrder, szSetting, 10);
 		db_set_dw(NULL, "Protocols", szSetting, iVal);
-		pa->bIsEnabled = iVal != 0;
+		p.pa->bIsEnabled = iVal != 0;
 
 		if (p.tszSrcName == NULL) {
-			pa->tszAccountName = mir_a2t(pa->szModuleName);
-			itoa(800 + pa->iOrder, szSetting, 10);
-			db_set_ts(NULL, "Protocols", szSetting, pa->tszAccountName);
+			p.pa->tszAccountName = mir_a2t(p.pa->szModuleName);
+			itoa(800 + p.pa->iOrder, szSetting, 10);
+			db_set_ts(NULL, "Protocols", szSetting, p.pa->tszAccountName);
 		}
 
-		CopySettings(NULL, p.szSrcAcc, NULL, pa->szModuleName);
+		CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);
 	}
 	return true;
 }
