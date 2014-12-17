@@ -26,16 +26,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct AccountMap
 {
-	AccountMap(const char *_src, const TCHAR *_srcName, PROTOACCOUNT *_dst) :
+	AccountMap(const char *_src, const TCHAR *_srcName, PROTOACCOUNT *_dst, const char *szBaseProto) :
 		szSrcAcc(mir_strdup(_src)),
 		tszSrcName(mir_tstrdup(_srcName)),
 		szDstAcc(mir_strdup(_dst->szModuleName)),
-		pa(_dst)
+		pa(_dst),
+		szBaseProto(mir_strdup(szBaseProto))
 	{}
 
 	~AccountMap() {}
 
-	ptrA szSrcAcc, szDstAcc;
+	ptrA szSrcAcc, szDstAcc, szBaseProto;
 	ptrT tszSrcName;
 	PROTOACCOUNT *pa;
 };
@@ -452,44 +453,51 @@ bool ImportAccounts()
 		// check if it's an account-based proto or an old style proto
 		char szBaseProto[100];
 		if (myGetS(NULL, szProto, "AM_BaseProto", szBaseProto)) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, NULL));
-			bNeedManualMerge = true;
+			arAccountMap.insert(new AccountMap(szProto, tszName, NULL, NULL));
 			continue;
 		}
 
 		// try the precise match first
 		PROTOACCOUNT *pa = FindMyAccount(szProto, szBaseProto, tszName, true);
 		if (pa) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, pa));
+			arAccountMap.insert(new AccountMap(szProto, tszName, pa, szBaseProto));
 			continue;
 		}
 
 		// if fail, try to found an account by its name
 		if (pa = FindMyAccount(szProto, szBaseProto, tszName, false)) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, pa));
+			arAccountMap.insert(new AccountMap(szProto, tszName, pa, szBaseProto));
 			bNeedManualMerge = true;
-			continue;
 		}
+		else {
+			if (tszName == NULL)
+				tszName = mir_a2t(szProto);
+			arAccountMap.insert(new AccountMap(szProto, tszName, NULL, szBaseProto));
+		}
+	}
 
-		itoa(800 + i, szSetting, 10);
-		ptrT tszAccountName(myGetWs(NULL, "Protocols", szSetting));
-		if (tszAccountName == NULL)
-			tszAccountName = mir_a2t(szProto);
+	// all accounts to be converted automatically, no need to raise a dialog
+	if (bNeedManualMerge)
+		if (DialogBox(hInst, MAKEINTRESOURCE(IDD_ACCMERGE), NULL, AccountsMatcherProc) != IDOK)
+			return false;
+
+	for (int i = 0; i < arAccountMap.getCount(); i++) {
+		AccountMap &p = arAccountMap[i];
+		if (p.pa != NULL || p.szBaseProto == NULL || !mir_strcmp(p.szSrcAcc, META_PROTO))
+			continue;
 
 		ACC_CREATE newacc;
-		newacc.pszBaseProto = szBaseProto;
+		newacc.pszBaseProto = p.szBaseProto;
 		newacc.pszInternal = NULL;
-		newacc.ptszAccountName = tszAccountName;
+		newacc.ptszAccountName = p.tszSrcName;
 
-		pa = ProtoCreateAccount(&newacc);
+		PROTOACCOUNT *pa = ProtoCreateAccount(&newacc);
 		if (pa == NULL) {
-			arAccountMap.insert(new AccountMap(szProto, tszName, NULL));
-			bNeedManualMerge = true;
-			continue;
+			AddMessage(LPGENT("Unable to create an account %s of protocol %S"), p.tszSrcName, p.szBaseProto);
+			return false;
 		}
 
-		arAccountMap.insert(new AccountMap(szProto, tszName, pa));
-
+		char szSetting[100];
 		itoa(400 + i, szSetting, 10);
 		int iVal = myGetD(NULL, "Protocols", szSetting, 1);
 		itoa(400 + pa->iOrder, szSetting, 10);
@@ -502,14 +510,9 @@ bool ImportAccounts()
 		db_set_dw(NULL, "Protocols", szSetting, iVal);
 		pa->bIsEnabled = iVal != 0;
 
-		CopySettings(NULL, szProto, NULL, pa->szModuleName);
+		CopySettings(NULL, p.szSrcAcc, NULL, pa->szModuleName);
 	}
-
-	// all accounts to be converted automatically, no need to raise a dialog
-	if (!bNeedManualMerge)
-		return true;
-	
-	return DialogBox(hInst, MAKEINTRESOURCE(IDD_ACCMERGE), NULL, AccountsMatcherProc) == IDOK;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -740,7 +743,7 @@ void ImportMeta(DBCachedContact *ccSrc)
 
 	PROTOACCOUNT *pa = ProtoGetAccount(META_PROTO);
 	if (pa) {
-		AccountMap pda(META_PROTO, _T(META_PROTO), pa);
+		AccountMap pda(META_PROTO, _T(META_PROTO), pa, NULL);
 		ImportContactSettings(&pda, ccSrc->contactID, ccDst->contactID);
 	}
 
@@ -852,7 +855,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 
 	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
-	BYTE* eventBuf = (PBYTE)mir_alloc(cbAlloc);
+	BYTE *eventBuf = (PBYTE)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
 	HANDLE hEvent = srcDb->FindFirstEvent(hContact);
