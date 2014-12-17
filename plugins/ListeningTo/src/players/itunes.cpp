@@ -169,7 +169,7 @@ BOOL ITunes::GetListeningInfo(LISTENINGTOINFO *lti)
 {
 	FreeData();
 
-	if (InitAndGetFilename() && strcmpnullW(filename, ret) != 0)
+	if (InitAndGetFilename() && lstrcmp(filename, ret) != 0)
 	{
 		// Fill the data cache
 		wcscpy(filename, ret);
