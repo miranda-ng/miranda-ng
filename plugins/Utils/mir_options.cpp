@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include <windows.h>
@@ -190,51 +190,51 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 				break;
 
 			case CONTROL_PROTOCOL_LIST:
-				{
-					// Fill list view
-					HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
-					LVCOLUMN lvc;
-					LVITEM lvi;
+			{
+				// Fill list view
+				HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
+				LVCOLUMN lvc;
+				LVITEM lvi;
 
-					ListView_SetExtendedListViewStyle(hwndProtocols, LVS_EX_CHECKBOXES);
+				ListView_SetExtendedListViewStyle(hwndProtocols, LVS_EX_CHECKBOXES);
 
-					memset(&lvc, 0, sizeof(lvc));
-					lvc.mask = LVCF_FMT;
-					lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
-					ListView_InsertColumn(hwndProtocols, 0, &lvc);
+				memset(&lvc, 0, sizeof(lvc));
+				lvc.mask = LVCF_FMT;
+				lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
+				ListView_InsertColumn(hwndProtocols, 0, &lvc);
 
-					memset(&lvi, 0, sizeof(lvi));
-					lvi.mask = LVIF_TEXT | LVIF_PARAM;
-					lvi.iSubItem = 0;
-					lvi.iItem = 1000;
+				memset(&lvi, 0, sizeof(lvi));
+				lvi.mask = LVIF_TEXT | LVIF_PARAM;
+				lvi.iSubItem = 0;
+				lvi.iItem = 1000;
 
-					int count;
-					PROTOACCOUNT **protos;
-					ProtoEnumAccounts(&count, &protos);
+				int count;
+				PROTOACCOUNT **protos;
+				ProtoEnumAccounts(&count, &protos);
 
-					for (int i = 0; i < count; i++) {
-						PROTOACCOUNT *p = protos[i];
-						if (p->szModuleName == NULL || p->szModuleName[0] == '\0')
-							continue;
+				for (int i = 0; i < count; i++) {
+					PROTOACCOUNT *p = protos[i];
+					if (p->szModuleName == NULL || p->szModuleName[0] == '\0')
+						continue;
 
-						if (ctrl->allowProtocol != NULL && !ctrl->allowProtocol(p->szModuleName))
-							continue;
+					if (ctrl->allowProtocol != NULL && !ctrl->allowProtocol(p->szModuleName))
+						continue;
 
-						char *setting = (char *)mir_alloc(128 * sizeof(char));
-						mir_snprintf(setting, 128, ctrl->setting, p->szModuleName);
+					char *setting = (char *)mir_alloc(128 * sizeof(char));
+					mir_snprintf(setting, 128, ctrl->setting, p->szModuleName);
 
-						BOOL show = (BOOL)db_get_b(NULL, module, setting, ctrl->dwDefValue);
+					BOOL show = (BOOL)db_get_b(NULL, module, setting, ctrl->dwDefValue);
 
-						lvi.lParam = (LPARAM)setting;
-						lvi.pszText = p->tszAccountName;
-						lvi.iItem = ListView_InsertItem(hwndProtocols, &lvi);
-						ListView_SetItemState(hwndProtocols, lvi.iItem, INDEXTOSTATEIMAGEMASK(show ? 2 : 1), LVIS_STATEIMAGEMASK);
-					}
-
-					ListView_SetColumnWidth(hwndProtocols, 0, LVSCW_AUTOSIZE);
-					ListView_Arrange(hwndProtocols, LVA_ALIGNLEFT | LVA_ALIGNTOP);
+					lvi.lParam = (LPARAM)setting;
+					lvi.pszText = p->tszAccountName;
+					lvi.iItem = ListView_InsertItem(hwndProtocols, &lvi);
+					ListView_SetItemState(hwndProtocols, lvi.iItem, INDEXTOSTATEIMAGEMASK(show ? 2 : 1), LVIS_STATEIMAGEMASK);
 				}
-				break;
+
+				ListView_SetColumnWidth(hwndProtocols, 0, LVSCW_AUTOSIZE);
+				ListView_Arrange(hwndProtocols, LVA_ALIGNLEFT | LVA_ALIGNTOP);
+			}
+			break;
 
 			case CONTROL_TEXT:
 				SetDlgItemText(hwndDlg, ctrl->nID, MyDBGetContactSettingTString(NULL, module, ctrl->setting, tmp, 1024, ctrl->tszDefValue == NULL ? NULL : TranslateTS(ctrl->tszDefValue)));
@@ -308,122 +308,122 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 		break;
 
 	case WM_NOTIFY:
-		{
-			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
-				for (int i = 0; i < controlsSize; i++) {
-					OptPageControl *ctrl = &controls[i];
+	{
+		LPNMHDR lpnmhdr = (LPNMHDR)lParam;
+		if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
+			for (int i = 0; i < controlsSize; i++) {
+				OptPageControl *ctrl = &controls[i];
 
-					if (GetDlgItem(hwndDlg, ctrl->nID) == NULL)
-						continue;
+				if (GetDlgItem(hwndDlg, ctrl->nID) == NULL)
+					continue;
 
-					switch (ctrl->type) {
-					case CONTROL_CHECKBOX:
-						db_set_b(NULL, module, ctrl->setting, (BYTE)IsDlgButtonChecked(hwndDlg, ctrl->nID));
-						break;
+				switch (ctrl->type) {
+				case CONTROL_CHECKBOX:
+					db_set_b(NULL, module, ctrl->setting, (BYTE)IsDlgButtonChecked(hwndDlg, ctrl->nID));
+					break;
 
-					case CONTROL_SPIN:
-						db_set_w(NULL, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_GETPOS, 0, 0));
-						break;
+				case CONTROL_SPIN:
+					db_set_w(NULL, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_GETPOS, 0, 0));
+					break;
 
-					case CONTROL_COLOR:
-						db_set_dw(NULL, module, ctrl->setting, (DWORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_GETCOLOUR, 0, 0));
-						break;
+				case CONTROL_COLOR:
+					db_set_dw(NULL, module, ctrl->setting, (DWORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_GETCOLOUR, 0, 0));
+					break;
 
-					case CONTROL_RADIO:
-						if (IsDlgButtonChecked(hwndDlg, ctrl->nID))
-							db_set_w(NULL, module, ctrl->setting, (BYTE)ctrl->value);
-						break;
+				case CONTROL_RADIO:
+					if (IsDlgButtonChecked(hwndDlg, ctrl->nID))
+						db_set_w(NULL, module, ctrl->setting, (BYTE)ctrl->value);
+					break;
 
-					case CONTROL_COMBO:
-						db_set_w(NULL, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0));
-						break;
+				case CONTROL_COMBO:
+					db_set_w(NULL, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0));
+					break;
 
-					case CONTROL_PROTOCOL_LIST:
-					{
-						LVITEM lvi = { 0 };
-						HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
-						int i;
+				case CONTROL_PROTOCOL_LIST:
+				{
+					LVITEM lvi = { 0 };
+					HWND hwndProtocols = GetDlgItem(hwndDlg, ctrl->nID);
+					int i;
 
-						lvi.mask = (UINT)LVIF_PARAM;
+					lvi.mask = (UINT)LVIF_PARAM;
 
-						for (i = 0; i < ListView_GetItemCount(hwndProtocols); i++) {
-							lvi.iItem = i;
-							ListView_GetItem(hwndProtocols, &lvi);
+					for (i = 0; i < ListView_GetItemCount(hwndProtocols); i++) {
+						lvi.iItem = i;
+						ListView_GetItem(hwndProtocols, &lvi);
 
-							char *setting = (char *)lvi.lParam;
-							db_set_b(NULL, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, i));
-						}
+						char *setting = (char *)lvi.lParam;
+						db_set_b(NULL, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, i));
 					}
-						break;
+				}
+				break;
 
-					case CONTROL_TEXT:
-					{
-						TCHAR tmp[1024];
-						GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
-						db_set_ts(NULL, module, ctrl->setting, tmp);
-					}
-						break;
+				case CONTROL_TEXT:
+				{
+					TCHAR tmp[1024];
+					GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
+					db_set_ts(NULL, module, ctrl->setting, tmp);
+				}
+				break;
 
-					case CONTROL_INT:
-					{
-						BOOL trans;
-						int val = GetDlgItemInt(hwndDlg, ctrl->nID, &trans, ctrl->min <= 0);
-						if (!trans)
-							val = ctrl->dwDefValue;
-						if (ctrl->max != 0)
-							val = min(val, ctrl->max);
-						if (ctrl->min != 0)
-							val = max(val, ctrl->min);
-						db_set_dw(NULL, module, ctrl->setting, val);
-					}
-						break;
-					case CONTROL_FILE:
-					{
-						TCHAR tmp[1024];
-						GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
-						TCHAR rel[1024];
-						PathToRelative(rel, 1024, tmp);
-						db_set_ts(NULL, module, ctrl->setting, rel);
-					}
-						break;
-					case CONTROL_COMBO_TEXT:
-					{
-						TCHAR tmp[1024];
-						GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
-						db_set_ts(NULL, module, ctrl->setting, tmp);
-					}
-						break;
-					case CONTROL_COMBO_ITEMDATA:
-					{
-						int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
-						db_set_ts(NULL, module, ctrl->setting, (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
-					}
-						break;
-					}
-
-					LoadOpt(ctrl, module);
+				case CONTROL_INT:
+				{
+					BOOL trans;
+					int val = GetDlgItemInt(hwndDlg, ctrl->nID, &trans, ctrl->min <= 0);
+					if (!trans)
+						val = ctrl->dwDefValue;
+					if (ctrl->max != 0)
+						val = min(val, ctrl->max);
+					if (ctrl->min != 0)
+						val = max(val, ctrl->min);
+					db_set_dw(NULL, module, ctrl->setting, val);
+				}
+				break;
+				case CONTROL_FILE:
+				{
+					TCHAR tmp[1024];
+					GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
+					TCHAR rel[1024];
+					PathToRelative(rel, 1024, tmp);
+					db_set_ts(NULL, module, ctrl->setting, rel);
+				}
+				break;
+				case CONTROL_COMBO_TEXT:
+				{
+					TCHAR tmp[1024];
+					GetDlgItemText(hwndDlg, ctrl->nID, tmp, SIZEOF(tmp));
+					db_set_ts(NULL, module, ctrl->setting, tmp);
+				}
+				break;
+				case CONTROL_COMBO_ITEMDATA:
+				{
+					int sel = SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0);
+					db_set_ts(NULL, module, ctrl->setting, (TCHAR *)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETITEMDATA, (WPARAM)sel, 0));
+				}
+				break;
 				}
 
-				return TRUE;
+				LoadOpt(ctrl, module);
 			}
-			else if (lpnmhdr->idFrom != 0 && lpnmhdr->code == LVN_ITEMCHANGED) {
-				// Changed for protocols
-				for (int i = 0; i < controlsSize; i++) {
-					OptPageControl *ctrl = &controls[i];
 
-					if (ctrl->type == CONTROL_PROTOCOL_LIST && ctrl->nID == lpnmhdr->idFrom) {
-						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+			return TRUE;
+		}
+		else if (lpnmhdr->idFrom != 0 && lpnmhdr->code == LVN_ITEMCHANGED) {
+			// Changed for protocols
+			for (int i = 0; i < controlsSize; i++) {
+				OptPageControl *ctrl = &controls[i];
 
-						if (IsWindowVisible(GetDlgItem(hwndDlg, ctrl->nID)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				if (ctrl->type == CONTROL_PROTOCOL_LIST && ctrl->nID == lpnmhdr->idFrom) {
+					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 
-						break;
-					}
+					if (IsWindowVisible(GetDlgItem(hwndDlg, ctrl->nID)) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK))
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
+					break;
 				}
 			}
 		}
-		break;
+	}
+	break;
 
 	case WM_DESTROY:
 		for (int i = 0; i < controlsSize; i++) {

@@ -577,18 +577,18 @@ static char *StatusModeToDbSetting(int status, const char *suffix)
 	static char str[64];
 
 	switch (status) {
-		case ID_STATUS_AWAY: prefix = "Away"; break;
-		case ID_STATUS_NA: prefix = "Na"; break;
-		case ID_STATUS_DND: prefix = "Dnd"; break;
-		case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
-		case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
-		case ID_STATUS_ONLINE: prefix = "On"; break;
-		case ID_STATUS_OFFLINE: prefix = "Off"; break;
-		case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
-		case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
-		case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
-		case ID_STATUS_IDLE: prefix = "Idl"; break;
-		default: return NULL;
+	case ID_STATUS_AWAY: prefix = "Away"; break;
+	case ID_STATUS_NA: prefix = "Na"; break;
+	case ID_STATUS_DND: prefix = "Dnd"; break;
+	case ID_STATUS_OCCUPIED: prefix = "Occupied"; break;
+	case ID_STATUS_FREECHAT: prefix = "FreeChat"; break;
+	case ID_STATUS_ONLINE: prefix = "On"; break;
+	case ID_STATUS_OFFLINE: prefix = "Off"; break;
+	case ID_STATUS_INVISIBLE: prefix = "Inv"; break;
+	case ID_STATUS_ONTHEPHONE: prefix = "Otp"; break;
+	case ID_STATUS_OUTTOLUNCH: prefix = "Otl"; break;
+	case ID_STATUS_IDLE: prefix = "Idl"; break;
+	default: return NULL;
 	}
 	mir_strcpy(str, prefix);
 	mir_strcat(str, suffix);
