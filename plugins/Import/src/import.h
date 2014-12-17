@@ -107,7 +107,7 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 int CreateGroup(const TCHAR* name, MCONTACT hContact);
 
 extern HINSTANCE hInst;
-extern HWND hdlgProgress;
+extern HWND hdlgProgress, hwndAccMerge;
 extern int nImportOption;
 extern int nCustomOptions;
 extern TCHAR importFile[];
