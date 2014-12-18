@@ -103,7 +103,7 @@ void CVkProto::WorkerThread(void*)
 		extern char szBlankUrl[];
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/oauth/authorize", false, &CVkProto::OnOAuthAuthorize)
 			<< INT_PARAM("client_id", VK_APP_ID) 
-			<< CHAR_PARAM("scope", "friends,photos,audio,docs,video,wall,messages,offline,status")
+			<< CHAR_PARAM("scope", "friends,photos,audio,docs,video,wall,messages,offline,status,notifications")
 			<< CHAR_PARAM("redirect_uri", szBlankUrl) 
 			<< CHAR_PARAM("display", "mobile") 
 			<< CHAR_PARAM("response_type", "token")

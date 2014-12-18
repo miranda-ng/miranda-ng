@@ -55,6 +55,7 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 			vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
 			vk_Instances[i]->RetrieveUsersInfo(true);
 			vk_Instances[i]->RetrieveUnreadNews();
+			vk_Instances[i]->RetrieveUnreadNotifications();
 		}
 }
 
@@ -1278,7 +1279,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 
 			int iWidth = json_as_int(json_get(pPhoto, "width"));
 			int iHeight = json_as_int(json_get(pPhoto, "height"));
-			res.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink, iWidth, iHeight);
+			res.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink ? ptszLink : _T(""), iWidth, iHeight);
 			if (m_bAddImgBbc)
 				res.AppendFormat(_T("\n\t[img]%s[/img]"), ptszLink);
 		}
@@ -1365,8 +1366,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), tszImage.GetBuffer());
 			
 			if (ptszDescription)
-				res.AppendFormat(_T("\n\t%s"), ptszDescription ? ptszDescription: _T(""));
-
+				res.AppendFormat(_T("\n\t%s"), ptszDescription);
 		}
 		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
 

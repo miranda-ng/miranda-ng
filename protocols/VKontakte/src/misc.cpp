@@ -631,3 +631,44 @@ int  CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	return 0;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent)
+{
+	CVkNotification vkNotification[] = {
+		{ _T("follow"), vkNull, vkUsers },
+		{ _T("friend_accepted"), vkNull, vkUsers },
+		{ _T("mention"), vkNull, vkPost },
+		{ _T("mention_comments"), vkPost, vkComment },
+		{ _T("wall"), vkNull, vkPost },
+		{ _T("wall_publish"), vkNull, vkPost },
+		{ _T("comment_post"), vkPost, vkComment },
+		{ _T("comment_photo"), vkPhoto, vkComment },
+		{ _T("comment_video"), vkVideo, vkComment },
+		{ _T("reply_comment"), vkComment, vkComment },
+		{ _T("reply_comment_photo"), vkComment, vkComment },
+		{ _T("reply_comment_video"), vkComment, vkComment },
+		{ _T("reply_topic"), vkTopic, vkComment },
+		{ _T("like_post"), vkPost, vkUsers },
+		{ _T("like_comment"), vkComment, vkUsers },
+		{ _T("like_photo"), vkPhoto, vkUsers },
+		{ _T("like_video"), vkVideo, vkUsers },
+		{ _T("like_comment_photo"), vkComment, vkUsers },
+		{ _T("like_comment_video"), vkComment, vkUsers },
+		{ _T("like_comment_topic"), vkComment, vkUsers },
+		{ _T("copy_post"), vkPost, vkCopy },
+		{ _T("copy_photo"), vkPhoto, vkCopy },
+		{ _T("copy_video"), vkVideo, vkCopy },
+		{ _T("mention_comment_photo"), vkPhoto, vkComment },
+		{ _T("mention_comment_video"), vkVideo, vkComment }
+	};
+
+	vkFeedback = vkParent = vkNull;
+	for (int i = 0; i < SIZEOF(vkNotification); i++)
+		if (tszType == vkNotification[i].tszType) {
+			vkFeedback = vkNotification[i].vkFeedback;
+			vkParent = vkNotification[i].vkParent;
+			break;
+		}
+}

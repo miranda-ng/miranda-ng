@@ -113,7 +113,7 @@ BEGIN
     GROUPBOX        "News and event notifications",IDC_STATIC,4,8,293,83
     CTEXT           "WARNING: Causes excessive network traffic!!!",IDC_STATIC,12,19,278,8
     CONTROL         "Enable news feeds",IDC_NEWS_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
-    CONTROL         "Enable event notifications",IDC_NOTIF_ENBL,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,12,41,278,10
+    CONTROL         "Enable event notifications",IDC_NOTIF_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
     CONTROL         "BBCode support on news and event notifications",IDC_BBC_NEWS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
     LTEXT           "Interval for updates (min):",IDC_STATIC,16,67,97,8
