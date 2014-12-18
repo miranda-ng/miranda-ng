@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.31
+;  Version: 0.1.0.32
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -177,6 +177,24 @@ Cоздать комнату чата
 \tРепост от %s%s%s (%s)\n%s
 [\nNews link: %s]
 \nСсылка на новость: %s
+[%s%s%s (%s) commented %%s\n%s]
+%s%s%s (%s) прокомментировал %%s\n%s
+[%s%s%s (%s) posted %%s\n%s]
+%s%s%s (%s) опубликовал %%s\n%s
+[liked you]
+понравилась ваша
+[shared you]
+поделился вашей
+[photo]
+Фото
+[Link]
+Ссылка
+[video]
+Видео
+[post]
+запись
+[topic]
+тема
 [Couldn't save file]
 Невозможно сохранить файл
 [Invalid album id]
@@ -279,8 +297,6 @@ Cоздать комнату чата
 Документ
 [Wall post]
 Запись на стене
-[Link]
-Ссылка
 [Image]
 Изображение
 [Unsupported or unknown attachment type: %s]
