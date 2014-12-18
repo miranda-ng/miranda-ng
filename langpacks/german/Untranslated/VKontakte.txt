@@ -1,0 +1,5 @@
+﻿[%s%s%s (%s) commented %%s\n%s]
+[%s%s%s (%s) posted %%s\n%s]
+[liked your]
+[shared your]
+[post]

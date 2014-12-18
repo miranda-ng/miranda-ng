@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.3
+;  Version: 0.95.3.4
 ;  Authors: Miranda team
 ;============================================================
 [Select this if you want to customize what to import.]
