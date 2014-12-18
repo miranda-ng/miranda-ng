@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.3
+;  Version: 0.95.3.4
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -87,6 +87,8 @@ Miranda нашла следующие профили. Выберите проф�
 Старая учётная запись
 [New account]
 Новая учётная запись
+[Unable to create an account %s of protocol %S]
+Невозможно создать учёиную запись %s протокола %S
 [Failed to add %S contact %s]
 Не удалось добавить %S контакт %s
 [Added %S contact %s, '%s']
