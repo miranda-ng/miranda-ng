@@ -440,10 +440,8 @@ begin
   result:=true;
 
   if CB_SelectData(Dialog,IDC_C_SERVICE,Hash(value.service,StrLen(value.service)))<>CB_ERR then
-;{
     ReloadService(Dialog,value.service,false)
   else
-}
     SetDlgItemTextA(Dialog,IDC_C_SERVICE,value.service);
 
   SetEditFlags(GetDlgItem(Dialog,IDC_C_SERVICE),EF_SCRIPT,
