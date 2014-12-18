@@ -163,14 +163,16 @@ struct CVkUserInfo : public MZeroedObject{
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool  _bIsGroup, CMString& _tszUserNick, CMString& _tszLink) :
+	CVkUserInfo(LONG _UserId, bool  _bIsGroup, CMString& _tszUserNick, CMString& _tszLink, MCONTACT _hContact = NULL) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
 		m_tszUserNick(_tszUserNick),
-		m_tszLink(_tszLink)
+		m_tszLink(_tszLink),
+		m_hContact(_hContact)
 	{}
-	LONG m_UserId;
 
+	LONG m_UserId;
+	MCONTACT m_hContact;
 	CMString m_tszUserNick;
 	CMString m_tszLink;
 	bool m_bIsGroup;
@@ -184,6 +186,13 @@ struct TFakeAckParams
 
 	MCONTACT hContact;
 	int msgid;
+};
+
+enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy };
+
+struct CVkNotification {
+	TCHAR *tszType;
+	VKObjType vkParent, vkFeedback;
 };
 
 struct CVkProto : public PROTO<CVkProto>
@@ -309,11 +318,24 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void AddFeedSpecialUser();
 	void AddFeedEvent(CMString& tszBody, time_t tTime);
-	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);
+	
+	CVkUserInfo * GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
+	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);	
 	CMString GetVkPhotoItem(JSONNODE *pPhotoItem);
+	
 	CMString GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
+
+	CMString GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
+	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
+	CMString GetVkParent(JSONNODE *pParent, VKObjType vkParentType);
+	
 	void RetrieveUnreadNews();
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	
+	void RetrieveUnreadNotifications();
+	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	void SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
 
 	//==== Misc ==========================================================================
 
