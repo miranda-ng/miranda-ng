@@ -320,7 +320,7 @@ static void LoadReplacements(HWND hwndDlg)
 	EnableDisableCtrls(hwndDlg);
 }
 
-static void SaveNewReplacements(BOOL canceled, Dictionary *dict,
+static void SaveNewReplacements(BOOL canceled, Dictionary*,
 	const TCHAR *find, const TCHAR *replace, BOOL useVariables,
 	const TCHAR *original_find, void *param)
 {
