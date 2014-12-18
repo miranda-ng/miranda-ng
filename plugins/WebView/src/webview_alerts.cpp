@@ -234,8 +234,6 @@ void SaveToFile(MCONTACT hContact, char *truncated)
 		char timestring[128], timeprefix[32];
 		char temptime1[32], temptime2[32];
 
-		setlocale(LC_ALL, "");
-
 		time_t ftime = time(NULL);
 		struct tm *nTime = localtime(&ftime);
 

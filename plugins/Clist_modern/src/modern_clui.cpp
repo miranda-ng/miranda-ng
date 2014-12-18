@@ -163,8 +163,6 @@ void CLUI::cliOnCreateClc(void)
 
 int CLUI::OnEvent_ModulesLoaded(WPARAM, LPARAM)
 {
-	setlocale(LC_ALL, "");  //fix for case insensitive comparing
-
 	cliCluiProtocolStatusChanged(0, 0);
 	SleepEx(0, TRUE);
 	g_flag_bOnModulesLoadedCalled = TRUE;

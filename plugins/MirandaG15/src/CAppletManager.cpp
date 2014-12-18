@@ -544,7 +544,6 @@ tstring CAppletManager::GetFormattedTimestamp(tm *tm_time)
 	localtime_s(&tm_now,&now);
 
 	TCHAR buffer[128];
-	setlocale( LC_ALL, "" );
 	
 	if(tm_time->tm_mday != tm_now.tm_mday || tm_time->tm_mon != tm_now.tm_mon)
 	{

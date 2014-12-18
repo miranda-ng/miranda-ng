@@ -520,8 +520,6 @@ extern "C" __declspec(dllexport) int Load(void)
 	HookEvent(ME_OPT_INITIALISE,OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
-	setlocale( LC_ALL, ".ACP");
-
 	if (IsUserAnAdmin())
 		SetTimer(NULL, 777, TIME, TimerProc);
 	else

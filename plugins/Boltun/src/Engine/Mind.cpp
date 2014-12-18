@@ -97,7 +97,6 @@ vector<tstring> Mind::Parse(tstring s)
 void Mind::Load(tstring filename)
 {
 	basic_ifstream<TCHAR, char_traits<TCHAR> > file;
-	setlocale(LC_ALL, "");
 
 	locale ulocale(locale(), new MyCodeCvt);
 	file.imbue(ulocale);

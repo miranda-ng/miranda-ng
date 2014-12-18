@@ -974,8 +974,6 @@ OS OS::m_Data;
 
 void Locale::init()
 {
-	setlocale(LC_ALL, "");
-
 	m_Data.m_ThousandSep = utils::fromA(localeconv()->thousands_sep).c_str()[0];
 	m_Data.m_DecimalPoint = utils::fromA(localeconv()->decimal_point).c_str()[0];
 	m_Data.m_Grouping = localeconv()->grouping;
