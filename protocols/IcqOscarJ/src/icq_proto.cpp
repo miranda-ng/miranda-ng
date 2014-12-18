@@ -1163,7 +1163,7 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 						char *pBody, *pBuffer = pBody = (char *)SAFE_MALLOC(nBodyLength);
 						null_strcpy(pBuffer, szCount, nBodyLength - 1);
 						pBuffer += mir_strlen(pBuffer);
-						*pBuffer++ = char(0xFE);
+						*pBuffer++ = -2;
 						for (i = 0; i < nContacts; i++) {
 							if (contacts[i].uin) {
 								_itoa(contacts[i].uin, szContactUin, 10);
@@ -1172,10 +1172,10 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 							else
 								strcpy(pBuffer, contacts[i].uid);
 							pBuffer += mir_strlen(pBuffer);
-							*pBuffer++ = char(0xFE);
+							*pBuffer++ = -2;
 							strcpy(pBuffer, contacts[i].szNick);
 							pBuffer += mir_strlen(pBuffer);
-							*pBuffer++ = char(0xFE);
+							*pBuffer++ = -2;
 						}
 
 						for (i = 0; i < nContacts; i++) { // release memory
@@ -1188,10 +1188,8 @@ int __cdecl CIcqProto::SendContacts(MCONTACT hContact, int, int nContacts, MCONT
 
 						if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
 							int iRes = icq_SendDirectMessage(hContact, pBody, nBodyLength, pCookieData, NULL);
-
 							if (iRes) {
 								SAFE_FREE((void**)&pBody);
-
 								return iRes; // we succeded, return
 							}
 						}
@@ -1500,7 +1498,7 @@ int __cdecl CIcqProto::SendUrl(MCONTACT hContact, int, const char* url)
 	size_t nBodyLen = nUrlLen + nDescLen + 2;
 	char *szBody = (char *)_alloca(nBodyLen);
 	strcpy(szBody, szDesc);
-	szBody[nDescLen] = char(0xFE); // Separator
+	szBody[nDescLen] = -2; // Separator
 	strcpy(szBody + nDescLen + 1, url);
 
 	if (m_bDCMsgEnabled && IsDirectConnectionOpen(hContact, DIRECTCONN_STANDARD, 0)) {
