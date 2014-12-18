@@ -39,6 +39,11 @@ int       CMenuBar::m_MimIconRefCount = 0;
 
 static int resetLP(WPARAM, LPARAM, LPARAM obj)
 {
+	if (PluginConfig.g_hMenuContext)
+		DestroyMenu(PluginConfig.g_hMenuContext);
+	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
+	TranslateMenu(PluginConfig.g_hMenuContext);
+
 	((CMenuBar*)obj)->resetLP();
 	return 0;
 }
