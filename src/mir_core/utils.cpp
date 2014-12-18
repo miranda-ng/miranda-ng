@@ -380,7 +380,7 @@ MIR_CORE_DLL(int) mir_strcmp(const char *p1, const char *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringA(LOCALE_USER_DEFAULT, 0, p1, -1, p2, -1);
+	return CompareStringA(LOCALE_USER_DEFAULT, 0, p1, -1, p2, -1) - 2;
 }
 
 MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
@@ -389,7 +389,7 @@ MIR_CORE_DLL(int) mir_wstrcmp(const wchar_t *p1, const wchar_t *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringW(LOCALE_USER_DEFAULT, 0, p1, -1, p2, -1);
+	return CompareStringW(LOCALE_USER_DEFAULT, 0, p1, -1, p2, -1) - 2;
 }
 
 MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
@@ -398,7 +398,7 @@ MIR_CORE_DLL(int) mir_strcmpi(const char *p1, const char *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringA(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1);
+	return CompareStringA(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1) - 2;
 }
 
 MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
@@ -407,5 +407,5 @@ MIR_CORE_DLL(int) mir_wstrcmpi(const wchar_t *p1, const wchar_t *p2)
 		return (p2 == NULL) ? 0 : -1;
 	if (p2 == NULL)
 		return 1;
-	return CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1);
+	return CompareStringW(LOCALE_USER_DEFAULT, NORM_IGNORECASE, p1, -1, p2, -1) - 2;
 }
