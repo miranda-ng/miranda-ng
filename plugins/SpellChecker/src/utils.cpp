@@ -162,7 +162,7 @@ public:
 
 	/// @return true when finished an word
 	virtual bool feed(int pos, TCHAR c) = 0;
-	virtual int getFirstCharPos() = 0;
+	virtual int  getFirstCharPos() = 0;
 	virtual void reset() = 0;
 	virtual void deal(const TCHAR *text, bool *mark, bool *replace, TCHAR **replacement) = 0;
 };
@@ -179,13 +179,13 @@ public:
 		reset();
 	}
 
-	void reset()
+	virtual void reset()
 	{
 		last_pos = -1;
 		found_real_char = FALSE;
 	}
 
-	bool feed(int pos, TCHAR c)
+	virtual bool feed(int pos, TCHAR c)
 	{
 		// Is inside a word?
 		if (dict->isWordChar(c) || IsNumber(c)) {
@@ -204,15 +204,12 @@ public:
 		return (last_pos != -1);
 	}
 
-	int getFirstCharPos()
+	virtual int getFirstCharPos()
 	{
-		if (!found_real_char)
-			return -1;
-		else
-			return last_pos;
+		return (!found_real_char) ? -1 : last_pos;
 	}
 
-	void deal(const TCHAR *text, bool *mark, bool *replace, TCHAR **replacement)
+	virtual void deal(const TCHAR *text, bool *mark, bool *replace, TCHAR **replacement)
 	{
 		// Is it correct?
 		if (dict->spell(text))
@@ -242,12 +239,12 @@ public:
 		reset();
 	}
 
-	void reset()
+	virtual void reset()
 	{
 		last_pos = -1;
 	}
 
-	bool feed(int pos, TCHAR c)
+	virtual bool feed(int pos, TCHAR c)
 	{
 		// Is inside a word?
 		if (ar->isWordChar(c)) {
@@ -259,12 +256,12 @@ public:
 		return (last_pos != -1);
 	}
 
-	int getFirstCharPos()
+	virtual int getFirstCharPos()
 	{
 		return last_pos;
 	}
 
-	void deal(const TCHAR *text, bool *mark, bool *replace, TCHAR **replacement)
+	virtual void deal(const TCHAR *text, bool*, bool *replace, TCHAR **replacement)
 	{
 		*replacement = ar->autoReplace(text);
 		if (*replacement != NULL)
@@ -416,14 +413,13 @@ int CheckText(Dialog *dlg, BOOL check_all, FoundWrongWordCallback callback = NUL
 
 			SetNoUnderline(dlg->re, first_char, first_char + dlg->re->GetLineLength(line));
 
-			if (opts.auto_replace_user)
-				errors += CheckTextLine(dlg, line, &AutoReplaceParser(dlg->lang->autoReplace),
-				FALSE, FALSE, TRUE,
-				cur_sel, callback, param);
+			if (opts.auto_replace_user) {
+				AutoReplaceParser parser(dlg->lang->autoReplace);
+				errors += CheckTextLine(dlg, line, &parser, FALSE, FALSE, TRUE, cur_sel, callback, param);
+			}
 
-			errors += CheckTextLine(dlg, line, &SpellParser(dlg->lang),
-											opts.ignore_uppercase, opts.ignore_with_numbers, FALSE,
-											cur_sel, callback, param);
+			SpellParser parser(dlg->lang);
+			errors += CheckTextLine(dlg, line, &parser, opts.ignore_uppercase, opts.ignore_with_numbers, FALSE, cur_sel, callback, param);
 		}
 	}
 
@@ -1195,7 +1191,7 @@ void AddItemsToMenu(Dialog *dlg, HMENU hMenu, POINT pt, HWND hwndOwner)
 
 static void AddWordToDictCallback(BOOL canceled, Dictionary *dict,
 	const TCHAR *find, const TCHAR *replace, BOOL useVariables,
-	const TCHAR *original_find, void *param)
+	const TCHAR *, void *param)
 {
 	if (canceled)
 		return;
@@ -1208,7 +1204,7 @@ static void AddWordToDictCallback(BOOL canceled, Dictionary *dict,
 }
 
 
-BOOL HandleMenuSelection(Dialog *dlg, POINT pt, unsigned selection)
+BOOL HandleMenuSelection(Dialog *dlg, unsigned selection)
 {
 	BOOL ret = FALSE;
 
@@ -1299,7 +1295,7 @@ int MsgWindowPopup(WPARAM, LPARAM lParam)
 	if (mwpd->uType == MSG_WINDOWPOPUP_SHOWING)
 		AddItemsToMenu(dlg, mwpd->hMenu, pt, dlg->hwnd_owner);
 	else if (mwpd->uType == MSG_WINDOWPOPUP_SELECTED)
-		HandleMenuSelection(dlg, pt, mwpd->selection);
+		HandleMenuSelection(dlg, mwpd->selection);
 
 	return 0;
 }
@@ -1338,12 +1334,11 @@ int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner)
 	AddItemsToMenu(dlg, hMenu, pt, hwndOwner);
 
 	// Show menu
-	POINT client = pt;
 	ClientToScreen(hwnd, &pt);
 	int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndOwner, NULL);
 
 	// Do action
-	if (HandleMenuSelection(dlg, client, selection))
+	if (HandleMenuSelection(dlg, selection))
 		selection = 0;
 
 	if (create_menu)
@@ -1380,17 +1375,16 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	// Find the dialog
-	HWND hwnd = NULL;
-	Dialog *dlg;
+	Dialog *dlg = NULL;
 	for (DialogMapType::iterator it = dialogs.begin(); it != dialogs.end(); it++) {
-		dlg = it->second;
-		if (dlg->srmm && dlg->hContact == hContact) {
-			hwnd = it->first;
+		Dialog *p = it->second;
+		if (p->srmm && p->hContact == hContact) {
+			dlg = p;
 			break;
 		}
 	}
 
-	if (hwnd == NULL)
+	if (dlg == NULL)
 		return 0;
 
 	if ((sicd->flags & MBCF_RIGHTBUTTON) == 0) {
@@ -1418,13 +1412,11 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 
 		// Show menu
 		int selection = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, dlg->hwnd, NULL);
-		HandleMenuSelection(dlg, sicd->clickLocation, selection);
+		HandleMenuSelection(dlg, selection);
 		DestroyMenu(hMenu);
 	}
-	else {
-		// Enable / disable
-		HandleMenuSelection(dlg, sicd->clickLocation, 1);
-	}
+	else // Enable / disable
+		HandleMenuSelection(dlg, 1);
 
 	return 0;
 }

@@ -253,59 +253,55 @@ int SuggestMgr::suggest(char*** slst, const char * w, int nsug,
 #ifdef HUNSPELL_EXPERIMENTAL
 int SuggestMgr::suggest_auto(char*** slst, const char * w, int nsug)
 {
-    int nocompoundtwowords = 0;
-    char ** wlst;
-    int oldSug;
+	char w2[MAXWORDUTF8LEN];
+	const char *word = w;
 
-  char w2[MAXWORDUTF8LEN];
-  const char * word = w;
+	// word reversing wrapper for complex prefixes
+	if (complexprefixes) {
+		strcpy(w2, w);
+		if (utf8) reverseword_utf(w2); else reverseword(w2);
+		word = w2;
+	}
 
-  // word reversing wrapper for complex prefixes
-  if (complexprefixes) {
-    strcpy(w2, w);
-    if (utf8) reverseword_utf(w2); else reverseword(w2);
-    word = w2;
-  }
+	char **wlst;
+	if (*slst)
+		wlst = *slst;
+	else {
+		wlst = (char **)malloc(maxSug * sizeof(char *));
+		if (wlst == NULL) return -1;
+	}
 
-    if (*slst) {
-        wlst = *slst;
-    } else {
-        wlst = (char **) malloc(maxSug * sizeof(char *));
-        if (wlst == NULL) return -1;
-    }
+	int oldSug = 0, nocompoundtwowords = 0;
+	for (int cpdsuggest = 0; (cpdsuggest < 2) && (nocompoundtwowords == 0); cpdsuggest++) {
+		// limit compound suggestion
+		if (cpdsuggest > 0) oldSug = nsug;
 
-    for (int cpdsuggest=0; (cpdsuggest<2) && (nocompoundtwowords==0); cpdsuggest++) {
+		// perhaps we made a typical fault of spelling
+		if ((nsug < maxSug) && (nsug > -1))
+			nsug = replchars(wlst, word, nsug, cpdsuggest);
 
-    // limit compound suggestion
-    if (cpdsuggest > 0) oldSug = nsug;
+		// perhaps we made chose the wrong char from a related set
+		if ((nsug < maxSug) && (nsug > -1) && (!cpdsuggest || (nsug < oldSug + maxcpdsugs)))
+			nsug = mapchars(wlst, word, nsug, cpdsuggest);
 
-    // perhaps we made a typical fault of spelling
-    if ((nsug < maxSug) && (nsug > -1))
-    nsug = replchars(wlst, word, nsug, cpdsuggest);
+		if ((cpdsuggest == 0) && (nsug > 0))
+			nocompoundtwowords = 1;
 
-    // perhaps we made chose the wrong char from a related set
-    if ((nsug < maxSug) && (nsug > -1) && (!cpdsuggest || (nsug < oldSug + maxcpdsugs)))
-      nsug = mapchars(wlst, word, nsug, cpdsuggest);
+		// perhaps we forgot to hit space and two words ran together
 
-    if ((cpdsuggest==0) && (nsug>0)) nocompoundtwowords=1;
+		if ((nsug < maxSug) && (nsug > -1) && (!cpdsuggest || (nsug < oldSug + maxcpdsugs)) && check_forbidden(word, strlen(word)))
+			nsug = twowords(wlst, word, nsug, cpdsuggest);
+	} // repeating ``for'' statement compounding support
 
-    // perhaps we forgot to hit space and two words ran together
+	if (nsug < 0) {
+		for (int i = 0; i < maxSug; i++)
+			if (wlst[i] != NULL) free(wlst[i]);
+		free(wlst);
+		return -1;
+	}
 
-    if ((nsug < maxSug) && (nsug > -1) && (!cpdsuggest || (nsug < oldSug + maxcpdsugs)) && check_forbidden(word, strlen(word))) {
-                nsug = twowords(wlst, word, nsug, cpdsuggest);
-        }
-    
-    } // repeating ``for'' statement compounding support
-
-    if (nsug < 0) {
-       for (int i=0;i<maxSug; i++)
-         if (wlst[i] != NULL) free(wlst[i]);
-       free(wlst);
-       return -1;
-    }
-
-    *slst = wlst;
-    return nsug;
+	*slst = wlst;
+	return nsug;
 }
 #endif // END OF HUNSPELL_EXPERIMENTAL CODE
 
