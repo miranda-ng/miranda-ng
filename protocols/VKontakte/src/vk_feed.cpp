@@ -322,20 +322,12 @@ CMString CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType)
 		CMString tszFormat = _T("%s\n%s: https://vk.com/wall%d_%d");
 		tszRes.AppendFormat(tszFormat, TranslateT("post"), TranslateT("Link"), iOwnerId, iId);
 	}
-	else if (vkParentType == vkTopic) {
+	else if (vkParentType == vkTopic || vkParentType == vkComment) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
 		CMString tszTitle = json_as_string(json_get(pParent, "title"));
 
 		CMString tszFormat = _T("%s %s%s%s\n%s: https://vk.com/topic%d_%d");	
-		tszRes.AppendFormat(tszFormat, TranslateT("topic"), tszBBCIn.GetBuffer(), tszTitle.GetBuffer(), tszBBCOut.GetBuffer(), TranslateT("Link"), iOwnerId, iId);
-	}
-	else if (vkParentType == vkComment) {
-		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
-		LONG iId = json_as_int(json_get(pParent, "id"));
-		CMString tszTitle = json_as_string(json_get(pParent, "title"));
-
-		CMString tszFormat = _T("%s %s%s%s\n%s: https://vk.com/topic%d_%d");
 		tszRes.AppendFormat(tszFormat, TranslateT("topic"), tszBBCIn.GetBuffer(), tszTitle.GetBuffer(), tszBBCOut.GetBuffer(), TranslateT("Link"), iOwnerId, iId);
 	}
 
