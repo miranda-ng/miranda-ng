@@ -67,15 +67,6 @@ i18n_init (void)
 #ifdef ENABLE_NLS
   char *locale_dir;
   
-#ifdef HAVE_LC_MESSAGES
-  setlocale (LC_TIME, "");
-  setlocale (LC_MESSAGES, "");
-#else
-# ifndef HAVE_W32_SYSTEM
-  setlocale (LC_ALL, "" );
-# endif
-#endif
-  
   /* Note that for this program we would only need the textdomain call
      because libgpg-error already initializes itself to its locale dir
      (via gpg_err_init or a constructor).  However this is only done

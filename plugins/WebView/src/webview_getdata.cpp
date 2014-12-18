@@ -274,8 +274,6 @@ void GetData(void *param)
 			time_t ftime;
 			struct tm *nTime;
 
-			setlocale(LC_ALL, "");
-
 			if (!db_get_s(hContact, MODULENAME, PRESERVE_NAME_KEY, &dbv)) {
 				memset(&temptime, 0, sizeof(temptime));
 				memset(&tstr, 0, sizeof(tstr));

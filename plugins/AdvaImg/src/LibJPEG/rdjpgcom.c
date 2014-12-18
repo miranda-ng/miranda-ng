@@ -228,11 +228,6 @@ process_COM (int raw)
   int ch;
   int lastch = 0;
 
-  /* Bill Allombert: set locale properly for isprint */
-#ifdef HAVE_LOCALE_H
-  setlocale(LC_CTYPE, "");
-#endif
-
   /* Get the marker parameter length count */
   length = read_2_bytes();
   /* Length includes itself, so must be at least 2 */
@@ -265,11 +260,6 @@ process_COM (int raw)
     length--;
   }
   printf("\n");
-
-  /* Bill Allombert: revert to C locale */
-#ifdef HAVE_LOCALE_H
-  setlocale(LC_CTYPE, "C");
-#endif
 }
 
 

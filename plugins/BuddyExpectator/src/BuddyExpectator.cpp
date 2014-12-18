@@ -670,8 +670,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	setlocale(LC_ALL, "English"); // Set English locale
-
 	InitOptions();
 
 	hContactReturnedAction = CreateServiceFunction("BuddyExpectator/actionReturned", ContactReturnedAction);

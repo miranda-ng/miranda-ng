@@ -198,8 +198,6 @@ extern "C" int __declspec(dllexport) Load()
 
 	CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&g_cbCountries, (LPARAM)&g_countries);
 
-	setlocale(LC_ALL, "");
-
 	hExtListInit = CreateHookableEvent(ME_JABBER_EXTLISTINIT);
 	hDiscoInfoResult = CreateHookableEvent(ME_JABBER_SRVDISCOINFO);
 

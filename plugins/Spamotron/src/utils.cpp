@@ -6,7 +6,7 @@ TCHAR *_tcstolower(TCHAR *dst)
 {
 	if (dst == NULL)
 		return NULL;
-	setlocale(LC_ALL, "");
+	
 	SIZE_T dst_len = _tcslen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
 		dst[i] = _totlower(dst[i]);
@@ -17,7 +17,7 @@ TCHAR *_tcstoupper(TCHAR *dst)
 {
 	if (dst == NULL)
 		return NULL;
-	setlocale(LC_ALL, "");
+	
 	SIZE_T dst_len = _tcslen(dst);
 	for (SIZE_T i = 0; i < dst_len; i ++)
 		dst[i] = _totupper(dst[i]);
