@@ -152,10 +152,12 @@ void DoCheck(bool bSilent);
 void UninitCheck(void);
 void UninitListNew(void);
 
-struct AutoHandle
+class AutoHandle
 {
 	HANDLE &m_handle;
+	AutoHandle& operator=(const AutoHandle&) { return *this; }
 
+public:
 	AutoHandle(HANDLE &_handle) : m_handle(_handle) {}
 	~AutoHandle()
 	{
@@ -164,9 +166,6 @@ struct AutoHandle
 			m_handle = 0;
 		}
 	}
-
-private:
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////
