@@ -1341,7 +1341,6 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	DWORD dwCookie;
 	char* puszText = NULL;
 	int bNeedFreeU = 0;
-	cookie_message_data *pCookieData = NULL;
 
 	// Invalid contact
 	DWORD dwUin;
@@ -1396,7 +1395,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			}
 
 			// Set up the ack type
-			pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, TRUE);
+			cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, TRUE);
 			pCookieData->nAckType = ACKTYPE_CLIENT;
 			dwCookie = icq_SendDirectMessage(hContact, dc_msg, mir_strlen(dc_msg), pCookieData, dc_cap);
 
@@ -1444,7 +1443,7 @@ int __cdecl CIcqProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 			return dwCookie;
 		}
 
-		pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, FALSE);
+		cookie_message_data *pCookieData = CreateMessageCookieData(MTYPE_PLAIN, hContact, dwUin, FALSE);
 
 		if (plain_ascii)
 			dwCookie = icq_SendChannel1Message(dwUin, szUID, hContact, puszText, pCookieData);
