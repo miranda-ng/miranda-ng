@@ -47,14 +47,11 @@ static const char b64t[65] =
 char *yahoo_crypt(char *key, char *salt)
 {
 	char *buffer = NULL;
-	int buflen = 0;
-	int needed = 3 + strlen (salt) + 1 + 26 + 1;
+	size_t buflen = 0, needed = 3 + strlen (salt) + 1 + 26 + 1;
 
 	BYTE alt_result[16];
 	mir_md5_state_t ctx;
 	mir_md5_state_t alt_ctx;
-	int salt_len;
-	int key_len;
 	int cnt;
 	char *cp;
 
@@ -70,8 +67,8 @@ char *yahoo_crypt(char *key, char *salt)
 		/* Skip salt prefix.  */
 		salt += sizeof (md5_salt_prefix) - 1;
 
-	salt_len = (int)MIN (strcspn (salt, "$"), 8);
-	key_len = (int)strlen (key);
+	int salt_len = (int)MIN(strcspn(salt, "$"), 8);
+	int key_len = (int)strlen(key);
 
 	/* Prepare for the real work.  */
 	mir_md5_init(&ctx);
