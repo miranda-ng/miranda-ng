@@ -29,11 +29,8 @@
 #ifndef __CONTACTCACHE_H
 #define __CONTACTCACHE_H
 
-#define C_INVALID_PROTO "<proto error>"
 #define C_INVALID_ACCOUNT _T("<account error>")
-#define C_INVALID_PROTO_T _T("<proto error>")
 #define HISTORY_INITIAL_ALLOCSIZE 300
-
 
 struct TInputHistory {
 	TCHAR*	szText;
