@@ -675,37 +675,25 @@ public:
 
 	static LPSTR __stdcall StringUppercase(LPSTR psz)
 	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		return reinterpret_cast< LPSTR >(_mbsupr(reinterpret_cast< unsigned char* >(psz)));
-#pragma warning (pop)
+		CharUpperBuffA(psz, (DWORD)strlen(psz));
+		return psz;
 	}
 
 	static LPSTR __stdcall StringLowercase(LPSTR psz)
 	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		return reinterpret_cast< LPSTR >(_mbslwr(reinterpret_cast< unsigned char* >(psz)));
-#pragma warning (pop)
+		CharLowerBuffA(psz, (DWORD)strlen(psz));
+		return psz;
 	}
 
 	static LPSTR __stdcall StringUppercase(LPSTR psz, size_t size)
 	{
-		#if _MSC_VER >= 1400
-			_mbsupr_s(reinterpret_cast< unsigned char* >(psz), size);
-		#else
-			_mbsupr(reinterpret_cast< unsigned char* >(psz));
-		#endif
+		CharUpperBuffA(psz, (DWORD)size);
 		return psz;
 	}
 
 	static LPSTR __stdcall StringLowercase(LPSTR psz, size_t size)
 	{
-		#if _MSC_VER >= 1400
-			_mbslwr_s(reinterpret_cast< unsigned char* >(psz), size);
-		#else
-			_mbslwr(reinterpret_cast< unsigned char* >(psz));
-		#endif
+		CharLowerBuffA(psz, (DWORD)size);
 		return psz;
 	}
 
@@ -923,28 +911,26 @@ public:
 
 	static LPWSTR __stdcall StringUppercase(LPWSTR psz)
 	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		return _wcsupr(psz);
-#pragma warning (pop)
+		CharUpperBuffW(psz, (DWORD)wcslen(psz));
+		return psz;
 	}
 
 	static LPWSTR __stdcall StringLowercase(LPWSTR psz)
 	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		return _wcslwr(psz);
-#pragma warning (pop)
+		CharLowerBuffW(psz, (DWORD)wcslen(psz));
+		return psz;
 	}
 
-	static LPWSTR __stdcall StringUppercase(LPWSTR psz, size_t)
+	static LPWSTR __stdcall StringUppercase(LPWSTR psz, size_t len)
 	{
-		return _wcsupr(psz);
+		CharUpperBuffW(psz, (DWORD)len);
+		return psz;
 	}
 
-	static LPWSTR __stdcall StringLowercase(LPWSTR psz, size_t)
+	static LPWSTR __stdcall StringLowercase(LPWSTR psz, size_t len)
 	{
-		return _wcslwr(psz);
+		CharLowerBuffW(psz, (DWORD)len);
+		return psz;
 	}
 
 	static LPWSTR __stdcall StringReverse(LPWSTR psz)
