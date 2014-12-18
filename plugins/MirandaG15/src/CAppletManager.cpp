@@ -142,14 +142,14 @@ bool CAppletManager::Shutdown()
 		return false;
 
 	// stop the update timer
-	KillTimer(0,m_uiTimer);
+	KillTimer(0, m_uiTimer);
 	
 	// delete status bitmaps
-	for(int i=0;i<8;i++)
+	for(int i = 0; i < 8; i++)
 		DeleteObject(m_ahStatusBitmaps[i]);
 
 	// delete event bitmaps
-	for(int i=0;i<8;i++)
+	for(int i = 0; i < 4; i++)
 	{
 		DeleteObject(m_ahLargeEventBitmaps[i]);	
 		DeleteObject(m_ahEventBitmaps[i]);
