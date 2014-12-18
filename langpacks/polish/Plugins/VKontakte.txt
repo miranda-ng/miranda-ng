@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.31
+;  Version: 0.1.0.32
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -182,6 +182,24 @@ Coś nowego u %s%s%s (%s)\n%s
 \tUdostępniony element %s%s%s (%s)\n%s
 [\nNews link: %s]
 \nLink do aktualności: %s
+[%s%s%s (%s) commented %%s\n%s]
+%s%s%s (%s) skomentował/a %%s\n%s
+[%s%s%s (%s) posted %%s\n%s]
+%s%s%s (%s) opublikował/a %%s\n%s
+[liked your]
+polubił/a twój
+[shared your]
+udostępnił/a twój
+[photo]
+zdjęcie
+[Link]
+Link
+[video]
+film
+[post]
+post
+[topic]
+temat
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Nie udało się zapisać pliku
@@ -289,8 +307,6 @@ Wideo
 Dokument
 [Wall post]
 Post na tablicy
-[Link]
-Link
 [Image]
 Obraz
 [Unsupported or unknown attachment type: %s]
