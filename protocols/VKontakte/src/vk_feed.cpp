@@ -277,7 +277,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 				tszUsers += _T(", ");
 			tszUsers.AppendFormat(_T("%s%s%s (%s)"), tszBBCIn.GetBuffer(), vkUser->m_tszUserNick.GetBuffer(), tszBBCOut.GetBuffer(), vkUser->m_tszLink.GetBuffer());
 		}
-		tszRes.AppendFormat(_T("User(s) %s %s %%s"), tszUsers.GetBuffer(), (vkFeedbackType == VKObjType::vkUsers) ? TranslateT("liked you") : TranslateT("shared you"));
+		tszRes.AppendFormat(_T("User(s) %s %s %%s"), tszUsers.GetBuffer(), (vkFeedbackType == VKObjType::vkUsers) ? TranslateT("liked your") : TranslateT("shared your"));
 		vkUser = NULL;
 		iUserId = 0;
 	}
