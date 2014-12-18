@@ -1,3 +1,4 @@
 ﻿[Choose appropriate accounts for import]
 [Old account]
+[Unable to create an account %s of protocol %S]
 [Error mapping accounts, exiting.]
