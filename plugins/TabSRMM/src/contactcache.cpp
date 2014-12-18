@@ -61,7 +61,7 @@ void CContactCache::initPhaseTwo()
 {
 	m_szAccount = 0;
 	if (cc->szProto) {
-		PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)cc->szProto));
+		PROTOACCOUNT *acc = ProtoGetAccount(cc->szProto);
 		if (acc && acc->tszAccountName)
 			m_szAccount = acc->tszAccountName;
 	}
@@ -75,7 +75,6 @@ void CContactCache::initPhaseTwo()
 		updateFavorite();
 	}
 	else {
-		cc->szProto = C_INVALID_PROTO;
 		m_szAccount = C_INVALID_ACCOUNT;
 		m_isMeta = false;
 	}
