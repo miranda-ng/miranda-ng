@@ -952,31 +952,99 @@ static LRESULT CALLBACK TabSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, TabSubclassProc, msg, wParam, lParam);
 }
 
+static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *si)
+{
+	static int currentHovered = -1;
+	static HWND hwndToolTip = NULL;
+	static HWND oldParent = NULL;
+
+	if (hoveredItem == currentHovered)
+		return;
+
+	currentHovered = hoveredItem;
+
+	if (oldParent != hwnd && hwndToolTip) {
+		SendMessage(hwndToolTip, TTM_DELTOOL, 0, 0);
+		DestroyWindow(hwndToolTip);
+		hwndToolTip = NULL;
+	}
+	if (hoveredItem == -1) {
+		SendMessage(hwndToolTip, TTM_ACTIVATE, 0, 0);
+		return;
+	}
+
+	BOOL bNewTip = FALSE;
+	if (!hwndToolTip) {
+		hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
+			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
+			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+			hwnd, NULL, g_hInst, NULL);
+		bNewTip = TRUE;
+	}
+
+	RECT clientRect;
+	GetClientRect(hwnd, &clientRect);
+	TOOLINFO ti = { sizeof(TOOLINFO) };
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hinst = g_hInst;
+	ti.hwnd = hwnd;
+	ti.uId = 1;
+	ti.rect = clientRect;
+
+	TCHAR tszBuf[1024]; tszBuf[0] = 0;
+	USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, currentHovered);
+	if (ui) {
+		if (ProtoServiceExists(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT)) {
+			TCHAR *p = (TCHAR*)ProtoCallService(si->pszModule, MS_GC_PROTO_GETTOOLTIPTEXT, (WPARAM)si->ptszID, (LPARAM)ui->pszUID);
+			if (p != NULL) {
+				_tcsncpy_s(tszBuf, p, _TRUNCATE);
+				mir_free(p);
+			}
+		}
+
+		if (tszBuf[0] == 0)
+			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
+			TranslateT("Nickname"), ui->pszNick,
+			TranslateT("Unique ID"), ui->pszUID,
+			TranslateT("Status"), pci->TM_WordToString(si->pStatuses, ui->Status));
+
+		ti.lpszText = tszBuf;
+	}
+
+	SendMessage(hwndToolTip, bNewTip ? TTM_ADDTOOL : TTM_UPDATETIPTEXT, 0, (LPARAM)&ti);
+	SendMessage(hwndToolTip, TTM_ACTIVATE, ti.lpszText != NULL, 0);
+	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, 400);
+}
+
 static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
+	int height;
+
 	switch (msg) {
 	case WM_ERASEBKGND:
 		{
 			HDC dc = (HDC)wParam;
-			SESSION_INFO* parentdat =(SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
-			if (dc) {
-				int height, index, items = 0;
+			if (dc == NULL)
+				return 0;
 
-				index = SendMessage(hwnd, LB_GETTOPINDEX, 0, 0);
-				if (index == LB_ERR || parentdat->nUsersInNicklist <= 0)
-					return 0;
+			int index = SendMessage(hwnd, LB_GETTOPINDEX, 0, 0);
+			if (index == LB_ERR || si->nUsersInNicklist <= 0)
+				return 0;
 
-				items = parentdat->nUsersInNicklist - index;
-				height = SendMessage(hwnd, LB_GETITEMHEIGHT, 0, 0);
+			height = SendMessage(hwnd, LB_GETITEMHEIGHT, 0, 0);
+			if (height == LB_ERR)
+				return 0;
+			
+			RECT rc = { 0 };
+			GetClientRect(hwnd, &rc);
 
-				if (height != LB_ERR) {
-					RECT rc = {0};
-					GetClientRect(hwnd, &rc);
-
-					if (rc.bottom-rc.top > items * height) {
-						rc.top = items*height;
-						FillRect(dc, &rc, pci->hListBkgBrush);
-		}	}	}	}
+			int items = si->nUsersInNicklist - index;
+			if (rc.bottom - rc.top > items * height) {
+				rc.top = items * height;
+				FillRect(dc, &rc, pci->hListBkgBrush);
+			}
+		}
 		return 1;
 
 	case WM_KEYDOWN:
@@ -1011,11 +1079,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return FALSE;
 
 	case WM_CONTEXTMENU:
+		TVHITTESTINFO hti;
 		{
-			int height;
-			SESSION_INFO* parentdat =(SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
-
-			TVHITTESTINFO hti;
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
 			if (hti.pt.x == -1 && hti.pt.y == -1) {
@@ -1028,7 +1093,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			else ScreenToClient(hwnd, &hti.pt);
 
 			int item = LOWORD(SendDlgItemMessage(GetParent(hwnd), IDC_LIST, LB_ITEMFROMPOINT, 0, MAKELPARAM(hti.pt.x, hti.pt.y)));
-			USERINFO *ui = pci->SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, item);
+			USERINFO *ui = pci->SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 			if (ui) {
 				USERINFO uinew;
 				memcpy(&uinew, ui, sizeof(USERINFO));
@@ -1037,17 +1102,17 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 				ClientToScreen(hwnd, &hti.pt);
 
 				HMENU hMenu = 0;
-				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, parentdat, uinew.pszUID, uinew.pszNick);
+				UINT uID = CreateGCMenu(hwnd, &hMenu, 0, hti.pt, si, uinew.pszUID, uinew.pszNick);
 				switch (uID) {
 				case 0:
 					break;
 
 				case ID_MESS:
-					pci->DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
+					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 					break;
 
 				default:
-					pci->DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
+					pci->DoEventHookAsync(GetParent(hwnd), si->ptszID, si->pszModule, GC_USER_NICKLISTMENU, ui->pszUID, NULL, (LPARAM)uID);
 					break;
 				}
 				DestroyGCMenu(&hMenu, 1);
@@ -1056,12 +1121,27 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_MOUSEMOVE:
-		SESSION_INFO* parentdat = (SESSION_INFO*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
-		if (parentdat) {
-			POINT p;
-			GetCursorPos(&p);
-			SendMessage(parentdat->hwndTooltip, TTM_TRACKPOSITION, 0, (LPARAM)MAKELPARAM(p.x + 15, p.y + 15));
+		POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+		RECT clientRect;
+		GetClientRect(hwnd, &clientRect);
+		BOOL bInClient = PtInRect(&clientRect, pt);
+		// Mouse capturing/releasing
+		if (bInClient && GetCapture() != hwnd)
+			SetCapture(hwnd);
+		else if (!bInClient)
+			ReleaseCapture();
+
+		if (bInClient) {
+			// hit test item under mouse
+			DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, lParam);
+			if (HIWORD(nItemUnderMouse) == 1)
+				nItemUnderMouse = (DWORD)(-1);
+			else
+				nItemUnderMouse &= 0xFFFF;
+
+			ProcessNickListHovering(hwnd, (int)nItemUnderMouse, si);
 		}
+		else ProcessNickListHovering(hwnd, -1, NULL);
 		break;
 	}
 
@@ -1154,23 +1234,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			TabCtrl_SetMinTabWidth(GetDlgItem(hwndDlg, IDC_TAB), 80);
 			TabCtrl_SetImageList(GetDlgItem(hwndDlg, IDC_TAB), hIconsList);
 
-			// enable tooltips
-			si->iOldItemID = -1;
-			si->hwndTooltip = CreateWindow(TOOLTIPS_CLASS, NULL, TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, hNickList, (HMENU)NULL, g_hInst, NULL);
-			SetWindowPos(si->hwndTooltip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-			{
-				TOOLINFO ti = { 0 };
-				ti.cbSize = sizeof(TOOLINFO);
-				ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS | TTF_TRANSPARENT;
-				ti.hwnd = hwndDlg;
-				ti.hinst = g_hInst;
-				ti.uId = (UINT_PTR)hNickList;
-				ti.lpszText = LPSTR_TEXTCALLBACK;
-				SendMessage(si->hwndTooltip, TTM_ADDTOOL, 0, (LPARAM)&ti);
-				SendMessage(si->hwndTooltip, TTM_SETDELAYTIME, TTDT_AUTOPOP, 20000);
-				SendMessage(si->hwndTooltip, TTM_SETMAXTIPWIDTH, 0, 300);
-			}
-
 			// restore previous tabs
 			if (g_Settings.bTabsEnable && g_Settings.TabRestore) {
 				TABLIST *node = g_TabList;
@@ -1259,12 +1322,12 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			switch(si->iType) {
 			case GCW_CHATROOM:
 				mir_sntprintf(szTemp, SIZEOF(szTemp),
-					(si->nUsersInNicklist ==1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
+					(si->nUsersInNicklist == 1) ? TranslateT("%s: chat room (%u user)") : TranslateT("%s: chat room (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_PRIVMESS:
 				mir_sntprintf(szTemp, SIZEOF(szTemp),
-					(si->nUsersInNicklist ==1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
+					(si->nUsersInNicklist == 1) ? TranslateT("%s: message session") : TranslateT("%s: message session (%u users)"),
 					si->ptszName, si->nUsersInNicklist);
 				break;
 			case GCW_SERVER:
@@ -1304,7 +1367,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case GC_SETWINDOWPOS:
 		{
-			SESSION_INFO* pActive = pci->GetActiveSession();
+			SESSION_INFO *pActive = pci->GetActiveSession();
 			RECT screen;
 			int savePerContact = db_get_b(NULL, CHAT_MODULE, "SavePosition", 0);
 
@@ -2532,16 +2595,6 @@ LABEL_SHOWWINDOW:
 		DestroyWindow(si->hwndStatus);
 		si->hwndStatus = NULL;
 
-		if (si->hwndTooltip != NULL) {
-			HWND hNickList = GetDlgItem(hwndDlg, IDC_LIST);
-			TOOLINFO ti = { 0 };
-			ti.cbSize = sizeof(TOOLINFO);
-			ti.uId = (UINT_PTR)hNickList;
-			ti.hwnd = hNickList;
-			SendMessage(si->hwndTooltip, TTM_DELTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
-		}
-		DestroyWindow(si->hwndTooltip);
-		si->hwndTooltip = NULL;
 		if (si->pAccPropServicesForNickList) si->pAccPropServicesForNickList->Release();
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;

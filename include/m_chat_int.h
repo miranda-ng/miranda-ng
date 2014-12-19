@@ -221,9 +221,6 @@ struct GCSessionInfoBase
    USERINFO*   pMe;
    STATUSINFO* pStatuses;
 
-   HWND        hwndTooltip;
-   int         iOldItemID;
-
 	TCHAR       pszLogFileName[MAX_PATH];
 	SESSION_INFO *next;
 };
