@@ -257,11 +257,11 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 
 	if (vkFeedbackType == vkComment) {
 		iUserId = json_as_int(json_get(pFeedback, "from_id"));
-		tszFormat = TranslateT("%s%s%s (%s) %%s %%s\n%s");		
+		tszFormat = _T("%s%s%s (%s) %%s %%s\n%s");		
 	}
 	else if (vkFeedbackType == vkPost) {		
 		iUserId = json_as_int(json_get(pFeedback, "owner_id "));
-		tszFormat = TranslateT("%s%s%s (%s) %%s %%s\n%s");		
+		tszFormat = _T("%s%s%s (%s) %%s %%s\n%s");		
 	}
 	else if (vkFeedbackType == VKObjType::vkUsers || vkFeedbackType == vkCopy){
 		JSONNODE *pUsers = json_get(pFeedback, "items"), *pUserItem;
