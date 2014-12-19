@@ -2,20 +2,14 @@ unit ua;
 
 interface
 
-procedure Init;
-procedure DeInit;
-function AddOptionPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
-
 implementation
 
 uses
   windows, commctrl, messages,
-  mirutils, common, dbsettings, io, m_api, wrapper,
+  mirutils, common, dbsettings, io, m_api, wrapper, editwrapper,
   global;
 
 {$R ua.res}
-
-{$include m_actman.inc}
 
 {$include i_uconst.inc}
 {$include i_uavars.inc}
@@ -53,53 +47,54 @@ var
 
 // ------------ base interface functions -------------
 
+procedure CheckPlacesAbility;
 var
-  iohook:THANDLE;
-  hontabloaded,
-  honttbloaded,
-  ontabbtnpressed,
-  onactchanged:THANDLE;
-  hPreBuildMMenu,
-  hPreBuildCMenu,
-  hPreBuildTMenu:THANDLE;
+  i:integer;
+begin
+  for i:=0 to NumTypes-1 do
+  begin
+    with NamesArray[i] do
+    begin
+      enable:=(service=nil) or (ServiceExists(service)<>0);
+    end;
+  end;
+end;
 
 procedure Init;
 begin
   GetModuleFileNameW(hInstance,szMyPath,MAX_PATH);
 
-  hServiceWithLParam:=CreateServiceFunction(SERVICE_WITH_LPARAM_NAME,@ServiceCallWithLParam);
-  hTTBService       :=CreateServiceFunction(TTB_SERVICE_NAME        ,@TTBServiceCall);
+  CreateServiceFunction(SERVICE_WITH_LPARAM_NAME,@ServiceCallWithLParam);
+  CreateServiceFunction(TTB_SERVICE_NAME        ,@TTBServiceCall);
   CheckPlacesAbility;
 
   CreateUActionList;
 
-  honttbloaded   :=HookEvent(ME_TTB_MODULELOADED ,@OnTTBLoaded);
-  hontabloaded   :=HookEvent(ME_MSG_TOOLBARLOADED,@OnTabBBLoaded);
-  ontabbtnpressed:=HookEvent(ME_MSG_BUTTONPRESSED,@OnTabButtonPressed);
-  onactchanged   :=HookEvent(ME_ACT_CHANGED      ,@ActListChange);
+  HookEvent(ME_TTB_MODULELOADED ,@OnTTBLoaded);
+  HookEvent(ME_MSG_TOOLBARLOADED,@OnTabBBLoaded);
+  HookEvent(ME_MSG_BUTTONPRESSED,@OnTabButtonPressed);
+  HookEvent(ME_ACT_CHANGED      ,@ActListChange);
 
-  hPreBuildMMenu:=HookEvent(ME_CLIST_PREBUILDMAINMENU   , PreBuildMainMenu);
-  hPreBuildCMenu:=HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
-  hPreBuildTMenu:=HookEvent(ME_CLIST_PREBUILDTRAYMENU   , PreBuildTrayMenu);
+  HookEvent(ME_CLIST_PREBUILDMAINMENU   , PreBuildMainMenu);
+  HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
+  HookEvent(ME_CLIST_PREBUILDTRAYMENU   , PreBuildTrayMenu);
 
-  iohook:=HookEvent(ME_ACT_INOUT,@ActInOut);
+  HookEvent(ME_ACT_INOUT,@ActInOut);
 end;
 
 procedure DeInit;
+var
+  i:integer;
 begin
+  if Length(UActionList)>0 then
+  begin
+    for i:=HIGH(UActionList) downto 0 do
+    begin
+      DeleteUAction(i,false);
+    end;
+    SetLength(UActionList,0);
+  end;
   SetLength(arMenuRec,0);
-
-  UnhookEvent(hPreBuildMMenu);
-  UnhookEvent(hPreBuildCMenu);
-  UnhookEvent(hPreBuildTMenu);
-
-  UnhookEvent(honttbloaded);
-  UnhookEvent(hontabloaded);
-  UnhookEvent(ontabbtnpressed);
-  UnhookEvent(onactchanged);
-  UnhookEvent(iohook);
-  DestroyServiceFunction(hServiceWithLParam);
-  DestroyServiceFunction(hTTBService);
 end;
 
 function AddOptionPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;

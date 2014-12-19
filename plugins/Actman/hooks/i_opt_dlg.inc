@@ -133,7 +133,9 @@ end;
 procedure SaveHookData(Dialog:HWND; item:integer=-1);
 var
   wnd:HWND;
-  li:LV_ITEM;
+  li:LV_ITEMW;
+  p:pAnsiChar;
+  buf:array [0..127] of WideChar;
 begin
   wnd:=GetDlgItem(Dialog,IDC_HOOKLIST);
   if item<0 then
@@ -146,9 +148,23 @@ begin
   SendMessageW(wnd,LVM_SETITEMW,0,LPARAM(@li));
   li.mask      :=LVIF_TEXT;
   li.iSubItem  :=1;
-  li.pszText   :=GetDlgText(Dialog,IDC_EVENTLIST);
+  p:=ApiCard.NameFromList(GetDlgItem(Dialog,IDC_EVENTLIST));
+  li.pszText   :=FastAnsitoWideBuf(p,buf);
   SendMessageW(wnd,LVM_SETITEMW,0,LPARAM(@li));
-  mFreeMem(li.pszText);
+end;
+
+procedure CheckButtons(Dialog:HWND);
+var
+  b:bool;
+begin
+  b:=SendDlgItemMessage(Dialog,IDC_HOOKLIST,LVM_GETITEMCOUNT, 0, 0)>0;
+
+  EnableWindow(GetDlgItem(Dialog,IDC_EVENTLIST  ),b);
+  EnableWindow(GetDlgItem(Dialog,IDC_ACTIONLIST ),b);
+  EnableWindow(GetDlgItem(Dialog,IDC_HOOK_DELETE),b);
+  EnableWindow(GetDlgItem(Dialog,IDC_HOOK_APPLY ),b);
+  EnableWindow(GetDlgItem(Dialog,IDC_EVENT_CHELP),b);
+  EnableWindow(GetDlgItem(Dialog,IDC_EVENT_HELP ),b);
 end;
 
 function NewHook(Dialog:HWND;item:integer=-1):integer;
@@ -165,25 +181,33 @@ begin
   li.iSubItem:=0;
   li.pszText :=TranslateW('hook sample');
   result:=SendMessageW(wnd,LVM_INSERTITEMW,0,LPARAM(@li));
+  Listview_SetItemState(wnd,result,
+      LVIS_FOCUSED or LVIS_SELECTED,
+      LVIS_FOCUSED or LVIS_SELECTED);
+  CheckButtons(Dialog);
 end;
 
 function DeleteHook(Dialog:HWND):integer;
 var
   wnd:HWND;
-  i:integer;
+  i,j:integer;
 begin
   result:=0;
   wnd:=GetDlgItem(Dialog,IDC_HOOKLIST);
-  for i:=ListView_GetItemCount(wnd)-1 downto 0 do
+  j:=SendMessage(wnd,LVM_GETITEMCOUNT,0,0);
+  for i:=j-1 downto 0 do
   begin
-    if ListView_GetItemState(wnd,i,LVIS_SELECTED)<>0 then
+    if SendMessage(wnd,LVM_GETITEMSTATE,i,LVIS_SELECTED)<>0 then
       SendMessage(wnd,LVM_DELETEITEM,i,0);
   end;
-  Listview_SetItemState(wnd,0,LVIS_FOCUSED or LVIS_SELECTED,
-                              LVIS_FOCUSED or LVIS_SELECTED);
+  Listview_SetItemState(wnd,0,
+      LVIS_FOCUSED or LVIS_SELECTED,
+      LVIS_FOCUSED or LVIS_SELECTED);
+
+  CheckButtons(Dialog);
 end;
 
-function NewHKTableProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function NewHKTableProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   i:integer;
 begin
@@ -254,10 +278,31 @@ begin
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
 end;
 
-function DlgProcOpt(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+procedure CreateHKTable(Dialog:HWND);
 var
   wnd:HWND;
   lv:LV_COLUMNW;
+begin
+  wnd:=GetDlgItem(Dialog,IDC_HOOKLIST);
+  SendMessage(wnd,LVM_SETUNICODEFORMAT,1,0);
+  FillChar(lv,SizeOf(lv),0);
+  lv.mask   :=LVCF_TEXT or LVCF_WIDTH;
+  lv.pszText:=TranslateW('Description');
+  lv.cx     :=110;
+  SendMessageW(wnd,LVM_INSERTCOLUMNW ,0,TLPARAM(@lv));
+  lv.pszText:=TranslateW('Name');
+  lv.cx     :=110;
+  SendMessageW(wnd,LVM_INSERTCOLUMNW ,1,TLPARAM(@lv));
+  SendMessageW(wnd,LVM_SETCOLUMNWIDTH,1,LVSCW_AUTOSIZE_USEHEADER);
+//      SendMessage (wnd,LVM_SETEXTENDEDLISTVIEWSTYLE,LVS_EX_CHECKBOXES,LVS_EX_CHECKBOXES);
+  SendMessage (wnd,LVM_SETEXTENDEDLISTVIEWSTYLE,0,
+      LVS_EX_FULLROWSELECT or LVS_EX_CHECKBOXES or LVS_EX_GRIDLINES);
+  SendMessage(wnd,LVM_SETUNICODEFORMAT,1,0);
+  OldTableProc:=pointer(SetWindowLongPtrW(wnd,GWL_WNDPROC,LONG_PTR(@NewHKTableProc)));
+end;
+
+function DlgProcOpt(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+var
   i:integer;
   tmp:pAnsiChar;
   buf:array [0..255] of AnsiChar;
@@ -274,36 +319,29 @@ begin
     WM_INITDIALOG: begin
       ApiCard:=CreateEventCard(Dialog);
 
-      wnd:=GetDlgItem(Dialog,IDC_HOOKLIST);
-      SendMessage(wnd,LVM_SETUNICODEFORMAT,1,0);
-      FillChar(lv,SizeOf(lv),0);
-      lv.mask   :=LVCF_TEXT or LVCF_WIDTH;
-      lv.pszText:=TranslateW('Description');
-      lv.cx     :=110;
-      SendMessageW(wnd,LVM_INSERTCOLUMNW ,0,TLPARAM(@lv));
-      lv.pszText:=TranslateW('Name');
-      lv.cx     :=110;
-      SendMessageW(wnd,LVM_INSERTCOLUMNW ,1,TLPARAM(@lv));
-      SendMessageW(wnd,LVM_SETCOLUMNWIDTH,1,LVSCW_AUTOSIZE_USEHEADER);
-//      SendMessage (wnd,LVM_SETEXTENDEDLISTVIEWSTYLE,LVS_EX_CHECKBOXES,LVS_EX_CHECKBOXES);
-      SendMessage (wnd,LVM_SETEXTENDEDLISTVIEWSTYLE,0,
-          LVS_EX_FULLROWSELECT or LVS_EX_CHECKBOXES or LVS_EX_GRIDLINES);
-      SendMessage(wnd,LVM_SETUNICODEFORMAT,1,0);
-      OldTableProc:=pointer(SetWindowLongPtrW(wnd,GWL_WNDPROC,LONG_PTR(@NewHKTableProc)));
       TranslateDialogDefault(Dialog);
 
       SetIcons(Dialog);
 
-      ApiCard.FillList(GetDlgItem(Dialog,IDC_EVENTLIST));
+      ApiCard.FillList(GetDlgItem(Dialog,IDC_EVENTLIST),
+        DBReadByte(0,DBBranch,'SrvListMode'));
+ 
       FillActionList(GetDlgItem(Dialog,IDC_ACTIONLIST));
-      FillHookList(wnd);
+
+      CreateHKTable(Dialog);
+      FillHookList(GetDlgItem(Dialog,IDC_HOOKLIST));
       ShowHookData(Dialog);
+
+      CheckButtons(Dialog);
 
       onactchanged:=HookEvent(ME_ACT_CHANGED,@ActListChange);
       settings:=Dialog;
     end;
 
     WM_HELP: begin
+      tmp:=ApiCard.NameFromList(GetDlgItem(Dialog,IDC_EVENTLIST));
+      ApiCard.Event:=tmp;
+      mFreeMem(tmp);
       ApiCard.Show;
     end;
 
@@ -350,7 +388,7 @@ begin
 
         BN_CLICKED: begin
           case loword(wParam) of
-            IDC_EVENT_CHELP: ;
+            IDC_EVENT_CHELP: SendMessage(Dialog,WM_HELP,0,0);
             IDC_EVENT_HELP : ;
             IDC_HOOK_NEW   : NewHook(Dialog);
             IDC_HOOK_DELETE: DeleteHook(Dialog);

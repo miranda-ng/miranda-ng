@@ -275,13 +275,14 @@ function DeleteTask(Dialog:HWND):integer;
 var
   li:LV_ITEM;
   wnd:HWND;
-  i:integer;
+  i,j:integer;
 begin
   result:=0;
   wnd:=GetDlgItem(Dialog,IDC_TASK_NAME);
-  for i:=ListView_GetItemCount(wnd)-1 downto 0 do
+  j:=SendMessage(wnd,LVM_GETITEMCOUNT,0,0);
+  for i:=j-1 downto 0 do
   begin
-    if ListView_GetItemState(wnd,i,LVIS_SELECTED)<>0 then
+    if SendMessage(wnd,LVM_GETITEMSTATE,i,LVIS_SELECTED)<>0 then
     begin
       li.iItem     :=i;
       li.mask      :=LVIF_PARAM;
@@ -299,7 +300,7 @@ begin
   CheckTaskList(Dialog,false);
 end;
 
-function NewHKTableProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function NewHKTableProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   i:integer;
 begin
@@ -403,7 +404,7 @@ begin
   SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,LPARAM(@ti));
 end;
 
-function DlgProcOpt(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function DlgProcOpt(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   wnd:HWND;
   lv:LV_COLUMNW;

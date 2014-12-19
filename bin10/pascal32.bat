@@ -7,11 +7,6 @@ call make.bat fpc 10
 if errorlevel 1 goto :Error
 popd
 
-pushd Actman30
-call make.bat fpc 10
-if errorlevel 1 goto :Error
-popd
-
 pushd ImportTXT
 call make.bat fpc 10
 if errorlevel 1 goto :Error

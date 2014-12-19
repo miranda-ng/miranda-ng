@@ -101,7 +101,7 @@ This subaction is for database reading/writing (see Operation block).
 Value and value type is for type of data, reading or writing from/to database.
 'Last result' mean that value is result of previous action.
 Group of radioboxes is for contact type.
-  'Own settings' - all settings only for our contact (our profle settings)
+  'Own settings' - all settings only for our contact (our profile settings)
   'Parameter'    - settings for contact with handle, passed from start parameter
   'Last result'  - contact handle is result of last action
   'Manual'       - contact handle selected from combobox

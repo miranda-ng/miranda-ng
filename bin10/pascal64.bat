@@ -7,11 +7,6 @@ call make.bat fpc64 10
 if errorlevel 1 goto :Error
 popd
 
-pushd Actman30
-call make.bat fpc64 10
-if errorlevel 1 goto :Error
-popd
-
 pushd mRadio
 call make.bat fpc64 10
 if errorlevel 1 goto :Error
