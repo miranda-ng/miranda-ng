@@ -135,6 +135,40 @@
 ВКонтакті
 [Message read: %s]
 Повідомлення прочитане о %s
+[commented on your post]
+прокоментував ваш запис
+[commented on your photo]
+прокоментував ваше фото
+[commented on your video]
+прокоментував ваше відео
+[replied to your comment]
+відповів на ваш коментар
+[replied to your comment to photo]
+відповів на ваш коментар до фото
+[replied to your comment to video]
+відповів на ваш коментар до відео
+[replied to your topic]
+відповів у вашій темі
+[liked your post]
+сподобався ваш запис
+[liked your comment]
+сподобався ваш коментар
+[liked your photo]
+сподобалося ваше фото
+[liked your video]
+сподобалося ваше відео
+[liked your comment to photo]
+сподобався ваш коментар до фото
+[liked your comment to video]
+сподобався ваш коментар до відео
+[liked your comment to topic]
+сподобався ваш коментар до теми
+[shared your post]
+поділився вашим записом
+[shared your photo]
+поділився вашим фото
+[shared your video]
+поділився вашим відео
 [Enter the text you see]
 Введіть текст, який бачите
 [Participants]
