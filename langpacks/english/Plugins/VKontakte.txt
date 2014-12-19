@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.32
+;  Version: 0.1.0.33
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -72,6 +72,23 @@
 [Protocols]
 [VKontakte]
 [Message read: %s]
+[commented on your post]
+[commented on your photo]
+[commented on your video]
+[replied to your comment]
+[replied to your comment to photo]
+[replied to your comment to video]
+[replied to your topic]
+[liked your post]
+[liked your comment]
+[liked your photo]
+[liked your video]
+[liked your comment to photo]
+[liked your comment to video]
+[liked your comment to topic]
+[shared your post]
+[shared your photo]
+[shared your video]
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 ;file \protocols\VKontakte\src\vk_chats.cpp
@@ -96,15 +113,7 @@
 [News from %s%s%s (%s)\n%s]
 [\tRepost from %s%s%s (%s)\n%s]
 [\nNews link: %s]
-[%s%s%s (%s) commented %%s\n%s]
-[%s%s%s (%s) posted %%s\n%s]
-[liked your]
-[shared your]
-[photo]
 [Link]
-[video]
-[post]
-[topic]
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 [Invalid album id]

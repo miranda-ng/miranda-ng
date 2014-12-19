@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.32
+;  Version: 0.1.0.33
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -135,6 +135,40 @@ Cоздать комнату чата
 ВКонтакте
 [Message read: %s]
 Сообщение прочтено в: %s
+[commented on your post]
+оставил комментарий к вашей записи
+[commented on your photo]
+оставил комментарий к вашей фотографии
+[commented on your video]
+оставил комментарий к вашему видео
+[replied to your comment]
+ответил на ваш комментарий
+[replied to your comment to photo]
+ответил на ваш комментарий к фотографии
+[replied to your comment to video]
+ответил на ваш комментарий к видео
+[replied to your topic]
+ответил в вашей теме
+[liked your post]
+понравилась ваша запись
+[liked your comment]
+понравился ваш комментарий
+[liked your photo]
+понравилась ваша фотография
+[liked your video]
+понравилось ваше видео
+[liked your comment to photo]
+понравился ваш комментарий к фотографии
+[liked your comment to video]
+понравился ваш комментарий к видео
+[liked your comment to topic]
+понравился ваш комментарий к теме
+[shared your post]
+поделился вашей записью
+[shared your photo]
+поделился вашей фотографией
+[shared your video]
+поделился вашим видео
 [Enter the text you see]
 Введите текст, который видите
 [Participants]
@@ -177,24 +211,8 @@ Cоздать комнату чата
 \tРепост от %s%s%s (%s)\n%s
 [\nNews link: %s]
 \nСсылка на новость: %s
-[%s%s%s (%s) commented %%s\n%s]
-%s%s%s (%s) прокомментировал %%s\n%s
-[%s%s%s (%s) posted %%s\n%s]
-%s%s%s (%s) опубликовал %%s\n%s
-[liked your]
-понравилась ваш(а)
-[shared your]
-поделился вашей/вашим
-[photo]
-фото
 [Link]
 Ссылка
-[video]
-видео
-[post]
-запись
-[topic]
-тема
 [Couldn't save file]
 Невозможно сохранить файл
 [Invalid album id]
