@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.32
+;  Version: 0.1.0.33
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -177,12 +177,8 @@
 \tРепост від %s%s%s (%s)\n%s
 [\nNews link: %s]
 \nПосилання на новину: %s
-[photo]
-фото
 [Link]
 Посилання
-[video]
-відео
 [Couldn't save file]
 Неможливо зберегти файл
 [Invalid album id]
