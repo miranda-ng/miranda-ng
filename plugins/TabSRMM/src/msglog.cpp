@@ -447,9 +447,9 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 {
 	HANDLE hTimeZone = NULL;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
-	struct tm event_time;
+	struct tm event_time = { 0 };
 	BOOL isBold = FALSE, isItalic = FALSE, isUnderline = FALSE;
-	DWORD dwFormattingParams = MAKELONG(PluginConfig.m_FormatWholeWordsOnly, 0);
+	DWORD dwFormattingParams = MAKELONG(1, 0);
 
 	size_t bufferEnd = 0, bufferAlloced = 1024;
 	char *buffer = (char *)mir_alloc(bufferAlloced); buffer[0] = '\0';

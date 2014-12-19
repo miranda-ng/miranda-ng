@@ -116,8 +116,12 @@ public:
 	static int __forceinline GetByte(const MCONTACT hContact, const char *szSetting, int uDefault)
 			{ return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault); }
 
-	static bool __forceinline GetBool(const char *szModule, const char *szSetting, bool uDefault)
-			{ return db_get_b(0, szModule, szSetting, uDefault) != 0; }
+	static bool __forceinline GetBool(const char *szSetting, bool bDefault)
+			{ return db_get_b(0, SRMSGMOD_T, szSetting, bDefault) != 0; }
+	static bool __forceinline GetBool(const char *szModule, const char *szSetting, bool bDefault)
+			{ return db_get_b(0, szModule, szSetting, bDefault) != 0; }
+	static bool __forceinline GetBool(const MCONTACT hContact, const char *szSetting, bool bDefault)
+			{ return db_get_b(hContact, SRMSGMOD_T, szSetting, bDefault) != 0; }
 
 	/*
 	 * path utilities

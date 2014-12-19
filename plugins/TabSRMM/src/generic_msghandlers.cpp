@@ -997,7 +997,7 @@ static void LoadKLThread(LPVOID _param)
 
 void TSAPI DM_LoadLocale(TWindowData *dat)
 {
-	if (dat == NULL || !PluginConfig.m_AutoLocaleSupport)
+	if (dat == NULL || !PluginConfig.m_bAutoLocaleSupport)
 		return;
 
 	if (dat->dwFlags & MWF_WASBACKGROUNDCREATE)
@@ -1008,7 +1008,7 @@ void TSAPI DM_LoadLocale(TWindowData *dat)
 		db_free(&dbv);
 	else {
 		TCHAR szKLName[KL_NAMELENGTH + 1];
-		if (!PluginConfig.m_dontUseDefaultKbd) {
+		if (!PluginConfig.m_bDontUseDefaultKbd) {
 			TCHAR	szBuf[20];
 			GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
 			mir_sntprintf(szKLName, SIZEOF(szKLName), _T("0000%s"), szBuf);
@@ -1083,7 +1083,7 @@ void TSAPI DM_SaveLocale(TWindowData *dat, WPARAM, LPARAM lParam)
 	if (!dat)
 		return;
 
-	if (PluginConfig.m_AutoLocaleSupport && dat->hContact && dat->pContainer->hwndActive == dat->hwnd) {
+	if (PluginConfig.m_bAutoLocaleSupport && dat->hContact && dat->pContainer->hwndActive == dat->hwnd) {
 		TCHAR szKLName[KL_NAMELENGTH + 1];
 		if ((HKL)lParam != dat->hkl) {
 			dat->hkl = (HKL)lParam;
@@ -1147,7 +1147,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) & ~CLS_EX_TRACKSELECT);
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
 
-	if (!PluginConfig.m_AllowOfflineMultisend)
+	if (!PluginConfig.m_bAllowOfflineMultisend)
 		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_HIDEOFFLINE);
 
 	if (hItem)
@@ -1587,11 +1587,11 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 	// set the message log divider to mark new (maybe unseen) messages, if the container has
 	// been minimized or in the background.
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
-		if (PluginConfig.m_DividersUsePopupConfig && PluginConfig.m_UseDividers) {
+		if (PluginConfig.m_bDividersUsePopupConfig && PluginConfig.m_bUseDividers) {
 			if (!MessageWindowOpened(dat->hContact, 0))
 				SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 		}
-		else if (PluginConfig.m_UseDividers) {
+		else if (PluginConfig.m_bUseDividers) {
 			if ((GetForegroundWindow() != hwndContainer || GetActiveWindow() != hwndContainer))
 				SendMessage(hwndDlg, DM_ADDDIVIDER, 0, 0);
 			else {
@@ -1651,7 +1651,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 	// never switch for status changes...
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
 		if (PluginConfig.haveAutoSwitch() && m_pContainer->hwndActive != hwndDlg) {
-			if ((IsIconic(hwndContainer) && !IsZoomed(hwndContainer)) || (PluginConfig.m_HideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
+			if ((IsIconic(hwndContainer) && !IsZoomed(hwndContainer)) || (PluginConfig.m_bHideOnClose && !IsWindowVisible(m_pContainer->hwnd))) {
 				int iItem = GetTabIndexFromHWND(GetParent(hwndDlg), hwndDlg);
 				if (iItem >= 0) {
 					TabCtrl_SetCurSel(GetParent(hwndDlg), iItem);
@@ -1760,7 +1760,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 			_tcsncpy_s(dat->szStatus, pcli->pfnGetStatusModeDescription(dat->szProto == NULL ? ID_STATUS_OFFLINE : dat->wStatus, 0), _TRUNCATE);
 
 			if (lParam != 0) {
-				if (PluginConfig.m_CutContactNameOnTabs)
+				if (PluginConfig.m_bCutContactNameOnTabs)
 					CutContactName(szNick, newcontactname, SIZEOF(newcontactname));
 				else
 					_tcsncpy_s(newcontactname, szNick, _TRUNCATE);
@@ -1768,13 +1768,12 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 				Utils::DoubleAmpersands(newcontactname);
 
 				if (mir_tstrlen(newcontactname) != 0 && dat->szStatus != NULL) {
-					if (PluginConfig.m_StatusOnTabs)
+					if (PluginConfig.m_bStatusOnTabs)
 						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s)"), newcontactname, dat->szStatus);
 					else
 						_tcsncpy_s(newtitle, newcontactname, _TRUNCATE);
 				}
-				else
-					_tcsncpy_s(newtitle, _T("Forward"), _TRUNCATE);
+				else _tcsncpy_s(newtitle, _T("Forward"), _TRUNCATE);
 
 				item.mask |= TCIF_TEXT;
 			}

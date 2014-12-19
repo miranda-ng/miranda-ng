@@ -42,8 +42,8 @@ TCHAR* CGlobals::m_default_container_name = _T("default");
 extern HANDLE 	hHookButtonPressedEvt;
 extern HANDLE 	hHookToolBarLoadedEvt;
 
-EXCEPTION_RECORD CGlobals::m_exRecord = {0};
-CONTEXT          CGlobals::m_exCtx = {0};
+EXCEPTION_RECORD CGlobals::m_exRecord = { 0 };
+CONTEXT          CGlobals::m_exCtx = { 0 };
 LRESULT          CGlobals::m_exLastResult = 0;
 char             CGlobals::m_exSzFile[MAX_PATH] = "\0";
 wchar_t          CGlobals::m_exReason[256] = L"\0";
@@ -64,10 +64,10 @@ bool             CGlobals::m_exAllowContinue = false;
 	static char *szFLUpdateurl =  "http://miranda-ng.org/";
 #endif
 
-/**
- * reload system values. These are read ONCE and are not allowed to change
- * without a restart
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// reload system values. These are read ONCE and are not allowed to change
+// without a restart
+
 void CGlobals::reloadSystemStartup()
 {
 	m_WinVerMajor = WinVerMajor();
@@ -155,17 +155,17 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_ncm.cbSize = sizeof(NONCLIENTMETRICS);
 	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &m_ncm, 0);
 
-	m_SendOnShiftEnter = M.GetByte("sendonshiftenter", 0);
-	m_SendOnEnter = M.GetByte(SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER);
-	m_SendOnDblEnter = M.GetByte("SendOnDblEnter", 0);
-	m_AutoLocaleSupport = M.GetByte("al", 0);
-	m_AutoSwitchTabs = M.GetByte("autoswitchtabs", 1);
-	m_CutContactNameTo = db_get_w(NULL, SRMSGMOD_T, "cut_at", 15);
-	m_CutContactNameOnTabs = M.GetByte("cuttitle", 0);
-	m_StatusOnTabs = M.GetByte("tabstatus", 1);
-	m_LogStatusChanges = M.GetByte("logstatuschanges", 0);
-	m_UseDividers = M.GetByte("usedividers", 0);
-	m_DividersUsePopupConfig = M.GetByte("div_popupconfig", 0);
+	m_bSendOnShiftEnter = M.GetBool("sendonshiftenter", false);
+	m_bSendOnEnter = M.GetBool(SRMSGSET_SENDONENTER, SRMSGDEFSET_SENDONENTER);
+	m_bSendOnDblEnter = M.GetBool("SendOnDblEnter", false);
+	m_bAutoLocaleSupport = M.GetBool("al", false);
+	m_bAutoSwitchTabs = M.GetBool("autoswitchtabs", true);
+	m_iTabNameLimit = db_get_w(NULL, SRMSGMOD_T, "cut_at", 15);
+	m_bCutContactNameOnTabs = M.GetBool("cuttitle", false);
+	m_bStatusOnTabs = M.GetBool("tabstatus", true);
+	m_bLogStatusChanges = M.GetBool("logstatuschanges", false);
+	m_bUseDividers = M.GetBool("usedividers", false);
+	m_bDividersUsePopupConfig = M.GetBool("div_popupconfig", false);
 	m_MsgTimeout = M.GetDword(SRMSGMOD, SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	if (m_MsgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
@@ -173,21 +173,18 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 
 	m_EscapeCloses = M.GetByte("escmode", 0);
 
-	m_HideOnClose = M.GetByte("hideonclose", 0);
-	m_AllowTab = M.GetByte("tabmode", 0);
+	m_bHideOnClose = M.GetBool("hideonclose", false);
+	m_bAllowTab = M.GetBool("tabmode", false);
 
-	m_FlashOnClist = M.GetByte("flashcl", 0);
-	m_AlwaysFullToolbarWidth = M.GetByte("alwaysfulltoolbar", 1);
+	m_bFlashOnClist = M.GetBool("flashcl", false);
+	m_bAlwaysFullToolbarWidth = M.GetBool("alwaysfulltoolbar", true);
 	m_LimitStaticAvatarHeight = M.GetDword("avatarheight", 96);
 	m_SendFormat = M.GetByte("sendformat", 0);
-	m_FormatWholeWordsOnly = 1;
-	m_RTLDefault = M.GetByte("rtldefault", 0);
 	m_TabAppearance = M.GetDword("tabconfig", TCF_FLASHICON | TCF_SINGLEROWTABCONTROL);
 	m_panelHeight = (DWORD)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_MUCpanelHeight = M.GetDword(CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
-	m_IdleDetect = M.GetByte("dimIconsForIdleContacts", 1);
-	m_smcxicon = 16;
-	m_smcyicon = 16;
+	m_bIdleDetect = M.GetBool("dimIconsForIdleContacts", true);
+	m_smcxicon = m_smcyicon = 16;
 	m_PasteAndSend = M.GetByte("pasteandsend", 1);
 	m_LangPackCP = ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
@@ -228,14 +225,14 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 
 void CGlobals::reloadAdv()
 {
-	g_bSoundOnTyping = M.GetByte("adv_soundontyping", 0);
-	m_dontUseDefaultKbd = M.GetByte("adv_leaveKeyboardAlone", 1);
+	m_bSoundOnTyping = M.GetBool("adv_soundontyping", false);
+	m_bDontUseDefaultKbd = M.GetBool("adv_leaveKeyboardAlone", true);
 
-	if (g_bSoundOnTyping && m_TypingSoundAdded == false) {
+	if (m_bSoundOnTyping && m_TypingSoundAdded == false) {
 		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TabSRMM: Typing"));
 		m_TypingSoundAdded = true;
 	}
-	m_AllowOfflineMultisend = M.GetByte("AllowOfflineMultisend", 0);
+	m_bAllowOfflineMultisend = M.GetBool("AllowOfflineMultisend", false);
 }
 
 const HMENU CGlobals::getMenuBar()
@@ -268,7 +265,7 @@ void CGlobals::hookSystemEvents()
 
 int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
 {
-	TTBButton ttb = {0};
+	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
 	ttb.pszService = MS_TABMSG_TRAYSUPPORT;
@@ -286,9 +283,8 @@ int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
 	return 0;
 }
 
-/**
- * second part of the startup initialisation. All plugins are now fully loaded
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// second part of the startup initialisation.All plugins are now fully loaded
 
 int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -297,17 +293,17 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Skin->Init(true);
 	CSkin::initAeroEffect();
 
-	for (int i=0; i < NR_BUTTONBARICONS; i++)
+	for (int i = 0; i < NR_BUTTONBARICONS; i++)
 		PluginConfig.g_buttonBarIcons[i] = 0;
 	::LoadIconTheme();
 	::CreateImageList(TRUE);
 
-	MENUITEMINFOA mii = {0};
+	MENUITEMINFOA mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_BITMAP;
 	mii.hbmpItem = HBMMENU_CALLBACK;
 	HMENU submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
-	for (int k=0; k <= 8; k++)
+	for (int k = 0; k <= 8; k++)
 		SetMenuItemInfoA(submenu, (UINT_PTR)k, TRUE, &mii);
 
 	PluginConfig.reloadSystemModulesChanged();
@@ -323,7 +319,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		db_set_b(0, SRMSGMOD_T, "avatarmode", 2);
 
 	PluginConfig.g_hwndHotkeyHandler = CreateWindowEx(0, _T("TSHK"), _T(""), WS_POPUP,
-								  0, 0, 40, 40, 0, 0, g_hInst, NULL);
+		0, 0, 40, 40, 0, 0, g_hInst, NULL);
 
 	::CreateTrayMenus(TRUE);
 	if (nen_options.bTraySupport)
@@ -373,7 +369,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	const char 	*szProto = NULL;
 	const char  *setting = cws->szSetting;
 	CContactCache* c = 0;
@@ -521,7 +517,7 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 
 	::UnregisterClass(_T("TSStatusBarClass"), g_hInst);
 	::UnregisterClass(_T("SideBarClass"), g_hInst);
-	::UnregisterClassA("TSTabCtrlClass", g_hInst);
+	::UnregisterClass(_T("TSTabCtrlClass"), g_hInst);
 	::UnregisterClass(_T("RichEditTipClass"), g_hInst);
 	::UnregisterClass(_T("TSHK"), g_hInst);
 	return 0;
@@ -541,21 +537,19 @@ int CGlobals::OkToExit(WPARAM, LPARAM)
 	return 0;
 }
 
-/**
- * used on startup to restore flashing tray icon if one or more messages are
- * still "unread"
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// used on startup to restore flashing tray icon if one or more messages are still "unread"
 
 void CGlobals::RestoreUnreadMessageAlerts(void)
 {
-	CLISTEVENT 	cle = { sizeof(cle) };
+	CLISTEVENT cle = { sizeof(cle) };
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
 	cle.flags = CLEF_TCHAR;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
 		if (db_get_dw(hContact, "SendLater", "count", 0))
-		   sendLater->addContact(hContact);
+			sendLater->addContact(hContact);
 
 		HANDLE hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
@@ -588,12 +582,10 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		return;
 
 	MCONTACT hContact = c->getContact();
-	if (!PluginConfig.m_LogStatusChanges && !M.GetByte(hContact, "logstatuschanges", 0))
+	if (!PluginConfig.m_bLogStatusChanges && !M.GetByte(hContact, "logstatuschanges", 0))
 		return;
 
-	/*
-	* don't log them if WE are logging off
-	*/
+	// don't log them if WE are logging off
 	if (CallProtoService(c->getProto(), PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE)
 		return;
 
@@ -622,7 +614,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.timestamp = time(NULL);
-	dbei.szModule = const_cast<char *>(c->getProto());
+	dbei.szModule = (char*)c->getProto();
 	StreamInEvents(dat->hwnd, NULL, 1, 1, &dbei);
 }
 
@@ -634,9 +626,8 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 bool CGlobals::haveAutoSwitch()
 {
-	if (m_bIsWin7) {
-		if (m_useAeroPeek && !CSkin::m_skinEnabled)
-			return false;
-	}
-	return(m_AutoSwitchTabs ? true : false);
+	if (m_bIsWin7 && m_useAeroPeek && !CSkin::m_skinEnabled)
+		return false;
+
+	return m_bAutoSwitchTabs;
 }

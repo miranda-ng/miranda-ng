@@ -440,7 +440,7 @@ void CContactCache::deletedHandler()
  */
 void CContactCache::updateFavorite()
 {
-	m_isFavorite = db_get_b(m_hContact, SRMSGMOD_T, "isFavorite", 0) != 0;
+	m_isFavorite = M.GetBool(m_hContact, "isFavorite", false);
 	m_isRecent = M.GetDword(m_hContact, "isRecent", 0) ? true : false;
 }
 

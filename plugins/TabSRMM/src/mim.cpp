@@ -281,7 +281,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			if (hwnd == 0)
 				fShow = true;
 			else {
-				if (PluginConfig.m_HideOnClose) {
+				if (PluginConfig.m_bHideOnClose) {
 					TContainerData *pContainer = 0;
 					SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
 					if (pContainer && pContainer->fHidden)
@@ -430,15 +430,15 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	CallServiceSync(MS_CLIST_REMOVEEVENT, hContact, 1);
 
 	bool bAllowAutoCreate = false;
-	bool bAutoPopup = M.GetByte(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP) != 0;
-	bool bAutoCreate = M.GetByte("autotabs", 1) != 0;
-	bool bAutoContainer = M.GetByte("autocontainer", 1) != 0;
+	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
+	bool bAutoCreate = M.GetBool("autotabs", true);
+	bool bAutoContainer = M.GetBool("autocontainer", true);
 	DWORD dwStatusMask = M.GetDword("autopopupmask", -1);
 
 	if (hwnd) {
 		TContainerData *pTargetContainer = 0;
 		SendMessage(hwnd, DM_QUERYCONTAINER, 0, (LPARAM)&pTargetContainer);
-		if (pTargetContainer == NULL || !PluginConfig.m_HideOnClose || IsWindowVisible(pTargetContainer->hwnd))
+		if (pTargetContainer == NULL || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->hwnd))
 			return 0;
 
 		WINDOWPLACEMENT wp = { 0 };

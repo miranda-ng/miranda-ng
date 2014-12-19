@@ -122,7 +122,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 		}
 	}
 	if (bActivateTab) {
-		if (PluginConfig.m_HideOnClose && !IsWindowVisible(pContainer->hwnd)) {
+		if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->hwnd)) {
 			WINDOWPLACEMENT wp = { 0 };
 			wp.length = sizeof(wp);
 			GetWindowPlacement(pContainer->hwnd, &wp);
