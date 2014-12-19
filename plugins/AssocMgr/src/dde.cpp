@@ -116,7 +116,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 					if(pszCommand!=NULL) {
 						TCHAR *pszAction,*pszArg;
 						pszAction=GetExecuteParam(&pszCommand);
-						pszArg=mir_tstrdup(GetExecuteParam(&pszCommand));
+						pszArg=GetExecuteParam(&pszCommand);
 						if(pszArg!=NULL) {
 							/* we are inside miranda here, we make it async so the shell does
 							 * not timeout regardless what the plugins try to do. */
