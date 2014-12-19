@@ -579,7 +579,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	int iOff = DPISCALEY_S((PluginConfig.g_DPIscaleY > 1.0) ? (dat->bType == SESSIONTYPE_IM ? 22 : 23) : 22);
 
 	int foravatar = 0;
-	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < dat->pic.cy - DPISCALEY_S(2)) && dat->bShowAvatar && !PluginConfig.m_AlwaysFullToolbarWidth)
+	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < dat->pic.cy - DPISCALEY_S(2)) && dat->bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
 		foravatar = dat->pic.cx + gap;
 
 	if ((dat->pContainer->dwFlags & CNT_SIDEBAR) && (dat->pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {

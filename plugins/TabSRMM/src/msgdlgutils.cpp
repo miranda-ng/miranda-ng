@@ -228,7 +228,7 @@ void TSAPI CalcDynamicAvatarSize(TWindowData *dat, BITMAP *bminfo)
 	double picAspect = (bminfo->bmWidth == 0 || bminfo->bmHeight == 0) ? 1.0 : (double)(bminfo->bmWidth / (double)bminfo->bmHeight);
 	double picProjectedWidth = (double)((dat->dynaSplitter - ((bBottomToolBar && bToolBar) ? DPISCALEX_S(24) : 0) + ((dat->bShowUIElements) ? DPISCALEX_S(28) : DPISCALEX_S(2)))) * picAspect;
 
-	if ((rc.right - (int)picProjectedWidth) > (dat->iButtonBarReallyNeeds) && !PluginConfig.m_AlwaysFullToolbarWidth && bToolBar)
+	if ((rc.right - (int)picProjectedWidth) > (dat->iButtonBarReallyNeeds) && !PluginConfig.m_bAlwaysFullToolbarWidth && bToolBar)
 		dat->iRealAvatarHeight = dat->dynaSplitter + 3 + (dat->bShowUIElements ? DPISCALEY_S(28) : DPISCALEY_S(2));
 	else
 		dat->iRealAvatarHeight = dat->dynaSplitter + DPISCALEY_S(6) + DPISCALEY_S(iSplitOffset);
@@ -272,7 +272,7 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		CheckMenuItem(visMenu, ID_VISIBILITY_HIDDENFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 0 ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(visMenu, ID_VISIBILITY_VISIBLEFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 1 ? MF_CHECKED : MF_UNCHECKED));
 
-		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, MF_BYCOMMAND | (PluginConfig.m_AlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, MF_BYCOMMAND | (PluginConfig.m_bAlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED));
 		if (!bInfoPanel) {
 			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | (ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED));
 			szText = TranslateT("Contact Picture Settings...");
@@ -360,8 +360,8 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 			return 1;
 
 		case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
-			PluginConfig.m_AlwaysFullToolbarWidth = !PluginConfig.m_AlwaysFullToolbarWidth;
-			db_set_b(0, SRMSGMOD_T, "alwaysfulltoolbar", (BYTE)PluginConfig.m_AlwaysFullToolbarWidth);
+			PluginConfig.m_bAlwaysFullToolbarWidth = !PluginConfig.m_bAlwaysFullToolbarWidth;
+			db_set_b(0, SRMSGMOD_T, "alwaysfulltoolbar", (BYTE)PluginConfig.m_bAlwaysFullToolbarWidth);
 			M.BroadcastMessage(DM_CONFIGURETOOLBAR, 0, 1);
 			break;
 
@@ -770,8 +770,9 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTIN
 	if (hEvent == 0)
 		return;
 
-	if (!PluginConfig.m_FlashOnClist)
+	if (!PluginConfig.m_bFlashOnClist)
 		return;
+	
 	if ((GetForegroundWindow() != dat->pContainer->hwnd || dat->pContainer->hwndActive != hwndDlg) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(dat->dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
 		CLISTEVENT cle = { 0 };
 		cle.cbSize = sizeof(cle);

@@ -132,7 +132,7 @@ static void OnLoadSettings()
 	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = M.GetDword(CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
 	g_Settings.UserListColors[CHAT_STATUS_AWAY] = M.GetDword(CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
 	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = M.GetDword(CHATFONT_MODULE, "Font5Col", RGB(160, 90, 90));
-	g_Settings.bBBCodeInPopups = M.GetByte(CHAT_MODULE, "BBCodeInPopups", 0) != 0;
+	g_Settings.bBBCodeInPopups = M.GetBool(CHAT_MODULE, "BBCodeInPopups", false);
 	g_Settings.bClassicIndicators = M.GetBool(CHAT_MODULE, "ClassicIndicators", false);
 	g_Settings.bLogClassicIndicators = M.GetBool(CHAT_MODULE, "LogClassicIndicators", false);
 	g_Settings.bAlternativeSorting = M.GetBool(CHAT_MODULE, "AlternativeSorting", true);

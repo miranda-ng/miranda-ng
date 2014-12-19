@@ -278,7 +278,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
 							}
 							else {
-								if (PluginConfig.m_HideOnClose)
+								if (PluginConfig.m_bHideOnClose)
 									ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
 								else
 									SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);

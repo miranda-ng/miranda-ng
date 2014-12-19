@@ -259,7 +259,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 		if (m_dat->mayFlashTab == FALSE || (m_dat->mayFlashTab == TRUE && m_dat->bTabFlash != 0) || !(pContainer->dwFlagsEx & TCF_FLASHICON)) {
 			DWORD ix = rc.left + 4;
 			DWORD iy = (rc.bottom + rc.top - iSize) / 2;
-			if (m_dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_IdleDetect)
+			if (m_dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 				CSkin::DrawDimmedIcon(hdc, ix, iy, iSize, iSize, hIcon, 180);
 			else
 				::DrawIconEx(hdc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);

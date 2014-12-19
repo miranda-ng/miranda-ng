@@ -171,7 +171,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT* gce)
 	}
 	if (dat && pContainer != 0) {                // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (nen_options.bWindowCheck) {                  // no popups at all for open windows... no exceptions
-			if (!PluginConfig.m_HideOnClose)
+			if (!PluginConfig.m_bHideOnClose)
 				return 0;
 			if (pContainer->fHidden)
 				goto passed;

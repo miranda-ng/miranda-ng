@@ -586,7 +586,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		RedrawWindow(pContainer->hwndActive, NULL, NULL, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
-	if (PluginConfig.m_HideOnClose&&!IsWindowVisible(pContainer->hwnd)) {
+	if (PluginConfig.m_bHideOnClose&&!IsWindowVisible(pContainer->hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->hwnd, &wp);

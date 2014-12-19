@@ -650,45 +650,45 @@ private:
 	UINT  mRefCounter;
 };
 
-#define MSGFONTID_MYMSG		  0
-#define MSGFONTID_MYMISC	  1
-#define MSGFONTID_YOURMSG	  2
-#define MSGFONTID_YOURMISC	  3
-#define MSGFONTID_MYNAME	  4
-#define MSGFONTID_MYTIME	  5
-#define MSGFONTID_YOURNAME	  6
-#define MSGFONTID_YOURTIME	  7
-#define H_MSGFONTID_MYMSG		8
-#define H_MSGFONTID_MYMISC		9
-#define H_MSGFONTID_YOURMSG		10
-#define H_MSGFONTID_YOURMISC	11
-#define H_MSGFONTID_MYNAME		12
-#define H_MSGFONTID_MYTIME		13
-#define H_MSGFONTID_YOURNAME	14
-#define H_MSGFONTID_YOURTIME	15
-#define MSGFONTID_MESSAGEAREA 16
+#define MSGFONTID_MYMSG            0
+#define MSGFONTID_MYMISC           1
+#define MSGFONTID_YOURMSG          2
+#define MSGFONTID_YOURMISC         3
+#define MSGFONTID_MYNAME           4
+#define MSGFONTID_MYTIME           5
+#define MSGFONTID_YOURNAME         6
+#define MSGFONTID_YOURTIME         7
+#define H_MSGFONTID_MYMSG          8
+#define H_MSGFONTID_MYMISC         9
+#define H_MSGFONTID_YOURMSG       10
+#define H_MSGFONTID_YOURMISC      11
+#define H_MSGFONTID_MYNAME        12
+#define H_MSGFONTID_MYTIME        13
+#define H_MSGFONTID_YOURNAME      14
+#define H_MSGFONTID_YOURTIME      15
+#define MSGFONTID_MESSAGEAREA     16
 #define H_MSGFONTID_STATUSCHANGES 17
-#define H_MSGFONTID_DIVIDERS 18
-#define MSGFONTID_ERROR 19
-#define MSGFONTID_SYMBOLS_IN 20
-#define MSGFONTID_SYMBOLS_OUT 21
+#define H_MSGFONTID_DIVIDERS      18
+#define MSGFONTID_ERROR           19
+#define MSGFONTID_SYMBOLS_IN      20
+#define MSGFONTID_SYMBOLS_OUT     21
 
-#define IPFONTID_NICK 0
-#define IPFONTID_UIN 1
-#define IPFONTID_STATUS 2
-#define IPFONTID_PROTO 3
-#define IPFONTID_TIME 4
+#define IPFONTID_NICK              0
+#define IPFONTID_UIN               1
+#define IPFONTID_STATUS            2
+#define IPFONTID_PROTO             3
+#define IPFONTID_TIME              4
 
-#define LOADHISTORY_UNREAD    0
-#define LOADHISTORY_COUNT     1
-#define LOADHISTORY_TIME      2
+#define LOADHISTORY_UNREAD         0
+#define LOADHISTORY_COUNT          1
+#define LOADHISTORY_TIME           2
 
 #define SRMSGSET_AUTOPOPUP         "AutoPopup"
-#define SRMSGDEFSET_AUTOPOPUP      0
+#define SRMSGDEFSET_AUTOPOPUP      false
 #define SRMSGSET_AUTOMIN           "AutoMin"
 #define SRMSGDEFSET_AUTOMIN        0
 #define SRMSGSET_SENDONENTER       "SendOnEnter"
-#define SRMSGDEFSET_SENDONENTER    0
+#define SRMSGDEFSET_SENDONENTER    false
 #define SRMSGSET_MSGTIMEOUT        "MessageTimeout"
 #define SRMSGDEFSET_MSGTIMEOUT     30000
 #define SRMSGSET_MSGTIMEOUT_MIN    5000 // minimum value (5 seconds)

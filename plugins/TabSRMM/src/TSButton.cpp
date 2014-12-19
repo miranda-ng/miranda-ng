@@ -255,7 +255,7 @@ nonflat_themed:
 		if (ctl->arrow)
 			ix -= 4;
 
-		if (ctl->bDimmed && PluginConfig.m_IdleDetect)
+		if (ctl->bDimmed && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hIconNew, 180);
 		else {
 			if (ctl->stateId != PBS_DISABLED) {

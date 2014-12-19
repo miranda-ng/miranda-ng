@@ -1680,7 +1680,7 @@ panel_found:
 		break;
 
 	case WM_CLOSE:
-		if (PluginConfig.m_HideOnClose && !lParam) {
+		if (PluginConfig.m_bHideOnClose && !lParam) {
 			ShowWindow(hwndDlg, SW_HIDE);
 			pContainer->fHidden = true;
 		}
@@ -1951,7 +1951,7 @@ void TSAPI CloseOtherTabs(HWND hwndTab, TWindowData &dat)
 
 int TSAPI CutContactName(const TCHAR *oldname, TCHAR *newname, unsigned int size)
 {
-	size_t cutMax = PluginConfig.m_CutContactNameTo;
+	size_t cutMax = PluginConfig.m_iTabNameLimit;
 
 	if (mir_tstrlen(oldname) <= cutMax)
 		_tcsncpy_s(newname, size, oldname, _TRUNCATE);
@@ -2279,16 +2279,16 @@ void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WP
 
 void TSAPI CloseAllContainers()
 {
-	BOOL fOldHideSetting = PluginConfig.m_HideOnClose;
+	bool fOldHideSetting = PluginConfig.m_bHideOnClose;
 
 	while (pFirstContainer != NULL) {
 		if (!IsWindow(pFirstContainer->hwnd))
 			pFirstContainer = pFirstContainer->pNext;
 		else {
-			PluginConfig.m_HideOnClose = FALSE;
+			PluginConfig.m_bHideOnClose = false;
 			::SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);
 		}
 	}
 
-	PluginConfig.m_HideOnClose = fOldHideSetting;
+	PluginConfig.m_bHideOnClose = fOldHideSetting;
 }

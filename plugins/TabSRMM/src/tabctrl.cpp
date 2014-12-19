@@ -187,7 +187,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	if (dat->mayFlashTab == FALSE || (dat->mayFlashTab == TRUE && dat->bTabFlash != 0) || !(dat->pContainer->dwFlagsEx & TCF_FLASHICON)) {
 		DWORD ix = rcItem->left + tabdat->m_xpad - 1;
 		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
-		if (dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_IdleDetect)
+		if (dat->dwFlagsEx & MWF_SHOW_ISIDLE && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
 		else
 			DrawIconEx(dc, ix, iy, hIcon, iSize, iSize, 0, NULL, DI_NORMAL | DI_COMPAT);

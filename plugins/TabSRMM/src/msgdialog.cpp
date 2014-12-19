@@ -336,7 +336,7 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 		if (dat->dwFlags & MWF_NEEDCHECKSIZE)
 			PostMessage(hwndDlg, DM_SAVESIZE, 0, 0);
 
-		if (PluginConfig.m_AutoLocaleSupport) {
+		if (PluginConfig.m_bAutoLocaleSupport) {
 			if (dat->hkl == 0)
 				DM_LoadLocale(dat);
 			else
@@ -579,7 +579,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case WM_CHAR:
 		KbdState(mwdat, isShift, isCtrl, isAlt);
 
-		if (PluginConfig.g_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_AllowTab))
+		if (PluginConfig.m_bSoundOnTyping && !isAlt && !isCtrl && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
 			SkinPlaySound("SoundOnTyping");
 
 		if (isCtrl && !isAlt) {
@@ -632,7 +632,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 	case WM_KEYDOWN:
 		KbdState(mwdat, isShift, isCtrl, isAlt);
 
-		if (PluginConfig.g_bSoundOnTyping && !isAlt && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
+		if (PluginConfig.m_bSoundOnTyping && !isAlt && !(mwdat->pContainer->dwFlags & CNT_NOSOUND) && wParam == VK_DELETE)
 			SkinPlaySound("SoundOnTyping");
 
 		if (wParam == VK_INSERT && !isShift && !isCtrl && !isAlt) {
@@ -647,21 +647,21 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				break;
 
 			if (isShift) {
-				if (PluginConfig.m_SendOnShiftEnter) {
+				if (PluginConfig.m_bSendOnShiftEnter) {
 					PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
 					return 0;
 				}
 				else break;
 			}
-			if ((isCtrl && !isShift) ^ (0 != PluginConfig.m_SendOnEnter)) {
+			if ((isCtrl && !isShift) ^ (0 != PluginConfig.m_bSendOnEnter)) {
 				PostMessage(hwndParent, WM_COMMAND, IDOK, 0);
 				return 0;
 			}
-			if (PluginConfig.m_SendOnEnter || PluginConfig.m_SendOnDblEnter) {
+			if (PluginConfig.m_bSendOnEnter || PluginConfig.m_bSendOnDblEnter) {
 				if (isCtrl)
 					break;
 
-				if (PluginConfig.m_SendOnDblEnter) {
+				if (PluginConfig.m_bSendOnDblEnter) {
 					LONG_PTR lastEnterTime = GetWindowLongPtr(hwnd, GWLP_USERDATA);
 					if (lastEnterTime + 2 < time(NULL)) {
 						lastEnterTime = time(NULL);
@@ -762,7 +762,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 
 	case WM_INPUTLANGCHANGE:
-		if (PluginConfig.m_AutoLocaleSupport && GetFocus() == hwnd && mwdat->pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->pContainer->hwnd && GetActiveWindow() == mwdat->pContainer->hwnd) {
+		if (PluginConfig.m_bAutoLocaleSupport && GetFocus() == hwnd && mwdat->pContainer->hwndActive == hwndParent && GetForegroundWindow() == mwdat->pContainer->hwnd && GetActiveWindow() == mwdat->pContainer->hwnd) {
 			DM_SaveLocale(mwdat, wParam, lParam);
 			SendMessage(hwnd, EM_SETLANGOPTIONS, 0, (LPARAM)SendMessage(hwnd, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
 			return 1;
@@ -1031,7 +1031,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 		}
 		else dat->bUseOffset = false;
 
-		if (showToolbar && bBottomToolbar && (PluginConfig.m_AlwaysFullToolbarWidth || ((dat->pic.cy - DPISCALEY_S(6)) < rc.bottom))) {
+		if (showToolbar && bBottomToolbar && (PluginConfig.m_bAlwaysFullToolbarWidth || ((dat->pic.cy - DPISCALEY_S(6)) < rc.bottom))) {
 			urc->rcItem.bottom -= DPISCALEY_S(22);
 			if (dat->bIsAutosizingInput) {
 				urc->rcItem.left--;
@@ -1897,7 +1897,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					// tabulation mod
 					if (msg == WM_KEYDOWN && wp == VK_TAB) {
-						if (PluginConfig.m_AllowTab) {
+						if (PluginConfig.m_bAllowTab) {
 							if (((NMHDR*)lParam)->idFrom == IDC_MESSAGE)
 								SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)"\t");
 							_clrMsgFilter(lParam);
@@ -2182,7 +2182,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return 0;
 
 	case DM_ADDDIVIDER:
-		if (!(dat->dwFlags & MWF_DIVIDERSET) && PluginConfig.m_UseDividers) {
+		if (!(dat->dwFlags & MWF_DIVIDERSET) && PluginConfig.m_bUseDividers) {
 			if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG)) > 0) {
 				dat->dwFlags |= MWF_DIVIDERWANTED;
 				dat->dwFlags |= MWF_DIVIDERSET;
@@ -2480,7 +2480,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_SETLOCALE:
 		if (dat->dwFlags & MWF_WASBACKGROUNDCREATE)
 			break;
-		if (m_pContainer->hwndActive == hwndDlg && PluginConfig.m_AutoLocaleSupport && hwndContainer == GetForegroundWindow() && hwndContainer == GetActiveWindow()) {
+		if (m_pContainer->hwndActive == hwndDlg && PluginConfig.m_bAutoLocaleSupport && hwndContainer == GetForegroundWindow() && hwndContainer == GetActiveWindow()) {
 			if (lParam)
 				dat->hkl = (HKL)lParam;
 
@@ -2537,7 +2537,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->dwFlags &= ~MWF_WASBACKGROUNDCREATE;
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			PostMessage(hwndDlg, DM_UPDATEPICLAYOUT, 0, 0);
-			if (PluginConfig.m_AutoLocaleSupport) {
+			if (PluginConfig.m_bAutoLocaleSupport) {
 				if (dat->hkl == 0)
 					DM_LoadLocale(dat);
 				else
@@ -3183,7 +3183,7 @@ quote_from_last:
 				SendMessage(hwndContainer, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 				return TRUE;
 			}
-			else if (PluginConfig.m_HideOnClose && PluginConfig.m_EscapeCloses == 2) {
+			else if (PluginConfig.m_bHideOnClose && PluginConfig.m_EscapeCloses == 2) {
 				ShowWindow(hwndContainer, SW_HIDE);
 				return TRUE;
 			}
