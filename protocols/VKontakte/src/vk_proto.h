@@ -191,8 +191,9 @@ struct TFakeAckParams
 enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy };
 
 struct CVkNotification {
-	TCHAR *tszType;
+	TCHAR *ptszType;
 	VKObjType vkParent, vkFeedback;
+	TCHAR *ptszTranslate;
 };
 
 struct CVkProto : public PROTO<CVkProto>
@@ -335,7 +336,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveUnreadNotifications();
 	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
+	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
 
 	//==== Misc ==========================================================================
 

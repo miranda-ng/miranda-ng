@@ -634,41 +634,45 @@ int  CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent)
+CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent)
 {
 	CVkNotification vkNotification[] = {
-		{ _T("follow"), vkNull, vkUsers },
-		{ _T("friend_accepted"), vkNull, vkUsers },
-		{ _T("mention"), vkNull, vkPost },
-		{ _T("mention_comments"), vkPost, vkComment },
-		{ _T("wall"), vkNull, vkPost },
-		{ _T("wall_publish"), vkNull, vkPost },
-		{ _T("comment_post"), vkPost, vkComment },
-		{ _T("comment_photo"), vkPhoto, vkComment },
-		{ _T("comment_video"), vkVideo, vkComment },
-		{ _T("reply_comment"), vkComment, vkComment },
-		{ _T("reply_comment_photo"), vkComment, vkComment },
-		{ _T("reply_comment_video"), vkComment, vkComment },
-		{ _T("reply_topic"), vkTopic, vkComment },
-		{ _T("like_post"), vkPost, vkUsers },
-		{ _T("like_comment"), vkComment, vkUsers },
-		{ _T("like_photo"), vkPhoto, vkUsers },
-		{ _T("like_video"), vkVideo, vkUsers },
-		{ _T("like_comment_photo"), vkComment, vkUsers },
-		{ _T("like_comment_video"), vkComment, vkUsers },
-		{ _T("like_comment_topic"), vkComment, vkUsers },
-		{ _T("copy_post"), vkPost, vkCopy },
-		{ _T("copy_photo"), vkPhoto, vkCopy },
-		{ _T("copy_video"), vkVideo, vkCopy },
-		{ _T("mention_comment_photo"), vkPhoto, vkComment },
-		{ _T("mention_comment_video"), vkVideo, vkComment }
+		// type, parent, feedback, string for translate
+		{ _T("follow"), vkNull, vkUsers, _T("") },
+		{ _T("friend_accepted"), vkNull, vkUsers, _T("") },
+		{ _T("mention"), vkNull, vkPost, _T("") },
+		{ _T("mention_comments"), vkPost, vkComment, _T("") },
+		{ _T("wall"), vkNull, vkPost, _T("") },
+		{ _T("wall_publish"), vkNull, vkPost, _T("") },
+		{ _T("comment_post"), vkPost, vkComment, TranslateT("commented your post") },
+		{ _T("comment_photo"), vkPhoto, vkComment, TranslateT("commented your photo") },
+		{ _T("comment_video"), vkVideo, vkComment, TranslateT("commented your video") },
+		{ _T("reply_comment"), vkComment, vkComment, TranslateT("replied to your comment") },
+		{ _T("reply_comment_photo"), vkComment, vkComment, TranslateT("replied to your comment to photo") },
+		{ _T("reply_comment_video"), vkComment, vkComment, TranslateT("replied to your comment to video") },
+		{ _T("reply_topic"), vkTopic, vkComment, TranslateT("replied to your topic") },
+		{ _T("like_post"), vkPost, vkUsers, TranslateT("liked you post") },
+		{ _T("like_comment"), vkComment, vkUsers, TranslateT("liked you comment") },
+		{ _T("like_photo"), vkPhoto, vkUsers, TranslateT("liked you photo") },
+		{ _T("like_video"), vkVideo, vkUsers, TranslateT("liked you video") },
+		{ _T("like_comment_photo"), vkComment, vkUsers, TranslateT("liked you comment to photo") },
+		{ _T("like_comment_video"), vkComment, vkUsers, TranslateT("liked you comment to video" ) },
+		{ _T("like_comment_topic"), vkComment, vkUsers, TranslateT("liked you comment to topic") },
+		{ _T("copy_post"), vkPost, vkCopy, TranslateT("shared you post") },
+		{ _T("copy_photo"), vkPhoto, vkCopy, TranslateT("shared you photo") },
+		{ _T("copy_video"), vkVideo, vkCopy, TranslateT("shared you video") },
+		{ _T("mention_comment_photo"), vkPhoto, vkComment, _T("") },
+		{ _T("mention_comment_video"), vkVideo, vkComment, _T("") }
 	};
 
+	CMString tszRes;
 	vkFeedback = vkParent = vkNull;
 	for (int i = 0; i < SIZEOF(vkNotification); i++)
-		if (tszType == vkNotification[i].tszType) {
+		if (tszType == vkNotification[i].ptszType) {
 			vkFeedback = vkNotification[i].vkFeedback;
 			vkParent = vkNotification[i].vkParent;
+			tszRes = vkNotification[i].ptszTranslate;
 			break;
 		}
+	return tszRes;
 }
