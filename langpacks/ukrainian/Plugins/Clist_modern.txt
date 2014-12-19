@@ -428,7 +428,7 @@ x100 мс
 [Draw overlay icons]
 Значки на аватарах
 [Max size (pixels):]
-Макс. розмір (у пікселях):
+Макс. розмір (пікселі):
 [Round corners of avatars]
 Заокруглені кути аватарів
 [Ignore size for row height calcs]

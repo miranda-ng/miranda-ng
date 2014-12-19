@@ -87,6 +87,8 @@
 Старий обліковий запис
 [New account]
 Новий обліковий запис
+[Unable to create an account %s of protocol %S]
+Не вдалося створити обліковий запис %s протоколу %S
 [Failed to add %S contact %s]
 Не вдалося додати %S контакт %s
 [Added %S contact %s, '%s']
