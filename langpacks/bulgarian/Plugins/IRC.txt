@@ -7,7 +7,6 @@
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Internet Relay Chat (IRC) в Miranda NG.
-;file \protocols\IRCG\res\IRC.rc
 [Default network]
 Стандартна мрежа
 [Enable]
@@ -36,10 +35,6 @@ SSL
 Заместващ прякор
 [Full name (e-mail)]
 Име (имейл)
-[User ID (Ident)]
-
-[Ident]
-
 [System]
 Система
 [Port]
@@ -66,8 +61,6 @@ SSL
 Поддържане на връзката
 [Automatically join on invite]
 Автоматично влизане в канал при покана
-['Old style' mode changes]
-
 [Update online statuses for users]
 Обновяване на потреб. състояние
 [Check every (s):]
@@ -78,14 +71,10 @@ SSL
 Без проверка ако потр. са > от:
 [User information]
 Подробности за потребителя
-[Ping]
-
 [Version]
 Версия
 [Time]
 Час
-[Userinfo]
-
 [&Refresh]
 Обновяване
 [&Query]
@@ -104,8 +93,6 @@ SSL
 Сървър
 [User]
 Потребител
-[Away Info]
-
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
 Следната информация е предоставена от сървъра. ! Внимание - може да е подвеждаща и/или фалшифицирана.
 [CTCP information]
@@ -118,8 +105,6 @@ CTCP информация
 Изпълнение на
 [&Set]
 Задаване
-[Alias]
-
 [Perform on event:]
 Изпълнение при събитие:
 [Scripting support]
@@ -154,16 +139,10 @@ CTCP информация
 Свързване
 [&Save]
 Запис
-[Hostmask]
-
 [&Clear all]
 Изчисти всичко
-[Online detection mode]
-
 [Basic]
 Основни
-[Wildcard enabled network search]
-
 [Channel manager]
 Настройки на канала
 [Bans]
@@ -182,8 +161,6 @@ CTCP информация
 Модерирана
 [Key:]
 Ключ:
-[User limit:]
-
 [Private]
 Частно
 [Secret]
@@ -202,8 +179,6 @@ CTCP информация
 Премахване на цветовете
 [Normal]
 Нормално
-[Send-ahead]
-
 [Attempt reverse DCC (good if firewalled)]
 Опитай обратна директна възка клиен-склиент (DCC), полезно ако ползвате защитна стена
 [none]
@@ -262,52 +237,26 @@ CTCP чат заявка
 CTCP
 [DCC]
 DCC
-[Ignore mask (nick!user@host)]
-
 [Network (*)]
 Мрежа*
 [Ignore events]
 Игнорирани събития
-[(*) blank to set this mask for all networks]
-
 [Server:]
 Сървър:
 [Password:]
 Парола:
-;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 CTCP заявка от %s
-;file \protocols\IRCG\src\commandmonitor.cpp
 [%s sets mode %s]
 %s зададе режим %s
 [%s sets mode %s%s]
 %s зададе режим %s%s
-[CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your IRC client registered]
-
-[CTCP FINGER requested by %s]
-
-[CTCP VERSION requested by %s]
-
-[CTCP SOURCE requested by %s]
-
-[CTCP USERINFO requested by %s]
-
-[CTCP PING requested by %s]
-
-[CTCP TIME requested by %s]
-
 [DCC: Chat request from %s denied]
 DCC: Заявката за чат от %s е отхвърлена
 [DCC: File transfer request from %s denied]
 DCC: Заявката за прехвърляне на файл от %s е отхвърлена
-[DCC: Reverse file transfer request from %s denied [No local IP]]
-
-[DCC ERROR: Malformed CTCP request from %s [%s]]
-
 [DCC: File transfer resume request from %s denied]
 DCC: Заявката за продължаване на прехвърлянето от %s е отхвърлена
-[CTCP %s requested by %s]
-
 [CTCP PING reply from %s: %u sec(s)]
 CTCP PING отговор от %s: %u сек
 [CTCP %s reply from %s: %s]
@@ -336,29 +285,16 @@ CTCP %s отговор от %s: %s
 IRC грешка
 [Unknown]
 Неизвестно
-[Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-
 [Ignore]
 Игнориране
 [Please enter the reason]
 Моля, въведете причина
 [Ban'n Kick]
 Бан и изгонване
-[Jerk]
-
-[*Disconnected*]
-
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
 Употребата на /AWAY в буфера за изпълнение  е ограничена,\n защото IRC изпраща командата автоматично.
 [IRC Error]
 IRC грешка
-;file \protocols\IRCG\src\input.cpp
-[The buddy check function is enabled]
-
-[The buddy check function is disabled]
-
-[Incorrect parameters. Usage: /sleep [ms], ms should be greater than 0 and less than 4000.]
-
 [Ignore system is enabled]
 Системата за игнориране е включена
 [Ignore system is disabled]
@@ -367,63 +303,34 @@ IRC грешка
 %s от %s ще бъде игнориран (+%s)
 [%s is not ignored now]
 %s няма да бъде игнориран
-[%s was not ignored]
-
 [Outgoing commands are shown]
 Изходящите команди се показват
 [Outgoing commands are not shown]
 Изходящите команди не се показват
-[The time interval for the buddy check function is now at default setting]
-
-[The time interval for the buddy check function is now %u seconds]
-
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
 Ползването на командата в мрежа с подобен размер не е препоръчително!\r\nВероятно ще предизвика голямо натоварване на процесора и/или интензивен трафик за %u до %u минути.\r\n\r\nНаистина ли желаете това?
 [IRC warning]
 IRC предупреждение
 [Aborted]
 Прекратен
-[CTCP %s request sent to %s]
-
-[DCC ERROR: Unable to automatically resolve external IP]
-
 [DCC CHAT request sent to %s]
 Изпратена е DCC заявка за чат до %s
-[DCC ERROR: Unable to bind port]
-
-[Input command]
-
 [Please enter the reply]
 Моля, въведете отговор
-;file \protocols\IRCG\src\irclib.cpp
-[Failed to connect to]
-
-[DCC ERROR: Unable to bind local port for passive file transfer]
-
-;file \protocols\IRCG\src\ircproto.cpp
 [%s server connection]
 %s връзка със сървъра
 [%s client-to-client connections]
 %s връзки client-to-client
 [Nickname]
 Прякор
-[DCC ERROR: No valid files specified]
-
-[DCC reversed file transfer request sent to %s [%s]]
-
 [DCC file transfer request sent to %s [%s]]
 Изпратена е DCC заявка за прехвърляне на файл до %s [%s]
-[DCC ERROR: Unable to bind local port]
-
 [The protocol is not online]
 Протоколът не е на линия
-[The dcc chat connection is not active]
-
 [Please choose an IRC-network to go online. This network will be the default.]
 Изберете, към коя IRC мрежа да се включите. Тя ще бъде стандартна.
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и m_name).
-;file \protocols\IRCG\src\options.cpp
 [Main]
 Основна
 [Add]
@@ -496,30 +403,10 @@ Latin I
 Изтриване на сървъра
 [Edit server]
 Редактиране на сървъра
-[<Resolved IP: ]
-
 [<Automatic>]
 <Автоматично>
 [<Local IP: ]
 <Локално IP:\s
-[Event: Available]
-
-[Event: Away]
-
-[Event: N/A]
-
-[Event: Occupied]
-
-[Event: DND]
-
-[Event: Free for chat]
-
-[Event: On the phone]
-
-[Event: Out for lunch]
-
-[Event: Disconnect]
-
 [ALL NETWORKS]
 Всички мрежи
 [Click to set commands that will be performed for this event]
@@ -534,8 +421,6 @@ Latin I
 Редактиране на игнорирането
 [Delete this ignore]
 Изтриване на игнорирането
-[Ignore mask]
-
 [Flags]
 Държавни знамена
 [Add ignore]
@@ -548,22 +433,14 @@ Latin I
 DCC и CTCP
 [Advanced]
 Разширени
-;file \protocols\IRCG\src\output.cpp
-[WallOps from %s: ]
-
 [%s invites you to %s]
 %s ви кани в %s
 [%s is away]
 %s отсъства
 [These are online: ]
 Потребители на линия:\s
-[CTCP %s reply sent to %s]
-
-[CTCP %s reply sent to %s: %s]
-
 [Notice to %s: ]
 Известие до %s:\s
-;file \protocols\IRCG\src\services.cpp
 [&Quick connect]
 Бързо свързване
 [&Join channel]
@@ -582,10 +459,6 @@ DCC и CTCP
 Излизане от мрежата
 [&Add to ignore list]
 Игнориране
-[%s (%s) is requesting a client-to-client chat connection.]
-
-[Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-
 [Join channel]
 Влизане в канала
 [Please enter a channel to join]
@@ -678,12 +551,6 @@ NickServ
 Изброяване на всички ваши прякори
 [List your channels]
 Изброяване на вашите канали
-[Kill unauthorized: off]
-
-[Kill unauthorized: on]
-
-[Kill unauthorized: quick]
-
 [Hide nick from list]
 Скриване на прякора от списъка
 [Show nick to list]
@@ -698,10 +565,6 @@ NickServ
 Изпращане на известие
 [&Slap]
 Шамар
-[Nickserv info]
-
-[Nickserv kill ghost]
-
 [&Control]
 Контрол
 [Give Owner]
@@ -746,19 +609,8 @@ Voice (имащ право да говори)
 Добавяне в списъка
 [Connecting to]
 Свързване към
-;file \protocols\IRCG\src\tools.cpp
 [Offline]
 Извън линия
-;file \protocols\IRCG\src\userinfo.cpp
-[Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
-
-[Slower! Searches the network for nicknames matching a wildcard string. The hostmask is mandatory and a minimum of 4 characters is necessary in the "Nick" field. Wildcards (? and *) are allowed.]
-
-[Settings could not be saved!\n\nThe "Nick" field must contain at least four characters including wildcards,\n and it must also match the default nickname for this contact.]
-
-[Settings could not be saved!\n\nA full hostmask must be set for this online detection mode to work.]
-
-;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
 Моля, изчакайте...
 [Channel]

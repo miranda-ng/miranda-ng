@@ -5,123 +5,32 @@
 ;  Version: 0.0.0.55
 ;  Authors: leecher, tweety, jls17
 ;============================================================
-[Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
-
-;file \protocols\SkypeClassic\res\Resource.rc
 [Set]
 Задай
 [Delete]
 Изтриване
-[Start Skype with Miranda NG if not running using the following command line options:]
-
-[/NOSPLASH - Don't show splash screen on startup]
-
-[/MINIMIZED - Start Skype minimized]
-
-[/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
-
-[/REMOVEABLE - For running portable Skype]
-
-[/SECONDARY - This is the second instance]
-
-[/DATAPATH - Specify Skype data folder*]
-
-[Use custom Skype executable*]
-
-[* Relative path root is Miranda NG folder]
-
-[Shutdown Skype when you close Miranda NG]
-
-[Unload Skype when you change to Offline status]
-
-[Try at least]
-
-[times to connect to Skype API before giving up]
-
-[User name:]
-
 [Password:]
 Парола:
-[Dial]
-
-[Number:]
-
 [Cancel]
 Отказ
-[%s is calling]
-
-[Join conference with %s]
-
-[Answer call; set call to %s on hold]
-
-[Hang up]
-
 [Dialog]
 Прозорец
-[Use Skype proxy connection over network instead of local Skype API]
-
 [Host:]
 Хост:
 [Port:]
 Порт:
-[* You must restart Miranda NG in order to let the settings take effect]
-
-[This Skype proxy requires password authentication:]
-
 [Name:]
 Име:
 [Birthday:]
 Рожден ден:
-[Sex:]
-
 [City:]
 Град:
 [Country:]
 Държава:
-[Province:]
-
-[Home phone:]
-
-[Office phone:]
-
 [Homepage:]
 Страница:
 [Save]
 Запис
-[Enable Skype menu options (currently: Find/Add user)]
-
-[Use popup plugin for displaying messages]
-
-[Suppress all error messages (not recommended, but if it annoys you... ;)]
-
-[Use group chat interface for conversations (requires group chat module)]
-
-[Mark group chat message as read to avoid notification]
-
-[Keep requested online status on startup under every circumstance]
-
-[Use time zone patch]
-
-[Ignore time zones]
-
-[Show default Skype avatar for contacts]
-
-[Suppress call summary chat message]
-
-[Disable support for N/A and SkypeMe status (for Skype 4+)]
-
-[Show full name in contact list instead of nickname]
-
-[SkypeOut contacts are in status:]
-
-[Cleanup Nicknames]
-
-[Skype Popups]
-
-[Incoming Calls]
-
-[Show incoming calls]
-
 [seconds]
 секунди
 [Background]
@@ -132,36 +41,8 @@
 Текст
 [Preview]
 Образец
-[Error Messages]
-
-[Display error messages]
-
-;file \protocols\SkypeClassic\src\contacts.cpp
-[Call (Skype)]
-
-[Call using SkypeOut]
-
-[Hang up call (Skype)]
-
-[Hang up SkypeOut call]
-
-[Hold call]
-
-[Resume call]
-
 [&File]
 Файл
-[&Open group chat]
-
-[Block contact]
-
-[Import Skype history]
-
-[Add Skype contact]
-
-[Unblock contact]
-
-;file \protocols\SkypeClassic\src\gchat.cpp
 [Unknown]
 Неизвестно
 [&Invite user...]
@@ -170,46 +51,13 @@
 Аз
 [&Leave chat session]
 Напускане от разговора
-[Set &Topic...]
-
 [User &details]
 Подробности за потребителя
 [User &history]
 История на потребителя
-[&Kick user]
-
-;file \protocols\SkypeClassic\src\skype.cpp
-[Do a SkypeOut-call]
-
-[invited]
-
-[Phone call]
-
-[Incoming Skype Call]
-
-[Incoming call from %s]
-
-[Connection to Skype lost]
-
-[This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-
-;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview Error Message]
-
-[Skype default]
-
-[Skype advanced]
-
-[Skype proxy]
-
 [Avatar]
 Аватар
-[Details]
-
 [MALE]
 МЪЖ
 [FEMALE]
 ЖЕНА
-;file \protocols\SkypeClassic\src\skypesvc.cpp
-[Skype ID]
-

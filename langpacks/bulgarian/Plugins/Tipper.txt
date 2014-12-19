@@ -7,7 +7,6 @@
 ;============================================================
 [Tool Tip notification windows.]
 Осигурява малки подсказващи прозорци - подсказки които се появяват за кратко, за да известят потребителя за дадено събитие.
-;file \plugins\TipperYM\res\resource.rc
 [Layout]
 Изглед
 [Text indent:]
@@ -44,16 +43,12 @@
 Аватар (размер):
 [Sidebar width:]
 Странична лента:
-[Hover time:]
-
 [Show if list not focused]
 Показване при дефокусиран списък
 [Options]
 Настройки
 [Show title]
 Показване на заглавие
-[Status bar tips]
-
 [Avatar border]
 Рамка на аватара
 [Round corners (avatar)]
@@ -66,8 +61,6 @@
 Етикет:
 [Module:]
 Модул:
-[Contact protocol module]
-
 [Setting or prefix:]
 Настройка (представка):
 [Translation:]
@@ -84,10 +77,6 @@
 Добавяне на линия отгоре
 [Value on a new line]
 Стойността на нов ред
-[Parse Tipper variables first]
-
-[Preset items:]
-
 [Items]
 Елементи
 [Substitutions]
@@ -110,8 +99,6 @@
 Поддръжка на Smileys
 [Enable SmileyAdd support]
 Поддръжка на приставката SmileyAdd
-[Use protocol smileys]
-
 [Resize smileys]
 Оразмеряване на усмивките
 [Replace only isolated smileys]
@@ -120,10 +107,6 @@
 Разширени настройки
 [Show tooltip after all content is ready (avatar && status message)]
 Показване след зареждане на цялото съдържание (аватар и текст за състояние)
-[Retrieve new status message]
-
-[Disable in invisible status]
-
 [Retrieve xStatus details if auto-retrieve is disabled]
 Извличане на подробности за xСъстояние при изключено автоизвличане
 [Status bar and tray tooltip]
@@ -158,8 +141,6 @@
 Настройки на облика
 [Enable skin coloring]
 Оцветяване на облика
-[Load tooltip proportions]
-
 [Load fonts and colors]
 Зареждане на шрифтове и цветове
 [Transparency]
@@ -170,8 +151,6 @@
 Aero Glass (Vista+)
 [Enable tray tooltips]
 Подсказки в трея
-[Handle tray tooltips by Tipper]
-
 [Hide offline protocols]
 Без протоколите "Извън линия"
 [Expand to second level after:]
@@ -184,14 +163,10 @@ ms
 Подсказка второ ниво
 [Favorite contacts]
 Любими контакти
-[Hide offline]
-
 [Append protocol name]
 Добавяне името на протокола
-;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
 Tipper усмивки
-;file \plugins\TipperYM\src\options.cpp
 [You must enter a label]
 Трябва да въведете етикет
 [Invalid Substitution]
@@ -256,7 +231,6 @@ Tipper усмивки
 Подсказка в трея
 [Extra]
 Допълнителни
-;file \plugins\TipperYM\src\options.h
 [Show for all contact types]
 За всеки тип контакти
 [Show only for contacts]
@@ -265,8 +239,6 @@ Tipper усмивки
 Само за чат стаи
 [Number of contacts]
 Брой контакти
-[Protocol lock status]
-
 [Logon time]
 Време на вписване
 [Unread emails]
@@ -281,8 +253,6 @@ Tipper усмивки
 Слуша..
 [Miranda uptime]
 Miranda работи от
-[Contact list event]
-
 [Jabber activity]
 Jabber дейност
 [Gender]
@@ -291,13 +261,10 @@ Jabber дейност
 Държавно знаме
 [Client]
 Клиент
-;file \plugins\TipperYM\src\popwin.cpp
 [%s (locked)]
 %s (заключен)
 [%s ago]
 преди %s
-[Log on:]
-
 [Unread emails:]
 Непрочетени имейли:
 [Status:]
@@ -328,7 +295,6 @@ xСъстояние:
 Друго
 [Miranda uptime:]
 Miranda работи от:
-;file \plugins\TipperYM\src\preset_items.cpp
 [Account]
 Акаунт
 [Account:]
@@ -451,17 +417,14 @@ xСъстояние текст:
 \[weather.dll] Вятър
 [Wind:]
 Вятър:
-;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 \# запълване с плътен цвят
-;file \plugins\TipperYM\src\subst.cpp
 [%dd %dh %dm]
 %dден %dчас %dмин
 [%dh %dm]
 %dчас %dмин
 [%dm]
 %dмин
-;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 Фон
 [Dividers]
@@ -478,7 +441,6 @@ xСъстояние текст:
 Имена на протоколите в трея
 [Tipper]
 Tipper
-;file \plugins\TipperYM\src\translations.cpp
 [Female]
 Жена
 [Male]
@@ -487,8 +449,6 @@ Tipper
 %dгод %dден %dчас %dмин
 [%dd]
 %dден
-[[No translation]]
-
 [WORD to status description]
 WORD към описание на състояние
 [DWORD timestamp to time]
@@ -533,7 +493,6 @@ WORD към име на ден (0 до 6, 0 е неделя)
 WORD към име на месец (1 до 12, 1 е януари)
 [BYTE to language (ICQ)]
 BYTE към език (ICQ)
-;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 африкаанс (бурски)
 [Albanian]

@@ -5,15 +5,10 @@
 ;  Version: 2.1.0.9
 ;  Authors: Rozhuk Ivan
 ;============================================================
-[Miranda Mail.ru Agent protocol plugin.]
-
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 Имейл:
 [Password:]
 Парола:
-[Create a new Mail.ru account]
-
 [Configuration]
 Настройване
 [Login Server:]
@@ -22,28 +17,8 @@
 Порт:
 [Default]
 Стандарт
-[Automatically request authorization on logon]
-
-[Automatically add contacts to server list on logon]
-
-[Automatically grant authorization to users in contact list]
-
-[Automatically grant authorization to new users]
-
-[Automatic authorization on Mail.ru web services]
-
 [Notify me when a message delivery has failed]
 Уведомяване при неуспешно доставяне на съобщение
-[Notify about new mail if increment]
-
-[Notify about new mail tray icon]
-
-[Click to Inbox]
-
-[Show received formatted text (receive RTF)]
-
-[Send formatted text (send RTF)]
-
 [Background color]
 Цвят на фона
 [Font]
@@ -78,58 +53,12 @@
 Търси само потребители "На линия"
 [City:]
 Град:
-[Remember]
-
-[Enable avatars support (loading)]
-
 [Server:]
 Сървър:
-[Updates check interval, min]
-
-[Return absolute path]
-
-[Delete avatar file with contact]
-
-[Use keep-alive connections]
-
-[Files exchange]
-
-[No out connection on send]
-
-[No out connection on receive]
-
-[Out connections: ignore additional ports (443, 2041)]
-
-[Hide my IP addresses]
-
-[Add extra address]
-
 [Your host (or router):]
 Ваш хост (или рутер):
-[File send block size:]
-
-[512 - 65536 bytes]
-
-[Enable direct connections]
-
-[Enable MRIM proxy connections]
-
-[Mail.ru Agent]
-
 [Full e-mail:]
 E-поща:
-[Example: Petrov_Ivan@mail.ru]
-
-[Create a new Mail.ru account using the Mail.ru website]
-
-[Retrieve a lost password]
-
-[Leave empty if you don't want to change password]
-
-[Popup type]
-
-[Popup settings]
-
 [Enable]
 Включване
 [&Use Windows colors]
@@ -154,11 +83,6 @@ E-поща:
 Отказ
 [Notify]
 Уведомяване
-[Written:]
-
-[Select e-mail]
-
-;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
 Мъж
 [Female]
@@ -211,97 +135,16 @@ E-поща:
 Водолей
 [Pisces]
 Риби
-;file \protocols\MRA\src\MraAvatars.cpp
-[Avatars' plugin connections]
-
-[Avatars: server return HTTP code: %lu]
-
-[Avatars: can't open file %s, error]
-
-;file \protocols\MRA\src\MraChat.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 За конферентни разговори е необходима приставката CHAT. Инсталирайте я преди да чатите.
-[invite sender]
-
-[invite new members]
-
-;file \protocols\MRA\src\MraConstans.h
-[Your contact wakes you]
-
-[Display &Inbox]
-
-[Display &Inbox status]
-
-[Edit &Profile]
-
-[My Album]
-
-[My Blog Status]
-
-[My Video]
-
-[My Answers]
-
-[My World]
-
-[Web search]
-
-[Update all users info]
-
-[Check users avatars updates]
-
-[Request authorization for all]
-
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
 Даване на пълномощно
-[&Send E-Mail]
-
-[&Send postcard]
-
-[&View Album]
-
-[Reply Blog Status]
-
-[View Video]
-
-[Answers]
-
-[World]
-
-[Send &Nudge]
-
-[Mail box deleted]
-
-[Contact not on server]
-
-[Not authorized]
-
-[Phone/SMS only contact]
-
-[Blog status message]
-
 [New E-mail available in Inbox]
 Нов имейл във входящата кутия
-[Please authorize me]
-
-;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: can't allocate disk space for file, size %lu bytes, error]
-
-[Receive files: can't open file %s, error]
-
-[Receive files: request for file %s not sent, error]
-
-[Send files: can't open file %s, error]
-
-[Send files: requested file: %S - not found in send files list.]
-
-;file \protocols\MRA\src\MraIcons.cpp
 [Protocols]
 Протоколи
-[MRA]
-
 [Main Menu]
 Главно меню
 [Contact Menu]
@@ -310,11 +153,8 @@ E-поща:
 Допълнително състояние
 [Custom Status]
 Персонално състояние
-;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Няма
-[Debug]
-
 [Information]
 Информация
 [Question]
@@ -323,116 +163,42 @@ E-поща:
 Предупреждение
 [Error]
 Грешка
-[NewMail]
-
 [Popups]
 Рopups
-;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 %s връзка
-[Mail.ru xStatus]
-
-[Mail.ru extra info]
-
 [E-mail address]
 Имейл
-;file \protocols\MRA\src\Mra_functions.cpp
-[Unread mail is available: %lu/%lu messages]
-
-[From: %S\r\nSubject: %S\r\n%s]
-
-[No unread mail is available\r\nTotal messages: %lu]
-
-[Closing in %ld]
-
-[Reply to %s blog status]
-
-[Set my blog status]
-
-[Written]
-
-;file \protocols\MRA\src\Mra_menus.cpp
 [Are you sure?]
 Сигурни ли сте?
 [Services...]
 Услуги...
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Мрежа
 [Account]
 Акаунт
-[Connections]
-
 [Files]
 Файлове
 [Avatars]
 Аватари
-;file \protocols\MRA\src\Mra_proto.cpp
-[Please, setup e-mail in options]
-
-[Please, setup password in options]
-
-[Thread creation failure]
-
-[Logon error: invalid login/password]
-
-[MRIM_CS_MESSAGE_STATUS: not found in queue]
-
-[Server error: can't get MPOP key for web authorize]
-
-[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
-
-[invisible status changed]
-
-[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
-
-[MRIM_CS_*_CONTACT_ACK: not found in queue]
-
-[MRIM_ANKETA_INFO: not found in queue]
-
-[MRIM_CS_GAME: unknown internal game message code: %lu]
-
-[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
-
-[MRIM_CS_SMS_ACK: not found in queue]
-
-[Mail.ru System notify]
-
-;file \protocols\MRA\src\Mra_svcs.cpp
 [Sick]
 Болен
 [Home]
 Дом
 [Eating]
 Яде
-[Compass]
-
 [On WC]
 В тоалетната
 [Cooking]
 Готви
 [Walking]
 разхожда се
-[Alien]
-
-[Shrimp]
-
-[Got lost]
-
 [Crazy]
 Луд
-[Duck]
-
-[Playing]
-
 [Smoking]
 Пуши
-[Office]
-
 [Meeting]
 Среща
-[Beer]
-
 [Coffee]
 Кафе
 [Working]
@@ -441,59 +207,13 @@ E-поща:
 Релаксира
 [On the phone]
 На телефона
-[In institute]
-
-[At school]
-
-[Wrong number]
-
-[Laughing]
-
-[Malicious]
-
-[Imp]
-
-[Blind]
-
 [Disappointed]
 Разочарован
-[Almost crying]
-
-[Fearful]
-
 [Angry]
 Ядосан
-[Vampire]
-
-[Ass]
-
 [Love]
 Любов
 [Sleeping]
 Спи
-[Cool!]
-
-[Peace!]
-
-[Cock a snook]
-
-[Get out]
-
-[Death]
-
-[Rocket]
-
-[Devil-fish]
-
-[Heavy metal]
-
-[Things look bad]
-
-[Squirrel]
-
-[Star]
-
 [Music]
 Музика
-[Dating]
-

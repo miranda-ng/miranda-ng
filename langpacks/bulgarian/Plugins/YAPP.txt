@@ -5,15 +5,10 @@
 ;  Version: 0.5.0.12
 ;  Authors: Scott Ellis
 ;============================================================
-[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-
-;file \plugins\YAPP\res\yapp.rc
 [Popup history]
 Рopup история
 [Close]
 Затваряне
-[Case sensitive]
-
 [Default Timeout]
 Стандартно времетраене
 [Never timeout]
@@ -42,8 +37,6 @@
 Аватар (размер):
 [Disable when]
 Изключване, когато
-[Global hover]
-
 [Sidebar width:]
 Странична лента:
 [Text indent:]
@@ -60,25 +53,14 @@
 Задаване на времетраене
 [Timeout value (0 = default):]
 Времетраене (0=стандарт):
-;file \plugins\YAPP\src\icons.cpp
 [Popups are enabled]
 Popups са включени
 [Popups are disabled]
 Popups са изключени
 [Popup History]
 Popup история
-;file \plugins\YAPP\src\notify_imp.cpp
-[YAPP Popups]
-
-;file \plugins\YAPP\src\options.cpp
 [Example]
 Пример
-[The quick brown fox jumped over the lazy dog.]
-
-[Example With a Long Title]
-
-[Thequickbrownfoxjumpedoverthelazydog.]
-
 [An avatar.]
 Аватар.
 [Bottom right]
@@ -111,14 +93,6 @@ Popup история
 Състояние
 [Full-screen app running]
 Приложение на цял екран
-[No animate]
-
-[Horizontal animate]
-
-[Vertical animate]
-
-[You cannot set a default timeout of 0.\nValue has been reset.]
-
 [Error]
 Грешка
 [Popups]
@@ -127,12 +101,10 @@ Popup история
 Настройки
 [Classes]
 Класове
-;file \plugins\YAPP\src\services.cpp
 [Disable Popups]
 Изключване на Popups
 [Enable Popups]
 Включване на Popups
-;file \plugins\YAPP\src\yapp.cpp
 [Toggle Popups]
 Вкл./Изкл. на Popups
 [First line]
@@ -147,7 +119,6 @@ Popup история
 Странична лента
 [Title underline]
 Подчертаване на заглавието
-;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Copy title to clipboard]
 Копиране на заглавието в клипборда
 [Copy message to clipboard]

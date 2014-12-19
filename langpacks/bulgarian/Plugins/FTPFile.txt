@@ -7,7 +7,6 @@
 ;============================================================
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 Качва файл на FTP сървър и изпраща връзка към файла до Ваш контакт. Поддържа автоматично архивиране преди качване и криптиране (SFTP и FTPS).
-;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP accounts]
 FTP акаунт
 [Host name]
@@ -126,7 +125,6 @@ FTP File диспечер
 Изтриване от списъка
 [Copy Link]
 Копиране на връзката
-;file \plugins\FTPFileYM\src\dialog.cpp
 [User Info]
 Подробности за потребителя
 [Copy Link to Clipboard]
@@ -139,7 +137,6 @@ FTP File диспечер
 %d дни
 [Do you really want to cancel all running jobs?]
 Наистина ли желаете всички текущи задачи да бъдат отменени?
-;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server 1]
 FTP сървър 1
 [FTP Server 2]
@@ -180,7 +177,6 @@ FTP file диспечер
 Завършено качване на файл
 [Upload canceled]
 Отменено качване
-;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)]
 Всички файлове (*.*)
 [FTP File - Select files]
@@ -207,7 +203,6 @@ FTP File: Изберете папка
 ИЗЧАКВАНЕ...
 [UNKNOWN]
 НЕИЗВЕСТНО
-;file \plugins\FTPFileYM\src\job_packer.cpp
 [Error occurred when zipping the file(s).]
 Възникна грешка при архивирането на файла(овете).
 [%0.1f kB/s]
@@ -220,7 +215,6 @@ FTP File: Изберете папка
 Наистина ли желаете качването да бъде отменено?
 [Status: %s\r\nFile: %s\r\nServer: %s]
 Състояние: %s\r\nФайл: %s\r\nСървър: %s
-;file \plugins\FTPFileYM\src\job_upload.cpp
 [File exists - %s]
 Файлът съществува - %s
 [Error occurred when opening local file.\nAborting file upload...]
@@ -235,12 +229,10 @@ FTP File: Изберете папка
 Наистина ли желаете качването да бъде отменено?
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 %s\r\nСкорост: %s\r\nКачени: %s\r\nОстават: %s
-;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 Трябва да въведете и включите поне един сървър в настройките.
 [Clear All]
 Изчисти всичко
-;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
 FTP (Стандартно)
 [FTP+SSL (Explicit)]
@@ -261,5 +253,3 @@ SFTP (Secure FTP over SSH)
 Акаунти
 [Advanced]
 Разширени
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

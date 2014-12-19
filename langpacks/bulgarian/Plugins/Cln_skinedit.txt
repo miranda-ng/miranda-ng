@@ -7,7 +7,6 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Редактор на облици за Clist_nicer.
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Елементи на облика
 [General]
@@ -58,7 +57,6 @@
 Прозорец
 [Not yet supported]
 Не се поддържа
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 Копирай от
 [<None>]
@@ -69,5 +67,3 @@
 Вградено
 [Bumped]
 Двойно изпъкнало
-[Etched]
-

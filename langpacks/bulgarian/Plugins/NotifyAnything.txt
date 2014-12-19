@@ -5,51 +5,15 @@
 ;  Version: 0.0.2.8
 ;  Authors: Daniel Wesslen, Korney San
 ;============================================================
-[Displays popups for custom events, triggered by UDP packages.]
-
-;file \plugins\NotifyAnything\res\NotifyAnything.rc
-[Property Page]
-
 [Security]
 Сигурност
-[Only listen to localhost]
-
 [Port:]
 Порт:
-[(Default is 12001)]
-
 [Password:]
 Парола:
-[Allow actions to execute programs]
-
-[Sound]
-
-[Play sounds]
-
-[Use internal speaker]
-
-[Debug]
-
 [Log to file]
 Запис във файл
-[Message debugging]
-
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-
-;file \plugins\NotifyAnything\src\main.cpp
-[Notify Anything]
-
-[N/A: Failed to format error message]
-
-[N/A: FormatMessage failed, error code was 0x]
-
 [Error]
 Грешка
-;file \plugins\NotifyAnything\src\options.cpp
-[Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
-
-[Invalid port number]
-
 [Plugins]
 Приставки

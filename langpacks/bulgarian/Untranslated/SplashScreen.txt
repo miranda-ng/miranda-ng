@@ -1,0 +1,7 @@
+﻿[Shows a splash at Miranda startup.]
+[Splash Options]
+[Show splash]
+[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
+[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
+[Graphic files]
+[Splash Screen]

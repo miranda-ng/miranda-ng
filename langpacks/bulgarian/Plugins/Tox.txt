@@ -7,7 +7,6 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Tox в Miranda NG.
-;file \protocols\Tox\res\resource.rc
 [Name:]
 Име:
 [Password:]
@@ -44,25 +43,20 @@ DNS име:
 Запис на паролата
 [Tox profile is encrypted. Enter the password to continue.]
 Tox профилът е шифрован. Въведете паролата за да продължите.
-;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Мрежа
 [Account]
 Акаунт
-;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s връзка
-;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Всички файлове (*.*)
 [Select tox profile]
 Изберете Tox профил
-;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Протоколи
 [Protocol icon]
 Икона на протокола
-;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Търсене
 [You cannot add yourself to friend list]

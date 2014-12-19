@@ -5,5 +5,3 @@
 ;  Version: 0.8.0.1
 ;  Authors: Merlin_de, Victor Pavlychko
 ;============================================================
-[Provides text render API for different plugins.]
-

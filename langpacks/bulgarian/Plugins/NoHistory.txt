@@ -5,39 +5,17 @@
 ;  Version: 0.2.3.0
 ;  Authors: Scott Ellis, NightFox
 ;============================================================
-[Prevent Miranda from storing any history.]
-
-;file \plugins\NoHistory\res\NoHistory.rc
-[Keep history for this contact]
-
-[Disable history for this contact]
-
-;file \plugins\NoHistory\src\dllmain.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-
-[Clear History]
-
-[Enable History]
-
-[Disable History]
-
 [History Enabled]
 Съхраняване на историята
 [History Disabled]
 Без съхраняване на история
-;file \plugins\NoHistory\src\icons.cpp
 [Disable]
 Изключване
 [Enable]
 Включване
 [Clear]
 Изчистване
-[No History]
-
-;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Всички контакти **
 [History]
 История
-[Logging]
-

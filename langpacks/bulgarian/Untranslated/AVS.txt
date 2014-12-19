@@ -1,0 +1,7 @@
+﻿[Number of points to define background:]
+[Protect the picture and prevent automatic avatars from overwriting it]
+[Contact picture]
+[Try to make picture background transparent]
+[Color diff:]
+[My Global Avatar Cache]
+[Fatal error, image services not found. Avatar services will be disabled.]

@@ -7,7 +7,6 @@
 ;============================================================
 [ICQ protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола ICQ в Miranda NG.
-;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 ICQ номер:
 [Password:]
@@ -50,12 +49,8 @@ ICQ номер:
 Сигурна (SSL) връзка
 [Secure (MD5) login]
 Сигурно (MD5) вписване
-[Legacy fix (for ICQ Groupware or IServerD only)]
-
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
 Поддържане на връзката (отметнете ако използвате прокси сървър и често бивате изключвани от мрежата ICQ)
-[Ignore concurrent error messages]
-
 [Show connection error messages:]
 Показване на съобщения при проблем с връзката:
 [ICQ contacts stored on server]
@@ -96,8 +91,6 @@ ICQ аватари
 Желая да бъда временно видим за контактите до които изпращам съобщения
 [Notify me when a message delivery has failed]
 Уведомяване при неуспешно доставяне на съобщение
-[Peer-to-peer Messaging]
-
 [Enable peer-to-peer message connections]
 Включване на peer-to-peer връзка при разговор
 [Passive mode (i.e., do not initiate new connections)]
@@ -152,8 +145,6 @@ ICQ аватари
 Изобразяване на грешки чрез popups
 [Display popup when spambot is detected]
 Изобразяване на popup при засичане на СПАМ бот
-[Look && Feel]
-
 [Back Color]
 Фонов цвят
 [Text Color]
@@ -166,8 +157,6 @@ ICQ аватари
 Предупреждение
 [Error]
 Грешка
-[Fatal]
-
 [Spam detected]
 Засечен е спам
 [&Use Windows colors]
@@ -274,9 +263,6 @@ UIN:
 Моля, въведете новата си паролата:
 [Enter your current password:]
 Въведете текущата парола:
-;file \protocols\IcqOscarJ\src\chan_04close.cpp
-[Unable to connect to migrated ICQ communication server]
-
 [Unable to connect to ICQ communication server]
 Свързването с комуникационния сървър на ICQ е невъзможно
 [You could not sign on because the server returned invalid data. Try again.]
@@ -303,19 +289,12 @@ UIN:
 Неуспешно свързване.\nНеизвестна грешка по време на вписването: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
 Изключен сте от мрежата ICQ поради вписване от друго място със същия ICQ номер.
-[Unknown runtime error: 0x%02x]
-
-;file \protocols\IcqOscarJ\src\fam_01service.cpp
 [A server migration has failed because the server returned invalid data. You must reconnect manually.]
 Пренасянето на сървъра се провали защото сървъра върна невалидни данни. Трябва да се свържете повторно ръчно.
-[Failed to request offline messages. They may be received next time you log in.]
-
-;file \protocols\IcqOscarJ\src\fam_03buddy.cpp
 [Spambot Detected]
 Засечен е СПАМ бот
 [Contact deleted & further events blocked.]
 Контакта е изтрит, а бъдещите събития ще бъдат блокирани.
-;file \protocols\IcqOscarJ\src\fam_04message.cpp
 [Incoming URL:]
 Входящ URL адрес:
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
@@ -336,21 +315,14 @@ UIN:
 SNAC формата е отхвърлен от сървъра.\nSNAC(4.1) грешка x0E
 [The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
 Потребителя временно не е наличен. Моля опитайте отново след малко.\r\nSNAC(4.1) Грешка x13
-[SNAC(4.1) SENDMSG Error (x%02x)]
-
 [Contact "%s" has closed the message window.]
 Контакта "%s" затвори прозореца за съобщения.
 [ICQ Note]
 ICQ бележка
-;file \protocols\IcqOscarJ\src\fam_13servclist.cpp
 [Server contact list is unavailable, Miranda will use local contact list.]
 На сървъра няма списък с контакти. Ще бъде използвам местния списък.
 [Updating of server contact failed.]
 Неуспешно обновяване на контакт от сървъра.
-[Adding of privacy item to server list failed.]
-
-[Removing of privacy item from server list failed.]
-
 [Adding of contact to server list failed.]
 Неуспешно добавяне на контакт в списъка на сървъра.
 [Adding of group to server list failed.]
@@ -371,12 +343,10 @@ ICQ бележка
 Пълномощното на "%s" бе премахнато от списъка на сървъра.
 [User "%s" was removed from server list.]
 Потребителя "%s" беше премахнат от списъка на сървъра.
-;file \protocols\IcqOscarJ\src\fam_17signon.cpp
 [Secure login failed.\nInvalid server response.]
 Неуспешен опит за сигурно вписване.\nНевалиден отговор на сървъра.
 [Secure login failed.\nInvalid key length.]
 Неуспешен опит за сигурно вписване.\nНевалидна дължина на ключа.
-;file \protocols\IcqOscarJ\src\icqosc_svcs.cpp
 [Are you sure you want to revoke user's authorization?\nThis will remove you from his/her list on some clients.]
 Желаете ли да оттеглите пълномощното на контакта?\nЩе бъдете премахнати от списъка му, само за някои клиенти.
 [Confirmation]
@@ -391,12 +361,10 @@ ICQ бележка
 ** Съобщението е блокирано от ICQ сървъра ** Твърде зъл сте.
 [** Unknown missed message event.]
 ** Непознато пропуснато събитие.
-;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [Error uploading avatar to server, server temporarily unavailable.]
 Грешка при качването на аватара на сървъра. Сървъра е временно недостъпен.
 [Error uploading avatar to server, server refused to accept the image.]
 Грешка при качването на аватара. Сървъра не приема изображението.
-;file \protocols\IcqOscarJ\src\icq_fieldnames.cpp
 [Afghanistan]
 Афганистан
 [Albania]
@@ -949,8 +917,6 @@ ICQ - помощ
 Стил на живот
 [Mail Order Catalog]
 Каталози за поръчка по пощата
-[Media]
-
 [Movies and TV]
 Филми и телевизия
 [Music]
@@ -959,8 +925,6 @@ ICQ - помощ
 Мистика
 [News and Media]
 Новини и меди
-[Outdoors]
-
 [Parenting]
 Възпитание
 [Parties]
@@ -1165,8 +1129,6 @@ Web дизайн
 Магистърска степен
 [PhD]
 Докторска степен
-[Postdoctoral]
-
 [University / College]
 Университет/Колеж
 [Agriculture]
@@ -1191,8 +1153,6 @@ Web дизайн
 Производство
 [Medical & Health Care]
 Медицински и грижи за здравето
-[Non-Profit Organization Management]
-
 [Recreation, Travel & Entertainment]
 Развлечение, Пътуване и забавление
 [Service Industry]
@@ -1257,8 +1217,6 @@ Web изграждане
 Фен клубове
 [Fraternity/Sorority]
 Братство/Женски клуб
-[Hobbyists Org.]
-
 [International Org.]
 Международни орг.
 [Nature and Environment Org.]
@@ -1299,15 +1257,12 @@ Web изграждане
 Вдовец/Вдовица
 [Open relationship]
 Отворена връзка
-;file \protocols\IcqOscarJ\src\icq_filerequests.cpp
 [No description given]
 Няма описание
-;file \protocols\IcqOscarJ\src\icq_filetransfer.cpp
 [Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Прехвърлянето е прекратено поради липса на един от избраните файлове. Вероятно сте изтрили или преместили файла.
 [Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
 Прехвърлянето е прекратено защото Miranda не може да отвори файла за писане. Вероятно сте задали файлът да се съхрани в папка, която е само за четене.
-;file \protocols\IcqOscarJ\src\icq_menu.cpp
 [Request authorization]
 Молба за упълномощаване
 [Grant authorization]
@@ -1320,7 +1275,6 @@ Web изграждане
 Подробности за персоналното състояние
 [Open ICQ profile]
 Отваряне на профила в ICQ
-;file \protocols\IcqOscarJ\src\icq_opts.cpp
 [Display all problems]
 При всеки проблем
 [Display problems causing possible loss of data]
@@ -1359,7 +1313,6 @@ Latin I
 Поверителност
 [Popups]
 Рopups
-;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
 Popup заглавие
 [Sample Note]
@@ -1368,36 +1321,24 @@ Popup заглавие
 Пример за предупреждение
 [Sample Error]
 Пример за грешка
-[Sample Fatal]
-
 [Sample Spambot]
 Пример за СПАМ бот
-;file \protocols\IcqOscarJ\src\icq_proto.cpp
 [%s server connection]
 %s връзка със сървъра
 [%s client-to-client connections]
 %s връзки client-to-client
-[User ID]
-
 [You have not entered an ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
 Не сте въвели ICQ номер.\nВъведете го в Настройки>Мрежа>ICQ и опитайте отново.
-;file \protocols\IcqOscarJ\src\icq_server.cpp
 [Unable to connect to ICQ login server, SSL could not be negotiated]
 Свързването с ICQ сървъра не е възможно - не може да се договори SSL
 [Unable to connect to ICQ login server]
 Вписването в сървъра на ICQ е невъзможно
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
 Заделянето на порт за очакване на директни peer-to-peer връзки между клиенти е невъзможно. Повечето услуги предлагани от мрежата ICQ ще бъдат достъпни, но вероятно няма да можете да изпращате/получавате файлове.\n\nАко имате firewall вероятно той блокира Miranda. Тогава трябва да настроите firewall да оставя някои портове отворени и да зададете същите в Главно меню>Настройки>Мрежа>ICQ.
-[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-
-[Your connection with the ICQ server was abortively closed]
-
-;file \protocols\IcqOscarJ\src\icq_servlist.cpp
 [The contact's information was too big and was truncated.]
 Информацията за контакта е съкратена поради размера и.
 [Failed to create the correct sub-group, the using closest parent group.]
 Създаването на подходящата подгрупа се провали. Ще бъде ползвана най-близката майчина група.
-;file \protocols\IcqOscarJ\src\icq_uploadui.cpp
 [NOT FOUND]
 НЕ Е ОТКРИТО
 [ALREADY EXISTS]
@@ -1412,8 +1353,6 @@ Popup заглавие
 Контактите, които желаете да бъдат съхранени на сървъра.
 [Ready...]
 Готово...
-[Server rate warning -> slowing down the process.]
-
 [Adding group "%s"...]
 Добавяне на група "%s"...
 [Uploading %s...]
@@ -1446,7 +1385,6 @@ Popup заглавие
 Трябва да сте на линия за синхронизиране на списъка на сървъра!
 [** All contacts **]
 ** Всички контакти **
-;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
 [Angry]
 Ядосан
 [Taking a bath]
@@ -1497,8 +1435,6 @@ Popup заглавие
 Готви
 [Smoking]
 Пуши
-[I'm high]
-
 [On WC]
 В тоалетната
 [To be or not to be]
@@ -1509,10 +1445,6 @@ Popup заглавие
 Любов
 [Hot Dog]
 Хотдог
-[Rough]
-
-[Rock On]
-
 [Baby]
 Бебе
 [Soccer]
@@ -1523,18 +1455,12 @@ Popup заглавие
 Циклоп
 [Monkey]
 Маймуна
-[Birdie]
-
 [Cool]
 Страхотен
 [Evil]
 Зъл
-[Alien]
-
 [Scooter]
 Скутер
-[Mask]
-
 [Money]
 Пари
 [Pilot]
@@ -1549,12 +1475,6 @@ Popup заглавие
 Устни
 [Ice-Cream]
 Сладолед
-[Pink Lady]
-
-[Up yours]
-
-[Laughing]
-
 [Dog]
 Куче
 [Candy]
@@ -1611,8 +1531,6 @@ Popup заглавие
 Празнува
 [Sushi]
 Суши
-[Playing]
-
 [Writing]
 Пише
 [%s Custom Status]
@@ -1621,13 +1539,10 @@ Popup заглавие
 Няма
 [Custom Status]
 Персонално състояние
-;file \protocols\IcqOscarJ\src\icq_xtraz.cpp
 [Greeting card:]
 Поздравителна картичка:
-;file \protocols\IcqOscarJ\src\init.cpp
 [ICQ xStatus]
 ICQ хСъстояние
-;file \protocols\IcqOscarJ\src\log.cpp
 [ICQ Warning]
 ICQ предупреждение
 [ICQ Error]
@@ -1636,8 +1551,6 @@ ICQ грешка
 ICQ фаталност
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
 Сървърът не отговоря на опита за свързване в разумен период от време, може бе не работи временно. Опитайте по-късно.
-[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
 Откриването (resolve) на името на сървъра от числовия адрес е невъзможно. Най-вероятно това е предизвикано от тотална загуба на мрежовата връзка (напр. изключен модем), но ако използвате прокси, може би трябва да отметнете "Откриване имената на хостовете чрез прокси сървъра" от Главно меню>Настройки>Мрежа.
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
@@ -1648,7 +1561,6 @@ ICQ фаталност
 Сървърът, към който се опитвате да се свържете не съществува. Проверете правописа в Главно меню>Настройки>Мрежа>ICQ.
 [error]
 грешка
-;file \protocols\IcqOscarJ\src\oscar_filetransfer.cpp
 [%d Files]
 %d файла
 [The file transfer was aborted by the other user.]
@@ -1663,20 +1575,14 @@ ICQ фаталност
 Стартирането на прехвърляне се провали. Не са посочени валидни файлове.
 [The files are too big to be sent at once. Files bigger than 4 GB can be sent only separately.]
 Файловете са твърде големи, за да бъдат изпратени на един път. Файлове по-големи от 4ГБ могат да бъдат изпратени поотделно.
-[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
-
 [Connection lost during file transfer.]
 Загубена връзка по време на прехвърлянето на файла.
 [File transfer negotiation failed for unknown reason.]
 Договарянето на прехвърлянето на файла се провали поради неизвестни причини.
-[The checksum of file "%s" does not match, the file is probably damaged.]
-
 [Your file transfer has been aborted (error=%d), because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
 Прехвърлянето е прекратено (грешка=%d) защото един от файловете които сте избрали за изпращане не е наличен на диска. Вероятно е изтрит или прееместен.
-;file \protocols\IcqOscarJ\src\utilities.cpp
 [<invalid>]
 <невалидно>
-;file \protocols\IcqOscarJ\src\changeinfo\constants.cpp
 [January]
 януари
 [February]
@@ -1809,7 +1715,6 @@ ICQ фаталност
 Категория 4
 [Interest areas 4]
 Интерес 4
-;file \protocols\IcqOscarJ\src\changeinfo\db.cpp
 [The password does not match your current password. Check Caps Lock and try again.]
 Паролата не съвпада с вашата текуща парола. Проверете "Caps Lock"-а и опитайте пак.
 [Change ICQ Details]
@@ -1818,7 +1723,6 @@ ICQ фаталност
 Паролата не съвпада с първоначално въведената. Проверете "Caps Lock"-а и опитайте пак.
 [The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
 ICQ сървъра не поддържа пароли по-дълги от 8 знака. Моля, използвайте по-кратка парола.
-;file \protocols\IcqOscarJ\src\changeinfo\dlgproc.cpp
 [<unremovable once applied>]
 <несменяемо след задаване>
 [<empty>]
@@ -1835,20 +1739,12 @@ ICQ сървъра не поддържа пароли по-дълги от 8 з�
 Качването завърши
 [Upload FAILED]
 Качването пропадна
-;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 В момента не сте свързани към мрежата ICQ. Необходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.
-;file \protocols\IcqOscarJ\src\UI\askauthentication.cpp
 [Please authorize me to add you to my contact list.]
 Моля, упълномощете ме да ви добавя в списъка си с контакти.
-;file \protocols\IcqOscarJ\src\UI\loginpassword.cpp
 [Enter a password for UIN %u:]
 Въведете нова парола за UIN %u:
-;file \protocols\IcqOscarJ\src\UI\userinfotab.cpp
-[ (DC Established)]
-
-[ScreenName:]
-
 [<not specified>]
 <неуточнено>
 [Member since:]

@@ -1,0 +1,7 @@
+﻿[Weather Protocol INI Setup]
+[Enable/disable auto update]
+[Weather Alert Issued]
+[Weather condition was not logged.]
+[Update with Clear]
+[Weather Update]
+[Display Name]

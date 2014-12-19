@@ -2,12 +2,11 @@
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell checker
-;  Version: 0.2.6.1
+;  Version: 0.2.6.2
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
 [Spell checker for the message windows. Uses Hunspell to do the checking.]
 Проверка на правописа в прозореца за съобщения. Проверката се извършва чрез Hunspell.
-;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 Замествания
 [Enable auto-replacements]
@@ -64,7 +63,6 @@ Spell Checker
 Ползване на речници от други програми
 [Avoid removing underscores (slows down checking of long texts)]
 Запазване на подчертаването (забавя проверката на дълги текстове)
-;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
 Не сте попълнили полето "Грешна дума"
 [Wrong Correction]
@@ -73,12 +71,10 @@ Spell Checker
 Не сте попълнили полето "Поправка"
 [The correction can't be equal to the wrong word!]
 Корекцията не може да съвпада с грешната дума!
-;file \plugins\SpellChecker\src\dictionary.cpp
 [Tagalog (Philippines)]
 тагалог/тагалски (Филипини)
 [German (Germany)]
 немски (Германия)
-;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Разговори
 [Auto-replacements]
@@ -101,7 +97,6 @@ Spell Checker
 Грешна дума
 [Correction]
 Поправка
-;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
 Речници
 [Custom Dictionaries]
@@ -116,7 +111,6 @@ DLL файл със знамена
 Изключено
 [Unknown]
 Неизвестно
-;file \plugins\SpellChecker\src\utils.cpp
 [There are %d spelling errors. Are you sure you want to send this message?]
 Допуснали сте %d правописни грешки. Наистина ли желаете съобщението да бъде изпратено?
 [Other...]

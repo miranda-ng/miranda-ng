@@ -1,0 +1,2 @@
+﻿[For "Restart" popup setting is always infinity]
+[Deprecated!]

@@ -5,99 +5,25 @@
 ;  Version: 0.0.2.4
 ;  Authors: Denis Stanishevskiy
 ;============================================================
-[File transfer by using the messaging services - as plain text.]
-
-;file \plugins\FileAsMessage\res\resources.rc
-[fileAsMessage]
-
-[Filename:]
-
 [Size:]
 Размер:
-[Chunk size]
-
 [ms]
 ms
-[Delays between sends]
-
 [bytes]
 байта
-[Transfer settings]
-
 [Appearance]
 Външен вид
-[Unsent]
-
-[Sent]
-
-[To send]
-
-[Received]
-
-[Use only alphanumeric encoding on transfer]
-
-[Extra options: Events > File Transfers, "Receiving files" group]
-
-;file \plugins\FileAsMessage\src\dialog.cpp
-[File already exists. Overwrite?]
-
-[Couldn't open a file]
-
-[Size: %d bytes]
-
-[Request sent. Awaiting of acceptance..]
-
 [Sending...]
 Изпращане...
-[Received successfully]
-
-[Requesting of missing chunks]
-
 [Receiving...]
 Получаване...
-[Sent successfully]
-
-[Unknown command for "File As Message" was received]
-
-[Incoming file request. Do you want to proceed?]
-
-[Canceled by remote user]
-
-[New incoming file request. Do you want to proceed?]
-
-[File transfer is paused because of dropped connection]
-
-[Failed on file initialization]
-
-[Paused...]
-
-[Synchronizing...]
-
-[Select a file]
-
-[Save as]
-
-[Can't get a file size]
-
-[Canceled by user]
-
-[Transfer is in progress. Do you really want to close?]
-
-;file \plugins\FileAsMessage\src\main.cpp
 [Play]
 Възпроизведи
 [Pause]
 Пауза
-[Revive]
-
 [Stop]
 Стоп
 [Main]
 Основна
 [Events]
 Събития
-[File As Message...]
-
-;file \plugins\FileAsMessage\src\main.h
-[File As Message]
-

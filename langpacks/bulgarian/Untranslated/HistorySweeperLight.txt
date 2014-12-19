@@ -1,0 +1,1 @@
+﻿[Clicking on the icon in the status bar will change settings]

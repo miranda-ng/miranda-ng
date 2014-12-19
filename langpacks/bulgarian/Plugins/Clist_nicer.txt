@@ -7,7 +7,6 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status.]
 Изобразява контакти, уведомявания за събития, състояние на протоколите.
-;file \plugins\Clist_nicer\res\resource.rc
 [Clist Nicer exception]
 CList Nicer изключение
 [Copy to clipboard]
@@ -72,8 +71,6 @@ Clist Nicer+
 ms
 [Event area]
 Зона за събития
-[Set base visibility on the frames menu]
-
 [Auto mode]
 Авторежим
 [System tray icon when using multiple protocols]
@@ -120,8 +117,6 @@ ms
 Височина на реда на групите
 [Indent groups by:]
 Отстъп на групите:
-[Inner row vertical padding]
-
 [Margins and spacing]
 Ръбове и разстояние
 [Contact list sorting]
@@ -136,10 +131,6 @@ ms
 Премествай събитията на върха на списъка (или групата)
 [Do not separate offline contacts]
 Без отделяне на контактите "Извън линия"
-[Hide as offline]
-
-[Tree hide offline]
-
 [Right align contacts]
 Подреждане на контактите отдясно
 [Avatars]
@@ -220,10 +211,6 @@ ms
 Извеждане на прозорецът отпред, ако е частично покрит, вместо скриване
 [Always hide on taskbar]
 Скриване от лентата със задачи
-[Client margins]
-
-[Clip border by]
-
 [Gap between frames]
 Пролука между рамките
 [Translucency options]
@@ -268,8 +255,6 @@ ms
 Без вертикална лента за придвижване
 [Gray out entire list when:]
 Посивяване на списъка, когато:
-[Tree gray out]
-
 [Contact list background]
 Фон на списъка с контакти
 [Use Windows colors]
@@ -312,8 +297,6 @@ ms
 Разделител между панелите
 [Show resize grip indicator]
 Индикатор за ръчна промяна на размера
-[Draw background skin]
-
 [Show ICQ extended status icons]
 Показване на ICQ икони за разширено състояние
 [Mark protocols locked from global status changes]
@@ -352,8 +335,6 @@ ms
 Редактиране на режима за преглед
 [Last message]
 Последно съобщение
-[Per contact skins:]
-
 [< Reload]
 < Презареждане
 [Contact list skin]
@@ -362,20 +343,8 @@ ms
 Зареждане на облика при стартиране
 [Apply skin now]
 Прилагане на облика
-[Unload skin]
-
-[Make selection shape equal to selected item]
-
-[Blend selection with background]
-
 [Automatically fill background with wallpaper (tiled wallpaper only)]
 Автозапълване на фона с изображение (само при мозаична настройка)
-[Apply group indent values to background drawing]
-
-[Use per protocol/contact skinning]
-
-[Protocol skins override status text colors]
-
 [Set all buttons to skinned mode]
 Облицоване на всички бутони
 [Use fast gradient drawing]
@@ -384,12 +353,8 @@ ms
 Радиус на ъгъла
 [Skin options]
 Настройки на облика
-[Group top padding]
-
 [Frame title bar height]
 Височина на имената на рамките
-[Ignore selection for groups]
-
 [Load from skin file]
 Зареждане от файл
 [Export to skin file]
@@ -404,8 +369,6 @@ ms
 Входящо прехвърляне на файл
 [URL events]
 URL събития
-[Suppress auth requests]
-
 [Suppress added notifications]
 Без уведомявания за добавяне
 [Suppress online notifications]
@@ -494,13 +457,10 @@ URL събития
 Преместване на маркираните контакти в групата
 [Appearance]
 Външен вид
-[Show metacontact protocol icons]
-
 [Show additional buttons]
 Показване на допълнителни бутони
 [Draw sunken frame]
 Вградена рамка
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Елементи на облика
 [General]
@@ -549,7 +509,6 @@ URL събития
 Игнорирани елементи
 [Not yet supported]
 Не се поддържа
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 Копирай от
 [<None>]
@@ -560,9 +519,6 @@ URL събития
 Вградено
 [Bumped]
 Двойно изпъкнало
-[Etched]
-
-;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 Главно меню
 [Show/Hide offline contacts]
@@ -587,7 +543,6 @@ URL събития
 Настройване на режимите за преглед
 [Clear view mode]
 Изчистване на режима за преглед
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 Дефокусирано
 [Offline]
@@ -658,10 +613,8 @@ URL събития
 Разширени
 [Skins]
 Облици
-;file \plugins\Clist_nicer\src\clcpaint.cpp
 [No events...]
 Няма събития...
-;file \plugins\Clist_nicer\src\clistmenus.cpp
 [Add permanently]
 Добавяне за постоянно
 [Revert to default]
@@ -680,10 +633,8 @@ URL събития
 Настройки за списъка с контакти и игнориране за %s
 [&Contact list settings...]
 Настройки за списъка с контакти
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Общо
-;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 Показване/Скриване на контактите "Извън линия"
 [Toggle groups]
@@ -708,12 +659,8 @@ URL събития
 Моите контакти
 [Default]
 Стандарт
-[Overlay icons]
-
 [%s connecting]
 %s свързване
-[Connecting icons]
-
 [Menu]
 Меню
 [Open main menu]
@@ -726,8 +673,6 @@ URL събития
 Несъвпадащи параметри
 [The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
 Услугата "%s", определена от дефиницията на бутона "%s" не е открита. Вероятно трябва да инсталирате някой допълнителна приставка.
-[Service failure]
-
 [You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
 Нуждаете се от приставката FloatingContacts. Функционалността бе\nотстранена от приставката за списъка с контакти.
 [Warning]
@@ -758,24 +703,18 @@ URL събития
 Бързо търсен текст
 [Embedded frames border]
 Граница на рамките
-;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 Заглавна лента
-[Tool Window]
-
 [Thin border]
 Тънка рамка
 [No border]
 Без рамка
-;file \plugins\Clist_nicer\src\Docking.cpp
 [The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 Загнездването на списъка е невъзможно, когато се използва стандартната заглавна лента и рамка. Използвайте рамка Tool Window или стил без рамка.
 [Contact list docking]
 Загнездване на списъка
-;file \plugins\Clist_nicer\src\extBackg.cpp
 [Load and apply]
 Зареждане и прилагане
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 Негрупирани контакти
 [And]
@@ -818,7 +757,6 @@ URL събития
 Изчистване на режима за преглед и връщане към стандартния
 [View modes]
 Режими за преглед
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
 Заглавие на рамката
 [&Visible]
@@ -867,10 +805,8 @@ URL събития
 Облицована рамка
 [Floating]
 Плаващо
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
 Меню на рамките
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [New group]
 Нова група
 [Group menu]

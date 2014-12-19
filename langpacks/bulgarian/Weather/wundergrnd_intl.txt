@@ -6,12 +6,6 @@
 Слаб краткотраен дъжд
 [Thunderstorms And Rain]
 Дъжд с гръмотевична буря и дъжд
-[Light Thunderstorm]
-
-[Light Drizzle Mist]
-
-[Light Showers Rain Mist]
-
 [Mostly Sunny]
 Предимно слънчево
 [Light Thunderstorm Rain]
@@ -58,8 +52,6 @@
 Стабилно
 [Falling]
 Понижаване
-[Var]
-
 [N]
 С
 [W]
@@ -254,8 +246,6 @@
 мин.
 [Moon]
 Лунна фаза
-[UV Index]
-
 [Scattered Clouds]
 Променлива облачност
 [North]
@@ -292,126 +282,24 @@
 Дъжд
 [Light Drizzle]
 Слаб ръмеж
-[Light Rain Mist]
-
 [Light Snow]
 Слаб снеговалеж
-[Light Showers Snow Rain]
-
 [Light Snow Showers]
 Слаби снежни превалявания
-[Light Freezing Drizzle Mist]
-
-[Freezing Drizzle]
-
 [Freezing Rain]
 Леден дъжд
-[Light Snow Mist]
-
-[Snow Rain]
-
 [Light Ice Pellets]
 Преваляване от ледена суграшица
-[Drizzle Mist]
-
-[Light Fog]
-
 [Showers Snow]
 Превалявания от сняг
-[Heavy Showers Snow]
-
-[Light Snow Grains Mist]
-
-[Light Showers Snow Mist]
-
-[Heavy Showers Snow Heavy Blowing Snow]
-
-[Light Showers Snow Low Drifting Snow]
-
-[Snow Blowing Snow]
-
-[Snow Freezing Rain]
-
-[Showers Snow Rain]
-
 [Heavy Snow]
 Обилен снеговалеж
-[Light Snow Shallow Fog]
-
-[Showers Snow Blowing Snow]
-
-[Blowing Snow]
-
-[Ice Crystals Mist]
-
-[Light Freezing Drizzle Snow]
-
-[Light Snow Low Drifting Snow]
-
-[Low Drifting Snow]
-
-[Light Freezing Rain Mist]
-
 [Light Freezing Rain]
 Слаб леден дъжд
-[Light Showers Snow Light Blowing Snow]
-
-[Showers Snow Heavy Blowing Snow]
-
-[Light Snow Blowing Snow]
-
-[Light Snow Light Blowing Snow]
-
-[Light Snow Low Drifting Snow Mist]
-
-[Freezing Fog]
-
-[Light Showers Snow Blowing Snow]
-
-[Freezing Drizzle Mist]
-
-[Light Freezing Drizzle]
-
-[Freezing Rain Mist]
-
-[Showers Snow Mist]
-
-[Heavy Showers Snow Blowing Snow]
-
-[Light Freezing Rain Light Showers Snow]
-
-[Light Freezing Drizzle Light Snow]
-
-[Heavy Fog]
-
-[Rain Mist]
-
-[Light Showers Showers Rain]
-
-[Showers Showers Rain]
-
-[Heavy Thunderstorm Rain]
-
-[Smoke]
-
 [Haze]
 Мараня
 [Light Snow Grains]
 Преваляване от ледени кристалчета
-[Light Rain Snow]
-
-[Snow Mist]
-
-[Light Rain Snow Mist]
-
-[Light Showers Snow Rain Mist]
-
-[Heavy Blowing Snow]
-
-[Snow 50% Chance Of Precipitation]
-
-[Drizzle Fog]
-
 [Local Time]
 Местно време
 [Moonrise]
@@ -420,110 +308,24 @@
 Луна (залез)
 [Pressure Change]
 Налягане (промяна)
-[Heavy Showers Snow Mist]
-
-[Light Freezing Rain Light Showers Snow Mist]
-
 [Light Drizzle Fog]
 Слаб ръмеж и мъгла
-[Snow Rain Mist]
-
-[Snow Heavy Blowing Snow]
-
-[Low Drifting Snow Mist]
-
-[Light Freezing Drizzle Light Snow Grains Mist]
-
-[Light Ice Pellets Mist]
-
 [Ice Pellets]
 Ледена суграшица
-[Rain Fog]
-
-[Showers Snow Low Drifting Snow]
-
-[Light Freezing Rain Light Snow]
-
-[Day Length Diff]
-
 [Elevation]
 Височина
 [Feel]
 Усеща се като
-[Alert]
-
-[longer]
-
-[Heat Index]
-
 [Visible Light Length]
 Видимост
-[Wind Gust]
-
-[Showers Rain Snow]
-
 [Clear]
 Ясно
-[shorter]
-
 [T-Storms 50% Chance Of Precipitation]
 Гръмотевична буря, 50% вероятност за преваляване
-[Light Showers Rain Snow]
-
-[Light Showers Rain Snow Mist]
-
 [Snow Grains]
 Ледени кристалчета
-[Heavy Snow Showers]
-
-[Chance Of A Thunderstorm 20% Chance Of Precipitation]
-
-[Rain 20% Chance Of Precipitation]
-
-[Chance Of Snow 70% Chance Of Precipitation]
-
-[Chance Of Snow 80% Chance Of Precipitation]
-
-[Light Rain Fog]
-
-[Snow 90% Chance Of Precipitation]
-
-[Snow 20% Chance Of Precipitation]
-
-[Chance Rain 80% Chance Of Precipitation]
-
 [Heavy Rain Showers]
 Силен краткотраен дъжд
-[Rain 40% Chance Of Precipitation]
-
-[Chance Rain 40% Chance Of Precipitation]
-
-[Chance Of Snow 60% Chance Of Precipitation]
-
-[Chance Rain 50% Chance Of Precipitation]
-
-[Snow 40% Chance Of Precipitation]
-
-[Snow 80% Chance Of Precipitation]
-
-[Snow 70% Chance Of Precipitation]
-
-[Light Blowing Snow]
-
-[Snow Freezing Rain Mist]
-
-[Patches Fog Mist]
-
-[Snow 60% Chance Of Precipitation]
-
-[Light Low Drifting Snow]
-
-[Snow 30% Chance Of Precipitation]
-
-[Light Snow Rain]
-
-[Chance Rain 90% Chance Of Precipitation]
-
 [Chance Of T-Storms 70% Chance Of Precipitation]
 Вероятна гръмотевична буря, 70% вероятност за преваляване
 [T-Storms 30% Chance Of Precipitation]
@@ -532,25 +334,3 @@
 Вероятна гръмотевична буря, 90% вероятност за преваляване
 [Chance Of T-Storms 80% Chance Of Precipitation]
 Вероятна гръмотевична буря, 80% вероятност за преваляване
-[Ice Pellets 90% Chance Of Precipitation]
-
-[Snow Showers 70% Chance Of Precipitation]
-
-[Snow Showers 60% Chance Of Precipitation]
-
-[Snow Showers 50% Chance Of Precipitation]
-
-[Snow Showers 40% Chance Of Precipitation]
-
-[Snow Showers 30% Chance Of Precipitation]
-
-[Light Snow 30% Chance Of Precipitation]
-
-[Ice Pellets 70% Chance Of Precipitation]
-
-[Ice Pellets 30% Chance Of Precipitation]
-
-[Ice Pellets 40% Chance Of Precipitation]
-
-[Ice Pellets 80% Chance Of Precipitation]
-

@@ -5,79 +5,13 @@
 ;  Version: 0.11.0.3
 ;  Authors: unsane
 ;============================================================
-[Allows to transfer files via Dropbox.]
-
-;file \plugins\Dropbox\res\resource.rc
-[Authorization]
-
-[To allow Miranda NG access in your Dropbox account:]
-
-[Go to this link]
-
-[Allow access to app folder]
-
-[Enter authorization code]
-
-[Initiate authorization]
-
 [Authorize]
 Упълномощаване
-[Download link]
-
-[Use shortened download links]
-
-[Check status of authorization]
-
 [Autosend download link to contact]
 Автоизпращане на връзка за сваляне на контакта
-[Paste download link into message input area]
-
-[Copy download link to clipboard]
-
-;file \plugins\Dropbox\src\dropbox.cpp
-[in process...]
-
-[you have been authorized]
-
-[server does not respond]
-
-;file \plugins\Dropbox\src\dropbox_commands.cpp
-[Dropbox supports the following commands:]
-
-[shows all files in folder "dir" ("dir" can be omitted for root folder)]
-
-[returns download link for file or folder with specified path ("path" is relative from root folder)]
-
-[deletes file or folder with specified path ("path" is relative from root folder)]
-
-[is file]
-
-[is empty]
-
-["%s" command has invalid parameter.\nUse "/help" for more info.]
-
-[is not deleted]
-
-[is deleted]
-
-;file \plugins\Dropbox\src\dropbox_dialogs.cpp
-[you are already authorized]
-
-[you are not authorized yet]
-
-;file \plugins\Dropbox\src\dropbox_events.cpp
-[Send files to Dropbox]
-
 [Network]
 Мрежа
-;file \plugins\Dropbox\src\dropbox_icons.cpp
 [Protocols]
 Протоколи
 [Protocol icon]
 Икона на протокола
-;file \plugins\Dropbox\src\dropbox_menus.cpp
-;file \plugins\Dropbox\src\dropbox_services.cpp
-[Unknown command "%s".\nUse "/help" for more info.]
-
-["%s" is not valid.\nUse "/help" for more info.]
-

@@ -7,7 +7,6 @@
 ;============================================================
 [Microsoft Network (MSN) protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Microsoft Network (MSN) в Miranda NG.
-;file \protocols\MSN\res\msn.rc
 [MSN]
 MSN
 [Live ID:]
@@ -50,8 +49,6 @@ Live ID:
 Контакт в местния списък с контакти
 [Contact is included into your server list]
 Контактът не е в списъка на сървъра
-[Allowed (active) contact]
-
 [Blocked contact]
 Блокиран контакт
 [Somebody included you in his/her server list]
@@ -114,7 +111,6 @@ Live ID
 Отказ
 [Add]
 Добавяне
-;file \protocols\MSN\src\msn_chat.cpp
 [Chat #]
 Чат №
 [Me]
@@ -129,7 +125,6 @@ Live ID
 Подробности за потребителя
 [User &history]
 История на потребителя
-;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (not currently supported)]
 Контактът опита да стартира гласов разговор (не се поддържа)
 [%I64u bytes]
@@ -156,18 +151,14 @@ MSN уведовяване
 MSN чат
 [Message delivery failed]
 Неуспешно доставяне на съобщение
-;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 Потребителя не е на линия
-;file \protocols\MSN\src\msn_links.cpp
 [MSN Link Protocol]
 MSN Link Protocol
-;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 Контактът %s е премахнат от сървъра.\nЖелаете ли да бъде запазен като "Локален контакт" за да се съхрани историята на разговорите?
 [%s protocol]
 Протокол "%s"
-;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 Тема: %s
 [Hotmail from %s (%S)]
@@ -176,15 +167,10 @@ Hotmail от %s (%S)
 Hotmail от %s
 [Unread mail is available: %d in Inbox and %d in other folders.]
 Непрочетени е-писма: %d в Inbox и %d в други папки
-;file \protocols\MSN\src\msn_menu.cpp
 [&Unblock]
 Деблокиране
 [&Block]
 Блокиране
-[Open &Hotmail Inbox]
-
-[Send &Hotmail E-mail]
-
 [You must be talking to start Netmeeting]
 Необходимо е да водите разговор преди да стартирате Netmeeting
 [Set &Nickname]
@@ -195,23 +181,14 @@ Hotmail от %s
 Показване на пощата в Hotmail
 [View &Profile]
 Преглед на профила
-[Setup Live &Alerts]
-
 [&Start Netmeeting]
 Иницииране на Netmeeting
-;file \protocols\MSN\src\msn_misc.cpp
-[Custom Smileys]
-
 [Notify]
 Уведомяване
 [Error]
 Грешка
-;file \protocols\MSN\src\msn_msgqueue.cpp
-;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 Икона на протокола
-[Hotmail Inbox]
-
 [Profile]
 Профил
 [MSN Services]
@@ -228,8 +205,6 @@ MSN услуги
 Списък "Разрешени"
 [Blocked list]
 Списък "Блокирани"
-[Relative list]
-
 [Local list]
 Местен списък
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
@@ -258,12 +233,10 @@ IP информацията е налична само след вписване
 Списък на сървъра
 [Notifications]
 Уведомявания
-;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (not currently supported)]
 Контакт се опита да изпрати данни от web камера (не се поддържа)
 [Contact tried to view your webcam data (not currently supported)]
 Контакт се опита да види данните от вашата web камера (не се поддържа)
-;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 Live поща
 [Live Alert]
@@ -284,11 +257,9 @@ HTTPS връзки на приставката %s
 Съобщението е твърде дълго: MSN съобщенията са ограничени до 1202 UTF8 знака
 [Offline messaging is not allowed for LCS contacts]
 Изпращането на съобщения извън линия не е позволено за LCS контакти
-;file \protocols\MSN\src\msn_svcs.cpp
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Протоколът MSN изисква закъснението за съобщения да е не по-малко от 60 секунди. Поправете стойността.
 [Convert to Chat]
 Конвертиране в чат
-;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
 Разговорът бе прекратен поради липса на активност

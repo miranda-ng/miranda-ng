@@ -5,91 +5,39 @@
 ;  Version: 0.7.0.1
 ;  Authors: perf
 ;============================================================
-[Shows a small tooltip above system tray area when a contact status is changed.]
-
-;file \plugins\TooltipNotify\res\main.rc
 [Select protocols]
 Изберете протоколи
-[Choose contacts]
-
-[Allow tooltip notifications for the following users:]
-
 [Cancel]
 Отказ
-[Notify upon the following events]
-
 [Online]
 На линия
 [Offline]
 Извън линия
-[All other]
-
 [Typing]
 Пише
 [Protocols]
 Протоколи
-[Suppress notifications upon connection for]
-
 [sec]
 сек
-[Prefix protocol name]
-
-[Duration]
-
-[Show tooltip for]
-
 [ms]
 ms
-[Duration x2 upon online event]
-
-[Double click on tooltip]
-
-[Shows/Hides contact list]
-
-[Opens message dialog]
-
 [Behavior]
 Поведение
 [Misc]
 Разни
-[Obey 'Suppress online notification' settings]
-
-[Auto positioning]
-
-[Transparent input]
-
 [Preview]
 Образец
 [Translucency options]
 Настройки за прозрачност
-[Transparent tooltip]
-
 [Contacts]
 Контакти
 [Idle]
 Бездействие
-;file \plugins\TooltipNotify\src\TooltipNotify.cpp
-[Tooltip Notify]
-
-[Other status]
-
-[Tooltip Notify: Online]
-
-[Tooltip Notify: Offline]
-
-[Tooltip Notify: Other]
-
-[Tooltip Notify: Typing]
-
 [Popups]
 Рopups
 [** New contacts **]
 ** Нови контакти **
 [** Unknown contacts **]
 ** Непознати контакти **
-[Not Idle]
-
 [Unknown]
 Неизвестно
-[is]
-

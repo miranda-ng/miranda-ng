@@ -5,78 +5,29 @@
 ;  Version: 0.1.0.5
 ;  Authors: MaKaR
 ;============================================================
-[Notify with popup if some connection established]
-
-;file \plugins\ConnectionNotify\res\ConnectionNotify.rc
-[Set popup colors]
-
 [Popup options]
 Popup настройки
 [Background]
 Фон
 [Text]
 Текст
-[Close after:]
-
-[sec (0 default, -1 disabled)]
-
 [Settings]
 Настройки
-[try resolve addresses]
-
 [Version:]
 Версия:
-[Show notification if no filter defined]
-
-[Attempt interval (ms)]
-
-[X]
-
-['Online' means:]
-
 [Filters]
 Филтри
-[DN]
-
 [UP]
 Нагоре
-[Rule editor]
-
-[Application name]
-
-[Local IP:Port]
-
-[Action:]
-
 [Cancel]
 Отказ
-[* and ? wildcard characters also available (for port enter number or *)]
-
-[Remote IP:Port]
-
-;file \plugins\ConnectionNotify\src\ConnectionNotify.cpp
 [Show]
 Показване
 [Hide]
 Скриване
-[Always show popup]
-
-[Never show popup]
-
 [Status]
 Състояние
-[Application]
-
-[Internal socket]
-
-[External socket]
-
 [Action]
 Действие
 [Plugins]
 Приставки
-[New Connection Notification]
-
-;file \plugins\ConnectionNotify\src\filter.cpp
-[First close options window]
-

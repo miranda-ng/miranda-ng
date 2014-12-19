@@ -5,13 +5,6 @@
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
 ;============================================================
-[Shows a splash at Miranda startup.]
-
-;file \plugins\SplashScreen\res\splash.rc
-[Splash Options]
-
-[Show splash]
-
 [Show random splash]
 Случаен екран
 [Play sound]
@@ -34,21 +27,11 @@ ms
 стъпки
 [Fade out:]
 Избледняване:
-[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
-
 [Preview...]
 Образец...
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-
 [Error]
 Грешка
-;file \plugins\SplashScreen\src\options.cpp
-[Graphic files]
-
 [Sound Files]
 Файлове със звуци
 [Skins]
 Облици
-[Splash Screen]
-
