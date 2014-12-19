@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.31
+;  Version: 0.1.0.33
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -88,6 +88,8 @@
 ;file \protocols\VKontakte\src\vk_feed.cpp
 [Photo]
 Фота
+[Link]
+Спасылка
 ;file \protocols\VKontakte\src\vk_files.cpp
 ;file \protocols\VKontakte\src\vk_history.cpp
 ;file \protocols\VKontakte\src\vk_options.cpp
@@ -109,7 +111,5 @@
 Відэё
 [Document]
 Дакумент
-[Link]
-Спасылка
 [Unsupported or unknown attachment type: %s]
 Непадтрымліваемы ці невядомы тып укладання: %s

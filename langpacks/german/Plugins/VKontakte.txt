@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.32
+;  Version: 0.1.0.33
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -137,6 +137,40 @@ Protokolle
 VKontakte
 [Message read: %s]
 Nachricht gelesen: %s
+[commented on your post]
+
+[commented on your photo]
+
+[commented on your video]
+
+[replied to your comment]
+
+[replied to your comment to photo]
+
+[replied to your comment to video]
+
+[replied to your topic]
+
+[liked your post]
+
+[liked your comment]
+
+[liked your photo]
+
+[liked your video]
+
+[liked your comment to photo]
+
+[liked your comment to video]
+
+[liked your comment to topic]
+
+[shared your post]
+
+[shared your photo]
+
+[shared your video]
+
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -182,24 +216,8 @@ Neuigkeiten von %s%s%s (%s)\n%s
 \tGeteilt von %s%s%s (%s)\n%s
 [\nNews link: %s]
 \nNeuigkeiten-Link: %s
-[%s%s%s (%s) commented %%s\n%s]
-
-[%s%s%s (%s) posted %%s\n%s]
-
-[liked your]
-
-[shared your]
-
-[photo]
-Foto
 [Link]
 Link
-[video]
-Video
-[post]
-
-[topic]
-Titel
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Konnte Datei nicht speichern.
