@@ -155,7 +155,7 @@ public:
 	void setCustomTitle(const ext::string& customTitle) { m_CustomTitle = customTitle; }
 	const ext::string getCustomTitle() const { return m_CustomTitle; }
 	const ext::string getCustomTitle(const ext::string& strShort, const ext::string& strLong) const;
-	ext::string getTitleForOptions() { return m_CustomTitle.empty() ? getTitle() : (m_CustomTitle + _T(" (") + getTitle() + _T(")")); }
+	ext::string getTitleForOptions() { return m_CustomTitle.empty() ? TranslateTS(getTitle()) : (m_CustomTitle + _T(" (") + TranslateTS(getTitle()) + _T(")")); }
 	
 	void setHelpers(Statistic* pStatistic, Settings* pSettings, Settings::CharMapper* pCharMapper) { m_pStatistic = pStatistic; m_pSettings = pSettings; m_pCharMapper = pCharMapper; }
 	Statistic* getStatistic() const { return m_pStatistic; }

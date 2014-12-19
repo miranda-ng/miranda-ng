@@ -65,8 +65,8 @@ public:
 
 protected:
 	virtual const TCHAR* impl_getUID() const { return con::ColWords; }
-	virtual const TCHAR* impl_getTitle() const { return TranslateT("Words"); }
-	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you."); }
+	virtual const TCHAR* impl_getTitle() const { return LPGENT("Words"); }
+	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual void impl_configRead(const SettingsTree& settings);
 	virtual void impl_configWrite(SettingsTree& settings) const;

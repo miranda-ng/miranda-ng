@@ -28,8 +28,8 @@ public:
 
 protected:
 	virtual const TCHAR* impl_getUID() const { return con::ColChatDuration; }
-	virtual const TCHAR* impl_getTitle() const { return TranslateT("Chat duration"); }
-	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding the amount of time you have chatted with the given contact."); }
+	virtual const TCHAR* impl_getTitle() const { return LPGENT("Chat duration"); }
+	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding the amount of time you have chatted with the given contact."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig; }
 	virtual void impl_configRead(const SettingsTree& settings);
