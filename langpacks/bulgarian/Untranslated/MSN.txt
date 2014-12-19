@@ -1,0 +1,7 @@
+﻿[Allowed (active) contact]
+[Open &Hotmail Inbox]
+[Send &Hotmail E-mail]
+[Setup Live &Alerts]
+[Custom Smileys]
+[Hotmail Inbox]
+[Relative list]

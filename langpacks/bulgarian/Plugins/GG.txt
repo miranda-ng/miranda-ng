@@ -7,7 +7,6 @@
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Gadu-Gadu в Miranda NG.
-;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 Gadu-Gadu подробности за потребителя
 [Gadu-Gadu Number:]
@@ -30,8 +29,6 @@ Gadu-Gadu номер:
 Само приятели
 [Show offline users with status message as invisible in contact list]
 Показване на контакт "Извън линия" с текст за състояние, като "Невидим"
-[After disconnection leave away message of status:]
-
 [Receive image and after image is received use:]
 След получаване на изображение:
 [Show links from unknown contacts]
@@ -54,14 +51,8 @@ Gadu-Gadu номер:
 Поддържане на връзката
 [Show connection errors]
 Показване на проблеми с връзката
-[Automatically reconnect after unintentional disconnection]
-
 [Send messages slower, but with full acknowledgement]
 По-бавно изпращане на съобщенията, но със сигурно потвърждение
-[Manually specify connection servers' hosts]
-
-[* new line is separator\n** hostname:port format]
-
 [Use SSL secure connection]
 Защитаване на връзка с SSL
 [File Transfer]
@@ -74,8 +65,6 @@ Gadu-Gadu номер:
 Ползване на препращане
 [Host:]
 Хост:
-[Number:]
-
 [Internal IP:]
 Вътрешно IP:
 [First name:]
@@ -98,8 +87,6 @@ Gadu-Gadu номер:
 Описание:
 [&Save changes]
 Запис на промените
-[Enter token to continue]
-
 [Cancel]
 Отказ
 [Create Gadu-Gadu account]
@@ -144,50 +131,16 @@ Gadu-Gadu номер:
 Отваряне на нова конференция
 [Open new conference\nSelect conference participants]
 Отваряне на нова конференция\nИзберете участници
-[Open]
-
 [Concurrent Sessions]
 Едновременни сесии
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
 Едновременни %s сесии\nПреглед на информацията за едновременните сесии
 [Sign out all sessions]
 Отписване от всички сесии
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-
-[Cannot open avatar file. ERROR: %d: %s\n%s]
-
-;file \protocols\Gadu-Gadu\src\core.cpp
-[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
-
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
 Свърването със сървъра е невъзможно, вероятно не работи. В този случай изчакайте и опитайте по-късно да се свържете.
-[Received invalid server response.]
-
-[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-
-[Connecting to Gadu-Gadu hub failed.]
-
-[Cannot establish secure connection.]
-
-[Server disconnected asking you for changing your e-mail.]
-
-[Too many login attempts with invalid password.]
-
-[Gadu-Gadu servers are now down. Try again later.]
-
 [Unknown]
 Неизвестно
-[External direct connections hostname %s is invalid. Disabling external host forwarding.]
-
-[Server hostname %s is invalid. Using default hostname provided by the network.]
-
-[Connection cannot be established. errno=%d: %s]
-
 [Age:]
 Възраст:
 [List import successful.]
@@ -200,13 +153,8 @@ Gadu-Gadu номер:
 Аз
 [Unknown client]
 Непознат клиент
-[You have logged in at another location]
-
-[You are logged in at another location]
-
 [Incoming image]
 Входящо изображение
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Мъж
 [Female]
@@ -237,30 +185,12 @@ Gadu-Gadu номер:
 Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
 [Allow]
 Позволи
-[Ask]
-
 [Ignore]
 Игнориране
 [Your details has been uploaded to the public directory.]
 Вашите подробности са качени в публичната директория.
 [You have to be logged in before you can change your details.]
 Трябва да се впишете преда да промените подробностите за себе си.
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
-
-[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
-
-;file \protocols\Gadu-Gadu\src\gg.cpp
-[HTTP failed memory]
-
-[HTTP failed connecting]
-
-[HTTP failed resolving]
-
-[HTTP failed reading]
-
-[HTTP failed writing]
-
 [Unknown HTTP error]
 Неизвестна HTTP грешка
 [&Unblock]
@@ -269,14 +199,10 @@ Gadu-Gadu номер:
 Блокиране
 [Contact list]
 Списък с контакти
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [%s connection]
 %s връзка
-[Images]
-
 [Gadu-Gadu Number]
 Gadu-Gadu номер
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Отваряне на конференция...
 [&Clear ignored conferences]
@@ -297,7 +223,6 @@ Gadu-Gadu номер
 Конференциите вече няма да бъдат игнорирани - за тях ще се прилагат общите правила.
 [There are no ignored conferences.]
 Няма игнорирани конференции
-;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
 Икона на протокола
 [Import list from server]
@@ -318,8 +243,6 @@ Gadu-Gadu номер
 Предишно изображение
 [Next image]
 Следващо изображение
-[Send image]
-
 [Save image]
 Запазване на изображението
 [Delete image]
@@ -328,7 +251,6 @@ Gadu-Gadu номер
 Изчистване на игнорираните конференции
 [Concurrent sessions]
 Едновременни сесии
-;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 Изображение
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
@@ -345,33 +267,16 @@ Gadu-Gadu номер
 Изображение за %s
 [Select picture to send]
 Изберете изображение за изпращане
-[Cannot create image cache directory. ERROR: %d: %s\n%s]
-
-[Cannot save received image to file. ERROR: %d: %s\n%s]
-
-[Cannot open image file. ERROR: %d: %s\n%s]
-
 [Image exceeds maximum allowed size of 255 KB.]
 Изображението надвишава максималния размер от 255kB.
-;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
 Трябва да сте свързани преди да можете да внасяте/изнасяте контакти към/от сървъра.
-[List cannot be imported because of error:\n\t%s (Error: %d)]
-
-[List cannot be removed because of error: %s (Error: %d)]
-
 [Text files]
 Текстови файлове
 [All Files]
 Всички файлове
-[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
-
 [contacts]
 контакти
-[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
-
-[List cannot be exported because of error:\n\t%s (Error: %d)]
-
 [Import List From &Server]
 Внасяне на списъка от сървъра
 [Import List From &Text File...]
@@ -382,29 +287,12 @@ Gadu-Gadu номер
 Изнасяне на списъка в сървъра
 [Export List To &Text File...]
 Изнасяне на списъка в текстови файл...
-;file \protocols\Gadu-Gadu\src\links.cpp
-[Gadu-Gadu account chooser]
-
-[Gadu-Gadu Link Protocol]
-
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
-[Password could not be reminded because of error:\n\t%s (Error: %d)]
-
 [Password was sent to your e-mail.]
 Паролата е изпратена на вашия имейл.
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Notify]
 Уведомяване
 [Error]
 Грешка
-;file \protocols\Gadu-Gadu\src\services.cpp
-[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
-
-[Cannot remove old avatar file. ERROR: %d: %s\n%s]
-
-[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
-
-;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 Клиент (Име)
 [IP Address]
@@ -425,26 +313,14 @@ IP адрес
 Кой е
 [Concurrent &sessions]
 Едновременни сесии
-;file \protocols\Gadu-Gadu\src\token.cpp
-[Token retrieval failed because of error:\n\t%s]
-
-[Could not load token image.]
-
-;file \protocols\Gadu-Gadu\src\userutils.cpp
-[Cannot register new account because of error:\n\t%s]
-
 [Registration rejected]
 Регистрацията е отхвърлена
 [You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
 Регистрирахте нов акаунт.\nМоля, попълнете подробностите в "Главно меню > Преглед/Промяна на личните данни..."
-[Your account cannot be removed because of error:\n\t%s]
-
 [Bad number or password]
 Неправилен номер или парола
 [Your account has been removed.]
 Вашият акаунт е премахнат.
-[Your password cannot be changed because of error:\n\t%s]
-
 [Invalid data entered]
 Въведени са невалидни данни
 [Your password has been changed.]

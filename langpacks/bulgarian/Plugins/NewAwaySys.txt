@@ -5,19 +5,8 @@
 ;  Version: 0.4.0.3
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
-[New Away System Mod plugin for Miranda NG.]
-
-;file \plugins\NewAwaySysMod\res\NewAwaySys.rc
-[Popup notification]
-
-[Popup text format]
-
 [Preview]
 Образец
-[V]
-
-[%extratext% is your status message]
-
 [Click action]
 Действие на бутоните на мишката
 [On left click]
@@ -40,8 +29,6 @@
 Стандартно
 [Text]
 Текст
-[Only notify when:]
-
 [On&line]
 На линия
 [&Away]
@@ -56,157 +43,36 @@
 Готов за чат
 [&Other]
 Друго
-[Log to a file only when popup notification for a contact is enabled]
-
-[Enable autoreply]
-
-[On event...]
-
-[Don't reply to ICQ contacts]
-
-[Don't reply when I'm invisible to the contact]
-
-[Save autoreply to the history]
-
-[Reply only when Idle]
-
-[Reply only when contact's message window is closed]
-
-[Send maximum]
-
-[times (-1=infinite)]
-
-[Reset this counter also when I just change my status text\n(when status icon remains the same)]
-
-[Disable autoreply when...]
-
 [&Invisible]
 Невидим
 [On the &phone]
 На телефона
 [Out to &lunch]
 На обяд
-[Autoreply format:]
-
 [&Variables]
 Променливи
 [Se&ttings]
 Настройки
-[Ignore requests]
-
-[Send an autoreply]
-
 [&Delete]
 Изтриване
-[New &category]
-
-[Save as &new]
-
 [&Save]
 Запис
 [Title:]
 Заглавие:
-[Use this message as default for]
-
-[New message]
-
-[New category]
-
 [Delete]
 Изтриване
 [Status messages:]
 Текст за състояние:
-[Configure autoaway]
-
-[Wait]
-
-[seconds before closing the status message dialog (-1=don't close)]
-
-[Store]
-
-[most recent messages (0=disable)]
-
-[Store for each status separately]
-
-[Use default...]
-
-[Use the most recent message]
-
-[Use the default message]
-
-[Reset per-protocol messages when changing global status]
-
-[Store protocol messages for each status separately]
-
-[Store protocol autoreply settings for each status separately]
-
-[Remember last message used for a contact...]
-
-[Store contact autoreply/ignore settings for each status separately]
-
-[Enable contact menu items]
-
-[Use protocol specific nick for %nas_mynick%]
-
-[Update status messages for non-ICQ protocols every]
-
 [seconds]
 секунди
-[Don't show the message dialog for]
-
 [%s message for %s]
 Текст "%s" на %s
 [Retrieving %s message...]
 Извличане на текста "%s"...
 [&Cancel]
 Отказ
-[Notify of requests]
-
-[Don't notify of requests]
-
-[Autoreply on]
-
-[Autoreply off]
-
-[Don't send status message]
-
-[Note: these settings are applied to all status modes at once.]
-
-[Means the setting is different for different status modes / contacts]
-
-[Set away message window options]
-
-[Show predefined &messages]
-
-[Show &contacts]
-
-[Save default window settings &automatically]
-
-[&Save current window settings as default]
-
-[Disable parsing of status messages by Variables plugin]
-
-[Create new &message]
-
-[Create new &category]
-
 [&Rename]
 Преименуване
-[Set as &default for]
-
-;file \plugins\NewAwaySysMod\src\AwayOpt.cpp
-[Create new message]
-
-[Create new category]
-
-[Open Variables help dialog]
-
-[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
-
-[You can put your frequently used and favorite messages in this category.]
-
-[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
-
 [Message]
 Съобщение
 [URL]
@@ -215,38 +81,16 @@ URL
 Файл
 [** All contacts **]
 ** Всички контакти **
-[** Not-on-list contacts **]
-
 [Status messages]
 Текст за състояние
-[Main options]
-
-[Autoreply]
-
 [Contacts]
 Контакти
-[Predefined messages]
-
-[Recent messages]
-
-[Gone fragging]
-
-[Been fragging since %nas_awaysince_time%, I'll message you later when the adrenaline wears off.]
-
-[Creepy]
-
-[Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, i'll tell him you dropped by...]
-
-[Default messages]
-
 [Online]
 На линия
 [Yep, I'm here.]
 Да, тук съм.
 [Away]
 Отсъстващ
-[Been gone since %nas_awaysince_time%, will be back later.]
-
 [NA]
 Недостъпен
 [Give it up, I'm not in!]
@@ -269,55 +113,14 @@ URL
 Крия се от мафията.
 [On the phone]
 На телефона
-[I've been on the phone since %nas_awaysince_time%, give me a sec!]
-
 [Out to lunch]
 На обяд
-[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
-
-;file \plugins\NewAwaySysMod\src\AwaySys.cpp
-[Toggle On]
-
-[Toggle Off]
-
-[Set %s message for the contact]
-
 [Re&ad %s message]
 Показване на текста "%s"
-[Toggle autoreply on/off]
-
-[Toggle autoreply off]
-
-[Toggle autoreply on]
-
-[New Away System]
-
-[Away since time in default format; ?nas_awaysince_time(x) in format x]
-
-[Away since date in default format; ?nas_awaysince_date(x) in format x]
-
-[Status description]
-
-[Your nick for current protocol]
-
-[Number of status message requests from the contact]
-
-[Number of messages from the contact]
-
-[Time passed until request]
-
-[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
-
-[Current protocol name]
-
-[Stranger]
-
 [%d hours]
 %d часа
 [%d minutes]
 %d минути
-[%d seconds]
-
 [Read status message]
 Показване на текста за състояние
 [Set status message]
@@ -326,66 +129,15 @@ URL
 Включено
 [Off]
 Изкл.
-[Use the default setting]
-
-[NewAwaySys: Incoming status message request]
-
-;file \plugins\NewAwaySysMod\src\Common.h
-[Miranda NG autoreply >\r\n%extratext%]
-
-[extended status]
-
-[Away System]
-
 [Status]
 Състояние
 [Popups]
 Рopups
-[Variables plugin is not installed]
-
-;file \plugins\NewAwaySysMod\src\MsgTree.cpp
-[You've made changes to multiple message trees at a time.\r\nDo you want to leave changes in "]
-
-[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other message tree instead.]
-
-[Do you really want to delete this category with its messages?]
-
-[Do you really want to delete this message?]
-
-;file \plugins\NewAwaySysMod\src\Notification.cpp
-[Error #%d]
-
-[Can't open log file ]
-
-;file \plugins\NewAwaySysMod\src\ReadAwayMsg.cpp
 [&Close]
 Затваряне
-;file \plugins\NewAwaySysMod\src\SetAwayMsg.cpp
-[Save, replacing the selected message]
-
-[Save as a new message]
-
-[Show settings menu]
-
-[Don't send the status message to selected contact(s)]
-
-[Send an autoreply to selected contact(s)]
-
 [Apply]
 Прилагане
-[Do you want to apply the message?]
-
-[Set message for]
-
-[Statuses]
-
-[message for]
-
 [for]
 за
-[available autoreply only]
-
-[all accounts]
-
 [Closing in %d]
 Затваряне след %d

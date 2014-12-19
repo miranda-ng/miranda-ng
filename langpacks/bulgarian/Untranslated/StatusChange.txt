@@ -1,0 +1,5 @@
+﻿[Change status when you send/receive an event.]
+[On events...]
+[Receive]
+[...change status to...]
+[...if status is...]

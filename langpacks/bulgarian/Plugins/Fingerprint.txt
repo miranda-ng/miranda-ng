@@ -7,7 +7,6 @@
 ;============================================================
 [Fingerprint NG (client version) icons module for Miranda NG.]
 Fingerprint NG (версия на клиенти) иконен модул за Miranda NG. Представя с икона кой клиент и коя версия ползват контактите Ви.
-;file \plugins\FingerprintNG\res\resource.rc
 [Fingerprint overlays icons]
 Fingerprint, икони за наслагване
 [Miranda clients]
@@ -52,10 +51,6 @@ Tlen клиенти
 Weather клиенти
 [Yahoo clients]
 Yahoo клиенти
-[Facebook clients]
-
-[VKontakte clients]
-
 [Multi-protocol clients]
 Мултипротоколни клиенти
 [Other (rare) protocols]
@@ -64,10 +59,8 @@ Yahoo клиенти
 Други икони
 [Show client icon in message window status bar]
 Икона на клиента в лентата за състояние на прозореца за съобщения
-;file \plugins\FingerprintNG\src\fingerprint.cpp
 [Fingerprint]
 Fingerprint
-;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons]
 Икони за клиенти
 [Pack overlays]
@@ -86,7 +79,6 @@ Fingerprint
 Сигурност
 [Protocol]
 Протокол
-;file \plugins\FingerprintNG\src\masks.cpp
 [Miranda NG stable]
 Miranda NG (стабилна версия)
 [Miranda IM (old versions)]
@@ -145,8 +137,6 @@ Tlen.pl
 Yahoo
 [Mail.Ru Agent overlay]
 Mail.Ru Agent
-[VK overlay]
-
 [ICQ 2003 overlay]
 ICQ 2003
 [ICQ Lite 4 overlay]
@@ -223,10 +213,6 @@ Symbian
 Amiga
 [Android overlay]
 Android
-[Website overlay]
-
-[Windows Phone overlay]
-
 [Mobile overlay]
 Mobile
 [debug overlay]
@@ -277,6 +263,5 @@ NewGPG
 MirOTR
 [SecureIM overlay]
 SecureIM
-;file \plugins\FingerprintNG\src\options.cpp
 [Icons]
 Икони

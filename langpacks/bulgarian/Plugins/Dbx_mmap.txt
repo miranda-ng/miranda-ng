@@ -7,7 +7,6 @@
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
-;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Login to Miranda NG]
 Вписване в Miranda NG
 [Cancel]
@@ -38,7 +37,6 @@
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от профила!
 [Set password]
 Задаване на парола
-;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shut down.]
 Дискът е пълен. Miranda ще бъде изключена сега.
 [Database failure. Miranda will now shut down.]
@@ -49,17 +47,12 @@
 Засечена е повреда в базата от данни. Има шанш за отстраняването ѝ от приставката DbChecker. Моля, свалете я от http://miranda-ng.org/p/DbChecker/. Сега Miranda ще бъде изключена.
 [Database Panic]
 Паника в Базата от данни
-;file \plugins\Db3x_mmap\src\dbheaders.cpp
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 Профилът е твърде стара верия - необходимо е да се актуализира с PluginUpdater. Първо базата от дани ще бъде конвертирана.\n\nЖелаете ли да прочетете как става?
 [Obsolete database format]
 Формата на баата от данни е стар
-;file \plugins\Db3x_mmap\src\dbintf.h
 [Change/remove password]
 Промяна/премахване на парола
-;file \plugins\Db3x_mmap\src\ui.cpp
-[Logo]
-
 [Password]
 Парола
 [Too many errors!]
@@ -76,90 +69,23 @@
 Паролите не са еднакви!
 [Database]
 База от данни
-;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
-[Performing aggressive pass]
-
-[Aggressive: random junk at %08X: skipping]
-
-[Aggressive: unlinked data at %08X: can't automatically place]
-
-;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
-[Processing contact chain]
-
-[Contact count marked wrongly: correcting]
-
-[Contact chain corrupted, further entries ignored]
-
-;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
-[Invalid offset found (database truncated?)]
-
-[Invalid offset found]
-
-[Error reading, database truncated? (%u)]
-
-[Can't write to working file, aggressive mode may be too aggressive now]
-
 [Can't write to output file - disk full? (%u)]
 Файлът не може да бъде записан - пълен диск? (%u)
-;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
 Грешно маркиран брой на събитията: поправяне
-[Event chain corrupted, trying to recover...]
-
-[Event chain corrupted, further entries ignored]
-
 [First event not marked as such: correcting]
 Първо събитие не е маркирано като такова: поправяне
-[Extra flags found in event: removing]
-
 [First unread event marked wrong: fixing]
 Грешно маркирано първо непрочетено събитие: поправяне
-[Infeasibly large event blob: skipping]
-
-[Event not backlinked correctly: fixing]
-
 [Duplicate event was found: skipping]
 Открито е повтарящо се събитие: пропускане
-[Event position in chain is not correct]
-
-[Event position in chain is not correct: fixing]
-
-[Event position in chain is not correct: unable to fix]
-
-;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
 [Processing final tasks]
 Изпълнение на последните задачи
-;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
-[Database signature is corrupted, automatic repair is impossible]
-
 [Database version doesn't match this driver's one. Convert a database first]
 Несъответствие между версията на базата от данни и драйвъра. Конвертирайте базата от данни.
 [Database is newly created and has no data to process]
 Базата от данни е нова и не съдържа данни за обработване
 [Processing completed successfully]
 Обработването завърши успешно
-[Can't create map view of file (%u)]
-
-;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
-[Processing module name chain]
-
-[Module chain corrupted, further entries ignored]
-
-[Module name '%s' is not unique: %d duplicates found]
-
-[Invalid module name offset, skipping data]
-
-;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
-[Settings chain corrupted, further entries ignored]
-
-[Infeasibly large settings blob: skipping]
-
-[Empty settings group at %08X: skipping]
-
-;file \plugins\Db3x_mmap\src\dbtool\user.cpp
 [Processing user data]
 Обработване на потребителските данни
-[User corrupted, this could cause major problems]
-
-[More than one user contact: keeping only first]
-

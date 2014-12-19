@@ -7,7 +7,6 @@
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
 Зарежда и управлява изображения за останалите приставки.
-;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 Картинките, които можете да зададете тук се ползват като стандартни аватари\nза контактите, които нямат собствени.\nПолзвайте полетата за отметка, за да включите/изключите аватарите за съответните протоколи.
 [Set default picture]
@@ -18,8 +17,6 @@
 ВНИМАНИЕ: Това НЕ са вашите аватари. За да зададете собствен аватар отидете\nв Главно меню(>Extentended UserInfo)>Преглед/Промяна на личните данни>Аватар.
 [Try to draw avatar background transparent (for images without transparency)]
 Прозрачен фон (за непрозрачни изображения), ако е възможно
-[Number of points to define background:]
-
 [Color difference allowed:]
 Позволена цветова разлика:
 [Make transparency proportional to color diff]
@@ -34,16 +31,12 @@
 Прозрачен фон за собствените аватари (ако е възможно, за непрозрачни изображения)
 [This uses the same additional options as in "Contact avatars" tab]
 Използват се допълнителните настройки от таб "Аватари на контактите"
-[Protect the picture and prevent automatic avatars from overwriting it]
-
 [Make the avatar square]
 Изграждане на квадратен аватар
 [Resize the avatar to fit max allowed protocol size]
 Оразмеряване на аватара до максималния размер за протокола
 [Dialog]
 Прозорец
-[Contact picture]
-
 [Change]
 Промяна
 [Delete]
@@ -56,8 +49,6 @@
 Защитаване на картината
 [Set as hidden]
 Скриване от списъка
-[Try to make picture background transparent]
-
 [Use defaults]
 Стандартно
 [Cancel]
@@ -70,16 +61,12 @@
 Прозрачно
 [Points:]
 Точки:
-[Color diff:]
-
 [Set]
 Задай
 [Use per protocol avatars]
 Отделен аватар за всеки протокол
-;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Протоколите имат различни аватари
-;file \plugins\AVS\src\main.cpp
 [Global avatar]
 Общ аватар
 [Global avatar for %s accounts]
@@ -88,13 +75,8 @@
 Аватари
 [My Avatars]
 Моите аватари
-[My Global Avatar Cache]
-
-[Fatal error, image services not found. Avatar services will be disabled.]
-
 [Avatar Service]
 Услуга за аватари
-;file \plugins\AVS\src\options.cpp
 [Set avatar options for %s]
 Конфигуриране на аватар за %s
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
@@ -119,7 +101,6 @@
 Общ аватар
 [Avatar]
 Аватар
-;file \plugins\AVS\src\services.cpp
 [All Files]
 Всички файлове
 [Windows Bitmaps]

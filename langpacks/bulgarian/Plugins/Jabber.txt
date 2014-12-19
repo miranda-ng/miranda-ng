@@ -7,7 +7,6 @@
 ;============================================================
 [Jabber (XMPP) protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Jabber (XMPP) в Miranda NG.
-;file \protocols\JabberG\res\jabber.rc
 [Edit Note]
 Редактиране на бележка
 [Tags:]
@@ -32,8 +31,6 @@
 Задаване на хост и порт:
 [Use Domain Login]
 Ползване на домейна за вписване
-[Go]
-
 [Search service]
 Търсене на услуга
 [Roster Editor]
@@ -86,8 +83,6 @@
 Разрешаване изпращането на файлове чрез директна peer-to-peer връзка
 [Specify external address:]
 Въведете външен адрес:
-[Allow file sending through bytestream proxy server:]
-
 [Miscellaneous]
 Разни
 [Hint:]
@@ -378,8 +373,6 @@ HTTP упълномощаване\nПриемете или отхвърлете 
 Някой (можеби Вие) заяви следния файл:
 [Request was sent from JID:]
 Молбата е изпратена от JID:
-[The transaction identifier is:]
-
 [Request method is:]
 Заявения метод е:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
@@ -402,7 +395,6 @@ XML конзола
 Изчистване
 [Send]
 Изпращане
-;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 Jabber Link Protocol
 [Frame title]
@@ -415,12 +407,8 @@ Jabber Link Protocol
 Jabber дейност
 [Jabber Mood]
 Jabber настроение
-;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 Аз съм щастлив потребител на Miranda NG. Можете да свалите програмата от http://miranda-ng.org/.
-[/me slaps %s around a bit with a large trout]
-
-;file \protocols\JabberG\src\jabber_adhoc.cpp
 [Error %s %s]
 Грешка %s %s
 [Select Command]
@@ -435,11 +423,6 @@ Jabber настроение
 Изпълнение
 [Requesting command list. Please wait...]
 Изтегляне на списъка с команди. Моля, изчакайте...
-[Jabber Ad-Hoc commands at %s]
-
-[Sending Ad-Hoc command to %s]
-
-;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 Няма съобщение
 [Jabber Agent Registration]
@@ -448,7 +431,6 @@ Jabber настроение
 Регистриране
 [Please wait...]
 Моля, изчакайте...
-;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [Bookmark Name]
 Име на отметката
 [Address (JID or URL)]
@@ -459,14 +441,10 @@ Jabber настроение
 Конференции
 [Links]
 Връзки
-;file \protocols\JabberG\src\jabber_byte.cpp
 [Bytestream Proxy not available]
 Няма налично прокси тип Bytestream
-;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 Поддържа Service Discovery информация
-[Supports Service Discovery items list]
-
 [Can inform about its Jabber capabilities]
 Може да информира за Jabber способностите
 [Supports stream initiation (e.g., for filetransfers)]
@@ -497,8 +475,6 @@ Jabber настроение
 Може да изпраща и получава ping заявки
 [Supports data forms]
 Поддържаdata forms
-[Can request and respond to events relating to the delivery, display, and composition of messages]
-
 [Supports vCard]
 ПоддържаvCard
 [Supports iq-based avatars]
@@ -509,14 +485,10 @@ Jabber настроение
 ПоддържаJabber Browsing
 [Can negotiate options for specific features]
 Може да договаря настройки за специфични функции
-[Can request advanced processing of message stanzas]
-
 [Can report information about user moods]
 Може да докладва информация за настроението на потребителя
 [Receives information about user moods]
 Получава информация за настроенията на потребителите
-[Supports generic publish-subscribe functionality]
-
 [Supports SecureIM plugin for Miranda NG]
 Поддържа приставката SecureIM за Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
@@ -525,36 +497,24 @@ Jabber настроение
 Поддържа приставката New_GPG за Miranda NG
 [Blocks packets from another users/groupchats using Privacy lists]
 Блокира пакети от потребители/групови чатове посредством списък за поверителност
-[Supports Message Receipts]
-
 [Can report information about the music to which a user is listening]
 Може да докладва каква музика слуша потребителя
 [Receives information about the music to which a user is listening]
 Получава информация относно каква музика слушат потребителите
-[Supports private XML Storage (for bookmarks and other)]
-
-[Supports attention requests ('nudge')]
-
-[Supports chat history retrieving]
-
 [Supports chat history management]
 Поддържа управление на историята на разговорите
 [Can report information about user activity]
 Може да докладва информация за дейността на потребителя
 [Receives information about user activity]
 Получава информация за дейността на потребителите
-[Supports Miranda NG notes extension]
-
 [Supports Jingle]
 Поддържа Jingle
 [Supports Roster Exchange]
 Поддържа обмяна на списъци с хора
 [Supports direct chat invitations (XEP-0249)]
 Поддържа пкани за директен чат (XEP-0249)
-;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Въведете текста, който виждате
-;file \protocols\JabberG\src\jabber_chat.cpp
 [None]
 Няма
 [Member]
@@ -585,8 +545,6 @@ Jabber настроение
 Потребителя %s промени състоянието си на "%s"
 [Room configuration was changed.]
 Настройките на стаята бяха променени.
-[Outcast]
-
 [Affiliation of %s was changed to '%s'.]
 Рангът на %s бе променена на '%s'.
 [Role of %s was changed to '%s'.]
@@ -711,16 +669,10 @@ Jabber настроение
 Промяна на прякор в %s
 [Reason to destroy %s]
 Причина за унищожаването на %s
-;file \protocols\JabberG\src\jabber_console.cpp
 [Can't send data while you are offline.]
 Изпращането на данни е невъзможно извън линия.
 [Jabber Error]
 Jabber грешка
-[Outgoing XML parsing error]
-
-;file \protocols\JabberG\src\jabber_disco.cpp
-[request timeout.]
-
 [Node hierarchy]
 Йерархия на възела
 [Node]
@@ -753,8 +705,6 @@ Jabber грешка
 Добавяне в списъка с хора
 [Bookmark chatroom]
 Добавяне на стаята в отметките
-[Add search directory]
-
 [Use this proxy]
 Ползване на проксито
 [Commands...]
@@ -769,7 +719,6 @@ Jabber грешка
 Копиране името на възела
 [Copy node information]
 Копиране информацията за възела
-;file \protocols\JabberG\src\jabber_disco.h
 [Identities]
 Идентичности
 [category]
@@ -782,81 +731,8 @@ Jabber грешка
 Тип
 [Supported features]
 Поддържани функции
-[Info request error]
-
-[Items request error]
-
-;file \protocols\JabberG\src\jabber_form2.cpp
-[One or more addresses for communication related to abusive traffic]
-
-[One or more addresses for customer feedback]
-
-[One or more addresses for communication related to sales and marketing]
-
-[One or more addresses for communication related to security concerns]
-
-[One or more addresses for customer support]
-
-[The Jabber ID of a single entity to which an operation applies]
-
-[The Jabber ID of one or more entities to which an operation applies]
-
-[The Jabber IDs associated with active sessions]
-
-[The number of online entities that are active]
-
-[A list of entities with administrative privileges]
-
-[The text of an announcement to be sent to active users or all users]
-
-[A list of entities with whom communication is blocked]
-
-[The number of seconds to delay before applying a change]
-
-[The Jabber IDs that have been disabled]
-
-[The number of disabled entities]
-
-[The email address for a user]
-
-[The given (first) name of a user]
-
-[The number of online entities that are idle]
-
-[The IP addresses of an account's online sessions]
-
-[The last login time (per XEP-0082) of a user]
-
-[The number of logins per minute for an account]
-
-[The maximum number of items associated with a search or list]
-
-[The text of a message of the day]
-
-[The names of an account's online sessions]
-
-[The Jabber IDs associated with online users]
-
-[The number of online entities]
-
-[The password for an account]
-
-[Password verification]
-
-[A list of registered entities]
-
-[The number of registered entities]
-
-[Number of roster items for an account]
-
-[The number of stanzas being sent per second by an account]
-
-[The family (last) name of a user]
-
 [The text of a welcome message]
 Текст на приветственото съобщение
-[A list of entities with whom communication is allowed]
-
 [First Name]
 Име
 [Last Name]
@@ -867,217 +743,16 @@ Jabber грешка
 Ваш URL адрес
 [Email Address]
 Имейл адрес
-[FAQ Entry]
-
-[Whether to allow occupants to invite others]
-
-[Whether to allow occupants to change subject]
-
-[Whether to enable logging of room conversations]
-
-[Natural language for room discussions]
-
-[Maximum number of room occupants]
-
-[Whether to make room members-only]
-
-[Whether to make room moderated]
-
-[Whether a password is required to enter]
-
-[Whether to make room persistent]
-
-[Roles for which presence is broadcast]
-
-[Whether to allow public searching for room]
-
-[Full list of room admins]
-
-[Short description of room]
-
-[Natural-language room name]
-
-[Full list of room owners]
-
-[The room password]
-
-[Affiliations that may discover real JIDs of occupants]
-
-[Precondition: node configuration with the specified access model]
-
-[Whether to allow the subscription]
-
-[The SubID of the subscription]
-
-[The NodeID of the relevant node]
-
-[The address (JID) of the subscriber]
-
-[Whether an entity wants to receive or disable notifications]
-
-[Whether an entity wants to receive digests (aggregations) of notifications or all notifications individually]
-
-[The minimum number of milliseconds between sending any two notification digests]
-
-[The date and time at which a leased subscription will end or has ended]
-
-[Whether an entity wants to receive an XMPP message body in addition to the payload format]
-
-[The presence states for which an entity wants to receive notifications]
-
-[Who may subscribe and retrieve items]
-
-[The URL of an XSL transformation which can be applied to payloads in order to generate an appropriate message body element.]
-
-[The collection with which a node is affiliated]
-
-[The URL of an XSL transformation which can be applied to the payload format in order to generate a valid Data Forms result that the client could display using a generic Data Forms rendering engine]
-
-[Whether to deliver payloads with event notifications]
-
-[Whether owners or publisher should receive replies to items]
-
-[Who may associate leaf nodes with a collection]
-
-[The list of JIDs that may associated leaf nodes with a collection]
-
-[The child nodes (leaf or collection) associated with a collection]
-
-[The maximum number of child nodes that can be associated with a collection]
-
-[The maximum number of items to persist]
-
-[The maximum payload size in bytes]
-
-[Whether the node is a leaf (default) or a collection]
-
-[Whether to notify subscribers when the node configuration changes]
-
-[Whether to notify subscribers when the node is deleted]
-
-[Whether to notify subscribers when items are removed from the node]
-
-[Whether to persist items to storage]
-
-[Whether to deliver notifications to available users only]
-
-[The publisher model]
-
-[The specific multi-user chat rooms to specify for replyroom]
-
-[The specific JID(s) to specify for replyto]
-
-[The roster group(s) allowed to subscribe and retrieve items]
-
-[Whether to send items to new subscribers]
-
-[Whether to allow subscriptions]
-
-[A friendly name for the node]
-
-[The type of node data, usually specified by the namespace of the payload (if any); MAY be list-single rather than text-single]
-
-[The JIDs of those to contact with questions]
-
-[The date and time when the node was created]
-
-[The JID of the node creator]
-
-[A description of the node]
-
-[The default language of the node]
-
-[The number of subscribers to the node]
-
-[The JIDs of those with an affiliation of owner]
-
-[The JIDs of those with an affiliation of publisher]
-
-[The name of the node]
-
-[Payload type]
-
-[Whether to automatically authorize subscription requests]
-
-[Whether to automatically accept file transfers]
-
-[Whether to automatically open new messages]
-
-[Whether to automatically go offline when idle]
-
-[Whether to play sounds]
-
-[A list of pending file transfers]
-
-[A list of joined group chat rooms]
-
-[A presence or availability status]
-
-[The status message text]
-
-[The new priority for the client]
-
-[Account name associated with the user]
-
-[Familiar name of the user]
-
-[Password or secret for the user]
-
-[Full name of the user]
-
-[First name or given name of the user]
-
-[Last name, surname, or family name of the user]
-
-[Email address of the user]
-
-[Street portion of a physical or mailing address]
-
-[Locality portion of a physical or mailing address]
-
-[Region portion of a physical or mailing address]
-
-[Postal code portion of a physical or mailing address]
-
-[Family Name]
-
-[Whether to accept the invitation]
-
-[Another resource with which to continue the session]
-
-[Disclosure of content, decryption keys or identities]
-
-[Whether may send Chat State Notifications per XEP-0085]
-
-[Whether allowed to use XHTML-IM formatting per XEP-0071]
-
-[Primary written language of the chat (each value appears in order of preference and conforms to RFC 4646 and the IANA registry)]
-
-[Whether allowed to log messages (i.e., whether Off-The-Record mode is required)]
-
-[Whether to renegotiate the session]
-
-[Minimum security level]
-
-[Whether to terminate the session]
-
-[Whether to enable Message Receipts per XEP-0184]
-
-;file \protocols\JabberG\src\jabber_groupchat.cpp
 [Failed to retrieve room list from server.]
 Списъкът със стаи от сървъра не бе извлечен.
 [No rooms available on server.]
 Няма налични стаи на сървъра.
-[Room list request timed out.]
-
 [<no nick>]
 <няма прякор>
 [Loading...]
 Зареждане...
 [Please wait for room list to download.]
 Моля, изчакайте списъка със стаи да бъде свален.
-[Please specify group chat directory first.]
-
 [Bookmarks...]
 Отметки...
 [Change nickname in <%s>]
@@ -1086,7 +761,6 @@ Jabber грешка
 зададе темата:
 [%s\nIncoming group chat invitation.]
 %s\nВходяща покана за групов чат.
-;file \protocols\JabberG\src\jabber_icolib.cpp
 [Status icons]
 Икони на състоянията
 [transport]
@@ -1171,7 +845,6 @@ RSS услуга
 Откриване
 [Privacy]
 Поверителност
-;file \protocols\JabberG\src\jabber_iqid.cpp
 [Authentication failed for %s.]
 Неуспешно удостоверяване за %s.
 [Jabber Authentication]
@@ -1182,13 +855,8 @@ Jabber удостоверяване
 Паролата е променена. Не забравяйте да я промените в настройките на протокола Jabber.
 [Password cannot be changed.]
 Паролата не може да бъде променена.
-[Jabber Bookmarks Error]
-
-;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [%s, %d items (%s)]
 %s, %d елемента (%s)
-[Voice List]
-
 [Member List]
 Списък с членове
 [Moderator List]
@@ -1203,10 +871,8 @@ Jabber удостоверяване
 Причина за банване
 [Removing %s?]
 Премахване на %s?
-;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Http authentication request received]
 Получена е HTTP молба за удостоверяване
-;file \protocols\JabberG\src\jabber_menu.cpp
 [Jabber account chooser]
 Избор на Jabber акаунт
 [Request authorization]
@@ -1271,8 +937,6 @@ Jabber източник
 Най-голямо предимство (сървърът избира)
 [Status Message]
 Текст за състояние
-;file \protocols\JabberG\src\jabber_message_handlers.cpp
-;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 За конферентни разговори е необходима приставката CHAT. Инсталирайте я преди да чатите.
 [To]
@@ -1283,7 +947,6 @@ Jabber източник
 И двамата
 [Errors]
 Грешки
-;file \protocols\JabberG\src\jabber_notes.cpp
 [Incoming note from %s]
 Входяща бележка от %s
 [Send note to %s]
@@ -1298,7 +961,6 @@ Jabber източник
 Сигурни ли сте?
 [Incoming note]
 Входяща бележка
-;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 афарски
 [Abkhazian]
@@ -1329,16 +991,12 @@ Jabber източник
 азербайджански
 [Bashkir]
 башкирски
-[Bambara]
-
 [Basque]
 баски
 [Belarusian]
 беларуски
 [Bengali]
 бенгалски
-[Bihari]
-
 [Bislama]
 бислама
 [Bosnian]
@@ -1363,10 +1021,6 @@ Jabber източник
 чувашки
 [Cornish]
 корнуолски
-[Corsican]
-
-[Cree]
-
 [Czech]
 чешки
 [Danish]
@@ -1383,8 +1037,6 @@ Jabber източник
 есперанто
 [Estonian]
 естонски
-[Ewe]
-
 [Faroese]
 ферьорски
 [Fijian]
@@ -1393,22 +1045,14 @@ Jabber източник
 фински (финландски)
 [French]
 френски
-[Western Frisian]
-
-[Fulah]
-
 [Georgian]
 грузински
 [German]
 немски
-[Gaelic; Scottish Gaelic]
-
 [Irish]
 ирландски
 [Galician]
 галисийски
-[Manx]
-
 [Greek, Modern (1453-)]
 гръцки, новогръцки (1453-)
 [Guarani]
@@ -1417,36 +1061,22 @@ Jabber източник
 гуджарати (гуджаратски)
 [Haitian; Haitian Creole]
 хаитянски, хаитянски креолски
-[Hausa]
-
 [Hebrew]
 иврит
-[Herero]
-
 [Hindi]
 хинди
 [Hiri Motu]
 хири моту
 [Hungarian]
 унгарски
-[Igbo]
-
 [Icelandic]
 исландски
 [Ido]
 идо
-[Sichuan Yi]
-
 [Inuktitut]
 инуктитут
-[Interlingue]
-
-[Interlingua (International Auxiliary Language Association)]
-
 [Indonesian]
 индонезийски
-[Inupiaq]
-
 [Italian]
 италиански
 [Javanese]
@@ -1455,30 +1085,16 @@ Jabber източник
 японски
 [Kalaallisut; Greenlandic]
 гренландски
-[Kannada]
-
-[Kashmiri]
-
-[Kanuri]
-
 [Kazakh]
 казахски
-[Central Khmer]
-
-[Kikuyu; Gikuyu]
-
 [Kinyarwanda]
 киняруанда
 [Kirghiz; Kyrgyz]
 киргизки
 [Komi]
 коми
-[Kongo]
-
 [Korean]
 корейски
-[Kuanyama; Kwanyama]
-
 [Kurdish]
 кюрдски
 [Lao]
@@ -1487,28 +1103,16 @@ Jabber източник
 латински
 [Latvian]
 латвийски
-[Limburgan; Limburger; Limburgish]
-
-[Lingala]
-
 [Lithuanian]
 литовски
 [Luxembourgish; Letzeburgesch]
 люксембургски
-[Luba-Katanga]
-
-[Ganda]
-
 [Macedonian]
 македонски
 [Marshallese]
 маршалски
-[Malayalam]
-
 [Maori]
 маорски
-[Marathi]
-
 [Malay]
 малайски
 [Malagasy]
@@ -1521,36 +1125,20 @@ Jabber източник
 монголски
 [Nauru]
 Науру
-[Navajo; Navaho]
-
 [Ndebele, South; South Ndebele]
 ндебеле, южно
 [Ndebele, North; North Ndebele]
 ндебеле, северно
-[Ndonga]
-
 [Nepali]
 непалски
-[Norwegian Nynorsk; Nynorsk, Norwegian]
-
-[Bokmaal, Norwegian; Norwegian Bokmaal]
-
 [Norwegian]
 норвежки
 [Chichewa; Chewa; Nyanja]
 ниянджа
 [Occitan (post 1500); Provencal]
 окситански (след 1500)
-[Ojibwa]
-
-[Oriya]
-
-[Oromo]
-
 [Ossetian; Ossetic]
 осетински
-[Panjabi; Punjabi]
-
 [Persian]
 персийски
 [Pali]
@@ -1589,8 +1177,6 @@ Jabber източник
 северносаамски
 [Samoan]
 самоански
-[Shona]
-
 [Sindhi]
 синдхи
 [Somali]
@@ -1603,28 +1189,20 @@ Jabber източник
 сардински
 [Swati]
 свази
-[Sundanese]
-
 [Swahili]
 суахили
 [Swedish]
 шведски
-[Tahitian]
-
 [Tamil]
 тамилски
 [Tatar]
 татарски
-[Telugu]
-
 [Tajik]
 таджикски
 [Tagalog]
 тагалог (тагалски)
 [Thai]
 тайски (тайландски)
-[Tibetan]
-
 [Tigrinya]
 тигриня
 [Tonga (Tonga Islands)]
@@ -1637,8 +1215,6 @@ Jabber източник
 туркменски
 [Turkish]
 турски
-[Twi]
-
 [Uighur; Uyghur]
 уйгурски
 [Ukrainian]
@@ -1665,8 +1241,6 @@ Jabber източник
 идиш
 [Yoruba]
 йоруба
-[Zhuang; Chuang]
-
 [Zulu]
 зулуски
 [These changes will take effect the next time you connect to the Jabber network.]
@@ -1695,20 +1269,14 @@ Jabber източник
 Записване на промените в състоянието на чата
 [Log presence subscription state changes]
 Записване на присъствията (при промяна)
-[Log presence errors]
-
 [Enable user moods receiving]
 Получаване на потребителски настроения
-[Enable user tunes receiving]
-
 [Enable user activity receiving]
 Получаване на потребителски дейности
 [Receive notes]
 Получаване на бележки
 [Automatically save received notes]
 Автоматично запазване на получените бележки
-[Enable server-side history]
-
 [Server options]
 Настройки за сървъра
 [Disable SASL authentication (for old servers)]
@@ -1739,8 +1307,6 @@ Jabber източник
 Разрешаване на сървърите да заявяват инф. за версията (XEP-0092)
 [Show information about operating system in version replies]
 Показване на информация за операционната ви система в отговор на заявки за версията
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-
 [Accept HTTP Authentication requests (XEP-0070)]
 Приемане на HTTP молби за удостоверяване (XEP-0070)
 [General]
@@ -1801,18 +1367,14 @@ Google Talk!
 LiveJournal Talk
 [Facebook Chat]
 Facebook чат
-[Odnoklassniki]
-
 [Some changes will take effect the next time you connect to the Jabber network.]
 Някои промени ще бъдат осъществени при следващото свързване към мрежата Jabber.
-;file \protocols\JabberG\src\jabber_password.cpp
 [Set New Password for %s@%S]
 Задаване на нова парола за %s@%S
 [New password does not match.]
 Новата парола не съвпада
 [Current password is incorrect.]
 Текущата парола е грешна.
-;file \protocols\JabberG\src\jabber_privacy.cpp
 [Sending request, please wait...]
 Заявката се изпраща, моля изчакайте...
 [Warning: privacy lists were changed on server.]
@@ -1935,12 +1497,10 @@ Facebook чат
 Списъка не може да бъде запаметен защото сте извън линия.
 [List Editor...]
 Редактиране на списък...
-;file \protocols\JabberG\src\jabber_proto.cpp
 [No compatible file transfer mechanism exists]
 Не съществува съвместим механизъм за обмен на файлове
 [Protocol is offline or no JID]
 Протоколът е "Извън линия" или няма JID
-;file \protocols\JabberG\src\jabber_rc.cpp
 [Command completed successfully]
 Успешно завършена команда
 [Error occurred during processing command]
@@ -1963,8 +1523,6 @@ Facebook чат
 Изберете състояние и текст
 [Status]
 Състояние
-[Extended Away (N/A)]
-
 [Do Not Disturb]
 Не безпокойте
 [Invisible]
@@ -1983,8 +1541,6 @@ Facebook чат
 Задайте желаната опция
 [Automatically Accept File Transfers]
 Автоприемане на файлови трансфери
-[Play sounds]
-
 [Disable remote controlling (check twice what you are doing)]
 Изключване на дистанционно управление (уверете се, че знаете какво правите)
 [There is no messages to forward]
@@ -1997,10 +1553,6 @@ Facebook чат
 Маркиране на съобщенията като прочетени
 [%d message(s) forwarded]
 %d съобщения бяха препратени
-[Workstation successfully locked]
-
-[Error %d occurred during workstation lock]
-
 [Confirmation needed]
 Необходимо е потвърждаване
 [Please confirm Miranda NG shutdown]
@@ -2009,22 +1561,16 @@ Facebook чат
 Няма групови чатове, от които да излезете
 [Choose the group chats you want to leave]
 Изберете груповите чатове, от които желаете да излезете
-;file \protocols\JabberG\src\jabber_search.cpp
 [Error %s %s\r\nPlease select other server]
 Грешка %s %s\r\nМоля, изберете друг сървър
 [Error: unknown reply received\r\nPlease select other server]
 Грешка: получен е непознат отговор\r\nМоля, изберете друг сървър
-[Error %s %s\r\nTry to specify more detailed]
-
 [Search error]
 Грешка при търсенето
-[Select/type search service URL above and press <Go>]
-
 [Please wait...\r\nConnecting search server...]
 Моля, изчакайте...\r\nСвързване...
 [You have to be connected to server]
 Трябва да сте свързан към сървър
-;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 затворен разговор
 [sent subscription request]
@@ -2033,10 +1579,6 @@ Facebook чат
 одобри молбата за упълномощаване
 [declined subscription]
 отхвърли молбата за упълномощаване
-[sent error presence]
-
-[sent unknown presence type]
-
 [Nick:]
 Прякор:
 [Status:]
@@ -2045,7 +1587,6 @@ Facebook чат
 Текст на състояние:
 [Real JID:]
 Истински JID:
-;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]
 Въведете парола за %s
 [Error: Not enough memory]
@@ -2062,7 +1603,6 @@ Facebook чат
 Пренасочено съобщение от: %s\r\n%s
 [Sending registration information...]
 Изпращане на регистрационната информация...
-;file \protocols\JabberG\src\jabber_userinfo.cpp
 [Resource]
 Източник
 [<not specified>]
@@ -2093,8 +1633,6 @@ Facebook чат
 Настроение
 [Activity]
 Дейност
-[Tune]
-
 [both]
 и двамата
 [to]
@@ -2129,15 +1667,10 @@ Facebook чат
 <Няма снимка>
 [Photo]
 Снимка
-;file \protocols\JabberG\src\jabber_util.cpp
-[Redirect]
-
 [Bad request]
 Лоша заявка
 [Unauthorized]
 Неуторизирано
-[Payment required]
-
 [Forbidden]
 Забранено
 [Not found]
@@ -2148,8 +1681,6 @@ Facebook чат
 Неприемливо
 [Registration required]
 Изисква регистрация
-[Request timeout]
-
 [Conflict]
 Конфликт
 [Internal server error]
@@ -2160,8 +1691,6 @@ Facebook чат
 Грешка в сървъра
 [Service unavailable]
 Услугата не е налична
-[Remote server timeout]
-
 [Unknown error]
 Непозната грешка
 [Error]
@@ -2174,7 +1703,6 @@ Facebook чат
 Избор на настроение...
 [Set activity...]
 Избор на дейност...
-;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мъж
 [Female]
@@ -2191,10 +1719,8 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
-;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
 %s връзка
-;file \protocols\JabberG\src\jabber_xstatus.cpp
 [Afraid]
 Уплашен
 [Amazed]
@@ -2367,24 +1893,14 @@ Jabber vCard: Редактиране на телефонен номер
 Настроение: %s
 [Set Mood]
 Избор на настроение
-[Doing chores]
-
-[buying groceries]
-
 [cleaning]
 чисти
 [cooking]
 готви
-[doing maintenance]
-
 [doing the dishes]
 мие чиниите
 [doing the laundry]
 пере
-[gardening]
-
-[running an errand]
-
 [walking the dog]
 разхожда кучето
 [Drinking]
@@ -2411,12 +1927,6 @@ Jabber vCard: Редактиране на телефонен номер
 кара колело
 [dancing]
 танцува
-[hiking]
-
-[jogging]
-
-[playing sports]
-
 [running]
 тича
 [skiing]
@@ -2425,8 +1935,6 @@ Jabber vCard: Редактиране на телефонен номер
 плува
 [working out]
 тренира
-[Grooming]
-
 [at the spa]
 на СПА
 [brushing teeth]
@@ -2465,8 +1973,6 @@ Jabber vCard: Редактиране на телефонен номер
 лови риба
 [gaming]
 играе
-[going out]
-
 [partying]
 купонясва
 [reading]
@@ -2495,8 +2001,6 @@ Jabber vCard: Редактиране на телефонен номер
 по видео телефон
 [Traveling]
 Пътува
-[commuting]
-
 [driving]
 кара кола
 [in a car]
@@ -2531,6 +2035,5 @@ Jabber vCard: Редактиране на телефонен номер
 Настроения
 [Activities]
 Дейности
-;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 Задаване на филтър...

@@ -1,0 +1,7 @@
+﻿[Adds some useful options to a contacts menu.]
+[Show ID in menu item]
+[Trim too long ID]
+[Hide contact on 'Ignore all']
+[Copy xStatus Message]
+[Authorization]
+[MenuItemEx]

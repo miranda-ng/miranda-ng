@@ -7,7 +7,6 @@
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
 Приставката Extended UserInfo за Miranda NG осигурява интерфейс за редактиране на цялата информация за контактите.
-;file \plugins\UserInfoEx\res\resource.rc
 [Edit contact information]
 Редактиране на информацията за контакта
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
@@ -24,8 +23,6 @@
 Прилагане
 [Nick:]
 Прякор:
-[Display name:]
-
 [Title:]
 Титла:
 [First name:]
@@ -116,10 +113,6 @@
 Проверка при всяко стартиране
 [Time of last check:]
 Последна проверка:
-[Birthday compatibility mode:]
-
-[Automatically backup and keep protocol based birthdays up to date]
-
 [Play sound]
 Възпроизвеждане на звук
 [Use ignore list]
@@ -170,8 +163,6 @@ popup за годишнина
 Въведете име на годишнината:
 [Anniversary list]
 Списък с годишнини
-[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
-
 [Statistics:]
 Статистика:
 [with birthday:]
@@ -222,10 +213,6 @@ popup за годишнина
 Променена информация
 [Enable colors to give information about information's status.]
 Ползване на цветове за предаване на информация, за данните.
-[Make protocol based contact information read only]
-
-[Enable groups in details dialog's treeview]
-
 [Sort all tree items alphabetically]
 Азбучно сортиране на всички елементи на дървото.
 [Info of a metacontact's subcontact]
@@ -236,18 +223,10 @@ popup за годишнина
 Общи
 [Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
 Промяна на ICQ подробностите с UserInfoEx (изключено, ако ICQ не го поддържа)
-[Treeview]
-
-[Adapt propertysheet pages to Aero mode]
-
 [Import]
 Внос
 [Importing...\nPlease wait!]
 Внасяне...\nМоля, изчакайте!
-[Setting/Event (20/100)]
-
-[John Doe (1/10)]
-
 [Dialog]
 Прозорец
 [All]
@@ -322,15 +301,8 @@ popup за годишнина
 История на контакта
 [Select modules]
 Изберете модули
-[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
-
-[Check all]
-
-[Uncheck all]
-
 [&Export]
 Износ
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Овен
 [Taurus]
@@ -361,11 +333,6 @@ popup за годишнина
 Обновяване на въведените рождени дни
 [Keeps your custom birthday up to date.]
 Поддържа въведените от вас рождени дни.
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-[Due to a parameter error, one of the treeitems can't be added!]
-
-[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
-
 [Rename Item]
 Преименуване на елемента
 [Hide Item]
@@ -374,21 +341,14 @@ popup за годишнина
 Показвани елементи:
 [Reset to defaults]
 Стандарт
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-[Creating unique name for a page failed with %d and error code %d]
-
-[Creating the label for a page failed with %d and error code %d]
-
 [The dialog template type is no longer supported]
 Този тип шаблон вече не се поддържа
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Добавяне на нова годишнина
 [Delete an existing anniversary]
 Изтриване на годишнината
 [Unspecified]
 Неуточнено
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit e-mail]
 Редактиране на имейл
 [Edit phone number]
@@ -403,16 +363,12 @@ popup за годишнина
 Добавяне на нов персонален елемент
 [Delete the selected item]
 Изтриване на избрания елемент
-[CRITICAL: Unable to edit current entry!\nThis should not happen!]
-
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 Наистина ли желаете избраният елемент да бъде изтрит?\n\t%s\n\t%s
 [Other]
 Друго
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 <Неуточнено>
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 Още
 [Contact]
@@ -435,20 +391,16 @@ popup за годишнина
 Без напомняне
 [Popup anniversary list]
 Показване на годишнините
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Нов опит
 [Yes]
 Да
 [No]
 Не
-[Abort]
-
 [Ignore]
 Игнориране
 [Error]
 Грешка
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Upload details]
 Качване на подробностите
 [Protocol '%s' is offline]
@@ -457,16 +409,10 @@ popup за годишнина
 В момента не сте свързани с ICQ мрежата.\nНеобходимо е да сте на линия, за да бъде обновена вашата информация на сървъра.\n\nНаправените промени ще бъдат запаметени само в базата данни.
 [Uploading]
 Качване...
-[Creating the image list failed!]
-
 [Could not find contact's protocol. Maybe it is not active!]
 Не е възможно да бъде намерен протокола на контакта. Вероятно е неактивен.
-[No pages have been added. Canceling dialog creation!]
-
 [Details dialog failed to be created. Returning error is %d.]
 Прозорецът с подробности не може да бъде създаден поради следната грешка: %d.
-[The page to add has invalid size %d bytes!]
-
 [General]
 Основни
 [Contact (private)]
@@ -499,12 +445,6 @@ popup за годишнина
 Подробностите не бяха качени успешно.\nТе бяха записани само в базата от данни.
 [updating]
 актуализиране
-;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags module will be disabled.]
-
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM naming]
-
 [Password]
 Парола
 [Timezone]
@@ -535,8 +475,6 @@ popup за годишнина
 Обнови
 [Export]
 Износ
-[Goto]
-
 [Fax]
 Факс
 [Cellular]
@@ -605,10 +543,8 @@ popup за годишнина
 Внимание: Не е открит пакет икони в нито една от следните директории:\n- customize\\icons\n- icons\n- plugins
 [Main]
 Основна
-;file \plugins\UserInfoEx\src\mir_icolib.h
 [Extended user info]
 UserInfoEx
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Export/import contact]
 Износ/Внос на контакта
 [User &details]
@@ -635,23 +571,14 @@ UserInfoEx
 Изнасяне на групата
 [&Import group]
 Внасяне на групата
-[&Export xml]
-
-[&Import xml]
-
-;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Бележки:
 [About:]
 Относно:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Първо трябва да въведете валидно описание!
-[No valid date selected for editing!]
-
 [Do you really want to delete the %s?]
 Наистина ли желаете да изтриете %s?
-;file \plugins\UserInfoEx\src\psp_contact.cpp
 [home]
 дом
 [Open in browser]
@@ -662,11 +589,8 @@ UserInfoEx
 Втора е-поща
 [Tertiary e-mail]
 Трета е-поща
-[Address and contact]
-
 [company]
 компания
-;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Въпрос
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -681,10 +605,6 @@ UserInfoEx
 Без напомняне
 [Everything]
 Всичко
-[mBirthday]
-
-[UserInfo (default)]
-
 [This is the reminder message]
 Това е съобщение за напомняне
 [Contacts]
@@ -695,15 +615,12 @@ UserInfoEx
 Прозорец за подробности
 [Popups]
 Рopups
-;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Минало
 [Affiliation]
 Сдружение
 [Interest]
 Интереси
-[Sorry, but there is a problem with adding a new item of type "%s"]
-
 [<empty>]
 <празно>
 [Edit category]
@@ -714,7 +631,6 @@ UserInfoEx
 Изтриване на елемент
 [Do you really want to delete this entry?]
 Наистина ли желаете елементът да бъде изтрит?
-;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 африкаанс (бурски)
 [Albanian]
@@ -993,8 +909,6 @@ Web дизайн
 Търговия на дребно
 [Health and beauty]
 Здраве и красота
-[Media]
-
 [Household products]
 Продукти за домакинството
 [Mail order catalog]
@@ -1023,8 +937,6 @@ Web дизайн
 Фен клубове
 [Fraternity/Sorority]
 Братство/Женски клуб
-[Hobbyists Org.]
-
 [International Org.]
 Международни орг.
 [Nature and Environment Org.]
@@ -1055,10 +967,6 @@ Web дизайн
 Колеж
 [University]
 Университет
-[TmplPast Work Place]
-
-[TmplPast Organization]
-
 [Single]
 Необвързан(а)
 [Close relationships]
@@ -1077,44 +985,24 @@ Web дизайн
 младши
 [sen.]
 старши
-;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 "(Непознат контакт)"
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Изпращане на е-писмо
 [Memory allocation error!]
 Грешка при заделянето на памет!
-[E-mail (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 Потребителят няма валидна домашна страница
 [View Homepage]
 Домашна страница
 [&Homepage]
 Домашна страница
-[Homepage (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaining]
-
 [Abort Refreshing Contact Details]
 Прекратяване обновяването на подробностите за контакта
 [Do you want to cancel the current refresh procedure?]
 Желаете ли процедурата по обновяване да бъде отказана?
 [Miranda must be online for refreshing contact information!]
 За да бъде обновена информацията е необходимо да сте на линия!
-[The function caused an exception!]
-
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 %s има %s днес.
 [an anniversary]
@@ -1153,43 +1041,26 @@ Web дизайн
 Напомняне за годишнина
 [Reminder (uinfoex)]
 Напомняне / (uinfoex)
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identification]
 идентификация на контакта
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
-
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 Внасянето на нов контакт беше прекратено!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
 Внасянето на нов контакт бе прекратено.\nВъзможно е да не е внесена цялата информация за контакта.\n\nЖелаете ли да бъде изтрит непълният контакт?
-[Importing a new meta subcontact failed!]
-
-[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
-
 [Settings: %S]
 Настройки: %S
 [Events: %S]
 Събития: %S
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Всички контакти
 [Required modules]
 Необходими модули
 [Optional modules]
 Избираеми модули
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Shows Miranda's installation directory.]
 Показва директорията, в която е инсталирана Miranda.
 [Shows the directory with all your Miranda's profiles.]
 Показва директорията с всички ваши профили за Miranda.
-[The OpenFileDialog returned an error: %d!]
-
-[The SaveFileDialog returned an error: %d!]
-
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-[The ini-file "%s"\nfor saving contact information could not be opened.]
-
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 Никой от %d контакта от .ini файла не съвпада с избрания контакта!\nНищо няма да бъде внесено
 [Import complete]
@@ -1198,16 +1069,10 @@ Web дизайн
 Основна статистика
 [Added %d of %d contacts stored in the ini-file.]
 Добавени са %d от %d контакта в .ini файла.
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 всички контакти
-[Select a destination file...]
-
 [Import User Details from VCard]
 Внос на подробности за потребителя от VCard
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Създаването на xml файл е невъзможно!\n%S
 [Export took %f ms]
@@ -1216,29 +1081,13 @@ Web дизайн
 Контакт: %s (%S)
 [Importing %s caused error %d]
 Внасянето на %s доведе до грешка %d
-[Loading contact %s from xml failed with error %d]
-
-[Importing Owner caused error %d]
-
-[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
-
 [The selected file is no valid XMLCard]
 Избраният файл (XMLCard) е невалиден
 [The version of the XMLCard is not supported by UserInfoEx]
 Версията на XMLCard не се поддържа от UserInfoEx
 [Complete]
 Завършен
-[Owner contact successfully imported.]
-
-[Selected XMLCard does not contain an owner contact!]
-
 [Import took %f ms]
 Внасянето отне %f ms
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 %u добавени контакта / %u\n%u добавени настройки / %u\n%u добавени събития / %u\n%u повтарящи се събития
-[FATAL: An exception was thrown while importing contacts from xmlCard!]
-
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-[Flags (uinfoex)]
-
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

@@ -7,7 +7,6 @@
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Осигурява комуникация чрез социалната мрежа Facebook в Miranda NG.
-;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Имейл:
 [Password:]
@@ -28,8 +27,6 @@ URL:
 Място:
 [Contacts >>]
 Контакти >>
-[Attach contacts:]
-
 [Share]
 Сподели
 [Cancel]
@@ -40,8 +37,6 @@ URL:
 Мрежа
 [Force secure (HTTPS) connection]
 Задължително ползване на сигурна (HTTPS) връзка
-[Use secure connection also for channel requests]
-
 [Contacts]
 Контакти
 [Default group:]
@@ -54,34 +49,18 @@ URL:
 Уведомявания за събития
 [Notifications]
 Уведомявания
-[News feeds (WARNING: Causes excessive network traffic!)]
-
 [News feed types to notify:]
 Уведомяване за следните новини:
-[Don't show advertising posts]
-
 [Other events]
 Други събития
 [Client notifications]
 Уведомявания
-[Use this server for opening links:]
-
 [Use balloon notifications in system tray instead of popups]
 Ползване на балонни известия в трея вместо popup
-[Use logging notifications into special chatroom]
-
 [Preview]
 Образец
-[Statuses]
-
 [Post Miranda statuses to Wall]
 Публикуване на състоянията от Miranda на стената
-[Turn off chat on Facebook when going to offline in Miranda]
-
-[Map unsupported statuses to Invisible (instead of Online)]
-
-[Allow posting statuses to my pages (may slow down login)]
-
 [Bots challenge test]
 Тест за ботове
 [Instruction:]
@@ -90,38 +69,10 @@ URL:
 Пращане
 [Messages]
 Съобщения
-[Receive messages from "inbox" folder only]
-
-[Use local time for received messages]
-
-[Keep messages as unread on server (don't send "seen" info)]
-
-[Show stickers as custom smileys (EXPERIMENTAL)]
-
-[Multi user chats]
-
-[Enable multi user chats support]
-
-[Do not open chat windows on creation]
-
-[History synchronization]
-
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
-
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Въведете текста, който виждате
-;file \protocols\FacebookRM\src\chat.cpp
-[Myself]
-
 [User]
 Потребител
-[Friend]
-
 [&Invite user...]
 Покани потребител...
 [&Leave chat session]
@@ -130,93 +81,22 @@ URL:
 Подробности за потребителя
 [User &history]
 История на потребителя
-;file \protocols\FacebookRM\src\communication.cpp
-[Login error: %s]
-
 [Unknown error]
 Непозната грешка
-[Login error: Invalid request.]
-
 [Login error: Some Facebook things are required.]
 Грешка при вписване: Необходими са някой неща за Facebook.
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-
 [Login error, probably bad login credentials.]
 Грешка при вписване вероятно поради сгрешени данни за вписване.
 [Your account requires HTTPS connection. Activating.]
 Акаунтът изисква HTTPS връзка. Активиране.
-[Could not load communication token. You should report this and wait for plugin update.]
-
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
-[User cancel captcha challenge.]
-
-[Timeout when sending message.]
-
-[Status update was successful.]
-
-;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Моля, въведете потребителско име.
 [Please enter a password.]
 Моля, въведете парола.
-;file \protocols\FacebookRM\src\constants.h
-[Top News]
-
-[Most Recent]
-
-[Pages]
-
-[Classic website]
-
-[Mobile website]
-
-[Smartphone website]
-
-[Public]
-
-[Friends of friends]
-
-[Friends]
-
-[Friends except acquaintances]
-
-[Only me]
-
-;file \protocols\FacebookRM\src\contacts.cpp
-[%s and more (%d)]
-
-[Contact was removed from your server list.]
-
-[Error occurred when removing contact from server.]
-
-[Request for friendship was sent.]
-
-[Error occurred when requesting friendship.]
-
-[Request for friendship was accepted.]
-
-[Error occurred when accepting friendship request.]
-
-[Request for friendship was canceled.]
-
-[Error occurred when canceling friendship request.]
-
-[Request for friendship was ignored.]
-
-[Error occurred when ignoring friendship request.]
-
-;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Стандарт
-[<< Contacts]
-
-[What's on your mind, %s?]
-
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 Бележка: Уверете се,че сте изключили "Потвърждаване на SSL сертификатите" (в мрежовите настройки).
 [Sample event]
@@ -227,116 +107,37 @@ URL:
 Пример за новина
 [Sample notification]
 Пример за уведомяване
-;file \protocols\FacebookRM\src\json.cpp
-[a sticker]
-
 [files]
 файлове
-[a file]
-
-[photos]
-
-[a photo]
-
-[User sent %s:]
-
-[User sent an unsupported attachment. Open your browser to see it.]
-
-[Message read: %s by %s]
-
-[This message is no longer available, because it was marked as abusive or spam.]
-
 [%s is typing a message...]
 %s пише съобщение...
-;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 Не можете да изпращате съобщения, когато сте "Извън линия"
-;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 Контактът е отново в списъка на сървъра.
 [Contact is no longer on server-list.]
 Контактът вече не е в списъка на сървъра.
-;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s връзка със сървъра
-[Unable to get Netlib connection for Facebook]
-
-[Video call]
-
-[Facebook ID must be numeric value.]
-
 [Account]
 Акаунт
 [Events]
 Събития
 [Messaging]
 Съобщения
-[Share status...]
-
-[Own wall]
-
-[Loading newsfeeds...]
-
-[Checking friend requests...]
-
-[Refreshing buddy list...]
-
-[Do you want to cancel your friendship with '%s'?]
-
 [News feeds]
 Новини
-[Visit profile]
-
-[Visit notifications]
-
-[Show 'Share status' window]
-
 [Notification]
 Уведомяване
 [News Feed]
 Новина
 [Other Event]
 Друго събитие
-[Message read: %s]
-
-;file \protocols\FacebookRM\src\theme.cpp
-[Facebook icon]
-
 [Mind]
 Мисли си
-[Poke]
-
-[Newsfeed]
-
-[Friendship details]
-
-[Conversation]
-
-[Message read]
-
-[Captcha form icon]
-
-[Visit friendship details]
-
-[Visit conversation]
-
-[Cancel friendship]
-
-[Cancel friendship request]
-
 [Request friendship]
 Молба за приятелство
-[Approve friendship]
-
-[Deny friendship request]
-
 [Services...]
 Услуги...
-[Refresh Buddy List]
-
 [Services]
 Услуги
-[Check Friends Requests]
-
-[Check Newsfeeds]
-

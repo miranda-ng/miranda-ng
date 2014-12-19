@@ -7,7 +7,6 @@
 ;============================================================
 [Anti-spam plugin with captcha and Bayes filtering.]
 Приставка за борба с нежеланите съобщения (SPAM) посредством captcha и Bayes филтриране.
-;file \plugins\Spamotron\res\spamotron.rc
 [Enabled]
 Включено
 [Learned ham messages:]
@@ -94,8 +93,6 @@ Flood защита
 Уведомяване с Popup
 [Appearance]
 Външен вид
-[Foreground]
-
 [Background]
 Фон
 [Timeout (sec)]
@@ -114,10 +111,8 @@ Flood защита
 Стандартно времетраене
 [Preview]
 Образец
-;file \plugins\Spamotron\src\bayes.cpp
 [Bayes database path]
 Път до Бейс базата от данни
-;file \plugins\Spamotron\src\common.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
 Трябва да докажете че не сте бот. Отговорете с "%response%" (без кавичките). /English: Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
@@ -128,7 +123,6 @@ Flood защита
 Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с "%response%" (без кавичките). /English: Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.
 [Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 Молбата ви за упълномощаване е отложена. Първо трябва да отговорите с резултата на израза %mathexpr%. /English: Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.
-;file \plugins\Spamotron\src\options.cpp
 [Simple]
 Лесен
 [Math expression]
@@ -151,14 +145,12 @@ Round-robin
 Бейс филтриране
 [Popups]
 Рopups
-;file \plugins\Spamotron\src\popups.cpp
 [Message blocked due to preview action]
 Блокирано съобщение
 [Contact approved due to preview action]
 Одобряване на контакт
 [Challenge sent to preview contact]
 Изпращане на запитване към контакт
-;file \plugins\Spamotron\src\spamotron.cpp
 [Contact %s approved.]
 Контактът %s е потвърден.
 [Message from %s rejected because it reached a maximum for challenge requests per day.]
@@ -177,6 +169,5 @@ Round-robin
 Изпращане на произволно запитване до %s.
 [Sending math expression challenge to %s.]
 Изпращане на математически израз до %s.
-;file \plugins\Spamotron\src\utils.cpp
 [Their message was]
 Съобщението е

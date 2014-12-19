@@ -7,7 +7,6 @@
 ;============================================================
 [Yahoo protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Yahoo в Miranda NG.
-;file \protocols\Yahoo\res\Yahoo.rc
 [Yahoo]
 Yahoo
 [ID:]
@@ -76,8 +75,6 @@ Yahoo списък за игнориране
 Хост
 [Invite Buddy To Chat Room]
 Поканете приятел в чат стаята
-[Screen Name]
-
 [&Invite]
 Покана
 [&Cancel]
@@ -86,7 +83,6 @@ Yahoo списък за игнориране
 Причина за поканата
 [Add]
 Добавяне
-;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
 \[Съобщение от Miranda NG] Получихте покана за чая стая "%s" с текст: %s
 [%s denied invitation with message: %s]
@@ -107,7 +103,6 @@ Yahoo списък за игнориране
 Присъединете се към конференцията ми...
 [No, thank you...]
 Не, благодаря...
-;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Основна
 [Mail]
@@ -122,20 +117,12 @@ Kнига с адреси
 Избор на състояние
 [Calendar]
 Календар
-;file \protocols\Yahoo\src\im.cpp
 [Yahoo Error]
 Yahoo грешка
-[The message send timed out.]
-
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
 Съобщението е твърде дълго: Yahoo съобщенията са ограничени до 800 UTF8 знака
-;file \protocols\Yahoo\src\links.cpp
-[YAHOO Link Protocol]
-
-;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 HTTP връзки на приставката YAHOO
-;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Направените промени изискват да се свържете наново с мрежата Yahoo, за да бъдат осъществени
 [YAHOO Options]
@@ -160,7 +147,6 @@ Yahoo игнориране
 Връзка
 [Ignore List]
 Списък за игнориране
-;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
 Нов имейл във входящата кутия
 [%s plugin connections]
@@ -173,7 +159,6 @@ Yahoo игнориране
 Моля, въведете паролата си в Настройки>Мрежа>Yahoo
 [Yahoo Login Error]
 Yahoo грешка при вписването
-;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 Необходимо е да сте свързани, за да зададете персонално съобщение
 [You need to be connected to refresh your buddy list]
@@ -194,10 +179,8 @@ Yahoo поща
 Създаване на конференция
 [&Show Profile]
 Показване на профила
-;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
 \[Съобщение от Miranda NG] Получихте покана за разговор с уеб камера, но към момента Miranda NG не поддържа такава функция.
-;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Календар - напомняне
 [%s has rejected your request and sent the following message:]
@@ -218,8 +201,6 @@ Yahoo поща
 От: %s\nТема: %s
 [Yahoo System Message]
 Системно съобщение от Yahoo
-[Yahoo Ping Error]
-
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 Вписването в услугата Yahoo не е възможно - потребителското име не е разпознато. Моля, проверете правилно ли е написано.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
@@ -234,8 +215,6 @@ Yahoo поща
 Вписването не е възможно. Неизвестна причина: %d.
 [Unknown error %s]
 Неизвестна грешка
-[Custom error %s]
-
 [%s is not available for the conference]
 %s не е налице за конференцията
 [%s is already ignored]
@@ -246,7 +225,5 @@ Yahoo поща
 %s не може да бъде игнориран, защото е в списъка с контакти
 [System Error: %s]
 Системна грешка: %s
-[Server Connection Error: %s]
-
 [Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
 Свързването към Yahoo сървъра не е възможно. Моля, уверете се че имате интернет и че pager host-а и порта са правилно въведени.

@@ -1,0 +1,6 @@
+﻿[Screen Name]
+[The message send timed out.]
+[YAHOO Link Protocol]
+[Yahoo Ping Error]
+[Custom error %s]
+[Server Connection Error: %s]

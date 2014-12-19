@@ -7,7 +7,6 @@
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
 Показва (в списъка с контакти) и позволява редактиране на подробностите за акаунтите ви във всеки протокол.
-;file \plugins\MyDetails\res\resource.rc
 [Set my nickname]
 Задаване на прякор
 [Nickname:]
@@ -114,10 +113,8 @@
 Превключване между акаунтите
 [Don't cycle through accounts]
 Без превключване между акаунтите
-;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
 <състоянието няма име>
-;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Прякор
 [Status]
@@ -144,15 +141,12 @@
 Задаване на текст за състояние "%s"...
 [Hide my details]
 Скриване на моите детайли
-;file \plugins\MyDetails\src\mydetails.cpp
 [Previous account]
 Предишен акаунт
 [Next account]
 Следващ акаунт
 [Contact list]
 Списък с контакти
-;file \plugins\MyDetails\src\options.cpp
-;file \plugins\MyDetails\src\services.cpp
 [Set my nickname for %s]
 Задаване на прякор за %s
 [Set my status message for %s]

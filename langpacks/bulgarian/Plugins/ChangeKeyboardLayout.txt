@@ -5,15 +5,10 @@
 ;  Version: 0.0.1.6
 ;  Authors: Yasnovidyashii
 ;============================================================
-[Plugin for changing keyboard layout of text (multilayout).]
-
-;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Клавишни комбинации
 [Changing layout:]
 Смяна на клавиатурната подредба:
-["Current word" mode]
-
 [Changing layout (alternative):]
 Смяна на клавиатурната подредба (алтернативна комбинация):
 [Inverting lettercase:]
@@ -22,8 +17,6 @@
 Настройки
 [Two-way changing layout (experimental)]
 Двупосочна смяна (експериментално)
-[Log operations]
-
 [Copy result to clipboard]
 Копиране на резултата в клипборда
 [Show result in Popup]
@@ -72,10 +65,6 @@ Popup цветове
 Десен бутон
 [Preview]
 Образец
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-[ChangeKeyboardLayout]
-
-;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 Смяна на клавиатурната подредба
 [Changing Case]
@@ -84,6 +73,5 @@ Popup цветове
 Разговори
 [Popups]
 Рopups
-;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Рopup

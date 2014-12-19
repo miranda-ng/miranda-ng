@@ -7,12 +7,8 @@
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
 Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти. Може да бъде добавена, която и да е стойност от списъка, напр. версия на Miranda, група или град.
-[Quick Search]
-
 [Title]
 Заглавие
-[Module/InfoType]
-
 [Setting]
 Настройка
 [Reload]
@@ -29,12 +25,6 @@
 Стандарт
 [Additional Options]
 Допълнителни настройки
-[Tool Window Style]
-
-[Draw Grid]
-
-[Save search pattern]
-
 [Auto Close mode]
 Режим автозатваряне
 [Sort by Status]
@@ -49,8 +39,6 @@
 Акаунт
 [Gender]
 Пол
-[UserID]
-
 [Nickname]
 Прякор
 [First name]
@@ -59,54 +47,26 @@
 Фамилия
 [Group]
 Група
-[Container]
-
 [E-mail]
 Имейл
-[Client ID]
-
-[Ext IP]
-
-[LastSeen]
-
 [Last Event]
 Последно събитие
-[Online since]
-
 [Metacontact]
 Метаконтакт
-[Event count]
-
-[Contact add time]
-
 [Type:]
 Тип:
-[DB setting]
-
 [Script]
 Скрипт
-[Service]
-
-[Contact info]
-
 [Other]
 Друго
-[Data type:]
-
 [Byte]
 BYTE
 [Word]
 WORD
 [DWord]
 DWORD
-[Signed]
-
-[As hex]
-
 [String]
 STRING
-[IP]
-
 [TimeStamp]
 Времева марка
 [Module:]
@@ -115,8 +75,6 @@ STRING
 Настройка:
 [Service:]
 Услуга:
-[Param]
-
 [number value]
 числова стойност
 [ANSI string]
@@ -127,12 +85,8 @@ Unicode низ
 текущ контакт
 [last result]
 последен резултат
-[parameter]
-
 [Result]
 РЕЗУЛТАТ
-[Result type]
-
 [Free memory]
 Свободна памет
 [Save]
@@ -143,16 +97,12 @@ Unicode низ
 Затваряне
 [Refresh]
 Обновяване
-[QuickSearch]
-
 [Show Offline contacts]
 Показвай контактите "Извън линия"
 [New column]
 Нова колона
 [Save Item]
 Запис на елемента
-[InfoType:]
-
 [New Column]
 Нова колона
 [Column Up]
@@ -167,12 +117,6 @@ Unicode низ
 Жена
 [Contacts]
 Контакти
-[ContactInfo]
-
-[LastEvent]
-
-[EventCount]
-
 [Script Editor]
 Редактор на скриптове
 [Normal background]
@@ -209,8 +153,6 @@ Unicode низ
 Копиране
 [C&onvert to Meta]
 Превръщане в Мета
-[Attach to &Tab container]
-
 [&Move to Group]
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
@@ -219,12 +161,6 @@ Unicode низ
 Желаете ли избраните контакти да бъдат изтрити?
 [Warning]
 Предупреждение
-[One or more contacts in same Meta already. Try to convert anyway?]
-
-[Editing of column ]
-
-[%i users found (%i) Online: %i]
-
 [ users found (]
  открити потребители (
 [) Online: ]
@@ -239,30 +175,8 @@ Unicode низ
 активно
 [Colorize]
 Оцветяване
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
 [default]
 стандарт
-[Selected]
-
 [contacts]
 контакти
 [Unknown]
@@ -270,7 +184,3 @@ Unicode низ
 [Stay on Top]
 Винаги отгоре
 ; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-
-[Wrap Text]
-

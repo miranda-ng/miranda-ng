@@ -2,12 +2,11 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.6
+;  Version: 3.4.0.7
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
 Изпращане и получаване на съобщения плюс модул за чат стаи за Miranda NG.
-;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his ID. Wildcards are allowed and recommended.]
 Можете да добавяте потребители по име или идентификатор (ID). Позволена употребата на Wildcards.
 [Cancel]
@@ -150,9 +149,6 @@ Wikipedia
 Затваряне на другите табове
 [&Open at this position]
 Отваряне на тази позиция
-;file \plugins\TabSRMM\res\msgwindow.rc
-[&Retry]
-
 [&Cancel]
 Отказ
 [&Send]
@@ -161,11 +157,8 @@ Wikipedia
 Добавяне
 [&Remove]
 Премахване
-;file \plugins\TabSRMM\res\resource.rc
 [Customize the panel]
 Персонализиране на панела
-[Scope of settings]
-
 [Use global or private panel height]
 Височина (общата или частна)
 [Set size to]
@@ -188,8 +181,6 @@ Wikipedia
 Показване картината на контакта
 [Advanced tweaks]
 Допълнителни настройки
-[Message send timeout]
-
 [seconds]
 секунди
 [Input history size]
@@ -238,8 +229,6 @@ Popup настройки
 Всички режими
 [Choose modes]
 Изберете състояния
-[Message log view mode (does not affect open windows)]
-
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
 Начин за изобразяване на дневника за съобщения. Настройката може да бъде игнорирана при липса на приставка.
 [Send text formatting method]
@@ -254,14 +243,10 @@ ANSI кодова таблица за кодиране и разкодиране
 Режим с информационен панел
 [Show avatar in message window]
 Аватар на контакта в прозореца за съобщения
-[Use private splitter position]
-
 [Contact is a favorite contact]
 Контакта е любим контакт
 [Force ANSI send / receive]
 Само ANSI изпращане/приемане
-[Ignore sending timeouts]
-
 [Load only actual history]
 Зареди само актуална история
 [Always trim message log to]
@@ -382,8 +367,6 @@ ID на потребителя в лентата за състояние
 Отстъп (стойности)
 [Left/Right]
 Ляво/Дясно
-[px]
-
 [Template sets]
 Набор от шаблони
 [Standard templates...]
@@ -540,12 +523,8 @@ Windows Aero - настройки
 Анулиране на шаблоните
 [Default width for fixed (single row) tabs]
 Стандартна ширина за табовете на един ред
-[Tab text label padding vertical]
-
 [horizontal]
 хоризонтално
-[Tab page padding:]
-
 [inner]
 отвътре
 [outer]
@@ -554,8 +533,6 @@ Windows Aero - настройки
 Отместване по вертикала при позиция на дъното:
 [NOTE: some settings will not affect open containers.]
 Бележка: Някой настройки няма да бъдат приложени за отворените контейнери
-[Tab layout tweaks]
-
 [About TabSRMM]
 Относно TabSRMM
 [Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
@@ -762,30 +739,20 @@ Mаксимална ширина за лента с бутони
 Изпращане след време
 [Force &ANSI]
 Винаги ANSI
-[Send unsafe (ignore Timeouts)]
-
 [Send Nudge]
 Изпрати разклащане
-[Splitter Position]
-
 [Global]
 Общо
 [Private]
 Частно
 [Send Text Formatting]
 Изпращане на форматиран текст
-[BBCode]
-
 [Off]
 Изкл.
 [This Contact]
 За контакта
 [Global Setting]
 Общи настройки
-[Force Off]
-
-[Unread Menu]
-
 [Recent Sessions]
 Скорошни разговори
 [Favorites]
@@ -802,8 +769,6 @@ Mаксимална ширина за лента с бутони
 Възстановяване на контейнерите
 [Don't play Sounds]
 Без звук
-[Be "Super Quiet"]
-
 [Font]
 Шрифт
 [Default Color]
@@ -826,16 +791,12 @@ Mаксимална ширина за лента с бутони
 Бял
 [Clear all Formatting]
 Изчистване на цялото форматиране
-[Dummy]
-
 [No Message Sessions opened]
 Няма отворени разговори
 [Add Contact to Favorites]
 Добавяне на контакта в любимите
 [Remove Contact from Favorites]
 Премахване на контакта от любимите
-[dummy]
-
 [Set Position for this Session]
 Задаване на позицията за разговора
 [Set and Save for all Sessions]
@@ -914,7 +875,6 @@ Popups за събития
 Помощ
 [About TabSRMM...]
 Относно TabSRMM...
-;file \plugins\TabSRMM\src\buttonsbar.cpp
 [Protocol Button]
 Бутон на протокола
 [Info button]
@@ -953,14 +913,12 @@ Popups за събития
 Настройки на канала
 [<Separator>]
 <Разделител>
-;file \plugins\TabSRMM\src\container.cpp
 [Message Session...]
 Разговор...
 [Default container]
 Стандартен контейнер
 [Attach to]
 Прикрепване към
-;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 Основни настройки
 [Window layout]
@@ -1009,7 +967,6 @@ Popups за събития
 Да, ако има и винаги в дъното на прозореца
 [Don't show them]
 Скриване
-;file \plugins\TabSRMM\src\controls.cpp
 [&User]
 Потребител
 [&Room]
@@ -1024,9 +981,6 @@ Popups за събития
 Изпращането на уведомяване при писане е %s.
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 Списък на разговорите.\nЛяв бутон = Списък на активните разговори.\nДесен бутон = Бързо настройване на прозореца за съобщения и достъп до любимите контакти
-[There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-
-;file \plugins\TabSRMM\src\eventpopups.cpp
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
 Едно от зададените popup действия е затваряне на събитието.\nТази настройка може да има нежелан ефект - събитието се премахва от опашката непрочетени.\nВъзможно последствие е непоказване на новите събития като такива. Ако не желаете подобно действие, можете да го промените от таб Уведомявания.
 [TabSRMM warning message]
@@ -1043,9 +997,6 @@ TabSRMM предупреждение
 Нови съобщения:\s
 [Unknown module or contact]
 Непознат модул/контакт
-;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-[Rich Edit file]
-
 [No status message]
 Няма текст за състоянието
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
@@ -1070,7 +1021,6 @@ UID: %s (SHIFT+Ляв бутон = копиране в клипборда)\nЛя
 Няма UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
 UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
-;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Незабавни съобщения
 [Incoming (Focused Window)]
@@ -1103,7 +1053,6 @@ TabSRMM Меню
 влезе и сега е "%s".
 [changed status from %s to %s.]
 промени състоянието си "%s" на "%s".
-;file \plugins\TabSRMM\src\hotkeyhandler.cpp
 [Most recent unread session]
 Последен непрочетен разговор
 [Paste and send]
@@ -1144,7 +1093,6 @@ TabSRMM Меню
 Вкл./Изкл. на филтъра
 [Show server window]
 Показване прозореца на сървъра
-;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 %s    Бездейства: %dч,%02dмин
 [  Client: %s]
@@ -1203,23 +1151,14 @@ TabSRMM информация
 Винаги видимо (ако е налично)
 [Never show it at all]
 Винаги скрито
-;file \plugins\TabSRMM\src\mim.cpp
 [TabSRMM]
 TabSRMM
-[Data path]
-
 [Skins]
 Облици
 [Avatars]
 Аватари
-[Saved TabSRMM avatars]
-
-[Group chat logs root]
-
-;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 Вмъкване на таг [img] / заградете текста с [img] [/img]
-;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Добавяне на контакта за постоянно в списъка с контакти
 [Do not add this contact permanently]
@@ -1250,13 +1189,10 @@ TabSRMM
 Маркираното бе копирано в клипборда
 [Delivery failure: %s]
 Неуспешно доставяне: %s
-[The message send timed out]
-
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя.\nЗа запаметяване на промените и връщане към нормалния режим\nза писане/изпращане на съобщения натиснете отново бутона\nили клавишната комбинация, обикновено: Alt+N
 [Contact is offline and this protocol does not support sending files to offline users.]
 Контактът е извън линия, а протоколът не поддържа изпращане на съобщения до контакти извън линия.
-;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [Error creating destination directory]
 Грешка при създаването на директорията
 [Save contact picture]
@@ -1269,13 +1205,10 @@ TabSRMM
 Задаване на собствен аватар...
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
-[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-
 ['(Unknown Contact)']
 "(Непознат контакт)"
 [JPEG-compressed images]
 JPEG компресирани изображения
-;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 тайски (тайландски)
 [Japanese]
@@ -1352,11 +1285,8 @@ Latin I
 Вчера
 [Use default codepage]
 Ползване на стандартна кодова страница
-;file \plugins\TabSRMM\src\msgoptions.cpp
 [<no skin>]
 <няма облик>
-[Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all.]
-
 [Load theme]
 Зареждане на тема
 [Internal message log]
@@ -1403,8 +1333,6 @@ Latin I
 Прозорец за съобщения
 [Load and apply]
 Зареждане и прилагане
-[Window layout tweaks]
-
 [Settings]
 Настройки
 [Log formatting]
@@ -1415,9 +1343,6 @@ Latin I
 Отличаване
 [Choose status modes]
 Избор на състояния
-;file \plugins\TabSRMM\src\msgs.cpp
-[Image tag]
-
 [Quote text]
 Цитат
 [Save and close]
@@ -1488,14 +1413,12 @@ Latin I
 Приставката осигуряваща услуги за изображения (advaimg.dll) не е инсталирана правилно.\n\nTabSRMM е изключена.
 [TabSRMM fatal error]
 TabSRMM - фатална грешка
-;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
 Прозорци за съобщения - IM
 [Message windows - all]
 Прозорец за съобщения - всеки
 [Message windows - group chats]
 Прозорци за съобщения - групов чат
-;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Изберете контейнер за %s
 [You cannot delete the default container]
@@ -1506,7 +1429,6 @@ TabSRMM - фатална грешка
 Не можете да преименувате стандартния контейнер
 [This name is already in use]
 Вече съществува такова име
-;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
 Задача за изпращане след време приключи успешно.\nОригинално съобщение: %s
 [A send later job failed to complete.\nThe original message: %s]
@@ -1519,8 +1441,6 @@ TabSRMM - фатална грешка
 Неуспешно
 [Sent OK]
 Успешно
-[Deferred]
-
 [Suspended]
 Временно спряна
 [Pending]
@@ -1537,7 +1457,6 @@ TabSRMM - фатална грешка
 Последна информация
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 Ще промените състоянието на една или повече задачи от списъка\nза автоматично изпращане. Желаното действие(я) ще бъдат изпълнени при следващото изпълнение на списъка.\n\nДействието не е обратимо.
-;file \plugins\TabSRMM\src\sendqueue.cpp
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 Съобщението не може да бъде изпратено по-късно или до няколко потребителя защото надвишава максималната разрешена дължина от %d байта
 [A message delivery has failed.\nClick to open the message window.]
@@ -1546,15 +1465,12 @@ TabSRMM - фатална грешка
 Неуспешно доставяне на съобщението след затваряне на прозореца за съобщения. Може би, желаете съобщението да бъде изпратено отново
 [There are unsent messages waiting for confirmation.\nIf you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the window(s)?]
 Неизпратени съобщения чакат за потвърждение.\nСлед затваряне на прозореца ще бъдат направени нови опити за изпращане, но уведомяването при недоставяне не е сигурно.\nНаистина ли желаете да затворите прозореца(ите)?
-[Message window warning]
-
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
 Съобщението е добавено в списъка за изпращане след време.\nЩе бъде изпратено при първа възможност, тогава ще бъдете уведомени за резултата с popup.
 [The send later feature is not available on this protocol.]
 Функцията "Изпращане след време" не е налична за този протокол.
 [\n(Sent delayed. Original timestamp %s)]
 \n(Изпращането е отложено. Оригинална времева марка %s)
-;file \plugins\TabSRMM\src\sidebar.cpp
 [Like tabs, vertical text orientation]
 Вертикално разположени бутони
 [Compact layout, horizontal buttons]
@@ -1563,12 +1479,10 @@ TabSRMM - фатална грешка
 Хоризонтални бутони с аватари
 [Advanced with avatars, vertical orientation]
 Вертикални бутони с аватари
-;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 TabSRMM изисква Windows версия 2000 или по-нова.
 [TabSRMM Message (%s)]
 TabSRMM съобщение (%s)
-;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not availble when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника
 [%d Unread]
@@ -1581,17 +1495,14 @@ TabSRMM съобщение (%s)
 Прозорец на сървъра
 [%s on %s%s]
 Прякор: %s, Акаунт: %s%s
-;file \plugins\TabSRMM\src\templates.cpp
 [Template Set Editor]
 Редактор на шаблони
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
-;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM themes]
 Теми за TabSRMM
-;file \plugins\TabSRMM\src\themes.cpp
 [No effect]
 Без ефект
 [Milky Glass]
@@ -1608,7 +1519,6 @@ TabSRMM съобщение (%s)
 Всички контейнери трябва да се затворят, преди да бъде сменен обликът\nЖелаете ли да бъдат затворени сега?
 [Change skin]
 Смяна на облика
-;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 Допълнителни настройки на прозореца за съобщения
 [Display metacontact icons]
@@ -1731,8 +1641,6 @@ TabSRMM съобщение (%s)
 Подчертаване на времевата марка/прякор (режим на съвместимост с IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Времева марка след прякора (режим на съвместимост с IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-
 [How to create tabs and windows for incoming messages]
 Създаване на табове и прозорци при получаване на съобщение
 [Show status text on tabs]
@@ -1759,8 +1667,6 @@ TabSRMM съобщение (%s)
 Ползване на клавиша TAB в полето за въвеждане на съобщения (ще отмени функцията му за преместване на фокуса)
 [Add offline contacts to multisend list]
 Включване на контактите "Извън линия" в списъка за многократно изпращане
-;file \plugins\TabSRMM\src\trayicon.cpp
-;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 Изключване на уведомяванията при писане
 [Enable &typing notification]
@@ -1773,7 +1679,6 @@ TabSRMM съобщение (%s)
 Контакт започна да пише
 [Contact stopped typing]
 Контакт спря да пише
-;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 Винаги включено
 [Always Off]
@@ -1786,28 +1691,14 @@ TabSRMM съобщение (%s)
 Винаги IEView
 [Set messaging options for %s]
 Настройки на разговорите с %s
-;file \plugins\TabSRMM\src\utils.cpp
 [Important release notes|A test warning message]
 Важни бележки за изданието|Съобщение за тест
-[Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
-
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
 Редактиране на бележки за потребител|Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
-[Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
-
-[Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
-
-[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
-
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Проблем с настройките|Опцията \\b1 История>"Имитиране на IEView API"\\b0  е включена и приставката History++ е активна. Това може да е причина за проблеми при използване на IEView за за изобразяване на историята.\n\nЖелаете ли тава да бъде поправено (изисква рестарт)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
 Затваряне на прозорец|Ще бъде затворен прозорец с няколко отворени таба.\n\nНаистина ли желаете това?
-[Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
-
-[Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
-
-;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 %s влезе
 [You have joined %s]
@@ -1834,19 +1725,14 @@ TabSRMM съобщение (%s)
 %s даде статут "%s" на "%s"
 [%s disables '%s' status for %s]
 %s отне статута "%s" на "%s"
-;file \plugins\TabSRMM\src\chat\main.cpp
-;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
 Добавяне в списъка за отличаване
 [Edit user highlight list]
 Редактиране списъка за отличаване
-;file \plugins\TabSRMM\src\chat\options.cpp
 [Input area background]
 Фон на полето за въвеждане
 [Log background]
 Фон на дневника
-[Single Messaging]
-
 [Outgoing background]
 Фон на изходящите
 [Incoming background]
@@ -1877,8 +1763,6 @@ TabSRMM съобщение (%s)
 Граница на текстовите полета
 [Aero glow effect]
 Сияещ аеро ефект
-[Generic text color (only when fill color is set)]
-
 [Normal text]
 Обикновен текст
 [Active text]
@@ -1941,14 +1825,10 @@ TabSRMM съобщение (%s)
 * Изходящи символи
 [Nickname]
 Прякор
-[UIN]
-
 [Protocol]
 Протокол
 [Contacts local time]
 Местно време на контактите
-[Window caption (skinned mode)]
-
 [Open new chat rooms in the default container]
 Отваряне на новите чат стаи в стандартния контейнер
 [Flash window when someone speaks]
@@ -1971,8 +1851,6 @@ TabSRMM съобщение (%s)
 Без изскачане на прозореца при влизане в чат стая
 [Hide or show the window by double click in the contact list]
 Показване/Скриване на прозореца при двукратно натискане в списъка с контакти
-[Sync splitter position with standard IM sessions]
-
 [Show contact's status modes if supported by the protocol]
 Показване състоянието на потребителите (ако се поддържа от протокола)
 [Display contact's status icon before user role icon]
@@ -2073,8 +1951,6 @@ TabSRMM съобщение (%s)
 Фон на маркираното
 [Selected text]
 Маркиран текст
-[Incremental search highlight]
-
 [Fields background]
 Фон на полетата
 [Nick list background]
@@ -2085,20 +1961,12 @@ TabSRMM съобщение (%s)
 прякор на текущия контакт (ако е зададен)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 протокол на текущия акаунт (ако е зададен). Името на акаунта се използва, когато протоколът поддържа акаунти.
-[user-defined account name of current contact (if defined).]
-
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-
 [path to Miranda root folder]
 път до главната папка на Miranda
 [path to folder containing Miranda profiles]
 път до папката с профили на Miranda
 [name of current Miranda profile (filename, without extension)]
 име на текущия профил на Miranda (име без окончание)
-[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
-
-[will return parsed string %miranda_userdata%\\Logs]
-
 [same as environment variable %APPDATA% for currently logged-on Windows user]
 като променливата %APPDATA% за вписаният, в момента, потребител на Windows
 [username for currently logged-on Windows user]
@@ -2107,8 +1975,6 @@ TabSRMM съобщение (%s)
 Папка "My Documents" на потребителя, вписан в Windows
 ["Desktop" folder for currently logged-on Windows user]
 Папка "Desktop" на потребителя, вписан в Windows
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
 [day of month, 1-31]
 дата (1-31)
 [day of month, 01-31]
@@ -2141,7 +2007,6 @@ TabSRMM съобщение (%s)
 Икона
 [Show as text symbols]
 Текстови символ
-;file \plugins\TabSRMM\src\chat\tools.cpp
 [%s%s says:%s %s]
 %s%s каза:%s %s
 [Look up '%s':]
@@ -2154,7 +2019,6 @@ TabSRMM съобщение (%s)
 Отличаване на потребителя...
 [Edit Highlight List...]
 Редактиране списъка за отличаване...
-;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 Уникален ID
 [Nick]

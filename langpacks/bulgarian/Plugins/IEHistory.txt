@@ -5,33 +5,14 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[Shows the history for a given contact using IEView.]
-
-;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Прозорец
 [Close]
 Затваряне
-[&Prev]
-
-[&Next]
-
 [&Search]
 Търсене
-[Number of events to load]
-
-[Load all events]
-
-[Load only]
-
-[events per page]
-
-[Show last page first]
-
 [Other options]
 Други настройки
-[Load items in background]
-
 [RTL is default text direction]
 Отдясно наляво (Л<Д) като стандартна посока на текста
 [Search]
@@ -42,35 +23,20 @@
 Отказ
 [Text:]
 Текст:
-[Direction]
-
 [Up]
 Нагоре
 [Down]
 Надолу
-;file \plugins\IEHistory\src\dlgHandlers.cpp
 [System History]
 История на системата
-[Out of a total of]
-
-[You can't close the window now, wait for all events to load.]
-
 [Error]
 Грешка
-[Text search]
-
-[Time search]
-
 [Time:]
 Време:
-[Search finished. No more entries...]
-
 [Information]
 Информация
-;file \plugins\IEHistory\src\events.cpp
 [History]
 История
-;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 Преглед на историята
 [&System History]

@@ -5,9 +5,6 @@
 ;  Version: 0.0.5.2
 ;  Authors: borkra
 ;============================================================
-[Crash Dumper and Version Information for Miranda NG.]
-
-;file \plugins\CrashDumper\res\crshdmp.rc
 [View Version Information]
 Преглед на информация за версията
 [Close]
@@ -24,16 +21,10 @@
 Парола
 [Upload automatically when changed]
 Автоматично качване при промяна
-[Crash reports]
-
 [Use classic dates]
 Класическа дата
 [Create reports in subfolders naming as current date]
 Създаване на докладите в подпапки, с текущата дата като име
-[Generate crash reports]
-
-[* You need to restart Miranda NG to apply changes]
-
 [View]
 Преглед
 [&Copy]
@@ -42,7 +33,6 @@
 Копиране на всичко
 [Select &All]
 Маркиране на всичко
-;file \plugins\CrashDumper\src\crshdmp.cpp
 [Version Info stored into file %s]
 Информация за версията е записана във файла %s
 [Version Info file %s is inaccessible]
@@ -71,24 +61,18 @@
 Качване
 [Open crash report directory]
 Отваряне на директорията за доклади
-[Open online Version Info]
-
 [Copy Version Info to clipboard]
 Копиране на информация за версията в клипборда
 [Show Version Info]
 Показване на информация за версията
-;file \plugins\CrashDumper\src\crshdmp_icons.cpp
 [Crash Dumper]
 Crash Dumper
-;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is not available]
 Мястото за записване на докладите за срив е недостъпно
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
 Miranda се срина. Можете да намерите доклад за срива в:\n %s\n\n Желаете ли копие от доклада да бъде съхранено в клипборда?
-;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 Показване на информация за версията (с DLL файлове)
-;file \plugins\CrashDumper\src\upload.cpp
 [Version Info upload successful.]
 Информация за версията бе успешно качена.
 [Cannot upload Version Info. Incorrect username or password]
