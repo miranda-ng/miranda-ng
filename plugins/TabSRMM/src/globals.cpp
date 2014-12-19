@@ -33,8 +33,7 @@ void Chat_ModulesLoaded();
 
 bool g_bShutdown = false;
 
-CGlobals 	PluginConfig;
-CGlobals*	pConfig = &PluginConfig;
+CGlobals PluginConfig;
 
 static TContainerSettings _cnt_default = { false, CNT_FLAGS_DEFAULT, CNT_FLAGSEX_DEFAULT, 255, CInfoPanel::DEGRADE_THRESHOLD, 60, _T("%n (%s)"), 1, 0 };
 

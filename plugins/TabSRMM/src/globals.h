@@ -176,7 +176,6 @@ private:
 };
 
 extern	CGlobals	PluginConfig;
-extern	CGlobals	*pConfig;
 
 #define DPISCALEY_S(argY) ((int) ((double)(argY) * PluginConfig.g_DPIscaleY))
 #define DPISCALEX_S(argX) ((int) ((double)(argX) * PluginConfig.g_DPIscaleX))
