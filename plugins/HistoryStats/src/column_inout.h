@@ -24,8 +24,8 @@ public:
 
 protected:
 	virtual const TCHAR* impl_getUID() const { return con::ColInOut; }
-	virtual const TCHAR* impl_getTitle() const { return TranslateT("In/out"); }
-	virtual const TCHAR* impl_getDescription() const { return TranslateT("Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values."); }
+	virtual const TCHAR* impl_getTitle() const { return LPGENT("In/out"); }
+	virtual const TCHAR* impl_getDescription() const { return LPGENT("Column holding counts for incoming, outgoing or total characters, messages or chats. This column can display absolute and average values."); }
 	virtual void impl_copyConfig(const Column* pSource);
 	virtual int impl_getFeatures() const { return cfHasConfig; }
 	virtual void impl_configRead(const SettingsTree& settings);

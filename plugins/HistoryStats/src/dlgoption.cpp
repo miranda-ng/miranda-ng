@@ -117,7 +117,7 @@ void DlgOption::onWMInitDialog()
 			dwFlags |= pageBand[i].bVisible ? 0 : BandCtrl::BCF_HIDDEN;
 			dwFlags |= pageBand[i].bDropDown ? BandCtrl::BCF_DROPDOWN : 0;
 
-			HANDLE hButton = m_Band.addButton(dwFlags, hIcon, i, TranslateTS(pageBand[i].szTooltip), TranslateTS(pageBand[i].szText));
+			HANDLE hButton = m_Band.addButton(dwFlags, hIcon, i, pageBand[i].szTooltip, pageBand[i].szText);
 
 			DestroyIcon(hIcon);
 

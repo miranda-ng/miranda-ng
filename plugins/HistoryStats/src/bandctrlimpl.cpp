@@ -14,7 +14,7 @@ const int BandCtrlImpl::m_PollDelay = 50;
 
 LRESULT CALLBACK BandCtrlImpl::staticWndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	BandCtrlImpl* pCtrl = reinterpret_cast<BandCtrlImpl*>(GetWindowLongPtr(hWnd, 0));
+	BandCtrlImpl *pCtrl = reinterpret_cast<BandCtrlImpl*>(GetWindowLongPtr(hWnd, 0));
 
 	switch (msg) {
 	case WM_NCCREATE:
@@ -175,9 +175,8 @@ bool BandCtrlImpl::registerClass()
 		NULL					// hIconSm
 	};
 
-	if (!RegisterClassEx(&wcx)) {
+	if (!RegisterClassEx(&wcx))
 		return false;
-	}
 
 	return true;
 }
@@ -187,11 +186,11 @@ void BandCtrlImpl::unregisterClass()
 	UnregisterClass(m_ClassName, g_hInst);
 }
 
-BandCtrlImpl::BandCtrlImpl(HWND hWnd, int nOwnId)
-: m_hWnd(hWnd), m_nOwnId(nOwnId), m_hFont(NULL),
-m_hTheme(NULL), m_hImageList(NULL), m_hImageListD(NULL), m_hTooltip(NULL),
-m_nCurHot(-1), m_nCurFocused(-1), m_nCurPressed(-1), m_bCurPressedDD(false),
-m_nLayout(0), m_nDDWidth(12), m_hDDIcon(NULL)
+BandCtrlImpl::BandCtrlImpl(HWND hWnd, int nOwnId) :
+	m_hWnd(hWnd), m_nOwnId(nOwnId), m_hFont(NULL),
+	m_hTheme(NULL), m_hImageList(NULL), m_hImageListD(NULL), m_hTooltip(NULL),
+	m_nCurHot(-1), m_nCurFocused(-1), m_nCurPressed(-1), m_bCurPressedDD(false),
+	m_nLayout(0), m_nDDWidth(12), m_hDDIcon(NULL)
 {
 	m_IconSize.cx = m_IconSize.cy;
 	m_hDDIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_DROPDOWN), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
@@ -231,24 +230,18 @@ void BandCtrlImpl::onWMPaint()
 {
 	// start painting
 	PAINTSTRUCT ps;
-	HDC hRealDC;
-
-	if (!(hRealDC = BeginPaint(m_hWnd, &ps))) {
+	HDC hRealDC = BeginPaint(m_hWnd, &ps);
+	if (hRealDC == NULL)
 		return;
-	}
 
 	// get rect for painting
 	RECT rOut;
-
 	GetClientRect(m_hWnd, &rOut);
 
 	// setup memory DC for bufferd drawing
-	HDC hDC;
-	HBITMAP hMemBitmap, hOldBitmap;
-
-	hDC = CreateCompatibleDC(hRealDC);
-	hMemBitmap = CreateCompatibleBitmap(hRealDC, ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top);
-	hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hDC, hMemBitmap));
+	HDC hDC = CreateCompatibleDC(hRealDC);
+	HBITMAP hMemBitmap = CreateCompatibleBitmap(hRealDC, ps.rcPaint.right - ps.rcPaint.left, ps.rcPaint.bottom - ps.rcPaint.top);
+	HBITMAP hOldBitmap = reinterpret_cast<HBITMAP>(SelectObject(hDC, hMemBitmap));
 	SetWindowOrgEx(hDC, ps.rcPaint.left, ps.rcPaint.top, NULL);
 
 	// fill background
@@ -297,7 +290,7 @@ void BandCtrlImpl::onWMPaint()
 
 void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnabled)
 {
-	const ItemData& item = m_Items[nItem];
+	const ItemData &item = m_Items[nItem];
 
 	bool bFocused = (nItem == m_nCurFocused);
 	bool bHot = (nItem == m_nCurHot);
@@ -329,13 +322,11 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 
 			UINT state = 0;
 
-			if (bEnabled) {
+			if (bEnabled)
 				state = bPressed ? (m_bCurPressedDD ? DFCS_FLAT | DFCS_PUSHED : DFCS_FLAT) : (bHot ? DFCS_FLAT : (item.bChecked ? DFCS_FLAT | DFCS_CHECKED : 0));
-			}
 
-			if (state != 0) {
+			if (state != 0)
 				DrawFrameControl(hDC, &rDropDown, DFC_BUTTON, DFCS_BUTTONPUSH | state);
-			}
 
 			int x = rDropDown.left + (rDropDown.right - rDropDown.left - OS::smIconCX()) / 2;
 			int y = rDropDown.top + (rDropDown.bottom - rDropDown.top - OS::smIconCY()) / 2;
@@ -348,18 +339,16 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 		int state = TS_DISABLED;
 		int part = item.bDropDown ? TP_SPLITBUTTON : TP_BUTTON;
 
-		if (bEnabled) {
+		if (bEnabled)
 			state = bPressed ? (!m_bCurPressedDD ? TS_PRESSED : TS_HOT) : (item.bChecked ? (bHot ? TS_HOTCHECKED : TS_CHECKED) : (bHot ? TS_HOT : TS_NORMAL));
-		}
 
 		DrawThemeBackground(m_hTheme, hDC, part, state, &rItem, NULL);
 	}
 	else {
 		UINT state = 0;
 
-		if (bEnabled) {
+		if (bEnabled)
 			state = bPressed ? (!m_bCurPressedDD ? DFCS_FLAT | DFCS_PUSHED : DFCS_FLAT) : (bHot ? DFCS_FLAT : (item.bChecked ? DFCS_FLAT | DFCS_CHECKED : 0));
-		}
 
 		if (state != 0) {
 			DrawFrameControl(hDC, &rItem, DFC_BUTTON, DFCS_BUTTONPUSH | state);
@@ -384,27 +373,12 @@ void BandCtrlImpl::drawButton(HDC hDC, int nItem, int textHeight, bool bBandEnab
 			++y;
 		}
 
-		if (bEnabled) {
-			ImageList_Draw(
-				m_hImageList,
-				item.nIcon,
-				hDC,
-				x,
-				y,
-				ILD_NORMAL);
-		}
-		else if (item.nIconD != -1) {
-			ImageList_Draw(
-				m_hImageListD,
-				item.nIconD,
-				hDC,
-				x,
-				y,
-				ILD_NORMAL);
-		}
+		if (bEnabled)
+			ImageList_Draw(m_hImageList, item.nIcon, hDC, x, y, ILD_NORMAL);
+		else if (item.nIconD != -1)
+			ImageList_Draw(m_hImageListD, item.nIconD, hDC, x, y, ILD_NORMAL);
 		else {
 			HICON hIcon = ImageList_GetIcon(m_hImageList, item.nIcon, 0);
-
 			DrawState(hDC, NULL, NULL, reinterpret_cast<LPARAM>(hIcon), 0, x, y, m_IconSize.cx, m_IconSize.cy, DST_ICON | DSS_DISABLED);
 			DestroyIcon(hIcon);
 		}
@@ -440,12 +414,10 @@ HICON BandCtrlImpl::convertToGray(HICON hIcon)
 	HICON hIconDisabled = NULL;
 	ICONINFO ii;
 
-	if (!GetIconInfo(hIcon, &ii)) {
+	if (!GetIconInfo(hIcon, &ii))
 		return NULL;
-	}
 
 	BITMAP bmp;
-
 	if (GetObject(ii.hbmColor, sizeof(bmp), &bmp) && bmp.bmBitsPixel == 32) {
 		int nSize = bmp.bmHeight * bmp.bmWidthBytes;
 		BYTE* pBits = new BYTE[nSize];
@@ -478,20 +450,19 @@ HICON BandCtrlImpl::convertToGray(HICON hIcon)
 	return hIconDisabled;
 }
 
-int BandCtrlImpl::onBCMAddButton(BCBUTTON* pButton)
+int BandCtrlImpl::onBCMAddButton(BCBUTTON *pButton)
 {
 	assert(pButton);
 
 	m_Items.push_back(ItemData());
 
-	ItemData& id = m_Items.back();
-
+	ItemData &id = m_Items.back();
 	id.bRight = bool_(pButton->dwFlags & BCF_RIGHT);
 	id.bChecked = bool_(pButton->dwFlags & BCF_CHECKED);
 	id.bVisible = !(pButton->dwFlags & BCF_HIDDEN);
 	id.bDropDown = bool_(pButton->dwFlags & BCF_DROPDOWN);
-	id.text = (pButton->dwFlags & BCF_TEXT) ? pButton->szText : _T("");
-	id.tooltip = (pButton->dwFlags & BCF_TOOLTIP) ? pButton->szTooltip : _T("");
+	id.text = (pButton->dwFlags & BCF_TEXT) ? TranslateTS(pButton->m_szText) : _T("");
+	id.tooltip = (pButton->dwFlags & BCF_TOOLTIP) ? TranslateTS(pButton->m_szTooltip) : _T("");
 	id.uTTId = -1;
 	id.dwData = (pButton->dwFlags & BCF_DATA) ? pButton->dwData : 0;
 	id.bEnabled = !(pButton->dwFlags & BCF_DISABLED);
@@ -550,8 +521,7 @@ void BandCtrlImpl::onBCMCheckButton(int nItem, bool bCheck)
 {
 	assert(nItem >= 0 && nItem < m_Items.size());
 
-	ItemData& id = m_Items[nItem];
-
+	ItemData &id = m_Items[nItem];
 	if (bCheck != id.bChecked) {
 		id.bChecked = bCheck;
 		InvalidateRect(m_hWnd, &id.rItem, TRUE);
@@ -562,8 +532,7 @@ void BandCtrlImpl::onBCMShowButton(int nItem, bool bShow)
 {
 	assert(nItem >= 0 && nItem < m_Items.size());
 
-	ItemData& id = m_Items[nItem];
-
+	ItemData &id = m_Items[nItem];
 	if (bShow != id.bVisible) {
 		id.bVisible = bShow;
 		recalcButtonRects();
@@ -583,7 +552,7 @@ void BandCtrlImpl::onBCMEnableButton(int nItem, bool bEnable)
 {
 	assert(nItem >= 0 && nItem < m_Items.size());
 
-	ItemData& id = m_Items[nItem];
+	ItemData &id = m_Items[nItem];
 
 	if (bEnable != id.bEnabled) {
 		id.bEnabled = bEnable;
@@ -655,13 +624,7 @@ void BandCtrlImpl::recalcButtonRects()
 			if (!m_hTooltip)
 				m_hTooltip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, g_hInst, NULL);
 
-			TOOLINFO ti = {
-				sizeof(TOOLINFO),									// cbSize
-				TTF_SUBCLASS,										// uFlags
-				m_hWnd,												// hwnd
-				i + 1,												// uId
-				m_Items[i].rItem,									// rect
-				NULL,												// hInstance
+			TOOLINFO ti = { sizeof(TOOLINFO), TTF_SUBCLASS, m_hWnd, i + 1, m_Items[i].rItem, NULL,
 				const_cast<TCHAR*>(m_Items[i].tooltip.c_str()),	// lpszText
 			};
 
@@ -673,9 +636,8 @@ void BandCtrlImpl::recalcButtonRects()
 
 int BandCtrlImpl::getNextButton(int nItem)
 {
-	if (nItem < 0 || nItem >= m_Items.size()) {
+	if (nItem < 0 || nItem >= m_Items.size())
 		nItem = -1;
-	}
 
 	int nNext = nItem;
 	int nLastLeft = -1;

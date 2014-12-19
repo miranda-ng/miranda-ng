@@ -23,8 +23,8 @@ INT_PTR CALLBACK DlgOption::SubColumns::staticAddProc(HWND hDlg, UINT msg, WPARA
 
 		upto_each_(i, Column::countColInfo())
 		{
-			int nIndex = SendMessage(hWndList, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(Column::getColInfo(i).m_Title));
-			SendMessage(hWndList, LB_SETITEMDATA, nIndex, static_cast<LPARAM>(i));
+			int nIndex = SendMessage(hWndList, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(TranslateTS(Column::getColInfo(i).m_Title)));
+			SendMessage(hWndList, LB_SETITEMDATA, nIndex, i);
 		}
 
 		if (Column::countColInfo() > 0) {
@@ -332,7 +332,7 @@ void DlgOption::SubColumns::addCol(int nCol)
 
 		getParent()->getLocalSettings().addCol(pCol);
 
-		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, pCol->getTitle(), 0, reinterpret_cast<INT_PTR>(pCol));
+		OptionsCtrl::Check hColCheck = m_Columns.insertCheck(NULL, TranslateTS(pCol->getTitle()), 0, reinterpret_cast<INT_PTR>(pCol));
 
 		m_Columns.checkItem(hColCheck, pCol->isEnabled());
 
@@ -546,7 +546,7 @@ void DlgOption::SubColumns::onBandDropDown(HANDLE hButton, INT_PTR dwData)
 
 		upto_each_(i, Column::countColInfo())
 		{
-			AppendMenu(hPopup, MF_STRING, i + 1, Column::getColInfo(i).m_Title);
+			AppendMenu(hPopup, MF_STRING, i + 1, TranslateTS(Column::getColInfo(i).m_Title));
 		}
 
 		int nCol = -1 + TrackPopupMenu(
@@ -679,7 +679,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
-							pHelp->back().first = pCol->getTitle();
+							pHelp->back().first = TranslateTS(pCol->getTitle());
 							pHelp->back().first += _T(": ");
 							pHelp->back().first += TranslateT("HTML output unsupported.");
 
@@ -699,7 +699,7 @@ bool DlgOption::SubColumns::configHasConflicts(HelpVec* pHelp)
 						if (pHelp) {
 							pHelp->push_back(HelpPair());
 
-							pHelp->back().first = pCol->getTitle();
+							pHelp->back().first = TranslateTS(pCol->getTitle());
 							pHelp->back().first += _T(": ");
 
 							if (nPNGMode == Settings::pmHTMLFallBack)
