@@ -26,7 +26,10 @@ begin
     begin
       p:=StrCopyE(p,opt_UA);
       p^:='/'; inc(p);
-
+{!!
+      p^:='*'; inc(p); p^:=#0;
+      DBDeleteGroup(0,DBBranch,setting);
+!!}
       StrCopy(p,opt_Flags); DBDeleteSetting(0,DBBranch,setting);
     
       StrCopy(p,opt_TTBTooltip        ); DBDeleteSetting(0,DBBranch,setting);
@@ -196,8 +199,6 @@ end;
 *)
 procedure SetAllActionUsers(var ActionItem:tMyActionItem; initial:boolean);
 var
-  setting:array [0..63] of AnsiChar;
-  p:pAnsiChar;
   luse:boolean;
   lmenu:tMenuType;
 begin
@@ -248,90 +249,4 @@ begin
     DestroyServiceFunction(ActionItem.hMenuService);
     ActionItem.hMenuService:=0;
   end;
-
-  // First run (ok ok, if ppl ask for it....)
-  p:=GetUABranch(setting,ActionItem.dwActID);
-  if p<>nil then
-  begin
-    p:=StrCopyE(p,opt_UA);
-    p^:='/'; inc(p);
-    StrCopy(p,'_FirstRun');
-    if DBReadByte(0,DBBranch,setting,0)<>0 then
-    begin
-      CAllService(MS_ACT_RUNBYID,ActionItem.dwActID,0);
-      DBDeleteSetting(0,DBBranch,setting);
-    end;
-  end;
-
-end;
-
-procedure DeleteUAction(num:integer);
-var
-  ActionItem:pMyActionItem;
-  setting:array [0..63] of AnsiChar;
-  p:pAnsiChar;
-  luse:boolean;
-  lmenu:tMenuType;
-begin
-  DeleteUASettings(num);
-
-  ActionItem:=@UActionList[num];
-
-  DeleteIcolibIcon(ActionItem^);
-
-  if (ActionItem.flags and UAF_REGHOTKEY)<>0 then
-    DeleteCoreHotkey(ActionItem^);
-
-  if (ActionItem.flags and UAF_REGTTBB)<>0 then
-    DeleteTTBButton(ActionItem^);
-  mFreeMem(ActionItem.szTTBTooltip);
-  mFreeMem(ActionItem.szTTBTooltipPressed);
-  mFreeMem(ActionItem.szTTBShowWhenVars);
-
-  if (ActionItem.flags and UAF_REGTABB)<>0 then
-    DeleteTabBBButton(ActionItem^);
-  mFreeMem(ActionItem.szTabBTooltip);
-  mFreeMem(ActionItem.szTabBTooltipPressed);
-
-  luse:=false;
-  for lmenu:=main_menu to HIGH(tMenuType) do
-  begin
-    with ActionItem.UAMenuItem[lmenu] do
-    begin
-      if (menu_opt and UAF_MENUUSE)<>0 then
-      begin
-        luse:=true;
-        DeleteMenuItem(ActionItem^,lmenu);
-      end;
-      mFreeMem(szMenuPopup);
-      mFreeMem(szMenuNameVars);
-      mFreeMem(szMenuShowWhenVars);
-    end;
-  end;
-
-  if (not luse) and (ActionItem.hMenuService<>0) then
-  begin
-    DestroyServiceFunction(ActionItem.hMenuService);
-    ActionItem.hMenuService:=0;
-  end;
-
-  p:=GetUABranch(setting,ActionItem.dwActID);
-  if p<>nil then
-  begin
-    p:=StrCopyE(p,opt_UA);
-    p^:='/'; inc(p);
-    StrCopy(p,'_FirstRun');
-    DBDeleteSetting(0,DBBranch,setting);
-  end;
-
-  // Free Memory
-  mFreeMem(ActionItem.szNameID);
-  mFreeMem(ActionItem.szActDescr);
-  
-  // compact list
-  if num<HIGH(UActionList) then
-  begin
-    move(UActionList[num+1],UActionList[num],(HIGH(UACtionList)-num)*SizeOf(tMyActionItem));
-  end;
-  SetLength(UActionList,Length(UActionList)-1);
 end;

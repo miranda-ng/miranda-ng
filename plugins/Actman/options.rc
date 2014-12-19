@@ -1,45 +1,7 @@
 #include "i_const.inc"
 
 LANGUAGE 0,0
-/*
-IDD_STRUCTURE DIALOGEX 0, 0, 332,184, 0
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_THICKFRAME
-CAPTION "Structure editor"
-//EXSTYLE  WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0
-{
-  CONTROL ""      , IDC_DATA_FULL, "SysListView32",
-                    WS_BORDER | WS_TABSTOP |
-                    LVS_NOCOLUMNHEADER | LVS_SHOWSELALWAYS |
-                    LVS_SINGLESEL | LVS_REPORT,
-                    2,  2, 160, 180, WS_EX_CONTROLPARENT
 
-  CONTROL "New"   ,IDC_DATA_NEW   ,"MButtonClass",WS_TABSTOP,166, 2,16,16,$18000000// | WS_GROUP
-  CONTROL "Up"    ,IDC_DATA_UP    ,"MButtonClass",WS_TABSTOP,166,22,16,16,$18000000
-  CONTROL "Down"  ,IDC_DATA_DOWN  ,"MButtonClass",WS_TABSTOP,166,40,16,16,$18000000
-  CONTROL "Delete",IDC_DATA_DELETE,"MButtonClass",WS_TABSTOP,166,60,16,16,$18000000
-
-  COMBOBOX                   IDC_DATA_TYPE   , 186,  2, 142, 96, CBS_DROPDOWNLIST | WS_VSCROLL
-  EDITTEXT                   IDC_DATA_LEN    , 186, 18,  32, 11
-  LTEXT        "Data length"  ,-1            , 222, 18, 106, 11, SS_CENTERIMAGE
-  EDITTEXT                      IDC_DATA_EDIT, 186, 32, 142, 11, ES_AUTOHSCROLL
-  AUTOCHECKBOX "Use Variables", IDC_DATA_VARS, 186, 45, 142, 14
-
-  DEFPUSHBUTTON   "&Change", IDC_DATA_CHANGE, 186, 62,  46, 14//, WS_GROUP
-  PUSHBUTTON      "&OK"    , IDOK           , 234, 62,  46, 14
-  PUSHBUTTON      "C&ancel", IDCANCEL       , 282, 62,  46, 14
-
-  AUTOCHECKBOX "Packed structure", IDC_DATA_PACKED, 166, 78, 162, 14
-
-  CTEXT "Use Byte array/pointer for ANSI strings\n"\
-        "Use Word array/pointer for Unicode strings\n\n"\
-        "$## replaces by byte with hex value ##\n"\
-        "$#### replaces by word with hex value #### (for Unicode strings only)\n\n"\
-        "All data length calculating in bytes",
-        IDC_DATA_HELP,166,94,162,88
-
-}
-*/
 IDD_ACTION DIALOGEX 0, 0, 304, 226, 0
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE  WS_EX_CONTROLPARENT
@@ -48,13 +10,12 @@ FONT 8, "MS Shell Dlg", 0, 0
   CONTROL "New"   ,IDC_GROUP_NEW   ,"MButtonClass",WS_TABSTOP,114,  1,16,16,$18000000 | WS_GROUP
   CONTROL "Up"    ,IDC_GROUP_UP    ,"MButtonClass",WS_TABSTOP,114, 18,16,16,$18000000
   CONTROL "Down"  ,IDC_GROUP_DOWN  ,"MButtonClass",WS_TABSTOP,114, 34,16,16,$18000000
-  CONTROL "Reload",IDC_GROUP_RELOAD,"MButtonClass",WS_TABSTOP,114, 51,16,16,$18000000
   CONTROL "Delete",IDC_GROUP_DELETE,"MButtonClass",WS_TABSTOP,114, 68,16,16,$18000000
   CONTROL "Test"  ,IDC_GROUP_TEST  ,"MButtonClass",WS_TABSTOP,114, 85,16,16,$18000000
-  CONTROL "Export",IDC_GROUP_EXPORT,"MButtonClass",WS_TABSTOP,114,102,16,16,$18000000
-  CONTROL "Import",IDC_GROUP_IMPORT,"MButtonClass",WS_TABSTOP,114,119,16,16,$18000000
+//  CONTROL "Export",IDC_GROUP_EXPORT,"MButtonClass",WS_TABSTOP,114,102,16,16,$18000000
+//  CONTROL "Import",IDC_GROUP_IMPORT,"MButtonClass",WS_TABSTOP,114,119,16,16,$18000000
 
-  CONTROL  "", IDC_ACTION_GROUP, "SysListView32",
+  CONTROL  "", IDC_MACRO_LIST, "SysListView32",
            WS_BORDER | WS_TABSTOP |
            LVS_NOCOLUMNHEADER | LVS_SHOWSELALWAYS | LVS_REPORT | LVS_EDITLABELS,// | LVS_SINGLESEL,
            0, 2, 110, 132, WS_EX_CONTROLPARENT
@@ -76,231 +37,11 @@ FONT 8, "MS Shell Dlg", 0, 0
   RTEXT    "Action",IDC_STAT_ACTION, 135, 6, 63, 12, SS_CENTERIMAGE
   CONTROL  "", IDC_ACTION_TYPE, "ComboBoxEx32",
     WS_TABSTOP | WS_VSCROLL | CBS_AUTOHSCROLL | CBS_DROPDOWNLIST, 200, 6, 101, 96
-
-// Contact
-  RTEXT           "Choose contact", IDC_STAT_CONTACT   , 135, 24, 160, 10
-  COMBOBOX        IDC_CONTACTLIST, 135, 35, 166, 128, CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL
-  AUTOCHECKBOX    "Keep handle only"   , IDC_CNT_KEEP  , 135, 53, 160, 11
-  AUTOCHECKBOX    "Active accounts only",IDC_CNT_FILTER, 135, 65, 160, 11
-  RTEXT           "Dropdown list format",IDC_STAT_FORMAT, 135, 78, 160, 11
-  EDITTEXT        IDC_EDIT_FORMAT                      , 153, 92, 142, 12, ES_AUTOHSCROLL
-  CONTROL         "Apply",IDC_CNT_APPLY,"MButtonClass",WS_TABSTOP,135,90,16,16,$18000000
-  CTEXT           "You can use %name%, %uid%, %account% and %group% macros",IDC_STAT_FHELP, 135, 107, 160, 24
-
-// Service
-  RTEXT           "wParam type", IDC_STAT_WPAR1, 135, 125,  63, 14, SS_CENTERIMAGE
-  COMBOBOX                       IDC_FLAG_WPAR , 200, 125, 102, 56, CBS_DROPDOWNLIST | WS_VSCROLL
-  RTEXT           "lParam type", IDC_STAT_LPAR1, 135, 140,  63, 14, SS_CENTERIMAGE
-  COMBOBOX                       IDC_FLAG_LPAR , 200, 140, 102, 56, CBS_DROPDOWNLIST | WS_VSCROLL
-
-  RTEXT           "Service name", IDC_STAT_SERVICE, 135, 153, 160, 8
-  AUTOCHECKBOX "", IDC_SRV_SRVC,135,162,8,8,BS_ICON | BS_PUSHLIKE
-  COMBOBOX                        IDC_EDIT_SERVICE, 144, 162, 157, 96, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL | CBS_SORT
-  RTEXT           "wParam"      , IDC_STAT_WPAR   , 135, 177, 160, 8
-  AUTOCHECKBOX "", IDC_SRV_WPAR,135,186,8,8,BS_ICON | BS_PUSHLIKE
-  COMBOBOX                        IDC_EDIT_WPAR   , 144, 186, 157, 76, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL
-  RTEXT           "lParam"      , IDC_STAT_LPAR   , 135, 201, 160, 8
-  AUTOCHECKBOX "", IDC_SRV_LPAR,135,210,8,8,BS_ICON | BS_PUSHLIKE
-  COMBOBOX                        IDC_EDIT_LPAR   , 144, 210, 157, 76, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL
-  PUSHBUTTON      "Structure"   , IDC_WSTRUCT     , 135, 186, 166, 14
-  PUSHBUTTON      "Structure"   , IDC_LSTRUCT     , 135, 210, 166, 14
-
-  GROUPBOX        "Result action"      , IDC_RES_GROUP  , 135, 24, 166, 99, WS_GROUP
-  AUTOCHECKBOX    "Show in popup"      , IDC_RES_POPUP  , 138, 34, 159, 11
-  AUTOCHECKBOX    "Show in messagebox" , IDC_RES_MESSAGE, 138, 45, 159, 11
-  AUTOCHECKBOX    "Insert into message", IDC_RES_INSERT , 138, 56, 159, 11
-
-  LTEXT           "Service result"     , IDC_SRV_RESSTAT, 138,  72, 159, 11
-  COMBOBOX                               IDC_SRV_RESULT , 138,  83, 159, 76, CBS_DROPDOWN | WS_VSCROLL | CBS_AUTOHSCROLL
-  AUTOCHECKBOX    "Free memory"        , IDC_RES_FREEMEM, 138,  99, 159, 11
-  AUTOCHECKBOX    "Unicode string"     , IDC_RES_UNICODE, 138, 110, 159, 11
-  AUTOCHECKBOX    "Signed value"       , IDC_RES_SIGNED , 138,  99, 159, 11
-
-// Program
-  GROUPBOX        "Process options" , IDC_PROCESS_GROUP, 135, 24, 166, 46, WS_GROUP
-  AUTORADIOBUTTON "Parallel"        , IDC_FLAG_PARALLEL, 138, 33, 161, 11
-  AUTORADIOBUTTON "Continued"       , IDC_FLAG_CONTINUE, 138, 44, 161, 11
-  EDITTEXT                            IDC_EDIT_PROCTIME, 138, 56,  31, 11, ES_RIGHT | ES_NUMBER
-  LTEXT           "Process time, ms", IDC_STAT_PROCTIME, 171, 56, 128, 11, SS_CENTERIMAGE
-
-  AUTOCHECKBOX    "Current path"    , IDC_FLAG_CURPATH, 138, 72, 161, 11
-
-  GROUPBOX        "Window option"  , IDC_PRSTART_GROUP, 135,  83, 166, 55, WS_GROUP
-  AUTORADIOBUTTON "Start normal"   , IDC_FLAG_NORMAL  , 138,  92, 162, 11
-  AUTORADIOBUTTON "Start hidden"   , IDC_FLAG_HIDDEN  , 138, 103, 162, 11
-  AUTORADIOBUTTON "Start minimized", IDC_FLAG_MINIMIZE, 138, 114, 162, 11
-  AUTORADIOBUTTON "Start maximized", IDC_FLAG_MAXIMIZE, 138, 125, 162, 11
-
-  CONTROL         "V", IDC_HLP_FVARS, "MButtonClass",WS_TABSTOP, 285,139,16,16,$18000000
-  RTEXT           "Program path", IDC_STAT_PRGPATH, 135, 155, 160,  8
-  AUTOCHECKBOX "", IDC_PRG_PRG,135,164,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                        IDC_EDIT_PRGPATH, 144, 164, 139, 12, ES_AUTOHSCROLL
-  PUSHBUTTON      "..."         , IDC_PROGRAM     , 285, 164,  16, 12
-  RTEXT           "Program args", IDC_STAT_PRGARGS, 135, 179, 160,  8
-  AUTOCHECKBOX "", IDC_PRG_ARG,135,186,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                        IDC_EDIT_PRGARGS, 144, 188, 157, 12, ES_AUTOHSCROLL
-
-// Text
-  AUTORADIOBUTTON "Clipboard"     , IDC_FLAG_CLIP   , 135,  20, 166, 11, WS_GROUP
-  AUTORADIOBUTTON "File"          , IDC_FLAG_FILE   , 135,  66, 166, 11
-  AUTORADIOBUTTON "Message window", IDC_FLAG_MESSAGE, 135, 128, 166, 11
-
-  GROUPBOX        ""          , IDC_CLIP_GROUP , 135,  30, 166, 33
-  AUTORADIOBUTTON "Copy to"   , IDC_CLIP_COPYTO, 140,  36, 160, 11, WS_GROUP
-  AUTORADIOBUTTON "Paste from", IDC_CLIP_PASTE , 140,  47, 160, 11
- 
-  GROUPBOX        ""       , IDC_FILE_GROUP  , 135,  75, 166, 52
-  AUTORADIOBUTTON "Read"   , IDC_FILE_READ   , 138,  83,  52, 11, WS_GROUP
-  AUTORADIOBUTTON "Write"  , IDC_FILE_WRITE  , 191,  83,  52, 11
-  AUTORADIOBUTTON "Append" , IDC_FILE_APPEND , 244,  83,  52, 11
-  AUTOCHECKBOX "", IDC_TXT_FILE,138,96,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                   IDC_FILE_PATH   , 147,  96, 131, 12, ES_AUTOHSCROLL
-  PUSHBUTTON      "..."    , IDC_FILE_FILEBTN, 281,  96,  16, 12
-  COMBOBOX                   IDC_FILE_ENC   , 138, 111, 160, 76, CBS_DROPDOWNLIST | WS_VSCROLL
-
-  CONTROL         "V", IDC_HLP_VARS, "MButtonClass",WS_TABSTOP, 285,139,16,16,$18000000
-//  PUSHBUTTON      "vars"          , IDC_HLP_VARS     , 264, 140,  37, 14
-  RTEXT           "Text to insert", IDC_STAT_INSERT  , 135, 155, 160,  9
-  AUTOCHECKBOX "", IDC_TXT_TEXT,135,164,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                          IDC_EDIT_INSERT  , 144, 164, 157, 59,
-                                    ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-
-// Advanced
-  GROUPBOX        "Condition"  , IDC_CONDITION , 135,  24, 166, 34, WS_GROUP
-  AUTORADIOBUTTON ">"          , IDC_FLAG_GT   , 138,  33,  32, 11
-  AUTORADIOBUTTON "<"          , IDC_FLAG_LT   , 170,  33,  32, 11
-  AUTORADIOBUTTON "="          , IDC_FLAG_EQ   , 202,  33,  32, 11
-  AUTORADIOBUTTON "NOP"        , IDC_FLAG_NOP  , 234,  33,  32, 11
-  AUTOCHECKBOX    "NOT"        , IDC_FLAG_NOT  , 138,  44,  32, 11
-  RTEXT           "Value"      , IDC_STAT_VAL  , 170,  44,  78, 11, SS_CENTERIMAGE
-  EDITTEXT                       IDC_ADV_VALUE , 250,  44,  48, 11, ES_RIGHT //| ES_NUMBER
-
-  AUTOCHECKBOX    "Math"       , IDC_FLAG_MATH , 138,  61,  64, 13, WS_GROUP
-  COMBOBOX                       IDC_ADV_OPER  , 204,  61,  44, 96,
-                                 CBS_DROPDOWNLIST | WS_VSCROLL
-  EDITTEXT                       IDC_ADV_VAL1  , 250,  61,  48, 13, ES_RIGHT //| ES_NUMBER
-
-  AUTOCHECKBOX "Variables"        , IDC_FLAG_VARS , 138,  78, 124, 12
-  CONTROL      "V", IDC_ADV_HVARS, "MButtonClass",WS_TABSTOP, 285,75,16,16,$18000000
-//  PUSHBUTTON   "vars"             , IDC_ADV_HVARS , 264,  78,  37, 12
-  EDITTEXT                          IDC_ADV_VARS  , 144,  92, 157, 68,
-                                    ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-  AUTOCHECKBOX "Result as integer", IDC_ADV_ASINT , 135, 161, 164, 13, BS_RIGHT | BS_LEFTTEXT
-
-  GROUPBOX        "Operation"  , IDC_OPERATION , 135, 174, 166, 49, WS_GROUP
-  AUTORADIOBUTTON "JUMP"       , IDC_FLAG_JUMP , 138, 183,  62, 12
-  AUTORADIOBUTTON "BREAK"      , IDC_FLAG_BREAK, 138, 196,  62, 12
-  AUTORADIOBUTTON "NOP"        , IDC_FLAG_ANOP , 138, 209,  62, 12
-  COMBOBOX                       IDC_ADV_VAL2  , 200, 183,  99, 96, CBS_DROPDOWNLIST | WS_VSCROLL | CBS_AUTOHSCROLL
-
-// Chain
-  RTEXT    "Other Action groups",IDC_STAT_GROUPS,135, 24, 160, 10
-  COMBOBOX                       IDC_GROUP_LIST, 135, 35, 166, 128,
-                                 CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL
-
-// Read / write setting
-
-  AUTORADIOBUTTON "Own settings", IDC_RW_CURRENT, 135, 50, 80, 11, BS_RIGHT | BS_LEFTTEXT | WS_GROUP
-  AUTORADIOBUTTON "Manual"      , IDC_RW_MANUAL , 135, 62, 80, 11, BS_RIGHT | BS_LEFTTEXT
-  AUTORADIOBUTTON "Parameter"   , IDC_RW_PARAM  , 217, 50, 80, 11
-  AUTORADIOBUTTON "Last result" , IDC_RW_RESULT , 217, 62, 80, 11
-
-  RTEXT           "Module"      , IDC_RW_STATM  , 135,  75, 160,  8, SS_CENTERIMAGE
-  AUTOCHECKBOX "", IDC_RW_MVAR,135,84,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                        IDC_RW_MODULE , 144,  84, 157, 12, ES_AUTOHSCROLL
-  RTEXT           "Setting"     , IDC_RW_STATS  , 135,  99, 160,  8, SS_CENTERIMAGE
-  AUTOCHECKBOX "", IDC_RW_SVAR,135,108,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                        IDC_RW_SETTING, 144, 108, 157, 12, ES_AUTOHSCROLL
-
-  GROUPBOX        "Operation"   , IDC_RW_OPER   , 135, 124, 166, 21, WS_GROUP
-  AUTORADIOBUTTON "Read"        , IDC_RW_READ   , 138, 133,  52, 11
-  AUTORADIOBUTTON "Write"       , IDC_RW_WRITE  , 191, 133,  52, 11
-  AUTORADIOBUTTON "Delete"      , IDC_RW_DELETE , 244, 133,  52, 11
-
-  GROUPBOX        "Value"       , IDC_RW_VAL    , 135, 146, 166, 76, WS_GROUP
-
-  COMBOBOX                       IDC_RW_DATATYPE, 220, 155,  79, 96,
-                                 CBS_DROPDOWNLIST | WS_VSCROLL
-
-  AUTOCHECKBOX    "Last result" , IDC_RW_LAST   , 140, 179, 156, 11, BS_RIGHT | BS_LEFTTEXT
-  EDITTEXT                        IDC_RW_VALUE  , 149, 191, 147, 11, ES_AUTOHSCROLL | ES_RIGHT// | ES_NUMBER
-  AUTOCHECKBOX "", IDC_RW_TVAR,140,191,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                        IDC_RW_TEXT   , 149, 191, 147, 29,
-                                  ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-
-// MessageBox
-
-  AUTOCHECKBOX "", IDC_MSG_TTL,135,32,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                 IDC_MSG_TITLE, 144, 32, 157, 12,
-                           ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-  RTEXT    "Message text" ,IDC_MSG_STAT2, 137, 46, 164, 11, SS_CENTERIMAGE
-  AUTOCHECKBOX "", IDC_MSG_TXT,135,58,8,8,BS_ICON | BS_PUSHLIKE
-  EDITTEXT                 IDC_MSG_TEXT , 144, 58, 157, 49,
-                           ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
-  AUTOCHECKBOX "Keep last result" , IDC_MSG_KEEP, 138, 109, 163, 11, BS_RIGHT | BS_LEFTTEXT
-
-  GROUPBOX        "Icons"   , IDC_MSG_ICONS , 135, 123, 166, 28, WS_GROUP
-  AUTORADIOBUTTON "Error"   , IDC_MSGI_ERROR, 140, 130,  24, 20, BS_ICON
-  AUTORADIOBUTTON "Question", IDC_MSGI_QUEST, 166, 130,  24, 20, BS_ICON
-  AUTORADIOBUTTON "Warning" , IDC_MSGI_WARN , 192, 130,  24, 20, BS_ICON
-  AUTORADIOBUTTON "Info"    , IDC_MSGI_INFO , 218, 130,  24, 20, BS_ICON
-  AUTORADIOBUTTON "None"    , IDC_MSGI_NONE , 246, 130,  53, 20//, BS_ICON
-
-  GROUPBOX        "Buttons"             , IDC_MSG_BTNS, 135, 152, 166, 71, WS_GROUP
-  AUTORADIOBUTTON "OK"                  , IDC_MSGB_OK , 140, 161, 156, 10
-  AUTORADIOBUTTON "OK, Cancel"          , IDC_MSGB_OC , 140, 171, 156, 10
-  AUTORADIOBUTTON "Abort, Retry, Ignore", IDC_MSGB_ARI, 140, 181, 156, 10
-  AUTORADIOBUTTON "Yes, No, Cancel"     , IDC_MSGB_YNC, 140, 191, 156, 10
-  AUTORADIOBUTTON "Yes, No"             , IDC_MSGB_YN , 140, 201, 156, 10
-  AUTORADIOBUTTON "Retry, Cancel"       , IDC_MSGB_RC , 140, 211, 156, 10
-
-  RTEXT    "Message title",IDC_MSG_STAT1, 137, 20, 164, 11, SS_CENTERIMAGE
 }
-
-IDD_ASK DIALOGEX 0, 0, 276, 72, 0
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
-EXSTYLE  WS_EX_CONTROLPARENT
-CAPTION "Choose action"
-FONT 8, "MS Shell Dlg", 0, 0
-{
-  CTEXT         "", IDC_ASK,4,4,268,42,SS_CENTERIMAGE
-
-  CONTROL       "", -1, "STATIC", SS_ETCHEDHORZ, 2, 50, 272, 2
-
-  DEFPUSHBUTTON "&Yes"       , IDOK      ,   4, 54, 40, 16
-  PUSHBUTTON    "&No"        , IDCANCEL  ,  52, 54, 40, 16
-  PUSHBUTTON    "A&ppend"    , IDC_APPEND, 100, 54, 52, 16
-  PUSHBUTTON    "Yes to &All", IDC_YESALL, 160, 54, 52, 16
-  PUSHBUTTON    "N&o to All" , IDC_NOALL , 220, 54, 52, 16
-}
-
-IDI_NEW     ICON "ico\new.ico"
-IDI_UP      ICON "ico\up.ico"
-IDI_DOWN    ICON "ico\down.ico"
-IDI_DELETE  ICON "ico\delete.ico"
-IDI_RELOAD  ICON "ico\reload.ico"
-IDI_TEST    ICON "ico\test.ico"
-IDI_EXPORT  ICON "ico\export.ico"
-IDI_IMPORT  ICON "ico\import.ico"
-
-IDI_CONTACT ICON "ico\contact.ico"
-IDI_SERVICE ICON "ico\service.ico"
-IDI_PROGRAM ICON "ico\program.ico"
-IDI_INSERT  ICON "ico\insert.ico"
-IDI_ADVANCE ICON "ico\advance.ico"
-IDI_CHAIN   ICON "ico\chain.ico"
-IDI_RW      ICON "ico\rw.ico"
-IDI_MESSAGE ICON "ico\message.ico"
-IDI_FORMAT  ICON "ico\format.ico"
-
-IDI_APPLY  ICON "ico\apply.ico"
-
-IDI_VAR_CHECKED   ICON "ico\vcheck.ico"
-IDI_VAR_UNCHECKED ICON "ico\vuncheck.ico"
-
+/*
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,2,0,1
- PRODUCTVERSION 0,2,0,1
+ FILEVERSION 0,3,0,1
+ PRODUCTVERSION 0,3,0,1
  FILEFLAGSMASK $3F
  FILEOS 4
  FILETYPE 2
@@ -313,12 +54,12 @@ BEGIN
       VALUE "CompanyName",""
       VALUE "Comments", "Plugin for managing different Miranda actions "0
       VALUE "FileDescription", "Action manager for Miranda NG"0
-      VALUE "FileVersion", "0, 2, 0, 1 "0
+      VALUE "FileVersion", "0, 3, 0, 1 "0
       VALUE "InternalName", "ActManager"0
       VALUE "OriginalFilename", "actman.dll"0
       VALUE "ProductName", "Action Manager Dynamic Link Library (DLL)"0
-      VALUE "ProductVersion", "0, 2, 0, 1 "0
-      VALUE "SpecialBuild", "18.08.2011 "0
+      VALUE "ProductVersion", "0, 3, 0, 1 "0
+      VALUE "SpecialBuild", "18.11.2012 "0
     END
   END
   BLOCK "VarFileInfo"
@@ -326,3 +67,4 @@ BEGIN
       VALUE "Translation",0,1200
   END
 END
+*/

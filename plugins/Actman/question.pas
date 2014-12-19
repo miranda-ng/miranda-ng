@@ -3,13 +3,14 @@ unit question;
 interface
 uses windows,messages;
 
-function QuestionDlg(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function ShowQuestion(ask:pWideChar):integer;
 
 implementation
 
 uses m_api;
 
 {$include i_const.inc}
+{$resource ask.res}
 
 const
   imp_yes    = 1;
@@ -18,7 +19,7 @@ const
   imp_noall  = 4;
   imp_append = 5;
 
-function QuestionDlg(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function QuestionDlg(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   i:integer;
 begin
@@ -46,6 +47,12 @@ begin
       end;
     end;
   end;
+end;
+
+function ShowQuestion(ask:pWideChar):integer;
+begin
+  result:=DialogBoxParam(hInstance,MAKEINTRESOURCE(IDD_ASK),0,
+  @QuestionDlg,TLPARAM(ask));
 end;
 
 end.

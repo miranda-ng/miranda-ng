@@ -108,7 +108,7 @@ begin
   end;
 end;
 
-function HookWndProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
+function HookWndProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   p:pHookRec;
   ap:tAct_Param;

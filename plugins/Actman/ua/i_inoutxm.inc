@@ -25,6 +25,7 @@ const
   ioMenuShow       :PWideChar = 'Show';
   ioMenuUsed       :PWideChar = 'Used';
   ioMenuSeparated  :PWideChar = 'Separated';
+  ioNoTranslate    :PWideChar = 'NoTranslate';
 
 
 function ImportMenuItems(node:HXML;var MenuItem:tUAMenuItem):integer;
@@ -48,6 +49,9 @@ begin
     // separated
       if StrToInt(getAttrValue(node,ioMenuSeparated))<>0 then
         menu_opt:=menu_opt or UAF_MENUSEP;
+    // no translate
+      if StrToInt(getAttrValue(node,ioNoTranslate))<>0 then
+        menu_opt:=menu_opt or UAF_NOTRANS;
     end;
   end;
 end;
@@ -150,18 +154,18 @@ begin
       inc(pbyte(ptr),4);
       for i:=0 to num-1 do
       begin
-        if (ptr.flags and ACCF_IMPORTED)<>0 then
+        if (ptr.flags and ACF_SELECTED)<>0 then
         begin
           if StrCmpw(pcw,ptr.descr)=0 then
           begin
             // delete old UA for overwrited actions
-            if (ptr.flags and ACCF_OVERLOAD)<>0 then
+            if (ptr.flags and ACF_OVERLOAD)<>0 then
             begin
               for act:=0 to HIGH(UActionList) do
               begin
                 if ptr.id=UActionList[act].dwActID then
                 begin
-                  DeleteUAction(act);
+                  DeleteUAction(act,true);
                   break;
                 end;
               end;
@@ -191,7 +195,7 @@ end;
 
 //--------------------------
 
-function ExportMenuItems(node:HXML;MenuItem:tUAMenuItem):HXML;
+function ExportMenuItems(node:HXML;const MenuItem:tUAMenuItem):HXML;
 begin
   with xmlparser do
   begin
@@ -211,6 +215,8 @@ begin
       AddAttrInt(result,ioMenuUsed,ord((menu_opt AND UAF_MENUUSE)<>0));
     // separated
       AddAttrInt(result,ioMenuSeparated,ord((menu_opt AND UAF_MENUSEP)<>0));
+    // no translate
+      AddAttrInt(result,ioNoTranslate,ord((menu_opt AND UAF_NOTRANS)<>0));
     end;
   end;
 end;

@@ -1,5 +1,5 @@
 {}
-
+(*
 const
   MenuServices:array [tMenuType] of pAnsiChar = (
     'CList/AddMainMenuItem'   {MS_CLIST_ADDMAINMENUITEM   },
@@ -8,6 +8,7 @@ const
     'CList/AddProtoMenuItem'  {MS_CLIST_ADDPROTOMENUITEM  },
     'CList/AddStatusMenuItem' {MS_CLIST_ADDSTATUSMENUITEM }
   );
+*)
 type
   tuaMenuRec = record
     hMenuRoot:HMENU;
@@ -25,7 +26,7 @@ begin
   result:=CallService(MS_ACT_RUNBYID, lParam, wParam);
 end;
 
-procedure SetTTBState(var ActionItem:tMyActionItem);
+procedure SetTTBState(const ActionItem:tMyActionItem);
 var
   lflag:integer;
 begin
@@ -47,7 +48,7 @@ begin
   CallService(MS_TTB_SETBUTTONSTATE,ActionItem.hTTBButton,lflag);
 end;
 
-procedure SetTABState(hContact:THANDLE;var ActionItem:tMyActionItem;pressed:integer);
+procedure SetTABState(hContact:THANDLE;const ActionItem:tMyActionItem;pressed:integer);
 var
   tabb:TBBButton;
   pc:pWideChar;
@@ -224,8 +225,8 @@ begin
   if (ActionItem.flags and UAF_HKREGGED)=0 then
   begin
     FillChar(hkd,SizeOf(hkd),0);
-    hkd.cbSize          := SizeOf(hkd);
-    hkd.dwFlags         := HKD_UNICODE;
+    hkd.cbSize          := SizeOf(hkd); // HOTKEYDESC_SIZE_V1 for pre-0.9
+    hkd.dwFlags         := HKD_UNICODE; // since 0.9 only
     hkd.pszName         := ActionItem.szNameID;
     hkd.pszDescription.w:= ActionItem.szActDescr;
     hkd.pszSection    .w:= MODULE_NAME;
@@ -341,12 +342,12 @@ end;
 
 procedure CreateMenuItem(var ActionItem:tMyActionItem;mtype:tMenuType);
 var
-  i:integer;
+  extra:pWideChar;
   ActItem:pMyActionItem;
   ActMItem,UAMenuItem:pUAMenuItem;
   clmi:TCListMenuItem;
+  i:integer;
   res:boolean;
-  extra:pWideChar;
 begin
 {}
   UAMenuItem:=@ActionItem.UAMenuItem[mtype];
@@ -375,16 +376,26 @@ begin
       end;
     end;
   end;
-  // popup menu not found
+  // need to create popup menu
   if not res then
   begin
     FillChar(clmi,SizeOf(clmi),0);
     clmi.cbSize:=SizeOf(clmi);
-    clmi.flags :=CMIF_UNICODE;
+    if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
+      clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
+    else
+      clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
 
     if (UAMenuItem.szMenuPopup<>nil) and (UAMenuItem.szMenuPopup^<>#0) then
-      clmi.szName.w:=ParseVarString(UAMenuItem.szMenuPopup)
+    begin
+      if (UAMenuItem.menu_opt and UAF_MSUBVAR)<>0 then
+        clmi.szName.w:=ParseVarString(UAMenuItem.szMenuPopup)
+      else
+        clmi.szName.w:=UAMenuItem.szMenuPopup;
+    end
     else
+      clmi.szName.w:=nil;
+    if clmi.szName.w=nil then
       clmi.szName.w:=ActionItem.szActDescr;
 
     clmi.hIcon   :=AddRootMenuIcon(clmi.szName.w);
@@ -395,8 +406,9 @@ begin
         (UAMenuItem.menu_opt and UAF_MENUSEP)<>0));
 
     UAMenuItem.hMenuRoot:=MakeMenuItem(mtype,@clmi);
-    //CallService(MenuServices[mtype],0,LPARAM(@clmi));
-    if clmi.szName.w<>ActionItem.szActDescr then
+
+    if (clmi.szName.w<>ActionItem.szActDescr) and
+       (clmi.szName.w<>UAMenuItem.szMenuPopup) then
       mFreeMem(clmi.szName.w);
 
     for i:=1 to HIGH(arMenuRec) do
@@ -417,7 +429,10 @@ begin
 {}{}
   FillChar(clmi,SizeOf(clmi),0);
   clmi.cbSize:=SizeOf(clmi);
-  clmi.flags:=CMIF_UNICODE;
+  if (UAMenuItem.menu_opt and UAF_NOTRANS)<>0 then
+    clmi.flags :=CMIF_UNICODE or CMIF_KEEPUNTRANSLATED
+  else
+    clmi.flags :=CMIF_UNICODE{ or CMIF_ICONFROMICOLIB};
   if (ActionItem.flags and (UAF_2STATE+UAF_PRESSED))<>(UAF_2STATE+UAF_PRESSED) then
   begin
     clmi.hIcon:=ActionItem.hIcolibIcon;
@@ -426,22 +441,26 @@ begin
   else
   begin
     clmi.hIcon:=ActionItem.hIcolibIconPressed;
-    clmi.flags:=CMIF_UNICODE or CMIF_CHECKED;
+    clmi.flags:=clmi.flags or CMIF_CHECKED;
     extra:='1';
   end;
 
-  with ActionItem.UAMenuItem[mtype] do
+  if (UAMenuItem.szMenuNameVars<>nil) and (UAMenuItem.szMenuNameVars^<>#0) then
   begin
-    if (szMenuNameVars<>nil) and (szMenuNameVars^<>#0) then
-      clmi.szName.w:=ParseVarString(szMenuNameVars,0,extra)
+    if (UAMenuItem.menu_opt and UAF_MNAMVAR)<>0 then
+      clmi.szName.w:=ParseVarString(UAMenuItem.szMenuNameVars,0,extra)
     else
-      clmi.szName.w:=ActionItem.szActDescr;
+      clmi.szName.w:=UAMenuItem.szMenuNameVars;
+  end
+  else
+    clmi.szName.w:=nil;
+  if clmi.szName.w=nil then
+    clmi.szName.w:=ActionItem.szActDescr;
 
-    if hMenuRoot<>0 then
-    begin
-      clmi.flags:=clmi.flags or CMIF_ROOTHANDLE;
-      clmi.szPopupName.w:=pWideChar(hMenuRoot);
-    end;
+  if UAMenuItem.hMenuRoot<>0 then
+  begin
+    clmi.flags:=clmi.flags or CMIF_ROOTHANDLE;
+    clmi.szPopupName.w:=pWideChar(UAMenuItem.hMenuRoot);
   end;
 
   clmi.pszService:=ActionItem.szNameID;
@@ -456,13 +475,14 @@ begin
 
   UAMenuItem.hMenuItem:=MakeMenuItem(mtype,@clmi);
   //CallService(MenuServices[mtype],0,LPARAM(@clmi));
-  if clmi.szName.w<>ActionItem.szActDescr then
+  if (clmi.szName.w<>ActionItem.szActDescr) and
+     (clmi.szName.w<>UAMenuItem.szMenuNameVars) then
     mFreeMem(clmi.szName.w);
 {}
 
 end;
 
-function PreBuildMenu(mtype:tMenuType;hContact:THANDLE=0):int;
+function PreBuildMenu(mtype:tMenuType;hContact:TMCONTACT=0):int;
 var
   i:integer;
   mi:TCListMenuItem;
@@ -504,7 +524,7 @@ begin
           if (mi.flags and CMIF_HIDDEN)=0 then
           begin
             //!!!! icon (check for contact menu)
-            mi.flags:=mi.flags or CMIM_ICON or CMIM_FLAGS;
+            mi.flags:=mi.flags or CMIM_ICON or CMIM_FLAGS{ or CMIF_ICONFROMICOLIB};
 
             if (mtype=contact_menu) and IsLocalItem(UActionList[i]) then
             begin
@@ -543,14 +563,22 @@ begin
             // new name
             mi.flags:=mi.flags or CMIM_NAME or CMIF_UNICODE;
             if (szMenuNameVars<>nil) and (szMenuNameVars^<>#0) then
-              mi.szName.w:=ParseVarString(szMenuNameVars,hContact,extra);
-
+            begin
+              if (menu_opt and UAF_MNAMVAR)<>0 then
+                mi.szName.w:=ParseVarString(szMenuNameVars,hContact,extra)
+              else
+                mi.szName.w:=szMenuNameVars;
+            end
+            else
+              mi.szName.w:=nil;
             if mi.szName.w=nil then
               mi.szName.w:=szActDescr;
           end;
 
           CallService(MS_CLIST_MODIFYMENUITEM,hMenuItem,LPARAM(@mi));
-          if mi.szName.w<>szActDescr then
+
+          if (mi.szName.w<>szActDescr) and
+             (mi.szName.w<>szMenuNameVars) then
             mFreeMem(mi.szName.w);
         end;
       end;
@@ -624,13 +652,24 @@ begin
 
     if ActionItem.szTTBTooltip =nil then
       pc1:=pc
-    else pc1:=ActionItem.szTTBTooltip;
+    else
+    begin
+      if (ActionItem.flags and UAF_TTBTTUV)<>0 then
+        pc1:=ParseVarString(ActionItem.szTTBTooltip)
+      else
+        pc1:=ActionItem.szTTBTooltip;
+    end;
 
     if ((ActionItem.flags and UAF_2STATE)=0) or
        (ActionItem.szTTBTooltipPressed=nil) then
       pc2:=pc1
     else
-      pc2:=ActionItem.szTTBTooltipPressed;
+    begin
+      if (ActionItem.flags and UAF_TTBTTPV)<>0 then
+        pc2:=ParseVarString(ActionItem.szTTBTooltipPressed)
+      else
+        pc2:=ActionItem.szTTBTooltipPressed;
+    end;
 
     mtButton.Name :=pc;
     mtButton.pszTooltipUp  :=pc1;
@@ -639,6 +678,11 @@ begin
     ActionItem.hTTBButton:=TopToolbar_AddButton(@mtButton);
     if ActionItem.hTTBButton=THANDLE(-1) then
       ActionItem.hTTBButton:=0;
+    if (pc2<>pc1) and (pc2<>ActionItem.szTTBTooltipPressed) then
+      mFreeMem(pc2);
+    if (pc1<>pc) and (pc1<>ActionItem.szTTBTooltip) then
+      mFreeMem(pc1);
+
     mFreeMem(pc);
   end;
 end;
@@ -751,7 +795,7 @@ end;
 function OnTabButtonPressed(wParam:WPARAM;lParam:LPARAM):int; cdecl;
 var
   cbcd:pCustomButtonClickData;
-//  tabb:TBBButton;
+//  tabb:BBButton;
 //  pc:pWideChar;
   i:integer;
 begin

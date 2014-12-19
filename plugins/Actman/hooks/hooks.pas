@@ -2,20 +2,14 @@ unit hooks;
 
 interface
 
-procedure Init;
-procedure DeInit;
-function AddOptionPage(var tmpl:pAnsiChar;var proc:pointer;var name:PAnsiChar):integer;
-
 implementation
 
 uses
   windows, commctrl, messages,
-  mirutils, common, dbsettings, io, m_api, wrapper,
+  mirutils, common, dbsettings, m_api, wrapper,
   global, mApiCardM;
 
 {$R hooks.res}
-
-{$include m_actman.inc}
 
 {$include i_hook.inc}
 {$include i_hconst.inc}
