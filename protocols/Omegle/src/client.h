@@ -44,6 +44,10 @@ public:
 
 		old_typing_ = typing_ = spy_mode_ = false;
 
+		error_count_ = 0;
+
+		parent = NULL;
+		handle_ = NULL;
 		hConnection = NULL;
 		hEventsConnection = NULL;
 		connection_lock_ = NULL;

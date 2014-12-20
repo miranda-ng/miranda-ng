@@ -31,6 +31,7 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 	this->log_lock_ = CreateMutex( NULL, FALSE, NULL );
 	this->facy.send_message_lock_ = CreateMutex( NULL, FALSE, NULL );
 	this->facy.connection_lock_ = CreateMutex( NULL, FALSE, NULL );
+	this->events_loop_lock_ = CreateMutex( NULL, FALSE, NULL );
 
 	// Group chats
 	CreateProtoService(PS_JOINCHAT, &OmegleProto::OnJoinChat);
