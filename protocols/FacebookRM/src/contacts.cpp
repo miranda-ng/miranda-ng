@@ -406,13 +406,11 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	if (data == NULL)
 		return;
 
-	if (isOffline()) {
-		delete (std::string*)data;
-		return;
-	}
+	std::string id = *(std::string*)data;
+	delete (std::string*)data;
 
-	std::string id = (*(std::string*)data);
-	delete data;
+	if (isOffline())
+		return;
 
 	std::string query = "norefresh=true&unref=button_dropdown&confirmed=1&__a=1";
 	query += "&fb_dtsg=" + facy.dtsg_;
@@ -457,13 +455,11 @@ void FacebookProto::AddContactToServer(void *data)
 	if (data == NULL)
 		return;
 
-	if (isOffline()) {
-		delete (std::string*)data;
-		return;
-	}
+	std::string id = *(std::string*)data;
+	delete (std::string*)data;
 
-	std::string id = (*(std::string*)data);
-	delete data;
+	if (isOffline())
+		return;
 
 	std::string query = "action=add_friend&how_found=profile_button&ref_param=ts&outgoing_id=&unwanted=&logging_location=&no_flyout_on_click=false&ego_log_data=&lsd=";
 	query += "&fb_dtsg=" + facy.dtsg_;
@@ -486,7 +482,6 @@ void FacebookProto::AddContactToServer(void *data)
 
 	if (resp.code != HTTP_CODE_OK)
 		facy.handle_error("AddContactToServer");
-
 }
 
 void FacebookProto::ApproveContactToServer(void *data)
@@ -496,15 +491,13 @@ void FacebookProto::ApproveContactToServer(void *data)
 	if (data == NULL)
 		return;
 
-	if (isOffline()) {
-		delete (MCONTACT*)data;
-		return;
-	}
-
 	MCONTACT hContact = *(MCONTACT*)data;
-	delete data;
+	delete (MCONTACT*)data;
 
-	ptrA id(ptrA(getStringA(hContact, FACEBOOK_KEY_ID)));
+	if (isOffline())
+		return;
+
+	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (!id)
 		return;
 
@@ -534,13 +527,11 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	if (data == NULL)
 		return;
 
-	if (isOffline()) {
-		delete (MCONTACT*)data;
-		return;
-	}
-
 	MCONTACT hContact = *(MCONTACT*)data;
-	delete data;
+	delete (MCONTACT*)data;
+
+	if (isOffline())
+		return;
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (!id)
@@ -572,13 +563,11 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	if (data == NULL)
 		return;
 
-	if (isOffline()) {
-		delete (MCONTACT*)data;
-		return;
-	}
-
 	MCONTACT hContact = *(MCONTACT*)data;
-	delete data;
+	delete (MCONTACT*)data;
+
+	if (isOffline())
+		return;
 
 	ptrA id(getStringA(hContact, FACEBOOK_KEY_ID));
 	if (!id)
@@ -614,15 +603,14 @@ void FacebookProto::SendPokeWorker(void *p)
 	if (p == NULL)
 		return;
 
+	std::string *id = (std::string*)p;
+
 	if (isOffline()) {
-		delete (std::string*)p;
+		delete id;
 		return;
 	}
 
-	std::string id = (*(std::string*)p);
-	delete p;
-
-	std::string data = "poke_target=" + id;
+	std::string data = "poke_target=" + *id;
 	data += "&do_confirm=0";
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
@@ -648,6 +636,8 @@ void FacebookProto::SendPokeWorker(void *p)
 	}
 
 	facy.handle_success("SendPokeWorker");
+
+	delete id;
 }
 
 

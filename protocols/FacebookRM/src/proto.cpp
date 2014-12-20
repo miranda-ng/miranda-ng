@@ -35,9 +35,13 @@ PROTO<FacebookProto>(proto_name, username)
 	facy.send_message_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.fcb_conn_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.notifications_lock_ = CreateMutex(NULL, FALSE, NULL);
+	facy.cookies_lock_ = CreateMutex(NULL, FALSE, NULL);
+
+	m_hMenuRoot = m_hMenuServicesRoot = m_hStatusMind = NULL;
 
 	m_invisible = false;
 	m_signingOut = false;
+	m_enableChat = DEFAULT_ENABLE_CHATS;
 
 	// Load custom locale, if set
 	ptrA locale(getStringA(FACEBOOK_KEY_LOCALE));
@@ -118,6 +122,7 @@ FacebookProto::~FacebookProto()
 	WaitForSingleObject(facy.buddies_lock_, IGNORE);
 	WaitForSingleObject(facy.send_message_lock_, IGNORE);
 	WaitForSingleObject(facy.notifications_lock_, IGNORE);
+	WaitForSingleObject(facy.cookies_lock_, IGNORE);
 
 	CloseHandle(signon_lock_);
 	CloseHandle(avatar_lock_);
@@ -127,6 +132,7 @@ FacebookProto::~FacebookProto()
 	CloseHandle(facy.send_message_lock_);
 	CloseHandle(facy.fcb_conn_lock_);
 	CloseHandle(facy.notifications_lock_);
+	CloseHandle(facy.cookies_lock_);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -864,12 +870,12 @@ void FacebookProto::ReadNotificationWorker(void *p)
 	if (p == NULL)
 		return;
 
+	std::string *id = (std::string*)p;
+
 	if (isOffline()) {
-		delete (std::string*)p;
+		delete id;
 		return;
 	}
-
-	std::string *id = static_cast<std::string*>(p);
 
 	std::string data = "seen=0&asyncSignal=&__dyn=&__req=a&alert_ids%5B0%5D=" + utils::url::encode(*id);
 	data += "&fb_dtsg=" + facy.dtsg_;
@@ -877,7 +883,7 @@ void FacebookProto::ReadNotificationWorker(void *p)
 
 	facy.flap(REQUEST_NOTIFICATIONS_READ, NULL, &data);
 
-	delete p;
+	delete id;
 }
 
 /**
@@ -982,8 +988,8 @@ void FacebookProto::InitPopups()
 void FacebookProto::InitHotkeys()
 {
 	char text[200];
-	strcpy(text, m_szModuleName);
-	char* tDest = text + strlen(text);
+	mir_strncpy(text, m_szModuleName, 100);
+	char *tDest = text + strlen(text);
 
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.pszName = text;

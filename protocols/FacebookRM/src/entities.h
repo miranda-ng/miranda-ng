@@ -71,7 +71,9 @@ struct facebook_user
 
 struct facebook_chatroom
 {
-	facebook_chatroom(std::tstring thread_id) : thread_id(thread_id) {}
+	facebook_chatroom(std::tstring thread_id) : thread_id(thread_id) {
+		this->last_active = 0;
+	}
 
 	std::tstring thread_id;
 	std::tstring chat_name;

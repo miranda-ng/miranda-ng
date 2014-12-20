@@ -197,7 +197,7 @@ int FacebookProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 int FacebookProto::OnBuildStatusMenu(WPARAM, LPARAM)
 {
 	char text[200];
-	strcpy(text, m_szModuleName);
+	mir_strncpy(text, m_szModuleName, 100);
 	char *tDest = text + strlen(text);
 
 	CLISTMENUITEM mi = { sizeof(mi) };

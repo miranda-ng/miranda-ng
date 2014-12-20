@@ -398,6 +398,8 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		case IDC_SECURE_CHANNEL:
 			if (IsDlgButtonChecked(hwnd, IDC_SECURE_CHANNEL))
 				MessageBox(hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK);
+			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+			break;
 		default:
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 		}

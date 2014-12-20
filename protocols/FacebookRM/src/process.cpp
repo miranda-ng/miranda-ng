@@ -56,7 +56,7 @@ void FacebookProto::ProcessBuddyList(void*)
 
 	CODE_BLOCK_TRY
 
-		facebook_json_parser* p = new facebook_json_parser(this);
+	facebook_json_parser* p = new facebook_json_parser(this);
 	p->parse_buddy_list(&resp.data, &facy.buddies);
 	delete p;
 
@@ -338,20 +338,19 @@ void FacebookProto::ProcessUnreadMessages(void*)
 		facy.handle_success("ProcessUnreadMessages");
 }
 
-void FacebookProto::ProcessUnreadMessage(void *p)
+void FacebookProto::ProcessUnreadMessage(void *data)
 {
-	if (p == NULL)
+	if (data == NULL)
 		return;
 
+	std::vector<std::string> *threads = (std::vector<std::string>*)data;
+
 	if (isOffline()) {
-		delete (std::vector<std::string>*)p;
+		delete threads;
 		return;
 	}
 
 	facy.handle_entry("ProcessUnreadMessage");
-
-	std::vector<std::string> threads = *(std::vector<std::string>*)p;
-	delete (std::vector<std::string>*)p;
 
 	int offset = 0;
 	int limit = 21;
@@ -363,14 +362,14 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 	http::response resp;
 
-	while (!threads.empty()) {
+	while (!threads->empty()) {
 		std::string data = "client=mercury";
 		data += "&__user=" + facy.self_.user_id;
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&__a=1&__dyn=&__req=&ttstamp=" + facy.ttstamp();
 
-		for (std::vector<std::string>::size_type i = 0; i < threads.size(); i++) {
-			std::string thread_id = utils::url::encode(threads[i]);
+		for (std::vector<std::string>::size_type i = 0; i < threads->size(); i++) {
+			std::string thread_id = utils::url::encode(threads->at(i));
 
 			// request messages from thread
 			data += "&messages[thread_ids][" + thread_id;
@@ -389,7 +388,7 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 			CODE_BLOCK_TRY
 
-				std::vector<facebook_message*> messages;
+			std::vector<facebook_message*> messages;
 			std::map<std::string, facebook_chatroom*> chatrooms;
 
 			facebook_json_parser* p = new facebook_json_parser(this);
@@ -431,11 +430,11 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 
 			CODE_BLOCK_CATCH
 
-				debugLogA("***** Error processing unread messages: %s", e.what());
+			debugLogA("***** Error processing unread messages: %s", e.what());
 
 			CODE_BLOCK_END
 
-				facy.handle_success("ProcessUnreadMessage");
+			facy.handle_success("ProcessUnreadMessage");
 		}
 		else {
 			facy.handle_error("ProcessUnreadMessage");
@@ -444,8 +443,10 @@ void FacebookProto::ProcessUnreadMessage(void *p)
 		offset += limit;
 		limit = 20; // TODO: use better limits?
 
-		threads.clear(); // TODO: if we have limit messages from one user, there may be more unread messages... continue with it... otherwise remove that threadd from threads list -- or do it in json parser? hm			 = allow more than "limit" unread messages to be parsed
+		threads->clear(); // TODO: if we have limit messages from one user, there may be more unread messages... continue with it... otherwise remove that threadd from threads list -- or do it in json parser? hm			 = allow more than "limit" unread messages to be parsed
 	}
+
+	delete threads;
 }
 
 void FacebookProto::LoadLastMessages(void *p)
@@ -849,18 +850,15 @@ void FacebookProto::ProcessMessages(void* data)
 	if (data == NULL)
 		return;
 
+	std::string* resp = (std::string*)data;
+
 	if (isOffline()) {
-		delete (std::string*)data;
+		delete resp;
 		return;
 	}
 
-	std::string* resp = (std::string*)data;
-
 	// receive messages from all folders by default, use hidden setting to receive only inbox messages
 	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
-
-	if (isOffline())
-		goto exit;
 
 	debugLogA("***** Starting processing messages");
 
@@ -869,7 +867,7 @@ void FacebookProto::ProcessMessages(void* data)
 		std::vector< facebook_message* > messages;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
-	p->parse_messages(data, &messages, &facy.notifications, inboxOnly);
+	p->parse_messages(resp, &messages, &facy.notifications, inboxOnly);
 	delete p;
 
 	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
@@ -886,7 +884,6 @@ void FacebookProto::ProcessMessages(void* data)
 
 	CODE_BLOCK_END
 
-	exit :
 	delete resp;
 }
 
@@ -929,7 +926,7 @@ void FacebookProto::ProcessNotifications(void*)
 
 	CODE_BLOCK_TRY
 
-		facebook_json_parser* p = new facebook_json_parser(this);
+	facebook_json_parser* p = new facebook_json_parser(this);
 	p->parse_notifications(&(resp.data), &facy.notifications);
 	delete p;
 
@@ -971,8 +968,7 @@ void FacebookProto::ProcessFriendRequests(void*)
 		if ((pos2 = reqs.find("<img src=", pos)) != std::string::npos) {
 			req = reqs.substr(pos, pos2 - pos);
 			pos = pos2 + 9;
-		}
-		else {
+		} else {
 			req = reqs.substr(pos);
 			last = true;
 		}
@@ -981,18 +977,19 @@ void FacebookProto::ProcessFriendRequests(void*)
 		std::string time = utils::text::source_get_value2(&get, "seenrequesttime=", "&\"");
 		std::string reason = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<span", ">", "</span>"));
 
-		facebook_user *fbu = new facebook_user();
-		fbu->real_name = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<strong", ">", "</strong>"));
-		fbu->user_id = utils::text::source_get_value2(&get, "id=", "&\"");
+		facebook_user fbu;
+		fbu.real_name = utils::text::remove_html(utils::text::source_get_value(&req, 3, "<strong", ">", "</strong>"));
+		fbu.user_id = utils::text::source_get_value2(&get, "id=", "&\"");
 
-		if (!fbu->user_id.empty() && !fbu->real_name.empty())
-		{
-			MCONTACT hContact = AddToContactList(fbu, CONTACT_APPROVE);
+		if (!fbu.user_id.empty() && !fbu.real_name.empty()) {
+			MCONTACT hContact = AddToContactList(&fbu, CONTACT_APPROVE);
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_APPROVE);
 
+			bool isNew = false;
 			ptrA oldTime(getStringA(hContact, "RequestTime"));
 			if (oldTime == NULL || strcmp(oldTime, time.c_str())) {
 				// This is new request
+				isNew = true;
 				setString(hContact, "RequestTime", time.c_str());
 
 				//blob is: uin(DWORD), hContact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
@@ -1003,26 +1000,21 @@ void FacebookProto::ProcessFriendRequests(void*)
 				dbei.timestamp = ::time(NULL);
 				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
-				dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + fbu->real_name.length() + fbu->user_id.length() + reason.length() + 5);
+				dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + fbu.real_name.length() + fbu.user_id.length() + reason.length() + 5);
 
 				PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);                    // UID
 				*(PDWORD)pCurBlob = (DWORD)hContact; pCurBlob += sizeof(DWORD);      // Contact Handle
-				strcpy((char*)pCurBlob, fbu->real_name.data()); pCurBlob += fbu->real_name.length() + 1;	// Nickname
+				strcpy((char*)pCurBlob, fbu.real_name.data()); pCurBlob += fbu.real_name.length() + 1;	// Nickname
 				*pCurBlob = '\0'; pCurBlob++;                                        // First Name
 				*pCurBlob = '\0'; pCurBlob++;                                        // Last Name
-				strcpy((char*)pCurBlob, fbu->user_id.data()); pCurBlob += fbu->user_id.length() + 1;	// E-mail (we use it for string ID)
+				strcpy((char*)pCurBlob, fbu.user_id.data()); pCurBlob += fbu.user_id.length() + 1;	// E-mail (we use it for string ID)
 				strcpy((char*)pCurBlob, reason.data()); pCurBlob += reason.length() + 1;	// Reason (we use it for info about common friends)
 
 				db_event_add(0, &dbei);
-
-				debugLogA("      (New) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
 			}
-			else {
-				debugLogA("      (Old) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
-			}
-		}
-		else {
+			debugLogA("      (%s) Friendship request from: %s (%s) [%s]", (isNew ? "New" : "Old"), fbu.real_name.c_str(), fbu.user_id.c_str(), time.c_str());
+		} else {
 			debugLogA(" !!!  Wrong friendship request");
 			debugLogA("%s", req.c_str());
 		}
@@ -1180,16 +1172,13 @@ void FacebookProto::ProcessFeeds(void*)
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 	{
-		ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
-		ptrT tszText(mir_utf8decodeT(news[i]->text.c_str()));
-
 		// Truncate text of newsfeed when it's too long
-		if (_tcslen(tszText) > MAX_NEWSFEED_LEN) {
-			TCHAR buf[MAX_NEWSFEED_LEN + 3 + 1] = { 0 };
-			_tcsncpy(buf, tszText, MAX_NEWSFEED_LEN);
-			_tcsncpy(&buf[MAX_NEWSFEED_LEN], _T("..."), 3);
-			tszText = buf;
-		}
+		std::tstring text = ptrT(mir_utf8decodeT(news[i]->text.c_str()));
+		if (text.length() > MAX_NEWSFEED_LEN)
+			text = text.substr(0, MAX_NEWSFEED_LEN) + _T("...");
+
+		ptrT tszTitle(mir_utf8decodeT(news[i]->title.c_str()));
+		ptrT tszText(mir_tstrdup(text.c_str()));
 
 		NotifyEvent(tszTitle, tszText, this->ContactIDToHContact(news[i]->user_id), FACEBOOK_EVENT_NEWSFEED, &news[i]->link);
 		delete news[i];

@@ -22,10 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-int facebook_json_parser::parse_buddy_list(void* data, List::List< facebook_user >* buddy_list)
+int facebook_json_parser::parse_buddy_list(std::string *data, List::List< facebook_user >* buddy_list)
 {
 	facebook_user* current = NULL;
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -196,9 +196,9 @@ void parseUser(JSONNODE *it, facebook_user *fbu)
 	}
 }
 
-int facebook_json_parser::parse_friends(void* data, std::map< std::string, facebook_user* >* friends)
+int facebook_json_parser::parse_friends(std::string *data, std::map< std::string, facebook_user* >* friends)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -222,9 +222,9 @@ int facebook_json_parser::parse_friends(void* data, std::map< std::string, faceb
 }
 
 
-int facebook_json_parser::parse_notifications(void *data, std::map< std::string, facebook_notification* > *notifications)
+int facebook_json_parser::parse_notifications(std::string *data, std::map< std::string, facebook_notification* > *notifications)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -396,7 +396,7 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 	}
 }
 
-int facebook_json_parser::parse_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications, bool inboxOnly)
+int facebook_json_parser::parse_messages(std::string *data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_notification* >* notifications, bool inboxOnly)
 {
 	// remove old received messages from map		
 	for (std::map<std::string, int>::iterator it = proto->facy.messages_ignore.begin(); it != proto->facy.messages_ignore.end();) {
@@ -409,7 +409,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 		}
 	}
 
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -457,7 +457,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 					if (!proto->m_enableChat)
 						continue;
 
-					std::tstring tid = json_as_string(threadid);
+					std::tstring tid = ptrT(json_as_string(threadid));
 					std::string reader_id = json_as_pstring(reader);
 
 					std::map<std::tstring, facebook_chatroom*>::iterator it = proto->facy.chat_rooms.find(tid);
@@ -656,7 +656,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 			if (from_ == NULL || thread_ == NULL || st_ == NULL)
 				continue;
 
-			std::tstring tid = json_as_string(thread_);
+			std::tstring tid = ptrT(json_as_string(thread_));
 			std::string from_id = json_as_pstring(from_);
 
 			std::map<std::tstring, facebook_chatroom*>::iterator it = proto->facy.chat_rooms.find(tid);
@@ -714,8 +714,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 		else if (t == "buddylist_overlay") {
 			// we opened/closed chat window - pretty useless info for us
 			continue;
-		}
-		else if (t == "ticker_update:home") {
+		} else if (t == "ticker_update:home") {
+			JSONNODE *actor_ = json_get(it, "actor");
+			JSONNODE *time_ = json_get(it, "time");
 			JSONNODE *story_ = json_get(it, "story_xhp");
 
 			std::string text = json_as_pstring(story_);
@@ -747,7 +748,7 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 				if (!log_data_ || !log_body_ || !thread_id_ || !log_type_)
 					continue;
 
-				std::tstring thread_id = json_as_string(thread_id_);
+				std::tstring thread_id = ptrT(json_as_string(thread_id_));
 				std::string type = json_as_pstring(log_type_);
 				std::string message_text = json_as_pstring(log_body_);
 
@@ -816,9 +817,9 @@ int facebook_json_parser::parse_messages(void* data, std::vector< facebook_messa
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::string >* threads, bool inboxOnly)
+int facebook_json_parser::parse_unread_threads(std::string *data, std::vector< std::string >* threads, bool inboxOnly)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -852,9 +853,9 @@ int facebook_json_parser::parse_unread_threads(void* data, std::vector< std::str
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_messages(void* data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, bool inboxOnly)
+int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< facebook_message* >* messages, std::map< std::string, facebook_chatroom* >* chatrooms, bool unreadOnly, bool inboxOnly)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -908,7 +909,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 				chatrooms->erase(iter); // this is not chatroom
 			}
 			else {
-				iter->second->chat_name = json_as_string(name); // TODO: create name from users if there is no name...
+				iter->second->chat_name = ptrT(json_as_string(name)); // TODO: create name from users if there is no name...
 
 				JSONNODE *participants = json_get(it, "participants");
 				for (unsigned int j = 0; j < json_size(participants); j++) {
@@ -970,6 +971,12 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		if (message_text.empty())
 			continue;
 
+		bool isUnread = (is_unread != NULL && json_as_bool(is_unread));
+
+		// Ignore read messages if we want only unread messages
+		if (unreadOnly && !isUnread)
+			continue;
+
 		facebook_message* message = new facebook_message();
 		message->message_text = message_text;
 		if (author_email != NULL)
@@ -978,11 +985,7 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 		message->thread_id = thread_id;
 		message->message_id = message_id;
 		message->isIncoming = (author_id != proto->facy.self_.user_id);
-		message->isUnread = (is_unread != NULL && json_as_bool(is_unread));
-
-		// Ignore read messages if we want only unread messages
-		if (unreadOnly && !message->isUnread)
-			continue;
+		message->isUnread = isUnread;
 
 		std::map<std::string, facebook_chatroom*>::iterator iter = chatrooms->find(thread_id);
 		if (iter != chatrooms->end()) {
@@ -996,8 +999,8 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 			std::map<std::string, std::string>::iterator iter = thread_ids.find(thread_id);
 			if (iter != thread_ids.end()) {
 				message->user_id = iter->second; // TODO: Check if we have contact with this ID in friendlist and otherwise do something different?
-			}
-			else {
+			} else {
+				delete message;
 				continue;
 			}
 		}
@@ -1008,9 +1011,9 @@ int facebook_json_parser::parse_thread_messages(void* data, std::vector< faceboo
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
+int facebook_json_parser::parse_thread_info(std::string *data, std::string* user_id)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -1047,9 +1050,9 @@ int facebook_json_parser::parse_thread_info(void* data, std::string* user_id)
 }
 
 
-int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
+int facebook_json_parser::parse_user_info(std::string *data, facebook_user* fbu)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -1081,9 +1084,9 @@ int facebook_json_parser::parse_user_info(void* data, facebook_user* fbu)
 	return EXIT_SUCCESS;
 }
 
-int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
+int facebook_json_parser::parse_chat_info(std::string *data, facebook_chatroom* fbc)
 {
-	std::string jsonData = static_cast<std::string*>(data)->substr(9);
+	std::string jsonData = data->substr(9);
 
 	JSONROOT root(jsonData.c_str());
 	if (root == NULL)
@@ -1129,7 +1132,7 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 		if (thread_id_ == NULL || is_canonical_user_ == NULL || json_as_bool(is_canonical_user_))
 			continue;
 
-		std::tstring tid = json_as_string(thread_id_);
+		std::tstring tid = ptrT(json_as_string(thread_id_));
 
 		// TODO: allow more users to parse at once
 		if (fbc->thread_id != tid) {
@@ -1143,7 +1146,7 @@ int facebook_json_parser::parse_chat_info(void* data, facebook_chatroom* fbc)
 			fbc->participants.insert(std::make_pair(user_id.substr(5), ""));
 		}
 
-		fbc->chat_name = json_as_string(name_);
+		fbc->chat_name = ptrT(json_as_string(name_));
 	}
 
 	return EXIT_SUCCESS;
