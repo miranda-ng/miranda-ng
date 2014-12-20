@@ -136,10 +136,10 @@ bool Omegle_client::handle_error(const std::string &method, bool force_disconnec
 
 std::string Omegle_client::get_server( bool not_last )
 {
-	BYTE q = not_last ? 1 : 0;	
+	int q = not_last ? 1 : 0;	
 
 	int server = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
-	if (server < 0 || server >= (SIZEOF(servers)-q))
+	if (server < 0 || server >= (int)(SIZEOF(servers)-q))
 		server = 0;
 
 	if (server == 0) {
@@ -286,6 +286,7 @@ NETLIBHTTPHEADER* Omegle_client::get_request_headers( int request_type, int* hea
 	case OMEGLE_REQUEST_RECAPTCHA:
 		headers[3].szName = "Content-Type";
 		headers[3].szValue = "application/x-www-form-urlencoded; charset=utf-8";
+		// intentionally no break;
 
 	case OMEGLE_REQUEST_HOME:
 	case OMEGLE_REQUEST_COUNT:
@@ -304,7 +305,7 @@ NETLIBHTTPHEADER* Omegle_client::get_request_headers( int request_type, int* hea
 
 void Omegle_client::store_headers( http::response* resp, NETLIBHTTPHEADER* headers, int headersCount )
 {
-	for ( size_t i = 0; i < headersCount; i++ )
+	for ( size_t i = 0; i < (size_t)headersCount; i++ )
 	{
 		std::string header_name = headers[i].szName;
 		std::string header_value = headers[i].szValue;
