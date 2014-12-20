@@ -326,6 +326,12 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
 {
+	// FIXME: Temporary workaround for crashing in x64 version (setting statusbar for group chats didn't work this way anyway)
+	MCONTACT hContact = wParam;
+	char *szProto = GetContactProto(hContact);
+	if (szProto && db_get_b(hContact, szProto, "ChatRoom", 0))
+		return 1;
+
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
 	if (hwnd == NULL)
 		hwnd = SM_FindWindowByContact(wParam);
