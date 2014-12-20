@@ -267,6 +267,7 @@ LRESULT CALLBACK OptionsCtrlImpl::staticTreeProc(HWND hTree, UINT msg, WPARAM wP
 	switch (msg) {
 	case WM_LBUTTONDOWN:
 		pCtrl->onTreeWMLButtonDown(wParam, MAKEPOINTS(lParam));
+		break;
 
 	case WM_CHAR:
 		pCtrl->onTreeWMChar(wParam, LOWORD(lParam), HIWORD(lParam));
