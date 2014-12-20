@@ -31,17 +31,17 @@ namespace utils
 
 	namespace text
 	{
-		void replace_first( std::string* data, std::string from, std::string to );
-		void replace_all( std::string* data, std::string from, std::string to );
-		void treplace_all(std::tstring* data, std::tstring from, std::tstring to);
+		void replace_first( std::string* data, const std::string &from, const std::string &to );
+		void replace_all( std::string* data, const std::string &from, const std::string &to );
+		void treplace_all(std::tstring* data, const std::tstring &from, const std::tstring &to);
 		std::string special_expressions_decode( std::string data );
-		std::string slashu_to_utf8( std::string data );
-		std::string trim( std::string data );
+		std::string slashu_to_utf8(const std::string &data );
+		std::string trim(const std::string &data );
 	};
 
 	namespace debug
 	{
-		int log(std::string file_name, std::string text);
+		int log(const std::string &file_name, const std::string &text);
 	};
 
 	namespace mem

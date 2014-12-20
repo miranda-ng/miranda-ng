@@ -37,7 +37,7 @@ void OmegleProto::UpdateChat(const TCHAR *name, const TCHAR *message, bool addto
 		name = TranslateT("Server");
 		gce.bIsMe = false;
 	}
-	else gce.bIsMe = !_tcscmp(name, this->facy.nick_);
+	else gce.bIsMe = !mir_tstrcmp(name, this->facy.nick_);
 
 	if (addtolog)
 		gce.dwFlags  |= GCEF_ADDTOLOG;
@@ -83,7 +83,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 			if (!stricmp(command.c_str(), "new"))
 			{
 				facy.spy_mode_ = false;
-				facy.question_ = "";
+				facy.question_.clear();
 
 				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
@@ -96,7 +96,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 			else if (!stricmp(command.c_str(), "spy"))
 			{
 				facy.spy_mode_ = true;
-				facy.question_ = "";
+				facy.question_.clear();
 				
 				ForkThread(&OmegleProto::NewChatWorker, NULL);
 				break;
@@ -117,13 +117,13 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 					}
 				} else {
 					// Save actual question as last question
-					if (strlen(params.c_str()) >= OMEGLE_QUESTION_MIN_LENGTH)
+					if (params.length() >= OMEGLE_QUESTION_MIN_LENGTH)
 					{
 						setU8String( OMEGLE_KEY_LAST_QUESTION, params.c_str());
 					}
 				}
 
-				if (strlen(params.c_str()) < OMEGLE_QUESTION_MIN_LENGTH)
+				if (params.length() < OMEGLE_QUESTION_MIN_LENGTH)
 				{
 					UpdateChat(NULL, TranslateT("Your question is too short."), false);
 					break;
@@ -184,7 +184,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 
 	case GC_USER_LEAVE:
 	case GC_SESSION_TERMINATE:
-		mir_free( facy.nick_ );
+		facy.nick_ = NULL;
 		ForkThread(&OmegleProto::StopChatWorker, NULL);
 		break;
 	}
@@ -234,7 +234,7 @@ void OmegleProto::AddChatContact(const TCHAR *name)
 	if (name == NULL)
 		gce.bIsMe = false;
 	else 
-		gce.bIsMe = !_tcscmp(name, this->facy.nick_);
+		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
 
 	if (gce.bIsMe)
 		gce.ptszStatus = _T("Admin");
@@ -255,7 +255,7 @@ void OmegleProto::DeleteChatContact(const TCHAR *name)
 	if (name == NULL)
 		gce.bIsMe = false;
 	else 
-		gce.bIsMe = !_tcscmp(name, this->facy.nick_);
+		gce.bIsMe = mir_tstrcmp(name, this->facy.nick_);
 
 	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 }
@@ -326,20 +326,13 @@ void OmegleProto::SetChatStatus(int status)
 	
 	if(status == ID_STATUS_ONLINE)
 	{		
-		// Free previously loaded name
-		mir_free(facy.nick_);
-		
 		// Load actual name from database
-		DBVARIANT dbv;
-		if ( !db_get_ts(NULL, m_szModuleName, OMEGLE_KEY_NAME, &dbv))
-		{
-			facy.nick_ = mir_tstrdup(dbv.ptszVal);
-			db_free(&dbv);
-		} else {
+		facy.nick_ = db_get_tsa(NULL, m_szModuleName, OMEGLE_KEY_NAME);
+		if (facy.nick_ == NULL) {
 			facy.nick_ = mir_tstrdup(TranslateT("You"));
 			db_set_ts(NULL, m_szModuleName, OMEGLE_KEY_NAME, facy.nick_);
 		}
-		
+
 		// Add self contact
 		AddChatContact(facy.nick_);
 

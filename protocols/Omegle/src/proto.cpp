@@ -46,9 +46,6 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username) :
 	NETLIBUSER nlu = {sizeof(nlu)};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	char module[512];
-	mir_snprintf(module,SIZEOF(module),"%sAv",m_szModuleName);
-	nlu.szSettingsModule = module;
 	mir_sntprintf(descr,SIZEOF(descr),TranslateT("%s server connection"),m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
@@ -76,8 +73,6 @@ OmegleProto::~OmegleProto( )
 	CloseHandle( this->facy.send_message_lock_ );
 	CloseHandle( this->events_loop_lock_ );
 	CloseHandle( this->facy.connection_lock_ );
-
-	mir_free( this->facy.nick_ );
 }
 
 //////////////////////////////////////////////////////////////////////////////

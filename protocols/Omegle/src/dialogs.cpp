@@ -38,12 +38,9 @@ static BOOL StoreDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const ch
 
 static void LoadDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	DBVARIANT dbv;
-	if ( !db_get_ts(NULL, ppro->m_szModuleName, szSetting, &dbv))
-	{
-		SetDlgItemText(hwnd, idCtrl, dbv.ptszVal);
-		db_free(&dbv);
-	}
+	ptrT tstr( db_get_tsa(NULL, ppro->m_szModuleName, szSetting));
+	if (tstr)
+		SetDlgItemText(hwnd, idCtrl, tstr);
 }
 
 static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
@@ -51,7 +48,7 @@ static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* sz
 	TCHAR tstr[250+1];
 
 	GetDlgItemText(hwnd, idCtrl, tstr, SIZEOF(tstr));
-	if ( _tcsclen( tstr ) > 0 ) {
+	if (tstr[0] != '\0') {
 		db_set_ts(NULL, ppro->m_szModuleName, szSetting, tstr);
 	} else {
 		db_unset(NULL, ppro->m_szModuleName, szSetting);

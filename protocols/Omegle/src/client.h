@@ -37,7 +37,6 @@ public:
 	// Client definition
 	Omegle_client( )
 	{
-		chat_id_ = server_ = question_ = "";
 		nick_ = NULL;
 		//msgid_ = 0;
 		send_message_lock_ = NULL;
@@ -63,7 +62,7 @@ public:
 	std::string chat_id_;
 	std::string server_;
 	std::string question_;
-	TCHAR *nick_;
+	ptrT nick_;
 
 	HANDLE send_message_lock_;
 	//int	msgid_;
@@ -75,7 +74,6 @@ public:
 	bool spy_mode_;
 
 	// Data storage
-	std::map< std::string, std::string >    headers;
 	void    store_headers( http::response* resp, NETLIBHTTPHEADER* headers, int headers_count );
 	
 	std::string get_server( bool not_last = false );
@@ -84,9 +82,9 @@ public:
 	// Connection handling
 	unsigned int error_count_;
 
-	bool    handle_entry( std::string method );
-	bool    handle_success( std::string method );
-	bool    handle_error( std::string method, bool force_disconnect = false );
+	bool    handle_entry(const std::string &method);
+	bool    handle_success(const std::string &method);
+	bool    handle_error(const std::string &method, bool force_disconnect = false );
 
 	void __inline increment_error( ) { error_count_++; }
 	void __inline decrement_error( ) { if ( error_count_ > 0 ) error_count_--; }
@@ -102,7 +100,7 @@ public:
 
 	std::string get_page( int );
 	
-	bool    send_message( std::string message_text );
+	bool    send_message(const std::string &message_text );
 
 	// HTTP communication
 	http::response  flap( const int request_type, std::string* request_data = NULL, std::string* get_data = NULL );

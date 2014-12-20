@@ -45,25 +45,3 @@ HANDLE GetIconHandle(const char* name)
 	}
 	return 0;
 }
-
-// Helper functions
-static OmegleProto * GetInstanceByHContact(MCONTACT hContact)
-{
-	char *proto = GetContactProto(hContact);
-	if (!proto)
-		return 0;
-
-	for(int i=0; i<g_Instances.getCount(); i++)
-		if (!strcmp(proto,g_Instances[i].m_szModuleName))
-			return &g_Instances[i];
-
-	return 0;
-}
-
-template<int (__cdecl OmegleProto::*Fcn)(WPARAM,LPARAM)>
-INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
-{
-	OmegleProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
-	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
-}
-
