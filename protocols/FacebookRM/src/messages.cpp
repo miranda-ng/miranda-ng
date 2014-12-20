@@ -114,11 +114,10 @@ void FacebookProto::SendChatMsgWorker(void *p)
 int FacebookProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	// TODO: msg comes as Unicode (retyped wchar_t*), why should we convert it as ANSI to UTF-8? o_O
-	if (flags & PREF_UNICODE)
-		msg = mir_utf8encode(msg);
+	std::string message = (flags & PREF_UNICODE) ? ptrA(mir_utf8encode(msg)) : msg;
 
 	facy.msgid_ = (facy.msgid_ % 1024) + 1;
-	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)facy.msgid_));
+	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, message, (HANDLE)facy.msgid_));
 	return facy.msgid_;
 }
 

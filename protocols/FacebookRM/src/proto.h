@@ -253,7 +253,6 @@ public:
 	std::vector<HANDLE> popupClasses;
 
 	std::string last_status_msg_;
-	HANDLE	hSmileysFolder_;
 	std::vector<MCONTACT> avatar_queue;
 
 	static void CALLBACK APC_callback(ULONG_PTR p);

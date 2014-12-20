@@ -80,6 +80,7 @@ std::string utils::conversion::to_string(void* data, WORD type)
 	{
 	case UTILS_CONV_BOOLEAN:
 		out << (data ? "true" : "false");
+		break;
 
 	case UTILS_CONV_TIME_T:
 		out << (*(time_t*)data);

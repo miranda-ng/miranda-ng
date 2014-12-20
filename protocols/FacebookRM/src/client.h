@@ -41,10 +41,12 @@ public:
 
 		https_ = is_idle_ = is_typing_ = false;
 
-		buddies_lock_ = send_message_lock_ = notifications_lock_ = NULL;
+		buddies_lock_ = send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
 		hMsgCon = NULL;
 		hFcbCon = NULL;
 		fcb_conn_lock_ = NULL;
+		handle_ = NULL;
+		parent = NULL;
 	}
 
 	HANDLE hMsgCon;

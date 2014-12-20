@@ -30,15 +30,15 @@ class facebook_json_parser
 {
 public:
 	FacebookProto* proto;
-	int parse_buddy_list(void*, List::List< facebook_user >*);
-	int parse_friends(void*, std::map< std::string, facebook_user* >*);
-	int parse_notifications(void*, std::map< std::string, facebook_notification* >*);
-	int parse_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_notification* >*, bool inboxOnly);
-	int parse_unread_threads(void*, std::vector< std::string >*, bool inboxOnly);
-	int parse_thread_messages(void*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, bool inboxOnly);
-	int parse_thread_info(void* data, std::string* user_id);
-	int parse_user_info(void* data, facebook_user* fbu);
-	int parse_chat_info(void* data, facebook_chatroom* fbc);
+	int parse_buddy_list(std::string*, List::List< facebook_user >*);
+	int parse_friends(std::string*, std::map< std::string, facebook_user* >*);
+	int parse_notifications(std::string*, std::map< std::string, facebook_notification* >*);
+	int parse_messages(std::string*, std::vector< facebook_message* >*, std::map< std::string, facebook_notification* >*, bool inboxOnly);
+	int parse_unread_threads(std::string*, std::vector< std::string >*, bool inboxOnly);
+	int parse_thread_messages(std::string*, std::vector< facebook_message* >*, std::map< std::string, facebook_chatroom* >*, bool unreadOnly, bool inboxOnly);
+	int parse_thread_info(std::string* data, std::string* user_id);
+	int parse_user_info(std::string* data, facebook_user* fbu);
+	int parse_chat_info(std::string* data, facebook_chatroom* fbc);
 
 	facebook_json_parser(FacebookProto* proto)
 	{
