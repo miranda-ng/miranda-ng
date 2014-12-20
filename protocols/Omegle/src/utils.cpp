@@ -27,7 +27,7 @@ std::string utils::url::encode(const std::string &s)
 	return (char*)ptrA( mir_urlEncode( s.c_str()));
 }
 
-void utils::text::replace_first( std::string* data, std::string from, std::string to )
+void utils::text::replace_first( std::string* data, const std::string &from, const std::string &to )
 {
 	std::string::size_type position = 0;
 
@@ -38,7 +38,7 @@ void utils::text::replace_first( std::string* data, std::string from, std::strin
 	}
 }
 
-void utils::text::replace_all( std::string* data, std::string from, std::string to )
+void utils::text::replace_all( std::string* data, const std::string &from, const std::string &to )
 {
 	std::string::size_type position = 0;
 
@@ -49,7 +49,7 @@ void utils::text::replace_all( std::string* data, std::string from, std::string 
 	}
 }
 
-void utils::text::treplace_all(std::tstring* data, std::tstring from, std::tstring to)
+void utils::text::treplace_all(std::tstring* data, const std::tstring &from, const std::tstring &to)
 {
 	std::tstring::size_type position = 0;
 
@@ -72,7 +72,7 @@ std::string utils::text::special_expressions_decode( std::string data )
 }
 
 
-std::string utils::text::slashu_to_utf8( std::string data )
+std::string utils::text::slashu_to_utf8(const std::string &data )
 {
 	std::string new_string = "";
 
@@ -108,7 +108,7 @@ std::string utils::text::slashu_to_utf8( std::string data )
 	return new_string;
 }
 
-std::string utils::text::trim( std::string data )
+std::string utils::text::trim(const std::string &data )
 {
 	std::string spaces = " \t\r\n";
 	std::string::size_type begin = data.find_first_not_of( spaces );
@@ -117,7 +117,7 @@ std::string utils::text::trim( std::string data )
 	return (begin != std::string::npos) ? data.substr( begin, end - begin ) : "";
 }
 
-int utils::debug::log(std::string file_name, std::string text)
+int utils::debug::log(const std::string &file_name, const std::string &text)
 {
 	char szFile[MAX_PATH];
 	GetModuleFileNameA(g_hInstance, szFile, SIZEOF(szFile));

@@ -96,20 +96,20 @@ http::response Omegle_client::flap( const int request_type, std::string* request
 	return resp;
 }
 
-bool Omegle_client::handle_entry( std::string method )
+bool Omegle_client::handle_entry(const std::string &method )
 {
 	parent->debugLogA("   >> Entering %s()", method.c_str());
 	return true;
 }
 
-bool Omegle_client::handle_success( std::string method )
+bool Omegle_client::handle_success(const std::string &method )
 {
 	parent->debugLogA("   << Quitting %s()", method.c_str());
 	reset_error();
 	return true;
 }
 
-bool Omegle_client::handle_error( std::string method, bool force_disconnect )
+bool Omegle_client::handle_error(const std::string &method, bool force_disconnect )
 {
 	bool result;
 	increment_error();
@@ -138,7 +138,7 @@ std::string Omegle_client::get_server( bool not_last )
 {
 	BYTE q = not_last ? 1 : 0;	
 
-	BYTE server = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
+	int server = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_SERVER, 0);
 	if (server < 0 || server >= (SIZEOF(servers)-q))
 		server = 0;
 
@@ -152,7 +152,7 @@ std::string Omegle_client::get_server( bool not_last )
 
 std::string Omegle_client::get_language()
 {
-	BYTE language = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
+	int language = db_get_b(NULL, parent->m_szModuleName, OMEGLE_KEY_LANGUAGE, 0);
 	if (language < 0 || language >= (SIZEOF(languages)))
 		language = 0;
 
@@ -304,7 +304,7 @@ NETLIBHTTPHEADER* Omegle_client::get_request_headers( int request_type, int* hea
 
 void Omegle_client::store_headers( http::response* resp, NETLIBHTTPHEADER* headers, int headersCount )
 {
-	for ( int i = 0; i < headersCount; i++ )
+	for ( size_t i = 0; i < headersCount; i++ )
 	{
 		std::string header_name = headers[i].szName;
 		std::string header_value = headers[i].szValue;
@@ -740,7 +740,7 @@ bool Omegle_client::events( )
 	}
 }
 
-bool Omegle_client::send_message( std::string message_text )
+bool Omegle_client::send_message(const std::string &message_text )
 {
 	handle_entry( "send_message" );
 

@@ -100,7 +100,7 @@ void OmegleProto::StopChat(bool disconnect)
 	}
 
 	facy.state_ = STATE_INACTIVE;
-	facy.chat_id_ = "";
+	facy.chat_id_.clear();
 }
 
 void OmegleProto::NewChat()
