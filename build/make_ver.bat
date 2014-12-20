@@ -3,6 +3,10 @@ cd /d %~dp0
 
 for /F "tokens=2,3" %%i in (..\include\m_version.h) do if "%%i"=="MIRANDA_VERSION_FILEVERSION" (set OldVer=%%j)
 for /F %%i in ('svnversion build.no') do set Revision=%%i
+
+REM Fix building not-svn repository (e.g., Git mirror)
+if "%Revision:~0,11%" == "Unversioned" (set Revision=0)
+
 for /F "tokens=1,2,3 delims= " %%i in (build.no) do call :WriteVer %%i %%j %%k %Revision%
 goto :eof
 
