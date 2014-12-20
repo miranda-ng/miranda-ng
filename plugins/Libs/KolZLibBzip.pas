@@ -341,10 +341,10 @@ const
     );
 
   {************** BZip constants **********************************************}
-{$L bz2\blocks~1.obj}     //blocksort
+{$L bz2\blocksort.obj}
 {$L bz2\huffman.obj}
 {$L bz2\compress.obj}
-{$L bz2\decomp~1.obj}     //decompress
+{$L bz2\decompress.obj}
 {$L bz2\bzlib.obj}
   { $L bz2\crctable.obj}
   { $L bz2\randtable.obj}
