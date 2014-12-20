@@ -14,10 +14,10 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			break;
 
 		node = json_get(item, "steamid_from");
-		ptrA steamId(mir_t2a(json_as_string(node)));
+		ptrA steamId(mir_t2a(ptrT(json_as_string(node))));
 
 		node = json_get(item, "utc_timestamp");
-		time_t timestamp = atol(ptrA(mir_t2a(json_as_string(node))));
+		time_t timestamp = atol(ptrA(mir_t2a(ptrT(json_as_string(node)))));
 
 		node = json_get(item, "type");
 		ptrT type(json_as_string(node));
@@ -25,7 +25,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			!lstrcmpi(type, _T("my_saytext")) || !lstrcmpi(type, _T("my_emote")))
 		{
 			node = json_get(item, "text");
-			const TCHAR *text = json_as_string(node);
+			ptrT text(json_as_string(node));
 
 			if (_tcsstr(type, _T("my_")) == NULL)
 			{
@@ -64,7 +64,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			if (IsMe(steamId))
 			{
 				node = json_get(item, "persona_name");
-				setTString("Nick", json_as_string(node));
+				setTString("Nick", ptrT(json_as_string(node)));
 
 				if (status == ID_STATUS_OFFLINE)
 					continue;
@@ -87,7 +87,7 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			SetContactStatus(hContact, status);
 
 			node = json_get(item, "persona_name");
-			setTString(hContact, "Nick", json_as_string(node));
+			setTString(hContact, "Nick", ptrT(json_as_string(node)));
 
 			// todo: find difference between state changing and info changing
 			steamIds.append(steamId).append(",");
@@ -208,7 +208,10 @@ void CSteamProto::PollingThread(void*)
 			JSONNODE *nroot = json_as_array(node);
 
 			if (nroot != NULL)
+			{
 				ParsePollData(nroot);
+				json_delete(nroot);
+			}
 
 			m_pollingConnection = response->nlc;
 		}

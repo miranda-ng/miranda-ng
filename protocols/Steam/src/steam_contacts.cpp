@@ -102,19 +102,19 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 
 	// set common data
 	node = json_get(data, "personaname");
-	setTString(hContact, "Nick", json_as_string(node));
+	setTString(hContact, "Nick", ptrT(json_as_string(node)));
 
 	node = json_get(data, "profileurl");
-	setString(hContact, "Homepage", _T2A(json_as_string(node)));
+	setString(hContact, "Homepage", _T2A(ptrT(json_as_string(node))));
 
 	node = json_get(data, "primaryclanid");
-	setString(hContact, "PrimaryClanID", _T2A(json_as_string(node)));
+	setString(hContact, "PrimaryClanID", _T2A(ptrT(json_as_string(node))));
 
 	// set name
 	node = json_get(data, "realname");
 	if (node != NULL)
 	{
-		std::wstring realname = json_as_string(node);
+		std::wstring realname = ptrT(json_as_string(node));
 		if (!realname.empty())
 		{
 			size_t pos = realname.find(L' ', 1);
@@ -139,14 +139,14 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	// avatar
 	bool biggerAvatars = getBool("UseBigAvatars", false);
 	node = json_get(data, biggerAvatars ? "avatarfull" : "avatarmedium");
-	std::string avatarUrl = _T2A(json_as_string(node));
+	std::string avatarUrl = _T2A(ptrT(json_as_string(node)));
 	CheckAvatarChange(hContact, avatarUrl);
 
 	// set country
 	node = json_get(data, "loccountrycode");
 	if (node != NULL)
 	{
-		const char *iso = ptrA(mir_u2a(json_as_string(node)));
+		const char *iso = ptrA(mir_u2a(ptrT(json_as_string(node))));
 		char *country = (char *)CallService(MS_UTILS_GETCOUNTRYBYISOCODE, (WPARAM)iso, 0);
 		setString(hContact, "Country", country);
 	}
@@ -211,17 +211,17 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 
 	// playing game
 	node = json_get(data, "gameid");
-	DWORD gameId = node ? atol(_T2A(json_as_string(node))) : 0;
+	DWORD gameId = node ? atol(_T2A(ptrT(json_as_string(node)))) : 0;
 	if (gameId > 0)
 	{
 		node = json_get(data, "gameextrainfo");
-		const TCHAR *gameInfo = json_as_string(node);
+		ptrT gameInfo(json_as_string(node));
 
 		node = json_get(data, "gameserverip");
-		const TCHAR *serverIP = json_as_string(node);
+		ptrT serverIP(json_as_string(node));
 
 		node = json_get(data, "gameserversteamid");
-		const TCHAR *serverID = json_as_string(node);
+		ptrT serverID (json_as_string(node));
 
 		setDword(hContact, "GameID", gameId);
 		setString(hContact, "ServerIP", _T2A(serverIP));
@@ -331,10 +331,14 @@ void CSteamProto::ProcessContact(std::map<std::string, JSONNODE*>::iterator *it,
 		hContact = AddContact(steamId.c_str());
 
 	JSONNODE *node = json_get(child, "friend_since");
-	db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
+	if (node)
+		db_set_dw(hContact, "UserInfo", "ContactAddTime", json_as_int(node));
 
 	node = json_get(child, "relationship");
-	ptrA relationship(mir_u2a(json_as_string(node)));
+	if (node == NULL)
+		return;
+
+	ptrA relationship(mir_u2a(ptrT(json_as_string(node))));
 	if (!lstrcmpiA(relationship, "friend"))
 	{
 		ContactIsFriend(hContact);
@@ -378,9 +382,9 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 			if (node == NULL)
 				continue;
 
-			std::string steamId = _T2A(json_as_string(node));
+			std::string steamId = _T2A(ptrT(json_as_string(node)));
 			friends.insert(std::make_pair(steamId, child));
-		}
+		}		
 	}
 
 	// Check and update contacts in database
@@ -421,6 +425,9 @@ void CSteamProto::OnGotFriendList(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 	friends.clear();
 
+	// We need to delete nroot here at the end, because we had references to JSONNODE objects stored in friends map
+	json_delete(nroot);
+
 	if (!steamIds.empty())
 	{
 		//steamIds.pop_back();
@@ -454,7 +461,7 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 				break;
 
 			node = json_get(child, "steamid");
-			ptrA steamId(mir_u2a(json_as_string(node)));
+			ptrA steamId(mir_u2a(ptrT(json_as_string(node))));
 
 			/*MCONTACT hContact = FindContact(steamId);
 			if (!hContact)
@@ -464,7 +471,7 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 			}*/
 
 			node = json_get(child, "relationship");
-			ptrA relationship(mir_u2a(json_as_string(node)));
+			ptrA relationship(mir_u2a(ptrT(json_as_string(node))));
 
 			if (!lstrcmpiA(relationship, "ignoredfriend"))
 			{
@@ -472,6 +479,7 @@ void CSteamProto::OnGotBlockList(const NETLIBHTTPREQUEST *response, void *arg)
 			}
 			else continue;
 		}
+		json_delete(nroot);
 	}
 }
 
@@ -495,7 +503,7 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *ar
 				break;
 
 			node = json_get(item, "steamid");
-			ptrA steamId(mir_u2a(json_as_string(node)));
+			ptrA steamId(mir_u2a(ptrT(json_as_string(node))));
 
 			MCONTACT hContact = NULL;
 			if (!IsMe(steamId)) {
@@ -506,6 +514,7 @@ void CSteamProto::OnGotUserSummaries(const NETLIBHTTPREQUEST *response, void *ar
 
 			UpdateContact(hContact, item);
 		}
+		json_delete(nroot);
 	}
 }
 
@@ -593,11 +602,13 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		return;
 
 	JSONNODE *node = json_get(root, "players");
-	JSONNODE *nroot = json_at(json_as_array(node), 0);
+	JSONNODE *nodes = json_as_array(node);
+	JSONNODE *nroot = json_at(nodes, 0);	
+
 	if (nroot != NULL)
 	{
 		node = json_get(nroot, "steamid");
-		ptrA steamId(mir_u2a(json_as_string(node)));
+		ptrA steamId(mir_u2a(ptrT(json_as_string(node))));
 
 		MCONTACT hContact = FindContact(steamId);
 		if (!hContact)
@@ -605,11 +616,11 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 
 		UpdateContact(hContact, nroot);
 
-		char *nickName = getStringA(hContact, "Nick");
-		char *firstName = getStringA(hContact, "FirstName");
+		ptrA nickName(getStringA(hContact, "Nick"));
+		ptrA firstName(getStringA(hContact, "FirstName"));
 		if (firstName == NULL)
 			firstName = mir_strdup("");
-		char *lastName = getStringA(hContact, "LastName");
+		ptrA lastName(getStringA(hContact, "LastName"));
 		if (lastName == NULL)
 			lastName = mir_strdup("");
 
@@ -634,10 +645,12 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 		pCurBlob += lstrlenA(lastName) + 1;
 		strcpy((char*)pCurBlob, steamId);
 		pCurBlob += lstrlenA(steamId) + 1;
-		strcpy((char*)pCurBlob, mir_strdup(reason));
+		strcpy((char*)pCurBlob, reason);
 
 		AddDBEvent(hContact, EVENTTYPE_AUTHREQUEST, time(NULL), DBEF_UTF, cbBlob, pBlob);
 	}
+
+	json_delete(nodes);
 }
 
 void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg)
@@ -656,7 +669,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(json_as_string(node))));
+		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(ptrT(json_as_string(node)))));
 	}
 }
 
@@ -676,7 +689,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(json_as_string(node))));
+		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(ptrT(json_as_string(node)))));
 	}
 }
 
@@ -694,7 +707,9 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 		return;
 
 	JSONNODE *node = json_get(root, "players");
-	JSONNODE *nroot = json_at(json_as_array(node), 0);
+	JSONNODE *nodes = json_as_array(node);
+	JSONNODE *nroot = json_at(nodes, 0);
+
 	if (nroot != NULL)
 	{
 		STEAM_SEARCH_RESULT ssr = { 0 };
@@ -704,12 +719,12 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 		ssr.hdr.id = (wchar_t*)arg;
 
 		node = json_get(nroot, "personaname");
-		ssr.hdr.nick  = mir_wstrdup(json_as_string(node));
+		ssr.hdr.nick  = mir_wstrdup(ptrT(json_as_string(node)));
 
 		node = json_get(nroot, "realname");
 		if (node != NULL)
 		{
-			std::wstring realname = json_as_string(node);
+			std::wstring realname = ptrT(json_as_string(node));
 			if (!realname.empty())
 			{
 				size_t pos = realname.find(' ', 1);
@@ -729,6 +744,8 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)STEAM_SEARCH_BYID, (LPARAM)&ssr);
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)STEAM_SEARCH_BYID, 0);
 	}
+
+	json_delete(nodes);
 }
 
 void CSteamProto::OnSearchByNameStarted(const NETLIBHTTPREQUEST *response, void *arg)

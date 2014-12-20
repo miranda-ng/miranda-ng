@@ -30,14 +30,14 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 
 	node = json_get(root, "publickey_mod");
-	ptrA modulus(mir_u2a(json_as_string(node)));
+	ptrA modulus(mir_u2a(ptrT(json_as_string(node))));
 
 	// exponent "010001" is used as constant in CSteamProto::RsaEncrypt
 	/*node = json_get(root, "publickey_exp");
-	ptrA exponent(mir_u2a(json_as_string(node)));*/
+	ptrA exponent(mir_u2a(ptrT(json_as_string(node))));*/
 
 	node = json_get(root, "timestamp");
-	ptrA timestamp(mir_u2a(json_as_string(node)));
+	ptrA timestamp(mir_u2a(ptrT(json_as_string(node))));
 	setString("Timestamp", timestamp);
 
 	// encrcrypt password
@@ -86,8 +86,8 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 	if (json_as_bool(node) == 0)
 	{
 		node = json_get(root, "message");
-		const wchar_t *message = json_as_string(node);
-		if (!lstrcmpi(json_as_string(node), L"Incorrect login"))
+		ptrT message(json_as_string(node));
+		if (!lstrcmpi(message, L"Incorrect login"))
 		{
 			ShowNotification(TranslateTS(message));
 			SetStatus(ID_STATUS_OFFLINE);
@@ -98,13 +98,13 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		if (json_as_bool(node) > 0)
 		{
 			node = json_get(root, "emailsteamid");
-			ptrA guardId(mir_u2a(json_as_string(node)));
+			ptrA guardId(mir_u2a(ptrT(json_as_string(node))));
 
 			node = json_get(root, "emaildomain");
-			ptrA emailDomain(mir_utf8encodeW(json_as_string(node)));
+			ptrA emailDomain(mir_utf8encodeW(ptrT(json_as_string(node))));
 
 			GuardParam guard;
-			lstrcpyA(guard.domain, emailDomain);
+			mir_strncpy(guard.domain, emailDomain, SIZEOF(guard.domain));
 
 			if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GUARD), NULL, CSteamProto::GuardProc, (LPARAM)&guard) != 1) {
 				return;
@@ -123,7 +123,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		if (json_as_bool(node) > 0)
 		{
 			node = json_get(root, "captcha_gid");
-			ptrA captchaId(mir_u2a(json_as_string(node)));
+			ptrA captchaId(mir_u2a(ptrT(json_as_string(node))));
 
 			char url[MAX_PATH];
 			mir_snprintf(url, SIZEOF(url), STEAM_COM_URL "/public/captcha.php?gid=%s", captchaId);
@@ -175,18 +175,18 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 	}
 
 	node = json_get(root, "oauth");
-	JSONROOT nroot(ptrA(mir_u2a(json_as_string(node))));
+	JSONROOT nroot(_T2A(ptrT(json_as_string(node))));
 
 	node = json_get(nroot, "steamid");
-	ptrA steamId(mir_u2a(json_as_string(node)));
+	ptrA steamId(mir_u2a(ptrT(json_as_string(node))));
 	setString("SteamID", steamId);
 
 	node = json_get(nroot, "oauth_token");
-	ptrA token(mir_u2a(json_as_string(node)));
+	ptrA token(mir_u2a(ptrT(json_as_string(node))));
 	setString("TokenSecret", token);
 
 	node = json_get(nroot, "webcookie");
-	ptrA cookie(mir_u2a(json_as_string(node)));
+	ptrA cookie(mir_u2a(ptrT(json_as_string(node))));
 
 	delSetting("Timestamp");
 	delSetting("EncryptedPassword");
@@ -223,9 +223,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL)
 	{
-		// set status to offline
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
+		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
@@ -239,13 +237,12 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 		//delSetting("Cookie");
 
 		// set status to offline
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, ID_STATUS_OFFLINE);
+		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
 
 	node = json_get(root, "umqid");
-	setString("UMQID", ptrA(mir_u2a(json_as_string(node))));
+	setString("UMQID", ptrA(mir_u2a(ptrT(json_as_string(node)))));
 	
 	node = json_get(root, "message");
 	setDword("MessageID", json_as_int(node));
