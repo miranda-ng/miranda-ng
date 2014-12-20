@@ -25,7 +25,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 	{
 		JSONROOT root(response->pData);
 		JSONNODE *node = json_get(root, "error");
-		ptrA error(mir_utf8encodeW(json_as_string(node)));
+		ptrA error(mir_utf8encodeW(ptrT(json_as_string(node))));
 		if (lstrcmpiA(error, "OK") == 0)
 			result = true;
 		else

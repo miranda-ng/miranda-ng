@@ -14,6 +14,11 @@ CSteamProto::CSteamProto(const char* protoName, const TCHAR* userName) :
 	InitQueue();
 
 	m_idleTS = 0;
+	isTerminated = false;
+	m_hQueueThread = NULL;
+	m_pollingConnection = NULL;
+	m_hPollingThread = NULL;
+	m_hMenuRoot = NULL;
 
 	// icons
 	wchar_t filePath[MAX_PATH];
@@ -274,7 +279,7 @@ HANDLE __cdecl CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstNa
 	//if (!this->IsOnline())
 		return 0;
 
-	ptrA token(getStringA("TokenSecret"));
+	/*ptrA token(getStringA("TokenSecret"));
 
 	CMString keywords;
 	keywords.AppendFormat(L" %s", nick);
@@ -287,7 +292,7 @@ HANDLE __cdecl CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstNa
 		new SteamWebApi::SearchRequest(token, mir_utf8encodeW(keywords)),
 		&CSteamProto::OnSearchByNameStarted);
 
-	return (HANDLE)STEAM_SEARCH_BYNAME;
+	return (HANDLE)STEAM_SEARCH_BYNAME;*/
 }
 
 HWND __cdecl CSteamProto::SearchAdvanced( HWND owner ) { return 0; }
@@ -325,20 +330,18 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
-	if (flags & PREF_UNICODE)
-		msg = mir_utf8encode(msg); // FIXME: Token from FacebookRM. Is it needed? Usually we get PREF_UTF8 flag instead. And does it cause memory leak?
+	CMStringA message = (flags & PREF_UNICODE) ? ptrA(mir_utf8encode(msg)) : msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
 
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
-
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
 	ptrA steamId(getStringA(hContact, "SteamID"));
 
 	PushRequest(
-		new SteamWebApi::SendMessageRequest(token, umqid, steamId, msg),
+		new SteamWebApi::SendMessageRequest(token, umqid, steamId, message),
 		&CSteamProto::OnMessageSent,
 		param);
 

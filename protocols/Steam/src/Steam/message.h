@@ -74,7 +74,7 @@ namespace SteamWebApi
 	//			return;
 
 	//		node = json_get(root, "utc_timestamp");
-	//		sendResult->timestamp = atol(ptrA(mir_u2a(json_as_string(node))));
+	//		sendResult->timestamp = atol(ptrA(mir_u2a(ptrT(json_as_string(node)))));
 
 	//		sendResult->success = true;
 	//	}

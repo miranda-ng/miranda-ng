@@ -49,16 +49,27 @@ int CSteamProto::MirandaToSteamState(int status)
 int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encryptedData, DWORD &encryptedSize)
 {
 	DWORD cchModulus = (DWORD)strlen(pszModulus);
+	int result = 0;
+	BYTE *pbBuffer = 0;
+	BYTE *pKeyBlob = 0;
+	HCRYPTKEY phKey = 0;
+	HCRYPTPROV hCSP = 0;
 
 	// convert hex string to byte array
 	DWORD cbLen = 0, dwSkip = 0, dwFlags = 0;
 	if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, NULL, &cbLen, &dwSkip, &dwFlags))
-		return GetLastError();
+	{
+		result = GetLastError();
+		goto exit;
+	}
 
 	// allocate a new buffer.
-	BYTE *pbBuffer = (BYTE*)malloc(cbLen);
+	pbBuffer = (BYTE*)malloc(cbLen);
 	if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, pbBuffer, &cbLen, &dwSkip, &dwFlags))
-		return GetLastError();
+	{
+		result = GetLastError();
+		goto exit;
+	}
 
 	// reverse byte array, because of microsoft
 	for (int i = 0; i < (int)(cbLen / 2); ++i)
@@ -67,15 +78,17 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 		pbBuffer[cbLen - i - 1] = pbBuffer[i];
 		pbBuffer[i] = temp;
 	}
-
-	HCRYPTPROV hCSP = 0;
+	
 	if (!CryptAcquireContext(&hCSP, NULL, NULL, PROV_RSA_AES, CRYPT_SILENT) &&
 		!CryptAcquireContext(&hCSP, NULL, NULL, PROV_RSA_AES, CRYPT_SILENT | CRYPT_NEWKEYSET))
-		return GetLastError();
+	{
+		result = GetLastError();
+		goto exit;
+	}
 
 	// Move the key into the key container.
 	DWORD cbKeyBlob = sizeof(PUBLICKEYSTRUC) + sizeof(RSAPUBKEY) + cbLen;
-	BYTE *pKeyBlob = (BYTE*)malloc(cbKeyBlob);
+	pKeyBlob = (BYTE*)malloc(cbKeyBlob);
 
 	// Fill in the data.
 	PUBLICKEYSTRUC *pPublicKey = (PUBLICKEYSTRUC*)pKeyBlob;
@@ -96,10 +109,12 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 	//pKeyBlob + sizeof(BLOBHEADER)+ sizeof(RSAPUBKEY); 
 	memcpy(pKey, pbBuffer, cbLen);
 
-	// Now import public key
-	HCRYPTKEY phKey = 0;
+	// Now import public key	
 	if (!CryptImportKey(hCSP, pKeyBlob, cbKeyBlob, 0, 0, &phKey))
-		return GetLastError();
+	{
+		result = GetLastError();
+		goto exit;
+	}
 
 	DWORD dataSize = strlen(data);
 
@@ -108,14 +123,17 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 	{
 		// get length of encrypted data
 		if (!CryptEncrypt(phKey, 0, TRUE, 0, NULL, &encryptedSize, dataSize))
-			return GetLastError();
-		return 0;
+			result = GetLastError();
+		goto exit;
 	}
 
 	// encrypt password
 	memcpy(encryptedData, data, dataSize);
 	if (!CryptEncrypt(phKey, 0, TRUE, 0, encryptedData, &dataSize, encryptedSize))
-		return GetLastError();
+	{
+		result = GetLastError();
+		goto exit;
+	}
 
 	// reverse byte array again
 	for (int i = 0; i < (int)(encryptedSize / 2); ++i)
@@ -125,11 +143,16 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, const char *data, BYTE *encr
 		encryptedData[i] = temp;
 	}
 
-	free(pKeyBlob);
-	CryptDestroyKey(phKey);
+exit:
+	if (pKeyBlob)
+		free(pKeyBlob);
+	if (phKey)
+		CryptDestroyKey(phKey);
 	
-	free(pbBuffer);
-	CryptReleaseContext(hCSP, 0);
+	if (pbBuffer)
+		free(pbBuffer);
+	if (hCSP)
+		CryptReleaseContext(hCSP, 0);
 
 	return 0;
 }
