@@ -318,7 +318,7 @@ BOOL gg_img_fit(HWND hwndDlg)
 
 	if ((imgRect.right - imgRect.left) < nWidth)
 		rWidth = nWidth - imgRect.right + imgRect.left;
-	if ((imgRect.bottom - imgRect.top) < nWidth)
+	if ((imgRect.bottom - imgRect.top) < nHeight)
 		rHeight = nHeight - imgRect.bottom + imgRect.top;
 
 	// Check if anything needs resize
