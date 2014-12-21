@@ -293,13 +293,12 @@ protected:
 	DWORD    m_dwFileSize, m_dwMaxContactId;
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
-	CRITICAL_SECTION m_csDbAccess;
+	mir_cs   m_csDbAccess;
 
 	int      CheckProto(DBCachedContact *cc, const char *proto);
 	DWORD    CreateNewSpace(int bytes);
 	void     DeleteSpace(DWORD ofs, int bytes);
 	DWORD    ReallocSpace(DWORD ofs, int oldSize, int newSize);
-	DWORD    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = NULL);
 
 	////////////////////////////////////////////////////////////////////////////
 	// settings 
@@ -311,6 +310,14 @@ protected:
 	// contacts
 
 	int      WipeContactHistory(DBContact *dbc);
+	DWORD    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = NULL);
+
+	////////////////////////////////////////////////////////////////////////////
+	// events
+
+	DBEvent  m_tmpEvent;
+
+	DBEvent* AdaptEvent(DWORD offset, DWORD hContact);
 
 	////////////////////////////////////////////////////////////////////////////
 	// modules
@@ -346,7 +353,7 @@ protected:
 
 	DWORD    WriteSegment(DWORD ofs, PVOID buf, int cbBytes);
 	DWORD    WriteEvent(DBEvent *dbe);
-	DWORD    PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent *dbe);
+	DWORD    PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent &dbe);
 	void     WriteOfsNextToPrevious(DWORD ofsPrev, DBContact *dbc, DWORD ofsNext);
 	void     FinishUp(DWORD ofsLast, DBContact *dbc);
 

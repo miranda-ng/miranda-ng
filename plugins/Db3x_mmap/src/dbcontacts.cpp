@@ -400,9 +400,13 @@ void CDb3Mmap::FillContacts()
 		if (p->signature != DBCONTACT_SIGNATURE)
 			break;
 
-		DWORD dwContactID = p->dwContactID;
-		if (dwContactID >= m_dwMaxContactId)
-			m_dwMaxContactId = dwContactID + 1;
+		DWORD dwContactID;
+		if (m_dbHeader.version >= DB_095_VERSION) {
+			dwContactID = p->dwContactID;
+			if (dwContactID > m_dwMaxContactId)
+				m_dwMaxContactId = dwContactID + 1;
+		}
+		else dwContactID = m_dwMaxContactId++;
 
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactID);
 		cc->dwDriverData = dwOffset;
