@@ -46,16 +46,16 @@ int AddDebugLogMessage(const TCHAR* fmt, ...);
 #define log_debugA AddDebugLogMessageA
 #define log_debug AddDebugLogMessage
 #else
-static __inline int log_debugA(const char* fmt, ...) { return 0; }
-static __inline int log_debug(const TCHAR* fmt, ...) { return 0; }
+static __inline int log_debugA(const char*, ...) { return 0; }
+static __inline int log_debug(const TCHAR*, ...) { return 0; }
 #endif
 
 #if LOGLEVEL >= __LOGLEVEL_INFO
 #define log_infoA AddDebugLogMessageA
 #define log_info AddDebugLogMessage
 #else
-static __inline int log_infoA(const char* fmt, ...) { return 0; }
-static __inline int log_info(const TCHAR* fmt, ...) { return 0; }
+static __inline int log_infoA(const char*, ...) { return 0; }
+static __inline int log_info(const TCHAR*, ...) { return 0; }
 #endif
 
 #endif
