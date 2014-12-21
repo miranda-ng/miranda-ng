@@ -101,7 +101,6 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, 
 INT_PTR CALLBACK MirandaAdvOptionsPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK FinishedPageProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam);
 
-bool IsProtocolLoaded(const char* pszProtocolName);
 bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
 
 int CreateGroup(const TCHAR* name, MCONTACT hContact);

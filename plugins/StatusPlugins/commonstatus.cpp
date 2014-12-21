@@ -220,7 +220,7 @@ INT_PTR SetStatusEx(WPARAM wParam, LPARAM)
 	// set all status messages first
 	for (int i = 0; i < protoList->getCount(); i++) {
 		char *szProto = protoSettings[i]->szName;
-		if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto)) {
+		if (!ProtoGetAccount(szProto)) {
 			log_debugA("CommonStatus: %s is not loaded", szProto);
 			continue;
 		}

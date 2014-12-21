@@ -795,7 +795,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
+	if (!ProtoGetAccount(m_szModuleName))
 		return 0;
 
 	MCONTACT hContact = lParam;

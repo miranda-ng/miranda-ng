@@ -225,13 +225,10 @@ static FORCEINLINE BOOL IsProtoOnline(LPSTR pszProto)
 {
 	return pszProto && pszProto[0] && CallProtoService(pszProto, PS_GETSTATUS, NULL, NULL) >= ID_STATUS_ONLINE;
 }
-static FORCEINLINE BOOL IsProtoLoaded(LPSTR pszProto)
-{
-	return (CallService(MS_PROTO_ISPROTOCOLLOADED, NULL, (LPARAM)pszProto) != NULL);
-}
+
 static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
 {
-	return (pAcc->bIsEnabled && IsProtoLoaded(pAcc->szModuleName));
+	return (pAcc->bIsEnabled && ProtoGetAccount(pAcc->szModuleName));
 }
 
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);

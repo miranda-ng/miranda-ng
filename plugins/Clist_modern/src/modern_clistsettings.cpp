@@ -34,7 +34,6 @@ static int displayNameCacheSize;
 
 LIST<ClcCacheEntry> clistCache(50, NumericKeySortT);
 
-char*  GetProtoForContact(MCONTACT hContact);
 int    GetStatusForContact(MCONTACT hContact, char *szProto);
 TCHAR* UnknownConctactTranslatedName = NULL;
 
@@ -196,7 +195,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 	}
 
 	if (pdnce->m_cache_cszProto == NULL && pdnce->m_bProtoNotExists == FALSE) {
-		pdnce->m_cache_cszProto = GetProtoForContact(pdnce->hContact);
+		pdnce->m_cache_cszProto = GetContactProto(pdnce->hContact);
 		if (pdnce->m_cache_cszProto == NULL)
 			pdnce->m_bProtoNotExists = FALSE;
 		else if (pdnce->m_cache_cszProto && pdnce->tszName)
@@ -207,7 +206,7 @@ void cliCheckCacheItem(ClcCacheEntry *pdnce)
 		pdnce->getName();
 
 	else if (pdnce->isUnknown && pdnce->m_cache_cszProto && pdnce->m_bProtoNotExists == TRUE && g_flag_bOnModulesLoadedCalled) {
-		if (CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pdnce->m_cache_cszProto) == 0) {
+		if (ProtoGetAccount(pdnce->m_cache_cszProto) == NULL) {
 			pdnce->m_bProtoNotExists = FALSE;
 			pdnce->getName();
 		}
@@ -313,11 +312,6 @@ char *GetContactCachedProtocol(MCONTACT hContact)
 		return cacheEntry->m_cache_cszProto;
 
 	return NULL;
-}
-
-char* GetProtoForContact(MCONTACT hContact)
-{
-	return (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
 }
 
 int GetStatusForContact(MCONTACT hContact, char *szProto)
