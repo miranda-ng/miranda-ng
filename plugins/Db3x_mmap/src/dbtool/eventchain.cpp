@@ -102,19 +102,19 @@ void CDb3Mmap::FinishUp(DWORD ofsLast, DBContact *dbc)
 	}
 }
 
-DWORD CDb3Mmap::PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent *dbe)
+DWORD CDb3Mmap::PeekEvent(DWORD ofs, DWORD dwContactID, DBEvent &dbe)
 {
-	if (m_dbHeader.version == DB_095_1_VERSION)
-		return PeekSegment(ofs, dbe, sizeof(DBEvent));
+	if (m_dbHeader.version >= DB_095_1_VERSION)
+		return PeekSegment(ofs, &dbe, sizeof(DBEvent));
 
 	DBEvent_094 oldEvent;
 	DWORD ret = PeekSegment(ofs, &oldEvent, sizeof(oldEvent));
 	if (ret != ERROR_SUCCESS)
 		return ret;
 
-	dbe->signature = oldEvent.signature;
-	dbe->contactID = dwContactID;
-	memcpy(&dbe->ofsPrev, &oldEvent.ofsPrev, sizeof(oldEvent) - sizeof(DWORD));
+	dbe.signature = oldEvent.signature;
+	dbe.contactID = dwContactID;
+	memcpy(&dbe.ofsPrev, &oldEvent.ofsPrev, sizeof(oldEvent) - sizeof(DWORD));
 	return ERROR_SUCCESS;
 }
 
@@ -166,7 +166,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		if (!backLookup && ofsTmp) {
 			backLookup = 1;
 			while (SignatureValid(ofsTmp, DBEVENT_SIGNATURE)) {
-				if (PeekEvent(ofsTmp, dbc->dwContactID, &dbeOld) != ERROR_SUCCESS)
+				if (PeekEvent(ofsTmp, dbc->dwContactID, dbeOld) != ERROR_SUCCESS)
 					break;
 				ofsNew = ofsTmp;
 				ofsTmp = dbeOld.ofsPrev;
@@ -183,7 +183,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		}
 	}
 
-	if (PeekEvent(ofsThisEvent, dbc->dwContactID, &dbeOld) != ERROR_SUCCESS) {
+	if (PeekEvent(ofsThisEvent, dbc->dwContactID, dbeOld) != ERROR_SUCCESS) {
 		FinishUp(ofsDestPrevEvent, dbc);
 		return ERROR_NO_MORE_ITEMS;
 	}
@@ -292,7 +292,7 @@ int CDb3Mmap::WorkEventChain(DWORD ofsContact, DBContact *dbc, int firstTime)
 		if (cb->bCheckOnly) {
 			if (!cb->bAggressive) {
 				ofsTmp = dbeOld.ofsPrev;
-				while (PeekEvent(ofsTmp, dbc->dwContactID, &dbeTmp) == ERROR_SUCCESS) {
+				while (PeekEvent(ofsTmp, dbc->dwContactID, dbeTmp) == ERROR_SUCCESS) {
 					if (dbeTmp.ofsPrev == ofsContact) {
 						found = 1;
 						break;
