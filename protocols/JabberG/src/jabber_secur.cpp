@@ -106,13 +106,10 @@ char* TNtlmAuth::getInitialRequest()
 		return NULL;
 
 	// This generates login method advertisement packet
-	char* result;
 	if (info->conn.password[0] != 0)
-		result = Netlib_NtlmCreateResponse2(hProvider, "", info->conn.username, info->conn.password, &complete);
-	else
-		result = Netlib_NtlmCreateResponse2(hProvider, "", NULL, NULL, &complete);
+		return Netlib_NtlmCreateResponse2(hProvider, "", info->conn.username, info->conn.password, &complete);
 
-	return result;
+	return Netlib_NtlmCreateResponse2(hProvider, "", NULL, NULL, &complete);
 }
 
 char* TNtlmAuth::getChallenge(const TCHAR *challenge)
@@ -120,14 +117,11 @@ char* TNtlmAuth::getChallenge(const TCHAR *challenge)
 	if (!hProvider)
 		return NULL;
 
-	char *text = (!mir_tstrcmp(challenge, _T("="))) ? mir_strdup("") : mir_t2a(challenge), *result;
+	ptrA text((!mir_tstrcmp(challenge, _T("="))) ? mir_strdup("") : mir_t2a(challenge));
 	if (info->conn.password[0] != 0)
-		result = Netlib_NtlmCreateResponse2(hProvider, text, info->conn.username, info->conn.password, &complete);
-	else
-		result = Netlib_NtlmCreateResponse2(hProvider, text, NULL, NULL, &complete);
-
-	mir_free(text);
-	return result;
+		return Netlib_NtlmCreateResponse2(hProvider, text, info->conn.username, info->conn.password, &complete);
+	
+	return Netlib_NtlmCreateResponse2(hProvider, text, NULL, NULL, &complete);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
