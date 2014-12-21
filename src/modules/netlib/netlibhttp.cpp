@@ -122,7 +122,8 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, ch
 				return NLRecv(nlc, buf, len, flags);
 			}
 
-			if (nlc->termRequested || Miranda_Terminated()) return 0;
+			if (nlc->termRequested || Miranda_Terminated())
+				return 0;
 		}
 		SetLastError(ERROR_TIMEOUT);
 		return SOCKET_ERROR;

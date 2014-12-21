@@ -279,7 +279,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 				HttpGatewayRemovePacket(nlc, -1);
 			else {
 				if (nlc->s != INVALID_SOCKET)
-					NetlibDoClose(nlc);
+					NetlibDoClose(nlc, nlc->termRequested);
 				if (nlc->s2 != INVALID_SOCKET) closesocket(nlc->s2);
 				nlc->s2 = INVALID_SOCKET;
 			}
@@ -389,18 +389,20 @@ INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 		switch(GetNetlibHandleType((void*)wParam)) {
 		case NLH_CONNECTION:
 			{
-				struct NetlibConnection* nlc = (struct NetlibConnection*)wParam;
-				if (nlc->hSsl) si.shutdown(nlc->hSsl);
-				if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, 2);
-				if (nlc->s2 != INVALID_SOCKET) shutdown(nlc->s2, 2);
-				nlc->termRequested = true;
+				NetlibConnection *nlc = (NetlibConnection*)wParam;
+				if (!nlc->termRequested) {
+					if (nlc->hSsl) si.shutdown(nlc->hSsl);
+					if (nlc->s != INVALID_SOCKET) shutdown(nlc->s, 2);
+					if (nlc->s2 != INVALID_SOCKET) shutdown(nlc->s2, 2);
+					nlc->termRequested = true;
+				}
 			}
 			break;
+
 		case NLH_BOUNDPORT:
-			{
-				struct NetlibBoundPort* nlb = (struct NetlibBoundPort*)wParam;
-				if (nlb->s != INVALID_SOCKET) shutdown(nlb->s, 2);
-			}
+			struct NetlibBoundPort* nlb = (struct NetlibBoundPort*)wParam;
+			if (nlb->s != INVALID_SOCKET)
+				shutdown(nlb->s, 2);
 			break;
 		}
 		ReleaseMutex(hConnectionHeaderMutex);
