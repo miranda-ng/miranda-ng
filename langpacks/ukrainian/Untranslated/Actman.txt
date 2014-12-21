@@ -66,5 +66,4 @@
 [display birthdays window]
 [&OK]
 [Unicode]
-[Mark as Volatile]
 [Single instance]
