@@ -147,10 +147,10 @@ struct send_chat
 
 struct send_direct
 {
-	send_direct(MCONTACT hContact,const std::string &msg, HANDLE msgid) : hContact(hContact), msg(msg), msgid(msgid) {}
+	send_direct(MCONTACT hContact,const std::string &msg, int msgid) : hContact(hContact), msg(msg), msgid(msgid) {}
 	MCONTACT hContact;
 	std::string msg;
-	HANDLE msgid;
+	int msgid;
 };
 
 struct send_typing

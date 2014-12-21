@@ -61,6 +61,7 @@ void FacebookProto::ChangeStatus(void*)
 		facy.clear_readers();
 		facy.buddies.clear();
 		facy.messages_ignore.clear();
+		facy.messages_timestamp.clear();
 		facy.pages.clear();
 		facy.typers.clear();
 
