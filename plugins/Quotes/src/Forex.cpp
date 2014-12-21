@@ -318,7 +318,7 @@ namespace
 
 		InitMenu();
 
-		::ResetEvent(g_hEventWorkThreadStop);
+		BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
 		assert(b && "Failed to reset event");
 
 		const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
