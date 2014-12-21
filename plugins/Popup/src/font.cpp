@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,11 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-PopupFonts fonts = {0};
+PopupFonts fonts = { 0 };
 
 void InitFonts() {
 	// Fonts
-	FontIDT fid = {0};
+	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(FontIDT);
 	mir_tstrncpy(fid.group, _T(PU_FNT_AND_COLOR), SIZEOF(fid.group));
 	strncpy(fid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(fid.dbSettingsGroup));
@@ -40,7 +40,7 @@ void InitFonts() {
 
 	mir_tstrncpy(fid.name, _T(PU_FNT_NAME_TITLE), SIZEOF(fid.name));
 	mir_snprintf(fid.prefix, SIZEOF(fid.prefix), PU_FNT_PREFIX, PU_FNT_NAME_TITLE);
-	fid.deffontsettings.style  = DBFONTF_BOLD;
+	fid.deffontsettings.style = DBFONTF_BOLD;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	FontRegisterT(&fid);
 
@@ -64,7 +64,7 @@ void InitFonts() {
 	fid.deffontsettings.style = DBFONTF_UNDERLINE;
 	FontRegisterT(&fid);
 
-	ColourIDT cid = {0};
+	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(ColourIDT);
 	mir_tstrncpy(cid.group, _T(PU_FNT_AND_COLOR), SIZEOF(cid.group));
 	strncpy(cid.dbSettingsGroup, PU_FNT_AND_COLOR_DB, SIZEOF(cid.dbSettingsGroup));
@@ -91,8 +91,8 @@ void ReloadFonts()
 	if (fonts.action)		DeleteObject(fonts.action);
 	if (fonts.actionHover)	DeleteObject(fonts.actionHover);
 
-	LOGFONT lf = {0};
-	FontIDT fid = {0};
+	LOGFONT lf = { 0 };
+	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(FontIDT);
 	mir_tstrncpy(fid.group, _T(PU_FNT_AND_COLOR), SIZEOF(fid.name));
 
@@ -116,7 +116,7 @@ void ReloadFonts()
 	fonts.clActionHover = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&lf);
 	fonts.actionHover = CreateFontIndirect(&lf);
 
-	ColourIDT cid = {0};
+	ColourIDT cid = { 0 };
 	cid.cbSize = sizeof(ColourIDT);
 	mir_tstrncpy(cid.group, _T(PU_FNT_AND_COLOR), SIZEOF(cid.group));
 	mir_tstrncpy(cid.name, PU_COL_BACK_NAME, SIZEOF(cid.name));
@@ -131,10 +131,10 @@ void ReloadFonts()
 	for (int i = 0; i < gTreeData.getCount(); i++) {
 		if (gTreeData[i]->typ == 2) {
 			mir_snprintf(setting, SIZEOF(setting), "%s/TextCol", gTreeData[i]->pupClass.pszName);
-			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText = 
+			gTreeData[i]->colorText = gTreeData[i]->pupClass.colorText =
 				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clText);
 			mir_snprintf(setting, SIZEOF(setting), "%s/BgCol", gTreeData[i]->pupClass.pszName);
-			gTreeData[i]->colorBack = gTreeData[i]->pupClass.colorBack = 
+			gTreeData[i]->colorBack = gTreeData[i]->pupClass.colorBack =
 				(COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
 		}
 	}

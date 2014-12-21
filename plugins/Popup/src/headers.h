@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /*
 ===============================================================================
-                           Popup plugin
+Popup plugin
 
 This plugin notifies you when a contact changes his/hers status with a Popup.
 You can customize its look (style of popup, font, text...) and behaviour (the
@@ -90,7 +90,7 @@ http://miranda-ng.org/distr/
 #include <m_ieview.h>
 #include <m_smileyadd.h>
 #ifndef MTEXT_NOHELPERS
-	#define MTEXT_NOHELPERS
+#define MTEXT_NOHELPERS
 #endif // MTEXT_NOHELPERS
 #include <m_text.h>
 #include <m_toptoolbar.h>

@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -33,8 +33,8 @@ class PopupAvatar;
 class PopupWnd2 : public MZeroedObject
 {
 public:
-	typedef		LRESULT (PopupWnd2::*MethodPtr)(LPARAM lParam);
-	enum		TextType {TT_NONE, TT_UNICODE, TT_MTEXT};
+	typedef		LRESULT(PopupWnd2::*MethodPtr)(LPARAM lParam);
+	enum		TextType { TT_NONE, TT_UNICODE, TT_MTEXT };
 
 	struct		ActionInfo
 	{
@@ -42,7 +42,7 @@ public:
 		RECT rc;
 		bool hover;
 
-		ActionInfo(): hover(false) {}
+		ActionInfo() : hover(false) {}
 	};
 
 	DWORD		m_signature;
@@ -60,7 +60,7 @@ private:
 	HFONT       m_hfnTitle, m_hfnText;
 	HICON       m_hIcon;
 	HBITMAP     m_hbmAvatar;
-	TCHAR       m_time[2+1+2+1];
+	TCHAR       m_time[2 + 1 + 2 + 1];
 	ActionInfo* m_actions;
 	int         m_actionCount;
 	HANDLE      m_hNotification;
@@ -70,7 +70,7 @@ private:
 	MCONTACT    m_hContact, m_hContactPassed;
 	WNDPROC     m_PluginWindowProc;
 	void       *m_PluginData;
-	
+
 	// the window
 	LPTSTR      m_lpzSkin;
 	bool        m_customPopup;
@@ -87,9 +87,9 @@ private:
 
 	// show & hide
 	bool        m_bFade;
-	BYTE        m_btAlpha0,		m_btAlpha1;
+	BYTE        m_btAlpha0, m_btAlpha1;
 	bool        m_bSlide;
-	POINT       m_ptPosition0,	m_ptPosition1;
+	POINT       m_ptPosition0, m_ptPosition1;
 	bool        m_bDestroy;
 	bool        m_bIsHovered;
 
@@ -108,7 +108,7 @@ private:
 	int        fixActions(POPUPACTION *theActions, int count, int additional);
 
 public:
-	PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions=NULL, bool renderOnly=false);
+	PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions = NULL, bool renderOnly = false);
 	~PopupWnd2();
 
 	void	startThread();
@@ -124,7 +124,7 @@ public:
 	void	idle();
 
 	DWORD	lock()				{ return ++m_lockCount; }
-	DWORD	unlock()			{ return m_lockCount = m_lockCount ? m_lockCount-1 : 0; }
+	DWORD	unlock()			{ return m_lockCount = m_lockCount ? m_lockCount - 1 : 0; }
 	bool	isLocked()			{ return m_lockCount != 0; }
 
 	void  setIcon(HICON);
@@ -213,8 +213,8 @@ public:
 	LRESULT m_updateData_POPUPDATA2(LPARAM arg)		{ updateData((POPUPDATA2 *)arg); update(); return 0; }
 	LRESULT m_updateText(LPARAM arg)				{ updateText((TCHAR *)arg); update(); return 0; }
 	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((TCHAR *)arg); update(); return 0; }
-	LRESULT m_show(LPARAM arg)						{ show(); return 0; }
-	LRESULT m_hide(LPARAM arg)						{ hide(); return 0; }
+	LRESULT m_show(LPARAM)						{ show(); return 0; }
+	LRESULT m_hide(LPARAM)						{ hide(); return 0; }
 
 	// window related stuff
 	LRESULT CALLBACK WindowProc(UINT, WPARAM, LPARAM);
@@ -235,7 +235,7 @@ static inline bool IsValidPopupObject(PopupWnd2 *wnd)
 		if (wnd->m_signature == POPUP_OBJECT_SIGNARURE)
 			res = true;
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
+	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		res = false;
 	}

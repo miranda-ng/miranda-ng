@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 class MyTestEffect;
 
-class MyTestEffect: public IPopupPlusEffect
+class MyTestEffect : public IPopupPlusEffect
 {
 protected:
 	int w, h;
@@ -48,11 +48,12 @@ public:
 	virtual void beginFrame(int frame)
 	{
 		this->frame = frame;
-		stage = (frame*2 > frameCount) ? 1 : 0;
+		stage = (frame * 2 > frameCount) ? 1 : 0;
 		if (stage == 0)
 		{
 			alpha = alpha0 + (alpha1 - alpha0) * frame * 2 / frameCount;
-		} else
+		}
+		else
 		{
 			alpha = alpha0 + (alpha1 - alpha0) * (frame * 2 - frameCount) / frameCount;
 		}
@@ -61,11 +62,12 @@ public:
 	{
 		if (stage == 0)
 		{
-			if ((x/16+y/16) % 2) return alpha0;
+			if ((x / 16 + y / 16) % 2) return alpha0;
 			return alpha;
-		} else
+		}
+		else
 		{
-			if ((x/16+y/16) % 2) return alpha;
+			if ((x / 16 + y / 16) % 2) return alpha;
 			return alpha1;
 		}
 	}
@@ -79,6 +81,6 @@ static INT_PTR svcCreateEffect_MyTestEffect(WPARAM, LPARAM) { return (INT_PTR)(n
 void PopupEfectsInitialize()
 {
 	CreateServiceFunction(MS_POPUP_CREATEVFX LPGEN("Square fading"), svcCreateEffect_MyTestEffect);
-	
+
 	CallService(MS_POPUP_REGISTERVFX, 0, (LPARAM)"Square fading");
 }

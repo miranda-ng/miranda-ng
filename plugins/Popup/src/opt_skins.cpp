@@ -175,7 +175,6 @@ LRESULT CALLBACK WndProcPreviewBox(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions) {
 	const PopupSkin *skin = 0;
-	LPTSTR pszName = NULL;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		for (int i = 1; i <= 10; i++) {
 			if (!skin->getFlagName(i))
@@ -357,7 +356,6 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			// Skin List
 			hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
 			ListBox_ResetContent(hCtrl);
-			LPTSTR Temp = NULL;
 			for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next)
 			{
 				dwIndex = ListBox_AddString(hCtrl, sl->name);
@@ -406,11 +404,10 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				case IDC_BTN_RELOAD:
 					{
-						LPTSTR Temp		= NULL;
 						DWORD  dwIndex	= 0;
 						TCHAR  szNewSkin[128];
 						LPTSTR pszOldSkin = mir_tstrdup(PopupOptions.SkinPack);
-						skins.load(_T(""));
+						skins.load();
 						hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
 						ListBox_ResetContent(hCtrl);
 						for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next)
@@ -473,7 +470,6 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}// end switch (HIWORD(wParam))
 			break;
 		}//  end WM_COMMAND
-		return FALSE;
 
 	case WM_NOTIFY:
 		if (!bDlgInit) return FALSE;

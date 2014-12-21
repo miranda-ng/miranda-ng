@@ -461,7 +461,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						PopupOptions.FadeIn = SETTING_FADEINTIME_MIN;
 					else if (fade > SETTING_FADEINTIME_MAX)
 						PopupOptions.FadeIn = SETTING_FADEINTIME_MAX;
-					if (fade != PopupOptions.FadeIn) {
+					if (fade != (int)PopupOptions.FadeIn) {
 						SetDlgItemInt(hwnd, idCtrl, PopupOptions.FadeIn, FALSE);
 						ErrorMSG(SETTING_FADEINTIME_MIN, SETTING_FADEINTIME_MAX);
 						SetFocus((HWND)lParam);
@@ -475,7 +475,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						PopupOptions.FadeOut = SETTING_FADEOUTTIME_MIN;
 					else if (fade > SETTING_FADEOUTTIME_MAX)
 						PopupOptions.FadeOut = SETTING_FADEOUTTIME_MAX;
-					if (fade != PopupOptions.FadeOut) {
+					if (fade != (int)PopupOptions.FadeOut) {
 						SetDlgItemInt(hwnd, idCtrl, PopupOptions.FadeOut, FALSE);
 						ErrorMSG(SETTING_FADEOUTTIME_MIN, SETTING_FADEOUTTIME_MAX);
 						SetFocus((HWND)lParam);

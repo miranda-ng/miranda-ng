@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,18 +35,18 @@ public:
 			char *name;
 			int value;
 			Item *next;
-			
-			Item(char *aName, int aValue, Item *aNext): value(aValue), next(aNext) { name = aName ? mir_strdup(aName) : 0; }
+
+			Item(char *aName, int aValue, Item *aNext) : value(aValue), next(aNext) { name = aName ? mir_strdup(aName) : 0; }
 			~Item() { if (name) mir_free(name); }
 		};
 		Item *items;
 	public:
-		Args():items(0){}
-		~Args(){clear();}
+		Args() :items(0){}
+		~Args(){ clear(); }
 		void	add(char *name, int value)
 		{
 			for (Item *p = items; p; p = p->next)
-				if (!mir_strcmp(p->name,name))
+				if (!mir_strcmp(p->name, name))
 				{
 					p->value = value;
 					return;
@@ -56,7 +56,7 @@ public:
 		int		get(char *name)
 		{
 			for (Item *p = items; p; p = p->next)
-				if (!mir_strcmp(p->name,name))
+				if (!mir_strcmp(p->name, name))
 					return p->value;
 			return 0;
 		}
@@ -73,16 +73,16 @@ public:
 
 private:
 	TCHAR *m_str;
-	int eval_neq (TCHAR *&s, Args *args, bool *vars) const;
+	int eval_neq(TCHAR *&s, Args *args, bool *vars) const;
 	int eval_sum(TCHAR *&s, Args *args, bool *vars) const;
 	int eval_mul(TCHAR *&s, Args *args, bool *vars) const;
 	int eval_atom(TCHAR *&s, Args *args, bool *vars) const;
 
 public:
-	Formula():m_str(mir_tstrdup(_T(""))) {}
-	Formula(TCHAR *s):m_str(mir_tstrdup(s)) {}
-	~Formula() {mir_free(m_str);}
-	void	set(TCHAR *s){mir_free(m_str);m_str=mir_tstrdup(s);}
+	Formula() :m_str(mir_tstrdup(_T(""))) {}
+	Formula(TCHAR *s) :m_str(mir_tstrdup(s)) {}
+	~Formula() { mir_free(m_str); }
+	void	set(TCHAR *s){ mir_free(m_str); m_str = mir_tstrdup(s); }
 	int		eval(Args *args, bool *vars = 0) const;
 };
 

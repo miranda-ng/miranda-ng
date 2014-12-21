@@ -146,7 +146,7 @@ HTREEITEM OptTree_AddItem(HWND hwndTree, LPTSTR name, LPARAM lParam, int iconInd
 	return result;
 }
 
-BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, int *result, int idcTree, OPTTREE_OPTION *options, int optionCount)
+BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *result, int idcTree, OPTTREE_OPTION *options, int optionCount)
 {
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
 	switch (msg)
@@ -238,7 +238,7 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, i
 		case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR)lparam;
-			if (lpnmhdr->idFrom != idcTree)
+			if (lpnmhdr->idFrom != (UINT)idcTree)
 				break;
 			switch (lpnmhdr->code)
 			{

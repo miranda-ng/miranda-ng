@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -88,8 +88,8 @@ void MyBitmap::makeOpaqueRect(int x1, int y1, int x2, int y2)
 	GdiFlush();
 	for (int i = y1; i < y2; i++)
 		for (int j = x1; j < x2; j++) {
-		int idx = i * width + j;
-		bits[idx] |= 0xff000000;
+			int idx = i * width + j;
+			bits[idx] |= 0xff000000;
 		}
 }
 
@@ -518,7 +518,7 @@ void MyBitmap::DrawPart(MyBitmap *bmp, int xin, int yin, int win, int hin, int x
 	}
 }
 
-void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y, int w, int h)
+void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y)
 {
 	if (!(bits && bmp && bmp->bits)) return;
 
@@ -676,7 +676,7 @@ static int hex2dec(char hex)
 	return 0;
 }
 
-bool MyBitmap::loadFromFile_pixel(const TCHAR *fn, const TCHAR *fnAlpha)
+bool MyBitmap::loadFromFile_pixel(const TCHAR *fn)
 {
 	allocate(1, 1);
 	int r, g, b, a = 255;
@@ -688,7 +688,7 @@ bool MyBitmap::loadFromFile_pixel(const TCHAR *fn, const TCHAR *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_gradient(const TCHAR *fn, const TCHAR *fnAlpha)
+bool MyBitmap::loadFromFile_gradient(const TCHAR *fn)
 {
 	const TCHAR *p = fn + mir_tstrlen(_T("gradient:"));
 
@@ -720,7 +720,7 @@ bool MyBitmap::loadFromFile_gradient(const TCHAR *fn, const TCHAR *fnAlpha)
 	return true;
 }
 
-bool MyBitmap::loadFromFile_png(const TCHAR *fn, const TCHAR *fnAlpha)
+bool MyBitmap::loadFromFile_png(const TCHAR *fn)
 {
 	if (!ServiceExists(MS_PNG2DIB))
 		return false;
@@ -728,8 +728,8 @@ bool MyBitmap::loadFromFile_png(const TCHAR *fn, const TCHAR *fnAlpha)
 	HANDLE hFile, hMap = 0;
 	BYTE *ppMap = 0;
 	long cbFileSize = 0;
-	BITMAPINFOHEADER *pDib;
-	BYTE *pDibBits;
+	BITMAPINFOHEADER *pDib = 0;
+	BYTE *pDibBits = 0;
 	if ((hFile = CreateFile(fn, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
 		if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
 			if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
@@ -826,15 +826,15 @@ bool MyBitmap::loadFromFile(const TCHAR *fn, const TCHAR *fnAlpha)
 	if (bits) freemem();
 
 	if (!_tcsncmp(fn, _T("pixel:"), mir_tstrlen(_T("pixel:"))))
-		return loadFromFile_pixel(fn, fnAlpha);
+		return loadFromFile_pixel(fn);
 
 	if (!_tcsncmp(fn, _T("gradient:"), mir_tstrlen(_T("gradient:"))))
-		return loadFromFile_gradient(fn, fnAlpha);
+		return loadFromFile_gradient(fn);
 
 	TCHAR ext[5];
 	_tcsncpy_s(ext, fn + (_tcslen(fn) - 4), _TRUNCATE);
 	if (!mir_tstrcmpi(ext, _T(".png")))
-		return loadFromFile_png(fn, fnAlpha);
+		return loadFromFile_png(fn);
 
 	return loadFromFile_default(fn, fnAlpha);
 }

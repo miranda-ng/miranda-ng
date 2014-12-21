@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	=== how does this work ===
 	We have four icons -- one for each mode. and we do hide/show them depending
 	on current active mode for user.
-*************************************************************************************/
+	*************************************************************************************/
 
 static HANDLE hDialogsList = NULL;
 
@@ -41,7 +41,7 @@ static void SrmmMenu_UpdateIcon(MCONTACT hContact)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = MODULNAME;
 
-	for (int i=0; i < 4; i++) {
+	for (int i = 0; i < 4; i++) {
 		sid.dwId = i;
 		sid.flags = (i == mode) ? 0 : MBF_HIDDEN;
 		Srmm_ModifyIcon(hContact, &sid);
@@ -81,16 +81,16 @@ static int SrmmMenu_ProcessIconClick(WPARAM hContact, LPARAM lParam)
 	if (sicd->flags & MBCF_RIGHTBUTTON) {
 		HMENU hMenu = CreatePopupMenu();
 
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_AUTO,       TranslateT("Auto"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FAVORITE,   TranslateT("Favorite"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_FULLSCREEN, TranslateT("Ignore fullscreen"));
-		AppendMenu(hMenu, MF_STRING, 1+PU_SHOWMODE_BLOCK,      TranslateT("Block"));
+		AppendMenu(hMenu, MF_STRING, 1 + PU_SHOWMODE_AUTO, TranslateT("Auto"));
+		AppendMenu(hMenu, MF_STRING, 1 + PU_SHOWMODE_FAVORITE, TranslateT("Favorite"));
+		AppendMenu(hMenu, MF_STRING, 1 + PU_SHOWMODE_FULLSCREEN, TranslateT("Ignore fullscreen"));
+		AppendMenu(hMenu, MF_STRING, 1 + PU_SHOWMODE_BLOCK, TranslateT("Block"));
 
-		CheckMenuItem(hMenu, 1+mode, MF_BYCOMMAND|MF_CHECKED);
+		CheckMenuItem(hMenu, 1 + mode, MF_BYCOMMAND | MF_CHECKED);
 
 		mode = TrackPopupMenu(hMenu, TPM_RETURNCMD, sicd->clickLocation.x, sicd->clickLocation.y, 0, WindowList_Find(hDialogsList, hContact), NULL);
 		if (mode) {
-			db_set_b(hContact, MODULNAME, "ShowMode", mode-1);
+			db_set_b(hContact, MODULNAME, "ShowMode", mode - 1);
 			SrmmMenu_UpdateIcon(hContact);
 		}
 	}
@@ -109,24 +109,24 @@ void SrmmMenu_Load()
 
 	sid.dwId = 0;
 	sid.szTooltip = LPGEN("Popup Mode: Auto");
-	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_ON,0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 1;
 	sid.szTooltip = LPGEN("Popup Mode: Favorite");
-	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV,0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FAV, 0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 2;
 	sid.szTooltip = LPGEN("Popup Mode: Ignore fullscreen");
-	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FULLSCREEN,0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_FULLSCREEN, 0);
 	Srmm_AddIcon(&sid);
 
 	sid.dwId = 3;
 	sid.szTooltip = LPGEN("Popup Mode: Block contact");
-	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF,0);
+	sid.hIcon = sid.hIconDisabled = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	Srmm_AddIcon(&sid);
-	
+
 	HookEvent(ME_MSG_ICONPRESSED, SrmmMenu_ProcessIconClick);
 	HookEvent(ME_MSG_WINDOWEVENT, SrmmMenu_ProcessEvent);
 }

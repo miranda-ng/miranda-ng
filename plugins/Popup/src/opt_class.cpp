@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //---------------------------------------------------------------------------
 // Workaround for MS bug ComboBox_SelectItemData
-int ComboBox_SelectItem(HWND hwndCtl, int indexStart, char* data) {
+int ComboBox_SelectItem(HWND hwndCtl, char* data) {
 	int i=0;
 	for ( i ; i < ComboBox_GetCount(hwndCtl); i++) {
 		if (strcmp(data, (char*)ComboBox_GetItemData(hwndCtl, i))==0) {
@@ -245,8 +245,6 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			if (tvi.lParam) {
 				POPUPTREEDATA* ptd = (POPUPTREEDATA *)tvi.lParam;
-				LPTSTR psztSelect = NULL;
-				int index = 0;
 				// combo left action (default)
 
 				HWND hCtrl = GetDlgItem(hwnd, IDC_LACTION);
@@ -311,10 +309,10 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				CheckDlgButton(hwnd, IDC_ENABLE, ptd->enabled ? BST_CHECKED : BST_UNCHECKED);
 				// combo left action (SELECT)
 				hCtrl = GetDlgItem(hwnd, IDC_LACTION);
-				ComboBox_SelectItem (hCtrl, -1, ptd->leftAction);	// use Workaround for MS bug ComboBox_SelectItemData
+				ComboBox_SelectItem (hCtrl, ptd->leftAction);	// use Workaround for MS bug ComboBox_SelectItemData
 				// combo right action (SELECT)
 				hCtrl = GetDlgItem(hwnd, IDC_RACTION);
-				ComboBox_SelectItem (hCtrl, -1, ptd->rightAction);	// use Workaround for MS bug ComboBox_SelectItemData
+				ComboBox_SelectItem (hCtrl, ptd->rightAction);	// use Workaround for MS bug ComboBox_SelectItemData
 			} // end if (tvi.lParam)
 			else {
 				// enable / disable controls
@@ -388,7 +386,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					for (i = 0; i < SIZEOF(statusButtons); ++i) {
 						if (IsDlgButtonChecked(hwnd, statusButtons[i].idCtrl))
 							ptd->disableWhen |= statusButtons[i].disableWhenFlag;
-						if (idCtrl == statusButtons[i].idCtrl)
+						if (idCtrl == (UINT)statusButtons[i].idCtrl)
 							SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					}
 				}

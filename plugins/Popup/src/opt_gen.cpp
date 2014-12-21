@@ -602,7 +602,7 @@ void Check_ReorderPopups(HWND hwnd) {
 	if (hwnd) CheckDlgButton(hwnd, IDC_REORDERPOPUPS, PopupOptions.ReorderPopups ? BST_CHECKED : BST_UNCHECKED);
 }
 
-INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 {
 	LOGFONT lf;
 	static HFONT hFontTitle = 0;
