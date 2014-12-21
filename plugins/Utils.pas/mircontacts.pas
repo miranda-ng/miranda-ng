@@ -246,19 +246,11 @@ begin
   begin
     result:=0;
 
-    if ServiceExists(MS_PROTO_GETACCOUNT)<>0 then
-    begin
-      p:=PPROTOACCOUNT(CallService(MS_PROTO_GETACCOUNT,0,lparam(@name)));
-      if p=nil then
-        result:=-2 // deleted
-      else if (not p^.bIsEnabled) or p^.bDynDisabled then
-        result:=-1; // disabled
-    end
-    else
-    begin
-      if CallService(MS_PROTO_ISPROTOCOLLOADED,0,lparam(@name))=0 then
-        result:=-1;
-    end;
+    p:=PPROTOACCOUNT(CallService(MS_PROTO_GETACCOUNT,0,lparam(@name)));
+    if p=nil then
+      result:=-2 // deleted
+    else if (not p^.bIsEnabled) or p^.bDynDisabled then
+      result:=-1; // disabled
 
     if (result=0) and (DBReadByte(hContact,strCList,'Hidden',0)=0) then
     begin
