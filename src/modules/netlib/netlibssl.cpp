@@ -327,8 +327,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 
 		TimeStamp tsExpiry;
 		DWORD dwSSPIOutFlags;
-		scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, NULL, dwSSPIFlags, 0,
-			SECURITY_NATIVE_DREP, &InBuffer, 0, NULL, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
+		scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, NULL, dwSSPIFlags, 0, 0,
+			&InBuffer, 0, NULL, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
 
 		// If success (or if the error was one of the special extended ones),
 		// send the contents of the output buffer to the server.
@@ -427,8 +427,8 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 
 	TimeStamp tsExpiry;
 	DWORD dwSSPIOutFlags;
-	SECURITY_STATUS scRet = g_pSSPI->InitializeSecurityContext(&hCreds, NULL, _A2T(host), dwSSPIFlags, 0, 
-		SECURITY_NATIVE_DREP, NULL, 0, &ssl->hContext, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
+	SECURITY_STATUS scRet = g_pSSPI->InitializeSecurityContext(&hCreds, NULL, _A2T(host), dwSSPIFlags, 0, 0, NULL, 0,
+		&ssl->hContext, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
 	if (scRet != SEC_I_CONTINUE_NEEDED) {
 		ReportSslError(scRet, __LINE__);
 		return 0;
@@ -517,7 +517,7 @@ void NetlibSslShutdown(SslHandle *ssl)
 
 	TimeStamp tsExpiry;
 	DWORD dwSSPIOutFlags;
-	scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, NULL, dwSSPIFlags, 0, SECURITY_NATIVE_DREP, NULL, 0,
+	scRet = g_pSSPI->InitializeSecurityContext(&hCreds, &ssl->hContext, NULL, dwSSPIFlags, 0, 0, NULL, 0,
 		&ssl->hContext, &OutBuffer, &dwSSPIOutFlags, &tsExpiry);
 	if (FAILED(scRet))
 		return;
