@@ -9,7 +9,7 @@ enum EImageIndex
 	eiEmpty = 3
 };
 
-bool SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex);
+bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex);
 
 void Quotes_InitExtraIcons(void);
 

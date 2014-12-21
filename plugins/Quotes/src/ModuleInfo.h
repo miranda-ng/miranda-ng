@@ -21,7 +21,7 @@ public:
 	static CModuleInfo& GetInstance();
 
 	void OnMirandaShutdown();
-	HANDLE GetWindowList(const std::string& rsKey,bool bAllocateIfNonExist = true);
+	HANDLE GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist = true);
 	bool GetExtendedStatusFlag()const;
 
 	static bool Verify();
@@ -29,13 +29,13 @@ public:
 	static TQuotesProvidersPtr GetQuoteProvidersPtr();
 
 	static TXMLEnginePtr GetXMLEnginePtr();
-// 	static void SetXMLEnginePtr(TXMLEnginePtr pEngine);
+	// 	static void SetXMLEnginePtr(TXMLEnginePtr pEngine);
 
 	static THTMLEnginePtr GetHTMLEngine();
 	static void SetHTMLEngine(THTMLEnginePtr pEngine);
 
 private:
-	typedef std::map<std::string,HANDLE> THandles;
+	typedef std::map<std::string, HANDLE> THandles;
 	THandles m_ahWindowLists;
 	bool m_bExtendedStatusInfo;
 };

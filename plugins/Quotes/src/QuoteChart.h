@@ -5,7 +5,7 @@
 
 #pragma once
 
-INT_PTR QuotesMenu_Chart(WPARAM wp,LPARAM lp);
+INT_PTR QuotesMenu_Chart(WPARAM wp, LPARAM lp);
 
 #endif
 

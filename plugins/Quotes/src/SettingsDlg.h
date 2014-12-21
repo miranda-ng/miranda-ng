@@ -87,7 +87,7 @@ public:
 	void SetShowPopupIfValueChangedFlag(bool val);
 
 	CPopupSettings* GetPopupSettingsPtr()const;
-			
+
 private:
 	const IQuotesProvider* m_pQuotesProvider;
 	WORD m_wLogMode;
@@ -102,15 +102,15 @@ private:
 };
 
 void ShowSettingsDlg(MCONTACT hContact);
-bool ShowSettingsDlg(HWND hWndParent,CAdvProviderSettings* pAdvSettings);
+bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings* pAdvSettings);
 
-enum 
+enum
 {
 	glfnResolveQuoteName = 0x0001,
 	glfnResolveUserProfile = 0x0002,
-	glfnResolveAll = glfnResolveQuoteName|glfnResolveUserProfile,
+	glfnResolveAll = glfnResolveQuoteName | glfnResolveUserProfile,
 };
-tstring GenerateLogFileName(const tstring& rsLogFilePattern,const tstring& rsQuoteSymbol,int nFlags = glfnResolveAll);
+tstring GenerateLogFileName(const tstring& rsLogFilePattern, const tstring& rsQuoteSymbol, int nFlags = glfnResolveAll);
 tstring GetContactLogFileName(MCONTACT hContact);
 tstring GetContactName(MCONTACT hContact);
 

@@ -19,81 +19,81 @@ namespace
 		return CreateFilePath(pszFileName);
 	}
 
-	bool parse_quote(const IXMLNode::TXMLNodePtr& pTop,CQuotesProviderBase::CQuote& q)
+	bool parse_quote(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuote& q)
 	{
 		tstring sSymbol;
 		tstring sDescription;
 		tstring sID;
 
 		size_t cChild = pTop->GetChildCount();
-		for(size_t i = 0;i < cChild;++i)
+		for (size_t i = 0; i < cChild; ++i)
 		{
 			IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
 			tstring sName = pNode->GetName();
-			if(0 == quotes_stricmp(_T("symbol"),sName.c_str()))
-			{	
+			if (0 == quotes_stricmp(_T("symbol"), sName.c_str()))
+			{
 				sSymbol = pNode->GetText();
-				if(true == sSymbol.empty())
+				if (true == sSymbol.empty())
 				{
 					return false;
 				}
 			}
-			else if(0 == quotes_stricmp(_T("description"),sName.c_str()))
-			{	
+			else if (0 == quotes_stricmp(_T("description"), sName.c_str()))
+			{
 				sDescription = pNode->GetText();
 			}
-			else if(0 == quotes_stricmp(_T("id"),sName.c_str()))
-			{		
+			else if (0 == quotes_stricmp(_T("id"), sName.c_str()))
+			{
 				sID = pNode->GetText();
-				if(true == sID.empty())
+				if (true == sID.empty())
 				{
 					return false;
 				}
 			}
 		}
 
-		q = CQuotesProviderBase::CQuote(sID,TranslateTS(sSymbol.c_str()),TranslateTS(sDescription.c_str()));
+		q = CQuotesProviderBase::CQuote(sID, TranslateTS(sSymbol.c_str()), TranslateTS(sDescription.c_str()));
 		return true;
 	}
 
-	bool parse_section(const IXMLNode::TXMLNodePtr& pTop,CQuotesProviderBase::CQuoteSection& qs)
+	bool parse_section(const IXMLNode::TXMLNodePtr& pTop, CQuotesProviderBase::CQuoteSection& qs)
 	{
 		CQuotesProviderBase::CQuoteSection::TSections aSections;
 		CQuotesProviderBase::CQuoteSection::TQuotes aQuotes;
 		tstring sSectionName;
 
 		size_t cChild = pTop->GetChildCount();
-		for(size_t i = 0;i < cChild;++i)
+		for (size_t i = 0; i < cChild; ++i)
 		{
 			IXMLNode::TXMLNodePtr pNode = pTop->GetChildNode(i);
 			tstring sName = pNode->GetName();
-			if(0 == quotes_stricmp(_T("section"),sName.c_str()))
-			{					
+			if (0 == quotes_stricmp(_T("section"), sName.c_str()))
+			{
 				CQuotesProviderBase::CQuoteSection qs;
-				if(true == parse_section(pNode,qs))
+				if (true == parse_section(pNode, qs))
 				{
 					aSections.push_back(qs);
 				}
 			}
-			else if(0 == quotes_stricmp(_T("quote"),sName.c_str()))
+			else if (0 == quotes_stricmp(_T("quote"), sName.c_str()))
 			{
 				CQuotesProviderBase::CQuote q;
-				if(true == parse_quote(pNode,q))
+				if (true == parse_quote(pNode, q))
 				{
 					aQuotes.push_back(q);
 				}
 			}
-			else if(0 == quotes_stricmp(_T("name"),sName.c_str()))
+			else if (0 == quotes_stricmp(_T("name"), sName.c_str()))
 			{
 				sSectionName = pNode->GetText();
-				if(true == sSectionName.empty())
+				if (true == sSectionName.empty())
 				{
 					return false;
 				}
 			}
 		}
 
-		qs = CQuotesProviderBase::CQuoteSection(TranslateTS(sSectionName.c_str()),aSections,aQuotes);
+		qs = CQuotesProviderBase::CQuoteSection(TranslateTS(sSectionName.c_str()), aSections, aQuotes);
 		return true;
 	}
 
@@ -101,11 +101,11 @@ namespace
 	{
 		IXMLNode::TXMLNodePtr pProvider;
 		size_t cChild = pRoot->GetChildCount();
-		for(size_t i = 0;i < cChild;++i)
+		for (size_t i = 0; i < cChild; ++i)
 		{
 			IXMLNode::TXMLNodePtr pNode = pRoot->GetChildNode(i);
 			tstring sName = pNode->GetName();
-			if(0 == quotes_stricmp(_T("Provider"),sName.c_str()))
+			if (0 == quotes_stricmp(_T("Provider"), sName.c_str()))
 			{
 				pProvider = pNode;
 				break;
@@ -113,7 +113,7 @@ namespace
 			else
 			{
 				pProvider = find_provider(pNode);
-				if(pProvider)
+				if (pProvider)
 				{
 					break;
 				}
@@ -123,41 +123,41 @@ namespace
 		return pProvider;
 	}
 
-	CQuotesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile,bool& rbSucceded)
+	CQuotesProviderBase::CXMLFileInfo parse_ini_file(const tstring& rsXMLFile, bool& rbSucceded)
 	{
 		CQuotesProviderBase::CXMLFileInfo res;
 		CQuotesProviderBase::CQuoteSection::TSections aSections;
 
 		const CModuleInfo::TXMLEnginePtr& pXMLEngine = CModuleInfo::GetXMLEnginePtr();
 		IXMLNode::TXMLNodePtr pRoot = pXMLEngine->LoadFile(rsXMLFile);
-		if(pRoot)
+		if (pRoot)
 		{
 			IXMLNode::TXMLNodePtr pProvider = find_provider(pRoot);
-			if(pProvider)
+			if (pProvider)
 			{
 				rbSucceded = true;
 				size_t cChild = pProvider->GetChildCount();
-				for(size_t i = 0;i < cChild;++i)
+				for (size_t i = 0; i < cChild; ++i)
 				{
 					IXMLNode::TXMLNodePtr pNode = pProvider->GetChildNode(i);
 					tstring sName = pNode->GetName();
-					if(0 == quotes_stricmp(_T("section"),sName.c_str()))
-					{					
+					if (0 == quotes_stricmp(_T("section"), sName.c_str()))
+					{
 						CQuotesProviderBase::CQuoteSection qs;
-						if(true == parse_section(pNode,qs))
+						if (true == parse_section(pNode, qs))
 						{
 							aSections.push_back(qs);
 						}
 					}
-					else if(0 == quotes_stricmp(_T("Name"),sName.c_str()))
+					else if (0 == quotes_stricmp(_T("Name"), sName.c_str()))
 					{
 						res.m_pi.m_sName = pNode->GetText();
 					}
-					else if(0 == quotes_stricmp(_T("ref"),sName.c_str()))
+					else if (0 == quotes_stricmp(_T("ref"), sName.c_str()))
 					{
 						res.m_pi.m_sURL = pNode->GetText();
 					}
-					else if(0 == quotes_stricmp(_T("url"),sName.c_str()))
+					else if (0 == quotes_stricmp(_T("url"), sName.c_str()))
 					{
 						res.m_sURL = pNode->GetText();
 					}
@@ -165,22 +165,22 @@ namespace
 			}
 		}
 
-		res.m_qs = CQuotesProviderBase::CQuoteSection(res.m_pi.m_sName,aSections);
+		res.m_qs = CQuotesProviderBase::CQuoteSection(res.m_pi.m_sName, aSections);
 		return res;
 	}
 
-	CQuotesProviderBase::CXMLFileInfo init_xml_info(LPCTSTR pszFileName,bool& rbSucceded)
+	CQuotesProviderBase::CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
 	{
 		rbSucceded = false;
 		tstring sIniFile = get_ini_file_name(pszFileName);
-		return parse_ini_file(sIniFile,rbSucceded);
+		return parse_ini_file(sIniFile, rbSucceded);
 	}
 }
 
 CQuotesProviderBase::CQuotesProviderBase()
-					: m_hEventSettingsChanged(::CreateEvent(NULL,FALSE,FALSE,NULL)),
-					  m_hEventRefreshContact(::CreateEvent(NULL,FALSE,FALSE,NULL)),
-					  m_bRefreshInProgress(false)
+	: m_hEventSettingsChanged(::CreateEvent(NULL, FALSE, FALSE, NULL)),
+	m_hEventRefreshContact(::CreateEvent(NULL, FALSE, FALSE, NULL)),
+	m_bRefreshInProgress(false)
 {
 }
 
@@ -193,13 +193,13 @@ CQuotesProviderBase::~CQuotesProviderBase()
 bool CQuotesProviderBase::Init()
 {
 	bool bSucceded = m_pXMLInfo != NULL;
-	if(!m_pXMLInfo)
+	if (!m_pXMLInfo)
 	{
 		CQuotesProviderVisitorDbSettings visitor;
 		Accept(visitor);
 		assert(visitor.m_pszXMLIniFileName);
 
-		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName,bSucceded)));
+		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName, bSucceded)));
 	}
 
 	return bSucceded;
@@ -207,13 +207,13 @@ bool CQuotesProviderBase::Init()
 
 CQuotesProviderBase::CXMLFileInfo* CQuotesProviderBase::GetXMLFileInfo()const
 {
-// 	if(!m_pXMLInfo)
-// 	{
-// 		CQuotesProviderVisitorDbSettings visitor;
-// 		Accept(visitor);
-// 		assert(visitor.m_pszXMLIniFileName);
-// 		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName)));
-// 	}
+	// 	if(!m_pXMLInfo)
+	// 	{
+	// 		CQuotesProviderVisitorDbSettings visitor;
+	// 		Accept(visitor);
+	// 		assert(visitor.m_pszXMLIniFileName);
+	// 		m_pXMLInfo.reset(new CXMLFileInfo(init_xml_info(visitor.m_pszXMLIniFileName)));
+	// 	}
 
 	return m_pXMLInfo.get();
 }
@@ -241,7 +241,7 @@ bool CQuotesProviderBase::IsOnline()
 void CQuotesProviderBase::AddContact(MCONTACT hContact)
 {
 	// 	CCritSection cs(m_cs);
-	assert(m_aContacts.end() == std::find(m_aContacts.begin(),m_aContacts.end(),hContact));
+	assert(m_aContacts.end() == std::find(m_aContacts.begin(), m_aContacts.end(), hContact));
 
 	m_aContacts.push_back(hContact);
 }
@@ -250,27 +250,27 @@ void CQuotesProviderBase::DeleteContact(MCONTACT hContact)
 {
 	CGuard<CLightMutex> cs(m_cs);
 
-	TContracts::iterator i = std::find(m_aContacts.begin(),m_aContacts.end(),hContact);
-	if(i != m_aContacts.end())
+	TContracts::iterator i = std::find(m_aContacts.begin(), m_aContacts.end(), hContact);
+	if (i != m_aContacts.end())
 	{
 		m_aContacts.erase(i);
 	}
 }
 
-void CQuotesProviderBase::SetContactStatus(MCONTACT hContact,int nNewStatus)
+void CQuotesProviderBase::SetContactStatus(MCONTACT hContact, int nNewStatus)
 {
-	int nStatus = db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_STATUS,ID_STATUS_OFFLINE);
-	if(nNewStatus != nStatus)
+	int nStatus = db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_STATUS, ID_STATUS_OFFLINE);
+	if (nNewStatus != nStatus)
 	{
-		db_set_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_STATUS,nNewStatus);
+		db_set_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_STATUS, nNewStatus);
 
-		if(ID_STATUS_ONLINE != nNewStatus)
+		if (ID_STATUS_ONLINE != nNewStatus)
 		{
-			db_unset(hContact,LIST_MODULE_NAME,STATUS_MSG_NAME);
-			tstring sSymbol = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_SYMBOL);
-			if(false == sSymbol.empty())
+			db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
+			tstring sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
+			if (false == sSymbol.empty())
 			{
-				db_set_ts(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME,sSymbol.c_str());
+				db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, sSymbol.c_str());
 			}
 
 			SetContactExtraImage(hContact, eiEmpty);
@@ -282,7 +282,7 @@ namespace
 {
 	class CTendency
 	{
-		enum{NumValues = 2};
+		enum{ NumValues = 2 };
 		enum EComparison
 		{
 			NonValid,
@@ -304,20 +304,20 @@ namespace
 	public:
 		CTendency() : m_nComparison(NonValid){}
 
-		bool Parse(const IQuotesProvider* pProvider,const tstring& rsFrmt,MCONTACT hContact)
+		bool Parse(const IQuotesProvider* pProvider, const tstring& rsFrmt, MCONTACT hContact)
 		{
 			m_abValueFlags[0] = false;
 			m_abValueFlags[1] = false;
 			m_nComparison = NonValid;
 			bool bValid = true;
 			int nCurValue = 0;
-			for(tstring::const_iterator i = rsFrmt.begin();i != rsFrmt.end() && bValid && nCurValue < NumValues;)
+			for (tstring::const_iterator i = rsFrmt.begin(); i != rsFrmt.end() && bValid && nCurValue < NumValues;)
 			{
 				TCHAR chr = *i;
-				switch(chr)
+				switch (chr)
 				{
 				default:
-					if(false == std::isspace(chr))
+					if (false == std::isspace(chr))
 					{
 						bValid = false;
 					}
@@ -328,13 +328,13 @@ namespace
 					break;
 				case _T('%'):
 					++i;
-					if(i != rsFrmt.end())
+					if (i != rsFrmt.end())
 					{
 						TCHAR t = *i;
 						++i;
-						CQuotesProviderVisitorTendency visitor(hContact,t);
+						CQuotesProviderVisitorTendency visitor(hContact, t);
 						pProvider->Accept(visitor);
-						if(false == visitor.IsValid())
+						if (false == visitor.IsValid())
 						{
 							bValid = false;
 						}
@@ -360,7 +360,7 @@ namespace
 					++i;
 					break;
 				case _T('='):
-					switch(m_nComparison)
+					switch (m_nComparison)
 					{
 					default:
 						bValid = false;
@@ -383,18 +383,18 @@ namespace
 			return (bValid && IsValid());
 		}
 
-		bool IsValid()const{return (m_abValueFlags[0] && m_abValueFlags[1] && (m_nComparison != NonValid));}
+		bool IsValid()const{ return (m_abValueFlags[0] && m_abValueFlags[1] && (m_nComparison != NonValid)); }
 
 		EResult Compare()const
 		{
-			switch(m_nComparison)
+			switch (m_nComparison)
 			{
 			case Greater:
-				if(true == IsWithinAccuracy(m_adValues[0],m_adValues[1]))
+				if (true == IsWithinAccuracy(m_adValues[0], m_adValues[1]))
 				{
-					return NotChanged;			
+					return NotChanged;
 				}
-				else if(m_adValues[0] > m_adValues[1])
+				else if (m_adValues[0] > m_adValues[1])
 				{
 					return Up;
 				}
@@ -404,10 +404,10 @@ namespace
 				}
 				break;
 			case GreaterOrEqual:
-				if((true == IsWithinAccuracy(m_adValues[0],m_adValues[1]))
+				if ((true == IsWithinAccuracy(m_adValues[0], m_adValues[1]))
 					|| (m_adValues[0] > m_adValues[1]))
 				{
-					return Up;			
+					return Up;
 				}
 				else //if(m_adValues[0] < m_adValues[1])
 				{
@@ -415,11 +415,11 @@ namespace
 				}
 				break;
 			case Less:
-				if(true == IsWithinAccuracy(m_adValues[0],m_adValues[1]))
+				if (true == IsWithinAccuracy(m_adValues[0], m_adValues[1]))
 				{
-					return NotChanged;			
+					return NotChanged;
 				}
-				else if(m_adValues[0] < m_adValues[1])
+				else if (m_adValues[0] < m_adValues[1])
 				{
 					return Up;
 				}
@@ -429,10 +429,10 @@ namespace
 				}
 				break;
 			case LessOrEqual:
-				if((true == IsWithinAccuracy(m_adValues[0],m_adValues[1]))
+				if ((true == IsWithinAccuracy(m_adValues[0], m_adValues[1]))
 					|| (m_adValues[0] < m_adValues[1]))
 				{
-					return Up;			
+					return Up;
 				}
 				else //if(m_adValues[0] > m_adValues[1])
 				{
@@ -440,7 +440,7 @@ namespace
 				}
 				break;
 			case Equal:
-				if(true == IsWithinAccuracy(m_adValues[0],m_adValues[1]))
+				if (true == IsWithinAccuracy(m_adValues[0], m_adValues[1]))
 				{
 					return Up;
 				}
@@ -460,16 +460,15 @@ namespace
 	};
 
 	tstring format_rate(const IQuotesProvider* pProvider,
-						MCONTACT hContact,
-						const tstring& rsFrmt,
-						double dRate)
+		MCONTACT hContact,
+		const tstring& rsFrmt)
 	{
 		tstring sResult;
 
-		for(tstring::const_iterator i = rsFrmt.begin();i != rsFrmt.end();)
+		for (tstring::const_iterator i = rsFrmt.begin(); i != rsFrmt.end();)
 		{
 			TCHAR chr = *i;
-			switch(chr)
+			switch (chr)
 			{
 			default:
 				sResult += chr;
@@ -477,16 +476,16 @@ namespace
 				break;
 			case _T('\\'):
 				++i;
-				if(i != rsFrmt.end())
+				if (i != rsFrmt.end())
 				{
 					TCHAR t = *i;
-					switch(t)
+					switch (t)
 					{
 					case _T('%'):sResult += _T("%"); break;
 					case _T('t'):sResult += _T("\t"); break;
 					case _T('n'):sResult += _T("\n"); break;
 					case _T('\\'):sResult += _T("\\"); break;
-					default:sResult += chr;sResult += t;break;
+					default:sResult += chr; sResult += t; break;
 					}
 					++i;
 				}
@@ -497,16 +496,16 @@ namespace
 				break;
 			case _T('%'):
 				++i;
-				if(i != rsFrmt.end())
+				if (i != rsFrmt.end())
 				{
 					chr = *i;
 
 					byte nWidth = 0;
-					if(::isdigit(chr))
+					if (::isdigit(chr))
 					{
-						nWidth = chr-0x30;
+						nWidth = chr - 0x30;
 						++i;
-						if(i == rsFrmt.end())
+						if (i == rsFrmt.end())
 						{
 							sResult += chr;
 							break;
@@ -517,7 +516,7 @@ namespace
 						}
 					}
 
-					CQuotesProviderVisitorFormater visitor(hContact,chr,nWidth);
+					CQuotesProviderVisitorFormater visitor(hContact, chr, nWidth);
 					pProvider->Accept(visitor);
 					const tstring& s = visitor.GetResult();
 					sResult += s;
@@ -535,112 +534,106 @@ namespace
 	}
 
 	void log_to_file(const IQuotesProvider* pProvider,
-					 MCONTACT hContact,
-					 double dRate,
-					 const tstring& rsLogFileName,
-					 const tstring& rsFormat)
-	{	
-// 		USES_CONVERSION;
-// 		const char* pszPath = CT2A(rsLogFileName.c_str());
+		MCONTACT hContact,
+		const tstring& rsLogFileName,
+		const tstring& rsFormat)
+	{
+		// 		USES_CONVERSION;
+		// 		const char* pszPath = CT2A(rsLogFileName.c_str());
 		std::string sPath = quotes_t2a(rsLogFileName.c_str());
 
 		std::string::size_type n = sPath.find_last_of("\\/");
-		if(std::string::npos != n)
+		if (std::string::npos != n)
 		{
 			sPath.erase(n);
 		}
 		DWORD dwAttributes = ::GetFileAttributesA(sPath.c_str());
-		if((0xffffffff == dwAttributes) || (0 == (dwAttributes&FILE_ATTRIBUTE_DIRECTORY)))
+		if ((0xffffffff == dwAttributes) || (0 == (dwAttributes&FILE_ATTRIBUTE_DIRECTORY)))
 			CreateDirectoryTree(sPath.c_str());
 
-		tofstream file(rsLogFileName.c_str(),std::ios::app|std::ios::out);
+		tofstream file(rsLogFileName.c_str(), std::ios::app | std::ios::out);
 		file.imbue(GetSystemLocale());
-		if(file.good())
+		if (file.good())
 		{
-			tstring s = format_rate(pProvider,hContact,rsFormat,dRate);
+			tstring s = format_rate(pProvider, hContact, rsFormat);
 			file << s;
 		}
 	}
 
 	void log_to_history(const IQuotesProvider* pProvider,
-						MCONTACT hContact,
-						double dRate,
-						time_t nTime,
-						const tstring& rsFormat)
+		MCONTACT hContact,
+		time_t nTime,
+		const tstring& rsFormat)
 	{
-		tstring s = format_rate(pProvider,hContact,rsFormat,dRate);
-		ptrA psz( mir_utf8encodeT(s.c_str()));
+		tstring s = format_rate(pProvider, hContact, rsFormat);
+		ptrA psz(mir_utf8encodeT(s.c_str()));
 
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.szModule = QUOTES_PROTOCOL_NAME;
 		dbei.timestamp = static_cast<DWORD>(nTime);
-		dbei.flags = DBEF_READ|DBEF_UTF;
+		dbei.flags = DBEF_READ | DBEF_UTF;
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.cbBlob = ::mir_strlen(psz)+1;
+		dbei.cbBlob = ::mir_strlen(psz) + 1;
 		dbei.pBlob = (PBYTE)(char*)psz;
 		db_event_add(hContact, &dbei);
 	}
 
-	bool do_set_contact_extra_icon(MCONTACT hContact,const CTendency& tendency)
+	bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency& tendency)
 	{
-		bool bResult = false;
 		CTendency::EResult nComparison = tendency.Compare();
 
 		//if(true == IsWithinAccuracy(dCurrRate,dPrevRate))
-		if(CTendency::NotChanged == nComparison)
-			return SetContactExtraImage(hContact, eiNotChanged);			
+		if (CTendency::NotChanged == nComparison)
+			return SetContactExtraImage(hContact, eiNotChanged);
 
-		if(CTendency::Up == nComparison)//(dCurrRate > dPrevRate)
+		if (CTendency::Up == nComparison)//(dCurrRate > dPrevRate)
 			return SetContactExtraImage(hContact, eiUp);
 
-		if(CTendency::Down == nComparison)//(dCurrRate < dPrevRate)
+		if (CTendency::Down == nComparison)//(dCurrRate < dPrevRate)
 			return SetContactExtraImage(hContact, eiDown);
 
 		return false;
 	}
 
 	bool show_popup(const IQuotesProvider* pProvider,
-				    MCONTACT hContact,
-				    double dRate,
-// 					double dPrevRate,
-// 					bool bValidPrevRate,
-					const CTendency& tendency, 					
-				    const tstring& rsFormat,
-					const CPopupSettings& ps)
+		MCONTACT hContact,
+		const CTendency& tendency,
+		const tstring& rsFormat,
+		const CPopupSettings& ps)
 	{
-		if(1 == ServiceExists(MS_POPUP_ADDPOPUPT))
+		if (1 == ServiceExists(MS_POPUP_ADDPOPUPT))
 		{
 			POPUPDATAT ppd;
 			memset(&ppd, 0, sizeof(ppd));
 			ppd.lchContact = hContact;
 			//if((true == bValidPrevRate))
-			if(tendency.IsValid())
+			if (tendency.IsValid())
 			{
 				CTendency::EResult nComparison = tendency.Compare();
-				if(CTendency::NotChanged == nComparison)//(true == IsWithinAccuracy(dRate,dPrevRate))
+				if (CTendency::NotChanged == nComparison)//(true == IsWithinAccuracy(dRate,dPrevRate))
 				{
 					ppd.lchIcon = Quotes_LoadIconEx(ICON_STR_QUOTE_NOT_CHANGED);
 				}
-				else if(CTendency::Up == nComparison)//(dRate > dPrevRate)
+				else if (CTendency::Up == nComparison)//(dRate > dPrevRate)
 				{
 					ppd.lchIcon = Quotes_LoadIconEx(ICON_STR_QUOTE_UP);
 				}
-				else if(CTendency::Down == nComparison)
+				else if (CTendency::Down == nComparison)
 				{
 					ppd.lchIcon = Quotes_LoadIconEx(ICON_STR_QUOTE_DOWN);
 				}
 			}
 
-			CQuotesProviderVisitorFormater visitor(hContact,_T('s'),0);
+			CQuotesProviderVisitorFormater visitor(hContact, _T('s'), 0);
 			pProvider->Accept(visitor);
 			const tstring& sTitle = visitor.GetResult();
-			mir_tstrncpy(ppd.lptzContactName,sTitle.c_str(),MAX_CONTACTNAME);
+			mir_tstrncpy(ppd.lptzContactName, sTitle.c_str(), MAX_CONTACTNAME);
 
 			mir_safe_string<TCHAR> ss(variables_parsedup((TCHAR*)rsFormat.c_str(), 0, hContact));
-			tstring sText = format_rate(pProvider,hContact,ss.m_p,dRate);
-			mir_tstrncpy(ppd.lptzText,sText.c_str(),MAX_SECONDLINE);
+			tstring sText = format_rate(pProvider, hContact, ss.m_p);
+			mir_tstrncpy(ppd.lptzText, sText.c_str(), MAX_SECONDLINE);
 
-			if(CPopupSettings::colourDefault == ps.GetColourMode())
+			if (CPopupSettings::colourDefault == ps.GetColourMode())
 			{
 				ppd.colorText = CPopupSettings::GetDefColourText();
 				ppd.colorBack = CPopupSettings::GetDefColourBk();
@@ -651,7 +644,7 @@ namespace
 				ppd.colorBack = ps.GetColourBk();
 			}
 
-			switch(ps.GetDelayMode())
+			switch (ps.GetDelayMode())
 			{
 			default:
 				assert(!"Unknown popup delay mode");
@@ -667,12 +660,12 @@ namespace
 			}
 
 			LPARAM lp = 0;
-			if(false == ps.GetHistoryFlag())
+			if (false == ps.GetHistoryFlag())
 			{
 				lp |= 0x08;
 			}
 
-			return (0 == CallService(MS_POPUP_ADDPOPUPT,reinterpret_cast<WPARAM>(&ppd),lp));
+			return (0 == CallService(MS_POPUP_ADDPOPUPT, reinterpret_cast<WPARAM>(&ppd), lp));
 		}
 		else
 		{
@@ -681,39 +674,39 @@ namespace
 	}
 }
 
-void CQuotesProviderBase::WriteContactRate(MCONTACT hContact,double dRate,const tstring& rsSymbol/* = ""*/)
+void CQuotesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol/* = ""*/)
 {
 	time_t nTime = ::time(NULL);
 
-	if(false == rsSymbol.empty())
+	if (false == rsSymbol.empty())
 	{
-		db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_SYMBOL,rsSymbol.c_str());
+		db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsSymbol.c_str());
 	}
 
 	double dPrev = 0.0;
-	bool bValidPrev = Quotes_DBReadDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_CURR_VALUE,dPrev);
-	if(true == bValidPrev)
+	bool bValidPrev = Quotes_DBReadDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_CURR_VALUE, dPrev);
+	if (true == bValidPrev)
 	{
-		Quotes_DBWriteDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_PREV_VALUE,dPrev);
+		Quotes_DBWriteDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PREV_VALUE, dPrev);
 	}
 
-	Quotes_DBWriteDouble(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_CURR_VALUE,dRate);
-	db_set_dw(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FETCH_TIME,nTime);
+	Quotes_DBWriteDouble(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_CURR_VALUE, dRate);
+	db_set_dw(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FETCH_TIME, nTime);
 
 	tstring sSymbol = rsSymbol;
 
 	tostringstream oNick;
 	oNick.imbue(GetSystemLocale());
-	if(false == m_sContactListFormat.empty())
+	if (false == m_sContactListFormat.empty())
 	{
-		tstring s = format_rate(this,hContact,m_sContactListFormat,dRate);
+		tstring s = format_rate(this, hContact, m_sContactListFormat);
 		oNick << s;
 	}
 	else
 	{
-		if(true == sSymbol.empty())
+		if (true == sSymbol.empty())
 		{
-			sSymbol = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_SYMBOL);
+			sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
 		}
 		oNick << std::setfill(_T(' ')) << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
 	}
@@ -722,114 +715,114 @@ void CQuotesProviderBase::WriteContactRate(MCONTACT hContact,double dRate,const 
 	if (true == tendency.Parse(this, m_sTendencyFormat, hContact))
 		do_set_contact_extra_icon(hContact, tendency);
 
-	db_set_ts(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME,oNick.str().c_str());
+	db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, oNick.str().c_str());
 
-	tstring sStatusMsg = format_rate(this,hContact,m_sStatusMsgFormat,dRate);
-	if(false == sStatusMsg.empty())
+	tstring sStatusMsg = format_rate(this, hContact, m_sStatusMsgFormat);
+	if (false == sStatusMsg.empty())
 	{
-		db_set_ts(hContact,LIST_MODULE_NAME,STATUS_MSG_NAME,sStatusMsg.c_str());
+		db_set_ts(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME, sStatusMsg.c_str());
 	}
 	else
 	{
-		db_unset(hContact,LIST_MODULE_NAME,STATUS_MSG_NAME);
+		db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
 	}
 
-	bool bUseContactSpecific = (db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,0) > 0);
+	bool bUseContactSpecific = (db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 
 	CAdvProviderSettings global_settings(this);
 
-	WORD dwMode = (bUseContactSpecific) 
-		? db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,static_cast<WORD>(lmDisabled))
+	WORD dwMode = (bUseContactSpecific)
+		? db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG, static_cast<WORD>(lmDisabled))
 		: global_settings.GetLogMode();
-	if(dwMode&lmExternalFile)
+	if (dwMode&lmExternalFile)
 	{
 		bool bAdd = true;
 		bool bOnlyIfChanged = (bUseContactSpecific)
-			? (db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE_CONDITION,1) > 0)
+			? (db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE_CONDITION, 1) > 0)
 			: global_settings.GetLogOnlyChangedFlag();
-		if(true == bOnlyIfChanged)
+		if (true == bOnlyIfChanged)
 		{
-			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate,dPrev)));
+			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
-		if(true == bAdd)
+		if (true == bAdd)
 		{
-			tstring sLogFileName =  (bUseContactSpecific)
-				? Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG_FILE,global_settings.GetLogFileName().c_str())
+			tstring sLogFileName = (bUseContactSpecific)
+				? Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_LOG_FILE, global_settings.GetLogFileName().c_str())
 				: global_settings.GetLogFileName();
 
-			if(true == sSymbol.empty())
+			if (true == sSymbol.empty())
 			{
-				sSymbol = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_SYMBOL);
+				sSymbol = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL);
 			}
 
-			sLogFileName = GenerateLogFileName(sLogFileName,sSymbol);
+			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
 
 			tstring sFormat = global_settings.GetLogFormat();
-			if(bUseContactSpecific)
+			if (bUseContactSpecific)
 			{
 				CQuotesProviderVisitorDbSettings visitor;
 				Accept(visitor);
-				sFormat = Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_LOG_FILE,visitor.m_pszDefLogFileFormat);
+				sFormat = Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_LOG_FILE, visitor.m_pszDefLogFileFormat);
 			}
 
-			log_to_file(this,hContact,dRate,sLogFileName,sFormat);
+			log_to_file(this, hContact, sLogFileName, sFormat);
 		}
 	}
-	if(dwMode&lmInternalHistory)
+	if (dwMode&lmInternalHistory)
 	{
 		bool bAdd = true;
-		bool bOnlyIfChanged = (bUseContactSpecific) 
-			? (db_get_w(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_HISTORY_CONDITION,1) > 0)
+		bool bOnlyIfChanged = (bUseContactSpecific)
+			? (db_get_w(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_HISTORY_CONDITION, 1) > 0)
 			: global_settings.GetHistoryOnlyChangedFlag();
 
-		if(true == bOnlyIfChanged)
+		if (true == bOnlyIfChanged)
 		{
-			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate,dPrev)));
+			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
-		if(true == bAdd)
+		if (true == bAdd)
 		{
-			tstring sFormat =  (bUseContactSpecific)
-				? Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_HISTORY,global_settings.GetHistoryFormat().c_str())
+			tstring sFormat = (bUseContactSpecific)
+				? Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
 				: global_settings.GetHistoryFormat();
 
-			log_to_history(this,hContact,dRate,nTime,sFormat);
+			log_to_history(this, hContact, nTime, sFormat);
 		}
 	}
 
-	if(dwMode&lmPopup)
+	if (dwMode&lmPopup)
 	{
-		bool bOnlyIfChanged = (bUseContactSpecific) 
-			? (1 == db_get_b(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_POPUP_CONDITION,1) > 0)
+		bool bOnlyIfChanged = (bUseContactSpecific)
+			? (1 == db_get_b(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_POPUP_CONDITION, 1) > 0)
 			: global_settings.GetShowPopupIfValueChangedFlag();
-		if((false == bOnlyIfChanged) 
-			|| ((true == bOnlyIfChanged) && (true == bValidPrev) && (false == IsWithinAccuracy(dRate,dPrev))))
+		if ((false == bOnlyIfChanged)
+			|| ((true == bOnlyIfChanged) && (true == bValidPrev) && (false == IsWithinAccuracy(dRate, dPrev))))
 		{
-			tstring sFormat =  (bUseContactSpecific)
-				? Quotes_DBGetStringT(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_FORMAT_POPUP,global_settings.GetPopupFormat().c_str())
+			tstring sFormat = (bUseContactSpecific)
+				? Quotes_DBGetStringT(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
 				: global_settings.GetPopupFormat();
 
 			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
 			ps.InitForContact(hContact);
-			show_popup(this,hContact,dRate,tendency,sFormat,ps);
+			show_popup(this, hContact, tendency, sFormat, ps);
 		}
 	}
 
 
-// 	if((true == IsOnline()))
+	// 	if((true == IsOnline()))
 	{
-		SetContactStatus(hContact,ID_STATUS_ONLINE);
+		SetContactStatus(hContact, ID_STATUS_ONLINE);
 	}
 }
 
 MCONTACT CQuotesProviderBase::CreateNewContact(const tstring& rsName)
 {
-	MCONTACT hContact = MCONTACT(CallService(MS_DB_CONTACT_ADD,0,0));
-	if(hContact) {
-		if(0 == CallService(MS_PROTO_ADDTOCONTACT, WPARAM(hContact), (LPARAM)QUOTES_PROTOCOL_NAME)) {
+	MCONTACT hContact = MCONTACT(CallService(MS_DB_CONTACT_ADD, 0, 0));
+	if (hContact) {
+		if (0 == CallService(MS_PROTO_ADDTOCONTACT, WPARAM(hContact), (LPARAM)QUOTES_PROTOCOL_NAME)) {
 			tstring sProvName = GetInfo().m_sName;
-			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_PROVIDER,sProvName.c_str());
-			db_set_ts(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_SYMBOL,rsName.c_str());
-			db_set_ts(hContact,LIST_MODULE_NAME,CONTACT_LIST_NAME,rsName.c_str());
+			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_PROVIDER, sProvName.c_str());
+			db_set_ts(hContact, QUOTES_PROTOCOL_NAME, DB_STR_QUOTE_SYMBOL, rsName.c_str());
+			db_set_ts(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
 
 			CGuard<CLightMutex> cs(m_cs);
 			m_aContacts.push_back(hContact);
@@ -847,7 +840,7 @@ namespace
 {
 	DWORD get_refresh_timeout_miliseconds(const CQuotesProviderVisitorDbSettings& visitor)
 	{
-		if(!g_bAutoUpdate)
+		if (!g_bAutoUpdate)
 		{
 			return INFINITE;
 		}
@@ -855,36 +848,36 @@ namespace
 		assert(visitor.m_pszDbRefreshRateType);
 		assert(visitor.m_pszDbRefreshRateValue);
 
-		int nRefreshRateType = db_get_w(NULL,QUOTES_MODULE_NAME,visitor.m_pszDbRefreshRateType,RRT_MINUTES);
-		if(nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
+		int nRefreshRateType = db_get_w(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbRefreshRateType, RRT_MINUTES);
+		if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		{
 			nRefreshRateType = RRT_MINUTES;
 		}
 
-		DWORD nTimeout = db_get_w(NULL,QUOTES_MODULE_NAME,visitor.m_pszDbRefreshRateValue,1);
-		switch(nRefreshRateType)
+		DWORD nTimeout = db_get_w(NULL, QUOTES_MODULE_NAME, visitor.m_pszDbRefreshRateValue, 1);
+		switch (nRefreshRateType)
 		{
 		default:
 		case RRT_SECONDS:
-			if(nTimeout < 1 || nTimeout > 60)
+			if (nTimeout < 1 || nTimeout > 60)
 			{
 				nTimeout = 1;
 			}
 			nTimeout *= 1000;
 			break;
 		case RRT_MINUTES:
-			if(nTimeout < 1 || nTimeout > 60)
+			if (nTimeout < 1 || nTimeout > 60)
 			{
 				nTimeout = 1;
 			}
-			nTimeout *= 1000*60;
+			nTimeout *= 1000 * 60;
 			break;
 		case RRT_HOURS:
-			if(nTimeout < 1 || nTimeout > 24)
+			if (nTimeout < 1 || nTimeout > 24)
 			{
 				nTimeout = 1;
 			}
-			nTimeout *= 1000*60*60;
+			nTimeout *= 1000 * 60 * 60;
 			break;
 		}
 
@@ -897,8 +890,8 @@ namespace
 	class CBoolGuard
 	{
 	public:
-		CBoolGuard(bool& rb) : m_b(rb){m_b = true;}
-		~CBoolGuard(){m_b = false;}
+		CBoolGuard(bool& rb) : m_b(rb){ m_b = true; }
+		~CBoolGuard(){ m_b = false; }
 
 	private:
 		bool m_b;
@@ -911,9 +904,9 @@ void CQuotesProviderBase::Run()
 	Accept(visitor);
 
 	DWORD nTimeout = get_refresh_timeout_miliseconds(visitor);
-	m_sContactListFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbDisplayNameFormat,visitor.m_pszDefDisplayFormat);
-	m_sStatusMsgFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbStatusMsgFormat,visitor.m_pszDefStatusMsgFormat);
-	m_sTendencyFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbTendencyFormat,visitor.m_pszDefTendencyFormat);
+	m_sContactListFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+	m_sStatusMsgFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+	m_sTendencyFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 
 	enum{
 		STOP_THREAD = 0,
@@ -935,49 +928,49 @@ void CQuotesProviderBase::Run()
 
 	bool bGoToBed = false;
 
-	if(g_bAutoUpdate)
+	if (g_bAutoUpdate)
 	{
-		CBoolGuard bg(m_bRefreshInProgress);		
+		CBoolGuard bg(m_bRefreshInProgress);
 		RefreshQuotes(anContacts);
 	}
 
-	while(false == bGoToBed)
-	{		
+	while (false == bGoToBed)
+	{
 		anContacts.clear();
 
 		DWORD dwBegin = ::GetTickCount();
-		DWORD dwResult = ::WaitForMultipleObjects(COUNT_SYNC_OBJECTS,anEvents,FALSE,nTimeout);
-		switch(dwResult)
+		DWORD dwResult = ::WaitForMultipleObjects(COUNT_SYNC_OBJECTS, anEvents, FALSE, nTimeout);
+		switch (dwResult)
 		{
 		case WAIT_FAILED:
 			assert(!"WaitForMultipleObjects failed");
 			bGoToBed = true;
 			break;
-		case WAIT_ABANDONED_0+STOP_THREAD:
-		case WAIT_ABANDONED_0+SETTINGS_CHANGED:
-		case WAIT_ABANDONED_0+REFRESH_CONTACT:
+		case WAIT_ABANDONED_0 + STOP_THREAD:
+		case WAIT_ABANDONED_0 + SETTINGS_CHANGED:
+		case WAIT_ABANDONED_0 + REFRESH_CONTACT:
 			assert(!"WaitForMultipleObjects abandoned");
-		case WAIT_OBJECT_0+STOP_THREAD:
+		case WAIT_OBJECT_0 + STOP_THREAD:
 			bGoToBed = true;
 			break;
-		case WAIT_OBJECT_0+SETTINGS_CHANGED:
+		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
 			nTimeout = get_refresh_timeout_miliseconds(visitor);
-			m_sContactListFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbDisplayNameFormat,visitor.m_pszDefDisplayFormat);
-			m_sStatusMsgFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbStatusMsgFormat,visitor.m_pszDefStatusMsgFormat);
-			m_sTendencyFormat = Quotes_DBGetStringT(NULL,QUOTES_PROTOCOL_NAME,visitor.m_pszDbTendencyFormat,visitor.m_pszDefTendencyFormat);
+			m_sContactListFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbDisplayNameFormat, visitor.m_pszDefDisplayFormat);
+			m_sStatusMsgFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbStatusMsgFormat, visitor.m_pszDefStatusMsgFormat);
+			m_sTendencyFormat = Quotes_DBGetStringT(NULL, QUOTES_PROTOCOL_NAME, visitor.m_pszDbTendencyFormat, visitor.m_pszDefTendencyFormat);
 
 			{
 				CGuard<CLightMutex> cs(m_cs);
 				anContacts = m_aContacts;
 			}
 			break;
-		case WAIT_OBJECT_0+REFRESH_CONTACT:
+		case WAIT_OBJECT_0 + REFRESH_CONTACT:
+		{
+			DWORD dwTimeRest = ::GetTickCount() - dwBegin;
+			if (INFINITE != nTimeout && dwTimeRest < nTimeout)
 			{
-				DWORD dwTimeRest = ::GetTickCount()-dwBegin;
-				if(INFINITE != nTimeout && dwTimeRest < nTimeout)
-				{
-					nTimeout -= dwTimeRest;
-				}
+				nTimeout -= dwTimeRest;
+			}
 
 				{
 					CGuard<CLightMutex> cs(m_cs);
@@ -989,8 +982,8 @@ void CQuotesProviderBase::Run()
 					CBoolGuard bg(m_bRefreshInProgress);
 					RefreshQuotes(anContacts);
 				}
-			}
-			break;
+		}
+		break;
 		case WAIT_TIMEOUT:
 			nTimeout = get_refresh_timeout_miliseconds(visitor);
 			{
@@ -1020,7 +1013,7 @@ void CQuotesProviderBase::OnEndRun()
 	}
 
 	CBoolGuard bg(m_bRefreshInProgress);
-	std::for_each(anContacts.begin(),anContacts.end(),boost::bind(&SetContactStatus,_1,ID_STATUS_OFFLINE));
+	std::for_each(anContacts.begin(), anContacts.end(), boost::bind(&SetContactStatus, _1, ID_STATUS_OFFLINE));
 }
 
 void CQuotesProviderBase::Accept(CQuotesProviderVisitor& visitor)const
@@ -1039,7 +1032,7 @@ void CQuotesProviderBase::RefreshAllContacts()
 	{// for CCritSection
 		CGuard<CLightMutex> cs(m_cs);
 		m_aRefreshingContacts.clear();
-		std::for_each(std::begin(m_aContacts),std::end(m_aContacts),[&](MCONTACT hContact){m_aRefreshingContacts.push_back(hContact);});
+		std::for_each(std::begin(m_aContacts), std::end(m_aContacts), [&](MCONTACT hContact){m_aRefreshingContacts.push_back(hContact); });
 	}
 
 	BOOL b = ::SetEvent(m_hEventRefreshContact);

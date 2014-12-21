@@ -16,7 +16,7 @@ private:
 public:
 	LPCSTR m_pszDbRefreshRateType;
 	LPCSTR m_pszDbRefreshRateValue;
-	LPCSTR m_pszDbDisplayNameFormat;	
+	LPCSTR m_pszDbDisplayNameFormat;
 	LPCTSTR m_pszDefDisplayFormat;
 	LPCTSTR m_pszDefLogFileFormat;
 	LPCTSTR m_pszDefHistoryFormat;

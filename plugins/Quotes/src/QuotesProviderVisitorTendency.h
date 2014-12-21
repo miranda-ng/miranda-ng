@@ -4,10 +4,10 @@
 class CQuotesProviderVisitorTendency : public CQuotesProviderVisitor
 {
 public:
-	CQuotesProviderVisitorTendency(MCONTACT hContact,TCHAR chr);
-	
-	bool IsValid()const{return m_bValid;}
-	double GetResult()const{return m_dResult;}
+	CQuotesProviderVisitorTendency(MCONTACT hContact, TCHAR chr);
+
+	bool IsValid()const{ return m_bValid; }
+	double GetResult()const{ return m_dResult; }
 
 private:
 	virtual void Visit(const CQuotesProviderBase& rProvider);

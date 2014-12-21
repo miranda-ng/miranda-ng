@@ -13,23 +13,23 @@ public:
 	CQuotesProviderDukasCopy();
 	~CQuotesProviderDukasCopy();
 
-	bool WatchForQuote(const CQuote& rQuote,bool bWatch);
+	bool WatchForQuote(const CQuote& rQuote, bool bWatch);
 	bool IsQuoteWatched(const CQuote& rQuote)const;
 
 	MCONTACT GetContactByQuoteID(const tstring& rsQuoteID)const;
-// #ifdef CHART_IMPLEMENT
-// 	bool Chart(MCONTACT hContact,const tstring& url)const;
-// #endif
+	// #ifdef CHART_IMPLEMENT
+	// 	bool Chart(MCONTACT hContact,const tstring& url)const;
+	// #endif
 
 private:
 	//IQuotesProvider implementation
 	virtual void RefreshQuotes(TContracts& anContacts);
-	virtual void ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp);
+	virtual void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp);
 	virtual void Accept(CQuotesProviderVisitor& visitor)const;
 
 private:
 	tstring BuildHTTPURL()const;
-	
+
 };
 
 #endif //__93121758_68c7_4836_b571_da84dfe82b84_QuotesProviderDukasCopy_h__
