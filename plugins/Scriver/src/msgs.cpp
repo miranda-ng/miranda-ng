@@ -188,7 +188,7 @@ static INT_PTR TypingMessageCommand(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *cle = (CLISTEVENT*)lParam;
 	if (cle)
-		SendMessageCommand((WPARAM)cle->hContact, 0);
+		SendMessageCommand(cle->hContact, 0);
 	return 0;
 }
 
@@ -324,30 +324,35 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR SetStatusText(WPARAM wParam, LPARAM lParam)
+static INT_PTR SetStatusText(WPARAM hContact, LPARAM lParam)
 {
-	// FIXME: Temporary workaround for crashing in x64 version (setting statusbar for group chats didn't work this way anyway)
-	MCONTACT hContact = wParam;
-	char *szProto = GetContactProto(hContact);
-	if (szProto && db_get_b(hContact, szProto, "ChatRoom", 0))
-		return 1;
-
-	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
-	if (hwnd == NULL)
-		hwnd = SM_FindWindowByContact(wParam);
-	if (hwnd == NULL)
-		return 1;
-
-	SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (dat == NULL || dat->parent == NULL)
-		return 1;
-
 	StatusTextData *st = (StatusTextData*)lParam;
 	if (st != NULL && st->cbSize != sizeof(StatusTextData))
 		return 1;
 
-	SendMessage(dat->parent->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
-	SendMessage(dat->parent->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? _T("") : st->tszText));
+	ParentWindowData *pdat;
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, hContact);
+	if (hwnd == NULL) {
+		hwnd = SM_FindWindowByContact(hContact);
+		if (hwnd == NULL)
+			return 1;
+
+		SESSION_INFO *si = (SESSION_INFO*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		if (si == NULL || si->parent == NULL)
+			return 1;
+
+		pdat = si->parent;
+	}
+	else {
+		SrmmWindowData *dat = (SrmmWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+		if (dat == NULL || dat->parent == NULL)
+			return 1;
+
+		pdat = dat->parent;
+	}
+
+	SendMessage(pdat->hwndStatus, SB_SETICON, 0, (LPARAM)(st == NULL ? 0 : st->hIcon));
+	SendMessage(pdat->hwndStatus, SB_SETTEXT, 0, (LPARAM)(st == NULL ? _T("") : st->tszText));
 
 	return 0;
 }
