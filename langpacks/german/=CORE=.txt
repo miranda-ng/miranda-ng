@@ -1630,6 +1630,10 @@ Diesen Raum kontrollieren (Strg+O)
 Ereignisfilter aktivieren/deaktivieren (Strg+F)
 [Close current tab (CTRL+F4)]
 Aktuellen Tab schließen (Strg+F4)
+[Nickname]
+Nickname
+[Unique ID]
+Unique ID
 [%s: chat room (%u user)]
 %s: Chatraum (%u Benutzer)
 [%s: chat room (%u users)]
@@ -1638,10 +1642,6 @@ Aktuellen Tab schließen (Strg+F4)
 %s: Nachrichtensitzung
 [%s: message session (%u users)]
 %s: Nachrichtensitzung (%u Benutzer)
-[Nickname]
-Nickname
-[Unique ID]
-Unique ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardkontakte

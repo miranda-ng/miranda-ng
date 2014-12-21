@@ -878,8 +878,10 @@ Name 'Wert'
 Ausgewähltes Makro
 [Select for FirstRun]
 Für FirstRun auswählen
-[Select as Volatile]
-Als Flüchtig auswählen
+[Mark as Volatile]
+
+[Single instance]
+
 [Miranda event help]
 Miranda-Ereignishilfe
 [contact list]

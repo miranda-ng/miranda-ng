@@ -724,7 +724,7 @@ UTF16+сигнатура
 Текущий макрос
 [Select for FirstRun]
 Выбрать для первого запуска
-[Select as Volatile]
+[Mark as Volatile]
 Пометить как изменяемое
 [Miranda event help]
 Помощь по событиям
