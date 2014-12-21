@@ -1609,6 +1609,10 @@ UIN, E-mail и т.д.
 Включить/выключить фильтр событий (CTRL+F)
 [Close current tab (CTRL+F4)]
 Закрыть текущую вкладку (CTRL+F4)
+[Nickname]
+Ник
+[Unique ID]
+Уник. ID
 [%s: chat room (%u user)]
 %s: комната чата (%u пользователь)
 [%s: chat room (%u users)]
@@ -1617,10 +1621,6 @@ UIN, E-mail и т.д.
 %s: диалог
 [%s: message session (%u users)]
 %s: диалог (%u пользователей)
-[Nickname]
-Ник
-[Unique ID]
-Уник. ID
 [Standard contacts]
 Стандартные контакты
 [Online contacts to whom you have a different visibility]
