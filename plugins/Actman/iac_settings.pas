@@ -42,6 +42,7 @@ var
   fCLformat:pWideChar;
   lp:TLPARAM;
   stat:integer;
+  flag:dword;
 begin
   result:=0;
 
@@ -76,6 +77,7 @@ begin
       if (lParam=0) and (wParam=1) then
       begin
         lp:=LV_GetLParam(MacroListWindow);
+
         if (lp and ACF_FIRSTRUN)<>0 then
           stat:=BST_CHECKED
         else
@@ -87,6 +89,12 @@ begin
         else
           stat:=BST_UNCHECKED;
         CheckDlgButton(Dialog,IDC_VL_FLAG,stat);
+
+        if (lp and ACF_SINGLEINST)<>0 then
+          stat:=BST_CHECKED
+        else
+          stat:=BST_UNCHECKED;
+        CheckDlgButton(Dialog,IDC_SI_FLAG,stat);
       end;
     end;
 
@@ -109,6 +117,25 @@ begin
               DBWriteByte(0,DBBranch,'CLfilter',IsDlgButtonChecked(Dialog,IDC_CNT_FILTER));
             end;
 
+            IDC_FR_FLAG,
+            IDC_VL_FLAG,
+            IDC_SI_FLAG: begin
+              lp:=LV_GetLParam(MacroListWindow);
+              case loword(wParam) of
+                IDC_FR_FLAG: flag:=ACF_FIRSTRUN;
+                IDC_VL_FLAG: flag:=ACF_VOLATILE;
+                IDC_SI_FLAG: flag:=ACF_SINGLEINST;
+              end;
+              if IsDlgButtonChecked(Dialog,loword(wParam))=BST_UNCHECKED then
+                lp:=lp and not flag
+              else
+                lp:=lp or flag;
+
+              LV_SetLParam(MacroListWindow,lp);
+
+              SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
+            end;
+{!!
             IDC_FR_FLAG: begin
               lp:=LV_GetLParam(MacroListWindow);
               if IsDlgButtonChecked(Dialog,IDC_FR_FLAG)=BST_UNCHECKED then
@@ -130,6 +157,18 @@ begin
 
               SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
             end;
+
+            IDC_SI_FLAG: begin
+              lp:=LV_GetLParam(MacroListWindow);
+              if IsDlgButtonChecked(Dialog,IDC_SI_FLAG)=BST_UNCHECKED then
+                lp:=lp and not ACF_SINGLEINST
+              else
+                lp:=lp or ACF_SINGLEINST;
+              LV_SetLParam(MacroListWindow,lp);
+
+              SendMessage(GetParent(GetParent(Dialog)),PSM_CHANGED,0,0);
+            end;
+!!}
           end;
         end;
       end;

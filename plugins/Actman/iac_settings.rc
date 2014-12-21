@@ -18,9 +18,10 @@ FONT 8, "MS Shell Dlg", 0, 0
   COMBOBOX      IDC_SERVICELIST         , 19, 94, 148, 96, CBS_DROPDOWNLIST | WS_VSCROLL
   CONTROL       "Apply",IDC_SRV_APPLY,"MButtonClass",WS_TABSTOP,1,93,16,16,$18000000
 
-  GROUPBOX      "Current Macro", -1, 1, 116, 166, 40, WS_GROUP
+  GROUPBOX      "Current Macro", -1, 1, 116, 166, 50, WS_GROUP
   AUTOCHECKBOX  "Select for FirstRun",IDC_FR_FLAG, 4, 126, 160, 12
-  AUTOCHECKBOX  "Select as Volatile" ,IDC_VL_FLAG, 4, 138, 160, 12
+  AUTOCHECKBOX  "Mark as Volatile"   ,IDC_VL_FLAG, 4, 138, 160, 12
+  AUTOCHECKBOX  "Single instance"    ,IDC_SI_FLAG, 4, 150, 160, 12
 //  AUTOCHECKBOX  "hContact in wParam" ,IDC_HC_WPAR, 4, 138, 160, 12
 }
 

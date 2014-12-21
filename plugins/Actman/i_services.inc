@@ -180,6 +180,12 @@ var
   tmp:pActStartData;
   i:integer;
 begin
+  if (macro.flags and (ACF_USEDNOW or ACF_SINGLEINST))=(ACF_USEDNOW or ACF_SINGLEINST) then
+  begin
+    result:=-1;
+    exit;
+  end;
+  
   mGetMem (tmp ,SizeOf(tActStartData));
   FillChar(tmp^,SizeOf(tActStartData),0);
 
