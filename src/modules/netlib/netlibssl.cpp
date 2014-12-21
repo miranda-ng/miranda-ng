@@ -109,8 +109,7 @@ static bool AcquireCredentials(void)
 	memset(&SchannelCred, 0, sizeof(SchannelCred));
 
 	SchannelCred.dwVersion = SCHANNEL_CRED_VERSION;
-	SchannelCred.grbitEnabledProtocols = SP_PROT_SSL3TLS1_CLIENTS /*| 0xA00 TLS1.1 & 1.2*/;
-
+	SchannelCred.grbitEnabledProtocols = SP_PROT_SSL3TLS1_CLIENTS;
 	SchannelCred.dwFlags |= SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION;
 
 	// Create an SSPI credential.
@@ -138,7 +137,9 @@ static bool SSL_library_init(void)
 
 	g_pSSPI = InitSecurityInterface();
 	if (g_pSSPI) {
-		MySslEmptyCache = (SSL_EMPTY_CACHE_FN_M)GetProcAddress(g_hSchannel, "SslEmptyCache");
+		g_hSchannel = LoadLibraryA("schannel.dll");
+		if (g_hSchannel)
+			MySslEmptyCache = (SSL_EMPTY_CACHE_FN_M)GetProcAddress(g_hSchannel, "SslEmptyCache");
 		AcquireCredentials();
 		bSslInitDone = true;
 	}
@@ -806,5 +807,6 @@ void UnloadSslModule(void)
 	if (g_pSSPI && SecIsValidHandle(&hCreds))
 		g_pSSPI->FreeCredentialsHandle(&hCreds);
 	CloseHandle(g_hSslMutex);
-	if (g_hSchannel) FreeLibrary(g_hSchannel);
+	if (g_hSchannel)
+		FreeLibrary(g_hSchannel);
 }
