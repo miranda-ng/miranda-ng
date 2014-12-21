@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "headers.h"
 
-GifAvatar::GifAvatar(MCONTACT hContact): PopupAvatar((HANDLE)hContact)
+GifAvatar::GifAvatar(MCONTACT hContact) : PopupAvatar()
 {
 	av = (avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, hContact, 0);
 	bIsAnimated = true;
@@ -77,11 +77,12 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 	HRGN rgn;
 	if (options->avatarRadius)
 	{
-		rgn = CreateRoundRectRgn(x, y, x+w, y+h, 2 * options->avatarRadius, 2 * options->avatarRadius);
+		rgn = CreateRoundRectRgn(x, y, x + w, y + h, 2 * options->avatarRadius, 2 * options->avatarRadius);
 		SelectClipRgn(bmp->getDC(), rgn);
-	} else
+	}
+	else
 	{
-		rgn = CreateRectRgn(x, y, x+w, y+h);
+		rgn = CreateRectRgn(x, y, x + w, y + h);
 	}
 
 	HDC hdcTmp = CreateCompatibleDC(bmp->getDC());
@@ -102,7 +103,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		{
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
 			bmp->saveAlpha(x, y, w, h);
-			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1); 
+			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);
 			DeleteObject(hbr);
 			bmp->restoreAlpha(x, y, w, h);
 		}
@@ -112,7 +113,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		StretchBlt(bmp->getDC(), x, y, w, h, hdcTmp, frameSize.cx*activeFrame, 0, frameSize.cx, frameSize.cy, SRCCOPY);
 		if (options->avatarBorders) {
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
-			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1); 
+			FrameRgn(bmp->getDC(), rgn, hbr, 1, 1);
 			DeleteObject(hbr);
 		}
 		bmp->restoreAlpha(x, y, w, h);

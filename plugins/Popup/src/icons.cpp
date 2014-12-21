@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -26,37 +26,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static IconItem iconList[] =
 {
 	// toolbar
-	{ LPGEN("Popups are enabled"),          ICO_TB_POPUP_ON,    IDI_POPUP          },
-	{ LPGEN("Popups are disabled"),         ICO_TB_POPUP_OFF,   IDI_NOPOPUP        },
+	{ LPGEN("Popups are enabled"), ICO_TB_POPUP_ON, IDI_POPUP },
+	{ LPGEN("Popups are disabled"), ICO_TB_POPUP_OFF, IDI_NOPOPUP },
 
 	//                               common popup
-	{ LPGEN("Popups are enabled"),          ICO_POPUP_ON,       IDI_POPUP          },
-	{ LPGEN("Popups are disabled"),         ICO_POPUP_OFF,      IDI_NOPOPUP        },
-	{ LPGEN("With \"favorite\" overlay"),   ICO_FAV,            IDI_PU_FAVOURITE   },
-	{ LPGEN("With \"fullscreen\" overlay"), ICO_FULLSCREEN,     IDI_PU_FULLSCREEN  },
-	{ LPGEN("Popup History"),               ICO_HISTORY,        IDI_HISTORY        },
+	{ LPGEN("Popups are enabled"), ICO_POPUP_ON, IDI_POPUP },
+	{ LPGEN("Popups are disabled"), ICO_POPUP_OFF, IDI_NOPOPUP },
+	{ LPGEN("With \"favorite\" overlay"), ICO_FAV, IDI_PU_FAVOURITE },
+	{ LPGEN("With \"fullscreen\" overlay"), ICO_FULLSCREEN, IDI_PU_FULLSCREEN },
+	{ LPGEN("Popup History"), ICO_HISTORY, IDI_HISTORY },
 
 	//                               option
-	{ LPGEN("Refresh skin list"),           ICO_OPT_RELOAD,     IDI_RELOAD         },
-	{ LPGEN("Popup placement"),             ICO_OPT_RESIZE,     IDI_RESIZE         },
-	{ LPGEN("OK"),                          ICO_OPT_OK,         IDI_ACT_OK         },
-	{ LPGEN("Cancel"),                      ICO_OPT_CANCEL,     IDI_ACT_CLOSE      },
-	{ LPGEN("Popup group"),                 ICO_OPT_GROUP,      IDI_OPT_GROUP      },
-	{ LPGEN("Show default"),                ICO_OPT_DEF,        IDI_ACT_OK         },
-	{ LPGEN("Favorite contact"),            ICO_OPT_FAV,        IDI_OPT_FAVORITE   },
-	{ LPGEN("Show in fullscreen"),          ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
-	{ LPGEN("Blocked contact"),             ICO_OPT_BLOCK,      IDI_OPT_BLOCK      },
+	{ LPGEN("Refresh skin list"), ICO_OPT_RELOAD, IDI_RELOAD },
+	{ LPGEN("Popup placement"), ICO_OPT_RESIZE, IDI_RESIZE },
+	{ LPGEN("OK"), ICO_OPT_OK, IDI_ACT_OK },
+	{ LPGEN("Cancel"), ICO_OPT_CANCEL, IDI_ACT_CLOSE },
+	{ LPGEN("Popup group"), ICO_OPT_GROUP, IDI_OPT_GROUP },
+	{ LPGEN("Show default"), ICO_OPT_DEF, IDI_ACT_OK },
+	{ LPGEN("Favorite contact"), ICO_OPT_FAV, IDI_OPT_FAVORITE },
+	{ LPGEN("Show in fullscreen"), ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
+	{ LPGEN("Blocked contact"), ICO_OPT_BLOCK, IDI_OPT_BLOCK },
 
 	//                               action
-	{ LPGEN("Quick reply"),                 ICO_ACT_REPLY,      IDI_ACT_REPLY      },
-	{ LPGEN("Pin popup"),                   ICO_ACT_PIN,        IDI_ACT_PIN        },
-	{ LPGEN("Pinned popup"),                ICO_ACT_PINNED,     IDI_ACT_PINNED     },
-	{ LPGEN("Send message"),                ICO_ACT_MESS,       IDI_ACT_MESSAGE    },
-	{ LPGEN("User details"),                ICO_ACT_INFO,       IDI_ACT_INFO       },
-	{ LPGEN("Contact menu"),                ICO_ACT_MENU,       IDI_ACT_MENU       },
-	{ LPGEN("Add contact permanently"),     ICO_ACT_ADD,        IDI_ACT_ADD        },
-	{ LPGEN("Dismiss popup"),               ICO_ACT_CLOSE,      IDI_ACT_CLOSE      },
-	{ LPGEN("Copy to clipboard"),           ICO_ACT_COPY,       IDI_ACT_COPY       }
+	{ LPGEN("Quick reply"), ICO_ACT_REPLY, IDI_ACT_REPLY },
+	{ LPGEN("Pin popup"), ICO_ACT_PIN, IDI_ACT_PIN },
+	{ LPGEN("Pinned popup"), ICO_ACT_PINNED, IDI_ACT_PINNED },
+	{ LPGEN("Send message"), ICO_ACT_MESS, IDI_ACT_MESSAGE },
+	{ LPGEN("User details"), ICO_ACT_INFO, IDI_ACT_INFO },
+	{ LPGEN("Contact menu"), ICO_ACT_MENU, IDI_ACT_MENU },
+	{ LPGEN("Add contact permanently"), ICO_ACT_ADD, IDI_ACT_ADD },
+	{ LPGEN("Dismiss popup"), ICO_ACT_CLOSE, IDI_ACT_CLOSE },
+	{ LPGEN("Copy to clipboard"), ICO_ACT_COPY, IDI_ACT_COPY }
 
 };
 

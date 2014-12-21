@@ -2,8 +2,8 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -30,11 +30,11 @@ WORD SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
 HANDLE hEventNotify;
 
 //===== Options =========================================================================
-static int OptionsInitialize(WPARAM,LPARAM);
+static int OptionsInitialize(WPARAM, LPARAM);
 void UpgradeDb();
 
 //===== Initializations =================================================================
-static int OkToExit(WPARAM,LPARAM);
+static int OkToExit(WPARAM, LPARAM);
 bool OptionLoaded = false;
 int hLangpack = 0;
 
@@ -45,7 +45,7 @@ HMODULE  hKernelDll = 0;
 HMODULE  hGdiDll = 0;
 HMODULE  hDwmapiDll = 0;
 
-GLOBAL_WND_CLASSES g_wndClass = {0};
+GLOBAL_WND_CLASSES g_wndClass = { 0 };
 
 HANDLE   htuText;
 HANDLE   htuTitle;
@@ -156,7 +156,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		PopupOptions.ModuleIsEnabled = FALSE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", FALSE);
 		mi.ptszName = LPGENT("Enable Popups");
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF, 0);
 	}
 	else {
 		// The module is disabled.
@@ -164,7 +164,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM, LPARAM)
 		PopupOptions.ModuleIsEnabled = TRUE;
 		db_set_b(NULL, "Popup", "ModuleIsEnabled", TRUE);
 		mi.ptszName = LPGENT("Disable Popups");
-		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON,0);
+		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_ON, 0);
 	}
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	Menu_ModifyItem(hMenuItem, &mi);
@@ -240,17 +240,17 @@ void LoadHotkey()
 
 // menu
 // Function which makes the initializations
-static int ModulesLoaded(WPARAM,LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	// check if History++ is installed
 	gbHppInstalled = ServiceExists(MS_HPP_GETVERSION) && ServiceExists(MS_HPP_EG_WINDOW) &&
-		(CallService(MS_HPP_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(1,5,0,112));
+		(CallService(MS_HPP_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(1, 5, 0, 112));
 
 	// check if MText plugin is installed
 	mir_getMTI(&MText);
 	if (MText.Register) {
 		htuText = MText.Register("Popup Plus/Text", MTEXT_FANCY_DEFAULT);
-		htuTitle	= MText.Register("Popup Plus/Title",MTEXT_FANCY_DEFAULT);
+		htuTitle = MText.Register("Popup Plus/Title", MTEXT_FANCY_DEFAULT);
 	}
 	else htuTitle = htuText = NULL;
 
@@ -274,7 +274,7 @@ static int ModulesLoaded(WPARAM,LPARAM)
 	// Folder plugin support
 	folderId = FoldersRegisterCustomPathT(LPGEN("Skins"), LPGEN("Popup Plus"), MIRANDA_PATHT _T("\\Skins\\Popup"));
 	// load skin
-	skins.load(_T("dir"));
+	skins.load();
 	const PopupSkin *skin;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		mir_free(PopupOptions.SkinPack);
@@ -294,7 +294,7 @@ static int ModulesLoaded(WPARAM,LPARAM)
 
 //=== DllMain ===========================================================================
 // DLL entry point, Required to store the instance handle
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -335,18 +335,18 @@ MIRAPI int Load(void)
 
 	CreateServiceFunction(MS_POPUP_GETSTATUS, GetStatus);
 
-	#if defined(_DEBUG)
-		PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
-	#else
-		PopupOptions.debug = false;
-	#endif
+#if defined(_DEBUG)
+	PopupOptions.debug = db_get_b(NULL, MODULNAME, "debug", FALSE);
+#else
+	PopupOptions.debug = false;
+#endif
 	LoadGDIPlus();
 
 	// Transparent and animation routines
 	hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
 	MyDwmEnableBlurBehindWindow = 0;
 	if (hDwmapiDll)
-		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
+		MyDwmEnableBlurBehindWindow = (HRESULT(WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
 	PopupHistoryLoad();
 	LoadPopupThread();
@@ -372,32 +372,32 @@ MIRAPI int Load(void)
 	// Service Functions
 	hEventNotify = CreateHookableEvent(ME_POPUP_FILTER);
 
-	CreateServiceFunction(MS_POPUP_ADDPOPUP,             Popup_AddPopup);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPW,            Popup_AddPopupW);
-	CreateServiceFunction(MS_POPUP_ADDPOPUP2,            Popup_AddPopup2);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP, Popup_AddPopup);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPW, Popup_AddPopupW);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP2, Popup_AddPopup2);
 
-	CreateServiceFunction(MS_POPUP_CHANGETEXTW,          Popup_ChangeTextW);
+	CreateServiceFunction(MS_POPUP_CHANGETEXTW, Popup_ChangeTextW);
 
-	CreateServiceFunction(MS_POPUP_CHANGEW,              Popup_ChangeW);
-	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2,         Popup_Change2);
+	CreateServiceFunction(MS_POPUP_CHANGEW, Popup_ChangeW);
+	CreateServiceFunction(MS_POPUP_CHANGEPOPUP2, Popup_Change2);
 
-	CreateServiceFunction(MS_POPUP_GETCONTACT,           Popup_GetContact);
-	CreateServiceFunction(MS_POPUP_GETPLUGINDATA,        Popup_GetPluginData);
+	CreateServiceFunction(MS_POPUP_GETCONTACT, Popup_GetContact);
+	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, Popup_GetPluginData);
 
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGE,          Popup_ShowMessage);
-	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW,         Popup_ShowMessageW);
-	CreateServiceFunction(MS_POPUP_QUERY,                Popup_Query);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, Popup_ShowMessage);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGEW, Popup_ShowMessageW);
+	CreateServiceFunction(MS_POPUP_QUERY, Popup_Query);
 
-	CreateServiceFunction(MS_POPUP_REGISTERACTIONS,      Popup_RegisterActions);
+	CreateServiceFunction(MS_POPUP_REGISTERACTIONS, Popup_RegisterActions);
 	CreateServiceFunction(MS_POPUP_REGISTERNOTIFICATION, Popup_RegisterNotification);
 
-	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC,     Popup_UnhookEventAsync);
+	CreateServiceFunction(MS_POPUP_UNHOOKEVENTASYNC, Popup_UnhookEventAsync);
 
-	CreateServiceFunction(MS_POPUP_REGISTERVFX,          Popup_RegisterVfx);
+	CreateServiceFunction(MS_POPUP_REGISTERVFX, Popup_RegisterVfx);
 
-	CreateServiceFunction(MS_POPUP_REGISTERCLASS,        Popup_RegisterPopupClass);
-	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS,      Popup_UnregisterPopupClass);
-	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS,        Popup_CreateClassPopup);
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS, Popup_RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_UNREGISTERCLASS, Popup_UnregisterPopupClass);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, Popup_CreateClassPopup);
 
 	// load icons / create hook
 	InitIcons();

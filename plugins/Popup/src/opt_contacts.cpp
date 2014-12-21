@@ -36,11 +36,11 @@ static void sttSetAllContactIcons(HWND hwndList)
 		for (int i = 0; i < 4 /*SIZEOF(sttIcons)*/; ++i)
 			// hIml element [0]    = SKINICON_OTHER_SMALLDOT
 			// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (dwMode == i) ? i + 1 : 0));
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, ((int)dwMode == i) ? i + 1 : 0));
 	}
 }
 
-INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:

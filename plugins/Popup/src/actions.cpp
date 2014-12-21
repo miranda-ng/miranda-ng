@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,21 +35,21 @@ void LoadActions()
 {
 	POPUPACTION actions[] =
 	{
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_REPLY, 0),	"General/Quick reply",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MESS, 0),		"General/Send message",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_INFO, 0),		"General/User details",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MENU, 0),		"General/Contact menu",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_ADD, 0),		"General/Add permanently",		0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_PIN, 0),		"General/Pin popup",			0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0),	"General/Dismiss popup",		0},
-		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_COPY, 0),		"General/Copy to clipboard",	0},
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_REPLY, 0), "General/Quick reply", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MESS, 0), "General/Send message", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_INFO, 0), "General/User details", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_MENU, 0), "General/Contact menu", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_ADD, 0), "General/Add permanently", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_PIN, 0), "General/Pin popup", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0), "General/Dismiss popup", 0 },
+		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_COPY, 0), "General/Copy to clipboard", 0 },
 
 		// remove popup action
-	#if defined(_DEBUG)
+#if defined(_DEBUG)
 		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_POPUP_ON, 0),		"Popup Plus/Test action",			PAF_ENABLED},
 		{ sizeof(POPUPACTION), IcoLib_GetIcon(ICO_ACT_CLOSE, 0),	"Popup Plus/Second test action",	0},
 		{ sizeof(POPUPACTION), LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),	"Popup Plus/One more action",	PAF_ENABLED},
-	#endif
+#endif
 	};
 
 	for (int i = 0; i < SIZEOF(actions); ++i)
@@ -94,7 +94,7 @@ bool IsActionEnabled(POPUPACTION *action)
 
 bool IsActionEnabled(char *name)
 {
-	POPUPACTION action = {0};
+	POPUPACTION action = { 0 };
 	action.flags = PAF_ENABLED;
 	mir_strcpy(action.lpzTitle, name);
 	return IsActionEnabled(&action);
@@ -144,13 +144,13 @@ DWORD MouseOverride(HWND hCombo, int number)
 // options
 
 void LoadOption_Actions() {
-	PopupOptions.actions			= db_get_dw(NULL, MODULNAME, "Actions",
-										ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
-										ACT_DEF_NOGLOBAL | ACT_DEF_MESSAGE | ACT_DEF_DETAILS | ACT_DEF_MENU |
-										ACT_DEF_ADD | ACT_DEF_DISMISS | ACT_DEF_PIN);
-	PopupOptions.overrideLeft		= db_get_dw(NULL,MODULNAME, "OverrideLeft", 0);
-	PopupOptions.overrideMiddle		= db_get_dw(NULL,MODULNAME, "OverrideMiddle", 0);
-	PopupOptions.overrideRight		= db_get_dw(NULL,MODULNAME, "OverrideRight", 0);
+	PopupOptions.actions = db_get_dw(NULL, MODULNAME, "Actions",
+		ACT_ENABLE | ACT_RIGHTICONS | ACT_DEF_KEEPWND | ACT_DEF_IMONLY |
+		ACT_DEF_NOGLOBAL | ACT_DEF_MESSAGE | ACT_DEF_DETAILS | ACT_DEF_MENU |
+		ACT_DEF_ADD | ACT_DEF_DISMISS | ACT_DEF_PIN);
+	PopupOptions.overrideLeft = db_get_dw(NULL, MODULNAME, "OverrideLeft", 0);
+	PopupOptions.overrideMiddle = db_get_dw(NULL, MODULNAME, "OverrideMiddle", 0);
+	PopupOptions.overrideRight = db_get_dw(NULL, MODULNAME, "OverrideRight", 0);
 }
 
 static UINT controls[] =
@@ -220,7 +220,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HIMAGELIST hImgList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 10, 1);
 			ListView_SetImageList(hwndList, hImgList, LVSIL_SMALL);
 
-			LVCOLUMN column = {0};
+			LVCOLUMN column = { 0 };
 			column.mask = LVCF_TEXT | LVCF_WIDTH;
 			column.pszText = TranslateT("Action");
 			column.cx = 175;
@@ -241,19 +241,19 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 				if ((grpId = groups.getIndex(szGroup)) < 0)
 				{
-					LVGROUP group = {0};
+					LVGROUP group = { 0 };
 					group.cbSize = sizeof(group);
 					group.mask = LVGF_HEADER | LVGF_GROUPID;
 					LPTSTR wszGroup = mir_a2t(szGroup);
 					group.pszHeader = TranslateTS(wszGroup);
 					group.cchHeader = (int)mir_tstrlen(wszGroup);
 					grpId = group.iGroupId = groups.getCount();
-					int grpId = ListView_InsertGroup(hwndList, -1, &group);
+					ListView_InsertGroup(hwndList, -1, &group);
 					mir_free(wszGroup);
 					groups.insert(mir_strdup(szGroup), groups.getCount());
 				}
 
-				LVITEM item = {0};
+				LVITEM item = { 0 };
 				item.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_TEXT | LVIF_STATE | LVIF_INDENT;
 				item.iItem = i;
 				ptrT tszName(mir_a2t(szName));
@@ -362,7 +362,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				db_set_dw(NULL, MODULNAME, "OverrideMiddle", PopupOptions.overrideMiddle);
 				db_set_dw(NULL, MODULNAME, "OverrideRight", PopupOptions.overrideRight);
 			}
-		break;
+			break;
 
 		case IDC_ACTIONS:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;

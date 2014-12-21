@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -41,32 +41,32 @@ LIST<POPUPTREEDATA> gTreeData(20, TreeDataSortFunc);
 // interface
 void LoadNotifications()
 {
-	POPUPNOTIFICATION notification = {0};
+	POPUPNOTIFICATION notification = { 0 };
 	notification.cbSize = sizeof(notification);
 	notification.actionCount = 0;
 	notification.lpActions = 0;
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Warning", sizeof(notification.lpzName));
-	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_WARN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED);
-	notification.colorBack = RGB(210,210,150);
-	notification.colorText = RGB(0,0,0);
+	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_WARN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+	notification.colorBack = RGB(210, 210, 150);
+	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 10;
 	g_hntfWarning = RegisterNotification(&notification);
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Notification", sizeof(notification.lpzName));
-	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_INFO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED);
-	notification.colorBack = RGB(230,230,230);
-	notification.colorText = RGB(0,0,0);
+	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_INFO), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+	notification.colorBack = RGB(230, 230, 230);
+	notification.colorText = RGB(0, 0, 0);
 	notification.iSeconds = 7;
 	g_hntfNotification = RegisterNotification(&notification);
 
 	mir_strncpy(notification.lpzGroup, "Misc", sizeof(notification.lpzName));
 	mir_strncpy(notification.lpzName, "Error", sizeof(notification.lpzName));
-	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR|LR_SHARED);
-	notification.colorBack = RGB(191,0,0);
-	notification.colorText = RGB(255,245,225);
+	notification.lchIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MB_STOP), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR | LR_SHARED);
+	notification.colorBack = RGB(191, 0, 0);
+	notification.colorText = RGB(255, 245, 225);
 	notification.iSeconds = -1;
 	g_hntfError = RegisterNotification(&notification);
 }
@@ -84,7 +84,7 @@ void FreePopupClass(POPUPTREEDATA *ptd)
 
 void UnloadTreeData()
 {
-	for (int i=0; i < gTreeData.getCount(); ++i)
+	for (int i = 0; i < gTreeData.getCount(); ++i)
 		FreePopupClass(gTreeData[i]);
 	gTreeData.destroy();
 }
@@ -92,15 +92,15 @@ void UnloadTreeData()
 void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 {
 	if (ptd->typ == 1) {
-		char setting[2*MAXMODULELABELLENGTH];
+		char setting[2 * MAXMODULELABELLENGTH];
 
 		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}Timeout",
 			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_w(NULL, szModul, setting, ptd->notification.iSeconds);
 
-		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}enabled", 
-			ptd->notification.lpzGroup, 
+		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}enabled",
+			ptd->notification.lpzGroup,
 			ptd->notification.lpzName);
 		db_set_b(NULL, szModul, setting, ptd->enabled);
 
@@ -124,7 +124,7 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 			ptd->notification.lpzName);
 		db_set_s(NULL, szModul, setting, ptd->rightAction);
 
-		for (int i=0; i < ptd->notification.actionCount; ++i) {
+		for (int i = 0; i < ptd->notification.actionCount; ++i) {
 			POPUPNOTIFYACTION &p = ptd->notification.lpActions[i];
 			if (!mir_strcmp(ptd->leftAction, p.lpzTitle))
 				db_set(NULL, p.lpzLModule, p.lpzLSetting, &p.dbvLData);
@@ -138,21 +138,21 @@ void SaveNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 {
 	if (ptd->typ == 1) {
-		char setting[2*MAXMODULELABELLENGTH];
+		char setting[2 * MAXMODULELABELLENGTH];
 		char *szTmp = NULL;
 
 		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}enabled", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		ptd->enabled = 
+		ptd->enabled =
 			(signed char)db_get_b(NULL, szModul, setting, TRUE);
 
 		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}Timeout", ptd->notification.lpzGroup, ptd->notification.lpzName);
-		ptd->notification.iSeconds = 
+		ptd->notification.iSeconds =
 			(signed char)db_get_w(NULL, szModul, setting, ptd->notification.iSeconds);
 
 		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}TimeoutVal", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->timeoutValue =
 			(signed char)db_get_w(NULL, szModul, setting,
-				ptd->notification.iSeconds ? ptd->notification.iSeconds : 0);
+			ptd->notification.iSeconds ? ptd->notification.iSeconds : 0);
 
 		mir_snprintf(setting, SIZEOF(setting), "{%s/%s}disableWhen", ptd->notification.lpzGroup, ptd->notification.lpzName);
 		ptd->disableWhen =
@@ -172,7 +172,7 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 
 HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 {
- 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
+	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
 	ptd->signature = PopupNotificationData_SIGNATURE;
 	ptd->typ = 1;
 	ptd->pszTreeRoot = mir_a2t(notification->lpzGroup);
@@ -183,9 +183,9 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	LoadNotificationSettings(ptd, "PopupNotifications");
 
 	// ugly hack to make reset always possible
-	SaveNotificationSettings(ptd,"PopupNotifications");
+	SaveNotificationSettings(ptd, "PopupNotifications");
 
-	FontID fontid = {0};
+	FontID fontid = { 0 };
 	fontid.cbSize = sizeof(fontid);
 	mir_snprintf(fontid.group, SIZEOF(fontid.group), PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
 	mir_strcpy(fontid.dbSettingsGroup, "PopupNotifications");
@@ -200,7 +200,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	fontid.deffontsettings.style = 0;
 	FontRegister(&fontid);
 
-	ColourID colourid = {0};
+	ColourID colourid = { 0 };
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, SIZEOF(colourid.group), PU_FNT_AND_COLOR"/%s", notification->lpzGroup);
 	mir_strcpy(colourid.dbSettingsGroup, "PopupNotifications");
@@ -227,11 +227,11 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 
 HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 {
-	for(int i=0; i < gTreeData.getCount(); i++) {
+	for (int i = 0; i < gTreeData.getCount(); i++) {
 		POPUPTREEDATA *p = gTreeData[i];
-		if (p->typ == typ && 
-				(!group || (_tcscmp(p->pszTreeRoot,   group) == 0)) &&
-				(!name  || (_tcscmp(p->pszDescription, name) == 0)))
+		if (p->typ == typ &&
+			(!group || (_tcscmp(p->pszTreeRoot, group) == 0)) &&
+			(!name || (_tcscmp(p->pszDescription, name) == 0)))
 		{
 			return p;
 		}
@@ -252,13 +252,13 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 	*disableWhen = ptd->enabled ? ptd->disableWhen : 0xFFFFFFFF;
 
 	LOGFONTA lf;						// dummy to make FS happy (use LOGFONTA coz we use MS_FONT_GET)
-	FontID fontid = {0};				// use ansi version of fontID coz POPUPNOTIFICATION use char
+	FontID fontid = { 0 };				// use ansi version of fontID coz POPUPNOTIFICATION use char
 	fontid.cbSize = sizeof(fontid);
 	mir_snprintf(fontid.group, SIZEOF(fontid.group), PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
 	mir_snprintf(fontid.name, SIZEOF(fontid.name), "%s (colors only)", ptd->notification.lpzName);
 	ppd->colorText = (COLORREF)CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lf);
 
-	ColourID colourid = {0};			// use ansi version of ColourID coz POPUPNOTIFICATION use char
+	ColourID colourid = { 0 };			// use ansi version of ColourID coz POPUPNOTIFICATION use char
 	colourid.cbSize = sizeof(colourid);
 	mir_snprintf(colourid.group, SIZEOF(colourid.group), PU_FNT_AND_COLOR"/%s", ptd->notification.lpzGroup);
 	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", ptd->notification.lpzName);
@@ -279,7 +279,7 @@ bool IsValidNotification(HANDLE hNotification)
 		if (((POPUPTREEDATA *)hNotification)->signature == PopupNotificationData_SIGNATURE)
 			res = true;
 	}
-	__except(EXCEPTION_EXECUTE_HANDLER)
+	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
 		res = false;
 	}
@@ -295,18 +295,18 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 	char *lpzAction = NULL;
 	switch (message)
 	{
-		case WM_LBUTTONUP:
-		case WM_COMMAND:
-			lpzAction = ptd->leftAction;
-			break;
+	case WM_LBUTTONUP:
+	case WM_COMMAND:
+		lpzAction = ptd->leftAction;
+		break;
 
-		case WM_RBUTTONUP:
-		case WM_CONTEXTMENU:
-			lpzAction = ptd->rightAction;
-			break;
+	case WM_RBUTTONUP:
+	case WM_CONTEXTMENU:
+		lpzAction = ptd->rightAction;
+		break;
 
-		default:
-			return false;
+	default:
+		return false;
 	}
 
 	if (!mir_strcmp(lpzAction, POPUP_ACTION_NOTHING))
@@ -318,7 +318,7 @@ bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparam,
 		return true;
 	}
 
-	for (int i=0; i < ptd->notification.actionCount; ++i)
+	for (int i = 0; i < ptd->notification.actionCount; ++i)
 	{
 		if (!(ptd->notification.lpActions[i].dwFlags&PNAF_CALLBACK))
 			continue;

@@ -2,9 +2,9 @@
 Popup Plus plugin for Miranda IM
 
 Copyright	© 2002 Luca Santarelli,
-			© 2004-2007 Victor Pavlychko
-			© 2010 MPK
-			© 2010 Merlin_de
+© 2004-2007 Victor Pavlychko
+© 2010 MPK
+© 2010 Merlin_de
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -47,8 +47,8 @@ inline void DebugMsg(LPTSTR msg){
 }
 
 //===== Percentile to Byte and viceversa =====
-inline int Byte2Percentile(int vByte) { return (vByte*100)/255; }
-inline int Percentile2Byte(int vPerc) { return (vPerc*255)/100; }
+inline int Byte2Percentile(int vByte) { return (vByte * 100) / 255; }
+inline int Percentile2Byte(int vPerc) { return (vPerc * 255) / 100; }
 
 //===== Strings & MirandaDB ==================
 inline char *db_get_s(MCONTACT hContact, const char *ModuleName, const char *SettingName, const char *Default)
@@ -73,7 +73,7 @@ inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleN
 	DBVARIANT dbv;
 	BOOL result = db_get_s(hContact, ModuleName, SettingName, &dbv, retType);
 
-	switch(retType) {
+	switch (retType) {
 	case DBVT_ASCIIZ:
 		ret = (INT_PTR)mir_strdup(result ? Default : dbv.pszVal);
 		break;
@@ -92,24 +92,24 @@ inline INT_PTR DBGetContactSettingStringX(MCONTACT hContact, const char *ModuleN
 inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, char *text)
 {
 
-		TOOLINFO ti = {0};
-		ti.cbSize = sizeof(TOOLINFO);
+	TOOLINFO ti = { 0 };
+	ti.cbSize = sizeof(TOOLINFO);
 
-		ti.hwnd = hwnd;
-		ti.uId = id;
-		SendMessage(hwndToolTip, TTM_DELTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
+	ti.hwnd = hwnd;
+	ti.uId = id;
+	SendMessage(hwndToolTip, TTM_DELTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-		LPTSTR wtext = mir_a2t(text);
+	LPTSTR wtext = mir_a2t(text);
 
-		ti.uFlags = TTF_SUBCLASS;
-		ti.hwnd = hwnd;
-		ti.uId = id;
-		ti.hinst = hInst;
-		ti.lpszText = TranslateTS(wtext);
-		ti.rect = rc;
-		SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM) (LPTOOLINFO) &ti);
+	ti.uFlags = TTF_SUBCLASS;
+	ti.hwnd = hwnd;
+	ti.uId = id;
+	ti.hinst = hInst;
+	ti.lpszText = TranslateTS(wtext);
+	ti.rect = rc;
+	SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)(LPTOOLINFO)&ti);
 
-		mir_free(wtext);
+	mir_free(wtext);
 
 }
 
