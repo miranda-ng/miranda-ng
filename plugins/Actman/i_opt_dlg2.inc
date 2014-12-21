@@ -149,7 +149,7 @@ end;
 procedure SetSave(Dialog:HWND);
 var
   TmpMacroList:tMacroList;
-  TmpMacro:pMacroRecord;
+//  TmpMacro:pMacroRecord;
   wnd:HWND;
   li:LV_ITEMW;
   i,j:integer;
@@ -761,7 +761,7 @@ begin
       begin
         lvi.iItem :=i;
 
-        lvi.lParam:=i or (CurMacro^.flags and ACF_MACROFLAG);
+        lvi.lParam:=LPARAM(i) or LPARAM(CurMacro^.flags and ACF_MACROFLAG);
 {!!
         if (CurMacro^.flags and ACF_FIRSTRUN)<>0 then
           lvi.lParam:=lvi.lParam or ACF_FIRSTRUN;
@@ -995,12 +995,10 @@ begin
           end;
 
           case loword(wParam) of
-
+{
             IDC_GROUP_EXPORT: begin
               if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter),false) then
               begin
-aExport(EditMacroList,xmlfilename,0);
-{
                 wnd:=MacroListWindow;
                 for i:=0 to ListView_GetItemCount(wnd)-1 do
                 begin
@@ -1025,19 +1023,15 @@ aExport(EditMacroList,xmlfilename,0);
 // we MUST Export EditMacroList, NOT MacroList
 // OR
 // Use "Apply" code before
-
-//                CallService(MS_ACT_INOUT,i,TLPARAM(@xmlfilename));
-
+                CallService(MS_ACT_INOUT,i,TLPARAM(@xmlfilename));
                 for i:=0 to MaxGroups-1 do
                   with EditMacroList[i] do
                     if (flags and (ACF_EXPORT or ACF_ASSIGNED))=
                                   (ACF_EXPORT or ACF_ASSIGNED) then
                       flags:=flags and not ACF_EXPORT;
-}
               end;
-
             end;
-
+}
             IDC_GROUP_IMPORT: begin
               if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter)) then
               begin
