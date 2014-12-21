@@ -34,7 +34,7 @@ extern bool bModulesLoadedFired;
 
 static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
 {
-	return mir_tstrcmp(p1->pluginname, p2->pluginname);
+	return mir_tstrcmpi(p1->pluginname, p2->pluginname);
 }
 
 LIST<pluginEntry>
