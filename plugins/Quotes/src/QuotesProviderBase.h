@@ -7,12 +7,12 @@ public:
 	class CQuote
 	{
 	public:
-		CQuote(const tstring& rsID = _T(""),const tstring& rsSymbol = _T(""),const tstring& rsName = _T(""))
-			: m_sSymbol(rsSymbol),m_sName(rsName),m_sID(rsID){}
+		CQuote(const tstring& rsID = _T(""), const tstring& rsSymbol = _T(""), const tstring& rsName = _T(""))
+			: m_sSymbol(rsSymbol), m_sName(rsName), m_sID(rsID){}
 
-		const tstring& GetSymbol()const{return m_sSymbol;}
-		const tstring& GetName()const{return m_sName;}
-		const tstring& GetID()const{return m_sID;}
+		const tstring& GetSymbol()const{ return m_sSymbol; }
+		const tstring& GetName()const{ return m_sName; }
+		const tstring& GetID()const{ return m_sID; }
 
 	private:
 		tstring m_sSymbol;
@@ -27,21 +27,31 @@ public:
 		typedef std::vector<CQuote> TQuotes;
 
 	public:
-		CQuoteSection(const tstring& rsName = _T(""),const TSections& raSections = TSections(),const TQuotes& raQuotes = TQuotes())
-			: m_sName(rsName),m_aSections(raSections),m_aQuotes(raQuotes){}
+		CQuoteSection(const tstring& rsName = _T(""), const TSections& raSections = TSections(), const TQuotes& raQuotes = TQuotes())
+			: m_sName(rsName), m_aSections(raSections), m_aQuotes(raQuotes){}
 
 		const tstring& GetName()const
-		{return m_sName;}
+		{
+			return m_sName;
+		}
 
 		size_t GetSectionCount()const
-		{return m_aSections.size();}
+		{
+			return m_aSections.size();
+		}
 		CQuoteSection GetSection(size_t nIndex)const
-		{return ((nIndex < m_aSections.size()) ? m_aSections[nIndex] : CQuoteSection());}
+		{
+			return ((nIndex < m_aSections.size()) ? m_aSections[nIndex] : CQuoteSection());
+		}
 
 		size_t GetQuoteCount()const
-		{return m_aQuotes.size();}
+		{
+			return m_aQuotes.size();
+		}
 		CQuote GetQuote(size_t nIndex)const
-		{return ((nIndex < m_aQuotes.size()) ? m_aQuotes[nIndex] : CQuote());}
+		{
+			return ((nIndex < m_aQuotes.size()) ? m_aQuotes[nIndex] : CQuote());
+		}
 
 	private:
 		tstring m_sName;
@@ -61,7 +71,7 @@ public:
 
 
 	const CQuoteSection& GetQuotes()const;
-// 	void SetSettingsEvent();
+	// 	void SetSettingsEvent();
 
 	virtual bool Init();
 	virtual const CProviderInfo& GetInfo()const;
@@ -72,14 +82,14 @@ public:
 	virtual void RefreshAllContacts();
 	virtual void RefreshSettings();
 	virtual void RefreshContact(MCONTACT hContact);
-// 	virtual void SetContactExtraIcon(MCONTACT hContact)const;
+	// 	virtual void SetContactExtraIcon(MCONTACT hContact)const;
 
 protected:
 	const tstring& GetURL()const;
 	MCONTACT CreateNewContact(const tstring& rsName);
 	static bool IsOnline();
-	static void SetContactStatus(MCONTACT hContact,int nNewStatus);
-	void WriteContactRate(MCONTACT hContact,double dRate,const tstring& rsSymbol = _T(""));
+	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
+	void WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol = _T(""));
 
 private:
 	virtual void RefreshQuotes(TContracts& anContacts) = 0;

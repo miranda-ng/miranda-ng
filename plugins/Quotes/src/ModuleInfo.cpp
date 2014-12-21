@@ -7,8 +7,8 @@ namespace
 	CLightMutex g_lmParsers;
 }
 
-CModuleInfo::CModuleInfo() 
-			: m_bExtendedStatusInfo(1 == db_get_b(NULL,QUOTES_MODULE_NAME,"ExtendedStatus",false))
+CModuleInfo::CModuleInfo()
+	: m_bExtendedStatusInfo(1 == db_get_b(NULL, QUOTES_MODULE_NAME, "ExtendedStatus", false))
 {
 }
 
@@ -22,29 +22,29 @@ CModuleInfo& CModuleInfo::GetInstance()
 	return mi;
 }
 
-HANDLE CModuleInfo::GetWindowList(const std::string& rsKey,bool bAllocateIfNonExist /*= true*/)
+HANDLE CModuleInfo::GetWindowList(const std::string& rsKey, bool bAllocateIfNonExist /*= true*/)
 {
 	HANDLE hResult = NULL;
 	THandles::const_iterator i = m_ahWindowLists.find(rsKey);
-	if(i != m_ahWindowLists.end())
+	if (i != m_ahWindowLists.end())
 	{
 		hResult = i->second;
 	}
-	else if(bAllocateIfNonExist)
+	else if (bAllocateIfNonExist)
 	{
 		hResult = WindowList_Create();
-		if(hResult)
-			m_ahWindowLists.insert(std::make_pair(rsKey,hResult));
+		if (hResult)
+			m_ahWindowLists.insert(std::make_pair(rsKey, hResult));
 	}
 
 	return hResult;
-}	
+}
 
 void CModuleInfo::OnMirandaShutdown()
 {
-	BOOST_FOREACH(THandles::value_type p,m_ahWindowLists)
+	BOOST_FOREACH(THandles::value_type p, m_ahWindowLists)
 	{
-		WindowList_Broadcast(p.second,WM_CLOSE,0,0);
+		WindowList_Broadcast(p.second, WM_CLOSE, 0, 0);
 	}
 }
 
@@ -95,17 +95,17 @@ void CModuleInfo::SetHTMLEngine(THTMLEnginePtr pEngine)
 
 bool CModuleInfo::Verify()
 {
-	INITCOMMONCONTROLSEX icc = {0};
+	INITCOMMONCONTROLSEX icc = { 0 };
 	icc.dwSize = sizeof(icc);
-	icc.dwICC = ICC_WIN95_CLASSES|ICC_LINK_CLASS;
-	if(FALSE == ::InitCommonControlsEx(&icc))
+	icc.dwICC = ICC_WIN95_CLASSES | ICC_LINK_CLASS;
+	if (FALSE == ::InitCommonControlsEx(&icc))
 	{
 		return false;
 	}
 
 	if (!GetXMLEnginePtr())
 	{
-		Quotes_MessageBox(NULL,TranslateT("Miranda could not load Quotes plugin. XML parser is missing."),MB_OK|MB_ICONERROR);
+		Quotes_MessageBox(NULL, TranslateT("Miranda could not load Quotes plugin. XML parser is missing."), MB_OK | MB_ICONERROR);
 		return false;
 	}
 
@@ -113,7 +113,7 @@ bool CModuleInfo::Verify()
 	{
 		Quotes_MessageBox(NULL,
 			TranslateT("Miranda could not load Quotes plugin. Microsoft HTML parser is missing."),
-			MB_YESNO|MB_ICONQUESTION);
+			MB_YESNO | MB_ICONQUESTION);
 		return false;
 	}
 

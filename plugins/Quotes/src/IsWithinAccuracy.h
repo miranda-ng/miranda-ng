@@ -3,12 +3,12 @@
 
 inline bool IsWithinAccuracy(double dValue1, double dValue2, double dAccuracy = 1e-4)
 {
-	double dDifference = dValue1 - dValue2 ;
+	double dDifference = dValue1 - dValue2;
 
 	if ((-dAccuracy <= dDifference) && (dDifference <= dAccuracy))
-		return true ;
+		return true;
 	else
-		return false ;
+		return false;
 }
 
 

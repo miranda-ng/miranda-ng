@@ -4,7 +4,7 @@
 class CQuotesProviderVisitorFormater : public CQuotesProviderVisitor
 {
 public:
-	CQuotesProviderVisitorFormater(MCONTACT hContact,TCHAR chr,int nWidth);
+	CQuotesProviderVisitorFormater(MCONTACT hContact, TCHAR chr, int nWidth);
 	~CQuotesProviderVisitorFormater();
 
 	const tstring& GetResult()const;
@@ -17,8 +17,8 @@ private:
 	virtual void Visit(const CQuotesProviderYahoo& rProvider);
 
 private:
-	void FormatDoubleHelper(LPCSTR pszDbSet,const tstring sInvalid = _T("-"));
-// 	void FormatChangeValueHelper(bool bPercentage);
+	void FormatDoubleHelper(LPCSTR pszDbSet, const tstring sInvalid = _T("-"));
+	// 	void FormatChangeValueHelper(bool bPercentage);
 
 private:
 	MCONTACT m_hContact;

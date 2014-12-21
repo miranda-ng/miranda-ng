@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-CQuotesProviderVisitorTendency::CQuotesProviderVisitorTendency(MCONTACT hContact,TCHAR chr)
-	: m_hContact(hContact),m_chr(chr),m_bValid(false),m_dResult(0.0)
+CQuotesProviderVisitorTendency::CQuotesProviderVisitorTendency(MCONTACT hContact, TCHAR chr)
+	: m_hContact(hContact), m_chr(chr), m_bValid(false), m_dResult(0.0)
 {
 }
 
-void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderBase& rProvider)
+void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderBase&)
 {
-	switch(m_chr)
+	switch (m_chr)
 	{
 	case _T('r'):
 	case _T('R'):
@@ -19,9 +19,9 @@ void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderBase& rProvider)
 	}
 }
 
-void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderGoogleFinance& rProvider)
+void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderGoogleFinance&)
 {
-	switch(m_chr)
+	switch (m_chr)
 	{
 	case _T('o'):
 		GetValue(DB_STR_GOOGLE_FINANCE_OPEN_VALUE);
@@ -35,9 +35,9 @@ void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderGoogleFinance& r
 	}
 }
 
-void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderYahoo& rProvider)
+void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderYahoo&)
 {
-	switch(m_chr)
+	switch (m_chr)
 	{
 	case _T('o'):
 		GetValue(DB_STR_YAHOO_OPEN_VALUE);
@@ -61,5 +61,5 @@ void CQuotesProviderVisitorTendency::Visit(const CQuotesProviderYahoo& rProvider
 
 void CQuotesProviderVisitorTendency::GetValue(LPCSTR pszDbKeyName)
 {
-	m_bValid = Quotes_DBReadDouble(m_hContact,QUOTES_MODULE_NAME,pszDbKeyName,m_dResult);
+	m_bValid = Quotes_DBReadDouble(m_hContact, QUOTES_MODULE_NAME, pszDbKeyName, m_dResult);
 }

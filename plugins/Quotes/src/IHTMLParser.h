@@ -22,7 +22,7 @@ public:
 	virtual bool Is(EType nType)const = 0;
 
 	virtual THTMLNodePtr GetElementByID(const tstring& rsID)const = 0;
-	
+
 	virtual tstring GetAttribute(const tstring& rsAttrName)const = 0;
 	virtual tstring GetText()const = 0;
 };

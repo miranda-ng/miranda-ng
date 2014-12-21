@@ -7,13 +7,13 @@ void Quotes_InitExtraIcons()
 	hExtraIcon = ExtraIcon_Register(ICON_STR_QUOTE, QUOTES_PROTOCOL_NAME, Quotes_MakeIconName(ICON_STR_MAIN).c_str());
 }
 
-bool SetContactExtraImage(MCONTACT hContact,EImageIndex nIndex)
+bool SetContactExtraImage(MCONTACT hContact, EImageIndex nIndex)
 {
 	if (!hExtraIcon)
 		return false;
 
 	HANDLE hIcolib;
-	switch(nIndex) {
+	switch (nIndex) {
 	case eiUp:
 		hIcolib = Quotes_GetIconHandle(IDI_ICON_UP);
 		break;

@@ -7,9 +7,9 @@ inline tstring get_window_text(HWND hWnd)
 {
 	int cBytes = ::GetWindowTextLength(hWnd);
 
-	std::vector<TCHAR> aBuf(cBytes+1);
+	std::vector<TCHAR> aBuf(cBytes + 1);
 	LPTSTR pBuffer = &*(aBuf.begin());
-	::GetWindowText(hWnd,pBuffer,cBytes+1);
+	::GetWindowText(hWnd, pBuffer, cBytes + 1);
 
 	return tstring(pBuffer);
 }
@@ -21,16 +21,16 @@ inline void prepare_edit_ctrl_for_error(HWND hwndEdit)
 	::SendMessage(hwndEdit, EM_SCROLLCARET, 0, 0);
 }
 
-void show_variable_list(HWND hwndParent,const IQuotesProvider* pProvider);
+void show_variable_list(HWND hwndParent, const IQuotesProvider* pProvider);
 
-inline int Quotes_MessageBox(HWND hWnd,LPCTSTR pszText,UINT nType = MB_OK)
-{	
-	return ::MessageBox(hWnd,pszText,quotes_a2t(MIRANDANAME).c_str(),nType);
+inline int Quotes_MessageBox(HWND hWnd, LPCTSTR pszText, UINT nType = MB_OK)
+{
+	return ::MessageBox(hWnd, pszText, quotes_a2t(MIRANDANAME).c_str(), nType);
 }
 
-inline void spin_set_range(HWND hwndSpin,short nLower,short nUpper)
+inline void spin_set_range(HWND hwndSpin, short nLower, short nUpper)
 {
-	::SendMessage(hwndSpin,UDM_SETRANGE,0,MAKELPARAM(nUpper,nLower));
+	::SendMessage(hwndSpin, UDM_SETRANGE, 0, MAKELPARAM(nUpper, nLower));
 }
 
 

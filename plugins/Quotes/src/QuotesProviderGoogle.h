@@ -23,17 +23,17 @@ public:
 	CQuotesProviderGoogle();
 	~CQuotesProviderGoogle();
 
-	bool WatchForRate(const CRateInfo& ri,bool bWatch);
+	bool WatchForRate(const CRateInfo& ri, bool bWatch);
 	size_t GetWatchedRateCount()const;
-	bool GetWatchedRateInfo(size_t nIndex,CRateInfo& rRateInfo);
+	bool GetWatchedRateInfo(size_t nIndex, CRateInfo& rRateInfo);
 
-	MCONTACT GetContactByID(const tstring& rsFromID,const tstring& rsToID)const;
+	MCONTACT GetContactByID(const tstring& rsFromID, const tstring& rsToID)const;
 
-	double Convert(double dAmount,const CQuote& from,const CQuote& to)const;
+	double Convert(double dAmount, const CQuote& from, const CQuote& to)const;
 
 private:
 	virtual void RefreshQuotes(TContracts& anContacts);
-	virtual void ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp);
+	virtual void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp);
 	virtual void Accept(CQuotesProviderVisitor& visitor)const;
 };
 

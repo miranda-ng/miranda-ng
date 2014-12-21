@@ -14,19 +14,19 @@ namespace
 		typedef CComPtr<IHTMLElementCollection> TElementCollectionPtr;
 
 	public:
-		CHTMLNode(const TComPtr& pElement,const TDocumentPtr& pDocument) 
-			: m_pElement(pElement),m_pDocument(pDocument){}
+		CHTMLNode(const TComPtr& pElement, const TDocumentPtr& pDocument)
+			: m_pElement(pElement), m_pDocument(pDocument){}
 
 		virtual THTMLNodePtr GetElementByID(const tstring& rsID)const
 		{
-			if(m_pDocument)
+			if (m_pDocument)
 			{
 				CComPtr<IHTMLElement> pElement;
-				if(SUCCEEDED(m_pDocument->getElementById(bstr_t(rsID.c_str()),&pElement)) 
+				if (SUCCEEDED(m_pDocument->getElementById(bstr_t(rsID.c_str()), &pElement))
 					&& pElement)
 				{
 					TComPtr p(pElement);
-					return THTMLNodePtr(new CHTMLNode(p,m_pDocument));
+					return THTMLNodePtr(new CHTMLNode(p, m_pDocument));
 				}
 			}
 
@@ -36,15 +36,15 @@ namespace
 		virtual size_t GetChildCount()const
 		{
 			TElementCollectionPtr pColl = GetElementCollectionPtr();
-			if(pColl)
+			if (pColl)
 			{
 				LONG celem = 0;
 				HRESULT hr = pColl->get_length(&celem);
-				if(S_OK == hr)
+				if (S_OK == hr)
 				{
 					return celem;
 				}
-			}	
+			}
 
 			return 0;
 		}
@@ -52,7 +52,7 @@ namespace
 		virtual THTMLNodePtr GetChildPtr(size_t nIndex)
 		{
 			TElementCollectionPtr pColl = GetElementCollectionPtr();
-			if(pColl)
+			if (pColl)
 			{
 				VARIANT varIndex;
 				varIndex.vt = VT_UINT;
@@ -60,10 +60,10 @@ namespace
 				VARIANT var2;
 				VariantInit(&var2);
 				TComPtr pDisp;
-				HRESULT hr = pColl->item(varIndex,var2,&pDisp);
-				if(S_OK == hr && pDisp)
+				HRESULT hr = pColl->item(varIndex, var2, &pDisp);
+				if (S_OK == hr && pDisp)
 				{
-					return THTMLNodePtr(new CHTMLNode(pDisp,m_pDocument));
+					return THTMLNodePtr(new CHTMLNode(pDisp, m_pDocument));
 				}
 			}
 
@@ -72,23 +72,23 @@ namespace
 
 		virtual bool Is(EType nType)const
 		{
-			switch(nType)
+			switch (nType)
 			{
 			case Table:
-				{
-					CComPtr<IHTMLTable> pTable;
-					return (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLTable,reinterpret_cast<void**>(&pTable))) && (pTable));
-				}
+			{
+				CComPtr<IHTMLTable> pTable;
+				return (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLTable, reinterpret_cast<void**>(&pTable))) && (pTable));
+			}
 			case TableRow:
-				{
-					CComPtr<IHTMLTableRow> pRow;
-					return (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLTableRow,reinterpret_cast<void**>(&pRow))) && (pRow));
-				}
+			{
+				CComPtr<IHTMLTableRow> pRow;
+				return (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLTableRow, reinterpret_cast<void**>(&pRow))) && (pRow));
+			}
 			case TableColumn:
-				{
-					CComPtr<IHTMLTableCol> pCol;
-					return (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLTableCol,reinterpret_cast<void**>(&pCol))) && (pCol));
-				}
+			{
+				CComPtr<IHTMLTableCol> pCol;
+				return (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLTableCol, reinterpret_cast<void**>(&pCol))) && (pCol));
+			}
 			}
 
 			return false;
@@ -100,23 +100,23 @@ namespace
 
 			tstring sAttr;
 			CComPtr<IHTMLElement> pElement;
-			if(SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement,reinterpret_cast<void**>(&pElement))) && pElement)
+			if (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement, reinterpret_cast<void**>(&pElement))) && pElement)
 			{
 				_variant_t vAttribute;
 				BSTR pbstrAttrName = T2BSTR(rsAttrName.c_str());
-				if(SUCCEEDED(pElement->getAttribute(pbstrAttrName,1,&vAttribute))
+				if (SUCCEEDED(pElement->getAttribute(pbstrAttrName, 1, &vAttribute))
 					&& VT_NULL != vAttribute.vt && VT_EMPTY != vAttribute.vt)
 				{
 					try
 					{
 						_bstr_t b(vAttribute);
 						LPCTSTR psz = b;
-						if(psz)
+						if (psz)
 						{
 							sAttr = psz;
 						}
 					}
-					catch(_com_error&)
+					catch (_com_error&)
 					{
 					}
 				}
@@ -127,20 +127,20 @@ namespace
 
 		virtual tstring GetText()const
 		{
-// 			USES_CONVERSION;
+			// 			USES_CONVERSION;
 
 			tstring sText;
 			CComPtr<IHTMLElement> pElement;
-			if(SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement,reinterpret_cast<void**>(&pElement))) && pElement)
+			if (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement, reinterpret_cast<void**>(&pElement))) && pElement)
 			{
 				BSTR bstrText;
-				if(SUCCEEDED(pElement->get_innerText(&bstrText)) && bstrText)
+				if (SUCCEEDED(pElement->get_innerText(&bstrText)) && bstrText)
 				{
 					try
 					{
 						sText = _bstr_t(bstrText);
 					}
-					catch(_com_error&)
+					catch (_com_error&)
 					{
 					}
 
@@ -155,16 +155,16 @@ namespace
 		virtual TElementCollectionPtr GetElementCollectionPtr()const
 		{
 			TElementCollectionPtr pColl;
-			HRESULT hr = m_pElement->QueryInterface(IID_IHTMLElementCollection,reinterpret_cast<void**>(&pColl));
-			if(FAILED(hr))
+			HRESULT hr = m_pElement->QueryInterface(IID_IHTMLElementCollection, reinterpret_cast<void**>(&pColl));
+			if (FAILED(hr))
 			{
 				CComPtr<IHTMLElement> pElement;
-				if(SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement,reinterpret_cast<void**>(&pElement))) && pElement)
+				if (SUCCEEDED(m_pElement->QueryInterface(IID_IHTMLElement, reinterpret_cast<void**>(&pElement))) && pElement)
 				{
 					CComPtr<IDispatch> pDisp;
-					if(SUCCEEDED(pElement->get_children(&pDisp)) && pDisp)
+					if (SUCCEEDED(pElement->get_children(&pDisp)) && pDisp)
 					{
-						hr = pDisp->QueryInterface(IID_IHTMLElementCollection,reinterpret_cast<void**>(&pColl));
+						hr = pDisp->QueryInterface(IID_IHTMLElementCollection, reinterpret_cast<void**>(&pColl));
 					}
 				}
 			}
@@ -203,22 +203,22 @@ CHTMLParserMS::CHTMLParserMS() : m_bCallUninit(false)
 		_com_util::CheckError(m_pDoc->QueryInterface(IID_IMarkupServices,
 			(LPVOID*)&m_pMS));
 
-		if(m_pMS)
+		if (m_pMS)
 		{
 			_com_util::CheckError(m_pMS->CreateMarkupPointer(&m_pMkStart));
 			_com_util::CheckError(m_pMS->CreateMarkupPointer(&m_pMkFinish));
 		}
 	}
-	catch(_com_error&/* e*/)
+	catch (_com_error&/* e*/)
 	{
-// 		show_com_error_msg(e);
+		// 		show_com_error_msg(e);
 	}
 
 }
 
 CHTMLParserMS::~CHTMLParserMS()
 {
-	if(true == m_bCallUninit)
+	if (true == m_bCallUninit)
 	{
 		::CoUninitialize();
 	}
@@ -234,31 +234,31 @@ CHTMLParserMS::THTMLNodePtr CHTMLParserMS::ParseString(const tstring& rsHTML)
 
 		OLECHAR* p = T2OLE(const_cast<LPTSTR>(rsHTML.c_str()));
 		CComPtr<IMarkupContainer>  pMC;
-		_com_util::CheckError(m_pMS->ParseString(p,0,&pMC,m_pMkStart,m_pMkFinish));
+		_com_util::CheckError(m_pMS->ParseString(p, 0, &pMC, m_pMkStart, m_pMkFinish));
 
-		if(pMC)
+		if (pMC)
 		{
 			CComPtr<IHTMLDocument2> pNewDoc;
 
 			_com_util::CheckError(pMC->QueryInterface(IID_IHTMLDocument,
 				(LPVOID*)&pNewDoc));
 
-			if(pNewDoc)
+			if (pNewDoc)
 			{
 				CComPtr<IHTMLElementCollection> pColl;
 				_com_util::CheckError(pNewDoc->get_all(&pColl));
 
 				CHTMLNode::TDocumentPtr pDoc;
-				pMC->QueryInterface(IID_IHTMLDocument3,(LPVOID*)&pDoc);
+				pMC->QueryInterface(IID_IHTMLDocument3, (LPVOID*)&pDoc);
 
 
-				return THTMLNodePtr(new CHTMLNode(CHTMLNode::TComPtr(pColl),pDoc));
+				return THTMLNodePtr(new CHTMLNode(CHTMLNode::TComPtr(pColl), pDoc));
 			}
 		}
 	}
-	catch(_com_error&/* e*/)
+	catch (_com_error&/* e*/)
 	{
-// 		show_com_error_msg(e);
+		// 		show_com_error_msg(e);
 	}
 
 	return THTMLNodePtr();
@@ -283,12 +283,12 @@ bool CHTMLParserMS::IsInstalled()
 			reinterpret_cast<LPVOID*>(&pDoc))
 			);
 	}
-	catch(_com_error&/* e*/)
+	catch (_com_error&/* e*/)
 	{
 		bResult = false;
 	}
 
-	if(bCallUninit)
+	if (bCallUninit)
 	{
 		::CoUninitialize();
 	}

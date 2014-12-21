@@ -8,11 +8,11 @@ public:
 
 public:
 	void GetWatchedQuotes(TQuotes& raQuotes)const;
-	bool WatchForQuote(const CQuote& rQuote,bool bWatch);
+	bool WatchForQuote(const CQuote& rQuote, bool bWatch);
 	MCONTACT GetContactByQuoteID(const tstring& rsQuoteID)const;
 
 protected:
-	virtual void ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp);
+	virtual void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE& odp);
 	virtual void Accept(CQuotesProviderVisitor& visitor)const;
 };
 

@@ -1,32 +1,32 @@
 #include "StdAfx.h"
 
 CQuotesProviderVisitorDbSettings::CQuotesProviderVisitorDbSettings()
-								 : m_pszDbRefreshRateType(NULL),
-								   m_pszDbRefreshRateValue(NULL),
-								   m_pszDbDisplayNameFormat(NULL),
-								   m_pszDefDisplayFormat(NULL),
-								   m_pszDefLogFileFormat(NULL),
-								   m_pszDefHistoryFormat(NULL),
-								   m_pszXMLIniFileName(NULL),
-								   m_pszDbStatusMsgFormat(NULL),
-								   m_pszDefStatusMsgFormat(NULL),
-								   m_pszDbLogMode(NULL),
-								   m_pszDbHistoryFormat(NULL),
-								   m_pszDbHistoryCondition(NULL),
-								   m_pszDbLogFile(NULL),
-								   m_pszDbLogFormat(NULL),
-								   m_pszDbLogCondition(NULL),
-								   m_pszDbPopupFormat(NULL),
-								   m_pszDefPopupFormat(NULL),
-								   m_pszDbPopupCondition(NULL),
-								   m_pszDbPopupColourMode(NULL),
-								   m_pszDbPopupBkColour(NULL),
-								   m_pszDbPopupTextColour(NULL),
-								   m_pszDbPopupDelayMode(NULL),
-								   m_pszDbPopupDelayTimeout(NULL),
-								   m_pszDbPopupHistoryFlag(NULL),
-								   m_pszDbTendencyFormat(nullptr),
-								   m_pszDefTendencyFormat(_T("%r>%p"))
+	: m_pszDbRefreshRateType(NULL),
+	m_pszDbRefreshRateValue(NULL),
+	m_pszDbDisplayNameFormat(NULL),
+	m_pszDefDisplayFormat(NULL),
+	m_pszDefLogFileFormat(NULL),
+	m_pszDefHistoryFormat(NULL),
+	m_pszXMLIniFileName(NULL),
+	m_pszDbStatusMsgFormat(NULL),
+	m_pszDefStatusMsgFormat(NULL),
+	m_pszDbLogMode(NULL),
+	m_pszDbHistoryFormat(NULL),
+	m_pszDbHistoryCondition(NULL),
+	m_pszDbLogFile(NULL),
+	m_pszDbLogFormat(NULL),
+	m_pszDbLogCondition(NULL),
+	m_pszDbPopupFormat(NULL),
+	m_pszDefPopupFormat(NULL),
+	m_pszDbPopupCondition(NULL),
+	m_pszDbPopupColourMode(NULL),
+	m_pszDbPopupBkColour(NULL),
+	m_pszDbPopupTextColour(NULL),
+	m_pszDbPopupDelayMode(NULL),
+	m_pszDbPopupDelayTimeout(NULL),
+	m_pszDbPopupHistoryFlag(NULL),
+	m_pszDbTendencyFormat(nullptr),
+	m_pszDefTendencyFormat(_T("%r>%p"))
 {
 }
 
@@ -56,7 +56,7 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderDukasCopy&/* r
 	m_pszDbLogFile = "DC_LogFile";
 	m_pszDbLogFormat = "DC_LogFileFormat";
 	m_pszDbLogCondition = "DC_AddToLogOnlyIfValueIsChanged";
-	m_pszDbPopupFormat ="DC_PopupFormat";
+	m_pszDbPopupFormat = "DC_PopupFormat";
 	m_pszDbPopupCondition = "DC_ShowPopupOnlyIfValueChanged";
 
 	m_pszDbPopupColourMode = "DC_PopupColourMode";
@@ -83,7 +83,7 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogle&/* rPro
 	m_pszDbLogFile = "Google_LogFile";
 	m_pszDbLogFormat = "Google_LogFileFormat";
 	m_pszDbLogCondition = "Google_AddToLogOnlyIfValueIsChanged";
-	m_pszDbPopupFormat ="Google_PopupFormat";
+	m_pszDbPopupFormat = "Google_PopupFormat";
 	m_pszDbPopupCondition = "Google_ShowPopupOnlyIfValueChanged";
 
 	m_pszDbPopupColourMode = "Google_PopupColourMode";
@@ -111,7 +111,7 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogleFinance&
 	m_pszDbLogFile = "GoogleFinance_LogFile";
 	m_pszDbLogFormat = "GoogleFinance_LogFileFormat";
 	m_pszDbLogCondition = "GoogleFinance_AddToLogOnlyIfValueIsChanged";
-	m_pszDbPopupFormat ="GoogleFinance_PopupFormat";
+	m_pszDbPopupFormat = "GoogleFinance_PopupFormat";
 	m_pszDbPopupCondition = "GoogleFinance_ShowPopupOnlyIfValueChanged";
 
 	m_pszDbPopupColourMode = "GoogleFinance_PopupColourMode";
@@ -124,7 +124,7 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderGoogleFinance&
 	m_pszDbTendencyFormat = "GoogleFinance_TendencyFormat";
 }
 
-void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderYahoo& rProvider)
+void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderYahoo&)
 {
 	m_pszDbRefreshRateType = "Yahoo_RefreshRateType";
 	m_pszDbRefreshRateValue = "Yahoo_RefreshRateValue";
@@ -139,7 +139,7 @@ void CQuotesProviderVisitorDbSettings::Visit(const CQuotesProviderYahoo& rProvid
 	m_pszDbLogFile = "Yahoo_LogFile";
 	m_pszDbLogFormat = "Yahoo_LogFileFormat";
 	m_pszDbLogCondition = "Yahoo_AddToLogOnlyIfValueIsChanged";
-	m_pszDbPopupFormat ="Yahoo_PopupFormat";
+	m_pszDbPopupFormat = "Yahoo_PopupFormat";
 	m_pszDbPopupCondition = "Yahoo_ShowPopupOnlyIfValueChanged";
 
 	m_pszDbPopupColourMode = "Yahoo_PopupColourMode";

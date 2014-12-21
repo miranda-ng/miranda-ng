@@ -6,8 +6,8 @@ class CQuotesProviderVisitorFormatSpecificator : public CQuotesProviderVisitor
 public:
 	struct CFormatSpecificator
 	{
-		CFormatSpecificator(const tstring& rsSymbol = _T(""),const tstring& rsDec = _T(""))
-			: m_sSymbol(rsSymbol),m_sDesc(rsDec){}
+		CFormatSpecificator(const tstring& rsSymbol = _T(""), const tstring& rsDec = _T(""))
+			: m_sSymbol(rsSymbol), m_sDesc(rsDec){}
 
 		tstring m_sSymbol;
 		tstring m_sDesc;

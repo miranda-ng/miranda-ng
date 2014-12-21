@@ -15,7 +15,7 @@
 #define ICON_STR_SWAP "swap"
 
 void Quotes_IconsInit();
-HICON Quotes_LoadIconEx(const char* name,bool bBig = false);
+HICON Quotes_LoadIconEx(const char* name, bool bBig = false);
 HANDLE Quotes_GetIconHandle(int iconId);
 std::string Quotes_MakeIconName(const char* name);
 
