@@ -1630,6 +1630,10 @@ Kontroluj ten pokój (Ctrl + O)
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Close current tab (CTRL+F4)]
 Zamknij bieżącą kartę (Ctrl+F4)
+[Nickname]
+Nick
+[Unique ID]
+Unikalne ID
 [%s: chat room (%u user)]
 %s: Konferencja (%u użytkownik)
 [%s: chat room (%u users)]
@@ -1638,10 +1642,6 @@ Zamknij bieżącą kartę (Ctrl+F4)
 %s: Rozmowa
 [%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
-[Nickname]
-Nick
-[Unique ID]
-Unikalne ID
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Standardowe kontakty

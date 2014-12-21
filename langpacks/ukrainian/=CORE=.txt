@@ -1607,6 +1607,10 @@ UIN, E-mail тощо
 Увімк./вимк. фільтр подій (Ctrl+F)
 [Close current tab (CTRL+F4)]
 Закрити поточну вкладку (Ctrl+F4)
+[Nickname]
+Нік
+[Unique ID]
+Унікальний ID
 [%s: chat room (%u user)]
 %s - Чат (%u)
 [%s: chat room (%u users)]
@@ -1615,10 +1619,6 @@ UIN, E-mail тощо
 %s - Бесіда
 [%s: message session (%u users)]
 %s - Бесіда (%u)
-[Nickname]
-Нік
-[Unique ID]
-Унікальний ID
 [Standard contacts]
 Звичайні контакти
 [Online contacts to whom you have a different visibility]

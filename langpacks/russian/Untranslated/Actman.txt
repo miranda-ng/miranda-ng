@@ -75,3 +75,4 @@
 [WhenWasIt Birthday Reminder (whenwasit.dll)]
 [display birthdays window]
 [&OK]
+[Single instance]
