@@ -879,9 +879,9 @@ Aktualne makro
 [Select for FirstRun]
 Wybierz dla pierwszego uruchomienia
 [Mark as Volatile]
-
+Oznacz jako Ulotną
 [Single instance]
-
+Pojedyncza instancja
 [Miranda event help]
 Pomoc zdarzeń Mirandy
 [contact list]
