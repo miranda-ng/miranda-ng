@@ -482,6 +482,11 @@ bool ImportAccounts()
 		if (p.pa != NULL || p.szBaseProto == NULL || !mir_strcmp(p.szSrcAcc, META_PROTO))
 			continue;
 
+		if (!IsProtocolLoaded(p.szBaseProto)) {
+			AddMessage(LPGENT("Protocol %S is not loaded, skipping account %s creation"), p.szBaseProto, p.tszSrcName);
+			continue;
+		}
+
 		ACC_CREATE newacc;
 		newacc.pszBaseProto = p.szBaseProto;
 		newacc.pszInternal = NULL;
@@ -781,7 +786,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		return NULL;
 	}
 
-	if (!IsProtocolLoaded(pda->pa->szModuleName)) {
+	if (!ProtoGetAccount(pda->pa->szModuleName)) {
 		AddMessage(LPGENT("Skipping contact, %S not installed."), cc->szProto);
 		return NULL;
 	}

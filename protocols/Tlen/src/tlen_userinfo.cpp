@@ -113,14 +113,12 @@ static void FetchField(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 
 static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, int *strSize)
 {
-	int value;
-	char *localFieldName;
-
 	if (hwndDlg == NULL || fieldName == NULL || str == NULL || strSize == NULL)
 		return;
-	value = (int) SendDlgItemMessage(hwndDlg, idCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, idCtrl, CB_GETCURSEL, 0, 0), 0);
+
+	int value = (int) SendDlgItemMessage(hwndDlg, idCtrl, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, idCtrl, CB_GETCURSEL, 0, 0), 0);
 	if (value > 0) {
-		if ((localFieldName=TlenTextEncode(fieldName)) != NULL) {
+		if (char *localFieldName = TlenTextEncode(fieldName)) {
 			TlenStringAppend(str, strSize, "<%s>%d</%s>", localFieldName, value, localFieldName);
 			mir_free(localFieldName);
 		}
@@ -129,7 +127,7 @@ static void FetchCombo(HWND hwndDlg, UINT idCtrl, char *fieldName, char **str, i
 
 int TlenProtocol::UserInfoInit(WPARAM wParam, LPARAM lParam)
 {
-	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
+	if (!ProtoGetAccount(m_szModuleName))
 		return 0;
 
 	MCONTACT hContact = (MCONTACT) lParam;

@@ -23,13 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "import.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-bool IsProtocolLoaded(const char *pszProtocolName)
-{
-	return CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pszProtocolName) != 0;
-}
-
-// ------------------------------------------------
 // Creates a group with a specified name in the
 // Miranda contact list.
 // If contact is specified adds it to group

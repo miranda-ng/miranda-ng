@@ -68,7 +68,7 @@ LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos2);
 
 void FreeFilesMatrix(TCHAR ***files);
 
-PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char* szProtoName)
+PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char *szProtoName)
 {
 	if (szProtoName) {
 		PROTOCOLDESCRIPTOR tmp;
@@ -80,7 +80,7 @@ PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char* szProtoName)
 
 INT_PTR srvProto_IsLoaded(WPARAM, LPARAM lParam)
 {
-	return (INT_PTR)Proto_GetAccount((char*)lParam);
+	return (INT_PTR)Proto_IsProtocolLoaded((char*)lParam);
 }
 
 INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)

@@ -217,11 +217,15 @@ typedef struct {
 #define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
 
 // determines if a protocol module is loaded or not
-// wParam = 0
+// wParam = 0 (unused)
 // lParam = (LPARAM)(const char*)szName
-// Returns a pointer to the PROTOACCOUNT if the protocol is loaded, or
+// Returns a pointer to the PROTOCOLDESCRIPTOR if the protocol is loaded, or
 // NULL if it isn't.
 #define MS_PROTO_ISPROTOCOLLOADED  "Proto/IsProtocolLoaded"
+
+__forceinline PROTOCOLDESCRIPTOR* IsProtocolLoaded(const char *szProto)
+{	return (PROTOCOLDESCRIPTOR*)CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)szProto);
+}
 
 // gets the network-level protocol associated with a contact
 // wParam = (MCONTACT)hContact

@@ -297,7 +297,7 @@ static int OnOkToExit(WPARAM, LPARAM)
 		if (!IsSuitableProto(pa))
 			continue;
 
-		if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)pa->szModuleName))
+		if (!ProtoGetAccount(pa->szModuleName))
 			continue;
 
 		char lastName[128], lastMsg[128];
