@@ -158,6 +158,7 @@ public:
 	int  __cdecl OnGCMenuHook(WPARAM,LPARAM);
 	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int  __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
+	int  __cdecl OnPreCreateEvent(WPARAM, LPARAM);
 
 	// Loops
 	bool    NegotiateConnection();

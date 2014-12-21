@@ -578,13 +578,13 @@ void FacebookProto::SyncThreads(void*)
 	if (ptrtimestamp != NULL)
 		timestamp = ptrtimestamp;
 
-	unsigned __int64 time = _atoi64(timestamp.c_str());
+	long long time = _atoi64(timestamp.c_str());
 
 	if (time > 100000000000) {
 		time /= 1000;
 	}
 
-	if (time < (unsigned) ::time(NULL) - 24 * 60 * 60) {
+	if (time < ::time(NULL) - 24 * 60 * 60) {
 		time_t last = ::time(NULL) - 24 * 60 * 60;
 		timestamp = utils::conversion::to_string((void*)&last, UTILS_CONV_TIME_T) + "000";
 
@@ -870,7 +870,7 @@ void FacebookProto::ProcessMessages(void* data)
 	p->parse_messages(resp, &messages, &facy.notifications, inboxOnly);
 	delete p;
 
-	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
+	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
 
 	ReceiveMessages(messages, local_timestamp);
 

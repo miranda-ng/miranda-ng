@@ -1218,7 +1218,7 @@ bool facebook_client::channel()
 	}
 }
 
-int facebook_client::send_message(MCONTACT hContact, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captcha_persist_data, const std::string &captcha)
+int facebook_client::send_message(int seqid, MCONTACT hContact, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captcha_persist_data, const std::string &captcha)
 {
 	ScopedLock s(send_message_lock_);
 
@@ -1339,6 +1339,16 @@ int facebook_client::send_message(MCONTACT hContact, const std::string &message_
 		std::string timestamp = utils::text::source_get_value(&resp.data, 2, "\"timestamp\":", ",");
 		parent->setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, timestamp.c_str());
 
+		// For classic conversation we try to remember and then replace timestamp of added event in OnPreCreateEvent()
+		bool localTimestamp = parent->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
+		if (seqid > 0 && !localTimestamp) {
+			long long time = _atoi64(timestamp.c_str());
+			if (time > 100000000000)
+				time /= 1000;
+
+			messages_timestamp.insert(std::make_pair(seqid, (DWORD)time));
+		}
+
 		messages_ignore.insert(std::make_pair(mid, 0));
 	} break;
 
@@ -1381,7 +1391,7 @@ int facebook_client::send_message(MCONTACT hContact, const std::string &message_
 				return SEND_MESSAGE_CANCEL;
 			}
 
-			return send_message(hContact, message_recipient, message_text, error_text, method, captchaPersistData, result);
+			return send_message(seqid, hContact, message_recipient, message_text, error_text, method, captchaPersistData, result);
 		}
 
 		return SEND_MESSAGE_CANCEL; // Cancel because we failed to load captcha image so we can't continue only with error

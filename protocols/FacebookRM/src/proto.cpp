@@ -70,6 +70,7 @@ PROTO<FacebookProto>(proto_name, username)
 	HookProtoEvent(ME_GC_BUILDMENU, &FacebookProto::OnGCMenuHook);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &FacebookProto::OnDbEventRead);
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &FacebookProto::OnProcessSrmmEvent);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &FacebookProto::OnPreCreateEvent);
 
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
@@ -581,6 +582,22 @@ int FacebookProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 	}
 
 	return 0;
+}
+
+int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
+{
+	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
+	if (strcmp(GetContactProto(evt->hContact), m_szModuleName))
+		return 0;
+
+	std::map<int, DWORD>::iterator it = facy.messages_timestamp.find(evt->seq);
+	if (it != facy.messages_timestamp.end()) {
+		// set correct timestamp of this message
+		evt->dbei->timestamp = it->second;
+		facy.messages_timestamp.erase(it);
+	}
+	
+	return 1;
 }
 
 INT_PTR FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)

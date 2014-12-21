@@ -446,7 +446,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					continue;
 
 				// check if we should use use local_timestamp for incoming messages and use it for read time too
-				/*bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0);
+				/*bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
 				time_t timestamp = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));*/
 
 				// we can always use NOW for read time, because that's the time of receiving this event (+-)

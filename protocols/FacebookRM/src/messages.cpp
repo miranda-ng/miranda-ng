@@ -42,27 +42,27 @@ void FacebookProto::SendMsgWorker(void *p)
 	ptrA id(getStringA(data->hContact, FACEBOOK_KEY_ID));
 
 	if (!isOnline()) {
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
 	}
 	else if (id == NULL) {
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, 0);
+		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, 0);
 	}
 	else {
 		int retries = 5;
 		std::string error_text;
 		int result = SEND_MESSAGE_ERROR;
 		while (result == SEND_MESSAGE_ERROR && retries > 0) {
-			result = facy.send_message(data->hContact, std::string(id), data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
+			result = facy.send_message(data->msgid, data->hContact, std::string(id), data->msg, &error_text, retries % 2 == 0 ? MESSAGE_INBOX : MESSAGE_MERCURY);
 			retries--;
 		}
 		if (result == SEND_MESSAGE_OK) {
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, data->msgid, 0);
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)data->msgid, 0);
 
 			// Remove from "readers" list and clear statusbar
 			facy.erase_reader(data->hContact);
 		}
 		else {
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)error_text.c_str());
+			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)data->msgid, (LPARAM)error_text.c_str());
 		}
 	}
 
@@ -101,7 +101,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 		}
 
 		if (!tid.empty()) {
-			if (facy.send_message(hContact, tid, data->msg, &err_message, MESSAGE_TID) == SEND_MESSAGE_OK)
+			if (facy.send_message(0, hContact, tid, data->msg, &err_message, MESSAGE_TID) == SEND_MESSAGE_OK)
 				UpdateChat(_A2T(data->chat_id.c_str()), facy.self_.user_id.c_str(), facy.self_.real_name.c_str(), data->msg.c_str());
 			else
 				UpdateChat(_A2T(data->chat_id.c_str()), NULL, NULL, err_message.c_str());
@@ -117,7 +117,7 @@ int FacebookProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	std::string message = (flags & PREF_UNICODE) ? ptrA(mir_utf8encode(msg)) : msg;
 
 	facy.msgid_ = (facy.msgid_ % 1024) + 1;
-	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, message, (HANDLE)facy.msgid_));
+	ForkThread(&FacebookProto::SendMsgWorker, new send_direct(hContact, message, facy.msgid_));
 	return facy.msgid_;
 }
 
