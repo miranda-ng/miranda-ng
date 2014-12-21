@@ -105,7 +105,7 @@ struct NewMessageWindowLParam
 
 struct CommonWindowData
 {
-	MCONTACT hContact;
+	ParentWindowData *parent;
 	int codePage;
 	DWORD flags;
 	HWND hwndLog;
@@ -113,11 +113,11 @@ struct CommonWindowData
 	TCmdList *cmdList, *cmdListCurrent;
 };
 
-struct SrmmWindowData
+struct SrmmWindowData : public CommonWindowData
 {
 	HWND hwnd;
+	MCONTACT hContact;
 	int tabId;
-	ParentWindowData *parent;
 	HWND hwndParent;
 	HANDLE hDbEventFirst, hDbEventLast, hDbUnreadEventFirst;
 	int splitterPos;
@@ -144,7 +144,6 @@ struct SrmmWindowData
 	HICON statusIcon;
 	HICON statusIconBig;
 	HICON statusIconOverlay;
-	CommonWindowData windowData;
 	InfobarWindowData *infobarData;
 };
 

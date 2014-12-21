@@ -434,7 +434,7 @@ void GetContactUniqueId(SrmmWindowData *dat, char *buf, int maxlen)
 	CONTACTINFO ci;
 	memset(&ci, 0, sizeof(ci));
 	ci.cbSize = sizeof(ci);
-	ci.hContact = dat->windowData.hContact;
+	ci.hContact = dat->hContact;
 	ci.szProto = dat->szProto;
 	ci.dwFlag = CNF_UNIQUEID;
 	buf[0] = 0;

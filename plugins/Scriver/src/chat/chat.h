@@ -59,12 +59,10 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase
 	BOOL isFirst;
 };
 
-struct SESSION_INFO : public GCSessionInfoBase
+struct SESSION_INFO : public GCSessionInfoBase, public CommonWindowData
 {
 	TCHAR szSearch[255];
 	int   desiredInputAreaHeight;
-
-	CommonWindowData windowData;
 };
 
 struct GlobalLogSettings : public GlobalLogSettingsBase

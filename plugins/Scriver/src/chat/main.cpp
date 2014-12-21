@@ -55,7 +55,7 @@ static void OnAddLog(SESSION_INFO *si, int isOk)
 
 static void OnCreateSession(SESSION_INFO *si, MODULEINFO*)
 {
-	si->windowData.flags = CWDF_RTF_INPUT;
+	si->flags = CWDF_RTF_INPUT;
 }
 
 static void OnDblClickSession(SESSION_INFO *si)

@@ -47,7 +47,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					st.flags = ST_DEFAULT;
 					st.codepage = 1200;
 					
-					SendDlgItemMessage(hwndDlg, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)ewd->szText);
+					SendDlgItemMessage(hwndDlg, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM)&st, (LPARAM)ewd->szText);
 				}
 				if (ewd->szName)
 					mir_sntprintf(szText, SIZEOF(szText), _T("%s - %s"), TranslateT("Send Error"), ewd->szName);
@@ -83,5 +83,4 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 	}
 	return FALSE;
-
 }
