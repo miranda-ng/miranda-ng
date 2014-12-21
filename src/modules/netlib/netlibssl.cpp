@@ -357,9 +357,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		if (scRet == SEC_E_OK) {
 			// Store remaining data for further use
 			if (InBuffers[1].BufferType == SECBUFFER_EXTRA) {
-				memmove(ssl->pbIoBuffer,
-					ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer),
-					InBuffers[1].cbBuffer);
+				memmove(ssl->pbIoBuffer, ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), InBuffers[1].cbBuffer);
 				ssl->cbIoBuffer = InBuffers[1].cbBuffer;
 			}
 			else ssl->cbIoBuffer = 0;
