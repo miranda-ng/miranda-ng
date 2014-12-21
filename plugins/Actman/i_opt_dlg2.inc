@@ -148,11 +148,12 @@ end;
 // clear "introduced" and "replaced" flags
 procedure SetSave(Dialog:HWND);
 var
-  i,j:integer;
   TmpMacroList:tMacroList;
-  TmpMacroCount:integer;
+  TmpMacro:pMacroRecord;
   wnd:HWND;
   li:LV_ITEMW;
+  i,j:integer;
+  TmpMacroCount:integer;
 begin
   wnd:=MacroListWindow;
   TmpMacroCount:=SendMessageW(wnd,LVM_GETITEMCOUNT,0,0);
@@ -183,10 +184,23 @@ begin
       li.iItem:=i;
       SendMessageW(wnd,LVM_GETITEMW,0,lparam(@li)); // GetLParam(wnd,i);
       move(EditMacroList[loword(li.lParam)]^,TmpMacroList[i]^,SizeOf(tMacroRecord));
+
+      // macro flags
+      TmpMacroList[i]^.flags:=
+          (TmpMacroList[i]^.flags and not ACF_MACROFLAG) or
+          (li.lParam and ACF_MACROFLAG);
+{!!
+      TmpMacro:=TmpMacroList[i];
       if (li.lParam and ACF_FIRSTRUN)<>0 then
-        TmpMacroList[i]^.flags:=TmpMacroList[i]^.flags or ACF_FIRSTRUN
+        TmpMacro^.flags:=TmpMacro^.flags or ACF_FIRSTRUN
       else
-        TmpMacroList[i]^.flags:=TmpMacroList[i]^.flags and not ACF_FIRSTRUN;
+        TmpMacro^.flags:=TmpMacro^.flags and not ACF_FIRSTRUN;
+
+      if (li.lParam and ACF_SINGLEINST)<>0 then
+        TmpMacro^.flags:=TmpMacro^.flags or ACF_SINGLEINST
+      else
+        TmpMacro^.flags:=TmpMacro^.flags and not ACF_SINGLEINST;
+!!}
       li.lParam:=(li.lParam and (not $FFFF)) or i;
       SendMessageW(wnd,LVM_SETITEMW,0,lparam(@li));
     end;
@@ -747,10 +761,15 @@ begin
       begin
         lvi.iItem :=i;
 
-        lvi.lParam:=i;
+        lvi.lParam:=i or (CurMacro^.flags and ACF_MACROFLAG);
+{!!
         if (CurMacro^.flags and ACF_FIRSTRUN)<>0 then
           lvi.lParam:=lvi.lParam or ACF_FIRSTRUN;
-
+        if (CurMacro^.flags and ACF_VOLATILE)<>0 then
+          lvi.lParam:=lvi.lParam or ACF_VOLATILE;
+        if (CurMacro^.flags and ACF_SINGLEINST)<>0 then
+          lvi.lParam:=lvi.lParam or ACF_SINGLEINST;
+!!}
         lvi.pszText:=@(CurMacro^.descr);
         SendMessageW(list,LVM_INSERTITEMW,0,tlparam(@lvi));
         inc(result);
@@ -976,10 +995,12 @@ begin
           end;
 
           case loword(wParam) of
-{
+
             IDC_GROUP_EXPORT: begin
               if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter),false) then
               begin
+aExport(EditMacroList,xmlfilename,0);
+{
                 wnd:=MacroListWindow;
                 for i:=0 to ListView_GetItemCount(wnd)-1 do
                 begin
@@ -1004,15 +1025,19 @@ begin
 // we MUST Export EditMacroList, NOT MacroList
 // OR
 // Use "Apply" code before
-                CallService(MS_ACT_INOUT,i,TLPARAM(@xmlfilename));
+
+//                CallService(MS_ACT_INOUT,i,TLPARAM(@xmlfilename));
+
                 for i:=0 to MaxGroups-1 do
                   with EditMacroList[i] do
                     if (flags and (ACF_EXPORT or ACF_ASSIGNED))=
                                   (ACF_EXPORT or ACF_ASSIGNED) then
                       flags:=flags and not ACF_EXPORT;
-              end;
-            end;
 }
+              end;
+
+            end;
+
             IDC_GROUP_IMPORT: begin
               if ShowDlgW(xmlfilename,xmlfilename,TranslateW(inoutfilter)) then
               begin

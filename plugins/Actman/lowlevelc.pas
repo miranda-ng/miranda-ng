@@ -8,12 +8,14 @@ uses
 
 // Macro flags
 const
-  ACF_ASSIGNED = $80000000; // macro assigned
-  ACF_FIRSTRUN = $40000000; // FirstRun flag
-  ACF_USEDNOW  = $20000000; // macro in use (reserved)
-  ACF_VOLATILE = $10000000; // don't save in DB
+  ACF_ASSIGNED   = $80000000; // macro assigned
+  ACF_FIRSTRUN   = $40000000; // FirstRun flag
+  ACF_USEDNOW    = $20000000; // macro in use (reserved)
+  ACF_VOLATILE   = $10000000; // don't save in DB
+  ACF_SINGLEINST = $08000000; // Single macro instance
 
-  ACF_TOSAVE  = ACF_ASSIGNED or ACF_FIRSTRUN;
+  ACF_TOSAVE  = ACF_ASSIGNED or ACF_FIRSTRUN or ACF_SINGLEINST;
+  ACF_MACROFLAG  = $FF000000;
 
 type
   pActionList = ^tActionList;
@@ -264,8 +266,8 @@ begin
   begin
     StrCopyW(descr,NoDescription,MacroNameLen-1);
     QueryPerformanceCounter(tmp);
-    id         :=tmp and $FFFFFFFF;
-    flags      :=ACF_ASSIGNED;
+    id   :=tmp and $FFFFFFFF;
+    flags:=ACF_ASSIGNED or ACF_SINGLEINST;
   end;
 end;
 

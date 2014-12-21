@@ -10,3 +10,4 @@ const
   IDC_FR_FLAG     = 2155;
   IDC_HC_WPAR     = 2156;
   IDC_VL_FLAG     = 2157;
+  IDC_SI_FLAG     = 2158;
