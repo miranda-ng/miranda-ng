@@ -96,7 +96,7 @@ struct TSkinListItem
 		path = (TCHAR *)mir_alloc(MAX_PATH * sizeof(TCHAR));
 		PathToRelativeT(curPath, path);
 
-		int length = mir_tstrlen(curPath)+mir_tstrlen(fn)+2;
+		size_t length = mir_tstrlen(curPath)+mir_tstrlen(fn)+2;
 		filename = (TCHAR *)mir_alloc(length * sizeof(TCHAR));
 		mir_sntprintf(filename, length, _T("%s\\%s"), curPath, fn);
 	}
@@ -128,7 +128,7 @@ struct TSelectorData
 
 static bool CheckExt(TCHAR *fn, TCHAR *ext, int n)
 {
-	int l = mir_tstrlen(fn);
+	size_t l = mir_tstrlen(fn);
 	return (l > n) && !mir_tstrcmp(fn + l - n, ext);
 }
 
@@ -140,7 +140,7 @@ static void BuildSkinList(HWND hwndList, TCHAR *szExt, int nExtLength = -1, bool
 		if (TCHAR *p = _tcsrchr(mirPath, _T('\\'))) *p = 0;
 		SetCurrentDirectory(mirPath);
 		SendMessage(hwndList, LB_RESETCONTENT, 0, 0);
-		nExtLength = mir_tstrlen(szExt);
+		nExtLength = (int)mir_tstrlen(szExt);
 		SendMessage(hwndList, WM_SETREDRAW, FALSE, 0);
 	}
 
