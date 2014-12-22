@@ -34,6 +34,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static const int UNCOLLAPSED_FRAME_SIZE = 0;
 static const int DEFAULT_TITLEBAR_HEIGHT = 18;
 
+void _AniAva_OnModulesUnload();
+
 //GLOBALS
 FRAMEWND *g_pfwFrames = NULL;
 int g_nFramesCount = 0;
@@ -3607,8 +3609,9 @@ int CLUIFrameOnModulesUnload(WPARAM, LPARAM)
 	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiBorder, 0);
 	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiAlignRoot, 0);
 	CallService(MO_REMOVEMENUITEM, (LPARAM)_hmiPosRoot, 0);
-
 	_hmiVisible = 0;
+
+	_AniAva_OnModulesUnload();
 	return 0;
 }
 
