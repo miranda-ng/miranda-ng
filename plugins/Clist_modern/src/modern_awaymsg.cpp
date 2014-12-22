@@ -76,7 +76,7 @@ static MCONTACT amGetCurrentChain()
 */
 static void amThreadProc(void *)
 {
-	thread_catcher lck(g_hAwayMsgThread);
+	Netlib_Logf(NULL, "amThreadProc thread start");
 
 	ClcCacheEntry dnce;
 	memset(&dnce, 0, sizeof(dnce));
@@ -88,7 +88,7 @@ static void amThreadProc(void *)
 			if ((time - amRequestTick) < AMASKPERIOD) {
 				SleepEx(AMASKPERIOD - (time - amRequestTick) + 10, TRUE);
 				if (MirandaExiting())
-					return;
+					goto LBL_Exit;
 			}
 			CListSettings_FreeCacheItemData(&dnce);
 			dnce.hContact = hContact;
@@ -120,13 +120,17 @@ static void amThreadProc(void *)
 			}
 			else break;
 			if (MirandaExiting())
-				return;
+				goto LBL_Exit;
 		}
 		WaitForSingleObjectEx(hamProcessEvent, INFINITE, TRUE);
 		ResetEvent(hamProcessEvent);
 		if (MirandaExiting())
 			break;
 	}
+
+LBL_Exit:
+	g_hAwayMsgThread = NULL;
+	Netlib_Logf(NULL, "amThreadProc thread end");
 }
 
 BOOL amWakeThread()

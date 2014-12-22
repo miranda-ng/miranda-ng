@@ -71,7 +71,6 @@ static void gtaThreadProc(void*)
 {
 	Netlib_Logf(NULL, "GTA thread start");
 
-	thread_catcher lck(g_hGetTextAsyncThread);
 	SHORTDATA data = { 0 };
 
 	while (!MirandaExiting()) {
@@ -118,6 +117,7 @@ static void gtaThreadProc(void*)
 LBL_Exit:
 	CloseHandle(hgtaWakeupEvent);
 	hgtaWakeupEvent = NULL;
+	g_hGetTextAsyncThread = NULL;
 	Netlib_Logf(NULL, "GTA thread end");
 }
 
