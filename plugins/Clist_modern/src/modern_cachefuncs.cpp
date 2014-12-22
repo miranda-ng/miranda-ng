@@ -25,9 +25,8 @@ Created by Pescuma
 Modified by FYR
 */
 
-/************************************************************************/
-/*             Module for working with lines text and avatars           */
-/************************************************************************/
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module for working with lines text and avatars
 
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_cache_funcs.h"
@@ -37,12 +36,8 @@ Modified by FYR
 
 typedef BOOL(*ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact, void *param);
 
-
-/***********************************/
-/**   Module static declarations  **/
-/***********************************/
-
-/* 	   Module Static Prototypes    */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module static declarations
 
 static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size);
 
@@ -51,9 +46,10 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
 void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
 void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
-/*
- *	Get time zone for contact
- */
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Get time zone for contact
+
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 {
 	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
@@ -66,9 +62,8 @@ void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 	}
 }
 
-/*
- *	Get all lines of text
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// Get all lines of text
 
 void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew)
 {
@@ -85,7 +80,8 @@ void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, TCHAR *szText)
 	iMaxSmileyHeight = 0;
 	DestroySmileyList();
 
-	if (szText == NULL) return;
+	if (szText == NULL)
+		return;
 
 	int text_size = (int)_tcslen(szText);
 
@@ -555,17 +551,13 @@ void Cache_GetSecondLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
 	int type = TEXT_EMPTY;
 
 	if (dat->second_line_show)
-		type = Cache_GetLineText(pdnce, dat->second_line_type, (TCHAR*)Text, SIZEOF(Text), dat->second_line_text,
-		dat->second_line_xstatus_has_priority, dat->second_line_show_status_if_no_away, dat->second_line_show_listening_if_no_away,
-		dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
+		type = Cache_GetLineText(pdnce, dat->second_line_type, Text, SIZEOF(Text), dat->second_line_text,
+			dat->second_line_xstatus_has_priority, dat->second_line_show_status_if_no_away, dat->second_line_show_listening_if_no_away,
+			dat->second_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
+
 	Text[SIZEOF(Text) - 1] = 0; //to be sure that it is null terminated string
 
-	mir_free(pdnce->szSecondLineText);
-
-	if (dat->second_line_show)// Text[0] != '\0')
-		pdnce->szSecondLineText = mir_tstrdup((TCHAR*)Text);
-	else
-		pdnce->szSecondLineText = NULL;
+	replaceStrT(pdnce->szSecondLineText, (dat->second_line_show) ? Text : NULL);
 
 	if (pdnce->szSecondLineText) {
 		if (type == TEXT_LISTENING_TO && pdnce->szSecondLineText[0] != _T('\0'))
@@ -583,19 +575,13 @@ void Cache_GetThirdLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
 	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
 	int type = TEXT_EMPTY;
 	if (dat->third_line_show)
-		type = Cache_GetLineText(pdnce, dat->third_line_type, (TCHAR*)Text, SIZEOF(Text), dat->third_line_text,
-		dat->third_line_xstatus_has_priority, dat->third_line_show_status_if_no_away, dat->third_line_show_listening_if_no_away,
-		dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
+		type = Cache_GetLineText(pdnce, dat->third_line_type, Text, SIZEOF(Text), dat->third_line_text,
+			dat->third_line_xstatus_has_priority, dat->third_line_show_status_if_no_away, dat->third_line_show_listening_if_no_away,
+			dat->third_line_use_name_and_message_for_xstatus, dat->contact_time_show_only_if_different);
 
 	Text[SIZEOF(Text) - 1] = 0; //to be sure that it is null terminated string
 
-	mir_free(pdnce->szThirdLineText);
-
-	if (dat->third_line_show)//Text[0] != '\0')
-		pdnce->szThirdLineText = mir_tstrdup((TCHAR*)Text);
-	else
-		pdnce->szThirdLineText = NULL;
-
+	replaceStrT(pdnce->szThirdLineText, (dat->third_line_show) ? Text : NULL);
 	if (pdnce->szThirdLineText) {
 		if (type == TEXT_LISTENING_TO && pdnce->szThirdLineText[0] != _T('\0'))
 			pdnce->ssThirdLine.AddListeningToIcon(dat, pdnce->szThirdLineText);

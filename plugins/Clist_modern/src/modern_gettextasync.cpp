@@ -38,45 +38,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int CLUI_SyncSetPDNCE(WPARAM wParam, LPARAM lParam);
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
 
-#define gtalock EnterCriticalSection(&gtaCS)
-#define gtaunlock LeaveCriticalSection( &gtaCS )
-
 typedef struct _GetTextAsyncItem {
 	MCONTACT hContact;
 	ClcData *dat;
 	struct _GetTextAsyncItem *Next;
 } GTACHAINITEM;
 
-static GTACHAINITEM * gtaFirstItem = NULL;
-static GTACHAINITEM * gtaLastItem = NULL;
-static CRITICAL_SECTION gtaCS;
+static GTACHAINITEM *gtaFirstItem = NULL;
+static GTACHAINITEM *gtaLastItem = NULL;
+static mir_cs gtaCS;
 static HANDLE hgtaWakeupEvent = NULL;
 
-
-static BOOL gtaGetItem(GTACHAINITEM * mpChain)
+static BOOL gtaGetItem(GTACHAINITEM *mpChain)
 {
-	gtalock;
-	if (!gtaFirstItem)
-	{
-		gtaunlock;
+	if (!mpChain)
 		return FALSE;
-	}
-	else if (mpChain)
-	{
-		GTACHAINITEM * ch;
-		ch = gtaFirstItem;
-		*mpChain = *ch;
-		gtaFirstItem = (GTACHAINITEM *)ch->Next;
-		if (!gtaFirstItem) gtaLastItem = NULL;
-		free(ch);
-		gtaunlock;
-		return TRUE;
-	}
-	gtaunlock;
-	return FALSE;
+
+	mir_cslock lck(gtaCS);
+	if (!gtaFirstItem)
+		return FALSE;
+
+	GTACHAINITEM *ch = gtaFirstItem;
+	*mpChain = *ch;
+	gtaFirstItem = (GTACHAINITEM*)ch->Next;
+	if (!gtaFirstItem)
+		gtaLastItem = NULL;
+	free(ch);
+	return TRUE;
 }
 
-static void gtaThreadProc(void *)
+static void gtaThreadProc(void*)
 {
 	thread_catcher lck(g_hGetTextAsyncThread);
 	SHORTDATA data = { 0 };
@@ -121,6 +112,9 @@ static void gtaThreadProc(void *)
 		WaitForSingleObjectEx(hgtaWakeupEvent, INFINITE, TRUE);
 		ResetEvent(hgtaWakeupEvent);
 	}
+	
+	CloseHandle(hgtaWakeupEvent);
+	hgtaWakeupEvent = NULL;
 }
 
 BOOL gtaWakeThread()
@@ -136,25 +130,23 @@ BOOL gtaWakeThread()
 int gtaAddRequest(ClcData *dat, MCONTACT hContact)
 {
 	if (MirandaExiting()) return 0;
-	gtalock;
-	{
-		GTACHAINITEM * mpChain = (GTACHAINITEM *)malloc(sizeof(GTACHAINITEM));
-		mpChain->hContact = hContact;
-		mpChain->dat = dat;
-		mpChain->Next = NULL;
-		if (gtaLastItem)
-		{
-			gtaLastItem->Next = (GTACHAINITEM *)mpChain;
-			gtaLastItem = mpChain;
-		}
-		else
-		{
-			gtaFirstItem = mpChain;
-			gtaLastItem = mpChain;
-			SetEvent(hgtaWakeupEvent);
-		}
+
+	mir_cslock lck(gtaCS);
+
+	GTACHAINITEM *mpChain = (GTACHAINITEM*)malloc(sizeof(GTACHAINITEM));
+	mpChain->hContact = hContact;
+	mpChain->dat = dat;
+	mpChain->Next = NULL;
+	if (gtaLastItem) {
+		gtaLastItem->Next = (GTACHAINITEM*)mpChain;
+		gtaLastItem = mpChain;
 	}
-	gtaunlock;
+	else {
+		gtaFirstItem = mpChain;
+		gtaLastItem = mpChain;
+		SetEvent(hgtaWakeupEvent);
+	}
+
 	return FALSE;
 }
 
@@ -163,26 +155,13 @@ void gtaRenewText(MCONTACT hContact)
 	gtaAddRequest(NULL, hContact);
 }
 
-int gtaOnModulesUnload(WPARAM, LPARAM)
+void gtaShutdown()
 {
 	SetEvent(hgtaWakeupEvent);
-	return 0;
 }
 
 void InitCacheAsync()
 {
-	InitializeCriticalSection(&gtaCS);
 	hgtaWakeupEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	g_hGetTextAsyncThread = mir_forkthread(gtaThreadProc, 0);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, gtaOnModulesUnload);
-}
-
-void UninitCacheAsync()
-{
-	SetEvent(hgtaWakeupEvent);
-	while (g_hGetTextAsyncThread)
-		SleepEx(50, TRUE);
-
-	CloseHandle(hgtaWakeupEvent);
-	DeleteCriticalSection(&gtaCS);
 }

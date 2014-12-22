@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonheaders.h"
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
+#include "hdr/modern_gettextasync.h"
 #include "hdr/modern_sync.h"
 #include "hdr/modern_clui.h"
 #include <m_modernopt.h>
@@ -141,6 +142,7 @@ void UnLoadContactListModule()  //unhooks noncritical events
 
 int CListMod_ContactListShutdownProc(WPARAM, LPARAM)
 {
+	gtaShutdown();
 	FreeDisplayNameCache();
 	return 0;
 }
@@ -162,7 +164,7 @@ INT_PTR SvcActiveSkin(WPARAM wParam, LPARAM lParam);
 INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam);
 INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam);
 
-HRESULT  CluiLoadModule()
+HRESULT CluiLoadModule()
 {
 	InitDisplayNameCache();
 	HookEvent(ME_SYSTEM_SHUTDOWN, CListMod_ContactListShutdownProc);
@@ -188,9 +190,6 @@ HRESULT  CluiLoadModule()
 	return S_OK;
 }
 
-/*
-Begin of Hrk's code for bug
-*/
 #define GWVS_HIDDEN 1
 #define GWVS_VISIBLE 2
 #define GWVS_COVERED 3
@@ -208,20 +207,9 @@ __inline DWORD GetDIBPixelColor(int X, int Y, int Width, int Height, int ByteWid
 int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 {
 	if (hWnd == NULL) {
-		SetLastError(0x00000006); //Wrong handle
+		SetLastError(0x00000006); // Wrong handle
 		return -1;
 	}
-
-	RECT rc = { 0 };
-	POINT pt = { 0 };
-	int i = 0, j = 0, width = 0, height = 0, iCountedDots = 0, iNotCoveredDots = 0;
-	HWND hAux = 0;
-
-	//Some defaults now. The routine is designed for thin and tall windows.
-	if (iStepX <= 0) iStepX = 8;
-	if (iStepY <= 0) iStepY = 16;
-
-	HWND hwndFocused = GetFocus();
 
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
@@ -229,20 +217,22 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 	if (db_get_b(NULL, "CList", "OnDesktop", SETTING_ONDESKTOP_DEFAULT) || !db_get_b(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 		return GWVS_VISIBLE;
 
+	HWND hwndFocused = GetFocus();
 	if (hwndFocused == pcli->hwndContactList || GetParent(hwndFocused) == pcli->hwndContactList)
 		return GWVS_VISIBLE;
 
-	int hstep, vstep;
-	BITMAP bmp;
-	HBITMAP WindowImage;
+	// Some defaults now. The routine is designed for thin and tall windows.
+	if (iStepX <= 0) iStepX = 8;
+	if (iStepY <= 0) iStepY = 16;
+
 	int maxx = 0;
 	int maxy = 0;
 	int wx = 0;
-	int dx, dy;
 	BYTE *ptr = NULL;
 	HRGN rgn = NULL;
-	WindowImage = g_CluiData.fLayered ? ske_GetCurrentWindowImage() : 0;
+	HBITMAP WindowImage = g_CluiData.fLayered ? ske_GetCurrentWindowImage() : 0;
 	if (WindowImage && g_CluiData.fLayered) {
+		BITMAP bmp;
 		GetObject(WindowImage, sizeof(BITMAP), &bmp);
 		ptr = (BYTE*)bmp.bmBits;
 		maxx = bmp.bmWidth;
@@ -259,27 +249,32 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 		//maxx = rc.right;
 		//maxy = rc.bottom;
 	}
+
+	RECT rc;
 	GetWindowRect(hWnd, &rc);
-	{
-		RECT rcMonitor = { 0 };
-		Docking_GetMonitorRectFromWindow(hWnd, &rcMonitor);
-		rc.top = rc.top < rcMonitor.top ? rcMonitor.top : rc.top;
-		rc.left = rc.left < rcMonitor.left ? rcMonitor.left : rc.left;
-		rc.bottom = rc.bottom > rcMonitor.bottom ? rcMonitor.bottom : rc.bottom;
-		rc.right = rc.right > rcMonitor.right ? rcMonitor.right : rc.right;
-	}
-	width = rc.right - rc.left;
-	height = rc.bottom - rc.top;
-	dx = -rc.left;
-	dy = -rc.top;
-	hstep = width / iStepX;
-	vstep = height / iStepY;
+
+	RECT rcMonitor = { 0 };
+	Docking_GetMonitorRectFromWindow(hWnd, &rcMonitor);
+
+	rc.top = rc.top < rcMonitor.top ? rcMonitor.top : rc.top;
+	rc.left = rc.left < rcMonitor.left ? rcMonitor.left : rc.left;
+	rc.bottom = rc.bottom > rcMonitor.bottom ? rcMonitor.bottom : rc.bottom;
+	rc.right = rc.right > rcMonitor.right ? rcMonitor.right : rc.right;
+
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	int dx = -rc.left;
+	int dy = -rc.top;
+	int hstep = width / iStepX;
+	int vstep = height / iStepY;
 	hstep = hstep > 0 ? hstep : 1;
 	vstep = vstep > 0 ? vstep : 1;
 
-	for (i = rc.top; i < rc.bottom; i += vstep) {
+	int iCountedDots = 0, iNotCoveredDots = 0;
+	for (int i = rc.top; i < rc.bottom; i += vstep) {
+		POINT pt;
 		pt.y = i;
-		for (j = rc.left; j < rc.right; j += hstep) {
+		for (int j = rc.left; j < rc.right; j += hstep) {
 			BOOL po = FALSE;
 			pt.x = j;
 			if (rgn)
@@ -293,13 +288,13 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 			if (po || (!rgn && ptr == 0)) {
 				BOOL hWndFound = FALSE;
 				HWND hAuxOld = NULL;
-				hAux = WindowFromPoint(pt);
+				HWND hAux = WindowFromPoint(pt);
 				do {
 					if (hAux == hWnd) {
 						hWndFound = TRUE;
 						break;
 					}
-					//hAux = GetParent(hAux);
+
 					hAuxOld = hAux;
 					hAux = GetAncestor(hAux, GA_ROOTOWNER);
 					if (hAuxOld == hAux) {
@@ -310,24 +305,25 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 							break;
 						}
 					}
-				} while (hAux != NULL  && hAuxOld != hAux);
+				}
+					while (hAux != NULL  && hAuxOld != hAux);
 
-				if (hWndFound) //There's  window!
-					iNotCoveredDots++; //Let's count the not covered dots.
-				iCountedDots++; //Let's keep track of how many dots we checked.
+				if (hWndFound)        // There's  window!
+					iNotCoveredDots++; // Let's count the not covered dots.
+				iCountedDots++;       // Let's keep track of how many dots we checked.
 			}
 		}
 	}
 	if (rgn)
 		DeleteObject(rgn);
 
-	if (iCountedDots - iNotCoveredDots < 2) //Every dot was not covered: the window is visible.
+	if (iCountedDots - iNotCoveredDots < 2) // Every dot was not covered: the window is visible.
 		return GWVS_VISIBLE;
 
-	if (iNotCoveredDots == 0) //They're all covered!
+	if (iNotCoveredDots == 0) // They're all covered!
 		return GWVS_COVERED;
 
-	//There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
+	// There are dots which are visible, but they are not as many as the ones we counted: it's partially covered.
 	return GWVS_PARTIALLY_COVERED;
 }
 
@@ -401,15 +397,13 @@ int cliShowHide(WPARAM, LPARAM lParam)
 			CListMod_HideWindow();
 			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		}
+		else if (db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
+			CLUI_ShowWindowMod(pcli->hwndContactList, SW_HIDE);
+			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+		}
 		else {
-			if (db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
-				CLUI_ShowWindowMod(pcli->hwndContactList, SW_HIDE);
-				db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
-			}
-			else {
-				CLUI_ShowWindowMod(pcli->hwndContactList, SW_MINIMIZE);
-				db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
-			}
+			CLUI_ShowWindowMod(pcli->hwndContactList, SW_MINIMIZE);
+			db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
 		SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
@@ -419,7 +413,9 @@ int cliShowHide(WPARAM, LPARAM lParam)
 
 int CListMod_HideWindow()
 {
-	KillTimer(pcli->hwndContactList, 1/*TM_AUTOALPHA*/);
-	if (!CLUI_HideBehindEdge())  return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
+	KillTimer(pcli->hwndContactList, 1);
+	
+	if (!CLUI_HideBehindEdge())
+		return CLUI_SmoothAlphaTransition(pcli->hwndContactList, 0, 1);
 	return 0;
 }
