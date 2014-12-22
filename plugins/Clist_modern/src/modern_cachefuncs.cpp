@@ -75,7 +75,7 @@ void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew)
 	}
 }
 
-void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, TCHAR *szText)
+void CSmileyString::AddListeningToIcon(SHORTDATA *dat, TCHAR *szText)
 {
 	iMaxSmileyHeight = 0;
 	DestroySmileyList();
@@ -179,7 +179,7 @@ void CSmileyString::DestroySmileyList()
 * Parsing of text for smiley
 */
 
-void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
+void CSmileyString::ReplaceSmileys(SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
 {
 	int last_pos = 0;
 	iMaxSmileyHeight = 0;
@@ -535,7 +535,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 	else mir_tstrncpy(contact->szText, name, SIZEOF(contact->szText));
 
 	if (!dat->force_in_dialog) {
-		struct SHORTDATA data = { 0 };
+		SHORTDATA data = { 0 };
 		Sync(CLUI_SyncGetShortData, (WPARAM)pcli->hwndContactTree, (LPARAM)&data);
 		contact->ssText.ReplaceSmileys(&data, pdnce, contact->szText, dat->first_line_draw_smileys);
 	}
@@ -545,7 +545,7 @@ void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 *	Get the text for Second Line
 */
 
-void Cache_GetSecondLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
+void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 {
 	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
 	int type = TEXT_EMPTY;
@@ -570,7 +570,7 @@ void Cache_GetSecondLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
 /*
 *	Get the text for Third Line
 */
-void Cache_GetThirdLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
+void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce)
 {
 	TCHAR Text[240 - EXTRA_ICON_COUNT] = { 0 };
 	int type = TEXT_EMPTY;

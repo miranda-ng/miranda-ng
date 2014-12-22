@@ -208,8 +208,7 @@ static int clcHookSettingChanged(WPARAM hContact, LPARAM lParam)
 		else if (!mir_strcmp(cws->szSetting, "XStatusId") || !mir_strcmp(cws->szSetting, "XStatusName"))
 			cliCluiProtocolStatusChanged(0, cws->szModule);
 	}
-	else // hContact != NULL
-	{
+	else {
 		if (!mir_strcmp(cws->szSetting, "TickTS"))
 			pcli->pfnClcBroadcast(INTM_STATUSCHANGED, hContact, 0);
 		else if (!mir_strcmp(cws->szModule, "UserInfo")) {
@@ -1777,7 +1776,7 @@ int ClcDoProtoAck(MCONTACT, ACKDATA * ack)
 	return 0;
 }
 
-int ClcGetShortData(ClcData* pData, struct SHORTDATA *pShortData)
+int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData)
 {
 	if (!pData || !pShortData)
 		return -1;

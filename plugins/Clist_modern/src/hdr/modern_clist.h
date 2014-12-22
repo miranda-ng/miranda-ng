@@ -60,13 +60,13 @@ public:
 		DestroySmileyList();
 	}
 
-	void ReplaceSmileys(struct SHORTDATA *dat, struct ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
+	void ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys);
 
 	/**	Destroy smiley list */
 	void DestroySmileyList();
 	/**  Copy Smiley List */
 	void _CopySmileyList(SortedList *plInput);
-	void AddListeningToIcon(struct SHORTDATA *dat, TCHAR *szText);
+	void AddListeningToIcon(SHORTDATA *dat, TCHAR *szText);
 
 };
 
