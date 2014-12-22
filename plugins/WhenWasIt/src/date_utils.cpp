@@ -30,7 +30,7 @@ time_t Today()
 
 bool IsDOBValid(int year, int month, int day)
 {
-	return (year != 0 && month != 0 && day != 0);
+	return (month != 0 && day != 0);
 }
 
 int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day)
@@ -76,7 +76,10 @@ int GetContactAge(MCONTACT hContact)
 	time(&tNow);
 	struct tm *now = localtime(&tNow);
 	GetContactDOB(hContact, year, month, day);
-	return (now->tm_year + 1900) - year;
+	if (year == 0) 
+		return 0; 
+	else 
+		return (now->tm_year + 1900) - year;
 }
 
 char GetContactGender(MCONTACT hContact)
