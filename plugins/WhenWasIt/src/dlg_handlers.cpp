@@ -612,14 +612,14 @@ int UpdateBirthdayEntry(HWND hList, MCONTACT hContact, int entry, int bShowAll, 
 			mir_sntprintf(buffer, SIZEOF(buffer), NA);
 
 		ListView_SetItemText(hList, entry, 2, buffer);
-		if ((year != 0) && (month != 0) && (day != 0))
+		if ((month != 0) && (day != 0))
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%04d-%02d-%02d"), year, month, day);
 		else
 			mir_sntprintf(buffer, SIZEOF(buffer), NA);
 
 		ListView_SetItemText(hList, entry, 3, buffer);
 
-		if (age < 400) //hopefully noone lives longer than this :)
+		if (age < 400 && age > 0) //hopefully noone lives longer than this :)
 			mir_sntprintf(buffer, SIZEOF(buffer), _T("%d"), age);
 		else
 			mir_sntprintf(buffer, SIZEOF(buffer), NA);
