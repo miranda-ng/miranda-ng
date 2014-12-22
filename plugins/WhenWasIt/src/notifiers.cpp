@@ -94,11 +94,15 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 		sex = TranslateT("He/She");
 		break;
 	}
-	if (dtb > 0)
-		mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s will be %d years old."), text, sex, age);
+	if (age > 0) {
+		if (dtb > 0)
+			mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s will be %d years old."), text, sex, age);
+		else
+			mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s just turned %d."), text, sex, age);
+	}
 	else
-		mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s just turned %d."), text, sex, age);
-
+		mir_tstrncpy(pd.lptzText, text, mir_tstrlen(text));
+	
 	PUAddPopupT(&pd);
 
 	return 0;
@@ -134,11 +138,15 @@ int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 		sex = TranslateT("He/She");
 		break;
 	}
-	if (dab > 0)
-		mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s just turned %d."), text, sex, age);
-	else
-		mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s just turned %d."), text, sex, age);
-	
+	if (age > 0){
+		if (dab > 0)
+			mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s just turned %d."), text, sex, age);
+		else
+			mir_sntprintf(pd.lptzText, SIZEOF(pd.lptzText), TranslateT("%s\n%s just turned %d."), text, sex, age);
+	}
+	else 
+		mir_tstrncpy(pd.lptzText, text, mir_tstrlen(text));
+
 	PUAddPopupT(&pd);
 	return 0;
 }
