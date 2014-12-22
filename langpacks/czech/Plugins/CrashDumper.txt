@@ -69,6 +69,8 @@ Zobrazit
 Zobrazit s DLL knihovnami
 [Upload]
 Nahrát na server
+[Copy link to clipboard]
+Zkopírovat odkaz do schránky
 [Open crash report directory]
 Otevřít složku s výpisem chyb
 [Open online Version Info]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.0.1
+;  Version: 0.11.2.1
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -16,6 +16,10 @@ Heslo:
 Výchozí skupina:
 [Account]
 Účet
+[Contacts]
+Kontakty
+[Use bigger avatars]
+Zobrazit větší avatary
 [Captcha]
 Ověřovací kód
 [Cancel]
@@ -28,7 +32,22 @@ Z bezpečnostních důvodů musíte ověřit přístup k vašemu účtu zadání
 Navštívit doménu e-mailu
 [Block]
 Blokovat
+;file \protocols\Steam\src\stdafx.cpp
+[Steam game]
+Steam hra
 ;file \protocols\Steam\src\steam_contacts.cpp
+[Looking to play]
+Chci hrát
+[Looking to trade]
+Chci obchodovat
+[ on server %s]
+ na serveru %s
+[Playing]
+Hraje
+[%s has been removed from your contact list]
+%s byl odebrán z vašeho seznamu kontaktů
+[%s is back in your contact list]
+%s je zpět ve vašem seznamu kontaktů
 [%s has added you to his or her Friend List]
 %s si vás přidal do svého seznamu kontaktů
 ;file \protocols\Steam\src\steam_dialogs.cpp
@@ -52,13 +71,13 @@ Volba nabídky Steam
 Požádat o autorizaci
 [Join to game]
 Přidat se do hry
-;file \protocols\Steam\src\steam_pooling.cpp
-[%s has been removed from your contact list]
-%s byl odebrán z vašeho seznamu kontaktů
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoly
 [Protocol icon]
 Ikona protokolu
+[Gaming icon]
+Herní ikona
 [SteamID]
 SteamID
+;file \protocols\Steam\src\steam_xstatus.cpp

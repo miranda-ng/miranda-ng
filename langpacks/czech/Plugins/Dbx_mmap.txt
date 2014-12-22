@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.1.3
+;  Version: 0.95.3.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -39,14 +39,14 @@ Všechny řetězce a události v historii jsou šifrovány. To v důsledku způs
 [Set password]
 Nastavit heslo
 ;file \plugins\Db3x_mmap\src\database.cpp
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
+Miranda zjistila poškození vaší databáze. Toto poškození může být možná opraveno doplňkem DbChecker. Stáhněte si jej z http://miranda-ng.org/p/DbChecker/. Miranda bude nyní ukončena.
 [Disk is full. Miranda will now shut down.]
 Disk je plný. Miranda bude nyní ukončena.
 [Database failure. Miranda will now shut down.]
 Selhání databáze. Miranda bude nyní ukončena.
 [Database Error]
 Chyba databáze.
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Miranda zjistila poškození vaší databáze. Toto poškození může být možná opraveno doplňkem DbChecker. Stáhněte si jej z http://miranda-ng.org/p/DbChecker/. Miranda bude nyní ukončena.
 [Database Panic]
 Poškození databáze
 ;file \plugins\Db3x_mmap\src\dbheaders.cpp

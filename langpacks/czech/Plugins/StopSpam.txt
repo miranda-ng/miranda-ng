@@ -6,24 +6,24 @@
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
-
+Anti-spamový doplněk pro Mirandu NG.
 ;file \plugins\StopSpamPlus\res\stopspam.rc
 [Question (Ctrl+Enter for carriage return):]
 Otázka (nový řádek pomocí CTRL+ENTER):
 [Restore defaults]
 Obnovit původní
 [Answer (Use divider to separate answers):]
-
+Odpověď (použijte oddělovač pro více odpovědí):
 [Congratulation:]
 Po úspěšné odpovědi:
 [Auth. request reply:]
-
+Odpověď na žádost o autorizaci:
 [Divider:]
 Oddělovač:
 [Vars]
-
+Proměnné
 [Disable protection for following accounts:]
-
+Zakázat ochranu pro následující účty:
 [Do not send more than]
 Neposílat více než
 [questions to one contact (0 - for no limit)]
@@ -33,13 +33,13 @@ Povolit ochranu proti spamu StopSpam-StopSpam
 [Add contact permanently]
 Automaticky přidat kontakt po správné odpovědi
 [Enable auth. requests blocking]
-
+Povolit blokování žádostí o autorizaci
 [Answer is not case sensitive]
-
+Odpověď není závislá na velikosti písmen
 [Remove all temporary contacts after restart]
-
+Odstranit všechny dočasné kontakty po restartu
 [Log Spammers to system history]
-
+Ukládat spammery do historie systému
 ;file \plugins\StopSpamPlus\src\events.cpp
 [Message Sessions]
 Komunikace
@@ -51,17 +51,17 @@ Zprávy
 Účty
 ;file \plugins\StopSpamPlus\src\headers.h
 [StopSpam]
-
+StopSpam
 ;file \plugins\StopSpamPlus\src\options.cpp
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
 Už žádný další spam! Roboti nemají šanci, zde si povídají lidé!\r\n\r\nTento doplněk pracuje na jednoduchém principu:\r\nZatímco zprávy od lidí ze seznamu kontaktů projdou vždy, jako by tu žádný filtr nebyl, zprávy od neznámých kontaktů doručeny nebudou. Tyto zprávy ale nejsou ignorovány, jen je jejich autorům nejdříve automaticky zaslána jednoduchá otázka. Teprve až po jejím správném zodpovězení vás může dotyčný kontaktovat.
 [StopSpam automatic message:\r\n]
-
+Automatická zpráva StopSpam:\r\n
 ;file \plugins\StopSpamPlus\src\services.cpp
 [Not In List]
-
+Není v seznamu
 [Complete]
 Dokončeno
 ;file \plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
-
+Odstranit dočasné kontakty

@@ -14,8 +14,8 @@ Zobrazit ikonu
 Zobrazit ikony udělení
 [Plugin settings]
 Nastavení doplňku
-[Enable menu item (*)]
-Zobrazit položku v nabídce (*)
+[Enable menu item (restart required)]
+Zobrazit položku v nabídce (vyžadován restart)
 [Show icons only for recently added contacts]
 Zobrazit ikony jen pro nedávno přidané kontakty
 ;file \plugins\AuthState\src\main.cpp

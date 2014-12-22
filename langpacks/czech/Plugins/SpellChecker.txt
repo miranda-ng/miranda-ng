@@ -25,11 +25,11 @@ Přidat slovo automatické náhrady
 [Wrong word:]
 Chybné slovo:
 [No separators and all lowercase chars]
-
+Bez oddělovačů a vše malými písmeny
 [Correction:]
 Oprava:
 [Use variables in correction]
-
+Používat proměnné v opravách
 [Cancel]
 Zrušit
 [Spell Checker]
@@ -39,11 +39,11 @@ Výchozí jazyk:
 [Auto-replace words with dictionary suggestions]
 Automaticky nahrazovat slova navrženými výskyty ze slovníku
 [Ignore words with numbers]
-
+Ignorovat slova s číslicemi
 [Ignore words in UPPER CASE]
 Ignorovat slova KAPITÁLKAMI
 [Ask before sending a message with spelling errors]
-
+Zeptat se před odesláním zprávy s pravopisnými chybami
 [Download more dictionaries]
 Stáhnout další slovníky
 [Advanced]
@@ -63,16 +63,16 @@ Určit jazyk slovníku dle zvolené klávesnice
 [Use dictionaries from other programs]
 Použít slovníky jiných programů
 [Avoid removing underscores (slows down checking of long texts)]
-
+Zabránit odstraňování podtržítek (zpomalí kontrolu dlouhých textů)
 ;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
-
+Chybné slovo nemůže být prázdné
 [Wrong Correction]
 Špatná oprava
 [The correction can't be empty!]
-
+Oprava nemůže být prázdná!
 [The correction can't be equal to the wrong word!]
-
+Oprava nemůže být stejná jako chybné slovo!
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [Tagalog (Philippines)]
 Tagalog (Filipíny)

@@ -43,29 +43,34 @@ Vypnout oznámení
 Databáze Mirandy NG
 [Created by:]
 Vytvořeno:
-[Miranda NG databases]
-Databáze Mirandy NG
-[Compressed Miranda NG databases]
-Komprimované databáze Mirandy NG
-[All files]
-Všechny soubory
 [Backup in progress]
 Probíhá zálohování
 [Copying database file...]
 Kopírování souborů s profilem...
 [Database backed up]
 Databáze zálohována
-;file \plugins\Db_autobackups\src\main.cpp
+[Database back up in process...]
+Probíhá záloha databáze...
+[Error]
+Chyba
+;file \plugins\Db_autobackups\src\headers.h
 [Backup profile]
 Zazálohovat profil
 [Save profile as...]
 Uložit profil jako...
-[Database backups]
-Zálohování databáze
-[Backup folder]
-Složka pro zálohování profilů
+;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Databáze
+[Database backups]
+Zálohování databáze
+[Miranda NG databases]
+Databáze Mirandy NG
+[Compressed Miranda NG databases]
+Komprimované databáze Mirandy NG
+[All files]
+Všechny soubory
+[Backup folder]
+Složka pro zálohování profilů
 ;file \plugins\Db_autobackups\src\options.cpp
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.5
+;  Version: 3.4.0.7
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1167,12 +1167,12 @@ Nastavení místnosti...
 Zavřít relaci
 [Copy To Clipboard]
 Kopírovat do schránky
-[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Zpráva stavu:\\ul0\\b0 \\par %s
-[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b Zpráva rozšířeného stavu:\\ul0\\b0 \\par
-[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
-
+[\\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\ul\\b Zpráa stavu:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\ul\\b Zpráva rozšířeného :\\ul0\\b0 \\par\s
+[\\par\\par\\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\ul\\b Poslech hudby:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Klient:\\ul0\\b0  %s
 [TabSRMM Information]
@@ -1416,10 +1416,6 @@ Zvýrazňování
 [Choose status modes]
 Vyberte stavy
 ;file \plugins\TabSRMM\src\msgs.cpp
-[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
-
-[TabSRMM fatal error]
-
 [Image tag]
 Tag obrázku
 [Quote text]
@@ -1481,20 +1477,24 @@ Okno 4
 [Message Log]
 Záznam komunikace
 [Animated Tray]
-
+Animovaná ikona v liště
 [Clock symbol (for the info panel clock)]
 Symbol hodin (pro hodiny informačního panelu)
 [Feature disabled (used as overlay)]
 Funkce zakázána (použito jako překrytí)
 [Feature enabled (used as overlay)]
 Funkce povolena (použito jako překrytí)
+[The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
+Doplněk pro práci s obrázky (advaimg.dll) není nainstalován.\n\nTabSRMM je zakázáno.
+[TabSRMM fatal error]
+TabSRMM kritická chyba
 ;file \plugins\TabSRMM\src\msgs.h
 [Message windows - IM]
-
+Komunikační okna - klasické rozhovory
 [Message windows - all]
-
+Komunikační okna - všechny rozhovory
 [Message windows - group chats]
-
+Komunikační okna - skupinové rozhovory
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Vyberte kontejner pro %s
@@ -1807,9 +1807,6 @@ Zavírání okna|Pokoušíte se zavřít okno s několika otevřenými panely.\n
 Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí být po nahrání tématu toto okno zavřeno\\b1 a neuložené změny mohou být ztraceny\\b0 .\n\nPřejete si pokračovat?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
-;file \plugins\TabSRMM\src\chat\colorchooser.cpp
-[Text color]
-Barva textu
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%s has joined]
 Příchod: %s

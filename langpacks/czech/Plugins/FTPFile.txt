@@ -130,7 +130,7 @@ Zkopírovat adresu odkazu
 [User Info]
 Informace o uživateli
 [Copy Link to Clipboard]
-
+Zkopírovat odkaz do schránky
 [%d minutes]
 %d minut
 [%d hours]

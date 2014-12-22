@@ -5,7 +5,7 @@
 ;  Version: 0.9.1.1
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
-[Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enhanced metacontact cooperation.]
+[Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Zobrazuje kontakty, upozornění na události, stavy protokolů a umožňuje pokročilé úpravy vzhledu. Podporuje rámečky a rozšířenou práci s metakontakty.
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
@@ -390,12 +390,10 @@ Průhlednost
 Zobrazit stín (vyžaduje restart)
 [Frames]
 Rámečky
-[Between frames:]
-Mezi okny:
-[After captions:]
-Pod záhlavím:
-[Gaps]
-Mezery
+[Gaps between frames:]
+Mezery mezi rámečky:
+[Gaps after captions:]
+Mezery pod záhlavími:
 [Use non-layered mode]
 Použít režim bez skinu
 [Round corners]
@@ -408,7 +406,7 @@ Vypnout skinovací aparát
 Povolit Aero Glass (Vista+)
 [Order of items:]
 Pořadí prvků:
-[Min row height:]
+[Minimum row height:]
 Min. výška řádku:
 [Row border:]
 Rámeček řádku:
@@ -426,14 +424,14 @@ Dolů
 Levý okraj:
 [Right margin:]
 Pravý okraj:
-[Compact mode\n(Show avatars and additional text on selected contacts only)]
-Kompaktní režim\n(Zobrazí avatary a další informace pouze u vybraného kontaktu)
+[Compact mode (show avatars and additional text on selected contacts only)]
+Kompaktní režim (zobrazí avatary a další informace pouze u vybraného kontaktu)
 [Draw border on avatar]
 Orámovat avatary
 [Draw overlay icons]
 Překrývat upřesňujícími ikonami
-[Size:]
-Velikost:
+[Max size (pixels):]
+Max. velikost (px):
 [Round corners of avatars]
 Zaoblit rohy avatarů
 [Ignore size for row height calcs]
@@ -450,9 +448,9 @@ Ikona stavu protokolu
 Ikona kontaktu
 [height]
 výška
-[Max width]
-Max.šířka
-[Use old render method (fast, but has artefacts)]
+[width]
+Šířka
+[Use old render method (fast, but has artifacts)]
 Použít staré vykreslování (rychlé, ale zanechává stopy)
 [Hide icon when showing avatar]
 Skrýt ikonu při zobrazeném avataru
@@ -460,7 +458,7 @@ Skrýt ikonu při zobrazeném avataru
 Umístit ikonu do prostoru avataru
 [Hide groups icon]
 Skrýt ikonu skupin
-[Always show "Always visibile" icon]
+[Always show "Always visible" icon]
 Vždy zobrazit ikonu 'Vždy viditelný'
 [Use extra status icon instead protocol]
 Zobrazit rozšířený stav místo ikony protokolu
@@ -528,7 +526,7 @@ Zarovnání
 Možnosti
 [Visible]
 Viditelné
-[Show Title]
+[Show title]
 Zobrazit záhlaví
 [Locked]
 Uzamknout
@@ -536,7 +534,7 @@ Uzamknout
 Okraj
 [Floating]
 Plovoucí
-[Frames Order]
+[Frames order]
 Pořadí rámečků
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
 VE VÝSTAVBĚ!!!            NEFUNGUJE
@@ -777,7 +775,7 @@ Seznam
 [Window]
 Okno
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No Events]
+[No events]
 Žádné události
 [Event area background]
 Pozadí oblasti oznámení
@@ -813,7 +811,7 @@ Ikona
 Text
 [Extra icons]
 Doplňkové ikony
-[Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
+[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
 Animovat avatary (je zapotřebí GDI+ a modul Avatar Service (avs.dll))
 [Left align group names]
 Názvy skupiny vlevo
@@ -826,7 +824,7 @@ Názvy skupin vpravo
 [Row design]
 Vzhled řádku
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
-[(Unknown Contact)]
+[(Unknown contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [Tray menu]
@@ -859,7 +857,7 @@ Ukončit program Miranda
 Hlavní
 [Restore last status]
 Obnovit předchozí stav
-[Show/Hide Offline Users]
+[Show/Hide offline users]
 Zobrazit/skrýt uživatele offline
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [Empty %s cell]
@@ -896,7 +894,7 @@ Jedná se o skin ve stylu systému Vista Aero.
 Angeli-Ka (grafika), FYR (šablony)
 [Inside library]
 Vše v knihovně
-[Skin Information]
+[Skin information]
 Informace o skinu
 [Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
 Náhled není k dispozici\n\n%s\n----------------------\n\n%s\n\nAUTOR:\n%s\n\nKONTAKT:\n%s\n\nWEB:\n%s
@@ -1043,7 +1041,7 @@ Zobrazit všechny rámečky
 Zobrazit záhlaví rámečků
 [Hide all title bars]
 Skrýt záhlaví rámečků
-[Lock Frame]
+[Lock frame]
 Zamknout rámeček
 ;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
 [Frame menu]
