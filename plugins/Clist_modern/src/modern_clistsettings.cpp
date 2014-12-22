@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_clist.h"
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_awaymsg.h"
+#include "hdr/modern_gettextasync.h"
 
 void InsertContactIntoTree(MCONTACT hContact, int status);
 void CListSettings_FreeCacheItemDataOption(ClcCacheEntry *pDst, DWORD flag);
@@ -39,9 +40,6 @@ TCHAR* UnknownConctactTranslatedName = NULL;
 
 void InvalidateDNCEbyPointer(MCONTACT hContact, ClcCacheEntry *pdnce, int SettingType);
 
-void InitCacheAsync();
-void UninitCacheAsync();
-
 void InitDisplayNameCache(void)
 {
 	InitCacheAsync();
@@ -50,7 +48,6 @@ void InitDisplayNameCache(void)
 
 void FreeDisplayNameCache()
 {
-	UninitCacheAsync();
 	UninitAwayMsgModule();
 
 	for (int i = 0; i < clistCache.getCount(); i++) {
