@@ -178,7 +178,9 @@ int _AniAva_OnModulesUnload(WPARAM, LPARAM)
 
 static void _AniAva_AnimationTreadProc(void*)
 {
-	//wait forever till hExitEvent signalled
+	Netlib_Logf(NULL, "AnimationTreadProc thread start");
+
+	// wait forever till hExitEvent signalled
 	HANDLE hThread = 0;
 	s_AnimationThreadID = GetCurrentThreadId();
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
@@ -198,6 +200,8 @@ static void _AniAva_AnimationTreadProc(void*)
 		else if (rc == WAIT_OBJECT_0)
 			break;
 	}
+
+	Netlib_Logf(NULL, "AnimationTreadProc thread end");
 	CloseHandle(s_AnimationThreadHandle);
 	s_AnimationThreadHandle = NULL;
 }
@@ -375,18 +379,13 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 	if (pai) {
 		ANIAVA_POSINFO * api = (ANIAVA_POSINFO *)malloc(sizeof(ANIAVA_POSINFO));
 		if (!pai->hWindow) {
-			HWND hwnd;
-			HWND parent;
 			ANIAVATARIMAGEINFO avii = { 0 };
 			//not found -> create window
 			char szName[150] = "AniAvaWnd_";
-			TCHAR * tszName;
 			_itoa((int)hContact, szName + 10, 16);
 
-			tszName = mir_a2t(szName);
-			hwnd = _AniAva_CreateAvatarWindowSync(tszName);
-			mir_free(tszName);
-			parent = GetAncestor(pcli->hwndContactList, GA_PARENT);
+			HWND hwnd = _AniAva_CreateAvatarWindowSync(_A2T(szName));
+			HWND parent = GetAncestor(pcli->hwndContactList, GA_PARENT);
 			pai->hWindow = hwnd;
 			SendMessage(hwnd, AAM_SETPARENT, (WPARAM)parent, 0);
 			if (_AniAva_GetAvatarImageInfo(pai->dwAvatarUniqId, &avii))
@@ -485,6 +484,7 @@ static void CALLBACK _AniAva_SyncCallerUserAPCProc(DWORD_PTR dwParam)
 	item->nResult = item->pfnProc(item->wParam, item->lParam);
 	SetEvent(item->hDoneEvent);
 }
+
 static INT_PTR _AniAva_CreateAvatarWindowSync_Worker(WPARAM tszName, LPARAM)
 {
 	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS, (TCHAR*)tszName, WS_POPUP,

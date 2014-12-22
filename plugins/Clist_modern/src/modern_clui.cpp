@@ -1425,22 +1425,26 @@ static int CLUI_SyncSmoothAnimation(WPARAM, LPARAM)
 
 static void CLUI_SmoothAnimationThreadProc(void *param)
 {
-	thread_catcher lck(g_hSmoothAnimationThread);
+	Netlib_Logf(NULL, "SmoothAnimationThreadProc thread end");
 
 	if (mutex_bAnimationInProgress) {
 		do {
 			if (!g_mutex_bLockUpdating) {
 				if (MirandaExiting())
-					return;
+					break;
 
 				Sync(CLUI_SyncSmoothAnimation, 0, (LPARAM)param);
 				SleepEx(20, TRUE);
 				if (MirandaExiting())
-					return;
+					break;
 			}
 			else SleepEx(0, TRUE);
-		} while (mutex_bAnimationInProgress);
+		}
+			while (mutex_bAnimationInProgress);
 	}
+
+	Netlib_Logf(NULL, "SmoothAnimationThreadProc thread end");
+	g_hSmoothAnimationThread = NULL;
 }
 
 static int CLUI_SmoothAlphaThreadTransition()
