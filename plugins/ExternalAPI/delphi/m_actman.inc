@@ -4,35 +4,58 @@
 // defined in interfaces.inc
 //const MIID_ACTMANAGER:MUUID='{9584DA04-FB4F-40c1-9325-E4F9CAAFCB5D}';
 
-// new and common Actman data
 const
   AutoStartName:PWideChar = '#Autostart';
+
+//----- Macro executing services -----
+  
+const
+  {
+    wParam - id: dword
+    lParam - parameter
+  }
+  MS_ACT_RUNBYID  :PAnsiChar = 'Actions/RunById';
+
+  {
+    wParam - unicode macro name
+    lParam - parameter
+  }
+  MS_ACT_RUNBYNAME:PAnsiChar = 'Actions/RunByName';
+
+const
+  ACTP_BYNAME     =  1; // id points on unicode name
+  ACTP_WAIT       =  2; // waiting for macro finish
+  ACTP_NOTIFY     =  4; // notify (raise event) for start/finish macro
+  ACTP_SAMETHREAD =  8; // execute macro in same thread (with finish waiting)
+  ACTP_KEEPRESULT = 16; // (internal) keep last result
+type
+  pAct_Param = ^tAct_Param;
+  tAct_Param = record
+    Id    :uint_ptr; // Id or name
+    wParam:WPARAM;
+    lParam:LPARAM;
+    flags :dword; // ACTP_*
+    lPType:dword; // last result (in lParam) type
+  end;
+
+const
+  { Starts macro with 2 parameters
+    wParam: 0
+    lParam: pointer to TAct_Param
+  }
+  MS_ACT_RUNPARAMS:PAnsiChar = 'Actions/RunWithParams';
+
+//----- Macro list operations -----
+
 const
   // Get list service (full share)
-  ACCF_EXPORT   = $08000000;   // action to export (UA export)
-  ACCF_IMPORT   = ACCF_EXPORT; // (UA import)
-
-//----- Old Actman compatibility -----
-const
-  DBBranch = 'ActMan';
-const
-  ACCF_DISABLED = $10000000;  // action disabled
-  ACCF_OVERLOAD = $01000000;  // imported action overwrite old
-  ACCF_IMPORTED = ACCF_EXPORT;
-  ACCF_VOLATILE = $04000000;  // don't save in DB
-  ACCF_ID       = $02000000;  // for MS_ACT_SELECT, lParam is ID (else name)
-  ACCF_CLEAR    = $01000000;  // clear other flags, else - set
-  ACCF_FLAGS    = ACCF_DISABLED or ACCF_EXPORT or ACCF_IMPORTED or ACCF_VOLATILE;
-const
-  ACTM_ACT    = $10000000; // do not check, internal
-  ACTM_ACTS   = $20000000; // do not check, internal
-  ACTM_RELOAD = $00000004;
-//----- End of compatibility block -----
+  ACCF_EXPORT = $08000000;   // action to export (UA export)
+  ACCF_IMPORT = ACCF_EXPORT; // (UA import)
 
 type
   pChain = ^tChain;
   tChain = record
-    descr:pWideChar;
+    descr:PWideChar;
     id   :dword;
     flags:dword; // ACCF_* flags ?? right now - just selection/overload
     order:dword; // ??
@@ -52,37 +75,6 @@ const
     lParam - list address (pointer to data returned by MS_ACT_GETLIST)
   }
   MS_ACT_FREELIST:PAnsiChar = 'Actions/FreeList';
-  {
-    wParam - id: dword
-    lParam - parameter
-  }
-  MS_ACT_RUNBYID  :PAnsiChar = 'Actions/RunById';
-  {
-    wParam - unicode action name
-    lParam - parameter
-  }
-  MS_ACT_RUNBYNAME:PAnsiChar = 'Actions/RunByName';
-
-{ Starts action with 2 parameters
-  wParam: 0
-  lParam: pointer to TAct_Param
-}
-  MS_ACT_RUNPARAMS:PAnsiChar = 'Actions/RunWithParams';
-const
-  ACTP_BYNAME     =  1; // id points on unicode name
-  ACTP_WAIT       =  2; // waiting for macro finish
-  ACTP_NOTIFY     =  4; // notify (raise event) for start/finish macro
-  ACTP_SAMETHREAD =  8; // execute macro in same thread (with finish waiting)
-  ACTP_KEEPRESULT = 16; // (internal) keep last result
-type
-  pAct_Param = ^tAct_Param;
-  tAct_Param = record
-    Id    :uint_ptr; // Id or name
-    wParam:WPARAM;
-    lParam:LPARAM;
-    flags :dword; // ACTP_*
-    lPType:dword; // last result (in lParam) type
-  end;
 
 const
   ACTM_NEW    = $00000001; // new macros was added
