@@ -88,7 +88,7 @@ struct THREAD_WAIT_ENTRY
 	DWORD dwThreadId;	// valid if hThread isn't signalled
 	HANDLE hThread;
 	HINSTANCE hOwner;
-	void *pObject;
+	void *pObject, *pEntryPoint;
 };
 
 static LIST<THREAD_WAIT_ENTRY> threads(10, NumericKeySortT);
@@ -230,7 +230,7 @@ static void CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 			THREAD_WAIT_ENTRY *p = threads[j];
 			char szModuleName[MAX_PATH];
 			GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf(0, "Killing thread %s:%p", szModuleName, p->dwThreadId);
+			Netlib_Logf(0, "Killing thread %s:%p (%p)", szModuleName, p->dwThreadId, p->pEntryPoint);
 			TerminateThread(p->hThread, 9999);
 			CloseHandle(p->hThread);
 			mir_free(p);
@@ -295,6 +295,7 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 			p->hOwner = hInst;
 		else
 			p->hOwner = GetInstByAddress((hInst != NULL) ? (PVOID)hInst : GetCurrentThreadEntryPoint());
+		p->pEntryPoint = hInst;
 
 		threads.insert(p);
 
