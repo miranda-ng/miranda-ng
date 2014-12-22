@@ -89,6 +89,8 @@ Dodano kontakt %u (znaleziony w historii)
 Stare konto
 [New account]
 Nowe konto
+[Protocol %S is not loaded, skipping account %s creation]
+Protokół %s nie jest załadowany, pomijam tworzenie konta %s
 [Unable to create an account %s of protocol %S]
 Nie można utworzyć konta %s dla protokołu %s
 [Failed to add %S contact %s]
