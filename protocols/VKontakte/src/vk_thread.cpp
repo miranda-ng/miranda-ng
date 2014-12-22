@@ -54,8 +54,7 @@ static VOID CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 		if (vk_Instances[i]->IsOnline()) {
 			vk_Instances[i]->SetServerStatus(vk_Instances[i]->m_iDesiredStatus);
 			vk_Instances[i]->RetrieveUsersInfo(true);
-			vk_Instances[i]->RetrieveUnreadNews();
-			vk_Instances[i]->RetrieveUnreadNotifications();
+			vk_Instances[i]->RetrieveUnreadEvents();			
 		}
 }
 
