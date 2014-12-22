@@ -6,32 +6,32 @@
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
 [Shows the history for a given contact using IEView.]
-
+Zobrazuje historii zvoleného kontaktu pomocí IEView.
 ;file \plugins\IEHistory\res\IEHistory.rc
 [Dialog]
 Dialog
 [Close]
 Zavřít
 [&Prev]
-
+&Před.
 [&Next]
-
+&Další
 [&Search]
 &Hledat
 [Number of events to load]
-
+Počet událostí k načtení
 [Load all events]
-
+Načíst všechny události
 [Load only]
-
+Načíst pouze
 [events per page]
-
+událostí na stránku
 [Show last page first]
-
+Zobrazit nejdříve poslední stránku
 [Other options]
 Ostatní možnosti
 [Load items in background]
-
+Načítat události na pozadí
 [RTL is default text direction]
 Zprava doleva je výchozí směr psaní
 [Search]
@@ -52,19 +52,19 @@ Dolů
 [System History]
 Historie systému
 [Out of a total of]
-
+Mimo celkový počet
 [You can't close the window now, wait for all events to load.]
-
+Nemůžete nyní zavřít okno, počkejte než se načtou všechny události.
 [Error]
 Chyba
 [Text search]
-
+Vyhledávání textu
 [Time search]
-
+Vyhledávání času
 [Time:]
 Čas:
 [Search finished. No more entries...]
-
+Vyhledávání dokončeno. Více položek nenalezeno...
 [Information]
 Informace
 ;file \plugins\IEHistory\src\events.cpp

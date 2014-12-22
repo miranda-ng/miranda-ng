@@ -1,8 +1,0 @@
-﻿[No separators and all lowercase chars]
-[Use variables in correction]
-[Ignore words with numbers]
-[Ask before sending a message with spelling errors]
-[Avoid removing underscores (slows down checking of long texts)]
-[The wrong word can't be empty!]
-[The correction can't be empty!]
-[The correction can't be equal to the wrong word!]

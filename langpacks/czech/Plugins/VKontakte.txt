@@ -2,12 +2,28 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.29
+;  Version: 0.1.0.34
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 
 ;file \protocols\VKontakte\res\resource.rc
+[News and event notifications]
+
+[WARNING: Causes excessive network traffic!!!]
+
+[Enable news feeds]
+
+[Interval for news updates (min):]
+
+[Enable event notifications]
+
+[Interval for notification updates (min):]
+
+[Special contact always enabled]
+
+[BBCode support on news and event notifications]
+
 [E-mail or phone number:]
 E-mail nebo telefonní číslo:
 [Password:]
@@ -125,6 +141,40 @@ Protokoly
 
 [Message read: %s]
 Zpráva byla přečtena: %s
+[commented on your post]
+
+[commented on your photo]
+
+[commented on your video]
+
+[replied to your comment]
+
+[replied to your comment to photo]
+
+[replied to your comment to video]
+
+[replied to your topic]
+
+[liked your post]
+
+[liked your comment]
+
+[liked your photo]
+
+[liked your video]
+
+[liked your comment to photo]
+
+[liked your comment to video]
+
+[liked your comment to topic]
+
+[shared your post]
+
+[shared your photo]
+
+[shared your video]
+
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -159,6 +209,19 @@ Zruši&t místnost
 Informace o &uživateli
 [&Kick]
 Vy&kopnout
+;file \protocols\VKontakte\src\vk_feed.cpp
+[Photo]
+Fotka
+[User was tagged in these photos:]
+
+[News from %s%s%s (%s)\n%s]
+
+[\tRepost from %s%s%s (%s)\n%s]
+
+[\nNews link: %s]
+
+[Link]
+Adresa
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 
@@ -190,10 +253,14 @@ Vy&kopnout
 Sítě
 [Account]
 Účet
+[News and notifications]
+
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
 [Create new chat]
+
+[Load news from VK]
 
 [Visit profile]
 Zobrazit profil
@@ -256,8 +323,6 @@ Oznámení
 
 [Attachments:]
 Přílohy:
-[Photo]
-Fotka
 [Audio]
 Audio
 [Video]
@@ -265,6 +330,8 @@ Video
 [Document]
 Dokument
 [Wall post]
+
+[Image]
 
 [Unsupported or unknown attachment type: %s]
 Nepodporovaný nebo neznámý typ přílohy: %s

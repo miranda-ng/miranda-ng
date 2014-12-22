@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.6
+;  Version: 0.2.9.8
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,8 +36,14 @@ Sdílet
 Zrušit
 [User details]
 Informace o uživateli
-[Contacts Settings]
-Nastavení kontaktů
+[Network]
+Sít
+[Force secure (HTTPS) connection]
+Použít zabezpečené spojení (HTTPS)
+[Use secure connection also for channel requests]
+Zabezpečit i servisní spojení
+[Contacts]
+Kontakty
 [Default group:]
 Výchozí skupina:
 [Automatically set 'Ignore status change' flag]
@@ -58,52 +64,54 @@ Nezobrazovat reklamní příspěvky
 Jiné události
 [Client notifications]
 Upozornění klienta
+[Use this server for opening links:]
+Pro otevírání odkazů použít tento server:
 [Use balloon notifications in system tray instead of popups]
 Místo klasického oznámení použít bubliny v systémové liště
 [Use logging notifications into special chatroom]
 Zaznamenávat upozornění do speciálního skupinového rozhovoru
 [Preview]
 Náhled
-[Advanced Settings]
-Pokročilé nastavení
-[Force secure (HTTPS) connection]
-Použít zabezpečené spojení (HTTPS)
+[Statuses]
+Stavy
 [Post Miranda statuses to Wall]
 Odesílat stav Mirandy na zeď Facebooku
-[Use secure connection also for channel requests]
-Zabezpečit i servisní spojení
 [Turn off chat on Facebook when going to offline in Miranda]
 Vypnout chat na Facebooku při odpojení v Mirandě
 [Map unsupported statuses to Invisible (instead of Online)]
 Pro nepodporované stavy použít Neviditelný (nikoli Online)
 [Allow posting statuses to my pages (may slow down login)]
 Umožnit sdílení stavů na mé stránky (může zpomalit přihlašování)
-[Use this server for opening links:]
-Pro otevírání odkazů použít tento server:
-[Show stickers as custom smileys (EXPERIMENTAL)]
-Zobrazovat samolepky jako vlastní smajlíky (EXPERIMENTÁLNÍ)
-[Use local time for received messages]
-Použít lokální čas počítače pro příchozí zprávy
-[Message sessions]
-Komunikace
-[Keep messages as unread on server (don't send "seen" info)]
-Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
-[Receive messages from "inbox" folder only]
-Přijímat pouze zprávy ze složky "příchozí"
-[Load last messages on opening message window (EXPERIMENTAL)]
-Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
-[Number of messages to load:]
-Počet zpráv pro načtení:
-[Do not open chat windows on creation]
-Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
-[Synchronize last 24 hours on login]
-Synchronizovat zprávy za posledních 24 hodin při přihlášení
 [Bots challenge test]
 Kontrola robotů
 [Instruction:]
 Instrukce:
 [Submit]
 Potvrdit
+[Messages]
+Zprávy
+[Receive messages from "inbox" folder only]
+Přijímat pouze zprávy ze složky "příchozí"
+[Use local time for received messages]
+Použít lokální čas počítače pro příchozí zprávy
+[Keep messages as unread on server (don't send "seen" info)]
+Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
+[Show stickers as custom smileys (EXPERIMENTAL)]
+Zobrazovat samolepky jako vlastní smajlíky (EXPERIMENTÁLNÍ)
+[Multi user chats]
+Skupinové rozhovory
+[Enable multi user chats support]
+Povolit podporu pro skupinové rozhovory
+[Do not open chat windows on creation]
+Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+[History synchronization]
+Synchronizace historie
+[Load last messages (24 hours old) on login (EXPERIMENTAL)]
+Načíst poslední zprávy (24 hodin staré) při přihlášení (EXPERIMENTÁLNÍ)
+[Load last messages on opening message window (EXPERIMENTAL)]
+Načíst poslední zprávy při otevření komunikačního okna (EXPERIMENTÁLNÍ)
+[Number of messages to load:]
+Počet zpráv pro načtení:
 ;file \protocols\FacebookRM\src\captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -257,14 +265,12 @@ Facebook: Chyba při zpracování síťové komunikace.
 Video hovor
 [Facebook ID must be numeric value.]
 Facebook ID musí být číselná hodnota.
-[Network]
-Sítě
 [Account]
 Účet
 [Events]
 Události
-[Advanced]
-Extra
+[Messaging]
+Komunikace
 [Share status...]
 Sdílet stav...
 [Own wall]

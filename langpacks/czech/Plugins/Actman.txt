@@ -738,6 +738,12 @@ odloučený/á
 [Registered actions]
 
 ; Actman30
+[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
+
+[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
+
+[Actman settings converted to new version]
+
 [INI]
 
 [INI file name]
@@ -820,6 +826,8 @@ Psát zprava doleva
 
 [Database]
 Databáze
+[Contact type]
+
 [Save value]
 
 [Storage]
@@ -869,6 +877,10 @@ Jméno
 [Current Macro]
 
 [Select for FirstRun]
+
+[Mark as Volatile]
+
+[Single instance]
 
 [Miranda event help]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 2.11.1.1
+;  Version: 2.12.1.1
 ;  Authors: Miranda NG Development Team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -653,16 +653,7 @@ Vždy navrchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
-;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\main.cpp
-[Group chat log background]
-Pozadí skupinového rozhovoru
-[Nick list background]
-Pozadí seznamu účastníků
-[Nick list lines]
-Linky v seznamu účastníků
-[Nick list background (selected)]
-Pozadí seznamu účastníků (vybraný)
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy

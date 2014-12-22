@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.3
+;  Version: 0.95.3.4
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -76,11 +76,23 @@ Odkazy
 Přenos souborů
 [Other]
 Ostatní
+[Choose appropriate accounts for import]
+Zvolte požadované účty pro import
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Ignorována událost od/pro mě
 [Added contact %u (found in history)]
 Přidán kontakt %u (nalezen v historii)
+[<New account>]
+<Nový účet>
+[Old account]
+Starý účet
+[New account]
+Nový účet
+[Protocol %S is not loaded, skipping account %s creation]
+Protokol %S není načten, přeskakuji vytvoření účtu %s
+[Unable to create an account %s of protocol %S]
+Nelze vytvořit účet %s protokolu %S
 [Failed to add %S contact %s]
 Nepodařilo se přidat %S kontakt %s
 [Added %S contact %s, '%s']
@@ -117,6 +129,8 @@ Neexistuje žádný ovladač databáze pro otevření vstupního souboru, ukonč
 Chyba načítání vstupního souboru, ukončování.
 [Number of contacts in database: %d]
 Počet kontaktů v databázi: %d
+[Error mapping accounts, exiting.]
+Chyba při mapování účtů, ukončování.
 [Importing groups.]
 Importování skupin.
 [Group import failed.]

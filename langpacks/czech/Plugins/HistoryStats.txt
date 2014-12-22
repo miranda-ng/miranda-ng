@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: HistoryStats.dll
 ;  Plugin: HistoryStats
-;  Version: 0.2.0.3
+;  Version: 0.2.0.4
 ;  Authors: Martin Afanasjew
 ;============================================================
 [Creates detailed, colorful and highly customizable statistics using your message history.]

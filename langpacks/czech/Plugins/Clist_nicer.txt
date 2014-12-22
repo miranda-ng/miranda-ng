@@ -28,7 +28,7 @@ Copyright © 2004-2010 Miranda IM projekt, 2012-2014 Miranda NG projekt. Detailn
 Verze
 [Support and latest version information]
 Podpora, hlášení chyb a informace o nových verzích
-[Delete Contact]
+[Delete contact]
 Smazání kontaktu
 [No]
 Ne
@@ -72,7 +72,7 @@ Vždy zobrazit stav v tipu
 ms
 [Event area]
 Místo pro události
-[Set base visiblity on the frames menu]
+[Set base visibility on the frames menu]
 Pozn.: Viditelnost tohoto objektu nastavíte v nabídce rámečku.
 [Auto mode]
 Zobrazovat automaticky
@@ -102,11 +102,11 @@ Zobrazit počet kontaktů ve skupině
 Skrýt, jsou-li všichni offline
 [Sort groups alphabetically]
 Seřadit skupiny podle abecedy
-[Quicksearch in open groups only]
+[Quick search in open groups only]
 Rychle hledat jen v otevř. skupinách
 [No expand/collapse icon]
 Vypnout ikonu pro rozbalení
-[Center groupnames horizontally]
+[Center group names horizontally]
 Vodorovně vystředit název skupin
 [Alignment]
 Zarovnání
@@ -132,14 +132,14 @@ Seřadit podle
 Dále podle
 [Finally by]
 A nakonec dle
-[Move events to the top of list\nor group]
+[Move events to the top of list or group]
 Posunovat události v seznamu nahoru
 [Do not separate offline contacts]
 Neoddělovat kontakty ve stavu offline
 [Hide as offline]
 Skrýt jako offline
-[Tree Hide Offline]
-
+[Tree hide offline]
+Skrýt offline stromu
 [Right align contacts]
 Zarovnat kontakt vpravo
 [Avatars]
@@ -268,8 +268,8 @@ ms
 Skrýt svislý posuvník
 [Gray out entire list when:]
 Zešednout seznam v případě:
-[Tree Gray Out]
-
+[Tree gray out]
+Zešednutí stromu
 [Contact list background]
 Pozadí seznamu kontaktů
 [Use Windows colors]
@@ -494,8 +494,8 @@ Př&ejmenovat skupinu
 Přesunout vybrané kontakty do této skupiny
 [Appearance]
 Vzhled
-[Show metacontact proto icons]
-Zobrazit protokoly subkontaktu
+[Show metacontact protocol icons]
+Zobrazit ikony protokolu subkontaktu
 [Show additional buttons]
 Zobrazit doplňková tlačítka
 [Draw sunken frame]
