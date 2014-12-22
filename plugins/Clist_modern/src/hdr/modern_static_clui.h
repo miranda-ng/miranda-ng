@@ -55,7 +55,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Declaration of prototypes in other modules */
 
 int ClcUnloadModule();
-int ClcGetShortData(ClcData* pData, struct SHORTDATA *pShortData);
+int ClcGetShortData(ClcData* pData, SHORTDATA *pShortData);
 int ClcEnterDragToScroll(HWND hwnd, int Y);
 
 int CListMod_ContactListShutdownProc(WPARAM wParam, LPARAM lParam);

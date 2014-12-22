@@ -34,8 +34,8 @@ Created by Pescuma
 
 void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew);
 void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact);
-void Cache_GetSecondLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce);
-void Cache_GetThirdLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce);
+void Cache_GetSecondLineText(SHORTDATA *dat, ClcCacheEntry *pdnce);
+void Cache_GetThirdLineText(SHORTDATA *dat, ClcCacheEntry *pdnce);
 void Cache_GetAvatar(ClcData *dat, ClcContact *contact);
 void Cache_GetTimezone(ClcData *dat, MCONTACT hContact);
 int Cache_GetLineText(ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority,

@@ -82,7 +82,7 @@ static void gtaThreadProc(void*)
 			SleepEx(0, TRUE); //1000 contacts per second
 
 			GTACHAINITEM mpChain = { 0 };
-			struct SHORTDATA dat2 = { 0 };
+			SHORTDATA dat2 = { 0 };
 			if (!gtaGetItem(&mpChain))
 				break;
 

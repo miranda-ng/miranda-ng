@@ -62,17 +62,17 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		return 0;
 
 	case CLM_SETHIDEEMPTYGROUPS:
-	{
-		BOOL old = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
-		if (wParam)
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
-		else
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) &~CLS_HIDEEMPTYGROUPS);
-		BOOL newval = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
-		if (newval != old)
-			pcli->pfnInitAutoRebuild(hwnd);
-	}
-	return 0;
+		{
+			BOOL old = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
+			if (wParam)
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+			else
+				SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) &~CLS_HIDEEMPTYGROUPS);
+			BOOL newval = ((GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) != 0);
+			if (newval != old)
+				pcli->pfnInitAutoRebuild(hwnd);
+		}
+		return 0;
 
 	case CLM_SETTEXTCOLOR:
 		if (wParam > FONTID_MODERN_MAX) break;
@@ -105,110 +105,111 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 		return 0;
 
 	case CLM_GETNEXTITEM:
-	{
-		int i = 0;
-		if (wParam != CLGN_ROOT) {
-			if (!pcli->pfnFindItem(hwnd, dat, lParam, &contact, &group, NULL))
-				return NULL;
-			i = List_IndexOf((SortedList*)&group->cl, contact);
-			if (i < 0) return 0;
-		}
-		switch (wParam) {
-		case CLGN_ROOT:
-			if (dat->list.cl.count)
-				return (LRESULT)pcli->pfnContactToHItem(dat->list.cl.items[0]);
-			else
-				return NULL;
-		case CLGN_CHILD:
-			if (contact->type != CLCIT_GROUP)
-				return NULL;
-			group = contact->group;
-			if (group->cl.count == 0)
-				return NULL;
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[0]);
-		case CLGN_PARENT:
-			return group->groupId | HCONTACT_ISGROUP;
-		case CLGN_NEXT:
-			do {
-				if (++i >= group->cl.count)
+		{
+			int i = 0;
+			if (wParam != CLGN_ROOT) {
+				if (!pcli->pfnFindItem(hwnd, dat, lParam, &contact, &group, NULL))
 					return NULL;
-			} while (group->cl.items[i]->type == CLCIT_DIVIDER);
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
-		case CLGN_PREVIOUS:
-			do {
-				if (--i < 0)
+				i = List_IndexOf((SortedList*)&group->cl, contact);
+				if (i < 0) return 0;
+			}
+			switch (wParam) {
+			case CLGN_ROOT:
+				if (dat->list.cl.count)
+					return (LRESULT)pcli->pfnContactToHItem(dat->list.cl.items[0]);
+				else
 					return NULL;
-			} while (group->cl.items[i]->type == CLCIT_DIVIDER);
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
-		case CLGN_NEXTCONTACT:
-			for (i++; i < group->cl.count; i++)
-				if (group->cl.items[i]->type == CLCIT_CONTACT)
-					break;
-			if (i >= group->cl.count)
-				return NULL;
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
-		case CLGN_PREVIOUSCONTACT:
-			if (i >= group->cl.count)
-				return NULL;
-			for (i--; i >= 0; i--)
-				if (group->cl.items[i]->type == CLCIT_CONTACT)
-					break;
-			if (i < 0)
-				return NULL;
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
-		case CLGN_NEXTGROUP:
-			for (i++; i < group->cl.count; i++)
-				if (group->cl.items[i]->type == CLCIT_GROUP)
-					break;
-			if (i >= group->cl.count)
-				return NULL;
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
-		case CLGN_PREVIOUSGROUP:
-			if (i >= group->cl.count)
-				return NULL;
-			for (i--; i >= 0; i--)
-				if (group->cl.items[i]->type == CLCIT_GROUP)
-					break;
-			if (i < 0)
-				return NULL;
-			return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
-		}
-		return NULL;
-	}
-	case CLM_SELECTITEM:
-	{
-		ClcGroup *tgroup;
-		int index = -1;
-		int mainindex = -1;
-		if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL))
-			break;
-		for (tgroup = group; tgroup; tgroup = tgroup->parent)
-			pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
-
-		if (!contact->isSubcontact) {
-			index = List_IndexOf((SortedList*)&group->cl, contact);
-			mainindex = index;
-		}
-		else {
-			index = List_IndexOf((SortedList*)&group->cl, contact->subcontacts);
-			mainindex = index;
-			index += contact->isSubcontact;
-		}
-
-		BYTE k = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
-		if (k) {
-			for (int i = 0; i < mainindex; i++)
-			{
-				ClcContact *tempCont = group->cl.items[i];
-				if (tempCont->type == CLCIT_CONTACT && tempCont->SubAllocated && tempCont->SubExpanded)
-					index += tempCont->SubAllocated;
+			case CLGN_CHILD:
+				if (contact->type != CLCIT_GROUP)
+					return NULL;
+				group = contact->group;
+				if (group->cl.count == 0)
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[0]);
+			case CLGN_PARENT:
+				return group->groupId | HCONTACT_ISGROUP;
+			case CLGN_NEXT:
+				do {
+					if (++i >= group->cl.count)
+						return NULL;
+				} while (group->cl.items[i]->type == CLCIT_DIVIDER);
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
+			case CLGN_PREVIOUS:
+				do {
+					if (--i < 0)
+						return NULL;
+				} while (group->cl.items[i]->type == CLCIT_DIVIDER);
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
+			case CLGN_NEXTCONTACT:
+				for (i++; i < group->cl.count; i++)
+					if (group->cl.items[i]->type == CLCIT_CONTACT)
+						break;
+				if (i >= group->cl.count)
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
+			case CLGN_PREVIOUSCONTACT:
+				if (i >= group->cl.count)
+					return NULL;
+				for (i--; i >= 0; i--)
+					if (group->cl.items[i]->type == CLCIT_CONTACT)
+						break;
+				if (i < 0)
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
+			case CLGN_NEXTGROUP:
+				for (i++; i < group->cl.count; i++)
+					if (group->cl.items[i]->type == CLCIT_GROUP)
+						break;
+				if (i >= group->cl.count)
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
+			case CLGN_PREVIOUSGROUP:
+				if (i >= group->cl.count)
+					return NULL;
+				for (i--; i >= 0; i--)
+					if (group->cl.items[i]->type == CLCIT_GROUP)
+						break;
+				if (i < 0)
+					return NULL;
+				return (LRESULT)pcli->pfnContactToHItem(group->cl.items[i]);
 			}
 		}
+		return NULL;
 
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, group, index);
-		pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-	}
-	return 0;
+	case CLM_SELECTITEM:
+		ClcGroup *tgroup;
+		{
+			int index = -1;
+			int mainindex = -1;
+			if (!pcli->pfnFindItem(hwnd, dat, wParam, &contact, &group, NULL))
+				break;
+			for (tgroup = group; tgroup; tgroup = tgroup->parent)
+				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
+
+			if (!contact->isSubcontact) {
+				index = List_IndexOf((SortedList*)&group->cl, contact);
+				mainindex = index;
+			}
+			else {
+				index = List_IndexOf((SortedList*)&group->cl, contact->subcontacts);
+				mainindex = index;
+				index += contact->isSubcontact;
+			}
+
+			BYTE k = db_get_b(NULL, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
+			if (k) {
+				for (int i = 0; i < mainindex; i++)
+				{
+					ClcContact *tempCont = group->cl.items[i];
+					if (tempCont->type == CLCIT_CONTACT && tempCont->SubAllocated && tempCont->SubExpanded)
+						index += tempCont->SubAllocated;
+				}
+			}
+
+			dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, group, index);
+			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+		}
+		return 0;
 
 	case CLM_SETEXTRAIMAGE:
 		if (LOWORD(lParam) >= dat->extraColumnsCount)

@@ -1267,7 +1267,7 @@ int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = (HWND)wParam;
 	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd, 0);
-	return ClcGetShortData(dat, (struct SHORTDATA *)lParam);
+	return ClcGetShortData(dat, (SHORTDATA*)lParam);
 }
 
 int CLUI_IconsChanged(WPARAM, LPARAM)

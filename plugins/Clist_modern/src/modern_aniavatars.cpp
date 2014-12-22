@@ -222,8 +222,8 @@ static void CALLBACK _AniAva_SyncCallerUserAPCProc(DWORD_PTR dwParam)
 
 static INT_PTR _AniAva_CreateAvatarWindowSync_Worker(WPARAM tszName, LPARAM)
 {
-	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS, (TCHAR*)tszName, WS_POPUP,
-		0, 0, 1, 1, pcli->hwndContactList, NULL, pcli->hInst, NULL);
+	HWND hwnd = CreateWindowEx(WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_NOPARENTNOTIFY, ANIAVAWINDOWCLASS, 
+		(TCHAR*)tszName, WS_POPUP, 0, 0, 1, 1, pcli->hwndContactList, NULL, pcli->hInst, NULL);
 	return (INT_PTR)hwnd;
 }
 
