@@ -173,7 +173,7 @@ void LogWumf(PWumf w)
 	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
 	mir_sntprintf(str, SIZEOF(str), _T("%s %s %20s\t%s\r\n\0"), lpDateStr, lpTimeStr, w->szUser, w->szPath);
 	SetFilePointer(hLog, 0, NULL, FILE_END);
-	WriteFile(hLog, str, (DWORD)_tcslen(str), &bytes, NULL);
+	WriteFile(hLog, _T2A(str), (DWORD)_tcslen(str), &bytes, NULL);
 }
 
 BOOL wumf()
