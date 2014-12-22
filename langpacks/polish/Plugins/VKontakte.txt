@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.33
+;  Version: 0.1.0.34
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -14,12 +14,16 @@ Powiadomienia o aktualnościach i zdarzeniach
 Ostrzeżenie: powoduje duże zużycie danych
 [Enable news feeds]
 Włącz kanały aktualności
+[Interval for news updates (min):]
+Co jaki czas odświeżać aktualności (min.):
 [Enable event notifications]
 Włącz powiadomienia o zdarzeniach
+[Interval for notification updates (min):]
+Co jaki czas odświeżać powiadomienia (min.):
+[Special contact always enabled]
+Specjalny kontakt zawsze włączony
 [BBCode support on news and event notifications]
 Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
-[Interval for updates (min):]
-Aktualizuj co (min):
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
@@ -256,6 +260,8 @@ Aktualności i powiadomienia
 Połączenie %s
 [Create new chat]
 Utwórz nowy czat
+[Load news from VK]
+Załaduj aktualności z VK
 [Visit profile]
 Odwiedź profil
 [Add as friend]
