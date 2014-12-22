@@ -48,6 +48,7 @@
 [<New account>]
 [Old account]
 [New account]
+[Protocol %S is not loaded, skipping account %s creation]
 [Unable to create an account %s of protocol %S]
 [Failed to add %S contact %s]
 [Added %S contact %s, '%s']

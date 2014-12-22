@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.33
+;  Version: 0.1.0.34
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10,9 +10,11 @@
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
 [Enable news feeds]
+[Interval for news updates (min):]
 [Enable event notifications]
+[Interval for notification updates (min):]
+[Special contact always enabled]
 [BBCode support on news and event notifications]
-[Interval for updates (min):]
 [E-mail or phone number:]
 [Password:]
 [Open VKontakte site]
@@ -135,6 +137,7 @@
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 [Create new chat]
+[Load news from VK]
 [Visit profile]
 [Add as friend]
 [Delete from friend list]
