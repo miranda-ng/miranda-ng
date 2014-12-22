@@ -69,6 +69,8 @@ static BOOL gtaGetItem(GTACHAINITEM *mpChain)
 
 static void gtaThreadProc(void*)
 {
+	Netlib_Logf(NULL, "GTA thread start");
+
 	thread_catcher lck(g_hGetTextAsyncThread);
 	SHORTDATA data = { 0 };
 
@@ -76,7 +78,7 @@ static void gtaThreadProc(void*)
 		Sync(CLUI_SyncGetShortData, (WPARAM)pcli->hwndContactTree, (LPARAM)&data);
 		while (true) {
 			if (MirandaExiting())
-				return;
+				goto LBL_Exit;
 
 			SleepEx(0, TRUE); //1000 contacts per second
 
@@ -93,7 +95,7 @@ static void gtaThreadProc(void*)
 				dat = &dat2;
 			}
 			if (MirandaExiting())
-				return;
+				goto LBL_Exit;
 
 			ClcCacheEntry cacheEntry;
 			memset(&cacheEntry, 0, sizeof(cacheEntry));
@@ -112,9 +114,11 @@ static void gtaThreadProc(void*)
 		WaitForSingleObjectEx(hgtaWakeupEvent, INFINITE, TRUE);
 		ResetEvent(hgtaWakeupEvent);
 	}
-	
+
+LBL_Exit:
 	CloseHandle(hgtaWakeupEvent);
 	hgtaWakeupEvent = NULL;
+	Netlib_Logf(NULL, "GTA thread end");
 }
 
 BOOL gtaWakeThread()
