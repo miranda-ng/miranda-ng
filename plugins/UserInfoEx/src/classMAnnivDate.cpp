@@ -109,7 +109,6 @@ void MAnnivDate::SetDate(MAnnivDate &mda)
 __inline BYTE MAnnivDate::IsValid() const
 {
 	return (
-		Year() > 1600 &&
 		Month() > 0 && Month() < 13 &&
 		Day() > 0 && Day() <= DaysInMonth(Month())
  );
@@ -193,6 +192,9 @@ int MAnnivDate::Age(MTime *pNow)
 
 	if (pNow) now = *pNow;
 	else now.GetLocalTime();
+
+	if (Year() == 0)
+		return 0;
 
 	age = now.Year() - Year();
 	if (age > 1 && CompareDays(now) > 0)
@@ -343,7 +345,6 @@ int MAnnivDate::DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPC
 	ZeroDate();
 
 	WORD wtmp = db_get_w(hContact, pszModule, szYear, 0);
-	if (wtmp < 1601) return 1;
 	Year(wtmp);
 
 	wtmp = db_get_w(hContact, pszModule, szMonth, 0);
