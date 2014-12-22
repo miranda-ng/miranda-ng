@@ -744,6 +744,8 @@ UTF16+сигнатури
 Вибрати для першого запуску
 [Mark as Volatile]
 Позначити як змінюване
+[Single instance]
+Один екземпляр
 [Miranda event help]
 Допомога по подіям
 [contact list]

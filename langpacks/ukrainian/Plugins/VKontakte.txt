@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.33
+;  Version: 0.1.0.34
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -13,12 +13,16 @@
 Увага: підвищує споживання мережевого трафіку!
 [Enable news feeds]
 Увімкнути стрічку новин
+[Interval for news updates (min):]
+Інтервал оновлення новин (хв):
 [Enable event notifications]
 Увімкнути сповіщення про події
+[Interval for notification updates (min):]
+Інтервал оновлення сповіщень (хв):
+[Special contact always enabled]
+Псевдоконтакт завжди ввімкнений
 [BBCode support on news and event notifications]
 Підтримка BB-кодів у новинах і сповіщеннях
-[Interval for updates (min):]
-Інтервал оновлень (хв):
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]
@@ -247,6 +251,8 @@
 З'єднання з сервером %s
 [Create new chat]
 Створити новий чат
+[Load news from VK]
+Завантажити новини з сайту
 [Visit profile]
 Профіль на сайті
 [Add as friend]

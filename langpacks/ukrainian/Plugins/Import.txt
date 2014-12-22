@@ -87,6 +87,8 @@
 Старий обліковий запис
 [New account]
 Новий обліковий запис
+[Protocol %S is not loaded, skipping account %s creation]
+Протокол %S не завантажений, пропуск створення облікового запису %s
 [Unable to create an account %s of protocol %S]
 Не вдалося створити обліковий запис %s протоколу %S
 [Failed to add %S contact %s]

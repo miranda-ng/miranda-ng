@@ -74,7 +74,7 @@
 [Auto mode]
 Показывать при необходимости
 [System tray icon when using multiple protocols]
-Значки протоколов в системном лотке
+Значки протоколов в системном трее
 [Show]
 Показать
 [icon when statuses differ]
