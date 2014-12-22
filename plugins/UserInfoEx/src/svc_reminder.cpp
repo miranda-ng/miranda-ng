@@ -508,9 +508,11 @@ static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 						default:
 							cchMsg = mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("%s has birthday in %d days."), DB::Contact::DisplayName(hContact), Diff);
 						}
-						mir_sntprintf(szMsg + cchMsg, SIZEOF(szMsg) - cchMsg,
-							TranslateT("\n%s becomes %d years old."),
-							ContactGender(hContact), mtb.Age(&Now) + (Diff > 0));
+						int age = mtb.Age(&Now);
+						if (age > 0)
+							mir_sntprintf(szMsg + cchMsg, SIZEOF(szMsg) - cchMsg,
+								TranslateT("\n%s becomes %d years old."),
+								ContactGender(hContact), age + (Diff > 0));
 
 						NotifyWithPopup(hContact, CEvent::BIRTHDAY, Diff, mtb.Description(), szMsg);
 					}
