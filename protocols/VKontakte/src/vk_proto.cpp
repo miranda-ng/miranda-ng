@@ -470,7 +470,9 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		pReq << CHAR_PARAM("message", szMsg);
 
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
+	do
+		pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
+	while (pReq->pUserInfo == NULL && pReq->m_iRetry-- > 0);
 	Push(pReq);
 
 	if (!m_bServerDelivery)
@@ -497,7 +499,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			UINT mid = json_as_int(pResponse);
 			if (param->iMsgID != -1)
 				m_sendIds.insert((HANDLE)mid);
-			if (mid>getDword(param->hContact, "lastmsgid", 0))
+			if (mid > getDword(param->hContact, "lastmsgid", 0))
 				setDword(param->hContact, "lastmsgid", mid);
 			if (m_iMarkMessageReadOn >= markOnReply)
 				MarkMessagesRead(param->hContact);
