@@ -530,7 +530,8 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	KillTimer(NULL, 777);
-	CloseHandle(hLog);
+	if (hLogger)
+		mir_closeLog(hLogger);
 	FreeAll();
 	return 0;
 }

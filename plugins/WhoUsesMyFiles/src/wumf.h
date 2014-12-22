@@ -114,7 +114,7 @@ BOOL  del_marked(PWumf* l);
 
 extern WUMF_OPTIONS WumfOptions;
 extern HINSTANCE hInst;
-extern HANDLE hLog;
+extern HANDLE hLogger;
 static HANDLE hWumfBut;
 extern PWumf list;
 
