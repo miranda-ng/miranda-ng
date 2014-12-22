@@ -8,7 +8,7 @@
 static PWumf list = NULL;
 static PWumf lst = NULL;
 
-HANDLE hLog = INVALID_HANDLE_VALUE;
+HANDLE hLogger = NULL;
 BOOL wumf();
 
 static int DlgResizer(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
@@ -142,38 +142,26 @@ INT_PTR CALLBACK ConnDlgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 
 void LogWumf(PWumf w)
 {
-	TCHAR str[256];
-	LPTSTR lpstr;
-	TCHAR lpDateStr[20];
-	TCHAR lpTimeStr[20];
-	SYSTEMTIME time;
-	DWORD bytes;
-	
 	if (!WumfOptions.LogFolders && (w->dwAttr & FILE_ATTRIBUTE_DIRECTORY)) return;
 
-	if (hLog == INVALID_HANDLE_VALUE || hLog == NULL)
-	{
-		hLog = CreateFile(WumfOptions.LogFile, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-		if (hLog == INVALID_HANDLE_VALUE)
-		{
-			FormatMessage(
-				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			    NULL,
-			    GetLastError(),
-			    MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-			    (LPTSTR) &lpstr, 0, NULL);
-			mir_sntprintf(str, SIZEOF(str), _T("Can't open log file %s\nError:%s"), WumfOptions.LogFile, lpstr);
-			LocalFree(lpstr);		
-			MessageBox( NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
+	if (hLogger == NULL) {
+		hLogger = mir_createLog("wumf", _T("WhoIsUsingMyFiles log file"), WumfOptions.LogFile, 0);
+		if (hLogger == NULL) {
+			TCHAR str[256];
+			mir_sntprintf(str, SIZEOF(str), _T("Can't open log file %s"), WumfOptions.LogFile);
+			MessageBox(NULL, str, TranslateT("Error opening file"), MB_OK | MB_ICONSTOP);
 			WumfOptions.LogToFile = FALSE;
+			return;
 		}
 	}
+	
+	SYSTEMTIME time;
 	GetLocalTime(&time);
+
+	TCHAR lpDateStr[20], lpTimeStr[20];
 	GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, &time, NULL, lpDateStr, 20);
 	GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT | TIME_NOTIMEMARKER, &time, NULL, lpTimeStr, 20);
-	mir_sntprintf(str, SIZEOF(str), _T("%s %s %20s\t%s\r\n\0"), lpDateStr, lpTimeStr, w->szUser, w->szPath);
-	SetFilePointer(hLog, 0, NULL, FILE_END);
-	WriteFile(hLog, str, (DWORD)_tcslen(str), &bytes, NULL);
+	mir_writeLogT(hLogger, _T("%s %s %20s\t%s\r\n"), lpDateStr, lpTimeStr, w->szUser, w->szPath);
 }
 
 BOOL wumf()
