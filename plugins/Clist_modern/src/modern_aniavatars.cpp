@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // File contains implementation of animated avatars in contact list
 
-*************************************************************************** /
-
 #include "hdr/modern_commonheaders.h"
 
 #define IMMEDIATE_DRAW (!s_bSeparateWindow)
@@ -127,7 +125,7 @@ struct ANIAVATARIMAGEINFO
 
 //protection
 static BOOL s_bModuleStarted;
-static CRITICAL_SECTION s_CS;
+static mir_cs s_CS;
 
 //options
 static BYTE s_bFlags;				// 0x1 has border, 0x2 has round corners, 0x4 has overlay, 0x8 background color
@@ -168,13 +166,8 @@ static HWND _AniAva_CreateAvatarWindowSync(TCHAR *szFileName);
 
 static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-///	IMPLEMENTATION
-
-int _AniAva_OnModulesUnload(WPARAM, LPARAM)
-{
-	SetEvent(s_hExitEvent);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+/// IMPLEMENTATION
 
 static void _AniAva_AnimationTreadProc(void*)
 {
@@ -188,6 +181,9 @@ static void _AniAva_AnimationTreadProc(void*)
 	SetThreadPriority(hThread, THREAD_PRIORITY_LOWEST);
 	for (;;) {
 		DWORD rc = MsgWaitForMultipleObjectsEx(1, &s_hExitEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
+		if (MirandaExiting())
+			break;
+		
 		ResetEvent(s_hExitEvent);
 		if (rc == WAIT_OBJECT_0 + 1) {
 			MSG msg;
@@ -204,60 +200,11 @@ static void _AniAva_AnimationTreadProc(void*)
 	Netlib_Logf(NULL, "AnimationTreadProc thread end");
 	CloseHandle(s_AnimationThreadHandle);
 	s_AnimationThreadHandle = NULL;
+
+	CloseHandle(s_hExitEvent);
+	s_hExitEvent = NULL;
 }
 
-// Init AniAva module
-int AniAva_InitModule()
-{
-	if (!(db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
-		db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)))
-		return 0;
-
-	WNDCLASSEX wc = { sizeof(wc) };
-	wc.lpszClassName = ANIAVAWINDOWCLASS;
-	wc.lpfnWndProc = _AniAva_WndProc;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.cbWndExtra = sizeof(ANIAVA_WINDOWINFO*);
-	wc.style = CS_GLOBALCLASS;
-	RegisterClassEx(&wc);
-
-	InitializeCriticalSection(&s_CS);
-	s_bModuleStarted = TRUE;
-	s_hExitEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
-	mir_forkthread(_AniAva_AnimationTreadProc, NULL);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, _AniAva_OnModulesUnload);
-
-	_AniAva_LoadOptions();
-	return 1;
-}
-
-// Unload AniAva module
-int AniAva_UnloadModule()
-{
-	aacheck 0;
-	{
-		mir_cslock lck(s_CS);
-		int i;
-		s_bModuleStarted = FALSE;
-		for (i = 0; i < s_Objects.getCount(); i++) {
-			_AniAva_DestroyAvatarWindow(s_Objects[i]->hWindow);
-			mir_free(s_Objects[i]);
-		}
-
-		for (i = 0; i < s_AniAvatarList.getCount(); i++) {
-			ANIAVA_INFO *aai = s_AniAvatarList[i];
-			mir_free(aai->tcsFilename);
-			free(aai->pFrameDelays);
-			mir_free(aai);
-		}
-
-		_AniAva_RemoveAniAvaDC();
-		SetEvent(s_hExitEvent);
-		CloseHandle(s_hExitEvent);
-	}
-	DeleteCriticalSection(&s_CS);
-	return 1;
-}
 // Update options
 int AniAva_UpdateOptions()
 {
@@ -372,8 +319,6 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);
-	if (s_CS.LockCount > 0)
-		return 0;
 
 	ANIAVA_OBJECT *pai = FindAvatarByContact(hContact);
 	if (pai) {
@@ -401,6 +346,7 @@ int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha
 	}
 	return 1;
 }
+
 // remove avatar
 int AniAva_RemoveAvatar(MCONTACT hContact)
 {
@@ -416,6 +362,7 @@ int AniAva_RemoveAvatar(MCONTACT hContact)
 	}
 	return 1;
 }
+
 // reset positions of avatars to be drawn (still be painted at same place)
 int AniAva_InvalidateAvatarPositions(MCONTACT hContact)
 {
@@ -431,6 +378,7 @@ int AniAva_InvalidateAvatarPositions(MCONTACT hContact)
 	}
 	return 1;
 }
+
 // all avatars without validated position will be stop painted and probably removed
 int AniAva_RemoveInvalidatedAvatars()
 {
@@ -1064,6 +1012,59 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-#undef aacheck
-#undef aalock
-#undef aaunlock
+/////////////////////////////////////////////////////////////////////////////////////////
+// Init AniAva module
+
+int AniAva_InitModule()
+{
+	if (!(db_get_b(NULL, "CList", "AvatarsAnimated", ServiceExists(MS_AV_GETAVATARBITMAP)) &&
+		db_get_b(NULL, "CList", "AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)))
+		return 0;
+
+	WNDCLASSEX wc = { sizeof(wc) };
+	wc.lpszClassName = ANIAVAWINDOWCLASS;
+	wc.lpfnWndProc = _AniAva_WndProc;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.cbWndExtra = sizeof(ANIAVA_WINDOWINFO*);
+	wc.style = CS_GLOBALCLASS;
+	RegisterClassEx(&wc);
+
+	s_bModuleStarted = TRUE;
+
+	_AniAva_LoadOptions();
+
+	s_hExitEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
+	mir_forkthread(_AniAva_AnimationTreadProc, NULL);
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Unload AniAva module
+
+void _AniAva_OnModulesUnload()
+{
+	SetEvent(s_hExitEvent);
+}
+
+int AniAva_UnloadModule()
+{
+	aacheck 0;
+	{
+		mir_cslock lck(s_CS);
+		s_bModuleStarted = FALSE;
+		for (int i = 0; i < s_Objects.getCount(); i++) {
+			_AniAva_DestroyAvatarWindow(s_Objects[i]->hWindow);
+			mir_free(s_Objects[i]);
+		}
+
+		for (int i = 0; i < s_AniAvatarList.getCount(); i++) {
+			ANIAVA_INFO *aai = s_AniAvatarList[i];
+			mir_free(aai->tcsFilename);
+			free(aai->pFrameDelays);
+			mir_free(aai);
+		}
+
+		_AniAva_RemoveAniAvaDC();
+	}
+	return 1;
+}
