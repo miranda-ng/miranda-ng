@@ -2432,7 +2432,7 @@ Ctrl+Знайти додає контакт
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 УВАГА! Обліковий запис буде видалено. Це призведе до повного видалення всіх налаштувань, контактів та історії даного облікового запису.\n\nВи впевнені?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Ваш обліковий запис успішно оновлено. Для його активації необхідно перезапустити Miranda\n\n\Щоб перезапустити програму зараз, натисніть "Так". Щоб оновити інший обліковий запис, натисніть "Ні".
+Ваш обліковий запис успішно оновлено. Для його активації необхідно перезапустити Miranda.\n\n\Щоб перезапустити програму зараз, натисніть "Так". Щоб оновити інший обліковий запис, натисніть "Ні".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Цей обліковий запис використовує застарілий протокол. Зміна особистих даних користувача відбувається в основному діалозі налаштувань.
 [Account name must be filled.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhoUsesMyFiles.dll
 ;  Plugin: Who Use My Files
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Nikolay Redko
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]

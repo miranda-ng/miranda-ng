@@ -72,7 +72,7 @@
 [System tray icon]
 Значок в трее
 [System tray icon when using multiple protocols]
-Значки протоколов в системном лотке
+Значки протоколов в системном трее
 [Contact list sorting]
 Сортировка списка контактов
 [Window]

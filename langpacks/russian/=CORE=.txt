@@ -762,7 +762,7 @@ UIN, E-mail и т.д.
 [System tray icon]
 Значок в трее
 [System tray icon when using multiple protocols]
-Значки протоколов в системном лотке
+Значки протоколов в системном трее
 [Contact list sorting]
 Сортировка списка контактов
 [Window]
@@ -2430,7 +2430,7 @@ Ctrl+Искать добавляет контакт
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ВНИМАНИЕ! Учётная запись будет удалена. Это означает, что все настройки, контакты и история также будут удалены.\n\nВы точно уверены?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет"
+Ваша учётная запись успешно обновлена. Для её активации необходимо перезапустить Miranda.\n\n\Для перезапуска нажмите "Да", если хотите обновить другую учётную запись, нажмите "Нет".
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Эта учётная запись использует старый протокол. Смена личных данных пользователя производится через основные настройки программы.
 [Account name must be filled.]
