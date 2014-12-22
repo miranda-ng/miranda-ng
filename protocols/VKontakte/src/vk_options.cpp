@@ -354,22 +354,28 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		CheckDlgButton(hwndDlg, IDC_NEWS_ENBL, ppro->m_bNewsEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIF_ENBL, ppro->m_bNotificationsEnabled ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SPEC_CONT_ENBL, ppro->m_bSpecialContactAlwaysEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_BBC_NEWS, ppro->m_bBBCOnNews ? BST_CHECKED : BST_UNCHECKED);
 		
-		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
-		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT, UDM_SETPOS, 0, ppro->m_iNewsInterval);
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETPOS, 0, ppro->m_iNewsInterval);
+
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NOTIF, UDM_SETRANGE, 0, MAKELONG(60 * 24, 1));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NOTIF, UDM_SETPOS, 0, ppro->m_iNotificationsInterval);
 		
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_ED_INT:
+		case IDC_ED_INT_NEWS:
+		case IDC_ED_INT_NOTIF:
 			if ((HWND)lParam == GetFocus() && (HIWORD(wParam) == EN_CHANGE))
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		
 		case IDC_NEWS_ENBL:
 		case IDC_NOTIF_ENBL:
+		case IDC_SPEC_CONT_ENBL:
 		case IDC_BBC_NEWS:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -388,12 +394,18 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			ppro->m_bNotificationsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NOTIF_ENBL) == BST_CHECKED;
 			ppro->setByte("NotificationsEnabled", ppro->m_bNotificationsEnabled);
 
+			ppro->m_bSpecialContactAlwaysEnabled = IsDlgButtonChecked(hwndDlg, IDC_SPEC_CONT_ENBL) == BST_CHECKED;
+			ppro->setByte("SpecialContactAlwaysEnabled", ppro->m_bSpecialContactAlwaysEnabled);
+
 			ppro->m_bBBCOnNews = IsDlgButtonChecked(hwndDlg, IDC_BBC_NEWS) == BST_CHECKED;
 			ppro->setByte("BBCOnNews", ppro->m_bBBCOnNews);
 
 			TCHAR buffer[5] = { 0 };
-			GetDlgItemText(hwndDlg, IDC_ED_INT, buffer, SIZEOF(buffer));
+			GetDlgItemText(hwndDlg, IDC_ED_INT_NEWS, buffer, SIZEOF(buffer));
 			ppro->setDword("NewsInterval", ppro->m_iNewsInterval = _ttoi(buffer));
+
+			GetDlgItemText(hwndDlg, IDC_ED_INT_NOTIF, buffer, SIZEOF(buffer));
+			ppro->setDword("NotificationsInterval", ppro->m_iNotificationsInterval = _ttoi(buffer));
 			
 		}
 		break;

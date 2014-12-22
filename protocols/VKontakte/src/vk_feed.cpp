@@ -21,26 +21,32 @@ static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_
 
 void CVkProto::AddFeedSpecialUser()
 {
-	bool bSpecialContact = m_bNewsEnabled || m_bNotificationsEnabled;
-	MCONTACT hContact = FindUser(VK_FEED_USER, bSpecialContact);
+	bool bSpecialContact = m_bNewsEnabled || m_bNotificationsEnabled || m_bSpecialContactAlwaysEnabled;
+	
+	MCONTACT hContact = FindUser(VK_FEED_USER);
 	if (!bSpecialContact) {
 		if (hContact)
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 		return;
 	}
+	
+	if (!hContact) {
+		hContact = FindUser(VK_FEED_USER, true);
+		CMString tszNick = TranslateT("VKontakte");
 
-	CMString tszNick = TranslateT("VKontakte");		
-	setTString(hContact, "Nick", tszNick.GetBuffer());
-	CMString  url = _T("https://vk.com/press/Simple.png");
-	SetAvatarUrl(hContact, url);
-	ReloadAvatarInfo(hContact);
+		setTString(hContact, "Nick", tszNick.GetBuffer());
+		CMString  tszUrl = _T("https://vk.com/press/Simple.png");
+		SetAvatarUrl(hContact, tszUrl);
+		ReloadAvatarInfo(hContact);
+
+		setTString(hContact, "domain", _T("feed"));
+		setTString(hContact, "Homepage", _T("https://vk.com/feed"));
+	} 
 	
 	if (getWord(hContact, "Status", 0) != ID_STATUS_ONLINE)
 		setWord(hContact, "Status", ID_STATUS_ONLINE);
 	SetMirVer(hContact, 7);
 
-	setTString(hContact, "domain", _T("feed"));
-	setTString(hContact, "Homepage", _T("https://vk.com/feed"));
 }
 
 void CVkProto::AddFeedEvent(CMString& tszBody, time_t tTime)
@@ -397,14 +403,10 @@ CMString CVkProto::GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::RetrieveUnreadNews()
+void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 {
 	debugLogA("CVkProto::RetrieveUnreadNews");
-	if (!IsOnline() || !m_bNewsEnabled)
-		return;
-
-	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNewsTime <= m_iNewsInterval * 60)
+	if (!IsOnline())
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews)
@@ -447,14 +449,10 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::RetrieveUnreadNotifications()
+void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 {
 	debugLogA("CVkProto::RetrieveUnreadNotifications");
-	if (!IsOnline() || !m_bNotificationsEnabled)
-		return;
-
-	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNotificationsTime <= m_iNewsInterval * 60)
+	if (!IsOnline())
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.get.json", true, &CVkProto::OnReceiveUnreadNotifications)
@@ -490,4 +488,36 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 
 	setDword("LastNotificationsTime", time(NULL));
 	vkUsers.destroy();
+}
+
+void CVkProto::RetrieveUnreadEvents()
+{
+	debugLogA("CVkProto::RetrieveUnreadEvents");
+	if (!IsOnline() || (!m_bNotificationsEnabled && !m_bNewsEnabled))
+		return;
+
+	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(NULL) - 24 * 60 * 60);
+	if (time(NULL) - tLastNotificationsTime >= m_iNotificationsInterval * 60 && m_bNotificationsEnabled)
+		RetrieveUnreadNotifications(tLastNotificationsTime);
+
+	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
+	if (time(NULL) - tLastNewsTime >= m_iNewsInterval * 60 && m_bNewsEnabled)
+		RetrieveUnreadNews(tLastNewsTime);
+
+}
+
+INT_PTR CVkProto::SvcLoadVKNews(WPARAM, LPARAM)
+{
+	if (!IsOnline())
+		return 1;
+
+	if (!m_bNewsEnabled && !m_bNotificationsEnabled){
+		m_bSpecialContactAlwaysEnabled = true; 
+		AddFeedSpecialUser();
+	}
+
+	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
+	RetrieveUnreadNews(tLastNewsTime);
+
+	return 0;
 }

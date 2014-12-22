@@ -80,8 +80,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);
 	m_bNewsEnabled = getBool("NewsEnabled", false);
 	m_bNotificationsEnabled = getBool("NotificationsEnabled", false);
+	m_bSpecialContactAlwaysEnabled = getBool("SpecialContactAlwaysEnabled", false);
 	m_bBBCOnNews = getBool("BBCOnNews", false);
 	m_iNewsInterval = getDword("NewsInterval", 15);
+	m_iNotificationsInterval = getDword("NotificationsInterval", 1);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
@@ -147,6 +149,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_REPORTABUSE, &CVkProto::SvcReportAbuse);
 	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
 	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
+	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
 		
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
@@ -161,6 +164,13 @@ void CVkProto::InitMenus()
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszName = LPGEN("Create new chat");
 	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
+
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_LOADVKNEWS);
+	mi.pszService = szService;
+	mi.position = 10009 + PMI_LOADVKNEWS;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
+	mi.pszName = LPGEN("Load news from VK");
+	g_hProtoMenuItems[PMI_LOADVKNEWS] = Menu_AddProtoMenuItem(&mi);
 	
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_VISITPROFILE);
 	mi.pszService = szService;
@@ -218,6 +228,13 @@ void CVkProto::InitMenus()
 	mi.ptszName = LPGENT("Open broadcast");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_OPENBROADCAST] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_LOADVKNEWS);
+	mi.pszService = szService;
+	mi.position = -200001000 + CMI_LOADVKNEWS;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_NOTIFICATION));
+	mi.ptszName = LPGENT("Load news from VK");
+	g_hContactMenuItems[CMI_LOADVKNEWS] = Menu_AddContactMenuItem(&mi);
 
 	// Sync history menu
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_GETSERVERHISTORY);
@@ -287,6 +304,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(g_hContactMenuItems[CMI_DESTROYKICKCHAT], isChatRoom(hContact) && getBool(hContact, "off", false));
 	Menu_ShowItem(g_hContactMenuItems[CMI_OPENBROADCAST], !isChatRoom(hContact) && bisBroadcast);
 	Menu_ShowItem(g_hContactMenuItems[CMI_GETSERVERHISTORY], !isChatRoom(hContact) && userID != VK_FEED_USER);
+	Menu_ShowItem(g_hContactMenuItems[CMI_LOADVKNEWS], userID == VK_FEED_USER);
 	for (int i = 0; i < CHMI_COUNT; i++)
 		Menu_ShowItem(g_hContactHistoryMenuItems[i], !isChatRoom(hContact) && userID != VK_FEED_USER);
 	return 0;

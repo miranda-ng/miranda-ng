@@ -16,6 +16,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #define PS_CREATECHAT "/CreateNewChat"
+#define PS_LOADVKNEWS "/LoadVKNews"
 #define PS_GETSERVERHISTORY "/SyncHistory"
 #define PS_GETSERVERHISTORYLAST1DAY "/GetServerHystoryLast1Day"
 #define PS_GETSERVERHISTORYLAST3DAY "/GetServerHystoryLast3Day"
@@ -330,11 +331,14 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
 	CMString GetVkParent(JSONNODE *pParent, VKObjType vkParentType);
 	
-	void RetrieveUnreadNews();
+	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	
-	void RetrieveUnreadNotifications();
+	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
 	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void CVkProto::RetrieveUnreadEvents();
+
+	INT_PTR __cdecl SvcLoadVKNews(WPARAM, LPARAM);
 
 	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
 
@@ -418,6 +422,7 @@ private:
 		CMI_REPORTABUSE,
 		CMI_DESTROYKICKCHAT,
 		CMI_OPENBROADCAST,
+		CMI_LOADVKNEWS,
 		CMI_GETSERVERHISTORY,
 		CMI_COUNT
 	};
@@ -433,6 +438,7 @@ private:
 	};
 	enum ProtoMenuIndexes {
 		PMI_CREATECHAT,
+		PMI_LOADVKNEWS,
 		PMI_VISITPROFILE,
 		PMI_COUNT
 	};
@@ -500,9 +506,10 @@ private:
 		m_bUserForceOnlineOnActivity,
 		m_bNewsEnabled,
 		m_bNotificationsEnabled,
+		m_bSpecialContactAlwaysEnabled,
 		m_bBBCOnNews;
 
-	int m_iNewsInterval;
+	int m_iNewsInterval, m_iNotificationsInterval;
 
 	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int m_iMarkMessageReadOn; 

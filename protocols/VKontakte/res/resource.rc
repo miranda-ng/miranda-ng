@@ -49,8 +49,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 297
         TOPMARGIN, 7
-        BOTTOMMARGIN, 97
-        HORZGUIDE, 77
+        BOTTOMMARGIN, 113
     END
 
     IDD_ACCMGRUI, DIALOG
@@ -105,20 +104,25 @@ END
 // Dialog
 //
 
-IDD_OPT_FEEDS DIALOGEX 0, 0, 309, 106
+IDD_OPT_FEEDS DIALOGEX 0, 0, 309, 122
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "News and event notifications",IDC_STATIC,4,8,293,83
+    GROUPBOX        "News and event notifications",IDC_STATIC,4,8,293,102
     CTEXT           "WARNING: Causes excessive network traffic!!!",IDC_STATIC,12,19,278,8
     CONTROL         "Enable news feeds",IDC_NEWS_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
-    CONTROL         "Enable event notifications",IDC_NOTIF_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
+    LTEXT           "Interval for news updates (min):",IDC_STATIC,16,44,169,8
+    EDITTEXT        IDC_ED_INT_NEWS,190,41,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT_NEWS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,41,14,14
+    CONTROL         "Enable event notifications",IDC_NOTIF_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,56,278,10
+    LTEXT           "Interval for notification updates (min):",IDC_STATIC,16,70,169,8
+    EDITTEXT        IDC_ED_INT_NOTIF,190,67,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT_NOTIF,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,67,14,14
+    CONTROL         "Special contact always enabled",IDC_SPEC_CONT_ENBL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,81,278,10
     CONTROL         "BBCode support on news and event notifications",IDC_BBC_NEWS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
-    LTEXT           "Interval for updates (min):",IDC_STATIC,16,67,97,8
-    EDITTEXT        IDC_ED_INT,118,63,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_SPIN_INT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,158,63,14,14
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,92,278,10
 END
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 186, 68

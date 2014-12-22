@@ -62,8 +62,11 @@
 #define IDC_NEWS_ENBL                   1054
 #define IDC_NOTIF_ENBL                  1055
 #define IDC_BBC_NEWS                    1056
-#define IDC_ED_INT                      1057
-#define IDC_SPIN_INT                    1058
+#define IDC_ED_INT_NEWS                 1057
+#define IDC_SPIN_INT_NEWS               1058
+#define IDC_ED_INT_NOTIF                1059
+#define IDC_SPIN_INT_NOTIF              1060
+#define IDC_SPEC_CONT_ENBL              1061
 
 // Next default values for new objects
 // 
@@ -72,7 +75,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        118
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1059
+#define _APS_NEXT_CONTROL_VALUE         1062
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
