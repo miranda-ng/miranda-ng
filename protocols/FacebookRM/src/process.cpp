@@ -355,8 +355,6 @@ void FacebookProto::ProcessUnreadMessage(void *data)
 	int offset = 0;
 	int limit = 21;
 
-	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
-
 	// receive messages from all folders by default, use hidden setting to receive only inbox messages
 	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
 
@@ -424,7 +422,7 @@ void FacebookProto::ProcessUnreadMessage(void *data)
 			}
 			chatrooms.clear();
 
-			ReceiveMessages(messages, local_timestamp, true);
+			ReceiveMessages(messages, true);
 
 			debugLogA("***** Unread messages processed");
 
@@ -544,8 +542,7 @@ void FacebookProto::LoadLastMessages(void *p)
 		}
 		chatrooms.clear();*/
 
-	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
-	ReceiveMessages(messages, local_timestamp, true);
+	ReceiveMessages(messages, true);
 
 	debugLogA("***** Thread messages processed");
 
@@ -626,8 +623,7 @@ void FacebookProto::SyncThreads(void*)
 	delete p;
 
 
-	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
-	ReceiveMessages(messages, local_timestamp, true);
+	ReceiveMessages(messages, true);
 
 	debugLogA("***** Thread messages processed");
 
@@ -642,7 +638,7 @@ void FacebookProto::SyncThreads(void*)
 }
 
 
-void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates)
+void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, bool check_duplicates)
 {
 	bool naseemsSpamMode = getBool(FACEBOOK_KEY_NASEEMS_SPAM_MODE, false);
 
@@ -687,8 +683,6 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 	std::set<MCONTACT> *hChatContacts = new std::set<MCONTACT>();
 
 	for (std::vector<facebook_message*>::size_type i = 0; i < messages.size(); i++) {
-		DWORD timestamp = local_timestamp || !messages[i]->time ? ::time(NULL) : messages[i]->time;
-
 		if (messages[i]->isChat) {
 			if (!m_enableChat) {
 				delete messages[i];
@@ -760,7 +754,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			// TODO: support also system messages (rename chat, user quit, etc.)! (here? or it is somewhere else?
 			// ... we must add some new "type" field into facebook_message structure and use it also for Pokes and similar)
-			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), timestamp);
+			UpdateChat(tthread_id.c_str(), messages[i]->user_id.c_str(), messages[i]->sender_name.c_str(), messages[i]->message_text.c_str(), messages[i]->time);
 
 			// Automatically mark message as read because chatroom doesn't support onRead event (yet)
 			hChatContacts->insert(hChatContact); // std::set checks duplicates at insert automatically
@@ -806,7 +800,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 				PROTORECVEVENT recv = { 0 };
 				recv.flags = PREF_UTF;
 				recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-				recv.timestamp = timestamp;
+				recv.timestamp = messages[i]->time;
 				ProtoChainRecvMsg(hContact, &recv);
 			}
 			else {
@@ -827,7 +821,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 					dbei.flags |= DBEF_READ;
 
 				dbei.szModule = m_szModuleName;
-				dbei.timestamp = timestamp;
+				dbei.timestamp = messages[i]->time;
 				dbei.cbBlob = (DWORD)messages[i]->message_text.length() + 1;
 				dbei.pBlob = (PBYTE)messages[i]->message_text.c_str();
 				db_event_add(hContact, &dbei);
@@ -870,9 +864,7 @@ void FacebookProto::ProcessMessages(void* data)
 	p->parse_messages(resp, &messages, &facy.notifications, inboxOnly);
 	delete p;
 
-	bool local_timestamp = getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
-
-	ReceiveMessages(messages, local_timestamp);
+	ReceiveMessages(messages);
 
 	ShowNotifications();
 

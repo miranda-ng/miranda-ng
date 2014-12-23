@@ -52,7 +52,6 @@ void FacebookProto::ChangeStatus(void*)
 		OnLeaveChat(NULL, NULL);
 		SetAllContactStatuses(ID_STATUS_OFFLINE);
 		ToggleStatusMenuItems(false);
-		// setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, utils::time::mili_timestamp().c_str()); // TODO RM: this should't be here because of different local/server time
 		delSetting(FACEBOOK_KEY_LOGON_TS);
 
 		facy.clear_cookies();

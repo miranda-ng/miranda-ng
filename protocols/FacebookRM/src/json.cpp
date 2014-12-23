@@ -240,9 +240,6 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 		return EXIT_FAILURE;
 	}
 
-	// check if we should use use local_timestamp for unread messages and use it for notifications time too
-	bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
-
 	// Create notifications chatroom (if it doesn't exists), because we will be writing to it new notifications here
 	proto->PrepareNotificationsChatRoom();
 
@@ -265,7 +262,7 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 		notification->id = id;
 		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
 		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
-		notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));
+		notification->time = utils::time::fix_timestamp(json_as_float(time));
 
 		// Write notification to chatroom
 		proto->UpdateNotificationsChatRoom(notification);
@@ -445,12 +442,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				if (reader == NULL || time == NULL)
 					continue;
 
-				// check if we should use use local_timestamp for incoming messages and use it for read time too
-				/*bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
-				time_t timestamp = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(json_as_float(time));*/
-
-				// we can always use NOW for read time, because that's the time of receiving this event (+-)
-				time_t timestamp = ::time(NULL);
+				time_t timestamp = utils::time::fix_timestamp(json_as_float(time));
 
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
@@ -576,9 +568,6 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 			// event notification
 			JSONNODE *nodes = json_get(it, "nodes");
 
-			// check if we should use use local_timestamp for unread messages and use it for notifications time too
-			bool local_timestamp = proto->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP_UNREAD, 0);
-
 			// Create notifications chatroom (if it doesn't exists), because we will be writing to it new notifications here
 			proto->PrepareNotificationsChatRoom();
 
@@ -609,7 +598,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					notification->text = utils::text::slashu_to_utf8(json_as_pstring(text));
 					notification->link = json_as_pstring(url);
 					notification->id = json_as_pstring(alert_id);
-					notification->time = local_timestamp ? ::time(NULL) : utils::time::fix_timestamp(timestamp);
+					notification->time = utils::time::fix_timestamp(timestamp);
 
 					std::string::size_type pos = notification->id.find(":");
 					if (pos != std::string::npos)

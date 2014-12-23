@@ -308,7 +308,7 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 				fbc->chat_name = fbc->thread_id; // TODO: is this needed? Isn't it showed automatically as id if there is no name?
 		}
 
-		//ReceiveMessages(messages, local_timestamp, true); // don't let it fall into infinite cycle, solve it somehow...
+		//ReceiveMessages(messages, true); // don't let it fall into infinite cycle, solve it somehow...
 
 		debugLogA("***** Chat thread info processed");
 

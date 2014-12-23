@@ -32,7 +32,6 @@
 #define IDC_BIGGER_AVATARS              1030
 #define IDC_MAP_STATUSES                1032
 #define IDC_CUSTOM_SMILEYS              1034
-#define IDC_USE_LOCAL_TIME              1035
 #define IDC_LOAD_PAGES                  1036
 #define IDC_KEEP_UNREAD                 1037
 #define IDC_INBOX_ONLY                  1038
