@@ -595,7 +595,7 @@ int FacebookProto::OnPreCreateEvent(WPARAM, LPARAM lParam)
 	if (strcmp(GetContactProto(evt->hContact), m_szModuleName))
 		return 0;
 
-	std::map<int, DWORD>::iterator it = facy.messages_timestamp.find(evt->seq);
+	std::map<int, time_t>::iterator it = facy.messages_timestamp.find(evt->seq);
 	if (it != facy.messages_timestamp.end()) {
 		// set correct timestamp of this message
 		evt->dbei->timestamp = it->second;

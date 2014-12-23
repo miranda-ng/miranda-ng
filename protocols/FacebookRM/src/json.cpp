@@ -262,7 +262,7 @@ int facebook_json_parser::parse_notifications(std::string *data, std::map< std::
 		notification->id = id;
 		notification->link = utils::text::source_get_value(&text, 3, "<a ", "href=\"", "\"");
 		notification->text = utils::text::remove_html(utils::text::source_get_value(&text, 1, "<abbr"));
-		notification->time = utils::time::fix_timestamp(json_as_float(time));
+		notification->time = utils::time::from_string(json_as_pstring(time));
 
 		// Write notification to chatroom
 		proto->UpdateNotificationsChatRoom(notification);
@@ -442,7 +442,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				if (reader == NULL || time == NULL)
 					continue;
 
-				time_t timestamp = utils::time::fix_timestamp(json_as_float(time));
+				time_t timestamp = utils::time::from_string(json_as_pstring(time));
 
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid != NULL) { // multi user chat
@@ -546,8 +546,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				message->isUnread = true;
 				message->isIncoming = (id != proto->facy.self_.user_id);
 				message->message_text = message_text;
-				message->timestamp = json_as_pstring(timestamp);
-				message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+				message->time = utils::time::from_string(json_as_pstring(timestamp));
 				message->user_id = id;
 				message->message_id = message_id;
 				message->sender_name = utils::text::slashu_to_utf8(json_as_pstring(sender_name)); // TODO: or if not incomming use my own name from facy.self_ ?
@@ -589,7 +588,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				if (time == NULL || text == NULL || url == NULL || alert_id == NULL)
 					continue;
 
-				double timestamp = json_as_float(time);
+				time_t timestamp = utils::time::from_string(json_as_pstring(time));
 				if (timestamp > proto->facy.last_notification_time_) {
 					// Only new notifications
 					proto->facy.last_notification_time_ = timestamp;
@@ -598,7 +597,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					notification->text = utils::text::slashu_to_utf8(json_as_pstring(text));
 					notification->link = json_as_pstring(url);
 					notification->id = json_as_pstring(alert_id);
-					notification->time = utils::time::fix_timestamp(timestamp);
+					notification->time = timestamp;
 
 					std::string::size_type pos = notification->id.find(":");
 					if (pos != std::string::npos)
@@ -755,7 +754,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					message->isUnread = true;
 					message->isIncoming = (id != proto->facy.self_.user_id);
 					message->message_text = message_text;
-					message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+					message->time = utils::time::from_string(json_as_pstring(timestamp));
 					message->user_id = id;
 					message->message_id = message_id;
 					message->sender_name.clear();
@@ -970,7 +969,7 @@ int facebook_json_parser::parse_thread_messages(std::string *data, std::vector< 
 		message->message_text = message_text;
 		if (author_email != NULL)
 			message->sender_name = json_as_pstring(author_email);
-		message->time = utils::time::fix_timestamp(json_as_float(timestamp));
+		message->time = utils::time::from_string(json_as_pstring(timestamp));
 		message->thread_id = thread_id;
 		message->message_id = message_id;
 		message->isIncoming = (author_id != proto->facy.self_.user_id);

@@ -43,7 +43,7 @@ namespace utils
 	{
 		std::string unix_timestamp();
 		std::string mili_timestamp();
-		DWORD fix_timestamp(unsigned __int64 mili_timestamp);
+		time_t from_string(const std::string &data);
 	};
 
 	namespace number
@@ -71,7 +71,6 @@ namespace utils
 
 	namespace conversion
 	{
-		DWORD to_timestamp(const std::string &data);
 		std::string to_string(void*, WORD type);
 
 		template <class T>
