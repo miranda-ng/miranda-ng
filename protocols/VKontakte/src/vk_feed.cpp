@@ -159,9 +159,9 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers)
+CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost)
 {
-	debugLogA("CVkProto::GetVkNewsItem");
+	//debugLogA("CVkProto::GetVkNewsItem");
 	bool bPostLink = true;
 	CVKNewsItem *vkNewsItem = new CVKNewsItem();
 	if (pItem == NULL)
@@ -179,6 +179,8 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 
 	if (!tszText.IsEmpty())
 		tszText += _T("\n");
+
+	debugLog(_T("CVkProto::GetVkNewsItem %d %d %s <%s>"), iSourceId, iPostId, vkNewsItem->tszType.GetBuffer(), tszText.GetBuffer());
 
 	if (vkNewsItem->tszType == _T("photo_tag")){
 		bPostLink = false;
@@ -202,9 +204,12 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 				for (size_t i = 0; (pPhotoItem = json_at(pPhotoItems, i)) != NULL; i++){					
 					tszText += GetVkPhotoItem(pPhotoItem) + _T("\n");
 					if (i == 0 && vkNewsItem->tszType == _T("wall_photo")){
-						iPostId = json_as_int(json_get(pPhotoItem, "post_id"));
-						bPostLink = true;
-						break; // Max 1 wall_photo
+						LONG iPhotoPostId = json_as_int(json_get(pPhotoItem, "post_id"));
+						if (iPhotoPostId){
+							bPostLink = true;
+							iPostId = iPhotoPostId;
+							break; // max 1 wall_photo when photo post_id !=0
+						}					
 					}
 				}
 		}
@@ -213,7 +218,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 		bPostLink = true;
 		JSONNODE * pRepost = json_get(pItem, "copy_history");
 		if (pRepost) {
-			CVKNewsItem *vkRepost = GetVkNewsItem(json_at(pRepost, 0), vkUsers);		
+			CVKNewsItem *vkRepost = GetVkNewsItem(json_at(pRepost, 0), vkUsers, true);		
 			vkRepost->tszText.Replace(_T("\n"), _T("\n\t"));
 			tszText += vkRepost->tszText;
 			tszText += _T("\n");
@@ -230,7 +235,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 	CMString tszBBCIn = m_bBBCOnNews ? _T("[b]") : _T("");
 	CMString tszBBCOut = m_bBBCOnNews ? _T("[/b]") : _T("");
 
-	if (iPostId)
+	if (!isRepost)
 		tszResFormat = Translate("News from %s%s%s (%s)\n%s");
 	else {
 		tszResFormat = Translate("\tRepost from %s%s%s (%s)\n%s");
@@ -245,6 +250,8 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 		vkNewsItem->tszLink = CMString(_T("https://vk.com/wall")) + vkNewsItem->tszId;
 		vkNewsItem->tszText.AppendFormat(TranslateT("\nNews link: %s"), vkNewsItem->tszLink.GetBuffer());
 	}
+
+	debugLog(_T("CVkProto::GetVkNewsItem %d %d <%s> <%s>"), iSourceId, iPostId, vkNewsItem->tszText.GetBuffer(), tszText.GetBuffer());
 
 	return vkNewsItem;
 }
@@ -415,7 +422,7 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews)
 		<< INT_PARAM("count", 100)
 		<< INT_PARAM("return_banned", 0)
-		<< INT_PARAM("max_photos", 100)
+		<< INT_PARAM("max_photos", 5)
 		<< INT_PARAM("start_time", tLastNewsTime + 1)
 		<< CHAR_PARAM("filters", "post,photo,photo_tag,wall_photo")
 		<< VER_API);

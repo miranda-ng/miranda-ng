@@ -345,7 +345,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);	
 	CMString GetVkPhotoItem(JSONNODE *pPhotoItem);
 	
-	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
+	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
 	CMString GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
 	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
