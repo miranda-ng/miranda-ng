@@ -568,34 +568,27 @@ void FacebookProto::SyncThreads(void*)
 	if (isOffline())
 		return;
 
-	// get timestamp of last action (last message or possibly logout time)
-	ptrA ptrtimestamp(getStringA(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP));
+	// Get timestamp of last action (message or other event)
+	time_t timestamp = getDword(FACEBOOK_KEY_LAST_ACTION_TS, 0);
 
-	std::string timestamp = "0";
-	if (ptrtimestamp != NULL)
-		timestamp = ptrtimestamp;
+	// If last event is older than 1 day, we force sync to be 1 day old
+	time_t yesterday = ::time(NULL) - 24 * 60 * 60;
+	if (timestamp < yesterday) {
+		debugLogA("Last action timestamp is too old: %d, use 24 hours old instead: %d", timestamp, yesterday);
+		timestamp = yesterday;
 
-	long long time = _atoi64(timestamp.c_str());
-
-	if (time > 100000000000) {
-		time /= 1000;
+		// And load older unread messages that we might not get otherwise
+		ProcessUnreadMessages(NULL);
 	}
 
-	if (time < ::time(NULL) - 24 * 60 * 60) {
-		time_t last = ::time(NULL) - 24 * 60 * 60;
-		timestamp = utils::conversion::to_string((void*)&last, UTILS_CONV_TIME_T) + "000";
-
-		ForkThread(&FacebookProto::ProcessUnreadMessages, NULL); // for older unread messages (necessary?)
-	}
-
-	setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, utils::time::mili_timestamp().c_str());
-
-
-	// receive messages from all folders by default, use hidden setting to receive only inbox messages
+	// Receive messages from all folders by default, use hidden setting to receive only inbox messages
 	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
 
+	// Get milli timestamp string for Facebook
+	std::string time = utils::conversion::to_string((void*)&timestamp, UTILS_CONV_TIME_T) + "000";
+
 	std::string data = "client=mercury";
-	data += "&last_action_timestamp=" + timestamp;
+	data += "&last_action_timestamp=" + time;
 	data += "&__user=" + facy.self_.user_id;
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&folders[0]=inbox";
@@ -603,7 +596,7 @@ void FacebookProto::SyncThreads(void*)
 		data += "&folders[1]=other";
 	data += "&__req=7&__a=1&__dyn=&__req=&__rev=&ttstamp=" + facy.ttstamp();
 
-	debugLogA("Sync timestamp: %s", timestamp.c_str());
+	debugLogA("Facebook's milli timestamp for sync: %s", time.c_str());
 
 	http::response resp = facy.flap(REQUEST_THREAD_SYNC, &data);
 
@@ -612,16 +605,14 @@ void FacebookProto::SyncThreads(void*)
 		return;
 	}
 
-
 	CODE_BLOCK_TRY
 
-		std::vector<facebook_message*> messages;
+	std::vector<facebook_message*> messages;
 	std::map<std::string, facebook_chatroom*> chatrooms;
 
 	facebook_json_parser* p = new facebook_json_parser(this);
 	p->parse_thread_messages(&resp.data, &messages, &chatrooms, false, false);
 	delete p;
-
 
 	ReceiveMessages(messages, true);
 
@@ -629,12 +620,11 @@ void FacebookProto::SyncThreads(void*)
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing thread messages: %s", e.what());
+	debugLogA("***** Error processing thread messages: %s", e.what());
 
 	CODE_BLOCK_END
 
-		facy.handle_success("SyncThreads");
-
+	facy.handle_success("SyncThreads");
 }
 
 
@@ -739,7 +729,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			// We don't want to save (this) message ID for chatrooms
 			// setString(hChatContact, FACEBOOK_KEY_MESSAGE_ID, messages[i]->message_id.c_str());
-			setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, messages[i]->timestamp.c_str());
+			setDword(FACEBOOK_KEY_LAST_ACTION_TS, messages[i]->time);
 
 			// Save TID if not exists already
 			ptrA tid(getStringA(hChatContact, FACEBOOK_KEY_TID));

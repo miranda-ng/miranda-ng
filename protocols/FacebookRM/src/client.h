@@ -77,12 +77,12 @@ public:
 	std::string chat_conn_num_;
 	std::string chat_clientid_;
 	std::string chat_traceid_;
-	bool    is_typing_;
-	bool	is_idle_;
-	bool	https_;
-	time_t  last_feeds_update_;
-	unsigned __int64 last_notification_time_;
-	int     msgid_;
+	bool is_typing_;
+	bool is_idle_;
+	bool https_;
+	time_t last_feeds_update_;
+	time_t last_notification_time_;
+	int msgid_;
 
 	////////////////////////////////////////////////////////////
 
@@ -184,7 +184,7 @@ public:
 	// Messages handling
 
 	std::map<std::string, int> messages_ignore;
-	std::map<int, DWORD> messages_timestamp;
+	std::map<int, time_t> messages_timestamp;
 
 	bool    channel();
 	int		send_message(int seqid, MCONTACT, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captchaPersistData = "", const std::string &captcha = "");

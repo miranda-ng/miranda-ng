@@ -54,22 +54,19 @@ std::string utils::time::mili_timestamp()
 	return timestamp.substr(0, 13);
 }
 
-DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
+time_t utils::time::from_string(const std::string &data)
 {
-	// If it is really mili_timestamp
-	if (mili_timestamp > 100000000000)
-		mili_timestamp /= 1000;
+	long long timestamp = _atoi64(data.c_str());
 
-	return (DWORD)mili_timestamp;
-}
+	// If it is milli timestamp
+	if (timestamp > 100000000000)
+		timestamp /= 1000;
 
-DWORD utils::conversion::to_timestamp(const std::string &data)
-{
-	DWORD timestamp = NULL;
-	if (!utils::conversion::from_string<DWORD>(timestamp, data, std::dec)) {
-		timestamp = static_cast<DWORD>(::time(NULL));
-	}
-	return timestamp;
+	// If conversion fails, use local time?
+	//if (!timestamp)
+	//	timestamp = ::time(NULL);
+
+	return (time_t)timestamp;
 }
 
 std::string utils::conversion::to_string(void* data, WORD type)

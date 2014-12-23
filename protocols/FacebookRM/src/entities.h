@@ -33,7 +33,7 @@ struct facebook_user
 
 	unsigned int status_id;
 	unsigned int gender;
-	DWORD last_active;
+	time_t last_active;
 
 	std::string image_url;
 
@@ -81,7 +81,7 @@ struct facebook_chatroom
 
 	std::string message_readers;
 
-	DWORD last_active;
+	time_t last_active;
 };
 
 struct facebook_message
@@ -91,8 +91,7 @@ struct facebook_message
 	std::string message_text;	
 	std::string message_id;
 	std::string thread_id;
-	std::string timestamp;
-	DWORD time;
+	time_t time;
 	bool isIncoming;
 	bool isUnread;
 	bool isChat;

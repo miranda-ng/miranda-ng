@@ -1335,19 +1335,18 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		if (!parent->isChatRoom(hContact))
 			parent->setString(hContact, FACEBOOK_KEY_MESSAGE_ID, mid.c_str());
 
-		// Remember last action timestamp
+		// Get timestamp
 		std::string timestamp = utils::text::source_get_value(&resp.data, 2, "\"timestamp\":", ",");
-		parent->setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, timestamp.c_str());
+		time_t time = utils::time::from_string(timestamp);
+		
+		// Remember last action timestamp for history sync
+		parent->setDword(FACEBOOK_KEY_LAST_ACTION_TS, time);
 
-		// For classic conversation we try to remember and then replace timestamp of added event in OnPreCreateEvent()
-		if (seqid > 0) {
-			long long time = _atoi64(timestamp.c_str());
-			if (time > 100000000000)
-				time /= 1000;
+		// For classic conversation we try to replace timestamp of added event in OnPreCreateEvent()
+		if (seqid > 0)
+			messages_timestamp.insert(std::make_pair(seqid, time));
 
-			messages_timestamp.insert(std::make_pair(seqid, (DWORD)time));
-		}
-
+		// We have this message in database, so ignore further tries (in channel) to add it again
 		messages_ignore.insert(std::make_pair(mid, 0));
 	} break;
 

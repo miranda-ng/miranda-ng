@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_FILTER_ADS				"FilterAds"
 #define FACEBOOK_KEY_LOGON_TS				"LogonTS"
 #define FACEBOOK_KEY_LOGIN_SYNC				"LoginSync"		// (byte) 0 = get only unread messages, 1 = sync messages since last activity (default is 0)
-#define FACEBOOK_KEY_LAST_ACTION_TIMESTAMP  "LastActionTimestamp"
+#define FACEBOOK_KEY_LAST_ACTION_TS			"LastActionTS"
 #define FACEBOOK_KEY_MESSAGES_ON_OPEN		"MessagesOnOpen"
 #define FACEBOOK_KEY_MESSAGES_ON_OPEN_COUNT	"MessagesOnOpenCount"
 #define FACEBOOK_KEY_HIDE_CHATS				"HideChats"
