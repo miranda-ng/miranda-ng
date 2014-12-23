@@ -73,8 +73,6 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	HookProtoEvent(ME_GC_EVENT, &FacebookProto::OnGCEvent);
 	HookProtoEvent(ME_GC_BUILDMENU, &FacebookProto::OnGCMenuHook);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &FacebookProto::OnDbEventRead);
-	HookProtoEvent(ME_MSG_WINDOWEVENT, &FacebookProto::OnProcessSrmmEvent);
-	HookProtoEvent(ME_MSG_PRECREATEEVENT, &FacebookProto::OnPreCreateEvent);
 
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
@@ -445,6 +443,9 @@ INT_PTR FacebookProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 int FacebookProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	HookProtoEvent(ME_MSG_WINDOWEVENT, &FacebookProto::OnProcessSrmmEvent);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &FacebookProto::OnPreCreateEvent);
+
 	// Register group chat
 	GCREGISTER gcr = { sizeof(gcr) };
 	gcr.dwFlags = 0; //GC_ACKMSG;
