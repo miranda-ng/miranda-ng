@@ -37,7 +37,7 @@ Zrušit
 [User details]
 Informace o uživateli
 [Network]
-Sít
+Sítě
 [Force secure (HTTPS) connection]
 Použít zabezpečené spojení (HTTPS)
 [Use secure connection also for channel requests]
