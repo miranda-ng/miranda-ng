@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.8
+;  Version: 0.2.9.9
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -89,8 +89,6 @@
 Сообщения
 [Receive messages from "inbox" folder only]
 Принимать сообщения только из папки "входящие"
-[Use local time for received messages]
-Локальное время для принятых сообщений
 [Keep messages as unread on server (don't send "seen" info)]
 Не помечать сообщения на сервере как прочитанные
 [Show stickers as custom smileys (EXPERIMENTAL)]
