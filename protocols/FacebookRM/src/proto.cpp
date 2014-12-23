@@ -23,7 +23,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "common.h"
 
 FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
-PROTO<FacebookProto>(proto_name, username)
+	PROTO<FacebookProto>(proto_name, username),
+	m_tszDefaultGroup(getTStringA(FACEBOOK_KEY_DEF_GROUP))
 {
 	facy.parent = this;
 
@@ -47,6 +48,9 @@ PROTO<FacebookProto>(proto_name, username)
 	ptrA locale(getStringA(FACEBOOK_KEY_LOCALE));
 	if (locale != NULL)
 		m_locale = locale;
+
+	if (m_tszDefaultGroup == NULL)
+		m_tszDefaultGroup = mir_tstrdup(_T("Facebook"));
 
 	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETMYAWAYMSG, &FacebookProto::GetMyAwayMsg);

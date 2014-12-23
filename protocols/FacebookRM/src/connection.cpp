@@ -190,9 +190,8 @@ bool FacebookProto::NegotiateConnection()
 	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef");
 
 	// Create default group for new contacts
-	ptrT groupName(getTStringA(FACEBOOK_KEY_DEF_GROUP));
-	if (groupName != NULL)
-		Clist_CreateGroup(0, groupName);
+	if (m_tszDefaultGroup)
+		Clist_CreateGroup(0, m_tszDefaultGroup);
 
 	return facy.login(username, password);
 }
