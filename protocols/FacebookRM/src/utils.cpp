@@ -57,9 +57,9 @@ std::string utils::time::mili_timestamp()
 DWORD utils::time::fix_timestamp(unsigned __int64 mili_timestamp)
 {
 	// If it is really mili_timestamp
-	if (mili_timestamp > 100000000000) {
+	if (mili_timestamp > 100000000000)
 		mili_timestamp /= 1000;
-	}
+
 	return (DWORD)mili_timestamp;
 }
 

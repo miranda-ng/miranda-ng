@@ -219,7 +219,7 @@ public:
 	void AddChatContact(const TCHAR *chat_id, const char *id, const char *name);
 	void RemoveChatContact(const TCHAR *chat_id, const char *id, const char *name);
 	char *GetChatUsers(const TCHAR *chat_id);
-	void ReceiveMessages(std::vector<facebook_message*> messages, bool local_timestamp, bool check_duplicates = false);
+	void ReceiveMessages(std::vector<facebook_message*> messages, bool check_duplicates = false);
 	void LoadChatInfo(facebook_chatroom* fbc);
 	void LoadParticipantsNames(facebook_chatroom *fbc);
 	

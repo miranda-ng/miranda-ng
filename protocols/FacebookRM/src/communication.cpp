@@ -1340,8 +1340,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		parent->setString(FACEBOOK_KEY_LAST_ACTION_TIMESTAMP, timestamp.c_str());
 
 		// For classic conversation we try to remember and then replace timestamp of added event in OnPreCreateEvent()
-		bool localTimestamp = parent->getBool(FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
-		if (seqid > 0 && !localTimestamp) {
+		if (seqid > 0) {
 			long long time = _atoi64(timestamp.c_str());
 			if (time > 100000000000)
 				time /= 1000;

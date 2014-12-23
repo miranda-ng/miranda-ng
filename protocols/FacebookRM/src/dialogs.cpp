@@ -589,7 +589,6 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
 
 		LoadDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS);
-		LoadDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP, DEFAULT_LOCAL_TIME);
 		LoadDBCheckState(proto, hwnd, IDC_INBOX_ONLY, FACEBOOK_KEY_INBOX_ONLY, DEFAULT_INBOX_ONLY);
 		LoadDBCheckState(proto, hwnd, IDC_KEEP_UNREAD, FACEBOOK_KEY_KEEP_UNREAD, DEFAULT_KEEP_UNREAD);
 		LoadDBCheckState(proto, hwnd, IDC_MESSAGES_ON_OPEN, FACEBOOK_KEY_MESSAGES_ON_OPEN, DEFAULT_MESSAGES_ON_OPEN);
@@ -624,7 +623,6 @@ INT_PTR CALLBACK FBOptionsMessagingProc(HWND hwnd, UINT message, WPARAM wparam, 
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
 			StoreDBCheckState(proto, hwnd, IDC_CUSTOM_SMILEYS, FACEBOOK_KEY_CUSTOM_SMILEYS);
-			StoreDBCheckState(proto, hwnd, IDC_USE_LOCAL_TIME, FACEBOOK_KEY_LOCAL_TIMESTAMP);
 			StoreDBCheckState(proto, hwnd, IDC_INBOX_ONLY, FACEBOOK_KEY_INBOX_ONLY);
 			StoreDBCheckState(proto, hwnd, IDC_KEEP_UNREAD, FACEBOOK_KEY_KEEP_UNREAD);
 			StoreDBCheckState(proto, hwnd, IDC_LOGIN_SYNC, FACEBOOK_KEY_LOGIN_SYNC);
