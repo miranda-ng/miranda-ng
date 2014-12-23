@@ -364,9 +364,8 @@ MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, b
 
 		db_unset(hContact, "CList", "MyHandle");
 
-		ptrT group(getTStringA(NULL, FACEBOOK_KEY_DEF_GROUP));
-		if (group)
-			db_set_ts(hContact, "CList", "Group", group);
+		if (m_tszDefaultGroup)
+			db_set_ts(hContact, "CList", "Group", m_tszDefaultGroup);
 
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, type);
 

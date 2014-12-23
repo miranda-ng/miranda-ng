@@ -251,6 +251,8 @@ public:
 	HANDLE  log_lock_;
 	HANDLE  update_loop_lock_;
 
+	ptrT m_tszDefaultGroup;
+
 	std::vector<HANDLE> popupClasses;
 
 	std::string last_status_msg_;

@@ -370,9 +370,8 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
-		ptrT group(db_get_tsa(NULL, proto->ModuleName(), FACEBOOK_KEY_DEF_GROUP));
-		if (group != NULL)
-			SetDlgItemText(hwnd, IDC_GROUP, group);
+		if (proto->m_tszDefaultGroup != NULL)
+			SetDlgItemText(hwnd, IDC_GROUP, proto->m_tszDefaultGroup);
 
 		LoadDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, DEFAULT_DISABLE_STATUS_NOTIFY);
 		LoadDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS);
@@ -419,10 +418,14 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			GetDlgItemText(hwnd, IDC_GROUP, tstr, SIZEOF(tstr));
 			if (tstr[0] != '\0')
 			{
+				proto->m_tszDefaultGroup = mir_tstrdup(tstr);
 				proto->setTString(FACEBOOK_KEY_DEF_GROUP, tstr);
 				Clist_CreateGroup(0, tstr);
 			}
-			else proto->delSetting(FACEBOOK_KEY_DEF_GROUP);
+			else {
+				proto->delSetting(FACEBOOK_KEY_DEF_GROUP);
+				proto->m_tszDefaultGroup = NULL;
+			}				
 
 			StoreDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY);
 			StoreDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS);
