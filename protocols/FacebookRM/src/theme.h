@@ -26,18 +26,3 @@ void InitIcons(void);
 HANDLE GetIconHandle(const char *name);
 
 void InitContactMenus(void);
-void UninitContactMenus(void);
-
-/* Contact menu item indexes */
-#define CMI_VISIT_PROFILE 0
-#define CMI_VISIT_FRIENDSHIP 1
-#define CMI_AUTH_REVOKE 2
-#define CMI_AUTH_ASK 3
-#define CMI_AUTH_GRANT 4
-#define CMI_AUTH_CANCEL 5
-#define CMI_AUTH_DENY 6
-#define CMI_POKE 7
-#define CMI_POST_STATUS 8
-#define CMI_VISIT_CONVERSATION 9
-
-#define CMITEMS_COUNT 10

@@ -93,7 +93,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getCLI();
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName = "Facebook";
+	pd.szName = FACEBOOK_NAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = protoInit;
 	pd.fnUninit = protoUninit;
@@ -126,7 +126,5 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UninitContactMenus();
-
 	return 0;
 }

@@ -243,13 +243,16 @@ public:
 	void MessageRead(MCONTACT hContact);
 	bool RunCaptchaForm(std::string imageUrl, std::string &result);
 
-	// Handles, Locks
-	HGENMENU m_hMenuRoot, m_hMenuServicesRoot, m_hStatusMind;
+	// Menu items
+	HGENMENU m_hMenuRoot;
+	HGENMENU m_hMenuServicesRoot;
+	HGENMENU m_hStatusMind;
 
-	HANDLE  signon_lock_;
-	HANDLE  avatar_lock_;
-	HANDLE  log_lock_;
-	HANDLE  update_loop_lock_;
+	// Locks
+	HANDLE signon_lock_;
+	HANDLE avatar_lock_;
+	HANDLE log_lock_;
+	HANDLE update_loop_lock_;
 
 	ptrT m_tszDefaultGroup;
 
