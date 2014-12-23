@@ -159,26 +159,28 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate)
+CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers)
 {
 	debugLogA("CVkProto::GetVkNewsItem");
 	bool bPostLink = true;
-	CMString tszRes;
+	CVKNewsItem *vkNewsItem = new CVKNewsItem();
 	if (pItem == NULL)
-		return tszRes;
-
-	CMString tszType = json_as_string(json_get(pItem, "type"));
+		return vkNewsItem;
 
 	LONG iSourceId = json_as_int(json_get(pItem, "source_id"));
 	iSourceId = iSourceId ? iSourceId : json_as_int(json_get(pItem, "owner_id"));
-	CVkUserInfo *vkUser = GetVkUserInfo(iSourceId, vkUsers);
 	LONG iPostId = json_as_int(json_get(pItem, "post_id"));
-	tDate = json_as_int(json_get(pItem, "date"));
 	CMString tszText = json_as_string(json_get(pItem, "text"));
+
+	vkNewsItem->tszType = json_as_string(json_get(pItem, "type"));
+	vkNewsItem->vkUser = GetVkUserInfo(iSourceId, vkUsers);
+	vkNewsItem->bIsGroup = vkNewsItem->vkUser->m_bIsGroup;
+	vkNewsItem->tDate = json_as_int(json_get(pItem, "date"));
+
 	if (!tszText.IsEmpty())
 		tszText += _T("\n");
 
-	if (tszType == _T("photo_tag")){
+	if (vkNewsItem->tszType == _T("photo_tag")){
 		bPostLink = false;
 		JSONNODE *pPhotos = json_get(pItem, "photo_tags");
 		if (pPhotos){			
@@ -191,7 +193,7 @@ CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers,
 			}
 		}
 	}
-	else if (tszType == _T("photo") || tszType == _T("wall_photo")){
+	else if (vkNewsItem->tszType == _T("photo") || vkNewsItem->tszType == _T("wall_photo")){
 		bPostLink = false;
 		JSONNODE *pPhotos = json_get(pItem, "photos");
 		if (pPhotos){
@@ -199,7 +201,7 @@ CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers,
 			if (pPhotoItems)		
 				for (size_t i = 0; (pPhotoItem = json_at(pPhotoItems, i)) != NULL; i++){					
 					tszText += GetVkPhotoItem(pPhotoItem) + _T("\n");
-					if (i == 0 && tszType == _T("wall_photo")){
+					if (i == 0 && vkNewsItem->tszType == _T("wall_photo")){
 						iPostId = json_as_int(json_get(pPhotoItem, "post_id"));
 						bPostLink = true;
 						break; // Max 1 wall_photo
@@ -207,15 +209,16 @@ CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers,
 				}
 		}
 	} 
-	else if (tszType == _T("post") || tszType.IsEmpty()) {
+	else if (vkNewsItem->tszType == _T("post") || vkNewsItem->tszType.IsEmpty()) {
 		bPostLink = true;
 		JSONNODE * pRepost = json_get(pItem, "copy_history");
-		if (pRepost){
-			time_t tRDate;
-			CMString tszRepostText = GetVkNewsItem(json_at(pRepost, 0), vkUsers, tRDate);		
-			tszRepostText.Replace(_T("\n"), _T("\n\t"));
-			tszText += tszRepostText;
+		if (pRepost) {
+			CVKNewsItem *vkRepost = GetVkNewsItem(json_at(pRepost, 0), vkUsers);		
+			vkRepost->tszText.Replace(_T("\n"), _T("\n\t"));
+			tszText += vkRepost->tszText;
 			tszText += _T("\n");
+			vkNewsItem->bIsRepost = true;
+			delete vkRepost;
 		}
 
 		JSONNODE *pAttachments = json_get(pItem, "attachments");
@@ -224,7 +227,6 @@ CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers,
 	}
 
 	CMString tszResFormat;	
-	CMString tszUrl;
 	CMString tszBBCIn = m_bBBCOnNews ? _T("[b]") : _T("");
 	CMString tszBBCOut = m_bBBCOnNews ? _T("[/b]") : _T("");
 
@@ -235,15 +237,16 @@ CMString CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers,
 		bPostLink = false;
 	}
 		
-	tszRes.AppendFormat(tszResFormat, tszBBCIn.GetBuffer(), vkUser->m_tszUserNick.GetBuffer(), tszBBCOut.GetBuffer(), vkUser->m_tszLink.GetBuffer(), tszText.GetBuffer()); 
+	vkNewsItem->tszText.AppendFormat(tszResFormat, tszBBCIn.GetBuffer(), vkNewsItem->vkUser->m_tszUserNick.GetBuffer(), tszBBCOut.GetBuffer(),
+		vkNewsItem->vkUser->m_tszLink.GetBuffer(), tszText.GetBuffer());
 	
+	vkNewsItem->tszId.AppendFormat(_T("%d_%d"), vkNewsItem->vkUser->m_UserId, iPostId);
 	if (bPostLink) {
-		tszUrl.AppendFormat(_T("%d_%d"), vkUser->m_UserId, iPostId);
-		tszUrl = CMString(_T("https://vk.com/wall")) + tszUrl;
-		tszRes.AppendFormat(TranslateT("\nNews link: %s"), tszUrl.GetBuffer());
+		vkNewsItem->tszLink = CMString(_T("https://vk.com/wall")) + vkNewsItem->tszId;
+		vkNewsItem->tszText.AppendFormat(TranslateT("\nNews link: %s"), vkNewsItem->tszLink.GetBuffer());
 	}
 
-	return tszRes;
+	return vkNewsItem;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -418,6 +421,11 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		<< VER_API);
 }
 
+static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
+{
+	return p1->tszId.Compare(p2->tszId) ? (LONG)p1->tDate - (LONG)p2->tDate : 0;
+}
+
 void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveUnreadNews %d", reply->resultCode);
@@ -435,15 +443,22 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 	JSONNODE *pItems = json_get(pResponse, "items");
 	JSONNODE *pItem;
 
+	OBJLIST<CVKNewsItem> vkNews(5, sttCompareVKNewsItems);
 	if (pItems != NULL)
-		for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++){
-			time_t tDate;
-			CMString tszText = GetVkNewsItem(pItem, vkUsers, tDate);
-			AddFeedEvent(tszText, tDate);
+		for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++){	
+			CVKNewsItem *vkNewsItem = GetVkNewsItem(pItem, vkUsers);
+			if (vkNews.find(vkNewsItem) == NULL)
+				vkNews.insert(vkNewsItem);
+			else
+				delete vkNewsItem;
 		}
 
-
+	for (int i = 0; i < vkNews.getCount(); i++)
+		AddFeedEvent(vkNews[i].tszText, vkNews[i].tDate);
+	
 	setDword("LastNewsTime", time(NULL));
+
+	vkNews.destroy();
 	vkUsers.destroy();
 }
 

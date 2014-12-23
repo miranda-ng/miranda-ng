@@ -158,7 +158,7 @@ struct CVkFileUploadParam {
 	__forceinline char* fileName() { return fname; }
 };
 
-struct CVkUserInfo : public MZeroedObject{
+struct CVkUserInfo : public MZeroedObject {
 	CVkUserInfo(LONG _UserId) : 
 		m_UserId(_UserId),
 		m_bIsGroup(false)
@@ -179,6 +179,33 @@ struct CVkUserInfo : public MZeroedObject{
 	bool m_bIsGroup;
 };
 
+enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy };
+
+struct CVkNotification {
+	TCHAR *ptszType;
+	VKObjType vkParent, vkFeedback;
+	TCHAR *ptszTranslate;
+};
+
+
+struct CVKNewsItem : public MZeroedObject {
+	CVKNewsItem()
+	{
+		tDate = NULL;
+		vkUser = NULL;
+		bIsGroup = bIsRepost = true;
+	};
+	
+	CMString tszId;
+	time_t tDate;
+	CVkUserInfo *vkUser;
+	CMString tszText;
+	CMString tszLink;
+	CMString tszType;
+	bool bIsGroup;
+	bool bIsRepost;
+};
+
 struct TFakeAckParams
 {
 	__inline TFakeAckParams(MCONTACT _hContact, int _msgid) :
@@ -189,13 +216,6 @@ struct TFakeAckParams
 	int msgid;
 };
 
-enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy };
-
-struct CVkNotification {
-	TCHAR *ptszType;
-	VKObjType vkParent, vkFeedback;
-	TCHAR *ptszTranslate;
-};
 
 struct CVkProto : public PROTO<CVkProto>
 {
@@ -321,11 +341,11 @@ struct CVkProto : public PROTO<CVkProto>
 	void AddFeedSpecialUser();
 	void AddFeedEvent(CMString& tszBody, time_t tTime);
 	
-	CVkUserInfo * GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
+	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
 	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);	
 	CMString GetVkPhotoItem(JSONNODE *pPhotoItem);
 	
-	CMString GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
+	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
 
 	CMString GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
 	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);

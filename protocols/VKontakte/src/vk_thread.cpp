@@ -677,7 +677,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		Sleep(100);
 		if (!CheckMid(mid)) {
 			ProtoChainRecvMsg(hContact, &recv);
-			if (mid>getDword(hContact, "lastmsgid", -1))
+			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);
 		}
 	}
