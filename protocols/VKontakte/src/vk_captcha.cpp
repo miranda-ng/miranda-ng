@@ -103,8 +103,6 @@ bool CVkProto::RunCaptchaForm(LPCSTR szUrl, CMStringA &result)
 	debugLogA("CVkProto::RunCaptchaForm: reading picture from %s", szUrl);
 	result.Empty();
 
-	if (!IsOnline())
-		return false;
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = (LPSTR)szUrl;
