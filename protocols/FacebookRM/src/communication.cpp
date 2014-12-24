@@ -947,9 +947,15 @@ bool facebook_client::login(const char *username, const char *password)
 	case HTTP_CODE_FOUND: // Found and redirected somewhere
 	{
 		if (resp.headers.find("Location") != resp.headers.end()) {
-			std::string url = (this->https_ ? "https://"FACEBOOK_SERVER_REGULAR"/" : "http://"FACEBOOK_SERVER_REGULAR"/");
+			std::string redirectUrl = resp.headers["location"];
+			std::string expectedUrl = (this->https_ ? "https://"FACEBOOK_SERVER_REGULAR"/" : "http://"FACEBOOK_SERVER_REGULAR"/");
 
-			if (resp.headers["Location"] != url) {
+			// Remove eventual parameters
+			std::string::size_type pos = redirectUrl.rfind("?");
+			if (pos != std::tstring::npos)
+				redirectUrl = redirectUrl.substr(0, pos);
+			
+			if (redirectUrl != expectedUrl) {
 				// Unexpected redirect, but we try to ignore it - maybe we were logged in anyway
 				parent->debugLogA(" ! !  Login error: Unexpected redirect: %s", resp.headers["Location"].c_str());
 			}
