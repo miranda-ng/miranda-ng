@@ -2,6 +2,7 @@
 
 int hLangpack;
 HINSTANCE g_hInstance;
+HMODULE g_hToxLibrary = NULL;
 
 PLUGININFOEX pluginInfo =
 {
@@ -46,5 +47,9 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	if (g_hToxLibrary)
+	{
+		FreeLibrary(g_hToxLibrary);
+	}
 	return 0;
 }
