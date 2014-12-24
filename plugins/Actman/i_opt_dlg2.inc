@@ -186,7 +186,7 @@ begin
       move(EditMacroList[loword(li.lParam)]^,TmpMacroList[i]^,SizeOf(tMacroRecord));
 
       // macro flags
-      TmpMacroList[i]^.flags:=
+      TmpMacroList[i]^.flags:=ACF_ASSIGNED or
           (TmpMacroList[i]^.flags and not ACF_MACROFLAG) or
           (li.lParam and ACF_MACROFLAG);
 {!!
