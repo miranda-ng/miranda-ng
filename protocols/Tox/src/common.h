@@ -52,4 +52,16 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_DB_EVENT_TYPE_ACTION 10001
 
+extern HMODULE g_hToxLibrary;
+
+template<typename T>
+T CreateFunction(LPCSTR functionName)
+{
+	if (g_hToxLibrary == NULL)
+	{
+		g_hToxLibrary = LoadLibrary(L"libtox.dll");
+	}
+	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
+}
+
 #endif //_COMMON_H_
