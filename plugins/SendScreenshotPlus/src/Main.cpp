@@ -73,14 +73,14 @@ TCHAR* GetCustomPath() {
 		pszPath = mir_tstrdup(szPath);
 	}
 	if(!pszPath){
-		MessageBox(NULL, _T("Can not retrieve Screenshot path."), _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(NULL, _T("Can not retrieve screenshot path."), _T("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 0;
 	}
 	int result = CreateDirectoryTreeT(pszPath);
 	if(result){
 		TCHAR szError[MAX_PATH];
-		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
-		MessageBox(NULL, szError, _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
+		MessageBox(NULL, szError, _T("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		mir_free(pszPath);
 		return 0;
 	}
@@ -255,7 +255,7 @@ DLL_EXPORT int Load(void)
 	mir_getLP(&pluginInfo);
 	INT_PTR result=CallService(MS_IMG_GETINTERFACE,FI_IF_VERSION,(LPARAM)&FIP);
 	if(FIP==NULL || result!=S_OK) {
-		MessageBox(NULL, TranslateT("Fatal error, image services not found. SendScreenshot will be disabled."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		MessageBox(NULL, TranslateT("Image services (AdvaImg) not found.\nSendSS disabled."), TranslateT("SendSS"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 1;
 	}
 	/// hook events

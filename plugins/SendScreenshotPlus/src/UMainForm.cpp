@@ -644,8 +644,8 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 	switch (lParam) {
 		case EVT_CaptureDone:
 			if (!m_Screenshot && m_opt_tabCapture!=2) {
-				TCHAR *err = TranslateT("Can't create a Screenshot");
-				MessageBox(m_hWnd,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
+				TCHAR *err = TranslateT("Couldn't take a screenshot");
+				MessageBox(NULL,err,ERROR_TITLE,MB_OK|MB_ICONWARNING);
 				Show();
 				return;
 			}
@@ -654,14 +654,13 @@ void TfrmMain::UMevent(WPARAM wParam, LPARAM lParam) {
 		case EVT_SendFileDone:
 			break;
 		case EVT_CheckOpenAgain:
-			if (m_opt_chkOpenAgain) {
-				if (m_Screenshot) {
+			if(m_opt_chkOpenAgain){
+				if(m_Screenshot){
 					FIP->FI_Unload(m_Screenshot);
 					m_Screenshot = NULL;
 				}
 				Show();
-			}else{
-				// Saving Options and close
+			}else{// Saving Options and close
 				SaveOptions();
 				Close();
 			}
