@@ -50,10 +50,8 @@ size_t			MonitorInfoEnum(MONITORINFOEX* & myMonitors, RECT & virtualScreen);
 BOOL CALLBACK	MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData);
 
 FIBITMAP*		CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture);
-FIBITMAP*		CaptureMonitor(TCHAR* szDevice);
-FIBITMAP*		CaptureScreen(HDC hDC, SIZE size, HWND hCapture=0);
-//FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
-TCHAR*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, TCHAR* pszFilename, TCHAR* pszExt, int flag=0);
+FIBITMAP*		CaptureMonitor(const TCHAR* szDevice,const RECT* cropRect=NULL);
+TCHAR*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename, const TCHAR* pszExt, int flag=0);
 
 TCHAR*			GetFileNameW(const TCHAR* pszPath);
 TCHAR*			GetFileExtW (const TCHAR* pszPath);

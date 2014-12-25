@@ -71,62 +71,57 @@ BOOL CALLBACK MonitorInfoEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprc
 	return TRUE;
 }
 
+FIBITMAP* CreateDIBFromDC(HDC hDC,const RECT* rect,HWND hCapture=0);
 //---------------------------------------------------------------------------
 // capture window as FIBITMAP - caller must FIP->FI_Unload(dib)
-FIBITMAP* CaptureWindow  (HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture) {
-	FIBITMAP *dib;
-	HWND	hForegroundWin;
-	HDC		hScrDC;						// screen DC
-	RECT	rect;						// screen RECT
-	SIZE	size;						// DIB width and height = window resolution
+FIBITMAP* CaptureWindow(HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture){
+	FIBITMAP* dib;
+	HWND hForegroundWin;
+	RECT rect;//cropping rect
 
-	if (!hCapture || !IsWindow(hCapture)) return 0;
-	hForegroundWin = GetForegroundWindow();	//Saving foreground window
-	SetForegroundWindow(hCapture);			// Make sure the target window is the foreground one
+	if(!hCapture || !IsWindow(hCapture))
+		return NULL;
+	hForegroundWin=GetForegroundWindow();	// old foreground window
+	SetForegroundWindow(hCapture);			// force target foreground
 	BringWindowToTop(hCapture);				// bring it to top as well
 	/// redraw window to prevent runtime artifacts in picture
 	UpdateWindow(hCapture);
 
+	HWND hParent=GetAncestor(hCapture,GA_PARENT);
+	if(hParent && !IsChild(hParent,hCapture))
+		hParent=NULL;
 	if(bIndirectCapture){
 		intptr_t wastopmost=GetWindowLongPtr(hCapture,GWL_EXSTYLE)&WS_EX_TOPMOST;
 		if(!wastopmost)
 			SetWindowPos(hCapture,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
-		hScrDC	= GetDC(NULL);	/*Get full virtualscreen*/
-		size.cx	= GetSystemMetrics(SM_CXVIRTUALSCREEN);
-		size.cy	= GetSystemMetrics(SM_CYVIRTUALSCREEN);
-		dib = CaptureScreen(hScrDC,size);
-		ReleaseDC(hCapture,hScrDC);
 		if(bClientArea){
 			GetClientRect(hCapture,&rect);
 			ClientToScreen(hCapture,(POINT*)&rect);
 			rect.right+=rect.left; rect.bottom+=rect.top;
 		}else
 			GetWindowRect(hCapture,&rect);
-		if(rect.left<0) rect.left=0;
-		if(rect.top<0) rect.top=0;
-		if(rect.right>(long)FIP->FI_GetWidth(dib)) rect.right=FIP->FI_GetWidth(dib);
-		if(rect.bottom>(long)FIP->FI_GetHeight(dib)) rect.bottom=FIP->FI_GetHeight(dib);
-		/// crop the window to ClientArea
-		FIBITMAP* dibClient = FIP->FI_Copy(dib,rect.left,rect.top,rect.right,rect.bottom);
-		FIP->FI_Unload(dib);
-		dib = dibClient;
+		dib=CaptureMonitor(NULL,&rect);
 		if(!wastopmost)
 			SetWindowPos(hCapture,HWND_NOTOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
 	}else{
+		HDC hDCsrc;
 		GetWindowRect(hCapture,&rect);
-		if(GetAncestor(hCapture,GA_PARENT))
-			hScrDC=GetDC(hCapture);//hCapture is part of a window, capture that
+		if(hParent)
+			hDCsrc=GetDC(hCapture);//hCapture is part of a window, capture that
 		else
-			hScrDC=GetWindowDC(hCapture);//entire window w/ title bar
-		size.cx=ABS(rect.right-rect.left);
-		size.cy=ABS(rect.bottom-rect.top);
+			hDCsrc=GetWindowDC(hCapture);//entire window w/ title bar
+		rect.right=ABS(rect.right-rect.left);
+		rect.bottom=ABS(rect.bottom-rect.top);
+		rect.left=rect.top=0;
 		/// capture window and get FIBITMAP
-		dib = CaptureScreen(hScrDC,size,hCapture);
-		ReleaseDC(hCapture,hScrDC);
+		dib = CreateDIBFromDC(hDCsrc,&rect,hCapture);
+		ReleaseDC(hCapture,hDCsrc);
 		if(bClientArea){//we could capture directly, but doing so breaks GetWindowRgn() and also includes artifacts...
+			GetWindowRect(hCapture,&rect);
 			RECT rectCA; GetClientRect(hCapture,&rectCA);
 			ClientToScreen(hCapture,(POINT*)&rectCA);
-			rectCA.left-=rect.left; rectCA.top-=rect.top;
+			rectCA.left=ABS(rectCA.left-rect.left);
+			rectCA.top=ABS(rectCA.top-rect.top);
 			rectCA.right+=rectCA.left; rectCA.bottom+=rectCA.top;
 			/// crop the window to ClientArea
 			FIBITMAP* dibClient = FIP->FI_Copy(dib,rectCA.left,rectCA.top,rectCA.right,rectCA.bottom);
@@ -141,47 +136,57 @@ FIBITMAP* CaptureWindow  (HWND hCapture, BOOL bClientArea, BOOL bIndirectCapture
 	return dib;
 }
 
-FIBITMAP* CaptureMonitor (TCHAR* szDevice) {
-	SIZE size;
+FIBITMAP* CaptureMonitor(const TCHAR* szDevice,const RECT* cropRect/*=NULL*/){
 	HDC hScrDC;
-	FIBITMAP *dib = NULL;
-	// get screen resolution
-	if(!szDevice) {
-		hScrDC	= GetDC(NULL);	/*Get full virtualscreen*/
-		size.cx	= GetSystemMetrics(SM_CXVIRTUALSCREEN);
-		size.cy	= GetSystemMetrics(SM_CYVIRTUALSCREEN);
+	RECT rect;
+	FIBITMAP* dib;
+	/// get screen resolution
+	if(!szDevice){
+		hScrDC = CreateDC(_T("DISPLAY"),NULL,NULL,NULL);
+		rect.left=GetSystemMetrics(SM_XVIRTUALSCREEN);
+		rect.top=GetSystemMetrics(SM_YVIRTUALSCREEN);
+		rect.right=GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		rect.bottom=GetSystemMetrics(SM_CYVIRTUALSCREEN);
+	}else{
+		hScrDC = CreateDC(szDevice,NULL,NULL,NULL);
+		rect.left=rect.top=0;
+		rect.right=GetDeviceCaps(hScrDC,HORZRES);
+		rect.bottom=GetDeviceCaps(hScrDC,VERTRES);
 	}
-	else {
-		hScrDC = CreateDC(szDevice, NULL, NULL, NULL);
-		size.cx	= GetDeviceCaps(hScrDC, HORZRES);
-		size.cy	= GetDeviceCaps(hScrDC, VERTRES);
+	if(cropRect){
+		if(cropRect->left > rect.left) rect.left=cropRect->left;
+		if(cropRect->top > rect.top) rect.top=cropRect->top;
+		if(cropRect->right < rect.right) rect.right=cropRect->right;
+		if(cropRect->bottom < rect.bottom) rect.bottom=cropRect->bottom;
 	}
-	dib = CaptureScreen (hScrDC, size);
-	ReleaseDC(NULL, hScrDC);
+	dib=CreateDIBFromDC(hScrDC,&rect);
+	ReleaseDC(NULL,hScrDC);
 	return dib;
 }
 
-FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
-//HDC GetDC			(NULL)		entire desktp
-//HDC GetDC			(HWND hWnd)	client area of the specified window. (may include artifacts)
-//HDC GetWindowDC	(HWND hWnd)	entire window.
-	FIBITMAP *dib = NULL;
+FIBITMAP* CreateDIBFromDC(HDC hDC,const RECT* rect,HWND hCapture/*=NULL*/){
+///HDC GetDC			(NULL)		entire desktp
+///HDC GetDC			(HWND hWnd)	client area of the specified window. (may include artifacts)
+///HDC GetWindowDC		(HWND hWnd)	entire window.
+	FIBITMAP* dib;// return value
 	HBITMAP hBitmap;					// handles to device-dependent bitmaps
 	HDC hScrDC, hMemDC;					// screen DC and memory DC
+	long width=rect->right-rect->left;
+	long height=rect->bottom-rect->top;
 
 	// create a DC for the screen and create
 	// a memory DC compatible to screen DC
 	if(!(hScrDC=hDC)) hScrDC=GetDC(hCapture);
 	hMemDC = CreateCompatibleDC(hScrDC);
 	// create a bitmap compatible with the screen DC
-	hBitmap = CreateCompatibleBitmap(hScrDC,size.cx,size.cy);
+	hBitmap = CreateCompatibleBitmap(hScrDC,width,height);//width,height
 	// select new bitmap into memory DC
 	SelectObject(hMemDC, hBitmap);
 
 	if(hCapture && hDC){
 		PrintWindow(hCapture,hMemDC,0);
 	}else{// bitblt screen DC to memory DC
-		BitBlt(hMemDC,0,0,size.cx,size.cy,hScrDC,0,0,CAPTUREBLT|SRCCOPY);
+		BitBlt(hMemDC,0,0,width,height,hScrDC,rect->left,rect->top,CAPTUREBLT|SRCCOPY);
 	}
 	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
 
@@ -191,20 +196,20 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 	bool bFixAlpha=true;
 	bool bInvert=false;
 	HBRUSH hBr=CreateSolidBrush(RGB(255,255,255));//Create a SolidBrush object for non transparent area
-	HBITMAP hMask=CreateBitmap(size.cx,size.cy,1,1,NULL);// Create monochrome (1 bit) B+W mask bitmap.
+	HBITMAP hMask=CreateBitmap(width,height,1,1,NULL);// Create monochrome (1 bit) B+W mask bitmap.
 	HDC hMaskDC=CreateCompatibleDC(0);
 	SelectBitmap(hMaskDC,hMask);
 	HRGN hRgn=CreateRectRgn(0,0,0,0);
 	if(hCapture && GetWindowRgn(hCapture,hRgn)==ERROR){
 		if((GetWindowLongPtr(hCapture,GWL_EXSTYLE)&WS_EX_LAYERED)){
 			BYTE bAlpha=0;
-			COLORREF crKey=0;//0x00bbggrr
+			COLORREF crKey=0x00000000;
 			DWORD dwFlags=0;
 			if(GetLayeredWindowAttributes(hCapture,&crKey,&bAlpha,&dwFlags)) {
-				//per window transparency (like fading in a whole window).
+				/// per window transparency (like fading in a whole window)
 				if((dwFlags&LWA_COLORKEY)){
 					SetBkColor(hMemDC,crKey);
-					BitBlt(hMaskDC,0,0,size.cx,size.cy,hMemDC,0,0,SRCCOPY);
+					BitBlt(hMaskDC,0,0,width,height,hMemDC,rect->left,rect->top,SRCCOPY);
 					bInvert=true;
 				}else if((dwFlags&LWA_ALPHA)){
 					bFixAlpha=false;
@@ -213,11 +218,11 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 				bFixAlpha=false;
 			}
 		}else{//not layered - fill the window region
-			SetRectRgn(hRgn,0,0,size.cx,size.cy);
+			SetRectRgn(hRgn,0,0,width,height);
 			FillRgn(hMaskDC,hRgn,hBr);
 		}
 	}else{
-		if(!hCapture) SetRectRgn(hRgn,0,0,size.cx,size.cy);//client area only, no transparency
+		if(!hCapture) SetRectRgn(hRgn,0,0,width,height);//client area only, no transparency
 		FillRgn(hMaskDC,hRgn,hBr);
 	}
 	DeleteObject(hRgn);
@@ -288,38 +293,8 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 	#endif
 	return dib;
 }
-/*
-FIBITMAP* CaptureDesktop()  {//emulate print screen
-	FIBITMAP *dib = NULL;
-	HBITMAP hBitmap;				// handles to device-dependent bitmaps
-	BOOL bBitmap = false;
-	int i = 0;
-	keybd_event(VK_SNAPSHOT, 0x45, KEYEVENTF_EXTENDEDKEY, 0);
-	keybd_event(VK_SNAPSHOT, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-	do {//Clipboard need time to get bitmap from keybd_event,
-		i++;	//we use a counter to get this time.
-		bBitmap = IsClipboardFormatAvailable(CF_BITMAP);
-		if(i == 500) return (FIBITMAP*)0;		//emergency exit if something go wrong
-	} while (!bBitmap);
-	#ifdef _DEBUG
-		char mess[120] = {0};
-		char* pszMess = mess;
-		mir_snprintf(pszMess,120,"SS Bitmap counter: %i\r\n",i);
-		OutputDebugStringA( pszMess );
-	#endif
-	//get clipboard data
-	OpenClipboard(NULL);
-	hBitmap = (HBITMAP)GetClipboardData(CF_BITMAP);
 
-	//create FIBITMAP * from HBITMAP
-	FIP->FI_CorrectBitmap32Alpha(hBitmap, FALSE);
-	dib = FIP->FI_CreateDIBFromHBITMAP(hBitmap);
-	CloseClipboard();
-
-	return dib;
-}*/
-
-TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, TCHAR* pszFilename, TCHAR* pszExt, int flag) {
+TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename, const TCHAR* pszExt, int flag) {
 	int ret=0;
 	TCHAR* pszFile = NULL;
 	TCHAR* FileExt = GetFileExt(pszFilename);
