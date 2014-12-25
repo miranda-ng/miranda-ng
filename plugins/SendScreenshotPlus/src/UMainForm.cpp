@@ -380,8 +380,8 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 	switch (HIWORD(wParam)) {
 		case BN_CLICKED:		//Button controls
 			switch(IDControl) {
-				case IDCANCEL:
-				case IDCLOSE:
+				case IDCANCEL: // ESC pressed
+					this->Close();
 					break;
 				case ID_chkTimed:
 					m_opt_chkTimed = (BYTE)Button_GetCheck((HWND)lParam);
