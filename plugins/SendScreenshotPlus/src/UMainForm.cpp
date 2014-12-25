@@ -1109,6 +1109,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 
 //---------------------------------------------------------------------------
 void TfrmMain::FormClose() {
+	bool bCanDelete=m_opt_btnDeleteAfterSend;
 	if(m_opt_tabCapture==2){ /// existing file
 		TCHAR description[1024];
 		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, SIZEOF(description));
@@ -1119,6 +1120,7 @@ void TfrmMain::FormClose() {
 			m_cSend->SetFile(m_pszFile);
 			m_cSend->SetDescription(description);
 		}
+		bCanDelete=false;
 	}else if(SaveScreenshot(m_Screenshot)){ /// Saving the screenshot
 		Show();		// Error from SaveScreenshot
 		return;
@@ -1133,17 +1135,38 @@ void TfrmMain::FormClose() {
 		shex.nShow=SW_SHOWNORMAL;
 		ShellExecuteEx(&shex);
 		if(shex.hProcess){
-			WaitForSingleObject(shex.hProcess,INFINITE);
+			DWORD res;
+			MSG msg;
+			do{
+				// wait for editor exit or messages/input
+				res=MsgWaitForMultipleObjects(1,&shex.hProcess,0,INFINITE,QS_ALLINPUT);
+				while(PeekMessage(&msg,NULL,0,0,PM_REMOVE)){
+					if(msg.message==WM_QUIT){
+						res=WAIT_OBJECT_0;
+						PostMessage(NULL,WM_QUIT,0,0); // forward for outer message loops
+						break;
+					}
+					// process dialog messages (of unknown dialogs)
+//					HWND hwndDlgModeless=msg.hwnd;
+//					for(HWND hTMP; (hTMP=GetAncestor(hwndDlgModeless,GA_PARENT)) && IsChild(hTMP,hwndDlgModeless); hwndDlgModeless=hTMP);
+//					if(IsDialogMessage(hwndDlgModeless,&msg))
+					if(IsDialogMessage(GetActiveWindow(),&msg))
+						continue;
+					// process messages
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+			}while(res==WAIT_OBJECT_0+1);
 			CloseHandle(shex.hProcess);
 		}
-		if(MessageBoxA(m_hWnd,"Send screenshot?","SendSS",MB_YESNO|MB_ICONQUESTION|MB_SYSTEMMODAL)!=IDYES)
+		if(MessageBox(m_hWnd,TranslateT("Send screenshot?"),_T("SendSS"),MB_YESNO|MB_ICONQUESTION|MB_SYSTEMMODAL)!=IDYES)
 			send=false;
 	}
 
 	if(send && m_cSend && m_pszFile){
 		if(!m_cSend->Send()) m_cSend=NULL; // not sent now, class deletes itself later
 		cboxSendByChange();
-	}else if(!send && m_opt_btnDeleteAfterSend){
+	}else if(!send && bCanDelete){
 		DeleteFile(m_pszFile);
 	}
 	SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
