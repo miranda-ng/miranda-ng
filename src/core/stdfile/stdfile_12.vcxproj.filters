@@ -15,31 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonheaders.cpp">
+    <ClCompile Include="src\commonheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="file.cpp">
+    <ClCompile Include="src\file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fileexistsdlg.cpp">
+    <ClCompile Include="src\fileexistsdlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fileopts.cpp">
+    <ClCompile Include="src\fileopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="filerecvdlg.cpp">
+    <ClCompile Include="src\filerecvdlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="filesenddlg.cpp">
+    <ClCompile Include="src\filesenddlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="filexferdlg.cpp">
+    <ClCompile Include="src\filexferdlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ftmanager.cpp">
+    <ClCompile Include="src\ftmanager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,18 +47,21 @@
     <ClInclude Include="..\stdplug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="commonheaders.h">
+    <ClInclude Include="src\commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="file.h">
+    <ClInclude Include="src\file.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="version.rc">
+    <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="resource.rc">
+    <ResourceCompile Include="res\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
