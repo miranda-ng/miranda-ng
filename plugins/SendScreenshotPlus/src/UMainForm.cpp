@@ -47,14 +47,14 @@ INT_PTR CALLBACK TfrmMain::DlgProc_CaptureTabPage(HWND hDlg, UINT uMsg, WPARAM w
 	case WM_INITDIALOG:
 		switch(lParam){
 		case IDD_UMain_CaptureWindow:
-			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSTARGET));
+			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), GetIcon(ICO_TARGET));
 			SetDlgItemText(hDlg, ID_edtCaption, TranslateT("Drag&Drop the target on the desired window."));
 			break;
 		case IDD_UMain_CaptureDesktop:
-			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSMONITOR));
+			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), GetIcon(ICO_MONITOR));
 			break;
 		case IDD_UMain_CaptureFile:
-			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), Skin_GetIcon(ICO_COMMON_SSWINDOW1));
+			Static_SetIcon(GetDlgItem(hDlg, ID_imgTarget), GetIcon(ICO_MAIN));
 			break;
 		}
 		SetFocus(GetDlgItem(hDlg, ID_imgTarget));
@@ -168,8 +168,8 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	HWND hCtrl;
 	/// Taskbar and Window icon
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
+	SendMessage(m_hWnd, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
+	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL, (LPARAM)GetIcon(ICO_MAINXS));
 	TCHAR* pt = mir_a2t(__PLUGIN_NAME);
 	SetWindowText(m_hWnd, pt);
 	mir_free(pt);
@@ -185,7 +185,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 	mir_free(pt);
 
-	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
 
 	/// Timed controls
 	CheckDlgButton(m_hWnd,ID_chkTimed,				m_opt_chkTimed ? BST_CHECKED : BST_UNCHECKED);
@@ -197,9 +197,9 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	if(!m_himlTab){
 		//m_himlTab = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
 		m_himlTab = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2)); /// @note : use custom icon for each capture tab?
-//		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
-//		ImageList_AddIcon(m_himlTab, Skin_GetIcon(ICO_COMMON_SSWINDOW2));
+		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MAINXS)); /// @note : use custom icon for each capture tab?
+//		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MAINXS));
+//		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MAINXS));
 	}
 
 	/// create the tab control.
@@ -325,21 +325,21 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnAbout)) {
 		SendDlgItemMessage(m_hWnd, ID_btnAbout, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Information"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(ICO_COMMON_SSHELP);
+		HICON hIcon = GetIconBtn(ICO_BTN_HELP);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("?"));
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnExplore)) {
 		SendDlgItemMessage(m_hWnd, ID_btnExplore, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Folder"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(ICO_COMMON_SSFOLDERO);
+		HICON hIcon = GetIconBtn(ICO_BTN_FOLDER);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("..."));
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDesc)) {
 		SendDlgItemMessage(m_hWnd, ID_btnDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
+		HICON hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESKON : ICO_BTN_DESK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("D"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDesc ? BST_CHECKED : BST_UNCHECKED, NULL);
@@ -347,7 +347,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDeleteAfterSend)) {
 		SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
+		HICON hIcon = GetIconBtn(m_opt_btnDeleteAfterSend ? ICO_BTN_DELON : ICO_BTN_DEL);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("X"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDeleteAfterSend ? BST_CHECKED : BST_UNCHECKED, NULL);
@@ -355,7 +355,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_chkEditor)) {
 		SendDlgItemMessage(m_hWnd, ID_chkEditor, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open editor before sending"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(m_opt_chkEditor ? ICO_BTN_EDITON : ICO_BTN_EDIT);
+		HICON hIcon = GetIconBtn(m_opt_chkEditor ? ICO_BTN_EDITON : ICO_BTN_EDIT);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("E"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_chkEditor ? BST_CHECKED : BST_UNCHECKED, NULL);
@@ -363,7 +363,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnCapture)) {
 		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(ICO_BTN_OK);
+		HICON hIcon = GetIconBtn(ICO_BTN_OK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, TranslateT("&Capture"));
 		SendMessage(hCtrl, BUTTONSETDEFAULT, 1, NULL);
@@ -408,19 +408,19 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					break;
 				case ID_btnDesc:{
 					m_opt_btnDesc=!m_opt_btnDesc;
-					HICON hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
-					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+					HICON hIcon=GetIconBtn(m_opt_btnDesc?ICO_BTN_DESKON:ICO_BTN_DESK);
+					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
 					break;}
 				case ID_btnDeleteAfterSend:{
 					m_opt_btnDeleteAfterSend = (m_opt_btnDeleteAfterSend == 0);
-					HICON hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
-					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-					if(m_cSend) m_cSend->m_bDeleteAfterSend = m_opt_btnDeleteAfterSend;
+					HICON hIcon=GetIconBtn(m_opt_btnDeleteAfterSend?ICO_BTN_DELON:ICO_BTN_DEL);
+					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
+					if(m_cSend) m_cSend->m_bDeleteAfterSend=m_opt_btnDeleteAfterSend;
 					break;}
 				case ID_chkEditor:{
 					m_opt_chkEditor = Button_GetCheck((HWND)lParam);
-					HICON hIcon = Skin_GetIcon(m_opt_chkEditor ? ICO_BTN_EDITON : ICO_BTN_EDIT);
-					SendMessage((HWND)lParam, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
+					HICON hIcon=GetIconBtn(m_opt_chkEditor?ICO_BTN_EDITON:ICO_BTN_EDIT);
+					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
 					break;}
 				case ID_chkOpenAgain:
 					m_opt_chkOpenAgain = Button_GetCheck((HWND)lParam);
@@ -511,7 +511,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(TCHAR*)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,g_hSendSS,NULL);
 			if(!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter,0,123,LWA_ALPHA);
-			SetSystemCursor(CopyCursor(Skin_GetIcon(ICO_COMMON_SSTARGET)),OCR_NORMAL);
+			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)),OCR_NORMAL);
 			Hide();
 		}
 		if(!(GetAsyncKeyState(primarymouse)&0x8000)){
@@ -865,12 +865,12 @@ void TfrmMain::cboxSendByChange() {
 		m_cSend->m_bDeleteAfterSend = m_opt_btnDeleteAfterSend;
 	}
 	bState = (itemFlag & SS_DLG_DELETEAFTERSSEND);
-	hIcon = Skin_GetIcon(m_opt_btnDeleteAfterSend ? ICO_COMMON_SSDELON : ICO_COMMON_SSDELOFF);
+	hIcon = GetIconBtn(m_opt_btnDeleteAfterSend ? ICO_BTN_DELON : ICO_BTN_DEL);
 	SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), bState);
 
 	bState = (itemFlag & SS_DLG_DESCRIPTION);
-	hIcon = Skin_GetIcon(m_opt_btnDesc ? ICO_COMMON_SSDESKON : ICO_COMMON_SSDESKOFF);
+	hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESKON : ICO_BTN_DESK);
 	SendDlgItemMessage(m_hWnd, ID_btnDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_btnDesc), bState);
 }

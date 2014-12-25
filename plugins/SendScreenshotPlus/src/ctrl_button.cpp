@@ -371,7 +371,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 			bct->dwStyle = cs->style;
 			if (cs->style & MBS_DOWNARROW)
-				bct->arrow = Skin_GetIcon(ICO_BTN_DOWNARROW);
+				bct->arrow = GetIconBtn(ICO_BTN_DOWNARROW);
 			LoadTheme(bct);
 			SetWindowLongPtr(hwndBtn, 0, (LONG_PTR)bct);
 			if (cs->lpszName) SetWindowText(hwndBtn, cs->lpszName);

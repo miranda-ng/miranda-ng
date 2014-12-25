@@ -87,13 +87,13 @@ void CSend::SetContact(MCONTACT hContact) {
 INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam){
 	switch(uMsg){
 	case WM_INITDIALOG:{
-		SendMessage(hwndDlg,WM_SETICON,ICON_BIG,(LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+		SendMessage(hwndDlg,WM_SETICON,ICON_BIG,(LPARAM)GetIcon(ICO_MAIN));
 		CSend* self=(CSend*)lParam;
 		TCHAR* tmp=mir_tstrdup(TranslateT("Resulting URL from\n"));
 		mir_tcsadd(tmp,self->m_pszSendTyp);
 		SetDlgItemText(hwndDlg,IDC_HEADERBAR,tmp);
 		mir_free(tmp);
-		SendDlgItemMessage(hwndDlg,IDC_HEADERBAR,WM_SETICON,ICON_BIG,(LPARAM)Skin_GetIcon(ICO_COMMON_ARROWR,1));
+		SendDlgItemMessage(hwndDlg,IDC_HEADERBAR,WM_SETICON,ICON_BIG,(LPARAM)GetIconBtn(ICO_BTN_ARROWR));
 		SetDlgItemTextA(hwndDlg,ID_edtURL,self->m_URL);
 		if(self->m_URLthumb){
 			SetDlgItemTextA(hwndDlg,ID_edtURLthumb,self->m_URLthumb);
@@ -107,9 +107,9 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 			SetDlgItemText(hwndDlg,ID_bvlDesc,self->m_ErrorTitle);
 		else
 			SetDlgItemText(hwndDlg,ID_bvlDesc,self->m_pszFileDesc);
-		SendDlgItemMessage(hwndDlg,IDOK,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_COPY));
+		SendDlgItemMessage(hwndDlg,IDOK,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetIconBtn(ICO_BTN_COPY));
 		SendDlgItemMessage(hwndDlg,IDOK,BUTTONTRANSLATE,0,0);
-		SendDlgItemMessage(hwndDlg,IDCANCEL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_CANCEL));
+		SendDlgItemMessage(hwndDlg,IDCANCEL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetIconBtn(ICO_BTN_CANCEL));
 		SendDlgItemMessage(hwndDlg,IDCANCEL,BUTTONTRANSLATE,0,0);
 		for(int i=ID_btnCopy; i<=ID_btnThumbBBC2; ++i){
 			SendDlgItemMessage(hwndDlg,i,BUTTONSETASTHEMEDBTN,0,0);
@@ -117,16 +117,16 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 			switch(i){
 			case ID_btnCopy:
 			case ID_btnThumbCopy:
-				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_COPY));
+				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetIconBtn(ICO_BTN_COPY));
 				SendDlgItemMessage(hwndDlg,i,BUTTONADDTOOLTIP,(WPARAM)LPGENT("Copy"),BATF_TCHAR);
 				break;
 			case ID_btnBBC:
 			case ID_btnThumbBBC:
-				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_BBC));
+				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetIconBtn(ICO_BTN_BBC));
 				SendDlgItemMessage(hwndDlg,i,BUTTONADDTOOLTIP,(WPARAM)LPGENT("Copy BBCode"),BATF_TCHAR);
 				break;
 			default:
-				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon(ICO_BTN_BBC2));
+				SendDlgItemMessage(hwndDlg,i,BM_SETIMAGE,IMAGE_ICON,(LPARAM)GetIconBtn(ICO_BTN_BBCLNK));
 				SendDlgItemMessage(hwndDlg,i,BUTTONADDTOOLTIP,(WPARAM)LPGENT("Copy BBCode w/ link"),BATF_TCHAR);
 			}
 		}
@@ -394,7 +394,7 @@ void CSend::Error(LPCTSTR pszFormat, ...) {
 	memset(&m_box, 0, sizeof(MSGBOX));
 	m_box.cbSize		= sizeof(MSGBOX);
 	m_box.hParent		= NULL;
-	m_box.hiLogo		= Skin_GetIcon(ICO_COMMON_SSWINDOW1);
+	m_box.hiLogo		= GetIcon(ICO_MAIN);
 	m_box.hiMsg			= NULL;
 	m_box.ptszTitle		= m_ErrorTitle;
 	m_box.ptszMsg		= m_ErrorMsg;

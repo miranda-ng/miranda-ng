@@ -78,7 +78,6 @@ using namespace std;
 #include <m_dropbox.h>
 
 #include "mir_string.h"
-#include "mir_icolib.h"
 #include "ctrl_button.h"
 #include "dlg_msgbox.h"
 #include "resource.h"
@@ -124,6 +123,40 @@ extern ATOM g_clsTargetHighlighter;
 extern HINSTANCE		g_hSendSS;
 extern MGLOBAL			g_myGlobals;
 extern HANDLE			g_hNetlibUser;
+
+
+enum{
+	ICO_MAIN=0,
+	ICO_MAINXS,
+	ICO_TARGET,
+	ICO_MONITOR,
+	ICO_END_,
+	ICO_BTN_HELP=0,
+	ICO_BTN_FOLDER,
+	ICO_BTN_DESK,
+	ICO_BTN_DESKON,
+	ICO_BTN_DEL,
+	ICO_BTN_DELON,
+	ICO_BTN_ARROWL,
+	ICO_BTN_ARROWR,
+	ICO_BTN_UPDATE,
+	ICO_BTN_OK,
+	ICO_BTN_CANCEL,
+//		ICO_BTN_APPLY,
+	ICO_BTN_EDIT,
+	ICO_BTN_EDITON,
+	ICO_BTN_COPY,
+	ICO_BTN_BBC,
+	ICO_BTN_BBCLNK,
+	ICO_BTN_DOWNARROW,
+	ICO_BTN_END_,
+};
+#define GetIconHandle(ico) ICONS[ico].hIcolib
+#define GetIcon(ico) Skin_GetIconByHandle(GetIconHandle(ico))
+extern IconItem ICONS[ICO_END_];
+#define GetIconBtnHandle(ico) ICONS_BTN[ico].hIcolib
+#define GetIconBtn(ico) Skin_GetIconByHandle(GetIconBtnHandle(ico))
+extern IconItem ICONS_BTN[ICO_BTN_END_];
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((void*)p);(p)=NULL;}}

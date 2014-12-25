@@ -101,7 +101,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	mir_free(pszPlug);
 	mir_free(pszVer);
 	SetDlgItemText( m_hWnd, IDC_HEADERBAR, newTitle );
-	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
+	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
 
 	//License
 	{	mir_tcsadd(pszTitle ,_T(__COPYRIGHT));
@@ -131,8 +131,8 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		mir_freeAndNil(pszTitle);
 	}
 
-	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW1,1));
-	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL,	(LPARAM)Skin_GetIcon(ICO_COMMON_SSWINDOW2));
+	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)GetIcon(ICO_MAIN));
+	SendMessage(m_hWnd, WM_SETICON, ICON_SMALL,	(LPARAM)GetIcon(ICO_MAINXS));
 
 	//init controls
 	btnPageClick();
@@ -194,7 +194,7 @@ void TfrmAbout::btnPageClick() {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_SHOW);
 		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Credits >"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(ICO_COMMON_ARROWR);
+		HICON hIcon = GetIconBtn(ICO_BTN_ARROWR);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? TranslateT("Credits") : TranslateT("Credits >"));
 	}
@@ -202,7 +202,7 @@ void TfrmAbout::btnPageClick() {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_SHOW);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_HIDE);
 		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("< Copyright"), MBBF_TCHAR);
-		HICON hIcon = Skin_GetIcon(ICO_COMMON_ARROWL);
+		HICON hIcon = GetIconBtn(ICO_BTN_ARROWL);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? TranslateT("Copyright") : TranslateT("< Copyright"));
 	}
