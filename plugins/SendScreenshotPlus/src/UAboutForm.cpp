@@ -147,8 +147,8 @@ LRESULT TfrmAbout::wmCommand(WPARAM wParam, LPARAM lParam) {
 	//---------------------------------------------------------------------------
 	if (HIWORD(wParam) == BN_CLICKED) {
 		switch(LOWORD(wParam)) {
-			case IDCANCEL:
-			case IDCLOSE:
+			case IDCANCEL: // ESC pressed
+				this->Close();
 				break;
 			case IDA_btnClose:
 				Close();
