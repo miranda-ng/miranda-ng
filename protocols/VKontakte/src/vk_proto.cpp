@@ -70,7 +70,6 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
 	m_bPopUpSyncHistory = getBool("PopUpSyncHistory", false);
 	m_iMarkMessageReadOn = getByte("MarkMessageReadOn", 0);
-	m_bAddImgBbc = getBool("AddImgBbc", false);
 	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
 	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
 	m_iMusicSendMetod = getByte("MusicSendMetod", sendBroadcastOnly);
@@ -81,9 +80,10 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNewsEnabled = getBool("NewsEnabled", false);
 	m_bNotificationsEnabled = getBool("NotificationsEnabled", false);
 	m_bSpecialContactAlwaysEnabled = getBool("SpecialContactAlwaysEnabled", false);
-	m_bBBCOnNews = getBool("BBCOnNews", false);
 	m_iNewsInterval = getDword("NewsInterval", 15);
 	m_iNotificationsInterval = getDword("NotificationsInterval", 1);
+	m_iIMGBBCSupport = getByte("IMGBBCSupport", 0);
+	m_iBBCForNews = getByte("BBCForNews", 0);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

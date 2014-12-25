@@ -181,7 +181,7 @@ struct CVkUserInfo : public MZeroedObject {
 
 enum VKObjType { vkNull, vkPost, vkPhoto, vkVideo, vkComment, vkTopic, vkUsers, vkCopy };
 
-struct CVkNotification {
+struct CVKNotification {
 	TCHAR *ptszType;
 	VKObjType vkParent, vkFeedback;
 	TCHAR *ptszTranslate;
@@ -205,6 +205,16 @@ struct CVKNewsItem : public MZeroedObject {
 	bool bIsGroup;
 	bool bIsRepost;
 };
+
+enum VKBBCType { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcUrl, vkbbcSize, vkbbcColor };
+enum BBCForNewsSupport { bbcNo, bbcBasic, bbcAdvanced };
+
+struct CVKBBCItem {
+	VKBBCType vkBBCType;
+	BBCForNewsSupport vkBBCSettings;
+	TCHAR *ptszTempate;
+};
+
 
 struct TFakeAckParams
 {
@@ -277,8 +287,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void OnOAuthAuthorize(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveAvatar(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
+	
 	//==== Services ======================================================================
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
@@ -314,7 +323,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void   InitPopups(void);
 	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
 
-	//==== Hooks ====+====================================================================
+	//==== Hooks =========================================================================
 
 	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
 	int __cdecl OnDbEventRead(WPARAM, LPARAM);
@@ -349,7 +358,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	CMString GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
 	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
-	CMString GetVkParent(JSONNODE *pParent, VKObjType vkParentType);
+	CMString GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReply = NULL);
 	
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
@@ -360,11 +369,41 @@ struct CVkProto : public PROTO<CVkProto>
 
 	INT_PTR __cdecl SvcLoadVKNews(WPARAM, LPARAM);
 
-	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
-
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
+	void   SetAllContactStatuses(int status);
+
+	MCONTACT FindUser(LONG userid, bool bCreate = false);
+	MCONTACT FindChat(LONG dwUserid);
+
+	bool   CheckMid(int guid);
+
+	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
+	bool CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE*);
+	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
+
+	void   GrabCookies(NETLIBHTTPREQUEST *nhr);
+	void   ApplyCookies(AsyncHttpRequest*);
+
+	void DBAddAuthRequest(const MCONTACT hContact);
+	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
+
+	void SetMirVer(MCONTACT hContact, int platform);
+
+	void __cdecl ContactTypingThread(void *p);
+	void SetSrmmReadStatus(MCONTACT hContact);
+
+	char* GetStickerId(const char* Msg, int& stickerid);
+
+	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
+	CMString SetBBCString(TCHAR *tszString, VKBBCType, TCHAR *tszAddString = NULL);
+
+	CMString GetAttachmentDescr(JSONNODE*);
+
+	//====================================================================================
 
 	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveStatusMusic(const CMString &StatusMsg);
@@ -386,7 +425,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	CMString GetAttachmentDescr(JSONNODE*);
+	
 
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -404,8 +443,6 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void OnReceiveAuthRequest(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDeleteFriend(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void DBAddAuthRequest(const MCONTACT hContact);
-	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
 
 	void SetServerStatus(int);
 
@@ -416,11 +453,6 @@ struct CVkProto : public PROTO<CVkProto>
 
 	__forceinline LPCTSTR getGroup() const { return m_defaultGroup; }
 	__forceinline void setGroup(LPCTSTR grp) { m_defaultGroup = mir_tstrdup(grp); }
-
-	void SetMirVer(MCONTACT hContact, int platform);
-	void SetSrmmReadStatus(MCONTACT hContact);
-	void __cdecl ContactTypingThread(void *p);
-	char* GetStickerId(const char* Msg, int& stickerid);
 
 	static UINT_PTR m_timer;
 
@@ -477,10 +509,9 @@ private:
 
 		CMStringA m_name, m_value, m_domain;
 	};
-	OBJLIST<Cookie> m_cookies;
-	void   GrabCookies(NETLIBHTTPREQUEST *nhr);
-	void   ApplyCookies(AsyncHttpRequest*);
 
+	OBJLIST<Cookie> m_cookies;
+	
 	void   InitQueue();
 	void   UninitQueue();
 	void   ExecuteRequest(AsyncHttpRequest*);
@@ -489,10 +520,6 @@ private:
 	AsyncHttpRequest* Push(AsyncHttpRequest*, int iTimeout = 10000);
 
 	bool   RunCaptchaForm(LPCSTR szUrl, CMStringA&);
-	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
-
-	bool      CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE*);
-	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
 	bool      ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE*);
 
 	void   ConnectionFailed(int iReason);
@@ -504,12 +531,10 @@ private:
 	void   GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
 	void   ReloadAvatarInfo(MCONTACT hContact);
 
-	MCONTACT FindUser(LONG userid, bool bCreate = false);
-	MCONTACT FindChat(LONG dwUserid);
-
-	void   SetAllContactStatuses(int status);
-
 	void   __cdecl SendMsgAck(void *param);
+
+	//============== Options =============================================================
+	
 
 	bool	m_prevError,
 		m_bOnline,
@@ -521,24 +546,26 @@ private:
 		m_bRemoveFromFrendlist,
 		m_bRemoveFromClist,
 		m_bPopUpSyncHistory,
-		m_bAddImgBbc,
 		m_bStikersAsSmyles,
 		m_bUserForceOnlineOnActivity,
 		m_bNewsEnabled,
 		m_bNotificationsEnabled,
-		m_bSpecialContactAlwaysEnabled,
-		m_bBBCOnNews;
+		m_bSpecialContactAlwaysEnabled;
 
 	int m_iNewsInterval, m_iNotificationsInterval;
 
-	enum MarkMsgReadOn{ markOnRead, markOnReceive, markOnReply, markOnTyping };
-	int m_iMarkMessageReadOn; 
+	enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
+	int m_iMarkMessageReadOn;
 	
-	enum SyncHistoryMetod{ syncOff, syncAuto, sync1Days, sync3Days };
+	enum SyncHistoryMetod { syncOff, syncAuto, sync1Days, sync3Days };
 	int m_iSyncHistoryMetod;
 	
-	enum MusicSendMetod{ sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
+	enum MusicSendMetod { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
 	int	m_iMusicSendMetod;
+
+	enum IMGBBCSypport { imgNo, imgFullSize, imgPreview130, imgPreview604 };
+	int	m_iIMGBBCSupport;
+	int m_iBBCForNews;
 
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;
@@ -558,11 +585,11 @@ private:
 	ULONG  m_msgId;
 	
 	LIST<void> m_sendIds;
-	bool   CheckMid(int guid);
 
 	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	OBJLIST<CVkChatInfo> m_chats;
 	CVkChatInfo* AppendChat(int id, JSONNODE *pNode);

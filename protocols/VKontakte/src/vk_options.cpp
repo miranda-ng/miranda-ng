@@ -244,8 +244,6 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_ADD_IMG_BBC, ppro->m_bAddImgBbc ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse ? BST_CHECKED : BST_UNCHECKED);
@@ -264,9 +262,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		switch (LOWORD(wParam)) {
 		case IDC_HIDECHATS:
 		case IDC_MESASUREAD:
-		case IDC_ADD_IMG_BBC:
 		case IDC_FORCE_ONLINE_ON_ACT:
-		case IDC_STICKERS_AS_SMYLES:
 		case IDC_REPORT_ABUSE:
 		case IDC_CLEAR_SERVER_HISTORY:
 		case IDC_REMOVE_FROM_FRENDLIST:
@@ -289,11 +285,8 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->m_bMesAsUnread = IsDlgButtonChecked(hwndDlg, IDC_MESASUREAD) == BST_CHECKED;
 			ppro->setByte("MesAsUnread", ppro->m_bMesAsUnread);
 
-			ppro->m_bAddImgBbc = IsDlgButtonChecked(hwndDlg, IDC_ADD_IMG_BBC) == BST_CHECKED;
-			ppro->setByte("AddImgBbc", ppro->m_bAddImgBbc);
 
-			ppro->m_bStikersAsSmyles = IsDlgButtonChecked(hwndDlg, IDC_STICKERS_AS_SMYLES) == BST_CHECKED;
-			ppro->setByte("StikersAsSmyles", ppro->m_bStikersAsSmyles);
+
 
 			ppro->m_bUserForceOnlineOnActivity = IsDlgButtonChecked(hwndDlg, IDC_FORCE_ONLINE_ON_ACT) == BST_CHECKED;
 			ppro->setByte("UserForceOnlineOnActivity", ppro->m_bUserForceOnlineOnActivity);
@@ -355,7 +348,6 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_NEWS_ENBL, ppro->m_bNewsEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIF_ENBL, ppro->m_bNotificationsEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SPEC_CONT_ENBL, ppro->m_bSpecialContactAlwaysEnabled ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_BBC_NEWS, ppro->m_bBBCOnNews ? BST_CHECKED : BST_UNCHECKED);
 		
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETPOS, 0, ppro->m_iNewsInterval);
@@ -376,7 +368,6 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		case IDC_NEWS_ENBL:
 		case IDC_NOTIF_ENBL:
 		case IDC_SPEC_CONT_ENBL:
-		case IDC_BBC_NEWS:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -397,9 +388,6 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			ppro->m_bSpecialContactAlwaysEnabled = IsDlgButtonChecked(hwndDlg, IDC_SPEC_CONT_ENBL) == BST_CHECKED;
 			ppro->setByte("SpecialContactAlwaysEnabled", ppro->m_bSpecialContactAlwaysEnabled);
 
-			ppro->m_bBBCOnNews = IsDlgButtonChecked(hwndDlg, IDC_BBC_NEWS) == BST_CHECKED;
-			ppro->setByte("BBCOnNews", ppro->m_bBBCOnNews);
-
 			TCHAR buffer[5] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_ED_INT_NEWS, buffer, SIZEOF(buffer));
 			ppro->setDword("NewsInterval", ppro->m_iNewsInterval = _ttoi(buffer));
@@ -407,6 +395,87 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 			GetDlgItemText(hwndDlg, IDC_ED_INT_NOTIF, buffer, SIZEOF(buffer));
 			ppro->setDword("NotificationsInterval", ppro->m_iNotificationsInterval = _ttoi(buffer));
 			
+		}
+		break;
+
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_DESTROY:
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
+		break;
+	}
+
+	return FALSE;
+}
+
+INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	CVkProto *ppro = (CVkProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (uMsg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		ppro = (CVkProto*)lParam;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon, 1));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIconByHandle(ppro->m_hProtoIcon));
+
+		CheckDlgButton(hwndDlg, IDC_IMG_OFF, (ppro->m_iIMGBBCSupport == imgNo) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IMG_FULLSIZE, (ppro->m_iIMGBBCSupport == imgFullSize) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IMG_130, (ppro->m_iIMGBBCSupport == imgPreview130) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IMG_604, (ppro->m_iIMGBBCSupport == imgPreview604) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_NEWSBBC_OFF, (ppro->m_iBBCForNews == bbcNo) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NEWSBBC_BASIC, (ppro->m_iBBCForNews == bbcBasic) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NEWSBBC_ADV, (ppro->m_iBBCForNews == bbcAdvanced) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles ? BST_CHECKED : BST_UNCHECKED);
+
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_IMG_OFF:
+		case IDC_IMG_FULLSIZE:
+		case IDC_IMG_130:
+		case IDC_IMG_604:
+		case IDC_NEWSBBC_OFF:
+		case IDC_NEWSBBC_BASIC:
+		case IDC_NEWSBBC_ADV:
+		case IDC_STICKERS_AS_SMYLES:
+			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {					
+			if (IsDlgButtonChecked(hwndDlg, IDC_IMG_OFF) == BST_CHECKED)
+				ppro->m_iIMGBBCSupport = imgNo;
+			if (IsDlgButtonChecked(hwndDlg, IDC_IMG_FULLSIZE) == BST_CHECKED)
+				ppro->m_iIMGBBCSupport = imgFullSize;
+			if (IsDlgButtonChecked(hwndDlg, IDC_IMG_130) == BST_CHECKED)
+				ppro->m_iIMGBBCSupport = imgPreview130;
+			if (IsDlgButtonChecked(hwndDlg, IDC_IMG_604) == BST_CHECKED)
+				ppro->m_iIMGBBCSupport = imgPreview604;
+			ppro->setByte("IMGBBCSupport", ppro->m_iIMGBBCSupport);
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_NEWSBBC_OFF) == BST_CHECKED)
+				ppro->m_iBBCForNews = bbcNo;
+			if (IsDlgButtonChecked(hwndDlg, IDC_NEWSBBC_BASIC) == BST_CHECKED)
+				ppro->m_iBBCForNews = bbcBasic;
+			if (IsDlgButtonChecked(hwndDlg, IDC_NEWSBBC_ADV) == BST_CHECKED)
+				ppro->m_iBBCForNews = bbcAdvanced;	
+			ppro->setByte("BBCForNews", ppro->m_iBBCForNews);
+
+			ppro->m_bStikersAsSmyles = IsDlgButtonChecked(hwndDlg, IDC_STICKERS_AS_SMYLES) == BST_CHECKED;
+			ppro->setByte("StikersAsSmyles", ppro->m_bStikersAsSmyles);
 		}
 		break;
 
@@ -448,6 +517,12 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 3;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FEEDS);
 	odp.pfnDlgProc = &CVkProto::OptionsFeedsProc;
+	Options_AddPage(wParam, &odp);
+
+	odp.ptszTab = LPGENT("View settings");
+	odp.position = 4;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VIEW);
+	odp.pfnDlgProc = &CVkProto::OptionsViewProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

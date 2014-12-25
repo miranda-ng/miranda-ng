@@ -17,8 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" };
-
 void CVkProto::AddFeedSpecialUser()
 {
 	bool bSpecialContact = m_bNewsEnabled || m_bNotificationsEnabled || m_bSpecialContactAlwaysEnabled;
@@ -128,35 +126,6 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pRe
 		}
 }
 
-CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
-{
-	CMString tszRes;
-
-	if (pPhoto == NULL)
-		return tszRes;
-
-	ptrT ptszLink;
-	for (int i = 0; i < SIZEOF(szImageTypes); i++) {
-		JSONNODE *n = json_get(pPhoto, szImageTypes[i]);
-		if (n != NULL) {
-			ptszLink = json_as_string(n);
-			break;
-		}
-	}
-
-	int iWidth = json_as_int(json_get(pPhoto, "width"));
-	int iHeight = json_as_int(json_get(pPhoto, "height"));
-
-	tszRes.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink ? ptszLink : _T(""), iWidth, iHeight);
-	if (m_bAddImgBbc)
-		tszRes.AppendFormat(_T("\n\t[img]%s[/img]"), ptszLink);
-	CMString tszText = json_as_string(json_get(pPhoto, "text"));
-	if (!tszText.IsEmpty())
-		tszRes += "\n" + tszText;
-	
-	return tszRes;
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost)
@@ -232,23 +201,22 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 	}
 
 	CMString tszResFormat;	
-	CMString tszBBCIn = m_bBBCOnNews ? _T("[b]") : _T("");
-	CMString tszBBCOut = m_bBBCOnNews ? _T("[/b]") : _T("");
 
 	if (!isRepost)
-		tszResFormat = Translate("News from %s%s%s (%s)\n%s");
+		tszResFormat = Translate("News from %s\n%s");
 	else {
-		tszResFormat = Translate("\tRepost from %s%s%s (%s)\n%s");
+		tszResFormat = Translate("\tRepost from %s\n%s");
 		bPostLink = false;
 	}
 		
-	vkNewsItem->tszText.AppendFormat(tszResFormat, tszBBCIn.GetBuffer(), vkNewsItem->vkUser->m_tszUserNick.GetBuffer(), tszBBCOut.GetBuffer(),
-		vkNewsItem->vkUser->m_tszLink.GetBuffer(), tszText.GetBuffer());
+	vkNewsItem->tszText.AppendFormat(tszResFormat, SetBBCString(vkNewsItem->vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, 
+		vkNewsItem->vkUser->m_tszLink.GetBuffer()), tszText.GetBuffer());
 	
 	vkNewsItem->tszId.AppendFormat(_T("%d_%d"), vkNewsItem->vkUser->m_UserId, iPostId);
 	if (bPostLink) {
 		vkNewsItem->tszLink = CMString(_T("https://vk.com/wall")) + vkNewsItem->tszId;
-		vkNewsItem->tszText.AppendFormat(TranslateT("\nNews link: %s"), vkNewsItem->tszLink.GetBuffer());
+		vkNewsItem->tszText.AppendChar(_T('\n'));
+		vkNewsItem->tszText += SetBBCString(TranslateT("Link"), vkbbcUrl, vkNewsItem->tszLink.GetBuffer());
 	}
 
 	debugLog(_T("CVkProto::GetVkNewsItem %d %d <%s> <%s>"), iSourceId, iPostId, vkNewsItem->tszText.GetBuffer(), tszText.GetBuffer());
@@ -265,19 +233,16 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 	if (!pFeedback || !vkFeedbackType)
 		return tszRes;
 
-
-	CMString tszBBCIn = m_bBBCOnNews ? _T("[b]") : _T("");
-	CMString tszBBCOut = m_bBBCOnNews ? _T("[/b]") : _T("");
 	CMString tszFormat;
 	LONG iUserId = 0;
 
 	if (vkFeedbackType == vkComment) {
 		iUserId = json_as_int(json_get(pFeedback, "from_id"));
-		tszFormat = _T("%s%s%s (%s) %%s %%s\n%s");		
+		tszFormat = _T("%s %%s %%s\n%s");		
 	}
 	else if (vkFeedbackType == vkPost) {		
 		iUserId = json_as_int(json_get(pFeedback, "owner_id "));
-		tszFormat = _T("%s%s%s (%s) %%s %%s\n%s");		
+		tszFormat = _T("%s %%s %%s\n%s");		
 	}
 	else if (vkFeedbackType == VKObjType::vkUsers || vkFeedbackType == vkCopy){
 		JSONNODE *pUsers = json_get(pFeedback, "items"), *pUserItem;
@@ -290,7 +255,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 			vkUser = GetVkUserInfo(iUserId, vkUsers);
 			if (!tszUsers.IsEmpty())
 				tszUsers += _T(", ");
-			tszUsers.AppendFormat(_T("%s%s%s (%s)"), tszBBCIn.GetBuffer(), vkUser->m_tszUserNick.GetBuffer(), tszBBCOut.GetBuffer(), vkUser->m_tszLink.GetBuffer());
+			tszUsers += SetBBCString(vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, vkUser->m_tszLink.GetBuffer());
 		}
 		tszRes.AppendFormat(_T("%s %%s %%s"), tszUsers.GetBuffer());
 		vkUser = NULL;
@@ -309,50 +274,50 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 				tszText = tszName + _T(",") + tszBody;
 		}
 		
-		tszRes.AppendFormat(tszFormat, tszBBCIn.GetBuffer(), vkUser->m_tszUserNick.GetBuffer(), tszBBCOut.GetBuffer(), vkUser->m_tszLink.GetBuffer(), tszText.GetBuffer());
+		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, vkUser->m_tszLink.GetBuffer()), tszText.GetBuffer());
 	}
 
 	return tszRes;
 }
 
-CMString CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType)
+CMString CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReply)
 {
 	debugLogA("CVkProto::GetVkParent");
 	CMString tszRes;
 	if (!pParent || !vkParentType)
 		return tszRes;
-	
-	CMString tszBBCIn = m_bBBCOnNews ? _T("[b]") : _T("");
-	CMString tszBBCOut = m_bBBCOnNews ? _T("[/b]") : _T("");
-	
+		
 	if (vkParentType == vkPhoto) {
 		CMString tszPhoto = GetVkPhotoItem(pParent);
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
-		CMString tszFormat = _T("\n%s\n%s%s%s: https://vk.com/photo%d_%d");
-		tszRes.AppendFormat(tszFormat, tszPhoto.GetBuffer(), tszBBCIn.GetBuffer(), TranslateT("Link"), tszBBCOut.GetBuffer(), iOwnerId,  iId);
+				
+		CMString tszLink;
+		tszLink.AppendFormat(_T("https://vk.com/photo%d_%d"), iOwnerId, iId);
+		tszRes.AppendFormat(_T("\n%s\n%s"), tszPhoto.GetBuffer(), SetBBCString(TranslateT("Link"), vkbbcUrl, tszLink.GetBuffer()));
 	}
 	else if (vkParentType == vkVideo) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
 		CMString tszTitle = json_as_string(json_get(pParent, "title"));
-
-		CMString tszFormat = _T("\n%s%s%s\n%s%s%s: https://vk.com/video%d_%d");
-		tszRes.AppendFormat(tszFormat, tszBBCIn.GetBuffer(), tszTitle.GetBuffer(), tszBBCOut.GetBuffer(), tszBBCIn.GetBuffer(), TranslateT("Link"), tszBBCOut.GetBuffer(), iOwnerId, iId);
+		CMString tszLink;
+		tszLink.AppendFormat(_T("https://vk.com/video%d_%d"), iOwnerId, iId);
+		tszRes.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, tszLink.GetBuffer()));
 	}
 	else if (vkParentType == vkPost) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "from_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
-		CMString tszFormat = _T("\n%s%s%s: https://vk.com/wall%d_%d");
-		tszRes.AppendFormat(tszFormat, tszBBCIn.GetBuffer(), TranslateT("Link"), tszBBCOut.GetBuffer(), iOwnerId, iId);
+		CMString tszLink;
+		tszLink.AppendFormat(_T("https://vk.com/wall%d_%d%s"), iOwnerId, iId, ptszReply ? ptszReply : _T(""));
+		tszRes.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), vkbbcUrl, tszLink.GetBuffer()));
 	}
 	else if (vkParentType == vkTopic) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
 		CMString tszTitle = json_as_string(json_get(pParent, "title"));
-
-		CMString tszFormat = _T("%s%s%s\n%s%s%s: https://vk.com/topic%d_%d");	
-		tszRes.AppendFormat(tszFormat, tszBBCIn.GetBuffer(), tszTitle.GetBuffer(), tszBBCOut.GetBuffer(), tszBBCIn.GetBuffer(), TranslateT("Link"), tszBBCOut.GetBuffer(), iOwnerId, iId);
+		CMString tszLink;
+		tszLink.AppendFormat(_T("https://vk.com/topic%d_%d%s"), iOwnerId, iId, ptszReply ? ptszReply : _T(""));
+		tszRes.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, tszLink.GetBuffer()));
 	}
 	else if (vkParentType == vkComment) {
 		JSONNODE *pNode = json_get(pParent, "photo");
@@ -367,15 +332,17 @@ CMString CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType)
 
 		pNode = json_get(pParent, "post");
 		if (pNode){
-			tszRes = GetVkParent(pNode, vkPost);
-			tszRes.AppendFormat(_T("?reply=%d"), iId);
+			CMString tszRepl;
+			tszRepl.AppendFormat(_T("?reply=%d"), iId);
+			tszRes = GetVkParent(pNode, vkPost, tszRepl.GetBuffer());		
 			return tszRes;
 		}
 
 		pNode = json_get(pParent, "topic");
 		if (pNode){
-			tszRes = GetVkParent(pNode, vkTopic);
-			tszRes.AppendFormat(_T("?reply=%d"), iId);
+			CMString tszRepl;
+			tszRepl.AppendFormat(_T("?reply=%d"), iId);
+			tszRes = GetVkParent(pNode, vkTopic, tszRepl.GetBuffer());			
 			return tszRes;
 		}
 	}

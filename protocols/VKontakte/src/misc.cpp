@@ -17,6 +17,127 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" };
+
+LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
+{
+	for (int i = 0; i < pReq->headersCount; i++)
+		if (!_stricmp(pReq->headers[i].szName, szField))
+			return pReq->headers[i].szValue;
+
+	return NULL;
+}
+
+bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
+{
+	TCHAR s1[1024], s2[1024];
+
+	_tcsncpy_s(s1, _s1, _TRUNCATE);
+	CharLowerBuff(s1, SIZEOF(s1));
+	_tcsncpy_s(s2, _s2, _TRUNCATE);
+	CharLowerBuff(s2, SIZEOF(s2));
+
+	return _tcsstr(s1, s2) != NULL;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Captcha form icon"), "key", IDI_KEYS },
+	{ LPGEN("Notification icon"), "notification", IDI_NOTIFICATION },
+	{ LPGEN("Read message icon"), "read", IDI_READMSG },
+	{ LPGEN("Visit profile icon"), "profile", IDI_VISITPROFILE },
+	{ LPGEN("Load server history icon"), "history", IDI_HISTORY },
+	{ LPGEN("Add to friend list icon"), "addfriend", IDI_FRIENDADD },
+	{ LPGEN("Delete from friend list icon"), "delfriend", IDI_FRIENDDEL },
+	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
+	{ LPGEN("Ban user icon"), "ban", IDI_BAN },
+	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST }
+};
+
+void InitIcons()
+{
+	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("VKontakte"), iconList, SIZEOF(iconList), "VKontakte");
+}
+
+HANDLE GetIconHandle(int iCommand)
+{
+	for (int i = 0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iCommand)
+			return iconList[i].hIcolib;
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+AsyncHttpRequest::AsyncHttpRequest()
+{
+	cbSize = sizeof(NETLIBHTTPREQUEST);
+	m_bApiReq = true;
+	AddHeader("Connection", "keep-alive");
+	AddHeader("Accept-Encoding", "booo");
+	pUserInfo = NULL;
+	m_iRetry = MAX_RETRIES;
+}
+
+AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
+{
+	cbSize = sizeof(NETLIBHTTPREQUEST);
+	m_bApiReq = true;
+	AddHeader("Connection", "keep-alive");
+	AddHeader("Accept-Encoding", "booo");
+
+	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	if (bSecure)
+		flags |= NLHRF_SSL;
+
+	if (*_url == '/') {	// relative url leads to a site
+		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
+		m_szUrl += _url;
+		bIsMainConn = true;
+	}
+	else m_szUrl = _url;
+
+	if (bSecure)
+		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);
+
+	requestType = iRequestType;
+	m_pFunc = pFunc;
+	pUserInfo = NULL;
+	m_iRetry = MAX_RETRIES;
+}
+
+AsyncHttpRequest::~AsyncHttpRequest()
+{
+	for (int i = 0; i < headersCount; i++) {
+		mir_free(headers[i].szName);
+		mir_free(headers[i].szValue);
+	}
+	mir_free(headers);
+	mir_free(pData);
+}
+
+void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
+{
+	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
+	headers[headersCount].szName = mir_strdup(szName);
+	headers[headersCount].szValue = mir_strdup(szValue);
+	headersCount++;
+}
+
+void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
+{
+	for (int i = 0; i < nhr->headersCount; i++) {
+		LPCSTR szValue = nhr->headers[i].szValue;
+		if (!_stricmp(nhr->headers[i].szName, "Location"))
+			m_szUrl = szValue;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 TCHAR* CVkProto::GetUserStoredPassword()
 {
 	debugLogA("CVkProto::GetUserStoredPassword");
@@ -37,6 +158,8 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 			SetMirVer(hContact, -1);
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 {
@@ -79,6 +202,8 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 	return NULL;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CVkProto::CheckMid(int guid)
 {
 	for (int i = m_sendIds.getCount() - 1; i >= 0; i--)
@@ -90,14 +215,7 @@ bool CVkProto::CheckMid(int guid)
 	return false;
 }
 
-LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
-{
-	for (int i = 0; i < pReq->headersCount; i++)
-		if (!_stricmp(pReq->headers[i].szName, szField))
-			return pReq->headers[i].szValue;
-
-	return NULL;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 JSONNODE* CVkProto::CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT &pRoot)
 {
@@ -178,36 +296,6 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 	debugLog(_T("CVkProto::OnReceiveSmth %s"), json_as_string(pResponse));
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static IconItem iconList[] =
-{
-	{ LPGEN("Captcha form icon"), "key",  IDI_KEYS },
-	{ LPGEN("Notification icon"), "notification", IDI_NOTIFICATION },
-	{ LPGEN("Read message icon"), "read", IDI_READMSG },
-	{ LPGEN("Visit profile icon"), "profile", IDI_VISITPROFILE },
-	{ LPGEN("Load server history icon"), "history", IDI_HISTORY },
-	{ LPGEN("Add to friend list icon"), "addfriend", IDI_FRIENDADD },
-	{ LPGEN("Delete from friend list icon"), "delfriend", IDI_FRIENDDEL },
-	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
-	{ LPGEN("Ban user icon"), "ban", IDI_BAN},
-	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST}
-};
-
-void InitIcons()
-{
-	Icon_Register(hInst, LPGEN("Protocols")"/"LPGEN("VKontakte"), iconList, SIZEOF(iconList), "VKontakte");
-}
-
-HANDLE GetIconHandle(int iCommand)
-{
-	for (int i=0; i < SIZEOF(iconList); i++)
-		if (iconList[i].defIconID == iCommand)
-			return iconList[i].hIcolib;
-
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -292,70 +380,6 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-AsyncHttpRequest::AsyncHttpRequest()
-{
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-	m_bApiReq = true;
-	AddHeader("Connection", "keep-alive");
-	AddHeader("Accept-Encoding", "booo");
-	pUserInfo = NULL;
-	m_iRetry = MAX_RETRIES;
-}
-
-AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
-{
-	cbSize = sizeof(NETLIBHTTPREQUEST);
-	m_bApiReq = true;
-	AddHeader("Connection", "keep-alive");
-	AddHeader("Accept-Encoding", "booo");
-
-	flags = VK_NODUMPHEADERS | NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if (bSecure)
-		flags |= NLHRF_SSL;
-
-	if (*_url == '/') {	// relative url leads to a site
-		m_szUrl = ((bSecure) ? "https://" : "http://") + CMStringA("api.vk.com");
-		m_szUrl += _url;
-		bIsMainConn = true;
-	}
-	else m_szUrl = _url;
-
-	if (bSecure)
-		this << CHAR_PARAM("access_token", ppro->m_szAccessToken);
-
-	requestType = iRequestType;
-	m_pFunc = pFunc;
-	pUserInfo = NULL;
-	m_iRetry = MAX_RETRIES;
-}
-
-AsyncHttpRequest::~AsyncHttpRequest()
-{
-	for (int i = 0; i < headersCount; i++) {
-		mir_free(headers[i].szName);
-		mir_free(headers[i].szValue);
-	}
-	mir_free(headers);
-	mir_free(pData);
-}
-
-void AsyncHttpRequest::AddHeader(LPCSTR szName, LPCSTR szValue)
-{
-	headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-	headers[headersCount].szName = mir_strdup(szName);
-	headers[headersCount].szValue = mir_strdup(szValue);
-	headersCount++;
-}
-
-void AsyncHttpRequest::Redirect(NETLIBHTTPREQUEST *nhr)
-{
-	for (int i = 0; i < nhr->headersCount; i++) {
-		LPCSTR szValue = nhr->headers[i].szValue;
-		if (!_stricmp(nhr->headers[i].szName, "Location"))
-			m_szUrl = szValue;
-	}
-}
-
 void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 {
 	debugLogA("CVkProto::GrabCookies");
@@ -413,6 +437,8 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 	if (!szCookie.IsEmpty())
 		pReq->AddHeader("Cookie", szCookie);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
@@ -475,6 +501,8 @@ MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
 	db_unset(hContact, m_szModuleName, "ReqAuth");
 	return hContact;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 {
@@ -539,17 +567,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 		setTString(hContact, "MirVer", MirVer.GetBuffer());
 }
 
-bool tlstrstr(TCHAR* _s1, TCHAR* _s2)
-{
-	TCHAR s1[1024], s2[1024];
-
-	_tcsncpy_s(s1, _s1, _TRUNCATE);
-	CharLowerBuff(s1, SIZEOF(s1));
-	_tcsncpy_s(s2, _s2, _TRUNCATE);
-	CharLowerBuff(s2, SIZEOF(s2));
-
-	return _tcsstr(s1, s2) != NULL;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CVkProto::ContactTypingThread(void *p)
 {
@@ -632,11 +650,11 @@ int  CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent)
 {
-	CVkNotification vkNotification[] = {
+	CVKNotification vkNotification[] = {
 		// type, parent, feedback, string for translate
 		{ _T("follow"), vkNull, vkUsers, _T("") },
 		{ _T("friend_accepted"), vkNull, vkUsers, _T("") },
@@ -675,4 +693,204 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 			break;
 		}
 	return tszRes;
+}
+
+CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
+{
+	CMString tszRes;
+
+	if (pPhoto == NULL)
+		return tszRes;
+
+	ptrT ptszLink, ptszPreviewLink;
+	for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+		JSONNODE *n = json_get(pPhoto, szImageTypes[i]);
+		if (n != NULL) {
+			ptszLink = json_as_string(n);
+			break;
+		}
+	}
+
+	switch (m_iIMGBBCSupport){
+	case imgNo:
+		ptszPreviewLink = NULL;
+		break;
+	case imgFullSize:
+		ptszPreviewLink = ptszLink;
+		break;
+	case imgPreview130:
+	case imgPreview604:
+		ptszPreviewLink = json_as_string(json_get(pPhoto, m_iIMGBBCSupport == imgPreview130 ? "photo_130" : "photo_604"));
+		break;
+	}
+
+	int iWidth = json_as_int(json_get(pPhoto, "width"));
+	int iHeight = json_as_int(json_get(pPhoto, "height"));
+
+	tszRes.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink ? ptszLink : _T(""), iWidth, iHeight);
+	if (m_iIMGBBCSupport)
+		tszRes.AppendFormat(_T("\n\t[img]%s[/img]"), ptszPreviewLink ? ptszPreviewLink : (ptszLink ? ptszLink : _T("")));
+	CMString tszText = json_as_string(json_get(pPhoto, "text"));
+	if (!tszText.IsEmpty())
+		tszRes += "\n" + tszText;
+
+	return tszRes;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
+{
+	debugLogA("CVkProto::GetAttachmentDescr");
+	CMString res;
+	res.AppendChar('\n');
+	res += TranslateT("Attachments:");
+	res.AppendChar('\n');
+	JSONNODE *pAttach;
+	for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
+		res.AppendChar('\t');
+		ptrT ptszType(json_as_string(json_get(pAttach, "type")));
+		if (!mir_tstrcmp(ptszType, _T("photo"))) {
+			JSONNODE *pPhoto = json_get(pAttach, "photo");
+			if (pPhoto == NULL)
+				continue;
+
+			res += GetVkPhotoItem(pPhoto);
+		}
+		else if (!mir_tstrcmp(ptszType, _T("audio"))) {
+			JSONNODE *pAudio = json_get(pAttach, "audio");
+			if (pAudio == NULL)
+				continue;
+
+			ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
+			ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
+			ptrT ptszUrl(json_as_string(json_get(pAudio, "url")));
+			res.AppendFormat(_T("%s: (%s - %s) - %s"),
+				TranslateT("Audio"), ptszArtist, ptszTitle, ptszUrl);
+		}
+		else if (!mir_tstrcmp(ptszType, _T("video"))) {
+			JSONNODE *pVideo = json_get(pAttach, "video");
+			if (pVideo == NULL)
+				continue;
+
+			ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
+			int vid = json_as_int(json_get(pVideo, "id"));
+			int ownerID = json_as_int(json_get(pVideo, "owner_id"));
+			res.AppendFormat(_T("%s: %s - http://vk.com/video%d_%d"), TranslateT("Video"), ptszTitle, ownerID, vid);
+		}
+		else if (!mir_tstrcmp(ptszType, _T("doc"))) {
+			JSONNODE *pDoc = json_get(pAttach, "doc");
+			if (pDoc == NULL)
+				continue;
+
+			ptrT ptszTitle(json_as_string(json_get(pDoc, "title")));
+			ptrT ptszUrl(json_as_string(json_get(pDoc, "url")));
+			res.AppendFormat(_T("%s: (%s) - %s"), TranslateT("Document"), ptszTitle, ptszUrl);
+		}
+		else if (!mir_tstrcmp(ptszType, _T("wall"))) {
+			JSONNODE *pWall = json_get(pAttach, "wall");
+			if (pWall == NULL)
+				continue;
+
+			ptrT ptszText(json_as_string(json_get(pWall, "text")));
+			int id = json_as_int(json_get(pWall, "id"));
+			int fromID = json_as_int(json_get(pWall, "from_id"));
+			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText ? ptszText : _T(" "), fromID, id);
+		}
+		else if (!mir_tstrcmp(ptszType, _T("sticker"))) {
+			JSONNODE *pSticker = json_get(pAttach, "sticker");
+			if (pSticker == NULL)
+				continue;
+			res.Empty(); // sticker is not really an attachment, so we don't want all that heading info
+
+			if (m_bStikersAsSmyles) {
+				int id = json_as_int(json_get(pSticker, "id"));
+				res.AppendFormat(_T("[sticker:%d]"), id);
+			}
+			else {
+				ptrT ptszLink;
+				for (int i = 0; i < SIZEOF(szImageTypes); i++) {
+					JSONNODE *n = json_get(pSticker, szImageTypes[i]);
+					if (n != NULL) {
+						ptszLink = json_as_string(n);
+						break;
+					}
+				}
+				res.AppendFormat(_T("%s"), ptszLink);
+
+				if (m_iIMGBBCSupport)
+					res.AppendFormat(_T("[img]%s[/img]"), ptszLink);
+			}
+		}
+		else if (!mir_tstrcmp(ptszType, _T("link"))){
+			JSONNODE *pLink = json_get(pAttach, "link");
+			if (pLink == NULL)
+				continue;
+
+			ptrT ptszUrl(json_as_string(json_get(pLink, "url")));
+			ptrT ptszTitle(json_as_string(json_get(pLink, "title")));
+			ptrT ptszDescription(json_as_string(json_get(pLink, "description")));
+			CMString tszImage(json_as_string(json_get(pLink, "image_src")));
+
+			res.AppendFormat(_T("%s: %s (%s)"), TranslateT("Link"), ptszTitle ? ptszTitle : _T(""), ptszUrl ? ptszUrl : _T(""));
+			if (!tszImage.IsEmpty())
+				if (m_iIMGBBCSupport)
+					res.AppendFormat(_T("\n\t%s: [img]%s[/img]"), TranslateT("Image"), tszImage.GetBuffer());
+				else
+					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), tszImage.GetBuffer());
+
+			if (ptszDescription)
+				res.AppendFormat(_T("\n\t%s"), ptszDescription);
+		}
+		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
+
+		res.AppendChar('\n');
+	}
+
+	return res;
+}
+
+CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszAddString)
+{
+	CVKBBCItem bbcItem[] = {
+		{ vkbbcB, bbcNo, _T("%s") },
+		{ vkbbcB, bbcBasic, _T("[b]%s[/b]") },
+		{ vkbbcB, bbcAdvanced, _T("[b]%s[/b]") },
+		{ vkbbcI, bbcNo, _T("%s") },
+		{ vkbbcI, bbcBasic, _T("[i]%s[/i]") },
+		{ vkbbcI, bbcAdvanced, _T("[i]%s[/i]") },
+		{ vkbbcS, bbcNo, _T("%s") },
+		{ vkbbcS, bbcBasic, _T("[s]%s[/s]") },
+		{ vkbbcS, bbcAdvanced, _T("[s]%s[/s]") },
+		{ vkbbcU, bbcNo, _T("%s") },
+		{ vkbbcU, bbcBasic, _T("[u]%s[/u]") },
+		{ vkbbcU, bbcAdvanced, _T("[u]%s[/u]") },
+		{ vkbbcUrl, bbcNo, _T("%s (%s)") },
+		{ vkbbcUrl, bbcBasic, _T("[b]%s[/b] (%s)") },
+		{ vkbbcUrl, bbcAdvanced, _T("[url=%s]%s[/url]") },
+		{ vkbbcSize, bbcNo, _T("%s") },
+		{ vkbbcSize, bbcBasic, _T("%s") },
+		{ vkbbcSize, bbcAdvanced, _T("[size=%s]%s[/size]") },
+		{ vkbbcColor, bbcNo, _T("%s") },
+		{ vkbbcColor, bbcBasic, _T("%s") },
+		{ vkbbcColor, bbcAdvanced, _T("[color=%s]%s[/color]") },
+	};
+
+	TCHAR *ptszFormat;
+	for (int i = 0; i < SIZEOF(bbcItem); i++)
+		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews){
+			ptszFormat = bbcItem[i].ptszTempate;
+			break;
+		}
+
+	CMString res;
+
+	if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
+		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
+	else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
+		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), tszString ? tszString : _T(""));
+	else
+		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""));
+
+	return res;
 }
