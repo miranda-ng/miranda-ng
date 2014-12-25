@@ -26,8 +26,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include "Main.h"
-#include <m_hotkeys.h>
+#include "global.h"
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 HINSTANCE		g_hSendSS;
