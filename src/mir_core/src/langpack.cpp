@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "../modules/langpack/langpack.h"
+#include "../../modules/langpack/langpack.h"
 
 #define LANGPACK_BUF_SIZE 4000
 
