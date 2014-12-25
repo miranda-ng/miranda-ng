@@ -55,10 +55,10 @@ FIBITMAP*		CaptureScreen(HDC hDC, SIZE size, HWND hCapture=0);
 //FIBITMAP*		CaptureDesktop();	/*emulate print screen (not used)*/
 TCHAR*			SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, TCHAR* pszFilename, TCHAR* pszExt, int flag=0);
 
-TCHAR*			GetFileNameW(TCHAR* pszPath);
-TCHAR*			GetFileExtW (TCHAR* pszPath);
-char*			GetFileNameA(TCHAR* pszPath);
-char*			GetFileExtA (TCHAR* pszPath);
+TCHAR*			GetFileNameW(const TCHAR* pszPath);
+TCHAR*			GetFileExtW (const TCHAR* pszPath);
+char*			GetFileNameA(const TCHAR* pszPath);
+char*			GetFileExtA (const TCHAR* pszPath);
 #ifdef _UNICODE
 #	define GetFileName GetFileNameW
 #	define GetFileExt GetFileExtW
