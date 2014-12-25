@@ -241,52 +241,51 @@ FIBITMAP* CaptureScreen  (HDC hDC,SIZE size,HWND hCapture){
 	#ifdef _DEBUG
 	switch (FIP->FI_GetImageType(dib)){
 		case FIT_UNKNOWN:
-			OutputDebugStringA("FIBITMAP Typ: FIT_UNKNOWN\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_UNKNOWN\r\n" );
 			break;
 		case FIT_BITMAP:
-			OutputDebugStringA("FIBITMAP Typ: FIT_BITMAP\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_BITMAP\r\n" );
 			break;
 		case FIT_UINT16:
-			OutputDebugStringA("FIBITMAP Typ: FIT_UINT16\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_UINT16\r\n" );
 			break;
 		case FIT_INT16:
-			OutputDebugStringA("FIBITMAP Typ: FIT_INT16\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_INT16\r\n" );
 			break;
 		case FIT_UINT32:
-			OutputDebugStringA("FIBITMAP Typ: FIT_UINT32\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_UINT32\r\n" );
 			break;
 		case FIT_INT32:
-			OutputDebugStringA("FIBITMAP Typ: FIT_INT32\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_INT32\r\n" );
 			break;
 		case FIT_FLOAT:
-			OutputDebugStringA("FIBITMAP Typ: FIT_FLOAT\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_FLOAT\r\n" );
 			break;
 		case FIT_DOUBLE:
-			OutputDebugStringA("FIBITMAP Typ: FIT_DOUBLE\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_DOUBLE\r\n" );
 			break;
 		case FIT_COMPLEX:
-			OutputDebugStringA("FIBITMAP Typ: FIT_COMPLEX\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_COMPLEX\r\n" );
 			break;
 		case FIT_RGB16:
-			OutputDebugStringA("FIBITMAP Typ: FIT_RGB16\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_RGB16\r\n" );
 			break;
 		case FIT_RGBA16:
-			OutputDebugStringA("FIBITMAP Typ: FIT_RGBA16\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_RGBA16\r\n" );
 			break;
 		case FIT_RGBF:
-			OutputDebugStringA("FIBITMAP Typ: FIT_RGBF\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_RGBF\r\n" );
 			break;
 		case FIT_RGBAF:
-			OutputDebugStringA("FIBITMAP Typ: FIT_RGBAF\r\n" );
+			OutputDebugStringA("FIBITMAP Type: FIT_RGBAF\r\n" );
 			break;
 		default:
-			OutputDebugStringA("FIBITMAP Typ: non detectable image type (error)\r\n" );
+			OutputDebugStringA("FIBITMAP Type: non detectable image type (error)\r\n" );
 			break;
 	}
 	BOOL inf = FIP->FI_IsTransparent(dib);
 	OutputDebugStringA(inf ? "FIBITMAP Transparent: true\r\n" : "FIBITMAP Transparent: false\r\n");
 	#endif
-
 	return dib;
 }
 /*
