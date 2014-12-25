@@ -196,10 +196,10 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	/// create Image list for tab control
 	if(!m_himlTab){
 		//m_himlTab = ImageList_Create(16, 16, PluginConfig.m_bIsXP ? ILC_COLOR32 | ILC_MASK : ILC_COLOR8 | ILC_MASK, 2, 0);
-		m_himlTab = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 0);
-		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MAINXS)); /// @note : use custom icon for each capture tab?
-//		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MAINXS));
-//		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MAINXS));
+		m_himlTab = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 0, 1);
+		ImageList_AddIcon(m_himlTab, GetIcon(ICO_TARGET));
+		ImageList_AddIcon(m_himlTab, GetIcon(ICO_MONITOR));
+		ImageList_AddIcon(m_himlTab, GetIconBtn(ICO_BTN_FOLDER));
 	}
 
 	/// create the tab control.
@@ -212,11 +212,10 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	itab.hwndMain	= m_hWnd;
 	itab.hwndTab	= m_hwndTab;
 	itab.tcih.mask		= TCIF_PARAM|TCIF_TEXT|TCIF_IMAGE;
-	itab.tcih.iImage	= 0;
 
 	/// Add a tab for each of the three child dialog boxes.
 	itab.tcih.pszText	= TranslateT("Window");
-//	itab.tcih.iImage	= 0;
+	itab.tcih.iImage	= 0;
 	itab.hwndTabPage	= CreateDialogParam(g_hSendSS,MAKEINTRESOURCE(IDD_UMain_CaptureWindow),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureWindow);
 	TabCtrl_InsertItem(m_hwndTab,0,&itab);
 	/// get tab boundaries (required after 1st tab)
@@ -230,7 +229,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	CheckDlgButton(itab.hwndTabPage, ID_chkClientArea, m_opt_chkClientArea ? BST_CHECKED : BST_UNCHECKED);
 
 	itab.tcih.pszText	= TranslateT("Desktop");
-//	itab.tcih.iImage	= 1;
+	itab.tcih.iImage	= 1;
 	itab.hwndTabPage	= CreateDialogParam(g_hSendSS,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureDesktop);
 	TabCtrl_InsertItem(m_hwndTab,1,&itab);
 	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
@@ -253,7 +252,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	PostMessage(m_hWnd, WM_COMMAND, MAKEWPARAM(ID_edtCaption, CBN_SELCHANGE),(LPARAM)hCtrl);
 
 	itab.tcih.pszText	= TranslateT("File");
-//	itab.tcih.iImage	= 2;
+	itab.tcih.iImage	= 2;
 	itab.hwndTabPage	= CreateDialogParam(g_hSendSS,MAKEINTRESOURCE(IDD_UMain_CaptureFile),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureFile);
 	TabCtrl_InsertItem(m_hwndTab,2,&itab);
 	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
@@ -339,7 +338,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_chkDesc)) {
 		SendDlgItemMessage(m_hWnd, ID_chkDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
-		HICON hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESKON : ICO_BTN_DESK);
+		HICON hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESCON : ICO_BTN_DESC);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("D"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDesc ? BST_CHECKED : BST_UNCHECKED, NULL);
@@ -408,7 +407,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 					break;
 				case ID_chkDesc:{
 					m_opt_btnDesc=!m_opt_btnDesc;
-					HICON hIcon=GetIconBtn(m_opt_btnDesc?ICO_BTN_DESKON:ICO_BTN_DESK);
+					HICON hIcon=GetIconBtn(m_opt_btnDesc?ICO_BTN_DESCON:ICO_BTN_DESC);
 					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
 					break;}
 				case ID_chkDeleteAfterSend:{
@@ -872,7 +871,7 @@ void TfrmMain::cboxSendByChange() {
 	Button_Enable(GetDlgItem(m_hWnd, ID_chkDeleteAfterSend), bState);
 
 	bState = (itemFlag & SS_DLG_DESCRIPTION);
-	hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESKON : ICO_BTN_DESK);
+	hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESCON : ICO_BTN_DESC);
 	SendDlgItemMessage(m_hWnd, ID_chkDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
 	Button_Enable(GetDlgItem(m_hWnd, ID_chkDesc), bState);
 }

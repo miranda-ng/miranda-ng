@@ -36,17 +36,17 @@ HANDLE			g_hNetlibUser=0;//!< Netlib Register User
 FI_INTERFACE*	FIP=NULL;
 int				hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
 
-IconItem ICONS[]={
+IconItem ICONS[ICO_END_]={
 	{LPGEN("Main Icon"),"main",IDI_MAIN,32},
 	{LPGEN("Main Icon"),"mainxs",IDI_MAIN},
 	{LPGEN("Target Cursor"),"target",IDI_TARGET,32},
 	{LPGEN("Target Desktop"),"monitor",IDI_MONITOR,32},
 };
-IconItem ICONS_BTN[]={
+IconItem ICONS_BTN[ICO_BTN_END_]={
 	{LPGEN("Help"),"help",IDI_HELP},
 	{LPGEN("Open Folder"),"folder",IDI_FOLDER},
-	{LPGEN("Description off"),"desk",IDI_DESK},
-	{LPGEN("Description on"),"deskon",IDI_DESKON},
+	{LPGEN("Description off"),"desc",IDI_DESC},
+	{LPGEN("Description on"),"descon",IDI_DESCON},
 	{LPGEN("Delete off"),"del",IDI_DEL},
 	{LPGEN("Delete on"),"delon",IDI_DELON},
 	{LPGEN("Prev"),"arrowl",IDI_ARROWL},

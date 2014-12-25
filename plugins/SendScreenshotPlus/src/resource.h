@@ -37,8 +37,8 @@
 #define IDI_ARROWR                      196
 //#define IDI_OVERLAYON                   198
 //#define IDI_OVERLAYOFF                  199
-#define IDI_DESK                        200
-#define IDI_DESKON                      201
+#define IDI_DESC                        200
+#define IDI_DESCON                      201
 #define IDI_DEL                         202
 #define IDI_DELON                       203
 #define IDI_UPDATE                      204
