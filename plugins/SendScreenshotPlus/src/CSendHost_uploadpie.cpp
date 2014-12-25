@@ -28,7 +28,7 @@ CSendHost_UploadPie::~CSendHost_UploadPie()
 //---------------------------------------------------------------------------
 int CSendHost_UploadPie::Send()
 {
-	if(!hNetlibUser){ /// check Netlib
+	if(!g_hNetlibUser){ /// check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -64,7 +64,7 @@ void CSendHost_UploadPie::SendThread(void* obj)
 {
 	CSendHost_UploadPie* self=(CSendHost_UploadPie*)obj;
 	/// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&self->m_nlhr);
+	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)g_hNetlibUser,(LPARAM)&self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if(reply){
 		if(reply->resultCode>=200 && reply->resultCode<300 && reply->dataLength){

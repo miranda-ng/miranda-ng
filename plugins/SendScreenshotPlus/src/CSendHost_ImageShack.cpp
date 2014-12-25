@@ -41,7 +41,7 @@ CSendHost_ImageShack::~CSendHost_ImageShack(){
 
 //---------------------------------------------------------------------------
 int CSendHost_ImageShack::Send() {
-	if(!hNetlibUser){ /// check Netlib
+	if(!g_hNetlibUser){ /// check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -70,7 +70,7 @@ int CSendHost_ImageShack::Send() {
 
 void CSendHost_ImageShack::SendThread() {
 	/// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&m_nlhr);
+	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)g_hNetlibUser, (LPARAM)&m_nlhr);
 	HTTPFormDestroy(&m_nlhr);
 	if(reply){
 		if(reply->resultCode>=200 && reply->resultCode<300 && reply->dataLength){

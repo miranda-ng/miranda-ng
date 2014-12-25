@@ -28,7 +28,7 @@ CSendHost_Imgur::~CSendHost_Imgur()
 //---------------------------------------------------------------------------
 int CSendHost_Imgur::Send()
 {
-	if(!hNetlibUser){ /// check Netlib
+	if(!g_hNetlibUser){ /// check Netlib
 		Error(SS_ERR_INIT, m_pszSendTyp);
 		Exit(ACKRESULT_FAILED);
 		return !m_bAsync;
@@ -59,7 +59,7 @@ void CSendHost_Imgur::SendThread(void* obj)
 {
 	CSendHost_Imgur* self=(CSendHost_Imgur*)obj;
 	/// send DATA and wait for m_nlreply
-	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&self->m_nlhr);
+	NETLIBHTTPREQUEST* reply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)g_hNetlibUser,(LPARAM)&self->m_nlhr);
 	self->HTTPFormDestroy(&self->m_nlhr);
 	if(reply){
 		if(reply->dataLength){

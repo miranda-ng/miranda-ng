@@ -217,7 +217,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	/// Add a tab for each of the three child dialog boxes.
 	itab.tcih.pszText	= TranslateT("Window");
 //	itab.tcih.iImage	= 0;
-	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureWindow),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureWindow);
+	itab.hwndTabPage	= CreateDialogParam(g_hSendSS,MAKEINTRESOURCE(IDD_UMain_CaptureWindow),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureWindow);
 	TabCtrl_InsertItem(m_hwndTab,0,&itab);
 	/// get tab boundaries (required after 1st tab)
 	GetClientRect(m_hwndTab,&rcTab);
@@ -231,7 +231,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	itab.tcih.pszText	= TranslateT("Desktop");
 //	itab.tcih.iImage	= 1;
-	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureDesktop);
+	itab.hwndTabPage	= CreateDialogParam(g_hSendSS,MAKEINTRESOURCE(IDD_UMain_CaptureDesktop),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureDesktop);
 	TabCtrl_InsertItem(m_hwndTab,1,&itab);
 	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
 
@@ -254,7 +254,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	itab.tcih.pszText	= TranslateT("File");
 //	itab.tcih.iImage	= 2;
-	itab.hwndTabPage	= CreateDialogParam(hInst,MAKEINTRESOURCE(IDD_UMain_CaptureFile),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureFile);
+	itab.hwndTabPage	= CreateDialogParam(g_hSendSS,MAKEINTRESOURCE(IDD_UMain_CaptureFile),m_hWnd,DlgProc_CaptureTabPage,IDD_UMain_CaptureFile);
 	TabCtrl_InsertItem(m_hwndTab,2,&itab);
 	SetWindowPos(itab.hwndTabPage,HWND_TOP,rcTab.left,rcTab.top,rcTab.right,rcTab.bottom,0);
 
@@ -295,12 +295,12 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	if(m_hContact){
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("File Transfer")),SS_FILESEND);
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("E-mail"))       ,SS_EMAIL);
-		if (myGlobals.PluginHTTPExist) {
+		if (g_myGlobals.PluginHTTPExist) {
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("HTTP Server"))  ,SS_HTTPSERVER);
 		}else if(m_opt_cboxSendBy == SS_HTTPSERVER) {
 			m_opt_cboxSendBy = SS_IMAGESHACK;
 		}
-		if (myGlobals.PluginFTPExist) {
+		if (g_myGlobals.PluginFTPExist) {
 			ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("FTP File"))     ,SS_FTPFILE);
 		}else if(m_opt_cboxSendBy == SS_FTPFILE) {
 			m_opt_cboxSendBy = SS_IMAGESHACK;
@@ -308,7 +308,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}else if(m_opt_cboxSendBy == SS_FILESEND || m_opt_cboxSendBy == SS_EMAIL || m_opt_cboxSendBy == SS_HTTPSERVER || m_opt_cboxSendBy == SS_FTPFILE) {
 		m_opt_cboxSendBy = SS_IMAGESHACK;
 	}
-	if (myGlobals.PluginDropboxExist) {
+	if (g_myGlobals.PluginDropboxExist) {
 		ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, _T("Dropbox")), SS_DROPBOX);
 	}else if(m_opt_cboxSendBy == SS_DROPBOX) {
 		m_opt_cboxSendBy = SS_IMAGESHACK;
@@ -504,11 +504,11 @@ void TfrmMain::SetTargetWindow(HWND hwnd){
 	edtSizeUpdate(m_hTargetWindow,m_opt_chkClientArea,m_hwndTabPage,ID_edtSize);
 }
 void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
-	if (wParam == ID_imgTarget){// Timer for Target selector
+	if(wParam==ID_imgTarget){// Timer for Target selector
 		static int primarymouse;
 		if(!m_hTargetHighlighter){
 			primarymouse=GetSystemMetrics(SM_SWAPBUTTON)?VK_RBUTTON:VK_LBUTTON;
-			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(TCHAR*)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,hInst,NULL);
+			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(TCHAR*)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,g_hSendSS,NULL);
 			if(!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter,0,123,LWA_ALPHA);
 			SetSystemCursor(CopyCursor(Skin_GetIcon(ICO_COMMON_SSTARGET)),OCR_NORMAL);
@@ -557,7 +557,7 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 		}
 		return;
 	}
-	if (wParam == ID_chkTimed){// Timer for Screenshot
+	if(wParam==ID_chkTimed){// Timer for Screenshot
 		#ifdef _DEBUG
 			OutputDebugStringA("SS Bitmap Timer Start\r\n" );
 		#endif
@@ -767,7 +767,7 @@ void TfrmMain::Init(TCHAR* DestFolder, MCONTACT Contact) {
 	m_hContact = Contact;
 
 	// create window
-	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UMainForm),0,DlgTfrmMain,(LPARAM)this);
+	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UMainForm),0,DlgTfrmMain,(LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 
