@@ -5,11 +5,7 @@
 #endif //APSTUDIO_INVOKED
 
 #include "afxres.h"
-#include "version.h"
-
-#ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#endif //_WIN32
+#include "..\src\version.h"
 
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
