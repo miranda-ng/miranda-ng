@@ -248,8 +248,8 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					}
 					// increase width if info text requires more
 					if((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText){
-						RECT rcico;
-						GetClientRect(GetDlgItem(hDlg,ICO_DLGLOGO), &rcico);
+						int multiline=0;
+						RECT rcico; GetClientRect(GetDlgItem(hDlg,ICO_DLGLOGO), &rcico);
 						rcico.right=rcico.right*100/66; // padding
 						for(rs=h=pMsgBox->ptszInfoText; ; ++h) {
 							if (*h=='\n' || !*h) {
@@ -260,8 +260,11 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 								if (!*h)
 									break;
 								rs = h + 1;
+								++multiline;
 							}
 						}
+						if(!multiline)
+							SetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME),GWL_STYLE)|SS_CENTERIMAGE);
 					}
 					ReleaseDC(hDlg, hDC);
 				
