@@ -127,6 +127,11 @@ extern HANDLE			g_hNetlibUser;
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((void*)p);(p)=NULL;}}
+#ifdef _DEBUG
+#	define DBGMSG(str,...) do{char tmp[1024];sprintf(tmp,str,##__VA_ARGS__);OutputDebugStringA(tmp);}while(0)
+#else
+#	define DBGMSG(str,...)
+#endif
 
 template<class _Elem>
 std::basic_string<_Elem> replace(const std::basic_string<_Elem> & Origninal, const std::basic_string<_Elem> & What, const std::basic_string<_Elem> & With)

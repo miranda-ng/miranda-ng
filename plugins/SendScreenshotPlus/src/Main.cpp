@@ -37,12 +37,12 @@ FI_INTERFACE*	FIP=NULL;
 int				hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
 
 
-HANDLE hFolderScreenshot=0;
+static HANDLE m_hFolderScreenshot=0;
 TCHAR* GetCustomPath() {
 	TCHAR* pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
-	if(hFolderScreenshot){
+	if(m_hFolderScreenshot){
 		TCHAR szPath[1024]={0};
-		FoldersGetCustomPathT(hFolderScreenshot, szPath, 1024, pszPath);
+		FoldersGetCustomPathT(m_hFolderScreenshot, szPath, 1024, pszPath);
 		mir_free(pszPath);
 		pszPath = mir_tstrdup(szPath);
 	}
@@ -50,7 +50,6 @@ TCHAR* GetCustomPath() {
 		MessageBox(NULL, _T("Can not retrieve Screenshot path."), _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 0;
 	}
-
 	int result = CreateDirectoryTreeT(pszPath);
 	if(result){
 		TCHAR szError[MAX_PATH];
@@ -62,18 +61,18 @@ TCHAR* GetCustomPath() {
 	return pszPath;
 }
 /// services
-HANDLE hsvc_SendScreenshot=0;
-HANDLE hsvc_SendDesktop=0;
-HANDLE hsvc_EditBitmap=0;
-HANDLE hsvc_Send2ImageShack=0;
+static HANDLE m_hOpenCaptureDialog=0;
+static HANDLE m_hSendDesktop=0;
+static HANDLE m_hEditBitmap=0;
+static HANDLE m_hSend2ImageShack=0;
 //---------------------------------------------------------------------------
 // Callback function of service for contact menu and main menu
 // wParam = contact handle
-// lParam = 0
+// lParam = 0 (or 0xFFFF to preselect window under cursor)
 INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam){
 	TfrmMain* frmMain=new TfrmMain();
 	if(!frmMain) {
-		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBox(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
 	TCHAR* pszPath=GetCustomPath();
@@ -90,52 +89,6 @@ INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam){
 	return 0;
 }
 //---------------------------------------------------------------------------
-// Netlib
-HANDLE NetlibInit(void)
-{
-	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.szSettingsModule = __PLUGIN_NAME;
-	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
-	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_TCHAR;			//|NUF_NOHTTPSOPTION;
-	return g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
-}
-
-void NetlibClose(void) {
-	Netlib_CloseHandle(g_hNetlibUser);
-}
-//---------------------------------------------------------------------------
-// Add SendSS menu item in contact menu
-void AddMenuItems(void)
-{
-	// Common
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ROOTHANDLE | CMIF_TCHAR;
-	mi.hParentMenu = HGENMENU_ROOT;
-
-	// Add item to contact menu
-	mi.position		= 1000000;
-	mi.ptszName		= LPGENT("Send Screenshot");
-	mi.hIcon		= Skin_GetIcon(ICO_COMMON_SSWINDOW2);
-	mi.pszService	= MS_SENDSS_OPENDIALOG;
-	Menu_AddContactMenuItem(&mi);
-
-	// Add item to contact menu
-	mi.position		= 1000001;
-	mi.ptszName		= LPGENT("Send desktop screenshot");
-//	mi.hIcon		= Skin_GetIcon(ICO_COMMON_SSWINDOW2);
-	mi.pszService	= MS_SENDSS_SENDDESKTOP;
-	Menu_AddContactMenuItem(&mi);
-
-	// Add item to main menu
-	mi.position		= 1000001;
-	mi.ptszName		= LPGENT("Take a screenshot");
-//	mi.hIcon		= Skin_GetIcon(ICO_COMMON_SSWINDOW2);
-	mi.pszService	= MS_SENDSS_OPENDIALOG;
-	Menu_AddMainMenuItem(&mi);
-}
-
-
-//---------------------------------------------------------------------------
 // Callback function of service
 // 1. Send a screenshot of the desktop to the selected contact
 // wParam = contact handle
@@ -143,10 +96,10 @@ void AddMenuItems(void)
 // 2. Open the capture dialog in take screenshot only mode (it will not be sent)
 // wParam = 0
 // lParam = anything but 0
-INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
+INT_PTR service_SendDesktop(WPARAM wParam, LPARAM lParam) {
 	TfrmMain* frmMain=new TfrmMain();
 	if(!frmMain) {
-		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+		MessageBox(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return -1;
 	}
 	TCHAR* pszPath=GetCustomPath();
@@ -217,26 +170,25 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	g_hSendSS=hinstDLL;
 	return TRUE;
 }
-PLUGININFOEX pluginInfo={
+static const PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
-	__AUTHOR,
-	__AUTHOREMAIL,
+	__AUTHOR,__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {ED39AF7C-BECD-404E-9499-4D04F711B9CB}
 	{0xed39af7c, 0xbecd, 0x404e, {0x94, 0x99, 0x4d, 0x04, 0xf7, 0x11, 0xb9, 0xcb}}
 };
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+DLL_EXPORT PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	return &pluginInfo;
+	return const_cast<PLUGININFOEX*>(&pluginInfo);
 }
 /// hooks
-HANDLE g_hookModulesLoaded=0;
-HANDLE g_hookSystemPreShutdown=0;
+static HANDLE m_hookModulesLoaded=0;
+static HANDLE m_hookSystemPreShutdown=0;
 int hook_ModulesLoaded(WPARAM, LPARAM)
 {
 	g_myGlobals.PopupExist		= ServiceExists(MS_POPUP_ADDPOPUPT);
@@ -244,85 +196,67 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	g_myGlobals.PluginHTTPExist	= ServiceExists(MS_HTTP_ACCEPT_CONNECTIONS);
 	g_myGlobals.PluginFTPExist	= ServiceExists(MS_FTPFILE_SHAREFILE);
 	g_myGlobals.PluginDropboxExist	= ServiceExists(MS_DROPBOX_SEND_FILE);
-
 	// Netlib register
-	NetlibInit();
-
+	NETLIBUSER nlu = { sizeof(nlu) };
+	nlu.szSettingsModule = __PLUGIN_NAME;
+	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
+	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_TCHAR;			//|NUF_NOHTTPSOPTION;
+	g_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	// load my button class / or use UInfoEx
 	CtrlButtonLoadModule();
-
 	// Folders plugin support
-	hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
+	m_hFolderScreenshot = FoldersRegisterCustomPathT(LPGEN("SendSS"), LPGEN("Screenshots"),
 		_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
-
+	#ifdef _DEBUG
+	service_OpenCaptureDialog(0,0xFFFF);
+	#endif // _DEBUG
 	return 0;
 }
 int hook_SystemPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	TfrmAbout::Unload();//crashes if done from "Unload" because of dependencies
 	TfrmMain::Unload();// "
-
 	// Netlib unregister
-	NetlibClose();
-
+	Netlib_CloseHandle(g_hNetlibUser);
 	// uninitialize classes
 	CtrlButtonUnloadModule();
 	return 0;
 }
 
-//---------------------------------------------------------------------------
-// Register Send screenshot services
-int RegisterServices(){
-	hsvc_SendScreenshot = CreateServiceFunction(MS_SENDSS_OPENDIALOG, service_OpenCaptureDialog);
-	if (!hsvc_SendScreenshot)
-		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_OPENDIALOG"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-
-	hsvc_SendDesktop = CreateServiceFunction(MS_SENDSS_SENDDESKTOP, service_CaptureAndSendDesktop);
-	if (!hsvc_SendDesktop)
-		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_SENDDESKTOP"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-
-	hsvc_EditBitmap = CreateServiceFunction(MS_SENDSS_EDITBITMAP, service_EditBitmap);
-	if (!hsvc_EditBitmap)
-		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_EDITBITMAP"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-
-	hsvc_Send2ImageShack = CreateServiceFunction(MS_SENDSS_SEND2IMAGESHACK, service_Send2ImageShack);
-	if (!hsvc_Send2ImageShack)
-		MessageBoxEx(NULL, TranslateT("Could not register Miranda service."), _T("MS_SENDSS_SEND2IMAGESHACK"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-
-	return 0;
-}
-//---------------------------------------------------------------------------
-// UnRegister Send screenshot services
-int UnRegisterServices(){
-	if(hsvc_SendScreenshot) DestroyServiceFunction(hsvc_SendScreenshot),hsvc_SendScreenshot=0;
-	if(hsvc_SendDesktop) DestroyServiceFunction(hsvc_SendDesktop),hsvc_SendDesktop=0;
-	if(hsvc_EditBitmap) DestroyServiceFunction(hsvc_EditBitmap),hsvc_EditBitmap=0;
-	if(hsvc_Send2ImageShack) DestroyServiceFunction(hsvc_Send2ImageShack),hsvc_Send2ImageShack=0;
-	return 0;
-}
-
 ATOM g_clsTargetHighlighter=0;
-extern "C" __declspec(dllexport) int Load(void)
+DLL_EXPORT int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-
-	if(FIP == NULL || result != S_OK) {
-		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. SendScreenshot will be disabled."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+	INT_PTR result=CallService(MS_IMG_GETINTERFACE,FI_IF_VERSION,(LPARAM)&FIP);
+	if(FIP==NULL || result!=S_OK) {
+		MessageBox(NULL, TranslateT("Fatal error, image services not found. SendScreenshot will be disabled."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 		return 1;
 	}
-
-		mir_sntprintf(szError,SIZEOF(szError),TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
-	// load icon library (use UserInfoEx icon Pack)
+	/// hook events
+	m_hookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,hook_ModulesLoaded);
+	m_hookSystemPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,hook_SystemPreShutdown);
+	/// icons
 	IcoLib_LoadModule();
-
-	g_hookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED, hook_ModulesLoaded);
-	g_hookSystemPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN, hook_SystemPreShutdown);
-
-	RegisterServices();
-	AddMenuItems();
-
-	//hotkey's
+	/// services
+	#define srv_reg(name) do{\
+		m_h##name=CreateServiceFunction(SZ_SENDSS "/" #name, service_##name);\
+		if(!m_h##name) MessageBoxA(NULL,Translate("Could not register Miranda service."),SZ_SENDSS "/" #name,MB_OK|MB_ICONERROR|MB_APPLMODAL);\
+	}while(0)
+	srv_reg(OpenCaptureDialog);
+	srv_reg(SendDesktop);
+	srv_reg(EditBitmap);
+	srv_reg(Send2ImageShack);
+	/// menu items
+	CLISTMENUITEM mi={sizeof(mi)};
+	mi.flags=CMIF_ROOTHANDLE|CMIF_TCHAR/*|CMIF_ICONFROMICOLIB*/;
+	mi.hParentMenu=HGENMENU_ROOT;
+	mi.icolibItem=GetIconHandle(ICO_MAINXS);
+	#define _Menu_AddMainMenuItemEx(name,srv,pos) do{mi.ptszName=name;mi.pszService=srv;mi.position=pos;Menu_AddMainMenuItem(&mi);}while(0)
+	#define _Menu_AddContactMenuItemEx(name,srv,pos) do{mi.ptszName=name;mi.pszService=srv;mi.position=pos;Menu_AddContactMenuItem(&mi);}while(0)
+	_Menu_AddMainMenuItemEx(LPGENT("Take a screenshot"),MS_SENDSS_OPENDIALOG,1000001);
+	_Menu_AddContactMenuItemEx(LPGENT("Send screenshot"),MS_SENDSS_OPENDIALOG,1000000);
+	_Menu_AddContactMenuItemEx(LPGENT("Send desktop screenshot"),MS_SENDSS_SENDDESKTOP,1000001);
+	/// hotkey's
 	HOTKEYDESC hkd={sizeof(hkd)};
 	hkd.pszName="Open SendSS+";
 	hkd.ptszDescription=LPGENT("Open SendSS+");
@@ -332,7 +266,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hkd.lParam=0xFFFF;
 	hkd.dwFlags = HKD_TCHAR;
 	Hotkey_Register(&hkd);
-
+	/// register highlighter window class
 	HBRUSH brush=CreateSolidBrush(0x0000FF00);//owned by class
 	WNDCLASS wndclass={CS_HREDRAW|CS_VREDRAW,DefWindowProc,0,0,g_hSendSS,NULL,NULL,brush,NULL,L"SendSSHighlighter"};
 	g_clsTargetHighlighter=RegisterClass(&wndclass);
@@ -342,12 +276,17 @@ extern "C" __declspec(dllexport) int Load(void)
 * Prepare the plugin to stop
 * Called by Miranda when it will exit or when the plugin gets deselected
 */
-extern "C" __declspec(dllexport) int Unload(void)
+DLL_EXPORT int Unload(void)
 {//as "ghazan" says, it's useless to unregister services or unhook events, let's still do it for now :P
 	CallService(MS_HOTKEY_UNREGISTER,0,(LPARAM)"Open SendSS+");
-	UnRegisterServices();
-	if(g_hookModulesLoaded) UnhookEvent(g_hookModulesLoaded),g_hookModulesLoaded=0;
-	if(g_hookSystemPreShutdown) UnhookEvent(g_hookSystemPreShutdown),g_hookSystemPreShutdown=0;
+	/// deregister services
+	#define srv_dereg(name) do{ if(m_h##name) DestroyServiceFunction(m_h##name),m_h##name=0; }while(0)
+	srv_dereg(OpenCaptureDialog);
+	srv_dereg(SendDesktop);
+	srv_dereg(EditBitmap);
+	srv_dereg(Send2ImageShack);
+	if(m_hookModulesLoaded) UnhookEvent(m_hookModulesLoaded),m_hookModulesLoaded=0;
+	if(m_hookSystemPreShutdown) UnhookEvent(m_hookSystemPreShutdown),m_hookSystemPreShutdown=0;
 	if(g_clsTargetHighlighter) UnregisterClass((TCHAR*)g_clsTargetHighlighter,g_hSendSS),g_clsTargetHighlighter=0;
 	return 0;
 }
