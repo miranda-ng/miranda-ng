@@ -107,9 +107,9 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	{	mir_tcsadd(pszTitle ,_T(__COPYRIGHT));
 		mir_tcsadd(pszTitle ,_T("\r\n\r\n"));
 
-		hResInfo = FindResource(hInst,MAKEINTRESOURCE(IDR_LICENSE),_T("TEXT"));
-		ResSize  = SizeofResource(hInst,hResInfo);
-		pszMsg   = (char*)LockResource(LoadResource(hInst,hResInfo));
+		hResInfo = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_LICENSE),_T("TEXT"));
+		ResSize  = SizeofResource(g_hSendSS,hResInfo);
+		pszMsg   = (char*)LockResource(LoadResource(g_hSendSS,hResInfo));
 		temp = mir_a2t(pszMsg);
 		temp [ResSize] = 0;			//LockResource is not NULL terminatet !!
 		mir_tcsadd(pszTitle ,temp);
@@ -120,9 +120,9 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	//Credit
 	{
-		hResInfo = FindResource(hInst,MAKEINTRESOURCE(IDR_CREDIT),_T("TEXT"));
-		ResSize  = SizeofResource(hInst,hResInfo);
-		pszMsg   = (char*)LockResource(LoadResource(hInst,hResInfo));
+		hResInfo = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_CREDIT),_T("TEXT"));
+		ResSize  = SizeofResource(g_hSendSS,hResInfo);
+		pszMsg   = (char*)LockResource(LoadResource(g_hSendSS,hResInfo));
 		temp = mir_a2t(pszMsg);
 		temp [ResSize] = 0;			//LockResource is not NULL terminatet !!
 		mir_tcsadd(pszTitle ,temp);
@@ -176,7 +176,7 @@ LRESULT TfrmAbout::wmClose(WPARAM wParam, LPARAM lParam) {
 TfrmAbout::TfrmAbout(HWND Owner) {
 	m_hWndOwner = Owner;
 	// create window
-	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UAboutForm),0, DlgTfrmAbout,(LPARAM)this);
+	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UAboutForm),0, DlgTfrmAbout,(LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 	//init page

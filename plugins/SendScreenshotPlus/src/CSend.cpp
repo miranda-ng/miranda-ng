@@ -382,7 +382,7 @@ void CSend::DB_EventAdd(WORD EventType)
 void CSend::Error(LPCTSTR pszFormat, ...) {
 	TCHAR tszMsg[MAX_SECONDLINE];
 
-	mir_sntprintf(tszMsg, SIZEOF(tszMsg),_T("%s - %s") ,_T(MODNAME), TranslateT("Error"));
+	mir_sntprintf(tszMsg, SIZEOF(tszMsg),_T("%s - %s") ,_T(SZ_SENDSS), TranslateT("Error"));
 	mir_free(m_ErrorTitle), m_ErrorTitle = mir_tstrdup(tszMsg);
 
 	va_list vl;
@@ -408,7 +408,7 @@ void CSend::Exit(unsigned int Result) {
 		switch(Result) {
 			case CSEND_DIALOG:
 				SkinPlaySound("FileDone");
-				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UResultForm),0, ResultDialogProc,(LPARAM)this);
+				DialogBoxParam(g_hSendSS, MAKEINTRESOURCE(IDD_UResultForm),0, ResultDialogProc,(LPARAM)this);
 				err = false;
 				break;
 			case ACKRESULT_SUCCESS:

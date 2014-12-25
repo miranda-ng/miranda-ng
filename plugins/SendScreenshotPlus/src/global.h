@@ -83,7 +83,6 @@ using namespace std;
 #include "dlg_msgbox.h"
 #include "resource.h"
 #include "version.h"
-#include "main.h"
 #include "CSend.h"
 #include "CSendEmail.h"
 #include "CSendFile.h"
@@ -120,11 +119,11 @@ typedef struct _MGLOBAL {
 
 // Miranda Database Key
 #define SZ_SENDSS		"SendSS"
-#define MODNAME			"SendSS"
 
-extern HINSTANCE		hInst;
-extern MGLOBAL			myGlobals;
-extern HANDLE			hNetlibUser;
+extern ATOM g_clsTargetHighlighter;
+extern HINSTANCE		g_hSendSS;
+extern MGLOBAL			g_myGlobals;
+extern HANDLE			g_hNetlibUser;
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))
 #define MIR_FREE(p)			{if (PtrIsValid(p)){mir_free((void*)p);(p)=NULL;}}

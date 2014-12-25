@@ -28,33 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #ifndef MainH
 #define MainH
+#include "global.h"
 
-//---------------------------------------------------------------------------
-
-extern ATOM g_clsTargetHighlighter;
-extern HANDLE			hNetlibUser;
-
-//---------------------------------------------------------------------------
-
-HANDLE	NetlibInit();
-void	NetlibClose();
-
-void	IcoLib_LoadModule();
-void	AddMenuItems();
-int		RegisterServices();
-int		UnRegisterServices();
-
-int		hook_ModulesLoaded(WPARAM, LPARAM);
-int		hook_SystemPreShutdown(WPARAM wParam, LPARAM lParam);
-
-INT_PTR	service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam);
-INT_PTR	service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam);
-INT_PTR	service_EditBitmap(WPARAM wParam, LPARAM lParam);
-INT_PTR	service_Send2ImageShack(WPARAM wParam, LPARAM lParam);
-
-int		OnSendScreenShot(WPARAM wParam, LPARAM lParam);
-
-TCHAR*	GetCustomPath();
-
-//---------------------------------------------------------------------------
+#define DLL_EXPORT __declspec(dllexport)
+extern "C"{
+DLL_EXPORT PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion);
+DLL_EXPORT int Load(void);
+DLL_EXPORT int Unload(void);
+}
 #endif

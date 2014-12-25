@@ -629,7 +629,7 @@ void CtrlButtonUnloadModule()
 	if(!g_init) return;
 	g_init=false;
 	DeleteCriticalSection(&csTips);
-	UnregisterClass(UINFOBUTTONCLASS, hInst);
+	UnregisterClass(UINFOBUTTONCLASS, g_hSendSS);
 }
 
 void CtrlButtonLoadModule()/// @fixme : compatibility with UInfoEx is everything but perfect... we get a huge problem if UInfoEx is unloaded...
