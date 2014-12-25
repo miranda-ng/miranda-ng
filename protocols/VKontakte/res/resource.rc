@@ -117,12 +117,12 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "[img] BBCode support for image ",IDC_STATIC,4,8,293,39
+    GROUPBOX        "[img] BBCode support for image ",IDC_STATIC,4,8,293,39,WS_GROUP
     CONTROL         "off",IDC_IMG_OFF,"Button",BS_AUTORADIOBUTTON,12,19,129,10
     CONTROL         "for original size images",IDC_IMG_FULLSIZE,"Button",BS_AUTORADIOBUTTON,12,30,129,10
     CONTROL         "for preview max 130px*130px",IDC_IMG_130,"Button",BS_AUTORADIOBUTTON,154,19,129,10
     CONTROL         "for preview max 604px*604px",IDC_IMG_604,"Button",BS_AUTORADIOBUTTON,154,30,129,10
-    GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,4,50,294,38
+    GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,4,50,294,38,WS_GROUP
     CONTROL         "off",IDC_NEWSBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,61,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,72,129,10
     CONTROL         "advanced (+[url], [size], [color])",IDC_NEWSBBC_ADV,
