@@ -198,11 +198,9 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					SendDlgItemMessage(hDlg, TXT_NAME, WM_SETFONT, (WPARAM)hNormalFont, 0);
 
 					// set infobar's logo icon
-// @fixme (White-Tiger#1#): fix details icon
-//					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON, 
-//						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : Skin_GetIcon(ICO_DLG_DETAILS,1)));
+					SendDlgItemMessage(hDlg,ICO_DLGLOGO,STM_SETIMAGE,IMAGE_ICON, (pMsgBox->hiLogo?(LPARAM)pMsgBox->hiLogo:(LPARAM)GetIcon(ICO_MAIN)));
 
-					// anable headerbar
+					// enable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
 					ShowWindow(GetDlgItem(hDlg, ICO_DLGLOGO), SW_SHOW);
 				}
@@ -230,24 +228,39 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (HDC hDC = GetDC(hDlg)) {
 					POINT mpt = {0,0};
 					RECT	ws = {0,0,0,0};
-					int   txtWidth, txtHeight, needX, needY;
+					int   txtWidth=0, txtHeight=0, needX, needY;
 					RECT	rcDlg;
 					SIZE	ts;
 					LPTSTR h, rs;
 
 					SelectObject(hDC, hNormalFont);
-
-					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; ++h) {
-						if (*h == '\n' || *h == '\0') {
-							GetTextExtentPoint32(hDC, rs, int(h - rs), &ts);
+					// get message text width and height
+					for (rs=h=pMsgBox->ptszMsg; ; ++h) {
+						if (*h=='\n' || !*h) {
+							GetTextExtentPoint32(hDC, rs, h-rs, &ts);
 							if (ts.cx > txtWidth)
 								txtWidth = ts.cx;
-
 							txtHeight += ts.cy;
-							if (*h == '\0')
+							if (!*h)
 								break;
-
 							rs = h + 1;
+						}
+					}
+					// increase width if info text requires more
+					if((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText){
+						RECT rcico;
+						GetClientRect(GetDlgItem(hDlg,ICO_DLGLOGO), &rcico);
+						rcico.right=rcico.right*100/66; // padding
+						for(rs=h=pMsgBox->ptszInfoText; ; ++h) {
+							if (*h=='\n' || !*h) {
+								GetTextExtentPoint32(hDC, rs, h-rs, &ts);
+								ts.cx += rcico.right;
+								if (ts.cx > txtWidth)
+									txtWidth = ts.cx;
+								if (!*h)
+									break;
+								rs = h + 1;
+							}
 						}
 					}
 					ReleaseDC(hDlg, hDC);
