@@ -337,16 +337,16 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("..."));
 	}
 
-	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDesc)) {
-		SendDlgItemMessage(m_hWnd, ID_btnDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
+	if (hCtrl = GetDlgItem(m_hWnd, ID_chkDesc)) {
+		SendDlgItemMessage(m_hWnd, ID_chkDesc, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Fill description textbox."), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESKON : ICO_BTN_DESK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("D"));
 		SendMessage(hCtrl, BM_SETCHECK, m_opt_btnDesc ? BST_CHECKED : BST_UNCHECKED, NULL);
 	}
 
-	if (hCtrl = GetDlgItem(m_hWnd, ID_btnDeleteAfterSend)) {
-		SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBBF_TCHAR);
+	if (hCtrl = GetDlgItem(m_hWnd, ID_chkDeleteAfterSend)) {
+		SendDlgItemMessage(m_hWnd, ID_chkDeleteAfterSend, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Delete after send"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(m_opt_btnDeleteAfterSend ? ICO_BTN_DELON : ICO_BTN_DEL);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, hIcon ? _T("") : _T("X"));
@@ -406,24 +406,24 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam) {
 				case ID_btnExplore:
 					TfrmMain::btnExploreClick();
 					break;
-				case ID_btnDesc:{
+				case ID_chkDesc:{
 					m_opt_btnDesc=!m_opt_btnDesc;
 					HICON hIcon=GetIconBtn(m_opt_btnDesc?ICO_BTN_DESKON:ICO_BTN_DESK);
 					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
 					break;}
-				case ID_btnDeleteAfterSend:{
-					m_opt_btnDeleteAfterSend = (m_opt_btnDeleteAfterSend == 0);
+				case ID_chkDeleteAfterSend:{
+					m_opt_btnDeleteAfterSend=!m_opt_btnDeleteAfterSend;
 					HICON hIcon=GetIconBtn(m_opt_btnDeleteAfterSend?ICO_BTN_DELON:ICO_BTN_DEL);
 					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
 					if(m_cSend) m_cSend->m_bDeleteAfterSend=m_opt_btnDeleteAfterSend;
 					break;}
 				case ID_chkEditor:{
-					m_opt_chkEditor = Button_GetCheck((HWND)lParam);
+					m_opt_chkEditor=!m_opt_chkEditor;
 					HICON hIcon=GetIconBtn(m_opt_chkEditor?ICO_BTN_EDITON:ICO_BTN_EDIT);
 					SendMessage((HWND)lParam,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcon);
 					break;}
 				case ID_chkOpenAgain:
-					m_opt_chkOpenAgain = Button_GetCheck((HWND)lParam);
+					m_opt_chkOpenAgain=Button_GetCheck((HWND)lParam);
 					break;
 				case ID_btnCapture:
 					TfrmMain::btnCaptureClick();
@@ -866,13 +866,13 @@ void TfrmMain::cboxSendByChange() {
 	}
 	bState = (itemFlag & SS_DLG_DELETEAFTERSSEND);
 	hIcon = GetIconBtn(m_opt_btnDeleteAfterSend ? ICO_BTN_DELON : ICO_BTN_DEL);
-	SendDlgItemMessage(m_hWnd, ID_btnDeleteAfterSend, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
-	Button_Enable(GetDlgItem(m_hWnd, ID_btnDeleteAfterSend), bState);
+	SendDlgItemMessage(m_hWnd, ID_chkDeleteAfterSend, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
+	Button_Enable(GetDlgItem(m_hWnd, ID_chkDeleteAfterSend), bState);
 
 	bState = (itemFlag & SS_DLG_DESCRIPTION);
 	hIcon = GetIconBtn(m_opt_btnDesc ? ICO_BTN_DESKON : ICO_BTN_DESK);
-	SendDlgItemMessage(m_hWnd, ID_btnDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
-	Button_Enable(GetDlgItem(m_hWnd, ID_btnDesc), bState);
+	SendDlgItemMessage(m_hWnd, ID_chkDesc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(bState ? hIcon : 0));
+	Button_Enable(GetDlgItem(m_hWnd, ID_chkDesc), bState);
 }
 
 //---------------------------------------------------------------------------
@@ -1089,7 +1089,7 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		db_set_dw(NULL,SZ_SENDSS,"FileNumber",FileNumber);
 		mir_free(m_pszFile); m_pszFile=ret;
 		mir_free(m_pszFileDesc);
-		if(IsWindowEnabled(GetDlgItem(m_hWnd,ID_btnDesc)) && m_opt_btnDesc){
+		if(IsWindowEnabled(GetDlgItem(m_hWnd,ID_chkDesc)) && m_opt_btnDesc){
 			m_pszFileDesc=pszFileDesc;
 		}else{
 			mir_free(pszFileDesc);
@@ -1111,7 +1111,7 @@ void TfrmMain::FormClose() {
 	if(m_opt_tabCapture==2){ /// existing file
 		TCHAR description[1024];
 		GetDlgItemText(m_hwndTabPage, ID_edtCaption, description, SIZEOF(description));
-		if(!IsWindowEnabled(GetDlgItem(m_hWnd,ID_btnDesc)) || !m_opt_btnDesc)
+		if(!IsWindowEnabled(GetDlgItem(m_hWnd,ID_chkDesc)) || !m_opt_btnDesc)
 			*description='\0';
 		if(m_cSend) {
 			m_cSend->m_bDeleteAfterSend = false; /// well... guess it's better to not delete existing files for now...

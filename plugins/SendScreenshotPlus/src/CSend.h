@@ -34,8 +34,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SS_DELETEAFTERSSEND		2
 
 #define SS_DLG_AUTOSEND				1		//Button_Enable(GetDlgItem(Owner, ID_chkEmulateClick),	TRUE);
-#define SS_DLG_DELETEAFTERSSEND		2		//Button_Enable(GetDlgItem(Owner, ID_btnDeleteAfterSend),	TRUE);
-#define SS_DLG_DESCRIPTION			4		//Button_Enable(GetDlgItem(Owner, ID_btnDesc),			TRUE);
+#define SS_DLG_DELETEAFTERSSEND		2		//Button_Enable(GetDlgItem(Owner, ID_chkDeleteAfterSend),	TRUE);
+#define SS_DLG_DESCRIPTION			4		//Button_Enable(GetDlgItem(Owner, ID_chkDesc),			TRUE);
 
 #define GC_RESULT_SUCCESS			200
 #define GC_RESULT_WRONGVER			201
