@@ -124,7 +124,7 @@ BEGIN
     CONTROL         "for preview max 604px*604px",IDC_IMG_604,"Button",BS_AUTORADIOBUTTON,154,30,129,10
     GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,4,50,294,38
     CONTROL         "off",IDC_NEWSBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,61,129,10
-    CONTROL         "basic ([b], [i], [u], [s]) ",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,72,129,10
+    CONTROL         "basic ([b], [i], [u], [s])",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,72,129,10
     CONTROL         "advanced (+[url], [size], [color])",IDC_NEWSBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,154,61,129,10
     GROUPBOX        "Other",IDC_STATIC,4,90,293,26

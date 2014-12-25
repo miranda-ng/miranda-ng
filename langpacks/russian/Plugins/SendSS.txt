@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -23,7 +23,7 @@
 Секунд:
 [&Format:]
 &Формат:
-[Send B&y:]
+[Send b&y:]
 Че&рез:
 [E&xplore]
 Об&зор
@@ -49,9 +49,9 @@
 Заголовок:
 [Size (HxW):]
 Размер (ВxШ):
-[C&lient Area]
+[C&lient area]
 Сод&ержимое
-[indirect capture]
+[Indirect capture]
 косвенный захват
 [File:]
 Файл:
@@ -113,30 +113,6 @@
 Игнорировать
 [SendScreenshot - Error]
 SendScreenshot - Ошибка
-[Fatal error, image services not found. SendScreenshot will be disabled.]
-Критическая ошибка, не найдена служба изображений. Плагин SendScreenshot будет отключен.
-[Open SendSS+]
-Открыть SendSS+
-[SendSS]
-Отправить скриншот
-[Screenshots]
-Снимки экрана
-[SendSS HTTP connections]
-HTTP подключение SendSS
-[Could not create main dialog.]
-Невозможно создать главный диалог.
-[Send Screenshot]
-Отправить скриншот
-[Send desktop screenshot]
-Отправить скриншот экрана
-[Take a screenshot]
-Сделать скриншот
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-Не удалось создать папку для скриншотов (код ошибки: %d):\n%s\nУ вас точно есть права на запись?
-[Screenshot Icon1]
-Значок снимка 1
-[Screenshot Icon2]
-Значок снимка 2
 [Target Cursor]
 Курсор цель
 [Target Desktop]
@@ -161,10 +137,24 @@ HTTP подключение SendSS
 Обновить
 [Down arrow]
 Вниз
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Не удалось создать папку для скриншотов (код ошибки: %d):\n%s\nУ вас точно есть права на запись?
+[Could not create main dialog.]
+Невозможно создать главный диалог.
+[SendSS HTTP connections]
+HTTP подключение SendSS
+[SendSS]
+Отправить скриншот
+[Screenshots]
+Снимки экрана
 [Buttons]
 Кнопки
-[Overlays]
-Оверлеи
+[Take a screenshot]
+Сделать скриншот
+[Send desktop screenshot]
+Отправить скриншот экрана
+[Open SendSS+]
+Открыть SendSS+
 [Credits]
 Кредиты
 [< Copyright]
@@ -199,8 +189,6 @@ Upload Pie (1 нед)
 Информация
 [Delete after send]
 Удалить после отправки
-[Can't create a Screenshot]
-Невозможно создать скриншот
 [Select a file]
 Выберите файл
 [Select a target window.]

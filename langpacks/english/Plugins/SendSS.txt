@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -16,7 +16,7 @@
 [Ti&med capture]
 [Time (secs):]
 [&Format:]
-[Send B&y:]
+[Send b&y:]
 [E&xplore]
 [&Fill description textbox.]
 [Delete &after send]
@@ -30,9 +30,9 @@
 [Edit]
 [Caption:]
 [Size (HxW):]
-[C&lient Area]
-[indirect capture]
-[Target Tool]
+[C&lient area]
+[Indirect capture]
+[Target tool]
 [File:]
 [Description:]
 [Result]
@@ -94,20 +94,7 @@
 ;file \plugins\SendScreenshotPlus\src\global.h
 [SendScreenshot - Error]
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. SendScreenshot will be disabled.]
-[Open SendSS+]
-[SendSS]
-[Screenshots]
-[SendSS HTTP connections]
-[Could not create main dialog.]
-[Send Screenshot]
-[Send desktop screenshot]
-[Take a screenshot]
-[Could not register Miranda service.]
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-[Screenshot Icon2]
+[Main Icon]
 [Target Cursor]
 [Target Desktop]
 [Help]
@@ -123,9 +110,17 @@
 [BBC]
 [BBC link]
 [Down arrow]
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+[Could not create main dialog.]
+[SendSS HTTP connections]
+[SendSS]
+[Screenshots]
+[Image services (AdvaImg) not found.\nSendSS disabled.]
 [Buttons]
-[Overlays]
+[Could not register Miranda service.]
+[Take a screenshot]
+[Send desktop screenshot]
+[Open SendSS+]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 [< Copyright]
@@ -150,10 +145,11 @@
 [Fill description textbox.]
 [Delete after send]
 [Capture]
-[Can't create a Screenshot]
+[Couldn't take a screenshot]
 [Select a file]
 [Select a target window.]
 [Screenshot ]
 [for Client area ]
 [of "]
 [" Window]
+[Send screenshot?]

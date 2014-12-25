@@ -2,11 +2,21 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.35
+;  Version: 0.1.0.36
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 ;file \protocols\VKontakte\res\resource.rc
+[[img] BBCode support for image ]
+[off]
+[for original size images]
+[for preview max 130px*130px]
+[for preview max 604px*604px]
+[BBCode support on news and event notifications]
+[basic ([b], [i], [u], [s])]
+[advanced (+[url], [size], [color])]
+[Other]
+[Process stickers as smileys]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
 [Enable news feeds]
@@ -14,15 +24,12 @@
 [Enable event notifications]
 [Interval for notification updates (min):]
 [Special contact always enabled]
-[BBCode support on news and event notifications]
 [E-mail or phone number:]
 [Password:]
 [Open VKontakte site]
 [Advanced]
 [Hide chats on startup]
 [Always notify as unread for all incoming message]
-[Add [img] BBCode for graphical attachments]
-[Process stickers as smileys]
 [Force online status upon user activity]
 [When I ban user...]
 [Report abuse]
@@ -30,7 +37,6 @@
 [Remove from friend list]
 [Remove from contact list]
 [Broadcast music...]
-[off]
 [as regular status for unknown music and audio status otherwise]
 [as audio status only]
 [as regular status only]
@@ -59,8 +65,6 @@
 [Mark users you want to invite to a new chat]
 [New chat's title:]
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be sent or received.]
-[Error]
 [Captcha form icon]
 [Notification icon]
 [Read message icon]
@@ -73,6 +77,8 @@
 [Broadcast icon]
 [Protocols]
 [VKontakte]
+[Error %d. Data will not be sent or received.]
+[Error]
 [Message read: %s]
 [commented on your post]
 [commented on your photo]
@@ -91,6 +97,15 @@
 [shared your post]
 [shared your photo]
 [shared your video]
+[Photo]
+[Attachments:]
+[Audio]
+[Video]
+[Document]
+[Wall post]
+[Link]
+[Image]
+[Unsupported or unknown attachment type: %s]
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 ;file \protocols\VKontakte\src\vk_chats.cpp
@@ -110,12 +125,9 @@
 [&User details]
 [&Kick]
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[Photo]
 [User was tagged in these photos:]
-[News from %s%s%s (%s)\n%s]
-[\tRepost from %s%s%s (%s)\n%s]
-[\nNews link: %s]
-[Link]
+[News from %s\n%s]
+[\tRepost from %s\n%s]
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 [Invalid album id]
@@ -134,6 +146,7 @@
 [Network]
 [Account]
 [News and notifications]
+[View settings]
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 [Create new chat]
@@ -168,10 +181,3 @@
 [Are you sure to ban %s? %s%sContinue?]
 [\nIt will also]
 [Are you sure to report abuse on %s?]
-[Attachments:]
-[Audio]
-[Video]
-[Document]
-[Wall post]
-[Image]
-[Unsupported or unknown attachment type: %s]
