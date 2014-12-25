@@ -349,31 +349,31 @@ TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, TCHAR* pszFilename, TCHAR
 }
 
 //---------------------------------------------------------------------------
-TCHAR* GetFileNameW(TCHAR* pszPath) {
-	TCHAR* slash=_tcsrchr(pszPath,_T('\\'));
+TCHAR* GetFileNameW(const TCHAR* pszPath) {
+	const TCHAR* slash=_tcsrchr(pszPath,_T('\\'));
 	if(!slash) slash=_tcsrchr(pszPath,_T('/'));
 	if(slash)
 		return mir_t2u(slash+1);
 	else
 		return mir_t2u(pszPath);
 }
-TCHAR* GetFileExtW(TCHAR* pszPath) {
-	TCHAR* slash=_tcsrchr(pszPath,_T('.'));
+TCHAR* GetFileExtW(const TCHAR* pszPath) {
+	const TCHAR* slash=_tcsrchr(pszPath,_T('.'));
 	if(slash)
 		return mir_t2u(slash);
 	return NULL;
 }
 
-char* GetFileNameA(TCHAR* pszPath) {
-	TCHAR* slash=_tcsrchr(pszPath,_T('\\'));
+char* GetFileNameA(const TCHAR* pszPath) {
+	const TCHAR* slash=_tcsrchr(pszPath,_T('\\'));
 	if(!slash) slash=_tcsrchr(pszPath,_T('/'));
 	if(slash)
 		return mir_t2a(slash+1);
 	else
 		return mir_t2a(pszPath);
 }
-char* GetFileExtA(TCHAR* pszPath) {
-	TCHAR* slash=_tcsrchr(pszPath,_T('.'));
+char* GetFileExtA(const TCHAR* pszPath) {
+	const TCHAR* slash=_tcsrchr(pszPath,_T('.'));
 	if(slash)
 		return mir_t2a(slash);
 	return NULL;
