@@ -62,6 +62,7 @@ using namespace std;
 #include <m_clist.h>
 #include <m_contacts.h>
 #include <m_database.h>
+#include <m_hotkeys.h>
 #include <m_imgsrvc.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
@@ -77,6 +78,7 @@ using namespace std;
 #include <m_userinfoex.h>
 #include <m_dropbox.h>
 
+#include "Main.h"
 #include "mir_string.h"
 #include "ctrl_button.h"
 #include "dlg_msgbox.h"
