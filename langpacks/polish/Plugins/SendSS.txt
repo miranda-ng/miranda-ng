@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -26,8 +26,8 @@ Cza&s uchwycenia
 Czas (s):
 [&Format:]
 &Format:
-[Send B&y:]
-Wyślij p&rzez:
+[Send b&y:]
+Wyślij  &przez:
 [E&xplore]
 P&rzeglądaj
 [&Fill description textbox.]
@@ -54,12 +54,12 @@ Edytuj
 Uchwyć:
 [Size (HxW):]
 Rozmiar (HxW):
-[C&lient Area]
-O&bszar klienta
-[indirect capture]
+[C&lient area]
+&Obszar klienta
+[Indirect capture]
 Przechwytywanie pośrednie
-[Target Tool]
-Celownik
+[Target tool]
+Narzędzie docelowe
 [File:]
 Plik:
 [Description:]
@@ -169,33 +169,8 @@ Ignorowanie
 [SendScreenshot - Error]
 SendScreenshot - Błąd
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. SendScreenshot will be disabled.]
-Błąd, usługa obrazków nie została znaleziona. SendScreenshot zostanie wyłączony.
-[Open SendSS+]
-Otwórz SendSS+
-[SendSS]
-Wyślij zrzut ekranu
-[Screenshots]
-Zrzuty ekranu
-[SendSS HTTP connections]
-Połączenie HTTP SendSS
-[Could not create main dialog.]
-Nie można utworzyć głównego okna.
-[Send Screenshot]
-Wyślij zrzut ekranu
-[Send desktop screenshot]
-Wyślij zrzut pulpitu
-[Take a screenshot]
-Zrób zrzut ekranu
-[Could not register Miranda service.]
-Nie można zarejestrować usługi Mirandy.
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-Nie udało się utworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz prawa do zapisu?
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-Zrzut ekranu - ikona 1
-[Screenshot Icon2]
-Zrzut ekranu - ikona 2
+[Main Icon]
+Główna Ikona
 [Target Cursor]
 Celownik
 [Target Desktop]
@@ -226,11 +201,28 @@ BBC
 BBC link
 [Down arrow]
 Strzałka w dół
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Nie udało się stworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz uprawnienia do zapisu?
+[Could not create main dialog.]
+Nie można utworzyć głównego okna.
+[SendSS HTTP connections]
+Połączenie HTTP SendSS
+[SendSS]
+Wyślij zrzut ekranu
+[Screenshots]
+Zrzuty ekranu
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+Nie znaleziono usług obrazów (AdvaImg).\nSendSS wyłączony.
 [Buttons]
 Przyciski
-[Overlays]
-Nakładka
+[Could not register Miranda service.]
+Nie można zarejestrować usługi Mirandy.
+[Take a screenshot]
+Zrób zrzut ekranu
+[Send desktop screenshot]
+Wyślij zrzut pulpitu
+[Open SendSS+]
+Otwórz SendSS+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Autorzy
@@ -277,8 +269,8 @@ Uzupełnij pole z opisem.
 Usuń po wysłaniu
 [Capture]
 Uchwyć
-[Can't create a Screenshot]
-Nie można utworzyć zrzutu ekranu
+[Couldn't take a screenshot]
+Nie udało się zrobić zrzutu ekranu
 [Select a file]
 Wybierz plik
 [Select a target window.]
@@ -291,3 +283,5 @@ dla pola Klienta\s
 z okna "
 [" Window]
 "
+[Send screenshot?]
+Wysłać zrzut ekranu?

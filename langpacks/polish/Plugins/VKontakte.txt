@@ -2,12 +2,32 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.34
+;  Version: 0.1.0.36
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Zapewnia obsługę protokołu VKontakte w Mirandzie NG.
 ;file \protocols\VKontakte\res\resource.rc
+[[img] BBCode support for image ]
+Wsparcie dla tagu BBCode [img] dla obrazków
+[off]
+wyłączone
+[for original size images]
+dla obrazków w oryginalnym rozmiarze
+[for preview max 130px*130px]
+do podglądu maks. 130px*130px
+[for preview max 604px*604px]
+do podglądu maks.  604px*604px
+[BBCode support on news and event notifications]
+Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
+[basic ([b], [i], [u], [s])]
+podstawowe ([b], [i], [u], [s])
+[advanced (+[url], [size], [color])]
+zaawansowane (+[url], [size], [color])
+[Other]
+Inne
+[Process stickers as smileys]
+Przetwarzaj naklejki jako uśmieszki
 [News and event notifications]
 Powiadomienia o aktualnościach i zdarzeniach
 [WARNING: Causes excessive network traffic!!!]
@@ -22,8 +42,6 @@ Włącz powiadomienia o zdarzeniach
 Co jaki czas odświeżać powiadomienia (min.):
 [Special contact always enabled]
 Specjalny kontakt zawsze włączony
-[BBCode support on news and event notifications]
-Wsparcie dla BBCode w powiadomieniach o aktualnościach i zdarzeniach
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
@@ -36,10 +54,6 @@ Zaawansowane
 Ukryj czaty podczas startu
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
-[Add [img] BBCode for graphical attachments]
-Dodaj tag BBCode [img] dla załączników graficznych
-[Process stickers as smileys]
-Przetwarzaj naklejki jako uśmieszki
 [Force online status upon user activity]
 Wymuś dostępny status po wykazaniu aktywności przez użytkownika
 [When I ban user...]
@@ -54,8 +68,6 @@ Usuń z listy znajomych
 Usuń z listy kontaktów
 [Broadcast music...]
 Udostępniaj muzykę...
-[off]
-wyłączone
 [as regular status for unknown music and audio status otherwise]
 Jako zwykły status dla muzyki nieznanej, w przeciwnym razie status audio
 [as audio status only]
@@ -111,10 +123,6 @@ Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [New chat's title:]
 Nazwa nowego czatu:
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be sent or received.]
-Błąd %d. Dane nie zostaną wysłane lub odebrane.
-[Error]
-Błąd
 [Captcha form icon]
 Ikona formularza Captcha
 [Notification icon]
@@ -139,6 +147,10 @@ Ikona transmisji
 Protokoły
 [VKontakte]
 VKontakte
+[Error %d. Data will not be sent or received.]
+Błąd %d. Dane nie zostaną wysłane lub odebrane.
+[Error]
+Błąd
 [Message read: %s]
 Wiadomość odczytana: %s
 [commented on your post]
@@ -175,6 +187,24 @@ udostępnił/a twój post
 udostępnił/a twoje zdjęcie
 [shared your video]
 udostępnił/a twój film
+[Photo]
+Zdjęcie
+[Attachments:]
+Załączniki:
+[Audio]
+Audio
+[Video]
+Wideo
+[Document]
+Dokument
+[Wall post]
+Post na tablicy
+[Link]
+Link
+[Image]
+Obraz
+[Unsupported or unknown attachment type: %s]
+Niewspierany albo nieznany typ załącznika: %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
@@ -210,18 +240,12 @@ Dane &kontaktu
 [&Kick]
 &Wyrzuć
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[Photo]
-Zdjęcie
 [User was tagged in these photos:]
 Użytkownik został oznaczony na tych zdjęciach:
-[News from %s%s%s (%s)\n%s]
-Coś nowego u %s%s%s (%s)\n%s
-[\tRepost from %s%s%s (%s)\n%s]
-\tUdostępniony element %s%s%s (%s)\n%s
-[\nNews link: %s]
-\nLink do aktualności: %s
-[Link]
-Link
+[News from %s\n%s]
+Aktualizacja od %s\n%s
+[\tRepost from %s\n%s]
+\tUdostępnione od %s\n%s
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Nie udało się zapisać pliku
@@ -255,6 +279,8 @@ Protokoły
 Konto
 [News and notifications]
 Aktualności i powiadomienia
+[View settings]
+Zobacz ustawienia
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Połączenie %s
@@ -321,17 +347,3 @@ Czy jesteś pewien, że chcesz zbanować %s? %s%skontynuować?
 \nTo także
 [Are you sure to report abuse on %s?]
 Czy napewno chcesz zgłosić nadużycie przez %s?
-[Attachments:]
-Załączniki:
-[Audio]
-Audio
-[Video]
-Wideo
-[Document]
-Dokument
-[Wall post]
-Post na tablicy
-[Image]
-Obraz
-[Unsupported or unknown attachment type: %s]
-Niewspierany albo nieznany typ załącznika: %s
