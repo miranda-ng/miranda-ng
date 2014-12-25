@@ -91,8 +91,8 @@
 #define IDC_HEADERBAR                   1734
 #define ID_btnAbout                     2001
 #define ID_btnExplore                   2002
-#define ID_btnDesc                      2003
-#define ID_btnDeleteAfterSend           2004
+#define ID_chkDesc                      2003
+#define ID_chkDeleteAfterSend           2004
 #define ID_btnCapture                   2005
 #define ID_edtURL                       2010
 #define ID_bvlDesc                      2011
