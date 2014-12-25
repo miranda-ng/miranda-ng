@@ -108,53 +108,53 @@ static void MakePopupAction(POPUPACTION &pa, int id)
 
 	switch (id) {
 	case IDOK:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = GetIconBtn(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Ok");
 		break;
 
 	case IDCLOSE:
 	case IDCANCEL:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = GetIconBtn(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Cancel");
 		break;
 
 	case IDABORT:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = GetIconBtn(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Abort");
 		break;
 
 	case IDRETRY:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_UPDATE);
+		pa.lchIcon = GetIconBtn(ICO_BTN_UPDATE);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Retry");
 		break;
 
 	case IDIGNORE:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = GetIconBtn(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Ignore");
 		break;
 
 	case IDYES:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = GetIconBtn(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Yes");
 		break;
 
 	case IDNO:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = GetIconBtn(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/No");
 		break;
 
 	case IDHELP:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = GetIconBtn(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/Help");
 		break;
 
 	case IDALL:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_OK);
+		pa.lchIcon = GetIconBtn(ICO_BTN_OK);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/All");
 		break;
 
 	case IDNONE:
-		pa.lchIcon = Skin_GetIcon(ICO_BTN_CANCEL);
+		pa.lchIcon = GetIconBtn(ICO_BTN_CANCEL);
 		mir_strcpy(pa.lpzTitle, SZ_SENDSS"/None");
 	}
 }
@@ -198,8 +198,9 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					SendDlgItemMessage(hDlg, TXT_NAME, WM_SETFONT, (WPARAM)hNormalFont, 0);
 
 					// set infobar's logo icon
-					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON, 
-						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : Skin_GetIcon(ICO_DLG_DETAILS,1)));
+// @fixme (White-Tiger#1#): fix details icon
+//					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON, 
+//						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : Skin_GetIcon(ICO_DLG_DETAILS,1)));
 
 					// anable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
@@ -656,7 +657,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = Skin_GetIcon(ICO_COMMON_SSWINDOW1);
+	mb.hiLogo = GetIcon(ICO_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = TranslateTS(pszTitle);
 	mb.ptszInfoText = TranslateTS(pszInfo);
@@ -684,7 +685,7 @@ INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 	MSGBOX mb = {0};
 	mb.cbSize = sizeof(MSGBOX);
 	mb.hParent = hParent;
-	mb.hiLogo = Skin_GetIcon(ICO_COMMON_SSWINDOW1);
+	mb.hiLogo = GetIcon(ICO_MAIN);
 	mb.hiMsg = NULL;
 	mb.ptszTitle = tszTitle;
 	mb.ptszMsg = tszMsg;

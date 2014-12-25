@@ -36,6 +36,32 @@ HANDLE			g_hNetlibUser=0;//!< Netlib Register User
 FI_INTERFACE*	FIP=NULL;
 int				hLangpack;//Miranda NG langpack used by translate functions, filled by mir_getLP()
 
+IconItem ICONS[]={
+	{LPGEN("Main Icon"),"main",IDI_MAIN,32},
+	{LPGEN("Main Icon"),"mainxs",IDI_MAIN},
+	{LPGEN("Target Cursor"),"target",IDI_TARGET,32},
+	{LPGEN("Target Desktop"),"monitor",IDI_MONITOR,32},
+};
+IconItem ICONS_BTN[]={
+	{LPGEN("Help"),"help",IDI_HELP},
+	{LPGEN("Open Folder"),"folder",IDI_FOLDER},
+	{LPGEN("Description off"),"desk",IDI_DESK},
+	{LPGEN("Description on"),"deskon",IDI_DESKON},
+	{LPGEN("Delete off"),"del",IDI_DEL},
+	{LPGEN("Delete on"),"delon",IDI_DELON},
+	{LPGEN("Prev"),"arrowl",IDI_ARROWL},
+	{LPGEN("Next"),"arrowr",IDI_ARROWR},
+	{LPGEN("Update"),"update",IDI_UPDATE},
+	{LPGEN("OK"),"ok",IDI_OK},
+	{LPGEN("Cancel"),"cancel",IDI_CANCEL},
+//		{LPGEN("Apply"),"apply",IDI_APPLY},
+	{LPGEN("Edit"),"edit",IDI_EDIT},
+	{LPGEN("Edit on"),"editon",IDI_EDITON},
+	{LPGEN("Copy"),"copy",IDI_COPY},
+	{LPGEN("BBC"),"bbc",IDI_BBC},
+	{LPGEN("BBC link"),"bbclnk",IDI_BBC2},
+	{LPGEN("Down arrow"),"downarrow",IDI_DOWNARROW},
+};
 
 static HANDLE m_hFolderScreenshot=0;
 TCHAR* GetCustomPath() {
@@ -236,7 +262,8 @@ DLL_EXPORT int Load(void)
 	m_hookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,hook_ModulesLoaded);
 	m_hookSystemPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,hook_SystemPreShutdown);
 	/// icons
-	IcoLib_LoadModule();
+	Icon_Register(g_hSendSS,SZ_SENDSS,ICONS,sizeof(ICONS)/sizeof(IconItem),SZ_SENDSS);
+	Icon_Register(g_hSendSS,SZ_SENDSS "/" LPGEN("Buttons"),ICONS_BTN,sizeof(ICONS_BTN)/sizeof(IconItem),SZ_SENDSS);
 	/// services
 	#define srv_reg(name) do{\
 		m_h##name=CreateServiceFunction(SZ_SENDSS "/" #name, service_##name);\

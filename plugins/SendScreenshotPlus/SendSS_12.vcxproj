@@ -181,7 +181,6 @@
     <ClCompile Include="src\UMainForm.cpp" />
     <ClCompile Include="src\ctrl_button.cpp" />
     <ClCompile Include="src\dlg_msgbox.cpp" />
-    <ClCompile Include="src\mir_icolib.cpp" />
     <ClCompile Include="src\mir_string.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\CSend.cpp" />
@@ -201,7 +200,6 @@
     <ClInclude Include="src\UMainForm.h" />
     <ClInclude Include="src\ctrl_button.h" />
     <ClInclude Include="src\dlg_msgbox.h" />
-    <ClInclude Include="src\mir_icolib.h" />
     <ClInclude Include="src\mir_string.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\resource.h" />

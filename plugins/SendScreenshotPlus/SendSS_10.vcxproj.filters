@@ -22,9 +22,6 @@
     <ClCompile Include="src\dlg_msgbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\mir_icolib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\mir_string.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,9 +73,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Main.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\mir_icolib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\mir_string.h">
