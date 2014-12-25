@@ -64,7 +64,7 @@ BEGIN
     CONTROL         "",ID_upTimed,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,81,117,11,13
     LTEXT           "&Format:",ID_lblFmtInfo,100,107,41,8
     COMBOBOX        ID_cboxFormat,100,117,41,84,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Send B&y:",ID_lblSendBy,148,107,75,8
+    LTEXT           "Send b&y:",ID_lblSendBy,148,107,75,8
     COMBOBOX        ID_cboxSendBy,148,117,75,84,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_HASSTRINGS | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "?",ID_btnAbout,"UInfoButtonClass",WS_TABSTOP | MBS_FLAT,3,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
     CONTROL         "E&xplore",ID_btnExplore,"UInfoButtonClass",WS_TABSTOP | MBS_FLAT,21,145,16,14,WS_EX_NOACTIVATE | 0x10000000L
@@ -109,9 +109,9 @@ BEGIN
     EDITTEXT        ID_edtCaption,4,12,158,13,ES_AUTOHSCROLL | ES_READONLY
     RTEXT           "Size (HxW):",ID_edtSizeLabel,0,30,50,8
     EDITTEXT        ID_edtSize,52,28,43,13,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
-    CONTROL         "C&lient Area",ID_chkClientArea,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,100,30,62,8,WS_EX_RIGHT
-    CONTROL         "indirect capture",ID_chkIndirectCapture,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,96,40,75,8,WS_EX_RIGHT
-    CTEXT           "Target Tool",ID_lblDropInfo,162,1,51,8
+    CONTROL         "C&lient area",ID_chkClientArea,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,100,30,62,8,WS_EX_RIGHT
+    CONTROL         "Indirect capture",ID_chkIndirectCapture,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,96,40,75,8,WS_EX_RIGHT
+    CTEXT           "Target tool",ID_lblDropInfo,162,1,51,8
     ICON            IDI_TARGET,ID_imgTarget,174,12,29,29,SS_NOTIFY | SS_CENTERIMAGE | SS_SUNKEN | WS_GROUP
 END
 
