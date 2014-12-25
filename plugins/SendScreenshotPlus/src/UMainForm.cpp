@@ -511,7 +511,9 @@ void TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam){
 			m_hTargetHighlighter=CreateWindowEx(WS_EX_LAYERED|WS_EX_TRANSPARENT|WS_EX_TOOLWINDOW,(TCHAR*)g_clsTargetHighlighter,NULL,WS_POPUP,0,0,0,0,NULL,NULL,g_hSendSS,NULL);
 			if(!m_hTargetHighlighter) return;
 			SetLayeredWindowAttributes(m_hTargetHighlighter,0,123,LWA_ALPHA);
+			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)),OCR_IBEAM);//text cursor
 			SetSystemCursor(CopyCursor(GetIcon(ICO_TARGET)),OCR_NORMAL);
+			SetActiveWindow(m_hTargetHighlighter); // activate highlighter to fix focus problems with UAC (unelevated GetAsyncKeyState() fails if an elevated app got focus)
 			Hide();
 		}
 		if(!(GetAsyncKeyState(primarymouse)&0x8000)){
