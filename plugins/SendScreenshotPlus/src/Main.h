@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #ifndef MainH
 #define MainH
-#include "global.h"
 
 #define DLL_EXPORT __declspec(dllexport)
 extern "C"{
