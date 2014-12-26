@@ -2,24 +2,46 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.33
+;  Version: 0.1.0.36
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
+[[img] BBCode support for image ]
+
+[off]
+Aus
+[for original size images]
+
+[for preview max 130px*130px]
+
+[for preview max 604px*604px]
+
+[BBCode support on news and event notifications]
+BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
+[basic ([b], [i], [u], [s])]
+
+[advanced (+[url], [size], [color])]
+
+[Other]
+Sonstige
+[Process stickers as smileys]
+Sticker als Smileys darstellen
 [News and event notifications]
 Neuigkeiten- und Ereignisbenachrichtigungen
 [WARNING: Causes excessive network traffic!!!]
 WARNUNG: Verursacht exzessiven Netzwerkverkehr!!!
 [Enable news feeds]
 Newsfeeds aktivieren
+[Interval for news updates (min):]
+
 [Enable event notifications]
 Ereignisbenachrichtigungen aktivieren
-[BBCode support on news and event notifications]
-BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
-[Interval for updates (min):]
-Aktualisierungsintervall (Min.):
+[Interval for notification updates (min):]
+
+[Special contact always enabled]
+
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
 [Password:]
@@ -32,10 +54,6 @@ Erweitert
 Chats beim Start verbergen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
-[Add [img] BBCode for graphical attachments]
-BBCode [img] für grafische Anhänge verwenden
-[Process stickers as smileys]
-Sticker als Smileys darstellen
 [Force online status upon user activity]
 Onlinestatus bei Aktivität des Benutzers erzwingen
 [When I ban user...]
@@ -50,8 +68,6 @@ Aus Freundesliste entfernen
 Aus Kontaktliste entfernen
 [Broadcast music...]
 Musik übertragen...
-[off]
-Aus
 [as regular status for unknown music and audio status otherwise]
 Als regulärer Status für unbekannte Musik, sonst Audiostatus
 [as audio status only]
@@ -107,10 +123,6 @@ Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 [New chat's title:]
 Titel des neuen Chats:
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be sent or received.]
-Fehler %d. Daten werden weder gesendet noch empfangen.
-[Error]
-Fehler
 [Captcha form icon]
 Captcha Form. Icon
 [Notification icon]
@@ -135,6 +147,10 @@ Benutzer-bannen-Icon
 Protokolle
 [VKontakte]
 VKontakte
+[Error %d. Data will not be sent or received.]
+Fehler %d. Daten werden weder gesendet noch empfangen.
+[Error]
+Fehler
 [Message read: %s]
 Nachricht gelesen: %s
 [commented on your post]
@@ -171,6 +187,24 @@ Nachricht gelesen: %s
 
 [shared your video]
 
+[Photo]
+Foto
+[Attachments:]
+Anhänge:
+[Audio]
+Audio
+[Video]
+Video
+[Document]
+Dokument
+[Wall post]
+Pinnwandeintrag
+[Link]
+Link
+[Image]
+Bild
+[Unsupported or unknown attachment type: %s]
+Nicht unterstützter oder unbekannter Anhangtyp: %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -206,18 +240,12 @@ Kontakt&profil
 [&Kick]
 &Kick
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[Photo]
-Foto
 [User was tagged in these photos:]
 Benutzer wurde in diesen Fotos markiert:
-[News from %s%s%s (%s)\n%s]
-Neuigkeiten von %s%s%s (%s)\n%s
-[\tRepost from %s%s%s (%s)\n%s]
-\tGeteilt von %s%s%s (%s)\n%s
-[\nNews link: %s]
-\nNeuigkeiten-Link: %s
-[Link]
-Link
+[News from %s\n%s]
+Neuigkeiten von %s\n%s
+[\tRepost from %s\n%s]
+\tGeteilt von %s\n%s
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Konnte Datei nicht speichern.
@@ -251,11 +279,15 @@ Netzwerk
 Konto
 [News and notifications]
 Neuigkeiten und Benachrichtigungen
+[View settings]
+
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung
 [Create new chat]
 Neuen Chat erstellen
+[Load news from VK]
+
 [Visit profile]
 Profil ansehen
 [Add as friend]
@@ -315,17 +347,3 @@ Wollen Sie %s wirklich bannen? %s%sFortfahren?
 \Dies wird auch
 [Are you sure to report abuse on %s?]
 Wollen Sie wirklich Missbrauch durch %s melden?
-[Attachments:]
-Anhänge:
-[Audio]
-Audio
-[Video]
-Video
-[Document]
-Dokument
-[Wall post]
-Pinnwandeintrag
-[Image]
-Bild
-[Unsupported or unknown attachment type: %s]
-Nicht unterstützter oder unbekannter Anhangtyp: %s

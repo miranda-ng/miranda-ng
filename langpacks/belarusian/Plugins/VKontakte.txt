@@ -2,12 +2,16 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.33
+;  Version: 0.1.0.36
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Падтрымка пратаколу ВКонтакте ў Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
+[off]
+адкл.
+[Other]
+Іншае
 [E-mail or phone number:]
 Пошта ці нумар тэлефона:
 [Password:]
@@ -18,8 +22,6 @@
 Дадаткова
 [Hide chats on startup]
 Не адчыняць вокны пакояў пры далучэнні
-[off]
-адкл.
 [Login settings]
 Налады уваходу
 [Local settings]
@@ -49,14 +51,28 @@
 [New chat's title:]
 Загаловак новага пакою:
 ;file \protocols\VKontakte\src\misc.cpp
-[Error]
-Памылка
 [Captcha form icon]
 Абразок формы
 [Protocols]
 Пратаколы
 [VKontakte]
 Вконтакте
+[Error]
+Памылка
+[Photo]
+Фота
+[Attachments:]
+Укладанні:
+[Audio]
+Аўдыё
+[Video]
+Відэё
+[Document]
+Дакумент
+[Link]
+Спасылка
+[Unsupported or unknown attachment type: %s]
+Непадтрымліваемы ці невядомы тып укладання: %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
@@ -86,10 +102,6 @@
 [&Kick]
 Выкінуць
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[Photo]
-Фота
-[Link]
-Спасылка
 ;file \protocols\VKontakte\src\vk_files.cpp
 ;file \protocols\VKontakte\src\vk_history.cpp
 ;file \protocols\VKontakte\src\vk_options.cpp
@@ -103,13 +115,3 @@
 [Create new chat]
 Стварыць чат
 ;file \protocols\VKontakte\src\vk_thread.cpp
-[Attachments:]
-Укладанні:
-[Audio]
-Аўдыё
-[Video]
-Відэё
-[Document]
-Дакумент
-[Unsupported or unknown attachment type: %s]
-Непадтрымліваемы ці невядомы тып укладання: %s

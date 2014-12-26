@@ -1,4 +1,5 @@
 ﻿[Choose appropriate accounts for import]
 [Old account]
+[Protocol %S is not loaded, skipping account %s creation]
 [Unable to create an account %s of protocol %S]
 [Error mapping accounts, exiting.]
