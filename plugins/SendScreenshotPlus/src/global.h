@@ -78,7 +78,6 @@ using namespace std;
 #include <m_userinfoex.h>
 #include <m_dropbox.h>
 
-#include "Main.h"
 #include "mir_string.h"
 #include "ctrl_button.h"
 #include "dlg_msgbox.h"
