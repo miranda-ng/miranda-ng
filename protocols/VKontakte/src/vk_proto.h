@@ -365,7 +365,8 @@ struct CVkProto : public PROTO<CVkProto>
 	
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
 	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	void CVkProto::RetrieveUnreadEvents();
+	void RetrieveUnreadEvents();
+	void NewsClearHistory();
 
 	INT_PTR __cdecl SvcLoadVKNews(WPARAM, LPARAM);
 
@@ -550,9 +551,10 @@ private:
 		m_bUserForceOnlineOnActivity,
 		m_bNewsEnabled,
 		m_bNotificationsEnabled,
-		m_bSpecialContactAlwaysEnabled;
+		m_bSpecialContactAlwaysEnabled,
+		m_bNewsAutoClearHistory;
 
-	int m_iNewsInterval, m_iNotificationsInterval;
+	int m_iNewsInterval, m_iNotificationsInterval, m_iNewsAutoClearHistoryInterval;
 
 	enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
 	int m_iMarkMessageReadOn;

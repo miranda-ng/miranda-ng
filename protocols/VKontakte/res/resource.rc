@@ -149,6 +149,8 @@ BEGIN
     CONTROL         "",IDC_SPIN_INT_NOTIF,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,230,67,14,14
     CONTROL         "Special contact always enabled",IDC_SPEC_CONT_ENBL,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,81,278,10
+    CONTROL         "Autoclear news and notification history",IDC_NEWSAUTOCLEAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,92,278,10
 END
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 186, 68
