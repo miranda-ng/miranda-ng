@@ -2,11 +2,19 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.34
+;  Version: 0.1.0.36
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
+[off]
+Вимкнути
+[BBCode support on news and event notifications]
+Підтримка BB-кодів у новинах і сповіщеннях
+[Other]
+Інше
+[Process stickers as smileys]
+Обробляти стікери як смайли
 [News and event notifications]
 Новини і сповіщення
 [WARNING: Causes excessive network traffic!!!]
@@ -21,8 +29,6 @@
 Інтервал оновлення сповіщень (хв):
 [Special contact always enabled]
 Псевдоконтакт завжди ввімкнений
-[BBCode support on news and event notifications]
-Підтримка BB-кодів у новинах і сповіщеннях
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]
@@ -35,10 +41,6 @@
 Не відкривати вікна чатів при старті
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
-[Add [img] BBCode for graphical attachments]
-Додавати BB-код [img] для графічних вкладень
-[Process stickers as smileys]
-Обробляти стікери як смайли
 [Force online status upon user activity]
 Змінювати статус контакта на "В мережі" при його активності
 [When I ban user...]
@@ -53,8 +55,6 @@
 Видалити зі списку контактів
 [Broadcast music...]
 Транслювати музику...
-[off]
-Вимкнути
 [as regular status for unknown music and audio status otherwise]
 як звичайний статус для невідомих композицій, інакше - як аудіостатус
 [as audio status only]
@@ -109,10 +109,6 @@
 Позначте користувачів, яких ви хочете запросити до чату
 [New chat's title:]
 Назва нової кімнати:
-[Error %d. Data will not be sent or received.]
-Помилка %d. Дані не передаватимуться і не прийматимуться.
-[Error]
-Помилка
 [Captcha form icon]
 Значок форми з капчею
 [Notification icon]
@@ -137,6 +133,10 @@
 Протоколи
 [VKontakte]
 ВКонтакті
+[Error %d. Data will not be sent or received.]
+Помилка %d. Дані не передаватимуться і не прийматимуться.
+[Error]
+Помилка
 [Message read: %s]
 Повідомлення прочитане о %s
 [commented on your post]
@@ -173,6 +173,24 @@
 поділився вашим фото
 [shared your video]
 поділився вашим відео
+[Photo]
+Фото
+[Attachments:]
+Вкладення:
+[Audio]
+Аудіо
+[Video]
+Відео
+[Document]
+Документ
+[Wall post]
+Запис на стіні
+[Link]
+Посилання
+[Image]
+Зображення
+[Unsupported or unknown attachment type: %s]
+Цей тип вкладень не підтримується: %s
 [Enter the text you see]
 Введіть текст, який бачите
 [Participants]
@@ -205,18 +223,12 @@
 &Інформація про користувача
 [&Kick]
 &Вигнати
-[Photo]
-Фото
 [User was tagged in these photos:]
 Користувач позначений на цих фотографіях:
-[News from %s%s%s (%s)\n%s]
-Новина від %s%s%s (%s)\n%s
-[\tRepost from %s%s%s (%s)\n%s]
-\tРепост від %s%s%s (%s)\n%s
-[\nNews link: %s]
-\nПосилання на новину: %s
-[Link]
-Посилання
+[News from %s\n%s]
+Новина від %s\n%s
+[\tRepost from %s\n%s]
+\tРепост від %s\n%s
 [Couldn't save file]
 Неможливо зберегти файл
 [Invalid album id]
@@ -311,17 +323,3 @@
 \nЦе також
 [Are you sure to report abuse on %s?]
 Ви впевнені, що хочете поскаржитися на %s?
-[Attachments:]
-Вкладення:
-[Audio]
-Аудіо
-[Video]
-Відео
-[Document]
-Документ
-[Wall post]
-Запис на стіні
-[Image]
-Зображення
-[Unsupported or unknown attachment type: %s]
-Цей тип вкладень не підтримується: %s

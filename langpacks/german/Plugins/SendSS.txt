@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -26,7 +26,7 @@ Verzögerte Aufnah&me
 Zeit (Sek.):
 [&Format:]
 &Format:
-[Send B&y:]
+[Send b&y:]
 Senden per:
 [E&xplore]
 &Öffnen
@@ -54,11 +54,11 @@ Bearbeiten
 Fenstertitel:
 [Size (HxW):]
 Größe (HxB):
-[C&lient Area]
+[C&lient area]
 Fensterinha&lt
-[indirect capture]
+[Indirect capture]
 Indirekte Aufnahme
-[Target Tool]
+[Target tool]
 Zielscheibe
 [File:]
 Datei:
@@ -169,33 +169,8 @@ Ignorieren
 [SendScreenshot - Error]
 SendScreenshot - Fehler
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. SendScreenshot will be disabled.]
-Fataler Fehler, Bilddienste nicht gefunden. SendScreenshot wird deaktiviert.
-[Open SendSS+]
-SendSS+ öffnen
-[SendSS]
-SendSS
-[Screenshots]
-Screenshots
-[SendSS HTTP connections]
-SendSS-HTTP-Verbindungen
-[Could not create main dialog.]
-Kann Hauptfenster nicht öffnen.
-[Send Screenshot]
-Screenshot senden
-[Send desktop screenshot]
-Desktop-Screenshot senden
-[Take a screenshot]
-Screenshot machen
-[Could not register Miranda service.]
-Konnte Mirandadienst nicht initialisieren.
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-Kann Screenshot-Verzeichnis nicht erstellen (Fehlercode: %d):\n%s\nHaben Sie Schreibberechtigungen?
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-Screenshot Icon1
-[Screenshot Icon2]
-Screenshot Icon2
+[Main Icon]
+Haupticon
 [Target Cursor]
 Zielcursor
 [Target Desktop]
@@ -226,11 +201,28 @@ BBC
 BBC-Link
 [Down arrow]
 Pfeil runter
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Kann Screenshot-Verzeichnis nicht erstellen (Fehlercode: %d):\n%s\nHaben Sie Schreibberechtigungen?
+[Could not create main dialog.]
+Kann Hauptfenster nicht öffnen.
+[SendSS HTTP connections]
+SendSS-HTTP-Verbindungen
+[SendSS]
+SendSS
+[Screenshots]
+Screenshots
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+
 [Buttons]
 Schaltflächen
-[Overlays]
-Overlays
+[Could not register Miranda service.]
+Konnte Mirandadienst nicht initialisieren.
+[Take a screenshot]
+Screenshot machen
+[Send desktop screenshot]
+Desktop-Screenshot senden
+[Open SendSS+]
+SendSS+ öffnen
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Danksagung
@@ -277,8 +269,8 @@ Beschreibungstextbox ausfüllen.
 Nach dem Senden löschen
 [Capture]
 Aufnehmen
-[Can't create a Screenshot]
-Konnte kein Screenshot erstellen.
+[Couldn't take a screenshot]
+
 [Select a file]
 Datei auswählen
 [Select a target window.]
@@ -291,3 +283,5 @@ für Fensterinhalt\s
 vom "
 [" Window]
 "-Fenster
+[Send screenshot?]
+

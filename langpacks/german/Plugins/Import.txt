@@ -89,6 +89,8 @@ Kontakt %u hinzugefügt (im Verlauf gefunden)
 
 [New account]
 Neues Konto
+[Protocol %S is not loaded, skipping account %s creation]
+
 [Unable to create an account %s of protocol %S]
 
 [Failed to add %S contact %s]

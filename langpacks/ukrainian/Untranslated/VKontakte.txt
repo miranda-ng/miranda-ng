@@ -1,0 +1,7 @@
+﻿[[img] BBCode support for image ]
+[for original size images]
+[for preview max 130px*130px]
+[for preview max 604px*604px]
+[basic ([b], [i], [u], [s])]
+[advanced (+[url], [size], [color])]
+[View settings]

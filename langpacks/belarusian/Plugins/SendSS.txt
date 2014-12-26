@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -26,7 +26,7 @@
 Секунд:
 [&Format:]
 Фармат:
-[Send B&y:]
+[Send b&y:]
 Праз:
 [E&xplore]
 Агляд
@@ -50,9 +50,9 @@
 Загаловак:
 [Size (HxW):]
 Памер (HxW):
-[C&lient Area]
+[C&lient area]
 Змесціва
-[Target Tool]
+[Target tool]
 Прыцэл
 [Description:]
 Апісанне:
@@ -107,27 +107,6 @@
 [SendScreenshot - Error]
 SendScreenshot - Памылка
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Open SendSS+]
-Адчыніць SendSS+
-[SendSS]
-Адправіць скрыншот
-[Screenshots]
-Здымкі экрана
-[SendSS HTTP connections]
-HTTP далучэнне SendSS
-[Could not create main dialog.]
-Немагчыма стварыць галоўны дыялог.
-[Send Screenshot]
-Адправіць скрыншот
-[Send desktop screenshot]
-Адправіць скрыншот экрана
-[Take a screenshot]
-Зрабіць скрыншот
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-Абразок здымка 1
-[Screenshot Icon2]
-Абразок здымка 2
 [Help]
 Даведка
 [Open Folder]
@@ -148,11 +127,22 @@ HTTP далучэнне SendSS
 Абнавіць
 [Down arrow]
 Стрэлка ўніз
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create main dialog.]
+Немагчыма стварыць галоўны дыялог.
+[SendSS HTTP connections]
+HTTP далучэнне SendSS
+[SendSS]
+Адправіць скрыншот
+[Screenshots]
+Здымкі экрана
 [Buttons]
 Кнопкі
-[Overlays]
-Адбіткі
+[Take a screenshot]
+Зрабіць скрыншот
+[Send desktop screenshot]
+Адправіць скрыншот экрана
+[Open SendSS+]
+Адчыніць SendSS+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Аўтары

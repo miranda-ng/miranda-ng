@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -26,7 +26,7 @@ Retardateur
 Temps (sec) :
 [&Format:]
 
-[Send B&y:]
+[Send b&y:]
 Envoyer par :
 [E&xplore]
 Explorer
@@ -54,11 +54,11 @@ Crédits >
 Légende :
 [Size (HxW):]
 Taille (HxW) :
-[C&lient Area]
+[C&lient area]
 Zone du client
-[indirect capture]
+[Indirect capture]
 
-[Target Tool]
+[Target tool]
 
 [File:]
 Fichier :
@@ -169,32 +169,7 @@ Ignorer
 [SendScreenshot - Error]
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. Send Screenshot will be disabled.]
-
-[Open SendSS+]
-
-[SendSS]
-
-[Screenshots]
-
-[SendSS HTTP connections]
-
-[Could not create main dialog.]
-
-[Send Screenshot]
-Envoyer la capture
-[Send desktop screenshot]
-Envoyer une capture
-[Take a screenshot]
-Prendre un screenshot
-[Could not register Miranda service.]
-
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-
-[Screenshot Icon2]
+[Main Icon]
 
 [Target Cursor]
 
@@ -226,10 +201,27 @@ Mise à jour
 
 [Down arrow]
 Flèche bas
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+[Could not create main dialog.]
+
+[SendSS HTTP connections]
+
+[SendSS]
+
+[Screenshots]
+
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+
 [Buttons]
 
-[Overlays]
+[Could not register Miranda service.]
+
+[Take a screenshot]
+Prendre un screenshot
+[Send desktop screenshot]
+Envoyer une capture
+[Open SendSS+]
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
@@ -277,7 +269,7 @@ Informations
 
 [Capture]
 
-[Can't create a Screenshot]
+[Couldn't take a screenshot]
 
 [Select a file]
 Sélectionnez un fichier
@@ -290,4 +282,6 @@ Sélectionnez une fenêtre comme cible.
 [of "]
 
 [" Window]
+
+[Send screenshot?]
 

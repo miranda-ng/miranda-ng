@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.0
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -25,7 +25,7 @@
 Секунд:
 [&Format:]
 &Формат:
-[Send B&y:]
+[Send b&y:]
 &Через:
 [E&xplore]
 &Огляд
@@ -51,9 +51,9 @@
 Заголовок:
 [Size (HxW):]
 Розмір (ВхШ):
-[C&lient Area]
+[C&lient area]
 В&міст
-[Target Tool]
+[Target tool]
 Інструмент прицілювання
 [File:]
 Файл:
@@ -133,32 +133,6 @@
 Ігнорувати
 [SendScreenshot - Error]
 Помилка SendSS
-[Fatal error, image services not found. SendScreenshot will be disabled.]
-Невиправна помилка, відсутня служба зображень. Плагін SendSS буде відключено.
-[Open SendSS+]
-Відкрити SendSS
-[SendSS]
-Надіслати скріншот
-[Screenshots]
-Знімки екрану
-[SendSS HTTP connections]
-HTTP-з'єднання SendSS
-[Could not create main dialog.]
-Неможливо створити головний діалог.
-[Send Screenshot]
-Надіслати скріншот
-[Send desktop screenshot]
-Відправити скріншот екрану
-[Take a screenshot]
-Зробити скріншот
-[Could not register Miranda service.]
-Неможливо зареєструвати службу.
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-Не вдалося створити папку знімків екрану (код помилки: %d):\n%s\nУ вас є права на запис?
-[Screenshot Icon1]
-Значок 1
-[Screenshot Icon2]
-Значок 2
 [Target Cursor]
 Ціль вікно у фокусі
 [Target Desktop]
@@ -183,10 +157,26 @@ HTTP-з'єднання SendSS
 Оновити
 [Down arrow]
 Стрілка вниз
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+Не вдалося створити папку знімків екрану (код помилки: %d):\n%s\nУ вас є права на запис?
+[Could not create main dialog.]
+Неможливо створити головний діалог.
+[SendSS HTTP connections]
+HTTP-з'єднання SendSS
+[SendSS]
+Надіслати скріншот
+[Screenshots]
+Знімки екрану
 [Buttons]
 Кнопки
-[Overlays]
-Оверлеї
+[Could not register Miranda service.]
+Неможливо зареєструвати службу.
+[Take a screenshot]
+Зробити скріншот
+[Send desktop screenshot]
+Відправити скріншот екрану
+[Open SendSS+]
+Відкрити SendSS
 [Credits]
 Автори
 [< Copyright]
@@ -231,8 +221,6 @@ Upload Pie (1 тижд)
 Видалити після відправки
 [Capture]
 Запис
-[Can't create a Screenshot]
-Неможливо створити знімок екрану
 [Select a file]
 Виберіть файл
 [Select a target window.]

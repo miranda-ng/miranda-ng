@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.8
+;  Version: 0.2.9.9
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -92,8 +92,6 @@ Senden
 Nachrichten
 [Receive messages from "inbox" folder only]
 Nur Nachrichten aus "Postfach"-Verzeichnis abrufen
-[Use local time for received messages]
-Lokale Zeit für empfangene Nachrichten verwenden
 [Keep messages as unread on server (don't send "seen" info)]
 Nachrichten auf dem Server als ungelesen belassen ("Gesehen"-Info nicht senden)
 [Show stickers as custom smileys (EXPERIMENTAL)]
