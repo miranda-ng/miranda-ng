@@ -2,13 +2,15 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.36
+;  Version: 0.1.0.37
 ;  Authors: Miranda NG Team
 ;============================================================
 [off]
 изкл.
 [Other]
 Друго
+[Groups]
+Групи
 [Password:]
 Парола:
 [Advanced]
