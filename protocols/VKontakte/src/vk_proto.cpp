@@ -84,8 +84,19 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_iNotificationsInterval = getDword("NotificationsInterval", 1);
 	m_iIMGBBCSupport = getByte("IMGBBCSupport", 0);
 	m_iBBCForNews = getByte("BBCForNews", 0);
-	m_bNewsAutoClearHistory = getBool("NewsAutoClearHistory", 0);
+	m_bNewsAutoClearHistory = getBool("NewsAutoClearHistory", false);
 	m_iNewsAutoClearHistoryInterval = getDword("NewsAutoClearHistoryInterval", 60*60*24*3);
+
+	m_bNewsFilterPosts = getBool("NewsFilterPosts", true);
+	m_bNewsFilterPhotos = getBool("NewsFilterPhotos", true);
+	m_bNewsFilterTags = getBool("NewsFilterTags", true);
+	m_bNewsFilterWallPhotos = getBool("NewsFilterWallPhotos", true);
+	m_bNewsSourceFriends = getBool("NewsSourceFriends", true);
+	m_bNewsSourceGroups = getBool("NewsSourceGroups", true);
+	m_bNewsSourcePages = getBool("NewsSourcePages", true);
+	m_bNewsSourceFollowing = getBool("NewsSourceFollowing", true);
+	m_bNewsSourceIncludeBanned = getBool("NewsSourceIncludeBanned", false);
+	m_bNewsSourceNoReposts = getBool("NewsSourceNoReposts", false);
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);

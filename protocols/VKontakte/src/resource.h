@@ -75,6 +75,17 @@
 #define IDC_NEWSBBC_BASIC               1067
 #define IDC_NEWSBBC_ADV                 1068
 #define IDC_IEVIEW                      1069
+#define IDC_F_POSTS                     1070
+#define IDC_F_PHOTOS                    1071
+#define IDC_F_TAGS                      1072
+#define IDC_F_WALLPHOTOS                1073
+#define IDC_S_FRIENDS                   1074
+#define IDC_S_GROUPS                    1075
+#define IDC_S_PAGES                     1076
+#define IDC_S_FOLLOWING                 1077
+#define IDC_S_BANNED                    1078
+#define IDC_S_NOREPOSTES                1079
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
@@ -82,7 +93,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        119
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1070
+#define _APS_NEXT_CONTROL_VALUE         1071
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

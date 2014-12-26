@@ -193,7 +193,7 @@ struct CVKNewsItem : public MZeroedObject {
 	{
 		tDate = NULL;
 		vkUser = NULL;
-		bIsGroup = bIsRepost = true;
+		bIsGroup = bIsRepost = false;
 	};
 	
 	CMString tszId;
@@ -552,7 +552,17 @@ private:
 		m_bNewsEnabled,
 		m_bNotificationsEnabled,
 		m_bSpecialContactAlwaysEnabled,
-		m_bNewsAutoClearHistory;
+		m_bNewsAutoClearHistory,
+		m_bNewsFilterPosts,
+		m_bNewsFilterPhotos,
+		m_bNewsFilterTags,
+		m_bNewsFilterWallPhotos,
+		m_bNewsSourceFriends,
+		m_bNewsSourceGroups,
+		m_bNewsSourcePages,
+		m_bNewsSourceFollowing,
+		m_bNewsSourceIncludeBanned,
+		m_bNewsSourceNoReposts;
 
 	int m_iNewsInterval, m_iNotificationsInterval, m_iNewsAutoClearHistoryInterval;
 

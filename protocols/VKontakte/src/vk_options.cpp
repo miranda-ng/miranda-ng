@@ -349,7 +349,19 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		CheckDlgButton(hwndDlg, IDC_NOTIF_ENBL, ppro->m_bNotificationsEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SPEC_CONT_ENBL, ppro->m_bSpecialContactAlwaysEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NEWSAUTOCLEAR, ppro->m_bNewsAutoClearHistory ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_F_POSTS, ppro->m_bNewsFilterPosts ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_F_PHOTOS, ppro->m_bNewsFilterPhotos ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_F_TAGS, ppro->m_bNewsFilterTags ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_F_WALLPHOTOS, ppro->m_bNewsFilterWallPhotos ? BST_CHECKED : BST_UNCHECKED);
 		
+		CheckDlgButton(hwndDlg, IDC_S_FRIENDS, ppro->m_bNewsSourceFriends ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_S_GROUPS, ppro->m_bNewsSourceGroups ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_S_PAGES, ppro->m_bNewsSourcePages ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_S_FOLLOWING, ppro->m_bNewsSourceFollowing ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_S_BANNED, ppro->m_bNewsSourceIncludeBanned ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_S_NOREPOSTES, ppro->m_bNewsSourceNoReposts ? BST_CHECKED : BST_UNCHECKED);
+
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETRANGE, 0, MAKELONG(60*24, 1));
 		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_NEWS, UDM_SETPOS, 0, ppro->m_iNewsInterval);
 
@@ -370,6 +382,16 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		case IDC_NOTIF_ENBL:
 		case IDC_SPEC_CONT_ENBL:
 		case IDC_NEWSAUTOCLEAR:
+		case IDC_F_POSTS:
+		case IDC_F_PHOTOS:
+		case IDC_F_TAGS:
+		case IDC_F_WALLPHOTOS:
+		case IDC_S_FRIENDS:
+		case IDC_S_GROUPS:
+		case IDC_S_PAGES:
+		case IDC_S_FOLLOWING:
+		case IDC_S_BANNED:
+		case IDC_S_NOREPOSTES:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -392,6 +414,36 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 			ppro->m_bNewsAutoClearHistory = IsDlgButtonChecked(hwndDlg, IDC_NEWSAUTOCLEAR) == BST_CHECKED;
 			ppro->setByte("NewsAutoClearHistory", ppro->m_bNewsAutoClearHistory);
+
+			ppro->m_bNewsFilterPosts = IsDlgButtonChecked(hwndDlg, IDC_F_POSTS) == BST_CHECKED;
+			ppro->setByte("NewsFilterPosts", ppro->m_bNewsFilterPosts);
+
+			ppro->m_bNewsFilterPhotos = IsDlgButtonChecked(hwndDlg, IDC_F_PHOTOS) == BST_CHECKED;
+			ppro->setByte("NewsFilterPhotos", ppro->m_bNewsFilterPhotos);
+
+			ppro->m_bNewsFilterTags = IsDlgButtonChecked(hwndDlg, IDC_F_TAGS) == BST_CHECKED;
+			ppro->setByte("NewsFilterTags", ppro->m_bNewsFilterTags);
+
+			ppro->m_bNewsFilterWallPhotos = IsDlgButtonChecked(hwndDlg, IDC_F_WALLPHOTOS) == BST_CHECKED;
+			ppro->setByte("NewsFilterWallPhotos", ppro->m_bNewsFilterWallPhotos);
+
+			ppro->m_bNewsSourceFriends = IsDlgButtonChecked(hwndDlg, IDC_S_FRIENDS) == BST_CHECKED;
+			ppro->setByte("NewsSourceFriends", ppro->m_bNewsSourceFriends);
+
+			ppro->m_bNewsSourceGroups = IsDlgButtonChecked(hwndDlg, IDC_S_GROUPS) == BST_CHECKED;
+			ppro->setByte("NewsSourceGroups", ppro->m_bNewsSourceGroups);
+
+			ppro->m_bNewsSourcePages = IsDlgButtonChecked(hwndDlg, IDC_S_PAGES) == BST_CHECKED;
+			ppro->setByte("NewsSourcePages", ppro->m_bNewsSourcePages);
+
+			ppro->m_bNewsSourceFollowing = IsDlgButtonChecked(hwndDlg, IDC_S_FOLLOWING) == BST_CHECKED;
+			ppro->setByte("NewsSourceFollowing", ppro->m_bNewsSourceFollowing);
+
+			ppro->m_bNewsSourceIncludeBanned = IsDlgButtonChecked(hwndDlg, IDC_S_BANNED) == BST_CHECKED;
+			ppro->setByte("NewsSourceIncludeBanned", ppro->m_bNewsSourceIncludeBanned);
+
+			ppro->m_bNewsSourceNoReposts = IsDlgButtonChecked(hwndDlg, IDC_S_NOREPOSTES) == BST_CHECKED;
+			ppro->setByte("NewsSourceNoReposts", ppro->m_bNewsSourceNoReposts);
 
 			TCHAR buffer[5] = { 0 };
 			GetDlgItemText(hwndDlg, IDC_ED_INT_NEWS, buffer, SIZEOF(buffer));

@@ -385,13 +385,48 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 	debugLogA("CVkProto::RetrieveUnreadNews");
 	if (!IsOnline())
 		return;
+		
+	CMStringA szFilter;
+	szFilter = m_bNewsFilterPosts ? "post" : "";
 
+	szFilter += szFilter.IsEmpty() ? "" : ",";
+	szFilter += m_bNewsFilterPhotos ? "photo" : "";
+
+	szFilter += szFilter.IsEmpty() ? "" : ",";
+	szFilter += m_bNewsFilterTags ? "photo_tag" : "";
+
+	szFilter += szFilter.IsEmpty() ? "" : ",";
+	szFilter += m_bNewsFilterWallPhotos ? "wall_photo" : "";
+
+	if (szFilter.IsEmpty()){
+		debugLogA("CVkProto::RetrieveUnreadNews szFilter empty");
+		return;
+	}
+
+	CMStringA szSource;
+	szSource = m_bNewsSourceFriends ? "friends" : "";
+
+	szSource += szSource.IsEmpty() ? "" : ",";
+	szSource += m_bNewsSourceGroups ? "groups" : "";
+
+	szSource += szSource.IsEmpty() ? "" : ",";
+	szSource += m_bNewsSourcePages ? "pages" : "";
+
+	szSource += szSource.IsEmpty() ? "" : ",";
+	szSource += m_bNewsSourceFollowing ? "following" : "";
+
+	if (szSource.IsEmpty()){
+		debugLogA("CVkProto::RetrieveUnreadNews szSource empty");
+		return;
+	}
+			
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/newsfeed.get.json", true, &CVkProto::OnReceiveUnreadNews)
 		<< INT_PARAM("count", 100)
-		<< INT_PARAM("return_banned", 0)
+		<< INT_PARAM("return_banned", m_bNewsSourceIncludeBanned ? 1 : 0)
 		<< INT_PARAM("max_photos", 5)
 		<< INT_PARAM("start_time", tLastNewsTime + 1)
-		<< CHAR_PARAM("filters", "post,photo,photo_tag,wall_photo")
+		<< CHAR_PARAM("filters", szFilter.GetBuffer())
+		<< CHAR_PARAM("source_ids", szSource.GetBuffer())
 		<< VER_API);
 }
 
@@ -428,7 +463,8 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 		}
 
 	for (int i = 0; i < vkNews.getCount(); i++)
-		AddFeedEvent(vkNews[i].tszText, vkNews[i].tDate);
+		if (!(m_bNewsSourceNoReposts && vkNews[i].bIsRepost))
+			AddFeedEvent(vkNews[i].tszText, vkNews[i].tDate);
 	
 	setDword("LastNewsTime", time(NULL));
 
