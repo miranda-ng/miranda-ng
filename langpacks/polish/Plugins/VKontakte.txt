@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.36
+;  Version: 0.1.0.37
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -42,6 +42,32 @@ Włącz powiadomienia o zdarzeniach
 Co jaki czas odświeżać powiadomienia (min.):
 [Special contact always enabled]
 Specjalny kontakt zawsze włączony
+[Autoclear news and notification history]
+Automatycznie kasuj historię aktualności i powiadomień
+[News types]
+Typy aktualności
+[Wall posts]
+Posty na tablicy
+[Photos]
+Zdjęcia
+[Photos tags]
+Znaczniki na zdjęciach
+[Wall photos]
+Zdjęcia na tablicy
+[News sources]
+Źródła aktualności
+[Friends]
+Znajomi
+[Groups]
+Grupy
+[Include banned sources]
+Uwzględnij zabronione źródła
+[Pages]
+Strony
+[Subscriptions to users]
+Subskrypcje użytkowników
+[No reposts]
+Bez udostępnionych postów
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
