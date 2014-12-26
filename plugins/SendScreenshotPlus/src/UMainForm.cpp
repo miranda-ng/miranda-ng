@@ -361,7 +361,7 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	}
 
 	if (hCtrl = GetDlgItem(m_hWnd, ID_btnCapture)) {
-		SendDlgItemMessage(m_hWnd, ID_btnCapture, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBBF_TCHAR);
+		SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Capture"), MBBF_TCHAR);
 		HICON hIcon = GetIconBtn(ICO_BTN_OK);
 		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
 		SetWindowText(hCtrl, TranslateT("&Capture"));

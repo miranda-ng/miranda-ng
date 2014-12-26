@@ -3,8 +3,44 @@ for helping me with 1001 tips and suggestions
 to design the program code.
 http://www-user.tu-chemnitz.de/~kunmi/?dbx_tree&lang=de
 
-Thanks to the "UserinfoEx" programmers group
+Thanks to the "UserInfoEx" programmers group
 for the nice button class code.
 http://code.google.com/p/userinfoex/
 
 and special thanks to all beta-testers...
+
+
+Changelog:
+	0.8.9 - 12/25/2014 (Xmas update)
++ changelog
+! fixed multi-monitor screen captures
+! fixed problems with UAC and window targeting
+* tuned user interface a bit
+* finalized basic editor support (Miranda no longer hangs :P)
+! fixed deletion of local files regarding editor
++ ESC now closes capture dialog as well as about dialog
+NOTE: this version changed the way icons are used, Iconpacks require update accordingly
+
+	0.8.7 - 07/01/2014
+* improved window highlighter/finder, now stops at top-level windows and not at last owner, hold SHIFT/ALT to target childs
++ indirect capture option added for compatibility reasons (and our buggy capture implementation :P)
+* very basic editor support using default editor for selected file type (eg. paint)
+
+	0.8.6 - 06/29/2014
++ imgur.com support added
+! fixed capture regression
+
+	0.8.5 - 06/07/2014
++ new local file upload with Drag&Drop support
++ "Upload Pie" support added (stores files temporarily)
++ Dropbox support added (using Miranda Dropbox plugin)
++ added new "result window" when SendSS is called from main menu to easily get image links for misc. use
+* some icons improved
+
+	0.8.3 - 11/17/2013
++ added basic hotkey support
++ new window highlighter/finder, hold SHIFT/ALT to target childs/controls
++ new target icon
+* faster window targeting
+
+	older NG and non NG versions
