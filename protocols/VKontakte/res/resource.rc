@@ -57,7 +57,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 297
         TOPMARGIN, 7
-        BOTTOMMARGIN, 113
+        BOTTOMMARGIN, 193
     END
 
     IDD_ACCMGRUI, DIALOG
@@ -132,12 +132,12 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,101,278,10
 END
 
-IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 122
+IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 202
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "News and event notifications",IDC_STATIC,4,8,293,102
+    GROUPBOX        "News and event notifications",IDC_STATIC,4,8,293,97
     CTEXT           "WARNING: Causes excessive network traffic!!!",IDC_STATIC,12,19,278,8
     CONTROL         "Enable news feeds",IDC_NEWS_ENBL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
     LTEXT           "Interval for news updates (min):",IDC_STATIC,16,44,169,8
@@ -151,6 +151,18 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,81,278,10
     CONTROL         "Autoclear news and notification history",IDC_NEWSAUTOCLEAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,92,278,10
+    GROUPBOX        "News types",IDC_STATIC,4,107,293,35
+    CONTROL         "Wall posts",IDC_F_POSTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,129,10
+    CONTROL         "Photos",IDC_F_PHOTOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,129,129,10
+    CONTROL         "Photos tags",IDC_F_TAGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,118,129,10
+    CONTROL         "Wall photos",IDC_F_WALLPHOTOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,129,129,10
+    GROUPBOX        "News sources",IDC_STATIC,4,144,293,46
+    CONTROL         "Friends",IDC_S_FRIENDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,155,129,10
+    CONTROL         "Groups",IDC_S_GROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,166,129,10
+    CONTROL         "Include banned sources",IDC_S_BANNED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,177,129,10
+    CONTROL         "Pages",IDC_S_PAGES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,155,129,10
+    CONTROL         "Subscriptions to users",IDC_S_FOLLOWING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,166,129,10
+    CONTROL         "No reposts",IDC_S_NOREPOSTES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,177,129,10
 END
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 186, 68
