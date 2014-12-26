@@ -61,6 +61,7 @@
 #define IDC_SYNC_LAST3DAY               1053
 #define IDC_NEWS_ENBL                   1054
 #define IDC_NOTIF_ENBL                  1055
+#define IDC_NEWSAUTOCLEAR               1056
 #define IDC_ED_INT_NEWS                 1057
 #define IDC_SPIN_INT_NEWS               1058
 #define IDC_ED_INT_NOTIF                1059
@@ -74,7 +75,6 @@
 #define IDC_NEWSBBC_BASIC               1067
 #define IDC_NEWSBBC_ADV                 1068
 #define IDC_IEVIEW                      1069
-
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED

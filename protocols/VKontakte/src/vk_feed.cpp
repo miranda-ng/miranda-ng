@@ -493,10 +493,12 @@ void CVkProto::RetrieveUnreadEvents()
 	if (time(NULL) - tLastNewsTime >= m_iNewsInterval * 60 && m_bNewsEnabled)
 		RetrieveUnreadNews(tLastNewsTime);
 
+	NewsClearHistory();
 }
 
 INT_PTR CVkProto::SvcLoadVKNews(WPARAM, LPARAM)
 {
+	debugLogA("CVkProto::SvcLoadVKNews");
 	if (!IsOnline())
 		return 1;
 
@@ -509,4 +511,23 @@ INT_PTR CVkProto::SvcLoadVKNews(WPARAM, LPARAM)
 	RetrieveUnreadNews(tLastNewsTime);
 
 	return 0;
+}
+
+void CVkProto::NewsClearHistory()
+{
+	debugLogA("CVkProto::NewsClearHistory");
+	MCONTACT hContact = FindUser(VK_FEED_USER);
+	if (hContact == NULL || !m_bNewsAutoClearHistory)
+		return;
+
+	time_t tTime = time(NULL) - m_iNewsAutoClearHistoryInterval;
+	HANDLE hDBEvent = db_event_first(hContact);
+	while (hDBEvent) {
+		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		db_event_get(hDBEvent, &dbei);
+		if (dbei.timestamp < tTime)
+			db_event_delete(hContact, hDBEvent);
+		hDBEvent = hDBEventNext;
+	}
 }

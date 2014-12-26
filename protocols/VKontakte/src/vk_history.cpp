@@ -99,23 +99,21 @@ INT_PTR __cdecl CVkProto::SvcGetServerHistoryLast90Day(WPARAM hContact, LPARAM)
 void CVkProto::GetServerHistoryLastNDay(MCONTACT hContact, int NDay)
 {
 	debugLogA("CVkProto::SvcGetServerHistoryLastNDay %d", NDay);
-	if (!IsOnline())
-		return;
 
-	UINT iTime = time(NULL) - 60 * 60 * 24 * NDay;
+	time_t tTime = time(NULL) - 60 * 60 * 24 * NDay;
 	
 	HANDLE hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
 		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDBEvent, &dbei);
-		if (dbei.timestamp > iTime)
+		if (dbei.timestamp > tTime)
 			db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
 	
 	db_unset(hContact, m_szModuleName, "lastmsgid");
-	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, iTime, 0);
+	GetServerHistory(hContact, 0, MAXHISTORYMIDSPERONE, tTime, 0);
 }
 
 void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once)
