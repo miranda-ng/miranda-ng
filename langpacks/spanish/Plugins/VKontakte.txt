@@ -2,23 +2,71 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.32
+;  Version: 0.1.0.37
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Soporte del protocolo Vkontakte para Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
+[[img] BBCode support for image ]
+
+[off]
+Apagado
+[for original size images]
+
+[for preview max 130px*130px]
+
+[for preview max 604px*604px]
+
+[BBCode support on news and event notifications]
+
+[basic ([b], [i], [u], [s])]
+
+[advanced (+[url], [size], [color])]
+
+[Other]
+Otro
+[Process stickers as smileys]
+
 [News and event notifications]
 
 [WARNING: Causes excessive network traffic!!!]
 
 [Enable news feeds]
 
+[Interval for news updates (min):]
+
 [Enable event notifications]
 
-[BBCode support on news and event notifications]
+[Interval for notification updates (min):]
 
-[Interval for updates (min):]
+[Special contact always enabled]
+
+[Autoclear news and notification history]
+
+[News types]
+
+[Wall posts]
+
+[Photos]
+
+[Photos tags]
+
+[Wall photos]
+
+[News sources]
+
+[Friends]
+
+[Groups]
+Grupos
+[Include banned sources]
+
+[Pages]
+
+[Subscriptions to users]
+
+[No reposts]
 
 [E-mail or phone number:]
 Correo o número de teléfono:
@@ -31,10 +79,6 @@ Avanzado
 [Hide chats on startup]
 
 [Always notify as unread for all incoming message]
-
-[Add [img] BBCode for graphical attachments]
-
-[Process stickers as smileys]
 
 [Force online status upon user activity]
 
@@ -50,8 +94,6 @@ Avanzado
 
 [Broadcast music...]
 
-[off]
-Apagado
 [as regular status for unknown music and audio status otherwise]
 
 [as audio status only]
@@ -107,10 +149,6 @@ Cancelar
 [New chat's title:]
 
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be sent or received.]
-
-[Error]
-Error
 [Captcha form icon]
 Formulario Captcha icono
 [Notification icon]
@@ -135,7 +173,63 @@ Formulario Captcha icono
 Protocolos
 [VKontakte]
 VKontakte
+[Error %d. Data will not be sent or received.]
+
+[Error]
+Error
 [Message read: %s]
+
+[commented on your post]
+
+[commented on your photo]
+
+[commented on your video]
+
+[replied to your comment]
+
+[replied to your comment to photo]
+
+[replied to your comment to video]
+
+[replied to your topic]
+
+[liked your post]
+
+[liked your comment]
+
+[liked your photo]
+
+[liked your video]
+
+[liked your comment to photo]
+
+[liked your comment to video]
+
+[liked your comment to topic]
+
+[shared your post]
+
+[shared your photo]
+
+[shared your video]
+
+[Photo]
+Foto
+[Attachments:]
+Adjuntos:
+[Audio]
+
+[Video]
+
+[Document]
+
+[Wall post]
+
+[Link]
+Enlace
+[Image]
+
+[Unsupported or unknown attachment type: %s]
 
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
@@ -172,33 +266,11 @@ Desconocido
 [&Kick]
 
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[Photo]
-Foto
 [User was tagged in these photos:]
 
-[News from %s%s%s (%s)\n%s]
+[News from %s\n%s]
 
-[\tRepost from %s%s%s (%s)\n%s]
-
-[\nNews link: %s]
-
-[%s%s%s (%s) commented %%s\n%s]
-
-[%s%s%s (%s) posted %%s\n%s]
-
-[liked your]
-
-[shared your]
-
-[photo]
-foto
-[Link]
-Enlace
-[video]
-
-[post]
-
-[topic]
+[\tRepost from %s\n%s]
 
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
@@ -233,10 +305,14 @@ Red
 Cuenta
 [News and notifications]
 
+[View settings]
+
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s conexión al servidor
 [Create new chat]
+
+[Load news from VK]
 
 [Visit profile]
 
@@ -296,18 +372,4 @@ Cuenta
 [\nIt will also]
 
 [Are you sure to report abuse on %s?]
-
-[Attachments:]
-Adjuntos:
-[Audio]
-
-[Video]
-
-[Document]
-
-[Wall post]
-
-[Image]
-
-[Unsupported or unknown attachment type: %s]
 

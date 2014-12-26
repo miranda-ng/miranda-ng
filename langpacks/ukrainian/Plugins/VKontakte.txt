@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.36
+;  Version: 0.1.0.37
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -29,6 +29,8 @@
 Інтервал оновлення сповіщень (хв):
 [Special contact always enabled]
 Псевдоконтакт завжди ввімкнений
+[Groups]
+Групи
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]

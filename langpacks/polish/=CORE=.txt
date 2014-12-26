@@ -570,7 +570,7 @@ Otwórz w &nowym oknie
 Anuluj zmianę
 [Ungroup]
 Anuluj grupowanie
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autoryzuj
 [&Deny]
@@ -587,7 +587,7 @@ Dodaj kontakt do listy jeśli autoryzowany
 Zostałeś dodany
 [&Close]
 &Zamknij
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Opis statusu "%s" - %s
 [Retrieving %s message...]
@@ -946,7 +946,7 @@ N&iewidoczny\tCtrl+7
 Przy &telefonie\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Poszedłem na &obiad\tCtrl+9
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Wyślij plik(i)
 [To:]
@@ -1057,12 +1057,12 @@ Pytaj mnie
 Zmień nazwę (dodaj " (1)", itp.)
 [You will always be asked about files from people not on your contact list]
 Zawsze będziesz pytany o pliki od osób spoza twojej listy kontaktów
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 O Mirandzie NG
 [Credits >]
 Autorzy >
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
 [Become idle if the screen saver is active]
@@ -1188,7 +1188,7 @@ Rozmowa:
 Wklej i wyślij
 [Delete]
 Usuń
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Szukaj
 [&Find next]
@@ -1199,7 +1199,7 @@ Szukaj:
 Historia wiadomości
 [&Find...]
 &Szukaj...
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Dodaj numer telefonu
 [Enter country, area code and phone number:]
@@ -1270,7 +1270,7 @@ Wydział:
 Pozycja:
 [Website:]
 Strona WEB:
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s prosi o autoryzację
 [%u requests authorization]
@@ -1283,7 +1283,7 @@ Strona WEB:
 Alarmy
 [Added event]
 Dodanie kontaktu
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Zobacz dane kontaktu
 [Add contact permanently to list]
@@ -1306,12 +1306,12 @@ Dodaj kontakt na stałe do listy
 %s poprosił(a) o autoryzację\n%s na koncie %s
 [Feature is not supported by protocol]
 Funkcja nie wspierana przez protokół
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Po&każ opis "%s"
 [Re&ad status message]
 Zo&bacz opis statusu
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Nie ma mnie od %time%
 [Give it up, I'm not in!]
@@ -1692,17 +1692,17 @@ Tło listy
 [Global]
 Globalne
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Standardowe wsparcie szyfrowania
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Użytkownik nie zarejestrował adresu e-mail
 [Send e-mail]
 Wyślij e-mail
 [&E-mail]
 &E-mail
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Plik od %s
 [bytes]
@@ -1719,17 +1719,17 @@ Zakończone
 Błąd
 [Denied]
 Odrzucony
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s plik
 [All files]
 Wszystkie pliki
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Pliki wykonywalne
 [Events]
 Zdarzenia
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Moje odebrane pliki
 [View user's history]
@@ -1738,12 +1738,12 @@ Zobacz historię użytkownika
 Menu użytkownika
 [Canceled]
 Anulowany
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d pliki
 [%d directories]
 %d lokalizacje
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Ten plik nie został przeskanowany na obecność wirusów. Na pewno chcesz go otworzyć?
 [File received]
@@ -1794,13 +1794,13 @@ Zakończono, otwórz folder.
 Skanowanie w poszukiwaniu wirusów...
 [Transfer and virus scan complete]
 Ukończono przesyłanie i skanowanie wirusów
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Wychodzące
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Prawa aut.
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 &O programie...
 [&Support]
@@ -1809,7 +1809,7 @@ Wychodzące
 Strona domowa &Mirandy
 [&Report bug]
 &Zgłoś błąd
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Bezczynność
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1889,7 +1889,7 @@ Kontakt przestał pisać
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Nieznany błąd.
-;file \src\core\stduihist\history.cpp
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Nieprawidłowa wiadomość
 [Outgoing message]
@@ -1924,7 +1924,7 @@ Link
 Wyślij link do
 [Send timed out]
 Przekroczono czas wysyłania
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Edytuj adres E-Mail
 [Edit phone number]
@@ -1945,7 +1945,7 @@ Telefon komórkowy
 Telefon do pracy
 [Work fax]
 Faks do pracy
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Mężczyzna
 [Female]
@@ -1964,12 +1964,12 @@ Praca
 Inne informacje
 [Notes]
 Notatki
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Właściciel
 [View/change my &details...]
 Pokaż/Zmień moje &dane...
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
 ;file \src\modules\addcontact\addcontact.cpp

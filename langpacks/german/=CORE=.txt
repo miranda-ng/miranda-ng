@@ -570,7 +570,7 @@ Link &kopieren
 Änderungen abbrechen
 [Ungroup]
 Gruppierung aufheben
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autorisieren
 [&Deny]
@@ -587,7 +587,7 @@ Zur Kontaktliste hinzufügen, falls autorisiert
 Sie wurden hinzugefügt
 [&Close]
 S&chließen
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 '%s'-Nachricht von %s
 [Retrieving %s message...]
@@ -946,7 +946,7 @@ Uns&ichtbar\tStrg+7
 Am Telefon\tStrg+8
 [Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Datei(en) senden
 [To:]
@@ -1057,12 +1057,12 @@ Nachfragen
 Umbenennen (Zusatz: (1), (2), ...)
 [You will always be asked about files from people not on your contact list]
 Beim Empfang von unbekannten Kontakten wird immer nachgefragt.
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 Über Miranda NG
 [Credits >]
 Dank an >
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Untätig werden, wenn keine Aktion innerhalb von:
 [Become idle if the screen saver is active]
@@ -1188,7 +1188,7 @@ Link &öffnen
 Einfügen und senden
 [Delete]
 Löschen
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Suchen
 [&Find next]
@@ -1199,7 +1199,7 @@ Suchen nach:
 Nachrichtenverlauf
 [&Find...]
 &Suchen...
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Telefonnummer hinzufügen
 [Enter country, area code and phone number:]
@@ -1270,7 +1270,7 @@ Abteilung:
 Position:
 [Website:]
 Webseite:
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s fragt nach Autorisierung
 [%u requests authorization]
@@ -1283,7 +1283,7 @@ Webseite:
 Hinweis
 [Added event]
 Sie wurden von jemandem hinzugefügt
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Kontaktprofil anzeigen
 [Add contact permanently to list]
@@ -1306,12 +1306,12 @@ Kontakt dauerhaft zur Liste hinzufügen
 %s fragt nach einer Autorisierung\n%s unter %s
 [Feature is not supported by protocol]
 Diese Funktion wird durch dieses Protokoll nicht unterstützt
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 '%s'-N&achricht lesen
 [Re&ad status message]
 St&atusnachricht lesen
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Ich bin nicht da seit %time%.
 [Give it up, I'm not in!]
@@ -1692,17 +1692,17 @@ Hintergrund Liste
 [Global]
 Global
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Standard-Verschlüsselungsanbieter
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Kontakt hat keine E-Mail-Adresse angegeben
 [Send e-mail]
 E-Mail senden
 [&E-mail]
 &E-Mail
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Datei von %s
 [bytes]
@@ -1719,17 +1719,17 @@ Fertig
 Fehler
 [Denied]
 Verweigert
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s Datei
 [All files]
 Alle Dateien
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Ausführbare Dateien
 [Events]
 Ereignisse
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Meine empfangenen Dateien
 [View user's history]
@@ -1738,12 +1738,12 @@ Verlauf anzeigen
 Benutzermenü
 [Canceled]
 Abgebrochen
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Dateien
 [%d directories]
 %d Verzeichnisse
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Diese Datei wurde noch nicht auf Viren untersucht, wirklich öffnen?
 [File received]
@@ -1794,13 +1794,13 @@ Dateiübertragung gescheitert
 Untersuche auf Viren...
 [Transfer and virus scan complete]
 Übertragung und Untersuchung auf Viren beendet.
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Ausgehend
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Copyright
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 &Über...
 [&Support]
@@ -1809,7 +1809,7 @@ Hilfe&seite
 &Miranda-NG-Webseite
 [&Report bug]
 Fehle&r melden
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Untätigkeit
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1889,7 +1889,7 @@ Kontakt tippt nicht mehr
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
-;file \src\core\stduihist\history.cpp
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Ungültige Nachricht
 [Outgoing message]
@@ -1924,7 +1924,7 @@ URL
 URL senden an
 [Send timed out]
 Sende Timeout erreicht
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 E-Mail-Adresse bearbeiten
 [Edit phone number]
@@ -1945,7 +1945,7 @@ Mobiltelefon
 Arbeitstelefon
 [Work fax]
 Arbeitsfax
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 männlich
 [Female]
@@ -1964,12 +1964,12 @@ Arbeit
 Hintergrund-Info
 [Notes]
 Notizen
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Inhaber
 [View/change my &details...]
 Mein Profil än&dern...
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
 ;file \src\modules\addcontact\addcontact.cpp

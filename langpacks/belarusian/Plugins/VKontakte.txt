@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.36
+;  Version: 0.1.0.37
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -12,6 +12,8 @@
 адкл.
 [Other]
 Іншае
+[Groups]
+Гурты
 [E-mail or phone number:]
 Пошта ці нумар тэлефона:
 [Password:]
