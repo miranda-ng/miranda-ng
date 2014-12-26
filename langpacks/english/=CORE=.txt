@@ -287,7 +287,7 @@
 [&Copy link]
 [Cancel change]
 [Ungroup]
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 [&Deny]
 [Decide &later]
@@ -296,7 +296,7 @@
 [Add to contact list if authorized]
 [You were added]
 [&Close]
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 [Retrieving %s message...]
 [Status messages]
@@ -477,7 +477,7 @@
 [&Invisible\tCtrl+7]
 [On the &phone\tCtrl+8]
 [Out to &lunch\tCtrl+9]
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 [To:]
 [File(s):]
@@ -533,10 +533,10 @@
 [Ask me]
 [Rename (append " (1)", etc.)]
 [You will always be asked about files from people not on your contact list]
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 [Credits >]
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 [Become idle if the screen saver is active]
 [Become idle if the computer is locked]
@@ -600,13 +600,13 @@
 [&Open link]
 [Paste and send]
 [Delete]
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 [&Find next]
 [Find what:]
 [Message history]
 [&Find...]
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 [Enter country, area code and phone number:]
 [Or enter a full international number:]
@@ -642,14 +642,14 @@
 [Department:]
 [Position:]
 [Website:]
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 [%u requests authorization]
 [%s added you to their contact list]
 [%u added you to their contact list]
 [Alerts]
 [Added event]
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 [Add contact permanently to list]
 [<Unknown>]
@@ -661,10 +661,10 @@
 [%s requested authorization\n%u on %s]
 [%s requested authorization\n%s on %s]
 [Feature is not supported by protocol]
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 [Re&ad status message]
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 [Give it up, I'm not in!]
 [Not right now.]
@@ -859,13 +859,13 @@
 ;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 [Send e-mail]
 [&E-mail]
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 [bytes]
 [&File]
@@ -874,21 +874,21 @@
 [Complete]
 [Error]
 [Denied]
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 [All files]
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 [Events]
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 [View user's history]
 [User menu]
 [Canceled]
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 [%d directories]
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 [File received]
 [of]
@@ -914,16 +914,16 @@
 [Transfer completed, open folder.]
 [Scanning for viruses...]
 [Transfer and virus scan complete]
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 [&Support]
 [&Miranda NG homepage]
 [&Report bug]
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
@@ -967,7 +967,7 @@
 [Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
-;file \src\core\stduihist\history.cpp
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 [Outgoing message]
 [Incoming message]
@@ -986,7 +986,7 @@
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 [Send timed out]
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 [Edit phone number]
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -997,7 +997,7 @@
 [Mobile]
 [Work phone]
 [Work fax]
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 [Female]
 [<not specified>]
@@ -1007,10 +1007,10 @@
 [Work]
 [Background info]
 [Notes]
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 [View/change my &details...]
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
