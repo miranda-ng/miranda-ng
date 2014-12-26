@@ -87,48 +87,39 @@ INT_PTR CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPA
 //---------------------------------------------------------------------------
 //WM_INITDIALOG:
 LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
-	char* pszMsg = NULL;
-	HRSRC hResInfo;
-	DWORD ResSize;
-	TCHAR oldTitle[256], newTitle[256];
-	TCHAR* temp;
-	TCHAR* pszTitle = NULL;
 	// Headerbar
-	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
-	TCHAR* pszVer  = mir_a2t(__VERSION_STRING_DOTS);
-	GetDlgItemText( m_hWnd, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
-	mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, pszPlug, pszVer );
-	mir_free(pszPlug);
-	mir_free(pszVer);
-	SetDlgItemText( m_hWnd, IDC_HEADERBAR, newTitle );
 	SendDlgItemMessage(m_hWnd, IDC_HEADERBAR, WM_SETICON, ICON_BIG, (LPARAM)GetIcon(ICO_MAIN));
 
 	//License
-	{	mir_tcsadd(pszTitle ,_T(__COPYRIGHT));
-		mir_tcsadd(pszTitle ,_T("\r\n\r\n"));
+	{
+		TCHAR* pszText = NULL;
+		mir_tcsadd(pszText, _T(__COPYRIGHT));
+		mir_tcsadd(pszText, _T("\r\n\r\n"));
 
-		hResInfo = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_LICENSE),_T("TEXT"));
-		ResSize  = SizeofResource(g_hSendSS,hResInfo);
-		pszMsg   = (char*)LockResource(LoadResource(g_hSendSS,hResInfo));
-		temp = mir_a2t(pszMsg);
-		temp [ResSize] = 0;			//LockResource is not NULL terminatet !!
-		mir_tcsadd(pszTitle ,temp);
-		mir_free(temp);
-		SetDlgItemText(m_hWnd,IDC_LICENSE, pszTitle);
-		mir_freeAndNil(pszTitle);
+		HRSRC hRes = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_LICENSE),_T("TEXT"));
+		DWORD size = SizeofResource(g_hSendSS,hRes);
+		char* data = (char*)mir_alloc(size+1);
+		memcpy(data,LockResource(LoadResource(g_hSendSS,hRes)),size);
+		data[size] = '\0';
+		TCHAR* pszCopyright = mir_a2t(data);
+		mir_free(data);
+		mir_tcsadd(pszText, pszCopyright);
+		mir_free(pszCopyright);
+		SetDlgItemText(m_hWnd,IDC_LICENSE, pszText);
+		mir_free(pszText);
 	}
 
 	//Credit
 	{
-		hResInfo = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_CREDIT),_T("TEXT"));
-		ResSize  = SizeofResource(g_hSendSS,hResInfo);
-		pszMsg   = (char*)LockResource(LoadResource(g_hSendSS,hResInfo));
-		temp = mir_a2t(pszMsg);
-		temp [ResSize] = 0;			//LockResource is not NULL terminatet !!
-		mir_tcsadd(pszTitle ,temp);
-		mir_free(temp);
-		SetDlgItemText(m_hWnd,IDC_CREDIT, pszTitle);
-		mir_freeAndNil(pszTitle);
+		HRSRC hRes = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_CREDIT),_T("TEXT"));
+		DWORD size = SizeofResource(g_hSendSS,hRes);
+		char* data = (char*)mir_alloc(size+1);
+		memcpy(data,LockResource(LoadResource(g_hSendSS,hRes)),size);
+		data[size] = '\0';
+		TCHAR* pszText = mir_a2t(data);
+		mir_free(data);
+		SetDlgItemText(m_hWnd,IDC_CREDIT, pszText);
+		mir_free(pszText);
 	}
 
 	SendMessage(m_hWnd, WM_SETICON, ICON_BIG,	(LPARAM)GetIcon(ICO_MAIN));
@@ -136,7 +127,6 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 
 	//init controls
 	btnPageClick();
-	SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONSETDEFAULT, 1, NULL);
 
 	TranslateDialogDefault(m_hWnd);
 	return FALSE;
@@ -154,7 +144,7 @@ LRESULT TfrmAbout::wmCommand(WPARAM wParam, LPARAM lParam) {
 				Close();
 				break;
 			case IDA_CONTRIBLINK:
-				m_Page = m_Page ? 0 : 1;
+				m_Page = !m_Page;
 				btnPageClick();
 				break;
 			default:
@@ -190,20 +180,30 @@ TfrmAbout::~TfrmAbout() {
 //---------------------------------------------------------------------------
 void TfrmAbout::btnPageClick() {
 	HWND hCtrl = GetDlgItem(m_hWnd, IDA_CONTRIBLINK);
+	const TCHAR* credits=TranslateT("Credits");
+	const TCHAR* copyright=TranslateT("Copyright");
+	const TCHAR* title;
+	const TCHAR* button;
 	if(!m_Page) {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_SHOW);
-		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Credits >"), MBBF_TCHAR);
-		HICON hIcon = GetIconBtn(ICO_BTN_ARROWR);
-		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? TranslateT("Credits") : TranslateT("Credits >"));
-	}
-	else {
+		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_ARROWR));
+		title=copyright;
+		button=credits;
+	} else {
 		ShowWindow(GetDlgItem(m_hWnd, IDC_CREDIT), SW_SHOW);
 		ShowWindow(GetDlgItem(m_hWnd, IDC_LICENSE), SW_HIDE);
-		SendDlgItemMessage(m_hWnd, IDA_CONTRIBLINK, BUTTONADDTOOLTIP, (WPARAM)TranslateT("< Copyright"), MBBF_TCHAR);
-		HICON hIcon = GetIconBtn(ICO_BTN_ARROWL);
-		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-		SetWindowText(hCtrl, hIcon ? TranslateT("Copyright") : TranslateT("< Copyright"));
+		SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)GetIconBtn(ICO_BTN_ARROWL));
+		title=credits;
+		button=copyright;
 	}
+	SetWindowText(hCtrl, button);
+	TCHAR newTitle[128];
+	TCHAR* pszPlug = mir_a2t(__PLUGIN_NAME);
+	TCHAR* pszVer  = mir_a2t(__VERSION_STRING_DOTS);
+	mir_sntprintf(newTitle,SIZEOF(newTitle), _T("%s - %s\nv%s"), pszPlug, title , pszVer);
+	mir_free(pszPlug);
+	mir_free(pszVer);
+	SetDlgItemText(m_hWnd, IDC_HEADERBAR, newTitle);
+	InvalidateRect(GetDlgItem(m_hWnd,IDC_HEADERBAR),NULL,1);
 }
