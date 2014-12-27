@@ -7,10 +7,22 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Підтримка протоколу ВКонтакті в Miranda NG.
+[[img] BBCode support for image ]
+Підтримка BB-коду [img] для зображень
 [off]
 Вимкнути
+[for original size images]
+оригінального розміру
+[for preview max 130px*130px]
+попереднього перегляду 130x130 пікс.
+[for preview max 604px*604px]
+попереднього перегляду 604x604 пікс.
 [BBCode support on news and event notifications]
 Підтримка BB-кодів у новинах і сповіщеннях
+[basic ([b], [i], [u], [s])]
+базова ([b], [i], [u], [s])
+[advanced (+[url], [size], [color])]
+розширена (+[url], [size], [color])
 [Other]
 Інше
 [Process stickers as smileys]
@@ -29,8 +41,32 @@
 Інтервал оновлення сповіщень (хв):
 [Special contact always enabled]
 Псевдоконтакт завжди ввімкнений
+[Autoclear news and notification history]
+Автоочистка історії новин і сповіщень
+[News types]
+Типи новин
+[Wall posts]
+Записи на стіні
+[Photos]
+Фото
+[Photos tags]
+Позначення на фото
+[Wall photos]
+Фото на стіні
+[News sources]
+Джерела новин
+[Friends]
+Друзі
 [Groups]
 Групи
+[Include banned sources]
+Включати забанені джерела
+[Pages]
+Сторінки
+[Subscriptions to users]
+Підписки на користувачів
+[No reposts]
+Без репостів
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]
@@ -261,6 +297,8 @@
 Обліковий запис
 [News and notifications]
 Новини і сповіщення
+[View settings]
+Перегляд
 [%s server connection]
 З'єднання з сервером %s
 [Create new chat]

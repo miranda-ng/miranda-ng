@@ -292,7 +292,7 @@
 [Finished. %d items were found.]
 Пошук завершено. Знайдено %d елементів.
 [Main icon]
-Основний значок
+Головний значок
 [Closed known module]
 Модуль (згорнутий)
 [Open known module]
