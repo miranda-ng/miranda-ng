@@ -6,7 +6,7 @@
 
 #include "mir_fonts.h"
 
-int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDescription,int position,BOOL bAllowEffects,LOGFONT *plfDefault,COLORREF clrDefault)
+int FontService_RegisterFont(const char *pszDbModule, const char *pszDbName, const TCHAR *pszSection, const TCHAR *pszDescription, const TCHAR* pszBackgroundGroup, const TCHAR* pszBackgroundName, int position, BOOL bAllowEffects, LOGFONT *plfDefault, COLORREF clrDefault)
 {
 	FontIDT fid;
 	memset(&fid, 0, sizeof(fid));
@@ -15,7 +15,9 @@ int FontService_RegisterFont(const char *pszDbModule,const char *pszDbName,const
 	mir_strncpy(fid.prefix,pszDbName,sizeof(fid.prefix)); /* buffer safe */
 	mir_tstrncpy(fid.group,pszSection,SIZEOF(fid.group)); /* buffer safe */
 	mir_tstrncpy(fid.name,pszDescription,SIZEOF(fid.name)); /* buffer safe */
-	fid.flags=FIDF_ALLOWREREGISTER;
+	mir_tstrncpy(fid.backgroundGroup, pszBackgroundGroup, SIZEOF(fid.backgroundGroup)); /* buffer safe */
+	mir_tstrncpy(fid.backgroundName, pszBackgroundName, SIZEOF(fid.backgroundName)); /* buffer safe */
+	fid.flags = FIDF_ALLOWREREGISTER;
 	if(bAllowEffects) fid.flags|=FIDF_ALLOWEFFECTS;
 	fid.order=position;
 	if(plfDefault!=NULL) {

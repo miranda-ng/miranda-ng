@@ -930,7 +930,7 @@ extern "C" int __declspec(dllexport) Load()
 
 		char szId[20];
 		mir_snprintf(szId, SIZEOF(szId), "Font%d", i);
-		FontService_RegisterFont(MODULE, szId, LPGENT("Floating contacts"), s_fonts[i], i+1, false, &lf, defColor);
+		FontService_RegisterFont(MODULE, szId, LPGENT("Floating contacts"), NULL, NULL, s_fonts[i], i+1, false, &lf, defColor);
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoded);
