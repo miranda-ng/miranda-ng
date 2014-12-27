@@ -162,15 +162,13 @@ LRESULT TfrmAbout::wmClose(WPARAM wParam, LPARAM lParam) {
 }
 
 //---------------------------------------------------------------------------
-// Standard konstruktor/destruktor
 TfrmAbout::TfrmAbout(HWND Owner) {
 	m_hWndOwner = Owner;
+	m_Page = 1;
 	// create window
 	m_hWnd = CreateDialogParam(g_hSendSS, MAKEINTRESOURCE(IDD_UAboutForm),0, DlgTfrmAbout,(LPARAM)this);
 	//register object
 	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
-	//init page
-	m_Page	= 1;
 }
 
 TfrmAbout::~TfrmAbout() {
