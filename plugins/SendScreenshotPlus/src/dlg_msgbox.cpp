@@ -495,8 +495,8 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 			pd.lchContact = NULL; //(HANDLE)wParam;
 			// icon
 			pd.lchIcon = MsgLoadIcon(pMsgBox);
-			mir_tcsncpy(pd.lptzContactName, pMsgBox->ptszTitle, SIZEOF(pd.lptzContactName));
-			mir_tcsncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
+			mir_tstrncpy(pd.lptzContactName, pMsgBox->ptszTitle, SIZEOF(pd.lptzContactName));
+			mir_tstrncpy(pd.lptzText, pMsgBox->ptszMsg, SIZEOF(pd.lptzText));
 
 			// CALLBAC Proc
 			pd.PluginWindowProc = PopupProc;

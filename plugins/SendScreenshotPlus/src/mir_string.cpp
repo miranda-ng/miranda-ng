@@ -27,24 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "global.h"
 
-wchar_t* mir_wcsncpy(wchar_t* pszDest, const wchar_t* pszSrc, const size_t cchDest)
-{
-	if (!pszDest || !pszSrc || !cchDest)
-		return NULL;
-	pszDest = wcsncpy(pszDest, pszSrc, cchDest-1);
-	pszDest[cchDest-1] = 0;
-	return pszDest;
-}
-
-wchar_t* mir_wcsncat(wchar_t* pszDest, const wchar_t* pszSrc, const size_t cchDest)
-{
-	if (!pszDest || !pszSrc || !cchDest)
-		return NULL;
-	pszDest = wcsncat(pszDest, pszSrc, cchDest-1);
-	pszDest[cchDest-1] = 0;
-	return pszDest;
-}
-
 //---------------------------------------------------------------------------
 void mir_stradd(char* &pszDest, const char* pszSrc)
 {
@@ -64,7 +46,7 @@ void mir_stradd(char* &pszDest, const char* pszSrc)
 	}
 }
 
-void mir_wcsadd(wchar_t* &pszDest, const wchar_t* pszSrc)
+void mir_wstradd(wchar_t* &pszDest, const wchar_t* pszSrc)
 {
 	if(!pszSrc)
 		return;

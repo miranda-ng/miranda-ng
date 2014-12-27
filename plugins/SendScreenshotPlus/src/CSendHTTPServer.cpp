@@ -63,8 +63,8 @@ int CSendHTTPServer::Send()
 		m_pszFileName = GetFileNameA(m_pszFile);
 	}
 	mir_freeAndNil(m_fsi_pszSrvPath);
-	mir_tcsadd(m_fsi_pszSrvPath, _T("/"));
-	mir_tcsadd(m_fsi_pszSrvPath, _A2T(m_pszFileName));
+	mir_tstradd(m_fsi_pszSrvPath, _T("/"));
+	mir_tstradd(m_fsi_pszSrvPath, _A2T(m_pszFileName));
 
 	replaceStrT(m_fsi_pszRealPath, m_pszFile);
 

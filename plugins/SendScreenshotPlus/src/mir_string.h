@@ -28,23 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _MIR_STRING_H_INCLUDED_
 #define _MIR_STRING_H_INCLUDED_
 
-#define mir_tcslen		mir_wcslen
-#define mir_tcsadd		mir_wcsadd
-#define mir_tcsncpy		mir_wcsncpy
-#define mir_tcsncat		mir_wcsncat
-#define mir_tstrdup		mir_wstrdup
-
-#define mir_strlen(s)			(((s)!=0)?strlen(s):0)
-#define mir_strcpy(d,s)			(((s)!=0&&(d)!=0)?strcpy(d,s):0)
-
-#define mir_wcslen(s)			(((s)!=0)?wcslen(s):0)
-
 #define mir_freeAndNil(ptr) mir_free(ptr),ptr=NULL
-
-wchar_t*	mir_wcsncpy(wchar_t* pszDest, const wchar_t* pszSrc, const size_t cchDest);
-wchar_t*	mir_wcsncat(wchar_t* pszDest, const wchar_t* pszSrc, const size_t cchDest);
-
-void		mir_stradd(char* &pszDest, const char* pszSrc);
-void		mir_wcsadd(wchar_t* &pszDest, const wchar_t* pszSrc);
+void mir_stradd(char* &pszDest, const char* pszSrc);
+void mir_wstradd(wchar_t* &pszDest, const wchar_t* pszSrc);
+#define mir_tstradd mir_wstradd
 
 #endif /* _MIR_STRING_H_INCLUDED_ */

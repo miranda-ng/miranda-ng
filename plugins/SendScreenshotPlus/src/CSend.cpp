@@ -90,7 +90,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 		SendMessage(hwndDlg,WM_SETICON,ICON_BIG,(LPARAM)GetIcon(ICO_MAIN));
 		CSend* self=(CSend*)lParam;
 		TCHAR* tmp=mir_tstrdup(TranslateT("Resulting URL from\n"));
-		mir_tcsadd(tmp,self->m_pszSendTyp);
+		mir_tstradd(tmp,self->m_pszSendTyp);
 		SetDlgItemText(hwndDlg,IDC_HEADERBAR,tmp);
 		mir_free(tmp);
 		SendDlgItemMessage(hwndDlg,IDC_HEADERBAR,WM_SETICON,ICON_BIG,(LPARAM)GetIconBtn(ICO_BTN_ARROWR));
@@ -176,7 +176,7 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LP
 				EmptyClipboard();
 				HGLOBAL clipbuffer=GlobalAlloc(GMEM_MOVEABLE, len*sizeof(TCHAR)+sizeof(TCHAR));
 				TCHAR* tmp2=(TCHAR*)GlobalLock(clipbuffer);
-				mir_tcsncpy(tmp2,tmp,len+1); tmp2[len]='\0';
+				mir_tstrncpy(tmp2,tmp,len+1); tmp2[len]='\0';
 				GlobalUnlock(clipbuffer);
 				SetClipboardData(CF_UNICODETEXT,clipbuffer);
 				CloseClipboard();
@@ -204,8 +204,8 @@ void CSend::svcSendMsgExit(const char* szMessage) {
 	if(m_ChatRoom){
 		TCHAR* tmp = mir_a2t(szMessage);
 		if (m_pszFileDesc) {
-			mir_tcsadd(tmp, _T("\r\n"));
-			mir_tcsadd(tmp, m_pszFileDesc);
+			mir_tstradd(tmp, _T("\r\n"));
+			mir_tstradd(tmp, m_pszFileDesc);
 		}
 		GC_INFO gci = {0};
 		int res = GC_RESULT_NOSESSION;
