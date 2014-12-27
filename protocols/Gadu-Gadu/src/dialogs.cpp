@@ -1024,6 +1024,12 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else SetDlgItemTextA(hwndDlg, IDC_EMAIL, "");
 				}
 			}
+		case IDC_UIN:
+		case IDC_PASSWORD:
+			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus()) {
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
+			}
 		}
 		break;
 
