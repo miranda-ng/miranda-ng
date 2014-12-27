@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.9.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -30,7 +30,7 @@
 [E&xplore]
 &Огляд
 [&Fill description textbox.]
-&Заповнити рядки опису.
+&Заповнити рядок опису
 [Delete &after send]
 Видалити &після відправки
 [Open editor before sending]
@@ -38,11 +38,11 @@
 [Open again]
 Відкрити знову
 [&Capture]
-&Захоплення
+&Захопити
 [About]
 Інформація
-[Credits >]
-Автори >
+[Copyright]
+Права
 [&Close]
 &Закрити
 [Edit]
@@ -54,7 +54,7 @@
 [C&lient area]
 В&міст
 [Target tool]
-Інструмент прицілювання
+Приціл
 [File:]
 Файл:
 [Description:]
@@ -133,6 +133,8 @@
 Ігнорувати
 [SendScreenshot - Error]
 Помилка SendSS
+[Main Icon]
+Головний значок
 [Target Cursor]
 Ціль вікно у фокусі
 [Target Desktop]
@@ -167,6 +169,8 @@ HTTP-з'єднання SendSS
 Надіслати скріншот
 [Screenshots]
 Знімки екрану
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+Відсутня служба зображень (AdvaImg).\nПлагін SendSS буде відключено.
 [Buttons]
 Кнопки
 [Could not register Miranda service.]
@@ -179,10 +183,6 @@ HTTP-з'єднання SendSS
 Відкрити SendSS
 [Credits]
 Автори
-[< Copyright]
-< Права
-[Copyright]
-Права
 [Drag&Drop the target on the desired window.]
 Перетягніть приціл на потрібне вікно.
 [Send screenshot to\n]
@@ -221,6 +221,8 @@ Upload Pie (1 тижд)
 Видалити після відправки
 [Capture]
 Запис
+[Couldn't take a screenshot]
+Неможливо створити знімок екрану
 [Select a file]
 Виберіть файл
 [Select a target window.]
