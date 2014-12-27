@@ -192,6 +192,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Utils\mir_fonts.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\cpuusage.cpp" />
     <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="src\stdafx.cpp">

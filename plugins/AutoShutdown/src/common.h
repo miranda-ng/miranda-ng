@@ -58,6 +58,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_icolib.h>
 #include <m_hotkeys.h>
 
+#include "../Utils/mir_fonts.h"
+
 #include <m_weather.h>
 #include <m_toptoolbar.h>
 #include <m_shutdown.h>
