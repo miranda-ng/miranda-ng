@@ -1,7 +1,8 @@
 /*
-UserinfoEx plugin for Miranda IM
+UserinfoEx plugin for Miranda NG
 
 Copyright:
+© 2012-14 Miranda NG project (http://miranda-ng.org)
 © 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or

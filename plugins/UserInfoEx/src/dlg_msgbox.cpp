@@ -1,7 +1,8 @@
 /*
-UserinfoEx plugin for Miranda IM
+UserinfoEx plugin for Miranda NG
 
 Copyright:
+© 2012-14 Miranda NG project (http://miranda-ng.org)
 © 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
@@ -197,10 +198,10 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					SendDlgItemMessage(hDlg, TXT_NAME, WM_SETFONT, (WPARAM)hNormalFont, 0);
 
 					// set infobar's logo icon
-					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON, 
-						(LPARAM)((pMsgBox->hiLogo) ? pMsgBox->hiLogo : Skin_GetIcon(ICO_DLG_DETAILS, TRUE)));
+					SendDlgItemMessage(hDlg, ICO_DLGLOGO, STM_SETIMAGE, IMAGE_ICON,
+						(pMsgBox->hiLogo ? (LPARAM)pMsgBox->hiLogo : (LPARAM)Skin_GetIcon(ICO_DLG_DETAILS,TRUE)));
 
-					// anable headerbar
+					// enable headerbar
 					ShowWindow(GetDlgItem(hDlg, TXT_NAME), SW_SHOW);
 					ShowWindow(GetDlgItem(hDlg, ICO_DLGLOGO), SW_SHOW);
 				}
@@ -228,25 +229,44 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 				if (HDC hDC = GetDC(hDlg)) {
 					POINT mpt = { 0, 0 };
 					RECT ws = { 0, 0, 0, 0 };
-					int txtWidth, txtHeight, needX, needY;
+					int txtWidth=0, txtHeight=0, needX, needY;
 					RECT rcDlg;
 					SIZE ts;
 					LPTSTR h, rs;
 
 					SelectObject(hDC, hNormalFont);
-
-					for (rs = h = pMsgBox->ptszMsg, txtHeight = 0, txtWidth = 0; h; h++) {
-						if (*h == '\n' || *h == '\0') {
-							GetTextExtentPoint32(hDC, rs, int(h - rs), &ts);
+					// get message text width and height
+					for (rs=h=pMsgBox->ptszMsg; ; ++h) {
+						if (*h=='\n' || !*h) {
+							GetTextExtentPoint32(hDC, rs, h-rs, &ts);
 							if (ts.cx > txtWidth)
 								txtWidth = ts.cx;
-
 							txtHeight += ts.cy;
-							if (*h == '\0')
+							if (!*h)
 								break;
-
-							rs = h + 1;
+							rs = h+1;
 						}
+					}
+					// increase width if info text requires more
+					if((pMsgBox->uType&MB_INFOBAR) && pMsgBox->ptszInfoText && *pMsgBox->ptszInfoText){
+						//int multiline = 0;
+						RECT rcico; GetClientRect(GetDlgItem(hDlg,ICO_DLGLOGO), &rcico);
+						rcico.right = rcico.right*100/66; // padding
+						for(rs=h=pMsgBox->ptszInfoText; ; ++h) {
+							if (*h=='\n' || !*h) {
+								GetTextExtentPoint32(hDC, rs, h-rs, &ts);
+								ts.cx += rcico.right;
+								if (ts.cx > txtWidth)
+									txtWidth = ts.cx;
+								if (!*h)
+									break;
+								rs = h+1;
+								//++multiline;
+							}
+						}
+						/* used by SendSS, disabled for UserInfoEx for now
+						if(!multiline)
+							SetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME), GWL_STYLE)|SS_CENTERIMAGE); */
 					}
 					ReleaseDC(hDlg, hDC);
 				
@@ -255,10 +275,8 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					GetWindowRect(GetDlgItem(hDlg, TXT_MESSAGE), &ws);
 					needX = txtWidth - (ws.right - ws.left) - icoWidth;
 					needY = max(0, txtHeight - (ws.bottom - ws.top) + 5);
-					rcDlg.left -= needX / 2;
-					rcDlg.right += needX / 2;
-					rcDlg.top -= (needY - InfoBarHeight) / 2;
-					rcDlg.bottom += (needY - InfoBarHeight) / 2;
+					rcDlg.left -= needX/2; rcDlg.right += needX/2;
+					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
 					
 					// resize dialog window
 					MoveWindow(hDlg, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, FALSE);
@@ -271,7 +289,9 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					MoveCtrl(hDlg, TXT_MESSAGE, -mpt.x - icoWidth, -mpt.y - InfoBarHeight, needX, needY);
 					MoveCtrl(hDlg, STATIC_LINE2, -mpt.x, -mpt.y + needY - InfoBarHeight, needX, 0);
 
+					//
 					// Do pushbutton positioning
+					//
 					RECT rcOk, rcAll, rcNone, rcCancel;
 
 					// get button rectangles
