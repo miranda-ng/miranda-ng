@@ -93,8 +93,8 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	//License
 	{
 		TCHAR* pszText = NULL;
-		mir_tcsadd(pszText, _T(__COPYRIGHT));
-		mir_tcsadd(pszText, _T("\r\n\r\n"));
+		mir_tstradd(pszText, _T(__COPYRIGHT));
+		mir_tstradd(pszText, _T("\r\n\r\n"));
 
 		HRSRC hRes = FindResource(g_hSendSS,MAKEINTRESOURCE(IDR_LICENSE),_T("TEXT"));
 		DWORD size = SizeofResource(g_hSendSS,hRes);
@@ -103,7 +103,7 @@ LRESULT TfrmAbout::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 		data[size] = '\0';
 		TCHAR* pszCopyright = mir_a2t(data);
 		mir_free(data);
-		mir_tcsadd(pszText, pszCopyright);
+		mir_tstradd(pszText, pszCopyright);
 		mir_free(pszCopyright);
 		SetDlgItemText(m_hWnd,IDC_LICENSE, pszText);
 		mir_free(pszText);

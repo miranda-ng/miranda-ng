@@ -178,8 +178,8 @@ void TfrmMain::wmInitdialog(WPARAM wParam, LPARAM lParam) {
 	pt = mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)m_hContact, (LPARAM)GCDNF_TCHAR));
 	if (pt && (m_hContact != 0)) {
 		TCHAR* lptString = NULL;
-		mir_tcsadd(lptString , TranslateT("Send screenshot to\n"));
-		mir_tcsadd(lptString , pt);
+		mir_tstradd(lptString , TranslateT("Send screenshot to\n"));
+		mir_tstradd(lptString , pt);
 		SetDlgItemText(m_hWnd, IDC_HEADERBAR, lptString);
 		mir_free(lptString);
 	}
@@ -916,8 +916,8 @@ void TfrmMain::edtSizeUpdate(HWND hWnd, BOOL ClientArea, HWND hTarget, UINT Ctrl
 	_itot(rect.right - rect.left, B, 10);
 //	_itot_s(rect.bottom - rect.top, H, 16, 10);
 	_itot(rect.bottom - rect.top, H, 10);
-	mir_tcsncat(B, _T("x"), 33);
-	mir_tcsncat(B, H, 33);
+	mir_tstrncat(B, _T("x"), 33);
+	mir_tstrncat(B, H, 33);
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -927,8 +927,8 @@ void TfrmMain::edtSizeUpdate(RECT rect, HWND hTarget, UINT Ctrl) {
 	_itot(ABS(rect.right - rect.left), B, 10);
 //	_itot_s(ABS(rect.bottom - rect.top), H, 16, 10);
 	_itot(ABS(rect.bottom - rect.top), H, 10);
-	mir_tcsncat(B, _T("x"), 33);
-	mir_tcsncat(B, H, 33);
+	mir_tstrncat(B, _T("x"), 33);
+	mir_tstrncat(B, H, 33);
 	SetDlgItemText(hTarget, Ctrl, B);
 }
 
@@ -944,27 +944,27 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 	unsigned FileNumber=db_get_dw(NULL,SZ_SENDSS,"FileNumber",0)+1;
 	if(FileNumber>99999) FileNumber=1;
 	//Generate FileName
-	mir_tcsadd(path, m_FDestFolder);
-	if (path[_tcslen(path)-1] != _T('\\')) mir_tcsadd(path, _T("\\"));
-	mir_tcsadd(path, _T("shot%.5u"));//on format change, adapt "len" below
-	size_t len=_tcslen(path)+2;
+	mir_tstradd(path, m_FDestFolder);
+	if (path[mir_tstrlen(path)-1] != _T('\\')) mir_tstradd(path, _T("\\"));
+	mir_tstradd(path, _T("shot%.5u"));//on format change, adapt "len" below
+	size_t len=mir_tstrlen(path)+2;
 	pszFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*(len));
 	mir_sntprintf(pszFilename,len,path,FileNumber);
 	mir_free(path);
 
 	//Generate a description according to the screenshot
 	TCHAR winText[1024];
-	mir_tcsadd(pszFileDesc, TranslateT("Screenshot "));
+	mir_tstradd(pszFileDesc, TranslateT("Screenshot "));
 	if (m_opt_tabCapture == 0 && m_opt_chkClientArea) {
-		mir_tcsadd(pszFileDesc, TranslateT("for Client area "));
+		mir_tstradd(pszFileDesc, TranslateT("for Client area "));
 	}
-	mir_tcsadd(pszFileDesc, TranslateT("of \""));
+	mir_tstradd(pszFileDesc, TranslateT("of \""));
 	GetDlgItemText(m_hwndTabPage, ID_edtCaption, winText, SIZEOF(winText));
-	mir_tcsadd(pszFileDesc, winText);
+	mir_tstradd(pszFileDesc, winText);
 	if(m_opt_tabCapture==1)
-		mir_tcsadd(pszFileDesc, _T("\""));
+		mir_tstradd(pszFileDesc, _T("\""));
 	else
-		mir_tcsadd(pszFileDesc, TranslateT("\" Window"));
+		mir_tstradd(pszFileDesc, TranslateT("\" Window"));
 
 	// convert to 32Bits (make shure it is 32bit)
 	FIBITMAP *dib_new = FIP->FI_ConvertTo32Bits(dib);
@@ -1029,8 +1029,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 		case 3: //TIFF (miranda freeimage interface do not support save tiff, we udse GDI+)
 			{
 			TCHAR* pszFile = NULL;
-			mir_tcsadd(pszFile, pszFilename);
-			mir_tcsadd(pszFile, _T(".tif"));
+			mir_tstradd(pszFile, pszFilename);
+			mir_tstradd(pszFile, _T(".tif"));
 
 			dib32 = FIP->FI_Composite(dib_new,FALSE,&m_AlphaColor,NULL);
 			dib24 = FIP->FI_ConvertTo24Bits(dib32);
@@ -1050,8 +1050,8 @@ INT_PTR TfrmMain::SaveScreenshot(FIBITMAP* dib) {
 			//ret = SaveImage(FIF_GIF,dib24, pszFilename, _T("gif"));
 			//FIP->FI_Unload(dib24);
 			TCHAR* pszFile = NULL;
-			mir_tcsadd(pszFile, pszFilename);
-			mir_tcsadd(pszFile, _T(".gif"));
+			mir_tstradd(pszFile, pszFilename);
+			mir_tstradd(pszFile, _T(".gif"));
 			HBITMAP hBmp = FIP->FI_CreateHBITMAPFromDIB(dib_new);
 			SaveGIF(hBmp, pszFile);
 			ret=pszFile;

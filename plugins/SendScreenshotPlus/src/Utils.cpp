@@ -300,12 +300,12 @@ TCHAR* SaveImage(FREE_IMAGE_FORMAT fif, FIBITMAP* dib, const TCHAR* pszFilename,
 	TCHAR* FileExt = GetFileExt(pszFilename);
 	if(!FileExt) {
 		if(!pszExt) return NULL;
-		mir_tcsadd(pszFile, pszFilename);
-		mir_tcsadd(pszFile, _T("."));
-		mir_tcsadd(pszFile, pszExt);
+		mir_tstradd(pszFile, pszFilename);
+		mir_tstradd(pszFile, _T("."));
+		mir_tstradd(pszFile, pszExt);
 	}
 	else {
-		mir_tcsadd(pszFile, pszFilename);
+		mir_tstradd(pszFile, pszFilename);
 	}
 
 	if(fif==FIF_UNKNOWN) {
