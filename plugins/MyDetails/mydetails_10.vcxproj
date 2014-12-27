@@ -187,9 +187,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Utils\mir_dblists.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\data.cpp" />
     <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="..\utils\mir_options.cpp">
@@ -213,7 +210,6 @@
     <ClInclude Include="src\commons.h" />
     <ClInclude Include="src\data.h" />
     <ClInclude Include="src\frame.h" />
-    <ClInclude Include="..\utils\mir_dblists.h" />
     <ClInclude Include="..\utils\mir_options.h" />
     <ClInclude Include="..\utils\mir_smileys.h" />
     <ClInclude Include="src\options.h" />

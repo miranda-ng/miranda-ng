@@ -22,13 +22,7 @@ Boston, MA 02111-1307, USA.
 # define __MIR_SMILEYS_H__
 
 #include <windows.h>
-
-
-/*
-To use this files mir_dblists.h/.c are needed
-*/
-#include "mir_dblists.h"
-
+#include <m_system.h>
 
 // Init settings needed to draw smileys using the contact list itens
 // To use then, pass "clist" as the protocol name

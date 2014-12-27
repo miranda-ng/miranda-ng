@@ -425,7 +425,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 				piece->start_pos = next_text_pos - text;
 				piece->len = start - next_text_pos;
 
-				List_Append(plText, piece);
+				List_Insert(plText, piece, plText->realCount);
 			}
 
 			// Add smiley
@@ -454,7 +454,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 
 				*max_smiley_height = max(piece->smiley_height, *max_smiley_height);
 
-				List_Append(plText, piece);
+				List_Insert(plText, piece, plText->realCount);
 			}
 
 			next_text_pos = end;
@@ -470,7 +470,7 @@ SortedList * ReplaceSmileys(const TCHAR *text, int text_size, const char *protoc
 		piece->start_pos = next_text_pos - text;
 		piece->len = last_text_pos - next_text_pos;
 
-		List_Append(plText, piece);
+		List_Insert(plText, piece, plText->realCount);
 	}
 
 	CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)spres);
