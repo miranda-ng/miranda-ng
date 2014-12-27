@@ -876,7 +876,7 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 		{ vkbbcColor, bbcAdvanced, _T("[color=%s]%s[/color]") },
 	};
 
-	TCHAR *ptszFormat;
+	TCHAR *ptszFormat = NULL;
 	for (int i = 0; i < SIZEOF(bbcItem); i++)
 		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews){
 			ptszFormat = bbcItem[i].ptszTempate;
@@ -884,13 +884,14 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 		}
 
 	CMString res;
-
-	if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
-		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
-	else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
-		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), tszString ? tszString : _T(""));
-	else
-		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""));
+	if (ptszFormat != NULL) {
+		if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
+			res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
+		else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
+			res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), tszString ? tszString : _T(""));
+		else
+			res.AppendFormat(ptszFormat, tszString ? tszString : _T(""));
+	}
 
 	return res;
 }

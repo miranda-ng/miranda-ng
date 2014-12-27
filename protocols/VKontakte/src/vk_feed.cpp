@@ -266,7 +266,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
 		CMString tszText = json_as_string(json_get(pFeedback, "text"));
 		
-		size_t iNameEnd = tszText.Find(_T("],")), iNameBeg = tszText.Find(_T("|"));
+		int iNameEnd = tszText.Find(_T("],")), iNameBeg = tszText.Find(_T("|"));
 		if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd){
 			CMString tszName = tszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
 			CMString tszBody = tszText.Mid(iNameEnd + 2);
