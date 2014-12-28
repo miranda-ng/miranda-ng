@@ -248,6 +248,17 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE *pNode)
 	case VKERR_AUTHORIZATION_FAILED:
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		break;
+	case VKERR_ACCESS_DENIED:
+		if (time(NULL) - getDword("LastAccessTokenTime", 0) > 60 * 60 * 24) {
+			debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED (AccessToken fail?)");
+			setDword("LastAccessTokenTime", (DWORD)time(NULL));	
+			delSetting("AccessToken");
+			ShutdownSession();
+			return false;
+		}
+		debugLogA("CVkProto::CheckJsonResult VKERR_ACCESS_DENIED");	
+		MsgPopup(NULL, TranslateT("Access denied! Data will not be sent or received."), TranslateT("Error"), true);
+		break;
 	case VKERR_CAPTCHA_NEEDED:
 		ApplyCaptcha(pReq, pError);
 		break;
@@ -886,6 +897,7 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 	CMString res;
 	if (ptszFormat == NULL)
 		return CMString(tszString);
+
 	if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
 		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
 	else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
