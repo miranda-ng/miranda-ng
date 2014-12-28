@@ -33,8 +33,7 @@
     <ClInclude Include="src\json\JSONMemory.h" />
     <ClInclude Include="src\json\JSONNode.h" />
     <ClInclude Include="src\json\JSONOptions.h" />
-    <ClInclude Include="src\src\json\JSONWorker.h" />
-    <ClInclude Include="json\NumberToString.h" />
+    <ClInclude Include="src\json\NumberToString.h" />
     <ClInclude Include="src\miranda.h" />
   </ItemGroup>
   <ItemGroup>
