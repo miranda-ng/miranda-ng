@@ -53,7 +53,7 @@ if "%err%"=="1" (
 	echo.
 	
 	pause
-	goto end
+	exit /B 1
 )
 
 REM =========================
@@ -80,6 +80,13 @@ if "%phase%" == "0" (
 ) else (
 	REM load strings from recently created langpack (also to distribute strings between files) and create final langpack
 	cscript /nologo translate.js /out:".\" /untranslated:"Untranslated" /release:"Langpack_%language%.txt" /sourcelang:"%language%"
+)
+
+REM if previous command failed, exit 
+if %ERRORLEVEL% NEQ 0 (
+	echo ERROR: Refreshing failed!
+	pause
+	exit /B 1
 )
 
 rmdir /S /Q "..\..\langpacks\%language%\Weather"
