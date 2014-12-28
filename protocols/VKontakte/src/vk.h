@@ -52,6 +52,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_FLOOD_CONTROL			9	// Flood control
 #define VKERR_INTERNAL_SERVER_ERR	10	// Internal server error
 #define VKERR_CAPTCHA_NEEDED		14	// Captcha needed
+#define VKERR_ACCESS_DENIED			15  // Access denied 
 #define VKERR_COULD_NOT_SAVE_FILE	105	// Couldn't save file
 #define VKERR_INVALID_ALBUM_ID		114	// Invalid album id
 #define VKERR_INVALID_SERVER		118	// Invalid server
