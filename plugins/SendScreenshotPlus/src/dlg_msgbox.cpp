@@ -252,7 +252,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					SelectObject(hDC, hNormalFont);
 					// get message text width and height
-					for (rs=h=pMsgBox->ptszMsg; ; ++h) {
+					if(pMsgBox->ptszMsg) for (rs=h=pMsgBox->ptszMsg; ; ++h) {
 						if (*h=='\n' || !*h) {
 							GetTextExtentPoint32(hDC, rs, h-rs, &ts);
 							if (ts.cx > txtWidth)
