@@ -670,9 +670,9 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 		{ _T("follow"), vkNull, vkUsers, _T("") },
 		{ _T("friend_accepted"), vkNull, vkUsers, _T("") },
 		{ _T("mention"), vkNull, vkPost, _T("") },
-		{ _T("mention_comments"), vkPost, vkComment, _T("") },
 		{ _T("wall"), vkNull, vkPost, _T("") },
 		{ _T("wall_publish"), vkNull, vkPost, _T("") },
+
 		{ _T("comment_post"), vkPost, vkComment, TranslateT("commented on your post") },
 		{ _T("comment_photo"), vkPhoto, vkComment, TranslateT("commented on your photo") },
 		{ _T("comment_video"), vkVideo, vkComment, TranslateT("commented on your video") },
@@ -690,8 +690,9 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 		{ _T("copy_post"), vkPost, vkCopy, TranslateT("shared your post") },
 		{ _T("copy_photo"), vkPhoto, vkCopy, TranslateT("shared your photo") },
 		{ _T("copy_video"), vkVideo, vkCopy, TranslateT("shared your video") },
-		{ _T("mention_comment_photo"), vkPhoto, vkComment, _T("") },
-		{ _T("mention_comment_video"), vkVideo, vkComment, _T("") }
+		{ _T("mention_comments"), vkPost, vkComment, _T("mentioned you in comment") },
+		{ _T("mention_comment_photo"), vkPhoto, vkComment, _T("mentioned you in comment to photo") }, 
+		{ _T("mention_comment_video"), vkVideo, vkComment, _T("mentioned you in comment to video") }
 	};
 
 	CMString tszRes;
@@ -746,6 +747,66 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 		tszRes += "\n" + tszText;
 
 	return tszRes;
+}
+
+CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszAddString)
+{
+	CVKBBCItem bbcItem[] = {
+		{ vkbbcB, bbcNo, _T("%s") },
+		{ vkbbcB, bbcBasic, _T("[b]%s[/b]") },
+		{ vkbbcB, bbcAdvanced, _T("[b]%s[/b]") },
+		{ vkbbcI, bbcNo, _T("%s") },
+		{ vkbbcI, bbcBasic, _T("[i]%s[/i]") },
+		{ vkbbcI, bbcAdvanced, _T("[i]%s[/i]") },
+		{ vkbbcS, bbcNo, _T("%s") },
+		{ vkbbcS, bbcBasic, _T("[s]%s[/s]") },
+		{ vkbbcS, bbcAdvanced, _T("[s]%s[/s]") },
+		{ vkbbcU, bbcNo, _T("%s") },
+		{ vkbbcU, bbcBasic, _T("[u]%s[/u]") },
+		{ vkbbcU, bbcAdvanced, _T("[u]%s[/u]") },
+		{ vkbbcUrl, bbcNo, _T("%s (%s)") },
+		{ vkbbcUrl, bbcBasic, _T("[b]%s[/b] (%s)") },
+		{ vkbbcUrl, bbcAdvanced, _T("[url=%s]%s[/url]") },
+		{ vkbbcSize, bbcNo, _T("%s") },
+		{ vkbbcSize, bbcBasic, _T("%s") },
+		{ vkbbcSize, bbcAdvanced, _T("[size=%s]%s[/size]") },
+		{ vkbbcColor, bbcNo, _T("%s") },
+		{ vkbbcColor, bbcBasic, _T("%s") },
+		{ vkbbcColor, bbcAdvanced, _T("[color=%s]%s[/color]") },
+	};
+
+	TCHAR *ptszFormat = NULL;
+	for (int i = 0; i < SIZEOF(bbcItem); i++)
+		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews){
+			ptszFormat = bbcItem[i].ptszTempate;
+			break;
+		}
+
+	CMString res;
+	if (ptszFormat == NULL)
+		return CMString(tszString);
+
+	if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
+		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
+	else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
+		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), tszString ? tszString : _T(""));
+	else
+		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""));
+
+	return res;
+}
+
+CMString& CVkProto::ClearFormatNick(CMString& tszText)
+{
+	int iNameEnd = tszText.Find(_T("],")), iNameBeg = tszText.Find(_T("|"));
+	if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd){
+		CMString tszName = tszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
+		CMString tszBody = tszText.Mid(iNameEnd + 2);
+		if (!tszName.IsEmpty() && !tszBody.IsEmpty())
+			tszText = tszName + _T(",") + tszBody;
+	}
+
+	return tszText;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -857,53 +918,6 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 
 		res.AppendChar('\n');
 	}
-
-	return res;
-}
-
-CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszAddString)
-{
-	CVKBBCItem bbcItem[] = {
-		{ vkbbcB, bbcNo, _T("%s") },
-		{ vkbbcB, bbcBasic, _T("[b]%s[/b]") },
-		{ vkbbcB, bbcAdvanced, _T("[b]%s[/b]") },
-		{ vkbbcI, bbcNo, _T("%s") },
-		{ vkbbcI, bbcBasic, _T("[i]%s[/i]") },
-		{ vkbbcI, bbcAdvanced, _T("[i]%s[/i]") },
-		{ vkbbcS, bbcNo, _T("%s") },
-		{ vkbbcS, bbcBasic, _T("[s]%s[/s]") },
-		{ vkbbcS, bbcAdvanced, _T("[s]%s[/s]") },
-		{ vkbbcU, bbcNo, _T("%s") },
-		{ vkbbcU, bbcBasic, _T("[u]%s[/u]") },
-		{ vkbbcU, bbcAdvanced, _T("[u]%s[/u]") },
-		{ vkbbcUrl, bbcNo, _T("%s (%s)") },
-		{ vkbbcUrl, bbcBasic, _T("[b]%s[/b] (%s)") },
-		{ vkbbcUrl, bbcAdvanced, _T("[url=%s]%s[/url]") },
-		{ vkbbcSize, bbcNo, _T("%s") },
-		{ vkbbcSize, bbcBasic, _T("%s") },
-		{ vkbbcSize, bbcAdvanced, _T("[size=%s]%s[/size]") },
-		{ vkbbcColor, bbcNo, _T("%s") },
-		{ vkbbcColor, bbcBasic, _T("%s") },
-		{ vkbbcColor, bbcAdvanced, _T("[color=%s]%s[/color]") },
-	};
-
-	TCHAR *ptszFormat = NULL;
-	for (int i = 0; i < SIZEOF(bbcItem); i++)
-		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews){
-			ptszFormat = bbcItem[i].ptszTempate;
-			break;
-		}
-
-	CMString res;
-	if (ptszFormat == NULL)
-		return CMString(tszString);
-
-	if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
-		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
-	else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
-		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), tszString ? tszString : _T(""));
-	else
-		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""));
 
 	return res;
 }

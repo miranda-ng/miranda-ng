@@ -194,6 +194,7 @@ struct CVKNewsItem : public MZeroedObject {
 		tDate = NULL;
 		vkUser = NULL;
 		bIsGroup = bIsRepost = false;
+		vkFeedbackType = vkParentType = vkNull;
 	};
 	
 	CMString tszId;
@@ -202,6 +203,7 @@ struct CVKNewsItem : public MZeroedObject {
 	CMString tszText;
 	CMString tszLink;
 	CMString tszType;
+	VKObjType vkFeedbackType, vkParentType;
 	bool bIsGroup;
 	bool bIsRepost;
 };
@@ -356,14 +358,15 @@ struct CVkProto : public PROTO<CVkProto>
 	
 	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
-	CMString GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate);
+	CVKNewsItem* GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
 	CMString GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, OBJLIST<CVkUserInfo> &vkUsers, CVkUserInfo *vkUser);
-	CMString GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReply = NULL);
+	CVKNewsItem* GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReplyText = NULL, TCHAR *ptszReplyLink = NULL);
 	
 	void RetrieveUnreadNews(time_t tLastNewsTime);
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
+	bool FilterNotification(CVKNewsItem* vkNotificationItem);
 	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUnreadEvents();
 	void NewsClearHistory();
@@ -401,6 +404,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
 	CMString SetBBCString(TCHAR *tszString, VKBBCType, TCHAR *tszAddString = NULL);
+	CMString& ClearFormatNick(CMString& tszText);
 
 	CMString GetAttachmentDescr(JSONNODE*);
 
@@ -562,7 +566,11 @@ private:
 		m_bNewsSourcePages,
 		m_bNewsSourceFollowing,
 		m_bNewsSourceIncludeBanned,
-		m_bNewsSourceNoReposts;
+		m_bNewsSourceNoReposts,
+		m_bNotificationFilterComments,
+		m_bNotificationFilterLikes,
+		m_bNotificationFilterReposts,
+		m_bNotificationFilterMentions;
 
 	int m_iNewsInterval, m_iNotificationsInterval, m_iNewsAutoClearHistoryInterval;
 

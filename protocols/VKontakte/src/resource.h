@@ -85,6 +85,10 @@
 #define IDC_S_FOLLOWING                 1077
 #define IDC_S_BANNED                    1078
 #define IDC_S_NOREPOSTES                1079
+#define IDC_N_COMMENTS                  1080
+#define IDC_N_LIKES                     1081
+#define IDC_N_REPOSTS                   1082
+#define IDC_N_MENTIONS                  1083
 
 // Next default values for new objects
 // 
