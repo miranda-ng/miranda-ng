@@ -3,7 +3,7 @@
 int Mode;
 HWND hwnd2importWindow;
 
-int Openfile(char *outputFile, const char *module)
+static int Openfile(TCHAR *outputFile, const char *module)
 {
 	OPENFILENAME ofn = { 0 };
 	char filename[MAX_PATH] = "";
@@ -11,15 +11,12 @@ int Openfile(char *outputFile, const char *module)
 	mir_snprintf(filter, SIZEOF(filter), "%s%c*.ini%c%s%c*.*%c", Translate("INI Files"), 0, 0, Translate("All Files"), 0, 0);
 	char *title = Translate("Export to file");
 
-	if (module)
-	{
+	if (module) {
 		int n = 0;
 		mir_strncpy(filename, module, MAX_PATH);
 
-		while (filename[n])
-		{
-			switch (filename[n])
-			{
+		while (filename[n]) {
+			switch (filename[n]) {
 			case '*':
 			case ':':
 			case '/':
@@ -40,10 +37,10 @@ int Openfile(char *outputFile, const char *module)
 	ofn.lpstrTitle = title;
 	ofn.nMaxFile = MAX_PATH;
 	ofn.lpstrDefExt = "ini";
-
 	if (!GetSaveFileName(&ofn))
 		return 0;
-	mir_tstrcpy(outputFile, filename);
+
+	_tcsncpy_s(outputFile, MAX_PATH, filename, _TRUNCATE);
 	return 1;
 }
 
@@ -81,7 +78,7 @@ char* StrReplace(char* Search, char* Replace, char* Resource)
 	return Resource;
 }
 
-void exportModule(MCONTACT hContact, char* module, FILE* file)
+void exportModule(MCONTACT hContact, char *module, FILE *file)
 {
 	char tmp[32];
 	ModuleSettingLL settinglist;
@@ -92,13 +89,10 @@ void exportModule(MCONTACT hContact, char* module, FILE* file)
 	// print the module header..
 	fprintf(file, "\n[%s]", module);
 	setting = settinglist.first;
-	while (setting)
-	{
+	while (setting) {
 		DBVARIANT dbv;
-		if (!GetSetting(hContact, module, setting->name, &dbv))
-		{
-			switch (dbv.type)
-			{
+		if (!GetSetting(hContact, module, setting->name, &dbv)) {
+			switch (dbv.type) {
 			case DBVT_BYTE:
 				fprintf(file, "\n%s=b%s", setting->name, itoa(dbv.bVal, tmp, 10));
 				db_free(&dbv);
@@ -113,38 +107,32 @@ void exportModule(MCONTACT hContact, char* module, FILE* file)
 				break;
 			case DBVT_ASCIIZ:
 			case DBVT_UTF8:
-				if (strchr(dbv.pszVal, '\r'))
-				{
+				if (strchr(dbv.pszVal, '\r')) {
 					char *end = StrReplace("\\", "\\\\", dbv.pszVal);
 					end = StrReplace("\r", "\\r", end);
 					end = StrReplace("\n", "\\n", end);
 					fprintf(file, "\n%s=g%s", setting->name, end);
 					break;
 				}
-				if (dbv.type == DBVT_UTF8)
-					fprintf(file, "\n%s=u%s", setting->name, dbv.pszVal);
-				else
-					fprintf(file, "\n%s=s%s", setting->name, dbv.pszVal);
+				fprintf(file, "\n%s=%c", setting->name, (dbv.type == DBVT_UTF8) ? 'u' : 's');
+				fputs(dbv.pszVal, file);
 				db_free(&dbv);
 				break;
+
 			case DBVT_BLOB:
-			{
-				int j;
 				char *data = NULL;
 				if (!(data = (char*)mir_alloc(3 * (dbv.cpbVal + 1)*sizeof(char))))
 					break;
 				data[0] = '\0';
-				for (j = 0; j < dbv.cpbVal; j++)
-				{
+				for (int j = 0; j < dbv.cpbVal; j++) {
 					char tmp[16];
 					mir_snprintf(tmp, SIZEOF(tmp), "%02X ", (BYTE)dbv.pbVal[j]);
 					strcat(data, tmp);
 				}
 				fprintf(file, "\n%s=n%s", setting->name, data);
 				mir_free(data);
-			}
-			db_free(&dbv);
-			break;
+				db_free(&dbv);
+				break;
 			}
 		}
 		setting = (ModSetLinkLinkItem *)setting->next;
@@ -156,20 +144,17 @@ char *NickFromHContact(MCONTACT hContact)
 {
 	static char nick[512] = "";
 
-	if (hContact)
-	{
+	if (hContact) {
 		char szProto[256];
 		int loaded = 0;
 
 		if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
 			loaded = IsProtocolLoaded(szProto);
 
-		if (!szProto[0] || !loaded)
-		{
+		if (!szProto[0] || !loaded) {
 			char name[256];
 
-			if (szProto[0])
-			{
+			if (szProto[0]) {
 				if (GetValue(hContact, szProto, "Nick", name, SIZEOF(name)))
 					mir_snprintf(nick, SIZEOF(nick), "%s (%s)", name, szProto);
 				else
@@ -178,8 +163,7 @@ char *NickFromHContact(MCONTACT hContact)
 			else
 				mir_snprintf(nick, SIZEOF(nick), "(UNKNOWN)");
 		}
-		else
-		{
+		else {
 			char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
 				char szUID[256];
@@ -205,10 +189,9 @@ void exportDB(MCONTACT hContact, char *module)
 		return;
 	}
 
-	char fileName[MAX_PATH];
-	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? NULL : module))
-	{
-		FILE *file = fopen(fileName, "wt");
+	TCHAR fileName[MAX_PATH];
+	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? NULL : module)) {
+		FILE *file = _tfopen(fileName, _T("wt"));
 		if (!file) {
 			msg(Translate("Couldn't open file for writing"), modFullname);
 			return;
@@ -217,18 +200,14 @@ void exportDB(MCONTACT hContact, char *module)
 		SetCursor(LoadCursor(NULL, IDC_WAIT));
 
 		// exporting entire db
-		if (hContact == INVALID_CONTACT_ID)
-		{
+		if (hContact == INVALID_CONTACT_ID) {
 			hContact = NULL;
 
-			if (module == NULL)
-			{
+			if (module == NULL) {
 				fprintf(file, "SETTINGS:\n");
 				mod = modlist.first;
-				while (mod)
-				{
-					if (IsModuleEmpty(hContact, mod->name))
-					{
+				while (mod) {
+					if (IsModuleEmpty(hContact, mod->name)) {
 						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
@@ -238,8 +217,7 @@ void exportDB(MCONTACT hContact, char *module)
 						fprintf(file, "\n");
 				}
 			}
-			else
-			{
+			else {
 				if (*module == 0)
 					module = NULL; // reset module for all contacts export
 			}
@@ -248,21 +226,16 @@ void exportDB(MCONTACT hContact, char *module)
 			if (hContact)
 				fprintf(file, "\n\n");
 
-			while (hContact)
-			{
-				if (!hContact) continue;
-
+			while (hContact) {
 				// filter
-				if (Mode != MODE_ALL)
-				{
+				if (Mode != MODE_ALL) {
 					char szProto[256];
 					int loaded = 0;
 
 					if (GetValue(hContact, "Protocol", "p", szProto, SIZEOF(szProto)))
 						loaded = IsProtocolLoaded(szProto);
 
-					if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED))
-					{
+					if ((loaded && Mode == MODE_UNLOADED) || (!loaded && Mode == MODE_LOADED)) {
 						hContact = db_find_next(hContact);
 						continue;
 					}
@@ -273,10 +246,8 @@ void exportDB(MCONTACT hContact, char *module)
 				if (module == NULL) // export all modules
 				{
 					mod = modlist.first;
-					while (mod)
-					{
-						if (IsModuleEmpty(hContact, mod->name))
-						{
+					while (mod) {
+						if (IsModuleEmpty(hContact, mod->name)) {
 							mod = (ModSetLinkLinkItem *)mod->next;
 							continue;
 						}
@@ -294,20 +265,16 @@ void exportDB(MCONTACT hContact, char *module)
 			}
 		}
 		// exporting a contact
-		else
-		{
-			if (!module) // exporting every module
-			{
+		else {
+			if (!module) { // exporting every module
 				if (hContact)
 					fprintf(file, "CONTACT: %s\n", NickFromHContact(hContact));
 				else
 					fprintf(file, "SETTINGS:\n");
 
 				mod = modlist.first;
-				while (mod)
-				{
-					if (IsModuleEmpty(hContact, mod->name))
-					{
+				while (mod) {
+					if (IsModuleEmpty(hContact, mod->name)) {
 						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
@@ -317,8 +284,7 @@ void exportDB(MCONTACT hContact, char *module)
 						fprintf(file, "\n");
 				}
 			}
-			else
-			{
+			else {
 				if (hContact)
 					fprintf(file, "FROM CONTACT: %s\n", NickFromHContact(hContact));
 				else
@@ -356,22 +322,18 @@ void importSettings(MCONTACT hContact, char *importstring)
 
 	SetCursor(LoadCursor(NULL, IDC_WAIT));
 
-	while (importstring != NULL)
-	{
+	while (importstring != NULL) {
 		i = 0;
 		rtrim(importstring);
-		if (importstring[i] == '\0')
-		{
+		if (importstring[i] == '\0') {
 			importstring = strtok(NULL, "\n");
 			continue;
 		}
-		else if (!strncmp(&importstring[i], "SETTINGS:", strlen("SETTINGS:")))
-		{
+		else if (!strncmp(&importstring[i], "SETTINGS:", strlen("SETTINGS:"))) {
 			importstring = strtok(NULL, "\n");
 			continue;
 		}
-		else if (!strncmp(&importstring[i], "CONTACT:", strlen("CONTACT:")))
-		{
+		else if (!strncmp(&importstring[i], "CONTACT:", strlen("CONTACT:"))) {
 			int len;
 			hContact = INVALID_CONTACT_ID;
 
@@ -412,8 +374,7 @@ void importSettings(MCONTACT hContact, char *importstring)
 				}
 			}
 
-			if (hContact == INVALID_CONTACT_ID)
-			{
+			if (hContact == INVALID_CONTACT_ID) {
 				MCONTACT temp = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
 				if (temp)
 					hContact = temp;
@@ -443,8 +404,7 @@ void importSettings(MCONTACT hContact, char *importstring)
 
 				// get the type
 				type = *(end + 1);
-				if (mir_tstrcmp(module, "CList") == 0 && mir_tstrcmp(setting, "Group") == 0)
-				{
+				if (mir_tstrcmp(module, "CList") == 0 && mir_tstrcmp(setting, "Group") == 0) {
 					WCHAR* GroupName = mir_a2u(end + 2);
 					if (!GroupName)
 						continue;
@@ -459,8 +419,7 @@ void importSettings(MCONTACT hContact, char *importstring)
 					}
 					mir_free(GroupName);
 				}
-				switch (type)
-				{
+				switch (type) {
 				case 'b':
 				case 'B':
 					if (sscanf((end + 2), "%d", &value) == 1)
@@ -519,29 +478,23 @@ void importSettings(MCONTACT hContact, char *importstring)
 
 INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		hwnd2importWindow = hwnd;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 		TranslateDialogDefault(hwnd);
 		SendDlgItemMessage(hwnd, IDC_TEXT, EM_LIMITTEXT, (WPARAM)sizeof(TCHAR) * 0x7FFFFFFF, 0);
-	}
-	break;
+		break;
 
 	case WM_COMMAND:
-	{
-		switch (LOWORD(wParam))
-		{
+		switch (LOWORD(wParam)) {
 		case IDC_CRLF:
 		{
 			int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
 			char *string = (char*)_alloca(length + 3);
 			int Pos = 2;
 
-			if (length)
-			{
+			if (length) {
 				int	Range = SendDlgItemMessage(hwnd, IDC_TEXT, EM_GETSEL, 0, 0);
 				int Min = LOWORD(Range);
 				int Max = HIWORD(Range);
@@ -550,25 +503,20 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 				if (Min == -1)
 					memcpy(string, crlf_string, sizeof(crlf_string));
-				else
-					if (Max == -1 || Max >= length)
-						memcpy(&string[Min], crlf_string, sizeof(crlf_string));
-					else
-						if (Max - Min > 2)
-						{
-							memcpy(&string[Min], crlf_string, sizeof(crlf_string));
-							memmove(&string[Min + 2], &string[Max], length - Max + 1);
-						}
-						else
-						{
-							memmove(&string[Min + 2], &string[Max], length - Max + 1);
-							memcpy(&string[Min], crlf_string, sizeof(crlf_string));
-						}
+				else if (Max == -1 || Max >= length)
+					memcpy(&string[Min], crlf_string, sizeof(crlf_string));
+				else if (Max - Min > 2) {
+					memcpy(&string[Min], crlf_string, sizeof(crlf_string));
+					memmove(&string[Min + 2], &string[Max], length - Max + 1);
+				}
+				else {
+					memmove(&string[Min + 2], &string[Max], length - Max + 1);
+					memcpy(&string[Min], crlf_string, sizeof(crlf_string));
+				}
 
 				if (Min) Pos += Min;
 			}
-			else
-				memcpy(string, crlf_string, sizeof(crlf_string));
+			else memcpy(string, crlf_string, sizeof(crlf_string));
 
 			SetDlgItemText(hwnd, IDC_TEXT, string);
 			SendDlgItemMessage(hwnd, IDC_TEXT, EM_SETSEL, Pos, Pos);
@@ -576,12 +524,15 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		break;
 
+		case IDCANCEL:
+			DestroyWindow(hwnd);
+			hwnd2importWindow = 0;
+			break;
+
 		case IDOK:
-		{
 			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 			int length = GetWindowTextLength(GetDlgItem(hwnd, IDC_TEXT));
-			if (length)
-			{
+			if (length) {
 				char *string = (char*)_alloca(length + 1);
 				if (!string) {
 					msg(Translate("Couldn't allocate enough memory!"), modFullname);
@@ -593,14 +544,6 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 		}
 		break;
-
-		case IDCANCEL:
-			DestroyWindow(hwnd);
-			hwnd2importWindow = 0;
-			break;
-		}
-	}
-	break;
 	}
 	return 0;
 }
@@ -650,34 +593,28 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, char* FilePath)
 	DWORD offset = 0;
 	if (mir_tstrcmp(FilePath, "") == 0)
 		offset = Openfile2Import(szFileNames);
-	else
-	{
+	else {
 		if (Exists(FilePath))
 			mir_tstrcpy(szFileNames, FilePath);
 		else
 			mir_tstrcpy(szFileNames, "");
 	}
 
-	if (!mir_tstrcmp(szFileNames, "") == 0)
-	{
-		if ((DWORD)mir_strlen(szFileNames) < offset)
-		{
+	if (!mir_tstrcmp(szFileNames, "") == 0) {
+		if ((DWORD)mir_strlen(szFileNames) < offset) {
 			index += offset;
 			strncpy(szPath, szFileNames, offset);
 			strcat(szPath, "\\");
 		}
 
-		while (szFileNames[index])
-		{
+		while (szFileNames[index]) {
 			strcpy(szFile, szPath);
 			strcat(szFile, &szFileNames[index]);
 			index += (int)strlen(&szFileNames[index]) + 1;
 
 			hFile = CreateFile(szFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-			if (hFile != INVALID_HANDLE_VALUE)
-			{
-				if (GetFileSize(hFile, NULL) > 0)
-				{
+			if (hFile != INVALID_HANDLE_VALUE) {
+				if (GetFileSize(hFile, NULL) > 0) {
 					hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL);
 
 					if (hMap) {
