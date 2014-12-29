@@ -2350,26 +2350,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		return 0;
 
-	case DM_FORCESCROLL:
-		if (wParam == 0 && lParam == 0)
-			DM_ScrollToBottom(dat, 0, 1);
-		else {
-			SCROLLINFO *psi = (SCROLLINFO*)lParam;
-			POINT *ppt = (POINT*)wParam;
-
-			HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
-			if (dat->hwndIEView == 0 && dat->hwndHPP == 0) {
-				int len = GetWindowTextLength(hwndLog);
-				SendMessage(hwndLog, EM_SETSEL, len - 1, len - 1);
-			}
-
-			if (psi == NULL || psi->nPos >= psi->nMax - (int)psi->nPage - 5 || psi->nMax - psi->nMin - (int)psi->nPage < 50)
-				DM_ScrollToBottom(dat, 0, 0);
-			else
-				SendMessage((dat->hwndIEView || dat->hwndHPP) ? (dat->hwndIEView ? dat->hwndIEView : dat->hwndHPP) : hwndLog, EM_SETSCROLLPOS, 0, (LPARAM)ppt);
-		}
-		return 0;
-
 	case HM_DBEVENTADDED:
 		// this is called whenever a new event has been added to the database.
 		// this CAN be posted (some sanity checks required).
@@ -2552,7 +2532,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		else {
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			if (lParam == 0)
-				PostMessage(hwndDlg, DM_FORCESCROLL, 0, 0);
+				DM_ScrollToBottom(dat, 0, 1);
 		}
 		return 0;
 

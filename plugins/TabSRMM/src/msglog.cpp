@@ -1353,12 +1353,16 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	ReplaceIcons(hwndDlg, dat, startAt, fAppend, isSent);
 	dat->clr_added = FALSE;
 
-	SCROLLINFO si = { 0 };
-	si.cbSize = sizeof(si);
-	SendMessage(hwndDlg, DM_FORCESCROLL, (WPARAM)&pt, (LPARAM)&si);
+	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
+	if (dat->hwndIEView == 0 && dat->hwndHPP == 0) {
+		int len = GetWindowTextLength(hwndLog);
+		SendMessage(hwndLog, EM_SETSEL, len - 1, len - 1);
+	}
 
-	SendDlgItemMessage(hwndDlg, IDC_LOG, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(GetDlgItem(hwndDlg, IDC_LOG), NULL, FALSE);
+	DM_ScrollToBottom(dat, 0, 0);
+
+	SendMessage(hwndLog, WM_SETREDRAW, TRUE, 0);
+	InvalidateRect(hwndLog, NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
 	mir_free(streamData.buffer);
 }
