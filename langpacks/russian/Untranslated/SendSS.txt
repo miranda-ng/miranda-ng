@@ -1,5 +1,4 @@
 ﻿[Send screenshot to\n<unknown>]
-[%s\nv%s]
 [Target tool]
 [Resulting URL from\n]
 [Copy BBCode]

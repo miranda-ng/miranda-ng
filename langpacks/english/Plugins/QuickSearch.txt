@@ -7,6 +7,7 @@
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
 [Quick Search]
+[Quick search]
 [Title]
 [Module/InfoType]
 [Setting]
