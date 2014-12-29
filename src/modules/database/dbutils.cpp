@@ -139,10 +139,10 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			ptrT tszReason(getEventString(dbei, buf));
 			text.Format(TranslateT("Authorization request from %s%s: %s"),
-				(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
+				(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick, tszReason);
 		}
 		else text.Format(TranslateT("You were added by %s%s"),
-			(*tszNick == 0) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick);
+			(tszNick == NULL) ? cli.pfnGetContactDisplayName(hContact, 0) : tszNick, nick);
 		return (egt->datatype == DBVT_WCHAR) ? (INT_PTR)mir_tstrdup(text) : (INT_PTR)mir_t2a(text);
 	}
 
