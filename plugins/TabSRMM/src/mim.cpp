@@ -169,10 +169,10 @@ void CMimAPI::InitPaths()
 
 bool CMimAPI::getAeroState()
 {
-	BOOL result = FALSE;
 	m_isAero = m_DwmActive = false;
 	if (IsWinVerVistaPlus()) {
-		m_DwmActive = (m_pfnDwmIsCompositionEnabled && (m_pfnDwmIsCompositionEnabled(&result) == S_OK) && result) ? true : false;
+		BOOL result = FALSE;
+		m_DwmActive = (m_pfnDwmIsCompositionEnabled && (m_pfnDwmIsCompositionEnabled(&result) == S_OK) && result);
 		m_isAero = (CSkin::m_skinEnabled == false) && GetByte("useAero", 1) && CSkin::m_fAeroSkinsValid && m_DwmActive;
 
 	}

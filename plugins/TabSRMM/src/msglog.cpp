@@ -1205,7 +1205,6 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 {
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
-	POINT pt = { 0 };
 
 	// calc time limit for grouping
 	HWND hwndrtf = dat->hwndIEView ? dat->hwndIWebBrowserControl : GetDlgItem(hwndDlg, IDC_LOG);
@@ -1335,8 +1334,6 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 
-		PARAFORMAT2 pf2;
-		memset(&pf2, 0, sizeof(PARAFORMAT2));
 		sel.cpMax = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax - 1;
 		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
@@ -1369,12 +1366,12 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 // NLS functions (for unicode version only) encoding stuff..
 static BOOL CALLBACK LangAddCallback(LPTSTR str)
 {
-	int i, count;
 	UINT cp = _ttoi(str);
-	count = SIZEOF(cpTable);
-	for (i = 0; i < count && cpTable[i].cpId != cp; i++);
-	if (i < count)
-		AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
+	for (int i = 0; i < SIZEOF(cpTable); i++)
+		if (cpTable[i].cpId == cp) {
+			AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
+			break;
+		}
 
 	return TRUE;
 }

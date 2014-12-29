@@ -285,122 +285,123 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 {
-	if (dat && dat->iTabID >= 0) {
-		HWND hwndDlg = dat->hwnd;
-		HWND hwndTab = GetParent(hwndDlg);
+	if (dat == NULL || dat->iTabID < 0)
+		return;
 
-		if (msg == WM_ACTIVATE) {
-			if (dat->pContainer->dwFlags & CNT_TRANSPARENCY) {
-				DWORD trans = LOWORD(dat->pContainer->settings->dwTransparency);
-				SetLayeredWindowAttributes(dat->pContainer->hwnd, 0, (BYTE)trans, (dat->pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
-			}
+	HWND hwndDlg = dat->hwnd;
+	HWND hwndTab = GetParent(hwndDlg);
+
+	if (msg == WM_ACTIVATE) {
+		if (dat->pContainer->dwFlags & CNT_TRANSPARENCY) {
+			DWORD trans = LOWORD(dat->pContainer->settings->dwTransparency);
+			SetLayeredWindowAttributes(dat->pContainer->hwnd, 0, (BYTE)trans, (dat->pContainer->dwFlags & CNT_TRANSPARENCY ? LWA_ALPHA : 0));
 		}
-
-		if (dat->bIsAutosizingInput && dat->iInputAreaHeight == -1) {
-			dat->iInputAreaHeight = 0;
-			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
-		}
-
-		if (dat->pWnd)
-			dat->pWnd->activateTab();
-		dat->Panel->dismissConfig();
-		dat->dwUnread = 0;
-		if (dat->pContainer->hwndSaved == hwndDlg)
-			return;
-
-		dat->pContainer->hwndSaved = hwndDlg;
-
-		dat->dwTickLastEvent = 0;
-		dat->dwFlags &= ~MWF_DIVIDERSET;
-		if (KillTimer(hwndDlg, TIMERID_FLASHWND)) {
-			FlashTab(dat, hwndTab, dat->iTabID, &dat->bTabFlash, FALSE, dat->hTabIcon);
-			dat->mayFlashTab = FALSE;
-		}
-		if (dat->pContainer->dwFlashingStarted != 0) {
-			FlashContainer(dat->pContainer, 0, 0);
-			dat->pContainer->dwFlashingStarted = 0;
-		}
-		if (dat->dwFlagsEx & MWF_SHOW_FLASHCLIST) {
-			dat->dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
-			if (dat->hFlashingEvent != 0)
-				CallService(MS_CLIST_REMOVEEVENT, dat->hContact, (LPARAM)dat->hFlashingEvent);
-			dat->hFlashingEvent = 0;
-		}
-		dat->pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;
-
-		if (dat->dwFlags & MWF_DEFERREDREMAKELOG) {
-			SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-			dat->dwFlags &= ~MWF_DEFERREDREMAKELOG;
-		}
-
-		if (dat->dwFlags & MWF_NEEDCHECKSIZE)
-			PostMessage(hwndDlg, DM_SAVESIZE, 0, 0);
-
-		if (PluginConfig.m_bAutoLocaleSupport) {
-			if (dat->hkl == 0)
-				DM_LoadLocale(dat);
-			else
-				SendMessage(hwndDlg, DM_SETLOCALE, 0, 0);
-		}
-
-		dat->pContainer->hIconTaskbarOverlay = 0;
-		SendMessage(dat->pContainer->hwnd, DM_UPDATETITLE, dat->hContact, 0);
-
-		UpdateStatusBar(dat);
-		dat->dwLastActivity = GetTickCount();
-		dat->pContainer->dwLastActivity = dat->dwLastActivity;
-
-		dat->pContainer->MenuBar->configureMenu();
-		UpdateTrayMenuState(dat, FALSE);
-
-		if (dat->pContainer->hwndActive == hwndDlg)
-			PostMessage(hwndDlg, DM_REMOVEPOPUPS, PU_REMOVE_ON_FOCUS, 0);
-
-		dat->Panel->Invalidate();
-
-		if (dat->dwFlags & MWF_DEFERREDSCROLL && dat->hwndIEView == 0 && dat->hwndHPP == 0)
-			DM_ScrollToBottom(dat, 0, 1);
-
-		DM_SetDBButtonStates(hwndDlg, dat);
-
-		if (dat->hwndIEView) {
-			RECT rcRTF;
-			POINT pt;
-
-			GetWindowRect(GetDlgItem(hwndDlg, IDC_LOG), &rcRTF);
-			rcRTF.left += 20;
-			rcRTF.top += 20;
-			pt.x = rcRTF.left;
-			pt.y = rcRTF.top;
-			if (dat->hwndIEView) {
-				if (M.GetByte("subclassIEView", 0)) {
-					mir_subclassWindow(dat->hwndIEView, IEViewSubclassProc);
-					SetWindowPos(dat->hwndIEView, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
-					RedrawWindow(dat->hwndIEView, 0, 0, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
-				}
-			}
-			dat->hwndIWebBrowserControl = WindowFromPoint(pt);
-		}
-
-		if (dat->dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
-			dat->dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
-			ShowWindow(dat->pContainer->hwnd, SW_RESTORE);
-			PostMessage(hwndDlg, DM_SPLITTERGLOBALEVENT, dat->wParam, dat->lParam);
-			dat->wParam = dat->lParam = 0;
-		}
-		if (dat->dwFlagsEx & MWF_EX_AVATARCHANGED) {
-			dat->dwFlagsEx &= ~MWF_EX_AVATARCHANGED;
-			PostMessage(hwndDlg, DM_UPDATEPICLAYOUT, 0, 0);
-		}
-		BB_SetButtonsPos(dat);
-		if (M.isAero())
-			InvalidateRect(hwndTab, NULL, FALSE);
-		if (dat->pContainer->dwFlags & CNT_SIDEBAR)
-			dat->pContainer->SideBar->setActiveItem(dat);
-
-		if (dat->pWnd)
-			dat->pWnd->Invalidate();
 	}
+
+	if (dat->bIsAutosizingInput && dat->iInputAreaHeight == -1) {
+		dat->iInputAreaHeight = 0;
+		SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_REQUESTRESIZE, 0, 0);
+	}
+
+	if (dat->pWnd)
+		dat->pWnd->activateTab();
+	dat->Panel->dismissConfig();
+	dat->dwUnread = 0;
+	if (dat->pContainer->hwndSaved == hwndDlg)
+		return;
+
+	dat->pContainer->hwndSaved = hwndDlg;
+
+	dat->dwTickLastEvent = 0;
+	dat->dwFlags &= ~MWF_DIVIDERSET;
+	if (KillTimer(hwndDlg, TIMERID_FLASHWND)) {
+		FlashTab(dat, hwndTab, dat->iTabID, &dat->bTabFlash, FALSE, dat->hTabIcon);
+		dat->mayFlashTab = FALSE;
+	}
+	if (dat->pContainer->dwFlashingStarted != 0) {
+		FlashContainer(dat->pContainer, 0, 0);
+		dat->pContainer->dwFlashingStarted = 0;
+	}
+	if (dat->dwFlagsEx & MWF_SHOW_FLASHCLIST) {
+		dat->dwFlagsEx &= ~MWF_SHOW_FLASHCLIST;
+		if (dat->hFlashingEvent != 0)
+			CallService(MS_CLIST_REMOVEEVENT, dat->hContact, (LPARAM)dat->hFlashingEvent);
+		dat->hFlashingEvent = 0;
+	}
+	dat->pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;
+
+	if (dat->dwFlags & MWF_DEFERREDREMAKELOG) {
+		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
+		dat->dwFlags &= ~MWF_DEFERREDREMAKELOG;
+	}
+
+	if (dat->dwFlags & MWF_NEEDCHECKSIZE)
+		PostMessage(hwndDlg, DM_SAVESIZE, 0, 0);
+
+	if (PluginConfig.m_bAutoLocaleSupport) {
+		if (dat->hkl == 0)
+			DM_LoadLocale(dat);
+		else
+			SendMessage(hwndDlg, DM_SETLOCALE, 0, 0);
+	}
+
+	dat->pContainer->hIconTaskbarOverlay = 0;
+	SendMessage(dat->pContainer->hwnd, DM_UPDATETITLE, dat->hContact, 0);
+
+	UpdateStatusBar(dat);
+	dat->dwLastActivity = GetTickCount();
+	dat->pContainer->dwLastActivity = dat->dwLastActivity;
+
+	dat->pContainer->MenuBar->configureMenu();
+	UpdateTrayMenuState(dat, FALSE);
+
+	if (dat->pContainer->hwndActive == hwndDlg)
+		PostMessage(hwndDlg, DM_REMOVEPOPUPS, PU_REMOVE_ON_FOCUS, 0);
+
+	dat->Panel->Invalidate();
+
+	if (dat->dwFlags & MWF_DEFERREDSCROLL && dat->hwndIEView == 0 && dat->hwndHPP == 0)
+		DM_ScrollToBottom(dat, 0, 1);
+
+	DM_SetDBButtonStates(hwndDlg, dat);
+
+	if (dat->hwndIEView) {
+		RECT rcRTF;
+		POINT pt;
+
+		GetWindowRect(GetDlgItem(hwndDlg, IDC_LOG), &rcRTF);
+		rcRTF.left += 20;
+		rcRTF.top += 20;
+		pt.x = rcRTF.left;
+		pt.y = rcRTF.top;
+		if (dat->hwndIEView) {
+			if (M.GetByte("subclassIEView", 0)) {
+				mir_subclassWindow(dat->hwndIEView, IEViewSubclassProc);
+				SetWindowPos(dat->hwndIEView, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_DRAWFRAME);
+				RedrawWindow(dat->hwndIEView, 0, 0, RDW_FRAME | RDW_INVALIDATE | RDW_UPDATENOW);
+			}
+		}
+		dat->hwndIWebBrowserControl = WindowFromPoint(pt);
+	}
+
+	if (dat->dwFlagsEx & MWF_EX_DELAYEDSPLITTER) {
+		dat->dwFlagsEx &= ~MWF_EX_DELAYEDSPLITTER;
+		ShowWindow(dat->pContainer->hwnd, SW_RESTORE);
+		PostMessage(hwndDlg, DM_SPLITTERGLOBALEVENT, dat->wParam, dat->lParam);
+		dat->wParam = dat->lParam = 0;
+	}
+	if (dat->dwFlagsEx & MWF_EX_AVATARCHANGED) {
+		dat->dwFlagsEx &= ~MWF_EX_AVATARCHANGED;
+		PostMessage(hwndDlg, DM_UPDATEPICLAYOUT, 0, 0);
+	}
+	BB_SetButtonsPos(dat);
+	if (M.isAero())
+		InvalidateRect(hwndTab, NULL, FALSE);
+	if (dat->pContainer->dwFlags & CNT_SIDEBAR)
+		dat->pContainer->SideBar->setActiveItem(dat);
+
+	if (dat->pWnd)
+		dat->pWnd->Invalidate();
 }
 
 void TSAPI ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cControls, int state)
