@@ -98,6 +98,11 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNewsSourceIncludeBanned = getBool("NewsSourceIncludeBanned", false);
 	m_bNewsSourceNoReposts = getBool("NewsSourceNoReposts", false);
 
+	m_bNotificationFilterComments = getBool("NotificationFilterComments", true);
+	m_bNotificationFilterLikes = getBool("NotificationFilterComments", true);
+	m_bNotificationFilterReposts = getBool("NotificationFilterComments", true);
+	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
+
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	vk_Instances.insert(this);

@@ -49,6 +49,11 @@ void CVkProto::AddFeedSpecialUser()
 
 void CVkProto::AddFeedEvent(CMString& tszBody, time_t tTime)
 {
+	if (tszBody.IsEmpty()) {
+		debugLogA("CVkProto::AddFeedEvent %d", tTime);
+		return;
+	}
+	
 	MCONTACT hContact = FindUser(VK_FEED_USER, true);
 	ptrT ptszBody(mir_tstrdup(tszBody.GetBuffer()));
 	PROTORECVEVENT recv = { 0 };
@@ -264,118 +269,159 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 
 	if (iUserId){
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
-		CMString tszText = json_as_string(json_get(pFeedback, "text"));
-		
-		int iNameEnd = tszText.Find(_T("],")), iNameBeg = tszText.Find(_T("|"));
-		if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd){
-			CMString tszName = tszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
-			CMString tszBody = tszText.Mid(iNameEnd + 2);
-			if (!tszName.IsEmpty() && !tszBody.IsEmpty())
-				tszText = tszName + _T(",") + tszBody;
-		}
-		
-		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, vkUser->m_tszLink.GetBuffer()), tszText.GetBuffer());
+		CMString tszText = json_as_string(json_get(pFeedback, "text"));	
+		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, vkUser->m_tszLink.GetBuffer()), ClearFormatNick(tszText).GetBuffer());
 	}
 
 	return tszRes;
 }
 
-CMString CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReply)
+CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TCHAR *ptszReplyText, TCHAR *ptszReplyLink)
 {
 	debugLogA("CVkProto::GetVkParent");
 	CMString tszRes;
 	if (!pParent || !vkParentType)
-		return tszRes;
-		
+		return NULL;
+
+	CVKNewsItem * vkNotificationItem = new CVKNewsItem();
+			
 	if (vkParentType == vkPhoto) {
 		CMString tszPhoto = GetVkPhotoItem(pParent);
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
-				
-		CMString tszLink;
-		tszLink.AppendFormat(_T("https://vk.com/photo%d_%d"), iOwnerId, iId);
-		tszRes.AppendFormat(_T("\n%s\n%s"), tszPhoto.GetBuffer(), SetBBCString(TranslateT("Link"), vkbbcUrl, tszLink.GetBuffer()));
+		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/photo%s"), vkNotificationItem->tszId.GetBuffer());
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), tszPhoto.GetBuffer());
+
+		if (ptszReplyText)
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+		
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkVideo) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
 		CMString tszTitle = json_as_string(json_get(pParent, "title"));
-		CMString tszLink;
-		tszLink.AppendFormat(_T("https://vk.com/video%d_%d"), iOwnerId, iId);
-		tszRes.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, tszLink.GetBuffer()));
+		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/video%s"), vkNotificationItem->tszId.GetBuffer());
+		
+		CMString tszText = json_as_string(json_get(pParent, "text"));
+		ClearFormatNick(tszText);
+		
+		if (!tszText.IsEmpty())
+			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Video description:"), vkbbcB), SetBBCString(tszText.GetBuffer(), vkbbcI).GetBuffer());
+
+		if (ptszReplyText)
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+		
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkPost) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "from_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
-		CMString tszLink;
-		tszLink.AppendFormat(_T("https://vk.com/wall%d_%d%s"), iOwnerId, iId, ptszReply ? ptszReply : _T(""));
-		tszRes.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), vkbbcUrl, tszLink.GetBuffer()));
+		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/wall%s%s"), vkNotificationItem->tszId.GetBuffer(), ptszReplyLink ? ptszReplyLink : _T(""));
+		
+		CMString tszText = json_as_string(json_get(pParent, "text"));
+		ClearFormatNick(tszText);
+		
+		if (!tszText.IsEmpty())
+			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Post text:"), vkbbcB), SetBBCString(tszText.GetBuffer(), vkbbcI).GetBuffer());
+
+		if (ptszReplyText)
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkTopic) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
 		CMString tszTitle = json_as_string(json_get(pParent, "title"));
-		CMString tszLink;
-		tszLink.AppendFormat(_T("https://vk.com/topic%d_%d%s"), iOwnerId, iId, ptszReply ? ptszReply : _T(""));
-		tszRes.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, tszLink.GetBuffer()));
+		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
+		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/topic%s%s"), 
+		vkNotificationItem->tszId.GetBuffer(), ptszReplyLink ? ptszReplyLink : _T(""));
+		
+		CMString tszText = json_as_string(json_get(pParent, "text"));
+		ClearFormatNick(tszText);
+		
+		if (!tszText.IsEmpty())
+			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Topic text:"), vkbbcB), SetBBCString(tszText.GetBuffer(), vkbbcI).GetBuffer());
+
+		if (ptszReplyText)
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"),	 SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+		
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());	
 	}
 	else if (vkParentType == vkComment) {
+		CMString tszText = json_as_string(json_get(pParent, "text"));
+		ClearFormatNick(tszText);
+
 		JSONNODE *pNode = json_get(pParent, "photo");
 		if (pNode)
-			return GetVkParent(pNode, vkPhoto);
+			return GetVkParent(pNode, vkPhoto, tszText.IsEmpty() ? NULL : tszText.GetBuffer());
 
 		pNode = json_get(pParent, "video");
 		if (pNode)
-			return GetVkParent(pNode, vkVideo);
+			return GetVkParent(pNode, vkVideo, tszText.IsEmpty() ? NULL : tszText.GetBuffer());
 
 		LONG iId = json_as_int(json_get(pParent, "id"));
 
 		pNode = json_get(pParent, "post");
 		if (pNode){
 			CMString tszRepl;
-			tszRepl.AppendFormat(_T("?reply=%d"), iId);
-			tszRes = GetVkParent(pNode, vkPost, tszRepl.GetBuffer());		
-			return tszRes;
+			tszRepl.AppendFormat(_T("?reply=%d"), iId);		
+			return GetVkParent(pNode, vkPost, tszText.IsEmpty() ? NULL : tszText.GetBuffer(), tszRepl.GetBuffer());
 		}
 
 		pNode = json_get(pParent, "topic");
 		if (pNode){
-			CMString tszRepl;
+			CMString tszRepl;		
 			tszRepl.AppendFormat(_T("?reply=%d"), iId);
-			tszRes = GetVkParent(pNode, vkTopic, tszRepl.GetBuffer());			
-			return tszRes;
+			return GetVkParent(pNode, vkTopic, tszText.IsEmpty() ? NULL : tszText.GetBuffer(), tszRepl.GetBuffer());
 		}
 	}
 
-	return tszRes;
+	return vkNotificationItem;
 }
 
-CMString CVkProto::GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, time_t &tDate)
+CVKNewsItem* CVkProto::GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers)
 {
 	debugLogA("CVkProto::GetVkNotificationsItem");
-	CMString tszRes;
 	if (pItem == NULL)
-		return tszRes;
+		return NULL;
 
 	CMString tszType = json_as_string(json_get(pItem, "type"));
-	tDate = json_as_int(json_get(pItem, "date"));
-
 	VKObjType vkFeedbackType = vkNull, vkParentType = vkNull;
 	CMString tszNotificationTranslate = SpanVKNotificationType(tszType, vkFeedbackType, vkParentType);
 		
 	JSONNODE *pFeedback = json_get(pItem, "feedback");
 	if (!pFeedback)
-		return tszRes;
+		return NULL;
 	CVkUserInfo *vkUser = NULL;
 	CMString tszFeedback = GetVkFeedback(pFeedback, vkFeedbackType, vkUsers, vkUser);
 
 	JSONNODE *pParent = json_get(pItem, "parent");
 	if (!pParent)
-		return tszRes;
-	CMString tszParent = GetVkParent(pParent, vkParentType);
-	if (!tszParent.IsEmpty() && !tszFeedback.IsEmpty())
-		tszRes.AppendFormat(tszFeedback, tszNotificationTranslate.GetBuffer(), tszParent.GetBuffer());
-	return tszRes;
+		return NULL;
+
+	CVKNewsItem* vkNotification = GetVkParent(pParent, vkParentType);
+	if (!vkNotification)
+		return NULL;
+	
+	if (vkNotification && !tszFeedback.IsEmpty()){
+		CMString tszNotificaton;
+		tszNotificaton.AppendFormat(tszFeedback, tszNotificationTranslate.GetBuffer(), vkNotification->tszText.GetBuffer());
+		vkNotification->tszText = tszNotificaton;
+		vkNotification->tszType = tszType;
+		vkNotification->tDate = json_as_int(json_get(pItem, "date"));
+		vkNotification->vkFeedbackType = vkFeedbackType;
+		vkNotification->vkParentType = vkParentType;
+		vkNotification->vkUser = vkUser;
+		return vkNotification;
+	}
+	
+	delete vkNotification;
+	return NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -456,6 +502,8 @@ void CVkProto::OnReceiveUnreadNews(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *p
 	if (pItems != NULL)
 		for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++){	
 			CVKNewsItem *vkNewsItem = GetVkNewsItem(pItem, vkUsers);
+			if (!vkNewsItem)
+				continue;
 			if (vkNews.find(vkNewsItem) == NULL)
 				vkNews.insert(vkNewsItem);
 			else
@@ -479,12 +527,27 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 	debugLogA("CVkProto::RetrieveUnreadNotifications");
 	if (!IsOnline())
 		return;
-
+	
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.get.json", true, &CVkProto::OnReceiveUnreadNotifications)
 		<< INT_PARAM("count", 100)
 		<< INT_PARAM("start_time", tLastNotificationsTime + 1)
-		<< CHAR_PARAM("filters", "comments,likes,reposts")
 		<< VER_API);
+}
+
+bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem)
+{
+	if (vkNotificationItem->vkParentType == vkNull)
+		return false;
+
+	if (vkNotificationItem->tszType == _T("mention_comments")
+		|| vkNotificationItem->tszType == _T("mention_comment_photo")
+		|| vkNotificationItem->tszType == _T("mention_comment_video"))
+		return m_bNotificationFilterMentions;
+
+	bool result = (vkNotificationItem->vkFeedbackType == vkUsers && m_bNotificationFilterLikes);
+	result = (vkNotificationItem->vkFeedbackType == vkCopy && m_bNotificationFilterReposts) || result;
+	result = (vkNotificationItem->vkFeedbackType == vkComment && m_bNotificationFilterComments) || result;
+	return result;
 }
 
 void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -504,14 +567,24 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 	JSONNODE *pItems = json_get(pResponse, "items");
 	JSONNODE *pItem;
 
+	OBJLIST<CVKNewsItem> vkNotification(5, sttCompareVKNewsItems);
 	if (pItems != NULL)
-		for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++){
-			time_t tDate;
-			CMString tszText = GetVkNotificationsItem(pItem, vkUsers, tDate);
-			AddFeedEvent(tszText, tDate);
+		for (int i = 0; (pItem = json_at(pItems, i)) != NULL; i++){	
+			CVKNewsItem *vkNotificationItem = GetVkNotificationsItem(pItem, vkUsers);
+			if (!vkNotificationItem)
+				continue;
+			if (vkNotification.find(vkNotificationItem) == NULL)
+				vkNotification.insert(vkNotificationItem);
+			else
+				delete vkNotificationItem;
 		}
 
+	for (int i = 0; i < vkNotification.getCount(); i++)
+		if (FilterNotification(&vkNotification[i]))
+			AddFeedEvent(vkNotification[i].tszText, vkNotification[i].tDate);
+	
 	setDword("LastNotificationsTime", time(NULL));
+	vkNotification.destroy();
 	vkUsers.destroy();
 }
 
