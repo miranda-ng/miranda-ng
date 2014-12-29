@@ -105,16 +105,6 @@ const
   MS_RADIO_IMPORT:PAnsiChar = 'mRadio/Import';
 
 {
-  wParam: RD_STATUS_* constants
-  lParam: argument
-    RD_STATUS_NEWSTATION - contact handle
-    RD_STATUS_NEWTRACK   - URL (unicode)
-    RD_STATUS_PAUSED     - 1 - pause, 0 - continued
-    RD_STATUS_RECORD     -,0 - off,   1 - on
-}
-  ME_RADIO_STATUS:PAnsiChar = 'mRadio/Status';
-
-{
   wParam: 0 - switch; 1 - switch on; -1 - switch off
   lParam: 0
   Return: last state (0 - was off, 1 - was on)
@@ -127,5 +117,15 @@ const
   Return: 0, if cancelled, 101 - "mute", 102 - "play/pause", 103 - "stop" or station handle
 }
   MS_RADIO_TRAYMENU:PAnsiChar = 'mRadio/MakeTrayMenu';
+
+{
+  wParam: RD_STATUS_* constants
+  lParam: argument
+    RD_STATUS_NEWSTATION - contact handle
+    RD_STATUS_NEWTRACK   - URL (unicode)
+    RD_STATUS_PAUSED     - 1 - pause, 0 - continued
+    RD_STATUS_RECORD     -,0 - off,   1 - on
+}
+  ME_RADIO_STATUS:PAnsiChar = 'mRadio/Status';
 
 {$ENDIF}
