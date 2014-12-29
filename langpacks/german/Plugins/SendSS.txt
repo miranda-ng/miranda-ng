@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.9.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -42,10 +42,8 @@ Erneut öffnen
 Auf&nehmen
 [About]
 Über
-[%s\nv%s]
-%s\nv%s
-[Credits >]
-Dank an >
+[Copyright]
+Copyright
 [&Close]
 S&chließen
 [Edit]
@@ -226,10 +224,6 @@ SendSS+ öffnen
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Danksagung
-[< Copyright]
-< Copyright
-[Copyright]
-Copyright
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Quellfenster mit Drag&Drop auswählen

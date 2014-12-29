@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.9.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -40,8 +40,8 @@
 Захоп
 [About]
 Інфармацыя
-[Credits >]
-Аўтары >
+[Copyright]
+Правы
 [&Close]
 &Зачыніць
 [Edit]
@@ -146,10 +146,6 @@ HTTP далучэнне SendSS
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Аўтары
-[< Copyright]
-< Правы
-[Copyright]
-Правы
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Перацягнеце прыцэл на патрэбнае вакно.

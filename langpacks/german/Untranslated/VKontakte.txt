@@ -15,6 +15,7 @@
 [Include banned sources]
 [Subscriptions to users]
 [No reposts]
+[Access denied! Data will not be sent or received.]
 [commented on your post]
 [commented on your photo]
 [commented on your video]

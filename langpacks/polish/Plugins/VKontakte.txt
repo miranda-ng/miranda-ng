@@ -173,10 +173,12 @@ Ikona transmisji
 Protokoły
 [VKontakte]
 VKontakte
-[Error %d. Data will not be sent or received.]
-Błąd %d. Dane nie zostaną wysłane lub odebrane.
+[Access denied! Data will not be sent or received.]
+
 [Error]
 Błąd
+[Error %d. Data will not be sent or received.]
+Błąd %d. Dane nie zostaną wysłane lub odebrane.
 [Message read: %s]
 Wiadomość odczytana: %s
 [commented on your post]

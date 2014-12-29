@@ -9,6 +9,8 @@
 Pozwala szybko znaleźć kontakty z listy kontaktów poprzez nick, imię, e-mail, UIN, itp.
 [Quick Search]
 Szybkie szukanie
+[Quick search]
+Szybkie szukanie
 [Title]
 Nazwa
 [Module/InfoType]
