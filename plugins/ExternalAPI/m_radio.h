@@ -14,6 +14,7 @@
 #define MRC_STATUS 5 // lParam is RD_STATUS_* value (RD_STATUS_GET only now)
 #define MRC_SEEK   6 // lParam is value in sec; -1 mean obtain current position
 #define MRC_RECORD 7 // lParam is 0 - switch; 1 - on; 2 - off
+#define MRC_MUTE   8
 
 /* RD_STATUS_* constands
    [C]used as command    [E]used as event
@@ -42,10 +43,6 @@
 #define MS_RADIO_SETTINGS "mRadio/Settings"
 /*
   Switch 'record' mode
-  +0.0.1.x (deprecatet) !!!
-  wParam: 0 - switch mode; else - get record status
-  lParam: 0
-  +0.0.2.x  
   wParam: not used
   lParam: 0 - switch mode; else - get record status
   Return: Current status: 1 - record is ON, 0 - OFF
@@ -74,6 +71,11 @@
 #define MS_RADIO_MUTE "mRadio/Mute"
 
 /*
+  wParam,lParam = 0
+*/
+#define MS_RADIO_QUICKOPEN "mRadio/QuickOpen"
+
+/*
   Send command to mRadio
   wParam: command (see MRC_* constant)
   lParam: value (usually 0)
@@ -88,14 +90,14 @@
 */
 #define MS_RADIO_PLAYSTOP "mRadio/PlayStop"
 
-/* +0.0.1.4
+/*
   wParam: station handle (0 - all)
   lParam: nil (through dialog, radio.ini by default) or ansi string with filename
   Return: exported stations amount
 */
 #define MS_RADIO_EXPORT "mRadio/Export"
 
-/* +0.0.1.4
+/*
   wParam: group to import radio or 0
   lParam: nil (through dialog, radio.ini by default) or ansi string with filename
   Return: imported stations amount
@@ -109,17 +111,16 @@
 */
 #define MS_RADIO_EQONOFF "mRadio/EqOnOff"
 
+/*
+  wParam: 0 
+  lParam: 0
+  Return: 0, if cancelled, 101 - "mute", 102 - "play/pause", 103 - "stop" or station handle
+*/
+#define MS_RADIO_TRAYMENU "mRadio/MakeTrayMenu"
+
 //////event/////
 
-/* +0.0.1.4 (deprecatet only used in 0.0.1.4+)
-  wParam:
-  MRC_STOP   , LParam - 0
-  MRC_PLAY   , LParam - url
-  MRC_PAUSE  , LParam - 0 (pause) / 1 (play)
-  MRC_SEEK   , LParam - lParam is value in sec
-  MRC_RECORD , LParam - 0 (stop) / 1 (record)
-
-  +0.0.2.1 new event constants !!
+/*
   wParam: RD_STATUS_* (see constants)
   RD_STATUS_NEWSTATION , lParam: contact handle
   RD_STATUS_NEWTRACK   , lParam: URL (unicode)
