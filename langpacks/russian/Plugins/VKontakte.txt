@@ -171,10 +171,12 @@ Cоздать комнату чата
 Протоколы
 [VKontakte]
 ВКонтакте
-[Error %d. Data will not be sent or received.]
-Ошибка %d. Данные не будут приняты или отправлены.
+[Access denied! Data will not be sent or received.]
+Отказ в доступе! Данные не будут приняты или отправлены.
 [Error]
 Ошибка
+[Error %d. Data will not be sent or received.]
+Ошибка %d. Данные не будут приняты или отправлены.
 [Message read: %s]
 Сообщение прочтено в: %s
 [commented on your post]
