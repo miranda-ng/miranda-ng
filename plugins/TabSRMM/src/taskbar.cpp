@@ -224,7 +224,7 @@ void CProxyWindow::verify(TWindowData *dat)
  * and previews for a message session.
  * each tab has one invisible proxy window
  */
-CProxyWindow::CProxyWindow(const TWindowData *dat)
+CProxyWindow::CProxyWindow(TWindowData *dat)
 {
 	m_dat = dat;
 	m_hBigIcon = 0;
@@ -340,7 +340,7 @@ void CProxyWindow::sendPreview()
 		::SendMessage(m_dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rcClient);
 		::MoveWindow(m_dat->hwnd, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), FALSE);
 		::SendMessage(m_dat->hwnd, WM_SIZE, 0, 0);
-		::SendMessage(m_dat->hwnd, DM_FORCESCROLL, 0, 0);
+		DM_ScrollToBottom(m_dat, 0, 1);
 	}
 	/*
 		* a minimized container has a null rect as client area, so do not use it

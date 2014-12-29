@@ -526,7 +526,6 @@ struct TNewWindowData
 #define DM_QUERYHCONTACT         (TM_USER+41)
 #define DM_DEFERREDREMAKELOG     (TM_USER+42)
 #define DM_RESTOREWINDOWPOS      (TM_USER+43)
-#define DM_FORCESCROLL           (TM_USER+44)
 #define DM_QUERYCLIENTAREA       (TM_USER+45)
 #define DM_QUERYRECENT           (TM_USER+47)
 #define DM_ACTIVATEME            (TM_USER+46)

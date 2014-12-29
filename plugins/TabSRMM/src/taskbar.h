@@ -97,7 +97,7 @@ private:
 class CProxyWindow
 {
 public:
-	CProxyWindow(const TWindowData *dat);
+	CProxyWindow(TWindowData *dat);
 	~CProxyWindow();
 
 	void updateIcon(const HICON hIcon) const;
@@ -120,7 +120,7 @@ public:
 	static void verify(TWindowData *dat);
 
 private:
-	const TWindowData *m_dat;
+	TWindowData *m_dat;
 
 	HWND m_hwndProxy;
 	LONG m_width, m_height;
