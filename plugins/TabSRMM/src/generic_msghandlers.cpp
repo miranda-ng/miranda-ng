@@ -970,8 +970,6 @@ void TSAPI DM_ScrollToBottom(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		SendMessage(hwnd, WM_SIZE, 0, 0);
 
 	if (wParam == 1 && lParam == 1) {
-		RECT rc;
-		GetClientRect(hwnd, &rc);
 		int len = GetWindowTextLength(hwnd);
 		SendMessage(hwnd, EM_SETSEL, len - 1, len - 1);
 	}
