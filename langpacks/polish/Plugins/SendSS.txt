@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.9.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -42,10 +42,8 @@ Otwórz ponownie
 &Uchwyć
 [About]
 O kontakcie
-[%s\nv%s]
-%s\nv%s
-[Credits >]
-Autorzy >
+[Copyright]
+Prawa aut.
 [&Close]
 &Zamknij
 [Edit]
@@ -226,10 +224,6 @@ Otwórz SendSS+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Autorzy
-[< Copyright]
-< Prawa aut.
-[Copyright]
-Prawa aut.
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Umieść celownik na odpowiednie okno.

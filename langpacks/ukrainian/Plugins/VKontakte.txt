@@ -171,10 +171,10 @@
 Протоколи
 [VKontakte]
 ВКонтакті
-[Error %d. Data will not be sent or received.]
-Помилка %d. Дані не передаватимуться і не прийматимуться.
 [Error]
 Помилка
+[Error %d. Data will not be sent or received.]
+Помилка %d. Дані не передаватимуться і не прийматимуться.
 [Message read: %s]
 Повідомлення прочитане о %s
 [commented on your post]

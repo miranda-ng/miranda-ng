@@ -9,6 +9,8 @@
 Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
 [Quick Search]
 Schnellsuche
+[Quick search]
+Schnellsuche
 [Title]
 Titel
 [Module/InfoType]

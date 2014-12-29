@@ -173,10 +173,12 @@ Benutzer-bannen-Icon
 Protokolle
 [VKontakte]
 VKontakte
-[Error %d. Data will not be sent or received.]
-Fehler %d. Daten werden weder gesendet noch empfangen.
+[Access denied! Data will not be sent or received.]
+
 [Error]
 Fehler
+[Error %d. Data will not be sent or received.]
+Fehler %d. Daten werden weder gesendet noch empfangen.
 [Message read: %s]
 Nachricht gelesen: %s
 [commented on your post]

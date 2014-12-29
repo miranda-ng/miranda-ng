@@ -9,6 +9,8 @@
 
 [Quick Search]
 Recherche rapide
+[Quick search]
+Recherche rapide
 [Title]
 
 [Module/InfoType]
