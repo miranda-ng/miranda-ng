@@ -1353,14 +1353,10 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	ReplaceIcons(hwndDlg, dat, startAt, fAppend, isSent);
 	dat->clr_added = FALSE;
 
+	bool bForce = (dat->hwndIEView == 0 && dat->hwndHPP == 0);
+	DM_ScrollToBottom(dat, bForce, bForce);
+
 	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
-	if (dat->hwndIEView == 0 && dat->hwndHPP == 0) {
-		int len = GetWindowTextLength(hwndLog);
-		SendMessage(hwndLog, EM_SETSEL, len - 1, len - 1);
-	}
-
-//	DM_ScrollToBottom(dat, 0, 0);
-
 	SendMessage(hwndLog, WM_SETREDRAW, TRUE, 0);
 	InvalidateRect(hwndLog, NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
