@@ -181,7 +181,7 @@ int ExtraIconGroup::internalSetIcon(int id, MCONTACT hContact, void *value, bool
 
 			insideApply = false;
 
-			if (setValidExtraIcon)
+			if (setValidExtraIcon && storePos < items.getCount())
 				db_set_dw(hContact, MODULE_NAME, szName, items[storePos]->getID());
 		}
 	}
