@@ -165,7 +165,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 				JSONNODE *pPhotoItem;
 				tszText = TranslateT("User was tagged in these photos:");
 				for (size_t i = 0; (pPhotoItem = json_at(pPhotoItems, i)) != NULL; i++)
-					tszText += _T("\n") + GetVkPhotoItem(pPhotoItem);
+					tszText += _T("\n") + GetVkPhotoItem(pPhotoItem, m_iBBCForNews);
 			}
 		}
 	}
@@ -176,7 +176,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 			JSONNODE *pPhotoItems = json_get(pPhotos, "items"), *pPhotoItem;
 			if (pPhotoItems)		
 				for (size_t i = 0; (pPhotoItem = json_at(pPhotoItems, i)) != NULL; i++) {					
-					tszText += GetVkPhotoItem(pPhotoItem) + _T("\n");
+					tszText += GetVkPhotoItem(pPhotoItem, m_iBBCForNews) + _T("\n");
 					if (i == 0 && vkNewsItem->tszType == _T("wall_photo")) {
 						LONG iPhotoPostId = json_as_int(json_get(pPhotoItem, "post_id"));
 						if (iPhotoPostId) {
@@ -202,7 +202,7 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 
 		JSONNODE *pAttachments = json_get(pItem, "attachments");
 		if (pAttachments)
-			tszText += GetAttachmentDescr(pAttachments);
+			tszText += GetAttachmentDescr(pAttachments, m_bUseBBCOnAttacmentsAsNews ? m_iBBCForNews : m_iBBCForAttachments);
 	}
 
 	CMString tszResFormat;	
@@ -214,14 +214,15 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 		bPostLink = false;
 	}
 		
-	vkNewsItem->tszText.AppendFormat(tszResFormat, SetBBCString(vkNewsItem->vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, 
+	vkNewsItem->tszText.AppendFormat(tszResFormat, 
+		SetBBCString(vkNewsItem->vkUser->m_tszUserNick.GetBuffer(), m_iBBCForNews, vkbbcUrl, 
 		vkNewsItem->vkUser->m_tszLink.GetBuffer()), tszText.GetBuffer());
 	
 	vkNewsItem->tszId.AppendFormat(_T("%d_%d"), vkNewsItem->vkUser->m_UserId, iPostId);
 	if (bPostLink) {
 		vkNewsItem->tszLink = CMString(_T("https://vk.com/wall")) + vkNewsItem->tszId;
 		vkNewsItem->tszText.AppendChar(_T('\n'));
-		vkNewsItem->tszText += SetBBCString(TranslateT("Link"), vkbbcUrl, vkNewsItem->tszLink.GetBuffer());
+		vkNewsItem->tszText += SetBBCString(TranslateT("Link"), m_iBBCForNews, vkbbcUrl, vkNewsItem->tszLink.GetBuffer());
 	}
 
 	debugLog(_T("CVkProto::GetVkNewsItem %d %d <%s> <%s>"), iSourceId, iPostId, vkNewsItem->tszText.GetBuffer(), tszText.GetBuffer());
@@ -260,7 +261,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 			vkUser = GetVkUserInfo(iUserId, vkUsers);
 			if (!tszUsers.IsEmpty())
 				tszUsers += _T(", ");
-			tszUsers += SetBBCString(vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, vkUser->m_tszLink.GetBuffer());
+			tszUsers += SetBBCString(vkUser->m_tszUserNick.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkUser->m_tszLink.GetBuffer());
 		}
 		tszRes.AppendFormat(_T("%s %%s %%s"), tszUsers.GetBuffer());
 		vkUser = NULL;
@@ -270,7 +271,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 	if (iUserId) {
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
 		CMString tszText = json_as_string(json_get(pFeedback, "text"));	
-		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), vkbbcUrl, vkUser->m_tszLink.GetBuffer()), ClearFormatNick(tszText).GetBuffer());
+		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkUser->m_tszLink.GetBuffer()), ClearFormatNick(tszText).GetBuffer());
 	}
 
 	return tszRes;
@@ -286,7 +287,7 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 	CVKNewsItem * vkNotificationItem = new CVKNewsItem();
 			
 	if (vkParentType == vkPhoto) {
-		CMString tszPhoto = GetVkPhotoItem(pParent);
+		CMString tszPhoto = GetVkPhotoItem(pParent, m_iBBCForNews);
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
 		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
@@ -294,9 +295,9 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), tszPhoto.GetBuffer());
 
 		if (ptszReplyText)
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_iBBCForNews, vkbbcI).GetBuffer());
 		
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), m_iBBCForNews, vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkVideo) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
@@ -309,12 +310,12 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		ClearFormatNick(tszText);
 		
 		if (!tszText.IsEmpty())
-			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Video description:"), vkbbcB), SetBBCString(tszText.GetBuffer(), vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Video description:"), m_iBBCForNews, vkbbcB), SetBBCString(tszText.GetBuffer(), m_iBBCForNews, vkbbcI).GetBuffer());
 
 		if (ptszReplyText)
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_iBBCForNews, vkbbcI).GetBuffer());
 		
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkPost) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "from_id"));
@@ -326,12 +327,12 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		ClearFormatNick(tszText);
 		
 		if (!tszText.IsEmpty())
-			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Post text:"), vkbbcB), SetBBCString(tszText.GetBuffer(), vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Post text:"), m_iBBCForNews, vkbbcB), SetBBCString(tszText.GetBuffer(), m_iBBCForNews, vkbbcI).GetBuffer());
 
 		if (ptszReplyText)
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_iBBCForNews, vkbbcI).GetBuffer());
 
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(TranslateT("Link"), m_iBBCForNews, vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkTopic) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
@@ -345,12 +346,12 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		ClearFormatNick(tszText);
 		
 		if (!tszText.IsEmpty())
-			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Topic text:"), vkbbcB), SetBBCString(tszText.GetBuffer(), vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n%s: %s"), SetBBCString(TranslateT("Topic text:"), m_iBBCForNews, vkbbcB), SetBBCString(tszText.GetBuffer(), m_iBBCForNews, vkbbcI).GetBuffer());
 
 		if (ptszReplyText)
-			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"),	 SetBBCString(ptszReplyText, vkbbcI).GetBuffer());
+			vkNotificationItem->tszText.AppendFormat(_T("\n>> %s"), SetBBCString(ptszReplyText, m_iBBCForNews, vkbbcI).GetBuffer());
 		
-		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());	
+		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkComment) {
 		CMString tszText = json_as_string(json_get(pParent, "text"));

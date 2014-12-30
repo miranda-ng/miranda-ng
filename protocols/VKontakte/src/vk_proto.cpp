@@ -83,7 +83,9 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_iNewsInterval = getDword("NewsInterval", 15);
 	m_iNotificationsInterval = getDword("NotificationsInterval", 1);
 	m_iIMGBBCSupport = getByte("IMGBBCSupport", 0);
-	m_iBBCForNews = getByte("BBCForNews", 0);
+	m_iBBCForNews = (BBCSupport)getByte("BBCForNews", 1);
+	m_iBBCForAttachments = (BBCSupport)getByte("BBCForAttachments", 1);
+	m_bUseBBCOnAttacmentsAsNews = getBool("UseBBCOnAttacmentsAsNews", true);
 	m_bNewsAutoClearHistory = getBool("NewsAutoClearHistory", false);
 	m_iNewsAutoClearHistoryInterval = getDword("NewsAutoClearHistoryInterval", 60*60*24*3);
 

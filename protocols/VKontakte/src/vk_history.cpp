@@ -201,7 +201,7 @@ void CVkProto::OnReceiveHistoryMessages(NETLIBHTTPREQUEST *reply, AsyncHttpReque
 
 		JSONNODE *pAttachments = json_get(pMsg, "attachments");
 		if (pAttachments != NULL)
-			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments));
+			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments, m_iBBCForAttachments));
 
 		MCONTACT hContact = FindUser(uid, true);
 		PROTORECVEVENT recv = { 0 };

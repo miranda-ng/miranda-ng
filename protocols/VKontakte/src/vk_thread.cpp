@@ -634,7 +634,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		JSONNODE *pAttachments = json_get(pMsg, "attachments");
 
 		if (pAttachments != NULL)
-			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments));
+			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments, m_iBBCForAttachments));
 
 		MCONTACT hContact = NULL;
 		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
