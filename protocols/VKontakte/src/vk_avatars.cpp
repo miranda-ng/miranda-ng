@@ -115,7 +115,7 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return 1;
 	
 	TCHAR* buf = (TCHAR*)wParam;
-	int  size = (int)lParam;
+	int size = (int)lParam;
 	
 	_tcsncpy(buf, AI.filename, size);
 	buf[size - 1] = 0;

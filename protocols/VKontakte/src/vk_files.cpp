@@ -46,7 +46,7 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	TCHAR img[] = _T(".jpg .jpeg .png .bmp");
 	TCHAR audio[] = _T(".mp3");
 	
-	TCHAR  DRIVE[3], DIR[256], FNAME[256], EXT[256];
+	TCHAR DRIVE[3], DIR[256], FNAME[256], EXT[256];
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
 	
 	CMStringA fn;
