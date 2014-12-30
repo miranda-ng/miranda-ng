@@ -573,16 +573,16 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance   = hInst;
-	odp.ptszTitle   = m_tszUserName;
+	odp.hInstance = hInst;
+	odp.ptszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-	odp.ptszGroup   = LPGENT("Network");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.ptszGroup = LPGENT("Network");
 	
-	odp.ptszTab     = LPGENT("Account");
+	odp.ptszTab = LPGENT("Account");
 	odp.position = 1;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
-	odp.pfnDlgProc  = &CVkProto::OptionsProc;
+	odp.pfnDlgProc = &CVkProto::OptionsProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Advanced");

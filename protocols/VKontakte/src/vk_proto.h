@@ -108,7 +108,7 @@ struct CVkChatMessage : public MZeroedObject
 {
 	CVkChatMessage(int _id) : m_mid(_id) {}
 
-	int  m_mid, m_uid, m_date;
+	int m_mid, m_uid, m_date;
 	bool m_bHistory;
 	ptrT m_tszBody;
 };
@@ -117,7 +117,7 @@ struct CVkChatUser : public MZeroedObject
 {
 	CVkChatUser(int _id) : m_uid(_id) {}
 
-	int  m_uid;
+	int m_uid;
 	bool m_bDel, m_bUnknown;
 	ptrT m_tszNick;
 };
@@ -164,7 +164,7 @@ struct CVkUserInfo : public MZeroedObject {
 		m_bIsGroup(false)
 	{}
 
-	CVkUserInfo(LONG _UserId, bool  _bIsGroup, CMString& _tszUserNick, CMString& _tszLink, MCONTACT _hContact = NULL) :
+	CVkUserInfo(LONG _UserId, bool _bIsGroup, CMString& _tszUserNick, CMString& _tszLink, MCONTACT _hContact = NULL) :
 		m_UserId(_UserId),
 		m_bIsGroup(_bIsGroup),
 		m_tszUserNick(_tszUserNick),
@@ -238,48 +238,48 @@ struct CVkProto : public PROTO<CVkProto>
 	// PROTO_INTERFACE
 	//====================================================================================
 
-	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
+	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
+	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
 
-	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
+	virtual	int __cdecl Authorize(HANDLE hDbEvent);
+	virtual	int __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
 
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
+	virtual	HANDLE __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szPath);
+	virtual	int __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer);
+	virtual	int __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR *szReason);
+	virtual	int __cdecl FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename);
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType);
+	virtual	int __cdecl GetInfo(MCONTACT hContact, int infoType);
 
-	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *id);
-	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *email);
-	virtual	HANDLE    __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner);
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
+	virtual	HANDLE __cdecl SearchBasic(const TCHAR *id);
+	virtual	HANDLE __cdecl SearchByEmail(const TCHAR *email);
+	virtual	HANDLE __cdecl SearchByName(const TCHAR *nick, const TCHAR *firstName, const TCHAR *lastName);
+	virtual	HWND __cdecl SearchAdvanced(HWND owner);
+	virtual	HWND __cdecl CreateExtendedSearchUI(HWND owner);
 
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
-	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
+	virtual	int __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
+	virtual	int __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
-	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url);
+	virtual	int __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
+	virtual	HANDLE __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);
+	virtual	int __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
+	virtual	int __cdecl SendUrl(MCONTACT hContact, int flags, const char* url);
 
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
-	virtual	int       __cdecl SetStatus(int iNewStatus);
+	virtual	int __cdecl SetApparentMode(MCONTACT hContact, int mode);
+	virtual	int __cdecl SetStatus(int iNewStatus);
 
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
-	virtual	int       __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
+	virtual	HANDLE __cdecl GetAwayMsg(MCONTACT hContact);
+	virtual	int __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt);
+	virtual	int __cdecl SetAwayMsg(int m_iStatus, const TCHAR *msg);
 
-	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
+	virtual	int __cdecl UserIsTyping(MCONTACT hContact, int type);
 
-	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
+	virtual	int __cdecl OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam);
 
 	//==== Events ========================================================================
 
@@ -318,12 +318,12 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcGetAllServerHistory(WPARAM hContact, LPARAM);
 	void InitMenus();
 	void UnInitMenus();
-	int  __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
+	int __cdecl OnPreBuildContactMenu(WPARAM hContact, LPARAM);
 
 	//==== PopUps ========================================================================
 
-	void   InitPopups(void);
-	void   MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
+	void InitPopups(void);
+	void MsgPopup(MCONTACT hContact, const TCHAR *szMsg, const TCHAR *szTitle, bool err = false);
 
 	//==== Hooks =========================================================================
 
@@ -376,21 +376,21 @@ struct CVkProto : public PROTO<CVkProto>
 	//==== Misc ==========================================================================
 
 	TCHAR* GetUserStoredPassword(void);
-	void   SetAllContactStatuses(int status);
-
+	void SetAllContactStatuses(int status);
+	
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
 	MCONTACT FindChat(LONG dwUserid);
 
-	bool   CheckMid(int guid);
+	bool CheckMid(int guid);
 
 	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE*);
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	bool   AutoFillForm(char*, CMStringA&, CMStringA&);
+	bool AutoFillForm(char*, CMStringA&, CMStringA&);
 
-	void   GrabCookies(NETLIBHTTPREQUEST *nhr);
-	void   ApplyCookies(AsyncHttpRequest*);
+	void GrabCookies(NETLIBHTTPREQUEST *nhr);
+	void ApplyCookies(AsyncHttpRequest*);
 
 	void DBAddAuthRequest(const MCONTACT hContact);
 	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
@@ -442,7 +442,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrievePollingInfo();
 	void OnReceivePollingInfo(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void __cdecl PollingThread(void*);
-	int  PollServer();
+	int PollServer();
 	void PollUpdates(JSONNODE*);
 	void OnReceivePolling(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -468,7 +468,7 @@ private:
 	mir_cs m_csRequestsQueue;
 	HANDLE m_evRequestsQueue;
 	HANDLE m_hWorkerThread;
-	bool   m_bTerminated, m_bServerDelivery;
+	bool m_bTerminated, m_bServerDelivery;
 	CMStringA m_prevUrl;
 
 	enum CLMenuIndexes {
@@ -517,26 +517,26 @@ private:
 
 	OBJLIST<Cookie> m_cookies;
 	
-	void   InitQueue();
-	void   UninitQueue();
-	void   ExecuteRequest(AsyncHttpRequest*);
-	void   __cdecl WorkerThread(void*);
+	void InitQueue();
+	void UninitQueue();
+	void ExecuteRequest(AsyncHttpRequest*);
+	void __cdecl WorkerThread(void*);
 
 	AsyncHttpRequest* Push(AsyncHttpRequest*, int iTimeout = 10000);
 
-	bool   RunCaptchaForm(LPCSTR szUrl, CMStringA&);
-	bool      ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE*);
+	bool RunCaptchaForm(LPCSTR szUrl, CMStringA&);
+	bool ApplyCaptcha(AsyncHttpRequest *pReq, JSONNODE*);
 
-	void   ConnectionFailed(int iReason);
-	void   OnLoggedIn();
-	void   OnLoggedOut();
-	void   ShutdownSession();
+	void ConnectionFailed(int iReason);
+	void OnLoggedIn();
+	void OnLoggedOut();
+	void ShutdownSession();
 
-	void   SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
-	void   GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
-	void   ReloadAvatarInfo(MCONTACT hContact);
+	void SetAvatarUrl(MCONTACT hContact, CMString &tszUrl);
+	void GetAvatarFileName(MCONTACT hContact, TCHAR* pszDest, size_t cbLen);
+	void ReloadAvatarInfo(MCONTACT hContact);
 
-	void   __cdecl SendMsgAck(void *param);
+	void __cdecl SendMsgAck(void *param);
 
 	//============== Options =============================================================
 	
@@ -590,7 +590,7 @@ private:
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;
 
-	ptrA   
+	ptrA
 		m_pollingServer, 
 		m_pollingKey, 
 		m_pollingTs,
@@ -602,7 +602,7 @@ private:
 		m_hPopupClassError, 
 		m_hPopupClassNotification;
 	
-	ULONG  m_msgId;
+	ULONG m_msgId;
 	
 	LIST<void> m_sendIds;
 

@@ -364,7 +364,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		setTString(hContact, "About", tszValue.GetBuffer());
 
 	tszValue = json_as_string(json_get(pItem, "domain"));
-	if (!tszValue.IsEmpty()){
+	if (!tszValue.IsEmpty()) {
 		setTString(hContact, "domain", tszValue.GetBuffer());
 		CMString tszUrl("https://vk.com/");
 		tszUrl.Append(tszValue);
@@ -548,7 +548,7 @@ void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int  CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
+int CVkProto::OnDbEventRead(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::OnDbEventRead");
 	if (m_iMarkMessageReadOn == markOnRead)
@@ -1003,10 +1003,10 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
 	if (StatusMsg.IsEmpty()) {
 		if (m_iMusicSendMetod == sendBroadcastOnly)
-		    code = "API.audio.setBroadcast();return null;";
+			code = "API.audio.setBroadcast();return null;";
 		else {
-		    CMString codeformat("API.status.set({text:\"%s\"});return null;");
-		    code.AppendFormat(codeformat, oldStatusMsg);
+			CMString codeformat("API.status.set({text:\"%s\"});return null;");
+			code.AppendFormat(codeformat, oldStatusMsg);
 		}
 	}
 	else {
@@ -1025,7 +1025,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 			CMString codeformat("var StatusMsg=\"&#9835; %s\";var OldMsg=API.status.get();"
 				"API.status.set({\"text\":StatusMsg});"
 				"return OldMsg;");
-		    code.AppendFormat(codeformat, StatusMsg);
+			code.AppendFormat(codeformat, StatusMsg);
 		}
 		else if (m_iMusicSendMetod == sendBroadcastAndStatus) {
 			CMString codeformat("var StatusMsg=\"%s\";var CntLmt=100;var Track=\" \";var OldMsg=API.status.get();"

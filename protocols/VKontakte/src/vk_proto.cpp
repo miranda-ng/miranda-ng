@@ -418,7 +418,7 @@ DWORD_PTR CVkProto::GetCaps(int type, MCONTACT)
 		return PF2_ONLINE;
 
 	case PFLAGNUM_4:
-		return   PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
+		return PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES;
 
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
@@ -461,7 +461,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	if (!IsOnline())
 		return 0;
 	LONG userID = getDword(hContact, "ID", -1);
-	if (userID == -1 || userID == VK_FEED_USER){
+	if (userID == -1 || userID == VK_FEED_USER) {
 		ForkThread(&CVkProto::SendMsgAck, new TFakeAckParams(hContact, 0));
 		return 0;
 	}
@@ -540,7 +540,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 int CVkProto::SetStatus(int iNewStatus)
 {
-	debugLogA("CVkProto::SetStatus iNewStatus = %d,  m_iStatus = %d, m_iDesiredStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus);
+	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus);
 	if (m_iDesiredStatus == iNewStatus || iNewStatus == ID_STATUS_IDLE)
 		return 0;
 

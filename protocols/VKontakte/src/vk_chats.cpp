@@ -77,7 +77,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	}
 
 	setDword(gci.hContact, "vk_chat_id", id);
-	db_unset(gci.hContact, m_szModuleName,  "off");
+	db_unset(gci.hContact, m_szModuleName, "off");
 
 	if (json_as_int(json_get(pDlg, "left")) == 1) {
 		setByte(gci.hContact, "off", 1);
@@ -362,7 +362,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);
-			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true,  &CVkProto::OnSendChatMsg)
+			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg)
 				<< INT_PARAM("chat_id", cc->m_chatid) 
 				<< CHAR_PARAM("message", mir_utf8encodeT(buf))
 				<< VER_API;
@@ -734,7 +734,7 @@ static INT_PTR CALLBACK GcCreateDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CLIST);
 			SetWindowLongPtr(hwndClist, GWL_STYLE,
-				GetWindowLongPtr(hwndClist, GWL_STYLE) |  CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
+				GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_CHECKBOXES | CLS_HIDEEMPTYGROUPS | CLS_USEGROUPS | CLS_GREYALTERNATE | CLS_GROUPCHECKBOXES);
 			SendMessage(hwndClist, CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP | CLS_EX_TRACKSELECT, 0);
 
 			ResetOptions(hwndDlg);

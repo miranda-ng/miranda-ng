@@ -15,22 +15,22 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define VK_APP_ID  3917910
+#define VK_APP_ID 3917910
 
 // LongPool servers events
-#define VKPOLL_MSG_REMOVED   0
-#define VKPOLL_MSG_NEWFLAGS  1
-#define VKPOLL_MSG_ADDFLAGS  2
-#define VKPOLL_MSG_DELFLAGS  3
-#define VKPOLL_MSG_ADDED     4
-#define VKPOLL_READ_ALL_IN   6
-#define VKPOLL_READ_ALL_OUT  7
-#define VKPOLL_USR_ONLINE    8
-#define VKPOLL_USR_OFFLINE   9
-#define VKPOLL_CHAT_CHANGED 51
-#define VKPOLL_USR_UTN      61
-#define VKPOLL_CHAT_UTN     62
-#define VKPOLL_RING         70
+#define VKPOLL_MSG_REMOVED	0
+#define VKPOLL_MSG_NEWFLAGS	1
+#define VKPOLL_MSG_ADDFLAGS	2
+#define VKPOLL_MSG_DELFLAGS	3
+#define VKPOLL_MSG_ADDED	4
+#define VKPOLL_READ_ALL_IN	6
+#define VKPOLL_READ_ALL_OUT	7
+#define VKPOLL_USR_ONLINE	8
+#define VKPOLL_USR_OFFLINE	9
+#define VKPOLL_CHAT_CHANGED	51
+#define VKPOLL_USR_UTN		61
+#define VKPOLL_CHAT_UTN		62
+#define VKPOLL_RING			70
 
 // Flags for VKPOLL_MSG_ADDED
 #define VKFLAG_MSGUNREAD	1	// сообщение не прочитано
@@ -52,7 +52,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define VKERR_FLOOD_CONTROL			9	// Flood control
 #define VKERR_INTERNAL_SERVER_ERR	10	// Internal server error
 #define VKERR_CAPTCHA_NEEDED		14	// Captcha needed
-#define VKERR_ACCESS_DENIED			15  // Access denied 
+#define VKERR_ACCESS_DENIED			15	// Access denied 
 #define VKERR_COULD_NOT_SAVE_FILE	105	// Couldn't save file
 #define VKERR_INVALID_ALBUM_ID		114	// Invalid album id
 #define VKERR_INVALID_SERVER		118	// Invalid server

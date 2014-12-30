@@ -409,7 +409,7 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 			if (bFirstToken) {
 				int iStart2 = 0;
 				szCookieName = szToken.Tokenize("=", iStart2);
-				szCookieVal  = szToken.Tokenize("=", iStart2);
+				szCookieVal = szToken.Tokenize("=", iStart2);
 			}
 			else if (!strncmp(szToken, "domain=", 7))
 				szDomain = szToken.Mid(7);
@@ -472,7 +472,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	*((PDWORD)pCurBlob) = 0; 
 	pCurBlob += sizeof(DWORD); // uin(DWORD) = 0 (DWORD)
 	
-	*((PDWORD)pCurBlob) = (DWORD)hContact;  
+	*((PDWORD)pCurBlob) = (DWORD)hContact;
 	pCurBlob += sizeof(DWORD); // hContact(DWORD)
 
 	strcpy((char*)pCurBlob, szNick); 
@@ -635,7 +635,7 @@ char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 	return NULL;
 }
 
-int  CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
+int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact != NULL)
@@ -723,7 +723,7 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 		}
 	}
 
-	switch (m_iIMGBBCSupport){
+	switch (m_iIMGBBCSupport) {
 	case imgNo:
 		ptszPreviewLink = NULL;
 		break;
@@ -777,7 +777,7 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 
 	TCHAR *ptszFormat = NULL;
 	for (int i = 0; i < SIZEOF(bbcItem); i++)
-		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews){
+		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews) {
 			ptszFormat = bbcItem[i].ptszTempate;
 			break;
 		}
@@ -799,7 +799,7 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 CMString& CVkProto::ClearFormatNick(CMString& tszText)
 {
 	int iNameEnd = tszText.Find(_T("],")), iNameBeg = tszText.Find(_T("|"));
-	if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd){
+	if (iNameEnd != -1 && iNameBeg != -1 && iNameBeg < iNameEnd) {
 		CMString tszName = tszText.Mid(iNameBeg + 1, iNameEnd - iNameBeg - 1);
 		CMString tszBody = tszText.Mid(iNameEnd + 2);
 		if (!tszName.IsEmpty() && !tszBody.IsEmpty())
@@ -894,7 +894,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 					res.AppendFormat(_T("[img]%s[/img]"), ptszLink);
 			}
 		}
-		else if (!mir_tstrcmp(ptszType, _T("link"))){
+		else if (!mir_tstrcmp(ptszType, _T("link"))) {
 			JSONNODE *pLink = json_get(pAttach, "link");
 			if (pLink == NULL)
 				continue;
