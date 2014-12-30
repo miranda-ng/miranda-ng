@@ -25,7 +25,6 @@
 #pragma once
 
 #define STRICT
-#define WIN32_LEAN_AND_MEAN
 #define _CRT_SECURE_NO_WARNINGS
 
 #define _WIN32_WINNT 0x0500
@@ -57,6 +56,7 @@
 #include <m_userinfo.h>
 #include <m_xstatus.h>
 #include <m_extraicons.h>
+#include <m_string.h>
 
 #include <m_metacontacts.h>
 #include <m_toptoolbar.h>
