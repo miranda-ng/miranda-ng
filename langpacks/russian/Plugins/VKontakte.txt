@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.37
+;  Version: 0.1.0.39
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -23,8 +23,12 @@
 базовая ([b], [i], [u], [s])
 [advanced (+[url], [size], [color])]
 продвинутая (+[url], [size], [color])
+[Use this setting also for attachments on news and notifications]
+Использовать эту настройку также для вложений в новостях и уведомлениях
 [Other]
 Другое
+[BBCode support on attachments]
+Поддержка BB-кодов для вложений
 [Process stickers as smileys]
 Обрабатывать стикеры как смайлы
 [News and event notifications]
@@ -67,6 +71,16 @@
 Подписки на пользователей
 [No reposts]
 Без репостов
+[Notifications types]
+Типы уведомлений
+[Comments]
+Комментарии
+[Likes]
+Лайки
+[Reposts]
+Репосты
+[Mentions in comments]
+Упоминания в комментариях
 [E-mail or phone number:]
 E-mail или номер телефона:
 [Password:]
@@ -269,6 +283,12 @@ Cоздать комнату чата
 Новость от %s\n%s
 [\tRepost from %s\n%s]
 \tРепост от %s\n%s
+[Video description:]
+Описание видео
+[Post text:]
+Текст записи:
+[Topic text:]
+Текст темы:
 [Couldn't save file]
 Невозможно сохранить файл
 [Invalid album id]
