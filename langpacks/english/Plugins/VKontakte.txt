@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.37
+;  Version: 0.1.0.39
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -15,7 +15,9 @@
 [BBCode support on news and event notifications]
 [basic ([b], [i], [u], [s])]
 [advanced (+[url], [size], [color])]
+[Use this setting also for attachments on news and notifications]
 [Other]
+[BBCode support on attachments]
 [Process stickers as smileys]
 [News and event notifications]
 [WARNING: Causes excessive network traffic!!!]
@@ -37,6 +39,11 @@
 [Pages]
 [Subscriptions to users]
 [No reposts]
+[Notifications types]
+[Comments]
+[Likes]
+[Reposts]
+[Mentions in comments]
 [E-mail or phone number:]
 [Password:]
 [Open VKontakte site]
@@ -142,6 +149,9 @@
 [User was tagged in these photos:]
 [News from %s\n%s]
 [\tRepost from %s\n%s]
+[Video description:]
+[Post text:]
+[Topic text:]
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 [Invalid album id]
