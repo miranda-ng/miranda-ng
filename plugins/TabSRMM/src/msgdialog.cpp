@@ -330,7 +330,7 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 	}
 	dat->pContainer->dwFlags &= ~CNT_NEED_UPDATETITLE;
 
-	if (dat->dwFlags & MWF_DEFERREDREMAKELOG) {
+	if ((dat->dwFlags & MWF_DEFERREDREMAKELOG) && !IsIconic(dat->pContainer->hwnd)) {
 		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
 		dat->dwFlags &= ~MWF_DEFERREDREMAKELOG;
 	}
@@ -360,8 +360,10 @@ static void MsgWindowUpdateState(TWindowData *dat, UINT msg)
 
 	dat->Panel->Invalidate();
 
-	if (dat->dwFlags & MWF_DEFERREDSCROLL && dat->hwndIEView == 0 && dat->hwndHPP == 0)
+	if (dat->dwFlags & MWF_DEFERREDSCROLL && dat->hwndIEView == 0 && dat->hwndHPP == 0) {
+		dat->dwFlags &= ~MWF_DEFERREDSCROLL;
 		DM_ScrollToBottom(dat, 0, 1);
+	}
 
 	DM_SetDBButtonStates(hwndDlg, dat);
 

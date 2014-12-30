@@ -1365,8 +1365,12 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM, LPARAM lParam)
 	if (hwndDlg == m_pContainer->hwndActive)
 		SendMessage(m_pContainer->hwnd, WM_SIZE, 0, 0);
 	InvalidateRect(GetDlgItem(hwndDlg, IDC_MESSAGE), NULL, FALSE);
-	if (!lParam)
-		SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
+	if (!lParam) {
+		if (IsIconic(m_pContainer->hwnd))
+			dat->dwFlags |= MWF_DEFERREDREMAKELOG;
+		else
+			SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
+	}
 
 	ShowWindow(dat->hwndPanelPicParent, SW_SHOW);
 	EnableWindow(dat->hwndPanelPicParent, TRUE);
