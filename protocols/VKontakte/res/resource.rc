@@ -49,7 +49,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 298
         TOPMARGIN, 7
-        BOTTOMMARGIN, 124
+        BOTTOMMARGIN, 166
     END
 
     IDD_OPT_FEEDS, DIALOG
@@ -112,7 +112,7 @@ END
 // Dialog
 //
 
-IDD_OPT_VIEW DIALOGEX 0, 0, 304, 131
+IDD_OPT_VIEW DIALOGEX 0, 0, 304, 173
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -122,14 +122,21 @@ BEGIN
     CONTROL         "for original size images",IDC_IMG_FULLSIZE,"Button",BS_AUTORADIOBUTTON,12,30,129,10
     CONTROL         "for preview max 130px*130px",IDC_IMG_130,"Button",BS_AUTORADIOBUTTON,154,19,129,10
     CONTROL         "for preview max 604px*604px",IDC_IMG_604,"Button",BS_AUTORADIOBUTTON,154,30,129,10
-    GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,4,50,294,38,WS_GROUP
+    GROUPBOX        "BBCode support on news and event notifications",IDC_STATIC,4,50,294,48,WS_GROUP
     CONTROL         "off",IDC_NEWSBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,61,129,10
     CONTROL         "basic ([b], [i], [u], [s])",IDC_NEWSBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,72,129,10
     CONTROL         "advanced (+[url], [size], [color])",IDC_NEWSBBC_ADV,
                     "Button",BS_AUTORADIOBUTTON,154,61,129,10
-    GROUPBOX        "Other",IDC_STATIC,4,90,293,26
+    CONTROL         "Use this setting also for attachments on news and notifications",IDC_BBC_ATT_NEWS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,83,278,10
+    GROUPBOX        "Other",IDC_STATIC,4,138,293,26
+    GROUPBOX        "BBCode support on attachments",IDC_STATIC,4,99,294,38,WS_GROUP
+    CONTROL         "off",IDC_ATTBBC_OFF,"Button",BS_AUTORADIOBUTTON,12,110,129,10
+    CONTROL         "basic ([b], [i], [u], [s])",IDC_ATTBBC_BASIC,"Button",BS_AUTORADIOBUTTON,12,121,129,10
+    CONTROL         "advanced (+[url], [size], [color])",IDC_ATTBBC_ADV,
+                    "Button",BS_AUTORADIOBUTTON,154,110,129,10
     CONTROL         "Process stickers as smileys",IDC_STICKERS_AS_SMYLES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,101,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,149,278,10
 END
 
 IDD_OPT_FEEDS DIALOGEX 0, 0, 304, 230

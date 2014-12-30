@@ -209,11 +209,11 @@ struct CVKNewsItem : public MZeroedObject {
 };
 
 enum VKBBCType { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcUrl, vkbbcSize, vkbbcColor };
-enum BBCForNewsSupport { bbcNo, bbcBasic, bbcAdvanced };
+enum BBCSupport { bbcNo, bbcBasic, bbcAdvanced };
 
 struct CVKBBCItem {
 	VKBBCType vkBBCType;
-	BBCForNewsSupport vkBBCSettings;
+	BBCSupport vkBBCSettings;
 	TCHAR *ptszTempate;
 };
 
@@ -354,8 +354,7 @@ struct CVkProto : public PROTO<CVkProto>
 	
 	CVkUserInfo* GetVkUserInfo(LONG iUserId, OBJLIST<CVkUserInfo> &vkUsers);
 	void CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pResponse);	
-	CMString GetVkPhotoItem(JSONNODE *pPhotoItem);
-	
+		
 	CVKNewsItem* GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers, bool isRepost = false);
 
 	CVKNewsItem* GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUsers);
@@ -403,10 +402,11 @@ struct CVkProto : public PROTO<CVkProto>
 	char* GetStickerId(const char* Msg, int& stickerid);
 
 	CMString SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedback, VKObjType& vkParent);
-	CMString SetBBCString(TCHAR *tszString, VKBBCType, TCHAR *tszAddString = NULL);
+	CMString GetVkPhotoItem(JSONNODE *pPhotoItem, BBCSupport iBBC);
+	CMString SetBBCString(TCHAR *tszString, BBCSupport iBBC, VKBBCType bbcType, TCHAR *tszAddString = NULL);
 	CMString& ClearFormatNick(CMString& tszText);
 
-	CMString GetAttachmentDescr(JSONNODE*);
+	CMString GetAttachmentDescr(JSONNODE*, BBCSupport iBBC = bbcNo);
 
 	//====================================================================================
 
@@ -570,7 +570,9 @@ private:
 		m_bNotificationFilterComments,
 		m_bNotificationFilterLikes,
 		m_bNotificationFilterReposts,
-		m_bNotificationFilterMentions;
+		m_bNotificationFilterMentions,
+		m_bUseBBCOnAttacmentsAsNews;
+	
 
 	int m_iNewsInterval, m_iNotificationsInterval, m_iNewsAutoClearHistoryInterval;
 
@@ -585,7 +587,8 @@ private:
 
 	enum IMGBBCSypport { imgNo, imgFullSize, imgPreview130, imgPreview604 };
 	int	m_iIMGBBCSupport;
-	int m_iBBCForNews;
+	BBCSupport m_iBBCForNews;
+	BBCSupport m_iBBCForAttachments;
 
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;

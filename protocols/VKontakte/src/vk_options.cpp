@@ -512,6 +512,12 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		CheckDlgButton(hwndDlg, IDC_NEWSBBC_BASIC, (ppro->m_iBBCForNews == bbcBasic) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NEWSBBC_ADV, (ppro->m_iBBCForNews == bbcAdvanced) ? BST_CHECKED : BST_UNCHECKED);
 
+		CheckDlgButton(hwndDlg, IDC_BBC_ATT_NEWS, ppro->m_bUseBBCOnAttacmentsAsNews ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_ATTBBC_OFF, (ppro->m_iBBCForAttachments == bbcNo) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ATTBBC_BASIC, (ppro->m_iBBCForAttachments == bbcBasic) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ATTBBC_ADV, (ppro->m_iBBCForAttachments == bbcAdvanced) ? BST_CHECKED : BST_UNCHECKED);
+
 		CheckDlgButton(hwndDlg, IDC_STICKERS_AS_SMYLES, ppro->m_bStikersAsSmyles ? BST_CHECKED : BST_UNCHECKED);
 
 		return TRUE;
@@ -525,6 +531,10 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		case IDC_NEWSBBC_OFF:
 		case IDC_NEWSBBC_BASIC:
 		case IDC_NEWSBBC_ADV:
+		case IDC_BBC_ATT_NEWS:
+		case IDC_ATTBBC_OFF:
+		case IDC_ATTBBC_BASIC:
+		case IDC_ATTBBC_ADV:
 		case IDC_STICKERS_AS_SMYLES:
 			if (HIWORD(wParam) == BN_CLICKED && (HWND)lParam == GetFocus())
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -551,6 +561,17 @@ INT_PTR CALLBACK CVkProto::OptionsViewProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 			if (IsDlgButtonChecked(hwndDlg, IDC_NEWSBBC_ADV) == BST_CHECKED)
 				ppro->m_iBBCForNews = bbcAdvanced;	
 			ppro->setByte("BBCForNews", ppro->m_iBBCForNews);
+
+			ppro->m_bUseBBCOnAttacmentsAsNews = IsDlgButtonChecked(hwndDlg, IDC_BBC_ATT_NEWS) == BST_CHECKED;
+			ppro->setByte("UseBBCOnAttacmentsAsNews", ppro->m_bStikersAsSmyles);
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_ATTBBC_OFF) == BST_CHECKED)
+				ppro->m_iBBCForAttachments = bbcNo;
+			if (IsDlgButtonChecked(hwndDlg, IDC_ATTBBC_BASIC) == BST_CHECKED)
+				ppro->m_iBBCForAttachments = bbcBasic;
+			if (IsDlgButtonChecked(hwndDlg, IDC_ATTBBC_ADV) == BST_CHECKED)
+				ppro->m_iBBCForAttachments = bbcAdvanced;
+			ppro->setByte("BBCForAttachments", ppro->m_iBBCForAttachments);
 
 			ppro->m_bStikersAsSmyles = IsDlgButtonChecked(hwndDlg, IDC_STICKERS_AS_SMYLES) == BST_CHECKED;
 			ppro->setByte("StikersAsSmyles", ppro->m_bStikersAsSmyles);

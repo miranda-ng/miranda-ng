@@ -707,7 +707,7 @@ CMString CVkProto::SpanVKNotificationType(CMString& tszType, VKObjType& vkFeedba
 	return tszRes;
 }
 
-CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
+CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto, BBCSupport iBBC)
 {
 	CMString tszRes;
 
@@ -739,7 +739,7 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 	int iWidth = json_as_int(json_get(pPhoto, "width"));
 	int iHeight = json_as_int(json_get(pPhoto, "height"));
 
-	tszRes.AppendFormat(_T("%s: %s (%dx%d)"), TranslateT("Photo"), ptszLink ? ptszLink : _T(""), iWidth, iHeight);
+	tszRes.AppendFormat(_T("%s (%dx%d)"), SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, ptszLink).GetBuffer(), iWidth, iHeight);
 	if (m_iIMGBBCSupport)
 		tszRes.AppendFormat(_T("\n\t[img]%s[/img]"), ptszPreviewLink ? ptszPreviewLink : (ptszLink ? ptszLink : _T("")));
 	CMString tszText = json_as_string(json_get(pPhoto, "text"));
@@ -749,7 +749,7 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto)
 	return tszRes;
 }
 
-CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszAddString)
+CMString CVkProto::SetBBCString(TCHAR *ptszString, BBCSupport iBBC, VKBBCType bbcType, TCHAR *tszAddString)
 {
 	CVKBBCItem bbcItem[] = {
 		{ vkbbcB, bbcNo, _T("%s") },
@@ -765,7 +765,7 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 		{ vkbbcU, bbcBasic, _T("[u]%s[/u]") },
 		{ vkbbcU, bbcAdvanced, _T("[u]%s[/u]") },
 		{ vkbbcUrl, bbcNo, _T("%s (%s)") },
-		{ vkbbcUrl, bbcBasic, _T("[b]%s[/b] (%s)") },
+		{ vkbbcUrl, bbcBasic, _T("[i]%s[/i] (%s)") },
 		{ vkbbcUrl, bbcAdvanced, _T("[url=%s]%s[/url]") },
 		{ vkbbcSize, bbcNo, _T("%s") },
 		{ vkbbcSize, bbcBasic, _T("%s") },
@@ -775,23 +775,29 @@ CMString CVkProto::SetBBCString(TCHAR *tszString, VKBBCType bbcType, TCHAR *tszA
 		{ vkbbcColor, bbcAdvanced, _T("[color=%s]%s[/color]") },
 	};
 
+	if (ptszString == NULL)
+		return CMString();
+
+	if (ptszString[0] == '\0')
+		return CMString();
+
 	TCHAR *ptszFormat = NULL;
 	for (int i = 0; i < SIZEOF(bbcItem); i++)
-		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == m_iBBCForNews) {
+		if (bbcItem[i].vkBBCType == bbcType && bbcItem[i].vkBBCSettings == iBBC) {
 			ptszFormat = bbcItem[i].ptszTempate;
 			break;
 		}
 
 	CMString res;
 	if (ptszFormat == NULL)
-		return CMString(tszString);
+		return CMString(ptszString);
 
-	if (bbcType == vkbbcUrl && m_iBBCForNews != bbcAdvanced)
-		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""), tszAddString ? tszAddString : _T(""));
-	else if (m_iBBCForNews == bbcAdvanced && bbcType >= vkbbcUrl)
-		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), tszString ? tszString : _T(""));
+	if (bbcType == vkbbcUrl && iBBC != bbcAdvanced)
+		res.AppendFormat(ptszFormat, ptszString, tszAddString ? tszAddString : _T(""));
+	else if (iBBC == bbcAdvanced && bbcType >= vkbbcUrl)
+		res.AppendFormat(ptszFormat, tszAddString ? tszAddString : _T(""), ptszString);
 	else
-		res.AppendFormat(ptszFormat, tszString ? tszString : _T(""));
+		res.AppendFormat(ptszFormat, ptszString);
 
 	return res;
 }
@@ -811,12 +817,12 @@ CMString& CVkProto::ClearFormatNick(CMString& tszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
+CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMString res;
 	res.AppendChar('\n');
-	res += TranslateT("Attachments:");
+	res += SetBBCString(TranslateT("Attachments:"), iBBC, vkbbcB);
 	res.AppendChar('\n');
 	JSONNODE *pAttach;
 	for (int k = 0; (pAttach = json_at(pAttachments, k)) != NULL; k++) {
@@ -827,7 +833,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			if (pPhoto == NULL)
 				continue;
 
-			res += GetVkPhotoItem(pPhoto);
+			res += GetVkPhotoItem(pPhoto, iBBC);
 		}
 		else if (!mir_tstrcmp(ptszType, _T("audio"))) {
 			JSONNODE *pAudio = json_get(pAttach, "audio");
@@ -837,8 +843,12 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszArtist(json_as_string(json_get(pAudio, "artist")));
 			ptrT ptszTitle(json_as_string(json_get(pAudio, "title")));
 			ptrT ptszUrl(json_as_string(json_get(pAudio, "url")));
-			res.AppendFormat(_T("%s: (%s - %s) - %s"),
-				TranslateT("Audio"), ptszArtist, ptszTitle, ptszUrl);
+			CMString tszAudio;
+			tszAudio.AppendFormat(_T("%s - %s"), ptszArtist, ptszTitle);
+
+			res.AppendFormat(_T("%s: %s"),
+				SetBBCString(TranslateT("Audio"), iBBC, vkbbcB).GetBuffer(), 
+				SetBBCString(tszAudio.GetBuffer(), iBBC, vkbbcUrl, ptszUrl).GetBuffer());
 		}
 		else if (!mir_tstrcmp(ptszType, _T("video"))) {
 			JSONNODE *pVideo = json_get(pAttach, "video");
@@ -848,7 +858,11 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszTitle(json_as_string(json_get(pVideo, "title")));
 			int vid = json_as_int(json_get(pVideo, "id"));
 			int ownerID = json_as_int(json_get(pVideo, "owner_id"));
-			res.AppendFormat(_T("%s: %s - http://vk.com/video%d_%d"), TranslateT("Video"), ptszTitle, ownerID, vid);
+			CMString tszUrl;
+			tszUrl.AppendFormat(_T("http://vk.com/video%d_%d"), ownerID, vid);
+			res.AppendFormat(_T("%s: %s"), 
+				SetBBCString(TranslateT("Video"), iBBC, vkbbcB).GetBuffer(), 
+				SetBBCString(ptszTitle, iBBC, vkbbcUrl, tszUrl.GetBuffer()).GetBuffer());
 		}
 		else if (!mir_tstrcmp(ptszType, _T("doc"))) {
 			JSONNODE *pDoc = json_get(pAttach, "doc");
@@ -857,7 +871,9 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 
 			ptrT ptszTitle(json_as_string(json_get(pDoc, "title")));
 			ptrT ptszUrl(json_as_string(json_get(pDoc, "url")));
-			res.AppendFormat(_T("%s: (%s) - %s"), TranslateT("Document"), ptszTitle, ptszUrl);
+			res.AppendFormat(_T("%s: %s"), 
+				SetBBCString(TranslateT("Document"), iBBC, vkbbcB).GetBuffer(), 
+				SetBBCString(ptszTitle, iBBC, vkbbcUrl, ptszUrl).GetBuffer());
 		}
 		else if (!mir_tstrcmp(ptszType, _T("wall"))) {
 			JSONNODE *pWall = json_get(pAttach, "wall");
@@ -867,7 +883,11 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszText(json_as_string(json_get(pWall, "text")));
 			int id = json_as_int(json_get(pWall, "id"));
 			int fromID = json_as_int(json_get(pWall, "from_id"));
-			res.AppendFormat(_T("%s: %s - http://vk.com/wall%d_%d"), TranslateT("Wall post"), ptszText ? ptszText : _T(" "), fromID, id);
+			CMString tszUrl;
+			tszUrl.AppendFormat(_T("http://vk.com/wall%d_%d"), fromID, id);
+			res.AppendFormat(_T("%s: %s"), 
+				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszUrl.GetBuffer()).GetBuffer(), 
+				ptszText ? ptszText : _T(" "));
 		}
 		else if (!mir_tstrcmp(ptszType, _T("sticker"))) {
 			JSONNODE *pSticker = json_get(pAttach, "sticker");
@@ -904,7 +924,9 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			ptrT ptszDescription(json_as_string(json_get(pLink, "description")));
 			CMString tszImage(json_as_string(json_get(pLink, "image_src")));
 
-			res.AppendFormat(_T("%s: %s (%s)"), TranslateT("Link"), ptszTitle ? ptszTitle : _T(""), ptszUrl ? ptszUrl : _T(""));
+			res.AppendFormat(_T("%s: %s"), 
+				SetBBCString(TranslateT("Link"), iBBC, vkbbcB).GetBuffer(), 
+				SetBBCString(ptszTitle, iBBC, vkbbcUrl, ptszUrl).GetBuffer());
 			if (!tszImage.IsEmpty())
 				if (m_iIMGBBCSupport)
 					res.AppendFormat(_T("\n\t%s: [img]%s[/img]"), TranslateT("Image"), tszImage.GetBuffer());
@@ -914,7 +936,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments)
 			if (ptszDescription)
 				res.AppendFormat(_T("\n\t%s"), ptszDescription);
 		}
-		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), ptszType);
+		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(ptszType, iBBC, vkbbcB).GetBuffer());
 
 		res.AppendChar('\n');
 	}
