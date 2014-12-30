@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2012 Mataes
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -45,14 +45,14 @@ void NetlibUnInit()
 
 void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 {
-	Netlib_LogfT(hNetlibUser,_T("Getting feed data %s."), tszUrl);
-	NETLIBHTTPREQUEST nlhr = {0};
+	Netlib_LogfT(hNetlibUser, _T("Getting feed data %s."), tszUrl);
+	NETLIBHTTPREQUEST nlhr = { 0 };
 
 	// initialize the netlib request
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11 | NLHRF_REDIRECT;
-	if ( _tcsstr(tszUrl, _T("https://")) != NULL)
+	if (_tcsstr(tszUrl, _T("https://")) != NULL)
 		nlhr.flags |= NLHRF_SSL;
 	char *szUrl = mir_t2a(tszUrl);
 	nlhr.szUrl = szUrl;
@@ -62,19 +62,19 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 	NETLIBHTTPHEADER headers[5];
 	nlhr.headersCount = 4;
 	nlhr.headers = headers;
-	nlhr.headers[0].szName  = "User-Agent";
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
-	nlhr.headers[1].szName  = "Cache-Control";
+	nlhr.headers[1].szName = "Cache-Control";
 	nlhr.headers[1].szValue = "no-cache";
-	nlhr.headers[2].szName  = "Pragma";
+	nlhr.headers[2].szName = "Pragma";
 	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName  = "Connection";
+	nlhr.headers[3].szName = "Connection";
 	nlhr.headers[3].szValue = "close";
 	char auth[256];
 	if (db_get_b(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
 		nlhr.headersCount++;
-		nlhr.headers[4].szName  = "Authorization";
-	
+		nlhr.headers[4].szName = "Authorization";
+
 		CreateAuthString(auth, hContact, hwndDlg);
 		nlhr.headers[4].szValue = auth;
 	}
@@ -84,35 +84,35 @@ void GetNewsData(TCHAR *tszUrl, char **szData, MCONTACT hContact, HWND hwndDlg)
 	if (nlhrReply) {
 		// if the recieved code is 200 OK
 		if (nlhrReply->resultCode == 200 && nlhrReply->dataLength > 0) {
-			Netlib_LogfT(hNetlibUser,_T("Code 200: Succeeded getting feed data %s."), tszUrl);
+			Netlib_LogfT(hNetlibUser, _T("Code 200: Succeeded getting feed data %s."), tszUrl);
 			// allocate memory and save the retrieved data
 			*szData = (char *)mir_alloc((size_t)(nlhrReply->dataLength + 2));
 			memcpy(*szData, nlhrReply->pData, (size_t)nlhrReply->dataLength);
 			(*szData)[nlhrReply->dataLength] = 0;
 		}
 		else if (nlhrReply->resultCode == 401) {
-			Netlib_LogfT(hNetlibUser,_T("Code 401: feed %s needs auth data."), tszUrl);
-			ItemInfo SelItem = {0};
+			Netlib_LogfT(hNetlibUser, _T("Code 401: feed %s needs auth data."), tszUrl);
+			ItemInfo SelItem = { 0 };
 			SelItem.hwndList = hwndDlg;
 			SelItem.hContact = hContact;
 			if (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_AUTHENTICATION), hwndDlg, AuthenticationProc, (LPARAM)&SelItem) == IDOK)
 				GetNewsData(tszUrl, szData, hContact, hwndDlg);
 		}
 		else
-			Netlib_LogfT(hNetlibUser,_T("Code %d: Failed getting feed data %s."), nlhrReply->resultCode, tszUrl);
+			Netlib_LogfT(hNetlibUser, _T("Code %d: Failed getting feed data %s."), nlhrReply->resultCode, tszUrl);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)nlhrReply);
 	}
 	else
-		Netlib_LogfT(hNetlibUser,_T("Failed getting feed data %s, no response."), tszUrl);
+		Netlib_LogfT(hNetlibUser, _T("Failed getting feed data %s, no response."), tszUrl);
 
 	mir_free(szUrl);
 }
 
 void CreateList(HWND hwndList)
 {
-	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);	
+	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-	LVCOLUMN lvc = {0};
+	LVCOLUMN lvc = { 0 };
 	// Initialize the LVCOLUMN structure.
 	// The mask specifies that the format, width, text, and
 	// subitem members of the structure are valid.
@@ -132,7 +132,7 @@ void CreateList(HWND hwndList)
 
 void UpdateList(HWND hwndList)
 {
-	LVITEM lvI = {0};
+	LVITEM lvI = { 0 };
 
 	// Some code to create the list-view control.
 	// Initialize LVITEM members that are common to all
@@ -186,7 +186,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 		while (true) {
 			if (p[si] == _T('-'))
 				si++;
-			else if ( !(p[sj++] = p[si++]))
+			else if (!(p[sj++] = p[si++]))
 				break;
 		}
 	}
@@ -224,9 +224,9 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 			if (year < 2000)
 				year += 2000;
 			if (!mir_tstrcmp(timezonesign, _T("+")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour - timezoneh, min - timezonem, sec);
 			else if (!mir_tstrcmp(timezonesign, _T("-")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
 		}
@@ -236,11 +236,11 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 		}
 		else
 		{
-			_stscanf(p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			_stscanf(p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
 			if (!mir_tstrcmp(timezonesign, _T("+")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour - timezoneh, min - timezonem, sec);
 			else if (!mir_tstrcmp(timezonesign, _T("-")))
-				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour + timezoneh, min + timezonem, sec);
 			else
 				mir_sntprintf(p, 4 + 2 + 2 + 1 + 2 + 1 + 2 + 1 + 2 + 1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
 		}
@@ -252,7 +252,7 @@ time_t __stdcall DateToUnixTime(const TCHAR *stamp, bool FeedType)
 	// Parse year
 	if (i == 6) {
 		// 2-digit year ( 1970-2069 )
-		y = (date[0] - '0' ) * 10 + (date[1] - '0');
+		y = (date[0] - '0') * 10 + (date[1] - '0');
 		if (y < 70)
 			y += 100;
 	}
@@ -337,7 +337,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 	if (nCount > 0) {
 		// allocate buffer for result string
 		size_t nResultStrSize = nStrLen + (nNewLen - nOldLen) * nCount + 2;
-		pszResultStr = new TCHAR [nResultStrSize];
+		pszResultStr = new TCHAR[nResultStrSize];
 		memset(pszResultStr, 0, (nResultStrSize * sizeof(TCHAR)));
 
 		pszStart = (TCHAR *)lpszStr;
@@ -369,7 +369,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 	int nSize = 0;
 	if (pszResultStr) {
 		nSize = (int)_tcslen(pszResultStr);
-		delete [] pszResultStr;
+		delete[] pszResultStr;
 	}
 
 	return nSize;
@@ -377,7 +377,7 @@ int StrReplace(TCHAR *lpszOld, const TCHAR *lpszNew, TCHAR *&lpszStr)
 
 bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 {
-	NETLIBHTTPREQUEST nlhr = {0};
+	NETLIBHTTPREQUEST nlhr = { 0 };
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
@@ -458,7 +458,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	return ret;
 }
 
-typedef HRESULT (MarkupCallback)(IHTMLDocument3 *, BSTR &message);
+typedef HRESULT(MarkupCallback)(IHTMLDocument3 *, BSTR &message);
 
 HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback *pCallback, BSTR &message)
 {
@@ -544,13 +544,12 @@ HRESULT TestDocumentText(IHTMLDocument3 *pHtmlDoc, BSTR &message)
 
 LPCTSTR ClearText(CMString &result, const TCHAR *message)
 {
-	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(L"");
+	BSTR bstrHtml = SysAllocString(message), bstrRes = SysAllocString(_T(""));
 	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, bstrRes);
-	if (SUCCEEDED(hr)) {
+	if (SUCCEEDED(hr))
 		result = bstrRes;
-		SysFreeString(bstrRes);
-	}
-	else result = message;
+	else
+		result = message;
 	SysFreeString(bstrHtml);
 	SysFreeString(bstrRes);
 
