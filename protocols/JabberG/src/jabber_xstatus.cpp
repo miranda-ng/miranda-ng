@@ -612,7 +612,7 @@ CPepMood::CPepMood(CJabberProto *proto) :
 
 CPepMood::~CPepMood()
 {
-	if (m_text) mir_free(m_text);
+	mir_free(m_text);
 }
 
 void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
@@ -1425,7 +1425,7 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM, LPARAM lParam)
 	int status = (pData->flags & CSSF_MASK_STATUS) ? *pData->status : pepMood->m_mode;
 	if (status >= 0 && status < SIZEOF(g_arrMoods)) {
 		pepMood->m_mode = status;
-		pepMood->m_text = (pData->flags & CSSF_MASK_MESSAGE) ? JabberStrFixLines(pData->ptszMessage) : _T("");
+		pepMood->m_text = (pData->flags & CSSF_MASK_MESSAGE) ? JabberStrFixLines(pData->ptszMessage) : NULL;
 		pepMood->LaunchSetGui(1);
 		return 0;
 	}
