@@ -186,6 +186,9 @@ bool CMimAPI::getAeroState()
 
 void CMimAPI::InitAPI()
 {
+	DWORD dwVer = LOWORD(GetVersion());
+	m_winVer = MAKEWORD(HIBYTE(dwVer), LOBYTE(dwVer));
+
 	m_hUxTheme = 0;
 
 	// vista+ DWM API
