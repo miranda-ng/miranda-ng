@@ -25,19 +25,16 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, TCHAR *stzT
 {
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = hContact;
-	ppd.lchIcon = hIcon;//LoadSkinnedProtoIcon(szProto, iconStatus);
-	_tcsncpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_TCHAR), MAX_CONTACTNAME);
+	ppd.lchIcon = hIcon;
+	CMString buf((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_TCHAR));
 
 	// add group name to popup title
 	if (opt.ShowGroup) {
-		DBVARIANT dbv;
-		if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
-			_tcsncat(ppd.lptzContactName, _T(" ("), MAX_CONTACTNAME);
-			_tcsncat(ppd.lptzContactName, dbv.ptszVal, MAX_CONTACTNAME);
-			_tcsncat(ppd.lptzContactName, _T(")"), MAX_CONTACTNAME);
-			db_free(&dbv);
-		}
+		ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
+		if (tszGroup)
+			buf.AppendFormat(_T(" (%s)"), tszGroup);
 	}
+	_tcsncpy_s(ppd.lptzContactName, buf, _TRUNCATE);
 
 	_tcsncpy(ppd.lptzText, stzText, MAX_SECONDLINE);
 
