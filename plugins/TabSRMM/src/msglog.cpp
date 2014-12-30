@@ -1353,8 +1353,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAp
 	ReplaceIcons(hwndDlg, dat, startAt, fAppend, isSent);
 	dat->clr_added = FALSE;
 
-	if (dat->hwndIEView == 0 && dat->hwndHPP == 0 && (!M.isAero() || M.getWinVer() != 0x0601))
-		DM_ScrollToBottom(dat, 1, 1);
+	DM_ScrollToBottom(dat, 0, 0);
 
 	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
 	SendMessage(hwndLog, WM_SETREDRAW, TRUE, 0);
