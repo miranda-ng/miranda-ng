@@ -145,40 +145,22 @@ public:
 	__forceinline double  getFreq() const { return m_dFreq; }
 	__forceinline double  getMsec() const { return 1000 * ((double)(m_tStop - m_tStart) * m_dFreq); }
 
-	/*
-	 * os dependant stuff (aero, visual styles etc.)
-	 */
+	//////////////////////////////////////////////////////////////////////////////////////
+	// os dependent stuff (aero, visual styles etc.)
 
-	/**
-	 * return status of Vista Aero
-	 *
-	 * @return bool: true if aero active, false otherwise
-	 */
-	const bool isAero() const { return(m_isAero); }
-	const bool isDwmActive() const { return(m_DwmActive); }
+	// returns status of Windows Aero
+	const bool isAero() const { return m_isAero; }
+	
+	const bool isDwmActive() const { return m_DwmActive; }
+	const DWORD getWinVer() const { return m_winVer; }
 
-	/**
-	 * Refresh Aero status.
-	 * Called on:
-	 * * plugin init
-	 * * WM_DWMCOMPOSITIONCHANGED message received
-	 *
-	 * @return
-	 */
+	// refresh Aero status.
 	bool getAeroState();
-	/**
-	 * return status of visual styles theming engine (Windows XP+)
-	 *
-	 * @return bool: themes are enabled
-	 */
-	bool isVSThemed()
-	{
-		return m_isVsThemed;
-	}
-	/*
-	 * window lists
-	 */
 
+	// returns status of visual styles theming engine (Windows XP+)
+	__forceinline bool isVSThemed() { return m_isVsThemed; }
+
+	// window lists
 	void     BroadcastMessage(UINT msg, WPARAM wParam, LPARAM lParam);
 	void     BroadcastMessageAsync(UINT msg, WPARAM wParam, LPARAM lParam);
 	INT_PTR  AddWindow(HWND hWnd, MCONTACT h);
@@ -194,9 +176,8 @@ public:
 
 public:
 	HANDLE m_hMessageWindowList;
-	/*
-	 various function pointers
-	*/
+
+	// various function pointers
 	static PDTTE  m_pfnDrawThemeTextEx;
 	static DEFICA m_pfnDwmExtendFrameIntoClientArea;
 	static DICE   m_pfnDwmIsCompositionEnabled;
@@ -225,6 +206,7 @@ private:
 	double  m_dFreq;
 	char    m_timerMsg[256];
 	bool    m_hasFolders;
+	DWORD   m_winVer;
 	HANDLE  m_hChatLogLock;
 
 	void	InitAPI();
