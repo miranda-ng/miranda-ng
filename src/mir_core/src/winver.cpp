@@ -21,7 +21,7 @@ static int dwWinVer;
 
 void InitWinver()
 {
-	DWORD dwVer = LOWORD( GetVersion());
+	DWORD dwVer = LOWORD(GetVersion());
 	dwWinVer = MAKEWORD(HIBYTE(dwVer), LOBYTE(dwVer));
 }
 
@@ -37,7 +37,7 @@ MIR_CORE_DLL(BOOL) IsWinVer7Plus()
 
 MIR_CORE_DLL(BOOL) IsFullScreen()
 {
-	RECT rcScreen = {0};
+	RECT rcScreen = { 0 };
 
 	rcScreen.right = GetSystemMetrics(SM_CXSCREEN);
 	rcScreen.bottom = GetSystemMetrics(SM_CYSCREEN);
@@ -56,7 +56,7 @@ MIR_CORE_DLL(BOOL) IsFullScreen()
 	if (hWnd && hWnd != hWndDesktop && hWnd != hWndShell) {
 		TCHAR tszClassName[128] = _T("");
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
-		if ( _tcscmp(tszClassName, _T("WorkerW"))) {
+		if (_tcscmp(tszClassName, _T("WorkerW"))) {
 			RECT rect, rectw, recti;
 			GetWindowRect(hWnd, &rectw);
 
@@ -80,7 +80,7 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked(void)
 
 	TCHAR tszName[100];
 	DWORD cbName;
-	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, SIZEOF(tszName), &cbName) || mir_tstrcmpi(tszName,_T("default")) != 0);
+	BOOL bLocked = (!GetUserObjectInformation(hDesk, UOI_NAME, tszName, SIZEOF(tszName), &cbName) || mir_tstrcmpi(tszName, _T("default")) != 0);
 	CloseDesktop(hDesk);
 	return bLocked;
 }
