@@ -203,10 +203,10 @@ int findChar(char* FileContents[], const char* string, int linesInFile,int start
 // do the compare("A","B","X","Y")
 void checkStringForcompare(char *str)
 {
-	char *A,*B, *X, *Y , *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
+	if (!strstr(str, "compare(\"")) return;
+	char *A, *B, *X, *Y, *newStr = (char*)malloc(strlen(str)), *copyOfStr = _strdup(str);
 	unsigned int i, j = 0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,"compare(\"")) return;
 	for (i=0; i<s; i++) {
 		if (!strncmp(&str[i], "compare(\"", strlen("compare(\""))) {
 			i += (int)strlen("compare(\"");
