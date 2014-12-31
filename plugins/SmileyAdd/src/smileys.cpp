@@ -261,6 +261,7 @@ void SmileyPackType::AddTriggersToSmileyLookup(void)
 						first = false;
 					}
 				}
+				delete dats;
 			}
 			delete m0;
 		}
