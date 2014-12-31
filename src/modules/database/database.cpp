@@ -258,12 +258,9 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 
 				switch (touchDatabase(newProfile, NULL)) {
 				case 0:
+				case EGROKPRF_OBSOLETE:
 					if (++found == 1 && bNoDefaultProfile)
 						_tcsncpy_s(szProfile, cch, newProfile, _TRUNCATE);
-					break;
-
-				case EGROKPRF_OBSOLETE:
-					found += 2; // force showing PM even if only one obsolete profile found
 					break;
 				}
 			}
@@ -400,9 +397,13 @@ int tryOpenDatabase(const TCHAR *tszProfile)
 				continue;
 
 			case EGROKPRF_OBSOLETE:
+				EnsureCheckerLoaded(true);
+				CallService(MS_DB_CHECKPROFILE, (WPARAM)tszProfile, 2);
 				break;
+
+			default:
+				return err;
 			}
-			return err;
 		}
 
 		bWasOpened = true;
@@ -489,8 +490,6 @@ int LoadDatabaseModule(void)
 	// find out which profile to load
 	if (!getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
-
-	EnsureCheckerLoaded(false); // unload dbchecker
 
 	if (arDbPlugins.getCount() == 0) {
 		TCHAR buf[256];
