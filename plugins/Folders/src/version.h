@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Cristian Libotean, Miranda NG Team"
 #define __AUTHOREMAIL            "eblis102@yahoo.com"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Folders/"
-#define __COPYRIGHT              "© 2005-2012 Cristian Libotean, 2012-14 Miranda NG Team"
+#define __COPYRIGHT              "© 2005-2012 Cristian Libotean, 2012-15 Miranda NG Team"

@@ -2,7 +2,7 @@
 
 Import plugin for Miranda NG
 
-Copyright (C) 2012-14 George Hazan
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -381,10 +381,10 @@ static bool FindDestAccount(const char *szProto)
 		if (!strcmp(pam.pa->szModuleName, szProto))
 			return true;
 	}
-	
+
 	return false;
 }
- 
+
 static PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto, const TCHAR *ptszName, bool bStrict)
 {
 	int destProtoCount;

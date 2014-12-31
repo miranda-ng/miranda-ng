@@ -11,4 +11,4 @@
 #define __AUTHOR               "Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB               "http://miranda-ng.org/p/AdvaImg/"
-#define __COPYRIGHT               "© 2000-2012 Miranda-IM project, 2012-14 Miranda NG project uses the FreeImage distribution"
+#define __COPYRIGHT               "© 2000-2012 Miranda-IM project, 2012-15 Miranda NG project uses the FreeImage distribution"

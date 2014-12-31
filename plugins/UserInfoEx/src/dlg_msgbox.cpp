@@ -2,8 +2,8 @@
 UserinfoEx plugin for Miranda NG
 
 Copyright:
-© 2012-14 Miranda NG project (http://miranda-ng.org)
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+© 2012-15 Miranda NG project (http://miranda-ng.org)
+© 2006-10 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -33,13 +33,13 @@ typedef struct _MSGPOPUPDATA
 
 /**
  * This helper function moves and resizes a dialog box's control element.
- * 
+ *
  * @param	hDlg		- the dialog box's window handle
  * @param	idCtrl		- the identication number of the control to move
- * @param	dx			-´number of pixels to horizontal move the control 
- * @param	dy			- number of pixels to vertical move the control 
- * @param	dw			- number of pixels to horizontal resize the control 
- * @param	dh			- number of pixels to vertical resize the control 
+ * @param	dx			-´number of pixels to horizontal move the control
+ * @param	dy			- number of pixels to vertical move the control
+ * @param	dw			- number of pixels to horizontal resize the control
+ * @param	dh			- number of pixels to vertical resize the control
  *
  * @return	nothing
  **/
@@ -69,7 +69,7 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 	case MB_ICON_OTHER: // custom icon defined by caller function
 		hIcon = pMsgBox->hiMsg;
 		break;
-	
+
 	// default windows icons
 	case MB_ICON_ERROR:
 	case MB_ICON_QUESTION:
@@ -90,7 +90,7 @@ static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
 
 /**
  * This function fills a given POPUPACTION structure with the data of a given message id,
- * which is normally used by the message box. This is required to let the user interact 
+ * which is normally used by the message box. This is required to let the user interact
  * with a popup in the same way as with a normal message dialog box.
  *
  * @param	pa			- reference to a POPUPACTION structure to fill
@@ -193,7 +193,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					GetObject(hNormalFont, sizeof(lf), &lf);
 					lf.lfWeight = FW_BOLD;
 					hNormalFont = CreateFontIndirect(&lf);
-					
+
 					// set infobar's textfont
 					SendDlgItemMessage(hDlg, TXT_NAME, WM_SETFONT, (WPARAM)hNormalFont, 0);
 
@@ -209,7 +209,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					RECT rc;
 					GetClientRect(GetDlgItem(hDlg, TXT_NAME), &rc);
 					InfoBarHeight = rc.bottom;
-					
+
 					if (pMsgBox->hiLogo)
 						SendMessage(hDlg, WM_SETICON, ICON_BIG, (LPARAM)pMsgBox->hiLogo);
 				}
@@ -269,7 +269,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							SetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hDlg,TXT_NAME), GWL_STYLE)|SS_CENTERIMAGE); */
 					}
 					ReleaseDC(hDlg, hDC);
-				
+
 					// calc new dialog size
 					GetWindowRect(hDlg, &rcDlg);
 					GetWindowRect(GetDlgItem(hDlg, TXT_MESSAGE), &ws);
@@ -277,7 +277,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					needY = max(0, txtHeight - (ws.bottom - ws.top) + 5);
 					rcDlg.left -= needX/2; rcDlg.right += needX/2;
 					rcDlg.top -= (needY-InfoBarHeight)/2; rcDlg.bottom += (needY-InfoBarHeight)/2;
-					
+
 					// resize dialog window
 					MoveWindow(hDlg, rcDlg.left, rcDlg.top, rcDlg.right - rcDlg.left, rcDlg.bottom - rcDlg.top, FALSE);
 					ClientToScreen(hDlg, &mpt);
@@ -306,7 +306,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					GetWindowRect(GetDlgItem(hDlg, IDCANCEL), &rcCancel);
 					OffsetRect(&rcCancel, -mpt.x, -mpt.y + needY - InfoBarHeight);
-						 
+
 					LONG okWidth = rcOk.right - rcOk.left;
 					LONG allWidth = rcAll.right - rcAll.left;
 					LONG noneWidth = rcNone.right - rcNone.left;
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						SetDlgItemText(hDlg, IDCANCEL, LPGENT("No"));
 						rcCancel.right = rcDlg.right - rcDlg.left - 10;
 						rcCancel.left = rcCancel.right - caWidth;
-						rcNone.right = rcCancel.left - 5; 
+						rcNone.right = rcCancel.left - 5;
 						rcNone.left = rcNone.right - noneWidth;
 						rcAll.right = rcNone.left - 5;
 						rcAll.left = rcAll.right - allWidth;
@@ -627,7 +627,7 @@ static LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 }
 
 /**
-* This is the service function for external plugins to use the nice messagebox 
+* This is the service function for external plugins to use the nice messagebox
 *
 * @param	wParam		- MCONTACT hContact which can display an avatar for popups
 * @param	lParam		- MSGBOX structure holding parameters
@@ -683,7 +683,7 @@ INT_PTR CALLBACK MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszI
 /**
 * name:	MsgErr
 * desc:	calls a messagebox
-* param:	
+* param:
 **/
 INT_PTR CALLBACK MsgErr(HWND hParent, LPCTSTR pszFormat, ...)
 {

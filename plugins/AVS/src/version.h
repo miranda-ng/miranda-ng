@@ -11,4 +11,4 @@
 #define __AUTHOR                   "Nightwish, Pescuma"
 #define __AUTHOREMAIL              ""
 #define __AUTHORWEB                "http://miranda-ng.org/p/AVS/"
-#define __COPYRIGHT                "© 2000-2012 Miranda-IM project, 2012-14 Miranda NG team"
+#define __COPYRIGHT                "© 2000-2012 Miranda-IM project, 2012-15 Miranda NG team"

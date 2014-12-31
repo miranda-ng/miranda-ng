@@ -2,8 +2,8 @@
 Miranda NG: the free IM client for Microsoft* Windows*
 
 Copyright:
-© 2012-14 Miranda NG project (http://miranda-ng.org)
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+© 2012-15 Miranda NG project (http://miranda-ng.org)
+© 2006-10 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ Funktion returns: IDOK, IDYES, IDALL, IDNO or IDCANCEL
 #define MB_RETRYCANCEL			0x00000005L
 */
 #define MB_YESALLNO				0x00000007L
-#define MB_TYPE(p)				((p)&MB_TYPEMASK)	
+#define MB_TYPE(p)				((p)&MB_TYPEMASK)
 
 /*
 valid predefined icon values
@@ -71,7 +71,7 @@ flags
 #define MB_NOPOPUP				0x00000200L
 #define MB_CUSTOMCOLOR			0x00000300L
 
-typedef struct _MSGBOX 
+typedef struct _MSGBOX
 {
 	UINT     cbSize;        // size of this structure
 	UINT     uType;         // parameters
@@ -81,7 +81,7 @@ typedef struct _MSGBOX
 	LPTSTR   ptszInfoText;
 	LPTSTR   ptszMsg;
 	HWND     hParent;	      // parent window for the messagebox
-	COLORREF colorBack;     // valid if MB_CUSTOMCOLOR is set 
+	COLORREF colorBack;     // valid if MB_CUSTOMCOLOR is set
 	COLORREF colorText;     // valid if MB_CUSTOMCOLOR is set
 } MSGBOX, *LPMSGBOX;
 

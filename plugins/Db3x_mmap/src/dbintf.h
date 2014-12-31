@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2012-14 Miranda NG project,
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -108,7 +108,7 @@ struct DBContact
 	// this is the 'user' contact or the last contact in the chain
 	DWORD ofsFirstSettings;	// offset to the first DBContactSettings in the chain for this contact.
 	DWORD eventCount;       // number of events in the chain for this contact
-	DWORD ofsFirstEvent,    // offsets to the first and 
+	DWORD ofsFirstEvent,    // offsets to the first and
 		ofsLastEvent;     // last DBEvent in the chain for this contact
 	DWORD ofsFirstUnread;   // offset to the first (chronological) unread event	in the chain, 0 if all are read
 	DWORD tsFirstUnread;    // timestamp of the event at ofsFirstUnread
@@ -301,7 +301,7 @@ protected:
 	DWORD    ReallocSpace(DWORD ofs, int oldSize, int newSize);
 
 	////////////////////////////////////////////////////////////////////////////
-	// settings 
+	// settings
 
 	int      m_codePage;
 	HANDLE   hService, hHook;
