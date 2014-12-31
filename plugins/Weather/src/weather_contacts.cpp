@@ -1,4 +1,4 @@
-/*
+	/*
 Weather Protocol plugin for Miranda IM
 Copyright (c) 2012 Miranda NG Team
 Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
@@ -269,10 +269,10 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 						// if the page is found (ie. valid ID), get the name of the city
 						if (search == NULL)
 							GetDataValue(&sData->IDSearch.Name, str, &szInfo);
-
-						// free memory
-						mir_free(szData);
 					}
+					// free memory
+					mir_free(szData);
+
 					NetlibHttpDisconnect();
 				}
 				// give no station name but only ID if the search is unavailable
