@@ -3,13 +3,13 @@
 const
   kinopoisk_info = 'http://www.kinopoisk.ru/level/1/film/';
 
-procedure ClearInfo(Dlg:HWND);
+procedure ClearInfo(dlg:HWND);
 begin
-  SetDlgItemTextW(Dlg,IDC_DATA_SERIES ,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_EPISODE,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_TAGS   ,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_TAGS   ,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_INFO   ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_SERIES ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_EPISODE,'');
+  SetDlgItemTextW(dlg,IDC_DATA_TAGS   ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_TAGS   ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_INFO   ,'');
 end;
 
 function DlgProcOptions(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;

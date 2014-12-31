@@ -42,7 +42,7 @@ begin
     MessageBoxW(0,@buf,'ERROR',MB_ICONERROR)
 end;
 
-function GetMD5Str(const digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
+function GetMD5Str(digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
 begin
   buf[00]:=HexDigitChrLo[digest[00] shr 4]; buf[01]:=HexDigitChrLo[digest[00] and $0F];
   buf[02]:=HexDigitChrLo[digest[01] shr 4]; buf[03]:=HexDigitChrLo[digest[01] and $0F];

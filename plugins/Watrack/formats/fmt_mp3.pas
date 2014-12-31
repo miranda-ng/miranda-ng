@@ -125,18 +125,18 @@ end;
 function SearchStart(f:THANDLE; var l:array of byte):Boolean;
 var
   CurPos:longint;
-  buf:array [0..ScanSize] of byte;
+  Buf:array [0..ScanSize] of byte;
   i,j:integer;
 begin
   CurPos:=FilePos(f)-4;
   Seek(f,CurPos);
-  j:=BlockRead(f,buf,ScanSize);
+  j:=BlockRead(f,Buf,ScanSize);
   i:=0;
   while i<j do
   begin
-    if (i<(j-2)) and (buf[i]=$FF) and //FF FB E4
-       ((buf[i+1] and $E0)=$E0) and
-       ((buf[i+2] and $F0)<>$F0) then
+    if (i<(j-2)) and (Buf[i]=$FF) and //FF FB E4
+       ((Buf[i+1] and $E0)=$E0) and
+       ((Buf[i+2] and $F0)<>$F0) then
     begin
       Seek(f,CurPos+i);
       BlockRead(f,l,4);
@@ -257,7 +257,7 @@ var
   w:word;
   b:byte;
   flag:integer;
-  version,Layer:integer;
+  version,layer:integer;
 //  vbitrate:integer;
 //  FrmCnt:integer;
 begin
@@ -385,8 +385,8 @@ begin
           end;
           l:=ReadDWord(p,endptr);
           version:=(l2b(l)[1] and $18) shr 3;
-          Layer  :=(l2b(l)[1] and $06) shr 1;
-          Info.kbps    :=btable[version and 1][Layer-1][l2b(l)[2] shr 4];
+          layer  :=(l2b(l)[1] and $06) shr 1;
+          Info.kbps    :=btable[version and 1][layer-1][l2b(l)[2] shr 4];
           Info.khz     :=(stable[version][(l2b(l)[2] and $0C) shr 2]) div 1000;
           Info.channels:=l2b(l)[3] shr 6;
           if Info.channels=3 then

@@ -23,7 +23,7 @@ const
 type
   tChunk = packed record
     ID:dword;
-    len:dword; //with Chunk;
+    Len:dword; //with Chunk;
   end;
 
 type
@@ -43,32 +43,32 @@ type
 
 procedure SkipStr(var p:PAnsiChar;alen:integer);
 var
-  llen:integer;
+  len:integer;
 begin
   if alen=2 then
-    llen:=(ord(p[0]) shl 8)+ord(p[1])
+    len:=(ord(p[0]) shl 8)+ord(p[1])
   else
-    llen:=ord(p[0]);
+    len:=ord(p[0]);
   inc(p,alen);
-//  if llen>0 then
-    inc(p,llen);
+//  if len>0 then
+    inc(p,len);
 end;
 
 function ReadStr(var p:PAnsiChar;alen:integer):PAnsiChar;
 var
-  llen:integer;
+  len:integer;
 begin
   if alen=2 then
-    llen:=(ord(p[0]) shl 8)+ord(p[1])
+    len:=(ord(p[0]) shl 8)+ord(p[1])
   else
-    llen:=ord(p[0]);
+    len:=ord(p[0]);
   inc(p,alen);
-  if llen>0 then
+  if len>0 then
   begin
-    mGetMem(result,llen+1);
-    move(p^,result^,llen);
-    result[llen]:=#0;
-    inc(p,llen);
+    mGetMem(result,len+1);
+    move(p^,result^,len);
+    result[len]:=#0;
+    inc(p,len);
   end
   else
     result:=nil;
@@ -103,15 +103,15 @@ begin
   while FilePos(f)<fsize do
   begin
     BlockRead(f,chunk,SizeOf(chunk));
-    chunk.len:=BSwap(chunk.len);
+    chunk.Len:=BSwap(chunk.Len);
     if (not (AnsiChar(chunk.ID and $FF) in ['A'..'Z','a'..'z','.'])) or
-      (chunk.len<SizeOf(chunk)) then
+      (chunk.Len<SizeOf(chunk)) then
       break;
     if (chunk.ID=blkPROP) or (chunk.ID=blkCONT) or (chunk.ID=blkMDPR) then
     begin
-      mGetMem(buf,chunk.len-SizeOf(chunk));
+      mGetMem(buf,chunk.Len-SizeOf(chunk));
       p:=buf;
-      BlockRead(f,buf^,chunk.len-SizeOf(chunk));
+      BlockRead(f,buf^,chunk.Len-SizeOf(chunk));
       if chunk.ID=blkPROP then
       begin
         inc(p,22);
@@ -273,7 +273,7 @@ begin
     end
     else if chunk.ID=blkRMMD then //comment
     begin
-      Skip(f,chunk.len-SizeOf(chunk));
+      Skip(f,chunk.Len-SizeOf(chunk));
 {
     BlockRead(f,chunk,SizeOf(chunk)); //RJMD
     chunk.len:=BSwap(chunk.len);
@@ -289,7 +289,7 @@ begin
       if chunk.ID=blk_RMF then
         if FilePos(f)<>SizeOf(chunk) then // channels-1: ofs=$0A
           break;
-      Skip(f,chunk.len-SizeOf(chunk));
+      Skip(f,chunk.Len-SizeOf(chunk));
     end;
   end;
   ReadID3v1(f,Info);
