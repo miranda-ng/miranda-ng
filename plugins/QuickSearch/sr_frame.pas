@@ -64,7 +64,7 @@ function QSFrameProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRES
 var
   urd:TUTILRESIZEDIALOG;
   rc:TRECT;
-  ti:TTOOLINFOW;
+  TI:TTOOLINFOW;
   hwndTooltip:HWND;
 begin
   result:=0;
@@ -83,14 +83,14 @@ begin
           integer(CW_USEDEFAULT),integer(CW_USEDEFAULT),
           Dialog,0,hInstance,nil);
 
-      FillChar(ti,SizeOf(ti),0);
-      ti.cbSize  :=sizeof(TOOLINFO);
-      ti.uFlags  :=TTF_IDISHWND or TTF_SUBCLASS;
-      ti.hwnd    :=Dialog;
-      ti.hinst   :=hInstance;
-      ti.uId     :=GetDlgItem(Dialog,IDC_FRAME_OPEN);
-      ti.lpszText:=pWideChar(TranslateW('Open QS window'));
-      SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,tlparam(@ti));
+      FillChar(TI,SizeOf(TI),0);
+      TI.cbSize  :=sizeof(TOOLINFO);
+      TI.uFlags  :=TTF_IDISHWND or TTF_SUBCLASS;
+      TI.hwnd    :=Dialog;
+      TI.hinst   :=hInstance;
+      TI.uId     :=GetDlgItem(Dialog,IDC_FRAME_OPEN);
+      TI.lpszText:=pWideChar(TranslateW('Open QS window'));
+      SendMessageW(hwndTooltip,TTM_ADDTOOLW,0,tlparam(@TI));
 
       SetButtonIcon(GetDlgItem(Dialog,IDC_FRAME_OPEN),QS_QS);
     end;

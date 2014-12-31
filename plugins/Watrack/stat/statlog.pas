@@ -23,7 +23,7 @@ type
     Title    :PAnsiChar;
     MFile    :PAnsiChar;
     Album    :PAnsiChar;
-    next     :pStatCell; // only for fill
+    Next     :pStatCell; // only for fill
   end;
 
 type
@@ -269,12 +269,12 @@ begin
   result:=0;
 end;
 
-procedure Resort(var Root:pCells;sort:integer;adirection:integer=smDirect);
+procedure Resort(var Root:pCells;Sort:integer;aDirection:integer=smDirect);
 
   function CompareProc(First,Second:integer):integer;
   begin
-    result:=Compare(Root^.cells[First],Root^.cells[Second],sort);
-    if direction=smReverse then
+    result:=Compare(Root^.Cells[First],Root^.Cells[Second],sort);
+    if aDirection=smReverse then
       result:=-result;
   end;
 
@@ -356,7 +356,7 @@ begin
         end
         else
         begin
-          CurCell^.next:=Cell;
+          CurCell^.Next:=Cell;
           CurCell:=Cell;
         end;
       end;
@@ -374,7 +374,7 @@ begin
     while CurCell<>nil do
     begin
       arr^.Cells[i]:=CurCell;
-      CurCell:=CurCell.next;
+      CurCell:=CurCell.Next;
       inc(i);
     end;
     result:=arr;
@@ -406,7 +406,7 @@ begin
   end;
 end;
 
-procedure SortFile(fname:PAnsiChar;mode:integer;adirection:integer);
+procedure SortFile(fname:PAnsiChar;mode:integer;aDirection:integer);
 var
   Root:pCells;
   buf:PAnsiChar;
@@ -418,8 +418,8 @@ begin
   Root:=BuildTree(buf1,buf);
   if Root<>nil then
   begin
-    if (mode<>stArtist) or (adirection<>smDirect) then
-      Resort(Root,mode,adirection);
+    if (mode<>stArtist) or (aDirection<>smDirect) then
+      Resort(Root,mode,aDirection);
     OutputStat(buf1,Root);
     ClearStatCells(Root);
   end;

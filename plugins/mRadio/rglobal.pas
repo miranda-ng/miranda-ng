@@ -9,8 +9,6 @@ uses
   m_api,
   playlist;
 
-{$include m_radio.inc}
-
 const
   cPluginName = 'mRadio';
 const

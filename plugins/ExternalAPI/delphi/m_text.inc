@@ -40,7 +40,7 @@ type
 
     Register   :function(const userTitle:PAnsiChar; options:dword):THANDLE; stdcall;
     Create     :function(userHandle:THANDLE; text:pointer):THANDLE; stdcall;
-    CreateEx   :function(userHandle:THANDLE; hContact:TMCONTACT; text:pointer; flags:dword):THANDLE; stdcall;
+    CreateEx   :function(userHandle:THANDLE; text:pointer; flags:dword):THANDLE; stdcall;
     Measure    :function(dc:HDC; sz:PSIZE; text:THANDLE):int; stdcall;
     Display    :function(dc:HDC; pos:TPOINT; sz:TSIZE; text:THANDLE):int; stdcall;
     SetParent  :function(text:THANDLE; hwnd:HWND; rect:TRECT):int; stdcall;

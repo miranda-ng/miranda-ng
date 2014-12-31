@@ -31,7 +31,7 @@ procedure FreeProtoList;
 
 function SetStatus(proto:PAnsiChar;status:integer;txt:PAnsiChar=pointer(-1)):integer;
 function SetXStatus(proto:PAnsiChar;newstatus:integer;
-                    txt:pWideChar=nil;title:pWideChar=nil):integer;
+                    txt:PWideChar=nil;title:PWideChar=nil):integer;
 function GetXStatus(proto:PAnsiChar;txt:pointer=nil;title:pointer=nil):integer;
 
 const
@@ -526,7 +526,7 @@ begin
 end;
 
 function SetXStatus(proto:PAnsiChar;newstatus:integer;
-                    txt:pWideChar=nil;title:pWideChar=nil):integer;
+                    txt:PWideChar=nil;title:PWideChar=nil):integer;
 var
   ics:TCUSTOM_STATUS;
 begin
@@ -595,7 +595,7 @@ begin
       with ics do
       begin
         flags   :=flags or CSSF_MASK_NAME or CSSF_UNICODE;
-        szName.w:=pWideChar(title^);
+        szName.w:=PWideChar(title^);
       end;
     end;
 
@@ -605,7 +605,7 @@ begin
       with ics do
       begin
         flags:=flags or CSSF_MASK_MESSAGE or CSSF_UNICODE;
-        szMessage.w:=pWideChar(txt^);
+        szMessage.w:=PWideChar(txt^);
       end;
     end;
 
@@ -623,11 +623,11 @@ begin
 
       if txt<>nil then
       begin
-        StrCopy(pc,'Msg'); pWideChar(txt^):=DBReadUnicode(0,proto,param,nil);
+        StrCopy(pc,'Msg'); PWideChar(txt^):=DBReadUnicode(0,proto,param,nil);
       end;
       if title<>nil then
       begin
-        StrCopy(pc,'Name'); pWideChar(title^):=DBReadUnicode(0,proto,param,nil);
+        StrCopy(pc,'Name'); PWideChar(title^):=DBReadUnicode(0,proto,param,nil);
       end;
     end;
 }

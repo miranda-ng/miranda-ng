@@ -2,25 +2,25 @@ unit memini;
 
 interface
 
-function OpenStorage(fname:pWideChar):pointer; overload;
-function OpenStorage(fname:pAnsiChar):pointer; overload;
-function OpenStorageBuf(buf:pAnsiChar):pointer;
+function OpenStorage(fname:PWideChar):pointer; overload;
+function OpenStorage(fname:PAnsiChar):pointer; overload;
+function OpenStorageBuf(buf:PAnsiChar):pointer;
 procedure CloseStorage(storage:pointer);
 
-//function GetNamespaceList(storage:pointer):pAnsiChar;
-function GetSectionList(storage:pointer;namespace:pAnsiChar=nil):pAnsiChar;
-procedure FreeSectionList(ptr:pAnsiChar);
+//function GetNamespaceList(storage:pointer):PAnsiChar;
+function GetSectionList(storage:pointer;namespace:PAnsiChar=nil):PAnsiChar;
+procedure FreeSectionList(ptr:PAnsiChar);
 
-function GetParamStr(storage:pointer;section,param:pAnsiChar;default:pAnsiChar=nil;
-         namespace:pAnsiChar=nil):pAnsiChar;
-function GetParamInt(storage:pointer;section,param:pAnsiChar;default:integer=0;
-         namespace:pAnsiChar=nil):integer;
+function GetParamStr(storage:pointer;section,param:PAnsiChar;default:PAnsiChar=nil;
+         namespace:PAnsiChar=nil):PAnsiChar;
+function GetParamInt(storage:pointer;section,param:PAnsiChar;default:integer=0;
+         namespace:PAnsiChar=nil):integer;
 
-function SearchSection(storage:pointer;section:pAnsiChar;namespace:pAnsiChar=nil):pointer;
-function GetSectionName(section:pointer):pAnsiChar;
+function SearchSection(storage:pointer;section:PAnsiChar;namespace:PAnsiChar=nil):pointer;
+function GetSectionName(section:pointer):PAnsiChar;
 
-function GetParamSectionStr(section:pointer;param:pAnsiChar;default:pAnsiChar=nil):pAnsiChar;
-function GetParamSectionInt(section:pointer;param:pAnsiChar;default:integer=0):integer;
+function GetParamSectionStr(section:pointer;param:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
+function GetParamSectionInt(section:pointer;param:PAnsiChar;default:integer=0):integer;
 
 implementation
 
@@ -35,8 +35,8 @@ type
   pParam = ^tParam;
   tParam = record
     hash  :integer;   // param name hash
-    name  :pAnsiChar; // points to source (for write only)
-    value :pAnsiChar; // points to source? or modified
+    name  :PAnsiChar; // points to source (for write only)
+    value :PAnsiChar; // points to source? or modified
     assign:boolean;   // newly assigned value or in INI buffer
   end;
   pSection = ^tSection;
@@ -44,23 +44,23 @@ type
     ns      :integer;    // namespace hash
     code    :integer;    // section name hash
     full    :integer;    // namespace+section name hash
-    fullname:pAnsiChar;  // pointer to namespace:name
-    name    :pAnsiChar;  // pointer to name only
+    fullname:PAnsiChar;  // pointer to namespace:name
+    name    :PAnsiChar;  // pointer to name only
 
     numparam:integer;
     arParams:array of tParam;
   end;
   pStorage = ^tStorage;
   tStorage = record
-    name     :pAnsiChar; // filename
-    buffer   :pAnsiChar; // source (INI) text
+    name     :PAnsiChar; // filename
+    buffer   :PAnsiChar; // source (INI) text
 
     numsect  :integer;
     arSection: array of tSection;
   end;
 
 
-function HashOf(txt:pAnsiChar):integer;
+function HashOf(txt:PAnsiChar):integer;
 begin
   result:=Hash(txt,StrLen(txt));
 {
@@ -74,7 +74,7 @@ begin
 end;
 
 // sections adds 1 by 1, without duplicate check
-procedure AddSection(data:pStorage;anamespace,aname:pAnsiChar);
+procedure AddSection(data:pStorage;anamespace,aname:PAnsiChar);
 var
   i:integer;
   fnhash:integer;
@@ -110,7 +110,7 @@ begin
   inc(data.numsect);
 end;
 
-procedure AddParam(data:pStorage;aname,avalue:pAnsiChar;assignvalue:boolean);
+procedure AddParam(data:pStorage;aname,avalue:PAnsiChar;assignvalue:boolean);
 begin
   // search param with same name?
   
@@ -135,9 +135,9 @@ end;
 // quotes, multiline etc
 // result = pointer to non-parameter line
 // pointers: start of value, start of current line, end of value in line, end of current line
-function ProcessParamValue(var start:pAnsiChar):pAnsiChar;
+function ProcessParamValue(var start:PAnsiChar):PAnsiChar;
 var
-  lineend,eol,dst,bov:pAnsiChar;
+  lineend,eol,dst,bov:PAnsiChar;
   multiline,crlf:boolean;
 begin
 
@@ -213,7 +213,7 @@ end;
 
 procedure TranslateData(data:pStorage);
 var
-  pc2,pc1,pc:pAnsiChar;
+  pc2,pc1,pc:PAnsiChar;
   len:integer;
 begin
   pc:=data^.buffer;
@@ -293,7 +293,7 @@ begin
 
 end;
 
-function OpenStorageBuf(buf:pAnsiChar):pointer;
+function OpenStorageBuf(buf:PAnsiChar):pointer;
 begin
   result:=nil;
   if (buf<>nil) and (buf^<>#0) then
@@ -330,7 +330,7 @@ begin
   end;
 end;
 
-function OpenStorage(fname:pWideChar):pointer;
+function OpenStorage(fname:PWideChar):pointer;
 begin
   if FileExists(fname) then
     result:=OpenFileStorage(Reset(fname))
@@ -338,7 +338,7 @@ begin
   result:=nil;
 end;
 
-function OpenStorage(fname:pAnsiChar):pointer;
+function OpenStorage(fname:PAnsiChar):pointer;
 begin
   if FileExists(fname) then
     result:=OpenFileStorage(Reset(fname))
@@ -365,7 +365,7 @@ begin
   FreeMem(storage);
 end;
 {
-function GetNamespaceList(storage:pointer):pAnsiChar;
+function GetNamespaceList(storage:pointer):PAnsiChar;
 begin
   if storage=nil then
   begin
@@ -375,10 +375,10 @@ begin
 
 end;
 }
-function GetSectionList(storage:pointer;namespace:pAnsiChar=nil):pAnsiChar;
+function GetSectionList(storage:pointer;namespace:PAnsiChar=nil):PAnsiChar;
 var
   i,lsize,lns:integer;
-  pc:pAnsiChar;
+  pc:PAnsiChar;
 begin
   if storage=nil then
   begin
@@ -455,12 +455,12 @@ begin
   end;
 end;
 
-procedure FreeSectionList(ptr:pAnsiChar);
+procedure FreeSectionList(ptr:PAnsiChar);
 begin
   FreeMem(ptr);
 end;
 
-function SearchSection(storage:pointer;section:pAnsiChar;namespace:pAnsiChar=nil):pointer;
+function SearchSection(storage:pointer;section:PAnsiChar;namespace:PAnsiChar=nil):pointer;
 var
   i:integer;
   nsn,nss:integer;
@@ -498,7 +498,7 @@ begin
   end;
 end;
 
-function GetSectionName(section:pointer):pAnsiChar;
+function GetSectionName(section:pointer):PAnsiChar;
 begin
   if section=nil then
     result:=nil
@@ -506,7 +506,7 @@ begin
     result:=pSection(section).name;
 end;
 
-function SearchParameter(section:pointer;param:pAnsiChar):pointer;
+function SearchParameter(section:pointer;param:PAnsiChar):pointer;
 var
   i:integer;
   nsp:integer;
@@ -529,7 +529,7 @@ begin
   end;
 end;
 
-function GetParamSectionStr(section:pointer;param:pAnsiChar;default:pAnsiChar=nil):pAnsiChar;
+function GetParamSectionStr(section:pointer;param:PAnsiChar;default:PAnsiChar=nil):PAnsiChar;
 var
   pn:pParam;
 begin
@@ -543,7 +543,7 @@ begin
   end;
 end;
 
-function GetParamSectionInt(section:pointer;param:pAnsiChar;default:integer=0):integer;
+function GetParamSectionInt(section:pointer;param:PAnsiChar;default:integer=0):integer;
 var
   pn:pParam;
 begin
@@ -555,7 +555,7 @@ begin
     if pn<>nil then
     begin
       if pn.value[0]='$' then
-        result:=HexToInt(pAnsiChar(@pn.value[1]))
+        result:=HexToInt(PAnsiChar(@pn.value[1]))
       else
         result:=StrToInt(pn.value);
     end;
@@ -563,8 +563,8 @@ begin
 end;
 
 
-function GetParamStr(storage:pointer;section,param:pAnsiChar;default:pAnsiChar=nil;
-         namespace:pAnsiChar=nil):pAnsiChar;
+function GetParamStr(storage:pointer;section,param:PAnsiChar;default:PAnsiChar=nil;
+         namespace:PAnsiChar=nil):PAnsiChar;
 var
   sn:pSection;
 begin
@@ -578,8 +578,8 @@ begin
   result:=GetParamSectionStr(sn,param,default);
 end;
 
-function GetParamInt(storage:pointer;section,param:pAnsiChar;default:integer=0;
-         namespace:pAnsiChar=nil):integer;
+function GetParamInt(storage:pointer;section,param:PAnsiChar;default:integer=0;
+         namespace:PAnsiChar=nil):integer;
 var
   sn:pSection;
 begin

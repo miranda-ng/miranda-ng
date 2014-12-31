@@ -27,7 +27,7 @@ function ShowEditField(Dialog:HWND; id:uint; mode:integer):boolean;overload;
    1 - script
    0 - new text
 }
-function ShowEditBox(parent:HWND;var text:pWideChar;title:pWideChar):int_ptr;
+function ShowEditBox(parent:HWND;var text:PWideChar;title:PWideChar):int_ptr;
 
 
 implementation
@@ -53,7 +53,7 @@ type
 
 procedure SetButtonTitle(btnwnd:HWND);
 var
-  title:pWideChar;
+  title:PWideChar;
   ptr:pUserData;
 begin
   ptr:=pUserData(GetWindowLongPtrW(btnwnd,GWLP_USERDATA));
@@ -82,7 +82,7 @@ end;
 // if need to change button text, will pass button (not edit field) handle as parameter
 function EditWndProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
-  pc:pWideChar;
+  pc:PWideChar;
   btnwnd:HWND;
   ptr:pUserData;
   wnd,wnd1:HWND;
@@ -386,18 +386,18 @@ end;
 type
   pResultText = ^tResultText;
   tResultText = record
-    text:pWideChar;
+    text:PWideChar;
     typ :integer;
   end;
   pSepDlgParam = ^tSepDlgParam;
   tSepDlgParam = record
-    title:pWideChar;
-    text :pWideChar;
+    title:PWideChar;
+    text :PWideChar;
   end;
 
 function EditWndProcSep(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
-  pc:pWideChar;
+  pc:PWideChar;
   wnd,wnd1:HWND;
   vhi:TVARHELPINFO;
   p:pResultText;
@@ -537,7 +537,7 @@ begin
   end;
 end;
 
-function ShowEditBox(parent:HWND;var text:pWideChar;title:pWideChar):int_ptr;
+function ShowEditBox(parent:HWND;var text:PWideChar;title:PWideChar):int_ptr;
 var
   tmp:pResultText;
   par:tSepDlgParam;

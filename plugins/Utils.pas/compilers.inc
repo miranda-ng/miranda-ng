@@ -944,3 +944,16 @@
     {$DEFINE AllowInline}
   {$ENDIF}
 {$ENDIF}
+
+(*
+{$IFDEF FPC}
+  {$DEFINE AllowInline}
+{$ELSE}
+  {$IFDEF ConditionalExpressions}
+    // CompilerVersion defined in SYSTEM module, need to use not earlier
+    {$IF CompilerVersion >= 22}
+      {$DEFINE AllowInline}
+    {$IFEND}
+  {$ENDIF}
+{$ENDIF}
+*)

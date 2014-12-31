@@ -20,30 +20,30 @@ function RegisterSingleIcon(resname,ilname,descr,group:PAnsiChar):int;
 
 // others
 
-function ConvertFileName(src:pAnsiChar;hContact:TMCONTACT=0):pAnsiChar; overload;
-function ConvertFileName(src:pWideChar;hContact:TMCONTACT=0):pWideChar; overload;
-function ConvertFileName(src:pAnsiChar;dst:pAnsiChar;hContact:TMCONTACT=0):pAnsiChar; overload;
-function ConvertFileName(src:pWideChar;dst:pWideChar;hContact:TMCONTACT=0):pWideChar; overload;
+function ConvertFileName(src:PAnsiChar;hContact:TMCONTACT=0):PAnsiChar; overload;
+function ConvertFileName(src:PWideChar;hContact:TMCONTACT=0):PWideChar; overload;
+function ConvertFileName(src:PAnsiChar;dst:PAnsiChar;hContact:TMCONTACT=0):PAnsiChar; overload;
+function ConvertFileName(src:PWideChar;dst:PWideChar;hContact:TMCONTACT=0):PWideChar; overload;
 
-procedure ShowPopupW(text:pWideChar;title:pWideChar=nil);
+procedure ShowPopupW(text:PWideChar;title:PWideChar=nil);
 function GetAddonFileName(prefix,altname,path:PAnsiChar;ext:PAnsiChar):PAnsiChar;
 function TranslateA2W(sz:PAnsiChar):PWideChar;
 function MirandaCP:integer;
 
 function isVarsInstalled:bool;
-function ParseVarString(astr:pAnsiChar;aContact:TMCONTACT=0;extra:pAnsiChar=nil):pAnsiChar; overload;
-function ParseVarString(astr:pWideChar;aContact:TMCONTACT=0;extra:pWideChar=nil):pWideChar; overload;
+function ParseVarString(astr:PAnsiChar;aContact:TMCONTACT=0;extra:PAnsiChar=nil):PAnsiChar; overload;
+function ParseVarString(astr:PWideChar;aContact:TMCONTACT=0;extra:PWideChar=nil):PWideChar; overload;
 function ShowVarHelp(dlg:HWND;id:integer=0):integer;
 
-function CreateGroupW(name:pWideChar;hContact:TMCONTACT):integer;
+function CreateGroupW(name:PWideChar;hContact:TMCONTACT):integer;
 
 function MakeGroupMenu(idxfrom:integer=100):HMENU;
-function GetNewGroupName(parent:HWND):pWideChar;
+function GetNewGroupName(parent:HWND):PWideChar;
 
 const
   MAX_REDIRECT_RECURSE = 4;
 
-function SendRequest(url:PAnsiChar;rtype:int;args:pAnsiChar=nil;hNetLib:THANDLE=0):pAnsiChar;
+function SendRequest(url:PAnsiChar;rtype:int;args:PAnsiChar=nil;hNetLib:THANDLE=0):PAnsiChar;
 
 function GetFile(url:PAnsiChar;save_file:PAnsiChar;
                  hNetLib:THANDLE=0;recurse_count:integer=0):bool; overload;
@@ -52,7 +52,7 @@ function GetFile(url:PWideChar;save_file:PWideChar;
                  hNetLib:THANDLE=0;recurse_count:integer=0):bool; overload;
 
 function GetProxy(hNetLib:THANDLE):PAnsiChar;
-function LoadImageURL(url:pAnsiChar;size:integer=0):HBITMAP;
+function LoadImageURL(url:PAnsiChar;size:integer=0):HBITMAP;
 
 implementation
 
@@ -75,9 +75,9 @@ begin
   SendMessage(btn,BM_SETIMAGE,IMAGE_ICON,result);
 end;
 
-function ConvertFileName(src:pWideChar;dst:pWideChar;hContact:TMCONTACT=0):pWideChar; overload;
+function ConvertFileName(src:PWideChar;dst:PWideChar;hContact:TMCONTACT=0):PWideChar; overload;
 var
-  pc:pWideChar;
+  pc:PWideChar;
 begin
   result:=dst;
   dst^:=#0;
@@ -95,7 +95,7 @@ begin
   end;
 end;
 
-function ConvertFileName(src:pWideChar;hContact:TMCONTACT=0):pWideChar; overload;
+function ConvertFileName(src:PWideChar;hContact:TMCONTACT=0):PWideChar; overload;
 var
   buf1:array [0..511] of WideChar;
 begin
@@ -105,9 +105,9 @@ begin
     result:=nil;
 end;
 
-function ConvertFileName(src:pAnsiChar;dst:pAnsiChar;hContact:TMCONTACT=0):pAnsiChar; overload;
+function ConvertFileName(src:PAnsiChar;dst:PAnsiChar;hContact:TMCONTACT=0):PAnsiChar; overload;
 var
-  pc:pAnsiChar;
+  pc:PAnsiChar;
 begin
   result:=dst;
   dst^:=#0;
@@ -125,7 +125,7 @@ begin
   end;
 end;
 
-function ConvertFileName(src:pAnsiChar;hContact:TMCONTACT=0):pAnsiChar; overload;
+function ConvertFileName(src:PAnsiChar;hContact:TMCONTACT=0):PAnsiChar; overload;
 var
   buf1:array [0..511] of AnsiChar;
 begin
@@ -151,10 +151,10 @@ begin
   result:=ServiceExists(MS_VARS_FORMATSTRING)<>0;
 end;
 
-function ParseVarString(astr:pAnsiChar;aContact:TMCONTACT=0;extra:pAnsiChar=nil):pAnsiChar;
+function ParseVarString(astr:PAnsiChar;aContact:TMCONTACT=0;extra:PAnsiChar=nil):PAnsiChar;
 var
   tfi:TFORMATINFO;
-  tmp,pc:pAnsiChar;
+  tmp,pc:PAnsiChar;
   dat:TREPLACEVARSDATA;
 begin
   if (astr=nil) or (astr^=#0) then exit;
@@ -163,7 +163,7 @@ begin
   begin
     FillChar(dat,SizeOf(TREPLACEVARSDATA),0);
     dat.cbSize :=SizeOf(TREPLACEVARSDATA);
-    pc:=pAnsiChar(CallService(MS_UTILS_REPLACEVARS,wparam(astr),lparam(@dat)));
+    pc:=PAnsiChar(CallService(MS_UTILS_REPLACEVARS,wparam(astr),lparam(@dat)));
     astr:=pc;
   end
   else
@@ -190,10 +190,10 @@ begin
   mir_free(pc);
 end;
 
-function ParseVarString(astr:pWideChar;aContact:TMCONTACT=0;extra:pWideChar=nil):pWideChar;
+function ParseVarString(astr:PWideChar;aContact:TMCONTACT=0;extra:PWideChar=nil):PWideChar;
 var
   tfi:TFORMATINFO;
-  tmp,pc:pWideChar;
+  tmp,pc:PWideChar;
   dat:TREPLACEVARSDATA;
 begin
   if (astr=nil) or (astr^=#0) then exit;
@@ -203,7 +203,7 @@ begin
     FillChar(dat,SizeOf(TREPLACEVARSDATA),0);
     dat.cbSize :=SizeOf(TREPLACEVARSDATA);
     dat.dwflags:=RVF_UNICODE;
-    pc:=pWideChar(CallService(MS_UTILS_REPLACEVARS,wparam(astr),lparam(@dat)));
+    pc:=PWideChar(CallService(MS_UTILS_REPLACEVARS,wparam(astr),lparam(@dat)));
     astr:=pc;
   end
   else
@@ -250,7 +250,7 @@ begin
   result:=CallService(MS_VARS_SHOWHELPEX,dlg,lparam(@vhi));
 end;
 
-procedure ShowPopupW(text:pWideChar;title:pWideChar=nil);
+procedure ShowPopupW(text:PWideChar;title:PWideChar=nil);
 var
   ppdu:TPOPUPDATAW;
 begin
@@ -268,7 +268,7 @@ end;
 
 function TranslateA2W(sz:PAnsiChar):PWideChar;
 var
-  tmp:pWideChar;
+  tmp:PWideChar;
 begin
   mGetMem(tmp,(StrLen(sz)+1)*SizeOf(WideChar));
   Result:=TranslateW(FastAnsiToWideBuf(sz,tmp));
@@ -335,7 +335,7 @@ begin
   begin
     StrCopy(filename,prefix);
     p:=StrEnd(filename);
-    CallService(MS_DB_GETPROFILENAME,SizeOf(filename)-integer(p-pAnsiChar(@filename)),lparam(p));
+    CallService(MS_DB_GETPROFILENAME,SizeOf(filename)-integer(p-PAnsiChar(@filename)),lparam(p));
     ChangeExt(filename,ext);
     result:=CheckPath(filename,profilepath,path);
   end
@@ -359,12 +359,12 @@ begin
 end;
 
 // Import plugin function adaptation
-function CreateGroupW(name:pWideChar;hContact:TMCONTACT):integer;
+function CreateGroupW(name:PWideChar;hContact:TMCONTACT):integer;
 var
   groupId:integer;
   groupIdStr:array [0..10] of AnsiChar;
   grbuf:array [0..127] of WideChar;
-  p:pWideChar;
+  p:PWideChar;
 begin
   if (name=nil) or (name^=#0) then
   begin
@@ -413,7 +413,7 @@ end;
 
 function MyStrSort(para1:pointer; para2:pointer):int; cdecl;
 begin
-  result:=StrCmpW(pWideChar(para1),pWideChar(para2));
+  result:=StrCmpW(PWideChar(para1),PWideChar(para2));
 end;
 
 function MakeGroupMenu(idxfrom:integer=100):HMENU;
@@ -421,7 +421,7 @@ var
   sl:TSortedList;
   i:integer;
   b:array [0..15] of AnsiChar;
-  p:pWideChar;
+  p:PWideChar;
 begin
   result:=CreatePopupMenu;
   i:=0;
@@ -439,14 +439,14 @@ begin
   inc(idxfrom);
   for i:=0 to sl.realCount-1 do
   begin
-    AppendMenuW(result,MF_STRING,idxfrom+i,pWideChar(sl.Items[i]));
-    p:=pWideChar(sl.Items[i])-1;
+    AppendMenuW(result,MF_STRING,idxfrom+i,PWideChar(sl.Items[i]));
+    p:=PWideChar(sl.Items[i])-1;
     mFreeMem(p);
   end;
   List_Destroy(@sl);
 end;
 
-function GetNewGroupName(parent:HWND):pWideChar;
+function GetNewGroupName(parent:HWND):PWideChar;
 var
   mmenu:HMENU;
   i:integer;
@@ -465,7 +465,7 @@ begin
   DestroyMenu(mmenu);
 end;
 
-function SendRequest(url:PAnsiChar;rtype:int;args:pAnsiChar=nil;hNetLib:THANDLE=0):pAnsiChar;
+function SendRequest(url:PAnsiChar;rtype:int;args:PAnsiChar=nil;hNetLib:THANDLE=0):PAnsiChar;
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
@@ -514,7 +514,7 @@ begin
     end
     else
     begin
-      result:=pAnsiChar(int_ptr(resp^.resultCode and $0FFF));
+      result:=PAnsiChar(int_ptr(resp^.resultCode and $0FFF));
     end;
     CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,lparam(resp));
   end;
@@ -662,7 +662,7 @@ begin
   end;
 end;
 
-function LoadImageURL(url:pAnsiChar;size:integer=0):HBITMAP;
+function LoadImageURL(url:PAnsiChar;size:integer=0):HBITMAP;
 var
   nlu:TNETLIBUSER;
   req :TNETLIBHTTPREQUEST;
@@ -705,7 +705,7 @@ begin
   CallService(MS_NETLIB_CLOSEHANDLE,hNetLib,0);
 end;
 
-function RegisterSingleIcon(resname,ilname,descr,group:pAnsiChar):int;
+function RegisterSingleIcon(resname,ilname,descr,group:PAnsiChar):int;
 var
   sid:TSKINICONDESC;
 begin

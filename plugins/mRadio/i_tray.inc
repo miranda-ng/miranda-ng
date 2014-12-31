@@ -131,7 +131,7 @@ begin
   result:=Service_SetStatus(wParam,lParam);
 end;
 
-procedure CreateTrayMenu();
+procedure CreateTrayMenu;
 var
   mi:TCListMenuItem;
   playstr:pWideChar;

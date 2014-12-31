@@ -5,7 +5,7 @@ interface
 
 uses windows;
 
-function EditStructure(struct:pAnsiChar;parent:HWND=0):pAnsiChar;
+function EditStructure(struct:PAnsiChar;parent:HWND=0):PAnsiChar;
 
 implementation
 
@@ -25,7 +25,7 @@ const
   ACI_DELETE :PAnsiChar = 'ACI_Delete';
 
 const
-  API_STRUCT_FILE:pAnsiChar = 'plugins\services.ini';
+  API_STRUCT_FILE:PAnsiChar = 'plugins\services.ini';
   namespace = 'Structure';
 {$ENDIF}
 
@@ -267,8 +267,8 @@ var
   tmp1:array [0..31] of WideChar;
   li:TLVITEMW;
   i,llen:integer;
-  p,pc:pAnsiChar;
-  pw:pWideChar;
+  p,pc:PAnsiChar;
+  pw:PWideChar;
 begin
   if (element.flags and SF_RETURN)<>0 then
     ListView_SetCheckState(list,item,true);
@@ -432,12 +432,12 @@ end;
 
 //----- Data save -----
 
-function GetLVRow(var dst:pAnsiChar;list:HWND;item:integer):integer;
+function GetLVRow(var dst:PAnsiChar;list:HWND;item:integer):integer;
 var
   li:TLVITEMW;
   buf:array [0..63] of WideChar;
-  pc:pWideChar;
-  pc1:pAnsiChar;
+  pc:PWideChar;
+  pc1:PAnsiChar;
   len:integer;
   {$IFDEF Miranda}isScript:boolean;{$ENDIF}
 begin
@@ -599,7 +599,7 @@ begin
 //  dst:=StrEnd(dst);
 end;
 
-function SaveStructure(list:HWND;align:integer):pAnsiChar;
+function SaveStructure(list:HWND;align:integer):PAnsiChar;
 var
   p:PAnsiChar;
   i:integer;
@@ -700,7 +700,7 @@ procedure FillLVData(Dialog:HWND;list:HWND;item:integer);
 var
   buf:array [0..15] of WideChar;
   dtype,i:integer;
-  p:pWideChar;
+  p:PWideChar;
   b,b1:boolean;
   idcshow,idchide:integer;
   li:TLVITEMW;
@@ -810,7 +810,7 @@ var
   idx:integer;
   wnd:HWND;
   buf:array [0..63] of WideChar;
-  tmp:pWideChar;
+  tmp:PWideChar;
 begin
   // type
   wnd:=GetDlgItem(Dialog,IDC_DATA_TYPE);
@@ -879,7 +879,7 @@ end;
 {$IFDEF Miranda}
 procedure FillTemplates(wnd:HWND;lstorage:pointer);
 var
-  p,pp:pAnsiChar;
+  p,pp:PAnsiChar;
   i:integer;
 begin
   SendMessage(wnd,CB_RESETCONTENT,0,0);
@@ -900,9 +900,9 @@ begin
 end;
 {$ENDIF}
 
-procedure ReadableForm(wnd:HWND; struct:pAnsiChar);
+procedure ReadableForm(wnd:HWND; struct:PAnsiChar);
 var
-  p,pc,buf:pAnsiChar;
+  p,pc,buf:PAnsiChar;
   element:tOneElement;
 begin
   GetMem(buf,StrLen(struct)*2);
@@ -947,8 +947,8 @@ end;
 
 function StructHelp(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
-  tmp:pWideChar;
-  pc:pAnsiChar;
+  tmp:PWideChar;
+  pc:PAnsiChar;
 begin
   result:=0;
   case hMessage of
@@ -1003,7 +1003,7 @@ var
   b,b1,b2:boolean;
   idchide,idcshow,csize:integer;
 {$IFDEF Miranda}
-  pc:pAnsiChar;
+  pc:PAnsiChar;
   urd:TUTILRESIZEDIALOG;
 {$ELSE}
   rc,rc1:TRECT;
@@ -1037,7 +1037,7 @@ begin
       FillAlignTypeList(GetDlgItem(Dialog,IDC_DATA_ALIGN));
       if lParam<>0 then
       begin
-        FillLVStruct(wnd,pAnsiChar(lParam)) // fill lv with current structure
+        FillLVStruct(wnd,PAnsiChar(lParam)) // fill lv with current structure
       end
       else
         SendMessage(Dialog,WM_COMMAND,(CBN_SELCHANGE shl 16)+IDC_DATA_TYPE,
@@ -1357,11 +1357,11 @@ begin
   end;
 end;
 
-function EditStructure(struct:pAnsiChar;parent:HWND=0):pAnsiChar;
+function EditStructure(struct:PAnsiChar;parent:HWND=0):PAnsiChar;
 begin
   InitCommonControls;
 
-  result:=pAnsiChar(uint_ptr(DialogBoxParamW(hInstance,'IDD_STRUCTURE',
+  result:=PAnsiChar(uint_ptr(DialogBoxParamW(hInstance,'IDD_STRUCTURE',
                  parent,@StructEdit,LPARAM(struct))));
 
   if uint_ptr(result)=uint_ptr(-1) then

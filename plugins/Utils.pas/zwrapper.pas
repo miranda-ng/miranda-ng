@@ -38,7 +38,7 @@ begin
         Inc(outSize, delta);
         ReallocMem(outBuffer, outSize);
 
-        zstream.next_out := {$IFDEF FPC}PBytef{$ENDIF}(pByte(outBuffer) + zstream.total_out);
+        zstream.next_out := {$IFDEF FPC}PBytef{$ENDIF}(PByte(outBuffer) + zstream.total_out);
         zstream.avail_out := delta;
         Result := inflate(zstream, Z_NO_FLUSH);
         if Result < 0 then Exit;

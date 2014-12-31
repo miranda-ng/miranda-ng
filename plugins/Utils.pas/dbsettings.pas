@@ -35,7 +35,7 @@ function DBWriteUnicode(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiCha
 //function DBFreeVariant(dbv:PDBVARIANT):int_ptr;
 function DBDeleteSetting(hContact:TMCONTACT;szModule:PAnsiChar;szSetting:PAnsiChar):int_ptr;
 
-function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
+function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:PAnsiChar=nil):int_ptr;
 
 function DBDeleteModule(hContact:TMCONTACT;szModule:PAnsiChar):integer;
 
@@ -211,7 +211,7 @@ begin
 end;
 
 type
-  ppchar = ^pAnsiChar;
+  ppchar = ^PAnsiChar;
 
 function EnumSettingsProc(const szSetting:PAnsiChar;lParam:LPARAM):int; cdecl;
 begin
@@ -226,12 +226,12 @@ begin
   result:=0;
 end;
 
-function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:pAnsiChar=nil):int_ptr;
+function DBDeleteGroup(hContact:TMCONTACT;szModule:PAnsiChar;prefix:PAnsiChar=nil):int_ptr;
 var
   ces:TDBCONTACTENUMSETTINGS;
   p:PAnsiChar;
   code,num:integer;
-  ptr:pAnsiChar;
+  ptr:PAnsiChar;
   res:boolean;
   len:cardinal;
   mask:array [0..31] of AnsiChar;

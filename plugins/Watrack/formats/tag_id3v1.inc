@@ -61,7 +61,7 @@ procedure ID3v1_CheckLyric(var Info:tSongInfo;f:THANDLE;ofs:integer);
 const
   maxlen = 5100;
 var
-  tagHdr:array [0..9] of AnsiChar;
+  TagHdr:array [0..9] of AnsiChar;
   buf:array [0..maxlen] of AnsiChar;
   ptr,ptr1:PAnsiChar;
   i,size:integer;
@@ -69,9 +69,9 @@ var
   c:dword;
 begin
   Seek(f,ofs);
-  BlockRead(f,tagHdr,LyricEndLen);
-  tagHdr[9]:=#0;
-  if StrCmp(tagHdr,Lyric1End,LyricEndLen)=0 then
+  BlockRead(f,TagHdr,LyricEndLen);
+  TagHdr[9]:=#0;
+  if StrCmp(TagHdr,Lyric1End,LyricEndLen)=0 then
   begin
     if Info.lyric=nil then
     begin
@@ -91,7 +91,7 @@ begin
       end;
     end;
   end
-  else if StrCmp(tagHdr,Lyric2End,LyricEndLen)=0 then
+  else if StrCmp(TagHdr,Lyric2End,LyricEndLen)=0 then
   begin
     Seek(f,ofs-6);
     BlockRead(f,buf,6);

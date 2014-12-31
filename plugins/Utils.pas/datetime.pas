@@ -28,14 +28,18 @@ function TimeStampToLocalTimeStamp(ts:int_ptr):int_ptr;
 function TimestampToDateTime(ts:int_ptr):TDateTime;
 function TimestampToSystemTime(Time:DWord; var st:TSystemTime):PSystemTime;
 
-function DateTimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
-function DateToStr    (Time:Dword; Format:pWideChar=nil):pWideChar;
-function TimeToStr    (Time:Dword; Format:pWideChar=nil):pWideChar;
+function DateTimeToStr(Time:Dword; Format:PWideChar=nil):PWideChar;
+function DateToStr    (Time:Dword; Format:PWideChar=nil):PWideChar;
+function TimeToStr    (Time:Dword; Format:PWideChar=nil):PWideChar;
 
 function CompareDate(const one,two:TSystemTime):integer;
 function CompareTime(const one,two:TSystemTime):integer;
 function TimeToMidnight(const t:TSystemTime):integer;
-
+{
+procedure TimeToFileTime(var ft:TFILETIME;
+    Second:cardinal=0;Minute:cardinal=0;Hour:cardinal=0;Day:cardinal=0);
+procedure FileTimeToTime(const ft:TFILETIME; var Second,Minute,Hour,Day:cardinal);
+}
 implementation
 
 uses
@@ -144,11 +148,11 @@ begin
   result:=@st;
 end;
 
-function DateTimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
+function DateTimeToStr(Time:Dword; Format:PWideChar=nil):PWideChar;
 var
   buf:array [0..300] of WideChar;
   st: TSystemTime;
-  pc:pWideChar;
+  pc:PWideChar;
 begin
   TimestampToSystemTime(Time,st);
   GetDateFormatW(LOCALE_USER_DEFAULT,0,@st,Format,@buf,300);
@@ -157,12 +161,12 @@ begin
   else
   begin
     pc:=StrEndW(@buf); pc^:=' '; inc(pc);
-    GetTimeFormatW(LOCALE_USER_DEFAULT,0,@st,nil,pc,300-(pc-pWideChar(@buf)))
+    GetTimeFormatW(LOCALE_USER_DEFAULT,0,@st,nil,pc,300-(pc-PWideChar(@buf)))
   end;
   StrDupW(result,buf);
 end;
 
-function DateToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
+function DateToStr(Time:Dword; Format:PWideChar=nil):PWideChar;
 var
   buf:array [0..300] of WideChar;
   st: TSystemTime;
@@ -172,7 +176,7 @@ begin
   StrDupW(result,buf);
 end;
 
-function TimeToStr(Time:Dword; Format:pWideChar=nil):pWideChar;
+function TimeToStr(Time:Dword; Format:PWideChar=nil):PWideChar;
 var
   buf:array [0..300] of WideChar;
   st: TSystemTime;
@@ -225,6 +229,29 @@ end;
 function TimeToMidnight(const t:TSystemTime):integer;
 begin
   result:=SecondsPerDay-(t.wHour*3600+t.wMinute*60+t.wSecond);
+end;
+
+procedure TimeToFileTime(var ft:TFILETIME;
+    Second:cardinal=0;Minute:cardinal=0;Hour:cardinal=0;Day:cardinal=0);
+var
+  uli:ULARGE_INTEGER;
+begin
+  uli.QuadPart:=int64(Second+Minute*60+Hour*60*60+Day*SecondsPerDay)*10*1000*1000;
+  ft.dwLowDateTime :=uli.LowPart;
+  ft.dwHighDateTime:=uli.HighPart;
+end;
+
+procedure FileTimeToTime(const ft:TFILETIME; var Second,Minute,Hour,Day:cardinal);
+var
+  uli:ULARGE_INTEGER;
+begin
+  uli.LowPart :=ft.dwLowDateTime;
+  uli.HighPart:=ft.dwHighDateTime;
+  uli.QuadPart:=uli.QuadPart div (10*1000*1000);
+  Second:= uli.QuadPart mod 60;
+  Day   := uli.QuadPart div SecondsPerDay;
+  Minute:=(uli.QuadPart div 60) mod 60;
+  Hour  :=(uli.QuadPart mod SecondsPerDay) div (60*60);
 end;
 
 end.

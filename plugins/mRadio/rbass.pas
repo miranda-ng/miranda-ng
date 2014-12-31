@@ -133,9 +133,7 @@ begin
   end;
 end;
 
-
-
-procedure MyStopBASS;
+procedure MyStopBass;
 begin
   if BassStatus=rbs_null then exit;
 
@@ -169,11 +167,11 @@ begin
   end;
 end;
 
-procedure MyFreeBASS;
+procedure MyFreeBass;
 begin
   if BassStatus=rbs_init then
   begin
-    MyStopBASS;
+    MyStopBass;
     BASS_Free;
 
     BassStatus:=rbs_load;
@@ -188,7 +186,7 @@ begin
   mFreeMem(StationHeader);
   mFreeMem(ActiveURL);
   DBDeleteSetting(ActiveContact,strCList,optStatusMsg);
-  MyStopBASS;
+  MyStopBass;
 end;
 
 function GetDeviceNumber:integer;
@@ -214,7 +212,7 @@ begin
   until false;
 end;
 
-function MyInitBASS:bool;
+function MyInitBass:bool;
 var
   num:integer;
 begin
@@ -278,7 +276,7 @@ end;
 
 procedure MyUnloadBass;
 begin
-  MyFreeBASS;
+  MyFreeBass;
   if BassStatus=rbs_load then
   begin
     mFreeMem(proxy);
@@ -290,7 +288,7 @@ begin
   end;
 end;
 
-function MyLoadBASS:bool;
+function MyLoadBass:bool;
 var
   pc,custom:PWideChar;
   basspath:PWideChar;
@@ -1146,7 +1144,7 @@ function ConstructFilter:pointer;
 var
   pc:pWideChar;
   ph:PDWord;
-  Info:PBASS_PLUGININFO;
+  info:PBASS_PLUGININFO;
   i:integer;
   full:array [0..511] of WideChar;
   tmpbuf1,tmpbuf2:array [0..127] of WideChar;
@@ -1169,10 +1167,10 @@ begin
     begin
       while ph^<>0 do
       begin
-        Info:=BASS_PluginGetInfo(ph^);
-        for i:=0 to Info^.formatc-1 do
+        info:=BASS_PluginGetInfo(ph^);
+        for i:=0 to info^.formatc-1 do
   //!! need to translate Ansi -> wide
-          with Info^.Formats[i] do
+          with info^.Formats[i] do
           begin
             pc:=MakeFilter(pc,FastAnsiToWideBuf(name,tmpbuf1),full,FastAnsiToWideBuf(exts,tmpbuf2));
           end;

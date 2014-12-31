@@ -8,25 +8,25 @@ uses windows,messages;
 type
   tmApiCard = class
   private
-    function  GetDescription:pAnsiChar; 
-    function  GetResultType :pAnsiChar; 
-    procedure SetCurrentService(item:pAnsiChar);
+    function  GetDescription:PAnsiChar; 
+    function  GetResultType :PAnsiChar; 
+    procedure SetCurrentService(item:PAnsiChar);
     function  GetWindowStatus:boolean;
   public
-    constructor Create(fname:pAnsiChar; lparent:HWND=0);
+    constructor Create(fname:PAnsiChar; lparent:HWND=0);
     destructor Destroy; override;
     procedure FillList(combo:HWND; mode:integer=0);
 
-    function NameFromList(cb:HWND):pAnsiChar;
-    function HashToName(ahash:longword):pAnsiChar;
-    function FillParams(wnd:HWND{;item:pAnsiChar};wparam:boolean):pAnsiChar;
-    function GetParam(wparam:boolean):pAnsiChar;
-    procedure Show;//(item:pAnsiChar);
+    function NameFromList(cb:HWND):PAnsiChar;
+    function HashToName(ahash:longword):PAnsiChar;
+    function FillParams(wnd:HWND{;item:PAnsiChar};wparam:boolean):PAnsiChar;
+    function GetParam(wparam:boolean):PAnsiChar;
+    procedure Show;//(item:PAnsiChar);
 
-    property Description:pAnsiChar read GetDescription;
-    property ResultType :pAnsiChar read GetResultType;
-    property Service    :pAnsiChar write SetCurrentService;
-    property Event      :pAnsiChar write SetCurrentService;
+    property Description:PAnsiChar read GetDescription;
+    property ResultType :PAnsiChar read GetResultType;
+    property Service    :PAnsiChar write SetCurrentService;
+    property Event      :PAnsiChar write SetCurrentService;
     property IsShown    :boolean   read GetWindowStatus;
   private
     storage:pointer;
@@ -36,7 +36,7 @@ type
     HelpWindow:HWND;
     isServiceHelp:boolean;
 
-    procedure Update(item:pAnsiChar=nil);
+    procedure Update(item:PAnsiChar=nil);
   end;
 
 function CreateServiceCard(parent:HWND=0):tmApiCard;
@@ -66,10 +66,10 @@ const
   ServiceHlpFile = 'plugins\services.ini';
   EventsHlpFile  = 'plugins\events.ini';
 }
-function tmApiCard.GetResultType:pAnsiChar;
+function tmApiCard.GetResultType:PAnsiChar;
 var
   buf:array [0..2047] of AnsiChar;
-  p:pAnsiChar;
+  p:PAnsiChar;
 begin
   if storage<>nil then
   begin
@@ -83,7 +83,7 @@ begin
     result:=nil;
 end;
 
-function tmApiCard.GetDescription:pAnsiChar;
+function tmApiCard.GetDescription:PAnsiChar;
 begin
   if storage<>nil then
   begin
@@ -98,9 +98,9 @@ begin
   result:=HelpWindow<>0;
 end;
 
-function tmApiCard.GetParam(wparam:boolean):pAnsiChar;
+function tmApiCard.GetParam(wparam:boolean):PAnsiChar;
 var
-  paramname:pAnsiChar;
+  paramname:PAnsiChar;
 begin
   if storage=nil then
   begin
@@ -115,14 +115,14 @@ begin
   StrDup(result,GetParamSectionStr(current,paramname,''));
 end;
 
-function tmApiCard.FillParams(wnd:HWND{;item:pAnsiChar};wparam:boolean):pAnsiChar;
+function tmApiCard.FillParams(wnd:HWND{;item:PAnsiChar};wparam:boolean):PAnsiChar;
 var
   buf :array [0..2047] of AnsiChar;
   bufw:array [0..2047] of WideChar;
   j:integer;
   p,pp,pc:PAnsiChar;
-  tmp:pWideChar;
-  paramname:pAnsiChar;
+  tmp:PWideChar;
+  paramname:PAnsiChar;
 begin
   if storage=nil then
   begin
@@ -182,7 +182,7 @@ begin
   SendMessage(wnd,CB_SETCURSEL,0,0);
 end;
 
-function tmApiCard.HashToName(ahash:longword):pAnsiChar;
+function tmApiCard.HashToName(ahash:longword):PAnsiChar;
 var
   p,pp:PAnsiChar;
 begin
@@ -203,10 +203,10 @@ begin
   end;
 end;
 
-function tmApiCard.NameFromList(cb:HWND):pAnsiChar;
+function tmApiCard.NameFromList(cb:HWND):PAnsiChar;
 var
   buf:array [0..255] of AnsiChar;
-  pc:pAnsiChar;
+  pc:PAnsiChar;
   idx:integer;
 begin
   pc:=GetDlgText(cb,true);
@@ -383,7 +383,7 @@ begin
   end;
 end;
 
-procedure tmApiCard.SetCurrentService(item:pAnsiChar);
+procedure tmApiCard.SetCurrentService(item:PAnsiChar);
 begin
   if (item=nil) or (item^=#0) then
     current:=nil
@@ -391,7 +391,7 @@ begin
     current:=SearchSection(storage,item,namespace);
 end;
 
-procedure tmApiCard.Update(item:pAnsiChar=nil);
+procedure tmApiCard.Update(item:PAnsiChar=nil);
 begin
   SendMessage(HelpWindow,WM_UPDATEHELP,0,LPARAM(self));
 end;
@@ -399,7 +399,7 @@ end;
 procedure tmApiCard.Show;
 var
   note,
-  title:pWideChar;
+  title:PWideChar;
 begin
   if HelpWindow=0 then
   begin
@@ -436,7 +436,7 @@ begin
   Update(current);
 end;
 
-constructor tmApiCard.Create(fname:pAnsiChar; lparent:HWND=0);
+constructor tmApiCard.Create(fname:PAnsiChar; lparent:HWND=0);
 var
   INIFile: array [0..511] of AnsiChar;
 begin
@@ -450,13 +450,13 @@ begin
     ConvertFileName(fname,@INIFile);
   //  CallService(MS_UTILS_PATHTOABSOLUTE,
   //    WPARAM(PAnsiChar(ServiceHlpFile)),LPARAM(INIFile));
-    if GetFSize(pAnsiChar(@INIFile))=0 then
+    if GetFSize(PAnsiChar(@INIFile))=0 then
     begin
       INIFile[0]:=#0;
     end;
     parent:=lparent;
   end;
-  storage:=OpenStorage(pAnsiChar(@INIFile));
+  storage:=OpenStorage(PAnsiChar(@INIFile));
 end;
 
 destructor tmApiCard.Destroy;

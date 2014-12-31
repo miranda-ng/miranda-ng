@@ -50,7 +50,7 @@ procedure SendToChat(hContact:TMCONTACT;pszText:PWideChar);
 
 //----- List of contacts (combobox) -----
 
-procedure FillContactList(list:HWND;filter:boolean=true;format:pWideChar=nil);
+procedure FillContactList(list:HWND;filter:boolean=true;format:PWideChar=nil);
 function  FindContact    (list:HWND;contact:TMCONTACT):integer;
 
 
@@ -283,7 +283,7 @@ var
   uid:PAnsiChar;
   ldbv:TDBVARIANT;
   hContact:TMCONTACT;
-  pw:pWideChar;
+  pw:PWideChar;
 begin
   result:=0;
   uid:=nil;
@@ -367,7 +367,7 @@ var
   p,Proto,uid:PAnsiChar;
   cws:TDBVARIANT;
   section:array [0..63] of AnsiChar;
-  pw:pWideChar;
+  pw:PWideChar;
   is_chat:boolean;
 begin
   result:=0;
@@ -550,7 +550,7 @@ end;
 const
   defformat = '%name% - %uid% (%account%:%group%)';
 
-procedure FillContactList(list:HWND; filter:boolean=true;format:pWideChar=nil);
+procedure FillContactList(list:HWND; filter:boolean=true;format:PWideChar=nil);
 var
   hContact:TMCONTACT;
   buf:array [0..511] of WideChar;

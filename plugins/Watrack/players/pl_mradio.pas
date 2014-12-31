@@ -190,7 +190,7 @@ begin
   begin
     ptr:=PavatarCacheEntry(CallService(MS_AV_GETAVATARBITMAP,CurrentStation,0));
     if ptr<>nil then
-      AnsiToWide(ptr^.szFilename,result)
+      StrDupW(result,ptr^.szFilename);
   end;
 end;
 

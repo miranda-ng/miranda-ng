@@ -810,9 +810,9 @@ procedure mir_hmac_sha1(hashout:SHA1Hash; const key:pbyte; keyLen:size_t;
 ///////////////////////////////////////////////////////////////////////////////
 // strings
 
-function mir_base64_decode(str:PAnsiChar; var resultSize:int):pByte; stdcall;
+function mir_base64_decode(str:PAnsiChar; var resultSize:int):PByte; stdcall;
                external CoreDLL name 'mir_base64_decode';
-function mir_base64_encode(str:pByte; dataSize:int):PAnsiChar; stdcall;
+function mir_base64_encode(str:PByte; dataSize:int):PAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encode';
 function mir_base64_encodebuf(data:PByte; dataSize:int; output:PAnsiChar; outputLen:int):PAnsiChar; stdcall;
                external CoreDLL name 'mir_base64_encodebuf';

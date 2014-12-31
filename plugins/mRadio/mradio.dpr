@@ -157,7 +157,7 @@ begin
   result:=0;
 end;
 
-function Load(): int; cdecl;
+function Load: int; cdecl;
 var
   desc:TPROTOCOLDESCRIPTOR;
 begin

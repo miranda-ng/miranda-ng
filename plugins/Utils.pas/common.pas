@@ -50,8 +50,8 @@ function IIF(cond:bool;ret1,ret2:variant  ):variant;   overload;
 function Min(a,b:integer):integer;
 function Max(a,b:integer):integer;
 
-function GetImageType (buf:pByte;mime:PAnsiChar=nil):dword;
-function GetImageTypeW(buf:pByte;mime:PWideChar=nil):int64;
+function GetImageType (buf:PByte;mime:PAnsiChar=nil):dword;
+function GetImageTypeW(buf:PByte;mime:PWideChar=nil):int64;
 
 //----- Clipboard -----
 
@@ -91,7 +91,7 @@ const
   CP_UNICODE    = 1200;
   CP_REVERSEBOM = 65534;
 // trying to recognize text encoding. Returns CP_
-function GetTextFormat(Buffer:pByte;sz:cardinal):integer;
+function GetTextFormat(Buffer:PByte;sz:cardinal):integer;
 
 function AdjustLineBreaks(s:PWideChar):PWideChar;
 
@@ -282,7 +282,7 @@ begin
 	result:= not ((Octets>0) or Ascii);
 end;
 
-function GetTextFormat(Buffer:pByte;sz:cardinal):integer;
+function GetTextFormat(Buffer:PByte;sz:cardinal):integer;
 var
   test:integer;
 begin
@@ -395,7 +395,7 @@ const
   (mime:'image/bmp' ; ext:'BMP')
 );
 
-function GetImageType(buf:pByte;mime:PAnsiChar=nil):dword;
+function GetImageType(buf:PByte;mime:PAnsiChar=nil):dword;
 var
   i:integer;
 begin
@@ -420,7 +420,7 @@ begin
   end;
 end;
 
-function GetImageTypeW(buf:pByte;mime:PWideChar=nil):int64;
+function GetImageTypeW(buf:PByte;mime:PWideChar=nil):int64;
 var
   i:integer;
   lmime:array [0..63] of AnsiChar;
@@ -962,7 +962,7 @@ var
 begin
   for i:=0 to Length-1 do
   begin
-    if pByte(P1)^<>pbyte(P2)^ then
+    if PByte(P1)^<>pbyte(P2)^ then
     begin
       result:=false;
       exit;
@@ -1012,7 +1012,7 @@ var
   buf: array of Ansichar;
   i:integer;
   p:PAnsiChar;
-  p1:pByte;
+  p1:PByte;
   cnt:integer;
 begin
   SetLength(buf,len*4+1);
@@ -1041,7 +1041,7 @@ function Hash(s:pointer; len:integer{const Seed: longword=$9747b28c}): longword;
 var
   lhash: longword;
   k: longword;
-  tmp,data: pByte;
+  tmp,data: PByte;
 const
   // 'm' and 'r' are mixing constants generated offline.
   // They're not really 'magic', they just happen to work well.

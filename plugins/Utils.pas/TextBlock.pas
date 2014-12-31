@@ -19,7 +19,7 @@ type
   tChunk = record
     _type:integer;   // type
     val  :integer;   // sign value or text length
-    txt  :pWideChar; // text value pointer
+    txt  :PWideChar; // text value pointer
     add  :integer;   // offset for text effect
     dir  :integer;   // ping-pong directon
   end;
@@ -36,7 +36,7 @@ type
 
     // working data
     TextChunk  :pChunkArray;
-    Text       :pWideChar; // for text chunks
+    Text       :PWideChar; // for text chunks
 
     TextColor  :TCOLORREF;
     BkColor    :TCOLORREF;
@@ -71,7 +71,7 @@ type
     procedure myMouseDown(Sender:PControl;var Mouse:TMouseEventData);
 
     procedure ClearText;
-    function  Split(src:pWideChar):pChunkArray;
+    function  Split(src:PWideChar):pChunkArray;
 
     procedure DrawChunks(dc:HDC;Chunk:pChunk;rc:TRECT;justpaint:boolean);
     procedure DrawLines (dc:HDC;Chunk:pChunk;rc:TRECT;justpaint:boolean);
@@ -79,8 +79,8 @@ type
     function  GetEffect(idx:integer):integer;
     procedure SetEffect(idx:integer;value:integer);
 
-    function  GetText:pWideChar;
-    procedure SetText(value:pWideChar);
+    function  GetText:PWideChar;
+    procedure SetText(value:PWideChar);
 
     function  GetFontData:TLOGFONTW;
     procedure SetFontData(const value:TLOGFONTW);
@@ -97,7 +97,7 @@ type
     property Font      :integer index idx_font     read GetEffect write SetEffect;
 
     property FontData :TLOGFONTW read GetFontData write SetFontData;
-    property BlockText:pWideChar read GetText     write SetText;
+    property BlockText:PWideChar read GetText     write SetText;
   end;
 
 function MakeNewTextBlock(AOwner:PControl;BkColor:TCOLORREF):pTextBlock;
@@ -191,12 +191,12 @@ begin
   end;
 end;
 
-function tTextBlock.GetText:pWideChar;
+function tTextBlock.GetText:PWideChar;
 begin
   result:=pTextData(CustomData)^.Text;
 end;
 
-procedure tTextBlock.SetText(value:pWideChar);
+procedure tTextBlock.SetText(value:PWideChar);
 var
   D:pTextData;
 begin

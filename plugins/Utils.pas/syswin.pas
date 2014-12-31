@@ -6,7 +6,7 @@ interface
 uses windows;
 
 type
-  tFFWFilterProc = function(fname:pWideChar):boolean;
+  tFFWFilterProc = function(fname:PWideChar):boolean;
 
 const
   ThreadTimeout = 50;
@@ -22,16 +22,16 @@ procedure ProcessMessages;
 function GetFocusedChild(wnd:HWND):HWND;
 function GetAssoc(key:PAnsiChar):PAnsiChar;
 function GetFileFromWnd(wnd:HWND;Filter:tFFWFilterProc;
-         flags:dword=gffdMultiThread+gffdOld;TimeOut:cardinal=ThreadTimeout):pWideChar;
+         flags:dword=gffdMultiThread+gffdOld;TimeOut:cardinal=ThreadTimeout):PWideChar;
 
 function WaitFocusedWndChild(wnd:HWND):HWND;
 
-function ExecuteWaitW(AppPath:pWideChar; CmdLine:pWideChar=nil; DfltDirectory:PWideChar=nil;
+function ExecuteWaitW(AppPath:PWideChar; CmdLine:PWideChar=nil; DfltDirectory:PWideChar=nil;
          Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 function ExecuteWait(AppPath:PAnsiChar; CmdLine:PAnsiChar=nil; DfltDirectory:PAnsiChar=nil;
          Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 
-function GetEXEbyWnd(w:HWND; var dst:pWideChar):pWideChar; overload;
+function GetEXEbyWnd(w:HWND; var dst:PWideChar):PWideChar; overload;
 function GetEXEbyWnd(w:HWND; var dst:PAnsiChar):PAnsiChar; overload;
 function IsExeRunning(exename:PWideChar):boolean; {hwnd}
 
@@ -57,7 +57,7 @@ function FindExecutableW(FileName, Directory: PWideChar; Result: PWideChar): HIN
 type  pqword = ^int64;
 {$ENDIF}
 
-function ExecuteWaitW(AppPath:pWideChar; CmdLine:pWideChar=nil; DfltDirectory:PWideChar=nil;
+function ExecuteWaitW(AppPath:PWideChar; CmdLine:PWideChar=nil; DfltDirectory:PWideChar=nil;
          Show:dword=SW_SHOWNORMAL; TimeOut:dword=0; ProcID:PDWORD=nil):dword;
 var
   flags: dword;
@@ -351,7 +351,7 @@ end;
 
 //----- work with EXE -----
 
-function GetEXEbyWnd(w:HWND; var dst:pWideChar):pWideChar;
+function GetEXEbyWnd(w:HWND; var dst:PWideChar):PWideChar;
 var
   hProcess:THANDLE;
   ProcID:dword;
@@ -491,7 +491,7 @@ const
 
 procedure ArSwitch(idx:integer);
 var
-  h:pWideChar;
+  h:PWideChar;
 begin
 //clear old
   while oldcnt>0 do
@@ -574,7 +574,7 @@ type
   ptrec = ^trec;
   trec = record
     handle:THANDLE;
-    fname:pWideChar;
+    fname:PWideChar;
   end;
 
 type
@@ -590,29 +590,29 @@ var
 var
   dummy:longint;
   size:integer;
-  pc:pWideChar;
+  pc:PWideChar;
 begin
   result:=0;
 
   if NtQueryObject(ptrec(param)^.handle,ObjectNameInformation,
      @tmpbuf,BufSize*SizeOf(WideChar),dummy)=0 then
   begin
-    // UNICODE_STRING: 2b - length, 2b - maxlen, (align), next - pWideChar
+    // UNICODE_STRING: 2b - length, 2b - maxlen, (align), next - PWideChar
     size:=pword(@tmpbuf)^; // length in bytes
     if size>=0 then
     begin
       GetMem(ptrec(param)^.fname,size+SizeOf(WideChar)); // length in bytes
 
-      pc:=pWideChar(pint_ptr(@tmpbuf[offset])^);
+      pc:=PWideChar(pint_ptr(@tmpbuf[offset])^);
       move(pc^,ptrec(param)^.fname^,size); // can be without zero
-      pword(pAnsiChar(ptrec(param)^.fname)+size)^:=0;
+      pword(PAnsiChar(ptrec(param)^.fname)+size)^:=0;
     end
     else
       ptrec(param)^.fname:=nil;
   end;
 end;
 
-function TestHandle(Handle:THANDLE;MultiThread:bool;TimeOut:cardinal):pWideChar;
+function TestHandle(Handle:THANDLE;MultiThread:bool;TimeOut:cardinal):PWideChar;
 var
   hThread:THANDLE;
   rec:trec;
@@ -653,14 +653,14 @@ begin
 end;
 
 function GetFileFromWnd(wnd:HWND;Filter:tFFWFilterProc;
-         flags:dword=gffdMultiThread+gffdOld;TimeOut:cardinal=ThreadTimeout):pWideChar;
+         flags:dword=gffdMultiThread+gffdOld;TimeOut:cardinal=ThreadTimeout):PWideChar;
 var
   hProcess,h:THANDLE;
   pid:THANDLE;
   i:THANDLE;
   c:THANDLE;
   handles:dword;
-  pc:pWideChar;
+  pc:PWideChar;
 begin
   result:=nil;
   GetWindowThreadProcessId(wnd,@c);

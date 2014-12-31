@@ -8,7 +8,7 @@
 ,fmt_flv  in 'formats\fmt_flv.pas'
 ,fmt_aac  in 'formats\fmt_aac.pas'
 ,fmt_mkv  in 'formats\fmt_mkv.pas'
-,fmt_m4a  in 'formats\fmt_m4a.pas'
+//,fmt_m4a  in 'formats\fmt_m4a.pas'
 ,fmt_wma  in 'formats\fmt_wma.pas'
 ,fmt_avi  in 'formats\fmt_avi.pas'
 ,fmt_ogg  in 'formats\fmt_ogg.pas'

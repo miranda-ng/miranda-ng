@@ -295,7 +295,7 @@ type
     size    :word;
     bitmap  :BITMAPINFOHEADER;
   end;
-  Prefix = packed record
+  tPrefix = packed record
     StreamType  :tGUID;
     ECGUID      :tGUID; // Error Correction
     TimeOffset  :int64;
@@ -309,7 +309,7 @@ var
   tmpguid:pGUID;
 begin
   tmpguid:=pointer(ptr);
-  inc(ptr,SizeOf(Prefix)); //ofset to Type-Specific Data
+  inc(ptr,SizeOf(tPrefix)); //ofset to Type-Specific Data
   if CompareGUID(tmpguid^,ASF_Audio_Media) then
   begin
     Info.channels:=pAudio(ptr)^.Channels;

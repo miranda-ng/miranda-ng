@@ -8,7 +8,7 @@ const
 const
   defreq = 'http://post.audioscrobbler.com/?hs=true&p=1.2.1&c=<client-id>&v=<client-ver>&u=<user>&t=<timestamp>&a=<auth>';
 
-function GetMD5Str(digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
+function GetMD5Str(const digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
 begin
   buf[00]:=HexDigitChrLo[digest[00] shr 4]; buf[01]:=HexDigitChrLo[digest[00] and $0F];
   buf[02]:=HexDigitChrLo[digest[01] shr 4]; buf[03]:=HexDigitChrLo[digest[01] and $0F];
@@ -86,7 +86,7 @@ begin
   end;
 end;
 
-function encode(dst,src:pAnsiChar):PAnsiChar;
+function Encode(dst,src:pAnsiChar):PAnsiChar;
 begin
   while src^<>#0 do
   begin
@@ -121,12 +121,12 @@ begin
     pc:=StrCopyE(pc,'s='); pc:=StrCopyE(pc,session_id); //'?s='
     pc:=StrCopyE(pc,'&a=');
     if si^.artist=nil then pc:=StrCopyE(pc,'Unknown')
-    else                   pc:=encode(pc,si^.artist);
+    else                   pc:=Encode(pc,si^.artist);
     pc:=StrCopyE(pc,'&t=');
     if si^.title =nil then pc:=StrCopyE(pc,'Unknown')
-    else                   pc:=encode(pc,si^.title);
+    else                   pc:=Encode(pc,si^.title);
     pc:=StrCopyE(pc,'&l='); if si^.total>0 then pc:=StrCopyE(pc,IntToStr(buf,si^.total));
-    pc:=StrCopyE(pc,'&b='); pc:=encode(pc,si^.album);
+    pc:=StrCopyE(pc,'&b='); pc:=Encode(pc,si^.album);
     pc:=StrCopyE(pc,'&n=');
     if si^.track<>0 then
       {pc:=}StrCopyE(pc,IntToStr(buf,si^.track));
@@ -160,10 +160,10 @@ begin
     pc:=StrCopyE(pc,'s='  ); pc:=StrCopyE(pc,session_id);
     pc:=StrCopyE(pc,'&a[0]=');
     if si^.artist=nil then pc:=StrCopyE(pc,'Unknown')
-    else                   pc:=encode(pc,si^.artist);
+    else                   pc:=Encode(pc,si^.artist);
     pc:=StrCopyE(pc,'&t[0]=');
     if si^.title =nil then pc:=StrCopyE(pc,'Unknown')
-    else                   pc:=encode(pc,si^.title);
+    else                   pc:=Encode(pc,si^.title);
     pc:=StrCopyE(pc,'&i[0]='); pc:=StrCopyE(pc,timestamp);
     pc:=StrCopyE(pc,'&r[0]=&m[0]=');
     pc:=StrCopyE(pc,'&l[0]=');
@@ -176,7 +176,7 @@ begin
     begin
       pc:=StrCopyE(pc,'&o[0]=R');
     end;
-    pc:=StrCopyE(pc,'&b[0]='); pc:=encode(pc,si^.album);
+    pc:=StrCopyE(pc,'&b[0]='); pc:=Encode(pc,si^.album);
     pc:=StrCopyE(pc,'&n[0]=');
     if si^.track<>0 then
       {pc:=}StrCopyE(pc,IntToStr(buf,si^.track));
@@ -225,13 +225,13 @@ end;
 var
   xmlparser:TXML_API_W;
 
-function FixInfo(info:pWideChar):pWideChar;
+function FixInfo(Info:pWideChar):pWideChar;
 var
   pc,ppc:pWideChar;
   cnt:cardinal;
   need:boolean;
 begin
-  pc:=info;
+  pc:=Info;
   cnt:=0;
   need:=false;
   while pc^<>#0 do
@@ -248,8 +248,8 @@ begin
   end;
   if need then
   begin
-    mGetMem(result,(StrLenW(info)+1+cnt)*SizeOf(WideChar));
-    pc:=info;
+    mGetMem(result,(StrLenW(Info)+1+cnt)*SizeOf(WideChar));
+    pc:=Info;
     ppc:=result;
     while pc^<>#0 do
     begin
@@ -265,7 +265,7 @@ begin
     ppc^:=#0;
   end
   else
-    StrDupW(result,info);
+    StrDupW(result,Info);
 end;
 
 function GetArtistInfo(var data:tLastFMInfo;lang:integer):int;

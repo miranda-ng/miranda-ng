@@ -44,21 +44,21 @@ type
 type
   pSongInfo=^tSongInfo;
   tSongInfo = record
-    artist   :pWideChar;
-    title    :pWideChar;
-    album    :pWideChar;
-    genre    :pWideChar;
-    comment  :pWideChar;
-    year     :pWideChar;
-    mfile    :pWideChar; // media file
+    artist   :PWideChar;
+    title    :PWideChar;
+    album    :PWideChar;
+    genre    :PWideChar;
+    comment  :PWideChar;
+    year     :PWideChar;
+    mfile    :PWideChar; // media file
     kbps     :dword;
     khz      :dword;
     channels :dword;
     track    :dword;
     total    :dword;     // music length
     time     :dword;     // elapsed time
-    wndtext  :pWideChar; // window title
-    player   :pWideChar; // player name
+    wndtext  :PWideChar; // window title
+    player   :PWideChar; // player name
     plyver   :dword;     // player version
     icon     :HICON;     // player icon
     fsize    :dword;     // media file size
@@ -71,9 +71,9 @@ type
     height   :dword;
     fps      :dword;
     date     :int64;
-    txtver   :pWideChar;
-    lyric    :pWideChar;
-    cover    :pWideChar; // cover path
+    txtver   :PWideChar;
+    lyric    :PWideChar;
+    cover    :PWideChar; // cover path
     volume   :dword;
     url      :PWideChar; // player homepage
     winampwnd:HWND;
@@ -310,7 +310,7 @@ type
   tInitProc    = function():integer;cdecl;
   tDeInitProc  = function():integer;cdecl;
   tStatusProc  = function(wnd:HWND):integer;cdecl;
-  tNameProc    = function(wnd:HWND;flags:integer):pWideChar;cdecl;
+  tNameProc    = function(wnd:HWND;flags:integer):PWideChar;cdecl;
   tCheckProc   = function(wnd:HWND;flags:integer):HWND;cdecl;
   tInfoProc    = function(var SongInfo:tSongInfo;flags:integer):integer;cdecl;
   tCommandProc = function(wnd:HWND;command:integer;value:integer):integer;cdecl;
