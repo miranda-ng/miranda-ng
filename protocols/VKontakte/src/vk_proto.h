@@ -430,7 +430,6 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-	
 
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
@@ -572,23 +571,26 @@ private:
 		m_bNotificationFilterReposts,
 		m_bNotificationFilterMentions,
 		m_bUseBBCOnAttacmentsAsNews;
-	
 
-	int m_iNewsInterval, m_iNotificationsInterval, m_iNewsAutoClearHistoryInterval;
+	int m_iNewsInterval, 
+		m_iNotificationsInterval, 
+		m_iNewsAutoClearHistoryInterval,
+		m_iMaxLoadNewsPhoto;
 
 	enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
-	int m_iMarkMessageReadOn;
+	MarkMsgReadOn m_iMarkMessageReadOn;
 	
 	enum SyncHistoryMetod { syncOff, syncAuto, sync1Days, sync3Days };
-	int m_iSyncHistoryMetod;
+	SyncHistoryMetod m_iSyncHistoryMetod;
 	
 	enum MusicSendMetod { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
-	int	m_iMusicSendMetod;
+	MusicSendMetod	m_iMusicSendMetod;
 
 	enum IMGBBCSypport { imgNo, imgFullSize, imgPreview130, imgPreview604 };
-	int	m_iIMGBBCSupport;
-	BBCSupport m_iBBCForNews;
-	BBCSupport m_iBBCForAttachments;
+	IMGBBCSypport m_iIMGBBCSupport;
+
+	BBCSupport m_iBBCForNews, 
+		m_iBBCForAttachments;
 
 	LONG	m_myUserId;
 	ptrT	m_defaultGroup;

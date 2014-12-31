@@ -69,20 +69,22 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bRemoveFromFrendlist = getBool("RemoveFromFrendlistOnBanUser", false);
 	m_bRemoveFromClist = getBool("RemoveFromClistOnBanUser", false);
 	m_bPopUpSyncHistory = getBool("PopUpSyncHistory", false);
-	m_iMarkMessageReadOn = getByte("MarkMessageReadOn", 0);
+	m_iMarkMessageReadOn = (MarkMsgReadOn)getByte("MarkMessageReadOn", markOnRead);
 	m_bStikersAsSmyles = getBool("StikersAsSmyles", false);
 	m_bUserForceOnlineOnActivity = getBool("UserForceOnlineOnActivity", false);
-	m_iMusicSendMetod = getByte("MusicSendMetod", sendBroadcastOnly);
-	m_iSyncHistoryMetod = getByte("SyncHistoryMetod", syncOff);
+	m_iMusicSendMetod = (MusicSendMetod)getByte("MusicSendMetod", sendBroadcastOnly);
+	m_iSyncHistoryMetod = (SyncHistoryMetod)getByte("SyncHistoryMetod", syncOff);
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
 	db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), m_iMusicSendMetod == 0 ? 0 : 1);
+	
 	m_bNewsEnabled = getBool("NewsEnabled", false);
+	m_iMaxLoadNewsPhoto = getByte("MaxLoadNewsPhoto", 5);
 	m_bNotificationsEnabled = getBool("NotificationsEnabled", false);
 	m_bSpecialContactAlwaysEnabled = getBool("SpecialContactAlwaysEnabled", false);
 	m_iNewsInterval = getDword("NewsInterval", 15);
 	m_iNotificationsInterval = getDword("NotificationsInterval", 1);
-	m_iIMGBBCSupport = getByte("IMGBBCSupport", 0);
+	m_iIMGBBCSupport = (IMGBBCSypport)getByte("IMGBBCSupport", 0);
 	m_iBBCForNews = (BBCSupport)getByte("BBCForNews", 1);
 	m_iBBCForAttachments = (BBCSupport)getByte("BBCForAttachments", 1);
 	m_bUseBBCOnAttacmentsAsNews = getBool("UseBBCOnAttacmentsAsNews", true);
@@ -308,7 +310,6 @@ void CVkProto::InitMenus()
 	mi.ptszName = LPGENT("for all time");
 	mi.pszService = szService;
 	g_hContactHistoryMenuItems[CHMI_GETALLSERVERHISTORY] = Menu_AddContactMenuItem(&mi);
-
 }
 
 int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)

@@ -647,14 +647,14 @@ int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
 	CMStringA szListeningTo(m_szModuleName);
 	szListeningTo += "Enabled";
 	if (!strcmp(cws->szSetting, szListeningTo.GetBuffer())) {
-		int iOldMusicSendMetod = getByte("OldMusicSendMetod", 3);
+		MusicSendMetod iOldMusicSendMetod = (MusicSendMetod)getByte("OldMusicSendMetod", sendBroadcastAndStatus);
 		
 		if (cws->value.bVal == 0)
 			setByte("OldMusicSendMetod", m_iMusicSendMetod);
 		else
 			db_unset(0, m_szModuleName, "OldMusicSendMetod");
 		
-		m_iMusicSendMetod = cws->value.bVal == 0 ? 0 : iOldMusicSendMetod;
+		m_iMusicSendMetod = cws->value.bVal == 0 ? sendNone : iOldMusicSendMetod;
 		setByte("MusicSendMetod", m_iMusicSendMetod);
 	}	
 
