@@ -13,7 +13,7 @@ static int Openfile(TCHAR *outputFile, const char *module)
 
 	if (module) {
 		int n = 0;
-		mir_strncpy(filename, module, MAX_PATH);
+		mir_strncpy(filename, module, SIZEOF(filename));
 
 		while (filename[n]) {
 			switch (filename[n]) {

@@ -331,8 +331,8 @@ void popupWatchedVar(MCONTACT hContact, const char* module, const char* setting)
 	POPUPDATA ppd = { 0 };
 	ppd.lchContact = (MCONTACT)hContact;
 	ppd.lchIcon = hIcon;
-	mir_tstrncpy(ppd.lpzContactName, lpzContactName, MAX_CONTACTNAME);
-	mir_tstrncpy(ppd.lpzText, lpzText, MAX_SECONDLINE);
+	mir_tstrncpy(ppd.lpzContactName, lpzContactName, SIZEOF(ppd.lpzContactName));
+	mir_tstrncpy(ppd.lpzText, lpzText, SIZEOF(ppd.lpzText));
 	ppd.colorBack = colorBack;
 	ppd.colorText = colorText;
 	ppd.iSeconds = timeout ? timeout : -1;

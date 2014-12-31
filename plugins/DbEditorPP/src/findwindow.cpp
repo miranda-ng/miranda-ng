@@ -204,7 +204,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 		mir_snprintf(text, SIZEOF(text), Translate("%s Module \"%s\" in contact \"%s\""), mode, module, name);
 		break;
 	case FW_SETTINGNAME:
-		mir_strncpy(ii->setting, setting, 256);
+		mir_strncpy(ii->setting, setting, SIZEOF(ii->setting));
 		ii->type = FW_SETTINGNAME;
 		if (GetValue(hContact, module, setting, szValue, SIZEOF(szValue)))
 			mir_snprintf(text, SIZEOF(text), Translate("%s Setting \"%s\" in module \"%s\" in contact \"%s\" - \"%s\""), mode, setting, module, name, szValue);
@@ -212,7 +212,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 			mir_snprintf(text, SIZEOF(text), Translate("%s Setting \"%s\" in module \"%s\" in contact \"%s\""), mode, setting, module, name);
 		break;
 	case FW_SETTINGVALUE:
-		mir_strncpy(ii->setting, setting, 256);
+		mir_strncpy(ii->setting, setting, SIZEOF(ii->setting));
 		ii->type = FW_SETTINGVALUE;
 		mir_snprintf(text, SIZEOF(text), Translate("%s \"%s\" in Setting \"%s\" in module \"%s\" in contact \"%s\""), mode, value, setting, module, name);
 		break;
@@ -225,7 +225,7 @@ void ItemFound(HWND hwnd, MCONTACT hContact, const char *module, const char *set
 	}
 	else {
 		ii->hContact = hContact;
-		mir_strncpy(ii->module, module, 256);
+		mir_strncpy(ii->module, module, SIZEOF(ii->module));
 		SendMessage(hwnd, LB_SETITEMDATA, index, (LPARAM)ii);
 	}
 }
@@ -363,6 +363,8 @@ int replaceSetting(HWND hwnd, MCONTACT hContact, const char *module, const char 
 		}
 	}
 	else db_free(&dbv2);
+
+	mir_free(myreplace);
 
 	return count;
 }
