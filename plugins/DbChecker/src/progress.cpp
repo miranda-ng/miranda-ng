@@ -112,45 +112,45 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 		return TRUE;
 
 	case WM_MEASUREITEM:
-	{
-		LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
-		mis->itemWidth = listWidth;
-		mis->itemHeight = fontHeight;
-	}
-	return TRUE;
+		{
+			LPMEASUREITEMSTRUCT mis = (LPMEASUREITEMSTRUCT)lParam;
+			mis->itemWidth = listWidth;
+			mis->itemHeight = fontHeight;
+		}
+		return TRUE;
 
 	case WM_DRAWITEM:
-	{
-		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 		TCHAR str[256];
-		int bold = 0;
-		HFONT hoFont = NULL;
-		if ((int)dis->itemID == -1) break;
-		SendMessage(dis->hwndItem, LB_GETTEXT, dis->itemID, (LPARAM)str);
-		switch (dis->itemData & STATUS_CLASSMASK) {
-		case STATUS_MESSAGE:
-			SetTextColor(dis->hDC, RGB(0, 0, 0));
-			break;
-		case STATUS_WARNING:
-			SetTextColor(dis->hDC, RGB(192, 128, 0));
-			break;
-		case STATUS_ERROR:
-			SetTextColor(dis->hDC, RGB(192, 0, 0));
-			break;
-		case STATUS_FATAL:
-			bold = 1;
-			SetTextColor(dis->hDC, RGB(192, 0, 0));
-			break;
-		case STATUS_SUCCESS:
-			bold = 1;
-			SetTextColor(dis->hDC, RGB(0, 192, 0));
-			break;
+		{
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+			int bold = 0;
+			HFONT hoFont = NULL;
+			if ((int)dis->itemID == -1) break;
+			SendMessage(dis->hwndItem, LB_GETTEXT, dis->itemID, (LPARAM)str);
+			switch (dis->itemData & STATUS_CLASSMASK) {
+			case STATUS_MESSAGE:
+				SetTextColor(dis->hDC, RGB(0, 0, 0));
+				break;
+			case STATUS_WARNING:
+				SetTextColor(dis->hDC, RGB(192, 128, 0));
+				break;
+			case STATUS_ERROR:
+				SetTextColor(dis->hDC, RGB(192, 0, 0));
+				break;
+			case STATUS_FATAL:
+				bold = 1;
+				SetTextColor(dis->hDC, RGB(192, 0, 0));
+				break;
+			case STATUS_SUCCESS:
+				bold = 1;
+				SetTextColor(dis->hDC, RGB(0, 192, 0));
+				break;
+			}
+			if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
+			ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)_tcslen(str), NULL);
+			if (bold) SelectObject(dis->hDC, hoFont);
 		}
-		if (bold) hoFont = (HFONT)SelectObject(dis->hDC, hBoldFont);
-		ExtTextOut(dis->hDC, dis->rcItem.left, dis->rcItem.top, ETO_CLIPPED | ETO_OPAQUE, &dis->rcItem, str, (UINT)_tcslen(str), NULL);
-		if (bold) SelectObject(dis->hDC, hoFont);
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_PROCESSINGDONE:
 		SetProgressBar(1000);
@@ -159,6 +159,8 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM 
 			EnableWindow(GetDlgItem(GetParent(hdlg), IDOK), FALSE);
 			SetDlgItemText(GetParent(hdlg), IDCANCEL, TranslateT("&Finish"));
 			bShortModeDone = true;
+			if (bAutoExit)
+				PostMessage(GetParent(hdlg), WM_COMMAND, IDCANCEL, 0);
 		}
 		else {
 			AddToStatus(STATUS_SUCCESS, TranslateT("Click Next to continue"));
