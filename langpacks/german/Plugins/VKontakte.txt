@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.37
+;  Version: 0.1.0.39
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -24,8 +24,12 @@ BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
 
 [advanced (+[url], [size], [color])]
 
+[Use this setting also for attachments on news and notifications]
+
 [Other]
 Sonstige
+[BBCode support on attachments]
+
 [Process stickers as smileys]
 Sticker als Smileys darstellen
 [News and event notifications]
@@ -67,6 +71,16 @@ Seiten
 [Subscriptions to users]
 
 [No reposts]
+
+[Notifications types]
+
+[Comments]
+Kommentare
+[Likes]
+
+[Reposts]
+
+[Mentions in comments]
 
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
@@ -274,6 +288,12 @@ Benutzer wurde in diesen Fotos markiert:
 Neuigkeiten von %s\n%s
 [\tRepost from %s\n%s]
 \tGeteilt von %s\n%s
+[Video description:]
+
+[Post text:]
+
+[Topic text:]
+
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Konnte Datei nicht speichern.
