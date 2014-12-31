@@ -36,7 +36,7 @@ void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, TCHAR *stzT
 	}
 	_tcsncpy_s(ppd.lptzContactName, buf, _TRUNCATE);
 
-	_tcsncpy(ppd.lptzText, stzText, MAX_SECONDLINE);
+	_tcsncpy(ppd.lptzText, stzText, SIZEOF(ppd.lptzText));
 
 	switch (opt.Colors) {
 	case POPUP_COLOR_OWN:

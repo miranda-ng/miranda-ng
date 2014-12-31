@@ -381,32 +381,33 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			{
 				TCHAR str[MAX_SECONDLINE] = { 0 };
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) {
-					_tcsncpy(str, _T(""), MAX_SECONDLINE);
+					_tcsncpy(str, _T(""), SIZEOF(str));
 
 					if (opt.ShowStatus) {
 						if (opt.UseAlternativeText == 1)
-							_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, MAX_SECONDLINE);
+							_tcsncpy(str, StatusList[Index(i)].lpzUStatusText, SIZEOF(str));
 						else
-							_tcsncpy(str, StatusList[Index(i)].lpzStandardText, MAX_SECONDLINE);
+							_tcsncpy(str, StatusList[Index(i)].lpzStandardText, SIZEOF(str));
 
 						if (opt.ShowPreviousStatus) {
 							TCHAR buff[MAX_STATUSTEXT];
 							mir_sntprintf(buff, SIZEOF(buff), TranslateTS(STRING_SHOWPREVIOUSSTATUS), StatusList[Index(i)].lpzStandardText);
-							mir_sntprintf(str, SIZEOF(str), _T("%s %s"), str, buff);
+							mir_tstrcat(str, _T(" "));
+							mir_tstrcat(str, buff);
 						}
 					}
 
 					if (opt.ReadAwayMsg) {
 						if (str[0])
-							_tcscat(str, _T("\n"));
-						_tcsncat(str, TranslateT("This is status message"), MAX_SECONDLINE);
+							mir_tstrcat(str, _T("\n"));
+						mir_tstrcat(str, TranslateT("This is status message"));
 					}
 
 					ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, i), i, str);
 				}
-				_tcsncpy(str, TranslateT("This is extra status"), MAX_SECONDLINE);
+				_tcsncpy(str, TranslateT("This is extra status"), SIZEOF(str));
 				ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_EXTRASTATUS, str);
-				_tcsncpy(str, TranslateT("This is status message"), MAX_SECONDLINE);
+				_tcsncpy(str, TranslateT("This is status message"), SIZEOF(str));
 				ShowChangePopup(NULL, LoadSkinnedProtoIcon(NULL, ID_STATUS_ONLINE), ID_STATUS_STATUSMSG, str);
 
 				return FALSE;
