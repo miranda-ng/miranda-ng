@@ -127,6 +127,7 @@ void cli_FreeContact(ClcContact *p)
 			}
 			mir_free_and_nil(p->subcontacts);
 		}
+		p->SubAllocated = 0;
 	}
 
 	p->ssText.DestroySmileyList();
