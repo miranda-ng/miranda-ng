@@ -22,9 +22,9 @@ procedure DefFillPlayerList (hwndList:HWND);
 procedure DefCheckPlayerList(hwndList:HWND);
 
 type
-  TMusEnumProc = function(param:PAnsiChar;lParam:LPARAM):bool;stdcall;
+  MusEnumProc = function(param:PAnsiChar;lParam:LPARAM):bool;stdcall;
 
-function EnumPlayers(param:TMusEnumProc;lParam:LPARAM):bool;
+function EnumPlayers(param:MusEnumProc;lParam:LPARAM):bool;
 function GetPlayerNote(name:PAnsiChar):pWideChar;
 function CheckAllPlayers(flags:integer;var status:integer; var PlayerChanged:bool):HWND;
 function GetActivePlayer:pPlayerCell;
@@ -149,7 +149,7 @@ begin
   result:=@plyLink^[0];
 end;
 
-function EnumPlayers(param:TMusEnumProc;lParam:LPARAM):bool;
+function EnumPlayers(param:MusEnumProc;lParam:LPARAM):bool;
 var
   tmp:pPlyArray;
   i,j:integer;

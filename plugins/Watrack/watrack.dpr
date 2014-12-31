@@ -568,7 +568,7 @@ begin
     CallService(MS_SYSTEM_WAITONHANDLE,hEvent,tlparam(p));
   end;
 
-  LoadOpt;
+  loadopt;
   if DisablePlugin=dsPermanent then
     CallService(MS_WAT_PLUGINSTATUS,1,0);
 
@@ -577,7 +577,7 @@ begin
   result:=0;
 
   HookEvent(ME_SYSTEM_MODULELOAD  ,@OnPluginLoad);
-  HookEvent(ME_SYSTEM_MODULEUNLOAD,@OnPluginUnload);
+  HookEvent(ME_SYSTEM_MODULEUNLOAD,@OnPluginUnLoad);
 end;
 
 procedure FreeVariables;
@@ -647,7 +647,7 @@ begin
   result:=0;
 end;
 
-function Load:int; cdecl;
+function Load():int; cdecl;
 begin
   result:=0;
   Langpack_register;

@@ -71,7 +71,7 @@ begin
   mFreeMem(buf);
 end;
 
-function DumbPopupDlgProc(wnd:HWND;msg:dword;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
+function DumbPopupDlgProc(Wnd:HWND;msg:dword;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   si:pSongInfo;
   h:HBITMAP;
@@ -88,7 +88,7 @@ begin
         2: ShowWindow(si^.plwnd,SW_RESTORE);
         3: CallServiceSync(MS_WAT_PRESSBUTTON,WAT_CTRL_NEXT,0);
       end;
-      SendMessage(wnd,UM_DESTROYPOPUP,0,0);
+      SendMessage(Wnd,UM_DESTROYPOPUP,0,0);
       result:=1;
     end;
     UM_POPUPACTION: begin
@@ -97,13 +97,13 @@ begin
     end;
     UM_FREEPLUGINDATA: begin
       h:=0;
-      h:=CallService(MS_POPUP_GETPLUGINDATA,wnd,h);
+      h:=CallService(MS_POPUP_GETPLUGINDATA,Wnd,h);
       if h<>0 then
         DeleteObject(h);
       result:=0;
     end;
   else
-    result:=DefWindowProc(wnd,msg,wParam,lParam);
+    result:=DefWindowProc(Wnd,msg,wParam,lParam);
   end;
 end;
 
@@ -150,6 +150,7 @@ var
   Icon:HICON;
   sec:integer;
   cb,ct:TCOLORREF;
+  tmp:pAnsiChar;
 begin
   descr:=PWideChar(CallService(MS_WAT_REPLACETEXT,0,lparam(PopText)));
   title:=PWideChar(CallService(MS_WAT_REPLACETEXT,0,lparam(PopTitle)));
@@ -217,7 +218,9 @@ begin
             hbmAvatar:=0;
           if hbmAvatar=0 then
           begin
-            hbmAvatar:=CallService(MS_UTILS_LOADBITMAPW,0,lparam(si.cover));
+            WideToAnsi(si.cover,tmp);
+            hbmAvatar:=CallService(MS_UTILS_LOADBITMAP,0,lparam(tmp));
+            mFreeMem(tmp);
           end;
         end;
         PluginData:=pointer(hbmAvatar);

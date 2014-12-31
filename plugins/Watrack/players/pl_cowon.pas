@@ -65,8 +65,8 @@ const
   GET_STATUS_JETAUDIO_VER3 = 997;
 
 const
-  TitleWnd:HWND = 0;
-  HostWnd :HWND = 0;
+  titlewnd:HWND = 0;
+  hostwnd :HWND = 0;
   tmpstr  :pWideChar=nil;
 
 function HiddenWindProc(wnd:HWND; msg:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
@@ -90,19 +90,19 @@ end;
 
 function Init:integer;cdecl;
 begin
-  HostWnd:=CreateWindowExW(0,'STATIC',nil,0,1,1,1,1,HWND_MESSAGE,0,hInstance,nil);
-  if HostWnd<>0 then
-    SetWindowLongPtrW(HostWnd,GWL_WNDPROC,LONG_PTR(@HiddenWindProc));
-	result:=HostWnd;
+  hostwnd:=CreateWindowExW(0,'STATIC',nil,0,1,1,1,1,HWND_MESSAGE,0,hInstance,nil);
+  if hostwnd<>0 then
+    SetWindowLongPtrW(hostwnd,GWL_WNDPROC,LONG_PTR(@HiddenWindProc));
+	result:=hostwnd;
 end;
 
 function DeInit:integer;cdecl;
 begin
   result:=0;
-  if HostWnd<>0 then
+  if hostwnd<>0 then
   begin
-    DestroyWindow(HostWnd);
-    HostWnd:=0;
+    DestroyWindow(hostwnd);
+    hostwnd:=0;
   end;
 end;
 
@@ -134,8 +134,8 @@ begin
     result:=FindWindow(PluginClass,PluginName);
 }
   if (result<>0) {and (result<>wnd)} then
-    if EnumWindows(@chwnd,int_ptr(@TitleWnd)) then
-      TitleWnd:=0;
+    if EnumWindows(@chwnd,int_ptr(@titlewnd)) then
+      titlewnd:=0;
 end;
 
 function GetWndText:pWideChar;
@@ -143,9 +143,9 @@ var
   p:pWideChar;
 begin
   result:=nil;
-  if TitleWnd<>0 then
+  if titlewnd<>0 then
   begin
-    result:=GetDlgText(TitleWnd);
+    result:=GetDlgText(titlewnd);
     if result<>nil then
     begin
       if StrScanW(result,'[')<>nil then
@@ -205,19 +205,19 @@ end;
 
 function GetFileName(wnd:HWND;flags:integer):pWideChar;cdecl;
 begin
-  SendMessage(wnd,WM_REMOCON_GETSTATUS,HostWnd,GET_STATUS_TRACK_FILENAME);
+  SendMessage(wnd,WM_REMOCON_GETSTATUS,hostwnd,GET_STATUS_TRACK_FILENAME);
   result:=tmpstr;
 end;
 
 function GetArtist(wnd:HWND):pWideChar;
 begin
-  SendMessage(wnd,WM_REMOCON_GETSTATUS,HostWnd,GET_STATUS_TRACK_ARTIST);
+  SendMessage(wnd,WM_REMOCON_GETSTATUS,hostwnd,GET_STATUS_TRACK_ARTIST);
   result:=tmpstr;
 end;
 
 function GetTitle(wnd:HWND):pWideChar;
 begin
-  SendMessage(wnd,WM_REMOCON_GETSTATUS,HostWnd,GET_STATUS_TRACK_TITLE);
+  SendMessage(wnd,WM_REMOCON_GETSTATUS,hostwnd,GET_STATUS_TRACK_TITLE);
   result:=tmpstr;
 end;
 

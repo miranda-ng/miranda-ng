@@ -151,14 +151,14 @@ begin
   EnumFormats(@enumrf,0);
 end;
 
-procedure SaveOpt;
+procedure saveopt;
 begin
   _saveopt;
   WriteFormats;
   WritePlayers;
 end;
 
-procedure LoadOpt;
+procedure loadopt;
 begin
   _loadopt;
   ReadPlayers;

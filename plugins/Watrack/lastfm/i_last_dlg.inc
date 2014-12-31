@@ -18,13 +18,13 @@ const
     (code:'es' ; name: 'Spanish'    ;)
   );
 
-procedure ClearInfo(Dlg:HWND);
+procedure ClearInfo(dlg:HWND);
 begin
-  SetDlgItemTextW(Dlg,IDC_DATA_ARTIST,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_ALBUM ,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_TRACK ,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_TAGS  ,'');
-  SetDlgItemTextW(Dlg,IDC_DATA_INFO  ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_ARTIST,'');
+  SetDlgItemTextW(dlg,IDC_DATA_ALBUM ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_TRACK ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_TAGS  ,'');
+  SetDlgItemTextW(dlg,IDC_DATA_INFO  ,'');
 end;
 
 procedure ClearData(var data:tLastFMInfo);
