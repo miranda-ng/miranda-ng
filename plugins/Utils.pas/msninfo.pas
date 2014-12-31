@@ -5,10 +5,10 @@ interface
 type
   pMSNInfo = ^tMSNInfo;
   tMSNInfo = record
-    msnPlayer:pWideChar;
-    msnArtist:pWideChar;
-    msnTitle :pWideChar;
-    msnAlbum :pWideChar;
+    msnPlayer:PWideChar;
+    msnArtist:PWideChar;
+    msnTitle :PWideChar;
+    msnAlbum :PWideChar;
   end;
 
 
@@ -63,9 +63,9 @@ begin
   {FreeMem(anMSNInfo.msnAlbum); } //anMSNInfo.msnAlbum :=nil;
 end;
 
-procedure Split(pc:pWideChar);
+procedure Split(pc:PWideChar);
 var
-  lpc:pWideChar;
+  lpc:PWideChar;
 begin
   // Player
   anMSNInfo.msnPlayer:=pc;
@@ -137,7 +137,7 @@ begin
       if pMyCDS^.dwData=1351 then // Media player info
       begin
         ClearMSNInfo;
-        Split(StrDupW(RealMSNData,pWideChar(pMyCDS^.lpData)));
+        Split(StrDupW(RealMSNData,PWideChar(pMyCDS^.lpData)));
       end;
     end;
   else

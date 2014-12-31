@@ -463,7 +463,7 @@ procedure adddbsettypes(list:HWND);
 begin
   CB_AddStrDataW(list,TranslateW(stByte)     ,QSTS_BYTE);
   CB_AddStrDataW(list,TranslateW(stWord)     ,QSTS_WORD);
-  CB_AddStrDataW(list,TranslateW(stDword)    ,QSTS_DWORD);
+  CB_AddStrDataW(list,TranslateW(stDWord)    ,QSTS_DWORD);
   CB_AddStrDataW(list,TranslateW(stSigned)   ,QSTS_SIGNED);
   CB_AddStrDataW(list,TranslateW(stHexnum)   ,QSTS_HEXNUM);
   CB_AddStrDataW(list,TranslateW(stString)   ,QSTS_STRING);
@@ -994,6 +994,8 @@ begin
             QSTO_EVENTCOUNT: begin
               pc:='Content is count of ALL contact events (not messages only)';
             end;
+          else
+            pc:='Unknown';
           end;
           MessageBoxW(0,TranslateW(pc),TranslateW('Other info'),0);
         end;

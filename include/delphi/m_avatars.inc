@@ -68,21 +68,6 @@ const
   AVS_NOTREADY        = 4096;
 
 type
-  PavatarCacheEntryW = ^TavatarCacheEntryW;
-  TavatarCacheEntryW = record
-    cbSize      : dword;    // set to sizeof(struct)
-    hContact    : TMCONTACT; // contacts handle, 0, if it is a protocol avatar
-    hbmPic      : HBITMAP;  // bitmap handle of the picture itself
-    dwFlags     : dword;    // see above for flag values
-    bmHeight    : long;     // bitmap dimensions
-    bmWidth     : long;
-    t_lastAccess: dword;    // last access time (currently unused, but plugins should still
-                            // use it whenever they access the avatar. may be
-                            // used in the future to implement cache expiration
-    lpDIBSection: pointer;
-    szFilename  : array[0..MAX_PATH-1] of WideChar; // filename of the avatar (absolute path)
-  end;
-
   PavatarCacheEntry = ^TavatarCacheEntry;
   TavatarCacheEntry = record
     cbSize      : dword;    // set to sizeof(struct)
@@ -95,7 +80,7 @@ type
                             // use it whenever they access the avatar. may be
                             // used in the future to implement cache expiration
     lpDIBSection: pointer;
-    szFilename  : array[0..MAX_PATH-1] of AnsiChar; // filename of the avatar (absolute path)
+    szFilename  : array[0..MAX_PATH-1] of WideChar; // filename of the avatar (absolute path)
   end;
 
 const

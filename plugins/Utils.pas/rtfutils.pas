@@ -7,7 +7,7 @@ uses
   windows;
 
 
-function IsRTF(const Value: pWideChar): Boolean;
+function IsRTF(const Value: PWideChar): Boolean;
 
 //used for Export only
 function GetRichRTFW(RichEditHandle: THANDLE; var RTFStream: PWideChar;
@@ -32,14 +32,14 @@ procedure ReplaceCharFormat(RichEditHandle: THANDLE; const fromCF, toCF: CHARFOR
 function GetTextLength(RichEditHandle:THANDLE): Integer;
 function GetTextRange (RichEditHandle:THANDLE; cpMin,cpMax: Integer): PWideChar;
 
-function BitmapToRTF(pict: HBITMAP): pAnsiChar;
+function BitmapToRTF(pict: HBITMAP): PAnsiChar;
 
 implementation
 
 uses
   common;
 
-function IsRTF(const Value: pWideChar): Boolean;
+function IsRTF(const Value: PWideChar): Boolean;
 const
   RTF_BEGIN_1  = '{\RTF';
   RTF_BEGIN_2  = '{URTF';
@@ -541,12 +541,12 @@ const
   HexDigitChr: array [0..15] of AnsiChar = ('0','1','2','3','4','5','6','7',
                                             '8','9','A','B','C','D','E','F');
 
-function BitmapToRTF(pict: HBITMAP): pAnsiChar;
+function BitmapToRTF(pict: HBITMAP): PAnsiChar;
 const
   prefix  = '{\rtf1 {\pict\dibitmap ';
   postfix = ' }}';
 var
-  tmp, bi, bb, rtf: pAnsiChar;
+  tmp, bi, bb, rtf: PAnsiChar;
   bis, bbs: cardinal;
   len,cnt: integer;
 begin

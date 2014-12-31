@@ -456,7 +456,7 @@ begin
   zeromemory(@li,sizeof(li));
   li.mask    :=LVIF_TEXT;
   li.iItem   :=item;
-  li.iSubItem:=ColumnToListview(column); // buffer column to LV subitem
+  li.iSubItem:=ColumnToListView(column); // buffer column to LV subitem
   li.pszText :=text;
   SendMessageW(grid,LVM_SETITEMW,0,tlparam(@li));
 

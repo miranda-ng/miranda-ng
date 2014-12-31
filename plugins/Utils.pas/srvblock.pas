@@ -15,7 +15,7 @@ const
 type
   pServiceValue = ^tServiceValue;
   tServiceValue = record
-    service:pAnsiChar;
+    service:PAnsiChar;
     wparam,
     lparam: pointer;
     w_flag,
@@ -31,8 +31,8 @@ function SetSrvBlockValue(Dialog:HWND;const value:tServiceValue):boolean;
 function GetSrvBlockValue(Dialog:HWND;var   value:tServiceValue):boolean;
 
 // service setting will load templates
-procedure SetSrvBlockService(Dialog:HWND; service:pAnsiChar);
-function  GetSrvBlockService(Dialog:HWND):pAnsiChar;
+procedure SetSrvBlockService(Dialog:HWND; service:PAnsiChar);
+function  GetSrvBlockService(Dialog:HWND):PAnsiChar;
 
 implementation
 
@@ -164,9 +164,9 @@ begin
   end;
 end;
 
-procedure ReloadService(Dialog:HWND;srv:pAnsiChar;setvalue:boolean);
+procedure ReloadService(Dialog:HWND;srv:PAnsiChar;setvalue:boolean);
 var
-  pc:pAnsiChar;
+  pc:PAnsiChar;
   ApiCard:tmApiCard;
   flag:dword;
 begin
@@ -183,12 +183,12 @@ begin
         ptStruct: begin
           if setvalue then
           begin
-            struct:=pAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,
+            struct:=PAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,
             long_ptr(StrDup(struct,StrScan(pc,'|')+1))));
             mFreeMem(struct);
           end;
 
-{          struct:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA));
+{          struct:=PAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA));
           mFreeMem(struct);
           StrDup(struct,StrScan(pc,'|')+1);
           SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,long_ptr(struct));
@@ -239,7 +239,7 @@ end;
 function DlgServiceProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
   proc:pointer;
-  pc:pAnsiChar;
+  pc:PAnsiChar;
   ApiCard:tmApiCard;
 begin
   result:=0;
@@ -475,7 +475,7 @@ begin
     value.flags:=value.flags or ACF_SCRIPT_SERVICE;
 end;
 
-procedure SetSrvBlockService(Dialog:HWND; service:pAnsiChar);
+procedure SetSrvBlockService(Dialog:HWND; service:PAnsiChar);
 begin
   if Dialog=0 then
     exit;
@@ -483,7 +483,7 @@ begin
   ReloadService(Dialog,service,true);
 end;
 
-function GetSrvBlockService(Dialog:HWND):pAnsiChar;
+function GetSrvBlockService(Dialog:HWND):PAnsiChar;
 begin
   if Dialog=0 then
   begin

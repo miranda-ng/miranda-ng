@@ -4,14 +4,14 @@ interface
 
 uses windows;
 
-function SaveTemporaryW(ptr:pointer;size:dword;ext:PWideChar=nil):pWideChar;
+function SaveTemporaryW(ptr:pointer;size:dword;ext:PWideChar=nil):PWideChar;
 function SaveTemporary (ptr:pointer;size:dword;ext:PAnsiChar=nil):PAnsiChar;
 
 implementation
 
 uses common,io;
 
-function SaveTemporaryW(ptr:pointer;size:dword;ext:PWideChar=nil):pWideChar;
+function SaveTemporaryW(ptr:pointer;size:dword;ext:PWideChar=nil):PWideChar;
 var
   buf,buf1:array [0..MAX_PATH-1] of WideChar;
   f:THANDLE;
@@ -21,7 +21,7 @@ begin
   ChangeExtW(buf1,ext);
 
   f:=ReWrite(buf1);
-  BlockWrite(f,pByte(ptr)^,size);
+  BlockWrite(f,PByte(ptr)^,size);
   CloseHandle(f);
   StrDupW(result,buf1);
 end;
@@ -36,7 +36,7 @@ begin
   ChangeExt(buf1,ext);
 
   f:=ReWrite(buf1);
-  BlockWrite(f,pByte(ptr)^,size);
+  BlockWrite(f,PByte(ptr)^,size);
   CloseHandle(f);
   StrDup(result,buf1);
 end;

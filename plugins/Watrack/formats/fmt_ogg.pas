@@ -5,12 +5,12 @@ unit fmt_OGG;
 interface
 uses wat_api;
 
-function ReadOGG(var Info:wat_api.tSongInfo):boolean; cdecl;
-function ReadSPX(var Info:wat_api.tSongInfo):boolean; cdecl;
-function ReadfLaC(var Info:wat_api.tSongInfo):boolean; cdecl;
+function ReadOGG(var Info:tSongInfo):boolean; cdecl;
+function ReadSPX(var Info:tSongInfo):boolean; cdecl;
+function ReadfLaC(var Info:tSongInfo):boolean; cdecl;
 
 implementation
-uses windows,common,io,tags,srv_format,utils, m_api;
+uses windows,common,io,tags,srv_format,base64,utils;
 
 const
   OGGSign = $5367674F; //OggS
@@ -95,12 +95,12 @@ const
 5 : CUESHEET
 }
 type
-  MetaHdr = packed record
+  tMetaHdr = packed record
     blocktype:byte;
     blocklen:array [0..2] of byte;
   end;
 type
-  StreamInfo = packed record
+  tStreamInfo = packed record
     MinBlockSize:word;
     MaxBlocksize:word;
     MinFrameSize:array [0..2] of byte;
@@ -109,10 +109,9 @@ type
     MD5:array [0..15] of byte;
   end;
 
-procedure OGGGetComment(ptr:PAnsiChar;size:integer;var Info:wat_api.tSongInfo);
+procedure OGGGetComment(ptr:PAnsiChar;size:integer;var Info:tSongInfo);
 var
-  alen,len,values:dword;
-  clen:int;
+  clen,alen,len,values:dword;
   ls:PAnsiChar;
   value:PAnsiChar;
   cover:pByte;
@@ -151,7 +150,7 @@ begin
 
       else if (Info.track=0) and (lstrcmpia(ls,'TRACKNUMBER')=0) then Info.track:=StrToInt(value)
 
-      else if (cover=nil) and (lstrcmpia(ls,'COVERART')=0) then cover:=mir_base64_decode(value,clen)
+      else if (cover=nil) and (lstrcmpia(ls,'COVERART')=0) then clen:=Base64Decode(value,cover)
       else if  lstrcmpia(ls,'COVERARTMIME')=0 then ext:=GetImageType(nil,value);
     end;
     dec(values);
@@ -185,7 +184,7 @@ begin
   end;
 end;
 
-function ReadSPX(var Info:wat_api.tSongInfo):boolean; cdecl;
+function ReadSPX(var Info:tSongInfo):boolean; cdecl;
 var
   f:THANDLE;
   OGGHdr:tOGGHdr;
@@ -243,7 +242,7 @@ begin
     result:=0;
 end;
 
-function ReadOGG(var Info:wat_api.tSongInfo):boolean; cdecl;
+function ReadOGG(var Info:tSongInfo):boolean; cdecl;
 var
   f:THANDLE;
   OGGHdr:tOGGHdr;
@@ -368,12 +367,12 @@ begin
   CloseHandle(f);
 end;
 
-function ReadfLaC(var Info:wat_api.tSongInfo):boolean; cdecl;
+function ReadfLaC(var Info:tSongInfo):boolean; cdecl;
 var
   f:THANDLE;
   data64:int64;
-  hdr:MetaHdr;
-  frm:StreamInfo;
+  hdr:tMetaHdr;
+  frm:tStreamInfo;
   id:dword;
   flag:integer;
   size:dword;

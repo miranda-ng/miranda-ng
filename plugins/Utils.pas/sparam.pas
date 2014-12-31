@@ -47,10 +47,10 @@ const
 
 function CreateParamBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
 function ClearParamFields(Dialog:HWND):HWND;
-function FillParam       (Dialog:HWND;txt:pAnsiChar):integer;
+function FillParam       (Dialog:HWND;txt:PAnsiChar):integer;
 function SetParamValue   (Dialog:HWND;    flags:dword;    value:pointer):boolean;
 function GetParamValue   (Dialog:HWND;var flags:dword;var value:pointer):boolean;
-function SetParamLabel   (Dialog:HWND; lbl:pWideChar):HWND;
+function SetParamLabel   (Dialog:HWND; lbl:PWideChar):HWND;
 
 procedure ClearParam    (flags:dword; var param);
 function  DuplicateParam(flags:dword; var sparam,dparam):dword;
@@ -109,7 +109,7 @@ begin
   SendMessage(wnd,CB_SETCURSEL,0,0);
 end;
 
-function IsParamNumber(txt:pAnsiChar):boolean;
+function IsParamNumber(txt:PAnsiChar):boolean;
 begin
   if (txt[0] in ['0'..'9']) or ((txt[0]='-') and (txt[1] in ['0'..'9'])) or
     ((txt[0]='$') and (txt[1] in sHexNum)) or
@@ -133,7 +133,7 @@ end;
 function FixParamControls(Dialog:HWND;atype:dword):dword;
 var
   wnd,wnd1:HWND;
-  pcw:pWideChar;
+  pcw:PWideChar;
 begin
   result:=atype;
 
@@ -169,9 +169,9 @@ begin
 end;
 
 // get line from template
-function GetParamLine(src:pAnsiChar;dst:pWideChar;var ltype:integer):pAnsiChar;
+function GetParamLine(src:PAnsiChar;dst:PWideChar;var ltype:integer):PAnsiChar;
 var
-  pp,pc:pAnsiChar;
+  pp,pc:PAnsiChar;
   j:integer;
   savechar:AnsiChar;
 begin
@@ -216,7 +216,7 @@ begin
 end;
 
 // Set parameter value by parameter template
-function FillParam(Dialog:HWND;txt:pAnsiChar):integer;
+function FillParam(Dialog:HWND;txt:PAnsiChar):integer;
 var
   bufw:array [0..2047] of WideChar;
   wnd:HWND;
@@ -265,15 +265,15 @@ function DlgParamProc(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRE
 var
   wnd,wnd1:HWND;
   proc:pointer;
-  pcw:pWideChar;
-  pc,pc1:pAnsiChar;
+  pcw:PWideChar;
+  pc,pc1:PAnsiChar;
   i:integer;
 begin
   result:=0;
 
   case hMessage of
     WM_DESTROY: begin
-      pc:=pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA));
+      pc:=PAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA));
       mFreeMem(pc);
     end;
 
@@ -281,7 +281,7 @@ begin
       // hide window by ShowWindow function
       if (lParam=0) and (wParam=0) then
       begin
-        pc:=pAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA,0));
+        pc:=PAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA,0));
         mFreeMem(pc);
       end;
     end;
@@ -332,7 +332,7 @@ begin
         BN_CLICKED: begin
           case loword(wParam) of
             IDC_STRUCT: begin
-              pc:=pAnsiChar(GetWindowLongPtrW(lParam,GWLP_USERDATA));
+              pc:=PAnsiChar(GetWindowLongPtrW(lParam,GWLP_USERDATA));
 //!!!!
               pc1:=EditStructure(pc{,Dialog});
               if pc1<>nil then
@@ -463,7 +463,7 @@ begin
   result:=0;
 end;
 
-function SetParamLabel(Dialog:HWND; lbl:pWideChar):HWND;
+function SetParamLabel(Dialog:HWND; lbl:PWideChar):HWND;
 var
   wnd:HWND;
 begin
@@ -486,8 +486,8 @@ end;
 function SetParamValue(Dialog:HWND;flags:dword;value:pointer):boolean;
 var
   wnd,wnd1:HWND;
-  pc:pAnsiChar;
-  pcw:pWideChar;
+  pc:PAnsiChar;
+  pcw:PWideChar;
   vtype:integer;
 begin
   if Dialog=0 then
@@ -529,10 +529,10 @@ begin
     wnd1:=GetDlgItem(Dialog,IDC_STRUCT);
     ShowWindow(wnd1,SW_SHOW);
     // delete old value
-    pc:=pAnsiChar(GetWindowLongPtrW(wnd1,GWLP_USERDATA));
+    pc:=PAnsiChar(GetWindowLongPtrW(wnd1,GWLP_USERDATA));
     mFreeMem(pc);
     // set newly allocated
-    SetWindowLongPtrW(wnd1,GWLP_USERDATA,long_ptr(StrDup(pc,pAnsiChar(value))));
+    SetWindowLongPtrW(wnd1,GWLP_USERDATA,long_ptr(StrDup(pc,PAnsiChar(value))));
 //!!!!!!!!
   end
   else if (flags and ACF_NUMBER)<>0 then
@@ -590,8 +590,8 @@ begin
     end;
     ACF_STRUCT: begin
       flags:=flags or ACF_STRUCT;
-      StrDup(pAnsiChar(value),
-          pAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA)));
+      StrDup(PAnsiChar(value),
+          PAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA)));
     end;
     ACF_UNICODE: begin
       flags:=flags or ACF_UNICODE;
@@ -621,23 +621,23 @@ begin
   if (flags and ACF_TEMPLATE)<>0 then
   begin
     flags:=flags and not (ACF_TEMPLATE or ACF_PARTYPE);
-    GetParamLine(pAnsiChar(sparam),tmpdst,ltype);
+    GetParamLine(PAnsiChar(sparam),tmpdst,ltype);
     case ltype of
       ACF_NUMBER: begin
         flags:=flags or ACF_NUMBER;
-        StrDupW(pWideChar(dparam),pWideChar(@tmpdst));
+        StrDupW(PWideChar(dparam),PWideChar(@tmpdst));
       end;
       ACF_STRING: begin
         flags:=flags or ACF_STRING;
-        StrDupW(pWideChar(dparam),pWideChar(@tmpdst));
+        StrDupW(PWideChar(dparam),PWideChar(@tmpdst));
       end;
       ACF_UNICODE: begin
         flags:=flags or ACF_UNICODE;
-        StrDupW(pWideChar(dparam),pWideChar(@tmpdst));
+        StrDupW(PWideChar(dparam),PWideChar(@tmpdst));
       end;
       ACF_STRUCT: begin
         flags:=flags or ACF_STRUCT;
-        StrDup(pAnsiChar(dparam),pAnsiChar(sparam)+10); //10=StrLen('structure|')
+        StrDup(PAnsiChar(dparam),PAnsiChar(sparam)+10); //10=StrLen('structure|')
       end;
       ACF_CURRENT: flags:=flags or ACF_CURRENT;
       ACF_RESULT : flags:=flags or ACF_RESULT;
@@ -647,31 +647,31 @@ begin
   else if (flags and (ACF_CURRENT or ACF_RESULT or ACF_PARAM))=0 then
   begin
     if (flags and ACF_NUMBER)<>0 then
-      StrDupW(pWideChar(dparam),pWideChar(sparam))
+      StrDupW(PWideChar(dparam),PWideChar(sparam))
     else if (flags and ACF_STRUCT)<>0 then
-      StrDup(pAnsiChar(dparam),pAnsiChar(sparam))
+      StrDup(PAnsiChar(dparam),PAnsiChar(sparam))
     else if (flags and  ACF_UNICODE)<>0 then
-      StrDupW(pWideChar(dparam),pWideChar(sparam))
+      StrDupW(PWideChar(dparam),PWideChar(sparam))
     else
-      StrDupW(pWideChar(dparam),pWideChar(sparam));
+      StrDupW(PWideChar(dparam),PWideChar(sparam));
   end;
   result:=flags;
 end;
 
 function TranslateParam(param:uint_ptr;flags:dword;hContact:TMCONTACT):uint_ptr;
 var
-  tmp1:pWideChar;
+  tmp1:PWideChar;
 begin
   if (flags and ACF_SCRIPT_PARAM)<>0 then
-    result:=uint_ptr(ParseVarString(pWideChar(param),hContact));
+    result:=uint_ptr(ParseVarString(PWideChar(param),hContact));
 
-  tmp1:=pWideChar(result);
+  tmp1:=PWideChar(result);
   if (flags and ACF_NUMBER)=0 then
   begin
     if (flags and ACF_UNICODE)=0 then
-      WideToAnsi(tmp1,pAnsiChar(result),MirandaCP)
+      WideToAnsi(tmp1,PAnsiChar(result),MirandaCP)
     else
-      StrDupW(pWideChar(result),tmp1);
+      StrDupW(PWideChar(result),tmp1);
   end
   else
     result:=NumToInt(tmp1);

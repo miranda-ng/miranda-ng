@@ -19,7 +19,7 @@ begin
     result:=FindWindowEx(0,wnd,MPCClass98,NIL);
 end;
 
-function chwnd(awnd:HWND;Param:pdword):boolean; stdcall;
+function chwnd(awnd:HWND;param:pdword):boolean; stdcall;
 var
   s:array [0..31] of AnsiChar;
   i:integer;
@@ -29,14 +29,14 @@ begin
   i:=StrIndex(PAnsiChar(@s),' / ');
   if i<>0 then
   begin
-    if Param^=0 then
+    if param^=0 then
     begin
       s[i-1]:=#0;
-      Param^:=TimeToInt(s);
+      param^:=TimeToInt(s);
     end
     else
     begin
-      Param^:=TimeToInt(s+i+2);
+      param^:=TimeToInt(s+i+2);
     end;
     result:=false;
   end

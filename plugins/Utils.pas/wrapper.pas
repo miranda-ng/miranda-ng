@@ -23,10 +23,10 @@ function StringToGUID(const astr:PWideChar):TGUID; overload;
 function CB_SelectData(cb:HWND;data:lparam):LRESULT; overload;
 function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):LRESULT; overload;
 function CB_GetData   (cb:HWND;idx:integer=-1):LRESULT; overload;
-function CB_AddStrData (cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
-function CB_AddStrData (Dialog:HWND;id:cardinal;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
-function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
-function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrData (cb:HWND;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrData (Dialog:HWND;id:cardinal;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrDataW(cb:HWND;astr:PWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
+function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:PWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
 
 // CommCtrl - ListView
 Procedure ListView_GetItemTextA(list:HWND;i:WPARAM;iSubItem:integer;pszText:pointer;cchTextMax:integer);
@@ -170,7 +170,7 @@ begin
     a:=SendMessageW(wnd,WM_GETTEXTLENGTH,0,0)+1;
     if a>1 then
     begin
-      mGetMem(pWideChar(result),a*SizeOf(WideChar));
+      mGetMem(PWideChar(result),a*SizeOf(WideChar));
       SendMessageW(wnd,WM_GETTEXT,a,lparam(result));
     end;
   end;
@@ -214,7 +214,7 @@ begin
     result:=SendMessage(cb,CB_GETITEMDATA,idx,0);
 end;
 
-function CB_AddStrData(cb:HWND;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND;
+function CB_AddStrData(cb:HWND;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=cb;
   if idx<0 then
@@ -224,12 +224,12 @@ begin
   SendMessageA(cb,CB_SETITEMDATA,idx,data);
 end;
 
-function CB_AddStrData(Dialog:HWND;id:cardinal;astr:pAnsiChar;data:lparam=0;idx:integer=-1):HWND;
+function CB_AddStrData(Dialog:HWND;id:cardinal;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=CB_AddStrData(GetDlgItem(Dialog,id),astr,data,idx);
 end;
 
-function CB_AddStrDataW(cb:HWND;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
+function CB_AddStrDataW(cb:HWND;astr:PWideChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=cb;
   if idx<0 then
@@ -239,7 +239,7 @@ begin
   SendMessage(cb,CB_SETITEMDATA,idx,data);
 end;
 
-function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:pWideChar;data:lparam=0;idx:integer=-1):HWND;
+function CB_AddStrDataW(Dialog:HWND;id:cardinal;astr:PWideChar;data:lparam=0;idx:integer=-1):HWND;
 begin
   result:=CB_AddStrDataW(GetDlgItem(Dialog,id),astr,data,idx);
 end;
@@ -268,15 +268,15 @@ var
 begin
   result:=EmptyGUID;
   if StrLenW(astr)<>38 then exit;
-  result.D1:=HexToInt(pWideChar(@astr[01]),8);
-  result.D2:=HexToInt(pWideChar(@astr[10]),4);
-  result.D3:=HexToInt(pWideChar(@astr[15]),4);
+  result.D1:=HexToInt(PWideChar(@astr[01]),8);
+  result.D2:=HexToInt(PWideChar(@astr[10]),4);
+  result.D3:=HexToInt(PWideChar(@astr[15]),4);
 
-  result.D4[0]:=HexToInt(pWideChar(@astr[20]),2);
-  result.D4[1]:=HexToInt(pWideChar(@astr[22]),2);
+  result.D4[0]:=HexToInt(PWideChar(@astr[20]),2);
+  result.D4[1]:=HexToInt(PWideChar(@astr[22]),2);
   for i:=2 to 7 do
   begin
-    result.D4[i]:=HexToInt(pWideChar(@astr[21+i*2]),2);
+    result.D4[i]:=HexToInt(PWideChar(@astr[21+i*2]),2);
   end;
 end;
 
@@ -540,7 +540,7 @@ var
   hfo :HFONT;
   tm  :TTEXTMETRIC;
   size:TSIZE;
-  tmp :pWideChar;
+  tmp :PWideChar;
 begin
   dc:=GetDC(wnd);
   hfo:=SelectObject(dc,SendMessage(wnd,WM_GETFONT,0,0));

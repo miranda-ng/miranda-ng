@@ -85,11 +85,11 @@ type
   end;
 
 
-function GetOneElement(txt:pAnsiChar;var res:tOneElement;
+function GetOneElement(txt:PAnsiChar;var res:tOneElement;
                        SizeOnly:boolean;num:integer=0):integer;
 procedure FreeElement(var element:tOneElement);
 
-function MakeStructure(txt:pAnsiChar;aparam,alast:LPARAM
+function MakeStructure(txt:PAnsiChar;aparam,alast:LPARAM
          {$IFDEF Miranda}; restype:integer=rtInt{$ENDIF}):pointer;
 
 function GetStructureResult(var struct;atype:pinteger=nil;alen:pinteger=nil):int_ptr;
@@ -156,15 +156,15 @@ begin
   result:=summ;
 end;
 
-procedure SkipSpace(var txt:pAnsiChar); {$IFDEF FPC}inline;{$ENDIF}
+procedure SkipSpace(var txt:PAnsiChar); {$IFDEF FPC}inline;{$ENDIF}
 begin
   while (txt^ in [' ',#9]) do inc(txt);
 end;
 
-function GetOneElement(txt:pAnsiChar;var res:tOneElement;
+function GetOneElement(txt:PAnsiChar;var res:tOneElement;
                        SizeOnly:boolean;num:integer=0):integer;
 var
-  pc,pc1:pAnsiChar;
+  pc,pc1:PAnsiChar;
   i,llen:integer;
 begin
   FillChar(res,SizeOf(res),0);
@@ -289,7 +289,7 @@ begin
             //!!
             while not (pc^ in [#0,char_separator]) do inc(pc);
             if txt<>pc then
-              StrDup(pAnsiChar(res.text),txt,pc-txt)
+              StrDup(PAnsiChar(res.text),txt,pc-txt)
             else
               res.text:=nil;
           end;
@@ -313,7 +313,7 @@ begin
             txt:=pc;
             while not (pc^ in [#0,char_separator]) do inc(pc);
             if txt<>pc then
-              StrDup(pAnsiChar(res.text),txt,pc-txt)
+              StrDup(PAnsiChar(res.text),txt,pc-txt)
             else
               res.text:=nil;
           end;
@@ -339,12 +339,12 @@ end;
 
 // within translation need to check array size limit
 // "limit" = array size, elements, not bytes!
-procedure TranslateBlob(dst:pByte;const element:tOneElement);
+procedure TranslateBlob(dst:PByte;const element:tOneElement);
 var
   datatype:integer;
   clen,len:integer;
-  src:pAnsiChar;
-  srcw:pWideChar absolute src;
+  src:PAnsiChar;
+  srcw:PWideChar absolute src;
   buf:array [0..9] of AnsiChar;
   bufw:array [0..4] of WideChar absolute buf;
 begin
@@ -434,7 +434,7 @@ begin
           end
           else
           begin
-            pWideChar(dst)^:=CharUTF8ToWide(src,@clen);
+            PWideChar(dst)^:=CharUTF8ToWide(src,@clen);
             inc(src,clen{CharUTF8Len(src)});
             inc(dst,2);
             dec(len);
@@ -479,7 +479,7 @@ begin
             end;
           end
           else
-            pWideChar(dst)^:=srcw^;
+            PWideChar(dst)^:=srcw^;
           inc(srcw);
           inc(dst,2);
           dec(len);
@@ -507,17 +507,17 @@ begin
   end;
 end;
 
-function MakeStructure(txt:pAnsiChar;aparam,alast:LPARAM
+function MakeStructure(txt:PAnsiChar;aparam,alast:LPARAM
          {$IFDEF Miranda}; restype:integer=rtInt{$ENDIF}):pointer;
 var
   summ:int_ptr;
-  lsrc:pAnsiChar;
-  res:pByte;
-  ppc,p,pc:pAnsiChar;
+  lsrc:PAnsiChar;
+  res:PByte;
+  ppc,p,pc:PAnsiChar;
 {$IFDEF Miranda}
   buf:array [0..31] of WideChar;
-  pLast: pWideChar;
-  valuein,value:pWideChar;
+  pLast: PWideChar;
+  valuein,value:PWideChar;
 {$ENDIF}
   amount,align:integer;
   lmod,code,alen,ofs:integer;
@@ -588,7 +588,7 @@ begin
   mGetMem (tmpl,summ);
   FillChar(tmpl^,summ,0);
 
-  res:=pByte(pAnsiChar(tmpl)+addsize-SizeOf(TStructResult)-SizeOf(dword));
+  res:=PByte(PAnsiChar(tmpl)+addsize-SizeOf(TStructResult)-SizeOf(dword));
   pdword(res)^:=amount; inc(res,SizeOf(dword));
   with PStructResult(res)^ do
   begin
@@ -623,7 +623,7 @@ begin
       if restype=rtInt then
         pLast:=IntToStr(buf,alast)
       else
-        pLast:=pWideChar(alast);
+        pLast:=PWideChar(alast);
       // BPTR,BARR - Ansi
       // WPTR,WARR - Unicode
       // BYTE,WORD,DWORD,QWORD,NATIVE - ???
@@ -649,7 +649,7 @@ begin
         SST_BARR,
         SST_BPTR: begin
           mFreeMem(element.text);
-          WideToAnsi(value,pAnsiChar(element.text),MirandaCP);
+          WideToAnsi(value,PAnsiChar(element.text),MirandaCP);
           mFreeMem(value);
         end;
         // Wide strings - replace UTF8 by Wide
@@ -677,7 +677,7 @@ begin
         pint_ptr(res)^:=aparam;
       end;
       SST_BYTE: begin
-        pByte(res)^:=element.value;
+        PByte(res)^:=element.value;
       end;
       SST_WORD: begin
         pWord(res)^:=element.value;
@@ -692,10 +692,10 @@ begin
         pint_ptr(res)^:=element.value;
       end;
       SST_BARR: begin
-        TranslateBlob(pByte(res),element);
+        TranslateBlob(PByte(res),element);
       end;
       SST_WARR: begin
-        TranslateBlob(pByte(res),element);
+        TranslateBlob(PByte(res),element);
       end;
       SST_BPTR: begin
         if element.len=0 then
@@ -713,7 +713,7 @@ begin
 {$ENDIF}
           mGetMem (lsrc ,element.len*SizeOf(AnsiChar));
           FillChar(lsrc^,element.len*SizeOf(AnsiChar),0);
-          TranslateBlob(pByte(lsrc),element);
+          TranslateBlob(PByte(lsrc),element);
           pint_ptr(res)^:=uint_ptr(lsrc);
         end;
       end;
@@ -741,7 +741,7 @@ begin
           mGetMem (lsrc ,element.len*SizeOf(WideChar));
           FillChar(lsrc^,element.len*SizeOf(WideChar),0);
 //!!!!! variables script gives unicode, need to recognize it
-          TranslateBlob(pByte(lsrc),element);
+          TranslateBlob(PByte(lsrc),element);
           pint_ptr(res)^:=uint_ptr(lsrc);
         end;
       end;
@@ -763,7 +763,7 @@ function GetStructureResult(var struct;atype:pinteger=nil;alen:pinteger=nil):int
 var
   loffset,ltype:integer;
 begin
-  with PStructResult(pAnsiChar(struct)-SizeOF(TStructResult))^ do
+  with PStructResult(PAnsiChar(struct)-SizeOF(TStructResult))^ do
   begin
     ltype  :=typ   ;
     loffset:=offset;
@@ -775,17 +775,17 @@ begin
     SST_LAST : result:=0;
     SST_PARAM: result:=0;
 
-    SST_BYTE  : result:=pByte   (pAnsiChar(struct)+loffset)^;
-    SST_WORD  : result:=pWord   (pAnsiChar(struct)+loffset)^;
-    SST_DWORD : result:=pDword  (pAnsiChar(struct)+loffset)^;
-    SST_QWORD : result:=pint64  (pAnsiChar(struct)+loffset)^;
-    SST_NATIVE: result:=pint_ptr(pAnsiChar(struct)+loffset)^;
+    SST_BYTE  : result:=PByte   (PAnsiChar(struct)+loffset)^;
+    SST_WORD  : result:=pWord   (PAnsiChar(struct)+loffset)^;
+    SST_DWORD : result:=pDword  (PAnsiChar(struct)+loffset)^;
+    SST_QWORD : result:=pint64  (PAnsiChar(struct)+loffset)^;
+    SST_NATIVE: result:=pint_ptr(PAnsiChar(struct)+loffset)^;
 
-    SST_BARR: result:=int_ptr(pAnsiChar(struct)+loffset); //??
-    SST_WARR: result:=int_ptr(pAnsiChar(struct)+loffset); //??
+    SST_BARR: result:=int_ptr(PAnsiChar(struct)+loffset); //??
+    SST_WARR: result:=int_ptr(PAnsiChar(struct)+loffset); //??
 
-    SST_BPTR: result:=pint_ptr(pAnsiChar(struct)+loffset)^; //??
-    SST_WPTR: result:=pint_ptr(pAnsiChar(struct)+loffset)^; //??
+    SST_BPTR: result:=pint_ptr(PAnsiChar(struct)+loffset)^; //??
+    SST_WPTR: result:=pint_ptr(PAnsiChar(struct)+loffset)^; //??
   else
     result:=0;
   end;
@@ -793,18 +793,18 @@ end;
 
 procedure FreeStructure(var struct);
 var
-  value:pAnsiChar;
+  value:PAnsiChar;
   tmpl:pShortTemplate;
   num,lmod:integer;
   tmp:pointer;
 begin
-  tmp:=pointer(pAnsiChar(struct)-SizeOF(TStructResult)-SizeOf(dword));
+  tmp:=pointer(PAnsiChar(struct)-SizeOF(TStructResult)-SizeOf(dword));
   num:=pdword(tmp)^;
-  tmpl:=pointer(pAnsiChar(tmp)-num*SizeOf(tShortTemplate));
+  tmpl:=pointer(PAnsiChar(tmp)-num*SizeOf(tShortTemplate));
   lmod:=uint_ptr(tmpl) mod SizeOf(pointer);
   // align to pointer size border
   if lmod<>0 then
-    tmpl:=pointer(pAnsiChar(tmpl)-(SizeOf(pointer)-lmod));
+    tmpl:=pointer(PAnsiChar(tmpl)-(SizeOf(pointer)-lmod));
 
   tmp:=tmpl;
 
@@ -812,7 +812,7 @@ begin
     case tmpl^.etype of
       SST_BPTR,SST_WPTR: begin
         //??
-        value:=pAnsiChar(pint_ptr(pAnsiChar(struct)+tmpl^.offset)^);
+        value:=PAnsiChar(pint_ptr(PAnsiChar(struct)+tmpl^.offset)^);
 {$IFDEF Miranda}
         if (tmpl^.flags and SF_MMI)<>0 then
           mir_free(value)

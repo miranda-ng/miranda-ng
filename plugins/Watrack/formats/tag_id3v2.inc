@@ -307,17 +307,17 @@ begin
   end;
 end;
 
-function ID3v2_PreReadTag(var frm:tID3v2FrameHdr;var src:PAnsiChar;ver:integer):PAnsiChar;
+function ID3v2_PreReadTag(var Frm:tID3v2FrameHdr;var src:PAnsiChar;ver:integer):PAnsiChar;
 var
   i:cardinal;
   dst:PAnsiChar;
 begin
-  mGetMem(result,frm.Size);
-  if Unsync or ((frm.Flags and $0200)<>0) then
+  mGetMem(result,Frm.Size);
+  if Unsync or ((Frm.Flags and $0200)<>0) then
   begin
     dst:=result;
     i:=0;
-    while i<frm.Size do
+    while i<Frm.Size do
     begin
       dst^:=src^;
       inc(src);
@@ -332,8 +332,8 @@ begin
   end
   else
   begin
-    move(src^,result^,frm.Size);
-    inc(src,frm.Size);
+    move(src^,result^,Frm.Size);
+    inc(src,Frm.Size);
   end;
 end;
 

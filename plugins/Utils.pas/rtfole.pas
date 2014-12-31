@@ -164,7 +164,7 @@ procedure ReleaseObject(var Obj);
 procedure InitRichEditLibrary;
 
 const
-  RichEditClass:pAnsiChar = nil;
+  RichEditClass:PAnsiChar = nil;
 
 implementation
 

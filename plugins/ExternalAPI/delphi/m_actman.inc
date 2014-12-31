@@ -148,7 +148,7 @@ const
     wParam - repeat count
     lParam - unicode task name
     Return - old repeat count value
-    Note - works for all tasks with same started name
+    Note - works for all tasks with same started name. Returns old counter of last found task
   }
   MS_ACT_TASKCOUNT:PAnsiChar = 'Actions/TaskCount';
 

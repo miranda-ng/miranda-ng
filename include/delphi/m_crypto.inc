@@ -33,8 +33,8 @@ type
 
     // get/set the instance key
     getKeyLength:function():size_t; stdcall;
-    getKey      :function(pKey:pByte; cbKeyLen:size_t):ByteBool; stdcall;
-    setKey      :function(const pKey:pByte; cbKeyLen:size_t):ByteBool; stdcall;
+    getKey      :function(pKey:PByte; cbKeyLen:size_t):ByteBool; stdcall;
+    setKey      :function(const pKey:PByte; cbKeyLen:size_t):ByteBool; stdcall;
 
     generateKey:function():ByteBool; stdcall; // creates a new key inside
     purgeKey   :procedure(); stdcall;     // purges a key from memory
@@ -44,12 +44,12 @@ type
     setPassword  :procedure(const pszPassword:PAnsiChar); stdcall;
 
     // result must be freed using mir_free or assigned to mir_ptr<BYTE>
-    encodeString:function(const src:PAnsiChar; var cbResultLen:size_t):pByte; stdcall;
-    encodeBuffer:function(const src:pointer; cbLen:size_t; var cbResultLen:size_t):pByte; stdcall;
+    encodeString:function(const src:PAnsiChar; var cbResultLen:size_t):PByte; stdcall;
+    encodeBuffer:function(const src:pointer; cbLen:size_t; var cbResultLen:size_t):PByte; stdcall;
 
     // result must be freed using mir_free or assigned to ptrA/ptrT
-    decodeString:function(const pBuf:pByte; bufLen:size_t; var cbResultLen:size_t):PAnsiChar; stdcall;
-    decodeBuffer:function(const pBuf:pByte; bufLen:size_t; var cbResultLen:size_t):pointer; stdcall;
+    decodeString:function(const pBuf:PByte; bufLen:size_t; var cbResultLen:size_t):PAnsiChar; stdcall;
+    decodeBuffer:function(const pBuf:PByte; bufLen:size_t; var cbResultLen:size_t):pointer; stdcall;
   end;
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -50,7 +50,7 @@ function GetEventBaseType(hDBEvent : THANDLE     ): TBaseEventType; overload;
 //----- Custom events processing -----
 
 //procedure ReadEvent          (hDBEvent: THANDLE; var EventInfo: TDBEventInfo; UseCP: Cardinal = CP_ACP);
-//function  GetEventName(const Hi: THistoryItem):pAnsiChar;
+//function  GetEventName(const Hi: THistoryItem):PAnsiChar;
 
 function GetEventText(hDBEvent: THANDLE            ; custom:boolean; cp:integer=CP_ACP):PWideChar; overload;
 function GetEventText(const EventInfo: TDBEventInfo; custom:boolean; cp:integer=CP_ACP):PWideChar; overload;
@@ -83,8 +83,8 @@ begin
     EventInfo.cbBlob := BlobSize;
     if BlobSize > 0 then
     begin
-      pAnsiChar(EventInfo.pBlob)[BlobSize  ]:=#0;
-      pAnsiChar(EventInfo.pBlob)[BlobSize+1]:=#0;
+      PAnsiChar(EventInfo.pBlob)[BlobSize  ]:=#0;
+      PAnsiChar(EventInfo.pBlob)[BlobSize+1]:=#0;
     end;
   end
   else
@@ -94,13 +94,13 @@ end;
 function GetEventCoreText(const EventInfo: TDBEventInfo; cp: integer = CP_ACP): PWideChar;
 var
   dbegt: TDBEVENTGETTEXT;
-  msg: pWideChar;
+  msg: PWideChar;
 begin
   dbegt.dbei     := @EventInfo;
   dbegt.datatype := DBVT_WCHAR;
   dbegt.codepage := cp;
 
-  msg := pWideChar(CallService(MS_DB_EVENT_GETTEXT,0,LPARAM(@dbegt)));
+  msg := PWideChar(CallService(MS_DB_EVENT_GETTEXT,0,LPARAM(@dbegt)));
 
   result := AdjustLineBreaks(msg);
   result := rtrimw(result);
@@ -235,7 +235,7 @@ begin
 end;
 
 const
-  UrlPrefix: array[0..1] of pWideChar = (
+  UrlPrefix: array[0..1] of PWideChar = (
     'www.',
     'ftp.');
 
@@ -258,7 +258,7 @@ const
     (Proto: 'outlook:/';  Idn: False;),
     (Proto: 'callto:/';   Idn: False;));
 
-function TextHasUrls(text: pWideChar): Boolean;
+function TextHasUrls(text: PWideChar): Boolean;
 var
   i,len: Integer;
   buf,pPos: PWideChar;
@@ -344,7 +344,7 @@ begin
 end;
 *)
 (*
-function GetEventName(const Hi: THistoryItem):pAnsiChar;
+function GetEventName(const Hi: THistoryItem):PAnsiChar;
 var
   MesType: THppMessageType;
   mt: TBuiltinMessageType;

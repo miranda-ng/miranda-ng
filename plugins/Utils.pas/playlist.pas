@@ -9,9 +9,9 @@ type
     fShuffle  :boolean;
     plSize    :cardinal;  // playlist entries
     plCapacity:cardinal;
-    base      :pWideChar;
-    name      :pWideChar;
-    descr     :pWideChar;
+    base      :PWideChar;
+    name      :PWideChar;
+    descr     :PWideChar;
     plStrings :array of PWideChar;
     CurElement:cardinal;
     PlOrder   :array of cardinal;
@@ -24,27 +24,27 @@ type
     function GetTrackNumber:integer;
     procedure SetTrackNumber(value:integer);
 
-    procedure AddLine(name,descr:pWideChar;new:boolean=true);
+    procedure AddLine(name,descr:PWideChar;new:boolean=true);
     function ProcessElement(num:integer=-1):PWideChar; //virtual;
 
   public
-    constructor Create(fname:pWideChar);
+    constructor Create(fname:PWideChar);
     destructor Free;
 
-    procedure SetBasePath(path:pWideChar);
+    procedure SetBasePath(path:PWideChar);
 
-    function GetSong(number:integer=-1):pWideChar;
+    function GetSong(number:integer=-1):PWideChar;
     function GetCount:integer;
 
-    function Next    :pWideChar;
-    function Previous:pWideChar;
+    function Next    :PWideChar;
+    function Previous:PWideChar;
 
     property Track  :integer read GetTrackNumber write SetTrackNumber;
     property Shuffle:boolean read GetShuffle     write SetShuffle;
   end;
 
-function isPlaylist(fname:pWideChar):integer;
-function CreatePlaylist(fname:pWideChar):tPlaylist;
+function isPlaylist(fname:PWideChar):integer;
+function CreatePlaylist(fname:PWideChar):tPlaylist;
 function CreatePlaylistBuf(buf:pointer;format:integer):tPlaylist;
 
 implementation
@@ -62,18 +62,18 @@ type
   tM3UPlaylist = class(tPlaylist)
   private
   public
-    constructor Create(fname:pWideChar);
+    constructor Create(fname:PWideChar);
     constructor CreateBuf(buf:pointer);
   end;
 
   tPLSPlaylist = class(tPlaylist)
   private
   public
-    constructor Create(fname:pWideChar);
+    constructor Create(fname:PWideChar);
     constructor CreateBuf(buf:pointer);
   end;
 
-function isPlaylist(fname:pWideChar):integer;
+function isPlaylist(fname:PWideChar):integer;
 var
   ext:array [0..7] of WideChar;
 begin
@@ -83,7 +83,7 @@ begin
   else result:=0;
 end;
 
-function CreatePlaylist(fname:pWideChar):tPlaylist;
+function CreatePlaylist(fname:PWideChar):tPlaylist;
 begin
   case isPlaylist(fname) of
     1: result:=tM3UPlaylist.Create(fname);
@@ -122,9 +122,9 @@ end;
 constructor tM3UPlaylist.CreateBuf(buf:pointer);
 var
   p:PAnsiChar;
-  pp,pd:pWideChar;
-  plBufW:pWideChar;
-  lname,ldescr:pWideChar;
+  pp,pd:PWideChar;
+  plBufW:PWideChar;
+  lname,ldescr:PWideChar;
   finish:boolean;
   pltNew:boolean;
 begin
@@ -163,11 +163,11 @@ begin
   mFreeMem(plBufW);
 end;
 
-constructor tM3UPlaylist.Create(fname:pWideChar);
+constructor tM3UPlaylist.Create(fname:PWideChar);
 var
   f:THANDLE;
   i:integer;
-  plBuf:pAnsiChar;
+  plBuf:PAnsiChar;
 begin
   inherited;
 
@@ -195,10 +195,10 @@ end;
 
 constructor tPLSPlaylist.CreateBuf(buf:pointer);
 var
-  lname,ldescr:pWideChar;
+  lname,ldescr:PWideChar;
   section,storage,sectionlist:pointer;
   ffile,ftitle:array [0..31] of AnsiChar;
-  f,t:pAnsiChar;
+  f,t:PAnsiChar;
   i,size:integer;
 begin
   inherited;
@@ -227,9 +227,9 @@ begin
   CloseStorage(storage);
 end;
 
-constructor tPLSPlaylist.Create(fname:pWideChar);
+constructor tPLSPlaylist.Create(fname:PWideChar);
 var
-  buf:pAnsiChar;
+  buf:PAnsiChar;
   h:THANDLE;
   size:integer;
 begin
@@ -254,7 +254,7 @@ end;
 
 //-----  -----
 
-constructor tPlaylist.Create(fName:pWideChar);
+constructor tPlaylist.Create(fName:PWideChar);
 begin
 //  inherited;
 
@@ -288,19 +288,19 @@ begin
   inherited Free;
 end;
 
-procedure tPlaylist.AddLine(name,descr:pWideChar;new:boolean=true);
+procedure tPlaylist.AddLine(name,descr:PWideChar;new:boolean=true);
 begin
   if plCapacity=0 then
   begin
     plCapacity:=plSizeStart;
     SetLength(plStrings,plSizeStart*2);
-    fillChar(plStrings[0],plSizeStart*2*SizeOf(pWideChar),0);
+    fillChar(plStrings[0],plSizeStart*2*SizeOf(PWideChar),0);
   end
   else if plSize=plCapacity then
   begin
     inc(plCapacity,plSizeStep);
     SetLength(plStrings,plCapacity*2);
-    fillChar(plStrings[plSize],plSizeStep*2*SizeOf(pWideChar),0);
+    fillChar(plStrings[plSize],plSizeStep*2*SizeOf(PWideChar),0);
   end;
   if new then
   begin
@@ -315,10 +315,10 @@ begin
   inc(plSize);
 end;
 
-procedure tPlaylist.SetBasePath(path:pWideChar);
+procedure tPlaylist.SetBasePath(path:PWideChar);
 var
   buf:array [0..MAX_PATH-1] of WideChar;
-  p,pp:pWideChar;
+  p,pp:PWideChar;
 begin
   mFreeMem(base);
 
@@ -364,7 +364,7 @@ begin
     CurElement:=value;
 end;
 
-function tPlaylist.ProcessElement(num:integer=-1):pWideChar;
+function tPlaylist.ProcessElement(num:integer=-1):PWideChar;
 begin
   if num<0 then
     num:=Track

@@ -1,5 +1,5 @@
 {any utils}
-function GetCover(var dst:pWideChar;mfile:pWideChar):boolean;
+function GetCover(var dst:pWideChar;MFile:pWideChar):boolean;
 var
   line,line1:array [0..511] of WideChar;
   p,p1:PWideChar;
@@ -31,7 +31,7 @@ begin
       end
       else
       begin
-        wr1:=ExtractW(mfile,false);
+        wr1:=ExtractW(MFile,false);
         StrCopyW(line,wr1);
         mFreeMem(wr1);
         StrCatW(line,wr);
@@ -60,14 +60,14 @@ begin
   until p^=#0;
 end;
 
-function GetLyric(var dst:pWideChar;mfile:pWideChar):boolean;
+function GetLyric(var dst:pWideChar;MFile:pWideChar):boolean;
 var
   buf:array [0..511] of WideChar;
   f:THANDLE;
   size:integer;
   tmp:PAnsiChar;
 begin
-  StrCopyW(buf,mfile);
+  StrCopyW(buf,MFile);
   ChangeExtW(buf,'txt');
   f:=Reset(buf);
   if f=THANDLE(INVALID_HANDLE_VALUE) then

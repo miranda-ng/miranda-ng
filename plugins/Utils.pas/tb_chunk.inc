@@ -99,10 +99,10 @@ begin
   end;
 end;
 
-function Macro(var src:pWideChar;var Chunk:pChunk;TextColor,BkColor:TCOLORREF):boolean;
+function Macro(var src:PWideChar;var Chunk:pChunk;TextColor,BkColor:TCOLORREF):boolean;
 const
   NumMacro = 10;
-  macros:array [0..NumMacro-1] of record txt:pWideChar; len:integer; code:integer; end = (
+  macros:array [0..NumMacro-1] of record txt:PWideChar; len:integer; code:integer; end = (
   (txt:'{b}'  ; len:3; code:ctOpenBold      ),
   (txt:'{/b}' ; len:4; code:ctCloseBold     ),
   (txt:'{i}'  ; len:3; code:ctOpenItalic    ),
@@ -114,7 +114,7 @@ const
   (txt:'{cf'  ; len:3; code:ctOpenTextColor ),
   (txt:'{bg'  ; len:3; code:ctOpenBkColor   ));
 var
-  pc,pc1:pWideChar;
+  pc,pc1:PWideChar;
   typ,i,lval,ldir,ladd:integer;
   c:WideChar;
 begin
@@ -238,7 +238,7 @@ begin
   end;
 end;
 
-function CreateTextChunk(var Chunk:pChunk;src:pWideChar):pWideChar;
+function CreateTextChunk(var Chunk:pChunk;src:PWideChar):PWideChar;
 var
   i:integer;
 begin
@@ -278,7 +278,7 @@ end;
 
 procedure MeasureChunk(dc:HDC;Chunk:pChunk;var sz:TSIZE;block:Boolean);
 var
-  p:pWideChar;
+  p:PWideChar;
 begin
   if ((Chunk^._type shr 16)=0) and (Chunk^._type<>CT_NEWLINE) then
   begin
@@ -342,7 +342,7 @@ end;
 
 procedure DrawChunk(dc:HDC;Chunk:pChunk;rc:TRECT);
 var
-  p:pWideChar;
+  p:PWideChar;
 begin
   if (Chunk^._type shr 16)=0 then
   begin
@@ -587,7 +587,7 @@ begin
   end;
 end;
 
-function tTextBlock.Split(src:pWideChar):pChunkArray;
+function tTextBlock.Split(src:PWideChar):pChunkArray;
 var
   Chunk:pChunk;
   i:integer;

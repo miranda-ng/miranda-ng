@@ -138,16 +138,16 @@ end;
 
 function BuildLastSeenTimeInt(cont:THANDLE;modulename:PAnsiChar):cardinal;
 var
-  Day,Month,Year,Hours,Minutes:word;
+  day,month,year,hours,minutes:word;
 begin
-  Year:=DBReadWord(cont,modulename,'Year',0);
-  if Year<>0 then
+  year:=DBReadWord(cont,modulename,'Year',0);
+  if year<>0 then
   begin
-    Month  :=DBReadWord(cont,modulename,'Month'  ,0);
-    Day    :=DBReadWord(cont,modulename,'Day'    ,0);
-    Hours  :=DBReadWord(cont,modulename,'Hours'  ,0);
-    Minutes:=DBReadWord(cont,modulename,'Minutes',0);
-    result:=Minutes+Hours*60+Day*60*24+Month*60*24*31+(Year-1980)*60*24*31*356; // was 366
+    month  :=DBReadWord(cont,modulename,'Month'  ,0);
+    day    :=DBReadWord(cont,modulename,'Day'    ,0);
+    hours  :=DBReadWord(cont,modulename,'Hours'  ,0);
+    minutes:=DBReadWord(cont,modulename,'Minutes',0);
+    result:=minutes+hours*60+day*60*24+month*60*24*31+(year-1980)*60*24*31*356; // was 366
   end
   else
     result:=0;

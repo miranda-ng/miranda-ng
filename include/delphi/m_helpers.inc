@@ -346,12 +346,12 @@ end;
 
 function mir_utf8decodeA(const src:PAnsiChar):PAnsiChar;
 type
-  ppWideChar = ^pWidechar;
+  pPWideChar = ^PWidechar;
 var
   tmp:PAnsiChar;
 begin
   tmp:=mir_strdup(src);
-  mir_utf8decode(tmp,ppWideChar(nil)^);
+  mir_utf8decode(tmp,pPWideChar(nil)^);
   result:=tmp;
 end;
 
