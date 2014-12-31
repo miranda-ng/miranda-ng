@@ -2,7 +2,7 @@
 
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright 2012-14 Miranda NG project,
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -160,7 +160,7 @@ interface MIDatabaseChecker
 #define EGROKPRF_UNKHEADER 2  // header not supported, not a supported profile
 #define EGROKPRF_VERNEWER  3  // header correct, version in profile newer than reader/writer
 #define EGROKPRF_DAMAGED   4  // header/version fine, other internal data missing, damaged.
-#define EGROKPRF_OBSOLETE  5  // obsolete database version detected, requiring conversion 
+#define EGROKPRF_OBSOLETE  5  // obsolete database version detected, requiring conversion
 
 // makeDatabase() error codes
 #define EMKPRF_CREATEFAILED 1   // for some reason CreateFile() didnt like something

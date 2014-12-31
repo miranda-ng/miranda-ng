@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2012-14 Miranda NG project (http://miranda-ng.org)
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

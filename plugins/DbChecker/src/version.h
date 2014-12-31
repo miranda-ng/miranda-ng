@@ -11,4 +11,4 @@
 #define __AUTHOR                 "George Hazan"
 #define __AUTHOREMAIL            "ghazan@miranda-ng.org"
 #define __AUTHORWEB              "http://miranda-ng.org/p/DbChecker/"
-#define __COPYRIGHT              "© 2012-14 George Hazan"
+#define __COPYRIGHT              "© 2012-15 George Hazan"

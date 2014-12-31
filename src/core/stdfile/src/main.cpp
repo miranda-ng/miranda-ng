@@ -2,7 +2,7 @@
 
 Standard file transfers' plugin for Miranda NG
 
-Copyright (C) 2012-14 George Hazan
+Copyright (ñ) 2012-15 Miranda NG project (http://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

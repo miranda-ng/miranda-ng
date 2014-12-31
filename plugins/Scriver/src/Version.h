@@ -11,4 +11,4 @@
 #define __AUTHOR                 "Miranda NG Development Team"
 #define __AUTHOREMAIL            "the_leech@users.berlios.de"
 #define __AUTHORWEB              "http://miranda-ng.org/p/Scriver/"
-#define __COPYRIGHT              "© 2000-2012 Miranda IM Project, 2012-14 Miranda NG project"
+#define __COPYRIGHT              "© 2000-2012 Miranda IM Project, 2012-15 Miranda NG project"
