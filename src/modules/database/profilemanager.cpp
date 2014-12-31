@@ -293,14 +293,12 @@ BOOL EnumProfilesForList(TCHAR *tszFullPath, TCHAR *profile, LPARAM lParam)
 	}
 
 	DATABASELINK *dblink;
-	bool bNeedConversion = false;
 	switch (touchDatabase(tszFullPath, &dblink)) {
 	case ERROR_SUCCESS:
 		item.iImage = bFileLocked;
 		break;
 
 	case EGROKPRF_OBSOLETE:
-		bNeedConversion = true;
 		item.iImage = 2;
 		break;
 
