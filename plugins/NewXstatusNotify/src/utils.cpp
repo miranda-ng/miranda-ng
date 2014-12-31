@@ -117,7 +117,7 @@ TCHAR *AddCR(const TCHAR *stzText)
 	while ((found = _tcsstr((stzText + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024) {
 		j = (int)(found - stzText);
 		if (mir_tstrlen(tmp) + j - i + 2 < 1024)
-			tmp = _tcsncat(tmp, stzText + i, j - i);
+			tmp = mir_tstrcat(tmp, stzText + i);
 		else
 			break;
 
