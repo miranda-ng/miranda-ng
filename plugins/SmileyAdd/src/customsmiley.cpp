@@ -88,6 +88,7 @@ bool SmileyCType::CreateTriggerText(char* text)
 
 	m_TriggerText = txt;
 	mir_free(txt);
+	mir_free(res);
 	return true;
 }
 
