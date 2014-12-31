@@ -515,6 +515,7 @@ TextToken* TextToken::tokenizeChatFormatting(const wchar_t *text)
 		}
 		i += newTokenSize;
 	}
+	delete[] tokenBuffer;
 	return firstToken;
 }
 
