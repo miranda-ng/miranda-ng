@@ -321,22 +321,26 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Выключить мигание
 [ms, delay between icon blinking]
 мс, между миганиями значка
-[Show]
-Показать
-[Cycle icons every]
-Менять каждые
-[seconds, when statuses differ]
-секунд, при разных статусах
-[Show multiple icons]
-Несколько значков
-[only when statuses differ]
-при разных статусах
 [System tray icon]
 Значок в трее
-[System tray icon mode]
-Поведение значка в системном трее
 [Use xStatus icon]
 Значок xСтатуса
+[Icon mode]
+Поведение значка
+[For similar statuses]
+При одинаковых статусах
+[Global status]
+Глобальный статус
+[Single account]
+Уч. запись
+[Cycle icons]
+Менять значки
+[All accounts]
+Все учётные записи
+[For different statuses]
+При разных статусах
+[Cycle period, seconds]
+период смены значков
 [Additional stuff]
 Дополнительно
 [Ignore empty extra icons places (arrange to right).]
@@ -757,8 +761,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Рейтинг
 [-Nothing-]
 -Ничего-
-[Global]
-Глобальные
 [Hide to tray]
 В трей
 [Behind left edge]

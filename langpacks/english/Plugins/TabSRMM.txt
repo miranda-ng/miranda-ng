@@ -283,7 +283,7 @@
 [NOTE: some settings will not affect open containers.]
 [Tab layout tweaks]
 [About TabSRMM]
-[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Support and latest version information]
 [Selected skin]
 [Rescan]
