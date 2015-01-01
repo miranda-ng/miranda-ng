@@ -446,14 +446,14 @@ BEGIN
 
 	GROUPBOX        "Icon mode", IDC_STATIC, 2, 80, 292, 110
 
-	GROUPBOX        "Statuses the same", IDC_STATIC, 8, 90, 138, 74
+	GROUPBOX        "For similar statuses", IDC_STATIC, 8, 90, 138, 74
 	CONTROL         "Global status", IDC_ICON_GLOBAL_S, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 14, 100, 97, 10
 	CONTROL         "Single account", IDC_ICON_ACC_S, "Button", BS_AUTORADIOBUTTON, 14, 116, 60, 10
 	CONTROL         "Cycle icons", IDC_ICON_CYCLE_S, "Button", BS_AUTORADIOBUTTON, 14, 132, 97, 10
 	CONTROL         "All accounts", IDC_ICON_ALL_S, "Button", BS_AUTORADIOBUTTON, 14, 148, 97, 10
 	COMBOBOX        IDC_PRIMARYSTATUS_S, 80, 114, 60, 101, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP | WS_DISABLED
 
-	GROUPBOX        "Statuses various", IDC_STATIC, 150, 90, 138, 74
+	GROUPBOX        "For different statuses", IDC_STATIC, 150, 90, 138, 74
 	CONTROL         "Global status", IDC_ICON_GLOBAL_V, "Button", BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP, 156, 100, 97, 10
 	CONTROL         "Single account", IDC_ICON_ACC_V, "Button", BS_AUTORADIOBUTTON, 156, 116, 60, 10
 	CONTROL         "Cycle icons", IDC_ICON_CYCLE_V, "Button", BS_AUTORADIOBUTTON, 156, 132, 97, 10
