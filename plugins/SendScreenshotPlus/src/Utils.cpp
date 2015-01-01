@@ -145,8 +145,8 @@ FIBITMAP* CaptureMonitor(const TCHAR* szDevice,const RECT* cropRect/*=NULL*/){
 		hScrDC = CreateDC(_T("DISPLAY"),NULL,NULL,NULL);
 		rect.left=GetSystemMetrics(SM_XVIRTUALSCREEN);
 		rect.top=GetSystemMetrics(SM_YVIRTUALSCREEN);
-		rect.right=GetSystemMetrics(SM_CXVIRTUALSCREEN);
-		rect.bottom=GetSystemMetrics(SM_CYVIRTUALSCREEN);
+		rect.right=GetSystemMetrics(SM_XVIRTUALSCREEN)+GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		rect.bottom=GetSystemMetrics(SM_YVIRTUALSCREEN)+GetSystemMetrics(SM_CYVIRTUALSCREEN);
 	}else{
 		hScrDC = CreateDC(szDevice,NULL,NULL,NULL);
 		rect.left=rect.top=0;
