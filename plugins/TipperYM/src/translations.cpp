@@ -265,7 +265,7 @@ TCHAR *DayMonthYearToDate(MCONTACT hContact, const char *szModuleName, const cha
 					int year = 0;
 					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 					{
-						if (GetInt(dbv, &year))
+						if (GetInt(dbv, &year) && year != 0)
 						{
 							db_free(&dbv);
 
@@ -313,7 +313,7 @@ TCHAR *DayMonthYearToAge(MCONTACT hContact, const char *szModuleName, const char
 					int year = 0;
 					if (!db_get(hContact, szModuleName, szSettingName, &dbv)) 
 					{
-						if (GetInt(dbv, &year)) 
+						if (GetInt(dbv, &year) && year != 0)
 						{
 							db_free(&dbv);
 
