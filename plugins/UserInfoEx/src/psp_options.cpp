@@ -609,8 +609,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		HWND hCtrl;
 		if (hCtrl = GetDlgItem(hDlg, EDIT_REMIND_ENABLED)) {
 			ComboBox_AddString(hCtrl, TranslateT("Reminder disabled"));
-			ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));
 			ComboBox_AddString(hCtrl, TranslateT("Birthdays only"));
+			ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));			
 			ComboBox_AddString(hCtrl, TranslateT("Everything"));
 		}
 		if (hCtrl = GetDlgItem(hDlg, EDIT_BIRTHMODULE)) {
