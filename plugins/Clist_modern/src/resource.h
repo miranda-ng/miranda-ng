@@ -186,19 +186,19 @@
 #define IDC_GAMMACORRECT                1302
 #define IDC_TILEVROWH                   1302
 #define IDC_HIDEOFFLINEOPTS             1308
-#define IDC_DONTCYCLE                   1315
-#define IDC_PRIMARYSTATUS               1316
-#define IDC_CYCLE                       1317
+//#define IDC_DONTCYCLE                   1315
+//#define IDC_PRIMARYSTATUS               1316
+//#define IDC_CYCLE                       1317
 #define IDC_CYCLETIME                   1318
 #define IDC_CYCLETIMESPIN               1319
 #define IDC_HIDETIMESPIN                1320
-#define IDC_MULTITRAY                   1321
+//#define IDC_MULTITRAY                   1321
 #define IDC_FRAMESSPIN                  1321
-#define IDC_ALWAYSMULTI                 1322
+//#define IDC_ALWAYSMULTI                 1322
 #define IDC_CAPTIONSSPIN                1322
 #define IDC_SHOWICON                    1323
 #define IDC_HIDETIMESPIN2               1323
-#define IDC_ALWAYSPRIMARY               1323
+//#define IDC_ALWAYSPRIMARY               1323
 #define IDC_SHOWPROTO                   1324
 #define IDC_HIDETIMESPIN3               1324
 #define IDC_SHOWSTATUS                  1325
@@ -512,6 +512,18 @@
 #define POPUP_DELETEGROUP               40053
 #define IDC_FRAME_META                  40054
 #define IDC_FRAME_META2                 40055
+
+#define IDC_ICON_GLOBAL_S				40056
+#define IDC_ICON_ACC_S					40057
+#define IDC_ICON_CYCLE_S				40058
+#define IDC_ICON_ALL_S					40059
+#define IDC_PRIMARYSTATUS_S				40060
+
+#define IDC_ICON_GLOBAL_V				40061
+#define IDC_ICON_ACC_V					40062
+#define IDC_ICON_CYCLE_V				40063
+#define IDC_ICON_ALL_V					40064
+#define IDC_PRIMARYSTATUS_V				40065
 
 // Next default values for new objects
 // 
