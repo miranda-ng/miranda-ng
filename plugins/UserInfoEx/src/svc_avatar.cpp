@@ -25,38 +25,28 @@ namespace NServices
 {
 	namespace NAvatar
 	{
-
 		static HANDLE ghChangedHook = NULL;
 
 		static int GetContactAvatarFileName(LPCTSTR zodiac, LPSTR szFileName, int cchFileName)
 		{
-			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName))
-			{
+			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName)) {
 				size_t len = mir_strlen(szFileName);
 
 				CHAR tmp[64];
-
-				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, SIZEOF(tmp),0,0) > 0)
-				{
+				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, SIZEOF(tmp), 0, 0) > 0)
 					mir_snprintf(szFileName + len, cchFileName - len, "\\avatars\\%s.png", tmp);
-				}
 
 				return !PathFileExistsA(szFileName);
 			}
 			return 1;
 		}
 
-		/**
-		 *
-		 *
-		 **/
 		static void SetZodiacAvatar(MCONTACT hContact)
 		{
 			MAnnivDate mtb;
 
 			// try to load birthday for contact
-			if (!mtb.DBGetBirthDate(hContact))
-			{
+			if (!mtb.DBGetBirthDate(hContact)) {
 				MZodiac zodiac;
 				//ICONINFO iinfo;
 				CHAR szFileName[MAX_PATH];
@@ -64,8 +54,7 @@ namespace NServices
 				// get zodiac for birthday
 				zodiac = mtb.Zodiac();
 
-				if (!GetContactAvatarFileName(zodiac.pszName, szFileName, SIZEOF(szFileName)))
-				{
+				if (!GetContactAvatarFileName(zodiac.pszName, szFileName, SIZEOF(szFileName))) {
 					// extract the bitmap from the icon
 					//GetIconInfo(zodiac.hIcon, &iinfo);
 
@@ -78,8 +67,7 @@ namespace NServices
 
 		void DeleteAvatar(MCONTACT hContact)
 		{
-			if (hContact && db_get_b(hContact, "ContactPhoto", "IsZodiac", FALSE))
-			{
+			if (hContact && db_get_b(hContact, "ContactPhoto", "IsZodiac", FALSE)) {
 				db_unset(hContact, "ContactPhoto", "File");
 				db_unset(hContact, "ContactPhoto", "RFile");
 				db_unset(hContact, "ContactPhoto", "Backup");
@@ -89,23 +77,15 @@ namespace NServices
 			}
 		}
 
-
-		/**
-		 *
-		 *
-		 **/
 		static int OnAvatarChanged(MCONTACT hContact, AVATARCACHEENTRY *ace)
 		{
-			if (hContact)
-			{
+			if (hContact) {
 				// check valid parameters
-				if (ace)
-				{
+				if (ace) {
 					if (// check for correct structure
-							ace->cbSize == sizeof(AVATARCACHEENTRY) &&
-							// set zodiac as avatar either if the desired avatar is invalid or a general protocol picture
-							((ace->dwFlags & AVS_PROTOPIC) || !(ace->dwFlags & AVS_BITMAP_VALID)))
-					{
+						ace->cbSize == sizeof(AVATARCACHEENTRY) &&
+						// set zodiac as avatar either if the desired avatar is invalid or a general protocol picture
+						((ace->dwFlags & AVS_PROTOPIC) || !(ace->dwFlags & AVS_BITMAP_VALID))) {
 						if (!db_get_b(hContact, "ContactPhoto", "IsZodiac", 0))
 							SetZodiacAvatar(hContact);
 					}
@@ -113,43 +93,29 @@ namespace NServices
 				}
 
 				// avatar was deleted, so we can set up a zodiac avatar
-				else
-				{
-					SetZodiacAvatar(hContact);
-				}
+				else SetZodiacAvatar(hContact);
 			}
 			return 0;
 		}
 
-		/**
-		 *
-		 *
-		 **/
 		void Enable(BYTE bEnable)
 		{
-			MCONTACT hContact;
 			DBVARIANT dbv;
 
-			if (bEnable && !ghChangedHook)
-			{
+			if (bEnable && !ghChangedHook) {
 
-				//walk through all the contacts stored in the DB
-				for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
-				{
+				// walk through all the contacts stored in the DB
+				for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
 					// don't set if avatar is locked!
-					if (!db_get_b(hContact, "ContactPhoto", "Locked", 0))
-					{
+					if (!db_get_b(hContact, "ContactPhoto", "Locked", 0)) {
 						BYTE bInvalidAvatar = TRUE;
 
 						// the relative file is valid
-						if (!DB::Setting::GetAString(hContact, "ContactPhoto", "RFile", &dbv))
-						{
-							CHAR absolute[MAX_PATH];
-							absolute[0] = '\0';
+						if (!DB::Setting::GetAString(hContact, "ContactPhoto", "RFile", &dbv)) {
+							CHAR absolute[MAX_PATH]; absolute[0] = 0;
 
 							// check if file exists
-							if ( !PathToAbsolute(dbv.pszVal, absolute))
-							{
+							if (!PathToAbsolute(dbv.pszVal, absolute)) {
 								FILE *f = fopen(absolute, "rb");
 								if (f) {
 									bInvalidAvatar = FALSE;
@@ -160,8 +126,7 @@ namespace NServices
 						}
 
 						// the absolute file is valid
-						if (bInvalidAvatar && !db_get(hContact, "ContactPhoto", "File", &dbv))
-						{
+						if (bInvalidAvatar && !db_get(hContact, "ContactPhoto", "File", &dbv)) {
 							FILE *f = fopen(dbv.pszVal, "rb");
 							if (f) {
 								bInvalidAvatar = FALSE;
@@ -171,24 +136,21 @@ namespace NServices
 						}
 
 						// set the zodiac as avatar
-						if (bInvalidAvatar) {
+						if (bInvalidAvatar)
 							SetZodiacAvatar(hContact);
-						}
 					}
 				}
-				ghChangedHook = HookEvent(ME_AV_AVATARCHANGED, (MIRANDAHOOK) OnAvatarChanged);
+				ghChangedHook = HookEvent(ME_AV_AVATARCHANGED, (MIRANDAHOOK)OnAvatarChanged);
 			}
-			else if (!bEnable && ghChangedHook)
-			{
+			else if (!bEnable && ghChangedHook) {
 				UnhookEvent(ghChangedHook);
 				ghChangedHook = NULL;
 
-				//walk through all the contacts stored in the DB
-				for (hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+				// walk through all the contacts stored in the DB
+				for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
 					DeleteAvatar(hContact);
 			}
 		}
-
 
 		/**
 		 * name:	OnModulesLoaded
