@@ -51,7 +51,6 @@ enum {
 	AAM_RESUME,						//async		remobe previous flag. repaints if required
 	AAM_REMOVEAVATAR,				//sync		WPARAM: if y more then wParam, LPARAM: shift up to lParam( remove if values is same)
 	AAM_SETPARENT,					//async	    WPARAM: handle of new parent window
-	AAM_SELFDESTROY,				//sync
 	AAM_RENDER,						//sync
 	AAM_LAST,
 };
@@ -66,7 +65,8 @@ struct ANIAVA_OBJECT : public MZeroedObject
 
 	~ANIAVA_OBJECT()
 	{
-		SendMessage(hWindow, AAM_SELFDESTROY, 0, 0);
+		if (hWindow)
+			DestroyWindow(hWindow);
 	}
 };
 
@@ -727,9 +727,6 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		_AniAva_RenderAvatar(dat, (HDC)wParam, (RECT*)lParam);
 		return 0;
 
-	case AAM_SELFDESTROY:
-		return DestroyWindow(hwnd);
-
 	case WM_CREATE:
 		dat = (ANIAVA_WINDOWINFO *)mir_calloc(sizeof(ANIAVA_WINDOWINFO));
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
@@ -793,7 +790,7 @@ int AniAva_AddAvatar(MCONTACT hContact, TCHAR * szFilename, int width, int heigt
 		if (pavi->ObjectSize.cx == width && pavi->ObjectSize.cy == heigth)
 			hwnd = pavi->hWindow;
 		else {
-			SendMessage(pavi->hWindow, AAM_SELFDESTROY, 0, 0);
+			DestroyWindow(pavi->hWindow);
 			pavi->hWindow = NULL;
 			_AniAva_RealRemoveAvatar(pavi->dwAvatarUniqId);
 			pavi->dwAvatarUniqId = 0;
@@ -867,12 +864,9 @@ int AniAva_RemoveAvatar(MCONTACT hContact)
 	mir_cslock lck(s_CS);
 
 	ANIAVA_OBJECT *pai = FindAvatarByContact(hContact);
-	if (pai) {
-		if (pai->hWindow)
-			SendMessage(pai->hWindow, AAM_SELFDESTROY, 0, 0);
-
+	if (pai)
 		s_Objects.remove(pai);
-	}
+
 	return 1;
 }
 
@@ -889,7 +883,7 @@ int AniAva_RemoveInvalidatedAvatars()
 		if (pai.hWindow && pai.bInvalidPos) {
 			SendMessage(pai.hWindow, AAM_STOP, 0, 0);
 			pai.bInvalidPos = 0;
-			SendMessage(pai.hWindow, AAM_SELFDESTROY, 0, 0);
+			DestroyWindow(pai.hWindow);
 			pai.hWindow = NULL;
 		}
 	}
