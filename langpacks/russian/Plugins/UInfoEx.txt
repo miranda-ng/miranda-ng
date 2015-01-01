@@ -98,9 +98,9 @@
 [Show menu items]
 Показать пункты меню
 [Remind me]
-Напомнить
+Напомнить за
 [days before]
-дней
+дней до события
 [Check every]
 Пров. каждые
 [hours]
@@ -1082,35 +1082,35 @@ Web Дизайн
 [The function caused an exception!]
 Функция вызвала исключение!
 [%s has %s today.]
-%s отмечает %s сегодня.
+%s отмечает сегодня %s.
 [an anniversary]
 праздник
 [He]
-Ему
+Он
 [She]
-Ей
+Она
 [He/She]
-Ему/ей
-[%s has the following anniversaries:\0]
-У %s следующие праздники:\0
-[%d. %s today\0]
-%d. %s сегодня\0
-[%d. %s tomorrow\0]
-%d. %s завтра\0
-[%d. %s in %d days\0]
-%d. %s через %d дней\0
+Он/Она
+[%s has the following anniversaries:]
+%s отмечает следующие годовщины:
+[%d. %s today]
+%d лет. %s сегодня
+[%d. %s tomorrow]
+%d лет. %s завтра
+[%d. %s in %d days]
+%d лет. %s через %d дней
 [%s has birthday today.]
-%s отмечает День рождения сегодня.
+%s сегодня отмечает день рождения.
 [%s has birthday tomorrow.]
-%s отмечает День рождения завтра.
+%s завтра отмечает день рождения.
 [%s has birthday in %d days.]
 %s отмечает день рождения через %d дней.
 [\n%s becomes %d years old.]
-\n%s исполнится %d.
+\n%s отмечает %d-летие.
 [No anniversaries to remind of]
 Нет праздников, о которых надо уведомлять
 [Backing up and syncing all birthdays complete!]
-Резервирование и синхронизация всех Дней рождений завершены!
+Резервирование и синхронизация всех дней рождений завершены!
 [Birthday reminder]
 Напоминание о дне рождения
 [Birthday reminder: it's coming]
