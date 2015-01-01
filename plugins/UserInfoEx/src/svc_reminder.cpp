@@ -383,17 +383,14 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 	int numAnniversaries = 0;
 	int Diff;
 	MAnnivDate mta;
-	TCHAR szAnniv[MAX_PATH];
-	TCHAR strMsg[MAX_SECONDLINE];
-	BYTE bOverflow = FALSE;
-	WORD wDaysEarlier;
+	CMString tszMsg;
 
 	if (gRemindOpts.RemindState == REMIND_ANNIV || gRemindOpts.RemindState == REMIND_ALL) {
 		for (int i = 0; i < ANID_LAST && !mta.DBGetAnniversaryDate(hContact, i); i++) {
 			mta.DBGetReminderOpts(hContact);
 
 			if (mta.RemindOption() != BST_UNCHECKED) {
-				wDaysEarlier = (mta.RemindOption() == BST_CHECKED) ? mta.RemindOffset() : -1;
+				WORD wDaysEarlier = (mta.RemindOption() == BST_CHECKED) ? mta.RemindOffset() : -1;
 				if (wDaysEarlier == (WORD)-1)
 					wDaysEarlier = gRemindOpts.wDaysEarlier;
 
@@ -406,39 +403,21 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 					numAnniversaries++;
 
 					// create displayed text for popup
-					if (bNotify && !bOverflow) {
+					if (bNotify) {
 						// first anniversary found
-						if (numAnniversaries == 1) {
-							mir_sntprintf(szAnniv, SIZEOF(szAnniv),
-								TranslateT("%s has the following anniversaries:\0"),
-								ContactGender(hContact));
-							mir_tstrncpy(strMsg, szAnniv, mir_tstrlen(szAnniv));
-						}
+						if (numAnniversaries == 1)
+							tszMsg.AppendFormat(TranslateT("%s has the following anniversaries:"), ContactGender(hContact));
+						tszMsg.Append(_T("\n- "));
 
 						switch (Diff) {
 						case 0:
-							mir_sntprintf(szAnniv, SIZEOF(szAnniv), TranslateT("%d. %s today\0"), mta.Age(), mta.Description());
+							tszMsg.AppendFormat(TranslateT("%d. %s today"), mta.Age(), mta.Description());
 							break;
 						case 1:
-							mir_sntprintf(szAnniv, SIZEOF(szAnniv), TranslateT("%d. %s tomorrow\0"), mta.Age() + 1, mta.Description());
+							tszMsg.AppendFormat(TranslateT("%d. %s tomorrow"), mta.Age() + 1, mta.Description());
 							break;
 						default:
-							mir_sntprintf(szAnniv, SIZEOF(szAnniv), TranslateT("%d. %s in %d days\0"), mta.Age() + 1, mta.Description(), Diff);
-						}
-
-						if (mir_tstrlen(szAnniv) >= MAX_SECONDLINE - mir_tstrlen(strMsg)) {
-							if (strMsg)
-								mir_tstrncat(strMsg, _T("\n...\0"), SIZEOF(strMsg));
-							else
-								mir_tstrncpy(strMsg, _T("\n...\0"), mir_tstrlen(_T("\n...\0")));
-							bOverflow = TRUE;
-						}
-						else {
-							if (strMsg)
-								mir_tstrncat(strMsg, _T("\n- \0"), SIZEOF(strMsg));
-							else
-								mir_tstrncpy(strMsg, _T("\n- \0"), mir_tstrlen(_T("\n- \0")));
-							mir_tstrncat(strMsg, szAnniv, SIZEOF(strMsg));
+							tszMsg.AppendFormat(TranslateT("%d. %s in %d days"), mta.Age() + 1, mta.Description(), Diff);
 						}
 					}
 				}
@@ -447,8 +426,14 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 	}
 
 	// show one popup for all anniversaries
-	if (numAnniversaries != 0 && bNotify)
-		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENT("Anniversaries"), strMsg);
+	if (numAnniversaries != 0 && bNotify) {
+		if (tszMsg.GetLength() >= MAX_SECONDLINE) {
+			tszMsg.Truncate(MAX_SECONDLINE - 5);
+			tszMsg.Append(_T("\n..."));
+		}
+
+		NotifyWithPopup(hContact, CEvent::ANNIVERSARY, Diff, LPGENT("Anniversaries"), tszMsg);
+	}
 
 	return numAnniversaries != 0;
 }
@@ -466,15 +451,12 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 * @retval	FALSE			- contact has no birthday or it is not within the desired period of time.
 **/
 
-static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer)
+static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify, PWORD LastAnwer)
 {
-	BYTE result = FALSE;
-
 	if (gRemindOpts.RemindState == REMIND_BIRTH || gRemindOpts.RemindState == REMIND_ALL) {
 		MAnnivDate mtb;
 		if (!mtb.DBGetBirthDate(hContact)) {
 			int Diff;
-			WORD wDaysEarlier;
 
 			mtb.DBGetReminderOpts(hContact);
 
@@ -483,7 +465,7 @@ static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 				mtb.BackupBirthday(hContact, NULL, 0, LastAnwer);
 
 			if (mtb.RemindOption() != BST_UNCHECKED) {
-				wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
+				WORD wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
 				if (wDaysEarlier == (WORD)-1)
 					wDaysEarlier = gRemindOpts.wDaysEarlier;
 
@@ -516,12 +498,12 @@ static BYTE CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 
 						NotifyWithPopup(hContact, CEvent::BIRTHDAY, Diff, mtb.Description(), szMsg);
 					}
-					result = TRUE;
+					return true;
 				}
 			}
 		}
 	}
-	return result;
+	return false;
 }
 
 /**

@@ -983,7 +983,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg,	WPARAM wParam, L
 		if (pItem->wMask & CBEXIM_CAT) {
 			// set category string
 			if (!pItem->pszCat || !pItem->pszCat[0] || !mir_tstrncpy(cbex->pItems[pItem->iItem].szCat, pItem->pszCat, SIZEOF(cbex->pItems[pItem->iItem].szCat))) 
-				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, SIZEOF(cbex->pItems[pItem->iItem].szCat), _T("%s %d\0"), TranslateT("Other"), ++cbex->numOther);
+				mir_sntprintf(cbex->pItems[pItem->iItem].szCat, SIZEOF(cbex->pItems[pItem->iItem].szCat), _T("%s %d"), TranslateT("Other"), ++cbex->numOther);
 			if (pItem->iItem == cbex->iSelectedItem)
 				SetWindowText(cbex->hBtnEdit, cbex->pItems[pItem->iItem].szCat);
 		}
@@ -1284,20 +1284,17 @@ int CtrlContactAddItemFromDB(
 {
 	DBVARIANT dbv;
 	CBEXITEM cbi;
-	LPTSTR sms;
 
 	cbi.pszVal = NULL;
 	cbi.dwID = hashSetting(szSettingVal);
 	cbi.wFlags = CBEXIF_CATREADONLY|DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, szSettingVal, &dbv);
 	if (dbv.type >= DBVT_WCHAR) {
 		// no value read from database
-		if (cbi.wFlags == CBEXIF_CATREADONLY) {
+		if (cbi.wFlags == CBEXIF_CATREADONLY)
 			cbi.pszVal = NULL;
-		}
-		// check the database value
-		else {
+		else { // check the database value
 			cbi.pszVal = dbv.ptszVal;
-			if (sms = _tcsstr(cbi.pszVal, _T(" SMS\0"))) {
+			if (LPTSTR sms = _tcsstr(cbi.pszVal, _T(" SMS"))) {
 				cbi.wFlags |= CBEXIF_SMS;
 				*sms = 0;
 			}

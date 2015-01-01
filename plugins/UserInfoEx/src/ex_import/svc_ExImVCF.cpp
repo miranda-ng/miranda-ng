@@ -1060,7 +1060,7 @@ BYTE CVCardFileVCF::Export(BYTE bExportUtf)
 		MAnnivDate mdb;
 
 		if (!mdb.DBGetBirthDate(_hContact, NULL))
-			fprintf(_pFile, "BDAY:%d%02d%02d\n\0", mdb.Year(), mdb.Month(), mdb.Day());
+			fprintf(_pFile, "BDAY:%d%02d%02d\n", mdb.Year(), mdb.Month(), mdb.Day());
 	}
 	
 	//

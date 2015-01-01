@@ -30,17 +30,6 @@ namespace DB {
 namespace Contact {
 
 /**
-* This function retrieves the display name for a contact.
-* @param	hContact	- handle to the contact
-* @return	Returns the display name of a contact.
-**/
-
-LPTSTR DisplayName(MCONTACT hContact)
-{
-	return pcli->pfnGetContactDisplayName(hContact, 0);
-}
-
-/**
 * This function is used to retrieve a contact's basic protocol
 * @param	hContact	- handle to the contact
 * @return	This function returns the basic protocol of a contact.
