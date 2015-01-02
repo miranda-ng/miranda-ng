@@ -25,11 +25,11 @@ podstawowe ([b], [i], [u], [s])
 [advanced (+[url], [size], [color])]
 zaawansowane (+[url], [size], [color])
 [Use this setting also for attachments on news and notifications]
-
+Używaj tego ustawienia także dla załączników do aktualności i powiadomień
 [Other]
 Inne
 [BBCode support on attachments]
-
+Wsparcie BBCode dla załączników
 [Process stickers as smileys]
 Przetwarzaj naklejki jako uśmieszki
 [News and event notifications]
@@ -73,15 +73,15 @@ Subskrypcje użytkowników
 [No reposts]
 Bez udostępnionych postów
 [Notifications types]
-
+Typy powiadomień
 [Comments]
-
+Komentarze
 [Likes]
-
+Polubienia
 [Reposts]
-
+Udostępnienia
 [Mentions in comments]
-
+Wspomnienia w komentarzach
 [E-mail or phone number:]
 E-mail lub numer telefonu:
 [Password:]
@@ -188,7 +188,7 @@ Protokoły
 [VKontakte]
 VKontakte
 [Access denied! Data will not be sent or received.]
-
+Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 [Error]
 Błąd
 [Error %d. Data will not be sent or received.]
@@ -289,11 +289,11 @@ Aktualizacja od %s\n%s
 [\tRepost from %s\n%s]
 \tUdostępnione od %s\n%s
 [Video description:]
-
+Opis filmu:
 [Post text:]
-
+Treść posta:
 [Topic text:]
-
+Treść tematu:
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Nie udało się zapisać pliku

@@ -327,21 +327,21 @@ Ikona w zasobniku
 [Use xStatus icon]
 Użyj ikony xStatusu
 [Icon mode]
-
+Tryb ikony
 [For similar statuses]
-
+Dla podobnych statusów
 [Global status]
 Globalny status
 [Single account]
-
+Pojedyncze konto
 [Cycle icons]
-
+Zamieniaj ikony
 [All accounts]
 Wszystkie konta
 [For different statuses]
-
+Dla różnych statusów
 [Cycle period, seconds]
-
+Co ile zamieniać, w sekundach
 [Additional stuff]
 Pozostałe ustawienia
 [Ignore empty extra icons places (arrange to right).]
