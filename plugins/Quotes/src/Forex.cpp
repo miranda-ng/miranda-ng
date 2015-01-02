@@ -20,10 +20,7 @@ HGENMENU g_hMenuRefresh = NULL;
 namespace
 {
 	typedef std::vector<HANDLE> THandles;
-	THandles g_ahEvents;
-	THandles g_ahServices;
 	THandles g_ahThreads;
-	std::vector<HGENMENU> g_ahMenus;
 	HGENMENU g_hEnableDisableMenu;
 	HANDLE g_hTBButton;
 
@@ -141,7 +138,6 @@ namespace
 		mi.flags = CMIF_TCHAR | CMIF_ROOTPOPUP;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
-		g_ahMenus.push_back(hMenuRoot);
 
 		mi.ptszName = LPGENT("Enable/Disable Auto Update");
 		mi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE;
@@ -150,9 +146,7 @@ namespace
 		mi.pszService = g_pszAutoUpdateCmd;
 		mi.hParentMenu = hMenuRoot;
 		g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
-		g_ahMenus.push_back(g_hEnableDisableMenu);
-		HANDLE h = CreateServiceFunction(mi.pszService, QuotesMenu_EnableDisable);
-		g_ahServices.push_back(h);
+		CreateServiceFunction(mi.pszService, QuotesMenu_EnableDisable);
 		UpdateMenu(g_bAutoUpdate);
 
 		mi.ptszName = LPGENT("Refresh All Quotes\\Rates");
@@ -161,47 +155,36 @@ namespace
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = "Quotes/RefreshAll";
 		mi.hParentMenu = hMenuRoot;
-		auto hMenu = Menu_AddMainMenuItem(&mi);
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
-		g_ahServices.push_back(h);
+		Menu_AddMainMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 
 		mi.ptszName = LPGENT("Currency Converter...");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.position = 20100002;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 		mi.pszService = g_pszCurrencyConverter;
-		hMenu = Menu_AddMainMenuItem(&mi);
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
-		g_ahServices.push_back(h);
+		Menu_AddMainMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
 
-#ifdef TEST_IMPORT_EXPORT
 		mi.ptszName = LPGENT("Export All Quotes");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 		mi.pszService = "Quotes/ExportAll";
 		mi.position = 20100003;
-		hMenu = Menu_AddMainMenuItem(&mi);
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
-		g_ahServices.push_back(h);
+		Menu_AddMainMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 
 		mi.ptszName = LPGENT("Import All Quotes");
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 		mi.pszService = "Quotes/ImportAll";
 		mi.position = 20100004;
-		hMenu = Menu_AddMainMenuItem(&mi);
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_ImportAll);
-		g_ahServices.push_back(h);
-#endif
+		Menu_AddMainMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_ImportAll);
 
 		bool bSubGroups = 1 == ServiceExists(MS_CLIST_MENUBUILDSUBGROUP);
 
-		h = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
-		g_ahEvents.push_back(h);
+		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Quotes_PrebuildContactMenu);
 
 		memset(&mi, 0, sizeof(mi));
 		mi.cbSize = sizeof(mi);
@@ -230,32 +213,23 @@ namespace
 		mi.popupPosition = 0;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_REFRESH);
 		mi.pszService = "Quotes/RefreshContact";
-		hMenu = Menu_AddContactMenuItem(&mi);
-		g_hMenuRefresh = hMenu;
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
-		g_ahServices.push_back(h);
+		g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
 
 		mi.ptszName = LPGENT("Open Log File...");
 		mi.popupPosition = 1;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/OpenLogFile";
-		hMenu = Menu_AddContactMenuItem(&mi);
-		g_hMenuOpenLogFile = hMenu;
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_OpenLogFile);
-		g_ahServices.push_back(h);
+		g_hMenuOpenLogFile = Menu_AddContactMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_OpenLogFile);
 
 #ifdef CHART_IMPLEMENT
 		mi.ptszName = LPGENT("Chart...");
 		mi.popupPosition = 2;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/Chart";
-		hMenu = Menu_AddContactMenuItem(&mi);
-		g_hMenuChart = hMenu;
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
-		g_ahServices.push_back(h);
+		g_hMenuChart = Menu_AddContactMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
 #endif
 
 		mi.ptszName = LPGENT("Edit Settings...");
@@ -266,11 +240,8 @@ namespace
 #endif
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/EditSettings";
-		hMenu = Menu_AddContactMenuItem(&mi);
-		g_hMenuEditSettings = hMenu;
-		g_ahMenus.push_back(hMenu);
-		h = CreateServiceFunction(mi.pszService, QuotesMenu_EditSettings);
-		g_ahServices.push_back(h);
+		g_hMenuEditSettings = Menu_AddContactMenuItem(&mi);
+		CreateServiceFunction(mi.pszService, QuotesMenu_EditSettings);
 	}
 
 	int Quotes_OnToolbarLoaded(WPARAM, LPARAM)
@@ -301,18 +272,14 @@ namespace
 	{
 		CHTTPSession::Init();
 
-		// 		HANDLE h = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
-		// 		g_ahEvents.push_back(h);
+		// 		HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
 
 		g_hEventWorkThreadStop = ::CreateEvent(NULL, TRUE, FALSE, NULL);
-		auto h = HookEvent(ME_USERINFO_INITIALISE, QuotesEventFunc_OnUserInfoInit);
-		g_ahEvents.push_back(h);
+		HookEvent(ME_USERINFO_INITIALISE, QuotesEventFunc_OnUserInfoInit);
 
-		h = HookEvent(ME_CLIST_DOUBLECLICKED, Quotes_OnContactDoubleClick);
-		g_ahEvents.push_back(h);
+		HookEvent(ME_CLIST_DOUBLECLICKED, Quotes_OnContactDoubleClick);
 
-		h = HookEvent(ME_TTB_MODULELOADED, Quotes_OnToolbarLoaded);
-		g_ahEvents.push_back(h);
+		HookEvent(ME_TTB_MODULELOADED, Quotes_OnToolbarLoaded);
 
 		g_bAutoUpdate = 1 == db_get_b(NULL, QUOTES_MODULE_NAME, DB_STR_AUTO_UPDATE, 1);
 
@@ -346,10 +313,10 @@ namespace
 		return 0;
 	}
 
-	// 	INT_PTR QuoteProtoFunc_GetStatus(WPARAM/* wp*/,LPARAM/* lp*/)
-	// 	{
-	// 		return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-	// 	}
+	INT_PTR QuoteProtoFunc_GetStatus(WPARAM,LPARAM)
+	{
+		return g_bAutoUpdate ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
+	}
 
 	void WaitForWorkingThreads()
 	{
@@ -479,41 +446,25 @@ extern "C"
 		pd.type = PROTOTYPE_VIRTUAL;
 		CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
-		// 		HANDLE h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
-		// 		g_ahServices.push_back(h);
-		// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
-		// 		g_ahServices.push_back(h);
-		// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_SETSTATUS, QuoteProtoFunc_SetStatus);
-		// 		g_ahServices.push_back(h);
-		// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
-		// 		g_ahServices.push_back(h);
-		// 		h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_LOADICON, QuoteProtoFunc_LoadIcon);
-		// 		g_ahServices.push_back(h);
+		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
+		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETCAPS, QuoteProtoFunc_GetCaps);
+		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_SETSTATUS, QuoteProtoFunc_SetStatus);
+		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETSTATUS, QuoteProtoFunc_GetStatus);
+		// 		CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_LOADICON, QuoteProtoFunc_LoadIcon);
 
-		auto h = HookEvent(ME_SYSTEM_MODULESLOADED, QuotesEventFunc_OnModulesLoaded);
-		g_ahEvents.push_back(h);
-		h = HookEvent(ME_DB_CONTACT_DELETED, QuotesEventFunc_OnContactDeleted);
-		g_ahEvents.push_back(h);
-		h = HookEvent(ME_SYSTEM_PRESHUTDOWN, QuotesEventFunc_PreShutdown);
-		g_ahEvents.push_back(h);
-		h = HookEvent(ME_OPT_INITIALISE, QuotesEventFunc_OptInitialise);
-		g_ahEvents.push_back(h);
+		HookEvent(ME_SYSTEM_MODULESLOADED, QuotesEventFunc_OnModulesLoaded);
+		HookEvent(ME_DB_CONTACT_DELETED, QuotesEventFunc_OnContactDeleted);
+		HookEvent(ME_SYSTEM_PRESHUTDOWN, QuotesEventFunc_PreShutdown);
+		HookEvent(ME_OPT_INITIALISE, QuotesEventFunc_OptInitialise);
 
-		h = CreateServiceFunction(MS_QUOTES_EXPORT, Quotes_Export);
-		g_ahServices.push_back(h);
-		h = CreateServiceFunction(MS_QUOTES_IMPORT, Quotes_Import);
-		g_ahServices.push_back(h);
-
+		CreateServiceFunction(MS_QUOTES_EXPORT, Quotes_Export);
+		CreateServiceFunction(MS_QUOTES_IMPORT, Quotes_Import);
 
 		return 0;
 	}
 
 	__declspec(dllexport) int Unload(void)
 	{
-		std::for_each(g_ahServices.begin(), g_ahServices.end(), boost::bind(Quotes_DestroyServiceFunction, _1));
-		std::for_each(g_ahEvents.begin(), g_ahEvents.end(), boost::bind(Quotes_UnhookEvent, _1));
-		std::for_each(g_ahMenus.begin(), g_ahMenus.end(), boost::bind(Quotes_RemoveMenuItem, _1));
-
 		WaitForWorkingThreads();
 
 		::CloseHandle(g_hEventWorkThreadStop);

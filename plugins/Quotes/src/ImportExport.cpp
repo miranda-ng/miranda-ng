@@ -791,7 +791,6 @@ INT_PTR Quotes_Import(WPARAM wp, LPARAM lp)
 	return 1;
 }
 
-#ifdef TEST_IMPORT_EXPORT
 INT_PTR QuotesMenu_ImportAll(WPARAM, LPARAM)
 {
 	return CallService(MS_QUOTES_IMPORT, 0, 0);
@@ -801,5 +800,3 @@ INT_PTR QuotesMenu_ExportAll(WPARAM, LPARAM)
 {
 	return CallService(MS_QUOTES_EXPORT, 0, 0);
 }
-#endif
-
