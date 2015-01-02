@@ -47,7 +47,7 @@ static INT_PTR srvGetContactCount(WPARAM, LPARAM)
 
 static INT_PTR srvDeleteContact(WPARAM wParam, LPARAM)
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	if (!db_get_ts(wParam, "ContactPhoto", "File", &dbv)) {
 		DeleteFile(dbv.ptszVal);
 		db_free(&dbv);
@@ -70,7 +70,7 @@ static INT_PTR srvIsDbContact(WPARAM wParam, LPARAM)
 ///////////////////////////////////////////////////////////////////////////////
 // Module chain
 
-static INT_PTR srvEnumModuleNames(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvEnumModuleNames(WPARAM wParam, LPARAM lParam)
 {
 	return (currDb) ? (INT_PTR)currDb->EnumModuleNames((DBMODULEENUMPROC)lParam, (void*)wParam) : 0;
 }
@@ -78,12 +78,12 @@ static INT_PTR srvEnumModuleNames(WPARAM wParam,LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 // Settings
 
-static INT_PTR srvEnumContactSettings(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvEnumContactSettings(WPARAM wParam, LPARAM lParam)
 {
 	return (currDb) ? (INT_PTR)currDb->EnumContactSettings(wParam, (DBCONTACTENUMSETTINGS*)lParam) : 0;
 }
 
-static INT_PTR srvEnumResidentSettings(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvEnumResidentSettings(WPARAM wParam, LPARAM lParam)
 {
 	return (currDb) ? (INT_PTR)currDb->EnumResidentSettings((DBMODULEENUMPROC)wParam, (void*)lParam) : 0;
 }
@@ -93,7 +93,7 @@ static INT_PTR srvEnumResidentSettings(WPARAM wParam,LPARAM lParam)
 
 LIST<DATABASELINK> arDbPlugins(5);
 
-static INT_PTR srvRegisterPlugin(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvRegisterPlugin(WPARAM wParam, LPARAM lParam)
 {
 	DATABASELINK* pPlug = (DATABASELINK*)lParam;
 	if (pPlug == NULL)
@@ -103,9 +103,9 @@ static INT_PTR srvRegisterPlugin(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR srvFindPlugin(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvFindPlugin(WPARAM wParam, LPARAM lParam)
 {
-	for (int i=arDbPlugins.getCount()-1; i >= 0; i--) {
+	for (int i = arDbPlugins.getCount() - 1; i >= 0; i--) {
 		int error = arDbPlugins[i]->grokHeader((TCHAR*)lParam);
 		if (error == ERROR_SUCCESS || error == EGROKPRF_OBSOLETE)
 			return (INT_PTR)arDbPlugins[i];
@@ -114,12 +114,12 @@ static INT_PTR srvFindPlugin(WPARAM wParam,LPARAM lParam)
 	return NULL;
 }
 
-static INT_PTR srvGetCurrentDb(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvGetCurrentDb(WPARAM wParam, LPARAM lParam)
 {
 	return (INT_PTR)currDb;
 }
 
-static INT_PTR srvInitInstance(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvInitInstance(WPARAM wParam, LPARAM lParam)
 {
 	MIDatabase* pDb = (MIDatabase*)lParam;
 	if (pDb != NULL)
@@ -127,7 +127,7 @@ static INT_PTR srvInitInstance(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR srvDestroyInstance(WPARAM wParam,LPARAM lParam)
+static INT_PTR srvDestroyInstance(WPARAM wParam, LPARAM lParam)
 {
 	MIDatabase* pDb = (MIDatabase*)lParam;
 	if (pDb != NULL) {
