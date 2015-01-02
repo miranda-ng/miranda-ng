@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2010 Mataes
+Copyright (C) 2011-2015 Mataes
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -25,20 +25,20 @@ INT FileCount = 0, CurrentFile = 0, Number = 0;
 BYTE Reminder, AutoUpdate;
 BYTE UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 INT Period;
-TCHAR tszDialogMsg[2048] = {0};
+TCHAR tszDialogMsg[2048] = { 0 };
 FILEINFO* pFileInfo = NULL;
 FILEURL* pFileUrl = NULL;
 HANDLE hCheckThread = NULL, hNetlibUser = NULL;
-MYOPTIONS MyOptions = {0};
+MYOPTIONS MyOptions = { 0 };
 aPopups PopupsList[POPUPS];
-LPCTSTR Title = {0}, Text = {0};
+LPCTSTR Title = { 0 }, Text = { 0 };
 
 IconItem iconList[] =
 {
-	{ LPGEN("Check for pack updates"),    "check_update", IDI_MENU },
+	{ LPGEN("Check for pack updates"), "check_update", IDI_MENU },
 	{ LPGEN("Clear pack updates folder"), "empty_folder", IDI_DELETE },
-	{ LPGEN("'Yes' Button"),              "btn_ok",       IDI_OK },
-	{ LPGEN("'No' Button"),               "btn_cancel",   IDI_CANCEL }
+	{ LPGEN("'Yes' Button"), "btn_ok", IDI_OK },
+	{ LPGEN("'No' Button"), "btn_cancel", IDI_CANCEL }
 };
 
 VOID IcoLibInit()
@@ -48,7 +48,7 @@ VOID IcoLibInit()
 
 BOOL NetlibInit()
 {
-	NETLIBUSER nlu = {0};
+	NETLIBUSER nlu = { 0 };
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
 	nlu.ptszDescriptiveName = TranslateT("Pack Updater HTTP connection");
@@ -94,7 +94,7 @@ VOID InitPopupList()
 VOID LoadOptions()
 {
 	MyOptions.DefColors = db_get_b(NULL, MODNAME, "DefColors", DEFAULT_COLORS);
-	MyOptions.LeftClickAction= db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
+	MyOptions.LeftClickAction = db_get_b(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
 	MyOptions.RightClickAction = db_get_b(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
 	MyOptions.Timeout = db_get_dw(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
 	UpdateOnStartup = db_get_b(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
@@ -111,26 +111,26 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	HANDLE hFile = NULL;
 	DWORD dwBytes;
 
-	NETLIBHTTPREQUEST nlhr = {0};
+	NETLIBHTTPREQUEST nlhr = { 0 };
 	nlhr.cbSize = sizeof(nlhr);
 	nlhr.requestType = REQUEST_GET;
 	nlhr.flags = NLHRF_REDIRECT | NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	char* szUrl = mir_t2a(tszURL);
 	nlhr.szUrl = szUrl;
 	nlhr.headersCount = 4;
-	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
-	nlhr.headers[0].szName   = "User-Agent";
+	nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
-	nlhr.headers[1].szName  = "Connection";
+	nlhr.headers[1].szName = "Connection";
 	nlhr.headers[1].szValue = "close";
-	nlhr.headers[2].szName  = "Cache-Control";
+	nlhr.headers[2].szName = "Cache-Control";
 	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName  = "Pragma";
+	nlhr.headers[3].szName = "Pragma";
 	nlhr.headers[3].szValue = "no-cache";
 
 	bool ret = false;
 	NETLIBHTTPREQUEST* pReply = NULL;
-	pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
+	pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
 
 	if (pReply) {
 		if (200 == pReply->resultCode && pReply->dataLength > 0) {
@@ -138,7 +138,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
 			ret = true;
 		}
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)pReply);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pReply);
 	}
 
 	mir_free(szUrl);
@@ -173,19 +173,19 @@ BOOL IsPluginDisabled(TCHAR* filename)
 	return res;
 }
 
-INT getVer(const TCHAR* verStr)
+size_t getVer(const TCHAR* verStr)
 {
-	INT v1 = 0, v2 = 0, v3 = 0, v4 = 0;
+	size_t v1 = 0, v2 = 0, v3 = 0, v4 = 0;
 	_stscanf(verStr, _T("%d.%d.%d.%d"), &v1, &v2, &v3, &v4);
-	return v1*10000000 + v2*100000 + v3*1000 + v4;
+	return v1 * 10000000 + v2 * 100000 + v3 * 1000 + v4;
 }
 
 static void CheckUpdates(void *)
 {
-	TCHAR tszBuff[2048] = {0}, tszFileInfo[30] = {0}, tszTmpIni[MAX_PATH] = {0};
-	char szKey[64] = {0};
-	INT upd_ret;
-	DBVARIANT dbVar = {0};
+	TCHAR tszBuff[2048] = { 0 }, tszFileInfo[30] = { 0 }, tszTmpIni[MAX_PATH] = { 0 };
+	char szKey[64] = { 0 };
+	INT upd_ret = 0;
+	DBVARIANT dbVar = { 0 };
 	vector<FILEINFO> UpdateFiles;
 
 	if (!Exists(tszRoot))
@@ -197,7 +197,7 @@ static void CheckUpdates(void *)
 	// Load files info
 	db_get_ts(NULL, MODNAME, "File_VersionURL", &dbVar);
 	if (mir_tstrcmp(dbVar.ptszVal, NULL) == 0) { // URL is not set
-		Title=TranslateT("Pack Updater");
+		Title = TranslateT("Pack Updater");
 		Text = TranslateT("URL for checking updates not found.");
 		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 			Number = 1;
@@ -225,7 +225,7 @@ static void CheckUpdates(void *)
 	}
 
 	for (CurrentFile = 0; CurrentFile < FileCount; CurrentFile++) {
-		FILEINFO FileInfo = {_T(""), _T(""), _T(""), _T(""), _T(""), _T(""), _T(""), {_T(""), _T("")}};
+		FILEINFO FileInfo = { _T(""), _T(""), _T(""), _T(""), _T(""), _T(""), _T(""), { _T(""), _T("") } };
 
 		dbVar.ptszVal = NULL;
 		mir_snprintf(szKey, SIZEOF(szKey), "File_%d_CurrentVersion", CurrentFile + 1);
@@ -259,7 +259,7 @@ static void CheckUpdates(void *)
 		if (_tcsstr(tszBuff, _T("\\"))) { //check update name
 			Title = TranslateT("Pack Updater");
 			Text = TranslateT("Name of Update's file is not supported.");
-			if ( ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
+			if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED)) {
 				Number = 1;
 				show_popup(0, Title, Text, Number, 0);
 			}
@@ -271,7 +271,7 @@ static void CheckUpdates(void *)
 		GetPrivateProfileString(tszFileInfo, _T("InfoURL"), _T(""), Files[CurrentFile].tszInfoURL, SIZEOF(Files[CurrentFile].tszInfoURL), tszTmpIni);
 		Files[CurrentFile].FileType = GetPrivateProfileInt(tszFileInfo, _T("FileType"), 0, tszTmpIni);
 		Files[CurrentFile].Force = GetPrivateProfileInt(tszFileInfo, _T("Force"), 0, tszTmpIni);
-		Files[CurrentFile].FileNum = CurrentFile+1;
+		Files[CurrentFile].FileNum = CurrentFile + 1;
 
 		if (Files[CurrentFile].FileType == 2) {
 			TCHAR pluginFolgerName[MAX_PATH];
@@ -296,7 +296,7 @@ static void CheckUpdates(void *)
 			} // user have not admin's rights
 
 			//добавить проверку на существование файла
-			TCHAR tszFilePathDest[MAX_PATH] = {0};
+			TCHAR tszFilePathDest[MAX_PATH] = { 0 };
 			TCHAR* tszUtilRootPlug = NULL;
 			TCHAR* tszUtilRootIco = NULL;
 			TCHAR* tszUtilRoot = NULL;
@@ -345,18 +345,18 @@ static void CheckUpdates(void *)
 	} //end checking all files in for ()
 
 	// Show dialog
-	if (UpdateFiles.size()>0)
+	if (UpdateFiles.size() > 0)
 		upd_ret = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE), GetDesktopWindow(), DlgUpdate, (LPARAM)&UpdateFiles);
 	DeleteFile(tszTmpIni);
 	if (upd_ret == IDCANCEL) {
 		hCheckThread = NULL;
 		return;
 	}
-	
+
 	if (!UpdatesCount && !Silent) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No updates found.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -367,7 +367,7 @@ static void CheckUpdates(void *)
 	if (!FileCount) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("No files for update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -382,7 +382,7 @@ void DoCheck(int iFlag)
 	if (hCheckThread != NULL) {
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("Update checking already started!");
-		if ( ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) &&  db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
+		if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1) && db_get_b(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED)) {
 			Number = 2;
 			show_popup(0, Title, Text, Number, 0);
 		}
@@ -397,11 +397,11 @@ void DoCheck(int iFlag)
 
 BOOL AllowUpdateOnStartup()
 {
-	if(OnlyOnceADay) {
+	if (OnlyOnceADay) {
 		time_t now = time(NULL);
 		time_t was = db_get_dw(NULL, MODNAME, "LastUpdate", 0);
 
-		if((now - was) < 86400)
+		if ((now - was) < 86400)
 			return FALSE;
 	}
 	return TRUE;
@@ -410,7 +410,7 @@ BOOL AllowUpdateOnStartup()
 LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 {
 	LONG result = period * 1000;
-	switch(periodMeasure) {
+	switch (periodMeasure) {
 	case 1:
 		// day
 		result *= 60 * 60 * 24;
@@ -418,7 +418,7 @@ LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 
 	default:
 		// hour
-		if(periodMeasure != 0)
+		if (periodMeasure != 0)
 			periodMeasure = 0;
 		result *= 60 * 60;
 		break;
@@ -426,7 +426,7 @@ LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
 	return result;
 }
 
-VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
+VOID CALLBACK TimerAPCProc(LPVOID, DWORD, DWORD)
 {
 	DoCheck(TRUE);
 }
@@ -434,14 +434,14 @@ VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHig
 VOID InitTimer()
 {
 	CancelWaitableTimer(Timer);
-	if(UpdateOnPeriod) {
+	if (UpdateOnPeriod) {
 		LONG interval = PeriodToMilliseconds(Period, PeriodMeasure);
 
 		_int64 qwDueTime = -10000i64 * interval;
 
-		LARGE_INTEGER li = {0};
-		li.LowPart = (DWORD) ( qwDueTime & 0xFFFFFFFF );
-		li.HighPart = (LONG) ( qwDueTime >> 32 );
+		LARGE_INTEGER li = { 0 };
+		li.LowPart = (DWORD)(qwDueTime & 0xFFFFFFFF);
+		li.HighPart = (LONG)(qwDueTime >> 32);
 
 		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, NULL, 0);
 	}

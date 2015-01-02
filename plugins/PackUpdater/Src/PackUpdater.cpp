@@ -1,5 +1,5 @@
-/* 
-Copyright (C) 2010 Mataes
+/*
+Copyright (C) 2011-2015 Mataes
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -14,15 +14,15 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
 
 HINSTANCE hInst = NULL;
 
-HANDLE hOptHook = NULL, hLoadHook = NULL, hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL, hOnPreShutdown = NULL;
-TCHAR tszRoot[MAX_PATH] = {0};
+HANDLE hPackUpdaterFolder = NULL;
+TCHAR tszRoot[MAX_PATH] = { 0 };
 int hLangpack;
 
 PLUGININFOEX pluginInfoEx = {
@@ -36,16 +36,16 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	//{29517BE5-779A-48e5-8950-CB4DE1D43172}
-	{0x29517be5, 0x779a, 0x48e5, {0x89, 0x50, 0xcb, 0x4d, 0xe1, 0xd4, 0x31, 0x72}} 
+	{ 0x29517be5, 0x779a, 0x48e5, { 0x89, 0x50, 0xcb, 0x4d, 0xe1, 0xd4, 0x31, 0x72 } }
 };
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfoEx;
 }
@@ -68,7 +68,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	IcoLibInit();
 
 	// Add cheking update menu item
-	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
+	CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
@@ -78,7 +78,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
 	// Add empty updates folder menu item
-	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
+	CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
@@ -89,9 +89,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	Menu_AddMainMenuItem(&mi);
 
 	// Add options hook
-	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hLoadHook = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	return 0;
 }
@@ -101,7 +101,5 @@ extern "C" __declspec(dllexport) int Unload(void)
 	if (hCheckThread)
 		hCheckThread = NULL;
 	NetlibUnInit();
-	DestroyServiceFunction(hCheckUpdates);
-	DestroyServiceFunction(hEmptyFolder);
 	return 0;
 }
