@@ -299,10 +299,10 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		int d, m, y, iReadCount;
 		iReadCount = _stscanf(tszValue.GetBuffer(), _T("%d.%d.%d"), &d, &m, &y);
 		if (iReadCount > 1) {
-			setByte(hContact, "BirthDay", d);
-			setByte(hContact, "BirthMonth", m);
 			if (iReadCount == 3)
 				setWord(hContact, "BirthYear", y);
+			setByte(hContact, "BirthDay", d);
+			setByte(hContact, "BirthMonth", m);
 		}
 	}
 
