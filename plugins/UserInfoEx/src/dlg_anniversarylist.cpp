@@ -702,13 +702,16 @@ class CAnnivList
 					mir_free(ptszProto);
 
 					// forth line: age
-					AddSubItem(iItem, COLUMN_AGE, _itot(ad.Age(&mtNow), szText, 10));
+					if (ad.Age(&mtNow))
+						AddSubItem(iItem, COLUMN_AGE, _itot(ad.Age(&mtNow), szText, 10));
+					else
+						AddSubItem(iItem, COLUMN_AGE, _T("???"));
 
 					// fifth line: anniversary
 					AddSubItem(iItem, COLUMN_DESC, (LPTSTR)ad.Description());
 
 					// sixth line: date
-					ad.DateFormat(szText, SIZEOF(szText));
+					ad.DateFormatAlt(szText, SIZEOF(szText));
 					AddSubItem(iItem, COLUMN_DATE, szText);
 					
 					_numRows++;
