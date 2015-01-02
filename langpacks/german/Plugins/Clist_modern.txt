@@ -322,22 +322,26 @@ Immer Status als Tooltip anzeigen
 Iconblinken deaktivieren
 [ms, delay between icon blinking]
 Blinkintervalle der Icons (in ms)
-[Show]
-Zeige
-[Cycle icons every]
-Icon durchwechseln alle
-[seconds, when statuses differ]
-Sekunden, wenn Status unterschiedlich
-[Show multiple icons]
-Mehrere Icons anzeigen
-[only when statuses differ]
-Nur, wenn Status untersch.
 [System tray icon]
 Systemtray-Icon
-[System tray icon mode]
-Trayicon-Modus
 [Use xStatus icon]
 xStatus-Icon verwenden
+[Icon mode]
+
+[For similar statuses]
+
+[Global status]
+Globaler Status
+[Single account]
+
+[Cycle icons]
+
+[All accounts]
+
+[For different statuses]
+
+[Cycle period, seconds]
+
 [Additional stuff]
 Zusatzliche Einstellungen
 [Ignore empty extra icons places (arrange to right).]
@@ -760,8 +764,6 @@ Kontoname
 Priorität
 [-Nothing-]
 -Nichts-
-[Global]
-Global
 [Hide to tray]
 In Systemtray
 [Behind left edge]

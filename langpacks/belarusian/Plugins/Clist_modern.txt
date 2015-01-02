@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -320,20 +320,8 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Выключыць мігценне
 [ms, delay between icon blinking]
 мс, паміж мігценнямі значка
-[Show]
-Паказаць
-[Cycle icons every]
-Змяняць кожныя
-[seconds, when statuses differ]
-секунд, пры розных статусах
-[Show multiple icons]
-Некалькі абразкоў
-[only when statuses differ]
-пры розных статусах
 [System tray icon]
 Абразок у трэі
-[System tray icon mode]
-Паводзіны значка ў сістэмным трэі
 [Use xStatus icon]
 Абразок xСтатуса
 [Additional stuff]
@@ -756,8 +744,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Рэйтынг
 [-Nothing-]
 -Нічога-
-[Global]
-Глабальныя
 [Hide to tray]
 У сістэмны латок
 [Behind left edge]

@@ -319,20 +319,8 @@ x100 мс
 Вимкнути блимання
 [ms, delay between icon blinking]
 мс між блиманням значка
-[Show]
-Показати
-[Cycle icons every]
-Змінювати значок кожні
-[seconds, when statuses differ]
-секунд при різних статусах
-[Show multiple icons]
-Декілька значків
-[only when statuses differ]
-при різних статусах
 [System tray icon]
 Значок у треї
-[System tray icon mode]
-Поведінка значка в системному треї
 [Use xStatus icon]
 Значок xСтатусу
 [Additional stuff]
@@ -753,8 +741,6 @@ xСтатус: xПовідомлення
 Рейтинг
 [-Nothing-]
 -Нічого-
-[Global]
-Глобальні
 [Hide to tray]
 До трею
 [Behind left edge]
