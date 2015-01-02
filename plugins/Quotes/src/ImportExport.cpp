@@ -126,9 +126,9 @@ namespace
 		return 0;
 	}
 
-	int EnumDbModules(const char* szModuleName, LPARAM lp)
+	int EnumDbModules(const char *szModuleName, DWORD, LPARAM lp)
 	{
-		CEnumContext* ctx = reinterpret_cast<CEnumContext*>(lp);
+		CEnumContext *ctx = (CEnumContext*)lp;
 		IXMLNode::TXMLNodePtr pXml = ctx->m_pNode;
 		IXMLNode::TXMLNodePtr pModule = ctx->m_pXmlEngine->CreateNode(g_pszXmlModule, quotes_a2t(szModuleName)/*A2CT(szModuleName)*/);
 		if (pModule)
@@ -161,7 +161,7 @@ namespace
 			ctx.m_pNode = pNode;
 			ctx.m_hContact = hContact;
 
-			CallService(MS_DB_MODULES_ENUM, reinterpret_cast<WPARAM>(&ctx), reinterpret_cast<LPARAM>(EnumDbModules));
+			CallService(MS_DB_MODULES_ENUM, (WPARAM)&ctx, (LPARAM)EnumDbModules);
 		}
 		return pNode;
 	}
