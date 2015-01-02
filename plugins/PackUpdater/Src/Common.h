@@ -1,5 +1,5 @@
-/* 
-Copyright (C) 2010 Mataes
+/*
+Copyright (C) 2011-2015 Mataes
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 // Windows Header Files:
@@ -94,7 +94,7 @@ extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasu
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
 extern FILEURL* pFileUrl;
-extern HANDLE hCheckThread, hOnPreShutdown, hOptHook, hLoadHook;
+extern HANDLE hCheckThread;
 extern MYOPTIONS MyOptions;
 extern aPopups PopupsList[POPUPS];
 extern LPCTSTR Title, Text;
@@ -106,8 +106,8 @@ BOOL NetlibInit();
 VOID IcoLibInit();
 VOID NetlibUnInit();
 INT ModulesLoaded(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam);
-INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam);
+INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam);
+INT_PTR EmptyFolder(WPARAM wParam, LPARAM lParam);
 INT OnPreShutdown(WPARAM wParam, LPARAM lParam);
 INT OptInit(WPARAM wParam, LPARAM lParam);
 VOID DoCheck(INT iFlag);

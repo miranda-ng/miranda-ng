@@ -1,5 +1,5 @@
-/* 
-Copyright (C) 2010 Mataes
+/*
+Copyright (C) 2011-2015 Mataes
 
 This is free software; you can redistribute it and/or
 modify it under the terms of the GNU Library General Public
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -22,11 +22,10 @@ Boston, MA 02111-1307, USA.
 HANDLE Timer;
 BOOL Silent;
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int ModulesLoaded(WPARAM, LPARAM)
 {
-	UnhookEvent(hLoadHook);
 	Silent = true;
-	HOTKEYDESC hkd = {0};
+	HOTKEYDESC hkd = { 0 };
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "Check for pack updates";
@@ -46,14 +45,14 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
+INT_PTR MenuCommand(WPARAM, LPARAM)
 {
 	Silent = false;
 	DoCheck(TRUE);
 	return 0;
 }
 
-INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
+INT_PTR EmptyFolder(WPARAM, LPARAM lParam)
 {
 	SHFILEOPSTRUCT file_op = {
 		NULL,
@@ -71,12 +70,9 @@ INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
+INT OnPreShutdown(WPARAM, LPARAM)
 {
 	CancelWaitableTimer(Timer);
 	CloseHandle(Timer);
-
-	UnhookEvent(hOptHook);
-	UnhookEvent(hOnPreShutdown);
 	return 0;
 }
