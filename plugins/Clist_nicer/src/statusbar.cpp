@@ -25,40 +25,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commonheaders.h>
 #include "../CLUIFrames/cluiframes.h"
 
-static POINT ptMouse = {0};
-static RECT rcMouse = {0};
+static POINT ptMouse = { 0 };
+static RECT rcMouse = { 0 };
 static int timer_set = 0, tooltip_active = 0;
 extern HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
 extern HBRUSH g_CLUISkinnedBkColor;
-
-extern HANDLE (WINAPI *MyOpenThemeData)(HWND, LPCWSTR);
-extern HRESULT (WINAPI *MyCloseThemeData)(HANDLE);
-extern HRESULT (WINAPI *MyDrawThemeBackground)(HANDLE, HDC, int, int, const RECT *, const RECT *);
 
 #define TIMERID_HOVER 1000
 
 LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	POINT pt;
+
 	switch (msg) {
 	case WM_SETCURSOR:
-		{
-			POINT pt;
-			GetCursorPos(&pt);
+		GetCursorPos(&pt);
 
-			SendMessage(GetParent(hwnd), msg, wParam, lParam);
-			if (pt.x == ptMouse.x && pt.y == ptMouse.y)
-				return 1;//return(TestCursorOnBorders());
+		SendMessage(GetParent(hwnd), msg, wParam, lParam);
+		if (pt.x == ptMouse.x && pt.y == ptMouse.y)
+			return 1;
 
-			ptMouse = pt;
-			if (tooltip_active){
-				KillTimer(hwnd, TIMERID_HOVER);
-				if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
-					CallService("mToolTip/HideTip", 0, 0);
-				tooltip_active = FALSE;
-			}
+		ptMouse = pt;
+		if (tooltip_active){
 			KillTimer(hwnd, TIMERID_HOVER);
-			SetTimer(hwnd, TIMERID_HOVER, 750, 0);
+			if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
+				CallService("mToolTip/HideTip", 0, 0);
+			tooltip_active = FALSE;
 		}
+		KillTimer(hwnd, TIMERID_HOVER);
+		SetTimer(hwnd, TIMERID_HOVER, 750, 0);
 		break;
 
 	case WM_NCHITTEST:
@@ -93,7 +88,6 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			HDC hdcMem = CreateCompatibleDC(hdc);
 			RECT rcClient, rcWindow;
 			DRAWITEMSTRUCT dis = {0};
-			POINT pt;
 			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			LONG b_offset = cfg::dat.bClipBorder + (windowStyle == SETTING_WINDOWSTYLE_NOBORDER ? 2 : (windowStyle == SETTING_WINDOWSTYLE_THINBORDER ? 1 : 0));
 
@@ -145,7 +139,6 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_TIMER:
 		if (wParam == TIMERID_HOVER) {
-			POINT pt;
 			KillTimer(hwnd, TIMERID_HOVER);
 
 			GetCursorPos(&pt);
