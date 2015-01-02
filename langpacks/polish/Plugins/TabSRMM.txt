@@ -558,8 +558,8 @@ INFO: niektóre ustawienia przyniosą efekt po ponownym otwarciu kontenera.
 Układ kart
 [About TabSRMM]
 O TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright 2004-2011 przez projekt Miranda IM, 2012-2014 przez projekt Miranda NG. Bardziej szczegółowe informacje dotyczące praw autorskich znajdują się w dołączonym pliku readme.
+[Copyright 2004-2011 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Copyright 2004-2011 przez projekt Miranda IM, 2012-2015 przez projekt Miranda NG. Bardziej szczegółowe informacje dotyczące praw autorskich znajdują się w dołączonym pliku readme.
 [Support and latest version information]
 Wsparcie i informacje o ostatniej wersji
 [Selected skin]

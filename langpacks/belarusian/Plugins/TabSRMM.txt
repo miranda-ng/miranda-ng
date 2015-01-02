@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.6
+;  Version: 3.4.0.7
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -558,8 +558,8 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Налады выгляду ўкладак
 [About TabSRMM]
 Пра TabSRMM
-[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Аўтарскія правы 2004-2011 Miranda IM, 2012-2014 Miranda NG. Падрабязней ў файле Readme.
+[Copyright 2004-2011 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Аўтарскія правы 2004-2011 Miranda IM, 2012-2015 Miranda NG. Падрабязней ў файле Readme.
 [Support and latest version information]
 Падтрымка і інфармацыя пра апошнюю версію
 [Selected skin]

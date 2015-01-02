@@ -322,22 +322,26 @@ Zawsze pokazuj status w podpowiedzi
 Wyłącz miganie ikony
 [ms, delay between icon blinking]
 ms, przerwa między mignięciami ikony
-[Show]
-Pokaż
-[Cycle icons every]
-Zmieniaj ikony co
-[seconds, when statuses differ]
-Sekund, gdy statusy różnią się
-[Show multiple icons]
-Pokazuj wiele ikon
-[only when statuses differ]
-Tylko, gdy statusy się różnią
 [System tray icon]
 Ikona w zasobniku
-[System tray icon mode]
-Tryb ikony w zasobniku
 [Use xStatus icon]
 Użyj ikony xStatusu
+[Icon mode]
+
+[For similar statuses]
+
+[Global status]
+Globalny status
+[Single account]
+
+[Cycle icons]
+
+[All accounts]
+Wszystkie konta
+[For different statuses]
+
+[Cycle period, seconds]
+
 [Additional stuff]
 Pozostałe ustawienia
 [Ignore empty extra icons places (arrange to right).]
@@ -760,8 +764,6 @@ Nazwa konta
 Ocena
 [-Nothing-]
 -Nic-
-[Global]
-Globalny
 [Hide to tray]
 Schowaj do zasobnika
 [Behind left edge]
