@@ -75,7 +75,7 @@ int GetStatusVal(int status)
 	case ID_STATUS_OUTTOLUNCH:            return 410;
 	}
 
-	if (status < ID_STATUS_OFFLINE && status > 0)
+	if (status > 0 && status < ID_STATUS_OFFLINE)
 		return 600; // 'connecting' status has the top priority
 	return 0;
 }
@@ -89,6 +89,8 @@ int GetStatusOrder(int currentStatus, int newStatus)
 
 INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 {
+	g_szConnectingProto = NULL;
+
 	int curstatus = 0;
 	int connectingCount = 0;
 	for (int i = 0; i < pcli->hClcProtoCount; i++) {
@@ -101,7 +103,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM, LPARAM)
 			if (connectingCount == 1)
 				g_szConnectingProto = p.szProto;
 		}
-		curstatus = GetStatusOrder(curstatus, p.dwStatus);
+		else curstatus = GetStatusOrder(curstatus, p.dwStatus);
 	}
 
 	if (connectingCount == 0)
