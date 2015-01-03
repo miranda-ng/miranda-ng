@@ -126,7 +126,6 @@ private:
 	void __cdecl PollingThread(void*);
 
 	// tox profile
-	HANDLE hProfile;
 	std::tstring GetToxProfilePath();
 	static std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName);
 
@@ -210,7 +209,7 @@ private:
 
 	// avatars
 	std::tstring GetAvatarFilePath(MCONTACT hContact = NULL);
-	bool SetToxAvatar(std::tstring path, bool checkHash = false);
+	void SetToxAvatar(std::tstring path, bool checkHash = false);
 
 	INT_PTR __cdecl GetAvatarCaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM lParam);

@@ -30,6 +30,11 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getBool("DisableUDP", 0));
 			CheckDlgButton(hwnd, IDC_DISABLE_IPV6, proto->getBool("DisableIPv6", 0));
+
+			EnableWindow(GetDlgItem(hwnd, IDC_TOXID), proto->IsOnline());
+			EnableWindow(GetDlgItem(hwnd, IDC_CLIPBOARD), proto->IsOnline());
+			EnableWindow(GetDlgItem(hwnd, IDC_NAME), proto->IsOnline());
+			EnableWindow(GetDlgItem(hwnd, IDC_PASSWORD), proto->IsOnline());
 		}
 		return TRUE;
 
@@ -74,16 +79,6 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
-			TCHAR nick[TOX_MAX_NAME_LENGTH], pass[MAX_PATH];
-			GetDlgItemText(hwnd, IDC_NAME, nick, TOX_MAX_NAME_LENGTH);
-			proto->setTString("Nick", nick);
-
-			GetDlgItemText(hwnd, IDC_PASSWORD, pass, SIZEOF(pass));
-			proto->setTString("Password", pass);
-
-			proto->setByte("DisableUDP", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_UDP));
-			proto->setByte("DisableIPv6", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_IPV6));
-
 			TCHAR group[64];
 			GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
 			if (_tcslen(group) > 0)
@@ -96,7 +91,20 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				proto->delSetting(NULL, TOX_SETTINGS_GROUP);
 			}
 
-			proto->SaveToxProfile();
+			proto->setByte("DisableUDP", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_UDP));
+			proto->setByte("DisableIPv6", (BYTE)IsDlgButtonChecked(hwnd, IDC_DISABLE_IPV6));
+
+			if (proto->IsOnline())
+			{
+				TCHAR nick[TOX_MAX_NAME_LENGTH], pass[MAX_PATH];
+				GetDlgItemText(hwnd, IDC_NAME, nick, TOX_MAX_NAME_LENGTH);
+				proto->setTString("Nick", nick);
+
+				GetDlgItemText(hwnd, IDC_PASSWORD, pass, SIZEOF(pass));
+				proto->setTString("Password", pass);
+
+				proto->SaveToxProfile();
+			}
 
 			return TRUE;
 		}
