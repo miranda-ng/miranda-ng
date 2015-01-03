@@ -32,9 +32,8 @@ int CheckRestart();		// core: IDD_WAITRESTART
 int  LoadSystemModule(void);		// core: m_system.h services
 int  LoadNewPluginsModuleInfos(void); // core: preloading plugins
 int  LoadNewPluginsModule(void);	// core: N.O. plugins
-int  LoadSslModule(void);
 int  LoadNetlibModule(void);		// core: network
-void NetlibInitSsl(void);
+int  LoadSslModule(void);
 int  LoadLangpackModule(void);	// core: translation
 int  LoadProtocolsModule(void);	// core: protocol manager
 int  LoadAccountsModule(void);    // core: account manager
@@ -81,7 +80,6 @@ void UnloadProtocolsModule(void);
 void UnloadSkinSounds(void);
 void UnloadSkinHotkeys(void);
 void UnloadSrmmModule(void);
-void UnloadSslModule(void);
 void UnloadUtilsModule(void);
 
 int  LoadIcoTabsModule();
@@ -144,7 +142,6 @@ int LoadDefaultModules(void)
 	if (LoadOptionsModule()) return 1;
 	if (LoadNetlibModule()) return 1;
 	if (LoadSslModule()) return 1;
-	NetlibInitSsl();
 	if (LoadProtocolsModule()) return 1;
 	LoadDbAccounts();                    // retrieves the account array from a database
 	if (LoadContactsModule()) return 1;
@@ -184,5 +181,4 @@ void UnloadDefaultModules(void)
 	UnloadContactListModule();
 	UnloadEventsModule();
 	UnloadNetlibModule();
-	UnloadSslModule();
 }

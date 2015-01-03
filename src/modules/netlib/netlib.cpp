@@ -526,8 +526,3 @@ int LoadNetlibModule(void)
 	NetlibLoadIeProxy();
 	return 0;
 }
-
-void NetlibInitSsl(void)
-{
-	mir_getSI(&si);
-}

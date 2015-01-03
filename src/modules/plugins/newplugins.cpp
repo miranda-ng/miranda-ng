@@ -54,7 +54,7 @@ static int sttFakeID = -100;
 static HANDLE hPluginListHeap = NULL;
 static int askAboutIgnoredPlugins;
 
-static pluginEntry *pluginList_freeimg, *pluginList_crshdmp, *serviceModePlugin = NULL;
+static pluginEntry *plugin_freeimg, *plugin_crshdmp, *serviceModePlugin, *plugin_ssl;
 
 #define PLUGINDISABLELIST "PluginDisable"
 
@@ -118,23 +118,23 @@ static bool isPluginBanned(const MUUID& u1)
 
 static MuuidReplacement pluginDefault[] =
 {
-	{ MIID_UIUSERINFO, _T("stduserinfo"), NULL },  // 0
-	{ MIID_SRURL, _T("stdurl"), NULL },  // 1
-	{ MIID_SREMAIL, _T("stdemail"), NULL },  // 2
-	{ MIID_SRAUTH, _T("stdauth"), NULL },  // 3
-	{ MIID_SRFILE, _T("stdfile"), NULL },  // 4
-	{ MIID_UIHELP, _T("stdhelp"), NULL },  // 5
-	{ MIID_UIHISTORY, _T("stduihist"), NULL },  // 6
-	{ MIID_IDLE, _T("stdidle"), NULL },  // 7
-	{ MIID_AUTOAWAY, _T("stdautoaway"), NULL },  // 8
-	{ MIID_USERONLINE, _T("stduseronline"), NULL },  // 9
-	{ MIID_SRAWAY, _T("stdaway"), NULL },  // 10
-	{ MIID_CLIST, _T("stdclist"), NULL },  // 11
-	{ MIID_CHAT, _T("stdchat"), NULL },  // 12
-	{ MIID_SRMM, _T("stdmsg"), NULL }   // 13
+	{ MIID_UIUSERINFO, _T("stduserinfo"),   NULL }, // 0
+	{ MIID_SRURL,      _T("stdurl"),        NULL }, // 1
+	{ MIID_SREMAIL,    _T("stdemail"),      NULL }, // 2
+	{ MIID_SRAUTH,     _T("stdauth"),       NULL }, // 3
+	{ MIID_SRFILE,     _T("stdfile"),       NULL }, // 4
+	{ MIID_UIHELP,     _T("stdhelp"),       NULL }, // 5
+	{ MIID_UIHISTORY,  _T("stduihist"),     NULL }, // 6
+	{ MIID_IDLE,       _T("stdidle"),       NULL }, // 7
+	{ MIID_AUTOAWAY,   _T("stdautoaway"),   NULL }, // 8
+	{ MIID_USERONLINE, _T("stduseronline"), NULL }, // 9
+	{ MIID_SRAWAY,     _T("stdaway"),       NULL }, // 10
+	{ MIID_CLIST,      _T("stdclist"),      NULL }, // 11
+	{ MIID_CHAT,       _T("stdchat"),       NULL }, // 12
+	{ MIID_SRMM,       _T("stdmsg"),        NULL }  // 13
 };
 
-int getDefaultPluginIdx(const MUUID& muuid)
+int getDefaultPluginIdx(const MUUID &muuid)
 {
 	for (int i = 0; i < SIZEOF(pluginDefault); i++)
 		if (equalUUID(muuid, pluginDefault[i].uuid))
@@ -214,6 +214,7 @@ MUUID miid_database = MIID_DATABASE;
 MUUID miid_protocol = MIID_PROTOCOL;
 MUUID miid_servicemode = MIID_SERVICEMODE;
 MUUID miid_crypto = MIID_CRYPTO;
+MUUID miid_ssl = MIID_SSL;
 
 static bool validInterfaceList(MUUID *piface)
 {
@@ -311,8 +312,8 @@ void Plugin_Uninit(pluginEntry *p)
 		memset(&p->bpi, 0, sizeof(p->bpi));
 	}
 	
-	if (p == pluginList_crshdmp)
-		pluginList_crshdmp = NULL;
+	if (p == plugin_crshdmp)
+		plugin_crshdmp = NULL;
 	pluginList.remove(p);
 }
 
@@ -435,6 +436,11 @@ pluginEntry* OpenPlugin(TCHAR *tszFileName, TCHAR *dir, TCHAR *path)
 		clistPlugins.insert(p);
 		p->pclass |= PCLASS_CLIST;
 	}
+	// plugin declared that it's a ssl provider. mark it for the future load
+	else if (hasMuuid(pIds, miid_ssl)) {
+		plugin_ssl = p;
+		p->pclass |= PCLASS_LAST;
+	}
 	// plugin declared that it's a service mode plugin.
 	// load it for a profile manager's window
 	else if (hasMuuid(pIds, miid_servicemode)) {
@@ -549,7 +555,7 @@ bool LoadCorePlugin(MuuidReplacement& mr)
 LBL_Error:
 		Plugin_UnloadDyn(pPlug);
 		mr.pImpl = NULL;
-		return FALSE;
+		return false;
 	}
 
 	pPlug->pclass |= PCLASS_CORE;
@@ -564,7 +570,7 @@ LBL_Error:
 		NotifyEventHooks(hevLoadModule, (WPARAM)pPlug->bpi.pluginInfo, (LPARAM)pPlug->bpi.hInst);
 	}
 	mr.pImpl = pPlug;
-	return TRUE;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -702,6 +708,26 @@ void EnsureCheckerLoaded(bool bEnable)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+int LoadSslModule(void)
+{
+	if (plugin_ssl != NULL) {
+		if (!TryLoadPlugin(plugin_ssl, false)) {
+			Plugin_Uninit(plugin_ssl);
+			return 1;
+		}
+	}
+	else {
+		MuuidReplacement stdSsl = { MIID_SSL, _T("stdssl"), NULL };
+		if (!LoadCorePlugin(stdSsl))
+			return 1;
+	}
+
+	mir_getSI(&si);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Event hook to unload all non-core plugins
 // hooked very late, after all the internal plugins, blah
 
@@ -732,21 +758,21 @@ int LoadNewPluginsModule(void)
 	askAboutIgnoredPlugins = (UINT)GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
-	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname))
-		if (!TryLoadPlugin(pluginList_crshdmp, false))
-			Plugin_Uninit(pluginList_crshdmp);
+	if (plugin_crshdmp != NULL && isPluginOnWhiteList(plugin_crshdmp->pluginname))
+		if (!TryLoadPlugin(plugin_crshdmp, false))
+			Plugin_Uninit(plugin_crshdmp);
 
 	// if freeimage is present, load it to provide the basic core functions
-	if (pluginList_freeimg != NULL) {
+	if (plugin_freeimg != NULL) {
 		BASIC_PLUGIN_INFO bpi;
-		mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\Plugins\\%s"), pluginList_freeimg->pluginname);
+		mir_sntprintf(slice, &exe[SIZEOF(exe)] - slice, _T("\\Plugins\\%s"), plugin_freeimg->pluginname);
 		if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_NONE)) {
-			pluginList_freeimg->bpi = bpi;
-			pluginList_freeimg->pclass |= PCLASS_OK | PCLASS_BASICAPI;
+			plugin_freeimg->bpi = bpi;
+			plugin_freeimg->pclass |= PCLASS_OK | PCLASS_BASICAPI;
 			if (bpi.Load() == 0)
-				pluginList_freeimg->pclass |= PCLASS_LOADED;
+				plugin_freeimg->pclass |= PCLASS_LOADED;
 			else
-				Plugin_Uninit(pluginList_freeimg);
+				Plugin_Uninit(plugin_freeimg);
 		}
 	}
 
@@ -788,11 +814,13 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 {
 	pluginEntry *p = OpenPlugin(fd->cFileName, _T("Plugins"), path);
 	if (!(p->pclass & PCLASS_FAILED)) {
-		if (pluginList_freeimg == NULL && mir_tstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0)
-			pluginList_freeimg = p;
+		if (plugin_freeimg == NULL && mir_tstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0) {
+			plugin_freeimg = p;
+			p->pclass |= PCLASS_LAST;
+		}
 
-		if (pluginList_crshdmp == NULL && mir_tstrcmpi(fd->cFileName, _T("crashdumper.dll")) == 0) {
-			pluginList_crshdmp = p;
+		if (plugin_crshdmp == NULL && mir_tstrcmpi(fd->cFileName, _T("crashdumper.dll")) == 0) {
+			plugin_crshdmp = p;
 			p->pclass |= PCLASS_LAST;
 		}
 	}
@@ -845,12 +873,12 @@ void UnloadNewPluginsModule(void)
 	// unload everything but the DB
 	for (int i = pluginList.getCount() - 1; i >= 0; i--) {
 		pluginEntry *p = pluginList[i];
-		if (!(p->pclass & (PCLASS_DB | PCLASS_CRYPT)) && p != pluginList_crshdmp)
+		if (!(p->pclass & (PCLASS_DB | PCLASS_CRYPT)) && p != plugin_crshdmp)
 			Plugin_Uninit(p);
 	}
 
-	if (pluginList_crshdmp)
-		Plugin_Uninit(pluginList_crshdmp);
+	if (plugin_crshdmp)
+		Plugin_Uninit(plugin_crshdmp);
 
 	UnloadDatabase();
 
