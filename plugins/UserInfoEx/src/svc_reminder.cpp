@@ -369,15 +369,6 @@ static BYTE NotifyWithSound(const CEvent &evt)
  * "check for anniversary" functions
  ***********************************************************************************************************/
 
-static LPCTSTR ContactGender(MCONTACT hContact)
-{
-	switch (GenderOf(hContact)) {
-		case 'M': return TranslateT("He");
-		case 'F': return TranslateT("She");
-	}
-	return TranslateT("He/She");
-}
-
 static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNotify)
 {
 	int numAnniversaries = 0;
@@ -406,7 +397,17 @@ static BYTE CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE 
 					if (bNotify) {
 						// first anniversary found
 						if (numAnniversaries == 1)
-							tszMsg.AppendFormat(TranslateT("%s has the following anniversaries:"), ContactGender(hContact));
+							switch (GenderOf(hContact)){
+							case 0:
+								tszMsg += TranslateT("He/she has the following anniversaries:");
+								break;
+							case 'M':
+								tszMsg += TranslateT("He has the following anniversaries:");
+								break;
+							case 'F':
+								tszMsg += TranslateT("She has the following anniversaries:");
+								break;
+							}						
 						tszMsg.Append(_T("\n- "));
 
 						switch (Diff) {
@@ -492,10 +493,23 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, BYTE bNoti
 						}
 						int age = mtb.Age(&Now);
 						if (age > 0)
-							mir_sntprintf(szMsg + cchMsg, SIZEOF(szMsg) - cchMsg,
-								TranslateT("\n%s becomes %d years old."),
-								ContactGender(hContact), age + (Diff > 0));
-
+							switch (GenderOf(hContact)){
+							case 0:
+								mir_sntprintf(szMsg + cchMsg, SIZEOF(szMsg) - cchMsg,
+									TranslateT("\nHe/she becomes %d years old."),
+									age + (Diff > 0));
+								break;
+							case 'M':
+								mir_sntprintf(szMsg + cchMsg, SIZEOF(szMsg) - cchMsg,
+									TranslateT("\nHe becomes %d years old."),
+									age + (Diff > 0));
+								break;
+							case 'F':
+								mir_sntprintf(szMsg + cchMsg, SIZEOF(szMsg) - cchMsg,
+									TranslateT("\nShe becomes %d years old."),
+									age + (Diff > 0));
+								break;
+							}
 						NotifyWithPopup(hContact, CEvent::BIRTHDAY, Diff, mtb.Description(), szMsg);
 					}
 					return true;
