@@ -54,6 +54,7 @@
 #define LANG_ICON_PRIVATE					LPGEN("OTR private")
 #define LANG_ICON_NOT_PRIVATE				LPGEN("OTR not secure")
 #define LANG_ICON_OTR						LPGEN("OTR")
+#define LANG_ICON_REFRESH					LPGEN("Refresh")
 
 #define LANG_GENERATE_KEY					LPGEN("Generating new private key for protocol '%s'.\nPlease Wait...")
 
