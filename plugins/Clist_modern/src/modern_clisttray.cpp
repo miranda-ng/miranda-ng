@@ -628,7 +628,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 
 	HICON hIcon = NULL;
 	int i = 0;
-	bool bShowGglobal = true;
+	bool bShowGlobal = true;
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
 		hIcon = pcli->pfnGetIconFromStatusMode(NULL, NULL, CListTray_GetGlobalStatus(0, 0));
@@ -639,7 +639,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 		if (strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 			return;
 
-		bShowGglobal = false;
+		bShowGlobal = false;
 		if (g_StatusBarData.bConnectingIcon && pa->ppro->m_iStatus >= ID_STATUS_CONNECTING && pa->ppro->m_iStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
@@ -656,7 +656,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 			if (!strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;
 
-		bShowGglobal = false;
+		bShowGlobal = false;
 		if (g_StatusBarData.bConnectingIcon && pa->ppro->m_iStatus >= ID_STATUS_CONNECTING && pa->ppro->m_iStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
@@ -676,7 +676,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 
 	// if Tipper is missing or turned off for tray, use system tooltips
 	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1)) {
-		pcli->pfnTrayIconMakeTooltip(NULL, (bShowGglobal) ? NULL : pcli->trayIcon[i].szProto);
+		pcli->pfnTrayIconMakeTooltip(NULL, (bShowGlobal) ? NULL : pcli->trayIcon[i].szProto);
 		lstrcpyn(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
 	}
 
