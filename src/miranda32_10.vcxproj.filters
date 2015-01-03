@@ -348,9 +348,6 @@
     <ClCompile Include="modules\netlib\netlibsock.cpp">
       <Filter>Modules\netlib</Filter>
     </ClCompile>
-    <ClCompile Include="modules\netlib\netlibssl.cpp">
-      <Filter>Modules\netlib</Filter>
-    </ClCompile>
     <ClCompile Include="modules\netlib\netlibupnp.cpp">
       <Filter>Modules\netlib</Filter>
     </ClCompile>

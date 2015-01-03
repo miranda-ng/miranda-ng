@@ -449,9 +449,6 @@
     <ClCompile Include="modules\netlib\netlibsock.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="modules\netlib\netlibssl.cpp">
-      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="modules\netlib\netlibupnp.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
