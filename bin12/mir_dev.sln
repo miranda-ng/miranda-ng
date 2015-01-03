@@ -2,6 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_12.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mir_core", "..\src\mir_core\mir_core_12.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs_12.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\plugins\Zlib\zlib_12.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -29,11 +36,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ICQ", "..\protocols\IcqOscarJ\icqoscar8_12.vcxproj", "{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jabber", "..\protocols\JabberG\jabber_12.vcxproj", "{33276462-8313-4192-8306-13717ECCA60A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32_12.vcxproj", "{F9916510-9055-4C9F-997A-3755DEC1511B}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSN", "..\protocols\MSN\msn_12.vcxproj", "{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}"
 EndProject
@@ -190,11 +192,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_12.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR\MirOTR\MirOTR_12.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{40FE7861-E54E-4DA9-BE4D-A5178014E477} = {40FE7861-E54E-4DA9-BE4D-A5178014E477}
-		{1423FC8F-AA52-4562-8275-4BF0838CA378} = {1423FC8F-AA52-4562-8275-4BF0838CA378}
-		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8} = {2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libotr", "..\plugins\MirOTR\libotr-3.2.0\libotr320_12.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
 EndProject
@@ -209,9 +206,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhoUsesMyFiles", "..\plugins\WhoUsesMyFiles\wumf_12.vcxproj", "{F29CCB9B-79CF-4341-AA05-3626A036D3E3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CryptoPP", "..\plugins\CryptoPP\cryptopp_12.vcxproj", "{4AC1E062-0236-4E49-AA04-F732043D2DCF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{290C5ED4-71A7-4040-AD26-4820CF7A9E60} = {290C5ED4-71A7-4040-AD26-4820CF7A9E60}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cryptlib", "..\plugins\CryptoPP\crypto\cryptlib_12.vcxproj", "{290C5ED4-71A7-4040-AD26-4820CF7A9E60}"
 EndProject
@@ -219,8 +213,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserInfo", "..\src\core\
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mir_core", "..\src\mir_core\mir_core_12.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAuth", "..\src\core\stdauth\stdauth_12.vcxproj", "{86E0715E-C769-11E1-A41D-6CED6188709B}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -272,6 +264,31 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAway", "..\src\core\stda
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdChat", "..\src\core\stdchat\stdchat_12.vcxproj", "{268BD296-8DD3-4715-A386-CF120398EC98}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist_12.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdMsg", "..\src\core\stdmsg\stdmsg_12.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdCrypt", "..\src\core\stdcrypt\stdcrypt_12.vcxproj", "{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdSsl", "..\src\core\stdssl\stdssl_12.vcxproj", "{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
+	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmdLine", "..\plugins\CmdLine\CmdLine_12.vcxproj", "{73BA9CA5-640D-4F30-A157-A73557A25F98}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MimCmd", "..\plugins\CmdLine\MimCmd\MimCmd_12.vcxproj", "{1E3BB48A-FFBC-4A03-8C43-9124A484BE51}"
@@ -299,21 +316,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Watrack_MPD", "..\plugins\Watrack_MPD\watrack_mpd_12.vcxproj", "{A7D9DFA5-C34F-4B98-BEE8-5140EFCD2E8C}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PluginUpdater", "..\plugins\PluginUpdater\PluginUpdater_12.vcxproj", "{21F6C0E4-DD1A-49E6-82FD-64574BB902BD}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdChat", "..\src\core\stdchat\stdchat_12.vcxproj", "{268BD296-8DD3-4715-A386-CF120398EC98}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist_12.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdMsg", "..\src\core\stdmsg\stdmsg_12.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
-	ProjectSection(ProjectDependencies) = postProject
-		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PManagerEx", "..\plugins\ProfileManager\pmanagerEx_12.vcxproj", "{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}"
 EndProject
@@ -412,8 +414,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YahooGroups", "..\plugins\YahooGroups\YahooGroups_12.vcxproj", "{0E73244B-30D7-4A62-B4B3-9A32B96EC1B7}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YARelay", "..\plugins\YARelay\YARelay_12.vcxproj", "{AA5CA2D0-F096-4001-B1B6-439C7FC11E77}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdCrypt", "..\src\core\stdcrypt\stdcrypt_12.vcxproj", "{8D0F60DE-DB07-49FD-8E1F-0DE558BE6DE3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SkypeStatusChange", "..\plugins\SkypeStatusChange\SkypeStatusChange_12.vcxproj", "{10F78F26-2B20-4158-869F-CB29533B4C2C}"
 EndProject
@@ -2231,6 +2231,14 @@ Global
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|Win32.Build.0 = Release|Win32
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|x64.ActiveCfg = Release|x64
 		{129A4E61-E476-45E8-BD50-5E03BA80E9AD}.Release|x64.Build.0 = Release|x64
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Debug|Win32.Build.0 = Debug|Win32
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Debug|x64.ActiveCfg = Debug|x64
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Debug|x64.Build.0 = Debug|x64
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Release|Win32.ActiveCfg = Release|Win32
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Release|Win32.Build.0 = Release|Win32
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Release|x64.ActiveCfg = Release|x64
+		{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
