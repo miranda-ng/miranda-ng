@@ -34,7 +34,24 @@ void SetUnderline(Dialog *dlg, int pos_start, int pos_end)
 	cf.dwMask = CFM_UNDERLINE | CFM_UNDERLINETYPE;
 	cf.dwEffects = CFE_UNDERLINE;
 	cf.bUnderlineType = opts.underline_type + CFU_UNDERLINEDOUBLE;
-	cf.bUnderlineColor = 0x05;
+
+	OSVERSIONINFOEX osvi = { 0 };
+	BOOL bOsVersionInfoEx;
+
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+
+	bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO*)&osvi);
+	if (!bOsVersionInfoEx) {
+		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+		if (!GetVersionEx((OSVERSIONINFO*)&osvi))
+			return;
+	}
+
+	if (VER_PLATFORM_WIN32_NT == osvi.dwPlatformId && osvi.dwMajorVersion == 6 && osvi.dwMinorVersion >= 2)
+		cf.bUnderlineColor = 0x06;
+	else
+		cf.bUnderlineColor = 0x05;
+
 	dlg->re->SendMessage(EM_SETCHARFORMAT, (WPARAM)SCF_SELECTION, (LPARAM)&cf);
 
 	dlg->markedSomeWord = TRUE;
