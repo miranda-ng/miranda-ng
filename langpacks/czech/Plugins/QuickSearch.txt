@@ -9,6 +9,8 @@
 
 [Quick Search]
 Rychlé hledání
+[Quick search]
+Rychlé hledání
 [Title]
 Název
 [Module/InfoType]

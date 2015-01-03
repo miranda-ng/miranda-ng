@@ -22,8 +22,8 @@ Ačkoliv byla výjimka zachycena a vy můžete pokračovat v práci s Mirandou, 
 O doplňku CList Nicer+
 [Clist Nicer+]
 Clist Nicer+
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-Copyright © 2004-2010 Miranda IM projekt, 2012-2014 Miranda NG projekt. Detailnější informace týkající se copyrightu naleznete v přiloženém README souboru.
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+Copyright © 2004-2010 Miranda IM projekt, 2012-2015 Miranda NG projekt. Detailnější informace týkající se copyrightu naleznete v přiloženém README souboru.
 [Version]
 Verze
 [Support and latest version information]
@@ -465,7 +465,7 @@ Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
 [Tray]
-Oznámení
+Oznamovací oblast
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]

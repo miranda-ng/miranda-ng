@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.3
+;  Version: 0.95.4
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -511,7 +511,7 @@ Znovu načíst jazyk
 [Download more language packs]
 Stáhnout další jazykové balíčky
 [Tray]
-Oznámení
+Oznamovací oblast
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -570,7 +570,7 @@ Z&kopírovat odkaz
 &Obnovit předchozí
 [Ungroup]
 Zrušit skupinu
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autorizovat
 [&Deny]
@@ -587,7 +587,7 @@ Je-li autorizován, přidat mezi kontakty
 Zpráva o zařazení mezi kontakty
 [&Close]
 &Zavřít
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Stav: '%s', uživatel: %s
 [Retrieving %s message...]
@@ -779,7 +779,7 @@ Vždy navrchu
 [Tool style main window]
 Zjednodušené záhlaví okna
 [Minimize to tray]
-Minimalizovat na panel
+Minimalizovat do ozn. oblasti
 [Show menu bar]
 Zobrazit menu
 [Easy move]
@@ -946,7 +946,7 @@ Nev&iditelný\tCtrl+7
 Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Poslat soubory
 [To:]
@@ -1057,12 +1057,12 @@ Zeptat se
 Přejmenovat (přidá " (1)" atd.)
 [You will always be asked about files from people not on your contact list]
 Příjem souborů od lidí, kteří nejsou mezi kontakty, podléhá vždy dotazu.
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 O programu Miranda NG
 [Credits >]
 Poděkování >
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
 [Become idle if the screen saver is active]
@@ -1173,7 +1173,7 @@ Aktualizovat ikony neaktivního okna, je-li otevřeno
 [Show typing notification when no message dialog is open]
 Zobrazit upozornění i v případě, že není otevřeno okno
 [Flash in the system tray and in the contact list]
-Blikat v oblasti oznámení a okně s kontakty
+Blikat v oznamovací oblasti a okně s kontakty
 [Show balloon popup]
 Oznámit pomocí bubliny
 [Save the window position for each contact]
@@ -1188,7 +1188,7 @@ Rozhovor
 Vložit a odeslat
 [Delete]
 Smazat
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Najít
 [&Find next]
@@ -1199,7 +1199,7 @@ Najít:
 Historie zpráv
 [&Find...]
 &Najít...
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Přidat telefonní číslo
 [Enter country, area code and phone number:]
@@ -1270,7 +1270,7 @@ Oddělení:
 Postavení:
 [Website:]
 WWW:
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s žádá o autorizaci
 [%u requests authorization]
@@ -1283,7 +1283,7 @@ WWW:
 Upozornění
 [Added event]
 Nová událost
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Zobrazit osobní údaje
 [Add contact permanently to list]
@@ -1306,12 +1306,12 @@ Přidat do seznamu natrvalo
 %s žádá o autorizaci\n%s v síti %s
 [Feature is not supported by protocol]
 Funkce není protokolem podporována
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Přečíst &automatickou odpověď
 [Re&ad status message]
 Přečíst stavovou zprávu
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Jsem pryč od %time%
 [Give it up, I'm not in!]
@@ -1692,17 +1692,17 @@ Pozadí seznamu
 [Global]
 Globální
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Standardní šifrovací modul
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Uživatel nemá zaregistrovanou e-mailovou adresu
 [Send e-mail]
 Poslat e-mail
 [&E-mail]
 &E-mail
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Soubor od: %s
 [bytes]
@@ -1719,17 +1719,17 @@ Dokončeno
 Chyba
 [Denied]
 Odmítnuto
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 Soubor %s
 [All files]
 Všechny soubory
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Spustitelné soubory
 [Events]
 Události
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Moje přijaté soubory
 [View user's history]
@@ -1738,12 +1738,12 @@ Zobrazit historii
 Nabídka kontaktu
 [Canceled]
 Přerušeno
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d souborů
 [%d directories]
 %d složek
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Tento soubor ještě nebyl zkontrolován antivirovým programem. Opravdu ho chcete otevřít?
 [File received]
@@ -1794,13 +1794,13 @@ Přenos dat dokončen, otevření složky.
 Kontrola antivirovým programem...
 [Transfer and virus scan complete]
 Přenos a kontrola antivirem dokončena
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Odchozí
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Copyright
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 O progr&amu...
 [&Support]
@@ -1809,7 +1809,7 @@ O progr&amu...
 Do&movská stránka
 [&Report bug]
 &Nahlásit chybu
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Nečinnost
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1889,7 +1889,7 @@ Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Neznámá chyba.
-;file \src\core\stduihist\history.cpp
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Neplatná zpráva
 [Outgoing message]
@@ -1924,7 +1924,7 @@ Odkaz
 Odeslání odkazu:
 [Send timed out]
 Vypršel čas na odeslání
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Upravit e-mail
 [Edit phone number]
@@ -1945,7 +1945,7 @@ Mobil
 Telefon (práce)
 [Work fax]
 Fax (práce)
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 muž
 [Female]
@@ -1964,12 +1964,12 @@ Práce
 Profil
 [Notes]
 Poznámky
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Něco o sobě
 [View/change my &details...]
 In&formace o sobě...
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je online
 ;file \src\modules\addcontact\addcontact.cpp

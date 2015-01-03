@@ -85,7 +85,7 @@ Vždy navrchu
 [Tool style main window]
 Zjednodušené záhlaví okna
 [Minimize to tray]
-Minimalizovat na panel
+Minimalizovat do ozn. oblasti
 [Hide contact list after it has been idle for]
 Skrýt seznam kontaktů, byl-li neaktivní po dobu
 [seconds]
@@ -193,7 +193,7 @@ Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
 [Tray]
-Oznámení
+Oznamovací oblast
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.8
+;  Version: 0.2.9.9
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -92,8 +92,6 @@ Potvrdit
 Zprávy
 [Receive messages from "inbox" folder only]
 Přijímat pouze zprávy ze složky "příchozí"
-[Use local time for received messages]
-Použít lokální čas počítače pro příchozí zprávy
 [Keep messages as unread on server (don't send "seen" info)]
 Ponechat zprávy na serveru jako nepřečtené (neodesílat informaci o času přečtení)
 [Show stickers as custom smileys (EXPERIMENTAL)]

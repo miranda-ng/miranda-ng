@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -26,7 +26,7 @@ Odeslat obrázek
 Zpoždění (sec.):
 [&Format:]
 &Formát:
-[Send B&y:]
+[Send b&y:]
 &Metoda:
 [E&xplore]
 &Procházet
@@ -42,10 +42,8 @@ Nezavírat
 &Sejmout
 [About]
 Informace
-[%s\nv%s]
-
-[Credits >]
-Poděkování >
+[Copyright]
+Copyright
 [&Close]
 &Zavřít
 [Edit]
@@ -54,11 +52,11 @@ Upravit
 Záhlaví okna:
 [Size (HxW):]
 Velikost (v×š):
-[C&lient Area]
+[C&lient area]
 Bez okraje okna
-[indirect capture]
+[Indirect capture]
 nepřímé zachytávání
-[Target Tool]
+[Target tool]
 
 [File:]
 Soubor:
@@ -169,33 +167,8 @@ Filtrování
 [SendScreenshot - Error]
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. SendScreenshot will be disabled.]
-
-[Open SendSS+]
-Otevřít SendSS+
-[SendSS]
-
-[Screenshots]
-
-[SendSS HTTP connections]
-
-[Could not create main dialog.]
-
-[Send Screenshot]
-Odeslat obrázek
-[Send desktop screenshot]
-
-[Take a screenshot]
-
-[Could not register Miranda service.]
-
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-
-[Screenshot Icon2]
-
+[Main Icon]
+Hlavní ikona
 [Target Cursor]
 
 [Target Desktop]
@@ -226,18 +199,31 @@ Aktualizovat
 
 [Down arrow]
 Šipka dolů
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+[Could not create main dialog.]
+
+[SendSS HTTP connections]
+
+[SendSS]
+
+[Screenshots]
+
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+
 [Buttons]
 Tlačítka
-[Overlays]
-Překryvné
+[Could not register Miranda service.]
+
+[Take a screenshot]
+
+[Send desktop screenshot]
+
+[Open SendSS+]
+Otevřít SendSS+
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
 Poděkování
-[< Copyright]
-< Copyright
-[Copyright]
-Copyright
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
 Umístěte kříž na požadované okno.
@@ -277,7 +263,7 @@ Vyplnit položku s popisem.
 Smazat po odeslání
 [Capture]
 
-[Can't create a Screenshot]
+[Couldn't take a screenshot]
 
 [Select a file]
 Vyberte soubor
@@ -291,3 +277,5 @@ pro oblast\s
 okna "
 [" Window]
 "
+[Send screenshot?]
+
