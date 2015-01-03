@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>StdSsl</ProjectName>
+    <ProjectName>StdSSL</ProjectName>
     <ProjectGuid>{2C9F6CB6-3E70-4E7A-945D-2A7C148B0DF3}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
