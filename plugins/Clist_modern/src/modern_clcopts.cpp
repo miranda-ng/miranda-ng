@@ -624,7 +624,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			for (siS = siV = -1, i = 0; i < AccNum; i++)
 			{
-				if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled)
+				if (!acc[i]->bIsVirtual && acc[i]->bIsVisible && !acc[i]->bDynDisabled && acc[i]->bIsEnabled)
 				{
 					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
 					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETITEMDATA, item, (LPARAM)acc[i]);
