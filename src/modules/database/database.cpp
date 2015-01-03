@@ -491,8 +491,6 @@ int LoadDatabaseModule(void)
 	if (!getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
 
-	EnsureCheckerLoaded(false); // unload dbchecker
-
 	if (arDbPlugins.getCount() == 0) {
 		TCHAR buf[256];
 		TCHAR *p = _tcsrchr(szProfile, '\\');
@@ -528,6 +526,8 @@ int LoadDatabaseModule(void)
 		}
 	}
 		while (retry);
+
+	EnsureCheckerLoaded(false); // unload dbchecker
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();
