@@ -17,23 +17,36 @@ std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName)
 
 bool CToxProto::LoadToxProfile()
 {
-	DWORD size = GetFileSize(hProfile, NULL);
-	if (size == 0)
+	std::tstring profilePath = GetToxProfilePath();
+	FILE *profile = _tfopen(profilePath.c_str(), _T("rb"));
+	if (profile == NULL)
 	{
-		debugLogA("CToxProto::LoadToxData: tox profile is empty");
-		return false;
+		debugLogA("CToxProto::LoadToxData: could not open tox profile");
+		return true;
 	}
 
-	DWORD read = 0;
-	uint8_t *data = (uint8_t*)mir_calloc(size);
-	if (!ReadFile(hProfile, data, size, &read, NULL) || size != read)
+	fseek(profile, 0L, SEEK_END);
+	DWORD size = ftell(profile);
+	rewind(profile);
+	if (size == 0)
 	{
+		fclose(profile);
+		debugLogA("CToxProto::LoadToxData: tox profile is empty");
+		return true;
+	}
+
+	uint8_t *data = (uint8_t*)mir_calloc(size);
+	DWORD read = fread((char*)data, sizeof(char), size, profile);
+	if (size != read)
+	{
+		fclose(profile);
 		debugLogA("CToxProto::LoadToxData: could not read tox profile");
 		mir_free(data);
 		return false;
 	}
+	fclose(profile);
 
-	if (tox_is_data_encrypted(data))
+	/*if (tox_is_data_encrypted(data))
 	{
 		ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
 		if (password == NULL || strlen(password) == 0)
@@ -58,7 +71,7 @@ bool CToxProto::LoadToxProfile()
 			return false;
 		}
 	}
-	else
+	else*/
 	{
 		if (tox_load(tox, data, size) == TOX_ERROR)
 		{
@@ -69,13 +82,12 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	mir_free(data);
-
 	return true;
 }
 
 void CToxProto::SaveToxProfile()
 {
-	ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
+	/*ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
 	bool needToEncrypt = password && strlen(password);
 	DWORD size = needToEncrypt
 		? tox_encrypted_size(tox)
@@ -94,16 +106,28 @@ void CToxProto::SaveToxProfile()
 	else
 	{
 		tox_save(tox, data);
+	}*/
+
+	DWORD size = tox_size(tox);
+	uint8_t *data = (uint8_t*)mir_calloc(size);
+	tox_save(tox, data);
+
+	std::tstring profilePath = GetToxProfilePath();
+	FILE *profile = _tfopen(profilePath.c_str(), _T("wb"));
+	if (profile == NULL)
+	{
+		debugLogA("CToxProto::LoadToxData: could not open tox profile");
+		return;
 	}
 
-	SetFilePointer(hProfile, 0, NULL, FILE_BEGIN);
-	SetEndOfFile(hProfile);
-	DWORD written = 0;
-	if (!WriteFile(hProfile, data, size, &written, NULL) || size != written)
+	DWORD written = fwrite(data, sizeof(char), size, profile);
+	if (size != written)
 	{
+		fclose(profile);
 		debugLogA("CToxProto::LoadToxData: could not write tox profile");
 	}
 
+	fclose(profile);
 	mir_free(data);
 }
 
@@ -160,7 +184,7 @@ INT_PTR CToxProto::ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 				SetDlgItemText(hwnd, IDC_PROFILE_PATH, profilePath);
 			}
 		}
-			break;
+		break;
 
 		case IDOK:
 		{
@@ -172,13 +196,9 @@ INT_PTR CToxProto::ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPA
 					CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
 				}
 			}
-			else
-			{
-				fclose(_wfopen(defaultProfilePath.c_str(), _T("w")));
-			}
 			EndDialog(hwnd, 1);
 		}
-			break;
+		break;
 
 		case IDCANCEL:
 			EndDialog(hwnd, 0);

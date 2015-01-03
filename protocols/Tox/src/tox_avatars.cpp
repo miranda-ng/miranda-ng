@@ -7,28 +7,41 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 
 	DWORD dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+	{
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+	}
 
 	ptrT id(getTStringA(hContact, TOX_SETTINGS_ID));
 	if (hContact != NULL)
+	{
 		mir_sntprintf(path, MAX_PATH, _T("%s\\%s.png"), path, id);
+	}
 	else if (id != NULL)
+	{
 		mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.png"), path, id);
+	}
 	else
+	{
 		return _T("");
+	}
 
 	return path;
 }
 
-bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
+void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 {
+	if (!IsOnline())
+	{
+		return;
+	}
+
 	int length;
 	uint8_t *data;
 	FILE *hFile = _tfopen(path.c_str(), L"rb");
 	if (!hFile)
 	{
-		debugLogA("CToxProto::SetMyAvatar: failed to open avatar file");
-		return false;
+		debugLogA("CToxProto::SetToxAvatar: failed to open avatar file");
+		return;
 	}
 
 	fseek(hFile, 0, SEEK_END);
@@ -37,8 +50,8 @@ bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	if (length > TOX_AVATAR_MAX_DATA_LENGTH)
 	{
 		fclose(hFile);
-		debugLogA("CToxProto::SetMyAvatar: new avatar size is excessive");
-		return false;
+		debugLogA("CToxProto::SetToxAvatar: new avatar size is excessive");
+		return;
 	}
 
 	data = (uint8_t*)mir_alloc(length);
@@ -46,8 +59,8 @@ bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	if (readed != length)
 	{
 		fclose(hFile);
-		debugLogA("CToxProto::SetMyAvatar: failed to read avatar file");
-		return false;
+		debugLogA("CToxProto::SetToxAvatar: failed to read avatar file");
+		return;
 	}
 	fclose(hFile);
 
@@ -60,8 +73,8 @@ bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		{
 			db_free(&dbv);
 			mir_free(data);
-			debugLogA("CToxProto::SetMyAvatar: new avatar is same with old");
-			return false;
+			debugLogA("CToxProto::SetToxAvatar: new avatar is same with old");
+			return;
 		}
 		db_free(&dbv);
 	}
@@ -69,8 +82,8 @@ bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	if (tox_set_avatar(tox, TOX_AVATAR_FORMAT_PNG, data, length) == TOX_ERROR)
 	{
 		mir_free(data);
-		debugLogA("CToxProto::SetMyAvatar: failed to set new avatar");
-		return false;
+		debugLogA("CToxProto::SetToxAvatar: failed to set new avatar");
+		return;
 	}
 	mir_free(data);
 
@@ -78,8 +91,6 @@ bool CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	{
 		db_set_blob(NULL, m_szModuleName, TOX_SETTINGS_AVATAR_HASH, (void*)hash, TOX_HASH_LENGTH);
 	}
-
-	return true;
 }
 
 INT_PTR CToxProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)

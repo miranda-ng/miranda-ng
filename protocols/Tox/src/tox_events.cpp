@@ -38,19 +38,11 @@ int CToxProto::OnSettingsChanged(WPARAM hContact, LPARAM lParam)
 	{
 		if (!strcmp(dbcws->szSetting, "Nick") && dbcws->value.pszVal)
 		{
-			if (tox_set_name(tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
+			if (tox && tox_set_name(tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
 			{
-				//SaveToxProfile();
+				SaveToxProfile();
 			}
 		}
-
-		/*if (!strcmp(dbcws->szSetting, "StatusMsg") || !strcmp(dbcws->szSetting, "StatusNote"))
-		{
-		if (tox_set_status_message(tox, (uint8_t*)(char*)ptrA(mir_utf8encodeW(dbcws->value.ptszVal)), (uint16_t)_tcslen(dbcws->value.ptszVal)))
-		{
-		SaveToxData();
-		}
-		}*/
 	}
 
 	return 0;

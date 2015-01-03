@@ -49,7 +49,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 CToxProto::~CToxProto()
 {
 	mir_free(accountName);
-	UninitToxCore();
+	//UninitToxCore();
 	UninitNetlib();
 }
 
@@ -58,12 +58,12 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_EXTSEARCH;
+		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_EXTSEARCH | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
-		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH
-			| PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS;
+		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_SUPPORTTYPING | PF4_AVATARS
+			| PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Tox ID";
 	case PFLAG_UNIQUEIDSETTING:
@@ -224,6 +224,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 
 		if (old_status == ID_STATUS_OFFLINE && !IsOnline())
 		{
+			// login
 			m_iStatus = ID_STATUS_CONNECTING;
 
 			isTerminated = false;

@@ -10,7 +10,7 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
-	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
+	//HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
 	return 0;
@@ -23,7 +23,7 @@ int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
 	std::tstring newPath = GetToxProfilePath();
 	TCHAR oldPath[MAX_PATH];
 	mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);
-	MoveFileEx(oldPath, newPath.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED);
+	_trename(oldPath, newPath.c_str());
 	mir_free(accountName);
 	accountName = mir_tstrdup(m_tszUserName);
 
@@ -32,23 +32,7 @@ int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
 
 bool CToxProto::InitToxCore()
 {
-	std::tstring profilePath = GetToxProfilePath();
-	bool isProfileExists = IsFileExists(profilePath);
-
-	hProfile = CreateFile(
-		profilePath.c_str(),
-		GENERIC_READ | GENERIC_WRITE,
-		FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-		NULL,
-		OPEN_ALWAYS,
-		FILE_ATTRIBUTE_NORMAL,
-		NULL);
-
-	if (hProfile == INVALID_HANDLE_VALUE)
-	{
-		debugLogA("CToxProto::InitToxCore: cannot open tox profile");
-		return false;
-	}
+	debugLogA("CToxProto::InitToxCore: initializing tox profile");
 
 	Tox_Options options = { 0 };
 	options.udp_disabled = getBool("DisableUDP", 0);
@@ -61,10 +45,18 @@ bool CToxProto::InitToxCore()
 
 		if (nlus.useProxy)
 		{
+			if (nlus.proxyType == PROXYTYPE_HTTP || nlus.proxyType == PROXYTYPE_HTTPS)
+			{
+				debugLogA("CToxProto::InitToxCore: setting http user proxy config");
+				options.proxy_type = TOX_PROXY_HTTP;
+				strcpy(&options.proxy_address[0], nlus.szProxyServer);
+				options.proxy_port = nlus.wProxyPort;
+			}
+
 			if (nlus.proxyType == PROXYTYPE_SOCKS4 || nlus.proxyType == PROXYTYPE_SOCKS5)
 			{
 				debugLogA("CToxProto::InitToxCore: setting socks user proxy config");
-				options.proxy_enabled = 1;
+				options.proxy_type = TOX_PROXY_SOCKS5;
 				strcpy(&options.proxy_address[0], nlus.szProxyServer);
 				options.proxy_port = nlus.wProxyPort;
 			}
@@ -72,34 +64,30 @@ bool CToxProto::InitToxCore()
 	}
 
 	tox = tox_new(&options);
-	tox_callback_friend_request(tox, OnFriendRequest, this);
-	tox_callback_friend_message(tox, OnFriendMessage, this);
-	tox_callback_friend_action(tox, OnFriendAction, this);
-	tox_callback_typing_change(tox, OnTypingChanged, this);
-	tox_callback_name_change(tox, OnFriendNameChange, this);
-	tox_callback_status_message(tox, OnStatusMessageChanged, this);
-	tox_callback_user_status(tox, OnUserStatusChanged, this);
-	tox_callback_read_receipt(tox, OnReadReceipt, this);
-	tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
-	// file transfers
-	tox_callback_file_control(tox, OnFileRequest, this);
-	tox_callback_file_send_request(tox, OnFriendFile, this);
-	tox_callback_file_data(tox, OnFileData, this);
-	// avatars
-	tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
-	tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
-
-	std::vector<uint8_t> pubKey(TOX_FRIEND_ADDRESS_SIZE);
-	tox_get_address(tox, &pubKey[0]);
-	std::string address = DataToHexString(pubKey);
-	setString(NULL, TOX_SETTINGS_ID, address.c_str());
-
-	if (isProfileExists)
+	bool isProfileLoaded = LoadToxProfile();
+	if (isProfileLoaded)
 	{
-		if (!LoadToxProfile())
-		{
-			return false;
-		}
+		tox_callback_friend_request(tox, OnFriendRequest, this);
+		tox_callback_friend_message(tox, OnFriendMessage, this);
+		tox_callback_friend_action(tox, OnFriendAction, this);
+		tox_callback_typing_change(tox, OnTypingChanged, this);
+		tox_callback_name_change(tox, OnFriendNameChange, this);
+		tox_callback_status_message(tox, OnStatusMessageChanged, this);
+		tox_callback_user_status(tox, OnUserStatusChanged, this);
+		tox_callback_read_receipt(tox, OnReadReceipt, this);
+		tox_callback_connection_status(tox, OnConnectionStatusChanged, this);
+		// file transfers
+		tox_callback_file_control(tox, OnFileRequest, this);
+		tox_callback_file_send_request(tox, OnFriendFile, this);
+		tox_callback_file_data(tox, OnFileData, this);
+		// avatars
+		tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
+		tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
+
+		std::vector<uint8_t> pubKey(TOX_FRIEND_ADDRESS_SIZE);
+		tox_get_address(tox, &pubKey[0]);
+		std::string address = DataToHexString(pubKey);
+		setString(NULL, TOX_SETTINGS_ID, address.c_str());
 
 		int size = tox_get_self_name_size(tox);
 		std::vector<uint8_t> username(size);
@@ -114,14 +102,16 @@ bool CToxProto::InitToxCore()
 		}
 	}
 
-	return true;
+	return isProfileLoaded;
 }
 
 void CToxProto::UninitToxCore()
 {
+	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
+	tox_set_name(tox, (uint8_t*)(char*)nickname, (uint16_t)strlen(nickname));
+
 	SaveToxProfile();
 	tox_kill(tox);
-	CloseHandle(hProfile);
 }
 
 void CToxProto::DoBootstrap()
@@ -150,7 +140,16 @@ void CToxProto::PollingThread(void*)
 	debugLogA("CToxProto::PollingThread: entering");
 
 	isConnected = false;
-	DoBootstrap();
+	if (InitToxCore())
+	{
+		DoBootstrap();
+	}
+	else
+	{
+		isTerminated = true;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_NOSERVER);
+	}
 
 	while (!isTerminated)
 	{
@@ -184,6 +183,7 @@ void CToxProto::PollingThread(void*)
 		}*/
 	}
 
+	UninitToxCore();
 	isConnected = false;
 
 	debugLogA("CToxProto::PollingThread: leaving");

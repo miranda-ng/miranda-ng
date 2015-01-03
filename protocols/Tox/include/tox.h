@@ -36,6 +36,8 @@ extern "C" {
 /* Maximum length of single messages after which they should be split. */
 #define TOX_MAX_MESSAGE_LENGTH 1368
 #define TOX_MAX_STATUSMESSAGE_LENGTH 1007
+#define TOX_MAX_FRIENDREQUEST_LENGTH 1016
+
 #define TOX_CLIENT_ID_SIZE 32
 #define TOX_AVATAR_MAX_DATA_LENGTH 16384
 #define TOX_HASH_LENGTH /*crypto_hash_sha256_BYTES*/ 32
@@ -102,7 +104,7 @@ void tox_get_address(const Tox *tox, uint8_t *address);
 /* Add a friend.
  * Set the data that will be sent along with friend request.
  * address is the address of the friend (returned by getaddress of the friend you wish to add) it must be TOX_FRIEND_ADDRESS_SIZE bytes. TODO: add checksum.
- * data is the data and length is the length.
+ * data is the data and length is the length (maximum length of data is TOX_MAX_FRIENDREQUEST_LENGTH).
  *
  *  return the friend number if success.
  *  return TOX_FAERR_TOOLONG if message length is too long.
@@ -290,32 +292,32 @@ uint32_t tox_get_num_online_friends(const Tox *tox);
 uint32_t tox_get_friendlist(const Tox *tox, int32_t *out_list, uint32_t list_size);
 
 /* Set the function that will be executed when a friend request is received.
- *  Function format is function(Tox *tox, uint8_t * public_key, uint8_t * data, uint16_t length, void *userdata)
+ *  Function format is function(Tox *tox, const uint8_t * public_key, const uint8_t * data, uint16_t length, void *userdata)
  */
 void tox_callback_friend_request(Tox *tox, void (*function)(Tox *tox, const uint8_t *, const uint8_t *, uint16_t,
                                  void *), void *userdata);
 
 /* Set the function that will be executed when a message from a friend is received.
- *  Function format is: function(Tox *tox, int32_t friendnumber, uint8_t * message, uint16_t length, void *userdata)
+ *  Function format is: function(Tox *tox, int32_t friendnumber, const uint8_t * message, uint16_t length, void *userdata)
  */
 void tox_callback_friend_message(Tox *tox, void (*function)(Tox *tox, int32_t, const uint8_t *, uint16_t, void *),
                                  void *userdata);
 
 /* Set the function that will be executed when an action from a friend is received.
- *  Function format is: function(Tox *tox, int32_t friendnumber, uint8_t * action, uint16_t length, void *userdata)
+ *  Function format is: function(Tox *tox, int32_t friendnumber, const uint8_t * action, uint16_t length, void *userdata)
  */
 void tox_callback_friend_action(Tox *tox, void (*function)(Tox *tox, int32_t, const uint8_t *, uint16_t, void *),
                                 void *userdata);
 
 /* Set the callback for name changes.
- *  function(Tox *tox, int32_t friendnumber, uint8_t *newname, uint16_t length, void *userdata)
+ *  function(Tox *tox, int32_t friendnumber, const uint8_t *newname, uint16_t length, void *userdata)
  *  You are not responsible for freeing newname
  */
 void tox_callback_name_change(Tox *tox, void (*function)(Tox *tox, int32_t, const uint8_t *, uint16_t, void *),
                               void *userdata);
 
 /* Set the callback for status message changes.
- *  function(Tox *tox, int32_t friendnumber, uint8_t *newstatus, uint16_t length, void *userdata)
+ *  function(Tox *tox, int32_t friendnumber, const uint8_t *newstatus, uint16_t length, void *userdata)
  *  You are not responsible for freeing newstatus.
  */
 void tox_callback_status_message(Tox *tox, void (*function)(Tox *tox, int32_t, const uint8_t *, uint16_t, void *),
@@ -385,7 +387,8 @@ void tox_get_keys(Tox *tox, uint8_t *public_key, uint8_t *secret_key);
  * return 0 on success.
  */
 int tox_lossy_packet_registerhandler(Tox *tox, int32_t friendnumber, uint8_t byte,
-                                     int (*packet_handler_callback)(void *object, const uint8_t *data, uint32_t len), void *object);
+                                     int (*packet_handler_callback)(Tox *tox, int32_t friendnumber, const uint8_t *data, uint32_t len, void *object),
+                                     void *object);
 
 /* Function to send custom lossy packets.
  * First byte of data must be in the range: 200-254.
@@ -405,7 +408,8 @@ int tox_send_lossy_packet(const Tox *tox, int32_t friendnumber, const uint8_t *d
  * return 0 on success.
  */
 int tox_lossless_packet_registerhandler(Tox *tox, int32_t friendnumber, uint8_t byte,
-                                        int (*packet_handler_callback)(void *object, const uint8_t *data, uint32_t len), void *object);
+                                        int (*packet_handler_callback)(Tox *tox, int32_t friendnumber, const uint8_t *data, uint32_t len, void *object),
+                                        void *object);
 
 /* Function to send custom lossless packets.
  * First byte of data must be in the range: 160-191.
@@ -417,28 +421,48 @@ int tox_send_lossless_packet(const Tox *tox, int32_t friendnumber, const uint8_t
 
 /**********GROUP CHAT FUNCTIONS: WARNING Group chats will be rewritten so this might change ************/
 
+/* Group chat types for tox_callback_group_invite function.
+ *
+ * TOX_GROUPCHAT_TYPE_TEXT groupchats must be accepted with the tox_join_groupchat() function.
+ * The function to accept TOX_GROUPCHAT_TYPE_AV is in toxav.
+ */
+enum {
+    TOX_GROUPCHAT_TYPE_TEXT,
+    TOX_GROUPCHAT_TYPE_AV
+};
+
 /* Set the callback for group invites.
  *
- *  Function(Tox *tox, int32_t friendnumber, uint8_t *data, uint16_t length, void *userdata)
+ *  Function(Tox *tox, int32_t friendnumber, uint8_t type, const uint8_t *data, uint16_t length, void *userdata)
  *
  * data of length is what needs to be passed to join_groupchat().
+ *
+ * for what type means see the enum right above this comment.
  */
-void tox_callback_group_invite(Tox *tox, void (*function)(Tox *tox, int32_t, const uint8_t *, uint16_t, void *),
-                               void *userdata);
+void tox_callback_group_invite(Tox *tox, void (*function)(Tox *tox, int32_t, uint8_t, const uint8_t *, uint16_t,
+                               void *), void *userdata);
 
 /* Set the callback for group messages.
  *
- *  Function(Tox *tox, int groupnumber, int friendgroupnumber, uint8_t * message, uint16_t length, void *userdata)
+ *  Function(Tox *tox, int groupnumber, int peernumber, const uint8_t * message, uint16_t length, void *userdata)
  */
 void tox_callback_group_message(Tox *tox, void (*function)(Tox *tox, int, int, const uint8_t *, uint16_t, void *),
                                 void *userdata);
 
 /* Set the callback for group actions.
  *
- *  Function(Tox *tox, int groupnumber, int friendgroupnumber, uint8_t * action, uint16_t length, void *userdata)
+ *  Function(Tox *tox, int groupnumber, int peernumber, const uint8_t * action, uint16_t length, void *userdata)
  */
 void tox_callback_group_action(Tox *tox, void (*function)(Tox *tox, int, int, const uint8_t *, uint16_t, void *),
                                void *userdata);
+
+/* Set callback function for title changes.
+ *
+ * Function(Tox *tox, int groupnumber, int peernumber, uint8_t * title, uint8_t length, void *userdata)
+ * if peernumber == -1, then author is unknown (e.g. initial joining the group)
+ */
+void tox_callback_group_title(Tox *tox, void (*function)(Tox *tox, int, int, const uint8_t *, uint8_t,
+                              void *), void *userdata);
 
 /* Set callback function for peer name list changes.
  *
@@ -476,6 +500,14 @@ int tox_del_groupchat(Tox *tox, int groupnumber);
  */
 int tox_group_peername(const Tox *tox, int groupnumber, int peernumber, uint8_t *name);
 
+/* Copy the public key of peernumber who is in groupnumber to pk.
+ * pk must be TOX_CLIENT_ID_SIZE long.
+ *
+ * returns 0 on success
+ * returns -1 on failure
+ */
+int tox_group_peer_pubkey(const Tox *tox, int groupnumber, int peernumber, uint8_t *pk);
+
 /* invite friendnumber to groupnumber
  * return 0 on success
  * return -1 on failure
@@ -501,6 +533,27 @@ int tox_group_message_send(Tox *tox, int groupnumber, const uint8_t *message, ui
  * return -1 on failure
  */
 int tox_group_action_send(Tox *tox, int groupnumber, const uint8_t *action, uint16_t length);
+
+/* set the group's title, limited to MAX_NAME_LENGTH
+ * return 0 on success
+ * return -1 on failure
+ */
+int tox_group_set_title(Tox *tox, int groupnumber, const uint8_t *title, uint8_t length);
+
+/* Get group title from groupnumber and put it in title.
+ * title needs to be a valid memory location with a max_length size of at least MAX_NAME_LENGTH (128) bytes.
+ *
+ *  return length of copied title if success.
+ *  return -1 if failure.
+ */
+int tox_group_get_title(Tox *tox, int groupnumber, uint8_t *title, uint32_t max_length);
+
+/* Check if the current peernumber corresponds to ours.
+ *
+ * return 1 if the peernumber corresponds to ours.
+ * return 0 on failure.
+ */
+unsigned int tox_group_peernumber_is_ours(const Tox *tox, int groupnumber, int peernumber);
 
 /* Return the number of peers in the group chat on success.
  * return -1 on failure
@@ -530,7 +583,14 @@ uint32_t tox_count_chatlist(const Tox *tox);
  * Otherwise, returns the number of elements copied.
  * If the array was too small, the contents
  * of out_list will be truncated to list_size. */
-uint32_t tox_get_chatlist(const Tox *tox, int *out_list, uint32_t list_size);
+uint32_t tox_get_chatlist(const Tox *tox, int32_t *out_list, uint32_t list_size);
+
+/* return the type of groupchat (TOX_GROUPCHAT_TYPE_) that groupnumber is.
+ *
+ * return -1 on failure.
+ * return type on success.
+ */
+int tox_group_get_type(const Tox *tox, int groupnumber);
 
 /****************AVATAR FUNCTIONS*****************/
 
@@ -717,7 +777,7 @@ enum {
 };
 /* Set the callback for file send requests.
  *
- *  Function(Tox *tox, int32_t friendnumber, uint8_t filenumber, uint64_t filesize, uint8_t *filename, uint16_t filename_length, void *userdata)
+ *  Function(Tox *tox, int32_t friendnumber, uint8_t filenumber, uint64_t filesize, const uint8_t *filename, uint16_t filename_length, void *userdata)
  */
 void tox_callback_file_send_request(Tox *tox, void (*function)(Tox *m, int32_t, uint8_t, uint64_t, const uint8_t *,
                                     uint16_t, void *), void *userdata);
@@ -727,7 +787,7 @@ void tox_callback_file_send_request(Tox *tox, void (*function)(Tox *m, int32_t, 
  *  receive_send is 1 if the message is for a slot on which we are currently sending a file and 0 if the message
  *  is for a slot on which we are receiving the file
  *
- *  Function(Tox *tox, int32_t friendnumber, uint8_t receive_send, uint8_t filenumber, uint8_t control_type, uint8_t *data, uint16_t length, void *userdata)
+ *  Function(Tox *tox, int32_t friendnumber, uint8_t receive_send, uint8_t filenumber, uint8_t control_type, const uint8_t *data, uint16_t length, void *userdata)
  *
  */
 void tox_callback_file_control(Tox *tox, void (*function)(Tox *m, int32_t, uint8_t, uint8_t, uint8_t, const uint8_t *,
@@ -735,7 +795,7 @@ void tox_callback_file_control(Tox *tox, void (*function)(Tox *m, int32_t, uint8
 
 /* Set the callback for file data.
  *
- *  Function(Tox *tox, int32_t friendnumber, uint8_t filenumber, uint8_t *data, uint16_t length, void *userdata)
+ *  Function(Tox *tox, int32_t friendnumber, uint8_t filenumber, const uint8_t *data, uint16_t length, void *userdata)
  *
  */
 void tox_callback_file_data(Tox *tox, void (*function)(Tox *m, int32_t, uint8_t, const uint8_t *, uint16_t length,
@@ -813,6 +873,12 @@ int tox_add_tcp_relay(Tox *tox, const char *address, uint16_t port, const uint8_
  */
 int tox_isconnected(const Tox *tox);
 
+typedef enum {
+    TOX_PROXY_NONE,
+    TOX_PROXY_SOCKS5,
+    TOX_PROXY_HTTP
+} TOX_PROXY_TYPE;
+
 typedef struct {
     /*
     *  The type of UDP socket created depends on ipv6enabled:
@@ -825,13 +891,11 @@ typedef struct {
 
     /* Set to 1 to disable udp support. (default: 0)
        This will force Tox to use TCP only which may slow things down.
-       Disabling udp support is necessary when using anonymous proxies or Tor.*/
+       Disabling udp support is necessary when using proxies or Tor.*/
     uint8_t udp_disabled;
-
-    /* Enable proxy support. (only basic TCP socks5 proxy currently supported.) (default: 0 (disabled))*/
-    uint8_t proxy_enabled;
+    uint8_t proxy_type; /* a value from TOX_PROXY_TYPE */
     char proxy_address[256]; /* Proxy ip or domain in NULL terminated string format. */
-    uint16_t proxy_port; /* Proxy port: in host byte order. */
+    uint16_t proxy_port; /* Proxy port in host byte order. */
 } Tox_Options;
 
 /*

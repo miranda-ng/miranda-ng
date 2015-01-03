@@ -9,7 +9,7 @@ int CToxProto::CompareAccounts(const CToxProto *p1, const CToxProto *p2)
 
 CToxProto* CToxProto::InitAccount(const char* protoName, const wchar_t* userName)
 {
-	ptrA address(db_get_sa(NULL, protoName, TOX_SETTINGS_ID));
+	/*ptrA address(db_get_sa(NULL, protoName, TOX_SETTINGS_ID));
 	if (address == NULL)
 	{
 		DialogBoxParam(
@@ -18,19 +18,9 @@ CToxProto* CToxProto::InitAccount(const char* protoName, const wchar_t* userName
 			GetActiveWindow(),
 			CToxProto::ToxProfileImportProc,
 			(LPARAM)userName);
-	}
+	}*/
 
 	CToxProto *proto = new CToxProto(protoName, userName);
-	if (proto->InitToxCore())
-	{
-		accounts.insert(proto);
-	}
-	else
-	{
-		delete proto;
-		proto = NULL;
-	}
-
 	return proto;
 }
 
