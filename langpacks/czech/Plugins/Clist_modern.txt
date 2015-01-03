@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -322,22 +322,26 @@ Vždy zobrazit stav v tipu
 Vypnout blikání ikon
 [ms, delay between icon blinking]
 ms (definuje rychlost blikání)
-[Show]
-Zobrazit
-[Cycle icons every]
-Měnit ikony co
-[seconds, when statuses differ]
-sek. (v případě, že se stavy liší)
-[Show multiple icons]
-Zobrazit více ikon
-[only when statuses differ]
-pouze pokud se stavy liší
 [System tray icon]
 Ikona v oznamovací oblasti
-[System tray icon mode]
-Chování v oznamovací oblasti
 [Use xStatus icon]
 Zobrazit ikonu rozšířeného stavu
+[Icon mode]
+Režim ikony
+[For similar statuses]
+Pro stejné stavy
+[Global status]
+Globální stav
+[Single account]
+Jeden účet
+[Cycle icons]
+Měnit ikony
+[All accounts]
+Všechny účty
+[For different statuses]
+Pro rozdílné stavy
+[Cycle period, seconds]
+Měnit ikony každých (sekund)
 [Additional stuff]
 Další možnosti
 [Ignore empty extra icons places (arrange to right).]
@@ -383,7 +387,7 @@ Text v záhlaví:
 [Tool style main window]
 Zjednodušené záhlaví okna
 [Minimize to tray]
-Minimalizovat na panel
+Minimalizovat do ozn. oblasti
 [Translucency options]
 Průhlednost
 [Enable drop shadow (restart required)]
@@ -589,7 +593,7 @@ Mám tele&fon\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Jsem na o&bědě\tCtrl+9
 [Tray]
-Oznámení
+Oznamovací oblast
 [&Hide/Show]
 Skrýt/Zo&brazit
 [Nowhere]
@@ -760,8 +764,6 @@ Název účtu
 Priorita
 [-Nothing-]
 ---
-[Global]
-Globální
 [Hide to tray]
 Do oznam. oblasti
 [Behind left edge]

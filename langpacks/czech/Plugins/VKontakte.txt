@@ -2,12 +2,36 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.34
+;  Version: 0.1.0.39
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 
 ;file \protocols\VKontakte\res\resource.rc
+[[img] BBCode support for image ]
+
+[off]
+vyp
+[for original size images]
+
+[for preview max 130px*130px]
+
+[for preview max 604px*604px]
+
+[BBCode support on news and event notifications]
+
+[basic ([b], [i], [u], [s])]
+
+[advanced (+[url], [size], [color])]
+
+[Use this setting also for attachments on news and notifications]
+
+[Other]
+Ostatní
+[BBCode support on attachments]
+
+[Process stickers as smileys]
+
 [News and event notifications]
 
 [WARNING: Causes excessive network traffic!!!]
@@ -22,7 +46,41 @@
 
 [Special contact always enabled]
 
-[BBCode support on news and event notifications]
+[Autoclear news and notification history]
+
+[News types]
+
+[Wall posts]
+
+[Photos]
+Fotografie
+[Photos tags]
+
+[Wall photos]
+
+[News sources]
+
+[Friends]
+S kamarády
+[Groups]
+Skupiny
+[Include banned sources]
+
+[Pages]
+Stránky
+[Subscriptions to users]
+
+[No reposts]
+
+[Notifications types]
+
+[Comments]
+
+[Likes]
+
+[Reposts]
+
+[Mentions in comments]
 
 [E-mail or phone number:]
 E-mail nebo telefonní číslo:
@@ -35,10 +93,6 @@ Extra
 [Hide chats on startup]
 
 [Always notify as unread for all incoming message]
-
-[Add [img] BBCode for graphical attachments]
-
-[Process stickers as smileys]
 
 [Force online status upon user activity]
 
@@ -54,8 +108,6 @@ Extra
 
 [Broadcast music...]
 
-[off]
-vyp
 [as regular status for unknown music and audio status otherwise]
 
 [as audio status only]
@@ -111,10 +163,6 @@ Zrušit
 [New chat's title:]
 
 ;file \protocols\VKontakte\src\misc.cpp
-[Error %d. Data will not be sent or received.]
-
-[Error]
-Chyba
 [Captcha form icon]
 Ikona okna s captcha kódem
 [Notification icon]
@@ -138,6 +186,12 @@ Ikona okna s captcha kódem
 [Protocols]
 Protokoly
 [VKontakte]
+
+[Access denied! Data will not be sent or received.]
+
+[Error]
+Chyba
+[Error %d. Data will not be sent or received.]
 
 [Message read: %s]
 Zpráva byla přečtena: %s
@@ -175,6 +229,24 @@ Zpráva byla přečtena: %s
 
 [shared your video]
 
+[Photo]
+Fotka
+[Attachments:]
+Přílohy:
+[Audio]
+Audio
+[Video]
+Video
+[Document]
+Dokument
+[Wall post]
+
+[Link]
+Adresa
+[Image]
+
+[Unsupported or unknown attachment type: %s]
+Nepodporovaný nebo neznámý typ přílohy: %s
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -210,18 +282,18 @@ Informace o &uživateli
 [&Kick]
 Vy&kopnout
 ;file \protocols\VKontakte\src\vk_feed.cpp
-[Photo]
-Fotka
 [User was tagged in these photos:]
 
-[News from %s%s%s (%s)\n%s]
+[News from %s\n%s]
 
-[\tRepost from %s%s%s (%s)\n%s]
+[\tRepost from %s\n%s]
 
-[\nNews link: %s]
+[Video description:]
 
-[Link]
-Adresa
+[Post text:]
+
+[Topic text:]
+
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 
@@ -254,6 +326,8 @@ Sítě
 [Account]
 Účet
 [News and notifications]
+
+[View settings]
 
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
@@ -321,17 +395,3 @@ Oznámení
 
 [Are you sure to report abuse on %s?]
 
-[Attachments:]
-Přílohy:
-[Audio]
-Audio
-[Video]
-Video
-[Document]
-Dokument
-[Wall post]
-
-[Image]
-
-[Unsupported or unknown attachment type: %s]
-Nepodporovaný nebo neznámý typ přílohy: %s
