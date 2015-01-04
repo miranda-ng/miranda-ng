@@ -261,46 +261,6 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			}
 		}
 		return FALSE; //to avoid autohideTimer in core
-
-	case TIM_CREATE:
-		pcli->pfnTrayIconInit(msg->hwnd);
-		return TRUE;
-
-	case TIM_CALLBACK:
-		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
-			POINT pt;
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-			g_mutex_bOnTrayRightClick = 1;
-			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
-			SetForegroundWindow(msg->hwnd);
-			SetFocus(msg->hwnd);
-			GetCursorPos(&pt);
-			pcli->bTrayMenuOnScreen = TRUE;
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
-			PostMessage(msg->hwnd, WM_NULL, 0, 0);
-			g_mutex_bOnTrayRightClick = 0;
-			IS_WM_MOUSE_DOWN_IN_TRAY = 0;
-		}
-		else if (msg->lParam == WM_MBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN) {
-			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
-		}
-		else if (msg->lParam == WM_RBUTTONUP) {
-			HMENU hMenu = (HMENU)BuildTrayMenu(0, 0);
-			g_mutex_bOnTrayRightClick = 1;
-
-			SetForegroundWindow(msg->hwnd);
-			SetFocus(msg->hwnd);
-
-			POINT pt;
-			GetCursorPos(&pt);
-			pcli->bTrayMenuOnScreen = TRUE;
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
-			DestroyTrayMenu(hMenu);
-			PostMessage(msg->hwnd, WM_NULL, 0, 0);
-		}
-		else break;
-		*((LRESULT*)lParam) = 0;
-		return TRUE;
 	}
 	return corecli.pfnTrayIconProcessMessage(wParam, lParam);
 }
@@ -397,7 +357,7 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 	}
 		while (acc[pcli->cycleStep]->bIsVirtual || !acc[pcli->cycleStep]->bIsVisible);
 
-	cliTrayIconUpdateBase(acc[pcli->cycleStep]->szModuleName);
+	cliTrayCalcChanged(acc[pcli->cycleStep]->szModuleName, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -454,11 +414,14 @@ void SettingsMigrate(void)
 // calculates number of accounts to be displayed 
 // and the number of the most active account
 
-int GetGoodAccNum(bool *bDiffers)
+int GetGoodAccNum(bool *bDiffers, bool *bConn)
 {
 	PROTOACCOUNT **acc;
 	int AccNum, i;
 	ProtoEnumAccounts(&AccNum, &acc);
+
+	if (bConn)
+		*bConn = FALSE;
 
 	WORD s = 0;
 	BYTE d = 0;
@@ -471,6 +434,11 @@ int GetGoodAccNum(bool *bDiffers)
 			}
 			else if (s != acc[i]->ppro->m_iStatus)
 				d = 2;
+
+			if (bConn)
+				if (   acc[i]->ppro->m_iStatus >= ID_STATUS_CONNECTING
+					&& acc[i]->ppro->m_iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
+					*bConn = TRUE;
 		}
 	}
 
@@ -478,7 +446,8 @@ int GetGoodAccNum(bool *bDiffers)
 	return AccNum;
 }
 
-BYTE OldMode; // 
+BYTE OldMode; //
+UINT_PTR TimerID = 0;
 
 int cliTrayIconInit(HWND hwnd)
 {
@@ -487,9 +456,10 @@ int cliTrayIconInit(HWND hwnd)
 	if (pcli->trayIconCount != 0)
 		return 0;
 
-	if (pcli->cycleTimerId) {
-		KillTimer(NULL, pcli->cycleTimerId);
-		pcli->cycleTimerId = 0;
+	if (TimerID)
+	{
+		KillTimer(NULL, TimerID);
+		TimerID = 0;
 	}
 
 	// Присутствуют ли в базе новые настройки? Если да, то обновление не нужно.
@@ -498,7 +468,7 @@ int cliTrayIconInit(HWND hwnd)
 
 	// Нужно узнать количество годных аккаунтов и неодинаковость их статусов.
 	bool bDiffers;
-	pcli->trayIconCount = GetGoodAccNum(&bDiffers);
+	pcli->trayIconCount = GetGoodAccNum(&bDiffers, NULL);
 	// Если таковых аккаунтов не нашлось вообще, то будем показывать основную иконку Миранды.
 	if (!pcli->trayIconCount) {
 		pcli->trayIconCount = 1;
@@ -540,7 +510,8 @@ int cliTrayIconInit(HWND hwnd)
 		pcli->pfnTrayIconAdd(hwnd, NULL, NULL, CListTray_GetGlobalStatus(0, 0));
 		pcli->cycleStep = 0;
 		cliTrayCycleTimerProc(0, 0, 0, 0); // force icon update
-		pcli->cycleTimerId = CLUI_SafeSetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
+		// Не сохраняем ID таймера в pcli, чтобы fnTrayIconUpdateBase не убивала его.
+		TimerID = CLUI_SafeSetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cliTrayCycleTimerProc);
 		break;
 
 	case TRAY_ICON_MODE_ALL:
@@ -558,115 +529,93 @@ int cliTrayIconInit(HWND hwnd)
 	return 0;
 }
 
-int cliTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status)
-{
-	int i;
-
-	// Поиск первой пустой записи во внутреннем списке.
-	for (i = 0; i < pcli->trayIconCount; i++)
-		if (pcli->trayIcon[i].id == 0)
-			break;
-
-	pcli->trayIcon[i].id = TRAYICON_ID_BASE + i;
-	pcli->trayIcon[i].szProto = (char*)szProto;
-	pcli->trayIcon[i].hBaseIcon = pcli->pfnGetIconFromStatusMode(NULL, szIconProto ? szIconProto : pcli->trayIcon[i].szProto, status);
-	pcli->pfnTrayIconMakeTooltip(NULL, pcli->trayIcon[i].szProto);
-	pcli->trayIcon[i].ptszToolTip = mir_tstrdup(pcli->szTip);
-
-	NOTIFYICONDATA nid = { sizeof(NOTIFYICONDATA) };
-	nid.hWnd = hwnd;
-	nid.uID = pcli->trayIcon[i].id;
-	nid.uCallbackMessage = TIM_CALLBACK;
-	nid.hIcon = pcli->trayIcon[i].hBaseIcon;
-	nid.uFlags =  NIF_ICON | NIF_MESSAGE | NIF_TIP | (pcli->shellVersion >= 5 ? NIF_INFO : 0);
-
-	// if Tipper is missing or turned off for tray, use system tooltips
-	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1)) {
-		lstrcpyn(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
-	}
-
-	Shell_NotifyIcon(NIM_ADD, &nid);
-
-	return 0;
-}
-
-void cliTrayIconUpdateBase(const char *szChangedProto)
+int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
 {
 	if (!szChangedProto)
-		return;
-
+		return -1;
+	
 	if (!pcli->trayIconCount)
-		return;
+		return -1;
+	
+	if (!pcli->pfnGetProtocolVisibility(szChangedProto))
+		return -1;
 
-	PROTOACCOUNT *pa = ProtoGetAccount(szChangedProto);
-	if (!pa->bIsVisible || pa->bIsVirtual)
-		return;
-
-	bool bDiffers;
-	GetGoodAccNum(&bDiffers);
-
+	bool bDiffers, bConn;
+	GetGoodAccNum(&bDiffers, &bConn);
+	
 	// if the icon number to be changed, reinitialize module from scratch
 	BYTE Mode = db_get_b(NULL, "CList", (!bDiffers) ? "tiModeS" : "tiModeV", TRAY_ICON_MODE_GLOBAL);
 	if (Mode != OldMode) {
 		OldMode = Mode;
 		pcli->pfnTrayIconIconsChanged();
 	}
-
+	
 	HICON hIcon = NULL;
 	int i = 0;
-
+	
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
 		hIcon = pcli->pfnGetIconFromStatusMode(NULL, NULL, CListTray_GetGlobalStatus(0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, NULL);
 		break;
-
+	
 	case TRAY_ICON_MODE_ACC:
 		char *szProto;
 		// В этом режиме показывается иконка совершенно определённого аккаунта, и не всегда это szChangedProto.
 		szProto = db_get_sa(NULL, "CList", bDiffers ? "tiAccV" : "tiAccS");
-		pa = ProtoGetAccount(szProto);
-
-		if (g_StatusBarData.bConnectingIcon && pa->ppro->m_iStatus >= ID_STATUS_CONNECTING && pa->ppro->m_iStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+	
+		if (   g_StatusBarData.bConnectingIcon
+			&& (ProtoCallService(szProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_CONNECTING)
+			&& (ProtoCallService(szProto, PS_GETSTATUS, 0, 0) <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) )
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 		else
-			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, pa->ppro->m_iStatus);
+			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, ProtoCallService(szProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, szProto);
 		break;
-
+	
 	case TRAY_ICON_MODE_CYCLE:
-		hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, pa->ppro->m_iStatus);
+		if (   g_StatusBarData.bConnectingIcon
+			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_CONNECTING)
+			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) )
+			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
+		else
+			if (!bConn)
+				hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, NULL);
 		break;
-
+	
 	case TRAY_ICON_MODE_ALL:
 		// Какой индекс у аккаунта, который будем апдейтить?
 		for (; i < pcli->trayIconCount; i++)
 			if (!strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;
-
-		if (g_StatusBarData.bConnectingIcon && pa->ppro->m_iStatus >= ID_STATUS_CONNECTING && pa->ppro->m_iStatus <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)
+	
+		if (   g_StatusBarData.bConnectingIcon
+			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_CONNECTING)
+			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) )
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
-			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, pa->ppro->m_iStatus);
+			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, pcli->trayIcon[i].szProto);
 		break;
 	}
-
+	
 	DestroyIcon(pcli->trayIcon[i].hBaseIcon);
 	pcli->trayIcon[i].hBaseIcon = hIcon;
 	pcli->trayIcon[i].ptszToolTip = mir_tstrdup(pcli->szTip);
-
+	
 	NOTIFYICONDATA nid = { sizeof(NOTIFYICONDATA) };
 	nid.hWnd = pcli->hwndContactList;
 	nid.uID = pcli->trayIcon[i].id;
 	nid.hIcon = pcli->trayIcon[i].hBaseIcon;
 	nid.uFlags =  NIF_ICON | NIF_TIP;
-
+	
 	// if Tipper is missing or turned off for tray, use system tooltips
 	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1)) {
 		lstrcpyn(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
 	}
-
+	
 	Shell_NotifyIcon(NIM_MODIFY, &nid);
+
+	return -1;
 }
