@@ -149,12 +149,8 @@ int LoadStdPlugins()
 		if (pluginDefault[i].pImpl)
 			continue;
 
-		if (!LoadCorePlugin(pluginDefault[i])) {
-			TCHAR tszBuf[512];
-			mir_sntprintf(tszBuf, SIZEOF(tszBuf), TranslateT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), pluginDefault[i].stdplugname);
-			MessageBox(NULL, tszBuf, TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
+		if (!LoadCorePlugin(pluginDefault[i]))
 			return 1;
-		}
 	}
 
 	if (pluginDefault[13].pImpl == NULL)
@@ -543,6 +539,11 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 	return true;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Core plugins support
+
+static TCHAR tszCoreErr[] = LPGENT("Core plugin '%s' cannot be loaded or missing. Miranda will exit now");
+
 bool LoadCorePlugin(MuuidReplacement& mr)
 {
 	TCHAR exe[MAX_PATH], tszPlugName[MAX_PATH];
@@ -553,6 +554,8 @@ bool LoadCorePlugin(MuuidReplacement& mr)
 	pluginEntry* pPlug = OpenPlugin(tszPlugName, _T("Core"), exe);
 	if (pPlug->pclass & PCLASS_FAILED) {
 LBL_Error:
+		MessageBox(NULL, CMString(FORMAT, TranslateTS(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
+
 		Plugin_UnloadDyn(pPlug);
 		mr.pImpl = NULL;
 		return false;
