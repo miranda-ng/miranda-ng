@@ -837,6 +837,17 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				LOGFONTA lf;
 				char *lpPrevCmd = pci->SM_GetPrevCommand(Parentsi->ptszID, Parentsi->pszModule);
 
+				if (!Parentsi->lpCurrentCommand || !Parentsi->lpCurrentCommand->last) {
+					// Next command is not defined. It means currently entered text is not saved in the history and it
+					// need to be saved in the window context.
+					char *enteredText = Chat_Message_GetFromStream(hwndParent, Parentsi);
+					if (mwdat->enteredText) {
+						mir_free(mwdat->enteredText);
+					}
+
+					mwdat->enteredText = enteredText;
+				}
+
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
 				LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, NULL, FONTMODULE);
@@ -869,8 +880,12 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				ste.codepage = CP_ACP;
 				if (lpPrevCmd)
 					SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)lpPrevCmd);
-				else
-					SetWindowText(hwnd, _T(""));
+				else if (mwdat->enteredText) {
+					// If we cannot load the message from history, load the last edited text.
+					SendMessage(hwnd, EM_SETTEXTEX, (WPARAM)&ste, (LPARAM)mwdat->enteredText);
+					mir_free(mwdat->enteredText);
+					mwdat->enteredText = NULL;
+				}
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
@@ -3484,6 +3499,7 @@ LABEL_SHOWWINDOW:
 			delete dat->Panel;
 			if (dat->pContainer->dwFlags & CNT_SIDEBAR)
 				dat->pContainer->SideBar->removeSession(dat);
+			mir_free(dat->enteredText);
 			mir_free(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		}

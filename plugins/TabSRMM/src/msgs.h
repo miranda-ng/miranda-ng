@@ -332,6 +332,9 @@ struct TWindowData
 	LONG    iInputAreaHeight;
 	bool    bIsAutosizingInput;
 	bool    fLimitedUpdate;
+
+	// Used for history in chats.
+	char *enteredText;
 };
 
 #define MESSAGE_WINDOW_DATA_SIZE offsetof(_MessageWindowData, hdbEventFirst);
