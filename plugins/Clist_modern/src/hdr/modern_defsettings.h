@@ -37,7 +37,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_HIDEEMPTYGROUPS_DEFAULT         0 //"CList","HideEmptyGroups"
 #define SETTING_USEGROUPS_DEFAULT               1 //"CList","UseGroups"
 #define SETTING_PLACEOFFLINETOROOT_DEFAULT      0 //"CList","PlaceOfflineToRoot"
-#define SETTING_ALWAYSPRIMARY_DEFAULT           0 //! "CList","AlwaysPrimary"
 #define SETTING_DISABLETRAYFLASH_DEFAULT        0 //! "CList","DisableTrayFlash"
 #define SETTING_ICONFLASHTIME_DEFAULT         550 //! "CList","IconFlashTime"
 #define SETTING_THINBORDER_DEFAULT              0 //! "CList","ThinBorder"
@@ -217,7 +216,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SETTING_CYCLETIME_DEFAULT                   4 //"CList","CycleTime"
 #define SETTING_TRAYICON_DEFAULT                    SETTING_TRAYICON_SINGLE //"CList","TrayIcon"
 #define SETTING_ALWAYSSTATUS_DEFAULT              0 //"CList","AlwaysStatus"
-#define SETTING_ALWAYSMULTI_DEFAULT               0 //"CList","AlwaysMulti"
 
 #define SETTING_BLENDINACTIVESTATE_DEFAULT  0 //"CLC","BlendInActiveState"
 

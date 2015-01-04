@@ -407,15 +407,20 @@ VOID CALLBACK cliTrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 void SettingsMigrate(void)
 {
 	BYTE TrayIcon = db_get_b(NULL, "CList", "TrayIcon", 0);
-	BYTE AlwaysPrimary = db_get_b(NULL, "CList", "AlwaysPrimary", 1);
+	BYTE AlwaysPrimary = db_get_b(NULL, "CList", "AlwaysPrimary", 0);
 	BYTE AlwaysMulti = db_get_b(NULL, "CList", "AlwaysMulti", 0);
-	char *PrimaryStatus = db_get_sa(NULL, "CList", "PrimaryStatus");
+	ptrA PrimaryStatus(db_get_sa(NULL, "CList", "PrimaryStatus"));
 
 	// these strings must always be set
-	db_set_s(NULL, "CList", "tiAccS", "");
-	db_set_s(NULL, "CList", "tiAccV", "");
+	if (PrimaryStatus) {
+		db_set_s(NULL, "CList", "tiAccS", PrimaryStatus);
+		db_set_s(NULL, "CList", "tiAccV", PrimaryStatus);
+	}
+	else {
+		db_set_s(NULL, "CList", "tiAccS", "");
+		db_set_s(NULL, "CList", "tiAccV", "");
+	}
 
-	// Нужно вычислить новый режим.
 	switch (TrayIcon) {
 	case 0: // global or single acc
 		if (AlwaysPrimary) {
@@ -426,21 +431,11 @@ void SettingsMigrate(void)
 			else { // single acc always
 				db_set_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_ACC);
 				db_set_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_ACC);
-				db_set_s(NULL, "CList", "tiAccS", PrimaryStatus);
-				db_set_s(NULL, "CList", "tiAccV", PrimaryStatus);
 			}
 		}
 		else {
-			if (!PrimaryStatus) { // global if differ
-				db_set_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_ALL);
-				db_set_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_GLOBAL);
-			}
-			else { // single acc if differ
-				db_set_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
-				db_set_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_ACC);
-				db_set_s(NULL, "CList", "tiAccS", PrimaryStatus);
-				db_set_s(NULL, "CList", "tiAccV", PrimaryStatus);
-			}
+			db_set_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
+			db_set_b(NULL, "CList", "tiModeV", (PrimaryStatus) ? TRAY_ICON_MODE_ACC : TRAY_ICON_MODE_GLOBAL);
 		}
 		break;
 
@@ -450,16 +445,8 @@ void SettingsMigrate(void)
 		break;
 
 	case 2: // multiple
-		switch (AlwaysMulti) {
-		case 0: // all accs if differ
-			db_set_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_GLOBAL);
-			db_set_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_ALL);
-			break;
-		case 1: // all accs always
-			db_set_b(NULL, "CList", "tiModeS", TRAY_ICON_MODE_ALL);
-			db_set_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_ALL);
-			break;
-		}
+		db_set_b(NULL, "CList", "tiModeS", (AlwaysMulti) ? TRAY_ICON_MODE_ALL : TRAY_ICON_MODE_GLOBAL);
+		db_set_b(NULL, "CList", "tiModeV", TRAY_ICON_MODE_ALL);
 		break;
 	}
 }
