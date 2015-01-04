@@ -1,9 +1,9 @@
-7-Zip 9.36
+7-Zip 9.38
 ----------
 
 7-Zip is a file archiver for Windows NT / 2000 / 2003 / 2008 / XP / Vista / 7 / 8 / 10. 
 
-7-Zip Copyright (C) 1999-2014 Igor Pavlov.
+7-Zip Copyright (C) 1999-2015 Igor Pavlov.
 
 The main features of 7-Zip: 
 
