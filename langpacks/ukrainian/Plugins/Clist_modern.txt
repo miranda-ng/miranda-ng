@@ -323,6 +323,22 @@ x100 мс
 Значок у треї
 [Use xStatus icon]
 Значок xСтатусу
+[Icon mode]
+Поведінка значка
+[For similar statuses]
+При однакових статусах
+[Global status]
+Глобальний статус
+[Single account]
+Обл. запис
+[Cycle icons]
+Змінювати значок
+[All accounts]
+Усі облікові записи
+[For different statuses]
+При різних статусах
+[Cycle period, seconds]
+Період зміни значків
 [Additional stuff]
 Додатково
 [Ignore empty extra icons places (arrange to right).]

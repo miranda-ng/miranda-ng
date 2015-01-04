@@ -1843,6 +1843,10 @@ Miranda не змогла завантажити вбудований модул
 Співрозмовник закінчив друкувати
 [An unknown error has occurred.]
 Невідома помилка.
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клієнт не може декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потрібна бібліотека відсутня.
+[Host we are connecting to is not the one certificate was issued for]
+Виданий сертифікат не відповідає імені сервера, з яким встановлюється з'єднання
 [Invalid message]
 Повідомлення пошкоджене
 [Outgoing message]
@@ -2387,10 +2391,6 @@ Ctrl+Знайти додає контакт
 <Усі з'єднання>
 [Network]
 Мережа
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Клієнт не може декодувати повідомлення хоста. Можлива причина: хост не підтримує SSL або потрібна бібліотека відсутня.
-[Host we are connecting to is not the one certificate was issued for]
-Виданий сертифікат не відповідає імені сервера, з яким встановлюється з'єднання
 [<all modules>]
 <усі модулі>
 [<core modules>]
