@@ -391,7 +391,6 @@ int LoadSendRecvMessageModule(void)
 	InitGlobals();
 	RichUtil_Load();
 	InitOptions();
-	msgQueue_init();
 
 	HookEvent(ME_DB_EVENT_ADDED, MessageEventAdded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, MessageSettingChanged);

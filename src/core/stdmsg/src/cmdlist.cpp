@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 
 static LIST<TMsgQueue> msgQueue(5, NumericKeySortT);
-static CRITICAL_SECTION csMsgQueue;
+static mir_cs csMsgQueue;
 static UINT_PTR timerId;
 
 void MessageFailureProcess(TMsgQueue *item, const char* err);
@@ -45,7 +45,7 @@ static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 		MessageFailureProcess(arTimedOut[i], LPGEN("The message send timed out."));
 }
 
-void msgQueue_add(MCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent)
+void msgQueue_add(MCONTACT hContact, int id, const TCHAR *szMsg, HANDLE hDbEvent)
 {
 	TMsgQueue *item = (TMsgQueue*)mir_alloc(sizeof(TMsgQueue));
 	item->hContact = hContact;
@@ -86,11 +86,6 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* sz
 	}
 }
 
-void msgQueue_init(void)
-{
-	InitializeCriticalSection(&csMsgQueue);
-}
-
 void msgQueue_destroy(void)
 {
 	for (int i = 0; i < msgQueue.getCount(); i++) {
@@ -99,6 +94,4 @@ void msgQueue_destroy(void)
 		mir_free(item);
 	}
 	msgQueue.destroy();
-
-	DeleteCriticalSection(&csMsgQueue);
 }
