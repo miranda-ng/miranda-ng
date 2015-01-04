@@ -242,6 +242,42 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 			pcli->bTrayMenuOnScreen = FALSE;
 		break;
 
+	case TIM_CALLBACK:
+		if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) && msg->lParam == WM_LBUTTONDOWN && !db_get_b(NULL, "CList", "Tray1Click", SETTING_TRAY1CLICK_DEFAULT)) {
+			POINT pt;
+			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+			g_mutex_bOnTrayRightClick = 1;
+			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
+			SetForegroundWindow(msg->hwnd);
+			SetFocus(msg->hwnd);
+			GetCursorPos(&pt);
+			pcli->bTrayMenuOnScreen = TRUE;
+			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
+			PostMessage(msg->hwnd, WM_NULL, 0, 0);
+			g_mutex_bOnTrayRightClick = 0;
+			IS_WM_MOUSE_DOWN_IN_TRAY = 0;
+		}
+		else if (msg->lParam == WM_MBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN) {
+			IS_WM_MOUSE_DOWN_IN_TRAY = 1;
+		}
+		else if (msg->lParam == WM_RBUTTONUP) {
+			HMENU hMenu = (HMENU)BuildTrayMenu(0, 0);
+			g_mutex_bOnTrayRightClick = 1;
+
+			SetForegroundWindow(msg->hwnd);
+			SetFocus(msg->hwnd);
+
+			POINT pt;
+			GetCursorPos(&pt);
+			pcli->bTrayMenuOnScreen = TRUE;
+			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
+			DestroyTrayMenu(hMenu);
+			PostMessage(msg->hwnd, WM_NULL, 0, 0);
+		}
+		else break;
+		*((LRESULT*)lParam) = 0;
+		return TRUE;
+
 	case WM_ACTIVATE:
 		SetCursor(LoadCursor(NULL, IDC_ARROW));
 		{
