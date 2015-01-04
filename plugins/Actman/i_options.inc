@@ -417,7 +417,8 @@ begin
   if NumMacros>0 then
   begin
     // V2 counts actions from 1, not 0
-    v2:=DBReadDWord(0,DBBranch,'Group0/Action0/flags',$FFFFFFFF)=$FFFFFFFF;
+//    v2:=DBReadDWord(0,DBBranch,'Group0/Action0/flags',$FFFFFFFF)=$FFFFFFFF; // don't work if no actions
+    v2:=DBReadByte(0,DBBranch,'version',2)=2;
 
     if v2 then
     begin
