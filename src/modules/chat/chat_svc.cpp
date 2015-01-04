@@ -101,13 +101,15 @@ static int IconsChanged(WPARAM, LPARAM)
 
 static int PreShutdown(WPARAM, LPARAM)
 {
-	ci.SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
+	if (g_Settings != NULL) {
+		ci.SM_BroadcastMessage(NULL, GC_CLOSEWINDOW, 0, 1, FALSE);
 
-	ci.SM_RemoveAll();
-	ci.MM_RemoveAll();
+		ci.SM_RemoveAll();
+		ci.MM_RemoveAll();
 
-	DeleteObject(ci.hListBkgBrush);
-	DeleteObject(ci.hListSelectedBkgBrush);
+		DeleteObject(ci.hListBkgBrush);
+		DeleteObject(ci.hListSelectedBkgBrush);
+	}
 	return 0;
 }
 
