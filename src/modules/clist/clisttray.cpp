@@ -31,10 +31,14 @@ extern HIMAGELIST hCListImages;
 
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
-static BOOL mToolTipTrayTips = FALSE;
 static UINT_PTR RefreshTimerId = 0;   /////by FYR
 
 mir_cs trayLockCS;
+
+static bool hasTips()
+{
+	return ServiceExists("mToolTip/ShowTip") && db_get_b(NULL, "Tipper", "TrayTip", 1);
+}
 
 // don't move to win2k.h, need new and old versions to work on 9x/2000/XP
 #define NIF_STATE       0x00000008
@@ -108,7 +112,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 
 			if (!tszTip.IsEmpty())
 				tszTip.AppendChar('\n');
-			if (mToolTipTrayTips) {
+			if (hasTips()) {
 				tszTip.AppendFormat(_T("<b>%-12.12s</b>\t%s"), pa->tszAccountName, szStatus);
 
 				ptrT ProtoXStatus(sttGetXStatus(pa->szModuleName));
@@ -130,7 +134,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 			TCHAR *szStatus = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL, szProto, PS_GETSTATUS, 0, 0), 0);
 			if (szPrefix && szPrefix[0]) {
 				if (db_get_b(NULL, "CList", "AlwaysStatus", SETTING_ALWAYSSTATUS_DEFAULT)) {
-					if (mToolTipTrayTips) {
+					if (hasTips()) {
 						if (ProtoXStatus != NULL)
 							mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("%s%s<b>%-12.12s</b>\t%s%s%-24.24s"), szPrefix, szSeparator, pa->tszAccountName, szStatus, szSeparator, ProtoXStatus);
 						else
@@ -141,7 +145,7 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 				else mir_tstrncpy(cli.szTip, szPrefix, MAX_TIP_SIZE);
 			}
 			else {
-				if (mToolTipTrayTips) {
+				if (hasTips()) {
 					if (ProtoXStatus != NULL)
 						mir_sntprintf(cli.szTip, MAX_TIP_SIZE, _T("<b>%-12.12s</b>\t%s\n%-24.24s"), pa->tszAccountName, szStatus, ProtoXStatus);
 					else
@@ -180,7 +184,7 @@ int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int s
 		nid.uFlags |= NIF_INFO;
 
 	cli.pfnTrayIconMakeTooltip(NULL, cli.trayIcon[i].szProto);
-	if (!mToolTipTrayTips)
+	if (!hasTips())
 		mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 	cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
 
@@ -224,7 +228,6 @@ int fnTrayIconInit(HWND hwnd)
 
 	int netProtoCount = 0;
 	int averageMode = cli.pfnGetAverageMode(&netProtoCount);
-	mToolTipTrayTips = ServiceExists("mToolTip/ShowTip") != 0;
 
 	if (cli.cycleTimerId) {
 		KillTimer(NULL, cli.cycleTimerId);
@@ -338,7 +341,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 		mir_free(cli.trayIcon[i].ptszToolTip);
 		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
-		if (!mToolTipTrayTips)
+		if (!hasTips())
 			mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
@@ -360,7 +363,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 		cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 		mir_free(cli.trayIcon[i].ptszToolTip);
 		cli.trayIcon[i].ptszToolTip = mir_tstrdup(cli.szTip);
-		if (!mToolTipTrayTips)
+		if (!hasTips())
 			mir_tstrncpy(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 		Shell_NotifyIcon(NIM_MODIFY, &nid);
 
