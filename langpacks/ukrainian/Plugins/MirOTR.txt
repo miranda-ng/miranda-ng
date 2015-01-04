@@ -143,6 +143,8 @@ OTR завершено
 Приватний OTR
 [OTR not secure]
 OTR не є безпечним
+[Refresh]
+Оновити
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Створення нового приватного ключа для протоколу '%s'.\nЗачекайте...
 [General]

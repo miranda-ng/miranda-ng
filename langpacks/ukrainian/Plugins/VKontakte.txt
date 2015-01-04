@@ -23,8 +23,12 @@
 базова ([b], [i], [u], [s])
 [advanced (+[url], [size], [color])]
 розширена (+[url], [size], [color])
+[Use this setting also for attachments on news and notifications]
+Увімкнути це налаштування також для вкладень у новинах і сповіщеннях
 [Other]
 Інше
+[BBCode support on attachments]
+Підтримка BB-кодів у вкладеннях
 [Process stickers as smileys]
 Обробляти стікери як смайли
 [News and event notifications]
@@ -67,6 +71,16 @@
 Підписки на користувачів
 [No reposts]
 Без репостів
+[Notifications types]
+Типи сповіщень
+[Comments]
+Коментарі
+[Likes]
+Лайки
+[Reposts]
+Репости
+[Mentions in comments]
+Згадування в коментарях
 [E-mail or phone number:]
 Пошта або номер телефону:
 [Password:]
@@ -171,6 +185,8 @@
 Протоколи
 [VKontakte]
 ВКонтакті
+[Access denied! Data will not be sent or received.]
+Відмовлено в доступі! Дані не передаватимуться і не прийматимуться.
 [Error]
 Помилка
 [Error %d. Data will not be sent or received.]
@@ -267,6 +283,12 @@
 Новина від %s\n%s
 [\tRepost from %s\n%s]
 \tРепост від %s\n%s
+[Video description:]
+Опис відео:
+[Post text:]
+Запис:
+[Topic text:]
+Тема:
 [Couldn't save file]
 Неможливо зберегти файл
 [Invalid album id]
