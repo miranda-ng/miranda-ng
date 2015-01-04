@@ -292,8 +292,7 @@ void    CLUI_cli_LoadCluiGlobalOpts(void);
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect, BOOL bErase);
 int		cliTrayIconInit(HWND hwnd);
-int		cliTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status);
-void	cliTrayIconUpdateBase(const char *szChangedProto);
+int		cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 
 ClcContact*    cliCreateClcContact(void);
 ClcCacheEntry* cliCreateCacheItem(MCONTACT hContact);

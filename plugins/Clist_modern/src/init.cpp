@@ -145,8 +145,7 @@ static HRESULT SubclassClistInterface()
 
 	pcli->pfnTrayIconPauseAutoHide = cliTrayIconPauseAutoHide;
 	pcli->pfnTrayIconInit = cliTrayIconInit;
-	pcli->pfnTrayIconAdd = cliTrayIconAdd;
-	pcli->pfnTrayIconUpdateBase = cliTrayIconUpdateBase;
+	pcli->pfnTrayCalcChanged = cliTrayCalcChanged;
 
 	pcli->pfnCluiProtocolStatusChanged = cliCluiProtocolStatusChanged;
 
