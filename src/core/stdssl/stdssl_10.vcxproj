@@ -199,7 +199,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="src\statusicon.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\version.rc" />
