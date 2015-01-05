@@ -45,13 +45,13 @@ static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 		MessageFailureProcess(arTimedOut[i], LPGEN("The message send timed out."));
 }
 
-void msgQueue_add(MCONTACT hContact, int id, const TCHAR *szMsg, HANDLE hDbEvent)
+void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags)
 {
 	TMsgQueue *item = (TMsgQueue*)mir_alloc(sizeof(TMsgQueue));
 	item->hContact = hContact;
 	item->id = id;
-	item->szMsg = mir_tstrdup(szMsg);
-	item->hDbEvent = hDbEvent;
+	item->szMsg = szMsg;
+	item->flags = flags;
 	item->ts = GetTickCount();
 
 	mir_cslock lck(csMsgQueue);
@@ -60,7 +60,7 @@ void msgQueue_add(MCONTACT hContact, int id, const TCHAR *szMsg, HANDLE hDbEvent
 	msgQueue.insert(item);
 }
 
-void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* szErr)
+TMsgQueue* msgQueue_find(MCONTACT hContact, int id)
 {
 	MCONTACT hMeta = db_mc_getMeta(hContact);
 
@@ -68,22 +68,45 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* sz
 	for (int i = 0; i < msgQueue.getCount(); i++) {
 		TMsgQueue *item = msgQueue[i];
 		if ((item->hContact == hContact || item->hContact == hMeta) && item->id == id) {
-			msgQueue.remove(i); i--;
+			msgQueue.remove(i);
 
 			if (!msgQueue.getCount() && timerId) {
 				KillTimer(NULL, timerId);
 				timerId = 0;
 			}
-			lck.unlock();
 
-			if (success) {
-				mir_free(item->szMsg);
-				mir_free(item);
-			}
-			else MessageFailureProcess(item, szErr);
-			break;
+			return item;
 		}
 	}
+	return NULL;
+}
+
+void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char *szErr)
+{
+	TMsgQueue *p = msgQueue_find(hContact, id);
+	if (p == NULL)
+		return;
+
+	if (!success) {
+		MessageFailureProcess(p, szErr);
+		return;
+	}
+
+	DBEVENTINFO dbei = { sizeof(dbei) };
+	dbei.eventType = EVENTTYPE_MESSAGE;
+	dbei.flags = DBEF_SENT | (p->flags & PREF_UTF ? DBEF_UTF : 0) | (p->flags & PREF_RTL ? DBEF_RTL : 0);
+	dbei.szModule = GetContactProto(hContact);
+	dbei.timestamp = time(0);
+	dbei.cbBlob = (DWORD)mir_strlen(p->szMsg);
+	dbei.pBlob = (PBYTE)p->szMsg;
+
+	MessageWindowEvent evt = { sizeof(evt), id, hContact, &dbei };
+	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
+
+	db_event_add(hContact, &dbei);
+
+	mir_free(p->szMsg);
+	mir_free(p);
 }
 
 void msgQueue_destroy(void)

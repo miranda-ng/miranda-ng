@@ -52,7 +52,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				mir_free(ptszError);
 			}
 
-			SetDlgItemText(hwndDlg, IDC_MSGTEXT, item->szMsg);
+			SetDlgItemText(hwndDlg, IDC_MSGTEXT, ptrT(mir_utf8decodeT(item->szMsg)));
 
 			GetWindowRect(hwndDlg, &rc);
 			GetWindowRect(GetParent(hwndDlg), &rcParent);
@@ -70,7 +70,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			SendMessageDirect(item->szMsg, item->hContact, GetContactProto(item->hContact));
+			SendMessageDirect(ptrT(mir_utf8decodeT(item->szMsg)), item->hContact, GetContactProto(item->hContact));
 			DestroyWindow(hwndDlg);
 			break;
 
@@ -85,8 +85,6 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 void MessageFailureProcess(TMsgQueue *item, const char* err)
 {
-	db_event_delete(item->hContact, item->hDbEvent);
-
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, item->hContact);
 	if (hwnd == NULL) {
 		SendMessageCmd(item->hContact, NULL, 0);

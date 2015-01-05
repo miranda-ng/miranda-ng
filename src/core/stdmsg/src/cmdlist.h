@@ -26,12 +26,12 @@ struct TMsgQueue
 {
 	int id;
 	MCONTACT hContact;
-	TCHAR* szMsg;
-	HANDLE hDbEvent;
+	char *szMsg;
+	int flags;
 	unsigned ts;
 };
 
-void msgQueue_add(MCONTACT hContact, int id, const TCHAR* szMsg, HANDLE hDbEvent);
+void msgQueue_add(MCONTACT hContact, int id, char *szMsg, int flags);
 void msgQueue_processack(MCONTACT hContact, int id, BOOL success, const char* szErr);
 void msgQueue_destroy(void);
 

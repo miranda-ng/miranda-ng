@@ -74,3 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 extern HINSTANCE g_hInst;
+extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
+extern HANDLE hHookWinEvt, hHookWinPopup, hHookWinWrite;
+extern CREOleCallback reOleCallback;
