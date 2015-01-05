@@ -31,10 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SB_GRIP_WIDTH        20         // pixels - buffer used to prevent sizegrip from overwriting statusbar icons
 #define VALID_AVATAR(x)      (x == PA_FORMAT_PNG || x == PA_FORMAT_JPEG || x == PA_FORMAT_ICON || x == PA_FORMAT_BMP || x == PA_FORMAT_GIF)
 
-extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
-extern HANDLE hHookWinEvt, hHookWinPopup, hHookWinWrite;
-extern CREOleCallback reOleCallback;
-
 static void UpdateReadChars(HWND hwndDlg, HWND hwndStatus);
 
 static const UINT infoLineControls[] = { IDC_PROTOCOL, IDC_NAME };
@@ -79,7 +75,7 @@ static int RTL_Detect(const TCHAR *ptszText)
 	return 0;
 }
 
-HANDLE SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
+int SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
 {
 	if (hContact == NULL)
 		return NULL;
@@ -122,22 +118,8 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto)
 		hContact = db_mc_getSrmmSub(hContact);
 
 	int sendId = CallContactService(hContact, PSS_MESSAGE, flags, (LPARAM)sendBuffer);
-
-	DBEVENTINFO dbei = { sizeof(dbei) };
-	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.flags = DBEF_SENT | (flags & PREF_UTF ? DBEF_UTF : 0) | (flags & PREF_RTL ? DBEF_RTL : 0);
-	dbei.szModule = szProto;
-	dbei.timestamp = (DWORD)time(NULL);
-	dbei.cbBlob = (DWORD)bufSize;
-	dbei.pBlob = (PBYTE)sendBuffer;
-
-	MessageWindowEvent evt = { sizeof(evt), sendId, hContact, &dbei };
-	NotifyEventHooks(hHookWinWrite, 0, (LPARAM)&evt);
-
-	HANDLE hNewEvent = db_event_add(hContact, &dbei);
-	msgQueue_add(hContact, sendId, szMsg, hNewEvent);
-	mir_free(dbei.pBlob);
-	return hNewEvent;
+	msgQueue_add(hContact, sendId, sendBuffer, flags);
+	return sendId;
 }
 
 static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFilename)
@@ -1469,8 +1451,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (!temp[0])
 					break;
 
-				HANDLE hNewEvent = SendMessageDirect(temp, dat->hContact, dat->szProto);
-				if (hNewEvent) {
+				int sendId = SendMessageDirect(temp, dat->hContact, dat->szProto);
+				if (sendId) {
 					dat->cmdList.insert(mir_tstrdup(temp));
 
 					dat->cmdListInd = -1;
@@ -1479,11 +1461,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 					SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-
-					if (dat->hDbEventFirst == NULL) {
-						dat->hDbEventFirst = hNewEvent;
-						SendMessage(hwndDlg, DM_REMAKELOG, 0, 0);
-					}
 
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
 
