@@ -51,7 +51,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 CToxProto::~CToxProto()
 {
 	mir_free(accountName);
-	//UninitToxCore();
 	UninitNetlib();
 }
 
@@ -60,8 +59,10 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_EXTSEARCH | PF1_SERVERCLIST;
+		return PF1_IM | PF1_FILE | PF1_AUTHREQ | PF1_MODEMSGSEND | PF1_EXTSEARCH | PF1_SERVERCLIST;
 	case PFLAGNUM_2:
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
+	case PFLAGNUM_3:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 	case PFLAGNUM_4:
 		return PF4_IMSENDUTF | PF4_SINGLEFILEONLY | PF4_SUPPORTTYPING | PF4_AVATARS
@@ -249,7 +250,20 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 
 HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT hContact) { return 0; }
 int __cdecl CToxProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) { return 0; }
-int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR* msg) { return 0; }
+
+int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR *msg)
+{
+	if (IsOnline())
+	{
+		ptrA statusMessage(msg == NULL ? mir_strdup("") : mir_utf8encodeT(msg));
+		if (tox_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUSMESSAGE_LENGTH, strlen(statusMessage))) == TOX_ERROR)
+		{
+			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s", msg);
+		}
+	}
+
+	return 0;
+}
 
 int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
