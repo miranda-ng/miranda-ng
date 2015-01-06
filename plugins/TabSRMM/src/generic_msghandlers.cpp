@@ -476,7 +476,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			if (sendLater->isAvail())
 				dat->sendMode ^= SMODE_SENDLATER;
 			else
-				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
+				CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 			break;
 		case ID_SENDMENU_SENDWITHOUTTIMEOUTS:
 			dat->sendMode ^= SMODE_NOACK;
@@ -1132,7 +1132,7 @@ err_out:
 HWND TSAPI DM_CreateClist(TWindowData *dat)
 {
 	if (!sendLater->isAvail()) {
-		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
+		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK | MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 		dat->sendMode &= ~SMODE_MULTIPLE;
 		return 0;
 	}
@@ -1784,11 +1784,11 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 			TCHAR fulluin[256];
 			if (dat->bIsMeta)
 				mir_sntprintf(fulluin, SIZEOF(fulluin),
-				TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
+				TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites."),
 				bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 			else
 				mir_sntprintf(fulluin, SIZEOF(fulluin),
-				TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
+				TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status."),
 				bHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
 			SendDlgItemMessage(hwndDlg, IDC_NAME, BUTTONADDTOOLTIP, (WPARAM)fulluin, BATF_TCHAR);

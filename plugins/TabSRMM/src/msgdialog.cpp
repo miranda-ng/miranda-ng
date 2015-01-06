@@ -113,7 +113,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 
 	if (idFrom == IDC_LOG)  {
 		InsertMenuA(hSubMenu, 6/*5*/, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
-		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character Encoding"));
+		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character encoding"));
 		for (int i=0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
 
@@ -1202,7 +1202,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			DM_ThemeChanged(dat);
 
-			pszIDCSAVE_close = TranslateT("Close Session");
+			pszIDCSAVE_close = TranslateT("Close session");
 			pszIDCSAVE_save = TranslateT("Save and close session");
 
 			dat->hContact = newData->hContact;
@@ -1748,7 +1748,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 							}
 							else
-								CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
+								CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 							return(_dlgReturn(hwndDlg, 1));
 						case TABSRMM_HK_TOGGLERTL:
 							{

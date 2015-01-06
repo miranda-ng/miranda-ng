@@ -103,7 +103,7 @@ void TSAPI CreateTrayMenus(int mode)
 		ModifyMenu(PluginConfig.g_hMenuTrayContext, 0, MF_BYPOSITION | MF_POPUP,
 				   (UINT_PTR)PluginConfig.g_hMenuFavorites, TranslateT("Favorites"));
 		ModifyMenu(PluginConfig.g_hMenuTrayContext, 2, MF_BYPOSITION | MF_POPUP,
-				   (UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent Sessions"));
+				   (UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent sessions"));
 		LoadFavoritesAndRecent();
 	}
 	else {

@@ -801,7 +801,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 10;
 	bbd.hIcon = LoadSkinnedIconHandle(SKINICON_OTHER_CONNECTING);
 	bbd.pszModuleName = "Tabsrmm";
-	bbd.ptszTooltip = LPGENT("Protocol Button");
+	bbd.ptszTooltip = LPGENT("Protocol button");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_ISARROWBUTTON | BBBF_CREATEBYID;
@@ -817,7 +817,7 @@ void CB_InitDefaultButtons()
 		bbd.iButtonWidth = 0;
 		bbd.dwDefPos = 30;
 		bbd.hIcon = PluginConfig.g_buttonBarIconHandles[9];
-		bbd.ptszTooltip = LPGENT("Insert Emoticon");
+		bbd.ptszTooltip = LPGENT("Insert emoticon");
 		CB_AddButton(0, (LPARAM)&bbd);
 	}
 
@@ -885,7 +885,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 40;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[2];
-	bbd.ptszTooltip = LPGENT("Message Log Options");
+	bbd.ptszTooltip = LPGENT("Message log options");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;
@@ -893,7 +893,7 @@ void CB_InitDefaultButtons()
 	bbd.dwDefPos = 50;
 	bbd.iButtonWidth = 0;
 	bbd.hIcon = PluginConfig.g_buttonBarIconHandles[0];
-	bbd.ptszTooltip = LPGENT("View User's History");
+	bbd.ptszTooltip = LPGENT("View user's history");
 	CB_AddButton(0, (LPARAM)&bbd);
 
 	bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISRSIDEBUTTON | BBBF_CREATEBYID;

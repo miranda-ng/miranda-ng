@@ -275,13 +275,13 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, MF_BYCOMMAND | (PluginConfig.m_bAlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED));
 		if (!bInfoPanel) {
 			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | (ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED));
-			szText = TranslateT("Contact Picture Settings...");
+			szText = TranslateT("Contact picture settings...");
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_ENABLED);
 		}
 		else {
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_GRAYED);
 			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | ((ServiceExists(MS_AV_SETMYAVATAR) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(dat->cache->getActiveProto()), 0)) ? MF_ENABLED : MF_GRAYED));
-			szText = TranslateT("Set Your Avatar...");
+			szText = TranslateT("Set your avatar...");
 		}
 		mii.dwTypeData = szText;
 		mii.cch = (int)mir_tstrlen(szText) + 1;
@@ -1436,7 +1436,7 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 	UINT ctrlID = dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE;
 
 	if (!PluginConfig.m_PasteAndSend) {
-		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, ctrlID, (LPARAM)TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section"));
+		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, ctrlID, (LPARAM)TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section"));
 		return;                                     // feature disabled
 	}
 
@@ -1809,8 +1809,8 @@ void TSAPI GetMyNick(TWindowData *dat)
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			if (mir_tstrlen((TCHAR*)ci.pszVal) == 0 ||
-			    !_tcscmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown Contact)'"))) {
-				_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown Contact)'")), _TRUNCATE);
+			    !_tcscmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown contact)'"))) {
+				_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 			} else {
 				_tcsncpy_s(dat->szMyNickname, (TCHAR*)ci.pszVal, _TRUNCATE);
 			}
