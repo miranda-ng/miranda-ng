@@ -143,7 +143,7 @@ BEGIN
     GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
     LTEXT           "Show when filter is active",IDC_STATIC,12,14,119,13,SS_CENTERIMAGE
     CTEXT           "Log to file",IDC_TEXTO4,234,13,64,13,SS_CENTERIMAGE
-    CTEXT           "Show Popup",IDC_TEXTO2,131,13,49,13,SS_CENTERIMAGE
+    CTEXT           "Show popup",IDC_TEXTO2,131,13,49,13,SS_CENTERIMAGE
     CTEXT           "Notify in tray",IDC_TEXTO3,183,13,49,13,SS_CENTERIMAGE
     CONTROL         "Actions",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,28,110,10
     CONTROL         "Messages",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,38,110,10

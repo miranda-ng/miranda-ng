@@ -41,8 +41,8 @@ BEGIN
     LTEXT           "Use global or private panel height",IDC_STATIC,10,42,128,10
     COMBOBOX        IDC_PANELSIZE,149,39,118,16,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Set size to",IDC_GROUP_SIZE,5,59,271,45
-    PUSHBUTTON      "Compact (1 Line)",IDC_SIZECOMPACT,10,71,84,14
-    PUSHBUTTON      "Normal (2 Lines)",IDC_SIZENORMAL,98,71,84,14
+    PUSHBUTTON      "Compact (1 line)",IDC_SIZECOMPACT,10,71,84,14
+    PUSHBUTTON      "Normal (2 lines)",IDC_SIZENORMAL,98,71,84,14
     PUSHBUTTON      "Large",IDC_SIZELARGE,187,71,84,14
     LTEXT           "Tip: To use a custom size you can always drag the bottom edge of the panel",IDC_SIZE_TIP,11,89,255,12
     GROUPBOX        "Other options",IDC_GROUP_OTHER,5,105,271,39
@@ -83,7 +83,7 @@ BEGIN
     CONTROL         "",IDC_MESSAGEPREVIEWLIMITSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,196,123,9,13
     LTEXT           "characters",IDC_STATIC,210,124,89,10
     PUSHBUTTON      "Only show event notifications when my status is...",IDC_POPUPSTATUSMODES,11,139,292,15
-    GROUPBOX        "Popup Options",IDC_STATIC,3,158,310,97
+    GROUPBOX        "Popup options",IDC_STATIC,3,158,310,97
     LTEXT           "Text",IDC_STATIC,60,167,23,8
     LTEXT           "Background",IDC_STATIC,86,167,47,8
     CTEXT           "Timeout (seconds, 0 = default, -1 = no timeout)",IDC_STATIC,134,167,168,8
@@ -157,10 +157,10 @@ BEGIN
     LTEXT           "Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.",IDC_STATIC,143,17,164,24
     GROUPBOX        "Send text formatting method",IDC_STATIC,4,45,310,33
     COMBOBOX        IDC_TEXTFORMATTING,8,57,128,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "You can override the global setting for text formatting here. Use ""Force Off"" to never send formatting info for this contact.",IDC_STATIC,143,52,164,24
+    LTEXT           "You can override the global setting for text formatting here. Use ""Force off"" to never send formatting info for this contact.",IDC_STATIC,143,52,164,24
     GROUPBOX        "ANSI codepage",IDC_STATIC,4,82,310,32
     COMBOBOX        IDC_CODEPAGES,8,94,128,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.",IDC_STATIC,143,87,164,24
+    LTEXT           "Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.",IDC_STATIC,143,87,164,24
     GROUPBOX        "Other options",IDC_STATIC,4,118,310,142
     LTEXT           "Info panel mode",IDC_STATIC,12,128,128,8
     COMBOBOX        IDC_INFOPANEL,9,138,130,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
@@ -294,7 +294,7 @@ BEGIN
     GROUPBOX        "Template sets",IDC_STMSGLOGGROUP,3,138,300,26
     PUSHBUTTON      "Standard templates...",IDC_MODIFY,27,147,95,14
     PUSHBUTTON      "RTL templates...",IDC_RTLMODIFY,178,147,95,14
-    GROUPBOX        "Load History Events",IDC_STATIC,3,168,300,57
+    GROUPBOX        "Load history events",IDC_STATIC,3,168,300,57
     CONTROL         "Load unread events only",IDC_LOADUNREAD,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,10,177,135,10
     CONTROL         "Load number of previous events",IDC_LOADCOUNT,"Button",BS_AUTORADIOBUTTON,10,188,138,10
     CONTROL         "Load previous events less than",IDC_LOADTIME,"Button",BS_AUTORADIOBUTTON,10,200,138,10
@@ -316,7 +316,7 @@ IDD_OPT_MSGTYPE DIALOGEX 0, 0, 283, 251
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Typing Notification",IDC_STATIC,7,0,269,121
+    GROUPBOX        "Typing notification",IDC_STATIC,7,0,269,121
     LTEXT           "Send typing notifications to the following users when you are typing a message to them:",IDC_STATIC,19,10,245,19
     CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x3da,18,29,248,88,WS_EX_CLIENTEDGE
     GROUPBOX        "        Show typing notifications in the message window",IDC_STATIC,7,124,269,25
@@ -383,7 +383,7 @@ BEGIN
     RTEXT           "Gap between buttons:",IDC_STATIC,136,183,104,12,SS_CENTERIMAGE
     CONTROL         "Hide if there isn't enough space",IDC_CANBEHIDDEN,
                     "Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | WS_TABSTOP,4,209,131,17
-    PUSHBUTTON      "Insert Separator",IDC_SEPARATOR,137,211,103,15,BS_MULTILINE
+    PUSHBUTTON      "Insert separator",IDC_SEPARATOR,137,211,103,15,BS_MULTILINE
 END
 
 IDD_OPT_CONTAINERS DIALOGEX 0, 0, 303, 221
@@ -466,7 +466,7 @@ BEGIN
     CONTROL         "",IDC_PREVIEW,"RichEdit50W",WS_VSCROLL | WS_TABSTOP | 0x844,122,14,236,80
     GROUPBOX        "Edit template",IDC_STATIC,3,99,363,129
     EDITTEXT        IDC_EDITTEMPLATE,11,109,344,14,ES_AUTOHSCROLL
-    LTEXT           "Double click a template to edit it. Select a template from the list box and click ""Update Preview"" to show a preview message.",IDC_STATIC,11,126,342,26
+    LTEXT           "Double click a template to edit it. Select a template from the list box and click ""Update preview"" to show a preview message.",IDC_STATIC,11,126,342,26
     CONTROL         "Get more help on variables",IDC_VARIABLESHELP,"Hyperlink",WS_TABSTOP | 0x1,13,157,148,10
     LTEXT           "Define up to 5 colors which you can use with some variables",IDC_STATIC,12,193,174,17
     CONTROL         "",IDC_COLOR1,"ColourPicker",WS_TABSTOP,11,213,24,13
@@ -475,10 +475,10 @@ BEGIN
     CONTROL         "",IDC_COLOR4,"ColourPicker",WS_TABSTOP,107,213,24,13
     CONTROL         "",IDC_COLOR5,"ColourPicker",WS_TABSTOP,139,213,24,13
     PUSHBUTTON      "Close",IDCANCEL,200,211,66,15
-    PUSHBUTTON      "Update Preview",IDC_UPDATEPREVIEW,268,154,90,15
-    PUSHBUTTON      "Save Template",IDC_SAVETEMPLATE,268,173,90,15
+    PUSHBUTTON      "Update preview",IDC_UPDATEPREVIEW,268,154,90,15
+    PUSHBUTTON      "Save template",IDC_SAVETEMPLATE,268,173,90,15
     PUSHBUTTON      "Forget",IDC_FORGET,268,192,90,15
-    PUSHBUTTON      "Revert to Default",IDC_REVERT,268,211,90,15
+    PUSHBUTTON      "Revert to default",IDC_REVERT,268,211,90,15
     PUSHBUTTON      "Reset all templates...",IDC_RESETALLTEMPLATES,171,154,90,15
 END
 
@@ -586,13 +586,13 @@ BEGIN
     CONTROL         "Indent message body",IDC_UPREFS_INDENT,"Button",BS_AUTO3STATE | WS_TABSTOP,15,154,136,11
     CONTROL         "Display grid lines",IDC_UPREFS_GRID,"Button",BS_AUTO3STATE | WS_TABSTOP,15,167,136,11
     CONTROL         "Message grouping",IDC_UPREFS_GROUPING,"Button",BS_AUTO3STATE | WS_TABSTOP,155,154,150,11
-    CONTROL         "Support BBCODE",IDC_UPREFS_BBCODE,"Button",BS_AUTO3STATE | WS_TABSTOP,155,167,150,11
+    CONTROL         "Support BBCode",IDC_UPREFS_BBCODE,"Button",BS_AUTO3STATE | WS_TABSTOP,155,167,150,11
     GROUPBOX        "Misc",IDC_STATIC,8,186,302,52
     CONTROL         "RTL is default text direction",IDC_UPREFS_RTL,"Button",BS_AUTO3STATE | WS_TABSTOP,15,196,290,11
     CONTROL         "Log status changes (in open message windows only)",IDC_UPREFS_LOGSTATUS,
                     "Button",BS_AUTO3STATE | WS_TABSTOP,15,210,290,11
     PUSHBUTTON      "Revert to global options",IDC_REVERTGLOBAL,62,242,191,18
-    LTEXT           "You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log",IDC_STATIC,16,4,296,28
+    LTEXT           "You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log",IDC_STATIC,16,4,296,28
     CONTROL         "Use normal templates (uncheck to use simple templates)",IDC_UPREFS_NORMALTEMPLATES,
                     "Button",BS_AUTO3STATE | WS_TABSTOP,15,224,290,11
 END
@@ -703,11 +703,11 @@ BEGIN
     BEGIN
         MENUITEM "&Copy",                       IDM_COPY
         MENUITEM "&Quote",                      IDM_QUOTE
-        MENUITEM "Co&py All",                   IDM_COPYALL
-        MENUITEM "Select &All",                 IDM_SELECTALL
+        MENUITEM "Co&py all",                   IDM_COPYALL
+        MENUITEM "Select &all",                 IDM_SELECTALL
         MENUITEM SEPARATOR
-        MENUITEM "Clear Log",                   IDM_CLEAR
-        MENUITEM "Freeze Log",                  ID_LOG_FREEZELOG
+        MENUITEM "Clear log",                   IDM_CLEAR
+        MENUITEM "Freeze log",                  ID_LOG_FREEZELOG
     END
     POPUP "LogLink"
     BEGIN
@@ -720,13 +720,13 @@ BEGIN
         MENUITEM "Cut",                         IDM_CUT
         MENUITEM "Copy",                        IDM_COPY
         MENUITEM "Paste",                       IDM_PASTE
-        MENUITEM "Paste formatted Text",        IDM_PASTEFORMATTED
-        MENUITEM "Paste and Send immediately",  ID_EDITOR_PASTEANDSENDIMMEDIATELY
+        MENUITEM "Paste formatted text",        IDM_PASTEFORMATTED
+        MENUITEM "Paste and send immediately",  ID_EDITOR_PASTEANDSENDIMMEDIATELY
         MENUITEM SEPARATOR
         MENUITEM "Copy all",                    IDM_COPYALL
         MENUITEM "Select all",                  IDM_SELECTALL
         MENUITEM SEPARATOR
-        MENUITEM "Show Message Length Indicator", ID_EDITOR_SHOWMESSAGELENGTHINDICATOR
+        MENUITEM "Show message length indicator", ID_EDITOR_SHOWMESSAGELENGTHINDICATOR
     END
 END
 
@@ -734,97 +734,97 @@ IDR_TABCONTEXT MENU
 BEGIN
     POPUP "Tabmenu"
     BEGIN
-        MENUITEM "Close Tab",                   ID_TABMENU_CLOSETAB
-        MENUITEM "Close Other Tabs",            ID_TABMENU_CLOSEOTHERTABS
+        MENUITEM "Close tab",                   ID_TABMENU_CLOSETAB
+        MENUITEM "Close other tabs",            ID_TABMENU_CLOSEOTHERTABS
         MENUITEM SEPARATOR
-        MENUITEM "Leave Chat Room",             ID_TABMENU_LEAVECHATROOM
+        MENUITEM "Leave chat room",             ID_TABMENU_LEAVECHATROOM
         MENUITEM SEPARATOR
-        MENUITEM "Save Tab Position",           ID_TABMENU_SAVETABPOSITION
-        MENUITEM "Clear saved Tab Position",    ID_TABMENU_CLEARSAVEDTABPOSITION
+        MENUITEM "Save tab position",           ID_TABMENU_SAVETABPOSITION
+        MENUITEM "Clear saved tab position",    ID_TABMENU_CLEARSAVEDTABPOSITION
         MENUITEM SEPARATOR
-        MENUITEM "Attach to Container...",      ID_TABMENU_ATTACHTOCONTAINER
+        MENUITEM "Attach to container...",      ID_TABMENU_ATTACHTOCONTAINER
         MENUITEM "Container options...",        ID_TABMENU_CONTAINEROPTIONS
         MENUITEM SEPARATOR
-        MENUITEM "Close Container",             ID_TABMENU_CLOSECONTAINER
+        MENUITEM "Close container",             ID_TABMENU_CLOSECONTAINER
     END
     POPUP "Picmenu"
     BEGIN
-        POPUP "Show Contact Picture"
+        POPUP "Show contact picture"
         BEGIN
             MENUITEM "Default",                     ID_VISIBILITY_DEFAULT
-            MENUITEM "Hidden for this Contact",     ID_VISIBILITY_HIDDENFORTHISCONTACT
-            MENUITEM "Visible for this Contact",    ID_VISIBILITY_VISIBLEFORTHISCONTACT
+            MENUITEM "Hidden for this contact",     ID_VISIBILITY_HIDDENFORTHISCONTACT
+            MENUITEM "Visible for this contact",    ID_VISIBILITY_VISIBLEFORTHISCONTACT
         END
         MENUITEM SEPARATOR
-        MENUITEM "Contact Picture Settings...", ID_PICMENU_SETTINGS
+        MENUITEM "Contact picture settings...", ID_PICMENU_SETTINGS
         MENUITEM "Always keep the button bar at full width", ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH
-        MENUITEM "Save this Picture As...",     ID_PICMENU_SAVETHISPICTUREAS
+        MENUITEM "Save this picture as...",     ID_PICMENU_SAVETHISPICTUREAS
     END
     POPUP "Logmenu"
     BEGIN
-        POPUP "&Message Log Settings"
+        POPUP "&Message log settings"
         BEGIN
             MENUITEM "&Global...",                  ID_MESSAGELOGSETTINGS_GLOBAL
-            MENUITEM "&For this Contact...",        ID_MESSAGELOGSETTINGS_FORTHISCONTACT
+            MENUITEM "&For this contact...",        ID_MESSAGELOGSETTINGS_FORTHISCONTACT
         END
     END
     POPUP "Sendmenu"
     BEGIN
-        MENUITEM "Send &Default",               ID_SENDMENU_SENDDEFAULT
-        MENUITEM "Send to &multiple Users",     ID_SENDMENU_SENDTOMULTIPLEUSERS
-        MENUITEM "Send to &Container",          ID_SENDMENU_SENDTOCONTAINER
-        MENUITEM "Send &Later",                 ID_SENDMENU_SENDLATER
+        MENUITEM "Send &default",               ID_SENDMENU_SENDDEFAULT
+        MENUITEM "Send to &multiple users",     ID_SENDMENU_SENDTOMULTIPLEUSERS
+        MENUITEM "Send to &container",          ID_SENDMENU_SENDTOCONTAINER
+        MENUITEM "Send &later",                 ID_SENDMENU_SENDLATER
         MENUITEM SEPARATOR
         MENUITEM "Force &ANSI",                 ID_SENDMENU_FORCEANSISEND
-        MENUITEM "Send unsafe (ignore Timeouts)", ID_SENDMENU_SENDWITHOUTTIMEOUTS
+        MENUITEM "Send unsafe (ignore timeouts)", ID_SENDMENU_SENDWITHOUTTIMEOUTS
         MENUITEM SEPARATOR
-        MENUITEM "Send Nudge",                  ID_SENDMENU_SENDNUDGE
+        MENUITEM "Send nudge",                  ID_SENDMENU_SENDNUDGE
     END
     POPUP "Protomenu"
     BEGIN
-        POPUP "Splitter Position"
+        POPUP "Splitter position"
         BEGIN
             MENUITEM "Global",                      ID_MODE_GLOBAL
             MENUITEM "Private",                     ID_MODE_PRIVATE
         END
         MENUITEM SEPARATOR
-        POPUP "Send Text Formatting"
+        POPUP "Send text formatting"
         BEGIN
             POPUP "Global"
             BEGIN
                 MENUITEM "BBCode",                      ID_GLOBAL_BBCODE
                 MENUITEM "Off",                         ID_GLOBAL_OFF
             END
-            POPUP "This Contact"
+            POPUP "This contact"
             BEGIN
-                MENUITEM "Global Setting",              ID_THISCONTACT_GLOBALSETTING
+                MENUITEM "Global setting",              ID_THISCONTACT_GLOBALSETTING
                 MENUITEM "BBCode",                      ID_THISCONTACT_BBCODE
-                MENUITEM "Force Off",                   ID_THISCONTACT_OFF
+                MENUITEM "Force off",                   ID_THISCONTACT_OFF
             END
         END
     END
-    POPUP "Unread Menu"
+    POPUP "Unread menu"
     BEGIN
         MENUITEM SEPARATOR
     END
     POPUP "Traycontext"
     BEGIN
-        MENUITEM "Recent Sessions",             0
+        MENUITEM "Recent sessions",             0
         MENUITEM SEPARATOR
         MENUITEM "Favorites",                   0
         MENUITEM SEPARATOR
-        MENUITEM "Show the Tray Icon",          ID_TRAYCONTEXT_SHOWTHETRAYICON
+        MENUITEM "Show the tray icon",          ID_TRAYCONTEXT_SHOWTHETRAYICON
         MENUITEM SEPARATOR
-        MENUITEM "Disable All Event Notifications", ID_TRAYCONTEXT_DISABLEALLPOPUPS
-        MENUITEM "Don't create Windows automatically", ID_TRAYCONTEXT_DON
-        MENUITEM "Hide all Message Containers", ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS
-        MENUITEM "Restore all Message Containers", ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS
-        MENUITEM "Don't play Sounds",           ID_TRAYCONTEXT_DON40223
-        MENUITEM "Be ""Super Quiet""",          ID_TRAYCONTEXT_BE
+        MENUITEM "Disable all event notifications", ID_TRAYCONTEXT_DISABLEALLPOPUPS
+        MENUITEM "Don't create windows automatically", ID_TRAYCONTEXT_DON
+        MENUITEM "Hide all message containers", ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS
+        MENUITEM "Restore all message containers", ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS
+        MENUITEM "Don't play sounds",           ID_TRAYCONTEXT_DON40223
+        MENUITEM "Be ""super quiet""",          ID_TRAYCONTEXT_BE
     END
     POPUP "Font"
     BEGIN
-        MENUITEM "Default Color",               ID_FONT_DEFAULTCOLOR
+        MENUITEM "Default color",               ID_FONT_DEFAULTCOLOR
         MENUITEM "Red",                         ID_FONT_RED
         MENUITEM "Green",                       ID_FONT_GREEN
         MENUITEM "Blue",                        ID_FONT_BLUE
@@ -834,16 +834,16 @@ BEGIN
         MENUITEM "Black",                       ID_FONT_BLACK
         MENUITEM "White",                       ID_FONT_WHITE
         MENUITEM SEPARATOR
-        MENUITEM "Clear all Formatting",        ID_FONT_CLEARALLFORMATTING
+        MENUITEM "Clear all formatting",        ID_FONT_CLEARALLFORMATTING
     END
     POPUP "Dummy", INACTIVE
     BEGIN
-        MENUITEM "No Message Sessions opened",  ID_DUMMY_NOMESSAGESESSIONSOPENED
+        MENUITEM "No message sessions opened",  ID_DUMMY_NOMESSAGESESSIONSOPENED
     END
     POPUP "Favorites"
     BEGIN
-        MENUITEM "Add Contact to Favorites",    ID_FAVORITES_ADDCONTACTTOFAVORITES
-        MENUITEM "Remove Contact from Favorites", ID_FAVORITES_REMOVECONTACTFROMFAVORITES
+        MENUITEM "Add contact to favorites",    ID_FAVORITES_ADDCONTACTTOFAVORITES
+        MENUITEM "Remove contact from favorites", ID_FAVORITES_REMOVECONTACTFROMFAVORITES
     END
     POPUP "Apparentmenu"
     BEGIN
@@ -852,29 +852,29 @@ BEGIN
     POPUP "Panelpicmenu"
     BEGIN
         MENUITEM SEPARATOR
-        MENUITEM "Contact Picture Settings...", ID_PICMENU_SETTINGS
-        MENUITEM "Save this Picture As...",     ID_PANELPICMENU_SAVETHISPICTUREAS
+        MENUITEM "Contact picture settings...", ID_PICMENU_SETTINGS
+        MENUITEM "Save this picture as...",     ID_PANELPICMENU_SAVETHISPICTUREAS
     END
     POPUP "Splitter context"
     BEGIN
-        MENUITEM "Set Position for this Session", ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION
+        MENUITEM "Set position for this session", ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION
         MENUITEM SEPARATOR
-        MENUITEM "Set and Save for all Sessions", ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS
-        MENUITEM "Set and Save for this Contact only", ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY
+        MENUITEM "Set and save for all sessions", ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS
+        MENUITEM "Set and save for this contact only", ID_SPLITTERCONTEXT_SAVEFORTHISCONTACTONLY
         MENUITEM SEPARATOR
-        MENUITEM "Revert to old Position",      ID_SPLITTERCONTEXT_FORGETTHECHANGES
+        MENUITEM "Revert to old position",      ID_SPLITTERCONTEXT_FORGETTHECHANGES
     END
     POPUP "Queue manager"
     BEGIN
-        MENUITEM "Mark Selected for Removal",   ID_QUEUEMANAGER_MARKSELECTEDFORREMOVAL
-        MENUITEM "Reset Selected",              ID_QUEUEMANAGER_RESETSELECTED
+        MENUITEM "Mark selected for removal",   ID_QUEUEMANAGER_MARKSELECTEDFORREMOVAL
+        MENUITEM "Reset selected",              ID_QUEUEMANAGER_RESETSELECTED
         MENUITEM SEPARATOR
-        MENUITEM "Hold Selected",               ID_QUEUEMANAGER_HOLDSELECTED
-        MENUITEM "Resume Selected",             ID_QUEUEMANAGER_RESUMESELECTED
+        MENUITEM "Hold selected",               ID_QUEUEMANAGER_HOLDSELECTED
+        MENUITEM "Resume selected",             ID_QUEUEMANAGER_RESUMESELECTED
         MENUITEM SEPARATOR
-        MENUITEM "Cancel all Multisend Jobs",   ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS
+        MENUITEM "Cancel all multisend jobs",   ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS
         MENUITEM SEPARATOR
-        MENUITEM "Copy Message to Clipboard",   ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, INACTIVE
+        MENUITEM "Copy message to clipboard",   ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, INACTIVE
     END
 END
 
@@ -882,59 +882,59 @@ IDR_MENUBAR MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "Save Message Log As...",      ID_FILE_SAVEMESSAGELOGAS
+        MENUITEM "Save message log as...",      ID_FILE_SAVEMESSAGELOGAS
         MENUITEM SEPARATOR
-        MENUITEM "Close Message Session\tCtrl-W", ID_FILE_CLOSEMESSAGESESSION
-        MENUITEM "Close Container\tAlt-F4",     ID_FILE_CLOSE
+        MENUITEM "Close message session\tCtrl-W", ID_FILE_CLOSEMESSAGESESSION
+        MENUITEM "Close container\tAlt-F4",     ID_FILE_CLOSE
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "Show Menu Bar",               ID_VIEW_SHOWMENUBAR
-        MENUITEM "Show Status Bar",             ID_VIEW_SHOWSTATUSBAR
-        MENUITEM "Info Panel...",               ID_VIEW_INFOPANEL
+        MENUITEM "Show menu bar",               ID_VIEW_SHOWMENUBAR
+        MENUITEM "Show status bar",             ID_VIEW_SHOWSTATUSBAR
+        MENUITEM "Info panel...",               ID_VIEW_INFOPANEL
         POPUP "Toolbar"
         BEGIN
             MENUITEM "Show toolbar",               ID_VIEW_SHOWTOOLBAR
             MENUITEM "Place toolbar at bottom",     ID_VIEW_BOTTOMTOOLBAR
         END
-        MENUITEM "Title Bar",                   ID_VIEW_SHOWTITLEBAR
+        MENUITEM "Title bar",                   ID_VIEW_SHOWTITLEBAR
         MENUITEM "Tabs at the bottom",              ID_VIEW_TABSATBOTTOM
         MENUITEM "Vertical maximize",           ID_VIEW_VERTICALMAXIMIZE
         MENUITEM SEPARATOR
-        POPUP "Window Flashing"
+        POPUP "Window flashing"
         BEGIN
-            MENUITEM "Use default Value",           ID_WINDOWFLASHING_USEDEFAULTVALUES
+            MENUITEM "Use default value",           ID_WINDOWFLASHING_USEDEFAULTVALUES
             MENUITEM "Flash until focused",         ID_WINDOWFLASHING_FLASHUNTILFOCUSED
             MENUITEM "Disable flashing",            ID_WINDOWFLASHING_DISABLEFLASHING
         END
         MENUITEM SEPARATOR
-        MENUITEM "Show Multisend Contact List", ID_VIEW_SHOWMULTISENDCONTACTLIST
+        MENUITEM "Show multisend contact list", ID_VIEW_SHOWMULTISENDCONTACTLIST
         MENUITEM SEPARATOR
-        MENUITEM "Stay on Top",                 ID_VIEW_STAYONTOP
+        MENUITEM "Stay on top",                 ID_VIEW_STAYONTOP
     END
-    POPUP "Message &Log"
+    POPUP "Message &log"
     BEGIN
-        POPUP "&Message Log Settings"
+        POPUP "&Message log settings"
         BEGIN
             MENUITEM "&Global...",                  ID_MESSAGELOGSETTINGS_GLOBAL
-            MENUITEM "&For this Contact...",        ID_MESSAGELOGSETTINGS_FORTHISCONTACT
+            MENUITEM "&For this contact...",        ID_MESSAGELOGSETTINGS_FORTHISCONTACT
         END
     END
     POPUP "&Container"
     BEGIN
         MENUITEM "Container options...",        ID_CONTAINER_CONTAINEROPTIONS
         MENUITEM SEPARATOR
-        POPUP "Event Popups"
+        POPUP "Event popups"
         BEGIN
-            MENUITEM "Disable all Event Popups",    ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS
+            MENUITEM "Disable all event popups",    ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS
             MENUITEM SEPARATOR
-            MENUITEM "Show Popups if Window is minimized", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED
-            MENUITEM "Show Popups if Window is unfocused", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED
-            MENUITEM "Show Popups if Window is focused", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED
-            MENUITEM "Show Popups for all inactive sessions", ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS
+            MENUITEM "Show popups if window is minimized", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED
+            MENUITEM "Show popups if window is unfocused", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISUNFOCUSED
+            MENUITEM "Show popups if window is focused", ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISFOCUSED
+            MENUITEM "Show popups for all inactive sessions", ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS
         END
         MENUITEM SEPARATOR
-        MENUITEM "Save current Window Position as Default", ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT
+        MENUITEM "Save current window position as default", ID_OPTIONS_SAVECURRENTWINDOWPOSITIONASDEFAULT
     END
     POPUP "Help"
     BEGIN

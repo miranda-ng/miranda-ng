@@ -127,7 +127,7 @@ CSendLaterJob::~CSendLaterJob()
 
 				POPUPDATAT ppd = {0};
 				ppd.lchContact = hContact;
-				_tcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown Contact)'")), _TRUNCATE);
+				_tcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
 					mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("A send later job completed successfully.\nThe original message: %s"),

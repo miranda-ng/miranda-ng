@@ -304,7 +304,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
 			tn.cbSize = sizeof(tn);
-			tn.tszInfoTitle = TranslateT("Typing Notification");
+			tn.tszInfoTitle = TranslateT("Typing notification");
 			tn.tszInfo = szTip;
 			tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
 			tn.uTimeout = 1000 * 4;

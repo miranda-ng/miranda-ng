@@ -570,7 +570,7 @@ void CMenuBar::checkButtons()
 		m_TbButtons[4].dwData = 0;
 
 		m_TbButtons[5].iBitmap = I_IMAGENONE;
-		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &Log");
+		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &log");
 		m_TbButtons[5].fsState = TBSTATE_ENABLED;
 		m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[5].idCommand = 105;

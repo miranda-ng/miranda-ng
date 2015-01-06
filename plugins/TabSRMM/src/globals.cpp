@@ -83,9 +83,9 @@ void CGlobals::reloadSystemStartup()
 	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
 	TranslateMenu(g_hMenuContext);
 
-	SkinAddNewSoundEx("RecvMsgActive",   LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
-	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
-	SkinAddNewSoundEx("AlertMsg",        LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));
+	SkinAddNewSoundEx("RecvMsgActive",   LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
+	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
+	SkinAddNewSoundEx("AlertMsg",        LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
 	SkinAddNewSoundEx("SendMsg",         LPGEN("Instant messages"), LPGEN("Outgoing"));
 	SkinAddNewSoundEx("SendError",       LPGEN("Instant messages"), LPGEN("Message send error"));
 
@@ -229,7 +229,7 @@ void CGlobals::reloadAdv()
 	m_bDontUseDefaultKbd = M.GetBool("adv_leaveKeyboardAlone", true);
 
 	if (m_bSoundOnTyping && m_TypingSoundAdded == false) {
-		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TabSRMM: Typing"));
+		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TabSRMM: typing"));
 		m_TypingSoundAdded = true;
 	}
 	m_bAllowOfflineMultisend = M.GetBool("AllowOfflineMultisend", false);
@@ -275,7 +275,7 @@ int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
 	TopToolbar_AddButton(&ttb);
 
 	ttb.name = "TabSRMM Menu";
-	ttb.pszTooltipUp = LPGEN("TabSRMM Menu");
+	ttb.pszTooltipUp = LPGEN("TabSRMM menu");
 	ttb.lParamUp = ttb.lParamDown = 1;
 	ttb.hIconHandleUp = Skin_GetIcon("tabSRMM_container");
 	TopToolbar_AddButton(&ttb);

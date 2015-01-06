@@ -1213,7 +1213,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
-	odp.pszTitle = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.pszTab      = LPGEN("General");
@@ -1246,7 +1246,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc  = PlusOptionsProc;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszGroup    = LPGEN("Message Sessions");
+	odp.pszGroup    = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.pszTitle    = LPGEN("Typing Notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
@@ -1274,7 +1274,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 
 	/* group chats */
 
-	odp.pszGroup    = LPGEN("Message Sessions");
+	odp.pszGroup    = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
 	odp.pszTitle    = LPGEN("Group chats");
 	odp.pszTab      = LPGEN("Settings");

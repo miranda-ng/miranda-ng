@@ -717,20 +717,20 @@ HMENU CInfoPanel::constructContextualMenu() const
 	HMENU m = ::CreatePopupMenu();
 
 	if (m_hoverFlags & HOVER_NICK) {
-		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS), TranslateT("Open User Details..."), IDC_NAME, 0);
-		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_HISTORY), TranslateT("Open History..."), m_isChat ? IDC_CHAT_HISTORY : IDC_HISTORY, 0);
+		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS), TranslateT("Open user details..."), IDC_NAME, 0);
+		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_HISTORY), TranslateT("Open history..."), m_isChat ? IDC_CHAT_HISTORY : IDC_HISTORY, 0);
 		if (!m_isChat)
-			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, TranslateT("Messaging Settings..."), ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
+			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, TranslateT("Messaging settings..."), ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
 		else {
-			::AppendMenu(m, MF_STRING, IDC_CHANMGR, TranslateT("Room Settings..."));
+			::AppendMenu(m, MF_STRING, IDC_CHANMGR, TranslateT("Room settings..."));
 			if (GCW_SERVER & m_dat->si->iType)
 				::EnableMenuItem(m, IDC_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
 		}
 		::AppendMenu(m, MF_SEPARATOR, 1000, 0);
-		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close Session"), IDC_SAVE, 4);
+		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close session"), IDC_SAVE, 4);
 	}
 	::AppendMenu(m, MF_SEPARATOR, 1000, 0);
-	::AppendMenu(m, MF_STRING, CMD_IP_COPY, TranslateT("Copy To Clipboard"));
+	::AppendMenu(m, MF_STRING, CMD_IP_COPY, TranslateT("Copy to clipboard"));
 
 	return m;
 }
@@ -928,7 +928,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 	::SendMessage(m_dat->hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&m_dat->ti);
 	::SendMessage(m_dat->hwndTip, TTM_SETMAXTIPWIDTH, 0, 350);
 
-	::SendMessage(m_dat->hwndTip, TTM_SETTITLE, 1, (LPARAM)TranslateT("TabSRMM Information"));
+	::SendMessage(m_dat->hwndTip, TTM_SETTITLE, 1, (LPARAM)TranslateT("TabSRMM information"));
 	::SendMessage(m_dat->hwndTip, TTM_TRACKACTIVATE, TRUE, (LPARAM)&m_dat->ti);
 	::GetCursorPos(&m_dat->ptTipActivation);
 }
@@ -1086,7 +1086,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			if (!m_isChat) {
 				v = db_get_b(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
-				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use Global Setting"));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (BYTE)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
