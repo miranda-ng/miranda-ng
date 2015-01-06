@@ -44,6 +44,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETAVATARINFOT, &CToxProto::GetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATART, &CToxProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CToxProto::SetMyAvatar);
+
+	hToxEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 }
 
 CToxProto::~CToxProto()

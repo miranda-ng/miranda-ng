@@ -52,6 +52,8 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_DB_EVENT_TYPE_ACTION 10001
 
+#define TOX_FILE_BLOCK_SIZE 1024 * 1024
+
 extern HMODULE g_hToxLibrary;
 
 template<typename T>

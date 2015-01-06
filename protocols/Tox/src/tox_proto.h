@@ -4,11 +4,15 @@
 struct FileTransferParam
 {
 	PROTOFILETRANSFERSTATUS pfts;
+	bool isTerminated;
+	FILE *hFile;
 	int number;
 
 	FileTransferParam(int fileNumber, const TCHAR* fileName, size_t fileSize)
 	{
+		isTerminated = false;
 		number = fileNumber;
+		hFile = NULL;
 
 		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 		pfts.flags = PFTS_TCHAR;
@@ -34,6 +38,7 @@ struct FileTransferParam
 
 	~FileTransferParam()
 	{
+		isTerminated = true;
 		if (pfts.tszWorkingDir != NULL)
 		{
 			mir_free(pfts.tszWorkingDir);
@@ -112,7 +117,7 @@ private:
 	Tox *tox;
 	mir_cs toxLock;
 	TCHAR *accountName;
-	HANDLE hNetlib, hPollingThread;
+	HANDLE hNetlib, hPollingThread, hToxEvent;
 	bool isTerminated, isConnected;
 	std::map<uint8_t, FileTransferParam*> transfers;
 
