@@ -219,7 +219,7 @@ void CToxProto::SendFileAsync(void* arg)
 		uint8_t *data = (uint8_t*)mir_alloc(TOX_FILE_BLOCK_SIZE);
 		while (!feof(hFile) && fileProgress < fileSize && !transfer->isTerminated)
 		{
-			// read file by block of 1mb
+			// read file by block of TOX_FILE_BLOCK_SIZE
 			size_t blockSize = min(chunkSize * (TOX_FILE_BLOCK_SIZE / chunkSize), fileSize - fileProgress);
 			if (fread(data, sizeof(uint8_t), blockSize, hFile) != blockSize)
 			{
