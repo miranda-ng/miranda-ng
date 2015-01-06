@@ -265,6 +265,7 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int number, const uint
 		proto->SetContactStatus(hContact, newStatus);
 		if (status)
 		{
+			tox_send_avatar_info(proto->tox, number);
 			proto->delSetting(hContact, "Auth");
 		}
 	}

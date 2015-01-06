@@ -30,10 +30,10 @@ std::tstring CToxProto::GetAvatarFilePath(MCONTACT hContact)
 
 void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 {
-	if (!IsOnline())
+	/*if (!IsOnline())
 	{
 		return;
-	}
+	}*/
 
 	int length;
 	uint8_t *data;
