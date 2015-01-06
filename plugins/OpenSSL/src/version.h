@@ -8,8 +8,8 @@
 
 #define __PLUGIN_NAME            "OpenSSL SSL API module"
 #define __INTERNAL_NAME          "openssl"
-#define __FILENAME               "openssl.dll"
-#define __DESCRIPTION            "Core driver to provide OpenSSL-based ssl services."
+#define __FILENAME               "OpenSSL.dll"
+#define __DESCRIPTION            "Core driver to provide OpenSSL-based SSL services."
 #define __AUTHOR                 "Miranda NG Team"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              ""
