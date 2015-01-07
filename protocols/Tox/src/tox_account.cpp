@@ -168,6 +168,7 @@ void CToxProto::PollingThread(void*)
 
 				debugLogA("CToxProto::PollingThread: changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 				m_iStatus = m_iDesiredStatus;
+				tox_set_user_status(tox, MirandaToToxStatus(m_iStatus));
 				ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 			}
 			else
