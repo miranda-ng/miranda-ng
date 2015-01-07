@@ -620,19 +620,25 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 
 char* CVkProto::GetStickerId(const char* Msg, int &stickerid)
 {
+	stickerid = 0;
+	char* retMsg = NULL;
+	
 	int iRes = 0;
 	char HeadMsg[32] = { 0 };
-	char* retMsg = NULL;
-	iRes = sscanf(Msg, "[sticker:%d]", &stickerid);
+	const char * tmpMsg = strstr(Msg, "[sticker:");
+	if (tmpMsg)
+		iRes = sscanf(tmpMsg, "[sticker:%d]", &stickerid);
 	if (iRes == 1) {
 		mir_snprintf(HeadMsg, SIZEOF(HeadMsg), "[sticker:%d]", stickerid);
 		size_t retLen = mir_strlen(HeadMsg);
-		if (retLen < mir_strlen(Msg))
-			retMsg = mir_strdup(&Msg[retLen]); 
-		return retMsg;
+		if (retLen < mir_strlen(Msg)) {
+			CMStringA szMsg(Msg, mir_strlen(Msg) - mir_strlen(tmpMsg));
+			szMsg.Append(&tmpMsg[retLen]);
+			retMsg = mir_strdup(szMsg.GetBuffer());
+		}	
 	}
-	stickerid = 0;
-	return NULL;
+
+	return retMsg;
 }
 
 int CVkProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)
