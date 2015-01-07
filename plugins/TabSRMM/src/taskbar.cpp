@@ -400,7 +400,7 @@ void CProxyWindow::sendPreview()
 	if (m_dat->hwndIEView)
 		::SendMessage(m_dat->hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
 	else if (m_dat->hwndHPP) {
-		CSkin::RenderText(hdcRich, m_dat->hTheme, TranslateT("Previews not availble when using History++ plugin for message log display."),
+		CSkin::RenderText(hdcRich, m_dat->hTheme, TranslateT("Previews not available when using History++ plugin for message log display."),
 							&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
 	}
 	else {
