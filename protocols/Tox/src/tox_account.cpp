@@ -10,7 +10,6 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 {
 	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
-	//HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CToxProto::OnSettingsChanged);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
 	return 0;
@@ -64,6 +63,7 @@ bool CToxProto::InitToxCore()
 	}
 
 	tox = tox_new(&options);
+	password = mir_utf8encodeW(ptrT(getTStringA("Password")));
 	bool isProfileLoaded = LoadToxProfile();
 	if (isProfileLoaded)
 	{
@@ -101,6 +101,15 @@ bool CToxProto::InitToxCore()
 			SetToxAvatar(avatarPath);
 		}
 	}
+	else
+	{
+		if (password != NULL)
+		{
+			mir_free(password);
+			password = NULL;
+		}
+		tox_kill(tox);
+	}
 
 	return isProfileLoaded;
 }
@@ -111,6 +120,11 @@ void CToxProto::UninitToxCore()
 	tox_set_name(tox, (uint8_t*)(char*)nickname, (uint16_t)strlen(nickname));
 
 	SaveToxProfile();
+	if (password != NULL)
+	{
+		mir_free(password);
+		password = NULL;
+	}
 	tox_kill(tox);
 }
 
@@ -129,7 +143,7 @@ void CToxProto::DoBootstrap()
 void CToxProto::DoTox()
 {
 	{
-		mir_cslock lck(toxLock);
+		mir_cslock lock(toxLock);
 		tox_do(tox);
 	}
 	PulseEvent(hToxEvent);
@@ -150,7 +164,9 @@ void CToxProto::PollingThread(void*)
 	{
 		isTerminated = true;
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_NOSERVER);
+		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, (HANDLE)NULL, LOGINERR_WRONGPASSWORD);
+		debugLogA("CToxProto::PollingThread: leaving");
+		return;
 	}
 
 	while (!isTerminated)

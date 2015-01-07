@@ -5,7 +5,7 @@
 
 #include <stdver.h>
 
-#define __PLUGIN_NAME              "Tox Protocol"
+#define __PLUGIN_NAME              "Tox protocol"
 #define __FILENAME                 "Tox.dll"
 #define __DESCRIPTION              "Tox protocol support for Miranda NG."
 #define __AUTHOR                   "ForNeVeR, Mataes, unsane"

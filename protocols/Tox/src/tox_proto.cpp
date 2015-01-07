@@ -1,9 +1,10 @@
 #include "common.h"
 
 CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
-	PROTO<CToxProto>(protoName, userName)
+	PROTO<CToxProto>(protoName, userName), password(NULL)
 {
 	InitNetlib();
+
 	accountName = mir_tstrdup(userName);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CToxProto::OnAccountManagerInit);
@@ -112,7 +113,6 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Grant");
-	SaveToxProfile();
 
 	return 0;
 }
@@ -133,8 +133,6 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage
 	int32_t number = tox_add_friend(tox, pubKey.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
 	if (number > TOX_ERROR)
 	{
-		SaveToxProfile();
-
 		// change tox address in contact id by tox id
 		std::string id = ToxAddressToId(address);
 		setString(hContact, TOX_SETTINGS_ID, id.c_str());
@@ -237,9 +235,9 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		{
 			// set tox status
 			m_iStatus = iNewStatus;
-			if (tox_set_user_status(tox, MirandaToToxStatus(iNewStatus)) == 0)
+			if (tox_set_user_status(tox, MirandaToToxStatus(iNewStatus)) == TOX_ERROR)
 			{
-				SaveToxProfile();
+				debugLogA("CToxProto::SetStatus: failed to change status from %i", m_iStatus, iNewStatus);
 			}
 		}
 	}

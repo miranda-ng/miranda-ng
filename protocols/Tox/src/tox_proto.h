@@ -110,11 +110,9 @@ public:
 	static CToxProto* InitAccount(const char* protoName, const wchar_t* userName);
 	static int        UninitAccount(CToxProto* ppro);
 
-	// tox
-	bool InitToxCore();
-
 private:
 	Tox *tox;
+	char *password;
 	mir_cs toxLock;
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread, hToxEvent;
@@ -122,6 +120,7 @@ private:
 	std::map<uint8_t, FileTransferParam*> transfers;
 
 	// tox
+	bool InitToxCore();
 	void UninitToxCore();
 
 	// ???
@@ -152,9 +151,6 @@ private:
 	bool IsOnline();
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
-
-	// events
-	int __cdecl OnSettingsChanged(WPARAM wParam, LPARAM lParam);
 	
 	// options
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);

@@ -166,6 +166,11 @@ void CToxProto::LoadFriendList()
 
 int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 {
+	if (!IsOnline())
+	{
+		return 1;
+	}
+
 	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
 	std::vector<uint8_t> clientId = HexStringToData(id);
 
@@ -174,8 +179,6 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 	{
 		return 1;
 	}
-
-	SaveToxProfile();
 
 	return 0;
 }
