@@ -25,9 +25,9 @@ bool CToxProto::LoadToxProfile()
 		return true;
 	}
 
-	fseek(profile, 0L, SEEK_END);
-	DWORD size = ftell(profile);
-	rewind(profile);
+	fseek(profile, 0, SEEK_END);
+	size_t size = ftell(profile);
+	fseek(profile, 0, SEEK_SET);
 	if (size == 0)
 	{
 		fclose(profile);
@@ -36,7 +36,7 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	uint8_t *data = (uint8_t*)mir_calloc(size);
-	DWORD read = fread((char*)data, sizeof(char), size, profile);
+	size_t read = fread((char*)data, sizeof(char), size, profile);
 	if (size != read)
 	{
 		fclose(profile);
@@ -46,32 +46,29 @@ bool CToxProto::LoadToxProfile()
 	}
 	fclose(profile);
 
-	/*if (tox_is_data_encrypted(data))
+	if (tox_is_data_encrypted(data))
 	{
-		ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
 		if (password == NULL || strlen(password) == 0)
 		{
-			INT_PTR result = DialogBoxParam(
+			if (!DialogBoxParam(
 				g_hInstance,
 				MAKEINTRESOURCE(IDD_PASSWORD),
 				NULL,
 				ToxProfilePasswordProc,
-				(LPARAM)this);
-
-			switch (result)
+				(LPARAM)this))
 			{
-			default: return false;
+				return false;
 			}
 		}
 
-		if (tox_encrypted_load(tox, data, size, (uint8_t*)(char*)password, strlen(password)) == TOX_ERROR)
+		if (tox_encrypted_load(tox, data, size, (uint8_t*)password, strlen(password)) == TOX_ERROR)
 		{
 			debugLogA("CToxProto::LoadToxData: could not decrypt tox profile");
 			mir_free(data);
 			return false;
 		}
 	}
-	else*/
+	else
 	{
 		if (tox_load(tox, data, size) == TOX_ERROR)
 		{
@@ -87,30 +84,30 @@ bool CToxProto::LoadToxProfile()
 
 void CToxProto::SaveToxProfile()
 {
-	/*ptrA password(mir_utf8encodeW(ptrT(getTStringA("Password"))));
-	bool needToEncrypt = password && strlen(password);
-	DWORD size = needToEncrypt
-		? tox_encrypted_size(tox)
-		: tox_size(tox);
+	size_t size = 0;
+	uint8_t *data = NULL;
 
-	uint8_t *data = (uint8_t*)mir_calloc(size);
-	if (needToEncrypt)
 	{
-		if (tox_encrypted_save(tox, data, (uint8_t*)(char*)password, strlen(password)) == TOX_ERROR)
+		mir_cslock lock(toxLock);
+
+		if (password && strlen(password))
 		{
-			debugLogA("CToxProto::LoadToxData: could not encrypt tox profile");
-			mir_free(data);
-			return;
+			size = tox_encrypted_size(tox);
+			data = (uint8_t*)mir_calloc(size);
+			if (tox_encrypted_save(tox, data, (uint8_t*)password, strlen(password)) == TOX_ERROR)
+			{
+				debugLogA("CToxProto::LoadToxData: could not encrypt tox profile");
+				mir_free(data);
+				return;
+			}
+		}
+		else
+		{
+			size = tox_size(tox);
+			data = (uint8_t*)mir_calloc(size);
+			tox_save(tox, data);
 		}
 	}
-	else
-	{
-		tox_save(tox, data);
-	}*/
-
-	DWORD size = tox_size(tox);
-	uint8_t *data = (uint8_t*)mir_calloc(size);
-	tox_save(tox, data);
 
 	std::tstring profilePath = GetToxProfilePath();
 	FILE *profile = _tfopen(profilePath.c_str(), _T("wb"));
@@ -120,7 +117,7 @@ void CToxProto::SaveToxProfile()
 		return;
 	}
 
-	DWORD written = fwrite(data, sizeof(char), size, profile);
+	size_t written = fwrite(data, sizeof(char), size, profile);
 	if (size != written)
 	{
 		fclose(profile);
@@ -228,7 +225,21 @@ INT_PTR CToxProto::ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, L
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-			EndDialog(hwnd, 1);
+			{
+				TCHAR password[MAX_PATH];
+				GetDlgItemText(hwnd, IDC_PASSWORD, password, SIZEOF(password));
+				if (IsDlgButtonChecked(hwnd, IDC_SAVEPERMANENTLY))
+				{
+					proto->setTString("Password", password);
+				}
+				if (proto->password != NULL)
+				{
+					mir_free(proto->password);
+				}
+				proto->password = mir_utf8encodeW(password);
+
+				EndDialog(hwnd, 1);
+			}
 			break;
 
 		case IDCANCEL:

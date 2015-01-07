@@ -30,20 +30,3 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	return 0;
 }
-
-int CToxProto::OnSettingsChanged(WPARAM hContact, LPARAM lParam)
-{
-	DBCONTACTWRITESETTING* dbcws = (DBCONTACTWRITESETTING*)lParam;
-	if (hContact == NULL && !strcmp(dbcws->szModule, m_szModuleName))
-	{
-		if (!strcmp(dbcws->szSetting, "Nick") && dbcws->value.pszVal)
-		{
-			if (tox && tox_set_name(tox, (uint8_t*)dbcws->value.pszVal, (uint16_t)strlen(dbcws->value.pszVal)))
-			{
-				SaveToxProfile();
-			}
-		}
-	}
-
-	return 0;
-}

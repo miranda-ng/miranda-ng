@@ -33,8 +33,6 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			EnableWindow(GetDlgItem(hwnd, IDC_TOXID), proto->IsOnline());
 			EnableWindow(GetDlgItem(hwnd, IDC_CLIPBOARD), proto->IsOnline());
-			EnableWindow(GetDlgItem(hwnd, IDC_NAME), proto->IsOnline());
-			EnableWindow(GetDlgItem(hwnd, IDC_PASSWORD), proto->IsOnline());
 		}
 		return TRUE;
 
@@ -79,6 +77,20 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
+			TCHAR nick[TOX_MAX_NAME_LENGTH];
+			GetDlgItemText(hwnd, IDC_NAME, nick, TOX_MAX_NAME_LENGTH);
+			proto->setTString("Nick", nick);
+
+			TCHAR password[MAX_PATH];
+			GetDlgItemText(hwnd, IDC_PASSWORD, password, SIZEOF(password));
+			proto->setTString("Password", password);
+			if (proto->password != NULL)
+			{
+				mir_free(proto->password);
+				proto->password = NULL;
+			}
+			proto->password = mir_utf8encodeW(password);
+
 			TCHAR group[64];
 			GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
 			if (_tcslen(group) > 0)
@@ -96,14 +108,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (proto->IsOnline())
 			{
-				TCHAR nick[TOX_MAX_NAME_LENGTH], pass[MAX_PATH];
-				GetDlgItemText(hwnd, IDC_NAME, nick, TOX_MAX_NAME_LENGTH);
-				proto->setTString("Nick", nick);
-
-				GetDlgItemText(hwnd, IDC_PASSWORD, pass, SIZEOF(pass));
-				proto->setTString("Password", pass);
-
-				proto->SaveToxProfile();
+				//proto->SaveToxProfile();
 			}
 
 			return TRUE;
