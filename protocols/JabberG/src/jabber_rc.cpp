@@ -563,7 +563,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhocSe
 
 				mir_ptr<BYTE> pEventBuf((PBYTE)mir_alloc(dbei.cbBlob + 1));
 				dbei.pBlob = pEventBuf;
-				if ( db_event_get(hDbEvent, &dbei))
+				if (db_event_get(hDbEvent, &dbei))
 					continue;
 
 				if (dbei.eventType != EVENTTYPE_MESSAGE || (dbei.flags & (DBEF_READ | DBEF_SENT)))

@@ -551,8 +551,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 		if (db_get_dw(hContact, "SendLater", "count", 0))
 			sendLater->addContact(hContact);
 
-		HANDLE hDbEvent = db_event_firstUnread(hContact);
-		while (hDbEvent) {
+		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {
@@ -567,7 +566,6 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}
-			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
 	}
 }

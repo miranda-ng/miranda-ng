@@ -263,8 +263,7 @@ static void RestoreUnreadMessageAlerts(void)
 	cle.ptszTooltip = toolTip;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hDbEvent = db_event_firstUnread(hContact);
-		while (hDbEvent) {
+		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && DbEventIsMessageOrCustom(&dbei)) {
@@ -286,7 +285,6 @@ static void RestoreUnreadMessageAlerts(void)
 					CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 				}
 			}
-			hDbEvent = db_event_next(hContact, hDbEvent);
 		}
 	}
 }
