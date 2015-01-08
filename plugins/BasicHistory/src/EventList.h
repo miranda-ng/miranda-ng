@@ -45,6 +45,7 @@ public:
 		};
 		bool isExternal;
 	};
+
 private:
 	std::map<int, bool> filterMap;
 	bool onlyInFilter;
@@ -53,7 +54,6 @@ private:
 	std::wstring filterName;
 	std::vector<IImport::ExternalMessage> importedMessages;
 	DWORD goldBlobSize;
-	static CRITICAL_SECTION criticalSection;
 
 	struct EventTempIndex
 	{
@@ -111,7 +111,6 @@ public:
 	bool useImportedMessages;
 
 	static void Init();
-	static void Deinit();
 	void SetDefFilter(int filter);
 	int GetFilterNr();
 	std::wstring GetFilterName();
