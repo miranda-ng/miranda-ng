@@ -1841,6 +1841,10 @@ Miranda не смогла загрузить встроенную систему
 Контакт закончил набор сообщения
 [An unknown error has occurred.]
 Неизвестная ошибка.
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
+[Host we are connecting to is not the one certificate was issued for]
+Выданный сертификат не соответствует имени сервера, к которому производится подключение
 [Invalid message]
 Сообщение повреждено
 [Outgoing message]
@@ -2385,10 +2389,6 @@ Ctrl+Искать добавляет контакт
 <Все подключения>
 [Network]
 Сеть
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
-[Host we are connecting to is not the one certificate was issued for]
-Выданный сертификат не соответствует имени сервера, к которому производится подключение
 [<all modules>]
 <все модули>
 [<core modules>]
@@ -2401,16 +2401,16 @@ Ctrl+Искать добавляет контакт
 Настройки Miranda NG
 [&Options...]
 &Настройки...
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
-[Fatal error]
-Фатальная ошибка
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не найден плагин окна сообщений. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' отключён, включить?
 [Re-enable Miranda plugin?]
 Включить плагин?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
+[Fatal error]
+Фатальная ошибка
 [Unable to load plugin in service mode!]
 Невозможно загрузить плагин в служебном режиме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

@@ -1,11 +1,11 @@
 ﻿#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
 ;============================================================
-;  File: openssl.dll
+;  File: OpenSSL.dll
 ;  Plugin: OpenSSL SSL API module
 ;  Version: 0.1.0.1
-;  Authors: Miranda NG Development Team
+;  Authors: Miranda NG Team
 ;============================================================
-[Core driver to provide OpenSSL-based ssl services.]
+[Core driver to provide OpenSSL-based SSL services.]
 Драйвер ядра, использующий OpenSSL для предоставления услуг шифрования.
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
