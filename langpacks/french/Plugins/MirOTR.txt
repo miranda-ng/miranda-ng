@@ -153,6 +153,8 @@ Inconnu
 
 [OTR]
 
+[Refresh]
+Actualiser
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 
 [General]

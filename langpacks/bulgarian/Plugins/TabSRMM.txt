@@ -75,7 +75,7 @@
 Показване при включен филтър
 [Log to file]
 Запис във файл
-[Show Popup]
+[Show popup]
 Рopup
 [Notify in tray]
 Икона в трея
@@ -163,9 +163,9 @@ Wikipedia
 Височина (общата или частна)
 [Set size to]
 Задаване на размер
-[Compact (1 Line)]
+[Compact (1 line)]
 Компактен (1 ред)
-[Normal (2 Lines)]
+[Normal (2 lines)]
 Нормален (2 реда)
 [Large]
 Голям
@@ -201,7 +201,7 @@ Wikipedia
 знака
 [Only show event notifications when my status is...]
 Уведомяване само когато състоянието ми е...
-[Popup Options]
+[Popup options]
 Popup настройки
 [Text]
 Текст
@@ -233,12 +233,12 @@ Popup настройки
 Начин за изобразяване на дневника за съобщения. Настройката може да бъде игнорирана при липса на приставка.
 [Send text formatting method]
 Метод за форматиране на изпращания текст
-[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+[You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Замяна общите настройки за формати-\nране на текста. "Force Off" = без изпра-\nщане на форматиран текст за контакта.
 [ANSI codepage]
 ANSI кодова таблица
-[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
-ANSI кодова таблица за кодиране и разкодиране на съобщения, които не са кодирани чрез unicode таблица.
+[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
+ANSI кодова таблица за кодиране и разкодиране на съобщения, които не са кодирани чрез Unicode таблица.
 [Info panel mode]
 Режим с информационен панел
 [Show avatar in message window]
@@ -373,7 +373,7 @@ ID на потребителя в лентата за състояние
 Стандартни шаблони...
 [RTL templates...]
 Шаблони (Л<Д)...
-[Load History Events]
+[Load history events]
 Допълнително зареждани събития
 [Load unread events only]
 Само непрочетените събития
@@ -385,7 +385,7 @@ ID на потребителя в лентата за състояние
 минути
 [Global message log display]
 Общо изобразяване на дневника чрез
-[Typing Notification]
+[Typing notification]
 Уведомявания при писане
 [Send typing notifications to the following users when you are typing a message to them:]
 Изпращане на уведомяване при писане до следните потребители, когато им пишете съобщение:
@@ -437,7 +437,7 @@ ID на потребителя в лентата за състояние
 Пролука м/у бутоните:
 [Hide if there isn't enough space]
 Скриване, ако няма достатъчно място
-[Insert Separator]
+[Insert separator]
 Вмъкване на разделител
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 Настройките на контейнерите са достъпни от:\n1. "Контейнер>Настройване на контейнера..." от системното меню на контейнер.\n2. Десен бутон върху таб/лента с бутони, в който и да е прозорец за съобщения.
@@ -503,7 +503,7 @@ Windows Aero - настройки
 Шаблони
 [Edit template]
 Редактиране на шаблона
-[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+[Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
 Натиснете два пъти, за да редактирате. Изберете шаблон от списъка и натиснете "Обновяване", за да видите образец на съобщението.
 [Get more help on variables]
 Помощ за променливите
@@ -511,13 +511,13 @@ Windows Aero - настройки
 Определете до 5 цвята, които желаете да използвате с някои променливи
 [Close]
 Затваряне
-[Update Preview]
+[Update preview]
 Обновяване
-[Save Template]
+[Save template]
 Запис на шаблона
 [Forget]
 Забравяне
-[Revert to Default]
+[Revert to default]
 Стандартни настройки
 [Reset all templates...]
 Анулиране на шаблоните
@@ -593,8 +593,8 @@ Windows Aero - настройки
 Изобразяване на решетка
 [Message grouping]
 Групиране на съобщенията
-[Support BBCODE]
-Поддръжка на BBCODE
+[Support BBCode]
+Поддръжка на BBCode
 [Misc]
 Разни
 [RTL is default text direction]
@@ -603,7 +603,7 @@ Windows Aero - настройки
 Log status changes (само в отворените прозорци)
 [Revert to global options]
 Задаване на общите настройки
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
 Можете да зададете някои опции на дневника като частни, за контак-\nта. Запълнените полета показват, че съответните опции действат съ-\nобразно общите настройки от Разговори>Дневник за съобщения.
 [Use normal templates (uncheck to use simple templates)]
 Ползване на нормални шаблони (махнете отметката за прости шаблони)
@@ -671,13 +671,11 @@ URL събития
 Копиране
 [&Quote]
 Цитиране
-[Co&py All]
-Копиране на всичко
-[Select &All]
+[Select &all]
 Маркиране на всичко
-[Clear Log]
+[Clear log]
 Изчистване на дневника
-[Freeze Log]
+[Freeze log]
 Застопоряване на дневника
 [Open in &new window]
 Отваряне в нов прозорец
@@ -685,93 +683,93 @@ URL събития
 Отваряне в съществуващ прозорец
 [Editor]
 Редактор
-[Paste formatted Text]
+[Paste formatted text]
 Поставяне на форматиран текст
-[Paste and Send immediately]
+[Paste and send immediately]
 Поставяне и изпращане веднага
 [Copy all]
 Копиране на всичко
-[Show Message Length Indicator]
+[Show message length indicator]
 Показване на индикатор за дължина на съобщението
-[Close Tab]
+[Close tab]
 Затваряне на таба
-[Close Other Tabs]
+[Close other tabs]
 Затваряне на останалите табове
-[Leave Chat Room]
+[Leave chat room]
 Излизане от чат стаята
-[Save Tab Position]
+[Save tab position]
 Запаметяване позицията на табовете
-[Clear saved Tab Position]
+[Clear saved tab position]
 Изчистване на запаметените таб позиции
-[Attach to Container...]
+[Attach to container...]
 Прикрепване към контейнер...
 [Container options...]
 Настройване на контейнера...
-[Close Container]
+[Close container]
 Затваряне на контейнера
-[Show Contact Picture]
+[Show contact picture]
 Показване картина на контакта
 [Default]
 Стандарт
-[Hidden for this Contact]
+[Hidden for this contact]
 Скрит за контакта
-[Visible for this Contact]
+[Visible for this contact]
 Видим за контакта
-[Contact Picture Settings...]
+[Contact picture settings...]
 Настройване снимката на контакта...
 [Always keep the button bar at full width]
 Mаксимална ширина за лента с бутони
-[Save this Picture As...]
+[Save this picture as...]
 Запазване на картината като...
-[&Message Log Settings]
+[&Message log settings]
 Настройки на дневника за съобщения
 [&Global...]
 Общо...
-[&For this Contact...]
+[&For this contact...]
 За контакта...
-[Send &Default]
+[Send &default]
 Стандартно изпращане
-[Send to &multiple Users]
+[Send to &multiple users]
 До няколко потребителя
-[Send to &Container]
+[Send to &container]
 До всички табове в контейнера
-[Send &Later]
+[Send &later]
 Изпращане след време
 [Force &ANSI]
 Винаги ANSI
-[Send Nudge]
-Изпрати разклащане
+[Send nudge]
+Изпращане разклащане
 [Global]
 Общо
 [Private]
 Частно
-[Send Text Formatting]
+[Send text formatting]
 Изпращане на форматиран текст
 [Off]
 Изкл.
-[This Contact]
+[This contact]
 За контакта
-[Global Setting]
+[Global setting]
 Общи настройки
-[Recent Sessions]
+[Recent sessions]
 Скорошни разговори
 [Favorites]
 Любими
-[Show the Tray Icon]
+[Show the tray icon]
 Показване на трей иконата
-[Disable All Event Notifications]
+[Disable all event notifications]
 Изключване на всички уведомявания за събития
-[Don't create Windows automatically]
+[Don't create windows automatically]
 Без автоматично създаване на прозорци
-[Hide all Message Containers]
+[Hide all message containers]
 Скриване на всички контейнери
-[Restore all Message Containers]
+[Restore all message containers]
 Възстановяване на контейнерите
-[Don't play Sounds]
+[Don't play sounds]
 Без звук
 [Font]
 Шрифт
-[Default Color]
+[Default color]
 Стандартен цвят
 [Red]
 Червен
@@ -789,51 +787,51 @@ Mаксимална ширина за лента с бутони
 Черен
 [White]
 Бял
-[Clear all Formatting]
+[Clear all formatting]
 Изчистване на цялото форматиране
-[No Message Sessions opened]
+[No message sessions opened]
 Няма отворени разговори
-[Add Contact to Favorites]
+[Add contact to favorites]
 Добавяне на контакта в любимите
-[Remove Contact from Favorites]
+[Remove contact from favorites]
 Премахване на контакта от любимите
-[Set Position for this Session]
+[Set position for this session]
 Задаване на позицията за разговора
-[Set and Save for all Sessions]
+[Set and save for all sessions]
 Задаване на позицията за всeки разговор
-[Set and Save for this Contact only]
+[Set and save for this contact only]
 Задаване на позицията за контакта
-[Revert to old Position]
+[Revert to old position]
 Връщане на старата позиция
 [Queue manager]
 Диспечер на изчакването
-[Mark Selected for Removal]
+[Mark selected for removal]
 Маркиране на избраното за премахване
-[Reset Selected]
+[Reset selected]
 Анулиране на избраните
-[Hold Selected]
+[Hold selected]
 Задържане на избраните
-[Resume Selected]
+[Resume selected]
 Възстановяване на избраните
-[Cancel all Multisend Jobs]
+[Cancel all multisend jobs]
 Отказване на всички задачи за многократно изпращане
-[Copy Message to Clipboard]
+[Copy message to clipboard]
 Копиране на съобщението в клипборда
 [&File]
 Файл
-[Save Message Log As...]
+[Save message log as...]
 Запис на дневника за съобщения като...
-[Close Message Session\tCtrl-W]
+[Close message session\tCtrl-W]
 Затваряне на разговора\tCtrl-W
-[Close Container\tAlt-F4]
+[Close container\tAlt-F4]
 Затваряне на контейнера\tAlt-F4
 [&View]
 Изглед
-[Show Menu Bar]
+[Show menu bar]
 Показване на меню лентата
-[Show Status Bar]
+[Show status bar]
 Показване на лента за състояние
-[Info Panel...]
+[Info panel...]
 Информационен панел...
 [Toolbar]
 Лента с инструменти
@@ -841,45 +839,43 @@ Mаксимална ширина за лента с бутони
 Показване на лента с инструменти
 [Place toolbar at bottom]
 Лентата с инструменти на дъното
-[Title Bar]
+[Title bar]
 Заглавна лента
 [Tabs at the bottom]
 Табове на дъното
-[Window Flashing]
+[Window flashing]
 Мигане на прозореца
-[Use default Value]
+[Use default value]
 Стандартна стойност
-[Show Multisend Contact List]
+[Show multisend contact list]
 Списък за многократно изпращане
-[Stay on Top]
+[Stay on top]
 Винаги отгоре
-[Message &Log]
+[Message &log]
 Дневник за съобщения
 [&Container]
 Контейнер
-[Event Popups]
-Popups за събития
-[Disable all Event Popups]
+[Disable all event popups]
 Изключване на всички Popups за събития
-[Show Popups if Window is minimized]
+[Show popups if window is minimized]
 Показване на Popups, ако прозорецът е минимизиран
-[Show Popups if Window is unfocused]
+[Show popups if window is unfocused]
 Показване на Popups, ако прозорецът е дефокусиран
-[Show Popups if Window is focused]
+[Show popups if window is focused]
 Показване на popups когато прозорецът е фокусиран
-[Show Popups for all inactive sessions]
+[Show popups for all inactive sessions]
 Показване на Popups за всички активни разговори
-[Save current Window Position as Default]
+[Save current window position as default]
 Запис на текущата позиция на прозореца като стандартна
 [Help]
 Помощ
 [About TabSRMM...]
 Относно TabSRMM...
-[Protocol Button]
+[Protocol button]
 Бутон на протокола
 [Info button]
 Информационен бутон
-[Insert Emoticon]
+[Insert emoticon]
 Вмъкване на емотикона
 [Bold text]
 Получер
@@ -897,9 +893,9 @@ Popups за събития
 Затваряне на разговора
 [Quote last message OR selected text]
 Цитиране на последното съобщение или маркирания текст
-[Message Log Options]
+[Message log options]
 Настройки на дневника за съобщения
-[View User's History]
+[View user's history]
 История на съобщенията
 [Edit user notes]
 Бележки за потребителя
@@ -913,7 +909,7 @@ Popups за събития
 Настройки на канала
 [<Separator>]
 <Разделител>
-[Message Session...]
+[Message session...]
 Разговор...
 [Default container]
 Стандартен контейнер
@@ -933,8 +929,6 @@ Popups за събития
 Изберете кога да бъдете уведомявани за събития (чрез popups) от този прозорец. Настройките са валидни за всички табове в прозореца.
 [Flashing]
 Мигане
-[Title bar]
-Заглавна лента
 [Window size and theme]
 Размер и тема
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
@@ -981,7 +975,7 @@ Popups за събития
 Изпращането на уведомяване при писане е %s.
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 Списък на разговорите.\nЛяв бутон = Списък на активните разговори.\nДесен бутон = Бързо настройване на прозореца за съобщения и достъп до любимите контакти
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 Едно от зададените popup действия е затваряне на събитието.\nТази настройка може да има нежелан ефект - събитието се премахва от опашката непрочетени.\nВъзможно последствие е непоказване на новите събития като такива. Ако не желаете подобно действие, можете да го промените от таб Уведомявания.
 [TabSRMM warning message]
 TabSRMM предупреждение
@@ -999,7 +993,7 @@ TabSRMM предупреждение
 Непознат модул/контакт
 [No status message]
 Няма текст за състоянието
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Проблем с настройките|Функцията за автоматично изпращане е изключена.\\b1 Изпращането след време\\b0  и \\b1 до няколко потребителя\\b0  зависят от нея.\n\nМожете да я включите от \\b1Настройки>Разговори>Допълнителни настройки\\b0. Промяната изисква рестартиране.
 [You cannot edit user notes when there are unsent messages]
 Редактирането на бележките за потребителя е невъзможно докато има неизпратени съобщения
@@ -1015,19 +1009,19 @@ TabSRMM предупреждение
 %s пише съобщение
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автоматичното придвижване е изключено, %d непрегледани съобщения (за включване натиснете клавиш F12)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT+Ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за контакта\nДесен бутон = контрол на метаконтакт\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [No UID]
 Няма UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛяв бутон = Подробности за потребителя\nНатиснете падащия триъгълник за добавяне/премахване към любимите контакти.
 [Instant messages]
 Незабавни съобщения
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Входящо (Фокусиран прозорец)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Входящо (Дефокусиран прозорец)
-[Incoming (New Session)]
+[Incoming (new session)]
 Входящо (Нов разговор)
 [Outgoing]
 Изходящи
@@ -1035,11 +1029,11 @@ UID: %s (SHIFT+ляв бутон = копиране в клипборда)\nЛя
 Грешка при опит за изпращане на съобщение
 [Other]
 Друго
-[TabSRMM: Typing]
+[TabSRMM: typing]
 TabSRMM: Писане
 [TabSRMM session list]
 TabSRMM списък на разговорите
-[TabSRMM Menu]
+[TabSRMM menu]
 TabSRMM Меню
 [&Messaging settings...]
 Настройки на разговорите...
@@ -1057,10 +1051,8 @@ TabSRMM Меню
 Последен непрочетен разговор
 [Paste and send]
 Поставяне и изпращане
-[Contact's messaging prefs]
+[Contact's messaging preferences]
 Настройки на разговорите с контакта
-[Send nudge]
-Изпращане на разклащане
 [Send a file]
 Изпращане на файл
 [Quote message]
@@ -1103,17 +1095,15 @@ TabSRMM Меню
 Темата е: %s
 [no topic set.]
 няма зададена тема.
-[Open User Details...]
+[Open user details...]
 Подробности за потребителя...
-[Open History...]
+[Open history...]
 Отваряне на историята...
-[Messaging Settings...]
+[Messaging settings...]
 Настройки за разговора...
-[Room Settings...]
+[Room settings...]
 Конфигуриране на стаята
-[Close Session]
-Затваряне на разговора
-[Copy To Clipboard]
+[Copy to clipboard]
 Копиране в клипборда
 [\\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\ul\\b Текст за състоянието:\\ul0\\b0 \\par %s
@@ -1123,7 +1113,7 @@ TabSRMM Меню
 \\par\\par\\ul\\b Слуша:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Клиент:\\ul0\\b0  %s
-[TabSRMM Information]
+[TabSRMM information]
 TabSRMM информация
 [Set panel visibility for this %s]
 Показване на панела за %s
@@ -1145,7 +1135,7 @@ TabSRMM информация
 Стандартен  размер
 [Use private size]
 Частен размер
-[Use Global Setting]
+[Use global setting]
 Ползване на общите настройки
 [Show always (if present)]
 Винаги видимо (ако е налично)
@@ -1165,7 +1155,7 @@ TabSRMM
 Не добавяй контакта за постоянно
 [Expand or collapse the side bar]
 Разгръщане / Сгъване на страничната лента
-[Character Encoding]
+[Character encoding]
 Кодиране на знаците
 [Contact not on list. You may add it...]
 Потребителят не е в списъка с контакти. Можете да го добавите...
@@ -1201,11 +1191,11 @@ TabSRMM
 Изображения
 [The file exists. Do you want to overwrite it?]
 Файлът съществува. Желаете ли да бъде презаписан?
-[Set Your Avatar...]
+[Set your avatar...]
 Задаване на собствен аватар...
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
-['(Unknown Contact)']
+['(Unknown contact)']
 "(Непознат контакт)"
 [JPEG-compressed images]
 JPEG компресирани изображения
@@ -1315,7 +1305,7 @@ Latin I
 Минимизира прозореца в лентата за задачи
 [Close or hide window, depends on the close button setting above]
 Затваря/Скрива прозореца (зависи как е настроен бутона "Затваряне" по-горе)
-[Message Sessions]
+[Message sessions]
 Разговори
 [General]
 Основни
@@ -1343,6 +1333,8 @@ Latin I
 Отличаване
 [Choose status modes]
 Избор на състояния
+[Message Log Options]
+Настройки на дневника за съобщения
 [Quote text]
 Цитат
 [Save and close]
@@ -1399,6 +1391,8 @@ Latin I
 Рамка 3
 [Frame 4]
 Рамка 4
+[Message Sessions]
+Разговори
 [Message Log]
 Дневник за съобщения
 [Animated Tray]
@@ -1483,7 +1477,7 @@ TabSRMM - фатална грешка
 TabSRMM изисква Windows версия 2000 или по-нова.
 [TabSRMM Message (%s)]
 TabSRMM съобщение (%s)
-[Previews not availble when using History++ plugin for message log display.]
+[Previews not available when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника
 [%d Unread]
 %d непрочетени
@@ -1679,11 +1673,7 @@ TabSRMM съобщение (%s)
 Контакт започна да пише
 [Contact stopped typing]
 Контакт спря да пише
-[Always On]
-Винаги включено
-[Always Off]
-Винаги изключено
-[Force Default Message Log]
+[Force default message log]
 Винаги стандартният дневник
 [Force History++]
 Винаги History++

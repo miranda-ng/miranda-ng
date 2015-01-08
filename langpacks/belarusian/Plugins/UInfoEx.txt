@@ -1095,20 +1095,22 @@ Web Дызайн
 %s святкуе %s сёння.
 [an anniversary]
 свята
-[He]
-Яму
-[She]
-Ёй
-[He/She]
-Ёй/яму
+[%d. %s today]
+%d. %s сёння
+[%d. %s tomorrow]
+%d. %s заўтра
 [%s has birthday today.]
 %s адзначае Дзень нараджэння сёння.
 [%s has birthday tomorrow.]
 %s адзначае Дзень нараджэння заўтра.
 [%s has birthday in %d days.]
 %s адзначае дзень нараджэння праз %d дзён.
-[\n%s becomes %d years old.]
-\n%s выканаецца %d.
+[\nHe/she becomes %d years old.]
+\nЁй/яму выканаецца %d.
+[\nHe becomes %d years old.]
+\nЯму выканаецца %d.
+[\nShe becomes %d years old.]
+\nЁй выканаецца %d.
 [No anniversaries to remind of]
 Няма свят, пра якія трэба абвясціць
 [Backing up and syncing all birthdays complete!]

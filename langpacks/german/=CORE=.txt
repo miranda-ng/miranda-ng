@@ -1889,6 +1889,11 @@ Kontakt tippt nicht mehr
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Ein unbekannter Fehler ist aufgetreten.
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Der Client konnte die Hostnachricht nicht entschlüsseln. Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspakte auf Ihrem Client.
+[Host we are connecting to is not the one certificate was issued for]
+Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Ungültige Nachricht
@@ -2484,11 +2489,6 @@ Programmauswahl für den Start
 <Alle Verbindungen>
 [Network]
 Netzwerk
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Der Client konnte die Hostnachricht nicht entschlüsseln. Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspakte auf Ihrem Client.
-[Host we are connecting to is not the one certificate was issued for]
-Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <Alle Module>
@@ -2503,16 +2503,16 @@ Miranda-NG-Einstellungen
 [&Options...]
 &Einstellungen...
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Kern-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
-[Fatal error]
-Fataler Fehler
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. StdMsg.dll.
 ['%s' is disabled, re-enable?]
 '%s' ist deaktiviert, erneut aktivieren?
 [Re-enable Miranda plugin?]
 Miranda-Plugin erneut aktivieren?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Kern-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
+[Fatal error]
+Fataler Fehler
 [Unable to load plugin in service mode!]
 Kann Plugin nicht im Service-Modus starten.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

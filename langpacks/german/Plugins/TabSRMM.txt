@@ -76,7 +76,7 @@ Standardeinstellungen für bekannte Ereignis-Typen
 Zeige, wenn Filter aktiv ist
 [Log to file]
 In Datei speichern
-[Show Popup]
+[Show popup]
 Popup anzeig.
 [Notify in tray]
 Tray-Benachr.
@@ -170,9 +170,9 @@ Reichweite der Einstellungen
 Globale oder individuelle Bereichshöhe:
 [Set size to]
 Einstellen der Größe
-[Compact (1 Line)]
+[Compact (1 line)]
 Kompakt (1 Zeile)
-[Normal (2 Lines)]
+[Normal (2 lines)]
 Normal (2 Zeilen)
 [Large]
 Groß
@@ -210,7 +210,7 @@ Begrenze Nachrichtenvorschau auf
 Zeichen
 [Only show event notifications when my status is...]
 Zeige Ereignisbenachrichtigungen nur, wenn mein Status wie folgt ist...
-[Popup Options]
+[Popup options]
 Einstellungen für Popups
 [Text]
 Text
@@ -244,11 +244,11 @@ Nachrichtenverlauf ansehen (hat keinen Effekt auf geöffnete Fenster)
 Hier können Sie die Darstellungsart des Verlaufes festlegen, falls mehrere Plugins dazu zu Verfügung stehen.
 [Send text formatting method]
 Formatierungsinformationen senden
-[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+[You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Die globale Einstellung kann hier überschrieben werden. "Niemals" unterbindet Textformatierung.
 [ANSI codepage]
 ANSI-Zeichenkonvertierung
-[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
 Codetabelle zur ANSI-Kodierung gesendeter und empfangener Nicht-Unicode-Nachrichten.
 [Info panel mode]
 Infobereichsmodus
@@ -390,7 +390,7 @@ Formatvorlagen für Nachrichten
 Normale Vorlagen...
 [RTL templates...]
 RTL-Vorlagen...
-[Load History Events]
+[Load history events]
 Vergangene Ereignisse laden
 [Load unread events only]
 Nur ungelesene Ereignisse laden
@@ -402,7 +402,7 @@ Lade Ereignisse, die nicht älter als
 Minuten alt
 [Global message log display]
 Globale Nachrichtenverlauf-Darstellung
-[Typing Notification]
+[Typing notification]
 Tippbenachrichtigungen
 [Send typing notifications to the following users when you are typing a message to them:]
 An folgende Kontakte eine Benachrichtigung senden, wenn Sie gerade eine Nachricht tippen:
@@ -454,7 +454,7 @@ In Gruppenchats anzeigen
 Schaltflächenabstand:
 [Hide if there isn't enough space]
 Verstecken, wenn nicht genügend Platz
-[Insert Separator]
+[Insert separator]
 Trennlinie einfügen
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 Um Containereinstellungen festzulegen, bitte den entsprechenden Dialog benutzen. (Rechtsklick auf die Iconleiste eines Nachrichtenfensters oder über die Containereinstellungen in der Menüleiste.)
@@ -520,7 +520,7 @@ Popup-Zeitüberschreitung
 Vorlagen
 [Edit template]
 Vorlage bearbeiten
-[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+[Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
 Doppelklick auf eine Vorlage, um sie zu bearbeiten. Auf "Vorschau aktualisieren" klicken, um eine Vorschau zu zeigen.
 [Get more help on variables]
 Mehr Hilfe zu Variablen
@@ -528,13 +528,13 @@ Mehr Hilfe zu Variablen
 5 frei definierbare Farben, die mit manchen Variablen verwendet werden können
 [Close]
 Schließen
-[Update Preview]
+[Update preview]
 Vorschau aktualisieren
-[Save Template]
+[Save template]
 Vorlage speichern
 [Forget]
 Verwerfen
-[Revert to Default]
+[Revert to default]
 Zurücksetzen
 [Reset all templates...]
 Alle Vorlagen zurücksetzen...
@@ -616,7 +616,7 @@ Nachricht einrücken
 Trennlinien anzeigen
 [Message grouping]
 Nachrichten gruppieren
-[Support BBCODE]
+[Support BBCode]
 Unterstütze BBCode
 [Misc]
 Diverses
@@ -626,7 +626,7 @@ RTL ist Standardtextrichtung
 Statusänderungen speichern (nur in offenen Nachrichtenfenstern)
 [Revert to global options]
 Auf globale Einstellungen zurücksetzen
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
 Hier können Sie für diesen Kontakt die globalen Einstellungen von Nachrichtensitzungen => Nachrichtenverlauf überschreiben. Ausgefüllte Kästchen nutzen die globale Einstellung.
 [Use normal templates (uncheck to use simple templates)]
 Verwende normale Vorlagen (anstelle von einfachen)
@@ -694,13 +694,11 @@ Strg+Enter sendet Nachricht (immer aktiviert)
 Kopieren
 [&Quote]
 Zitieren
-[Co&py All]
-Alles ko&pieren
-[Select &All]
+[Select &all]
 &Alles auswählen
-[Clear Log]
+[Clear log]
 Verlauf leeren
-[Freeze Log]
+[Freeze log]
 Verlauf einfrieren
 [Open in &new window]
 In &neuem Fenster öffnen
@@ -708,105 +706,103 @@ In &neuem Fenster öffnen
 In bestehendem Fenster &öffnen
 [Editor]
 Editor
-[Paste formatted Text]
+[Paste formatted text]
 Formatierten Text einfügen
-[Paste and Send immediately]
+[Paste and send immediately]
 Einfügen und sofort senden
 [Copy all]
 Alles kopieren
-[Show Message Length Indicator]
+[Show message length indicator]
 Nachrichtenlänge grafisch anzeigen
-[Close Tab]
+[Close tab]
 Tab schließen
-[Close Other Tabs]
+[Close other tabs]
 Andere Tabs schließen
-[Leave Chat Room]
+[Leave chat room]
 Chatraum verlassen
-[Save Tab Position]
+[Save tab position]
 Tab-Position speichern
-[Clear saved Tab Position]
+[Clear saved tab position]
 Gespeicherte Tab-Position löschen
-[Attach to Container...]
+[Attach to container...]
 Zu Container zuordnen...
 [Container options...]
 Containereinstellungen...
-[Close Container]
+[Close container]
 Container schließen
-[Show Contact Picture]
+[Show contact picture]
 Kontaktbild zeigen
 [Default]
 Standard
-[Hidden for this Contact]
+[Hidden for this contact]
 Für diesen Kontakt verstecken
-[Visible for this Contact]
+[Visible for this contact]
 Für diesen Kontakt sichtbar
-[Contact Picture Settings...]
+[Contact picture settings...]
 Kontaktbild-Einstellungen...
 [Always keep the button bar at full width]
 Button-Leiste immer auf voller Breite halten
-[Save this Picture As...]
+[Save this picture as...]
 Bild speichern unter...
-[&Message Log Settings]
+[&Message log settings]
 Nachrichtenverlaufseinstellungen
 [&Global...]
 &Global...
-[&For this Contact...]
+[&For this contact...]
 &Für diesen Kontakt...
-[Send &Default]
+[Send &default]
 Stan&dard
-[Send to &multiple Users]
+[Send to &multiple users]
 An &mehrere Kontakte senden
-[Send to &Container]
+[Send to &container]
 An den &Container senden
-[Send &Later]
+[Send &later]
 S&päter senden
 [Force &ANSI]
 &ANSI erzwingen
-[Send unsafe (ignore Timeouts)]
+[Send unsafe (ignore timeouts)]
 Unsicher senden (Zeitüberschreitungen ignorieren)
-[Send Nudge]
+[Send nudge]
 Nudge senden
-[Splitter Position]
+[Splitter position]
 Splitterposition
 [Global]
 Global
 [Private]
 Privat
-[Send Text Formatting]
+[Send text formatting]
 Textformatierung senden
 [BBCode]
 BBCode
 [Off]
 Aus
-[This Contact]
+[This contact]
 Für diesen Kontakt
-[Global Setting]
+[Global setting]
 Globale Einstellung
-[Force Off]
+[Force off]
 Niemals senden
-[Unread Menu]
-Ungelesen-Menü
-[Recent Sessions]
+[Recent sessions]
 Letzte Sitzungen
 [Favorites]
 Favoriten
-[Show the Tray Icon]
+[Show the tray icon]
 Systemtray-Icon anzeigen
-[Disable All Event Notifications]
+[Disable all event notifications]
 Alle Ereignisbenachrichtigungen unterbinden
-[Don't create Windows automatically]
+[Don't create windows automatically]
 Keine Nachrichtenfenster automatisch erzeugen
-[Hide all Message Containers]
+[Hide all message containers]
 Alle Nachrichtenfenster verbergen
-[Restore all Message Containers]
+[Restore all message containers]
 Verborgene Nachrichtenfenster zeigen
-[Don't play Sounds]
+[Don't play sounds]
 Keine Klänge abspielen
-[Be "Super Quiet"]
+[Be "super quiet"]
 Alles unterdrücken
 [Font]
 Schriftart
-[Default Color]
+[Default color]
 Standardfarbe
 [Red]
 Rot
@@ -824,55 +820,55 @@ Zyan
 Schwarz
 [White]
 Weiß
-[Clear all Formatting]
+[Clear all formatting]
 Formatierung entfernen
 [Dummy]
 Dummy
-[No Message Sessions opened]
+[No message sessions opened]
 Keine offenen Nachrichtensitzungen
-[Add Contact to Favorites]
+[Add contact to favorites]
 Kontakt zu Favoriten hinzufügen
-[Remove Contact from Favorites]
+[Remove contact from favorites]
 Kontakt aus Favoriten entfernen
 [dummy]
 Dummy
-[Set Position for this Session]
+[Set position for this session]
 Position für diese Sitzung speichern
-[Set and Save for all Sessions]
+[Set and save for all sessions]
 Position für alle Sitzungen setzen und speichern
-[Set and Save for this Contact only]
+[Set and save for this contact only]
 Position nur für diesen Kontakt setzen und speichern
-[Revert to old Position]
+[Revert to old position]
 Auf alte Position zurücksetzen
 [Queue manager]
 Warteschlangenverwaltung
-[Mark Selected for Removal]
+[Mark selected for removal]
 Ausgewähltes entfernen
-[Reset Selected]
+[Reset selected]
 Ausgewähltes zurücksetzen
-[Hold Selected]
+[Hold selected]
 Ausgewähltes halten
-[Resume Selected]
+[Resume selected]
 Ausgewähltes fortsetzen
-[Cancel all Multisend Jobs]
+[Cancel all multisend jobs]
 Alle Mehrfach-Senden-Liste Aufgaben abbrechen
-[Copy Message to Clipboard]
-Nachrichten in Zwischenablage kopieren
+[Copy message to clipboard]
+Nachricht in Zwischenablage kopieren
 [&File]
 &Datei
-[Save Message Log As...]
+[Save message log as...]
 Verlauf speichern als...
-[Close Message Session\tCtrl-W]
+[Close message session\tCtrl-W]
 Sitzung schließen\tStrg-W
-[Close Container\tAlt-F4]
+[Close container\tAlt-F4]
 Container schließen\tAlt-F4
 [&View]
 &Ansicht
-[Show Menu Bar]
+[Show menu bar]
 Menüleiste anzeigen
-[Show Status Bar]
+[Show status bar]
 Statusleiste anzeigen
-[Info Panel...]
+[Info panel...]
 Infobereich...
 [Toolbar]
 Toolbar
@@ -880,46 +876,44 @@ Toolbar
 Toolbar anzeigen
 [Place toolbar at bottom]
 Toolbar unten platzieren
-[Title Bar]
+[Title bar]
 Titelleiste
 [Tabs at the bottom]
 Tabs am unteren Rand
-[Window Flashing]
+[Window flashing]
 Fensterblinken
-[Use default Value]
+[Use default value]
 Standardwert verwenden
-[Show Multisend Contact List]
+[Show multisend contact list]
 Kontaktliste einbetten
-[Stay on Top]
+[Stay on top]
 Immer im Vordergrund
-[Message &Log]
+[Message &log]
 Nachrichten&verlauf
 [&Container]
 &Container
-[Event Popups]
-Ereignis-Popups
-[Disable all Event Popups]
+[Disable all event popups]
 Alle Ereignis-Popups deaktivieren
-[Show Popups if Window is minimized]
+[Show popups if window is minimized]
 Popups anzeigen, wenn Fenster minimiert
-[Show Popups if Window is unfocused]
+[Show popups if window is unfocused]
 Popups anzeigen, wenn Fenster inaktiv
-[Show Popups if Window is focused]
+[Show popups if window is focused]
 Popups anzeigen, wenn Fenster aktiv
-[Show Popups for all inactive sessions]
+[Show popups for all inactive sessions]
 Popups für alle inaktiven Sitzungen
-[Save current Window Position as Default]
+[Save current window position as default]
 Aktuelle Fensterposition als Standard
 [Help]
 Hilfe
 [About TabSRMM...]
 Über TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[Protocol Button]
+[Protocol button]
 Protokoll-Schaltfläche
 [Info button]
 Info-Schaltfläche
-[Insert Emoticon]
+[Insert emoticon]
 Emoticon einfügen
 [Bold text]
 Fetter Text
@@ -937,9 +931,9 @@ Nachricht senden\nDropdown für Sendeoptionen
 Sitzung schließen
 [Quote last message OR selected text]
 Letzte Nachricht oder Textmarkierung zitieren
-[Message Log Options]
+[Message log options]
 Verlaufseinstellungen
-[View User's History]
+[View user's history]
 Verlauf anzeigen
 [Edit user notes]
 Bearbeite Benutzernotizen
@@ -954,7 +948,7 @@ Channelmanager
 [<Separator>]
 <Trennlinie>
 ;file \plugins\TabSRMM\src\container.cpp
-[Message Session...]
+[Message session...]
 Nachrichtensitzung...
 [Default container]
 Standardcontainer
@@ -975,8 +969,6 @@ Benachrichtigung
 Wählen Sie, wann Sie Ereignisbenachrichtigungen (Popups) für dieses Fenster sehen wollen. Die Einstellungen gelten für alle Registerkarten in diesem Fenster.
 [Flashing]
 Blinken
-[Title bar]
-Titelleiste
 [Window size and theme]
 Fenstergröße und -theme
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
@@ -1027,7 +1019,7 @@ Sitzungsliste:\nKlicke links für eine Liste der offenen Sitzungen.\Klick rechts
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand in die Zwischenablage kopiert.
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 Eine Ihrer Popupaktionen ist auf "Ereignis verwerfen" gesetzt.\nBeachten Sie, dass diese Option unerwünschte Nebeneffekte haben könnte, da sie das Ereignis aus der Ungelesen-Warteschlange ENTFERNT.\nDies kann dazu führen, dass Ereignisse nicht als "neu" angezeigt werden. Wenn Sie dieses Verhalten nicht wollen, überprüfen Sie bitte die Ereignisbenachrichtigungen-Einstellungen.
 [TabSRMM warning message]
 TabSRMM-Warnmeldung
@@ -1048,7 +1040,7 @@ Unbekanntes Modul oder Kontakt
 Rich-Edit-Datei
 [No status message]
 Keine Statusnachricht
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Konfigurationsproblem|Die Funktion zum unbeaufsichtigten Senden ist deaktiviert. Die Funktionen \\b1 später senden\\b0 und \\b1 an mehrere Kontakte senden\\b0 hängen davon ab.\n\nSie müssen sie unter \\b1Optionen->Nachrichtensitzungen->Erw. Einstellungen\\b0 aktivieren. Ein Neustart ist erforderlich.
 [You cannot edit user notes when there are unsent messages]
 Sie können keine Benutzernachrichten editieren, wenn ungesendete Nachrichten ausstehen.
@@ -1064,20 +1056,20 @@ Letzte Nachricht am %s um %s empfangen
 %s tippt eine Nachricht
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Autoscrolling ist deaktiviert, %d Nachricht(en) in der Warteschlange (F12 drücken um es zu aktivieren)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick fur Benutzerdetails\nRechtsklick fur Einstellungen von Metakontakte\nKlick auf das Auswahlfeld, um Benutzer hinzuzufugen oder zu entfernen.
 [No UID]
 Keine UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Umschalt + Klick -> kopiert in Zwischenablage)\nKlick für Benutzerdetails\nKlick auf das Auswahlfeld, um die Kontakteinstellung des Favoriten zu ändern.
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Sofortnachrichten
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Eingehend (Fenster im Vordergrund)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Eingehend (Fenster im Hintergrund)
-[Incoming (New Session)]
+[Incoming (new session)]
 Eingehend (Neue Sitzung)
 [Outgoing]
 Ausgehend
@@ -1085,11 +1077,11 @@ Ausgehend
 Fehler beim Senden der Nachricht
 [Other]
 Sonstige
-[TabSRMM: Typing]
+[TabSRMM: typing]
 TabSRMM: Tippen
 [TabSRMM session list]
 TabSRMM-Sitzungsliste
-[TabSRMM Menu]
+[TabSRMM menu]
 TabSRMM-Menü
 [&Messaging settings...]
 Nachrichteneinstellungen...
@@ -1108,10 +1100,8 @@ meldet sich an und ist nun %s.
 Die letzten ungelesenen Sitzung
 [Paste and send]
 Einfügen und senden
-[Contact's messaging prefs]
+[Contact's messaging preferences]
 Kontakt Nachrichten Präferenz
-[Send nudge]
-Sende eine Nudge
 [Send a file]
 Eine Datei senden
 [Quote message]
@@ -1155,17 +1145,15 @@ Serverfenster anzeigen
 Thema ist: %s
 [no topic set.]
 Kein Thema gesetzt.
-[Open User Details...]
+[Open user details...]
 Benutzerdetails öffnen...
-[Open History...]
+[Open history...]
 Verlauf öffnen...
-[Messaging Settings...]
+[Messaging settings...]
 Nachrichteneinstellungen...
-[Room Settings...]
+[Room settings...]
 Raumeinstellungen...
-[Close Session]
-Sitzung schließen
-[Copy To Clipboard]
+[Copy to clipboard]
 In Zwischenablage kopieren
 [\\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\ul\\b Statusnachricht:\\ul0\\b0 \\par %s
@@ -1175,7 +1163,7 @@ In Zwischenablage kopieren
 \\par\\par\\ul\\b Hört gerade:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Client:\\ul0\\b0  %s
-[TabSRMM Information]
+[TabSRMM information]
 TabSRMM-Informationen
 [Set panel visibility for this %s]
 Panel-Sichtbark. für diesen %s
@@ -1197,7 +1185,7 @@ Immer an
 Standardgröße verwenden
 [Use private size]
 Private Größe verwenden
-[Use Global Setting]
+[Use global setting]
 Globale Einstellung verwenden
 [Show always (if present)]
 Immer anzeigen (falls vorhanden)
@@ -1226,7 +1214,7 @@ Kontakt dauerhaft zur Kontaktliste hinzufügen
 Kontakt nicht zur Kontaktliste hinzufügen
 [Expand or collapse the side bar]
 Seitenleiste aus- oder einklappen
-[Character Encoding]
+[Character encoding]
 Zeichenkodierung
 [Contact not on list. You may add it...]
 Kontakt ist nicht in Ihrer Liste. Sie können ihn hinzufügen...
@@ -1265,13 +1253,13 @@ Kontaktbild speichern
 Bilddateien
 [The file exists. Do you want to overwrite it?]
 Diese Datei existiert bereits. Wollen Sie diese überschreiben?
-[Set Your Avatar...]
+[Set your avatar...]
 Setzen Sie Ihr Avatar...
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 Die 'einfügen und senden'-Funktion ist deaktiviert. Sie können diese unter 'Allgemein' auf der Optionsseite 'Nachrichtenversand'-Sektion aktivieren.
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 Entweder das Nudge-Plugin ist nicht installiert oder das Kontakt-Protokoll unterstützt die Zusendung nicht.
-['(Unknown Contact)']
+['(Unknown contact)']
 (Unbekannter Kontakt)
 [JPEG-compressed images]
 JPEG-komprimierte Bilder
@@ -1385,7 +1373,7 @@ Normal - Schließt Tabs; schließt das Fenster, wenn der letzte Tab geschlossen 
 Minimiert das Fenster in die Taskleiste
 [Close or hide window, depends on the close button setting above]
 Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
-[Message Sessions]
+[Message sessions]
 Nachrichtensitzungen
 [General]
 Allgemein
@@ -1416,6 +1404,8 @@ Hervorhebungen
 [Choose status modes]
 Wähle Statusmodi
 ;file \plugins\TabSRMM\src\msgs.cpp
+[Message Log Options]
+Verlaufseinstellungen
 [Image tag]
 Bild Tagschaltfläche
 [Quote text]
@@ -1474,6 +1464,8 @@ Frame 2
 Frame 3
 [Frame 4]
 Frame 4
+[Message Sessions]
+Nachrichtensitzungen
 [Message Log]
 Nachrichtenverlauf
 [Animated Tray]
@@ -1569,7 +1561,7 @@ Diese Version von TabSRMM erfordert Windows 2000 oder neuer.
 [TabSRMM Message (%s)]
 TabSRMM-Nachricht (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
-[Previews not availble when using History++ plugin for message log display.]
+[Previews not available when using History++ plugin for message log display.]
 Vorschau nicht verfügbar, wenn History++ benutzt wird.
 [%d Unread]
 %d Ungelesen
@@ -1774,11 +1766,7 @@ Kontakt beginnt zu tippen
 [Contact stopped typing]
 Kontakt tippt nicht mehr
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Always On]
-Immer an
-[Always Off]
-Immer aus
-[Force Default Message Log]
+[Force default message log]
 Standardverlauf erzwingen
 [Force History++]
 History++ erzwingen
@@ -1797,7 +1785,7 @@ Editiere Benutzernachricht|Sie sind dabei, die Benutzernachricht zu editieren. K
 Fehlende Komponenten|Das Icon-Pack fehlt. Bitte installieren Sie es in den Standard-"Icons"-Ordner.\n\nKeine Icons sind vorhanden.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Aero-Peek Warnung|Sie haben Aero-Peek Funktionen aktiviert und einen eigenen Container-Fenster-Skin geladenn.\n\nDies kann zu kleinen visuellen Defekten in der Live-Vorschau führen.
-[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 Dateiübertragungs-Problem|Das Bild konnte nicht als Dateiübertragung gesendet werden.\n\nMögliche Gründe: Dateiübertragungen werden nicht unterstützt, entweder Sie oder der Zielkontakt sind offline, oder Sie sind unsichtbar und der Zielkontakt ist nicht auf Ihrer Sichtbarkeitsliste.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Einstellungsproblem|Die Einstellung \\b1 Verlauf->IEView-API imitieren\\b0 ist aktiviert und das History++ Plugin ist aktiv. Das kann Probleme verursachen, wenn IEView als Nachrichtenverlauf-Betrachter verwendet wird.\n\nSoll ich diese Einstellung korrigieren (ein Neustart ist nötig)?

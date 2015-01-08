@@ -5,10 +5,8 @@
 ;  Version: 0.1.0.1
 ;  Authors: Miranda NG Team
 ;============================================================
-[Core driver to provide OpenSSL-based SSL services.]
-Sterownik rdzenia zapewniający usługi SSL oparte na OpenSSL.
 ;file \plugins\OpenSSL\src\ssl_openssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu
+Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
 [Host we are connecting to is not the one certificate was issued for]
-Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
+Выдадзены сертыфікат не адпавядае хасту далчэння

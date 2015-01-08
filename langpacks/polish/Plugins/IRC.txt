@@ -132,10 +132,10 @@ Kodowanie znaków:
 Włącz autowykrywanie UTF-8
 [Add server]
 Dodaj serwer
-[On]
-Wł.
 [Auto]
 Automatyczny
+[On]
+Wł.
 [Off]
 Wył.
 [Host address]

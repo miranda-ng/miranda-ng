@@ -1119,28 +1119,30 @@ Die Funktion verursachte eine Ausnahme!
 %s hat heute %s.
 [an anniversary]
 ein Jahrestag
-[He]
-Er
-[She]
-Sie
-[He/She]
-Er/Sie
-[%s has the following anniversaries:\0]
-%s hat folgende Jahrestage:\0
-[%d. %s today\0]
-%d. %s heute\0
-[%d. %s tomorrow\0]
-%d. %s morgen\0
-[%d. %s in %d days\0]
-%d. %s in %d Tagen\0
+[He/she has the following anniversaries:]
+
+[He has the following anniversaries:]
+
+[She has the following anniversaries:]
+
+[%d. %s today]
+%d. %s heute
+[%d. %s tomorrow]
+%d. %s morgen
+[%d. %s in %d days]
+%d. %s in %d Tagen
 [%s has birthday today.]
 %s hat heute Geburtstag.
 [%s has birthday tomorrow.]
 %s hat morgen Geburtstag.
 [%s has birthday in %d days.]
 %s hat in %d Tagen Geburtstag.
-[\n%s becomes %d years old.]
-\n%s wird %d Jahre alt.
+[\nHe/she becomes %d years old.]
+
+[\nHe becomes %d years old.]
+
+[\nShe becomes %d years old.]
+
 [No anniversaries to remind of]
 Es gibt keine Jahrestage in absehbarer Zeit.
 [Backing up and syncing all birthdays complete!]

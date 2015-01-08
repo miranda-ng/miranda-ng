@@ -132,10 +132,10 @@ Server-Codepage:
 Automatische UTF8-Erkennung
 [Add server]
 Server hinzufügen
-[On]
-Ein
 [Auto]
 Auto
+[On]
+Ein
 [Off]
 Aus
 [Host address]

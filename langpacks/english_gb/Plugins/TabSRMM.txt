@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.6
+;  Version: 3.4.0.7
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -45,26 +45,26 @@ Pop up minimised window when a new tab is created
 Automatically switch tabs in minimised windows
 [Favorites]
 Favourites
-[Default Color]
-Default Colour
-[Add Contact to Favorites]
-Add Contact to Favourites
-[Remove Contact from Favorites]
-Remove Contact from Favourites
-[Show Popups if Window is minimized]
-Show Popups if Window is minimised
+[Default color]
+Default colour
+[Add contact to favorites]
+Add contact to favourites
+[Remove contact from favorites]
+Remove contact from favourites
+[Show popups if window is minimized]
+Show popups if window is minimised
 [Select font color]
 Select font colour
 [Change background color]
 Change background colour
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 Session list.\nClick left for a list of open sessions.\nClick right to access favourites and quickly configure message window behaviour
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
-One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favourites.
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favourite status.
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
+One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the 'Event notifications' settings page.
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favourites.
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favourite status.
 [Do not synchronize the panel height with IM windows]
 Do not synchronise the panel height with IM windows
 [Do not synchronize the panel height with group chat windows]
