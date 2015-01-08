@@ -967,6 +967,9 @@
 [Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+[Host we are connecting to is not the one certificate was issued for]
 ;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 [Outgoing message]
@@ -1289,9 +1292,6 @@
 [<mixed>]
 [<All connections>]
 [Network]
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-[Host we are connecting to is not the one certificate was issued for]
 ;file \src\modules\options\options.cpp
 [<all modules>]
 [<core modules>]
@@ -1300,11 +1300,11 @@
 [Miranda NG options]
 [&Options...]
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-[Fatal error]
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 ['%s' is disabled, re-enable?]
 [Re-enable Miranda plugin?]
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+[Fatal error]
 [Unable to load plugin in service mode!]
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
