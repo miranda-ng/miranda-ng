@@ -1007,28 +1007,30 @@ Web дизайн
 %s има %s днес.
 [an anniversary]
 годишнина
-[He]
-Той
-[She]
-Тя
-[He/She]
-Той/Тя
-[%s has the following anniversaries:\0]
-%s има следната годишнина:\0
-[%d. %s today\0]
-%d. %s днес\0
-[%d. %s tomorrow\0]
-%d. %s утре\0
-[%d. %s in %d days\0]
-%d. %s след %d дни\0]
+[He/she has the following anniversaries:]
+Той/тя има следната годишнина:
+[He has the following anniversaries:]
+Той има следната годишнина:
+[She has the following anniversaries:]
+Тя има следната годишнина:
+[%d. %s today]
+%d. %s днес
+[%d. %s tomorrow]
+%d. %s утре
+[%d. %s in %d days]
+%d. %s след %d дни]
 [%s has birthday today.]
 %s има рожден ден днес,
 [%s has birthday tomorrow.]
 %s има рожден ден утре.
 [%s has birthday in %d days.]
 %s има рожден ден след %d дни.
-[\n%s becomes %d years old.]
-\n%s навършва %d години.
+[\nHe/she becomes %d years old.]
+\nТой/тя навършва %d години.
+[\nHe becomes %d years old.]
+\nТой навършва %d години.
+[\nShe becomes %d years old.]
+\nТя навършва %d години.
 [No anniversaries to remind of]
 Няма годишнини за напомняне
 [Backing up and syncing all birthdays complete!]

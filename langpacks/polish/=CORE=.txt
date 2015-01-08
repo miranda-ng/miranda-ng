@@ -1889,6 +1889,11 @@ Kontakt przestał pisać
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Nieznany błąd.
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
+[Host we are connecting to is not the one certificate was issued for]
+Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Nieprawidłowa wiadomość
@@ -2484,11 +2489,6 @@ Wybierz program do uruchomienia
 <Wszystkie połączenia>
 [Network]
 Protokoły
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
-[Host we are connecting to is not the one certificate was issued for]
-Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <wszystkie>
@@ -2503,16 +2503,16 @@ Opcje Mirandy NG
 [&Options...]
 &Opcje...
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
-[Fatal error]
-Krytyczny błąd
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
 ['%s' is disabled, re-enable?]
 "%s" jest wyłączony, włączyć?
 [Re-enable Miranda plugin?]
 Załadować ponownie wtyczkę?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
+[Fatal error]
+Krytyczny błąd
 [Unable to load plugin in service mode!]
 Nie udało się załadować wtyczki w trybie serwisowym!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.6
+;  Version: 3.4.0.7
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -76,7 +76,7 @@ Otro nombre
 
 [Log to file]
 
-[Show Popup]
+[Show popup]
 
 [Notify in tray]
 
@@ -170,9 +170,9 @@ Abrir en esta p&osición
 
 [Set size to]
 
-[Compact (1 Line)]
+[Compact (1 line)]
 
-[Normal (2 Lines)]
+[Normal (2 lines)]
 
 [Large]
 
@@ -210,7 +210,7 @@ segundos
 
 [Only show event notifications when my status is...]
 
-[Popup Options]
+[Popup options]
 
 [Text]
 Texto
@@ -244,11 +244,11 @@ Diálogo
 
 [Send text formatting method]
 
-[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+[You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 
 [ANSI codepage]
 
-[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
 
 [Info panel mode]
 
@@ -390,7 +390,7 @@ Aplicar
 
 [RTL templates...]
 
-[Load History Events]
+[Load history events]
 Cargar historial de eventos
 [Load unread events only]
 Cargar eventos sólo sin leer
@@ -402,7 +402,7 @@ Cargar eventos previos de menos de
 minutos de pasado
 [Global message log display]
 
-[Typing Notification]
+[Typing notification]
 Escribiendo notificación
 [Send typing notifications to the following users when you are typing a message to them:]
 Enviar notificaciones de escritura a los siguientes usuarios cuando se está escribiendo un mensaje para ellos
@@ -454,7 +454,7 @@ Reiniciar
 
 [Hide if there isn't enough space]
 
-[Insert Separator]
+[Insert separator]
 Insertar separador
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 
@@ -520,7 +520,7 @@ Personalizado
 Plantillas
 [Edit template]
 
-[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+[Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
 
 [Get more help on variables]
 
@@ -528,13 +528,13 @@ Plantillas
 
 [Close]
 Cerrar
-[Update Preview]
+[Update preview]
 
-[Save Template]
+[Save template]
 
 [Forget]
 
-[Revert to Default]
+[Revert to default]
 
 [Reset all templates...]
 
@@ -558,7 +558,7 @@ Cerrar
 
 [About TabSRMM]
 
-[Copyright 2004-2011 by the Miranda IM project, 2012-2014 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 
 [Support and latest version information]
 
@@ -616,7 +616,7 @@ Iconos
 
 [Message grouping]
 
-[Support BBCODE]
+[Support BBCode]
 
 [Misc]
 
@@ -626,7 +626,7 @@ Iconos
 
 [Revert to global options]
 
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
 
 [Use normal templates (uncheck to use simple templates)]
 
@@ -694,13 +694,11 @@ Otros eventos
 &Copiar
 [&Quote]
 
-[Co&py All]
-Co&piar todo
-[Select &All]
-Seleccionar todo
-[Clear Log]
+[Select &all]
+Elegir &todo
+[Clear log]
 
-[Freeze Log]
+[Freeze log]
 
 [Open in &new window]
 Abrir en nueva ventana
@@ -708,105 +706,103 @@ Abrir en nueva ventana
 Abrir en ventana existente
 [Editor]
 
-[Paste formatted Text]
+[Paste formatted text]
 
-[Paste and Send immediately]
+[Paste and send immediately]
 
 [Copy all]
 
-[Show Message Length Indicator]
+[Show message length indicator]
 
-[Close Tab]
+[Close tab]
 
-[Close Other Tabs]
+[Close other tabs]
 
-[Leave Chat Room]
+[Leave chat room]
 
-[Save Tab Position]
+[Save tab position]
 
-[Clear saved Tab Position]
+[Clear saved tab position]
 
-[Attach to Container...]
+[Attach to container...]
 
 [Container options...]
 
-[Close Container]
+[Close container]
 
-[Show Contact Picture]
+[Show contact picture]
 
 [Default]
 Por defecto
-[Hidden for this Contact]
+[Hidden for this contact]
 
-[Visible for this Contact]
+[Visible for this contact]
 
-[Contact Picture Settings...]
+[Contact picture settings...]
 
 [Always keep the button bar at full width]
 
-[Save this Picture As...]
+[Save this picture as...]
 
-[&Message Log Settings]
+[&Message log settings]
 
 [&Global...]
 
-[&For this Contact...]
+[&For this contact...]
 
-[Send &Default]
+[Send &default]
 
-[Send to &multiple Users]
+[Send to &multiple users]
 
-[Send to &Container]
+[Send to &container]
 
-[Send &Later]
+[Send &later]
 
 [Force &ANSI]
 
-[Send unsafe (ignore Timeouts)]
+[Send unsafe (ignore timeouts)]
 
-[Send Nudge]
+[Send nudge]
 
-[Splitter Position]
+[Splitter position]
 
 [Global]
 Global
 [Private]
 
-[Send Text Formatting]
+[Send text formatting]
 
 [BBCode]
 
 [Off]
 Apagado
-[This Contact]
+[This contact]
 
-[Global Setting]
+[Global setting]
 
-[Force Off]
+[Force off]
 
-[Unread Menu]
-
-[Recent Sessions]
+[Recent sessions]
 
 [Favorites]
 
-[Show the Tray Icon]
+[Show the tray icon]
 
-[Disable All Event Notifications]
+[Disable all event notifications]
 
-[Don't create Windows automatically]
+[Don't create windows automatically]
 
-[Hide all Message Containers]
+[Hide all message containers]
 
-[Restore all Message Containers]
+[Restore all message containers]
 
-[Don't play Sounds]
+[Don't play sounds]
 
-[Be "Super Quiet"]
+[Be "super quiet"]
 
 [Font]
 Fuente
-[Default Color]
+[Default color]
 
 [Red]
 
@@ -824,55 +820,55 @@ Fuente
 
 [White]
 
-[Clear all Formatting]
+[Clear all formatting]
 
 [Dummy]
 
-[No Message Sessions opened]
+[No message sessions opened]
 
-[Add Contact to Favorites]
+[Add contact to favorites]
 
-[Remove Contact from Favorites]
+[Remove contact from favorites]
 
 [dummy]
 
-[Set Position for this Session]
+[Set position for this session]
 
-[Set and Save for all Sessions]
+[Set and save for all sessions]
 
-[Set and Save for this Contact only]
+[Set and save for this contact only]
 
-[Revert to old Position]
+[Revert to old position]
 
 [Queue manager]
 
-[Mark Selected for Removal]
+[Mark selected for removal]
 
-[Reset Selected]
+[Reset selected]
 
-[Hold Selected]
+[Hold selected]
 
-[Resume Selected]
+[Resume selected]
 
-[Cancel all Multisend Jobs]
+[Cancel all multisend jobs]
 
-[Copy Message to Clipboard]
+[Copy message to clipboard]
 
 [&File]
 &Archivo
-[Save Message Log As...]
+[Save message log as...]
 
-[Close Message Session\tCtrl-W]
+[Close message session\tCtrl-W]
 
-[Close Container\tAlt-F4]
+[Close container\tAlt-F4]
 
 [&View]
 
-[Show Menu Bar]
+[Show menu bar]
 Mostrar barra de menú
-[Show Status Bar]
+[Show status bar]
 Mostrar barra de estado
-[Info Panel...]
+[Info panel...]
 
 [Toolbar]
 
@@ -880,46 +876,44 @@ Mostrar barra de estado
 
 [Place toolbar at bottom]
 
-[Title Bar]
+[Title bar]
 
 [Tabs at the bottom]
 
-[Window Flashing]
+[Window flashing]
 
-[Use default Value]
+[Use default value]
 
-[Show Multisend Contact List]
+[Show multisend contact list]
 
-[Stay on Top]
+[Stay on top]
 
-[Message &Log]
+[Message &log]
 
 [&Container]
 
-[Event Popups]
+[Disable all event popups]
 
-[Disable all Event Popups]
+[Show popups if window is minimized]
 
-[Show Popups if Window is minimized]
+[Show popups if window is unfocused]
 
-[Show Popups if Window is unfocused]
+[Show popups if window is focused]
 
-[Show Popups if Window is focused]
+[Show popups for all inactive sessions]
 
-[Show Popups for all inactive sessions]
-
-[Save current Window Position as Default]
+[Save current window position as default]
 
 [Help]
 Ayuda
 [About TabSRMM...]
 
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[Protocol Button]
+[Protocol button]
 
 [Info button]
 
-[Insert Emoticon]
+[Insert emoticon]
 
 [Bold text]
 
@@ -937,9 +931,9 @@ Ayuda
 
 [Quote last message OR selected text]
 
-[Message Log Options]
+[Message log options]
 
-[View User's History]
+[View user's history]
 Ver historial del usuario
 [Edit user notes]
 
@@ -954,7 +948,7 @@ Ver historial del usuario
 [<Separator>]
 
 ;file \plugins\TabSRMM\src\container.cpp
-[Message Session...]
+[Message session...]
 
 [Default container]
 
@@ -974,8 +968,6 @@ Notificaciones
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
 
 [Flashing]
-
-[Title bar]
 
 [Window size and theme]
 
@@ -1027,7 +1019,7 @@ Notificaciones
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 
 [TabSRMM warning message]
 
@@ -1048,7 +1040,7 @@ Archivo entrante
 
 [No status message]
 
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 
 [You cannot edit user notes when there are unsent messages]
 
@@ -1064,32 +1056,32 @@ Versión
 %s está escribiendo un mensaje
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 
 [No UID]
 
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Mensajes instantáneos
-[Incoming (Focused Window)]
-Entrante (Ventana enfocada)
-[Incoming (Unfocused Window)]
-Entrante (Ventana desenfocada)
-[Incoming (New Session)]
-Entrante (Nueva sesión)
+[Incoming (focused window)]
+Entrante (ventana enfocada)
+[Incoming (unfocused window)]
+Entrante (ventana desenfocada)
+[Incoming (new session)]
+Entrante (nueva sesión)
 [Outgoing]
 Saliendo
 [Message send error]
 Enviar mensaje de error
 [Other]
 Otro
-[TabSRMM: Typing]
+[TabSRMM: typing]
 
 [TabSRMM session list]
 
-[TabSRMM Menu]
+[TabSRMM menu]
 
 [&Messaging settings...]
 
@@ -1108,9 +1100,7 @@ Mensaje de
 
 [Paste and send]
 Pegar y Enviar
-[Contact's messaging prefs]
-
-[Send nudge]
+[Contact's messaging preferences]
 
 [Send a file]
 
@@ -1155,17 +1145,15 @@ Pegar y Enviar
 
 [no topic set.]
 
-[Open User Details...]
+[Open user details...]
 
-[Open History...]
+[Open history...]
 
-[Messaging Settings...]
+[Messaging settings...]
 
-[Room Settings...]
+[Room settings...]
 
-[Close Session]
-
-[Copy To Clipboard]
+[Copy to clipboard]
 
 [\\ul\\b Status message:\\ul0\\b0 \\par %s]
 
@@ -1175,7 +1163,7 @@ Pegar y Enviar
 
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 
-[TabSRMM Information]
+[TabSRMM information]
 
 [Set panel visibility for this %s]
 
@@ -1197,7 +1185,7 @@ Contacto
 
 [Use private size]
 
-[Use Global Setting]
+[Use global setting]
 
 [Show always (if present)]
 
@@ -1226,7 +1214,7 @@ Avatares
 
 [Expand or collapse the side bar]
 
-[Character Encoding]
+[Character encoding]
 
 [Contact not on list. You may add it...]
 
@@ -1265,13 +1253,13 @@ Avatares
 
 [The file exists. Do you want to overwrite it?]
 
-[Set Your Avatar...]
+[Set your avatar...]
 
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Contacto desconocido)'
 [JPEG-compressed images]
 
@@ -1385,7 +1373,7 @@ Mostrar globo emergente (sistema sin soporte)
 
 [Close or hide window, depends on the close button setting above]
 
-[Message Sessions]
+[Message sessions]
 Sesiones de mensaje
 [General]
 General
@@ -1416,6 +1404,8 @@ Ajustes
 [Choose status modes]
 
 ;file \plugins\TabSRMM\src\msgs.cpp
+[Message Log Options]
+
 [Image tag]
 
 [Quote text]
@@ -1474,6 +1464,8 @@ Mensaje saliente
 
 [Frame 4]
 
+[Message Sessions]
+Sesiones de mensaje
 [Message Log]
 Registro de mensaje
 [Animated Tray]
@@ -1569,7 +1561,7 @@ Estado
 [TabSRMM Message (%s)]
 
 ;file \plugins\TabSRMM\src\taskbar.cpp
-[Previews not availble when using History++ plugin for message log display.]
+[Previews not available when using History++ plugin for message log display.]
 
 [%d Unread]
 
@@ -1774,11 +1766,7 @@ El contacto ha comenzado a escribir
 [Contact stopped typing]
 El contacto dejó de escribir
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Always On]
-
-[Always Off]
-
-[Force Default Message Log]
+[Force default message log]
 
 [Force History++]
 
@@ -1797,7 +1785,7 @@ El contacto dejó de escribir
 
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 
-[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 

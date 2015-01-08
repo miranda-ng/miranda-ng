@@ -153,6 +153,8 @@ OTR privat
 OTR nicht sicher
 [OTR]
 OTR
+[Refresh]
+Aktualisieren
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Generiere neuen Schlüssel für das Protokoll '%s'.\nBitte warten Sie...
 [General]
