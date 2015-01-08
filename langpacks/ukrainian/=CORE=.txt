@@ -2403,16 +2403,16 @@ Ctrl+Знайти додає контакт
 Налаштування Miranda NG
 [&Options...]
 &Налаштування...
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Не вдалося завантажити модуль ядра "%s" (можливо він відсутній). Программа змушена завершити работу.
-[Fatal error]
-Фатальна помилка
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не знайдено жодного плагіна вікна повідомлень. Встановіть/увімкніть один з них, наприклад, StdMsg.dll
 ['%s' is disabled, re-enable?]
 "%s" вимкнений. Увімкнути?
 [Re-enable Miranda plugin?]
 Увімкнути плагін?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Не вдалося завантажити модуль ядра "%s" (можливо він відсутній). Программа змушена завершити работу.
+[Fatal error]
+Фатальна помилка
 [Unable to load plugin in service mode!]
 Неможливо запустити плагін у сервісному режимі!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

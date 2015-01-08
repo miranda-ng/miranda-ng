@@ -75,7 +75,7 @@
 Показувати при ввімк. фільтрі
 [Log to file]
 Запис у файл
-[Show Popup]
+[Show popup]
 Сплив. вікно
 [Notify in tray]
 У треї
@@ -165,9 +165,9 @@
 Глобальна чи своя висота панелі
 [Set size to]
 Встановити розмір
-[Compact (1 Line)]
+[Compact (1 line)]
 Компактний (1 рядок)
-[Normal (2 Lines)]
+[Normal (2 lines)]
 Нормальний (2 рядки)
 [Large]
 Великий
@@ -205,7 +205,7 @@
 символів
 [Only show event notifications when my status is...]
 Показувати сповіщення про події, коли мій статус...
-[Popup Options]
+[Popup options]
 Спливаючі вікна
 [Text]
 Текст
@@ -239,11 +239,11 @@
 Виберіть, як відображати журнал. Не працює, якщо один з перерахованих плагінів не встановлено.
 [Send text formatting method]
 Метод відправки форматування
-[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+[You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
 Зміна надсилання інформації про формат тексту. "Вимкнути" - відключає форматування для цього контакту.
 [ANSI codepage]
 Кодова сторінка ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
 Кодова сторінка ANSI для перекодування не Юнікод повідомлень.
 [Info panel mode]
 Режим інфо-панелі
@@ -385,7 +385,7 @@ ID користувача в панелі статусу
 Стандартні шаблони...
 [RTL templates...]
 Шаблони RTL...
-[Load History Events]
+[Load history events]
 Показувати історію
 [Load unread events only]
 Лише непереглянуті події
@@ -397,7 +397,7 @@ ID користувача в панелі статусу
 хвилин тому
 [Global message log display]
 Основний журнал повідомлень
-[Typing Notification]
+[Typing notification]
 Сповіщення про друк
 [Send typing notifications to the following users when you are typing a message to them:]
 Сповіщати цих користувачів, коли ви друкуєте повідомлення для них:
@@ -449,7 +449,7 @@ ID користувача в панелі статусу
 Проміжок кнопок:
 [Hide if there isn't enough space]
 Ховати, якщо недостатньо місця
-[Insert Separator]
+[Insert separator]
 Вставити роздільник
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 Налаштовуйте в діалозі "Налаштування контейнера". Він доступний:\n1. З системного меню контейнера (Alt+стрілка).\n2. За правим клацанням на вкладці або панелі кнопок у вікні повідомлень.
@@ -515,7 +515,7 @@ ID користувача в панелі статусу
 Шаблони
 [Edit template]
 Редагувати шаблон
-[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+[Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
 Виберіть шаблон зі списку і натисніть "Оновити перегляд" для відображення прикладу повідомлення. Для редагування клацніть у списку двічі.
 [Get more help on variables]
 Допомога по змінним шаблонів
@@ -523,13 +523,13 @@ ID користувача в панелі статусу
 Виберіть до 5 кольорів для використання зі змінними
 [Close]
 Закрити
-[Update Preview]
+[Update preview]
 Оновити перегляд
-[Save Template]
+[Save template]
 Зберегти шаблон
 [Forget]
 Скасувати
-[Revert to Default]
+[Revert to default]
 Скинути на замовчання
 [Reset all templates...]
 Скинути всі шаблони...
@@ -611,7 +611,7 @@ ID користувача в панелі статусу
 Відображати лінії сітки
 [Message grouping]
 Групування повідомлень
-[Support BBCODE]
+[Support BBCode]
 Підтримка BB-кодів
 [Misc]
 Інше
@@ -621,7 +621,7 @@ RTL за замовчанням
 Записувати зміни статусів (тільки для відкритих вікон повідомлень)
 [Revert to global options]
 Повернути глобальні налаштування
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
 Ви можете налаштувати журнал повідомлень для цього контакту. Заповнені значення взяті з глобальних налаштувань (Бесіди -> Журнал)
 [Use normal templates (uncheck to use simple templates)]
 Звичайні шаблони (вимкніть для спрощених шаблонів)
@@ -689,13 +689,11 @@ Esc закриває сесію (інакше - згортає)
 &Копіювати
 [&Quote]
 &Цитувати
-[Co&py All]
-Коп&іювати все
-[Select &All]
+[Select &all]
 Виділити &все
-[Clear Log]
+[Clear log]
 Очистити журнал
-[Freeze Log]
+[Freeze log]
 Заморозити журнал
 [Open in &new window]
 Відкрити в &новому вікні
@@ -703,105 +701,103 @@ Esc закриває сесію (інакше - згортає)
 &Відкрити в поточному вікні
 [Editor]
 Редактор
-[Paste formatted Text]
+[Paste formatted text]
 Вставити форматований текст
-[Paste and Send immediately]
+[Paste and send immediately]
 Вставити й надіслати
 [Copy all]
 Копіювати все
-[Show Message Length Indicator]
+[Show message length indicator]
 Індикатор довжини повідомлення
-[Close Tab]
+[Close tab]
 Закрити вкладку
-[Close Other Tabs]
+[Close other tabs]
 Закрити всі, крім цієї
-[Leave Chat Room]
+[Leave chat room]
 Залишити чат-кімнату
-[Save Tab Position]
+[Save tab position]
 Зберегти позицію
-[Clear saved Tab Position]
+[Clear saved tab position]
 Очистити збережену
-[Attach to Container...]
+[Attach to container...]
 Приєднати до контейнера...
 [Container options...]
 Налаштування контейнера...
-[Close Container]
+[Close container]
 Закрити контейнер
-[Show Contact Picture]
+[Show contact picture]
 Показувати аватар
 [Default]
 За замовчанням
-[Hidden for this Contact]
+[Hidden for this contact]
 Сховати для цього контакту
-[Visible for this Contact]
+[Visible for this contact]
 Показати для цього контакту
-[Contact Picture Settings...]
+[Contact picture settings...]
 Налаштування аватару...
 [Always keep the button bar at full width]
 Панель кнопок на повну ширину
-[Save this Picture As...]
+[Save this picture as...]
 Зберегти зображення як...
-[&Message Log Settings]
+[&Message log settings]
 &Налаштування бесід
 [&Global...]
 &Глобально...
-[&For this Contact...]
+[&For this contact...]
 &Для цього контакту...
-[Send &Default]
+[Send &default]
 Надіслати &звичайно
-[Send to &multiple Users]
+[Send to &multiple users]
 Надіслати &кільком
-[Send to &Container]
+[Send to &container]
 Надіслати всьому &контейнеру
-[Send &Later]
+[Send &later]
 Надіслати &пізніше
 [Force &ANSI]
 Примусово ANSI
-[Send unsafe (ignore Timeouts)]
+[Send unsafe (ignore timeouts)]
 Відправляти небезпечно (без таймаутів)
-[Send Nudge]
+[Send nudge]
 Струсити
-[Splitter Position]
+[Splitter position]
 Роздільники
 [Global]
 Глобальні
 [Private]
 Конфіденційний
-[Send Text Formatting]
+[Send text formatting]
 Відправка форматування тексту
 [BBCode]
 BB-коди ([b][i][u])
 [Off]
 Вимк.
-[This Contact]
+[This contact]
 Цей контакт
-[Global Setting]
+[Global setting]
 Глобальні налаштування
-[Force Off]
+[Force off]
 Вимкнути
-[Unread Menu]
-Непрочитане
-[Recent Sessions]
+[Recent sessions]
 Недавні сеанси
 [Favorites]
 Обрані
-[Show the Tray Icon]
+[Show the tray icon]
 Показувати значок у треї
-[Disable All Event Notifications]
+[Disable all event notifications]
 Вимкнути всі сповіщення
-[Don't create Windows automatically]
+[Don't create windows automatically]
 Не створювати вікна автоматично
-[Hide all Message Containers]
+[Hide all message containers]
 Сховати всі контейнери
-[Restore all Message Containers]
+[Restore all message containers]
 Відновити всі контейнери
-[Don't play Sounds]
+[Don't play sounds]
 Вимкнути звуки
-[Be "Super Quiet"]
+[Be "super quiet"]
 Бути "дуже тихим"
 [Font]
 Шрифт
-[Default Color]
+[Default color]
 Типовий колір
 [Red]
 Червоний
@@ -819,55 +815,55 @@ BB-коди ([b][i][u])
 Чорний
 [White]
 Білий
-[Clear all Formatting]
+[Clear all formatting]
 Очистити форматування
 [Dummy]
 Порожній
-[No Message Sessions opened]
+[No message sessions opened]
 Немає відкритих вікон повідомлень
-[Add Contact to Favorites]
+[Add contact to favorites]
 Додати контакт до обраних
-[Remove Contact from Favorites]
+[Remove contact from favorites]
 Видалити контакт з обраних
 [dummy]
 Порожній
-[Set Position for this Session]
+[Set position for this session]
 Встановити позицію для цієї сесії
-[Set and Save for all Sessions]
+[Set and save for all sessions]
 Встановити і зберегти для всіх сесій
-[Set and Save for this Contact only]
+[Set and save for this contact only]
 Встановити і зберегти для цього контакту
-[Revert to old Position]
+[Revert to old position]
 Повернути попередню позицію
 [Queue manager]
 Менеджер черги
-[Mark Selected for Removal]
+[Mark selected for removal]
 Позначити вибрані для видалення
-[Reset Selected]
+[Reset selected]
 Скинути вибрані
-[Hold Selected]
+[Hold selected]
 Затримати вибрані
-[Resume Selected]
+[Resume selected]
 Відновити вибрані
-[Cancel all Multisend Jobs]
+[Cancel all multisend jobs]
 Скасувати всі завдання
-[Copy Message to Clipboard]
+[Copy message to clipboard]
 Копіювати повідомлення
 [&File]
 &Файл
-[Save Message Log As...]
+[Save message log as...]
 Зберегти історію як...
-[Close Message Session\tCtrl-W]
+[Close message session\tCtrl-W]
 Закрити сеанс\tCtrl+W
-[Close Container\tAlt-F4]
+[Close container\tAlt-F4]
 Закрити контейнер\tAlt+F4
 [&View]
 &Вигляд
-[Show Menu Bar]
+[Show menu bar]
 Показувати меню
-[Show Status Bar]
+[Show status bar]
 Показувати рядок статусу
-[Info Panel...]
+[Info panel...]
 Інфо-панель...
 [Toolbar]
 Панель кнопок
@@ -875,45 +871,43 @@ BB-коди ([b][i][u])
 Показувати панель кнопок
 [Place toolbar at bottom]
 Помістити панель кнопок униз
-[Title Bar]
+[Title bar]
 Заголовок
 [Tabs at the bottom]
 Вкладки внизу
-[Window Flashing]
+[Window flashing]
 Блимання вікна
-[Use default Value]
+[Use default value]
 За замовчанням
-[Show Multisend Contact List]
+[Show multisend contact list]
 Показувати вікно мультивідправки
-[Stay on Top]
+[Stay on top]
 Поверх усіх вікон
-[Message &Log]
+[Message &log]
 &Бесіди
 [&Container]
 &Контейнер
-[Event Popups]
-Налаштування сповіщень
-[Disable all Event Popups]
+[Disable all event popups]
 Вимкнути всі сплив. вікна
-[Show Popups if Window is minimized]
+[Show popups if window is minimized]
 Показувати, якщо вікно згорнуте
-[Show Popups if Window is unfocused]
+[Show popups if window is unfocused]
 Показувати, якщо не у фокусі
-[Show Popups if Window is focused]
+[Show popups if window is focused]
 Показувати, якщо у фокусі
-[Show Popups for all inactive sessions]
+[Show popups for all inactive sessions]
 Показувати для всіх вікон діалогів, якщо вони неактивні
-[Save current Window Position as Default]
+[Save current window position as default]
 Зберегти поточну позицію вікна
 [Help]
 Довідка
 [About TabSRMM...]
 Про плагін TabSRMM...
-[Protocol Button]
+[Protocol button]
 Меню контакту
 [Info button]
 Інформація про контакт
-[Insert Emoticon]
+[Insert emoticon]
 Смайли
 [Bold text]
 Жирний
@@ -931,9 +925,9 @@ BB-коди ([b][i][u])
 Закрити вкладку
 [Quote last message OR selected text]
 Цитувати останнє повідомлення або вибраний текст
-[Message Log Options]
+[Message log options]
 Налаштування бесід
-[View User's History]
+[View user's history]
 Історія повідомлень
 [Edit user notes]
 Редагувати нотатки про користувача
@@ -947,7 +941,7 @@ BB-коди ([b][i][u])
 Налаштування кімнати
 [<Separator>]
 <Роздільник>
-[Message Session...]
+[Message session...]
 Бесіда...
 [Default container]
 Діалоги
@@ -967,8 +961,6 @@ BB-коди ([b][i][u])
 Виберіть, коли ви хочете бачити сповіщення про події (сплив. вікна) для цього контейнера. Налаштування застосовується до всіх вкладок.
 [Flashing]
 Блимання
-[Title bar]
-Заголовок
 [Window size and theme]
 Розмір вікна і тема
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
@@ -1017,7 +1009,7 @@ BB-коди ([b][i][u])
 Список вкладок.\nНатисніть лівою кнопкою миші, щоб відкрити список вкладок.\nНатисніть правою кнопкою миші, щоб отримати доступ до обраних і швидко налаштувати поведінку вікна повідомлень.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Відправляється %d повідомлень. Довжина повідомлення: %d байт, обмеження довжини: %d байт\n\n%d повідомлень у черзі для подальшої доставки.
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
 Одна з дій спливаючих вікон налаштована на "Відхилити подію".\nЦе може спричинити небажаний ефект, бо події будуть позначатися прочитаними.\nЯк наслідок, події не будуть показані "новими". Якщо це не те, чого ви хотіли, перегляньте налаштування в розділі "Сповіщення".
 [TabSRMM warning message]
 Попередження TabSRMM
@@ -1037,7 +1029,7 @@ BB-коди ([b][i][u])
 Файл RTF
 [No status message]
 Немає повідомлення статусу
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Проблема конфігурації|Автоматичне надсилання вимкнено. \\b1Відправка з затримкою \\b0 і \\b1 мультивідправка \\b0 залежать від цієї опції.\n\nВи можете ввімкнути її: \\b1Налаштування -> Бесіди -> Додаткові налаштування\\b0. Після зміни цієї опції потрібен перезапуск.
 [You cannot edit user notes when there are unsent messages]
 Не можна правити нотатки, якщо є ненадіслані повідомлення
@@ -1053,19 +1045,19 @@ BB-коди ([b][i][u])
 %s друкує вам повідомлення
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Автопрокрутка вимкнена, %d повідомлень у черзі (натисніть F12, щоб увімкнути)
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nПравою кнопкою - керування метаконтактом\nСтрілка вниз - додавання/видалення користувача з вибраного.
 [No UID]
 немає UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
 UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інформація про користувача\nСтрілка вниз - додавання/видалення користувача з вибраного.
 [Instant messages]
 Повідомлення
-[Incoming (Focused Window)]
+[Incoming (focused window)]
 Вхідні (активне вікно)
-[Incoming (Unfocused Window)]
+[Incoming (unfocused window)]
 Вхідні (неактивне вікно)
-[Incoming (New Session)]
+[Incoming (new session)]
 Вхідні (нова бесіда)
 [Outgoing]
 Вихідні
@@ -1073,11 +1065,11 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Помилка надсилання
 [Other]
 Інше
-[TabSRMM: Typing]
+[TabSRMM: typing]
 TabSRMM: Набирає
 [TabSRMM session list]
 Список сесій TabSRMM
-[TabSRMM Menu]
+[TabSRMM menu]
 Меню TabSRMM
 [&Messaging settings...]
 &Налаштування бесід...
@@ -1095,10 +1087,8 @@ TabSRMM: Набирає
 Останні непрочитані повідомлення
 [Paste and send]
 Вставити й надіслати
-[Contact's messaging prefs]
+[Contact's messaging preferences]
 Налаштування журналу контакту
-[Send nudge]
-Струсити
 [Send a file]
 Надіслати файл
 [Quote message]
@@ -1141,17 +1131,15 @@ TabSRMM: Набирає
 Тема: %s
 [no topic set.]
 тема не встановлена.
-[Open User Details...]
+[Open user details...]
 Про користувача...
-[Open History...]
+[Open history...]
 Відкрити історію...
-[Messaging Settings...]
+[Messaging settings...]
 Налаштування листування...
-[Room Settings...]
+[Room settings...]
 Налаштування кімнати...
-[Close Session]
-Закрити вкладку
-[Copy To Clipboard]
+[Copy to clipboard]
 Копіювати в буфер обміну
 [\\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\ul\\b Повідомлення статусу:\\ul0\\b0 \\par %s
@@ -1161,7 +1149,7 @@ TabSRMM: Набирає
 \\par\\par\\ul\\b Слухає:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Клієнт:\\ul0\\b0  %s
-[TabSRMM Information]
+[TabSRMM information]
 Інформація TabSRMM
 [Set panel visibility for this %s]
 Видимість панелі для %s
@@ -1183,7 +1171,7 @@ TabSRMM: Набирає
 Стандартний розмір
 [Use private size]
 Свій розмір
-[Use Global Setting]
+[Use global setting]
 Глобальні налаштування
 [Show always (if present)]
 Показувати завжди (якщо є)
@@ -1209,7 +1197,7 @@ TabSRMM: Набирає
 Не додавати цей контакт до списку
 [Expand or collapse the side bar]
 Розгорнути або згорнути бічну панель
-[Character Encoding]
+[Character encoding]
 Кодування
 [Contact not on list. You may add it...]
 Контакт не в списку. Ви можете додати його...
@@ -1247,13 +1235,13 @@ TabSRMM: Набирає
 Файли зображень
 [The file exists. Do you want to overwrite it?]
 Файл уже існує. Перезаписати?
-[Set Your Avatar...]
+[Set your avatar...]
 Змінити аватар...
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
 Функція "Вставити й надіслати" вимкнена. Щоб увімкнути: Налаштування -> Бесіди -> Загальне, розділ "Надсилання повідомлень".
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 Плагін трясіння не встановлений або протокол контакту не підтримує відправку події трясіння.
-['(Unknown Contact)']
+['(Unknown contact)']
 '(Невідомий контакт)'
 [JPEG-compressed images]
 Файли JPEG
@@ -1365,7 +1353,7 @@ TabSRMM: Набирає
 Згорнути вікно на панель завдань
 [Close or hide window, depends on the close button setting above]
 Закрити або сховати вікно, залежить від налаштування кнопки закриття
-[Message Sessions]
+[Message sessions]
 Бесіди
 [General]
 Загальне
@@ -1395,6 +1383,8 @@ TabSRMM: Набирає
 Підсвічування
 [Choose status modes]
 Вибір режимів статусу
+[Message Log Options]
+Налаштування бесід
 [Image tag]
 Зображення
 [Quote text]
@@ -1453,6 +1443,8 @@ TabSRMM: Набирає
 Кадр 3
 [Frame 4]
 Кадр 4
+[Message Sessions]
+Бесіди
 [Message Log]
 Журнал
 [Animated Tray]
@@ -1541,7 +1533,7 @@ TabSRMM: Набирає
 Потрібна Windows 2000 або новіша операційа система.
 [TabSRMM Message (%s)]
 TabSRMM: %s
-[Previews not availble when using History++ plugin for message log display.]
+[Previews not available when using History++ plugin for message log display.]
 Попередній перегляд недоступний при використанні History++ в якості журналу повідомлень.
 [%d Unread]
 %d непрочитано
@@ -1739,11 +1731,7 @@ TabSRMM: %s
 Співрозмовник почав друкувати
 [Contact stopped typing]
 Співрозмовник закінчив друкувати
-[Always On]
-Завжди ввімкнено
-[Always Off]
-Завжди вимкнено
-[Force Default Message Log]
+[Force default message log]
 Журнал за замовчанням
 [Force History++]
 Примусово History++
@@ -1761,7 +1749,7 @@ TabSRMM: %s
 Компонент відсутній|Набір значків не знайдено. Будь ласка, встановіть його в директорію значків за замовчанням.\n\nНа даний момент значки недоступні.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Попередження Aero peek|Ви ввімкнули використання особливостей Aero Peek і використовуєте скін вікна діалогів.\n\nЦе може призвести до незначних візуальних спотворень у швидкому перегляді.
-[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
 Проблема передачі файлу|Невдале пересилання зображення.\n\nМожливі причини: передача файлів не підтримується, контакт не в мережі, або ваш статус "Невидимий", а контакт, якому надсилається файл, - поза списком видимих.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Проблема з налаштуваннями|Опція \\b1 Історія -> Імітувати API IEView \\b0 активна і плагін History++ активний. Це може викликати проблеми при використанні IEView в якості журналу повідомлень.\n\nСкоригувати налаштування (потрібен перезапуск)?
