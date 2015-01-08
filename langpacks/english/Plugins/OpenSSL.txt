@@ -1,0 +1,11 @@
+﻿#muuid {b649702c-13de-408a-b6c2-fb8fed2a2c90}
+;============================================================
+;  File: OpenSSL.dll
+;  Plugin: OpenSSL SSL API module
+;  Version: 0.1.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Core driver to provide OpenSSL-based SSL services.]
+;file \plugins\OpenSSL\src\ssl_openssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+[Host we are connecting to is not the one certificate was issued for]
