@@ -76,8 +76,8 @@ Domyślne ustawienia dla zdarzeń
 Pokaż kiedy filtr jest wł.
 [Log to file]
 Zapisuj w pliku
-[Show Popup]
-Popupy
+[Show popup]
+Pokaż popup
 [Notify in tray]
 Zasobnik
 [Suppress tray notifications for focused channel windows]
@@ -170,9 +170,9 @@ Możliwości panelu
 Użyj globalnego lub prywatnego rozmiaru panelu
 [Set size to]
 Rozmiar
-[Compact (1 Line)]
-Mały (1 linia)
-[Normal (2 Lines)]
+[Compact (1 line)]
+Kompaktowy (1 linia)
+[Normal (2 lines)]
 Normalny (2 linie)
 [Large]
 Duży
@@ -210,8 +210,8 @@ Limituj podgląd wiadomości do:
 znaków
 [Only show event notifications when my status is...]
 Pokaż powiadomienie o zdarzeniach tylko, gdy następujący status to...
-[Popup Options]
-Opcje popupów
+[Popup options]
+Opcje popupa
 [Text]
 Tekst
 [Background]
@@ -244,12 +244,12 @@ Tryb widoku dziennika wiadomości (nie wpływa na otwarte okno)
 Wybierz sposób wyświetlania dziennika wiadomości. Te ustawiania mogą zostać zignorowane, jeśli nie masz jednej z podanych wtyczek.
 [Send text formatting method]
 Wyślij metodę formatowania tekstu
-[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
-Tutaj możesz nadpisać globalne ustawienia dla formatowania tekstu. Zaznacz "Wyłącz wymuszanie", aby nie wysyłać informacji o formatowaniu dla tego kontaktu.
+[You can override the global setting for text formatting here. Use "Force off" to never send formatting info for this contact.]
+Tutaj możesz nadpisać globalne ustawienie formatowania tekstu. Użyj "Wyłącz wymuszanie", aby nigdy nie wysyłać informacji o formatowaniu dla tego kontaktu.
 [ANSI codepage]
 Strona kodowa ANSI
-[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
-Strona kodowa dla kodowania/dekodowania ANSI przy wysyłaniu lub odbieraniu wiadomości nie zakodowanych w unicode.
+[Codepage for ANSI encoding/decoding when sending or receiving non-Unicode messages.]
+Strona kodowa dla kodowania/dekodowania ANSI podczas wysyłania lub otrzymywania wiadomości o kodowaniu innym niż Unicode
 [Info panel mode]
 Tryb panela informacyjnego
 [Show avatar in message window]
@@ -390,8 +390,8 @@ Zbiory szablonów
 Standardowe szablony...
 [RTL templates...]
 Szablony RTL...
-[Load History Events]
-Wczytaj zdarzenia z historii
+[Load history events]
+Ładuj zdarzenia z historii
 [Load unread events only]
 Tylko nieprzeczytane zdarzenia
 [Load number of previous events]
@@ -402,8 +402,8 @@ Wczytaj zdarzenia nowsze niż
 minut(y)
 [Global message log display]
 Globalny dziennik wiadomości
-[Typing Notification]
-Pisanie
+[Typing notification]
+Powiadomienie o pisaniu
 [Send typing notifications to the following users when you are typing a message to them:]
 Wysyłaj powiadomienia o pisaniu do następujących osób, gdy piszesz do nich wiadomość:
 [        Show typing notifications in the message window]
@@ -454,7 +454,7 @@ Pokaż w oknie czatu
 Odstępy przycisków:
 [Hide if there isn't enough space]
 Ukryj, jeśli nie ma miejsca
-[Insert Separator]
+[Insert separator]
 Wstaw separator
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
 Aby ustawić opcje kontenera, skorzystaj z jego okna opcji. Dostępne jest przez wybranie:\n1 "Ustawienia kontenera" z menu systemowego na pasku tytułu okna kontenera.\n2. z menu po kliknięciu PPM na kartę lub pasek narzędzi w oknie rozmowy.
@@ -520,22 +520,22 @@ Czas oczekiwania
 Szablony
 [Edit template]
 Edytuj szablon
-[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
-Kliknij dwukrotnie na szablon, aby go edytować. Aby zobaczyć przykładową wiadomość wybierz szablon z listy i kliknij "Aktualizuj podgląd".
+[Double click a template to edit it. Select a template from the list box and click "Update preview" to show a preview message.]
+Kliknij dwókrotnie na szablonie, by go edytować. Wybierz szablon z listy i kliknij "Uaktualnij podgląd", by pokazać przykładową wiadomość.
 [Get more help on variables]
 Zobacz więcej informacji o zmiennych
 [Define up to 5 colors which you can use with some variables]
 Zdefiniuj maks. 5 kolorów, które będziesz mógł użyć ze zmiennymi
 [Close]
 Zamknij
-[Update Preview]
+[Update preview]
 Uaktualnij podgląd
-[Save Template]
+[Save template]
 Zapisz szablon
 [Forget]
 Porzuć
-[Revert to Default]
-Przywróć domyślne
+[Revert to default]
+Przywrć do domyślnego
 [Reset all templates...]
 Resetuj wszystkie szablony
 [Default width for fixed (single row) tabs]
@@ -616,8 +616,8 @@ Wcięcie treści wiadomości
 Wyświetl linie dzielące zdarzenia w dzienniku
 [Message grouping]
 Grupowanie wiadomości
-[Support BBCODE]
-Wsparcie dla BBCode
+[Support BBCode]
+Wspieraj BBCode
 [Misc]
 Inne
 [RTL is default text direction]
@@ -626,8 +626,8 @@ RTL jest domyślnym kierunkiem tekstu
 Pokazuj zmiany statusu (tylko przy otwartym oknie rozmowy)
 [Revert to global options]
 Przywróć opcje globalne
-[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
-Tutaj możesz ustawić prywatne opcje dziennika wiadomości dla tego kontaktu. Wypełnione pola są dziedziczone z globalnych ustawień, które znajdziesz w Sesje rozmowy -> Dziennik wiadomości
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message sessions->Message log]
+Tutaj możesz ustawić prywatne opcje dziennika zdarzeń dla tego kontaktu. Wypełnione pola zostały przejęte z ustawień globalnych, które można znaleźć w Okno rozmowy->Dziennik zdarzeń
 [Use normal templates (uncheck to use simple templates)]
 Użyj normalnych szablonów (odznacz, aby używać prostych szablonów)
 [Queued send jobs]
@@ -694,119 +694,115 @@ Wyślij wiadomość po Ctrl+ Enter (domyślnie wył.)
 &Kopiuj
 [&Quote]
 &Cytuj
-[Co&py All]
-Ko&piuj wszystko
-[Select &All]
+[Select &all]
 Zaznacz &wszystko
-[Clear Log]
+[Clear log]
 Wyczyść dziennik
-[Freeze Log]
-Zatrzymaj dziennik
+[Freeze log]
+Zamróź dziennik
 [Open in &new window]
 Otwórz w &nowym oknie
 [&Open in existing window]
 &Otwórz w istniejącym oknie
 [Editor]
 Edytor
-[Paste formatted Text]
+[Paste formatted text]
 Wklej sformatowany tekst
-[Paste and Send immediately]
-Wklej i wyślij
+[Paste and send immediately]
+Wklej i natychmiast wyślij
 [Copy all]
 Kopiuj wszystko
-[Show Message Length Indicator]
+[Show message length indicator]
 Pokaż wskaźnik długości wiadomości
-[Close Tab]
+[Close tab]
 Zamknij kartę
-[Close Other Tabs]
+[Close other tabs]
 Zamknij inne karty
-[Leave Chat Room]
-Opuść kanał
-[Save Tab Position]
-Zapisz pozycję kart
-[Clear saved Tab Position]
-Usuń zapisane pozycje kart
-[Attach to Container...]
-Przyczep do kontenera...
+[Leave chat room]
+Opuść pokój
+[Save tab position]
+Zapisz położenie karty
+[Clear saved tab position]
+Wyczyść zapisane położenie karty
+[Attach to container...]
+Dołącz do kontenera...
 [Container options...]
 Opcje kontenera...
-[Close Container]
+[Close container]
 Zamknij kontener
-[Show Contact Picture]
-Pokaż obrazek kontaktu
+[Show contact picture]
+Pokaż zdjęcie kontaktu
 [Default]
 Domyślny
-[Hidden for this Contact]
-Ukryty dla tego kontaktu
-[Visible for this Contact]
-Widoczny dla tego kontaktu
-[Contact Picture Settings...]
-Ustawienia obrazka kontaktu
+[Hidden for this contact]
+Ukryte dla tego kontaktu
+[Visible for this contact]
+Widoczne dla tego kontaktu
+[Contact picture settings...]
+Ustawienia zdjęcia kontaktu
 [Always keep the button bar at full width]
 Pasek przycisków zawsze pełnej szerokości
-[Save this Picture As...]
-Zapisz ten obrazek jako...
-[&Message Log Settings]
+[Save this picture as...]
+Zapisz to zdjęcie jako...
+[&Message log settings]
 Ustawienia dziennika &wiadomości
 [&Global...]
 &Globalne...
-[&For this Contact...]
-&Dla tego kontaktu...
-[Send &Default]
-Wyślij &domyślnie
-[Send to &multiple Users]
+[&For this contact...]
+&Dla tego kontaktu....
+[Send &default]
+Wyślij &domyślne
+[Send to &multiple users]
 Wyślij do &wielu użytkowników
-[Send to &Container]
+[Send to &container]
 Wyślij do &kontenera
-[Send &Later]
+[Send &later]
 Wyślij &później
 [Force &ANSI]
 Wymuś &ANSI
-[Send unsafe (ignore Timeouts)]
-Niepewne wysyłanie (ignoruj timeouty)
-[Send Nudge]
-Wyślij Nudge
-[Splitter Position]
-Kontener
+[Send unsafe (ignore timeouts)]
+Wyślij niebezpiecznie (ignorując przekroczenie czasu oczekiwania)
+[Send nudge]
+Wyślij nudge
+[Splitter position]
+Położenie podziałki
 [Global]
 Globalne
 [Private]
 Prywatny
-[Send Text Formatting]
+[Send text formatting]
 Wyślij formatowanie tekstu
 [BBCode]
 BBCode
 [Off]
 Wył.
-[This Contact]
+[This contact]
 Ten kontakt
-[Global Setting]
-Globalne ustawienia
-[Force Off]
+[Global setting]
+Ustawienie globalne
+[Force off]
 Wyłącz wymuszanie
-[Unread Menu]
-Menu nieprzeczytanych
-[Recent Sessions]
+[Recent sessions]
 Ostatnie sesje
 [Favorites]
 Ulubione
-[Show the Tray Icon]
+[Show the tray icon]
 Pokaż ikonę w zasobniku
-[Disable All Event Notifications]
+[Disable all event notifications]
 Wyłącz wszystkie powiadomienia o zdarzeniach
-[Don't create Windows automatically]
+[Don't create windows automatically]
 Nie twórz okien automatycznie
-[Hide all Message Containers]
-Ukryj wszystkie kontenery
-[Restore all Message Containers]
-Przywróć wszystkie kontenery
-[Don't play Sounds]
+[Hide all message containers]
+Ukryj wszystkie kontenery z wiadomościami
+[Restore all message containers]
+Przywróć wszystkie kontenery z wiadomościami
+[Don't play sounds]
 Nie odtwarzaj dźwięków
-[Be "Super Quiet"]
-Bądź "Super cicho"
+[Be "super quiet"]
+Bądź "super cicho"
 [Font]
 Czcionka
-[Default Color]
+[Default color]
 Domyślny kolor
 [Red]
 Czerwony
@@ -824,102 +820,100 @@ Cyjan
 Czarny
 [White]
 Biały
-[Clear all Formatting]
-Usuń całe formatowanie
+[Clear all formatting]
+Wyczyść całe formatowanie
 [Dummy]
 Atrapa
-[No Message Sessions opened]
-Nie ma otwartych rozmów
-[Add Contact to Favorites]
+[No message sessions opened]
+Brak otwartych sesji rozmów
+[Add contact to favorites]
 Dodaj kontakt do ulubionych
-[Remove Contact from Favorites]
+[Remove contact from favorites]
 Usuń kontakt z ulubionych
 [dummy]
 Sztuczny element
-[Set Position for this Session]
-Ustaw pozycję dla tej sesji
-[Set and Save for all Sessions]
+[Set position for this session]
+Ustaw położenie dla tej sesji
+[Set and save for all sessions]
 Ustaw i zapisz dla wszystkich sesji
-[Set and Save for this Contact only]
+[Set and save for this contact only]
 Ustaw i zapisz tylko dla tego kontaktu
-[Revert to old Position]
-Przywróć starą pozycję
+[Revert to old position]
+Przywróć do starego położenia
 [Queue manager]
 Zarządzanie listą wysyłania
-[Mark Selected for Removal]
-Oznacz do usunięcia
-[Reset Selected]
-Zaznacz pozostałe
-[Hold Selected]
-Przytrzymaj zaznaczone
-[Resume Selected]
-Wznów zaznaczone
-[Cancel all Multisend Jobs]
-Anuluj wszystkie zadania
-[Copy Message to Clipboard]
-Kopiuj wiadomość do schowka
+[Mark selected for removal]
+Zaznacz do usunięcia
+[Reset selected]
+Zresetuj wybór
+[Hold selected]
+Utrzymaj wybór
+[Resume selected]
+Wznów wybór
+[Cancel all multisend jobs]
+Anuluj wszystkie zadania wysyłania do wielu
+[Copy message to clipboard]
+Skopiuj wiadomość do schowka
 [&File]
 &Plik
-[Save Message Log As...]
+[Save message log as...]
 Zapisz dziennik wiadomości jako...
-[Close Message Session\tCtrl-W]
-Zamknij sesję rozmowy\tCtrl-W
-[Close Container\tAlt-F4]
-Zamknij kontener\tAlt-F4
+[Close message session\tCtrl-W]
+Zamknij sesję rozmowy\tctrl+w
+[Close container\tAlt-F4]
+Zamknij kontener\talt+f4
 [&View]
 &Widok
-[Show Menu Bar]
+[Show menu bar]
 Pokaż pasek menu
-[Show Status Bar]
-Pokaż pasek statusu
-[Info Panel...]
-Panel informacji...
+[Show status bar]
+Pokaż pasek stanu
+[Info panel...]
+Panel informacyjny...
 [Toolbar]
 Pasek narzędzi
 [Show toolbar]
 Pokaż pasek narzędzi
 [Place toolbar at bottom]
 Pasek narzędzi na dole
-[Title Bar]
-Pasek tytułowy
+[Title bar]
+Nagłówek okna
 [Tabs at the bottom]
 Karty na dole
-[Window Flashing]
-Miganie okna
-[Use default Value]
-Użyj domyślnej wartości
-[Show Multisend Contact List]
-Pokaż listę kontaktów Multisend
-[Stay on Top]
-Zawsze na wierzchu
-[Message &Log]
+[Window flashing]
+Mruganie oknem
+[Use default value]
+Używaj wartości domyślnej
+[Show multisend contact list]
+Pokaż listę kontaktów wysyłania do wielu
+[Stay on top]
+Pozostań na wierzchu
+[Message &log]
 &Dziennik wiadomości
 [&Container]
 &Kontener
-[Event Popups]
-Popupy zdarzeń
-[Disable all Event Popups]
-Wyłącz wszystkie popupy zdarzeń
-[Show Popups if Window is minimized]
-Pokaż popupy, jeśli okno jest zminimalizowane
-[Show Popups if Window is unfocused]
-Pokaż popupy, jeśli okno jest nieaktywne
-[Show Popups if Window is focused]
-Pokaż popupy, jeśli okno jest aktywne
-[Show Popups for all inactive sessions]
-Pokaż popupy dla wszystkich nieaktywnych sesji
-[Save current Window Position as Default]
-Zapisz obecną pozycję okna jako domyślną
+[Disable all event popups]
+Wyłącz wszystkie popupy o zdarzeniach
+[Show popups if window is minimized]
+Pokazuj popupy jeżeli okno jest zminimalizowane
+[Show popups if window is unfocused]
+Pokazuj popupy jeżeli okno jest nieaktywne
+[Show popups if window is focused]
+Pokazuj popupy jeżeli okno jest aktywe
+[Show popups for all inactive sessions]
+Pokazuj popupy dla wszystkich nieaktywnych sesji
+[Save current window position as default]
+Zapisz obecne położenie okna jako domyślne
 [Help]
 Pomoc
 [About TabSRMM...]
 O TabSRMM...
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
-[Protocol Button]
+[Protocol button]
 Przycisk protokołu
 [Info button]
 Przycisk info
-[Insert Emoticon]
+[Insert emoticon]
 Wstaw emotikonę
 [Bold text]
 Pogrubienie
@@ -937,9 +931,9 @@ Wyślij wiadomość
 Zamknij sesję
 [Quote last message OR selected text]
 Cytuje ostatnią wiadomość lub zaznaczony tekst
-[Message Log Options]
+[Message log options]
 Opcje dziennika wiadomości
-[View User's History]
+[View user's history]
 Zobacz historię użytkownika
 [Edit user notes]
 Edytuj notatkę kontaktu
@@ -954,7 +948,7 @@ Zarządzanie kanałem
 [<Separator>]
 <Separator>
 ;file \plugins\TabSRMM\src\container.cpp
-[Message Session...]
+[Message session...]
 Sesja rozmowy...
 [Default container]
 Domyślny kontener
@@ -975,8 +969,6 @@ Powiadomienia
 Zaznacz, kiedy chcesz widzieć powiadomienia (popup) dla tego okna. Akceptacja zmian zachowana jest dla wszystkich zakładek w tym oknie.
 [Flashing]
 Miganie
-[Title bar]
-Nagłówek okna
 [Window size and theme]
 Szablon i pozycja okna
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
@@ -1027,8 +1019,8 @@ Lista sesji.\nLPM na listę otwiera sesje.\nPPM otwiera menu Ulubionych i szybki
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 %d, w trakcie wysyłania. Długość wiadomości: %d bajtów, limit długości wiadomości: %d bajtów\n\n%d wiadomości jest w kolejce do wysłania później
 ;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the Event Notifications settings page.]
-Jedna z twoich akcji popupów jest ustawiona na ODRZUĆ ZDARZENIE.\nTa opcja może mieć niepożądane efekty uboczne jak USUWANIE zdarzeń z kolejki nieprzeczytanych.\nMoże to doprowadzić do niepokazywania ich jako "nowych". Jeśli nie chcesz takiego zachowania zmień ustawienia w Powiadomieniach o Zdarzeniach.
+[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
+Jedna z twoich akcji popupów jest ustawiona na Usuń Zdarzenie.\nUwaga, te opcje mogą powodować niechciane efekty uboczne jako że usuwają one zdarzenia z kolejki nieprzeczytanych.\nTo może prowadzić do niepokazywania zdarzeń jako nowe. Jeżeli nie chcesz takiego zachowania, przejrzyj ustawienia "Powiadomień o zdarzeniach"
 [TabSRMM warning message]
 Ostrzeżenie TabSRMM
 [Incoming file]
@@ -1048,8 +1040,8 @@ Nieznany moduł lub kontakt
 Plik pola edycji z formatowaniem
 [No status message]
 Kontakt nie ma opisu.
-[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Problem konfiguracji|Funkcja wysyłania wiadomości nienadzorowanych jest wyłączona. \\b1 Wyślij później\\b0 i \\b1wyślij do wielu\\b0  jest od niej zależna.\n\nMusisz włączyć je w \\b1Opcje -> Okno rozmowy -> Zaawansowane poprawki\\b0. Zmiana tej opcji wymaga ponownego uruchomienia komunikatora.
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+błąd konfiguracji|Funkcja nienadzorowanego wysyłania jest wyłączona. Funkcje \\b1 wyślij później\\b0  oraz \\b1 wyślij do wielu kontaktów\\b0 zależą od niej.\n\nMusisz ją włączyć w \\b1Options->Okno rozmowy->Zaawansowane\\b0. Zmiana tej opcji wymaga ponownego uruchomienia.
 [You cannot edit user notes when there are unsent messages]
 Nie możesz edytować notatek o użytkowniku, podczas gdy istnieją niewysłane wiadomości
 [Version]
@@ -1064,32 +1056,32 @@ Ostatnia wiadomość: %s o %s
 %s pisze wiadomość...
 [Auto scrolling is disabled, %d message(s) queued (press F12 to enable it)]
 Automatyczne przewijanie jest wyłączone, %d wiadomości w kolejce (naciśnij F12, aby je włączyć).
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s ( klik SHIFT -> kopiowanie do schowka)\nKlik dla zobaczenia wizytówki kontaktu\nPPM dla kontrolowania metakontaktów\nKlik w prawą część dla dodania lub usunięcia z moich ulubionych.
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nRight click for metacontact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (kliknięcie SHIFT -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by dodać lub usunąć kontakt z ulubionych..
 [No UID]
 Brak UID
-[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s ( klik SHIFT -> kopiowanie do schowka)\nKlik dla zobaczenia wizytówki kontaktu\nKlik w rozwijaną część dla dodania lub usunięcia z moich ulubionych.
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for user's details\nClick dropdown to change this contact's favorite status.]
+UID: %s (kliknięcie SHIFT -> kopiuj do schowka)\nKliknij, by pokazać dane użytkownika\nKliknij prawym przyciskiem myszy, by pokazać kontrolę metakontaktów\nKliknij w pole rozwijalne, by zmienić status tego kontaktu jako ulubionego.
 ;file \plugins\TabSRMM\src\globals.cpp
 [Instant messages]
 Wiadomości
-[Incoming (Focused Window)]
-Przychodzące (Aktywne okno)
-[Incoming (Unfocused Window)]
-Przychodzące (Nieaktywne okno)
-[Incoming (New Session)]
-Przychodzące (Nowa sesja)
+[Incoming (focused window)]
+Przychodząca (aktywne okno)
+[Incoming (unfocused window)]
+Przychodząca (nieaktywne okno)
+[Incoming (new session)]
+Przychodząca (nowa sesja)
 [Outgoing]
 Wychodzące
 [Message send error]
 Błąd wysyłania wiadomości
 [Other]
 Inne
-[TabSRMM: Typing]
-Okno rozmowy: Pisanie
+[TabSRMM: typing]
+TabSRMM: pisanie
 [TabSRMM session list]
 Lista sesji TabSRMM
-[TabSRMM Menu]
+[TabSRMM menu]
 Menu TabSRMM
 [&Messaging settings...]
 Opcje &rozmowy...
@@ -1108,10 +1100,8 @@ z %s na %s.
 Poprzednia sesja
 [Paste and send]
 Wklej i wyślij
-[Contact's messaging prefs]
-Pokaż opcje rozmowy dla kontaktu
-[Send nudge]
-Wyślij nudge
+[Contact's messaging preferences]
+Preferencje wysyłania i odbierania wiadomości od kontaktu
 [Send a file]
 Wyślij plik
 [Quote message]
@@ -1155,17 +1145,15 @@ Pokaż okno serwera
 Temat to: %s
 [no topic set.]
 nie wybrano tematu.
-[Open User Details...]
-Otwórz dane kontaktu...
-[Open History...]
+[Open user details...]
+Otwórz dane użytkownika...
+[Open history...]
 Otwórz historię...
-[Messaging Settings...]
-Opcje rozmowy...
-[Room Settings...]
-Opcje pokoju...
-[Close Session]
-Zamknij sesję
-[Copy To Clipboard]
+[Messaging settings...]
+Ustawienia wysyłania i odbierania wiadomości
+[Room settings...]
+Ustawienia pokoju...
+[Copy to clipboard]
 Kopiuj do schowka
 [\\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\ul\\b Opis:\\ul0\\b0 \\par %s
@@ -1175,8 +1163,8 @@ Kopiuj do schowka
 \\par\\par\\ul\\b Teraz odtwarza:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
 \\par\\par\\ul\\b Klient:\\ul0\\b0  %s
-[TabSRMM Information]
-Informacje o TabSRMM
+[TabSRMM information]
+Informacja TabSRMM
 [Set panel visibility for this %s]
 Ustaw widoczność panelu dla tego %s
 [chat room]
@@ -1197,8 +1185,8 @@ Zawsze włączony
 Użyj domyślnego rozmiaru
 [Use private size]
 Użyj prywatnego rozmiaru
-[Use Global Setting]
-Użyj globalnych ustawień
+[Use global setting]
+Używaj globalnego ustawienia
 [Show always (if present)]
 Pokaż zawsze (kiedy obecny)
 [Never show it at all]
@@ -1226,7 +1214,7 @@ Dodaj ten kontakt na stałe do listy kontaktów
 Nie dodawaj tego kontaktu na stałe
 [Expand or collapse the side bar]
 Rozwiń lub zwiń pasek boczny
-[Character Encoding]
+[Character encoding]
 Kodowanie znaków
 [Contact not on list. You may add it...]
 Kontakt spoza listy. Jeśli chcesz dodać...
@@ -1265,13 +1253,13 @@ Zapisz obrazek kontaktu
 Pliki obrazów
 [The file exists. Do you want to overwrite it?]
 Plik istnieje. Chcesz nadpisać?
-[Set Your Avatar...]
-Ustaw swój awatar...
-[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
-Opcja "wklej i wyślij" jest wyłączona. Możesz ją ustawić na stronie "Ogólne" w sekcji "Wysyłanie wiadomości"
+[Set your avatar...]
+Ustaw awatar...
+[The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section]
+Funkcja "Wklej i Wyślij" jest wyłączona. Możesz ją włączyć w zakładce "Ogólne" w sekcji "Wysyłanie wiadomości".
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
 Wtyczka Nudge nie jest zainstalowana lub protokół kontaktu nie wspiera wysyłania zdarzenia brzęczyka.
-['(Unknown Contact)']
+['(Unknown contact)']
 "(Nieznany kontakt)"
 [JPEG-compressed images]
 Skompresowane obrazy JPEG
@@ -1385,8 +1373,8 @@ Normalnie - zamknij kartę, jeśli nie ma kart zamknij okno
 Zminimalizuj okno do paska
 [Close or hide window, depends on the close button setting above]
 Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
-[Message Sessions]
-Okno rozmowy
+[Message sessions]
+Sesje rozmowy
 [General]
 Ogólne
 [Tabs and layout]
@@ -1416,6 +1404,8 @@ Podświetlanie
 [Choose status modes]
 Wybierz tryby statusu
 ;file \plugins\TabSRMM\src\msgs.cpp
+[Message Log Options]
+Opcje dziennika wiadomości
 [Image tag]
 Tag obrazka
 [Quote text]
@@ -1474,6 +1464,8 @@ Ramka 2
 Ramka 3
 [Frame 4]
 Ramka 4
+[Message Sessions]
+Okno rozmowy
 [Message Log]
 Dziennik wiadomości
 [Animated Tray]
@@ -1569,8 +1561,8 @@ Ta wersja TabSRMM wymaga Windows 2000 lub nowszego.
 [TabSRMM Message (%s)]
 Wiadomość TabSRMM (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
-[Previews not availble when using History++ plugin for message log display.]
-Podgląd nie jest dostępny we wtyczce History++.
+[Previews not available when using History++ plugin for message log display.]
+Podglądy niedostępne, gdy History++ jest używany do wyświetlania dziennika wiadomości.
 [%d Unread]
 %d nieprzeczytane
 [Chat room %s]
@@ -1774,11 +1766,7 @@ Kontakt pisze wiadomość
 [Contact stopped typing]
 Kontakt przestał pisać
 ;file \plugins\TabSRMM\src\userprefs.cpp
-[Always On]
-Zawsze Wł.
-[Always Off]
-Zawsze Wył.
-[Force Default Message Log]
+[Force default message log]
 Wymuś domyślny dziennik wiadomości
 [Force History++]
 Wymuś History++
@@ -1797,8 +1785,8 @@ Edycja notatek kontaktu|Kliknij przycisk ponownie lub użyj skrótu klawiszowego
 Brakujący komponent|Brakuje ikon. Zainstaluj je w domyślnym folderze ikon.\n\nŻadne ikony nie będą dostępne.
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
 Ostrzeżenie Aero peek. Włączono funkcje Aero Peek oraz wczytywanie domyślnej skórki okna rozmowy\n\nMoże spowodować niewielkie widoczne nieprawidłowości w funkcji podglądu.
-[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
-Problem z transferem pliku|Wysyłanie obrazka jako pliku nie powiodło się.\n\nMożliwe przyczyny: Transfer pliku niewspierany, albo ty, albo kontakt docelowy jesteście rozłączeni, lub jesteś niewidoczny, a kontakt docelowy nie znajduje się na twojej liście widoczności.
+[File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]
+Problem z transferem pliku|Wysyłanie obrazka poprzez transfer pliku nie powiodło się.\n\nMożliwe przyczyny: Transfer plików niewspierany, ty lub kontakt docelowy jesteście rozłączeni lub jesteś niewidoczny, a kontakt docelowy nie znajduje się na twojej liście widoczności.
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
 Błąd ustawień|Opcja \\b1 Historia -> Imituj API IEView\\b0 i wtyczka History++ jest aktywna. Może to powodować problemy podczas korzystania z wtyczki IEView jako dziennik wiadomości.\n\nNależy skorygować opcje (ponowne uruchomienie jest wymagane)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
