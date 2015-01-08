@@ -51,7 +51,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	InitDbInstance(this);
 
 	mdb_env_create(&m_pMdbEnv);
-	mdb_env_set_maxdbs(m_pMdbEnv, 4);
+	mdb_env_set_maxdbs(m_pMdbEnv, 10);
 
 	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	m_hModHeap = HeapCreate(0, 0, 0);
@@ -95,8 +95,14 @@ int CDbxMdb::Load(bool bSkipInit)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
-		if (InitModuleNames()) return 1;
-		if (InitCrypt()) return EGROKPRF_CANTREAD;
+		mdb_txn_begin(m_pMdbEnv, NULL, 0, &m_txn);
+
+		mdb_open(m_txn, "modules",  MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
+		mdb_open(m_txn, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
+		mdb_open(m_txn, "events",   MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+
+		if (InitModuleNames()) return EGROKPRF_CANTREAD;
+		if (InitCrypt())       return EGROKPRF_CANTREAD;
 
 		// everything is ok, go on
 		if (!m_bReadOnly) {
