@@ -61,7 +61,8 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getMMI(&mmi);
-	mir_getLI(&li);
+	li.cbSize = LIST_INTERFACE_V2_SIZE;
+	CallService(MS_SYSTEM_GET_LI, 0, (LPARAM)&li);
 	mir_getMD5I(&md5i);
 	mir_getUTFI(&utfi);
 #else
