@@ -153,6 +153,8 @@ OTR prywatny
 OTR bez szyfrowania
 [OTR]
 OTR
+[Refresh]
+Odśwież
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Generowanie nowego klucza prywatnego dla protokołu "%s".\nProszę czekać...
 [General]

@@ -1119,28 +1119,30 @@ Funkcja spowodowała wyjątek!
 %s ma %s dziś.
 [an anniversary]
 rocznica
-[He]
-On
-[She]
-Ona
-[He/She]
-On/Ona
-[%s has the following anniversaries:\0]
-%s ma następujące rocznice:\0
-[%d. %s today\0]
-%d. %s dziś\0
-[%d. %s tomorrow\0]
-%d. %s jutro\0
-[%d. %s in %d days\0]
-%d. %s w %d dni\0
+[He/she has the following anniversaries:]
+O/ona ma następujące rocznice:
+[He has the following anniversaries:]
+On ma następujące rocznice:
+[She has the following anniversaries:]
+Ona ma następujące rocznice:
+[%d. %s today]
+%d. %s dzisiaj
+[%d. %s tomorrow]
+%d. %s jutro
+[%d. %s in %d days]
+%d. %s za %d dni.
 [%s has birthday today.]
 %s ma dziś urodziny.
 [%s has birthday tomorrow.]
 %s ma jutro urodziny.
 [%s has birthday in %d days.]
 %s ma urodziny w przeciągu %d dni.
-[\n%s becomes %d years old.]
-\n%s ma teraz %d urodziny.
+[\nHe/she becomes %d years old.]
+\nOn/ona będzie mieć %d lat.
+[\nHe becomes %d years old.]
+\nOn będzie mieć %d lat.
+[\nShe becomes %d years old.]
+\nOna będzie mieć %d lat.
 [No anniversaries to remind of]
 Brak rocznic do przypomnienia
 [Backing up and syncing all birthdays complete!]
