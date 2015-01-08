@@ -72,12 +72,6 @@ DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 	return pSetting[0];
 }
 
-struct DBSignature
-{
-	char name[15];
-	BYTE eof;
-};
-
 struct ModuleName
 {
 	char *name;
@@ -85,34 +79,12 @@ struct ModuleName
 };
 
 #include <pshpack1.h>
-struct DBHeader
-{
-	BYTE signature[16];     // 'Miranda ICQ DB',0,26
-	DWORD version;          // as 4 bytes, ie 1.2.3.10 = 0x0102030a
-	DWORD ofsFileEnd;       // offset of the end of the database - place to write new structures
-	DWORD slackSpace;       // a counter of the number of bytes that have been
-	// wasted so far due to deleting structures and/or
-	// re-making them at the end. We should compact when
-	// this gets above a threshold
-	DWORD contactCount;     // number of contacts in the chain,excluding the user
-	DWORD ofsFirstContact;  // offset to first DBContact in the chain
-	DWORD ofsUser;          // offset to DBContact representing the user
-	DWORD ofsModuleNames;   // offset to first struct DBModuleName in the chain
-};
 
 #define DBCONTACT_SIGNATURE   0x43DECADEu
 struct DBContact
 {
 	DWORD signature;
-	DWORD ofsNext;          // offset to the next contact in the chain. zero if
-	// this is the 'user' contact or the last contact in the chain
-	DWORD ofsFirstSettings;	// offset to the first DBContactSettings in the chain for this contact.
 	DWORD eventCount;       // number of events in the chain for this contact
-	DWORD ofsFirstEvent,    // offsets to the first and
-		ofsLastEvent;     // last DBEvent in the chain for this contact
-	DWORD ofsFirstUnread;   // offset to the first (chronological) unread event	in the chain, 0 if all are read
-	DWORD tsFirstUnread;    // timestamp of the event at ofsFirstUnread
-	DWORD dwContactID;
 };
 
 #define DBMODULENAME_SIGNATURE  0x4DDECADEu
@@ -123,42 +95,12 @@ struct DBModuleName
 	char name[1];           // name, no nul terminator
 };
 
-#define DBCONTACTSETTINGS_SIGNATURE  0x53DECADEu
-struct DBContactSettings
-{
-	DWORD signature;
-	DWORD ofsNext;          // offset to the next contactsettings in the chain
-	DWORD ofsModuleName;	   // offset to the DBModuleName of the owner of these settings
-	DWORD cbBlob;           // size of the blob in bytes. May be larger than the
-	// actual size for reducing the number of moves
-	// required using granularity in resizing
-	BYTE blob[1];           // the blob. a back-to-back sequence of DBSetting
-	// structs, the last has cbName = 0
-};
-
 #define DBEVENT_SIGNATURE  0x45DECADEu
-struct DBEvent_094         // previous event storage format
-{
-	DWORD signature;
-	DWORD ofsPrev, ofsNext;	// offset to the previous and next events in the
-	// chain. Chain is sorted chronologically
-	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
-	// the owner of this event
-	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
-	DWORD flags;            // see m_database.h, db/event/add
-	WORD  wEventType;       // module-defined event type
-	DWORD cbBlob;           // number of bytes in the blob
-	BYTE  blob[1];          // the blob. module-defined formatting
-};
-
 struct DBEvent
 {
 	DWORD signature;
 	MCONTACT contactID;     // a contact this event belongs to
-	DWORD ofsPrev, ofsNext;	// offset to the previous and next events in the
-	// chain. Chain is sorted chronologically
 	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
-	// the owner of this event
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
 	DWORD flags;            // see m_database.h, db/event/add
 	WORD  wEventType;       // module-defined event type
@@ -267,6 +209,7 @@ public:
 
 protected:
 	MDB_env *m_pMdbEnv;
+	MDB_txn *m_txn;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
@@ -291,7 +234,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
-	DBEvent* AdaptEvent(DWORD offset, DWORD hContact);
+	MDB_dbi	m_dbEvents;
 
 	////////////////////////////////////////////////////////////////////////////
 	// modules

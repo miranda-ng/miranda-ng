@@ -55,7 +55,6 @@ extern "C"
 
 extern HINSTANCE g_hInst;
 extern LIST<CDbxMdb> g_Dbs;
-extern DBSignature dbSignatureU, dbSignatureE, dbSignatureIM, dbSignatureSA, dbSignatureSD;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)

@@ -35,12 +35,8 @@ void CDbxMdb::AddToList(char *name, DWORD ofs)
 
 int CDbxMdb::InitModuleNames(void)
 {
-	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-	mdb_open(txn, "mods", MDB_CREATE | MDB_DUPSORT | MDB_DUPFIXED, &m_dbModules);
-
 	MDB_cursor *cursor;
-	mdb_cursor_open(txn, m_dbModules, &cursor);
+	mdb_cursor_open(m_txn, m_dbModules, &cursor);
 
 	int rc, moduleId;
 	char moduleName[100];
@@ -49,7 +45,6 @@ int CDbxMdb::InitModuleNames(void)
 		AddToList(moduleName, moduleId);
 
 	mdb_cursor_close(cursor);
-	mdb_txn_abort(txn);
 	return 0;
 }
 

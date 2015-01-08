@@ -92,16 +92,29 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
+	DWORD dwContactId;
 	DBContact dbc = { 0 };
 	dbc.signature = DBCONTACT_SIGNATURE;
 	{
 		mir_cslock lck(m_csDbAccess);
+
+		dwContactId = m_dwMaxContactId++;
+
+		MDB_val key, data;
+		key.mv_size = sizeof(DWORD); key.mv_data = &dwContactId;
+		data.mv_size = sizeof(DBContact); data.mv_data = &dbc;
+
+		MDB_txn *txn;
+		mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
+		mdb_put(txn, m_dbContacts, &key, &data, 0);
+		mdb_txn_commit(txn);
 	}
 
-	DBCachedContact *cc = m_cache->AddContactToCache(dbc.dwContactID);
+	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
+	cc->dwDriverData = 0;
 
-	NotifyEventHooks(hContactAddedEvent, dbc.dwContactID, 0);
-	return dbc.dwContactID;
+	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
+	return dwContactId;
 }
 
 STDMETHODIMP_(BOOL) CDbxMdb::IsDbContact(MCONTACT contactID)
@@ -156,42 +169,41 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 /////////////////////////////////////////////////////////////////////////////////////////
 // initial cycle to fill the contacts' cache
 
-struct COldMeta
-{
-	COldMeta(DWORD _id, DBCachedContact *_cc) :
-		hMetaID(_id), cc(_cc)
-	{}
-
-	DWORD hMetaID;
-	DBCachedContact *cc;
-};
-
 void CDbxMdb::FillContacts()
 {
-	OBJLIST<COldMeta> arMetas(10, NumericKeySortT);
+	m_contactCount = 0;
 
-	for (DWORD dwOffset = 0; dwOffset != 0;) {
+	MDB_cursor *cursor;
+	mdb_cursor_open(m_txn, m_dbModules, &cursor);
 
-		int dwContactID = 0;
-		DBCachedContact *cc = m_cache->AddContactToCache(dwContactID);
-		cc->dwDriverData = dwOffset;
+	DWORD dwContactId;
+	DBContact value;
+	
+	MDB_val key, data;
+	key.mv_size = sizeof(DWORD); key.mv_data = &dwContactId;
+	data.mv_size = sizeof(DBContact); data.mv_data = &value;
+
+	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
+		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
+		cc->dwDriverData = 0;
 		CheckProto(cc, "");
+	
+		m_dwMaxContactId = dwContactId + 1;
+		m_contactCount++;
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
-		cc->nSubs = (0 != GetContactSetting(dwContactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
+		cc->nSubs = (0 != GetContactSetting(dwContactId, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
 			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, SIZEOF(setting), "Handle%d", i);
-				cc->pSubs[i] = (0 != GetContactSetting(dwContactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
+				cc->pSubs[i] = (0 != GetContactSetting(dwContactId, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
-		cc->nDefault = (0 != GetContactSetting(dwContactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(dwContactID, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
-
-		// whether we need conversion or not
-		if (!GetContactSetting(dwContactID, META_PROTO, "MetaID", &dbv))
-			arMetas.insert(new COldMeta(dbv.dVal, cc));
+		cc->nDefault = (0 != GetContactSetting(dwContactId, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(dwContactId, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
 	}
+	
+	mdb_cursor_close(cursor);
 }

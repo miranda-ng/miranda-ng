@@ -152,91 +152,24 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(HANDLE hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, INVALID_CONTACT_ID);
-	return (dbe->signature != DBEVENT_SIGNATURE) ? INVALID_CONTACT_ID : dbe->contactID;
+	return INVALID_CONTACT_ID;
 }
 
 STDMETHODIMP_(HANDLE) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc;
-
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = NULL;
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return NULL;
-	if (!cc || !cc->IsSub())
-		return HANDLE(dbc->ofsFirstEvent);
-
-	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
-		return NULL;
-	dbc = NULL;
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return NULL;
-
-	for (DWORD dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
-		DBEvent *dbe = AdaptEvent(dwOffset, contactID);
-		if (dbe->signature != DBEVENT_SIGNATURE)
-			return NULL;
-		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
-		dwOffset = dbe->ofsNext;
-	}
 	return NULL;
 }
 
 STDMETHODIMP_(HANDLE) CDbxMdb::FindFirstUnreadEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc;
-
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = NULL;
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return NULL;
-	if (!cc || !cc->IsSub())
-		return HANDLE(dbc->ofsFirstUnread);
-
-	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
-		return NULL;
-	dbc = NULL;
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return NULL;
-
-	for (DWORD dwOffset = dbc->ofsFirstUnread; dwOffset != 0;) {
-		DBEvent *dbe = AdaptEvent(dwOffset, contactID);
-		if (dbe->signature != DBEVENT_SIGNATURE)
-			return NULL;
-		if (dbe->contactID == contactID && !dbe->markedRead())
-			return HANDLE(dwOffset);
-		dwOffset = dbe->ofsNext;
-	}
 	return NULL;
 }
 
 STDMETHODIMP_(HANDLE) CDbxMdb::FindLastEvent(MCONTACT contactID)
 {
-	DBCachedContact *cc;
-
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = NULL;
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return NULL;
-	if (!cc || !cc->IsSub())
-		return HANDLE(dbc->ofsLastEvent);
-
-	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
-		return NULL;
-	dbc = NULL;
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return NULL;
-
-	for (DWORD dwOffset = dbc->ofsLastEvent; dwOffset != 0;) {
-		DBEvent *dbe = AdaptEvent(dwOffset, contactID);
-		if (dbe->signature != DBEVENT_SIGNATURE)
-			return NULL;
-		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
-		dwOffset = dbe->ofsPrev;
-	}
 	return NULL;
 }
 
@@ -245,20 +178,6 @@ STDMETHODIMP_(HANDLE) CDbxMdb::FindNextEvent(MCONTACT contactID, HANDLE hDbEvent
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, contactID);
-	if (dbe->signature != DBEVENT_SIGNATURE)
-		return NULL;
-	if (!cc || !cc->IsSub())
-		return HANDLE(dbe->ofsNext);
-
-	for (DWORD dwOffset = dbe->ofsNext; dwOffset != 0;) {
-		dbe = AdaptEvent(dwOffset, contactID);
-		if (dbe->signature != DBEVENT_SIGNATURE)
-			return NULL;
-		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
-		dwOffset = dbe->ofsNext;
-	}
 	return NULL;
 }
 
@@ -267,25 +186,6 @@ STDMETHODIMP_(HANDLE) CDbxMdb::FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, contactID);
-	if (dbe->signature != DBEVENT_SIGNATURE)
-		return NULL;
-	if (!cc || !cc->IsSub())
-		return HANDLE(dbe->ofsPrev);
-
-	for (DWORD dwOffset = dbe->ofsPrev; dwOffset != 0;) {
-		dbe = AdaptEvent(dwOffset, contactID);
-		if (dbe->signature != DBEVENT_SIGNATURE)
-			return NULL;
-		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
-		dwOffset = dbe->ofsPrev;
-	}
-	return NULL;
-}
-
-DBEvent* CDbxMdb::AdaptEvent(DWORD ofs, DWORD dwContactID)
-{
 	return NULL;
 }
 
@@ -295,6 +195,5 @@ DBEvent* CDbxMdb::AdaptEvent(DWORD ofs, DWORD dwContactID)
 int CDbxMdb::WipeContactHistory(DBContact *dbc)
 {
 	// drop subContact's history if any
-	dbc->eventCount = 0; dbc->ofsFirstEvent = dbc->ofsLastEvent = dbc->ofsFirstUnread = dbc->tsFirstUnread = 0;
 	return 0;
 }
