@@ -1,7 +1,7 @@
 ﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
 ;============================================================
 ;  File: Tox.dll
-;  Plugin: Tox Protocol
+;  Plugin: Tox protocol
 ;  Version: 0.11.0.4
 ;  Authors: ForNeVeR, Mataes, unsane
 ;============================================================
