@@ -62,7 +62,7 @@ static void ApplyUpdates(void *param)
 	mir_sntprintf(tszFileBack, SIZEOF(tszFileBack), _T("%s\\Backups"), tszRoot);
 	SafeCreateDirectory(tszFileBack);
 	mir_sntprintf(tszFileTemp, SIZEOF(tszFileTemp), _T("%s\\Temp"), tszRoot);
-	SafeCreateDirectory(tszFileTemp); 
+	SafeCreateDirectory(tszFileTemp);
 
 	// 2) Download all plugins
 	HANDLE nlc = NULL;
@@ -98,7 +98,7 @@ static void ApplyUpdates(void *param)
 	for (int i = 0; i < todo.getCount(); i++) {
 		FILEINFO& p = todo[i];
 		if (p.bEnabled) {
-			if (p.bDeleteOnly) { 
+			if (p.bDeleteOnly) {
 				// we need only to backup the old file
 				TCHAR *ptszRelPath = p.tszNewName + _tcslen(tszMirandaPath) + 1, tszBackFile[MAX_PATH];
 				mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, ptszRelPath);
@@ -123,8 +123,8 @@ static void ApplyUpdates(void *param)
 
 #if MIRANDA_VER < 0x0A00
 	// 4) Change title of clist
-	ptrT title = db_get_tsa(NULL, "CList", "TitleText");
-	if (!_tcsicmp(title, _T("Miranda IM")))
+	ptrT title(db_get_tsa(NULL, "CList", "TitleText"));
+	if (!lstrcmpi(title, _T("Miranda IM")))
 		db_set_ts(NULL, "CList", "TitleText", _T("Miranda NG"));
 #endif
 
@@ -209,7 +209,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			lvg.pszHeader = TranslateT("Plugins");
 			lvg.iGroupId = 1;
 			ListView_InsertGroup(hwndList, 0, &lvg);
-			
+
 			lvg.pszHeader = TranslateT("Miranda NG Core");
 			lvg.iGroupId = 2;
 			ListView_InsertGroup(hwndList, 0, &lvg);
@@ -221,7 +221,7 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			lvg.pszHeader = TranslateT("Icons");
 			lvg.iGroupId = 4;
 			ListView_InsertGroup(hwndList, 0, &lvg);
-			
+
 			ListView_EnableGroupView(hwndList, TRUE);
 
 			bool enableOk = false;
@@ -229,8 +229,8 @@ static INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM
 			for (int i = 0; i < todo.getCount(); ++i) {
 				LVITEM lvI = {0};
 				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_GROUPID | LVIF_NORECOMPUTE;
-				lvI.iGroupId = (_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 : 
-					((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 : 
+				lvI.iGroupId = (_tcsstr(todo[i].tszOldName, _T("Plugins")) != NULL) ? 1 :
+					((_tcsstr(todo[i].tszOldName, _T("Languages")) != NULL) ? 3 :
 						((_tcsstr(todo[i].tszOldName, _T("Icons")) != NULL) ? 4 : 2));
 				lvI.iSubItem = 0;
 				lvI.lParam = (LPARAM)&todo[i];
@@ -417,7 +417,7 @@ static void DlgUpdateSilent(void *lParam)
 					mir_sntprintf(tszBackFile, SIZEOF(tszBackFile), _T("%s\\%s"), tszFileBack, p.tszOldName);
 					BackupFile(tszSrcPath, tszBackFile);
 				}
-				
+
 				// remove .zip after successful update
 				if (unzip(p.File.tszDiskPath, tszMirandaPath, tszFileBack, true))
 					SafeDeleteFile(p.File.tszDiskPath);
@@ -442,7 +442,7 @@ static void DlgUpdateSilent(void *lParam)
 
 	// 5) Prepare Restart
 	TCHAR tszTitle[100];
-	mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), count);		
+	mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%d component(s) was updated"), count);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, "Popup", "ModuleIsEnabled", 1)) {
 		ShowPopup(tszTitle,TranslateT("You need to restart your Miranda to apply installed updates."),POPUP_TYPE_MSG);
@@ -460,7 +460,7 @@ static void DlgUpdateSilent(void *lParam)
 
 			notified = !CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&err);
 		}
-			
+
 		if (!notified) {
 			// Error, let's try to show MessageBox as last way to inform user about successful update
 			TCHAR tszText[200];
@@ -529,7 +529,7 @@ static renameTable[] =
 	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
 	{ _T("clienticons_*.dll"),              _T("Icons\\fp_icons.dll") },
 	{ _T("fp_*.dll"),                       _T("Icons\\fp_icons.dll") },
-	
+
 	{ _T("langpack_*.txt"),                 _T("Languages\\*") },
 
 	{ _T("clist_classic.dll"),              NULL },
