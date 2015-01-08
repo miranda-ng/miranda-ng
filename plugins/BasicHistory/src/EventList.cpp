@@ -24,6 +24,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 extern int iconsNum;
 
+static mir_cs csEventList;
+
 bool DeleteDirectory(LPCTSTR lpszDir, bool noRecycleBin = true);
 std::wstring GetName(const std::wstring &path);
 
@@ -236,18 +238,16 @@ void EventList::RefreshEventList()
 
 	if (useImportedMessages) {
 		std::vector<IImport::ExternalMessage> messages;
-
-		EnterCriticalSection(&criticalSection);
-		std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-		if (it != contactFileMap.end()) {
-			ExportManager imp(hWnd, hContact, 1);
-			imp.SetAutoImport(it->second.file);
-			if (!imp.Import(it->second.type, messages, NULL))
-				messages.clear();
+		{
+			mir_cslock lck(csEventList);
+			std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+			if (it != contactFileMap.end()) {
+				ExportManager imp(hWnd, hContact, 1);
+				imp.SetAutoImport(it->second.file);
+				if (!imp.Import(it->second.type, messages, NULL))
+					messages.clear();
+			}
 		}
-
-		LeaveCriticalSection(&criticalSection);
-
 		ImportMessages(messages);
 	}
 
@@ -306,17 +306,17 @@ bool EventList::SearchInContact(MCONTACT hContact, TCHAR *strFind, ComparatorInt
 
 	if (useImportedMessages) {
 		std::vector<IImport::ExternalMessage> messages;
-
-		EnterCriticalSection(&criticalSection);
-		std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
-		if (it != contactFileMap.end()) {
-			ExportManager imp(hWnd, hContact, 1);
-			imp.SetAutoImport(it->second.file);
-			if (!imp.Import(it->second.type, messages, NULL))
-				messages.clear();
+		{
+			mir_cslock lck(csEventList);
+			std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
+			if (it != contactFileMap.end()) {
+				ExportManager imp(hWnd, hContact, 1);
+				imp.SetAutoImport(it->second.file);
+				if (!imp.Import(it->second.type, messages, NULL))
+					messages.clear();
+			}
 		}
 
-		LeaveCriticalSection(&criticalSection);
 		for (int i = 0; i < (int)importedMessages.size(); ++i)
 			if (compFun->Compare((importedMessages[i].flags & DBEF_SENT) != 0, importedMessages[i].message, strFind))
 				return true;
@@ -612,13 +612,11 @@ HICON EventList::GetEventCoreIcon(const EventIndex& ev)
 {
 	if (ev.isExternal)
 		return NULL;
-	HICON ico;
-	ico = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&gdbei);
+	
+	HICON ico = (HICON)CallService(MS_DB_EVENT_GETICON, LR_SHARED, (LPARAM)&gdbei);
 	HICON icoMsg = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	if (icoMsg == ico)
-	{
 		return NULL;
-	}
 
 	return ico;
 }
@@ -639,13 +637,13 @@ void EventList::RebuildGroup(int selected)
 	eventList[selected].insert(eventList[selected].begin(), newGroup.begin(), newGroup.end());
 }
 
-CRITICAL_SECTION EventList::criticalSection;
 std::map<MCONTACT, EventList::ImportDiscData> EventList::contactFileMap;
 std::wstring EventList::contactFileDir;
 
 void EventList::AddImporter(MCONTACT hContact, IImport::ImportType type, const std::wstring& file)
 {
-	EnterCriticalSection(&criticalSection);
+	mir_cslock lck(csEventList);
+
 	TCHAR buf[32];
 	mir_sntprintf(buf, SIZEOF(buf), _T("%016llx"), (unsigned long long int)hContact);
 	ImportDiscData data;
@@ -653,12 +651,10 @@ void EventList::AddImporter(MCONTACT hContact, IImport::ImportType type, const s
 	data.type = type;
 	CopyFile(file.c_str(), data.file.c_str(), FALSE);
 	contactFileMap[hContact] = data;
-	LeaveCriticalSection(&criticalSection);
 }
 
 void EventList::Init()
 {
-	InitializeCriticalSection(&EventList::criticalSection);
 	TCHAR temp[MAX_PATH];
 	temp[0] = 0;
 	GetTempPath(MAX_PATH, temp);
@@ -668,43 +664,35 @@ void EventList::Init()
 	CreateDirectory(contactFileDir.c_str(), NULL);
 }
 
-void EventList::Deinit()
-{
-	DeleteCriticalSection(&EventList::criticalSection);
-}
-
 int EventList::GetContactMessageNumber(MCONTACT hContact)
 {
 	int count = db_event_count(hContact);
-	EnterCriticalSection(&criticalSection);
+
+	mir_cslock lck(csEventList);
 	std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if (it != contactFileMap.end())
 		++count;
-
-	LeaveCriticalSection(&criticalSection);
 	return count;
 }
 
 bool EventList::IsImportedHistory(MCONTACT hContact)
 {
 	bool count = false;
-	EnterCriticalSection(&criticalSection);
+
+	mir_cslock lck(csEventList);
 	std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if (it != contactFileMap.end())
 		count = true;
-
-	LeaveCriticalSection(&criticalSection);
 	return count;
 }
 
 void EventList::DeleteImporter(MCONTACT hContact)
 {
-	EnterCriticalSection(&criticalSection);
+	mir_cslock lck(csEventList);
+
 	std::map<MCONTACT, EventList::ImportDiscData>::iterator it = contactFileMap.find(hContact);
 	if (it != contactFileMap.end()) {
 		DeleteFile(it->second.file.c_str());
 		contactFileMap.erase(it);
 	}
-
-	LeaveCriticalSection(&criticalSection);
 }

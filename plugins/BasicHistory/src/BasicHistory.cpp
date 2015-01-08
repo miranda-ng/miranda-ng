@@ -59,7 +59,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-TIME_API tmi = {0};
+TIME_API tmi = { 0 };
 int hLangpack = 0;
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -234,8 +234,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		else Options::instance->ftpExePathDef = ftpExe;
 	}
 
-	TCHAR* log = _T("%miranda_logpath%\\BasicHistory\\ftplog.txt");
-	TCHAR* logAbsolute = Utils_ReplaceVarsT(log);
+	TCHAR *log = _T("%miranda_logpath%\\BasicHistory\\ftplog.txt");
+	TCHAR *logAbsolute = Utils_ReplaceVarsT(log);
 	Options::instance->ftpLogPath = logAbsolute;
 	mir_free(logAbsolute);
 	Options::instance->Load();
@@ -293,8 +293,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	
 	DestroyCursor(hCurSplitNS);
 	DestroyCursor(hCurSplitWE);
-	
-	EventList::Deinit();
 	
 	if (Options::instance != NULL) {
 		Options::instance->Unload();
