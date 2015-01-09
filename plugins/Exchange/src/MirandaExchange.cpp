@@ -534,7 +534,7 @@ HRESULT CMirandaExchange::CreateProfile( LPTSTR szProfileName )
 		return hr;
 	hr = pProfAdmin->CreateProfile((LPTSTR)mir_t2a(szProfileName), NULL, NULL, ulFlags);
 	
-	if (!FAILED(hr)) {
+	if (FAILED(hr)) {
 		pProfAdmin->DeleteProfile((LPTSTR)mir_t2a(szProfileName), ulFlags);
 		return hr;
 	}
