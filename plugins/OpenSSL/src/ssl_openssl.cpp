@@ -480,28 +480,29 @@ cleanup:
 
 SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
 {
+	/* negotiate SSL session, verify cert, return NULL if failed */
+	bool res = SSL_library_load();
+	if (!res)
+		return NULL;
+	
 	SslHandle *ssl = (SslHandle*)mir_calloc(sizeof(SslHandle));
 	ssl->s = s;
-	/* negotiate SSL session, verify cert, return NULL if failed */
+	res = ClientConnect(ssl, host);
 
-	DWORD dwFlags = 0;
-	if (!host || inet_addr(host) != INADDR_NONE)
-		dwFlags |= 0x00001000;
+	if (res && verify) {
+		DWORD dwFlags = 0;
+		if (!host || inet_addr(host) != INADDR_NONE)
+			dwFlags |= 0x00001000;
+		res = VerifyCertificate(ssl, host, dwFlags);
+	}
 
-	bool res = SSL_library_load();
-	if (!res) {
+	if(res) {
+		return ssl;
+	}
+	else {
+		NetlibSslFree(ssl);
 		return NULL;
 	}
-
-	if (res) res = ClientConnect(ssl, host);
-	if (res && verify) res = VerifyCertificate(ssl, host, dwFlags);
-
-	if (!res)
-	{
-		NetlibSslFree(ssl);
-		ssl = NULL;
-	}
-	return ssl;
 }
 
 void NetlibSslShutdown(SslHandle *ssl)
