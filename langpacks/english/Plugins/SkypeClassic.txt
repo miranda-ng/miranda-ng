@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
@@ -61,6 +61,7 @@
 [Show full name in contact list instead of nickname]
 [SkypeOut contacts are in status:]
 [Cleanup Nicknames]
+[Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)]
 [Skype Popups]
 [Incoming Calls]
 [Show incoming calls]
@@ -94,19 +95,25 @@
 [User &history]
 [&Kick user]
 ;file \protocols\SkypeClassic\src\skype.cpp
+[Cannot reach Skype API, plugin disfunct.]
 [Do a SkypeOut-call]
+[Unable to register with Groupchat module!]
 [invited]
 [Phone call]
 [Incoming Skype Call]
 [Incoming call from %s]
 [Connection to Skype lost]
+[Cleanup finished.]
+[Cannot create window.]
+[Memory allocation error on startup.]
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
+[Cannot register Window message.]
+[Unable to create Mutex!]
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
 [Skype default]
 [Skype advanced]
 [Skype proxy]
-[Avatar]
 [Details]
 [MALE]
 [FEMALE]

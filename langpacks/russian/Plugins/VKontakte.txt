@@ -7,7 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Поддержка протокола ВКонтакте в Miranda NG.
-[[img] BBCode support for image ]
+[[img] BBCode support for image]
 Поддержка BB-кода [img] для изображений
 [off]
 отключена
