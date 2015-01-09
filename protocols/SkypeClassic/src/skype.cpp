@@ -28,17 +28,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_toptoolbar.h"
 #include "msglist.h"
 #include "memlist.h"
+#include "filexfer.h"
 #include <sys/timeb.h>
-#ifndef INVALID_FILE_ATTRIBUTES
-#define INVALID_FILE_ATTRIBUTES 0xFFFFFFFF
-#endif
 #ifdef _WIN64
 #if (_MSC_VER < 1500)
 #pragma comment (lib, "bufferoverflowU.lib")
 #endif
 #endif
 
-#pragma warning (disable: 4706) // assignment within conditional expression
 
 POPUPDATAT MessagePopup;
 
@@ -46,7 +43,7 @@ POPUPDATAT MessagePopup;
 HWND hSkypeWnd = NULL, g_hWnd = NULL, hSkypeWndSecondary = NULL, hForbiddenSkypeWnd = NULL;
 HANDLE SkypeReady, SkypeMsgReceived, hInitChat = NULL, httbButton = NULL, FetchMessageEvent = NULL;
 BOOL SkypeInitialized = FALSE, MirandaShuttingDown = FALSE, PopupServiceExists = FALSE;
-BOOL UseSockets = FALSE, bSkypeOut = FALSE, bProtocolSet = FALSE, bIsImoproxy = FALSE;
+BOOL UseSockets = FALSE, bSkypeOut = FALSE, bProtocolSet = FALSE, bIsImoproxy = FALSE, bHasFileXfer = FALSE;
 char skype_path[MAX_PATH], protocol = 2, *pszProxyCallout = NULL, g_szProtoName[_MAX_FNAME] = "SkypeClassic";
 int SkypeStatus = ID_STATUS_OFFLINE, hSearchThread = -1, receivers = 1;
 long sendwatchers = 0, rcvwatchers = 0;
@@ -55,7 +52,6 @@ LONG AttachStatus = -1;
 HINSTANCE hInst;
 HANDLE hProtocolAvatarsFolder;
 char DefaultAvatarsFolder[MAX_PATH + 1];
-DWORD mirandaVersion;
 int hLangpack = 0;
 
 CRITICAL_SECTION RingAndEndcallMutex, QueryThreadMutex, TimeMutex;
@@ -117,6 +113,7 @@ typedef struct {
 	BOOL bIsRead;
 	BOOL bDontMarkSeen;
 	BOOL QueryMsgDirection;
+	BOOL bUseTimestamp;
 	TYP_MSGLENTRY *pMsgEntry;
 } fetchmsg_arg;
 
@@ -124,6 +121,15 @@ typedef struct {
 	MCONTACT hContact;
 	char szId[16];
 } msgsendwt_arg;
+
+#ifdef USE_REAL_TS
+typedef struct {
+	MCONTACT hContact;
+	time_t timestamp;
+} arg_dbaddevent;
+arg_dbaddevent m_AddEventArg = {0};
+CRITICAL_SECTION AddEventMutex;
+#endif
 
 /*
  * visual styles support (XP+)
@@ -194,7 +200,6 @@ PLUGININFOEX pluginInfo = {
  */
 int ShowMessage(int iconID, TCHAR *lpzText, int mustShow) {
 	if (db_get_b(NULL, SKYPE_PROTONAME, "SuppressErrors", 0)) return -1;
-	lpzText = TranslateTS(lpzText);
 
 	if (bModulesLoaded && PopupServiceExists && ServiceExists(MS_POPUP_ADDPOPUPT) && db_get_b(NULL, SKYPE_PROTONAME, "UsePopup", 0) && !MirandaShuttingDown) {
 		BOOL showPopup, popupWindowColor;
@@ -233,7 +238,7 @@ int ShowMessage(int iconID, TCHAR *lpzText, int mustShow) {
 		return 0;
 	}
 }
-#ifdef _UNICODE
+
 int ShowMessageA(int iconID, char *lpzText, int mustShow) {
 	WCHAR *lpwText;
 	int iRet;
@@ -244,7 +249,6 @@ int ShowMessageA(int iconID, char *lpzText, int mustShow) {
 	free(lpwText);
 	return iRet;
 }
-#endif
 
 // processing Hooks
 
@@ -451,7 +455,7 @@ int SearchFriends(void) {
 	if (SkypeSend("SEARCH FRIENDS") != -1 && (ptr = SkypeRcvTime("USERS", st, INFINITE)))
 	{
 		if (strncmp(ptr, "ERROR", 5)) {
-			if (ptr + 5) {
+			if (ptr[5]) {
 				for (token = strtok_r(ptr + 5, ", ", &nextoken); token; token = strtok_r(NULL, ", ", &nextoken)) {
 					if (!(pStat = SkypeGet("USER", token, "ONLINESTATUS")))
 					{
@@ -640,8 +644,6 @@ void __cdecl SkypeSystemInit(char *dummy) {
 				memmove(pszUser, pszUser + 18, strlen(pszUser + 17));
 				if (_stricmp(dbv.pszVal, pszUser))
 				{
-					char szError[256];
-
 					// Doesn't match, maybe we have a second Skype instance we have to take
 					// care of? If in doubt, let's wait a while for it to report its hWnd to us.
 					LOG(("Userhandle %s doesn't match username %s from settings", pszUser, dbv.pszVal));
@@ -676,10 +678,10 @@ void __cdecl SkypeSystemInit(char *dummy) {
 						if (hForbiddenSkypeWnd == hSkypeWnd && !hSkypeWndSecondary)
 						{
 							int oldstatus;
-
-							sprintf(szError, "Username '%s' provided by Skype API doesn't match username '%s' in "
+							char szError[256];
+							sprintf(szError, Translate("Username '%s' provided by Skype API doesn't match username '%s' in "
 								"your settings. Please either remove username setting in you configuration or correct "
-								"it. Will not connect!", pszUser, dbv.pszVal);
+								"it. Will not connect!"), pszUser, dbv.pszVal);
 							OUTPUTA(szError);
 							Initializing = FALSE;
 							AttachStatus = -1;
@@ -717,7 +719,16 @@ void __cdecl SkypeSystemInit(char *dummy) {
 	if (protocol >= 5 || bIsImoproxy) {
 		SkypeSend("CREATE APPLICATION libpurple_typing");
 		testfor("CREATE APPLICATION libpurple_typing", 2000);
+		char *pszErr;
+		if (SkypeSend("#FT FILE") == 0 && (pszErr = SkypeRcvTime("#FT ERROR", SkypeTime(NULL), 1000)))
+		{
+			bHasFileXfer = !strncmp(pszErr+4, "ERROR 510", 9);
+			free(pszErr);
+		}
 	}
+	else
+		bHasFileXfer = FALSE;
+
 	if (protocol >= 5) {
 		SearchUsersWaitingMyAuthorization();
 		if (db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0))
@@ -766,7 +777,7 @@ void FirstLaunch(char *) {
 		LOG(("Test #%d", counter));
 		if (SkypeSend("PING") == -1) counter++; else break;
 		if (counter >= 20) {
-			OUTPUT(_T("Cannot reach Skype API, plugin disfunct."));
+			OUTPUT(TranslateT("Cannot reach Skype API, plugin disfunct."));
 			LOG(("FirstLaunch thread stopped: cannot reach Skype API."));
 			return;
 		}
@@ -813,7 +824,7 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 		gcr.ptszDispName = _T("Skype protocol");
 		gcr.pszModule = SKYPE_PROTONAME;
 		if (CallService(MS_GC_REGISTER, 0, (LPARAM)&gcr))
-			OUTPUT(_T("Unable to register with Groupchat module!"));
+			OUTPUT(TranslateT("Unable to register with Groupchat module!"));
 
 		_snprintf(szEvent, sizeof(szEvent), "%s\\ChatInit", SKYPE_PROTONAME);
 		hInitChat = CreateHookableEvent(szEvent);
@@ -875,14 +886,21 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 
 	// Get Timestamp
 	if (!args.pMsgEntry || !args.pMsgEntry->tEdited) {
-		if (!(ptr = SkypeGet(cmdMessage, args.msgnum, "TIMESTAMP"))) return;
-		if (strncmp(ptr, "ERROR", 5)) {
-			timestamp = atol(ptr);
-			// Ensure time correction on clock skew...
-			if (timestamp>(DWORD)SkypeTime(NULL)) timestamp = (DWORD)SkypeTime(NULL);
+		timestamp=(DWORD)SkypeTime(NULL);
+		/* We normally don't use the real timestamp, if it's not history import.
+		 * Why? -> Because if you are sending a message while there are still
+		 * incoming messages that get processed, msgs are inserted into the
+		 * DB with correct timestamp, but message sending dialog shows garbled
+		 * messages then because he cannot deal with the situation of incoming
+		 * messages that are prior to last sent message */
+#ifndef USE_REAL_TS
+		if (args.bUseTimestamp)
+#endif
+		{
+			if (!(ptr=SkypeGet (cmdMessage, args.msgnum, "TIMESTAMP"))) return;
+			if (strncmp(ptr, "ERROR", 5)) timestamp=atol(ptr);
+			free(ptr);
 		}
-		else timestamp = (DWORD)SkypeTime(NULL);
-		free(ptr);
 	}
 	else timestamp = (DWORD)(args.pMsgEntry->tEdited);
 
@@ -1129,6 +1147,16 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				hContact = add_contact(who, PALF_TEMPORARY);
 			}
 		}
+
+		if (strcmp(type, "FILETRANSFER") == 0)
+		{
+			// Our custom Skypekit FILETRANSFER extension
+			bHasFileXfer = TRUE;
+			pre.timestamp = timestamp;
+			FXHandleRecv(&pre, hContact);
+			__leave;
+		}
+
 		// Text which was sent (on edited msg, BODY may already be in queue, check)
 		sprintf(szBuf, "GET %s %s BODY", cmdMessage, args.msgnum);
 		if (!args.pMsgEntry || !args.pMsgEntry->tEdited || !(ptr = SkypeRcv(szBuf + 4, 1000)))
@@ -1181,8 +1209,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				if (pszUTFnick) free(pszUTFnick);
 			}
 
-			if (mirandaVersion >= 0x070000 &&	// 0.7.0+ supports PREF_UTF flag, no need to decode UTF8
-				!isGroupChat) {				// I guess Groupchat doesn't support UTF8?
+			if (!isGroupChat) {				// I guess Groupchat doesn't support UTF8?
 				msg = ptr;
 				pre.flags |= PREF_UTF;
 			}
@@ -1369,15 +1396,14 @@ void MessageListProcessingThread(char *str) {
 	char *token, *nextoken, *chat = NULL;
 	fetchmsg_arg *args;
 	TYP_LIST *hListMsgs = List_Init(32);
-	int i, nCount;
 
 	// Frst we need to sort the message timestamps
-	for ((token = strtok_r(str, ", ", &nextoken)); token; token = strtok_r(NULL, ", ", &nextoken)) {
+	for ((token = strtok_r(str+1, ", ", &nextoken)); token; token = strtok_r(NULL, ", ", &nextoken)) {
 		if (args = (fetchmsg_arg*)calloc(1, sizeof(fetchmsg_arg) + sizeof(DWORD))) {
 			strncpy(args->msgnum, token, sizeof(args->msgnum));
 			args->getstatus = TRUE;
-			args->bIsRead = TRUE;
-			args->bDontMarkSeen = TRUE;
+			args->bIsRead = *str;
+			args->bDontMarkSeen = *str;
 			args->QueryMsgDirection = TRUE;
 			args->pMsgEntry = (TYP_MSGLENTRY*)SkypeGet("CHATMESSAGE", token, "TIMESTAMP");
 			if (!chat) chat = SkypeGet("CHATMESSAGE", token, "CHATNAME");
@@ -1385,10 +1411,12 @@ void MessageListProcessingThread(char *str) {
 			else free(args);
 		}
 	}
-	for (i = 0, nCount = List_Count(hListMsgs); i < nCount; i++) {
+	int nCount = List_Count(hListMsgs);
+	for (int i = 0; i < nCount; i++) {
 		args = (fetchmsg_arg*)List_ElementAt(hListMsgs, i);
 		free(args->pMsgEntry);
 		args->pMsgEntry = NULL;
+		args->bUseTimestamp = TRUE;
 		FetchMessageThreadSync(args);
 	}
 	if (chat) {
@@ -1880,7 +1908,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							}
 						}
 						else if (!strcmp(ptr, "BIRTHDAY")) {
-							unsigned int y, m, d;
+							int y, m, d;
 							if (sscanf(ptr + 9, "%04d%02d%02d", &y, &m, &d) == 3) {
 								db_set_w(hContact, SKYPE_PROTONAME, "BirthYear", (WORD)y);
 								db_set_b(hContact, SKYPE_PROTONAME, "BirthMonth", (BYTE)m);
@@ -2054,11 +2082,14 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 							}
 							*ptr = ' ';
 						}
-						else
-							if (strncmp(ptr, " CHATMESSAGES ", 14) == 0) {
-								pthread_create((pThreadFunc)MessageListProcessingThread, _strdup(ptr + 14));
-								break;
-							}
+						else if (strncmp(ptr, " CHATMESSAGES ", 14) == 0) {
+							int iLen=strlen(ptr+14)+1;
+							char *pParam=(char*)calloc(iLen+1, 1);
+							*pParam=TRUE;
+							memcpy(pParam+1, ptr+14, iLen);
+							pthread_create((pThreadFunc)MessageListProcessingThread, pParam);
+							break;
+						}
 				}
 			}
 			if (!strncmp(szSkypeMsg, "CALL ", 5)) {
@@ -2108,14 +2139,18 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				break;
 			}
 			if (!strncmp(szSkypeMsg, "MESSAGES", 8) || !strncmp(szSkypeMsg, "CHATMESSAGES", 12)) {
-				if (strlen(szSkypeMsg) <= (UINT)(strchr(szSkypeMsg, ' ') - szSkypeMsg + 1))
+				char *pMsgs;
+				int iLen;
+				if (strlen(szSkypeMsg) <= (UINT)((pMsgs=strchr(szSkypeMsg, ' ')) - szSkypeMsg + 1))
 				{
 					LOG(("%s %d %s %d", szSkypeMsg, (UINT)(strchr(szSkypeMsg, ' ') - szSkypeMsg + 1),
 						strchr(szSkypeMsg, ' '), strlen(szSkypeMsg)));
 					break;
 				}
 				LOG(("MessageListProcessingThread launched"));
-				pthread_create((pThreadFunc)MessageListProcessingThread, _strdup(strchr(szSkypeMsg, ' ') + 1));
+				char *pParam=(char*)calloc((iLen=strlen(pMsgs)+1)+1, 1);
+				memcpy(pParam+1, pMsgs, iLen);
+				pthread_create((pThreadFunc)MessageListProcessingThread, pParam);
 				break;
 			}
 			if (!strncmp(szSkypeMsg, "MESSAGE", 7) || !strncmp(szSkypeMsg, "CHATMESSAGE", 11))
@@ -2149,6 +2184,8 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 					}
 				}
 			}
+			if (bHasFileXfer && !strncmp(szSkypeMsg, "FILETRANSFER", 12))
+				FXHandleMessage(szSkypeMsg+13);
 			if (!strncmp(szSkypeMsg, "ERROR 68", 8)) {
 				LOG(("We got a sync problem :( ->  SendMessage() will try to recover..."));
 				break;
@@ -2595,7 +2632,22 @@ INT_PTR SkypeBasicSearch(WPARAM, LPARAM lParam) {
 	return (hSearchThread = pthread_create((pThreadFunc)BasicSearchThread, _strdup((char *)lParam)));
 }
 
+#ifdef USE_REAL_TS
+static INT_PTR EventAddHook(WPARAM wParam, LPARAM lParam)
+{	
+	MCONTACT hContact = (MCONTACT)wParam;
+	DBEVENTINFO *dbei=(DBEVENTINFO*)lParam;
+	if (dbei && hContact == m_AddEventArg.hContact && dbei->eventType==EVENTTYPE_MESSAGE && (dbei->flags & DBEF_SENT) &&
+		strcmp(dbei->szModule, SKYPE_PROTONAME) == 0) {
+		dbei->timestamp = m_AddEventArg.timestamp;
+	}
+	return 0;
+}
+#endif
+
 void MessageSendWatchThread(void *a) {
+	char *err, *ptr, *nexttoken;
+	HANDLE hDBAddEvent = NULL;
 	msgsendwt_arg *arg = (msgsendwt_arg*)a;
 
 	LOG(("MessageSendWatchThread started."));
@@ -2605,8 +2657,7 @@ void MessageSendWatchThread(void *a) {
 	if (str)
 	{
 		if (!db_get_b(arg->hContact, SKYPE_PROTONAME, "ChatRoom", 0)) {
-			char *err = GetSkypeErrorMsg(str);
-			if (err) {
+			if (err = GetSkypeErrorMsg(str)) {
 				ProtoBroadcastAck(SKYPE_PROTONAME, arg->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate(err));
 				free(err);
 				free(str);
@@ -2614,7 +2665,31 @@ void MessageSendWatchThread(void *a) {
 				LOG(("MessageSendWatchThread terminated."));
 				return;
 			}
+			/* The USE_REAL_TS code would correct our Sent-Timestamp to the real time that the
+			 * event was sent according to the clock of the machine Skype is running on.
+			 * However msg-Dialog has problems with this.
+			 */
+#ifdef USE_REAL_TS
+			EnterCriticalSection(&AddEventMutex);
+#endif
+			if ((ptr=strtok_r(str, " ", &nexttoken)) && (*ptr!='#' || (ptr=strtok_r(NULL, " ", &nexttoken))) &&
+				(ptr=strtok_r(NULL, " ", &nexttoken))) {
+				/* Use this to ensure that main thread doesn't pick up sent message */
+				MsgList_Add(strtoul(ptr, NULL, 10), INVALID_HANDLE_VALUE);
+#ifdef USE_REAL_TS
+				if (err=SkypeGet (cmdMessage, ptr, "TIMESTAMP")) {
+					m_AddEventArg.hContact = arg->hContact;
+					m_AddEventArg.timestamp = atoi(err);
+					free(err);
+					hDBAddEvent = HookEvent(ME_DB_EVENT_FILTER_ADD,EventAddHook);
+				}
+#endif
+			}
 			ProtoBroadcastAck(SKYPE_PROTONAME, arg->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+#ifdef USE_REAL_TS
+			if (hDBAddEvent) UnhookEvent(hDBAddEvent);
+			LeaveCriticalSection(&AddEventMutex);
+#endif
 		}
 		free(str);
 		LOG(("MessageSendWatchThread terminated gracefully."));
@@ -2662,14 +2737,20 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 	db_free(&dbv);
 
 	if (sendok) {
-		msgsendwt_arg *psendarg = (msgsendwt_arg*)calloc(1, sizeof(msgsendwt_arg));
-
-		if (psendarg) {
-			psendarg->hContact = ccs->hContact;
-			strcpy(psendarg->szId, szId);
-			pthread_create(MessageSendWatchThread, psendarg);
+		if (db_get_b(NULL, SKYPE_PROTONAME, "NoAck", 0)) {
+			ProtoBroadcastAck(SKYPE_PROTONAME, ccs->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		}
-		else InterlockedDecrement(&sendwatchers);
+		else {
+			msgsendwt_arg *psendarg = (msgsendwt_arg*)calloc(1, sizeof(msgsendwt_arg));
+
+			if (psendarg) {
+				psendarg->hContact = ccs->hContact;
+				strcpy(psendarg->szId, szId);
+				pthread_create(MessageSendWatchThread, psendarg);
+				return 1;
+			}
+			InterlockedDecrement(&sendwatchers);
+		}
 		return 1;
 	}
 	else InterlockedDecrement(&sendwatchers);
@@ -2843,7 +2924,7 @@ void CleanupNicknames(char *) {
 			}
 		}
 	}
-	OUTPUT(_T("Cleanup finished."));
+	OUTPUT(TranslateT("Cleanup finished."));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -3012,7 +3093,7 @@ void __cdecl MsgPump(char *)
 
 	LOG(("Created Dispatch window with handle %08X", (long)g_hWnd));
 	if (!g_hWnd) {
-		OUTPUT(_T("Cannot create window."));
+		OUTPUT(TranslateT("Cannot create window."));
 		TellError(GetLastError());
 		SetEvent(MessagePumpReady);
 		return;
@@ -3035,8 +3116,6 @@ void __cdecl MsgPump(char *)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVersion)
 {
-	mirandaVersion = mirVersion;
-
 	return &pluginInfo;
 }
 
@@ -3071,6 +3150,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitializeCriticalSection(&RingAndEndcallMutex);
 	InitializeCriticalSection(&QueryThreadMutex);
 	InitializeCriticalSection(&TimeMutex);
+#ifdef USE_REAL_TS
+	InitializeCriticalSection(&AddEventMutex);
+#endif
 
 
 #ifdef _DEBUG
@@ -3087,7 +3169,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Mutex is also initialized here.
 	LOG(("SkypeMsgInit initializing Skype MSG-queue"));
 	if (SkypeMsgInit() == -1) {
-		OUTPUT(_T("Memory allocation error on startup."));
+		OUTPUT(TranslateT("Memory allocation error on startup."));
 		return 0;
 	}
 
@@ -3138,7 +3220,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Start Skype connection 
 	if (!(ControlAPIAttach = RegisterWindowMessage(_T("SkypeControlAPIAttach"))) || !(ControlAPIDiscover = RegisterWindowMessage(_T("SkypeControlAPIDiscover"))))
 	{
-		OUTPUT(_T("Cannot register Window message."));
+		OUTPUT(TranslateT("Cannot register Window message."));
 		return 0;
 	}
 
@@ -3150,7 +3232,7 @@ extern "C" int __declspec(dllexport) Load(void)
 #endif
 		!(hBuddyAdded = CreateEvent(NULL, FALSE, FALSE, NULL)) ||
 		!(FetchMessageEvent = CreateEvent(NULL, FALSE, TRUE, NULL))) {
-		OUTPUT(_T("Unable to create Mutex!"));
+		OUTPUT(TranslateT("Unable to create Mutex!"));
 		return 0;
 	}
 
@@ -3227,6 +3309,9 @@ extern "C" int __declspec(dllexport) Unload(void)
 	LOG(("Unload: Shutdown complete"));
 #ifdef _DEBUG
 	end_debug();
+#endif
+#ifdef USE_REAL_TS
+	DeleteCriticalSection(&AddEventMutex);
 #endif
 	DeleteCriticalSection(&TimeMutex);
 	return 0;

@@ -3,6 +3,7 @@
 #include "memlist.h"
 #include "debug.h"
 #include "msglist.h"
+#include "filexfer.h"
 
 #define MSGLIST_TIMEOUT		1800		// Chatmessage references will be kept for 30 minutes
 
@@ -18,9 +19,19 @@ void MsgList_Init(void)
 	m_hMsgList = List_Init(128);
 }
 
+void MsgList_FreeEntry(TYP_MSGLENTRY *pEntry)
+{
+	if (pEntry->pfts)
+		FXFreePFTS(pEntry->pfts);
+	HeapFree(GetProcessHeap(), 0, pEntry);
+}
+
 void MsgList_Exit(void)
 {
 	if (!m_hMsgList) return;
+	TYP_MSGLENTRY *pEntry;
+	while (pEntry = (TYP_MSGLENTRY*) List_Pop(m_hMsgList))
+		MsgList_FreeEntry(pEntry);
 	List_FreeElements (m_hMsgList);
 	List_Exit(m_hMsgList);
 	m_hMsgList = NULL;
@@ -33,7 +44,7 @@ TYP_MSGLENTRY *MsgList_Add(DWORD uMsgNum, HANDLE hEvent)
 	BOOL bFound;
 
 	LOG (("MsgList_Add (%d, %08X)", uMsgNum, hEvent));
-	if (!m_hMsgList || !hEvent) return FALSE;
+	if (!m_hMsgList) return FALSE;
 	bFound = List_BinarySearch(m_hMsgList,CmpProc,(void *)uMsgNum,&iListInd);
 	if (!bFound) pEntry = (TYP_MSGLENTRY*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(TYP_MSGLENTRY));
 	else pEntry = (TYP_MSGLENTRY*)List_ElementAt (m_hMsgList, iListInd);
@@ -78,8 +89,7 @@ void MsgList_CollectGarbage(void)
 		if (pEntry->t < t)
 		{
 			LOG (("MsgList_CollectGarbage throwing out msg %d", pEntry->uMsgNum));
-			HeapFree (GetProcessHeap(), 0, List_RemoveElementAt (m_hMsgList, i));
-			i--;
+			MsgList_FreeEntry((TYP_MSGLENTRY*)List_RemoveElementAt(m_hMsgList, i--));
 		}
 	}
 }

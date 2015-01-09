@@ -33,7 +33,6 @@
 extern HINSTANCE hInst;
 extern char protocol, g_szProtoName[];
 extern BOOL SkypeInitialized, bProtocolSet, bIsImoproxy;
-extern DWORD mirandaVersion;
 
 BOOL showPopup, showPopupErr, popupWindowColor, popupWindowColorErr;
 unsigned int popupBackColor, popupBackColorErr;
@@ -447,6 +446,7 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 			CheckDlgButton(hwndDlg, IDC_SUPPRESSCALLSUMMARYMESSAGE, db_get_b(NULL, SKYPE_PROTONAME, "SuppressCallSummaryMessage", 1) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_NOSKYPE3STATS, db_get_b(NULL, SKYPE_PROTONAME, "NoSkype3Stats", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SHOWFULLNAME, db_get_b(NULL, SKYPE_PROTONAME, "ShowFullname", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_NOACK, db_get_b(NULL, SKYPE_PROTONAME, "NoAck", 1) ? BST_CHECKED : BST_UNCHECKED);
 
 			if (ServiceExists(MS_GC_NEWSESSION) && (!bProtocolSet || protocol>=5)) {
 				CheckDlgButton(hwndDlg, IDC_GROUPCHAT, db_get_b(NULL, SKYPE_PROTONAME, "UseGroupchat", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -493,6 +493,7 @@ INT_PTR CALLBACK OptionsAdvancedDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 					db_set_b (NULL, SKYPE_PROTONAME, "SuppressCallSummaryMessage", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SUPPRESSCALLSUMMARYMESSAGE)));
 					db_set_b (NULL, SKYPE_PROTONAME, "NoSkype3Stats", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSKYPE3STATS)));
 					db_set_b (NULL, SKYPE_PROTONAME, "ShowFullname", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SHOWFULLNAME)));
+					db_set_b (NULL, SKYPE_PROTONAME, "NoAck", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOACK)));
 					return TRUE;
 			}			
 			break; 
@@ -750,21 +751,8 @@ int OnDetailsInit( WPARAM wParam, LPARAM lParam )
 	odp.hInstance = hInst;
 
 	if ( hContact == NULL ) {
-		
 		char szTitle[256];
-		
-		if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 7, 0, 27) && !bIsImoproxy)
-		{
-			mir_snprintf( szTitle, SIZEOF( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Avatar" ));
-
-			odp.pfnDlgProc = AvatarDlgProc;
-			odp.position = 1900000000;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETAVATAR);
-			odp.pszTitle = szTitle;
-			UserInfo_AddPage(wParam, &odp);
-		}
-
-		mir_snprintf( szTitle, SIZEOF( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Details" ));
+		mir_snprintf(szTitle, SIZEOF( szTitle ), "%s %s", SKYPE_PROTONAME, Translate( "Details" ));
 	
 		odp.pfnDlgProc = DetailsDlgProc;
 		odp.position = 1900000000;

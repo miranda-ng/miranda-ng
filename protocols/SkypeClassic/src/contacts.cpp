@@ -12,7 +12,7 @@
 
 // Imported Globals
 extern HINSTANCE hInst;
-extern BOOL bSkypeOut, bIsImoproxy;
+extern BOOL bSkypeOut, bIsImoproxy, bHasFileXfer;
 extern char protocol, g_szProtoName[];
 
 // Handles
@@ -173,8 +173,10 @@ HANDLE add_contextmenu(MCONTACT) {
 
 	// We cannot use flag PF1_FILESEND for sending files, as Skype opens its own
 	// sendfile-Dialog.
-	mi = FileTransferItem();
-	hMenuFileTransferItem = Menu_AddContactMenuItem(&mi);
+	if (!bHasFileXfer) {
+		mi = FileTransferItem();
+		hMenuFileTransferItem = Menu_AddContactMenuItem(&mi);
+	}
 
 	mi = ChatInitItem();
 	hMenuChatInitItem = Menu_AddContactMenuItem(&mi);
@@ -255,11 +257,19 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM) {
 
 		// File sending and groupchat-creation works starting with protocol version 5
 		if (protocol >= 5) {
-			mi = FileTransferItem();
-			if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
-				mi.flags ^= CMIF_HIDDEN;
-			mi.flags |= CMIM_FLAGS;
-			Menu_ModifyItem(hMenuFileTransferItem, &mi);
+			if (!bHasFileXfer) {
+				mi = FileTransferItem();
+				if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0) == 0)
+					mi.flags ^= CMIF_HIDDEN;
+				mi.flags |= CMIM_FLAGS;
+				Menu_ModifyItem(hMenuFileTransferItem, &mi);
+			}
+			mi = BlockContactItem();
+			mi.flags ^= CMIF_HIDDEN;
+			mi.flags |= CMIM_FLAGS | CMIM_NAME;
+			if (db_get_b(hContact, SKYPE_PROTONAME, "IsBlocked", 0) == 1)
+				mi.ptszName = LPGENT("Unblock contact");
+			Menu_ModifyItem(hMenuBlockContactItem, &mi);
 		}
 
 		if (protocol >= 5 || bIsImoproxy) {
@@ -269,12 +279,6 @@ int __cdecl  PrebuildContactMenu(WPARAM wParam, LPARAM) {
 				mi.flags ^= CMIF_HIDDEN;
 			mi.flags |= CMIM_FLAGS;
 			Menu_ModifyItem(hMenuChatInitItem, &mi);
-			mi = BlockContactItem();
-			mi.flags ^= CMIF_HIDDEN;
-			mi.flags |= CMIM_FLAGS | CMIM_NAME;
-			if (db_get_b(hContact, SKYPE_PROTONAME, "IsBlocked", 0) == 1)
-				mi.ptszName = LPGENT("Unblock contact");
-			Menu_ModifyItem(hMenuBlockContactItem, &mi);
 		}
 
 	}

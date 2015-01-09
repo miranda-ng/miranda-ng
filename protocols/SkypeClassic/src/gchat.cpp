@@ -6,10 +6,6 @@
 #include "utf8.h"
 #include "pthread.h"
 
-#include <m_langpack.h>
-#include <m_userinfo.h>
-#include <m_history.h>
-#include <m_contacts.h>
 
 #ifndef DWLP_USER
 #define DWLP_USER DWL_USER
@@ -26,7 +22,6 @@
 extern HANDLE hInitChat;
 extern HINSTANCE hInst;
 extern char protocol, g_szProtoName[];
-extern DWORD mirandaVersion;
 
 static gchat_contacts *chats=NULL;
 static int chatcount=0;
@@ -46,11 +41,13 @@ static CRITICAL_SECTION m_GCMutex;
 			   NULL on failure (not enough memory)
 */
 gchat_contacts *GetChat(const TCHAR *szChatId) {
-	int i;
+	for (int i=0;i<chatcount;i++)
+		if (!_tcscmp(chats[i].szChatName, szChatId))
+			return &chats[i];
 
-	for (i=0;i<chatcount;i++)
-		if (!_tcscmp(chats[i].szChatName, szChatId)) return &chats[i];
-	if (chats = (gchat_contacts *)realloc(chats, sizeof(gchat_contacts)*(++chatcount))) {
+	gchat_contacts *pchats = (gchat_contacts *)realloc(chats, sizeof(gchat_contacts)*(++chatcount));
+	if (pchats) {
+		chats=pchats;
 		memset(&chats[chatcount-1], 0, sizeof(gchat_contacts));
 		chats[chatcount-1].szChatName=_tcsdup(szChatId);
 		return &chats[chatcount-1];
@@ -64,14 +61,14 @@ gchat_contacts *GetChat(const TCHAR *szChatId) {
    Parameters: szChatId - String with the chat ID to be removed from list
  */
 void RemChat(TCHAR *szChatId) {
-	int i;
-
-	for (i=0;i<chatcount;i++)
+	for (int i=0;i<chatcount;i++)
 		if (!_tcscmp(chats[i].szChatName, szChatId)) {
 			if (chats[i].szChatName) free(chats[i].szChatName);
 			if (chats[i].mJoinedContacts) free(chats[i].mJoinedContacts);
 			if (i<--chatcount) memmove(&chats[i], &chats[i+1], (chatcount-i)*sizeof(gchat_contacts));
-			chats = (gchat_contacts *)realloc(chats, sizeof(gchat_contacts)*chatcount);
+			gchat_contacts *pchats = (gchat_contacts *)realloc(chats, sizeof(gchat_contacts)*chatcount);
+			if (pchats)
+				chats = pchats;
 			return;
 		}
 }
@@ -85,10 +82,9 @@ void RemChat(TCHAR *szChatId) {
               >=0 = Number of found item
  */
 static int ExistsChatContact(gchat_contacts *gc, const TCHAR *who) {
-	int i;
-
-	for (i=0;i<gc->mJoinedCount;i++)
-		if (_tcscmp(gc->mJoinedContacts[i].who, who)==0) return i;
+	for (int i=0;i<gc->mJoinedCount;i++)
+		if (_tcscmp(gc->mJoinedContacts[i].who, who)==0)
+			return i;
 	return -1;
 }
 
@@ -114,8 +110,10 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 		return -2;
 
 	int i = ExistsChatContact(gc, twho);
-	if (i >= 0)
+	if (i >= 0) {
+		free_nonutf_tchar_string(twho);
 		return i;
+	}
 
 	MCONTACT hContact = find_contact(who);
 
@@ -147,7 +145,7 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 		}
 	}
     if (ci.pszVal) mir_free (ci.pszVal);
-	free_nonutf_tchar_string (twho);
+	free_nonutf_tchar_string(twho);
 	return i;
 }
 
@@ -181,7 +179,6 @@ MCONTACT find_chat(LPCTSTR chatname) {
 	return NULL;
 }
 
-#ifdef _UNICODE
 MCONTACT find_chatA(char *chatname) {
 	for (MCONTACT hContact=db_find_first(SKYPE_PROTONAME);hContact != NULL;hContact=db_find_next(hContact,SKYPE_PROTONAME)) {
 		if (db_get_b(hContact, SKYPE_PROTONAME, "ChatRoom", 0)==1)
@@ -197,7 +194,6 @@ MCONTACT find_chatA(char *chatname) {
 	}
 	return NULL;
 }
-#endif
 
 
 
@@ -240,11 +236,13 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 					i=AddChatContact(gc, who, ptszRole);
 					free_nonutf_tchar_string (ptszRole);
 					if (pszRole) free (pszRole);
-					if (!(contactmask= (unsigned char *) realloc(contactmask, gc->mJoinedCount))) {
+					BYTE *pcontactmask = (BYTE *) realloc(contactmask, gc->mJoinedCount);
+					if (!pcontactmask) {
 						iRet = -1;
 						free (who);
 						break;
 					}
+					contactmask = pcontactmask;
 					contactmask[i]=TRUE;
 				}
 				free (who);
@@ -261,10 +259,12 @@ int  __cdecl AddMembers(char *szSkypeMsg) {
 				}
 				if (strcmp(who, dbv2.pszVal)) {
 					i=AddChatContact(gc, who, NULL);
-					if (i<0 || !(contactmask= (unsigned char *) realloc(contactmask, gc->mJoinedCount))) {
+					BYTE *pcontactmask;
+					if (i<0 || !(pcontactmask= (BYTE *) realloc(contactmask, gc->mJoinedCount))) {
 						iRet = -1;
 						break;
 					}
+					contactmask = pcontactmask;
 					contactmask[i]=TRUE;
 				}
 			}
@@ -372,14 +372,11 @@ int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
 
 	char *szChatName = SkypeGet ("CHAT", (char *)wParam, "FRIENDLYNAME");
 	if (!szChatName || !*szChatName)
-		gcw.ptszName=TranslateT("Unknown"); else {
-#ifdef _UNICODE
+		gcw.ptszName=TranslateT("Unknown");
+	else {
 		gcw.ptszName=make_unicode_string((const unsigned char*)szChatName);
 		free (szChatName);
 		szChatName = (char*)gcw.ptszName;
-#else
-		gcw.ptszName=szChatName;
-#endif
 	}
 	gcw.ptszID = make_nonutf_tchar_string((const unsigned char*)wParam);
 	gcw.ptszStatusbarText = NULL;
@@ -409,12 +406,8 @@ int __cdecl  ChatInit(WPARAM wParam, LPARAM lParam)
 		if (protocol >=7 && (szChatRole = SkypeGet ("CHAT", (char *)wParam, "MYROLE"))) {
 			if (strncmp(szChatRole, "ERROR", 5))
 			{
-#ifdef _UNICODE
 				gce.ptszStatus = make_unicode_string((const unsigned char*)szChatRole);
 				free (szChatRole);
-#else
-				gce.ptszStatus = szChatRole;
-#endif
 			}
 		}
 		if (!gce.ptszStatus) gce.ptszStatus=_tcsdup(_T("CREATOR"));
@@ -576,11 +569,7 @@ void SetChatTopic(const TCHAR *szChatId, TCHAR *szTopic, BOOL bSet)
 	CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 	if (bSet) {
-#ifdef _UNICODE
 		szUTFTopic=(char*)make_utf8_string(szTopic);
-#else
-		if (utf8_encode(szTopic, &szUTFTopic)==-1) szUTFTopic = NULL;
-#endif
 		if (szUTFTopic) {
 			SkypeSend ("ALTER CHAT "STR" SETTOPIC %s", szChatId, szUTFTopic);
 			free (szUTFTopic);
@@ -635,27 +624,11 @@ int GCEventHook(WPARAM,LPARAM lParam) {
 				 *pEnd==_T('\r') || *pEnd==_T('\n'); pEnd--) *pEnd=0;
     // Send message to the chat-contact    
 			if (ccs.hContact = find_chat(gch->pDest->ptszID)) {
-#ifdef _UNICODE
 				// If PREF_UTF is supported, just convert it to UTF8 and pass the buffer to PSS_MESSAGE
-				if (mirandaVersion >= 0x070000) {
-					ccs.lParam = (LPARAM)make_utf8_string(gch->ptszText);
-					ccs.wParam = PREF_UTF;
-					CallProtoService (SKYPE_PROTONAME, PSS_MESSAGE, 0, (LPARAM)&ccs);
-					free ((void*)ccs.lParam);
-				} else {
-				// Otherwise create this strange dual miranda-format
-					ccs.lParam = (LPARAM)calloc(3, _tcslen(gch->ptszText)+1);
-					wcstombs ((char*)ccs.lParam, gch->ptszText, _tcslen(gch->ptszText)+1);
-					_tcscpy ((TCHAR*)((char*)ccs.lParam+strlen((char*)ccs.lParam)+1), gch->ptszText);
-					ccs.wParam = PREF_UNICODE;
-					CallProtoService (SKYPE_PROTONAME, PSS_MESSAGE, 0, (LPARAM)&ccs);
-					free ((void*)ccs.lParam);
-				}
-#else
-				ccs.lParam = (LPARAM)gch->ptszText;
-				ccs.wParam = PREF_TCHAR;
+				ccs.lParam = (LPARAM)make_utf8_string(gch->ptszText);
+				ccs.wParam = PREF_UTF;
 				CallProtoService (SKYPE_PROTONAME, PSS_MESSAGE, 0, (LPARAM)&ccs);
-#endif
+				free ((void*)ccs.lParam);
 			}
 
 			// Add our line to the chatlog	
