@@ -2737,7 +2737,7 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 	db_free(&dbv);
 
 	if (sendok) {
-		if (db_get_b(NULL, SKYPE_PROTONAME, "NoAck", 0)) {
+		if (db_get_b(NULL, SKYPE_PROTONAME, "NoAck", 1)) {
 			ProtoBroadcastAck(SKYPE_PROTONAME, ccs->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 		}
 		else {
