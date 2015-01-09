@@ -117,7 +117,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "[img] BBCode support for image ",IDC_STATIC,4,8,293,39,WS_GROUP
+    GROUPBOX        "[img] BBCode support for image",IDC_STATIC,4,8,293,39,WS_GROUP
     CONTROL         "off",IDC_IMG_OFF,"Button",BS_AUTORADIOBUTTON,12,19,129,10
     CONTROL         "for original size images",IDC_IMG_FULLSIZE,"Button",BS_AUTORADIOBUTTON,12,30,129,10
     CONTROL         "for preview max 130px*130px",IDC_IMG_130,"Button",BS_AUTORADIOBUTTON,154,19,129,10
