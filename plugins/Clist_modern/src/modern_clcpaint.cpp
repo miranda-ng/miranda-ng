@@ -1498,7 +1498,7 @@ BOOL CLCPaint::_DrawNonEnginedBackground(HDC hdcMem, RECT *rcPaint, RECT clRect,
 	HBITMAP oldbm = (HBITMAP)SelectObject(hdcBmp, dat->hBmpBackground);
 	int x, y = dat->backgroundBmpUse&CLBF_SCROLL ? -dat->yScroll : 0;
 	int maxx = dat->backgroundBmpUse&CLBF_TILEH ? clRect.right : 1;
-	int maxy = dat->backgroundBmpUse&CLBF_TILEV ? maxy = rcPaint->bottom : y + 1;
+	int maxy = dat->backgroundBmpUse&CLBF_TILEV ? rcPaint->bottom : y + 1;
 	int destw, desth;
 
 	switch (dat->backgroundBmpUse&CLBM_TYPE) {
@@ -2391,71 +2391,74 @@ void CLCPaint::_CalcItemsPos(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT
 		else if (Drawing->type == CLCIT_CONTACT && !CheckMiniMode(dat, selected)) {
 			int tmp;
 			ClcCacheEntry *pdnce = (Drawing->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(Drawing->hContact) : NULL;
-			if (dat->second_line_show && dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
-				// Get contact time
-				TCHAR buf[70] = _T("");
-				tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
-				mir_free(pdnce->szThirdLineText);
-				pdnce->szSecondLineText = mir_tstrdup(buf);
+			if (dat->second_line_show) {
+				if (dat->second_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+					// Get contact time
+					TCHAR buf[70] = _T("");
+					tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					mir_free(pdnce->szSecondLineText);
+					pdnce->szSecondLineText = mir_tstrdup(buf);
+				}
+
+				if (pdnce->szSecondLineText && pdnce->szSecondLineText[0] && free_height > dat->second_line_top_space) {
+					ChangeToFont(hdcMem, dat, FONTID_SECONDLINE, NULL);
+
+					// Get sizes
+					GetTextSize(&second_line_text_size, hdcMem, free_row_rc, pdnce->szSecondLineText, pdnce->ssSecondLine.plText,
+						uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
+
+					// Get rect
+					tmp = min(free_height, dat->second_line_top_space + second_line_text_size.cy);
+
+					free_height -= tmp;
+					text_rc.top = free_row_rc.top + (free_height >> 1);
+					text_rc.bottom = text_rc.top + free_row_rc.bottom - free_row_rc.top - free_height;
+
+					if (dat->text_align_right)
+						text_rc.left = max(free_row_rc.left, min(text_rc.left, free_row_rc.right - second_line_text_size.cx));
+					else
+						text_rc.right = min(free_row_rc.right, max(text_rc.right, free_row_rc.left + second_line_text_size.cx));
+
+					selection_text_rc.top = text_rc.top;
+					selection_text_rc.bottom = min(selection_text_rc.bottom, selection_text_rc.top + text_size.cy);
+
+					max_bottom_selection_border = min(max_bottom_selection_border, dat->second_line_top_space / 2);
+				}
 			}
+			if (dat->third_line_show) {
+				if (dat->third_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
+					// Get contact time
+					TCHAR buf[70] = _T("");
+					tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
+					mir_free(pdnce->szThirdLineText);
+					pdnce->szThirdLineText = mir_tstrdup(buf);
+				}
+				if (pdnce->szThirdLineText != NULL && pdnce->szThirdLineText[0] && free_height > dat->third_line_top_space) {
+					//RECT rc_tmp = free_row_rc;
 
-			if (dat->second_line_show && pdnce->szSecondLineText && pdnce->szSecondLineText[0] && free_height > dat->second_line_top_space) {
-				ChangeToFont(hdcMem, dat, FONTID_SECONDLINE, NULL);
+					ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
 
-				// Get sizes
-				GetTextSize(&second_line_text_size, hdcMem, free_row_rc, pdnce->szSecondLineText, pdnce->ssSecondLine.plText,
-					uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssSecondLine.iMaxSmileyHeight);
+					// Get sizes
+					GetTextSize(&third_line_text_size, hdcMem, free_row_rc, pdnce->szThirdLineText, pdnce->ssThirdLine.plText,
+						uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
 
-				// Get rect
-				tmp = min(free_height, dat->second_line_top_space + second_line_text_size.cy);
+					// Get rect
+					tmp = min(free_height, dat->third_line_top_space + third_line_text_size.cy);
 
-				free_height -= tmp;
-				text_rc.top = free_row_rc.top + (free_height >> 1);
-				text_rc.bottom = text_rc.top + free_row_rc.bottom - free_row_rc.top - free_height;
+					free_height -= tmp;
+					text_rc.top = free_row_rc.top + (free_height >> 1);
+					text_rc.bottom = text_rc.top + free_row_rc.bottom - free_row_rc.top - free_height;
 
-				if (dat->text_align_right)
-					text_rc.left = max(free_row_rc.left, min(text_rc.left, free_row_rc.right - second_line_text_size.cx));
-				else
-					text_rc.right = min(free_row_rc.right, max(text_rc.right, free_row_rc.left + second_line_text_size.cx));
+					if (dat->text_align_right)
+						text_rc.left = max(free_row_rc.left, min(text_rc.left, free_row_rc.right - third_line_text_size.cx));
+					else
+						text_rc.right = min(free_row_rc.right, max(text_rc.right, free_row_rc.left + third_line_text_size.cx));
 
-				selection_text_rc.top = text_rc.top;
-				selection_text_rc.bottom = min(selection_text_rc.bottom, selection_text_rc.top + text_size.cy);
+					selection_text_rc.top = text_rc.top;
+					selection_text_rc.bottom = min(selection_text_rc.bottom, selection_text_rc.top + text_size.cy);
 
-				max_bottom_selection_border = min(max_bottom_selection_border, dat->second_line_top_space / 2);
-			}
-			if (dat->third_line_show && dat->third_line_type == TEXT_CONTACT_TIME && pdnce->hTimeZone) {
-				// Get contact time
-				TCHAR buf[70] = _T("");
-				tmi.printDateTime(pdnce->hTimeZone, _T("t"), buf, SIZEOF(buf), 0);
-				mir_free(pdnce->szThirdLineText);
-				pdnce->szThirdLineText = mir_tstrdup(buf);
-			}
-			if (dat->third_line_show && pdnce->szThirdLineText != NULL && pdnce->szThirdLineText[0]
-				&& free_height > dat->third_line_top_space) {
-				//RECT rc_tmp = free_row_rc;
-
-				ChangeToFont(hdcMem, dat, FONTID_THIRDLINE, NULL);
-
-				// Get sizes
-				GetTextSize(&third_line_text_size, hdcMem, free_row_rc, pdnce->szThirdLineText, pdnce->ssThirdLine.plText,
-					uTextFormat, dat->text_resize_smileys ? 0 : pdnce->ssThirdLine.iMaxSmileyHeight);
-
-				// Get rect
-				tmp = min(free_height, dat->third_line_top_space + third_line_text_size.cy);
-
-				free_height -= tmp;
-				text_rc.top = free_row_rc.top + (free_height >> 1);
-				text_rc.bottom = text_rc.top + free_row_rc.bottom - free_row_rc.top - free_height;
-
-				if (dat->text_align_right)
-					text_rc.left = max(free_row_rc.left, min(text_rc.left, free_row_rc.right - third_line_text_size.cx));
-				else
-					text_rc.right = min(free_row_rc.right, max(text_rc.right, free_row_rc.left + third_line_text_size.cx));
-
-				selection_text_rc.top = text_rc.top;
-				selection_text_rc.bottom = min(selection_text_rc.bottom, selection_text_rc.top + text_size.cy);
-
-				max_bottom_selection_border = min(max_bottom_selection_border, dat->third_line_top_space / 2);
+					max_bottom_selection_border = min(max_bottom_selection_border, dat->third_line_top_space / 2);
+				}
 			}
 
 			ChangeToFont(hdcMem, dat, GetBasicFontID(Drawing), NULL);
