@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
@@ -197,8 +197,6 @@ Skype умолчания
 Skype дополнительно
 [Skype proxy]
 Skype Прокси
-[Avatar]
-Аватар
 [Details]
 Детали
 [MALE]

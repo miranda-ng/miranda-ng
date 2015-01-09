@@ -7,7 +7,7 @@
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 ;file \protocols\VKontakte\res\resource.rc
-[[img] BBCode support for image ]
+[[img] BBCode support for image]
 [off]
 [for original size images]
 [for preview max 130px*130px]
