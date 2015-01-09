@@ -609,7 +609,9 @@ void CVkProto::SetSrmmReadStatus(MCONTACT hContact)
 		return;
 
 	TCHAR ttime[64];
-	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&time));
+	_locale_t locale = _create_locale(LC_ALL, "");
+	_tcsftime_l(ttime, SIZEOF(ttime), _T("%X - %x"), localtime(&time), locale);
+	_free_locale(locale);
 
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
