@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by Skript1.rc
+// Microsoft Visual C++ generated include file.
+// Used by ..\res\Resource.rc
 //
 #define IDI_SKYPE                       102
 #define IDI_ONLINE                      104
@@ -112,6 +112,7 @@
 #define IDC_STATIC_POPUPBACKCOLORERR    1069
 #define IDC_STATIC_PATHINFO             1070
 #define IDC_STATIC_RESTART              1071
+#define IDC_NOACK                       1072
 
 // Next default values for new objects
 // 
@@ -119,7 +120,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        183
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1072
+#define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

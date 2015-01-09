@@ -4,15 +4,15 @@
 #include "skypeapi.h"
 #include "skypeopt.h"
 #include "contacts.h"
-#include "m_toptoolbar.h"
+#include "filexfer.h"
 
 // Exports
 SKYPE_SVCNAMES	g_svcNames;
 
 //From skype.c
+extern BOOL bHasFileXfer;
 extern char protocol, g_szProtoName[];
 extern HINSTANCE hInst;
-extern DWORD mirandaVersion;
 
 void CreateProtoService(const char* szService, MIRANDASERVICE svc)
 {
@@ -27,7 +27,7 @@ void CreateServices(void)
 {
 	CreateServiceName(ChatNew);
 	CreateServiceName(SetAvatar);
-	CreateServiceName(SendFile);
+	CreateServiceName(SendGuiFile);
 	CreateServiceName(HoldCall);
 	CreateServiceName(AnswerCall);
 	CreateServiceName(ImportHistory);
@@ -44,7 +44,7 @@ void CreateServices(void)
 	CreateServiceFunction(SKYPE_ADDUSER, SkypeAdduserDlg);
 	CreateServiceFunction(SKYPE_IMPORTHISTORY, ImportHistory);
 	CreateServiceFunction(SKYPE_ANSWERCALL, SkypeAnswerCall);
-	CreateServiceFunction(SKYPE_SENDFILE, SkypeSendFile);
+	CreateServiceFunction(SKYPE_SENDFILE, SkypeSendGuiFile);
 	CreateServiceFunction(SKYPE_SETAVATAR, SkypeSetAvatar);
 	CreateServiceFunction(SKYPE_BLOCKCONTACT, SkypeBlockContact);
 
@@ -66,6 +66,12 @@ void CreateServices(void)
 	CreateProtoService(PSR_AUTH, SkypeRecvAuth);
 	CreateProtoService(PS_AUTHALLOW, SkypeAuthAllow);
 	CreateProtoService(PS_AUTHDENY, SkypeAuthDeny);
+	CreateProtoService(PSR_FILE, SkypeRecvFile);
+
+	CreateProtoService(PSS_FILEALLOWT, SkypeFileAllow);
+	CreateProtoService(PSS_FILEDENY, SkypeFileCancel);
+	CreateProtoService(PSS_FILECANCEL, SkypeFileCancel);
+	CreateProtoService(PSS_FILET, SkypeSendFile);
 
 	CreateProtoService(PS_GETAVATARINFO, SkypeGetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, SkypeGetAvatarCaps);
@@ -103,13 +109,14 @@ void HookEventsLoaded(void)
 
 INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM)
 {
-	int ret = 0;
+	INT_PTR ret = 0;
 
 	switch (wParam) {        
 	case PFLAGNUM_1:
 		ret = PF1_BASICSEARCH | PF1_IM | PF1_MODEMSG | PF1_SEARCHBYEMAIL; // | PF1_AUTHREQ;
 		if (protocol>=5) ret |= PF1_ADDSEARCHRES;
-		break;
+		if (bHasFileXfer) ret |= PF1_FILE;
+		return ret;
 
 	case PFLAGNUM_2:
 		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_INVISIBLE | PF2_HEAVYDND; 
@@ -119,27 +126,21 @@ INT_PTR SkypeGetCaps(WPARAM wParam, LPARAM)
 		if (!db_get_b(NULL, SKYPE_PROTONAME, "NoSkype3Stats", 0))
 			ret |= PF2_LONGAWAY | PF2_FREECHAT;
 		ret |= Proto_Status2Flag(db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE));
-		break;
+		return ret;
 
 	case PFLAGNUM_3:
-		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE | PF2_IDLE;
-		break;
-
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE | PF2_IDLE;
 	case PFLAGNUM_4:
-		ret = PF4_FORCEAUTH | PF4_FORCEADDED | PF4_AVATARS | PF4_SUPPORTTYPING /* Not really, but libgaim compat. */;
-		if (mirandaVersion >= 0x070000) ret |= PF4_IMSENDUTF;
-		break;
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_AVATARS | PF4_SUPPORTTYPING /* Not really, but libgaim compat. */ | PF4_IMSENDUTF;
 	case PFLAGNUM_5:
-		ret = Proto_Status2Flag(db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE));
-		break;
+		return Proto_Status2Flag(db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE));
 	case PFLAG_UNIQUEIDTEXT:
-		ret = (INT_PTR)Translate("Skype ID");
-		break;
+		return (INT_PTR)Translate("Skype ID");
 	case PFLAG_UNIQUEIDSETTING:
-		ret = (INT_PTR) SKYPE_NAME;
-		break;
+		return (INT_PTR) SKYPE_NAME;
+	default:
+		return 0;
 	}
-	return ret;	
 }
 
 INT_PTR SkypeGetName(WPARAM wParam, LPARAM lParam)

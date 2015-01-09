@@ -42,30 +42,11 @@
 #include <m_contacts.h>
 #include <m_metacontacts.h>
 #include <m_popup.h>
+#include <m_toptoolbar.h>
+#include <m_protosvc.h>
 #include <m_string.h>
+#include <m_history.h>
 
-// MyDetails defines
-
-// wParam=NULL
-// lParam=(char *) new nickname - do not free
-// return=0 for sucess
-#define PS_SETMYNICKNAME "/SetNickname"
-
-// Optional, default value is 1024
-// wParam=NULL
-// lParam=NULL
-// return= <=0 for error, >0 the max length of the nick
-#define PS_GETMYNICKNAMEMAXLENGTH "/GetMyNicknameMaxLength"
-
-// wParam=(char *)Buffer to file name
-// lParam=(int)Buffer size
-// return=0 for sucess
-#define PS_GETMYAVATAR "/GetMyAvatar"
-
-// wParam=0
-// lParam=(const char *)Avatar file name
-// return=0 for sucess
-#define PS_SETMYAVATAR "/SetMyAvatar"
 
 
 // Program defines
@@ -84,7 +65,7 @@
 typedef struct {
 	char	ChatNew[MAXMODULELABELLENGTH];
 	char	SetAvatar[MAXMODULELABELLENGTH];
-	char	SendFile[MAXMODULELABELLENGTH];
+	char	SendGuiFile[MAXMODULELABELLENGTH];
 	char	HoldCall[MAXMODULELABELLENGTH];
 	char	AnswerCall[MAXMODULELABELLENGTH];
 	char	ImportHistory[MAXMODULELABELLENGTH];
@@ -101,7 +82,7 @@ typedef struct {
 #define SKYPE_IMPORTHISTORY g_svcNames.ImportHistory
 #define SKYPE_ANSWERCALL g_svcNames.AnswerCall
 #define SKYPE_HOLDCALL g_svcNames.HoldCall
-#define SKYPE_SENDFILE g_svcNames.SendFile
+#define SKYPE_SENDFILE g_svcNames.SendGuiFile
 #define SKYPE_SETAVATAR g_svcNames.SetAvatar
 #define SKYPE_CHATNEW g_svcNames.ChatNew
 #define SKYPE_BLOCKCONTACT g_svcNames.BlockContact
@@ -134,11 +115,7 @@ void PingPong(void);
 void CheckIfApiIsResponding(char *);
 void TellError(DWORD err);
 int ShowMessage(int, TCHAR*, int);
-#ifdef _UNICODE
 int ShowMessageA(int iconID, char *lpzText, int mustShow);
-#else
-#define ShowMessageA ShowMessage
-#endif
 void EndCallThread(char *);
 void GetInfoThread(void *);
 int OnDetailsInit( WPARAM, LPARAM );

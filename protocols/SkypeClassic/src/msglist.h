@@ -6,6 +6,7 @@ typedef struct {
 	HANDLE hMetaEvent;
 	time_t t;
 	time_t tEdited;
+	void *pfts;
 } TYP_MSGLENTRY;
 
 void MsgList_Init(void);
