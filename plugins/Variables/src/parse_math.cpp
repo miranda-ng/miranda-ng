@@ -142,8 +142,10 @@ static TCHAR *parseNum(ARGUMENTSINFO *ai)
 
 	unsigned zeros = max(padding - (signed int)_tcslen(szVal), 0);
 	TCHAR *res = (TCHAR*)mir_alloc((zeros + _tcslen(szVal) + 1)*sizeof(TCHAR));
-	if (res == NULL)
+	if (res == NULL) {
+		mir_free(szVal);
 		return NULL;
+	}
 
 	memset(res, 0, ((zeros + _tcslen(szVal) + 1) * sizeof(TCHAR)));
 	TCHAR *cur = res;

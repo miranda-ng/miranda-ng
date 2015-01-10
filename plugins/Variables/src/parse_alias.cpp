@@ -116,14 +116,15 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 		}
 		return 0;
 	}
+	TCHAR **pargv = (TCHAR**)mir_alloc(argc * sizeof(TCHAR*));
+	if (pargv == NULL)
+		return -1;
 
 	ALIASREGISTER *p = new ALIASREGISTER;
 	p->szAlias = mir_tstrdup(szAlias);
 	p->szTranslation = mir_tstrdup(szTranslation);
 	p->argc = argc;
-	p->argv = (TCHAR**)mir_alloc(argc * sizeof(TCHAR*));
-	if (p->argv == NULL)
-		return -1;
+	p->argv = pargv;
 
 	for (unsigned j = 0; j < p->argc; j++) {
 		if (argv[j] != NULL)
@@ -137,12 +138,10 @@ static int addToAliasRegister(TCHAR *szAlias, unsigned int argc, TCHAR** argv, T
 
 static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 {
-	int res;
-	char *szHelp, *szArgsA;
-
 	if (ai->argc != 3)
 		return NULL;
 
+	char *szHelp, *szArgsA;
 	TCHAR *cur = ai->targv[1];
 	while (isValidTokenChar(*cur))
 		cur++;
@@ -165,6 +164,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 		if (i != argc - 1)
 			_tcscat(szArgs, _T(","));
 	}
+	int res;
 	if (szArgs != NULL && argc > 0) {
 		szArgsA = mir_t2a(szArgs);
 
@@ -183,6 +183,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai)
 	}
 	mir_free(szArgs);
 	mir_free(szHelp);
+	mir_free(argv);
 	return (res == 0) ? mir_tstrdup(_T("")) : NULL;
 }
 

@@ -285,13 +285,9 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 
 static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 {
-	char *args, *first, *second;
-
 	if (tr == NULL)
 		return NULL;
 
-	args = NULL;
-	TCHAR *tArgs = NULL;
 	if (tr->szHelpText == NULL)
 		return mir_tstrdup(tr->tszTokenString);
 
@@ -300,7 +296,8 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 		return NULL;
 
 	char *cur = helpText;
-	first = second = NULL;
+	TCHAR *tArgs = NULL;
+	char *args = NULL, *first = NULL, *second = NULL;
 	while (*cur != 0) {
 		if (*cur == '\t') {
 			if (first == NULL)
@@ -319,8 +316,10 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 
 	size_t len = _tcslen(tr->tszTokenString) + (args!=NULL?strlen(args):0) + 3;
 	TCHAR *desc = (TCHAR*)mir_calloc(len * sizeof(TCHAR));
-	if (desc == NULL)
+	if (desc == NULL) {
+		mir_free(helpText);
 		return NULL;
+	}
 
 	if (tr->flags&TRF_FIELD)
 		mir_sntprintf(desc, len, _T("%c%s%c"), FIELD_CHAR, tr->szTokenString, FIELD_CHAR);
@@ -381,7 +380,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 			HELPDLGDATA *hdd = (HELPDLGDATA *)GetWindowLongPtr(GetParent(hwndDlg), GWLP_USERDATA);
 			int i = -1;
 			do {
-				i += 1;
+				i++;
 				tszHelpDesc = tszTokenDesc = NULL;
 				tr = getTokenRegister(i);
 				if ((tr == NULL) || (tr->tszTokenString == NULL))

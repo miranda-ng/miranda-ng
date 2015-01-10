@@ -69,14 +69,14 @@ TCHAR* getArguments(TCHAR *string, TCHAR ***aargv, int *aargc)
 
 		case '(':
 			if (!bDontParse)
-				brackets += 1;
+				brackets++;
 			break;
 
 		case ')':
 			if ((brackets == 0) && (!bDontParse))
 				bDone = bNewArg = TRUE;
 			else if ((brackets > 0) && (!bDontParse))
-				brackets -= 1;
+				brackets--;
 			break;
 		}
 		if (bNewArg) {
@@ -86,15 +86,17 @@ TCHAR* getArguments(TCHAR *string, TCHAR ***aargv, int *aargc)
 
 			if (cur > scur) {
 				argv[argc] = (TCHAR*)mir_alloc((cur-scur+2)*sizeof(TCHAR));
-				if (argv[argc] == NULL)
+				if (argv[argc] == NULL) {
+					mir_free(argv);
 					return NULL;
+				}
 
 				memset(argv[argc], '\0', (cur-(scur+1)+1)*sizeof(TCHAR));
 				_tcsncpy(argv[argc], scur+1, cur-(scur+1));
 			}
 			else argv[argc] = mir_tstrdup(_T(""));
 
-			argc += 1;
+			argc++;
 			bNewArg = FALSE;
 			scur = cur;
 		}
@@ -222,12 +224,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			tcur++;
 
 		if (tcur == cur) {
-			fi->eCount += 1;
+			fi->eCount++;
 			continue;
 		}
 		token = (TCHAR*)mir_alloc((tcur-scur+1)*sizeof(TCHAR));
 		if (token == NULL) {
-			fi->eCount += 1;
+			fi->eCount++;
 			return NULL;
 		}
 		memset(token, '\0', (tcur-scur+1)*sizeof(TCHAR));
@@ -247,7 +249,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  			tr = searchRegister(token, (*cur==FIELD_CHAR)?TRF_FIELD:TRF_FUNCTION);
  		mir_free(token);
  		if (tmpVarPos < 0 && tr == NULL) {
-			fi->eCount += 1;
+			fi->eCount++;
 			// token not found, continue
 			continue;
 		}
@@ -256,7 +258,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  			size_t len = _tcslen(tr != NULL ? tr->tszTokenString : fi->tszaTemporaryVars[tmpVarPos]);
 			cur++;
  			if (*(cur + len) != FIELD_CHAR) { // the next char after the token should be %
-				fi->eCount += 1;
+				fi->eCount++;
 				continue;
 			}
  			cur += len+1;
@@ -267,7 +269,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			cur += _tcslen(tr->tszTokenString)+1;
 			argcur = getArguments(cur, &argv, &argc);
 			if ((argcur == cur) || (argcur == NULL)) {
-				fi->eCount += 1;
+				fi->eCount++;
 				// error getting arguments
 				continue;
 			}
@@ -292,7 +294,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  		if (tr != NULL) {
  			pargv = ( TCHAR** )mir_alloc((argc+1)*sizeof(TCHAR*));
  			if (pargv == NULL) {
- 				fi->eCount += 1;
+ 				fi->eCount++;
  				return NULL;
  			}
  			for (i=0;i<argc;i++)
@@ -313,7 +315,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
  		else parsedToken = fi->tszaTemporaryVars[tmpVarPos + 1];
 
 		if (parsedToken == NULL) {
-			fi->eCount += 1;
+			fi->eCount++;
 			continue;
 		}
 
@@ -346,7 +348,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			// string needs more memory
 			string = (TCHAR*)mir_realloc(string, (initStrLen-tokenLen+parsedTokenLen+1)*sizeof(TCHAR));
 			if (string == NULL) {
-				fi->eCount += 1;
+				fi->eCount++;
 				return NULL;
 			}
 		}
@@ -385,7 +387,6 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam)
  	int i;
  	BOOL copied;
 	FORMATINFO *fi, tempFi;
-	FORMATINFOV1 *fiv1;
 	TCHAR *tszFormat, *orgFormat, *tszSource, *orgSource, *tRes;
 
  	if (((FORMATINFO *)wParam)->cbSize >= sizeof(FORMATINFO)) {
@@ -400,7 +401,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam)
  	}
 	else {
 		// old struct, must be ANSI
-		fiv1 = (FORMATINFOV1 *)wParam;
+		FORMATINFOV1 *fiv1 = (FORMATINFOV1 *)wParam;
 		memset(&tempFi, 0, sizeof(FORMATINFO));
 		tempFi.cbSize = sizeof(FORMATINFO);
 		tempFi.hContact = fiv1->hContact;
@@ -462,8 +463,8 @@ TCHAR *formatString(FORMATINFO *fi)
 		return NULL;
 	/* the service to format a given string */
 	if ((fi->eCount + fi->pCount) > 5000) {
-		fi->eCount += 1;
-		fi->pCount += 1;
+		fi->eCount++;
+		fi->pCount++;
 		log_debugA("Variables: Overflow protection; %d parses", (fi->eCount + fi->pCount));
 		return NULL;
 	}

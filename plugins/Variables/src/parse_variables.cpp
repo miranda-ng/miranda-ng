@@ -37,14 +37,14 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText)
 			return 0;
 		}
 	}
-	vr = (VARIABLEREGISTER*)mir_realloc(vr, (vrCount + 1)*sizeof(VARIABLEREGISTER));
-	if (vr == NULL)
+	VARIABLEREGISTER *pvr = (VARIABLEREGISTER*)mir_realloc(vr, (vrCount + 1)*sizeof(VARIABLEREGISTER));
+	if (pvr == NULL)
 		return -1;
 
+	vr = pvr;
 	vr[vrCount].szName = mir_tstrdup(szName);
 	vr[vrCount].szText = mir_tstrdup(szText);
-	vr[vrCount].dwOwnerThread = GetCurrentThreadId();
-	vrCount += 1;
+	vr[vrCount++].dwOwnerThread = GetCurrentThreadId();
 	return 0;
 }
 
@@ -63,8 +63,6 @@ static TCHAR *searchVariableRegister(TCHAR *szName)
 
 static TCHAR *parsePut(ARGUMENTSINFO *ai)
 {
-	FORMATINFO fi;
-
 	if (ai->argc != 3)
 		return NULL;
 
@@ -72,6 +70,7 @@ static TCHAR *parsePut(ARGUMENTSINFO *ai)
 	if (addToVariablesRegister(ai->targv[1], ai->targv[2]))
 		return NULL;
 
+	FORMATINFO fi;
 	memcpy(&fi, ai->fi, sizeof(fi));
 	fi.tszFormat = ai->targv[2];
 	fi.flags |= FIF_TCHAR;
