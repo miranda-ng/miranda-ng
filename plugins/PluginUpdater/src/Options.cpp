@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			WORD idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
 			if (wNotifyCode == CPN_COLOURCHANGED) {
-				if (idCtrl > 40070) 				{
+				if (idCtrl > 40070) {
 					//It's a color picker change. idCtrl is the control id.
 					COLORREF color = SendDlgItemMessage(hdlg, idCtrl, CPM_GETCOLOUR, 0, 0);
 					int ctlID = idCtrl;
@@ -252,8 +252,6 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 					return TRUE;
 				}
-			}
-			else if (wNotifyCode == CBN_SELCHANGE) {
 				if (idCtrl == IDC_LC)
 					PopupOptions.LeftClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
 				else if (idCtrl == IDC_RC)
