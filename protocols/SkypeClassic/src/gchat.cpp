@@ -150,10 +150,9 @@ static int AddChatContact(gchat_contacts *gc, char *who, TCHAR *pszRole)
 }
 
 void RemChatContact(gchat_contacts *gc, const TCHAR *who) {
-	int i;
-
-	if (!gc) return;
-	for (i=0;i<gc->mJoinedCount;i++)
+	if (!gc)
+		return;
+	for (int i=0;i<gc->mJoinedCount;i++)
 		if (_tcscmp(gc->mJoinedContacts[i].who, who)==0) {
 			if (i<--gc->mJoinedCount) 
 				memmove(&gc->mJoinedContacts[i], &gc->mJoinedContacts[i+1], (gc->mJoinedCount-i)*sizeof(gchat_contact));

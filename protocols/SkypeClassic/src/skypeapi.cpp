@@ -318,13 +318,11 @@ int SkypeMsgAdd(char *msg) {
  * Purpose: Clean up the whole MESSagequeue - free() all
  */
 void SkypeMsgCleanup(void) {
-	int i;
-
 	LOG(("SkypeMsgCleanup Cleaning up message queue.."));
 	if (receivers>1)
 	{
 		LOG (("SkypeMsgCleanup Releasing %d receivers", receivers));
-		for (i=0;i<receivers; i++)
+		for (int i=0;i<receivers; i++)
 		{
 			SkypeMsgAdd ("ERROR Semaphore was blocked");
 		}
@@ -773,9 +771,7 @@ INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
  * Params : p	- Pointer to the buffer with the number
  */
 static void FixNumber(char *p) {
-	unsigned int i;
-
-	for (i=0;i<=strlen(p);i++)
+	for (unsigned int i=0;i<=strlen(p);i++)
 		if ((p[i]<'0' || p[i]>'9')) 
 			if (p[i]) {
 				memmove(p+i, p+i+1, strlen(p+i));
@@ -858,12 +854,11 @@ static INT_PTR CALLBACK DialDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						db_unset(hContact, "CList", "Hidden");
 						db_set_w(hContact, SKYPE_PROTONAME, "Status", (WORD)SkypeStatusToMiranda("SKYPEOUT"));
 						if (SendDlgItemMessage(hwndDlg,IDC_NUMBER,CB_FINDSTRING,0,(LPARAM)number)==CB_ERR) {
-							int i;
 							char buf[64];
 							DBVARIANT dbv;
 
 							if (entries>MAX_ENTRIES) entries=MAX_ENTRIES;
-							for (i=entries;i>0;i--) {
+							for (int i=entries;i>0;i--) {
 								sprintf(buf, "LastNumber%d", i-1);
 								if (!db_get_s(NULL, SKYPE_PROTONAME, buf, &dbv)) {
 									sprintf(buf, "LastNumber%d", i);
@@ -1331,11 +1326,11 @@ void SkypeFlush(void) {
  *		    0 - Nothing found
  */
 int SkypeStatusToMiranda(char *s) {
-	int i;
-	if (!strcmp("SKYPEOUT", s)) return db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE);
-	for(i=0; status_codes[i].szStat; i++)
+	if (!strcmp("SKYPEOUT", s))
+		return db_get_dw(NULL, SKYPE_PROTONAME, "SkypeOutStatusMode", ID_STATUS_ONTHEPHONE);
+	for(int i=0; status_codes[i].szStat; i++)
 		if (!strcmp(status_codes[i].szStat, s))
-		return status_codes[i].id;
+			return status_codes[i].id;
 	return 0;
 }
 
@@ -1347,7 +1342,6 @@ int SkypeStatusToMiranda(char *s) {
  *		    NULL - Nothing found
  */
 char *MirandaStatusToSkype(int id) {
-	int i;
 	if (db_get_b(NULL, SKYPE_PROTONAME, "NoSkype3Stats", 0)) {
 		switch (id)
 		{
@@ -1355,7 +1349,7 @@ char *MirandaStatusToSkype(int id) {
 		case ID_STATUS_FREECHAT: return "ONLINE";
 		}
 	}
-	for(i=0; status_codes[i].szStat; i++)
+	for(int i=0; status_codes[i].szStat; i++)
 		if (status_codes[i].id==id)
 			return status_codes[i].szStat;
 	return NULL;
@@ -1378,14 +1372,14 @@ char *GetSkypeErrorMsg(char *str) {
 	}
 	if ((pos=strstr(str, "FAILURE")) ) {
 		switch(atoi(pos+14)) {
-			case MISC_ERROR: msg="Misc. Error"; break;
-			case USER_NOT_FOUND: msg="User does not exist, check username"; break;
-			case USER_NOT_ONLINE: msg="Trying to send IM to an user, who is not online"; break;
-			case USER_BLOCKED: msg="IM blocked by recipient"; break;
-			case TYPE_UNSUPPORTED: msg="Type unsupported"; break;
-			case SENDER_NOT_FRIEND: msg="Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM'"; break;
-			case SENDER_NOT_AUTHORIZED: msg="Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM'"; break;
-			default: msg="Unknown error";
+			case MISC_ERROR: msg=Translate("Misc. Error"); break;
+			case USER_NOT_FOUND: msg=Translate("User does not exist, check username"); break;
+			case USER_NOT_ONLINE: msg=Translate("Trying to send IM to an user, who is not online"); break;
+			case USER_BLOCKED: msg=Translate("IM blocked by recipient"); break;
+			case TYPE_UNSUPPORTED: msg=Translate("Type unsupported"); break;
+			case SENDER_NOT_FRIEND: msg=Translate("Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM'"); break;
+			case SENDER_NOT_AUTHORIZED: msg=Translate("Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM'"); break;
+			default: msg=Translate("Unknown error");
 		}
 		reason=(char *)malloc(strlen(pos)+strlen(msg)+3);
 		sprintf (reason, "%s: %s", pos, msg);
