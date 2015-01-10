@@ -679,9 +679,9 @@ void __cdecl SkypeSystemInit(char *dummy) {
 						{
 							int oldstatus;
 							char szError[256];
-							sprintf(szError, Translate("Username '%s' provided by Skype API doesn't match username '%s' in "
-								"your settings. Please either remove username setting in you configuration or correct "
-								"it. Will not connect!"), pszUser, dbv.pszVal);
+							sprintf(szError,
+								Translate("Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!"),
+								pszUser, dbv.pszVal);
 							OUTPUTA(szError);
 							Initializing = FALSE;
 							AttachStatus = -1;
@@ -2700,7 +2700,6 @@ void MessageSendWatchThread(void *a) {
 INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 	CCSDATA *ccs = (CCSDATA *)lParam;
 	DBVARIANT dbv;
-	BOOL sendok = TRUE;
 	char *msg = (char *)ccs->lParam, *utfmsg = NULL, *mymsgcmd = cmdMessage, szId[16] = { 0 };
 	static DWORD dwMsgNum = 0;
 	BYTE bIsChatroom = 0 != db_get_b(ccs->hContact, SKYPE_PROTONAME, "ChatRoom", 0);
@@ -2732,7 +2731,9 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 		sprintf(szId, "#M%d ", dwMsgNum++);
 	}
 	InterlockedIncrement(&sendwatchers);
-	if (!utfmsg || SkypeSend("%s%s %s %s", szId, mymsgcmd, dbv.pszVal, utfmsg)) sendok = FALSE;
+	BOOL sendok = true;
+	if (!utfmsg || SkypeSend("%s%s %s %s", szId, mymsgcmd, dbv.pszVal, utfmsg))
+		sendok = false;
 	if (utfmsg && utfmsg != msg) free(utfmsg);
 	db_free(&dbv);
 
@@ -2749,11 +2750,12 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 				pthread_create(MessageSendWatchThread, psendarg);
 				return 1;
 			}
-			InterlockedDecrement(&sendwatchers);
 		}
+		InterlockedDecrement(&sendwatchers);
 		return 1;
 	}
-	else InterlockedDecrement(&sendwatchers);
+	else
+		InterlockedDecrement(&sendwatchers);
 	if (!bIsChatroom)
 		ProtoBroadcastAck(SKYPE_PROTONAME, ccs->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)1, (LPARAM)Translate("Connection to Skype lost"));
 	return 0;
