@@ -19,6 +19,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" };
 
+CMString json_as_CMString(JSONNODE* pNode)
+{
+	ptrT pString(json_as_string(pNode));
+	CMString tszString = pString;
+	return tszString;
+}
+
+
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 {
 	for (int i = 0; i < pReq->headersCount; i++)
@@ -80,6 +88,9 @@ AsyncHttpRequest::AsyncHttpRequest()
 	AddHeader("Accept-Encoding", "booo");
 	pUserInfo = NULL;
 	m_iRetry = MAX_RETRIES;
+	bNeedsRestart = false;
+	bIsMainConn = false;
+	m_pFunc = NULL;
 }
 
 AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
@@ -107,6 +118,8 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	m_pFunc = pFunc;
 	pUserInfo = NULL;
 	m_iRetry = MAX_RETRIES;
+	bNeedsRestart = false;
+	bIsMainConn = false;
 }
 
 AsyncHttpRequest::~AsyncHttpRequest()
@@ -306,7 +319,8 @@ void CVkProto::OnReceiveSmth(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	JSONROOT pRoot;
 	JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
-	debugLog(_T("CVkProto::OnReceiveSmth %s"), json_as_string(pResponse));
+	ptrT ptszLog(json_as_string(pResponse));
+	debugLog(_T("CVkProto::OnReceiveSmth %s"), ptszLog);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -750,7 +764,7 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto, BBCSupport iBBC)
 	tszRes.AppendFormat(_T("%s (%dx%d)"), SetBBCString(TranslateT("Photo"), iBBC, vkbbcUrl, ptszLink).GetBuffer(), iWidth, iHeight);
 	if (m_iIMGBBCSupport)
 		tszRes.AppendFormat(_T("\n\t[img]%s[/img]"), ptszPreviewLink ? ptszPreviewLink : (ptszLink ? ptszLink : _T("")));
-	CMString tszText = json_as_string(json_get(pPhoto, "text"));
+	CMString tszText = json_as_CMString(json_get(pPhoto, "text"));
 	if (!tszText.IsEmpty())
 		tszRes += "\n" + tszText;
 
@@ -930,7 +944,7 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 			ptrT ptszUrl(json_as_string(json_get(pLink, "url")));
 			ptrT ptszTitle(json_as_string(json_get(pLink, "title")));
 			ptrT ptszDescription(json_as_string(json_get(pLink, "description")));
-			CMString tszImage(json_as_string(json_get(pLink, "image_src")));
+			CMString tszImage(json_as_CMString(json_get(pLink, "image_src")));
 
 			res.AppendFormat(_T("%s: %s"), 
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB).GetBuffer(), 

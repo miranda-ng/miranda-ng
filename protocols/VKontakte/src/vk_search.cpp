@@ -132,12 +132,18 @@ void CVkProto::OnSearch(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
-		psr.id = mir_wstrdup(json_as_string(json_get(pRecord, "id")));
-		psr.firstName = mir_wstrdup(json_as_string(json_get(pRecord, "first_name")));
-		psr.lastName = mir_wstrdup(json_as_string(json_get(pRecord, "last_name")));
-		psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "nickname")));
+		ptrT pId(json_as_string(json_get(pRecord, "id")));
+		ptrT pFirstName(json_as_string(json_get(pRecord, "first_name")));
+		ptrT pLastName(json_as_string(json_get(pRecord, "last_name")));
+		ptrT pNick(json_as_string(json_get(pRecord, "nickname")));
+		ptrT pDomain(json_as_string(json_get(pRecord, "domain")));
+
+		psr.id = mir_wstrdup(pId);
+		psr.firstName = mir_wstrdup(pFirstName);
+		psr.lastName = mir_wstrdup(pLastName);
+		psr.nick = mir_wstrdup(pNick);
 		if (!psr.nick || !psr.nick[0])
-			psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "domain")));
+			psr.nick = mir_wstrdup(pDomain);
 		
 		bool filter = true;
 		if (pParam) {
@@ -191,11 +197,17 @@ void CVkProto::OnSearchByMail(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
 
-		psr.id = mir_wstrdup(json_as_string(json_get(pRecord, "id")));
-		psr.firstName = mir_wstrdup(json_as_string(json_get(pRecord, "first_name")));
-		psr.lastName = mir_wstrdup(json_as_string(json_get(pRecord, "last_name")));
-		psr.nick = mir_wstrdup(json_as_string(json_get(pRecord, "nickname")));
-		psr.email = mir_wstrdup(json_as_string(json_get(pRecord, "contact")));
+		ptrT pId(json_as_string(json_get(pRecord, "id")));
+		ptrT pFirstName(json_as_string(json_get(pRecord, "first_name")));
+		ptrT pLastName(json_as_string(json_get(pRecord, "last_name")));
+		ptrT pNick(json_as_string(json_get(pRecord, "nickname")));
+		ptrT pEmail(json_as_string(json_get(pRecord, "contact")));
+
+		psr.id = mir_wstrdup(pId);
+		psr.firstName = mir_wstrdup(pFirstName);
+		psr.lastName = mir_wstrdup(pLastName);
+		psr.nick = mir_wstrdup(pNick);
+		psr.email = mir_wstrdup(pEmail);
 		if (!psr.nick || !psr.nick[0])
 				psr.nick = psr.email;
 			

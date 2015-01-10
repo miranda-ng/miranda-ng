@@ -80,6 +80,8 @@ struct CVkProto;
 extern LIST<CVkProto> vk_Instances;
 extern HINSTANCE hInst;
 
+CMString json_as_CMString(JSONNODE* pNode);
+
 LPCSTR findHeader(NETLIBHTTPREQUEST *hdr, LPCSTR szField);
 bool tlstrstr(TCHAR* _s1, TCHAR* _s2);
 

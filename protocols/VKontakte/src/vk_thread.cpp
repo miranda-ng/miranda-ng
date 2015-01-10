@@ -274,14 +274,14 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	CMString tszNick, tszValue;
 	int iValue;
 
-	tszValue = json_as_string(json_get(pItem, "first_name"));
+	tszValue = json_as_CMString(json_get(pItem, "first_name"));
 	if (!tszValue.IsEmpty()) {
 		setTString(hContact, "FirstName", tszValue.GetBuffer());
 		tszNick.Append(tszValue);
 		tszNick.AppendChar(' ');
 	}
 
-	tszValue = json_as_string(json_get(pItem, "last_name"));
+	tszValue = json_as_CMString(json_get(pItem, "last_name"));
 	if (!tszValue.IsEmpty()) {
 		setTString(hContact, "LastName", tszValue.GetBuffer());
 		tszNick.Append(tszValue);
@@ -294,7 +294,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	if (sex)
 		setByte(hContact, "Gender", sex == 2 ? 'M' : 'F');
 
-	tszValue = json_as_string(json_get(pItem, "bdate"));
+	tszValue = json_as_CMString(json_get(pItem, "bdate"));
 	if (!tszValue.IsEmpty()) {
 		int d, m, y, iReadCount;
 		iReadCount = _stscanf(tszValue.GetBuffer(), _T("%d.%d.%d"), &d, &m, &y);
@@ -306,7 +306,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		}
 	}
 
-	tszValue = json_as_string(json_get(pItem, "photo_100"));
+	tszValue = json_as_CMString(json_get(pItem, "photo_100"));
 	if (!tszValue.IsEmpty()) {
 		SetAvatarUrl(hContact, tszValue);
 		ReloadAvatarInfo(hContact);
@@ -317,7 +317,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
-		int online_app = _ttoi(json_as_string(json_get(pItem, "online_app")));
+		int online_app = _ttoi(json_as_CMString(json_get(pItem, "online_app")));
 		int online_mobile = json_as_int(json_get(pItem, "online_mobile"));
 		
 		if (online_app == 0 && online_mobile == 0)
@@ -333,15 +333,15 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 	if ((iValue = json_as_int(json_get(pItem, "timezone"))) != 0)
 		setByte(hContact, "Timezone", iValue * -2);
 
-	tszValue = json_as_string(json_get(pItem, "mobile_phone"));
+	tszValue = json_as_CMString(json_get(pItem, "mobile_phone"));
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "Cellular", tszValue.GetBuffer());
 	
-	tszValue = json_as_string(json_get(pItem, "home_phone"));
+	tszValue = json_as_CMString(json_get(pItem, "home_phone"));
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "Phone", tszValue.GetBuffer());
 
-	tszValue = json_as_string(json_get(pItem, "status"));
+	tszValue = json_as_CMString(json_get(pItem, "status"));
 	CMString tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
 	if (tszValue != tszOldStatus) {
 		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue.GetBuffer());
@@ -349,7 +349,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		JSONNODE* pAudio = json_get(pItem, "status_audio");
 		if (pAudio != NULL) {
 			db_set_ts(hContact, m_szModuleName, "ListeningTo", tszValue.GetBuffer());
-			tszValue = json_as_string(json_get(pAudio, "url"));
+			tszValue = json_as_CMString(json_get(pAudio, "url"));
 			db_set_ts(hContact, m_szModuleName, "AudioUrl", tszValue.GetBuffer());
 		}
 		else if (tszValue.GetBuffer()[0] == TCHAR(9835) && tszValue.GetLength() > 2)
@@ -358,12 +358,12 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 			db_unset(hContact, m_szModuleName, "ListeningTo");
 	}
 
-	tszValue = json_as_string(json_get(pItem, "about"));
+	tszValue = json_as_CMString(json_get(pItem, "about"));
 	
 	if (!tszValue.IsEmpty())
 		setTString(hContact, "About", tszValue.GetBuffer());
 
-	tszValue = json_as_string(json_get(pItem, "domain"));
+	tszValue = json_as_CMString(json_get(pItem, "domain"));
 	if (!tszValue.IsEmpty()) {
 		setTString(hContact, "domain", tszValue.GetBuffer());
 		CMString tszUrl("https://vk.com/");
@@ -650,8 +650,8 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		if (chat_id != 0) {
-			CMString action_chat = json_as_string(json_get(pMsg, "action"));
-			int action_mid = _ttoi(json_as_string(json_get(pMsg, "action_mid")));
+			CMString action_chat = json_as_CMString(json_get(pMsg, "action"));
+			int action_mid = _ttoi(json_as_CMString(json_get(pMsg, "action_mid")));
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
 				KickFromChat(chat_id, uid, pMsg);
 			else
@@ -976,7 +976,7 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	JSONNODE *pAudio = json_get(pResponse, "audio");
 	if (pAudio == NULL) {
-		CMString StatusText = json_as_string(json_get(pResponse, "text"));
+		CMString StatusText = json_as_CMString(json_get(pResponse, "text"));
 		if (StatusText.GetBuffer()[0] != TCHAR(9835))
 			setTString("OldStatusMsg", StatusText.GetBuffer());
 	}

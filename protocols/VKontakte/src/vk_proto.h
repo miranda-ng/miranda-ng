@@ -106,7 +106,11 @@ struct CVkSendMsgParam
 
 struct CVkChatMessage : public MZeroedObject
 {
-	CVkChatMessage(int _id) : m_mid(_id) {}
+	CVkChatMessage(int _id) : 
+		m_mid(_id),
+		m_uid(0),
+		m_date(0),
+		m_bHistory(false){}
 
 	int m_mid, m_uid, m_date;
 	bool m_bHistory;
@@ -115,7 +119,11 @@ struct CVkChatMessage : public MZeroedObject
 
 struct CVkChatUser : public MZeroedObject
 {
-	CVkChatUser(int _id) : m_uid(_id) {}
+	CVkChatUser(int _id) : 
+		m_uid(_id),
+		m_bDel(false), 
+		m_bUnknown(false)
+	{}
 
 	int m_uid;
 	bool m_bDel, m_bUnknown;
@@ -127,7 +135,10 @@ struct CVkChatInfo : public MZeroedObject
 	CVkChatInfo(int _id) :
 		m_users(10, NumericKeySortT),
 		m_msgs(10, NumericKeySortT),
-		m_chatid(_id)
+		m_chatid(_id), 
+		m_admin_id(0),
+		m_bHistoryRead(0),
+		m_hContact(INVALID_CONTACT_ID)
 		{}
 
 	int m_chatid, m_admin_id;
