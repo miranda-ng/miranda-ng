@@ -85,30 +85,30 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 
 	// delete 
-	mir_cslock lck(m_csDbAccess);
+	MDB_val key = { sizeof(DWORD), &contactID };
 
+	MDB_txn *txn;
+	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
+	mdb_del(txn, m_dbContacts, &key, NULL);
+	mdb_txn_commit(txn);
 	return 0;
 }
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
-	DWORD dwContactId;
-	DBContact dbc = { 0 };
+	DBContact dbc;
 	dbc.signature = DBCONTACT_SIGNATURE;
-	{
-		mir_cslock lck(m_csDbAccess);
+	dbc.eventCount = 0;
 
-		dwContactId = m_dwMaxContactId++;
+	DWORD dwContactId = m_dwMaxContactId++;
 
-		MDB_val key, data;
-		key.mv_size = sizeof(DWORD); key.mv_data = &dwContactId;
-		data.mv_size = sizeof(DBContact); data.mv_data = &dbc;
+	MDB_val key = { sizeof(DWORD), &dwContactId };
+	MDB_val data = { sizeof(DBContact), &dbc };
 
-		MDB_txn *txn;
-		mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-		mdb_put(txn, m_dbContacts, &key, &data, 0);
-		mdb_txn_commit(txn);
-	}
+	MDB_txn *txn;
+	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
+	mdb_put(txn, m_dbContacts, &key, &data, 0);
+	mdb_txn_commit(txn);
 
 	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 	cc->dwDriverData = 0;
@@ -120,17 +120,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 STDMETHODIMP_(BOOL) CDbxMdb::IsDbContact(MCONTACT contactID)
 {
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	if (cc == NULL)
-		return FALSE;
-
-	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = NULL;
-	if (dbc->signature == DBCONTACT_SIGNATURE) {
-		m_cache->AddContactToCache(contactID);
-		return TRUE;
-	}
-
-	return FALSE;
+	return (cc != NULL);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -173,8 +163,11 @@ void CDbxMdb::FillContacts()
 {
 	m_contactCount = 0;
 
+	MDB_txn *txn;
+	mdb_txn_begin(m_pMdbEnv, NULL, MDB_RDONLY, &txn);
+
 	MDB_cursor *cursor;
-	mdb_cursor_open(m_txn, m_dbModules, &cursor);
+	mdb_cursor_open(txn, m_dbContacts, &cursor);
 
 	DWORD dwContactId;
 	DBContact value;
@@ -184,6 +177,9 @@ void CDbxMdb::FillContacts()
 	data.mv_size = sizeof(DBContact); data.mv_data = &value;
 
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
+		if (value.signature != DBCONTACT_SIGNATURE)
+			DatabaseCorruption(NULL);
+
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 		cc->dwDriverData = 0;
 		CheckProto(cc, "");
@@ -206,4 +202,5 @@ void CDbxMdb::FillContacts()
 	}
 	
 	mdb_cursor_close(cursor);
+	mdb_txn_abort(txn);
 }

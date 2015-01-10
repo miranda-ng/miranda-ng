@@ -95,11 +95,11 @@ int CDbxMdb::Load(bool bSkipInit)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
-		mdb_txn_begin(m_pMdbEnv, NULL, 0, &m_txn);
-
-		mdb_open(m_txn, "modules",  MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
-		mdb_open(m_txn, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
-		mdb_open(m_txn, "events",   MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+		MDB_txn *txn;
+		mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
+		mdb_open(txn, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
+		mdb_open(txn, "events",   MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+		mdb_txn_commit(txn);
 
 		if (InitModuleNames()) return EGROKPRF_CANTREAD;
 		if (InitCrypt())       return EGROKPRF_CANTREAD;
@@ -156,7 +156,7 @@ int CDbxMdb::Check(void)
 	return (memcmp(buf + 16, "\xDE\xC0\xEF\xBE", 4)) ? EGROKPRF_UNKHEADER : 0;
 }
 
-int CDbxMdb::PrepareCheck(int *error)
+int CDbxMdb::PrepareCheck(int*)
 {
 	InitModuleNames();
 	return InitCrypt();
@@ -166,6 +166,53 @@ STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 {
 	mir_cslock lck(m_csDbAccess);
 	m_safetyMode = bIsSet != 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static DWORD DatabaseCorrupted = 0;
+static const TCHAR *msg = NULL;
+static DWORD dwErr = 0;
+static TCHAR tszPanic[] = LPGENT("Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.");
+
+void __cdecl dbpanic(void *)
+{
+	if (msg) {
+		if (dwErr == ERROR_DISK_FULL)
+			msg = TranslateT("Disk is full. Miranda will now shut down.");
+
+		TCHAR err[256];
+		mir_sntprintf(err, SIZEOF(err), msg, TranslateT("Database failure. Miranda will now shut down."), dwErr);
+
+		MessageBox(0, err, TranslateT("Database Error"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
+	}
+	else MessageBox(0, TranslateTS(tszPanic), TranslateT("Database Panic"), MB_SETFOREGROUND | MB_TOPMOST | MB_APPLMODAL | MB_ICONWARNING | MB_OK);
+	TerminateProcess(GetCurrentProcess(), 255);
+}
+
+void CDbxMdb::DatabaseCorruption(const TCHAR *text)
+{
+	int kill = 0;
+
+	mir_cslockfull lck(m_csDbAccess);
+	if (DatabaseCorrupted == 0) {
+		DatabaseCorrupted++;
+		kill++;
+		msg = text;
+		dwErr = GetLastError();
+	}
+	else {
+		/* db is already corrupted, someone else is dealing with it, wait here
+		so that we don't do any more damage */
+		Sleep(INFINITE);
+		return;
+	}
+	lck.unlock();
+
+	if (kill) {
+		_beginthread(dbpanic, 0, NULL);
+		Sleep(INFINITE);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -179,7 +226,7 @@ int CDbxMdb::Start(DBCHeckCallback *callback)
 	return ERROR_SUCCESS;
 }
 
-int CDbxMdb::CheckDb(int phase, int firstTime)
+int CDbxMdb::CheckDb(int, int)
 {
 	return ERROR_OUT_OF_PAPER;
 
