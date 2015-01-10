@@ -88,9 +88,10 @@ bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath, bo
 		}
 
 		HANDLE hFile = CreateFile(ptszFile2unzip, GENERIC_WRITE, FILE_SHARE_WRITE, 0, CREATE_ALWAYS, file_info.external_fa, 0);
-		if (hFile == INVALID_HANDLE_VALUE)
+		if (hFile == INVALID_HANDLE_VALUE) {
+			mir_free(ptszNewName);
 			return false;
-			
+		}
 		while (true) {
 			err = unzReadCurrentFile(uf, buf, sizeof(buf));
 			if (err <= 0)
