@@ -29,37 +29,57 @@ void CDbxMdb::AddToList(char *name, DWORD ofs)
 	mn->name = name;
 	mn->ofs = ofs;
 
+	if (m_lMods.getIndex(mn) != -1)
+		DatabaseCorruption(_T("%s (Module Name not unique)"));
 	m_lMods.insert(mn);
+
+	if (m_lOfs.getIndex(mn) != -1)
+		DatabaseCorruption(_T("%s (Module Offset not unique)"));
 	m_lOfs.insert(mn);
 }
 
 int CDbxMdb::InitModuleNames(void)
 {
+	m_maxModuleID = 0;
+
+	MDB_txn *txn;
+	mdb_txn_begin(m_pMdbEnv, NULL, MDB_RDONLY, &txn);
+	mdb_open(txn, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
+
 	MDB_cursor *cursor;
-	mdb_cursor_open(m_txn, m_dbModules, &cursor);
+	mdb_cursor_open(txn, m_dbModules, &cursor);
 
 	int rc, moduleId;
-	char moduleName[100];
-	MDB_val key = { sizeof(int), &moduleId }, data = { sizeof(moduleName), moduleName };
-	while ((rc = mdb_cursor_get(cursor, &key, &data, MDB_NEXT)) == 0)
-		AddToList(moduleName, moduleId);
+	char valueBuf[100];
+	MDB_val key = { sizeof(int), &moduleId }, data = { sizeof(valueBuf), valueBuf };
+	
+	while ((rc = mdb_cursor_get(cursor, &key, &data, MDB_NEXT)) == 0) {
+		DBModuleName *pmod = (DBModuleName*)valueBuf;
+		if (pmod->signature != DBMODULENAME_SIGNATURE)
+			DatabaseCorruption(NULL);
+
+		char *pVal = (char*)HeapAlloc(m_hModHeap, 0, pmod->cbName+1);
+		memcpy(pVal, pmod->name, pmod->cbName);
+		pVal[pmod->cbName] = 0;
+
+		AddToList(pVal, moduleId);
+
+		if (moduleId > m_maxModuleID)
+			m_maxModuleID = moduleId;
+	}
 
 	mdb_cursor_close(cursor);
+	mdb_txn_abort(txn);
 	return 0;
 }
 
 DWORD CDbxMdb::FindExistingModuleNameOfs(const char *szName)
 {
 	ModuleName mn = { (char*)szName, 0 };
-	if (m_lastmn && !strcmp(mn.name, m_lastmn->name))
-		return m_lastmn->ofs;
 
 	int index = m_lMods.getIndex(&mn);
-	if (index != -1) {
-		ModuleName *pmn = m_lMods[index];
-		m_lastmn = pmn;
-		return pmn->ofs;
-	}
+	if (index != -1)		
+		return m_lMods[index]->ofs;
 
 	return 0;
 }
@@ -77,11 +97,24 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	int nameLen = (int)strlen(szName);
 
 	// need to create the module name
+	int newIdx = ++m_maxModuleID;
+	DBModuleName *pmod = (DBModuleName*)_alloca(sizeof(DBModuleName) + nameLen);
+	pmod->signature = DBMODULENAME_SIGNATURE;
+	pmod->cbName = (char)nameLen;
+	strcpy(pmod->name, szName);
+	
+	MDB_val key = { sizeof(int), &newIdx }, data = { sizeof(DBModuleName) + nameLen, pmod };
+
+	MDB_txn *txn;
+	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
+	mdb_open(txn, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
+	mdb_put(txn, m_dbModules, &key, &data, 0);
+	mdb_txn_commit(txn);
 
 	// add to cache
 	char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);
 	strcpy(mod, szName);
-	AddToList(mod, -1);
+	AddToList(mod, newIdx);
 
 	// quit
 	return -1;
@@ -89,16 +122,10 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 
 char* CDbxMdb::GetModuleNameByOfs(DWORD ofs)
 {
-	if (m_lastmn && m_lastmn->ofs == ofs)
-		return m_lastmn->name;
-
 	ModuleName mn = { NULL, ofs };
 	int index = m_lOfs.getIndex(&mn);
-	if (index != -1) {
-		ModuleName *pmn = m_lOfs[index];
-		m_lastmn = pmn;
-		return pmn->name;
-	}
+	if (index != -1)
+		return m_lOfs[index]->name;
 
 	return NULL;
 }

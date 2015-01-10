@@ -124,6 +124,8 @@ struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObje
 	int Create(void);
 	int Check(void);
 
+	void DatabaseCorruption(const TCHAR *ptszText);
+
 	void ToggleEncryption(void);
 	void StoreKey(void);
 	void SetPassword(const TCHAR *ptszPassword);
@@ -209,7 +211,6 @@ public:
 
 protected:
 	MDB_env *m_pMdbEnv;
-	MDB_txn *m_txn;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
@@ -245,7 +246,7 @@ protected:
 	LIST<char> m_lResidentSettings;
 	HANDLE   hEventAddedEvent, hEventDeletedEvent, hEventFilterAddedEvent;
 	MCONTACT m_hLastCachedContact;
-	ModuleName *m_lastmn;
+	int      m_maxModuleID;
 
 	void     AddToList(char *name, DWORD ofs);
 	DWORD    FindExistingModuleNameOfs(const char *szName);

@@ -216,7 +216,7 @@ union semun {
 #ifdef _WIN32
 #define MDB_USE_HASH	1
 #define MDB_PIDLOCK	0
-#define THREAD_RET	DWORD
+#define THREAD_RET	DWORD WINAPI
 #define pthread_t	HANDLE
 #define pthread_mutex_t	HANDLE
 #define pthread_cond_t	HANDLE

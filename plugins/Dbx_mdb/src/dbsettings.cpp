@@ -79,6 +79,7 @@ int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR
 
 	mir_cslock lck(m_csDbAccess);
 
+LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 	log3("get [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
@@ -115,6 +116,20 @@ int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR
 	// never look db for the resident variable
 	if (szCachedSettingName[-1] != 0)
 		return 1;
+
+	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
+
+	DWORD ofsModuleName = GetModuleNameOfs(szModule);
+
+	// try to get the missing mc setting from the active sub
+	if (cc && cc->IsMeta() && ValidLookupName(szModule, szSetting)) {
+		if (contactID = db_mc_getDefault(contactID)) {
+			if (szModule = GetContactProto(contactID)) {
+				moduleNameLen = (int)strlen(szModule);
+				goto LBL_Seek;
+			}
+		}
+	}
 
 	return 1;
 }
