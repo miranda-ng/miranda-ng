@@ -142,8 +142,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		SendSMSWindowUpdateAccountList(hWndDlg);
 
 		{	
-			TCHAR tszSign[1024];
-			size_t dwSignLen;
+			size_t dwSignLen = 0;
 
 			if (DB_SMS_GetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE))
 			if (DB_SMS_GetStaticStringW(NULL,"Signature",tszSign,SIZEOF(tszSign),&dwSignLen))
@@ -154,6 +153,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				EnableWindow(GetDlgItem(hWndDlg,IDOK),dwSignLen);
 			}
 
+			TCHAR tszSign[1024];
 			mir_sntprintf(tszSign,SIZEOF(tszSign),_T("%d/%d"),dwSignLen,GetSMSMessageLenMax(hWndDlg));
 			SetDlgItemText(hWndDlg,IDC_COUNT,tszSign);
 		}
