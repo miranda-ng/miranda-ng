@@ -19,79 +19,57 @@ PLUGININFOEX pluginInfo = {
 	{0x297ec1e7, 0x41b7, 0x41f9, {0xbb, 0x91, 0xef, 0xa9, 0x50, 0x28, 0xf1, 0x6c}}
 };
 
-static INT_PTR ShowGuideFile(WPARAM wParam, LPARAM lParam)
+static INT_PTR ShowGuideFile(WPARAM, LPARAM)
 {
-	DBVARIANT dbv = {0};
-	int iRes;
+	LPTSTR pszDirName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
+	LPTSTR pszFileName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
 
-	LPCTSTR pszEmptySting = _T("");
-	LPTSTR pszDirName, pszDirNameEx, pszFileName,pszDivider;
-
-	REPLACEVARSDATA dat = {0};
-	dat.cbSize = sizeof( dat );
-	dat.dwFlags = RVF_TCHAR;
+	TCHAR *ptszHelpFile = db_get_tsa(NULL, "UserGuide", "PathToHelpFile");
 	
-	pszDirName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
-	pszFileName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
-
-	iRes = db_get_ts(NULL, "UserGuide", "PathToHelpFile", &dbv);
-	
-	if (iRes!=0)
+	if (ptszHelpFile==0)
 	{
 			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
 			_tcscpy(pszFileName, _T("UserGuide.chm"));			
 	}
 	else
 	{
-		if(!_tcscmp((dbv.ptszVal), pszEmptySting))
+		if(!_tcscmp(ptszHelpFile, _T("")))
 		{
 			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
 			_tcscpy(pszFileName, _T("UserGuide.chm"));
 		}
 		else 
 		{
-			pszDivider = _tcsrchr(dbv.ptszVal, '\\');
+			LPTSTR pszDivider = _tcsrchr(ptszHelpFile, '\\');
 			if (pszDivider == NULL)
 			{	
-				pszDirName = _T("");
-				_tcsncpy(pszFileName, dbv.ptszVal, _tcslen(dbv.ptszVal));
+				_tcscpy(pszDirName, _T(""));
+				_tcsncpy(pszFileName, ptszHelpFile, _tcslen(ptszHelpFile));
 			}
 			else
 			{
-				_tcsncpy(pszFileName, pszDivider + 1, _tcslen(dbv.ptszVal) - _tcslen(pszDivider) - 1);
-				pszFileName[_tcslen(dbv.ptszVal) - _tcslen(pszDivider) - 1] = 0;
-				_tcsncpy(pszDirName, dbv.ptszVal, pszDivider - dbv.ptszVal);
-				pszDirName[pszDivider - dbv.ptszVal] = 0;
+				_tcsncpy(pszFileName, pszDivider + 1, _tcslen(ptszHelpFile) - _tcslen(pszDivider) - 1);
+				pszFileName[_tcslen(ptszHelpFile) - _tcslen(pszDivider) - 1] = 0;
+				_tcsncpy(pszDirName, ptszHelpFile, pszDivider - ptszHelpFile);
+				pszDirName[pszDivider - ptszHelpFile] = 0;
 			}
 		}
-		db_free(&dbv);
+		mir_free(ptszHelpFile);
 	}
-	if (ServiceExists(MS_UTILS_REPLACEVARS))
-		pszDirNameEx = (TCHAR *) CallService(MS_UTILS_REPLACEVARS, (WPARAM)pszDirName, (LPARAM)&dat);
+	LPTSTR pszDirNameEx;
+	if (ServiceExists(MS_UTILS_REPLACEVARS)) {
+		pszDirNameEx = Utils_ReplaceVarsT(pszDirName);
+		mir_free(pszDirName);
+	}
 	else
-		pszDirNameEx = mir_tstrdup(pszDirName);
+		pszDirNameEx = pszDirName;
 
 	ShellExecute(NULL, _T("open"), pszFileName, NULL, pszDirNameEx, SW_SHOW);
-	mir_free(pszDirName);
 	mir_free(pszFileName);
 	mir_free(pszDirNameEx);
 	return 0;
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam)
-{
-	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.position = 500000;
-	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HELP);
-	mi.ptszName = LPGENT("User Guide");
-	mi.pszService = "UserGuide/ShowGuide";
-	Menu_AddMainMenuItem(&mi);
-	
-	return 0;
-}
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -108,7 +86,16 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 500000;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HELP);
+	mi.ptszName = LPGENT("User Guide");
+	mi.pszService = "UserGuide/ShowGuide";
+	Menu_AddMainMenuItem(&mi);
+	
 	return 0;
 }
 
