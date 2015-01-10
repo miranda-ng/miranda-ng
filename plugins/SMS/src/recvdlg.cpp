@@ -208,6 +208,7 @@ HWND RecvSMSWindowAdd(MCONTACT hContact,DWORD dwEventType,LPWSTR lpwszPhone,size
 				break;
 			default:
 				lpwszTitlepart=_T("Unknown event type");
+				hIcon = 0;
 			}
 
 			wszPhoneLocal[0]='+';
