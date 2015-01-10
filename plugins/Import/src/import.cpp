@@ -766,8 +766,6 @@ void ImportMeta(DBCachedContact *ccSrc)
 
 static MCONTACT ImportContact(MCONTACT hSrc)
 {
-	TCHAR id[40], *pszUniqueID;
-
 	// Check what protocol this contact belongs to
 	DBCachedContact *cc = srcDb->m_cache->GetCachedContact(hSrc);
 	if (cc == NULL || cc->szProto == NULL) {
@@ -805,6 +803,7 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 	}
 
 	// Does the contact already exist?
+	TCHAR id[40], *pszUniqueID;
 	MCONTACT hDst;
 	switch (dbv.type) {
 	case DBVT_DWORD:
@@ -817,6 +816,10 @@ static MCONTACT ImportContact(MCONTACT hSrc)
 		pszUniqueID = NEWTSTR_ALLOCA(_A2T(dbv.pszVal));
 		hDst = HContactFromID(pda->pa->szModuleName, pszUniqueSetting, pszUniqueID);
 		break;
+
+	default:
+		hDst = INVALID_CONTACT_ID;
+		pszUniqueID = NULL;
 	}
 
 	if (hDst != INVALID_CONTACT_ID) {
