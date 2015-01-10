@@ -510,6 +510,10 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	int iResult = ACKRESULT_FAILED;
+	if (pReq->pUserInfo == NULL){
+		debugLogA("CVkProto::OnSendMessage failed! (pUserInfo == NULL)");
+		return;
+	}
 	CVkSendMsgParam *param = (CVkSendMsgParam*)pReq->pUserInfo;
 
 	debugLogA("CVkProto::OnSendMessage %d", reply->resultCode);
@@ -531,12 +535,16 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	if (param->iMsgID == -1) {
 		CVkFileUploadParam *fup = (CVkFileUploadParam *)param->iCount;
 		ProtoBroadcastAck(fup->hContact, ACKTYPE_FILE, iResult, (HANDLE)fup, 0);
-		delete fup;
+		if (!pReq->bNeedsRestart)
+			delete fup;
 		return;
 	} 
 	else if (m_bServerDelivery)
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID), 0);
-	delete param;
+	if (!pReq->bNeedsRestart){
+		delete param;
+		pReq->pUserInfo = NULL;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -665,7 +673,8 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			}
 		}
 	}
-	delete param;
+	if (!pReq->bNeedsRestart)
+		delete param;
 }
 
 int CVkProto::Authorize(HANDLE hDbEvent)
