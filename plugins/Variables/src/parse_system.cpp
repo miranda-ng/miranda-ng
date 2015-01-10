@@ -440,7 +440,7 @@ static TCHAR *parseProcessRunning(ARGUMENTSINFO *ai)
 	char *szProc, *ref;
 	szProc = ref = mir_u2a(ai->targv[1]);
 
-	EnumProcs((PROCENUMPROC)MyProcessEnumerator, (LPARAM)&szProc);
+	EnumProcs(MyProcessEnumerator, (LPARAM)&szProc);
 	if (szProc != NULL)
 		ai->flags |= AIF_FALSE;
 
@@ -454,19 +454,20 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai)
 	if (ai->argc != 3)
 		return NULL;
 
-	HKEY hKey;
 	DWORD len, type;
-	int err;
 
 	TCHAR *key = mir_tstrdup(ai->targv[1]);
 	if (key == NULL)
 		return NULL;
 
 	TCHAR *cur = _tcschr(key, '\\');
-	if (cur == NULL)
+	if (cur == NULL) {
+		mir_free(key);
 		return NULL;
+	}
 
 	*cur = 0;
+	HKEY hKey;
 	if (!_tcscmp(key, _T("HKEY_CLASSES_ROOT")))
 		hKey = HKEY_CLASSES_ROOT;
 	else if (!_tcscmp(key, _T("HKEY_CURRENT_USER")))
@@ -491,7 +492,7 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai)
 		return NULL;
 
 	memset(res, 0, (len * sizeof(TCHAR)));
-	err = RegQueryValueEx(hKey, ai->targv[2], NULL, &type, (BYTE*)res, &len);
+	int err = RegQueryValueEx(hKey, ai->targv[2], NULL, &type, (BYTE*)res, &len);
 	if ((err != ERROR_SUCCESS) || (type != REG_SZ)) {
 		RegCloseKey(hKey);
 		mir_free(res);
@@ -586,26 +587,26 @@ static TCHAR *parseTimestamp2Time(ARGUMENTSINFO *ai)
 
 static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 {
-	int lineNo, lineCount, csz;
-	unsigned int icur, bufSz;
-	DWORD fileSz, readSz, totalReadSz;
-	unsigned long linePos;
-	TCHAR tUC, *res;
-	BYTE *pBuf, *pCur;
-
 	if (ai->argc != 3)
 		return NULL;
 
-	lineNo = ttoi(ai->targv[2]);
 	HANDLE hFile = CreateFile(ai->targv[1], GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return NULL;
 
-	fileSz = GetFileSize(hFile, NULL);
+	DWORD fileSz = GetFileSize(hFile, NULL);
 	if (fileSz == INVALID_FILE_SIZE) {
 		CloseHandle(hFile);
 		return NULL;
 	}
+
+	int lineNo = ttoi(ai->targv[2]);
+	int lineCount, csz;
+	unsigned int icur, bufSz;
+	DWORD readSz, totalReadSz;
+	unsigned long linePos;
+	TCHAR tUC, *res;
+	BYTE *pBuf, *pCur;
 	ReadFile(hFile, &tUC, sizeof(TCHAR), &readSz, NULL);
 	if (tUC != (TCHAR)0xFEFF) {
 		tUC = 0;
@@ -620,8 +621,10 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		// complete file
 		bufSz = fileSz + csz;
 		pBuf = (PBYTE)mir_calloc(bufSz);
-		if (pBuf == NULL)
+		if (pBuf == NULL) {
+			CloseHandle(hFile);
 			return NULL;
+		}
 
 		if (ReadFile(hFile, pBuf, bufSz - csz, &readSz, NULL) == 0) {
 			CloseHandle(hFile);
@@ -657,19 +660,19 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 		for (pCur = pBuf; *pCur != '\0'; pCur += csz) {
 			if (tUC) {
 				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
-					lineCount += 1;
+					lineCount++;
 					pCur += csz;
 				}
 				else if (*(TCHAR*)pCur == '\n')
-					lineCount += 1;
+					lineCount++;
 			}
 			else {
 				if (!strncmp((char *)pCur, "\r\n", 2)) {
-					lineCount += 1;
+					lineCount++;
 					pCur += csz;
 				}
 				else if (*(char *)pCur == '\n')
-					lineCount += 1;
+					lineCount++;
 			}
 		}
 	}
@@ -697,19 +700,19 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 
 			if (tUC) {
 				if (!_tcsncmp((TCHAR*)pCur, _T("\r\n"), 2)) {
-					lineCount += 1;
+					lineCount++;
 					pCur += csz;
 				}
 				else if (*(TCHAR*)pCur == '\n')
-					lineCount += 1;
+					lineCount++;
 			}
 			else {
 				if (!strncmp((char *)pCur, "\r\n", 2)) {
-					lineCount += 1;
+					lineCount++;
 					pCur += csz;
 				}
 				else if (*(char *)pCur == '\n')
-					lineCount += 1;
+					lineCount++;
 			}
 		}
 		if (((tUC) && (*(TCHAR*)pCur == '\r')) || ((!tUC) && (*(char *)pCur == '\r'))) {

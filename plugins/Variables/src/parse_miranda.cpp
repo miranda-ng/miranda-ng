@@ -209,9 +209,7 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 	if (ai->argc < 4)
 		return NULL;
 
-	TCHAR *res = NULL, *szDefaultValue = NULL;
 	MCONTACT hContact = NULL;
-
 	if (_tcslen(ai->targv[1]) > 0) {
 		CONTACTSINFO ci = { 0 };
 		ci.cbSize = sizeof(ci);
@@ -228,6 +226,8 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		}
 	}
 
+	TCHAR *res = NULL, *szDefaultValue = NULL;
+
 	char *szModule = mir_t2a(ai->targv[2]);
 	char *szSetting = mir_t2a(ai->targv[3]);
 
@@ -238,6 +238,7 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
 		mir_free(szModule);
 		mir_free(szSetting);
+		mir_free(szDefaultValue);
 	}
 	return res;
 }

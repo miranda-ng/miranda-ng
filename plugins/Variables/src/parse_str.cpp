@@ -211,7 +211,7 @@ static TCHAR *parseLineCount(ARGUMENTSINFO *ai)
 	TCHAR *cur = ai->targv[1];
 	while (cur < (ai->targv[1] + _tcslen(ai->targv[1]))) {
 		if (!_tcsncmp(cur, _T("\r\n"), 2)) {
-			count += 1;
+			count++;
 			cur++;
 		}
 		else if (*cur == '\n')
@@ -700,13 +700,13 @@ static TCHAR *getNthWord(TCHAR *szString, int w)
 	while (*scur == ' ')
 		scur++;
 
-	count += 1;
+	count++;
 	while ((count < w) && (scur < szString + _tcslen(szString))) {
 		if (*scur == ' ') {
 			while (*scur == ' ')
 				scur++;
 
-			count += 1;
+			count++;
 		}
 		if (count < w)
 			scur++;
@@ -751,15 +751,15 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai)
 			return res;
 
 		if (res != NULL) {
-			res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szWord) + 2)*sizeof(TCHAR));
-			if (res != NULL) {
+			TCHAR *pres = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(szWord) + 2)*sizeof(TCHAR));
+			if (pres != NULL) {
+				res = pres;
 				_tcscat(res, _T(" "));
 				_tcscat(res, szWord);
 			}
+			mir_free(szWord);
 		}
-		else res = mir_tstrdup(szWord);
-
-		mir_free(szWord);
+		else res = szWord;
 	}
 
 	return res;

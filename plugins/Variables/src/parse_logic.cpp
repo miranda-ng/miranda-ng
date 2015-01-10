@@ -166,7 +166,6 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 	if (ai->argc != 5)
 		return NULL;
 
-	TCHAR *parsed;
 	TCHAR *res = mir_tstrdup(_T(""));
 
 	FORMATINFO fi;
@@ -178,16 +177,19 @@ static TCHAR *parseFor(ARGUMENTSINFO *ai)
 	mir_free(formatString(&fi));
 	while (fi.eCount == 0) {
 		fi.tszFormat = ai->targv[4];
-		parsed = formatString(&fi);
+		TCHAR *parsed = formatString(&fi);
 		if (parsed != NULL) {
 			if (res == NULL) {
 				res = (TCHAR*)mir_alloc(_tcslen(parsed) + 1 * sizeof(TCHAR));
-				if (res == NULL)
+				if (res == NULL) {
+					mir_free(parsed);
 					return NULL;
+				}
 			}
 			else res = (TCHAR*)mir_realloc(res, (_tcslen(res) + _tcslen(parsed) + 1)*sizeof(TCHAR));
 
 			_tcscat(res, parsed);
+			mir_free(parsed);
 		}
 		fi.tszFormat = ai->targv[3];
 		mir_free(formatString(&fi));

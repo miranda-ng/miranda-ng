@@ -107,10 +107,6 @@ BYTE getContactInfoType(TCHAR* type)
 TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 {
 	/* returns dynamic allocated buffer with info, or NULL if failed */
-	TCHAR *res = NULL;
-	char protoname[128], szVal[16];
-	PROTOACCOUNT *pa;
-
 	if (hContact == NULL)
 		return NULL;
 
@@ -118,18 +114,22 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 	if (szProto == NULL)
 		return NULL;
 
+	TCHAR *res = NULL;
 	switch (type) {
 	case CCNF_PROTOID:
 		return mir_a2t(szProto);
 
-	case CCNF_ACCOUNT:
-		pa = ProtoGetAccount(szProto);
+	case CCNF_ACCOUNT: {
+		PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 		return pa ? mir_tstrdup(pa->tszAccountName) : NULL;
+	}
 
-	case CCNF_PROTOCOL:
+	case CCNF_PROTOCOL: {
+		char protoname[128];
 		if (CallProtoService(szProto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname))
 			return NULL;
 		return mir_a2t(protoname);
+	}
 
 	case CCNF_STATUS:
 		return mir_tstrdup((TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_UNICODE));
@@ -165,7 +165,8 @@ TCHAR* getContactInfoT(BYTE type, MCONTACT hContact)
 	ci.hContact = hContact;
 	ci.dwFlag = type | CNF_UNICODE;
 	CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
-
+	
+	char szVal[16];
 	memset(szVal, '\0', sizeof(szVal));
 	switch(ci.type) {
 	case CNFT_BYTE:
@@ -334,7 +335,7 @@ int getContactFromString(CONTACTSINFO *ci)
 				return -1;
 
 			ci->hContacts[count] = hContact;
-			count += 1;
+			count++;
 		}
 	}
 
@@ -346,7 +347,7 @@ int getContactFromString(CONTACTSINFO *ci)
 			cce[cacheSize].flags = ci->flags;
 			cce[cacheSize].tszContact = mir_tstrdup(tszContact);
 			if (cce[cacheSize].tszContact != NULL)
-				cacheSize += 1;
+				cacheSize++;
 		}
 	}
 
