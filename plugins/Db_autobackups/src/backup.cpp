@@ -36,7 +36,7 @@ void ShowPopup(TCHAR* ptszText, TCHAR* ptszHeader, TCHAR* ptszPath)
 	if (ptszPath != NULL)
 		ppd.PluginData = (void*)mir_tstrdup(ptszPath);
 	ppd.PluginWindowProc = DlgProcPopup;
-	ppd.lchIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
+	ppd.lchIcon = Skin_GetIcon(iconList[0].szName);
 
 	PUAddPopupT(&ppd);
 }
