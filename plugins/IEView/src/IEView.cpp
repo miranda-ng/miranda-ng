@@ -909,7 +909,7 @@ void IEView::write(const wchar_t *text)
 			variant->bstrVal = bstr = SysAllocString(text);
 			SafeArrayUnaccessData(safe_array);
 			document->write(safe_array);
-			SysFreeString(bstr);
+			//SysFreeString(bstr); -> SafeArrayDestroy should be enough 
 			SafeArrayDestroy(safe_array);
 		}
 		document->Release();
