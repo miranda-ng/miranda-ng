@@ -1590,9 +1590,9 @@ void CMLan::OnOutTCPConnection(u_long addr, SOCKET out_socket, LPVOID lpParamete
 				}
 			}
 		}
+		CloseHandle(hFile);
 		if (err)
 			break;
-		CloseHandle(hFile);
 	}
 
 	if (err)
