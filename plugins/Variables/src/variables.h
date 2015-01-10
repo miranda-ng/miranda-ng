@@ -81,7 +81,7 @@
 #define FUNC_CHAR           '?'
 #define FUNC_ONCE_CHAR      '!'
 #define DONTPARSE_CHAR      '`'
-#define TRYPARSE_CHAR_OPEN	 '['
+#define TRYPARSE_CHAR_OPEN  '['
 #define TRYPARSE_CHAR_CLOSE ']'
 #define COMMENT_STRING      "#"
 
@@ -108,8 +108,8 @@ Whenever a functions requires a contact as an argument, you can specify it in tw
 ?contact(x,y)\r\n\
 A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\
 first, last, nick, email, ID or display\r\n\r\n\
-For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.\
-")
+For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). \
+The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.")
 
 // options
 #define IDT_PARSE 1
