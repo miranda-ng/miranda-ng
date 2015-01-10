@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
@@ -116,6 +116,8 @@ Pokaż nazwę wyświetlaną, zamiast nazwy użytkownika, na liście kontaktów
 Status kontaktów SkypeOut
 [Cleanup Nicknames]
 Czyszczenie nicków
+[Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)]
+Nie czekaj na przyjęcie faktu wysłania wiadomości dla pewnych wersji Skype z błędami >6.
 [Skype Popups]
 Popupy Skype
 [Incoming Calls]
@@ -179,8 +181,14 @@ Ustaw &temat...
 [&Kick user]
 &Wyrzuć użytkownika
 ;file \protocols\SkypeClassic\src\skype.cpp
+[Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
+Nazwa użytkownika "%s" podana przez API Skype nie zgadza się z nazwą użytkownika "%s" w twoich ustawieniach. Usuń ustawienie nazwy użytkownika ze swojej konfiguracji lub je popraw. Połączenie niemożliwe!
+[Cannot reach Skype API, plugin disfunct.]
+Nie można połączyć się z API Skype, wtyczka uszkodzona.
 [Do a SkypeOut-call]
 Rozpocznij rozmowę SkypeOut
+[Unable to register with Groupchat module!]
+Nie udało się zarejestrować w module czatów grupowych!
 [invited]
 zaproszony
 [Phone call]
@@ -191,8 +199,35 @@ Przychodząca rozmowa Skype
 Przychodząca rozmowa od %s
 [Connection to Skype lost]
 Utracono połączenie ze Skype
+[Cleanup finished.]
+Oczyszczanie zakończone.
+[Cannot create window.]
+Nie można stworzyć okna.
+[Memory allocation error on startup.]
+Błąd przydzielania pamięci podczas uruchamiania.
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Wygląda na to, że po raz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeśli wybierzesz "Nie" możesz to później zmienić w opcjach wtyczek.
+[Cannot register Window message.]
+Nie można zarejestrować komunikatu okna.
+[Unable to create Mutex!]
+Nie udało się stworzyć Mutexu!
+;file \protocols\SkypeClassic\src\skypeapi.cpp
+[Misc. Error]
+Inne. Błąd
+[User does not exist, check username]
+Użytkownik nie istnieje, sprawdź nazwę użytkownika
+[Trying to send IM to an user, who is not online]
+Próba wysłania wiadomości do rozłączonego użytkownika
+[IM blocked by recipient]
+Wiadomość zablokowana przez odbiorcę
+[Type unsupported]
+Niewspierany typ
+[Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM']
+Wysyłanie wiadomości do użytkownika, który nie dodał Cię do znajomych, a wybrał inicjowanie czatów tylko ze znajomymi
+[Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
+Wysyłanie wiadomości do użytkownika, który cię nie autoryzował, a wybrał inicjowanie czatów tylko z osobami, które autoryzował
+[Unknown error]
+Nieznany błąd
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview Error Message]
 Podgląd komunikatu błędu
@@ -202,8 +237,6 @@ Domyślny Skype
 Zaawansowany Skype
 [Skype proxy]
 Proxy Skype
-[Avatar]
-Awatar
 [Details]
 Szczegóły
 [MALE]
