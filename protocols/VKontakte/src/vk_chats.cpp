@@ -41,11 +41,11 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	if (c != NULL)
 		return c;
 
-	ptrT tszTitle;
+	ptrT ptszTitle;
 	c = new CVkChatInfo(id);
 	if (pDlg != NULL) {
-		tszTitle = json_as_string(json_get(pDlg, "title"));
-		c->m_tszTopic = mir_tstrdup((tszTitle != NULL) ? tszTitle : _T(""));
+		ptszTitle = json_as_string(json_get(pDlg, "title"));
+		c->m_tszTopic = mir_tstrdup((ptszTitle != NULL) ? ptszTitle : _T(""));
 	}
 
 	CMString sid; 
@@ -55,7 +55,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	GCSESSION gcw = { sizeof(gcw) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
-	gcw.ptszName = tszTitle;
+	gcw.ptszName = ptszTitle;
 	gcw.ptszID = sid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
@@ -66,7 +66,7 @@ CVkChatInfo* CVkProto::AppendChat(int id, JSONNODE *pDlg)
 	CallServiceSync(MS_GC_GETINFO, 0, (LPARAM)&gci);
 	c->m_hContact = gci.hContact;
 
-	setTString(gci.hContact, "Nick", tszTitle);
+	setTString(gci.hContact, "Nick", ptszTitle);
 	m_chats.insert(c);
 
 	GCDEST gcd = { m_szModuleName, sid, GC_EVENT_ADDGROUP };
@@ -369,6 +369,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 			Push(pReq);
 		}
+		break;
 
 	case GC_USER_LOGMENU:
 		LogMenuHook(cc, gch);
@@ -570,7 +571,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 		return;
 
 	MCONTACT hContact = FindUser(user_id, false);
-	CMString msg = json_as_string(json_get(pMsg, "body"));
+	CMString msg = json_as_CMString(json_get(pMsg, "body"));
 	if (msg.IsEmpty()) {
 		msg = TranslateT("You've been kicked by ");
 		if (hContact != NULL)

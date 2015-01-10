@@ -50,7 +50,8 @@ CVkFileUploadParam::VKFileType CVkFileUploadParam::GetType()
 	_tsplitpath(FileName, DRIVE, DIR, FNAME, EXT);
 	
 	CMStringA fn;
-	fn.AppendFormat("%s%s", mir_utf8encodeT(FNAME), mir_utf8encodeT(EXT));
+	ptrA pszFNAME(mir_utf8encodeT(FNAME)), pszEXT(mir_utf8encodeT(EXT));
+	fn.AppendFormat("%s%s", pszFNAME, pszEXT);
 	fname = mir_strdup(fn.GetBuffer());
 
 	if (tlstrstr(img, EXT)) {
@@ -173,7 +174,7 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		return;
 	}
 
-	CMStringA uri = json_as_string(json_get(pResponse, "upload_url"));
+	CMStringA uri = json_as_CMString(json_get(pResponse, "upload_url"));
 	if (uri.IsEmpty()) {
 		SendFileFiled(fup);
 		return;
@@ -253,17 +254,18 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	JSONROOT pRoot;
 	CheckJsonResponse(pReq, reply, pRoot);
 
-	CMString server = json_as_string(json_get(pRoot, "server"));
-	CMString hash = json_as_string(json_get(pRoot, "hash"));
+	ptrT server(json_as_string(json_get(pRoot, "server")));
+	ptrT hash(json_as_string(json_get(pRoot, "hash")));
 	CMString upload;
 
 	AsyncHttpRequest *pUploadReq;
 
 	switch (fup->GetType()) {
 	case CVkFileUploadParam::typeImg:
-		upload = json_as_string(json_get(pRoot, "photo"));
+		upload = json_as_CMString(json_get(pRoot, "photo"));
 		if (upload == _T("[]")) {
 			SendFileFiled(fup, _T("NotUpload Photo"));
+			return;
 		}
 		pUploadReq = new AsyncHttpRequest(this, REQUEST_GET, "/method/photos.saveMessagesPhoto.json", true, &CVkProto::OnReciveUploadFile)
 			<< TCHAR_PARAM("server", server)
@@ -272,7 +274,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< VER_API;
 		break;
 	case CVkFileUploadParam::typeAudio:
-		upload = json_as_string(json_get(pRoot, "audio"));
+		upload = json_as_CMString(json_get(pRoot, "audio"));
 		if (upload == _T("[]")) {
 			SendFileFiled(fup, _T("NotUpload Audio"));
 			return;
@@ -284,7 +286,7 @@ void CVkProto::OnReciveUpload(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 			<< VER_API;
 		break;
 	case CVkFileUploadParam::typeDoc:
-		upload = json_as_string(json_get(pRoot, "file"));
+		upload = json_as_CMString(json_get(pRoot, "file"));
 		if (upload.IsEmpty()) {
 			SendFileFiled(fup, _T("NotUpload Doc"));
 			return;

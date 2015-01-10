@@ -107,11 +107,11 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pRe
 			if (!UserId)
 				continue;
 
-			CMString tszNick = json_as_string(json_get(pProfile, "first_name"));
+			CMString tszNick = json_as_CMString(json_get(pProfile, "first_name"));
 			tszNick.AppendChar(' ');
-			tszNick += json_as_string(json_get(pProfile, "last_name"));
+			tszNick += json_as_CMString(json_get(pProfile, "last_name"));
 			CMString tszLink = _T("https://vk.com/");
-			tszLink += json_as_string(json_get(pProfile, "screen_name"));
+			tszLink += json_as_CMString(json_get(pProfile, "screen_name"));
 			CVkUserInfo * vkUser = new CVkUserInfo(UserId, false, tszNick, tszLink, FindUser(UserId));
 			vkUsers.insert(vkUser);
 		}
@@ -123,9 +123,9 @@ void CVkProto::CreateVkUserInfoList(OBJLIST<CVkUserInfo> &vkUsers, JSONNODE *pRe
 			if (!UserId)
 				continue;
 
-			CMString tszNick = json_as_string(json_get(pProfile, "name"));
+			CMString tszNick = json_as_CMString(json_get(pProfile, "name"));
 			CMString tszLink = _T("https://vk.com/");
-			tszLink += json_as_string(json_get(pProfile, "screen_name"));
+			tszLink += json_as_CMString(json_get(pProfile, "screen_name"));
 			CVkUserInfo * vkUser = new CVkUserInfo(UserId, true, tszNick, tszLink);
 			vkUsers.insert(vkUser);
 		}
@@ -144,9 +144,9 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 	LONG iSourceId = json_as_int(json_get(pItem, "source_id"));
 	iSourceId = iSourceId ? iSourceId : json_as_int(json_get(pItem, "owner_id"));
 	LONG iPostId = json_as_int(json_get(pItem, "post_id"));
-	CMString tszText = json_as_string(json_get(pItem, "text"));
+	CMString tszText = json_as_CMString(json_get(pItem, "text"));
 
-	vkNewsItem->tszType = json_as_string(json_get(pItem, "type"));
+	vkNewsItem->tszType = json_as_CMString(json_get(pItem, "type"));
 	vkNewsItem->vkUser = GetVkUserInfo(iSourceId, vkUsers);
 	vkNewsItem->bIsGroup = vkNewsItem->vkUser->m_bIsGroup;
 	vkNewsItem->tDate = json_as_int(json_get(pItem, "date"));
@@ -270,7 +270,7 @@ CMString CVkProto::GetVkFeedback(JSONNODE *pFeedback, VKObjType vkFeedbackType, 
 
 	if (iUserId) {
 		vkUser = GetVkUserInfo(iUserId, vkUsers);
-		CMString tszText = json_as_string(json_get(pFeedback, "text"));	
+		CMString tszText = json_as_CMString(json_get(pFeedback, "text"));
 		tszRes.AppendFormat(tszFormat, SetBBCString(vkUser->m_tszUserNick.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkUser->m_tszLink.GetBuffer()), ClearFormatNick(tszText).GetBuffer());
 	}
 
@@ -302,11 +302,11 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 	else if (vkParentType == vkVideo) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
-		CMString tszTitle = json_as_string(json_get(pParent, "title"));
+		CMString tszTitle = json_as_CMString(json_get(pParent, "title"));
 		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
 		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/video%s"), vkNotificationItem->tszId.GetBuffer());
 		
-		CMString tszText = json_as_string(json_get(pParent, "text"));
+		CMString tszText = json_as_CMString(json_get(pParent, "text"));
 		ClearFormatNick(tszText);
 		
 		if (!tszText.IsEmpty())
@@ -323,7 +323,7 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
 		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/wall%s%s"), vkNotificationItem->tszId.GetBuffer(), ptszReplyLink ? ptszReplyLink : _T(""));
 		
-		CMString tszText = json_as_string(json_get(pParent, "text"));
+		CMString tszText = json_as_CMString(json_get(pParent, "text"));
 		ClearFormatNick(tszText);
 		
 		if (!tszText.IsEmpty())
@@ -337,12 +337,12 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 	else if (vkParentType == vkTopic) {
 		LONG iOwnerId = json_as_int(json_get(pParent, "owner_id"));
 		LONG iId = json_as_int(json_get(pParent, "id"));
-		CMString tszTitle = json_as_string(json_get(pParent, "title"));
+		CMString tszTitle = json_as_CMString(json_get(pParent, "title"));
 		vkNotificationItem->tszId.AppendFormat(_T("%d_%d"), iOwnerId, iId);
 		vkNotificationItem->tszLink.AppendFormat(_T("https://vk.com/topic%s%s"), 
 		vkNotificationItem->tszId.GetBuffer(), ptszReplyLink ? ptszReplyLink : _T(""));
 		
-		CMString tszText = json_as_string(json_get(pParent, "text"));
+		CMString tszText = json_as_CMString(json_get(pParent, "text"));
 		ClearFormatNick(tszText);
 		
 		if (!tszText.IsEmpty())
@@ -354,7 +354,7 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		vkNotificationItem->tszText.AppendFormat(_T("\n%s"), SetBBCString(tszTitle.GetBuffer(), m_iBBCForNews, vkbbcUrl, vkNotificationItem->tszLink.GetBuffer()).GetBuffer());
 	}
 	else if (vkParentType == vkComment) {
-		CMString tszText = json_as_string(json_get(pParent, "text"));
+		CMString tszText = json_as_CMString(json_get(pParent, "text"));
 		ClearFormatNick(tszText);
 
 		JSONNODE *pNode = json_get(pParent, "photo");
@@ -391,7 +391,7 @@ CVKNewsItem* CVkProto::GetVkNotificationsItem(JSONNODE *pItem, OBJLIST<CVkUserIn
 	if (pItem == NULL)
 		return NULL;
 
-	CMString tszType = json_as_string(json_get(pItem, "type"));
+	CMString tszType = json_as_CMString(json_get(pItem, "type"));
 	VKObjType vkFeedbackType = vkNull, vkParentType = vkNull;
 	CMString tszNotificationTranslate = SpanVKNotificationType(tszType, vkFeedbackType, vkParentType);
 		
