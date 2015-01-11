@@ -454,10 +454,10 @@ function ParseSourceFile (FileTextVar,array) {
  while ((string = find.exec(FileTextVar)) != null) {
     //first, init empty var
     var string;
-    //replace newlines with "" in second [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
+    //replace newlines and all spaces and tabs between two pairs of " or ' with the void string ("") in first [1] subregexp ([\S\s]*?), and Delphi newlines "'#13#10+" replace 
     onestring=string[1].replace(/["']?(?:\#13\#10)*?\\?\r*\n(?:(?:\x20|\t)*['"])?/g,"");
-	//trim single-line whitespaces
-	trimedstring=onestring.replace(/[\s]*$/g,"");
+    //trim single-line whitespaces - multi-line parsing catches whitespaces after last " in single-line case
+    trimedstring=onestring.replace(/[\s]*$/g,"");
     //remove trailing slash from the string. This is a tree item, slesh is a crap :)
     noslashstring=trimedstring.replace(/\/(?=$)/g,"");
     //remove first and last "
