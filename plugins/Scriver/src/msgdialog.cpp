@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 extern HANDLE hHookWinEvt;
 extern HANDLE hHookWinPopup;
-extern CREOleCallback reOleCallback;
-extern CREOleCallback2 reOleCallback2;
 
 static void UpdateReadChars(HWND hwndDlg, SrmmWindowData * dat);
 
@@ -415,11 +413,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			}
 		}
 		else dat->lastEnterTime = 0;
-
-		if (((wParam == VK_INSERT && (GetKeyState(VK_SHIFT) & 0x8000)) || (wParam == 'V' && (GetKeyState(VK_CONTROL) & 0x8000))) && !(GetKeyState(VK_MENU) & 0x8000)) {
-			SendMessage(hwnd, WM_PASTE, 0, 0);
-			return 0;
-		}
 		break;
 
 	case WM_MOUSEWHEEL:
@@ -442,17 +435,18 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		}
 		break;
 
+	case EM_PASTESPECIAL:
 	case WM_PASTE:
 		if (IsClipboardFormatAvailable(CF_HDROP)) {
 			if (OpenClipboard(hwnd)) {
 				HANDLE hDrop = GetClipboardData(CF_HDROP);
 				if (hDrop)
-					SendMessage(hwnd, WM_DROPFILES, (WPARAM)hDrop, 0);
+					SendMessage(GetParent(hwnd), WM_DROPFILES, (WPARAM)hDrop, 0);
 				CloseClipboard();
 			}
+			return 0;
 		}
-		else SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
-		return 0;
+		break;
 
 	case WM_DROPFILES:
 		SendMessage(GetParent(hwnd), WM_DROPFILES, wParam, lParam);
