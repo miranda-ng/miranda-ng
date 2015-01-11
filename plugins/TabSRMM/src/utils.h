@@ -113,13 +113,13 @@ public:
 
 	static void     AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename);
 
-	/**
-	 * safe strlen function - do not overflow the given buffer length
-	 * if the buffer does not contain a valid (zero-terminated) string, it
-	 * will return 0.
-	 *
-	 * careful: maxlen must be given in element counts!!
-	 */
+	//////////////////////////////////////////////////////////////////////////////////////
+	// safe strlen function - do not overflow the given buffer length
+	// if the buffer does not contain a valid (zero-terminated) string, it
+	// will return 0.
+	//
+	// careful: maxlen must be given in element counts!!
+
 	template<typename T> static size_t safe_strlen(const T* src, const size_t maxlen = 0)
 	{
 		size_t s = 0;
@@ -127,10 +127,7 @@ public:
 		while(s < maxlen && *(src++))
 			s++;
 
-		if (s >= maxlen && *src != 0)
-			return 0;
-		else
-			return(s);
+		return (s >= maxlen && *src != 0) ? 0 : s;
 	}
 
 public:
@@ -138,14 +135,15 @@ public:
 	static	int					rtf_ctable_size;
 };
 
-LRESULT 		_dlgReturn(HWND hWnd, LRESULT result);
+__forceinline LRESULT _dlgReturn(HWND hWnd, LRESULT result)
+{
+	SetWindowLongPtr(hWnd, DWLP_MSGRESULT, result);
+	return result;
+}
 
-
-
-/**
- * implement a warning dialog with a "do not show this again" check
- * box
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// implements a warning dialog with a "do not show this again" check
+// box
 
 class CWarning {
 
@@ -168,39 +166,32 @@ public:
 		WARN_LAST							= 11
 	};
 
-	/*
-	 * the flags (low word is reserved for default windows flags like MB_OK etc.
-	 */
-
+	// the flags(low word is reserved for default windows flags like MB_OK etc.
 	enum {
-		CWF_UNTRANSLATED					= 0x00010000,			// do not translate the msg (useful for some error messages)
-		CWF_NOALLOWHIDE						= 0x00020000			// critical message, hide the "do not show this again" check box
+		CWF_UNTRANSLATED = 0x00010000, // do not translate the msg (useful for some error messages)
+		CWF_NOALLOWHIDE  = 0x00020000  // critical message, hide the "do not show this again" check box
 	};
 
 	CWarning(const wchar_t* tszTitle, const wchar_t* tszText, const UINT uId, const DWORD dwFlags);
 	~CWarning();
 
 public:
-	/*
-	 * static function to construct and show the dialog, returns the
-	 * user's choice
-	 */
-	static	LRESULT			show				(const int uId, DWORD dwFlags = 0, const wchar_t* tszTxt = 0);
-	static	void			destroyAll			();
-	LRESULT					ShowDialog			() const;
+	// static function to construct and show the dialog, returns the user's choice
+	static LRESULT show(const int uId, DWORD dwFlags = 0, const wchar_t* tszTxt = 0);
+	static void destroyAll();
+	LRESULT ShowDialog() const;
 
 private:
-	ptrT                    m_szTitle, m_szText;
-	UINT							m_uId;
-	HFONT							m_hFontCaption;
-	DWORD							m_dwFlags;
-	HWND							m_hwnd;
-	bool							m_fIsModal;
+	ptrT  m_szTitle, m_szText;
+	UINT  m_uId;
+	HFONT m_hFontCaption;
+	DWORD m_dwFlags;
+	HWND  m_hwnd;
+	bool  m_fIsModal;
 
-	INT_PTR	CALLBACK		dlgProc				(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	//void					resize				() const;
-	static INT_PTR CALLBACK	stubDlgProc			(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static  __int64			getMask				();		// get bit mask for disabled message classes
+	INT_PTR CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK	stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static __int64 getMask(); // get bit mask for disabled message classes
 
 private:
 	static	HANDLE			hWindowList;

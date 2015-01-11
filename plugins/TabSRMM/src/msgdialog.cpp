@@ -1713,7 +1713,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							if (!dat->fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
 								m_pContainer->MenuBar->autoShow();
 
-						return(_dlgReturn(hwndDlg, 0));
+						return _dlgReturn(hwndDlg, 0);
 					}
 
 					if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
@@ -1724,25 +1724,25 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						switch (mim_hotkey_check) {
 						case TABSRMM_HK_SETUSERPREFS:
 							CallService(MS_TABMSG_SETUSERPREFS, dat->hContact, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_NUDGE:
 							SendNudge(dat);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_SENDFILE:
 							CallService(MS_FILE_SENDFILE, dat->hContact, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_QUOTEMSG:
 							SendMessage(hwndDlg, WM_COMMAND, IDC_QUOTE, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_USERMENU:
 							SendMessage(hwndDlg, WM_COMMAND, IDC_PROTOCOL, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_USERDETAILS:
 							SendMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_NAME, BN_CLICKED), 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_EDITNOTES:
 							PostMessage(hwndDlg, WM_COMMAND, MAKELONG(IDC_PIC, BN_CLICKED), 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_TOGGLESENDLATER:
 							if (sendLater->isAvail()) {
 								dat->sendMode ^= SMODE_SENDLATER;
@@ -1752,7 +1752,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							}
 							else
 								CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						case TABSRMM_HK_TOGGLERTL:
 							{
 								DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
@@ -1779,7 +1779,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0);
 								SendMessage(hwndDlg, DM_DEFERREDREMAKELOG, (WPARAM)hwndDlg, 0);
 							}
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 
 						case TABSRMM_HK_TOGGLEMULTISEND:
 							dat->sendMode ^= SMODE_MULTIPLE;
@@ -1800,11 +1800,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							else
 								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 							RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						if (DM_GenericHotkeysCheck(&message, dat)) {
 							dat->fkeyProcessed = true;
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 					}
 					if (wp == VK_BROWSER_BACK || wp == VK_BROWSER_FORWARD)
@@ -1833,61 +1833,61 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						if ((wp == VK_INSERT && isShift && !isCtrl) || (wp == 'V' && isCtrl && !isShift && !isAlt)) {
 							SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 							_clrMsgFilter(lParam);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						if (isCtrl && isShift) {
 							if (wp == 0x9) {            // ctrl-shift tab
 								SendMessage(hwndDlg, DM_SELECTTAB, DM_SELECT_PREV, 0);
 								_clrMsgFilter(lParam);
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 						}
 						if (isCtrl && !isShift && !isAlt) {
 							if (wp == VK_TAB) {
 								SendMessage(hwndDlg, DM_SELECTTAB, DM_SELECT_NEXT, 0);
 								_clrMsgFilter(lParam);
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 							if (wp == VK_F4) {
 								PostMessage(hwndDlg, WM_CLOSE, 1, 0);
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 							if (wp == VK_PRIOR) {
 								SendMessage(hwndDlg, DM_SELECTTAB, DM_SELECT_PREV, 0);
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 							if (wp == VK_NEXT) {
 								SendMessage(hwndDlg, DM_SELECTTAB, DM_SELECT_NEXT, 0);
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 						}
 					}
 					if (msg == WM_SYSKEYDOWN && isAlt) {
 						if (wp == 0x52) {
 							SendMessage(hwndDlg, DM_QUERYPENDING, DM_QUERY_MOSTRECENT, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						if (wp == VK_MULTIPLY) {
 							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						if (wp == VK_DIVIDE) {
 							SetFocus(GetDlgItem(hwndDlg, IDC_LOG));
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						if (wp == VK_ADD) {
 							SendMessage(hwndContainer, DM_SELECTTAB, DM_SELECT_NEXT, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						if (wp == VK_SUBTRACT) {
 							SendMessage(hwndContainer, DM_SELECTTAB, DM_SELECT_PREV, 0);
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 					}
 
 					if (msg == WM_KEYDOWN && wp == VK_F12) {
 						if (isShift || isCtrl || isAlt)
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						if (dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED)
 							SendMessage(hwndDlg, DM_REPLAYQUEUE, 0, 0);
 						dat->dwFlagsEx ^= MWF_SHOW_SCROLLINGDISABLED;
@@ -1898,7 +1898,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Auto scrolling is disabled (press F12 to enable it)"));
 						SendMessage(hwndDlg, WM_SIZE, 0, 0);
 						DM_ScrollToBottom(dat, 1, 1);
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					}
 
 					// tabulation mod
@@ -1909,7 +1909,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							_clrMsgFilter(lParam);
 							if (((NMHDR*)lParam)->idFrom != IDC_MESSAGE)
 								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-							return(_dlgReturn(hwndDlg, 1));
+							return _dlgReturn(hwndDlg, 1);
 						}
 						else {
 							if (((NMHDR*)lParam)->idFrom == IDC_MESSAGE) {
@@ -1917,14 +1917,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									SetFocus(GetDlgItem(hwndDlg, IDOK));
 								else
 									SetFocus(GetDlgItem(hwndDlg, IDC_LOG));
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 							if (((NMHDR*)lParam)->idFrom == IDC_LOG) {
 								SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-								return(_dlgReturn(hwndDlg, 1));
+								return _dlgReturn(hwndDlg, 1);
 							}
 						}
-						return(_dlgReturn(hwndDlg, 0));
+						return _dlgReturn(hwndDlg, 0);
 					}
 
 					if (msg == WM_MOUSEWHEEL && (((NMHDR*)lParam)->idFrom == IDC_LOG || ((NMHDR*)lParam)->idFrom == IDC_MESSAGE)) {
@@ -2035,6 +2035,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							}
 						}
 						break;
+
+					case WM_RBUTTONUP:
+						return _dlgReturn(hwndDlg, 1);
 
 					case WM_MOUSEMOVE:
 						GetCursorPos(&pt);
