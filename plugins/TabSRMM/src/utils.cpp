@@ -49,12 +49,6 @@ static TCHAR *formatting_strings_end[] = { _T("b0 "), _T("i0 "), _T("u0 "), _
 
 #define NR_CODES 5
 
-LRESULT _dlgReturn(HWND hWnd, LRESULT result)
-{
-	SetWindowLongPtr(hWnd, DWLP_MSGRESULT, result);
-	return result;
-}
-
 TCHAR* Utils::FilterEventMarkers(TCHAR *wszText)
 {
 	tstring text(wszText);

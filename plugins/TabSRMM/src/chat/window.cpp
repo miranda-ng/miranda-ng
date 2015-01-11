@@ -2498,7 +2498,7 @@ LABEL_SHOWWINDOW:
 						if (!dat->fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
 							dat->pContainer->MenuBar->autoShow();
 
-					return(_dlgReturn(hwndDlg, 0));
+					return _dlgReturn(hwndDlg, 0);
 				}
 
 				if (msg == WM_MOUSEMOVE) {
@@ -2514,7 +2514,7 @@ LABEL_SHOWWINDOW:
 						((MSGFILTER*)lParam)->msg = WM_NULL;
 						((MSGFILTER*)lParam)->wParam = 0;
 						((MSGFILTER*)lParam)->lParam = 0;
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					}
 				}
 
@@ -2524,7 +2524,7 @@ LABEL_SHOWWINDOW:
 				if ((msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN) && !(GetKeyState(VK_RMENU) & 0x8000)) {
 					if (DM_GenericHotkeysCheck(&message, dat)) {
 						dat->fkeyProcessed = true;
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					}
 
 					LRESULT mim_hotkey_check = CallService(MS_HOTKEY_CHECK, (WPARAM)&message, (LPARAM)(TABSRMM_HK_SECTION_GC));
@@ -2533,25 +2533,25 @@ LABEL_SHOWWINDOW:
 					switch(mim_hotkey_check) { // nothing (yet) FIXME
 					case TABSRMM_HK_CHANNELMGR:
 						SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_CHANMGR, BN_CLICKED), 0);
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					case TABSRMM_HK_FILTERTOGGLE:
 						SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_FILTER, BN_CLICKED), 0);
 						InvalidateRect(GetDlgItem(hwndDlg, IDC_FILTER), NULL, TRUE);
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					case TABSRMM_HK_LISTTOGGLE:
 						SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_SHOWNICKLIST, BN_CLICKED), 0);
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					case TABSRMM_HK_MUC_SHOWSERVER:
 						if (si->iType != GCW_SERVER)
 							pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					}
 				}
 
 				if (msg == WM_KEYDOWN && wp == VK_TAB) {
 					if (((NMHDR*)lParam)->idFrom == IDC_CHAT_LOG) {
 						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
-						return(_dlgReturn(hwndDlg, 1));
+						return _dlgReturn(hwndDlg, 1);
 					}
 				}
 
