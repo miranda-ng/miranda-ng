@@ -577,7 +577,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	case WM_DROPFILES:
 		SendMessage(hwndParent, WM_DROPFILES, (WPARAM)wParam, (LPARAM)lParam);
-		break;
+		return 0;
 
 	case WM_CHAR:
 		KbdState(mwdat, isShift, isCtrl, isAlt);
