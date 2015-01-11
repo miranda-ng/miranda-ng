@@ -1345,7 +1345,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETUNDOLIMIT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
+			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
+
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETEVENTMASK, 0, ENM_REQUESTRESIZE | ENM_MOUSEEVENTS | ENM_SCROLL | ENM_KEYEVENTS | ENM_CHANGE);
+			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback2);
 
 			dat->bActualHistory = M.GetByte(dat->hContact, "ActualHistory", 0);
 
@@ -3106,10 +3109,7 @@ quote_from_last:
 				if (dat->wStatus == ID_STATUS_OFFLINE) {
 					pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 					if (!(pcaps & PF4_OFFLINEFILES)) {
-						TCHAR szBuffer[256];
-
-						mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
-						SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
+						SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 						break;
 					}
 				}

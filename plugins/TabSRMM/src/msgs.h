@@ -602,54 +602,32 @@ struct TNewWindowData
  * this class has to implement the GetNewStorage() method
  */
 
-class REOLECallback : IRichEditOleCallback
+struct CREOleCallback : public IRichEditOleCallback
 {
+	CREOleCallback() : refCount(0) {}
+	unsigned refCount;
+	IStorage *pictStg;
+	int nextStgId;
 
-public:
+	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR *lplpObj);
+	STDMETHOD_(ULONG, AddRef)(THIS);
+	STDMETHOD_(ULONG, Release)(THIS);
 
-	REOLECallback()
-	{
-		mRefCounter = 0;
-	}
+	STDMETHOD(ContextSensitiveHelp) (BOOL fEnterMode);
+	STDMETHOD(GetNewStorage) (LPSTORAGE FAR *lplpstg);
+	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME FAR *lplpFrame, LPOLEINPLACEUIWINDOW FAR *lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo);
+	STDMETHOD(ShowContainerUI) (BOOL fShow);
+	STDMETHOD(QueryInsertObject) (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp);
+	STDMETHOD(DeleteObject) (LPOLEOBJECT lpoleobj);
+	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR *lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
+	STDMETHOD(GetClipboardData) (CHARRANGE FAR *lpchrg, DWORD reco, LPDATAOBJECT FAR *lplpdataobj);
+	STDMETHOD(GetDragDropEffect) (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect);
+	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR *lpchrg, HMENU FAR *lphmenu);
+};
 
-	~REOLECallback()
-	{}
-
-	STDMETHOD_(ULONG, AddRef)(void)
-	{
-		mRefCounter++;
-		return (mRefCounter);
-	}
-
-	STDMETHOD_(ULONG, Release)(void)
-	{
-		--mRefCounter;
-		//if (--mRefCounter == 0)
-		//	delete this;
-		return (mRefCounter);
-	}
-
-	STDMETHOD(QueryInterface)(REFIID iid, void** ppvObject)
-	{
-		if ( iid == IID_IUnknown || iid == IID_IRichEditOleCallback ) {
-			*ppvObject = this;  AddRef();   return (S_OK);
-		}
-		else
-			return (E_NOINTERFACE);
-	}
-
-	STDMETHOD(ContextSensitiveHelp) (BOOL) { return (E_NOTIMPL); }
-	STDMETHOD(DeleteObject)         (LPOLEOBJECT) { return (E_NOTIMPL); }
-	STDMETHOD(GetClipboardData)     (CHARRANGE*, DWORD, LPDATAOBJECT*) { return (E_NOTIMPL); }
-	STDMETHOD(GetContextMenu)       (WORD, LPOLEOBJECT, CHARRANGE*, HMENU*) { return (E_NOTIMPL); }
-	STDMETHOD(GetDragDropEffect)    (BOOL, DWORD, LPDWORD) { return (E_NOTIMPL); }
-	STDMETHOD(GetInPlaceContext)    (LPOLEINPLACEFRAME*, LPOLEINPLACEUIWINDOW*, LPOLEINPLACEFRAMEINFO) { return (E_NOTIMPL); }
-	STDMETHOD(GetNewStorage)        (LPSTORAGE*);
-	STDMETHOD(QueryAcceptData)      (LPDATAOBJECT, CLIPFORMAT*, DWORD, BOOL, HGLOBAL) { return (E_NOTIMPL); }
-	STDMETHOD(QueryInsertObject)    (LPCLSID, LPSTORAGE, LONG) { return (S_OK); }
-	STDMETHOD(ShowContainerUI)      (BOOL) { return (E_NOTIMPL); }
-private:
-	UINT  mRefCounter;
+struct CREOleCallback2 : public CREOleCallback
+{
+	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR *lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
 };
 
 #define MSGFONTID_MYMSG            0

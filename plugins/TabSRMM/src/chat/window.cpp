@@ -31,7 +31,6 @@
 // externs...
 extern LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 extern HRESULT(WINAPI *MyCloseThemeData)(HANDLE);
-extern REOLECallback *mREOLECallback;
 
 int g_cLinesPerPage=0;
 int g_iWheelCarryover=0;
@@ -1829,7 +1828,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			M.AddWindow(hwndDlg, dat->hContact);
 			BroadCastContainer(dat->pContainer, DM_REFRESHTABINDEX, 0, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)mREOLECallback);
+			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
 			BB_InitDlgButtons(dat);
 			DM_InitTip(dat);

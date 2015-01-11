@@ -249,6 +249,9 @@ extern HMODULE g_hIconDLL;
 extern HMENU g_hMenu;
 extern bool g_bShutdown;
 
+extern CREOleCallback reOleCallback;
+extern CREOleCallback2 reOleCallback2;
+
 int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
 void LogErrorMessage(HWND hwndDlg, TWindowData *dat, int i, TCHAR *szMsg);

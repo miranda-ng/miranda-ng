@@ -31,7 +31,6 @@
 
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
-REOLECallback *mREOLECallback;
 NEN_OPTIONS    nen_options;
 static HANDLE  hUserPrefsWindowLis = 0;
 HMODULE        g_hIconDLL = 0;
@@ -365,7 +364,6 @@ int SplitmsgShutdown(void)
 	ImageList_Destroy(PluginConfig.g_hImageList);
 
 	delete Win7Taskbar;
-	delete mREOLECallback;
 
 	DestroyMenu(PluginConfig.g_hMenuContext);
 	if (PluginConfig.g_hMenuContainer)
@@ -391,18 +389,6 @@ int MyAvatarChanged(WPARAM wParam, LPARAM lParam)
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext)
 		BroadCastContainer(p, DM_MYAVATARCHANGED, wParam, lParam);
 	return 0;
-}
-
-STDMETHODIMP REOLECallback::GetNewStorage(LPSTORAGE FAR *lplpstg)
-{
-	LPLOCKBYTES lpLockBytes = NULL;
-	SCODE sc = ::CreateILockBytesOnHGlobal(NULL, TRUE, &lpLockBytes);
-	if (sc != S_OK)
-		return sc;
-	sc = ::StgCreateDocfileOnILockBytes(lpLockBytes, STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, lplpstg);
-	if (sc != S_OK)
-		lpLockBytes->Release();
-	return sc;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -966,7 +952,6 @@ int LoadSendRecvMessageModule(void)
 
 	Utils::loadSystemLibrary(L"\\Msftedit.dll");
 
-	mREOLECallback = new REOLECallback;
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();
 
@@ -990,4 +975,99 @@ int LoadSendRecvMessageModule(void)
 
 	BuildCodePageList();
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+CREOleCallback  reOleCallback;
+CREOleCallback2 reOleCallback2;
+
+STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
+{
+	if (IsEqualIID(riid, IID_IRichEditOleCallback)) {
+		*ppvObj = this;
+		AddRef();
+		return S_OK;
+	}
+	*ppvObj = NULL;
+	return E_NOINTERFACE;
+}
+
+STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
+{
+	if (refCount == 0) {
+		if (S_OK != StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg))
+			pictStg = NULL;
+		nextStgId = 0;
+	}
+	return ++refCount;
+}
+
+STDMETHODIMP_(ULONG) CREOleCallback::Release()
+{
+	if (--refCount == 0) {
+		if (pictStg)
+			pictStg->Release();
+	}
+	return refCount;
+}
+
+STDMETHODIMP CREOleCallback::ContextSensitiveHelp(BOOL)
+{
+	return S_OK;
+}
+
+STDMETHODIMP CREOleCallback::DeleteObject(LPOLEOBJECT)
+{
+	return S_OK;
+}
+
+STDMETHODIMP CREOleCallback::GetClipboardData(CHARRANGE*, DWORD, LPDATAOBJECT*)
+{
+	return E_NOTIMPL;
+}
+
+STDMETHODIMP CREOleCallback::GetContextMenu(WORD, LPOLEOBJECT, CHARRANGE*, HMENU*)
+{
+	return E_INVALIDARG;
+}
+
+STDMETHODIMP CREOleCallback::GetDragDropEffect(BOOL, DWORD, LPDWORD)
+{
+	return S_OK;
+}
+
+STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME*, LPOLEINPLACEUIWINDOW*, LPOLEINPLACEFRAMEINFO)
+{
+	return E_INVALIDARG;
+}
+
+STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE *lplpstg)
+{
+	TCHAR sztName[64];
+	mir_sntprintf(sztName, SIZEOF(sztName), _T("s%u"), nextStgId++);
+	if (pictStg == NULL)
+		return STG_E_MEDIUMFULL;
+	return pictStg->CreateStorage(sztName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
+}
+
+STDMETHODIMP CREOleCallback::QueryAcceptData(LPDATAOBJECT, CLIPFORMAT*, DWORD, BOOL, HGLOBAL)
+{
+	return S_OK;
+}
+
+STDMETHODIMP CREOleCallback::QueryInsertObject(LPCLSID, LPSTORAGE, LONG)
+{
+	return S_OK;
+}
+
+STDMETHODIMP CREOleCallback::ShowContainerUI(BOOL)
+{
+	return S_OK;
+}
+
+STDMETHODIMP CREOleCallback2::QueryAcceptData(LPDATAOBJECT, CLIPFORMAT *lpcfFormat, DWORD, BOOL, HGLOBAL)
+{
+	*lpcfFormat = CF_TEXT;
+	return S_OK;
 }
