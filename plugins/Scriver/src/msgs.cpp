@@ -669,7 +669,7 @@ STDMETHODIMP CREOleCallback::ShowContainerUI(BOOL)
 
 STDMETHODIMP CREOleCallback2::QueryAcceptData(LPDATAOBJECT, CLIPFORMAT *lpcfFormat, DWORD, BOOL, HGLOBAL)
 {
-	*lpcfFormat = CF_TEXT;
+	*lpcfFormat = CF_UNICODETEXT;
 	return S_OK;
 }
 

@@ -611,8 +611,8 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			return 0;
 		break;
 
-	case WM_PASTE:
 	case EM_PASTESPECIAL:
+	case WM_PASTE:
 		if (OpenClipboard(hwnd)) {
 			HANDLE hClip = GetClipboardData(CF_TEXT);
 			if (hClip) {
