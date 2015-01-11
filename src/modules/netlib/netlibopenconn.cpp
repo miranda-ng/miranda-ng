@@ -496,15 +496,15 @@ retry:
 	return rc == 0;
 }
 
-static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
+static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 {
+	if (!nloc)
+		return false;
+
 	int rc = SOCKET_ERROR, retrycnt = 0;
 	u_long notblocking = 1;
 	DWORD lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
-
-	if (!nloc)
-		return false;
 	unsigned int dwTimeout = (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
 	if (dwTimeout == 0) dwTimeout = 30;
@@ -565,12 +565,16 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 		NetlibLogf(nlc->nlu, "(%p) Connecting to ip %s ....", nlc, ptrA(NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr)));
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
-		if (nlc->s == INVALID_SOCKET)
+		if (nlc->s == INVALID_SOCKET) {
+			FreeAddrInfoA(air);
 			return false;
+		}
 
 		// return the socket to non blocking
-		if (ioctlsocket(nlc->s, FIONBIO, &notblocking) != 0)
+		if (ioctlsocket(nlc->s, FIONBIO, &notblocking) != 0) {
+			FreeAddrInfoA(air);
 			return false;
+		}
 
 		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) {
 			SOCKET s = ai->ai_family == AF_INET ? nlc->s : INVALID_SOCKET;
@@ -657,7 +661,7 @@ retry:
 	return rc == 0;
 }
 
-static bool my_connect(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
+static bool my_connect(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 {
 	return my_connectIPv6(nlc, nloc);
 }
