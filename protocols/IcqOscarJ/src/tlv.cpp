@@ -221,9 +221,9 @@ int oscar_tlv_chain::getNumber(WORD wType, WORD wIndex)
 	if (tlv) {
 		if (tlv->wLen == 1)
 			return getByte(wType, wIndex);
-		else if (tlv->wLen == 2)
+		if (tlv->wLen == 2)
 			return getWord(wType, wIndex);
-		else if (tlv->wLen == 4)
+		if (tlv->wLen == 4)
 			return getDWord(wType, wIndex);
 	}
 	return 0;
