@@ -169,7 +169,7 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 			ShowWindow(hwndDlg, SW_SHOW);
 			SendDlgItemMessage(hwndDlg, IDC_EDITTEMPLATE, EM_LIMITTEXT, (WPARAM)TEMPLATE_LENGTH - 1, 0);
-			SetWindowText(hwndDlg, TranslateT("Template Set Editor"));
+			SetWindowText(hwndDlg, TranslateT("Template set editor"));
 			Utils::enableDlgControl(hwndDlg, IDC_SAVETEMPLATE, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_REVERT, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_FORGET, FALSE);
@@ -197,11 +197,11 @@ INT_PTR CALLBACK DlgProcTemplateEditor(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case IDC_RESETALLTEMPLATES:
 			if (MessageBox(0, TranslateT("This will reset the template set to the default built-in templates. Are you sure you want to do this?"),
-				TranslateT("Template Set Editor"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+				TranslateT("Template set editor"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 					db_set_b(0, teInfo->rtl ? RTLTEMPLATES_MODULE : TEMPLATES_MODULE, "setup", 0);
 					LoadDefaultTemplates();
 					MessageBox(0, TranslateT("Template set was successfully reset, please close and reopen all message windows. This template editor window will now close."),
-						TranslateT("Template Set Editor"), MB_OK);
+						TranslateT("Template set editor"), MB_OK);
 					DestroyWindow(hwndDlg);
 			}
 			break;

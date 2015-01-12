@@ -1248,7 +1248,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 
 	odp.pszGroup    = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.pszTitle    = LPGEN("Typing Notify");
+	odp.pszTitle    = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
 
