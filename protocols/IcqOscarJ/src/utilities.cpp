@@ -1238,7 +1238,7 @@ void CIcqProto::writeDbInfoSettingTLVStringUtf(MCONTACT hContact, const char *sz
 void CIcqProto::writeDbInfoSettingTLVWord(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	int num = chain->getNumber(wTlv, 1);
-	if (num > 0)
+	if (num > 0 && num != 0x7FFF)
 		setWord(hContact, szSetting, num);
 	else
 		delSetting(hContact, szSetting);
@@ -1248,8 +1248,7 @@ void CIcqProto::writeDbInfoSettingTLVWord(MCONTACT hContact, const char *szSetti
 void CIcqProto::writeDbInfoSettingTLVByte(MCONTACT hContact, const char *szSetting, oscar_tlv_chain *chain, WORD wTlv)
 {
 	int num = chain->getNumber(wTlv, 1);
-
-	if (num > 0)
+	if (num > 0 && num != 0x7F)
 		setByte(hContact, szSetting, num);
 	else
 		delSetting(hContact, szSetting);
