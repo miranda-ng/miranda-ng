@@ -705,7 +705,7 @@ int __cdecl  GCMenuHook(WPARAM,LPARAM lParam) {
 	DBVARIANT dbv;
 	TCHAR* szInvite  = TranslateT("&Invite user...");
 	TCHAR* szLeave   = TranslateT("&Leave chat session");
-	TCHAR* szTopic   = TranslateT("Set &Topic...");
+	TCHAR* szTopic   = TranslateT("Set &topic...");
 	TCHAR* szDetails = TranslateT("User &details");
 	TCHAR* szHistory = TranslateT("User &history");
 	TCHAR* szKick    = TranslateT("&Kick user");

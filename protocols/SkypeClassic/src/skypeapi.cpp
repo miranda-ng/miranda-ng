@@ -1372,7 +1372,7 @@ char *GetSkypeErrorMsg(char *str) {
 	}
 	if ((pos=strstr(str, "FAILURE")) ) {
 		switch(atoi(pos+14)) {
-			case MISC_ERROR: msg=Translate("Misc. Error"); break;
+			case MISC_ERROR: msg=Translate("Misc. error"); break;
 			case USER_NOT_FOUND: msg=Translate("User does not exist, check username"); break;
 			case USER_NOT_ONLINE: msg=Translate("Trying to send IM to an user, who is not online"); break;
 			case USER_BLOCKED: msg=Translate("IM blocked by recipient"); break;
