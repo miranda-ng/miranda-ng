@@ -189,7 +189,7 @@ int _DebugPopup(MCONTACT hContact, const TCHAR *fmt, ...)
 	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY tn;
 		TCHAR	szTitle[128];
-		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("TabSRMM Message (%s)"),
+		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("TabSRMM message (%s)"),
 			(hContact != 0) ? pcli->pfnGetContactDisplayName(hContact, 0) : TranslateT("Global"));
 
 		tn.szProto = NULL;
