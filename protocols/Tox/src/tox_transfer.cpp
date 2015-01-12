@@ -54,7 +54,7 @@ void CToxProto::OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint6
 }
 
 // file request is allowed
-HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* tszPath)
+HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR *tszPath)
 {
 	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
 	std::vector<uint8_t> clientId = HexStringToData(id);
@@ -70,7 +70,7 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
 	{
-		transfer->hFile = _tfopen(transfer->pfts.tszCurrentFile, _T("ab"));
+		transfer->hFile = _tfopen(transfer->pfts.tszCurrentFile, _T("wb"));
 		tox_file_send_control(tox, number, 1, transfer->number, TOX_FILECONTROL_ACCEPT, NULL, 0);
 	}
 
@@ -128,8 +128,6 @@ void CToxProto::OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const u
 	MCONTACT hContact = proto->FindContact(number);
 	if (hContact)
 	{
-		//mir_cslock lck(proto->toxLock);
-
 		FileTransferParam *transfer = proto->transfers.at(fileNumber);
 
 		if (transfer->hFile == NULL)
@@ -164,14 +162,15 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 	fileDir[fileDirLength] = '\0';
 
 	size_t fileSize = 0;
-	FILE *file = _tfopen(ppszFiles[0], _T("rb"));
-	if (file != NULL)
+	FILE *hFile = _tfopen(ppszFiles[0], _T("rb"));
+	if (hFile == NULL)
 	{
-		fseek(file, 0, SEEK_END);
-		fileSize = ftell(file);
-		fseek(file, 0, SEEK_SET);
-		fclose(file);
+		debugLogA("CToxProto::SendFilesAsync: cannot open file");
+		return NULL;
 	}
+	fseek(hFile, 0, SEEK_END);
+	fileSize = ftell(hFile);
+	fseek(hFile, 0, SEEK_SET);
 
 	char *name = mir_utf8encodeW(fileName);
 	int fileNumber = tox_new_file_sender(tox, number, fileSize, (uint8_t*)name, strlen(name));
@@ -185,6 +184,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescrip
 	transfer->pfts.hContact = hContact;
 	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.tszWorkingDir = fileDir;
+	transfer->hFile = hFile;
 	AddToTransferList(transfer);
 
 	return (HANDLE)transfer;
@@ -207,23 +207,14 @@ void CToxProto::SendFileAsync(void* arg)
 		TCHAR filePath[MAX_PATH];
 		mir_sntprintf(filePath, SIZEOF(filePath), _T("%s%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
 
-		FILE *hFile = _wfopen(filePath, _T("rb"));
-		if (!hFile)
-		{
-			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
-			tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
-			return;
-		}
-
 		size_t chunkSize = min(fileSize, (size_t)tox_file_data_size(tox, number));
 		uint8_t *data = (uint8_t*)mir_alloc(TOX_FILE_BLOCK_SIZE);
-		while (!feof(hFile) && fileProgress < fileSize && !transfer->isTerminated)
+		while (!feof(transfer->hFile) && fileProgress < fileSize && !transfer->isTerminated)
 		{
 			// read file by block of TOX_FILE_BLOCK_SIZE
 			size_t blockSize = min(chunkSize * (TOX_FILE_BLOCK_SIZE / chunkSize), fileSize - fileProgress);
-			if (fread(data, sizeof(uint8_t), blockSize, hFile) != blockSize)
+			if (fread(data, sizeof(uint8_t), blockSize, transfer->hFile) != blockSize)
 			{
-				fclose(hFile);
 				ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 				tox_file_send_control(tox, number, transfer->GetTransferStatus(), transfer->number, TOX_FILECONTROL_KILL, NULL, 0);
 				return;
@@ -252,7 +243,6 @@ void CToxProto::SendFileAsync(void* arg)
 				ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)transfer, (LPARAM)&transfer->pfts);
 			}
 		}
-		fclose(hFile);
 		mir_free(data);
 
 		if (!transfer->isTerminated)
@@ -318,10 +308,6 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t number, uint8_t receive_send, ui
 			if (receive_send == 0)
 			{
 				tox_file_send_control(proto->tox, number, 1, fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
-			}
-			if (transfer->hFile)
-			{
-				fclose(transfer->hFile);
 			}
 			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (HANDLE)transfer, 0);
 			proto->RemoveFromTransferList(transfer);
