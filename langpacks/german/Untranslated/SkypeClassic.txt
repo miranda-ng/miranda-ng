@@ -2,7 +2,6 @@
 [Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
 [Cannot reach Skype API, plugin disfunct.]
 [Unable to register with Groupchat module!]
-[Cleanup finished.]
 [Cannot create window.]
 [Memory allocation error on startup.]
 [Cannot register Window message.]
@@ -14,5 +13,3 @@
 [Type unsupported]
 [Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM']
 [Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
-[Unknown error]
-[Skype ID]

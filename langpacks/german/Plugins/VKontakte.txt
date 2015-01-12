@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.39
+;  Version: 0.1.0.40
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
-[[img] BBCode support for image ]
+[[img] BBCode support for image]
 
 [off]
 Aus
