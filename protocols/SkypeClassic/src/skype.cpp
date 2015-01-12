@@ -824,7 +824,7 @@ int OnModulesLoaded(WPARAM, LPARAM) {
 		gcr.ptszDispName = _T("Skype protocol");
 		gcr.pszModule = SKYPE_PROTONAME;
 		if (CallService(MS_GC_REGISTER, 0, (LPARAM)&gcr))
-			OUTPUT(TranslateT("Unable to register with Groupchat module!"));
+			OUTPUT(TranslateT("Unable to register with group chat module!"));
 
 		_snprintf(szEvent, sizeof(szEvent), "%s\\ChatInit", SKYPE_PROTONAME);
 		hInitChat = CreateHookableEvent(szEvent);
@@ -1576,7 +1576,7 @@ void RingThread(char *szSkypeMsg) {
 			InCallPopup.PluginWindowProc = InCallPopUpProc;
 			InCallPopup.PluginData = (void *)1;
 
-			mir_tstrncpy(InCallPopup.lptzText, TranslateT("Incoming Skype Call"), MAX_SECONDLINE);
+			mir_tstrncpy(InCallPopup.lptzText, TranslateT("Incoming Skype call"), MAX_SECONDLINE);
 
 			mir_tstrncpy(InCallPopup.lptzContactName, lpzContactName, MAX_CONTACTNAME);
 
@@ -3222,7 +3222,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Start Skype connection 
 	if (!(ControlAPIAttach = RegisterWindowMessage(_T("SkypeControlAPIAttach"))) || !(ControlAPIDiscover = RegisterWindowMessage(_T("SkypeControlAPIDiscover"))))
 	{
-		OUTPUT(TranslateT("Cannot register Window message."));
+		OUTPUT(TranslateT("Cannot register window message."));
 		return 0;
 	}
 
@@ -3234,7 +3234,7 @@ extern "C" int __declspec(dllexport) Load(void)
 #endif
 		!(hBuddyAdded = CreateEvent(NULL, FALSE, FALSE, NULL)) ||
 		!(FetchMessageEvent = CreateEvent(NULL, FALSE, TRUE, NULL))) {
-		OUTPUT(TranslateT("Unable to create Mutex!"));
+		OUTPUT(TranslateT("Unable to create mutex!"));
 		return 0;
 	}
 
