@@ -113,11 +113,11 @@
 Показывать в списке контактов полное имя вместо ника
 [SkypeOut contacts are in status:]
 SkypeOut контакты в статусе:
-[Cleanup Nicknames]
+[Cleanup nicknames]
 Очистить ники
-[Skype Popups]
+[Skype popups]
 Всплывающие окна Skype
-[Incoming Calls]
+[Incoming calls]
 Входящие звонки
 [Show incoming calls]
 Показать входящие звонки
@@ -131,7 +131,7 @@ SkypeOut контакты в статусе:
 Текст
 [Preview]
 Тест
-[Error Messages]
+[Error messages]
 Ошибки
 [Display error messages]
 Показывать ошибки
@@ -167,7 +167,7 @@ SkypeOut контакты в статусе:
 Я
 [&Leave chat session]
 &Покинуть чат
-[Set &Topic...]
+[Set &topic...]
 Установить &тему...
 [User &details]
 &Информация
@@ -181,7 +181,7 @@ SkypeOut контакты в статусе:
 пригласил
 [Phone call]
 Звонок
-[Incoming Skype Call]
+[Incoming Skype call]
 Входящий Skype звонок
 [Incoming call from %s]
 Входящий Skype звонок от %s
@@ -189,7 +189,7 @@ SkypeOut контакты в статусе:
 Потеряно cоединение со Skype
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? Если вы откажетесь, всегда можно включить его в настройках.
-[Preview Error Message]
+[Preview error message]
 Предпросмотр ошибки
 [Skype default]
 Skype умолчания

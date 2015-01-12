@@ -113,7 +113,7 @@ Miranda была закрыта или произошла ошибка при о
 Сообщение отправлено для '%s'.
 [Could not send message to '%s'.]
 Невозможно отправить сообщение для '%s'.
-[Timed out while waiting for acknowledgement for contact '%s'.]
+[Timed out while waiting for acknowledgment for contact '%s'.]
 Таймаут ожидания подтверждения от контакта '%s'.
 [Could not find contact handle for contact '%s'.]
 Невозможно найти обработчик для контакта '%s'.
