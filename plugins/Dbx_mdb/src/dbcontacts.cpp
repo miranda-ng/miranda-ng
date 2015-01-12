@@ -87,10 +87,9 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	// delete 
 	MDB_val key = { sizeof(DWORD), &contactID };
 
-	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-	mdb_del(txn, m_dbContacts, &key, NULL);
-	mdb_txn_commit(txn);
+	txn_lock trnlck(m_pMdbEnv);
+	mdb_del(trnlck, m_dbContacts, &key, NULL);
+	trnlck.commit();
 	return 0;
 }
 
@@ -105,10 +104,9 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 	MDB_val key = { sizeof(DWORD), &dwContactId };
 	MDB_val data = { sizeof(DBContact), &dbc };
 
-	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-	mdb_put(txn, m_dbContacts, &key, &data, 0);
-	mdb_txn_commit(txn);
+	txn_lock trnlck(m_pMdbEnv);
+	mdb_put(trnlck, m_dbContacts, &key, &data, 0);
+	trnlck.commit();
 
 	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 	cc->dwDriverData = 0;
@@ -163,12 +161,11 @@ void CDbxMdb::FillContacts()
 {
 	m_contactCount = 0;
 
-	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, MDB_RDONLY, &txn);
-	mdb_open(txn, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
+	txn_lock trnlck(m_pMdbEnv);
+	mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
 
 	MDB_cursor *cursor;
-	mdb_cursor_open(txn, m_dbContacts, &cursor);
+	mdb_cursor_open(trnlck, m_dbContacts, &cursor);
 
 	MDB_val key, data;
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
@@ -199,5 +196,4 @@ void CDbxMdb::FillContacts()
 	}
 	
 	mdb_cursor_close(cursor);
-	mdb_txn_abort(txn);
 }

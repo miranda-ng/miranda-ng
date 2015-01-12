@@ -51,6 +51,7 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	InitDbInstance(this);
 
 	mdb_env_create(&m_pMdbEnv);
+	mdb_env_set_mapsize(m_pMdbEnv, 65536);
 	mdb_env_set_maxdbs(m_pMdbEnv, 10);
 
 	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
@@ -95,6 +96,13 @@ int CDbxMdb::Load(bool bSkipInit)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
+		txn_lock trnlck(m_pMdbEnv);
+		mdb_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
+		mdb_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
+		mdb_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
+		trnlck.commit();
+
 		if (InitModuleNames()) return EGROKPRF_CANTREAD;
 		if (InitCrypt())       return EGROKPRF_CANTREAD;
 
