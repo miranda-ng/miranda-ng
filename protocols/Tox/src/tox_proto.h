@@ -45,6 +45,10 @@ struct FileTransferParam
 		}
 		mir_free(pfts.pszFiles[0]);
 		mir_free(pfts.pszFiles);
+		if (hFile)
+		{
+			fclose(hFile);
+		}
 	}
 };
 
