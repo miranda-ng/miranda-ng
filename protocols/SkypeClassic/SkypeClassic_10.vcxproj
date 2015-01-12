@@ -79,7 +79,6 @@
     <ClInclude Include="src\skypeapi.h" />
     <ClInclude Include="src\skypeopt.h" />
     <ClInclude Include="src\skypeprofile.h" />
-    <ClInclude Include="src\skypeproxy.h" />
     <ClInclude Include="src\skypesvc.h" />
     <ClInclude Include="src\utf8.h" />
     <ClInclude Include="src\util.h" />

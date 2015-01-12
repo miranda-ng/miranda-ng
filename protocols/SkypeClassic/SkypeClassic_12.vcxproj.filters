@@ -107,9 +107,6 @@
     <ClInclude Include="src\skypeprofile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\skypeproxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\skypesvc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
