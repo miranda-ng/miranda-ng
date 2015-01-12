@@ -95,12 +95,6 @@ int CDbxMdb::Load(bool bSkipInit)
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
-		MDB_txn *txn;
-		mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-		mdb_open(txn, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
-		mdb_open(txn, "events",   MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
-		mdb_txn_commit(txn);
-
 		if (InitModuleNames()) return EGROKPRF_CANTREAD;
 		if (InitCrypt())       return EGROKPRF_CANTREAD;
 
