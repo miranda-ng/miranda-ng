@@ -1363,7 +1363,7 @@ Jabber ошибка
 Вам нужно подключиться к сети
 [Messaging]
 Сообщения
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Отправлять сообщения медленнее, но с подтверждением
 [Enable avatars]
 Включить аватары
