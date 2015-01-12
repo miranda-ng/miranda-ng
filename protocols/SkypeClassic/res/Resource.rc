@@ -185,7 +185,7 @@ BEGIN
     LTEXT           "SkypeOut contacts are in status:",IDC_STATIC,10,200,108,8
     COMBOBOX        IDC_SKYPEOUTSTAT,119,198,79,54,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Cleanup nicknames",IDC_CLEANUP,220,199,80,14,BS_MULTILINE | WS_GROUP
-    CONTROL         "Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)",IDC_NOACK,
+    CONTROL         "Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)",IDC_NOACK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,182,290,13
 END
 

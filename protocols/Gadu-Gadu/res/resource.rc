@@ -98,7 +98,7 @@ BEGIN
     CONTROL         "Show connection errors",IDC_SHOWCERRORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,32,286,10
     CONTROL         "Automatically reconnect after unintentional disconnection",IDC_ARECONNECT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,47,286,10
-    CONTROL         "Send messages slower, but with full acknowledgement",IDC_MSGACK,
+    CONTROL         "Send messages slower, but with full acknowledgment",IDC_MSGACK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,62,286,10
     CONTROL         "Manually specify connection servers' hosts",IDC_MANUALHOST,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,77,286,10

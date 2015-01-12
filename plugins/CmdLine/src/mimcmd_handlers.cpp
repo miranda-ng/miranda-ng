@@ -920,7 +920,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 					}
 					else mir_snprintf(buffer, SIZEOF(buffer), Translate("Could not send message to '%s'."), contact);
 				}
-				else mir_snprintf(buffer, SIZEOF(buffer), Translate("Timed out while waiting for acknowledgement for contact '%s'."), contact);
+				else mir_snprintf(buffer, SIZEOF(buffer), Translate("Timed out while waiting for acknowledgment for contact '%s'."), contact);
 			}
 			else mir_snprintf(buffer, SIZEOF(buffer), Translate("Could not find contact handle for contact '%s'."), contact);
 			
