@@ -49,6 +49,7 @@
     <ClCompile Include="src\alogon.cpp" />
     <ClCompile Include="src\contacts.cpp" />
     <ClCompile Include="src\debug.cpp" />
+    <ClCompile Include="src\filexfer.cpp" />
     <ClCompile Include="src\gchat.cpp" />
     <ClCompile Include="src\memlist.cpp" />
     <ClCompile Include="src\msglist.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="src\alogon.h" />
     <ClInclude Include="src\contacts.h" />
     <ClInclude Include="src\debug.h" />
+    <ClInclude Include="src\filexfer.h" />
     <ClInclude Include="src\gchat.h" />
     <ClInclude Include="src\memlist.h" />
     <ClInclude Include="src\msglist.h" />
