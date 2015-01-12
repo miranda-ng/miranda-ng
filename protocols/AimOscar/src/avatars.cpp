@@ -28,6 +28,10 @@ void __cdecl CAimProto::avatar_request_thread(void* param)
 	if (wait_conn(hAvatarConn, hAvatarEvent, 0x10))
 	{
 		char *hash_str = getStringA(hContact, AIM_KEY_AH);
+		if (!hash_str) {
+			mir_free(sn);
+			return;
+		}
 		char type = getByte(hContact, AIM_KEY_AHT, 1);
 
 		size_t len = (strlen(hash_str) + 1) / 2;
