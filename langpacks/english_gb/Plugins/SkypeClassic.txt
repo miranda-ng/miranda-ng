@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [/MINIMIZED - Start Skype minimized]
