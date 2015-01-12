@@ -80,6 +80,13 @@ struct ModuleName
 
 #include <pshpack1.h>
 
+struct DBSettingKey
+{
+	DWORD dwContactID;
+	DWORD dwOfsModule;
+	char  szSettingName[100];
+};
+
 #define DBCONTACT_SIGNATURE   0x43DECADEu
 struct DBContact
 {
@@ -221,6 +228,7 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// settings
 
+	MDB_dbi  m_dbSettings;
 	int      m_codePage;
 	HANDLE   hService, hHook;
 

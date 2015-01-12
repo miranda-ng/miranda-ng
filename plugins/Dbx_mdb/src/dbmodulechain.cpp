@@ -42,13 +42,12 @@ int CDbxMdb::InitModuleNames(void)
 {
 	m_maxModuleID = 0;
 
-	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-	mdb_open(txn, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
-	mdb_open(txn, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+	txn_lock trnlck(m_pMdbEnv);
+	mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
 
 	MDB_cursor *cursor;
-	mdb_cursor_open(txn, m_dbModules, &cursor);
+	if (mdb_cursor_open(trnlck, m_dbModules, &cursor) != MDB_SUCCESS)
+		return 1;
 
 	MDB_val key, data;
 	
@@ -69,7 +68,6 @@ int CDbxMdb::InitModuleNames(void)
 	}
 
 	mdb_cursor_close(cursor);
-	mdb_txn_abort(txn);
 	return 0;
 }
 
@@ -105,11 +103,10 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	
 	MDB_val key = { sizeof(int), &newIdx }, data = { sizeof(DBModuleName) + nameLen, pmod };
 
-	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
-	mdb_open(txn, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
-	mdb_put(txn, m_dbModules, &key, &data, 0);
-	mdb_txn_commit(txn);
+	txn_lock trnlck(m_pMdbEnv);
+	mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
+	mdb_put(trnlck, m_dbModules, &key, &data, 0);
+	trnlck.commit();
 
 	// add to cache
 	char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);

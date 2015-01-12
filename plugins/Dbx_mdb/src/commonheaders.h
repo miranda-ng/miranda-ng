@@ -56,6 +56,36 @@ extern "C"
 extern HINSTANCE g_hInst;
 extern LIST<CDbxMdb> g_Dbs;
 
+class txn_lock
+{
+	MDB_txn *txn;
+
+public:
+	__forceinline txn_lock(MDB_env *pEnv)
+	{	mdb_txn_begin(pEnv, NULL, 0, &txn);
+	}
+
+	__forceinline ~txn_lock()
+	{
+		if (txn)
+			mdb_txn_abort(txn);
+	}
+
+	__forceinline operator MDB_txn*() const { return txn; }
+
+	__forceinline void commit()
+	{
+		mdb_txn_commit(txn);
+		txn = NULL;
+	}
+
+	__forceinline void abort()
+	{
+		mdb_txn_abort(txn);
+		txn = NULL;
+	}
+};
+
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
 #else
