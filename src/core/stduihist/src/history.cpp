@@ -144,14 +144,14 @@ static void FillHistoryThread(void* param)
 
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_RESETCONTENT, 0, 0);
 	int i = db_event_count(hInfo->hContact);
-	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_INITSTORAGE, i, i*40);
+	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_INITSTORAGE, i, i * 40);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	int oldBlobSize = 0;
 	HANDLE hDbEvent = db_event_last(hInfo->hContact);
 
 	while (hDbEvent != NULL) {
-		if ( !IsWindow(hInfo->hwnd))
+		if (!IsWindow(hInfo->hwnd))
 			break;
 		int newBlobSize = db_event_getBlobSize(hDbEvent);
 		if (newBlobSize > oldBlobSize) {
@@ -181,18 +181,18 @@ static void FillHistoryThread(void* param)
 
 static int HistoryDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 {
-	switch(urc->wId) {
+	switch (urc->wId) {
 	case IDC_LIST:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 	case IDC_EDIT:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	case IDC_FIND:
 	case IDC_DELETEHISTORY:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 	case IDOK:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 	}
-	return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
 static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -237,7 +237,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_SIZE:
 		{
-			UTILRESIZEDIALOG urd = {0};
+			UTILRESIZEDIALOG urd = { 0 };
 			urd.cbSize = sizeof(urd);
 			urd.hwndDlg = hwndDlg;
 			urd.hInstance = hInst;
@@ -245,8 +245,8 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			urd.lParam = 0;
 			urd.pfnResizer = HistoryDlgResizer;
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-			return TRUE;
 		}
+		return TRUE;
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
@@ -259,19 +259,20 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 
 		case IDC_DELETEHISTORY:
+			HANDLE hDbevent;
 			{
-				HANDLE hDbevent;
 				int index = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (index == LB_ERR)
 					break;
 
-				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete history"), MB_YESNO|MB_ICONQUESTION) == IDYES) {
+				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete history"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 					hDbevent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
 					db_event_delete(hContact, hDbevent);
 					SendMessage(hwndDlg, DM_HREBUILD, 0, 0);
 				}
-				return TRUE;
 			}
+			return TRUE;
+
 		case IDC_LIST:
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
 				int sel = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
@@ -296,46 +297,47 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 		}
 		break;
+
 	case DM_FINDNEXT:
-		{
-			int index = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
-			if (index == LB_ERR)
+		int index = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
+		if (index == LB_ERR)
+			break;
+
+		DBEVENTINFO dbei = { sizeof(dbei) };
+		int oldBlobSize = 0;
+		HANDLE hDbEventStart = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
+
+		for (;;) {
+			HANDLE hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, ++index, 0);
+			if (hDbEvent == (HANDLE)LB_ERR) {
+				index = -1;
+				continue;
+			}
+			if (hDbEvent == hDbEventStart)
 				break;
 
-			DBEVENTINFO dbei = { sizeof(dbei) };
-			int oldBlobSize = 0;
-			HANDLE hDbEventStart = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
+			int newBlobSize = db_event_getBlobSize(hDbEvent);
+			if (newBlobSize > oldBlobSize) {
+				dbei.pBlob = (PBYTE)mir_realloc(dbei.pBlob, newBlobSize);
+				oldBlobSize = newBlobSize;
+			}
+			dbei.cbBlob = oldBlobSize;
+			db_event_get(hDbEvent, &dbei);
 
-			for (;;) {
-				HANDLE hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, ++index, 0);
-				if (hDbEvent == (HANDLE)LB_ERR) {
-					index = -1;
-					continue;
-				}
-				if (hDbEvent == hDbEventStart)
+			TCHAR str[1024];
+			GetObjectDescription(&dbei, str, SIZEOF(str));
+			if (str[0]) {
+				CharUpperBuff(str, (int)mir_tstrlen(str));
+				if (_tcsstr(str, (const TCHAR*)lParam) != NULL) {
+					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
+					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
 					break;
-
-				int newBlobSize = db_event_getBlobSize(hDbEvent);
-				if (newBlobSize>oldBlobSize) {
-					dbei.pBlob = (PBYTE)mir_realloc(dbei.pBlob, newBlobSize);
-					oldBlobSize = newBlobSize;
 				}
-				dbei.cbBlob = oldBlobSize;
-				db_event_get(hDbEvent, &dbei);
-
-				TCHAR str[1024];
-				GetObjectDescription(&dbei, str, SIZEOF(str));
-				if (str[0]) {
-					CharUpperBuff(str, (int)mir_tstrlen(str));
-					if (_tcsstr(str, (const TCHAR*)lParam) != NULL) {
-						SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
-						SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
-						break;
-			}	}	}
-
-			mir_free(dbei.pBlob);
-			break;
+			}
 		}
+
+		mir_free(dbei.pBlob);
+		break;
 	}
 	return FALSE;
 }
@@ -350,18 +352,17 @@ static INT_PTR CALLBACK DlgProcHistoryFind(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-			case IDOK://find Next
-			{
-				TCHAR str[128];
-				HWND hwndParent = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				GetDlgItemText(hwndDlg, IDC_FINDWHAT, str, SIZEOF(str));
-				CharUpperBuff(str, (int)mir_tstrlen(str));
-				SendMessage(hwndParent, DM_FINDNEXT, 0, (LPARAM)str);
-				return TRUE;
-			}
-			case IDCANCEL:
-				DestroyWindow(hwndDlg);
-				return TRUE;
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			return TRUE;
+
+		case IDOK://find Next
+			TCHAR str[128];
+			HWND hwndParent = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			GetDlgItemText(hwndDlg, IDC_FINDWHAT, str, SIZEOF(str));
+			CharUpperBuff(str, (int)mir_tstrlen(str));
+			SendMessage(hwndParent, DM_FINDNEXT, 0, (LPARAM)str);
+			return TRUE;
 		}
 		break;
 	}
