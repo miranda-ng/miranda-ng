@@ -43,18 +43,17 @@ int CDbxMdb::InitModuleNames(void)
 	m_maxModuleID = 0;
 
 	MDB_txn *txn;
-	mdb_txn_begin(m_pMdbEnv, NULL, MDB_RDONLY, &txn);
+	mdb_txn_begin(m_pMdbEnv, NULL, 0, &txn);
 	mdb_open(txn, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
+	mdb_open(txn, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
 
 	MDB_cursor *cursor;
 	mdb_cursor_open(txn, m_dbModules, &cursor);
 
-	int rc, moduleId;
-	char valueBuf[100];
-	MDB_val key = { sizeof(int), &moduleId }, data = { sizeof(valueBuf), valueBuf };
+	MDB_val key, data;
 	
-	while ((rc = mdb_cursor_get(cursor, &key, &data, MDB_NEXT)) == 0) {
-		DBModuleName *pmod = (DBModuleName*)valueBuf;
+	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
+		DBModuleName *pmod = (DBModuleName*)data.mv_data;
 		if (pmod->signature != DBMODULENAME_SIGNATURE)
 			DatabaseCorruption(NULL);
 
@@ -62,6 +61,7 @@ int CDbxMdb::InitModuleNames(void)
 		memcpy(pVal, pmod->name, pmod->cbName);
 		pVal[pmod->cbName] = 0;
 
+		int moduleId = *(int*)key.mv_data;
 		AddToList(pVal, moduleId);
 
 		if (moduleId > m_maxModuleID)

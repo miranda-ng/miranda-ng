@@ -165,21 +165,18 @@ void CDbxMdb::FillContacts()
 
 	MDB_txn *txn;
 	mdb_txn_begin(m_pMdbEnv, NULL, MDB_RDONLY, &txn);
+	mdb_open(txn, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
 
 	MDB_cursor *cursor;
 	mdb_cursor_open(txn, m_dbContacts, &cursor);
 
-	DWORD dwContactId;
-	DBContact value;
-	
 	MDB_val key, data;
-	key.mv_size = sizeof(DWORD); key.mv_data = &dwContactId;
-	data.mv_size = sizeof(DBContact); data.mv_data = &value;
-
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
-		if (value.signature != DBCONTACT_SIGNATURE)
+		DBContact *dbc = (DBContact*)data.mv_data;
+		if (dbc->signature != DBCONTACT_SIGNATURE)
 			DatabaseCorruption(NULL);
 
+		DWORD dwContactId = *(DWORD*)key.mv_data;
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 		cc->dwDriverData = 0;
 		CheckProto(cc, "");
