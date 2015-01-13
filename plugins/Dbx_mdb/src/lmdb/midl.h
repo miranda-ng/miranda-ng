@@ -27,6 +27,7 @@
 #define _MDB_MIDL_H_
 
 #include <stddef.h>
+#include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,7 +43,7 @@ extern "C" {
 	/** A generic unsigned ID number. These were entryIDs in back-bdb.
 	 *	Preferably it should have the same size as a pointer.
 	 */
-typedef size_t MDB_ID;
+typedef uint64_t MDB_ID;
 
 	/** An IDL is an ID List, a sorted array of IDs. The first
 	 * element of the array is a counter for how many actual
