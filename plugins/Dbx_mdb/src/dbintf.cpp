@@ -51,7 +51,6 @@ CDbxMdb::CDbxMdb(const TCHAR *tszFileName, int iMode) :
 	InitDbInstance(this);
 
 	mdb_env_create(&m_pMdbEnv);
-	mdb_env_set_mapsize(m_pMdbEnv, 65536);
 	mdb_env_set_maxdbs(m_pMdbEnv, 10);
 
 	m_codePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
@@ -86,13 +85,7 @@ CDbxMdb::~CDbxMdb()
 
 int CDbxMdb::Load(bool bSkipInit)
 {
-	int mode = MDB_NOSYNC | MDB_NOSUBDIR;
-	if (m_bReadOnly)
-		mode += MDB_RDONLY;
-	else
-		mode += MDB_WRITEMAP;
-
-	if (mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664) != 0)
+	if (!Remap())
 		return EGROKPRF_CANTREAD;
 
 	if (!bSkipInit) {
@@ -129,16 +122,8 @@ int CDbxMdb::Load(bool bSkipInit)
 
 int CDbxMdb::Create(void)
 {
-	int mode = MDB_NOSYNC | MDB_NOSUBDIR;
-	if (m_bReadOnly)
-		mode += MDB_RDONLY;
-	else
-		mode += MDB_WRITEMAP;
-
-	if (mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664) != 0)
-		return EGROKPRF_CANTREAD;
-
-	return 0;
+	m_dwFileSize = 0;
+	return (Remap()) ? 0 : EGROKPRF_CANTREAD;
 }
 
 int CDbxMdb::Check(void)
@@ -146,6 +131,10 @@ int CDbxMdb::Check(void)
 	HANDLE hFile = CreateFile(m_tszProfileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
 	if (hFile == INVALID_HANDLE_VALUE)
 		return EGROKPRF_CANTREAD;
+
+	LARGE_INTEGER iFileSize;
+	GetFileSizeEx(hFile, &iFileSize);
+	m_dwFileSize = (iFileSize.LowPart & 0xFFFFF000);
 
 	DWORD dummy = 0;
 	char buf[32];
@@ -168,6 +157,19 @@ STDMETHODIMP_(void) CDbxMdb::SetCacheSafetyMode(BOOL bIsSet)
 {
 	mir_cslock lck(m_csDbAccess);
 	m_safetyMode = bIsSet != 0;
+}
+
+bool CDbxMdb::Remap()
+{
+	m_dwFileSize += 0x100000;
+	mdb_env_set_mapsize(m_pMdbEnv, m_dwFileSize);
+
+	int mode = MDB_NOSYNC | MDB_NOSUBDIR;
+	if (m_bReadOnly)
+		mode += MDB_RDONLY;
+	else
+		mode += MDB_WRITEMAP;
+	return mdb_env_open(m_pMdbEnv, _T2A(m_tszProfileName), mode, 0664) == MDB_SUCCESS;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
