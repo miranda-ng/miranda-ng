@@ -590,16 +590,16 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	int result = 0;
 	mir_cslock lck(m_csDbAccess);
 
-	txn_lock trnlck(m_pMdbEnv);
-	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
-
-	MDB_cursor *cursor;
-	mdb_cursor_open(trnlck, m_dbSettings, &cursor);
-
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
 	keySearch.szSettingName[0] = 0;
+
+	LIST<char> arSettings(50);
+
+	txn_lock trnlck(m_pMdbEnv);
+	MDB_cursor *cursor;
+	mdb_cursor_open(trnlck, m_dbSettings, &cursor);
 
 	MDB_val key = { 2 * sizeof(DWORD), &keySearch }, data;
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
@@ -610,10 +610,15 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 		char szSetting[256];
 		strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD)*2);
-		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
+		arSettings.insert(mir_strdup(szSetting));
+	}
+	mdb_cursor_close(cursor);
+
+	for (int i = 0; i < arSettings.getCount(); i++) {
+		result = (dbces->pfnEnumProc)(arSettings[i], dbces->lParam);
+		mir_free(arSettings[i]);
 	}
 
-	mdb_cursor_close(cursor);
 	return result;
 }
 
