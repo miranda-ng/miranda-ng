@@ -85,9 +85,12 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	NotifyEventHooks(hContactDeletedEvent, contactID, 0);
 
 	// delete 
+	mir_cslock lck(m_csDbAccess);
+
 	MDB_val key = { sizeof(DWORD), &contactID };
 
 	txn_lock trnlck(m_pMdbEnv);
+	mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
 	mdb_del(trnlck, m_dbContacts, &key, NULL);
 	trnlck.commit();
 	return 0;
@@ -95,21 +98,26 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
+	DWORD dwContactId;
+
 	DBContact dbc;
 	dbc.signature = DBCONTACT_SIGNATURE;
 	dbc.eventCount = 0;
+	{
+		mir_cslock lck(m_csDbAccess);
+		dwContactId = m_dwMaxContactId++;
 
-	DWORD dwContactId = m_dwMaxContactId++;
+		MDB_val key = { sizeof(DWORD), &dwContactId };
+		MDB_val data = { sizeof(DBContact), &dbc };
 
-	MDB_val key = { sizeof(DWORD), &dwContactId };
-	MDB_val data = { sizeof(DBContact), &dbc };
+		txn_lock trnlck(m_pMdbEnv);
+		mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
+		mdb_put(trnlck, m_dbContacts, &key, &data, 0);
+		trnlck.commit();
 
-	txn_lock trnlck(m_pMdbEnv);
-	mdb_put(trnlck, m_dbContacts, &key, &data, 0);
-	trnlck.commit();
-
-	DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
-	cc->dwDriverData = 0;
+		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
+		cc->dwDriverData = 0;
+	}
 
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
 	return dwContactId;
