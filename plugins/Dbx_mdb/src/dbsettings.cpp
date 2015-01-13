@@ -120,7 +120,7 @@ LBL_Seek:
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
 	txn_lock trnlck(m_pMdbEnv);
-	mdb_open(trnlck, "settings", 0, &m_dbSettings);
+	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
@@ -146,46 +146,46 @@ LBL_Seek:
 		return 1;
 
 	int varLen;
-	BYTE iType = dbv->type = pBlob[0];
+	BYTE iType = dbv->type = pBlob[0]; pBlob++;
 	switch (iType) {
 	case DBVT_DELETED: /* this setting is deleted */
 		dbv->type = DBVT_DELETED;
 		return 2;
 
-	case DBVT_BYTE:  dbv->bVal = pBlob[1]; break;
-	case DBVT_WORD:  memmove(&(dbv->wVal), (PWORD)(pBlob + 1), 2); break;
-	case DBVT_DWORD: memmove(&(dbv->dVal), (PDWORD)(pBlob + 1), 4); break;
+	case DBVT_BYTE:  dbv->bVal = *pBlob; break;
+	case DBVT_WORD:  dbv->wVal = *(WORD*)pBlob; break;
+	case DBVT_DWORD: dbv->dVal = *(DWORD*)pBlob; break;
 
 	case DBVT_UTF8:
 	case DBVT_ASCIIZ:
-		varLen = *(PWORD)(pBlob + 1);
-		pBlob += 3 + varLen;
+		varLen = *(WORD*)pBlob;
+		pBlob += 2;
 		if (isStatic) {
 			dbv->cchVal--;
 			if (varLen < dbv->cchVal)
 				dbv->cchVal = varLen;
-			memmove(dbv->pszVal, pBlob + 3, dbv->cchVal); // decode
+			memmove(dbv->pszVal, pBlob, dbv->cchVal); // decode
 			dbv->pszVal[dbv->cchVal] = 0;
 			dbv->cchVal = varLen;
 		}
 		else {
 			dbv->pszVal = (char*)mir_alloc(1 + varLen);
-			memmove(dbv->pszVal, pBlob + 3, varLen);
+			memmove(dbv->pszVal, pBlob, varLen);
 			dbv->pszVal[varLen] = 0;
 		}
 		break;
 
 	case DBVT_BLOB:
-		varLen = *(PWORD)(pBlob + 1);
-		pBlob += 3 + varLen;
+		varLen = *(WORD*)pBlob;
+		pBlob += 2;
 		if (isStatic) {
 			if (varLen < dbv->cpbVal)
 				dbv->cpbVal = varLen;
-			memmove(dbv->pbVal, pBlob + 3, dbv->cpbVal);
+			memmove(dbv->pbVal, pBlob, dbv->cpbVal);
 		}
 		else {
 			dbv->pbVal = (BYTE *)mir_alloc(varLen);
-			memmove(dbv->pbVal, pBlob + 3, varLen);
+			memmove(dbv->pbVal, pBlob, varLen);
 		}
 		dbv->cpbVal = varLen;
 		break;
@@ -193,29 +193,29 @@ LBL_Seek:
 	case DBVT_ENCRYPTED:
 		if (m_crypto == NULL)
 			return 1;
-		else {
-			varLen = *(PWORD)(pBlob + 1);
-			pBlob += 3 + varLen;
-			size_t realLen;
-			ptrA decoded(m_crypto->decodeString(pBlob + 3, varLen, &realLen));
-			if (decoded == NULL)
-				return 1;
 
-			varLen = (WORD)realLen;
-			dbv->type = DBVT_UTF8;
-			if (isStatic) {
-				dbv->cchVal--;
-				if (varLen < dbv->cchVal)
-					dbv->cchVal = varLen;
-				memmove(dbv->pszVal, decoded, dbv->cchVal);
-				dbv->pszVal[dbv->cchVal] = 0;
+		varLen = *(WORD*)pBlob;
+		pBlob += 2;
+		
+		size_t realLen;
+		ptrA decoded(m_crypto->decodeString(pBlob, varLen, &realLen));
+		if (decoded == NULL)
+			return 1;
+
+		varLen = (WORD)realLen;
+		dbv->type = DBVT_UTF8;
+		if (isStatic) {
+			dbv->cchVal--;
+			if (varLen < dbv->cchVal)
 				dbv->cchVal = varLen;
-			}
-			else {
-				dbv->pszVal = (char*)mir_alloc(1 + varLen);
-				memmove(dbv->pszVal, decoded, varLen);
-				dbv->pszVal[varLen] = 0;
-			}
+			memmove(dbv->pszVal, decoded, dbv->cchVal);
+			dbv->pszVal[dbv->cchVal] = 0;
+			dbv->cchVal = varLen;
+		}
+		else {
+			dbv->pszVal = (char*)mir_alloc(1 + varLen);
+			memmove(dbv->pszVal, decoded, varLen);
+			dbv->pszVal[varLen] = 0;
 		}
 		break;
 	}
@@ -474,7 +474,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	else m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
 	txn_lock trnlck(m_pMdbEnv);
-	mdb_open(trnlck, "settings", 0, &m_dbSettings);
+	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
@@ -521,6 +521,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
 	}
 
+	trnlck.commit();
 	lck.unlock();
 
 	// notify
@@ -555,7 +556,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 		if (szCachedSettingName[-1] == 0) { // it's not a resident variable
 			txn_lock trnlck(m_pMdbEnv);
-			mdb_open(trnlck, "settings", 0, &m_dbSettings);
+			//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
 			DBSettingKey keySearch;
 			keySearch.dwContactID = contactID;
@@ -588,9 +589,9 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 
 	int result = 0;
 	mir_cslock lck(m_csDbAccess);
-	/*
+
 	txn_lock trnlck(m_pMdbEnv);
-	mdb_open(trnlck, "settings", 0, &m_dbSettings);
+	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
 	MDB_cursor *cursor;
 	mdb_cursor_open(trnlck, m_dbSettings, &cursor);
@@ -601,6 +602,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	keySearch.szSettingName[0] = 0;
 
 	MDB_val key = { 2 * sizeof(DWORD), &keySearch }, data;
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 		DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
 		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
@@ -611,7 +613,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
 	}
 
-	mdb_cursor_close(cursor); */
+	mdb_cursor_close(cursor);
 	return result;
 }
 

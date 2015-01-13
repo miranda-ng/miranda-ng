@@ -42,6 +42,12 @@
  *  as int64 which is wrong. MSVC doesn't define it at all, so just
  *  don't use it.
  */
+#ifdef _WIN64
+typedef signed __int64 ssize_t;
+#else
+typedef signed int ssize_t;
+#endif
+
 #define MDB_PID_T	int
 #define MDB_THR_T	DWORD
 #include <sys/types.h>
@@ -79,6 +85,14 @@ extern int cacheflush(char *addr, int nbytes, int cache);
 #define CACHEFLUSH(addr, bytes, cache)
 #endif
 
+#if defined(__linux) && !defined(MDB_FDATASYNC_WORKS)
+/** fdatasync is broken on ext3/ext4fs on older kernels, see
+ *	description in #mdb_env_open2 comments. You can safely
+ *	define MDB_FDATASYNC_WORKS if this code will only be run
+ *	on kernels 3.6 and newer.
+ */
+//#define BROKEN_FDATASYNC
+#endif
 
 #include <errno.h>
 #include <limits.h>
@@ -367,7 +381,6 @@ static int mdb_mutex_failed(MDB_env *env, mdb_mutex_t *mutex, int rc);
  */
 #ifndef MDB_FDATASYNC
 # define MDB_FDATASYNC	fdatasync
-# define HAVE_FDATASYNC	1
 #endif
 
 #ifndef MDB_MSYNC
@@ -1138,6 +1151,8 @@ struct MDB_env {
 #define	MDB_ENV_ACTIVE	0x20000000U
 	/** me_txkey is set */
 #define	MDB_ENV_TXKEY	0x10000000U
+	/** fdatasync is unreliable */
+#define	MDB_FSYNCONLY	0x08000000U
 	uint32_t 	me_flags;		/**< @ref mdb_env */
 	unsigned int	me_psize;	/**< DB page size, inited from me_os_psize */
 	unsigned int	me_os_psize;	/**< OS page size, from #GET_PAGESIZE */
@@ -1154,7 +1169,7 @@ struct MDB_env {
 	MDB_txn		*me_txn;		/**< current write transaction */
 	MDB_txn		*me_txn0;		/**< prealloc'd write transaction */
 	size_t		me_mapsize;		/**< size of the data memory map */
-	size_t		me_size;		/**< current file size */
+	off_t		me_size;		/**< current file size */
 	pgno_t		me_maxpg;		/**< me_mapsize / me_psize */
 	MDB_dbx		*me_dbxs;		/**< array of static DB info */
 	uint16_t	*me_dbflags;	/**< array of flags from MDB_db.md_flags */
@@ -1203,7 +1218,7 @@ typedef struct MDB_ntxn {
 #endif
 
 	/** max bytes to write in one call */
-#define MAX_WRITE		(0x80000000U >> (sizeof(size_t) == 4))
+#define MAX_WRITE		(0x80000000U >> (sizeof(ssize_t) == 4))
 
 	/** Check \b txn and \b dbi arguments to a function */
 #define TXN_DBI_EXIST(txn, dbi) \
@@ -2341,19 +2356,12 @@ fail:
 	return rc;
 }
 
-/* internal env_sync flags: */
-#define FORCE	1		/* as before, force a flush */
-#define FGREW	0x8000	/* file has grown, do a full fsync instead of just
-	   fdatasync. We shouldn't have to do this, according to the POSIX spec.
-	   But common Linux FSs violate the spec and won't sync required metadata
-	   correctly when the file grows. This only makes a difference if the
-	   platform actually distinguishes fdatasync from fsync.
-	   http://www.openldap.org/lists/openldap-devel/201411/msg00000.html */
-
-static int
-mdb_env_sync0(MDB_env *env, int flag)
+int
+mdb_env_sync(MDB_env *env, int force)
 {
-	int rc = 0, force = flag & FORCE;
+	int rc = 0;
+	if (env->me_flags & MDB_RDONLY)
+		return EACCES;
 	if (force || !F_ISSET(env->me_flags, MDB_NOSYNC)) {
 		if (env->me_flags & MDB_WRITEMAP) {
 			int flags = ((env->me_flags & MDB_MAPASYNC) && !force)
@@ -2365,9 +2373,9 @@ mdb_env_sync0(MDB_env *env, int flag)
 				rc = ErrCode();
 #endif
 		} else {
-#ifdef HAVE_FDATASYNC
-			if (flag & FGREW) {
-				if (fsync(env->me_fd))	/* Avoid ext-fs bugs, do full sync */
+#ifdef BROKEN_FDATASYNC
+			if (env->me_flags & MDB_FSYNCONLY) {
+				if (fsync(env->me_fd))
 					rc = ErrCode();
 			} else
 #endif
@@ -2376,12 +2384,6 @@ mdb_env_sync0(MDB_env *env, int flag)
 		}
 	}
 	return rc;
-}
-
-int
-mdb_env_sync(MDB_env *env, int force)
-{
-	return mdb_env_sync0(env, force != 0);
 }
 
 /** Back up parent txn's cursors, then grab the originals for tracking */
@@ -2939,7 +2941,7 @@ mdb_freelist_save(MDB_txn *txn)
 	int rc, maxfree_1pg = env->me_maxfree_1pg, more = 1;
 	txnid_t	pglast = 0, head_id = 0;
 	pgno_t	freecnt = 0, *free_pgs, *mop;
-	size_t	head_room = 0, total_room = 0, mop_len, clean_limit;
+	ssize_t	head_room = 0, total_room = 0, mop_len, clean_limit;
 
 	mdb_cursor_init(&mc, txn, FREE_DBI, NULL);
 
@@ -2971,7 +2973,7 @@ mdb_freelist_save(MDB_txn *txn)
 		/* Come back here after each Put() in case freelist changed */
 		MDB_val key, data;
 		pgno_t *pgs;
-		size_t j;
+		ssize_t j;
 
 		/* If using records from freeDB which we have not yet
 		 * deleted, delete them and any we reserved for me_pghead.
@@ -3095,7 +3097,7 @@ mdb_freelist_save(MDB_txn *txn)
 		rc = mdb_cursor_first(&mc, &key, &data);
 		for (; !rc; rc = mdb_cursor_next(&mc, &key, &data, MDB_NEXT)) {
 			txnid_t id = *(txnid_t *)key.mv_data;
-			size_t	len = (size_t)(data.mv_size / sizeof(MDB_ID)) - 1;
+			ssize_t	len = (ssize_t)(data.mv_size / sizeof(MDB_ID)) - 1;
 			MDB_ID save;
 
 			mdb_tassert(txn, len >= 0 && id <= env->me_pglast);
@@ -3135,7 +3137,7 @@ mdb_page_flush(MDB_txn *txn, int keep)
 	OVERLAPPED	ov;
 #else
 	struct iovec iov[MDB_COMMIT_PAGES];
-	size_t		wpos = 0, wsize = 0, wres;
+	ssize_t		wpos = 0, wsize = 0, wres;
 	size_t		next_pos = 1; /* impossible pos, so pos != next_pos */
 	int			n = 0;
 #endif
@@ -3458,15 +3460,8 @@ mdb_txn_commit(MDB_txn *txn)
 	mdb_audit(txn);
 #endif
 
-	i = 0;
-#ifdef HAVE_FDATASYNC
-	if (txn->mt_next_pgno * env->me_psize > env->me_size) {
-		i |= FGREW;
-		env->me_size = txn->mt_next_pgno * env->me_psize;
-	}
-#endif
 	if ((rc = mdb_page_flush(txn, 0)) ||
-		(rc = mdb_env_sync0(env, i)) ||
+		(rc = mdb_env_sync(env, 0)) ||
 		(rc = mdb_env_write_meta(txn)))
 		goto fail;
 
@@ -3946,6 +3941,11 @@ mdb_fsize(HANDLE fd, size_t *size)
 	return MDB_SUCCESS;
 }
 
+#ifdef BROKEN_FDATASYNC
+#include <sys/utsname.h>
+#include <sys/vfs.h>
+#endif
+
 /** Further setup required for opening an LMDB environment
  */
 static int ESECT
@@ -3963,6 +3963,54 @@ mdb_env_open2(MDB_env *env)
 	else
 		env->me_pidquery = PROCESS_QUERY_INFORMATION;
 #endif /* _WIN32 */
+
+#ifdef BROKEN_FDATASYNC
+	/* ext3/ext4 fdatasync is broken on some older Linux kernels.
+	 * https://lkml.org/lkml/2012/9/3/83
+	 * Kernels after 3.6-rc6 are known good.
+	 * https://lkml.org/lkml/2012/9/10/556
+	 * See if the DB is on ext3/ext4, then check for new enough kernel
+	 * Kernels 2.6.32.60, 2.6.34.15, 3.2.30, and 3.5.4 are also known
+	 * to be patched.
+	 */
+	{
+		struct statfs st;
+		fstatfs(env->me_fd, &st);
+		while (st.f_type == 0xEF53) {
+			struct utsname uts;
+			int i;
+			uname(&uts);
+			if (uts.release[0] < '3') {
+				if (!strncmp(uts.release, "2.6.32.", 7)) {
+					i = atoi(uts.release+7);
+					if (i >= 60)
+						break;	/* 2.6.32.60 and newer is OK */
+				} else if (!strncmp(uts.release, "2.6.34.", 7)) {
+					i = atoi(uts.release+7);
+					if (i >= 15)
+						break;	/* 2.6.34.15 and newer is OK */
+				}
+			} else if (uts.release[0] == '3') {
+				i = atoi(uts.release+2);
+				if (i > 5)
+					break;	/* 3.6 and newer is OK */
+				if (i == 5) {
+					i = atoi(uts.release+4);
+					if (i >= 4)
+						break;	/* 3.5.4 and newer is OK */
+				} else if (i == 2) {
+					i = atoi(uts.release+4);
+					if (i >= 30)
+						break;	/* 3.2.30 and newer is OK */
+				}
+			} else {	/* 4.x and newer is OK */
+				break;
+			}
+			env->me_flags |= MDB_FSYNCONLY;
+			break;
+		}
+	}
+#endif
 
 	if ((i = mdb_env_read_header(env, &meta)) != 0) {
 		if (i != ENOENT)
@@ -4006,10 +4054,6 @@ mdb_env_open2(MDB_env *env)
 			return rc;
 		newenv = 0;
 	}
-
-	rc = mdb_fsize(env->me_fd, &env->me_size);
-	if (rc)
-		return rc;
 
 	rc = mdb_env_map(env, (flags & MDB_FIXEDMAP) ? meta.mm_address : NULL);
 	if (rc)
@@ -4844,11 +4888,11 @@ static int
 mdb_cmp_memn(const MDB_val *a, const MDB_val *b)
 {
 	int diff;
-	size_t len_diff;
+	ssize_t len_diff;
 	unsigned int len;
 
 	len = a->mv_size;
-	len_diff = (size_t) a->mv_size - (size_t) b->mv_size;
+	len_diff = (ssize_t) a->mv_size - (ssize_t) b->mv_size;
 	if (len_diff > 0) {
 		len = b->mv_size;
 		len_diff = 1;
@@ -4863,14 +4907,14 @@ static int
 mdb_cmp_memnr(const MDB_val *a, const MDB_val *b)
 {
 	const unsigned char	*p1, *p2, *p1_lim;
-	size_t len_diff;
+	ssize_t len_diff;
 	int diff;
 
 	p1_lim = (const unsigned char *)a->mv_data;
 	p1 = (const unsigned char *)a->mv_data + a->mv_size;
 	p2 = (const unsigned char *)b->mv_data + b->mv_size;
 
-	len_diff = (size_t) a->mv_size - (size_t) b->mv_size;
+	len_diff = (ssize_t) a->mv_size - (ssize_t) b->mv_size;
 	if (len_diff > 0) {
 		p1_lim += len_diff;
 		len_diff = 1;
@@ -6803,7 +6847,7 @@ mdb_node_add(MDB_cursor *mc, indx_t indx,
 {
 	unsigned int	 i;
 	size_t		 node_size = NODESIZE;
-	size_t		 room;
+	ssize_t		 room;
 	indx_t		 ofs;
 	MDB_node	*node;
 	MDB_page	*mp = mc->mc_pg[mc->mc_top];
@@ -6834,7 +6878,7 @@ mdb_node_add(MDB_cursor *mc, indx_t indx,
 		return MDB_SUCCESS;
 	}
 
-	room = (size_t)SIZELEFT(mp) - (size_t)sizeof(indx_t);
+	room = (ssize_t)SIZELEFT(mp) - (ssize_t)sizeof(indx_t);
 	if (key != NULL)
 		node_size += key->mv_size;
 	if (IS_LEAF(mp)) {
@@ -6849,7 +6893,7 @@ mdb_node_add(MDB_cursor *mc, indx_t indx,
 			DPRINTF(("data size is %"Z"u, node would be %"Z"u, put data on overflow page",
 			    data->mv_size, node_size+data->mv_size));
 			node_size = EVEN(node_size + sizeof(pgno_t));
-			if ((size_t)node_size > room)
+			if ((ssize_t)node_size > room)
 				goto full;
 			if ((rc = mdb_page_new(mc, P_OVERFLOW, ovpages, &ofp)))
 				return rc;
@@ -6861,7 +6905,7 @@ mdb_node_add(MDB_cursor *mc, indx_t indx,
 		}
 	}
 	node_size = EVEN(node_size);
-	if ((size_t)node_size > room)
+	if ((ssize_t)node_size > room)
 		goto full;
 
 update:
@@ -8768,7 +8812,7 @@ mdb_env_copyfd0(MDB_env *env, HANDLE fd)
 	DWORD len, w2;
 #define DO_WRITE(rc, fd, ptr, w2, len)	rc = WriteFile(fd, ptr, w2, &len, NULL)
 #else
-	size_t len;
+	ssize_t len;
 	size_t w2;
 #define DO_WRITE(rc, fd, ptr, w2, len)	len = write(fd, ptr, w2); rc = (len >= 0)
 #endif
