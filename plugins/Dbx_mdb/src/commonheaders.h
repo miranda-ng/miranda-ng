@@ -59,10 +59,13 @@ extern LIST<CDbxMdb> g_Dbs;
 class txn_lock
 {
 	MDB_txn *txn;
+	MDB_env *env;
 
 public:
-	__forceinline txn_lock(MDB_env *pEnv)
-	{	mdb_txn_begin(pEnv, NULL, 0, &txn);
+	__forceinline txn_lock(MDB_env *pEnv) :
+		env(pEnv)
+	{
+		mdb_txn_begin(pEnv, NULL, 0, &txn);
 	}
 
 	__forceinline ~txn_lock()
@@ -73,10 +76,11 @@ public:
 
 	__forceinline operator MDB_txn*() const { return txn; }
 
-	__forceinline void commit()
+	__forceinline bool commit()
 	{
-		mdb_txn_commit(txn);
+		bool bRes = (mdb_txn_commit(txn) != MDB_MAP_FULL);
 		txn = NULL;
+		return bRes;
 	}
 
 	__forceinline void abort()

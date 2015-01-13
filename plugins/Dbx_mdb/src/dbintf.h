@@ -197,7 +197,7 @@ protected:
 
 	void  FillContacts(void);
 
-	void  Map();
+	bool  Remap();
 
 public:  // Check functions
 	int WorkInitialChecks(int);
@@ -218,6 +218,7 @@ public:
 
 protected:
 	MDB_env *m_pMdbEnv;
+	DWORD    m_dwFileSize;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 

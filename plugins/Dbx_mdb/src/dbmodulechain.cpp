@@ -103,10 +103,13 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	
 	MDB_val key = { sizeof(int), &newIdx }, data = { sizeof(DBModuleName) + nameLen, pmod };
 
-	txn_lock trnlck(m_pMdbEnv);
-	mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
-	mdb_put(trnlck, m_dbModules, &key, &data, 0);
-	trnlck.commit();
+	for (;; Remap()) {
+		txn_lock trnlck(m_pMdbEnv);
+		mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
+		mdb_put(trnlck, m_dbModules, &key, &data, 0);
+		if (trnlck.commit())
+			break;
+	}
 
 	// add to cache
 	char *mod = (char*)HeapAlloc(m_hModHeap, 0, nameLen + 1);

@@ -89,10 +89,12 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 	MDB_val key = { sizeof(DWORD), &contactID };
 
-	txn_lock trnlck(m_pMdbEnv);
-	mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
-	mdb_del(trnlck, m_dbContacts, &key, NULL);
-	trnlck.commit();
+	for (;; Remap()) {
+		txn_lock trnlck(m_pMdbEnv);
+		mdb_del(trnlck, m_dbContacts, &key, NULL);
+		if (trnlck.commit())
+			break;
+	}
 	return 0;
 }
 
@@ -110,10 +112,12 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 		MDB_val key = { sizeof(DWORD), &dwContactId };
 		MDB_val data = { sizeof(DBContact), &dbc };
 
-		txn_lock trnlck(m_pMdbEnv);
-		mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
-		mdb_put(trnlck, m_dbContacts, &key, &data, 0);
-		trnlck.commit();
+		for (;; Remap()) {
+			txn_lock trnlck(m_pMdbEnv);
+			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
+			if (trnlck.commit())
+				break;
+		}
 
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
 		cc->dwDriverData = 0;

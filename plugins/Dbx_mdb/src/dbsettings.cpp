@@ -473,9 +473,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	}
 	else m_cache->GetCachedValuePtr(contactID, szCachedSettingName, -1);
 
-	txn_lock trnlck(m_pMdbEnv);
-	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
-
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
 	keySearch.dwOfsModule = GetModuleNameOfs(dbcws->szModule);
@@ -497,31 +494,35 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		data.mv_size = 3 + dbcwWork.value.cpbVal; break;
 	}
 
-	if (mdb_put(trnlck, m_dbSettings, &key, &data, MDB_RESERVE) != 0)
-		return 1;
+	for (;; Remap()) {
+		txn_lock trnlck(m_pMdbEnv);
+		if (mdb_put(trnlck, m_dbSettings, &key, &data, MDB_RESERVE) != 0)
+			return 1;
 
-	BYTE *pBlob = (BYTE*)data.mv_data;
-	*pBlob++ = dbcwWork.value.type;
-	switch (dbcwWork.value.type) {
-	case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
-	case DBVT_WORD:  *(WORD*)pBlob = dbcwWork.value.wVal; break;
-	case DBVT_DWORD: *(DWORD*)pBlob = dbcwWork.value.dVal; break;
+		BYTE *pBlob = (BYTE*)data.mv_data;
+		*pBlob++ = dbcwWork.value.type;
+		switch (dbcwWork.value.type) {
+		case DBVT_BYTE:  *pBlob = dbcwWork.value.bVal; break;
+		case DBVT_WORD:  *(WORD*)pBlob = dbcwWork.value.wVal; break;
+		case DBVT_DWORD: *(DWORD*)pBlob = dbcwWork.value.dVal; break;
 
-	case DBVT_ASCIIZ:
-	case DBVT_UTF8:
-		data.mv_size = *(WORD*)pBlob = dbcwWork.value.cchVal;
-		pBlob += 2;
-		memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
-		break;
+		case DBVT_ASCIIZ:
+		case DBVT_UTF8:
+			data.mv_size = *(WORD*)pBlob = dbcwWork.value.cchVal;
+			pBlob += 2;
+			memcpy(pBlob, dbcwWork.value.pszVal, dbcwWork.value.cchVal);
+			break;
 
-	case DBVT_BLOB:
-	case DBVT_ENCRYPTED:
-		data.mv_size = *(WORD*)pBlob = dbcwWork.value.cpbVal;
-		pBlob += 2;
-		memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+		case DBVT_BLOB:
+		case DBVT_ENCRYPTED:
+			data.mv_size = *(WORD*)pBlob = dbcwWork.value.cpbVal;
+			pBlob += 2;
+			memcpy(pBlob, dbcwWork.value.pbVal, dbcwWork.value.cpbVal);
+		}
+
+		if (trnlck.commit())
+			break;
 	}
-
-	trnlck.commit();
 	lck.unlock();
 
 	// notify
@@ -555,19 +556,21 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 		mir_cslock lck(m_csDbAccess);
 		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 		if (szCachedSettingName[-1] == 0) { // it's not a resident variable
-			txn_lock trnlck(m_pMdbEnv);
-			//mdb_open(trnlck, "settings", 0, &m_dbSettings);
-
 			DBSettingKey keySearch;
 			keySearch.dwContactID = contactID;
 			keySearch.dwOfsModule = GetModuleNameOfs(szModule);
 			strncpy_s(keySearch.szSettingName, szSetting, _TRUNCATE);
 
 			MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
-			if (mdb_del(trnlck, m_dbSettings, &key, &data))
-				return 1;
 
-			trnlck.commit();
+			for (;; Remap()) {
+				txn_lock trnlck(m_pMdbEnv);
+				if (mdb_del(trnlck, m_dbSettings, &key, &data))
+					return 1;
+
+				if (trnlck.commit())
+					break;
+			}
 		}
 
 		m_cache->GetCachedValuePtr(saveContact, szCachedSettingName, -1);
@@ -593,7 +596,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	DBSettingKey keySearch;
 	keySearch.dwContactID = contactID;
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
-	keySearch.szSettingName[0] = 0;
+	memset(keySearch.szSettingName, 0, SIZEOF(keySearch.szSettingName));
 
 	LIST<char> arSettings(50);
 
@@ -601,9 +604,9 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	MDB_cursor *cursor;
 	mdb_cursor_open(trnlck, m_dbSettings, &cursor);
 
-	MDB_val key = { 2 * sizeof(DWORD), &keySearch }, data;
-	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
+	MDB_val key = { sizeof(keySearch), &keySearch }, data;
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
+	do {
 		DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
 		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
 			break;
@@ -612,6 +615,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 		strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD)*2);
 		arSettings.insert(mir_strdup(szSetting));
 	}
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0);
 	mdb_cursor_close(cursor);
 
 	for (int i = 0; i < arSettings.getCount(); i++) {
