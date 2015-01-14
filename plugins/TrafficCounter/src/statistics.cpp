@@ -564,7 +564,7 @@ DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, DWORD ItemNumber, SYSTEMTIM
 дата которой соответствует началу статистики указанного аккаунта. */
 void Stat_SetAccShift(BYTE AccNum, BYTE EldestAccount)
 {
-	DWORD Left, Right, Probe; // Границы интервала для поиска (индексы статистики).
+	DWORD Left, Right, Probe = 0; // Границы интервала для поиска (индексы статистики).
 	SYSTEMTIME stReq = {0}, stProbe;
 	signed short int d = 1;
 
@@ -717,6 +717,8 @@ DWORD Stat_GetRecordsNumber(BYTE AccNum, BYTE Interval)
 				if (ProtoList[AccNum].AllStatistics[i].Year != ProtoList[AccNum].AllStatistics[i+1].Year)
 					Result++;
 			break;
+		default:
+			return 0;
 	}
 
 	return Result;

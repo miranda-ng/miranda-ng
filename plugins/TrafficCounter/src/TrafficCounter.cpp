@@ -668,12 +668,10 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	{
 		RowItemInfo *ItemsList;
 		WORD ItemsNumber, RowsNumber;
-		TCHAR **ExtraText;
-		HICON *ahIcon;
 
 		// Готовим список строк для Variables и иконок.
-		ExtraText = (TCHAR**)mir_alloc(sizeof(TCHAR*));
-		ahIcon = (HICON*)mir_alloc(sizeof(HICON));
+		TCHAR **ExtraText = (TCHAR**)mir_alloc(sizeof(TCHAR*));
+		HICON *ahIcon = (HICON*)mir_alloc(sizeof(HICON));
 		RowsNumber = 0;
 		// Цикл по аккаунтам.
 		for (i = 0; i < NumberOfAccounts; i++)
@@ -708,9 +706,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		// Рисуем свой счётчик для каждого из выбранных протоколов
 		for (i = 0; i < RowsNumber; i++)
 		{
-			TCHAR *buf;
-
-			buf = variables_parse(Traffic_CounterFormat, ExtraText[i], NULL);
+			TCHAR *buf = variables_parse(Traffic_CounterFormat, ExtraText[i], NULL);
 			if (ItemsNumber = GetRowItems(buf, &ItemsList))
 			{
 				// Рисуем текст.
