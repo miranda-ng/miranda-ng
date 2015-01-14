@@ -62,7 +62,7 @@ void LoadAllSButs()
 }
 
 //----- Launch buttons -----
-INT_PTR LaunchService(WPARAM wParam, LPARAM lParam)
+INT_PTR LaunchService(WPARAM, LPARAM lParam)
 {
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si = {0};
@@ -326,7 +326,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 
 // wparam = (HANDLE)hTTButton
 // lparam = 0
-INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
+INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM)
 {
 	mir_cslock lck(csButtonsHook);
 
@@ -370,35 +370,31 @@ INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
 	if (b == NULL)
 		return -1;
 
-	int retval = (b->bPushed == TRUE) ? TTBST_PUSHED : 0;
-	return retval;
+	return ((b->bPushed == TRUE) ? TTBST_PUSHED : 0);
 }
 
 INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 {
-	INT_PTR retval;
-
 	mir_cslock lck(csButtonsHook);
 	TopButtonInt *b = idtopos(wParam);
 	if (b == NULL)
 		return -1;
 
 	switch (LOWORD(wParam)) {
-	case TTBO_FLAGS:
-		retval = b->dwFlags & (~TTBBF_PUSHED);
+	case TTBO_FLAGS: {
+		INT_PTR retval = b->dwFlags & (~TTBBF_PUSHED);
 		if (b->bPushed)
 			retval |= TTBBF_PUSHED;
-		break;
-
+		return retval;
+	}
 	case TTBO_TIPNAME:
-		retval = (INT_PTR)b->ptszTooltip;
-		break;
+		return (INT_PTR)b->ptszTooltip;
 
 	case TTBO_ALLDATA:
 		if (lParam) {
 			lpTTBButton lpTTB = (lpTTBButton)lParam;
 			if (lpTTB->cbSize != sizeof(TTBButton))
-				break;
+				return -1;
 
 			lpTTB->dwFlags = b->dwFlags & (~TTBBF_PUSHED);
 			if (b->bPushed)
@@ -417,33 +413,29 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			else
 				replaceStr(lpTTB->pszService, b->pszService);
 
-			retval = (INT_PTR)lpTTB;
+			return (INT_PTR)lpTTB;
 		}
-		break;
+		else
+			return -1;
 
 	default:
-		retval = -1;
-		break;
+		return -1;
 	}
-
-	return retval;
 }
 
 INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 {
-	int retval = 0;
-
 	mir_cslock lck(csButtonsHook);
 	TopButtonInt *b = idtopos(HIWORD(wParam));
 	if (b == NULL)
 		return -1;
 
 	switch (LOWORD(wParam)) {
-	case TTBO_FLAGS:
+	case TTBO_FLAGS: {
 		if (b->dwFlags == lParam)
-			break;
+			return 0;
 
-		retval = b->CheckFlags(lParam);
+		DWORD retval = b->CheckFlags(lParam);
 
 		if (retval & TTBBF_PUSHED)
 			b->SetBitmap();
@@ -452,34 +444,32 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			b->SaveSettings(0, 0);
 		}
 
-		retval = 1;
-		break;
-
+		return 1;
+	}
 	case TTBO_TIPNAME:
 		if (lParam == 0)
-			break;
+			return -1;
 
 		replaceStrT(b->ptszTooltip, TranslateTS(_A2T((LPCSTR)lParam)));
 		SendMessage(b->hwnd, BUTTONADDTOOLTIP, (WPARAM)b->ptszTooltip, BATF_UNICODE);
-		retval = 1;
-		break;
+		return 1;
 
 	case TTBO_ALLDATA:
 		if (lParam) {
 			lpTTBButton lpTTB = (lpTTBButton)lParam;
 			if (lpTTB->cbSize != sizeof(TTBButton))
-				break;
+				return 0;
 
-			retval = b->CheckFlags(lpTTB->dwFlags);
+			DWORD retval = b->CheckFlags(lpTTB->dwFlags);
 
-			int changed = 0;
+			bool changed = false;
 			if (b->hIconUp != lpTTB->hIconUp) {
 				b->hIconUp = lpTTB->hIconUp;
-				changed = 1;
+				changed = true;
 			}
 			if (b->hIconDn != lpTTB->hIconDn) {
 				b->hIconDn = lpTTB->hIconDn;
-				changed = 1;
+				changed = true;
 			}
 			if (changed)
 				b->SetBitmap();
@@ -499,22 +489,20 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			b->lParamDown = lpTTB->lParamDown;
 			b->wParamDown = lpTTB->wParamDown;
 
-			retval = 1;
+			return 1;
 		}
-		break;
+		else
+			return 0;
 
 	default:
-		retval = -1;
-		break;
+		return -1;
 	}
-
-	return retval;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Reload all icons from their icolib handles
 
-int OnIconChange(WPARAM wParam, LPARAM lParam)
+int OnIconChange(WPARAM, LPARAM)
 {
 	mir_cslock lck(csButtonsHook);
 	for (int i = 0; i < Buttons.getCount(); i++) {
@@ -542,7 +530,7 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnBGChange(WPARAM wParam, LPARAM lParam)
+static int OnBGChange(WPARAM, LPARAM)
 {
 	LoadBackgroundOptions();
 	return 0;
@@ -593,7 +581,7 @@ int OnPluginUnload(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnModulesLoad(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoad(WPARAM, LPARAM)
 {
 	LoadAllSeparators();
 	LoadAllLButs();
@@ -612,7 +600,7 @@ static int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnShutdown(WPARAM wParam, LPARAM lParam)
+static int OnShutdown(WPARAM, LPARAM)
 {
 	if (g_ctrl) {
 		if (g_ctrl->hFrame) {
