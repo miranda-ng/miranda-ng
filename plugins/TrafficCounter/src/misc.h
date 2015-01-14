@@ -25,8 +25,8 @@ BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year);
 	Buffer - адрес строки для записи результата;
 	Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера. */
-WORD GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, WORD Size);
+size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size);
 
-WORD GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Size);
+size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Size);
 
 signed short int TimeCompare(SYSTEMTIME st1, SYSTEMTIME st2);

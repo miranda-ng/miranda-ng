@@ -122,13 +122,12 @@ BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year)
 	Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера.
 */
-WORD GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, WORD Size)
+size_t GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, size_t Size)
 {
 	TCHAR Str1[32], szUnit[4] = {' ', 0};
 	DWORD Divider;
 	NUMBERFMT nf = {0, 1, 3, _T(","), _T(" "), 0};
 	TCHAR *Res; // Промежуточный результат.
-	WORD l;
 
 	switch (Unit)
 	{
@@ -150,10 +149,12 @@ WORD GetFormattedTraffic(DWORD Value, BYTE Unit, TCHAR *Buffer, WORD Size)
 			if (Value < 0x100000) { Divider = 0x400; szUnit[1] = 'K'; szUnit[2] = 'B'; }
 			else { Divider = 0x100000; szUnit[1] = 'M'; szUnit[2] = 'B'; }
 			break;
+		default:
+			return 0;
 	}
 
 	mir_sntprintf(Str1, SIZEOF(Str1), _T("%d.%d"), Value / Divider, Value % Divider);
-	l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
+	size_t l = GetNumberFormat(LOCALE_USER_DEFAULT, 0, Str1, &nf, NULL, 0);
 	if (!l) return 0;
 	l += _tcslen(szUnit) + 1;
 	Res = (TCHAR*)malloc(l * sizeof(TCHAR));
@@ -181,10 +182,11 @@ Duration: интервал времени в секундах;
 Format: строка формата;
 Buffer: адрес буфера, куда функция помещает результат.
 Size - размер буфера. */
-WORD GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Size)
+size_t GetDurationFormatM(DWORD Duration, TCHAR *Format, TCHAR *Buffer, WORD Size)
 {
+	size_t Length;
 	DWORD q;
-	WORD TokenIndex, FormatIndex, Length;
+	WORD TokenIndex, FormatIndex;
 	TCHAR Token[256],  // Аккумулятор.
 		*Res; // Промежуточный результат.
 

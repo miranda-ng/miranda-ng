@@ -27,8 +27,6 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 {
 	DWORD tmp, tmpsn = 0, tmprn = 0, tmpst = 0, tmprt = 0;
 	BYTE ed;
-	WORD l;
-	TCHAR *res;
 
 	if (ai->argc != 5) return NULL;
 
@@ -55,9 +53,8 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 	{	// Ищем индекс протокола, переданного первым аргументом
 		for (tmp = ed = 0; ed < NumberOfAccounts; ed++)
 		{
-			TCHAR *buf;
 			if (!ProtoList[ed].name) continue;
-			buf = mir_a2t(ProtoList[ed].name);
+			TCHAR *buf = mir_a2t(ProtoList[ed].name);
 			if (!_tcscmp(buf, ai->targv[1]))
 			{
 				tmpsn = ProtoList[ed].CurrentSentTraffic;
@@ -103,20 +100,19 @@ static TCHAR* GetTraffic(ARGUMENTSINFO *ai)
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
-	l = GetFormattedTraffic(tmp, ed, NULL, 0);
-	res = (TCHAR*)mir_alloc(l * sizeof(TCHAR));
+	size_t l = GetFormattedTraffic(tmp, ed, NULL, 0);
+	TCHAR *res = (TCHAR*)mir_alloc(l * sizeof(TCHAR));
 	if (!res) return NULL;
 	if (GetFormattedTraffic(tmp, ed, res, l))
 		return res;
 
+	mir_free(res);
 	return NULL;
 }
 
 static TCHAR* GetTime(ARGUMENTSINFO *ai)
 {
 	BYTE ed, flag;
-	TCHAR *res = NULL;
-	WORD l;
 	DWORD Duration;
 
 	if (ai->argc != 4) return NULL;
@@ -153,8 +149,8 @@ static TCHAR* GetTime(ARGUMENTSINFO *ai)
 
 	// Получаем форматированную строку и возвращаем указатель на неё.
 	// Сначала узнаем размер буфера.
-	l = GetDurationFormatM(Duration, ai->targv[3], NULL, 0);
-	res = (TCHAR*)mir_alloc(l * sizeof(TCHAR));
+	size_t l = GetDurationFormatM(Duration, ai->targv[3], NULL, 0);
+	TCHAR *res = (TCHAR*)mir_alloc(l * sizeof(TCHAR));
 	if (!res) return NULL;
 	GetDurationFormatM(Duration, ai->targv[3], res, l);
 
