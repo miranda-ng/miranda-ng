@@ -864,7 +864,7 @@ INT_PTR UrlCall(WPARAM wparam, LPARAM lparam) {
 									if (myClient->client->connected)
 									{
 										InviteBuddyPacket invite;
-										invite.addInviteName(g, Translate("Add me to your friends list."));
+										invite.addInviteName(g, Translate("Add me to your friend list."));
 										myClient->client->send(&invite);
 									}
 									else
@@ -3071,7 +3071,7 @@ INT_PTR SearchAddtoList(WPARAM wParam, LPARAM lParam)
 			if (myClient->client->connected)
 			{
 		InviteBuddyPacket invite;
-		invite.addInviteName(std::string(_T2A(psr->nick)), Translate("Add me to your friends list."));
+		invite.addInviteName(std::string(_T2A(psr->nick)), Translate("Add me to your friend list."));
 		myClient->client->send(&invite);
 			}
 
