@@ -50,7 +50,7 @@ status_map status_codes[] = {
 //status_map 
 
 
-static CRITICAL_SECTION ConnectMutex, SendMutex;
+static mir_cs ConnectMutex, SendMutex;
 static BOOL rcvThreadRunning=FALSE, isConnecting = FALSE;
 static SOCKET ClientSocket=INVALID_SOCKET;
 static HANDLE SkypeMsgToSend=NULL;
@@ -117,7 +117,7 @@ void rcvThread(char *dummy) {
 			else {LOG(("rcvThread lost connection, graceful shutdown"));}
 			return;
 		}
-		EnterCriticalSection(&SendMutex);
+		mir_cslock lck(SendMutex);
 		if (length == 0) {
 			unsigned short lenfn;
 			char szFileName[MAX_PATH], *pszUTFFile=NULL;
@@ -147,7 +147,6 @@ void rcvThread(char *dummy) {
 					LOG(("rcvThread OPEN_SLOT(%s) -> %d", szFileName, nSlot));
 					if ((rcv=send(ClientSocket, (char *)&nSlot, sizeof(nSlot), 0)) == SOCKET_ERROR || rcv==0) rcv=0;
 					else {
-						LeaveCriticalSection(&SendMutex);
 						continue;
 					}
 					break;
@@ -170,7 +169,6 @@ void rcvThread(char *dummy) {
 					CloseHandle(m_FileSlots[nSlot-1]);
 					m_FileSlots[nSlot-1]=INVALID_HANDLE_VALUE;
 					if (rcv) {
-						LeaveCriticalSection(&SendMutex);
 						continue;
 					}
 					break;
@@ -184,7 +182,6 @@ void rcvThread(char *dummy) {
 			rcvThreadRunning=FALSE;
 			LOG(("rcvThread lost connection, graceful shutdown"));
 			free(buf);
-			LeaveCriticalSection(&SendMutex);
 			return;
 		}
 		if (cmd==DATA_SLOT) {
@@ -206,7 +203,6 @@ void rcvThread(char *dummy) {
 			}
 		}
 		free(buf);
-		LeaveCriticalSection(&SendMutex);
 	}
 }
 
@@ -223,15 +219,13 @@ void sendThread(char *dummy) {
 		length=(unsigned int)strlen(szMsg);
 
 		if (UseSockets) {
-			EnterCriticalSection(&SendMutex);
+			mir_cslock lck(SendMutex);
 			if (send(ClientSocket, (char *)&length, sizeof(length), 0) != SOCKET_ERROR &&
 				send(ClientSocket, szMsg, length, 0) != SOCKET_ERROR) {
 				free (szMsg);
-				LeaveCriticalSection(&SendMutex);
 				continue;
 			}
 			SendResult = 0;
-			LeaveCriticalSection(&SendMutex);
 		} else {
 			CopyData.dwData=0; 
 			CopyData.lpData=szMsg; 
@@ -289,8 +283,6 @@ int SkypeMsgInit(void) {
 
 	MsgQ_Init(&SkypeMsgs);
 	MsgQ_Init(&SkypeSendQueue);
-	InitializeCriticalSection(&ConnectMutex);
-	InitializeCriticalSection(&SendMutex);
 	if (SkypeMsgToSend=CreateSemaphore(NULL, 0, MAX_MSGS, NULL)) {
 		if (m_szSendBuf = (char*)malloc(m_iBufSize=512)) {
 			if (_beginthread(( pThreadFunc )sendThread, 0, NULL)!=-1)
@@ -328,12 +320,10 @@ void SkypeMsgCleanup(void) {
 		}
 		ReleaseSemaphore (SkypeMsgReceived, receivers, NULL);	
 	}
-
-	EnterCriticalSection(&ConnectMutex);
-	MsgQ_Exit(&SkypeMsgs);
-	LeaveCriticalSection(&ConnectMutex);
-	DeleteCriticalSection(&ConnectMutex);
-	DeleteCriticalSection(&SendMutex);
+	{
+		mir_cslock lck(ConnectMutex);
+		MsgQ_Exit(&SkypeMsgs);
+	}
 	CloseHandle(SkypeMsgToSend);
 	SkypeMsgToSend=NULL;
 	MsgQ_Exit(&SkypeSendQueue);
@@ -1433,13 +1423,12 @@ int ConnectToSkypeAPI(char *path, int iStart) {
 	static volatile long newRequest = TRUE;
 
 	InterlockedExchange(&newRequest, TRUE); // place new request
-	EnterCriticalSection(&ConnectMutex); // Prevent reentrance
+	mir_cslock lck(ConnectMutex);
 	if (iRet == -1 || newRequest)
 	{
 		iRet = _ConnectToSkypeAPI(path, iStart);
 		InterlockedExchange(&newRequest, FALSE); // every thread which is waiting for connect mutex will get our result as well.. but subsequent calls will set this value to true and call _Connect again
 	}
-	LeaveCriticalSection(&ConnectMutex);
 	return iRet;
 }
 
