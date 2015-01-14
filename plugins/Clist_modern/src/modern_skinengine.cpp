@@ -83,7 +83,6 @@ static INT_PTR ske_Service_DrawIconEx(WPARAM wParam, LPARAM lParam);
 static int  ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor);
 static void ske_AddParseTextGlyphObject(char * szGlyphTextID, char * szDefineString, SKINOBJECTSLIST *Skin);
 static void ske_AddParseSkinFont(char * szFontID, char * szDefineString);
-static int  ske_DeleteAllSettingInSection(char * SectionName);
 static int  ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin);
 static LPSKINOBJECTDESCRIPTOR ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin);
 static int  ske_LoadSkinFromResource(BOOL bOnlyObjects);
@@ -2062,7 +2061,7 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
 	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS);
 	if (parser.CheckOK()) {
-		ske_DeleteAllSettingInSection("ModernSkin");
+		CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernSkin");
 		db_set_s(NULL, SKIN, "SkinFolder", "%Default%");
 		db_set_s(NULL, SKIN, "SkinFile", "%Default%");
 		parser.Parse(IniParser::WriteStrToDb, 0);
@@ -2080,7 +2079,7 @@ int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
 	if (!parser.CheckOK())
 		return 0;
 
-	ske_DeleteAllSettingInSection("ModernSkin");
+	CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)"ModernSkin");
 
 	TCHAR skinFolder[MAX_PATH], skinFile[MAX_PATH];
 	IniParser::GetSkinFolder(szFileName, skinFolder);
@@ -2090,42 +2089,6 @@ int ske_LoadSkinFromIniFile(TCHAR *szFileName, BOOL bOnlyObjects)
 	db_set_ts(NULL, SKIN, "SkinFile", skinFile);
 
 	parser.Parse(IniParser::WriteStrToDb, 1);
-	return 0;
-}
-
-static int ske_enumdb_SkinSectionDeletionProc(const char *szSetting, LPARAM)
-{
-	if (szSetting == NULL)
-		return 0;
-
-	nArrayLen++;
-	pszSettingName = (char **)realloc(pszSettingName, nArrayLen*sizeof(char *));
-	pszSettingName[nArrayLen - 1] = _strdup(szSetting);
-	return 0;
-}
-
-static int ske_DeleteAllSettingInSection(char * SectionName)
-{
-	DBCONTACTENUMSETTINGS dbces;
-	nArrayLen = 0;
-	pszSettingName = NULL;
-	dbces.pfnEnumProc = ske_enumdb_SkinSectionDeletionProc;
-	dbces.szModule = SectionName;
-	dbces.ofsSettings = 0;
-
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
-
-	// delete all settings
-	if (nArrayLen == 0)
-		return 0;
-
-	for (int i = 0; i < nArrayLen; i++) {
-		db_unset(0, SectionName, pszSettingName[i]);
-		free(pszSettingName[i]);
-	}
-	free(pszSettingName);
-	pszSettingName = NULL;
-	nArrayLen = 0;
 	return 0;
 }
 
