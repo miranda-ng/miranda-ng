@@ -56,38 +56,56 @@ extern "C"
 extern HINSTANCE g_hInst;
 extern LIST<CDbxMdb> g_Dbs;
 
-class txn_lock
+class txn_ptr
 {
-	MDB_txn *txn;
-	MDB_env *env;
+	MDB_txn *m_txn;
 
 public:
-	__forceinline txn_lock(MDB_env *pEnv) :
-		env(pEnv)
+	__forceinline txn_ptr(MDB_env *pEnv, bool bReadOnly = false)
 	{
-		mdb_txn_begin(pEnv, NULL, 0, &txn);
+		mdb_txn_begin(pEnv, NULL, (bReadOnly) ? MDB_RDONLY : 0, &m_txn);
 	}
 
-	__forceinline ~txn_lock()
+	__forceinline ~txn_ptr()
 	{
-		if (txn)
-			mdb_txn_abort(txn);
+		if (m_txn)
+			mdb_txn_abort(m_txn);
 	}
 
-	__forceinline operator MDB_txn*() const { return txn; }
+	__forceinline operator MDB_txn*() const { return m_txn; }
 
 	__forceinline bool commit()
 	{
-		bool bRes = (mdb_txn_commit(txn) != MDB_MAP_FULL);
-		txn = NULL;
+		bool bRes = (mdb_txn_commit(m_txn) != MDB_MAP_FULL);
+		m_txn = NULL;
 		return bRes;
 	}
 
 	__forceinline void abort()
 	{
-		mdb_txn_abort(txn);
-		txn = NULL;
+		mdb_txn_abort(m_txn);
+		m_txn = NULL;
 	}
+};
+
+class cursor_ptr
+{
+	MDB_cursor *m_cursor;
+
+public:
+	__forceinline cursor_ptr(const txn_ptr &_txn, MDB_dbi _dbi)
+	{
+		if (mdb_cursor_open(_txn, _dbi, &m_cursor) != MDB_SUCCESS)
+			m_cursor = NULL;
+	}
+
+	__forceinline ~cursor_ptr()
+	{
+		if (m_cursor)
+			mdb_cursor_close(m_cursor);
+	}
+
+	__forceinline operator MDB_cursor*() const { return m_cursor; }
 };
 
 #ifdef __GNUC__

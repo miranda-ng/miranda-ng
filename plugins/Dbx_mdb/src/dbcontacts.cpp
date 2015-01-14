@@ -90,7 +90,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	MDB_val key = { sizeof(DWORD), &contactID };
 
 	for (;; Remap()) {
-		txn_lock trnlck(m_pMdbEnv);
+		txn_ptr trnlck(m_pMdbEnv);
 		mdb_del(trnlck, m_dbContacts, &key, NULL);
 		if (trnlck.commit())
 			break;
@@ -113,7 +113,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 		MDB_val data = { sizeof(DBContact), &dbc };
 
 		for (;; Remap()) {
-			txn_lock trnlck(m_pMdbEnv);
+			txn_ptr trnlck(m_pMdbEnv);
 			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
 			if (trnlck.commit())
 				break;
@@ -173,11 +173,10 @@ void CDbxMdb::FillContacts()
 {
 	m_contactCount = 0;
 
-	txn_lock trnlck(m_pMdbEnv);
+	txn_ptr trnlck(m_pMdbEnv);
 	mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
 
-	MDB_cursor *cursor;
-	mdb_cursor_open(trnlck, m_dbContacts, &cursor);
+	cursor_ptr cursor(trnlck, m_dbContacts);
 
 	MDB_val key, data;
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
@@ -206,6 +205,4 @@ void CDbxMdb::FillContacts()
 		cc->nDefault = (0 != GetContactSetting(dwContactId, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
 		cc->parentID = (0 != GetContactSetting(dwContactId, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
 	}
-	
-	mdb_cursor_close(cursor);
 }
