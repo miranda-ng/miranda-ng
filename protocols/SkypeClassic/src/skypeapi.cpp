@@ -1363,10 +1363,10 @@ char *GetSkypeErrorMsg(char *str) {
 		switch(atoi(pos+14)) {
 			case MISC_ERROR: msg=Translate("Misc. error"); break;
 			case USER_NOT_FOUND: msg=Translate("User does not exist, check username"); break;
-			case USER_NOT_ONLINE: msg=Translate("Trying to send IM to an user, who is not online"); break;
+			case USER_NOT_ONLINE: msg=Translate("Trying to send IM to a user, who is not online"); break;
 			case USER_BLOCKED: msg=Translate("IM blocked by recipient"); break;
 			case TYPE_UNSUPPORTED: msg=Translate("Type unsupported"); break;
-			case SENDER_NOT_FRIEND: msg=Translate("Sending IM message to user, who has not added you to friends list and has chosen 'only people in my friends list can start IM'"); break;
+			case SENDER_NOT_FRIEND: msg=Translate("Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM'"); break;
 			case SENDER_NOT_AUTHORIZED: msg=Translate("Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM'"); break;
 			default: msg=Translate("Unknown error");
 		}
