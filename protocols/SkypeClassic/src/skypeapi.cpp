@@ -176,7 +176,6 @@ void rcvThread(char *dummy) {
 			}
 		}
 		LOG(("rcvThread Received length, recieving message.."));
-		buf=(char *)calloc(1, length+1);
 		if (rcv==0 || !(buf=(char *)calloc(1, length+1)) || 
 			!(rcv = Recv(ClientSocket, buf, length))) {
 			rcvThreadRunning=FALSE;
