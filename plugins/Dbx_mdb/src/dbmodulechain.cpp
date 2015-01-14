@@ -42,15 +42,14 @@ int CDbxMdb::InitModuleNames(void)
 {
 	m_maxModuleID = 0;
 
-	txn_lock trnlck(m_pMdbEnv);
+	txn_ptr trnlck(m_pMdbEnv);
 	mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
 
-	MDB_cursor *cursor;
-	if (mdb_cursor_open(trnlck, m_dbModules, &cursor) != MDB_SUCCESS)
+	cursor_ptr cursor(trnlck, m_dbModules);
+	if (!cursor)
 		return 1;
 
 	MDB_val key, data;
-	
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 		DBModuleName *pmod = (DBModuleName*)data.mv_data;
 		if (pmod->signature != DBMODULENAME_SIGNATURE)
@@ -66,8 +65,6 @@ int CDbxMdb::InitModuleNames(void)
 		if (moduleId > m_maxModuleID)
 			m_maxModuleID = moduleId;
 	}
-
-	mdb_cursor_close(cursor);
 	return 0;
 }
 
@@ -104,7 +101,7 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	MDB_val key = { sizeof(int), &newIdx }, data = { sizeof(DBModuleName) + nameLen, pmod };
 
 	for (;; Remap()) {
-		txn_lock trnlck(m_pMdbEnv);
+		txn_ptr trnlck(m_pMdbEnv);
 		mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
 		mdb_put(trnlck, m_dbModules, &key, &data, 0);
 		if (trnlck.commit())

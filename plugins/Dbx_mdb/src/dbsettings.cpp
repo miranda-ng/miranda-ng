@@ -119,7 +119,7 @@ LBL_Seek:
 
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
-	txn_lock trnlck(m_pMdbEnv);
+	txn_ptr trnlck(m_pMdbEnv);
 	//mdb_open(trnlck, "settings", 0, &m_dbSettings);
 
 	DBSettingKey keySearch;
@@ -495,7 +495,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	}
 
 	for (;; Remap()) {
-		txn_lock trnlck(m_pMdbEnv);
+		txn_ptr trnlck(m_pMdbEnv);
 		if (mdb_put(trnlck, m_dbSettings, &key, &data, MDB_RESERVE) != 0)
 			return 1;
 
@@ -564,7 +564,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteContactSetting(MCONTACT contactID, LPCSTR szM
 			MDB_val key = { 2 * sizeof(DWORD) + settingNameLen, &keySearch }, data;
 
 			for (;; Remap()) {
-				txn_lock trnlck(m_pMdbEnv);
+				txn_ptr trnlck(m_pMdbEnv);
 				if (mdb_del(trnlck, m_dbSettings, &key, &data))
 					return 1;
 
@@ -599,24 +599,24 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 	memset(keySearch.szSettingName, 0, SIZEOF(keySearch.szSettingName));
 
 	LIST<char> arSettings(50);
+	{
+		txn_ptr trnlck(m_pMdbEnv, true);
+		cursor_ptr cursor(trnlck, m_dbSettings);
 
-	txn_lock trnlck(m_pMdbEnv);
-	MDB_cursor *cursor;
-	mdb_cursor_open(trnlck, m_dbSettings, &cursor);
+		MDB_val key = { sizeof(keySearch), &keySearch }, data;
+		if (mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE) == MDB_SUCCESS) {
+			do {
+				DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
+				if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
+					break;
 
-	MDB_val key = { sizeof(keySearch), &keySearch }, data;
-	mdb_cursor_get(cursor, &key, &data, MDB_SET_RANGE);
-	do {
-		DBSettingKey *pKey = (DBSettingKey*)key.mv_data;
-		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
-			break;
-
-		char szSetting[256];
-		strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD)*2);
-		arSettings.insert(mir_strdup(szSetting));
+				char szSetting[256];
+				strncpy_s(szSetting, pKey->szSettingName, key.mv_size - sizeof(DWORD) * 2);
+				arSettings.insert(mir_strdup(szSetting));
+			}
+				while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS);
+		}
 	}
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0);
-	mdb_cursor_close(cursor);
 
 	for (int i = 0; i < arSettings.getCount(); i++) {
 		result = (dbces->pfnEnumProc)(arSettings[i], dbces->lParam);
