@@ -1651,7 +1651,7 @@ JID видавців
 Вам потрібно підключитися до мережі
 [Messaging]
 Повідомлення
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Надсилати повідомлення повільніше, але з підтведженням
 [Enable avatars]
 Увімкнути аватари

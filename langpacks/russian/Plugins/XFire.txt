@@ -159,6 +159,10 @@ exe игры:
 Значок протокола
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Старая версия протокола. Измените текущую версию %d на %d. Вы должны переподключиться.
+[Do you really want to add %s to your friend list?]
+Вы уверены, что хотите добавить %s в список друзей?
+[Add me to your friend list.]
+Добавьте меня в свой список друзей.
 [Voice]
 Голос
 [Buddy start a game]

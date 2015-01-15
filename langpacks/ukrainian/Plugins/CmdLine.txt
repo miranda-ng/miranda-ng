@@ -143,7 +143,7 @@ Miranda була закрита або сталася помилка при оч
 Повiдомлення для '%s' позначено як надiслане, але облiковий запис, здається, вiдключений.
 [Could not send message to '%s'.]
 Неможливо надiслати повiдомлення для '%s'.
-[Timed out while waiting for acknowledgement for contact '%s'.]
+[Timed out while waiting for acknowledgment for contact '%s'.]
 Час очiкування пiдтвердження вiд контакту '%s' вичерпано.
 [Could not find contact handle for contact '%s'.]
 Неможливо знайти обробник для контакту '%s'.
