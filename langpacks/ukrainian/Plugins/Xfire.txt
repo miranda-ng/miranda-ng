@@ -183,6 +183,10 @@ Xfire_games.ini оновлено.
 Значок протоколу
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
 Стара версія протоколу. Змініть поточну версію %d на %d. Ви повинні перепідключитися.
+[Do you really want to add %s to your friend list?]
+Ви впевнені, що хочете додати %s до списку друзів?
+[Add me to your friend list.]
+Додайте мене до свого списку друзів.
 [Current Game]
 Поточна гра
 [ServerIP]

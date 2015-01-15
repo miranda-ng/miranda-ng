@@ -115,6 +115,8 @@
 SkypeOut контакты в статусе:
 [Cleanup nicknames]
 Очистить ники
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
+Отправлять сообщения без подтверждения о доставке (для Skype верси 6 и выше)
 [Skype popups]
 Всплывающие окна Skype
 [Incoming calls]
@@ -175,6 +177,10 @@ SkypeOut контакты в статусе:
 &История пользователя
 [&Kick user]
 Выгнать пользователя
+[Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
+Skype API определил имя пользователя '%s', которое не совпадает с именем '%s', введённым в настройках плагина. Для подключения необходимо удалить или исправить имя пользователя в настройках.
+[Cannot reach Skype API, plugin disfunct.]
+Skype API недоступен, плагин не будет работать.
 [Do a SkypeOut-call]
 Позвонить по SkypeOut
 [invited]
@@ -187,8 +193,30 @@ SkypeOut контакты в статусе:
 Входящий Skype звонок от %s
 [Connection to Skype lost]
 Потеряно cоединение со Skype
+[Cleanup finished.]
+Очистка завершена.
+[Cannot create window.]
+Невозможно создать окно.
+[Memory allocation error on startup.]
+Ошибка выделения памяти при запуске.
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Вы впервые запустили протокол Skype. Хотите включить его для этого профиля Miranda? Если вы откажетесь, всегда можно включить его в настройках.
+[Misc. error]
+Ошибка
+[User does not exist, check username]
+Пользователь не существует, проверьте имя пользователя
+[Trying to send IM to a user, who is not online]
+Попытка отправить сообщение пользователю не в сети
+[IM blocked by recipient]
+Сообщение заблокировано адресатом
+[Type unsupported]
+Тип не поддерживается
+[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
+Попытка отправить сообщение пользователю, который не добавил вас в список контактов и включил "Принимать текстовые сообщения только от моих контактов"
+[Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
+Попытка отправить сообщение пользователю, который не авторизовал вас и включил "Принимать текстовые сообщения только от авторизированных контактов"
+[Unknown error]
+Неизвестная ошибка
 [Preview error message]
 Предпросмотр ошибки
 [Skype default]

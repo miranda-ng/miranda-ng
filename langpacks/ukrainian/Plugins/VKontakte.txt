@@ -364,7 +364,7 @@
 [Please authorize me to add you to my friend list.]
 Будь ласка, дозвольте додати вас до списку друзів.
 [Are you sure to delete %s from your friend list?]
-Ви впевнені, що хочете видалити "%s" з друзів?
+Ви впевнені, що хочете видалити %s з друзів?
 [User %s was deleted from your friend list]
 %s видалений з вашого списку друзів
 [Friend request from the user %s declined]

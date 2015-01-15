@@ -55,7 +55,7 @@
 Показувати помилки з'єднання
 [Automatically reconnect after unintentional disconnection]
 Перепідключитися після несподіваного розриву
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Надсилати повідомлення повільніше, але з підтвердженням
 [Manually specify connection servers' hosts]
 Вказати сервери вручну

@@ -113,11 +113,13 @@
 Показувати в списку контактів повне ім'я замість ніка
 [SkypeOut contacts are in status:]
 Контакти SkypeOut у статусі:
-[Cleanup Nicknames]
+[Cleanup nicknames]
 Очистити ніки
-[Skype Popups]
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
+Надсилати повідомлення без підтвердження про доставку (для Skype версії 6 і вище)
+[Skype popups]
 Спливаючі вікна Skype
-[Incoming Calls]
+[Incoming calls]
 Вхідні дзвінки
 [Show incoming calls]
 Показати вхідні дзвінки
@@ -131,7 +133,7 @@
 Текст
 [Preview]
 Тест
-[Error Messages]
+[Error messages]
 Помилки
 [Display error messages]
 Показувати помилки
@@ -167,7 +169,7 @@
 Я
 [&Leave chat session]
 &Вийти з чату
-[Set &Topic...]
+[Set &topic...]
 Встановити &тему...
 [User &details]
 &Інформація
@@ -175,21 +177,47 @@
 &Історія
 [&Kick user]
 &Вигнати
+[Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
+Skype API визначив ім'я користувача '%s', яке не збігається з ім'ям '%s', введеним у налаштуванях плагіна. Для підключення необхідно видалити або виправити ім'я користувача в налаштуваннях.
+[Cannot reach Skype API, plugin disfunct.]
+Skype API недоступний, плагін не працюватиме.
 [Do a SkypeOut-call]
 Подзвонити по SkypeOut
 [invited]
 запросив
 [Phone call]
 Дзвінок
-[Incoming Skype Call]
+[Incoming Skype call]
 Вхідний дзвінок Skype
 [Incoming call from %s]
 Вхідний дзвінок Skype від %s
 [Connection to Skype lost]
 З'єднання зі Skype розірвано
+[Cleanup finished.]
+Очистку завершено.
+[Cannot create window.]
+Неможливо створити вікно.
+[Memory allocation error on startup.]
+Помилка розподілу пам'яті при запуску.
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Ви вперше запустили протокол Skype. Хочете ввімкнути його для цього профілю Miranda NG? Якщо ви відмовитеся, завжди можна ввімкнути його в налаштуваннях.
-[Preview Error Message]
+[Misc. error]
+Помилка
+[User does not exist, check username]
+Користувач не існує, перевірте ім'я користувача
+[Trying to send IM to a user, who is not online]
+Спроба надіслати повідомлення користувачеві не в мережі
+[IM blocked by recipient]
+Повідомлення заблоковане адресатом
+[Type unsupported]
+Тип не підтримується
+[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
+Спроба надіслати повідомлення користувачеві, який не додав вас до списку контактів та ввімкнув "Приймати текстові повідомлення тільки від моїх контактів"
+[Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
+Спроба надіслати повідомлення користувачеві, який не авторизував вас і ввімкнув "Приймати текстові повідомлення тільки від авторизованих контактів"
+[Unknown error]
+Невідома помилка
+[Preview error message]
 Перегляд помилки
 [Skype default]
 Skype замовчання
