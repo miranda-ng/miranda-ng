@@ -38,14 +38,14 @@ int LoadIEView(HWND hWnd);
 int MoveIEView(HWND hWnd);
 int DestroyIEView(HWND hWnd);
 int LoadEvents(HWND hWnd);
-int LoadPage(HWND hWnd, HANDLE hFirstEvent, long index, long shiftCount, long readCount, int direction);
+int LoadPage(HWND hWnd, MEVENT hFirstEvent, long index, long shiftCount, long readCount, int direction);
 int LoadNext(HWND hWnd);
 int LoadPrev(HWND hWnd);
 int ScrollToBottom(HWND hWnd);
 
 void RefreshButtonStates(HWND hWnd);
 
-HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int num, int direction);
+MEVENT GetNeededEvent(MEVENT hLastFirstEvent, int num, int direction);
 
 int CalcIEViewPos(IEVIEWWINDOW *ieWnd, HWND hMainWindow)
 {
@@ -163,7 +163,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	int i;
 	IEVIEWEVENTDATA ieData[LOAD_COUNT] = { 0 };
 	PBYTE messages[LOAD_COUNT] = { 0 };
-	HANDLE dbEvent = data->ieEvent.hDbEventFirst;
+	MEVENT dbEvent = data->ieEvent.hDbEventFirst;
 	for (i = 0; i < LOAD_COUNT; i++) {
 		ieData[i].cbSize = sizeof(IEVIEWEVENTDATA); //set the cbsize here, no need to do it every time
 		ieData[i].next = &ieData[i + 1]; //it's a vector, so v[i]'s next element is v[i + 1]
@@ -263,7 +263,7 @@ int LoadEvents(HWND hWnd)
 	ieEvent.hContact = data->contact;
 	ieEvent.count = (data->itemsPerPage <= 0) ? count : data->itemsPerPage;
 
-	HANDLE hFirstEvent = db_event_first(data->contact);
+	MEVENT hFirstEvent = db_event_first(data->contact);
 	int num = 0;
 	if ((data->itemsPerPage > 0) && (bLastFirst)) {
 		num = data->count - data->itemsPerPage;
@@ -279,7 +279,7 @@ int LoadEvents(HWND hWnd)
 	return 0;
 }
 
-int LoadPage(HWND hWnd, HANDLE hFirstEvent, long index, long shiftCount, long readCount, int direction)
+int LoadPage(HWND hWnd, MEVENT hFirstEvent, long index, long shiftCount, long readCount, int direction)
 {
 	HistoryWindowData *data = (HistoryWindowData *)GetWindowLongPtr(hWnd, DWLP_USER);
 	int count = shiftCount;
@@ -303,7 +303,7 @@ int LoadPage(HWND hWnd, HANDLE hFirstEvent, long index, long shiftCount, long re
 		}
 	}
 	data->index = newIndex;
-	HANDLE hEvent = GetNeededEvent(hFirstEvent, count, direction);
+	MEVENT hEvent = GetNeededEvent(hFirstEvent, count, direction);
 	data->hLastFirstEvent = hEvent;
 	ieEvent.hDbEventFirst = hEvent;
 	ieEvent.count = readCount;

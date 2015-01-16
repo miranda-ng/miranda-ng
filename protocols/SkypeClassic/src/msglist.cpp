@@ -1,9 +1,9 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include "filexfer.h"
 #include "memlist.h"
 #include "debug.h"
 #include "msglist.h"
-#include "filexfer.h"
 
 #define MSGLIST_TIMEOUT		1800		// Chatmessage references will be kept for 30 minutes
 
@@ -37,7 +37,7 @@ void MsgList_Exit(void)
 	m_hMsgList = NULL;
 }
 
-TYP_MSGLENTRY *MsgList_Add(DWORD uMsgNum, HANDLE hEvent)
+TYP_MSGLENTRY *MsgList_Add(DWORD uMsgNum, MEVENT hEvent)
 {
 	TYP_MSGLENTRY *pEntry;
 	int iListInd;

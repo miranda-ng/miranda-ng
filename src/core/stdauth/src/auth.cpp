@@ -46,10 +46,10 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 {
 	TCHAR szUid[128] = _T("");
 	TCHAR szTooltip[256];
-	const HANDLE hDbEvent = (HANDLE)lParam;
+	MEVENT hDbEvent = (MEVENT)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get((HANDLE)lParam, &dbei);
+	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED))
 		return 0;
 

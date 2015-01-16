@@ -222,13 +222,10 @@ void SetProtocolsOffline()
 void RemoveUsers()
 {
 	if ( GetSettingBool("GlobalSettings", "RemoveAllUsers", TRUE) ) {
-		MCONTACT hContact, hContactOld;
-		HANDLE hDbEvent;
-
 		// To be faster, remove first all metacontacts (because it syncs histories)
-		hContact = db_find_first();
+		MCONTACT hContact = db_find_first();
 		while(hContact != NULL) {
-			hContactOld = hContact;
+			MCONTACT hContactOld = hContact;
 			hContact = db_find_next(hContact);
 
 			if (isMetaContact(hContactOld) )
@@ -244,11 +241,10 @@ void RemoveUsers()
 		}
 
 		// Delete events for contacts not in list
-		hDbEvent = db_event_first(0);
+		MEVENT hDbEvent = db_event_first(0);
 
 		while(hDbEvent != NULL) {
 			int ret = db_event_delete(0, hDbEvent);
-
 			hDbEvent = db_event_first(0);
 		}
 

@@ -412,12 +412,12 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 					return res;
 				}
 
-			case 2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (HANDLE)lParam);
-			case 3: return (INT_PTR)ppi->Authorize((HANDLE)wParam);
+			case 2: return (INT_PTR)ppi->AddToListByEvent(LOWORD(wParam), HIWORD(wParam), (MEVENT)lParam);
+			case 3: return (INT_PTR)ppi->Authorize((MEVENT)wParam);
 			case 4:
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvT((char*)lParam));
-				return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, (PROTOCHAR*)lParam);
+					return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, StrConvT((char*)lParam));
+				return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (PROTOCHAR*)lParam);
 			case 5: return (INT_PTR)ppi->AuthRecv(hContact, (PROTORECVEVENT*)lParam);
 			case 6:
 				if (ppi->m_iVersion > 1)
@@ -529,8 +529,8 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 				return (INT_PTR)ppi->AuthRequest(hContact, StrConvA((const TCHAR*)lParam));
 			case 107:
 				if (ppi->m_iVersion > 1)
-					return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, (const TCHAR*)lParam);
-				return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvA((const TCHAR*)lParam));
+					return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, (const TCHAR*)lParam);
+				return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, StrConvA((const TCHAR*)lParam));
 			case 108:
 				if (ppi->m_iVersion > 1)
 					return (INT_PTR)ppi->SearchBasic((const TCHAR*)lParam);
@@ -595,7 +595,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 		case 106:
 			return (INT_PTR)pa->ppro->AuthRequest(ccs->hContact, (const TCHAR*)ccs->lParam);
 		case 107:
-			return (INT_PTR)pa->ppro->AuthDeny((HANDLE)wParam, (const TCHAR*)lParam);
+			return (INT_PTR)pa->ppro->AuthDeny((MEVENT)wParam, (const TCHAR*)lParam);
 		case 108:
 			return (INT_PTR)pa->ppro->SearchBasic((const TCHAR*)lParam);
 		case 109:

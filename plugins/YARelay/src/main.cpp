@@ -87,11 +87,8 @@ int ProtoAck(WPARAM wparam,LPARAM lparam)
 /**
 * New event was added into DB.
 */
-static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
+static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 {
-	MCONTACT hContact = wParam;
-	HANDLE hDBEvent = (HANDLE)lParam;
-
 	// is the message sender accepted for forwarding
 	if (hForwardFrom != 0 && hForwardFrom != hContact)
 		return 0;

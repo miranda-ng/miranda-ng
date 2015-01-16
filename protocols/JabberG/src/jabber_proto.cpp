@@ -345,7 +345,7 @@ MCONTACT CJabberProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddToListByJID(jid, flags);
 }
 
-MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HANDLE hDbEvent)
+MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbEvent)
 {
 	debugLogA("AddToListByEvent");
 
@@ -383,7 +383,7 @@ MCONTACT __cdecl CJabberProto::AddToListByEvent(int flags, int /*iContact*/, HAN
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAuthAllow - processes the successful authorization
 
-int CJabberProto::Authorize(HANDLE hDbEvent)
+int CJabberProto::Authorize(MEVENT hDbEvent)
 {
 	if (!m_bJabberOnline)
 		return 1;
@@ -430,7 +430,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAuthDeny - handles the unsuccessful authorization
 
-int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
+int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	if (!m_bJabberOnline)
 		return 1;

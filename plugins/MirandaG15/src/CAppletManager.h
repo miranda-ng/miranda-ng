@@ -18,7 +18,7 @@
 
 struct SMessageJob
 {
-	HANDLE hEvent;
+	MEVENT hEvent;
 	MCONTACT hContact;
 	DWORD dwFlags;
 	char *pcBuffer;
@@ -75,11 +75,11 @@ public:
 	// check if a contacts message window is opened
 	static bool IsMessageWindowOpen(MCONTACT hContact);
 	// marks the given event as read
-	static void MarkMessageAsRead(MCONTACT hContact,HANDLE hEvent);
+	static void MarkMessageAsRead(MCONTACT hContact, MEVENT hEvent);
 	// translates the given database event
 	static bool TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lParam);
 	// sends a message to the specified contact
-	static HANDLE SendMessageToContact(MCONTACT hContact,tstring strMessage);
+	static MEVENT SendMessageToContact(MCONTACT hContact,tstring strMessage);
 	// sends typing notifications to the specified contact
 	static void SendTypingNotification(MCONTACT hContact,bool bEnable);
 

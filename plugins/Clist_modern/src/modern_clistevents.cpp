@@ -78,7 +78,7 @@ struct NotifyMenuItemExData {
 	MCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 };
 
 static CLISTEVENT* MyGetEvent(int iSelection)
@@ -106,7 +106,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 	if (p == NULL)
 		return NULL;
 
-	if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE)1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+	if (p->cle.hContact != 0 && p->cle.hDbEvent != 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
 		MENUITEMINFO mii = { sizeof(mii) };
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 		if (p->cle.pszService &&
@@ -170,7 +170,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 }
 
 
-int cli_RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
+int cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
 	int i;

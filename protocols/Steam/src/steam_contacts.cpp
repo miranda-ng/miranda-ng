@@ -59,7 +59,7 @@ void CSteamProto::SetAllContactsStatus(WORD status)
 	}
 }
 
-MCONTACT CSteamProto::GetContactFromAuthEvent(HANDLE hEvent)
+MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[3];
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };

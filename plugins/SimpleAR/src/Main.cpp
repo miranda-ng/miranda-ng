@@ -181,11 +181,9 @@ TCHAR* StrReplace (TCHAR* Search, TCHAR* Replace, TCHAR* Resource)
 	return Resource;
 }
 
-INT addEvent(WPARAM hContact, LPARAM lParam)
+INT addEvent(WPARAM hContact, LPARAM hDBEvent)
 {
-	HANDLE hDBEvent = (HANDLE)lParam;
 	BOOL fEnabled = db_get_b(NULL, protocolname, KEY_ENABLED, 1);
-
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecifyed error
 

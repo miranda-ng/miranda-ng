@@ -260,7 +260,7 @@ struct TWindowData
 	SESSION_INFO *si;
 
 	RECT     rcNick, rcUIN, rcStatus, rcPic;
-	HANDLE   hDbEventFirst, hDbEventLast;
+	MEVENT   hDbEventFirst, hDbEventLast;
 	int      sendMode;
 	int      splitterY, originalSplitterY, dynaSplitter, savedSplitter, savedSplitY, savedDynaSplit;
 	int      multiSplitterX;
@@ -287,10 +287,10 @@ struct TWindowData
 	DWORD    dwLastActivity;
 	int      iOpenJobs;
 	int      iCurrentQueueError;
-	HANDLE   hFlashingEvent;
+	MEVENT   hFlashingEvent;
 	TCHAR    myUin[80];
 	int      SendFormat;
-	HANDLE  *hQueuedEvents;
+	MEVENT  *hQueuedEvents;
 	int      iNextQueuedEvent;
 #define EVENT_QUEUE_SIZE 10
 	int      iEventQueueSize;
@@ -304,7 +304,7 @@ struct TWindowData
 	DWORD    panelStatusCX;
 	COLORREF inputbg;
 	avatarCacheEntry *ace, *ownAce;
-	HANDLE  *hHistoryEvents;
+	MEVENT  *hHistoryEvents;
 	int      maxHistory, curHistory;
 	HANDLE   hTheme, hThemeIP, hThemeToolbar;
 	char     szMicroLf[128];
@@ -417,9 +417,12 @@ struct TNewWindowData
 	int      iActivate;
 	TCITEM   item;
 	BOOL     bWantPopup;
-	HANDLE   hdbEvent;
 	HKL      hkl;
 
+	union {
+		MEVENT hdbEvent;
+		SESSION_INFO *si;
+	};
 	TContainerData *pContainer;
 };
 

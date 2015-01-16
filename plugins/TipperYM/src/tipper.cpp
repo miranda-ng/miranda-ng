@@ -109,7 +109,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 int EventDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if (!db_event_get((HANDLE)lParam, &dbei))
+	if (!db_event_get(lParam, &dbei))
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
 			db_unset(wParam, MODULE, "LastCountTS");
 

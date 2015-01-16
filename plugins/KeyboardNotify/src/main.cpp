@@ -24,7 +24,7 @@
 
 #include "Common.h"
 
-#define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
+#define NCONVERS_BLINKID ((MEVENT)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
 
 HINSTANCE hInst;
 
@@ -202,7 +202,7 @@ DBEVENTINFO createMsgEventInfo(MCONTACT hContact)
 	return einfo;
 }
 
-DBEVENTINFO readEventInfo(HANDLE hDbEvent, MCONTACT hContact)
+DBEVENTINFO readEventInfo(MEVENT hDbEvent, MCONTACT hContact)
 {
 	if (hDbEvent == NCONVERS_BLINKID) // we need to handle nconvers' blink event
 		return createMsgEventInfo(hContact);
@@ -330,12 +330,12 @@ static void FlashThreadFunction()
 	}
 }
 
-BOOL checkMsgTimestamp(MCONTACT hContact, HANDLE hEventCurrent, DWORD timestampCurrent)
+BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, DWORD timestampCurrent)
 {
 	if (!bFlashIfMsgOlder)
 		return TRUE;
 
-	for (HANDLE hEvent = db_event_prev(hContact, hEventCurrent); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
+	for (MEVENT hEvent = db_event_prev(hContact, hEventCurrent); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
 		DBEVENTINFO einfo = { sizeof(einfo) };
 		if(!db_event_get(hEvent, &einfo)) {
 			if ((einfo.timestamp + wSecondsOlder) <= timestampCurrent)
@@ -395,10 +395,8 @@ BOOL checkXstatus(char *szProto)
 
 
 // 'Pings' the FlashThread to keep the LEDs flashing.
-static int PluginMessageEventHook(WPARAM hContact, LPARAM lParam)
+static int PluginMessageEventHook(WPARAM hContact, LPARAM hEvent)
 {
-	HANDLE hEvent = (HANDLE)lParam;
-
 	//get DBEVENTINFO without pBlob
 	DBEVENTINFO einfo = { sizeof(einfo) };
 	if (!db_event_get(hEvent, &einfo) && !(einfo.flags & DBEF_SENT))

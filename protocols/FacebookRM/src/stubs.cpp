@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-MCONTACT FacebookProto::AddToListByEvent(int, int, HANDLE)
+MCONTACT FacebookProto::AddToListByEvent(int, int, MEVENT)
 {
 	return NULL;
 }

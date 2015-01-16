@@ -57,9 +57,9 @@ class CLDBEvent
 	DWORD time;
 public:
 	MCONTACT hUser;
-	HANDLE hDbEvent;
+	MEVENT   hDbEvent;
 
-	CLDBEvent(MCONTACT hU, HANDLE hDBE )
+	CLDBEvent(MCONTACT hU, MEVENT hDBE)
 	{
 		hUser = hU;
 		hDbEvent = hDBE;
@@ -221,9 +221,9 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 
 			MCONTACT hContact = (MCONTACT)sItem.lParam;
 
-			list< CLDBEvent > & rclCurList = AllEvents[ GetFilePathFromUser( hContact) ];
+			list<CLDBEvent> &rclCurList = AllEvents[ GetFilePathFromUser( hContact) ];
 			
-			HANDLE hDbEvent = db_event_first(hContact);
+			MEVENT hDbEvent = db_event_first(hContact);
 			while( hDbEvent) {
 				rclCurList.push_back(CLDBEvent(hContact, hDbEvent));
 				hDbEvent = db_event_next(hContact, hDbEvent);
@@ -260,7 +260,7 @@ int nExportCompleatList(HWND hParent, bool bOnlySelected )
 			list< CLDBEvent >::const_iterator iterator;
 			for (iterator = FileIterator->second.begin() ; iterator != FileIterator->second.end() ; ++iterator )
 			{
-				HANDLE hDbEvent = (*iterator).hDbEvent;
+				MEVENT hDbEvent = (*iterator).hDbEvent;
 				nExportEvent( (WPARAM) (*iterator).hUser, (LPARAM)hDbEvent);
 			}
 			SendMessage( hProg, PBM_SETPOS, ++nCur, 0);

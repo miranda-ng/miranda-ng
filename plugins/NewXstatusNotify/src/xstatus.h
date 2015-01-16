@@ -95,7 +95,7 @@ typedef struct tagXSTATUSCHANGE
 typedef struct tagDBEVENT
 {
 	MCONTACT hContact;
-	HANDLE hDBEvent;
+	MEVENT hDBEvent;
 } DBEVENT;
 
 typedef struct tagPROTOTEMPLATE

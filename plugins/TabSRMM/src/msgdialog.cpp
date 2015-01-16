@@ -1243,7 +1243,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->sendMode |= dat->hContact == 0 ? SMODE_MULTIPLE : 0;
 			dat->sendMode |= M.GetByte(dat->hContact, "no_ack", 0) ? SMODE_NOACK : 0;
 
-			dat->hQueuedEvents = (HANDLE*)mir_calloc(sizeof(HANDLE)* EVENT_QUEUE_SIZE);
+			dat->hQueuedEvents = (MEVENT*)mir_calloc(sizeof(MEVENT)* EVENT_QUEUE_SIZE);
 			dat->iEventQueueSize = EVENT_QUEUE_SIZE;
 			dat->iCurrentQueueError = -1;
 
@@ -1252,7 +1252,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->maxHistory = M.GetDword(dat->hContact, "maxhist", M.GetDword("maxhist", 0));
 			dat->curHistory = 0;
 			if (dat->maxHistory)
-				dat->hHistoryEvents = (HANDLE*)mir_alloc(dat->maxHistory * sizeof(HANDLE));
+				dat->hHistoryEvents = (MEVENT*)mir_alloc(dat->maxHistory * sizeof(MEVENT));
 			else
 				dat->hHistoryEvents = NULL;
 
@@ -1403,7 +1403,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					EnableSendButton(dat, TRUE);
 			}
 
-			for (HANDLE hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(dat->hContact, hdbEvent)) {
+			for (MEVENT hdbEvent = db_event_last(dat->hContact); hdbEvent; hdbEvent = db_event_prev(dat->hContact, hdbEvent)) {
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				db_event_get(hdbEvent, &dbei);
 				if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
@@ -2321,15 +2321,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_APPENDMCEVENT:
 		if (dat->hContact == db_mc_getMeta(wParam) && dat->hDbEventFirst == NULL) {
-			dat->hDbEventFirst = (HANDLE)lParam;
+			dat->hDbEventFirst = lParam;
 			SendMessage(dat->hwnd, DM_REMAKELOG, 0, 0);
 		}
-		else if (dat->hContact == wParam && db_mc_isSub(wParam) && db_event_getContact(HANDLE(lParam)) != wParam)
-			StreamInEvents(hwndDlg, (HANDLE)lParam, 1, 1, NULL);
+		else if (dat->hContact == wParam && db_mc_isSub(wParam) && db_event_getContact(lParam) != wParam)
+			StreamInEvents(hwndDlg, lParam, 1, 1, NULL);
 		return 0;
 
 	case DM_APPENDTOLOG:
-		StreamInEvents(hwndDlg, (HANDLE)wParam, 1, 1, NULL);
+		StreamInEvents(hwndDlg, wParam, 1, 1, NULL);
 		return 0;
 
 	// replays queued events after the message log has been frozen for a while
@@ -2782,7 +2782,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				CHARRANGE sel;
 				SETTEXTEX stx = {ST_SELECTION, 1200};
 
-				HANDLE hDBEvent = 0;
+				MEVENT hDBEvent = 0;
 				if (dat->hwndIEView || dat->hwndHPP) {                // IEView quoting support..
 					TCHAR *selected = 0, *szQuoted = 0;
 

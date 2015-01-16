@@ -126,7 +126,7 @@ static void XmlToMsg(MCONTACT hContact, CMString &title, CMString &link, CMStrin
 	ptrA  pszTemp(mir_utf8encodeT(message));
 	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)strlen(pszTemp);
 	BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
-	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
+	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (olddbei.cbBlob > cbMemoLen)
 			pbBuffer = (PBYTE)mir_realloc(pbBuffer, (size_t)(cbMemoLen = olddbei.cbBlob));

@@ -131,7 +131,7 @@ int WhatsAppProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *message)
 	return this->RequestFriendship((WPARAM)hContact, NULL);
 }
 
-int WhatsAppProto::Authorize(HANDLE hDbEvent)
+int WhatsAppProto::Authorize(MEVENT hDbEvent)
 {
 	return 1;
 }

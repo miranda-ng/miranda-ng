@@ -1774,10 +1774,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case WM_INITDIALOG:
 		{
 			TNewWindowData *newData = (TNewWindowData*)lParam;
-			si = (SESSION_INFO*)newData->hdbEvent;
 
 			TWindowData *dat = (TWindowData*)mir_calloc( sizeof(TWindowData));
-			dat->si = si;
+			dat->si = si = newData->si;
 			dat->hContact = si->hContact;
 			dat->szProto = GetContactProto(si->hContact);
 			dat->bType = SESSIONTYPE_CHAT;

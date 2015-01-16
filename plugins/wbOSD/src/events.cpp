@@ -127,10 +127,9 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int HookedNewEvent(WPARAM wParam, LPARAM lParam)
+int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 {
 	logmsg("HookedNewEvent1");
-	HANDLE hDBEvent = (HANDLE) lParam;
 	DBEVENTINFO dbe;
 	dbe.cbSize = sizeof(dbe);
 	dbe.cbBlob = db_event_getBlobSize(hDBEvent);

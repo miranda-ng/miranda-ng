@@ -551,7 +551,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 		if (db_get_dw(hContact, "SendLater", "count", 0))
 			sendLater->addContact(hContact);
 
-		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
 			if (!dbei.markedRead() && dbei.eventType == EVENTTYPE_MESSAGE) {

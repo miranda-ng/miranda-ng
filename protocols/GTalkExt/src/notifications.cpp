@@ -39,7 +39,7 @@
 struct POPUP_DATA_HEADER
 {
 	BOOL   MarkRead;
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 	MCONTACT hContact;
 	LPTSTR jid;
 	LPTSTR url;
@@ -63,14 +63,14 @@ LPCSTR GetJidAcc(LPCTSTR jid)
 	return NULL;
 }
 
-void MarkEventRead(MCONTACT hCnt, HANDLE hEvt)
+void MarkEventRead(MCONTACT hCnt, MEVENT hEvt)
 {
 	DWORD settings = (DWORD)TlsGetValue(itlsSettings);
 	if (ReadCheckbox(0, IDC_POPUPSENABLED, settings) &&
-		ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
-		ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
-		db_event_markRead(hCnt, hEvt) != -1)
-		CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hCnt, (LPARAM)hEvt);
+		 ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, settings) &&
+		 ReadCheckbox(0, IDC_MARKEVENTREAD, settings) &&
+		 db_event_markRead(hCnt, hEvt) != -1)
+		CallService(MS_CLIST_REMOVEEVENT, hCnt, hEvt);
 }
 
 int OnEventDeleted(WPARAM hContact, LPARAM hDbEvent, LPARAM wnd)
@@ -89,7 +89,7 @@ LRESULT CALLBACK PopupProc(HWND wnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	LPCSTR acc;
 
 	if (EVENT_DELETED_MSG == msg) {
-		if ((HANDLE)lParam == ppdh->hDbEvent)
+		if ((MEVENT)lParam == ppdh->hDbEvent)
 			ppdh->hDbEvent = NULL;
 		return 0;
 	}
@@ -188,7 +188,7 @@ MCONTACT SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTST
 	return hContact;
 }
 
-HANDLE AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR url)
+static MEVENT AddCListNotification(MCONTACT hContact, LPCSTR acc, POPUPDATAT *data, LPCTSTR url)
 {
 	mir_ptr<char> szUrl(mir_utf8encodeT(url)), szText(mir_utf8encodeT(data->lptzText));
 
@@ -214,7 +214,7 @@ BOOL UsePopups()
 void ShowNotification(LPCSTR acc, POPUPDATAT *data, LPCTSTR jid, LPCTSTR url, LPCTSTR unreadCount)
 {
 	MCONTACT hCnt = SetupPseudocontact(jid, unreadCount, acc, &data->lptzContactName[0]);
-	HANDLE hEvt = ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, (DWORD)TlsGetValue(itlsSettings))
+	MEVENT hEvt = ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, (DWORD)TlsGetValue(itlsSettings))
 		? AddCListNotification(hCnt, acc, data, url) : NULL;
 
 	if (!UsePopups())
@@ -291,8 +291,8 @@ void ClearNotificationContactHistory(LPCSTR acc)
 	if (!hContact || !db_get_b(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		return;
 
-	for (HANDLE hEvent = db_event_first(hContact); hEvent;) {
-		HANDLE hEvent1 = db_event_next(hContact, hEvent);
+	for (MEVENT hEvent = db_event_first(hContact); hEvent;) {
+		MEVENT hEvent1 = db_event_next(hContact, hEvent);
 		db_event_delete(hContact, hEvent);
 		hEvent = hEvent1;
 	}

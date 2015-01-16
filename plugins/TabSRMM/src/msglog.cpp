@@ -87,7 +87,7 @@ static HICON Logicons[NR_LOGICONS];
 struct LogStreamData {
 	int stage;
 	MCONTACT hContact;
-	HANDLE hDbEvent, hDbEventLast;
+	MEVENT hDbEvent, hDbEventLast;
 	char *buffer;
 	int bufferOffset, bufferLen;
 	int eventsToInsert;
@@ -443,7 +443,7 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei)
 	return et && (et->flags & DETF_MSGWINDOW);
 }
 
-static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, LogStreamData *streamData)
+static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, MEVENT hDbEvent, LogStreamData *streamData)
 {
 	HANDLE hTimeZone = NULL;
 	BOOL skipToNext = FALSE, skipFont = FALSE;
@@ -1201,7 +1201,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 	}
 }
 
-void TSAPI StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
+void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s)
 {
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;

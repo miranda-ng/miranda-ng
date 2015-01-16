@@ -475,9 +475,9 @@ INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
 		return FALSE;
 
 	CallService(MS_DB_SETSAFETYMODE, FALSE, 0);
-	HANDLE hDbEvent = db_event_last(hContact);
+	MEVENT hDbEvent = db_event_last(hContact);
 	while (hDbEvent != NULL) {
-		HANDLE hPrevEvent = db_event_prev(hContact, hDbEvent);
+		MEVENT hPrevEvent = db_event_prev(hContact, hDbEvent);
 		hDbEvent = ( db_event_delete(hContact, hDbEvent) == 0) ? hPrevEvent : NULL;
 	}
 	CallService(MS_DB_SETSAFETYMODE, TRUE, 0);

@@ -342,7 +342,7 @@ MCONTACT CIcqProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddToListByUID(szUid, flags);
 }
 
-MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	DWORD uin = 0;
 	uid_str uid = { 0 };
@@ -405,7 +405,7 @@ MCONTACT __cdecl CIcqProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AuthAllow - processes the successful authorization
 
-int CIcqProto::Authorize(HANDLE hDbEvent)
+int CIcqProto::Authorize(MEVENT hDbEvent)
 {
 	if (icqOnline() && hDbEvent) {
 		MCONTACT hContact = HContactFromAuthEvent(hDbEvent);
@@ -431,7 +431,7 @@ int CIcqProto::Authorize(HANDLE hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_AuthDeny - handles the unsuccessful authorization
 
-int CIcqProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
+int CIcqProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 {
 	if (icqOnline() && hDbEvent) {
 		MCONTACT hContact = HContactFromAuthEvent(hDbEvent);

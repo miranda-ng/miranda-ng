@@ -247,7 +247,7 @@ static int clcHookDbEventAdded(WPARAM hContact, LPARAM lParam)
 	g_CluiData.t_now = time(NULL);
 	if (hContact && lParam) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
-		db_event_get((HANDLE)lParam, &dbei);
+		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			db_set_dw(hContact, "CList", "mf_lastmsg", dbei.timestamp);
 			ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);

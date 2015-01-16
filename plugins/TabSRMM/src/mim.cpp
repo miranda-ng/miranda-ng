@@ -313,7 +313,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 		if (fShowOnClist) {
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = hContact;
-			cle.hDbEvent = (HANDLE)1;
+			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 			cle.pszService = "SRMsg/TypingMessage";
@@ -393,15 +393,15 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 // this handler POSTs the event to the message window procedure - so it is fast and can exit quickly which will
 // improve the overall responsiveness when receiving messages.
 
-int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
+int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact) {
-		Utils::sendContactMessage(hContact, HM_DBEVENTADDED, hContact, lParam);
+		Utils::sendContactMessage(hContact, HM_DBEVENTADDED, hContact, hDbEvent);
 
 		// we're in meta and an event belongs to a sub
-		MCONTACT hReal = db_event_getContact(HANDLE(lParam));
+		MCONTACT hReal = db_event_getContact(hDbEvent);
 		if (hReal != hContact)
-			Utils::sendContactMessage(hReal, HM_DBEVENTADDED, hContact, lParam);
+			Utils::sendContactMessage(hReal, HM_DBEVENTADDED, hContact, hDbEvent);
 	}
 	return 0;
 }
@@ -413,11 +413,10 @@ int CMimAPI::DispatchNewEvent(WPARAM hContact, LPARAM lParam)
 //
 // if a session is already created, it just does nothing and DispatchNewEvent() will take care.
 
-int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM lParam)
+int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	TCHAR szName[CONTAINER_NAMELEN + 1];
 
-	HANDLE hDbEvent = (HANDLE)lParam;
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 

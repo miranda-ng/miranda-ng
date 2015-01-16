@@ -287,7 +287,7 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const TCHAR *tmplt)
 
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.szModule = MODULE;
-	HANDLE hDBEvent = db_event_add(smi->hContact, &dbei);
+	MEVENT hDBEvent = db_event_add(smi->hContact, &dbei);
 	mir_free(blob);
 	mir_free(str);
 
@@ -330,7 +330,7 @@ void BlinkIcon(MCONTACT hContact, HICON hIcon, TCHAR *stzText)
 	cle.cbSize = sizeof(cle);
 	cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 	cle.hContact = hContact;
-	cle.hDbEvent = (HANDLE)hContact;
+	cle.hDbEvent = hContact;
 	cle.hIcon = hIcon;
 	cle.pszService = "UserOnline/Description";
 	cle.ptszTooltip = stzText;
@@ -376,7 +376,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.szModule = MODULE;
-		HANDLE hDBEvent = db_event_add(hContact, &dbei);
+		MEVENT hDBEvent = db_event_add(hContact, &dbei);
 		mir_free(blob);
 
 		if (opt.LogToDB_WinOpen && opt.LogToDB_Remove) {

@@ -27,10 +27,8 @@ CContactCache::~CContactCache()
 	DeleteCriticalSection(&m_cs);
 }
 
-int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM lParam)
+int __cdecl CContactCache::OnDbEventAdded(WPARAM hContact, LPARAM hEvent)
 {
-	HANDLE hEvent = (HANDLE)lParam;
-
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hEvent, &dbei);
 	if (dbei.eventType != EVENTTYPE_MESSAGE)
@@ -91,7 +89,7 @@ void CContactCache::Rebuild()
 		info->hContact = hContact;
 		info->rate = 0;
 
-		for (HANDLE hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
+		for (MEVENT hEvent = db_event_last(hContact); hEvent; hEvent = db_event_prev(hContact, hEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			if (!db_event_get(hEvent, &dbei)) {
 				if (float weight = GetEventWeight(timestamp - dbei.timestamp)) {

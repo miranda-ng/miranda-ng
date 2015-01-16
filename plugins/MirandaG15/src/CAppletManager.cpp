@@ -797,7 +797,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact,bool bEnable)
 //************************************************************************
 // sends a message to the specified contact
 //************************************************************************
-HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage)
+MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage)
 {
 	tstring strAscii = _A2T(toNarrowString(strMessage).c_str());
 	int bufSize = mir_tstrlen(strAscii.c_str())+1;
@@ -870,7 +870,7 @@ HANDLE CAppletManager::SendMessageToContact(MCONTACT hContact,tstring strMessage
 			pJob->pcBuffer = NULL;
 			return NULL;
 		}
-		pJob->hEvent = (HANDLE) CallContactService(pJob->hContact, szService , pref, (LPARAM)pJob->pcBuffer );
+		pJob->hEvent = (MEVENT)CallContactService(pJob->hContact, szService , pref, (LPARAM)pJob->pcBuffer );
 		CAppletManager::GetInstance()->AddMessageJob(pJob);
 	}
 
@@ -898,7 +898,7 @@ bool CAppletManager::IsMessageWindowOpen(MCONTACT hContact)
 //************************************************************************
 // marks the given message as read
 //************************************************************************
-void CAppletManager::MarkMessageAsRead(MCONTACT hContact,HANDLE hEvent)
+void CAppletManager::MarkMessageAsRead(MCONTACT hContact,MEVENT hEvent)
 {
 	db_event_markRead(hContact, hEvent);
 	CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)hEvent);
@@ -907,12 +907,8 @@ void CAppletManager::MarkMessageAsRead(MCONTACT hContact,HANDLE hEvent)
 //************************************************************************
 // translates the given database event
 //************************************************************************
-bool CAppletManager::TranslateDBEvent(CEvent *pEvent,WPARAM wParam, LPARAM lParam)
+bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hdbevent)
 {
-	MCONTACT hContact = wParam;
-	HANDLE hdbevent = (HANDLE)lParam;
-
-
 	// Create struct for dbevent
 	DBEVENTINFO dbevent;
 	memset(&dbevent, 0, sizeof(dbevent));
@@ -1240,7 +1236,7 @@ int CAppletManager::HookChatInbound(WPARAM wParam,LPARAM lParam)
 	else
 		Event.eType = EVENT_IRC_RECEIVED;
 	Event.iValue = gcd->iType;
-	Event.hValue = (HANDLE)lParam;
+	Event.hValue = lParam;
 	
 	CIRCHistory *pHistory = NULL;
 	if(gcd->ptszID)
@@ -1673,10 +1669,10 @@ int CAppletManager::HookProtoAck(WPARAM wParam, LPARAM lParam)
 		list<SMessageJob*>::iterator iter = CAppletManager::GetInstance()->m_MessageJobs.begin();
 		while(iter != CAppletManager::GetInstance()->m_MessageJobs.end())
 		{
-			if((*iter)->hEvent == pAck->hProcess && (*iter)->hContact == pAck->hContact)
+			if((*iter)->hEvent == (MEVENT)pAck->hProcess && (*iter)->hContact == pAck->hContact)
 			{
 				Event.eType = EVENT_MESSAGE_ACK;
-				Event.hValue = pAck->hProcess;
+				Event.hValue = (MEVENT)pAck->hProcess;
 				Event.hContact = pAck->hContact;
 				Event.iValue = pAck->result;
 				if(pAck->lParam != 0)

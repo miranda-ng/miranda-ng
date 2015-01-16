@@ -873,7 +873,7 @@ static void ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int protoC
 	BYTE *eventBuf = (PBYTE)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
-	HANDLE hEvent = srcDb->FindFirstEvent(hContact);
+	MEVENT hEvent = srcDb->FindFirstEvent(hContact);
 	for (int i = 0; hEvent; i++, hEvent = srcDb->FindNextEvent(hContact, hEvent)) {
 		// Copy the event and import it
 		DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };

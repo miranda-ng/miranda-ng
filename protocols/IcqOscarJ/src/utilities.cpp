@@ -552,7 +552,7 @@ MCONTACT CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 	return INVALID_CONTACT_ID;
 }
 
-MCONTACT CIcqProto::HContactFromAuthEvent(HANDLE hEvent)
+MCONTACT CIcqProto::HContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[3];
 

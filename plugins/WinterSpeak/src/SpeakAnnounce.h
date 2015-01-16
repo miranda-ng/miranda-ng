@@ -17,7 +17,7 @@ public:
 	//--------------------------------------------------------------------------
 	// Description : handle an event
 	//--------------------------------------------------------------------------
-	void incomingEvent(MCONTACT user, HANDLE event);
+	void incomingEvent(MCONTACT user, MEVENT event);
 
 	//--------------------------------------------------------------------------
 	// Description : handle a protocol state change

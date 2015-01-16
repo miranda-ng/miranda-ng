@@ -988,7 +988,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 DWORD JabberGetLastContactMessageTime(MCONTACT hContact)
 {
 	// TODO: time cache can improve performance
-	HANDLE hDbEvent = db_event_last(hContact);
+	MEVENT hDbEvent = db_event_last(hContact);
 	if (!hDbEvent)
 		return 0;
 

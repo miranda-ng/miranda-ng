@@ -138,12 +138,12 @@ int CDummyProto::AuthRequest(MCONTACT hContact,const PROTOCHAR *message)
 	return 0;
 }
 
-int CDummyProto::Authorize(HANDLE hDbEvent)
+int CDummyProto::Authorize(MEVENT hDbEvent)
 {
 	return 1;
 }
 
-int CDummyProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
+int CDummyProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR *reason)
 {
 	return 1;
 }
@@ -153,7 +153,7 @@ int CDummyProto::UserIsTyping(MCONTACT hContact, int type)
 	return 1;
 }
 
-MCONTACT CDummyProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+MCONTACT CDummyProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	return NULL;
 }

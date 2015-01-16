@@ -39,7 +39,7 @@
 
 #define MODULE "tabSRMM_NEN"
 
-int tabSRMM_ShowPopup(MCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto);
+int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto);
 
 #define DEFAULT_COLBACK RGB(255,255,128)
 #define DEFAULT_COLTEXT RGB(0,0,0)
@@ -132,7 +132,7 @@ struct NEN_OPTIONS
 
 struct EVENT_DATAT
 {
-	HANDLE hEvent;
+	MEVENT hEvent;
 	TCHAR  tszText[MAX_SECONDLINE + 2];
 	DWORD  timestamp;
 };

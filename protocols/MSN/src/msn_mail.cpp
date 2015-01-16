@@ -291,7 +291,7 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 
 			cle.cbSize = sizeof(cle);
 			cle.hContact = hContact;
-			cle.hDbEvent = (HANDLE)1;
+			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT | CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_SENDEMAIL);
 			cle.ptszTooltip = tBuffer2;

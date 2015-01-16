@@ -197,7 +197,7 @@ INT_PTR PrebuildContactMenuSvc(WPARAM wParam, LPARAM lParam)
 	return PrebuildContactMenu(wParam, lParam);
 }
 
-BOOL AddEvent(MCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ... )
+BOOL AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fmt, ...)
 {
 	TCHAR szBuf[4096];
 

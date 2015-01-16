@@ -189,7 +189,7 @@ struct PLUGIN_OPTIONS
 
 struct EVENT_DATA_EX
 {
-	HANDLE hEvent;
+	MEVENT hEvent;
 	int number;
 	struct EVENT_DATA_EX* next;
 	struct EVENT_DATA_EX* prev;
@@ -212,8 +212,8 @@ struct PLUGIN_DATA
 //---------------------------
 //---External Procedure Definitions
 
-int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, HANDLE hEvent, UINT eventType);
-int PopupUpdate(MCONTACT hContact, HANDLE hEvent);
+int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType);
+int PopupUpdate(MCONTACT hContact, MEVENT hEvent);
 int PopupPreview(PLUGIN_OPTIONS* pluginOptions);
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata);
 int OptionsInit(PLUGIN_OPTIONS* pluginOptions);

@@ -81,7 +81,7 @@ void setLastSeen(MCONTACT hContact)
 
 time_t getLastInputMsg(MCONTACT hContact)
 {
-	HANDLE hDbEvent = db_event_last(hContact);
+	MEVENT hDbEvent = db_event_last(hContact);
 	while (hDbEvent) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);

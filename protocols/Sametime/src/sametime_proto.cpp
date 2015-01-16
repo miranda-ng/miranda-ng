@@ -89,19 +89,19 @@ MCONTACT CSametimeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddSearchedUser(sr, flags & PALF_TEMPORARY);
 }
 
-MCONTACT CSametimeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT CSametimeProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	debugLog(_T("CSametimeProto::AddToListByEvent()  flags=[%d]"), flags);
 	return 0;
 }
 
-int CSametimeProto::Authorize(HANDLE hDbEvent)
+int CSametimeProto::Authorize(MEVENT hDbEvent)
 {
 	debugLog(_T("CSametimeProto::Authorize()"));
 	return 1;
 }
 
-int CSametimeProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason)
+int CSametimeProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
 {
 	debugLog(_T("CSametimeProto::AuthDeny()"));
 	return 1;

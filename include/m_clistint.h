@@ -404,7 +404,7 @@ typedef struct
 	struct CListEvent* (*pfnAddEvent)(CLISTEVENT*);
 	CLISTEVENT* (*pfnGetEvent)(MCONTACT hContact, int idx);
 
-	int   (*pfnRemoveEvent)(MCONTACT hContact, HANDLE hDbEvent);
+	int   (*pfnRemoveEvent)(MCONTACT hContact, MEVENT hDbEvent);
 	int   (*pfnGetImlIconIndex)(HICON hIcon);
 
 	/*************************************************************************************

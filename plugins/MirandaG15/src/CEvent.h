@@ -63,7 +63,7 @@ public:
 	tstring strDescription;
 	tstring strSummary;
 
-	HANDLE hValue;
+	MEVENT hValue;
 	int iValue;
 	tstring strValue;
 };

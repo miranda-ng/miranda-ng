@@ -100,7 +100,7 @@ static int ProtoAck(WPARAM, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static bool isReceiveMessage(HANDLE hDbEvent)
+static bool isReceiveMessage(MEVENT hDbEvent)
 {
 	DBEVENTINFO info = { sizeof(info) };
 	db_event_get(hDbEvent, &info);
@@ -111,7 +111,7 @@ static bool isReceiveMessage(HANDLE hDbEvent)
 
 static int ProcessEvent(WPARAM hContact, LPARAM lParam)
 {
-	if (!isReceiveMessage(HANDLE(lParam)))
+	if (!isReceiveMessage(lParam))
 		return 0;
 
 	isIgnoreSound = db_get_b(hContact, SETTINGSNAME, SETTINGSIGNOREKEY, 0);

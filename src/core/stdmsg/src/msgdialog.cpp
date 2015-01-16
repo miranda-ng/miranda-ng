@@ -757,7 +757,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				switch (historyMode) {
 				case LOADHISTORY_COUNT:
 					for (int i = db_get_w(NULL, SRMMMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT); i--;) {
-						HANDLE hPrevEvent;
+						MEVENT hPrevEvent;
 						if (dat->hDbEventFirst == NULL)
 							hPrevEvent = db_event_last(dat->hContact);
 						else
@@ -782,7 +782,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMMMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 					for (;;) {
-						HANDLE hPrevEvent;
+						MEVENT hPrevEvent;
 						if (dat->hDbEventFirst == NULL)
 							hPrevEvent = db_event_last(dat->hContact);
 						else
@@ -800,7 +800,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 
-			HANDLE hdbEvent = db_event_last(dat->hContact);
+			MEVENT hdbEvent = db_event_last(dat->hContact);
 			if (hdbEvent) {
 				do {
 					DBEVENTINFO dbei = { sizeof(dbei) };
@@ -1260,7 +1260,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_APPENDTOLOG:   //takes wParam=hDbEvent
-		StreamInEvents(hwndDlg, (HANDLE)wParam, 1, 1);
+		StreamInEvents(hwndDlg, wParam, 1, 1);
 		break;
 
 	case DM_SCROLLLOGTOBOTTOM:
@@ -1281,7 +1281,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case HM_DBEVENTADDED:
 		if (wParam == dat->hContact) {
-			HANDLE hDbEvent = (HANDLE)lParam;
+			MEVENT hDbEvent = lParam;
 			if (dat->hDbEventFirst == NULL)
 				dat->hDbEventFirst = hDbEvent;
 

@@ -868,7 +868,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 	CCSDATA ccs = { 0 };
 	PROTORECVEVENT pre = { 0 };
 	MCONTACT hContact = NULL, hChat = NULL;
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 	DBEVENTINFO dbei = { 0 };
 	DBVARIANT dbv = { 0 };
 	fetchmsg_arg args;
@@ -1042,7 +1042,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 					free_nonutf_tchar_string((void*)gcd.ptszID);
 					if (!args.bDontMarkSeen)
 					{
-						MsgList_Add((DWORD)pre.lParam, INVALID_HANDLE_VALUE);
+						MsgList_Add((DWORD)pre.lParam, -1);
 						SkypeSend("SET %s %s SEEN", cmdMessage, args.msgnum);
 					}
 					__leave;
@@ -1169,7 +1169,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			bHasPartList = strncmp(msgptr, "<partlist ", 10) == 0;
 			if (args.pMsgEntry && args.pMsgEntry->tEdited) {
 				// Mark the message as edited
-				if (!*msgptr && args.pMsgEntry->hEvent != INVALID_HANDLE_VALUE) {
+				if (!*msgptr && args.pMsgEntry->hEvent != -1) {
 					// Empty message and edited -> Delete event
 					if ((int)(hContact = db_event_getContact(args.pMsgEntry->hEvent)) != -1) {
 						db_event_delete(hContact, args.pMsgEntry->hEvent);
@@ -1273,7 +1273,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 			gce.ptszText = (TCHAR*)(msgptr + msglen);
 			gce.dwFlags = GCEF_ADDTOLOG;
 			CallService(MS_GC_EVENT, 0, (LPARAM)&gce);
-			MsgList_Add((DWORD)pre.lParam, INVALID_HANDLE_VALUE);	// Mark as groupchat
+			MsgList_Add((DWORD)pre.lParam, -1);	// Mark as groupchat
 			if (ci.pszVal) mir_free(ci.pszVal);
 			free_nonutf_tchar_string((void*)gce.ptszUID);
 			free_nonutf_tchar_string((void*)gcd.ptszID);
@@ -1612,7 +1612,7 @@ l_exitRT:
 
 void EndCallThread(char *szSkypeMsg) {
 	MCONTACT hContact = NULL;
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 	DBEVENTINFO dbei = { 0 };
 	DBVARIANT dbv;
 
@@ -2675,7 +2675,7 @@ void MessageSendWatchThread(void *a) {
 			if ((ptr=strtok_r(str, " ", &nexttoken)) && (*ptr!='#' || (ptr=strtok_r(NULL, " ", &nexttoken))) &&
 				(ptr=strtok_r(NULL, " ", &nexttoken))) {
 				/* Use this to ensure that main thread doesn't pick up sent message */
-				MsgList_Add(strtoul(ptr, NULL, 10), INVALID_HANDLE_VALUE);
+				MsgList_Add(strtoul(ptr, NULL, 10), -1);
 #ifdef USE_REAL_TS
 				if (err=SkypeGet (cmdMessage, ptr, "TIMESTAMP")) {
 					m_AddEventArg.hContact = arg->hContact;
@@ -2847,15 +2847,13 @@ char *__skypeauth(WPARAM wParam) {
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
-	if (((dbei.cbBlob = db_event_getBlobSize((HANDLE)wParam)) == -1 ||
+	if (((dbei.cbBlob = db_event_getBlobSize(wParam)) == -1 ||
 		!(dbei.pBlob = (unsigned char*)malloc(dbei.cbBlob))))
 	{
 		return NULL;
 	}
 
-	if (db_event_get((HANDLE)wParam, &dbei) ||
-		dbei.eventType != EVENTTYPE_AUTHREQUEST ||
-		strcmp(dbei.szModule, SKYPE_PROTONAME))
+	if (db_event_get(wParam, &dbei) || dbei.eventType != EVENTTYPE_AUTHREQUEST || strcmp(dbei.szModule, SKYPE_PROTONAME))
 	{
 		free(dbei.pBlob);
 		return NULL;

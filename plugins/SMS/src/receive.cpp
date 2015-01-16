@@ -74,7 +74,7 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 				dbei.cbBlob=(mir_snprintf((LPSTR)dbei.pBlob,((dwBuffLen+dwPhoneSize)),"SMS From: +%s\r\n%s",szPhone,lpszMessageUTF)+sizeof(DWORD));
 				//dbei.pBlob=(LPBYTE)lpszBuff;
 				(*((DWORD*)(dbei.pBlob+(dbei.cbBlob-sizeof(DWORD)))))=0;
-				HANDLE hResult = db_event_add(hContact, &dbei);
+				MEVENT hResult = db_event_add(hContact, &dbei);
 				if (hContact==NULL) {	
 					if ( RecvSMSWindowAdd(NULL,ICQEVENTTYPE_SMS,tszPhone,dwPhoneSize,(LPSTR)dbei.pBlob,dbei.cbBlob)) {
 						db_event_markRead(hContact, hResult);
@@ -212,11 +212,10 @@ int handleAckSMS(WPARAM wParam, LPARAM lParam)
 }
 
 //Handles new SMS messages added to the database
-int handleNewMessage(WPARAM hContact, LPARAM lParam)
+int handleNewMessage(WPARAM hContact, LPARAM hDbEvent)
 {
 	char szServiceFunction[MAX_PATH], *pszServiceFunctionName;
 	TCHAR szToolTip[MAX_PATH];
-	HANDLE hDbEvent = (HANDLE)lParam;
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == -1)
@@ -256,7 +255,7 @@ int handleNewMessage(WPARAM hContact, LPARAM lParam)
 		SkinPlaySound("RecvSMSConfirmation");
 		if (DB_SMS_GetByte(NULL, "AutoPopup", 0)) {
 			if (RecvSMSWindowAdd(hContact,ICQEVENTTYPE_SMSCONFIRMATION,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
-				db_event_delete(hContact, &dbei);
+				db_event_delete(hContact, hDbEvent);
 		}
 		else {
 			UINT iIcon;

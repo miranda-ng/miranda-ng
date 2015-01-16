@@ -2,7 +2,7 @@
 
 MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 {
-	HANDLE hDbEvent = (HANDLE)lParam;
+	MEVENT hDbEvent = (MEVENT)lParam;
 
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);

@@ -121,7 +121,7 @@ void StripBBCodesInPlace(TCHAR *swzText)
 
 DWORD LastMessageTimestamp(MCONTACT hContact, bool received)
 {
-	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
+	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received)
@@ -168,7 +168,7 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 
 TCHAR *GetLastMessageText(MCONTACT hContact, bool received)
 {
-	for (HANDLE hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
+	for (MEVENT hDbEvent = db_event_last(hContact); hDbEvent; hDbEvent = db_event_prev(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = {	sizeof(dbei) };
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT) == received) {
@@ -383,7 +383,7 @@ bool GetSysSubstText(MCONTACT hContact, TCHAR *swzRawSpec, TCHAR *buff, int buff
 
 			dwNewTs = dwLastTs;
 
-			HANDLE dbe = db_event_last(hTmpContact);
+			MEVENT dbe = db_event_last(hTmpContact);
 			while (dbe != NULL) {
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				if (!db_event_get(dbe, &dbei)) {

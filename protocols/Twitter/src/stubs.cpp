@@ -18,17 +18,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "stdafx.h"
 #include "proto.h"
 
-MCONTACT TwitterProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+MCONTACT TwitterProto::AddToListByEvent(int flags,int iContact,MEVENT hDbEvent)
 {
 	return NULL;
 }
 
-int TwitterProto::Authorize(HANDLE hDbEvent)
+int TwitterProto::Authorize(MEVENT hDbEvent)
 {
 	return 1;
 }
 
-int TwitterProto::AuthDeny(HANDLE hDbEvent,const TCHAR *reason)
+int TwitterProto::AuthDeny(MEVENT hDbEvent,const TCHAR *reason)
 {
 	return 1;
 }

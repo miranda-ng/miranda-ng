@@ -304,7 +304,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 {
 	IEVIEWEVENTDATA* eventData;
 	IEVIEWEVENTDATA* prevEventData = NULL;
-	HANDLE hDbEvent = event->hDbEventFirst;
+	MEVENT hDbEvent = event->hDbEventFirst;
 	event->hDbEventFirst = NULL;
 
 	ptrA szProto;

@@ -46,7 +46,7 @@ struct TRecvContactsData
 	TRecvContactsData(MCONTACT contact);
 	~TRecvContactsData();
 
-	HANDLE     mhDbEvent;    // handle to recv DB event
+	MEVENT     mhDbEvent;    // handle to recv DB event
 	MCONTACT   mhContact;    // from whom we received this
 	HIMAGELIST mhListIcon;// icons for listview
 	HMENU      mhPopup;      // popup menu for listview

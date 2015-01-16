@@ -22,7 +22,7 @@ void CToxProto::SetAllContactsStatus(WORD status)
 	}
 }
 
-MCONTACT CToxProto::GetContactFromAuthEvent(HANDLE hEvent)
+MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[3];
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };

@@ -25,6 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CORE_H__
 #define M_CORE_H__ 1
 
+#include <stdint.h>
+
 #ifndef M_TYPES_H__
    #include <m_types.h>
 #endif
@@ -54,8 +56,10 @@ MIR_CORE_DLL(LPCTSTR) CmdLine_GetOption(LPCTSTR ptszParameter);
 ///////////////////////////////////////////////////////////////////////////////
 // database functions
 
-typedef UINT32 MCONTACT;
+typedef uint32_t MCONTACT;
 #define INVALID_CONTACT_ID (MCONTACT(-1))
+
+typedef uint32_t MEVENT;
 
 // DBVARIANT: used by db/contact/getsetting and db/contact/writesetting
 #define DBVT_DELETED  0   // this setting just got deleted, no other values are valid
@@ -181,7 +185,7 @@ db/time/x below with useful stuff for dealing with it.
 #define EVENTTYPE_AUTHREQUEST   1001  //specific codes, hence the module-
 #define EVENTTYPE_FILE          1002  //specific limit has been raised to 2000
 
-MIR_CORE_DLL(HANDLE) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei);
+MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei);
 
 /*
 Gets the number of events in the chain belonging to a contact in the database.
@@ -198,7 +202,7 @@ Returns 0 on success, or nonzero if hDbEvent was invalid
 Triggers a db/event/deleted event just *before* the event is deleted
 */
 
-MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, HANDLE hDbEvent);
+MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the first event in the chain for hContact
@@ -206,7 +210,7 @@ Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(HANDLE) db_event_first(MCONTACT hContact);
+MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact);
 
 /*
 Retrieves a handle to the first unread event in the chain for hContact
@@ -220,7 +224,7 @@ This service is designed for startup, reloading all the events that remained
 unread from last time
 */
 
-MIR_CORE_DLL(HANDLE) db_event_firstUnread(MCONTACT hContact);
+MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
 
 /*
 Retrieves all the information stored in hDbEvent
@@ -237,7 +241,7 @@ On return, dbe.szModule is a pointer to the database module's own internal list
 of modules. Look but don't touch.
 */
 
-MIR_CORE_DLL(int) db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei);
+MIR_CORE_DLL(int) db_event_get(MEVENT hDbEvent, DBEVENTINFO *dbei);
 
 /*
 Retrieves the space in bytes required to store the blob in hDbEvent
@@ -245,19 +249,16 @@ hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns the space required in bytes, or -1 if hDbEvent is invalid
 */
 
-MIR_CORE_DLL(int) db_event_getBlobSize(HANDLE hDbEvent);
+MIR_CORE_DLL(int) db_event_getBlobSize(MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the contact that owns hDbEvent.
 hDbEvent should have been returned by db_event_add/first/last/next/prev()
 NULL is a valid return value, meaning, as usual, the user.
-Returns (HANDLE)(-1) if hDbEvent is invalid, or the handle to the contact on
-success
-This service is exceptionally slow. Use only when you have no other choice at
-all.
+Returns INVALID_CONTACT_ID if hDbEvent is invalid, or the handle to the contact on success
 */
 
-MIR_CORE_DLL(MCONTACT) db_event_getContact(HANDLE hDbEvent);
+MIR_CORE_DLL(MCONTACT) db_event_getContact(MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the last event in the chain for hContact
@@ -265,7 +266,7 @@ Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(HANDLE) db_event_last(MCONTACT hContact);
+MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact);
 
 /*
 Changes the flags for an event to mark it as read.
@@ -276,7 +277,7 @@ This is the one database write operation that does not trigger an event.
 Modules should not save flags states for any length of time.
 */
 
-MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, HANDLE hDbEvent);
+MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the next event in a chain after hDbEvent
@@ -284,7 +285,7 @@ Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(HANDLE) db_event_next(MCONTACT hContact, HANDLE hDbEvent);
+MIR_CORE_DLL(MEVENT) db_event_next(MCONTACT hContact, MEVENT hDbEvent);
 
 /*
 Retrieves a handle to the previous event in a chain before hDbEvent
@@ -292,7 +293,7 @@ Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 */
 
-MIR_CORE_DLL(HANDLE) db_event_prev(MCONTACT hContact, HANDLE hDbEvent);
+MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 
 /******************************************************************************
  * DATABASE SETTINGS

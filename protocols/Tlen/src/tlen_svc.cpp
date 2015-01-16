@@ -224,7 +224,7 @@ MCONTACT TlenProtocol::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
-MCONTACT TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEvent )
+MCONTACT TlenProtocol::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -262,7 +262,7 @@ MCONTACT TlenProtocol::AddToListByEvent( int flags, int iContact, HANDLE hDbEven
 	return hContact;
 }
 
-int TlenProtocol::Authorize(HANDLE hDbEvent)
+int TlenProtocol::Authorize(MEVENT hDbEvent)
 {
 	if (!isOnline)
 		return 1;
@@ -311,7 +311,7 @@ int TlenProtocol::Authorize(HANDLE hDbEvent)
 	return 0;
 }
 
-int TlenProtocol::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason)
+int TlenProtocol::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
 {
 	if (!isOnline)
 		return 1;

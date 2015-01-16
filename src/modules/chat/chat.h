@@ -55,7 +55,7 @@ char*  Log_CreateRTF(LOGSTREAMDATA *streamData);
 char*  Log_SetStyle(int style);
 
 // clist.c
-BOOL     AddEvent(MCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+BOOL     AddEvent(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fmt, ...);
 MCONTACT AddRoom(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
 MCONTACT FindRoom(const char *pszModule, const TCHAR *pszRoom);
 BOOL     SetAllOffline(BOOL bHide, const char *pszModule);

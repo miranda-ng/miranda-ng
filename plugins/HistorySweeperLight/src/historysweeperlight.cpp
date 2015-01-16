@@ -81,7 +81,7 @@ int KeepCriteria(int dwti)
 
 struct BEventData
 {
-	HANDLE hDBEvent;
+	MEVENT hDBEvent;
 	DWORD CRC32;
 	DWORD Timestamp;
 };
@@ -152,7 +152,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 	GetBookmarks(hContact, &books, &bookcnt);
 
 	// Get first event
-	for (HANDLE hDBEvent = db_event_first(hContact); hDBEvent != NULL; ) {
+	for (MEVENT hDBEvent = db_event_first(hContact); hDBEvent != NULL; ) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDBEvent, &dbei);
 
@@ -176,8 +176,7 @@ void SweepHistoryFromContact(MCONTACT hContact, CriteriaStruct Criteria, BOOL ke
 		}
 
 		// find next event
-		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
-
+		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
 		if (doDelete)
 			db_event_delete(hContact, hDBEvent);
 

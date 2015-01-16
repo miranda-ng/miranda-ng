@@ -400,7 +400,7 @@ static TCHAR* GetEventPreview(DBEVENTINFO *dbei)
 	return TranslateTS( mir_a2t(commentFix));
 }
 
-int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, HANDLE hEvent, UINT eventType)
+int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType)
 {
 	TCHAR* sampleEvent;
 	long iSeconds;
@@ -517,7 +517,7 @@ int PopupShow(PLUGIN_OPTIONS* pluginOptions, MCONTACT hContact, HANDLE hEvent, U
 }
 
 
-int PopupUpdate(MCONTACT hContact, HANDLE hEvent)
+int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 {
 	// merge only message popups
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];

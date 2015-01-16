@@ -105,12 +105,12 @@ MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-MCONTACT __cdecl CSteamProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT __cdecl CSteamProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	return 0;
 }
 
-int __cdecl CSteamProto::Authorize(HANDLE hDbEvent)
+int __cdecl CSteamProto::Authorize(MEVENT hDbEvent)
 {
 	if (IsOnline() && hDbEvent)
 	{
@@ -136,7 +136,7 @@ int __cdecl CSteamProto::Authorize(HANDLE hDbEvent)
 	return 1;
 }
 
-int __cdecl CSteamProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
+int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 {
 	if (IsOnline() && hDbEvent)
 	{

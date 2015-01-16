@@ -58,17 +58,17 @@ static int OnMetaChanged(WPARAM hMeta, LPARAM)
 	return 0;
 }
 
-static int dbaddedevent(WPARAM hContact, LPARAM lParam)
+static int dbaddedevent(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (hContact) {
 		HWND h = WindowList_Find(g_dat.hMessageWindowList, hContact);
 		if (h)
-			SendMessage(h, HM_DBEVENTADDED, hContact, lParam);
+			SendMessage(h, HM_DBEVENTADDED, hContact, hDbEvent);
 
-		MCONTACT hEventContact = db_event_getContact((HANDLE)lParam);
+		MCONTACT hEventContact = db_event_getContact(hDbEvent);
 		if (hEventContact != hContact)
 			if ((h = WindowList_Find(g_dat.hMessageWindowList, hEventContact)) != NULL)
-				SendMessage(h, HM_DBEVENTADDED, hEventContact, lParam);
+				SendMessage(h, HM_DBEVENTADDED, hEventContact, hDbEvent);
 	}
 	return 0;
 }

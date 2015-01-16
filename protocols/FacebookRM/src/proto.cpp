@@ -315,7 +315,7 @@ int FacebookProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *)
 	return RequestFriendship(hContact, NULL);
 }
 
-int FacebookProto::Authorize(HANDLE hDbEvent)
+int FacebookProto::Authorize(MEVENT hDbEvent)
 {
 	if (!hDbEvent || isOffline())
 		return 1;
@@ -327,7 +327,7 @@ int FacebookProto::Authorize(HANDLE hDbEvent)
 	return ApproveFriendship(hContact, NULL);
 }
 
-int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *)
+int FacebookProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR *)
 {
 	if (!hDbEvent || isOffline())
 		return 1;
@@ -817,7 +817,7 @@ INT_PTR FacebookProto::OnCancelFriendshipRequest(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-MCONTACT FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
+MCONTACT FacebookProto::HContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[2];
 	DBEVENTINFO dbei = { sizeof(dbei) };

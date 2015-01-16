@@ -250,10 +250,10 @@ struct CVkProto : public PROTO<CVkProto>
 	//====================================================================================
 
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
+	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 
-	virtual	int __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
 	virtual	int __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
 
@@ -403,7 +403,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void ApplyCookies(AsyncHttpRequest*);
 
 	void DBAddAuthRequest(const MCONTACT hContact);
-	MCONTACT MContactFromDbEvent(HANDLE hDbEvent);
+	MCONTACT MContactFromDbEvent(MEVENT hDbEvent);
 
 	void SetMirVer(MCONTACT hContact, int platform);
 

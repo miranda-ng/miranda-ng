@@ -60,7 +60,7 @@ HANDLE hHookedDeletedEvent;
 //wParam: contact-handle
 //lParam: dbevent-handle
 
-int HookedNewEvent(WPARAM hContact, LPARAM lParam)
+int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
 	//are popups currently enabled?
 	if (pluginOptions.bDisable)
@@ -68,7 +68,7 @@ int HookedNewEvent(WPARAM hContact, LPARAM lParam)
 
 	//get DBEVENTINFO without pBlob
 	DBEVENTINFO dbe = { sizeof(dbe) };
-	db_event_get((HANDLE)lParam, &dbe);
+	db_event_get(hDbEvent, &dbe);
 
 	//do not show popups for sub-contacts
 	if (hContact && db_mc_isSub(hContact))
@@ -103,9 +103,9 @@ int HookedNewEvent(WPARAM hContact, LPARAM lParam)
 
 	//is another popup for this contact already present? -> merge message popups if enabled
 	if (dbe.eventType == EVENTTYPE_MESSAGE && (pluginOptions.bMergePopup && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1))
-		PopupUpdate(hContact, (HANDLE)lParam);
+		PopupUpdate(hContact, hDbEvent);
 	else
-		PopupShow(&pluginOptions, hContact, (HANDLE)lParam, (UINT)dbe.eventType);
+		PopupShow(&pluginOptions, hContact, hDbEvent, (UINT)dbe.eventType);
 
 	return 0;
 }

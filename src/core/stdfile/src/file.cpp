@@ -109,7 +109,7 @@ static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void PushFileEvent(MCONTACT hContact, HANDLE hdbe, LPARAM lParam)
+void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 {
 	CLISTEVENT cle = { 0 };
 	cle.cbSize = sizeof(cle);
@@ -140,11 +140,11 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.cbBlob = sizeof(DWORD);
 	dbei.pBlob = (PBYTE)&dwSignature;
-	db_event_get((HANDLE)lParam, &dbei);
+	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
 		return 0;
 
-	PushFileEvent(wParam, (HANDLE)lParam, 0);
+	PushFileEvent(wParam, lParam, 0);
 	return 0;
 }
 
@@ -287,7 +287,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 static void RemoveUnreadFileEvents(void)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hDbEvent = db_event_firstUnread(hContact);
+		MEVENT hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
@@ -399,8 +399,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		mir_free(pszFiles[i]);
 	mir_free(szDescr);
 
-	HANDLE hdbe = db_event_add(ccs->hContact, &dbei);
-
+	MEVENT hdbe = db_event_add(ccs->hContact, &dbei);
 	PushFileEvent(ccs->hContact, hdbe, pre->lParam);
 	mir_free(dbei.pBlob);
 	return 0;

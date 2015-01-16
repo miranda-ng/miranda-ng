@@ -33,10 +33,10 @@ public:
 	//PROTO_INTERFACE
 
 	virtual	MCONTACT  __cdecl AddToList(int,PROTOSEARCHRESULT *);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int,int,HANDLE);
+	virtual	MCONTACT  __cdecl AddToListByEvent(int,int,MEVENT);
 
-	virtual	int       __cdecl Authorize(HANDLE);
-	virtual	int       __cdecl AuthDeny(HANDLE,const TCHAR *);
+	virtual	int       __cdecl Authorize(MEVENT);
+	virtual	int       __cdecl AuthDeny(MEVENT,const TCHAR *);
 	virtual	int       __cdecl AuthRecv(MCONTACT, PROTORECVEVENT *);
 	virtual	int       __cdecl AuthRequest(MCONTACT, const TCHAR *);
 

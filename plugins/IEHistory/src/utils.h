@@ -54,7 +54,7 @@ struct TimeSearchData{
 
 struct SearchResult{
 	long index;
-	HANDLE hEvent;
+	MEVENT hEvent;
 };
 
 #ifdef _DEBUG
@@ -75,8 +75,8 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 void UnixTimeToFileTime(time_t t, LPFILETIME pft);
 void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst);
 
-HANDLE GetNeededEvent(HANDLE hLastFirstEvent, int num, int direction);
-SearchResult SearchHistory(MCONTACT contact, HANDLE hFirstEvent,  void *searchData, int direction, int type);
+MEVENT GetNeededEvent(MEVENT hLastFirstEvent, int num, int direction);
+SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent,  void *searchData, int direction, int type);
 
 /*
 static __inline int mir_snprintf(char *buffer, size_t count, const char* fmt, ...) {

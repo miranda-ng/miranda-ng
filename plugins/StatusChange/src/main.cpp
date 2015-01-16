@@ -43,9 +43,8 @@ void LoadOptions()
 	Options.IfOuttolunch = (BOOL)db_get_b(NULL, PLUGINNAME, "IfOuttolunch", FALSE);
 }
 
-static int StatusChangeGetMessage(WPARAM wParam, LPARAM lParam)
+static int StatusChangeGetMessage(WPARAM wParam, LPARAM hDbEvent)
 {
-	HANDLE hDbEvent = (HANDLE)lParam;
 	int status;
 	BOOL read, send, change_status;
 

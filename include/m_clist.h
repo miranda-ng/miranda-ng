@@ -290,7 +290,7 @@ typedef struct {
 	DWORD flags;		 //...of course
 	union
 	{
-		HANDLE hDbEvent;	 //caller defined but should be unique for hContact
+		MEVENT hDbEvent;	 //caller defined but should be unique for hContact
 		char * lpszProtocol;
 	};
 	LPARAM lParam;		 //caller defined

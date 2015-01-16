@@ -60,7 +60,7 @@ public:
 		mir_free(filelink);
 	}
 
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 	TCHAR *filename;
 	TCHAR *filelink;
 };
@@ -434,7 +434,7 @@ int FillAvatarListFromDB(HWND list, MCONTACT hContact)
 {
 	int max_pos = 0;
 	BYTE blob[2048];
-	for (HANDLE hDbEvent = db_event_first(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+	for (MEVENT hDbEvent = db_event_first(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		dbei.cbBlob = sizeof(blob);
 		dbei.pBlob = blob;

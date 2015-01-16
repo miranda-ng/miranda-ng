@@ -79,7 +79,7 @@ struct LISTELEMENT {
 	TCHAR date[DATE_SIZE];
 	TCHAR time[TIME_SIZE];
 	TCHAR link[LINK_MAX];
-	HANDLE hEvent;
+	MEVENT hEvent;
 	int	linePos;
 	struct LISTELEMENT *nextElement;
 } ;
@@ -150,7 +150,7 @@ typedef struct {
 static INT_PTR LinkList_Main(WPARAM, LPARAM);
 int InitOptionsDlg(WPARAM, LPARAM);
 int DBUpdate(WPARAM, LPARAM);
-int ExtractURI(DBEVENTINFO*, HANDLE, LISTELEMENT*);
+int ExtractURI(DBEVENTINFO*, MEVENT, LISTELEMENT*);
 int RemoveList(LISTELEMENT*);
 int ListCount(LISTELEMENT*);
 

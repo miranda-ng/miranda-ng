@@ -325,7 +325,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.szModule = MODULE;
-		HANDLE hDBEvent = db_event_add(xsc->hContact, &dbei);
+		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
 		mir_free(blob);
 
 		if (opt.XLogToDB_WinOpen && opt.XLogToDB_Remove) {

@@ -23,7 +23,7 @@ public:
 
 	struct ContactInfo {
 		MCONTACT hContact;
-		HANDLE hEvent;
+		MEVENT hEvent;
 		EventInfo ei;
 	};
 

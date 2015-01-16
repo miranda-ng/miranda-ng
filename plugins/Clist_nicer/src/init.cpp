@@ -60,7 +60,7 @@ ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD fl
 int     AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 int     AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText);
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
-int     RemoveEvent(MCONTACT hContact, HANDLE hDbEvent);
+int     RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
 INT_PTR TrayIconProcessMessage(WPARAM wParam, LPARAM lParam);
 void    RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 

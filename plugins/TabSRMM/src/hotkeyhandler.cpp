@@ -428,7 +428,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	// sent from the popup to "dismiss" the event. we should do this in the main thread
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
-		db_event_markRead(wParam, (HANDLE)lParam);
+		db_event_markRead(wParam, lParam);
 		return 0;
 
 	case DM_SETLOCALE:

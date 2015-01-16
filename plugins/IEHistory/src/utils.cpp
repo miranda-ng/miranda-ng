@@ -198,32 +198,31 @@ void UnixTimeToSystemTime(time_t t, LPSYSTEMTIME pst)
 	SystemTimeToTzSpecificLocalTime(NULL, &st, pst);
 }
 
-HANDLE GetNeededEvent(HANDLE hEvent, int num, int direction)
+MEVENT GetNeededEvent(MEVENT hEvent, int num, int direction)
 {
 	int i;
-	typedef HANDLE (__stdcall *db_event_step_t)(MCONTACT hContact,HANDLE hDbEvent);
+	typedef MEVENT (__stdcall *db_event_step_t)(MCONTACT hContact, MEVENT hDbEvent);
 	db_event_step_t db_event_step;
-	if(direction==DIRECTION_BACK){
-		db_event_step=db_event_prev;
-	}else{
-		db_event_step=db_event_next;
-	}
+	if(direction == DIRECTION_BACK)
+		db_event_step = db_event_prev;
+	else
+		db_event_step = db_event_next;
 	
-	for (i = 0; i < num; ++i){
-		hEvent = db_event_step(0,hEvent);
-	}
+	for (i = 0; i < num; ++i)
+		hEvent = db_event_step(0, hEvent);
+
 	return hEvent;
 }
 
-SearchResult SearchHistory(MCONTACT contact, HANDLE hFirstEvent,  void *searchData, int direction, int type)
+SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent,  void *searchData, int direction, int type)
 {
 	if (hFirstEvent == NULL){
-		typedef HANDLE (__stdcall *db_event_start_t)(MCONTACT contact);
-		db_event_start_t db_event_start=(direction==DIRECTION_BACK) ? db_event_last : db_event_first;
-		hFirstEvent=db_event_start(contact);
+		typedef MEVENT (__stdcall *db_event_start_t)(MCONTACT contact);
+		db_event_start_t db_event_start = (direction == DIRECTION_BACK) ? db_event_last : db_event_first;
+		hFirstEvent = db_event_start(contact);
 	}
 	int index = 0;
-	HANDLE hEvent = hFirstEvent;
+	MEVENT hEvent = hFirstEvent;
 	void *buffer = NULL;
 	TCHAR *search;
 	bool found = false;

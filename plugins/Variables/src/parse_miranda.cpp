@@ -500,7 +500,7 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 	return (bEventType && bEventFlags);
 }
 
-static HANDLE findDbEvent(MCONTACT hContact, HANDLE hDbEvent, int flags)
+static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 {
 	DBEVENTINFO dbe;
 	BOOL bEventOk;
@@ -526,7 +526,7 @@ static HANDLE findDbEvent(MCONTACT hContact, HANDLE hDbEvent, int flags)
 				hDbEvent = db_event_prev(hContact, hDbEvent);
 		}
 		else {
-			HANDLE hMatchEvent, hSearchEvent;
+			MEVENT hMatchEvent, hSearchEvent;
 			DWORD matchTimestamp, priorTimestamp;
 
 			hMatchEvent = hSearchEvent = NULL;
@@ -664,7 +664,7 @@ static TCHAR* parseDbEvent(ARGUMENTSINFO *ai)
 	else if (ci.hContacts != NULL)
 		mir_free(ci.hContacts);
 
-	HANDLE hDbEvent = findDbEvent(hContact, NULL, flags);
+	MEVENT hDbEvent = findDbEvent(hContact, NULL, flags);
 	if (hDbEvent == NULL)
 		return NULL;
 

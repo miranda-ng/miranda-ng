@@ -298,17 +298,17 @@ static INT_PTR stub1(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub2(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)ppi->AddToListByEvent(HIWORD(wParam), LOWORD(wParam), (HANDLE)lParam);
+	return (INT_PTR)ppi->AddToListByEvent(HIWORD(wParam), LOWORD(wParam), (MEVENT)lParam);
 }
 
 static INT_PTR stub3(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)ppi->Authorize((HANDLE)wParam);
+	return (INT_PTR)ppi->Authorize((MEVENT)wParam);
 }
 
 static INT_PTR stub4(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)ppi->AuthDeny((HANDLE)wParam, StrConvT((const char*)lParam));
+	return (INT_PTR)ppi->AuthDeny((MEVENT)wParam, StrConvT((const char*)lParam));
 }
 
 static INT_PTR stub11(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)

@@ -91,12 +91,12 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddContact(address, _T(""), flags & PALF_TEMPORARY);
 }
 
-MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	return 0;
 }
 
-int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
+int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 {
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
@@ -117,7 +117,7 @@ int __cdecl CToxProto::Authorize(HANDLE hDbEvent)
 	return 0;
 }
 
-int __cdecl CToxProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason) { return 0; }
+int __cdecl CToxProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason) { return 0; }
 
 int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {

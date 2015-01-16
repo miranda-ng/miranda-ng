@@ -40,7 +40,7 @@ public:
 	{
 		union
 		{
-			HANDLE hEvent;
+			MEVENT hEvent;
 			int exIdx;
 		};
 		bool isExternal;
@@ -59,7 +59,7 @@ private:
 	{
 		union
 		{
-			HANDLE hEvent;
+			MEVENT hEvent;
 			int exIdx;
 		};
 		bool isExternal;

@@ -447,7 +447,7 @@ int TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild)
 // bActivateTab: make the new tab the active one
 // bPopupContainer: restore container if it was minimized, otherwise flash it...
 
-HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent)
+HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend, const char *pszInitialText, BOOL bActivateTab, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent)
 {
 	if (M.FindWindow(hContact) != 0) {
 		_DebugPopup(hContact, _T("Warning: trying to create duplicate window"));

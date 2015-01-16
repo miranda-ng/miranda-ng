@@ -161,7 +161,7 @@ MCONTACT CMraProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddToListByEmail(psr->email, psr->nick, psr->firstName, psr->lastName, flags);
 }
 
-MCONTACT CMraProto::AddToListByEvent(int, int, HANDLE hDbEvent)
+MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
@@ -191,7 +191,7 @@ int CMraProto::SendUrl(MCONTACT, int, const char*) { return 1; }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CMraProto::Authorize(HANDLE hDBEvent)
+int CMraProto::Authorize(MEVENT hDBEvent)
 {
 	if (!m_bLoggedIn)	return 1;
 
@@ -211,7 +211,7 @@ int CMraProto::Authorize(HANDLE hDBEvent)
 	return 0;
 }
 
-int CMraProto::AuthDeny(HANDLE hDBEvent, const TCHAR* szReason)
+int CMraProto::AuthDeny(MEVENT hDBEvent, const TCHAR* szReason)
 {
 	if (!m_bLoggedIn) return 1;
 

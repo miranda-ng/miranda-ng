@@ -31,7 +31,7 @@ STDMETHODIMP_(LONG) CDbxMdb::GetEventCount(MCONTACT contactID)
 	return -1;
 }
 
-STDMETHODIMP_(HANDLE) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
+STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -84,10 +84,10 @@ STDMETHODIMP_(HANDLE) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	// Notify only in safe mode or on really new events
 	NotifyEventHooks(hEventAddedEvent, contactNotifyID, (LPARAM)-1);
 
-	return (HANDLE)0;
+	return (MEVENT)0;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID) {
@@ -110,13 +110,13 @@ STDMETHODIMP_(BOOL) CDbxMdb::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 	return 0;
 }
 
-STDMETHODIMP_(LONG) CDbxMdb::GetBlobSize(HANDLE hDbEvent)
+STDMETHODIMP_(LONG) CDbxMdb::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	return -1;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
+STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
@@ -128,7 +128,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID) {
@@ -147,31 +147,31 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 	return -11;
 }
 
-STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(HANDLE hDbEvent)
+STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	return INVALID_CONTACT_ID;
 }
 
-STDMETHODIMP_(HANDLE) CDbxMdb::FindFirstEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDbxMdb::FindFirstUnreadEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDbxMdb::FindLastEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDbxMdb::FindNextEvent(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
@@ -179,7 +179,7 @@ STDMETHODIMP_(HANDLE) CDbxMdb::FindNextEvent(MCONTACT contactID, HANDLE hDbEvent
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDbxMdb::FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 

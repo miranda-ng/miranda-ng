@@ -96,12 +96,12 @@ void CJabberProto::OnIqResultGetCollectionList(HXML iqNode, CJabberIqInfo*)
 
 static DWORD dwPreviousTimeStamp = -1;
 static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
-static HANDLE hPreviousDbEvent = NULL;
+static MEVENT hPreviousDbEvent = NULL;
 
 // Returns TRUE if the event already exist in the database
 BOOL IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
 {
-	HANDLE hExistingDbEvent;
+	MEVENT hExistingDbEvent;
 	DWORD dwEventTimeStamp;
 
 	// get last event

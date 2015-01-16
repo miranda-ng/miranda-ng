@@ -91,10 +91,10 @@ public:
 
 	// PROTO_INTERFACE
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT *psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
+	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 
-	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT *);
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR * szMessage);
 
@@ -194,7 +194,7 @@ protected:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
-	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
+	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	void UpdateContact(MCONTACT hContact, JSONNODE *data);
 	void ProcessContact(std::map<std::string, JSONNODE*>::iterator *it, MCONTACT hContact);
@@ -275,7 +275,7 @@ protected:
 
 	static int RsaEncrypt(const char *pszModulus, const char *data, BYTE *encrypted, DWORD &encryptedSize);
 
-	HANDLE AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	MEVENT AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
 	static void CSteamProto::ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 	static void CSteamProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);

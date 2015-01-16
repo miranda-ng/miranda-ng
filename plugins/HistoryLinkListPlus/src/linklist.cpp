@@ -122,7 +122,7 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		return 0;
 	}	
 	
-	HANDLE hEvent = db_event_first(hContact);
+	MEVENT hEvent = db_event_first(hContact);
 	if (hEvent == NULL) {
 		MessageBox(NULL, TXT_EMPTYHISTORY, TXT_PLUGINNAME, (MB_OK | MB_ICONINFORMATION));
 		return 0;

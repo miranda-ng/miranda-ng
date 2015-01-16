@@ -53,7 +53,7 @@ int eventStatusChange(WPARAM wParam, LPARAM lParam)
 //-----------------------------------------------------------------------------
 int eventMessageAdded(WPARAM wParam, LPARAM lParam)
 {
-	g_speak_announce->incomingEvent(MCONTACT(wParam), reinterpret_cast<HANDLE>(lParam));
+	g_speak_announce->incomingEvent(wParam, lParam);
 	return 0;
 }
 
