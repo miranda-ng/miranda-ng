@@ -757,7 +757,7 @@ void TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic)
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 }
 
-void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTINFO *dbei)
+void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	dat->dwTickLastEvent = GetTickCount();
 
@@ -1179,7 +1179,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 	switch (historyMode) {
 	case LOADHISTORY_COUNT:
 		int i;
-		HANDLE hPrevEvent;
+		MEVENT hPrevEvent;
 		{
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			// ability to load only current session's history
@@ -1213,7 +1213,7 @@ void TSAPI FindFirstEvent(TWindowData *dat)
 
 		DWORD firstTime = dbei.timestamp - 60 * db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 		for (;;) {
-			HANDLE hPrevEvent;
+			MEVENT hPrevEvent;
 			if (dat->hDbEventFirst == NULL)
 				hPrevEvent = db_event_last(dat->hContact);
 			else

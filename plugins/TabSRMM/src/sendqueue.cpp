@@ -712,7 +712,7 @@ inform_and_discard:
 	NotifyEventHooks(PluginConfig.m_event_WriteEvent, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;
-	HANDLE hNewEvent = db_event_add(job.hContact, &dbei);
+	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
 
 	if (m_pContainer)
 		if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))

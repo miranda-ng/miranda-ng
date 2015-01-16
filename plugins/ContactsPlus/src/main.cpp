@@ -57,9 +57,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-static int HookDBEventAdded(WPARAM hContact, LPARAM lParam)
+static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	HANDLE hDbEvent = (HANDLE)lParam;
 	//process the event
 	DBEVENTINFO dbe = { sizeof(dbe) };
 	db_event_get(hDbEvent, &dbe);
@@ -92,7 +91,7 @@ static int HookDBEventAdded(WPARAM hContact, LPARAM lParam)
 static void ProcessUnreadEvents(void)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && dbei.eventType == EVENTTYPE_CONTACTS) {

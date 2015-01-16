@@ -60,7 +60,7 @@ void CToxProto::ShowNotification(const TCHAR *message, int flags, MCONTACT hCont
 	ShowNotification(_T(MODULE), message, flags, hContact);
 }
 
-HANDLE CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+MEVENT CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;

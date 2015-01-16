@@ -124,9 +124,9 @@ GGPROTO::~GGPROTO()
 //////////////////////////////////////////////////////////
 // Dummies for function that have to be implemented
 
-MCONTACT GGPROTO::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) { return NULL; }
-int      GGPROTO::Authorize(HANDLE hDbEvent) { return 1; }
-int      GGPROTO::AuthDeny(HANDLE hDbEvent, const TCHAR *szReason) { return 1; }
+MCONTACT GGPROTO::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) { return NULL; }
+int      GGPROTO::Authorize(MEVENT hDbEvent) { return 1; }
+int      GGPROTO::AuthDeny(MEVENT hDbEvent, const TCHAR *szReason) { return 1; }
 int      GGPROTO::AuthRecv(MCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
 int      GGPROTO::AuthRequest(MCONTACT hContact, const TCHAR *szMessage) { return 1; }
 int      GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }

@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct{
 	int handleType;         // one of the HANDLE_ constants
 	union {
-		HANDLE hDbEvent;     // hDbEvent if acs.handleType == HANDLE_EVENT
+		MEVENT hDbEvent;     // hDbEvent if acs.handleType == HANDLE_EVENT
 		MCONTACT hContact;   // hContact if acs.handleType == HANDLE_CONTACT
 		                     // ignored if acs.handleType == HANDLE_SEARCHRESULT
 	};

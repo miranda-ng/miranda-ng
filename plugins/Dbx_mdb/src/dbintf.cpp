@@ -93,6 +93,7 @@ int CDbxMdb::Load(bool bSkipInit)
 		mdb_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
 		mdb_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
 		mdb_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
+		mdb_open(trnlck, "eventsrt", MDB_CREATE, &m_dbEvents);
 		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
 		trnlck.commit();
 

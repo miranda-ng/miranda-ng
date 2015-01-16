@@ -1408,10 +1408,8 @@ void ExportDBEventInfo(MCONTACT hContact, DBEVENTINFO &dbei )
 /////////////////////////////////////////////////////////////////////
 
 
-int nExportEvent(WPARAM wparam,LPARAM lparam)
+int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 {
-	MCONTACT hContact = (MCONTACT)wparam;
-	HANDLE hDbEvent = (HANDLE)lparam;
 	if ( !db_get_b(hContact,MODULE,"EnableLog",1))
 		return 0;
 

@@ -76,7 +76,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 
 	if (hContact && lParam) {
 		DBEVENTINFO dbei = { sizeof(dbei) };
-		db_event_get((HANDLE)lParam, &dbei);
+		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			DWORD firstTime = cfg::getDword(hContact, "CList", "mf_firstEvent", 0);
 			DWORD count = cfg::getDword(hContact, "CList", "mf_count", 0);

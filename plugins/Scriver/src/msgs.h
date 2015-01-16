@@ -119,7 +119,7 @@ struct SrmmWindowData : public CommonWindowData
 	MCONTACT hContact;
 	int tabId;
 	HWND hwndParent;
-	HANDLE hDbEventFirst, hDbEventLast, hDbUnreadEventFirst;
+	MEVENT hDbEventFirst, hDbEventLast, hDbUnreadEventFirst;
 	int splitterPos;
 	int desiredInputAreaHeight;
 	SIZE toolbarSize;
@@ -225,7 +225,7 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 int DbEventIsShown(DBEVENTINFO &dbei);
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei);
 int DbEventIsMessageOrCustom(DBEVENTINFO *dbei);
-void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend);
+void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend);
 void LoadMsgLogIcons(void);
 void FreeMsgLogIcons(void);
 TCHAR *GetNickname(MCONTACT hContact, const char *szProto);

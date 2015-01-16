@@ -40,7 +40,7 @@ struct SrmmWindowData : public MZeroedObject
 		{}
 
 	MCONTACT hContact;
-	HANDLE hDbEventFirst, hDbEventLast;
+	MEVENT hDbEventFirst, hDbEventLast;
 	HBRUSH hBkgBrush;
 	int splitterPos, originalSplitterPos;
 	SIZE minEditBoxSize;
@@ -105,26 +105,26 @@ struct CREOleCallback : public IRichEditOleCallback
 	int nextStgId;
 
 	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR * lplpObj);
-	STDMETHOD_(ULONG,AddRef) (THIS);
-	STDMETHOD_(ULONG,Release) (THIS);
+	STDMETHOD_(ULONG,AddRef)(THIS);
+	STDMETHOD_(ULONG,Release)(THIS);
 
 	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode);
-	STDMETHOD(GetNewStorage) (LPSTORAGE FAR * lplpstg);
-	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME FAR * lplpFrame, LPOLEINPLACEUIWINDOW FAR * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo);
-	STDMETHOD(ShowContainerUI) (BOOL fShow);
-	STDMETHOD(QueryInsertObject) (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp);
-	STDMETHOD(DeleteObject) (LPOLEOBJECT lpoleobj);
-	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
-	STDMETHOD(GetClipboardData) (CHARRANGE FAR * lpchrg, DWORD reco, LPDATAOBJECT FAR * lplpdataobj);
-	STDMETHOD(GetDragDropEffect) (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect);
-	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ;
+	STDMETHOD(GetNewStorage)(LPSTORAGE FAR * lplpstg);
+	STDMETHOD(GetInPlaceContext)(LPOLEINPLACEFRAME FAR * lplpFrame, LPOLEINPLACEUIWINDOW FAR * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo);
+	STDMETHOD(ShowContainerUI)(BOOL fShow);
+	STDMETHOD(QueryInsertObject)(LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp);
+	STDMETHOD(DeleteObject)(LPOLEOBJECT lpoleobj);
+	STDMETHOD(QueryAcceptData)(LPDATAOBJECT lpdataobj, CLIPFORMAT FAR * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict);
+	STDMETHOD(GetClipboardData)(CHARRANGE FAR *lpchrg, DWORD reco, LPDATAOBJECT FAR * lplpdataobj);
+	STDMETHOD(GetDragDropEffect)(BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect);
+	STDMETHOD(GetContextMenu)(WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ;
 };
 
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 int  DbEventIsForMsgWindow(DBEVENTINFO *dbei);
-int  DbEventIsShown(DBEVENTINFO * dbei);
-void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend);
+int  DbEventIsShown(DBEVENTINFO *dbei);
+void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend);
 int  SendMessageDirect(const TCHAR *szMsg, MCONTACT hContact, char *szProto);
 
 void LoadMsgLogIcons(void);

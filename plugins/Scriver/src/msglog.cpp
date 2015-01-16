@@ -75,7 +75,7 @@ struct LogStreamData
 {
 	int      stage;
 	MCONTACT hContact;
-	HANDLE   hDbEvent, hDbEventLast;
+	MEVENT   hDbEvent, hDbEventLast;
 	char    *buffer;
 	size_t   bufferOffset, bufferLen;
 	int      eventsToInsert;
@@ -151,7 +151,7 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 	return DbEventIsCustomForMsgWindow(&dbei);
 }
 
-EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent)
+EventData* getEventFromDB(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -814,7 +814,7 @@ void StreamInTestEvents(HWND hEditWnd, GlobalMessageData *gdat)
 	SendMessage(hEditWnd, EM_HIDESELECTION, FALSE, 0);
 }
 
-void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
+void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 {
 	FINDTEXTEXA fi;
 	EDITSTREAM stream = { 0 };

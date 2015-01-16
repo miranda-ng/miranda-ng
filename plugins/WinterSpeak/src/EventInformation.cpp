@@ -23,7 +23,7 @@ EventInformation::~EventInformation()
 }
 
 //------------------------------------------------------------------------------
-bool EventInformation::isValidEvent(HANDLE event)
+bool EventInformation::isValidEvent(MEVENT event)
 {
 	// clean up the old event
 	if (m_event_info.pBlob)

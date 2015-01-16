@@ -70,7 +70,7 @@ void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
 
 BOOL  TSAPI IsUtfSendAvailable(MCONTACT hContact);
 HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend,
-                                     const char *pszInitialText, BOOL bActivateTAb, BOOL bPopupContainer, BOOL bWantPopup, HANDLE hdbEvent);
+                                     const char *pszInitialText, BOOL bActivateTAb, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
 void  TSAPI CreateImageList(BOOL bInitial);
@@ -123,8 +123,8 @@ int DbEventIsForMsgWindow(DBEVENTINFO *dbei);
 
 int   TSAPI InitOptions(void);
 int   TSAPI DbEventIsShown(DBEVENTINFO *dbei);
-void  TSAPI StreamInEvents(HWND hwndDlg,HANDLE hDbEventFirst,int count,int fAppend, DBEVENTINFO *dbei_s);
-void  TSAPI LoadLogfont(int i,LOGFONTA *lf,COLORREF *colour, char *szModule);
+void  TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend, DBEVENTINFO *dbei_s);
+void  TSAPI LoadLogfont(int i, LOGFONTA *lf, COLORREF *colour, char *szModule);
 
 // custom tab control
 

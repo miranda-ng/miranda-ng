@@ -219,10 +219,10 @@ struct TlenProtocol : public PROTO<TlenProtocol>
 	//====================================================================================
 
 	virtual	MCONTACT __cdecl AddToList( int flags, PROTOSEARCHRESULT* psr );
-	virtual	MCONTACT __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent );
+	virtual	MCONTACT __cdecl AddToListByEvent( int flags, int iContact, MEVENT hDbEvent );
 
-	virtual	int	     __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason);
+	virtual	int	     __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason);
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage);
 

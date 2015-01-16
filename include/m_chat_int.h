@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CHAT_MODULE "Chat"
 #define CHATFONT_MODULE "ChatFonts"
 
-#define GC_FAKE_EVENT HANDLE(0xBABABEDA)
+#define GC_FAKE_EVENT MEVENT(0xBABABEDA)
 
 #define GC_UPDATETITLE         (WM_USER+100)
 #define GC_SPLITTERMOVED       (WM_USER+101)
@@ -369,7 +369,7 @@ struct CHAT_MANAGER
 	MCONTACT      (*AddRoom)(const char *pszModule, const TCHAR *pszRoom, const TCHAR *pszDisplayName, int iType);
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
-	BOOL          (*AddEvent)(MCONTACT hContact, HICON hIcon, HANDLE hEvent, int type, TCHAR* fmt, ...);
+	BOOL          (*AddEvent)(MCONTACT hContact, HICON hIcon, MEVENT hEvent, int type, TCHAR* fmt, ...);
 	MCONTACT      (*FindRoom)(const char *pszModule, const TCHAR *pszRoom);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);

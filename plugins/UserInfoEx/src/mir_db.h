@@ -110,10 +110,10 @@ namespace Variant {
 
 namespace Event   {
 	HANDLE FindLast(MCONTACT hContact);
-	bool   GetInfo(HANDLE hEvent, DBEVENTINFO *dbei);
-	bool   GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei);
-	DWORD  GetTime(HANDLE hEvent);
-	bool   Exists(MCONTACT hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei);
+	bool   GetInfo(MEVENT hEvent, DBEVENTINFO *dbei);
+	bool   GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei);
+	DWORD  GetTime(MEVENT hEvent);
+	bool   Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei);
 } /* namespace Events */
 
 /**

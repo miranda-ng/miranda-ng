@@ -14,7 +14,7 @@ tstring &GetDlgItemString(HWND hwnd, int id)
 
 bool IsExistMyMessage(MCONTACT hContact)
 {
-	HANDLE hDbEvent = db_event_first(hContact);
+	MEVENT hDbEvent = db_event_first(hContact);
 	while(hDbEvent){
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		if (db_event_get(hDbEvent, &dbei))

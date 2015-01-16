@@ -64,7 +64,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 	else {
 		CLISTEVENT cle = { sizeof(cle) };
 		cle.hContact = hContact;
-		cle.hDbEvent = (HANDLE)"dccchat";
+		cle.hDbEvent = -100;
 		cle.flags = CLEF_TCHAR;
 		cle.hIcon = LoadIconEx(IDI_DCC);
 		mir_snprintf(szService, SIZEOF(szService), "%s/DblClickEvent", m_szModuleName);
@@ -74,7 +74,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		cle.lParam = (LPARAM)pdci;
 
 		if (CallService(MS_CLIST_GETEVENT, hContact, 0))
-			CallService(MS_CLIST_REMOVEEVENT, hContact, (LPARAM)"dccchat");
+			CallService(MS_CLIST_REMOVEEVENT, hContact, -100);
 		CallService(MS_CLIST_ADDEVENT, hContact, (LPARAM)&cle);
 	}
 	return TRUE;

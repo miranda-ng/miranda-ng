@@ -211,17 +211,17 @@ public:
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
 
 	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);
-	STDMETHODIMP_(BOOL)     DeleteEvent(MCONTACT contactID, HANDLE hDbEvent);
-	STDMETHODIMP_(LONG)     GetBlobSize(HANDLE hDbEvent);
-	STDMETHODIMP_(BOOL)     GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbe);
-	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, HANDLE hDbEvent);
-	STDMETHODIMP_(MCONTACT) GetEventContact(HANDLE hDbEvent);
-	STDMETHODIMP_(HANDLE)   FindFirstEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE)   FindFirstUnreadEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE)   FindLastEvent(MCONTACT contactID);
-	STDMETHODIMP_(HANDLE)   FindNextEvent(MCONTACT contactID, HANDLE hDbEvent);
-	STDMETHODIMP_(HANDLE)   FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent);
+	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);
+	STDMETHODIMP_(BOOL)     DeleteEvent(MCONTACT contactID, MEVENT hDbEvent);
+	STDMETHODIMP_(LONG)     GetBlobSize(MEVENT hDbEvent);
+	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe);
+	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent);
+	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT hDbEvent);
+	STDMETHODIMP_(MEVENT)   FindFirstEvent(MCONTACT contactID);
+	STDMETHODIMP_(MEVENT)   FindFirstUnreadEvent(MCONTACT contactID);
+	STDMETHODIMP_(MEVENT)   FindLastEvent(MCONTACT contactID);
+	STDMETHODIMP_(MEVENT)   FindNextEvent(MCONTACT contactID, MEVENT hDbEvent);
+	STDMETHODIMP_(MEVENT)   FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent);
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam);
 

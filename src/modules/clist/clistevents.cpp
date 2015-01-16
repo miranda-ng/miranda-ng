@@ -185,7 +185,7 @@ CListEvent* fnAddEvent(CLISTEVENT *cle)
 
 // Removes an event from the contact list's queue
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
-int fnRemoveEvent(MCONTACT hContact, HANDLE dbEvent)
+int fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent)
 {
 	// Find the event that should be removed
 	int i;
@@ -255,7 +255,7 @@ int fnEventsProcessContactDoubleClick(MCONTACT hContact)
 {
 	for (int i = 0; i < cli.events.count; i++) {
 		if (cli.events.items[i]->cle.hContact == hContact) {
-			HANDLE hDbEvent = cli.events.items[i]->cle.hDbEvent;
+			MEVENT hDbEvent = cli.events.items[i]->cle.hDbEvent;
 			CallService(cli.events.items[i]->cle.pszService, (WPARAM)(HWND)NULL, (LPARAM)& cli.events.items[i]->cle);
 			cli.pfnRemoveEvent(hContact, hDbEvent);
 			return 0;
@@ -330,7 +330,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 	lck.unlock();
 
 	MCONTACT hContact = cli.events.items[eventIndex]->cle.hContact;
-	HANDLE hDbEvent = cli.events.items[eventIndex]->cle.hDbEvent;
+	MEVENT hDbEvent = cli.events.items[eventIndex]->cle.hDbEvent;
 	//	; may be better to show send msg?
 	CallService(cli.events.items[eventIndex]->cle.pszService, 0, (LPARAM)& cli.events.items[eventIndex]->cle);
 	cli.pfnRemoveEvent(hContact, hDbEvent);
@@ -378,7 +378,7 @@ static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 
 INT_PTR AddEventSyncStub(WPARAM wParam, LPARAM lParam) { return CallServiceSync(MS_CLIST_ADDEVENT"_SYNC", wParam, lParam); }
 INT_PTR AddEventStub(WPARAM, LPARAM lParam) { return cli.pfnAddEvent((CLISTEVENT*)lParam) == NULL; }
-INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent(wParam, (HANDLE)lParam); }
+INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent(wParam, lParam); }
 INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent(wParam, (int)lParam); }
 
 int InitCListEvents(void)

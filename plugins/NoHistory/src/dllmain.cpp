@@ -21,7 +21,7 @@ CRITICAL_SECTION list_cs;
 // a list of db events - we'll check them for the 'read' flag periodically and delete them whwen marked as read
 struct EventListNode {
 	MCONTACT hContact;
-	HANDLE hDBEvent;
+	MEVENT hDBEvent;
 	EventListNode *next;
 };
 
@@ -99,9 +99,9 @@ void RemoveReadEvents(MCONTACT hContact = 0)
 
 void RemoveAllEvents(MCONTACT hContact)
 {
-	HANDLE hDBEvent = db_event_first(hContact);
+	MEVENT hDBEvent = db_event_first(hContact);
 	while(hDBEvent) {
-		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
+		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
 		db_event_delete(hContact, hDBEvent);
 		hDBEvent = hDBEventNext;
 	}
@@ -112,16 +112,14 @@ void CALLBACK TimerProc(HWND hWnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	RemoveReadEvents();
 }
 
-int OnDatabaseEventAdd(WPARAM hContact, LPARAM lParam)
+int OnDatabaseEventAdd(WPARAM hContact, LPARAM hDBEvent)
 {
-	HANDLE hDBEvent = (HANDLE)lParam;
-	
 	// history not disabled for this contact
 	if (db_get_b(hContact, MODULE, DBSETTING_REMOVE, 0) == 0)
 		return 0;
 	
 	DBEVENTINFO info = { sizeof(info) };
-	if ( !db_event_get(hDBEvent, &info)) {
+	if (!db_event_get(hDBEvent, &info)) {
 		if (info.eventType == EVENTTYPE_MESSAGE) {
 			EventListNode *node = (EventListNode *)malloc(sizeof(EventListNode));
 			node->hContact = hContact;

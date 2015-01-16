@@ -223,6 +223,8 @@
     <ClCompile Include="src\ui.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\include\m_database.h" />
+    <ClInclude Include="..\..\include\m_db_int.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\dbintf.h" />
     <ClInclude Include="src\lmdb\lmdb.h" />

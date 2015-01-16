@@ -256,7 +256,7 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, const char *szModule, const
 /////////////////////////////////////////////////////////////////////////////////////////
 // events
 
-MIR_CORE_DLL(HANDLE) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei)
+MIR_CORE_DLL(MEVENT) db_event_add(MCONTACT hContact, DBEVENTINFO *dbei)
 {
 	return (currDb == NULL) ? 0 : currDb->AddEvent(hContact, dbei);
 }
@@ -266,52 +266,52 @@ MIR_CORE_DLL(int) db_event_count(MCONTACT hContact)
 	return (currDb == NULL) ? 0 : currDb->GetEventCount(hContact);
 }
 
-MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, HANDLE hDbEvent)
+MIR_CORE_DLL(int) db_event_delete(MCONTACT hContact, MEVENT hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->DeleteEvent(hContact, hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_first(MCONTACT hContact)
+MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact)
 {
 	return (currDb == NULL) ? 0 : currDb->FindFirstEvent(hContact);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_firstUnread(MCONTACT hContact)
+MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact)
 {
 	return (currDb == NULL) ? 0 : currDb->FindFirstUnreadEvent(hContact);
 }
 
-MIR_CORE_DLL(int) db_event_get(HANDLE hDbEvent, DBEVENTINFO *dbei)
+MIR_CORE_DLL(int) db_event_get(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	return (currDb == NULL) ? 1 : currDb->GetEvent(hDbEvent, dbei);
 }
 
-MIR_CORE_DLL(int) db_event_getBlobSize(HANDLE hDbEvent)
+MIR_CORE_DLL(int) db_event_getBlobSize(MEVENT hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->GetBlobSize(hDbEvent);
 }
 
-MIR_CORE_DLL(MCONTACT) db_event_getContact(HANDLE hDbEvent)
+MIR_CORE_DLL(MCONTACT) db_event_getContact(MEVENT hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->GetEventContact(hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_last(MCONTACT hContact)
+MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact)
 {
 	return (currDb == NULL) ? 0 : currDb->FindLastEvent(hContact);
 }
 
-MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, HANDLE hDbEvent)
+MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->MarkEventRead(hContact, hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_next(MCONTACT hContact, HANDLE hDbEvent)
+MIR_CORE_DLL(MEVENT) db_event_next(MCONTACT hContact, MEVENT hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->FindNextEvent(hContact, hDbEvent);
 }
 
-MIR_CORE_DLL(HANDLE) db_event_prev(MCONTACT hContact, HANDLE hDbEvent)
+MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent)
 {
 	return (currDb == NULL) ? 0 : currDb->FindPrevEvent(hContact, hDbEvent);
 }

@@ -100,7 +100,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 	newData.iActivate = bActivateTab;
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
-	newData.hdbEvent = (HANDLE)si;
+	newData.si = si;
 	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHANNEL), GetDlgItem(pContainer->hwnd, 1159), RoomWndProc, (LPARAM)&newData);
 	if (pContainer->dwFlags & CNT_SIDEBAR) {
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwndNew, GWLP_USERDATA);

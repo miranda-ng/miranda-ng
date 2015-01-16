@@ -39,7 +39,7 @@ struct LogStreamData
 {
 	int stage;
 	MCONTACT hContact;
-	HANDLE hDbEvent, hDbEventLast;
+	MEVENT hDbEvent, hDbEventLast;
 	char *buffer;
 	int bufferOffset, bufferLen;
 	int eventsToInsert;
@@ -228,7 +228,7 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 }
 
 //mir_free() the return value
-static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, HANDLE hDbEvent, struct LogStreamData *streamData)
+static char *CreateRTFFromDbEvent(SrmmWindowData *dat, MCONTACT hContact, MEVENT hDbEvent, struct LogStreamData *streamData)
 {
 	int showColon = 0;
 
@@ -444,7 +444,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
+void StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAppend)
 {
 	EDITSTREAM stream = { 0 };
 	struct LogStreamData streamData = { 0 };

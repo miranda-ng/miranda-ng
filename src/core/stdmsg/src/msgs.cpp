@@ -52,7 +52,7 @@ static int SRMMStatusToPf2(int status)
 static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get((HANDLE)lParam, &dbei);
+	db_event_get(lParam, &dbei);
 
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
@@ -89,7 +89,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.hContact = hContact;
-	cle.hDbEvent = (HANDLE)lParam;
+	cle.hDbEvent = lParam;
 	cle.flags = CLEF_TCHAR;
 	cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	cle.pszService = "SRMsg/ReadMessage";
@@ -179,7 +179,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		else {
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = hContact;
-			cle.hDbEvent = (HANDLE)1;
+			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
 			cle.pszService = "SRMsg/ReadMessage";
@@ -235,7 +235,7 @@ static void RestoreUnreadMessageAlerts(void)
 	DBEVENTINFO dbei = { sizeof(dbei) };
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			bool autoPopup = false;
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);

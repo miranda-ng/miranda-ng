@@ -49,7 +49,7 @@ struct FileDlgData
 	HWND hwndTransfer;
 	HANDLE fs;
 	MCONTACT hContact;
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 	HANDLE hNotifyEvent;
 	TCHAR **files;
 	int send;

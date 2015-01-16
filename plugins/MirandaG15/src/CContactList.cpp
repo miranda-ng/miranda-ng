@@ -905,9 +905,7 @@ void CContactList::UpdateMessageCounter(CListEntry<CContactListEntry*,CContactLi
 	int iOldMessages = pEntry->iMessages;
 
 	bool bSort = false;
-	HANDLE hEvent= NULL;
-
-	hEvent = db_event_firstUnread(pEntry->hHandle);
+	MEVENT hEvent = db_event_firstUnread(pEntry->hHandle);
 	if(CAppletManager::IsMessageWindowOpen(pEntry->hHandle) || (hEvent == NULL && pEntry->iMessages > 0))
 	{
 		pEntry->iMessages = 0;
@@ -916,7 +914,7 @@ void CContactList::UpdateMessageCounter(CListEntry<CContactListEntry*,CContactLi
 	else
 	{
 		pEntry->iMessages = 0;
-		HANDLE hLastEvent = db_event_last(pEntry->hHandle);
+		MEVENT hLastEvent = db_event_last(pEntry->hHandle);
 		while(hLastEvent != NULL && hEvent != NULL)
 		{
 			pEntry->iMessages++;

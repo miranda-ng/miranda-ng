@@ -333,7 +333,7 @@ struct NotifyMenuItemExData
 	MCONTACT hContact;
 	int iIcon;              // icon index in the image list
 	HICON hIcon;            // corresponding icon handle
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 };
 
 // #define NOTIFY_HEIGHT 24

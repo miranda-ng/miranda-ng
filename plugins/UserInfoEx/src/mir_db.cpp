@@ -80,7 +80,7 @@ BYTE Delete(MCONTACT hContact)
 DWORD	WhenAdded(DWORD dwUIN, LPCSTR pszProto)
 {
 	DBEVENTINFO	dbei = { sizeof(dbei) };
-	for (HANDLE edbe = db_event_first(NULL); edbe != NULL; edbe = db_event_next(NULL, edbe)) {
+	for (MEVENT edbe = db_event_first(NULL); edbe != NULL; edbe = db_event_next(NULL, edbe)) {
 		// get eventtype and compare
 		if (!DB::Event::GetInfo(edbe, &dbei) && dbei.eventType == EVENTTYPE_ADDED) {
 			if (!DB::Event::GetInfoWithData(edbe, &dbei)) {
@@ -553,7 +553,7 @@ namespace Event {
 * @retval	nonezero		- failure
 **/
 
-bool GetInfo(HANDLE hEvent, DBEVENTINFO *dbei)
+bool GetInfo(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	dbei->cbSize = sizeof(DBEVENTINFO);
 	dbei->cbBlob = 0;
@@ -571,7 +571,7 @@ bool GetInfo(HANDLE hEvent, DBEVENTINFO *dbei)
 * @retval	1				- failure
 **/
 
-bool GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
+bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	dbei->cbSize = sizeof(DBEVENTINFO);
 	if (!dbei->cbBlob) {
@@ -601,7 +601,7 @@ bool GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
 * @retval	timestamp
 **/
 
-DWORD	TimeOf(HANDLE hEvent)
+DWORD	TimeOf(MEVENT hEvent)
 {
 	DBEVENTINFO dbei;
 	if (!GetInfo(hEvent, &dbei))
@@ -648,7 +648,7 @@ static FORCEINLINE bool IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bo
 *
 **/
 
-bool Exists(MCONTACT hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
+bool Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei)
 {
 	bool result = false;
 	DBEVENTINFO	edbei;
@@ -670,7 +670,7 @@ bool Exists(MCONTACT hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 					}
 				}
 			}
-			HANDLE edbe = db_event_last(hContact);
+			MEVENT edbe = db_event_last(hContact);
 			if (edbe == hDbExistingEvent)
 				return FALSE;
 
@@ -678,8 +678,8 @@ bool Exists(MCONTACT hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 		}
 	}
 	if (hDbExistingEvent) {
-		HANDLE sdbe = hDbExistingEvent;
-		for (HANDLE edbe = sdbe; edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp <= edbei.timestamp); edbe = db_event_prev(hContact, edbe)) {
+		MEVENT sdbe = hDbExistingEvent;
+		for (MEVENT edbe = sdbe; edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp <= edbei.timestamp); edbe = db_event_prev(hContact, edbe)) {
 			hDbExistingEvent = edbe;
 			//compare without data (faster)
 			if ( result = IsEqual(dbei, &edbei, false)) {
@@ -695,7 +695,7 @@ bool Exists(MCONTACT hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 		} /*end for*/
 
 		if (!result) {
-			for (HANDLE edbe = db_event_next(hContact, sdbe); edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp >= edbei.timestamp); edbe = db_event_next(hContact, edbe)) {
+			for (MEVENT edbe = db_event_next(hContact, sdbe); edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp >= edbei.timestamp); edbe = db_event_next(hContact, edbe)) {
 				hDbExistingEvent = edbe;
 				//compare without data (faster)
 				if (result = IsEqual(dbei, &edbei, false)) {

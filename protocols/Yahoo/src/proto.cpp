@@ -137,7 +137,7 @@ MCONTACT CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 	return hContact;
 }
 
-MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDLE hDbEvent )
+MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, MEVENT hDbEvent )
 {
 	debugLogA("[YahooAddToListByEvent]");
 	if (!m_bLoggedIn)
@@ -178,7 +178,7 @@ MCONTACT __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HAN
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
-int CYahooProto::Authorize( HANDLE hdbe )
+int CYahooProto::Authorize(MEVENT hdbe)
 {
 	debugLogA("[YahooAuthAllow]");
 	if ( !m_bLoggedIn ) {
@@ -217,7 +217,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
+int CYahooProto::AuthDeny(MEVENT hdbe, const TCHAR *reason)
 {
 	debugLogA("[YahooAuthDeny]");
 	if ( !m_bLoggedIn )

@@ -157,7 +157,7 @@ exit:
 	return 0;
 }
 
-HANDLE CSteamProto::AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
+MEVENT CSteamProto::AddDBEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = m_szModuleName;

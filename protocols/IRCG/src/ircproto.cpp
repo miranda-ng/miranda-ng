@@ -338,7 +338,7 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AddToList - adds a contact to the contact list
 
-MCONTACT __cdecl CIrcProto::AddToListByEvent(int, int, HANDLE)
+MCONTACT __cdecl CIrcProto::AddToListByEvent(int, int, MEVENT)
 {
 	return NULL;
 }
@@ -346,7 +346,7 @@ MCONTACT __cdecl CIrcProto::AddToListByEvent(int, int, HANDLE)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
-int __cdecl CIrcProto::Authorize(HANDLE)
+int __cdecl CIrcProto::Authorize(MEVENT)
 {
 	return 0;
 }
@@ -354,7 +354,7 @@ int __cdecl CIrcProto::Authorize(HANDLE)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int __cdecl CIrcProto::AuthDeny(HANDLE, const TCHAR*)
+int __cdecl CIrcProto::AuthDeny(MEVENT, const TCHAR*)
 {
 	return 0;
 }

@@ -27,17 +27,17 @@ MCONTACT OmegleProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return NULL;
 };
 
-MCONTACT OmegleProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
+MCONTACT OmegleProto::AddToListByEvent(int flags,int iContact,MEVENT hDbEvent)
 {
 	return NULL;
 };
 
-int OmegleProto::Authorize(HANDLE hDbEvent)
+int OmegleProto::Authorize(MEVENT hDbEvent)
 {
 	return 1;
 }
 
-int OmegleProto::AuthDeny(HANDLE hDbEvent,const PROTOCHAR *reason)
+int OmegleProto::AuthDeny(MEVENT hDbEvent,const PROTOCHAR *reason)
 {
 	return 1;
 }

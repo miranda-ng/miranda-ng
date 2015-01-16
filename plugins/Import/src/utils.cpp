@@ -77,10 +77,10 @@ bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei)
 {
 	static DWORD dwPreviousTimeStamp = -1;
 	static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
-	static HANDLE hPreviousDbEvent = NULL;
+	static MEVENT hPreviousDbEvent = NULL;
 
 	// get last event
-	HANDLE hExistingDbEvent = db_event_last(hContact);
+	MEVENT hExistingDbEvent = db_event_last(hContact);
 	if (hExistingDbEvent == NULL)
 		return FALSE;
 

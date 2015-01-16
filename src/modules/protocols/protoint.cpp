@@ -51,17 +51,17 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLIST, flags, (LPARAM)psr);
 	}
 
-	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 	{
 		return (MCONTACT)ProtoCallService(m_szModuleName, PS_ADDTOLISTBYEVENT, MAKELONG(flags, iContact), (LPARAM)hDbEvent);
 	}
 
-	int __cdecl Authorize(HANDLE hDbEvent)
+	int __cdecl Authorize(MEVENT hDbEvent)
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 	}
 
-	int __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
+	int __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 	{
 		return (int)ProtoCallService(m_szModuleName, PS_AUTHDENY, (WPARAM)hDbEvent, (LPARAM)StrConvA(szReason));
 	}

@@ -1015,7 +1015,7 @@ retry:
 						cle.hContact = hContact;
 						cle.hIcon = LoadIconEx("image", FALSE);
 						cle.flags = CLEF_URGENT;
-						cle.hDbEvent = (HANDLE)"img";
+						cle.hDbEvent = -98;
 						cle.lParam = (LPARAM)img;
 						cle.pszService = service;
 						cle.pszTooltip = Translate("Incoming image");

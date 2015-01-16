@@ -83,17 +83,17 @@ type
     IsDbContact:function(contactID:TMCONTACT):bool; stdcall;
 
     GetEventCount:function(contactID:TMCONTACT):long; stdcall;
-    AddEvent:function(contactID:TMCONTACT; dbe:PDBEVENTINFO):THANDLE; stdcall;
-    DeleteEvent:function(contactID:TMCONTACT; hDbEvent:THANDLE):bool; stdcall;
-    GetBlobSize:function(hDbEvent:THANDLE):long; stdcall;
-    GetEvent:function(hDbEvent:THANDLE; dbe:PDBEVENTINFO):bool; stdcall;
-    MarkEventRead:function(contactID:TMCONTACT; hDbEvent:THANDLE):bool; stdcall;
-    GetEventContact:function(hDbEvent:THANDLE):TMCONTACT; stdcall;
-    FindFirstEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
-    FindFirstUnreadEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
-    FindLastEvent:function(contactID:TMCONTACT):THANDLE; stdcall;
-    FindNextEvent:function(contactID:TMCONTACT;hDbEvent:THANDLE):THANDLE; stdcall;
-    FindPrevEvent:function(contactID:TMCONTACT;hDbEvent:THANDLE):THANDLE; stdcall;
+    AddEvent:function(contactID:TMCONTACT; dbe:PDBEVENTINFO):HDBEVENT; stdcall;
+    DeleteEvent:function(contactID:TMCONTACT; hDbEvent:HDBEVENT):bool; stdcall;
+    GetBlobSize:function(hDbEvent:HDBEVENT):long; stdcall;
+    GetEvent:function(hDbEvent:HDBEVENT; dbe:PDBEVENTINFO):bool; stdcall;
+    MarkEventRead:function(contactID:TMCONTACT; hDbEvent:HDBEVENT):bool; stdcall;
+    GetEventContact:function(hDbEvent:HDBEVENT):TMCONTACT; stdcall;
+    FindFirstEvent:function(contactID:TMCONTACT):HDBEVENT; stdcall;
+    FindFirstUnreadEvent:function(contactID:TMCONTACT):HDBEVENT; stdcall;
+    FindLastEvent:function(contactID:TMCONTACT):HDBEVENT; stdcall;
+    FindNextEvent:function(contactID:TMCONTACT;hDbEvent:HDBEVENT):HDBEVENT; stdcall;
+    FindPrevEvent:function(contactID:TMCONTACT;hDbEvent:HDBEVENT):HDBEVENT; stdcall;
 
     EnumModuleNames:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
 

@@ -257,7 +257,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 	if (p == NULL)
 		return NULL;
 
-	if (p->cle.hContact != 0 && p->cle.hDbEvent != (HANDLE)1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
+	if (p->cle.hContact != 0 && p->cle.hDbEvent != 1 && !(p->cle.flags & CLEF_ONLYAFEW)) {
 		MENUITEMINFO mii = { sizeof(mii) };
 		mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 		if (p->cle.pszService && !strncmp("SRMsg/ReadMessage", p->cle.pszService, 17)) {
@@ -329,7 +329,7 @@ CListEvent* AddEvent(CLISTEVENT *cle)
 // wParam=(MCONTACT)hContact
 // lParam=(LPARAM)(HANDLE)hDbEvent
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
-int RemoveEvent(MCONTACT hContact, HANDLE hDbEvent)
+int RemoveEvent(MCONTACT hContact, MEVENT hDbEvent)
 {
 	// Find the event that should be removed
 	int i;

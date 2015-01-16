@@ -458,7 +458,7 @@ type
     pfnAddEvent : function (_para1:PCLISTEVENT):PCListEvent; cdecl;
     pfnGetEvent : function (hContact:TMCONTACT; idx:int):PCLISTEVENT; cdecl;
 
-    pfnRemoveEvent     : function (hContact:TMCONTACT; hDbEvent:THANDLE):int; cdecl;
+    pfnRemoveEvent     : function (hContact:TMCONTACT; hDbEvent:HDBEVENT):int; cdecl;
     pfnGetImlIconIndex : function (hIcon:HICON):int; cdecl;
 
   (*************************************************************************************

@@ -198,7 +198,7 @@ void EventList::GetTempList(std::list<EventTempIndex>& tempList, bool noFilter, 
 	EventIndex ei;
 	ti.isExternal = false;
 	ei.isExternal = false;
-	HANDLE hDbEvent = db_event_first(_hContact);
+	MEVENT hDbEvent = db_event_first(_hContact);
 	while (hDbEvent != NULL) {
 		if (isWndLocal && !IsWindow(hWnd))
 			break;

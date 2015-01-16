@@ -89,10 +89,8 @@ static TCHAR* GetMessageText(BYTE **ppBlob,DWORD *pcbBlob)
 	return (WCHAR*)buf;
 }
 
-static int MsgEventAdded(WPARAM wParam,LPARAM lParam)
+static int MsgEventAdded(WPARAM wParam,LPARAM hDbEvent)
 {
-	HANDLE hDbEvent = (HANDLE)lParam;
-
 	if (currentWatcherType & SDWTF_MESSAGE) {
 		DBEVENTINFO dbe = { sizeof(dbe) };
 		dbe.cbBlob = db_event_getBlobSize(hDbEvent);

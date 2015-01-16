@@ -677,7 +677,7 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 		delete param;
 }
 
-int CVkProto::Authorize(HANDLE hDbEvent)
+int CVkProto::Authorize(MEVENT hDbEvent)
 {
 	debugLogA("CVkProto::Authorize");
 	if (!IsOnline())
@@ -689,7 +689,7 @@ int CVkProto::Authorize(HANDLE hDbEvent)
 	return AuthRequest(hContact, NULL);
 }
 
-int CVkProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR*)
+int CVkProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR*)
 {
 	debugLogA("CVkProto::AuthDeny");
 	if (!IsOnline())
@@ -721,7 +721,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 	return 1;
 }
 
-MCONTACT CVkProto::AddToListByEvent(int, int, HANDLE)
+MCONTACT CVkProto::AddToListByEvent(int, int, MEVENT)
 {
 	return NULL;
 }

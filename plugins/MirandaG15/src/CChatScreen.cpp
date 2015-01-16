@@ -303,9 +303,9 @@ void CChatScreen::LoadHistory()
 	{
 		// Get last events from database
 		CEvent Event;
-		list<HANDLE> LHandles;
-		HANDLE hEvent = db_event_last(m_hContact);
-		HANDLE hUnread = db_event_firstUnread(m_hContact);
+		list<MEVENT> LHandles;
+		MEVENT hEvent = db_event_last(m_hContact);
+		MEVENT hUnread = db_event_firstUnread(m_hContact);
 		
 		if(CConfig::GetBoolSetting(SESSION_LOADDB))
 		{

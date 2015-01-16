@@ -506,7 +506,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	mir_free(szNick);
 }
 
-MCONTACT CVkProto::MContactFromDbEvent(HANDLE hDbEvent)
+MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 {
 	debugLogA("CVkProto::MContactFromDbEvent");
 	if (!hDbEvent || !IsOnline())

@@ -56,10 +56,10 @@ type
 	// Virtual functions
 
     AddToList       :function(intf:PPROTO_INTERFACE;flags:int; var psr:TPROTOSEARCHRESULT):TMCONTACT; cdecl;
-    AddToListByEvent:function(intf:PPROTO_INTERFACE;flags:int; iContact:int; hDbEvent:THANDLE):TMCONTACT; cdecl;
+    AddToListByEvent:function(intf:PPROTO_INTERFACE;flags:int; iContact:int; hDbEvent:HDBEVENT):TMCONTACT; cdecl;
 
-    Authorize  :function(intf:PPROTO_INTERFACE;hDbEvent:THANDLE):int; cdecl;
-    AuthDeny   :function(intf:PPROTO_INTERFACE;hDbEvent:THANDLE;const szReason:TChar):int; cdecl;
+    Authorize  :function(intf:PPROTO_INTERFACE;hDbEvent:HDBEVENT):int; cdecl;
+    AuthDeny   :function(intf:PPROTO_INTERFACE;hDbEvent:HDBEVENT;const szReason:TChar):int; cdecl;
     AuthRecv   :function(intf:PPROTO_INTERFACE;hContact:TMCONTACT;var ptr:TPROTORECVEVENT):int; cdecl;
     AuthRequest:function(intf:PPROTO_INTERFACE;hContact:TMCONTACT;szMessage:TChar):int; cdecl;
 

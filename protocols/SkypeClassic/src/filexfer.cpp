@@ -114,7 +114,7 @@ INT_PTR SkypeSendFile(WPARAM, LPARAM lParam)
 
 					if (pTok) {
 						ret = strtoul(pTok, NULL, 10);
-						TYP_MSGLENTRY *pEntry = MsgList_Add(ret, INVALID_HANDLE_VALUE);
+						TYP_MSGLENTRY *pEntry = MsgList_Add(ret, -1);
 						if (pEntry) {
 							DWORD cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 							/* Allocate basic entry and fill some stuff we already know */

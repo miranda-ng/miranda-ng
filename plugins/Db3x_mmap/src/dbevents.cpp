@@ -32,7 +32,7 @@ STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(MCONTACT contactID)
 	return (dbc->signature != DBCONTACT_SIGNATURE) ? -1 : dbc->eventCount;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
+STDMETHODIMP_(MEVENT) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 0;
 	if (dbei->timestamp == 0) return 0;
@@ -160,10 +160,10 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	if (neednotify)
 		NotifyEventHooks(hEventAddedEvent, contactNotifyID, (LPARAM)ofsNew);
 
-	return (HANDLE)ofsNew;
+	return (MEVENT)ofsNew;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID) {
@@ -258,14 +258,14 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, HANDLE hDbEvent)
 	return 0;
 }
 
-STDMETHODIMP_(LONG) CDb3Mmap::GetBlobSize(HANDLE hDbEvent)
+STDMETHODIMP_(LONG) CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, 0);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? -1 : dbe->cbBlob;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
+STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
@@ -307,7 +307,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::GetEvent(HANDLE hDbEvent, DBEVENTINFO *dbei)
 	return 0;
 }
 
-STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc;
 	if (contactID) {
@@ -357,14 +357,14 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, HANDLE hDbEvent)
 	return ret;
 }
 
-STDMETHODIMP_(MCONTACT) CDb3Mmap::GetEventContact(HANDLE hDbEvent)
+STDMETHODIMP_(MCONTACT) CDb3Mmap::GetEventContact(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, INVALID_CONTACT_ID);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? INVALID_CONTACT_ID : dbe->contactID;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	DWORD ofsContact = GetContactOffset(contactID, &cc);
@@ -374,7 +374,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
-		return HANDLE(dbc->ofsFirstEvent);
+		return MEVENT(dbc->ofsFirstEvent);
 
 	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
 		return NULL;
@@ -387,13 +387,13 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return NULL;
 		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
+			return MEVENT(dwOffset);
 		dwOffset = dbe->ofsNext;
 	}
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	DWORD ofsContact = GetContactOffset(contactID, &cc);
@@ -403,7 +403,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
-		return HANDLE(dbc->ofsFirstUnread);
+		return MEVENT(dbc->ofsFirstUnread);
 
 	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
 		return NULL;
@@ -416,13 +416,13 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return NULL;
 		if (dbe->contactID == contactID && !dbe->markedRead())
-			return HANDLE(dwOffset);
+			return MEVENT(dwOffset);
 		dwOffset = dbe->ofsNext;
 	}
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(MCONTACT contactID)
+STDMETHODIMP_(MEVENT) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
 	DWORD ofsContact = GetContactOffset(contactID, &cc);
@@ -432,7 +432,7 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
-		return HANDLE(dbc->ofsLastEvent);
+		return MEVENT(dbc->ofsLastEvent);
 
 	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
 		return NULL;
@@ -445,13 +445,13 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return NULL;
 		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
+			return MEVENT(dwOffset);
 		dwOffset = dbe->ofsPrev;
 	}
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextEvent(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(MEVENT) CDb3Mmap::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
@@ -460,20 +460,20 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindNextEvent(MCONTACT contactID, HANDLE hDbEven
 	if (dbe->signature != DBEVENT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
-		return HANDLE(dbe->ofsNext);
+		return MEVENT(dbe->ofsNext);
 
 	for (DWORD dwOffset = dbe->ofsNext; dwOffset != 0;) {
 		dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return NULL;
 		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
+			return MEVENT(dwOffset);
 		dwOffset = dbe->ofsNext;
 	}
 	return NULL;
 }
 
-STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(MCONTACT contactID, HANDLE hDbEvent)
+STDMETHODIMP_(MEVENT) CDb3Mmap::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : NULL;
 
@@ -482,14 +482,14 @@ STDMETHODIMP_(HANDLE) CDb3Mmap::FindPrevEvent(MCONTACT contactID, HANDLE hDbEven
 	if (dbe->signature != DBEVENT_SIGNATURE)
 		return NULL;
 	if (!cc || !cc->IsSub())
-		return HANDLE(dbe->ofsPrev);
+		return MEVENT(dbe->ofsPrev);
 
 	for (DWORD dwOffset = dbe->ofsPrev; dwOffset != 0;) {
 		dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return NULL;
 		if (dbe->contactID == contactID)
-			return HANDLE(dwOffset);
+			return MEVENT(dwOffset);
 		dwOffset = dbe->ofsPrev;
 	}
 	return NULL;

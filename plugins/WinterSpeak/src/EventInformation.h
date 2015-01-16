@@ -13,7 +13,7 @@ class EventInformation
 	// Description : is the event valid?
 	// Return      : true = the event is valid
 	//--------------------------------------------------------------------------
-	bool isValidEvent(HANDLE event);
+	bool isValidEvent(MEVENT event);
 
 	//--------------------------------------------------------------------------
 	// Description : get the last event received
@@ -49,5 +49,5 @@ class EventInformation
   private:
 	std::map<unsigned short, std::wstring> m_event_strings;
 
-	DBEVENTINFO                           m_event_info;
+	DBEVENTINFO m_event_info;
 };

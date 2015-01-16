@@ -55,10 +55,10 @@ struct CIcqProto : public PROTO<CIcqProto>
 	//====================================================================================
 
 	virtual	MCONTACT  __cdecl AddToList( int flags, PROTOSEARCHRESULT *psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, HANDLE hDbEvent);
+	virtual	MCONTACT  __cdecl AddToListByEvent( int flags, int iContact, MEVENT hDbEvent);
 
-	virtual	int       __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int       __cdecl AuthDeny(HANDLE hDbEvent, const TCHAR *szReason);
+	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const TCHAR *szReason);
 	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const TCHAR *szMessage);
 
@@ -412,7 +412,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	const char* detectUserClient(MCONTACT hContact, int nIsICQ, WORD wUserClass, DWORD dwOnlineSince, const char *szCurrentClient, WORD wVersion, DWORD dwFT1, DWORD dwFT2, DWORD dwFT3, DWORD dwDirectCookie, DWORD dwWebPort, BYTE *caps, size_t wLen, BYTE *bClientId, char *szClientBuf);
 
 	//----| icq_db.cpp |------------------------------------------------------------------
-	HANDLE AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, size_t cbBlob, PBYTE pBlob);
+	MEVENT AddEvent(MCONTACT hContact, WORD wType, DWORD dwTime, DWORD flags, size_t cbBlob, PBYTE pBlob);
 	int    IsICQContact(MCONTACT hContact);
 
 	int    getSetting(MCONTACT hContact, const char *szSetting, DBVARIANT *dbv);
@@ -888,7 +888,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	MCONTACT HandleFromCacheByUid(DWORD dwUin, const char *szUid);
 	MCONTACT HContactFromUIN(DWORD dwUin, int *Added);
 	MCONTACT HContactFromUID(DWORD dwUin, const char *szUid, int *Added);
-	MCONTACT HContactFromAuthEvent(HANDLE hEvent);
+	MCONTACT HContactFromAuthEvent(MEVENT hEvent);
 
 	void   ResetSettingsOnListReload();
 	void   ResetSettingsOnConnect();

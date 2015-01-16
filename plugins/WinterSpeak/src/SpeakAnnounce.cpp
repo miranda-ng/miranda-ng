@@ -66,7 +66,7 @@ void SpeakAnnounce::statusChange(DBCONTACTWRITESETTING *write_setting, MCONTACT 
 }
 
 //------------------------------------------------------------------------------
-void SpeakAnnounce::incomingEvent(MCONTACT user, HANDLE event)
+void SpeakAnnounce::incomingEvent(MCONTACT user, MEVENT event)
 {
 	if (!m_event_info.isValidEvent(event))
 		return;

@@ -148,7 +148,7 @@ static void FillHistoryThread(void* param)
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	int oldBlobSize = 0;
-	HANDLE hDbEvent = db_event_last(hInfo->hContact);
+	MEVENT hDbEvent = db_event_last(hInfo->hContact);
 
 	while (hDbEvent != NULL) {
 		if (!IsWindow(hInfo->hwnd))
@@ -259,14 +259,14 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 
 		case IDC_DELETEHISTORY:
-			HANDLE hDbevent;
+			MEVENT hDbevent;
 			{
 				int index = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETCURSEL, 0, 0);
 				if (index == LB_ERR)
 					break;
 
 				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to delete this history item?"), TranslateT("Delete history"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-					hDbevent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
+					hDbevent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
 					db_event_delete(hContact, hDbevent);
 					SendMessage(hwndDlg, DM_HREBUILD, 0, 0);
 				}
@@ -279,7 +279,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (sel == LB_ERR) { EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), FALSE); break; }
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), TRUE);
 				TCHAR *contactName = pcli->pfnGetContactDisplayName(hContact, 0);
-				HANDLE hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
+				MEVENT hDbEvent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
 
 				DBEVENTINFO dbei = { sizeof(dbei) };
 				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
@@ -305,11 +305,11 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		int oldBlobSize = 0;
-		HANDLE hDbEventStart = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
+		MEVENT hDbEventStart = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, index, 0);
 
 		for (;;) {
-			HANDLE hDbEvent = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, ++index, 0);
-			if (hDbEvent == (HANDLE)LB_ERR) {
+			MEVENT hDbEvent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, ++index, 0);
+			if (hDbEvent == LB_ERR) {
 				index = -1;
 				continue;
 			}

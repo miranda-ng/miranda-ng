@@ -248,7 +248,7 @@ MCONTACT __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		flags);
 }
 
-MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, HANDLE hDbEvent)
+MCONTACT __cdecl CMsnProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
@@ -303,7 +303,7 @@ int __cdecl CMsnProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnAuthAllow - called after successful authorization
 
-int CMsnProto::Authorize(HANDLE hDbEvent)
+int CMsnProto::Authorize(MEVENT hDbEvent)
 {
 	if (!msnLoggedIn)
 		return 1;
@@ -341,7 +341,7 @@ int CMsnProto::Authorize(HANDLE hDbEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnAuthDeny - called after unsuccessful authorization
 
-int CMsnProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
+int CMsnProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 {
 	if (!msnLoggedIn)
 		return 1;

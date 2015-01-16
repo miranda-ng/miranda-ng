@@ -89,7 +89,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	HANDLE hDbEvent = (HANDLE)lParam;
+	MEVENT hDbEvent = (MEVENT)lParam;
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
 	if (dbei.eventType == EVENTTYPE_MESSAGE && (dbei.flags & DBEF_READ))
@@ -221,7 +221,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 		else {
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = hContact;
-			cle.hDbEvent = (HANDLE)1;
+			cle.hDbEvent = 1;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			cle.hIcon = GetCachedIcon("scriver_TYPING");
 			cle.pszService = "SRMsg/TypingMessage";
@@ -263,7 +263,7 @@ static void RestoreUnreadMessageAlerts(void)
 	cle.ptszTooltip = toolTip;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		for (HANDLE hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
+		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
 			dbei.cbBlob = 0;
 			db_event_get(hDbEvent, &dbei);
 			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && DbEventIsMessageOrCustom(&dbei)) {

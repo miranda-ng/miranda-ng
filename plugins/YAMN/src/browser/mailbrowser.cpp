@@ -660,8 +660,8 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 			cEvent.cbSize = sizeof(CLISTEVENT);
 			cEvent.hContact = ActualAccount->hContact;
 			cEvent.hIcon = g_LoadIconEx(2);
-			cEvent.hDbEvent = (HANDLE)ActualAccount->hContact;
-			cEvent.lParam = (LPARAM) ActualAccount->hContact;
+			cEvent.hDbEvent = ActualAccount->hContact;
+			cEvent.lParam = ActualAccount->hContact;
 			cEvent.pszService = MS_YAMN_CLISTDBLCLICK;
 			cEvent.pszTooltip = sMsg;
 			cEvent.flags = 0;

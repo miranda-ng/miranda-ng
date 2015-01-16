@@ -33,14 +33,14 @@ struct HistoryWindowData{
 	int itemsPerPage;
 	int bEnableRTL;
 	HWND hIEView;
-	HANDLE hLastFirstEvent;
+	MEVENT hLastFirstEvent;
 };
 
 struct SearchWindowData{
 	long index;
 	MCONTACT contact;
 	HWND hHistoryWindow;
-	HANDLE hLastFoundEvent;
+	MEVENT hLastFoundEvent;
 };
 
 INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

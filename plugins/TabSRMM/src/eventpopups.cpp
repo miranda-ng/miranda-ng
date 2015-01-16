@@ -556,7 +556,7 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 	}
 }
 
-static int PopupUpdateT(MCONTACT hContact, HANDLE hEvent)
+static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 {
 	PLUGIN_DATAT *pdata = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact));
 	if (!pdata)
@@ -627,7 +627,7 @@ static int PopupUpdateT(MCONTACT hContact, HANDLE hEvent)
 	return 0;
 }
 
-static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, HANDLE hEvent, UINT eventType, HWND hContainer)
+static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEvent, UINT eventType, HWND hContainer)
 {
 	//there has to be a maximum number of popups shown at the same time
 	if (arPopupList.getCount() >= MAX_POPUPS)
@@ -820,7 +820,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 	return 0;
 }
 
-int tabSRMM_ShowPopup(MCONTACT hContact, HANDLE hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto)
+int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;

@@ -43,7 +43,7 @@ void   TSAPI UpdateReadChars(const TWindowData *dat);
 void   TSAPI ShowPicture(TWindowData *dat, BOOL showNewPic);
 void   TSAPI AdjustBottomAvatarDisplay(TWindowData *dat);
 void   TSAPI SetDialogToType(HWND hwndDlg);
-void   TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, HANDLE hEvent, DBEVENTINFO *dbei);
+void   TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTINFO *dbei);
 char*  TSAPI Message_GetFromStream(HWND hwndDlg, const TWindowData *dat, DWORD dwPassedFlags);
 BOOL   TSAPI DoRtfToTags(TCHAR * pszText, const TWindowData *dat);
 void   TSAPI GetMYUIN(TWindowData *dat);

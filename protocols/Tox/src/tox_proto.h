@@ -66,10 +66,10 @@ public:
 	// Virtual functions
 
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, HANDLE hDbEvent);
+	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent);
 
-	virtual	int      __cdecl Authorize(HANDLE hDbEvent);
-	virtual	int      __cdecl AuthDeny(HANDLE hDbEvent, const PROTOCHAR* szReason);
+	virtual	int      __cdecl Authorize(MEVENT hDbEvent);
+	virtual	int      __cdecl AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason);
 	virtual	int      __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int      __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage);
 
@@ -175,7 +175,7 @@ private:
 	MCONTACT FindContact(const int friendNumber);
 	MCONTACT AddContact(const std::string &id, const std::tstring &dnsId, bool isTemporary = false);
 
-	MCONTACT GetContactFromAuthEvent(HANDLE hEvent);
+	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
 	void LoadFriendList();
 
@@ -231,7 +231,7 @@ private:
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
-	HANDLE AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
+	MEVENT AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	
 	std::vector<uint8_t> HexStringToData(std::string hex);
 	std::string DataToHexString(std::vector<uint8_t>);

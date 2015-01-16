@@ -210,7 +210,7 @@ static bool BoltunAutoChat(MCONTACT hContact)
 	return false;
 }
 
-static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
+static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (!BoltunAutoChat(hContact))
 		return 0;
@@ -219,8 +219,6 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	memset(&dbei, 0, sizeof(dbei));
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = 0;
-
-	HANDLE hDbEvent = (HANDLE)lParam;
 	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
 	if (dbei.cbBlob == -1)
 		return 0;

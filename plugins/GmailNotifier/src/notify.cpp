@@ -89,7 +89,7 @@ void NotifyUser(Account *curAcc)
 		if (opt.notifierOnTray&&newMails > 0) {
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = curAcc->hContact;
-			cle.hDbEvent = (HANDLE)1;
+			cle.hDbEvent = 1;
 			cle.flags = CLEF_URGENT;
 			cle.hIcon = LoadSkinnedProtoIcon(pluginName, ID_STATUS_OCCUPIED);
 			cle.pszService = "GmailMNotifier/Notifying";

@@ -8,7 +8,7 @@ struct DeleteEventNode {
 	DeleteEventNode *next;
 	time_t timestamp;
 	MCONTACT hContact;
-	HANDLE hDbEvent;
+	MEVENT hDbEvent;
 };
 struct DeleteEventHead {
 	DeleteEventNode *first;
@@ -193,7 +193,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	DBEVENTINFO info = { sizeof(info) };
 	info.cbBlob = lenutf*2;
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
-	if (!db_event_get((HANDLE)lParam, &info)) {
+	if (!db_event_get(lParam, &info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
 			MCONTACT hSub;
 			if((hSub = db_mc_getMostOnline(hContact)) != 0)
@@ -208,7 +208,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 				{
 					DeleteEventNode *node = new DeleteEventNode();
 					node->hContact = hContact;
-					node->hDbEvent = (HANDLE) lParam;
+					node->hDbEvent = lParam;
 					node->timestamp = time(0);
 					node->next = 0;
 					EnterCriticalSection(lpRemoveChainCS);

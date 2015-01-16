@@ -47,9 +47,9 @@ enum EError {
 
 class CExImContactXML : public CExImContactBase {
 
-	CFileXml*		_pXmlFile;		// the xmlfile
-	TiXmlElement*	_xmlNode;		// xmlnode with contact information
-	HANDLE			_hEvent;
+	CFileXml      *_pXmlFile; // the xmlfile
+	TiXmlElement  *_xmlNode;  // xmlnode with contact information
+	MEVENT         _hEvent;
 
 	BYTE IsContactInfo(LPCSTR pszKey);
 

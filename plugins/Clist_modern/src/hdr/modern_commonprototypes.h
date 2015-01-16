@@ -266,7 +266,7 @@ int     cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixO
 int     cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 int     cli_IconFromStatusMode(const char *szProto, int nStatus, MCONTACT hContact);
 int     cli_GetContactIcon(MCONTACT hContact);
-int     cli_RemoveEvent(MCONTACT hContact, HANDLE hDbEvent);
+int     cli_RemoveEvent(MCONTACT hContact, MEVENT hDbEvent);
 void    cli_AddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline);
 void    cli_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 void    cli_FreeContact(ClcContact*);

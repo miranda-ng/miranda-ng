@@ -778,7 +778,7 @@ bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 	cle.cbSize = sizeof(CLISTEVENT);
 	cle.hIcon = (HICON)LoadIconEx("notes");
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
-	cle.hDbEvent = (HANDLE)("test");
+	cle.hDbEvent = -99;
 	cle.lParam = (LPARAM)pItem;
 	cle.pszService = szService;
 	cle.ptszTooltip = TranslateT("Incoming note");

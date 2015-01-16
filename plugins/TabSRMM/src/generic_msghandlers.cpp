@@ -1560,7 +1560,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 {
 	TContainerData *m_pContainer = dat->pContainer;
 	HWND hwndDlg = dat->hwnd, hwndContainer = m_pContainer->hwnd, hwndTab = GetParent(dat->hwnd);
-	HANDLE hDbEvent = (HANDLE)lParam;
+	MEVENT hDbEvent = (MEVENT)lParam;
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	db_event_get(hDbEvent, &dbei);
@@ -1610,10 +1610,10 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM hContact, LPARAM lParam)
 
 	if (hDbEvent != dat->hDbEventFirst) {
 		if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-			SendMessage(hwndDlg, DM_APPENDTOLOG, lParam, 0);
+			SendMessage(hwndDlg, DM_APPENDTOLOG, hDbEvent, 0);
 		else {
 			if (dat->iNextQueuedEvent >= dat->iEventQueueSize) {
-				dat->hQueuedEvents = (HANDLE*)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(HANDLE));
+				dat->hQueuedEvents = (MEVENT*)mir_realloc(dat->hQueuedEvents, (dat->iEventQueueSize + 10) * sizeof(MEVENT));
 				dat->iEventQueueSize += 10;
 			}
 			dat->hQueuedEvents[dat->iNextQueuedEvent++] = hDbEvent;

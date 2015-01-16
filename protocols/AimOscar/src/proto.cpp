@@ -130,7 +130,7 @@ MCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact; //See authrequest for serverside addition
 }
 
-MCONTACT __cdecl CAimProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent)
+MCONTACT __cdecl CAimProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
 {
 	return NULL;
 }
@@ -138,7 +138,7 @@ MCONTACT __cdecl CAimProto::AddToListByEvent(int flags, int iContact, HANDLE hDb
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
-int CAimProto::Authorize(HANDLE hDbEvent)
+int CAimProto::Authorize(MEVENT hDbEvent)
 {
 	return 0;
 }
@@ -146,7 +146,7 @@ int CAimProto::Authorize(HANDLE hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthDeny - handles the unsuccessful authorization
 
-int CAimProto::AuthDeny(HANDLE hDbEvent, const TCHAR* szReason)
+int CAimProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 {
 	return 0;
 }

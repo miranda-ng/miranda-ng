@@ -42,7 +42,7 @@ static INT_PTR ReadUrlCommand(WPARAM, LPARAM lParam)
 static int UrlEventAdded(WPARAM hContact, LPARAM lParam)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get((HANDLE)lParam, &dbei);
+	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT|DBEF_READ) || dbei.eventType != EVENTTYPE_URL)
 		return 0;
 
@@ -54,7 +54,7 @@ static int UrlEventAdded(WPARAM hContact, LPARAM lParam)
 	CLISTEVENT cle = { sizeof(cle) };
 	cle.flags = CLEF_TCHAR;
 	cle.hContact = hContact;
-	cle.hDbEvent = (HANDLE)lParam;
+	cle.hDbEvent = lParam;
 	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService = "SRUrl/ReadUrl";
 	cle.ptszTooltip = szTooltip;
@@ -76,7 +76,7 @@ static void RestoreUnreadUrlAlerts(void)
 	cle.flags = CLEF_TCHAR;
 
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		HANDLE hDbEvent = db_event_firstUnread(hContact);
+		MEVENT hDbEvent = db_event_firstUnread(hContact);
 		while (hDbEvent) {
 			DBEVENTINFO dbei = { sizeof(dbei) };
 			db_event_get(hDbEvent, &dbei);

@@ -93,7 +93,7 @@ protected:
 	DWORD	m_dwMaximizedDuration;
 
 	MCONTACT m_hContact;
-	HANDLE m_hMessage;
+	MEVENT m_hMessage;
 
 	int m_iStatus;
 

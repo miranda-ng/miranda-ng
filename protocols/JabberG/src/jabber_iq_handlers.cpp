@@ -746,12 +746,11 @@ BOOL CJabberProto::AddClistHttpAuthEvent(CJabberHttpAuthParams *pParams)
 	cle.cbSize = sizeof(CLISTEVENT);
 	cle.hIcon = (HICON) LoadIconEx("openid");
 	cle.flags = CLEF_PROTOCOLGLOBAL | CLEF_TCHAR;
-	cle.hDbEvent = (HANDLE)("test");
-	cle.lParam = (LPARAM) pParams;
+	cle.hDbEvent = -99;
+	cle.lParam = (LPARAM)pParams;
 	cle.pszService = szService;
 	cle.ptszTooltip = TranslateT("Http authentication request received");
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-
 	return TRUE;
 }
 

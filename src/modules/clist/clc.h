@@ -146,7 +146,7 @@ void fnFreeEvent(struct CListEvent* p);
 int   fnEventsProcessContactDoubleClick(MCONTACT hContact);
 int   fnEventsProcessTrayDoubleClick(int);
 int   fnGetImlIconIndex(HICON hIcon);
-int   fnRemoveEvent(MCONTACT hContact, HANDLE dbEvent);
+int   fnRemoveEvent(MCONTACT hContact, MEVENT dbEvent);
 
 /* clistmod.c */
 int    fnGetContactIcon(MCONTACT hContact);

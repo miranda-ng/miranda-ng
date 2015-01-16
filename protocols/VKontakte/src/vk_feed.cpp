@@ -631,9 +631,9 @@ void CVkProto::NewsClearHistory()
 		return;
 
 	time_t tTime = time(NULL) - m_iNewsAutoClearHistoryInterval;
-	HANDLE hDBEvent = db_event_first(hContact);
+	MEVENT hDBEvent = db_event_first(hContact);
 	while (hDBEvent) {
-		HANDLE hDBEventNext = db_event_next(hContact, hDBEvent);
+		MEVENT hDBEventNext = db_event_next(hContact, hDBEvent);
 		DBEVENTINFO dbei = { sizeof(dbei) };
 		db_event_get(hDBEvent, &dbei);
 		if (dbei.timestamp < tTime)

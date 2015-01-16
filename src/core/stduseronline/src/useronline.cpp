@@ -64,7 +64,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 				cle.cbSize = sizeof(cle);
 				cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hContact = hContact;
-				cle.hDbEvent = (HANDLE)(uniqueEventId++);
+				cle.hDbEvent = uniqueEventId++;
 				cle.hIcon = LoadSkinIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService = "UserOnline/Description";
 				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is online"), pcli->pfnGetContactDisplayName(hContact, 0));

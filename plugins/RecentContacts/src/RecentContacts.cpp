@@ -414,7 +414,7 @@ INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	dbe.cbSize = sizeof(dbe);
 	BYTE buf[1];
 	dbe.pBlob = buf;
-	HANDLE curEvent;
+	MEVENT curEvent;
 	
 	for (MCONTACT curContact = db_find_first(); curContact != NULL; curContact = db_find_next(curContact)) {
 		curTime = ((__time64_t)db_get_dw(curContact, dbLastUC_ModuleName, dbLastUC_LastUsedTimeLo, -1)) |

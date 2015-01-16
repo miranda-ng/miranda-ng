@@ -108,7 +108,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	pre.flags = (utf8) ? PREF_UTF : 0;
 
 	if (tm) {
-		HANDLE hEvent = db_event_last(hContact);
+		MEVENT hEvent = db_event_last(hContact);
 
 		if (hEvent) { // contact has events
 			DWORD dummy;

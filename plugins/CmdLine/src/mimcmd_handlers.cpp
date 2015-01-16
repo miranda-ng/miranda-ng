@@ -1518,7 +1518,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 				*reply->message = 0;
 
 				for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-					HANDLE hUnreadEvent = db_event_firstUnread(hContact);
+					MEVENT hUnreadEvent = db_event_firstUnread(hContact);
 					if (hUnreadEvent != NULL) {
 						DWORD threadID;
 						HANDLE thread = CreateThread(NULL, NULL, OpenMessageWindowThread, (void*)hContact, NULL, &threadID);
@@ -1587,7 +1587,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 					mir_snprintf(reply->message, reply->cMessage, Translate("No unread messages found."));
 
 					for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-						HANDLE hEvent = db_event_firstUnread(hContact);
+						MEVENT hEvent = db_event_firstUnread(hContact);
 						if (hEvent != NULL) {
 							count = 0;
 							while (hEvent != NULL) {
@@ -1631,7 +1631,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 				{
 					if (_stricmp(cmd, "unread") == 0)
 					{
-						HANDLE hEvent = db_event_firstUnread(hContact);
+						MEVENT hEvent = db_event_firstUnread(hContact);
 
 						reply->code = MIMRES_SUCCESS;
 
@@ -1683,7 +1683,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 							if (count > 0)
 							{
 								int index = 0;
-								HANDLE hEvent = db_event_first(hContact);
+								MEVENT hEvent = db_event_first(hContact);
 								DBEVENTINFO dbEvent = { sizeof(DBEVENTINFO) };
 								char message[4096];
 								dbEvent.pBlob = (PBYTE) message;
@@ -1691,7 +1691,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 								while (hEvent)
 								{
 									dbEvent.cbBlob = sizeof(message);
-									if (!db_event_get( hEvent, &dbEvent)) // if successful call
+									if (!db_event_get(hEvent, &dbEvent)) // if successful call
 									{
 										dbEvent.pBlob[dbEvent.cbBlob] = 0;
 										if ((index >= start) && (index <= stop))

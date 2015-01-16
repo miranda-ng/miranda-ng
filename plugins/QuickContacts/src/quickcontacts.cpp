@@ -196,10 +196,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 // called when a message/file/url was sent
 // handle of contact is set as window-userdata
-int EventAdded(WPARAM wparam, LPARAM lparam)
+int EventAdded(WPARAM wparam, LPARAM hDbEvent)
 {
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	db_event_get((HANDLE)lparam, &dbei);
+	db_event_get(hDbEvent, &dbei);
 	if ( !(dbei.flags & DBEF_SENT) || (dbei.flags & DBEF_READ) 
 		|| !db_get_b(NULL, MODULE_NAME, "EnableLastSentTo", 0) 
 		|| db_get_w(NULL, MODULE_NAME, "MsgTypeRec", TYPE_GLOBAL) != TYPE_GLOBAL) 

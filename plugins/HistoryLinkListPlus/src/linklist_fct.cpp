@@ -27,7 +27,7 @@ Miranda core. It looks a bit sophisticated. I'd made a few
 changes but I didn't really understand what these guys did! 
 Great job! It works! ;-)
 */
-int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
+int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 {
 	size_t wordStart, i, j, wordlen, iLastAlphaNum;
 	size_t charCount = 0, cpLastAlphaNum = 0, cpWordStart;
@@ -618,7 +618,7 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 	LISTELEMENT *actualElement = listStart->nextElement;
 	while (actualElement != NULL) {
 		if (actualElement->linePos == actLinePos) {
-			HANDLE hEvent = actualElement->hEvent;
+			MEVENT hEvent = actualElement->hEvent;
 			if (hEvent != NULL ) {
 				DBEVENTINFO dbe = { sizeof(dbe) };
 				dbe.cbBlob = db_event_getBlobSize(hEvent);
@@ -1174,9 +1174,8 @@ BYTE GetUpdateSetting(void)
 Special thanks to Tobi H.!
 This function is derived from his Wordlookup Plugin
 */
-int DBUpdate(WPARAM wParam, LPARAM lParam)
+int DBUpdate(WPARAM wParam, LPARAM hEvent)
 {
-	HANDLE hEvent=(HANDLE)lParam;
 	HWND hDlg = WindowList_Find(hWindowList, wParam);
 	DIALOGPARAM *DlgParam;
 	HMENU listMenu = GetMenu(hDlg);
