@@ -81,7 +81,6 @@ int CDbxMdb::GetContactSettingWorker(MCONTACT contactID, LPCSTR szModule, LPCSTR
 
 LBL_Seek:
 	char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
-	log3("get [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
 	DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 0);
 	if (pCachedValue != NULL) {
@@ -109,7 +108,6 @@ LBL_Seek:
 		}
 		else memcpy(dbv, pCachedValue, sizeof(DBVARIANT));
 
-		log2("get cached %s (%p)", printVariant(dbv), pCachedValue);
 		return (pCachedValue->type == DBVT_DELETED) ? 1 : 0;
 	}
 
@@ -223,10 +221,8 @@ LBL_Seek:
 	/**** add to cache **********************/
 	if (iType != DBVT_BLOB && iType != DBVT_ENCRYPTED) {
 		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(contactID, szCachedSettingName, 1);
-		if (pCachedValue != NULL) {
+		if (pCachedValue != NULL)
 			m_cache->SetCachedVariant(dbv, pCachedValue);
-			log3("set cached [%08p] %s (%p)", hContact, szCachedSettingName, pCachedValue);
-		}
 	}
 
 	return 0;
@@ -444,7 +440,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 	mir_cslockfull lck(m_csDbAccess);
 
 	char *szCachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, moduleNameLen, settingNameLen);
-	log3("set [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
 	// we don't cache blobs and passwords
 	if (dbcwWork.value.type != DBVT_BLOB && dbcwWork.value.type != DBVT_ENCRYPTED && !bIsEncrypted) {
@@ -466,7 +461,6 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 		}
 		if (szCachedSettingName[-1] != 0) {
 			lck.unlock();
-			log2(" set resident as %s (%p)", printVariant(&dbcwWork.value), pCachedValue);
 			NotifyEventHooks(hSettingChangeEvent, contactID, (LPARAM)&dbcwWork);
 			return 0;
 		}

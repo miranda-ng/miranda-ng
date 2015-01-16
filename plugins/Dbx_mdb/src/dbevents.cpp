@@ -81,8 +81,6 @@ STDMETHODIMP_(HANDLE) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 	lck.unlock();
 
-	log1("add event @ %08x", ofsNew);
-
 	// Notify only in safe mode or on really new events
 	NotifyEventHooks(hEventAddedEvent, contactNotifyID, (LPARAM)-1);
 

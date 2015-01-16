@@ -191,41 +191,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\database.cpp" />
     <ClCompile Include="src\dbcache.cpp" />
     <ClCompile Include="src\dbcontacts.cpp" />
     <ClCompile Include="src\dbcrypt.cpp" />
     <ClCompile Include="src\dbevents.cpp" />
-    <ClCompile Include="src\dbheaders.cpp" />
     <ClCompile Include="src\dbintf.cpp" />
     <ClCompile Include="src\dbmodulechain.cpp" />
     <ClCompile Include="src\dbsettings.cpp" />
-    <ClCompile Include="src\dbtool\aggressive.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\lmdb\mdb.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\dbtool\contactchain.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\disk.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\eventchain.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\finaltasks.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\initialchecks.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\modulechain.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\settingschain.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\user.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
+    <ClCompile Include="src\lmdb\midl.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
@@ -235,8 +214,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="src\database.h" />
     <ClInclude Include="src\dbintf.h" />
+    <ClInclude Include="src\lmdb\lmdb.h" />
+    <ClInclude Include="src\lmdb\midl.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

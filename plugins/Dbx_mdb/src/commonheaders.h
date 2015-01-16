@@ -48,7 +48,6 @@ extern "C"
 	#include "lmdb\lmdb.h"
 };
 
-#include "database.h"
 #include "dbintf.h"
 #include "resource.h"
 #include "version.h"
