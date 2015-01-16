@@ -198,7 +198,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\database.cpp" />
     <ClCompile Include="src\dbcontacts.cpp" />
     <ClCompile Include="src\dbcrypt.cpp" />
     <ClCompile Include="src\dbevents.cpp" />
@@ -225,7 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h" />
-    <ClInclude Include="src\database.h" />
     <ClInclude Include="src\dbintf.h" />
     <ClInclude Include="src\lmdb\lmdb.h" />
     <ClInclude Include="src\lmdb\midl.h" />

@@ -13,14 +13,11 @@
       <UniqueIdentifier>{e5e10389-c0d7-4cf8-8442-6714f0d5aff1}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Source Files\Checker">
-      <UniqueIdentifier>{18e1a858-92e5-48e6-98f1-e08f4b562ea8}</UniqueIdentifier>
+    <Filter Include="Source Files\lmdb">
+      <UniqueIdentifier>{98bf8a14-03b2-466e-b9fc-564f91ef0ee2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\database.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\dbcache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -31,9 +28,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dbevents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dbintf.cpp">
@@ -48,45 +42,21 @@
     <ClCompile Include="src\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dbtool\aggressive.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\contactchain.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\eventchain.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\finaltasks.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\initialchecks.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\modulechain.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\settingschain.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\user.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
-    <ClCompile Include="src\dbtool\disk.cpp">
-      <Filter>Source Files\Checker</Filter>
-    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\lmdb\mdb.c">
+      <Filter>Source Files\lmdb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lmdb\midl.c">
+      <Filter>Source Files\lmdb</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dbintf.h">
@@ -97,6 +67,12 @@
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lmdb\lmdb.h">
+      <Filter>Source Files\lmdb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lmdb\midl.h">
+      <Filter>Source Files\lmdb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

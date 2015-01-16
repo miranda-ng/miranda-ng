@@ -97,7 +97,6 @@ extern int cacheflush(char *addr, int nbytes, int cache);
 #include <errno.h>
 #include <limits.h>
 #include <stddef.h>
-#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
