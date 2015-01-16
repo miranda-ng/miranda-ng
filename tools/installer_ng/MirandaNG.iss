@@ -969,7 +969,7 @@ begin
 
     if DirExists(WizardForm.DirEdit.Text) and (FileExists(WizardForm.DirEdit.Text+'\{#MirName}') or FileExists(WizardForm.DirEdit.Text+'\mir_core.dll'))  then
     begin
-      MsgBox(ExpandConstant('{cm:FolderExists1}')+#10+#10+WizardForm.DirEdit.Text+#10+#10+ExpandConstant('{cm:FolderExists2}'), mbError, MB_OK);
+      SuppressibleMsgBox(ExpandConstant('{cm:FolderExists1}')+#10+#10+WizardForm.DirEdit.Text+#10+#10+ExpandConstant('{cm:FolderExists2}'), mbError, MB_OK, MB_OK);
       Result := False;
       exit;
     end;
@@ -993,7 +993,7 @@ begin
   if CurUninstallStep=usPostUninstall then
   begin
     if DirExists(AddBackslash(ExpandConstant('{userappdata}\Miranda NG'))) then
-      if MsgBox(ExpandConstant('{cm:ProfileUninst}'), mbError, MB_YESNO or MB_DEFBUTTON2) = IDYES then
+      if SuppressibleMsgBox(ExpandConstant('{cm:ProfileUninst}'), mbError, MB_YESNO or MB_DEFBUTTON2, IDNO) = IDYES then
       begin
         DelTree(AddBackslash(ExpandConstant('{userappdata}\Miranda NG')), True, True, True);
       end;
