@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-static HANDLE hEventDeletedEvent, hEventAddedEvent, hEventFilterAddedEvent;
-
 STDMETHODIMP_(LONG) CDb3Mmap::GetEventCount(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
