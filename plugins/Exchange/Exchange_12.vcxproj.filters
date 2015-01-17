@@ -36,9 +36,6 @@
     <ClInclude Include="src\services.h">
       <Filter>Header files</Filter>
     </ClInclude>
-    <ClInclude Include="src\StdAfx.h">
-      <Filter>Header files</Filter>
-    </ClInclude>
     <ClInclude Include="src\utils.h">
       <Filter>Header files</Filter>
     </ClInclude>
