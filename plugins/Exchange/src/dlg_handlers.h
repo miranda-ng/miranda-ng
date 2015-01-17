@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_EXCHANGE_DIALOG_HANDLERS_H
 #define M_EXCHANGE_DIALOG_HANDLERS_H
 
-#include "commonheaders.h"
-
 #define EXM_UPDATE_EMAILS WM_USER + 101
 
 INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -21,9 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_EXCHANGE_HOOKED_EVENTS_H
 #define M_EXCHANGE_HOOKED_EVENTS_H
 
-#include "commonheaders.h"
-#include "dlg_handlers.h"
-
 extern HANDLE hModulesLoaded;
 extern HANDLE hOptionsInitialise;
 extern HANDLE hPreShutdown;
