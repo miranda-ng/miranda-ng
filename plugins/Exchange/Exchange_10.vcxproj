@@ -26,7 +26,6 @@
     <ClInclude Include="src\MirandaExchange.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\services.h" />
-    <ClInclude Include="src\StdAfx.h" />
     <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

@@ -21,9 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_EXCHANGE_UTILS_H
 #define M_EXCHANGE_UTILS_H
 
-#include <stdarg.h>
-#include "commonheaders.h"
-
 #define LOG_FILE "exchange.log"
 
 #define ANCHOR_LEFT     0x000001

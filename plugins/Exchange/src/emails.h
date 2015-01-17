@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //define if you want to test only the miranda part, and not the exchange one.
 //#define NO_EXCHANGE_TEST
 
-#include "commonheaders.h"
-
 #ifndef NO_EXCHANGE_TEST
 #include "MirandaExchange.h"
 #endif

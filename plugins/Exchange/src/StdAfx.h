@@ -14,9 +14,10 @@
 
 #include <windows.h>
 
+#include <stdarg.h>
+
 // TODO: reference additional headers your program requires here
 
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+#include "commonheaders.h"
 
 #endif // !defined(AFX_STDAFX_H__B170AF8E_BA64_4233_BF83_B4F0D1F3B775__INCLUDED_)
