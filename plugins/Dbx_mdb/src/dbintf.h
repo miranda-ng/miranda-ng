@@ -65,16 +65,15 @@ struct ModuleName
 #define DBHEADER_SIGNATURE  0x40DECADEu
 struct DBHeader
 {
-	DWORD signature;
+	DWORD dwSignature;
 	DWORD dwVersion;			// database format version
-	DWORD eventCount;       // number of events in the chain for this contact
 };
 
 #define DBCONTACT_SIGNATURE 0x43DECADEu
 struct DBContact
 {
-	DWORD signature;
-	DWORD eventCount;       // number of events in the chain for this contact
+	DWORD dwSignature;
+	DWORD dwEventCount;       // number of events in the chain for this contact
 	DWORD tsFirstUnread;
 	DWORD dwFirstUnread;
 };
@@ -82,7 +81,7 @@ struct DBContact
 #define DBMODULENAME_SIGNATURE 0x4DDECADEu
 struct DBModuleName
 {
-	DWORD signature;
+	DWORD dwSignature;
 	BYTE cbName;            // number of characters in this module name
 	char name[1];           // name, no nul terminator
 };
@@ -90,7 +89,7 @@ struct DBModuleName
 #define DBEVENT_SIGNATURE  0x45DECADEu
 struct DBEvent
 {
-	DWORD signature;
+	DWORD dwSignature;
 	MCONTACT contactID;     // a contact this event belongs to
 	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
@@ -106,11 +105,16 @@ struct DBEvent
 
 #include <poppack.h>
 
+struct DBEventSortingKey
+{
+	DWORD dwContactId, ts, dwEventId;
+};
+
 struct DBCachedContact : public DBCachedContactBase
 {
-	DWORD dwEventCount;
-	DWORD tsFirstUnread;
-	DWORD dwFirstUnread;
+	void Advance(DWORD id, DBEvent &dbe);
+
+	DBContact dbc;
 };
 
 struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
@@ -241,6 +245,8 @@ protected:
 	MDB_dbi	m_dbEvents, m_dbEventsSort;
 	DWORD    m_dwMaxEventId;
 
+	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
+
 	////////////////////////////////////////////////////////////////////////////
 	// modules
 
@@ -264,7 +270,7 @@ protected:
 	int      PeekSegment(DWORD ofs, PVOID buf, int cbBytes);
 	int      ReadSegment(DWORD ofs, PVOID buf, int cbBytes);
 	int      ReadWrittenSegment(DWORD ofs, PVOID buf, int cbBytes);
-	int      SignatureValid(DWORD ofs, DWORD signature);
+	int      SignatureValid(DWORD ofs, DWORD dwSignature);
 	void     FreeModuleChain();
 
 	DWORD    ConvertModuleNameOfs(DWORD ofsOld);

@@ -52,7 +52,7 @@ int CDbxMdb::InitModuleNames(void)
 	MDB_val key, data;
 	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 		DBModuleName *pmod = (DBModuleName*)data.mv_data;
-		if (pmod->signature != DBMODULENAME_SIGNATURE)
+		if (pmod->dwSignature != DBMODULENAME_SIGNATURE)
 			DatabaseCorruption(NULL);
 
 		char *pVal = (char*)HeapAlloc(m_hModHeap, 0, pmod->cbName+1);
@@ -94,7 +94,7 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	// need to create the module name
 	int newIdx = ++m_maxModuleID;
 	DBModuleName *pmod = (DBModuleName*)_alloca(sizeof(DBModuleName) + nameLen);
-	pmod->signature = DBMODULENAME_SIGNATURE;
+	pmod->dwSignature = DBMODULENAME_SIGNATURE;
 	pmod->cbName = (char)nameLen;
 	strcpy(pmod->name, szName);
 	
