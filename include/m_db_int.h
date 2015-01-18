@@ -44,10 +44,9 @@ struct DBCachedContactValue
 	DBCachedContactValue *next;
 };
 
-struct DBCachedContact
+struct DBCachedContactBase
 {
 	MCONTACT contactID;
-	DWORD dwDriverData;
 	char *szProto;
 	DBCachedContactValue *first, *last;
 
@@ -61,18 +60,24 @@ struct DBCachedContact
 	__forceinline bool IsSub() const { return parentID != 0; }
 };
 
+#ifndef OWN_CACHED_CONTACT
+struct DBCachedContact : public DBCachedContactBase {};
+#else
+struct DBCachedContact;
+#endif
+
 interface MIDatabaseCache : public MZeroedObject
 {
-	STDMETHOD_(DBCachedContact*,AddContactToCache)(MCONTACT contactID) PURE;
+	STDMETHOD_(DBCachedContact*, AddContactToCache)(MCONTACT contactID) PURE;
 	STDMETHOD_(DBCachedContact*, GetCachedContact)(MCONTACT contactID) PURE;
 	STDMETHOD_(DBCachedContact*, GetFirstContact)(void) PURE;
 	STDMETHOD_(DBCachedContact*, GetNextContact)(MCONTACT contactID) PURE;
 	STDMETHOD_(void, FreeCachedContact)(MCONTACT contactID) PURE;
 
-	STDMETHOD_(char*,InsertCachedSetting)(const char *szName, int) PURE;
-	STDMETHOD_(char*,GetCachedSetting)(const char *szModuleName, const char *szSettingName, int, int) PURE;
-	STDMETHOD_(void,SetCachedVariant)(DBVARIANT *s, DBVARIANT *d) PURE;
-	STDMETHOD_(DBVARIANT*,GetCachedValuePtr)(MCONTACT contactID, char *szSetting, int bAllocate) PURE;
+	STDMETHOD_(char*, InsertCachedSetting)(const char *szName, int) PURE;
+	STDMETHOD_(char*, GetCachedSetting)(const char *szModuleName, const char *szSettingName, int, int) PURE;
+	STDMETHOD_(void, SetCachedVariant)(DBVARIANT *s, DBVARIANT *d) PURE;
+	STDMETHOD_(DBVARIANT*, GetCachedValuePtr)(MCONTACT contactID, char *szSetting, int bAllocate) PURE;
 };
 
 interface MIDatabase
@@ -86,8 +91,9 @@ interface MIDatabase
 	STDMETHOD_(MCONTACT, FindNextContact)(MCONTACT contactID, const char *szProto = NULL) PURE;
 
 	STDMETHOD_(LONG, DeleteContact)(MCONTACT contactID) PURE;
-	STDMETHOD_(MCONTACT, AddContact)(void)PURE;
+	STDMETHOD_(MCONTACT, AddContact)(void) PURE;
 	STDMETHOD_(BOOL, IsDbContact)(MCONTACT contactID) PURE;
+	STDMETHOD_(LONG, GetContactSize)(void) PURE;
 
 	STDMETHOD_(LONG, GetEventCount)(MCONTACT contactID) PURE;
 	STDMETHOD_(MEVENT, AddEvent)(MCONTACT contactID, DBEVENTINFO *dbe) PURE;

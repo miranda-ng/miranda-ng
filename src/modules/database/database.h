@@ -25,6 +25,7 @@ class MDatabaseCache : public MIDatabaseCache
 {
 	HANDLE m_hCacheHeap;
 	char* m_lastSetting;
+	size_t m_contactSize;
 	DBCachedContact *m_lastVL;
 	mir_cs m_cs;
 
@@ -35,7 +36,7 @@ class MDatabaseCache : public MIDatabaseCache
 	void FreeCachedVariant(DBVARIANT* V);
 
 public:
-	MDatabaseCache();
+	MDatabaseCache(size_t);
 	~MDatabaseCache();
 
 protected:

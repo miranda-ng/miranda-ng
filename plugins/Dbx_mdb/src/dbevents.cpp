@@ -35,7 +35,7 @@ STDMETHODIMP_(LONG) CDbxMdb::GetEventCount(MCONTACT contactID)
 		return m_header.eventCount;
 
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
-	return (cc == NULL) ? 0 : cc->dwDriverData;
+	return (cc == NULL) ? 0 : cc->dwEventCount;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
@@ -106,7 +106,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 			return 0;
 
 		if (contactID != NULL) {
-			DBContact dbc = { DBCONTACT_SIGNATURE, ++cc->dwDriverData };
+			DBContact dbc = { DBCONTACT_SIGNATURE, ++cc->dwEventCount };
 			MDB_val keyc = { sizeof(int), &contactID }, datac = { sizeof(DBContact), &dbc };
 			mdb_put(txn, m_dbContacts, &keyc, &datac, 0);
 
@@ -115,7 +115,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 				key2.dwContactId = ccSub->contactID;
 				mdb_put(txn, m_dbEventsSort, &key, &data, 0);
 
-				dbc.eventCount = ++ccSub->dwDriverData;
+				dbc.eventCount = ++ccSub->dwEventCount;
 				keyc.mv_data = &ccSub->contactID;
 				mdb_put(txn, m_dbContacts, &keyc, &datac, 0);
 			}

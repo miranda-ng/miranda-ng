@@ -46,6 +46,11 @@ STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)
 	return m_dbHeader.contactCount;
 }
 
+STDMETHODIMP_(LONG) CDb3Mmap::GetContactSize(void)
+{
+	return sizeof(DBCachedContact);
+}
+
 STDMETHODIMP_(MCONTACT) CDb3Mmap::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
@@ -175,7 +180,7 @@ STDMETHODIMP_(MCONTACT) CDb3Mmap::AddContact()
 	}
 
 	DBCachedContact *cc = m_cache->AddContactToCache(dbc.dwContactID);
-	cc->dwDriverData = ofsNew;
+	cc->dwOfsContact = ofsNew;
 
 	NotifyEventHooks(hContactAddedEvent, dbc.dwContactID, 0);
 	return dbc.dwContactID;
@@ -188,7 +193,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::IsDbContact(MCONTACT contactID)
 		return FALSE;
 
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbc = (DBContact*)DBRead(cc->dwDriverData, NULL);
+	DBContact *dbc = (DBContact*)DBRead(cc->dwOfsContact, NULL);
 	if (dbc->signature == DBCONTACT_SIGNATURE) {
 		m_cache->AddContactToCache(contactID);
 		return TRUE;
@@ -219,8 +224,8 @@ static int SortEvent(const DBEvent *p1, const DBEvent *p2)
 BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBContact *dbMeta = (DBContact*)DBRead(ccMeta->dwDriverData, NULL);
-	DBContact *dbSub = (DBContact*)DBRead(ccSub->dwDriverData, NULL);
+	DBContact *dbMeta = (DBContact*)DBRead(ccMeta->dwOfsContact, NULL);
+	DBContact *dbSub = (DBContact*)DBRead(ccSub->dwOfsContact, NULL);
 	if (dbMeta->signature != DBCONTACT_SIGNATURE || dbSub->signature != DBCONTACT_SIGNATURE)
 		return 1;
 
@@ -303,8 +308,8 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBContact dbMeta = *(DBContact*)DBRead(ccMeta->dwDriverData, NULL);
-	DBContact dbSub = *(DBContact*)DBRead(ccSub->dwDriverData, NULL);
+	DBContact dbMeta = *(DBContact*)DBRead(ccMeta->dwOfsContact, NULL);
+	DBContact dbSub = *(DBContact*)DBRead(ccSub->dwOfsContact, NULL);
 	if (dbMeta.signature != DBCONTACT_SIGNATURE || dbSub.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
@@ -366,8 +371,8 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			dwOffset = dwNext;
 		}
 
-		DBWrite(ccSub->dwDriverData, &dbSub, sizeof(DBContact));
-		DBWrite(ccMeta->dwDriverData, &dbMeta, sizeof(DBContact));
+		DBWrite(ccSub->dwOfsContact, &dbSub, sizeof(DBContact));
+		DBWrite(ccMeta->dwOfsContact, &dbMeta, sizeof(DBContact));
 	}
 	__except (EXCEPTION_EXECUTE_HANDLER)
 	{
@@ -409,7 +414,7 @@ void CDb3Mmap::FillContacts()
 		else dwContactID = m_dwMaxContactId++;
 
 		DBCachedContact *cc = m_cache->AddContactToCache(dwContactID);
-		cc->dwDriverData = dwOffset;
+		cc->dwOfsContact = dwOffset;
 		CheckProto(cc, "");
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
@@ -480,7 +485,7 @@ void CDb3Mmap::FillContacts()
 		// we don't need it anymore
 		if (!GetContactSetting(hContact, META_PROTO, "MetaID", &dbv)) {
 			DeleteContactSetting(hContact, META_PROTO, "MetaID");
-			WipeContactHistory((DBContact*)DBRead(ccMeta->dwDriverData, NULL));
+			WipeContactHistory((DBContact*)DBRead(ccMeta->dwOfsContact, NULL));
 		}
 
 		for (int k = 0; k < ccMeta->nSubs; k++) {
@@ -502,5 +507,5 @@ DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID, DBCachedContact **pcc)
 
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	if (pcc) *pcc = cc;
-	return (cc == NULL) ? 0 : cc->dwDriverData;
+	return (cc == NULL) ? 0 : cc->dwOfsContact;
 }

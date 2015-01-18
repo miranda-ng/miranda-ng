@@ -123,7 +123,7 @@ static INT_PTR srvInitInstance(WPARAM wParam, LPARAM lParam)
 {
 	MIDatabase* pDb = (MIDatabase*)lParam;
 	if (pDb != NULL)
-		pDb->m_cache = new MDatabaseCache();
+		pDb->m_cache = new MDatabaseCache(pDb->GetContactSize());
 	return 0;
 }
 

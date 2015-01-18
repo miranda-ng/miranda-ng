@@ -142,7 +142,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	else neednotify = m_safetyMode;
 
 	if (ccSub != NULL) {
-		DBContact *pSub = (DBContact*)DBRead(ccSub->dwDriverData, NULL);
+		DBContact *pSub = (DBContact*)DBRead(ccSub->dwOfsContact, NULL);
 		pSub->eventCount++;
 	}
 
@@ -174,7 +174,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 	else cc = NULL;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DWORD ofsContact = (cc) ? cc->dwDriverData : m_dbHeader.ofsUser;
+	DWORD ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, NULL);
 	DBEvent dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, NULL);
 	if (dbc.signature != DBCONTACT_SIGNATURE || dbe.signature != DBEVENT_SIGNATURE)
@@ -318,7 +318,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	else cc = NULL;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DWORD ofsContact = (cc) ? cc->dwDriverData : m_dbHeader.ofsUser;
+	DWORD ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, NULL);
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, NULL);
 	if (dbe->signature != DBEVENT_SIGNATURE || dbc.signature != DBCONTACT_SIGNATURE)
@@ -376,7 +376,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 
 	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
 		return NULL;
-	dbc = (DBContact*)DBRead(cc->dwDriverData, NULL);
+	dbc = (DBContact*)DBRead(cc->dwOfsContact, NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 
@@ -405,7 +405,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 
 	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
 		return NULL;
-	dbc = (DBContact*)DBRead(cc->dwDriverData, NULL);
+	dbc = (DBContact*)DBRead(cc->dwOfsContact, NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 
@@ -434,7 +434,7 @@ STDMETHODIMP_(MEVENT) CDb3Mmap::FindLastEvent(MCONTACT contactID)
 
 	if ((cc = m_cache->GetCachedContact(cc->parentID)) == NULL)
 		return NULL;
-	dbc = (DBContact*)DBRead(cc->dwDriverData, NULL);
+	dbc = (DBContact*)DBRead(cc->dwOfsContact, NULL);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return NULL;
 
