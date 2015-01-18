@@ -47,30 +47,10 @@ DBHeader
 #define DBMODE_SHARED    0x0001
 #define DBMODE_READONLY  0x0002
 
-#define DB_OLD_VERSION   0x00000700u
-#define DB_094_VERSION   0x00000701u
-#define DB_095_VERSION   0x00000800u
-#define DB_095_1_VERSION 0x00000801u
-
-#define DB_SETTINGS_RESIZE_GRANULARITY  128
-
-#define WSOFS_END   0xFFFFFFFF
-#define WS_ERROR    0xFFFFFFFF
-
 #define DBVT_ENCRYPTED   250
 #define DBVT_UNENCRYPTED 251
 
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
-
-#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,&bytesRemaining)
-#define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
-
-DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
-{
-	if (pSetting[0] & DBVTF_VARIABLELENGTH)
-		return 2 + *(PWORD)(pSetting + 1);
-	return pSetting[0];
-}
 
 struct ModuleName
 {
@@ -80,21 +60,22 @@ struct ModuleName
 
 #include <pshpack1.h>
 
-struct DBSettingKey
+#define DBHEADER_SIGNATURE  0x40DECADEu
+struct DBHeader
 {
-	DWORD dwContactID;
-	DWORD dwOfsModule;
-	char  szSettingName[100];
+	DWORD signature;
+	DWORD dwVersion;			// database format version
+	DWORD eventCount;       // number of events in the chain for this contact
 };
 
-#define DBCONTACT_SIGNATURE   0x43DECADEu
+#define DBCONTACT_SIGNATURE 0x43DECADEu
 struct DBContact
 {
 	DWORD signature;
 	DWORD eventCount;       // number of events in the chain for this contact
 };
 
-#define DBMODULENAME_SIGNATURE  0x4DDECADEu
+#define DBMODULENAME_SIGNATURE 0x4DDECADEu
 struct DBModuleName
 {
 	DWORD signature;
@@ -111,8 +92,7 @@ struct DBEvent
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
 	DWORD flags;            // see m_database.h, db/event/add
 	WORD  wEventType;       // module-defined event type
-	DWORD cbBlob;           // number of bytes in the blob
-	BYTE  blob[1];          // the blob. module-defined formatting
+	WORD  cbBlob;           // number of bytes in the blob
 
 	bool __forceinline markedRead() const
 	{
@@ -219,6 +199,8 @@ public:
 protected:
 	MDB_env *m_pMdbEnv;
 	DWORD    m_dwFileSize;
+	MDB_dbi  m_dbGlobal;
+	DBHeader m_header;
 
 	HANDLE   hSettingChangeEvent, hContactDeletedEvent, hContactAddedEvent, hEventMarkedRead;
 
@@ -244,7 +226,8 @@ protected:
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
-	MDB_dbi	m_dbEvents;
+	MDB_dbi	m_dbEvents, m_dbEventsSort;
+	DWORD    m_dwMaxEventId;
 
 	////////////////////////////////////////////////////////////////////////////
 	// modules

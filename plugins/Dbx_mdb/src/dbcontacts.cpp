@@ -171,38 +171,44 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 void CDbxMdb::FillContacts()
 {
-	m_contactCount = 0;
+	LIST<DBCachedContact> arContacts(10);
 
 	txn_ptr trnlck(m_pMdbEnv);
 	mdb_open(trnlck, "contacts", MDB_INTEGERKEY, &m_dbContacts);
+	{
+		cursor_ptr cursor(trnlck, m_dbContacts);
 
-	cursor_ptr cursor(trnlck, m_dbContacts);
+		MDB_val key, data;
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
+			DBContact *dbc = (DBContact*)data.mv_data;
+			if (dbc->signature != DBCONTACT_SIGNATURE)
+				DatabaseCorruption(NULL);
 
-	MDB_val key, data;
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
-		DBContact *dbc = (DBContact*)data.mv_data;
-		if (dbc->signature != DBCONTACT_SIGNATURE)
-			DatabaseCorruption(NULL);
+			DBCachedContact *cc = m_cache->AddContactToCache(*(DWORD*)key.mv_data);
+			cc->dwDriverData = dbc->eventCount;
+			arContacts.insert(cc);
+		}
+	}
 
-		DWORD dwContactId = *(DWORD*)key.mv_data;
-		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
-		cc->dwDriverData = 0;
+	m_contactCount = 0;
+	for (int i = 0; i < arContacts.getCount(); i++) {
+		DBCachedContact *cc = arContacts[i];
 		CheckProto(cc, "");
-	
-		m_dwMaxContactId = dwContactId + 1;
+
+		m_dwMaxContactId = cc->contactID+1;
 		m_contactCount++;
 
 		DBVARIANT dbv; dbv.type = DBVT_DWORD;
-		cc->nSubs = (0 != GetContactSetting(dwContactId, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
+		cc->nSubs = (0 != GetContactSetting(cc->contactID, META_PROTO, "NumContacts", &dbv)) ? -1 : dbv.dVal;
 		if (cc->nSubs != -1) {
 			cc->pSubs = (MCONTACT*)mir_alloc(cc->nSubs*sizeof(MCONTACT));
 			for (int i = 0; i < cc->nSubs; i++) {
 				char setting[100];
 				mir_snprintf(setting, SIZEOF(setting), "Handle%d", i);
-				cc->pSubs[i] = (0 != GetContactSetting(dwContactId, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
+				cc->pSubs[i] = (0 != GetContactSetting(cc->contactID, META_PROTO, setting, &dbv)) ? NULL : dbv.dVal;
 			}
 		}
-		cc->nDefault = (0 != GetContactSetting(dwContactId, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
-		cc->parentID = (0 != GetContactSetting(dwContactId, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
+		cc->nDefault = (0 != GetContactSetting(cc->contactID, META_PROTO, "Default", &dbv)) ? -1 : dbv.dVal;
+		cc->parentID = (0 != GetContactSetting(cc->contactID, META_PROTO, "ParentMeta", &dbv)) ? NULL : dbv.dVal;
 	}
 }

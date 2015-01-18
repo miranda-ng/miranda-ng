@@ -23,8 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-DWORD GetModuleNameOfs(const char *szName);
-DBCachedContact* AddToCachedContactList(MCONTACT contactID, int index);
+struct DBSettingKey
+{
+	DWORD dwContactID;
+	DWORD dwOfsModule;
+	char  szSettingName[100];
+};
 
 #define VLT(n) ((n == DBVT_UTF8 || n == DBVT_ENCRYPTED)?DBVT_ASCIIZ:n)
 

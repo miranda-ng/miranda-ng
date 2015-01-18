@@ -90,11 +90,29 @@ int CDbxMdb::Load(bool bSkipInit)
 
 	if (!bSkipInit) {
 		txn_ptr trnlck(m_pMdbEnv);
+		mdb_open(trnlck, "global", MDB_CREATE | MDB_INTEGERKEY, &m_dbGlobal);
 		mdb_open(trnlck, "contacts", MDB_CREATE | MDB_INTEGERKEY, &m_dbContacts);
 		mdb_open(trnlck, "modules", MDB_CREATE | MDB_INTEGERKEY, &m_dbModules);
 		mdb_open(trnlck, "events", MDB_CREATE | MDB_INTEGERKEY, &m_dbEvents);
-		mdb_open(trnlck, "eventsrt", MDB_CREATE, &m_dbEvents);
+		mdb_open(trnlck, "eventsrt", MDB_CREATE | MDB_INTEGERKEY, &m_dbEventsSort);
 		mdb_open(trnlck, "settings", MDB_CREATE, &m_dbSettings);
+
+		DWORD keyVal = 1;
+		MDB_val key = { sizeof(DWORD), &keyVal }, data;
+		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) {
+			DBHeader *hdr = (DBHeader*)data.mv_data;
+			if (hdr->signature != DBHEADER_SIGNATURE)
+				DatabaseCorruption(NULL);
+
+			memcpy(&m_header, data.mv_data, sizeof(m_header));
+		}
+		else {
+			m_header.signature = DBHEADER_SIGNATURE;
+			m_header.dwVersion = 1;
+			m_header.eventCount = 0;
+			data.mv_data = &m_header; data.mv_size = sizeof(m_header);
+			mdb_put(trnlck, m_dbGlobal, &key, &data, 0);
+		}
 		trnlck.commit();
 
 		if (InitModuleNames()) return EGROKPRF_CANTREAD;
