@@ -101,17 +101,21 @@ int CDbxMdb::Load(bool bSkipInit)
 		MDB_val key = { sizeof(DWORD), &keyVal }, data;
 		if (mdb_get(trnlck, m_dbGlobal, &key, &data) == MDB_SUCCESS) {
 			DBHeader *hdr = (DBHeader*)data.mv_data;
-			if (hdr->signature != DBHEADER_SIGNATURE)
+			if (hdr->dwSignature != DBHEADER_SIGNATURE)
 				DatabaseCorruption(NULL);
 
 			memcpy(&m_header, data.mv_data, sizeof(m_header));
 		}
 		else {
-			m_header.signature = DBHEADER_SIGNATURE;
+			m_header.dwSignature = DBHEADER_SIGNATURE;
 			m_header.dwVersion = 1;
-			m_header.eventCount = 0;
 			data.mv_data = &m_header; data.mv_size = sizeof(m_header);
 			mdb_put(trnlck, m_dbGlobal, &key, &data, 0);
+
+			keyVal = 0;
+			DBContact dbc = { DBCONTACT_SIGNATURE, 0, 0, 0 };
+			data.mv_data = &dbc; data.mv_size = sizeof(dbc);
+			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
 		}
 		trnlck.commit();
 

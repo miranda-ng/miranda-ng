@@ -58,6 +58,10 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::FindFirstContact(const char *szProto)
 	if (cc == NULL)
 		return NULL;
 
+	if (cc->contactID == 0)
+		if ((cc = m_cache->GetNextContact(0)) == NULL)
+			return NULL;
+
 	if (!szProto || CheckProto(cc, szProto))
 		return cc->contactID;
 
@@ -92,7 +96,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 	// delete 
 	mir_cslock lck(m_csDbAccess);
 
-	MDB_val key = { sizeof(DWORD), &contactID };
+	MDB_val key = { sizeof(MCONTACT), &contactID };
 
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
@@ -106,15 +110,15 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
 	DWORD dwContactId;
-
-	DBContact dbc = { 0 };
-	dbc.signature = DBCONTACT_SIGNATURE;
 	{
 		mir_cslock lck(m_csDbAccess);
 		dwContactId = m_dwMaxContactId++;
 
-		MDB_val key = { sizeof(DWORD), &dwContactId };
-		MDB_val data = { sizeof(DBContact), &dbc };
+		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
+		cc->dbc.dwSignature = DBCONTACT_SIGNATURE;
+
+		MDB_val key = { sizeof(MCONTACT), &dwContactId };
+		MDB_val data = { sizeof(cc->dbc), &cc->dbc };
 
 		for (;; Remap()) {
 			txn_ptr trnlck(m_pMdbEnv);
@@ -122,8 +126,6 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 			if (trnlck.commit())
 				break;
 		}
-
-		m_cache->AddContactToCache(dwContactId);
 	}
 
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
@@ -170,6 +172,21 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void DBCachedContact::Advance(DWORD id, DBEvent &dbe)
+{
+	dbc.dwEventCount++;
+
+	if (dbe.flags & (DBEF_READ | DBEF_SENT))
+		return;
+
+	if (dbe.timestamp < dbc.tsFirstUnread || dbc.tsFirstUnread == 0) {
+		dbc.tsFirstUnread = dbe.timestamp;
+		dbc.dwFirstUnread = id;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // initial cycle to fill the contacts' cache
 
 void CDbxMdb::FillContacts()
@@ -184,13 +201,14 @@ void CDbxMdb::FillContacts()
 		MDB_val key, data;
 		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == 0) {
 			DBContact *dbc = (DBContact*)data.mv_data;
-			if (dbc->signature != DBCONTACT_SIGNATURE)
+			if (dbc->dwSignature != DBCONTACT_SIGNATURE)
 				DatabaseCorruption(NULL);
 
 			DBCachedContact *cc = m_cache->AddContactToCache(*(DWORD*)key.mv_data);
-			cc->dwEventCount = dbc->eventCount;
-			cc->dwFirstUnread = dbc->dwFirstUnread;
-			cc->tsFirstUnread = dbc->tsFirstUnread;
+			cc->dbc.dwSignature = DBCONTACT_SIGNATURE;
+			cc->dbc.dwEventCount = dbc->dwEventCount;
+			cc->dbc.dwFirstUnread = dbc->dwFirstUnread;
+			cc->dbc.tsFirstUnread = dbc->tsFirstUnread;
 			arContacts.insert(cc);
 		}
 	}

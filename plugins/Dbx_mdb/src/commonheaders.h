@@ -48,13 +48,6 @@ extern "C"
 	#include "lmdb\lmdb.h"
 };
 
-#include "dbintf.h"
-#include "resource.h"
-#include "version.h"
-
-extern HINSTANCE g_hInst;
-extern LIST<CDbxMdb> g_Dbs;
-
 class txn_ptr
 {
 	MDB_txn *m_txn;
@@ -106,6 +99,13 @@ public:
 
 	__forceinline operator MDB_cursor*() const { return m_cursor; }
 };
+
+#include "dbintf.h"
+#include "resource.h"
+#include "version.h"
+
+extern HINSTANCE g_hInst;
+extern LIST<CDbxMdb> g_Dbs;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
