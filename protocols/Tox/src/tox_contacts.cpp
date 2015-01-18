@@ -73,7 +73,7 @@ MCONTACT CToxProto::FindContact(const std::string &id)
 			}
 			db_free(&dbv);
 
-			if (_strnicmp(id.c_str(), clientId.c_str(), TOX_CLIENT_ID_SIZE) == 0)
+			if (mir_strcmpi(id.c_str(), clientId.c_str()) == 0)
 			{
 				break;
 			}
@@ -221,22 +221,22 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t 
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
 
-void CToxProto::OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg)
+void CToxProto::OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->FindContact(friendNumber);
 	if (hContact)
 	{
 		proto->setString(hContact, "Nick", (char*)name);
 	}
 }
 
-void CToxProto::OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg)
+void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->FindContact(friendNumber);
 	if (hContact)
 	{
 		ptrW statusMessage(mir_utf8decodeW((char*)message));
@@ -244,11 +244,11 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int number, const uint8_t
 	}
 }
 
-void CToxProto::OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus, void *arg)
+void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendNumber, uint8_t usertatus, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->FindContact(friendNumber);
 	if (hContact)
 	{
 		TOX_USERSTATUS userstatus = (TOX_USERSTATUS)usertatus;
@@ -257,19 +257,40 @@ void CToxProto::OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus,
 	}
 }
 
-void CToxProto::OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg)
+void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendNumber, const uint8_t status, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	//mir_cslock lock(proto->toxLock);
+
+	MCONTACT hContact = proto->FindContact(friendNumber);
 	if (hContact)
 	{
 		int newStatus = status ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 		proto->SetContactStatus(hContact, newStatus);
 		if (status)
 		{
-			tox_send_avatar_info(proto->tox, number);
+			tox_send_avatar_info(proto->tox, friendNumber);
 			proto->delSetting(hContact, "Auth");
+
+			for (std::map<uint8_t, FileTransferParam*>::iterator it = proto->transfers.begin(); it != proto->transfers.end(); it++)
+			{
+				// only for receiving
+				if (it->second->friendNumber == friendNumber && it->second->GetDirection() == 1)
+				{
+					it->second->Broken(tox);
+				}
+			}
+		}
+		else
+		{
+			for (std::map<uint8_t, FileTransferParam*>::iterator it = proto->transfers.begin(); it != proto->transfers.end(); it++)
+			{
+				if (it->second->friendNumber == friendNumber)
+				{
+					it->second->status = PAUSED;
+				}
+			}
 		}
 	}
 }
