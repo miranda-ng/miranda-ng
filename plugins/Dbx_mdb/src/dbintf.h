@@ -21,6 +21,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#define OWN_CACHED_CONTACT
+
 #include <m_db_int.h>
 
 /* tree diagram
@@ -73,6 +75,8 @@ struct DBContact
 {
 	DWORD signature;
 	DWORD eventCount;       // number of events in the chain for this contact
+	DWORD tsFirstUnread;
+	DWORD dwFirstUnread;
 };
 
 #define DBMODULENAME_SIGNATURE 0x4DDECADEu
@@ -102,6 +106,13 @@ struct DBEvent
 
 #include <poppack.h>
 
+struct DBCachedContact : public DBCachedContactBase
+{
+	DWORD dwEventCount;
+	DWORD tsFirstUnread;
+	DWORD dwFirstUnread;
+};
+
 struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDbxMdb(const TCHAR *tszFileName, int mode);
@@ -126,7 +137,7 @@ struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObje
 	__forceinline bool usesPassword() const { return m_bUsesPassword; }
 
 public:
-	STDMETHODIMP_(void)   SetCacheSafetyMode(BOOL);
+	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL);
 
 	STDMETHODIMP_(LONG)     GetContactCount(void);
 	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto = NULL);
@@ -134,6 +145,7 @@ public:
 	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
 	STDMETHODIMP_(MCONTACT) AddContact(void);
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
+	STDMETHODIMP_(LONG)     GetContactSize(void);
 
 	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID);
 	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);

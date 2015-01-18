@@ -147,11 +147,11 @@ search_again:
 					}
 				}
 				if (!clr_found) {
-					size_t  c_closing = colorname.find_first_of(_T("]"), 0);
+					size_t c_closing = colorname.find_first_of(_T("]"), 0);
 					if (c_closing == colorname.npos)
 						c_closing = colorname.length();
 					const TCHAR *wszColname = colorname.c_str();
-					if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing -1])) {
+					if (endmark != message.npos && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
 						RTF_ColorAdd(wszColname, c_closing);
 						if (!was_added) {
 							clr_was_added = was_added = true;

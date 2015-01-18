@@ -33,7 +33,7 @@
 
 static OBJLIST<CContactCache> arContacts(50, NumericKeySortT);
 
-static DBCachedContact ccInvalid = { 0 };
+static DBCachedContact ccInvalid;
 
 CContactCache::CContactCache(const MCONTACT hContact)
 {

@@ -21,6 +21,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#define OWN_CACHED_CONTACT
+
 #include <m_db_int.h>
 
 /* tree diagram
@@ -174,6 +176,11 @@ struct DBEvent
 
 #include <poppack.h>
 
+struct DBCachedContact : public DBCachedContactBase
+{
+	DWORD dwOfsContact;
+};
+
 struct CDb3Mmap : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDb3Mmap(const TCHAR *tszFileName, int mode);
@@ -209,6 +216,7 @@ public:
 	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID);
 	STDMETHODIMP_(MCONTACT) AddContact(void);
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID);
+	STDMETHODIMP_(LONG)     GetContactSize(void);
 
 	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID);
 	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, DBEVENTINFO *dbe);

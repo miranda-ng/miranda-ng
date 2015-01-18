@@ -46,6 +46,11 @@ STDMETHODIMP_(LONG) CDbxMdb::GetContactCount(void)
 	return m_contactCount;
 }
 
+STDMETHODIMP_(LONG) CDbxMdb::GetContactSize(void)
+{
+	return sizeof(DBCachedContact);
+}
+
 STDMETHODIMP_(MCONTACT) CDbxMdb::FindFirstContact(const char *szProto)
 {
 	mir_cslock lck(m_csDbAccess);
@@ -102,9 +107,8 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 {
 	DWORD dwContactId;
 
-	DBContact dbc;
+	DBContact dbc = { 0 };
 	dbc.signature = DBCONTACT_SIGNATURE;
-	dbc.eventCount = 0;
 	{
 		mir_cslock lck(m_csDbAccess);
 		dwContactId = m_dwMaxContactId++;
@@ -119,8 +123,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 				break;
 		}
 
-		DBCachedContact *cc = m_cache->AddContactToCache(dwContactId);
-		cc->dwDriverData = 0;
+		m_cache->AddContactToCache(dwContactId);
 	}
 
 	NotifyEventHooks(hContactAddedEvent, dwContactId, 0);
@@ -185,7 +188,9 @@ void CDbxMdb::FillContacts()
 				DatabaseCorruption(NULL);
 
 			DBCachedContact *cc = m_cache->AddContactToCache(*(DWORD*)key.mv_data);
-			cc->dwDriverData = dbc->eventCount;
+			cc->dwEventCount = dbc->eventCount;
+			cc->dwFirstUnread = dbc->dwFirstUnread;
+			cc->tsFirstUnread = dbc->tsFirstUnread;
 			arContacts.insert(cc);
 		}
 	}
