@@ -1,18 +1,31 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
+enum FILE_TRANSFER_STATUS
+{
+	NONE,
+	STARTED,
+	PAUSED,
+	FAILED,
+	CANCELED,
+	FINISHED,
+	DESTROYED
+};
+
 struct FileTransferParam
 {
 	PROTOFILETRANSFERSTATUS pfts;
-	bool isTerminated;
+	FILE_TRANSFER_STATUS status;
 	FILE *hFile;
-	int number;
+	int friendNumber;
+	int fileNumber;
 
-	FileTransferParam(int fileNumber, const TCHAR* fileName, size_t fileSize)
+	FileTransferParam(int friendNumber, int fileNumber, const TCHAR* fileName, size_t fileSize)
 	{
-		isTerminated = false;
-		number = fileNumber;
+		status = NONE;
 		hFile = NULL;
+		this->friendNumber = friendNumber;
+		this->fileNumber = fileNumber;
 
 		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 		pfts.flags = PFTS_TCHAR;
@@ -26,19 +39,55 @@ struct FileTransferParam
 		pfts.tszWorkingDir = NULL;
 	}
 
-	void ChangeFileName(const TCHAR* fileName)
+	bool OpenFile(const TCHAR *mode)
+	{
+		hFile = _tfopen(pfts.tszCurrentFile, mode);
+		return hFile != NULL;
+	}
+
+	void Start(Tox *tox)
+	{
+		status = STARTED;
+		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
+	}
+
+	void Broken(Tox *tox)
+	{
+		status = PAUSED;
+		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(uint64_t));
+	}
+
+	void Fail(Tox *tox)
+	{
+		status = FAILED;
+		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
+	}
+
+	void Cancel(Tox *tox)
+	{
+		status = FINISHED;
+		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
+	}
+
+	void Finish(Tox *tox)
+	{
+		status = FINISHED;
+		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
+	}
+
+	void RenameName(const TCHAR* fileName)
 	{
 		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
 	}
 
-	uint8_t GetTransferStatus() const
+	uint8_t GetDirection() const
 	{
 		return pfts.flags & PFTS_SENDING ? 0 : 1;
 	}
 
 	~FileTransferParam()
 	{
-		isTerminated = true;
+		status = DESTROYED;
 		if (pfts.tszWorkingDir != NULL)
 		{
 			mir_free(pfts.tszWorkingDir);
@@ -94,8 +143,8 @@ public:
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList);
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles);
+	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
+	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
 	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url);
 
@@ -182,10 +231,10 @@ private:
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendNameChange(Tox *tox, const int number, const uint8_t *name, const uint16_t nameSize, void *arg);
-	static void OnStatusMessageChanged(Tox *tox, const int number, const uint8_t* message, const uint16_t messageSize, void *arg);
-	static void OnUserStatusChanged(Tox *tox, int32_t number, uint8_t usertatus, void *arg);
-	static void OnConnectionStatusChanged(Tox *tox, const int number, const uint8_t status, void *arg);
+	static void OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg);
+	static void OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg);
+	static void OnUserStatusChanged(Tox *tox, int32_t friendNumber, uint8_t usertatus, void *arg);
+	static void OnConnectionStatusChanged(Tox *tox, const int friendNumber, const uint8_t status, void *arg);
 
 	// contacts search
 	void __cdecl SearchFailedAsync(void* arg);
@@ -208,9 +257,9 @@ private:
 	void __cdecl SendFileAsync(void* arg);
 
 	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
-	static void OnFileRequest(Tox *tox, int32_t number, uint8_t receive_send, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
-	static void OnFriendFile(Tox *tox, int32_t number, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
-	static void OnFileData(Tox *tox, int32_t number, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
+	static void OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_send, uint8_t fileNumber, uint8_t type, const uint8_t *data, uint16_t length, void *arg);
+	static void OnFriendFile(Tox *tox, int32_t friendNumber, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg);
+	static void OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, const uint8_t *data, uint16_t length, void *arg);
 
 	// avatars
 	std::tstring GetAvatarFilePath(MCONTACT hContact = NULL);

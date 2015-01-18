@@ -52,13 +52,13 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 		}
 		else
 		{
-			result = tox_send_action(tox, number, (uint8_t*)&msg[4], (uint16_t)strlen(msg) - 4);
+			result = tox_send_action(tox, number, (uint8_t*)&msg[4], (uint16_t)(strlen(msg) - 4));
 		}
 	}
 
 	if (result == 0)
 	{
-		debugLogA("CToxProto::SendMsg: could not to send message");
+		debugLogA("CToxProto::SendMsg: failed to send message");
 	}
 
 	return result;

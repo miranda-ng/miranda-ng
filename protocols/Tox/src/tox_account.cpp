@@ -142,11 +142,9 @@ void CToxProto::DoBootstrap()
 
 void CToxProto::DoTox()
 {
-	{
-		mir_cslock lock(toxLock);
-		tox_do(tox);
-	}
-	PulseEvent(hToxEvent);
+	tox_do(tox);
+
+	//PulseEvent(hToxEvent);
 	uint32_t interval = tox_do_interval(tox);
 	Sleep(interval);
 }
