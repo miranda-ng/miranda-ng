@@ -2646,13 +2646,20 @@ static INT_PTR EventAddHook(WPARAM wParam, LPARAM lParam)
 #endif
 
 void MessageSendWatchThread(void *a) {
-	char *err, *ptr, *nexttoken;
+	char *str, *err, *ptr, *nexttoken;
 	HANDLE hDBAddEvent = NULL;
 	msgsendwt_arg *arg = (msgsendwt_arg*)a;
 
 	LOG(("MessageSendWatchThread started."));
 
-	char *str = SkypeRcvMsg(arg->szId, SkypeTime(NULL) - 1, arg->hContact, db_get_dw(NULL, "SRMsg", "MessageTimeout", TIMEOUT_MSGSEND));
+	if (db_get_b(NULL, SKYPE_PROTONAME, "NoAck", 1))
+	{
+		ProtoBroadcastAck(SKYPE_PROTONAME, arg->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+		str=NULL;
+	}
+	else
+		str = SkypeRcvMsg(arg->szId, SkypeTime(NULL) - 1, arg->hContact, db_get_dw(NULL, "SRMsg", "MessageTimeout", TIMEOUT_MSGSEND));
+
 	InterlockedDecrement(&sendwatchers);
 	if (str)
 	{
@@ -2731,27 +2738,22 @@ INT_PTR SkypeSendMessage(WPARAM, LPARAM lParam) {
 		sprintf(szId, "#M%d ", dwMsgNum++);
 	}
 	InterlockedIncrement(&sendwatchers);
-	BOOL sendok = true;
+	bool sendok = true;
 	if (!utfmsg || SkypeSend("%s%s %s %s", szId, mymsgcmd, dbv.pszVal, utfmsg))
 		sendok = false;
 	if (utfmsg && utfmsg != msg) free(utfmsg);
 	db_free(&dbv);
 
 	if (sendok) {
-		if (db_get_b(NULL, SKYPE_PROTONAME, "NoAck", 1)) {
-			ProtoBroadcastAck(SKYPE_PROTONAME, ccs->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-		}
-		else {
-			msgsendwt_arg *psendarg = (msgsendwt_arg*)calloc(1, sizeof(msgsendwt_arg));
+		msgsendwt_arg *psendarg = (msgsendwt_arg*)calloc(1, sizeof(msgsendwt_arg));
 
-			if (psendarg) {
-				psendarg->hContact = ccs->hContact;
-				strcpy(psendarg->szId, szId);
-				pthread_create(MessageSendWatchThread, psendarg);
-				return 1;
-			}
+		if (psendarg) {
+			psendarg->hContact = ccs->hContact;
+			strcpy(psendarg->szId, szId);
+			pthread_create(MessageSendWatchThread, psendarg);
 		}
-		InterlockedDecrement(&sendwatchers);
+		else
+			InterlockedDecrement(&sendwatchers);
 		return 1;
 	}
 	else
