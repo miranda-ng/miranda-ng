@@ -202,6 +202,7 @@
     <ClInclude Include="src\tox_bootstrap.h" />
     <ClInclude Include="src\tox_dns.h" />
     <ClInclude Include="src\tox_proto.h" />
+    <ClInclude Include="src\tox_transfer.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

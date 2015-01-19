@@ -1,106 +1,6 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-enum FILE_TRANSFER_STATUS
-{
-	NONE,
-	STARTED,
-	PAUSED,
-	FAILED,
-	CANCELED,
-	FINISHED,
-	DESTROYED
-};
-
-struct FileTransferParam
-{
-	PROTOFILETRANSFERSTATUS pfts;
-	FILE_TRANSFER_STATUS status;
-	FILE *hFile;
-	int friendNumber;
-	int fileNumber;
-
-	FileTransferParam(int friendNumber, int fileNumber, const TCHAR* fileName, size_t fileSize)
-	{
-		status = NONE;
-		hFile = NULL;
-		this->friendNumber = friendNumber;
-		this->fileNumber = fileNumber;
-
-		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
-		pfts.flags = PFTS_TCHAR;
-		pfts.totalFiles = 1;
-		pfts.ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*(pfts.totalFiles + 1));
-		pfts.ptszFiles[0] = pfts.tszCurrentFile = mir_tstrdup(fileName);
-		pfts.ptszFiles[pfts.totalFiles] = NULL;
-		pfts.totalBytes = pfts.currentFileSize = fileSize;
-		pfts.totalProgress = pfts.currentFileProgress = 0;
-		pfts.currentFileNumber = 0;
-		pfts.tszWorkingDir = NULL;
-	}
-
-	bool OpenFile(const TCHAR *mode)
-	{
-		hFile = _tfopen(pfts.tszCurrentFile, mode);
-		return hFile != NULL;
-	}
-
-	void Start(Tox *tox)
-	{
-		status = STARTED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
-	}
-
-	void Broken(Tox *tox)
-	{
-		status = PAUSED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(uint64_t));
-	}
-
-	void Fail(Tox *tox)
-	{
-		status = FAILED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-	}
-
-	void Cancel(Tox *tox)
-	{
-		status = FINISHED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-	}
-
-	void Finish(Tox *tox)
-	{
-		status = FINISHED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
-	}
-
-	void RenameName(const TCHAR* fileName)
-	{
-		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
-	}
-
-	uint8_t GetDirection() const
-	{
-		return pfts.flags & PFTS_SENDING ? 0 : 1;
-	}
-
-	~FileTransferParam()
-	{
-		status = DESTROYED;
-		if (pfts.tszWorkingDir != NULL)
-		{
-			mir_free(pfts.tszWorkingDir);
-		}
-		mir_free(pfts.pszFiles[0]);
-		mir_free(pfts.pszFiles);
-		if (hFile)
-		{
-			fclose(hFile);
-		}
-	}
-};
-
 struct CToxProto : public PROTO<CToxProto>
 {
 public:
@@ -170,7 +70,7 @@ private:
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread, hToxEvent;
 	bool isTerminated, isConnected;
-	std::map<uint8_t, FileTransferParam*> transfers;
+	CTransferList *transfers;
 
 	// tox
 	bool InitToxCore();
@@ -251,9 +151,6 @@ private:
 	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
 	// transfer
-	void AddToTransferList(FileTransferParam *transfer);
-	void RemoveFromTransferList(FileTransferParam *transfer);
-
 	void __cdecl SendFileAsync(void* arg);
 
 	//static void OnFileControlCallback(Tox *tox, int32_t number, uint8_t hFile, uint64_t fileSize, uint8_t *name, uint16_t nameSize, void *arg);
