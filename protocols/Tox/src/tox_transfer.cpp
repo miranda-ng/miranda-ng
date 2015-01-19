@@ -113,7 +113,7 @@ void CToxProto::OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, c
 	if (hContact)
 	{
 		FileTransferParam *transfer = proto->transfers->Get(fileNumber);
-		if (transfer = NULL)
+		if (transfer == NULL)
 		{
 			tox_file_send_control(tox, friendNumber, 1, fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 			return;
@@ -259,7 +259,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 	{
 		
 		FileTransferParam *transfer = proto->transfers->Get(fileNumber);
-		if (transfer = NULL)
+		if (transfer == NULL)
 		{
 			tox_file_send_control(tox, friendNumber, receive_send, fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 			return;

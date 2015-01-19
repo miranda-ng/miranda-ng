@@ -122,7 +122,7 @@ public:
 
 	FileTransferParam * Get(uint8_t fileNumber)
 	{
-		if (transfers.find(fileNumber) == transfers.end())
+		if (transfers.find(fileNumber) != transfers.end())
 		{
 			return transfers.at(fileNumber);
 		}
