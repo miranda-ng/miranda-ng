@@ -273,22 +273,24 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendNumber, cons
 			tox_send_avatar_info(proto->tox, friendNumber);
 			proto->delSetting(hContact, "Auth");
 
-			for (std::map<uint8_t, FileTransferParam*>::iterator it = proto->transfers.begin(); it != proto->transfers.end(); it++)
+			for (int i = 0; i < proto->transfers->Count(); i++)
 			{
 				// only for receiving
-				if (it->second->friendNumber == friendNumber && it->second->GetDirection() == 1)
+				FileTransferParam *transfer = proto->transfers->At(i);
+				if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 1)
 				{
-					it->second->Broken(tox);
+					transfer->Resume(tox);
 				}
 			}
 		}
 		else
 		{
-			for (std::map<uint8_t, FileTransferParam*>::iterator it = proto->transfers.begin(); it != proto->transfers.end(); it++)
+			for (int i = 0; i < proto->transfers->Count(); i++)
 			{
-				if (it->second->friendNumber == friendNumber)
+				FileTransferParam *transfer = proto->transfers->At(i);
+				if (transfer->friendNumber == friendNumber)
 				{
-					it->second->status = PAUSED;
+					transfer->status = PAUSED;
 				}
 			}
 		}

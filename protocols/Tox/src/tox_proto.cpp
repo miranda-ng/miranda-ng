@@ -46,11 +46,15 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETMYAVATART, &CToxProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CToxProto::SetMyAvatar);
 
+	// transfers
+	transfers = new CTransferList();
+
 	hToxEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 }
 
 CToxProto::~CToxProto()
 {
+	delete transfers;
 	mir_free(accountName);
 	UninitNetlib();
 }
