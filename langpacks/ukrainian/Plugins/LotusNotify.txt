@@ -8,7 +8,7 @@
 [Notify about new mail in Lotus Database]
 Сповіщає про нову пошту в Lotus Database
 [Show again if still unread]
-Показати ще раз, якщо непрочитане
+Показувати непрочитане ще раз
 [Show error messages]
 Повідомляти про помилки
 [Set popup colors]
@@ -20,21 +20,21 @@
 [Text]
 Текст
 [Close after:]
-Закрити після:
+Затримка:
 [sec (0 default,\n -1 disabled)]
 с (0 замовчання,\n-1 вимкнути)
 [...but only if popup not clicked]
-...але тільки якщо сплив. вікно не натиснуте
+...тільки якщо спл. вікно не натиснуте
 [Left button click cmd:]
-Команди лівої кнопки миші:
+Команда ЛКМ:
 [Command parameters:]
 Параметри команди:
 [Remember newest message ID\n and don't show older]
-Пам'ятати ID останнього повідомлення\nі не показувати старі
+Пам'ятати ID останнього повідомлення і не показувати старі
 [version:]
 Версія:
 [Clear popups history]
-Очистити історію сплив. вікон
+Очистити історію спливаючих вікон
 [Filter messages contain below strings in:]
 Фільтр повідомлення містять нижче рядка в:
 [Sender]
@@ -52,9 +52,9 @@
 [Secondary server:]
 Вторинний сервер:
 [Check interval:]
-Період перевірки:
+Інтервал:
 [(0-disabled)]
-0-вимкнено
+0 - вимкнено
 [min.]
 хв
 [Password:]
@@ -92,7 +92,7 @@ notes.ini модифіковано коректно. Необхідно пере
 [Plugins]
 Плагіни
 [&Check Lotus]
-&Перевірити
+&Перевірити Lotus
 [Lotus Notify]
 Повідомлення Lotus
 [New Lotus document detected]

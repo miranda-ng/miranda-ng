@@ -84,7 +84,7 @@ IP-адреса 2
 [&Copy link]
 &Копіювати посилання
 [Share Current Directory]
-Розшарити поточку папку
+Розшарити поточну папку
 [All files]
 Усі файли
 [Specify a file to share]

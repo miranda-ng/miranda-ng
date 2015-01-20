@@ -43,8 +43,6 @@
 WATrack: запит інформації
 [Artist: %s\\nTitle: %s\\nAlbum: %s]
 Артист: %s\\nНазва: %s\\nАльбом: %s
-[WATrack: %s]
-WATrack: %s
 [WATrack: request denied]
 WATrack: запит заборонений
 [Imitate IEView API]

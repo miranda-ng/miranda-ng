@@ -126,7 +126,7 @@
 [Store for each status separately]
 Зберігати окремо для кожного статусу
 [Use default...]
-За замовчанням
+За замовчанням використовувати...
 [Use the most recent message]
 Останнє повідомлення
 [Use the default message]
