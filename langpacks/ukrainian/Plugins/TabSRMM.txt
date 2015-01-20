@@ -393,8 +393,6 @@ ID користувача в панелі статусу
 Попередні події в кількості
 [Load previous events less than]
 Події, отримані пізніше ніж
-[Events]
-подій
 [minutes old]
 хвилин тому
 [Global message log display]

@@ -7,8 +7,6 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Додає веб-сторінки як контакти до списку контактів і відображає текст і/або видає сповіщення про зміни цих сторінок у вікно.
-[Webview]
-WebView
 [Update data every]
 Оновлювати дані кожні
 [minutes]
@@ -304,7 +302,7 @@ URL-адреса не поставляється
 [Minimal level of whitespace removal]
 Мінімально видаляти вільне місце
 [Medium level of whitespace removal]
-Середне видаляти вільне місце
+Помірно видаляти вільне місце
 [Large level of whitespace removal]
 Максимально видаляти вільне місце
 [Remove all whitespace]
@@ -320,7 +318,7 @@ URL-адреса не поставляється
 [A specific part of web page changes]
 Змінилися певні частини веб-сторінки
 [This is a preview popup.]
-Це сплив. вікно попереднього перегляду.
+Це спливаюче вікно попереднього перегляду.
 [You need to supply a search string.]
 Необхідно ввести в пошуковий рядок.
 [You need to supply a start string.]
@@ -342,4 +340,4 @@ URL-адреса не поставляється
 [Site URL]
 Посилання на сайт
 [Please select site in Find/Add contacts...]
-Будь ласка, виберіть сайт у Знайти/додати контакти
+Будь ласка, виберіть сайт у Знайти/додати контакти...

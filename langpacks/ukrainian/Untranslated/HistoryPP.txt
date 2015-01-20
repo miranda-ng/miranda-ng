@@ -1,3 +1,4 @@
-﻿[WebPager]
+﻿[WATrack: %s]
+[WebPager]
 [EMail Express]
 [SMTP Simple]

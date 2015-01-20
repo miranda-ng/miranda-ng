@@ -262,9 +262,9 @@ ID користувача
 [default]
 за замовчанням
 [Selected]
-Вибране
+Вибрано
 [contacts]
-Контакти
+контактів
 [Unknown]
 Невідомий
 [Stay on Top]

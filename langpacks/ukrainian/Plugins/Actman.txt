@@ -260,7 +260,7 @@
 [Returns contact amount, excluding user account]
 Повертає к-ть контактів (без облікового запису користувача)
 [Ansi Text]
-Текст Ansi
+Текст ANSI
 [Removes all settings for the specified module]
 Видаляє всі налаштування вказаного модуля
 [Show window for new/changed profile password]
@@ -318,7 +318,7 @@ YAPP або Popup
 [Unicode Text]
 Текст Unicode
 [displays the Account Manager]
-показує менеджер облікових записів
+відкриває менеджер облікових записів
 [Avatar service (AVS.dll)]
 Служба аватарів (AVS.dll)
 [Filename]
@@ -603,7 +603,7 @@ UTF16+сигнатури
 Зареєстровані дії
 ; Actman30
 [Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-Ваші налаштування Actman призначені для застарілої версії плагіна. Виберіть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новый формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
+Ваші налаштування Actman призначені для застарілої версії плагіна. Натисніть "OK" для конвертування налаштувань у новий формат, або "Скасувати", щоб повернути попередню версію плагіна вручну чи зробити резервну копію налаштувань. Якщо ви експортували макроси раніше, не забудьте імпортувати їх назад перед конвертуванням у новый формат, оскільки новая версія плагіна не може імпортувати макроси, експортовані попередньою версією.
 [Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
 Не користуйтеся перевіркою макросів, якщо є незбережені макроси. Якщо макроси містять дії з категорії "Розширене" або операції запису у файл, не забудьте перевірити правильність їх роботи, оскільки логіку цих дій було змінено.
 [Actman settings converted to new version]
