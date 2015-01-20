@@ -147,8 +147,16 @@ AIM Установить Instant Idle
 История &пользователя
 [Mismatched Screen Name or password.]
 Неправильное имя AIM или пароль.
+[You are connecting too frequently. Try waiting 10 minutes to reconnect.]
+Вы подключаетесь слишком часто. Подождите 10 минут и попробуйте снова.
 [Unknown error occurred when attempting to connect.]
 Неизвестная ошибка при соединении.
+[Not supported by server.]
+Не поддерживается сервером.
+[Not supported by the client.]
+Не поддерживается клиентом.
+[User temporarily unavailable.]
+Пользователь временно недоступен.
 [Check your Screen Name.]
 Проверьте свой псевдоним.
 [Check your Password.]
@@ -159,6 +167,10 @@ AIM Установить Instant Idle
 Сервис временно недоступен.
 [An Error has occurred.]
 Неизвестная ошибка.
+[Internal Error.]
+Внутренняя ошибка.
+[Failed to open file: %s : %s]
+Не удалось открыть файл: %s : %s
 [AIM Link Protocol]
 Протокол AIM
 [%s Protocol]
@@ -171,6 +183,10 @@ AIM Установить Instant Idle
 (Автоответ):
 [No information has been provided by the server.]
 Сервер не предоставил никакой информации.
+[Unknown error when adding buddy to list. Error code %#x]
+Неизвестная ошибка при добавлении в список. Код %#x
+[Unknown error when attempting to modify a group. Error code %#x]
+Неизвестная ошибка при попытке модифицировать группу. Код %#x
 [Error uploading avatar. (Too small)]
 Не удалось загрузить аватар. (Слишком маленький)
 [Error uploading avatar. (Too big)]
@@ -229,6 +245,8 @@ AIM Установить Instant Idle
 Нестандартный скрипт
 [Profile Editor]
 Редактор профиля
+[AIM Account Type]
+Тип учётной записи AIM
 [AIM Extended Status]
 Расширенный статус AIM
 [&Block]
@@ -252,6 +270,8 @@ AIM Установить Instant Idle
 [Privacy]
 Приватность
 [Please, enter a username in the options dialog.]
-Пожалуйста, введи имя пользователя в настройках
+Пожалуйста, введите имя пользователя в настройках
+[Please, enter a password in the options dialog.]
+Пожалуйста, введите пароль в настройках
 [Failed to open file: %s %s]
 Не удалось открыть файл: %s %s

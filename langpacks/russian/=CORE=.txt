@@ -1783,6 +1783,8 @@ UIN, E-mail и т.д.
 Последнее сообщение вы получили %s в %s.
 [%s is typing a message...]
 %s набирает текст...
+[Me]
+Я
 [File sent]
 Отправка файла
 [Outgoing messages]

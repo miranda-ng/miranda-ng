@@ -311,6 +311,14 @@ DCC: Запрос на продолжение закачки файла от %s 
 Готово: %u комнат чата
 [(probably truncated by server)]
 (возможно, ограничено сервером)
+[%ud, %uh, %um, %us]
+%u дн, %u ч, %u мин, %u с
+[%uh, %um, %us]
+%u ч, %u мин, %u с
+[%um, %us]
+%u мин, %u с
+[%us]
+%u с
 [online since %s, idle %s]
 в сети с %s, простаивает %s
 [Change nickname]

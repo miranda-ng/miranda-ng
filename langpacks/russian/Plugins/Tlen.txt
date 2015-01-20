@@ -71,6 +71,8 @@ P2P Подключения
 Прокси-сервер:
 [Proxy requires authorization]
 Прокси требует авторизации
+[Mail Notification]
+Уведомления о почте
 [Enable incoming mail notification]
 Вкл. уведомление о входящей почте
 [Colors]
@@ -185,6 +187,8 @@ Tlen входящие
 Комната чата
 [Tlen Mail]
 Почта Tlen
+[Send picture]
+Отправить изображение
 [Voice Chat]
 Голосовой чат
 [Request authorization]
@@ -293,3 +297,5 @@ Tlen входящие
 По умолчанию
 [%s connection]
 %s подключение
+[%s SOCKS connection]
+SOCKS подключение %s

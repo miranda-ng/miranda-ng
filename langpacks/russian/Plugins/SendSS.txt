@@ -17,6 +17,8 @@
 Отмена
 [Send screenshot]
 Отправить скриншот
+[Send screenshot to\n<unknown>]
+Отправить снимок экрана для\n<Неизвестный контакт>
 [Ti&med capture]
 За&держка захвата
 [Time (secs):]
@@ -53,6 +55,8 @@
 Сод&ержимое
 [Indirect capture]
 косвенный захват
+[Target tool]
+Прицел
 [File:]
 Файл:
 [Description:]
@@ -113,6 +117,8 @@
 Игнорировать
 [SendScreenshot - Error]
 SendScreenshot - Ошибка
+[Main Icon]
+Главный значок
 [Target Cursor]
 Курсор цель
 [Target Desktop]
@@ -147,6 +153,8 @@ HTTP подключение SendSS
 Отправить скриншот
 [Screenshots]
 Снимки экрана
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+Не найдена служба изображений (AdvaImg).\nПлагин SendSS будет отключен.
 [Buttons]
 Кнопки
 [Take a screenshot]
@@ -159,16 +167,22 @@ HTTP подключение SendSS
 Кредиты
 [Drag&Drop the target on the desired window.]
 Перетащите прицел на нужное окно.
+[Send screenshot to\n]
+Отправить снимок экрана для
 [Window]
 Окно
 [Desktop]
 Рабочий стол
+[<Entire Desktop>]
+<Весь Рабочий стол>
 [Monitor]
 Монитор
 [ (primary)]
  (основной)
 [File]
 Файл
+[<Only save>]
+<Только сохранить>
 [File Transfer]
 Передача файла
 [E-mail]
@@ -185,7 +199,13 @@ Upload Pie (1 нед)
 Информация
 [Delete after send]
 Удалить после отправки
+[Capture]
+Создать скриншот
+[Couldn't take a screenshot]
+Не удалось создать снимок экрана
 [Select a file]
 Выберите файл
 [Select a target window.]
 Выберите окно для отправки.
+[Screenshot ]
+Снимок экрана\s

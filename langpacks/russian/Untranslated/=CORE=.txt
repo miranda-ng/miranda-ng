@@ -1,6 +1,5 @@
 ﻿[AaBbYyZz]
 [&E-mail]
-[Me]
 [ID]
 [Ctrl + ]
 [Alt + ]

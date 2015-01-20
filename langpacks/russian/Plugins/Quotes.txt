@@ -53,8 +53,14 @@
 &Обменять
 [Convert]
 Конвертировать
+[Info provided by <a href="http://www.google.com">Google</a>]
+Источник: <a href="http://www.google.com">Google</a>
 [Close]
 Закрыть
+[Chart]
+Диаграмма
+[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
+Источник: <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>
 [Filter:]
 Фильтр
 [Popup Window Settings]
@@ -237,3 +243,5 @@ HTTP подключение Quotes
 Значение на предыдущее закрытие
 [Change]
 Изменение
+[Log Files (*.txt,*.log)]
+Журналы (*.txt,*.log)

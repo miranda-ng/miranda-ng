@@ -6,7 +6,7 @@
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Non-IM Contact allows you to add 'contacts' that can act as shortcuts to other programs, or links to web pages.\r\nThe contacts name can be read from a text file (includes any ASCII file).\r\nThis plugin is a combination of Favorites and Text Reader plugins both made by me)]
-Не-IM контакт позволяет добавлять ссылки на другие программы и веб-страницы в качестве «контактов». Имена этих «контактов» могут браться из текстового файла (любого файла ASCII).\r\n Этот плагин является комбинацией плагинов Favorites и Text Reader, также написанных мной.
+Не-IM контакт позволяет добавлять ссылки на другие программы и веб-страницы в качестве «контактов». Имена этих «контактов» могут браться из текстового файла (любого файла ASCII).\r\nЭтот плагин является комбинацией плагинов Favorites и Text Reader, также написанных мной.
 [View/Edit Files]
 Просмотр/Изменение файлов
 [Add File]
@@ -81,6 +81,8 @@
 Возврат...
 [Help]
 Справка
+[Copy / Export contact]
+Копировать/Экспортировать контакт
 [&Export Non-IM Contact]
 &Экспорт не-IM контакта
 [Co&py Non-IM Contact]
@@ -93,12 +95,18 @@
 Выбрать папку
 [Non-IM Contact protocol timer is Disabled]
 Выключать протокол по таймеру
+[Timer intervals... Non-IM Contact Protocol timer is %d seconds]
+Интервал... Интервал протокола Non-IM Contact %d секунд
 [New Non-IM Contact]
 Новый не-IM контакт
 [Link and Contact list Settings]
 Ссылки и настройки списка контактов
+[Copy Contact]
+Копировать контакт
 [Files]
 Файлы
+[Edit Non-IM Contact "%s"]
+Редактировать "%s"
 [Do you want to overwrite the contents of the file?\r\n\r\nPressing No will append these contacts to the end of the file.]
 Вы уверены, что хотите перезаписать содержимое файла?\r\n\r\nНажмите "Нет", чтобы дописать эти контакты в конец файла.
 [File couldn't be opened]
@@ -127,3 +135,9 @@
 &Создать строку
 [E&dit Contact Settings]
 Изм&енить настройки контакта
+[%s - ERROR: no line specified or line not found (in %s)]
+%s - Ошибка: строка не указана или не существует (в %s)
+[%s - ERROR: file couldn't be opened (in %s)]
+%s - Ошибка: невозможно открыть файл (в %s)
+[%s - ERROR: no file specified in settings (in %s)]
+%s - Ошибка: файл не указан в настройках (в %s)

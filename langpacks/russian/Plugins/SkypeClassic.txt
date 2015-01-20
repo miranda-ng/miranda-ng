@@ -178,7 +178,7 @@ SkypeOut контакты в статусе:
 [&Kick user]
 Выгнать пользователя
 [Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
-Skype API определил имя пользователя '%s', которое не совпадает с именем '%s', введённым в настройках плагина. Для подключения необходимо удалить или исправить имя пользователя в настройках.
+Skype API вернул имя пользователя '%s', которое не совпадает с именем '%s', введённым в настройках плагина. Для подключения необходимо удалить или исправить имя пользователя в настройках.
 [Cannot reach Skype API, plugin disfunct.]
 Skype API недоступен, плагин не будет работать.
 [Do a SkypeOut-call]

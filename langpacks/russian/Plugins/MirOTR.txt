@@ -145,6 +145,8 @@ OTR завершён
 OTR не является безопасным
 [OTR]
 Шифрование
+[Refresh]
+Обновить
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Создание нового частного ключа для протокола '%s'.\nПодождите...
 [General]

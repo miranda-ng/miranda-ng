@@ -7,6 +7,8 @@
 ;============================================================
 [Notify about new mail in Lotus Database]
 Уведомляет о появлении новых писем в базе Lotus Notes.
+[Show again if still unread]
+Показывать непрочитанное ещё раз
 [Show error messages]
 Показывать ошибки
 [Set popup colors]
@@ -18,22 +20,52 @@
 [Text]
 Текст
 [Close after:]
-Закрывать после:
+Задержка:
+[sec (0 default,\n -1 disabled)]
+с (0 умолчание,\n-1 выключить)
+[...but only if popup not clicked]
+...только если вспл. окно не нажато
+[Left button click cmd:]
+Команда ЛКМ:
+[Command parameters:]
+Параметры команды:
+[Remember newest message ID\n and don't show older]
+Запоминать ID последнего сообщения и не показывать старые
 [version:]
 Версия:
+[Clear popups history]
+Очистить историю всплывающих окон
 [Sender]
 Отправитель
 [Subject]
 Тема
+[Lotus connection settings]
+Настройки соединения Lotus
+[Primary server:]
+Основной сервер:
 [Database:]
 База данных:
+[Secondary server:]
+Вторичный сервер:
+[Check interval:]
+Интервал:
+[(0-disabled)]
+0 - выключено
 [min.]
 мин.
 [Password:]
 Пароль:
+[Unable to load all required Lotus API functions]
+Не удалось загрузить все необходимые функции Lotus API
+[Now checking Lotus, try again later]
+Выполняется проверка Lotus, повторите попытку позже
 [Attachments: %d bytes]
 Вложения: %d байт
 [Status]
 Статус
 [Plugins]
 Плагины
+[&Check Lotus]
+&Проверить Lotus
+[New Lotus document detected]
+Обнаружен новый документ Lotus

@@ -123,8 +123,12 @@
 Хранить
 [most recent messages (0=disable)]
 последних сообщений (0=отключить)
+[Store for each status separately]
+Хранить отдельно для каждого статуса
+[Use default...]
+По умолчанию использовать...
 [Use the most recent message]
-Использовать наиболее свежее сообщение
+Наиболее свежее сообщение
 [Use the default message]
 Стандартное сообщение
 [Reset per-protocol messages when changing global status]
@@ -197,6 +201,8 @@
 Ваши последние статусные сообщения находятся в этой категории. Не рекомендуется обновлять их здесь, т.к. они будут заменены более новыми сообщениями.
 [You can put your frequently used and favorite messages in this category.]
 Вы можете разместить часто используемые и любимые сообщения в этой категории.
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e., disabled state is more restrictive).]
+Если опция включена, NewAwaySys считает "отправки", начиная с последней смены статусного сообщения, даже если сам статус не менялся.\nЕсли опция выключена, "отправки" считаются от последней смены статуса.
 [Message]
 Сообщение
 [URL]
@@ -234,7 +240,7 @@
 [Away]
 Отсутствую
 [Been gone since %nas_awaysince_time%, will be back later.]
-Ушел с %nas_awaysince_time%, буду позже.
+Отошел в %nas_awaysince_time%, буду позже.
 [NA]
 Недоступен
 [Give it up, I'm not in!]
@@ -279,6 +285,24 @@
 Включить автоответчик
 [New Away System]
 Система сообщений
+[Away since time in default format; ?nas_awaysince_time(x) in format x]
+"отошел в" (время в формате по умолчанию); ?nas_awaysince_time(x) в формате x
+[Away since date in default format; ?nas_awaysince_date(x) in format x]
+"отошел в" (дата в формате по умолчанию); ?nas_awaysince_date(x) в формате x
+[Status description]
+описание статуса
+[Your nick for current protocol]
+ваш ник для текущего протокола
+[Number of status message requests from the contact]
+количество запросов статусного сообщения от пользователя
+[Number of messages from the contact]
+количество сообщений от пользователя
+[Time passed until request]
+времени прошло до запроса
+[Returns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+возвращает предустановленное сообщение по его заголовку: ?nas_predefinedmessage(creepy)
+[Current protocol name]
+имя текущего профиля
 [Stranger]
 Незнакомец
 [%d hours]

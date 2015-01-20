@@ -261,6 +261,8 @@
 Показывает или скрывает окно сетевой консоли
 [Returns contact amount, excluding user account]
 Возвращает кол-во контактов за исключением учётной записи пользователя
+[Ansi Text]
+Текст ANSI
 [Removes all settings for the specified module]
 Удаляет все настройки, относящиеся к указанному модулю
 [Show window for new/changed profile password]
@@ -277,12 +279,38 @@
 Система
 [Ignore all]
 Игнорировать все
+[Ignore messages]
+Игнорировать сообщения
+[Ignore URLs]
+Игнорировать URL
+[Ignore files]
+Игнорировать файлы
+[Ignore User Online]
+Игнорировать "Пользователь в сети"
+[Ignore requests]
+Игнорировать запросы
+[Ignore 'You were added']
+Игнорировать "Вас добавили"
+[Ignore Contact]
+Игнорировать контакт
+[Unignore Contact]
+Снять игнорирование
+[restart in default profile or profile manager]
+с профилем по умолчанию или менеджером профилей
+[restart with current profile]
+с текущим профилем
+[Restarts Miranda]
+Перезапускает Miranda
 [All protocols]
 Все протоколы
 [Protocol]
 Протокол
 [Check for updates]
 Проверяет наличие обновлений
+[with confirmation]
+с подтверждением
+[without confirmation]
+без подтверждения
 [YAPP or Popup]
 YAPP или Popup
 [Warning]
@@ -295,6 +323,10 @@ YAPP или Popup
 Всплывающее окно
 [YAPP only]
 Только YAPP
+[Unicode Text]
+Текст Unicode
+[displays the Account Manager]
+открывает менеджер учётных записей
 [Avatar service (AVS.dll)]
 Служба аватаров (AVS.dll)
 [Filename]

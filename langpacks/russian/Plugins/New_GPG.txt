@@ -85,6 +85,8 @@ ID ключа:
 0 - никогда не заканчивается
 [Select existing public key from list]
 Выбрать открытый ключ из списка
+[Enter password for your secret key]
+Введите пароль для секретного ключа
 [Password:]
 Пароль:
 [Save password to database]
@@ -95,6 +97,10 @@ ID ключа:
 Импортировать
 [Select keyserver for key search:]
 Выбрать сервер ключей для поиска:
+[Received encrypted file from contact with disabled encryption.]
+Получен зашифрованный файл от контакта с ограниченными возможностями шифрования.
+[Choose which keys to export]
+Выберите ключи для экспорта
 [Current password:]
 Текущий пароль:
 [User list:]
@@ -175,6 +181,10 @@ ID ключа:
 Заменить
 [Accept]
 Принять
+[Received key from %s]
+Получен ключ от %s
+[Key length must be of length from 1024 to 4096 bits]
+Длина ключа должна быть от 1024 до 4096 бит
 [Invalid Email]
 Неверный e-mail
 [GPG binary is set and valid (this is good).\n]

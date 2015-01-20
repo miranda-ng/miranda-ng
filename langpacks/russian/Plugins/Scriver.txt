@@ -273,6 +273,10 @@
 Выделить &всё
 [Word lookup]
 Найти слово
+[Google Maps]
+Google Карты
+[Google Translate]
+Переводчик Google
 [C&lear Log]
 Оч&истить журнал
 [&Open link]
@@ -565,6 +569,8 @@
 Фон инфо-панели
 [Info bar status message]
 Инфо-панель: cтатусное сообщение
+[Line between messages]
+Линии между сообщениями
 [Offline]
 Не в сети
 [Online]

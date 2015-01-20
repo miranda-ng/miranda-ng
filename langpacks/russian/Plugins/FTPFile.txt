@@ -165,6 +165,10 @@ FTP файл менеджер
 Отправить файл
 [Zip and upload file]
 Запаковать и отправить файл
+[You have to fill FTP server setting before upload a file.]
+Для отправки файла необходимо указать FTP-сервер в настройках.
+[Error has occurred while trying to create a dialog!]
+Ошибка при создании диалога!
 [File upload complete]
 Закачка файла завершена
 [Upload canceled]
@@ -195,6 +199,8 @@ FTP файл менеджер
 Ожидание...
 [UNKNOWN]
 Неизвестно
+[Error occurred when zipping the file(s).]
+Ошибка при архивации файлов.
 [Do you really want to cancel this upload?]
 Вы действительно хотите отменить эту загрузку?
 [Status: %s\r\nFile: %s\r\nServer: %s]

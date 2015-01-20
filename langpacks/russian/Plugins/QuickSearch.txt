@@ -253,8 +253,10 @@ ID клиента
 Изменить с помощью QuickSearch
 [default]
 по умолчанию
+[Selected]
+Выбрано
 [contacts]
-Контакты
+контактов
 [Unknown]
 Неизвестный
 [Stay on Top]

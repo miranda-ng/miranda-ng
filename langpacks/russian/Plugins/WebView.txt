@@ -7,12 +7,16 @@
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
 Позволяет добавить веб-страницы в качестве контактов в список контактов, показывает текст и/или изменения этих страниц.
+[Update data every]
+Обновлять каждые
 [minutes]
-минут(ы)
+минут
 [seconds]
 секунд
 [Disable main menu items]
 Откл. пункты главного меню
+[Window appearance]
+Внешний вид окна
 [Background color:]
 Цвет фона:
 [Text color:]
@@ -23,16 +27,28 @@
 Курсив
 [Underline]
 Подчёркивание
+[Save individual window positions]
+Сохранять положение для каждого окна
 [Error messages]
 Ошибки
 [Suppress error messages]
-Подавлять сообщения об ошибках
+Откл. сообщения об ошибках
+[Display using Popup or OSD plugin]
+Исп. плагин Popup или OSD
 [Expert options]
 Расширенные настройки
 [(not recommended)]
 (не рекомендуется)
+[Contact name:]
+Имя контакта:
 [Display]
 Показывать
+[Opens data window]
+Открыть окно с данными
+[Display clean-up]
+Очистить дисплей
+[Remove HTML]
+Удалить HTML
 [Cancel]
 Отмена
 [Apply]
@@ -43,6 +59,8 @@
 &Следующий
 [Find what:]
 Найти:
+[Search was completed.]
+Поиск завершен.
 [Add time and date of alert to contact name]
 Добавить время и дату к имени контакта
 [Add as prefix]
@@ -95,20 +113,42 @@
 Автообновление выключено
 [Auto update enabled]
 Автообновление включено
+[Open cache folder]
+Открыть папку кэша
+[Open/Close window]
+Открыть/Закрыть окно
 [Contact options]
 Параметры
+[Stop data processing]
+Остановить обработку данных
 [Network]
 Сеть
 [Popups]
 Всплывающие окна
 [Cannot write to file]
 Невозможно записать в файл
+[Cannot read from file]
+Невозможно прочитать из файла
+[Cannot write to file 1]
+Невозможно записать в файл 1
+[Cannot write to file 2]
+Невозможно записать в файл 2
+[Loaded from cache]
+Загружено из кэша
+[Stop processing]
+Остановить обработку
 [Stick to the front]
 Поверх окон
 [Disable stick to the front]
 Выключить поверх окон
+[Download in progress, please wait...]
+Загрузка, пожалуйста подождите...
+[Updating...]
+Обновление...
 [The server is down or lagging.]
 Сервер упал или лагает.
+[Invalid search parameters.]
+Неверные параметры поиска.
 [Processing data (Stage 1)]
 Обработка данных (этап 1)
 [Processing data stopped by user.]
@@ -133,5 +173,13 @@
 Сайт уже загружается, попробуйте позже.
 [Popup plugin]
 Вспл. окна
+[This is a preview popup.]
+Это всплывающее окно предпросмотра.
+[Invalid symbol present in contact name.]
+Недопустимый символ в имени контакта.
+[Cache folder does not exist.]
+Папка кэша не существует.
 [Missing "psite.bat" file.]
 Отсутствует файл "psite.bat".
+[Please select site in Find/Add contacts...]
+Пожалуйста, выберите сайт в Добавить контакты...
