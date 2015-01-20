@@ -116,7 +116,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_OFFLINE;
 		if (!ListeningToMsg.IsEmpty()) 
 			RetrieveStatusMsg(oldStatusMsg);
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
+		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
+			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
@@ -619,11 +620,15 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 	CMStringA mids;
 	int numMessages = json_as_int(json_get(pResponse, "count"));
 	JSONNODE *pMsgs = json_get(pResponse, "items");
+	
+	debugLogA("CVkProto::OnReceiveMessages numMessages = %d", numMessages);
 
 	for (int i = 0; i < numMessages; i++) {
 		JSONNODE *pMsg = json_at(pMsgs, i);
-		if (pMsg == NULL)
+		if (pMsg == NULL){
+			debugLogA("CVkProto::OnReceiveMessages pMsg == NULL");
 			break;
+		}
 
 		UINT mid = json_as_int(json_get(pMsg, "id"));
 		ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
@@ -650,6 +655,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		}
 
 		if (chat_id != 0) {
+			debugLogA("CVkProto::OnReceiveMessages chat_id != 0");
 			CMString action_chat = json_as_CMString(json_get(pMsg, "action"));
 			int action_mid = _ttoi(json_as_CMString(json_get(pMsg, "action_mid")));
 			if ((action_chat == "chat_kick_user") && (action_mid == m_myUserId))
@@ -674,7 +680,11 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		recv.pCustomData = szMid;
 		recv.cbCustomDataSize = (int)mir_strlen(szMid);
 		Sleep(100);
+
+		debugLogA("CVkProto::OnReceiveMessages i = %d, mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", i, mid, datetime, isOut, isRead, uid);
+	
 		if (!CheckMid(mid)) {
+			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);
