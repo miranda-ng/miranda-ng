@@ -143,6 +143,8 @@
 &История
 [Delete All User History]
 Удалить всю историю пользователя
+[Execute history task]
+Выполнить задачу
 [Incoming message]
 Входящее сообщение
 [Outgoing message]
@@ -269,8 +271,12 @@ Dat (плагин mContacts)
 Исходящее сообщение
 [<< Incoming messages]
 Входящее сообщение
+[Group list background]
+Фон списка групп
 [Find window]
 Окно поиска
+[Find window background]
+Фон окна поиска
 [Window background]
 Фон окна
 [Contact list background]

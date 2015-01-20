@@ -1,4 +1,3 @@
 ﻿[[OTR INFO] ]
 [OTR: %s (%s)]
 [OTR %s (%s)]
-[Refresh]

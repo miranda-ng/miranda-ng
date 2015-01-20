@@ -17,6 +17,8 @@
 Учётная запись
 [Contacts]
 Контакты
+[Use bigger avatars]
+Большие аватары
 [Captcha]
 Проверочный код
 [Cancel]

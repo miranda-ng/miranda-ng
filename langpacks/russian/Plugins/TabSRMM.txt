@@ -395,8 +395,6 @@ RTL шаблоны...
 Предыдущие события в количестве
 [Load previous events less than]
 События, полученные менее чем
-[Events]
-событий
 [minutes old]
 минут назад
 [Global message log display]

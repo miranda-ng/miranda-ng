@@ -3,4 +3,3 @@
 [Column content is script result.\r\nMore help from "Help" button in script dialog.]
 [Content is last online time.]
 [Other info]
-[Selected]

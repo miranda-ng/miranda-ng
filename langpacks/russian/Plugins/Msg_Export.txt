@@ -87,10 +87,14 @@ UTF8 в новых файлах
 Подсветка синтаксиса
 [Failed to create file]
 Ошибка создания файла
+[Failed to save file]
+Ошибка сохранения файла
 [Open E&xported History]
 Эк&спортированная история
 [No contacts found to export]
 Нет контактов для экспорта
+[Reading database information (Phase 1 of 2)]
+Шаг 1: Чтение базы данных
 [Failed to export at least one contact]
 Не удалось экспортировать как минимум 1 контакт
 [Sorting and writing database information (Phase 2 of 2)]
@@ -133,6 +137,12 @@ UTF8 в новых файлах
 Имя файла для контакта "%s" изменилось!\n\nс:\t%s\nна:\t%s\n\nХотите переименовать файл?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Не удалось переименовать файл\n\nстарое имя:\t%s\nновое имя:\t%s\n\nОшибка: %s
+[\nError: ]
+\nОшибка:\s
+[\nMessage has not been saved!\n]
+\nСообщение не сохранено!\n
+[Do you wish to save debug information?]
+Сохранить отладочную информацию?
 [Failed to open or create file :\n]
 Не удалось открыть или создать файл :\n
 [Failed to move to the end of the file :\n]
@@ -169,6 +179,10 @@ WebPager от:
 Не удалось записать EmailExpress в файл:\n
 [Failed to write SMS to the file :\n]
 Не удалось записать SMS в файл:\n
+[Unknown event type %d, size %d]
+Неизвестный тип события %d, размер %d
+[Failed to write Unknown event to the file :\n]
+Не удалось записать неизвестное событие в файл :\n
 [User has been deleted. Do you want to delete the file?]
 Контакт удалён. Хотите удалить файл?
 [Failed to delete the file]

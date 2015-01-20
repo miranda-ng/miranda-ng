@@ -1,8 +1,5 @@
 ﻿[File Manager]
 [How to proceed?]
-[You have to fill FTP server setting before upload a file.]
-[Error has occurred while trying to create a dialog!]
-[Error occurred when zipping the file(s).]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]
 [%s (%d kB/%d kB)]

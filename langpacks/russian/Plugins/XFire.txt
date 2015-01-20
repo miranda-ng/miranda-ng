@@ -81,6 +81,8 @@
 Менять статус на Занят или Не беспокоить
 [The status message and status will be reset if you close the game.]
 Статусное сообщение и статус будут сброшены, если вы закроете игру.
+[Prefer dnd when it is available]
+"Не беспокоить", если возможно
 [Games]
 Игры
 [Game:]
@@ -91,8 +93,12 @@
 Применить
 [Don't set status message for other protocols]
 Не ставить сообщение статуса другим протоколам
+[Add new game]
+Добавить игру
 [Remove]
 Удалить
+[Don't show in start menu]
+Отключить пункт в главном меню
 [Edit...]
 Правка...
 [Username:]
@@ -117,6 +123,8 @@
 Ввод ника
 [Cancel]
 Отмена
+[New xfire_games.ini]
+Новый xfire_games.ini
 [Update]
 Обновить
 [Add game]
@@ -125,10 +133,14 @@
 Искать:
 [Custom...]
 Изменить...
+[Game name:]
+Название:
 [Game exe:]
 exe игры:
 [Browse...]
 Обзор...
+[Game ID:]
+ID игры:
 [Add a new game]
 Добавить новую игру
 [Searching games...]
@@ -139,6 +151,14 @@ exe игры:
 Настройки XFire
 [Please choose one game in the list!]
 Пожалуйста, выберите игру из списка!
+[Please enter a game name.]
+Введите название игры.
+[Please enter a game ID.]
+Введите ID игры.
+[Please enter a game ID above 1.]
+ID игры должен быть больше 1.
+[This game ID is already in use.]
+Такой ID игры уже используется.
 [Yep, I'm here.]
 Да, я здесь.
 [I've been away since %time%.]
@@ -155,6 +175,8 @@ exe игры:
 Ммм... поесть бы.
 [XFire Protocol]
 Протокол XFire
+[The xfire_games.ini was updated.]
+Xfire_games.ini обновлён.
 [Protocol icon]
 Значок протокола
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -163,8 +185,14 @@ exe игры:
 Вы уверены, что хотите добавить %s в список друзей?
 [Add me to your friend list.]
 Добавьте меня в свой список друзей.
+[Current Game]
+Текущая игра
+[ServerIP]
+IP сервера
 [Voice]
 Голос
+[Xfire Link Protocol]
+Протокол Xfire
 [Buddy start a game]
 Начало игры
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini and icons.dll?\r\nWithout the xfire_games.ini Xfire can't detect any games on your computer.]
@@ -203,6 +231,12 @@ exe игры:
 Не могу подключится к XFire.
 [No Login name is set!]
 Логин не установлен!
+[No Password is set!]
+Пароль не установлен!
+[%s is playing %s.]
+%s играет в %s.
+[%s is playing %s on server %d.%d.%d.%d:%d.]
+%s играет в %s на сервере %d.%d.%d.%d:%d.
 [Playing]
 Играет
 [Do you really want to delete your friend %s?]

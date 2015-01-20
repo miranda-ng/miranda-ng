@@ -557,6 +557,8 @@ HTML вывод невозможен.
 Создавать статистику в фоновом процессе с низким приоритетом
 [Path to browser (leave blank for system default)]
 Путь к браузеру (пусто = системный браузер)
+[At this time there is no external plugin supported.]
+В данный момент внешние плагины не поддерживаются.
 [Supported plugins (double-click to learn more):]
 Поддерживаемые плагины (двойной щелчок для информации):
 [HistoryStats supports several plugins. Click to hide info...]

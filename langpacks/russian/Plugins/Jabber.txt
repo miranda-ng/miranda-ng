@@ -199,6 +199,8 @@ Jabber vCard: добавление телефона
 Новый пароль:
 [Confirm New Password:]
 Подтверждение:
+[Create or Join group chat]
+Создание или вход в комнату чата
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
 Комната чата Jabber\nСоздание или вход в комнату чата.
 [Conference server:]
@@ -499,6 +501,8 @@ xHTML формат чат сообщений
 Поддержка плагина SecureIM для Miranda NG
 [Supports OTR (Off-the-Record Messaging)]
 Поддержка OTR (Off-the-Record Messaging)
+[Supports New_GPG plugin for Miranda NG]
+Поддержка плагина New_GPG для Miranda NG
 [Blocks packets from another users/groupchats using Privacy lists]
 Блокировка пользователей с использованием списков приватности
 [Supports Message Receipts]
@@ -511,6 +515,10 @@ xHTML формат чат сообщений
 Хранение XML (для закладок и пр.)
 [Supports attention requests ('nudge')]
 Поддержка уведомлений внимания ('Встряска')
+[Supports chat history retrieving]
+Поддерживает получение истории чата
+[Supports chat history management]
+Поддерживает управление историей чата
 [Can report information about user activity]
 Сообщение об активности пользователя
 [Receives information about user activity]
@@ -969,6 +977,8 @@ Jabber ошибка
 Входящая заметка от %s
 [Send note to %s]
 Отправить заметку %s
+[From: %s]
+От: %s
 [All tags]
 Все теги
 [Notes are not saved, close this window without uploading data to server?]
@@ -1353,6 +1363,8 @@ Jabber ошибка
 Настройки протокола Jabber
 [Confirm password]
 Введите пароль
+[Passwords do not match.]
+Пароли не совпадают.
 [This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?]
 Эта операция удалит вашу учётную запись, ростер и всю информацию, хранимую на сервере. Вы действительно хотите удалить учётную запись?
 [Account removal warning]
