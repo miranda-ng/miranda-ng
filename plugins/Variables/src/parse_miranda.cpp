@@ -226,20 +226,21 @@ static TCHAR* parseDBSetting(ARGUMENTSINFO *ai)
 		}
 	}
 
-	TCHAR *res = NULL, *szDefaultValue = NULL;
-
 	char *szModule = mir_t2a(ai->targv[2]);
+	if (szModule == NULL)
+		return NULL;
+
 	char *szSetting = mir_t2a(ai->targv[3]);
-
-	if (ai->argc > 4 && _tcslen(ai->targv[4]) > 0)
-		szDefaultValue = mir_tstrdup(ai->targv[4]);
-
-	if (szModule != NULL && szSetting != NULL) {
-		res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
+	if (szSetting == NULL) {
 		mir_free(szModule);
-		mir_free(szSetting);
-		mir_free(szDefaultValue);
+		return NULL;
 	}
+
+	TCHAR *szDefaultValue = ((ai->argc > 4 && _tcslen(ai->targv[4]) > 0) ? mir_tstrdup(ai->targv[4]) : NULL);
+	TCHAR *res = getDBSetting(hContact, szModule, szSetting, szDefaultValue);
+	mir_free(szDefaultValue);
+	mir_free(szSetting);
+	mir_free(szModule);
 	return res;
 }
 
