@@ -54,7 +54,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 /**
 * Protocols àcknowledgement
 */
-int ProtoAck(WPARAM wparam,LPARAM lparam)
+int ProtoAck(WPARAM,LPARAM lparam)
 {
 	ACKDATA *pAck = (ACKDATA *)lparam;
 	if (pAck->type != ACKTYPE_MESSAGE || pAck->result != ACKRESULT_SUCCESS)
@@ -112,6 +112,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		case ID_STATUS_DND:      statMask = STATUS_DND      ;break;
 		case ID_STATUS_FREECHAT: statMask = STATUS_FREECHAT ;break;
 		case ID_STATUS_INVISIBLE:statMask = STATUS_INVISIBLE;break;
+		default: return 0;
 	}
 	if ((iForwardOnStatus & statMask) == 0)
 		return 0;
@@ -238,10 +239,10 @@ extern "C" int __declspec(dllexport) Load()
 
 	iForwardOnStatus = db_get_dw(NULL, "yaRelay", "ForwardOnStatus", STATUS_OFFLINE | STATUS_AWAY | STATUS_NA);
 
-	DBVARIANT dbv;
-	if (!db_get_ts(NULL, "yaRelay", "ForwardTemplate", &dbv)){
-		_tcsncpy(tszForwardTemplate, dbv.ptszVal, SIZEOF(tszForwardTemplate));
-		db_free(&dbv);
+	TCHAR *szForwardTemplate = db_get_tsa(NULL, "yaRelay", "ForwardTemplate");
+	if (szForwardTemplate){
+		_tcsncpy(tszForwardTemplate, szForwardTemplate, SIZEOF(tszForwardTemplate));
+		mir_free(szForwardTemplate);
 	}
 	else _tcsncpy(tszForwardTemplate, _T("%u: %m"), MAXTEMPLATESIZE-1);
 

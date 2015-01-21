@@ -61,4 +61,4 @@ struct MESSAGE_PROC
 
 extern LIST<MESSAGE_PROC> arMessageProcs;
 
-int OptionsInit(WPARAM wParam, LPARAM lParam);
+int OptionsInit(WPARAM wParam, LPARAM);
