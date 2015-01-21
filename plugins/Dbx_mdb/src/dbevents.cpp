@@ -178,7 +178,7 @@ STDMETHODIMP_(LONG) CDbxMdb::GetBlobSize(MEVENT hDbEvent)
 
 	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
-		return 0;
+		return -1;
 
 	DBEvent *dbe = (DBEvent*)data.mv_data;
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->cbBlob : 0;
