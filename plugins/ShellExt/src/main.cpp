@@ -128,7 +128,7 @@ STDAPI DllRegisterServer()
 
 	TCHAR tszFileName[MAX_PATH];
 	GetModuleFileName(hInst, tszFileName, SIZEOF(tszFileName));
-	if ( RegSetValueEx(kInprocServer, NULL, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(TCHAR)*(mir_tstrlen(tszFileName)+1)))
+	if ( RegSetValueEx(kInprocServer, NULL, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(TCHAR)*(lstrlen(tszFileName)+1)))
 		return E_FAIL;
 	if ( RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))
 		return E_FAIL;

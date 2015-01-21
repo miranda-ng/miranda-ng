@@ -169,7 +169,7 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 	if (pct != NULL) {
 		psd->cch = pct->cbStrSection - 1; // no null;
 		psd->szText = (char*)HeapAlloc(hDllHeap, 0, pct->cbStrSection);
-		mir_strcpy(psd->szText, (char*)pct + sizeof(TSlotIPC));
+		lstrcpyA(psd->szText, (char*)pct + sizeof(TSlotIPC));
 		psd->hContact = pct->hContact;
 		psd->fTypes = dtContact;
 		// find the protocol icon array to use && which status
@@ -375,9 +375,9 @@ static void BuildMenus(TEnumData *lParam)
 				// since it maybe Miranda\Blah\Blah and we have created the first node
 				// which maybe Miranda, thus giving the wrong hash
 				// since "Miranda" can be a group of it's own and a full path
-				q->cchGroup = mir_strlen(Token);
+				q->cchGroup = lstrlenA(Token);
 				q->szGroup = (LPSTR)HeapAlloc(hDllHeap, 0, q->cchGroup + 1);
-				mir_strcpy(q->szGroup, Token);
+				lstrcpyA(q->szGroup, Token);
 				q->dwItems = 0;
 			}
 			p = q;
@@ -449,7 +449,7 @@ static void BuildMenus(TEnumData *lParam)
 		// the IPC string pointer wont be around forever, must make a copy
 		psd->cch = (int)strlen(lParam->ipch->MRUMenuName);
 		psd->szText = (LPSTR)HeapAlloc(hDllHeap, 0, psd->cch + 1);
-		mir_strncpy(psd->szText, lParam->ipch->MRUMenuName, sizeof(lParam->ipch->MRUMenuName) - 1);
+		lstrcpynA(psd->szText, lParam->ipch->MRUMenuName, sizeof(lParam->ipch->MRUMenuName) - 1);
 
 		mii.dwItemData = (LPARAM)psd;
 		if (lParam->bOwnerDrawSupported && lParam->bShouldOwnerDraw) {
@@ -486,13 +486,13 @@ static void BuildMenus(TEnumData *lParam)
 	psd = (TMenuDrawInfo*)HeapAlloc(hDllHeap, 0, sizeof(TMenuDrawInfo));
 	psd->cch = (int)strlen(lParam->ipch->MirandaName);
 	psd->szText = (LPSTR)HeapAlloc(hDllHeap, 0, psd->cch + 1);
-	mir_strncpy(psd->szText, lParam->ipch->MirandaName, sizeof(lParam->ipch->MirandaName) - 1);
+	lstrcpynA(psd->szText, lParam->ipch->MirandaName, sizeof(lParam->ipch->MirandaName) - 1);
 	// there may not be a profile name
 	pg = lParam->ipch->DataPtr;
 	psd->szProfile = NULL;
 	if (pg != NULL && pg->Status == STATUS_PROFILENAME) {
 		psd->szProfile = (LPSTR)HeapAlloc(hDllHeap, 0, pg->cbStrSection);
-		mir_strcpy(psd->szProfile, LPSTR(UINT_PTR(pg) + sizeof(TSlotIPC)));
+		lstrcpyA(psd->szProfile, LPSTR(UINT_PTR(pg) + sizeof(TSlotIPC)));
 	}
 
 	// owner draw menus need ID's
@@ -585,7 +585,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
 		if (hMirandaWorkEvent != 0) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
-			if ( mir_strcmp(szBuf, MIRANDACLASS) != 0) {
+			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
 				// opened but not valid.
 				logA("ProcessRequest(%d, %p): class %s differs from %s\n", pid, hwnd, szBuf, MIRANDACLASS);
 				CloseHandle(hMirandaWorkEvent);
@@ -771,7 +771,7 @@ HRESULT RequestTransfer(TShellExt *Self, int idxCmd)
 				THeaderIPC *pipch = (THeaderIPC*)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS, 0, 0, 0);
 				if (pipch != NULL) {
 					// create the name of the object to be signalled by the ST
-					mir_strcpy(pipch->SignalEventName, CreateUID(szBuf, sizeof(szBuf)));
+					lstrcpyA(pipch->SignalEventName, CreateUID(szBuf, sizeof(szBuf)));
 					// create it
 					HANDLE hReply = CreateEventA(NULL, false, false, pipch->SignalEventName);
 					if (hReply != 0) {
@@ -868,7 +868,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 				GetTextExtentPoint32A(dwi->hDC, psd->szText, psd->cch, &tS);
 				dwi->rcItem.left += tS.cx + 8;
 				SetTextColor(dwi->hDC, GetSysColor(COLOR_GRAYTEXT));
-				DrawTextA(dwi->hDC, psd->szProfile, mir_strlen(psd->szProfile), &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
+				DrawTextA(dwi->hDC, psd->szProfile, lstrlenA(psd->szProfile), &dwi->rcItem, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);
 			}
 		}
 		else {
@@ -914,7 +914,7 @@ HRESULT TShellExt::HandleMenuMsg2(UINT uMsg, WPARAM wParam, LPARAM lParam, LRESU
 		dx += tS.cx;
 		// main menu item?
 		if (psd->szProfile != NULL) {
-			GetTextExtentPoint32A(hMemDC, psd->szProfile, mir_strlen(psd->szProfile), &tS);
+			GetTextExtentPoint32A(hMemDC, psd->szProfile, lstrlenA(psd->szProfile), &tS);
 			dx += tS.cx;
 		}
 		// store it
