@@ -397,7 +397,7 @@ ColSplitTimeline::SplitParams ColSplitTimeline::getParams() const
 			}
 			break;
 
-		case 2: // custom
+		default: // custom
 			{
 				params.alignment = m_nGraphAlign;
 				params.columns_to_group = m_nCustomGroup;

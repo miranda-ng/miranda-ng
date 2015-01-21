@@ -1477,15 +1477,16 @@ void Statistic::run(const Settings& settings, InvocationSource invokedFrom, HINS
 
 	m_bRunning = true;
 
-	// create object holding and performing the statistics
-	Statistic* pStats = new Statistic(settings, invokedFrom, hInst);
-
+	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 	// create event for thread stack unwinding
-	if ((pStats->m_hThreadPushEvent = CreateEvent(NULL, FALSE, FALSE, NULL)) == NULL) {
+	if (hEvent == NULL) {
 		m_bRunning = false;
 		return;
 	}
 
+	// create object holding and performing the statistics
+	Statistic *pStats = new Statistic(settings, invokedFrom, hInst);
+	pStats->m_hThreadPushEvent = hEvent;
 	// create worker thread
 	DWORD dwThreadID = 0;
 	HANDLE hThread = CreateThread(NULL, 0, threadProc, pStats, 0, &dwThreadID);
