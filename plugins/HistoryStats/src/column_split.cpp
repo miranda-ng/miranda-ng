@@ -318,7 +318,7 @@ ColSplit::SplitParams ColSplit::getParams() const
 			}
 			break;
 
-		case 2: // custom
+		default: // custom
 			{
 				params.alignment = m_nGraphAlign;
 				params.hours_in_block = unitFactors[m_nBlockUnit] * m_nUnitsPerBlock;
