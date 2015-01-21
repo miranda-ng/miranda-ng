@@ -358,12 +358,16 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		ClearFormatNick(tszText);
 
 		JSONNODE *pNode = json_get(pParent, "photo");
-		if (pNode)
+		if (pNode){
+			delete vkNotificationItem;
 			return GetVkParent(pNode, vkPhoto, tszText.IsEmpty() ? NULL : tszText.GetBuffer());
+		}
 
 		pNode = json_get(pParent, "video");
-		if (pNode)
+		if (pNode){
+			delete vkNotificationItem;
 			return GetVkParent(pNode, vkVideo, tszText.IsEmpty() ? NULL : tszText.GetBuffer());
+		}
 
 		LONG iId = json_as_int(json_get(pParent, "id"));
 
@@ -371,6 +375,7 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		if (pNode) {
 			CMString tszRepl;
 			tszRepl.AppendFormat(_T("?reply=%d"), iId);		
+			delete vkNotificationItem;
 			return GetVkParent(pNode, vkPost, tszText.IsEmpty() ? NULL : tszText.GetBuffer(), tszRepl.GetBuffer());
 		}
 
@@ -378,6 +383,7 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		if (pNode) {
 			CMString tszRepl;		
 			tszRepl.AppendFormat(_T("?reply=%d"), iId);
+			delete vkNotificationItem;
 			return GetVkParent(pNode, vkTopic, tszText.IsEmpty() ? NULL : tszText.GetBuffer(), tszRepl.GetBuffer());
 		}
 	}

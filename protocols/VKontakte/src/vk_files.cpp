@@ -187,7 +187,12 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	}
 
 	fseek(pFile, 0, SEEK_END);
-	size_t szFileLen = ftell(pFile); //FileSize
+	long iFileLen = ftell(pFile); //FileSize
+	if (iFileLen < 1) {
+		fclose(pFile);
+		SendFileFiled(fup, _T("ErrorReadFile"));
+		return;
+	}
 	fseek(pFile, 0, SEEK_SET);
 
 	AsyncHttpRequest *pUploadReq = new AsyncHttpRequest(this, REQUEST_POST, uri.GetBuffer(), false, &CVkProto::OnReciveUpload);
@@ -218,17 +223,22 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	DataEnd += boundary;
 	DataEnd += "--\r\n";
 	// Body size
-	size_t dataLength = szFileLen + DataBegin.GetLength() + DataEnd.GetLength();
+	long dataLength = iFileLen + DataBegin.GetLength() + DataEnd.GetLength();
 	// Body {
 	char* pData = (char *)mir_alloc(dataLength);
 	memcpy(pData, (void *)DataBegin.GetBuffer(), DataBegin.GetLength());
 	pUploadReq->pData = pData;
 
 	pData += DataBegin.GetLength();
-	fread(pData, 1, szFileLen, pFile);
+	size_t szBytes = fread(pData, 1, iFileLen, pFile);
 	fclose(pFile);
 
-	pData += szFileLen;
+	if (szBytes != iFileLen) {
+		SendFileFiled(fup, _T("ErrorReadFile"));
+		return;
+	}
+
+	pData += iFileLen;
 	memcpy(pData, (void *)DataEnd.GetBuffer(), DataEnd.GetLength());
 	// } Body
 
