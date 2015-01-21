@@ -430,7 +430,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		}
 
 		if (((wParam == VK_INSERT && isShift) || (wParam == 'V' && isCtrl)) && !isAlt) { // ctrl-v (paste clean text)
-			SendMessage(hwnd, EM_PASTESPECIAL, CF_TEXT, 0);
+			SendMessage(hwnd, EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 			return TRUE;
 		}
 
