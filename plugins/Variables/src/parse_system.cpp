@@ -645,8 +645,10 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 	}
 	bufSz = TXTFILEBUFSZ*csz;
 	pBuf = (PBYTE)mir_calloc(bufSz);
-	if (pBuf == NULL)
+	if (pBuf == NULL) {
+		CloseHandle(hFile);
 		return NULL;
+	}
 
 	// count number of lines
 	do {
