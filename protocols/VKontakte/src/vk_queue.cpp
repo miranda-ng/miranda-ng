@@ -111,6 +111,7 @@ void CVkProto::WorkerThread(void*)
 	}
 
 	while (true) {
+		debugLogA("CVkProto::WorkerThread: _while begin");
 		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
@@ -118,6 +119,7 @@ void CVkProto::WorkerThread(void*)
 		AsyncHttpRequest *pReq;
 		bool need_sleep = false;
 		while (true) {
+			debugLogA("CVkProto::WorkerThread: while begin");
 			{
 				mir_cslock lck(m_csRequestsQueue);
 				if (m_arRequestsQueue.getCount() == 0)
@@ -132,8 +134,9 @@ void CVkProto::WorkerThread(void*)
 			ExecuteRequest(pReq);
 			if (need_sleep)	// There can be maximum 3 requests to API methods per second from a client
 				Sleep(330);	// (c) https://vk.com/dev/api_requests
-			debugLogA("CVkProto::WorkerThread: while");
+			debugLogA("CVkProto::WorkerThread: while end");
 		}
+		debugLogA("CVkProto::WorkerThread: _while end");
 	}
 
 	m_hWorkerThread = 0;

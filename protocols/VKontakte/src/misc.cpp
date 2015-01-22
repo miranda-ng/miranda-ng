@@ -97,6 +97,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
+	bIsMainConn = false;
 	AddHeader("Connection", "keep-alive");
 	AddHeader("Accept-Encoding", "booo");
 
@@ -119,7 +120,6 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	pUserInfo = NULL;
 	m_iRetry = MAX_RETRIES;
 	bNeedsRestart = false;
-	bIsMainConn = false;
 }
 
 AsyncHttpRequest::~AsyncHttpRequest()
