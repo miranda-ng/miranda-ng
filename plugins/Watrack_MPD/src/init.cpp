@@ -51,8 +51,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 void InitVars()
 {
 	gbPort = db_get_w(NULL, szModuleName, "Port", 6600);
-	gbPassword = (TCHAR*)malloc(64*sizeof(TCHAR));
-	gbHost = (TCHAR*)malloc(128*sizeof(TCHAR));
 	gbHost = UniGetContactSettingUtf(NULL, szModuleName, "Server", _T("127.0.0.1"));
 	gbPassword = UniGetContactSettingUtf(NULL, szModuleName, "Password", _T(""));
 }
@@ -84,7 +82,7 @@ extern "C" __declspec(dllexport) int Load()
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	free(gbHost);
-	free(gbPassword);
+	mir_free(gbHost);
+	mir_free(gbPassword);
 	return 0;
 }

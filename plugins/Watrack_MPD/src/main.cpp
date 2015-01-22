@@ -123,7 +123,7 @@ int Parser()
 		for(i = 0; ((ptr[i] != '\n') && (ptr[i] != '\0')); i++)
 			tmp[i] = ptr[i];
 		tmp[i] = '\0';
-		strcpy(ver, tmp);
+		strncpy_s(ver, tmp, _TRUNCATE);
 		SongInfo.txtver = mir_utf8decodeT(tmp);
 	}
 	else

@@ -19,14 +19,6 @@
 
 TCHAR* __stdcall UniGetContactSettingUtf(MCONTACT hContact, const char *szModule,const char* szSetting, TCHAR* szDef)
 {
-  DBVARIANT dbv = {DBVT_DELETED};
-  TCHAR* szRes = NULL;
-  if (db_get_ts(hContact, szModule, szSetting, &dbv))
-	 return _tcsdup(szDef);
-  else if(dbv.pszVal)
-	  szRes = _tcsdup(dbv.ptszVal);
-  else
-	  szRes = _tcsdup(szDef);
-  db_free(&dbv);
-  return szRes;
+	TCHAR *szRes = db_get_tsa(hContact, szModule, szSetting);
+	return szRes ? szRes  : mir_tstrdup(szDef);
 }
