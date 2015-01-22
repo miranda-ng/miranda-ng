@@ -230,10 +230,10 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 	pUploadReq->pData = pData;
 
 	pData += DataBegin.GetLength();
-	size_t szBytes = fread(pData, 1, iFileLen, pFile);
+	long lBytes = fread(pData, 1, iFileLen, pFile);
 	fclose(pFile);
 
-	if (szBytes != iFileLen) {
+	if (lBytes != iFileLen) {
 		SendFileFiled(fup, _T("ErrorReadFile"));
 		return;
 	}
