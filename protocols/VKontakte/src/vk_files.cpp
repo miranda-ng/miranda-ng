@@ -235,6 +235,8 @@ void CVkProto::OnReciveUploadServer(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 
 	if (lBytes != iFileLen) {
 		SendFileFiled(fup, _T("ErrorReadFile"));
+		mir_free(pUploadReq->pData);
+		delete pUploadReq;
 		return;
 	}
 
