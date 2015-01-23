@@ -541,6 +541,7 @@ static renameTable[] =
 	{ _T("gender.dll"),                     NULL },
 	{ _T("langman.dll"),                    NULL },
 	{ _T("metacontacts.dll"),               NULL },
+	{ _T("WART-*.exe"),                     NULL },
 };
 
 static bool CheckFileRename(const TCHAR *ptszOldName, TCHAR *pNewName)
