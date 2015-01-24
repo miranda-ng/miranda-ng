@@ -79,11 +79,7 @@ int SetLCStatus(WPARAM wParam,LPARAM lParam)
 	else if (db_get_w(NULL, MODNAME, "Timer",1))
 		startTimer(TIMER); 
 	
-	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact)) {
-		char *proto = GetContactProto(hContact); 
-		if (proto == NULL || strcmp(proto, MODNAME))
-			continue;
-
+	for (MCONTACT hContact = db_find_first(MODNAME); hContact; hContact = db_find_next(hContact,MODNAME)) {
 		if (LCStatus != ID_STATUS_OFFLINE)
 			replaceAllStrings(hContact);
 
@@ -101,7 +97,7 @@ int SetLCStatus(WPARAM wParam,LPARAM lParam)
 
 		case ID_STATUS_AWAY:
 			if (db_get_b(NULL, MODNAME, "AwayAsStatus", 0) && (db_get_b(hContact, MODNAME, "AlwaysVisible",0) || (db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE)==ID_STATUS_AWAY)) )
-				db_set_w(hContact, MODNAME, "Status",(WORD)(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));	
+				db_set_w(hContact, MODNAME, "Status",(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));	
 			else if (!db_get_b(NULL, MODNAME, "AwayAsStatus", 0))
 				db_set_w(hContact, MODNAME, "Status",(WORD)db_get_w(hContact, MODNAME, "Icon",ID_STATUS_ONLINE));
 			else

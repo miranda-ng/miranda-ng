@@ -317,14 +317,14 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_DOIT:
 			if (GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE))) {
-				char *replace = (char*)malloc(GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) +1);
 				char newString[MAX_REPLACES][512], oldString[MAX_REPLACES][512];
 				char dbVar1[2000], dbVar2[2000];
 				int i=0,j=0, k=0;
 				char *string = oldString[k];
 				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
-				GetDlgItemTextA(hwnd, IDC_STRING_REPLACE, replace, GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) +1);
 				if (db_get_static(hContact1, MODNAME, "Name", dbVar1)) {
+					char *replace = (char*)malloc(GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) +1);
+					GetDlgItemTextA(hwnd, IDC_STRING_REPLACE, replace, GetWindowTextLength(GetDlgItem(hwnd, IDC_STRING_REPLACE)) +1);
 					// get the list of replace strings
 					while (replace[i] != '\0') {
 						if (replace[i] == ',') {
@@ -334,7 +334,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						else if (!strncmp(&replace[i], "\r\n",2)) {
 							if (string == newString[k])
 								k--;
-							if (k = MAX_REPLACES) break;
+							if (k == MAX_REPLACES) break;
 							string = oldString[++k];
 							i+=2;
 							continue;
@@ -399,9 +399,10 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else {
 				char dbVar1[2000];
-				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA), hContact2;
+				MCONTACT hContact1 = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				if (db_get_static(hContact1, MODNAME, "Name", dbVar1)) {
-					if (!(hContact2 = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0))) {
+					MCONTACT hContact2 = (MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
+					if (!hContact2) {
 						msg("contact did not get created","");
 						return 0;
 					}
@@ -615,6 +616,8 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					mir_snprintf(tmp, SIZEOF(tmp), "Icon: On The Phone\r\n");
 				else if (icon == ID_STATUS_OUTTOLUNCH)
 					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Out To Lunch\r\n");
+				else
+					continue;
 				msg = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
 				strcat(msg,tmp);
 			}

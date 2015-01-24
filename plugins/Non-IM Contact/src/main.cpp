@@ -31,7 +31,7 @@ INT_PTR doubleClick(WPARAM wParam,LPARAM lParam)
 	char* proto = GetContactProto(wParam);
 	if (proto && !strcmp(proto, MODNAME)) {
 		if (GetKeyState(VK_CONTROL)&0x8000) // ctrl is pressed
-			editContact((WPARAM)(HANDLE)wParam, (LPARAM)NULL);		// for later when i add a second double click setting
+			editContact(wParam, 0);		// for later when i add a second double click setting
 		else if (db_get_static(wParam, MODNAME, "Program", program) && strcmp(program, ""))
 		{
 			if (!db_get_static(wParam, MODNAME, "ProgramParams", params) )
@@ -42,7 +42,7 @@ INT_PTR doubleClick(WPARAM wParam,LPARAM lParam)
 			if (shellEXEerror == ERROR_FILE_NOT_FOUND || shellEXEerror == ERROR_PATH_NOT_FOUND)
 				CallService(MS_UTILS_OPENURL,OUF_NEWWINDOW,(LPARAM)program);
 		}
-		else editContact((WPARAM)(HANDLE)wParam, (LPARAM)NULL);
+		else editContact(wParam, 0);
 		return 1;
 	}
 	return 0;
@@ -60,7 +60,7 @@ int LCStatus = ID_STATUS_OFFLINE;
 // Returns : int
 // Description : Called at very beginning of plugin
 //=====================================================
-int NimcOptInit(WPARAM wParam,LPARAM lParam)
+int NimcOptInit(WPARAM wParam,LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -71,12 +71,6 @@ int NimcOptInit(WPARAM wParam,LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
-
-int MainInit(WPARAM wparam,LPARAM lparam)
-{
-	return 0;
-}
-
 //=====================================================
 // Name : __declspec(dllexport) PLUGININFO* MirandaPluginInfo
 // Parameters: (DWORD mirandaVersion)
