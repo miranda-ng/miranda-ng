@@ -243,7 +243,6 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					int bytesParsed = 0;
 					HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 					if(hXml != NULL) {
-						BYTE isTextUTF = 0;
 						HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 						if ( !node)
 							node = xi.getChildByPath(hXml, _T("body/outline"), 0);
@@ -269,24 +268,23 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								else if (!xmlUrl && outlineChildsCount)
 									node = xi.getFirstChild(node);
 								else if (xmlUrl) {
-									TCHAR *text = NULL;
 									for (int i = 0; i < outlineAttr; i++) {
 										if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("text"))) {
-											text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+											TCHAR *text = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
+											bool isTextUTF;
 											if (!text) {
-												isTextUTF = 0;
+												isTextUTF = false;
 												text = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 											} else
-												isTextUTF = 1;
+												isTextUTF = true;
 											SendMessage(FeedsList, LB_ADDSTRING, 0, (LPARAM)text);
 											EnableWindow(GetDlgItem(hwndDlg, IDC_ADDFEED), TRUE);
 											EnableWindow(GetDlgItem(hwndDlg, IDC_ADDALLFEEDS), TRUE);
-											continue;
+											if (isTextUTF)
+												mir_free(text);
 										}
 									}
 
-									if (isTextUTF)
-										mir_free(text);
 
 									HXML tmpnode = node;
 									node = xi.getNextNode(node);
