@@ -46,7 +46,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				HXML hXml = xi.parseFile(FileName, &bytesParsed, NULL);
 				if(hXml != NULL) {
 					HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-					BYTE isTextUTF = 0, isURLUTF = 0, isSiteURLUTF = 0, isGroupUTF = 0;
+					bool isTextUTF = false, isURLUTF = false, isSiteURLUTF = false, isGroupUTF = false;
 					HXML node = xi.getChildByPath(hXml, _T("opml/body/outline"), 0);
 					if ( !node)
 						node = xi.getChildByPath(hXml, _T("body/outline"), 0);
@@ -74,7 +74,7 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							else if (!xmlUrl && outlineChildsCount)
 								node = xi.getFirstChild(node);
 							else if (xmlUrl) {
-								TCHAR *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL, *utfgroup = NULL;
+								TCHAR *text = NULL, *url = NULL, *siteurl = NULL, *group = NULL;
 								BYTE NeedToImport = FALSE;
 								for (int i = 0; i < outlineAttr; i++) {
 									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("text"))) {
@@ -98,23 +98,23 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("xmlUrl"))) {
 										url = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 										if ( !url) {
-											isURLUTF = 0;
+											isURLUTF = false;
 											url = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 										} else
-											isURLUTF = 1;
+											isURLUTF = true;
 										if (GetContactByURL(url) && NeedToImport) {
 											NeedToImport = FALSE;
-											DUPES += 1;
+											DUPES++;
 										}
 										continue;
 									}
 									if (!mir_tstrcmpi(xi.getAttrName(node, i), _T("htmlUrl"))) {
 										siteurl = mir_utf8decodeT(_T2A(xi.getAttrValue(node, xi.getAttrName(node, i))));
 										if ( !siteurl) {
-											isSiteURLUTF = 0;
+											isSiteURLUTF = false;
 											siteurl = (TCHAR *)xi.getAttrValue(node, xi.getAttrName(node, i));
 										} else
-											isSiteURLUTF = 1;
+											isSiteURLUTF = true;
 										continue;
 									}
 									if (text && url && siteurl)
@@ -139,10 +139,11 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										parent = xi.getParent(parent);
 									}
 
+									TCHAR *utfgroup = NULL;
 									if (group) {
 										utfgroup = mir_utf8decodeT(_T2A(group));
 										if ( !utfgroup) {
-											isGroupUTF = 0;
+											isGroupUTF = false;
 											utfgroup = group;
 										} else
 											isGroupUTF = 1;
@@ -175,15 +176,15 @@ INT_PTR CALLBACK DlgProcImportOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 										if(!GroupExist)
 											CallService(MS_CLIST_GROUPCREATE, 0, (LPARAM)utfgroup);
 									}
-									if (isTextUTF)
-										mir_free(text);
-									if (isURLUTF)
-										mir_free(url);
 									if (isGroupUTF)
 										mir_free(utfgroup);
-									if (isSiteURLUTF)
-										mir_free(siteurl);
 								}
+								if (isTextUTF)
+									mir_free(text);
+								if (isURLUTF)
+									mir_free(url);
+								if (isSiteURLUTF)
+									mir_free(siteurl);
 
 								HXML tmpnode = node;
 								node = xi.getNextNode(node);
