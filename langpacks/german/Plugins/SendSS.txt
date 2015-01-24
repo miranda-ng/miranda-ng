@@ -210,7 +210,7 @@ SendSS
 [Screenshots]
 Screenshots
 [Image services (AdvaImg) not found.\nSendSS disabled.]
-
+Bilderdienste (AdvaImg) nicht gefunden.\nSendSS deaktiviert.
 [Buttons]
 Schaltflächen
 [Could not register Miranda service.]
@@ -264,7 +264,7 @@ Nach dem Senden löschen
 [Capture]
 Aufnehmen
 [Couldn't take a screenshot]
-
+Konnte keinen Screenshot aufnehmen.
 [Select a file]
 Datei auswählen
 [Select a target window.]
@@ -278,4 +278,4 @@ vom "
 [" Window]
 "-Fenster
 [Send screenshot?]
-
+Screenshot senden?

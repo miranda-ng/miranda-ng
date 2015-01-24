@@ -6,9 +6,9 @@
 ;  Authors: Miranda NG Team
 ;============================================================
 [Core driver to provide OpenSSL-based SSL services.]
-
+Kerntreiber für OpenSSL-basierende SSL-Dienste.
 ;file \plugins\OpenSSL\src\ssl_openssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Der Client konnte die Hostnachricht nicht entschlüsseln. Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspakte auf Ihrem Client.
+Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
 [Host we are connecting to is not the one certificate was issued for]
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.

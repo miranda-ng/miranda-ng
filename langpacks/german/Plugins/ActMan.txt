@@ -513,8 +513,6 @@ Strukturhilfe
 Beschr.
 [&Change]
 Ändern
-[&OK]
-&OK
 [C&ancel]
 &Abbrechen
 [Process options]
@@ -879,9 +877,9 @@ Ausgewähltes Makro
 [Select for FirstRun]
 Für FirstRun auswählen
 [Mark as Volatile]
-
+Als flüchtig markieren
 [Single instance]
-
+Einzelne Instanz
 [Miranda event help]
 Miranda-Ereignishilfe
 [contact list]

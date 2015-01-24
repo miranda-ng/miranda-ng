@@ -77,7 +77,7 @@ Dateiübertragungen
 [Other]
 Andere
 [Choose appropriate accounts for import]
-
+Passendes Konto zum Importieren auswählen
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 Ignoriertes Ereignis von/an sich selbst
@@ -86,13 +86,13 @@ Kontakt %u hinzugefügt (im Verlauf gefunden)
 [<New account>]
 <Neues Konto>
 [Old account]
-
+Altes Konto
 [New account]
 Neues Konto
 [Protocol %S is not loaded, skipping account %s creation]
-
+Protokoll %S ist nicht geladen, überspringe Erstellung von Konto %s
 [Unable to create an account %s of protocol %S]
-
+Konnte Konto %s für Protokoll %S nicht erstellen.
 [Failed to add %S contact %s]
 Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Added %S contact %s, '%s']
@@ -130,7 +130,7 @@ Fehler beim Laden der Quelldatei, beende.
 [Number of contacts in database: %d]
 Anzahl Kontakte in Datenbank: %d
 [Error mapping accounts, exiting.]
-
+Fehler beim Abbilden der Konten, Beenden.
 [Importing groups.]
 Importiere Gruppen.
 [Group import failed.]

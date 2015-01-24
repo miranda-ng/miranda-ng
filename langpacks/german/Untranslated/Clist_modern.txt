@@ -1,7 +1,0 @@
-﻿[Icon mode]
-[For similar statuses]
-[Single account]
-[Cycle icons]
-[All accounts]
-[For different statuses]
-[Cycle period, seconds]
