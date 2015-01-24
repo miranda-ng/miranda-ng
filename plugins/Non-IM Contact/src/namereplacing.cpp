@@ -5,13 +5,16 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 	char dbSetting[20], temp[MAX_STRING_LENGTH];
 	mir_snprintf(dbSetting, SIZEOF(dbSetting), "fn%d", fileNumber);
 
-	DBVARIANT dbv;
-	char tszFileName[MAX_PATH];
-	if (db_get_ts(NULL, MODNAME, dbSetting, &dbv))
+	char *szVar = db_get_sa(NULL, MODNAME, dbSetting);
+	if (szVar == NULL)
 		return 0;
 
-	if (!strncmp("http://", tszFileName, 7))
+	char tszFileName[MAX_PATH];
+	if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 7))
 		mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
+	else
+		mir_strncpy(tszFileName, szVar, SIZEOF(tszFileName));
+	mir_free(szVar);
 
 	FILE* file = fopen(tszFileName, "r");
 	if (file == NULL)
@@ -26,7 +29,7 @@ int readFileIntoArray(int fileNumber, char *FileContents[])
 		else temp[strlen(temp)]='\0';
 
 		FileContents[i] = (char*)malloc(strlen(temp)+1);
-		if (FileContents[i] == NULL) return i;
+		if (FileContents[i] == NULL) break;
 		strcpy(FileContents[i], temp);
 	}
 	fclose(file);
@@ -89,7 +92,7 @@ int findLine(char* FileContents[], const char* string, int linesInFile,int start
 			return linesInFile - (i+1);
 		}
 
-		*positionInOldString ++; 
+		(*positionInOldString)++; 
 		return (linesInFile - 1);
 	}
 
@@ -234,10 +237,10 @@ void checkStringForcompare(char *str)
 // do save("A","B") A is DBVar name, B is value
 void checkStringForSave(MCONTACT hContact, char* str)
 {
+	if (!strstr(str,"save(\"")) return;
 	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,"save(\"")) return;
 	for (i=0; i<s; i++) {
 		if (!strncmp(&str[i],"save(\"", strlen("save(\""))) {
 			i += (int)strlen("save(\"");
@@ -260,10 +263,10 @@ void checkStringForSave(MCONTACT hContact, char* str)
 // do load("A") A is DBVar name
 void checkStringForLoad(MCONTACT hContact, char* str)
 {
+	if (!strstr(str,"load(\"")) return;
 	char *A,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,"load(\"")) return;
 	for (i=0; i<s; i++) {
 		if (!strncmp(&str[i], "load(\"", strlen("load(\""))) {
 			i += (int)strlen("load(\"");
@@ -289,10 +292,10 @@ void checkStringForLoad(MCONTACT hContact, char* str)
 // do saveN("A","B","C","D") A is module, B is setting, c is value, D is type 0/b 1/w 2/d 3/s
 void checkStringForSaveN(char* str)
 {
+	if (!strstr(str,"saveN(\"")) return;
 	char *A,*B,*C,*D,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str);
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,"saveN(\"")) return;
 	for (i=0; i<s; i++) {
 		if (!strncmp(&str[i], "saveN(\"", strlen("saveN(\""))) {
 			i += (int)strlen("saveN(\"");
@@ -334,17 +337,17 @@ void checkStringForSaveN(char* str)
 // do loadN("A","B") A is module, B is setting
 void checkStringForLoadN(char* str)
 {
-	char *A,*B,*newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str), temp[32];
+	if (!strstr(str,"loadN(\"")) return;
+	char *newStr = (char*)malloc(strlen(str)),*copyOfStr = _strdup(str), temp[32];
 	unsigned int i, j=0, s = (int)strlen(str);
 	newStr[0] = '\0';
-	if (!strstr(str,"loadN(\"")) return;
 	for (i=0; i<s; i++) {
 		if (!strncmp(&str[i], "loadN(\"", strlen("loadN(\""))) {
 			i += (int)strlen("loadN(\"");
-			A = strtok(&copyOfStr[i], "\",\"");
-			B = strtok(NULL, ",\")");
-			j = B - &copyOfStr[i] + (int)strlen(B)+1;
+			char *A = strtok(&copyOfStr[i], "\",\"");
+			char *B = strtok(NULL, ",\")");
 			if (A && B) {
+				j = B - &copyOfStr[i] + (int)strlen(B)+1;
 				DBVARIANT dbv;
 				if ( !db_get(NULL, A, B, &dbv)) {	
 					switch (dbv.type) {
@@ -364,7 +367,7 @@ void checkStringForLoadN(char* str)
 					db_free(&dbv);
 				}
 			}
-			else strncat(newStr, &str[i], j);
+			else strncat(newStr, &str[i], i);
 			i += j;
 		}
 		else strncat(newStr, &str[i], 1);
@@ -407,14 +410,16 @@ int lastChecked(char *newStr, const char *str)
 		sscanf(&str[cbPattern], "%d", &file);
 		mir_snprintf(szSetting, SIZEOF(szSetting), "fn%d", file);
 
-		DBVARIANT dbv;
-		if (db_get_s(NULL, MODNAME, szSetting, &dbv))
+		char *szVar = db_get_sa(NULL, MODNAME, szSetting);
+		if (szVar == NULL)
 			return 0;
 
-		if (!strncmp("http://", dbv.pszVal, 7) || !strncmp("https://", dbv.pszVal, 8))
+		if (!strncmp("http://", szVar, 7) || !strncmp("https://", szVar, 8))
 			mir_snprintf(tszFileName, SIZEOF(tszFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), file);
 		else
-			strncpy(tszFileName, dbv.pszVal, SIZEOF(tszFileName));
+			mir_strncpy(tszFileName, szVar, SIZEOF(tszFileName));
+		mir_free(szVar);
+
 		HANDLE hFile = CreateFileA(tszFileName, 0, FILE_SHARE_READ, 0, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hFile == INVALID_HANDLE_VALUE)
 			return 0;

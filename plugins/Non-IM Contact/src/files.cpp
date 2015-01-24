@@ -79,8 +79,8 @@ void reloadFiles(HWND fileList)
 	{
 		mir_snprintf(fn, SIZEOF(fn), "fn%d", i);
 		if (db_get_static(NULL, MODNAME, fn, file)) {
-			index = SendMessageA(fileList, CB_ADDSTRING,0, (LPARAM)(char*)file);
-			SendMessage(fileList, CB_SETITEMDATA, index,  (LPARAM)(int)i);
+			index = SendMessageA(fileList, CB_ADDSTRING,0, (LPARAM)file);
+			SendMessage(fileList, CB_SETITEMDATA, index,  (LPARAM)i);
 			SendMessage(fileList, CB_SETCURSEL, index,0);
 			SetDlgItemTextA(GetParent(fileList), IDC_FN, _itoa(i, fn, 10));
 			/* add the file contents to the edit box */
@@ -106,7 +106,6 @@ void readFile(HWND hwnd)
 {
 	int lineNumber, fileLength=0, width=0;
 	char temp[MAX_STRING_LENGTH], szFileName[512], temp1[MAX_STRING_LENGTH], fn[8];
-	FILE* filen;
 	int fileNumber = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0,0);
 	mir_snprintf(fn, SIZEOF(fn), "fn%d", fileNumber);
 	if (!db_get_static(NULL, MODNAME, fn, szFileName)) {
@@ -114,12 +113,12 @@ void readFile(HWND hwnd)
 		return;
 	}
 
-	if ( (!strncmp("http://", szFileName, strlen("http://"))) || (!strncmp("https://", szFileName, strlen("https://"))) )
+	if ( !strncmp("http://", szFileName, strlen("http://")) || !strncmp("https://", szFileName, strlen("https://")))
 		mir_snprintf(szFileName, SIZEOF(szFileName), "%s\\plugins\\fn%d.html", getMimDir(temp), fileNumber);
 
-	filen = fopen(szFileName,"r");
+	FILE *filen = fopen(szFileName,"r");
 	if (!filen) {
-		MessageBoxA(0, Translate("File couldn't be opened,2"), modFullname,MB_OK);
+		MessageBox(0, TranslateT("File couldn't be opened,2"), _T(modFullname),MB_OK);
 		return;
 	}
 	lineNumber = 0;
@@ -140,8 +139,6 @@ void readFile(HWND hwnd)
 			SendDlgItemMessage(hwnd, IDC_FILE_CONTENTS,LB_SETHORIZONTALEXTENT,(strlen(temp1)*db_get_b(NULL, MODNAME, "WidthMultiplier", 5)),0);
 	}
 	fclose(filen);
-	
-	return ;
 }
 
 #define WM_RELOADWINDOW (WM_USER+11)
@@ -161,7 +158,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if ( (!strncmp("http://", string, strlen("http://"))) || (!strncmp("https://", string, strlen("https://"))) )
 				{
 					SetDlgItemTextA(hwnd,IDC_URL, string);
-					SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, strcat(fn, "_timer"), 60), tmp, 10));
+					mir_snprintf(fn,SIZEOF(fn),"fn%d_timer", i);
+					SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
 				}
 				readFile(hwnd);
 			}
@@ -205,7 +203,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								GetDlgItemTextA(hwnd,IDC_WWW_TIMER,text,SIZEOF(text));
 								timer = atoi(text);
 							}
-							db_set_w(NULL, MODNAME, strcat(fn, "_timer"), (WORD)timer);
+							mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
+							db_set_w(NULL, MODNAME, fn, (WORD)timer);
 							SendMessage(hwnd, WM_RELOADWINDOW, 0,0);
 						}
 					}
@@ -229,8 +228,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (Openfile(file,1))
 				{
 					db_set_s(NULL, MODNAME, fn, file);
-					index = SendDlgItemMessageA(hwnd, IDC_FILE_LIST, CB_ADDSTRING, 0, (LPARAM)(char*)file);
-					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETITEMDATA,index,(LPARAM)(int)i);
+					index = SendDlgItemMessageA(hwnd, IDC_FILE_LIST, CB_ADDSTRING, 0, (LPARAM)file);
+					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETITEMDATA,index,(LPARAM)i);
 					SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_SETCURSEL, index ,0);
 					SetDlgItemTextA(hwnd, IDC_FN, _itoa(i, fn, 10));
 					mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
@@ -279,7 +278,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (HIWORD(wParam) == CBN_SELCHANGE )
 			{
 				int index = SendDlgItemMessage(hwnd, IDC_FILE_LIST,CB_GETCURSEL, 0,0);
-				char fn[6], tmp[MAX_PATH];
+				char fn[20], tmp[MAX_PATH];
 				SetDlgItemTextA(hwnd, IDC_FN, _itoa(index, fn, 10));
 				mir_snprintf(fn, SIZEOF(fn), "fn%d", index);
 				if (db_get_static(NULL, MODNAME, fn, tmp) )
@@ -287,7 +286,8 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					if (!strncmp("http://", tmp, strlen("http://")) || !strncmp("https://", tmp, strlen("https://")))
 					{
 						SetDlgItemTextA(hwnd,IDC_URL, tmp);
-						SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, strcat(fn, "_timer"), 60), tmp, 10));
+						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", index);
+						SetDlgItemTextA(hwnd, IDC_WWW_TIMER, _itoa(db_get_w(NULL, MODNAME, fn, 60), tmp, 10));
 					}
 					else 
 					{
@@ -320,9 +320,11 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				}
 				else timer = 60;
 
-				if (db_get_static(NULL, MODNAME, fn, string) )
-					if (!strncmp("http://", string, strlen("http://")) || !strncmp("https://", string, strlen("https://")))
-						db_set_w(NULL, MODNAME, strcat(fn, "_timer"), (WORD)timer);
+				if (db_get_static(NULL, MODNAME, fn, string))
+					if (!strncmp("http://", string, strlen("http://")) || !strncmp("https://", string, strlen("https://"))) {
+						mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
+						db_set_w(NULL, MODNAME, fn, (WORD)timer);
+					}
 
 				return TRUE;
 			}

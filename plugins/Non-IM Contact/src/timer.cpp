@@ -9,7 +9,7 @@ UINT_PTR timerId;
 // Description : called when the timer interval occurs
 //=====================================================
 
-void timerFunc(LPVOID di) 
+void timerFunc(void *di) 
 {
 	char text[512], fn[16], szFileName[MAX_PATH], temp[MAX_PATH];
 
@@ -27,8 +27,8 @@ void timerFunc(LPVOID di)
 		if (!db_get_static(NULL, MODNAME, fn, text))
 			break;
 
-		if (!strncmp("http://", text, strlen("http://"))) {
-			strcat(fn, "_timer");
+		if (!strncmp("http://", text, strlen("http://")) || !strncmp("https://", text, strlen("https://"))) {
+			mir_snprintf(fn, SIZEOF(fn), "fn%d_timer", i);
 			int timer = db_get_w(NULL, MODNAME, fn, 60);
 			if (timer && !(timerCount % timer)) {
 				if (!InternetDownloadFile(text)) {

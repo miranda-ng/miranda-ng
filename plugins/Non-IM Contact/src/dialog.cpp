@@ -209,13 +209,13 @@ INT_PTR CALLBACK TestWindowDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
-INT_PTR testStringReplacer(WPARAM wParam, LPARAM lParam)
+INT_PTR testStringReplacer(WPARAM, LPARAM)
 {
 	CreateDialog(hInst, MAKEINTRESOURCE(IDD_TEST_LINE), 0, TestWindowDlgProc);
 	return 0;
 }
 
-INT_PTR LoadFilesDlg(WPARAM wParam, LPARAM lParam)
+INT_PTR LoadFilesDlg(WPARAM, LPARAM)
 {
 	CreateDialog(hInst,MAKEINTRESOURCE(IDD_ADD_FILE),0,DlgProcFiles);
 	return 0;
