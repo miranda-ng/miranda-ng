@@ -54,7 +54,6 @@ private:
 	std::string* objectAsString(ReadData* o);
 	std::string* readStringAsString();
 	std::string* readStringAsString(int token);
-	std::string getToken(int token);
 	void getTopLevelStream();
 	static int readInt8(ByteArrayInputStream* in);
 	static int readInt8(ISocketConnection* in);

@@ -23,15 +23,15 @@ class BinTreeNodeWriter;
 class KeyStream {
 private:
 	RC4_KEY rc4;
+	unsigned char key[20], keyMac[20];
+	int seq;
 	HMAC_CTX hmac;
-	unsigned char* key;
-	int keyLength;
 
 	void hmacsha1(unsigned char* text, int textLength, unsigned char *out);
 
 public:
-	KeyStream(unsigned char* key, size_t keyLegnth);
-	virtual ~KeyStream();
+	KeyStream(unsigned char* _key, unsigned char* _keyMac);
+	~KeyStream();
 
 	static void keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out);
 	void decodeMessage(unsigned char* buffer, int macOffset, int offset, const int length);
@@ -54,7 +54,6 @@ private:
 	std::vector<unsigned char>* readFeaturesUntilChallengeOrSuccess();
 	void parseSuccessNode(ProtocolTreeNode* node);
 	std::vector<unsigned char> readSuccess();
-	std::string getResponse(const std::string& challenge);
 
 public:
 	std::string user;

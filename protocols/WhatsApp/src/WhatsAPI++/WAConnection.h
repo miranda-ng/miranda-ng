@@ -393,12 +393,11 @@ class WAConnection {
 	time_t expire_date;
 	int account_kind;
 	time_t lastTreeRead;
-	static const int DICTIONARY_LEN = 237;
+	static const int DICTIONARY_LEN;
 	static const char* dictionary[];
 	static MessageStore* message_store;
 	KeyStream* inputKey;
 	KeyStream* outputKey;
-
 
 	static std::string removeResourceFromJid(const std::string& jid);
 
