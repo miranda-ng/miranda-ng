@@ -33,7 +33,7 @@
 
 // WhatsApp
 #define WHATSAPP_LOGIN_SERVER "c.whatsapp.net"
-#define ACCOUNT_USER_AGENT "WhatsApp/2.11.407 Android/4.0.4 Device/GalaxyS3"
+#define ACCOUNT_USER_AGENT "WhatsApp/2.12.60 S40Version/14.26 Device/Nokia302"
 #define ACCOUNT_URL_CODEREQUEST "https://r.whatsapp.net/v1/code.php"
 #define ACCOUNT_URL_CODEREQUESTV2 "https://v.whatsapp.net/v2/code"
 #define ACCOUNT_URL_REGISTERREQUEST "https://r.whatsapp.net/v1/register.php"
@@ -42,7 +42,7 @@
 #define ACCOUNT_URL_EXISTSV2 "https://v.whatsapp.net/v2/exist"
 
 // WhatsApp Nokia 302 S40
-#define ACCOUNT_RESOURCE  "S40-2.12.49"
+#define ACCOUNT_RESOURCE  "S40-2.12.60"
 
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2

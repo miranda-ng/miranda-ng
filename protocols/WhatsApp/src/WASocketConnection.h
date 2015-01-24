@@ -22,17 +22,20 @@ private:
 
 public:
 	WASocketConnection(const std::string& dir, int port) throw (WAException);
+	virtual ~WASocketConnection();
+
 	void write(int i);
 	unsigned char read();
+	int read(std::vector<unsigned char>& b, int off, int length);
+	int read(unsigned char*, int length);
 	void flush();
 	void write(const std::vector<unsigned char>& b, int length);
 	void write(const std::vector<unsigned char>& bytes, int offset, int length);
-	int read(std::vector<unsigned char>& b, int off, int length);
 	void makeNonBlock();
 	int waitForRead();
 	void forceShutdown();
+	void dump(const void *buf, int length);
 
-	virtual ~WASocketConnection();
 	static void initNetwork(HANDLE hNetlibUser) throw (WAException);
 	static void quitNetwork();
 };
