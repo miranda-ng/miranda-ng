@@ -1,1 +1,0 @@
-﻿[Core driver to provide OpenSSL-based SSL services.]

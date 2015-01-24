@@ -117,7 +117,7 @@ SkypeOut-Kontakte haben als Status:
 [Cleanup Nicknames]
 Nicknamen säubern
 [Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)]
-
+Nicht auf Sendebestätigungen warten (für fehlerhafte Skype-Versionen >6)
 [Skype Popups]
 Skype-Popups
 [Incoming Calls]
@@ -182,13 +182,13 @@ Verlauf des Kontakts
 Benutzer &kicken
 ;file \protocols\SkypeClassic\src\skype.cpp
 [Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
-
+Benutzername '%s' aus der Skype-API stimmt nicht mit dem Benutzernamen '%s' aus den Einstellungen überein. Bitte korrigieren oder entfernen Sie den Benutzernamen aus den Einstellungen. Skype verbindet nicht!
 [Cannot reach Skype API, plugin disfunct.]
-
+Kann Skype-API nicht erreichen, Plugin funktioniert nicht.
 [Do a SkypeOut-call]
 Einen SkypeOut-Anruf tätigen
 [Unable to register with Groupchat module!]
-
+Kann Gruppenchat nicht registrieren
 [invited]
 eingeladen
 [Phone call]
@@ -202,30 +202,30 @@ Verbindung zu Skype verloren
 [Cleanup finished.]
 Säuberung fertig.
 [Cannot create window.]
-
+Kann Fenster nicht erstellen.
 [Memory allocation error on startup.]
-
+Speicherzuweisungsfehler beim Start
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Es scheint, als ob Sie das Skype-Protokoll zum ersten mal verwenden. Möchten Sie es für dieses Miranda-Profil verwenden? Wenn Sie sich für NEIN entscheiden, können Sie es immer noch später in den Plugin-Einstellungen aktivieren.
 [Cannot register Window message.]
-
+Kann Fensternachricht nicht registrieren
 [Unable to create Mutex!]
-
+Kann Mutex nicht erstellen!
 ;file \protocols\SkypeClassic\src\skypeapi.cpp
 [Misc. Error]
-
+Div. Fehler
 [User does not exist, check username]
-
+Benutzer existiert nicht, prüfen Sie den Benutzernamen
 [Trying to send IM to an user, who is not online]
-
+Sie versuchen, eine Sofortnachricht an einen Kontakt zu senden, der nicht Online ist.
 [IM blocked by recipient]
-
+Sofortnachricht vom Empfänger blockiert
 [Type unsupported]
-
+Typ nicht unterstützt
 [Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM']
-
+Versuche, eine Sofortnachricht an einen Benutzer zu senden, der Sie nicht auf seiner Freundesliste hat und "Nur Leute auf meiner Freundesliste können mir Sofortnachrichten senden" aktiviert hat.
 [Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
-
+Versuche, eine Sofortnachricht an einen Benutzer zu senden, der Sie nicht autorisiert hat und "Nur autorisierte Leute können mir Sofortnachrichten senden" aktiviert hat.
 [Unknown error]
 Unbekannter Fehler
 ;file \protocols\SkypeClassic\src\skypeopt.cpp

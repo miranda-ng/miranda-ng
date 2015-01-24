@@ -1,2 +1,0 @@
-﻿[Mark as Volatile]
-[Single instance]

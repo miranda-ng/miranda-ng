@@ -9,27 +9,27 @@
 VKontakte-Protokoll für Miranda NG.
 ;file \protocols\VKontakte\res\resource.rc
 [[img] BBCode support for image]
-
+\[img]-BBCode-Unterstützung für Bilder
 [off]
 Aus
 [for original size images]
-
+Für Bilder in Originalgröße
 [for preview max 130px*130px]
-
+Für Vorschau, max. 130x130px
 [for preview max 604px*604px]
-
+Für Vorschau, max. 604x604px
 [BBCode support on news and event notifications]
 BBCode-Unterstützung für Neuigkeiten- und Ereignisbenachrichtigungen
 [basic ([b], [i], [u], [s])]
-
+Basis ([b], [i], [u], [s])
 [advanced (+[url], [size], [color])]
-
+Erweitert (+[url], [size], [color])
 [Use this setting also for attachments on news and notifications]
-
+Diese Einstellung auch für Anhänge in Neuigkeiten und Benachrichtigungen anwenden
 [Other]
 Sonstige
 [BBCode support on attachments]
-
+BBCode-Unterstützung für Anhänge
 [Process stickers as smileys]
 Sticker als Smileys darstellen
 [News and event notifications]
@@ -39,49 +39,49 @@ WARNUNG: Verursacht exzessiven Netzwerkverkehr!!!
 [Enable news feeds]
 Newsfeeds aktivieren
 [Interval for news updates (min):]
-
+Intervall für Neuigkeitenaktualisierungen (Min.):
 [Enable event notifications]
 Ereignisbenachrichtigungen aktivieren
 [Interval for notification updates (min):]
-
+Intervall für Benachrichtigungsaktualisierungen (Min.):
 [Special contact always enabled]
-
+Spezieller Kontakt ist immer aktiviert
 [Autoclear news and notification history]
-
+Neuigkeiten- und Benachrichtigungsverlauf automatisch löschen
 [News types]
-
+Neuigkeitenarten
 [Wall posts]
 Pinnwand-Einträge
 [Photos]
 Fotos
 [Photos tags]
-
+Phototags
 [Wall photos]
-
+Pinnwandfotos
 [News sources]
-
+Neuigkeitenquellen
 [Friends]
 Freunde
 [Groups]
 Gruppen
 [Include banned sources]
-
+Inklusive gebannter Quellen
 [Pages]
 Seiten
 [Subscriptions to users]
-
+Abonnierte Nutzer
 [No reposts]
-
+Keine Reposts
 [Notifications types]
-
+Benachrichtigungsarten
 [Comments]
 Kommentare
 [Likes]
-
+Gefällt mir
 [Reposts]
-
+Reposts
 [Mentions in comments]
-
+In Beiträgen erwähnt
 [E-mail or phone number:]
 E-Mail oder Telefonnummer:
 [Password:]
@@ -188,7 +188,7 @@ Protokolle
 [VKontakte]
 VKontakte
 [Access denied! Data will not be sent or received.]
-
+Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 [Error]
 Fehler
 [Error %d. Data will not be sent or received.]
@@ -196,39 +196,39 @@ Fehler %d. Daten werden weder gesendet noch empfangen.
 [Message read: %s]
 Nachricht gelesen: %s
 [commented on your post]
-
+kommentierte Ihren Beitrag
 [commented on your photo]
-
+kommentierte Ihr Foto
 [commented on your video]
-
+kommentierte Ihr Video
 [replied to your comment]
-
+antwortete auf Ihren Kommentar
 [replied to your comment to photo]
-
+antwortete auf Ihren Fotokommentar
 [replied to your comment to video]
-
+antwortete auf Ihren Videokommentar
 [replied to your topic]
-
+antwortete auf Ihr Thema
 [liked your post]
-
+gefällt Ihr Beitrag
 [liked your comment]
-
+gefällt Ihr Kommentar
 [liked your photo]
-
+gefällt Ihr Foto
 [liked your video]
-
+gefällt Ihr Video
 [liked your comment to photo]
-
+gefällt Ihr Fotokommentar
 [liked your comment to video]
-
+gefällt Ihr Videokommentar
 [liked your comment to topic]
-
+gefällt Ihr Themenkommentar
 [shared your post]
-
+teilte Ihren Beitrag
 [shared your photo]
-
+teilte Ihr Foto
 [shared your video]
-
+teilte Ihr Video
 [Photo]
 Foto
 [Attachments:]
@@ -289,11 +289,11 @@ Neuigkeiten von %s\n%s
 [\tRepost from %s\n%s]
 \tGeteilt von %s\n%s
 [Video description:]
-
+Videobeschreibung:
 [Post text:]
-
+Beitragstext:
 [Topic text:]
-
+Thementext:
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]
 Konnte Datei nicht speichern.
@@ -328,14 +328,14 @@ Konto
 [News and notifications]
 Neuigkeiten und Benachrichtigungen
 [View settings]
-
+Einstellungen ansehen
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung
 [Create new chat]
 Neuen Chat erstellen
 [Load news from VK]
-
+Neuigkeiten von VK laden
 [Visit profile]
 Profil ansehen
 [Add as friend]

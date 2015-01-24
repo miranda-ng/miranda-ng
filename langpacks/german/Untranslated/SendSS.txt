@@ -1,3 +1,0 @@
-﻿[Image services (AdvaImg) not found.\nSendSS disabled.]
-[Couldn't take a screenshot]
-[Send screenshot?]

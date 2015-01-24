@@ -1891,7 +1891,7 @@ Kontakt tippt nicht mehr
 Ein unbekannter Fehler ist aufgetreten.
 ;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Der Client konnte die Hostnachricht nicht entschlüsseln. Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspakte auf Ihrem Client.
+Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
 [Host we are connecting to is not the one certificate was issued for]
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\core\stduihist\src\history.cpp

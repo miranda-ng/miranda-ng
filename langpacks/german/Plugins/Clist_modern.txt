@@ -327,21 +327,21 @@ Systemtray-Icon
 [Use xStatus icon]
 xStatus-Icon verwenden
 [Icon mode]
-
+Iconmodus
 [For similar statuses]
-
+Für gleiche Status
 [Global status]
 Globaler Status
 [Single account]
-
+Einzelnes Konto
 [Cycle icons]
-
+Icons wechseln
 [All accounts]
-
+Alle Konten
 [For different statuses]
-
+Für verschiedene Status
 [Cycle period, seconds]
-
+Wechselperiode, Sek.
 [Additional stuff]
 Zusatzliche Einstellungen
 [Ignore empty extra icons places (arrange to right).]

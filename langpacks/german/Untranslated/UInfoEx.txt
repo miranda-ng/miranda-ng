@@ -1,8 +1,2 @@
 ﻿[TmplPast Work Place]
 [TmplPast Organization]
-[He/she has the following anniversaries:]
-[He has the following anniversaries:]
-[She has the following anniversaries:]
-[\nHe/she becomes %d years old.]
-[\nHe becomes %d years old.]
-[\nShe becomes %d years old.]
