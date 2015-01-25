@@ -36,7 +36,7 @@ int  FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
 int  SmileyAddOptionsChanged(WPARAM wParam, LPARAM lParam);
 int  IEViewOptionsChanged(WPARAM wParam, LPARAM lParam);
 int  ModPlus_PreShutdown(WPARAM wparam, LPARAM lparam);
-int  ModPlus_Init(WPARAM wparam, LPARAM lparam);
+int  ModPlus_Init();
 
 void RegisterFontServiceFonts();
 

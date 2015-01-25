@@ -1,7 +1,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
 //
-// Copyright (ñ) 2012-15 Miranda NG project,
+// Copyright (c) 2012-15 Miranda NG project,
 // Copyright (c) 2000-09 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
@@ -136,25 +136,21 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 
 INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	TContainerData *pContainer = 0;
-	HWND   hwndTree = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
-	pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	HWND hwndTree = GetDlgItem(hwndDlg, IDC_SECTIONTREE);
+	TContainerData *pContainer = (TContainerData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 		case WM_INITDIALOG: {
-			wchar_t			szNewTitle[128];
-			TContainerData *pContainer = 0;
-			int   			i, j;
 			TVINSERTSTRUCT 	tvis = {0};
-			HTREEITEM 		hItem;
-			int				nr_layouts = 0;
-			const 			TSideBarLayout* sblayouts = CSideBar::getLayouts(nr_layouts);
+			int nr_layouts = 0;
+			const TSideBarLayout *sblayouts = CSideBar::getLayouts(nr_layouts);
 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) lParam);
 			pContainer = (TContainerData*)lParam;
 			pContainer->hWndOptions = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
 			SetWindowText(hwndDlg, TranslateT("Container options"));
+			TCHAR szNewTitle[128];
 			mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), TranslateT("Configure container options for\n%s"), !_tcscmp(pContainer->szName, _T("default")) ?
 					  	  TranslateT("Default container") : pContainer->szName);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
@@ -166,21 +162,15 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the left side"));
 			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the right side"));
 
-			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)TranslateT("Globally on"));
-			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)TranslateT("On, if present"));
-			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)TranslateT("Globally OFF"));
-			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)TranslateT("On, if present, always in bottom display"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Globally on"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Globally OFF"));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present, always in bottom display"));
 
-			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)TranslateT("On, if present"));
-			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)TranslateT("Don't show them"));
+			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("On, if present"));
+			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Don't show them"));
 
-			for (i=0; i < nr_layouts; i++)
+			for (int i=0; i < nr_layouts; i++)
 				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(sblayouts[i].szName));
 
 			/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
@@ -191,16 +181,16 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
 			SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->settings->szTitleFormat);
 			SetDlgItemText(hwndDlg, IDC_THEME, pContainer->szRelThemeFile);
-			for (i=0; i < NR_O_PAGES; i++) {
+			for (int i=0; i < NR_O_PAGES; i++) {
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 				tvis.item.pszText = TranslateTS(o_pages[i].szTitle);
 				tvis.item.lParam = i;
-				hItem = TreeView_InsertItem(hwndTree, &tvis);
+				HTREEITEM hItem = TreeView_InsertItem(hwndTree, &tvis);
 				if (i == 0)
 					SendMessage(hwndTree, TVM_SELECTITEM, TVGN_CARET, (LPARAM)hItem);
-				for (j = 0; j < NR_O_OPTIONSPERPAGE && o_pages[i].uIds[j] != 0; j++)
+				for (int j = 0; j < NR_O_OPTIONSPERPAGE && o_pages[i].uIds[j] != 0; j++)
 					Utils::showDlgControl(hwndDlg, o_pages[i].uIds[j], SW_HIDE);
 				ShowPage(hwndDlg, i, FALSE);
 			}

@@ -198,7 +198,10 @@ static INT_PTR CB_AddButton(WPARAM, LPARAM lParam)
 		LButtonsList.insert(cbd);
 	else if (cbd->bRSided)
 		RButtonsList.insert(cbd);
-	else return 1;
+	else {
+		delete cbd;
+		return 1;
+	}
 
 	if (cbd->dwButtonCID != cbd->dwButtonOrigID)
 		LastCID++;

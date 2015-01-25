@@ -388,6 +388,8 @@ LONG_PTR CMenuBar::Handle(const NMTOOLBAR *nmtb)
 void CMenuBar::invoke(const int id)
 {
 	const int index = idToIndex(id);
+	if (index == -1)
+		return;
 
 	HMENU	hMenu;
 

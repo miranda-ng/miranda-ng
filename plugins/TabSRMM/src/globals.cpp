@@ -286,7 +286,7 @@ int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // second part of the startup initialisation.All plugins are now fully loaded
 
-int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 {
 	M.configureCustomFolders();
 
@@ -312,7 +312,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	::BuildContainerMenu();
 
 	::CB_InitDefaultButtons();
-	::ModPlus_Init(wParam, lParam);
+	::ModPlus_Init();
 	::NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 
 	if (M.GetByte("avatarmode", -1) == -1)

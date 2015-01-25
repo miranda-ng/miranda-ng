@@ -68,9 +68,11 @@ public:
 
 	STDMETHOD_(ULONG, Release)(void)
 	{
-    m_ulRefCnt--;
-		if (m_ulRefCnt == 0)
+		m_ulRefCnt--;
+		if (m_ulRefCnt == 0) {
 			delete this;
+			return 0;
+		}
 		return m_ulRefCnt;
 	}
 
