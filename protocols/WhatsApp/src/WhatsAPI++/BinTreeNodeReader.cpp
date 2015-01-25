@@ -12,6 +12,8 @@
 #include "ProtocolTreeNode.h"
 #include "utilities.h"
 
+extern const char *dictionary[], *extended_dict[];
+
 BinTreeNodeReader::BinTreeNodeReader(WAConnection *conn, ISocketConnection *connection) :
 	buf(BUFFER_SIZE)
 {
@@ -145,15 +147,12 @@ ReadData* BinTreeNodeReader::readString(int token)
 	int bSize;
 	ReadData *ret = new ReadData();
 
-	if (token > 2 && token <= WAConnection::DICTIONARY_LEN) {
-		if (token != WAConnection::DICTIONARY_LEN)
-			ret->data = new std::string(WAConnection::dictionary[token]);
+	if (token > 2 && token <= 236) {
+		if (token != 236)
+			ret->data = new std::string(dictionary[token]);
 		else {
 			token = readInt8(this->in);
-			if (token >= WAConnection::EXTDICTIONARY_LEN)
-				throw WAException("invalid token/length in getToken", WAException::CORRUPT_STREAM_EX, 0);
-			
-			ret->data = new std::string(WAConnection::extended_dict[token]);
+			ret->data = new std::string(extended_dict[token]);
 		}
 
 		ret->type = STRING;

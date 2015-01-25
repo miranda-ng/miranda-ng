@@ -17,11 +17,6 @@ BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* conn
 	this->conn = conn;
 	this->out = new ByteArrayOutputStream(2048);
 	this->realOut = connection;
-	for (int i = 0; i < WAConnection::DICTIONARY_LEN; i++) {
-		std::string token(WAConnection::dictionary[i]);
-		if (token.compare("") != 0)
-			this->tokenMap[token] = i;
-	}
 	this->dataBegin = 0;
 }
 
@@ -135,9 +130,9 @@ void BinTreeNodeWriter::writeAttributes(std::map<string, string>* attributes)
 
 void BinTreeNodeWriter::writeString(const std::string& tag)
 {
-	std::map<string, int>::iterator it = this->tokenMap.find(tag);
-	if (it != this->tokenMap.end())
-		writeToken(it->second);
+	int token = WAConnection::tokenLookup(tag);
+	if (token != -1)
+		writeToken(token);
 	else {
 		size_t atIndex = tag.find('@');
 		if (atIndex == 0 || atIndex == string::npos)
@@ -164,12 +159,11 @@ void BinTreeNodeWriter::writeJid(std::string* user, const std::string& server)
 
 void BinTreeNodeWriter::writeToken(int intValue)
 {
-	if (intValue < 245)
-		this->out->write(intValue);
-	else if (intValue <= 500) {
-		this->out->write(254);
-		this->out->write(intValue - 245);
+	if (intValue & 0x100) {
+		this->out->write(236);
+		this->out->write(intValue & 0xFF);
 	}
+	else this->out->write(intValue);
 }
 
 void BinTreeNodeWriter::writeBytes(unsigned char* bytes, int length)
