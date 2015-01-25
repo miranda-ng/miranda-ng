@@ -130,17 +130,14 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		if (CSkin::m_frameSkins) {
-			RECT rcWindow, rcClient;
 			HDC dcFrame = GetDCEx(hwndDlg, 0, DCX_WINDOW|/*DCX_INTERSECTRGN|*/0x10000); // GetWindowDC(hwndDlg);
-			POINT pt, pt1;
 			LONG clip_top, clip_left;
-			CSkinItem *item;
-			TCHAR szWindowText[512];
 			RECT rcText;
 			HDC dcMem = CreateCompatibleDC(pContainer->cachedDC ? pContainer->cachedDC : dcFrame);
-			HBITMAP hbmMem, hbmOld;
 			int i;
 
+			RECT rcWindow, rcClient;
+			POINT pt, pt1;
 			GetWindowRect(hwndDlg, &rcWindow);
 			GetClientRect(hwndDlg, &rcClient);
 			pt.y = 0;
@@ -156,15 +153,16 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			rcWindow.bottom = rcWindow.bottom - rcWindow.top;
 			rcWindow.left = rcWindow.top = 0;
 
-			hbmMem = CreateCompatibleBitmap(dcFrame, rcWindow.right, rcWindow.bottom);
-			hbmOld = (HBITMAP)SelectObject(dcMem, hbmMem);
+			HBITMAP hbmMem = CreateCompatibleBitmap(dcFrame, rcWindow.right, rcWindow.bottom);
+			HBITMAP hbmOld = (HBITMAP)SelectObject(dcMem, hbmMem);
 
 			ExcludeClipRect(dcFrame, clip_left, clip_top, clip_left + (pt1.x - pt.x), clip_top + (pt1.y - pt.y));
 			ExcludeClipRect(dcMem, clip_left, clip_top, clip_left + (pt1.x - pt.x), clip_top + (pt1.y - pt.y));
-			item = pContainer->ncActive ? &SkinItems[ID_EXTBKFRAME] : &SkinItems[ID_EXTBKFRAMEINACTIVE];
+			CSkinItem *item = pContainer->ncActive ? &SkinItems[ID_EXTBKFRAME] : &SkinItems[ID_EXTBKFRAMEINACTIVE];
 
 			CSkin::DrawItem(dcMem, &rcWindow, item);
-
+			
+			TCHAR szWindowText[512];
 			GetWindowText(hwndDlg, szWindowText, SIZEOF(szWindowText));
 			szWindowText[511] = 0;
 			hOldFont = (HFONT)SelectObject(dcMem, PluginConfig.hFontCaption);

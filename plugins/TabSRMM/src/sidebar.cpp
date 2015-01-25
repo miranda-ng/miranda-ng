@@ -105,12 +105,12 @@ void CSideBarButton::_create()
 		::SendMessage(m_hwnd, BUTTONSETASTHEMEDBTN, TRUE,  0);
 		::SendMessage(m_hwnd, BUTTONSETCONTAINER, (LPARAM)m_sideBar->getContainer(), 0);
 		m_buttonControl = (TSButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
+		if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)
+			::SetParent(m_hwnd, m_sideBar->getContainer()->hwnd);
 	}
 	else
 		delete this;
 
-	if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)
-		::SetParent(m_hwnd, m_sideBar->getContainer()->hwnd);
 }
 
 CSideBarButton::~CSideBarButton()
@@ -344,7 +344,7 @@ void CSideBarButton::activateSession() const
  */
 void CSideBarButton::invokeContextMenu()
 {
-	const TContainerData* pContainer = m_sideBar->getContainer();
+	const TContainerData *pContainer = m_sideBar->getContainer();
 
 	if (pContainer) {
 		TSideBarNotify tsn = {0};
