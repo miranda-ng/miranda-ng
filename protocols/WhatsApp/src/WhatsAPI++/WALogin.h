@@ -66,10 +66,11 @@ public:
 	int account_kind;
 
 	WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& domain, const std::string& user, const std::string& resource, const std::string& password, const std::string& push_name);
+	~WALogin();
+
 	std::vector<unsigned char>* login(const std::vector<unsigned char>& blobLength);
 	BinTreeNodeReader *getTreeNodeReader();
 	BinTreeNodeWriter *getTreeNodeWriter();
-	virtual ~WALogin();
 };
 
 #endif /* WALOGIN_H_ */

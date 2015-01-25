@@ -5,7 +5,8 @@
  *      Author: Antonio
  */
 
-#include <algorithm>
+#include "../common.h" // #TODO Remove Miranda-dependency
+
 #include "BinTreeNodeReader.h"
 #include "WAException.h"
 #include "ProtocolTreeNode.h"
@@ -69,13 +70,13 @@ ProtocolTreeNode* BinTreeNodeReader::nextTreeInternal()
 	int attribCount = (size - 2 + size % 2) / 2;
 	std::map<string, string>* attribs = readAttributes(attribCount);
 	if (size % 2 == 1) {
-		ProtocolTreeNode* ret = new ProtocolTreeNode(*tag, attribs);
+		ProtocolTreeNode* ret = new ProtocolTreeNode(*tag); ret->attributes = attribs;
 		delete tag;
 		return ret;
 	}
 	b = this->in->read();
 	if (isListTag(b)) {
-		ProtocolTreeNode* ret = new ProtocolTreeNode(*tag, attribs, NULL, readList(b));
+		ProtocolTreeNode* ret = new ProtocolTreeNode(*tag, NULL, readList(b)); ret->attributes = attribs;
 		delete tag;
 		return ret;
 	}
@@ -91,7 +92,7 @@ ProtocolTreeNode* BinTreeNodeReader::nextTreeInternal()
 		data = (std::vector<unsigned char>*) obj->data;
 	}
 
-	ProtocolTreeNode* ret = new ProtocolTreeNode(*tag, attribs, data);
+	ProtocolTreeNode* ret = new ProtocolTreeNode(*tag, data); ret->attributes = attribs;
 	delete obj;
 	delete tag;
 	return ret;

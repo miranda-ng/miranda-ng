@@ -20,7 +20,8 @@ using namespace Utilities;
 
 const std::string WALogin::NONCE_KEY = "nonce=\"";
 
-WALogin::WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& domain, const std::string& user, const std::string& resource, const std::string& password, const std::string& push_name) {
+WALogin::WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& domain, const std::string& user, const std::string& resource, const std::string& password, const std::string& push_name)
+{
 	this->connection = connection;
 	this->inn = reader;
 	this->out = writer;
@@ -35,7 +36,8 @@ WALogin::WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNod
 	this->outputKey = NULL;
 }
 
-std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& authBlob) {
+std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& authBlob)
+{
 	this->out->streamStart(this->domain, this->resource);
 
 	_LOGDATA("sent stream start");
@@ -65,44 +67,32 @@ BinTreeNodeWriter* WALogin::getTreeNodeWriter()
 	return this->out;
 }
 
-void WALogin::sendResponse(const std::vector<unsigned char>& challengeData) {
+void WALogin::sendResponse(const std::vector<unsigned char>& challengeData)
+{
 	std::vector<unsigned char>* authBlob = this->getAuthBlob(challengeData);
-
-	ProtocolTreeNode node("response", NULL, authBlob);
-
-	this->out->write(&node);
+	this->out->write(ProtocolTreeNode("response", authBlob));
 }
 
 void WALogin::sendFeatures()
 {
-	ProtocolTreeNode* child = new ProtocolTreeNode("receipt_acks", NULL);
+	ProtocolTreeNode* child = new ProtocolTreeNode("receipt_acks");
 	std::vector<ProtocolTreeNode*>* children = new std::vector<ProtocolTreeNode*>();
 	children->push_back(child);
 
-	std::map<string, string>* attributes = new std::map<string, string>();
-	(*attributes)["type"] = "all";
-	ProtocolTreeNode* pictureChild = new ProtocolTreeNode("w:profile:picture", attributes);
-	 children->push_back(pictureChild);
+	ProtocolTreeNode* pictureChild = new ProtocolTreeNode("w:profile:picture") << XATTR("type", "all");
+	children->push_back(pictureChild);
 
-	// children->push_back(new ProtocolTreeNode("status", NULL));
-
-	ProtocolTreeNode node("stream:features", NULL, NULL, children);
-	this->out->write(&node, true);
+	this->out->write(ProtocolTreeNode("stream:features", NULL, children), true);
 }
 
 void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 {
 	std::vector<unsigned char>* data = NULL;
-	if (!existingChallenge.empty()) {
+	if (!existingChallenge.empty())
 		data = this->getAuthBlob(existingChallenge);
-	}
 
-	std::map<string, string>* attributes = new std::map<string, string>();
-	(*attributes)["mechanism"] = "WAUTH-2";
-	(*attributes)["user"] = this->user;
-
-	ProtocolTreeNode node("auth", attributes, data, NULL);
-	this->out->write(&node, true);
+	this->out->write(ProtocolTreeNode("auth", data) << 
+		XATTR("mechanism", "WAUTH-2") << XATTR("user", this->user), true);
 }
 
 std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char>& nonce)
@@ -214,77 +204,3 @@ std::vector<unsigned char> WALogin::readSuccess()
 
 WALogin::~WALogin()
 {}
-
-KeyStream::KeyStream(unsigned char* _key, unsigned char* _keyMac) :
-	seq(0)
-{
-	memcpy(key, _key, 20);
-	memcpy(keyMac, _keyMac, 20);
-
-	RC4_set_key(&this->rc4, 20, this->key);
-
-	unsigned char drop[768];
-	RC4(&this->rc4, sizeof(drop), drop, drop);
-
-	HMAC_CTX_init(&hmac);
-}
-
-KeyStream::~KeyStream()
-{
-	HMAC_CTX_cleanup(&hmac);
-}
-
-void KeyStream::keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out)
-{
-	size_t cbSize = nonce.size();
-
-	uint8_t *pNonce = (uint8_t*)_alloca(cbSize + 1);
-	memcpy(pNonce, nonce.data(), cbSize);
-
-	for (int i = 0; i < 4; i++) {
-		pNonce[cbSize] = i + 1;
-		PKCS5_PBKDF2_HMAC_SHA1(pass.data(), (int)pass.size(), pNonce, (int)cbSize+1, 2, 20, out + i*20);
-	}
-}
-
-void KeyStream::decodeMessage(unsigned char* buffer, int macOffset, int offset, const int length)
-{
-	unsigned char digest[20];
-	this->hmacsha1(buffer + offset, length, digest);
-
-	if (memcmp(&buffer[macOffset], digest, 4))
-		throw WAException("invalid MAC", WAException::CORRUPT_STREAM_EX, 0);
-
-	unsigned char* out = (unsigned char*)_alloca(length);
-	RC4(&this->rc4, length, buffer + offset, out);
-	memcpy(buffer + offset, out, length);
-}
-
-void KeyStream::encodeMessage(unsigned char* buffer, int macOffset, int offset, const int length)
-{
-	unsigned char* out = (unsigned char*)_alloca(length);
-	RC4(&this->rc4, length, buffer + offset, out);
-	memcpy(buffer + offset, out, length);
-
-	unsigned char digest[20];
-	this->hmacsha1(buffer + offset, length, digest);
-	memcpy(buffer + macOffset, digest, 4);
-}
-
-void KeyStream::hmacsha1(unsigned char* text, int textLength, unsigned char *out)
-{
-	HMAC_Init(&hmac, this->keyMac, 20, EVP_sha1());
-	HMAC_Update(&hmac, text, textLength);
-
-	unsigned char hmacInt[4];
-	hmacInt[0] = (this->seq >> 24);
-	hmacInt[1] = (this->seq >> 16);
-	hmacInt[2] = (this->seq >> 8);
-	hmacInt[3] = (this->seq);
-	HMAC_Update(&hmac, hmacInt, sizeof(hmacInt));
-
-	unsigned int mdLength;
-	HMAC_Final(&hmac, out, &mdLength);
-
-	this->seq++;
-}
