@@ -62,7 +62,7 @@ void CVkProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				pReq->bNeedsRestart = true;
 				Sleep(1000); //Pause for fix err 
 				pReq->m_iRetry--;
-				debugLogA("CVkProto::ExecuteRequest restarting retry = %d", MAX_RETRIES - pReq->m_iRetry);
+				debugLogA("CVkProto::ExecuteRequest restarting (retry = %d)", MAX_RETRIES - pReq->m_iRetry);
 			}
 			else {
 				debugLogA("CVkProto::ExecuteRequest ShutdownSession");
@@ -111,7 +111,7 @@ void CVkProto::WorkerThread(void*)
 	}
 
 	while (true) {
-		debugLogA("CVkProto::WorkerThread: _while begin");
+		debugLogA("CVkProto::WorkerThread: while(1)");
 		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
@@ -119,7 +119,7 @@ void CVkProto::WorkerThread(void*)
 		AsyncHttpRequest *pReq;
 		bool need_sleep = false;
 		while (true) {
-			debugLogA("CVkProto::WorkerThread: while begin");
+			debugLogA("CVkProto::WorkerThread: while(2)");
 			{
 				mir_cslock lck(m_csRequestsQueue);
 				if (m_arRequestsQueue.getCount() == 0)
@@ -132,11 +132,11 @@ void CVkProto::WorkerThread(void*)
 			if (m_bTerminated)
 				break;
 			ExecuteRequest(pReq);
-			if (need_sleep)	// There can be maximum 3 requests to API methods per second from a client
+			if (need_sleep)	{ // There can be maximum 3 requests to API methods per second from a client
 				Sleep(330);	// (c) https://vk.com/dev/api_requests
-			debugLogA("CVkProto::WorkerThread: while end");
-		}
-		debugLogA("CVkProto::WorkerThread: _while end");
+				debugLogA("CVkProto::WorkerThread: need sleep");
+			}			
+		}	
 	}
 
 	m_hWorkerThread = 0;
