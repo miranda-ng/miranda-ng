@@ -20,9 +20,8 @@ WASocketConnection::WASocketConnection(const std::string& dir, int port) throw (
 	noc.flags = NLOCF_V2; // | NLOCF_SSL;
 	this->hConn = (HANDLE)CallService(MS_NETLIB_OPENCONNECTION, reinterpret_cast<WPARAM>(this->hNetlibUser),
 												 reinterpret_cast<LPARAM>(&noc));
-	if (this->hConn == NULL) {
+	if (this->hConn == NULL)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
-	}
 
 	this->connected = true;
 }
@@ -45,7 +44,6 @@ void WASocketConnection::write(int i)
 
 void WASocketConnection::makeNonBlock()
 {
-	//if (fcntl(socket->channel, F_SETFL, O_NONBLOCK) == -1) // #TODO !?
 	throw WAException("Error setting socket nonblocking!", WAException::SOCKET_EX, WAException::SOCKET_EX_OPEN);
 }
 

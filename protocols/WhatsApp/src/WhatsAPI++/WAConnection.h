@@ -352,8 +352,7 @@ class WAConnection {
 	};
 
 
-	private:
-	WALogin* login;
+private:
 	BinTreeNodeReader* in;
 	BinTreeNodeWriter* out;
 	WAListener* event_handler;
@@ -362,8 +361,6 @@ class WAConnection {
 	int iqid;
 	std::map<string, IqResultHandler*> pending_server_requests;
 	IMutex* mutex;
-
-	// std::<string, FMessage* > message_store;
 
 	void init(WAListener* event_handler, WAGroupListener* group_event_handler, IMutex* mutex);
 	void sendMessageWithMedia(FMessage* message) throw(WAException);
@@ -381,26 +378,34 @@ class WAConnection {
 	static ProtocolTreeNode getMessageNode(FMessage* message, ProtocolTreeNode* node);
 	std::vector<ProtocolTreeNode*>* processGroupSettings(const std::vector<GroupSetting>& gruops);
 
-	public:
+public:
 	WAConnection(IMutex* mutex, WAListener* event_handler = NULL, WAGroupListener* group_event_handler = NULL);
 	virtual ~WAConnection();
+
+	std::string user;
+	std::string domain;
+	std::string resource;
 	std::string jid;
-	std::string fromm;
+	std::string nick;
+
 	int msg_id;
-	int state;
 	bool retry;
+	bool supports_receipt_acks;
 	time_t expire_date;
 	int account_kind;
 	time_t lastTreeRead;
+
 	static const int DICTIONARY_LEN;
 	static const char* dictionary[];
+
+	static const int EXTDICTIONARY_LEN;
+	static const char* extended_dict[];
+
 	static MessageStore* message_store;
-	KeyStream* inputKey;
-	KeyStream* outputKey;
+	KeyStream inputKey, outputKey;
 
 	static std::string removeResourceFromJid(const std::string& jid);
 
-	WALogin* getLogin();
 	void setLogin(WALogin* login);
 	void setVerboseId(bool b);
 	void sendMessage(FMessage* message) throw(WAException);

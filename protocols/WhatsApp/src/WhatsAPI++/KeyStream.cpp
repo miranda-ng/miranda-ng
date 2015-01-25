@@ -14,8 +14,18 @@
 
 using namespace Utilities;
 
-KeyStream::KeyStream(unsigned char* _key, unsigned char* _keyMac) :
+KeyStream::KeyStream() :
 	seq(0)
+{
+	HMAC_CTX_init(&hmac);
+}
+
+KeyStream::~KeyStream()
+{
+	HMAC_CTX_cleanup(&hmac);
+}
+
+void KeyStream::init(unsigned char* _key, unsigned char* _keyMac)
 {
 	memcpy(key, _key, 20);
 	memcpy(keyMac, _keyMac, 20);
@@ -24,13 +34,6 @@ KeyStream::KeyStream(unsigned char* _key, unsigned char* _keyMac) :
 
 	unsigned char drop[768];
 	RC4(&this->rc4, sizeof(drop), drop, drop);
-
-	HMAC_CTX_init(&hmac);
-}
-
-KeyStream::~KeyStream()
-{
-	HMAC_CTX_cleanup(&hmac);
 }
 
 void KeyStream::keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out)
