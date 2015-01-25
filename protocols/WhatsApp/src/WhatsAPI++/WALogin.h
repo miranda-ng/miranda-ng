@@ -30,8 +30,10 @@ private:
 	void hmacsha1(unsigned char* text, int textLength, unsigned char *out);
 
 public:
-	KeyStream(unsigned char* _key, unsigned char* _keyMac);
+	KeyStream();
 	~KeyStream();
+
+	void init(unsigned char *_key, unsigned char *_keyMac);
 
 	static void keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out);
 	void decodeMessage(unsigned char* buffer, int macOffset, int offset, const int length);
@@ -42,7 +44,6 @@ public:
 class WALogin {
 private:
 	static const std::string NONCE_KEY;
-	KeyStream* outputKey;
 	WAConnection* connection;
 	BinTreeNodeReader* inn;
 	BinTreeNodeWriter* out;
@@ -56,16 +57,11 @@ private:
 	std::vector<unsigned char> readSuccess();
 
 public:
-	std::string user;
-	std::string domain;
-	std::string password;
-	std::string resource;
-	std::string push_name;
-	bool supports_receipt_acks;
 	time_t expire_date;
 	int account_kind;
+	std::string password;
 
-	WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& domain, const std::string& user, const std::string& resource, const std::string& password, const std::string& push_name);
+	WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& password);
 	~WALogin();
 
 	std::vector<unsigned char>* login(const std::vector<unsigned char>& blobLength);

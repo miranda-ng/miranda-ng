@@ -10,15 +10,15 @@
 #include "BinTreeNodeWriter.h"
 #include "utilities.h"
 
-BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection,
-	const char** dictionary, const int dictionarysize, IMutex* mutex)
+BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, IMutex* mutex)
 {
+	this->bLoggedIn = false;
 	this->mutex = mutex;
 	this->conn = conn;
 	this->out = new ByteArrayOutputStream(2048);
 	this->realOut = connection;
-	for (int i = 0; i < dictionarysize; i++) {
-		std::string token(dictionary[i]);
+	for (int i = 0; i < WAConnection::DICTIONARY_LEN; i++) {
+		std::string token(WAConnection::dictionary[i]);
 		if (token.compare("") != 0)
 			this->tokenMap[token] = i;
 	}
@@ -34,26 +34,23 @@ void BinTreeNodeWriter::writeDummyHeader()
 	this->out->setPosition(num2);
 }
 
-
 void BinTreeNodeWriter::processBuffer()
 {
-	bool flag = this->conn->outputKey != NULL;
 	unsigned int num = 0u;
-	if (flag) {
+	if (bLoggedIn) {
 		long num2 = (long)this->out->getLength() + 4L;
 		this->out->setLength(num2);
 		this->out->setPosition(num2);
 		num |= 1u;
 	}
 	long num3 = (long)this->out->getLength() - 3L - (long) this->dataBegin;
-	if (num3 >= 1048576L) {
+	if (num3 >= 1048576L)
 		throw WAException("Buffer too large: " + num3, WAException::CORRUPT_STREAM_EX, 0);
-	}
 
 	std::vector<unsigned char>* buffer = this->out->getBuffer();
-	if (flag) {
+	if (bLoggedIn) {
 		int num4 = (int)num3 - 4;
-		this->conn->outputKey->encodeMessage(buffer->data(), this->dataBegin + 3 + num4, this->dataBegin + 3, num4);
+		this->conn->outputKey.encodeMessage(buffer->data(), this->dataBegin + 3 + num4, this->dataBegin + 3, num4);
 	}
 	(*buffer)[this->dataBegin] = (unsigned char)((unsigned long)((unsigned long)num << 4) | (unsigned long)((num3 & 16711680L) >> 16));
 	(*buffer)[this->dataBegin + 1] = (unsigned char)((num3 & 65280L) >> 8);
@@ -156,12 +153,11 @@ void BinTreeNodeWriter::writeString(const std::string& tag)
 void BinTreeNodeWriter::writeJid(std::string* user, const std::string& server)
 {
 	this->out->write(250);
-	if (user != NULL && !user->empty()) {
+	if (user != NULL && !user->empty())
 		writeString(*user);
-	}
-	else {
+	else
 		writeToken(0);
-	}
+
 	writeString(server);
 
 }

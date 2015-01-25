@@ -77,7 +77,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	// -----------------------------
 
 	Mutex writerMutex;
-	WALogin* login = NULL;
 	int desiredStatus;
 	bool error = false;
 
@@ -85,10 +84,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 	while (true) {
 		if (connection != NULL) {
-			if (connection->getLogin() == NULL && login != NULL) {
-				delete login;
-				login = NULL;
-			}
 			delete connection;
 			connection = NULL;
 		}
@@ -123,20 +118,19 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				portNumber = 5222, resource += "-5222";
 
 			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
+			this->connection = new WAConnection(&this->connMutex, this, this);
+			{
+				WALogin login(connection, new BinTreeNodeReader(connection, conn), new BinTreeNodeWriter(connection, conn, &writerMutex), password);
 
-			connection = new WAConnection(&this->connMutex, this, this);
-			login = new WALogin(connection, new BinTreeNodeReader(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN),
-				new BinTreeNodeWriter(connection, conn, WAConnection::dictionary, WAConnection::DICTIONARY_LEN, &writerMutex),
-				"s.whatsapp.net", this->phoneNumber, resource, password, nick);
-
-			std::vector<unsigned char>* nextChallenge = login->login(*this->challenge);
-			delete this->challenge;
-			this->challenge = nextChallenge;
-			connection->setLogin(login);
-			connection->setVerboseId(true); // ?
-			if (desiredStatus != ID_STATUS_INVISIBLE) {
-				connection->sendAvailableForChat();
+				std::vector<unsigned char>* nextChallenge = login.login(*this->challenge);
+				delete this->challenge;
+				this->challenge = nextChallenge;
+				connection->setLogin(&login);
 			}
+			connection->nick = this->nick;
+			connection->setVerboseId(true); // ?
+			if (desiredStatus != ID_STATUS_INVISIBLE)
+				connection->sendAvailableForChat();
 
 			debugLogA("Set status to online");
 			this->m_iStatus = desiredStatus;

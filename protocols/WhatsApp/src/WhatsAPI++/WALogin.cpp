@@ -20,25 +20,19 @@ using namespace Utilities;
 
 const std::string WALogin::NONCE_KEY = "nonce=\"";
 
-WALogin::WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& domain, const std::string& user, const std::string& resource, const std::string& password, const std::string& push_name)
+WALogin::WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& password)
 {
 	this->connection = connection;
+	this->password = password;
 	this->inn = reader;
 	this->out = writer;
-	this->domain = domain;
-	this->user = user;
-	this->resource = resource;
-	this->password = password;
-	this->push_name = push_name;
-	this->supports_receipt_acks = false;
 	this->account_kind = -1;
 	this->expire_date = 0L;
-	this->outputKey = NULL;
 }
 
 std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& authBlob)
 {
-	this->out->streamStart(this->domain, this->resource);
+	this->out->streamStart(connection->domain, connection->resource);
 
 	_LOGDATA("sent stream start");
 
@@ -92,7 +86,7 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 		data = this->getAuthBlob(existingChallenge);
 
 	this->out->write(ProtocolTreeNode("auth", data) << 
-		XATTR("mechanism", "WAUTH-2") << XATTR("user", this->user), true);
+		XATTR("mechanism", "WAUTH-2") << XATTR("user", connection->user), true);
 }
 
 std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char>& nonce)
@@ -100,31 +94,25 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 	unsigned char out[4*20];
 	KeyStream::keyFromPasswordAndNonce(this->password, nonce, out);
 
-	if (this->connection->inputKey != NULL)
-		delete this->connection->inputKey;
-	this->connection->inputKey = new KeyStream(out + 40, out + 60);
-
-	if (this->outputKey != NULL)
-		delete this->outputKey;
-	this->outputKey = new KeyStream(out, out + 20);
+	this->connection->inputKey.init(out + 40, out + 60);
+	this->connection->outputKey.init(out, out + 20);
 
 	std::vector<unsigned char>* list = new std::vector<unsigned char>(0);
 	for (int i = 0; i < 4; i++)
 		list->push_back(0);
 
-	list->insert(list->end(), this->user.begin(), this->user.end());
+	list->insert(list->end(), connection->user.begin(), connection->user.end());
 	list->insert(list->end(), nonce.begin(), nonce.end());
 
-	this->outputKey->encodeMessage(&((*list)[0]), 0, 4, (int)list->size() - 4);
+	this->connection->outputKey.encodeMessage(&((*list)[0]), 0, 4, (int)list->size() - 4);
 	return list;
 }
 
 std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 {
-	ProtocolTreeNode* root;
-	while ((root = this->inn->nextTree()) != NULL) {
+	while (ProtocolTreeNode *root = this->inn->nextTree()) {
 		if (ProtocolTreeNode::tagEquals(root, "stream:features")) {
-			this->supports_receipt_acks = root->getChild("receipt_acks") != NULL;
+			connection->supports_receipt_acks = root->getChild("receipt_acks") != NULL;
 			delete root;
 			continue;
 		}
@@ -166,15 +154,11 @@ void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 		this->account_kind = 0;
 	else
 		this->account_kind = -1;
-
-	if (this->connection->outputKey != NULL)
-		delete this->connection->outputKey;
-	this->connection->outputKey = this->outputKey;
 }
 
 std::vector<unsigned char> WALogin::readSuccess()
 {
-	ProtocolTreeNode* node = this->inn->nextTree();
+	ProtocolTreeNode *node = this->inn->nextTree();
 
 	if (ProtocolTreeNode::tagEquals(node, "failure")) {
 		delete node;
@@ -196,6 +180,8 @@ std::vector<unsigned char> WALogin::readSuccess()
 		}
 	}
 	else this->account_kind = -1;
+
+	this->out->setLoggedIn();
 
 	std::vector<unsigned char> data = *node->data;
 	delete node;

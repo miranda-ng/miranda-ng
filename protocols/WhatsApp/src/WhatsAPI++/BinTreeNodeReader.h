@@ -32,13 +32,11 @@ public:
 
 class BinTreeNodeReader {
 private:
-	const char** tokenMap;
-	int tokenmapsize;
 	ISocketConnection *rawIn;
 	ByteArrayInputStream* in;
-	std::vector<unsigned char>* buf;
+	std::vector<unsigned char> buf;
 	int readSize;
-	WAConnection* conn;
+	WAConnection *conn;
 
 	ProtocolTreeNode* nextTreeInternal();
 	bool isListTag(int b);
@@ -64,7 +62,7 @@ private:
 
 
 public:
-	BinTreeNodeReader(WAConnection* conn, ISocketConnection* connection, const char** dictionary, const int dictionarysize);
+	BinTreeNodeReader(WAConnection* conn, ISocketConnection* connection);
 	virtual ~BinTreeNodeReader();
 	ProtocolTreeNode* nextTree();
 	void streamStart();

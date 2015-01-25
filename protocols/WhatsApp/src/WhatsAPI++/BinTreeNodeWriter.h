@@ -40,6 +40,7 @@ private:
 	ByteArrayOutputStream *out;
 	IMutex* mutex;
 	int dataBegin;
+	bool bLoggedIn;
 
 	void writeListStart(int i);
 	void writeInt8(int v);
@@ -57,7 +58,9 @@ private:
 	void processBuffer();
 
 public:
-	BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, const char** dictionary, const int dictionarysize, IMutex* mutex);
+	BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, IMutex* mutex);
+	virtual ~BinTreeNodeWriter();
+
 	void streamStart(std::string domain, std::string resource);
 	void flushBuffer(bool flushNetwork);
 	void flushBuffer(bool flushNetwork, int startingOffset);
@@ -65,7 +68,7 @@ public:
 	void write(const ProtocolTreeNode &node);
 	void write(const ProtocolTreeNode &node, bool needsFlush);
 
-	virtual ~BinTreeNodeWriter();
+	void setLoggedIn() { bLoggedIn = true; }
 };
 
 #endif /* BINTREENODEWRITER_H_ */
