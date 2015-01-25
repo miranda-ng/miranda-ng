@@ -20,6 +20,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+HMODULE hDwmapiDll = 0;
 HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = 0;
 
 unsigned int uintMessagePumpThreadId = 0;
@@ -231,7 +232,7 @@ void InitMessagePump()
 	wcl.lpszClassName = POP_WIN_CLASS;
 	RegisterClassEx(&wcl);
 
-	HMODULE hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
+	hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));
 	if (hDwmapiDll)
 		MyDwmEnableBlurBehindWindow = (HRESULT (WINAPI *)(HWND, DWM_BLURBEHIND *))GetProcAddress(hDwmapiDll, "DwmEnableBlurBehindWindow");
 
@@ -242,6 +243,7 @@ void DeinitMessagePump()
 {
 	PostMPMessage(WM_QUIT, 0, 0);
 	UnregisterClass(POP_WIN_CLASS, hInst);
+	FreeLibrary(hDwmapiDll);
 }
 
 INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
