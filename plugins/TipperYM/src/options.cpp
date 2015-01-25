@@ -1006,6 +1006,8 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							SendMessage(hwndDlg, WMU_ENABLE_LIST_BUTTONS, 0, 0);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}
+						else
+							mir_free(di_value);
 
 						return TRUE;
 					}
@@ -1137,6 +1139,8 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							SendMessage(hwndDlg, WMU_ENABLE_LIST_BUTTONS, 0, 0);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}
+						else
+							mir_free(ds_value);
 
 						return TRUE;
 					}
