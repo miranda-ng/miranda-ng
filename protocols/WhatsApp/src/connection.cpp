@@ -118,13 +118,10 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				portNumber = 5222, resource += "-5222";
 
 			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
-			this->connection = new WAConnection(&this->connMutex, this, this);
-			
-			this->connection->domain = "s.whatsapp.net";
-			this->connection->user = this->phoneNumber;
-			this->connection->resource = resource;
+			this->connection = new WAConnection(this->phoneNumber, resource, &this->connMutex, this, this);
+			this->connection->init(&writerMutex, this->conn);
 			{
-				WALogin login(connection, new BinTreeNodeReader(connection, conn), new BinTreeNodeWriter(connection, conn, &writerMutex), password);
+				WALogin login(connection, password);
 
 				std::vector<unsigned char>* nextChallenge = login.login(*this->challenge);
 				delete this->challenge;

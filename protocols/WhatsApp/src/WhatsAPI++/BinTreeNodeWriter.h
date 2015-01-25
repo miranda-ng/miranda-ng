@@ -35,7 +35,6 @@ class WAConnection;
 class BinTreeNodeWriter {
 private:
 	WAConnection* conn;
-	map<string, int> tokenMap;
 	ISocketConnection *realOut;
 	ByteArrayOutputStream *out;
 	IMutex* mutex;

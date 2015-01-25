@@ -10,7 +10,7 @@
 #include "ProtocolTreeNode.h"
 #include "utilities.h"
 
-const char* WAConnection::dictionary[] = {
+const char* dictionary[] = {
 	"", "", "", "account", "ack", "action", "active", "add", "after", "all", "allow", "apple", "auth", "author", "available",
 	"bad-protocol", "bad-request", "before", "body", "broadcast", "cancel", "category", "challenge", "chat", "clean", "code",
 	"composing", "config", "contacts", "count", "create", "creation", "debug", "default", "delete", "delivery", "delta", "deny",
@@ -34,9 +34,7 @@ const char* WAConnection::dictionary[] = {
 	"adpcm", "amrnb", "amrwb", "mp3", "pcm", "qcelp", "wma", "h263", "h264", "jpeg"
 };
 
-const int WAConnection::DICTIONARY_LEN = _countof(WAConnection::dictionary);
-
-const char* WAConnection::extended_dict[] = {
+const char* extended_dict[] = {
 	"mpeg4", "wmv", "audio/3gpp", "audio/aac", "audio/amr", "audio/mp4", "audio/mpeg", "audio/ogg", "audio/qcelp", "audio/wav",
 	"audio/webm", "audio/x-caf", "audio/x-ms-wma", "image/gif", "image/jpeg", "image/png", "video/3gpp", "video/avi", "video/mp4",
 	"video/mpeg", "video/quicktime", "video/x-flv", "video/x-ms-asf", "302", "400", "401", "402", "403", "404", "405", "406", "407",
@@ -60,13 +58,56 @@ const char* WAConnection::extended_dict[] = {
 	"archive", "adm", "plaintext_size", "compressed_size", "delivered", "msg", "pkmsg", "everyone", "v", "transport", "call-id"
 };
 
-const int WAConnection::EXTDICTIONARY_LEN = _countof(WAConnection::extended_dict);
+static map<string, int> tokenMap1, tokenMap2;
+
+void WAConnection::globalInit()
+{
+	for (int i = 0; i < _countof(dictionary); i++)
+		if (*dictionary[i] != 0)
+			tokenMap1[dictionary[i]] = i;			
+
+	for (int i = 0; i < _countof(extended_dict); i++)
+		tokenMap2[extended_dict[i]] = i;
+}
+
+int WAConnection::tokenLookup(const std::string &str)
+{
+	std::map<string, int>::iterator it = tokenMap1.find(str);
+	if (it != tokenMap1.end())
+		return it->second;
+
+	it = tokenMap2.find(str);
+	if (it != tokenMap2.end())
+		return it->second + 0x100;
+
+	return -1;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-WAConnection::WAConnection(IMutex* mutex, WAListener* event_handler, WAGroupListener* group_event_handler)
+WAConnection::WAConnection(const std::string &user, const std::string &resource, IMutex *mutex, WAListener *event_handler, WAGroupListener *group_event_handler)
 {
-	this->init(event_handler, group_event_handler, mutex);
+	this->mutex = mutex;
+	this->event_handler = event_handler;
+	this->group_event_handler = group_event_handler;
+
+	this->in = NULL;
+	this->out = NULL;
+
+	this->msg_id = 0;
+	this->retry = true;
+
+	this->user = user;
+	this->resource = resource;
+	this->domain = "s.whatsapp.net";
+	this->jid = user + "@" + domain;
+
+	this->supports_receipt_acks = false;
+	this->iqid = 0;
+	this->verbose = true;
+	this->lastTreeRead = 0;
+	this->expire_date = 0L;
+	this->account_kind = -1;
 }
 
 WAConnection::~WAConnection()
@@ -78,23 +119,10 @@ WAConnection::~WAConnection()
 		delete it->second;
 }
 
-void WAConnection::init(WAListener* event_handler, WAGroupListener* group_event_handler, IMutex* mutex)
+void WAConnection::init(IMutex *mutex, WASocketConnection *conn)
 {
-	this->event_handler = event_handler;
-	this->group_event_handler = group_event_handler;
-	this->in = NULL;
-	this->out = NULL;
-
-	this->msg_id = 0;
-	this->retry = true;
-
-	this->supports_receipt_acks = false;
-	this->iqid = 0;
-	this->verbose = true;
-	this->lastTreeRead = 0;
-	this->expire_date = 0L;
-	this->account_kind = -1;
-	this->mutex = mutex;
+	in = new BinTreeNodeReader(this, conn);
+	out = new BinTreeNodeWriter(this, conn, mutex);
 }
 
 void WAConnection::setLogin(WALogin* login)
@@ -104,11 +132,6 @@ void WAConnection::setLogin(WALogin* login)
 
 	if (login->account_kind != -1)
 		this->account_kind = login->account_kind;
-
-	this->jid = user + "@" + domain;
-
-	this->in = login->getTreeNodeReader();
-	this->out = login->getTreeNodeWriter();
 }
 
 void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
@@ -118,7 +141,7 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
 	if (message->media_wa_type == FMessage::WA_TYPE_SYSTEM)
 		throw new WAException("Cannot send system message over the network");
 	
-	ProtocolTreeNode* mediaNode;
+	ProtocolTreeNode *mediaNode;
 	if (message->media_wa_type == FMessage::WA_TYPE_CONTACT && !message->media_name.empty()) {
 		ProtocolTreeNode* vcardNode = new ProtocolTreeNode("vcard", new std::vector<unsigned char>(message->data.begin(), message->data.end()))
 			<< XATTR("name", message->media_name);
@@ -131,17 +154,12 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
 
 	mediaNode << XATTR("xmlns", "urn:xmpp:whatsapp:mms") << XATTR("type", FMessage::getMessage_WA_Type_StrValue(message->media_wa_type));
 
-	if (message->media_wa_type == FMessage::WA_TYPE_LOCATION) {
+	if (message->media_wa_type == FMessage::WA_TYPE_LOCATION)
 		mediaNode << XATTR("latitude", Utilities::doubleToStr(message->latitude)) << XATTR("longitude", Utilities::doubleToStr(message->longitude));
-	}
 	else {
-		if (message->media_wa_type != FMessage::WA_TYPE_CONTACT && !message->media_name.empty() && !message->media_url.empty() && message->media_size > 0L) {
-			mediaNode << XATTR("file", message->media_name) << XATTRI("size", message->media_size) << XATTR("url", message->media_url);
-		}
-		else {
-			mediaNode << XATTR("file", message->media_name) << XATTRI("size", message->media_size)
-				<< XATTR("url", message->media_url) << XATTRI("seconds", message->media_duration_seconds);
-		}
+		mediaNode << XATTR("file", message->media_name) << XATTRI("size", message->media_size) << XATTR("url", message->media_url);
+		if (message->media_wa_type == FMessage::WA_TYPE_CONTACT || message->media_name.empty() || message->media_url.empty() || message->media_size <= 0)
+			mediaNode << XATTRI("seconds", message->media_duration_seconds);
 	}
 
 	this->out->write(WAConnection::getMessageNode(message, mediaNode));

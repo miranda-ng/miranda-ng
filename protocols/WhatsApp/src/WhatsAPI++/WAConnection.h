@@ -24,6 +24,7 @@
 #pragma warning(disable : 4290)
 
 class WALogin;
+class WASocketConnection;
 class KeyStream;
 class BinTreeNodeReader;
 
@@ -351,18 +352,18 @@ class WAConnection {
 		}
 	};
 
+	friend class WALogin;
 
 private:
-	BinTreeNodeReader* in;
-	BinTreeNodeWriter* out;
-	WAListener* event_handler;
-	WAGroupListener* group_event_handler;
+	BinTreeNodeReader *in;
+	BinTreeNodeWriter *out;
+	WAListener *event_handler;
+	WAGroupListener *group_event_handler;
 	bool verbose;
 	int iqid;
 	std::map<string, IqResultHandler*> pending_server_requests;
-	IMutex* mutex;
+	IMutex *mutex;
 
-	void init(WAListener* event_handler, WAGroupListener* group_event_handler, IMutex* mutex);
 	void sendMessageWithMedia(FMessage* message) throw(WAException);
 	void sendMessageWithBody(FMessage* message) throw(WAException);
 	std::map<string, string>* parseCategories(ProtocolTreeNode* node) throw(WAException);
@@ -379,8 +380,9 @@ private:
 	std::vector<ProtocolTreeNode*>* processGroupSettings(const std::vector<GroupSetting>& gruops);
 
 public:
-	WAConnection(IMutex* mutex, WAListener* event_handler = NULL, WAGroupListener* group_event_handler = NULL);
+	WAConnection(const std::string& user, const std::string& resource, IMutex* mutex, WAListener* event_handler, WAGroupListener* group_event_handler);
 	virtual ~WAConnection();
+	void init(IMutex* mutex, WASocketConnection*);
 
 	std::string user;
 	std::string domain;
@@ -395,11 +397,8 @@ public:
 	int account_kind;
 	time_t lastTreeRead;
 
-	static const int DICTIONARY_LEN;
-	static const char* dictionary[];
-
-	static const int EXTDICTIONARY_LEN;
-	static const char* extended_dict[];
+	static void globalInit(void);
+	static int  tokenLookup(const std::string&);
 
 	static MessageStore* message_store;
 	KeyStream inputKey, outputKey;

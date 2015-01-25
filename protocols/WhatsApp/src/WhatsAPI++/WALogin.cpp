@@ -20,19 +20,17 @@ using namespace Utilities;
 
 const std::string WALogin::NONCE_KEY = "nonce=\"";
 
-WALogin::WALogin(WAConnection* connection, BinTreeNodeReader *reader, BinTreeNodeWriter *writer, const std::string& password)
+WALogin::WALogin(WAConnection* connection, const std::string& password)
 {
 	this->connection = connection;
 	this->password = password;
-	this->inn = reader;
-	this->out = writer;
 	this->account_kind = -1;
 	this->expire_date = 0L;
 }
 
 std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& authBlob)
 {
-	this->out->streamStart(connection->domain, connection->resource);
+	connection->out->streamStart(connection->domain, connection->resource);
 
 	_LOGDATA("sent stream start");
 
@@ -44,27 +42,17 @@ std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& aut
 
 	_LOGDATA("send auth, auth blob size %d", authBlob.size());
 
-	this->inn->streamStart();
+	connection->in->streamStart();
 
 	_LOGDATA("read stream start");
 
 	return this->readFeaturesUntilChallengeOrSuccess();
 }
 
-BinTreeNodeReader* WALogin::getTreeNodeReader()
-{
-	return this->inn;
-}
-
-BinTreeNodeWriter* WALogin::getTreeNodeWriter()
-{
-	return this->out;
-}
-
 void WALogin::sendResponse(const std::vector<unsigned char>& challengeData)
 {
 	std::vector<unsigned char>* authBlob = this->getAuthBlob(challengeData);
-	this->out->write(ProtocolTreeNode("response", authBlob));
+	connection->out->write(ProtocolTreeNode("response", authBlob));
 }
 
 void WALogin::sendFeatures()
@@ -76,7 +64,7 @@ void WALogin::sendFeatures()
 	ProtocolTreeNode* pictureChild = new ProtocolTreeNode("w:profile:picture") << XATTR("type", "all");
 	children->push_back(pictureChild);
 
-	this->out->write(ProtocolTreeNode("stream:features", NULL, children), true);
+	connection->out->write(ProtocolTreeNode("stream:features", NULL, children), true);
 }
 
 void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
@@ -85,7 +73,7 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 	if (!existingChallenge.empty())
 		data = this->getAuthBlob(existingChallenge);
 
-	this->out->write(ProtocolTreeNode("auth", data) << 
+	connection->out->write(ProtocolTreeNode("auth", data) << 
 		XATTR("mechanism", "WAUTH-2") << XATTR("user", connection->user), true);
 }
 
@@ -110,15 +98,13 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 
 std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 {
-	while (ProtocolTreeNode *root = this->inn->nextTree()) {
+	while (ProtocolTreeNode *root = connection->in->nextTree()) {
 		if (ProtocolTreeNode::tagEquals(root, "stream:features")) {
 			connection->supports_receipt_acks = root->getChild("receipt_acks") != NULL;
 			delete root;
 			continue;
 		}
 		if (ProtocolTreeNode::tagEquals(root, "challenge")) {
-			// base64_decode(*root->data);
-			// _LOGDATA("Challenge data %s (%d)", root->data->c_str(), root->data->length());
 			std::vector<unsigned char> challengedata(root->data->begin(), root->data->end());
 			delete root;
 			this->sendResponse(challengedata);
@@ -128,7 +114,6 @@ std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 			return new std::vector<unsigned char>(data.begin(), data.end());
 		}
 		if (ProtocolTreeNode::tagEquals(root, "success")) {
-			// base64_decode(*root->data);
 			std::vector<unsigned char>* ret = new std::vector<unsigned char>(root->data->begin(), root->data->end());
 			this->parseSuccessNode(root);
 			delete root;
@@ -140,6 +125,8 @@ std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 
 void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 {
+	connection->out->setLoggedIn();
+
 	const string &expiration = node->getAttributeValue("expiration");
 	if (!expiration.empty()) {
 		this->expire_date = atol(expiration.c_str());
@@ -158,7 +145,7 @@ void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 
 std::vector<unsigned char> WALogin::readSuccess()
 {
-	ProtocolTreeNode *node = this->inn->nextTree();
+	ProtocolTreeNode *node = connection->in->nextTree();
 
 	if (ProtocolTreeNode::tagEquals(node, "failure")) {
 		delete node;
@@ -180,8 +167,6 @@ std::vector<unsigned char> WALogin::readSuccess()
 		}
 	}
 	else this->account_kind = -1;
-
-	this->out->setLoggedIn();
 
 	std::vector<unsigned char> data = *node->data;
 	delete node;
