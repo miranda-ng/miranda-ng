@@ -370,7 +370,7 @@ class WAConnection {
 	void sendMessageWithBody(FMessage* message) throw(WAException);
 	std::map<string, string>* parseCategories(ProtocolTreeNode* node) throw(WAException);
 	void parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* node) throw(WAException);
-	ProtocolTreeNode* getReceiptAck(const std::string& to, const std::string& id, const std::string& receiptType) throw(WAException);
+	ProtocolTreeNode getReceiptAck(const std::string& to, const std::string& id, const std::string& receiptType) throw(WAException);
 	std::string makeId(const std::string& prefix);
 	void sendGetGroups(const std::string& id, const std::string& type) throw (WAException);
 	void readGroupList(ProtocolTreeNode* node, std::vector<std::string>& groups) throw (WAException);
@@ -378,8 +378,7 @@ class WAConnection {
 	void readAttributeList(ProtocolTreeNode* node, std::vector<std::string>& vector, const std::string& tag, const std::string& attribute) throw (WAException);
 	void sendVerbParticipants(const std::string& gjid, const std::vector<std::string>& participants, const std::string& id, const std::string& inner_tag) throw (WAException);
 	bool supportsReceiptAcks();
-	static ProtocolTreeNode* getMessageNode(FMessage* message, ProtocolTreeNode* node);
-	static ProtocolTreeNode* getSubjectMessage(const std::string& to, const std::string& id, ProtocolTreeNode* child) throw (WAException);
+	static ProtocolTreeNode getMessageNode(FMessage* message, ProtocolTreeNode* node);
 	std::vector<ProtocolTreeNode*>* processGroupSettings(const std::vector<GroupSetting>& gruops);
 
 	public:
@@ -407,7 +406,6 @@ class WAConnection {
 	void sendMessage(FMessage* message) throw(WAException);
 	void sendAvailableForChat() throw(WAException);
 	bool read() throw(WAException);
-	void sendNop() throw(WAException);
 	void sendPing() throw(WAException);
 	void sendQueryLastOnline(const std::string& jid) throw (WAException);
 	void sendPong(const std::string& id) throw(WAException);

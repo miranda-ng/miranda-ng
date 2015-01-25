@@ -5,8 +5,9 @@
  *      Author: Antonio
  */
 
+#include "../common.h" // #TODO Remove Miranda-dependency
+
 #include "BinTreeNodeWriter.h"
-#include <cstring>
 #include "utilities.h"
 
 BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection,
@@ -195,22 +196,21 @@ void BinTreeNodeWriter::writeInt24(int v)
 	this->out->write(v & 0xFF);
 }
 
-void BinTreeNodeWriter::writeInternal(ProtocolTreeNode* node)
+void BinTreeNodeWriter::writeInternal(const ProtocolTreeNode &node)
 {
 	writeListStart(
-		1 + (node->attributes == NULL ? 0 : (int)node->attributes->size() * 2)
-		+ (node->children == NULL ? 0 : 1)
-		+ (node->data == NULL ? 0 : 1));
-	writeString(node->tag);
-	writeAttributes(node->attributes);
-	if (node->data != NULL) {
-		writeBytes((unsigned char*)node->data->data(), (int)node->data->size());
-	}
-	if (node->children != NULL && !node->children->empty()) {
-		writeListStart((int)node->children->size());
-		for (size_t a = 0; a < node->children->size(); a++) {
-			writeInternal((*node->children)[a]);
-		}
+		1 + (node.attributes == NULL ? 0 : (int)node.attributes->size() * 2)
+		+ (node.children == NULL ? 0 : 1)
+		+ (node.data == NULL ? 0 : 1));
+	writeString(node.tag);
+	writeAttributes(node.attributes);
+	if (node.data != NULL)
+		writeBytes((unsigned char*)node.data->data(), (int)node.data->size());
+
+	if (node.children != NULL && !node.children->empty()) {
+		writeListStart((int)node.children->size());
+		for (size_t a = 0; a < node.children->size(); a++)
+			writeInternal(*(*node.children)[a]);
 	}
 }
 
@@ -258,21 +258,17 @@ void BinTreeNodeWriter::streamEnd()
 	this->mutex->unlock();
 }
 
-void BinTreeNodeWriter::write(ProtocolTreeNode* node)
+void BinTreeNodeWriter::write(const ProtocolTreeNode& node)
 {
 	write(node, true);
 }
 
-void BinTreeNodeWriter::write(ProtocolTreeNode* node, bool needsFlush)
+void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 {
 	this->mutex->lock();
 	try {
 		this->writeDummyHeader();
-		if (node == NULL)
-			this->out->write(0);
-		else {
-			writeInternal(node);
-		}
+		writeInternal(node);
 		flushBuffer(needsFlush);
 	}
 	catch (exception& ex) {

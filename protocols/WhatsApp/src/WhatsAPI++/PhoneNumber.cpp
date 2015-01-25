@@ -3,8 +3,9 @@
  *
  */
 
+#include "../common.h" // #TODO Remove Miranda-dependency
+
 #include "PhoneNumber.h"
-#include "WAException.h"
 
 struct CountryDescr
 {

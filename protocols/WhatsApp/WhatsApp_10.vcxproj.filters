@@ -119,6 +119,9 @@
     <ClCompile Include="src\WhatsAPI++\WARegister.cpp">
       <Filter>WhatsAPI++\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\WhatsAPI++\KeyStream.cpp">
+      <Filter>WhatsAPI++\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">

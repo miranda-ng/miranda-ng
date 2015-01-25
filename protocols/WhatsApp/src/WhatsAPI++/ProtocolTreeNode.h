@@ -14,6 +14,37 @@
 
 using namespace std;
 
+struct XATTR
+{
+	__forceinline XATTR(const char *_name, const char *_value) :
+		name(_name), value(_value)
+	{}
+
+	__forceinline XATTR(const char *_name, const std::string &_value) :
+		name(_name), value(_value.c_str())
+	{}
+
+	__forceinline XATTR(const std::string &_name, const std::string &_value) :
+		name(_name.c_str()), value(_value.c_str())
+	{}
+
+	const char *name, *value;
+};
+
+struct XATTRI
+{
+	__forceinline XATTRI(const char *_name, int _value) :
+		name(_name), value(_value)
+	{}
+
+	__forceinline XATTRI(const std::string &_name, int _value) :
+		name(_name.c_str()), value(_value)
+	{}
+
+	const char *name;
+	int value;
+};
+
 class ProtocolTreeNode {
 public:
    vector<unsigned char>* data;
@@ -21,8 +52,8 @@ public:
    map<string, string> *attributes;
    vector<ProtocolTreeNode*> *children;
 
-   ProtocolTreeNode(const string& tag, map<string, string> *attributes, ProtocolTreeNode* child);
-   ProtocolTreeNode(const string& tag, map<string, string> *attributes, vector<unsigned char>* data = NULL, vector<ProtocolTreeNode*> *children = NULL);
+   ProtocolTreeNode(const string& tag, ProtocolTreeNode* child);
+   ProtocolTreeNode(const string& tag, vector<unsigned char>* data = NULL, vector<ProtocolTreeNode*> *children = NULL);
    string toString();
    ProtocolTreeNode* getChild(const string& id);
    ProtocolTreeNode* getChild(size_t id);
@@ -37,5 +68,11 @@ public:
 
    virtual ~ProtocolTreeNode();
 };
+
+ProtocolTreeNode& operator<<(ProtocolTreeNode&, const XATTR&);
+ProtocolTreeNode* operator<<(ProtocolTreeNode*, const XATTR&);
+
+ProtocolTreeNode& operator<<(ProtocolTreeNode&, const XATTRI&);
+ProtocolTreeNode* operator<<(ProtocolTreeNode*, const XATTRI&);
 
 #endif /* PROTOCOLNODE_H_ */

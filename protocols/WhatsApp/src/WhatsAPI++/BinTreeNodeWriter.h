@@ -35,7 +35,7 @@ class WAConnection;
 class BinTreeNodeWriter {
 private:
 	WAConnection* conn;
-	map<string,int> tokenMap;
+	map<string, int> tokenMap;
 	ISocketConnection *realOut;
 	ByteArrayOutputStream *out;
 	IMutex* mutex;
@@ -52,9 +52,9 @@ private:
 	void writeToken(int intValue);
 	void writeBytes(unsigned char* bytes, int length);
 	void writeInt24(int v);
-    void writeInternal(ProtocolTreeNode* node);
-    void writeDummyHeader();
-    void processBuffer();
+	void writeInternal(const ProtocolTreeNode &node);
+	void writeDummyHeader();
+	void processBuffer();
 
 public:
 	BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, const char** dictionary, const int dictionarysize, IMutex* mutex);
@@ -62,8 +62,8 @@ public:
 	void flushBuffer(bool flushNetwork);
 	void flushBuffer(bool flushNetwork, int startingOffset);
 	void streamEnd();
-	void write(ProtocolTreeNode* node);
-	void write(ProtocolTreeNode* node, bool needsFlush);
+	void write(const ProtocolTreeNode &node);
+	void write(const ProtocolTreeNode &node, bool needsFlush);
 
 	virtual ~BinTreeNodeWriter();
 };

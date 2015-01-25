@@ -1,17 +1,7 @@
-#define _CRT_SECURE_NO_WARNINGS
+#include "../common.h" // #TODO Remove Miranda-dependency
 
 #include "utilities.h"
-#include <iostream>
-#include <io.h>
-#include <cstdio>
-#include <stdlib.h>
-#include <cstdlib>
-#include <sstream>
 #include "WAException.h"
-#include <stdarg.h>
-#include <time.h>
-#include <fstream>
-#include <iomanip>
 
 namespace Utilities {
 	
