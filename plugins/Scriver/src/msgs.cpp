@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HCURSOR  hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 HANDLE   hHookWinEvt, hHookWinPopup, hHookWinWrite;
 HGENMENU hMsgMenuItem;
+HMODULE hMsftEdit;
 
 extern HWND GetParentWindow(MCONTACT hContact, BOOL bChat);
 
@@ -207,7 +208,7 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	else if (lParam && (g_dat.flags2 & SMF2_SHOWTYPINGTRAY)) {
 		TCHAR szTip[256];
 
-		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
+		mir_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR));
 		if ( ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && !(g_dat.flags2 & SMF2_SHOWTYPINGCLIST)) {
 			MIRANDASYSTRAYNOTIFY tn;
 			tn.szProto = NULL;
@@ -244,8 +245,8 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int ContactDeleted(WPARAM wParam, LPARAM)
 {
-	HWND hwnd;
-	if ((hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam)))
+	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, wParam);
+	if (hwnd)
 		SendMessage(hwnd, WM_CLOSE, 0, 0);
 	return 0;
 }
@@ -305,12 +306,12 @@ static INT_PTR GetWindowClass(WPARAM wParam, LPARAM lParam)
 static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 {
 	MessageWindowInputData *mwid = (MessageWindowInputData*)wParam;
-	MessageWindowData *mwd = (MessageWindowData*)lParam;
+	if (mwid == NULL || mwid->cbSize != sizeof(MessageWindowInputData) || mwid->hContact == NULL || mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH)
+		return 1;
 
-	if (mwid == NULL || mwd == NULL) return 1; 
-	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(MessageWindowData)) return 1; 
-	if (mwid->hContact == NULL) return 1; 
-	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1; 
+	MessageWindowData *mwd = (MessageWindowData*)lParam;
+	if (mwd == NULL || mwd->cbSize != sizeof(MessageWindowData))
+		return 1;
 
 	HWND hwnd = WindowList_Find(g_dat.hMessageWindowList, mwid->hContact);
 	if (hwnd == NULL)
@@ -514,12 +515,14 @@ int OnUnloadModule(void)
 	FreeLibrary(GetModuleHandleA("Msftedit.dll"));
 	RichUtil_Unload();
 	FreeGlobals();
+	FreeLibrary(hMsftEdit);
 	return 0;
 }
 
 int OnLoadModule(void)
 {
-	if (LoadLibraryA("Msftedit.dll") == NULL) {
+	hMsftEdit = LoadLibrary(_T("Msftedit.dll"));
+	if (hMsftEdit == NULL) {
 		if (IDYES != MessageBox(0,
 			TranslateT
 			("Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda."),

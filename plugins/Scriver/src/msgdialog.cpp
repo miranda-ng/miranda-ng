@@ -138,15 +138,20 @@ void NotifyLocalWinEvent(MCONTACT hContact, HWND hwnd, unsigned int type)
 	mwe.szModule = SRMMMOD;
 	mwe.uType = type;
 	mwe.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
-	BOOL bChat = (WindowList_Find(g_dat.hMessageWindowList, hContact) == NULL);
-	mwe.hwndInput = GetDlgItem(hwnd, bChat ? IDC_CHAT_MESSAGE : IDC_MESSAGE);
-	mwe.hwndLog = GetDlgItem(hwnd, bChat ? IDC_CHAT_LOG : IDC_LOG);
+	if (WindowList_Find(g_dat.hMessageWindowList, hContact)) {
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
+	}
+	else {
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_CHAT_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_CHAT_LOG);
+	}
 	NotifyEventHooks(hHookWinEvt, 0, (LPARAM)&mwe);
 }
 
 static BOOL IsUtfSendAvailable(MCONTACT hContact)
 {
-	char* szProto = GetContactProto(hContact);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return FALSE;
 
@@ -180,16 +185,13 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR* szFil
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
-		HANDLE hFind;
 		TCHAR szPath[MAX_PATH];
-		mir_tstrcpy(szPath, szFilename);
-		mir_tstrcat(szPath, _T("\\*"));
-		if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
+		mir_sntprintf(szPath, SIZEOF(szPath), _T("%s\\*"),szFilename);
+		HANDLE hFind = FindFirstFile(szPath, &fd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T(".."))) continue;
-				mir_tstrcpy(szPath, szFilename);
-				mir_tstrcat(szPath, _T("\\"));
-				mir_tstrcat(szPath, fd.cFileName);
+				mir_sntprintf(szPath, SIZEOF(szPath),_T("%s\\%s"), szFilename, fd.cFileName);
 				AddToFileList(pppFiles, totalCount, szPath);
 			} while (FindNextFile(hFind, &fd));
 			FindClose(hFind);
@@ -597,14 +599,13 @@ void ShowAvatar(HWND hwndDlg, SrmmWindowData *dat)
 
 static BOOL IsTypingNotificationSupported(SrmmWindowData *dat)
 {
-	DWORD typeCaps;
 	if (!dat->hContact)
 		return FALSE;
 
 	if (!dat->szProto)
 		return FALSE;
 
-	typeCaps = CallProtoService(dat->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+	DWORD typeCaps = CallProtoService(dat->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return FALSE;
 	return TRUE;
