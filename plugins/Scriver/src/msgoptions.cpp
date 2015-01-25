@@ -105,13 +105,12 @@ int FontServiceFontsChanged(WPARAM, LPARAM)
 
 void RegisterFontServiceFonts()
 {
-	int i;
 	FontIDT fid = { sizeof(fid) };
 	_tcsncpy_s(fid.group, LPGENT("Messaging"), _TRUNCATE);
 	_tcsncpy_s(fid.backgroundGroup, LPGENT("Messaging"), _TRUNCATE);
 	strncpy(fid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	fid.flags = FIDF_DEFAULTVALID | FIDF_DEFAULTVALID;
-	for (i = 0; i < SIZEOF(fontOptionsList); i++) {
+	for (int i = 0; i < SIZEOF(fontOptionsList); i++) {
 		fid.order = i;
 
 		char szTemp[100];
@@ -131,7 +130,7 @@ void RegisterFontServiceFonts()
 	_tcsncpy_s(cid.group, LPGENT("Messaging"), _TRUNCATE);
 	strncpy(cid.dbSettingsGroup, SRMMMOD, SIZEOF(fid.dbSettingsGroup));
 	cid.flags = 0;
-	for (i = 0; i < SIZEOF(colourOptionsList); i++) {
+	for (int i = 0; i < SIZEOF(colourOptionsList); i++) {
 		cid.order = i;
 		_tcsncpy(cid.name, colourOptionsList[i].szName, SIZEOF(cid.name));
 		if (colourOptionsList[i].systemColor != -1)

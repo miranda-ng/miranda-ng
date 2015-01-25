@@ -25,6 +25,7 @@ DWORD mirandaVersion;
 LCID packlcid;
 //HANDLE hCrashLogFolder, hVerInfoFolder;
 HANDLE hVerInfoFolder;
+HMODULE hMsftedit;
 
 TCHAR* vertxt;
 TCHAR* profname;
@@ -362,7 +363,8 @@ static int PreShutdown(WPARAM, LPARAM)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	if (LoadLibraryA("Msftedit.dll") == NULL)
+	hMsftedit = LoadLibrary(_T("Msftedit.dll"));
+	if (hMsftedit == NULL)
 		return 1;
 
 	clsdates = db_get_b(NULL, PluginName, "ClassicDates", 1) != 0;
@@ -410,6 +412,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	mir_free(profpath);
 	mir_free(profname);
 	mir_free(vertxt);
+	FreeLibrary(hMsftedit);
 	return 0;
 }
 
