@@ -4,9 +4,9 @@
 
 void CheckMailInbox(Account *curAcc)
 {
-	HINTERNET hHTTPOpen;			// internet open handle
-	HINTERNET hHTTPConnection;		// internet connection hadle
-	HINTERNET hHTTPRequest;		    // internet request hadle
+	// internet connection handle
+	// internet request handle
+	HINTERNET hHTTPConnection = 0, hHTTPRequest = 0;		    
 
 	DBVARIANT dbv;
 	static char *contentType = "Content-Type: application/x-www-form-urlencoded";
@@ -37,7 +37,8 @@ void CheckMailInbox(Account *curAcc)
 	mir_strcat(str, "]");
 
 	db_set_s(curAcc->hContact, "CList", "MyHandle", str);
-	hHTTPOpen = InternetOpenA("", INTERNET_OPEN_TYPE_PRECONFIG, "", "", 0);
+	// internet open handle
+	HINTERNET hHTTPOpen = InternetOpenA("", INTERNET_OPEN_TYPE_PRECONFIG, "", "", 0);
 	if (!hHTTPOpen) {
 		mir_strcat(curAcc->results.content, Translate("Can't open Internet!"));
 		goto error_handle;
@@ -75,6 +76,7 @@ void CheckMailInbox(Account *curAcc)
 
 		InternetCloseHandle(hHTTPConnection);
 		InternetCloseHandle(hHTTPRequest);
+		hHTTPRequest = 0;
 	}
 
 	hHTTPConnection = InternetConnectA(hHTTPOpen, "mail.google.com", INTERNET_DEFAULT_HTTPS_PORT, NULL, NULL, INTERNET_SERVICE_HTTP, 0, 0);

@@ -182,12 +182,14 @@ void __cdecl Login_ThreadFunc(void *lpParam)
 				mir_strcat(lpPathBuffer, szTempName);
 			}
 			else {
+				char *szEncodedURL = mir_urlEncode(curAcc->name);
 				mir_strcat(lpPathBuffer, LINK);
-				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->name));
+				mir_strcat(lpPathBuffer, szEncodedURL);
 				//mir_strcat(lpPathBuffer, "&Passwd=");
 				//mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->pass));
 				if (opt.AutoLogin == 1)
 					mir_strcat(lpPathBuffer, "&PersistentCookie=yes");
+				mir_free(szEncodedURL);
 			}
 		}
 	}
