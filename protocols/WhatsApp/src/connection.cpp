@@ -60,7 +60,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		this->nick = dbv.pszVal;
 		db_free(&dbv);
 	}
-	if (nick.empty()) {
+	if (this->nick.empty()) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a nickname."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
@@ -119,6 +119,10 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
 			this->connection = new WAConnection(&this->connMutex, this, this);
+			
+			this->connection->domain = "s.whatsapp.net";
+			this->connection->user = this->phoneNumber;
+			this->connection->resource = resource;
 			{
 				WALogin login(connection, new BinTreeNodeReader(connection, conn), new BinTreeNodeWriter(connection, conn, &writerMutex), password);
 
