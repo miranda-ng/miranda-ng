@@ -15,8 +15,6 @@ struct SearchParam
 WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	PROTO<WhatsAppProto>(proto_name, username)
 {
-	this->challenge = new std::vector < unsigned char > ;
-	
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
 	FMessage::generating_lock = new Mutex();
 
@@ -51,9 +49,6 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 WhatsAppProto::~WhatsAppProto()
 {
 	CloseHandle(update_loop_lock_);
-
-	if (this->challenge != NULL)
-		delete this->challenge;
 }
 
 int WhatsAppProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)

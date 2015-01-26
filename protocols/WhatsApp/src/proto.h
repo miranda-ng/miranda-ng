@@ -159,7 +159,7 @@ private:
 	Mutex connMutex;
 	int lastPongTime;
 
-	std::vector<unsigned char> *challenge;
+	std::vector<unsigned char> m_Challenge;
 	string phoneNumber;
 	string jid, nick;
 	std::map<string, MCONTACT> hContactByJid;
