@@ -54,7 +54,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		return 0;
 	}
 	
-	int msgId = this->m_pConnection->msg_id++;
+	int msgId = ++this->m_pConnection->msg_id;
 	try {
 		time_t now = time(NULL);
 		std::string id = Utilities::intToStr(now) + "-" + Utilities::intToStr(msgId);

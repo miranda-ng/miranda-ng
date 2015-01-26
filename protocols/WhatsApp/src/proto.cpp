@@ -205,7 +205,7 @@ HANDLE WhatsAppProto::SearchBasic(const PROTOCHAR* id)
 		return 0;
 
 	// fake - we always accept search
-	SearchParam *param = new SearchParam(id, m_pConnection->msg_id++);
+	SearchParam *param = new SearchParam(id, ++m_pConnection->msg_id);
 	ForkThread(&WhatsAppProto::SearchAckThread, param);
 	return (HANDLE)param->id;
 }
