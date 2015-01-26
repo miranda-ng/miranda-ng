@@ -51,29 +51,32 @@ public:
 	double latitude;
 	double longitude;
 
-	static const unsigned char WA_TYPE_UNDEFINED = 0;
-	static const unsigned char WA_TYPE_IMAGE = 1;
-	static const unsigned char WA_TYPE_AUDIO = 2;
-	static const unsigned char WA_TYPE_VIDEO = 3;
-	static const unsigned char WA_TYPE_CONTACT = 4;
-	static const unsigned char WA_TYPE_LOCATION = 5;
-	static const unsigned char WA_TYPE_SYSTEM = 7;
+	enum {
+		WA_TYPE_UNDEFINED = 0,
+		WA_TYPE_IMAGE = 1,
+		WA_TYPE_AUDIO = 2,
+		WA_TYPE_VIDEO = 3,
+		WA_TYPE_CONTACT = 4,
+		WA_TYPE_LOCATION = 5,
+		WA_TYPE_SYSTEM = 7
+	};
 
-	static const int STATUS_UNSENT = 0;
-	static const int STATUS_UPLOADING = 1;
-	static const int STATUS_UPLOADED = 2;
-	static const int STATUS_SENT_BY_CLIENT = 3;
-	static const int STATUS_RECEIVED_BY_SERVER = 4;
-	static const int STATUS_RECEIVED_BY_TARGET = 5;
-	static const int STATUS_NEVER_SEND = 6;
-	static const int STATUS_SERVER_BOUNCE = 7;
+	enum {
+		STATUS_UNSENT = 0,
+		STATUS_UPLOADING = 1,
+		STATUS_UPLOADED = 2,
+		STATUS_SENT_BY_CLIENT = 3,
+		STATUS_RECEIVED_BY_SERVER = 4,
+		STATUS_RECEIVED_BY_TARGET = 5,
+		STATUS_NEVER_SEND = 6,
+		STATUS_SERVER_BOUNCE = 7,
 
-	static const int STATUS_USER_ADDED = 191;
-	static const int STATUS_USER_REMOVED = 192;
-	static const int STATUS_SUBJECT_CHANGED = 193;
-	static const int STATUS_PICTURE_CHANGED_SET = 194;
-	static const int STATUS_PICTURE_CHANGED_DELETE = 195;
-
+		STATUS_USER_ADDED = 191,
+		STATUS_USER_REMOVED = 192,
+		STATUS_SUBJECT_CHANGED = 193,
+		STATUS_PICTURE_CHANGED_SET = 194,
+		STATUS_PICTURE_CHANGED_DELETE = 195
+	};
 
 	static std::string getMessage_WA_Type_StrValue(unsigned char type);
 	static std::string nextKeyIdNumber();

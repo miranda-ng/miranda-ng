@@ -191,12 +191,6 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 		ss << stzLastSeen;
 	}
 
-	int state = getDword(hContact, WHATSAPP_KEY_LAST_MSG_STATE, 2);
-	if (state < 2 && lastSeen != -1)
-		ss << _T(" - ");
-	for (; state < 2; ++state)
-		ss << _T("\u2713");
-
 	db_set_ws(hContact, "CList", "StatusMsg", ss.str().c_str());
 }
 
