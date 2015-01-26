@@ -719,6 +719,8 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_NOTIFY:
+		if (pContainer == NULL)
+			break;
 		if (pContainer->MenuBar) {
 			LRESULT processed = pContainer->MenuBar->processMsg(msg, wParam, lParam);
 			if (processed != -1) {
@@ -1799,6 +1801,8 @@ TContainerData* TSAPI CreateContainer(const TCHAR *name, int iTemp, MCONTACT hCo
 		return NULL;
 
 	TContainerData *pContainer = (TContainerData*)mir_calloc(sizeof(TContainerData));
+	if (pContainer == NULL)
+		return NULL;
 	_tcsncpy(pContainer->szName, name, CONTAINER_NAMELEN + 1);
 	AppendToContainerList(pContainer);
 
