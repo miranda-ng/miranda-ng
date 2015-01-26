@@ -50,7 +50,7 @@ private:
 	void sendResponse(const std::vector<unsigned char>& challengeData);
 	void sendFeatures();
 	void sendAuth(const std::vector<unsigned char>& nonce);
-	std::vector<unsigned char>* readFeaturesUntilChallengeOrSuccess();
+	std::vector<unsigned char> readFeaturesUntilChallengeOrSuccess();
 	void parseSuccessNode(ProtocolTreeNode *node);
 	std::vector<unsigned char> readSuccess();
 
@@ -62,7 +62,7 @@ public:
 	WALogin(WAConnection* connection, const std::string& password);
 	~WALogin();
 
-	std::vector<unsigned char>* login(const std::vector<unsigned char>& blobLength);
+	std::vector<unsigned char> login(const std::vector<unsigned char> &blob);
 };
 
 #endif /* WALOGIN_H_ */

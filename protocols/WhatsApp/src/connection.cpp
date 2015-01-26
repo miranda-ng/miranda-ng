@@ -90,9 +90,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			{
 				WALogin login(m_pConnection, password);
 
-				std::vector<unsigned char> *nextChallenge = login.login(*this->challenge);
-				delete this->challenge;
-				this->challenge = nextChallenge;
+				m_Challenge = login.login(m_Challenge);
 				m_pConnection->setLogin(&login);
 			}
 			m_pConnection->nick = this->nick;

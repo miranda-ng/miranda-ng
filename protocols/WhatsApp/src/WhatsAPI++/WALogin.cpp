@@ -28,7 +28,7 @@ WALogin::WALogin(WAConnection* connection, const std::string& password)
 	this->expire_date = 0L;
 }
 
-std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& authBlob)
+std::vector<unsigned char> WALogin::login(const std::vector<unsigned char>& authBlob)
 {
 	m_pConnection->out->streamStart(m_pConnection->domain, m_pConnection->resource);
 
@@ -96,7 +96,7 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 	return list;
 }
 
-std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
+std::vector<unsigned char> WALogin::readFeaturesUntilChallengeOrSuccess()
 {
 	while (ProtocolTreeNode *root = m_pConnection->in->nextTree()) {
 		#ifdef _DEBUG
@@ -117,10 +117,10 @@ std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 			m_pConnection->logData("Send response");
 			std::vector<unsigned char> data = this->readSuccess();
 			m_pConnection->logData("Read success");
-			return new std::vector<unsigned char>(data.begin(), data.end());
+			return std::vector<unsigned char>(data.begin(), data.end());
 		}
 		if (ProtocolTreeNode::tagEquals(root, "success")) {
-			std::vector<unsigned char>* ret = new std::vector<unsigned char>(root->data->begin(), root->data->end());
+			std::vector<unsigned char> ret(root->data->begin(), root->data->end());
 			this->parseSuccessNode(root);
 			delete root;
 			return ret;
