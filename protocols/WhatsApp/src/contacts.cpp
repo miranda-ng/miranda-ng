@@ -132,6 +132,7 @@ void WhatsAppProto::ProcessBuddyList(void*)
 					// Do not request picture for inactive groups - this would make the group visible again
 					jids.push_back(string(jid));
 				}
+				
 				if (getByte(hContact, "SimpleChatRoom", 0) == 0) {
 					this->connection->sendQueryLastOnline((char*)jid);
 					this->connection->sendPresenceSubscriptionRequest((char*)jid);

@@ -15,24 +15,23 @@
 
 class ByteArrayOutputStream {
 protected:
-	std::vector<unsigned char>* buf;
+	std::vector<unsigned char> buf;
 	size_t position;
 
 public:
 	ByteArrayOutputStream(int size = 32);
-	std::vector<unsigned char>* toByteArray();
-	std::vector<unsigned char>* getBuffer();
-	size_t getPosition();
+	virtual ~ByteArrayOutputStream();
+
+	std::vector<unsigned char>& getBuffer();
 	void setPosition(size_t count);
 	void write(int i);
 	void write(unsigned char* c, size_t length);
 	void write(const std::string& s);
-	void print();
 	void setLength(size_t length);
-	size_t getLength();
-	size_t getCapacity();
 
-	virtual ~ByteArrayOutputStream();
+	__forceinline size_t getCapacity() const { return buf.capacity(); }
+	__forceinline size_t getLength() const { return buf.size(); }
+	__forceinline size_t getPosition() const { return position; }
 };
 
 class ByteArrayInputStream {
@@ -47,7 +46,6 @@ public:
 	ByteArrayInputStream(std::vector<unsigned char>* buf);
 	int read();
 	int read(std::vector<unsigned char>& b, size_t off, size_t length);
-	void print();
 
 	virtual ~ByteArrayInputStream();
 };

@@ -58,15 +58,10 @@ int WASocketConnection::waitForRead()
 	int fd = 0;
 
 	FD_ZERO(&rfds);
-	// _LOGDATA("preparando select");
-	//fd = (this->socket)->channel; //#!?
-	// _LOGDATA("socket %d", fd);
 	FD_SET(fd, &rfds);
 	tv.tv_sec = 600; //ApplicationData::SELECT_TIMEOUT;
 	tv.tv_usec = 0; // 5000000;
 	tvp = &tv;
-	//if (ApplicationData::SELECT_TIMEOUT == -1) #TODO
-	//	tvp = NULL;
 
 	int retval = select(/*fd + 1*/ 0, &rfds, NULL, NULL, tvp);
 	if (!FD_ISSET(fd, &rfds))
@@ -83,7 +78,7 @@ void WASocketConnection::write(const std::vector<unsigned char>& bytes, int offs
 	std::string tmpBuf = std::string(bytes.begin(), bytes.end());
 	nlb.buf = (char*)&(tmpBuf.c_str()[offset]);
 	nlb.len = length;
-	nlb.flags = 0; //MSG_NOHTTPGATEWAYWRAP | MSG_NODUMP;
+	nlb.flags = MSG_NODUMP;
 
 	int result = CallService(MS_NETLIB_SEND, reinterpret_cast<WPARAM>(this->hConn),
 									 reinterpret_cast<LPARAM>(&nlb));
@@ -152,6 +147,11 @@ void WASocketConnection::dump(const void *pData, int length)
 
 		length -= portion;
 	}
+}
+
+void WASocketConnection::log(const char *str)
+{
+	Netlib_Logf(WASocketConnection::hNetlibUser, "STR: %s", str);
 }
 
 WASocketConnection::~WASocketConnection()

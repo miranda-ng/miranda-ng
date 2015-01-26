@@ -54,14 +54,14 @@ public:
 
    ProtocolTreeNode(const string& tag, ProtocolTreeNode* child);
    ProtocolTreeNode(const string& tag, vector<unsigned char>* data = NULL, vector<ProtocolTreeNode*> *children = NULL);
-   string toString();
+   string toString() const; 
    ProtocolTreeNode* getChild(const string& id);
    ProtocolTreeNode* getChild(size_t id);
    const string& getAttributeValue(const string& attribute);
 
    vector<ProtocolTreeNode*> getAllChildren();
    vector<ProtocolTreeNode*> getAllChildren(const string& tag);
-   std::string getDataAsString();
+	std::string getDataAsString() const;
 
    static bool tagEquals(ProtocolTreeNode *node, const string& tag);
    static void require(ProtocolTreeNode *node, const string& tag);

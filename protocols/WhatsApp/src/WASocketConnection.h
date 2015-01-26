@@ -34,7 +34,9 @@ public:
 	void makeNonBlock();
 	int waitForRead();
 	void forceShutdown();
+	
 	void dump(const void *buf, int length);
+	void log(const char *str);
 
 	static void initNetwork(HANDLE hNetlibUser) throw (WAException);
 	static void quitNetwork();

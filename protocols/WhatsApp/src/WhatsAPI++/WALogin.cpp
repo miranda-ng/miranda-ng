@@ -32,19 +32,19 @@ std::vector<unsigned char>* WALogin::login(const std::vector<unsigned char>& aut
 {
 	connection->out->streamStart(connection->domain, connection->resource);
 
-	_LOGDATA("sent stream start");
+	connection->logData("sent stream start");
 
 	sendFeatures();
 
-	_LOGDATA("sent features");
+	connection->logData("sent features");
 
 	sendAuth(authBlob);
 
-	_LOGDATA("send auth, auth blob size %d", authBlob.size());
+	connection->logData("send auth, auth blob size %d", authBlob.size());
 
 	connection->in->streamStart();
 
-	_LOGDATA("read stream start");
+	connection->logData("read stream start");
 
 	return this->readFeaturesUntilChallengeOrSuccess();
 }
@@ -99,6 +99,12 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 {
 	while (ProtocolTreeNode *root = connection->in->nextTree()) {
+		#ifdef _DEBUG
+			{
+				string tmp = root->toString();
+				connection->logData(tmp.c_str());
+			}
+		#endif
 		if (ProtocolTreeNode::tagEquals(root, "stream:features")) {
 			connection->supports_receipt_acks = root->getChild("receipt_acks") != NULL;
 			delete root;
@@ -108,9 +114,9 @@ std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 			std::vector<unsigned char> challengedata(root->data->begin(), root->data->end());
 			delete root;
 			this->sendResponse(challengedata);
-			_LOGDATA("Send response");
+			connection->logData("Send response");
 			std::vector<unsigned char> data = this->readSuccess();
-			_LOGDATA("Read success");
+			connection->logData("Read success");
 			return new std::vector<unsigned char>(data.begin(), data.end());
 		}
 		if (ProtocolTreeNode::tagEquals(root, "success")) {
@@ -125,7 +131,7 @@ std::vector<unsigned char>* WALogin::readFeaturesUntilChallengeOrSuccess()
 
 void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 {
-	connection->out->setLoggedIn();
+	connection->out->setSecure();
 
 	const string &expiration = node->getAttributeValue("expiration");
 	if (!expiration.empty()) {

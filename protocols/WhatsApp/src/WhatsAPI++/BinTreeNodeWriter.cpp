@@ -12,7 +12,7 @@
 
 BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, IMutex* mutex)
 {
-	this->bLoggedIn = false;
+	this->bSecure = false;
 	this->mutex = mutex;
 	this->conn = conn;
 	this->out = new ByteArrayOutputStream(2048);
@@ -31,25 +31,26 @@ void BinTreeNodeWriter::writeDummyHeader()
 
 void BinTreeNodeWriter::processBuffer()
 {
-	unsigned int num = 0u;
-	if (bLoggedIn) {
+	unsigned char num = 0;
+	if (bSecure) {
 		long num2 = (long)this->out->getLength() + 4L;
 		this->out->setLength(num2);
 		this->out->setPosition(num2);
-		num |= 1u;
+		num = 8;
 	}
 	long num3 = (long)this->out->getLength() - 3L - (long) this->dataBegin;
 	if (num3 >= 1048576L)
 		throw WAException("Buffer too large: " + num3, WAException::CORRUPT_STREAM_EX, 0);
 
-	std::vector<unsigned char>* buffer = this->out->getBuffer();
-	if (bLoggedIn) {
+	std::vector<unsigned char>& buffer = this->out->getBuffer();
+	this->realOut->dump(buffer.data(), (int)buffer.size());
+	if (bSecure) {
 		int num4 = (int)num3 - 4;
-		this->conn->outputKey.encodeMessage(buffer->data(), this->dataBegin + 3 + num4, this->dataBegin + 3, num4);
+		this->conn->outputKey.encodeMessage(buffer.data(), this->dataBegin + 3 + num4, this->dataBegin + 3, num4);
 	}
-	(*buffer)[this->dataBegin] = (unsigned char)((unsigned long)((unsigned long)num << 4) | (unsigned long)((num3 & 16711680L) >> 16));
-	(*buffer)[this->dataBegin + 1] = (unsigned char)((num3 & 65280L) >> 8);
-	(*buffer)[this->dataBegin + 2] = (unsigned char)(num3 & 255L);
+	buffer[dataBegin] = (unsigned char)((unsigned long)((unsigned long)num << 4) | (unsigned long)((num3 & 16711680L) >> 16));
+	buffer[dataBegin + 1] = (unsigned char)((num3 & 65280L) >> 8);
+	buffer[dataBegin + 2] = (unsigned char)(num3 & 255L);
 }
 
 void BinTreeNodeWriter::streamStart(std::string domain, std::string resource)
@@ -220,17 +221,18 @@ void BinTreeNodeWriter::flushBuffer(bool flushNetwork, int startingOffset)
 		throw ex;
 	}
 
-	// _LOGDATA("buffer size %d, buffer position %d, dataBegin %d", this->out->getLength(), this->out->getPosition(), this->dataBegin);
-
-	std::vector<unsigned char> buffer(this->out->getBuffer()->begin(), this->out->getBuffer()->end());
+	std::vector<unsigned char> buffer(this->out->getBuffer().begin(), this->out->getBuffer().end());
 	int num = (int)(this->out->getLength() - (long)startingOffset);
 	if (flushNetwork && ((long)this->out->getCapacity() - this->out->getLength() < 3L || this->out->getLength() > 4096L)) {
 		delete this->out;
 		this->out = new ByteArrayOutputStream(4096);
 	}
 
-	if (flushNetwork)
+	if (flushNetwork) {
 		this->realOut->write(buffer, startingOffset, num);
+		this->out->setPosition(0);
+		this->out->setLength(0);
+	}
 }
 
 void BinTreeNodeWriter::streamEnd()

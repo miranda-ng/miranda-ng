@@ -85,6 +85,17 @@ int WAConnection::tokenLookup(const std::string &str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WAConnection::logData(const char *format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	char tmp[4000];
+	vsprintf_s(tmp, format, args);
+	rawConn->log(tmp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 WAConnection::WAConnection(const std::string &user, const std::string &resource, IMutex *mutex, WAListener *event_handler, WAGroupListener *group_event_handler)
 {
 	this->mutex = mutex;
@@ -119,8 +130,9 @@ WAConnection::~WAConnection()
 		delete it->second;
 }
 
-void WAConnection::init(IMutex *mutex, WASocketConnection *conn)
+void WAConnection::init(IMutex *mutex, ISocketConnection *conn)
 {
+	rawConn = conn;
 	in = new BinTreeNodeReader(this, conn);
 	out = new BinTreeNodeWriter(this, conn, mutex);
 }
@@ -136,8 +148,8 @@ void WAConnection::setLogin(WALogin* login)
 
 void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
 {
-	_LOGDATA("Send message with media %s %d", message->media_name.c_str(), message->media_size);
-	_LOGDATA("media-url:%s", message->media_url.c_str());
+	logData("Send message with media %s %d", message->media_name.c_str(), message->media_size);
+	logData("media-url:%s", message->media_url.c_str());
 	if (message->media_wa_type == FMessage::WA_TYPE_SYSTEM)
 		throw new WAException("Cannot send system message over the network");
 	
@@ -223,9 +235,15 @@ bool WAConnection::read() throw(WAException)
 		throw WAException(ex.what(), WAException::CORRUPT_STREAM_EX, 0);
 	}
 
-	if (node == NULL) {
+	if (node == NULL)
 		return false;
+
+	#ifdef _DEBUG
+	{
+		string tmp = node->toString();
+		rawConn->log(tmp.c_str());
 	}
+	#endif
 
 	if (ProtocolTreeNode::tagEquals(node, "iq")) {
 		const string &type = node->getAttributeValue("type");
@@ -595,7 +613,7 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 					if (encoding.empty() || encoding == "text")
 						fmessage->data = childNode->getDataAsString();
 					else {
-						_LOGDATA("Media data encoding type '%s'", encoding.empty() ? "text" : encoding.c_str());
+						logData("Media data encoding type '%s'", encoding.empty() ? "text" : encoding.c_str());
 						fmessage->data = (childNode->data == NULL ? "" : std::string(base64_encode(childNode->data->data(), childNode->data->size())));
 					}
 				}
@@ -656,7 +674,7 @@ void WAConnection::parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* messag
 		delete fmessage;
 	}
 	else if (typeAttribute == "notification") {
-		_LOGDATA("Notification node %s", messageNode->toString().c_str());
+		logData("Notification node %s", messageNode->toString().c_str());
 		bool flag = false;
 		std::vector<ProtocolTreeNode*> children(messageNode->getAllChildren());
 		for (size_t i = 0; i < children.size(); i++) {
@@ -822,7 +840,7 @@ void WAConnection::readAttributeList(ProtocolTreeNode* node, std::vector<std::st
 
 void WAConnection::sendCreateGroupChat(const std::string& subject) throw (WAException)
 {
-	_LOGDATA("sending create group: %s", subject.c_str());
+	logData("sending create group: %s", subject.c_str());
 	std::string id = makeId("create_group_");
 	this->pending_server_requests[id] = new IqResultCreateGroupChatHandler(this);
 

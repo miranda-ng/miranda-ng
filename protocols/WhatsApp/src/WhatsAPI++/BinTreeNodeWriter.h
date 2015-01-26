@@ -39,7 +39,7 @@ private:
 	ByteArrayOutputStream *out;
 	IMutex* mutex;
 	int dataBegin;
-	bool bLoggedIn;
+	bool bSecure;
 
 	void writeListStart(int i);
 	void writeInt8(int v);
@@ -67,7 +67,7 @@ public:
 	void write(const ProtocolTreeNode &node);
 	void write(const ProtocolTreeNode &node, bool needsFlush);
 
-	void setLoggedIn() { bLoggedIn = true; }
+	void setSecure() { bSecure = true; }
 };
 
 #endif /* BINTREENODEWRITER_H_ */

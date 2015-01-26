@@ -86,6 +86,10 @@ DWORD_PTR WhatsAppProto::GetCaps(int type, MCONTACT hContact)
 
 int WhatsAppProto::SetStatus(int new_status)
 {
+	if (m_iDesiredStatus == new_status)
+		return 0;
+
+	int oldStatus = m_iStatus;
 	debugLogA("===== Beginning SetStatus process");
 
 	// Routing statuses not supported by WhatsApp
@@ -106,17 +110,38 @@ int WhatsAppProto::SetStatus(int new_status)
 		break;
 	}
 
-	if (m_iStatus == ID_STATUS_CONNECTING) {
-		debugLogA("===== Status is connecting, no change");
-		return 0;
-	}
+	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
+		if (this->conn != NULL) {
+			SetEvent(update_loop_lock_);
+			this->conn->forceShutdown();
+			debugLogA("Forced shutdown");
+		}
 
-	if (m_iStatus == m_iDesiredStatus) {
-		debugLogA("===== Statuses are same, no change");
-		return 0;
+		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
+	else if (this->conn == NULL && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+		m_iStatus = ID_STATUS_CONNECTING;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
-	ForkThread(&WhatsAppProto::ChangeStatus, this);
+		ResetEvent(update_loop_lock_);
+		ForkThread(&WhatsAppProto::sentinelLoop, this);
+		ForkThread(&WhatsAppProto::stayConnectedLoop, this);
+	}
+	else if (this->connection != NULL) {
+		if (m_iDesiredStatus == ID_STATUS_ONLINE) {
+			this->connection->sendAvailableForChat();
+			m_iStatus = ID_STATUS_ONLINE;
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		}
+		else if (m_iStatus == ID_STATUS_ONLINE && m_iDesiredStatus == ID_STATUS_INVISIBLE) {
+			this->connection->sendClose();
+			m_iStatus = ID_STATUS_INVISIBLE;
+			SetAllContactStatuses(ID_STATUS_OFFLINE, true);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+		}
+	}
+	else ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 	return 0;
 }
