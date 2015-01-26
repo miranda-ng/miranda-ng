@@ -185,16 +185,6 @@ void WAConnection::setLogin(WALogin* login)
 		this->account_kind = login->account_kind;
 }
 
-ProtocolTreeNode* WAConnection::getMessageNode(FMessage* message, ProtocolTreeNode *child)
-{
-	std::vector<ProtocolTreeNode*>* messageChildren = new std::vector<ProtocolTreeNode*>();
-	messageChildren->push_back(new ProtocolTreeNode("x", new ProtocolTreeNode("server")) << XATTR("xmlns", "jabber:x:event"));
-	messageChildren->push_back(child);
-
-	return new ProtocolTreeNode("message", NULL, messageChildren) <<
-		XATTR("to", message->key->remote_jid) << XATTR("type", "chat") << XATTR("id", message->key->id);
-}
-
 void WAConnection::setVerboseId(bool b)
 {
 	this->verbose = b;
@@ -721,6 +711,18 @@ void WAConnection::sendInactive() throw(WAException)
 	this->out->write(ProtocolTreeNode("presence") << XATTR("type", "inactive"));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+ProtocolTreeNode* WAConnection::getMessageNode(FMessage* message, ProtocolTreeNode *child)
+{
+	std::vector<ProtocolTreeNode*>* messageChildren = new std::vector<ProtocolTreeNode*>();
+	messageChildren->push_back(new ProtocolTreeNode("x", new ProtocolTreeNode("server")) << XATTR("xmlns", "jabber:x:event"));
+	messageChildren->push_back(child);
+
+	return new ProtocolTreeNode("message", NULL, messageChildren) <<
+		XATTR("to", message->key->remote_jid) << XATTR("type", "text") << XATTR("id", message->key->id) << XATTRI("t", message->timestamp);
+}
+
 void WAConnection::sendMessage(FMessage* message) throw(WAException)
 {
 	if (message->media_wa_type != 0)
@@ -778,6 +780,8 @@ void WAConnection::sendMessageReceived(FMessage* message) throw(WAException)
 	this->out->write(ProtocolTreeNode("message", receivedNode)
 		<< XATTR("to", message->key->remote_jid) << XATTR("type", "chat") << XATTR("id", message->key->id));
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void WAConnection::sendNotificationReceived(const std::string& jid, const std::string& id) throw(WAException)
 {
