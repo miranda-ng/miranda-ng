@@ -9,5 +9,7 @@
 /MINIMIZED - Start Skype minimised
 [/NOTRAY - Skype tray icon becomes gray and is therefore "invisible"]
 /NOTRAY - Skype tray icon becomes grey and is therefore "invisible"
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
+Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)
 [Use Windows colors]
 Use Windows colours
