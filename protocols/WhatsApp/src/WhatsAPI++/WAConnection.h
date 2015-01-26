@@ -365,10 +365,15 @@ private:
 	std::map<string, IqResultHandler*> pending_server_requests;
 	IMutex *mutex;
 
+	void parseAck(ProtocolTreeNode *node) throw (WAException);
+	void parseChatStates(ProtocolTreeNode *node) throw (WAException);
+	void parseIq(ProtocolTreeNode *node) throw(WAException);
+	void parseMessage(ProtocolTreeNode* node) throw(WAException);
+	void parsePresense(ProtocolTreeNode*) throw(WAException);
+	std::map<string, string> parseCategories(ProtocolTreeNode* node) throw(WAException);
+
 	void sendMessageWithMedia(FMessage* message) throw(WAException);
 	void sendMessageWithBody(FMessage* message) throw(WAException);
-	std::map<string, string>* parseCategories(ProtocolTreeNode* node) throw(WAException);
-	void parseMessageInitialTagAlreadyChecked(ProtocolTreeNode* node) throw(WAException);
 	ProtocolTreeNode* getReceiptAck(const std::string& to, const std::string& id, const std::string& receiptType) throw(WAException);
 	std::string makeId(const std::string& prefix);
 	void sendGetGroups(const std::string& id, const std::string& type) throw (WAException);
@@ -391,6 +396,8 @@ public:
 	std::string jid;
 	std::string nick;
 
+	KeyStream inputKey, outputKey;
+
 	int msg_id;
 	bool retry;
 	bool supports_receipt_acks;
@@ -403,16 +410,15 @@ public:
 
 	void logData(const char *format, ...);
 
-	static MessageStore* message_store;
-	KeyStream inputKey, outputKey;
-
 	static std::string removeResourceFromJid(const std::string& jid);
 
-	void setLogin(WALogin* login);
+	void setLogin(WALogin *login);
 	void setVerboseId(bool b);
 	void sendMessage(FMessage* message) throw(WAException);
 	void sendAvailableForChat() throw(WAException);
+	
 	bool read() throw(WAException);
+	
 	void sendPing() throw(WAException);
 	void sendQueryLastOnline(const std::string& jid) throw (WAException);
 	void sendPong(const std::string& id) throw(WAException);
@@ -422,8 +428,6 @@ public:
 	void sendPaused(const std::string& to) throw(WAException);
 	void sendSubjectReceived(const std::string& to, const std::string& id) throw(WAException);
 	void sendMessageReceived(FMessage* message) throw(WAException);
-	void sendDeliveredReceiptAck(const std::string& to, const std::string& id) throw(WAException);
-	void sendVisibleReceiptAck(const std::string& to, const std::string& id) throw (WAException);
 	void sendPresenceSubscriptionRequest(const std::string& to) throw (WAException);
 	void sendClientConfig(const std::string& sound,  const std::string& pushID, bool preview, const std::string& platform) throw(WAException);
 	void sendClientConfig(const std::string& pushID, bool preview, const std::string& platform, bool defaultSettings, bool groupSettings, const std::vector<GroupSetting>& groups) throw(WAException);

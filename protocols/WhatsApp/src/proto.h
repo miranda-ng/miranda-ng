@@ -104,7 +104,6 @@ public:
 	// Worker Threads
 
 	void __cdecl SendMsgWorker(void*);
-	void __cdecl RecvMsgWorker(void*);
 	void __cdecl SendTypingWorker(void*);
 	void __cdecl SendGetGroupInfoWorker(void*);
 	void __cdecl SendSetGroupNameWorker(void*);
@@ -115,6 +114,7 @@ public:
 
 	MCONTACT AddToContactList(const std::string &jid, BYTE type = 0, bool dont_check = false,
 		const char *new_name = NULL, bool isChatRoom = false, bool isHidden = false);
+
 	bool     IsMyContact(MCONTACT hContact, bool include_chat = false);
 	MCONTACT ContactIDToHContact(const std::string&);
 	void     SetAllContactStatuses(int status, bool reset_client = false);
@@ -134,12 +134,13 @@ public:
 
 	bool Register(int state, const string &cc, const string &number, const string &code, string &password);
 
+private:
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
 
 	std::tstring GetAvatarFolder();
 	void ToggleStatusMenuItems(BOOL bEnable);
-	LONG GetSerial(void);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Handles, Locks
@@ -153,61 +154,55 @@ public:
 
 	std::tstring def_avatar_folder_;
 
-	WASocketConnection* conn;
-	WAConnection* m_pConnection;
+	WASocketConnection *conn;
+	WAConnection *m_pConnection;
 	Mutex connMutex;
 	int lastPongTime;
 
-	std::vector<unsigned char>* challenge;
-	int msgId;
-	int msgIdHeader;
+	std::vector<unsigned char> *challenge;
 	string phoneNumber;
-	string jid;
-	string nick;
+	string jid, nick;
 	std::map<string, MCONTACT> hContactByJid;
 	map<MCONTACT, map<MCONTACT, bool>> isMemberByGroupContact;
-
-private:
-	LONG m_serial;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// WhatsApp Events
 
 protected:
-	virtual void onMessageForMe(FMessage* paramFMessage, bool paramBoolean);
-	virtual void onMessageStatusUpdate(FMessage* paramFMessage);
-	virtual void onMessageError(FMessage* message, int paramInt) { ; }
-	virtual void onPing(const std::string& id) throw (WAException);
+	virtual void onMessageForMe(FMessage *paramFMessage, bool paramBoolean);
+	virtual void onMessageStatusUpdate(FMessage *paramFMessage);
+	virtual void onMessageError(FMessage *message, int paramInt) { ; }
+	virtual void onPing(const std::string &id) throw (WAException);
 	virtual void onPingResponseReceived() {  }
-	virtual void onAvailable(const std::string& paramString, bool paramBoolean);
-	virtual void onClientConfigReceived(const std::string& paramString) {  }
-	virtual void onLastSeen(const std::string& paramString1, int paramInt, const std::string& paramString2);
-	virtual void onIsTyping(const std::string& paramString, bool paramBoolean);
+	virtual void onAvailable(const std::string &paramString, bool paramBoolean);
+	virtual void onClientConfigReceived(const std::string &paramString) {  }
+	virtual void onLastSeen(const std::string &paramString1, int paramInt, const std::string &paramString2);
+	virtual void onIsTyping(const std::string &paramString, bool paramBoolean);
 	virtual void onAccountChange(int paramInt, time_t expire_date) {  }
-	virtual void onPrivacyBlockListAdd(const std::string& paramString) {  }
+	virtual void onPrivacyBlockListAdd(const std::string &paramString) {  }
 	virtual void onPrivacyBlockListClear() {  }
 	virtual void onDirty(const std::map<string, string>& paramHashtable) {  }
 	virtual void onDirtyResponse(int paramHashtable) {  }
-	virtual void onRelayRequest(const std::string& paramString1, int paramInt, const std::string& paramString2) {  }
+	virtual void onRelayRequest(const std::string &paramString1, int paramInt, const std::string &paramString2) {  }
 	virtual void onSendGetPictureIds(std::map<string, string>* ids);
-	virtual void onSendGetPicture(const std::string& jid, const std::vector<unsigned char>& data, const std::string& oldId, const std::string& newId);
-	virtual void onPictureChanged(const std::string& from, const std::string& author, bool set);
+	virtual void onSendGetPicture(const std::string &jid, const std::vector<unsigned char>& data, const std::string &oldId, const std::string &newId);
+	virtual void onPictureChanged(const std::string &from, const std::string &author, bool set);
 	virtual void onDeleteAccount(bool result) {  }
 
-	virtual void onGroupAddUser(const std::string& paramString1, const std::string& paramString2);
-	virtual void onGroupRemoveUser(const std::string& paramString1, const std::string& paramString2);
-	virtual void onGroupNewSubject(const std::string& from, const std::string& author, const std::string& newSubject, int paramInt);
+	virtual void onGroupAddUser(const std::string &paramString1, const std::string &paramString2);
+	virtual void onGroupRemoveUser(const std::string &paramString1, const std::string &paramString2);
+	virtual void onGroupNewSubject(const std::string &from, const std::string &author, const std::string &newSubject, int paramInt);
 	virtual void onServerProperties(std::map<std::string, std::string>* nameValueMap) {  }
-	virtual void onGroupCreated(const std::string& paramString1, const std::string& paramString2);
-	virtual void onGroupInfo(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2);
-	virtual void onGroupInfoFromList(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2);
+	virtual void onGroupCreated(const std::string &paramString1, const std::string &paramString2);
+	virtual void onGroupInfo(const std::string &paramString1, const std::string &paramString2, const std::string &paramString3, const std::string &paramString4, int paramInt1, int paramInt2);
+	virtual void onGroupInfoFromList(const std::string &paramString1, const std::string &paramString2, const std::string &paramString3, const std::string &paramString4, int paramInt1, int paramInt2);
 	virtual void onOwningGroups(const std::vector<string>& paramVector);
-	virtual void onSetSubject(const std::string& paramString) {  }
-	virtual void onAddGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) {  }
-	virtual void onRemoveGroupParticipants(const std::string& paramString, const std::vector<string>& paramVector, int paramHashtable) {  }
-	virtual void onGetParticipants(const std::string& gjid, const std::vector<string>& participants);
+	virtual void onSetSubject(const std::string &paramString) {  }
+	virtual void onAddGroupParticipants(const std::string &paramString, const std::vector<string>& paramVector, int paramHashtable) {  }
+	virtual void onRemoveGroupParticipants(const std::string &paramString, const std::vector<string>& paramVector, int paramHashtable) {  }
+	virtual void onGetParticipants(const std::string &gjid, const std::vector<string>& participants);
 	virtual void onParticipatingGroups(const std::vector<string>& paramVector);
-	virtual void onLeaveGroup(const std::string& paramString);
+	virtual void onLeaveGroup(const std::string &paramString);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Information providing

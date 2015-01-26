@@ -260,6 +260,12 @@ void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 	this->mutex->lock();
 	try {
 		this->writeDummyHeader();
+		#ifdef _DEBUG
+		if (bSecure) {
+			string tmp = node.toString();
+			this->realOut->log(tmp.c_str());
+		}
+		#endif
 		writeInternal(node);
 		flushBuffer(needsFlush);
 	}

@@ -40,72 +40,39 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
-	int msgId = ++(this->msgId);
+	ptrA jid(getStringA(hContact, "ID"));
+	if (jid == NULL)
+		return 0;
 
-	ForkThread(&WhatsAppProto::SendMsgWorker, new send_direct(hContact, msg, (HANDLE)msgId, flags & IS_CHAT));
-	return this->msgIdHeader + msgId;
-}
-
-void WhatsAppProto::SendMsgWorker(void* p)
-{
-	if (p == NULL)
-		return;
-
-	DBVARIANT dbv;
-	send_direct *data = static_cast<send_direct*>(p);
-
-	if (getByte(data->hContact, "SimpleChatRoom", 0) > 0 && getByte(data->hContact, "IsGroupMember", 0) == 0) {
-		debugLogA("not a group member");
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-			(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
-	}
-	else if (!getString(data->hContact, "ID", &dbv) && m_pConnection != NULL) {
-		try {
-			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_STATE, 2);
-			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, this->msgIdHeader);
-			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID, this->msgId);
-
-			std::stringstream ss;
-			ss << this->msgIdHeader << "-" << this->msgId;
-			Key* key = new Key(Key(dbv.pszVal, true, ss.str())); // deleted by FMessage
-			FMessage fmsg(key);
-			fmsg.data = data->msg;
-			fmsg.timestamp = time(NULL);
-
-			db_free(&dbv);
-
-			m_pConnection->sendMessage(&fmsg);
-		}
-		catch (exception &e) {
-			debugLogA("exception: %s", e.what());
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-				(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM)e.what());
-		}
-		catch (...) {
-			debugLogA("unknown exception");
-			ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-				(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "Failed sending message");
-		}
-	}
-	else {
+	if (m_pConnection != NULL) {
 		debugLogA("No connection");
-		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
-			(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages when you are offline.");
+		return 0;
 	}
 
-	delete data;
-}
+	if (getByte(hContact, "SimpleChatRoom", 0) > 0 && getByte(hContact, "IsGroupMember", 0) == 0) {
+		debugLogA("not a group member");
+		return 0;
+	}
+	
+	int msgId = this->m_pConnection->msg_id++;
+	try {
+		std::string id = "msg" + Utilities::intToStr(msgId);
+		FMessage fmsg(new Key((const char*)jid, true, id));
+		fmsg.data = msg;
+		fmsg.timestamp = time(NULL);
 
-void WhatsAppProto::RecvMsgWorker(void *p)
-{
-	if (p == NULL)
-		return;
+		m_pConnection->sendMessage(&fmsg);
+	}
+	catch (exception &e) {
+		debugLogA("exception: %s", e.what());
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)msgId, (LPARAM)e.what());
+	}
+	catch (...) {
+		debugLogA("unknown exception");
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)msgId, (LPARAM)"Failed sending message");
+	}
 
-	//WAConnection.cpp l1225 - message will be deleted. We cannot send the ack inside a thread!
-	//FMessage *fmsg = static_cast<FMessage*>(p);
-	//m_pConnection->sendMessageReceived(fmsg);
-
-	//delete fmsg;
+	return msgId;
 }
 
 void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean)
@@ -153,27 +120,8 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 	if (hContact == 0)
 		return;
 
-	int state = 5 - fmsg->status;
-	if (state != 0 && state != 1)
-		return;
-
-	int header;
-	int id;
-	size_t delimPos = fmsg->key->id.find("-");
-
-	std::stringstream ss;
-	ss << fmsg->key->id.substr(0, delimPos);
-	ss >> header;
-
-	ss.clear();
-	ss << fmsg->key->id.substr(delimPos + 1);
-	ss >> id;
-
-	if (state == 1)
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)(header + id), 0);
-
-	if (getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, 0) == header && getDword(hContact, WHATSAPP_KEY_LAST_MSG_ID, -1) == id) {
-		setDword(hContact, WHATSAPP_KEY_LAST_MSG_STATE, state);
-		this->UpdateStatusMsg(hContact);
+	if (fmsg->status == FMessage::STATUS_RECEIVED_BY_SERVER) {
+		int msgId = atoi(fmsg->key->id.substr(3).c_str());
+		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
 	}
 }
