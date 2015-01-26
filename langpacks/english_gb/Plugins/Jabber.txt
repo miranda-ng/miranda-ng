@@ -37,6 +37,8 @@ Request authorisation
 Grant authorisation
 [Revoke authorization]
 Revoke authorisation
+[Send messages slower, but with full acknowledgment]
+Send messages slower, but with full acknowledgement
 [Automatically add contact when accept authorization]
 Automatically add contact when accept authorisation
 [Automatically accept authorization requests]

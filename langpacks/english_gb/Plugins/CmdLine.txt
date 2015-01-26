@@ -7,3 +7,5 @@
 ;============================================================
 [Could not initialize CmdLine plugin property]
 Could not initialise CmdLine plugin property
+[Timed out while waiting for acknowledgment for contact '%s'.]
+Timed out while waiting for acknowledgement for contact '%s'.
