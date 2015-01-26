@@ -1,36 +1,5 @@
 #include "common.h"
 
-void WhatsAppProto::ChangeStatus(void*)
-{
-	if (m_iDesiredStatus != ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE) {
-		ResetEvent(update_loop_lock_);
-		ForkThread(&WhatsAppProto::sentinelLoop, this);
-		ForkThread(&WhatsAppProto::stayConnectedLoop, this);
-	}
-	else if (m_iStatus == ID_STATUS_INVISIBLE && m_iDesiredStatus == ID_STATUS_ONLINE) {
-		if (this->connection != NULL) {
-			this->connection->sendAvailableForChat();
-			m_iStatus = ID_STATUS_ONLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_INVISIBLE);
-		}
-	}
-	else if (m_iStatus == ID_STATUS_ONLINE && m_iDesiredStatus == ID_STATUS_INVISIBLE) {
-		if (this->connection != NULL) {
-			this->connection->sendClose();
-			m_iStatus = ID_STATUS_INVISIBLE;
-			SetAllContactStatuses(ID_STATUS_OFFLINE, true);
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_ONLINE);
-		}
-	}
-	else if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
-		if (this->conn != NULL) {
-			SetEvent(update_loop_lock_);
-			this->conn->forceShutdown();
-			debugLogA("Forced shutdown");
-		}
-	}
-}
-
 void WhatsAppProto::stayConnectedLoop(void*)
 {
 	std::string cc, in, pass;
@@ -104,8 +73,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		}
 
 		debugLogA("Connecting...");
-		this->m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, m_iStatus);
 
 		try {
 			unsigned passLen;
@@ -123,13 +90,13 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			{
 				WALogin login(connection, password);
 
-				std::vector<unsigned char>* nextChallenge = login.login(*this->challenge);
+				std::vector<unsigned char> *nextChallenge = login.login(*this->challenge);
 				delete this->challenge;
 				this->challenge = nextChallenge;
 				connection->setLogin(&login);
 			}
 			connection->nick = this->nick;
-			connection->setVerboseId(true); // ?
+			connection->setVerboseId(true);
 			if (desiredStatus != ID_STATUS_INVISIBLE)
 				connection->sendAvailableForChat();
 
@@ -138,13 +105,13 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_CONNECTING);
 			this->ToggleStatusMenuItems(true);
 
-			ForkThread(&WhatsAppProto::ProcessBuddyList, this);
+			// ProcessBuddyList(0);
 
 			// #TODO Move out of try block. Exception is expected on disconnect
-			bool cont = true;
-			while (cont == true) {
+			while (true) {
 				this->lastPongTime = time(NULL);
-				cont = connection->read();
+				if (!connection->read())
+					break;
 			}
 			debugLogA("Exit from read-loop");
 		}

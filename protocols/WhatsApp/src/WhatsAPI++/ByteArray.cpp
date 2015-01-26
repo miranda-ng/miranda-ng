@@ -13,57 +13,33 @@
 
 ByteArrayOutputStream::ByteArrayOutputStream(int size)
 {
-	this->buf = new std::vector<unsigned char>();
-	this->buf->reserve(size);
-	this->position = 0;
+	buf.reserve(size);
+	position = 0;
 }
 
 void ByteArrayOutputStream::setLength(size_t length)
 {
-	this->buf->resize(length);
-}
-
-size_t ByteArrayOutputStream::getLength()
-{
-	return this->buf->size();
-}
-
-size_t ByteArrayOutputStream::getCapacity()
-{
-	return this->buf->capacity();
-}
-
-size_t ByteArrayOutputStream::getPosition()
-{
-	return this->position;
+	buf.resize(length);
 }
 
 void ByteArrayOutputStream::setPosition(size_t count)
 {
-	this->position = count;
+	position = count;
 }
 
 
-std::vector<unsigned char>* ByteArrayOutputStream::toByteArray()
+std::vector<unsigned char>& ByteArrayOutputStream::getBuffer()
 {
-	std::vector<unsigned char>* array = new std::vector<unsigned char>(this->buf->size());
-	for (size_t i = 0; i < this->buf->size(); i++)
-		(*array)[i] = (*this->buf)[i];
-	return array;
-}
-
-std::vector<unsigned char>* ByteArrayOutputStream::getBuffer()
-{
-	return this->buf;
+	return buf;
 }
 
 void ByteArrayOutputStream::write(int i)
 {
-	if (this->position == this->buf->size())
-		this->buf->push_back((unsigned char)i);
+	if (this->position == this->buf.size())
+		buf.push_back((unsigned char)i);
 	else
-		(*this->buf)[this->position] = (unsigned char)i;
-	this->position = this->position + 1;
+		buf[position] = (unsigned char)i;
+	position++;
 }
 
 void ByteArrayOutputStream::write(unsigned char* b, size_t len)
@@ -81,12 +57,9 @@ void ByteArrayOutputStream::write(const std::string& s)
 		write((unsigned char)s[i]);
 }
 
-
 ByteArrayOutputStream::~ByteArrayOutputStream()
 {
-	delete this->buf;
 }
-
 
 ByteArrayInputStream::ByteArrayInputStream(std::vector<unsigned char>* buf, size_t off, size_t length)
 {
@@ -138,31 +111,3 @@ int ByteArrayInputStream::read(std::vector<unsigned char>& b, size_t  off, size_
 
 ByteArrayInputStream::~ByteArrayInputStream()
 {}
-
-void ByteArrayInputStream::print()
-{
-	std::cout << "[";
-	for (size_t i = 0; i < this->count; i++)
-		std::cout << (*this->buf)[i] << " ";
-
-	std::cout << std::endl;
-	for (size_t i = 0; i < this->count; i++)
-		std::cout << (int)((signed char)(*this->buf)[i]) << " ";
-
-	std::cout << "]" << std::endl;
-}
-
-void ByteArrayOutputStream::print()
-{
-	_LOGDATA("[");
-
-	std::string chars(this->buf->begin(), this->buf->end());
-	_LOGDATA("%s ", chars.c_str());
-
-	std::string numbers = "";
-	for (size_t i = 0; i < this->buf->size(); i++)
-		numbers += Utilities::intToStr((int)((signed char)(*this->buf)[i])) + " ";
-
-	_LOGDATA("%s", numbers.c_str());
-	_LOGDATA("]");
-}

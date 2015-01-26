@@ -34,14 +34,6 @@
 #include <syslog.h>
 #endif
 
-#ifdef _DEBUG
-	#define _DEBUGENABLED true
-#else
-	#define _DEBUGENABLED false
-#endif
-
-#define _LOGDATA(format, ...) if (_DEBUGENABLED) Utilities::logData(format, ##__VA_ARGS__)
-
 using namespace std;
 
 // these functions must be declared somewhere in the same linking module
@@ -61,7 +53,6 @@ namespace Utilities{
 	std::string doubleToStr(double d);
 	long long parseLongLong(const std::string& str);
 	time_t parseBBDate(const string& s);
-	void logData(const char *msg, ...);
 	long long getCurrentTimeMillis();
 	std::string bytesToHex(unsigned char* bytes, int length);
 	unsigned char forDigit(int b);

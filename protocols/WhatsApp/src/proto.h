@@ -108,7 +108,6 @@ public:
 	void __cdecl SearchAckThread(void*);
 
 	// Worker Threads
-	void __cdecl ChangeStatus(void*);
 	void __cdecl SendMsgWorker(void*);
 	void __cdecl RecvMsgWorker(void*);
 	void __cdecl SendTypingWorker(void*);

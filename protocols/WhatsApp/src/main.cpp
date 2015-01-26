@@ -81,6 +81,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	WORD v[4];
 	CallService(MS_SYSTEM_GETFILEVERSION, 0, LPARAM(&v));
 
+	WAConnection::globalInit();
 	return 0;
 }
 

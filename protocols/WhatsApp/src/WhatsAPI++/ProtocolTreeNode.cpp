@@ -44,14 +44,14 @@ ProtocolTreeNode::~ProtocolTreeNode()
 }
 
 
-string ProtocolTreeNode::toString()
+string ProtocolTreeNode::toString() const
 {
 	string out;
 	out += "<" + this->tag;
 	if (this->attributes != NULL) {
 		map<string, string>::iterator ii;
 		for (ii = attributes->begin(); ii != attributes->end(); ii++)
-			out += "" + ii->first + "=\"" + ii->second + "\"";
+			out += " " + ii->first + "=\"" + ii->second + "\"";
 	}
 	out += ">\n";
 	out += getDataAsString();
@@ -110,7 +110,7 @@ vector<ProtocolTreeNode*> ProtocolTreeNode::getAllChildren()
 	return *this->children;
 }
 
-std::string ProtocolTreeNode::getDataAsString()
+std::string ProtocolTreeNode::getDataAsString() const
 {
 	if (this->data == NULL)
 		return nilstr;

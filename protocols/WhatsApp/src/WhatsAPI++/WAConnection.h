@@ -103,7 +103,7 @@ class WAConnection {
 		IqResultHandler(WAConnection* con) {this->con = con;}
 		virtual void parse(ProtocolTreeNode* paramProtocolTreeNode, const std::string& paramString) throw (WAException)=0;
 		void error(ProtocolTreeNode* node, int code) {
-			_LOGDATA("WAConnection: error node %s: code = %d", node->getAttributeValue("id").c_str(), code);
+			con->logData("WAConnection: error node %s: code = %d", node->getAttributeValue("id").c_str(), code);
 		}
 		void error(ProtocolTreeNode* node) throw (WAException) {
 			std::vector<ProtocolTreeNode*> nodes(node->getAllChildren("error"));
@@ -303,7 +303,7 @@ class WAConnection {
 	public:
 		IqResultGetPictureIdsHandler(WAConnection* con):IqResultHandler(con) {}
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
-			// _LOGDATA("onGetPhotoIds %s", node->toString().c_str());
+			// logData("onGetPhotoIds %s", node->toString().c_str());
 			ProtocolTreeNode* groupNode = node->getChild("list");
 			std::vector<ProtocolTreeNode*> children(groupNode->getAllChildren("user"));
 			std::map<std::string, std::string> ids;
@@ -344,17 +344,18 @@ class WAConnection {
 	public:
 		IqSendClientConfigHandler(WAConnection* con):IqResultHandler(con) {}
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
-			_LOGDATA("Clientconfig response %s", node->toString().c_str());
+			con->logData("Clientconfig response %s", node->toString().c_str());
 		}
 
 		void error(ProtocolTreeNode* node) throw (WAException) {
-			_LOGDATA("Clientconfig response error %s", node->toString().c_str());
+			con->logData("Clientconfig response error %s", node->toString().c_str());
 		}
 	};
 
 	friend class WALogin;
 
 private:
+	ISocketConnection *rawConn;
 	BinTreeNodeReader *in;
 	BinTreeNodeWriter *out;
 	WAListener *event_handler;
@@ -382,7 +383,7 @@ private:
 public:
 	WAConnection(const std::string& user, const std::string& resource, IMutex* mutex, WAListener* event_handler, WAGroupListener* group_event_handler);
 	virtual ~WAConnection();
-	void init(IMutex* mutex, WASocketConnection*);
+	void init(IMutex* mutex, ISocketConnection*);
 
 	std::string user;
 	std::string domain;
@@ -399,6 +400,8 @@ public:
 
 	static void globalInit(void);
 	static int  tokenLookup(const std::string&);
+
+	void logData(const char *format, ...);
 
 	static MessageStore* message_store;
 	KeyStream inputKey, outputKey;

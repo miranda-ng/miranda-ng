@@ -21,7 +21,6 @@ std::string reverseString(const std::string& str)
 
 std::string itoa(int value, unsigned int base)
 {
-
 	const char digitMap[] = "0123456789abcdef";
 
 	std::string buf;
@@ -139,7 +138,6 @@ std::string doubleToStr(double d)
 
 time_t parseBBDate(const string& s)
 {
-	_LOGDATA("parse DATE %s", s.c_str());
 	if (s.length() < 17)
 		return time(NULL);
 
@@ -153,19 +151,6 @@ time_t parseBBDate(const string& s)
 
 	//return timegm(&timeinfo);
 	return mktime(&timeinfo);
-}
-
-void logData(const char *format, ...)
-{
-	va_list args;
-	va_start(args, format);
-#ifdef _LOGWIN32
-	std::string formatLine = std::string(format).append("\n");
-	vprintf(formatLine.c_str(), args); fflush(stdout);
-#else
-	vsyslog(LOG_ERR, format, args);
-#endif
-
 }
 
 long long parseLongLong(const std::string& str)
