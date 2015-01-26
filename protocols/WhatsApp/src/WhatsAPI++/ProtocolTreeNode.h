@@ -45,15 +45,20 @@ struct XATTRI
 	int value;
 };
 
-class ProtocolTreeNode {
+class ProtocolTreeNode
+{
+	ProtocolTreeNode(const ProtocolTreeNode&); // to prevent copying
+
 public:
-   vector<unsigned char>* data;
+	vector<unsigned char>* data;
    string tag;
    map<string, string> *attributes;
    vector<ProtocolTreeNode*> *children;
 
    ProtocolTreeNode(const string& tag, ProtocolTreeNode* child);
    ProtocolTreeNode(const string& tag, vector<unsigned char>* data = NULL, vector<ProtocolTreeNode*> *children = NULL);
+	~ProtocolTreeNode();
+
    string toString() const; 
    ProtocolTreeNode* getChild(const string& id);
    ProtocolTreeNode* getChild(size_t id);
@@ -65,8 +70,6 @@ public:
 
    static bool tagEquals(ProtocolTreeNode *node, const string& tag);
    static void require(ProtocolTreeNode *node, const string& tag);
-
-   virtual ~ProtocolTreeNode();
 };
 
 ProtocolTreeNode& operator<<(ProtocolTreeNode&, const XATTR&);

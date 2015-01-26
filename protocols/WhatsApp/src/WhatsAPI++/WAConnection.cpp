@@ -174,35 +174,26 @@ void WAConnection::sendMessageWithMedia(FMessage* message)  throw (WAException)
 			mediaNode << XATTRI("seconds", message->media_duration_seconds);
 	}
 
-	this->out->write(WAConnection::getMessageNode(message, mediaNode));
+	ProtocolTreeNode *n = WAConnection::getMessageNode(message, mediaNode);
+	this->out->write(*n);
+	delete n;
 }
 
 void WAConnection::sendMessageWithBody(FMessage* message) throw (WAException)
 {
 	ProtocolTreeNode* bodyNode = new ProtocolTreeNode("body", new std::vector<unsigned char>(message->data.begin(), message->data.end()));
-	this->out->write(WAConnection::getMessageNode(message, bodyNode));
+	ProtocolTreeNode *n = WAConnection::getMessageNode(message, bodyNode);
+	this->out->write(*n);
+	delete n;
 }
 
-ProtocolTreeNode WAConnection::getMessageNode(FMessage* message, ProtocolTreeNode* child)
+ProtocolTreeNode* WAConnection::getMessageNode(FMessage* message, ProtocolTreeNode* child)
 {
-	ProtocolTreeNode* requestNode = NULL;
-	ProtocolTreeNode* serverNode = new ProtocolTreeNode("server");
-	std::vector<ProtocolTreeNode*>* children = new std::vector<ProtocolTreeNode*>(1);
-	(*children)[0] = serverNode;
-	ProtocolTreeNode* xNode = new ProtocolTreeNode("x", NULL, children) << XATTR("xmlns", "jabber:x:event");
-	int childCount = (requestNode == NULL ? 0 : 1) + 2;
-	std::vector<ProtocolTreeNode*>* messageChildren = new std::vector<ProtocolTreeNode*>(childCount);
-	int i = 0;
-	if (requestNode != NULL) {
-		(*messageChildren)[i] = requestNode;
-		i++;
-	}
-	(*messageChildren)[i] = xNode;
-	i++;
-	(*messageChildren)[i] = child;
-	i++;
+	std::vector<ProtocolTreeNode*>* messageChildren = new std::vector<ProtocolTreeNode*>();
+	messageChildren->push_back(new ProtocolTreeNode("x", new ProtocolTreeNode("server")) << XATTR("xmlns", "jabber:x:event"));
+	messageChildren->push_back(child);
 
-	return ProtocolTreeNode("message", NULL, messageChildren) <<
+	return new ProtocolTreeNode("message", NULL, messageChildren) <<
 		XATTR("to", message->key->remote_jid) << XATTR("type", "chat") << XATTR("id", message->key->id);
 }
 
@@ -425,15 +416,18 @@ void WAConnection::sendMessageReceived(FMessage* message) throw(WAException)
 		<< XATTR("to", message->key->remote_jid) << XATTR("type", "chat") << XATTR("id", message->key->id));
 }
 
-void WAConnection::sendDeliveredReceiptAck(const std::string& to,
-	const std::string& id) throw(WAException)
+void WAConnection::sendDeliveredReceiptAck(const std::string& to, const std::string& id) throw(WAException)
 {
-	this->out->write(getReceiptAck(to, id, "delivered"));
+	ProtocolTreeNode *n = getReceiptAck(to, id, "delivered");
+	this->out->write(*n);
+	delete n;
 }
 
 void WAConnection::sendVisibleReceiptAck(const std::string& to, const std::string& id) throw (WAException)
 {
-	this->out->write(getReceiptAck(to, id, "visible"));
+	ProtocolTreeNode *n = getReceiptAck(to, id, "visible");
+	this->out->write(*n);
+	delete n;
 }
 
 void WAConnection::sendPresenceSubscriptionRequest(const std::string& to) throw(WAException)
@@ -491,12 +485,12 @@ std::string WAConnection::makeId(const std::string& prefix)
 	return id;
 }
 
-ProtocolTreeNode WAConnection::getReceiptAck(const std::string& to, const std::string& id, const std::string& receiptType) throw(WAException)
+ProtocolTreeNode* WAConnection::getReceiptAck(const std::string& to, const std::string& id, const std::string& receiptType) throw(WAException)
 {
 	ProtocolTreeNode* ackNode = new ProtocolTreeNode("ack")
 		<< XATTR("xmlns", "urn:xmpp:receipts") << XATTR("type", receiptType);
 
-	return ProtocolTreeNode("message", ackNode) << XATTR("to", to) << XATTR("type", "chat") << XATTR("id", id);
+	return new ProtocolTreeNode("message", ackNode) << XATTR("to", to) << XATTR("type", "chat") << XATTR("id", id);
 }
 
 std::map<string, string>* WAConnection::parseCategories(ProtocolTreeNode* dirtyNode) throw (WAException)
@@ -930,9 +924,11 @@ std::string WAConnection::removeResourceFromJid(const std::string& jid)
 void WAConnection::sendStatusUpdate(std::string& status) throw (WAException)
 {
 	std::string id = this->makeId(Utilities::intToStr((int)time(NULL)));
-	FMessage* message = new FMessage(new Key("s.us", true, id));
-	ProtocolTreeNode* body = new ProtocolTreeNode("body", new std::vector<unsigned char>(status.begin(), status.end()), NULL);
-	this->out->write(getMessageNode(message, body));
+	FMessage *message = new FMessage(new Key("s.us", true, id));
+	ProtocolTreeNode *body = new ProtocolTreeNode("body", new std::vector<unsigned char>(status.begin(), status.end()), NULL);
+	ProtocolTreeNode *n = getMessageNode(message, body);
+	this->out->write(*n);
+	delete n;
 	delete message;
 }
 
