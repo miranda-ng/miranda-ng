@@ -46,7 +46,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	// -----------------------------
 
 	Mutex writerMutex;
-	int desiredStatus;
 	bool error = false;
 
 	this->conn = NULL;
@@ -61,13 +60,12 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			this->conn = NULL;
 		}
 
-		desiredStatus = this->m_iDesiredStatus;
-		if (desiredStatus == ID_STATUS_OFFLINE || error) {
+		if (m_iDesiredStatus == ID_STATUS_OFFLINE || error) {
 			debugLogA("Set status to offline");
 			SetAllContactStatuses(ID_STATUS_OFFLINE, true);
 			this->ToggleStatusMenuItems(false);
-			int prevStatus = this->m_iStatus;
-			this->m_iStatus = ID_STATUS_OFFLINE;
+			int prevStatus = m_iStatus;
+			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, prevStatus);
 			break;
 		}
@@ -95,11 +93,11 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			}
 			m_pConnection->nick = this->nick;
 			m_pConnection->setVerboseId(true);
-			if (desiredStatus != ID_STATUS_INVISIBLE)
+			if (m_iDesiredStatus != ID_STATUS_INVISIBLE)
 				m_pConnection->sendAvailableForChat();
 
 			debugLogA("Set status to online");
-			this->m_iStatus = desiredStatus;
+			m_iStatus = m_iDesiredStatus;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_CONNECTING);
 			this->ToggleStatusMenuItems(true);
 
@@ -134,7 +132,7 @@ void WhatsAppProto::sentinelLoop(void*)
 	int delay = MAX_SILENT_INTERVAL;
 	int quietInterval;
 	while (WaitForSingleObjectEx(update_loop_lock_, delay * 1000, true) == WAIT_TIMEOUT) {
-		if (this->m_iStatus != ID_STATUS_OFFLINE && m_pConnection != NULL && this->m_iDesiredStatus == this->m_iStatus) {
+		if (m_iStatus != ID_STATUS_OFFLINE && m_pConnection != NULL && m_iDesiredStatus == m_iStatus) {
 			// #TODO Quiet after pong or tree read?
 			quietInterval = difftime(time(NULL), this->lastPongTime);
 			if (quietInterval >= MAX_SILENT_INTERVAL) {

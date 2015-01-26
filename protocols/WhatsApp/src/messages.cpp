@@ -44,7 +44,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	if (jid == NULL)
 		return 0;
 
-	if (m_pConnection != NULL) {
+	if (m_pConnection == NULL) {
 		debugLogA("No connection");
 		return 0;
 	}
@@ -56,10 +56,11 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	
 	int msgId = this->m_pConnection->msg_id++;
 	try {
-		std::string id = "msg" + Utilities::intToStr(msgId);
+		time_t now = time(NULL);
+		std::string id = Utilities::intToStr(now) + "-" + Utilities::intToStr(msgId);
 		FMessage fmsg(new Key((const char*)jid, true, id));
+		fmsg.timestamp = now;
 		fmsg.data = msg;
-		fmsg.timestamp = time(NULL);
 
 		m_pConnection->sendMessage(&fmsg);
 	}
@@ -121,7 +122,11 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 		return;
 
 	if (fmsg->status == FMessage::STATUS_RECEIVED_BY_SERVER) {
-		int msgId = atoi(fmsg->key->id.substr(3).c_str());
+		size_t delim = fmsg->key->id.find('-');
+		if (delim == string::npos)
+			return;
+
+		int msgId = atoi(fmsg->key->id.substr(delim+1).c_str());
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
 	}
 }
