@@ -2,6 +2,16 @@
 
 #include "WhatsAPI++\WARegister.h"
 
+struct SearchParam
+{
+	SearchParam(const TCHAR *_jid, LONG _id) :
+		jid(_jid), id(_id) 
+		{}
+
+	std::tstring jid;
+	LONG id;
+};
+
 WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	PROTO<WhatsAppProto>(proto_name, username)
 {
@@ -128,14 +138,14 @@ int WhatsAppProto::SetStatus(int new_status)
 		ForkThread(&WhatsAppProto::sentinelLoop, this);
 		ForkThread(&WhatsAppProto::stayConnectedLoop, this);
 	}
-	else if (this->connection != NULL) {
+	else if (m_pConnection != NULL) {
 		if (m_iDesiredStatus == ID_STATUS_ONLINE) {
-			this->connection->sendAvailableForChat();
+			m_pConnection->sendAvailableForChat();
 			m_iStatus = ID_STATUS_ONLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 		}
 		else if (m_iStatus == ID_STATUS_ONLINE && m_iDesiredStatus == ID_STATUS_INVISIBLE) {
-			this->connection->sendClose();
+			m_pConnection->sendClose();
 			m_iStatus = ID_STATUS_INVISIBLE;
 			SetAllContactStatuses(ID_STATUS_OFFLINE, true);
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
@@ -148,12 +158,25 @@ int WhatsAppProto::SetStatus(int new_status)
 
 MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
-	return NULL;
+	if (psr->id == NULL)
+		return NULL;
+
+	std::string phone(ptrA(mir_utf8encodeT(psr->id)));
+	std::string jid(phone + "@s.whatsapp.net");
+
+	MCONTACT hContact = AddToContactList(jid, 0, false, phone.c_str());
+	if (!(flags & PALF_TEMPORARY))
+		db_unset(hContact, "CList", "NotOnList");
+
+	m_pConnection->sendQueryLastOnline(jid.c_str());
+	m_pConnection->sendPresenceSubscriptionRequest(jid.c_str());
+	return hContact;
 }
 
 int WhatsAppProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *message)
 {
-	return this->RequestFriendship((WPARAM)hContact, NULL);
+	RequestFriendship(hContact);
+	return 0;
 }
 
 int WhatsAppProto::Authorize(MEVENT hDbEvent)
@@ -161,14 +184,36 @@ int WhatsAppProto::Authorize(MEVENT hDbEvent)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::SearchAckThread(void *targ)
+{
+	Sleep(100);
+
+	SearchParam *param = (SearchParam*)targ;
+	PROTOSEARCHRESULT sr = { 0 };
+	sr.cbSize = sizeof(sr);
+	sr.flags = PSR_TCHAR;
+	sr.nick = _T("");
+	sr.firstName = _T("");
+	sr.lastName = _T("");
+	sr.id = (TCHAR*)param->jid.c_str();
+
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)param->id, (LPARAM)&sr);
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)param->id, 0);
+
+	delete param;
+}
+
 HANDLE WhatsAppProto::SearchBasic(const PROTOCHAR* id)
 {
 	if (isOffline())
 		return 0;
 
-	TCHAR* email = mir_tstrdup(id);
-	ForkThread(&WhatsAppProto::SearchAckThread, email);
-	return email;
+	// fake - we always accept search
+	SearchParam *param = new SearchParam(id, GetSerial());
+	ForkThread(&WhatsAppProto::SearchAckThread, param);
+	return (HANDLE)param->id;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -298,18 +343,16 @@ int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int WhatsAppProto::RequestFriendship(WPARAM hContact, LPARAM lParam)
+void WhatsAppProto::RequestFriendship(MCONTACT hContact)
 {
 	if (hContact == NULL || isOffline())
-		return 0;
+		return;
 
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
 	if (jid) {
-		this->connection->sendQueryLastOnline((char*)jid);
-		this->connection->sendPresenceSubscriptionRequest((char*)jid);
+		m_pConnection->sendQueryLastOnline((char*)jid);
+		m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
 	}
-
-	return 0;
 }
 
 std::tstring WhatsAppProto::GetAvatarFolder()

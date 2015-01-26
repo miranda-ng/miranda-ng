@@ -13,7 +13,7 @@ bool WhatsAppProto::IsMyContact(MCONTACT hContact, bool include_chat)
 	return false;
 }
 
-MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE type, bool dont_check, const char *new_name, bool isChatRoom, bool isHidden)
+MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE , bool dont_check, const char *new_name, bool isChatRoom, bool isHidden)
 {
 	if (!dont_check) {
 		// First, check if this contact exists
@@ -134,8 +134,8 @@ void WhatsAppProto::ProcessBuddyList(void*)
 				}
 				
 				if (getByte(hContact, "SimpleChatRoom", 0) == 0) {
-					this->connection->sendQueryLastOnline((char*)jid);
-					this->connection->sendPresenceSubscriptionRequest((char*)jid);
+					m_pConnection->sendQueryLastOnline((char*)jid);
+					m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
 				}
 			}
 			CODE_BLOCK_CATCH_ALL
@@ -144,28 +144,15 @@ void WhatsAppProto::ProcessBuddyList(void*)
 
 	if (jids.size() > 0) {
 		try {
-			this->connection->sendGetPictureIds(jids);
+			m_pConnection->sendGetPictureIds(jids);
 		}
 		CODE_BLOCK_CATCH_ALL
 	}
 	try {
-		this->connection->sendGetGroups();
-		this->connection->sendGetOwningGroups();
+		m_pConnection->sendGetGroups();
+		m_pConnection->sendGetOwningGroups();
 	}
 	CODE_BLOCK_CATCH_ALL
-}
-
-void WhatsAppProto::SearchAckThread(void *targ)
-{
-	char *id = mir_utf8encodeT((TCHAR*)targ);
-	std::string jid(id);
-	jid.append("@s.whatsapp.net");
-
-	this->connection->sendQueryLastOnline(jid.c_str());
-	this->connection->sendPresenceSubscriptionRequest(jid.c_str());
-
-	mir_free(targ);
-	mir_free(id);
 }
 
 void WhatsAppProto::onAvailable(const std::string& paramString, bool paramBoolean)
@@ -218,7 +205,7 @@ void WhatsAppProto::onPictureChanged(const std::string& from, const std::string&
 	if (this->isOnline()) {
 		vector<string> ids;
 		ids.push_back(from);
-		this->connection->sendGetPictureIds(ids);
+		m_pConnection->sendGetPictureIds(ids);
 	}
 }
 
@@ -271,7 +258,7 @@ void WhatsAppProto::onSendGetPictureIds(std::map<string, string>* ids)
 
 			if (it->second.size() > 0 && it->second.compare(oldId) != 0) {
 				try {
-					this->connection->sendGetPicture(it->first, "image", oldId, it->second);
+					m_pConnection->sendGetPicture(it->first, "image", oldId, it->second);
 				}
 				CODE_BLOCK_CATCH_ALL
 			}
@@ -290,7 +277,7 @@ TCHAR* WhatsAppProto::GetContactDisplayName(const string& jid)
 void WhatsAppProto::SendGetGroupInfoWorker(void* data)
 {
 	if (this->isOnline())
-		this->connection->sendGetGroupInfo(*((std::string*) data));
+		m_pConnection->sendGetGroupInfo(*((std::string*) data));
 }
 
 void WhatsAppProto::onGroupInfo(const std::string& gjid, const std::string& ownerJid, const std::string& subject, const std::string& createrJid, int paramInt1, int paramInt2)
@@ -303,7 +290,7 @@ void WhatsAppProto::onGroupInfo(const std::string& gjid, const std::string& owne
 	}
 	setByte(hContact, "SimpleChatRoom", ownerJid.compare(this->jid) == 0 ? 2 : 1);
 	if (this->isOnline())
-		this->connection->sendGetParticipants(gjid);
+		m_pConnection->sendGetParticipants(gjid);
 }
 
 void WhatsAppProto::onGroupInfoFromList(const std::string& paramString1, const std::string& paramString2, const std::string& paramString3, const std::string& paramString4, int paramInt1, int paramInt2)
@@ -333,7 +320,7 @@ void WhatsAppProto::onGroupAddUser(const std::string& paramString1, const std::s
 	}
 
 	if (this->isOnline())
-		this->connection->sendGetGroupInfo(paramString1);
+		m_pConnection->sendGetGroupInfo(paramString1);
 }
 
 void WhatsAppProto::onGroupRemoveUser(const std::string &paramString1, const std::string &paramString2)
@@ -355,7 +342,7 @@ void WhatsAppProto::onGroupRemoveUser(const std::string &paramString1, const std
 		CMString tmp(FORMAT, TranslateT("User '%s' has been removed from the group"), this->GetContactDisplayName(paramString2));
 		this->NotifyEvent(ptszGroupName, tmp, hContact, WHATSAPP_EVENT_OTHER);
 
-		this->connection->sendGetGroupInfo(paramString1);
+		m_pConnection->sendGetGroupInfo(paramString1);
 	}
 }
 
@@ -435,7 +422,7 @@ INT_PTR __cdecl WhatsAppProto::OnAddContactToGroup(WPARAM wParam, LPARAM, LPARAM
 	if (getString((MCONTACT)lParam, "ID", &dbv))
 		return NULL;
 
-	this->connection->sendAddParticipants(string(dbv.pszVal), participants);
+	m_pConnection->sendAddParticipants(string(dbv.pszVal), participants);
 
 	db_free(&dbv);
 	return NULL;
@@ -462,7 +449,7 @@ INT_PTR __cdecl WhatsAppProto::OnRemoveContactFromGroup(WPARAM wParam, LPARAM, L
 	if (getString((MCONTACT)wParam, "ID", &dbv))
 		return NULL;
 
-	this->connection->sendRemoveParticipants(string(dbv.pszVal), participants);
+	m_pConnection->sendRemoveParticipants(string(dbv.pszVal), participants);
 
 	db_free(&dbv);
 	return NULL;
@@ -491,7 +478,7 @@ void WhatsAppProto::HandleReceiveGroups(const std::vector<string>& groups, bool 
 		if (isOwned) {
 			this->isMemberByGroupContact[hContact]; // []-operator creates entry, if it doesn't exist
 			setByte(hContact, "SimpleChatRoom", 2);
-			this->connection->sendGetParticipants(*it);
+			m_pConnection->sendGetParticipants(*it);
 		}
 		else isMember[hContact] = true;
 	}
@@ -535,7 +522,7 @@ void __cdecl WhatsAppProto::SendSetGroupNameWorker(void* data)
 
 	ptrA jid(getStringA(*((MCONTACT*)ibr->userData), WHATSAPP_KEY_ID));
 	if (jid && this->isOnline())
-		this->connection->sendSetNewSubject((char*)jid, groupName);
+		m_pConnection->sendSetNewSubject((char*)jid, groupName);
 
 	delete ibr->userData;
 	delete ibr;
@@ -547,7 +534,7 @@ void __cdecl WhatsAppProto::SendCreateGroupWorker(void* data)
 	string groupName(ibr->value);
 	mir_free(ibr->value);
 	if (this->isOnline())
-		this->connection->sendCreateGroupChat(groupName);
+		m_pConnection->sendCreateGroupChat(groupName);
 }
 
 INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM hContact, LPARAM lParam)
@@ -579,7 +566,7 @@ INT_PTR __cdecl WhatsAppProto::OnLeaveGroup(WPARAM hContact, LPARAM)
 	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
 	if (jid && this->isOnline()) {
 		setByte(hContact, "IsGroupMember", 0);
-		this->connection->sendLeaveGroup((char*)jid);
+		m_pConnection->sendLeaveGroup((char*)jid);
 	}
 	return 0;
 }

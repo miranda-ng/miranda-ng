@@ -52,9 +52,9 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	this->conn = NULL;
 
 	while (true) {
-		if (connection != NULL) {
-			delete connection;
-			connection = NULL;
+		if (m_pConnection != NULL) {
+			delete m_pConnection;
+			m_pConnection = NULL;
 		}
 		if (this->conn != NULL) {
 			delete this->conn;
@@ -85,20 +85,20 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				portNumber = 5222, resource += "-5222";
 
 			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
-			this->connection = new WAConnection(this->phoneNumber, resource, &this->connMutex, this, this);
-			this->connection->init(&writerMutex, this->conn);
+			m_pConnection = new WAConnection(this->phoneNumber, resource, &this->connMutex, this, this);
+			m_pConnection->init(&writerMutex, this->conn);
 			{
-				WALogin login(connection, password);
+				WALogin login(m_pConnection, password);
 
 				std::vector<unsigned char> *nextChallenge = login.login(*this->challenge);
 				delete this->challenge;
 				this->challenge = nextChallenge;
-				connection->setLogin(&login);
+				m_pConnection->setLogin(&login);
 			}
-			connection->nick = this->nick;
-			connection->setVerboseId(true);
+			m_pConnection->nick = this->nick;
+			m_pConnection->setVerboseId(true);
 			if (desiredStatus != ID_STATUS_INVISIBLE)
-				connection->sendAvailableForChat();
+				m_pConnection->sendAvailableForChat();
 
 			debugLogA("Set status to online");
 			this->m_iStatus = desiredStatus;
@@ -110,7 +110,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			// #TODO Move out of try block. Exception is expected on disconnect
 			while (true) {
 				this->lastPongTime = time(NULL);
-				if (!connection->read())
+				if (!m_pConnection->read())
 					break;
 			}
 			debugLogA("Exit from read-loop");
@@ -136,14 +136,14 @@ void WhatsAppProto::sentinelLoop(void*)
 	int delay = MAX_SILENT_INTERVAL;
 	int quietInterval;
 	while (WaitForSingleObjectEx(update_loop_lock_, delay * 1000, true) == WAIT_TIMEOUT) {
-		if (this->m_iStatus != ID_STATUS_OFFLINE && this->connection != NULL && this->m_iDesiredStatus == this->m_iStatus) {
+		if (this->m_iStatus != ID_STATUS_OFFLINE && m_pConnection != NULL && this->m_iDesiredStatus == this->m_iStatus) {
 			// #TODO Quiet after pong or tree read?
 			quietInterval = difftime(time(NULL), this->lastPongTime);
 			if (quietInterval >= MAX_SILENT_INTERVAL) {
 				try {
 					debugLogA("send ping");
 					this->lastPongTime = time(NULL);
-					this->connection->sendPing();
+					m_pConnection->sendPing();
 				}
 				catch (exception &e) {
 					debugLogA("Exception: %s", e.what());
@@ -162,7 +162,7 @@ void WhatsAppProto::onPing(const std::string& id)
 	if (this->isOnline()) {
 		try {
 			debugLogA("Sending pong with id %s", id.c_str());
-			this->connection->sendPong(id);
+			m_pConnection->sendPong(id);
 		}
 		CODE_BLOCK_CATCH_ALL
 	}

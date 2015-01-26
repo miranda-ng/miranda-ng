@@ -12,35 +12,35 @@
 
 static std::string nilstr;
 
-ProtocolTreeNode::ProtocolTreeNode(const string& tag, vector<unsigned char>* data, vector<ProtocolTreeNode*> *children)
+ProtocolTreeNode::ProtocolTreeNode(const string &_tag, vector<unsigned char>* _data, vector<ProtocolTreeNode*> *_children) :
+	tag(_tag)
 {
-	this->tag = tag;
-	this->data = data;
-	this->attributes = NULL;
-	this->children = children;
+	data = _data;
+	attributes = NULL;
+	children = _children;
 }
 
-ProtocolTreeNode::ProtocolTreeNode(const string& tag, ProtocolTreeNode* child)
+ProtocolTreeNode::ProtocolTreeNode(const string &_tag, ProtocolTreeNode *_child) :
+	tag(_tag)
 {
-	this->tag = tag;
 	this->data = NULL;
 	this->attributes = NULL;
-	this->children = new std::vector<ProtocolTreeNode*>(1);
-	(*this->children)[0] = child;
+	this->children = new std::vector<ProtocolTreeNode*>();
+	children->push_back(_child);
 }
 
 ProtocolTreeNode::~ProtocolTreeNode()
 {
-	if (this->attributes != NULL)
-		delete this->attributes;
+	delete this->attributes;
+
 	if (this->children != NULL) {
 		for (size_t i = 0; i < this->children->size(); i++)
 			if (this->children->at(i) != NULL)
 				delete this->children->at(i);
 		delete this->children;
 	}
-	if (this->data != NULL)
-		delete data;
+
+	delete data;
 }
 
 
