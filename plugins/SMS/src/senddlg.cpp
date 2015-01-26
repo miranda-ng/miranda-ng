@@ -240,7 +240,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			LoadMsgDlgFont(MSGFONTID_MESSAGEAREA,NULL,&colour);
 			SetTextColor((HDC)wParam,colour);
 			SetBkColor((HDC)wParam,db_get_dw(NULL,SRMMMOD,SRMSGSET_INPBKGCOLOUR,SRMSGDEFSET_BKGCOLOUR));
-			return((BOOL)psswdWindowData->hBkgBrush);
+			return((INT_PTR)psswdWindowData->hBkgBrush);
 		}
 		break;
 	case DM_TIMEOUTDECIDED:
