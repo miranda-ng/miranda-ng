@@ -108,7 +108,7 @@ INT_PTR CALLBACK TfrmMain::DlgTfrmMain(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 				return 0;
 		}
 		SetBkColor((HDC)wParam, GetSysColor(COLOR_WINDOW));
-		return (LRESULT)GetStockObject(WHITE_BRUSH); 	//GetSysColorBrush(COLOR_WINDOW);
+		return (INT_PTR)GetStockObject(WHITE_BRUSH); 	//GetSysColorBrush(COLOR_WINDOW);
 	}
 
 	CHandleMapping::iterator wnd;

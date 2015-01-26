@@ -54,7 +54,7 @@ INT_PTR CALLBACK TfrmAbout::DlgTfrmAbout(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			default:
 				return FALSE;
 		}
-		return (LRESULT)GetStockObject(WHITE_BRUSH); 	//GetSysColorBrush(COLOR_WINDOW);
+		return (INT_PTR)GetStockObject(WHITE_BRUSH); 	//GetSysColorBrush(COLOR_WINDOW);
 	}
 
 	CHandleMapping::iterator wnd(_HandleMapping.end());
