@@ -278,7 +278,7 @@ void WAConnection::parseAck(ProtocolTreeNode *node) throw(WAException)
 	const string &id = node->getAttributeValue("id");
 	const string &ts = node->getAttributeValue("t");
 
-	if (this->event_handler != NULL) {
+	if (cls == "message" && this->event_handler != NULL) {
 		FMessage msg(new Key(from, true, id));
 		msg.status = FMessage::STATUS_RECEIVED_BY_SERVER;
 		this->event_handler->onMessageStatusUpdate(&msg);
@@ -346,9 +346,10 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 		if (receiptRequested)
 			sendSubjectReceived(from, id);
 	}
-	else if (typeAttribute == "chat") {
+	else if (typeAttribute == "chat" || typeAttribute == "text") {
 		FMessage* fmessage = new FMessage();
 		fmessage->wants_receipt = false;
+		fmessage->timestamp = atoi(attribute_t.c_str());
 		bool duplicate = false;
 
 		std::vector<ProtocolTreeNode*> messageChildren(messageNode->getAllChildren());

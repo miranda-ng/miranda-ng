@@ -30,10 +30,11 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 
 	// Create standard network connection
 	TCHAR descr[512];
+	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
+
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_sntprintf(descr, SIZEOF(descr), TranslateT("%s server connection"), m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (m_hNetlibUser == NULL)
@@ -74,7 +75,7 @@ DWORD_PTR WhatsAppProto::GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_3:
 		return 0;
 	case PFLAGNUM_4:
-		return PF4_NOCUSTOMAUTH | PF4_IMSENDUTF | PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_NOAUTHDENYREASON | PF4_SUPPORTTYPING | PF4_AVATARS;
+		return PF4_NOCUSTOMAUTH | PF4_IMSENDUTF | PF4_FORCEADDED | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_SUPPORTTYPING | PF4_AVATARS;
 	case PFLAGNUM_5:
 		return 0;
 	case PFLAG_MAXLENOFMESSAGE:
