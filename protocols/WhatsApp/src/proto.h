@@ -9,28 +9,19 @@ public:
 	WhatsAppProto(const char *proto_name, const TCHAR *username);
 	~WhatsAppProto( );
 
-	inline const char* ModuleName() const
-	{
-		return m_szModuleName;
+	inline bool isOnline() const
+	{	return (m_pConnection != NULL);
 	}
 
-	inline bool isOnline()
-	{
-		return (m_iStatus != ID_STATUS_OFFLINE && m_iStatus != ID_STATUS_CONNECTING &&
-			connection != NULL);
+	inline bool isOffline() const
+	{	return (m_iStatus == ID_STATUS_OFFLINE);
 	}
 
-	inline bool isOffline()
-	{
-		return (m_iStatus == ID_STATUS_OFFLINE);
+	inline bool isInvisible() const
+	{	return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
 
-	inline bool isInvisible()
-	{
-		return (m_iStatus == ID_STATUS_INVISIBLE);
-	}
-
-	//PROTO_INTERFACE
+	// PROTO_INTERFACE
 
 	virtual	MCONTACT __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
 	virtual	MCONTACT __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) { return NULL; }
@@ -76,9 +67,9 @@ public:
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam) { return 1; }
 
-	////////////////////////
-
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Services
+
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
@@ -86,9 +77,9 @@ public:
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 
-	int __cdecl RequestFriendship(WPARAM, LPARAM);
-
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Events
+
 	int __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
 	int __cdecl OnChatOutgoing(WPARAM, LPARAM);
 	int __cdecl OnPrebuildContactMenu(WPARAM, LPARAM);
@@ -103,11 +94,15 @@ public:
 	void __cdecl stayConnectedLoop(void*);
 	void __cdecl sentinelLoop(void*);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Processing Threads
+
 	void __cdecl ProcessBuddyList(void*);
 	void __cdecl SearchAckThread(void*);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Worker Threads
+
 	void __cdecl SendMsgWorker(void*);
 	void __cdecl RecvMsgWorker(void*);
 	void __cdecl SendTypingWorker(void*);
@@ -115,7 +110,9 @@ public:
 	void __cdecl SendSetGroupNameWorker(void*);
 	void __cdecl SendCreateGroupWorker(void*);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Contacts handling
+
 	MCONTACT AddToContactList(const std::string &jid, BYTE type = 0, bool dont_check = false,
 		const char *new_name = NULL, bool isChatRoom = false, bool isHidden = false);
 	bool     IsMyContact(MCONTACT hContact, bool include_chat = false);
@@ -125,20 +122,28 @@ public:
 	TCHAR*   GetContactDisplayName(const string &jid);
 	void     InitContactMenus();
 	void     HandleReceiveGroups(const std::vector<string> &groups, bool isOwned);
+	void     RequestFriendship(MCONTACT hContact);
 
 	bool IsGroupChat(MCONTACT hC, bool checkIsAdmin = false)
 	{
 		return getByte(hC, "SimpleChatRoom", 0) > (checkIsAdmin ? 1 : 0);
 	}
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Registration
+
 	bool Register(int state, const string &cc, const string &number, const string &code, string &password);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
+
 	std::tstring GetAvatarFolder();
 	void ToggleStatusMenuItems(BOOL bEnable);
+	LONG GetSerial(void);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Handles, Locks
+
 	HGENMENU m_hMenuRoot;
 	HANDLE  m_hMenuCreateGroup;
 
@@ -149,7 +154,7 @@ public:
 	std::tstring def_avatar_folder_;
 
 	WASocketConnection* conn;
-	WAConnection* connection;
+	WAConnection* m_pConnection;
 	Mutex connMutex;
 	int lastPongTime;
 
@@ -162,7 +167,13 @@ public:
 	std::map<string, MCONTACT> hContactByJid;
 	map<MCONTACT, map<MCONTACT, bool>> isMemberByGroupContact;
 
+private:
+	LONG m_serial;
+
+	//////////////////////////////////////////////////////////////////////////////////////
 	// WhatsApp Events
+
+protected:
 	virtual void onMessageForMe(FMessage* paramFMessage, bool paramBoolean);
 	virtual void onMessageStatusUpdate(FMessage* paramFMessage);
 	virtual void onMessageError(FMessage* message, int paramInt) { ; }
@@ -198,7 +209,9 @@ public:
 	virtual void onParticipatingGroups(const std::vector<string>& paramVector);
 	virtual void onLeaveGroup(const std::string& paramString);
 
+	//////////////////////////////////////////////////////////////////////////////////////
 	// Information providing
+
 	void NotifyEvent(const TCHAR *title, const TCHAR *info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
 	void NotifyEvent(const std::string &title, const std::string &info, MCONTACT contact, DWORD flags, TCHAR *url = NULL);
 };

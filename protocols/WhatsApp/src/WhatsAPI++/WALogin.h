@@ -44,7 +44,7 @@ public:
 class WALogin {
 private:
 	static const std::string NONCE_KEY;
-	WAConnection *connection;
+	WAConnection *m_pConnection;
 
 	std::vector<unsigned char>* getAuthBlob(const std::vector<unsigned char>& nonce);
 	void sendResponse(const std::vector<unsigned char>& challengeData);

@@ -35,7 +35,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 	recv.timestamp = paramFMessage->timestamp; //time(NULL);
 	ProtoChainRecvMsg(hContact, &recv);
 
-	this->connection->sendMessageReceived(paramFMessage);
+	m_pConnection->sendMessageReceived(paramFMessage);
 }
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
@@ -59,7 +59,7 @@ void WhatsAppProto::SendMsgWorker(void* p)
 		ProtoBroadcastAck(data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED,
 			(HANDLE)(this->msgIdHeader + this->msgId), (LPARAM) "You cannot send messages to groups if you are not a member.");
 	}
-	else if (!getString(data->hContact, "ID", &dbv) && this->connection != NULL) {
+	else if (!getString(data->hContact, "ID", &dbv) && m_pConnection != NULL) {
 		try {
 			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_STATE, 2);
 			setDword(data->hContact, WHATSAPP_KEY_LAST_MSG_ID_HEADER, this->msgIdHeader);
@@ -74,7 +74,7 @@ void WhatsAppProto::SendMsgWorker(void* p)
 
 			db_free(&dbv);
 
-			this->connection->sendMessage(&fmsg);
+			m_pConnection->sendMessage(&fmsg);
 		}
 		catch (exception &e) {
 			debugLogA("exception: %s", e.what());
@@ -103,7 +103,7 @@ void WhatsAppProto::RecvMsgWorker(void *p)
 
 	//WAConnection.cpp l1225 - message will be deleted. We cannot send the ack inside a thread!
 	//FMessage *fmsg = static_cast<FMessage*>(p);
-	//this->connection->sendMessageReceived(fmsg);
+	//m_pConnection->sendMessageReceived(fmsg);
 
 	//delete fmsg;
 }
@@ -139,9 +139,9 @@ void WhatsAppProto::SendTypingWorker(void* p)
 	ptrA jid(getStringA(typing->hContact, WHATSAPP_KEY_ID));
 	if (jid && this->isOnline()) {
 		if (typing->status == PROTOTYPE_SELFTYPING_ON)
-			this->connection->sendComposing((char*)jid);
+			m_pConnection->sendComposing((char*)jid);
 		else
-			this->connection->sendPaused((char*)jid);
+			m_pConnection->sendPaused((char*)jid);
 	}
 
 	delete typing;

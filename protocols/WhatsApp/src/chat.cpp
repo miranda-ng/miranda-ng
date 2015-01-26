@@ -16,7 +16,6 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
 	char *text;
-	char *id;
 
 	if (strcmp(hook->pDest->pszModule, m_szModuleName))
 		return 0;
@@ -27,7 +26,7 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 		{
 			std::string msg = text;
 
-			id = mir_t2a_cp(hook->pDest->ptszID, CP_UTF8);
+			char *id = mir_t2a_cp(hook->pDest->ptszID, CP_UTF8);
 			std::string chat_id = id;
 
 			mir_free(text);
@@ -65,4 +64,3 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
-

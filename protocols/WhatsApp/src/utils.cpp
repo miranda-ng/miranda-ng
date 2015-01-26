@@ -1,5 +1,10 @@
 #include "common.h"
 
+LONG WhatsAppProto::GetSerial(void)
+{
+	return ::InterlockedIncrement(&m_serial);
+}
+
 std::string getLastErrorMsg()
 {
 	// Retrieve the system error message for the last-error code
