@@ -59,7 +59,8 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 struct PARAM
 {
 	LPCSTR szName;
-	__forceinline PARAM(LPCSTR _name) : szName(_name) {}
+	__forceinline PARAM(LPCSTR _name) : szName(_name) 
+	{}
 };
 
 struct INT_PARAM : public PARAM
@@ -67,8 +68,7 @@ struct INT_PARAM : public PARAM
 	int iValue;
 	__forceinline INT_PARAM(LPCSTR _name, int _value) :
 		PARAM(_name), iValue(_value)
-	{
-	}
+	{}
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const INT_PARAM&);
 
@@ -77,8 +77,7 @@ struct CHAR_PARAM : public PARAM
 	LPCSTR szValue;
 	__forceinline CHAR_PARAM(LPCSTR _name, LPCSTR _value) :
 		PARAM(_name), szValue(_value)
-	{
-	}
+	{}
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const CHAR_PARAM&);
 
@@ -87,8 +86,7 @@ struct TCHAR_PARAM : public PARAM
 	LPCTSTR tszValue;
 	__forceinline TCHAR_PARAM(LPCSTR _name, LPCTSTR _value) :
 		PARAM(_name), tszValue(_value)
-	{
-	}
+	{}
 };
 AsyncHttpRequest* operator<<(AsyncHttpRequest*, const TCHAR_PARAM&);
 
@@ -111,7 +109,8 @@ struct CVkChatMessage : public MZeroedObject
 		m_mid(_id),
 		m_uid(0),
 		m_date(0),
-		m_bHistory(false){}
+		m_bHistory(false)
+	{}
 
 	int m_mid, m_uid, m_date;
 	bool m_bHistory;
@@ -140,7 +139,7 @@ struct CVkChatInfo : public MZeroedObject
 		m_admin_id(0),
 		m_bHistoryRead(0),
 		m_hContact(INVALID_CONTACT_ID)
-		{}
+	{}
 
 	int m_chatid, m_admin_id;
 	bool m_bHistoryRead;
@@ -201,13 +200,14 @@ struct CVKNotification {
 
 
 struct CVKNewsItem : public MZeroedObject {
-	CVKNewsItem()
-	{
-		tDate = NULL;
-		vkUser = NULL;
-		bIsGroup = bIsRepost = false;
-		vkFeedbackType = vkParentType = vkNull;
-	};
+	CVKNewsItem() : 
+		tDate(NULL),
+		vkUser(NULL),
+		bIsGroup(false),
+		bIsRepost(false),
+		vkFeedbackType(vkNull), 
+		vkParentType(vkNull)
+	{}
 	
 	CMString tszId;
 	time_t tDate;
