@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -137,7 +137,7 @@
 [Ignore sending timeouts]
 [Load only actual history]
 [Always trim message log to]
-[Events]
+[events]
 [Only show tab bar when it's needed]
 [Container stays on top]
 [Vertical maximize]
@@ -703,7 +703,7 @@
 [Tabs and layout]
 [Containers]
 [Message log]
-[Typing Notify]
+[Typing notify]
 [Event notifications]
 [Message window]
 [Load and apply]
@@ -794,16 +794,16 @@
 [Advanced with avatars, vertical orientation]
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
-[%d Unread]
+[%d unread]
 [Chat room %s]
-[%d User(s)]
+[%d user(s)]
 [Server window]
 [%s on %s%s]
 ;file \plugins\TabSRMM\src\templates.cpp
-[Template Set Editor]
+[Template set editor]
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 ;file \plugins\TabSRMM\src\themeio.cpp
@@ -870,8 +870,8 @@
 [Show seconds in timestamps]
 [Use contacts local time (if timezone info available)]
 [Draw grid lines]
-[Use Incoming/Outgoing Icons]
-[Use Message Grouping]
+[Use incoming/outgoing icons]
+[Use message grouping]
 [Simple text formatting (*bold*, etc.)]
 [Support BBCode formatting]
 [Place a separator in the log after a window lost its foreground status]
@@ -1059,7 +1059,7 @@
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 [user-defined account name of current contact (if defined).]
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
 [path to Miranda root folder]
 [path to folder containing Miranda profiles]
 [name of current Miranda profile (filename, without extension)]
@@ -1081,8 +1081,8 @@
 [abbreviated weekday name]
 [full weekday name]
 [Variables]
-[All Files]
-[Select Folder]
+[All files]
+[Select folder]
 [No markers]
 [Show as icons]
 [Show as text symbols]
@@ -1091,16 +1091,16 @@
 [Look up '%s':]
 [No word to look up]
 [&Message %s]
-[Highlight User...]
-[Edit Highlight List...]
+[Highlight user...]
+[Edit highlight list...]
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 [Nick]
-[%s: Chat Room (%u user%s)]
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u user%s)]
+[%s: chat room (%u users%s)]
 [, event filter active]
-[%s: Message Session]
-[%s: Message Session (%u users)]
+[%s: message session]
+[%s: message session (%u users)]
 [, %d %s, %d %s idle]
 [hours]
 [hour]

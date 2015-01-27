@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.40
+;  Version: 0.1.0.43
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -95,6 +95,8 @@ E-mail или номер телефона:
 Помечать все входящие сообщения как "Непрочитанное"
 [Force online status upon user activity]
 Переводить статус контакта в онлайн при его активности
+[Use non-standard urlEncode for sent messages (less traffic)]
+Использовать нестандартный urlEncode для сообщений (экономия трафика)
 [When I ban user...]
 При бане пользователя...
 [Report abuse]
