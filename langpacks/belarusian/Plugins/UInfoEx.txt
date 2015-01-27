@@ -1106,11 +1106,11 @@ Web Дызайн
 [%s has birthday in %d days.]
 %s адзначае дзень нараджэння праз %d дзён.
 [\nHe/she becomes %d years old.]
-\nЁй/яму выканаецца %d.
+\nЁй/яму спаўняецца %d.
 [\nHe becomes %d years old.]
-\nЯму выканаецца %d.
+\nЯму спаўняецца %d.
 [\nShe becomes %d years old.]
-\nЁй выканаецца %d.
+\nЁй спаўняецца %d.
 [No anniversaries to remind of]
 Няма свят, пра якія трэба абвясціць
 [Backing up and syncing all birthdays complete!]
