@@ -93,7 +93,7 @@ static INT_PTR __cdecl EMPLoadIcon(WPARAM wParam, LPARAM)
 	return (INT_PTR)res;
 }
 
-static INT_PTR __cdecl EMPGetStatus(WPARAM ,LPARAM )
+static INT_PTR __cdecl EMPGetStatus(WPARAM ,LPARAM)
 {
 	return g_lan->GetMirandaStatus();
 }
@@ -349,6 +349,7 @@ INT_PTR CALLBACK EMPDlgProcMessage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 extern "C" int __declspec(dllexport) __cdecl Load()
 {
 	mir_getLP(&pluginInfo);
+	g_lan = new CMLan();
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = PROTONAME;
@@ -379,7 +380,6 @@ extern "C" int __declspec(dllexport) __cdecl Load()
 
 	g_heOptions = HookEvent(ME_OPT_INITIALISE,EMPCreateOptionsDlg);
 
-	g_lan = new CMLan();
 	return 0;
 }
 
