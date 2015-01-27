@@ -798,7 +798,12 @@ void WAConnection::sendPaused(const std::string& to) throw(WAException)
 
 void WAConnection::sendPing() throw(WAException)
 {
-	this->out->write(ProtocolTreeNode(""));
+	std::string id = makeId("ping_");
+	this->pending_server_requests[id] = new IqResultPingHandler(this);
+
+	ProtocolTreeNode *pingNode = new ProtocolTreeNode("ping");
+	this->out->write(ProtocolTreeNode("iq", pingNode) 
+		<< XATTR("id", id) << XATTR("xmlns", "w:p") << XATTR("type", "get") << XATTR("to", "s.whatsapp.net"));
 }
 
 void WAConnection::sendPong(const std::string& id) throw(WAException)
