@@ -97,7 +97,7 @@ Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodząc
 [Force online status upon user activity]
 Wymuś dostępny status po wykazaniu aktywności przez użytkownika
 [Use non-standard urlEncode for sent messages (less traffic)]
-
+Używaj niestandardowego kodowania linków w wysyłanych wiadomościach (mniejsze zużycie danych)
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]
