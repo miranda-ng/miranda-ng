@@ -47,7 +47,7 @@
 #define WHATSAPP_RECV_MESSAGE 1
 #define WHATSAPP_SEND_MESSAGE 2
 
-#define MAX_SILENT_INTERVAL 210
+#define MAX_SILENT_INTERVAL 55
 
 // Event flags
 #define WHATSAPP_EVENT_CLIENT          0x10000000 // WhatsApp error or info message

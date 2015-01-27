@@ -266,7 +266,10 @@ void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 			this->realOut->log(tmp.c_str());
 		}
 		#endif
-		writeInternal(node);
+		if (node.tag.empty())
+			this->out->write(0);
+		else
+			writeInternal(node);
 		flushBuffer(needsFlush);
 	}
 	catch (exception& ex) {
