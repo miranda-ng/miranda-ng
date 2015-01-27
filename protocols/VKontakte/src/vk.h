@@ -87,3 +87,5 @@ bool tlstrstr(TCHAR* _s1, TCHAR* _s2);
 
 void InitIcons(void);
 HANDLE GetIconHandle(int iCommand);
+
+char* ExpUrlEncode(const char *szUrl, bool strict = false);

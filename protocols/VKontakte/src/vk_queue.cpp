@@ -159,7 +159,7 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const CHAR_PARAM &param)
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');
-	s.AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(param.szValue)));
+	s.AppendFormat("%s=%s", param.szName, ptrA(pReq->bExpUrlEncode ? ExpUrlEncode(param.szValue) : mir_urlEncode(param.szValue)));
 	return pReq;
 }
 
@@ -169,6 +169,6 @@ AsyncHttpRequest* operator<<(AsyncHttpRequest *pReq, const TCHAR_PARAM &param)
 	CMStringA &s = pReq->m_szParam;
 	if (!s.IsEmpty())
 		s.AppendChar('&');
-	s.AppendFormat("%s=%s", param.szName, ptrA(mir_urlEncode(szValue)));
+	s.AppendFormat("%s=%s", param.szName, ptrA(pReq->bExpUrlEncode ? ExpUrlEncode(szValue) : mir_urlEncode(szValue)));
 	return pReq;
 }

@@ -113,7 +113,7 @@ void CVkProto::RetrieveChatInfo(CVkChatInfo *cc)
 	debugLogA("CVkProto::RetrieveChantInfo(%d)", cc->m_chatid);
 	if (!IsOnline())
 		return;
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo) 
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveChatInfo)
 		<< CHAR_PARAM("code", szQuery)
 		<< VER_API)->pUserInfo = cc;
 }
