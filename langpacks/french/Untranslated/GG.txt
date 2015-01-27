@@ -1,7 +1,7 @@
 ﻿[Show links from unknown contacts]
 [Enable avatars]
 [Automatically reconnect after unintentional disconnection]
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
 [Concurrent Sessions]
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]

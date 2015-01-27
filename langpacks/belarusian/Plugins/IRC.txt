@@ -132,10 +132,10 @@ ID кантакта
 Уключыць аўтавызначэнне UTF8
 [Add server]
 Дадаць сервер
-[On]
-Укл
 [Auto]
 Аўта
+[On]
+Укл
 [Off]
 Адкл.
 [Host address]
@@ -488,6 +488,8 @@ WhoIs
 <Аўтаматычна>
 [<Local IP: ]
 <Лакальны IP:>
+[ALL NETWORKS]
+Усе пратаколы
 [Click to set commands that will be performed for this event]
 Клікніце для каманд апрацоўкі гэтай падзеі
 [Click to delete the commands for this event]

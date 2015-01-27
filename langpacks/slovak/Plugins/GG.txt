@@ -56,7 +56,7 @@ Navždy zachovať pripojenie
 
 [Automatically reconnect after unintentional disconnection]
 
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Odoslať správy s overením (pomalšie odoslanie)
 [Manually specify connection servers' hosts]
 

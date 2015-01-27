@@ -65,6 +65,7 @@
 [OTR private]
 [OTR not secure]
 [OTR]
+[Refresh]
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 [Fingerprints]
 [Policy]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.7.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Take a screenshot and send it to a contact.]
@@ -26,7 +26,7 @@ Cancelar
 
 [&Format:]
 
-[Send B&y:]
+[Send b&y:]
 
 [E&xplore]
 
@@ -42,10 +42,8 @@ Cancelar
 
 [About]
 Acerca de...
-[%s\nv%s]
+[Copyright]
 
-[Credits >]
-Créditos >
 [&Close]
 &Cerrar
 [Edit]
@@ -54,11 +52,11 @@ Editar
 
 [Size (HxW):]
 
-[C&lient Area]
+[C&lient area]
 
-[indirect capture]
+[Indirect capture]
 
-[Target Tool]
+[Target tool]
 
 [File:]
 
@@ -169,32 +167,7 @@ Ignorar
 [SendScreenshot - Error]
 
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[Fatal error, image services not found. Send Screenshot will be disabled.]
-
-[Open SendSS+]
-
-[SendSS]
-
-[Screenshots]
-
-[SendSS HTTP connections]
-
-[Could not create main dialog.]
-
-[Send Screenshot]
-
-[Send desktop screenshot]
-
-[Take a screenshot]
-
-[Could not register Miranda service.]
-
-[Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-
-;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Screenshot Icon1]
-
-[Screenshot Icon2]
+[Main Icon]
 
 [Target Cursor]
 
@@ -226,17 +199,30 @@ Actualizar
 
 [Down arrow]
 Flecha abajo
-;file \plugins\SendScreenshotPlus\src\mir_icolib.h
+[Could not create screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
+
+[Could not create main dialog.]
+
+[SendSS HTTP connections]
+
+[SendSS]
+
+[Screenshots]
+
+[Image services (AdvaImg) not found.\nSendSS disabled.]
+
 [Buttons]
 
-[Overlays]
+[Could not register Miranda service.]
+
+[Take a screenshot]
+
+[Send desktop screenshot]
+
+[Open SendSS+]
 
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [Credits]
-
-[< Copyright]
-< Copyright
-[Copyright]
 
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&Drop the target on the desired window.]
@@ -277,7 +263,7 @@ Información
 
 [Capture]
 
-[Can't create a Screenshot]
+[Couldn't take a screenshot]
 
 [Select a file]
 
@@ -290,4 +276,6 @@ Información
 [of "]
 
 [" Window]
+
+[Send screenshot?]
 

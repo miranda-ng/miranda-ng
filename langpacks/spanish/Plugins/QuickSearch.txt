@@ -9,6 +9,8 @@
 
 [Quick Search]
 
+[Quick search]
+
 [Title]
 
 [Module/InfoType]

@@ -245,7 +245,7 @@ Mmm... comida.
 
 [Do you really want to add %s to your friend list?]
 
-[Add me to your friends list.]
+[Add me to your friend list.]
 
 [XFire is not connected.]
 

@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.3
+;  Version: 0.95.4
 ;============================================================
 [Enter account name (for example, My Google)]
 Въведете име на акаунта
@@ -1567,6 +1567,10 @@ Popups за изобразяване
 Включване/Изключване на филтъра за събития (CTRL+F)
 [Close current tab (CTRL+F4)]
 Затваряне на текущия таб (CTRL+F4)
+[Nickname]
+Прякор
+[Unique ID]
+Уникален ID
 [%s: chat room (%u user)]
 %s: Чат стая (%u потребител)
 [%s: chat room (%u users)]
@@ -1575,10 +1579,6 @@ Popups за изобразяване
 %s: Разговор
 [%s: message session (%u users)]
 %s: Разговор (%u потребителя)
-[Nickname]
-Прякор
-[Unique ID]
-Уникален ID
 [Standard contacts]
 Стандартни контакти
 [Online contacts to whom you have a different visibility]
@@ -1793,6 +1793,8 @@ Popups за изобразяване
 Контакт спря да пише
 [An unknown error has occurred.]
 Възникна непозната грешка.
+[Host we are connecting to is not the one certificate was issued for]
+Хоста към който се свързвате не е този, за който е издаден сертификата
 [Invalid message]
 Невалидно съобщение
 [Outgoing message]
@@ -2251,8 +2253,6 @@ URL
 <Всички връзки>
 [Network]
 Мрежа
-[Host we are connecting to is not the one certificate was issued for]
-Хоста към който се свързвате не е този, за който е издаден сертификата
 [<all modules>]
 <всички модули>
 [<core modules>]
@@ -2265,14 +2265,14 @@ URL
 Настройки на Miranda NG
 [&Options...]
 Настройки...
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
-[Fatal error]
-Фатална грешка
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 "%s" е изключена, желаете да бъде включена?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
+[Fatal error]
+Фатална грешка
 [Unable to load plugin in service mode!]
 Зареждането на приставката в сервизен режим е невъзможно!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

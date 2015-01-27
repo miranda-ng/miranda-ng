@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -266,7 +266,7 @@ Ignoruj limity czasu wysyłania
 Wczytaj tylko aktualną historię
 [Always trim message log to]
 Zawsze skracaj dziennik wiadomości do
-[Events]
+[events]
 Zdarzenia
 [Only show tab bar when it's needed]
 Pokaż pasek kart tylko, jeśli jest potrzebny
@@ -1383,7 +1383,7 @@ Karty i układ
 Kontenery
 [Message log]
 Dziennik wiadomości
-[Typing Notify]
+[Typing notify]
 Pisanie
 [Event notifications]
 Zdarzenia
@@ -1558,23 +1558,23 @@ Zaawansowany układ awatarów, orientacja pionowa
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 Ta wersja TabSRMM wymaga Windows 2000 lub nowszego.
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 Wiadomość TabSRMM (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Podglądy niedostępne, gdy History++ jest używany do wyświetlania dziennika wiadomości.
-[%d Unread]
+[%d unread]
 %d nieprzeczytane
 [Chat room %s]
 W pokoju jest %s
-[%d User(s)]
+[%d user(s)]
 %d użytkownik(ów)
 [Server window]
 Okno serwera
 [%s on %s%s]
 %s (%s)%s
 ;file \plugins\TabSRMM\src\templates.cpp
-[Template Set Editor]
+[Template set editor]
 Edytor zbioru szablonów
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
@@ -1705,9 +1705,9 @@ Pokaż sekundy w czasie
 Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
 [Draw grid lines]
 Rysuj linie dzielące zdarzenia w dzienniku
-[Use Incoming/Outgoing Icons]
+[Use incoming/outgoing icons]
 Użyj ikon dla Przychodzących/Wychodzących
-[Use Message Grouping]
+[Use message grouping]
 Użyj grupowania wiadomości
 [Simple text formatting (*bold*, etc.)]
 Proste formatowanie tekstu (*pogrubienie* itp.)
@@ -2075,7 +2075,7 @@ nick obecnego kontaktu (jeśli zdefiniowany)
 Nazwa protokołu obecnego kontaktu jeśli zdefiniowana. Jeśli protokół wspiera kilka kont, używana jest nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
 folder docelowy Mirandy
@@ -2119,9 +2119,9 @@ skrócona nazwa dnia tygodnia
 pełna nazwa dnia roboczego
 [Variables]
 Zmienne
-[All Files]
+[All files]
 Wszystkie pliki
-[Select Folder]
+[Select folder]
 Wybierz folder
 [No markers]
 Brak znaków
@@ -2138,24 +2138,24 @@ Zobacz "%s":
 Nie podano słowa do wyszukania
 [&Message %s]
 &Wiadomość %s
-[Highlight User...]
+[Highlight user...]
 Podświetlany użytkownik...
-[Edit Highlight List...]
+[Edit highlight list...]
 Edytuj listę podświetleń...
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 Unikalne ID
 [Nick]
 Nick
-[%s: Chat Room (%u user%s)]
+[%s: chat room (%u user%s)]
 Pokój czatowy: %s (jest %u%s użytkownik(ów))
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u users%s)]
 Pokój czatowy: %s (jest %u%s użytkownik(ów))
 [, event filter active]
 , filtr zdarzeń włączony
-[%s: Message Session]
+[%s: message session]
 %s: Rozmowa
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Rozmowa (%u użytkowników)
 [, %d %s, %d %s idle]
 , %d %s, %d %s bezczynny

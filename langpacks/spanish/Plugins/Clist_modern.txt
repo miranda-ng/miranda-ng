@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -322,21 +322,25 @@ Mostrar estado sobre herramientas
 Desactivar parpadeo de icono
 [ms, delay between icon blinking]
 ms, retardo entre parpadeo del icono
-[Show]
-Mostrar
-[Cycle icons every]
-Ciclo de iconos de cada
-[seconds, when statuses differ]
-segundos, cuando el estado cambia
-[Show multiple icons]
-Mostrar varios iconos
-[only when statuses differ]
-sólo cuando el estado cambia
 [System tray icon]
 Icono de la bandeja de sistema
-[System tray icon mode]
-
 [Use xStatus icon]
+
+[Icon mode]
+
+[For similar statuses]
+
+[Global status]
+
+[Single account]
+
+[Cycle icons]
+
+[All accounts]
+
+[For different statuses]
+
+[Cycle period, seconds]
 
 [Additional stuff]
 
@@ -760,8 +764,6 @@ Nombre
 
 [-Nothing-]
 
-[Global]
-Global
 [Hide to tray]
 
 [Behind left edge]

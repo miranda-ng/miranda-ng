@@ -221,7 +221,7 @@ Alertas
 
 [&Bring All to Front]
 
-[Miranda could not load the Notes & Reminders plugin, riched20.dll is missing. If you are using WINE, please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the Notes & Reminders plugin, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [Black]

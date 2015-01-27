@@ -227,6 +227,8 @@ Protocole
 
 [Windows Phone overlay]
 
+[Mobile overlay]
+
 [debug overlay]
 
 [office overlay]

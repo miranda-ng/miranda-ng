@@ -1687,7 +1687,7 @@ Nauru
 
 [Messaging]
 Mensajería
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 
 [Enable avatars]
 

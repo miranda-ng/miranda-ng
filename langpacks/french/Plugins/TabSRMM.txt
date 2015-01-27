@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -266,7 +266,7 @@ Ignorer l'envoi de timeouts
 Charger uniquement l'historique en cours
 [Always trim message log to]
 Toujours fixer à
-[Events]
+[events]
 Évènements
 [Only show tab bar when it's needed]
 Voir la barre d'onglet si nécessaire
@@ -1383,7 +1383,7 @@ Onglets
 Conteneurs
 [Message log]
 Historique récent
-[Typing Notify]
+[Typing notify]
 Notification de frappe
 [Event notifications]
 
@@ -1558,23 +1558,23 @@ Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fe
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 Message TabSRMM (%s)
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 
-[%d Unread]
+[%d unread]
 
 [Chat room %s]
 
-[%d User(s)]
+[%d user(s)]
 
 [Server window]
 Fenêtre du serveur
 [%s on %s%s]
 
 ;file \plugins\TabSRMM\src\templates.cpp
-[Template Set Editor]
+[Template set editor]
 Éditeur de modèles
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ceci remettra tous vos modèles à l'état d'origine. Êtes-vous sûr de vouloir continuer ?
@@ -1705,9 +1705,9 @@ Afficher les dates dans l'horodatage
 Utiliser l'heure locale du contact (si le fuseaux horaire est renseigné)
 [Draw grid lines]
 Afficher les lignes horizontales
-[Use Incoming/Outgoing Icons]
+[Use incoming/outgoing icons]
 Utiliser icônes entrantes/sortantes
-[Use Message Grouping]
+[Use message grouping]
 Grouper les messages
 [Simple text formatting (*bold*, etc.)]
 Formatage simple des textes (*bold* etc.)
@@ -2075,7 +2075,7 @@ Fond de la liste
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
 
 [path to Miranda root folder]
 
@@ -2119,9 +2119,9 @@ Fond de la liste
 
 [Variables]
 
-[All Files]
+[All files]
 Tous les fichiers
-[Select Folder]
+[Select folder]
 Sélectionnez un répertoire
 [No markers]
 
@@ -2138,24 +2138,24 @@ Sélectionnez un répertoire
 Aucun mot à chercher
 [&Message %s]
 &Message %s
-[Highlight User...]
+[Highlight user...]
 
-[Edit Highlight List...]
+[Edit highlight list...]
 
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 ID unique
 [Nick]
 Pseudo
-[%s: Chat Room (%u user%s)]
+[%s: chat room (%u user%s)]
 %s : Salon de Chat (%u contact%s)
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u users%s)]
 %s : Salon de Chat (%u contact%s)
 [, event filter active]
 , filtre d'évènement actif
-[%s: Message Session]
+[%s: message session]
 %s : Session de message
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s : Session de message (%u usagers)
 [, %d %s, %d %s idle]
 

@@ -1687,7 +1687,7 @@ Sie können Ihr Passwort nur ändern, wenn Sie online sind.
 Du musst Online sein
 [Messaging]
 Nachrichten
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Nachrichten langsamer, aber mit voller Bestätigung senden
 [Enable avatars]
 Avatare aktivieren

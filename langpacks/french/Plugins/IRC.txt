@@ -132,9 +132,9 @@ Page de code du serveur :
 Auto-détection de l'UTF8
 [Add server]
 Ajouter serveur
-[On]
-
 [Auto]
+
+[On]
 
 [Off]
 

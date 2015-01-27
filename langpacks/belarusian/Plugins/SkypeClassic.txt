@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
@@ -114,11 +114,11 @@
 Паказваць ў спісе кантактаў поўнае імя замест мянушкі
 [SkypeOut contacts are in status:]
 SkypeOut кантакты ў статусе:
-[Cleanup Nicknames]
+[Cleanup nicknames]
 Сцерці мянушкі
-[Skype Popups]
+[Skype popups]
 Усплывальныя вокны Skype
-[Incoming Calls]
+[Incoming calls]
 Уваходныя званкі
 [Show incoming calls]
 Паказаць уваходныя званкі
@@ -132,7 +132,7 @@ SkypeOut кантакты ў статусе:
 Тэкст
 [Preview]
 Прагляд
-[Error Messages]
+[Error messages]
 Памылкі
 [Display error messages]
 Паказваць памылкі
@@ -162,7 +162,7 @@ SkypeOut кантакты ў статусе:
 Я
 [&Leave chat session]
 &Пакінуць сеанс
-[Set &Topic...]
+[Set &topic...]
 Усталяваць тэму...
 [User &details]
 &Інфармацыя
@@ -175,7 +175,7 @@ SkypeOut кантакты ў статусе:
 Пазваніць па SkypeOut
 [Phone call]
 Званок
-[Incoming Skype Call]
+[Incoming Skype call]
 Уваходны званок Skype
 [Incoming call from %s]
 Уваходны званок Skype ад %s
@@ -183,8 +183,9 @@ SkypeOut кантакты ў статусе:
 Далучэнне да Skype згублена
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Вы ў першы раз запусцілі пратакол Skype. Хочаце ўключыць яго для гэтага профіля  Miranda? Калі вы адмовіцеся, яго можна будзе ўключыць потым у наладах.
+;file \protocols\SkypeClassic\src\skypeapi.cpp
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview Error Message]
+[Preview error message]
 Прадпрагляд памылкі
 [Skype default]
 Змаўчанні Skype
@@ -192,8 +193,6 @@ SkypeOut кантакты ў статусе:
 Skype дадаткова
 [Skype proxy]
 Skype проксі
-[Avatar]
-Аватар
 [Details]
 Дэталі
 [MALE]

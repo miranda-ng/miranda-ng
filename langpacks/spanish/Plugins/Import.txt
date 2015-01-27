@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.3
+;  Version: 0.95.3.4
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -89,6 +89,10 @@ Otro
 
 [New account]
 Nueva cuenta
+[Protocol %S is not loaded, skipping account %s creation]
+
+[Unable to create an account %s of protocol %S]
+
 [Failed to add %S contact %s]
 
 [Added %S contact %s, '%s']

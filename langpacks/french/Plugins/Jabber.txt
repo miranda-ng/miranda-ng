@@ -1687,7 +1687,7 @@ Avertissement d'effacement de comtpe
 
 [Messaging]
 Envoi de message
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 
 [Enable avatars]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -266,7 +266,7 @@ Pozadie
 
 [Always trim message log to]
 
-[Events]
+[events]
 Udalosti
 [Only show tab bar when it's needed]
 
@@ -1383,7 +1383,7 @@ Kontakt
 
 [Message log]
 
-[Typing Notify]
+[Typing notify]
 
 [Event notifications]
 
@@ -1558,23 +1558,23 @@ Stav
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 
-[%d Unread]
+[%d unread]
 
 [Chat room %s]
 
-[%d User(s)]
+[%d user(s)]
 
 [Server window]
 
 [%s on %s%s]
 
 ;file \plugins\TabSRMM\src\templates.cpp
-[Template Set Editor]
+[Template set editor]
 
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 
@@ -1705,9 +1705,9 @@ Ikona v oznamovacej oblasti
 
 [Draw grid lines]
 
-[Use Incoming/Outgoing Icons]
+[Use incoming/outgoing icons]
 
-[Use Message Grouping]
+[Use message grouping]
 
 [Simple text formatting (*bold*, etc.)]
 
@@ -2075,7 +2075,7 @@ Prezívka
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
 
 [path to Miranda root folder]
 
@@ -2119,9 +2119,9 @@ Prezívka
 
 [Variables]
 
-[All Files]
+[All files]
 Všetky súbory
-[Select Folder]
+[Select folder]
 Vyber zložku
 [No markers]
 
@@ -2138,24 +2138,24 @@ Vyber zložku
 
 [&Message %s]
 
-[Highlight User...]
+[Highlight user...]
 
-[Edit Highlight List...]
+[Edit highlight list...]
 
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 
 [Nick]
 Prezívka
-[%s: Chat Room (%u user%s)]
+[%s: chat room (%u user%s)]
 
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u users%s)]
 
 [, event filter active]
 
-[%s: Message Session]
+[%s: message session]
 
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 
 [, %d %s, %d %s idle]
 

@@ -245,7 +245,7 @@ Wersja protokołu jest za stara. Nie można wykryć numeru nowszej wersji.
 Ktoś zalogował się na twoje konto. Rozłączono.
 [Do you really want to add %s to your friend list?]
 Czy na pewno chcesz dodać %s do listy przyjaciół?
-[Add me to your friends list.]
+[Add me to your friend list.]
 Dodaj mnie do swojej listy znajomych.
 [XFire is not connected.]
 xFire nie jest połączony.

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.40
+;  Version: 0.1.0.43
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -96,6 +96,8 @@ Ukryj czaty podczas startu
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
 [Force online status upon user activity]
 Wymuś dostępny status po wykazaniu aktywności przez użytkownika
+[Use non-standard urlEncode for sent messages (less traffic)]
+
 [When I ban user...]
 Gdy banuję użytkownika...
 [Report abuse]

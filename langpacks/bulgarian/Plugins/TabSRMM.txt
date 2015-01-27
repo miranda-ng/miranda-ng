@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -251,7 +251,7 @@ ANSI кодова таблица за кодиране и разкодиране
 Зареди само актуална история
 [Always trim message log to]
 Ограничаване на дневника до
-[Events]
+[events]
 Събития
 [Only show tab bar when it's needed]
 Лента за табове само ако е необходима
@@ -1315,7 +1315,7 @@ Latin I
 Контейнери
 [Message log]
 Дневник за съобщения
-[Typing Notify]
+[Typing notify]
 Уведомяване при писане
 [Event notifications]
 Уведомявания за събития
@@ -1475,21 +1475,21 @@ TabSRMM - фатална грешка
 Вертикални бутони с аватари
 [This version of TabSRMM requires Windows 2000 or later.]
 TabSRMM изисква Windows версия 2000 или по-нова.
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 TabSRMM съобщение (%s)
 [Previews not available when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника
-[%d Unread]
+[%d unread]
 %d непрочетени
 [Chat room %s]
 Чат стая %s
-[%d User(s)]
+[%d user(s)]
 %d потребител(я)
 [Server window]
 Прозорец на сървъра
 [%s on %s%s]
 Прякор: %s, Акаунт: %s%s
-[Template Set Editor]
+[Template set editor]
 Редактор на шаблони
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
@@ -1617,9 +1617,9 @@ TabSRMM съобщение (%s)
 Ползване на часовия пояс на потребителя (ако е наличен)
 [Draw grid lines]
 Добавяне на решетка
-[Use Incoming/Outgoing Icons]
+[Use incoming/outgoing icons]
 Ползване на входящи/изходящи икони
-[Use Message Grouping]
+[Use message grouping]
 Групиране на съобщенията
 [Simple text formatting (*bold*, etc.)]
 Лесно форматиране (*bold* и т.н.)
@@ -1987,9 +1987,9 @@ TabSRMM съобщение (%s)
 ден
 [Variables]
 Променливи
-[All Files]
+[All files]
 Всички файлове
-[Select Folder]
+[Select folder]
 Избор на папка
 [No markers]
 Без маркиране
@@ -2005,23 +2005,23 @@ TabSRMM съобщение (%s)
 Няма дума за търсене
 [&Message %s]
 Съобщение %s
-[Highlight User...]
+[Highlight user...]
 Отличаване на потребителя...
-[Edit Highlight List...]
+[Edit highlight list...]
 Редактиране списъка за отличаване...
 [Unique ID]
 Уникален ID
 [Nick]
 Прякор
-[%s: Chat Room (%u user%s)]
+[%s: chat room (%u user%s)]
 %s: Чат стая (%u потребител%s)
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u users%s)]
 %s: Чат стая (%u потребителя%s)
 [, event filter active]
 , включен филтър на събития
-[%s: Message Session]
+[%s: message session]
 %s: Разговор
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: Разговор (%u потребителя)
 [, %d %s, %d %s idle]
 , %d %s и %d %s бездействие

@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.3
+;  Version: 0.95.4
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -570,7 +570,7 @@ Kopírovať odkaz
 
 [Ungroup]
 
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 Autorizovať
 [&Deny]
@@ -587,7 +587,7 @@ Dôvod:
 Boli ste pridaný
 [&Close]
 Zavrieť
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s správa pre %s
 [Retrieving %s message...]
@@ -946,7 +946,7 @@ Neviditelný
 Telefonujem
 [Out to &lunch\tCtrl+9]
 Na obede
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Odoslať súbor(y)
 [To:]
@@ -1057,12 +1057,12 @@ Opýtaj sa ma
 Premenovať (pripojiť "(1)", a atď)
 [You will always be asked about files from people not on your contact list]
 Odpoveď ľuďom ktorý niesu vo vašom zozname kontaktov
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 
 [Credits >]
 
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 
 [Become idle if the screen saver is active]
@@ -1188,7 +1188,7 @@ minút staré
 
 [Delete]
 
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Hľadať
 [&Find next]
@@ -1199,7 +1199,7 @@ Hľadať ďalšie
 História správ
 [&Find...]
 Nájsť...
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Pridať telefónne číslo
 [Enter country, area code and phone number:]
@@ -1270,7 +1270,7 @@ Oddelenie:
 Pozícia:
 [Website:]
 WWW stránky:
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 
 [%u requests authorization]
@@ -1283,7 +1283,7 @@ WWW stránky:
 
 [Added event]
 
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Zobraziť informácie o užívatelovi
 [Add contact permanently to list]
@@ -1306,12 +1306,12 @@ Pridať kontakt do zoznamu
 
 [Feature is not supported by protocol]
 
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Čítať %s správu
 [Re&ad status message]
 
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Som preč od %time%.
 [Give it up, I'm not in!]
@@ -1336,7 +1336,6 @@ Mmm... obed.
 
 [Status]
 Stav
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 
@@ -1631,6 +1630,10 @@ Vyber zložku
 
 [Close current tab (CTRL+F4)]
 
+[Nickname]
+Prezívka
+[Unique ID]
+
 [%s: chat room (%u user)]
 
 [%s: chat room (%u users)]
@@ -1638,10 +1641,6 @@ Vyber zložku
 [%s: message session]
 
 [%s: message session (%u users)]
-
-[Nickname]
-Prezívka
-[Unique ID]
 
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
@@ -1693,17 +1692,17 @@ Pozadie zoznamu
 [Global]
 
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Užívatel nemá zaregistrovnú e-mailovú adresu\nMôžete ju pridať v podrobných informáciách o užívatelovi v záložke "kontakt".
 [Send e-mail]
 Odoslať e-mail
 [&E-mail]
 &e-mail
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Súbor od %s
 [bytes]
@@ -1720,17 +1719,17 @@ bytov
 Chyba
 [Denied]
 
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 
 [All files]
 Všetky súbory
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Spustitelné súbory
 [Events]
 Udalosti
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 
 [View user's history]
@@ -1739,12 +1738,12 @@ Zobraziť históriu
 Menu užívatela
 [Canceled]
 
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d súbory
 [%d directories]
 %d adresáre
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Tento súbor nebol skenovaný proti vírusom. Chcete ho otvoriť?
 [File received]
@@ -1795,13 +1794,13 @@ Chybný prenos súboru
 Skenovať na vírusy
 [Transfer and virus scan complete]
 Prenos a oskenovanie je kompletné
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 O programe &Miranda...
 [&Support]
@@ -1810,7 +1809,7 @@ O programe &Miranda...
 
 [&Report bug]
 
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1827,6 +1826,8 @@ O programe &Miranda...
 [%s is typing a message...]
 
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
+
 [File sent]
 
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -1869,7 +1870,7 @@ Správa od %s
 
 [Typing notification]
 
-[Miranda could not load the built-in message module, riched20.dll is missing. Press 'Yes' to continue loading Miranda.]
+[Miranda could not load the built-in message module, Msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 
 [Instant messages]
 
@@ -1888,7 +1889,12 @@ Správa od %s
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 
-;file \src\core\stduihist\history.cpp
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+
+[Host we are connecting to is not the one certificate was issued for]
+
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 
 [Outgoing message]
@@ -1923,7 +1929,7 @@ Adresa www stránky (&URL)
 
 [Send timed out]
 Čas k odoslaniu vypršal
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Zmena e-mail adresy
 [Edit phone number]
@@ -1944,7 +1950,7 @@ Mobil:
 
 [Work fax]
 
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Muž
 [Female]
@@ -1963,14 +1969,15 @@ Práca
 
 [Notes]
 Poznámky
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 
 [View/change my &details...]
 Zobraziť/Zmeniť moje informácie...
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je pripojený
+;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 
@@ -2035,6 +2042,7 @@ Zobraziť/Zmeniť moje informácie...
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
 
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 
@@ -2482,11 +2490,6 @@ neznáme
 Všetky pripojenia
 [Network]
 Sieť
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-
-[Host we are connecting to is not the one certificate was issued for]
-
 ;file \src\modules\options\options.cpp
 [<all modules>]
 
@@ -2501,15 +2504,15 @@ Sieť
 [&Options...]
 Nastavenia...
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-
-[Fatal error]
-
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 
 ['%s' is disabled, re-enable?]
 
 [Re-enable Miranda plugin?]
+
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
+[Fatal error]
 
 [Unable to load plugin in service mode!]
 

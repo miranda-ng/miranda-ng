@@ -105,6 +105,7 @@
 [Android overlay]
 [Website overlay]
 [Windows Phone overlay]
+[Mobile overlay]
 [debug overlay]
 [office overlay]
 [mobile overlay]

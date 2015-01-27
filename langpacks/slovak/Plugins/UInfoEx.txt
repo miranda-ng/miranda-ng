@@ -1119,19 +1119,17 @@ Odoslať e-mail
 
 [an anniversary]
 
-[He]
+[He/she has the following anniversaries:]
 
-[She]
+[He has the following anniversaries:]
 
-[He/She]
+[She has the following anniversaries:]
 
-[%s has the following anniversaries:\0]
+[%d. %s today]
 
-[%d. %s today\0]
+[%d. %s tomorrow]
 
-[%d. %s tomorrow\0]
-
-[%d. %s in %d days\0]
+[%d. %s in %d days]
 
 [%s has birthday today.]
 
@@ -1139,7 +1137,11 @@ Odoslať e-mail
 
 [%s has birthday in %d days.]
 
-[\n%s becomes %d years old.]
+[\nHe/she becomes %d years old.]
+
+[\nHe becomes %d years old.]
+
+[\nShe becomes %d years old.]
 
 [No anniversaries to remind of]
 

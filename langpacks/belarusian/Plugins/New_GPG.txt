@@ -144,6 +144,8 @@ ID ключа:
 Конты
 [Default]
 Змаўчанні
+[key ID]
+Ключ
 [Default private key ID]
 Асноўны прыватны ключ
 [Error]

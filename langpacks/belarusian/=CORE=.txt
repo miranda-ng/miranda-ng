@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.3
+;  Version: 0.95.4
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -566,7 +566,7 @@ UIN, E-mail і г.д.
 Адкаціць змены
 [Ungroup]
 Разгуртаваць
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 Дазволіць
 [&Deny]
@@ -583,7 +583,7 @@ UIN, E-mail і г.д.
 Вас дадалі
 [&Close]
 Зачыніць
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s (%s)
 [Retrieving %s message...]
@@ -940,7 +940,7 @@ UIN, E-mail і г.д.
 Тэлефон
 [Out to &lunch\tCtrl+9]
 За ежай
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Адправіць файл(ы)
 [To:]
@@ -1051,12 +1051,12 @@ UIN, E-mail і г.д.
 Дапісаць "(1)" і г. д.
 [You will always be asked about files from people not on your contact list]
 Запыт заўсёды будзе паказаны, калі чалавек не ў спісе
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 Аб праграме
 [Credits >]
 Аўтары >
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
 [Become idle if the screen saver is active]
@@ -1182,7 +1182,7 @@ UIN, E-mail і г.д.
 Уставіць і адправіць
 [Delete]
 Выдаліць
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Знайсці
 [&Find next]
@@ -1193,7 +1193,7 @@ UIN, E-mail і г.д.
 Гісторыя паведамленняў
 [&Find...]
 &Знайсці
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Дадаць тэлефон
 [Enter country, area code and phone number:]
@@ -1264,7 +1264,7 @@ UIN, E-mail і г.д.
 Пасада:
 [Website:]
 Сайт:
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s запытаў аўтарызацыю
 [%u requests authorization]
@@ -1277,7 +1277,7 @@ UIN, E-mail і г.д.
 Абвесткі
 [Added event]
 Падзея дадання
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Пра кантакт
 [Add contact permanently to list]
@@ -1300,12 +1300,12 @@ UIN, E-mail і г.д.
 %s запытаў(ла) аўтарызацыю\n%s у %s
 [Feature is not supported by protocol]
 Не падтрымліваецца пратаколам
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Прачытаць паведамленне "%s"
 [Re&ad status message]
 Чытаць статуснае паведамленне
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Адышоў %time%. Хутка буду.
 [Give it up, I'm not in!]
@@ -1330,7 +1330,6 @@ UIN, E-mail і г.д.
 чаканне...
 [Status]
 Статус
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Плагін чата
@@ -1625,6 +1624,10 @@ UIN, E-mail і г.д.
 Уключыць/выключыць фільтр падзей (CTRL+F)
 [Close current tab (CTRL+F4)]
 Зачыніць бягучую ўкладку (CTRL+F4)
+[Nickname]
+Мянушка
+[Unique ID]
+Асабісты конт
 [%s: chat room (%u user)]
 %s: Чат (%u удзельнік)
 [%s: chat room (%u users)]
@@ -1633,10 +1636,6 @@ UIN, E-mail і г.д.
 %s: гутарка
 [%s: message session (%u users)]
 %s: гутарка (%u удзельнікаў)
-[Nickname]
-Мянушка
-[Unique ID]
-Асабісты конт
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Стандартныя кантакты
@@ -1687,17 +1686,17 @@ UIN, E-mail і г.д.
 [Global]
 Глабальныя
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Звычайны шыфравальнік
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Карыстач не зарэгістраваў свой адрас e-mail.
 [Send e-mail]
 Адправіць e-mail
 [&E-mail]
 &E-mail
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Файл ад %s
 [bytes]
@@ -1714,17 +1713,17 @@ UIN, E-mail і г.д.
 Памылка
 [Denied]
 Адмоўлена
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s файл
 [All files]
 Усе файлы
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Выкананыя файлы
 [Events]
 Падзеі
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Мае атрыманыя файлы
 [View user's history]
@@ -1733,12 +1732,12 @@ UIN, E-mail і г.д.
 Меню кантакта
 [Canceled]
 Скасавана
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d файла(аў)
 [%d directories]
 %d каталога(аў)
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Гэты файл яшчэ не правяраўся антывірусам. Вы ўсё ж і жадаеце адкрыць яго?
 [File received]
@@ -1789,13 +1788,13 @@ UIN, E-mail і г.д.
 Праверка на вірусы...
 [Transfer and virus scan complete]
 Перадача і праверка на вірусы завершаны
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Выходныя
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Правы
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 &Пра праграму
 [&Support]
@@ -1804,7 +1803,7 @@ UIN, E-mail і г.д.
 А&фіцыйны сайт Miranda NG
 [&Report bug]
 Паведаміць пра памылку
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Чаканне
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1880,7 +1879,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
-;file \src\core\stduihist\history.cpp
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
+[Host we are connecting to is not the one certificate was issued for]
+Выдадзены сертыфікат не адпавядае хасту далчэння
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Паведамленне пашкоджана
 [Outgoing message]
@@ -1915,7 +1919,7 @@ URL ад %s
 Адправіць URL
 [Send timed out]
 Час адпраўкі мінуў
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Рэдагаваць адрас E-mail
 [Edit phone number]
@@ -1936,7 +1940,7 @@ URL ад %s
 Працоўны тэлефон
 [Work fax]
 Працоўны факс
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Мужчынскі
 [Female]
@@ -1955,14 +1959,15 @@ URL ад %s
 Біяграфія
 [Notes]
 Нататкі
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Уладальнік
 [View/change my &details...]
 Асабістыя дадзеныя
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
+;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Дадаць кантакт
@@ -2027,6 +2032,7 @@ URL ад %s
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
 Адчыніць гутарку
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s увайшоў
@@ -2462,11 +2468,6 @@ Miranda NG не можа адкрыць гэты профіль
 <Усе далучэнні>
 [Network]
 Сеціва
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
-[Host we are connecting to is not the one certificate was issued for]
-Выдадзены сертыфікат не адпавядае хасту далчэння
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <усе плагіны>
@@ -2481,16 +2482,16 @@ Miranda NG не можа адкрыць гэты профіль
 [&Options...]
 &Налады
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
-[Fatal error]
-Фатальная памылка
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' адключаны, далучыць?
 [Re-enable Miranda plugin?]
 Уключыць плагін?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
+[Fatal error]
+Фатальная памылка
 [Unable to load plugin in service mode!]
 Немагчыма загрузіць плагін у службовым рэжыме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
