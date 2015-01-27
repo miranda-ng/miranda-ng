@@ -628,7 +628,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 	for (int i = 0; i < numMessages; i++) {
 		JSONNODE *pMsg = json_at(pMsgs, i);
-		if (pMsg == NULL){
+		if (pMsg == NULL) {
 			debugLogA("CVkProto::OnReceiveMessages pMsg == NULL");
 			break;
 		}

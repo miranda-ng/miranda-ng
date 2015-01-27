@@ -358,13 +358,13 @@ CVKNewsItem* CVkProto::GetVkParent(JSONNODE *pParent, VKObjType vkParentType, TC
 		ClearFormatNick(tszText);
 
 		JSONNODE *pNode = json_get(pParent, "photo");
-		if (pNode){
+		if (pNode) {
 			delete vkNotificationItem;
 			return GetVkParent(pNode, vkPhoto, tszText.IsEmpty() ? NULL : tszText.GetBuffer());
 		}
 
 		pNode = json_get(pParent, "video");
-		if (pNode){
+		if (pNode) {
 			delete vkNotificationItem;
 			return GetVkParent(pNode, vkVideo, tszText.IsEmpty() ? NULL : tszText.GetBuffer());
 		}

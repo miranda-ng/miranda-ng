@@ -80,42 +80,45 @@ HANDLE GetIconHandle(int iCommand)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const char szHexDigits[] = "0123456789ABCDEF";
-
 char* ExpUrlEncode(const char *szUrl, bool strict)
 {
+	const char szHexDigits[] = "0123456789ABCDEF";
+
 	if (szUrl == NULL)
 		return NULL;
 
 	const BYTE *s;
 	int outputLen;
-	for (outputLen = 0, s = (const BYTE*)szUrl; *s; s++) {
+	for (outputLen = 0, s = (const BYTE*)szUrl; *s; s++) 
 		if ((*s & 0x80 && !strict) || // UTF-8 multibyte
 			('0' <= *s && *s <= '9') || //0-9
 			('A' <= *s && *s <= 'Z') || //ABC...XYZ
 			('a' <= *s && *s <= 'z') || //abc...xyz
-			*s == '~' || *s == '-' || *s == '_' || *s == '.' || *s == ' ') outputLen++;
-		else outputLen += 3;
-	}
+			*s == '~' || *s == '-' || *s == '_' 	|| *s == '.' || *s == ' ') 
+			outputLen++;
+		else 
+			outputLen += 3;
 
 	char *szOutput = (char*)mir_alloc(outputLen + 1);
 	if (szOutput == NULL)
 		return NULL;
 
 	char *d = szOutput;
-	for (s = (const BYTE*)szUrl; *s; s++) {
+	for (s = (const BYTE*)szUrl; *s; s++)
 		if ((*s & 0x80 && !strict) || // UTF-8 multibyte
 			('0' <= *s && *s <= '9') || //0-9
 			('A' <= *s && *s <= 'Z') || //ABC...XYZ
 			('a' <= *s && *s <= 'z') || //abc...xyz
-			*s == '~' || *s == '-' || *s == '_' || *s == '.') *d++ = *s;
-		else if (*s == ' ') *d++ = '+';
+			*s == '~' || *s == '-' || *s == '_' || *s == '.') 
+			*d++ = *s;
+		else if (*s == ' ') 
+			*d++ = '+';
 		else {
 			*d++ = '%';
 			*d++ = szHexDigits[*s >> 4];
 			*d++ = szHexDigits[*s & 0xF];
 		}
-	}
+	
 	*d = '\0';
 	return szOutput;
 }

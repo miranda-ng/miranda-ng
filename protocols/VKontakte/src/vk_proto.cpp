@@ -511,7 +511,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	int iResult = ACKRESULT_FAILED;
-	if (pReq->pUserInfo == NULL){
+	if (pReq->pUserInfo == NULL) {
 		debugLogA("CVkProto::OnSendMessage failed! (pUserInfo == NULL)");
 		return;
 	}
@@ -542,7 +542,7 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	} 
 	else if (m_bServerDelivery)
 		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, iResult, HANDLE(param->iMsgID), 0);
-	if (!pReq->bNeedsRestart){
+	if (!pReq->bNeedsRestart) {
 		delete param;
 		pReq->pUserInfo = NULL;
 	}
@@ -576,7 +576,7 @@ int CVkProto::SetStatus(int iNewStatus)
 		debugLogA("CVkProto::SetStatus (2) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
 		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
 	}
-	else if (IsOnline()){
+	else if (IsOnline()) {
 		debugLogA("CVkProto::SetStatus (3) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
 		SetServerStatus(iNewStatus);
 	}
