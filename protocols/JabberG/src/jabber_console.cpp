@@ -103,13 +103,11 @@ void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 
 bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 {
-	int i;
-
-	for (i = 0; i < xmlGetAttrCount(node); i++)
+	for (int i = 0; i < xmlGetAttrCount(node); i++)
 		if (JabberStrIStr(xmlGetAttr(node, i), m_filterInfo.pattern))
 			return true;
 
-	for (i = 0; i < xmlGetChildCount(node); i++)
+	for (int i = 0; i < xmlGetChildCount(node); i++)
 		if (RecursiveCheckFilter(xmlGetChild(node, i), flags))
 			return true;
 
@@ -273,7 +271,6 @@ DWORD CALLBACK sttStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, L
 
 static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 {
-	int i;
 	JABBER_LIST_ITEM *item = NULL;
 
 	int len = GetWindowTextLength(hwndCombo) + 1;
@@ -282,15 +279,15 @@ static void sttJabberConsoleRebuildStrings(CJabberProto *ppro, HWND hwndCombo)
 
 	SendMessage(hwndCombo, CB_RESETCONTENT, 0, 0);
 
-	for (i=0; g_JabberFeatCapPairs[i].szFeature; i++)
+	for (int i=0; g_JabberFeatCapPairs[i].szFeature; i++)
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)g_JabberFeatCapPairs[i].szFeature);
-	for (i=0; g_JabberFeatCapPairsExt[i].szFeature; i++)
+	for (int i=0; g_JabberFeatCapPairsExt[i].szFeature; i++)
 		SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)g_JabberFeatCapPairsExt[i].szFeature);
 
-	LISTFOREACH_NODEF(i, ppro, LIST_ROSTER)
+	LISTFOREACH(i, ppro, LIST_ROSTER)
 		if (item = ppro->ListGetItemPtrFromIndex(i))
 			SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)item->jid);
-	LISTFOREACH_NODEF(i, ppro, LIST_CHATROOM)
+	LISTFOREACH(i, ppro, LIST_CHATROOM)
 		if (item = ppro->ListGetItemPtrFromIndex(i))
 			SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)item->jid);
 
@@ -373,8 +370,7 @@ void CJabberDlgConsole::OnInitDialog()
 		{ IDC_BTN_FILTER_REFRESH, "Refresh list", "sd_nav_refresh",  false, FALSE},
 	};
 
-	int i;
-	for (i=0; i < SIZEOF(buttons); i++) {
+	for (int i=0; i < SIZEOF(buttons); i++) {
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(buttons[i].icon));
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
@@ -382,7 +378,7 @@ void CJabberDlgConsole::OnInitDialog()
 		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, BST_CHECKED);
 	}
 
-	for (i=0; i < SIZEOF(filter_modes); i++)
+	for (int i=0; i < SIZEOF(filter_modes); i++)
 		if (filter_modes[i].type == m_proto->m_filterInfo.type) {
 			g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
@@ -614,9 +610,10 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 	m_dwConsoleThreadId = 0;
 }
 
+HMODULE hMsftedit;
 void CJabberProto::ConsoleInit()
 {
-	LoadLibraryA("Msftedit.dll");
+	hMsftedit = LoadLibrary(_T("Msftedit.dll"));
 	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 }
 
@@ -633,6 +630,7 @@ void CJabberProto::ConsoleUninit()
 
 	m_filterInfo.iq = m_filterInfo.msg = m_filterInfo.presence = FALSE;
 	m_filterInfo.type = TFilterInfo::T_OFF;
+	FreeLibrary(hMsftedit);
 }
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleConsole(WPARAM, LPARAM)
