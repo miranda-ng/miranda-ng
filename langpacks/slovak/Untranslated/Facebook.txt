@@ -33,7 +33,6 @@
 [Submit]
 [Messages]
 [Receive messages from "inbox" folder only]
-[Use local time for received messages]
 [Keep messages as unread on server (don't send "seen" info)]
 [Show stickers as custom smileys (EXPERIMENTAL)]
 [Multi user chats]

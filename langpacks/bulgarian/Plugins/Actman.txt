@@ -217,8 +217,6 @@ DWORD
 Последен резултат
 [Data length]
 Дължина на данните
-[&OK]
-Добре
 [C&ancel]
 Отказ
 [Process options]

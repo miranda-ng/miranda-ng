@@ -554,3 +554,17 @@ Limpiar
 
 [Ice Pellets 80% Chance Of Precipitation]
 
+[Cloudy]
+
+[Light Snow Freezing Fog]
+
+[Drizzle]
+
+[Snow Showers 80% Chance Of Precipitation]
+
+[Snow 100% Chance Of Precipitation]
+
+[Ice Pellets 50% Chance Of Precipitation]
+
+[Ice Pellets 60% Chance Of Precipitation]
+

@@ -150,7 +150,7 @@ Nachricht an '%s' versandt.
 Nachricht an '%s' wurde als gesendet markiert, der Kontakt scheint jedoch offline zu sein
 [Could not send message to '%s'.]
 Konnte Nachricht nicht an '%s' senden.
-[Timed out while waiting for acknowledgement for contact '%s'.]
+[Timed out while waiting for acknowledgment for contact '%s'.]
 Zeitüberschreitung beim Warten auf eine Bestätigung von Kontakt '%s'.
 [Could not find contact handle for contact '%s'.]
 Konnte keinen Kontakt für '%s' finden.

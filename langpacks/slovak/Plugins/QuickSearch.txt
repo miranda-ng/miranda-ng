@@ -9,6 +9,8 @@
 Umožňuje rýchle hľadanie kontaktov v zozname kontaktov cez nick, meno, email, UIN číslo, atď.
 [Quick Search]
 
+[Quick search]
+
 [Title]
 
 [Module/InfoType]

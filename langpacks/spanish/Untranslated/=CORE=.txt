@@ -20,6 +20,7 @@
 [Lock name to first contact]
 [Current language:]
 [Group chat log background]
+[Me]
 [Other events]
 [Chat log symbols (Webdings)]
 [&Leave chat]

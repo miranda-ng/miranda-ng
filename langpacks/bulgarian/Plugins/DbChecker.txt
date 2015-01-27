@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.0.3
+;  Version: 0.95.3.1
 ;  Authors: George Hazan
 ;============================================================
 [Welcome to the Miranda Database Wizard]

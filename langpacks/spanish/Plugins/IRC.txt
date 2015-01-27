@@ -132,10 +132,10 @@ Autenticación
 
 [Add server]
 
-[On]
-Encendido
 [Auto]
 
+[On]
+Encendido
 [Off]
 Apagado
 [Host address]

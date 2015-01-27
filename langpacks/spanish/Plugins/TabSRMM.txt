@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -266,7 +266,7 @@ Diálogo
 
 [Always trim message log to]
 
-[Events]
+[events]
 Eventos
 [Only show tab bar when it's needed]
 
@@ -1383,7 +1383,7 @@ General
 
 [Message log]
 Registro de mensaje
-[Typing Notify]
+[Typing notify]
 Notificación de escritura
 [Event notifications]
 Notificaciones de eventos
@@ -1558,23 +1558,23 @@ Estado
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 
-[%d Unread]
+[%d unread]
 
 [Chat room %s]
 
-[%d User(s)]
+[%d user(s)]
 
 [Server window]
 
 [%s on %s%s]
 
 ;file \plugins\TabSRMM\src\templates.cpp
-[Template Set Editor]
+[Template set editor]
 
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 
@@ -1705,9 +1705,9 @@ Cerrar la ventana de mensaje al enviar
 
 [Draw grid lines]
 
-[Use Incoming/Outgoing Icons]
+[Use incoming/outgoing icons]
 
-[Use Message Grouping]
+[Use message grouping]
 
 [Simple text formatting (*bold*, etc.)]
 
@@ -2075,7 +2075,7 @@ Fondo de lista de usuarios
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
 
 [path to Miranda root folder]
 
@@ -2119,9 +2119,9 @@ Fondo de lista de usuarios
 
 [Variables]
 Variables
-[All Files]
+[All files]
 Todos los archivos
-[Select Folder]
+[Select folder]
 Seleccionar carpeta
 [No markers]
 
@@ -2138,25 +2138,25 @@ Buscar '%s':
 Ni una palabra para buscar
 [&Message %s]
 &Mensaje %s
-[Highlight User...]
+[Highlight user...]
 
-[Edit Highlight List...]
+[Edit highlight list...]
 
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 ID único
 [Nick]
 Apodo
-[%s: Chat Room (%u user%s)]
+[%s: chat room (%u user%s)]
 
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u users%s)]
 
 [, event filter active]
 
-[%s: Message Session]
-%s: Sesión de mensaje
-[%s: Message Session (%u users)]
-%s: Sesión de mensaje (%u usuarios)
+[%s: message session]
+%s: sesión de mensaje
+[%s: message session (%u users)]
+%s: sesión de mensaje (%u usuarios)
 [, %d %s, %d %s idle]
 
 [hours]

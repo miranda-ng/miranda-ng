@@ -14,7 +14,7 @@
 
 [Plugin settings]
 
-[Enable menu item (*)]
+[Enable menu item (restart required)]
 
 [Show icons only for recently added contacts]
 

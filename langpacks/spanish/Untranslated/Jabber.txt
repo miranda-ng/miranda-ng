@@ -693,7 +693,7 @@
 [Account removal warning]
 [You can change your password only when you are online]
 [You must be online]
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 [Enable avatars]
 [Log chat state changes]
 [Log presence subscription state changes]

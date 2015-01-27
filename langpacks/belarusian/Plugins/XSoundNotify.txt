@@ -34,6 +34,8 @@
 [WAV files]
 Файлы WAV
 ;file \plugins\XSoundNotify\src\options.cpp
+[(Unknown contact)]
+(Невядомы кантакт)
 [Sounds]
 Гукі
 [XSound Notify]

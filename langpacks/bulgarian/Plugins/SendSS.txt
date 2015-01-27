@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send ScreenShot+
-;  Version: 0.8.9.0
+;  Version: 0.8.9.1
 ;  Authors: Merlin
 ;============================================================
 [Dialog]
@@ -17,8 +17,6 @@
 Формат:
 [About]
 Относно
-[Credits >]
-Заслуги >
 [&Close]
 Затваряне
 [Edit]
@@ -65,8 +63,8 @@
 Стрелка надолу
 [Buttons]
 Бутони
-[< Copyright]
-< Copyright
+[Credits]
+Заслуги
 [Window]
 Прозорец
 [Desktop]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -322,22 +322,26 @@ Afficher l'état dans la bulle
 Sans clignotement
 [ms, delay between icon blinking]
 ms, délai entre les clignotement des icônes
-[Show]
-Afficher
-[Cycle icons every]
-Faire un cycle de
-[seconds, when statuses differ]
-secondes si les états diffèrent
-[Show multiple icons]
-Afficher plusieurs icônes
-[only when statuses differ]
-seulement si les états diffèrent
 [System tray icon]
 Icône de la barre des tâches
-[System tray icon mode]
-
 [Use xStatus icon]
 Utiliser l'icône xStatus
+[Icon mode]
+
+[For similar statuses]
+
+[Global status]
+
+[Single account]
+
+[Cycle icons]
+
+[All accounts]
+
+[For different statuses]
+
+[Cycle period, seconds]
+
 [Additional stuff]
 Paramètres avancés
 [Ignore empty extra icons places (arrange to right).]
@@ -760,8 +764,6 @@ Nom de compte
 Note
 [-Nothing-]
 -Aucun-
-[Global]
-Général
 [Hide to tray]
 dans le tray
 [Behind left edge]

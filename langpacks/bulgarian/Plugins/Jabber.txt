@@ -1261,7 +1261,7 @@ Jabber източник
 Трябва да сте на линия
 [Messaging]
 Съобщения
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 По-бавно изпращане на съобщенията, но със сигурно потвърждение
 [Enable avatars]
 Ползване на аватари

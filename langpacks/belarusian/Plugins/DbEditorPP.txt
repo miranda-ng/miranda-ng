@@ -68,6 +68,14 @@
 Падстава
 [Save value as:]
 Захаваць як:
+[Byte]
+байт
+[Word]
+слова
+[Dword]
+дв. слова
+[String]
+радок
 [Watched database settings]
 Зменныя пад назіраннем
 [Copy module to contact]

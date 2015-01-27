@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.7
+;  Version: 0.2.9.9
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -92,8 +92,6 @@ Permitir publicar estados a mis páginas (puede ralentizar sesión)
 Mensajes
 [Receive messages from "inbox" folder only]
 
-[Use local time for received messages]
-Usar la hora local para los mensajes recibidos
 [Keep messages as unread on server (don't send "seen" info)]
 
 [Show stickers as custom smileys (EXPERIMENTAL)]

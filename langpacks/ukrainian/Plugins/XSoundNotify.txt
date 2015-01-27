@@ -31,6 +31,8 @@
 Звукові файли
 [WAV files]
 Файли WAV
+[(Unknown contact)]
+Невідомий контакт
 [Sounds]
 Звуки
 [Self status]

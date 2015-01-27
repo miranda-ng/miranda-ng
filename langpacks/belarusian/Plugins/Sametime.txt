@@ -34,3 +34,4 @@
 [Name]
 Імя
 ;file \protocols\Sametime\src\utils.cpp
+;file \protocols\Sametime\src\meanwhile\src\error.c

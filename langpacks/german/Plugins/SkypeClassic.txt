@@ -114,13 +114,13 @@ Unterstützung für N/A und SkypeMe Status deaktivieren (für Skype4+)
 Vollen Namen anstatt dem Nicknamen in der Kontaktliste anzeigen
 [SkypeOut contacts are in status:]
 SkypeOut-Kontakte haben als Status:
-[Cleanup Nicknames]
+[Cleanup nicknames]
 Nicknamen säubern
-[Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)]
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
 Nicht auf Sendebestätigungen warten (für fehlerhafte Skype-Versionen >6)
-[Skype Popups]
+[Skype popups]
 Skype-Popups
-[Incoming Calls]
+[Incoming calls]
 Eingehende Anrufe
 [Show incoming calls]
 Eingehende Anrufe anzeigen
@@ -134,7 +134,7 @@ Windowsfarben verwenden
 Text
 [Preview]
 Vorschau
-[Error Messages]
+[Error messages]
 Fehlermeldungen
 [Display error messages]
 Fehlermeldungen anzeigen
@@ -172,7 +172,7 @@ Benutzer e&inladen...
 Ich
 [&Leave chat session]
 Chat ver&lassen
-[Set &Topic...]
+[Set &topic...]
 &Thema setzen...
 [User &details]
 Benutzer&details
@@ -187,13 +187,13 @@ Benutzername '%s' aus der Skype-API stimmt nicht mit dem Benutzernamen '%s' aus 
 Kann Skype-API nicht erreichen, Plugin funktioniert nicht.
 [Do a SkypeOut-call]
 Einen SkypeOut-Anruf tätigen
-[Unable to register with Groupchat module!]
+[Unable to register with group chat module!]
 Kann Gruppenchat nicht registrieren
 [invited]
 eingeladen
 [Phone call]
 Telefonanruf
-[Incoming Skype Call]
+[Incoming Skype call]
 Eingehender Skype Anruf
 [Incoming call from %s]
 Eingehender Anruf von %s
@@ -207,29 +207,29 @@ Kann Fenster nicht erstellen.
 Speicherzuweisungsfehler beim Start
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Es scheint, als ob Sie das Skype-Protokoll zum ersten mal verwenden. Möchten Sie es für dieses Miranda-Profil verwenden? Wenn Sie sich für NEIN entscheiden, können Sie es immer noch später in den Plugin-Einstellungen aktivieren.
-[Cannot register Window message.]
+[Cannot register window message.]
 Kann Fensternachricht nicht registrieren
-[Unable to create Mutex!]
+[Unable to create mutex!]
 Kann Mutex nicht erstellen!
 ;file \protocols\SkypeClassic\src\skypeapi.cpp
-[Misc. Error]
+[Misc. error]
 Div. Fehler
 [User does not exist, check username]
 Benutzer existiert nicht, prüfen Sie den Benutzernamen
-[Trying to send IM to an user, who is not online]
+[Trying to send IM to a user, who is not online]
 Sie versuchen, eine Sofortnachricht an einen Kontakt zu senden, der nicht Online ist.
 [IM blocked by recipient]
 Sofortnachricht vom Empfänger blockiert
 [Type unsupported]
 Typ nicht unterstützt
-[Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM']
+[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
 Versuche, eine Sofortnachricht an einen Benutzer zu senden, der Sie nicht auf seiner Freundesliste hat und "Nur Leute auf meiner Freundesliste können mir Sofortnachrichten senden" aktiviert hat.
 [Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
 Versuche, eine Sofortnachricht an einen Benutzer zu senden, der Sie nicht autorisiert hat und "Nur autorisierte Leute können mir Sofortnachrichten senden" aktiviert hat.
 [Unknown error]
 Unbekannter Fehler
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview Error Message]
+[Preview error message]
 Vorschau Fehlermeldung
 [Skype default]
 Grundeinstellungen

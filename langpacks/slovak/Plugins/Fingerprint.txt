@@ -227,6 +227,8 @@ Modul ikon Fingerprint NG (klientová verzia) pre Mirandu NG.
 
 [Windows Phone overlay]
 
+[Mobile overlay]
+
 [debug overlay]
 
 [office overlay]

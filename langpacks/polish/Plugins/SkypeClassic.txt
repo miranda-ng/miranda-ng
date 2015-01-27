@@ -114,13 +114,13 @@ Wyłącz wsparcie dla statusów "wrócę później" oraz "SkypeMe" (dla Skype 4+
 Pokaż nazwę wyświetlaną, zamiast nazwy użytkownika, na liście kontaktów
 [SkypeOut contacts are in status:]
 Status kontaktów SkypeOut
-[Cleanup Nicknames]
+[Cleanup nicknames]
 Czyszczenie nicków
-[Do not wait for message SENT acknowledgement (for some buggy Skype versions >6)]
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
 Nie czekaj na przyjęcie faktu wysłania wiadomości dla pewnych wersji Skype z błędami >6.
-[Skype Popups]
+[Skype popups]
 Popupy Skype
-[Incoming Calls]
+[Incoming calls]
 Przychodzące rozmowy
 [Show incoming calls]
 Pokazuj rozmowy przychodzące
@@ -134,7 +134,7 @@ Użyj kolorów Windows
 Tekst
 [Preview]
 Podgląd
-[Error Messages]
+[Error messages]
 Komunikaty błędów
 [Display error messages]
 Wyświetlaj komunikaty błędów
@@ -172,7 +172,7 @@ Nieznany
 Ja
 [&Leave chat session]
 &Opuść pokój
-[Set &Topic...]
+[Set &topic...]
 Ustaw &temat...
 [User &details]
 &Dane kontaktu
@@ -187,13 +187,13 @@ Nazwa użytkownika "%s" podana przez API Skype nie zgadza się z nazwą użytkow
 Nie można połączyć się z API Skype, wtyczka uszkodzona.
 [Do a SkypeOut-call]
 Rozpocznij rozmowę SkypeOut
-[Unable to register with Groupchat module!]
+[Unable to register with group chat module!]
 Nie udało się zarejestrować w module czatów grupowych!
 [invited]
 zaproszony
 [Phone call]
 Rozmowa telefoniczna
-[Incoming Skype Call]
+[Incoming Skype call]
 Przychodząca rozmowa Skype
 [Incoming call from %s]
 Przychodząca rozmowa od %s
@@ -207,29 +207,29 @@ Nie można stworzyć okna.
 Błąd przydzielania pamięci podczas uruchamiania.
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Wygląda na to, że po raz pierwszy uruchamiasz wtyczkę protokołu Skype. Czy chcesz włączyć protokół dla tego profilu Mirandy? Jeśli wybierzesz "Nie" możesz to później zmienić w opcjach wtyczek.
-[Cannot register Window message.]
+[Cannot register window message.]
 Nie można zarejestrować komunikatu okna.
-[Unable to create Mutex!]
+[Unable to create mutex!]
 Nie udało się stworzyć Mutexu!
 ;file \protocols\SkypeClassic\src\skypeapi.cpp
-[Misc. Error]
+[Misc. error]
 Inne. Błąd
 [User does not exist, check username]
 Użytkownik nie istnieje, sprawdź nazwę użytkownika
-[Trying to send IM to an user, who is not online]
+[Trying to send IM to a user, who is not online]
 Próba wysłania wiadomości do rozłączonego użytkownika
 [IM blocked by recipient]
 Wiadomość zablokowana przez odbiorcę
 [Type unsupported]
 Niewspierany typ
-[Sending IM message to user, who has not added you to friendslist and has chosen 'only people in my friendslist can start IM']
+[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
 Wysyłanie wiadomości do użytkownika, który nie dodał Cię do znajomych, a wybrał inicjowanie czatów tylko ze znajomymi
 [Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
 Wysyłanie wiadomości do użytkownika, który cię nie autoryzował, a wybrał inicjowanie czatów tylko z osobami, które autoryzował
 [Unknown error]
 Nieznany błąd
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview Error Message]
+[Preview error message]
 Podgląd komunikatu błędu
 [Skype default]
 Domyślny Skype

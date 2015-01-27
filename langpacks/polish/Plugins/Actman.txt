@@ -513,8 +513,6 @@ Pomoc struktury
 Opis
 [&Change]
 &Zmień
-[&OK]
-&OK
 [C&ancel]
 A&nuluj
 [Process options]

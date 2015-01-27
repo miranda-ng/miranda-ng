@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.37
+;  Version: 0.1.0.43
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 Podpora VKontakte protokolu pre Mirandu NG.
 ;file \protocols\VKontakte\res\resource.rc
-[[img] BBCode support for image ]
+[[img] BBCode support for image]
 
 [off]
 
@@ -24,7 +24,11 @@ Podpora VKontakte protokolu pre Mirandu NG.
 
 [advanced (+[url], [size], [color])]
 
+[Use this setting also for attachments on news and notifications]
+
 [Other]
+
+[BBCode support on attachments]
 
 [Process stickers as smileys]
 
@@ -68,6 +72,16 @@ Skupiny
 
 [No reposts]
 
+[Notifications types]
+
+[Comments]
+
+[Likes]
+
+[Reposts]
+
+[Mentions in comments]
+
 [E-mail or phone number:]
 
 [Password:]
@@ -81,6 +95,8 @@ Podrobne
 [Always notify as unread for all incoming message]
 
 [Force online status upon user activity]
+
+[Use non-standard urlEncode for sent messages (less traffic)]
 
 [When I ban user...]
 
@@ -173,10 +189,12 @@ Storno
 
 [VKontakte]
 
-[Error %d. Data will not be sent or received.]
+[Access denied! Data will not be sent or received.]
 
 [Error]
 Chyba
+[Error %d. Data will not be sent or received.]
+
 [Message read: %s]
 
 [commented on your post]
@@ -271,6 +289,12 @@ Varovanie
 [News from %s\n%s]
 
 [\tRepost from %s\n%s]
+
+[Video description:]
+
+[Post text:]
+
+[Topic text:]
 
 ;file \protocols\VKontakte\src\vk_files.cpp
 [Couldn't save file]

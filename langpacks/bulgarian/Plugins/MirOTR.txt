@@ -133,6 +133,8 @@ OTR НЕПОТВЪРДЕНО
 OTR частно
 [OTR not secure]
 OTR ненадеждно
+[Refresh]
+Обновяване
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Създаване на нов частен ключ за протокол "%s".\nМоля, изчакайте...
 [General]

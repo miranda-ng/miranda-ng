@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.1.3
+;  Version: 0.95.3.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -37,14 +37,14 @@
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от профила!
 [Set password]
 Задаване на парола
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
+Засечена е повреда в базата от данни. Има шанш за отстраняването ѝ от приставката DbChecker. Моля, свалете я от http://miranda-ng.org/p/DbChecker/. Сега Miranda ще бъде изключена.
 [Disk is full. Miranda will now shut down.]
 Дискът е пълен. Miranda ще бъде изключена сега.
 [Database failure. Miranda will now shut down.]
 Повреда в базата от данни. Miranda ще бъде изключена сега.
 [Database Error]
 Грешка в базата от данни
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-Засечена е повреда в базата от данни. Има шанш за отстраняването ѝ от приставката DbChecker. Моля, свалете я от http://miranda-ng.org/p/DbChecker/. Сега Miranda ще бъде изключена.
 [Database Panic]
 Паника в Базата от данни
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]

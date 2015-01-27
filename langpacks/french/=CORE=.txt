@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.3
+;  Version: 0.95.4
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -570,7 +570,7 @@ Ouvrir dans une fenêtre existante
 Annuler les changements
 [Ungroup]
 Dégrouper
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autoriser
 [&Deny]
@@ -587,7 +587,7 @@ Ajouter à la liste de contacts si autorisé
 Vous avez été ajouté
 [&Close]
 &Fermer
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 Message %s pour %s
 [Retrieving %s message...]
@@ -946,7 +946,7 @@ Ok pour un &chat\tCtrl+6
 Au &téléphone\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Parti &manger\tCtrl+9
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Envoi de fichier(s)
 [To:]
@@ -1057,12 +1057,12 @@ Me demander
 Renommer (ajouter (1), (2), etc.)
 [You will always be asked about files from people not on your contact list]
 Vous serez avisé des fichiers ne provenant pas de votre liste de contacts
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 À propos de Miranda NG
 [Credits >]
 Crédits >
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
 [Become idle if the screen saver is active]
@@ -1188,7 +1188,7 @@ Comportement de la fenêtre de message :
 Coller et envoyer
 [Delete]
 Effacer
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Chercher
 [&Find next]
@@ -1199,7 +1199,7 @@ Chercher :
 Historique des messages
 [&Find...]
 &Chercher...
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Ajouter le téléphone
 [Enter country, area code and phone number:]
@@ -1270,7 +1270,7 @@ Département :
 Position :
 [Website:]
 Site Web :
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s demande une autorisation
 [%u requests authorization]
@@ -1283,7 +1283,7 @@ Site Web :
 Notifications
 [Added event]
 
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Voir les détails du contact
 [Add contact permanently to list]
@@ -1306,12 +1306,12 @@ Ajouter le contact à la liste
 
 [Feature is not supported by protocol]
 Cette fonctionnalité n'est pas supportée par le protocole
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 &Message d'état de "%s"
 [Re&ad status message]
 
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 Je suis absent depuis %time%.
 [Give it up, I'm not in!]
@@ -1336,7 +1336,6 @@ Mmm... Manger.
 Occupééééé
 [Status]
 État
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Chat
@@ -1631,6 +1630,10 @@ Contrôler ce salon (CTRL+O)
 Activer/désactiver les filtres d'évènement (CTRL+F)
 [Close current tab (CTRL+F4)]
 Fermer l'onglet courant (CTRL+F4)
+[Nickname]
+Pseudo
+[Unique ID]
+ID unique
 [%s: chat room (%u user)]
 %s : Salon de chat (%u usager)
 [%s: chat room (%u users)]
@@ -1639,10 +1642,6 @@ Fermer l'onglet courant (CTRL+F4)
 %s : Session de message
 [%s: message session (%u users)]
 %s : Session de message (%u usagers)
-[Nickname]
-Pseudo
-[Unique ID]
-ID unique
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Contacts standards
@@ -1693,17 +1692,17 @@ Arrière-plan
 [Global]
 Général
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 Ce contact n'a pas d'adresse électronique.
 [Send e-mail]
 Envoyer un courriel
 [&E-mail]
 &Courriel
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Fichier de %s
 [bytes]
@@ -1720,17 +1719,17 @@ Terminé
 Erreur
 [Denied]
 Refusé
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 Fichier %s
 [All files]
 Tous les fichiers
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Fichiers exécutables
 [Events]
 Évènements
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Mes fichiers reçus
 [View user's history]
@@ -1739,12 +1738,12 @@ Voir l'historique
 Menu Contact
 [Canceled]
 Annulé
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 Fichiers %d
 [%d directories]
 Répertoire %d
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Ce fichier n'a pas subi d'analyse anti-virus. Êtes-vous certain(e) de vouloir l'ouvrir ?
 [File received]
@@ -1795,13 +1794,13 @@ Transfert terminé, ouvrir le dossier.
 Analyse anti-virus...
 [Transfer and virus scan complete]
 Transfert et analyse de virus achevés
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Sortant
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Crédits
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 À &propos...
 [&Support]
@@ -1810,7 +1809,7 @@ Sortant
 &Miranda NG page web
 [&Report bug]
 Rapport de bogue
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Inactif
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1827,6 +1826,8 @@ Dernier message reçu le %s à %s
 [%s is typing a message...]
 %s vous écrit un message...
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
+
 [File sent]
 Fichier envoyé
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -1888,7 +1889,12 @@ Entrant (nouvelle session)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
-;file \src\core\stduihist\history.cpp
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+
+[Host we are connecting to is not the one certificate was issued for]
+
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Message invalide
 [Outgoing message]
@@ -1923,7 +1929,7 @@ Lien
 Envoi le lien à
 [Send timed out]
 Délai d'envoi expiré
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Éditer le courriel
 [Edit phone number]
@@ -1944,7 +1950,7 @@ Portable
 Téléphone professionnel
 [Work fax]
 Fax professionnel
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Homme
 [Female]
@@ -1963,14 +1969,15 @@ Travail
 Informations
 [Notes]
 Notes
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Propriétaire
 [View/change my &details...]
 Voir/Changer mes &détails...
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
+;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Ajouter le contact
@@ -2035,6 +2042,7 @@ Re&joindre
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
 &Ouvrir la fenêtre de chat
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s est arrivé
@@ -2482,11 +2490,6 @@ Sélectionnez le programme à lancer
 <Toutes connexions>
 [Network]
 Réseau
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-
-[Host we are connecting to is not the one certificate was issued for]
-
 ;file \src\modules\options\options.cpp
 [<all modules>]
 < Tous les plugins >
@@ -2501,16 +2504,16 @@ Options de Miranda NG
 [&Options...]
 &Paramètres...
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-
-[Fatal error]
-Erreur fatale
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
+[Fatal error]
+Erreur fatale
 [Unable to load plugin in service mode!]
 
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

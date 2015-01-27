@@ -19,5 +19,7 @@
 Файлове със звуци
 [WAV files]
 WAV файлове
+[(Unknown contact)]
+(Непознат контакт)
 [Sounds]
 Звук

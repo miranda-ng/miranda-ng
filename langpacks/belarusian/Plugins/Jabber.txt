@@ -1399,7 +1399,7 @@ Jabber Рэсурс
 Вам трэба далучыцца
 [Messaging]
 Паведамленні
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Адсылаць паведамленні павольней, але з пацверджаннем
 [Enable avatars]
 Уключыць аватары

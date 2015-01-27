@@ -3,6 +3,7 @@
 [Plugin settings]
 [Number of shown contacts:\n (0 to show all)]
 [Format of date and time\n(Look to readme for placeholders help)]
+[Resize window according to contact list]
 [Main icon]
 [Toggle Ignore]
 [Show Contact]

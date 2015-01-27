@@ -56,7 +56,7 @@ Mantener viva la conexión
 
 [Automatically reconnect after unintentional disconnection]
 
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 
 [Manually specify connection servers' hosts]
 

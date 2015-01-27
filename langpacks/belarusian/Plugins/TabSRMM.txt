@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.7
+;  Version: 3.4.0.8
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -266,7 +266,7 @@ Wikipedia
 Толькі актуальная гісторыя
 [Always trim message log to]
 Заўсёды абмяжоўваць лог да
-[Events]
+[events]
 Падзеі
 [Only show tab bar when it's needed]
 Панэль укладак толькі калі патрабуецца
@@ -1383,7 +1383,7 @@ TabSRMM: Набірае
 Кантэйнеры
 [Message log]
 Лог
-[Typing Notify]
+[Typing notify]
 Набірае тэкст
 [Event notifications]
 Абвесткі
@@ -1554,23 +1554,23 @@ TabSRMM: Набірае
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of TabSRMM requires Windows 2000 or later.]
 атрабуецца Windows 2000 ці больш новая сістэма.
-[TabSRMM Message (%s)]
+[TabSRMM message (%s)]
 tabSRMM: %s
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Прадпрагляд недаступны пры выкарыстанні History++ у якасці лога паведамленняў.
-[%d Unread]
+[%d unread]
 %d непрачытана
 [Chat room %s]
 Чат %s
-[%d User(s)]
+[%d user(s)]
 %d карыстачоў
 [Server window]
 Вакно сервера
 [%s on %s%s]
 %s у %s%s
 ;file \plugins\TabSRMM\src\templates.cpp
-[Template Set Editor]
+[Template set editor]
 Рэдактар шаблонаў
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Выдаленне ўсіх шаблонаў і скід на шаблоны па змаўчанні. Вы ўпэўнены, што жадаеце гэтага?
@@ -1695,9 +1695,9 @@ tabSRMM: %s
 Лакальны час кантакту (калі даступны гадзінны пояс)
 [Draw grid lines]
 Маляваць лініі сеткі
-[Use Incoming/Outgoing Icons]
+[Use incoming/outgoing icons]
 Выкарыстоўваць значкі ўваходнага/выходнага паведамлення
-[Use Message Grouping]
+[Use message grouping]
 Гуртаваць паведамленні
 [Simple text formatting (*bold*, etc.)]
 Простае фарматаванне (*тоўсты* і да т.п.)
@@ -2061,7 +2061,7 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
@@ -2101,9 +2101,9 @@ ID бягучага кантакту (калі вызначаны). Напрык
 поўная назва дня тыдня
 [Variables]
 Зменныя
-[All Files]
+[All files]
 Усе файлы
-[Select Folder]
+[Select folder]
 Абраць тэчку
 [No markers]
 Без маркераў
@@ -2120,24 +2120,24 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Няма слоў для пошуку
 [&Message %s]
 &Паведамленне %s
-[Highlight User...]
+[Highlight user...]
 Падсвятляць удзельнікаў
-[Edit Highlight List...]
+[Edit highlight list...]
 Кіраваць спіс падсвятлення
 ;file \plugins\TabSRMM\src\chat\window.cpp
 [Unique ID]
 Асабісты конт
 [Nick]
 Мянушка
-[%s: Chat Room (%u user%s)]
+[%s: chat room (%u user%s)]
 %s: Чат (%u удзельнікаў)
-[%s: Chat Room (%u users%s)]
+[%s: chat room (%u users%s)]
 %s: Чат (%u удзельнікаў %s)
 [, event filter active]
 , фільтр падзей уключаны
-[%s: Message Session]
+[%s: message session]
 %s: гутарка
-[%s: Message Session (%u users)]
+[%s: message session (%u users)]
 %s: гутарка (%u удзельнікаў)
 [, %d %s, %d %s idle]
 , %d %s, %d %s не актыўны

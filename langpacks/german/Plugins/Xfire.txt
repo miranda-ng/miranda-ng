@@ -245,7 +245,7 @@ Die Protokollversion ist zu alt. Es konnte keine neue Versionsnummer entdeckt we
 Jemand hat sich mit Ihren Zugangsdaten angemeldet. Verbindung wurde getrennt.
 [Do you really want to add %s to your friend list?]
 Möchten Sie wirklich %s zu Ihrer Freundesliste hinzufügen?
-[Add me to your friends list.]
+[Add me to your friend list.]
 Füge mich zu Ihrer Freundesliste hinzu.
 [XFire is not connected.]
 XFire ist nicht verbunden.

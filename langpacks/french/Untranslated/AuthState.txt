@@ -2,7 +2,7 @@
 [Show Auth icon]
 [Show Grant icon]
 [Plugin settings]
-[Enable menu item (*)]
+[Enable menu item (restart required)]
 [Show icons only for recently added contacts]
 [Disable AuthState icons]
 [Enable AuthState icons]

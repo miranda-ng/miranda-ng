@@ -34,6 +34,8 @@ Storno
 [WAV files]
 
 ;file \plugins\XSoundNotify\src\options.cpp
+[(Unknown contact)]
+(neznámý kontakt)
 [Sounds]
 Zvuky
 [XSound Notify]

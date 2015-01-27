@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dbx_mmap.dll
 ;  Plugin: Miranda NG mmap database driver
-;  Version: 0.95.1.3
+;  Version: 0.95.3.1
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -39,14 +39,14 @@ Retirer
 [Set password]
 Mot de passe du profil
 ;file \plugins\Db3x_mmap\src\database.cpp
+[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
+
 [Disk is full. Miranda will now shut down.]
 Le disque est plein. Miranda va se fermer.
 [Database failure. Miranda will now shut down.]
 Base de donnée corrompue. Miranda va se fermer.
 [Database Error]
 Erreur dans la base de donnée
-[Miranda has detected corruption in your database. This corruption may be fixed by DbChecker plugin. Please download it from http://miranda-ng.org/p/DbChecker/. Miranda will now shut down.]
-
 [Database Panic]
 Panique dans la Base de données !
 ;file \plugins\Db3x_mmap\src\dbheaders.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
@@ -114,11 +114,13 @@ Guardar
 
 [SkypeOut contacts are in status:]
 
-[Cleanup Nicknames]
+[Cleanup nicknames]
 
-[Skype Popups]
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
 
-[Incoming Calls]
+[Skype popups]
+
+[Incoming calls]
 
 [Show incoming calls]
 
@@ -132,7 +134,7 @@ Usar colores de Windows
 Texto
 [Preview]
 Previsualizar
-[Error Messages]
+[Error messages]
 
 [Display error messages]
 
@@ -170,7 +172,7 @@ Desconocido
 
 [&Leave chat session]
 &Abandonar sesión de charla
-[Set &Topic...]
+[Set &topic...]
 
 [User &details]
 &Detalles del usuario
@@ -179,30 +181,61 @@ Desconocido
 [&Kick user]
 
 ;file \protocols\SkypeClassic\src\skype.cpp
+[Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
+
+[Cannot reach Skype API, plugin disfunct.]
+
 [Do a SkypeOut-call]
+
+[Unable to register with group chat module!]
 
 [invited]
 
 [Phone call]
 
-[Incoming Skype Call]
+[Incoming Skype call]
 
 [Incoming call from %s]
 
 [Connection to Skype lost]
 
+[Cleanup finished.]
+
+[Cannot create window.]
+
+[Memory allocation error on startup.]
+
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 
+[Cannot register window message.]
+
+[Unable to create mutex!]
+
+;file \protocols\SkypeClassic\src\skypeapi.cpp
+[Misc. error]
+
+[User does not exist, check username]
+
+[Trying to send IM to a user, who is not online]
+
+[IM blocked by recipient]
+
+[Type unsupported]
+
+[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
+
+[Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
+
+[Unknown error]
+
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview Error Message]
+[Preview error message]
 
 [Skype default]
 
 [Skype advanced]
 
 [Skype proxy]
-
-[Avatar]
 
 [Details]
 

@@ -150,7 +150,7 @@ Wysłano wiadomość do "%s".
 Wiadomość do "%s" została oznaczona jako wysłana, ale konto zdaje się być rozłączone.
 [Could not send message to '%s'.]
 Nie udało się wysłać wiadomości do "%s".
-[Timed out while waiting for acknowledgement for contact '%s'.]
+[Timed out while waiting for acknowledgment for contact '%s'.]
 Przekroczono czas podczas oczekiwania na potwierdzenie dla kontaktu "%s".
 [Could not find contact handle for contact '%s'.]
 Nie udało się znaleźć uchwytu dla kontaktu "%s".

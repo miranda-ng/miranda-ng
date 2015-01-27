@@ -1,7 +1,7 @@
 ﻿;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.3
+;  Version: 0.95.4
 ;============================================================
 ;file \src\resource.rc
 [Enter account name (for example, My Google)]
@@ -570,7 +570,7 @@ Copiar enlace
 Cancelar cambio
 [Ungroup]
 Desagrupar
-;file \src\core\stdauth\resource.rc
+;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autorizar
 [&Deny]
@@ -587,7 +587,7 @@ Añadir a la lista de contactos si está autorizado
 Usted fue añadido
 [&Close]
 &Cerrar
-;file \src\core\stdaway\resource.rc
+;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s Mensaje(S) para %s
 [Retrieving %s message...]
@@ -946,7 +946,7 @@ No molestar
 En el &teléfono\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Salí a comer\tCtrl+9
-;file \src\core\stdfile\resource.rc
+;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Enviar archivo(s)
 [To:]
@@ -1057,12 +1057,12 @@ Preguntarme
 Renombrar (añadir " (1)", etc.)
 [You will always be asked about files from people not on your contact list]
 Siempre que se pregunte sobre archivos de personas que no están en la lista
-;file \src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 Acerca de Miranda NG
 [Credits >]
 Créditos >
-;file \src\core\stdidle\resource.rc
+;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
 [Become idle if the screen saver is active]
@@ -1188,7 +1188,7 @@ Mensajería:
 Pegar y Enviar
 [Delete]
 Eliminar
-;file \src\core\stduihist\resource.rc
+;file \src\core\stduihist\res\resource.rc
 [Find]
 Buscar
 [&Find next]
@@ -1199,7 +1199,7 @@ Buscar siguiente
 Historial de mensajes
 [&Find...]
 &Buscar...
-;file \src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Agregar número de teléfono
 [Enter country, area code and phone number:]
@@ -1270,7 +1270,7 @@ Departamento:
 Posición:
 [Website:]
 Sitio web
-;file \src\core\stdauth\auth.cpp
+;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s solicita autorización
 [%u requests authorization]
@@ -1283,7 +1283,7 @@ Sitio web
 Alertas
 [Added event]
 Evento añadido
-;file \src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Ver detalles del usuario
 [Add contact permanently to list]
@@ -1306,12 +1306,12 @@ Añadir contacto permanentemente a la lista
 %s autorización solicitada\n%s on %s
 [Feature is not supported by protocol]
 La función no está soportada por el protocolo
-;file \src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Leer %s mensaje(s)
 [Re&ad status message]
 Leer mens&aje de estado
-;file \src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -1336,7 +1336,6 @@ Mmm... comida.
 libreeeeeeee
 [Status]
 Estado
-;file \src\core\stdchat\src\colorchooser.cpp
 ;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Módulo de chat
@@ -1631,6 +1630,10 @@ Controlar esta sala (CTRL+O)
 Activar/desactivar el filtro de eventos (CTRL+F)
 [Close current tab (CTRL+F4)]
 Cerrar pestaña actual (CTRL+F4)
+[Nickname]
+Apodo
+[Unique ID]
+ID único
 [%s: chat room (%u user)]
 %s: sala de chat (%u usuario)
 [%s: chat room (%u users)]
@@ -1639,10 +1642,6 @@ Cerrar pestaña actual (CTRL+F4)
 %s: sesión de mensaje
 [%s: message session (%u users)]
 %s: sesión de mensaje (%u usuarios)
-[Nickname]
-Apodo
-[Unique ID]
-ID único
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Contactos estándar
@@ -1693,17 +1692,17 @@ Lista de fondos
 [Global]
 Global
 ;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\encrypt.cpp
+;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Proveedor estándar de cifrado
-;file \src\core\stdemail\email.cpp
+;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 El usuario no ha registrado una dirección de correo electrónico
 [Send e-mail]
 Enviar e-mail
 [&E-mail]
 E-mail
-;file \src\core\stdfile\file.cpp
+;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Archivo de %s
 [bytes]
@@ -1720,17 +1719,17 @@ Completo
 Error
 [Denied]
 Denegado
-;file \src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s archivo
 [All files]
 Todos los archivos
-;file \src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Archivos ejecutables
 [Events]
 Eventos
-;file \src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Mis archivos recibidos
 [View user's history]
@@ -1739,12 +1738,12 @@ Ver historial del usuario
 Menú del usuario
 [Canceled]
 Cancelado
-;file \src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Archivos
 [%d directories]
 %d directorios
-;file \src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
 [File received]
@@ -1795,13 +1794,13 @@ Transferencia finalizada, abrir carpeta.
 Análisis en busca de virus...
 [Transfer and virus scan complete]
 Transferencia y Análisis en busca de virus finalizado
-;file \src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Saliendo
-;file \src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Copyright
-;file \src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\src\help.cpp
 [&About...]
 &Acerca de...
 [&Support]
@@ -1810,7 +1809,7 @@ Saliendo
 &Miranda NG página principal
 [&Report bug]
 &Reportar error
-;file \src\core\stdidle\idle.cpp
+;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Inactivo
 ;file \src\core\stdmsg\src\cmdlist.cpp
@@ -1827,6 +1826,8 @@ Mensaje saliente (10x10)
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 ;file \src\core\stdmsg\src\msglog.cpp
+[Me]
+
 [File sent]
 Archivo enviado
 ;file \src\core\stdmsg\src\msgoptions.cpp
@@ -1888,7 +1889,12 @@ El contacto dejó de escribir
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
-;file \src\core\stduihist\history.cpp
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
+[Host we are connecting to is not the one certificate was issued for]
+El servidor al que nos estamos conectando no es el del certificado emitido
+;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Mensaje no válido
 [Outgoing message]
@@ -1923,7 +1929,7 @@ URL
 Enviar URL a
 [Send timed out]
 Tiempo de envio expirado
-;file \src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Editar dirección de correo
 [Edit phone number]
@@ -1944,7 +1950,7 @@ Móvil
 Teléfono de trabajo
 [Work fax]
 Fax de trabajo
-;file \src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Masculino
 [Female]
@@ -1963,14 +1969,15 @@ Trabajo
 Informacion de fondo
 [Notes]
 Notas
-;file \src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Propietario
 [View/change my &details...]
 Ver/cambiar mis &datos...
-;file \src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s está en línea
+;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Añadir contacto
@@ -2035,6 +2042,7 @@ El tema ha sido cambiado
 ;file \src\modules\chat\clist.cpp
 [&Open chat window]
 
+;file \src\modules\chat\colorchooser.cpp
 ;file \src\modules\chat\log.cpp
 [%s has joined]
 %s se ha unido
@@ -2482,11 +2490,6 @@ Seleccione el programa a ser ejecutado
 <Todas las conexiones>
 [Network]
 Red
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
-[Host we are connecting to is not the one certificate was issued for]
-El servidor al que nos estamos conectando no es el del certificado emitido
 ;file \src\modules\options\options.cpp
 [<all modules>]
 <todos los módulos>
@@ -2501,16 +2504,16 @@ Miranda NG opciones
 [&Options...]
 &Opciones
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Módulo básico '%s' no se puede cargar o falta.
-[Fatal error]
-Error fatal
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' está deshabilitado, ¿volver a activar?
 [Re-enable Miranda plugin?]
 Volver a activar el plugin de Miranda?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Módulo básico '%s' no se puede cargar o falta.
+[Fatal error]
+Error fatal
 [Unable to load plugin in service mode!]
 ¡No se pueden cargar plugins en el modo de servicio!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]

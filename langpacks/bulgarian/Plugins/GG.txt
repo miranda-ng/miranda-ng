@@ -51,7 +51,7 @@ Gadu-Gadu номер:
 Поддържане на връзката
 [Show connection errors]
 Показване на проблеми с връзката
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 По-бавно изпращане на съобщенията, но със сигурно потвърждение
 [Use SSL secure connection]
 Защитаване на връзка с SSL

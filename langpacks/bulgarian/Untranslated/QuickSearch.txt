@@ -1,4 +1,5 @@
 ﻿[Quick Search]
+[Quick search]
 [Module/InfoType]
 [Tool Window Style]
 [Draw Grid]

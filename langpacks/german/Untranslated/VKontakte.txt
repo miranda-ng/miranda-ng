@@ -1,0 +1,1 @@
+﻿[Use non-standard urlEncode for sent messages (less traffic)]
