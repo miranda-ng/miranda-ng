@@ -489,7 +489,7 @@ WhoIs
 [<Local IP: ]
 <Лакальны IP:>
 [ALL NETWORKS]
-Усе пратаколы
+Усе сеткі
 [Click to set commands that will be performed for this event]
 Клікніце для каманд апрацоўкі гэтай падзеі
 [Click to delete the commands for this event]
