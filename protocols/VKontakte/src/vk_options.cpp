@@ -245,6 +245,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_HIDECHATS, ppro->m_bHideChats ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_MESASUREAD, ppro->m_bMesAsUnread ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_FORCE_ONLINE_ON_ACT, ppro->m_bUserForceOnlineOnActivity ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_USENOSTDURLENCODE, ppro->m_bUseNonStandardUrlEncode ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_REPORT_ABUSE, ppro->m_bReportAbuse ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CLEAR_SERVER_HISTORY, ppro->m_bClearServerHistory ? BST_CHECKED : BST_UNCHECKED);
@@ -263,6 +264,7 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		case IDC_HIDECHATS:
 		case IDC_MESASUREAD:
 		case IDC_FORCE_ONLINE_ON_ACT:
+		case IDC_USENOSTDURLENCODE:
 		case IDC_REPORT_ABUSE:
 		case IDC_CLEAR_SERVER_HISTORY:
 		case IDC_REMOVE_FROM_FRENDLIST:
@@ -285,11 +287,11 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			ppro->m_bMesAsUnread = IsDlgButtonChecked(hwndDlg, IDC_MESASUREAD) == BST_CHECKED;
 			ppro->setByte("MesAsUnread", ppro->m_bMesAsUnread);
 
-
-
-
 			ppro->m_bUserForceOnlineOnActivity = IsDlgButtonChecked(hwndDlg, IDC_FORCE_ONLINE_ON_ACT) == BST_CHECKED;
 			ppro->setByte("UserForceOnlineOnActivity", ppro->m_bUserForceOnlineOnActivity);
+
+			ppro->m_bUseNonStandardUrlEncode = IsDlgButtonChecked(hwndDlg, IDC_USENOSTDURLENCODE) == BST_CHECKED;
+			ppro->setByte("UseNonStandardUrlEncode", ppro->m_bUseNonStandardUrlEncode);
 
 			ppro->m_bReportAbuse = IsDlgButtonChecked(hwndDlg, IDC_REPORT_ABUSE) == BST_CHECKED;
 			ppro->setByte("ReportAbuseOnBanUser", ppro->m_bReportAbuse);

@@ -52,6 +52,7 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void *pUserInfo;
 	int m_iRetry;
 	bool m_bApiReq;
+	bool bExpUrlEncode;
 	bool bNeedsRestart, bIsMainConn;
 };
 
@@ -581,7 +582,8 @@ private:
 		m_bNotificationFilterLikes,
 		m_bNotificationFilterReposts,
 		m_bNotificationFilterMentions,
-		m_bUseBBCOnAttacmentsAsNews;
+		m_bUseBBCOnAttacmentsAsNews,
+		m_bUseNonStandardUrlEncode;
 
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 
