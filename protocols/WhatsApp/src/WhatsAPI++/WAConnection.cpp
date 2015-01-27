@@ -774,11 +774,8 @@ void WAConnection::sendMessageWithBody(FMessage* message) throw (WAException)
 
 void WAConnection::sendMessageReceived(FMessage* message) throw(WAException)
 {
-	ProtocolTreeNode *receivedNode = new ProtocolTreeNode("received")
-		<< XATTR("xmlns", "urn:xmpp:receipts");
-
-	this->out->write(ProtocolTreeNode("message", receivedNode)
-		<< XATTR("to", message->key->remote_jid) << XATTR("type", "text") << XATTR("id", message->key->id));
+	this->out->write(ProtocolTreeNode("receipt") << XATTR("type", "read")
+		<< XATTR("to", message->key->remote_jid) << XATTR("id", message->key->id) << XATTRI("t", (int)time(0)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
