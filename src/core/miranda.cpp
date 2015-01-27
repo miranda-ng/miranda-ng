@@ -163,22 +163,23 @@ static INT_PTR CALLBACK WaitForProcessDlgProc(HWND hwnd, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-int CheckRestart()
+INT_PTR CheckRestart()
 {
-	int result = 0;
 	LPCTSTR tszPID = CmdLine_GetOption(_T("restart"));
 	if (tszPID) {
 		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _ttol(tszPID));
 		if (hProcess) {
-			result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
+			INT_PTR result = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WAITRESTART), NULL, WaitForProcessDlgProc, (LPARAM)hProcess);
 			CloseHandle(hProcess);
+			return result;
 		}
 	}
-	return result;
+	return 0;
 }
 
 static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
 {}
+
 
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
@@ -198,13 +199,14 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
+	HMODULE hDwmApi, hThemeAPI;
 	if (IsWinVerVistaPlus()) {
-		HINSTANCE hDwmApi = LoadLibraryA("dwmapi.dll");
+		hDwmApi = LoadLibrary(_T("dwmapi.dll"));
 		if (hDwmApi) {
 			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 		}
-		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
+		hThemeAPI = LoadLibrary(_T("uxtheme.dll"));
 		if (hThemeAPI) {
 			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
 			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
@@ -215,6 +217,8 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 			getBufferedPaintBits = (pfnGetBufferedPaintBits)GetProcAddress(hThemeAPI, "GetBufferedPaintBits");
 		}
 	}
+	else
+		hDwmApi = hThemeAPI = 0;
 
 	if (bufferedPaintInit)
 		bufferedPaintInit();
@@ -232,66 +236,67 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 		UnloadDefaultModules();
 
 		result = 1;
-		goto exit;
 	}
-	InitPathVar();
-	NotifyEventHooks(hModulesLoadedEvent, 0, 0);
-	bModulesLoadedFired = true;
+	else {
+		InitPathVar();
+		NotifyEventHooks(hModulesLoadedEvent, 0, 0);
+		bModulesLoadedFired = true;
 
-	// ensure that the kernel hooks the SystemShutdownProc() after all plugins
-	HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
+		// ensure that the kernel hooks the SystemShutdownProc() after all plugins
+		HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
 
-	forkthread(compactHeapsThread, 0, NULL);
-	CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
-	CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
-	dwEventTime = GetTickCount();
-	DWORD myPid = GetCurrentProcessId();
+		forkthread(compactHeapsThread, 0, NULL);
+		CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
+		CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
+		dwEventTime = GetTickCount();
+		DWORD myPid = GetCurrentProcessId();
 
-	bool messageloop = true;
-	while (messageloop) {
-		MSG msg;
-		DWORD rc;
-		BOOL dying = FALSE;
-		rc = MsgWaitForMultipleObjectsEx(waitObjectCount, hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
-		if (rc < WAIT_OBJECT_0 + waitObjectCount) {
-			rc -= WAIT_OBJECT_0;
-			CallService(pszWaitServices[rc], (WPARAM)hWaitObjects[rc], 0);
-		}
-		//
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-			if (msg.message != WM_QUIT) {
-				HWND h = GetForegroundWindow();
-				DWORD pid = 0;
-				checkIdle(&msg);
-				if (h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
-					if (IsDialogMessage(h, &msg))
-						continue;
-
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-				if (SetIdleCallback != NULL)
-					SetIdleCallback();
+		bool messageloop = true;
+		while (messageloop) {
+			MSG msg;
+			BOOL dying = FALSE;
+			DWORD rc = MsgWaitForMultipleObjectsEx(waitObjectCount, hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
+			if (rc < WAIT_OBJECT_0 + waitObjectCount) {
+				rc -= WAIT_OBJECT_0;
+				CallService(pszWaitServices[rc], (WPARAM)hWaitObjects[rc], 0);
 			}
-			else if (!dying) {
-				dying++;
-				SetEvent(hMirandaShutdown);
-				NotifyEventHooks(hPreShutdownEvent, 0, 0);
+			//
+			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+				if (msg.message != WM_QUIT) {
+					HWND h = GetForegroundWindow();
+					DWORD pid = 0;
+					checkIdle(&msg);
+					if (h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
+						if (IsDialogMessage(h, &msg))
+							continue;
 
-				// this spins and processes the msg loop, objects and APC.
-				Thread_Wait();
-				NotifyEventHooks(hShutdownEvent, 0, 0);
-				// if the hooks generated any messages, it'll get processed before the second WM_QUIT
-				PostQuitMessage(0);
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+					if (SetIdleCallback != NULL)
+						SetIdleCallback();
+				}
+				else if (!dying) {
+					dying++;
+					SetEvent(hMirandaShutdown);
+					NotifyEventHooks(hPreShutdownEvent, 0, 0);
+
+					// this spins and processes the msg loop, objects and APC.
+					Thread_Wait();
+					NotifyEventHooks(hShutdownEvent, 0, 0);
+					// if the hooks generated any messages, it'll get processed before the second WM_QUIT
+					PostQuitMessage(0);
+				}
+				else if (dying)
+					messageloop = false;
 			}
-			else if (dying)
-				messageloop = false;
 		}
 	}
 
-exit:
 	UnloadNewPluginsModule();
 	UnloadCoreModule();
 	CloseHandle(hMirandaShutdown);
+	FreeLibrary(hDwmApi);
+	FreeLibrary(hThemeAPI);
 
 	if (pTaskbarInterface)
 		pTaskbarInterface->Release();
