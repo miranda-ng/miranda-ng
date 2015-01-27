@@ -1305,7 +1305,8 @@ char XMLNode::maybeAddTxT(void *pa, XMLCSTR tokenPStr)
 	{
 		// if the previous insertion was a comment (<!-- -->) AND
 		// if the previous previous insertion was a text then, delete the comment and append the text
-		int n = d->nChild+d->nText+d->nClear-1, *o = d->pOrder;
+		size_t n = d->nChild+d->nText+d->nClear-1;
+		int *o = d->pOrder;
 		if (((o[n]&3) == eNodeClear)&&((o[n-1]&3) == eNodeText))
 		{
 			int i = o[n]>>2;
@@ -1314,7 +1315,7 @@ char XMLNode::maybeAddTxT(void *pa, XMLCSTR tokenPStr)
 				deleteClear(i);
 				i = o[n-1]>>2;
 				n = xstrlen(d->pText[i]);
-				int n2 = xstrlen(lpt)+1;
+				size_t n2 = xstrlen(lpt)+1;
 				d->pText[i] = (XMLSTR)realloc((void*)d->pText[i], (n+n2)*sizeof(XMLCHAR));
 				if (!d->pText[i]) return 1;
 				memcpy((void*)(d->pText[i]+n), lpt, n2*sizeof(XMLCHAR));
@@ -2706,8 +2707,8 @@ XMLCSTR XMLNode::getInnerText() const
 	if (d->pInnerText) return d->pInnerText;
 
 	int count = nElement();
-	int i, length = 1;
-	for (i=0; i < count; i++)
+	size_t length = 1;
+	for (int i=0; i < count; i++)
 	{
 		XMLNodeContents c = enumContents(i);
 		switch (c.etype)
@@ -2722,7 +2723,7 @@ XMLCSTR XMLNode::getInnerText() const
 	}
 	XMLCHAR *buf = (XMLCHAR *)malloc(sizeof(XMLCHAR) * length);
 	XMLCHAR *pos = buf;
-	for (i=0; i < count; i++)
+	for (int i=0; i < count; i++)
 	{
 		XMLNodeContents c = enumContents(i);
 		switch (c.etype)

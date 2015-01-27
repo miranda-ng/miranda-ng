@@ -362,7 +362,7 @@ static int LoadLangDescr(LANGPACK_INFO &lpinfo, FILE *fp, char *line, int &start
 
 	MultiByteToWideChar(lpinfo.codepage, 0, szLanguage, -1, lpinfo.tszLanguage, SIZEOF(lpinfo.tszLanguage));
 
-	if (!lpinfo.tszLanguage[0] && (lpinfo.Locale == 0) || !GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, sizeof(lpinfo.tszLanguage))) {
+	if (!lpinfo.tszLanguage[0] && (lpinfo.Locale == 0) || !GetLocaleInfo(lpinfo.Locale, LOCALE_SENGLANGUAGE, lpinfo.tszLanguage, SIZEOF(lpinfo.tszLanguage))) {
 		TCHAR *p = _tcschr(lpinfo.tszFileName, '_');
 		_tcsncpy_s(lpinfo.tszLanguage, ((p != NULL) ? (p + 1) : lpinfo.tszFileName), _TRUNCATE);
 		p = _tcsrchr(lpinfo.tszLanguage, _T('.'));

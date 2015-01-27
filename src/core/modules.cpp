@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../modules/langpack/langpack.h"
 #include "../modules/chat/chat.h"
 
-int CheckRestart();		// core: IDD_WAITRESTART
+INT_PTR CheckRestart();		// core: IDD_WAITRESTART
 
 int  LoadSystemModule(void);		// core: m_system.h services
 int  LoadNewPluginsModuleInfos(void); // core: preloading plugins
