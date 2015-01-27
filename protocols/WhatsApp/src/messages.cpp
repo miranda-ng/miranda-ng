@@ -32,7 +32,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
 	recv.szMessage = const_cast<char*>(msg->c_str());
-	recv.timestamp = paramFMessage->timestamp; //time(NULL);
+	recv.timestamp = paramFMessage->timestamp;
 	ProtoChainRecvMsg(hContact, &recv);
 
 	m_pConnection->sendMessageReceived(paramFMessage);

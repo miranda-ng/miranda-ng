@@ -129,12 +129,10 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 void WhatsAppProto::sentinelLoop(void*)
 {
-	int delay = MAX_SILENT_INTERVAL;
-	int quietInterval;
-	while (WaitForSingleObjectEx(update_loop_lock_, delay * 1000, true) == WAIT_TIMEOUT) {
+	while (WaitForSingleObjectEx(update_loop_lock_, 1000, true) == WAIT_TIMEOUT) {
 		if (m_iStatus != ID_STATUS_OFFLINE && m_pConnection != NULL && m_iDesiredStatus == m_iStatus) {
 			// #TODO Quiet after pong or tree read?
-			quietInterval = difftime(time(NULL), this->lastPongTime);
+			int quietInterval = difftime(time(NULL), this->lastPongTime);
 			if (quietInterval >= MAX_SILENT_INTERVAL) {
 				try {
 					debugLogA("send ping");
@@ -145,9 +143,7 @@ void WhatsAppProto::sentinelLoop(void*)
 					debugLogA("Exception: %s", e.what());
 				}
 			}
-			else delay = MAX_SILENT_INTERVAL - quietInterval;
 		}
-		else delay = MAX_SILENT_INTERVAL;
 	}
 	ResetEvent(update_loop_lock_);
 	debugLogA("Exiting sentinel loop");

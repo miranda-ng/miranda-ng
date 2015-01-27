@@ -129,8 +129,8 @@ int WhatsAppProto::SetStatus(int new_status)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 		ResetEvent(update_loop_lock_);
-		ForkThread(&WhatsAppProto::sentinelLoop, this);
-		ForkThread(&WhatsAppProto::stayConnectedLoop, this);
+		ForkThread(&WhatsAppProto::sentinelLoop, 0);
+		ForkThread(&WhatsAppProto::stayConnectedLoop, 0);
 	}
 	else if (m_pConnection != NULL) {
 		if (m_iDesiredStatus == ID_STATUS_ONLINE) {

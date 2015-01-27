@@ -778,7 +778,7 @@ void WAConnection::sendMessageReceived(FMessage* message) throw(WAException)
 		<< XATTR("xmlns", "urn:xmpp:receipts");
 
 	this->out->write(ProtocolTreeNode("message", receivedNode)
-		<< XATTR("to", message->key->remote_jid) << XATTR("type", "chat") << XATTR("id", message->key->id));
+		<< XATTR("to", message->key->remote_jid) << XATTR("type", "text") << XATTR("id", message->key->id));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -798,11 +798,7 @@ void WAConnection::sendPaused(const std::string& to) throw(WAException)
 
 void WAConnection::sendPing() throw(WAException)
 {
-	std::string id = makeId("ping_");
-	this->pending_server_requests[id] = new IqResultPingHandler(this);
-
-	ProtocolTreeNode *pingNode = new ProtocolTreeNode("ping") << XATTR("xmlns", "w:p");
-	this->out->write(ProtocolTreeNode("iq", pingNode) << XATTR("id", id) << XATTR("type", "get"));
+	this->out->write(ProtocolTreeNode(""));
 }
 
 void WAConnection::sendPong(const std::string& id) throw(WAException)
