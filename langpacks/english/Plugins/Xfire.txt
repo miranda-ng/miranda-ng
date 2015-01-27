@@ -128,7 +128,7 @@
 [The protocol version is too old. Cannot detect a new version number.]
 [Someone logged in with your account. Disconnect.]
 [Do you really want to add %s to your friend list?]
-[Add me to your friends list.]
+[Add me to your friend list.]
 [XFire is not connected.]
 [Current Game]
 [My Current Game]

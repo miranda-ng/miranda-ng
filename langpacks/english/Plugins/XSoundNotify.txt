@@ -21,6 +21,7 @@
 [Sound files]
 [WAV files]
 ;file \plugins\XSoundNotify\src\options.cpp
+[(Unknown contact)]
 [Sounds]
 [XSound Notify]
 ;file \plugins\XSoundNotify\src\xsn_main.cpp
