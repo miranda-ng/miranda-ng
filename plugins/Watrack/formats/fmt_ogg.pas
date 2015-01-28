@@ -10,7 +10,7 @@ function ReadSPX(var Info:tSongInfo):boolean; cdecl;
 function ReadfLaC(var Info:tSongInfo):boolean; cdecl;
 
 implementation
-uses windows,common,io,tags,srv_format,utils;
+uses windows,common,io,tags,srv_format,utils,m_api;
 
 const
   OGGSign = $5367674F; //OggS
