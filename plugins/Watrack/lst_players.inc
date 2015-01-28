@@ -8,7 +8,7 @@
 ,pl_mmonkey in 'players\pl_mmonkey.pas'
 ,pl_itunes  in 'players\pl_itunes.pas'
 ,pl_cowon   in 'players\pl_cowon.pas'
-,pl_vlc     in 'players\pl_vlc.pas'
+//,pl_vlc     in 'players\pl_vlc.pas'
 // keep file for check in future
 //,pl_wmp     in 'players\pl_wmp.pas'
 ,pl_mpc     in 'players\pl_mpc.pas'

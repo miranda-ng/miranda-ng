@@ -241,7 +241,7 @@ begin
 
           DefCheckPlayerList(GetDlgItem(Dialog,IDC_PLAYERLIST));
           DefCheckFormatList(GetDlgItem(Dialog,IDC_FORMATLIST));
-          saveopt;
+          SaveOpt;
 
           result:=1;
         end;
