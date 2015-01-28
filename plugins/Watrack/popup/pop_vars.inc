@@ -5,14 +5,14 @@ var
   PopTitle,
   PopText:pWideChar;
   PopRequest,
-  PopUpFile:dword;
-  PopUpColor:dword;
-  PopUpFore,
-  PopUpBack:cardinal;
-  PopUpPause:cardinal;
-  PopUpDelay:integer;
-  PopUpAction:cardinal;
-  PopUpButtons:cardinal;
+  PopupFile:dword;
+  PopupColor:dword;
+  PopupFore,
+  PopupBack:cardinal;
+  PopupPause:cardinal;
+  PopupDelay:integer;
+  PopupAction:cardinal;
+  PopupButtons:cardinal;
 
   DisablePlugin:integer;
   IsPopup2Present:boolean;

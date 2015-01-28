@@ -25,9 +25,9 @@ function ServiceFormat(wParam:WPARAM;lParam:LPARAM):integer;cdecl;
 procedure RegisterFormat(ext:PAnsiChar;proc:tReadFormatProc;flags:dword=0);
 
 type
-  MusEnumProc = function(param:PAnsiChar;lParam:LPARAM):bool;stdcall;
+  TMusEnumProc = function(param:PAnsiChar;lParam:LPARAM):bool;stdcall;
 
-function EnumFormats(param:MusEnumProc;lParam:LPARAM):bool;
+function EnumFormats(param:TMusEnumProc;lParam:LPARAM):bool;
 function GetActiveFormat:pMusicFormat;
 
 type
@@ -65,7 +65,7 @@ begin
   result:=@fmtLink^[0];
 end;
 
-function EnumFormats(param:MusEnumProc;lParam:LPARAM):bool;
+function EnumFormats(param:TMusEnumProc;lParam:LPARAM):bool;
 var
   tmp:pFmtArray;
   i,j:integer;

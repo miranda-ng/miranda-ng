@@ -42,7 +42,7 @@ begin
     MessageBoxW(0,@buf,'ERROR',MB_ICONERROR)
 end;
 
-function GetMD5Str(digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
+function GetMD5Str(const digest:TMD5Hash; buf:pAnsiChar):PAnsiChar;
 begin
   buf[00]:=HexDigitChrLo[digest[00] shr 4]; buf[01]:=HexDigitChrLo[digest[00] and $0F];
   buf[02]:=HexDigitChrLo[digest[01] shr 4]; buf[03]:=HexDigitChrLo[digest[01] and $0F];
@@ -189,11 +189,13 @@ begin
   // Show mark as "watching"
   pc:=StrCopyE(buf,API_URL+'profile/shows/');
   FastWideToAnsiBuf(shId,pc);
+  {!!json_free(shId);} mir_free(shId);
   StrCat(pc,'/watching');
   if SendMSRequest(buf,show) then
   begin
     // Episode check
     StrCopy(StrCopyE(buf,API_URL+'profile/episodes/check/'),epId);
+//      json_free(epId);        // !! cause memory error (no need for GetName?)
   //  StrCopy(request,API_URL+'profile/shows/');
     if SendMSRequest(buf,show) then
     begin
@@ -206,16 +208,15 @@ begin
         FastAnsiToWide(img,pSongInfoW(si)^.cover);
         json_free(img);
       end;
-}        
+}
+
       //!! add option to show it??
       if ServiceExists(MS_POPUP_SHOWMESSAGEW)<>0 then
       begin
-        json_free(shId);
-        json_free(epId);
-
         jn:=json_get(jroot,'show');
         shId:=json_as_string(json_get(jn,'title'));
 
+        jn:=json_get(jn,'episodes');
         jn:=json_get(jn,'episodes');
         pWideChar(epId):=json_as_string(json_get(jn,'title'));
 
@@ -231,12 +232,13 @@ begin
         '" checked');
         CallService(MS_POPUP_SHOWMESSAGEW,TWPARAM(pc),SM_NOTIFY);
         mFreeMem(pc);
+
+  {!!json_free(shId);} mir_free(shId);
+  {!!json_free(epId);} mir_free(epId);
       end;
       result:=true;
     end;
   end;
-  json_free(shId);
-  json_free(epId);
 
   json_delete(jroot);
 end;

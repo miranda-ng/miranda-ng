@@ -254,7 +254,7 @@ end;
 
 function DlgProcOptions11(Dialog:HWND;hMessage:uint;wParam:WPARAM;lParam:LPARAM):LRESULT; stdcall;
 var
-  Item:LV_ITEMA;
+  item:LV_ITEMA;
   buf:array [0..127] of AnsiChar;
   i,j:integer;
   wnd:HWND;
@@ -418,11 +418,11 @@ begin
 
           else //IDC_STATUSLIST
           begin
-            Item.iItem:=PNMLISTVIEW(lParam)^.iItem;
-            Item.mask:=LVIF_PARAM;
-            SendMessageA(PNMLISTVIEW(lParam)^.hdr.hwndFrom,LVM_GETITEMA,0,tlparam(@Item));
-//            ListView_GetItemA(PNMLISTVIEW(lParam)^.hdr.hwndFrom,Item);
-            CurStatus:=GetStatusNum(Item.lParam);
+            item.iItem:=PNMLISTVIEW(lParam)^.iItem;
+            item.mask:=LVIF_PARAM;
+            SendMessageA(PNMLISTVIEW(lParam)^.hdr.hwndFrom,LVM_GETITEMA,0,tlparam(@item));
+//            ListView_GetItemA(PNMLISTVIEW(lParam)^.hdr.hwndFrom,item);
+            CurStatus:=GetStatusNum(item.lParam);
             RedrawFields(Dialog);
           end;
         end
