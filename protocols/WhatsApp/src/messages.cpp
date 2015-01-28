@@ -26,7 +26,7 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 		msg->insert(0, std::string("[").append(paramFMessage->notifyname).append("]: "));
 	}
 
-	MCONTACT hContact = this->AddToContactList(paramFMessage->key->remote_jid, 0, false,
+	MCONTACT hContact = this->AddToContactList(paramFMessage->key.remote_jid, 0, false,
 		isChatRoom ? NULL : paramFMessage->notifyname.c_str(), isChatRoom);
 
 	PROTORECVEVENT recv = { 0 };
@@ -54,15 +54,16 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		return 0;
 	}
 	
-	int msgId = ++this->m_pConnection->msg_id;
+	int msgId = GetSerial();
 	try {
 		time_t now = time(NULL);
 		std::string id = Utilities::intToStr(now) + "-" + Utilities::intToStr(msgId);
-		FMessage fmsg(new Key((const char*)jid, true, id));
+		FMessage fmsg(std::string(jid), true, id);
 		fmsg.timestamp = now;
 		fmsg.data = msg;
 
 		m_pConnection->sendMessage(&fmsg);
+		utils::setStatusMessage(hContact, NULL);
 	}
 	catch (exception &e) {
 		debugLogA("exception: %s", e.what());
@@ -117,16 +118,22 @@ void WhatsAppProto::SendTypingWorker(void* p)
 
 void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 {
-	MCONTACT hContact = this->ContactIDToHContact(fmsg->key->remote_jid);
+	MCONTACT hContact = this->ContactIDToHContact(fmsg->key.remote_jid);
 	if (hContact == 0)
 		return;
 
 	if (fmsg->status == FMessage::STATUS_RECEIVED_BY_SERVER) {
-		size_t delim = fmsg->key->id.find('-');
+		size_t delim = fmsg->key.id.find('-');
 		if (delim == string::npos)
 			return;
 
-		int msgId = atoi(fmsg->key->id.substr(delim+1).c_str());
+		int msgId = atoi(fmsg->key.id.substr(delim+1).c_str());
 		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
+
+		time_t timestamp = atol(fmsg->key.id.substr(0, delim).c_str());
+
+		TCHAR ttime[64];
+		_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
+		utils::setStatusMessage(hContact, CMString(FORMAT, TranslateT("Message read: %s by %s"), ttime, pcli->pfnGetContactDisplayName(hContact, 0)));
 	}
 }

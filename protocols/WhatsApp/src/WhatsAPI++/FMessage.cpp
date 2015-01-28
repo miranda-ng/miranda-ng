@@ -9,15 +9,9 @@
 
 #include "utilities.h"
 
-//SDL_mutex* FMessage::generating_lock = SDL_CreateMutex();
-IMutex* FMessage::generating_lock = NULL;
-int FMessage::generating_id = 0;
-std::string FMessage::generating_header = Utilities::intToStr(static_cast<int> (time(NULL))).append("-");
-
-
-FMessage::FMessage()
+FMessage::FMessage() :
+	key("", false, "")
 {
-	this->key = NULL;
 	this->timestamp = 0;
 	this->media_wa_type = 0;
 	this->longitude = 0;
@@ -29,38 +23,10 @@ FMessage::FMessage()
 	this->data = "";
 }
 
-FMessage::FMessage(const std::string& remote_jid, bool from_me, const std::string& data)
+FMessage::FMessage(const std::string &remote_jid, bool from_me, const std::string &id) :
+	key(remote_jid, from_me, id)
 {
-	Key* local_key;
-	FMessage::generating_lock->lock();
-	FMessage::generating_id++;
-	local_key = new Key(remote_jid, from_me, generating_header + Utilities::intToStr(generating_id));
-	this->key = local_key;
-	FMessage::generating_lock->unlock();
-	this->data = data;
 	this->timestamp = time(NULL);
-	this->media_wa_type = 0;
-	this->longitude = 0;
-	this->latitude = 0;
-	this->media_duration_seconds = 0;
-	this->media_size = 0;
-	this->media_name = "";
-	this->media_url = "";
-}
-
-std::string FMessage::nextKeyIdNumber()
-{
-	int id = 0;
-	FMessage::generating_lock->lock();
-	id = (FMessage::generating_id++);
-	FMessage::generating_lock->unlock();
-	return generating_header + (Utilities::intToStr(id));
-}
-
-FMessage::FMessage(Key* key)
-{
-	this->key = key;
-	this->timestamp = 0;
 	this->media_wa_type = 0;
 	this->longitude = 0;
 	this->latitude = 0;
@@ -94,8 +60,6 @@ std::string FMessage::getMessage_WA_Type_StrValue(unsigned char type)
 
 FMessage::~FMessage()
 {
-	if (this->key != NULL)
-		delete key;
 }
 
 Key::Key(const std::string& remote_jid, bool from_me, const std::string& id)

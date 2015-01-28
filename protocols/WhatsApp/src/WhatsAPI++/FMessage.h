@@ -15,8 +15,8 @@
 #include <time.h>
 #include "IMutex.h"
 
-class Key {
-public:
+struct Key
+{
 	std::string remote_jid;
 	bool from_me;
 	std::string id;
@@ -26,16 +26,9 @@ public:
 
 };
 
-class FMessage {
-private:
-	static int generating_id;
-	static std::string generating_header;
-
-
-public:
-   static IMutex* generating_lock; // #WORKAROUND
-
-	Key* key;
+struct FMessage
+{
+	Key key;
 	unsigned char media_wa_type;
 	std::string data;
 	long long timestamp;
@@ -79,12 +72,10 @@ public:
 	};
 
 	static std::string getMessage_WA_Type_StrValue(unsigned char type);
-	static std::string nextKeyIdNumber();
-	static unsigned char getMessage_WA_Type(const std::string& typeString);
+	static unsigned char getMessage_WA_Type(const std::string &typeString);
 
 	FMessage();
-	FMessage(const std::string& remote_jid, bool from_me = true, const std::string& data = "");
-	FMessage(Key* key);
+	FMessage(const std::string &remote_jid, bool from_me, const std::string &id);
 	virtual ~FMessage();
 };
 

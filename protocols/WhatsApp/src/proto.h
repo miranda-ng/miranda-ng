@@ -129,6 +129,8 @@ public:
 		return getByte(hC, "SimpleChatRoom", 0) > (checkIsAdmin ? 1 : 0);
 	}
 
+	LONG GetSerial();
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Registration
 
@@ -138,6 +140,8 @@ private:
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
+
+	LONG m_iSerial;
 
 	std::tstring GetAvatarFolder();
 	void ToggleStatusMenuItems(BOOL bEnable);
