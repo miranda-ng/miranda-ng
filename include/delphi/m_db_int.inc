@@ -83,17 +83,17 @@ type
     GetContactSize:function():long; stdcall;
 
     GetEventCount:function(contactID:TMCONTACT):long; stdcall;
-    AddEvent:function(contactID:TMCONTACT; dbe:PDBEVENTINFO):HDBEVENT; stdcall;
-    DeleteEvent:function(contactID:TMCONTACT; hDbEvent:HDBEVENT):bool; stdcall;
-    GetBlobSize:function(hDbEvent:HDBEVENT):long; stdcall;
-    GetEvent:function(hDbEvent:HDBEVENT; dbe:PDBEVENTINFO):bool; stdcall;
-    MarkEventRead:function(contactID:TMCONTACT; hDbEvent:HDBEVENT):bool; stdcall;
-    GetEventContact:function(hDbEvent:HDBEVENT):TMCONTACT; stdcall;
-    FindFirstEvent:function(contactID:TMCONTACT):HDBEVENT; stdcall;
-    FindFirstUnreadEvent:function(contactID:TMCONTACT):HDBEVENT; stdcall;
-    FindLastEvent:function(contactID:TMCONTACT):HDBEVENT; stdcall;
-    FindNextEvent:function(contactID:TMCONTACT;hDbEvent:HDBEVENT):HDBEVENT; stdcall;
-    FindPrevEvent:function(contactID:TMCONTACT;hDbEvent:HDBEVENT):HDBEVENT; stdcall;
+    AddEvent:function(contactID:TMCONTACT; dbe:PDBEVENTINFO):TMEVENT; stdcall;
+    DeleteEvent:function(contactID:TMCONTACT; hDbEvent:TMEVENT):bool; stdcall;
+    GetBlobSize:function(hDbEvent:TMEVENT):long; stdcall;
+    GetEvent:function(hDbEvent:TMEVENT; dbe:PDBEVENTINFO):bool; stdcall;
+    MarkEventRead:function(contactID:TMCONTACT; hDbEvent:TMEVENT):bool; stdcall;
+    GetEventContact:function(hDbEvent:TMEVENT):TMCONTACT; stdcall;
+    FindFirstEvent:function(contactID:TMCONTACT):TMEVENT; stdcall;
+    FindFirstUnreadEvent:function(contactID:TMCONTACT):TMEVENT; stdcall;
+    FindLastEvent:function(contactID:TMCONTACT):TMEVENT; stdcall;
+    FindNextEvent:function(contactID:TMCONTACT;hDbEvent:TMEVENT):TMEVENT; stdcall;
+    FindPrevEvent:function(contactID:TMCONTACT;hDbEvent:TMEVENT):TMEVENT; stdcall;
 
     EnumModuleNames:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
 
@@ -162,7 +162,7 @@ const
   EGROKPRF_UNKHEADER = 2; // header not supported, not a supported profile
   EGROKPRF_VERNEWER  = 3; // header correct, version in profile newer than reader/writer
   EGROKPRF_DAMAGED   = 4; // header/version fine, other internal data missing, damaged.
-  EGROKPRF_OBSOLETE  = 5; // obsolete database version detected, requiring conversion
+  EGROKPRF_OBSOLETE  = 5; // obsolete database version detected, requiring conversion 
 
 // makeDatabase() error codes
   EMKPRF_CREATEFAILED = 1; // for some reason CreateFile() didnt like something

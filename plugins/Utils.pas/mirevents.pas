@@ -30,29 +30,29 @@ const
 
 //----- Event info -----
 
-procedure GetEventInfo     (hDBEvent: THANDLE; var EventInfo: TDBEventInfo);
-function  GetEventTimestamp(hDBEvent: THANDLE): DWord;
-function  GetEventDateTime (hDBEvent: THANDLE): TDateTime;
+procedure GetEventInfo     (hDBEvent: TMEVENT; var EventInfo: TDBEventInfo);
+function  GetEventTimestamp(hDBEvent: TMEVENT): DWord;
+function  GetEventDateTime (hDBEvent: TMEVENT): TDateTime;
 function  GetEventCoreText (const EventInfo: TDBEventInfo; cp: integer = CP_ACP): PWideChar;
 
 //----- Event check -----
 
 function IsIncomingEvent(const EventInfo: TDBEventInfo):boolean; overload;
-function IsIncomingEvent(hDBEvent: THANDLE):boolean; overload;
+function IsIncomingEvent(hDBEvent: TMEVENT):boolean; overload;
 function IsOutgoingEvent(const EventInfo: TDBEventInfo):boolean; overload;
-function IsOutgoingEvent(hDBEvent: THANDLE):boolean; overload;
+function IsOutgoingEvent(hDBEvent: TMEVENT):boolean; overload;
 function IsReadedEvent  (const EventInfo: TDBEventInfo):boolean; overload;
-function IsReadedEvent  (hDBEvent: THANDLE):boolean; overload;
+function IsReadedEvent  (hDBEvent: TMEVENT):boolean; overload;
 
 function GetEventBaseType(EventInfo: TDBEventInfo): TBaseEventType; overload;
-function GetEventBaseType(hDBEvent : THANDLE     ): TBaseEventType; overload;
+function GetEventBaseType(hDBEvent : TMEVENT     ): TBaseEventType; overload;
 
 //----- Custom events processing -----
 
-//procedure ReadEvent          (hDBEvent: THANDLE; var EventInfo: TDBEventInfo; UseCP: Cardinal = CP_ACP);
+//procedure ReadEvent          (hDBEvent: TMEVENT; var EventInfo: TDBEventInfo; UseCP: Cardinal = CP_ACP);
 //function  GetEventName(const Hi: THistoryItem):PAnsiChar;
 
-function GetEventText(hDBEvent: THANDLE            ; custom:boolean; cp:integer=CP_ACP):PWideChar; overload;
+function GetEventText(hDBEvent: TMEVENT            ; custom:boolean; cp:integer=CP_ACP):PWideChar; overload;
 function GetEventText(const EventInfo: TDBEventInfo; custom:boolean; cp:integer=CP_ACP):PWideChar; overload;
 
 
@@ -64,7 +64,7 @@ uses
 
 //----- Event info -----
 
-procedure GetEventInfo(hDBEvent: THANDLE; var EventInfo: TDBEventInfo);
+procedure GetEventInfo(hDBEvent: TMEVENT; var EventInfo: TDBEventInfo);
 var
   BlobSize: integer;
 begin
@@ -113,7 +113,7 @@ var
   RecentEvent: THANDLE = 0;
   RecentEventInfo: TDBEventInfo;
 
-procedure CheckRecent(hDBEvent: THANDLE);
+procedure CheckRecent(hDBEvent: TMEVENT);
 begin
   if RecentEvent <> hDBEvent then
   begin
@@ -125,13 +125,13 @@ begin
   end;
 end;
 
-function GetEventTimestamp(hDBEvent: THANDLE): DWord;
+function GetEventTimestamp(hDBEvent: TMEVENT): DWord;
 begin
   CheckRecent(hDBEvent);
   Result := RecentEventInfo.timestamp;
 end;
 
-function GetEventDateTime(hDBEvent: THANDLE): TDateTime;
+function GetEventDateTime(hDBEvent: TMEVENT): TDateTime;
 begin
   Result := TimestampToDateTime(GetEventTimestamp(hDBEvent));
 end;
@@ -144,7 +144,7 @@ begin
   Result:=(EventInfo.flags and DBEF_SENT) = 0
 end;
 
-function IsIncomingEvent(hDBEvent: THANDLE):boolean;
+function IsIncomingEvent(hDBEvent: TMEVENT):boolean;
 begin
   CheckRecent(hDBEvent);
   Result:=(RecentEventInfo.flags and DBEF_SENT) = 0
@@ -156,7 +156,7 @@ begin
   result:=(EventInfo.flags and DBEF_SENT) <> 0;
 end;
 
-function IsOutgoingEvent(hDBEvent: THANDLE):boolean;
+function IsOutgoingEvent(hDBEvent: TMEVENT):boolean;
 begin
   CheckRecent(hDBEvent);
   result:=(RecentEventInfo.flags and DBEF_SENT) <> 0;
@@ -168,7 +168,7 @@ begin
   result:=(EventInfo.flags and DBEF_READ) <> 0;
 end;
 
-function IsReadedEvent(hDBEvent: THANDLE):boolean;
+function IsReadedEvent(hDBEvent: TMEVENT):boolean;
 begin
   CheckRecent(hDBEvent);
   result:=(RecentEventInfo.flags and DBEF_READ) <> 0;
@@ -215,7 +215,7 @@ begin
   Result := BuiltinEventTable[EventIndex].MessageType;
 end;
 
-function GetEventBaseType(hDBEvent: THANDLE): TBaseEventType;
+function GetEventBaseType(hDBEvent: TMEVENT): TBaseEventType;
 begin
   CheckRecent(hDBEvent);
   Result := GetEventBaseType(RecentEventInfo);
@@ -306,7 +306,7 @@ end;
 // reads all THistoryItem fields
 // *EXCEPT* Proto field. Fill it manually, plz
 (*
-procedure ReadEvent(hDBEvent: THANDLE; var hi: THistoryItem; UseCP: Cardinal = CP_ACP);
+procedure ReadEvent(hDBEvent: TMEVENT; var hi: THistoryItem; UseCP: Cardinal = CP_ACP);
 var
   EventInfo: TDBEventInfo;
   EventIndex: integer;
@@ -493,7 +493,7 @@ begin
   end;
 end;
 
-function GetEventText(hDBEvent: THANDLE; custom:boolean; cp:integer=CP_ACP):PWideChar;
+function GetEventText(hDBEvent: TMEVENT; custom:boolean; cp:integer=CP_ACP):PWideChar;
 var
   EventInfo: TDBEventInfo;
 begin

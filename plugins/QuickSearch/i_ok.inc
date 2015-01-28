@@ -262,7 +262,7 @@ procedure LoadOneItem(hContact:THANDLE;column:pcolumnitem;proto:integer; var res
 var
   tmp:int_ptr;
   lmodule,srv:PAnsiChar;
-  DbEvent:HDBEVENT;
+  DbEvent:TMEVENT;
   cni:TCONTACTINFO;
   dbei:TDBEVENTINFO;
   b:bool;

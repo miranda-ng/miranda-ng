@@ -349,7 +349,7 @@ const
   PS_GETSTATUS = '/GetStatus';
 
   {
-    wParam : HDBEVENT
+    wParam : TMEVENT
     lParam : 0
     Affect : allow 'somebody' to add the user to their contact list, see notes
     Returns: 0 on success, [non zero] on failure
@@ -359,13 +359,13 @@ const
              protocolSpecific: dword;
              nick, firstname, lastName, e-mail, requestReason: ASCIIZ;
              -
-             HDBEVENT musts be the handle of such an event, one or more
+             TMEVENT musts be the handle of such an event, one or more
              fields may be empty if the protocol doesn't support them
   }
   PS_AUTHALLOW = '/Authorize';
 
   {
-    wParam : HDBEVENT
+    wParam : TMEVENT
     lParam : TChar - Reason
     Affect : Deny an authorisation request
     Returns: 0 on success, [non zero] on failure
@@ -503,10 +503,10 @@ const
 
   {
     wParam : MAKEWPARAM(flags, iContact)
-    lParam : HDBEVENT
+    lParam : TMEVENT
     Affects: Add a contact to the contact list given an auth/added/contacts events, see notes
     Returns: A TMCONTACT or NULL(0) on failure
-    Notes  : HDBEVENT must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
+    Notes  : TMEVENT must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
              flags are the same as PS_ADDTOLIST,
              -
              iContacts is only used for contacts vents, it is 0-based index

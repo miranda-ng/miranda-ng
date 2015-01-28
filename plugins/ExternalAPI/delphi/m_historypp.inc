@@ -93,7 +93,7 @@ type
   TItemRenderDetails = record
     cbSize        : DWord;     // size of the structure in bytes
     hContact      : TMCONTACT; // handle to the contact for which the event is processed
-    hDBEvent      : THANDLE;   // handle to the event which is processed
+    hDBEvent      : TMEVENT;   // handle to the event which is processed
     dwEventTime   : DWord;     // timestamp of the event
     wEventType    : Word;      // Event's flags (see m_database, EVENTTYPE_*; m_icq, ICQEVENTTYPE_*)
     IsEventSent   : ByteBool;  // Outgoing event. True if DBEF_SENT event flag is present (see m_database)
@@ -150,7 +150,7 @@ const
     TOpenEventParams = record
       cbSize   : DWord;
       hContact : TMCONTACT;
-      hDBEvent : THANDLE;
+      hDBEvent : TMEVENT;
       pPassword: PAnsiChar;
     end;
 
