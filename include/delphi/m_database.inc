@@ -326,13 +326,13 @@ const
 
   {
     wParam : TMCONTACT
-    lParam : HDBEVENT
+    lParam : TMEVENT
     Affect : Called when a new event has been added to the event chain
              for a contact, TMCONTACT contains the contact who added the event,
-             HDBEVENT a handle to what was added.
+             TMEVENT a handle to what was added.
              see notes
     notes  : since events are sorted chronologically, you can not guarantee
-             that HDBEVENT is in any particular position in the chain.
+             that TMEVENT is in any particular position in the chain.
 
   }
   ME_DB_EVENT_ADDED:PAnsiChar = 'DB/Event/Added';
@@ -355,14 +355,14 @@ const
 
   {
     wParam : TMCONTACT
-    lParam : HDBEVENT
+    lParam : TMEVENT
     Affect : Called when an event is marked read
   }
   ME_DB_EVENT_MARKED_READ:PAnsiChar = 'DB/Event/Marked/Read';
 
   {
     wParam : TMCONTACT
-    lParam : HDBEVENT
+    lParam : TMEVENT
     Affect : Called when an event is about to be deleted from the event chain
              for a contact, see notes
     notes  : Returning non zero from your hook will NOT stop the deletion,

@@ -160,8 +160,8 @@ const
 type
   tagIEVIEWEVENT = record
     case byte of
-      0: (hDbEventFirst: THANDLE);
-      1: (eventData :PIEVIEWEVENTDATA);
+      0: (hDbEventFirst:TMEVENT);
+      1: (eventData    :PIEVIEWEVENTDATA);
   end;
 
   PIEVIEWEVENT = ^TIEVIEWEVENT;

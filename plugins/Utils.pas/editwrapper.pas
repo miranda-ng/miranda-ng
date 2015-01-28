@@ -32,7 +32,7 @@ function ShowEditBox(parent:HWND;var text:PWideChar;title:PWideChar):int_ptr;
 
 implementation
 
-uses messages,commctrl,common,wrapper;
+uses messages,common,wrapper;
 
 {$R editwrapper.res}
 {$include 'i_text_const.inc'}

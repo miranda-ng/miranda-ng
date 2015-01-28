@@ -230,7 +230,7 @@ type
     hContact  : TMCONTACT; // handle to the contact to put the icon by
     hIcon     : HICON;     // icon to flash!
     flags     : dword;
-    hDBEvent  : THANDLE;   // caller defined, but should be unique for hContact
+    hDBEvent  : TMEVENT;   // caller defined, but should be unique for hContact
                            // or pszProtocol:PAnsiChar
     lParam    : LPARAM;
     pszService: PAnsiChar; // name of service to call on activation
@@ -268,7 +268,7 @@ const
 
   {
     wParam : TMCONTACT
-    lParam : HDBEVENT
+    lParam : TMEVENT
     Affect : Remove an event from the contact list queue
     Returns: 0 on success, [non zero] on failure
   }

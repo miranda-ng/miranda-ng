@@ -55,12 +55,11 @@ const
 type
   PMCONTACT = ^TMCONTACT;
   TMCONTACT  = dword;
-
 const
   INVALID_CONTACT_ID = TMCONTACT(-1);
 
 type
-  HDBEVENT = dword;
+  TMEVENT = dword;
   PDBVARIANT = ^TDBVARIANT;
   TDBVARIANT = record
     _type: byte;
@@ -126,7 +125,7 @@ modules are free to define their own, beginning at 2000
 DBEVENTINFO.timestamp is in GMT, as returned by time(). There are services
 db/time/x below with useful stuff for dealing with it.
 }
-function db_event_add(hContact:TMCONTACT; dbei:PDBEVENTINFO):HDBEVENT; stdcall;
+function db_event_add(hContact:TMCONTACT; dbei:PDBEVENTINFO):TMEVENT; stdcall;
                  external CoreDLL name 'db_event_add';
 
 {
@@ -144,7 +143,7 @@ hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns 0 on success, or nonzero if hDbEvent was invalid
 Triggers a db/event/deleted event just *before* the event is deleted
 }
-function db_event_delete(hContact:TMCONTACT; hDbEvent:HDBEVENT):int; stdcall;
+function db_event_delete(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall;
                  external CoreDLL name 'db_event_delete';
 
 {
@@ -152,7 +151,7 @@ Retrieves a handle to the first event in the chain for hContact
 Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 }
-function db_event_first(hContact:TMCONTACT):HDBEVENT; stdcall;
+function db_event_first(hContact:TMCONTACT):TMEVENT; stdcall;
                  external CoreDLL name 'db_event_first';
 
 {
@@ -166,7 +165,7 @@ should be checked individually with db_event_next() and db_event_get()
 This service is designed for startup, reloading all the events that remained
 unread from last time
 }
-function db_event_firstUnread(hContact:TMCONTACT):HDBEVENT; stdcall;
+function db_event_firstUnread(hContact:TMCONTACT):TMEVENT; stdcall;
                  external CoreDLL name 'db_event_firstUnread';
 
 {
@@ -183,7 +182,7 @@ and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
 On return, dbe.szModule is a pointer to the database module's own internal list
 of modules. Look but don't touch.
 }
-function db_event_get(hDbEvent:HDBEVENT; dbei:PDBEVENTINFO):int; stdcall;
+function db_event_get(hDbEvent:TMEVENT; dbei:PDBEVENTINFO):int; stdcall;
                  external CoreDLL name 'db_event_get';
 
 {
@@ -191,7 +190,7 @@ Retrieves the space in bytes required to store the blob in hDbEvent
 hDbEvent should have been returned by db_event_add/first/last/next/prev()
 Returns the space required in bytes, or -1 if hDbEvent is invalid
 }
-function db_event_getBlobSize(hDbEvent:HDBEVENT):int; stdcall;
+function db_event_getBlobSize(hDbEvent:TMEVENT):int; stdcall;
                  external CoreDLL name 'db_event_getBlobSize';
 
 {
@@ -203,7 +202,7 @@ success
 This service is exceptionally slow. Use only when you have no other choice at
 all.
 }
-function db_event_getContact(hDbEvent:HDBEVENT):TMCONTACT; stdcall;
+function db_event_getContact(hDbEvent:TMEVENT):TMCONTACT; stdcall;
                  external CoreDLL name 'db_event_getContact';
 
 {
@@ -211,7 +210,7 @@ Retrieves a handle to the last event in the chain for hContact
 Returns the handle, or NULL if hContact is invalid or has no events
 Events in a chain are sorted chronologically automatically
 }
-function db_event_last(hContact:TMCONTACT):HDBEVENT; stdcall;
+function db_event_last(hContact:TMCONTACT):TMEVENT; stdcall;
                  external CoreDLL name 'db_event_last';
 
 {
@@ -222,7 +221,7 @@ is invalid.
 This is the one database write operation that does not trigger an event.
 Modules should not save flags states for any length of time.
 }
-function db_event_markRead(hContact:TMCONTACT; hDbEvent:HDBEVENT):int; stdcall;
+function db_event_markRead(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall;
                  external CoreDLL name 'db_event_markRead';
 
 {
@@ -230,7 +229,7 @@ Retrieves a handle to the next event in a chain after hDbEvent
 Returns the handle, or NULL if hDbEvent is invalid or is the last event
 Events in a chain are sorted chronologically automatically
 }
-function db_event_next(hContact:TMCONTACT; hDbEvent:HDBEVENT):HDBEVENT; stdcall;
+function db_event_next(hContact:TMCONTACT; hDbEvent:TMEVENT):THANDLE; stdcall;
                  external CoreDLL name 'db_event_next';
 
 {
@@ -238,7 +237,7 @@ Retrieves a handle to the previous event in a chain before hDbEvent
 Returns the handle, or NULL if hDbEvent is invalid or is the first event
 Events in a chain are sorted chronologically automatically
 }
-function db_event_prev(hContact:TMCONTACT; hDbEvent:HDBEVENT):HDBEVENT; stdcall;
+function db_event_prev(hContact:TMCONTACT; hDbEvent:TMEVENT):THANDLE; stdcall;
                  external CoreDLL name 'db_event_prev';
 
 function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
@@ -595,8 +594,8 @@ function mir_writeLogW(hLogger:THANDLE; format:PWideChar):int; cdecl;
 type
   pmir_md5_state_t = ^mir_md5_state_t;
   mir_md5_state_t = record
-    count:array [0.. 1] of cardinal; // message length in bits, lsw first
-    abcd :array [0.. 3] of cardinal; // digest buffer
+    count:array [0.. 1] of longword; // message length in bits, lsw first
+    abcd :array [0.. 3] of longword; // digest buffer
     buf  :array [0..63] of byte;     // accumulate block
   end;
 
