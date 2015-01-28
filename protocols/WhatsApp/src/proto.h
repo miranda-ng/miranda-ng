@@ -74,12 +74,12 @@ public:
 	INT_PTR __cdecl OnJoinChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM, LPARAM);
 	INT_PTR __cdecl OnCreateGroup(WPARAM, LPARAM);
-	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Events
 
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
 	int __cdecl OnChatOutgoing(WPARAM, LPARAM);
 	int __cdecl OnPrebuildContactMenu(WPARAM, LPARAM);
@@ -143,8 +143,16 @@ private:
 
 	LONG m_iSerial;
 
-	std::tstring GetAvatarFolder();
 	void ToggleStatusMenuItems(BOOL bEnable);
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Avatars
+
+	std::tstring GetAvatarFileName(MCONTACT);
+	std::tstring m_tszAvatarFolder;
+
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Handles, Locks
@@ -155,8 +163,6 @@ private:
 	HANDLE  signon_lock_;
 	HANDLE  log_lock_;
 	HANDLE  update_loop_lock_;
-
-	std::tstring def_avatar_folder_;
 
 	WASocketConnection *conn;
 	WAConnection *m_pConnection;
@@ -188,8 +194,7 @@ protected:
 	virtual void onDirty(const std::map<string, string>& paramHashtable) {  }
 	virtual void onDirtyResponse(int paramHashtable) {  }
 	virtual void onRelayRequest(const std::string &paramString1, int paramInt, const std::string &paramString2) {  }
-	virtual void onSendGetPictureIds(std::map<string, string>* ids);
-	virtual void onSendGetPicture(const std::string &jid, const std::vector<unsigned char>& data, const std::string &oldId, const std::string &newId);
+	virtual void onSendGetPicture(const std::string &jid, const std::vector<unsigned char>& data, const std::string &id);
 	virtual void onPictureChanged(const std::string &from, const std::string &author, bool set);
 	virtual void onDeleteAccount(bool result) {  }
 
