@@ -53,7 +53,7 @@ begin
   GetMD5Str(GetMD5(password,StrLen(password),digest),buf);
   mir_md5_init(@stat);
   mir_md5_append(@stat,@buf,32);
-  IntToStr(timestamp,GetCurrentTime);
+  IntToStr(timestamp,GetCurrentTimestamp);
   mir_md5_append(@stat,@timestamp,StrLen(timestamp));
   mir_md5_finish(@stat,digest);
   GetMD5Str(digest,buf);
@@ -155,7 +155,7 @@ begin
   if session_id<>nil then
   begin
     si:=pointer(CallService(MS_WAT_RETURNGLOBAL,WAT_INF_UTF8,0));
-    IntToStr(timestamp,GetCurrentTime);
+    IntToStr(timestamp,GetCurrentTimestamp);
 
     pc:=@args;
     pc:=StrCopyE(pc,'s='  ); pc:=StrCopyE(pc,session_id);

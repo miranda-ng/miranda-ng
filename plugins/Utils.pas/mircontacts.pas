@@ -58,7 +58,7 @@ implementation
 
 uses
   messages,
-  common, syswin,
+  common, syswin, datetime,
   dbsettings;
 
 //----- Contact info -----
@@ -516,7 +516,7 @@ begin
   gce.bIsMe   :=true;
   gce.szText.w:=pszText;
   gce.dwFlags :=GCEF_ADDTOLOG;
-  gce.time    :=GetCurrentTime;
+  gce.time    :=GetCurrentTimeStamp;
 
   CallServiceSync(MS_GC_EVENT,0,lparam(@gce));
 end;
