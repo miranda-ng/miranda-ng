@@ -297,7 +297,7 @@ begin
       StrDup(dst.service,dst.service);
       if (dst.wparam._type=ACF_STRING) or (dst.wparam._type=ACF_UNICODE) then
         StrDupW(pWideChar(dst.wparam.value),pWideChar(dst.wparam.value));
-      if (dst.wparam._type=ACF_STRING) or (dst.wparam._type=ACF_UNICODE) then
+      if (dst.lparam._type=ACF_STRING) or (dst.lparam._type=ACF_UNICODE) then
         StrDupW(pWideChar(dst.lparam.value),pWideChar(dst.lparam.value));
     end;
   end;
