@@ -81,7 +81,6 @@ void WhatsAppProto::InitContactMenus()
 	::HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-
 	mi.position = -2000006100;
 	mi.icolibItem = GetIconHandle("leaveGroup");
 	mi.pszName = GetIconDescription("leaveGroup");

@@ -128,11 +128,6 @@ void WhatsAppProto::ProcessBuddyList(void*)
 		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
 		if (jid) {
 			try {
-				if (!db_get_b(hContact, "CList", "Hidden", 0)) {
-					// Do not request picture for inactive groups - this would make the group visible again
-					jids.push_back(string(jid));
-				}
-				
 				if (getByte(hContact, "SimpleChatRoom", 0) == 0) {
 					m_pConnection->sendQueryLastOnline((char*)jid);
 					m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
@@ -142,12 +137,6 @@ void WhatsAppProto::ProcessBuddyList(void*)
 		}
 	}
 
-	if (jids.size() > 0) {
-		try {
-			m_pConnection->sendGetPictureIds(jids);
-		}
-		CODE_BLOCK_CATCH_ALL
-	}
 	try {
 		m_pConnection->sendGetGroups();
 		m_pConnection->sendGetOwningGroups();
@@ -199,64 +188,36 @@ void WhatsAppProto::onPictureChanged(const std::string& from, const std::string&
 	if (this->isOnline()) {
 		vector<string> ids;
 		ids.push_back(from);
-		m_pConnection->sendGetPictureIds(ids);
+		m_pConnection->sendGetPicture(from, "image");
 	}
 }
 
-void WhatsAppProto::onSendGetPicture(const std::string& jid, const std::vector<unsigned char>& data, const std::string& oldId, const std::string& newId)
+void WhatsAppProto::onSendGetPicture(const std::string& jid, const std::vector<unsigned char>& data, const std::string& id)
 {
 	MCONTACT hContact = this->ContactIDToHContact(jid);
 	if (hContact) {
 		debugLogA("Updating avatar for jid %s", jid.c_str());
 
 		// Save avatar
-		std::tstring filename = this->GetAvatarFolder();
-		if (_taccess(filename.c_str(), 0))
-			CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)filename.c_str());
-		filename = filename + _T("\\") + (TCHAR*)_A2T(jid.c_str()) + _T("-") + (TCHAR*)_A2T(newId.c_str()) + _T(".jpg");
+		std::tstring filename = GetAvatarFileName(hContact);
 		FILE *f = _tfopen(filename.c_str(), _T("wb"));
-		int r = (int)fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
+		size_t r = fwrite(std::string(data.begin(), data.end()).c_str(), 1, data.size(), f);
 		fclose(f);
 
 		PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai) };
 		ai.hContact = hContact;
 		ai.format = PA_FORMAT_JPEG;
-		_tcsncpy(ai.filename, filename.c_str(), SIZEOF(ai.filename));
-		ai.filename[SIZEOF(ai.filename) - 1] = 0;
+		_tcsncpy_s(ai.filename, filename.c_str(), _TRUNCATE);
 
 		int ackResult;
 		if (r > 0) {
-			setString(hContact, WHATSAPP_KEY_AVATAR_ID, newId.c_str());
+			setString(hContact, WHATSAPP_KEY_AVATAR_ID, id.c_str());
 			ackResult = ACKRESULT_SUCCESS;
 		}
 		else {
 			ackResult = ACKRESULT_FAILED;
 		}
 		ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, ackResult, (HANDLE)&ai, 0);
-	}
-}
-
-void WhatsAppProto::onSendGetPictureIds(std::map<string, string>* ids)
-{
-	for (std::map<string, string>::iterator it = ids->begin(); it != ids->end(); ++it) {
-		MCONTACT hContact = this->AddToContactList(it->first);
-		if (hContact != NULL) {
-			DBVARIANT dbv;
-			std::string oldId;
-			if (getString(hContact, WHATSAPP_KEY_AVATAR_ID, &dbv))
-				oldId = "";
-			else {
-				oldId = dbv.pszVal;
-				db_free(&dbv);
-			}
-
-			if (it->second.size() > 0 && it->second.compare(oldId) != 0) {
-				try {
-					m_pConnection->sendGetPicture(it->first, "image", oldId, it->second);
-				}
-				CODE_BLOCK_CATCH_ALL
-			}
-		}
 	}
 }
 

@@ -650,31 +650,15 @@ void WAConnection::sendGetOwningGroups() throw (WAException)
 	this->mutex->unlock();
 }
 
-void WAConnection::sendGetPicture(const std::string& jid, const std::string& type, const std::string& oldId, const std::string& newId) throw (WAException)
+void WAConnection::sendGetPicture(const std::string& jid, const std::string& type) throw (WAException)
 {
-	std::string id = makeId("get_picture_");
-	this->pending_server_requests[id] = new IqResultGetPhotoHandler(this, jid, oldId, newId);
+	std::string id = makeId("iq_");
+	this->pending_server_requests[id] = new IqResultGetPhotoHandler(this, jid);
 
-	ProtocolTreeNode *listNode = new ProtocolTreeNode("picture")
-		<< XATTR("xmlns", "w:profile:picture") << XATTR("type", type);
+	ProtocolTreeNode *listNode = new ProtocolTreeNode("picture") << XATTR("type", type);
 
 	this->out->write(ProtocolTreeNode("iq", listNode)
-		<< XATTR("id", id) << XATTR("to", jid) << XATTR("type", "get"));
-}
-
-void WAConnection::sendGetPictureIds(const std::vector<std::string>& jids) throw (WAException)
-{
-	std::string id = makeId("get_picture_ids_");
-	this->pending_server_requests[id] = new IqResultGetPictureIdsHandler(this);
-
-	std::vector<ProtocolTreeNode*>* children = new std::vector<ProtocolTreeNode*>();
-	for (size_t i = 0; i < jids.size(); i++) {
-		ProtocolTreeNode *child = new ProtocolTreeNode("user") << XATTR("jid", jids[i]);
-		children->push_back(child);
-	}
-
-	ProtocolTreeNode *queryNode = new ProtocolTreeNode("list", NULL, children) << XATTR("xmlns", "w:profile:picture");
-	this->out->write(ProtocolTreeNode("iq", queryNode) << XATTR("id", id) << XATTR("type", "get"));
+		<< XATTR("id", id) << XATTR("to", jid) << XATTR("xmlns", "w:profile:picture") << XATTR("type", "get"));
 }
 
 void WAConnection::sendGetPrivacyList() throw (WAException)
