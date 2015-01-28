@@ -1,11 +1,14 @@
 #include "common.h"
 
+LONG WhatsAppProto::GetSerial()
+{
+	return ::_InterlockedIncrement(&m_iSerial);
+}
+
 std::string getLastErrorMsg()
 {
-	// Retrieve the system error message for the last-error code
-
 	LPVOID lpMsgBuf;
-	DWORD dw = WSAGetLastError();
+	DWORD dw = WSAGetLastError(); // retrieve the system error message for the last-error code
 
 	FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -20,6 +23,18 @@ std::string getLastErrorMsg()
 	std::string ret((LPSTR)lpMsgBuf);
 	LocalFree(lpMsgBuf);
 	return ret;
+}
+
+void utils::setStatusMessage(MCONTACT hContact, const TCHAR *ptszMessage)
+{
+	if (ptszMessage != NULL) {
+		StatusTextData st = { 0 };
+		st.cbSize = sizeof(st);
+		st.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
+		_tcsncpy_s(st.tszText, ptszMessage, _TRUNCATE);
+		CallService(MS_MSG_SETSTATUSTEXT, hContact, (LPARAM)&st);
+	}
+	else CallService(MS_MSG_SETSTATUSTEXT, hContact, NULL);
 }
 
 BYTE* utils::md5string(const BYTE *data, int size, BYTE *digest)

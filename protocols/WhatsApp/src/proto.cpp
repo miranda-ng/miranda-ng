@@ -16,7 +16,6 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	PROTO<WhatsAppProto>(proto_name, username)
 {
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
-	FMessage::generating_lock = new Mutex();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_JOINCHAT, &WhatsAppProto::OnJoinChat);
@@ -205,7 +204,7 @@ HANDLE WhatsAppProto::SearchBasic(const PROTOCHAR* id)
 		return 0;
 
 	// fake - we always accept search
-	SearchParam *param = new SearchParam(id, ++m_pConnection->msg_id);
+	SearchParam *param = new SearchParam(id, GetSerial());
 	ForkThread(&WhatsAppProto::SearchAckThread, param);
 	return (HANDLE)param->id;
 }

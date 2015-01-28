@@ -105,7 +105,6 @@ WAConnection::WAConnection(const std::string &user, const std::string &resource,
 	this->in = NULL;
 	this->out = NULL;
 
-	this->msg_id = 0;
 	this->retry = true;
 
 	this->user = user;
@@ -269,7 +268,7 @@ void WAConnection::parseAck(ProtocolTreeNode *node) throw(WAException)
 	const string &ts = node->getAttributeValue("t");
 
 	if (cls == "message" && this->event_handler != NULL) {
-		FMessage msg(new Key(from, true, id));
+		FMessage msg(from, true, id);
 		msg.status = FMessage::STATUS_RECEIVED_BY_SERVER;
 		this->event_handler->onMessageStatusUpdate(&msg);
 	}
@@ -312,13 +311,11 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			errorCode = atoi(errorNode->getAttributeValue("code").c_str());
 		}
 
-		Key* key = new Key(from, true, id);
-		FMessage* message = new FMessage(key);
-		message->status = FMessage::STATUS_SERVER_BOUNCE;
+		FMessage message(from, true, id);
+		message.status = FMessage::STATUS_SERVER_BOUNCE;
 
 		if (this->event_handler != NULL)
-			this->event_handler->onMessageError(message, errorCode);
-		delete message;
+			this->event_handler->onMessageError(&message, errorCode);
 	}
 	else if (typeAttribute == "subject") {
 		bool receiptRequested = false;
@@ -337,29 +334,28 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			sendSubjectReceived(from, id);
 	}
 	else if (typeAttribute == "chat" || typeAttribute == "text") {
-		FMessage* fmessage = new FMessage();
-		fmessage->wants_receipt = false;
-		fmessage->timestamp = atoi(attribute_t.c_str());
+		FMessage fmessage;
+		fmessage.wants_receipt = false;
+		fmessage.timestamp = atoi(attribute_t.c_str());
 		bool duplicate = false;
 
 		std::vector<ProtocolTreeNode*> messageChildren(messageNode->getAllChildren());
 		for (size_t i = 0; i < messageChildren.size(); i++) {
 			ProtocolTreeNode *childNode = messageChildren[i];
 			if (ProtocolTreeNode::tagEquals(childNode, "body")) {
-				Key* key = new Key(from, false, id);
-				fmessage->key = key;
-				fmessage->remote_resource = author;
-				fmessage->data = childNode->getDataAsString();
-				fmessage->status = FMessage::STATUS_UNSENT;
+				fmessage.key = Key(from, false, id);
+				fmessage.remote_resource = author;
+				fmessage.data = childNode->getDataAsString();
+				fmessage.status = FMessage::STATUS_UNSENT;
 			}
 			else if (ProtocolTreeNode::tagEquals(childNode, "media") && !id.empty()) {
-				fmessage->media_wa_type = FMessage::getMessage_WA_Type(childNode->getAttributeValue("type"));
-				fmessage->media_url = childNode->getAttributeValue("url");
-				fmessage->media_name = childNode->getAttributeValue("file");
-				fmessage->media_size = Utilities::parseLongLong(childNode->getAttributeValue("size"));
-				fmessage->media_duration_seconds = atoi(childNode->getAttributeValue("seconds").c_str());
+				fmessage.media_wa_type = FMessage::getMessage_WA_Type(childNode->getAttributeValue("type"));
+				fmessage.media_url = childNode->getAttributeValue("url");
+				fmessage.media_name = childNode->getAttributeValue("file");
+				fmessage.media_size = Utilities::parseLongLong(childNode->getAttributeValue("size"));
+				fmessage.media_duration_seconds = atoi(childNode->getAttributeValue("seconds").c_str());
 
-				if (fmessage->media_wa_type == FMessage::WA_TYPE_LOCATION) {
+				if (fmessage.media_wa_type == FMessage::WA_TYPE_LOCATION) {
 					const string &latitudeString = childNode->getAttributeValue("latitude");
 					const string &longitudeString = childNode->getAttributeValue("longitude");
 					if (latitudeString.empty() || longitudeString.empty())
@@ -367,42 +363,39 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 
 					double latitude = atof(latitudeString.c_str());
 					double longitude = atof(longitudeString.c_str());
-					fmessage->latitude = latitude;
-					fmessage->longitude = longitude;
+					fmessage.latitude = latitude;
+					fmessage.longitude = longitude;
 				}
 
-				if (fmessage->media_wa_type == FMessage::WA_TYPE_CONTACT) {
+				if (fmessage.media_wa_type == FMessage::WA_TYPE_CONTACT) {
 					ProtocolTreeNode *contactChildNode = childNode->getChild(0);
 					if (contactChildNode != NULL) {
-						fmessage->media_name = contactChildNode->getAttributeValue("name");
-						fmessage->data = contactChildNode->getDataAsString();
+						fmessage.media_name = contactChildNode->getAttributeValue("name");
+						fmessage.data = contactChildNode->getDataAsString();
 					}
 				}
 				else {
 					const string &encoding = childNode->getAttributeValue("encoding");
 					if (encoding.empty() || encoding == "text")
-						fmessage->data = childNode->getDataAsString();
+						fmessage.data = childNode->getDataAsString();
 					else {
 						logData("Media data encoding type '%s'", encoding.empty() ? "text" : encoding.c_str());
-						fmessage->data = (childNode->data == NULL ? "" : std::string(base64_encode(childNode->data->data(), childNode->data->size())));
+						fmessage.data = (childNode->data == NULL ? "" : std::string(base64_encode(childNode->data->data(), childNode->data->size())));
 					}
 				}
 
-				Key* key = new Key(from, false, id);
-				fmessage->key = key;
-				fmessage->remote_resource = author;
+				fmessage.key = Key(from, false, id);
+				fmessage.remote_resource = author;
 			}
 		}
 
-		if (fmessage->timestamp == 0) {
-			fmessage->timestamp = time(NULL);
-			fmessage->offline = false;
+		if (fmessage.timestamp == 0) {
+			fmessage.timestamp = time(NULL);
+			fmessage.offline = false;
 		}
 
-		if (fmessage->key != NULL && this->event_handler != NULL)
-			this->event_handler->onMessageForMe(fmessage, duplicate);
-
-		delete fmessage;
+		if (!fmessage.key.remote_jid.empty() && this->event_handler != NULL)
+			this->event_handler->onMessageForMe(&fmessage, duplicate);
 	}
 	else if (typeAttribute == "notification") {
 		logData("Notification node %s", messageNode->toString().c_str());
@@ -720,7 +713,7 @@ ProtocolTreeNode* WAConnection::getMessageNode(FMessage* message, ProtocolTreeNo
 	messageChildren->push_back(child);
 
 	return new ProtocolTreeNode("message", NULL, messageChildren) <<
-		XATTR("to", message->key->remote_jid) << XATTR("type", "text") << XATTR("id", message->key->id) << XATTRI("t", message->timestamp);
+		XATTR("to", message->key.remote_jid) << XATTR("type", "text") << XATTR("id", message->key.id) << XATTRI("t", message->timestamp);
 }
 
 void WAConnection::sendMessage(FMessage* message) throw(WAException)
@@ -775,7 +768,7 @@ void WAConnection::sendMessageWithBody(FMessage* message) throw (WAException)
 void WAConnection::sendMessageReceived(FMessage* message) throw(WAException)
 {
 	this->out->write(ProtocolTreeNode("receipt") << XATTR("type", "read")
-		<< XATTR("to", message->key->remote_jid) << XATTR("id", message->key->id) << XATTRI("t", (int)time(0)));
+		<< XATTR("to", message->key.remote_jid) << XATTR("id", message->key.id) << XATTRI("t", (int)time(0)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -837,12 +830,11 @@ void WAConnection::sendSetPicture(const std::string& jid, std::vector<unsigned c
 void WAConnection::sendStatusUpdate(std::string& status) throw (WAException)
 {
 	std::string id = this->makeId(Utilities::intToStr((int)time(NULL)));
-	FMessage *message = new FMessage(new Key("s.us", true, id));
+	FMessage message("s.us", true, id);
 	ProtocolTreeNode *body = new ProtocolTreeNode("body", new std::vector<unsigned char>(status.begin(), status.end()), NULL);
-	ProtocolTreeNode *n = getMessageNode(message, body);
+	ProtocolTreeNode *n = getMessageNode(&message, body);
 	this->out->write(*n);
 	delete n;
-	delete message;
 }
 
 void WAConnection::sendSubjectReceived(const std::string& to, const std::string& id)throw(WAException)

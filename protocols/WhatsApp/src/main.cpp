@@ -92,7 +92,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	g_Instances.destroy();
 
-	delete FMessage::generating_lock;
 	WASocketConnection::quitNetwork();
 
 	return 0;

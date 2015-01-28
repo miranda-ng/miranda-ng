@@ -58,6 +58,8 @@ std::string getLastErrorMsg();
 
 namespace utils
 {
+	void setStatusMessage(MCONTACT hContact, const TCHAR *ptszMessage);
+		
 	BYTE* md5string(const BYTE*, int, BYTE* digest);
 	__forceinline BYTE* md5string(const std::string &str, BYTE* digest)
 	{

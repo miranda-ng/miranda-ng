@@ -398,7 +398,6 @@ public:
 
 	KeyStream inputKey, outputKey;
 
-	int msg_id;
 	bool retry;
 	bool supports_receipt_acks;
 	time_t expire_date;
