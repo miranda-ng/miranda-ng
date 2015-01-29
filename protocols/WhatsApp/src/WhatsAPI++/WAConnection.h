@@ -335,6 +335,7 @@ private:
 	void parseIq(ProtocolTreeNode *node) throw(WAException);
 	void parseMessage(ProtocolTreeNode* node) throw(WAException);
 	void parsePresense(ProtocolTreeNode*) throw(WAException);
+	void parseReceipt(ProtocolTreeNode *node) throw (WAException);
 	std::map<string, string> parseCategories(ProtocolTreeNode* node) throw(WAException);
 
 	void sendMessageWithMedia(FMessage* message) throw(WAException);

@@ -22,13 +22,13 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE , bool don
 			if (new_name != NULL) {
 				DBVARIANT dbv;
 				string oldName;
-				if (db_get_utf(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, &dbv))
+				if (db_get_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, &dbv))
 					oldName = jid.c_str();
 				else {
 					oldName = dbv.pszVal;
 					db_free(&dbv);
 				}
-				db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, new_name);
+				db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
 
 				if (oldName.compare(string(new_name)) != 0) {
 					CMString tmp(FORMAT, TranslateT("is now known as '%s'"), ptrT(mir_utf8decodeT(new_name)));
@@ -60,7 +60,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE , bool don
 		db_set_ts(hContact, "CList", "Group", tszGroup);
 
 	if (new_name != NULL)
-		db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_PUSH_NAME, new_name);
+		db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
 
 	if (isChatRoom)
 		setByte(hContact, "SimpleChatRoom", 1);
@@ -497,7 +497,7 @@ INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM hContact, LPARAM lPar
 	input_box* ib = new input_box;
 
 	DBVARIANT dbv;
-	if (getTString(hContact, WHATSAPP_KEY_PUSH_NAME, &dbv))
+	if (getTString(hContact, WHATSAPP_KEY_NICK, &dbv))
 		ib->defaultValue = _T("");
 	else {
 		ib->defaultValue = dbv.ptszVal;

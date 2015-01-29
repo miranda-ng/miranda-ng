@@ -22,9 +22,8 @@ void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
 		msg = &paramFMessage->data;
 	}
 
-	if (isChatRoom) {
+	if (isChatRoom)
 		msg->insert(0, std::string("[").append(paramFMessage->notifyname).append("]: "));
-	}
 
 	MCONTACT hContact = this->AddToContactList(paramFMessage->key.remote_jid, 0, false,
 		isChatRoom ? NULL : paramFMessage->notifyname.c_str(), isChatRoom);

@@ -2,49 +2,35 @@
 
 void WhatsAppProto::stayConnectedLoop(void*)
 {
-	std::string cc, in, pass;
-	DBVARIANT dbv = { 0 };
-
-	if (!getString(WHATSAPP_KEY_CC, &dbv)) {
-		cc = dbv.pszVal;
-		db_free(&dbv);
-	}
-	if (cc.empty()) {
+	ptrA cc(getStringA(WHATSAPP_KEY_CC));
+	if (mir_strlen(cc) == 0) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a country code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 
-	if (!getString(WHATSAPP_KEY_LOGIN, &dbv)) {
-		in = dbv.pszVal;
-		db_free(&dbv);
-	}
-	if (in.empty()) {
+	ptrA in(getStringA(WHATSAPP_KEY_LOGIN));
+	if (mir_strlen(in) == 0) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a phone number without country code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
-	m_szPhoneNumber = cc + in;
+
+	m_szPhoneNumber = std::string(cc) + std::string(in);
 	m_szJid = m_szPhoneNumber + "@s.whatsapp.net";
 
-	if (!getString(WHATSAPP_KEY_NICK, &dbv)) {
-		m_szNick = dbv.pszVal;
-		db_free(&dbv);
-	}
-	if (m_szNick.empty()) {
+	ptrA szNick(getStringA(WHATSAPP_KEY_NICK));
+	if (mir_strlen(szNick) == 0) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a nickname."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
+	m_szNick = szNick;
 
-	if (!getString(WHATSAPP_KEY_PASS, &dbv)) {
-		pass = dbv.pszVal;
-		db_free(&dbv);
-	}
-	if (pass.empty()) {
+	ptrA szPassword(getStringA(WHATSAPP_KEY_PASS));
+	if (mir_strlen(szPassword) == 0) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a password."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
 
 	// -----------------------------
-
 	Mutex writerMutex;
 	bool error = false;
 
@@ -63,7 +49,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE || error) {
 			debugLogA("Set status to offline");
 			SetAllContactStatuses(ID_STATUS_OFFLINE, true);
-			this->ToggleStatusMenuItems(false);
+			ToggleStatusMenuItems(false);
 			int prevStatus = m_iStatus;
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, prevStatus);
@@ -74,7 +60,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 		try {
 			unsigned passLen;
-			ptrA passBin((char*)mir_base64_decode(pass.c_str(), &passLen));
+			ptrA passBin((char*)mir_base64_decode(szPassword, &passLen));
 			std::string password(passBin, passLen), resource = ACCOUNT_RESOURCE;
 			int portNumber;
 			if (getByte(WHATSAPP_KEY_SSL, 0))
@@ -104,7 +90,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 			// #TODO Move out of try block. Exception is expected on disconnect
 			while (true) {
-				this->lastPongTime = time(NULL);
+				m_tLastWriteTime = time(NULL);
 				if (!m_pConnection->read())
 					break;
 			}
@@ -131,11 +117,11 @@ void WhatsAppProto::sentinelLoop(void*)
 	while (WaitForSingleObjectEx(update_loop_lock_, 1000, true) == WAIT_TIMEOUT) {
 		if (m_iStatus != ID_STATUS_OFFLINE && m_pConnection != NULL && m_iDesiredStatus == m_iStatus) {
 			// #TODO Quiet after pong or tree read?
-			int quietInterval = difftime(time(NULL), this->lastPongTime);
+			int quietInterval = difftime(time(NULL), m_tLastWriteTime);
 			if (quietInterval >= MAX_SILENT_INTERVAL) {
 				try {
 					debugLogA("send ping");
-					this->lastPongTime = time(NULL);
+					m_tLastWriteTime = time(NULL);
 					m_pConnection->sendPing();
 				}
 				catch (exception &e) {
