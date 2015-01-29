@@ -18,9 +18,8 @@ FMessage::FMessage() :
 	this->latitude = 0;
 	this->media_duration_seconds = 0;
 	this->media_size = 0;
-	this->media_name = "";
-	this->media_url = "";
-	this->data = "";
+	this->bindata = 0;
+	this->bindata_len = 0;
 }
 
 FMessage::FMessage(const std::string &remote_jid, bool from_me, const std::string &id) :
@@ -32,8 +31,8 @@ FMessage::FMessage(const std::string &remote_jid, bool from_me, const std::strin
 	this->latitude = 0;
 	this->media_duration_seconds = 0;
 	this->media_size = 0;
-	this->media_name = "";
-	this->media_url = "";
+	this->bindata = 0;
+	this->bindata_len = 0;
 }
 
 std::string FMessage::getMessage_WA_Type_StrValue(unsigned char type)
@@ -60,6 +59,8 @@ std::string FMessage::getMessage_WA_Type_StrValue(unsigned char type)
 
 FMessage::~FMessage()
 {
+	if (this->bindata != NULL)
+		free(this->bindata);
 }
 
 Key::Key(const std::string& remote_jid, bool from_me, const std::string& id)

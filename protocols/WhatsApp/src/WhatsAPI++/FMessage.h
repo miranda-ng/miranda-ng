@@ -39,6 +39,9 @@ struct FMessage
 	bool offline;
 	std::string media_url;
 	std::string media_name;
+	unsigned char *bindata;
+	size_t bindata_len;
+	
 	long long media_size;
 	int media_duration_seconds;
 	double latitude;
