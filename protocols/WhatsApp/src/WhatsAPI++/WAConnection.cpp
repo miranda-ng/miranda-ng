@@ -341,69 +341,73 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			sendSubjectReceived(from, id);
 	}
 	else if (typeAttribute == "text") {
-		FMessage fmessage;
+		ProtocolTreeNode *body = messageNode->getChild("body");
+		if (from.empty() || body == NULL || body->data == NULL || body->data->empty())
+			return;
+
+		FMessage fmessage(from, false, id);
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
-		bool duplicate = false;
-
-		std::vector<ProtocolTreeNode*> messageChildren(messageNode->getAllChildren());
-		for (size_t i = 0; i < messageChildren.size(); i++) {
-			ProtocolTreeNode *childNode = messageChildren[i];
-			if (ProtocolTreeNode::tagEquals(childNode, "body")) {
-				fmessage.key = Key(from, false, id);
-				fmessage.notifyname = notify;
-				fmessage.data = childNode->getDataAsString();
-				fmessage.status = FMessage::STATUS_UNSENT;
-			}
-			else if (ProtocolTreeNode::tagEquals(childNode, "media") && !id.empty()) {
-				fmessage.media_wa_type = FMessage::getMessage_WA_Type(childNode->getAttributeValue("type"));
-				fmessage.media_url = childNode->getAttributeValue("url");
-				fmessage.media_name = childNode->getAttributeValue("file");
-				fmessage.media_size = Utilities::parseLongLong(childNode->getAttributeValue("size"));
-				fmessage.media_duration_seconds = atoi(childNode->getAttributeValue("seconds").c_str());
-
-				if (fmessage.media_wa_type == FMessage::WA_TYPE_LOCATION) {
-					const string &latitudeString = childNode->getAttributeValue("latitude");
-					const string &longitudeString = childNode->getAttributeValue("longitude");
-					if (latitudeString.empty() || longitudeString.empty())
-						throw WAException("location message missing lat or long attribute", WAException::CORRUPT_STREAM_EX, 0);
-
-					double latitude = atof(latitudeString.c_str());
-					double longitude = atof(longitudeString.c_str());
-					fmessage.latitude = latitude;
-					fmessage.longitude = longitude;
-				}
-
-				if (fmessage.media_wa_type == FMessage::WA_TYPE_CONTACT) {
-					ProtocolTreeNode *contactChildNode = childNode->getChild(0);
-					if (contactChildNode != NULL) {
-						fmessage.media_name = contactChildNode->getAttributeValue("name");
-						fmessage.data = contactChildNode->getDataAsString();
-					}
-				}
-				else {
-					const string &encoding = childNode->getAttributeValue("encoding");
-					if (encoding.empty() || encoding == "text")
-						fmessage.data = childNode->getDataAsString();
-					else {
-						logData("Media data encoding type '%s'", encoding.empty() ? "text" : encoding.c_str());
-						fmessage.data = (childNode->data == NULL ? "" : std::string(base64_encode(childNode->data->data(), childNode->data->size())));
-					}
-				}
-
-				fmessage.key = Key(from, false, id);
-				fmessage.notifyname = notify;
-				fmessage.remote_resource = author;
-			}
-		}
-
+		fmessage.notifyname = notify;
+		fmessage.data = body->getDataAsString();
+		fmessage.status = FMessage::STATUS_UNSENT;
 		if (fmessage.timestamp == 0) {
 			fmessage.timestamp = time(NULL);
 			fmessage.offline = false;
 		}
+		if (m_pEventHandler != NULL)
+			m_pEventHandler->onMessageForMe(&fmessage, false);
+	}
+	else if (typeAttribute == "media") {
+		if (from.empty() || id.empty())
+			return;
 
-		if (!fmessage.key.remote_jid.empty() && m_pEventHandler != NULL)
-			m_pEventHandler->onMessageForMe(&fmessage, duplicate);
+		ProtocolTreeNode *media = messageNode->getChild("media");
+		if (from.empty() || media == NULL || media->data == NULL || media->data->empty())
+			return;
+
+		FMessage fmessage(from, false, id);
+		fmessage.wants_receipt = false;
+		fmessage.timestamp = atoi(attribute_t.c_str());
+		fmessage.notifyname = notify;
+		fmessage.remote_resource = author;
+		fmessage.media_wa_type = FMessage::getMessage_WA_Type(media->getAttributeValue("type"));
+		fmessage.media_url = media->getAttributeValue("url");
+		fmessage.media_name = media->getAttributeValue("file");
+		fmessage.media_size = Utilities::parseLongLong(media->getAttributeValue("size"));
+		fmessage.media_duration_seconds = atoi(media->getAttributeValue("seconds").c_str());
+
+		if (fmessage.media_wa_type == FMessage::WA_TYPE_LOCATION) {
+			const string &latitudeString = media->getAttributeValue("latitude");
+			const string &longitudeString = media->getAttributeValue("longitude");
+			if (latitudeString.empty() || longitudeString.empty())
+				throw WAException("location message missing lat or long attribute", WAException::CORRUPT_STREAM_EX, 0);
+
+			double latitude = atof(latitudeString.c_str());
+			double longitude = atof(longitudeString.c_str());
+			fmessage.latitude = latitude;
+			fmessage.longitude = longitude;
+		}
+
+		if (fmessage.media_wa_type == FMessage::WA_TYPE_CONTACT) {
+			ProtocolTreeNode *contactChildNode = media->getChild(0);
+			if (contactChildNode != NULL) {
+				fmessage.media_name = contactChildNode->getAttributeValue("name");
+				fmessage.data = contactChildNode->getDataAsString();
+			}
+		}
+		else {
+			const string &encoding = media->getAttributeValue("encoding");
+			if (encoding.empty() || encoding == "text")
+				fmessage.data = media->getDataAsString();
+			else {
+				fmessage.bindata = (unsigned char*)malloc(fmessage.bindata_len = media->data->size());
+				memcpy(fmessage.bindata, media->data->data(), fmessage.bindata_len);
+			}
+		}
+
+		if (m_pEventHandler != NULL)
+			m_pEventHandler->onMessageForMe(&fmessage, false);
 	}
 	else if (typeAttribute == "notification") {
 		logData("Notification node %s", messageNode->toString().c_str());

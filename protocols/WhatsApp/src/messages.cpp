@@ -7,34 +7,46 @@ int WhatsAppProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	return Proto_RecvMessage(hContact, pre);
 }
 
-void WhatsAppProto::onMessageForMe(FMessage* paramFMessage, bool paramBoolean)
+void WhatsAppProto::onMessageForMe(FMessage *pMsg, bool paramBoolean)
 {
-	bool isChatRoom = !paramFMessage->remote_resource.empty();
+	bool isChatRoom = !pMsg->remote_resource.empty();
 
-	std::string* msg;
-	switch (paramFMessage->media_wa_type) {
-	case FMessage::WA_TYPE_IMAGE:
-	case FMessage::WA_TYPE_AUDIO:
-	case FMessage::WA_TYPE_VIDEO:
-		msg = &paramFMessage->media_url;
-		break;
-	default:
-		msg = &paramFMessage->data;
+	std::string msg;
+	if (!pMsg->media_url.empty()) {
+		msg = pMsg->media_url;
+		if (pMsg->bindata_len) {
+			TCHAR tszFilePath[MAX_PATH], tszFileName[MAX_PATH];
+			GetTempPath(_countof(tszFilePath), tszFilePath);
+			mir_sntprintf(tszFileName, _countof(tszFileName), _T("%s\\%s.jpg"), tszFilePath, _A2T(pMsg->media_name.c_str()));
+			FILE *out = _tfopen(tszFileName, _T("wb"));
+			if (out != NULL) {
+				fwrite(pMsg->bindata, 1, pMsg->bindata_len, out);
+				fclose(out);
+
+				std::string szFileName((const char*)_T2A(tszFileName));
+				std::replace(szFileName.begin(), szFileName.end(), '\\', '/');
+				std::replace(szFileName.begin(), szFileName.end(), ' ', '+');
+
+				msg.append("\nfile://");
+				msg += szFileName;
+			}
+		}
 	}
+	else msg = pMsg->data;
 
 	if (isChatRoom)
-		msg->insert(0, std::string("[").append(paramFMessage->notifyname).append("]: "));
+		msg.insert(0, std::string("[").append(pMsg->notifyname).append("]: "));
 
-	MCONTACT hContact = this->AddToContactList(paramFMessage->key.remote_jid, 0, false,
-		isChatRoom ? NULL : paramFMessage->notifyname.c_str(), isChatRoom);
+	MCONTACT hContact = this->AddToContactList(pMsg->key.remote_jid, 0, false,
+		isChatRoom ? NULL : pMsg->notifyname.c_str(), isChatRoom);
 
 	PROTORECVEVENT recv = { 0 };
 	recv.flags = PREF_UTF;
-	recv.szMessage = const_cast<char*>(msg->c_str());
-	recv.timestamp = paramFMessage->timestamp;
+	recv.szMessage = const_cast<char*>(msg.c_str());
+	recv.timestamp = pMsg->timestamp;
 	ProtoChainRecvMsg(hContact, &recv);
 
-	m_pConnection->sendMessageReceived(paramFMessage);
+	m_pConnection->sendMessageReceived(pMsg);
 }
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
