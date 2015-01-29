@@ -63,7 +63,7 @@ private:
 
 public:
 	BinTreeNodeReader(WAConnection* conn, ISocketConnection* connection);
-	virtual ~BinTreeNodeReader();
+	~BinTreeNodeReader();
 	ProtocolTreeNode* nextTree();
 	void streamStart();
 

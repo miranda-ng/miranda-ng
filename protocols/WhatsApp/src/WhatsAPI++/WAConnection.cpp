@@ -169,11 +169,11 @@ std::string WAConnection::removeResourceFromJid(const std::string &jid)
 
 void WAConnection::setLogin(WALogin* login)
 {
-	if (login->expire_date != 0L)
-		this->expire_date = login->expire_date;
+	if (login->m_tExpireDate != 0L)
+		this->expire_date = login->m_tExpireDate;
 
-	if (login->account_kind != -1)
-		this->account_kind = login->account_kind;
+	if (login->m_iAccountKind != -1)
+		this->account_kind = login->m_iAccountKind;
 }
 
 void WAConnection::setVerboseId(bool b)

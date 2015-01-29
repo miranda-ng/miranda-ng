@@ -18,14 +18,12 @@
 
 using namespace Utilities;
 
-const std::string WALogin::NONCE_KEY = "nonce=\"";
-
 WALogin::WALogin(WAConnection* connection, const std::string& password)
 {
 	m_pConnection = connection;
-	this->password = password;
-	this->account_kind = -1;
-	this->expire_date = 0L;
+	m_szPassword = password;
+	m_iAccountKind = -1;
+	m_tExpireDate = 0L;
 }
 
 std::vector<unsigned char> WALogin::login(const std::vector<unsigned char>& authBlob)
@@ -71,7 +69,7 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 {
 	std::vector<unsigned char>* data = NULL;
 	if (!existingChallenge.empty())
-		data = this->getAuthBlob(existingChallenge);
+		data = getAuthBlob(existingChallenge);
 
 	m_pConnection->out.write(ProtocolTreeNode("auth", data) << 
 		XATTR("mechanism", "WAUTH-2") << XATTR("user", m_pConnection->user), true);
@@ -80,7 +78,7 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char>& nonce)
 {
 	unsigned char out[4*20];
-	KeyStream::keyFromPasswordAndNonce(this->password, nonce, out);
+	KeyStream::keyFromPasswordAndNonce(m_szPassword, nonce, out);
 
 	m_pConnection->inputKey.init(out + 40, out + 60);
 	m_pConnection->outputKey.init(out, out + 20);
@@ -135,18 +133,18 @@ void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 
 	const string &expiration = node->getAttributeValue("expiration");
 	if (!expiration.empty()) {
-		this->expire_date = atol(expiration.c_str());
-		if (this->expire_date == 0)
+		m_tExpireDate = atol(expiration.c_str());
+		if (m_tExpireDate == 0)
 			throw WAException("invalid expire date: " + expiration);
 	}
 
 	const string &kind = node->getAttributeValue("kind");
 	if (kind == "paid")
-		this->account_kind = 1;
+		m_iAccountKind = 1;
 	else if (kind == "free")
-		this->account_kind = 0;
+		m_iAccountKind = 0;
 	else
-		this->account_kind = -1;
+		m_iAccountKind = -1;
 }
 
 std::vector<unsigned char> WALogin::readSuccess()
@@ -164,7 +162,7 @@ std::vector<unsigned char> WALogin::readSuccess()
 	const string &status = node->getAttributeValue("status");
 	if (status == "expired") {
 		delete node;
-		throw WAException("Account expired on" + std::string(ctime(&this->expire_date)), WAException::LOGIN_FAILURE_EX, WAException::LOGIN_FAILURE_EX_TYPE_EXPIRED, this->expire_date);
+		throw WAException("Account expired on" + std::string(ctime(&m_tExpireDate)), WAException::LOGIN_FAILURE_EX, WAException::LOGIN_FAILURE_EX_TYPE_EXPIRED, m_tExpireDate);
 	}
 	if (status == "active") {
 		if (node->getAttributeValue("expiration").empty()) {
@@ -172,7 +170,7 @@ std::vector<unsigned char> WALogin::readSuccess()
 			throw WAException("active account with no expiration");
 		}
 	}
-	else this->account_kind = -1;
+	else m_iAccountKind = -1;
 
 	std::vector<unsigned char> data = *node->data;
 	delete node;

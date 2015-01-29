@@ -25,8 +25,7 @@ BinTreeNodeReader::BinTreeNodeReader(WAConnection *conn, ISocketConnection *conn
 
 BinTreeNodeReader::~BinTreeNodeReader()
 {
-	if (this->in != NULL)
-		delete this->in;
+	delete this->in;
 }
 
 ProtocolTreeNode* BinTreeNodeReader::nextTreeInternal()
