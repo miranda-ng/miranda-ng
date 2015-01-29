@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.2
+;  Version: 0.1.2.4
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -53,6 +53,9 @@ SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie może
 Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowania
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
+;file \protocols\WhatsApp\src\messages.cpp
+[Message received: %s by %s]
+Wiadomość odebrana: %s przez %s
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Połączenie %s
