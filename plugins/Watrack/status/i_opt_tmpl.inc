@@ -89,16 +89,16 @@ begin
 
   if isVarsInstalled then
   begin
-    StrDupW(strings^[1].text,defAltTemplate);
-    StrDupW(strings^[4].text,defAltChannelText);
+    StrDupW(strings^[1].text,TranslateW(defAltTemplate));
+    StrDupW(strings^[4].text,TranslateW(defAltChannelText));
   end
   else
   begin
-    StrDupW(strings^[1].text,defTemplate);
-    StrDupW(strings^[4].text,defChannelText);
+    StrDupW(strings^[1].text,TranslateW(defTemplate));
+    StrDupW(strings^[4].text,TranslateW(defChannelText));
   end;
-  StrDupW(strings^[2].text,defStatusTitle);
-  StrDupW(strings^[3].text,defStatusText);
+  StrDupW(strings^[2].text,TranslateW(defStatusTitle));
+  StrDupW(strings^[3].text,TranslateW(defStatusText));
 
   tmpl:=@StrTemplates^[DefaultTemplate];
   if tmpl^[0,tmpl_first]=smallint(dubtmpl) then
