@@ -87,32 +87,17 @@ void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean
 
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
 {
-	if (hContact && isOnline())
-		ForkThread(&WhatsAppProto::SendTypingWorker, new send_typing(hContact, type));
-
-	return 0;
-}
-
-void WhatsAppProto::SendTypingWorker(void* p)
-{
-	if (p == NULL)
-		return;
-
-	send_typing *typing = static_cast<send_typing*>(p);
-
-	// Don't send typing notifications to contacts which are offline 
-	if (getWord(typing->hContact, "Status", 0) == ID_STATUS_OFFLINE)
-		return;
-
-	ptrA jid(getStringA(typing->hContact, WHATSAPP_KEY_ID));
-	if (jid && this->isOnline()) {
-		if (typing->status == PROTOTYPE_SELFTYPING_ON)
-			m_pConnection->sendComposing((char*)jid);
-		else
-			m_pConnection->sendPaused((char*)jid);
+	if (hContact && isOnline()) {
+		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+		if (jid && isOnline()) {
+			if (type == PROTOTYPE_SELFTYPING_ON)
+				m_pConnection->sendComposing((char*)jid);
+			else
+				m_pConnection->sendPaused((char*)jid);
+		}
 	}
 
-	delete typing;
+	return 0;
 }
 
 void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)

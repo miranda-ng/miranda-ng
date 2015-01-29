@@ -12,13 +12,6 @@ struct send_direct
 	HANDLE msgid;
 };
 
-struct send_typing
-{
-	send_typing(MCONTACT hContact, const int status) : hContact(hContact), status(status) {}
-	MCONTACT hContact;
-	int status;
-};
-
 struct input_box
 {
 	tstring text;

@@ -208,7 +208,7 @@ bool WAConnection::read() throw(WAException)
 		parseAck(node);
 	else if (ProtocolTreeNode::tagEquals(node, "receipt"))
 		parseReceipt(node);
-	else if (ProtocolTreeNode::tagEquals(node, "chatstates"))
+	else if (ProtocolTreeNode::tagEquals(node, "chatstate"))
 		parseChatStates(node);
 
 	delete node;

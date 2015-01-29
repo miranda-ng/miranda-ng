@@ -103,8 +103,6 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Worker Threads
 
-	void __cdecl SendMsgWorker(void*);
-	void __cdecl SendTypingWorker(void*);
 	void __cdecl SendGetGroupInfoWorker(void*);
 	void __cdecl SendSetGroupNameWorker(void*);
 	void __cdecl SendCreateGroupWorker(void*);

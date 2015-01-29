@@ -38,8 +38,6 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 					debugLogA("**Chat - Outgoing message: %s", text);
 					this->SendMsg(hContact, IS_CHAT, msg.c_str());
 
-					// #TODO Move to SendMsgWorker, otherwise all messages are "acknowledged" by Miranda
-
 					GCDEST gcd = { m_szModuleName, hook->pDest->ptszID, GC_EVENT_MESSAGE };
 					GCEVENT gce = { sizeof(gce), &gcd };
 					gce.dwFlags = GCEF_ADDTOLOG;
