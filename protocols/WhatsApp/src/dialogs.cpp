@@ -16,21 +16,16 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, 
 		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, 3, 0);
 		SendDlgItemMessage(hwndDlg, IDC_PW2, EM_LIMITTEXT, 3, 0);
 		CheckDlgButton(hwndDlg, IDC_SSL, db_get_b(NULL, proto->m_szModuleName, WHATSAPP_KEY_SSL, 0) ? BST_CHECKED : BST_UNCHECKED);
-		DBVARIANT dbv;
+		{
+			ptrA szStr(proto->getStringA(WHATSAPP_KEY_CC));
+			if (szStr != NULL)
+				SetDlgItemTextA(hwndDlg, IDC_CC, szStr);
 
-		if (!db_get_s(0, proto->m_szModuleName, WHATSAPP_KEY_CC, &dbv, DBVT_ASCIIZ)) {
-			SetDlgItemTextA(hwndDlg, IDC_CC, dbv.pszVal);
-			db_free(&dbv);
-		}
+			if ((szStr = proto->getStringA(WHATSAPP_KEY_LOGIN)) != NULL)
+				SetDlgItemTextA(hwndDlg, IDC_LOGIN, szStr);
 
-		if (!db_get_s(0, proto->m_szModuleName, WHATSAPP_KEY_LOGIN, &dbv, DBVT_ASCIIZ)) {
-			SetDlgItemTextA(hwndDlg, IDC_LOGIN, dbv.pszVal);
-			db_free(&dbv);
-		}
-
-		if (!db_get_s(0, proto->m_szModuleName, WHATSAPP_KEY_NICK, &dbv, DBVT_ASCIIZ)) {
-			SetDlgItemTextA(hwndDlg, IDC_NICK, dbv.pszVal);
-			db_free(&dbv);
+			if ((szStr = proto->getStringA(WHATSAPP_KEY_NICK)) != NULL)
+				SetDlgItemTextA(hwndDlg, IDC_NICK, szStr);
 		}
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_PW), FALSE);
@@ -44,7 +39,6 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, 
 			SendDlgItemMessage(hwndDlg, IDC_PW2, EM_SETREADONLY, 1, 0);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_SSL), FALSE);
 		}
-
 		return TRUE;
 
 	case WM_COMMAND:
@@ -108,15 +102,15 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT message, WPARAM wparam, 
 			char str[128];
 
 			GetDlgItemTextA(hwndDlg, IDC_CC, str, SIZEOF(str));
-			db_set_s(0, proto->m_szModuleName, WHATSAPP_KEY_CC, str);
+			proto->setString(WHATSAPP_KEY_CC, str);
 
 			GetDlgItemTextA(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
-			db_set_s(0, proto->m_szModuleName, WHATSAPP_KEY_LOGIN, str);
+			proto->setString(WHATSAPP_KEY_LOGIN, str);
 
 			GetDlgItemTextA(hwndDlg, IDC_NICK, str, SIZEOF(str));
-			db_set_s(0, proto->m_szModuleName, WHATSAPP_KEY_NICK, str);
+			proto->setString(WHATSAPP_KEY_NICK, str);
 
-			db_set_b(0, proto->m_szModuleName, WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwndDlg, IDC_SSL));
+			proto->setByte(WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwndDlg, IDC_SSL));
 			return TRUE;
 		}
 		break;

@@ -28,9 +28,10 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE , bool don
 					oldName = dbv.pszVal;
 					db_free(&dbv);
 				}
-				db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
 
 				if (oldName.compare(string(new_name)) != 0) {
+					db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
+
 					CMString tmp(FORMAT, TranslateT("is now known as '%s'"), ptrT(mir_utf8decodeT(new_name)));
 					this->NotifyEvent(_A2T(oldName.c_str()), tmp, hContact, WHATSAPP_EVENT_OTHER);
 				}
@@ -496,13 +497,10 @@ INT_PTR __cdecl WhatsAppProto::OnChangeGroupSubject(WPARAM hContact, LPARAM lPar
 {
 	input_box* ib = new input_box;
 
-	DBVARIANT dbv;
-	if (getTString(hContact, WHATSAPP_KEY_NICK, &dbv))
-		ib->defaultValue = _T("");
-	else {
-		ib->defaultValue = dbv.ptszVal;
-		db_free(&dbv);
-	}
+	ptrT szNick(getTStringA(hContact, WHATSAPP_KEY_NICK));
+	if (szNick != NULL)
+		ib->defaultValue = szNick;
+
 	ib->limit = WHATSAPP_GROUP_NAME_LIMIT;
 	ib->text = _T("Enter new group subject");
 	ib->title = _T("WhatsApp - Change Group Subject");
