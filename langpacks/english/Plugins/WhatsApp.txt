@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.2
+;  Version: 0.1.2.4
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -31,6 +31,8 @@
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Your password has been set automatically. You can proceed with login now]
 [Please correctly specify your registration code received by SMS]
+;file \protocols\WhatsApp\src\messages.cpp
+[Message received: %s by %s]
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for WhatsApp]
