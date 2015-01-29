@@ -22,14 +22,14 @@ void WhatsAppProto::stayConnectedLoop(void*)
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a phone number without country code."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
-	this->phoneNumber = cc + in;
-	this->jid = this->phoneNumber + "@s.whatsapp.net";
+	m_szPhoneNumber = cc + in;
+	m_szJid = m_szPhoneNumber + "@s.whatsapp.net";
 
 	if (!getString(WHATSAPP_KEY_NICK, &dbv)) {
-		this->nick = dbv.pszVal;
+		m_szNick = dbv.pszVal;
 		db_free(&dbv);
 	}
-	if (this->nick.empty()) {
+	if (m_szNick.empty()) {
 		NotifyEvent(m_tszUserName, TranslateT("Please enter a nickname."), NULL, WHATSAPP_EVENT_CLIENT);
 		return;
 	}
@@ -83,15 +83,14 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				portNumber = 5222, resource += "-5222";
 
 			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
-			m_pConnection = new WAConnection(this->phoneNumber, resource, &this->connMutex, this, this);
-			m_pConnection->init(&writerMutex, this->conn);
+			m_pConnection = new WAConnection(m_szPhoneNumber, resource, &this->connMutex, &writerMutex, this->conn, this, this);
 			{
 				WALogin login(m_pConnection, password);
 
 				m_Challenge = login.login(m_Challenge);
 				m_pConnection->setLogin(&login);
 			}
-			m_pConnection->nick = this->nick;
+			m_pConnection->nick = m_szNick;
 			m_pConnection->setVerboseId(true);
 			if (m_iDesiredStatus != ID_STATUS_INVISIBLE)
 				m_pConnection->sendAvailableForChat();

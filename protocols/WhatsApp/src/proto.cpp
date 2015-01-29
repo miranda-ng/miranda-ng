@@ -410,7 +410,7 @@ std::tstring WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 
 		jid = szId;
 	}
-	else jid = this->jid;
+	else jid = m_szJid;
 	
 	return result + std::tstring(_A2T(jid.c_str())) + _T(".jpg");
 }

@@ -243,7 +243,7 @@ void WhatsAppProto::onGroupInfo(const std::string& gjid, const std::string& owne
 		debugLogA("Group info requested for non existing contact '%s'", gjid.c_str());
 		return;
 	}
-	setByte(hContact, "SimpleChatRoom", ownerJid.compare(this->jid) == 0 ? 2 : 1);
+	setByte(hContact, "SimpleChatRoom", ownerJid.compare(m_szJid) == 0 ? 2 : 1);
 	if (this->isOnline())
 		m_pConnection->sendGetParticipants(gjid);
 }
@@ -265,7 +265,7 @@ void WhatsAppProto::onGroupAddUser(const std::string& paramString1, const std::s
 	MCONTACT hContact = this->AddToContactList(paramString1);
 	TCHAR *ptszGroupName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-	if (paramString2.compare(this->jid) == 0) {
+	if (paramString2.compare(m_szJid) == 0) {
 		this->NotifyEvent(ptszGroupName, TranslateT("You have been added to the group"), hContact, WHATSAPP_EVENT_OTHER);
 		setByte(hContact, "IsGroupMember", 1);
 	}
@@ -287,7 +287,7 @@ void WhatsAppProto::onGroupRemoveUser(const std::string &paramString1, const std
 
 	TCHAR *ptszGroupName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-	if (paramString2.compare(this->jid) == 0) {
+	if (paramString2.compare(m_szJid) == 0) {
 		//db_set_b(hContact, "CList", "Hidden", 1);
 		setByte(hContact, "IsGroupMember", 0);
 
@@ -331,7 +331,7 @@ void WhatsAppProto::onGetParticipants(const std::string& gjid, const std::vector
 		// Hide, if we are not member of the group
 		// Sometimes the group is shown shortly after hiding it again, due to other threads which stored the contact
 		//	 in a cache before it has been removed (E.g. picture-id list in processBuddyList)
-		if (isHidden && this->jid.compare(*it) == 0) {
+		if (isHidden && m_szJid.compare(*it) == 0) {
 			isHidden = false;
 			if (!isOwningGroup) {
 				// Break, as we don't need to collect group-members

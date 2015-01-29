@@ -30,7 +30,7 @@ WALogin::WALogin(WAConnection* connection, const std::string& password)
 
 std::vector<unsigned char> WALogin::login(const std::vector<unsigned char>& authBlob)
 {
-	m_pConnection->out->streamStart(m_pConnection->domain, m_pConnection->resource);
+	m_pConnection->out.streamStart(m_pConnection->domain, m_pConnection->resource);
 
 	m_pConnection->logData("sent stream start");
 
@@ -42,7 +42,7 @@ std::vector<unsigned char> WALogin::login(const std::vector<unsigned char>& auth
 
 	m_pConnection->logData("send auth, auth blob size %d", authBlob.size());
 
-	m_pConnection->in->streamStart();
+	m_pConnection->in.streamStart();
 
 	m_pConnection->logData("read stream start");
 
@@ -52,7 +52,7 @@ std::vector<unsigned char> WALogin::login(const std::vector<unsigned char>& auth
 void WALogin::sendResponse(const std::vector<unsigned char>& challengeData)
 {
 	std::vector<unsigned char>* authBlob = this->getAuthBlob(challengeData);
-	m_pConnection->out->write(ProtocolTreeNode("response", authBlob));
+	m_pConnection->out.write(ProtocolTreeNode("response", authBlob));
 }
 
 void WALogin::sendFeatures()
@@ -64,7 +64,7 @@ void WALogin::sendFeatures()
 	ProtocolTreeNode* pictureChild = new ProtocolTreeNode("w:profile:picture") << XATTR("type", "all");
 	children->push_back(pictureChild);
 
-	m_pConnection->out->write(ProtocolTreeNode("stream:features", NULL, children), true);
+	m_pConnection->out.write(ProtocolTreeNode("stream:features", NULL, children), true);
 }
 
 void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
@@ -73,7 +73,7 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 	if (!existingChallenge.empty())
 		data = this->getAuthBlob(existingChallenge);
 
-	m_pConnection->out->write(ProtocolTreeNode("auth", data) << 
+	m_pConnection->out.write(ProtocolTreeNode("auth", data) << 
 		XATTR("mechanism", "WAUTH-2") << XATTR("user", m_pConnection->user), true);
 }
 
@@ -98,7 +98,7 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 
 std::vector<unsigned char> WALogin::readFeaturesUntilChallengeOrSuccess()
 {
-	while (ProtocolTreeNode *root = m_pConnection->in->nextTree()) {
+	while (ProtocolTreeNode *root = m_pConnection->in.nextTree()) {
 		#ifdef _DEBUG
 			{
 				string tmp = root->toString();
@@ -131,7 +131,7 @@ std::vector<unsigned char> WALogin::readFeaturesUntilChallengeOrSuccess()
 
 void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 {
-	m_pConnection->out->setSecure();
+	m_pConnection->out.setSecure();
 
 	const string &expiration = node->getAttributeValue("expiration");
 	if (!expiration.empty()) {
@@ -151,7 +151,7 @@ void WALogin::parseSuccessNode(ProtocolTreeNode* node)
 
 std::vector<unsigned char> WALogin::readSuccess()
 {
-	ProtocolTreeNode *node = m_pConnection->in->nextTree();
+	ProtocolTreeNode *node = m_pConnection->in.nextTree();
 
 	if (ProtocolTreeNode::tagEquals(node, "failure")) {
 		delete node;
