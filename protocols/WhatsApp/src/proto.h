@@ -170,8 +170,8 @@ private:
 	int lastPongTime;
 
 	std::vector<unsigned char> m_Challenge;
-	string phoneNumber;
-	string jid, nick;
+	string m_szPhoneNumber;
+	string m_szJid, m_szNick;
 	std::map<string, MCONTACT> hContactByJid;
 	map<MCONTACT, map<MCONTACT, bool>> isMemberByGroupContact;
 

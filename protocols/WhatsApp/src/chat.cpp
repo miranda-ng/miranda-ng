@@ -43,8 +43,8 @@ int WhatsAppProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 					GCDEST gcd = { m_szModuleName, hook->pDest->ptszID, GC_EVENT_MESSAGE };
 					GCEVENT gce = { sizeof(gce), &gcd };
 					gce.dwFlags = GCEF_ADDTOLOG;
-					gce.ptszNick = mir_a2t(this->nick.c_str());
-					gce.ptszUID = mir_a2t(this->jid.c_str());
+					gce.ptszNick = mir_a2t(m_szNick.c_str());
+					gce.ptszUID = mir_a2t(m_szJid.c_str());
 					gce.time = time(NULL);
 					gce.ptszText = hook->ptszText;
 					gce.bIsMe = TRUE;

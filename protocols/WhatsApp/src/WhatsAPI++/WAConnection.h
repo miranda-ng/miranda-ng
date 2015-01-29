@@ -68,18 +68,6 @@ public:
 	virtual void onLeaveGroup(const std::string& paramString)=0;
 };
 
-
-
-class MessageStore {
-public:
-	MessageStore();
-
-	virtual FMessage* get(Key* key);
-
-	virtual ~MessageStore();
-};
-
-
 class GroupSetting {
 public:
 	std::string jid;
@@ -93,8 +81,8 @@ public:
 	}
 };
 
-class WAConnection {
-
+class WAConnection
+{
 	class IqResultHandler {
 	protected:
 		WAConnection* con;
@@ -125,13 +113,13 @@ class WAConnection {
 	public:
 		IqResultPingHandler(WAConnection* con):IqResultHandler(con) {}
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
-			if (this->con->event_handler != NULL)
-				this->con->event_handler->onPingResponseReceived();
+			if (this->con->m_pEventHandler != NULL)
+				this->con->m_pEventHandler->onPingResponseReceived();
 		}
 
 		void error(ProtocolTreeNode* node) throw (WAException) {
-			if (this->con->event_handler != NULL)
-				this->con->event_handler->onPingResponseReceived();
+			if (this->con->m_pEventHandler != NULL)
+				this->con->m_pEventHandler->onPingResponseReceived();
 		}
 	};
 
@@ -143,11 +131,11 @@ class WAConnection {
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
 			std::vector<std::string> groups;
 			this->con->readGroupList(node, groups);
-			if (this->con->group_event_handler != NULL) {
+			if (this->con->m_pGroupEventHandler != NULL) {
 				if (this->type.compare("participating") == 0)
-					this->con->group_event_handler->onParticipatingGroups(groups);
+					this->con->m_pGroupEventHandler->onParticipatingGroups(groups);
 				else if (this->type.compare("owning") == 0)
-					this->con->group_event_handler->onOwningGroups(groups);
+					this->con->m_pGroupEventHandler->onOwningGroups(groups);
 			}
 		}
 	};
@@ -165,8 +153,8 @@ class WAConnection {
 				nameValueMap[nameAttr] = valueAttr;
 			}
 
-			if (this->con->group_event_handler != NULL)
-				this->con->group_event_handler->onServerProperties(&nameValueMap);
+			if (this->con->m_pGroupEventHandler != NULL)
+				this->con->m_pGroupEventHandler->onServerProperties(&nameValueMap);
 		}
 	};
 
@@ -178,16 +166,16 @@ class WAConnection {
 			ProtocolTreeNode::require(queryNode, "query");
 			ProtocolTreeNode* listNode = queryNode->getChild(0);
 			ProtocolTreeNode::require(listNode, "list");
-			if (this->con->event_handler != NULL)
-				this->con->event_handler->onPrivacyBlockListClear();
+			if (this->con->m_pEventHandler != NULL)
+				this->con->m_pEventHandler->onPrivacyBlockListClear();
 			if (listNode->children != NULL) {
 				for (size_t i = 0; i < listNode->children->size(); i++) {
 					ProtocolTreeNode* itemNode = (*listNode->children)[i];
 					ProtocolTreeNode::require(itemNode, "item");
 					if (itemNode->getAttributeValue("type").compare("jid") == 0) {
 						const string &jid = itemNode->getAttributeValue("value");
-						if (!jid.empty() && this->con->event_handler != NULL)
-							this->con->event_handler->onPrivacyBlockListAdd(jid);
+						if (!jid.empty() && this->con->m_pEventHandler != NULL)
+							this->con->m_pEventHandler->onPrivacyBlockListAdd(jid);
 					}
 				}
 			}
@@ -205,8 +193,8 @@ class WAConnection {
 			const string &subject_t = groupNode->getAttributeValue("s_t");
 			const string &subject_owner = groupNode->getAttributeValue("s_o");
 			const string &creation = groupNode->getAttributeValue("creation");
-			if (this->con->group_event_handler != NULL)
-				this->con->group_event_handler->onGroupInfo(from, owner, subject, subject_owner, atoi(subject_t.c_str()), atoi(creation.c_str()));
+			if (this->con->m_pGroupEventHandler != NULL)
+				this->con->m_pGroupEventHandler->onGroupInfo(from, owner, subject, subject_owner, atoi(subject_t.c_str()), atoi(creation.c_str()));
 		}
 	};
 
@@ -216,8 +204,8 @@ class WAConnection {
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
 			std::vector<std::string> participants;
 			this->con->readAttributeList(node, participants, "participant", "jid");
-			if (this->con->group_event_handler != NULL)
-				this->con->group_event_handler->onGetParticipants(from, participants);
+			if (this->con->m_pGroupEventHandler != NULL)
+				this->con->m_pGroupEventHandler->onGetParticipants(from, participants);
 		}
 	};
 
@@ -228,8 +216,8 @@ class WAConnection {
 			ProtocolTreeNode* groupNode = node->getChild(0);
 			ProtocolTreeNode::require(groupNode, "group");
 			const string &groupId = groupNode->getAttributeValue("id");
-			if (!groupId.empty() && con->group_event_handler != NULL)
-				this->con->group_event_handler->onGroupCreated(from, groupId);
+			if (!groupId.empty() && con->m_pGroupEventHandler != NULL)
+				this->con->m_pGroupEventHandler->onGroupCreated(from, groupId);
 		}
 	};
 
@@ -242,8 +230,8 @@ class WAConnection {
 			const string &seconds = firstChild->getAttributeValue("seconds");
 			const string &status = firstChild->getDataAsString();
 			if (!seconds.empty() && !from.empty())
-				if (this->con->event_handler != NULL)
-					this->con->event_handler->onLastSeen(from, atoi(seconds.c_str()), status);
+				if (this->con->m_pEventHandler != NULL)
+					this->con->m_pEventHandler->onLastSeen(from, atoi(seconds.c_str()), status);
 		}
 	};
 
@@ -259,23 +247,23 @@ class WAConnection {
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
 			const string &attributeValue = node->getAttributeValue("type");
 
-			if (!attributeValue.empty() && attributeValue == "result" && this->con->event_handler != NULL) {
+			if (!attributeValue.empty() && attributeValue == "result" && this->con->m_pEventHandler != NULL) {
 				std::vector<ProtocolTreeNode*> children(node->getAllChildren("picture"));
 				for (size_t i = 0; i < children.size(); i++) {
 					ProtocolTreeNode* current = children[i];
 					const string &id = current->getAttributeValue("id");
 					if (!id.empty() && current->data != NULL && current->data->size() > 0) {
 						if (current->data != NULL)
-							this->con->event_handler->onSendGetPicture(this->jid, *current->data, id);
+							this->con->m_pEventHandler->onSendGetPicture(this->jid, *current->data, id);
 						break;
 					}
 				}
 			}
 		}
 		void error(ProtocolTreeNode* node) throw (WAException) {
-			if (this->con->event_handler != NULL) {
+			if (this->con->m_pEventHandler != NULL) {
 				std::vector<unsigned char> v;
-				this->con->event_handler->onSendGetPicture("error", v, "");
+				this->con->m_pEventHandler->onSendGetPicture("error", v, "");
 			}
 		}
 	};
@@ -286,12 +274,12 @@ class WAConnection {
 	public:
 		IqResultSetPhotoHandler(WAConnection* con, const std::string& jid):IqResultHandler(con) {this->jid = jid;}
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
-			if (this->con->event_handler != NULL) {
+			if (this->con->m_pEventHandler != NULL) {
 				ProtocolTreeNode* child = node->getChild("picture");
 				if (child != NULL)
-					this->con->event_handler->onPictureChanged(this->jid, "", true);
+					this->con->m_pEventHandler->onPictureChanged(this->jid, "", true);
 				else
-					this->con->event_handler->onPictureChanged(this->jid, "", false);
+					this->con->m_pEventHandler->onPictureChanged(this->jid, "", false);
 			}
 		}
 	};
@@ -300,13 +288,13 @@ class WAConnection {
 	public:
 		IqResultSendDeleteAccount(WAConnection* con):IqResultHandler(con) {}
 		virtual void parse(ProtocolTreeNode* node, const std::string& from) throw (WAException) {
-			if (this->con->event_handler != NULL)
-				this->con->event_handler->onDeleteAccount(true);
+			if (this->con->m_pEventHandler != NULL)
+				this->con->m_pEventHandler->onDeleteAccount(true);
 		}
 
 		void error(ProtocolTreeNode* node) throw (WAException) {
-			if (this->con->event_handler != NULL)
-				this->con->event_handler->onDeleteAccount(false);
+			if (this->con->m_pEventHandler != NULL)
+				this->con->m_pEventHandler->onDeleteAccount(false);
 		}
 	};
 
@@ -333,14 +321,14 @@ class WAConnection {
 
 private:
 	ISocketConnection *rawConn;
-	BinTreeNodeReader *in;
-	BinTreeNodeWriter *out;
-	WAListener *event_handler;
-	WAGroupListener *group_event_handler;
+	BinTreeNodeReader in;
+	BinTreeNodeWriter out;
+	WAListener *m_pEventHandler;
+	WAGroupListener *m_pGroupEventHandler;
 	bool verbose;
 	int iqid;
 	std::map<string, IqResultHandler*> pending_server_requests;
-	IMutex *mutex;
+	IMutex *m_pMutex;
 
 	void parseAck(ProtocolTreeNode *node) throw (WAException);
 	void parseChatStates(ProtocolTreeNode *node) throw (WAException);
@@ -363,9 +351,8 @@ private:
 	std::vector<ProtocolTreeNode*>* processGroupSettings(const std::vector<GroupSetting>& gruops);
 
 public:
-	WAConnection(const std::string& user, const std::string& resource, IMutex* mutex, WAListener* event_handler, WAGroupListener* group_event_handler);
+	WAConnection(const std::string& user, const std::string& resource, IMutex* mutex, IMutex *write_mutex, ISocketConnection *conn, WAListener* m_pEventHandler, WAGroupListener* m_pGroupEventHandler);
 	virtual ~WAConnection();
-	void init(IMutex* mutex, ISocketConnection*);
 
 	std::string user;
 	std::string domain;
