@@ -167,7 +167,7 @@ private:
 	WASocketConnection *conn;
 	WAConnection *m_pConnection;
 	Mutex connMutex;
-	int lastPongTime;
+	time_t m_tLastWriteTime;
 
 	std::vector<unsigned char> m_Challenge;
 	string m_szPhoneNumber;

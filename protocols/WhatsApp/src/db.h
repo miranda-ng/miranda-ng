@@ -8,7 +8,6 @@
 #define WHATSAPP_KEY_MAP_STATUSES			   "MapStatuses"
 #define WHATSAPP_KEY_LOGGING_ENABLE			   "LoggingEnable"
 #define WHATSAPP_KEY_NAME                    "RealName"
-#define WHATSAPP_KEY_PUSH_NAME               "Nick"
 #define WHATSAPP_KEY_LAST_SEEN               "LastSeen"
 #define WHATSAPP_KEY_AVATAR_ID               "AvatarId"
 #define WHATSAPP_KEY_SYSTRAY_NOTIFY			   "UseSystrayNotify"

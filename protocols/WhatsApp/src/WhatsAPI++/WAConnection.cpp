@@ -210,6 +210,8 @@ bool WAConnection::read() throw(WAException)
 		parseMessage(node);
 	else if (ProtocolTreeNode::tagEquals(node, "ack"))
 		parseAck(node);
+	else if (ProtocolTreeNode::tagEquals(node, "receipt"))
+		parseReceipt(node);
 	else if (ProtocolTreeNode::tagEquals(node, "chatstates"))
 		parseChatStates(node);
 
@@ -264,6 +266,22 @@ void WAConnection::parseAck(ProtocolTreeNode *node) throw(WAException)
 		msg.status = FMessage::STATUS_RECEIVED_BY_SERVER;
 		m_pEventHandler->onMessageStatusUpdate(&msg);
 	}
+}
+
+void WAConnection::parseReceipt(ProtocolTreeNode *node) throw(WAException)
+{
+	const string &from = node->getAttributeValue("from");
+	const string &id = node->getAttributeValue("id");
+	const string &ts = node->getAttributeValue("t");
+
+	if (m_pEventHandler != NULL) {
+		FMessage msg(from, false, id);
+		msg.status = FMessage::STATUS_RECEIVED_BY_TARGET;
+		m_pEventHandler->onMessageStatusUpdate(&msg);
+	}
+
+	out.write(ProtocolTreeNode("ack")
+		<< XATTR("to", from) << XATTR("id", id) << XATTR("type", "read") << XATTRI("t", time(0)));
 }
 
 void WAConnection::parseChatStates(ProtocolTreeNode *node) throw (WAException)
