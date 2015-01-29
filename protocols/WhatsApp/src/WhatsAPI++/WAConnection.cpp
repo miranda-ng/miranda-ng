@@ -195,12 +195,8 @@ bool WAConnection::read() throw(WAException)
 	if (node == NULL)
 		return false;
 
-	#ifdef _DEBUG
-	{
-		string tmp = node->toString();
-		rawConn->log(tmp.c_str());
-	}
-	#endif
+	string tmp = node->toString();
+	rawConn->log(tmp.c_str());
 
 	if (ProtocolTreeNode::tagEquals(node, "iq"))
 		parseIq(node);
@@ -307,6 +303,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 	const string &id = messageNode->getAttributeValue("id");
 	const string &attribute_t = messageNode->getAttributeValue("t");
 	const string &from = messageNode->getAttributeValue("from");
+	const string &notify = messageNode->getAttributeValue("notify");
 	const string &author = messageNode->getAttributeValue("author");
 
 	const string &typeAttribute = messageNode->getAttributeValue("type");
@@ -343,7 +340,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 		if (receiptRequested)
 			sendSubjectReceived(from, id);
 	}
-	else if (typeAttribute == "chat" || typeAttribute == "text") {
+	else if (typeAttribute == "text") {
 		FMessage fmessage;
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
@@ -354,7 +351,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			ProtocolTreeNode *childNode = messageChildren[i];
 			if (ProtocolTreeNode::tagEquals(childNode, "body")) {
 				fmessage.key = Key(from, false, id);
-				fmessage.remote_resource = author;
+				fmessage.notifyname = notify;
 				fmessage.data = childNode->getDataAsString();
 				fmessage.status = FMessage::STATUS_UNSENT;
 			}
@@ -395,6 +392,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 				}
 
 				fmessage.key = Key(from, false, id);
+				fmessage.notifyname = notify;
 				fmessage.remote_resource = author;
 			}
 		}

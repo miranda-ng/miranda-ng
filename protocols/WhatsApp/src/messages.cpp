@@ -121,18 +121,24 @@ void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
 	if (hContact == 0)
 		return;
 
-	if (fmsg->status == FMessage::STATUS_RECEIVED_BY_SERVER) {
-		size_t delim = fmsg->key.id.find('-');
-		if (delim == string::npos)
-			return;
-
-		int msgId = atoi(fmsg->key.id.substr(delim+1).c_str());
-		ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
-
-		time_t timestamp = atol(fmsg->key.id.substr(0, delim).c_str());
-
-		TCHAR ttime[64];
-		_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
-		utils::setStatusMessage(hContact, CMString(FORMAT, TranslateT("Message received: %s by %s"), ttime, pcli->pfnGetContactDisplayName(hContact, 0)));
+	const TCHAR *ptszBy;
+	switch (fmsg->status) {
+	case FMessage::STATUS_RECEIVED_BY_SERVER: ptszBy = TranslateT("server"); break;
+	case FMessage::STATUS_RECEIVED_BY_TARGET: ptszBy = pcli->pfnGetContactDisplayName(hContact, 0);  break;
+	default:
+		return;
 	}
+
+	size_t delim = fmsg->key.id.find('-');
+	if (delim == string::npos)
+		return;
+
+	int msgId = atoi(fmsg->key.id.substr(delim+1).c_str());
+	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
+
+	time_t timestamp = atol(fmsg->key.id.substr(0, delim).c_str());
+
+	TCHAR ttime[64];
+	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
+	utils::setStatusMessage(hContact, CMString(FORMAT, TranslateT("Message received: %s by %s"), ttime, ptszBy));
 }
