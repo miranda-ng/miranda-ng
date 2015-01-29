@@ -402,7 +402,8 @@ begin
   remote:=StrPosW(dst.mfile,'://')<>nil;
 
 //  if remote or ((plyLink^[0].flags and WAT_OPT_PLAYERINFO)<>0) then
-  oldartist:=dst.artist; oldtitle:=dst.title;
+  StrDupW(oldartist,dst.artist);
+  StrDupW(oldtitle,dst.title);
 
   ClearTrackInfo(dst);
 
@@ -447,6 +448,9 @@ begin
       result:=WAT_RES_NEWFILE;
     end;
   end;
+
+  mFreeMem(oldartist);
+  mFreeMem(oldtitle);
 end;
 
 initialization
