@@ -43,7 +43,6 @@ public:
 
 class WALogin {
 private:
-	static const std::string NONCE_KEY;
 	WAConnection *m_pConnection;
 
 	std::vector<unsigned char>* getAuthBlob(const std::vector<unsigned char>& nonce);
@@ -55,9 +54,9 @@ private:
 	std::vector<unsigned char> readSuccess();
 
 public:
-	time_t expire_date;
-	int account_kind;
-	std::string password;
+	time_t      m_tExpireDate;
+	int         m_iAccountKind;
+	std::string m_szPassword;
 
 	WALogin(WAConnection* connection, const std::string& password);
 	~WALogin();

@@ -20,6 +20,11 @@ BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* conn
 	this->dataBegin = 0;
 }
 
+BinTreeNodeWriter::~BinTreeNodeWriter()
+{
+	delete this->out;
+}
+
 void BinTreeNodeWriter::writeDummyHeader()
 {
 	int num = 3;
@@ -277,10 +282,4 @@ void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 		throw WAException(ex.what());
 	}
 	this->mutex->unlock();
-}
-
-BinTreeNodeWriter::~BinTreeNodeWriter()
-{
-	if (this->out != NULL)
-		delete this->out;
 }

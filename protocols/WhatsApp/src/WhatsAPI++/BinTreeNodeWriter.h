@@ -58,7 +58,7 @@ private:
 
 public:
 	BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, IMutex* mutex);
-	virtual ~BinTreeNodeWriter();
+	~BinTreeNodeWriter();
 
 	void streamStart(std::string domain, std::string resource);
 	void flushBuffer(bool flushNetwork);
