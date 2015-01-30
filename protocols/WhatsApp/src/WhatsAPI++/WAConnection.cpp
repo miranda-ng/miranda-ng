@@ -368,7 +368,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 		FMessage fmessage(from, false, id);
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
-		fmessage.data = messageNode->getAttributeValue("caption");
+		fmessage.notifyname = messageNode->getAttributeValue("notify");
 		fmessage.remote_resource = author;
 		fmessage.media_wa_type = FMessage::getMessage_WA_Type(media->getAttributeValue("type"));
 		fmessage.media_url = media->getAttributeValue("url");
@@ -377,6 +377,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 		fmessage.media_duration_seconds = atoi(media->getAttributeValue("seconds").c_str());
 
 		if (fmessage.media_wa_type == FMessage::WA_TYPE_LOCATION) {
+			const string &name = media->getAttributeValue("name");
 			const string &latitudeString = media->getAttributeValue("latitude");
 			const string &longitudeString = media->getAttributeValue("longitude");
 			if (latitudeString.empty() || longitudeString.empty())
@@ -384,6 +385,8 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 
 			fmessage.latitude = atof(latitudeString.c_str());
 			fmessage.longitude = atof(longitudeString.c_str());
+			if (!name.empty())
+				fmessage.data = name;
 		}
 		else if (fmessage.media_wa_type == FMessage::WA_TYPE_CONTACT) {
 			ProtocolTreeNode *contactChildNode = media->getChild(0);
@@ -416,9 +419,12 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			const string &encoding = media->getAttributeValue("encoding");
 			if (encoding.empty() || encoding == "text")
 				fmessage.data = media->getDataAsString();
-			else if (media->data->size() > 0) {
-				fmessage.bindata = (unsigned char*)malloc(fmessage.bindata_len = media->data->size());
-				memcpy(fmessage.bindata, media->data->data(), fmessage.bindata_len);
+			else {
+				fmessage.data = media->getAttributeValue("caption");
+				if (media->data->size() > 0) {
+					fmessage.bindata = (unsigned char*)malloc(fmessage.bindata_len = media->data->size());
+					memcpy(fmessage.bindata, media->data->data(), fmessage.bindata_len);
+				}
 			}
 		}
 
