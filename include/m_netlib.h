@@ -43,6 +43,8 @@ typedef struct NETLIBHTTPREQUEST_tag NETLIBHTTPREQUEST;
 struct NETLIBOPENCONNECTION_tag;
 typedef struct NETLIBOPENCONNECTION_tag NETLIBOPENCONNECTION;
 
+#define NETLIB_USER_AGENT "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)"
+
 //Initialises the netlib for a set of connections
 //wParam = 0
 //lParam = (LPARAM)(NETLIBUSER*)&nu

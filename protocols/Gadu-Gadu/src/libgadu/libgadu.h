@@ -39,6 +39,7 @@
 
 #ifdef GG_CONFIG_MIRANDA
 #include <m_ssl.h>
+#include <m_netlib.h>
 #endif
 
 #if defined(__cplusplus) || defined(_WIN32)
@@ -1542,7 +1543,7 @@ int gg_dcc7_handle_abort(struct gg_session *sess, struct gg_event *e, void *payl
 
 #define GG_DEFAULT_PORT 8074
 #define GG_HTTPS_PORT 443
-#define GG_HTTP_USERAGENT "Mozilla/4.7 [en] (Win98; I)"
+#define GG_HTTP_USERAGENT NETLIB_USER_AGENT
 
 #define GG_DEFAULT_CLIENT_VERSION "10.1.0.11070"
 #define GG_DEFAULT_PROTOCOL_VERSION 0x2e

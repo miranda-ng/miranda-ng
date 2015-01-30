@@ -156,7 +156,7 @@ namespace
 			nlhr.headersCount = 4;
 			nlhr.headers = (NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
 			nlhr.headers[0].szName = "User-Agent";
-			nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+			nlhr.headers[0].szValue = NETLIB_USER_AGENT;
 			nlhr.headers[1].szName = "Connection";
 			nlhr.headers[1].szValue = "close";
 			nlhr.headers[2].szName = "Cache-Control";

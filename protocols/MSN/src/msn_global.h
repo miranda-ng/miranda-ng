@@ -128,7 +128,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MSN_DEFAULT_GATEWAY_PORT   80
 const char MSN_DEFAULT_LOGIN_SERVER[] = "messenger.hotmail.com";
 const char MSN_DEFAULT_GATEWAY[] =      "gateway.messenger.hotmail.com";
-const char MSN_USER_AGENT[] =           "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1)";
+const char MSN_USER_AGENT[] =           NETLIB_USER_AGENT;
 
 #define MSN_BLOCK        "/BlockCommand"
 #define MSN_INVITE       "/InviteCommand"

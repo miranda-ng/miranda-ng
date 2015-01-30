@@ -329,13 +329,14 @@ void yahoo_http_post(int id, const char *url, const char *cookies, long content_
 
 	snprintf(buff, sizeof(buff), 
 			"POST %s HTTP/1.0\r\n"
-			"User-Agent: Mozilla/4.0 (compatible; MSIE 5.5)\r\n"
+			"User-Agent: %s\r\n"
 			"Pragma: no-cache\r\n"
 			"Host: %s\r\n"
 			"Content-Length: %ld\r\n"
 			"%s"
 			"\r\n",
-			path, 
+			path,
+			NETLIB_USER_AGENT,
 			host, content_length, 
 			ck);
 			
@@ -361,12 +362,12 @@ void yahoo_http_get(int id, const char *url, const char *cookies,
 	
 	snprintf(buff, sizeof(buff), 
 			"GET %s HTTP/1.0\r\n"
-			"User-Agent: Mozilla/4.0 (compatible; MSIE 5.5)\r\n"
+			"User-Agent: %s\r\n"
 			"Pragma: no-cache\r\n"
 			"Host: %s\r\n"
 			"%s"
 			"\r\n",
-			path, host, ck);
+			path, NETLIB_USER_AGENT, host, ck);
 	
 	yahoo_send_http_request(id, host, port, buff, callback, data);
 }

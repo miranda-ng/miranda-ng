@@ -214,7 +214,7 @@ bool Socket::connect ( const std::string host, const int port, int useproxy,std:
 
   /*if (useproxy&&status==0) {
 	      char temp[1024];
-		  this->send("CONNECT cs.xfire.com:25999 HTTP/1.1\nHost: cs.xfire.com:25999\nUser-Agent: Mozilla/4.0 (compatible; MSIE 5.5; Windows 98)\n\n");
+		  this->send("CONNECT cs.xfire.com:25999 HTTP/1.1\nHost: cs.xfire.com:25999\nUser-Agent: " + NETLIB_USER_AGENT + "\n\n");
 		  this->recv((char*)temp,1024);
 	  }*/
 

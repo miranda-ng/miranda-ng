@@ -352,7 +352,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 	cursor_ptr cursor(txn, m_dbEventsSort);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY) != MDB_SUCCESS)
 		return 0;
-	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT_NODUP) != MDB_SUCCESS)
+	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
 		return 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
@@ -376,7 +376,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 	cursor_ptr cursor(txn, m_dbEventsSort);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY) != MDB_SUCCESS)
 		return 0;
-	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV_NODUP) != MDB_SUCCESS)
+	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;

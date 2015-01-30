@@ -112,7 +112,7 @@ void GetData(void *param)
 
 	NETLIBHTTPHEADER headers[2];
 	headers[0].szName = "User-Agent";
-	headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Win32)";
+	headers[0].szValue = NETLIB_USER_AGENT;
 
 	headers[1].szName = "Content-Length";
 	headers[1].szValue = NULL;

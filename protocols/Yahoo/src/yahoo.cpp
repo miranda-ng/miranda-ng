@@ -1283,7 +1283,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 		}
 		
 		httpHeaders[i].szName = "User-Agent";
-		httpHeaders[i].szValue = "Mozilla/4.0 (compatible; MSIE 5.5)";
+		httpHeaders[i].szValue = NETLIB_USER_AGENT;
 		i++;
 
 		httpHeaders[i].szName = "Host";
@@ -1451,7 +1451,7 @@ char * CYahooProto::ext_send_https_request(struct yahoo_data *yd, const char *ho
 	nlhr.headersCount = 3;
 	nlhr.headers=(NETLIBHTTPHEADER*)mir_alloc(sizeof(NETLIBHTTPHEADER)*(nlhr.headersCount+5));
 	nlhr.headers[0].szName   = "User-Agent";
-	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 5.5)";
+	nlhr.headers[0].szValue = NETLIB_USER_AGENT;
 	nlhr.headers[1].szName  = "Cache-Control";
 	nlhr.headers[1].szValue = "no-cache";
 	nlhr.headers[2].szName  = "Connection";
