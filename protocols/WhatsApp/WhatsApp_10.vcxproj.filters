@@ -122,6 +122,9 @@
     <ClCompile Include="src\WhatsAPI++\KeyStream.cpp">
       <Filter>WhatsAPI++\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\avatars.cpp">
+      <Filter>Miranda Plugin\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">

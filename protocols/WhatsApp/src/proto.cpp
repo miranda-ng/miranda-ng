@@ -23,6 +23,8 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 
 	CreateProtoService(PS_GETAVATARINFOT, &WhatsAppProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &WhatsAppProto::GetAvatarCaps);
+	CreateProtoService(PS_GETMYAVATART, &WhatsAppProto::GetMyAvatar);
+	CreateProtoService(PS_SETMYAVATART, &WhatsAppProto::SetMyAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 	HookProtoEvent(ME_SYSTEM_MODULESLOADED, &WhatsAppProto::OnModulesLoaded);
@@ -352,67 +354,6 @@ void WhatsAppProto::RequestFriendship(MCONTACT hContact)
 		m_pConnection->sendQueryLastOnline((char*)jid);
 		m_pConnection->sendPresenceSubscriptionRequest((char*)jid);
 	}
-}
-
-INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
-{
-	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
-
-	ptrA id(getStringA(AI->hContact, WHATSAPP_KEY_ID));
-	if (id == NULL)
-		return GAIR_NOAVATAR;
-
-	std::tstring tszFileName = GetAvatarFileName(AI->hContact);
-	_tcsncpy_s(AI->filename, tszFileName.c_str(), _TRUNCATE);
-	AI->format = PA_FORMAT_JPEG;
-
-	ptrA szAvatarId(getStringA(AI->hContact, WHATSAPP_KEY_AVATAR_ID));
-	if (szAvatarId == NULL || (wParam & GAIF_FORCE) != 0)
-	if (AI->hContact != NULL && m_pConnection != NULL) {
-		m_pConnection->sendGetPicture((const char*)id, "image");
-		return GAIR_WAITFOR;
-	}
-
-	debugLogA("No avatar");
-	return GAIR_NOAVATAR;
-}
-
-INT_PTR WhatsAppProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
-{
-	switch (wParam) {
-	case AF_PROPORTION:
-		return PIP_SQUARE;
-
-	case AF_FORMATSUPPORTED: // Jabber supports avatars of virtually all formats
-		return PA_FORMAT_JPEG;
-
-	case AF_ENABLED:
-		return TRUE;
-
-	case AF_MAXSIZE:
-		POINT *size = (POINT*)lParam;
-		if (size)
-			size->x = size->y = 96;
-		return 0;
-	}
-	return -1;
-}
-
-std::tstring WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
-{
-	std::tstring result = m_tszAvatarFolder + _T("\\");
-
-	std::string jid;
-	if (hContact != NULL) {
-		ptrA szId(getStringA(hContact, "ID"));
-		if (szId == NULL)
-			return _T("");
-
-		jid = szId;
-	}
-	else jid = m_szJid;
-	
-	return result + std::tstring(_A2T(jid.c_str())) + _T(".jpg");
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)

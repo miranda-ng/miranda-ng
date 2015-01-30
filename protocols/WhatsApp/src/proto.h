@@ -151,6 +151,8 @@ private:
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Handles, Locks
