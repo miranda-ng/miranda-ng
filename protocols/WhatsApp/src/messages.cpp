@@ -12,27 +12,10 @@ void WhatsAppProto::onMessageForMe(FMessage *pMsg, bool paramBoolean)
 	bool isChatRoom = !pMsg->remote_resource.empty();
 
 	std::string msg;
-	if (!pMsg->media_url.empty()) {
+	if (!pMsg->media_url.empty())
 		msg = pMsg->media_url;
-		if (pMsg->bindata_len) {
-			TCHAR tszFilePath[MAX_PATH], tszFileName[MAX_PATH];
-			GetTempPath(_countof(tszFilePath), tszFilePath);
-			mir_sntprintf(tszFileName, _countof(tszFileName), _T("%s\\%s.jpg"), tszFilePath, _A2T(pMsg->media_name.c_str()));
-			FILE *out = _tfopen(tszFileName, _T("wb"));
-			if (out != NULL) {
-				fwrite(pMsg->bindata, 1, pMsg->bindata_len, out);
-				fclose(out);
-
-				std::string szFileName((const char*)_T2A(tszFileName));
-				std::replace(szFileName.begin(), szFileName.end(), '\\', '/');
-				std::replace(szFileName.begin(), szFileName.end(), ' ', '+');
-
-				msg.append("\nfile://");
-				msg += szFileName;
-			}
-		}
-	}
-	else msg = pMsg->data;
+	else
+		msg = pMsg->data;
 
 	if (isChatRoom)
 		msg.insert(0, std::string("[").append(pMsg->notifyname).append("]: "));
