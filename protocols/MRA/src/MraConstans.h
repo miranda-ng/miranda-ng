@@ -208,11 +208,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_DEF_FS_ADD_EXTRA_ADDRESSES       FALSE
 #define MRA_DEF_FS_ENABLE_MRIM_PROXY_CONS    TRUE
 
-#define PS_GETMYAVATAR "/GetMyAvatar"
-//wParam = (char *)Buffer to file name
-//lParam = (int)Buffer size
-//return = 0 for sucess
-
 #define ICQACKTYPE_SMS      1001
 #define MS_ICQ_SENDSMS      "/SendSMS"
 
