@@ -120,9 +120,7 @@ void exportModule(MCONTACT hContact, char *module, FILE *file)
 				break;
 
 			case DBVT_BLOB:
-				char *data = NULL;
-				if (!(data = (char*)mir_alloc(3 * (dbv.cpbVal + 1)*sizeof(char))))
-					break;
+				char *data = (char*)mir_alloc(3 * (dbv.cpbVal + 1)*sizeof(char));
 				data[0] = '\0';
 				for (int j = 0; j < dbv.cpbVal; j++) {
 					char tmp[16];
