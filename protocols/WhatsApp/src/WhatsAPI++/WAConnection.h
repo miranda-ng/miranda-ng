@@ -412,7 +412,7 @@ public:
 	void sendSetNewSubject(const std::string& gjid, const std::string& subject) throw (WAException);
 	void sendStatusUpdate(std::string& status) throw (WAException);
 	void sendGetPicture(const std::string& jid, const std::string& type) throw (WAException);
-	void sendSetPicture(const std::string& jid, std::vector<unsigned char>* data) throw (WAException);
+	void sendSetPicture(const std::string& jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException);
 	void sendNotificationReceived(const std::string& from, const std::string& id) throw(WAException);
 	void sendDeleteAccount() throw(WAException);
 };

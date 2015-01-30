@@ -835,14 +835,18 @@ void WAConnection::sendQueryLastOnline(const std::string &jid) throw (WAExceptio
 		<< XATTR("id", id) << XATTR("type", "get") << XATTR("to", jid));
 }
 
-void WAConnection::sendSetPicture(const std::string &jid, std::vector<unsigned char>* data) throw (WAException)
+void WAConnection::sendSetPicture(const std::string &jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException)
 {
 	std::string id = this->makeId("set_photo_");
 	this->pending_server_requests[id] = new IqResultSetPhotoHandler(this, jid);
 
-	ProtocolTreeNode *listNode = new ProtocolTreeNode("picture", data, NULL) << XATTR("xmlns", "w:profile:picture");
-	out.write(ProtocolTreeNode("iq", listNode)
-		<< XATTR("id", id) << XATTR("type", "set") << XATTR("to", jid));
+	std::vector<ProtocolTreeNode*>* messageChildren = new std::vector<ProtocolTreeNode*>();
+	if (preview)
+		messageChildren->push_back(new ProtocolTreeNode("picture", preview, NULL) << XATTR("type", "preview"));
+	if (data)
+		messageChildren->push_back(new ProtocolTreeNode("picture", data, NULL) << XATTR("type", "image"));
+	out.write(ProtocolTreeNode("iq", NULL, messageChildren)
+		<< XATTR("id", id) << XATTR("type", "set") << XATTR("to", jid) << XATTR("xmlns", "w:profile:picture"));
 }
 
 void WAConnection::sendStatusUpdate(std::string& status) throw (WAException)
