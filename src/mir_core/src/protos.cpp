@@ -220,7 +220,7 @@ MIR_CORE_DLL(int) ProtoGetAvatarFormat(const TCHAR *ptszFileName)
 
 MIR_CORE_DLL(int) ProtoGetBufferFormat(const void *pBuffer, const TCHAR **ptszExtension)
 {
-	if (!memcmp(pBuffer, "%PNG", 4)) {
+	if (!memcmp(pBuffer, "\x89PNG", 4)) {
 		if (ptszExtension) *ptszExtension = _T(".png");
 		return PA_FORMAT_PNG;
 	}
