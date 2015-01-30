@@ -9,25 +9,38 @@ int WhatsAppProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 
 void WhatsAppProto::onMessageForMe(FMessage *pMsg, bool paramBoolean)
 {
-	bool isChatRoom = !pMsg->remote_resource.empty();
+	// someone sent us a contact. launch contact addition dialog
+	if (pMsg->media_wa_type == FMessage::WA_TYPE_CONTACT) {
+		MCONTACT hContact = AddToContactList(pMsg->remote_resource, 0, false, pMsg->media_name.c_str());
 
-	std::string msg;
-	if (!pMsg->media_url.empty())
-		msg = pMsg->media_url;
-	else
-		msg = pMsg->data;
+		ADDCONTACTSTRUCT acs = { 0 };
+		acs.handleType = HANDLE_CONTACT;
+		acs.hContact = hContact;
+		acs.szProto = m_szModuleName;
+		CallServiceSync(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
+	}
+	else {
+		bool isChatRoom = !pMsg->remote_resource.empty();
 
-	if (isChatRoom)
-		msg.insert(0, std::string("[").append(pMsg->notifyname).append("]: "));
+		std::string msg(pMsg->data);
+		if (!pMsg->media_url.empty()) {
+			if (!msg.empty())
+				msg.append("\n");
+			msg += pMsg->media_url;
+		}
 
-	MCONTACT hContact = this->AddToContactList(pMsg->key.remote_jid, 0, false,
-		isChatRoom ? NULL : pMsg->notifyname.c_str(), isChatRoom);
+		if (isChatRoom)
+			msg.insert(0, std::string("[").append(pMsg->notifyname).append("]: "));
 
-	PROTORECVEVENT recv = { 0 };
-	recv.flags = PREF_UTF;
-	recv.szMessage = const_cast<char*>(msg.c_str());
-	recv.timestamp = pMsg->timestamp;
-	ProtoChainRecvMsg(hContact, &recv);
+		MCONTACT hContact = this->AddToContactList(pMsg->key.remote_jid, 0, false,
+			isChatRoom ? NULL : pMsg->notifyname.c_str(), isChatRoom);
+
+		PROTORECVEVENT recv = { 0 };
+		recv.flags = PREF_UTF;
+		recv.szMessage = const_cast<char*>(msg.c_str());
+		recv.timestamp = pMsg->timestamp;
+		ProtoChainRecvMsg(hContact, &recv);
+	}
 
 	m_pConnection->sendMessageReceived(pMsg);
 }

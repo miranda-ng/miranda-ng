@@ -303,7 +303,6 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 	const string &id = messageNode->getAttributeValue("id");
 	const string &attribute_t = messageNode->getAttributeValue("t");
 	const string &from = messageNode->getAttributeValue("from");
-	const string &notify = messageNode->getAttributeValue("notify");
 	const string &author = messageNode->getAttributeValue("author");
 
 	const string &typeAttribute = messageNode->getAttributeValue("type");
@@ -348,7 +347,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 		FMessage fmessage(from, false, id);
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
-		fmessage.notifyname = notify;
+		fmessage.notifyname = messageNode->getAttributeValue("notify");
 		fmessage.data = body->getDataAsString();
 		fmessage.status = FMessage::STATUS_UNSENT;
 		if (fmessage.timestamp == 0) {
@@ -363,13 +362,13 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			return;
 
 		ProtocolTreeNode *media = messageNode->getChild("media");
-		if (from.empty() || media == NULL || media->data == NULL || media->data->empty())
+		if (media == NULL)
 			return;
 
 		FMessage fmessage(from, false, id);
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
-		fmessage.notifyname = notify;
+		fmessage.data = messageNode->getAttributeValue("caption");
 		fmessage.remote_resource = author;
 		fmessage.media_wa_type = FMessage::getMessage_WA_Type(media->getAttributeValue("type"));
 		fmessage.media_url = media->getAttributeValue("url");
@@ -383,24 +382,41 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			if (latitudeString.empty() || longitudeString.empty())
 				throw WAException("location message missing lat or long attribute", WAException::CORRUPT_STREAM_EX, 0);
 
-			double latitude = atof(latitudeString.c_str());
-			double longitude = atof(longitudeString.c_str());
-			fmessage.latitude = latitude;
-			fmessage.longitude = longitude;
+			fmessage.latitude = atof(latitudeString.c_str());
+			fmessage.longitude = atof(longitudeString.c_str());
 		}
-
-		if (fmessage.media_wa_type == FMessage::WA_TYPE_CONTACT) {
+		else if (fmessage.media_wa_type == FMessage::WA_TYPE_CONTACT) {
 			ProtocolTreeNode *contactChildNode = media->getChild(0);
 			if (contactChildNode != NULL) {
 				fmessage.media_name = contactChildNode->getAttributeValue("name");
 				fmessage.data = contactChildNode->getDataAsString();
+				size_t off = fmessage.data.find("TEL;");
+				if (off != string::npos) {
+					if ((off = fmessage.data.find(":", off)) != string::npos) {
+						std::string number;
+						for (off++;; off++) {
+							char c = fmessage.data[off];
+							if (isdigit(c))
+								number += c;
+							else if (c == '+' || c == ' ')
+								continue;
+							else
+								break;
+						}
+						if (!number.empty())
+							fmessage.remote_resource = number;
+					}
+				}
 			}
 		}
 		else {
+			if (media->data == NULL || media->data->empty())
+				return;
+
 			const string &encoding = media->getAttributeValue("encoding");
 			if (encoding.empty() || encoding == "text")
 				fmessage.data = media->getDataAsString();
-			else {
+			else if (media->data->size() > 0) {
 				fmessage.bindata = (unsigned char*)malloc(fmessage.bindata_len = media->data->size());
 				memcpy(fmessage.bindata, media->data->data(), fmessage.bindata_len);
 			}
