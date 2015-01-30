@@ -51,7 +51,7 @@ int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
 int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, TCHAR **szData) 
 {
 	if (userAgent == NULL || userAgent[0] == 0)
-		userAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+		userAgent = NETLIB_USER_AGENT;
 	
 	NETLIBHTTPHEADER headers[5];
 	headers[0].szName = "User-Agent";

@@ -83,7 +83,7 @@ int CYahooProto::OnModulesLoadedEx(WPARAM, LPARAM)
 #ifdef HTTP_GATEWAY
 	// Here comes the Gateway Code!
 	nlu.szHttpGatewayHello = NULL;
-	nlu.szHttpGatewayUserAgent = "User-Agent: Mozilla/4.01 [en] (Win95; I)";
+	nlu.szHttpGatewayUserAgent = "User-Agent: " + NETLIB_USER_AGENT;
  	nlu.pfnHttpGatewayInit = YAHOO_httpGatewayInit;
 	nlu.pfnHttpGatewayBegin = NULL;
 	nlu.pfnHttpGatewayWrapSend = YAHOO_httpGatewayWrapSend;

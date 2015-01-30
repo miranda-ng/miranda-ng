@@ -424,7 +424,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	httpHeaders[5].szName  = "User-Agent";
 	httpHeaders[5].szValue = "avatars to avatars";
 	httpHeaders[6].szName  = "From";
-	httpHeaders[6].szValue = "Mozilla/5.0 (Windows; U; Windows NT 5.1; pl-PL) AppleWebKit/533.3 (KHTML, like Gecko) Qt/4.7.1 Safari/533.3";
+	httpHeaders[6].szValue = NETLIB_USER_AGENT;
 	httpHeaders[7].szName  = "Content-type";
 	httpHeaders[7].szValue = "application/x-www-form-urlencoded; charset=utf-8";
 	httpHeaders[8].szName  = "Accept";

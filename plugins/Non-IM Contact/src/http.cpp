@@ -45,7 +45,7 @@ int InternetDownloadFile (char *szUrl)
 	nlhr.headers=(NETLIBHTTPHEADER*)malloc(sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
 	memcpy(nlhr.headers,nlhr.headers,sizeof(NETLIBHTTPHEADER)*nlhr.headersCount);
 	nlhr.headers[nlhr.headersCount-1].szName="User-Agent";
-	nlhr.headers[nlhr.headersCount-1].szValue="Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
+	nlhr.headers[nlhr.headersCount-1].szValue=NETLIB_USER_AGENT;
 
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlibUser,(LPARAM)&nlhr);

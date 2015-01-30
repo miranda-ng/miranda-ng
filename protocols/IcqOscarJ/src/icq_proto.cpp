@@ -182,7 +182,7 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	nlu.ptszDescriptiveName = szBuffer;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szHttpGatewayHello = "http://http.proxy.icq.com/hello";
-	nlu.szHttpGatewayUserAgent = "Mozilla/4.08 [en] (WinNT; U ;Nav)";
+	nlu.szHttpGatewayUserAgent = NETLIB_USER_AGENT;
 	nlu.pfnHttpGatewayInit = icq_httpGatewayInit;
 	nlu.pfnHttpGatewayBegin = icq_httpGatewayBegin;
 	nlu.pfnHttpGatewayWrapSend = icq_httpGatewayWrapSend;
