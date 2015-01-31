@@ -107,7 +107,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNotificationFilterReposts = getBool("NotificationFilterComments", true);
 	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
 
-	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", false);
+	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	vk_Instances.insert(this);
@@ -492,9 +492,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		pReq << CHAR_PARAM("message", szMsg);
 
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
-	do
-		pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
-	while (pReq->pUserInfo == NULL && pReq->m_iRetry-- > 0);
+	pReq->pUserInfo = new CVkSendMsgParam(hContact, msgId); 
 	Push(pReq);
 
 	if (!m_bServerDelivery)

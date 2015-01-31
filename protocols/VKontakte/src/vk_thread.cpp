@@ -1127,22 +1127,25 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 			if (tszNick.IsEmpty())
 				tszNick = TranslateT("(Unknown contact)");
 			CMString msgformat, msg;
-			int iRet = json_as_int(pResponse);
-			switch (iRet) {
-			case 1:
-				msgformat = TranslateT("User %s was deleted from your friend list");
-				break;
-			case 2:
-				msgformat = TranslateT("Friend request from the user %s declined");
-				break;
-			case 3:
-				msgformat = TranslateT("Friend request suggestion for the user %s deleted");
-				break;
-			}
 
-			msg.AppendFormat(msgformat, tszNick);
-			MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
-			setByte(param->hContact, "Auth", 1);
+			if (json_as_int(json_get(pResponse, "success"))) {
+				if (json_as_int(json_get(pResponse, "friend_deleted")))
+					msgformat = TranslateT("User %s was deleted from your friend list");
+				else if (json_as_int(json_get(pResponse, "out_request_deleted")))
+					msgformat = TranslateT("Your request to the user %s was deleted");
+				else if (json_as_int(json_get(pResponse, "in_request_deleted")))
+					msgformat = TranslateT("Friend request from the user %s declined");
+				else if (json_as_int(json_get(pResponse, "suggestion_deleted")))
+					msgformat = TranslateT("Friend request suggestion for the user %s deleted");
+				
+				msg.AppendFormat(msgformat, tszNick);
+				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
+				setByte(param->hContact, "Auth", 1);			
+			}
+			else {
+				msg = TranslateT("User or request was not deleted");
+				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
+			}	
 		}
 	}
 	delete param;
