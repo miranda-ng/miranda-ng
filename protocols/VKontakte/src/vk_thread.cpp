@@ -484,7 +484,7 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (!getBool(hContact, "ReqAuth", false)) {
 			RetrieveUserInfo(userid);
 			setByte(hContact, "ReqAuth", 1);
-			Sleep(1000);
+			Sleep(3000);
 			DBAddAuthRequest(hContact);
 		}
 	}
