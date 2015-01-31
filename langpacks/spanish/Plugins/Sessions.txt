@@ -5,121 +5,19 @@
 ;  Version: 0.1.3.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
-[Sessions Manager for Miranda NG.]
-
-;file \plugins\Sessions\res\Sessions.rc
-[Action on Startup]
-
-[Open Sessions Manager dialog]
-
-[Restore Last Session]
-
 [Do nothing]
 No hacer nada
-[Only if last session present]
-
-[Startup delay]
-
 [ms]
 ms
-[User Sessions Management]
-
 [Edit]
 Editar
 [Delete]
 Eliminar
 [Save]
 Guardar
-[Action on Exit]
-
-[Ask]
-
-[Save Current Session]
-
-[Save only last]
-
-[Sessions]
-
-[Misc]
-
-[Exclude hidden contacts from session on exit]
-
-[Warn, when some of LastSession contacts are hidden]
-
-[Show other warnings ("session already opened", etc.)]
-
-[Crash Recovery mode]
-
-[Restore Session]
-
-[&Restore Session]
-
 [&Cancel]
 &Cancelar
-[Choose session to restore from the list:]
-
-[Del]
-
-[Save Session]
-
-[&Save Session]
-
-[Enter session name:]
-
-[Save and Close]
-
-[adv.]
-
-[Sessions Manager]
-
 [Cancel]
 Cancelar
-[Save your current session?]
-
-;file \plugins\Sessions\Src\Main.cpp
-[Favorite Session]
-
-[Not favorite Session]
-
-[Load Session]
-
-[Load last Session]
-
-[Current session is empty!]
-
-[Session name is empty, enter the name and try again]
-
-[No sessions to open]
-
-[Last Sessions is empty]
-
-[No contacts to open]
-
-[This Session already opened]
-
-[This Session already opened (but probably hidden).\nDo you want to show hidden contacts?]
-
-[Open Sessions Manager]
-
-[Show Favorite Sessions Menu]
-
-[Restore last Session]
-
-[Close Session]
-
-[Save session...]
-
-[Load session...]
-
-[Close session]
-
-[Load last session]
-
-;file \plugins\Sessions\Src\Options.cpp
-[View]
-
 [Message Sessions]
 Sesiones de mensaje
-;file \plugins\Sessions\Src\Utils.cpp
-[Session Before Last Crash]
-

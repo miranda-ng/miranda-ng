@@ -5,217 +5,35 @@
 ;  Version: 0.1.2.0
 ;  Authors: Martin Kleinhans
 ;============================================================
-[Provides an interface to use Miranda from the LCD of various Logitech devices.]
-
-;file \plugins\MirandaG15\res\MirandaG15.rc
 [Fonts]
 Fuentes
-[General settings]
-
-[Show softkey labels]
-
-[Event log:]
-
 [Sample]
 Muestra
-[Message log:]
-
 [Contact list:]
 Lista de contactos:
-[Titles:]
-
-[Notifications:]
-
-[Turn off backlights]
-
-[If the applet is active:]
-
-[Use the VolumeWheel to scroll up and down (might affect system performance)]
-
-[Show seconds in timestamps]
-
-[Use transition effects when changing screens]
-
-[Credits]
-
 [About]
 Acerca de...
-[Mirandag15 + TrillianG15]
-
-[For updates and news check the thread on http://www.g15forums.com]
-
-[Or visit http://www.mkleinhans.de]
-
-[mail@mkleinhans.de]
-
-[© 2006 by Martin Kleinhans]
-
-[Device:]
-
-[If the screensaver is active:]
-
-[Lock the screen]
-
-[Skip driver missing notification]
-
 [Notifications]
 Notificaciones
-[Notification screen title]
-
-[Hide it]
-
-[Show the plugin name]
-
-[Show a short event summary]
-
-[Size of the log]
-
-[Notification duration]
-
 [events]
 eventos
 [seconds]
 segundos
-[Notification types]
-
 [Incoming messages]
 Mensajes entrantes
-[Contact signs off]
-
-[Contact changes status]
-
 [Incoming URL]
 URL entrante
-[Contact list events]
-
-[Incoming file transfers]
-
-[Protocol disconnected]
-
-[Protocol connected]
-
-[Protocol status changes]
-
-[Show only events from the following protocols:]
-
-[Contact signs on]
-
-[When a chat session is active, skip the following notifications for that contact:]
-
-[Chat session specific]
-
-[Show timestamps]
-
 [Messages]
 Mensajes
-[User events]
-
-[Emotes]
-
 [Status changes]
 Cambios de estado
-[Special IRC events:]
-
 [Notices]
 Avisos
-[Channel events]
-
-[Cut off nicknames after]
-
-[chars]
-
-[Show protocol labels]
-
-[Don't skip when replying]
-
-[Exceptions:]
-
-[Cut off channel names after]
-
 [Contact list]
 Lista de contactos
-[Show the contacts protocols]
-
 [Hide offline users]
 Ocultar usuarios fuera de línea
-[Use ignore settings]
-
-[Use groups/subgroups]
-
-[Grouped mode]
-
-[Draw tree lines]
-
-[Show counters behind group names]
-
-[Reset selection]
-
-[When opening the contact list screen:]
-
-[Don't change group states]
-
-[Collapse all groups]
-
-[Show only contacts from the following protocols:]
-
-[Protocol filter]
-
-[Expand all groups]
-
-[Use two columns]
-
-[Fade out selection rectangle]
-
 [Chat]
 Chat
-[Typing notifications]
-
-[Show typing notifications]
-
-[Send typing notifications]
-
-[Maximizing]
-
-[When maximized:]
-
-[Hide title]
-
-[Hide labels]
-
-[Show only new messages]
-
-[Mark incoming messages as read]
-
-[Maximized scrolling]
-
-[Size of the log:]
-
-[On incoming messages:]
-
 [Do nothing]
 No hacer nada
-[Scroll to the first line]
-
-[Scroll to the last line]
-
-[Replying]
-
-[Show line break indicators]
-
-[Send messages with Enter, insert line breaks with Ctrl+Enter]
-
-[Maximized replying]
-
-[Close chat after]
-
-[When in background]
-
-;file \plugins\MirandaG15\src\CConfig.cpp
-[MirandaG15]
-
-[Appearance]
-
-[Chat sessions]
-
-[No device attached]
-

@@ -5,37 +5,22 @@
 ;  Version: 0.1.0.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-[Simple updater for Miranda NG premodified packs.]
-
-;file \plugins\PackUpdater\Res\Resource.rc
 [Updates found!]
 ¡Actualizaciones encontradas!
 [Update]
 Actualizar
-[View info]
-
 [Cancel]
 Cancelar
-[PackUpdater has detected updated versions\nof the following Miranda components:]
-
-[Description]
-
 [Downloading...]
 Descargando...
-[Pack update options]
-
 [On startup]
 Al inicio
-[Remind about not installed pack update]
-
 [Hotkey]
 Tecla de acceso directo
 [Go to Customize -> Hotkeys to change the hotkey]
 Vaya a Personalizar -> Teclas de acceso directo para cambiar la tecla de acceso directo
 [Notifications]
 Notificaciones
-[Message boxes]
-
 [Errors]
 Errores
 [Info messages]
@@ -84,36 +69,12 @@ No para "Cuadros de mensaje"
 Marcos
 [Popups]
 Ventanas emergentes
-;file \plugins\PackUpdater\Src\Events.cpp
-[Check for pack updates]
-
-[Pack Updater]
-
-;file \plugins\PackUpdater\Src\Notifications.cpp
-[An error occurred while downloading the update.]
-
 [Component Name]
 Nombre del componente
-[Current Version]
-
-[New Version]
-
-[Downloading pack updates...]
-
-[Downloading update...]
-
-[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
-[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
-
-[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
-
-;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
 Cerrar popup
 [Do nothing]
 No hacer nada
-;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
 horas
 [days]
@@ -122,27 +83,11 @@ días
 Prueba
 [Services]
 Servicios
-;file \plugins\PackUpdater\Src\PackUpdater.cpp
-[Clear pack updates folder]
-
-;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
 Botón 'Sí'
 ['No' Button]
 Botón 'No'
-[Pack Updater HTTP connection]
-
-[URL for checking updates not found.]
-
-[Downloading version info...]
-
-[Name of Update's file is not supported.]
-
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
-
 [No updates found.]
 No se encontraron actualizaciones.
-[No files for update.]
-
 [Update checking already started!]
 ¡La comprobación de actualización ya ha comenzado!

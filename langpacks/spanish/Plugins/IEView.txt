@@ -5,104 +5,24 @@
 ;  Version: 1.4.0.2
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
-[IE Based Chat Log.]
-
-;file \plugins\IEView\res\ieview.rc
 [Copy]
 Copiar
-[Copy Link]
-
 [Select All]
 Seleccionar todo
-[Save Image As...]
-
-[Print]
-
-[Clear Log]
-
-[Show source]
-
 [Options]
 Opciones
-[Enable BBCodes]
-
-[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-
-[Enable support for Flash files in smileys and BBCodes]
-
-[Replace smileys in user names]
-
-[Hide window border]
-
-[Embed YouTube videos]
-
 [Size:]
 Tamaño:
-[Mode]
-
-[Compatibility Mode]
-
-[Use External CSS]
-
-[Use Templates]
-
-[Background image]
-
 [Scroll with text]
 Desplazarse con el texto
-[Template Options]
-
-[Use message grouping]
-
-[Show nicknames]
-
-[Show time]
-
 [Show seconds]
 Mostrar segundos
-[Show date]
-
-[Use long date format]
-
-[Use relative timestamp]
-
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
-[Outgoing File Transfer]
-
 [Incoming File Transfer]
 Transferencia de archivos entrantes
-[URL sent]
-
-[URL received]
-
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (Contacto desconocido)
-[ requested authorization]
-
-[ was added.]
-
-;file \plugins\IEView\src\IEView.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-
-[%s has left.]
-
-[The topic is %s.]
-
 [Error]
 Error
-;file \plugins\IEView\src\Options.cpp
 [General]
 General
 [Message Log]
@@ -115,26 +35,11 @@ Historial
 Por defecto
 [Message Sessions]
 Sesiones de mensaje
-[IEView]
-
 [Skins]
 Pieles
-[Template]
-
 [All Files]
 Todos los archivos
-[All Images]
-
-[Style Sheet]
-
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
-[Today]
-
-[Yesterday]
-
 [File sent]
 Archivo enviado
 [File received]
 Archivo recibido
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp

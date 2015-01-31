@@ -7,44 +7,11 @@
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Nahrádza oznamovacie okná (také, ktoré majú iba tlačidlo "OK") s "popup-mi".
-;file \plugins\MsgPopup\res\MsgPopup.rc
-[ASTERISK style]
-
 [Background color]
 Pozadie
 [Text color]
 Fraba textu
-[ERROR style]
-
-[EXCLAMATION style]
-
-[QUESTION style]
-
-[Preview]
-
 [Timeout]
 Časový limit
-[Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-
-[Emit a sound]
-
-;file \plugins\MsgPopup\src\main.cpp
-[VirtualProtect failed. Code %d\nTry to call the author]
-
 [Error]
 Chyba
-[Hmm. Something goes wrong. I can't write into the memory.\nAnd as you can see, there are no any exception raised...\nTry to call the author]
-
-[MessagePopup]
-
-[Popups]
-
-;file \plugins\MsgPopup\src\options.cpp
-[Message with question]
-
-[Message with exclamation]
-
-[Message with error]
-
-[Message with asterisk]
-

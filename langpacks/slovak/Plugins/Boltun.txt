@@ -7,67 +7,7 @@
 ;============================================================
 [Boltun, the chat bot in the russian language.]
 Rozprávací bot (chat bot) v ruskom jazyku.
-;file \plugins\Boltun\res\Boltun.rc
-[Boltun]
-
-[Boltun Autochat everybody]
-
-[Boltun Autochat everybody not in contact list]
-
-[Boltun Autochat everybody while away]
-
-[Warn contacts Boltun is chatting]
-
-[Mark replied messages as read]
-
 [sec]
 sek
-[Warning text]
-
-[Time before the answer]
-
-[Typing time depends on message length (in chars)]
-
-[Typing and thinking time can be much longer]
-
-[Typing time (for a message of 4 words):]
-
-[Thinking time:]
-
-[Engine]
-
-[Base of remarks]
-
-[Reload]
-
-[Stay silent if have no good aswers]
-
-[Start answers with a lowercase letter]
-
-[Don't use "I don't understand"-like answers]
-
-;file \plugins\Boltun\src\boltun.h
-[Message sessions]
-
-[Mind Files]
-
 [All Files]
 Všetky súbory
-[Boltun/Auto Chat]
-
-[Boltun/Not to Chat]
-
-[Boltun/Start Chatting]
-
-[Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
-
-[Boltun Error]
-
-[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
-
-[Failed to save base of remarks to %s]
-
-[General Settings]
-
-[Engine Settings]
-

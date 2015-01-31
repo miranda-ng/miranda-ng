@@ -5,17 +5,6 @@
 ;  Version: 0.8.5.0
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
-[Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
-
-;file \plugins\UserInfoEx\res\resource.rc
-[Edit contact information]
-
-[Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
-
-[Origin]
-
-[&Update]
-
 [Updating]
 Actualizando
 [Cancel]
@@ -24,14 +13,10 @@ Cancelar
 Aplicar
 [Nick:]
 Nick:
-[Display name:]
-
 [Title:]
 Título:
 [First name:]
 Primer nombre:
-[Second name:]
-
 [Last name:]
 Apellido:
 [Prefix:]
@@ -42,90 +27,36 @@ Femenino
 Masculino
 [Marital status:]
 Estado civil:
-[Partner:]
-
-[Language skills]
-
 [Street:]
 Calle
 [Postal code:]
 Código Postal:
 [City:]
 Ciudad
-[County/State:]
-
 [Country:]
 País:
-[Contact added to contact list:]
-
-[Just from the beginning.]
-
-[Your contact's local time is:]
-
 [Timezone:]
 Zona horaria:
 [Company:]
 Empresa:
 [Department:]
 Departamento:
-[Office:]
-
 [Position:]
 Posición:
 [Occupation:]
 Ocupación:
-[Superior:]
-
-[Assistant:]
-
 [Add phone number]
 Agregar número de teléfono
-[Enter your phone number\nand don't worry about formatting.]
-
-[Enter a category for this number:]
-
 [Enter country, area code and phone number:]
 Introduzca país, código de área y número de teléfono:
 [Or enter a full international number:]
 O introduzca un número internacional completo:
 [Phone can receive SMS text messages]
 El teléfono puede recibir mensajes de texto SMS
-[Add e-mail]
-
-[Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
-
-[Enter a representative name for the e-mail address here:]
-
-[Enter the e-mail address here:]
-
-[Show menu items]
-
-[Remind me]
-
-[days before]
-
-[Check every]
-
 [hours]
 horas
-[Icon flashing on event]
-
-[Enabled]
-
-[Perform check on each startup]
-
-[Time of last check:]
-
-[Birthday compatibility mode:]
-
-[Automatically backup and keep protocol based birthdays up to date]
-
 [Play sound]
 Reproducir sonido
-[Use ignore list]
-
-[Birthday popup colors]
-
 [Background color]
 Color de fondo
 [Text color]
@@ -142,341 +73,62 @@ Desde Popup plugin
 Personalizado
 [Permanent]
 Permanente
-[Show reminder messages as popups (if reminder is enabled)]
-
-[Anniversary popup colors]
-
-[Replace progress dialogs with popups]
-
-[Replace message boxes with popups]
-
 [Preview]
 Previsualizar
 [Homepage:]
 Sitio web:
-[Add affiliation]
-
-[Add past]
-
-[Add interest]
-
 [Delete]
 Eliminar
-[Anniversary editor]
-
-[Anniversary Editor\nAdd/Edit your anniversary here.]
-
-[Enter a name for the anniversary here please:]
-
-[Anniversary list]
-
-[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
-
-[Statistics:]
-
-[with birthday:]
-
-[female:]
-
-[male:]
-
-[number of contacts:]
-
-[average age:]
-
-[View]
-
-[Show &during the next]
-
-[day(s)]
-
-[Reminder]
-
-[Popup this dialog on a contact's anniversary]
-
 [Icons]
 Iconos
-[Check file version of default IconPack to prevent wrong icon display]
-
-[Display icons on each dialog button]
-
-[Metacontacts]
-
-[Scan subcontacts for missing information]
-
-[Enable extended 'send/receive e-mail' service (*)]
-
-[Use Windows timezone]
-
-[(*) Requires Miranda to be restarted.]
-
-[Reset factory defaults]
-
-[Protocol's information]
-
-[Custom information]
-
-[Overwritten information]
-
-[Changed information]
-
-[Enable colors to give information about information's status.]
-
-[Make protocol based contact information read only]
-
-[Enable groups in details dialog's treeview]
-
-[Sort all tree items alphabetically]
-
-[Info of a metacontact's subcontact]
-
 [Colors]
 Colores
-[Common]
-
-[Change my ICQ details with UserInfoEx (disabled if ICQ doesn't support it)]
-
-[Treeview]
-
-[Adapt propertysheet pages to Aero mode]
-
-[Import]
-
-[Importing...\nPlease wait!]
-
-[Setting/Event (20/100)]
-
-[John Doe (1/10)]
-
 [Dialog]
 Diálogo
 [All]
 Todo
 [None]
 Ninguno
-[Show menu item]
-
 [Main menu]
 Menú principal
-[Cascade:]
-
 [Off]
 Apagado
-[Export/import items]
-
 [Contact menu]
 Menú de contacto
-[Group menu]
-
-[Subgroup menu]
-
-[Account menu]
-
 [Extra icons]
 Iconos adicionales
-[Replace the following default icons:]
-
-[Homepage]
-
-[Phone]
-
 [E-mail]
 E-mail
-[Gender]
-
-[Misc]
-
-[Show 'Restart' menu item]
-
-[Use zodiac as default avatar]
-
 [Country flags]
 Banderas de país
-[Use &unknown flag if country cannot be determined]
-
 [Show country flag as &status icon on message window]
 Mostrar bandera del país como icono de &estado en la ventana de mensajes
-[Birthday]
-
 [Age:]
 Edad:
-[Zodiac:]
-
-[not found]
-
-[Use global reminder settings]
-
-[Don't remind me of this anniversary]
-
-[Refresh contact details]
-
-[Preparing...]
-
-[Hide]
-
-[What do you want to export?]
-
-[Contact information]
-
-[Contact history]
-
-[Select modules]
-
-[Check the modules on the list which you want to export for the contact. To add the file as a new list entry later you need to export at least the protocol module.]
-
-[Check all]
-
-[Uncheck all]
-
-[&Export]
-
-;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
-[Aries]
-
-[Taurus]
-
-[Gemini]
-
-[Cancer]
-
-[Leo]
-
-[Virgo]
-
-[Libra]
-
-[Scorpio]
-
-[Sagittarius]
-
-[Capricorn]
-
-[Aquarius]
-
-[Pisces]
-
-[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
-
-[Update custom birthday]
-
-[Keeps your custom birthday up to date.]
-
-;file \plugins\UserInfoEx\src\classPsTree.cpp
-[Due to a parameter error, one of the treeitems can't be added!]
-
-[A fatal error occurred on adding a property sheet page!\nDialog creation aborted!]
-
-[Rename Item]
-
-[Hide Item]
-
-[Show Items:]
-
-[Reset to defaults]
-
-;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
-[Creating unique name for a page failed with %d and error code %d]
-
-[Creating the label for a page failed with %d and error code %d]
-
-[The dialog template type is no longer supported]
-
-;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
-[Add a new anniversary]
-
-[Delete an existing anniversary]
-
 [Unspecified]
 <Sin especificar>
-;file \plugins\UserInfoEx\src\ctrl_contact.cpp
-[Edit e-mail]
-
 [Edit phone number]
 Editar número de teléfono
-[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
-
-[Choose the item to display]
-
-[Edit the currently displayed item]
-
-[Add a new custom item]
-
-[Delete the selected item]
-
-[CRITICAL: Unable to edit current entry!\nThis should not happen!]
-
-[Do you really want to delete the current selected item?\n\t%s\n\t%s]
-
 [Other]
 Otro
-;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 <Sin especificar>
-;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
-[ETA]
-
 [Contact]
 Contacto
-[Proto]
-
-[Age/Nr.]
-
-[Anniversary]
-
-[Date]
-
 [All contacts]
 Todos los contactos
-[Birthdays only]
-
-[Anniversaries only]
-
-[Disabled reminder]
-
-[Popup anniversary list]
-
-;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
-[Retry]
-
 [Yes]
 Sí
 [No]
 No
-[Abort]
-
 [Ignore]
 Ignorar
 [Error]
 Error
-;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
-[Upload details]
-
-[Protocol '%s' is offline]
-
-[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-
-[Uploading]
-
-[Creating the image list failed!]
-
-[Could not find contact's protocol. Maybe it is not active!]
-
-[No pages have been added. Canceling dialog creation!]
-
-[Details dialog failed to be created. Returning error is %d.]
-
-[The page to add has invalid size %d bytes!]
-
 [General]
 General
-[Contact (private)]
-
-[Anniversaries]
-
 [Work]
 Trabajo
-[Contact (work)]
-
 [About]
 Acerca de...
 [Profile]
@@ -489,60 +141,18 @@ Importar a archivo
 Importar desde archivo
 [Owner]
 Propietario
-[edit contact information]
-
-[Upload ICQ details]
-
-[Upload failed]
-
-[Your details were not uploaded successfully.\nThey were written to database only.]
-
 [updating]
 actualizando
-;file \plugins\UserInfoEx\src\init.cpp
-[Fatal error, image services not found. Flags module will be disabled.]
-
-;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[IM naming]
-
 [Password]
 Contraseña
-[Timezone]
-
-[Marital status]
-
-[Address]
-
-[Export: modules]
-
-[Export: folder]
-
 [Default]
 Por defecto
-[Details info bar]
-
-[Phone info bar]
-
-[E-mail info bar]
-
-[Export VCard]
-
-[Import VCard]
-
-[Anniversary info bar]
-
 [Update]
 Actualizar
-[Export]
-
-[Goto]
-
 [Fax]
 Fax
 [Cellular]
 Celular
-[Custom phone]
-
 [Down arrow]
 Flecha abajo
 [Add]
@@ -551,696 +161,37 @@ Añadir
 Editar
 [Search]
 Buscar
-[Export/import]
-
-[Backup birthday]
-
-[Birthday today]
-
-[Birthday tomorrow]
-
-[Birthday in 2 days]
-
-[Birthday in 3 days]
-
-[Birthday in 4 days]
-
-[Birthday in 5 days]
-
-[Birthday in 6 days]
-
-[Birthday in 7 days]
-
-[Birthday in 8 days]
-
-[Birthday in 9 days]
-
-[Birthday later]
-
-[Anniversary today]
-
-[Anniversary tomorrow]
-
-[Anniversary in 2 days]
-
-[Anniversary in 3 days]
-
-[Anniversary in 4 days]
-
-[Anniversary in 5 days]
-
-[Anniversary in 6 days]
-
-[Anniversary in 7 days]
-
-[Anniversary in 8 days]
-
-[Anniversary in 9 days]
-
-[Anniversary later]
-
-[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-
-[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-
 [Main]
 Principal
-;file \plugins\UserInfoEx\src\mir_icolib.h
-[Extended user info]
-
-;file \plugins\UserInfoEx\src\mir_menuitems.cpp
-[Export/import contact]
-
 [User &details]
 &Detalles del usuario
-[&Export user details]
-
-[&Import]
-
-[&Import user details]
-
 [View/change my &details...]
 Ver/Modificar mis datos...
-[Export all contacts]
-
-[Import all contacts]
-
-[Backup birthdays]
-
-[Check anniversaries]
-
-[Export/import group]
-
-[&Export group]
-
-[&Import group]
-
-[&Export xml]
-
-[&Import xml]
-
-;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 Mis notas:
 [About:]
 Acerca de:
-;file \plugins\UserInfoEx\src\psp_anniversary.cpp
-[Please enter a valid description first!]
-
-[No valid date selected for editing!]
-
-[Do you really want to delete the %s?]
-
-;file \plugins\UserInfoEx\src\psp_contact.cpp
 [home]
 inicio
-[Open in browser]
-
-[Primary e-mail]
-
-[Secondary e-mail]
-
-[Tertiary e-mail]
-
-[Address and contact]
-
-[company]
-
-;file \plugins\UserInfoEx\src\psp_options.cpp
-[Question]
-
-[This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
-
-[Ready]
-
-[Everything is done!]
-
-[All settings are reset to default values now!]
-
-[Reminder disabled]
-
-[Everything]
-
-[mBirthday]
-
-[UserInfo (default)]
-
-[This is the reminder message]
-
 [Contacts]
 Contactos
 [Advanced]
 Avanzado
-[Details dialog]
-
 [Popups]
 Ventanas emergentes
-;file \plugins\UserInfoEx\src\psp_profile.cpp
-[Past]
-
-[Affiliation]
-
-[Interest]
-
-[Sorry, but there is a problem with adding a new item of type "%s"]
-
-[<empty>]
-
-[Edit category]
-
-[Edit value]
-
-[Delete an entry]
-
-[Do you really want to delete this entry?]
-
-;file \plugins\UserInfoEx\src\svc_constants.cpp
-[Afrikaans]
-
-[Albanian]
-
-[Arabic]
-
-[Armenian]
-
-[Azerbaijani]
-
-[Belorussian]
-
-[Bhojpuri]
-
-[Bosnian]
-
-[Bulgarian]
-
-[Burmese]
-
-[Cantonese]
-
-[Catalan]
-
-[Chamorro]
-
-[Chinese]
-
-[Croatian]
-
-[Czech]
-
-[Danish]
-
-[Dutch]
-
-[English]
-
-[Esperanto]
-
-[Estonian]
-
-[Farsi]
-
-[Finnish]
-
-[French]
-
-[Gaelic]
-
-[German]
-
-[Greek]
-
-[Gujarati]
-
-[Hebrew]
-
-[Hindi]
-
-[Hungarian]
-
-[Icelandic]
-
-[Indonesian]
-
-[Italian]
-
-[Japanese]
-
-[Khmer]
-
-[Korean]
-
-[Kurdish]
-
-[Lao]
-
-[Latvian]
-
-[Lithuanian]
-
-[Macedonian]
-
-[Malay]
-
-[Mandarin]
-
-[Mongolian]
-
-[Norwegian]
-
-[Persian]
-
-[Polish]
-
-[Portuguese]
-
-[Punjabi]
-
-[Romanian]
-
-[Russian]
-
-[Serbo-Croatian]
-
-[Sindhi]
-
-[Slovak]
-
-[Slovenian]
-
-[Somali]
-
-[Spanish]
-
-[Swahili]
-
-[Swedish]
-
-[Tagalog]
-
-[Taiwanese]
-
-[Tamil]
-
-[Tatar]
-
-[Thai]
-
-[Turkish]
-
-[Ukrainian]
-
-[Urdu]
-
-[Vietnamese]
-
-[Welsh]
-
-[Yiddish]
-
-[Yoruba]
-
-[Academic]
-
-[Administrative]
-
-[Art/Entertainment]
-
-[College Student]
-
-[Computers]
-
-[Community & Social]
-
-[Education]
-
-[Engineering]
-
-[Financial Services]
-
-[Government]
-
-[High School Student]
-
 [Home]
 Inicio
-[ICQ - Providing Help]
-
-[Law]
-
-[Managerial]
-
-[Manufacturing]
-
-[Medical/Health]
-
-[Military]
-
-[Non-Government Organization]
-
-[Professional]
-
-[Retail]
-
-[Retired]
-
-[Science & Research]
-
-[Sports]
-
-[Technical]
-
-[University Student]
-
-[Web Building]
-
-[Other Services]
-
-[Art]
-
-[Cars]
-
-[Celebrity Fans]
-
-[Collections]
-
-[Culture & Literature]
-
-[Fitness]
-
-[Games]
-
-[Hobbies]
-
 [Internet]
 Internet
-[Lifestyle]
-
-[Movies/TV]
-
-[Music]
-
-[Outdoor Activities]
-
-[Parenting]
-
-[Pets/Animals]
-
-[Religion]
-
-[Science/Technology]
-
-[Skills]
-
-[Web Design]
-
-[Nature and Environment]
-
-[News & Media]
-
-[Business & Economy]
-
-[Mystics]
-
-[Travel]
-
-[Astronomy]
-
-[Space]
-
-[Clothing]
-
-[Parties]
-
-[Women]
-
-[Social science]
-
-[60's]
-
-[70's]
-
-[80's]
-
-[50's]
-
-[Finance and corporate]
-
-[Entertainment]
-
-[Consumer electronics]
-
-[Retail stores]
-
-[Health and beauty]
-
-[Media]
-
-[Household products]
-
-[Mail order catalog]
-
-[Business services]
-
-[Audio and visual]
-
-[Sporting and athletic]
-
-[Publishing]
-
-[Home automation]
-
-[Alumni Org.]
-
-[Charity Org.]
-
-[Club/Social Org.]
-
-[Community Org.]
-
-[Cultural Org.]
-
-[Fan Clubs]
-
-[Fraternity/Sorority]
-
-[Hobbyists Org.]
-
-[International Org.]
-
-[Nature and Environment Org.]
-
-[Professional Org.]
-
-[Scientific/Technical Org.]
-
-[Self Improvement Group]
-
-[Spiritual/Religious Org.]
-
-[Sports Org.]
-
-[Support Org.]
-
-[Trade and Business Org.]
-
-[Union]
-
-[Volunteer Org.]
-
-[Elementary School]
-
-[High School]
-
-[College]
-
-[University]
-
-[TmplPast Work Place]
-
-[TmplPast Organization]
-
-[Single]
-
-[Close relationships]
-
-[Engaged]
-
-[Married]
-
-[Divorced]
-
 [Separated]
 Separado
-[Widowed]
-
-[jun.]
-
-[sen.]
-
-;file \plugins\UserInfoEx\src\svc_constants.h
-;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
 '(Contacto desconocido)'
-;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Enviar e-mail
-[Memory allocation error!]
-
-[E-mail (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_gender.cpp
-[Gender (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_homepage.cpp
-[User has no valid homepage]
-
-[View Homepage]
-
-[&Homepage]
-
-[Homepage (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_phone.cpp
-[Phone (uinfoex)]
-
-;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaining]
-
-[Abort Refreshing Contact Details]
-
-[Do you want to cancel the current refresh procedure?]
-
-[Miranda must be online for refreshing contact information!]
-
-[The function caused an exception!]
-
-;file \plugins\UserInfoEx\src\svc_reminder.cpp
-[%s has %s today.]
-
-[an anniversary]
-
-[He/she has the following anniversaries:]
-
-[He has the following anniversaries:]
-
-[She has the following anniversaries:]
-
-[%d. %s today]
-
-[%d. %s tomorrow]
-
-[%d. %s in %d days]
-
-[%s has birthday today.]
-
-[%s has birthday tomorrow.]
-
-[%s has birthday in %d days.]
-
-[\nHe/she becomes %d years old.]
-
-[\nHe becomes %d years old.]
-
-[\nShe becomes %d years old.]
-
-[No anniversaries to remind of]
-
-[Backing up and syncing all birthdays complete!]
-
-[Birthday reminder]
-
-[Birthday reminder: it's coming]
-
-[Anniversary Reminder]
-
-[Reminder (uinfoex)]
-
-;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
-[contact identification]
-
-[The contact %s(%s) has no unique ID in the vCard,\nbut there is a contact in your contact list with the same nick and protocol.\nDo you wish to use this contact?]
-
-;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
-[Importing a new contact was aborted!]
-
-[You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-
-[Importing a new meta subcontact failed!]
-
-[The newly created meta subcontact '%s'\ncould not be added to metacontact '%s'!\n\nDo you want to delete this contact?]
-
-[Settings: %S]
-
-[Events: %S]
-
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 Todos los contactos
-[Required modules]
-
-[Optional modules]
-
-;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
-[Shows Miranda's installation directory.]
-
-[Shows the directory with all your Miranda's profiles.]
-
-[The OpenFileDialog returned an error: %d!]
-
-[The SaveFileDialog returned an error: %d!]
-
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
-[The ini-file "%s"\nfor saving contact information could not be opened.]
-
-[None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
-
-[Import complete]
-
-[Some basic statistics]
-
-[Added %d of %d contacts stored in the ini-file.]
-
-[The ini-file "%s"\nfor reading contact information could not be opened.]
-
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 todos los contactos
-[Select a destination file...]
-
-[Import User Details from VCard]
-
-;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
-[Can't create xml file!\n%S]
-
-[Export took %f ms]
-
-[Contact: %s (%S)]
-
-[Importing %s caused error %d]
-
-[Loading contact %s from xml failed with error %d]
-
-[Importing Owner caused error %d]
-
-[Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
-
-[The selected file is no valid XMLCard]
-
-[The version of the XMLCard is not supported by UserInfoEx]
-
 [Complete]
 Completo
-[Owner contact successfully imported.]
-
-[Selected XMLCard does not contain an owner contact!]
-
-[Import took %f ms]
-
-[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
-
-[FATAL: An exception was thrown while importing contacts from xmlCard!]
-
-;file \plugins\UserInfoEx\src\Flags\svc_flags.cpp
-[Flags (uinfoex)]
-
-;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp

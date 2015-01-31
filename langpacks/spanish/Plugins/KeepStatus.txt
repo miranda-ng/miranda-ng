@@ -5,9 +5,6 @@
 ;  Version: 0.9.0.2
 ;  Authors: P Boon
 ;============================================================
-[KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Comprobar la conexión
 [Max. retries]
@@ -44,8 +41,6 @@ Mensaje
 Cuenta
 [Set]
 Establecer
-[when full-screen mode is active]
-
 [when screen saver engages]
 Cuando el protector de pantalla cuando se acopla
 [when workstation is locked]
@@ -264,45 +259,12 @@ Condiciones previas
 Datos de activación
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la cuenta
-;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [Protocol]
 Protocolo
-[%s connected from another location]
-
-[%s login error, cancel reconnecting]
-
-[%s login error (next retry (%d) in %d s)]
-
-[%s status error (next retry (%d) in %d s)]
-
-[Status error (next retry (%d) in %d s)]
-
-[%s\t(will be set to %s)\r\n]
-
-[Resetting status... (last try (%d))%s]
-
-[Resetting status... (next retry (%d) in %d s)%s]
-
-[No internet connection seems available... (last try (%d))]
-
-[No internet connection seems available... (next retry (%d) in %d s)]
-
-[Status was set ok]
-
-[Giving up]
-
-[KeepStatus]
-
-;file \plugins\StatusPlugins\KeepStatus\options.cpp
-[Basic]
-
 [Advanced]
 Avanzado
-[You broke the Internet!]
-
 [Popups]
 Ventanas emergentes
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -325,7 +287,6 @@ Estoy al teléfono.
 Mmm... comida.
 [idleeeeeeee]
 libreeeeeeee
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<last>]

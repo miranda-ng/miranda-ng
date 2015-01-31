@@ -7,7 +7,6 @@
 ;============================================================
 [Provides the ability to quickly add new contacts.]
 Ofrece la posibilidad de añadir rápidamente nuevos contactos.
-;file \plugins\AddContactPlus\res\resource.rc
 [Add contact]
 Añadir contacto
 [Add contact\nAdd a contact to your contact list]
@@ -34,7 +33,6 @@ Solicitud de autorización
 &Añadir
 [&Cancel]
 &Cancelar
-;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Por favor autorice mi petición y añadame a su lista de contactos.
 [None]
@@ -43,7 +41,6 @@ Ninguno
 El contacto no se puede añadir a su lista de contactos. Por favor, asegúrese de que la ID del contacto se introdujo correctamente.
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 El contacto no se puede añadir a su lista de contactos. Si usted no está registrado en la cuenta seleccionada, por favor trate de hacerlo. También, asegúrese de que la ID del contacto está introducida correctamente.
-;file \plugins\AddContactPlus\src\main.cpp
 [&Add contact...]
 &Añadir contacto...
 [Open add contact dialog]

@@ -5,27 +5,10 @@
 ;  Version: 0.9.8.3
 ;  Authors: Ryan Winter, BlubbFish
 ;============================================================
-[Miranda interface to the Microsoft Speech API.]
-
-;file \plugins\WinterSpeak\res\Speak.rc
-[Engine Settings]
-
-[Engine]
-
 [Voice]
 Voz
-[Volume]
-
-[Rate]
-
-[Pitch]
-
 [Test]
 Probar
-[Lexicon]
-
-[Welcome Message]
-
 [Status Changes]
 Cambios de estado
 [Offline]
@@ -44,8 +27,6 @@ Ocupado
 Libre para el chat	
 [Invisible]
 Invisible
-[Occurring Events]
-
 [Incoming message]
 Mensaje entrante
 [Incoming URL]
@@ -54,24 +35,8 @@ URL entrante
 Archivo entrante
 [Authorization request]
 Solicitud de autorización
-[Added to contact list]
-
 [Status messages]
 Mensajes de estado
-[Announce status changes on connect]
-
-[Message Events]
-
-[Read message if less characters than]
-
-[Ignore event if message dialog is open]
-
-[Ignore event if message dialog is focused]
-
-[Active Modes]
-
-[Active Users]
-
 [The following events are being ignored:]
 Los siguientes eventos seran ignorados:
 [Messages]
@@ -86,53 +51,9 @@ Ninguno
 Añadir
 [Remove]
 Eliminar
-;file \plugins\WinterSpeak\src\DialogConfigActive.cpp
 [** All contacts **]
 ** Todos los contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-;file \plugins\WinterSpeak\src\DialogConfigEngine.cpp
-[testing testing 1 2 3]
-
-;file \plugins\WinterSpeak\src\EventInformation.cpp
-[incoming message from %u]
-
-[incoming URL from %u]
-
-[you have been added to %u's contact list]
-
-[%u requests your authorization]
-
-[there is an incoming file from %u]
-
-[%u says]
-
-;file \plugins\WinterSpeak\src\main.cpp
-[Speak]
-
-[Engine/Voice]
-
-[Announce]
-
-;file \plugins\WinterSpeak\src\SpeakAnnounce.cpp
 [Message Session]
 Sesión de mensaje
-[Message Received]
-
-;file \plugins\WinterSpeak\src\UserInformation.cpp
-[%u is now offline]
-
-[%u is now online]
-
-[%u is away]
-
-[%u is invisible]
-
-[%u is not available]
-
-[%u does not want to be disturbed]
-
-[%u is occupied]
-
-[%u is free for chat]
-

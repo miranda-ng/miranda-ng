@@ -7,8 +7,5 @@
 ;============================================================
 [Adds a menu/toolbar item which opens the main Miranda NG folder.]
 Pridanie položky do menu alebo do panela nástrojov, ktorá otvára hlavný priečinok Mirandy NG.
-;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Otvoriť zložku
-[Main]
-

@@ -5,96 +5,30 @@
 ;  Version: 0.11.0.1
 ;  Authors: Gennady Feldman
 ;============================================================
-[Yahoo protocol support for Miranda NG.]
-
-;file \protocols\Yahoo\res\Yahoo.rc
-[Yahoo]
-
-[ID:]
-
 [Password:]
 Contraseña:
 [Nick:]
 Nick:
-[Create a new Yahoo account using the Yahoo website]
-
 [Expert]
 Experto
-[Use Yahoo Address Book (YAB)]
-
 [Show Avatars]
 Mostrar Avatares
-[Auto login to Yahoo Website(s)]
-
-[Display Yahoo notifications]
-
-[Show Errors]
-
-[Yahoo Japan]
-
-[Create a new Yahoo account]
-
-[Connection Settings]
-
-[Login server:]
-
 [Port:]
 Puerto:
 [Reset]
 Reiniciar
-[Yahoo Ignore List]
-
-[Ignore anyone who is not on my Yahoo buddy list]
-
-[Ignore only the people below:]
-
 [&Add]
 &Añadir
-[&Remove]
-
-[Set Custom Status]
-
-[Show as busy]
-
 [Cancel]
 Cancelar
-[Protocol:]
-
-[Client:]
-
-[Chat Room Invitation Request]
-
 [&Join]
 &Entrar
 [&Deny]
 &Denegar
-[Denial Message]
-
-[Invitation Message]
-
-[Host]
-
-[Invite Buddy To Chat Room]
-
-[Screen Name]
-
-[&Invite]
-
 [&Cancel]
 &Cancelar
-[Invitation reason]
-
 [Add]
 Añadir
-;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-
-[%s denied invitation with message: %s]
-
-[Me]
-
-[Others]
-
 [&Invite user...]
 &Invitar usuario...
 [&Leave chat session]
@@ -103,150 +37,15 @@ Añadir
 &Detalles del usuario
 [User &history]
 &Historial del usuario
-[Join My Conference...]
-
-[No, thank you...]
-
-;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Principal
-[Mail]
-
 [Profile]
 Perfil
 [Refresh]
 Refrescar
-[Address Book]
-
-[Set Status]
-
-[Calendar]
-
-;file \protocols\Yahoo\src\im.cpp
-[Yahoo Error]
-
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
-[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-
-;file \protocols\Yahoo\src\links.cpp
-[YAHOO Link Protocol]
-
-;file \protocols\Yahoo\src\main.cpp
-[YAHOO plugin HTTP connections]
-
-;file \protocols\Yahoo\src\options.cpp
-[The changes you have made require you to reconnect to the Yahoo network before they take effect]
-
-[YAHOO Options]
-
-[You need to be connected to Yahoo to add to Ignore List.]
-
-[Yahoo Ignore]
-
-[Please enter a valid buddy name to ignore.]
-
-[The buddy is already on your ignore list.]
-
-[You need to be connected to Yahoo to remove from the ignore list.]
-
-[Please select a buddy on the ignore list to remove.]
-
 [Network]
 Red
 [Account]
 Cuenta
-[Connection]
-
-[Ignore List]
-
-;file \protocols\Yahoo\src\proto.cpp
-[New E-mail available in Inbox]
-
-[%s plugin connections]
-
-[ID]
-
-[Please enter your Yahoo ID in Options/Network/Yahoo]
-
-[Please enter your Yahoo password in Options/Network/Yahoo]
-
-[Yahoo Login Error]
-
-;file \protocols\Yahoo\src\services.cpp
-[You need to be connected to set the custom message]
-
-[You need to be connected to refresh your buddy list]
-
-[Set &Custom Status]
-
-[&Edit My Profile]
-
-[&My Profile]
-
-[&Yahoo Mail]
-
-[&Address Book]
-
-[&Calendar]
-
-[Create Conference]
-
-[&Show Profile]
-
-;file \protocols\Yahoo\src\webcam.cpp
-[[miranda] Got webcam invite. (not currently supported)]
-
-;file \protocols\Yahoo\src\yahoo.cpp
-[Calendar Reminder]
-
-[%s has rejected your request and sent the following message:]
-
-[Invalid Contact]
-
-[The ID you tried to add is invalid.]
-
-[Unknown Error.]
-
-[New Mail]
-
-[You have %i unread messages]
-
-[New Mail (%i messages)]
-
-[From: %s\nSubject: %s]
-
-[Yahoo System Message]
-
-[Yahoo Ping Error]
-
-[Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
-
-[Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
-
-[Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
-
-[You have been logged out of the Yahoo service, possibly due to a duplicate login.]
-
-[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
-
-[Could not log in, unknown reason: %d.]
-
-[Unknown error %s]
-
-[Custom error %s]
-
-[%s is not available for the conference]
-
-[%s is already ignored]
-
-[%s is not in the ignore list]
-
-[%s is in buddy list - cannot ignore]
-
-[System Error: %s]
-
-[Server Connection Error: %s]
-
-[Could not connect to Yahoo server. Please verify that you are connected to the net and the pager host and port are correctly entered.]
-

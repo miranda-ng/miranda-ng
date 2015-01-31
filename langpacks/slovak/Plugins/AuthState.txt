@@ -7,30 +7,5 @@
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Pridá ikonku pred meno takého kontaktu, ktorý Vás neautorizoval.
-;file \plugins\AuthState\res\authstate.rc
-[Show Auth icon]
-
-[Show Grant icon]
-
-[Plugin settings]
-
-[Enable menu item (restart required)]
-
-[Show icons only for recently added contacts]
-
-;file \plugins\AuthState\src\main.cpp
-[Disable AuthState icons]
-
-[Enable AuthState icons]
-
-[Auth]
-
-[Grant]
-
-[Auth & Grant]
-
-[Auth State]
-
-;file \plugins\AuthState\src\options.cpp
 [Icons]
 Ikony

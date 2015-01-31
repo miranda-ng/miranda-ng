@@ -2,94 +2,18 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.2
+;  Version: 0.1.2.4
 ;  Authors: Uli Hecht
 ;============================================================
-[WhatsApp protocol support for Miranda NG.]
-
-;file \protocols\WhatsApp\res\whatsapp.rc
-[Phone number]
-
-[Including country code, without '+' or '00']
-
 [Nickname]
 Apodo
-[SMS code]
-
-[Request code]
-
-[Register code]
-
-[Use SSL connection (port 443)]
-
 [Cancel]
 Cancelar
-;file \protocols\WhatsApp\src\connection.cpp
-[Please enter a country code.]
-
-[Please enter a phone number without country code.]
-
-[Please enter a nickname.]
-
 [Please enter a password.]
 Por favor, introduzca una contraseña.
-;file \protocols\WhatsApp\src\contacts.cpp
-[is now known as '%s']
-
-[Last seen on %x at %X]
-
-[You have been added to the group]
-
-[User '%s' has been added to the group]
-
-[You have been removed from the group]
-
-[User '%s' has been removed from the group]
-
-;file \protocols\WhatsApp\src\dialogs.cpp
-[An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
-
-[Your password has been set automatically. You can proceed with login now]
-
-[Please correctly specify your registration code received by SMS]
-
-;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s conexión al servidor
-[Unable to get Netlib connection for WhatsApp]
-
-[Network connection error.]
-
-[Registration]
-
-[Registration failed. Invalid server response.]
-
-[Registration failed due to stale code. Please request a new code]
-
-[Registration failed.]
-
-[Please try again in %i seconds]
-
-[Registration code has been sent to your phone.]
-
 [Network]
 Red
 [Account]
 Cuenta
-;file \protocols\WhatsApp\src\theme.cpp
-[WhatsApp icon]
-
-[Add to group]
-
-[Create chat group]
-
-[Remove from chat group]
-
-[Leave and delete group]
-
-[Leave group]
-
-[Change group subject]
-
-[Create group]
-

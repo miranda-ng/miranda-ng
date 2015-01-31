@@ -7,7 +7,6 @@
 ;============================================================
 [Adds a menu item to change or load a different profile of Miranda NG, restart or run DbChecker.]
 Añade un ítem de menú para cambiar o cargar un perfil diferente de Miranda NG, reiniciar o ejecutar DbChecker.
-;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [Miranda NG will exit and Database checker will start.\n\nAre you sure you want to do this?]
 Miranda NG saldrá y se iniciará el comprobador de base de datos.\n\n¿Estás seguro de que quieres hacer esto?
 [Check Database]

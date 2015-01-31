@@ -5,137 +5,17 @@
 ;  Version: 0.2.6.2
 ;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
 ;============================================================
-[Spell checker for the message windows. Uses Hunspell to do the checking.]
-
-;file \plugins\SpellChecker\res\resource.rc
-[Replacements]
-
-[Enable auto-replacements]
-
-[Language:]
-
 [Add...]
 Añadir...
-[Edit...]
-
 [Remove]
 Eliminar
-[Add auto-replace word]
-
-[Wrong word:]
-
-[No separators and all lowercase chars]
-
-[Correction:]
-
-[Use variables in correction]
-
 [Cancel]
 Cancelar
-[Spell Checker]
-
-[Default language:]
-
-[Auto-replace words with dictionary suggestions]
-
-[Ignore words with numbers]
-
-[Ignore words in UPPER CASE]
-
-[Ask before sending a message with spelling errors]
-
-[Download more dictionaries]
-
 [Advanced]
 Avanzado
-[Underline type:]
-
-[Show corrections in submenu]
-
-[Show all corrections in context menu (takes more time to show)]
-
-[Show wrong word]
-
-[Use flags]
-
-[Use input language to select dictionary]
-
-[Use dictionaries from other programs]
-
-[Avoid removing underscores (slows down checking of long texts)]
-
-;file \plugins\SpellChecker\src\ardialog.cpp
-[The wrong word can't be empty!]
-
-[Wrong Correction]
-
-[The correction can't be empty!]
-
-[The correction can't be equal to the wrong word!]
-
-;file \plugins\SpellChecker\src\dictionary.cpp
-[Tagalog (Philippines)]
-
-[German (Germany)]
-
-;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Sesiones de mensaje
-[Auto-replacements]
-
-[Line]
-
-[Dotted]
-
-[Dash]
-
-[Dash dot]
-
-[Dash dot dot]
-
-[Wave]
-
-[Thick]
-
-[Wrong word]
-
-[Correction]
-
-;file \plugins\SpellChecker\src\spellchecker.cpp
-[Dictionaries]
-
-[Custom Dictionaries]
-
-[Flags DLL]
-
-[Flags]
-
-[Enable/disable spell checker]
-
-[Enabled]
-
 [Disabled]
 Desabilitado
 [Unknown]
 Desconocido
-;file \plugins\SpellChecker\src\utils.cpp
-[There are %d spelling errors. Are you sure you want to send this message?]
-
-[Other...]
-
-[Always replace with]
-
-[Ignore all]
-
-[Add to dictionary]
-
-[Corrections]
-
-[Wrong word: %s]
-
-[Language]
-
-[Enable spell checking]
-
-[Wrong words]
-

@@ -7,7 +7,6 @@
 ;============================================================
 [Adds Restart menu item.]
 Añade ítem de reinicio al menú.
-;file \plugins\Restart\src\restart.cpp
 [Restart]
 Reiniciar
 [Restart Plugin]

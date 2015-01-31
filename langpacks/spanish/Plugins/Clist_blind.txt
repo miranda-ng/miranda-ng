@@ -7,7 +7,6 @@
 ;============================================================
 [A contact list for blind folks.]
 Una lista de contactos para personas ciegas.
-;file \plugins\Clist_blind\res\resource.rc
 [Delete contact]
 Eliminar contacto
 [Are you sure you want to delete %s?]
@@ -220,7 +219,6 @@ Ocul&tar usuarios fuera de línea aquí
 &Renombrar grupo
 [&Delete group]
 El&iminar grupo
-;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
 No enfocado
 [Offline]
@@ -251,11 +249,8 @@ Divisor: %s
 Info: %s
 [List]
 Lista
-;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_blind\src\cluiopts.cpp
-;file \plugins\Clist_blind\src\init.cpp
 [Unknown protocol]
 Protocolo desconocido
 [Expanded]

@@ -5,152 +5,41 @@
 ;  Version: 0.0.0.2
 ;  Authors: Thomas Wendel, gureedo
 ;============================================================
-[Generates a list of extracted URIs from the history.]
-
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Buscar
 [Close]
 Cerrar
-[Search for:]
-
-[Message direction]
-
-[Message types]
-
-[All directions]
-
-[Incoming only]
-
-[Outgoing only]
-
-[All types]
-
-[Mail addresses only]
-
-[Web addresses only]
-
-[Deep search]
-
-[Static]
-
-[Color select]
-
 [Incoming messages]
 Mensajes entrantes
-[Plugin default]
-
 [Preview]
 Previsualizar
 [Outgoing messages]
 Mensajes salientes
 [Background color]
 Color de fondo
-[Use Miranda settings]
-
 [Text color]
 Color de texto
-[General settings]
-
-[Open links always in a new window]
-
-[Update list on new events]
-
-[Show whole message on 'mouse over' event]
-
-[Save window position individually for each contact]
-
-[Show...]
-
-[Date]
-
-[Parting line]
-
 [Timestamp]
 Marca de tiempo
-[Direction]
-
 [Type]
 Tipo
 [&File]
 &Archivo
-[&Save]
-
 [&Close]
 &Cerrar
 [&Options]
 &Opciones
-[Message &direction]
-
-[&Outgoing messages only]
-
-[&Incoming messages only]
-
-[Message &type]
-
-[&Web addresses only]
-
-[&Mail addresses only]
-
-[&Clear search results]
-
 [&Search]
 Bu&scar
 [link]
 enlace
-[Open]
-
-[Open in new window]
-
-[Copy to clipboard]
-
-[Show message]
-
-;file \plugins\HistoryLinkListPlus\src\language.h
-[History Linklist]
-
-[History is empty!]
-
-[There are no links in history!]
-
 [Error]
 Error
 [incoming]
 entrante
 [outgoing]
 saliendo
-[Filter]
-
-[no filter]
-
-[Search filter]
-
-[no settings]
-
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
-
 [History]
 Historial
-[Processing history...]
-
-[Could not create window!]
-
-[Could not allocate memory!]
-
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[Linklist plugin]
-
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
-[Matches for searchtext]
-
-[Processing list...]
-
-[No messages found!\nPlease change current filter options.]
-
-[RTF file]
-
 [All files]
 Todos los archivos
-[Save RTF File]
-

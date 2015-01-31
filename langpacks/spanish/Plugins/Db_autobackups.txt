@@ -5,100 +5,19 @@
 ;  Version: 0.0.0.10
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Database autobackuper plugin.]
-
-;file \plugins\Db_autobackups\res\db_autobackups.rc
-[Backup progress]
-
 [Cancel]
 Cancelar
-[Automatic backups]
-
-[Backup NOW]
-
 [Disabled]
 Desabilitado
-[When Miranda starts]
-
-[When Miranda exits]
-
-[Every:]
-
-[Number of backups to keep:]
-
-[Backup to folder:]
-
-[Browse...]
-
-[Go to the "Customize -> Folders" to change settings]
-
-[Compress backup to zip-archive]
-
-[Disable progress bar]
-
-[Disable popups]
-
-;file \plugins\Db_autobackups\src\backup.cpp
-[Miranda NG database]
-
-[Created by:]
-
-[Backup in progress]
-
-[Copying database file...]
-
-[Database backed up]
-
-[Database back up in process...]
-
 [Error]
 Error
-;file \plugins\Db_autobackups\src\headers.h
-[Backup profile]
-
-[Save profile as...]
-
-;file \plugins\Db_autobackups\src\main.cpp
 [Database]
 Base de datos
-[Database backups]
-
-[Miranda NG databases]
-
-[Compressed Miranda NG databases]
-
 [All files]
 Todos los archivos
-[Backup folder]
-
-;file \plugins\Db_autobackups\src\options.cpp
-[path to Miranda root folder]
-
-[path to folder containing Miranda profiles]
-
-[name of current Miranda profile (filename, without extension)]
-
-[will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
-
-[same as environment variable %APPDATA% for currently logged-on Windows user]
-
-[username for currently logged-on Windows user]
-
-["My Documents" folder for currently logged-on Windows user]
-
-["Desktop" folder for currently logged-on Windows user]
-
-[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-
 [Variables]
 Variables
 [days]
 días
 [hours]
 horas
-[minutes]
-
-[Select backup folder]
-
-[Error creating backup folder]
-

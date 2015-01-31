@@ -5,9 +5,6 @@
 ;  Version: 2.1.0.0
 ;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
 ;============================================================
-[Tlen protocol support for Miranda NG.]
-
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Usuario:
 [Password:]
@@ -16,70 +13,14 @@ Contraseña:
 Guardar contraseña
 [Create new account]
 Crear nueva cuenta
-[Tlen]
-
 [Options]
 Opciones
-[Automatically reconnect after unintentional disconnection]
-
-[Leave status message after disconnection]
-
-[Ignore advertisements]
-
 [Automatically delete contacts not in my roster]
 Eliminar automáticamente los contactos que no están en mi lista
-[Show offline users with status messages as invisible in contact list]
-
-[Enable avatars]
-
-[Send and receive client version information]
-
-[Alert policy]
-
-[Use Nudge plugin]
-
-[Log alerts as messages]
-
-[Group chat policy]
-
-[Image transfer policy]
-
-[Voice Chats]
-
-[Voice chat policy]
-
-[Recording device:]
-
-[Playback device:]
-
-[Expert Options]
-
-[Login server:]
-
-[Connection Host:]
-
 [Port:]
 Puerto:
 [Keep connection alive]
 Mantener viva la conexión
-[Enable encryption]
-
-[Enable Always Visible and Never Visible]
-
-[P2P Connections]
-
-[Use proxy for incoming connections]
-
-[Proxy type:]
-
-[Proxy server:]
-
-[Proxy requires authorization]
-
-[Mail Notification]
-
-[Enable incoming mail notification]
-
 [Colors]
 Colores
 [Background]
@@ -88,16 +29,8 @@ Fondo
 Texto
 [Delay]
 Retardo
-[&From Popup plugin]
-
-[&Custom]
-
-[P&ermanent]
-
 [Preview]
 Previsualizar
-[Tlen Password]
-
 [Cancel]
 Cancelar
 [Nickname:]
@@ -110,123 +43,26 @@ Apellido:
 E-mail:
 [Gender:]
 Género:
-[Year of birth:]
-
 [City:]
 Ciudad
-[School:]
-
 [Occupation:]
 Ocupación:
-[Looking for:]
-
-[Voice chats]
-
-[Publicly visible status]
-
-[Save changes]
-
-[Avatar]
-
-[Avatar Options]
-
-[Public avatar]
-
-[Tlen login:]
-
-[Subscription:]
-
-[Software:]
-
 [Version:]
 Versión
-[System:]
-
-[Personal Information]
-
 [Age:]
 Edad:
 [to]
 a
-[Extra Search Criteria]
-
-[Status:]
-
-[Plan:]
-
-[Tlen Voice Chat]
-
-[Quality]
-
-[In]
-
-[Out]
-
-[Finish]
-
-[Tlen Voice Chat Invitation]
-
-[&Accept]
-
 [From:]
 De:
-[The following invitation to join a voice chat is received.]
-
-;file \protocols\Tlen\src\tlen.cpp
-[Protocol icon]
-
-[Tlen inbox]
-
 [Group chats]
 Grupo de chats
-[Tlen chats]
-
-[Voice chat]
-
-[Microphone]
-
-[Speaker]
-
-[Send image]
-
-[Incoming mail]
-
-[Alert]
-
-[Multi-User Conference]
-
-[Tlen Mail]
-
-[Send picture]
-
-[Voice Chat]
-
 [Request authorization]
 Solicitar autorización
 [Grant authorization]
 Conceder autorización
-;file \protocols\Tlen\src\tlen_avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
-[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
-
-[Error while setting avatar on Tlen account (no response)]
-
-[Error while setting avatar on Tlen account (invalid response)]
-
-[Error while setting avatar on Tlen account]
-
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-
 [%d Files]
 %d archivos
-;file \protocols\Tlen\src\tlen_iqid.cpp
-[Authentication failed for %s@%s.]
-
-[Tlen Authentication]
-
-;file \protocols\Tlen\src\tlen_opt.cpp
 [General]
 General
 [Advanced]
@@ -235,95 +71,11 @@ Avanzado
 Notificaciones
 [Network]
 Red
-[These changes will take effect the next time you connect to the Tlen network.]
-
-[Tlen Protocol Option]
-
-[Accept all alerts]
-
-[Ignore alerts from unauthorized contacts]
-
-[Ignore all alerts]
-
-[Always ask me]
-
-[Accept invitations from authorized contacts]
-
-[Accept all invitations]
-
-[Ignore invitations from unauthorized contacts]
-
-[Ignore all invitation]
-
-[Accept all images]
-
-[Ignore images from unauthorized contacts]
-
-[Ignore all images]
-
-[<Last message>]
-
-[Forwarding]
-
-[%S mail]
-
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-
-[Image received file://%s]
-
-;file \protocols\Tlen\src\tlen_svc.cpp
-[Tlen login]
-
-[You need to be connected to Tlen account to set avatar.]
-
-;file \protocols\Tlen\src\tlen_thread.cpp
-[Enter password for %s]
-
-[Tlen Connection Error]
-
-[%s Web Messages]
-
-[Web message]
-
-[From]
-
 [E-mail]
 E-mail
-[An alert has been received.]
-
-[Private conference]
-
-[%s mail]
-
-[Subject]
-
-;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Account]
 Cuenta
-[both]
-
-[from]
-
 [none]
 ninguno
-[not on roster]
-
-;file \protocols\Tlen\src\tlen_voice.cpp
-[...Connecting...]
-
-[...Waiting for connection...]
-
-[...Finished...]
-
-[...Error...]
-
-[...Denied...]
-
 [Default]
 Por defecto
-;file \protocols\Tlen\src\tlen_ws.cpp
-[%s connection]
-
-[%s SOCKS connection]
-

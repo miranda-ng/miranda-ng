@@ -7,14 +7,12 @@
 ;============================================================
 [Skype status change according to Miranda status.]
 Cambio de estado de Skype en función del estado Miranda.
-;file \plugins\SkypeStatusChange\res\SkypeStatusChange.rc
 [Synchronize status message]
 Sincronizar mensaje de estado
 [&Check any protocol or any status to exclude it from synchronization:]
 &Comprobar cualquier protocolo o cualquier estado para excluirlo de la sincronización:
 [Synchronize if current status differs from previous one]
 Sincronizar si el estado actual difiere del anterior
-;file \plugins\SkypeStatusChange\src\options.cpp
 [Change Skype status]
 Cambiar el estado de Skype
 [Plugins]

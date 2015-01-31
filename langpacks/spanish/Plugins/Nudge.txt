@@ -5,49 +5,12 @@
 ;  Version: 0.1.0.1
 ;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
 ;============================================================
-[Plugin to shake the contact list and chat window.]
-
-;file \plugins\Nudge\res\resource.rc
-[Protocol options]
-
-[Specify options for each protocol]
-
-[Open contact list]
-
-[Enable contact list shaking]
-
-[Open message window]
-
-[Enable message window shaking]
-
-[Show as status change]
-
-[Auto resend nudge after]
-
 [s]
 s
-[Enable popup notification]
-
-[Respect ignore settings (status changes)]
-
-[Sending text]
-
-[Receiving text]
-
-[Privacy]
-
-[Allow sending* one nudge to the same contact every:]
-
-[Allow receiving one nudge from the same contact every:]
-
-[* Nudge sending delay is hardcoded and cannot be changed.]
-
 [Preview]
 Previsualizar
 [Text]
 Texto
-[Allow nudges when you're:]
-
 [Offline]
 Fuera de línea
 [Online]
@@ -68,40 +31,5 @@ Invisible
 En el teléfono
 [Out to lunch]
 Salí a comer
-[Shaking contact list options]
-
-[Number of moves]
-
-[Width of move]
-
-[Static]
-
-[Shaking Message Window Options]
-
-;file \plugins\Nudge\src\main.cpp
-[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-
-[Nudge]
-
-[Default Nudge]
-
-[Nudge as Default]
-
-[Send Nudge]
-
-[Show Nudge]
-
-[Nudge for %s]
-
-[Send &Nudge]
-
-;file \plugins\Nudge\src\nudge.cpp
-[You received a nudge]
-
-[You sent a nudge]
-
-;file \plugins\Nudge\src\options.cpp
 [Events]
 Eventos
-[Window Shaking]
-

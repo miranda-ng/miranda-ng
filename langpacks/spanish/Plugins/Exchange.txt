@@ -7,7 +7,6 @@
 ;============================================================
 [Notifies you if you have unread email on an exchange server.]
 Notifica si tiene mensajes no leídos en un servidor de intercambio.
-;file \plugins\Exchange\res\exchange.rc
 [Unread emails]
 Mensajes de correo no leídos
 [Close]
@@ -42,14 +41,12 @@ Intentar conectarse
 Veces antes de darse por vencido
 [Show email notifications using popup module]
 Mostrar notificaciones de correo usando módulo popup
-;file \plugins\Exchange\src\dlg_handlers.cpp
 [Entry ID]
 Introduzca ID
 [Subject]
 Sujeto
 [Sender]
 Remitente
-;file \plugins\Exchange\src\emails.cpp
 [You have %d unread emails...]
 Tiene %d mensajes sin leer
 [You have one unread email...]
@@ -58,7 +55,6 @@ Usted tiene un correo sin leer
 Correo de intercambio
 [Do you want to see the email headers?]
 ¿Desea ver los encabezados de correo electrónico?
-;file \plugins\Exchange\src\hooked_events.cpp
 [Check exchange mailbox]
 Comprobar buzones de intercambio
 [Exchange notify]

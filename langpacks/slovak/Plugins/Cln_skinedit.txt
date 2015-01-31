@@ -7,67 +7,7 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Povoľuje úpravy riadkov v "skin-e" pre doplnok Clist_nicer.
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-[Skin items]
-
-[General]
-
-[Gradient]
-
-[Left to right]
-
-[Right to left]
-
-[Top to bottom]
-
-[Bottom to top]
-
-[Round corners]
-
-[Top-Left]
-
-[Top-Right]
-
-[Bottom-Right]
-
-[Bottom-Left]
-
-[Item colors]
-
-[First color]
-
 [Text color]
 Fraba textu
-[Second color]
-
-[Transparent]
-
-[Alpha (percent)]
-
-[Item margins]
-
-[Item borders]
-
-[Border style]
-
-[3D border (bright / dark)]
-
-[Item ignored]
-
-[Dialog]
-
-[Not yet supported]
-
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-[Copy from]
-
 [<None>]
 <nič>
-[Raised]
-
-[Sunken]
-
-[Bumped]
-
-[Etched]
-

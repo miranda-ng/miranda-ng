@@ -5,11 +5,6 @@
 ;  Version: 1.4.0.10
 ;  Authors: Luca Santarelli, Vasilich, yaho
 ;============================================================
-[Notifies you when a contact changes his/her (X)status or status message.]
-
-;file \plugins\NewXstatusNotify\res\resource.rc
-[Notify when contact changes to one of these statuses]
-
 [Online]
 En línea
 [Offline]
@@ -30,66 +25,18 @@ No molestar
 Salí a comer
 [On the phone]
 En el teléfono
-[Always when changing from offline]
-
-[Notify when contact changes]
-
-[Extra status]
-
-[Status message]
-
-[Plugin activation]
-
-[Automatically turn off Popups and Sounds on status change]
-
 [Configure]
 Configurar
-[Notify me for people not on my contact list]
-
-[Use individual sounds]
-
-[Blink icon in the system tray]
-
-[Also when extra status or status message changes]
-
-[Use status icon]
-
-[Log to file]
-
-[Open]
-
-[Change]
-
 [Preview]
 Previsualizar
 [Delete]
 Eliminar
 [Enable sounds]
 Habilitar sonidos
-[Enable popups]
-
-[Status Notify]
-
-[Individual sounds are disabled.\n\nTo enable them, go to Options -> Status -> Status Notify, enable\n"Use individual sounds" checkbox, and then reopen this dialog.]
-
 [Sounds]
 Sonidos
 [Popups]
 Ventanas emergentes
-[Extra status notify]
-
-[Extra status logging]
-
-[Disable all]
-
-[Enable all]
-
-[Status message notify]
-
-[Status message logging]
-
-[Popups when status changes to:]
-
 [Background]
 Fondo
 [Text]
@@ -100,26 +47,10 @@ Colores
 Usar colores personalizados
 [Use Windows colors]
 Usar colores de Windows
-[Use Popup colors]
-
-[Popup text]
-
-[Show contact group name]
-
-[Show status description]
-
-[Use alternative descriptions]
-
-[Show previous status too]
-
-[Read status message]
-
 [Timeout]
 Tiempo de espera
 [Sec]
 Seg
-[Connection timeout]
-
 [0 = Default]
 0 = por defecto
 [-1 = Infinite]
@@ -132,311 +63,41 @@ En clic izquierdo
 En clic derecho
 [Notification]
 Notificación
-[Show Popups when I connect]
-
-[Disable for extra status 'Music']
-
-[Truncate message length to:]
-
-[characters]
-
 [Templates]
 Plantillas
-[Notify when contact changes extra status]
-
-[Template:]
-
-[Notify when contact removes extra status]
-
-[Notify when contact changes extra status message]
-
-[Notify when contact removes extra status message]
-
 [Variables]
 Variables
 [Reset]
 Reiniciar
-[Disable notifications]
-
-[Disable globally]
-
-[Disable when my status is:]
-
-[Disable only if I change global status]
-
 [Cancel]
 Cancelar
-[Log extra status changes]
-
-[Log extra status changes to file]
-
-[Log extra status changes to history]
-
-[Only when message window is open]
-
-[Remove events from history when closing message window]
-
-[Log when contact changes extra status]
-
-[Log when contact removes extra status]
-
-[Log when contact changes extra status message]
-
-[Log when contact removes extra status message]
-
-[Log extra status when opening message window]
-
 [General]
 General
 [Accounts]
 Cuentas
-[Enable/Disable accounts which you don't wish to be notified for:]
-
-[Notify when contact changes status message]
-
-[Notify when contact removes status message]
-
-[Log status changes]
-
-[Log status changes to file]
-
-[Log status changes to history]
-
-[Log previous status too]
-
-[Log status message changes]
-
-[Log status message changes to file]
-
-[Log status message changes to history]
-
-[Log when contact changes status message]
-
-[Log when contact removes status message]
-
-[Log status message when opening message window]
-
-;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [Sound files]
 Archivos de sonido
 [All files]
 Todos los archivos
-[Wave files]
-
 [Status]
 Estado
-[Sound file]
-
 [** All contacts **]
 ** Todos los contactos **
-;file \plugins\NewXstatusNotify\src\indsnd.h
-[(default sound)]
-
-;file \plugins\NewXstatusNotify\src\main.cpp
-[<no status message>]
-
 [Contact]
 Contacto
 [<unknown>]
 <desconocido>
-[%s is now %s]
-
-[%s, %s. %s changed status to %s (was %s)\r\n]
-
 [connecting]
 conectando
-[aborting]
-
-[playing]
-
-[%s changed status message to %s]
-
-[(M) is back online!]
-
-[(F) is back online!]
-
-[(U) is back online!]
-
-[User: Online]
-
-[(M) went offline! :(]
-
-[(F) went offline! :(]
-
-[(U) went offline! :(]
-
-[User: Offline]
-
-[(M) hides in shadows...]
-
-[(F) hides in shadows...]
-
-[(U) hides in shadows...]
-
-[User: Invisible]
-
-[(M) feels talkative!]
-
-[(F) feels talkative!]
-
-[(U) feels talkative!]
-
-[User: Free for chat]
-
-[(M) went away]
-
-[(F) went away]
-
-[(U) went away]
-
-[User: Away]
-
-[(M) isn't there anymore!]
-
-[(F) isn't there anymore!]
-
-[(U) isn't there anymore!]
-
-[User: Not available]
-
-[(M) has something else to do]
-
-[(F) has something else to do]
-
-[(U) has something else to do]
-
-[User: Occupied]
-
-[(M) doesn't want to be disturbed!]
-
-[(F) doesn't want to be disturbed!]
-
-[(U) doesn't want to be disturbed!]
-
-[User: Do not disturb]
-
-[(M) is eating something]
-
-[(F) is eating something]
-
-[(U) is eating something]
-
-[User: Out to lunch]
-
-[(M) had to answer the phone]
-
-[(F) had to answer the phone]
-
-[(U) had to answer the phone]
-
-[User: On the phone]
-
-[User: from offline (has priority!)]
-
-[Status message removed]
-
-[Status message changed]
-
-[Extra status removed]
-
-[Extra status message changed]
-
-[Extra status changed]
-
-[Extra status message removed]
-
-[Enable status notification]
-
-[Disable status notification]
-
-[Notification enabled]
-
-[Notification disabled]
-
-[New Status Notify]
-
-[Toggle status notification]
-
-[Status change]
-
-;file \plugins\NewXstatusNotify\src\options.cpp
 [All Files]
 Todos los archivos
 [Log]
 Registro
-[This is status message]
-
-[This is extra status]
-
-[Show available variables]
-
-[Reset all templates to default]
-
-[Do you want to reset all templates to default?]
-
-[Reset templates]
-
-[Account]
-
-[Status logging]
-
 [Filtering]
 Filtrando
-;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 (era %s)
-[Open message window]
-
 [Close popup]
 Cerrar popup
-[Open contact details window]
-
-[Open contact menu]
-
-[Open contact history]
-
 [Do nothing]
 No hacer nada
-;file \plugins\NewXstatusNotify\src\utils.cpp
-[Can't open the log file!]
-
-[NewXstatusNotify]
-
-;file \plugins\NewXstatusNotify\src\xstatus.cpp
-[Mood]
-
-[Activity]
-
-[xStatus]
-
-[<no title>]
-
-[%s changed %s]
-
-;file \plugins\NewXstatusNotify\src\xstatus.h
-[changed %n to: %t]
-
-[removed %n]
-
-[changed %n message to: %m]
-
-[removed %n message]
-
-[changed status message to: %n]
-
-[removed status message]
-
-[changed %n @ %t: %m]
-
-[changed %n message @ %m]
-
-[has %n @ %t: %m]
-
-[changed status message @ %n]
-
-[is %s and has status message @ %n]
-
-[These variables are available:\r\n\r\n%n\textra status name (xStatus, Mood, Activity)\r\n%t\textra status title\r\n%m\textra status message\r\n%c\tcustom nickname\r\n\\n\tline break\r\n\\t\ttab stop]
-
-[These variables are available:\r\n\r\n%n\tnew status message\r\n%o\told status message\r\n%c\tcustom nickname\r\n%s\tcurrent status\r\n\\n\tline break\r\n\\t\ttab stop]
-

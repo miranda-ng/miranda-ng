@@ -7,89 +7,17 @@
 ;============================================================
 [Shows a small tooltip above system tray area when a contact status is changed.]
 Zobrazí malý tooltip nad systémovým panelom úloh (lištou), keď kontakt zmení status.
-;file \plugins\TooltipNotify\res\main.rc
-[Select protocols]
-
-[Choose contacts]
-
-[Allow tooltip notifications for the following users:]
-
 [Cancel]
 Storno
-[Notify upon the following events]
-
 [Online]
 Pripojený
 [Offline]
 Odpojený
-[All other]
-
-[Typing]
-
-[Protocols]
-
-[Suppress notifications upon connection for]
-
 [sec]
 sek
-[Prefix protocol name]
-
-[Duration]
-
-[Show tooltip for]
-
-[ms]
-
-[Duration x2 upon online event]
-
-[Double click on tooltip]
-
-[Shows/Hides contact list]
-
-[Opens message dialog]
-
-[Behavior]
-
-[Misc]
-
-[Obey 'Suppress online notification' settings]
-
-[Auto positioning]
-
-[Transparent input]
-
-[Preview]
-
-[Translucency options]
-
-[Transparent tooltip]
-
 [Contacts]
 Kontakty
-[Idle]
-
-;file \plugins\TooltipNotify\src\TooltipNotify.cpp
-[Tooltip Notify]
-
-[Other status]
-
-[Tooltip Notify: Online]
-
-[Tooltip Notify: Offline]
-
-[Tooltip Notify: Other]
-
-[Tooltip Notify: Typing]
-
-[Popups]
-
-[** New contacts **]
-
 [** Unknown contacts **]
 ** Neznáme kontakty **
-[Not Idle]
-
 [Unknown]
 neznáme
-[is]
-

@@ -7,12 +7,10 @@
 ;============================================================
 [Prevent Miranda from storing any history.]
 Prevenir Miranda de almacenar un historial.
-;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 Mantener historial de este contacto
 [Disable history for this contact]
 Desactivar historial para este contacto
-;file \plugins\NoHistory\src\dllmain.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 Esta operación va a ELIMINAR DE FORMA PERMANENTE todo historial de este contacto.\n¿Está seguro de que quiere hacer esto?
 [Clear History]
@@ -25,7 +23,6 @@ Deshabilitar Historial
 Historial habilitado
 [History Disabled]
 Historial deshabilitado
-;file \plugins\NoHistory\src\icons.cpp
 [Disable]
 Deshabilitar
 [Enable]
@@ -34,7 +31,6 @@ Habilitar
 Limpiar
 [No History]
 Sin Historial
-;file \plugins\NoHistory\src\options.cpp
 [** All contacts **]
 ** Todos los contactos **
 [History]

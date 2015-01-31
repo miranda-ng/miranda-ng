@@ -5,43 +5,8 @@
 ;  Version: 5.0.4.9
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
-[Logs when a user was last seen online and which users were online while you were away.]
-
-;file \plugins\SeenPlugin\res\resource.rc
-[Last seen options]
-
-[Last seen menu item]
-
-[Show icon]
-
-[User info tab]
-
-[Log to file]
-
-[Log to history]
-
-[Maximum size]
-
-[Variable list]
-
-[Enable Idle support]
-
-[Ignore contacts going offline]
-
-[Enable 'Missed Ones' feature]
-
-[Count times]
-
-[Accounts to watch:]
-
-[Use popups]
-
-[Title]
-
 [Text]
 Texto
-[Popup Colors]
-
 [Online]
 En línea
 [Away]
@@ -62,208 +27,33 @@ Libre para el chat
 Invisible
 [Offline]
 Fuera de línea
-[Reset colors]
-
-[Last seen plugin]
-
-[You missed following contacts:]
-
-[Alert when user status changes]
-
 [User Menu]
 Menú del usuario
 [View User's Details]
 Ver detalles del usuario
-[Send Instant Message]
-
-;file \plugins\SeenPlugin\src\history.cpp
-[last seen history]
-
-[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-
-;file \plugins\SeenPlugin\src\main.cpp
-[LastSeen]
-
-[User status change]
-
-[Changed to Online]
-
-[User Logged Off]
-
-[User Logged In]
-
-;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <desconocido>
 [<none>]
 <Nada>
-;file \plugins\SeenPlugin\src\options.cpp
-[Last Seen Variables]
-
 [Contacts]
 Contactos
-[Last seen]
-
 [Popups]
 Ventanas emergentes
-;file \plugins\SeenPlugin\src\seen.h
-[%n is %s (%u)]
-
-[%i(%r)%bWas %o]
-
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-
-[-- Date --]
-
-[year (4 digits)]
-
-[year (2 digits)]
-
-[month]
-
-[name of month]
-
-[short name of month]
-
-[day]
-
-[weekday (full)]
-
-[weekday (abbreviated)]
-
-[-- Time --]
-
-[hours (24)]
-
-[hours (12)]
-
-[AM/PM]
-
-[minutes]
-
 [seconds]
 segundos
-[-- User --]
-
 [username]
 nombre de usuario
 [nick]
 apodo
-[UIN/handle]
-
 [Group]
 Grupo
 [Status]
 Estado
-[Status message]
-
-[Old status]
-
-[external IP]
-
-[internal IP]
-
-[Client info]
-
 [Protocol]
 Protocolo
 [Account]
 Cuenta
-[-- Format --]
-
-[tabulator]
-
-[line break]
-
-[Note:]
-
-[Use]
-
-[for empty string]
-
-[instead of]
-
-;file \plugins\SeenPlugin\src\userinfo.cpp
-;file \plugins\SeenPlugin\src\utils.cpp
-[Sunday]
-
-[Monday]
-
-[Tuesday]
-
-[Wednesday]
-
-[Thursday]
-
-[Friday]
-
-[Saturday]
-
-[Sun.]
-
-[Mon.]
-
-[Tue.]
-
-[Wed.]
-
-[Thu.]
-
-[Fri.]
-
-[Sat.]
-
-[January]
-
-[February]
-
-[March]
-
-[April]
-
-[May]
-
-[June]
-
-[July]
-
-[August]
-
-[September]
-
-[October]
-
-[November]
-
-[December]
-
-[Jan.]
-
-[Feb.]
-
-[Mar.]
-
-[Apr.]
-
-[Jun.]
-
-[Jul.]
-
-[Aug.]
-
-[Sep.]
-
-[Oct.]
-
-[Nov.]
-
-[Dec.]
-
-[<never seen>]
-
 [Idle]
 Inactivo
 [Unknown]
 Desconocido
-[Not Idle]
-

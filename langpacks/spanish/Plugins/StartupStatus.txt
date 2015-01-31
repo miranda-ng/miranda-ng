@@ -7,7 +7,6 @@
 ;============================================================
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
 StartupStatus, le permite definir el estado Miranda a establecer en el arranque, configurable por protocolo.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Comprobar la conexión
 [Max. retries]
@@ -44,8 +43,6 @@ Mensaje
 Cuenta
 [Set]
 Establecer
-[when full-screen mode is active]
-
 [when screen saver engages]
 Cuando el protector de pantalla cuando se acopla
 [when workstation is locked]
@@ -264,7 +261,6 @@ Condiciones previas
 Datos de activación
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la cuenta
-;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 <último>
 [<current>]
@@ -299,15 +295,12 @@ Por lo menos un perfil debe existir
 StartupStatus
 [Your default profile will be changed]
 Su perfil predeterminado se cambiará
-;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
 Hay un máximo de 6 elementos de menú
-;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 Icono de la barra prensada
 [Released toolbar icon]
 Icono de la barra de lanzamiento
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -330,7 +323,6 @@ Estoy al teléfono.
 Mmm... comida.
 [idleeeeeeee]
 libreeeeeeee
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<n/a>]

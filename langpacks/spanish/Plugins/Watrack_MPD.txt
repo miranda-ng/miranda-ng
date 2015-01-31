@@ -7,17 +7,14 @@
 ;============================================================
 [Music Player Daemon support for Watrack.]
 Music Player Daemon soporte para Watrack.
-;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
 Servidor MPD
 [Port]
 Puerto
 [Password]
 Contraseña
-;file \plugins\Watrack_MPD\src\init.cpp
 [Watrack MPD connection]
 Conexión MPD Watrack
-;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Pista Winamp
 [Plugins]

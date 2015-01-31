@@ -5,122 +5,21 @@
 ;  Version: 0.2.2.3
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
-
-;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-
-[Show entry in the Popups menu]
-
-[Temporarily disable event popups]
-
-[Show preview of event in popup]
-
-[Popup options]
-
 [Message]
 Mensaje
 [URL]
 URL
 [File]
 Archivo
-[Others]
-
 [Text]
 Texto
 [Background]
 Fondo
-[Timeout]
-
-[Notify me of...]
-
-[Left click actions]
-
-[Dismiss popup]
-
-[Open event]
-
-[Dismiss event]
-
-[Right click actions]
-
-[Timeout actions]
-
-[Message event only]
-
-[Don't show popup when message dialog is already open]
-
-[Hide popup when sending new message]
-
-[Open reply dialog instead of reading the message]
-
-[Merge popups from one user]
-
 [Preview]
 Previsualizar
-[Show date]
-
-[Show time]
-
-[Show headers]
-
-[Number of begin shown messages]
-
-[Last message display first]
-
-[Last message display last]
-
 [Edit]
 Editar
-[No popups for RSS contacts]
-
-[No popups for read messages]
-
-;file \plugins\NewEventNotify\src\menuitem.cpp
 [Popups]
 Ventanas emergentes
-;file \plugins\NewEventNotify\src\neweventnotify.h
 [Contacts]
 Contactos
-[You were added!]
-
-[Requests your authorization]
-
-[ICQ Web pager]
-
-[ICQ Email express]
-
-[SMS Message]
-
-[SMS Confirmation]
-
-[Unknown Event]
-
-[Notify of new events]
-
-[Enable new event notification]
-
-[Disable new event notification]
-
-;file \plugins\NewEventNotify\src\options.cpp
-[Event Notify]
-
-;file \plugins\NewEventNotify\src\popup.cpp
-[Received %d contacts.]
-
-[ added you to the contact list]
-
-[ requested authorization]
-
-[This is a sample message event :-)]
-
-[This is a sample URL event ;-)]
-
-[This is a sample file event :-D]
-
-[This is a sample other event ;-D]
-
-[Plugin Test]
-
-[[b]Number of new message(s): %d[/b]\n]
-

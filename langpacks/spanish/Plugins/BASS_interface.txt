@@ -7,7 +7,6 @@
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
 interfaz para el plugin un4seen's BASS de Miranda NG.
-;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 un4seen's bass interfaz
 [bass.dll loading error]
@@ -48,10 +47,8 @@ En el teléfono
 Salí a comer
 [Preview]
 Previsualizar
-;file \plugins\BASS_interface\src\Bass_interface.h
 [Bass Interface]
 Bass interfaz
-;file \plugins\BASS_interface\src\Main.cpp
 [un4seen's bass version: %d.%d.%d.%d]
 Versión de un4seen's bass: %d.%d.%d.%d
 [--default device--]

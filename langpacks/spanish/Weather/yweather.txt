@@ -66,22 +66,6 @@ NE
 SO
 [SE]
 SE
-[NNW]
-
-[NNE]
-
-[SSW]
-
-[SSE]
-
-[ENE]
-
-[WSW]
-
-[WNW]
-
-[ESE]
-
 [Scattered Clouds]
 Nubes dispersas
 [North]

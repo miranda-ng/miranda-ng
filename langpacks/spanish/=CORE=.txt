@@ -3,7 +3,6 @@
 ;  Module: Miranda Core
 ;  Version: 0.95.4
 ;============================================================
-;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Introduzca el nombre de cuenta (por ejemplo, Mi Google)
 [Choose the protocol type]
@@ -452,54 +451,12 @@ Seleccione los iconos adicionales que se muestran en la lista de contactos:
 * sólo los primeros %d iconos se muestran
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y usando el menú contextual (clic derecho)
-[Add to existing metacontact]
-
-[Please select a metacontact:]
-
-[Sort alphabetically]
-
-[Editing]
-
 [Information]
 Información
 [Contacts]
 Contactos
-[&Remove]
-
-[&Set as default]
-
-[Move &up]
-
-[Move &down]
-
-[Send &offline]
-
-[Context menu]
-
-[Use contact's unique ID]
-
-[Use contact's display name]
-
-[Contact labels]
-
-[When I click on a sub in the popup menu...]
-
-[Set default and open message window]
-
-[Show subcontact context menu]
-
-[Show user information]
-
 [Contact list]
 Lista de contactos
-[Display subcontact nickname]
-
-[Display subcontact display name]
-
-[Lock name to first contact]
-
-[Current language:]
-
 [Last modified using:]
 Última modificación usando:
 [Date:]
@@ -570,7 +527,6 @@ Copiar enlace
 Cancelar cambio
 [Ungroup]
 Desagrupar
-;file \src\core\stdauth\res\resource.rc
 [&Authorize]
 &Autorizar
 [&Deny]
@@ -587,7 +543,6 @@ Añadir a la lista de contactos si está autorizado
 Usted fue añadido
 [&Close]
 &Cerrar
-;file \src\core\stdaway\res\resource.rc
 [%s message for %s]
 %s Mensaje(S) para %s
 [Retrieving %s message...]
@@ -610,7 +565,6 @@ Mensajes de estado:
 Cambiar %s mensaje
 [Closing in %d]
 Cerrando en %d
-;file \src\core\stdchat\res\chat.rc
 [&Send]
 &Enviar
 [&Emoticons]
@@ -733,7 +687,6 @@ Pestañas
 C&errar otras pestañas
 [&Open at this position]
 Abrir en esta p&osición
-;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 Ocultar usuarios fuera de línea
 [Hide empty groups]
@@ -946,7 +899,6 @@ No molestar
 En el &teléfono\tCtrl+8
 [Out to &lunch\tCtrl+9]
 Salí a comer\tCtrl+9
-;file \src\core\stdfile\res\resource.rc
 [Send file(s)]
 Enviar archivo(s)
 [To:]
@@ -1057,12 +1009,10 @@ Preguntarme
 Renombrar (añadir " (1)", etc.)
 [You will always be asked about files from people not on your contact list]
 Siempre que se pregunte sobre archivos de personas que no están en la lista
-;file \src\core\stdhelp\res\resource.rc
 [About Miranda NG]
 Acerca de Miranda NG
 [Credits >]
 Créditos >
-;file \src\core\stdidle\res\resource.rc
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
 [Become idle if the screen saver is active]
@@ -1091,7 +1041,6 @@ Desactivar los sonidos en inactividad
 Pasar a inactivo si el equipo se deja de usar durante:
 [Idle (auto-away):]
 Inactivo (automático):
-;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 Ventana emergente automáticamente cuando:
 [In background]
@@ -1188,7 +1137,6 @@ Mensajería:
 Pegar y Enviar
 [Delete]
 Eliminar
-;file \src\core\stduihist\res\resource.rc
 [Find]
 Buscar
 [&Find next]
@@ -1199,7 +1147,6 @@ Buscar siguiente
 Historial de mensajes
 [&Find...]
 &Buscar...
-;file \src\core\stduserinfo\res\resource.rc
 [Add phone number]
 Agregar número de teléfono
 [Enter country, area code and phone number:]
@@ -1270,7 +1217,6 @@ Departamento:
 Posición:
 [Website:]
 Sitio web
-;file \src\core\stdauth\src\auth.cpp
 [%s requests authorization]
 %s solicita autorización
 [%u requests authorization]
@@ -1283,7 +1229,6 @@ Sitio web
 Alertas
 [Added event]
 Evento añadido
-;file \src\core\stdauth\src\authdialogs.cpp
 [View user's details]
 Ver detalles del usuario
 [Add contact permanently to list]
@@ -1306,12 +1251,10 @@ Añadir contacto permanentemente a la lista
 %s autorización solicitada\n%s on %s
 [Feature is not supported by protocol]
 La función no está soportada por el protocolo
-;file \src\core\stdaway\src\awaymsg.cpp
 [Re&ad %s message]
 Leer %s mensaje(s)
 [Re&ad status message]
 Leer mens&aje de estado
-;file \src\core\stdaway\src\sendmsg.cpp
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -1336,11 +1279,8 @@ Mmm... comida.
 libreeeeeeee
 [Status]
 Estado
-;file \src\core\stdchat\src\main.cpp
 [Chat module]
 Módulo de chat
-[Group chat log background]
-
 [Message background]
 Fondo de mensajes
 [Nick list background]
@@ -1349,7 +1289,6 @@ Fondo de lista de usuarios
 Líneas de lista de usuarios
 [Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
-;file \src\core\stdchat\src\options.cpp
 [Use a tabbed interface]
 Usar interfaz con pestañas
 [Close tab on double click]
@@ -1600,14 +1539,12 @@ General
 Registro de chat
 [Popups]
 Ventanas emergentes
-;file \src\core\stdchat\src\tools.cpp
 [Look up '%s':]
 Buscar '%s':
 [No word to look up]
 Ni una palabra para buscar
 [&Message %s]
 &Mensaje %s
-;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 Inserte un emoticono
 [Make the text bold (CTRL+B)]
@@ -1642,7 +1579,6 @@ ID único
 %s: sesión de mensaje
 [%s: message session (%u users)]
 %s: sesión de mensaje (%u usuarios)
-;file \src\core\stdclist\src\clcfonts.cpp
 [Standard contacts]
 Contactos estándar
 [Online contacts to whom you have a different visibility]
@@ -1663,7 +1599,6 @@ Texto seleccionado
 Texto rondado
 [Quicksearch text]
 Búsqueda rápida de texto
-;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 No enfocado
 [Offline]
@@ -1688,21 +1623,16 @@ Salí a comer
 En el teléfono
 [List background]
 Lista de fondos
-;file \src\core\stdclist\src\clistopts.cpp
 [Global]
 Global
-;file \src\core\stdclist\src\cluiopts.cpp
-;file \src\core\stdcrypt\src\encrypt.cpp
 [Standard crypto provider]
 Proveedor estándar de cifrado
-;file \src\core\stdemail\src\email.cpp
 [User has not registered an e-mail address]
 El usuario no ha registrado una dirección de correo electrónico
 [Send e-mail]
 Enviar e-mail
 [&E-mail]
 E-mail
-;file \src\core\stdfile\src\file.cpp
 [File from %s]
 Archivo de %s
 [bytes]
@@ -1719,17 +1649,14 @@ Completo
 Error
 [Denied]
 Denegado
-;file \src\core\stdfile\src\fileexistsdlg.cpp
 [%s file]
 %s archivo
 [All files]
 Todos los archivos
-;file \src\core\stdfile\src\fileopts.cpp
 [Executable files]
 Archivos ejecutables
 [Events]
 Eventos
-;file \src\core\stdfile\src\filerecvdlg.cpp
 [My received files]
 Mis archivos recibidos
 [View user's history]
@@ -1738,12 +1665,10 @@ Ver historial del usuario
 Menú del usuario
 [Canceled]
 Cancelado
-;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Archivos
 [%d directories]
 %d directorios
-;file \src\core\stdfile\src\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 Este archivo aún no ha sido escaneado en busca de virus. ¿Estás seguro de que quieres abrirlo?
 [File received]
@@ -1794,13 +1719,10 @@ Transferencia finalizada, abrir carpeta.
 Análisis en busca de virus...
 [Transfer and virus scan complete]
 Transferencia y Análisis en busca de virus finalizado
-;file \src\core\stdfile\src\ftmanager.cpp
 [Outgoing]
 Saliendo
-;file \src\core\stdhelp\src\about.cpp
 [< Copyright]
 < Copyright
-;file \src\core\stdhelp\src\help.cpp
 [&About...]
 &Acerca de...
 [&Support]
@@ -1809,28 +1731,20 @@ Saliendo
 &Miranda NG página principal
 [&Report bug]
 &Reportar error
-;file \src\core\stdidle\src\idle.cpp
 [Idle]
 Inactivo
-;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
-;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 Mensaje entrante (10x10)
 [Outgoing message (10x10)]
 Mensaje saliente (10x10)
-;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 Último mensaje recibido el %s a %s.
 [%s is typing a message...]
 %s está escribiendo un mensaje...
-;file \src\core\stdmsg\src\msglog.cpp
-[Me]
-
 [File sent]
 Archivo enviado
-;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 Mensajes salientes
 [Incoming messages]
@@ -1849,8 +1763,6 @@ Tiempo entrante
 Puntos de entrada
 [Message area]
 Área de mensaje
-[Other events]
-
 [Message log]
 Registro de mensaje
 [** New contacts **]
@@ -1863,7 +1775,6 @@ Mostrar globo emergente (sistema sin soporte)
 Registro de mensajería
 [Typing notify]
 Notificación de escritura
-;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Mensaje de
 [%s is typing a message]
@@ -1886,15 +1797,12 @@ Enviar mensaje de error
 El contacto ha comenzado a escribir
 [Contact stopped typing]
 El contacto dejó de escribir
-;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
-;file \src\core\stdssl\src\netlibssl.cpp
 [Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
 El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
 [Host we are connecting to is not the one certificate was issued for]
 El servidor al que nos estamos conectando no es el del certificado emitido
-;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Mensaje no válido
 [Outgoing message]
@@ -1917,19 +1825,16 @@ Historial de %s
 Eliminar historial
 [View &history]
 Ver &historial
-;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL de %s
 [Web page address (&URL)]
 Dirección de página Web (&URL)
 [URL]
 URL
-;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Enviar URL a
 [Send timed out]
 Tiempo de envio expirado
-;file \src\core\stduserinfo\src\contactinfo.cpp
 [Edit E-Mail address]
 Editar dirección de correo
 [Edit phone number]
@@ -1950,7 +1855,6 @@ Móvil
 Teléfono de trabajo
 [Work fax]
 Fax de trabajo
-;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 Masculino
 [Female]
@@ -1969,21 +1873,16 @@ Trabajo
 Informacion de fondo
 [Notes]
 Notas
-;file \src\core\stduserinfo\src\userinfo.cpp
 [Owner]
 Propietario
 [View/change my &details...]
 Ver/cambiar mis &datos...
-;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s está en línea
-;file \src\icons\proto_metacontacts\src\resource.h
-;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Añadir contacto
 [Please authorize my request and add me to your contact list.]
 Por favor autorice mi petición y añadame a su lista de contactos.
-;file \src\modules\chat\chat_opts.cpp
 [Others nicknames]
 Otros apodos
 [Your nickname]
@@ -2018,8 +1917,6 @@ Miembros de la lista de usuarios (en línea)
 Miembros de la lista de usuarios (fuera)
 [Message typing area]
 Área de escritura de mensaje
-[Chat log symbols (Webdings)]
-
 [Message is highlighted]
 El mensaje esta resaltado
 [User has performed an action]
@@ -2034,16 +1931,8 @@ El usuario ha cambiado de nombre
 El usuario ha enviado una notificación
 [The topic has been changed]
 El tema ha sido cambiado
-;file \src\modules\chat\chat_svc.cpp
 [&Join chat]
 &Entrar
-[&Leave chat]
-
-;file \src\modules\chat\clist.cpp
-[&Open chat window]
-
-;file \src\modules\chat\colorchooser.cpp
-;file \src\modules\chat\log.cpp
 [%s has joined]
 %s se ha unido
 [You have joined %s]
@@ -2072,7 +1961,6 @@ El tema es '%s%s'
 %s deshabilitar '%s' de estado para %s
 [<invalid>]
 <inválido>
-;file \src\modules\chat\tools.cpp
 [%s wants your attention in %s]
 %s quiere su atención en %s
 [%s speaks in %s]
@@ -2107,21 +1995,14 @@ Aviso de %s: %s
 El tema es '%s'
 [The topic is '%s' (set by %s)]
 El tema es '%s' (establecido por %s)
-;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Estado personalizado
 [%s (locked)]
 %s (bloqueado)
-[Status menu]
-
 [Main menu]
 Menú principal
-;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contacto desconocido)
-;file \src\modules\clist\clisttray.cpp
-;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Este contacto se encuentra en un sistema de mensajería instantánea que almacena su lista de contactos en un servidor central. El contacto se elimina del servidor y de la lista de contactos cuando vuelva a conectarse a la red.
 [De&lete]
@@ -2130,7 +2011,6 @@ E&liminar
 &Renombrar
 [&Add permanently to list]
 &Añadir a la lista de forma permanente
-;file \src\modules\clist\contacts.cpp
 [My custom name (not movable)]
 Mi nombre personalizado (no movible)
 [Nick]
@@ -2153,15 +2033,12 @@ Nombre Apellido
 '(Contacto desconocido)'
 [Contact names]
 Nombres de contacto
-;file \src\modules\clist\genmenu.cpp
 [Menu icons]
 Iconos de menú
-;file \src\modules\clist\genmenuopt.cpp
 [Menus]
 Menús
 [Customize]
 Personalizar
-;file \src\modules\clist\groups.cpp
 [New group]
 Nuevo grupo
 [Are you sure you want to delete group '%s'? This operation cannot be undone.]
@@ -2174,7 +2051,6 @@ Usted ya tiene un grupo con ese nombre. Por favor, introduzca un nombre exclusiv
 Renombrar grupo
 [This group]
 Este grupo
-;file \src\modules\clist\keyboard.cpp
 [Show/Hide contact list]
 Mostrar/Ocultar lista de contactos
 [Read message]
@@ -2185,12 +2061,10 @@ Abrir opciones de página
 Abrir opciones de registro
 [Open 'Find user' dialog]
 Abrir diálogo 'Buscar usuario'
-;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
 &Mover a grupo
 [<Root group>]
 <Grupo raíz>
-;file \src\modules\database\database.cpp
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually.]
 Miranda está tratando de actualizar su estructura de perfil.\nNo se puede mover el perfil %s a la nueva ubicación %s\nPorque ya existe un perfil con este nombre. Por favor, resolver el problema de forma manual.
 [Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely due to insufficient privileges. Please move profile manually.]
@@ -2209,7 +2083,6 @@ Miranda no puede entender el perfil
 Miranda no pudo abrir '%s'\nEs inaccesible o utilizado por otra aplicación o instancia Miranda
 [Miranda can't open that profile]
 Miranda no puede abrir ese perfil
-;file \src\modules\database\dbini.cpp
 [Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
 Los sistemas de seguridad para prevenir cambios maliciosos están en su lugar y se le advirtió antes de cada cambio que se realiza.
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
@@ -2224,14 +2097,6 @@ Este cambio se sabe es son potencialmente peligroso.
 Este cambio no se sabe que es seguro
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
-;file \src\modules\database\dbutils.cpp
-[Authorization request from %s%s: %s]
-
-[You were added by %s%s]
-
-[Contacts: ]
-
-;file \src\modules\database\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.
 [The profile already exists]
@@ -2248,16 +2113,10 @@ Problema al crear el perfil
 &Crear
 [<In use>]
 <En uso>
-[<Unknown format>]
-
 [Are you sure you want to remove profile "%s"?]
 ¿Está seguro que desea eliminar el perfil "%s"?
-[&Convert]
-
 [Run]
 Ejecutar
-[Convert database]
-
 [Check database]
 Comprobar bases de datos
 [Size]
@@ -2272,20 +2131,14 @@ Administre su perfil Miranda NG
 Mis perfiles
 [New profile]
 Nuevo perfil
-;file \src\modules\extraicons\DefaultExtraIcons.cpp
 [Chat activity]
 Actividad de chat
-;file \src\modules\extraicons\extraicons.cpp
-;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
 Iconos adicionales
-;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 No ha rellenado el campo de búsqueda. Por favor, introduzca un término de búsqueda y vuelva a intentarlo.
 [Search]
 Buscar
-[Ctrl+Search add contact]
-
 [Results]
 Resultados
 [There are no results to display.]
@@ -2298,7 +2151,6 @@ Todas las redes
 Manejar
 [&Find/add contacts...]
 &Buscar/agregar contactos...
-;file \src\modules\findadd\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]
 No se pudo iniciar una búsqueda en '%s', Ha habido un problema - ¿esta %s conectado?
 [Could not search on any of the protocols, are you online?]
@@ -2313,7 +2165,6 @@ Problema con la búsqueda
 %d usuarios encontrados (
 [No users found]
 Ningún usuario encontrado
-;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 No se pudo crear el archivo
 [<none>]
@@ -2342,20 +2193,16 @@ Error escribiendo archivo
 Texto de ejemplo
 [Fonts]
 Fuentes
-;file \src\modules\fonts\FontService.cpp
 [Headers]
 Cabeceras
 [Generic text]
 Texto genérico
 [Small text]
 Texto pequeño
-;file \src\modules\icolib\skin2opts.cpp
 [Icon sets]
 Conjuntos de iconos
-;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 ** Todos los contactos **
-;file \src\modules\langpack\lpopts.cpp
 [(incompatible)]
 (incompatible)
 [Unknown]
@@ -2364,109 +2211,10 @@ Desconocido
 construido
 [Languages]
 Idiomas
-;file \src\modules\metacontacts\metacontacts.h
-[You are going to remove all the contacts associated with this metacontact.\nThis will delete the metacontact.\n\nProceed anyway?]
-
-;file \src\modules\metacontacts\meta_addto.cpp
-[Either there is no metacontact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new metacontact.\n\nConvert this contact into a new metacontact?]
-
-[This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another.]
-
-[Metacontact conflict]
-
-[This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts.]
-
-[Multiple metacontacts]
-
-[No suitable metacontact found]
-
-[a contact]
-
-[Adding %s...]
-
-[Please select a metacontact]
-
-[No metacontact selected]
-
-[Assignment to the metacontact failed.]
-
-[Assignment failure]
-
-;file \src\modules\metacontacts\meta_edit.cpp
-[ID]
-
 [Protocol]
 Protocolo
-[Send offline]
-
-[Send &online]
-
-[Delete metacontact?]
-
-;file \src\modules\metacontacts\meta_main.cpp
-[Toggle off]
-
-[Toggle on]
-
-[Convert to metacontact]
-
-[Add to existing]
-
 [Edit]
 Editar
-[Set to default]
-
-[MetaContacts]
-
-;file \src\modules\metacontacts\meta_menu.cpp
-[There was a problem in assigning the contact to the metacontact]
-
-[This will remove the metacontact permanently.\n\nProceed anyway?]
-
-[Are you sure?]
-
-[Remove from metacontact]
-
-[Toggle metacontacts off]
-
-[Toggle metacontacts on]
-
-[Add to existing metacontact...]
-
-[Edit metacontact...]
-
-[Set as metacontact default]
-
-[Delete metacontact]
-
-[Subcontacts]
-
-;file \src\modules\metacontacts\meta_options.cpp
-[Metacontacts]
-
-;file \src\modules\metacontacts\meta_services.cpp
-[No online contacts found.]
-
-;file \src\modules\metacontacts\meta_utils.cpp
-[Sender]
-
-[Could not retrieve contact protocol]
-
-[Assignment error]
-
-[Could not get unique ID of contact]
-
-[Contact is 'not on list' - please add the contact to your contact list before assigning.]
-
-[Metacontact is full]
-
-[Could not write contact protocol to metacontact]
-
-[Could not write unique ID of contact to metacontact]
-
-[Could not write nickname of contact to metacontact]
-
-;file \src\modules\netlib\netliblog.cpp
 [Standard netlib log]
 Registro netlib estándar
 [No times]
@@ -2483,14 +2231,10 @@ Tiempos en microsegundos
 Seleccione el archivo de registro que se creará
 [Select program to be run]
 Seleccione el programa a ser ejecutado
-;file \src\modules\netlib\netlibopts.cpp
-[<mixed>]
-
 [<All connections>]
 <Todas las conexiones>
 [Network]
 Red
-;file \src\modules\options\options.cpp
 [<all modules>]
 <todos los módulos>
 [<core modules>]
@@ -2503,7 +2247,6 @@ Cargando... %d%%
 Miranda NG opciones
 [&Options...]
 &Opciones
-;file \src\modules\plugins\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
 ['%s' is disabled, re-enable?]
@@ -2520,7 +2263,6 @@ Error fatal
 No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 ¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
-;file \src\modules\plugins\pluginopts.cpp
 [Plugin]
 Plugin
 [Version]
@@ -2531,15 +2273,12 @@ Miranda NG se debe reiniciar para aplicar los cambios de estos plugins:
 ¿Desea reiniciar ahora?
 [Plugins]
 Plugins
-;file \src\modules\protocols\protoopts.cpp
 [WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
 ¡ADVERTENCIA! La cuenta se va a eliminar. Esto significa que todos sus ajustes, contactos y las historias serán también borrados.\n\n¿Estás absolutamente seguro?
 [Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
 Tu cuenta ha sido actualizada correctamente. Para activarla, es necesario reiniciar Miranda.\n\nSi desea reiniciar Miranda ahora, pulse Sí, si usted desea actualizar otra cuenta, presione No
 [This account uses legacy protocol plugin. Use Miranda NG options dialogs to change its preferences.]
 Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de Miranda NG para cambiar sus preferencias.
-[Account name must be filled.]
-
 [Account error]
 Error de cuenta
 [Account name has to be unique. Please enter unique name.]
@@ -2582,7 +2321,6 @@ La cuenta %s se está borrando
 Es necesario desactivar plugin para eliminar esta cuenta
 [&Accounts...]
 &Cuentas...
-;file \src\modules\skin\hotkey_opts.cpp
 [Ctrl + ]
 Ctrl +\s
 [Alt + ]
@@ -2609,7 +2347,6 @@ Modificar
 Alcanse de sistema
 [Miranda scope]
 Alcanse de Miranda
-;file \src\modules\skin\skinicons.cpp
 [User online]
 Usuario en línea
 [Group (open)]
@@ -2676,8 +2413,6 @@ Solicitar autorización
 Conceder autorización
 [Revoke authorization]
 Revocar autorización
-[Warning]
-
 [Always visible]
 Siempre visible
 [Always invisible]
@@ -2690,12 +2425,10 @@ Iconos de estado
 %s iconos
 [Main icons]
 Iconos principales
-;file \src\modules\skin\sounds.cpp
 [Sound files]
 Archivos de sonido
 [WAV files]
 Archivos WAV
-;file \src\modules\utils\bmpfilter.cpp
 [You need an image services plugin to process PNG images.]
 Usted necesita un plugin de servicios de imagen para procesar imágenes PNG.
 [All bitmaps]
@@ -2708,15 +2441,12 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG bitmaps]
 Mapas de bits PNG
-;file \src\modules\utils\path.cpp
 [Avatars]
 Avatares
 [Avatars root folder]
 Carpeta raíz de avatares
-;file \src\modules\utils\timezones.cpp
 [<unspecified>]
 <Sin especificar>
-;file \src\modules\utils\utils.cpp
 [Unspecified]
 <Sin especificar>
 [Afghanistan]
@@ -3217,4 +2947,3 @@ Yemen
 Zambia
 [Zimbabwe]
 Zimbabue
-;file \src\modules\visibility\visibility.cpp

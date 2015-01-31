@@ -5,152 +5,21 @@
 ;  Version: 0.5.0.12
 ;  Authors: Scott Ellis
 ;============================================================
-[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-
-;file \plugins\YAPP\res\yapp.rc
-[Popup history]
-
 [Close]
 Cerrar
-[Case sensitive]
-
-[Default Timeout]
-
-[Never timeout]
-
-[Set timeout:]
-
-[Width:]
-
-[Maximum height:]
-
 [Options]
 Opciones
-[Opacity (%):]
-
-[Border]
-
-[Round corners (window)]
-
 [Preview]
 Previsualizar
-[Transparent background]
-
-[Layout]
-
-[Avatar size:]
-
-[Disable when]
-
-[Global hover]
-
-[Sidebar width:]
-
-[Text indent:]
-
-[Padding:]
-
-[Round corners (avatar)]
-
-[Text color:]
-
 [Background color:]
 Color del fondo:
-[Set timeout]
-
-[Timeout value (0 = default):]
-
-;file \plugins\YAPP\src\icons.cpp
-[Popups are enabled]
-
-[Popups are disabled]
-
-[Popup History]
-
-;file \plugins\YAPP\src\notify_imp.cpp
-[YAPP Popups]
-
-;file \plugins\YAPP\src\options.cpp
-[Example]
-
-[The quick brown fox jumped over the lazy dog.]
-
-[Example With a Long Title]
-
-[Thequickbrownfoxjumpedoverthelazydog.]
-
-[An avatar.]
-
-[Bottom right]
-
-[Bottom left]
-
-[Top right]
-
-[Top left]
-
-[Icon on left]
-
-[Icon on right]
-
-[No time]
-
-[Time on left]
-
-[Time on right]
-
-[Time above avatar]
-
-[No avatar]
-
-[Left avatar]
-
-[Right avatar]
-
 [Status]
 Estado
-[Full-screen app running]
-
-[No animate]
-
-[Horizontal animate]
-
-[Vertical animate]
-
-[You cannot set a default timeout of 0.\nValue has been reset.]
-
 [Error]
 Error
 [Popups]
 Ventanas emergentes
 [Settings]
 Ajustes
-[Classes]
-
-;file \plugins\YAPP\src\services.cpp
-[Disable Popups]
-
-[Enable Popups]
-
-;file \plugins\YAPP\src\yapp.cpp
-[Toggle Popups]
-
-[First line]
-
-[Second line]
-
-[Time]
-
 [Background]
 Fondo
-[Sidebar]
-
-[Title underline]
-
-;file \plugins\YAPP\src\yapp_history_dlg.cpp
-[Copy title to clipboard]
-
-[Copy message to clipboard]
-
-[Copy timestamp to clipboard]
-

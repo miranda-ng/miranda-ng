@@ -5,42 +5,8 @@
 ;  Version: 0.0.1.4
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
-[Anti-spam plugin for Miranda NG.]
-
-;file \plugins\StopSpamPlus\res\stopspam.rc
-[Question (Ctrl+Enter for carriage return):]
-
-[Restore defaults]
-
-[Answer (Use divider to separate answers):]
-
-[Congratulation:]
-
-[Auth. request reply:]
-
 [Divider:]
 Divisor:
-[Vars]
-
-[Disable protection for following accounts:]
-
-[Do not send more than]
-
-[questions to one contact (0 - for no limit)]
-
-[Enable StopSpam-StopSpam infinite talk protection]
-
-[Add contact permanently]
-
-[Enable auth. requests blocking]
-
-[Answer is not case sensitive]
-
-[Remove all temporary contacts after restart]
-
-[Log Spammers to system history]
-
-;file \plugins\StopSpamPlus\src\events.cpp
 [Message Sessions]
 Sesiones de mensaje
 [General]
@@ -49,19 +15,5 @@ General
 Mensajes
 [Accounts]
 Cuentas
-;file \plugins\StopSpamPlus\src\headers.h
-[StopSpam]
-
-;file \plugins\StopSpamPlus\src\options.cpp
-[No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer, plugin adds him to your contact list so that he can contact you.]
-
-[StopSpam automatic message:\r\n]
-
-;file \plugins\StopSpamPlus\src\services.cpp
-[Not In List]
-
 [Complete]
 Completo
-;file \plugins\StopSpamPlus\src\stopspam.cpp
-[Remove Temporary Contacts]
-

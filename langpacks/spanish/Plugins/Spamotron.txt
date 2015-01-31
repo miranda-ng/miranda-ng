@@ -5,178 +5,21 @@
 ;  Version: 0.0.4.7
 ;  Authors: vu1tur
 ;============================================================
-[Anti-spam plugin with captcha and Bayes filtering.]
-
-;file \plugins\Spamotron\res\spamotron.rc
-[Enabled]
-
-[Learned ham messages:]
-
-[Learned spam messages:]
-
-[Filtering options]
-
-[Do not send challenge request if message score above]
-
-[Auto approve contact if message score below]
-
-[and learn as ham]
-
-[Do not enable any of these options until Spam-o-tron has learned at least 20 of ham and 50 of spam messages.]
-
-[Learning options]
-
-[Auto-learn messages from approved contacts as ham]
-
-[Auto-learn messages from contacts if not approved in]
-
-[days as spam]
-
-[Auto-learn outgoing messages as ham]
-
-[Learn message:]
-
-[Spam]
-
-[Ham]
-
-[Analyze]
-
 [Settings]
 Ajustes
-[Enabled accounts:]
-
-[Auto approve on:]
-
 [Outgoing message]
 Mensaje saliente
-[Incoming message with any word from list:]
-
-[Hide contact until verified]
-
-[Add permanently to list on verified]
-
-[Log actions to system history]
-
-[Flood protection]
-
-[Do not send more than]
-
-[messages to one contact per day]
-
-[Do not reply to the same message more than]
-
-[times a day]
-
-[Do not reply to messages with words in this list:]
-
-[Mode:]
-
-[Case-sensitive]
-
-[will be saved in %mathexpr%]
-
-[Send challenge on incoming message:]
-
-[Responses: (saved in %response%, %response-n% variables)]
-
-[Reply on success:]
-
-[Send challenge on authorization request:]
-
-[Keep blocked messages in contact history]
-
-[and mark them unread after approval]
-
-[Reset to defaults]
-
-[Enable popup notifications]
-
 [Appearance]
 Apariencia
-[Foreground]
-
 [Background]
 Fondo
 [Timeout (sec)]
 Tiempo de espera (segundos)
-[Contact blocked]
-
-[Contact approved]
-
-[Challenge sent]
-
-[Default colors]
-
-[Windows colors]
-
-[Default timeout]
-
 [Preview]
 Previsualizar
-;file \plugins\Spamotron\src\bayes.cpp
-[Bayes database path]
-
-;file \plugins\Spamotron\src\common.h
-[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-
-[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
-
-[Verified.]
-
-[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
-
-[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
-
-;file \plugins\Spamotron\src\options.cpp
-[Simple]
-
-[Math expression]
-
-[Round-robin]
-
-[Random]
-
-[Will be automatically evaluated from %mathexpr%]
-
-[Invalid regular expression.\nKeeping previous value.]
-
-[Message score]
-
 [Message sessions]
 Sesiones de mensaje
 [Messages]
 Mensajes
-[Bayes]
-
 [Popups]
 Ventanas emergentes
-;file \plugins\Spamotron\src\popups.cpp
-[Message blocked due to preview action]
-
-[Contact approved due to preview action]
-
-[Challenge sent to preview contact]
-
-;file \plugins\Spamotron\src\spamotron.cpp
-[Contact %s approved.]
-
-[Message from %s rejected because it reached a maximum for challenge requests per day.]
-
-[Message from %s rejected because it reached a maximum for same responses per day.]
-
-[Message from %s dropped because it has a word from black list.]
-
-[Message from %s dropped because of high spam score.]
-
-[Sending plain challenge to %s.]
-
-[Sending round-robin challenge to %s.]
-
-[Sending random challenge to %s.]
-
-[Sending math expression challenge to %s.]
-
-;file \plugins\Spamotron\src\utils.cpp
-[Their message was]
-

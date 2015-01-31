@@ -5,76 +5,18 @@
 ;  Version: 1.3.0.10
 ;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
 ;============================================================
-[Adds some useful options to a contacts menu.]
-
-;file \plugins\MenuItemEx\res\resource.rc
-[Enter an authorization request]
-
 [&Send]
 &Enviar
 [&Cancel]
 &Cancelar
-[Shown menu items]
-
 [Visibility]
 Visibilidad
-[Show alpha icons]
-
-[Hide from list]
-
 [Ignore]
 Ignorar
-[Copy to Account (Ctrl+click for move to Account)]
-
-[Send 'You were added']
-
 [Request Authorization]
 Solicitar autorización
-[Browse Received Files]
-
-[Copy IP]
-
-[Copy MirVer]
-
-[Copy Status Message]
-
-[Add item name]
-
-[Copy ID]
-
-[Add protocol name]
-
-[Show ID in menu item]
-
-[Trim too long ID]
-
-[* Use Ctrl+click to see popup with the copied text]
-
-[Hide contact on 'Ignore all']
-
-;file \plugins\MenuItemEx\src\main.cpp
-[Status message]
-
-[xStatus title]
-
-[xStatus message]
-
-[Listening to]
-
-[Activity title]
-
-[Activity text]
-
-[Show in list]
-
 [Always visible]
 Siempre visible
-[Never visible]
-
-[Copy to Account]
-
-[Copy xStatus Message]
-
 [All]
 Todo
 [Messages]
@@ -91,16 +33,7 @@ Autorización
 Usted fue añadido
 [Typing Notify]
 Notificación de escritura
-[Please authorize me to add you to my contact list.]
-
-[Do you want to send authorization request\nto new contact?]
-
-[Open ignore settings]
-
 [Request authorization]
 Solicitar autorización
-[MenuItemEx]
-
-;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
 Personalizar

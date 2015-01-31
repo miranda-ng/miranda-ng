@@ -5,55 +5,12 @@
 ;  Version: 1.5.7.7
 ;  Authors: TioDuke
 ;============================================================
-[Flashes your keyboard LEDs when a message has arrived.]
-
-;file \plugins\KeyboardNotify\res\resources.rc
 [Accounts to check]
 Cuentas a comprobar
-[Events to react on]
-
 [Incoming messages]
 Mensajes entrantes
-[Incoming files]
-
-[Incoming URLs]
-
-[Everything else]
-
-[Message-Event only]
-
-[Blink if message window is open]
-
-[and not in foreground]
-
-[Only if last is]
-
-[sec. old]
-
-[Flash until]
-
 [seconds]
 segundos
-[is re-attended]
-
-[Events are opened]
-
-[End of 'notify when' conditions]
-
-[Notify when]
-
-[Full Screen mode]
-
-[Screen Saver is running]
-
-[Workstation is locked]
-
-[Defined programs are running]
-
-[All other situations]
-
-[Only notify if status is]
-
 [Online]
 En línea
 [Away]
@@ -72,52 +29,10 @@ Invisible
 En el teléfono
 [Out to lunch]
 Salí a comer
-[Pending Events]
-
-[Remind me every]
-
-[minutes]
-
 [Offline]
 Fuera de línea
-[xStatuses]
-
-[Keys to flash]
-
-[Num Lock]
-
-[Caps Lock]
-
-[Scroll Lock]
-
-[Flashing effects]
-
-[All at the same time]
-
-[In turn]
-
-[In sequence]
-
-[Custom theme]
-
-[Accordingly to events' count]
-
-[Wait before starting flashing]
-
-[Flash speed]
-
-[Fast]
-
-[Slow]
-
 [&Preview]
 &Previsualizar
-[Emulate key presses (Use this option if you are using a USB keyboard)]
-
-[Create/Edit Themes]
-
-[Theme]
-
 [Test]
 Prueba
 [Add]
@@ -126,91 +41,29 @@ Añadir
 Actualizar
 [Delete]
 Eliminar
-[Import/Export]
-
 [Export...]
 Exportar...
-[Import...]
-
-[Override existing]
-
-[Set program list]
-
-[Program]
-
 [Cancel]
 Cancelar
-[Set LEDs for events]
-
-[Num]
-
-[Caps]
-
-[Scroll]
-
-[Message events]
-
-[File events]
-
-[URL events]
-
 [Other events]
 Otros eventos
-[Consider event opened after]
-
-[Use custom theme]
-
 [The following events are being ignored:]
 Los siguientes eventos seran ignorados:
-[Ignore messages]
-
-[Ignore URLs]
-
-[Ignore files]
-
-[Ignore others]
-
-[Ignore all]
-
-[Ignore none]
-
 [Ignore]
 Ignorar
-[Set xStatus list]
-
-;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** Todos los contactos **
 [** Unknown contacts **]
 ** Contactos desconocidos **
-;file \plugins\KeyboardNotify\src\options.cpp
-[left->right]
-
-[right->left]
-
-[left<->right]
-
-[Keyboard Flash]
-
 [Events]
 Eventos
 [Accounts]
 Cuentas
 [Rules]
 Reglas
-[Flashing]
-
-[Themes]
-
 [Protocol]
 Protocolo
-[Keyboard Notify Theme]
-
 [All Files]
 Todos los archivos
-[\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-
-[\n; End of automatically generated Keyboard Notify Theme file\n]
-
 [None]
 Ninguno

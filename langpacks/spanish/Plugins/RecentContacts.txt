@@ -7,7 +7,6 @@
 ;============================================================
 [Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
 Añade un elemento de menú en el menú principal, abre la ventana con la lista de los últimos nombres de contactos usados, ordenados en orden de más reciente a menos.
-;file \plugins\RecentContacts\res\resource.rc
 [Recent Contacts]
 Contactos recientes
 [Plugin settings]
@@ -18,12 +17,8 @@ Número para mostrar contactos\n (0 para mostrar todo)
 Formato de fecha y hora\n(Vea el readme para ayuda de marcadores de posición)
 [Hide offline contacts]
 Ocultar contactos sin conexión
-[Resize window according to contact list]
-
-;file \plugins\RecentContacts\src\options.cpp
 [Contacts]
 Contactos
-;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 Icono principal
 [Contact]
@@ -36,4 +31,3 @@ Ignorar contacto
 Mostrar contacto
 [Show Recent Contacts]
 Mostrar contactos recientes
-;file \plugins\RecentContacts\src\RecentContacts.h

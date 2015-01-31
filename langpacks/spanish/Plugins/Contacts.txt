@@ -7,7 +7,6 @@
 ;============================================================
 [Allows you to send and receive contacts.]
 Permite enviar y recibir contactos
-;file \plugins\ContactsPlus\res\contacts.rc
 [Send contacts]
 Enviar contactos
 [&Add]
@@ -48,7 +47,6 @@ Añadir a la lista
 Información del usuario
 [Send Message]
 Enviar mensaje
-;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 Contactos recibidos de
 [Contacts]
@@ -57,13 +55,8 @@ Contactos
 Contactos entrantes
 [Outgoing Contacts]
 Contactos salientes
-;file \plugins\ContactsPlus\src\receive.cpp
 [Nick]
 Apodo
-[First Name]
-
-[Last Name]
-
 [Add Contact Permanently to List]
 Añadir contacto permanentemente a la lista
 [View User's Details]
@@ -72,8 +65,3 @@ Ver detalles del usuario
 Ver historial del usuario
 [User Menu]
 Menú del usuario
-[Contacts from]
-
-;file \plugins\ContactsPlus\src\send.cpp
-[Send Contacts to]
-

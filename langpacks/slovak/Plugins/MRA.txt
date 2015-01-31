@@ -7,47 +7,18 @@
 ;============================================================
 [Miranda Mail.ru Agent protocol plugin.]
 Podpora Mail.ru Agent (MRA) protokolu pre Mirandu NG.
-;file \protocols\MRA\res\resource.rc
 [E-mail:]
 E-mail:
 [Password:]
 Heslo:
-[Create a new Mail.ru account]
-
-[Configuration]
-
 [Login Server:]
 Pripájací server:
 [Port:]
 Port:
 [Default]
 Prednastavené
-[Automatically request authorization on logon]
-
-[Automatically add contacts to server list on logon]
-
-[Automatically grant authorization to users in contact list]
-
-[Automatically grant authorization to new users]
-
-[Automatic authorization on Mail.ru web services]
-
-[Notify me when a message delivery has failed]
-
-[Notify about new mail if increment]
-
-[Notify about new mail tray icon]
-
-[Click to Inbox]
-
-[Show received formatted text (receive RTF)]
-
-[Send formatted text (send RTF)]
-
 [Background color]
 Farba pozadia
-[Font]
-
 [Summary]
 Obecné
 [Nickname:]
@@ -64,10 +35,6 @@ Vek:
 Od:
 [to:]
 Pre:
-[Birthday:]
-
-[Zodiac:]
-
 [Location]
 Miesto
 [Country:]
@@ -78,422 +45,43 @@ Krajina:
 Hľadať iba pripojených užívatelov
 [City:]
 Mesto:
-[Remember]
-
-[Enable avatars support (loading)]
-
-[Server:]
-
-[Updates check interval, min]
-
-[Return absolute path]
-
-[Delete avatar file with contact]
-
-[Use keep-alive connections]
-
-[Files exchange]
-
-[No out connection on send]
-
-[No out connection on receive]
-
-[Out connections: ignore additional ports (443, 2041)]
-
-[Hide my IP addresses]
-
-[Add extra address]
-
 [Your host (or router):]
 Vaše PC (alebo router):
-[File send block size:]
-
-[512 - 65536 bytes]
-
-[Enable direct connections]
-
-[Enable MRIM proxy connections]
-
-[Mail.ru Agent]
-
 [Full e-mail:]
 Celý e-mail:
-[Example: Petrov_Ivan@mail.ru]
-
-[Create a new Mail.ru account using the Mail.ru website]
-
-[Retrieve a lost password]
-
-[Leave empty if you don't want to change password]
-
-[Popup type]
-
-[Popup settings]
-
-[Enable]
-
 [&Use Windows colors]
 Použi farby Windowsu
-[Back Color]
-
 [Text Color]
 Fraba textu
 [Timeout]
 Časový limit
 [Previe&w]
 Ukázať
-[Custom Status "%s" Details]
-
 [Closing in %d]
 Zavrieť (za %d s)
 [Title:]
 Názov:
-[Message:]
-
 [Cancel]
 Storno
 [Notify]
 Notifikácia
-[Written:]
-
-[Select e-mail]
-
-;file \protocols\MRA\src\MraAdvancedSearch.cpp
 [Male]
 Muž
 [Female]
 Žena
-[January]
-
-[February]
-
-[March]
-
-[April]
-
-[May]
-
-[June]
-
-[July]
-
-[August]
-
-[September]
-
-[October]
-
-[November]
-
-[December]
-
-[Aries]
-
-[Taurus]
-
-[Gemini]
-
-[Cancer]
-
-[Leo]
-
-[Virgo]
-
-[Libra]
-
-[Scorpio]
-
-[Sagittarius]
-
-[Capricorn]
-
-[Aquarius]
-
-[Pisces]
-
-;file \protocols\MRA\src\MraAvatars.cpp
-[Avatars' plugin connections]
-
-[Avatars: server return HTTP code: %lu]
-
-[Avatars: can't open file %s, error]
-
-;file \protocols\MRA\src\MraChat.cpp
-[CHAT plugin is required for conferences. Install it before chatting]
-
-[invite sender]
-
-[invite new members]
-
-;file \protocols\MRA\src\MraConstans.h
-[Your contact wakes you]
-
-[Display &Inbox]
-
-[Display &Inbox status]
-
-[Edit &Profile]
-
-[My Album]
-
-[My Blog Status]
-
-[My Video]
-
-[My Answers]
-
-[My World]
-
-[Web search]
-
-[Update all users info]
-
-[Check users avatars updates]
-
-[Request authorization for all]
-
-[Request authorization]
-
-[Grant authorization]
-
-[&Send E-Mail]
-
-[&Send postcard]
-
-[&View Album]
-
-[Reply Blog Status]
-
-[View Video]
-
-[Answers]
-
-[World]
-
-[Send &Nudge]
-
-[Mail box deleted]
-
-[Contact not on server]
-
-[Not authorized]
-
-[Phone/SMS only contact]
-
-[Blog status message]
-
-[New E-mail available in Inbox]
-
-[Please authorize me]
-
-;file \protocols\MRA\src\MraFilesQueue.cpp
-[Receive files: can't allocate disk space for file, size %lu bytes, error]
-
-[Receive files: can't open file %s, error]
-
-[Receive files: request for file %s not sent, error]
-
-[Send files: can't open file %s, error]
-
-[Send files: requested file: %S - not found in send files list.]
-
-;file \protocols\MRA\src\MraIcons.cpp
-[Protocols]
-
-[MRA]
-
-[Main Menu]
-
-[Contact Menu]
-
-[Extra status]
-
-[Custom Status]
-
-;file \protocols\MRA\src\MraPopUp.cpp
 [None]
 Žiadne
-[Debug]
-
-[Information]
-
-[Question]
-
 [Warning]
 Varovanie
 [Error]
 Chyba
-[NewMail]
-
-[Popups]
-
-;file \protocols\MRA\src\MraProto.cpp
-[%s connection]
-
-[Mail.ru xStatus]
-
-[Mail.ru extra info]
-
 [E-mail address]
 E-mailová adresa
-;file \protocols\MRA\src\Mra_functions.cpp
-[Unread mail is available: %lu/%lu messages]
-
-[From: %S\r\nSubject: %S\r\n%s]
-
-[No unread mail is available\r\nTotal messages: %lu]
-
-[Closing in %ld]
-
-[Reply to %s blog status]
-
-[Set my blog status]
-
-[Written]
-
-;file \protocols\MRA\src\Mra_menus.cpp
-[Are you sure?]
-
-[Services...]
-
-;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 Sieť
-[Account]
-
-[Connections]
-
-[Files]
-
-[Avatars]
-
-;file \protocols\MRA\src\Mra_proto.cpp
-[Please, setup e-mail in options]
-
-[Please, setup password in options]
-
-[Thread creation failure]
-
-[Logon error: invalid login/password]
-
-[MRIM_CS_MESSAGE_STATUS: not found in queue]
-
-[Server error: can't get MPOP key for web authorize]
-
-[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
-
-[invisible status changed]
-
-[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
-
-[MRIM_CS_*_CONTACT_ACK: not found in queue]
-
-[MRIM_ANKETA_INFO: not found in queue]
-
-[MRIM_CS_GAME: unknown internal game message code: %lu]
-
-[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
-
-[MRIM_CS_SMS_ACK: not found in queue]
-
-[Mail.ru System notify]
-
-;file \protocols\MRA\src\Mra_svcs.cpp
-[Sick]
-
 [Home]
 Domov
-[Eating]
-
-[Compass]
-
-[On WC]
-
-[Cooking]
-
-[Walking]
-
-[Alien]
-
-[Shrimp]
-
-[Got lost]
-
-[Crazy]
-
-[Duck]
-
-[Playing]
-
-[Smoking]
-
-[Office]
-
-[Meeting]
-
-[Beer]
-
-[Coffee]
-
-[Working]
-
-[Relaxing]
-
 [On the phone]
 Telefonuje
-[In institute]
-
-[At school]
-
-[Wrong number]
-
-[Laughing]
-
-[Malicious]
-
-[Imp]
-
-[Blind]
-
-[Disappointed]
-
-[Almost crying]
-
-[Fearful]
-
-[Angry]
-
-[Vampire]
-
-[Ass]
-
-[Love]
-
-[Sleeping]
-
-[Cool!]
-
-[Peace!]
-
-[Cock a snook]
-
-[Get out]
-
-[Death]
-
-[Rocket]
-
-[Devil-fish]
-
-[Heavy metal]
-
-[Things look bad]
-
-[Squirrel]
-
-[Star]
-
 [Music]
 Hudba
-[Dating]
-

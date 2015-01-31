@@ -7,258 +7,30 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Poskytuje jednoduchý spôsob ako zmeniť statusové správy a správy o neprítomnosti.
-;file \plugins\SimpleStatusMsg\res\resource.rc
 [%s message for %s]
 %s správa pre %s
-[&Cancel]
-
 [Retrieving %s message...]
 Prijímam %s správu
-[Co&py to clipboard]
-
-[%s message (%s)]
-
-[Retrieving status message for %s...]
-
-[Behavior on status change]
-
-[Apply to all]
-
-[Max length:]
-
-[Pop up dialog box]
-
-[Do not change status message]
-
-[Always set the same message]
-
-[Do not set status message]
-
-[Status messages]
-
-[Pop up dialog asking for new message]
-
-[Set an empty message]
-
-[Use default message]
-
-[Use last message]
-
-[Use last message set for this status]
-
-[Set the following message:]
-
-[Put default message in message list]
-
-[Variables]
-
-[Update variables in status messages every]
-
 [seconds]
 sekúnd
-[Do not update variables during idle]
-
-[Do not update variables on ICQ status message requests]
-
-[Leave last played track's title after exiting the player]
-
-[Enable status messages parsing by Variables plugin]
-
-[Exclude %date% token from parsing (restart required)]
-
-[Layout]
-
-[Show status list]
-
-[Show status profiles in status list]
-
-[Show icons in status list]
-
-[Buttons:]
-
-[Show icons in message list]
-
-[Other]
-
-[Store up to]
-
-[recent messages (0 = disable)]
-
-[Automatically close dialog window after]
-
-[Remember last dialog window position]
-
-[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
-
-[Show 'Status message...' item in status menu]
-
-[Clear History]
-
-[Clear Predefined]
-
-[* This feature is available only when using StartupStatus plugin.]
-
-[Status on startup]
-
-[Set status after]
-
 [milliseconds]
 milisekúnd
-[Protocol:]
-
 [Status:]
 Stav:
-[Independent setting for each protocol]
-
-[Pop up dialog asking for status message]
-
-[Fortune]
-
-[?cinfo(contact,property)]
-
-[?contact(string,property)]
-
-[?mstatus(protocol)]
-
-[?lsdate(contact,format)]
-
-[?lsstatus(contact)]
-
-[?lstime(contact,format)]
-
-[?dbsetting(contact,module,setting)]
-
-[?txtfile(file,line)]
-
-[?if(condition,true,false)]
-
-[?strcmp(string1,string2)]
-
-[?stricmp(string1,string2)]
-
-[?cdate(format)]
-
-[?ctime(format)]
-
-[?replace(sub,string1,string2)]
-
-[?lower(string)]
-
-[?upper(string)]
-
-[?scroll(string,numchars,numchars)]
-
-[More variables...]
-
-[Cut]
-
-[Copy]
-
-[Paste]
-
-[Delete]
-
-[Select all]
-
-;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
-[Failed to retrieve %s message.]
-
 [&Close]
 Zavrieť
 [Re&ad %s message]
 Čítať %s správu
-[Copy %s message]
-
-[&Go to URL in %s message]
-
-[Re&ad Away message]
-
-[Copy Away message]
-
-[&Go to URL in Away message]
-
-;file \plugins\SimpleStatusMsg\src\main.cpp
-[Change status message]
-
-[Open status message dialog]
-
-[Status message]
-
-[Status message...]
-
-[%s (locked)]
-
-[External Applications]
-
-[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-
-[Miranda Related]
-
-[get the date (Simple Status Message compatible)]
-
-;file \plugins\SimpleStatusMsg\src\msgbox.cpp
-[<startup>]
-
-[<current>]
-
-[Clear history]
-
-[Add to predefined]
-
-[Delete selected]
-
-[global]
-
 [Closing in %d]
 Zavrieť (za %d s)
-[Are you sure you want to clear status message history?]
-
-[Confirm clearing history]
-
-;file \plugins\SimpleStatusMsg\src\options.cpp
-[Global status change]
-
-[Open string formatting help]
-
-[Hide]
-
-[Show next to cancel button]
-
-[Flat, next to cancel button]
-
-[Show in message list]
-
-[Are you sure you want to clear predefined status messages?]
-
-[Confirm clearing predefined]
-
-[<last status>]
-
 [Status]
 Stav
-[General]
-
 [Advanced]
 Podrobne
-;file \plugins\SimpleStatusMsg\src\utils.cpp
-[Recent message]
-
-[Predefined message]
-
-[Go to URL in Away message]
-
-[Simple Status Message]
-
 [I've been away since %time%.]
 Som preč od %time%.
-[Give it up, I'm not in!]
-
 [Not right now.]
 Prepáč, teraz nemám čas.
-[Give a guy some peace, would ya?]
-
-[I'm a chatbot!]
-
 [Yep, I'm here.]
 Je tu.
 [Nope, not here.]
@@ -269,5 +41,3 @@ Schováva sa pred mafiou
 Telefonuje
 [Mmm... food.]
 Mmm... obed.
-[idleeeeeeee]
-

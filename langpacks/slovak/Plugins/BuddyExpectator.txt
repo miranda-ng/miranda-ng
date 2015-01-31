@@ -7,132 +7,17 @@
 ;============================================================
 [Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
 Oznamuje, keď sa nejaký kontakt vráti po dlhšej nečinnosti.
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
-[When a contact returns after]
-
-[or comes online for the first time]
-
-[Show a popup]
-
-[Add an event (flashing icon) to the contact]
-
-[On event action (double click) or popup click:]
-
-[Open User Details]
-
-[Open message window]
-
-[Return notification]
-
-[Long time no see]
-
-[When a contact is absent for]
-
-[Hide when no messages for]
-
-[Enable "Miss you" feature]
-
 [Colors]
 Farby
 [Background]
 Pozadie
 [Text]
 Text
-[Use Popups colors]
-
-[Use Windows colors]
-
-[Delay]
-
 [Default]
 Prednastavené
-[Custom]
-
-[Permanent]
-
 [sec]
 sek
-[Preview]
-
-[Last seen online:]
-
-[Last input message:]
-
-[Custom absence period:]
-
-[days]
-
-[Never hide this contact]
-
-[Enable Miss You]
-
-[Notify always]
-
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
-[Tray/popup icon]
-
-[Enabled]
-
-[Disabled]
-
-[Hide]
-
-[Never hide]
-
-[Hiding %s (%S)]
-
-[%d days since last message]
-
-[Disable Miss You]
-
-[You awaited this contact!]
-
-[has gone online for the first time.]
-
-[has returned after a long absence.]
-
-[has returned after being absent since %#x]
-
-[has not returned after a long absence.]
-
-[has not returned after being absent since %#x]
-
-[BuddyExpectator]
-
-[Contact returned]
-
-[Contact still absent]
-
-[Miss you event]
-
-[Hide contact event]
-
-[Hide contact]
-
-[Buddy Expectator]
-
-;file \plugins\BuddyExpectator\src\options.cpp
-[weeks]
-
-[months]
-
-[years]
-
-[Do nothing]
-
-[Delete the contact]
-
-[Contact name]
-
-[has returned after being absent since %d days]
-
 [Contacts]
 Kontakty
-[Popups]
-
-[not detected]
-
 [not found]
 Nenájdený
-[This contact has been absent for an extended period of time.]
-

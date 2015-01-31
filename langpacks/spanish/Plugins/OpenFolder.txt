@@ -7,7 +7,6 @@
 ;============================================================
 [Adds a menu/toolbar item which opens the main Miranda NG folder.]
 Añade un ítem de menú/barra de herramientas que abre la carpeta principal de Miranda NG.
-;file \plugins\OpenFolder\src\openFolder.cpp
 [Open Folder]
 Abrir carpeta
 [Main]

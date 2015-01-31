@@ -7,7 +7,6 @@
 ;============================================================
 [Shows rating of contact in contact list (if present).]
 Muestra calificación de contacto en la lista de contactos (si está presente).
-;file \plugins\Rate\src\main.cpp
 [Rate high]
 Rango alto
 [Rate medium]

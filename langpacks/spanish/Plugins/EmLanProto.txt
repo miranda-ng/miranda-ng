@@ -7,7 +7,6 @@
 ;============================================================
 [E-mage LAN protocol support for Miranda NG.]
 Compatibilidad con el protocolo E-Mage LAN para Miranda NG.
-;file \protocols\EmLanProto\res\amdproto.rc
 [Select your IP address]
 Seleccione su dirección IP
 [LAN Settings]
@@ -18,7 +17,6 @@ Usar nombre del equipo
 Su nombre
 [Select your name]
 Seleccione su nombre
-;file \protocols\EmLanProto\src\amdproto.cpp
 [User name or '*']
 Nombre de usuario o '*'
 [E-mage LAN protocol]

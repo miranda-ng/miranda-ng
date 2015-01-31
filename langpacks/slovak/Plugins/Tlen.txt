@@ -7,97 +7,36 @@
 ;============================================================
 [Tlen protocol support for Miranda NG.]
 Podpora Tlen protokolu pre Mirandu NG.
-;file \protocols\Tlen\res\tlen.rc
 [Username:]
 Užív. meno:
 [Password:]
 Heslo:
 [Save password]
 Uložiť heslo
-[Create new account]
-
-[Tlen]
-
-[Options]
-
-[Automatically reconnect after unintentional disconnection]
-
-[Leave status message after disconnection]
-
-[Ignore advertisements]
-
-[Automatically delete contacts not in my roster]
-
-[Show offline users with status messages as invisible in contact list]
-
-[Enable avatars]
-
-[Send and receive client version information]
-
-[Alert policy]
-
-[Use Nudge plugin]
-
-[Log alerts as messages]
-
-[Group chat policy]
-
-[Image transfer policy]
-
-[Voice Chats]
-
-[Voice chat policy]
-
-[Recording device:]
-
-[Playback device:]
-
-[Expert Options]
-
 [Login server:]
 Prihlasovací server
-[Connection Host:]
-
 [Port:]
 Port:
 [Keep connection alive]
 Navždy zachovať pripojenie
-[Enable encryption]
-
-[Enable Always Visible and Never Visible]
-
-[P2P Connections]
-
-[Use proxy for incoming connections]
-
 [Proxy type:]
 Typ proxy:
 [Proxy server:]
 Proxy server:
 [Proxy requires authorization]
 Proxy potrebuje autorizáciu
-[Mail Notification]
-
-[Enable incoming mail notification]
-
 [Colors]
 Farby
 [Background]
 Pozadie
 [Text]
 Text
-[Delay]
-
 [&From Popup plugin]
 Z Popup pluginu
 [&Custom]
 Voliteľné
 [P&ermanent]
 Permanentne
-[Preview]
-
-[Tlen Password]
-
 [Cancel]
 Storno
 [Nickname:]
@@ -110,220 +49,37 @@ Priezvisko:
 E-mail:
 [Gender:]
 Pohlavie:
-[Year of birth:]
-
 [City:]
 Mesto:
-[School:]
-
-[Occupation:]
-
-[Looking for:]
-
-[Voice chats]
-
-[Publicly visible status]
-
 [Save changes]
 Uložiť zmeny
-[Avatar]
-
-[Avatar Options]
-
-[Public avatar]
-
-[Tlen login:]
-
-[Subscription:]
-
-[Software:]
-
 [Version:]
 Verzia:
-[System:]
-
-[Personal Information]
-
 [Age:]
 Vek:
 [to]
 pre
-[Extra Search Criteria]
-
 [Status:]
 Stav:
-[Plan:]
-
-[Tlen Voice Chat]
-
-[Quality]
-
-[In]
-
-[Out]
-
-[Finish]
-
-[Tlen Voice Chat Invitation]
-
-[&Accept]
-
 [From:]
 Od:
-[The following invitation to join a voice chat is received.]
-
-;file \protocols\Tlen\src\tlen.cpp
-[Protocol icon]
-
-[Tlen inbox]
-
-[Group chats]
-
-[Tlen chats]
-
-[Voice chat]
-
-[Microphone]
-
-[Speaker]
-
-[Send image]
-
-[Incoming mail]
-
-[Alert]
-
-[Multi-User Conference]
-
-[Tlen Mail]
-
-[Send picture]
-
-[Voice Chat]
-
-[Request authorization]
-
-[Grant authorization]
-
-;file \protocols\Tlen\src\tlen_avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
-[Cannot save new avatar file "%s" Error:\n\t%s (Error: %d)]
-
-[Error while setting avatar on Tlen account (no response)]
-
-[Error while setting avatar on Tlen account (invalid response)]
-
-[Error while setting avatar on Tlen account]
-
-;file \protocols\Tlen\src\tlen_file.cpp
-[1 File]
-
 [%d Files]
 %d súbory
-;file \protocols\Tlen\src\tlen_iqid.cpp
-[Authentication failed for %s@%s.]
-
-[Tlen Authentication]
-
-;file \protocols\Tlen\src\tlen_opt.cpp
-[General]
-
 [Advanced]
 Podrobne
-[Notifications]
-
 [Network]
 Sieť
-[These changes will take effect the next time you connect to the Tlen network.]
-
-[Tlen Protocol Option]
-
-[Accept all alerts]
-
-[Ignore alerts from unauthorized contacts]
-
-[Ignore all alerts]
-
-[Always ask me]
-
-[Accept invitations from authorized contacts]
-
-[Accept all invitations]
-
-[Ignore invitations from unauthorized contacts]
-
-[Ignore all invitation]
-
-[Accept all images]
-
-[Ignore images from unauthorized contacts]
-
-[Ignore all images]
-
-[<Last message>]
-
-[Forwarding]
-
-[%S mail]
-
-;file \protocols\Tlen\src\tlen_picture.cpp
-[Image sent file://%s]
-
-[Image received file://%s]
-
-;file \protocols\Tlen\src\tlen_svc.cpp
-[Tlen login]
-
-[You need to be connected to Tlen account to set avatar.]
-
-;file \protocols\Tlen\src\tlen_thread.cpp
 [Enter password for %s]
 Zadať heslo pre %s
 [Tlen Connection Error]
 Tlen pripájacia chyba
-[%s Web Messages]
-
-[Web message]
-
 [From]
 od
 [E-mail]
 e-mail
-[An alert has been received.]
-
-[Private conference]
-
-[%s mail]
-
-[Subject]
-
-;file \protocols\Tlen\src\tlen_userinfo.cpp
-[Account]
-
-[both]
-
 [from]
 od
 [none]
 žiadne
-[not on roster]
-
-;file \protocols\Tlen\src\tlen_voice.cpp
-[...Connecting...]
-
-[...Waiting for connection...]
-
-[...Finished...]
-
-[...Error...]
-
-[...Denied...]
-
 [Default]
 Prednastavené
-;file \protocols\Tlen\src\tlen_ws.cpp
-[%s connection]
-
-[%s SOCKS connection]
-

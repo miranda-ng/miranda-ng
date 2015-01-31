@@ -7,131 +7,36 @@
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
 Podpora Gadu-Gadu protokolu pre Mirandu NG.
-;file \protocols\Gadu-Gadu\res\resource.rc
-[Gadu-Gadu User Details]
-
-[Gadu-Gadu Number:]
-
 [Password:]
 Heslo:
 [E-mail:]
 E-mail:
-[Create new account]
-
-[Remove account]
-
-[Change password]
-
-[Retrieve password]
-
-[Options]
-
-[Friends only]
-
-[Show offline users with status message as invisible in contact list]
-
-[After disconnection leave away message of status:]
-
-[Receive image and after image is received use:]
-
-[Show links from unknown contacts]
-
-[Enable avatars]
-
 [You will need to reconnect for the changes you have made on this page to take effect.]
 Musíte sa odpojiť a pripojiť na aplikovanie týchto zmien.
-[Conference policy]
-
-[if total participant count greater than:]
-
-[if unknown participant count greater than:]
-
-[in other case]
-
-[Advanced Configuration]
-
 [Keep connection alive]
 Navždy zachovať pripojenie
-[Show connection errors]
-
-[Automatically reconnect after unintentional disconnection]
-
 [Send messages slower, but with full acknowledgment]
 Odoslať správy s overením (pomalšie odoslanie)
-[Manually specify connection servers' hosts]
-
-[* new line is separator\n** hostname:port format]
-
-[Use SSL secure connection]
-
-[File Transfer]
-
-[Use direct connections]
-
 [Port:]
 Port:
-[Use forwarding]
-
 [Host:]
 Server:
-[Number:]
-
 [Internal IP:]
 Interná IP:
 [First name:]
 Meno:
 [Last name:]
 Priezvisko:
-[Family name:]
-
 [Nickname:]
 Prezívka:
 [Gender:]
 Pohlavie:
 [City:]
 Mesto:
-[Origin city:]
-
-[Birth year:]
-
 [Description:]
 Popis:
-[&Save changes]
-
-[Enter token to continue]
-
 [Cancel]
 Storno
-[Create Gadu-Gadu account]
-
-[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
-
-[New password:]
-
-[Confirm password:]
-
-[New e-mail:]
-
-[&Create]
-
-[Remove Gadu-Gadu account]
-
-[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
-
-[Yes, I want to remove my account]
-
-[Remove]
-
-[Change Gadu-Gadu password]
-
-[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
-
-[Change Gadu-Gadu e-mail]
-
-[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
-
-[Age from:]
-
 [to:]
 Pre:
 [Search online users only]
@@ -140,73 +45,10 @@ Hľadať iba pripojených užívatelov
 Zavrieť
 [&Send]
 Odoslať
-[Open new conference]
-
-[Open new conference\nSelect conference participants]
-
-[Open]
-
-[Concurrent Sessions]
-
-[Concurrent %s Login Sessions\nView information on active concurrent sessions]
-
-[Sign out all sessions]
-
-;file \protocols\Gadu-Gadu\src\avatar.cpp
-[Cannot create avatars cache directory. ERROR: %d: %s\n%s]
-
-[Cannot create avatar file. ERROR: %d: %s\n%s]
-
-[Cannot open avatar file. ERROR: %d: %s\n%s]
-
-;file \protocols\Gadu-Gadu\src\core.cpp
-[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
-
-[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
-
-[Received invalid server response.]
-
-[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-
-[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
-
-[Connecting to Gadu-Gadu hub failed.]
-
-[Cannot establish secure connection.]
-
-[Server disconnected asking you for changing your e-mail.]
-
-[Too many login attempts with invalid password.]
-
-[Gadu-Gadu servers are now down. Try again later.]
-
 [Unknown]
 neznáme
-[External direct connections hostname %s is invalid. Disabling external host forwarding.]
-
-[Server hostname %s is invalid. Using default hostname provided by the network.]
-
-[Connection cannot be established. errno=%d: %s]
-
 [Age:]
 Vek:
-[List import successful.]
-
-[List remove successful.]
-
-[List export successful.]
-
-[Me]
-
-[Unknown client]
-
-[You have logged in at another location]
-
-[You are logged in at another location]
-
-[Incoming image]
-
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
 [Male]
 Muž
 [Female]
@@ -215,243 +57,19 @@ Muž
 <nešpecifikované>
 [Network]
 Sieť
-[General]
-
-[Conference]
-
 [Advanced]
 Podrobne
-[<Last Status>]
-
 [System tray icon]
 Ikona v oznamovacej oblasti
-[Popup window]
-
-[Message with [img] BBCode]
-
-[You need to specify your registration e-mail first.]
-
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-
-[Allow]
-
-[Ask]
-
 [Ignore]
 Ignorovať
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-
-;file \protocols\Gadu-Gadu\src\filetransfer.cpp
-[Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
-
-[Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
-
-;file \protocols\Gadu-Gadu\src\gg.cpp
-[HTTP failed memory]
-
-[HTTP failed connecting]
-
-[HTTP failed resolving]
-
-[HTTP failed reading]
-
-[HTTP failed writing]
-
-[Unknown HTTP error]
-
-[&Unblock]
-
-[&Block]
-
 [Contact list]
 Zoznam kontaktov
-;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-
-[Images]
-
-[Gadu-Gadu Number]
-
-;file \protocols\Gadu-Gadu\src\groupchat.cpp
-[Open &conference...]
-
-[&Clear ignored conferences]
-
-[%s has initiated conference with %d participants (%d unknowns).\nDo you want to participate?]
-
-[%s initiated the conference.]
-
-[This is my own conference.]
-
-[Participants]
-
-['Unknown']
-
-[You have to be connected to open new conference.]
-
-[All ignored conferences are now unignored and the conference policy will act again.]
-
-[There are no ignored conferences.]
-
-;file \protocols\Gadu-Gadu\src\icolib.cpp
-[Protocol icon]
-
-[Import list from server]
-
-[Import list from text file]
-
-[Remove list from server]
-
-[Export list to server]
-
-[Export list to text file]
-
-[Account settings]
-
-[Block user]
-
-[Previous image]
-
-[Next image]
-
-[Send image]
-
-[Save image]
-
-[Delete image]
-
-[Clear ignored conferences]
-
-[Concurrent sessions]
-
-;file \protocols\Gadu-Gadu\src\image.cpp
-[&Image]
-
-[Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-
-[Image cannot be written to disk.]
-
-[Delete image from the list]
-
-[Save image to disk]
-
-[Image from %s]
-
-[Image for %s]
-
-[Select picture to send]
-
-[Cannot create image cache directory. ERROR: %d: %s\n%s]
-
-[Cannot save received image to file. ERROR: %d: %s\n%s]
-
-[Cannot open image file. ERROR: %d: %s\n%s]
-
-[Image exceeds maximum allowed size of 255 KB.]
-
-;file \protocols\Gadu-Gadu\src\import.cpp
-[You have to be connected before you can import/export contacts from/to server.]
-
-[List cannot be imported because of error:\n\t%s (Error: %d)]
-
-[List cannot be removed because of error: %s (Error: %d)]
-
-[Text files]
-
 [All Files]
 Všetky súbory
-[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
-
 [contacts]
 Kontakty
-[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
-
-[List cannot be exported because of error:\n\t%s (Error: %d)]
-
-[Import List From &Server]
-
-[Import List From &Text File...]
-
-[&Remove List From Server]
-
-[Export List To &Server]
-
-[Export List To &Text File...]
-
-;file \protocols\Gadu-Gadu\src\links.cpp
-[Gadu-Gadu account chooser]
-
-[Gadu-Gadu Link Protocol]
-
-;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
-[Password could not be reminded because of error:\n\t%s (Error: %d)]
-
-[Password was sent to your e-mail.]
-
-;file \protocols\Gadu-Gadu\src\popups.cpp
 [Notify]
 Notifikácia
 [Error]
 Chyba
-;file \protocols\Gadu-Gadu\src\services.cpp
-[Cannot remove old avatar file before refresh. ERROR: %d: %s\n%s]
-
-[Cannot remove old avatar file. ERROR: %d: %s\n%s]
-
-[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
-
-;file \protocols\Gadu-Gadu\src\sessions.cpp
-[Client Name]
-
-[IP Address]
-
-[Login Time]
-
-[Action]
-
-[sign out]
-
-[There are no active concurrent sessions for this account.]
-
-[You have to be logged in to view concurrent sessions.]
-
-[Copy Text]
-
-[Whois]
-
-[Concurrent &sessions]
-
-;file \protocols\Gadu-Gadu\src\token.cpp
-[Token retrieval failed because of error:\n\t%s]
-
-[Could not load token image.]
-
-;file \protocols\Gadu-Gadu\src\userutils.cpp
-[Cannot register new account because of error:\n\t%s]
-
-[Registration rejected]
-
-[You have registered new account.\nPlease fill up your personal details in "M->View/Change My Details..."]
-
-[Your account cannot be removed because of error:\n\t%s]
-
-[Bad number or password]
-
-[Your account has been removed.]
-
-[Your password cannot be changed because of error:\n\t%s]
-
-[Invalid data entered]
-
-[Your password has been changed.]
-
-[Your e-mail cannot be changed because of error:\n\t%s]
-
-[Bad old e-mail or password]
-
-[Your e-mail has been changed.]
-

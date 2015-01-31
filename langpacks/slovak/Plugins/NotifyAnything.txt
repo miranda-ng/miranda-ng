@@ -7,49 +7,9 @@
 ;============================================================
 [Displays popups for custom events, triggered by UDP packages.]
 Zobrazuje popup-y pre špecifické udalosti, spúštané UDP paketmi.
-;file \plugins\NotifyAnything\res\NotifyAnything.rc
-[Property Page]
-
-[Security]
-
-[Only listen to localhost]
-
 [Port:]
 Port:
-[(Default is 12001)]
-
 [Password:]
 Heslo:
-[Allow actions to execute programs]
-
-[Sound]
-
-[Play sounds]
-
-[Use internal speaker]
-
-[Debug]
-
-[Log to file]
-
-[Message debugging]
-
-;file \plugins\NotifyAnything\src\common.h
-[NotifyAnything]
-
-;file \plugins\NotifyAnything\src\main.cpp
-[Notify Anything]
-
-[N/A: Failed to format error message]
-
-[N/A: FormatMessage failed, error code was 0x]
-
 [Error]
 Chyba
-;file \plugins\NotifyAnything\src\options.cpp
-[Log (*.log)\0*.log\0Text (*.txt)\0*.txt\0All Files (*.*)\0*.*\0]
-
-[Invalid port number]
-
-[Plugins]
-
