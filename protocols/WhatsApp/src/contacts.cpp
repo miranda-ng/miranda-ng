@@ -15,6 +15,9 @@ bool WhatsAppProto::IsMyContact(MCONTACT hContact, bool include_chat)
 
 MCONTACT WhatsAppProto::AddToContactList(const std::string& jid, BYTE , bool dont_check, const char *new_name, bool isChatRoom, bool isHidden)
 {
+	if (jid == m_szJid)
+		return NULL;
+
 	if (!dont_check) {
 		// First, check if this contact exists
 		MCONTACT hContact = ContactIDToHContact(jid);
