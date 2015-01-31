@@ -86,7 +86,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_CONNECTING);
 			this->ToggleStatusMenuItems(true);
 
-			// ProcessBuddyList(0);
+			ForkThread(&WhatsAppProto::ProcessBuddyList, NULL);
 
 			// #TODO Move out of try block. Exception is expected on disconnect
 			while (true) {

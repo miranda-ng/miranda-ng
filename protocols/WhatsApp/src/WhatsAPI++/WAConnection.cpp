@@ -819,12 +819,12 @@ void WAConnection::sendPresenceSubscriptionRequest(const std::string &to) throw(
 
 void WAConnection::sendQueryLastOnline(const std::string &jid) throw (WAException)
 {
-	std::string id = makeId("last_");
+	std::string id = makeId("iq_");
 	this->pending_server_requests[id] = new IqResultQueryLastOnlineHandler(this);
 
-	ProtocolTreeNode *queryNode = new ProtocolTreeNode("query") << XATTR("xmlns", "jabber:iq:last");
+	ProtocolTreeNode *queryNode = new ProtocolTreeNode("query");
 	out.write(ProtocolTreeNode("iq", queryNode)
-		<< XATTR("id", id) << XATTR("type", "get") << XATTR("to", jid));
+		<< XATTR("id", id) << XATTR("type", "get") << XATTR("to", jid) << XATTR("xmlns", "jabber:iq:last"));
 }
 
 void WAConnection::sendSetPicture(const std::string &jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException)
