@@ -413,19 +413,11 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			}
 		}
 		else {
-			if (media->data == NULL || media->data->empty())
-				return;
-
 			const string &encoding = media->getAttributeValue("encoding");
 			if (encoding.empty() || encoding == "text")
 				fmessage.data = media->getDataAsString();
-			else {
+			else
 				fmessage.data = media->getAttributeValue("caption");
-				if (media->data->size() > 0) {
-					fmessage.bindata = (unsigned char*)malloc(fmessage.bindata_len = media->data->size());
-					memcpy(fmessage.bindata, media->data->data(), fmessage.bindata_len);
-				}
-			}
 		}
 
 		if (m_pEventHandler != NULL)
