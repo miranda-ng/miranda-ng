@@ -7,11 +7,6 @@
 ;============================================================
 [Scans for network users of your shared files and notify you with popups.]
 Skenuje sieťových používateľov pre zdieľané súbory a oznamuje ich používanie popup-mi.
-;file \plugins\WhoUsesMyFiles\res\resource.rc
-[WUMF: Current connections]
-
-[Popup delay settings]
-
 [Popup Delay (seconds)]
 Popup dlžka (sekundy)
 [Background color]
@@ -20,75 +15,7 @@ Farba pozadia
 Fraba textu
 [Previe&w]
 Ukázať
-[Show infinitely]
-
-[Default Popup delay]
-
-[Choose delay time]
-
-[Popup color settings]
-
-[Use windows colors]
-
-[Use default Popup colors]
-
-[Choose colors]
-
-[File access filter && logging settings]
-
-[Log into text file]
-
-[Log folders access]
-
-[Alerts on folders access]
-
-[Log files and folders in UNC format]
-
-[Alert files && folders in UNC format]
-
-[Log computer name with username]
-
-[Alert computer name with username]
-
-[Disabled options will be available in the next version]
-
-[Show current connections]
-
-;file \plugins\WhoUsesMyFiles\src\wumf.cpp
-[User]
-
 [File]
 Súbor
-[Access]
-
-[Plugin WhoUsesMyFiles requires admin privileges in order to work.]
-
-[Error opening file]
-
-[Error memory allocation]
-
-;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
-[Error creating menu]
-
-[Popup plugin not found!]
-
 [Error]
 Chyba
-[Enable WUMF popups]
-
-[Disable WUMF popups]
-
-[Common Dialog Error 0x%lx]
-
-[Not implemented yet...]
-
-[Show connections list]
-
-[Who uses my files]
-
-[Services]
-
-[Popups]
-
-[WUMF: Show connections]
-

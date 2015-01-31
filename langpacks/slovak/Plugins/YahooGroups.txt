@@ -7,19 +7,6 @@
 ;============================================================
 [This plugin imports and creates the Yahoo groups defined in Yahoo Messenger.]
 Importuje a vytvára skupiny Yahoo definované v programe Yahoo Messenger.
-;file \plugins\YahooGroups\res\YahooGroups.rc
-[Dialog]
-
-[Move Yahoo contacts to groups now]
-
-[Move Yahoo contacts automatically on startup]
-
-;file \plugins\YahooGroups\src\hooked_events.cpp
-[Yahoo Groups]
-
-[Plugins]
-
-;file \plugins\YahooGroups\src\utils.cpp
 [Notify]
 Notifikácia
 [Warning]

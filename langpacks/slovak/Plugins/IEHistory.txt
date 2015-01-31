@@ -5,72 +5,20 @@
 ;  Version: 0.0.1.7
 ;  Authors: Cristian Libotean, Miranda NG team
 ;============================================================
-[Shows the history for a given contact using IEView.]
-
-;file \plugins\IEHistory\res\IEHistory.rc
-[Dialog]
-
 [Close]
 Zavrieť
-[&Prev]
-
-[&Next]
-
 [&Search]
 Hľadať
-[Number of events to load]
-
-[Load all events]
-
-[Load only]
-
-[events per page]
-
-[Show last page first]
-
-[Other options]
-
-[Load items in background]
-
-[RTL is default text direction]
-
 [Search]
 Hľadať
 [&Find next]
 Hľadať ďalšie
 [Cancel]
 Storno
-[Text:]
-
-[Direction]
-
-[Up]
-
-[Down]
-
-;file \plugins\IEHistory\src\dlgHandlers.cpp
-[System History]
-
-[Out of a total of]
-
-[You can't close the window now, wait for all events to load.]
-
 [Error]
 Chyba
-[Text search]
-
-[Time search]
-
 [Time:]
 Čas:
-[Search finished. No more entries...]
-
-[Information]
-
-;file \plugins\IEHistory\src\events.cpp
-[History]
-
-;file \plugins\IEHistory\src\IEHistory.cpp
 [View &history]
 Zobraziť &históriu
 [&System History]

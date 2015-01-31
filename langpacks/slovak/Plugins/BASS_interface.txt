@@ -7,25 +7,6 @@
 ;============================================================
 [un4seen's BASS interface Miranda NG plugin.]
 BASS užívateľské rozhranie pre Mirandu NG od užívateľa Un4seen.
-;file \plugins\BASS_interface\res\Bass.rc
-[un4seen's bass interface]
-
-[bass.dll loading error]
-
-[Current bass.dll path:]
-
-[Maximum number of bass internal channels:]
-
-[Output device:]
-
-[Volume:]
-
-[Quiet time:]
-
-[download bass library]
-
-[Play only if]
-
 [Offline]
 Odpojený
 [Online]
@@ -46,27 +27,5 @@ Neviditelný
 Telefonuje
 [Out to lunch]
 Na obede
-[Preview]
-
-;file \plugins\BASS_interface\src\Bass_interface.h
-[Bass Interface]
-
-;file \plugins\BASS_interface\src\Main.cpp
-[un4seen's bass version: %d.%d.%d.%d]
-
-[--default device--]
-
 [Sounds]
 Zvuky
-[Disable sounds]
-
-[Enable sounds]
-
-[Frame background]
-
-[Bass library]
-
-[Sounds enabled]
-
-[Sounds disabled]
-

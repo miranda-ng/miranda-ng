@@ -7,7 +7,6 @@
 ;============================================================
 [Floating Contacts plugin for Miranda.]
 Contactos flotantes para Miranda.
-;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 Ocultando contactos
 [Hide offline contacts]
@@ -74,7 +73,6 @@ Mosaico vertical
 Estirar proporcionalmente
 [Opacity:]
 Opacidad:
-;file \plugins\FloatingContacts\src\main.cpp
 [Standard contacts]
 Contactos estándar
 [Online contacts to whom you have a different visibility]
@@ -95,7 +93,6 @@ Ocultar todas las miniaturas
 Remover miniatura
 [Show/Hide all thumbs]
 Mostrar/Ocultar todas las miniaturas
-;file \plugins\FloatingContacts\src\options.cpp
 [Floating Contacts]
 Contactos flotantes
 [Contact list]

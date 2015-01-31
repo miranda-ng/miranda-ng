@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin updater for Miranda NG.]
 Plugin actualizador de Miranda NG
-;file \plugins\PluginUpdater\res\Resource.rc
 [Updates found!]
 ¡Actualizaciones encontradas!
 [PluginUpdater has detected updated versions of some Miranda components. Click on Details button to view more information.]
@@ -34,8 +33,6 @@ Al inicio
 (pero sólo una vez al día)
 [Every]
 Cada
-[Silent mode]
-
 [Files source]
 Archivos fuente
 [Stable version]
@@ -46,14 +43,8 @@ Versión en desarrollo (menos estable)
 Versión en desarrollo con símbolos de depuración
 [Custom version]
 Versión personalizada
-[Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
-
-[Switch to Stable version is now impossible due to incompatibility with currrent Dev version!]
-
 [Notifications]
 Notificaciones
-[Restart]
-
 [Errors]
 Errores
 [Info messages]
@@ -86,8 +77,6 @@ Tiempo de espera
 -1 = Infinito
 [Sec]
 Seg
-[For "Restart" popup setting is always infinity]
-
 [Popups]
 Ventanas emergentes
 [Component list]
@@ -96,7 +85,6 @@ Lista de componentes
 Esta es la lista completa de los componentes que faltan en Miranda NG. Revise los componentes que desea descargar.\n\nHaga clic en el icono de info para ver la página de información de componentes.
 [Download]
 Descargar
-;file \plugins\PluginUpdater\src\DlgListNew.cpp
 [Downloading...]
 Descargando...
 [Succeeded.]
@@ -127,41 +115,18 @@ Otro
 La lista está vacía.
 [List loading already started!]
 ¡La carga de la lista ya comenzó!
-;file \plugins\PluginUpdater\src\DlgUpdate.cpp
 [Will be deleted!]
 ¡Será eliminado!
 [Update complete. Press Yes to restart Miranda now or No to postpone a restart until the exit.]
 Actualización completa. Pulse Sí para reiniciar Miranda ahora o en No para posponer el reinicio hasta la salida.
-[Miranda NG Core]
-
-[Deprecated!]
-
-[Update found!]
-
 [<< Details]
 << Detalles
-[Update failed! One of the components wasn't downloaded correctly. Try it again later.]
-
-[%d component(s) was updated]
-
-[You need to restart your Miranda to apply installed updates.]
-
-[Would you like to restart it now?]
-
 [Checking for new updates...]
 Comprobando nuevas versiones...
 [No updates found.]
 No se encontraron actualizaciones.
 [Update checking already started!]
 ¡La comprobación de actualización ya ha comenzado!
-;file \plugins\PluginUpdater\src\Events.cpp
-;file \plugins\PluginUpdater\src\Notifications.cpp
-;file \plugins\PluginUpdater\src\Notifications.h
-[Close popup]
-
-[Do nothing]
-
-;file \plugins\PluginUpdater\src\Options.cpp
 [hours]
 horas
 [days]
@@ -170,16 +135,10 @@ días
 Prueba
 [Services]
 Servicios
-;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 Buscar actualizaciones de plugin
 [Available components list]
 Mostrar lista de plugins completa
-[Update completed]
-
-[Update failed]
-
-;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Información del plugin
 [Plugin Updater HTTP connection]

@@ -5,41 +5,12 @@
 ;  Version: 0.1.2.3
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-[Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions.]
-
-;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
-[When a contact returns after]
-
-[or comes online for the first time]
-
-[Show a popup]
-
-[Add an event (flashing icon) to the contact]
-
-[On event action (double click) or popup click:]
-
-[Open User Details]
-
-[Open message window]
-
-[Return notification]
-
-[Long time no see]
-
-[When a contact is absent for]
-
-[Hide when no messages for]
-
-[Enable "Miss you" feature]
-
 [Colors]
 Colores
 [Background]
 Fondo
 [Text]
 Texto
-[Use Popups colors]
-
 [Use Windows colors]
 Usar colores de Windows
 [Delay]
@@ -54,85 +25,13 @@ Permanente
 seg
 [Preview]
 Previsualizar
-[Last seen online:]
-
-[Last input message:]
-
-[Custom absence period:]
-
 [days]
 días
-[Never hide this contact]
-
-[Enable Miss You]
-
-[Notify always]
-
-;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
-[Tray/popup icon]
-
-[Enabled]
-
 [Disabled]
 Desabilitado
-[Hide]
-
-[Never hide]
-
-[Hiding %s (%S)]
-
-[%d days since last message]
-
-[Disable Miss You]
-
-[You awaited this contact!]
-
-[has gone online for the first time.]
-
-[has returned after a long absence.]
-
-[has returned after being absent since %#x]
-
-[has not returned after a long absence.]
-
-[has not returned after being absent since %#x]
-
-[BuddyExpectator]
-
-[Contact returned]
-
-[Contact still absent]
-
-[Miss you event]
-
-[Hide contact event]
-
-[Hide contact]
-
-[Buddy Expectator]
-
-;file \plugins\BuddyExpectator\src\options.cpp
-[weeks]
-
-[months]
-
-[years]
-
 [Do nothing]
 No hacer nada
-[Delete the contact]
-
-[Contact name]
-
-[has returned after being absent since %d days]
-
 [Contacts]
 Contactos
 [Popups]
 Ventanas emergentes
-[not detected]
-
-[not found]
-
-[This contact has been absent for an extended period of time.]
-

@@ -5,67 +5,18 @@
 ;  Version: 0.5.0.0
 ;  Authors: yaho
 ;============================================================
-[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
-
-;file \plugins\FTPFileYM\res\ftpfile.rc
-[FTP accounts]
-
-[Host name]
-
-[User]
-
 [Password]
 Contraseña
 [URL]
 URL
-[Directory on server]
-
 [Port]
 Puerto
-[Command after upload]
-
-[Use passive mode]
-
-[Account name]
-
 [Protocol]
 Protocolo
-[Default FTP server]
-
-[File download link]
-
-[Close dialog after upload is completed]
-
-[Copy download link to message log]
-
-[Autosend download link to contact]
-
 [Menu items]
 Elementos del menú
-[Use submenu (restart required)]
-
-[Hide inactive accounts]
-
 [Other]
 Otro
-[Automatically delete file from FTP server after (experimental):]
-
-[ZIP support]
-
-[Enter archive name manually]
-
-[Compression level:]
-
-[Upload File Manager]
-
-[File:]
-
-[Completed:]
-
-[Speed:]
-
-[Remaining:]
-
 [Summary]
 Resumen
 [To:]
@@ -74,183 +25,28 @@ A:
 Apodo
 [Close]
 Cerrar
-[Clipboard]
-
 [Options]
 Opciones
-[Pause]
-
-[File Manager]
-
-[Server:]
-
-[User info]
-
-[UPLOADING...]
-
-[Open in Browser]
-
-[FTP File Manager]
-
 [Select All]
 Seleccionar todo
-[Deselect All]
-
-[Delete from list]
-
-[Delete from FTP]
-
-[Enter file name]
-
 [Cancel]
 Cancelar
-[File exists]
-
 [Rename]
 Renombrar
 [Overwrite]
 Sobrescribir
-[File with the same name already exists on the server.]
-
-[How to proceed?]
-
-[Copy URL]
-
-[Close dialog after upload finishes]
-
-[Automatically delete file after...]
-
 [Disabled]
 Desabilitado
-[Delete from List]
-
-[Copy Link]
-
-;file \plugins\FTPFileYM\src\dialog.cpp
-[User Info]
-
-[Copy Link to Clipboard]
-
-[%d minutes]
-
-[%d hours]
-
-[%d days]
-
-[Do you really want to cancel all running jobs?]
-
-;file \plugins\FTPFileYM\src\ftpfile.cpp
-[FTP Server 1]
-
-[FTP Server 2]
-
-[FTP Server 3]
-
-[FTP Server 4]
-
-[FTP Server 5]
-
-[Send file]
-
 [Resume]
 Reanudar
-[FTP File]
-
-[FTP Server %d]
-
-[Upload file(s)]
-
-[Zip and upload file(s)]
-
-[Zip and upload folder]
-
-[FTP File manager]
-
-[Show FTPFile manager]
-
-[Upload file]
-
-[Zip and upload file]
-
-[You have to fill FTP server setting before upload a file.]
-
-[Error has occurred while trying to create a dialog!]
-
-[File upload complete]
-
-[Upload canceled]
-
-;file \plugins\FTPFileYM\src\job_generic.cpp
-[All Files (*.*)]
-
-[FTP File - Select files]
-
-[FTP File - Select a folder]
-
-[Folder not found!]
-
-[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
-
 [CANCELED]
 CANCELADO
-[COMPLETED]
-
 [CONNECTING...]
 CONECTANDO...
 [CREATED]
 CREADO
-[PACKING...]
-
-[PAUSED]
-
-[WAITING...]
-
 [UNKNOWN]
 DESCONOCIDO
-;file \plugins\FTPFileYM\src\job_packer.cpp
-[Error occurred when zipping the file(s).]
-
-[%0.1f kB/s]
-
-[%0.1f%% (%d kB/%d kB)]
-
-[%s (%d kB/%d kB)]
-
-[Do you really want to cancel this upload?]
-
-[Status: %s\r\nFile: %s\r\nServer: %s]
-
-;file \plugins\FTPFileYM\src\job_upload.cpp
-[File exists - %s]
-
-[Error occurred when opening local file.\nAborting file upload...]
-
-[Error occurred when initializing libcurl.\nAborting file upload...]
-
-[FTP error occurred.\n%s]
-
-[Download link:]
-
-[Do you really want to cancel running upload?]
-
-[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-
-;file \plugins\FTPFileYM\src\manager.cpp
-[You have to fill and enable at least one FTP server in setting.]
-
-[Clear All]
-
-;file \plugins\FTPFileYM\src\options.cpp
-[FTP (Standard)]
-
-[FTP+SSL (Explicit)]
-
-[FTP+SSL (Implicit)]
-
-[SFTP (Secure FTP over SSH)]
-
-[minutes]
-
 [hours]
 horas
 [days]
@@ -261,5 +57,3 @@ Servicios
 Cuentas
 [Advanced]
 Avanzado
-;file \plugins\FTPFileYM\src\serverlist.cpp
-;file \plugins\FTPFileYM\src\utils.cpp

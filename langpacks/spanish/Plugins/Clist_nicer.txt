@@ -5,29 +5,10 @@
 ;  Version: 0.9.2.4
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
-[Displays contacts, event notifications, protocol status.]
-
-;file \plugins\Clist_nicer\res\resource.rc
-[Clist Nicer exception]
-
 [Copy to clipboard]
 Copiar al portapapeles
-[Continue]
-
-[Exit Miranda]
-
-[Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-
-[About CList Nicer+]
-
-[Clist Nicer+]
-
-[Copyright © 2004-2010 by the Miranda IM project, 2012-2015 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
-
 [Version]
 Versión
-[Support and latest version information]
-
 [Delete contact]
 Eliminar contacto
 [No]
@@ -54,14 +35,6 @@ Desactivar grupos
 Preguntar antes de eliminar
 [Disable icon blinking]
 Desactivar parpadeo de icono
-[Apply last active view mode]
-
-[Contact list layout]
-
-[Show menu and status buttons]
-
-[Draw sunken edge]
-
 [System tray icon]
 Icono de la bandeja de sistema
 [Single click interface]
@@ -70,12 +43,6 @@ Interfaz simple clic
 Mostrar estado sobre herramientas
 [ms]
 ms
-[Event area]
-
-[Set base visibility on the frames menu]
-
-[Auto mode]
-
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Show]
@@ -90,102 +57,26 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[Do not show system tray icon tooltips on mouse over]
-
 [Groups]
 Grupos
 [Draw a line alongside group names]
 Dibujar una línea al lado de los nombres de grupos
-[Show number of contacts in a group]
-
-[Hide numbers when all offline]
-
 [Sort groups alphabetically]
 Ordenar grupos alfabéticamente
 [Quick search in open groups only]
 Búsqueda rápida sólo en grupos abiertos
-[No expand/collapse icon]
-
-[Center group names horizontally]
-
-[Alignment]
-
-[Margins (left/right)]
-
-[Row gap]
-
-[Minimum row height:]
-
-[Group row height]
-
 [Indent groups by:]
 Sangría de grupos por:
-[Inner row vertical padding]
-
-[Margins and spacing]
-
 [Contact list sorting]
 Clasificación de la lista de contacto
-[First by]
-
-[Then by]
-
-[Finally by]
-
-[Move events to the top of list or group]
-
-[Do not separate offline contacts]
-
-[Hide as offline]
-
-[Tree hide offline]
-
-[Right align contacts]
-
 [Avatars]
 Avatares
-[Show avatars]
-
 [Height]
 Alto
-[Draw a border around avatars]
-
-[Rounded avatars]
-
-[Radius]
-
-[Always align icons and text for missing avatars]
-
-[Avatar alignment]
-
-[Don't request avatars for offline contacts]
-
-[Second text line]
-
-[Display status message when available]
-
-[Show second text line:]
-
-[Show contacts local time]
-
-[Only when timezone differs]
-
 [Icons]
 Iconos
-[Show status icons]
-
-[Centered when possible]
-
-[When possible, draw status icons in avatar space]
-
-[Use metacontact protocol icons instead of subcontacts]
-
-[Use overlay icons on avatars]
-
 [Dim idle contacts]
 Oscurecer contactos inactivos
-[Replace status icons with xStatus]
-
 [Window]
 Ventana
 [Always on top]
@@ -194,10 +85,6 @@ Siempre en primer plano
 Mostrar barra de menú
 [Easy move]
 Fácil movimiento
-[Rounded border]
-
-[Border]
-
 [Title bar text:]
 Texto de la barra de título:
 [Pin to desktop]
@@ -218,14 +105,6 @@ máximo
 Tamaño arriba
 [If window is partially covered, bring to front instead of hiding]
 Si la ventana está cubierta parcialmente, traer al frente en lugar de esconderse
-[Always hide on taskbar]
-
-[Client margins]
-
-[Clip border by]
-
-[Gap between frames]
-
 [Translucency options]
 Opciones de translucidez
 [Transparent contact list]
@@ -236,8 +115,6 @@ Opacidad inactivo:
 Opacidad activio:
 [Fade contact list in/out]
 Desvanecer lista de contactos entrada/salida
-[Fully transparent (like TweakUI)]
-
 [Items]
 Elementos
 [Show divider between online and offline contacts]
@@ -252,10 +129,6 @@ Desactivar renombrado de ítems con doble clic
 Mostrar selección aún si la lista no está enfocada
 [Make selection highlight translucent]
 Hacer selección resaltada translúcida
-[Use full row for selection and hottracking]
-
-[Double click on avatar opens user info]
-
 [Visual]
 Visual
 [Scroll list smoothly]
@@ -268,8 +141,6 @@ milisegundos
 Ocultar barra de desplazamiento vertical
 [Gray out entire list when:]
 Vista gris a la lista completa cuando:
-[Tree gray out]
-
 [Contact list background]
 Fondo de la lista de contactos
 [Use Windows colors]
@@ -288,10 +159,6 @@ Mosaico vertical
 Desplazarse con el texto
 [Stretch proportionally]
 Estirar proporcionalmente
-[Use these settings to skin the entire background]
-
-[If you enable this, the background settings will affect the entire contact list frame.]
-
 [Status bar]
 Barra de estado
 [Show status bar]
@@ -312,12 +179,6 @@ Igualar anchura de secciones
 Mostrar biseles en los paneles
 [Show resize grip indicator]
 Mostrar indicador de cambio de tamaño
-[Draw background skin]
-
-[Show ICQ extended status icons]
-
-[Mark protocols locked from global status changes]
-
 [Available view modes]
 Modos de visualización disponibles
 [Include protocols]
@@ -352,92 +213,14 @@ Opciones de modo de vista
 Modo de vista de edición
 [Last message]
 Último mensaje
-[Per contact skins:]
-
-[< Reload]
-
-[Contact list skin]
-
-[Load this skin on startup]
-
-[Apply skin now]
-
-[Unload skin]
-
-[Make selection shape equal to selected item]
-
-[Blend selection with background]
-
-[Automatically fill background with wallpaper (tiled wallpaper only)]
-
-[Apply group indent values to background drawing]
-
-[Use per protocol/contact skinning]
-
-[Protocol skins override status text colors]
-
-[Set all buttons to skinned mode]
-
-[Use fast gradient drawing]
-
-[Corner radius]
-
-[Skin options]
-
-[Group top padding]
-
-[Frame title bar height]
-
-[Ignore selection for groups]
-
-[Load from skin file]
-
-[Export to skin file]
-
 [Dialog]
 Diálogo
-[Ignore these events]
-
 [Messages]
 Mensajes
-[Incoming file transfers]
-
-[URL events]
-
-[Suppress auth requests]
-
-[Suppress added notifications]
-
-[Suppress online notifications]
-
-[Ignore all]
-
-[Ignore none]
-
 [Visibility]
 Visibilidad
-[Appear always online]
-
-[Appear always offline (block contact)]
-
 [Other]
 Otro
-[Hide this contact from the list]
-
-[To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-
-[Display options]
-
-[Show contact with priority]
-
-[Show avatar:]
-
-[Show 2nd line:]
-
-[Draw overlay icon on avatar]
-
-[Show local time]
-
 [&Main menu]
 &Menú principal
 [E&xit]
@@ -490,104 +273,20 @@ Ocul&tar usuarios fuera de línea aquí
 &Renombrar grupo
 [&Delete group]
 El&iminar grupo
-[Move marked contacts to this group]
-
 [Appearance]
 Apariencia
-[Show metacontact protocol icons]
-
-[Show additional buttons]
-
-[Draw sunken frame]
-
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
-[Skin items]
-
 [General]
 General
-[Gradient]
-
-[Left to right]
-
-[Right to left]
-
-[Top to bottom]
-
-[Bottom to top]
-
-[Round corners]
-
-[Top-Left]
-
-[Top-Right]
-
-[Bottom-Right]
-
-[Bottom-Left]
-
-[Item colors]
-
-[First color]
-
 [Text color]
 Color de texto
-[Second color]
-
-[Transparent]
-
-[Alpha (percent)]
-
-[Item margins]
-
-[Item borders]
-
-[Border style]
-
-[3D border (bright / dark)]
-
-[Item ignored]
-
-[Not yet supported]
-
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
-[Copy from]
-
 [<None>]
 <Nada>
-[Raised]
-
-[Sunken]
-
-[Bumped]
-
-[Etched]
-
-;file \plugins\Clist_nicer\src\CLCButton.cpp
-[Show menu]
-
-[Show/Hide offline contacts]
-
-[Use/Disable groups]
-
-[Find and add contacts]
-
 [Accounts]
 Cuentas
-[Open preferences]
-
-[Enable/Disable sounds]
-
-[Minimize contact list]
-
 [Status menu]
 Menú de estado
-[Select view mode]
-
 [Setup view modes]
 Configuración de modos de vista
-[Clear view mode]
-
-;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 No enfocado
 [Offline]
@@ -610,126 +309,26 @@ Invisible
 Salí a comer
 [On the phone]
 En el teléfono
-[Always left]
-
-[Always right]
-
-[Automatic (RTL)]
-
-[Nothing]
-
 [Name]
 Nombre
 [Status]
 Estado
-[Message frequency]
-
-[Never]
-
-[Always]
-
-[For RTL only]
-
-[RTL TEXT only]
-
-[When space allows it]
-
-[When needed]
-
-[With nickname - left]
-
-[Far left]
-
-[Far right]
-
-[With nickname - right]
-
-[List layout]
-
 [Background]
 Fondo
-[Row items]
-
 [Contacts]
 Contactos
-[Groups and layout]
-
 [Advanced]
 Avanzado
 [Skins]
 Pieles
-;file \plugins\Clist_nicer\src\clcpaint.cpp
-[No events...]
-
-;file \plugins\Clist_nicer\src\clistmenus.cpp
-[Add permanently]
-
-[Revert to default]
-
-[Default (global setting)]
-
-[Show always when available]
-
-[Hide always]
-
-[When space is available]
-
-[When needed by status message]
-
-[Contact list display and ignore options for %s]
-
-[&Contact list settings...]
-
-;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
 Global
-;file \plugins\Clist_nicer\src\clui.cpp
-[Toggle show online/offline]
-
-[Toggle groups]
-
-[Find contacts]
-
-[Toggle sounds]
-
-[Show TabSRMM session list]
-
-[Show TabSRMM menu]
-
-[Sounds are off]
-
 [Reset view mode]
 Reiniciar modo de vista
 [Configure view modes]
 Configurar modos de vista
-[Setup accounts]
-
-[My contacts]
-
 [Default]
 Por defecto
-[Overlay icons]
-
-[%s connecting]
-
-[Connecting icons]
-
-[Menu]
-
-[Open main menu]
-
-[Set status modes]
-
-[The requested action requires a valid contact selection. Please select a contact from the contact list and repeat.]
-
-[Parameter mismatch]
-
-[The service %s specified by the %s button definition was not found. You may need to install additional plugins.]
-
-[Service failure]
-
-[You need the FloatingContacts plugin, cause the embedded floating contacts were removed.]
-
 [Warning]
 Advertencia
 [Standard contacts]
@@ -746,36 +345,12 @@ Recuentos miembros del grupo
 Divisores
 [Offline contacts to whom you have a different visibility]
 Contactos desconectados a los que usted tiene una visibilidad diferente
-[Frame titles]
-
-[Contact list local time]
-
 [Selected text]
 Texto seleccionado
 [Hottrack text]
 Texto rondado
 [Quicksearch text]
 Búsqueda rápida de texto
-[Embedded frames border]
-
-;file \plugins\Clist_nicer\src\cluiopts.cpp
-[Title bar]
-
-[Tool Window]
-
-[Thin border]
-
-[No border]
-
-;file \plugins\Clist_nicer\src\Docking.cpp
-[The contact list cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
-
-[Contact list docking]
-
-;file \plugins\Clist_nicer\src\extBackg.cpp
-[Load and apply]
-
-;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -792,8 +367,6 @@ Minutos
 Horas
 [Days]
 Días
-[Current view mode: %s]
-
 [Filtering]
 Filtrando
 [*** All contacts ***]
@@ -802,86 +375,27 @@ Filtrando
 ¿Realmente desea eliminar este modo de vista? Esto no se puede deshacer
 [Delete a view mode]
 Eliminar un modo de vista
-[No view mode]
-
 [A view mode with this name does already exist]
 Ya existe un modo de vista con ese nombre
 [Duplicate name]
 Nombre duplicado
 [Setup view modes...]
 Configuración de Modos de Vista
-[Clear current view mode]
-
 [Select a view mode]
 Elija un modo de vista
 [Clear view mode and return to default display]
 Limpiar modo de vista y volver a valores predeterminados de visualización
 [View modes]
 Modos de vista
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
-[&FrameTitle]
-
-[&Visible]
-
-[&Show title bar]
-
-[&Locked]
-
-[&Collapsed]
-
-[&Floating mode]
-
-[&Border]
-
-[&Skinned frame]
-
-[&Align]
-
-[&Top]
-
-[&Client]
-
-[&Bottom]
-
-[&Position]
-
-[&Up]
-
-[&Down]
-
 [Frames]
 Marcos
-[Show all frames]
-
-[Show all title bars]
-
-[Hide all title bars]
-
-[Lock frame]
-
-[Visible]
-
 [Show title bar]
 Mostrar barra de título
-[Skinned frame]
-
-[Floating]
-
-;file \plugins\Clist_nicer\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [New group]
 Nuevo grupo
-[Group menu]
-
 [&Hide/show]
 &Mostrar/Ocultar
 [&Find/add contacts...]
 &Buscar/Agregar contactos...
 [&Options...]
 &Opciones
-[&About the contact list...]
-
-[Subgroup menu]
-

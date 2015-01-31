@@ -7,62 +7,9 @@
 ;============================================================
 [Shows new message/status change info using on-screen display.]
 Zobrazuje informácie o nových správach alebo zmenách statusov priamo na obrazovke (OSD - on screen display).
-;file \plugins\wbOSD\res\wbOSD.rc
-[General]
-
-[Align]
-
-[Select font]
-
-[Shadow]
-
-[Show drop shadow]
-
-[Shadow align]
-
-[Shadow color]
-
-[Alternative shadow]
-
-[Shadow distance:]
-
-[Other]
-
 [Background color]
 Farba pozadia
-[Transparent]
-
-[Alpha:]
-
-[Timeout (ms):]
-
-[Show testing OSD]
-
-[Announce]
-
-[Status changes]
-
-[Show my status changes]
-
 [Text color]
 Fraba textu
-[Show events]
-
-[Format:]
-
-[Show message window after click]
-
-[Show when my status is:]
-
-;file \plugins\wbOSD\src\events.cpp
-[%s is %s]
-
-;file \plugins\wbOSD\src\options.cpp
-[Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
-
 [Help]
 Pomoc
-[Miranda NG is great and this is a long message.]
-
-[Plugins]
-

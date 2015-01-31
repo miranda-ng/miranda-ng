@@ -5,169 +5,45 @@
 ;  Version: 0.9.1.1
 ;  Authors: Scott Ellis
 ;============================================================
-[Ping labelled IP addresses or domain names.]
-
-;file \plugins\Ping\res\ping.rc
-[Delay between pings (secs):]
-
 [Timeout]
 Tiempo de espera
-[Ping timeout (secs):]
-
 [Logging]
 Iniciando sesión
-[Log to File]
-
-[Log Filename:]
-
 [Network]
 Red
 [Popups]
 Ventanas emergentes
-[Reply]
-
-[Block Repetitions]
-
-[View Log]
-
-[Browse...]
-
-[Interface]
-
-[Do not change icon when testing]
-
-[Use the Customize/Fonts options to change text size and color.]
-
-[Indent:]
-
 [Row height:]
 Alto de fila:
-[Repeats for success/failure:]
-
-[Attach to contact list]
-
-[Use CSV format]
-
 [Add]
 Añadir
 [Remove]
 Eliminar
 [Edit]
 Editar
-[Up]
-
-[Down]
-
-[Edit Host]
-
 [Cancel]
 Cancelar
-[Address:]
-
-[Label:]
-
-[TCP Connect]
-
 [Port:]
 Puerto:
-[Control Protocol:]
-
-[Set my status to:]
-
-[On success, if my status is:]
-
-[Execute the following command on double-click:]
-
 [Contact]
 Contacto
 [Protocols]
 Protocolos
-[(Optional) Command Parameters:]
-
-[Menu]
-
-[Graph]
-
 [Enable]
 Habilitar
-[Disable all pings]
-
-[Enable all pings]
-
-[Options...]
-
-[Hosts...]
-
-;file \plugins\Ping\src\menu.cpp
-[Ping]
-
-;file \plugins\Ping\src\options.cpp
 [Text Files (*.txt)]
 Archivos de texto (*.txt)
 [All Files]
 Todos los archivos
-[Open log file]
-
 [<none>]
 <Nada>
-[<all>]
-
 [Settings]
 Ajustes
-[Hosts]
-
-;file \plugins\Ping\src\ping.cpp
-[Ping Plugin]
-
-[Responding]
-
-[Not Responding]
-
-[Testing]
-
 [Disabled]
 Desabilitado
-;file \plugins\Ping\src\pinggraph.cpp
-[Show grid lines]
-
-[Show stats]
-
-[%d ms]
-
-[AVG %.1lf ms]
-
-[MAX %hd ms]
-
-[MIN %hd ms]
-
-[Ping Graph]
-
-;file \plugins\Ping\src\pingthread.cpp
-[%s - setting status of protocol '%S' (%d)]
-
-[Ping Reply]
-
-[%s - reply, %d]
-
-[Ping Timeout]
-
-[%s - timeout]
-
 [Disable]
 Deshabilitar
-[enabled]
-
-[double clicked]
-
-[Show/Hide &Ping Window]
-
 [List]
 Lista
-;file \plugins\Ping\src\rawping.cpp
-[Host %s requests that you reduce the amount of traffic you are sending.]
-
-;file \plugins\Ping\src\utils.cpp
-[Unknown Address]
-
 [Unknown]
 Desconocido

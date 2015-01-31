@@ -7,7 +7,6 @@
 ;============================================================
 [An Auto Away module with some more options than the original.]
 Un módulo Auto Fuera con un poco de más opciones que el original.
-;file \Plugins\StatusPlugins\resource.rc
 [Check connection]
 Comprobar la conexión
 [Max. retries]
@@ -44,8 +43,6 @@ Mensaje
 Cuenta
 [Set]
 Establecer
-[when full-screen mode is active]
-
 [when screen saver engages]
 Cuando el protector de pantalla cuando se acopla
 [when workstation is locked]
@@ -264,7 +261,6 @@ Condiciones previas
 Datos de activación
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Estado: El estado de la cuenta cambiará a\r\nCuenta: Cambiando el estado de la cuenta
-;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [minutes of %s mode]
 minutos de modo %s
 [Rules]
@@ -273,7 +269,6 @@ Reglas
 Mensajes de estado
 [Auto Away]
 Auto Fuera
-;file \Plugins\StatusPlugins\commonstatus.cpp
 [I've been away since %time%.]
 He estado fuera desde %time%.
 [Give it up, I'm not in!]
@@ -296,7 +291,6 @@ Estoy al teléfono.
 Mmm... comida.
 [idleeeeeeee]
 libreeeeeeee
-;file \Plugins\StatusPlugins\confirmdialog.cpp
 [Set %s message for %s.]
 Establecer mensaje %s para %s.
 [<last>]

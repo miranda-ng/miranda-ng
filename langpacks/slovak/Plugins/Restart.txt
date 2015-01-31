@@ -7,8 +7,3 @@
 ;============================================================
 [Adds Restart menu item.]
 Pridanie položky Restart do menu.
-;file \plugins\Restart\src\restart.cpp
-[Restart]
-
-[Restart Plugin]
-

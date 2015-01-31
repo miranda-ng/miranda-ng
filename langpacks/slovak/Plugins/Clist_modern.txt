@@ -7,31 +7,12 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Zobrazuje kontakty, upozornenia na udalosti a statusy protokolov s rozšírenými vizuálnymi úpravami.
-;file \plugins\Clist_modern\res\resource.rc
-[Transparency:]
-
-[Window behavior:]
-
-[List sorting:]
-
-[Status bar:]
-
-[List content:]
-
 [Show counts of number of contacts in a group]
 Zobrazovať počet kontaktov v skupine za názvom skupiny
 [Hide group counts when there are none online]
 Skryť počet kontaktov v skupine ak sú všetci odpojený
-[1st:]
-
-[2nd:]
-
-[3rd:]
-
 [Always on top]
 Vždy navrchu
-[Hide contact list after]
-
 [seconds]
 sekúnd
 [Fade contact list in/out]
@@ -42,20 +23,10 @@ Priehľadný zoznam kontaktov
 Priehľadnosť neaktívneho okna:
 [Active opacity:]
 Priehľadnosť aktívneho okna:
-[Show avatars]
-
-[Animate avatars]
-
-[Show contact time in list]
-
-[Compact mode]
-
 [Show protocol names]
 Zobraziť meno protokolu
 [Show status text]
 Zobraziť stavový text
-[Settings]
-
 [Background color:]
 Farba pozadia:
 [Selection color:]
@@ -74,162 +45,40 @@ Nad sebou
 Posúvať s textom
 [Stretch proportionally]
 Roztiahnúť veľkosť
-[Tile vertically according to row height]
-
-[Use Windows colors]
-
-[Available skins]
-
-[Rescan]
-
 [Apply]
 Aplikovať
-[Info]
-
-[\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
-
-[Skin preview]
-
-[WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-
-[* Restart may be required for all changes to take effect]
-
-[Skin folder]
-
-[Available view modes]
-
-[Include protocols]
-
-[New]
-
-[Include groups]
-
-[Show contacts in groups]
-
-[Include status modes]
-
 [Cancel]
 Storno
-[Sticky contacts]
-
 [Clear all]
 Všetko vyčistiť
-[Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-
-[Protocol]
-
-[Group]
-
-[Status mode]
-
-[Automatically clear this view mode after]
-
-[View mode options]
-
-[Editing view mode]
-
-[Last message]
-
 [Status bar]
 Stavový riadok
 [Show status bar]
 Zobraziť stavový riadok
 [Make sections equal width]
 Rovnaká šírka oddielov
-[Space between]
-
-[Borders]
-
-[Vertical align]
-
-[Horizontal align]
-
-[Multiline status bar:]
-
-[Accounts per line]
-
-[* To increase status bar height:\nset in Main menu: Frames->Status Bar->Show title then pull appeared title of status bar up or down.]
-
-[Hold [Shift] to inverse [Right Click] behavior.]
-
-[[Ctrl]+[Left Click] to filter only protocol. Click on empty space to show all.]
-
-[Set options per account]
-
-[Enable custom account settings]
-
-[Hide account completely]
-
-[Show status name]
-
-[Show xStatus name]
-
-[Show protocol icon]
-
-[Use connecting icon]
-
-[Show xStatus icon]
-
-[Show both icons]
-
-[Show normal status as overlay]
-
-[Status overlay opacity is 75%]
-
-[Show unread emails (if supported)]
-
 [Right click opens status menu]
 Pravé tlačítko myši otvára stavové menu
 [Right click opens Miranda menu]
 Pravé tlačítko myši otvára hlavné menu
-[Space on left]
-
-[Space on right]
-
 [Delete contact]
 Zmazať kontakt
 [No]
 Nie
 [Yes]
 Áno
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-
-[Use Options->Contacts->Ignore to unhide contacts.]
-
-[Are you sure you want to delete %s?]
-
-[This will erase all history and settings for this contact!]
-
 [Hide offline users]
 Skryť nepripojených užívateľov
 [Hide empty groups]
 Skryť prázdne skupiny
 [Disable groups]
 Skryť skupiny
-[Ask before deleting contacts]
-
-[Don't move offline user to bottom]
-
 [Contact list]
 Zoznam kontaktov
-[Contact list sorting]
-
-[Place offline users out of groups]
-
 [Gamma correction]
 Gamma korekcia
 [Default]
 Prednastavené
-[Full selection]
-
-[Less selection]
-
-[No selection]
-
-[Selection mode]
-
-[Bring to front if covered]
-
 [Automatically resize window to height of list]
 Prispôsobiť veľkosť okna dlžke zoznamu
 [maximum]
@@ -238,42 +87,10 @@ maximálne
 % z obrazovky
 [Size upwards]
 Zväčšovať smerom hore
-[Behavior]
-
-[Lock manual resize]
-
-[Drag to]
-
-[Easy scroll]
-
 [Easy move]
 Jednoduchý presun
-[x100 ms]
-
-[show delay]
-
-[hide delay]
-
-[Hide method]
-
 [pixels]
 pixelov
-[keep on screen]
-
-[Snap to edges]
-
-[Event notify area]
-
-[Disabled]
-
-[Show automatically]
-
-[Always visible]
-
-[Dock to sides]
-
-[and minimum]
-
 [Items]
 Položky
 [Show divider between online and offline contacts]
@@ -288,8 +105,6 @@ Nepremenovávať položky pomocou dvoch klikov
 Zvýrazňovať výber i keď je zoznam neaktívny
 [Make selection highlight translucent]
 Použiť priehladné označenie výberu
-[Dim idle contacts]
-
 ['Hide offline' means to hide:]
 'Skryť nepripojených' = skryť týchto:
 [Groups]
@@ -310,74 +125,10 @@ Plynule posúvať zoznam
 Čas:
 [milliseconds]
 milisekúnd
-[Hide vertical scrollbar]
-
-[Fade out entire list when:]
-
 [Single click interface]
 Nepoužívať dvojklik myšou
-[Always show status in tooltip]
-
-[Disable icon blinking]
-
-[ms, delay between icon blinking]
-
 [System tray icon]
 Ikona v oznamovacej oblasti
-[Use xStatus icon]
-
-[Icon mode]
-
-[For similar statuses]
-
-[Global status]
-
-[Single account]
-
-[Cycle icons]
-
-[All accounts]
-
-[For different statuses]
-
-[Cycle period, seconds]
-
-[Additional stuff]
-
-[Ignore empty extra icons places (arrange to right).]
-
-[Allow internal requesting of status message text]
-
-[Remove status message if contact became offline]
-
-[Use improved search method in contact list]
-
-[Metacontacts stuff]
-
-[Use 'Meta' protocol icons for metacontacts]
-
-[Expand metacontacts]
-
-[Avoid double click expand]
-
-[Hide all extra icons for subcontacts]
-
-[Subcontacts indent:]
-
-[Show time only if it is different from current time]
-
-[Show contact time as row item]
-
-[Appearance]
-
-[Pin to desktop]
-
-[Client area margins]
-
-[Thin border main window]
-
-[Borderless main window]
-
 [Show menu bar]
 Zobraziť menu
 [Show title bar]
@@ -388,186 +139,12 @@ Text nadpisu:
 Okno v štýle palety nástrojov
 [Minimize to tray]
 Minimalizovať do oznamovacej oblasti
-[Translucency options]
-
-[Enable drop shadow (restart required)]
-
-[Frames]
-
-[Gaps between frames:]
-
-[Gaps after captions:]
-
-[Use non-layered mode]
-
-[Round corners]
-
-[Non-layered mode]
-
-[Disable skin engine]
-
-[Enable Aero Glass (Vista+)]
-
-[Order of items:]
-
-[Minimum row height:]
-
-[Row border:]
-
-[Variable row height]
-
-[Align left items to left]
-
-[Align right items to right]
-
-[Up]
-
-[Down]
-
 [Left margin:]
 јavý okraj
-[Right margin:]
-
-[Compact mode (show avatars and additional text on selected contacts only)]
-
-[Draw border on avatar]
-
-[Draw overlay icons]
-
-[Max size (pixels):]
-
-[Round corners of avatars]
-
-[Ignore size for row height calcs]
-
-[Border color:]
-
-[Custom corner size:]
-
-[Normal overlay icon]
-
-[Protocol status icon]
-
-[Contact icon]
-
-[height]
-
-[width]
-
-[Use old render method (fast, but has artifacts)]
-
-[Hide icon when showing avatar]
-
-[Draw icon in avatar space]
-
-[Hide groups icon]
-
-[Always show "Always visible" icon]
-
-[Use extra status icon instead protocol]
-
-[Draw normal status as overlay]
-
-[Right-to-left reading mode (mirror template)]
-
-[Replace smileys in contact list]
-
-[Use protocol smileys]
-
-[Draw smileys on first line]
-
-[Resize smileys and 'Listening to' icon]
-
-[Align to right]
-
-[Append nick if different from custom name]
-
-[Trim long text with ellipsis]
-
-[Show second line]
-
-[Top space:]
-
-[Draw smileys on second line]
-
-[Text:]
-
 [Status]
 Stav
 [Nickname]
 Prezívka
-[Status message]
-
-[Listening to]
-
-[Contact time]
-
-[Show status if there is no status message]
-
-[Show listening to if there is no status message]
-
-[xStatus has priority]
-
-[Use 'xStatus: xMessage']
-
-[(Variables will be replaced)]
-
-[Show third line]
-
-[Draw smileys on third line]
-
-[Preview]
-
-[Top/Left]
-
-[Bottom/Right]
-
-[Position (vertical)]
-
-[Align]
-
-[Options]
-
-[Visible]
-
-[Show title]
-
-[Locked]
-
-[Border]
-
-[Floating]
-
-[Frames order]
-
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-
-[Row template]
-
-[Add container]
-
-[Remove container]
-
-[Vertical align:]
-
-[Horizontal align:]
-
-[Container type:]
-
-[Container width:]
-
-[Container height:]
-
-[Layered]
-
-[Move up]
-
-[Move down]
-
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-
-[&Main menu]
-
 [E&xit]
 Koniec
 [&Status]
@@ -592,12 +169,8 @@ Neviditelný
 Telefonujem
 [Out to &lunch\tCtrl+9]
 Na obede
-[Tray]
-
 [&Hide/Show]
 Skryť/Zobraziť
-[Nowhere]
-
 [&New group]
 Nová skupina
 [&Hide offline users]
@@ -608,128 +181,30 @@ Skryť nepripojených užívatelov nepatriacich do žiadnej skupiny
 Skryť prázdne skupiny
 [Disable &groups]
 Skryť názvy skupín
-[Hide Miranda]
-
 [&New subgroup]
 Nová podskupina
 [&Hide offline users in here]
 Skryť nepripojených užívatelov v tejto skupine
-[&Show offline users in here]
-
 [&Rename group]
 Premenovať skupinu
 [&Delete group]
 Zmazať skupinu
-;file \plugins\Clist_modern\src\modern_clc.cpp
-[Skins]
-
-[Modern contact list]
-
-[Avatar overlay]
-
-[Status overlay]
-
-[Contact list smileys]
-
 [List background]
 Pozadie zoznamu
-[Menu background]
-
-[Status bar background]
-
-[Frames title bar background]
-
-[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
-
-[Converting to metacontact]
-
-[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
-
-[Converting to metacontact (moving)]
-
-[Do you want contact '%s' to be added to metacontact '%s'?]
-
-[Adding contact to metacontact]
-
-[Do you want contact '%s' to be default?]
-
-[Set default contact]
-
-[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
-
-[Changing metacontacts (moving)]
-
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Mená kontaktov
-[Row items]
-
-[Frame texts]
-
-[Special colors]
-
 [Standard contacts]
 Štandardné kontakty
-[Away contacts]
-
-[DND contacts]
-
-[NA contacts]
-
-[Occupied contacts]
-
-[Free for chat contacts]
-
-[Invisible contacts]
-
-[On the phone contacts]
-
-[Out to lunch contacts]
-
 [Offline contacts]
 Odpojený užívatelia
 [Online contacts to whom you have a different visibility]
 Pripojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
 [Offline contacts to whom you have a different visibility]
 Odpojený užívatelia ku ktorým máte nastavenú odlišnú viditelnosť
-[Contacts who are 'not on list']
-
-[Open groups]
-
-[Open group member counts]
-
-[Closed groups]
-
-[Closed group member counts]
-
 [Dividers]
 Oddelovače
-[Second line]
-
-[Third line]
-
-[Status bar text]
-
-[Event area text]
-
-[Current view mode text]
-
 [Background]
 Pozadie
-[Hot text]
-
-[Selected text]
-
-[Quick search text]
-
-[Menu text]
-
-[Selected menu text]
-
-[Frame title text]
-
-[3rd party frames transparent back color]
-
 [Not focused]
 Neoznačené
 [Offline]
@@ -754,304 +229,25 @@ Na obede
 Telefonuje
 [Name]
 Meno
-[Name (use locale settings)]
-
-[Last message time]
-
-[Account name]
-
-[Rate]
-
-[-Nothing-]
-
-[Hide to tray]
-
-[Behind left edge]
-
-[Behind right edge]
-
-[General]
-
 [List]
 Zoznam
 [Window]
 Okno
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No events]
-
-[Event area background]
-
-[Event area]
-
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
-[&Contact rate]
-
 [None]
 Žiadne
-[Low]
-
-[Medium]
-
-[High]
-
-[Contact rate: none]
-
-[Contact rate: low]
-
-[Contact rate: medium]
-
-[Contact rate: high]
-
-[Show even if offline]
-
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
-[Avatar]
-
-[Icon]
-
 [Text]
 Text
-[Extra icons]
-
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-
-[Left align group names]
-
-[Center group names]
-
-[Right align group names]
-
-[Row]
-
-[Row design]
-
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-
 [&Hide/show]
 Skryť/Zobraziť
 [&Find/add contacts...]
 Nájsť/Pridať kontakty...
 [&Options...]
 Nastavenia...
-[&About]
-
-;file \plugins\Clist_modern\src\modern_clui.cpp
-[Show avatar]
-
-[Hide avatar]
-
-[Show contact &avatar]
-
-[Hide contact &avatar]
-
-[My contacts]
-
-[My Contacts]
-
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
-
-[Main]
-
-[Restore last status]
-
-[Show/Hide offline users]
-
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-
-[column]
-
-[line]
-
-[columns]
-
-[lines]
-
-[%s, contain %s]
-
-[ layered]
-
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
-[You need an image services plugin to process PNG images.]
-
 [Error]
 Chyba
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[( unknown )]
-
-[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-
-[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-
-[reVista for Modern v0.5]
-
-[This is second default Modern Contact list skin in Vista Aero style]
-
-[Angeli-Ka (graphics), FYR (template)]
-
-[Inside library]
-
-[Skin information]
-
-[Preview is not available\n\n%s\n----------------------\n\n%s\n\nAUTHOR(S):\n%s\n\nCONTACT:\n%s\n\nHOMEPAGE:\n%s]
-
-[%s\n\n%s\n\nAUTHORS:\n%s\n\nCONTACT:\n%s\n\nWEB:\n%s\n\n\n]
-
-[graphics by Angeli-Ka\ntemplate by FYR]
-
-[Select skin from list]
-
-[Please select skin to apply]
-
-[Default Skin]
-
-[%Default Skin%]
-
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
-[<<Global>>]
-
-[Left]
-
-[Center]
-
-[Right]
-
-[Top]
-
-[Bottom]
-
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[Main menu]
-
 [Status menu]
 Menu stavov
-[Accounts]
-
-[Accounts...]
-
-[Show/Hide offline contacts]
-
-[Hide offline contacts]
-
-[Show offline contacts]
-
-[Find user]
-
-[Use/Disable groups]
-
-[Use groups]
-
-[Enable/Disable sounds]
-
-[Enable sounds]
-
-[Disable sounds]
-
-[Minimize]
-
-[To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
-
-[Toolbar background]
-
-[Toolbar upgrade]
-
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
-[Ungrouped contacts]
-
-[And]
-
-[Or]
-
-[Older than]
-
-[Newer than]
-
-[Minutes]
-
-[Hours]
-
-[Days]
-
-[Configuring view mode: %s]
-
-[All contacts]
-
-[Filtering]
-
-[*** All contacts ***]
-
-[Configure view modes]
-
-[Really delete this view mode? This cannot be undone]
-
-[Delete a view mode]
-
-[A view mode with this name does already exist]
-
-[Duplicate name]
-
-[Setup view modes...]
-
-[Select a view mode]
-
-[Setup view modes]
-
-[Clear view mode and return to default display]
-
-[Reset view mode]
-
-[View mode background]
-
-[View modes]
-
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-
-[&Show title]
-
-[&Locked]
-
-[&Expanded]
-
-[&Floating mode]
-
-[&Border]
-
-[&Align]
-
-[&Top]
-
-[&Client]
-
-[&Bottom]
-
-[&Position]
-
-[&Up]
-
-[&Down]
-
-[Show all frames]
-
-[Show all title bars]
-
-[Hide all title bars]
-
-[Lock frame]
-
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
 Nová skupina
-[Group menu]
-
-[Subgroup menu]
-

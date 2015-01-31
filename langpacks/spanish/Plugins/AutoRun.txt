@@ -7,14 +7,11 @@
 ;============================================================
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
 Este plugin es una forma sencilla de activar/desactivar el lanzamiento de Miranda NG con el inicio del sistema.
-;file \plugins\AutoRun\res\autorun.rc
 [Autorun]
 Ejecución automática
 [Launch Miranda NG at system startup]
 Lanzar Miranda NG al iniciar el sistema
 [Note: At startup Miranda NG will use current profile]
 Nota: En el inicio Miranda NG usará el perfil actual
-;file \plugins\AutoRun\src\main.cpp
 [Services]
 Servicios
-;file \plugins\AutoRun\src\stdafx.h

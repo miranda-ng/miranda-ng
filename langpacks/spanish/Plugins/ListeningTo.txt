@@ -5,158 +5,19 @@
 ;  Version: 0.3.0.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-[Handles listening information to/for contacts.]
-
-;file \plugins\ListeningTo\res\resource.rc
-[Listening to information]
-
-[Enable sending listening information to contacts:]
-
-[Music]
-
-[Radio]
-
 [Video]
 Vídeo
-[Others]
-
-[You also have to enable it per protocol in the main menu]
-
-[xStatus]
-
-[For protocols that don't support listening to but support xStatus:]
-
-[Set xStatus to Music and show listening info]
-
-[If other xStatus is not set, set xStatus to Music and show listening info]
-
-[If xStatus is Music, show listening info]
-
 [Do nothing]
 No hacer nada
 [Contacts]
 Contactos
-[Apply template for info from contacts (overrides contacts template)]
-
-[Get info from WATrack plugin]
-
-[Get info from these players:]
-
-[Winamp (*)]
-
-[Windows Media Player]
-
-[iTunes]
-
-[foobar2000 (need to install the plugin manually)]
-
-[Other players]
-
-[Ask for new info every]
-
 [seconds]
 segundos
-[Allow auto-loading plugins into players (affect players with *)]
-
-[mRadio]
-
-[Listening to]
-
-[Template:]
-
-[Variables:]
-
-[%artist% - Artist name]
-
-[%album% - Album name]
-
-[%title% - Song title]
-
-[%track% - Track number]
-
-[%year% - Song year]
-
-[%genre% - Song genre]
-
-[%length% - Song length]
-
-[%player% - Player name]
-
-[%type% - Media type (Music, Radio, Video, etc.)]
-
-[When variable not found, use:]
-
 [Title:]
 Título:
-[Message:]
-
-[Other Variables:]
-
-[%listening% - Listening to info (as set above)]
-
-[When nothing is playing, replace %listening% with:]
-
-;file \plugins\ListeningTo\src\listeningto.cpp
-[Listening to (enabled)]
-
-[Listening to (disabled)]
-
-[ListeningTo]
-
-[Listening to music]
-
-[Send to %s]
-
-[Send to all protocols]
-
-[Listening info]
-
-[Listening info as set in the options]
-
-[Media type: Music, Video, etc.]
-
-[Artist name]
-
-[Album name]
-
-[Song name]
-
-[Track number]
-
-[Song year]
-
-[Song genre]
-
-[Song length]
-
-[Player name]
-
-[Don't send to any protocols]
-
-[Toggle send to all protocols]
-
-[Enable/Disable sending Listening To info (to all protocols)]
-
-[Disable ListeningTo (to all protocols)]
-
-[Enable ListeningTo (to all protocols)]
-
-;file \plugins\ListeningTo\src\options.cpp
 [<Unknown>]
 <Desconocido>
-[<Nothing is playing now>]
-
 [Status]
 Estado
 [General]
 General
-[Format]
-
-[Players]
-
-;file \plugins\ListeningTo\src\players\generic.cpp
-[Miranda ListeningTo receiver]
-
-;file \plugins\ListeningTo\src\players\wmp.cpp
-[Miranda ListeningTo WMP receiver]
-

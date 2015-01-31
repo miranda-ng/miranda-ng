@@ -7,72 +7,11 @@
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
 Umožnuje schovať Mirandu NG jedným tlačidlom.
-;file \plugins\BossKeyPlus\res\BossKey.rc
-[BossKey]
-
-[Go to Customize -> Hotkeys to change the hotkey]
-
-[When I press the hotkey:]
-
-[Change status to]
-
-[Change only if current status is Online]
-
-[Use default status message]
-
-[Disable Sounds]
-
-[Show the Tray Icon]
-
-[When I return:]
-
-[Request password:]
-
-[Change status back]
-
-[Hotkey]
-
 [Password:]
 Heslo:
 [Cancel]
 Storno
-[Workstation is locked]
-
-[Screen Saver is running]
-
-[Windows is inactive]
-
-[Hide Miranda when:]
-
-[Miranda is inactive]
-
-[min]
-
-[Miranda is started]
-
-[Others]
-
-[Create a main menu item]
-
-[Restore hiding on startup after failure]
-
-;file \plugins\BossKeyPlus\src\BossKey.cpp
-[Miranda NG is locked.\nEnter password to unlock it.]
-
-[Password is not correct!\nPlease, enter correct password.]
-
-[Hide Miranda NG]
-
-[Hide]
-
-[Hide/Show Miranda]
-
-[get the BossKey name]
-
-;file \plugins\BossKeyPlus\src\Options.cpp
 [Events]
 Udalosti
-[Main]
-
 [Advanced]
 Podrobne

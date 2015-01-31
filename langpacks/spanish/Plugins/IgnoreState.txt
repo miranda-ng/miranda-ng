@@ -7,14 +7,12 @@
 ;============================================================
 [Shows ignore state of contact in contact list.]
 Muestra ignorar estado de contacto en la lista de contactos.
-;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
 Configuración de plugin
 [Filtered events:]
 Eventos filtrados
 [Use Miranda ignore settings for All Contacts]
 Usar la configuración de Miranda de ignorar para Todos los contactos
-;file \plugins\IgnoreState\src\main.cpp
 [All]
 Todo
 [Messages]
@@ -39,6 +37,5 @@ Ignorar parcial
 Ignorar mensaje
 [Ignore State]
 Ignorar estado
-;file \plugins\IgnoreState\src\options.cpp
 [Icons]
 Iconos

@@ -7,7 +7,6 @@
 ;============================================================
 [Allows inline skin item editing for clist nicer.]
 Permite la edición de piel en línea para clist nicer.
-;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 Ítems de piel
 [General]
@@ -58,7 +57,6 @@ Borde 3D (brillante / oscuro)
 Diálogo
 [Not yet supported]
 Aun no es soportado
-;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 Copiar de
 [<None>]

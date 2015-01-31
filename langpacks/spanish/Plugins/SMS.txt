@@ -5,124 +5,23 @@
 ;  Version: 0.2.5.3
 ;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
 ;============================================================
-[Send SMS text messages to mobile phones through the IM networks.]
-
-;file \plugins\SMS\res\resource.rc
-[Received SMS]
-
-[&Reply]
-
 [&Close]
 &Cerrar
-[Read Next]
-
 [From:]
 De:
-[Message received:]
-
-[Number:]
-
-[Send SMS]
-
 [To:]
 A:
-[Add number to list]
-
-[Save number]
-
-[Multiple >>]
-
-[Enter message:]
-
-[Chars:]
-
 [&Send]
 &Enviar
-[SMS Message Didn't Send]
-
-[&Try again]
-
 [&Cancel]
 &Cancelar
-[The SMS message send timed out]
-
-[SMS Plugin]
-
-[Beginning]
-
-[End]
-
-[Put signature at the:]
-
-[Use Signature]
-
-[Show server notifications]
-
-[Auto popup on new message]
-
-[Save window position per contact]
-
-[SMS Message Sent]
-
-[Message ID:]
-
-[Source:]
-
-[Network:]
-
-;file \plugins\SMS\src\options.cpp
-[From %s:\r\n\r\n]
-
 [Events]
 Eventos
-;file \plugins\SMS\src\receive.cpp
-[SMS message didn't send by %S to %s because: %S]
-
-[SMS Message from %s]
-
-[SMS Confirmation from %s]
-
-;file \plugins\SMS\src\recvdlg.cpp
-[Received SMS Confirmation]
-
-;file \plugins\SMS\src\senddlg.cpp
 [View User's History]
 Ver historial del usuario
-[Add Number To The Multiple List]
-
-[Save Number To The User's Details Phonebook]
-
-[Show/Hide Multiple List]
-
-[Shows How Much Chars You've Typed]
-
-[The SMS message send to %s timed out.]
-
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 El número de teléfono debe comenzar con + y se componen sólo de números, espacios, paréntesis y guiones.
 [Invalid Phone Number]
 Número de teléfono no válido
-[Message is too long, press OK to continue.]
-
-[Error - Message too long]
-
-[There must be numbers in the list first.]
-
-[No Numbers]
-
-[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-
 [Invalid phone number]
 Número de teléfono no válido
-[<< Single]
-
-;file \plugins\SMS\src\SMSConstans.h
-[Send &SMS...]
-
-[&SMS Message]
-
-;file \plugins\SMS\src\SMS_svc.cpp
-[Incoming SMS Message]
-
-[Incoming SMS Confirmation]
-

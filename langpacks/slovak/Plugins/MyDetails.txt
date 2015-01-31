@@ -7,153 +7,19 @@
 ;============================================================
 [Shows and allows you to edit your details for all protocols.]
 Zobrazuje a povoľuje upravovanie detailov Vášho profilu pre všetky protokoly.
-;file \plugins\MyDetails\res\resource.rc
-[Set my nickname]
-
 [Nickname:]
 Prezívka:
 [Cancel]
 Storno
-[General]
-
-[RTL]
-
-[Align text to right]
-
-[Auto-resize frame]
-
-[Use contact list smileys]
-
-[Replace smileys]
-
-[Resize smileys]
-
-[Global on...]
-
-[...avatar]
-
-[...nickname]
-
-[...status]
-
-[...status message]
-
-[Account]
-
-[Show account name]
-
-[Show account cycle button]
-
-[Cycle through accounts every:]
-
 [seconds]
 sekúnd
-[Avatar]
-
-[Custom size:]
-
 [pixels]
 pixelov
-[Allow it to grow]
-
-[Draw border]
-
-[Round corners]
-
-[Custom corner size:]
-
-[Use free space (under avatar) to other texts]
-
-[Frame options]
-
-[Top:]
-
-[Bottom:]
-
-[Left:]
-
-[Right:]
-
-[Set my status message for all status]
-
-[Status message:]
-
-[&Offline]
-
-[On&line]
-
-[&Away]
-
-[&NA]
-
-[Occ&upied]
-
-[&DND]
-
-[&Free for chat]
-
-[&Invisible]
-
-[On the &phone]
-
-[Out to &lunch]
-
-[Set my avatar...]
-
-[Set my nickname...]
-
-[Set my status message...]
-
-[Enable listening to]
-
-[Show next account]
-
-[Show previous account]
-
-[Cycle through accounts]
-
-[Don't cycle through accounts]
-
-;file \plugins\MyDetails\src\data.cpp
-[<no status name>]
-
-;file \plugins\MyDetails\src\frame.cpp
 [Nickname]
 Prezívka
 [Status]
 Stav
-[Status message]
-
-[Listening to]
-
-[My details]
-
 [Background]
 Pozadie
-[Avatar border]
-
-[Show my details]
-
-[Enable listening to for %s]
-
-[Set my avatar for %s...]
-
-[Set my nickname for %s...]
-
-[Set my status message for %s...]
-
-[Hide my details]
-
-;file \plugins\MyDetails\src\mydetails.cpp
-[Previous account]
-
-[Next account]
-
 [Contact list]
 Zoznam kontaktov
-;file \plugins\MyDetails\src\options.cpp
-;file \plugins\MyDetails\src\services.cpp
-[Set my nickname for %s]
-
-[Set my status message for %s]
-

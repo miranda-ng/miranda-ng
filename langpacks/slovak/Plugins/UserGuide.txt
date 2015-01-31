@@ -7,6 +7,3 @@
 ;============================================================
 [This plugin adds the main menu item used to view Miranda NG pack user guide.]
 Pridáva položku do hlavného menu používanú pre zobrazenie užívateľského manuálu pre balíky Mirandy NG.
-;file \plugins\UserGuide\src\main.cpp
-[User Guide]
-

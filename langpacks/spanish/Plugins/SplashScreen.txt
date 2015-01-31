@@ -7,7 +7,6 @@
 ;============================================================
 [Shows a splash at Miranda startup.]
 Muestra una imagen al iniciar Miranda.
-;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 Opciones de imagen
 [Show splash]
@@ -38,12 +37,10 @@ Desaparecer
 Biblioteca Advaimg no encontrada. Por favor obtengalo desde nigtlies para poder usar imágenes.
 [Preview...]
 Vista previa...
-;file \plugins\SplashScreen\src\main.cpp
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 Su advaimg.dll es obsoleta o dañada. Obtenga reciente a partir de construcciones alfa de Miranda.
 [Error]
 Error
-;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Archivos gráficos
 [Sound Files]

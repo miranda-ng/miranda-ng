@@ -5,147 +5,35 @@
 ;  Version: 0.1.1.8
 ;  Authors: Ghost, Mironych
 ;============================================================
-[Adding traffic and time counters.]
-
-;file \plugins\TrafficCounter\res\resource.rc
-[Selected totals]
-
 [Accounts]
 Cuentas
-[Units]
-
-[Clear statistics]
-
 [Notification]
 Notificación
-[Notify me on every]
-
-[kilobytes]
-
-[minutes]
-
 [Background color:]
 Color del fondo:
-[Text color:]
-
 [Reset to default]
 Restaurar por defecto
-[Popup timeout]
-
 [From Popup plugin]
 Desde Popup plugin
 [Custom]
 Personalizado
 [Test]
 Prueba
-[Show now]
-
-[Space between lines:]
-
-[Counters format string:]
-
-[Tooltip format string:]
-
-[Display traffic for current]
-
-;file \plugins\TrafficCounter\src\options.cpp
-[Display]
-
-[Icon]
-
-[Account name]
-
-[Current traffic]
-
-[Total traffic]
-
-[Current online]
-
-[Total online]
-
 [General]
 General
-[Draw frame as skin element]
-
-[Show tooltip in traffic window]
-
-["Toggle traffic counter" in main menu]
-
-[Visible accounts]
-
-[Summary traffic for visible accounts]
-
-[Overall traffic]
-
-[Hide now]
-
-[Day]
-
-[Week]
-
-[Month]
-
-[Year]
-
 [Services]
 Servicios
 [Options]
 Opciones
-[Traffic counter]
-
-[Statistics]
-
 [Popups]
 Ventanas emergentes
-;file \plugins\TrafficCounter\src\statistics.cpp
 [Bytes]
 Bytes
-[KB]
-
-[MB]
-
-[Adaptive]
-
-[Hourly]
-
-[Daily]
-
-[Weekly]
-
-[Monthly]
-
-[Yearly]
-
-[Period]
-
 [Incoming]
 Entrante
 [Outgoing]
 Saliendo
-[Sum]
-
 [Online]
 En línea
-[Now traffic statistics for selected accounts will be cleared.\nContinue?]
-
-[Couldn't read statistics file]
-
-[Traffic Counter]
-
-;file \plugins\TrafficCounter\src\TrafficCounter.cpp
 [Font]
 Fuente
-[Show/Hide frame]
-
-[Hide traffic window]
-
-[Clear the current (Now:) value]
-
-[Toggle traffic counter]
-
-[Traffic counter notification]
-
-[%d kilobytes sent]
-
-[%d kilobytes received]
-

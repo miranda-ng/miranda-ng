@@ -7,41 +7,13 @@
 ;============================================================
 [Provides extended options for sound notifications.]
 Poskytuje rozšírené možnosti zvukových oznámení.
-;file \plugins\XSoundNotify\res\XSoundNotify.rc
-[Account:]
-
 [Nick:]
 Prezívka:
-[Sound:]
-
-[Not set]
-
-[Choose]
-
-[Test play]
-
 [Reset]
 Reset
-[Ignore sound for this contact]
-
 [Cancel]
 Storno
-;file \plugins\XSoundNotify\src\dialog.cpp
-[Custom sound for %s (%s)]
-
-[Sound files]
-
-[WAV files]
-
-;file \plugins\XSoundNotify\src\options.cpp
 [(Unknown contact)]
 (neznámý kontakt)
 [Sounds]
 Zvuky
-[XSound Notify]
-
-;file \plugins\XSoundNotify\src\xsn_main.cpp
-[Self status]
-
-[Custom contact sound]
-

@@ -7,7 +7,6 @@
 ;============================================================
 [Service offering misc country utilities as flag icons and an IP-to-Country database.]
 Ofrece diversos servicios como iconos de bandera y Base de datos de IP a País.
-;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
 Banderas de país
 [Show country flag as &status icon on message window]
@@ -18,9 +17,7 @@ Mostrar bandera del país como una imagen &adicional en la lista de contactos
 Usar la base de datos de &IP a país para la detección de país
 [Use &unknown flag if the country cannot be determined]
 Usar bandera desconocida, si el país no se puede determinar
-;file \plugins\CountryFlags\src\extraimg.cpp
 [Country flag]
 Bandera de País
-;file \plugins\CountryFlags\src\options.cpp
 [Icons]
 Iconos

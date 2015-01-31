@@ -7,150 +7,25 @@
 ;============================================================
 [Generates a list of extracted URIs from the history.]
 Vytvorí zoznam URL vytiahnutých z histórie.
-;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Search]
 Hľadať
 [Close]
 Zavrieť
-[Search for:]
-
-[Message direction]
-
-[Message types]
-
-[All directions]
-
-[Incoming only]
-
-[Outgoing only]
-
-[All types]
-
-[Mail addresses only]
-
-[Web addresses only]
-
-[Deep search]
-
-[Static]
-
-[Color select]
-
-[Incoming messages]
-
-[Plugin default]
-
-[Preview]
-
-[Outgoing messages]
-
 [Background color]
 Farba pozadia
-[Use Miranda settings]
-
 [Text color]
 Fraba textu
-[General settings]
-
-[Open links always in a new window]
-
-[Update list on new events]
-
-[Show whole message on 'mouse over' event]
-
-[Save window position individually for each contact]
-
-[Show...]
-
 [Date]
 Dátum
-[Parting line]
-
-[Timestamp]
-
-[Direction]
-
 [Type]
 typ
 [&File]
 &Súbor
-[&Save]
-
 [&Close]
 Zavrieť
-[&Options]
-
-[Message &direction]
-
-[&Outgoing messages only]
-
-[&Incoming messages only]
-
-[Message &type]
-
-[&Web addresses only]
-
-[&Mail addresses only]
-
-[&Clear search results]
-
 [&Search]
 Hľadať
-[link]
-
-[Open]
-
-[Open in new window]
-
-[Copy to clipboard]
-
-[Show message]
-
-;file \plugins\HistoryLinkListPlus\src\language.h
-[History Linklist]
-
-[History is empty!]
-
-[There are no links in history!]
-
 [Error]
 Chyba
-[incoming]
-
-[outgoing]
-
-[Filter]
-
-[no filter]
-
-[Search filter]
-
-[no settings]
-
-;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[&Create Linklist]
-
-[History]
-
-[Processing history...]
-
-[Could not create window!]
-
-[Could not allocate memory!]
-
-;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
-[Linklist plugin]
-
-;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
-[Matches for searchtext]
-
-[Processing list...]
-
-[No messages found!\nPlease change current filter options.]
-
-[RTF file]
-
 [All files]
 Všetky súbory
-[Save RTF File]
-

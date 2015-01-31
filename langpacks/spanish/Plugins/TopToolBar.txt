@@ -7,7 +7,6 @@
 ;============================================================
 [ToptoolBar adds buttons in top frame for fast access.]
 ToptoolBar agrega botones en la parte superior del marco para acceso rápido.
-;file \plugins\TopToolBar\res\main.rc
 [Buttons order and visibility]
 Botones orden y visibilidad
 [Button height]
@@ -36,55 +35,18 @@ Nombre:
 Ruta:
 [Set]
 Establecer
-;file \plugins\TopToolBar\src\InternalButtons.cpp
-[Show main menu]
-
-[Show options page]
-
-[Show accounts manager]
-
 [Find/add contacts]
 Buscar/agregar contactos
-[Show status menu]
-
-[Show/hide offline contacts]
-
-[Hide offline contacts]
-
-[Show offline contacts]
-
-[Enable/disable metacontacts]
-
-[Disable metacontacts]
-
-[Enable metacontacts]
-
-[Enable/disable groups]
-
-[Enable groups]
-
 [Disable groups]
 Desactivar grupos
-[Enable/disable sounds]
-
-[Disable sounds]
-
-[Enable sounds]
-
-[Minimize contact list]
-
 [Exit]
 Salir
-;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 Por defecto
-[TopToolBar background]
-
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- Nicer+\nYou can get them at http://wiki.miranda-ng.org/Download]
 No se ha encontrado el servicio Marcos, por lo que el plugin se desactivará.\nPara ejecutarlo es necesario instalar y/o activar el plugin de lista de contactos que lo soporte:\n- Lista de contactos Moderna\n- Nicer+\nUsted puede obtenerlo en http://wiki.miranda-ng.org/Download
 [TopToolBar]
 Barra de herramientas superior
-;file \plugins\TopToolBar\src\ttbopt.cpp
 [Contact list]
 Lista de contactos
 [Toolbar]

@@ -5,51 +5,14 @@
 ;  Version: 0.0.1.6
 ;  Authors: Yasnovidyashii
 ;============================================================
-[Plugin for changing keyboard layout of text (multilayout).]
-
-;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 Teclas de acceso rápido
-[Changing layout:]
-
-["Current word" mode]
-
-[Changing layout (alternative):]
-
-[Inverting lettercase:]
-
 [Options]
 Opciones
-[Two-way changing layout (experimental)]
-
-[Log operations]
-
-[Copy result to clipboard]
-
-[Show result in Popup]
-
-[Strings for keyboard layouts]
-
 [Default]
 Por defecto
-[Invert current state]
-
-[Switch off]
-
-[Leave as it is]
-
-[Set Caps Lock state when inverting lettercase:]
-
-[Change active keyboard layout in system]
-
 [Colors]
 Colores
-[Popup colors]
-
-[Windows colors]
-
-[Custom colors]
-
 [Back]
 Atras
 [Text]
@@ -66,24 +29,13 @@ Personalizado
 En clic izquierdo
 [Copy to clipboard]
 Copiar al portapapeles
-[Dismiss]
-
 [On right click]
 En clic derecho
 [Preview]
 Previsualizar
-;file \plugins\ChangeKeyboardLayout\src\commonheaders.h
-[ChangeKeyboardLayout]
-
-;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
-[Changing Layout]
-
-[Changing Case]
-
 [Message Sessions]
 Sesiones de mensaje
 [Popups]
 Ventanas emergentes
-;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [Popup]
 Ventana emergente

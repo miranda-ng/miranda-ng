@@ -7,10 +7,8 @@
 ;============================================================
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
 Permite cambiar de un diseño, transliterar o invertir el caso del texto escrito en la ventana de mensajes con soporte SmileyAdd.
-;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
 [TranslitSwitcher]
 TranslitSwitcher
-;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Switch Layout and Send]
 Cambiar diseño y Enviar
 [Translit and Send]

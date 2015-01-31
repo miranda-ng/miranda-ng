@@ -7,26 +7,3 @@
 ;============================================================
 [Plugin for quick insert (or sending) pre-defined messages in message input area.]
 Doplnok pre rýchle vloženie (alebo aj poslanie) preddefinovaných správ do okna správ.
-;file \plugins\QuickReplies\res\resources.rc
-[Quick Replies]
-
-[Send replies immediately]
-
-[- Add your replies, one per line.]
-
-[Variables]
-
-[Hints:]
-
-[- Add "---" for separator.]
-
-[- Press [v] button for variable's help.]
-
-;file \plugins\QuickReplies\src\events.cpp
-[Button]
-
-[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-
-;file \plugins\QuickReplies\src\options.cpp
-[Message Sessions]
-

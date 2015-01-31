@@ -5,121 +5,26 @@
 ;  Version: 0.95.3.4
 ;  Authors: Nightwish, Pescuma
 ;============================================================
-[Loads and manages contact pictures for other plugins.]
-
-;file \plugins\AVS\res\avs.rc
-[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
-
-[Set default picture]
-
-[Delete default picture]
-
-[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar go to Main menu | View/change my details | Avatars.]
-
-[Try to draw avatar background transparent (for images without transparency)]
-
-[Number of points to define background:]
-
-[Color difference allowed:]
-
-[Make transparency proportional to color diff]
-
-[Draw avatars grayscale]
-
-[Show warning messages]
-
-[When setting avatars, always make them square]
-
-[Try to draw own avatar background transparent (for images without transparency)]
-
-[This uses the same additional options as in "Contact avatars" tab]
-
-[Protect the picture and prevent automatic avatars from overwriting it]
-
-[Make the avatar square]
-
-[Resize the avatar to fit max allowed protocol size]
-
 [Dialog]
 Diálogo
-[Contact picture]
-
-[Change]
-
 [Delete]
 Eliminar
 [Reset]
 Reiniciar
-[Picture options]
-
-[Protect the picture]
-
-[Set as hidden]
-
-[Try to make picture background transparent]
-
-[Use defaults]
-
 [Cancel]
 Cancelar
 [Options]
 Opciones
 [Background]
 Fondo
-[Transparent]
-
-[Points:]
-
-[Color diff:]
-
 [Set]
 Establecer
-[Use per protocol avatars]
-
-;file \plugins\AVS\src\acc.cpp
-[Protocols have different avatars]
-
-;file \plugins\AVS\src\main.cpp
-[Global avatar]
-
-[Global avatar for %s accounts]
-
 [Avatars]
 Avatares
-[My Avatars]
-
-[My Global Avatar Cache]
-
-[Fatal error, image services not found. Avatar services will be disabled.]
-
-[Avatar Service]
-
-;file \plugins\AVS\src\options.cpp
-[Set avatar options for %s]
-
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-
-[Reset contact picture]
-
-[Contact has no avatar]
-
 [Contacts]
 Contactos
 [Protocols]
 Protocolos
-[Contact avatars]
-
-[Own avatars]
-
-[No avatar]
-
-[Are you sure you want to remove your avatar?]
-
-[Global Avatar]
-
-[Avatar]
-
-;file \plugins\AVS\src\services.cpp
 [All Files]
 Todos los archivos
 [Windows Bitmaps]
@@ -130,13 +35,3 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG Bitmaps]
 Mapas de bits PNG
-[Flash Animations]
-
-[XML Files]
-
-[Grow avatar to fit max allowed protocol size]
-
-[Set My Avatar]
-
-[Set My Avatar for %s]
-

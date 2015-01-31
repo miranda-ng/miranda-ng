@@ -5,161 +5,27 @@
 ;  Version: 0.1.0.2
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
-[RSS/Atom news aggregator.]
-
-;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 Añadir
-[Change]
-
 [Remove]
 Eliminar
-[Import]
-
-[Export]
-
-[Retrieve news at startup]
-
 [Cancel]
 Cancelar
-[General Settings]
-
-[Title]
-
 [URL]
 URL
-[Check every]
-
-[minutes]
-
-[Check Feed]
-
-[Authentication]
-
-[Use &authentication]
-
-[Login]
-
 [Password]
 Contraseña
-[Visualization]
-
-[Display news using the following format:]
-
-[All item's tags are valid. Put them between #. Example: #<author>#]
-
 [Reset]
 Reiniciar
-[0 - check manually]
-
-[Feed name]
-
-[This feed seems to need authentication. Please fill username and password fields:]
-
 [Username]
 Nombre de usuario
-[Available feeds:]
-
-[Feeds to be exported:]
-
-[&Export]
-
 [&Close]
 &Cerrar
-[Import from:]
-
-[Feeds to be imported:]
-
-[&Import]
-
-;file \plugins\NewsAggregator\Src\Authentication.cpp
-[Enter your username]
-
 [Error]
 Error
-[Enter your password]
-
-;file \plugins\NewsAggregator\Src\CheckFeed.cpp
-[%s\nis a valid feed's address.]
-
-[News Aggregator]
-
-[%s\nis not a valid feed's address.]
-
-[empty]
-
-;file \plugins\NewsAggregator\Src\ExportImport.cpp
-[Imported %d feed(s)\r\nNot imported %d duplicate(s).]
-
-[Imported %d feed(s).]
-
-[OPML files]
-
-[Not valid import file.]
-
-;file \plugins\NewsAggregator\Src\Icons.cpp
-[Protocol icon]
-
-[Check All Feeds]
-
-[Add Feed]
-
-[Import Feeds]
-
-[Export Feeds]
-
-[Auto Update Enabled]
-
-[Auto Update Disabled]
-
-;file \plugins\NewsAggregator\Src\Menus.cpp
-[Check feed]
-
-[Change feed]
-
-;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
-;file \plugins\NewsAggregator\Src\Options.cpp
-[Enter Feed name]
-
-[Enter Feed URL]
-
-[Enter message format]
-
-[The title of the item.]
-
-[The item synopsis.]
-
-[The URL of the item.]
-
-[Email address of the author of the item.]
-
-[URL of a page for comments relating to the item.]
-
-[A string that uniquely identifies the item.]
-
-[Specify one or more categories that the item belongs to.]
-
-[Feed Tag Help]
-
-[Are you sure?]
-
-[Tags Mask Reset]
-
-[Wait...]
-
-[Change Feed]
-
 [Contact deleting]
 Eliminando contacto
 [Network]
 Red
-;file \plugins\NewsAggregator\Src\Services.cpp
 [Avatars]
 Avatares
-[Enable/disable auto update]
-
-;file \plugins\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connection]
-
-[Feed]
-

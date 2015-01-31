@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin replaces message boxes (those having only OK button) with popups.]
 Plugin reemplaza cuadros de mensaje (aquellos que solo tiene el botón Aceptar) con popups
-;file \plugins\MsgPopup\res\MsgPopup.rc
 [ASTERISK style]
 estilo ASTERISCO
 [Background color]
@@ -28,7 +27,6 @@ Tiempo de espera
 Valores especiales del "Tiempo de espera":\n -1 - infinito, 0 - usar valor de tiempo de espera por defecto
 [Emit a sound]
 Emite un sonido
-;file \plugins\MsgPopup\src\main.cpp
 [VirtualProtect failed. Code %d\nTry to call the author]
 VirtualProtect a fallado. Código %d\nTrate de llamar al autor
 [Error]
@@ -39,7 +37,6 @@ Hmm. Algo va mal. No puedo escribir en la memoria.\nY como se puede ver, allí n
 Mensaje emergente
 [Popups]
 Ventanas emergentes
-;file \plugins\MsgPopup\src\options.cpp
 [Message with question]
 Mensaje con pregunta
 [Message with exclamation]

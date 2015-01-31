@@ -5,11 +5,6 @@
 ;  Version: 0.1.2.6
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-
-;file \plugins\YAMN\res\YAMN.rc
-[Installed plugins]
-
 [Version:]
 Versión
 [Description:]
@@ -18,90 +13,32 @@ Detalles:
 Copyright:
 [Contact:]
 Contacto
-[WWW:]
-
 [Account]
 Cuenta
 [Name:]
 Nombre:
-[Server:]
-
 [Port:]
 Puerto:
-[SSL]
-
-[APOP]
-
-[User Name:]
-
 [Password:]
 Contraseña:
-[Codepage:]
-
 [Default]
 Por defecto
-[Disable STLS]
-
-[Status:]
-
 [Options]
 Opciones
-[Check this account]
-
-[Startup check]
-
-[Check interval [min]:]
-
-[Only check when...]
-
-[Auto retrieve body]
-
-[Check from menu]
-
-[Use contact notification for this account]
-
-[Replace nickname]
-
-[Disable Events]
-
 [Notifications]
 Notificaciones
-[New Mail]
-
-[Sound]
-
 [Message]
 Mensaje
-[Keyboard Flash]
-
-[Tray Icon]
-
-[Execute Application]
-
 [Errors]
 Errores
-[Sound notification if failed]
-
-[Message notification if failed]
-
-[Tray icon notification if failed]
-
-[Reset counter]
-
-[Check while...]
-
 [Cancel]
 Cancelar
-[Choose modes]
-
 [Offline]
 Fuera de línea
 [Online]
 En línea
 [Away]
 Fuera
-[N/A]
-
 [Occupied]
 Ocupado
 [DND]
@@ -114,213 +51,22 @@ Invisible
 En el teléfono
 [Out to lunch]
 Salí a comer
-[YAMN General Options]
-
-[TopToolBar button "Check mail"]
-
-[Enable YAMN Main Menu]
-
-[Show YAMN as a Protocol (Require Restart)]
-
-[MailBrowser Options]
-
-[Enable Close on Delete Button]
-
-[Show long localized date]
-
-[Don't show today's date]
-
-[Date/Time Representation]
-
-[Don't show seconds]
-
-[Mail Notifications]
-
 [Popup]
 Ventana emergente
-[Single popup]
-
-[Multi popup]
-
-[Use custom color]
-
-[No new mail notifications]
-
-[Popup if no mail]
-
-[Persistent message]
-
-[Connection failure notifications]
-
-[Popup notification if failed]
-
-[..s Popup duration]
-
 [Preview]
 Previsualizar
 [Background color]
 Color de fondo
 [Text color]
 Color de texto
-;file \plugins\YAMN\src\main.cpp
-[Check &mail (All Account)]
-
-[Check &mail (This Account)]
-
-[Launch application]
-
-[YAMN]
-
-[YAMN Account Folder]
-
-[Check mail]
-
-[Connect Fail]
-
-;file \plugins\YAMN\src\main.h
-[YAMN: new mail message]
-
-[YAMN: connect failed]
-
-;file \plugins\YAMN\src\services.cpp
 [Nick]
 Apodo
-[No new mail message]
-
-;file \plugins\YAMN\src\browser\badconnect.cpp
-[%s - connection error]
-
-[An error occurred. Error code: %d]
-
 [Unknown error]
 Error desconocido
-[ - connection error]
-
-;file \plugins\YAMN\src\browser\mailbrowser.cpp
-[%s - %d new mail messages, %d total]
-
-[- new mail message(s)]
-
-[%s : %d new mail message(s), %d total]
-
-[%d new mail message(s), %d total]
-
-[No new mail message, %d spam(s)]
-
-[Invalid]
-
-[Header]
-
-[Value]
-
-[Copy Selected]
-
-[Copy All]
-
-[Run application]
-
-[Delete selected]
-
 [Select All]
 Seleccionar todo
-[From]
-
-[Subject]
-
 [Size]
 Tamaño
-[Date]
-
-[Do you really want to delete %d selected mails?]
-
-[Delete confirmation]
-
-;file \plugins\YAMN\src\mails\mime.cpp
-[Translate header error]
-
-[Part]
-
-;file \plugins\YAMN\src\proto\netlib.cpp
-[%s connection]
-
-;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
-[Disconnected]
-
-[POP3 protocol (internal)]
-
-[Found new version of account book, not compatible with this version of YAMN.]
-
-[YAMN (internal POP3) read error]
-
-[Error reading account file. Account file corrupted.]
-
-[Memory allocation error while data reading]
-
-[Reading file error. File already in use?]
-
-[Error while copying data to disk occurred. Is file in use?]
-
-[POP3 plugin - write file error]
-
-[Connecting to server]
-
-[Entering POP3 account]
-
-[Searching for new mail message]
-
-[Reading body %s]
-
-[Reading new mail messages (%d%% done)]
-
-[Deleting requested mails]
-
-[Deleting spam]
-
-[Memory allocation error.]
-
-[Account is about to be stopped.]
-
-[Cannot connect to POP3 server.]
-
-[Cannot allocate memory for received data.]
-
-[Cannot login to POP3 server.]
-
-[Bad user or password.]
-
-[Server does not support APOP authorization.]
-
-[Error while executing POP3 command.]
-
-[Cannot connect to server with NetLib.]
-
-[Cannot send data.]
-
-[Cannot receive data.]
-
-[OpenSSL not loaded.]
-
-[Windows socket 2.0 init failed.]
-
-[DNS lookup error.]
-
-[Error while creating base socket.]
-
-[Error connecting to server with socket.]
-
-[Error while creating SSL structure.]
-
-[Error connecting socket with SSL.]
-
-[Server rejected connection with SSL.]
-
-[Cannot write SSL data.]
-
-[Cannot read SSL data.]
-
-[Error %d-%d-%d-%d:]
-
-;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 Red
 [Accounts]
@@ -331,43 +77,7 @@ General
 Plugins
 [Popups]
 Ventanas emergentes
-[No account selected]
-
-[Time left to next check [s]: %d]
-
 [New Account]
 Nueva cuenta
-[Executables]
-
 [All Files]
 Todos los archivos
-[Select executable used for notification]
-
-[Dialog box error]
-
-[Failed]
-
-[Do you really want to delete this account?]
-
-[Delete account confirmation]
-
-[Please wait while no account is in use.]
-
-[This is not a valid number value]
-
-[Input error]
-
-[Please select application to run]
-
-[Cannot allocate memory space for new account]
-
-[Memory error]
-
-[Account Test]
-
-[Account Test (failed)]
-
-[You have N new mail messages]
-
-[Connection failed message]
-

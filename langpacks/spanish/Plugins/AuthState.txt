@@ -7,7 +7,6 @@
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Si un contacto no autorizó que este plugin colocar un icono delante del nombre del contacto.
-;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
 Mostrar icono de autenticación
 [Show Grant icon]
@@ -18,7 +17,6 @@ Configuración de plugin
 Activar opción de menú (requiere un reinicio)
 [Show icons only for recently added contacts]
 Mostrar sólo iconos de los contactos agregados recientemente
-;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
 Deshabilitar iconos estado de autenticación
 [Enable AuthState icons]
@@ -31,6 +29,5 @@ Conceder
 Autenticación & Concesión
 [Auth State]
 Estado de autenticación
-;file \plugins\AuthState\src\options.cpp
 [Icons]
 Iconos

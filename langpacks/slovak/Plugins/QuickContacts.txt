@@ -7,54 +7,11 @@
 ;============================================================
 [Open contact-specific windows by hotkey.]
 Otváranie špecifických okien pre kontakty pomocou skratiek.
-;file \plugins\QuickContacts\res\resource.rc
-[Last Sent]
-
-[Enable last-sent-to]
-
-[recognize all messages sent]
-
-[recognize messages sent with hotkey only]
-
 [Contacts]
 Kontakty
-[Show offline contacts on these protocols:]
-
-[But hide them if protocol is offline]
-
-[Append group name to contact name]
-
-[But show it as a column...]
-
-[...on left side of name]
-
-[Hide subcontacts]
-
-[But keep subcontacts of protocols in above list if meta is hidden]
-
-[Enter username:]
-
-[Show all contacts (Ctrl+A)]
-
-;file \plugins\QuickContacts\src\options.cpp
-[Quick Contacts]
-
-;file \plugins\QuickContacts\src\quickcontacts.cpp
-[Open dialog]
-
-[Send file]
-
 [Send URL]
 Odoslať URL
-[Open user info]
-
 [Open history]
 Otvoriť históriu
-[Open contact menu]
-
-[Show all contacts]
-
-[Quick Contacts...]
-
 [Send message]
 Odoslať správu

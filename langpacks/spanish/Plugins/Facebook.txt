@@ -7,7 +7,6 @@
 ;============================================================
 [Facebook protocol support for Miranda NG.]
 Compatibilidad con el protocolo de Facebook para Miranda NG.
-;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 Correo:
 [Password:]
@@ -54,12 +53,8 @@ Usar avatares grandes
 Notificaciones de eventos
 [Notifications]
 Notificaciones
-[News feeds (WARNING: Causes excessive network traffic!)]
-
 [News feed types to notify:]
 Tipos de noticias a notificar:
-[Don't show advertising posts]
-
 [Other events]
 Otros eventos
 [Client notifications]
@@ -68,58 +63,16 @@ Notificaciones cliente
 Abrir enlaces con este servidor:
 [Use balloon notifications in system tray instead of popups]
 Globos de aviso en la  bandeja en vez de ventanas emergentes
-[Use logging notifications into special chatroom]
-
 [Preview]
 Previsualizar
-[Statuses]
-
 [Post Miranda statuses to Wall]
 Enviar estados de Miranda al Muro
-[Turn off chat on Facebook when going to offline in Miranda]
-
-[Map unsupported statuses to Invisible (instead of Online)]
-
 [Allow posting statuses to my pages (may slow down login)]
 Permitir publicar estados a mis páginas (puede ralentizar sesión)
-[Bots challenge test]
-
-[Instruction:]
-
-[Submit]
-
 [Messages]
 Mensajes
-[Receive messages from "inbox" folder only]
-
-[Keep messages as unread on server (don't send "seen" info)]
-
 [Show stickers as custom smileys (EXPERIMENTAL)]
 Activar soporte para emoticonos personalizados (EXPERIMENTAL)
-[Multi user chats]
-
-[Enable multi user chats support]
-
-[Do not open chat windows on creation]
-
-[History synchronization]
-
-[Load last messages (24 hours old) on login (EXPERIMENTAL)]
-
-[Load last messages on opening message window (EXPERIMENTAL)]
-
-[Number of messages to load:]
-
-;file \protocols\FacebookRM\src\captcha.cpp
-[Enter the text you see]
-
-;file \protocols\FacebookRM\src\chat.cpp
-[Myself]
-
-[User]
-
-[Friend]
-
 [&Invite user...]
 &Invitar usuario...
 [&Leave chat session]
@@ -128,7 +81,6 @@ Activar soporte para emoticonos personalizados (EXPERIMENTAL)
 &Detalles del usuario
 [User &history]
 &Historial del usuario
-;file \protocols\FacebookRM\src\communication.cpp
 [Login error: %s]
 Error de inicio de sesión: %s
 [Unknown error]
@@ -137,38 +89,24 @@ Error desconocido
 Error de inicio de sesión: Solicitud no válida.
 [Login error: Some Facebook things are required.]
 Error de inicio de sesión: Se necesitan algunas cosas de Facebook.
-[Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
-
-[Login error: Captcha code is required. You need to confirm this device from web browser.]
-
 [Login error, probably bad login credentials.]
 Error de inicio de sesión, las credenciales de inicio de sesión probablemente son malas.
 [Your account requires HTTPS connection. Activating.]
 Su cuenta requiere una conexión HTTPS. Activando.
-[Could not load communication token. You should report this and wait for plugin update.]
-
-[Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
-
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de Facebook y tratar de enviar un mensaje a este contacto de nuevo!
-[User cancel captcha challenge.]
-
 [Timeout when sending message.]
 Tiempo de espera al enviar el mensaje
 [Status update was successful.]
 Estado actualizado con un éxito.
-;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 Por favor, introduzca un nombre de usuario.
 [Please enter a password.]
 Por favor, introduzca una contraseña.
-;file \protocols\FacebookRM\src\constants.h
 [Top News]
 Noticias principales
 [Most Recent]
 Más reciente
-[Pages]
-
 [Classic website]
 Sitio web clásico
 [Mobile website]
@@ -185,9 +123,6 @@ Amigos
 Amigos menos conocidos
 [Only me]
 Sólo para mí
-;file \protocols\FacebookRM\src\contacts.cpp
-[%s and more (%d)]
-
 [Contact was removed from your server list.]
 El contacto fue eliminado de la lista de servidores.
 [Error occurred when removing contact from server.]
@@ -196,19 +131,10 @@ Se produjo un error al quitar el contacto del servidor.
 La solicitud de amistad se ha enviado.
 [Error occurred when requesting friendship.]
 Se produjo un error al solicitar la amistad.
-[Request for friendship was accepted.]
-
-[Error occurred when accepting friendship request.]
-
 [Request for friendship was canceled.]
 La solicitud de amistad fue cancelada.
 [Error occurred when canceling friendship request.]
 Se produjo un error al cancelar la solicitud de amistad.
-[Request for friendship was ignored.]
-
-[Error occurred when ignoring friendship request.]
-
-;file \protocols\FacebookRM\src\dialogs.cpp
 [Default]
 Por defecto
 [<< Contacts]
@@ -225,7 +151,6 @@ Ejemplo de solicitud
 Ejemplo de noticias
 [Sample notification]
 Notificación de ejemplo
-;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 una etiqueta
 [files]
@@ -238,29 +163,22 @@ fotos
 una foto
 [User sent %s:]
 El usuario le envió %s:
-[User sent an unsupported attachment. Open your browser to see it.]
-
 [Message read: %s by %s]
 Leer mensaje: %s por %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Este mensaje ya no está disponible, porque estaba marcado como abusivo o correo no deseado.
 [%s is typing a message...]
 %s está escribiendo un mensaje...
-;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
 No puede enviar mensajes cuando no esté conectado.
-;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 El contacto regresa a la lista del servidor.
 [Contact is no longer on server-list.]
 El contacto ya no está en la lista del servidor.
-;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 %s conexión al servidor
 [Unable to get Netlib connection for Facebook]
 No se puede obtener la conexión Netlib para Facebook
-[Video call]
-
 [Facebook ID must be numeric value.]
 Facebook ID debe ser un valor numérico.
 [Account]
@@ -285,8 +203,6 @@ Refrescando lista de amigos...
 Nuevas noticias
 [Visit profile]
 Visitar perfil
-[Visit notifications]
-
 [Show 'Share status' window]
 Mostrar ventana "Compartir estado'
 [Notification]
@@ -297,7 +213,6 @@ Nuevas noticias
 Otros eventos
 [Message read: %s]
 Leer mensaje: %s
-;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]
 Icono de Facebook
 [Mind]
@@ -308,16 +223,8 @@ Meter
 Fuentes noticias
 [Friendship details]
 Detalles de amistad
-[Conversation]
-
-[Message read]
-
-[Captcha form icon]
-
 [Visit friendship details]
 Visitar detalles de amistad
-[Visit conversation]
-
 [Cancel friendship]
 Cancelar amistad
 [Cancel friendship request]
@@ -326,8 +233,6 @@ Cancelar solicitud de amistad
 Solicitud de amistad
 [Approve friendship]
 Aprobar amistad
-[Deny friendship request]
-
 [Services...]
 Servicios...
 [Refresh Buddy List]

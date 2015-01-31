@@ -7,7 +7,6 @@
 ;============================================================
 [Change status when you send/receive an event.]
 Cambia estado cuando se envía/recibe un evento.
-;file \plugins\StatusChange\res\resource.rc
 [Offline]
 Fuera de línea
 [Online]
@@ -44,7 +43,6 @@ Transferencia de archivos
 ...cambiar estado a...
 [...if status is...]
 ...si el estado es...
-;file \plugins\StatusChange\src\main.cpp
 [Status Change]
 Cambio de estado
 [Status]

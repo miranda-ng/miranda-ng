@@ -5,274 +5,48 @@
 ;  Version: 1.4.2.0
 ;  Authors: Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-
-[Quick Search]
-
-[Quick search]
-
-[Title]
-
-[Module/InfoType]
-
-[Setting]
-
-[Reload]
-
-[New]
-
-[Up]
-
-[Down]
-
 [Delete]
 Eliminar
 [Default]
 Por defecto
-[Additional Options]
-
-[Tool Window Style]
-
-[Draw Grid]
-
-[Save search pattern]
-
-[Auto Close mode]
-
-[Sort by Status]
-
-[Show Client Icons]
-
-[Settings]
-
-[Title:]
-
-[Account]
-
-[Gender]
-
-[UserID]
-
 [Nickname]
 Apodo
-[First name]
-
-[Last name]
-
 [Group]
 Grupo
-[Container]
-
 [E-mail]
 E-mail
-[Client ID]
-
-[Ext IP]
-
-[LastSeen]
-
-[Last Event]
-
-[Online since]
-
-[Metacontact]
-
-[Event count]
-
-[Contact add time]
-
 [Type:]
 Tipo:
-[DB setting]
-
-[Script]
-
-[Service]
-
-[Contact info]
-
 [Other]
 Otro
-[Data type:]
-
-[Byte]
-
-[Word]
-
-[DWord]
-
-[Signed]
-
-[As hex]
-
-[String]
-
-[IP]
-
 [TimeStamp]
 Marca de tiempo
-[Module:]
-
-[Setting:]
-
 [Service:]
 Servicio:
-[Param]
-
-[number value]
-
-[ANSI string]
-
-[Unicode string]
-
-[current contact]
-
-[last result]
-
-[parameter]
-
-[Result]
-
-[Result type]
-
 [Free memory]
 Memoria libre
-[Save]
-
-[All]
-
 [Close]
 Cerrar
-[Refresh]
-
-[QuickSearch]
-
-[Show Offline contacts]
-
-[New column]
-
-[Save Item]
-
-[InfoType:]
-
-[New Column]
-
-[Column Up]
-
-[Column Down]
-
-[Delete Column]
-
 [Male]
 Masculino
 [Female]
 Femenino
 [Contacts]
 Contactos
-[ContactInfo]
-
-[LastEvent]
-
-[EventCount]
-
-[Script Editor]
-
-[Normal background]
-
-[Normal foreground]
-
-[Odd background]
-
-[Odd foreground]
-
-[Disabled account background]
-
-[Disabled account foreground]
-
-[Deleted account background]
-
-[Deleted account foreground]
-
-[Hidden contact background]
-
-[Hidden contact foreground]
-
-[Metacontact background]
-
-[Metacontact foreground]
-
-[Subcontact background]
-
-[Subcontact foreground]
-
 [&Delete]
 &Borrar
 [&Copy]
 &Copiar
-[C&onvert to Meta]
-
-[Attach to &Tab container]
-
 [&Move to Group]
 &Mover a grupo
-[Some of selected contacts in different metacontacts already]
-
-[Do you really want to delete selected contacts?]
-
-[Warning]
-
-[One or more contacts in same Meta already. Try to convert anyway?]
-
-[Editing of column ]
-
-[%i users found (%i) Online: %i]
-
-[ users found (]
-
-[) Online: ]
-
 [Online]
 En línea
-[deleted]
-
 [off]
 apagado
-[active]
-
-[Colorize]
-
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
 [default]
 por defecto
-[Selected]
-
 [contacts]
 contactos
 [Unknown]
 Desconocido
-[Stay on Top]
-
 ; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-
-[Wrap Text]
-

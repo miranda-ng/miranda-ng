@@ -7,7 +7,6 @@
 ;============================================================
 [Adds options to automatically disable notifications when a protocol is in a certain status.]
 Añade opciones para desactivar automáticamente notificaciones cuando el protocolo se encuentra en un determinado estado.
-;file \plugins\ZeroNotification\res\ZeroNotify.rc
 [No sounds when:]
 Sin sonidos cuando:
 [No CList blink when:]
@@ -16,12 +15,10 @@ No parpadear CList cuando:
 No parpadear bandeja del sistema cuando:
 [Hide the "toggle sound" menu item (requires restart of Miranda)]
 Oculta la opción de menú "alternar sonido"
-;file \plugins\ZeroNotification\src\common.h
 [Disable &Sounds]
 Deshabilitar &sonidos
 [Enable &Sounds]
 Habilitar &sonidos
-;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 Cero Notificaciones
 [Plugins]

@@ -7,7 +7,6 @@
 ;============================================================
 [GTalk extensions for Jabber protocol]
 Extensiones GTalk para el protocolo Jabber
-;file \protocols\GTalkExt\res\settings.rc
 [Popup notifications (needs popup plugin)]
 Notificaciones emergentes (necesita plugin de Notificaciones)
 [Notify in fullscreen mode too]
@@ -46,13 +45,8 @@ Si ambos colores son ajustados al mismo valor, se utilizarán colores por defect
 0 significa tiempo de espera predeterminado,\n-1 significa que no hay tiempo de espera
 [Test]
 Probar
-;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 Abrir buzón
-;file \protocols\GTalkExt\src\notifications.cpp
-[You've received an e-mail\n%s unread threads]
-
-;file \protocols\GTalkExt\src\options.cpp
 [Popups]
 Ventanas emergentes
 [Network]
@@ -65,13 +59,11 @@ brickstrace@gmail.com [1]
     bems\n
 [* Primitive type system\n* No overloading\n* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n* No metaprogramming except preprocessor macros\n* No exceptions]
 * Sistema de tipos primitivos\n* Sin sobrecargado\n* Posibilidad limitada de abstracción de datos, polimorfismo, subtipos y reutilización de código\n* Sin metaprogramación excepto macros del preprocesador\n* No hay excepciones
-;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 Notificaciones de Gmail
 [subject\n    %s\nfrom\n%s\n%s\n]
 tema\n    %s\nde\n%s\n%s\n
 [subject\n    %s\nfrom\n%s]
 tema\n    %s\nde\n%s
-;file \protocols\GTalkExt\src\tipper_items.cpp
 [Unread threads:]
 Temas no leídos:

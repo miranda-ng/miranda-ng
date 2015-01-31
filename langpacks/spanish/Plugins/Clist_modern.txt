@@ -7,7 +7,6 @@
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
 Muestra contactos, notificaciones de eventos, estatus de protocolo con modificaciones visuales de ventaja. Modificaciones MW admitidas, una mayor cooperación de metacontacto.
-;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 Transparencia:
 [Window behavior:]
@@ -94,8 +93,6 @@ Vista previa de la piel
 ADVERTENCIA: \tLas pieles pueden modificar su perfil actual. Rollback no es posible. \n\t\tPor favor RESPALDE su base de datos antes de aplicar la piel.
 [* Restart may be required for all changes to take effect]
 Reiniciar puede ser necesario para que todos los cambios surtan efecto
-[Skin folder]
-
 [Available view modes]
 Modos de visualización disponibles
 [Include protocols]
@@ -324,60 +321,10 @@ Desactivar parpadeo de icono
 ms, retardo entre parpadeo del icono
 [System tray icon]
 Icono de la bandeja de sistema
-[Use xStatus icon]
-
-[Icon mode]
-
-[For similar statuses]
-
-[Global status]
-
-[Single account]
-
-[Cycle icons]
-
-[All accounts]
-
-[For different statuses]
-
-[Cycle period, seconds]
-
-[Additional stuff]
-
-[Ignore empty extra icons places (arrange to right).]
-
-[Allow internal requesting of status message text]
-
-[Remove status message if contact became offline]
-
-[Use improved search method in contact list]
-
-[Metacontacts stuff]
-
-[Use 'Meta' protocol icons for metacontacts]
-
-[Expand metacontacts]
-
-[Avoid double click expand]
-
-[Hide all extra icons for subcontacts]
-
-[Subcontacts indent:]
-
-[Show time only if it is different from current time]
-
-[Show contact time as row item]
-
 [Appearance]
 Apariencia
 [Pin to desktop]
 Pin de escritorio
-[Client area margins]
-
-[Thin border main window]
-
-[Borderless main window]
-
 [Show menu bar]
 Mostrar barra de menú
 [Show title bar]
@@ -390,182 +337,20 @@ Estilo de ventana de herramientas principal
 Minimizar a la bandeja
 [Translucency options]
 Opciones de translucidez
-[Enable drop shadow (restart required)]
-
 [Frames]
 Marcos
-[Gaps between frames:]
-
-[Gaps after captions:]
-
-[Use non-layered mode]
-
-[Round corners]
-
-[Non-layered mode]
-
-[Disable skin engine]
-
-[Enable Aero Glass (Vista+)]
-
-[Order of items:]
-
-[Minimum row height:]
-
-[Row border:]
-
-[Variable row height]
-
-[Align left items to left]
-
-[Align right items to right]
-
-[Up]
-
-[Down]
-
 [Left margin:]
 Margen izquierdo:
-[Right margin:]
-
-[Compact mode (show avatars and additional text on selected contacts only)]
-
-[Draw border on avatar]
-
-[Draw overlay icons]
-
-[Max size (pixels):]
-
-[Round corners of avatars]
-
-[Ignore size for row height calcs]
-
-[Border color:]
-
-[Custom corner size:]
-
-[Normal overlay icon]
-
-[Protocol status icon]
-
-[Contact icon]
-
-[height]
-
-[width]
-
-[Use old render method (fast, but has artifacts)]
-
-[Hide icon when showing avatar]
-
-[Draw icon in avatar space]
-
-[Hide groups icon]
-
-[Always show "Always visible" icon]
-
-[Use extra status icon instead protocol]
-
-[Draw normal status as overlay]
-
-[Right-to-left reading mode (mirror template)]
-
-[Replace smileys in contact list]
-
-[Use protocol smileys]
-
-[Draw smileys on first line]
-
-[Resize smileys and 'Listening to' icon]
-
-[Align to right]
-
-[Append nick if different from custom name]
-
-[Trim long text with ellipsis]
-
-[Show second line]
-
-[Top space:]
-
-[Draw smileys on second line]
-
 [Text:]
 Texto:
 [Status]
 Estado
 [Nickname]
 Apodo
-[Status message]
-
-[Listening to]
-
-[Contact time]
-
-[Show status if there is no status message]
-
-[Show listening to if there is no status message]
-
-[xStatus has priority]
-
-[Use 'xStatus: xMessage']
-
-[(Variables will be replaced)]
-
-[Show third line]
-
-[Draw smileys on third line]
-
 [Preview]
 Previsualizar
-[Top/Left]
-
-[Bottom/Right]
-
-[Position (vertical)]
-
-[Align]
-
 [Options]
 Opciones
-[Visible]
-
-[Show title]
-
-[Locked]
-
-[Border]
-
-[Floating]
-
-[Frames order]
-
-[UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-
-[Row template]
-
-[Add container]
-
-[Remove container]
-
-[Vertical align:]
-
-[Horizontal align:]
-
-[Container type:]
-
-[Container width:]
-
-[Container height:]
-
-[Layered]
-
-[Move up]
-
-[Move down]
-
-[OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
-
 [&Main menu]
 &Menú principal
 [E&xit]
@@ -614,122 +399,30 @@ Ocultar Miranda
 &Nuevo subgrupo
 [&Hide offline users in here]
 Ocul&tar usuarios fuera de línea aquí
-[&Show offline users in here]
-
 [&Rename group]
 &Renombrar grupo
 [&Delete group]
 El&iminar grupo
-;file \plugins\Clist_modern\src\modern_clc.cpp
 [Skins]
 Pieles
-[Modern contact list]
-
-[Avatar overlay]
-
-[Status overlay]
-
-[Contact list smileys]
-
 [List background]
 Lista de fondos
-[Menu background]
-
-[Status bar background]
-
-[Frames title bar background]
-
-[Do you want contact '%s' to be converted to metacontact and '%s' be added to it?]
-
-[Converting to metacontact]
-
-[Do you want contact '%s' to be converted to metacontact and '%s' be added to it (remove it from '%s')?]
-
-[Converting to metacontact (moving)]
-
-[Do you want contact '%s' to be added to metacontact '%s'?]
-
-[Adding contact to metacontact]
-
-[Do you want contact '%s' to be default?]
-
-[Set default contact]
-
-[Do you want contact '%s' to be removed from metacontact '%s' and added to '%s'?]
-
-[Changing metacontacts (moving)]
-
-;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact names]
 Nombres de contacto
-[Row items]
-
-[Frame texts]
-
-[Special colors]
-
 [Standard contacts]
 Contactos estándar
-[Away contacts]
-
-[DND contacts]
-
-[NA contacts]
-
-[Occupied contacts]
-
-[Free for chat contacts]
-
-[Invisible contacts]
-
-[On the phone contacts]
-
-[Out to lunch contacts]
-
 [Offline contacts]
 Contactos fuera de línea
 [Online contacts to whom you have a different visibility]
 Contactos en línea a los que usted tiene una visibilidad diferente
 [Offline contacts to whom you have a different visibility]
 Contactos desconectados a los que usted tiene una visibilidad diferente
-[Contacts who are 'not on list']
-
-[Open groups]
-
-[Open group member counts]
-
-[Closed groups]
-
-[Closed group member counts]
-
 [Dividers]
 Divisores
-[Second line]
-
-[Third line]
-
-[Status bar text]
-
-[Event area text]
-
-[Current view mode text]
-
 [Background]
 Fondo
-[Hot text]
-
 [Selected text]
 Texto seleccionado
-[Quick search text]
-
-[Menu text]
-
-[Selected menu text]
-
-[Frame title text]
-
-[3rd party frames transparent back color]
-
 [Not focused]
 No enfocado
 [Offline]
@@ -754,144 +447,32 @@ Salí a comer
 En el teléfono
 [Name]
 Nombre
-[Name (use locale settings)]
-
-[Last message time]
-
-[Account name]
-
-[Rate]
-
-[-Nothing-]
-
-[Hide to tray]
-
-[Behind left edge]
-
-[Behind right edge]
-
 [General]
 General
 [List]
 Lista
 [Window]
 Ventana
-;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[No events]
-
-[Event area background]
-
-[Event area]
-
-;file \plugins\Clist_modern\src\modern_clistmenus.cpp
-[&Contact rate]
-
 [None]
 Ninguno
-[Low]
-
-[Medium]
-
-[High]
-
-[Contact rate: none]
-
-[Contact rate: low]
-
-[Contact rate: medium]
-
-[Contact rate: high]
-
-[Show even if offline]
-
-;file \plugins\Clist_modern\src\modern_clistopts.cpp
-[Avatar]
-
-[Icon]
-
 [Text]
 Texto
 [Extra icons]
 Iconos adicionales
-[Animate avatars (GDI+ and Avatar service module (avs.dll) are required)]
-
-[Left align group names]
-
-[Center group names]
-
-[Right align group names]
-
-[Row]
-
-[Row design]
-
-;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown contact)]
 (Contacto desconocido)
-;file \plugins\Clist_modern\src\modern_clisttray.cpp
-[Tray menu]
-
 [&Hide/show]
 &Mostrar/Ocultar
 [&Find/add contacts...]
 &Buscar/Agregar contactos...
 [&Options...]
 &Opciones
-[&About]
-
-;file \plugins\Clist_modern\src\modern_clui.cpp
-[Show avatar]
-
-[Hide avatar]
-
-[Show contact &avatar]
-
-[Hide contact &avatar]
-
-[My contacts]
-
-[My Contacts]
-
-;file \plugins\Clist_modern\src\modern_keyboard.cpp
-[Close Miranda]
-
 [Main]
 Principal
-[Restore last status]
-
-[Show/Hide offline users]
-
-;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
-[Empty %s cell]
-
-[column]
-
-[line]
-
-[columns]
-
-[lines]
-
-[%s, contain %s]
-
-[ layered]
-
-;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [You need an image services plugin to process PNG images.]
 Usted necesita un plugin de servicios de imagen para procesar imágenes PNG.
 [Error]
 Error
-;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[( unknown )]
-
-[%s\n\n%s\n\nAuthor(s):\t %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-
-[%s\n\n%s\n\nAuthor(s): %s\nContact:\t %s\nWeb:\t %s\n\nFile:\t %s]
-
-[reVista for Modern v0.5]
-
-[This is second default Modern Contact list skin in Vista Aero style]
-
 [Angeli-Ka (graphics), FYR (template)]
 Angeli-Ka (gráficos), FYR (plantilla)
 [Inside library]
@@ -912,8 +493,6 @@ Por favor, seleccione piel a aplicar
 Piel por defecto
 [%Default Skin%]
 %Piel por defecto%
-;file \plugins\Clist_modern\src\modern_statusbar.cpp
-;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [<<Global>>]
 <<Global>>
 [Left]
@@ -924,9 +503,6 @@ Centro
 Right
 [Top]
 Superior
-[Bottom]
-
-;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [Main menu]
 Menú principal
 [Status menu]
@@ -957,11 +533,8 @@ Desabilitar sonidos
 Minimizar
 [To view a toolbar in Clist_modern you need the TopToolBar plugin. Click Yes to download it or No to continue]
 Para ver una barra de herramientas en Clist_modern necesitas el plugin TopToolBar. Haga clic en Sí para descargarlo o Cancelar para continuar
-[Toolbar background]
-
 [Toolbar upgrade]
 Actualizar barra de herramientas
-;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 contactos desagrupados
 [And]
@@ -1006,52 +579,7 @@ Configuración de modos de vista
 Limpiar modo de vista y volver a valores predeterminados de visualización
 [Reset view mode]
 Reiniciar modo de vista
-[View mode background]
-
 [View modes]
 Modos de vista
-;file \plugins\Clist_modern\src\CLUIFrames\cluiframes.cpp
-[&Visible]
-
-[&Show title]
-
-[&Locked]
-
-[&Expanded]
-
-[&Floating mode]
-
-[&Border]
-
-[&Align]
-
-[&Top]
-
-[&Client]
-
-[&Bottom]
-
-[&Position]
-
-[&Up]
-
-[&Down]
-
-[Show all frames]
-
-[Show all title bars]
-
-[Hide all title bars]
-
-[Lock frame]
-
-;file \plugins\Clist_modern\src\CLUIFrames\framesmenu.cpp
-[Frame menu]
-
-;file \plugins\Clist_modern\src\CLUIFrames\groupmenu.cpp
 [New group]
 Nuevo grupo
-[Group menu]
-
-[Subgroup menu]
-

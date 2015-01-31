@@ -7,7 +7,6 @@
 ;============================================================
 [Shows new message/status change info using on-screen display.]
 Muestra nueva información para cambio de mensaje/estado mediante la visualización en pantalla.
-;file \plugins\wbOSD\res\wbOSD.rc
 [General]
 General
 [Align]
@@ -54,10 +53,8 @@ Formato:
 Mostrar ventana de mensaje después de hacer clic
 [Show when my status is:]
 Mostrar cuando mi estado es:
-;file \plugins\wbOSD\src\events.cpp
 [%s is %s]
 %s es %s
-;file \plugins\wbOSD\src\options.cpp
 [Variables:\n  %n : Nick\n  %m : Message\n  %l : New line]
 Variables:\n  %n : Nick\n  %m : Mensaje\n  %l : Nueva línea
 [Help]

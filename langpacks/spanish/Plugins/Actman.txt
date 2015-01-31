@@ -13,38 +13,22 @@ Acciones
 Sin descripción
 [New]
 Nuevo
-[Up]
-
-[Down]
-
-[Reload]
-
 [Delete]
 Eliminar
 [Test]
 Prueba
-[Export]
-
 [Append data to file?]
 Añadir datos al archivo?
-[Import]
-
 [Help]
 Ayuda
-[Action]
-
 [Open contact window]
 Abrir ventana de contactos
 [Contact]
 Contacto
 [Call service]
 Llamar servicio
-[Service]
-
 [Execute program]
 Ejecutar programa
-[Program]
-
 [Insert text]
 Insertar texto
 [Text]
@@ -55,8 +39,6 @@ Avanzado
 Enlace a acción
 [Profile]
 Perfil
-[MessageBox]
-
 [Message]
 Mensaje
 [Choose contact]
@@ -73,8 +55,6 @@ Aplicar formato
 Puede usar macros %name%, %uid%, %account% y %group%
 [Contacts]
 Contactos
-[Select contact to open its window]
-
 [Result action]
 Acción resultado
 [Show in popup]
@@ -87,10 +67,6 @@ Insertar en mensaje
 Resultado de servicio
 [Integer]
 Entero
-[Hexadecimal]
-
-[String]
-
 [Structure]
 Estructura
 [Free memory]
@@ -135,10 +111,6 @@ Volver
 Efecto
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' en el servicio de nombres será reemplazado por el nombre del protocolo para el manejo de contacto en el parámetro
-[Undefined]
-
-[Manage Jabber Bookmarks]
-
 [Offline]
 Fuera de línea
 [Online]
@@ -161,306 +133,22 @@ En el teléfono
 Salí a comer
 [text]
 texto
-[int 0, if successful]
-
-[Set status message]
-
-[Set protocol status]
-
 [None]
 Ninguno
-[Angry]
-
-[Taking a bath]
-
-[Tired]
-
-[Birthday]
-
-[Drinking beer]
-
-[Thinking]
-
-[Eating]
-
-[Watching TV]
-
-[Meeting]
-
-[Coffee]
-
-[Listening to music]
-
-[Business]
-
-[Shooting]
-
-[Having fun]
-
 [On the phone]
 En el teléfono
-[Gaming]
-
-[Studying]
-
-[Shopping]
-
-[Feeling sick]
-
-[Sleeping]
-
-[Surfing]
-
-[Browsing]
-
-[Working]
-
 [Typing]
 Escribiendo
-[Picnic]
-
-[Cooking]
-
-[Smoking]
-
-[I'm high]
-
-[On WC]
-
-[To be or not to be]
-
-[Watching pro7 on TV]
-
-[Love]
-
-[Sets owner current custom status]
-
-[Display xStatus detail]
-
-[int hMenu handle]
-
-[Built the context menu for a specific contact. Menu should be DestroyMenu()ed after done]
-
-[Show All Users]
-
-[Show only Online Users]
-
-[Toggle status]
-
-[Change 'hide offline contacts' option value]
-
-[Set global status]
-
-[Switch contact list status]
-
-[Hide All Titlebars]
-
-[Show All Frames]
-
-[Show All Titlebars]
-
-[Closes Miranda]
-
-[Show or hide netlog console window]
-
-[int Value]
-
-[Returns contact amount, excluding user account]
-
-[Ansi Text]
-
-[Removes all settings for the specified module]
-
-[Show window for new/changed profile password]
-
-[int 0]
-
-[Import settings/contacts from file]
-
-[Opens or activate database editor]
-
-[Opens or activate user search dialog]
-
-[displays File Transfer window]
-
-[on Desktop]
-
-[parent window handle]
-
-[Show "About..." window]
-
-[Open bug report page]
-
-[Open support (originaly - Miranda wiki) page]
-
-[Go to Miranda Homepage]
-
 [System]
 Sistema
-[Shows contact history or (wParam=0) system history]
-
-[Erases contact's history. hContact can be NULL(0) to empty system history]
-
-[Show Global history search window. If already opened, bring it to front.]
-
-[Ignore all]
-
-[Ignore messages]
-
-[Ignore URLs]
-
-[Ignore files]
-
-[Ignore User Online]
-
-[Ignore requests]
-
-[Ignore 'You were added']
-
-[Ignore Contact]
-
-[Unignore Contact]
-
-[restart in default profile or profile manager]
-
-[restart with current profile]
-
-[Restarts Miranda]
-
-[Station name]
-
-[wParam is Handle]
-
-[wParam is Ansi station name]
-
-[wParam is Unicode station name]
-
-[Starting or stopping radio station]
-
-[Stop cycle]
-
-[Start cycle]
-
-[Start/stops the cycling throught protocols]
-
-[All protocols]
-
 [Protocol]
 Protocolo
-[signed -2 if proto can't set this, -1 on protocol not found, else 0]
-
-[Shows a dialog to set the avatar for all possible protocols]
-
-[Shows the next protocol in the frame]
-
-[Shows the previous protocol in the frame]
-
-[Opens the options dialog, optionally at the specified page]
-
-[Open Options dialog]
-
-[Check for updates]
-
-[with confirmation]
-
-[without confirmation]
-
-[Empty updater download folder]
-
-[Popup Plus (popup.dll) latest YAPP (yapp.dll)]
-
-[Enables or disables Popup windows]
-
-[YAPP or Popup]
-
 [Warning]
 Advertencia
 [Notify]
 Notificar
 [Error]
 Error
-[Popup window]
-
-[YAPP only]
-
-[Unicode Text]
-
-[Enables or disables Popup windows (maybe deprecated)]
-
-[result of protocol service call]
-
-[Send a general request through the protocol chain for a contact]
-
-[str, account name]
-
-[Return account name associated to contact (no need to free it)]
-
-[displays the Account Manager]
-
-[Show the dialog to select the contact]
-
-[filter text]
-
-[wParam is unicode]
-
-[wParam is Ansi]
-
-[Reserved]
-
-[Plays sound added through Skin/Sounds/AddNew. If sound not found, standard Windows sound plays]
-
-[Send Email to contact]
-
-[struct]
-
-[Returns the received files folder for a contact]
-
-[Open contact received file directory]
-
-[Send file to contact.]
-
-[hContact;parameter]
-
-[Opens message window for contact with handle in wparam]
-
-[remove all temporary contacts from db]
-
-[Call avatar option dialog for contact]
-
-[Avatar service (AVS.dll)]
-
-[Filename]
-
-[Set (and optionally protect) a local contact picture for the given hContact. If lParam = NIL, the service will open a file selection dialog.]
-
-[Shows contact property window.]
-
-[Open URL in current window]
-
-[Open URL in default browser]
-
-[With formating]
-
-[Don't use formating]
-
-[Returns a string containing the versioninfo post]
-
-[Show or save (call default action) Modules version Info]
-
-[log filename]
-
-[report filename]
-
-[int 0, if unsuccessful]
-
-[Create report from log and run it (if option is set). If wParam or lParam is empty then file names from options are used.]
-
-[Show popup or Info window with current music information.]
-
-[WhenWasIt Birthday Reminder (whenwasit.dll)]
-
-[display birthdays window]
-
 [Structure editor]
 Editor de estructura
 [alias]
@@ -483,10 +171,6 @@ Empacado
 4 bytes
 [8 bytes]
 8 bytes
-[Byte]
-
-[Word]
-
 [DWord]
 DWord
 [QWord]
@@ -511,8 +195,6 @@ Longitud de dato
 Estructura de ayuda
 [Descr]
 Descr
-[&Change]
-
 [C&ancel]
 C&ancelar
 [Process options]
@@ -531,46 +213,22 @@ Ventana de opción
 Iniciar normal
 [Start hidden]
 Iniciar oculto
-[Start minimized]
-
 [Start maximized]
 Iniciar maximizado
 [Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
 Texto <último> se reemplaza\r\npor el último resultado\r\n\r\nTexto <param> se reemplaza\r\npor el parámetro
-[Program path]
-
-[Program args]
-
-[Clipboard]
-
 [Copy to]
 Copiar a
 [Paste from]
 Pegar desde
 [File]
 Archivo
-[Read]
-
-[Write]
-
 [Append]
 Añadir
-[UTF8+sign]
-
-[UTF16+sign]
-
-[Message window]
-
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - parte seleccionada (y reemplazada)\r\n^e - reemplazado por cadena vacía\r\n^v - pega texto desde el portapapeles\r\n^t - reemplazado por tabulación\r\n^l - reemplazado por el último resultado como unicode\r\n^h - reemplazado por el último resultado como hex\r\n^a - al final: enviar automaticamente\r\n^f(name\[,str\])\r\n     pegar línea de archivo de texto.\r\n     contenidos soportados deben estar w/o espacios
-[Text to insert]
-
 [Condition]
 Condición
-[NOT]
-
-[Value]
-
 [Math]
 Matemática
 [Variables]
@@ -583,36 +241,16 @@ Operación
 Otro grupo de acciónes
 [not defined]
 no definido
-[You can select another group from combobox, then it will be executed, after that current action group will be continued.]
-
-[Macros]
-
 [Own settings]
 Valores propios
-[Manual]
-
-[Module]
-
-[Setting]
-
-[Unicode]
-
 [Message title]
 Titulo del mensaje
-[Message text]
-
 [Keep last result]
 Mantener último resultado
 [Icons]
 Iconos
-[Question]
-
-[Info]
-
 [Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
 Texto <last> reemplazado\r\npor último resultado\r\n\r\nRetornos:\r\n--------\r\nAceptar\t= 1\r\nCANCELAR\t= 2\r\nABORTAR\t= 3\r\nREINTENTAR\t= 4\r\nIGNORAR\t= 5\r\nSÍ\t= 6\r\nNO\t= 7\r\nCERRAR\t= 8
-[Buttons]
-
 [OK, Cancel]
 Aceptar, Cancelar
 [Abort, Retry, Ignore]
@@ -623,8 +261,6 @@ Sí, No, Cancelar
 Sí, No
 [Retry, Cancel]
 Reintentar, Cancelar
-[Scheduler]
-
 [Task sample]
 Tarea de ejemplo
 [Start]
@@ -635,14 +271,6 @@ Iniciando despues
 Iniciando desde
 [Start immediately]
 Iniciar inmediatamente
-[Days]
-
-[Time]
-
-[Date]
-
-[Repeat]
-
 [Repeat, times]
 Repetir, veces
 [Interval]
@@ -655,8 +283,6 @@ Enviar tiempo de inicio del evento
 Enviar evento una sola vez
 [Hooks]
 Ganchos
-[Description]
-
 [hook sample]
 Gancho de ejemplo
 [Apply]
@@ -679,8 +305,6 @@ Usar acciones
 Lista de acciones
 [Where to use]
 Dónde se utiliza
-[TopToolbar]
-
 [TabSRMM toolbar]
 Barra de herramientas TabSRMM
 [Core Hotkey]
@@ -693,10 +317,6 @@ Menú de contacto
 Menú de la bandeja
 [Protocol menus]
 Menús protocolo
-[Status menu]
-
-[Common]
-
 [2 state button/item]
 2 botones estado/ítem
 [Save button/item state]
@@ -723,10 +343,6 @@ Elija acción
 &No
 [A&ppend]
 &Añadir
-[Yes to &All]
-
-[N&o to All]
-
 [Action "$" exists, do you want to rewrite it?]
 Acción "$" existe, ¿quieres volver a escribir?
 [Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
@@ -736,170 +352,14 @@ Estructura de empaquetado
 [Registered actions]
 Acciones registradas
 ; Actman30
-[Your Actman settings are for old version. If you are ready to upgrade settings, press OK. Else press Cancel and change manually Actman plugin back to old version or make settings backup. To keep previously exported macros please import them back before conversion.]
-
-[Please, don't use macro test for non-saved macros. If you had 'Advanced' or file writing actions previously, check them - their logic was changed.]
-
-[Actman settings converted to new version]
-
-[INI]
-
-[INI file name]
-
-[Section]
-
-[Use LastResult]
-
-[UTF8 encoding]
-
-[Function call]
-
-[Function name]
-
-[DLL name]
-
-[Call type]
-
-[Arguments]
-
-[Number of arguments]
-
-[Argument]
-
-[Result]
-
-[DLL Handle Cache]
-
-[Keep to end]
-
-[Close immediately]
-
-[Close for macro]
-
-[Refresh]
-
-[Get from active window]
-
-[Chain]
-
-[Keep old result]
-
-[Same thread]
-
-[Do not wait until the end of execution]
-
-[In/Out]
-
-[Autosend]
-
-[Jump]
-
-[> greater]
-
-[< lesser]
-
-[= equ]
-
-[& and]
-
-[Case sensitive]
-
-[Opposite order]
-
-[empty]
-
-[contains]
-
-[starts with]
-
-[ends with]
-
-[Process script after]
-
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-
-[RTL]
-
-[Right justified text]
-
-[Database]
-
-[Contact type]
-
-[Save value]
-
-[Storage]
-
-[LastResult to ]
-
-[LastResult from]
-
-[Slot 0]
-
-[Slot 1]
-
-[Slot 2]
-
-[Slot 3]
-
-[Slot 4]
-
-[Slot 5]
-
-[Slot 6]
-
-[Slot 7]
-
-[Slot 8]
-
-[Slot 9]
-
-[Settings]
-
 [Contact list]
 Lista de contactos
 [Contact list format]
 Formato de lista de contacto
 [You can use %name%, %uid%, %account% and %group% substitutes]
 Puede usar macros %name%, %uid%, %account% y %group%
-[Service list format]
-
-[value]
-
 [name]
 nombre
-[value (name)]
-
-[name 'value']
-
-[Current Macro]
-
-[Select for FirstRun]
-
-[Mark as Volatile]
-
-[Single instance]
-
-[Miranda event help]
-
 [contact list]
 lista de contactos
-[database driver]
-
-[Main settings]
-
-[Custom settings]
-
-[Do not translate]
-
 ; these lines are not present in the sources, but they are present in compiled plugin
-[Param type]
-
-[Text Editor]
-
-[Script]
-
-[Wrap Text]
-
-[Structure size]
-

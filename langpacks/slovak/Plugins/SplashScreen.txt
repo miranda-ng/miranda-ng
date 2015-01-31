@@ -7,48 +7,5 @@
 ;============================================================
 [Shows a splash at Miranda startup.]
 Zobrazí okno s logom pri spustení Mirandy.
-;file \plugins\SplashScreen\res\splash.rc
-[Splash Options]
-
-[Show splash]
-
-[Show random splash]
-
-[Play sound]
-
-[Show Miranda Version]
-
-[Enable]
-
-[Prefix:]
-
-[Appearance]
-
-[Display time:]
-
-[ms]
-
-[Fade in:]
-
-[steps]
-
-[Fade out:]
-
-[AdvaImg plugin not found. Please get it from http://miranda-ng.org/p/AdvaImg/ to be able to use images.]
-
-[Preview...]
-
-;file \plugins\SplashScreen\src\main.cpp
-[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
-
 [Error]
 Chyba
-;file \plugins\SplashScreen\src\options.cpp
-[Graphic files]
-
-[Sound Files]
-
-[Skins]
-
-[Splash Screen]
-

@@ -7,7 +7,6 @@
 ;============================================================
 [Plugin supports starting position of Contact List relative to the taskbar and screen side.]
 Plugin de soporte de la posición de inicio de la lista de contactos en relación con la barra de tareas y el lado de la pantalla.
-;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 Posición inicial de la ventana de lista de contactos
 [Left]
@@ -28,7 +27,6 @@ Siempre iniciar...
 Minimizar a la bandeja del sistema
 [Opened]
 Abierto
-;file \plugins\StartPosition\src\main.cpp
 [Contact list]
 Lista de contactos
 [Start position]

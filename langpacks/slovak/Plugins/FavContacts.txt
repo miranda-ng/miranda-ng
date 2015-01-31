@@ -7,69 +7,9 @@
 ;============================================================
 [Favorite contacts menu.]
 Menu pre obľúbené kontakty.
-;file \plugins\FavContacts\res\resource.rc
-[Customize]
-
-[Show second line]
-
-[Show avatars]
-
-[Draw avatar border]
-
-[Round corners by]
-
-[px.]
-
-[Hide for transparent avatars]
-
-[Use system colors and fonts]
-
-[Hotkey shows menu centered on screen]
-
-[Menu item preview:]
-
-[Favorite Contacts]
-
-[Enable groups]
-
-[Multicolumn menu]
-
-[Configure fonts and colors...]
-
-[Align to the right]
-
-[Dim idle contact icons]
-
 [Show]
 Zobraziť
-[recent contacts]
-
-;file \plugins\FavContacts\src\favlist.h
-[<no group>]
-
-;file \plugins\FavContacts\src\main.cpp
-[Favorite Contact]
-
-[Regular Contact]
-
-[Favorites]
-
-;file \plugins\FavContacts\src\menu.cpp
-;file \plugins\FavContacts\src\options.cpp
 [Contacts]
 Kontakty
-;file \plugins\FavContacts\src\services.cpp
-[Contact name]
-
-[Second line]
-
-[Selected contact name (color)]
-
-[Selected second line (color)]
-
 [Background]
 Pozadie
-[Selected background]
-
-[Show favorite contacts]
-

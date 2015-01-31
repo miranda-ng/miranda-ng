@@ -7,134 +7,19 @@
 ;============================================================
 [IE Based Chat Log.]
 Okno správ založené na IE.
-;file \plugins\IEView\res\ieview.rc
-[Copy]
-
-[Copy Link]
-
-[Select All]
-
-[Save Image As...]
-
-[Print]
-
-[Clear Log]
-
-[Show source]
-
-[Options]
-
-[Enable BBCodes]
-
-[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
-
-[Enable support for Flash files in smileys and BBCodes]
-
-[Replace smileys in user names]
-
-[Hide window border]
-
-[Embed YouTube videos]
-
 [Size:]
 Veľkosť:
-[Mode]
-
-[Compatibility Mode]
-
-[Use External CSS]
-
-[Use Templates]
-
-[Background image]
-
 [Scroll with text]
 Posúvať s textom
-[Template Options]
-
-[Use message grouping]
-
-[Show nicknames]
-
-[Show time]
-
-[Show seconds]
-
-[Show date]
-
-[Use long date format]
-
-[Use relative timestamp]
-
-;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
-[Outgoing File Transfer]
-
 [Incoming File Transfer]
 Príchádzajúci súbor
-[URL sent]
-
-[URL received]
-
-;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
-[ requested authorization]
-
-[ was added.]
-
-;file \plugins\IEView\src\IEView.cpp
-[IID_IOleObject failed.]
-
-[RESULT]
-
-[IID_IOleInPlaceObject failed.]
-
-[Failed to Advise]
-
-[C++ Event Sink]
-
-;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
-[%s has joined.]
-
-[%s has left.]
-
-[The topic is %s.]
-
 [Error]
 Chyba
-;file \plugins\IEView\src\Options.cpp
-[General]
-
-[Message Log]
-
-[Group chats]
-
-[History]
-
 [Default]
 Prednastavené
-[Message Sessions]
-
-[IEView]
-
-[Skins]
-
-[Template]
-
 [All Files]
 Všetky súbory
-[All Images]
-
-[Style Sheet]
-
-;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
-[Today]
-
-[Yesterday]
-
-[File sent]
-
 [File received]
 Prijať súbor
-;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
-;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
