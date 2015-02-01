@@ -48,8 +48,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	// transfers
 	transfers = new CTransferList();
-
-	hToxEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 }
 
 CToxProto::~CToxProto()
@@ -83,22 +81,26 @@ DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
 	return 0;
 }
 
-MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
-	std::string address(mir_t2a(psr->id));
-	if (IsMe(address))
+	std::string address(ptrA(mir_t2a(psr->id)));
+	ptrA myAddress(getStringA(NULL, TOX_SETTINGS_ID));
+	if (strnicmp(address.c_str(), myAddress, TOX_PUBLIC_KEY_SIZE) == 0)
 	{
-		debugLogA("CToxProto::AddToList: you cannot add yourself to friend list");
+		ShowNotification(TranslateT("You cannot add yourself to your contact list"), 0);
 		return NULL;
 	}
-	// set tox address as contact id
-	return AddContact(address, _T(""), flags & PALF_TEMPORARY);
+	MCONTACT hContact = GetContact(address.c_str());
+	if (hContact)
+	{
+		ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
+		return NULL;
+	}
+	// set tox address as contact public key
+	return AddContact(address.c_str(), _T(""), flags & PALF_TEMPORARY);
 }
 
-MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
-{
-	return 0;
-}
+MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) { return 0; }
 
 int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 {
@@ -108,12 +110,15 @@ int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 		return 1;
 	}
 
-	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
-	std::vector<uint8_t> clientId = HexStringToData(id);
-	if (tox_add_friend_norequest(tox, clientId.data()) != TOX_ERROR)
+	ToxBinAddress address = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	ToxBinAddress pubKey = address.GetPubKey();
+	if (tox_add_friend_norequest(tox, pubKey) == TOX_ERROR)
 	{
 		return 1;
 	}
+
+	// trim address to public key
+	setString(hContact, TOX_SETTINGS_ID, pubKey.ToHex());
 
 	db_unset(hContact, "CList", "NotOnList");
 	delSetting(hContact, "Grant");
@@ -132,14 +137,12 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
 
-	std::string address = getStringA(hContact, TOX_SETTINGS_ID);
-	std::vector<uint8_t> pubKey = HexStringToData(address);
-	int32_t number = tox_add_friend(tox, pubKey.data(), (uint8_t*)(char*)reason, (uint16_t)strlen(reason));
+	ToxBinAddress address = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	int32_t number = tox_add_friend(tox, address, (uint8_t*)(char*)reason, mir_strlen(reason));
 	if (number > TOX_ERROR)
 	{
-		// change tox address in contact id by tox id
-		std::string id = ToxAddressToId(address);
-		setString(hContact, TOX_SETTINGS_ID, id.c_str());
+		// trim address to public key
+		setString(hContact, TOX_SETTINGS_ID, address.ToHex().GetPubKey());
 
 		db_unset(hContact, "CList", "NotOnList");
 		delSetting(hContact, "Grant");
@@ -260,7 +263,7 @@ int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR *msg)
 		//WaitForSingleObject(hToxEvent, INFINITE);
 
 		ptrA statusMessage(msg == NULL ? mir_strdup("") : mir_utf8encodeT(msg));
-		if (tox_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUSMESSAGE_LENGTH, strlen(statusMessage))) == TOX_ERROR)
+		if (tox_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUSMESSAGE_LENGTH, mir_strlen(statusMessage))) == TOX_ERROR)
 		{
 			debugLogA("CToxProto::SetAwayMsg: failed to set status status message %s", msg);
 		}

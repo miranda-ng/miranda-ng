@@ -23,7 +23,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 			uint8_t dnsString[256];
 			uint32_t requestId = 0;
-			int length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, strlen(name));
+			int length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, mir_strlen(name));
 			if (length != TOX_ERROR)
 			{
 				dnsString[length] = 0;
@@ -40,14 +40,14 @@ void CToxProto::SearchByNameAsync(void *arg)
 					if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
 					{
 						char *recordId = &txt->pStringArray[0][10];
-						std::vector<uint8_t> address(TOX_FRIEND_ADDRESS_SIZE);
-						if (tox_decrypt_dns3_TXT(dns, &address[0], (uint8_t*)recordId, strlen(recordId), requestId) != TOX_ERROR)
+						uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
+						if (tox_decrypt_dns3_TXT(dns, data, (uint8_t*)recordId, mir_strlen(recordId), requestId) != TOX_ERROR)
 						{
-							std::string id = DataToHexString(address);
+							ToxHexAddress address(data, TOX_FRIEND_ADDRESS_SIZE);
 
 							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 							psr.flags = PSR_TCHAR;
-							psr.id = mir_a2t(id.c_str());
+							psr.id = mir_a2t(address);
 							psr.nick = mir_utf8decodeT(name);
 
 							TCHAR email[MAX_PATH];
@@ -115,30 +115,18 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	if (std::regex_search(query, match, regex))
 	{
 		std::string address = match[1];
-		if (IsMe(address))
-		{
-			ShowNotification(TranslateT("You cannot add yourself to friend list"), 0);
-		}
-		else
-		{
-			MCONTACT hContact = FindContact(address);
-			if (!hContact)
-			{
-				PROTOSEARCHRESULT psr = { sizeof(psr) };
-				psr.flags = PSR_TCHAR;
-				psr.id = mir_a2t(query.c_str());
+		MCONTACT hContact = GetContact(address.c_str());
 
-				ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
-				acs.szProto = m_szModuleName;
-				acs.psr = &psr;
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_TCHAR;
+		psr.id = mir_a2t(query.c_str());
 
-				CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
-			}
-			else
-			{
-				ShowNotification(TranslateT("Contact already in your contact list"), 0, hContact);
-			}
-		}
+		ADDCONTACTSTRUCT acs = { HANDLE_SEARCHRESULT };
+		acs.szProto = m_szModuleName;
+		acs.psr = &psr;
+
+		CallService(MS_ADDCONTACT_SHOW, (WPARAM)owner, (LPARAM)&acs);
+
 		ForkThread(&CToxProto::SearchFailedAsync, NULL);
 	}
 	else

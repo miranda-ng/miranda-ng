@@ -73,43 +73,6 @@ MEVENT CToxProto::AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWOR
 	return db_event_add(hContact, &dbei);
 }
 
-std::vector<uint8_t> CToxProto::HexStringToData(std::string hex)
-{
-	std::stringstream ss;
-	std::vector<uint8_t> data;
-
-	size_t count = hex.length() / 2;
-	for (size_t i = 0; i < count; i++)
-	{
-		unsigned byte;
-		std::istringstream hex_byte(hex.substr(i * 2, 2));
-		hex_byte >> std::hex >> byte;
-		data.push_back(static_cast<unsigned char>(byte));
-	}
-
-	return data;
-}
-
-std::string CToxProto::DataToHexString(std::vector<uint8_t> data)
-{
-	std::ostringstream oss;
-	oss << std::hex << std::uppercase << std::setfill('0');
-	for (size_t i = 0; i < data.size(); i++)
-	{
-		oss << std::setw(2) << static_cast<int>(data[i]);
-	}
-	return oss.str();
-}
-
-std::string  CToxProto::ToxAddressToId(std::string address)
-{
-	if (address.length() > TOX_CLIENT_ID_SIZE * 2)
-	{
-		address.erase(address.begin() + TOX_CLIENT_ID_SIZE * 2, address.end());
-	}
-	return address;
-}
-
 bool CToxProto::IsFileExists(std::tstring path)
 {
 	//return ::GetFileAttributes(fileName) != DWORD(-1)

@@ -4,7 +4,7 @@ void CToxProto::OnFriendMessage(Tox *tox, const int number, const uint8_t *messa
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->GetContact(number);
 	if (hContact)
 	{
 		PROTORECVEVENT recv = { 0 };
@@ -20,7 +20,7 @@ void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->GetContact(number);
 	if (hContact)
 	{
 		proto->AddDbEvent(
@@ -35,9 +35,7 @@ void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-	std::string id = getStringA(hContact, TOX_SETTINGS_ID);
-	std::vector<uint8_t> clientId = HexStringToData(id);
-	uint32_t number = tox_get_friend_number(tox, clientId.data());
+	uint32_t number = 0;// getDword(hContact, TOX_SETTINGS_NUMBER, TOX_ERROR);
 	if (number == TOX_ERROR)
 	{
 		debugLogA("CToxProto::SendMsg: failed to get friend number");
@@ -48,11 +46,11 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	{
 		if (strncmp(msg, "/me ", 4) != 0)
 		{
-			result = tox_send_message(tox, number, (uint8_t*)msg, (uint16_t)strlen(msg));
+			result = tox_send_message(tox, number, (uint8_t*)msg, mir_strlen(msg));
 		}
 		else
 		{
-			result = tox_send_action(tox, number, (uint8_t*)&msg[4], (uint16_t)(strlen(msg) - 4));
+			result = tox_send_action(tox, number, (uint8_t*)&msg[4], mir_strlen(msg) - 4);
 		}
 	}
 
@@ -68,7 +66,7 @@ void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->GetContact(number);
 	if (hContact)
 	{
 		proto->ProtoBroadcastAck(
@@ -106,7 +104,7 @@ void CToxProto::OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, vo
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->GetContact(number);
 	if (hContact)
 	{
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)isTyping);
@@ -117,9 +115,7 @@ int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && IsOnline())
 	{
-		std::string id = getStringA(hContact, TOX_SETTINGS_ID);
-		std::vector<uint8_t> clientId = HexStringToData(id);
-		uint32_t number = tox_get_friend_number(tox, clientId.data());
+		uint32_t number = 0;//getDword(hContact, TOX_SETTINGS_NUMBER, TOX_ERROR);
 		if (number >= 0)
 		{
 			tox_set_user_is_typing(tox, number, type);

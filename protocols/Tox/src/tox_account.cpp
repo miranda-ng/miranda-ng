@@ -84,15 +84,14 @@ bool CToxProto::InitToxCore()
 		tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
 		tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
 
-		std::vector<uint8_t> pubKey(TOX_FRIEND_ADDRESS_SIZE);
-		tox_get_address(tox, &pubKey[0]);
-		std::string address = DataToHexString(pubKey);
-		setString(NULL, TOX_SETTINGS_ID, address.c_str());
+		uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
+		tox_get_address(tox, data);
+		ToxHexAddress address(data, TOX_FRIEND_ADDRESS_SIZE);
+		setString(NULL, TOX_SETTINGS_ID, address);
 
 		int size = tox_get_self_name_size(tox);
-		std::vector<uint8_t> username(size);
-		tox_get_self_name(tox, &username[0]);
-		std::string nick(username.begin(), username.end());
+		std::string nick(size, 0);
+		tox_get_self_name(tox, (uint8_t*)nick.data());
 		setWString("Nick", ptrW(Utf8DecodeW(nick.c_str())));
 
 		std::tstring avatarPath = GetAvatarFilePath();
@@ -117,7 +116,7 @@ bool CToxProto::InitToxCore()
 void CToxProto::UninitToxCore()
 {
 	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
-	tox_set_name(tox, (uint8_t*)(char*)nickname, (uint16_t)strlen(nickname));
+	tox_set_name(tox, (uint8_t*)(char*)nickname, mir_strlen(nickname));
 
 	SaveToxProfile();
 	if (password != NULL)
@@ -143,8 +142,6 @@ void CToxProto::DoBootstrap()
 void CToxProto::DoTox()
 {
 	tox_do(tox);
-
-	//PulseEvent(hToxEvent);
 	uint32_t interval = tox_do_interval(tox);
 	Sleep(interval);
 }
@@ -178,7 +175,7 @@ void CToxProto::PollingThread(void*)
 				isConnected = true;
 				debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
 
-				LoadFriendList();
+				ForkThread(&CToxProto::LoadFriendList, NULL);
 
 				debugLogA("CToxProto::PollingThread: changing status from %i to %i", ID_STATUS_CONNECTING, m_iDesiredStatus);
 				m_iStatus = m_iDesiredStatus;

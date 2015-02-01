@@ -68,7 +68,7 @@ private:
 	char *password;
 	mir_cs toxLock;
 	TCHAR *accountName;
-	HANDLE hNetlib, hPollingThread, hToxEvent;
+	HANDLE hNetlib, hPollingThread;
 	bool isTerminated, isConnected;
 	CTransferList *transfers;
 
@@ -119,18 +119,19 @@ private:
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
-	bool IsMe(const std::string &id);
-	MCONTACT FindContact(const std::string &id);
-	MCONTACT FindContact(const int friendNumber);
-	MCONTACT AddContact(const std::string &id, const std::tstring &dnsId, bool isTemporary = false);
+
+	MCONTACT GetContact(const int friendNumber);
+	MCONTACT GetContact(const char *pubKey);
+
+	MCONTACT AddContact(const char *address, const std::tstring &dnsId, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void LoadFriendList();
+	void __cdecl LoadFriendList(void*);
 
 	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
-	static void OnFriendRequest(Tox *tox, const uint8_t *address, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg);
 	static void OnUserStatusChanged(Tox *tox, int32_t friendNumber, uint8_t usertatus, void *arg);
@@ -178,11 +179,6 @@ private:
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
 	MEVENT AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
-	
-	std::vector<uint8_t> HexStringToData(std::string hex);
-	std::string DataToHexString(std::vector<uint8_t>);
-
-	std::string ToxAddressToId(std::string);
 
 	static bool IsFileExists(std::tstring path);
 };

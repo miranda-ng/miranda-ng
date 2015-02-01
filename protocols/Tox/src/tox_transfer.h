@@ -6,6 +6,7 @@ enum FILE_TRANSFER_STATUS
 	NONE,
 	STARTED,
 	PAUSED,
+	BROKEN,
 	FAILED,
 	CANCELED,
 	FINISHED,
@@ -17,6 +18,7 @@ struct FileTransferParam
 	PROTOFILETRANSFERSTATUS pfts;
 	FILE_TRANSFER_STATUS status;
 	FILE *hFile;
+	mir_cs fileLock;
 	int friendNumber;
 	int fileNumber;
 
@@ -45,37 +47,37 @@ struct FileTransferParam
 		return hFile != NULL;
 	}
 
-	void Start(Tox *tox)
+	int Start(Tox *tox)
 	{
 		status = STARTED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
+		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
 	}
 
-	void Resume(Tox *tox)
+	int Resume(Tox *tox)
 	{
 		status = STARTED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(uint64_t));
+		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(pfts.currentFileProgress));
 	}
 
-	void Fail(Tox *tox)
+	int Fail(Tox *tox)
 	{
 		status = FAILED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
+		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 	}
 
-	void Cancel(Tox *tox)
+	int Cancel(Tox *tox)
 	{
 		status = FINISHED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
+		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 	}
 
-	void Finish(Tox *tox)
+	int Finish(Tox *tox)
 	{
 		status = FINISHED;
-		tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
+		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
 	}
 
-	void RenameName(const TCHAR* fileName)
+	void Rename(const TCHAR* fileName)
 	{
 		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
 	}
@@ -94,9 +96,10 @@ struct FileTransferParam
 		}
 		mir_free(pfts.pszFiles[0]);
 		mir_free(pfts.pszFiles);
-		if (hFile)
+		if (hFile != NULL)
 		{
 			fclose(hFile);
+			hFile = NULL;
 		}
 	}
 };
@@ -107,7 +110,7 @@ private:
 	std::map<uint8_t, FileTransferParam*> transfers;
 
 public:
-	int Count() const
+	size_t Count() const
 	{
 		return transfers.size();
 	}
@@ -120,7 +123,7 @@ public:
 		}
 	}
 
-	FileTransferParam * Get(uint8_t fileNumber)
+	FileTransferParam* Get(uint8_t fileNumber)
 	{
 		if (transfers.find(fileNumber) != transfers.end())
 		{
@@ -129,9 +132,9 @@ public:
 		return NULL;
 	}
 
-	FileTransferParam * At(int index)
+	FileTransferParam* GetAt(size_t index)
 	{
-		if (Count() < index)
+		if (index < Count())
 		{
 			std::map<uint8_t, FileTransferParam*>::iterator it = transfers.begin();
 			std::advance(it, index);
