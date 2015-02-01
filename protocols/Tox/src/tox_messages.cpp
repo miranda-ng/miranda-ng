@@ -35,8 +35,9 @@ void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action
 
 int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 {
-	uint32_t number = 0;// getDword(hContact, TOX_SETTINGS_NUMBER, TOX_ERROR);
-	if (number == TOX_ERROR)
+	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+	if (friendNumber == TOX_ERROR)
 	{
 		debugLogA("CToxProto::SendMsg: failed to get friend number");
 		return 0;
@@ -46,11 +47,11 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	{
 		if (strncmp(msg, "/me ", 4) != 0)
 		{
-			result = tox_send_message(tox, number, (uint8_t*)msg, mir_strlen(msg));
+			result = tox_send_message(tox, friendNumber, (uint8_t*)msg, mir_strlen(msg));
 		}
 		else
 		{
-			result = tox_send_action(tox, number, (uint8_t*)&msg[4], mir_strlen(msg) - 4);
+			result = tox_send_action(tox, friendNumber, (uint8_t*)&msg[4], mir_strlen(msg) - 4);
 		}
 	}
 
@@ -115,10 +116,11 @@ int __cdecl CToxProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && IsOnline())
 	{
-		uint32_t number = 0;//getDword(hContact, TOX_SETTINGS_NUMBER, TOX_ERROR);
-		if (number >= 0)
+		ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+		int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+		if (friendNumber >= 0)
 		{
-			tox_set_user_is_typing(tox, number, type);
+			tox_set_user_is_typing(tox, friendNumber, type);
 			return 0;
 		}
 	}

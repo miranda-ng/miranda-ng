@@ -146,7 +146,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
 	if (friendNumber == TOX_ERROR)
 	{
-		debugLogA("CToxProto::SendFilesAsync: cannot get friend number by public key");
+		debugLogA("CToxProto::SendMsg: failed to get friend number");
 		return NULL;
 	}
 
