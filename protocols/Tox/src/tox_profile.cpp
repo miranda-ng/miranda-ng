@@ -31,8 +31,8 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	fseek(profile, 0, SEEK_END);
-	size_t size = ftell(profile);
-	fseek(profile, 0, SEEK_SET);
+	size_t size = _ftelli64(profile);
+	rewind(profile);
 	if (size == 0)
 	{
 		fclose(profile);
@@ -41,8 +41,7 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	uint8_t *data = (uint8_t*)mir_calloc(size);
-	size_t read = fread((char*)data, sizeof(char), size, profile);
-	if (size != read)
+	if (fread((char*)data, sizeof(char), size, profile) != size)
 	{
 		fclose(profile);
 		debugLogA("CToxProto::LoadToxData: could not read tox profile");
@@ -66,7 +65,7 @@ bool CToxProto::LoadToxProfile()
 			}
 		}
 
-		if (tox_encrypted_load(tox, data, size, (uint8_t*)password, strlen(password)) == TOX_ERROR)
+		if (tox_encrypted_load(tox, data, size, (uint8_t*)password, mir_strlen(password)) == TOX_ERROR)
 		{
 			debugLogA("CToxProto::LoadToxData: could not decrypt tox profile");
 			mir_free(data);

@@ -36,6 +36,9 @@
     <ClInclude Include="src\tox_transfer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tox_address.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">

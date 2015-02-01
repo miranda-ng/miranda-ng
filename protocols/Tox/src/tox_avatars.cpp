@@ -196,7 +196,7 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, 
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->GetContact(number);
 	if (hContact)
 	{
 		std::tstring path = proto->GetAvatarFilePath(hContact);
@@ -232,7 +232,7 @@ void CToxProto::OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, 
 {
 	CToxProto *proto = (CToxProto*)arg;
 
-	MCONTACT hContact = proto->FindContact(number);
+	MCONTACT hContact = proto->GetContact(number);
 	if (hContact)
 	{
 		db_set_blob(hContact, proto->m_szModuleName, TOX_SETTINGS_AVATAR_HASH, hash, TOX_HASH_LENGTH);

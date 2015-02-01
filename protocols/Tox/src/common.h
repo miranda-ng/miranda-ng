@@ -9,7 +9,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-#include <vector>
+//#include <vector>
 #include <regex>
 #include <map>
 
@@ -37,6 +37,7 @@
 
 #include "version.h"
 #include "resource.h"
+#include "tox_address.h"
 #include "tox_transfer.h"
 #include "tox_proto.h"
 

@@ -199,6 +199,7 @@
   <ItemGroup>
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\tox_address.h" />
     <ClInclude Include="src\tox_bootstrap.h" />
     <ClInclude Include="src\tox_dns.h" />
     <ClInclude Include="src\tox_proto.h" />
