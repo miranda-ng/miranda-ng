@@ -198,15 +198,15 @@ INT_PTR CMsnProto::SetAvatar(WPARAM, LPARAM lParam)
 
 		size_t dwPngSize = _filelengthi64(fileId);
 		unsigned char* pData = (unsigned char*)mir_alloc(dwPngSize);
-		if (pData == NULL) return 2;
+		if (pData == NULL) {
+			_close(fileId);
+			return 2;
+		}
 
 		_read(fileId, pData, (unsigned)dwPngSize);
 		_close(fileId);
 
-		TCHAR drive[_MAX_DRIVE];
-		TCHAR dir[_MAX_DIR];
-		TCHAR fname[_MAX_FNAME];
-		TCHAR ext[_MAX_EXT];
+		TCHAR drive[_MAX_DRIVE], dir[_MAX_DIR], fname[_MAX_FNAME], ext[_MAX_EXT];
 		_tsplitpath(szFileName, drive, dir, fname, ext);
 
 		MSN_SetMyAvatar(fname, pData, dwPngSize);
