@@ -67,7 +67,7 @@ struct FileTransferParam
 
 	int Cancel(Tox *tox)
 	{
-		status = FINISHED;
+		status = CANCELED;
 		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 	}
 

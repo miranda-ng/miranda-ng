@@ -260,8 +260,6 @@ int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR *msg)
 {
 	if (IsOnline())
 	{
-		//WaitForSingleObject(hToxEvent, INFINITE);
-
 		ptrA statusMessage(msg == NULL ? mir_strdup("") : mir_utf8encodeT(msg));
 		if (tox_set_status_message(tox, (uint8_t*)(char*)statusMessage, min(TOX_MAX_STATUSMESSAGE_LENGTH, mir_strlen(statusMessage))) == TOX_ERROR)
 		{
