@@ -1479,7 +1479,6 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 	LOG(("ConnectToSkypeAPI started."));
 	if (UseSockets) 
 	{
-		SOCKADDR_IN service;
 		DBVARIANT dbv;
 		long inet;
 		struct hostent *hp;
@@ -1492,17 +1491,18 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 				if (hp=gethostbyname(dbv.pszVal))
 					memcpy(&inet, hp->h_addr, sizeof(inet));
 				else {
-					OUTPUT(_T("Cannot resolve host!"));
+					OUTPUT(TranslateT("Cannot resolve host!"));
 					db_free(&dbv);
 					return -1;
 				}
 			}
 			db_free(&dbv);
 		} else {
-			OUTPUT(_T("Cannot find valid host to connect to."));
+			OUTPUT(TranslateT("Cannot find valid host to connect to."));
 			return -1;
 		}
 
+		SOCKADDR_IN service;
 		service.sin_family = AF_INET;
 		service.sin_addr.s_addr = inet;
 		service.sin_port = htons((unsigned short)db_get_w(NULL, SKYPE_PROTONAME, "Port", 1401));
@@ -1517,7 +1517,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 					return -1;
 				}
 				if (!reply) {
-					OUTPUT(_T("Authentication is not supported/needed for this Skype proxy server. It will be disabled."));
+					OUTPUT(TranslateT("Authentication is not supported/needed for this Skype proxy server. It will be disabled."));
 					db_set_b(NULL, SKYPE_PROTONAME, "RequiresPassword", 0);
 				} else {
 					unsigned int length=(unsigned int)strlen(dbv.pszVal);
@@ -1531,7 +1531,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 					}
 					if (!reply) 
 					{
-						OUTPUT(_T("Authentication failed for this server, connection was not successful. Verify that your password is correct!"));
+						OUTPUT(TranslateT("Authentication failed for this server, connection was not successful. Verify that your password is correct!"));
 						db_free(&dbv);
 						return -1;
 					}
@@ -1543,7 +1543,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 		{
 			if ((reply=SendSkypeproxyCommand(CAPABILITIES))==-1) return -1;
 			if (reply&USE_AUTHENTICATION) {
-				OUTPUT(_T("The server you specified requires authentication, but you have not supplied a password for it. Check the Skype plugin settings and try again."));
+				OUTPUT(TranslateT("The server you specified requires authentication, but you have not supplied a password for it. Check the Skype plugin settings and try again."));
 				return -1;
 			}
 		}
@@ -1717,7 +1717,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 					int oldstatus=SkypeStatus;
 					InterlockedExchange((long *)&SkypeStatus, (int)ID_STATUS_OFFLINE);
 					ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldstatus, SkypeStatus);
-					OUTPUT(_T("ERROR: Skype not running / too old / working!"));
+					OUTPUT(TranslateT("ERROR: Skype not running / too old / working!"));
 					return -1;
 				}
 			}
@@ -1732,14 +1732,14 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 
 		switch(AttachStatus) {
 			case SKYPECONTROLAPI_ATTACH_REFUSED:
-				OUTPUT(_T("Skype refused the connection :("));
+				OUTPUT(TranslateT("Skype refused the connection :("));
 				break;
 			case SKYPECONTROLAPI_ATTACH_NOT_AVAILABLE:
-				OUTPUT(_T("The Skype API is not available"));
+				OUTPUT(TranslateT("The Skype API is not available"));
 				break;
 			default:
 				LOG(("ERROR: AttachStatus: %d", AttachStatus));
-				OUTPUT(_T("Wheee, Skype won't let me use the API. :("));
+				OUTPUT(TranslateT("Wheee, Skype won't let me use the API. :("));
 		}
 		oldstatus=SkypeStatus;
 		InterlockedExchange((long *)&SkypeStatus, (int)ID_STATUS_OFFLINE);
