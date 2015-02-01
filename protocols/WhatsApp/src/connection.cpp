@@ -136,7 +136,7 @@ void WhatsAppProto::sentinelLoop(void*)
 
 void WhatsAppProto::onPing(const std::string& id)
 {
-	if (this->isOnline()) {
+	if (isOnline()) {
 		try {
 			debugLogA("Sending pong with id %s", id.c_str());
 			m_pConnection->sendPong(id);
