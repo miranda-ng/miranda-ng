@@ -95,17 +95,17 @@ void MyBitmap::makeOpaqueRect(int x1, int y1, int x2, int y2)
 
 void MyBitmap::saveAlpha(int x, int y, int w, int h)
 {
-	if (bitsSave)
-		delete[] bitsSave;
-
-	GdiFlush();
-
+	if (x < 0 || y < 0)
+		return;
 	if (!w) w = width;
 	if (!h) h = height;
 	if (!w || !h)
 		return;
-	if (x < 0 || y < 0)
-		return;
+
+	if (bitsSave)
+		delete[] bitsSave;
+
+	GdiFlush();
 
 	bitsSave = new COLOR32[w*h];
 	COLOR32 *p1 = bitsSave;
