@@ -142,7 +142,13 @@ void CToxProto::OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, c
 // outcoming file flow
 HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **ppszFiles)
 {
-	uint32_t friendNumber = 0;// getDword(hContact, TOX_SETTINGS_NUMBER, TOX_ERROR);
+	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+	if (friendNumber == TOX_ERROR)
+	{
+		debugLogA("CToxProto::SendFilesAsync: cannot get friend number by public key");
+		return NULL;
+	}
 
 	TCHAR *fileName = _tcsrchr(ppszFiles[0], '\\') + 1;
 
@@ -237,11 +243,10 @@ void CToxProto::SendFileAsync(void *arg)
 
 	mir_free(data);
 
-	if (transfer->status != STARTED)
+	if (transfer->status == STARTED)
 	{
-		transfer->Fail(tox);
+		transfer->Finish(tox);
 	}
-	transfer->Finish(tox);
 }
 
 /* COMMON */

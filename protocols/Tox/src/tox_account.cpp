@@ -115,6 +115,18 @@ bool CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
+	for (size_t i = 0; i < transfers->Count(); i++)
+	{
+		FileTransferParam *transfer = transfers->GetAt(i);
+		{
+			mir_cslock(transfer->fileLock);
+
+			transfer->Cancel(tox);
+			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		}
+		transfers->Remove(transfer);
+	}
+
 	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
 	tox_set_name(tox, (uint8_t*)(char*)nickname, mir_strlen(nickname));
 
