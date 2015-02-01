@@ -3,53 +3,24 @@
 
 #include "WhatsAPI++/IMutex.h"
 
-class ScopedLock
-{
-public:
-	ScopedLock(HANDLE h, int t = INFINITE) : handle_(h), timeout_(t)
-	{
-		WaitForSingleObject(handle_, timeout_);
-	}
-	~ScopedLock()
-	{
-		if (handle_)
-			ReleaseMutex(handle_);
-	}
-	void Unlock()
-	{
-		ReleaseMutex(handle_);
-		handle_ = 0;
-	}
-private:
-	HANDLE handle_;
-	int timeout_;
-};
-
 class Mutex : public IMutex
 {
-private:
-	HANDLE handle;
-public:
-	Mutex() : handle(NULL) {}
+	mir_cs m_cs;
 
-	virtual ~Mutex()
-	{
-		if (this->handle != NULL) {
-			ReleaseMutex(this->handle);
-		}
-	}
+public:
+	Mutex() {}
+	virtual ~Mutex() {}
 
 	virtual void lock()
 	{
-		if (this->handle == NULL) {
-			this->handle = CreateMutex(NULL, FALSE, NULL);
-		}
+		CRITICAL_SECTION &cs = m_cs;
+		::EnterCriticalSection(&cs);
 	}
 
 	virtual void unlock()
 	{
-		ReleaseMutex(this->handle);
-		this->handle = NULL;
+		CRITICAL_SECTION &cs = m_cs;
+		::LeaveCriticalSection(&cs);
 	}
 };
 
