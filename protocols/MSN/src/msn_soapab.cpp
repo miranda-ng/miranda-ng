@@ -150,8 +150,9 @@ bool CMsnProto::MSN_ABAdd(bool allowRecurse)
 		mir_free(abUrl);
 		abUrl = GetABHost("ABAdd", false);
 		tResult = getSslResult(&abUrl, szData, reqHdr, status);
-		if (tResult == NULL) UpdateABHost("ABAdd", NULL);
-		else break;
+		if (tResult)
+			break;
+		UpdateABHost("ABAdd", NULL);
 	}
 
 	mir_free(reqHdr);
@@ -259,16 +260,14 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 			for (ezxml_t mems = ezxml_get(svcs, "Memberships", 0, "Membership", -1); mems != NULL; mems = ezxml_next(mems)) {
 				const char* szRole = ezxml_txt(ezxml_child(mems, "MemberRole"));
 
-				int lstId = 0;
-				if (strcmp(szRole, "Allow") == 0)			lstId = LIST_AL;
-				else if (strcmp(szRole, "Block") == 0)		lstId = LIST_BL;
-				else if (strcmp(szRole, "Reverse") == 0)	lstId = LIST_RL;
-				else if (strcmp(szRole, "Pending") == 0)	lstId = LIST_PL;
+				int lstId = ((strcmp(szRole, "Allow") == 0) ? LIST_AL : ((strcmp(szRole, "Block") == 0) ? LIST_BL : 
+					((strcmp(szRole, "Reverse") == 0) ? LIST_RL : ((strcmp(szRole, "Pending") == 0) ? LIST_PL : 0))));
 
 				for (ezxml_t memb = ezxml_get(mems, "Members", 0, "Member", -1); memb != NULL; memb = ezxml_next(memb)) {
 					bool deleted = strcmp(ezxml_txt(ezxml_child(memb, "Deleted")), "true") == 0;
 					const char *szType = ezxml_txt(ezxml_child(memb, "Type"));
 					const char *szInvite = NULL, *szEmail = NULL, *szNick = NULL;
+					char email[128];
 					int netId;
 
 					if (strcmp(szType, "Passport") == 0) {
@@ -285,7 +284,6 @@ bool CMsnProto::MSN_SharingFindMembership(bool deltas, bool allowRecurse)
 					}
 					else if (strcmp(szType, "Phone") == 0) {
 						netId = NETID_MOB;
-						char email[128];
 						mir_snprintf(email, SIZEOF(email), "tel:%s", ezxml_txt(ezxml_child(memb, "PhoneNumber")));
 						szEmail = email;
 					}

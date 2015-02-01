@@ -91,8 +91,6 @@ static void DiscardExtraPackets(SOCKET s)
 
 void CMsnProto::MSNatDetect(void)
 {
-	unsigned i;
-
 	PHOSTENT host = gethostbyname("echo.edge.messenger.live.com");
 	if (host == NULL) {
 		debugLogA("P2PNAT could not find echo server \"echo.edge.messenger.live.com\"");
@@ -109,11 +107,12 @@ void CMsnProto::MSNatDetect(void)
 		addr.sin_addr.S_un.S_un_b.s_b3, addr.sin_addr.S_un.S_un_b.s_b4);
 
 	SOCKET s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR) {
+		debugLogA("P2PNAT could not connect to echo server \"echo.edge.messenger.live.com\"");
+		return;
+	}
 
-	connect(s, (SOCKADDR*)&addr, sizeof(addr));
-
-	UDPProbePkt pkt = { 0 };
-	UDPProbePkt pkt2;
+	UDPProbePkt pkt = { 0 }, pkt2;
 
 	// Detect My IP
 	pkt.version = 2;
@@ -139,6 +138,7 @@ void CMsnProto::MSNatDetect(void)
 	UDPProbePkt rpkt = { 0 };
 
 	// NAT detection
+	unsigned i;
 	for (i = 0; i < 4; ++i) {
 		if (Miranda_Terminated()) break;
 

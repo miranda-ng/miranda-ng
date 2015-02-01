@@ -611,15 +611,15 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 		}
 		else szFormatEnc = HtmlEncodeUTF8T(_T("{0} - {1}"));
 
-		char *szArtist = HtmlEncodeUTF8T(msnCurrentMedia.ptszArtist);
-		char *szAlbum = HtmlEncodeUTF8T(msnCurrentMedia.ptszAlbum);
-		char *szTitle = HtmlEncodeUTF8T(msnCurrentMedia.ptszTitle);
-		char *szTrack = HtmlEncodeUTF8T(msnCurrentMedia.ptszTrack);
-		char *szYear = HtmlEncodeUTF8T(msnCurrentMedia.ptszYear);
-		char *szGenre = HtmlEncodeUTF8T(msnCurrentMedia.ptszGenre);
-		char *szLength = HtmlEncodeUTF8T(msnCurrentMedia.ptszLength);
-		char *szPlayer = HtmlEncodeUTF8T(msnCurrentMedia.ptszPlayer);
-		char *szType = HtmlEncodeUTF8T(msnCurrentMedia.ptszType);
+		char *szArtist = HtmlEncodeUTF8T(msnCurrentMedia.ptszArtist),
+			*szAlbum = HtmlEncodeUTF8T(msnCurrentMedia.ptszAlbum),
+			*szTitle = HtmlEncodeUTF8T(msnCurrentMedia.ptszTitle),
+			*szTrack = HtmlEncodeUTF8T(msnCurrentMedia.ptszTrack),
+			*szYear = HtmlEncodeUTF8T(msnCurrentMedia.ptszYear),
+			*szGenre = HtmlEncodeUTF8T(msnCurrentMedia.ptszGenre),
+			*szLength = HtmlEncodeUTF8T(msnCurrentMedia.ptszLength),
+			*szPlayer = HtmlEncodeUTF8T(msnCurrentMedia.ptszPlayer),
+			*szType = HtmlEncodeUTF8T(msnCurrentMedia.ptszType);
 
 		sz = mir_snprintf(szMsg, SIZEOF(szMsg),
 			"<Data>"
@@ -640,6 +640,7 @@ void CMsnProto::MSN_SendStatusMessage(const char* msg)
 		mir_free(szLength);
 		mir_free(szPlayer);
 		mir_free(szType);
+		mir_free(szFormatEnc);
 	}
 	mir_free(msgEnc);
 
