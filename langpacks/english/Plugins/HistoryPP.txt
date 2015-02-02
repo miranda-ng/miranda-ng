@@ -35,7 +35,7 @@
 [History Actions]
 [Advanced search options]
 [Limit search range]
-[Limit Search Sange]
+[Limit Search Range]
 [Search messages from]
 [Text Formatting]
 [Limit Search Range]
