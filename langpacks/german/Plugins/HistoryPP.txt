@@ -65,7 +65,7 @@ Verlaufsfunktionen
 Erweiterte Sucheinstellungen
 [Limit search range]
 Suchbereich einschränken
-[Limit Search Sange]
+[Limit Search Range]
 Suchbereich einschränken
 [Search messages from]
 Nachrichten von
@@ -575,8 +575,6 @@ Beispiel eingehende Nachricht
 Beispiel eingehende URL
 [Incoming Url]
 Eingehender URL
-[Make shure you have CAPS LOCK turned off.]
-Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Make sure you have CAPS LOCK turned off.]
 Achten Sie darauf, Caps Lock ausgeschaltet zu haben.
 [Miranda's settings used]
