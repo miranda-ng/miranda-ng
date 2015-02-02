@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.2
+;  Version: 0.1.2.4
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -52,6 +52,9 @@ S'il vous plaît entrer un mot de passe.
 [Your password has been set automatically. You can proceed with login now]
 
 [Please correctly specify your registration code received by SMS]
+
+;file \protocols\WhatsApp\src\messages.cpp
+[Message received: %s by %s]
 
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]

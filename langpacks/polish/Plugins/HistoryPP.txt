@@ -66,13 +66,11 @@ Zaawansowane opcje wyszukiwania
 [Limit search range]
 Ogranicz zakres wyszukiwania
 [Limit Search Range]
-Ogranicz zasięg wyszukiwania
+Ogranicz zakres wyszukiwania
 [Search messages from]
 Szukaj wiadomości od
 [Text Formatting]
 Formatowanie tekstu
-[Limit Search Range]
-Ogranicz zakres wyszukiwania
 [Customize Filters]
 Dostosuj filtry
 [Filter Properties]

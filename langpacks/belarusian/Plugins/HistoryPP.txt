@@ -71,8 +71,6 @@ WATrack: запыт забаронены
 Шукаць паведамленні з
 [Text Formatting]
 Фарматаванне
-[Limit Search Range]
-Абмежаваць пошук
 [Customize Filters]
 Налада фільтраў
 [Filter Properties]

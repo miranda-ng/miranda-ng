@@ -69,8 +69,6 @@ WATrack: запит заборонений
 Шукати повідомлення з
 [Text Formatting]
 Форматування
-[Limit Search Range]
-Обмежити пошук
 [Customize Filters]
 Налаштування фільтрів
 [Filter Properties]

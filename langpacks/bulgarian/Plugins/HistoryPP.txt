@@ -57,8 +57,6 @@ WATrack: отхвърлена молба
 Съобщения от
 [Text Formatting]
 Форматиране на текста
-[Limit Search Range]
-Ограничаване на обхвата на търсене
 [Customize Filters]
 Персонализиране на филтрите
 [Filter Properties]
