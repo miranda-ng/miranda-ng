@@ -30,55 +30,55 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 	switch(msg) {
 	case WM_INITDIALOG:
+		char szUin[10];
+		acs = (ADDCONTACTSTRUCT *)lparam;
+		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)acs);
+
+		TranslateDialogDefault(hdlg);
+		Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_ADDCONTACT);
+		if (acs->handleType == HANDLE_EVENT) {
+			DWORD dwUin;
+			DBEVENTINFO dbei = { sizeof(dbei) };
+			dbei.cbBlob = sizeof(DWORD);
+			dbei.pBlob = (PBYTE)&dwUin;
+			db_event_get(acs->hDbEvent, &dbei);
+			_ltoa(dwUin, szUin, 10);
+			acs->szProto = dbei.szModule;
+		}
+		MCONTACT hContact;
 		{
-			char szUin[10];
-			acs = (ADDCONTACTSTRUCT *)lparam;
-			SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)acs);
+			TCHAR *szName = NULL, *tmpStr = NULL;
+			if (acs->handleType == HANDLE_CONTACT)
+				szName = cli.pfnGetContactDisplayName(hContact = acs->hContact, 0);
+			else {
+				int isSet = 0;
+				hContact = 0;
 
-			TranslateDialogDefault(hdlg);
-			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_ADDCONTACT);
-			if (acs->handleType == HANDLE_EVENT) {
-				DWORD dwUin;
-				DBEVENTINFO dbei = { sizeof(dbei) };
-				dbei.cbBlob = sizeof(DWORD);
-				dbei.pBlob = (PBYTE)&dwUin;
-				db_event_get(acs->hDbEvent, &dbei);
-				_ltoa(dwUin, szUin, 10);
-				acs->szProto = dbei.szModule;
-			}
-			{
-				TCHAR *szName = NULL, *tmpStr = NULL;
-				if (acs->handleType == HANDLE_CONTACT)
-					szName = cli.pfnGetContactDisplayName(acs->hContact, 0);
-				else {
-					int isSet = 0;
-
-					if (acs->handleType == HANDLE_EVENT) {
-						DBEVENTINFO dbei = { sizeof(dbei) };
-						dbei.cbBlob = db_event_getBlobSize(acs->hDbEvent);
-						dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-						db_event_get(acs->hDbEvent, &dbei);
-						MCONTACT hcontact = *(MCONTACT*)(dbei.pBlob + sizeof(DWORD));
-						mir_free(dbei.pBlob);
-						if (hcontact != INVALID_CONTACT_ID) {
-							szName = cli.pfnGetContactDisplayName(hcontact, 0);
-							isSet = 1;
-						}
-					}
-					if (!isSet) {
-						szName = (acs->handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) :
-							(acs->psr->id ? acs->psr->id : acs->psr->nick);
+				if (acs->handleType == HANDLE_EVENT) {
+					DBEVENTINFO dbei = { sizeof(dbei) };
+					dbei.cbBlob = db_event_getBlobSize(acs->hDbEvent);
+					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+					db_event_get(acs->hDbEvent, &dbei);
+					hContact = *(MCONTACT*)(dbei.pBlob + sizeof(DWORD));
+					mir_free(dbei.pBlob);
+					if (hContact != INVALID_CONTACT_ID) {
+						szName = cli.pfnGetContactDisplayName(hContact, 0);
+						isSet = 1;
 					}
 				}
-
-				if (szName && szName[0]) {
-					TCHAR  szTitle[128];
-					mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Add %s"), szName);
-					SetWindowText(hdlg, szTitle);
+				if (!isSet) {
+					szName = (acs->handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) :
+						(acs->psr->id ? acs->psr->id : acs->psr->nick);
 				}
-				else SetWindowText(hdlg, TranslateT("Add contact"));
-				mir_free(tmpStr);
 			}
+
+			if (szName && szName[0]) {
+				TCHAR  szTitle[128];
+				mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Add %s"), szName);
+				SetWindowText(hdlg, szTitle);
+			}
+			else SetWindowText(hdlg, TranslateT("Add contact"));
+			mir_free(tmpStr);
 		}
 
 		if (acs->handleType == HANDLE_CONTACT && acs->hContact)
@@ -86,15 +86,20 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				acs->szProto = GetContactProto(acs->hContact);
 
 		{
+			int groupSel = 0;
+			ptrT tszGroup(db_get_tsa(hContact, "CList", "Group"));
 			TCHAR *grpName;
 			for (int groupId = 1; (grpName = cli.pfnGetGroupName(groupId, NULL)) != NULL; groupId++) {
 				int id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)grpName);
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA, id, groupId);
+				if (!mir_tstrcmpi(tszGroup, grpName))
+					groupSel = id;
 			}
-		}
 
-		SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
-		SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
+			SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
+			SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, groupSel, 0);
+		}
+		
 		/* acs->szProto may be NULL don't expect it */
 		{
 			// By default check both checkboxes
@@ -250,6 +255,7 @@ INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
 		psr->firstName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->firstName) : mir_a2t((char*)psr->firstName);
 		psr->lastName = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->lastName) : mir_a2t((char*)psr->lastName);
 		psr->email = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->email) : mir_a2t((char*)psr->email);
+		psr->id = psr->flags & PSR_UNICODE ? mir_u2t((wchar_t*)psr->id) : mir_a2t((char*)psr->id);
 		psr->flags = psr->flags & ~PSR_UNICODE | PSR_TCHAR;
 		acs->psr = psr;
 		/* copied the passed acs structure, the psr structure with, the pointers within that  */
