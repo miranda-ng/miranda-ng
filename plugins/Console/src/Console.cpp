@@ -91,6 +91,8 @@ static HWND hwndConsole = NULL;
 
 static HIMAGELIST gImg = NULL;
 static HFONT hfLogFont = NULL;
+static COLORREF colLogFont;
+static COLORREF colBackground;
 
 static int gIcons = 0;
 static int gVisible = 0;
@@ -828,6 +830,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 		LoadSettings();
 		SendMessage(hwndDlg, HM_ADD, 0, 0);
 		PostMessage(hwndDlg, WM_SIZE, 0, 0);
+		SendMessage(hwndDlg, HM_SETFONT, (WPARAM)hfLogFont, (LPARAM)colLogFont);
+		SendMessage(hwndDlg, HM_SETCOLOR, (WPARAM)hfLogFont, (LPARAM)colBackground);
 		return TRUE;
 	}
  	case WM_SETFOCUS:
@@ -1090,7 +1094,6 @@ static int OnColourChange(WPARAM wParam, LPARAM lParam)
 {
 	if (hwndConsole) {
 		ColourID cid = { 0 };
-		COLORREF col;
 
 		cid.cbSize = sizeof(cid);
 		strcpy(cid.group, "Console");
@@ -1098,9 +1101,9 @@ static int OnColourChange(WPARAM wParam, LPARAM lParam)
 		strcpy(cid.dbSettingsGroup, "Console");
 		strcpy(cid.setting, "BgColor");
 
-		col = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&cid, 0);
-		if (col != -1)
-			SendMessage(hwndConsole, HM_SETCOLOR, (WPARAM)hfLogFont, (LPARAM)col);
+		colBackground = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&cid, 0);
+		if (colBackground != -1)
+			SendMessage(hwndConsole, HM_SETCOLOR, (WPARAM)hfLogFont, (LPARAM)colBackground);
 	}
 	return 0;
 }
@@ -1109,7 +1112,6 @@ static int OnColourChange(WPARAM wParam, LPARAM lParam)
 static int OnFontChange(WPARAM wParam, LPARAM lParam)
 {
 	if (hwndConsole) {
-		COLORREF col;
 		HFONT hf = NULL;
 		LOGFONT LogFont = { 0 };
 		FontIDT fid = { 0 };
@@ -1118,12 +1120,12 @@ static int OnFontChange(WPARAM wParam, LPARAM lParam)
 		_tcsncpy(fid.group, LPGENT("Console"), SIZEOF(fid.group));
 		_tcsncpy(fid.name, LPGENT("Text"), SIZEOF(fid.name));
 
-		col = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&LogFont);
+		colLogFont = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&LogFont);
 
 		if (LogFont.lfHeight != 0) {
 			hf = CreateFontIndirect(&LogFont);
 
-			SendMessage(hwndConsole, HM_SETFONT, (WPARAM)hf, (LPARAM)col);
+			SendMessage(hwndConsole, HM_SETFONT, (WPARAM)hf, (LPARAM)colLogFont);
 
 			if (hfLogFont)
 				DeleteObject(hfLogFont);
