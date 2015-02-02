@@ -63,7 +63,7 @@ HANDLE LoadIcon(int iIconID)
 {
 	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iIconID)
-		return iconList[i].hIcolib;
+			return iconList[i].hIcolib;
 	return NULL;
 }
 
@@ -80,6 +80,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-    ShutdownConsole();
+	ShutdownConsole();
 	return 0;
 }

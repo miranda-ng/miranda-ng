@@ -59,8 +59,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 typedef struct {
-	const char* pszHead;
-	const char* pszMsg;
+	const char *pszHead;
+	const char *pszMsg;
 } LOGMSG;
 
 
@@ -81,11 +81,11 @@ typedef struct {
 
 
 
-static SortedList lModules = {0};
+static SortedList lModules = { 0 };
 
 static LOGWIN *pActive = NULL;
 static int tabCount = 0;
-static RECT rcTabs = {0};
+static RECT rcTabs = { 0 };
 static HWND hTabs = NULL;
 static HWND hwndConsole = NULL;
 
@@ -103,7 +103,7 @@ static DWORD gWrapLen = DEFAULT_WRAPLEN;
 static DWORD OutMsgs = 0;
 static DWORD InMsgs = 0;
 
-static HICON hIcons[15] = {0};
+static HICON hIcons[15] = { 0 };
 static HGENMENU hMenu = NULL;
 
 static void LoadSettings();
@@ -185,18 +185,18 @@ static INT_PTR ShowHideConsole(WPARAM wParam, LPARAM lParam)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int LogResize(HWND hwnd,LPARAM lParam,UTILRESIZECONTROL *urc)
+int LogResize(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
-	switch(urc->wId) {
+	switch (urc->wId) {
 	case IDC_LIST:
 		ListView_SetColumnWidth(GetDlgItem(hwnd, IDC_LIST), 0, urc->dlgNewSize.cx - 25);
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 	case IDC_STARTALL:
 	case IDC_PAUSEALL:
 	case IDC_CLOSE:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_TOP;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
 	default:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 }
 
@@ -227,25 +227,24 @@ static controlinfo ctrls[] =
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK SubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ctrl;
 
 	switch (msg) {
 	case WM_KEYDOWN:
 		ctrl = GetKeyState(VK_CONTROL) & 0x8000;
-		if ( wParam == VK_DELETE && !ctrl) {
+		if (wParam == VK_DELETE && !ctrl) {
 			SendMessage(GetParent(hwnd), WM_COMMAND, IDC_DELETE, 0);
 			break;
 		}
 
-		if (wParam == VK_LEFT && ctrl)
-		{
-			NMHDR nmhdr = {0};
+		if (wParam == VK_LEFT && ctrl) {
+			NMHDR nmhdr = { 0 };
 			int tab = TabCtrl_GetCurSel(hTabs);
 
 			if (tab == 0)
-				tab = TabCtrl_GetItemCount(hTabs)-1;
+				tab = TabCtrl_GetItemCount(hTabs) - 1;
 			else
 				tab--;
 
@@ -255,9 +254,8 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 			break;
 		}
 
-		if (wParam == VK_RIGHT && ctrl)
-		{
-			NMHDR nmhdr = {0};
+		if (wParam == VK_RIGHT && ctrl) {
+			NMHDR nmhdr = { 0 };
 			int tab = TabCtrl_GetCurSel(hTabs);
 			int count =  TabCtrl_GetItemCount(hTabs);
 			tab = (tab + 1) % count;
@@ -272,13 +270,13 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 
 	case WM_CHAR:
 		// CTRL
-		if ( !(GetKeyState(VK_CONTROL)&0x8000))
+		if (!(GetKeyState(VK_CONTROL)&0x8000))
 			break;
 
-		switch(wParam) {
+		switch (wParam) {
 
 		case 1:	// Ctrl+A
-			if ( ListView_GetSelectedCount(hwnd) != (UINT)ListView_GetItemCount(hwnd))
+			if (ListView_GetSelectedCount(hwnd) != (UINT)ListView_GetItemCount(hwnd))
 				ListView_SetItemState(hwnd, -1, LVIS_SELECTED, LVIS_SELECTED);
 			return 0;
 
@@ -313,14 +311,14 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	LOGWIN *dat = (LOGWIN*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	LOGWIN *dat = (LOGWIN *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
 		{
-			dat = (LOGWIN*)lParam;
+			dat = (LOGWIN *)lParam;
 
 			dat->hwnd = hwndDlg;
 			dat->Scroll = 1;
@@ -331,15 +329,15 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			mir_subclassWindow(dat->hList, SubclassProc);
 
 			// init buttons
-			for(int i = 0; i < SIZEOF(ctrls); i++) {
-				HWND hwnd = GetDlgItem(hwndDlg,ctrls[i].control);
+			for (int i = 0; i < SIZEOF(ctrls); i++) {
+				HWND hwnd = GetDlgItem(hwndDlg, ctrls[i].control);
 				SendMessage(hwnd, ctrls[i].type, 0, 0);
-				SendMessage(hwnd, BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[i+ICON_FIRST]);
-				SendMessage(hwnd, BUTTONADDTOOLTIP,(WPARAM)TranslateTS(ctrls[i].tooltip), BATF_TCHAR);
+				SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[i + ICON_FIRST]);
+				SendMessage(hwnd, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(ctrls[i].tooltip), BATF_TCHAR);
 			}
 
 			CheckDlgButton(hwndDlg, IDC_SCROLL, dat->Scroll ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg,IDC_SCROLL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[(dat->Scroll?ICON_SCROLL:ICON_NOSCROLL)]);
+			SendDlgItemMessage(hwndDlg, IDC_SCROLL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[(dat->Scroll ? ICON_SCROLL : ICON_NOSCROLL)]);
 
 			if (gSingleMode) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_PAUSEALL), SW_HIDE);
@@ -348,7 +346,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			}
 
 			// init listview
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			LVCOLUMN sLC;
 			//ListView_SetUnicodeFormat(dat->hList, TRUE);
 			ListView_SetImageList(dat->hList, gImg, LVSIL_SMALL);
@@ -374,12 +372,12 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 	case HM_DUMP:
 		if (!lParam) break;
 		if (dat && !dat->Paused) {
-			LVITEM lvi = {0};
+			LVITEM lvi = { 0 };
 			int last = 0x7fffffff;
 			TCHAR szBreak;
 			DWORD len, tmplen;
 			DWORD wraplen = gWrapLen;
-			TCHAR *str = ((DUMPMSG*)lParam)->szMsg;
+			TCHAR *str = ((DUMPMSG *)lParam)->szMsg;
 
 			lvi.iItem = 0x7fffffff;
 
@@ -410,7 +408,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				lvi.pszText = &str[0];
 				tmplen = len = (DWORD)_tcslen(lvi.pszText);
 
-				while(len > wraplen) {
+				while (len > wraplen) {
 					szBreak = lvi.pszText[wraplen];
 					lvi.pszText[wraplen] = 0;
 					last = ListView_InsertItem(dat->hList, &lvi);
@@ -433,11 +431,11 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				lvi.iImage = IMG_EMPTY;
 			}
 
-			if ( gVisible && dat == pActive && dat->Scroll == 1 )
+			if (gVisible && dat == pActive && dat->Scroll == 1)
 				ListView_EnsureVisible(dat->hList, last, FALSE);
 
 			if (last > gLimit) {
-				int idx = last - gLimit + gLimit/4; // leave only 75% of LIMIT
+				int idx = last - gLimit + gLimit / 4; // leave only 75% of LIMIT
 
 				while (idx >= 0) {
 					ListView_DeleteItem(dat->hList, idx);
@@ -446,7 +444,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			}
 		}
 
-		mir_free((DUMPMSG*)lParam);
+		mir_free((DUMPMSG *)lParam);
 		return TRUE;
 
 	case WM_SIZE:
@@ -468,7 +466,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 		switch(LOWORD(wParam)) {
 		case IDC_PAUSE:
 			{
-				LVITEM lvi = {0};
+				LVITEM lvi = { 0 };
 				dat->Paused = !(dat->Paused);
 				lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 				lvi.iImage = IMG_INFO;
@@ -476,13 +474,13 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				lvi.pszText = (dat->Paused) ? TranslateT("*** Console paused ***") : TranslateT("*** Console resumed ***");
 				ListView_InsertItem(dat->hList, &lvi);
 				CheckDlgButton(hwndDlg, IDC_PAUSE, (dat->Paused) ? BST_CHECKED : BST_UNCHECKED);
-				SendDlgItemMessage(hwndDlg,IDC_PAUSE,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[((dat->Paused)?ICON_PAUSED:ICON_STARTED)]);
+				SendDlgItemMessage(hwndDlg, IDC_PAUSE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[((dat->Paused) ? ICON_PAUSED : ICON_STARTED)]);
 				break;
 			}
 		case IDC_SCROLL:
 			dat->Scroll = !(dat->Scroll);
 			CheckDlgButton(hwndDlg, IDC_SCROLL, (dat->Scroll) ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hwndDlg,IDC_SCROLL,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[((dat->Scroll)?ICON_SCROLL:ICON_NOSCROLL)]);
+			SendDlgItemMessage(hwndDlg, IDC_SCROLL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcons[((dat->Scroll) ? ICON_SCROLL : ICON_NOSCROLL)]);
 			break;
 
 		case IDC_COPY:
@@ -498,12 +496,11 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				else
 					count = ListView_GetItemCount(dat->hList);
 
-				dst = buf = (TCHAR*)malloc((count*(sizeof(szText)+1)+1)*sizeof(TCHAR));
+				dst = buf = (TCHAR *)malloc((count * (sizeof(szText) + 1) + 1) * sizeof(TCHAR));
 				if (!buf) break;
 
-				while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0)
-				{
-					ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText)-1);
+				while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0) {
+					ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText) - 1);
 					src = szText;
 					while (*dst++ = *src++);
 					dst--;
@@ -514,12 +511,12 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 				if (dst - buf > 0 && OpenClipboard(hwndDlg)) {
 					EmptyClipboard();
-					HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, (dst-buf+1)*sizeof(TCHAR));
+					HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, (dst - buf + 1) * sizeof(TCHAR));
 					if (hClipboardData) {
-						TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
+						TCHAR *pchData = (TCHAR *)GlobalLock(hClipboardData);
 						_tcscpy(pchData, buf);
 						GlobalUnlock(hClipboardData);
-						SetClipboardData(CF_UNICODETEXT,hClipboardData);
+						SetClipboardData(CF_UNICODETEXT, hClipboardData);
 					}
 					CloseClipboard();
 				}
@@ -531,10 +528,10 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				int idx = 0;
 				int count = ListView_GetSelectedCount(dat->hList);
 
-				if ( !count ) break;
+				if (!count) break;
 
-				if ( count == ListView_GetItemCount(dat->hList)) {
-					LVITEM lvi = {0};
+				if (count == ListView_GetItemCount(dat->hList)) {
+					LVITEM lvi = { 0 };
 					ListView_DeleteAllItems(dat->hList);
 					lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 					lvi.iImage = IMG_INFO;
@@ -544,8 +541,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 					break;
 				}
 
-				while ((idx = ListView_GetNextItem(dat->hList, idx, LVNI_BELOW|LVNI_SELECTED)) > 0)
-				{
+				while ((idx = ListView_GetNextItem(dat->hList, idx, LVNI_BELOW | LVNI_SELECTED)) > 0) {
 					ListView_DeleteItem(dat->hList, idx);
 					idx--;
 				}
@@ -566,8 +562,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 					if (ListView_GetSelectedCount(dat->hList))
 						flags |= LVNI_SELECTED;
 
-					while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0)
-					{
+					while ((idx = ListView_GetNextItem(dat->hList, idx, flags)) > 0) {
 						ListView_GetItemText(dat->hList, idx, 0, szText, SIZEOF(szText));
 						_ftprintf(fp, _T("%s\n"), szText);
 					}
@@ -576,7 +571,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				break;
 			}
 		case IDC_OPTIONS:
-			CallServiceSync(MS_NETLIB_LOGWIN,0,0);
+			CallServiceSync(MS_NETLIB_LOGWIN, 0, 0);
 			break;
 		case IDC_STARTALL:
 			SendMessage(hwndConsole, HM_PAUSEALL, 0, 0);
@@ -606,41 +601,41 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int ConsoleResize(HWND hwnd,LPARAM lParam,UTILRESIZECONTROL *urc)
+int ConsoleResize(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
-	switch(urc->wId) {
+	switch (urc->wId) {
 	case IDC_TABS:
-		return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 	default:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 }
 
 
-static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch(message) {
+	switch (message) {
 	case WM_INITDIALOG:
 	{
 		TCHAR title[MAX_PATH];
-		TCHAR name[MAX_PATH] = {0};
-		TCHAR path[MAX_PATH] = {0};
+		TCHAR name[MAX_PATH] = { 0 };
+		TCHAR path[MAX_PATH] = { 0 };
 
 		hTabs = GetDlgItem(hwndDlg, IDC_TABS);
 
 		//TabCtrl_SetMinTabWidth(hTabs, 100);
 
 		// restore position
-		Utils_RestoreWindowPositionEx(hwndDlg,RWPF_HIDDEN,NULL,"Console","Console");
+		Utils_RestoreWindowPositionEx(hwndDlg, RWPF_HIDDEN, NULL, "Console", "Console");
 
-		CallService(MS_DB_GETPROFILENAMET,(WPARAM)SIZEOF(name),(LPARAM)name);
+		CallService(MS_DB_GETPROFILENAMET, (WPARAM)SIZEOF(name), (LPARAM)name);
 
-		CallService(MS_DB_GETPROFILEPATHT,(WPARAM)SIZEOF(path),(LPARAM)path);
+		CallService(MS_DB_GETPROFILEPATHT, (WPARAM)SIZEOF(path), (LPARAM)path);
 
 		mir_sntprintf(title, SIZEOF(title), _T("%s - %s\\%s"), TranslateT("Miranda Console"), path, name);
 
 		SetWindowText(hwndDlg, title);
-		SendMessage(hwndDlg,WM_SETICON,ICON_BIG,(LPARAM)hIcons[0]);
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcons[0]);
 
 		hwndConsole = hwndDlg;
 		SendMessage(hwndDlg, HM_ADD, 0, 0);
@@ -653,20 +648,19 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		int idx;
 		LOGWIN *lw;
 		LOGWIN lw2;
-		DUMPMSG *dumpMsg = (DUMPMSG*)lParam;
+		DUMPMSG *dumpMsg = (DUMPMSG *)lParam;
 
 		if (!pActive) {
 			mir_free(dumpMsg);
 			break;
 		}
 
-		if (!gSingleMode)
-		{
+		if (!gSingleMode) {
 			lw2.Module = dumpMsg->szModule;
 			if (!List_GetIndex(&lModules, &lw2, &idx))
 				SendMessage(hwndDlg, HM_ADD, (WPARAM)idx, (LPARAM)dumpMsg->szModule);
 
-			lw = (LOGWIN*)lModules.items[idx];
+			lw = (LOGWIN *)lModules.items[idx];
 		}
 		else
 			lw = pActive;
@@ -683,18 +677,17 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		// wParam = index, lParam = module name
 		LOGWIN *lw;
 		COLORREF col;
-		TCITEM tci = {0};
+		TCITEM tci = { 0 };
 		int idx = (int)wParam;
-		char *str = (char*)lParam;
+		char *str = (char *)lParam;
 
 		if (!str) str = ""; // startup window
 
-		lw = (LOGWIN*)mir_calloc( sizeof(LOGWIN));
-		lw->Module = (char*)mir_strdup(str);
+		lw = (LOGWIN *)mir_calloc(sizeof(LOGWIN));
+		lw->Module = (char *)mir_strdup(str);
 		List_Insert(&lModules, lw, idx);
 
-		if (!gSingleMode && lParam)
-		{
+		if (!gSingleMode && lParam) {
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = (LPARAM)lw;
 
@@ -709,7 +702,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		TabCtrl_AdjustRect(hTabs, FALSE, &rcTabs);
 
 		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_LOG), hwndDlg, LogDlgProc, (LPARAM)lw);
-		ShowWindow(lw->hwnd, (tabCount > 1)?SW_HIDE:SW_SHOWNOACTIVATE);
+		ShowWindow(lw->hwnd, (tabCount > 1) ? SW_HIDE : SW_SHOWNOACTIVATE);
 
 		if (pActive)
 		{
@@ -725,8 +718,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		}
 
 		// hide startup window
-		if (tabCount == 1)
-		{
+		if (tabCount == 1) {
 			ShowWindow(pActive->hwnd, SW_HIDE);
 			PostMessage(pActive->hwnd, WM_CLOSE, 0, 0);
 			pActive = lw;
@@ -740,28 +732,25 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 	case HM_REMOVE:
 	{
 		// lParam = LOGWIN
-		LOGWIN *lw = (LOGWIN*)lParam;
+		LOGWIN *lw = (LOGWIN *)lParam;
 
 		if (!lw) break;
 
-		if (lw == pActive)
-		{
+		if (lw == pActive) {
 			int tab = TabCtrl_GetCurSel(hTabs);
-			if (tab >= 0)
-			{
-				TCITEM tci={0};
+			if (tab >= 0) {
+				TCITEM tci = { 0 };
 
 				TabCtrl_DeleteItem(hTabs, tab);
 				tabCount--;
-				if (tabCount)
-				{
+				if (tabCount) {
 					tab--;
 					if (tab < 0 ) tab = 0;
 					TabCtrl_SetCurSel(hTabs, tab);
 
 					tci.mask = TCIF_PARAM;
 					TabCtrl_GetItem(hTabs, tab, &tci);
-					pActive = (LOGWIN*)tci.lParam;
+					pActive = (LOGWIN *)tci.lParam;
 					SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 					ScrollDown(pActive);
 					ShowWindow(pActive->hwnd, SW_SHOWNOACTIVATE);
@@ -782,9 +771,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		// wParam = font, lParam = font color
 		int i;
 		LOGWIN *lw;
-		for ( i = 0; i < lModules.realCount; i++ )
-		{
-			lw = (LOGWIN*)lModules.items[i];
+		for (i = 0; i < lModules.realCount; i++) {
+			lw = (LOGWIN *)lModules.items[i];
 			ListView_SetTextColor(lw->hList, (COLORREF)lParam);
 			if (wParam)
 				SendMessage(lw->hList, WM_SETFONT, wParam, TRUE);
@@ -796,9 +784,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		// wParam = font, lParam = background color
 		int i;
 		LOGWIN *lw;
-		for ( i = 0; i < lModules.realCount; i++ )
-		{
-			lw = (LOGWIN*)lModules.items[i];
+		for (i = 0; i < lModules.realCount; i++) {
+			lw = (LOGWIN *)lModules.items[i];
 			ListView_SetBkColor(lw->hList, (COLORREF)lParam);
 			ListView_SetTextBkColor(lw->hList, (COLORREF)lParam);
 			if (wParam)
@@ -811,9 +798,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		// lParam = 1 to pause, 0 to start
 		int i;
 		LOGWIN *lw;
-		for ( i = 0; i < lModules.realCount; i++ )
-		{
-			lw = (LOGWIN*)lModules.items[i];
+		for (i = 0; i < lModules.realCount; i++) {
+			lw = (LOGWIN *)lModules.items[i];
 			if (lw->Paused != (int)lParam)
 				SendMessage(lw->hwnd, WM_COMMAND, IDC_PAUSE, 0);
 		}
@@ -821,20 +807,17 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 	}
 	case HM_RESTART:
 	{
-		if (pActive)
-		{
+		if (pActive) {
 			pActive = NULL;
 			PostMessage(hwndDlg, HM_RESTART, 0, 0);
 			return TRUE;
 		}
 		// close all tabs
-		if (!lParam)
-		{
+		if (!lParam) {
 			LOGWIN *lw;
 			TabCtrl_DeleteAllItems(hTabs);
-			while ( lModules.realCount )
-			{
-				lw = (LOGWIN*)lModules.items[0];
+			while (lModules.realCount) {
+				lw = (LOGWIN *)lModules.items[0];
 				SendMessage(lw->hwnd, WM_CLOSE, 0, 0);
 			}
 			tabCount = 0;
@@ -853,30 +836,29 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		}
 		return TRUE;
 	case WM_NOTIFY:
-		switch(wParam) {
+		switch (wParam) {
 		case IDC_TABS:
 			{
 				LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-				if (lpnmhdr->code == TCN_SELCHANGE)
-				{
+				if (lpnmhdr->code == TCN_SELCHANGE) {
 					int newTab = TabCtrl_GetCurSel(hTabs);
-					if (newTab >= 0 )
-					{
-						TCITEM tci={0};
+					if (newTab >= 0) {
+						TCITEM tci = { 0 };
 						HWND hOld = pActive->hwnd;
 
 						tci.mask = TCIF_PARAM;
 
 						if (!TabCtrl_GetItem(hTabs, newTab, &tci)) break;
 
-						pActive = (LOGWIN*)tci.lParam;
+						pActive = (LOGWIN *)tci.lParam;
 
 						SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 						ScrollDown(pActive);
 						ShowWindow(hOld, SW_HIDE);
 						ShowWindow(pActive->hwnd, SW_SHOWNOACTIVATE);
 						SetFocus(pActive->hList);
-					} else
+					}
+					else
 						SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 				}
 				break;
@@ -885,34 +867,35 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		break;
 	case WM_SIZE:
 	{
-		UTILRESIZEDIALOG urd={0};
-		urd.cbSize=sizeof(urd);
-		urd.hInstance=hInst;
-		urd.hwndDlg=hwndDlg;
-		urd.lpTemplate=MAKEINTRESOURCEA(IDD_CONSOLE);
-		urd.pfnResizer=ConsoleResize;
-		CallService(MS_UTILS_RESIZEDIALOG,0,(LPARAM)&urd);
+		UTILRESIZEDIALOG urd = { 0 };
+		urd.cbSize = sizeof(urd);
+		urd.hInstance = hInst;
+		urd.hwndDlg = hwndDlg;
+		urd.lpTemplate = MAKEINTRESOURCEA(IDD_CONSOLE);
+		urd.pfnResizer = ConsoleResize;
+		CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 
 		GetClientRect(hTabs, &rcTabs);
 		TabCtrl_AdjustRect(hTabs, FALSE, &rcTabs);
 
-		if ( pActive )
+		if (pActive)
 			SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 		break;
 	}
 	case WM_GETMINMAXINFO:
 	{
-		MINMAXINFO *mmi=(MINMAXINFO*)lParam;
-		mmi->ptMinTrackSize.x=400;
-		mmi->ptMinTrackSize.y=200;
+		MINMAXINFO *mmi = (MINMAXINFO *)lParam;
+		mmi->ptMinTrackSize.x = 400;
+		mmi->ptMinTrackSize.y = 200;
 		break;
 	}
 	case WM_CLOSE:
-		if ( lParam != 1 ) {
-			Utils_SaveWindowPosition(hwndDlg,NULL,"Console","Console");
+		if (lParam != 1) {
+			Utils_SaveWindowPosition(hwndDlg, NULL, "Console", "Console");
 			ShowConsole(0);
 			return TRUE;
-		} else
+		}
+		else
 			DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
@@ -929,24 +912,23 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 ////////////////////////////////////////////////////////////////////////////////
 
 
-void __cdecl ConsoleThread(void* arg)
+void __cdecl ConsoleThread(void *arg)
 {
 	MSG msg;
 	HWND hwnd;
 
-	hwnd = CreateDialog(hInst,MAKEINTRESOURCE(IDD_CONSOLE),NULL,ConsoleDlgProc);
+	hwnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_CONSOLE), NULL, ConsoleDlgProc);
 
 	if (!hwnd) return;
 
-	while( GetMessage(&msg, NULL, 0, 0) > 0 )
-	{
-		switch(msg.message) {
+	while (GetMessage(&msg, NULL, 0, 0) > 0) {
+		switch (msg.message) {
 		case HM_DUMP:
 			OutMsgs++;
 			break;
 		}
 
-		if ( IsDialogMessage(hwnd, &msg))
+		if (IsDialogMessage(hwnd, &msg))
 			continue;
 
 		TranslateMessage(&msg);
@@ -958,18 +940,17 @@ void __cdecl ConsoleThread(void* arg)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int OnFastDump(WPARAM wParam,LPARAM lParam)
+static int OnFastDump(WPARAM wParam, LPARAM lParam)
 {
-	if ( pActive )
-	{
-		LOGMSG *logMsg = (LOGMSG*)lParam;
+	if (pActive) {
+		LOGMSG *logMsg = (LOGMSG *)lParam;
 		DWORD headlen = (DWORD)strlen(logMsg->pszHead);
 		DWORD msglen = (DWORD)strlen(logMsg->pszMsg);
 		DWORD len = (headlen + msglen + 1) * sizeof(TCHAR) + sizeof(DUMPMSG);
-		DUMPMSG *dumpMsg = (DUMPMSG*)mir_alloc( len );
+		DUMPMSG *dumpMsg = (DUMPMSG *)mir_alloc(len);
 		TCHAR *str = dumpMsg->szMsg;
 
-		char *szModule = (wParam) ? ((NETLIBUSER*)wParam)->szDescriptiveName : "[Core]";
+		char *szModule = (wParam) ? ((NETLIBUSER *)wParam)->szDescriptiveName : "[Core]";
 		strncpy_s(dumpMsg->szModule, SIZEOF(dumpMsg->szModule), szModule, _TRUNCATE);
 
 		wchar_t *ucs2 = mir_a2u(logMsg->pszHead);
@@ -978,7 +959,7 @@ static int OnFastDump(WPARAM wParam,LPARAM lParam)
 
 		// try to detect utf8
 		ucs2 = mir_utf8decodeW(logMsg->pszMsg);
-		if ( !ucs2 )
+		if (!ucs2)
 			ucs2 = mir_a2u(logMsg->pszMsg);
 
 		wcscat(str, ucs2);
@@ -999,7 +980,7 @@ static void LoadSettings()
 	gSingleMode = db_get_b(NULL, "Console", "SingleMode", 0);
 
 	gWrapLen = db_get_b(NULL, "Console", "Wrap", DEFAULT_WRAPLEN);
-	if ( gWrapLen < MIN_WRAPLEN ) gWrapLen = DEFAULT_WRAPLEN;
+	if (gWrapLen < MIN_WRAPLEN) gWrapLen = DEFAULT_WRAPLEN;
 
 	gLimit = db_get_dw(NULL, "Console", "Limit", MIN_LIMIT);
 	if (gLimit > MAX_LIMIT) gLimit = MAX_LIMIT;
@@ -1012,9 +993,8 @@ static void SaveSettings(HWND hwndDlg)
 	int len = GetDlgItemInt(hwndDlg, IDC_WRAP, NULL, FALSE);
 	if (len < MIN_WRAPLEN )
 		len = MIN_WRAPLEN;
-	else
-		if (len > MAX_WRAPLEN)
-			len = MAX_WRAPLEN;
+	else if (len > MAX_WRAPLEN)
+		len = MAX_WRAPLEN;
 
 	gWrapLen = len;
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
@@ -1023,9 +1003,8 @@ static void SaveSettings(HWND hwndDlg)
 	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, NULL, FALSE);
 	if (len < MIN_LIMIT )
 		len = MIN_LIMIT;
-	else
-		if (len > MAX_LIMIT)
-			len = MAX_LIMIT;
+	else if (len > MAX_LIMIT)
+		len = MAX_LIMIT;
 
 	gLimit = len;
 	SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
@@ -1041,7 +1020,7 @@ static void SaveSettings(HWND hwndDlg)
 
 static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		CheckDlgButton(hwndDlg, IDC_START, db_get_b(NULL, "Console", "ShowAtStart", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -1062,7 +1041,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			}
 		case IDC_LIMIT:
 		case IDC_WRAP:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
+			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return FALSE;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -1075,11 +1054,9 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		}
 		break;
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom)
-		{
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR)lParam)->code)
-			{
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				{
 					SaveSettings(hwndDlg);
@@ -1094,7 +1071,7 @@ static INT_PTR CALLBACK OptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 }
 
 
-static int OptInit(WPARAM wParam,LPARAM lParam)
+static int OptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
