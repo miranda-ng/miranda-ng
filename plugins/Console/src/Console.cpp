@@ -115,7 +115,7 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 static HANDLE hTTBButt = 0;
 
-static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
+static int OnTTBLoaded(WPARAM wParam, LPARAM lParam)
 {
 	int state = IsWindowVisible(hwndConsole);
 
@@ -133,7 +133,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void ScrollDown(LOGWIN * dat) {
+void ScrollDown(LOGWIN *dat) {
 	if (dat->Scroll)
 		ListView_EnsureVisible(dat->hList, ListView_GetItemCount(dat->hList) - 1, FALSE);
 }
@@ -150,27 +150,27 @@ static void ShowConsole(int show)
 
 	if (show) {
 		hwnd = GetForegroundWindow();
-		if ( InMsgs == OutMsgs )
-			ScrollDown( pActive );
+		if (InMsgs == OutMsgs)
+			ScrollDown(pActive);
 	}
-	ShowWindow(hwndConsole, (show)?SW_SHOW:SW_HIDE);
-	db_set_b(NULL,"Console","Show",(BYTE)((show)?1:0));
+	ShowWindow(hwndConsole, show ? SW_SHOW : SW_HIDE);
+	db_set_b(NULL, "Console", "Show", (BYTE)(show ? 1 : 0));
 
 	if (hwnd)
 		SetForegroundWindow(hwnd);
 
 	if (show)
-		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME |RDW_UPDATENOW | RDW_ERASE);
+		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW | RDW_ERASE);
 
 	if (hMenu) {
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.ptszName = (show) ? LPGENT("Hide Console") : LPGENT("Show Console");
+		mi.ptszName = show ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
 		Menu_ModifyItem(hMenu, &mi);
 	}
 
 	if (hTTBButt)
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, (show)?TTBST_PUSHED:0);
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTBButt, show ? TTBST_PUSHED : 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,7 +215,7 @@ static controlinfo ctrls[] =
 {
 	// IDC_SCROLL & IDC_PAUSE must be first
 	{IDC_SCROLL, IDI_SCROLL, BUTTONSETASFLATBTN, LPGENT("Scrolling (Ctrl+Q)")},
-	{IDC_PAUSE, IDI_STARTED, BUTTONSETASFLATBTN, LPGENT("Pause logging(Ctrl+P)")},
+	{IDC_PAUSE, IDI_STARTED, BUTTONSETASFLATBTN, LPGENT("Pause logging (Ctrl+P)")},
 	{IDC_SAVE, IDI_SAVE, BUTTONSETASFLATBTN, LPGENT("Save log to file (Ctrl+S)")},
 	{IDC_COPY, IDI_COPY, BUTTONSETASFLATBTN, LPGENT("Copy selected log (Ctrl+C)")},
 	{IDC_DELETE, IDI_DELETE, BUTTONSETASFLATBTN, LPGENT("Delete selected (Del)")},
@@ -1109,20 +1109,19 @@ static int OptInit(WPARAM wParam,LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static int OnColourChange(WPARAM wParam,LPARAM lParam)
+static int OnColourChange(WPARAM wParam, LPARAM lParam)
 {
-	if (hwndConsole)
-	{
-		ColourID cid = {0};
+	if (hwndConsole) {
+		ColourID cid = { 0 };
 		COLORREF col;
 
-		cid.cbSize=sizeof(cid);
-		strcpy(cid.group,"Console");
-		strcpy(cid.name,"Background");
-		strcpy(cid.dbSettingsGroup,"Console");
-		strcpy(cid.setting,"BgColor");
+		cid.cbSize = sizeof(cid);
+		strcpy(cid.group, "Console");
+		strcpy(cid.name, "Background");
+		strcpy(cid.dbSettingsGroup, "Console");
+		strcpy(cid.setting, "BgColor");
 
-		col = (COLORREF)CallService(MS_COLOUR_GET,(WPARAM)&cid,0);
+		col = (COLORREF)CallService(MS_COLOUR_GET, (WPARAM)&cid, 0);
 		if (col != -1)
 			SendMessage(hwndConsole, HM_SETCOLOR, (WPARAM)hfLogFont, (LPARAM)col);
 	}
@@ -1130,24 +1129,22 @@ static int OnColourChange(WPARAM wParam,LPARAM lParam)
 }
 
 
-static int OnFontChange(WPARAM wParam,LPARAM lParam)
+static int OnFontChange(WPARAM wParam, LPARAM lParam)
 {
-	if (hwndConsole)
-	{
+	if (hwndConsole) {
 		COLORREF col;
 		HFONT hf = NULL;
-		LOGFONT LogFont={0};
-		FontIDT fid={0};
-		fid.cbSize=sizeof(fid);
+		LOGFONT LogFont = { 0 };
+		FontIDT fid = { 0 };
+		fid.cbSize = sizeof(fid);
 
-		_tcscpy(fid.group,_T("Console"));
-		_tcscpy(fid.name,TranslateT("Text"));
+		_tcsncpy(fid.group, LPGENT("Console"), SIZEOF(fid.group));
+		_tcsncpy(fid.name, LPGENT("Text"), SIZEOF(fid.name));
 
-		col = (COLORREF)CallService(MS_FONT_GETT,(WPARAM)&fid,(LPARAM)&LogFont);
+		col = (COLORREF)CallService(MS_FONT_GETT, (WPARAM)&fid, (LPARAM)&LogFont);
 
-		if (LogFont.lfHeight != 0)
-		{
-			hf=CreateFontIndirect(&LogFont);
+		if (LogFont.lfHeight != 0) {
+			hf = CreateFontIndirect(&LogFont);
 
 			SendMessage(hwndConsole, HM_SETFONT, (WPARAM)hf, (LPARAM)col);
 
@@ -1159,40 +1156,40 @@ static int OnFontChange(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
+static int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
-	FontIDT fid = {0};
+	FontIDT fid = { 0 };
 	fid.cbSize = sizeof(fid);
-	_tcscpy(fid.group,_T("Console"));
-	_tcscpy(fid.name,TranslateT("Text"));
-	strcpy(fid.dbSettingsGroup,"Console");
-	strcpy(fid.prefix,"ConsoleFont");
-	_tcscpy(fid.backgroundGroup,_T("Console"));
-	_tcscpy(fid.backgroundName,_T("Background"));
+	_tcsncpy(fid.group, LPGENT("Console"), SIZEOF(fid.group));
+	_tcsncpy(fid.name, LPGENT("Text"), SIZEOF(fid.name));
+	strncpy(fid.dbSettingsGroup, "Console", SIZEOF(fid.dbSettingsGroup));
+	strncpy(fid.prefix, "ConsoleFont", SIZEOF(fid.prefix));
+	_tcsncpy(fid.backgroundGroup, LPGENT("Console"), SIZEOF(fid.backgroundGroup));
+	_tcsncpy(fid.backgroundName, LPGENT("Background"), SIZEOF(fid.backgroundName));
 	fid.flags = FIDF_DEFAULTVALID;
 	fid.deffontsettings.charset = DEFAULT_CHARSET;
 	fid.deffontsettings.colour = RGB(0, 0, 0);
 	fid.deffontsettings.size = 10;
 	fid.deffontsettings.style = 0;
-	_tcsncpy(fid.deffontsettings.szFace, _T("Courier"), LF_FACESIZE);
+	_tcsncpy(fid.deffontsettings.szFace, _T("Courier"), SIZEOF(fid.deffontsettings.szFace));
 	FontRegisterT(&fid);
 
-	HookEvent(ME_FONT_RELOAD,OnFontChange);
+	HookEvent(ME_FONT_RELOAD, OnFontChange);
 
-	ColourIDT cid = {0};
-	cid.cbSize=sizeof(cid);
-	_tcscpy(cid.group,_T("Console"));
-	_tcscpy(cid.name,_T("Background"));
-	strcpy(cid.dbSettingsGroup,"Console");
-	strcpy(cid.setting,"BgColor");
-	cid.defcolour = RGB(255,255,255);
+	ColourIDT cid = { 0 };
+	cid.cbSize = sizeof(cid);
+	_tcsncpy(cid.group, LPGENT("Console"), SIZEOF(cid.group));
+	_tcsncpy(cid.name, LPGENT("Background"), SIZEOF(cid.name));
+	strncpy(cid.dbSettingsGroup, "Console", SIZEOF(cid.dbSettingsGroup));
+	strncpy(cid.setting, "BgColor", SIZEOF(cid.setting));
+	cid.defcolour = RGB(255, 255, 255);
 	ColourRegisterT(&cid);
 
 	HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 
-	HOTKEYDESC hkd = {0};
+	HOTKEYDESC hkd = { 0 };
 	hkd.cbSize = sizeof(hkd);
 	hkd.pszName = "Console_Show_Hide";
 	hkd.pszDescription = LPGEN("Show/Hide Console");
@@ -1201,24 +1198,21 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
 	Hotkey_Register(&hkd);
 
-	if (hwndConsole && IsWindow(hwndConsole))
-	{
+	if (hwndConsole && IsWindow(hwndConsole)) {
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		mi.hIcon = hIcons[0];
-		mi.ptszPopupName = LPGENT("&Help");
-		mi.popupPosition = 2000090000;
-		mi.position = 1000000000;
+		mi.position = 1900000000;
 		mi.ptszName = (IsWindowVisible(hwndConsole)) ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.pszService = MS_CONSOLE_SHOW_HIDE;
 		hMenu = Menu_AddMainMenuItem(&mi);
 
-		OnFontChange(0,0);
-		OnColourChange(0,0);
+		OnFontChange(0, 0);
+		OnColourChange(0, 0);
 
-		if (db_get_b(NULL,"Console","ShowAtStart",0) || db_get_b(NULL,"Console","Show",1))
+		if (db_get_b(NULL, "Console", "ShowAtStart", 0) || db_get_b(NULL, "Console", "Show", 1))
 			ShowConsole(1);
 		else
 			ShowConsole(0);
@@ -1227,7 +1221,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int PreshutdownConsole(WPARAM wParam,LPARAM lParam)
+static int PreshutdownConsole(WPARAM wParam, LPARAM lParam)
 {
 	if (hwndConsole)
 		PostMessage(hwndConsole, WM_CLOSE, 0, 1 );
