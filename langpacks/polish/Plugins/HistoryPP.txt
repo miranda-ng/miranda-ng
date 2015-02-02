@@ -65,7 +65,7 @@ Akcje historii
 Zaawansowane opcje wyszukiwania
 [Limit search range]
 Ogranicz zakres wyszukiwania
-[Limit Search Sange]
+[Limit Search Range]
 Ogranicz zasięg wyszukiwania
 [Search messages from]
 Szukaj wiadomości od
@@ -575,8 +575,6 @@ Przykładowa wiadomość przychodząca
 Przykładowy, przychodzący link
 [Incoming Url]
 Przychodzący link
-[Make shure you have CAPS LOCK turned off.]
-Upewnij się, że masz wyłączony klawisz Caps Lock.
 [Make sure you have CAPS LOCK turned off.]
 Upewnij się, że masz wyłączony klawisz Caps Lock.
 [Miranda's settings used]

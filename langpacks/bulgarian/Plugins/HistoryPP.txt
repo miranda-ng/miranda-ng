@@ -51,6 +51,8 @@ WATrack: отхвърлена молба
 Разширени опции за търсене
 [Limit search range]
 Ограничаване обхвата на търсене
+[Limit Search Range]
+Ограничаване обхвата на търсене
 [Search messages from]
 Съобщения от
 [Text Formatting]

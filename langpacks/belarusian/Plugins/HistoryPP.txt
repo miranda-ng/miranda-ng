@@ -65,7 +65,7 @@ WATrack: запыт забаронены
 Дадатковыя магчымасці
 [Limit search range]
 Абмежаваць пошук
-[Limit Search Sange]
+[Limit Search Range]
 Абмежаваць пошук
 [Search messages from]
 Шукаць паведамленні з
@@ -575,8 +575,6 @@ HTML (*.htm; *.html)|*.htm;*.htm
 Гэта ўваходны URL
 [Incoming Url]
 Уваходны URL
-[Make shure you have CAPS LOCK turned off.]
-Пераканаецеся, што клавіша CAPS LOCK выключана.
 [Make sure you have CAPS LOCK turned off.]
 Пераканаецеся, што CAPS LOCK выключаны.
 [Miranda's settings used]

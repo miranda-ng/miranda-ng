@@ -63,7 +63,7 @@ WATrack: запрос запрещён
 Дополнительные возможности
 [Limit search range]
 Ограничить поиск
-[Limit Search Sange]
+[Limit Search Range]
 Ограничить поиск
 [Search messages from]
 Искать сообщения с
@@ -569,8 +569,6 @@ HTML файл
 Это входящий URL
 [Incoming Url]
 Входящий URL
-[Make shure you have CAPS LOCK turned off.]
-Убедитесь, что клавиша CAPS LOCK выключена.
 [Make sure you have CAPS LOCK turned off.]
 Убедитесь, что CAPS LOCK выключен.
 [Miranda's settings used]

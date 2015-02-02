@@ -65,8 +65,6 @@ Afficher les avatars modifiés
 Recherche avancée
 [Limit search range]
 
-[Limit Search Sange]
-
 [Search messages from]
 
 [Text Formatting]
@@ -575,8 +573,6 @@ Et
 
 [Incoming Url]
 Lien reçu
-[Make shure you have CAPS LOCK turned off.]
-
 [Make sure you have CAPS LOCK turned off.]
 
 [Miranda's settings used]
