@@ -515,18 +515,23 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
-	//char* szJid = mir_utf8encodeT(jid);
-	CMString tszNick = db_get_sa(hContact, m_szModuleName, "Nick");
-	char* szNick = mir_utf8encodeT(tszNick.GetBuffer());
 
+	CMString tszNick = db_get_sa(hContact, m_szModuleName, "Nick");
+	CMString tszFirstName = db_get_sa(hContact, m_szModuleName, "FirstName");
+	CMString tszLastName = db_get_sa(hContact, m_szModuleName, "LastName");
+	
+	ptrA szNick(mir_utf8encodeT(tszNick.GetBuffer()));
+	ptrA szFirstName(mir_utf8encodeT(tszFirstName.GetBuffer()));
+	ptrA szLastName(mir_utf8encodeT(tszLastName.GetBuffer()));
+		
 	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
-	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
+	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = (DWORD)time(NULL);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
-	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + 5);
+	dbei.cbBlob = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(szNick) + mir_strlen(szFirstName) + mir_strlen(szLastName) + 5);
 	
 	PBYTE pCurBlob = dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
 
@@ -539,18 +544,18 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	strcpy((char*)pCurBlob, szNick); 
 	pCurBlob += mir_strlen(szNick) + 1;
 
-	*pCurBlob = '\0';	//firstName
-	pCurBlob++;
-	*pCurBlob = '\0';	//lastName 
-	pCurBlob++;
+	strcpy((char*)pCurBlob, szFirstName);
+	pCurBlob += mir_strlen(szFirstName) + 1;
+
+	strcpy((char*)pCurBlob, szLastName);
+	pCurBlob += mir_strlen(szLastName) + 1;
+	
 	*pCurBlob = '\0';	//email
 	pCurBlob++;
 	*pCurBlob = '\0';	//reason
 
 	db_event_add(NULL, &dbei);
-	debugLogA("CVkProto::DBAddAuthRequest '%s'", szNick);
-
-	mir_free(szNick);
+	debugLogA("CVkProto::DBAddAuthRequest %s", tszNick.IsEmpty() ? "<null>" : szNick);
 }
 
 MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
