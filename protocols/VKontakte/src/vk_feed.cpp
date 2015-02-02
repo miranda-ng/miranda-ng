@@ -602,11 +602,11 @@ void CVkProto::RetrieveUnreadEvents()
 		return;
 
 	time_t tLastNotificationsTime = getDword("LastNotificationsTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNotificationsTime >= m_iNotificationsInterval * 60 && m_bNotificationsEnabled)
+	if (time(NULL) - tLastNotificationsTime - m_iNotificationsInterval * 60 >= -3 && m_bNotificationsEnabled)
 		RetrieveUnreadNotifications(tLastNotificationsTime);
 
 	time_t tLastNewsTime = getDword("LastNewsTime", time(NULL) - 24 * 60 * 60);
-	if (time(NULL) - tLastNewsTime >= m_iNewsInterval * 60 && m_bNewsEnabled)
+	if (time(NULL) - tLastNewsTime - m_iNewsInterval * 60 >= -3 && m_bNewsEnabled)
 		RetrieveUnreadNews(tLastNewsTime);
 
 	NewsClearHistory();
