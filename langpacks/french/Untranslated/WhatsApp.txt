@@ -15,6 +15,7 @@
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Your password has been set automatically. You can proceed with login now]
 [Please correctly specify your registration code received by SMS]
+[Message received: %s by %s]
 [Unable to get Netlib connection for WhatsApp]
 [Network connection error.]
 [Registration]

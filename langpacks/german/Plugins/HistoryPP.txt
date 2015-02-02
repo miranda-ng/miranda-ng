@@ -71,8 +71,6 @@ Suchbereich einschränken
 Nachrichten von
 [Text Formatting]
 Textformatierung
-[Limit Search Range]
-Suchbereich einschränken
 [Customize Filters]
 Filter anpassen
 [Filter Properties]

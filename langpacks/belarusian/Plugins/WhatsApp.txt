@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.2
+;  Version: 0.1.2.4
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -39,6 +39,7 @@
 Код рэгістрацыі прыйдзе на ваш тэлефон СМС-паведамленнем.\nМайце на ўвазе, што адначасовае выкарыстанне гэтага плагіна і сапраўднага WhatsApp немагчыма!\nПрацягнуць?
 [Please correctly specify your registration code received by SMS]
 Калі ласка, дакладна увядзіце свой код рэгістрацыі, атрыманы смс.
+;file \protocols\WhatsApp\src\messages.cpp
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 Далучэнне да сервера %s
