@@ -38,7 +38,6 @@
 [Limit Search Range]
 [Search messages from]
 [Text Formatting]
-[Limit Search Range]
 [Customize Filters]
 [Filter Properties]
 [&Name:]
