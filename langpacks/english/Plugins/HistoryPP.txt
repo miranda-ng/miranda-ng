@@ -290,7 +290,6 @@
 [Incoming Message Sample]
 [Incoming URL Sample]
 [Incoming Url]
-[Make shure you have CAPS LOCK turned off.]
 [Make sure you have CAPS LOCK turned off.]
 [Miranda's settings used]
 [Nick Font Color]
