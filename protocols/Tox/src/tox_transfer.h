@@ -47,16 +47,22 @@ struct FileTransferParam
 		return hFile != NULL;
 	}
 
-	int Start(Tox *tox)
+	/*void Start(Tox *tox)
 	{
 		status = STARTED;
-		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0);
+		if (tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0))
+		{
+			Fail(tox);
+		}
 	}
 
-	int Resume(Tox *tox)
+	void Resume(Tox *tox)
 	{
 		status = STARTED;
-		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(pfts.currentFileProgress));
+		if (tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(pfts.currentFileProgress)) == -1)
+		{
+			Fail(tox);
+		}
 	}
 
 	int Fail(Tox *tox)
@@ -71,11 +77,14 @@ struct FileTransferParam
 		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 	}
 
-	int Finish(Tox *tox)
+	void Finish(Tox *tox)
 	{
 		status = FINISHED;
-		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0);
-	}
+		if (tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0))
+		{
+			Fail(tox);
+		}
+	}*/
 
 	void Rename(const TCHAR* fileName)
 	{

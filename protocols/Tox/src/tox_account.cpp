@@ -121,7 +121,8 @@ void CToxProto::UninitToxCore()
 		{
 			mir_cslock(transfer->fileLock);
 
-			transfer->Cancel(tox);
+			transfer->status = CANCELED;
+			tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 			ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 		}
 		transfers->Remove(transfer);
