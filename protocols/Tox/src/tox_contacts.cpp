@@ -257,15 +257,12 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendNumber, cons
 				FileTransferParam *transfer = proto->transfers->GetAt(i);
 				if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 1)
 				{
-					if (transfer->Resume(tox) == TOX_ERROR)
+					proto->debugLogA("CToxProto::OnConnectionStatusChanged: sending ask to resume the transfer of file (%d)", transfer->fileNumber);
+					transfer->status = STARTED;
+					if (tox_file_send_control(tox, friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&transfer->pfts.currentFileProgress, sizeof(transfer->pfts.currentFileProgress)) == TOX_ERROR)
 					{
-						transfer->Cancel(tox);
-						proto->debugLogA("CToxProto::OnConnectionStatusChanged: failed to resuming of file (%d)",
-							transfer->pfts.currentFileProgress, transfer->pfts.currentFileSize, transfer->fileNumber);
-						continue;
+						tox_file_send_control(tox, friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 					}
-					proto->debugLogA("CToxProto::OnConnectionStatusChanged: ask to resume the receiving at %llu of %llu of file (%d)",
-						transfer->pfts.currentFileProgress, transfer->pfts.currentFileSize, transfer->fileNumber);
 				}
 			}
 		}
