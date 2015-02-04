@@ -47,45 +47,6 @@ struct FileTransferParam
 		return hFile != NULL;
 	}
 
-	/*void Start(Tox *tox)
-	{
-		status = STARTED;
-		if (tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_ACCEPT, NULL, 0))
-		{
-			Fail(tox);
-		}
-	}
-
-	void Resume(Tox *tox)
-	{
-		status = STARTED;
-		if (tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_RESUME_BROKEN, (uint8_t*)&pfts.currentFileProgress, sizeof(pfts.currentFileProgress)) == -1)
-		{
-			Fail(tox);
-		}
-	}
-
-	int Fail(Tox *tox)
-	{
-		status = FAILED;
-		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-	}
-
-	int Cancel(Tox *tox)
-	{
-		status = CANCELED;
-		return tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-	}
-
-	void Finish(Tox *tox)
-	{
-		status = FINISHED;
-		if (tox_file_send_control(tox, friendNumber, GetDirection(), fileNumber, TOX_FILECONTROL_FINISHED, NULL, 0))
-		{
-			Fail(tox);
-		}
-	}*/
-
 	void Rename(const TCHAR* fileName)
 	{
 		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);

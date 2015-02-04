@@ -232,7 +232,7 @@ void CToxProto::SendFileAsync(void *arg)
 		if (tox_file_send_data(tox, transfer->friendNumber, transfer->fileNumber, data, dataSize) == TOX_ERROR)
 		{
 			locker.unlock();
-			//Sleep(100);
+			Sleep(100);
 			continue;
 		}
 
