@@ -13,6 +13,9 @@
     <Filter Include="Source Files\api">
       <UniqueIdentifier>{87c3094c-c0d1-4179-856d-55d02a4450cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\api">
+      <UniqueIdentifier>{7f072eba-bb61-4824-b479-5898b85add0a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\version.h">
@@ -38,6 +41,15 @@
     </ClInclude>
     <ClInclude Include="src\tox_address.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tox.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="include\toxdns.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="include\toxencryptsave.h">
+      <Filter>Header Files\api</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
