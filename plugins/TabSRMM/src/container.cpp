@@ -47,7 +47,10 @@ static bool fForceOverlayIcons = false;
 
 void TSAPI SetAeroMargins(TContainerData *pContainer)
 {
-	if ( !M.isAero() || !pContainer || CSkin::m_skinEnabled) {
+	if(!pContainer)
+		return;
+
+	if (!M.isAero() || CSkin::m_skinEnabled) {
 		pContainer->MenuBar->setAero(false);
 		return;
 	}

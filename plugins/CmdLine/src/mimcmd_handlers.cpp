@@ -121,7 +121,6 @@ void HandleUnknownParameter(PCommand command, char *param, PReply reply)
 
 int ParseValueParam(char *param, void *&result)
 {
-	int ok = VALUE_UNKNOWN;
 	if (strlen(param) > 0)
 	{
 		switch (*param)
@@ -132,10 +131,7 @@ int ParseValueParam(char *param, void *&result)
 				result = (char *) malloc(len * sizeof(char));
 				STRNCPY((char *) result, param + 1, len);
 				((char *) result)[len - 1] = 0;
-				
-				ok = VALUE_STRING;
-				
-				return ok;
+				return VALUE_STRING;
 			}
 			
 			case 'w':
@@ -148,10 +144,7 @@ int ParseValueParam(char *param, void *&result)
 				MultiByteToWideChar(CP_ACP, 0, buffer, -1, (WCHAR *) result, (int) len);
 				
 				free(buffer);
-				
-				ok = VALUE_WIDE;
-				
-				return ok;
+				return VALUE_WIDE;
 			}
 
 			case 'b':
@@ -162,9 +155,7 @@ int ParseValueParam(char *param, void *&result)
 				long tmp = strtol(param + 1, &stop, 10);
 				* ((char *) result) = tmp;
 				
-				ok = (*stop == 0) ? VALUE_BYTE : VALUE_ERROR;
-				
-				return ok;
+				return (*stop == 0) ? VALUE_BYTE : VALUE_ERROR;
 			}
 
 			case 'i':
@@ -175,9 +166,7 @@ int ParseValueParam(char *param, void *&result)
 				long tmp = strtol(param + 1, &stop, 10);
 				* ((int *) result) = tmp;
 				
-				ok = (*stop == 0) ? VALUE_WORD : VALUE_ERROR;
-				
-				return ok;
+				return (*stop == 0) ? VALUE_WORD : VALUE_ERROR;
 			}
 
 			case 'd':
@@ -186,14 +175,14 @@ int ParseValueParam(char *param, void *&result)
 				char *stop;
 				* ((long *) result) = strtol(param + 1, &stop, 10);
 				
-				ok = (*stop == 0) ? VALUE_DWORD : VALUE_ERROR;
-			
-				return ok;
+				return (*stop == 0) ? VALUE_DWORD : VALUE_ERRORok;
 			}
 			default:
-				return ok;
+				return VALUE_UNKNOWN;
 		}
 	}
+	else
+		return VALUE_ERROR;
 }
 
 int ParseStatusParam(char *status)
