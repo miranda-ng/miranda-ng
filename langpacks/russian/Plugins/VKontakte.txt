@@ -88,7 +88,7 @@ E-mail или номер телефона:
 [Open VKontakte site]
 Открыть страницу ВКонтакте
 [Advanced]
-Дополнительные настройки
+Дополнительно
 [Hide chats on startup]
 Не открывать окна комнат чата при входе
 [Always notify as unread for all incoming message]
@@ -321,8 +321,8 @@ Cоздать комнату чата
 Учётная запись
 [News and notifications]
 Новости и уведомления
-[View settings]
-Настройки вида
+[View]
+Вид
 [%s server connection]
 Подключение к серверу %s
 [Create new chat]
