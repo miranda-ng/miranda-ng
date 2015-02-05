@@ -638,5 +638,5 @@ TCHAR *GetError(int code)
 		str = str2;
 		break;
 	}
-	return str;
+	return mir_tstrdup(str);
 }

@@ -254,7 +254,7 @@ void SaveOptions(void)
 //============  OPTION INITIALIZATION  ============
 
 // register the weather option pages
-int OptInit(WPARAM wParam, LPARAM lParam)
+int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
@@ -519,7 +519,6 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_TM6:
 		case IDC_TM7:
 		case IDC_TM8:
-			WEATHERINFO winfo;
 			// display the menu
 			button = GetDlgItem(hdlg, LOWORD(wParam));
 			GetWindowRect(button, &pos);
@@ -528,12 +527,13 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			TranslateMenu(hMenu1);
 			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) {
 			case ID_MPREVIEW:
+			{
 				// show the preview in a message box, using the weather data from the default station
-				winfo = LoadWeatherInfo(opt.DefStn);
+				WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
 				GetDisplay(&winfo, *var[LOWORD(wParam) - IDC_TM1], str);
 				MessageBox(NULL, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
 				break;
-
+			}
 			case ID_MRESET:
 				unsigned varo = LOWORD(wParam) - IDC_TM1;
 				// remove the old setting from db and free memory

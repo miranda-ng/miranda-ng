@@ -175,22 +175,23 @@ void DestroyCondList(WICONDLIST *List)
 // load the weather update data form INI files
 bool LoadWIData(bool dial)
 {
-	TCHAR szSearchPath[MAX_PATH], FileName[MAX_PATH];
-	WIN32_FIND_DATA fd;
-	WIDATA Data;
-
 	// make sure that the current service data list is empty
 	WITail = NULL;
 	WIHead = WITail;
 
 	// find all *.ini file in the plugin\weather directory
+	TCHAR szSearchPath[MAX_PATH], FileName[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, SIZEOF(szSearchPath));
 	TCHAR *chop = _tcsrchr(szSearchPath, '\\');
+	if (chop == NULL)
+		return false;
 	*chop = '\0';
 	_tcsncat(szSearchPath, _T("\\Plugins\\Weather\\*.ini"),SIZEOF(szSearchPath));
 	_tcsncpy(FileName, szSearchPath, SIZEOF(FileName));
 
+	WIN32_FIND_DATA fd;
 	HANDLE hFind = FindFirstFile(szSearchPath, &fd);
+
 
 	// load the content of the ini file into memory
 	if (hFind != INVALID_HANDLE_VALUE) {
@@ -199,6 +200,7 @@ bool LoadWIData(bool dial)
 			chop[1] = '\0';
 			_tcscat(FileName, fd.cFileName);
 			if ( _tcsicmp(fd.cFileName, _T("SAMPLE_INI.INI"))) {
+				WIDATA Data;
 				LoadStationData(FileName, fd.cFileName, &Data);
 				if (Data.Enabled)
 					WIListAdd(Data);
@@ -566,10 +568,12 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				TCHAR szPath[1024];
 				GetModuleFileName(GetModuleHandle(NULL), szPath, SIZEOF(szPath));
 				TCHAR *chop = _tcsrchr(szPath, '\\');
-				*chop = '\0';
-				_tcsncat(szPath, _T("\\Plugins\\weather\\"),SIZEOF(szPath));
-				_tmkdir(szPath);
-				ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
+				if (chop) {
+					*chop = '\0';
+					_tcsncat(szPath, _T("\\Plugins\\weather\\"),SIZEOF(szPath));
+					_tmkdir(szPath);
+					ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
+				}
 				break;
 			}
 
