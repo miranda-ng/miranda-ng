@@ -65,7 +65,7 @@ void ipcPrepareRequests(int ipcPacketSize, THeaderIPC *pipch, DWORD fRequests)
 	pipch->DataPtrEnd = (TSlotIPC*)(LPSTR(pipch->DataPtr) + pipch->DataSize);
 	pipch->DataFramePtr = pipch->DataPtr;
 	// fill the data area
-	memset(pipch->DataPtr, pipch->DataSize, 0);
+	memset(pipch->DataPtr,0 , pipch->DataSize);
 }
 
 DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC *pipch, DWORD dwTimeoutMsecs)

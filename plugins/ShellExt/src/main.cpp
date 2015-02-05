@@ -82,8 +82,8 @@ STDAPI DllCanUnloadNow()
 
 struct HRegKey
 {
-	HRegKey(HKEY hRoot, const char *ptszKey) : m_key(NULL)
-	{	RegCreateKeyExA(hRoot, ptszKey, 0, 0, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, 0, &m_key, 0);
+	HRegKey(HKEY hRoot, const TCHAR *ptszKey) : m_key(NULL)
+	{	RegCreateKeyEx(hRoot, ptszKey, 0, 0, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, 0, &m_key, 0);
 	}
 	
 	~HRegKey() { if (m_key) RegCloseKey(m_key); }
@@ -101,7 +101,7 @@ char str4[] = "Apartment";
  
 STDAPI DllRegisterServer()
 {
-	HRegKey k1(HKEY_CLASSES_ROOT, "miranda.shlext");
+	HRegKey k1(HKEY_CLASSES_ROOT, _T("miranda.shlext"));
 	if (k1 == NULL)
 		return E_FAIL;
 
@@ -113,7 +113,7 @@ STDAPI DllRegisterServer()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	HRegKey kClsid(HKEY_CLASSES_ROOT, "CLSID\\{72013A26-A94C-11d6-8540-A5E62932711D}");
+	HRegKey kClsid(HKEY_CLASSES_ROOT, _T("CLSID\\{72013A26-A94C-11d6-8540-A5E62932711D}"));
 	if (kClsid == NULL)
 		return E_FAIL;
 
@@ -122,7 +122,7 @@ STDAPI DllRegisterServer()
 	if ( RegSetValueA(kClsid, "ProgID", REG_SZ, str3, sizeof(str3)))
 		return E_FAIL;
 
-	HRegKey kInprocServer(kClsid, "InprocServer32");
+	HRegKey kInprocServer(kClsid, _T("InprocServer32"));
 	if (kInprocServer == NULL)
 		return E_FAIL;
 
@@ -142,7 +142,7 @@ STDAPI DllRegisterServer()
 
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	HRegKey k2(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
+	HRegKey k2(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved"));
 	if (k2 == NULL)
 		return E_FAIL;
 	if ( RegSetValueExA(k2, str2, 0, REG_SZ, (PBYTE)str1, str1len))
