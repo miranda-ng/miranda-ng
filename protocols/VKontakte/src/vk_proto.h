@@ -403,6 +403,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);
 
+	void __cdecl DBAddAuthRequestThread(void *p);
 	void DBAddAuthRequest(const MCONTACT hContact);
 	MCONTACT MContactFromDbEvent(MEVENT hDbEvent);
 

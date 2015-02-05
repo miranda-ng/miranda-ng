@@ -512,13 +512,28 @@ void CVkProto::ApplyCookies(AsyncHttpRequest *pReq)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
+{
+	MCONTACT hContact = (MCONTACT)p;
+	if (hContact == NULL || hContact == INVALID_CONTACT_ID || !IsOnline())
+		return;
+
+	for (int i = 0; i < MAX_RETRIES && CMString(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))).IsEmpty(); i++) {
+		Sleep(1500);
+		
+		if (!IsOnline())
+			return;
+	}
+	DBAddAuthRequest(hContact);
+}
+
 void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
 
-	CMString tszNick = db_get_sa(hContact, m_szModuleName, "Nick");
-	CMString tszFirstName = db_get_sa(hContact, m_szModuleName, "FirstName");
-	CMString tszLastName = db_get_sa(hContact, m_szModuleName, "LastName");
+	CMString tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
+	CMString tszFirstName = ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName"));
+	CMString tszLastName = ptrT(db_get_tsa(hContact, m_szModuleName, "LastName"));
 	
 	ptrA szNick(mir_utf8encodeT(tszNick.GetBuffer()));
 	ptrA szFirstName(mir_utf8encodeT(tszFirstName.GetBuffer()));
@@ -591,7 +606,7 @@ void CVkProto::SetMirVer(MCONTACT hContact, int platform)
 	}
 
 	CMString MirVer, OldMirVer;
-	OldMirVer = db_get_sa(hContact, m_szModuleName, "MirVer");
+	OldMirVer = ptrT(db_get_tsa(hContact, m_szModuleName, "MirVer"));
 	bool bSetFlag = true;
 
 	switch (platform) {
