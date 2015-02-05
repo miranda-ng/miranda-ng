@@ -47,18 +47,12 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
       iCheck = db_get_b(0, SHLExt_Name, SHLExt_UseGroups, BST_UNCHECKED);
       CheckDlgButton(hwndDlg, IDC_USEGROUPS, iCheck ? BST_CHECKED : BST_UNCHECKED);
       EnableWindow(GetDlgItem(hwndDlg, IDC_CLISTGROUPS), iCheck = BST_CHECKED);
-      CheckDlgButton(hwndDlg, IDC_CLISTGROUPS,
-         db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED));
-      CheckDlgButton(hwndDlg, IDC_NOPROF,
-         db_get_b(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED));
-      CheckDlgButton(hwndDlg, IDC_SHOWFULL,
-         db_get_b(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED));
-      CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES,
-         db_get_b(0, SHLExt_Name, SHLExt_UseHIT2Contacts, BST_UNCHECKED));
-      CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW,
-         db_get_b(0, SHLExt_Name, SHLExt_ShowNoIcons, BST_UNCHECKED));
-      CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE,
-         db_get_b(0, SHLExt_Name, SHLExt_ShowNoOffline, BST_UNCHECKED));
+      CheckDlgButton(hwndDlg, IDC_CLISTGROUPS, db_get_b(0, SHLExt_Name, SHLExt_UseCListSetting, BST_UNCHECKED));
+      CheckDlgButton(hwndDlg, IDC_NOPROF, db_get_b(0, SHLExt_Name, SHLExt_ShowNoProfile, BST_UNCHECKED));
+      CheckDlgButton(hwndDlg, IDC_SHOWFULL, db_get_b(0, SHLExt_Name, SHLExt_UseHITContacts, BST_UNCHECKED));
+      CheckDlgButton(hwndDlg, IDC_SHOWINVISIBLES, db_get_b(0, SHLExt_Name, SHLExt_UseHIT2Contacts, BST_UNCHECKED));
+      CheckDlgButton(hwndDlg, IDC_USEOWNERDRAW, db_get_b(0, SHLExt_Name, SHLExt_ShowNoIcons, BST_UNCHECKED));
+      CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE,  db_get_b(0, SHLExt_Name, SHLExt_ShowNoOffline, BST_UNCHECKED));
       // give the Remove button a Vista icon
       SendDlgItemMessage(hwndDlg, IDC_REMOVE, BCM_SETSHIELD, 0, 1);
 		return TRUE;
@@ -106,13 +100,13 @@ static INT_PTR CALLBACK OptDialogProc(HWND hwndDlg, UINT wMsg, WPARAM wParam, LP
 	return 0;
 }
 
-int OnOptionsInit(WPARAM wParam, LPARAM lParam)
+int OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE opt = { sizeof(opt) };
 	opt.flags = ODPF_BOLDGROUPS;
-	opt.pszGroup = "Services";
+	opt.pszGroup = LPGEN("Services");
 	opt.position = -1066;
-	opt.pszTitle = "Shell context menus";
+	opt.pszTitle = LPGEN("Shell context menus");
 	opt.pszTemplate = MAKEINTRESOURCEA(IDD_SHLOPTS);
 	opt.hInstance = hInst;
 	opt.pfnDlgProc = OptDialogProc;

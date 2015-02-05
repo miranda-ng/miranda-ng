@@ -223,7 +223,6 @@ void DecideMenuItemInfo(TSlotIPC *pct, TGroupNode *pg, MENUITEMINFOA &mii, TEnum
 
 // this callback is triggered by the menu code and IPC is already taking place,
 // just the transfer type+data needs to be setup
-
 int __stdcall ClearMRUIPC(
 	THeaderIPC *pipch,       // IPC header info, already mapped
 	HANDLE hWorkThreadEvent, // event object being waited on on miranda thread
@@ -339,13 +338,9 @@ static void BuildMenuGroupTree(TGroupNode *p, TEnumData *lParam, HMENU hLastMenu
 
 static void BuildMenus(TEnumData *lParam)
 {
-	HMENU hGroupMenu;
 	LPSTR Token;
 	TMenuDrawInfo *psd;
-	UINT c;
-	TSlotProtoIcons *pp;
 
-	MENUITEMINFOA mii = { 0 };
 	HANDLE hDllHeap = lParam->Self->hDllHeap;
 	HMENU hBaseMenu = lParam->Self->hRootMenu;
 
@@ -389,7 +384,7 @@ static void BuildMenus(TEnumData *lParam)
 
 	// build the menus inserting into hGroupMenu which will be a submenu of
 	// the instance menu item. e.g. Miranda -> [Groups ->] contacts
-	hGroupMenu = CreatePopupMenu();
+	HMENU hGroupMenu = CreatePopupMenu();
 
 	// allocate MRU menu, this will be associated with the higher up menu
 	// so doesn't need to be freed (unless theres no MRUs items attached)
@@ -402,7 +397,8 @@ static void BuildMenus(TEnumData *lParam)
 		// add contacts that have a group somewhere
 		BuildContactTree(j.First, lParam);
 	}
-
+	
+	MENUITEMINFOA mii = { 0 };
 	mii.cbSize = sizeof(MENUITEMINFO);
 	mii.fMask = MIIM_ID | MIIM_TYPE | MIIM_DATA;
 	// add all the contacts that have no group (which maybe all of them)
@@ -503,8 +499,8 @@ static void BuildMenus(TEnumData *lParam)
 	psd->hContact = 0;
 
 	// get Miranda's icon or bitmap
-	c = lParam->Self->ProtoIconsCount;
-	pp = lParam->Self->ProtoIcons;
+	UINT c = lParam->Self->ProtoIconsCount;
+	TSlotProtoIcons *pp = lParam->Self->ProtoIcons;
 	while (c > 0) {
 		c--;
 		if (pp[c].pid == lParam->pid && pp[c].hProto == 0) {
@@ -570,8 +566,6 @@ static void BuildSkinIcons(TEnumData *lParam)
 
 BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 {
-	HANDLE hMirandaWorkEvent;
-	int replyBits;
 	char szBuf[MAX_PATH];
 
 	TEnumData *lParam = (TEnumData*)param;
@@ -582,7 +576,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 		// and try to OpenEvent() a event object name to it (prefixed with a string)
 		// this was fine for most Oses (not the best way) but now actually compares
 		// the class string (a bit slower) but should get rid of those bugs finally.
-		hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
+		HANDLE hMirandaWorkEvent = OpenEventA(EVENT_ALL_ACCESS, false, CreateProcessUID(pid, szBuf, sizeof(szBuf)));
 		if (hMirandaWorkEvent != 0) {
 			GetClassNameA(hwnd, szBuf, sizeof(szBuf));
 			if ( lstrcmpA(szBuf, MIRANDACLASS) != 0) {
@@ -600,7 +594,7 @@ BOOL __stdcall ProcessRequest(HWND hwnd, LPARAM param)
 
 			// slots will be in the order of icon data, groups  contacts, the first
 			// slot will contain the profile name
-			replyBits = ipcSendRequest(hMirandaWorkEvent, lParam->hWaitFor, lParam->ipch, 1000);
+			DWORD replyBits = ipcSendRequest(hMirandaWorkEvent, lParam->hWaitFor, lParam->ipch, 1000);
 
 			// replyBits will be REPLY_FAIL if the wait timed out, or it'll be the request
 			// bits as sent or a series of *_NOTIMPL bits where the request bit were, if there are no
