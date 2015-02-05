@@ -61,8 +61,10 @@ int UpdateWeather(MCONTACT hContact)
 			mir_sntprintf(str, SIZEOF(str) - 105,
 				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
 			_tcscat(str, _T("\n"));
-			_tcscat(str, GetError(code));
+			TCHAR *tszError = GetError(code);
+			_tcscat(str, tszError);
 			WPShowMessage(str, SM_WARNING);
+			mir_free(tszError);
 		}
 		// log to netlib
 		Netlib_LogfT(hNetlibUser, _T("Error! Update cannot continue... Start to free memory"));

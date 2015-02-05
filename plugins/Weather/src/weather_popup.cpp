@@ -258,9 +258,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		// click actions
 		hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 		hMenu1 = GetSubMenu(hMenu, 0);
-		GetMenuString(hMenu1, opt.LeftClickAction, str, sizeof(str), MF_BYCOMMAND);
+		GetMenuString(hMenu1, opt.LeftClickAction, str, SIZEOF(str), MF_BYCOMMAND);
 		SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
-		GetMenuString(hMenu1, opt.RightClickAction, str, sizeof(str), MF_BYCOMMAND);
+		GetMenuString(hMenu1, opt.RightClickAction, str, SIZEOF(str), MF_BYCOMMAND);
 		SetDlgItemText(hdlg, IDC_RightClick, TranslateTS(str));
 		DestroyMenu(hMenu);
 

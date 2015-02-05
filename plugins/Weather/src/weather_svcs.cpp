@@ -115,7 +115,7 @@ static void __cdecl AckThreadProc(HANDLE param)
 
 // nothing to do here because weather proto do not need to retrieve contact info form network
 // so just return a 0
-INT_PTR WeatherGetInfo(WPARAM wParam,LPARAM lParam)
+INT_PTR WeatherGetInfo(WPARAM,LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *) lParam;
 	mir_forkthread(AckThreadProc, (void*)ccs->hContact);
@@ -133,7 +133,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	unsigned  i;
 	PROTO_AVATAR_INFORMATIONT* ai = ( PROTO_AVATAR_INFORMATIONT* )lParam;
 
-	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, sizeof(szSearchPath));
+	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, SIZEOF(szSearchPath));
 	chop = _tcsrchr(szSearchPath, '\\');
 
 	if (chop) *chop = '\0';
