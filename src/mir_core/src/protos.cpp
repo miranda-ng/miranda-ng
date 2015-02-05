@@ -49,14 +49,14 @@ MIR_CORE_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_
 {
 	char buf[4096];
 	int res = _vsnprintf(buf, sizeof(buf), szFormat, args);
-	CallService(MS_NETLIB_LOG, (WPARAM)pThis->m_hNetlibUser, (LPARAM)((res != -1) ? buf : CMStringA().FormatV(szFormat, args)));
+	CallService(MS_NETLIB_LOG, (WPARAM)(pThis ? pThis->m_hNetlibUser : NULL), (LPARAM)((res != -1) ? buf : CMStringA().FormatV(szFormat, args)));
 }
 
 MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args)
 {
 	WCHAR buf[4096];
 	int res = _vsnwprintf(buf, SIZEOF(buf), wszFormat, args);
-	CallService(MS_NETLIB_LOGW, (WPARAM)pThis->m_hNetlibUser, (LPARAM)((res != -1) ? buf : CMStringW().FormatV(wszFormat, args)));
+	CallService(MS_NETLIB_LOGW, (WPARAM)(pThis ? pThis->m_hNetlibUser : NULL), (LPARAM)((res != -1) ? buf : CMStringW().FormatV(wszFormat, args)));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
