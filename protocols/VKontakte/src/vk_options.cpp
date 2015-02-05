@@ -620,7 +620,7 @@ int CVkProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = &CVkProto::OptionsFeedsProc;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("View settings");
+	odp.ptszTab = LPGENT("View");
 	odp.position = 4;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VIEW);
 	odp.pfnDlgProc = &CVkProto::OptionsViewProc;
