@@ -109,6 +109,7 @@ void CMsnProto::MSNatDetect(void)
 	SOCKET s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	if (connect(s, (SOCKADDR*)&addr, sizeof(addr)) == SOCKET_ERROR) {
 		debugLogA("P2PNAT could not connect to echo server \"echo.edge.messenger.live.com\"");
+		closesocket(s);
 		return;
 	}
 

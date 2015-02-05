@@ -331,7 +331,7 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							string = newString[k];
 							j=0;
 						}
-						else if (!strncmp(&replace[i], "\r\n",2)) {
+						else if (!strncmp(replace + i, "\r\n",2)) {
 							if (string == newString[k])
 								k--;
 							if (k == MAX_REPLACES) break;
@@ -344,7 +344,8 @@ INT_PTR CALLBACK DlgProcCopy(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							string[++j] = '\0';
 						}
 						i++;
-					}	
+					}
+					free(replace);
 					hContact2 =(MCONTACT) CallService(MS_DB_CONTACT_ADD, 0, 0);
 					CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact2,(LPARAM)MODNAME);
 					CallService(MS_IGNORE_IGNORE, (WPARAM)hContact2, IGNOREEVENT_USERONLINE);
@@ -616,10 +617,15 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					mir_snprintf(tmp, SIZEOF(tmp), "Icon: On The Phone\r\n");
 				else if (icon == ID_STATUS_OUTTOLUNCH)
 					mir_snprintf(tmp, SIZEOF(tmp), "Icon: Out To Lunch\r\n");
-				else
+				else {
+					free(msg);
 					continue;
-				msg = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
-				strcat(msg,tmp);
+				}
+				char *msgtemp = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
+				if (msgtemp) {
+					msg = msgtemp;
+					strcat(msg,tmp);
+				}
 			}
 			if (usetimer && timer) {
 				char tmp[64],tmp2[8];
@@ -627,8 +633,11 @@ INT_PTR ImportContacts(WPARAM wParam, LPARAM lParam)
 					strcpy(tmp2,"Minutes");
 				else strcpy(tmp2,"Seconds");
 				mir_snprintf(tmp, SIZEOF(tmp), "UseTimer: Yes\r\nTimer: %d %s",timer, tmp2);
-				msg = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
-				strcat(msg,tmp);
+				char *msgtemp = (char*)realloc(msg, strlen(msg) + strlen(tmp) +1);
+				if (msgtemp) {
+					msg = msgtemp;
+					strcat(msg,tmp);
+				}
 			}
 
 			if (MessageBoxA(0,msg,modFullname,MB_YESNO) == IDYES) {
