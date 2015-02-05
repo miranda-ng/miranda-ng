@@ -173,15 +173,13 @@ static DWORD ShutdownNow(BYTE shutdownType)
 		ShutdownNow(SDSDT_SETMIRANDAOFFLINE); /* set Miranda offline */
 		/* hang up all ras connections */
 		{	
-			RASCONN *paConn;
-			RASCONN *paConnBuf;
-			DWORD dwConnSize,dwConnItems,dwRetries;
+			DWORD dwRetries;
 			RASCONNSTATUS rcs;
 			DWORD dw,dwLastTickCount;
 
-			dwConnSize=sizeof(RASCONN);
-			dwConnItems=0;
-			paConn=(RASCONN*)mir_alloc(dwConnSize);
+			DWORD dwConnSize=sizeof(RASCONN);
+			DWORD dwConnItems=0;
+			RASCONN *paConn=(RASCONN*)mir_alloc(dwConnSize);
 			dwErrCode=ERROR_NOT_ENOUGH_MEMORY;
 			if (paConn != NULL) {
 				for(dwRetries=5; dwRetries != 0; dwRetries--) { /* prevent infinite loop (rare) */
@@ -189,8 +187,8 @@ static DWORD ShutdownNow(BYTE shutdownType)
 					paConn[0].dwSize = sizeof(RASCONN);
 					dwErrCode = RasEnumConnections(paConn, &dwConnSize, &dwConnItems);
 					if (dwErrCode != ERROR_BUFFER_TOO_SMALL) break;
-					paConnBuf=(RASCONN*)mir_realloc(paConn,dwConnSize);
-					if (paConnBuf != NULL) {
+					RASCONN *paConnBuf=(RASCONN*)mir_realloc(paConn,dwConnSize);
+					if (paConnBuf == NULL) {
 						mir_free(paConn);
 						paConn = NULL;
 						dwErrCode = ERROR_NOT_ENOUGH_MEMORY;
@@ -354,13 +352,11 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 
 	case M_START_SHUTDOWN:
 		if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_BUTTON_SHUTDOWNNOW))) {
-			DWORD dwErrCode;
 			EnableWindow(GetDlgItem(hwndDlg,IDC_BUTTON_SHUTDOWNNOW),FALSE);
 			ShowWindow(hwndDlg,SW_HIDE);  /* get rid of the dialog immediately */
-			dwErrCode=ShutdownNow(shutdownType);
+			DWORD dwErrCode=ShutdownNow(shutdownType);
 			if (dwErrCode != ERROR_SUCCESS) {
-				char *pszErr;
-				pszErr=GetWinErrorDescription(dwErrCode);
+				char *pszErr=GetWinErrorDescription(dwErrCode);
 				ShowInfoMessage(NIIF_ERROR,Translate("Automatic Shutdown Error"),Translate("The shutdown process failed!\nReason: %s"),(pszErr != NULL)?pszErr:Translate("Unknown"));
 				if (pszErr != NULL) LocalFree(pszErr);
 			}
