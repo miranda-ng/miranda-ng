@@ -575,7 +575,7 @@ void CVkProto::KickFromChat(int chat_id, int user_id, JSONNODE* pMsg)
 	if (msg.IsEmpty()) {
 		msg = TranslateT("You've been kicked by ");
 		if (hContact != NULL)
-			msg += db_get_tsa(hContact, m_szModuleName, "Nick");
+			msg += ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
 		else
 			msg += TranslateT("(Unknown contact)");
 	}

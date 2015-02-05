@@ -109,8 +109,8 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		return;
 
 	int iOldStatus = m_iStatus;
-	CMString oldStatusMsg = db_get_tsa(NULL, m_szModuleName, "OldStatusMsg");
-	CMString ListeningToMsg = db_get_tsa(NULL, m_szModuleName, "ListeningTo");
+	CMString oldStatusMsg = ptrT(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg"));
+	CMString ListeningToMsg = ptrT(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE;
@@ -346,7 +346,7 @@ MCONTACT CVkProto::SetContactInfo(JSONNODE* pItem, bool flag, bool self)
 		setTString(hContact, "Phone", tszValue.GetBuffer());
 
 	tszValue = json_as_CMString(json_get(pItem, "status"));
-	CMString tszOldStatus(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg"));
+	CMString tszOldStatus(ptrT(db_get_tsa(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg")));
 	if (tszValue != tszOldStatus) {
 		db_set_ts(hContact, hContact ? "CList" : m_szModuleName, "StatusMsg", tszValue.GetBuffer());
 		db_unset(hContact, m_szModuleName, "AudioUrl");
@@ -483,9 +483,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		hContact = FindUser(userid, true);
 		if (!getBool(hContact, "ReqAuth", false)) {
 			RetrieveUserInfo(userid);
-			setByte(hContact, "ReqAuth", 1);
-			Sleep(3000);
-			DBAddAuthRequest(hContact);
+			setByte(hContact, "ReqAuth", 1);	
+			ForkThread(&CVkProto::DBAddAuthRequestThread, (void *)hContact);		
 		}
 	}
 }
@@ -1013,7 +1012,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		return;
 	
 	CMString code;
-	CMString oldStatusMsg = db_get_tsa(0, m_szModuleName, "OldStatusMsg");
+	CMString oldStatusMsg = ptrT(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
 		if (m_iMusicSendMetod == sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
@@ -1101,7 +1100,7 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 		return 1;
 	
 	CMString formatstr = TranslateT("Are you sure to delete %s from your friend list?"),
-		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"), 
+		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
 		ptszMsg;
 	if (flag == 0) {
 		ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
@@ -1123,7 +1122,7 @@ void CVkProto::OnReceiveDeleteFriend(NETLIBHTTPREQUEST* reply, AsyncHttpRequest*
 		JSONROOT pRoot;
 		JSONNODE *pResponse = CheckJsonResponse(pReq, reply, pRoot);
 		if (pResponse != NULL) {
-			CMString tszNick = db_get_tsa(param->hContact, m_szModuleName, "Nick");
+			CMString tszNick = ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
 			if (tszNick.IsEmpty())
 				tszNick = TranslateT("(Unknown contact)");
 			CMString msgformat, msg;
@@ -1193,7 +1192,7 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 	code += "return 1;";
 
 	CMString formatstr = TranslateT("Are you sure to ban %s? %s%sContinue?"),
-		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"),
+		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
 		ptszMsg;
 
 	ptszMsg.AppendFormat(formatstr, 
@@ -1222,7 +1221,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 		return 1;
 
 	CMString formatstr = TranslateT("Are you sure to report abuse on %s?"),
-		tszNick = db_get_tsa(hContact, m_szModuleName, "Nick"),
+		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
 		ptszMsg;
 	ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
 	if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
@@ -1239,7 +1238,7 @@ INT_PTR __cdecl CVkProto::SvcReportAbuse(WPARAM hContact, LPARAM)
 INT_PTR __cdecl CVkProto::SvcOpenBroadcast(WPARAM hContact, LPARAM)
 {
 	debugLogA("CVkProto::SvcOpenBroadcast");
-	CMString tszAudio(db_get_tsa(hContact, m_szModuleName, "AudioUrl"));
+	CMString tszAudio(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl")));
 	
 	if (!tszAudio.IsEmpty())
 		CallService(MS_UTILS_OPENURL, (WPARAM)OUF_TCHAR, (LPARAM)tszAudio.GetBuffer());
