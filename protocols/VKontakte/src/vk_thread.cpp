@@ -110,11 +110,11 @@ void CVkProto::SetServerStatus(int iNewStatus)
 
 	int iOldStatus = m_iStatus;
 	CMString oldStatusMsg = ptrT(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg"));
-	CMString ListeningToMsg = ptrT(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
+	ptrT ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
 		m_iStatus = ID_STATUS_OFFLINE;
-		if (!ListeningToMsg.IsEmpty()) 
+		if (!IsEmpty(ptszListeningToMsg))
 			RetrieveStatusMsg(oldStatusMsg);
 		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
@@ -127,7 +127,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	}
 	else {
 		m_iStatus = ID_STATUS_INVISIBLE;
-		if (!ListeningToMsg.IsEmpty()) 
+		if (!IsEmpty(ptszListeningToMsg))
 			RetrieveStatusMsg(oldStatusMsg);
 		if (iOldStatus == ID_STATUS_ONLINE)
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
@@ -386,10 +386,9 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 	
 	CMString userIDs, code;
 	userIDs.AppendFormat(_T("%i"), userID);
-	CMString codeformat("var userIDs=\"%s\";"
-		"return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};");
-		
-	code.AppendFormat(codeformat, userIDs.GetBuffer(), CMString(fieldsName).GetBuffer());
+			
+	code.AppendFormat(_T("var userIDs=\"%s\";return{\"freeoffline\":0,\"users\":API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"})};"), 
+		userIDs.GetBuffer(), CMString(fieldsName).GetBuffer());
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.json", true, &CVkProto::OnReceiveUserInfo)
 		<< TCHAR_PARAM("code", code)
 		<< VER_API);
@@ -988,9 +987,9 @@ void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 	JSONNODE *pAudio = json_get(pResponse, "audio");
 	if (pAudio == NULL) {
-		CMString StatusText = json_as_CMString(json_get(pResponse, "text"));
-		if (StatusText.GetBuffer()[0] != TCHAR(9835))
-			setTString("OldStatusMsg", StatusText.GetBuffer());
+		ptrT ptszStatusText(json_as_string(json_get(pResponse, "text")));
+		if (ptszStatusText[0] != TCHAR(9835))
+			setTString("OldStatusMsg", ptszStatusText);
 	}
 }
 
@@ -1012,13 +1011,13 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 		return;
 	
 	CMString code;
-	CMString oldStatusMsg = ptrT(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
+	ptrT ptszOldStatusMsg(db_get_tsa(0, m_szModuleName, "OldStatusMsg"));
 	if (StatusMsg.IsEmpty()) {
 		if (m_iMusicSendMetod == sendBroadcastOnly)
 			code = "API.audio.setBroadcast();return null;";
 		else {
 			CMString codeformat("API.status.set({text:\"%s\"});return null;");
-			code.AppendFormat(codeformat, oldStatusMsg);
+			code.AppendFormat(codeformat, ptszOldStatusMsg);
 		}
 	}
 	else {
@@ -1064,19 +1063,19 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 		return 1;
 
 	LISTENINGTOINFO *pliInfo = (LISTENINGTOINFO*)lParam;
-	CMStringW wszListeningTo;
+	CMString tszListeningTo;
 	if (pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO)) 
 		db_unset(NULL, m_szModuleName, "ListeningTo");
 	else if (pliInfo->dwFlags & LTI_UNICODE) {
 		if (ServiceExists(MS_LISTENINGTO_GETPARSEDTEXT))
-			wszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%artist% - %title%"), (LPARAM)pliInfo));
+			tszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%artist% - %title%"), (LPARAM)pliInfo));
 		else
-			wszListeningTo.Format(_T("%s - %s"),
+			tszListeningTo.Format(_T("%s - %s"),
 			pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""),
 			pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""));
-		setTString("ListeningTo", wszListeningTo);
+		setTString("ListeningTo", tszListeningTo);
 	}
-	RetrieveStatusMusic(wszListeningTo);
+	RetrieveStatusMusic(tszListeningTo);
 	return 0;
 }
 
@@ -1099,11 +1098,11 @@ INT_PTR __cdecl CVkProto::SvcDeleteFriend(WPARAM hContact, LPARAM flag)
 	if (!IsOnline() || userID == -1 || userID == VK_FEED_USER)
 		return 1;
 	
-	CMString formatstr = TranslateT("Are you sure to delete %s from your friend list?"),
-		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
-		ptszMsg;
+	 
+	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
+	CMString ptszMsg;
 	if (flag == 0) {
-		ptszMsg.AppendFormat(formatstr, tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick);
+		ptszMsg.AppendFormat(TranslateT("Are you sure to delete %s from your friend list?"), IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick);
 		if (IDNO == MessageBox(NULL, ptszMsg.GetBuffer(), TranslateT("Attention!"), MB_ICONWARNING | MB_YESNO))
 			return 1;
 	}
@@ -1191,12 +1190,11 @@ INT_PTR __cdecl CVkProto::SvcBanUser(WPARAM hContact, LPARAM)
 		tszVarWarning += ".\n";
 	code += "return 1;";
 
-	CMString formatstr = TranslateT("Are you sure to ban %s? %s%sContinue?"),
-		tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick")),
-		ptszMsg;
+	ptrT ptszNick(db_get_tsa(hContact, m_szModuleName, "Nick"));
+	CMString ptszMsg;
 
-	ptszMsg.AppendFormat(formatstr, 
-		tszNick.IsEmpty() ? TranslateT("(Unknown contact)") : tszNick.GetBuffer(), 
+	ptszMsg.AppendFormat(TranslateT("Are you sure to ban %s? %s%sContinue?"), 
+		IsEmpty(ptszNick) ? TranslateT("(Unknown contact)") : ptszNick, 
 		tszVarWarning.IsEmpty() ? _T(" ") : TranslateT("\nIt will also"),
 		tszVarWarning.IsEmpty() ? _T("\n") : tszVarWarning.GetBuffer());
 

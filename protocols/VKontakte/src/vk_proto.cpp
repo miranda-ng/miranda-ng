@@ -317,7 +317,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 {
 	LONG userID = getDword(hContact, "ID", -1);
 	bool bisFriend = (getByte(hContact, "Auth", -1) == 0);
-	bool bisBroadcast = !(CMString(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))).IsEmpty());
+	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
@@ -656,12 +656,11 @@ void CVkProto::OnReceiveAuthRequest(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *
 			int iRet = json_as_int(pResponse);
 			setByte(param->hContact, "Auth", 0);
 			if (iRet == 2) {
-				CMString msg,
-					msgformat = TranslateT("User %s added as friend"),
+				CMString msg,			
 					tszNick = ptrT(db_get_tsa(param->hContact, m_szModuleName, "Nick"));
 				if (tszNick.IsEmpty())
 					tszNick = TranslateT("(Unknown contact)");
-				msg.AppendFormat(msgformat, tszNick.GetBuffer());
+				msg.AppendFormat(TranslateT("User %s added as friend"), tszNick.GetBuffer());
 				MsgPopup(param->hContact, msg.GetBuffer(), tszNick.GetBuffer());
 			}
 		} 

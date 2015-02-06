@@ -30,9 +30,8 @@ void CVkProto::AddFeedSpecialUser()
 	
 	if (!hContact) {
 		hContact = FindUser(VK_FEED_USER, true);
-		CMString tszNick = TranslateT("VKontakte");
 
-		setTString(hContact, "Nick", tszNick.GetBuffer());
+		setTString(hContact, "Nick", TranslateT("VKontakte"));
 		CMString tszUrl = _T("https://vk.com/press/Simple.png");
 		SetAvatarUrl(hContact, tszUrl);
 		ReloadAvatarInfo(hContact);

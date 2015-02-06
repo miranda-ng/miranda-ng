@@ -126,14 +126,15 @@ void CVkProto::GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int 
 	if (-1 == userID || userID == VK_FEED_USER)
 		return;
 
-	CMStringA code, formatcode = "var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"
+	CMStringA code;
+
+	code.AppendFormat("var iOffset=%d;var iReqCount=%d;var userID=%d;var iTime=%d;var lastMid=%d;"
 		"var Hist=API.messages.getHistory({\"user_id\":userID,\"count\":iReqCount,\"offset\":iOffset});"
 		"var allCount=Hist.count;var ext=Hist.items.length;var index=0;"
 		"while(ext!=0){if(Hist.items[index].date>iTime){if(Hist.items[index].id>lastMid)"
 		"{index=index+1;ext=ext-1;}else ext=0;}else ext=0;};"
-		"var ret=Hist.items.slice(0,index); return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"once\":%d,\"rcount\":iReqCount};";
-
-	code.AppendFormat(formatcode, iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
+		"var ret=Hist.items.slice(0,index); return{\"count\":index,\"datetime\":iTime,\"items\":ret,\"once\":%d,\"rcount\":iReqCount};", 
+		iOffset, iCount, userID, iTime, iLastMsgId, (int)once);
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveHistoryMessages)
 		<< CHAR_PARAM("code", code)
 		<< VER_API)->pUserInfo = new CVkSendMsgParam(hContact, iLastMsgId, iOffset);

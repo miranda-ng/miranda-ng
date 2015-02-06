@@ -19,6 +19,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 static char* szImageTypes[] = { "photo_2560", "photo_1280", "photo_807", "photo_604", "photo_256", "photo_130", "photo_128", "photo_75", "photo_64" };
 
+bool IsEmpty(TCHAR *str)
+{
+	if (str == NULL)
+		return true;
+	if (str[0] == 0)
+		return true;
+	return false;
+}
+
+bool IsEmpty(char *str)
+{
+	if (str == NULL)
+		return true;
+	if (str[0] == 0)
+		return true;
+	return false;
+}
+
 CMString json_as_CMString(JSONNODE* pNode)
 {
 	ptrT pString(json_as_string(pNode));
@@ -345,8 +363,8 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE *pNode)
 			pReq->m_iRetry--;
 		}
 		else {
-			CMString msg, msgformat = TranslateT("Error %d. Data will not be sent or received.");
-			msg.AppendFormat(msgformat, iErrorCode);
+			CMString msg;
+			msg.AppendFormat(TranslateT("Error %d. Data will not be sent or received."), iErrorCode);
 			MsgPopup(NULL, msg.GetBuffer(), TranslateT("Error"), true);
 			debugLogA("CVkProto::CheckJsonResult SendError");
 		}
@@ -518,26 +536,23 @@ void __cdecl CVkProto::DBAddAuthRequestThread(void *p)
 	if (hContact == NULL || hContact == INVALID_CONTACT_ID || !IsOnline())
 		return;
 
-	for (int i = 0; i < MAX_RETRIES && CMString(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))).IsEmpty(); i++) {
+	for (int i = 0; i < MAX_RETRIES && IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))); i++) {
 		Sleep(1500);
 		
 		if (!IsOnline())
 			return;
 	}
+
 	DBAddAuthRequest(hContact);
 }
 
 void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 {
 	debugLogA("CVkProto::DBAddAuthRequest");
-
-	CMString tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
-	CMString tszFirstName = ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName"));
-	CMString tszLastName = ptrT(db_get_tsa(hContact, m_szModuleName, "LastName"));
-	
-	ptrA szNick(mir_utf8encodeT(tszNick.GetBuffer()));
-	ptrA szFirstName(mir_utf8encodeT(tszFirstName.GetBuffer()));
-	ptrA szLastName(mir_utf8encodeT(tszLastName.GetBuffer()));
+		
+	ptrA szNick(mir_utf8encodeT(ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"))));
+	ptrA szFirstName(mir_utf8encodeT(ptrT(db_get_tsa(hContact, m_szModuleName, "FirstName"))));
+	ptrA szLastName(mir_utf8encodeT(ptrT(db_get_tsa(hContact, m_szModuleName, "LastName"))));
 		
 	//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	//blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), ""(ASCIIZ), ""(ASCIIZ)
@@ -570,7 +585,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact)
 	*pCurBlob = '\0';	//reason
 
 	db_event_add(NULL, &dbei);
-	debugLogA("CVkProto::DBAddAuthRequest %s", tszNick.IsEmpty() ? "<null>" : szNick);
+	debugLogA("CVkProto::DBAddAuthRequest %s", szNick ? szNick : "<null>");
 }
 
 MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
@@ -1011,16 +1026,16 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 			ptrT ptszUrl(json_as_string(json_get(pLink, "url")));
 			ptrT ptszTitle(json_as_string(json_get(pLink, "title")));
 			ptrT ptszDescription(json_as_string(json_get(pLink, "description")));
-			CMString tszImage(json_as_CMString(json_get(pLink, "image_src")));
+			ptrT ptszImage(json_as_string(json_get(pLink, "image_src")));
 
 			res.AppendFormat(_T("%s: %s"), 
 				SetBBCString(TranslateT("Link"), iBBC, vkbbcB).GetBuffer(), 
 				SetBBCString(ptszTitle, iBBC, vkbbcUrl, ptszUrl).GetBuffer());
-			if (!tszImage.IsEmpty())
+			if (!IsEmpty(ptszImage))
 				if (m_iIMGBBCSupport)
-					res.AppendFormat(_T("\n\t%s: [img]%s[/img]"), TranslateT("Image"), tszImage.GetBuffer());
+					res.AppendFormat(_T("\n\t%s: [img]%s[/img]"), TranslateT("Image"), ptszImage);
 				else
-					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), tszImage.GetBuffer());
+					res.AppendFormat(_T("\n\t%s: %s"), TranslateT("Image"), ptszImage);
 
 			if (ptszDescription)
 				res.AppendFormat(_T("\n\t%s"), ptszDescription);
