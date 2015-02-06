@@ -177,12 +177,19 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 			if (CallProtoService(szProto, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE) {
 				CLISTMENUITEM mi = { sizeof(mi) };
 				mi.flags = CMIM_NAME;
-				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE)
-					mi.pszName = LPGEN("&Join chat");
-				else
-					mi.pszName = LPGEN("&Open chat window");
+				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
+					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
+						bEnabled = true;
+						mi.pszName = LPGEN("&Join chat");
+					}
+				}
+				else {
+					if (ProtoServiceExists(szProto, PS_LEAVECHAT)) {
+						bEnabled = true;
+						mi.pszName = LPGEN("&Open chat window");
+					}
+				}
 				Menu_ModifyItem(hJoinMenuItem, &mi);
-				bEnabled = true;
 			}
 		}
 	}
