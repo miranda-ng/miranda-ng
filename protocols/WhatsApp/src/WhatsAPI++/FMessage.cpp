@@ -57,7 +57,7 @@ FMessage::~FMessage()
 {
 }
 
-Key::Key(const std::string& remote_jid, bool from_me, const std::string& id)
+Key::Key(const std::string &remote_jid, bool from_me, const std::string &id)
 {
 	this->remote_jid = remote_jid;
 	this->from_me = from_me;
@@ -70,7 +70,7 @@ std::string Key::toString()
 }
 
 
-unsigned char FMessage::getMessage_WA_Type(const std::string& type)
+unsigned char FMessage::getMessage_WA_Type(const std::string &type)
 {
 	if (type.empty())
 		return WA_TYPE_UNDEFINED;

@@ -8,7 +8,6 @@
 #include "WALogin.h"
 #include "ByteArray.h"
 #include "ProtocolTreeNode.h"
-#include "WAException.h"
 #include <iostream>
 #include <vector>
 #include <map>
@@ -18,7 +17,7 @@
 
 using namespace Utilities;
 
-WALogin::WALogin(WAConnection* connection, const std::string& password)
+WALogin::WALogin(WAConnection* connection, const std::string &password)
 {
 	m_pConnection = connection;
 	m_szPassword = password;
@@ -97,12 +96,9 @@ std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char
 std::vector<unsigned char> WALogin::readFeaturesUntilChallengeOrSuccess()
 {
 	while (ProtocolTreeNode *root = m_pConnection->in.nextTree()) {
-		#ifdef _DEBUG
-			{
-				string tmp = root->toString();
-				m_pConnection->logData(tmp.c_str());
-			}
-		#endif
+		string tmp = root->toString();
+		m_pConnection->logData(tmp.c_str());
+
 		if (ProtocolTreeNode::tagEquals(root, "stream:features")) {
 			m_pConnection->supports_receipt_acks = root->getChild("receipt_acks") != NULL;
 			delete root;

@@ -7,11 +7,11 @@ int WhatsAppProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	return Proto_RecvMessage(hContact, pre);
 }
 
-void WhatsAppProto::onMessageForMe(FMessage *pMsg, bool paramBoolean)
+void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 {
 	// someone sent us a contact. launch contact addition dialog
-	if (pMsg->media_wa_type == FMessage::WA_TYPE_CONTACT) {
-		MCONTACT hContact = AddToContactList(pMsg->remote_resource, 0, false, pMsg->media_name.c_str());
+	if (pMsg.media_wa_type == FMessage::WA_TYPE_CONTACT) {
+		MCONTACT hContact = AddToContactList(pMsg.remote_resource, pMsg.media_name.c_str());
 
 		ADDCONTACTSTRUCT acs = { 0 };
 		acs.handleType = HANDLE_CONTACT;
@@ -20,29 +20,24 @@ void WhatsAppProto::onMessageForMe(FMessage *pMsg, bool paramBoolean)
 		CallServiceSync(MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 	}
 	else {
-		bool isChatRoom = !pMsg->remote_resource.empty();
-
-		std::string msg(pMsg->data);
-		if (!pMsg->media_url.empty()) {
+		std::string msg(pMsg.data);
+		if (!pMsg.media_url.empty()) {
 			if (!msg.empty())
 				msg.append("\n");
-			msg += pMsg->media_url;
+			msg += pMsg.media_url;
 		}
 
-		if (isChatRoom)
-			msg.insert(0, std::string("[").append(pMsg->notifyname).append("]: "));
-
-		MCONTACT hContact = this->AddToContactList(pMsg->key.remote_jid, 0, false,
-			isChatRoom ? NULL : pMsg->notifyname.c_str(), isChatRoom);
+		MCONTACT hContact = this->AddToContactList(pMsg.key.remote_jid, pMsg.notifyname.c_str());
 
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_UTF;
 		recv.szMessage = const_cast<char*>(msg.c_str());
-		recv.timestamp = pMsg->timestamp;
+		recv.timestamp = pMsg.timestamp;
 		ProtoChainRecvMsg(hContact, &recv);
 	}
 
-	m_pConnection->sendMessageReceived(pMsg);
+	if (isOnline())
+		m_pConnection->sendMessageReceived(pMsg);
 }
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
@@ -56,11 +51,6 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 		return 0;
 	}
 
-	if (getByte(hContact, "SimpleChatRoom", 0) > 0 && getByte(hContact, "IsGroupMember", 0) == 0) {
-		debugLogA("not a group member");
-		return 0;
-	}
-	
 	int msgId = GetSerial();
 	try {
 		time_t now = time(NULL);
@@ -84,9 +74,9 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	return msgId;
 }
 
-void WhatsAppProto::onIsTyping(const std::string& paramString, bool paramBoolean)
+void WhatsAppProto::onIsTyping(const std::string &paramString, bool paramBoolean)
 {
-	MCONTACT hContact = this->AddToContactList(paramString, 0, false);
+	MCONTACT hContact = this->AddToContactList(paramString);
 	if (hContact != NULL) {
 		CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, (LPARAM)
 			paramBoolean ? PROTOTYPE_CONTACTTYPING_INFINITE : PROTOTYPE_CONTACTTYPING_OFF);
@@ -108,28 +98,33 @@ int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
 	return 0;
 }
 
-void WhatsAppProto::onMessageStatusUpdate(FMessage* fmsg)
+void WhatsAppProto::onMessageStatusUpdate(const FMessage &fmsg)
 {
-	MCONTACT hContact = this->ContactIDToHContact(fmsg->key.remote_jid);
+	MCONTACT hContact = this->ContactIDToHContact(fmsg.key.remote_jid);
 	if (hContact == 0)
 		return;
 
+	if (isChatRoom(hContact)) {
+		onGroupMessageReceived(fmsg);
+		return;
+	}
+
 	const TCHAR *ptszBy;
-	switch (fmsg->status) {
+	switch (fmsg.status) {
 	case FMessage::STATUS_RECEIVED_BY_SERVER: ptszBy = TranslateT("server"); break;
 	case FMessage::STATUS_RECEIVED_BY_TARGET: ptszBy = pcli->pfnGetContactDisplayName(hContact, 0);  break;
 	default:
 		return;
 	}
 
-	size_t delim = fmsg->key.id.find('-');
+	size_t delim = fmsg.key.id.find('-');
 	if (delim == string::npos)
 		return;
 
-	int msgId = atoi(fmsg->key.id.substr(delim+1).c_str());
+	int msgId = atoi(fmsg.key.id.substr(delim+1).c_str());
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
 
-	time_t timestamp = atol(fmsg->key.id.substr(0, delim).c_str());
+	time_t timestamp = atol(fmsg.key.id.substr(0, delim).c_str());
 
 	TCHAR ttime[64];
 	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));

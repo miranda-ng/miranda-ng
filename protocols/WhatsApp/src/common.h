@@ -70,10 +70,6 @@ Copyright © 2013-14 Uli Hecht
 #include <m_folders.h>
 #include <m_json.h>
 
-#include "WhatsAPI++/WAConnection.h"
-
-class WhatsAppProto;
-
 #include "constants.h"
 #include "utils.h"
 #include "db.h"

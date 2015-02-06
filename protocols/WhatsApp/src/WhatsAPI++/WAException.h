@@ -32,9 +32,9 @@ public:
 	static const int SOCKET_EX_SEND = 3;
 	static const int SOCKET_EX_RECV = 4;
 
-	WAException(const std::string& err): runtime_error(err) {this->type = 0; this->subtype = 0; this->expire_date = 0;};
-	WAException(const std::string& err, int type, int subtype): runtime_error(err), type(type), subtype(subtype), expire_date(0) {};
-	WAException(const std::string& err, int type, int subtype, time_t expireDate): runtime_error(err), type(type), subtype(subtype), expire_date(expireDate) {};
+	WAException(const std::string &err): runtime_error(err) {this->type = 0; this->subtype = 0; this->expire_date = 0;};
+	WAException(const std::string &err, int type, int subtype): runtime_error(err), type(type), subtype(subtype), expire_date(0) {};
+	WAException(const std::string &err, int type, int subtype, time_t expireDate): runtime_error(err), type(type), subtype(subtype), expire_date(expireDate) {};
 };
 
 #endif /* WAEXCEPTION_H_ */

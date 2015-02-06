@@ -12,7 +12,7 @@ void WASocketConnection::quitNetwork()
 {
 }
 
-WASocketConnection::WASocketConnection(const std::string& dir, int port) throw (WAException)
+WASocketConnection::WASocketConnection(const std::string &dir, int port) throw (WAException)
 {
 	NETLIBOPENCONNECTION	noc = { sizeof(noc) };
 	noc.szHost = dir.c_str();
