@@ -11,4 +11,4 @@
 #define __AUTHOR               "Robert P\xf6" "sel"
 #define __AUTHOREMAIL            "robyer@seznam.cz"
 #define __AUTHORWEB               "http://miranda-ng.org/p/MobileState/"
-#define __COPYRIGHT               "© 2012-13 Robert P\xf6" "sel"
+#define __COPYRIGHT               "© 2012-15 Robert P\xf6" "sel"

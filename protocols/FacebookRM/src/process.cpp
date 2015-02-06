@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright Â© 2009-11 Michal Zelinka, 2011-13 Robert PÃ¶sel
+Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1089,10 +1089,10 @@ void FacebookProto::ProcessFeeds(void*)
 		premsg += "\n";
 
 		// in title keep only name, end of events like "X shared link" put into message
-		std::string::size_type pos2 = post_header.find("â€Ž");
+		std::string::size_type pos2 = post_header.find("?");
 
 		if (pos2 != std::string::npos) {
-			utils::text::replace_first(&post_header, "â€Ž", " â†’ ");
+			utils::text::replace_first(&post_header, "?", " › ");
 		}
 		else {
 			pos2 = post_header.find("</a></");
