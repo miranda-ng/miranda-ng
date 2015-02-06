@@ -35,7 +35,7 @@ public:
 
 	void init(unsigned char *_key, unsigned char *_keyMac);
 
-	static void keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out);
+	static void keyFromPasswordAndNonce(const std::string &pass, const std::vector<unsigned char>& nonce, unsigned char *out);
 	void decodeMessage(unsigned char* buffer, int macOffset, int offset, const int length);
 	void encodeMessage(unsigned char* buffer, int macOffset, int offset, const int length);
 };
@@ -58,7 +58,7 @@ public:
 	int         m_iAccountKind;
 	std::string m_szPassword;
 
-	WALogin(WAConnection* connection, const std::string& password);
+	WALogin(WAConnection* connection, const std::string &password);
 	~WALogin();
 
 	std::vector<unsigned char> login(const std::vector<unsigned char> &blob);

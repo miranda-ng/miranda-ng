@@ -26,7 +26,7 @@ public:
 	void setPosition(size_t count);
 	void write(int i);
 	void write(unsigned char* c, size_t length);
-	void write(const std::string& s);
+	void write(const std::string &s);
 	void setLength(size_t length);
 
 	__forceinline size_t getCapacity() const { return buf.capacity(); }

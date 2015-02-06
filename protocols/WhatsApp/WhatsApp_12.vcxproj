@@ -364,10 +364,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\add-group.ico" />
-    <Image Include="res\add-user-to-group.ico" />
-    <Image Include="res\change-group-subject.ico" />
-    <Image Include="res\leave-group.ico" />
-    <Image Include="res\remove-user-from-group.ico" />
     <Image Include="res\whatsapp.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

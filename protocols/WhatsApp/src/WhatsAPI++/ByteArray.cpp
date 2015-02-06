@@ -51,7 +51,7 @@ void ByteArrayOutputStream::write(unsigned char* b, size_t len)
 		write(b[i]);
 }
 
-void ByteArrayOutputStream::write(const std::string& s)
+void ByteArrayOutputStream::write(const std::string &s)
 {
 	for (size_t i = 0; i < s.size(); i++)
 		write((unsigned char)s[i]);

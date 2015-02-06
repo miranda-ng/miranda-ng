@@ -1,8 +1,26 @@
 #include "common.h"
 
-LONG WhatsAppProto::GetSerial()
+TCHAR* utils::removeA(TCHAR *str)
 {
-	return ::_InterlockedIncrement(&m_iSerial);
+	if (str == NULL)
+		return NULL;
+
+	TCHAR *p = _tcschr(str, '@');
+	if (p) *p = 0;
+	return str;
+}
+
+void utils::copyText(HWND hwnd, const TCHAR *text)
+{
+	if (!hwnd || !text) return;
+
+	OpenClipboard(hwnd);
+	EmptyClipboard();
+	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(text) + 1));
+	mir_tstrcpy((TCHAR*)GlobalLock(hMem), text);
+	GlobalUnlock(hMem);
+	SetClipboardData(CF_UNICODETEXT, hMem);
+	CloseClipboard();
 }
 
 std::string getLastErrorMsg()

@@ -36,7 +36,7 @@ void KeyStream::init(unsigned char* _key, unsigned char* _keyMac)
 	RC4(&this->rc4, sizeof(drop), drop, drop);
 }
 
-void KeyStream::keyFromPasswordAndNonce(const std::string& pass, const std::vector<unsigned char>& nonce, unsigned char *out)
+void KeyStream::keyFromPasswordAndNonce(const std::string &pass, const std::vector<unsigned char>& nonce, unsigned char *out)
 {
 	size_t cbSize = nonce.size();
 

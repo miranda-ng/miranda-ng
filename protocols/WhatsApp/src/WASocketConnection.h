@@ -1,12 +1,8 @@
 #if !defined(WASOCKETCONNECTION_H)
 #define WASOCKETCONNECTION_H
 
-#include "common.h"
 #include "WhatsAPI++/ISocketConnection.h"
-#include <iostream>
 #include "WhatsAPI++/WAException.h"
-#include "WhatsAPI++/WALogin.h"
-#include <windows.h>
 
 class WASocketConnection : public ISocketConnection
 {
@@ -21,7 +17,7 @@ private:
 	HANDLE hConn;
 
 public:
-	WASocketConnection(const std::string& dir, int port) throw (WAException);
+	WASocketConnection(const std::string &dir, int port) throw (WAException);
 	virtual ~WASocketConnection();
 
 	void write(int i);

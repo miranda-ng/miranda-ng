@@ -227,17 +227,5 @@
     <None Include="res\add-group.ico">
       <Filter>Resources</Filter>
     </None>
-    <None Include="res\add-user-to-group.ico">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="res\change-group-subject.ico">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="res\leave-group.ico">
-      <Filter>Resources</Filter>
-    </None>
-    <None Include="res\remove-user-from-group.ico">
-      <Filter>Resources</Filter>
-    </None>
   </ItemGroup>
 </Project>

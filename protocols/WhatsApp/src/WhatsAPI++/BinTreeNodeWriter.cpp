@@ -134,7 +134,7 @@ void BinTreeNodeWriter::writeAttributes(std::map<string, string>* attributes)
 	}
 }
 
-void BinTreeNodeWriter::writeString(const std::string& tag)
+void BinTreeNodeWriter::writeString(const std::string &tag)
 {
 	int token = WAConnection::tokenLookup(tag);
 	if (token != -1)
@@ -151,7 +151,7 @@ void BinTreeNodeWriter::writeString(const std::string& tag)
 	}
 }
 
-void BinTreeNodeWriter::writeJid(std::string* user, const std::string& server)
+void BinTreeNodeWriter::writeJid(std::string* user, const std::string &server)
 {
 	out->write(250);
 	if (user != NULL && !user->empty())
@@ -265,12 +265,12 @@ void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 	this->mutex->lock();
 	try {
 		this->writeDummyHeader();
-		#ifdef _DEBUG
+
 		if (bSecure) {
 			string tmp = node.toString();
 			this->realOut->log(tmp.c_str());
 		}
-		#endif
+
 		if (node.tag.empty())
 			out->write(0);
 		else

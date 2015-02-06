@@ -47,8 +47,8 @@ private:
 	void writeInt16(int v, ByteArrayOutputStream* out);
 	void writeInt16(int v);
 	void writeAttributes(std::map<string, string>* attributes);
-	void writeString(const std::string& tag);
-	void writeJid(std::string* user, const std::string& server);
+	void writeString(const std::string &tag);
+	void writeJid(std::string* user, const std::string &server);
 	void writeToken(int intValue);
 	void writeBytes(unsigned char* bytes, int length);
 	void writeInt24(int v);

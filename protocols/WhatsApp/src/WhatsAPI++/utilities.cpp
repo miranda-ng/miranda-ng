@@ -14,7 +14,7 @@ const static char digits[] = {
 	'u', 'v', 'w', 'x', 'y', 'z'
 };
 
-std::string reverseString(const std::string& str)
+std::string reverseString(const std::string &str)
 {
 	return std::string(str.rbegin(), str.rend());
 }
@@ -51,7 +51,7 @@ std::string itoa(int value, unsigned int base)
 }
 
 
-std::string processIdentity(const std::string& id)
+std::string processIdentity(const std::string &id)
 {
 	std::string buffer_str = reverseString(id);
 
@@ -69,7 +69,7 @@ std::string processIdentity(const std::string& id)
 	return buffer_str;
 }
 
-void debug(const std::string& msg)
+void debug(const std::string &msg)
 {
 #ifdef _LOGWIN32
 	cout << "DEBUG: " << msg << endl;
@@ -153,7 +153,7 @@ time_t parseBBDate(const string& s)
 	return mktime(&timeinfo);
 }
 
-long long parseLongLong(const std::string& str)
+long long parseLongLong(const std::string &str)
 {
 	std::stringstream sstr(str);
 	long long val;
@@ -235,7 +235,7 @@ vector<unsigned char>* loadFileToBytes(const string& path)
 	return  bytes;
 }
 
-bool fileExists(const std::string& path)
+bool fileExists(const std::string &path)
 {
 	return _access(path.c_str(), 0) == 0;
 }
@@ -260,7 +260,7 @@ string removeWaDomainFromJid(const string& jid)
 	return jid;
 }
 
-string getNameFromPath(const std::string& path)
+string getNameFromPath(const std::string &path)
 {
 	size_t i = path.rfind('/');
 	if (i == string::npos)
@@ -270,17 +270,17 @@ string getNameFromPath(const std::string& path)
 	return path.substr(i);
 }
 
-vector<unsigned char>* getChallengeData(const std::string& challengeFile)
+vector<unsigned char>* getChallengeData(const std::string &challengeFile)
 {
 	return loadFileToBytes(challengeFile);
 }
 
-bool saveChallengeData(const std::vector<unsigned char>& data, const std::string& challengeFile)
+bool saveChallengeData(const std::vector<unsigned char>& data, const std::string &challengeFile)
 {
 	return saveBytesToFile(data, challengeFile);
 }
 
-std::string utf8_to_utf16(const std::string& utf8)
+std::string utf8_to_utf16(const std::string &utf8)
 {
 	std::vector<unsigned long> unicode;
 	size_t i = 0;

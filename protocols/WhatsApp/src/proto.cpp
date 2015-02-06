@@ -17,9 +17,10 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 {
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
 
+	db_set_resident(m_szModuleName, "Status");
+	db_set_resident(m_szModuleName, "StatusMsg");
+
 	CreateProtoService(PS_CREATEACCMGRUI, &WhatsAppProto::SvcCreateAccMgrUI);
-	CreateProtoService(PS_JOINCHAT, &WhatsAppProto::OnJoinChat);
-	CreateProtoService(PS_LEAVECHAT, &WhatsAppProto::OnLeaveChat);
 
 	CreateProtoService(PS_GETAVATARINFOT, &WhatsAppProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &WhatsAppProto::GetAvatarCaps);
@@ -27,10 +28,7 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	CreateProtoService(PS_SETMYAVATART, &WhatsAppProto::SetMyAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
-	HookProtoEvent(ME_SYSTEM_MODULESLOADED, &WhatsAppProto::OnModulesLoaded);
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
-
-	this->InitContactMenus();
 
 	// Create standard network connection
 	TCHAR descr[512];
@@ -59,16 +57,19 @@ WhatsAppProto::~WhatsAppProto()
 	CloseHandle(update_loop_lock_);
 }
 
-int WhatsAppProto::OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
 {
-	// Register group chat
-	GCREGISTER gcr = { sizeof(gcr) };
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
-	gcr.ptszDispName = m_tszUserName;
-	gcr.pszModule = m_szModuleName;
-	CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
+	if (evType == EV_PROTO_ONLOAD) {
+		// Register group chat
+		GCREGISTER gcr = { sizeof(gcr) };
+		gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+		gcr.ptszDispName = m_tszUserName;
+		gcr.pszModule = m_szModuleName;
+		CallServiceSync(MS_GC_REGISTER, 0, (LPARAM)&gcr);
 
-	HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::OnChatOutgoing);
+		HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::onGroupChatEvent);
+		HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::OnChatMenu);
+	}
 	return 0;
 }
 
@@ -165,7 +166,7 @@ MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	std::string phone(ptrA(mir_utf8encodeT(psr->id)));
 	std::string jid(phone + "@s.whatsapp.net");
 
-	MCONTACT hContact = AddToContactList(jid, 0, false, phone.c_str());
+	MCONTACT hContact = AddToContactList(jid, phone.c_str());
 	if (!(flags & PALF_TEMPORARY))
 		db_unset(hContact, "CList", "NotOnList");
 

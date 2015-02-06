@@ -21,7 +21,7 @@ struct Key
 	bool from_me;
 	std::string id;
 
-	Key(const std::string& remote_jid, bool from_me, const std::string& id);
+	Key(const std::string &remote_jid, bool from_me, const std::string &id);
 	std::string toString();
 
 };

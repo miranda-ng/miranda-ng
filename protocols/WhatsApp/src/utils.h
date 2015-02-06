@@ -27,8 +27,15 @@ public:
 
 std::string getLastErrorMsg();
 
+__forceinline TCHAR* str2t(const std::string &str)
+{	return mir_utf8decodeT(str.c_str());
+}
+
 namespace utils
 {
+	TCHAR* removeA(TCHAR *str);
+	void   copyText(HWND hwnd, const TCHAR *text);
+
 	void setStatusMessage(MCONTACT hContact, const TCHAR *ptszMessage);
 		
 	BYTE* md5string(const BYTE*, int, BYTE* digest);

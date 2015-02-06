@@ -55,21 +55,21 @@ public:
    map<string, string> *attributes;
    vector<ProtocolTreeNode*> *children;
 
-   ProtocolTreeNode(const string& tag, ProtocolTreeNode* child);
-   ProtocolTreeNode(const string& tag, vector<unsigned char>* data = NULL, vector<ProtocolTreeNode*> *children = NULL);
+   ProtocolTreeNode(const string &tag, ProtocolTreeNode *child);
+   ProtocolTreeNode(const string &tag, vector<unsigned char> *data = NULL, vector<ProtocolTreeNode*> *children = NULL);
 	~ProtocolTreeNode();
 
    string toString() const; 
-   ProtocolTreeNode* getChild(const string& id);
+   ProtocolTreeNode* getChild(const string &id);
    ProtocolTreeNode* getChild(size_t id);
-   const string& getAttributeValue(const string& attribute);
+   const string& getAttributeValue(const string &attribute);
 
    vector<ProtocolTreeNode*> getAllChildren();
-   vector<ProtocolTreeNode*> getAllChildren(const string& tag);
+   vector<ProtocolTreeNode*> getAllChildren(const string &tag);
 	std::string getDataAsString() const;
 
-   static bool tagEquals(ProtocolTreeNode *node, const string& tag);
-   static void require(ProtocolTreeNode *node, const string& tag);
+   static bool tagEquals(ProtocolTreeNode *node, const string &tag);
+   static void require(ProtocolTreeNode *node, const string &tag);
 };
 
 ProtocolTreeNode& operator<<(ProtocolTreeNode&, const XATTR&);

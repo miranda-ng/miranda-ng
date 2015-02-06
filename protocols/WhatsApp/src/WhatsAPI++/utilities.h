@@ -38,20 +38,20 @@ using namespace std;
 
 // these functions must be declared somewhere in the same linking module
 std::string base64_encode(void*, size_t);
-void md5_string(const std::string& data, unsigned char digest[16]);
+void md5_string(const std::string &data, unsigned char digest[16]);
 
 namespace Utilities{
 	string getMcc();
 	string getMnc();
 	string reverseString(const string& str);
-	string processIdentity(const std::string& password);
+	string processIdentity(const std::string &password);
 	int64_t randLong();
 	int64_t absLong(int64_t num);
 	string str(int64_t number, int radix);
 	std::string itoa(int value, unsigned int base);
 	std::string intToStr(int i);
 	std::string doubleToStr(double d);
-	long long parseLongLong(const std::string& str);
+	long long parseLongLong(const std::string &str);
 	time_t parseBBDate(const string& s);
 	long long getCurrentTimeMillis();
 	std::string bytesToHex(unsigned char* bytes, int length);
@@ -60,11 +60,11 @@ namespace Utilities{
 	bool saveBytesToFile(const string& data, const string& filePath);
 	bool saveBytesToFile(const std::vector<unsigned char>& data, const string& filePath);
 	string removeWaDomainFromJid(const string& jid);
-	string getNameFromPath(const std::string& path);
+	string getNameFromPath(const std::string &path);
 	vector<unsigned char>* loadFileToBytes(const string& path);
-	bool fileExists(const std::string& path);
-	std::vector<unsigned char>* getChallengeData(const std::string& file);
-	bool saveChallengeData(const std::vector<unsigned char>& data, const std::string& file);
-	std::string utf8_to_utf16(const std::string& utf8);
+	bool fileExists(const std::string &path);
+	std::vector<unsigned char>* getChallengeData(const std::string &file);
+	bool saveChallengeData(const std::vector<unsigned char>& data, const std::string &file);
+	std::string utf8_to_utf16(const std::string &utf8);
 }
 #endif

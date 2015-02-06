@@ -134,7 +134,7 @@ void WhatsAppProto::sentinelLoop(void*)
 	debugLogA("Exiting sentinel loop");
 }
 
-void WhatsAppProto::onPing(const std::string& id)
+void WhatsAppProto::onPing(const std::string &id)
 {
 	if (isOnline()) {
 		try {
