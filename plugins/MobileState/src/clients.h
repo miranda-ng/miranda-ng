@@ -1,6 +1,6 @@
 /*
    Mobile State plugin for Miranda NG (www.miranda-ng.org)
-   (c) 2012-13 by Robert Pösel
+   (c) 2012-15 by Robert Pösel
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
