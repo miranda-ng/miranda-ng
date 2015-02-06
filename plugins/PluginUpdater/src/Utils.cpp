@@ -240,20 +240,15 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 		return false;
 	}
 
+	bool bDoNotSwitchToStable = false;
 	char str[200];
 	while(fgets(str, SIZEOF(str), fp) != NULL) {
 		rtrim(str);
-		if (str[0] == ';') {
-			db_unset(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE);
+		// Do not allow the user to switch back to stable
+		if (!strcmp(str, "DoNotSwitchToStable")) {
+			bDoNotSwitchToStable = true;
 		}
-		else if (!strcmp(str, "DoNotSwitchToStable")) {
-			db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
-			// Reset setting if needed
-			int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-			if (UpdateMode == UPDATE_MODE_STABLE)
-				db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-		}
-		else {
+		else if (str[0] != ';') { // ';' marks a comment
 			Netlib_Logf(hNetlibUser, "Update: %s", str);
 			char *p = strchr(str, ' ');
 			if (p != NULL) {
@@ -274,6 +269,17 @@ bool ParseHashes(const TCHAR *ptszUrl, ptrT &baseUrl, SERVLIST &arHashes)
 	}
 	fclose(fp);
 	DeleteFile(tszTmpIni);
+
+	if (bDoNotSwitchToStable) {
+		db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
+		// Reset setting if needed
+		int UpdateMode = db_get_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
+		if (UpdateMode == UPDATE_MODE_STABLE)
+			db_set_b(NULL, MODNAME, DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+	}
+	else
+		db_set_b(NULL, MODNAME, DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
+
 	return true;
 }
 
