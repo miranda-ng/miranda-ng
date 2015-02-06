@@ -6,7 +6,6 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME              "Twitter protocol"
-#define __INTERNAL_NAME            "Twitter"
 #define __FILENAME                 "Twitter.dll"
 #define __DESCRIPTION              "Twitter protocol support for Miranda NG."
 #define __AUTHOR                   "dentist, omniwolf, Thief"
