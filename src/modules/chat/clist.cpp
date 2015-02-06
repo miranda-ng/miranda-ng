@@ -168,7 +168,7 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	if (hContact == 0)
 		return 0;
 
-	bool bEnabled = false;
+	bool bEnabledJoin = false, bEnabledLeave = false;
 	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		// display this menu item only for chats
@@ -179,23 +179,22 @@ int PrebuildContactMenu(WPARAM hContact, LPARAM)
 				mi.flags = CMIM_NAME;
 				if (db_get_w(hContact, szProto, "Status", 0) == ID_STATUS_OFFLINE) {
 					if (ProtoServiceExists(szProto, PS_JOINCHAT)) {
-						bEnabled = true;
+						bEnabledJoin = true;
 						mi.pszName = LPGEN("&Join chat");
 					}
 				}
 				else {
-					if (ProtoServiceExists(szProto, PS_LEAVECHAT)) {
-						bEnabled = true;
-						mi.pszName = LPGEN("&Open chat window");
-					}
+					bEnabledJoin = true;
+					mi.pszName = LPGEN("&Open chat window");
 				}
 				Menu_ModifyItem(hJoinMenuItem, &mi);
 			}
+			bEnabledLeave = ProtoServiceExists(szProto, PS_LEAVECHAT) != 0;
 		}
 	}
 
-	Menu_ShowItem(hJoinMenuItem, bEnabled);
-	Menu_ShowItem(hLeaveMenuItem, bEnabled);
+	Menu_ShowItem(hJoinMenuItem, bEnabledJoin);
+	Menu_ShowItem(hLeaveMenuItem, bEnabledLeave);
 	return 0;
 }
 
