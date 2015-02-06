@@ -557,7 +557,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 
 				if (!message->isChat && !message->isIncoming) {
 					message->sender_name.clear();
-					message->user_id = proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
+					message->user_id = !other_user_id.empty() ? other_user_id : proto->ThreadIDToContactID(message->thread_id); // TODO: Check if we have contact with this user_id in friendlist and otherwise do something different?
 				}
 
 				messages->push_back(message);
