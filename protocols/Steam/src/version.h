@@ -6,7 +6,6 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME              "Steam protocol"
-#define __INTERNAL_NAME            "Steam"
 #define __FILENAME                 "Steam.dll"
 #define __DESCRIPTION              "Steam protocol support for Miranda NG."
 #define __AUTHOR                   "unsane"

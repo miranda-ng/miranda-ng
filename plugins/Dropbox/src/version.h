@@ -6,7 +6,6 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME              "Dropbox"
-#define __INTERNAL_NAME            "Dropbox"
 #define __FILENAME                 "Dropbox.dll"
 #define __DESCRIPTION              "Allows to transfer files via Dropbox."
 #define __AUTHOR                   "unsane"

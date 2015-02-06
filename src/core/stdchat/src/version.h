@@ -5,7 +5,6 @@
 #define __VERSION_STRING         MIRANDA_VERSION_STRING
 
 #define __PLUGIN_NAME            "Standard Chat"
-#define __INTERNAL_NAME            "stdchat"
 #define __FILENAME               "stdchat.dll"
 #define __DESCRIPTION             "Core module for providing chat rooms support."
 #define __AUTHOR                 "Miranda NG Development Team"

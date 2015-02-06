@@ -5,7 +5,6 @@
 #define __VERSION_STRING         MIRANDA_VERSION_STRING
 
 #define __PLUGIN_NAME            "Standard URL processor"
-#define __INTERNAL_NAME            "stdurl"
 #define __FILENAME               "stdurl.dll"
 #define __DESCRIPTION             "Core module for URL handling."
 #define __AUTHOR                 "Miranda NG Development Team"

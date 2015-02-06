@@ -6,7 +6,6 @@
 #include <stdver.h>
 
 #define __PLUGIN_NAME              "Omegle protocol"
-#define __INTERNAL_NAME            "Omegle Protocol"
 #define __FILENAME                 "Omegle.dll"
 #define __DESCRIPTION              "Omegle protocol support for Miranda NG."
 #define __AUTHOR                   "Robert P\xf6" "sel"

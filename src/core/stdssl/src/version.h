@@ -5,7 +5,6 @@
 #define __VERSION_STRING          MIRANDA_VERSION_STRING
 
 #define __PLUGIN_NAME            "Standard SSL Driver"
-#define __INTERNAL_NAME          "stdssl"
 #define __FILENAME               "stdssl.dll"
 #define __DESCRIPTION            "Core driver for Windows native SSL support."
 #define __AUTHOR                 "Miranda NG Development Team"

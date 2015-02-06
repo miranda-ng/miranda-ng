@@ -5,7 +5,6 @@
 #define __VERSION_STRING         MIRANDA_VERSION_STRING
 
 #define __PLUGIN_NAME            "Classic contact list"
-#define __INTERNAL_NAME            "stdclist"
 #define __FILENAME               "stdclist.dll"
 #define __DESCRIPTION             "Core module for displaying contacts."
 #define __AUTHOR                 "Miranda NG Development Team"
