@@ -634,8 +634,6 @@ MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCHAR tszDefaultLang[100];
-
 void GetDefaultLang()
 {
 	// calculate the langpacks' root
@@ -644,17 +642,27 @@ void GetDefaultLang()
 		PathToAbsoluteT(_T("."), g_tszRoot);
 
 	// look into mirandaboot.ini
-	TCHAR tszPath[MAX_PATH];
+	TCHAR tszPath[MAX_PATH], tszLangName[256];
 	PathToAbsoluteT(_T("\\mirandaboot.ini"), tszPath);
-	GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszDefaultLang, SIZEOF(tszDefaultLang), tszPath);
-
-	if (!mir_tstrcmpi(tszDefaultLang, _T("default"))) {
-		db_set_ts(NULL, "Langpack", "Current", _T("default"));
-		return;
+	GetPrivateProfileString(_T("Language"), _T("DefaultLanguage"), _T(""), tszLangName, SIZEOF(tszLangName), tszPath);
+	if (tszLangName[0]) {
+		if (!mir_tstrcmpi(tszLangName, _T("default"))) {
+			db_set_ts(NULL, "Langpack", "Current", _T("default"));
+			return;
+		}
+		if (!LoadLangPack(tszLangName)) {
+			db_set_ts(NULL, "Langpack", "Current", tszLangName);
+			return;
+		}
 	}
-	else if (!LoadLangPack(tszDefaultLang)) {
-		db_set_ts(NULL, "Langpack", "Current", tszDefaultLang);
-		return;
+	
+	// try to load langpack that matches UserDefaultUILanguage
+	if (GetLocaleInfo(MAKELCID(GetUserDefaultUILanguage(), SORT_DEFAULT), LOCALE_SENGLANGUAGE, tszLangName, SIZEOF(tszLangName))) {
+		mir_sntprintf(tszPath, SIZEOF(tszPath), _T("langpack_%s.txt"), _tcslwr(tszLangName));
+		if (!LoadLangPack(tszPath)) {
+			db_set_ts(NULL, "Langpack", "Current", tszPath);
+			return;
+		}
 	}
 
 	// finally try to load first file
