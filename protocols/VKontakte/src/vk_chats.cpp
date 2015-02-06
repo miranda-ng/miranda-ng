@@ -282,7 +282,6 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 
 	TCHAR tszId[20];
 	_itot(uid, tszId, 10);
-	CMString tszBody(ptszBody);
 
 	GCDEST gcd = { m_szModuleName, cc->m_tszId, GC_EVENT_MESSAGE };
 	GCEVENT gce = { sizeof(GCEVENT), &gcd };
@@ -291,7 +290,7 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, int uid, int msgTime, LPCTSTR 
 	gce.time = msgTime;
 	gce.dwFlags = (bIsHistory) ? GCEF_NOTNOTIFY : GCEF_ADDTOLOG;
 	gce.ptszNick = cu->m_tszNick ? mir_tstrdup(cu->m_tszNick) : mir_tstrdup(TranslateT("Unknown"));
-	gce.ptszText = tszBody.IsEmpty() ? mir_tstrdup(_T("...")) : mir_tstrdup(tszBody.GetBuffer());
+	gce.ptszText = IsEmpty((TCHAR *)ptszBody) ? mir_tstrdup(_T("...")) : mir_tstrdup(ptszBody);
 	CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 }
 
