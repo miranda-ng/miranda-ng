@@ -246,7 +246,7 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 
 		mir_free(szData);
 		// Station not found exit
-		if (bFound) return 1;
+		if (!bFound) return 1;
 	}
 
 	// give no station name but only ID if the search is unavailable
