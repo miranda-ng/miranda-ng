@@ -175,7 +175,7 @@ int ParseValueParam(char *param, void *&result)
 				char *stop;
 				* ((long *) result) = strtol(param + 1, &stop, 10);
 				
-				return (*stop == 0) ? VALUE_DWORD : VALUE_ERRORok;
+				return (*stop == 0) ? VALUE_DWORD : VALUE_ERROR;
 			}
 			default:
 				return VALUE_UNKNOWN;
