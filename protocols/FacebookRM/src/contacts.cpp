@@ -77,6 +77,11 @@ bool FacebookProto::IsMyContact(MCONTACT hContact, bool include_chat)
 
 MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
 {
+	if (chat_id.empty()) {
+		debugLogA("!!! Calling ChatIDToContactID() with empty chat_id");
+		return 0;
+	}
+
 	// First check cache
 	std::map<std::tstring, MCONTACT>::iterator it = facy.chat_id_to_hcontact.find(chat_id);
 	if (it != facy.chat_id_to_hcontact.end()) {
@@ -104,6 +109,11 @@ MCONTACT FacebookProto::ChatIDToHContact(const std::tstring &chat_id)
 
 MCONTACT FacebookProto::ContactIDToHContact(const std::string &user_id)
 {
+	if (user_id.empty()) {
+		debugLogA("!!! Calling ContactIDToHContact() with empty user_id");
+		return 0;
+	}
+
 	// First check cache
 	std::map<std::string, MCONTACT>::iterator it = facy.user_id_to_hcontact.find(user_id);
 	if (it != facy.user_id_to_hcontact.end()) {
@@ -131,6 +141,11 @@ MCONTACT FacebookProto::ContactIDToHContact(const std::string &user_id)
 
 std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 {
+	if (thread_id.empty()) {
+		debugLogA("!!! Calling ThreadIDToContactID() with empty thread_id");
+		return "";
+	}
+
 	// First check cache
 	std::map<std::string, std::string>::iterator it = facy.thread_id_to_user_id.find(thread_id);
 	if (it != facy.thread_id_to_user_id.end()) {
