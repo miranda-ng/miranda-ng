@@ -191,11 +191,11 @@
     <ClInclude Include="src\clients.h" />
     <ClInclude Include="src\commonheaders.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\mobilestate.rc" />
-    <ResourceCompile Include="res\Version.rc" />
+    <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

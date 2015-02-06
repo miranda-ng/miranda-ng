@@ -54,15 +54,13 @@ bool hasMobileClient(MCONTACT hContact, LPARAM)
 {
 	char *proto = GetContactProto(hContact);
 
-	DBVARIANT dbv;
-	if (!db_get_ts(hContact, proto, "MirVer", &dbv)) {
-		TCHAR *client = _tcslwr(NEWTSTR_ALLOCA(dbv.ptszVal));
-		db_free(&dbv);
-
+	ptrT client(db_get_tsa(hContact, proto, "MirVer"));
+	if (client) {
 		for (size_t i = 0; i < SIZEOF(clients); i++)
 			if (_tcsstr(client, clients[i]))
 				return true;
 	}
+
 	return false;
 }
 
@@ -80,15 +78,14 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 }
 
 int onContactSettingChanged(WPARAM wParam, LPARAM lParam)
-{
-	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+{	
 	char *proto = GetContactProto(wParam);
 	if (!proto)
 		return 0;
 
-	if (!mir_strcmp(cws->szModule, proto))
-		if (!mir_strcmp(cws->szSetting, "MirVer"))
-			ExtraIconsApply(wParam, 1);
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	if (!mir_strcmp(cws->szModule, proto) && !mir_strcmp(cws->szSetting, "MirVer"))
+		ExtraIconsApply(wParam, 1);
 
 	return 0;
 }
