@@ -1,7 +1,7 @@
 ﻿#include "common.h"
 
 #define STATUS_TITLE_MAX 64
-#define STATUS_DESC_MAX  255
+#define STATUS_DESC_MAX  250
 
 static std::vector<int> xstatusIconsValid;
 static std::map<int, int> xstatusIcons;
@@ -143,7 +143,7 @@ INT_PTR CSteamProto::OnRequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam)
 		{
 			std::map<int, int>::iterator it = xstatusIcons.find(status);
 			if (it != xstatusIcons.end())
-				return (it->second & 0xFFFF) << 16;
+				return ((INT_PTR) it->second & 0xFFFF) << 16;
 		}
 	}
 

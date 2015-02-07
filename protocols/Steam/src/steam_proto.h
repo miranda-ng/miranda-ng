@@ -3,6 +3,7 @@
 
 #define STEAM_SEARCH_BYID 1001
 #define STEAM_SEARCH_BYNAME 1002
+#define STEAM_TYPING_TIME 10
 
 struct GuardParam
 {
