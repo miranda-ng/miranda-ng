@@ -273,7 +273,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	}
 
 	gcd.iType = GC_EVENT_CONTROL;
-	CallServiceSync(MS_GC_EVENT, (m_pConnection) ? WINDOW_HIDDEN : SESSION_INITDONE, (LPARAM)&gce);
+	CallServiceSync(MS_GC_EVENT, getBool(WHATSAPP_KEY_AUTORUNCHATS, true) ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
 
 	if (m_pConnection)
@@ -313,10 +313,6 @@ void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner
 
 		onGroupNewSubject(jid, subject_owner, subject, time_subject);
 	}
-
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_CONTROL };
-	GCEVENT gce = { sizeof(gce), &gcd };
-	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
 }
 
 void WhatsAppProto::onGroupMessage(const FMessage &pMsg)

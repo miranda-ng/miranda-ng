@@ -57,15 +57,7 @@ BEGIN
     BEGIN
         VERTGUIDE, 60
         VERTGUIDE, 178
-    END
-
-    IDD_INPUTBOX, DIALOG
-    BEGIN
-        VERTGUIDE, 12
-        VERTGUIDE, 224
-        VERTGUIDE, 228
-        BOTTOMMARGIN, 59
-        HORZGUIDE, 45
+        BOTTOMMARGIN, 126
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -76,7 +68,7 @@ END
 // Dialog
 //
 
-IDD_WHATSAPOPTIONS DIALOGEX 0, 0, 185, 126
+IDD_WHATSAPOPTIONS DIALOGEX 0, 0, 185, 136
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
@@ -94,6 +86,7 @@ BEGIN
     PUSHBUTTON      "Register code",IDC_BUTTON_REGISTER,98,80,81,18
     CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,108,173,10
     CTEXT           "-",IDC_STATIC,82,62,8,8
+    CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,5,120,173,10
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 170
@@ -109,6 +102,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,162,152,50,14
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Icon
@@ -118,7 +112,6 @@ END
 // remains consistent on all systems.
 IDI_WHATSAPP            ICON                    "whatsapp.ico"
 IDI_ADD_GROUP           ICON                    "add-group.ico"
-
 #endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
