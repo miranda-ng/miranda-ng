@@ -149,7 +149,7 @@ void FacebookProto::ProcessBuddyList(void*)
 				std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
 				ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
-				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, &url);
+				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_FRIENDSHIP, &url);
 			}
 
 			// Check avatar change
@@ -256,7 +256,7 @@ void FacebookProto::ProcessFriendList(void*)
 					std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
 					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
-					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
+					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
 				}
 
 				// Check avatar change
@@ -277,7 +277,7 @@ void FacebookProto::ProcessFriendList(void*)
 					std::string contactname = getContactName(this, hContact, id);
 
 					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
-					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
+					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_FRIENDSHIP, &url);
 				}
 			}
 		}

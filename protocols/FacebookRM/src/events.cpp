@@ -61,6 +61,14 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 		SkinPlaySound("OtherEvent");
 		flags |= NIIF_INFO;
 		break;
+
+	case FACEBOOK_EVENT_FRIENDSHIP:
+		if (!getByte(FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE, DEFAULT_EVENT_FRIENDSHIP_ENABLE))
+			return NULL;
+		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Friendship");
+		SkinPlaySound("Friendship");
+		flags |= NIIF_INFO;
+		break;
 	}
 
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY))
@@ -100,7 +108,8 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 			REMOVE_FLAG(niif_flags, FACEBOOK_EVENT_CLIENT |
 				FACEBOOK_EVENT_NEWSFEED |
 				FACEBOOK_EVENT_NOTIFICATION |
-				FACEBOOK_EVENT_OTHER);
+				FACEBOOK_EVENT_OTHER |
+				FACEBOOK_EVENT_FRIENDSHIP);
 			err.szProto = m_szModuleName;
 			err.cbSize = sizeof(err);
 			err.dwInfoFlags = NIIF_INTERN_TCHAR | niif_flags;

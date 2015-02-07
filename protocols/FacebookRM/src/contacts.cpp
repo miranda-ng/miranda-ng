@@ -452,7 +452,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 			setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
 
-		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_FRIENDSHIP);
 	}
 	else {
 		facy.client_notify(TranslateT("Error occurred when removing contact from server."));
@@ -490,7 +490,7 @@ void FacebookProto::AddContactToServer(void *data)
 		if (hContact != NULL)
 			setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_REQUEST);
 
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_FRIENDSHIP);
 	}
 	else facy.client_notify(TranslateT("Error occurred when requesting friendship."));
 
@@ -526,7 +526,7 @@ void FacebookProto::ApproveContactToServer(void *data)
 	if (resp.data.find("\"success\":true") != std::string::npos)
 	{
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_FRIEND);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was accepted."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was accepted."), NULL, FACEBOOK_EVENT_FRIENDSHIP);
 	}
 	else facy.client_notify(TranslateT("Error occurred when accepting friendship request."));
 
@@ -562,7 +562,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
 	{
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_FRIENDSHIP);
 	}
 	else facy.client_notify(TranslateT("Error occurred when canceling friendship request."));
 
@@ -598,7 +598,7 @@ void FacebookProto::IgnoreFriendshipRequest(void *data)
 	if (resp.data.find("\"success\":true") != std::string::npos)
 	{
 		setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was ignored."), NULL, FACEBOOK_EVENT_OTHER);
+		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was ignored."), NULL, FACEBOOK_EVENT_FRIENDSHIP);
 
 		// Delete this contact, if he's temporary
 		if (db_get_b(hContact, "CList", "NotOnList", 0))
