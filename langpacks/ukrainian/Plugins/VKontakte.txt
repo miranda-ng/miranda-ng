@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.43
+;  Version: 0.1.0.44
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -321,7 +321,7 @@
 Обліковий запис
 [News and notifications]
 Новини і сповіщення
-[View settings]
+[View]
 Перегляд
 [%s server connection]
 З'єднання з сервером %s
@@ -369,10 +369,14 @@
 Ви впевнені, що хочете видалити %s з друзів?
 [User %s was deleted from your friend list]
 %s видалений з вашого списку друзів
+[Your request to the user %s was deleted]
+Ваш запит дружби до %s видалено
 [Friend request from the user %s declined]
 Запит дружби від %s відхилено
 [Friend request suggestion for the user %s deleted]
 Рекомендацію додати %s до списку видалено
+[User or request was not deleted]
+Користувач або запит не видалений
 [ report abuse on him/her]
  відправить скаргу на користувача
 [ clear server history with him/her]

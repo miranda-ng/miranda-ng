@@ -168,7 +168,7 @@ FTP-сервер 5
 [Zip and upload file]
 Запакувати та відправити файл
 [You have to fill FTP server setting before upload a file.]
-Для відправки файлу необхідно вказати FTP-сервер в налаштуваннях.
+Для відправки файлу необхідно вказати FTP-сервер у налаштуваннях.
 [Error has occurred while trying to create a dialog!]
 Помилка при спробі створення діалогу!
 [File upload complete]
@@ -222,7 +222,7 @@ FTP-сервер 5
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 %s\r\nШвидкість: %s\r\nЗавершено: %s\r\nЗалишилося: %s
 [You have to fill and enable at least one FTP server in setting.]
-Необхідно додати хоча б один FTP-сервер в налаштуваннях.
+Необхідно додати хоча б один FTP-сервер у налаштуваннях.
 [Clear All]
 Очистити все
 [minutes]

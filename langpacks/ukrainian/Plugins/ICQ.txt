@@ -30,7 +30,7 @@
 [ICQ number:]
 Номер ICQ:
 [Hint: If you don't enter your password here, Miranda will ask for the password every time you try to go online.]
-Підказка: якщо не вказати пароль тут, Miranda NG буде запитувати його кожен раз при підключенні до мережі.
+Підказка: якщо не вказати пароль тут, Miranda NG буде запитувати його щоразу при підключенні до мережі.
 [Retrieve a lost password or ICQ number]
 Нагадати пароль або номер ICQ
 [Create a new ICQ account using the ICQ website]
@@ -1370,7 +1370,7 @@ ID користувача
 [Unable to connect to ICQ login server]
 Неможливо підключитися до сервера ICQ
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Не вдалося виділити порт для з'єднань між клієнтами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), налаштуйте в ньому кілька портів і вкажіть їх в налаштуваннях (Мережа - з'єднання між користувачами).
+Не вдалося виділити порт для з'єднань між клієнтами. Усі функції ICQ будуть доступні, але можливі проблеми з передачею файлів.\n\nЯкщо у вас встановлений брандмауер (firewall), налаштуйте в ньому кілька портів і вкажіть їх у налаштуваннях (Мережа - з'єднання між користувачами).
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
 Невдале з'єднання.\nПослідовність входу не вдалася з невідомої причини.\nСпробуйте пізніше.
 [Your connection with the ICQ server was abortively closed]

@@ -7,7 +7,6 @@
 [Requested service is unavailable.]
 [Requested service is not defined.]
 [You sent obsolete SNAC.]
-[Refused by client.]
 [Reply too big.]
 [Response lost.]
 [Request denied.]

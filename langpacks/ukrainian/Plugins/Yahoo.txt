@@ -206,7 +206,7 @@ HTTP-з'єднання Yahoo
 [Could not log into Yahoo service - username not recognized. Please verify that your username is correctly typed.]
 Не можу авторизуватися - неправильне ім'я. Перевірте ім'я користувача в налаштуваннях.
 [Could not log into Yahoo service - password incorrect. Please verify that your username and password are correctly typed.]
-Не можу авторизуватися - неправильний пароль. Перевірте ім'я користувача та пароль в налаштуваннях.
+Не можу авторизуватися - неправильний пароль. Перевірте ім'я користувача та пароль у налаштуваннях.
 [Could not log into Yahoo service. Your account has been locked.\nVisit %s to reactivate it.]
 Не можу авторизуватися. Ваш обліковий запис заблоковано.\nПерейдіть на сайт %s.
 [You have been logged out of the Yahoo service, possibly due to a duplicate login.]
