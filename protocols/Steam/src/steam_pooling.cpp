@@ -24,38 +24,36 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 		if (!lstrcmpi(type, _T("saytext")) || !lstrcmpi(type, _T("emote")) ||
 			!lstrcmpi(type, _T("my_saytext")) || !lstrcmpi(type, _T("my_emote")))
 		{
+			MCONTACT hContact = FindContact(steamId);
+			if (!hContact)
+				continue;
+
 			node = json_get(item, "text");
 			ptrT text(json_as_string(node));
+			ptrA szMessage(mir_utf8encodeT(text));
 
 			if (_tcsstr(type, _T("my_")) == NULL)
 			{
-				MCONTACT hContact = FindContact(steamId);
-				if (hContact)
-				{
-					ptrA szMessage(mir_utf8encodeT(text));
+				PROTORECVEVENT recv = { 0 };
+				recv.flags = PREF_UTF;
+				recv.timestamp = timestamp;
+				recv.szMessage = szMessage;
 
-					PROTORECVEVENT recv = { 0 };
-					recv.flags = PREF_UTF;
-					recv.timestamp = timestamp;
-					recv.szMessage = szMessage;
-
-					ProtoChainRecvMsg(hContact, &recv);
-				}
+				ProtoChainRecvMsg(hContact, &recv);
 			}
 			else
 			{
-				MCONTACT hContact = FindContact(steamId);
-				if (hContact)
-				{
-					ptrA szMessage(mir_utf8encodeT(text));
-
-					AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, mir_strlen(szMessage) + 1, (PBYTE)(char*)szMessage);
-				}
+				AddDBEvent(hContact, EVENTTYPE_MESSAGE, timestamp, DBEF_UTF | DBEF_SENT, mir_strlen(szMessage) + 1, (PBYTE)(char*)szMessage);
 			}
 		}
-		/*else if (!lstrcmpi(type, _T("typing")))
+		else if (!lstrcmpi(type, _T("typing")))
 		{
-		}*/
+			MCONTACT hContact = FindContact(steamId);
+			if (hContact)
+			{
+				CallService(MS_PROTO_CONTACTISTYPING, hContact, (LPARAM)STEAM_TYPING_TIME);
+			}
+		}
 		else if (!lstrcmpi(type, _T("personastate")))
 		{
 			node = json_get(item, "persona_state");
