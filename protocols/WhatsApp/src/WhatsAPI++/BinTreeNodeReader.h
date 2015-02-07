@@ -48,17 +48,17 @@ private:
 	ReadData* readString();
 	ReadData* readString(int token);
 	static void fillArray(std::vector<unsigned char>& buff, int len, ByteArrayInputStream* in);
-	static void fillArray(std::vector<unsigned char>& buff, int len, ISocketConnection* in);
+	static void fillArray(std::vector<unsigned char>& buff, int len, ISocketConnection *in);
 	std::string* objectAsString(ReadData* o);
 	std::string* readStringAsString();
 	std::string* readStringAsString(int token);
 	void getTopLevelStream();
 	static int readInt8(ByteArrayInputStream* in);
-	static int readInt8(ISocketConnection* in);
+	static int readInt8(ISocketConnection *in);
 	static int readInt16(ByteArrayInputStream* in);
-	static int readInt16(ISocketConnection* in);
+	static int readInt16(ISocketConnection *in);
 	static int readInt24(ByteArrayInputStream* in);
-	static int readInt24(ISocketConnection* in);
+	static int readInt24(ISocketConnection *in);
 
 
 public:

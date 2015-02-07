@@ -106,7 +106,7 @@ unsigned char WASocketConnection::read()
 
 int WASocketConnection::read(unsigned char *buf, int length)
 {
-	int result = Netlib_Recv(this->hConn, (char*)buf, length, 0);
+	int result = Netlib_Recv(this->hConn, (char*)buf, length, MSG_NODUMP);
 	if (result <= 0)
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_RECV);
 
@@ -134,9 +134,9 @@ void WASocketConnection::forceShutdown()
 	Netlib_Shutdown(this->hConn);
 }
 
-void WASocketConnection::log(const char *str)
+void WASocketConnection::log(const char *prefix, const char *str)
 {
-	Netlib_Logf(WASocketConnection::hNetlibUser, "STR: %s", str);
+	Netlib_Logf(WASocketConnection::hNetlibUser, "%s%s", prefix, str);
 }
 
 WASocketConnection::~WASocketConnection()

@@ -260,7 +260,7 @@ void BinTreeNodeReader::fillArray(std::vector<unsigned char>& buff, int len, Byt
 		count += in->read(buff, count, len - count);
 }
 
-void BinTreeNodeReader::fillArray(std::vector<unsigned char>& buff, int len, ISocketConnection* in)
+void BinTreeNodeReader::fillArray(std::vector<unsigned char>& buff, int len, ISocketConnection *in)
 {
 	int count = 0;
 	while (count < len)
@@ -326,19 +326,19 @@ void BinTreeNodeReader::streamStart()
 	delete attributes;
 }
 
-int BinTreeNodeReader::readInt8(ISocketConnection* in)
+int BinTreeNodeReader::readInt8(ISocketConnection *in)
 {
 	return in->read();
 }
 
-int BinTreeNodeReader::readInt16(ISocketConnection* in)
+int BinTreeNodeReader::readInt16(ISocketConnection *in)
 {
 	unsigned char data[2];
 	in->read(data, 2);
 	return (int(data[0]) << 8) + int(data[1]);
 }
 
-int BinTreeNodeReader::readInt24(ISocketConnection* in)
+int BinTreeNodeReader::readInt24(ISocketConnection *in)
 {
 	unsigned char data[3];
 	in->read(data, 3);
