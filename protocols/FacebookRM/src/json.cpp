@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
+Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -612,6 +612,34 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					else
 						delete notification;
 				}
+			}
+		}
+		else if (t == "m_notification") {
+			JSONNODE *data = json_get(it, "data");
+			if (data == NULL)
+				continue;
+
+			JSONNODE *appId_ = json_get(data, "app_id");
+			JSONNODE *type_ = json_get(data, "type");
+
+			if ((appId_ && json_as_pstring(appId_) == "2356318349") || (type_ && json_as_pstring(type_) == "friend_confirmed")) {
+				// Friendship notifications
+
+				JSONNODE *body_ = json_get(data, "body");
+				JSONNODE *html_ = (body_ ? json_get(body_, "__html") : NULL);
+
+				JSONNODE *href_ = json_get(data, "href");
+				JSONNODE *unread_ = json_get(data, "unread");
+				JSONNODE *alertId_ = json_get(data, "alert_id");
+
+				if (html_ == NULL || href_ == NULL || unread_ == NULL || json_as_int(unread_) == 0)
+					continue;
+				
+				std::string text = utils::text::remove_html(utils::text::slashu_to_utf8(json_as_pstring(html_)));
+				std::string url = json_as_pstring(href_);
+				std::string alert_id = (alertId_ ? json_as_pstring(alertId_) : "");
+
+				proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
 			}
 		}
 		else if (t == "typ") {
