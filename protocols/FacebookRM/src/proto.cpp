@@ -44,6 +44,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	m_signingOut = false;
 	m_enableChat = DEFAULT_ENABLE_CHATS;
 	m_idleTS = 0;
+	m_pingTS = 0;
 
 	// Load custom locale, if set
 	ptrA locale(getStringA(FACEBOOK_KEY_LOCALE));
@@ -413,6 +414,9 @@ int FacebookProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 		// User stopped being idle
 		m_idleTS = 0;
 		delSetting("IdleTS");
+
+		// Set sending activity_ping at next channel request (because I don't want to create new thread here for such small thing)
+		m_pingTS = 0;
 	}
 
 	return 0;

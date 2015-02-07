@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
+Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -206,7 +206,7 @@ bool facebook_client::handle_error(const std::string &method, int action)
 DWORD facebook_client::choose_security_level(RequestType request_type)
 {
 	if (this->https_)
-		if (request_type != REQUEST_MESSAGES_RECEIVE || parent->getByte(FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL))
+		if ((request_type != REQUEST_MESSAGES_RECEIVE && request_type != REQUEST_ACTIVE_PING) || parent->getByte(FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL))
 			return NLHRF_SSL;
 
 	switch (request_type) {
@@ -241,6 +241,7 @@ DWORD facebook_client::choose_security_level(RequestType request_type)
 		//	case REQUEST_THREAD_INFO:
 		//	case REQUEST_THREAD_SYNC:
 		//	case REQUEST_MESSAGES_RECEIVE:
+		//	case REQUEST_ACTIVE_PING:
 		//	case REQUEST_VISIBILITY:
 		//	case REQUEST_POKE:
 		//	case REQUEST_ASYNC:
@@ -284,6 +285,7 @@ int facebook_client::choose_method(RequestType request_type)
 		//	case REQUEST_HOME:
 		//	case REQUEST_DTSG:
 		//	case REQUEST_MESSAGES_RECEIVE:
+		//	case REQUEST_ACTIVE_PING:
 		//	case REQUEST_FEEDS:
 		//	case REQUEST_PAGES:
 		//	case REQUEST_NOTIFICATIONS:
@@ -315,6 +317,7 @@ std::string facebook_client::choose_server(RequestType request_type)
 		return FACEBOOK_SERVER_LOGIN;
 
 	case REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_ACTIVE_PING:
 	{
 		std::string server = FACEBOOK_SERVER_CHAT;
 		utils::text::replace_first(&server, "%s", this->chat_conn_num_.empty() ? "0" : this->chat_conn_num_);
@@ -528,16 +531,21 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		return "/ajax/mercury/thread_sync.php";
 
 	case REQUEST_MESSAGES_RECEIVE:
+	case REQUEST_ACTIVE_PING:
 	{
-		std::string action = "/pull?channel=" + (this->chat_channel_.empty() ? "p_" + self_.user_id : this->chat_channel_);
-		action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
+		bool isPing = (request_type == REQUEST_ACTIVE_PING);
+
+		std::string action = (isPing ? "/active_ping" : "/pull");
+		action += "?channel=" + (this->chat_channel_.empty() ? "p_" + self_.user_id : this->chat_channel_);		
+		if (!isPing)
+			action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
 		action += "&partition=" + (this->chat_channel_partition_.empty() ? "0" : this->chat_channel_partition_);
 		action += "&clientid=" + this->chat_clientid_;
 		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz");
 
 		int idleSeconds = parent->IdleSeconds();
 		action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
-		action += "&cap=0";
+		action += "&cap=0"; // TODO: what's this item?
 		// action += "&wtc=0,0,0.000,0,0"; // TODO: what's this item? It's numbers grows with every new request...		
 
 		action += "&uid=" + self_.user_id;
@@ -549,12 +557,12 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		if (!this->chat_sticky_pool_.empty())
 			action += "&sticky_pool=" + this->chat_sticky_pool_;
 
-		if (!this->chat_traceid_.empty())
+		if (!isPing && !this->chat_traceid_.empty())
 			action += "&traceid=" + this->chat_traceid_;
 
 		if (parent->isInvisible())
 			action += "&state=offline";
-		else if (idleSeconds < 60)
+		else if (isPing || idleSeconds < 60)
 			action += "&state=active";
 
 		return action;
@@ -1145,6 +1153,9 @@ bool facebook_client::reconnect()
 		//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
 		//parent->debugLogA("      Got self visibility: %s", visibility.c_str());
 
+		// Send activity_ping after each reconnect
+		activity_ping();
+
 		return handle_success("reconnect");
 	}
 
@@ -1227,6 +1238,23 @@ bool facebook_client::channel()
 	default:
 		return handle_error("channel");
 	}
+}
+
+bool facebook_client::activity_ping()
+{
+	handle_entry("activity_ping");
+
+	http::response resp = flap(REQUEST_ACTIVE_PING);
+
+	// Remember this last ping time
+	parent->m_pingTS = ::time(NULL);
+
+	if (resp.data.empty() || resp.data.find("\"t\":\"pong\"") == resp.data.npos) {
+		// Something went wrong
+		return handle_error("activity_ping");
+	}
+
+	return handle_success("activity_ping");
 }
 
 int facebook_client::send_message(int seqid, MCONTACT hContact, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captcha_persist_data, const std::string &captcha)

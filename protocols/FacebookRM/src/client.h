@@ -186,6 +186,7 @@ public:
 	std::map<int, time_t> messages_timestamp;
 
 	bool    channel();
+	bool	activity_ping();
 	int		send_message(int seqid, MCONTACT, const std::string &message_recipient, const std::string &message_text, std::string *error_text, MessageMethod method, const std::string &captchaPersistData = "", const std::string &captcha = "");
 
 	////////////////////////////////////////////////////////////

@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_MESSAGES_ON_OPEN_LIMIT			99
 #define FACEBOOK_TYPING_TIME					60
 #define FACEBOOK_IGNORE_COUNTER_LIMIT			5 // how many consequent requests it should keep info about duplicit message ids
+#define FACEBOOK_PING_TIME						600 // every 10 minutes send activity_ping (it is just random/guessed value)
 
 // Defaults
 #define FACEBOOK_MINIMAL_POLL_RATE				10
@@ -144,7 +145,8 @@ enum RequestType {
 
 	REQUEST_MESSAGE_SEND_CHAT,	// sending message through chat
 	REQUEST_MESSAGE_SEND_INBOX,	// sending message through inbox
-	REQUEST_MESSAGES_RECEIVE,	// receiving messages
+	REQUEST_MESSAGES_RECEIVE,	// receiving messages and other realtime actions
+	REQUEST_ACTIVE_PING,		// sending activity ping
 	REQUEST_TYPING_SEND,		// sending typing notification
 
 	REQUEST_THREAD_INFO,		// getting thread info

@@ -60,6 +60,7 @@ public:
 	bool m_enableChat;
 	bool m_signingOut;
 	time_t m_idleTS;
+	time_t m_pingTS;
 	std::string m_locale;
 
 	// DB utils missing in proto_interface
