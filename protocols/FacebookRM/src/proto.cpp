@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -1002,6 +1002,17 @@ void FacebookProto::InitPopups()
 	ppc.colorText = RGB(0, 0, 0); // black
 	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+	// Friendship changes
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Friendship events"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Friendship");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("friendship"));
+	ppc.colorBack = RGB(47, 71, 122); // Facebook's darker blue
+	ppc.colorText = RGB(255, 255, 255); // white
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
 }
 
 /**
@@ -1041,6 +1052,7 @@ void FacebookProto::InitSounds()
 	SkinAddNewSoundExT("Notification", m_tszUserName, LPGENT("Notification"));
 	SkinAddNewSoundExT("NewsFeed", m_tszUserName, LPGENT("News Feed"));
 	SkinAddNewSoundExT("OtherEvent", m_tszUserName, LPGENT("Other Event"));
+	SkinAddNewSoundExT("Friendship", m_tszUserName, LPGENT("Friendship Event"));
 }
 
 /**

@@ -130,19 +130,20 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,106
+    GROUPBOX        "Event notifications",IDC_STATIC,6,7,292,113
     CONTROL         "Notifications",IDC_NOTIFICATIONS_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,23,272,8
     CONTROL         "News feeds (WARNING: Causes excessive network traffic!)",IDC_FEEDS_ENABLE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,39,272,8
-    RTEXT           "News feed types to notify:",IDC_STATIC,26,51,117,8
-    COMBOBOX        IDC_FEED_TYPE,150,49,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,67,138,8
-    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,79,272,8
-    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,95,272,8
-    RTEXT           "Use this server for opening links:",IDC_STATIC,13,123,139,8
-    COMBOBOX        IDC_URL_SERVER,156,120,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,37,272,8
+    RTEXT           "News feed types to notify:",IDC_STATIC,26,49,117,8
+    COMBOBOX        IDC_FEED_TYPE,150,47,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Don't show advertising posts",IDC_FILTER_ADS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,150,65,138,8
+    CONTROL         "Other events",IDC_OTHER_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,75,272,8
+    CONTROL         "Client notifications",IDC_CLIENT_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,89,272,8
+    CONTROL         "Friendship notifications",IDC_FRIENDSHIP_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,104,272,8
+    RTEXT           "Use this server for opening links:",IDC_STATIC,13,131,139,8
+    COMBOBOX        IDC_URL_SERVER,156,128,138,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use balloon notifications in system tray instead of popups",IDC_SYSTRAY_NOTIFY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,147,272,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,150,272,8
     CONTROL         "Use logging notifications into special chatroom",IDC_NOTIFICATIONS_CHATROOM,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,164,272,8
     PUSHBUTTON      "Preview",IDC_PREVIEW,116,182,68,14
@@ -306,7 +307,8 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
+
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

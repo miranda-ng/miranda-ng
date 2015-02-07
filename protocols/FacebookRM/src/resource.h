@@ -44,6 +44,7 @@
 #define IDC_FILTER_ADS                  1045
 #define IDC_LOGIN_SYNC                  1046
 #define IDC_ENABLE_CHATS                1047
+#define IDC_FRIENDSHIP_ENABLE           1048
 #define IDC_SYSTRAY_NOTIFY              1098
 #define IDC_PREVIEW                     1099
 #define IDC_NOTIFICATIONS_CHATROOM      1100
