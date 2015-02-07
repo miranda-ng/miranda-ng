@@ -74,7 +74,16 @@ int CSteamProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 
 	// Respect user choice about (not) notifying idle to protocols
 	if (privacy)
+	{
+		// Reset it to 0 if there is some time already
+		if (m_idleTS)
+		{
+			m_idleTS = 0;
+			delSetting("IdleTS");
+		}
+
 		return 0;
+	}
 
 	// We don't want to reset idle time when we're already in idle state
 	if (idle && m_idleTS > 0)
