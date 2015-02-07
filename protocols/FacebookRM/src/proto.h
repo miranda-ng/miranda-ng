@@ -51,9 +51,15 @@ public:
 		//return (m_iStatus == ID_STATUS_INVISIBLE);
 	}
 
+	inline int IdleSeconds()
+	{
+		return m_idleTS ? time(0) - m_idleTS : 0;
+	}
+
 	bool m_invisible;
 	bool m_enableChat;
 	bool m_signingOut;
+	time_t m_idleTS;
 	std::string m_locale;
 
 	// DB utils missing in proto_interface
