@@ -24,6 +24,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MAX_NEWSFEED_LEN 500
 
+/**
+ * Helper function for loading name from database (or use default one specified as parameter), used for title of few notifications.
+ */
+std::string getContactName(FacebookProto *proto, MCONTACT hContact, const char *defaultName) {
+	std::string name = defaultName;
+
+	DBVARIANT dbv;
+	if (!proto->getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
+		name = dbv.pszVal;
+		db_free(&dbv);
+	}
+
+	return name;
+}
+
 void FacebookProto::ProcessBuddyList(void*)
 {
 	ScopedLock s(facy.buddies_lock_);
@@ -131,8 +146,9 @@ void FacebookProto::ProcessBuddyList(void*)
 				delSetting(fbu->handle, FACEBOOK_KEY_DELETED);
 
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
+				std::string contactname = getContactName(this, fbu->handle, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
-				ptrT szTitle(mir_utf8decodeT(fbu->real_name.c_str()));
+				ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
 				NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), fbu->handle, FACEBOOK_EVENT_OTHER, &url);
 			}
 
@@ -237,8 +253,9 @@ void FacebookProto::ProcessFriendList(void*)
 					delSetting(hContact, FACEBOOK_KEY_DELETED);
 
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;
+					std::string contactname = getContactName(this, hContact, !fbu->real_name.empty() ? fbu->real_name.c_str() : fbu->user_id.c_str());
 
-					ptrT szTitle(mir_utf8decodeT(fbu->real_name.c_str()));
+					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is back on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
 				}
 
@@ -255,16 +272,9 @@ void FacebookProto::ProcessFriendList(void*)
 				if (!getDword(hContact, FACEBOOK_KEY_DELETED, 0) && getByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, 0) == CONTACT_FRIEND) {
 					setDword(hContact, FACEBOOK_KEY_DELETED, ::time(NULL));
 					setByte(hContact, FACEBOOK_KEY_CONTACT_TYPE, CONTACT_NONE);
-
-					std::string contactname = id;
-
-					DBVARIANT dbv;
-					if (!getStringUtf(hContact, FACEBOOK_KEY_NICK, &dbv)) {
-						contactname = dbv.pszVal;
-						db_free(&dbv);
-					}
-
+					
 					std::string url = FACEBOOK_URL_PROFILE + std::string(id);
+					std::string contactname = getContactName(this, hContact, id);
 
 					ptrT szTitle(mir_utf8decodeT(contactname.c_str()));
 					NotifyEvent(szTitle, TranslateT("Contact is no longer on server-list."), hContact, FACEBOOK_EVENT_OTHER, &url);
