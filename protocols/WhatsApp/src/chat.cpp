@@ -319,17 +319,24 @@ void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner
 	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
 }
 
-void WhatsAppProto::onGroupMessage(const FMessage &msg)
+void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 {
-	WAChatInfo *pInfo = SafeGetChat(msg.key.remote_jid);
+	WAChatInfo *pInfo = SafeGetChat(pMsg.key.remote_jid);
 	if (pInfo == NULL) {
-		pInfo = InitChat(msg.key.remote_jid, "");
+		pInfo = InitChat(pMsg.key.remote_jid, "");
 		pInfo->bActive = true;
 	}
 
-	ptrT tszText(str2t(msg.data));
-	ptrT tszUID(str2t(msg.remote_resource));
-	ptrT tszNick(GetChatUserNick(msg.remote_resource));
+	std::string msg(pMsg.data);
+	if (!pMsg.media_url.empty()) {
+		if (!msg.empty())
+			msg.append("\n");
+		msg += pMsg.media_url;
+	}
+
+	ptrT tszText(str2t(msg));
+	ptrT tszUID(str2t(pMsg.remote_resource));
+	ptrT tszNick(GetChatUserNick(pMsg.remote_resource));
 
 	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_MESSAGE };
 
@@ -337,13 +344,13 @@ void WhatsAppProto::onGroupMessage(const FMessage &msg)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
-	gce.time = msg.timestamp;
+	gce.time = pMsg.timestamp;
 	gce.ptszText = tszText;
-	gce.bIsMe = m_szJid == msg.remote_resource;
+	gce.bIsMe = m_szJid == pMsg.remote_resource;
 	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
 
 	if (isOnline())
-		m_pConnection->sendMessageReceived(msg);
+		m_pConnection->sendMessageReceived(pMsg);
 }
 
 void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string &author, const std::string &newSubject, int ts)
