@@ -3,4 +3,3 @@
 [Set message for]
 [message for]
 [available autoreply only]
-[all accounts]

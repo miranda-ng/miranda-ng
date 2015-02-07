@@ -369,10 +369,14 @@ Cоздать комнату чата
 Вы уверены, что хотите удалить %s из списка друзей?
 [User %s was deleted from your friend list]
 Контакт %s был удалён из вашего списка друзей
+[Your request to the user %s was deleted]
+Ваш запрос пользователю %s удалён
 [Friend request from the user %s declined]
 Запрос дружбы от пользователя %s отклонён
 [Friend request suggestion for the user %s deleted]
 Рекомендация добавить в друзья пользователя %s удалена
+[User or request was not deleted]
+Пользователь или запрос не были удалены
 [ report abuse on him/her]
  отправит жалобу на пользователя
 [ clear server history with him/her]

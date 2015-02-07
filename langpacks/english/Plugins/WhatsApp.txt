@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.7
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -14,7 +14,25 @@
 [Request code]
 [Register code]
 [Use SSL connection (port 443)]
+[Invite Users]
+[Choose an user]
+[Other user:]
+[&Invite]
 [Cancel]
+;file \protocols\WhatsApp\src\chat.cpp
+[Members]
+[Owners]
+[&Invite a user]
+[&Room options]
+[View/change &topic]
+[&Leave chat session]
+[Copy room &JID]
+[Copy room topic]
+[Set new subject for %s]
+[&Add to roster]
+[&Kick]
+[Copy &nickname]
+[Copy real &JID]
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 [Please enter a phone number without country code.]
@@ -23,15 +41,12 @@
 ;file \protocols\WhatsApp\src\contacts.cpp
 [is now known as '%s']
 [Last seen on %x at %X]
-[You have been added to the group]
-[User '%s' has been added to the group]
-[You have been removed from the group]
-[User '%s' has been removed from the group]
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Your password has been set automatically. You can proceed with login now]
 [Please correctly specify your registration code received by SMS]
 ;file \protocols\WhatsApp\src\messages.cpp
+[server]
 [Message received: %s by %s]
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
@@ -47,10 +62,5 @@
 [Account]
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
-[Add to group]
 [Create chat group]
-[Remove from chat group]
-[Leave and delete group]
-[Leave group]
-[Change group subject]
 [Create group]

@@ -7,8 +7,6 @@
 ;============================================================
 [Console log window for Miranda.]
 Плагин окна консоли журнала Miranda NG.
-[Pause logging (Ctrl+P)]
-Пауза (Ctrl+P)
 [Console]
 Консоль
 [Single window mode*]
@@ -35,6 +33,8 @@
 Показать консоль
 [Scrolling (Ctrl+Q)]
 Прокручивать (Ctrl+Q)
+[Pause logging (Ctrl+P)]
+Пауза (Ctrl+P)
 [Save log to file (Ctrl+S)]
 Сохранить журнал в файл (Ctrl+S)
 [Copy selected log (Ctrl+C)]

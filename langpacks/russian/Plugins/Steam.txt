@@ -31,6 +31,8 @@
 Заблокировать
 [ on server %s]
  на сервере %s
+[Playing]
+Играю
 [%s has been removed from your contact list]
 %s удалён из вашего списка контактов
 [%s is back in your contact list]

@@ -21,8 +21,42 @@
 Код регистрации
 [Use SSL connection (port 443)]
 Подключение по SSL (порт 443)
+[Invite Users]
+Приглашение пользователей
+[Choose an user]
+Выберите пользователя
+[Other user:]
+Другой пользователь:
+[&Invite]
+&Пригласить
 [Cancel]
 Отмена
+[Members]
+Участник
+[Owners]
+Владельцы
+[&Invite a user]
+&Пригласить пользователя
+[&Room options]
+Настройки &комнаты чата
+[View/change &topic]
+Просмотр/смена &темы
+[&Leave chat session]
+&Покинуть чат
+[Copy room &JID]
+Копировать &JID комнаты чата
+[Copy room topic]
+Копировать тему
+[Set new subject for %s]
+Установить новую тему для %s
+[&Add to roster]
+&Добавить в ростер
+[&Kick]
+&Выкинуть
+[Copy &nickname]
+Копировать &ник
+[Copy real &JID]
+Копировать &JID
 [Please enter a country code.]
 Введите код страны.
 [Please enter a phone number without country code.]
@@ -41,6 +75,8 @@
 Ваш пароль был установлен автоматически. Теперь вы можете подключиться.
 [Please correctly specify your registration code received by SMS]
 Пожалуйста, верно укажите свой код регистрации, полученный в SMS
+[server]
+Сервер
 [Message received: %s by %s]
 Сообщение принято в: %s пользователем %s
 [%s server connection]
