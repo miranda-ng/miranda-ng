@@ -231,6 +231,13 @@ void FacebookProto::MessageLoop(void *)
 	{
 		if (isOffline() || m_signingOut)
 			break;
+
+		// If we're not idle, send activity_ping every few minutes...
+		if (!m_idleTS && (::time(NULL) - m_pingTS) > FACEBOOK_PING_TIME) {
+			debugLogA("***** FacebookProto::MessageLoop[%d] pinging...", tim);
+			facy.activity_ping();
+		}
+
 		debugLogA("***** FacebookProto::MessageLoop[%d] refreshing...", tim);
 	}
 
