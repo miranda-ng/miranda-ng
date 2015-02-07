@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.7
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -22,8 +22,43 @@ Poproś o kod
 Zarejestruj kod
 [Use SSL connection (port 443)]
 Używaj połączenia SSL (port 443)
+[Invite Users]
+Zaproś użytkowników
+[Choose an user]
+Wybierz użytkownika
+[Other user:]
+Inny użytkownik:
+[&Invite]
+&Zaproś
 [Cancel]
 Anuluj
+;file \protocols\WhatsApp\src\chat.cpp
+[Members]
+Członkowie
+[Owners]
+Właściciele
+[&Invite a user]
+&Zaproś użytkownika
+[&Room options]
+Opcje &pokoju
+[View/change &topic]
+Zobacz/zmień &temat
+[&Leave chat session]
+&Opuść sesję czatu
+[Copy room &JID]
+Kopiuj &JID pokoju
+[Copy room topic]
+Kopiuj temat pokoju
+[Set new subject for %s]
+Ustaw nowy temat dla %s
+[&Add to roster]
+&Dodaj do rostera
+[&Kick]
+&Wykop
+[Copy &nickname]
+Kopiuj &nick
+[Copy real &JID]
+Kopiuj prawdziwy &JID
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 Proszę podać numer kierunkowy kraju.
@@ -38,14 +73,6 @@ Wprowadź hasło.
 jest od teraz znany jako "%s"
 [Last seen on %x at %X]
 Ostatnio widziany %x o %X
-[You have been added to the group]
-Zostałeś dodany do grupy
-[User '%s' has been added to the group]
-Użytkownik "%s" został dodany do grupy
-[You have been removed from the group]
-Zostałeś usunięty z grupy
-[User '%s' has been removed from the group]
-Użytkownik "%s" został usunięty z grupy
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie możesz używać prawdziwego WhatsApp i tej wtyczki równocześnie.\nKontynuować?
@@ -54,6 +81,8 @@ Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowa
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
 ;file \protocols\WhatsApp\src\messages.cpp
+[server]
+Serwer
 [Message received: %s by %s]
 Wiadomość odebrana: %s przez %s
 ;file \protocols\WhatsApp\src\proto.cpp
@@ -82,17 +111,7 @@ Konto
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 Ikona WhatsApp
-[Add to group]
-Dodaj do grupy
 [Create chat group]
 Utwórz czat grupowy
-[Remove from chat group]
-Usuń z czatu grupowego
-[Leave and delete group]
-Opuść i usuń grupę
-[Leave group]
-Opuść grupę
-[Change group subject]
-Zmień temat grupy
 [Create group]
 Utwórz grupę

@@ -35,8 +35,8 @@ Ukryj konsolę
 Pokaż konsolę
 [Scrolling (Ctrl+Q)]
 Przewijanie (Ctrl+Q)
-[Pause logging(Ctrl+P)]
-Zatrzymaj dziennik (Ctrl+P)
+[Pause logging (Ctrl+P)]
+Wstrzymaj zapis (ctrl+p)
 [Save log to file (Ctrl+S)]
 Zapisz dziennik do pliku (Ctrl+S)
 [Copy selected log (Ctrl+C)]
@@ -65,8 +65,8 @@ Konsola
 Usługi
 [Text]
 Tekst
-[&Help]
-&Pomoc
+[Background]
+Tło
 [Text Files (*.txt)]
 Plik tekstowy (*.txt)
 [All Files]
