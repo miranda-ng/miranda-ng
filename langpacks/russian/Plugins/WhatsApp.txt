@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.7
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -35,14 +35,6 @@
 теперь известен как '%s'
 [Last seen on %x at %X]
 Последнее появление %x в %X
-[You have been added to the group]
-Вы добавлены в группу
-[User '%s' has been added to the group]
-Пользователь '%s' добавлен в группу
-[You have been removed from the group]
-Вы удалены из группы
-[User '%s' has been removed from the group]
-Пользователь '%s' удалён из группы
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Код регистрации придет на ваш телефон в SMS.\nУчтите, что одновременное использование этого плагина и настоящего WhatsApp невозможно!\nПродолжить?
 [Your password has been set automatically. You can proceed with login now]
@@ -75,17 +67,7 @@
 Учётная запись
 [WhatsApp icon]
 Значок WhatsApp
-[Add to group]
-Добавить в группу
 [Create chat group]
 Создать чат-группу
-[Remove from chat group]
-Убрать из чат-группы
-[Leave and delete group]
-Покинуть и удалить группу
-[Leave group]
-Покинуть группу
-[Change group subject]
-Изменить тему группы
 [Create group]
 Создать группу
