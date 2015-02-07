@@ -248,7 +248,7 @@ INT_PTR CAnnivEditCtrl::DeleteDate(WORD wIndex)
 		}
 
 		_pDates[wIndex]->RemindOption(BST_INDETERMINATE);
-		_pDates[wIndex]->RemindOffset((BYTE)-1);
+		_pDates[wIndex]->RemindOffset((WORD)-1);
 
 		_pDates[wIndex]->RemoveFlags(MAnnivDate::MADF_HASCUSTOM);
 		_pDates[wIndex]->SetFlags(MAnnivDate::MADF_CHANGED|MAnnivDate::MADF_REMINDER_CHANGED);
@@ -548,7 +548,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 		}
 		else if (IsDlgButtonChecked(_hwndDlg, RADIO_REMIND2))
 		{
-			if (pCurrent->RemindOffset() == (BYTE)-1)
+			if (pCurrent->RemindOffset() == (WORD)-1)
 			{
 				_itot(db_get_b(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
 			}
