@@ -382,12 +382,12 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 	const string &id = messageNode->getAttributeValue("id");
 	const string &attribute_t = messageNode->getAttributeValue("t");
 	const string &from = messageNode->getAttributeValue("from");
-	const string &author = messageNode->getAttributeValue("author");
 
 	const string &typeAttribute = messageNode->getAttributeValue("type");
 	if (typeAttribute.empty())
 		return;
 
+	const string &participant = messageNode->getAttributeValue("participant");
 	if (typeAttribute == "error") {
 		int errorCode = 0;
 		std::vector<ProtocolTreeNode*> errorNodes(messageNode->getAllChildren("error"));
@@ -401,16 +401,21 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 
 		if (m_pEventHandler != NULL)
 			m_pEventHandler->onMessageError(message, errorCode);
+		return;
 	}
-	else if (typeAttribute == "text") {
+	
+	if (from.empty() || id.empty())
+		return;
+	FMessage fmessage(from, false, id);
+
+	if (typeAttribute == "text") {
 		ProtocolTreeNode *body = messageNode->getChild("body");
-		if (from.empty() || body == NULL || body->data == NULL || body->data->empty())
+		if (body == NULL || body->data == NULL || body->data->empty())
 			return;
 
-		FMessage fmessage(from, false, id);
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
-		fmessage.remote_resource = messageNode->getAttributeValue("participant");
+		fmessage.remote_resource = participant;
 		fmessage.notifyname = messageNode->getAttributeValue("notify");
 		fmessage.data = body->getDataAsString();
 		fmessage.status = FMessage::STATUS_UNSENT;
@@ -418,27 +423,16 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			fmessage.timestamp = time(NULL);
 			fmessage.offline = false;
 		}
-		
-		if (fmessage.remote_resource.empty()) {
-			if (m_pEventHandler != NULL)
-				m_pEventHandler->onMessageForMe(fmessage);
-		}
-		else if (m_pGroupEventHandler != NULL)
-			m_pGroupEventHandler->onGroupMessage(fmessage);
 	}
 	else if (typeAttribute == "media") {
-		if (from.empty() || id.empty())
-			return;
-
 		ProtocolTreeNode *media = messageNode->getChild("media");
 		if (media == NULL)
 			return;
 
-		FMessage fmessage(from, false, id);
 		fmessage.wants_receipt = false;
 		fmessage.timestamp = atoi(attribute_t.c_str());
 		fmessage.notifyname = messageNode->getAttributeValue("notify");
-		fmessage.remote_resource = author;
+		fmessage.remote_resource = messageNode->getAttributeValue("participant");
 		fmessage.media_wa_type = FMessage::getMessage_WA_Type(media->getAttributeValue("type"));
 		fmessage.media_url = media->getAttributeValue("url");
 		fmessage.media_name = media->getAttributeValue("file");
@@ -488,10 +482,15 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 			else
 				fmessage.data = media->getAttributeValue("caption");
 		}
+	}
+	else return;
 
+	if (fmessage.remote_resource.empty()) {
 		if (m_pEventHandler != NULL)
 			m_pEventHandler->onMessageForMe(fmessage);
 	}
+	else if (m_pGroupEventHandler != NULL)
+		m_pGroupEventHandler->onGroupMessage(fmessage);
 }
 
 void WAConnection::parseNotification(ProtocolTreeNode *node) throw(WAException)
