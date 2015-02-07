@@ -20,7 +20,7 @@ public:
 	virtual int waitForRead() = 0;
 	virtual void forceShutdown() = 0;
 
-	virtual void log(const char *str) = 0;
+	virtual void log(const char *prefix, const char *str) = 0;
 };
 
 #endif /* ISOCKETCONNECTION_H_ */

@@ -267,7 +267,7 @@ void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 
 		if (bSecure) {
 			string tmp = node.toString();
-			this->realOut->log(tmp.c_str());
+			this->realOut->log("XML written:\n", tmp.c_str());
 		}
 
 		if (node.tag.empty())

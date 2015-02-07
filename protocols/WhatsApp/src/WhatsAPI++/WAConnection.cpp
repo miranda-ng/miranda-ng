@@ -91,7 +91,7 @@ void WAConnection::logData(const char *format, ...)
 	va_start(args, format);
 	char tmp[4000];
 	vsprintf_s(tmp, format, args);
-	rawConn->log(tmp);
+	rawConn->log(">> ", tmp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -196,7 +196,7 @@ bool WAConnection::read() throw(WAException)
 		return false;
 
 	string tmp = node->toString();
-	rawConn->log(tmp.c_str());
+	rawConn->log("XML received\n", tmp.c_str());
 
 	if (ProtocolTreeNode::tagEquals(node, "iq"))
 		parseIq(node);

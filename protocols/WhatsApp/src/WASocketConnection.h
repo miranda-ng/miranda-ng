@@ -20,18 +20,18 @@ public:
 	WASocketConnection(const std::string &dir, int port) throw (WAException);
 	virtual ~WASocketConnection();
 
-	void write(int i);
-	unsigned char read();
-	int read(std::vector<unsigned char>& b, int off, int length);
-	int read(unsigned char*, int length);
-	void flush();
-	void write(const std::vector<unsigned char>& b, int length);
-	void write(const std::vector<unsigned char>& bytes, int offset, int length);
-	void makeNonBlock();
-	int waitForRead();
-	void forceShutdown();
+	virtual void write(int i);
+	virtual unsigned char read();
+	virtual int read(std::vector<unsigned char>& b, int off, int length);
+	virtual int read(unsigned char*, int length);
+	virtual void flush();
+	virtual void write(const std::vector<unsigned char>& b, int length);
+	virtual void write(const std::vector<unsigned char>& bytes, int offset, int length);
+	virtual void makeNonBlock();
+	virtual int waitForRead();
+	virtual void forceShutdown();
 	
-	void log(const char *str);
+	virtual void log(const char *prefix, const char *str);
 
 	static void initNetwork(HANDLE hNetlibUser) throw (WAException);
 	static void quitNetwork();
