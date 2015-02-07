@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
+Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	m_invisible = false;
 	m_signingOut = false;
 	m_enableChat = DEFAULT_ENABLE_CHATS;
+	m_idleTS = 0;
 
 	// Load custom locale, if set
 	ptrA locale(getStringA(FACEBOOK_KEY_LOCALE));
@@ -188,7 +189,6 @@ int FacebookProto::SetStatus(int new_status)
 		m_iDesiredStatus = new_status;
 		break;
 
-	case ID_STATUS_IDLE:
 	default:
 		m_iDesiredStatus = ID_STATUS_INVISIBLE;
 		if (getByte(FACEBOOK_KEY_MAP_STATUSES, DEFAULT_MAP_STATUSES))
@@ -380,23 +380,39 @@ INT_PTR FacebookProto::GetMyAwayMsg(WPARAM, LPARAM lParam)
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(statusMsg) : (INT_PTR)mir_t2a(statusMsg);
 }
 
-int FacebookProto::OnIdleChanged(WPARAM, LPARAM lParam)
+int FacebookProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (m_iStatus == ID_STATUS_INVISIBLE || m_iStatus <= ID_STATUS_OFFLINE)
+	bool idle = (lParam & IDF_ISIDLE) != 0;
+	bool privacy = (lParam & IDF_PRIVACY) != 0;
+
+	// Respect user choice about (not) notifying idle to protocols
+	if (privacy) {
+		// Reset it to 0 if there is some time already
+		if (m_idleTS)
+		{
+			m_idleTS = 0;
+			delSetting("IdleTS");
+		}
+
+		return 0;
+	}
+
+	// We don't want to reset idle time when we're already in idle state
+	if (idle && m_idleTS > 0)
 		return 0;
 
-	bool bIdle = (lParam & IDF_ISIDLE) != 0;
-	bool bPrivacy = (lParam & IDF_PRIVACY) != 0;
+	if (idle) {
+		// User started being idle
+		MIRANDA_IDLE_INFO mii = { sizeof(mii) };
+		CallService(MS_IDLE_GETIDLEINFO, 0, (LPARAM)&mii);
 
-	if (facy.is_idle_ && !bIdle)
-	{
-		facy.is_idle_ = false;
-		SetStatus(m_iDesiredStatus);
-	}
-	else if (!facy.is_idle_ && bIdle && !bPrivacy && m_iDesiredStatus != ID_STATUS_INVISIBLE)
-	{
-		facy.is_idle_ = true;
-		SetStatus(ID_STATUS_IDLE);
+		// Compute time when user really became idle
+		m_idleTS = time(0) - mii.idleTime * 60;
+		setDword("IdleTS", m_idleTS);
+	} else {
+		// User stopped being idle
+		m_idleTS = 0;
+		delSetting("IdleTS");
 	}
 
 	return 0;

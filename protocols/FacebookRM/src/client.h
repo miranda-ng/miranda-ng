@@ -39,7 +39,7 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
 
-		https_ = is_idle_ = is_typing_ = false;
+		https_ = is_typing_ = false;
 
 		buddies_lock_ = send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
 		hMsgCon = NULL;
@@ -78,7 +78,6 @@ public:
 	std::string chat_clientid_;
 	std::string chat_traceid_;
 	bool is_typing_;
-	bool is_idle_;
 	bool https_;
 	time_t last_feeds_update_;
 	time_t last_notification_time_;

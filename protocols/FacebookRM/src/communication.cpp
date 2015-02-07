@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -535,13 +535,13 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 		action += "&clientid=" + this->chat_clientid_;
 		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz");
 
-		// FIXME: fix this as I don't know how it works yet (because of quick stable release)
-		if (!parent->isInvisible())
-			action += "&idle=-1&state=active";
-		else
-			action += "&idle=1";
-
+		int idleSeconds = parent->IdleSeconds();
+		action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
 		action += "&cap=0";
+		// action += "&wtc=0,0,0.000,0,0"; // TODO: what's this item? It's numbers grows with every new request...		
+
+		action += "&uid=" + self_.user_id;
+		action += "&viewer_uid=" + self_.user_id;
 
 		if (!this->chat_sticky_num_.empty())
 			action += "&sticky_token=" + this->chat_sticky_num_;
@@ -551,6 +551,11 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 
 		if (!this->chat_traceid_.empty())
 			action += "&traceid=" + this->chat_traceid_;
+
+		if (parent->isInvisible())
+			action += "&state=offline";
+		else if (idleSeconds < 60)
+			action += "&state=active";
 
 		return action;
 	}
