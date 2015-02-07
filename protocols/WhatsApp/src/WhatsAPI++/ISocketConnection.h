@@ -20,7 +20,6 @@ public:
 	virtual int waitForRead() = 0;
 	virtual void forceShutdown() = 0;
 
-	virtual void dump(const void *buf, int length) = 0;
 	virtual void log(const char *str) = 0;
 };
 

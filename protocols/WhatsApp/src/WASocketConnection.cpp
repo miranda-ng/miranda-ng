@@ -134,21 +134,6 @@ void WASocketConnection::forceShutdown()
 	Netlib_Shutdown(this->hConn);
 }
 
-void WASocketConnection::dump(const void *pData, int length)
-{
-	BYTE *pBuf = (BYTE*)pData;
-	while (length > 0) {
-		int portion = (length < 16) ? length : 16;
-
-		char str[100];
-		for (int i = 0; i < portion; i++)
-			sprintf(str + i * 3, "%02X ", *pBuf++);
-		Netlib_Logf(WASocketConnection::hNetlibUser, "DATA: %s", str);
-
-		length -= portion;
-	}
-}
-
 void WASocketConnection::log(const char *str)
 {
 	Netlib_Logf(WASocketConnection::hNetlibUser, "STR: %s", str);
