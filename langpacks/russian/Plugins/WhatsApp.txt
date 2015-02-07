@@ -22,7 +22,7 @@
 [Use SSL connection (port 443)]
 Подключение по SSL (порт 443)
 [Automatically open group chats]
-автоматически открывать комнаты чата
+Автоматически открывать комнаты чата
 [Invite users]
 Приглашение пользователей
 [Choose an user]
