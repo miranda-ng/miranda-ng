@@ -642,6 +642,10 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), NULL, FACEBOOK_EVENT_FRIENDSHIP, &url, alert_id.empty() ? NULL : &alert_id);
 			}
 		}
+		else if (t == "jewel_requests_add") {
+			// New friendship request, load them all with real names (because there is only user_id in "from" field)
+			proto->ForkThread(&FacebookProto::ProcessFriendRequests, NULL);
+		}
 		else if (t == "typ") {
 			// chat typing notification
 

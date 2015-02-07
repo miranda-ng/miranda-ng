@@ -209,9 +209,6 @@ void FacebookProto::UpdateLoop(void *)
 				ProcessFeeds(NULL);
 		}
 
-		if (i == 49)
-			ProcessFriendRequests(NULL);
-
 		debugLogA("***** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
 		if (WaitForSingleObjectEx(update_loop_lock_, GetPollRate() * 1000, true) != WAIT_TIMEOUT)
 			break;
