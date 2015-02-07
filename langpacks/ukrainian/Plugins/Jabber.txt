@@ -1148,9 +1148,9 @@ JID видавців
 [Jabber Authentication]
 Аутентифікация Jabber
 [Registration successful]
-Реєстрація успішно пройдена
+Реєстрація пройшла успішно
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Пароль успішно змінено. Не забудьте оновити пароль в налаштуваннях облікового запису Jabber.
+Пароль успішно змінено. Не забудьте оновити пароль у налаштуваннях облікового запису Jabber.
 [Password cannot be changed.]
 Пароль не може бути змінений
 [Jabber Bookmarks Error]

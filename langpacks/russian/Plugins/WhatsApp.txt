@@ -32,7 +32,7 @@
 [Cancel]
 Отмена
 [Members]
-Участник
+Участники
 [Owners]
 Владельцы
 [&Invite a user]

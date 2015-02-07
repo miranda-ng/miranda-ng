@@ -33,7 +33,7 @@
 Показать консоль
 [Scrolling (Ctrl+Q)]
 Прокручувати (Ctrl+Q)
-[Pause logging(Ctrl+P)]
+[Pause logging (Ctrl+P)]
 Пауза (Ctrl+P)
 [Save log to file (Ctrl+S)]
 Зберегти журнал у файл (Ctrl+S)
@@ -63,8 +63,8 @@
 Служби
 [Text]
 Текст
-[&Help]
-&Довідка
+[Background]
+Фон
 [Text Files (*.txt)]
 Текстові файли (*.txt)
 [All Files]

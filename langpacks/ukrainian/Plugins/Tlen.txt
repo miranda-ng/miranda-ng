@@ -216,7 +216,7 @@
 [%d Files]
 %d файлів
 [Authentication failed for %s@%s.]
-Аутентифікація не пройдена для %s@%s
+Аутентифікація не пройшла для %s@%s.
 [Tlen Authentication]
 Аутентифікація Tlen
 [General]

@@ -155,6 +155,8 @@ AIM Встановити Instant Idle
 Не підтримується сервером
 [Not supported by the client.]
 Не підтримується клієнтом
+[Refused by client.]
+Відхилено клієнтом.
 [User temporarily unavailable.]
 Користувач тимчасово недоступний.
 [Check your Screen Name.]
@@ -262,6 +264,6 @@ AIM Встановити Instant Idle
 [Please, enter a username in the options dialog.]
 Будь ласка, введіть ім'я користувача в налаштуваннях.
 [Please, enter a password in the options dialog.]
-Будь ласка, введіть пароль в налаштуваннях.
+Будь ласка, введіть пароль у налаштуваннях.
 [Failed to open file: %s %s]
 Не вдалося відкрити файл: %s %s

@@ -516,9 +516,9 @@ xHTML формат чат сообщений
 [Supports attention requests ('nudge')]
 Поддержка уведомлений внимания ('Встряска')
 [Supports chat history retrieving]
-Поддерживает получение истории чата
+Поддержка получения истории чата
 [Supports chat history management]
-Поддерживает управление историей чата
+Поддержка управления историей чата
 [Can report information about user activity]
 Сообщение об активности пользователя
 [Receives information about user activity]

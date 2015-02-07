@@ -26,7 +26,7 @@
 [Import completed]
 Імпорт завершено
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
-Якщо вам у майбутньому знадобиться цей майстер, увімкніть плагін import.dll в налаштуваннях (розділ "Плагіни").
+Якщо вам у майбутньому знадобиться цей майстер, увімкніть плагін import.dll у налаштуваннях (розділ "Плагіни").
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Знайдено наступні профілі. Виберіть профіль зі списку або натисніть "Інший профіль", якщо вашого профілю немає в списку чи список порожній.
 [&Other Profile...]

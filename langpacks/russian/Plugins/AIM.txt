@@ -155,6 +155,8 @@ AIM Установить Instant Idle
 Не поддерживается сервером.
 [Not supported by the client.]
 Не поддерживается клиентом.
+[Refused by client.]
+Отклонено клиентом.
 [User temporarily unavailable.]
 Пользователь временно недоступен.
 [Check your Screen Name.]

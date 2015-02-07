@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.7
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -21,8 +21,42 @@ SMS-код
 Реєструвати код
 [Use SSL connection (port 443)]
 Підключення по SSL (порт 443)
+[Invite Users]
+Запрошення користувачів
+[Choose an user]
+Виберіть користувача
+[Other user:]
+Інший користувач:
+[&Invite]
+&Запросити
 [Cancel]
 Скасувати
+[Members]
+Учасники
+[Owners]
+Власники
+[&Invite a user]
+&Запросити користувача
+[&Room options]
+&Налаштування чат-кімнати
+[View/change &topic]
+Перегляд/зміна &теми
+[&Leave chat session]
+&Вийти з чату
+[Copy room &JID]
+Копіювати &JID чат-кімнати
+[Copy room topic]
+Копіювати тему
+[Set new subject for %s]
+Встановити нову тему для %s
+[&Add to roster]
+&Додати в ростер
+[&Kick]
+&Вигнати
+[Copy &nickname]
+Копіювати &нік
+[Copy real &JID]
+Копіювати &JID
 [Please enter a country code.]
 Введіть код країни.
 [Please enter a phone number without country code.]
@@ -35,20 +69,16 @@ SMS-код
 змінив ім'я на %s
 [Last seen on %x at %X]
 Остання поява %x о %X
-[You have been added to the group]
-Вас додали до групи
-[User '%s' has been added to the group]
-Користувача %s додали до групи
-[You have been removed from the group]
-Вас видалили з групи
-[User '%s' has been removed from the group]
-Користувача %s видалили з групи
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS-повідомлення з реєстраційним кодом буде відправлено на ваш мобільний телефон.\nНагадуємо, що ви не зможете використовувати справжній WhatsApp і цей плагін одночасно!\nПродовжити?
 [Your password has been set automatically. You can proceed with login now]
 Ваш пароль встановлений автоматично, можете підключитися до протоколу.
 [Please correctly specify your registration code received by SMS]
 Будь ласка, правильно вкажіть ваш реєстраційний код, отриманий в SMS
+[server]
+сервер
+[Message received: %s by %s]
+Повідомлення отримане о: %s користувачем %s
 [%s server connection]
 З'єднання з сервером %s
 [Unable to get Netlib connection for WhatsApp]
@@ -73,17 +103,7 @@ SMS-повідомлення з реєстраційним кодом буде �
 Обліковий запис
 [WhatsApp icon]
 Значок протоколу
-[Add to group]
-Додати у групу
 [Create chat group]
 Створити чат-групу
-[Remove from chat group]
-Видалити з чат-групи
-[Leave and delete group]
-Покинути та видалити групу
-[Leave group]
-Покинути групу
-[Change group subject]
-Змінити тему групи
 [Create group]
 Створити групу

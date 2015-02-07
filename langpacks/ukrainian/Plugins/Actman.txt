@@ -297,6 +297,8 @@
 з поточним профілем
 [Restarts Miranda]
 Перезапускає Miranda
+[Station name]
+Ім'я станції
 [All protocols]
 Усі протоколи
 [Protocol]

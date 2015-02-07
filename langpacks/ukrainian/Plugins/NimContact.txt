@@ -138,4 +138,4 @@
 [%s - ERROR: file couldn't be opened (in %s)]
 %s - Помилка: неможливо відкрити файл (в %s)
 [%s - ERROR: no file specified in settings (in %s)]
-%s - Помилка: файл не вказаний в налаштуваннях (в %s)
+%s - Помилка: файл не вказаний у налаштуваннях (в %s)

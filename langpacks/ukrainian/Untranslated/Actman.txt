@@ -13,7 +13,6 @@
 [Shows contact history or (wParam=0) system history]
 [Erases contact's history. hContact can be NULL(0) to empty system history]
 [Show Global history search window. If already opened, bring it to front.]
-[Station name]
 [wParam is Handle]
 [wParam is Ansi station name]
 [wParam is Unicode station name]

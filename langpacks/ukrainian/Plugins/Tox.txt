@@ -51,9 +51,9 @@
 Протоколи
 [Protocol icon]
 Значок протоколу
-[Query]
-Запит
-[You cannot add yourself to friend list]
-Ви не можете додати себе до списку друзів
+[You cannot add yourself to your contact list]
+Ви не можете додати себе до списку контактів
 [Contact already in your contact list]
 Контакт уже в списку
+[Query]
+Запит
