@@ -21,7 +21,9 @@
 Код регистрации
 [Use SSL connection (port 443)]
 Подключение по SSL (порт 443)
-[Invite Users]
+[Automatically open group chats]
+автоматически открывать комнаты чата
+[Invite users]
 Приглашение пользователей
 [Choose an user]
 Выберите пользователя

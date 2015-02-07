@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.10
+;  Version: 0.2.10.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -61,6 +61,8 @@
 Другие события
 [Client notifications]
 Уведомления клиента
+[Friendship notifications]
+Уведомления о дружбе
 [Use this server for opening links:]
 Тип сайта для открытия ссылок:
 [Use balloon notifications in system tray instead of popups]
@@ -215,6 +217,8 @@
 Пример новости
 [Sample notification]
 Пример уведомления
+[Sample friendship]
+Пример уведомления о дружбе
 [a sticker]
 стикер
 [files]
@@ -269,6 +273,8 @@
 Вы уверены, что хотите удалить '%s' из друзей?
 [News feeds]
 Новости
+[Friendship events]
+События дружбы
 [Visit profile]
 Профиль на сайте
 [Visit notifications]
@@ -281,6 +287,8 @@
 Новости
 [Other Event]
 Другое событие
+[Friendship Event]
+Событие дружбы
 [Message read: %s]
 Сообщение прочтено в: %s
 [Facebook icon]

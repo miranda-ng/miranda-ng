@@ -51,9 +51,9 @@ DNS имя:
 Протоколы
 [Protocol icon]
 Значок протокола
-[You cannot add yourself to your contact list]
-Невозможно добавить себя в список контактов
-[Contact already in your contact list]
-Контакт уже в вашем списке контактов
 [Query]
 Запрос
+[You cannot add yourself to friend list]
+Невозможно добавить себя в список друзей
+[Contact already in your contact list]
+Контакт уже в вашем списке контактов
