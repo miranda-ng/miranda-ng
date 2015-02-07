@@ -228,6 +228,24 @@ Wysyłanie wiadomości do użytkownika, który nie dodał Cię do znajomych, a w
 Wysyłanie wiadomości do użytkownika, który cię nie autoryzował, a wybrał inicjowanie czatów tylko z osobami, które autoryzował
 [Unknown error]
 Nieznany błąd
+[Cannot resolve host!]
+Nie można odnaleźć hosta!
+[Cannot find valid host to connect to.]
+Nie można znaleźć prawidłowego hosta, z którym możnaby się połączyć.
+[Authentication is not supported/needed for this Skype proxy server. It will be disabled.]
+Autoryzacja nie jest wspierana/wymagana przez ten serwer proxy Skype. Zostanie ona wyłączona.
+[Authentication failed for this server, connection was not successful. Verify that your password is correct!]
+Autoryzacja na tym serwerze nie powiodła się, połączenie nieudane. Upewnij się, że twoje hasło jest poprawne!
+[The server you specified requires authentication, but you have not supplied a password for it. Check the Skype plugin settings and try again.]
+Serwer, który podałeś wymaga autoryzacji, ale nie wpisałeś jego hasła. Sprawdź ustawienia wtyczki Skype i spróbuj ponownie.
+[ERROR: Skype not running / too old / working!]
+Błąd: Skype nie jest uruchomiony / zbyt stara wersja / nie działa
+[Skype refused the connection :(]
+Skype odrzucił połączenie :(
+[The Skype API is not available]
+API Skype jest niedostępne
+[Wheee, Skype won't let me use the API. :(]
+Buuu, Skype nie pozwala mi użyć API. :(
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview error message]
 Podgląd komunikatu błędu

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.43
+;  Version: 0.1.0.44
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -329,8 +329,8 @@ Protokoły
 Konto
 [News and notifications]
 Aktualności i powiadomienia
-[View settings]
-Zobacz ustawienia
+[View]
+Pokaż
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 Połączenie %s
@@ -379,10 +379,14 @@ Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 Czy na pewno chcesz usunąć %s ze znajomych?
 [User %s was deleted from your friend list]
 Użytkownik %s został usunięty ze znajomych
+[Your request to the user %s was deleted]
+Twoja prośba do użytkownika %s została usunięta
 [Friend request from the user %s declined]
 Prośba o dołączenie do znajomych użytkownika %s odrzucona
 [Friend request suggestion for the user %s deleted]
 Sugestia użytkownika %s jako znajomego usunięta
+[User or request was not deleted]
+Użytkownik lub prośba nie zostały usunięte
 [ report abuse on him/her]
 Zgłoś go/ją za nadużycie
 [ clear server history with him/her]

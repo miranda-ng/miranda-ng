@@ -43,8 +43,24 @@ Zatwierdzono
 Czy jesteś pewien? Ustawienia zostaną usunięte z profilu i Explorera
 [Disable/Remove shlext]
 Wyłącz/Usuń shlext
+[Services]
+Usługi
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Recently]
 Ostatnio
 [Clear entries]
 Wyczyść wpisy
+[Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
+Nie można usunąć klucza rejestru dla "shlext COM", klucz może być już usunięty lub potrzebujesz uprawnień administratora.
+[Problem]
+Problem
+[Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
+Nie można usunąć klucza rejestru dla "Uchwytów menu kontekstowego plików", klucz może być już usunięty lub potrzebujesz uprawnień administratora.
+[Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
+Nie można usunąć klucza rejestru dla "Uchwytów menu kontekstowego folderów", klucz może być już usunięty lub potrzebujesz uprawnień administratora.
+[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
+Nie można usunąć wpisu rejestru dla "Zatwierdzonych uchwytów menu kontekstowego", klucz może być już usunięty lub potrzebujesz uprawnień administratora.
+[Shell context menus requires your permission to register with Windows Explorer (one time only).]
+Menu kontekstowe powłoki wymagają twojej zgody na rejestrację w eksploratorze Windows tylko za pierwszym razem.
+[Miranda NG - Shell context menus (shellext.dll)]
+Miranda NG - menu kontekstowe powłoki (shellext.dll)
