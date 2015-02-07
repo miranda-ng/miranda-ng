@@ -48,7 +48,6 @@ void BinTreeNodeWriter::processBuffer()
 		throw WAException("Buffer too large: " + num3, WAException::CORRUPT_STREAM_EX, 0);
 
 	std::vector<unsigned char>& buffer = out->getBuffer();
-	this->realOut->dump(buffer.data(), (int)buffer.size());
 	if (bSecure) {
 		int num4 = (int)num3 - 4;
 		this->conn->outputKey.encodeMessage(buffer.data(), this->dataBegin + 3 + num4, this->dataBegin + 3, num4);

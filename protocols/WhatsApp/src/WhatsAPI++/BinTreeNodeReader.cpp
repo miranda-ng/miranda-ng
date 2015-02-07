@@ -86,7 +86,6 @@ void BinTreeNodeReader::decodeStream(int flags, int offset, int length)
 
 		this->conn->inputKey.decodeMessage(pData, offset + length, 0, length);
 	}
-	this->rawIn->dump(pData + offset, length);
 
 	if (this->in != NULL)
 		delete this->in;
