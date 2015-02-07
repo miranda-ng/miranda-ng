@@ -19,11 +19,13 @@
 #define IDC_BUTTON_REGISTER             1008
 #define IDC_CC                          1009
 #define IDC_VALUE                       1010
+#define IDC_SSL2                        1010
 #define IDC_CANCEL                      1011
 #define IDC_OK                          1012
 #define IDC_PW2                         1013
 #define IDC_TEXT                        1014
 #define IDC_INVITE                      1015
+#define IDC_AUTORUN                     1016
 
 // Next default values for new objects
 // 
@@ -31,7 +33,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        106
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1017
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

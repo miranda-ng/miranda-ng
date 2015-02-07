@@ -15,7 +15,9 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		SendDlgItemMessage(hwndDlg, IDC_PW, EM_LIMITTEXT, 3, 0);
 		SendDlgItemMessage(hwndDlg, IDC_PW2, EM_LIMITTEXT, 3, 0);
-		CheckDlgButton(hwndDlg, IDC_SSL, db_get_b(NULL, proto->m_szModuleName, WHATSAPP_KEY_SSL, 0) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_SSL, proto->getBool(WHATSAPP_KEY_SSL, false) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTORUN, proto->getBool(WHATSAPP_KEY_AUTORUNCHATS, true) ? BST_CHECKED : BST_UNCHECKED);
 		{
 			ptrA szStr(proto->getStringA(WHATSAPP_KEY_CC));
 			if (szStr != NULL)
@@ -81,15 +83,23 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			}
 		}
 
-		if (HIWORD(wParam) == EN_CHANGE && reinterpret_cast<HWND>(lParam) == GetFocus()) {
-			switch (LOWORD(wParam)) {
-			case IDC_CC:
-			case IDC_LOGIN:
-			case IDC_NICK:
-			case IDC_SSL:
-			case IDC_PW:
-			case IDC_PW2:
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		if (HWND(lParam) == GetFocus()) {
+			if (HIWORD(wParam) == EN_CHANGE) {
+				switch (LOWORD(wParam)) {
+				case IDC_CC:
+				case IDC_LOGIN:
+				case IDC_NICK:
+				case IDC_PW:
+				case IDC_PW2:
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				}
+			}
+			else if (HIWORD(wParam) == BN_CLICKED) {
+				switch (LOWORD(wParam)) {
+				case IDC_AUTORUN:
+				case IDC_SSL:
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				}
 			}
 		}
 		break;
@@ -108,6 +118,7 @@ INT_PTR CALLBACK WhatsAppAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPA
 			proto->setString(WHATSAPP_KEY_NICK, str);
 
 			proto->setByte(WHATSAPP_KEY_SSL, IsDlgButtonChecked(hwndDlg, IDC_SSL));
+			proto->setByte(WHATSAPP_KEY_AUTORUNCHATS, IsDlgButtonChecked(hwndDlg, IDC_AUTORUN));
 			return TRUE;
 		}
 		break;
