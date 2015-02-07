@@ -301,6 +301,8 @@
 с текущим профилем
 [Restarts Miranda]
 Перезапускает Miranda
+[Station name]
+Имя станции
 [All protocols]
 Все протоколы
 [Protocol]
