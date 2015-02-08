@@ -11,7 +11,7 @@ void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 {
 	// someone sent us a contact. launch contact addition dialog
 	if (pMsg.media_wa_type == FMessage::WA_TYPE_CONTACT) {
-		MCONTACT hContact = AddToContactList(pMsg.remote_resource, pMsg.media_name.c_str());
+		MCONTACT hContact = AddToContactList(pMsg.media_url, pMsg.media_name.c_str());
 
 		ADDCONTACTSTRUCT acs = { 0 };
 		acs.handleType = HANDLE_CONTACT;
