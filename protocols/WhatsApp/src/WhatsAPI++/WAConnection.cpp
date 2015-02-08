@@ -470,7 +470,7 @@ void WAConnection::parseMessage(ProtocolTreeNode *messageNode) throw (WAExceptio
 								break;
 						}
 						if (!number.empty())
-							fmessage.remote_resource = number;
+							fmessage.media_url = number;
 					}
 				}
 			}

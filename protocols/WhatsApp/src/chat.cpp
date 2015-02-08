@@ -327,6 +327,12 @@ void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner
 
 void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 {
+	// we need to add a contact, so there's no difference at all
+	if (pMsg.media_wa_type == FMessage::WA_TYPE_CONTACT) {
+		onMessageForMe(pMsg);
+		return;
+	}
+
 	WAChatInfo *pInfo = SafeGetChat(pMsg.key.remote_jid);
 	if (pInfo == NULL) {
 		pInfo = InitChat(pMsg.key.remote_jid, "");
