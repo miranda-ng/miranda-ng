@@ -405,8 +405,8 @@ public:
 	void sendRemoveParticipants(const std::string &gjid, const std::vector<std::string> &participant) throw (WAException);
 	void sendSetNewSubject(const std::string &gjid, const std::string &subject) throw (WAException);
 	void sendStatusUpdate(std::string& status) throw (WAException);
-	void sendGetPicture(const std::string &jid, const std::string &type) throw (WAException);
-	void sendSetPicture(const std::string &jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException);
+	void sendGetPicture(const char *jid, const char *type) throw (WAException);
+	void sendSetPicture(const char *jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException);
 	void sendDeleteAccount() throw(WAException);
 };
 

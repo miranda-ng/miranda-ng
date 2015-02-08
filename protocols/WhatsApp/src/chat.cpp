@@ -8,7 +8,7 @@ enum
 
 	IDM_INVITE, IDM_LEAVE, IDM_TOPIC,
 
-	IDM_MESSAGE, IDM_KICK,
+	IDM_AVATAR, IDM_KICK,
 	IDM_CPY_NICK, IDM_CPY_TOPIC,
 	IDM_ADD_RJID, IDM_CPY_RJID
 };
@@ -105,6 +105,9 @@ static gc_item sttLogListItems[] =
 	{ LPGENT("&Room options"),       0,             MENU_NEWPOPUP },
 	{ LPGENT("View/change &topic"),  IDM_TOPIC,     MENU_POPUPITEM },
 	{ LPGENT("&Leave chat session"), IDM_LEAVE,     MENU_POPUPITEM },
+#ifdef _DEBUG
+	{ LPGENT("Set &avatar"),         IDM_AVATAR,    MENU_POPUPITEM }, // doesn't work, therefore commented out
+#endif
 	{ NULL, 0, MENU_SEPARATOR },
 	{ LPGENT("Copy room &JID"),      IDM_CPY_RJID,  MENU_ITEM },
 	{ LPGENT("Copy room topic"),     IDM_CPY_TOPIC, MENU_ITEM },
@@ -132,6 +135,10 @@ void WhatsAppProto::ChatLogMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
 	case IDM_LEAVE:
 		if (isOnline())
 			m_pConnection->sendJoinLeaveGroup(_T2A(pInfo->tszJid), false);
+		break;
+
+	case IDM_AVATAR:
+		SetChatAvatar(pInfo);
 		break;
 	}
 }
@@ -165,6 +172,27 @@ void WhatsAppProto::InviteChatUser(WAChatInfo *pInfo)
 		m_pConnection->sendAddParticipants((char*)_T2A(pInfo->tszJid), m_szInviteJids);
 		m_szInviteJids.clear();
 	}
+}
+
+void WhatsAppProto::SetChatAvatar(WAChatInfo *pInfo)
+{
+	TCHAR tszFileName[MAX_PATH]; tszFileName[0] = '\0';
+
+	TCHAR filter[256]; filter[0] = '\0';
+	CallService(MS_UTILS_GETBITMAPFILTERSTRINGST, SIZEOF(filter), (LPARAM)filter);
+
+	OPENFILENAME ofn = { 0 };
+	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+	ofn.lpstrFilter = filter;
+	ofn.hwndOwner = 0;
+	ofn.lpstrFile = tszFileName;
+	ofn.nMaxFile = ofn.nMaxFileTitle = SIZEOF(tszFileName);
+	ofn.Flags = OFN_HIDEREADONLY;
+	ofn.lpstrInitialDir = _T(".");
+	ofn.lpstrDefExt = _T("");
+	if (GetOpenFileName(&ofn))
+		if (_taccess(tszFileName, 4) != -1)
+			InternalSetAvatar(pInfo->hContact, _T2A(pInfo->tszJid), tszFileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -393,7 +421,7 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &ujid, int ts)
 {
 	WAChatInfo *pInfo = SafeGetChat(gjid);
-	if (pInfo == NULL)
+	if (pInfo == NULL || !pInfo->bActive)
 		return;
 
 	ptrT tszUID(str2t(ujid));
@@ -452,6 +480,7 @@ void WhatsAppProto::onGetParticipants(const std::string &gjid, const std::vector
 	if (pInfo == NULL)
 		return;
 
+	pInfo->bActive = true;
 	for (size_t i = 0; i < participants.size(); i++) {
 		std::string curr = participants[i];
 

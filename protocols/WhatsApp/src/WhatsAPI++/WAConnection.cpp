@@ -710,7 +710,7 @@ void WAConnection::sendGetGroups() throw (WAException)
 	m_pMutex->unlock();
 }
 
-void WAConnection::sendGetPicture(const std::string &jid, const std::string &type) throw (WAException)
+void WAConnection::sendGetPicture(const char *jid, const char *type) throw (WAException)
 {
 	std::string id = makeId("iq_");
 	this->pending_server_requests[id] = new IqResultGetPhotoHandler(this, jid);
@@ -852,7 +852,7 @@ void WAConnection::sendQueryLastOnline(const std::string &jid) throw (WAExceptio
 		<< XATTR("id", id) << XATTR("type", "get") << XATTR("to", jid) << XATTR("xmlns", "jabber:iq:last"));
 }
 
-void WAConnection::sendSetPicture(const std::string &jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException)
+void WAConnection::sendSetPicture(const char *jid, std::vector<unsigned char>* data, std::vector<unsigned char>* preview) throw (WAException)
 {
 	std::string id = this->makeId("set_photo_");
 	this->pending_server_requests[id] = new IqResultSetPhotoHandler(this, jid);
