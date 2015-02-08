@@ -168,7 +168,7 @@ void WhatsAppProto::onContactChanged(const std::string &jid, bool added)
 void WhatsAppProto::onPictureChanged(const std::string &jid, const std::string &id, bool set)
 {
 	if (isOnline())
-		m_pConnection->sendGetPicture(jid, "image");
+		m_pConnection->sendGetPicture(jid.c_str(), "preview");
 }
 
 void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<unsigned char>& data, const std::string &id)

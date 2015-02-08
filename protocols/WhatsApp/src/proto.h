@@ -127,6 +127,7 @@ public:
 	void     InviteChatUser(WAChatInfo *pInfo);
 	void     KickChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid);
 	TCHAR*   GetChatUserNick(const std::string &jid);
+	void     SetChatAvatar(WAChatInfo *pInfo);
 
 	void     onGroupMessageReceived(const FMessage &fmsg);
 
@@ -160,6 +161,8 @@ private:
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
+
+	int InternalSetAvatar(MCONTACT hContact, const char *szJid, const TCHAR *ptszFileName);
 
 	// Private data //////////////////////////////////////////////////////////////////////
 	
