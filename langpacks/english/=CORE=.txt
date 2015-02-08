@@ -1015,7 +1015,6 @@
 [View/change my &details...]
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 [Please authorize my request and add me to your contact list.]
