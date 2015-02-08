@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Version: 0.11.0.5
+;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Wsparcie protokołu Tox dla Mirandy NG.
@@ -62,10 +62,10 @@ Wybierz profil tox
 Protokoły
 [Protocol icon]
 Ikona protokołu
+[You cannot add yourself to your contact list]
+Nie możesz dodać siebie samego do swojej listy kontaktów
+[Contact already in your contact list]
+Kontakt jest już na liście kontaktów
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Zapytanie
-[You cannot add yourself to friend list]
-Nie możesz dodać samego siebie do listy kontaktów
-[Contact already in your contact list]
-Kontakt jest już na liście kontaktów
