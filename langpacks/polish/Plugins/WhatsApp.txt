@@ -22,7 +22,9 @@ Poproś o kod
 Zarejestruj kod
 [Use SSL connection (port 443)]
 Używaj połączenia SSL (port 443)
-[Invite Users]
+[Automatically open group chats]
+Automatycznie otwieraj czaty grupowe
+[Invite users]
 Zaproś użytkowników
 [Choose an user]
 Wybierz użytkownika

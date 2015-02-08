@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.9
+;  Version: 0.2.10.0
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -64,6 +64,8 @@ Nie pokazuj proponowanych postów
 Inne zdarzenia
 [Client notifications]
 Powiadomienia klienta
+[Friendship notifications]
+Powiadomienia o znajomości
 [Use this server for opening links:]
 Użyj tego serwera do otwierania linków:
 [Use balloon notifications in system tray instead of popups]
@@ -225,6 +227,8 @@ Próbne zaproszenie
 Próbne aktualności
 [Sample notification]
 Próbne powiadomienie
+[Sample friendship]
+Przykładowa znajomość
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 naklejka
@@ -283,6 +287,8 @@ Odświeżanie listy kontaktów...
 Czy chcesz anulować znajomość z "%s"?
 [News feeds]
 Aktualności
+[Friendship events]
+Zdarzenia znajomości
 [Visit profile]
 Odwiedź profil
 [Visit notifications]
@@ -295,6 +301,8 @@ Powiadomienie
 Aktualności
 [Other Event]
 Inne zdarzenie
+[Friendship Event]
+Zdarzenie Znajomości
 [Message read: %s]
 Wiadomość odczytana: %s
 ;file \protocols\FacebookRM\src\theme.cpp
