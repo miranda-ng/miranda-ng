@@ -49,10 +49,6 @@ int WhatsAppProto::onGroupChatEvent(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	switch (gch->pDest->iType) {
-	case GC_USER_LEAVE:
-	case GC_SESSION_TERMINATE:
-		break;
-
 	case GC_USER_LOGMENU:
 		ChatLogMenuHook(pInfo, gch);
 		break;
@@ -79,6 +75,20 @@ int WhatsAppProto::onGroupChatEvent(WPARAM wParam, LPARAM lParam)
 			}
 			CODE_BLOCK_CATCH_ALL
 		}
+		break;
+
+	case GC_USER_PRIVMESS:
+		string jid = string(_T2A(gch->ptszUID)) + "@s.whatsapp.net";
+		MCONTACT hContact = ContactIDToHContact(jid);
+		if (hContact == 0) {
+			hContact = AddToContactList(jid, (char*)_T2A(gch->ptszUID));
+			setWord(hContact, "Status", ID_STATUS_ONLINE);
+
+			db_set_b(hContact, "CList", "Hidden", 1);
+			setTString(hContact, "Nick", gch->ptszUID);
+			db_set_dw(hContact, "Ignore", "Mask1", 0);
+		}
+		CallService(MS_MSG_SENDMESSAGE, hContact, 0);
 		break;
 	}
 
@@ -160,7 +170,7 @@ void WhatsAppProto::InviteChatUser(WAChatInfo *pInfo)
 /////////////////////////////////////////////////////////////////////////////////////////
 // nicklist menu event handler
 
-static gc_item sttListItems[] =
+static gc_item sttNickListItems[] =
 {
 	{ LPGENT("&Add to roster"), IDM_ADD_RJID, MENU_POPUPITEM },
 	{ NULL, 0, MENU_SEPARATOR },
@@ -239,8 +249,8 @@ int WhatsAppProto::OnChatMenu(WPARAM wParam, LPARAM lParam)
 		gcmi->Item = sttLogListItems;
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		gcmi->nItems = SIZEOF(sttListItems);
-		gcmi->Item = sttListItems;
+		gcmi->nItems = SIZEOF(sttNickListItems);
+		gcmi->Item = sttNickListItems;
 	}
 
 	return 0;

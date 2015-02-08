@@ -172,6 +172,7 @@ private:
 	WAConnection *m_pConnection;
 	Mutex connMutex;
 	time_t m_tLastWriteTime;
+	ptrT m_defaultGroup;
 
 	std::vector<unsigned char> m_Challenge;
 	std::string m_szPhoneNumber;

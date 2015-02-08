@@ -42,10 +42,7 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 	setString(hContact, "MirVer", "WhatsApp");
 	db_unset(hContact, "CList", "MyHandle");
 	db_set_b(hContact, "CList", "NotOnList", 1);
-
-	ptrT tszGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP));
-	if (tszGroup)
-		db_set_ts(hContact, "CList", "Group", tszGroup);
+	db_set_ts(hContact, "CList", "Group", m_defaultGroup);
 
 	if (new_name != NULL)
 		db_set_utf(hContact, m_szModuleName, WHATSAPP_KEY_NICK, new_name);
