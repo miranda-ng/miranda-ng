@@ -23,7 +23,7 @@ HINSTANCE g_hInstance;
 HMODULE   g_hDLLXStatusIcons;
 HICON     g_hMainIcon;
 
-bool      g_bChatExist;
+bool      g_bChatExist, g_bShutdown = false;
 
 size_t    g_dwMirWorkDirPathLen;
 WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
@@ -70,6 +70,12 @@ static int mraProtoUninit(CMraProto *ppro)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+static int __cdecl OnPreShutdown(WPARAM, LPARAM)
+{
+	g_bShutdown = true;
+	return 0;
+}
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfoEx);
@@ -77,6 +83,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	IconsLoad();
 	InitXStatusIcons();
+
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "MRA";
