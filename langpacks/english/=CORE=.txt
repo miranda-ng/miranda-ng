@@ -1269,6 +1269,7 @@
 [Metacontacts]
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
+[Select metacontact]
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 [Could not retrieve contact protocol]
