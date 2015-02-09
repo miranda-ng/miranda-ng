@@ -559,7 +559,6 @@ void WAConnection::parseNotification(ProtocolTreeNode *node) throw(WAException)
 		ProtocolTreeNode *bodyNode = node->getChild("body");
 		if (bodyNode != NULL && m_pGroupEventHandler != NULL)
 			m_pGroupEventHandler->onGroupNewSubject(from, participant, bodyNode->getDataAsString(), ts);
-		return; // don't set ack
 	}
 
 	ProtocolTreeNode sendNode("ack");
