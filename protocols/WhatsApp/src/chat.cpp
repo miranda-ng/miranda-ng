@@ -400,20 +400,21 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 		return;
 
 	ptrT tszText(str2t(newSubject));
-	ptrT tszTextDb(getTStringA(pInfo->hContact, "Nick"));
-	ptrT tszUID(str2t(author));
-	ptrT tszNick(GetChatUserNick(author));
+	ptrT tszTextDb(getTStringA(pInfo->hContact, "Topic"));
+	if (mir_tstrcmp(tszText, tszTextDb)) { // notify about subject change only if differs from the stored one
+		ptrT tszUID(str2t(author));
+		ptrT tszNick(GetChatUserNick(author));
 
-	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
+		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
 
-	GCEVENT gce = { sizeof(gce), &gcd };
-	if (!mir_tstrcmp(tszText, tszTextDb)) // notify about subject change only if differs from the stored one
-		gce.dwFlags = GCEF_NOTNOTIFY;
-	gce.ptszUID = tszUID;
-	gce.ptszNick = tszNick;
-	gce.time = ts;
-	gce.ptszText = tszText;
-	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+		GCEVENT gce = { sizeof(gce), &gcd };
+		gce.dwFlags = 0;
+		gce.ptszUID = tszUID;
+		gce.ptszNick = tszNick;
+		gce.time = ts;
+		gce.ptszText = tszText;
+		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	}
 
 	setTString(pInfo->hContact, "Nick", tszText);
 }

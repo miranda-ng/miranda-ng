@@ -81,16 +81,10 @@ MCONTACT WhatsAppProto::ContactIDToHContact(const std::string &phoneNumber)
 void WhatsAppProto::SetAllContactStatuses(int status, bool reset_client)
 {
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (isChatRoom(hContact))
-			continue;
-
 		if (reset_client) {
-			DBVARIANT dbv;
-			if (!getTString(hContact, "MirVer", &dbv)) {
-				if (_tcscmp(dbv.ptszVal, _T("WhatsApp")))
-					setTString(hContact, "MirVer", _T("WhatsApp"));
-				db_free(&dbv);
-			}
+			ptrT tszMirVer(getTStringA(hContact, "MirVer"));
+			if (mir_tstrcmp(tszMirVer, _T("WhatsApp")))
+				setTString(hContact, "MirVer", _T("WhatsApp"));
 
 			db_set_ws(hContact, "CList", "StatusMsg", _T(""));
 		}
