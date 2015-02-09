@@ -345,6 +345,11 @@ void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner
 		pInfo = InitChat(jid, subject);
 		pInfo->bActive = true;
 	}
+	else {
+		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_CONTROL };
+		GCEVENT gce = { sizeof(gce), &gcd };
+		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gce);
+	}
 
 	if (!subject.empty()) {
 		pInfo->tszOwner = str2t(owner);
