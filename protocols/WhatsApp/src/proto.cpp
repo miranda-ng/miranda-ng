@@ -14,7 +14,7 @@ struct SearchParam
 
 WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	PROTO<WhatsAppProto>(proto_name, username),
-	m_defaultGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP))
+	m_tszDefaultGroup(getTStringA(WHATSAPP_KEY_DEF_GROUP))
 {
 	update_loop_lock_ = CreateEvent(NULL, false, false, NULL);
 
@@ -50,8 +50,9 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeT(m_tszAvatarFolder.c_str());
 
-	if (m_defaultGroup == NULL)
-		m_defaultGroup = mir_tstrdup(_T("WhatsApp"));
+	if (m_tszDefaultGroup == NULL)
+		m_tszDefaultGroup = mir_tstrdup(_T("WhatsApp"));
+	Clist_CreateGroup(0, m_tszDefaultGroup);
 
 	SetAllContactStatuses(ID_STATUS_OFFLINE, true);
 }
