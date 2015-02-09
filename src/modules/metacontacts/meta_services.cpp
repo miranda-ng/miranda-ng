@@ -653,7 +653,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	StatusIconData sid = { sizeof(sid) };
 	sid.szModule = META_PROTO;
 	sid.flags =  MBF_TCHAR;
-	sid.tszTooltip = TranslateT("Select metacontact");
+	sid.tszTooltip = LPGENT("Select metacontact");
 	sid.hIcon = LoadSkinnedProtoIcon(META_PROTO, ID_STATUS_ONLINE);
 	Srmm_AddIcon(&sid);
 	return 0;
