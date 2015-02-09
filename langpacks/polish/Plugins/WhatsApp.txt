@@ -52,7 +52,7 @@ Zobacz/zmień &temat
 [&Leave chat session]
 &Opuść sesję czatu
 [Set &avatar]
-
+Ustaw &awatara
 [Copy room &JID]
 Kopiuj &JID pokoju
 [Copy room topic]
@@ -89,7 +89,7 @@ Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowa
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
 [Changes will be applied after protocol restart]
-
+Zmiany zostaną zastosowane po ponownym uruchomieniu protokołu
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Serwer

@@ -2447,7 +2447,7 @@ Metakontakty
 [No online contacts found.]
 Nie znaleziono dostępnych kontaktów.
 [Select metacontact]
-
+Wybierz metakontakt
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Nadawca
