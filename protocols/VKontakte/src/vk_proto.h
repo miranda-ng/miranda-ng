@@ -420,6 +420,7 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString& ClearFormatNick(CMString& tszText);
 
 	CMString GetAttachmentDescr(JSONNODE*, BBCSupport iBBC = bbcNo);
+	CMString GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC = bbcNo);
 
 	//====================================================================================
 

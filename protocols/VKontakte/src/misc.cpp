@@ -925,7 +925,6 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMString res;
-	res.AppendChar('\n');
 	res += SetBBCString(TranslateT("Attachments:"), iBBC, vkbbcB);
 	res.AppendChar('\n');
 	JSONNODE *pAttach;
@@ -1045,5 +1044,72 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 		res.AppendChar('\n');
 	}
 
+	return res;
+}
+
+CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
+{
+	CMString res;
+	debugLogA("CVkProto::GetFwdMessages");
+	if (pMessages == NULL){
+		debugLogA("CVkProto::GetFwdMessages pMessages == NULL");
+		return res;
+	}
+
+	JSONNODE *pMsg;
+	for (int i = 0; (pMsg = json_at(pMessages, i)) != NULL; i++) {
+		if (pMsg == NULL) {
+			debugLogA("CVkProto::GetFwdMessages pMsg == NULL");
+			break;
+		}
+				
+		int uid = json_as_int(json_get(pMsg, "user_id"));
+		MCONTACT hContact = FindUser(uid);
+		CMString tszNick;
+		if (hContact)
+			tszNick = ptrT(db_get_tsa(hContact, m_szModuleName, "Nick"));
+		if (tszNick.IsEmpty())
+			tszNick = TranslateT("(Unknown contact)");
+		
+		CMString tszUrl = _T("https://vk.com/id");
+		tszUrl.AppendFormat(_T("%d"), uid);
+
+		time_t datetime = (time_t)json_as_int(json_get(pMsg, "date"));
+		TCHAR ttime[64];
+		_locale_t locale = _create_locale(LC_ALL, "");
+		_tcsftime_l(ttime, SIZEOF(ttime), _T("%x %X"), localtime(&datetime), locale);
+		_free_locale(locale);
+
+		CMString tszBody = json_as_CMString(json_get(pMsg, "body"));
+
+		JSONNODE *pFwdMessages = json_get(pMsg, "fwd_messages");
+		if (pFwdMessages != NULL){
+			CMString tszFwdMessages = GetFwdMessages(pFwdMessages, m_iBBCForAttachments);
+			if (!tszBody.IsEmpty())
+				tszFwdMessages = _T("\n") + tszFwdMessages;
+			tszBody += tszFwdMessages;
+		}
+		
+		JSONNODE *pAttachments = json_get(pMsg, "attachments");
+		if (pAttachments != NULL){
+			CMString tszAttachmentDescr = GetAttachmentDescr(pAttachments, m_iBBCForAttachments);
+			if (!tszBody.IsEmpty())
+				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
+			tszBody +=  tszAttachmentDescr;
+		}
+
+		tszBody.Replace(_T("\n"), _T("\n\t"));
+		CMString tszMes;
+		tszMes.AppendFormat(_T("%s %s %s %s:\n%s"),
+			SetBBCString(TranslateT("Message from"), iBBC, vkbbcB).GetBuffer(),
+			SetBBCString(tszNick.GetBuffer(), iBBC, vkbbcUrl, tszUrl.GetBuffer()).GetBuffer(),
+			SetBBCString(TranslateT("at"), iBBC, vkbbcB).GetBuffer(),
+			ttime,
+			tszBody.GetBuffer());
+
+		if (!res.IsEmpty())
+			res.AppendChar(_T('\n'));
+		res += tszMes;
+	}
 	return res;
 }

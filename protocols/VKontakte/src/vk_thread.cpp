@@ -637,10 +637,22 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		int isOut = json_as_int(json_get(pMsg, "out"));
 		int isRead = json_as_int(json_get(pMsg, "read_state"));
 		int uid = json_as_int(json_get(pMsg, "user_id"));
-		JSONNODE *pAttachments = json_get(pMsg, "attachments");
 
-		if (pAttachments != NULL)
-			ptszBody = mir_tstrdup(CMString(ptszBody) + GetAttachmentDescr(pAttachments, m_iBBCForAttachments));
+		JSONNODE *pFwdMessages = json_get(pMsg, "fwd_messages");
+		if (pFwdMessages != NULL){
+			CMString tszFwdMessages = GetFwdMessages(pFwdMessages, m_iBBCForAttachments);
+			if (!IsEmpty(ptszBody))
+				tszFwdMessages = _T("\n") + tszFwdMessages;
+			ptszBody = mir_tstrdup(CMString(ptszBody) + tszFwdMessages);
+		}
+
+		JSONNODE *pAttachments = json_get(pMsg, "attachments");
+		if (pAttachments != NULL){
+			CMString tszAttachmentDescr = GetAttachmentDescr(pAttachments, m_iBBCForAttachments);
+			if (!IsEmpty(ptszBody))
+				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
+			ptszBody = mir_tstrdup(CMString(ptszBody) + tszAttachmentDescr);
+		}
 
 		MCONTACT hContact = NULL;
 		int chat_id = json_as_int(json_get(pMsg, "chat_id"));
