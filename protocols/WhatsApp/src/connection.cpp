@@ -34,16 +34,16 @@ void WhatsAppProto::stayConnectedLoop(void*)
 	Mutex writerMutex;
 	bool error = false;
 
-	this->conn = NULL;
+	m_pSocket = NULL;
 
 	while (true) {
 		if (m_pConnection != NULL) {
 			delete m_pConnection;
 			m_pConnection = NULL;
 		}
-		if (this->conn != NULL) {
-			delete this->conn;
-			this->conn = NULL;
+		if (m_pSocket != NULL) {
+			delete m_pSocket;
+			m_pSocket = NULL;
 		}
 
 		if (m_iDesiredStatus == ID_STATUS_OFFLINE || error) {
@@ -68,8 +68,8 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			else
 				portNumber = 5222, resource += "-5222";
 
-			this->conn = new WASocketConnection("c.whatsapp.net", portNumber);
-			m_pConnection = new WAConnection(m_szPhoneNumber, resource, &this->connMutex, &writerMutex, this->conn, this, this);
+			m_pSocket = new WASocketConnection("c.whatsapp.net", portNumber);
+			m_pConnection = new WAConnection(m_szPhoneNumber, resource, &connMutex, &writerMutex, m_pSocket, this, this);
 			{
 				WALogin login(m_pConnection, password);
 
@@ -84,7 +84,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			debugLogA("Set status to online");
 			m_iStatus = m_iDesiredStatus;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
-			this->ToggleStatusMenuItems(true);
+			ToggleStatusMenuItems(true);
 
 			ForkThread(&WhatsAppProto::ProcessBuddyList, NULL);
 

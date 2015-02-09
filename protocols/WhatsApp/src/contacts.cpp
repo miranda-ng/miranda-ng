@@ -53,25 +53,17 @@ MCONTACT WhatsAppProto::AddToContactList(const std::string &jid, const char *new
 MCONTACT WhatsAppProto::ContactIDToHContact(const std::string &phoneNumber)
 {
 	// Cache
-	std::map<string, MCONTACT>::iterator it = this->hContactByJid.find(phoneNumber);
-	if (it != this->hContactByJid.end())
+	std::map<string, MCONTACT>::iterator it = m_hContactByJid.find(phoneNumber);
+	if (it != m_hContactByJid.end())
 		return it->second;
 
-	const char* idForContact = "ID";
-	const char* idForChat = "ChatRoomID";
-
 	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		const char* id = isChatRoom(hContact) ? idForChat : idForContact;
+		const char *id = isChatRoom(hContact) ? "ChatRoomID" : WHATSAPP_KEY_ID;
 
-		DBVARIANT dbv;
-		if (!getString(hContact, id, &dbv)) {
-			if (strcmp(phoneNumber.c_str(), dbv.pszVal) == 0) {
-				db_free(&dbv);
-				this->hContactByJid[phoneNumber] = hContact;
-				return hContact;
-			}
-
-			db_free(&dbv);
+		ptrA szId(getStringA(hContact, id));
+		if (!mir_strcmp(phoneNumber.c_str(), szId)) {
+			m_hContactByJid[phoneNumber] = hContact;
+			return hContact;
 		}
 	}
 
@@ -118,26 +110,26 @@ void WhatsAppProto::ProcessBuddyList(void*)
 
 void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolean)
 {
-	MCONTACT hContact = this->AddToContactList(paramString);
+	MCONTACT hContact = AddToContactList(paramString);
 	if (hContact != NULL) {
 		if (paramBoolean)
 			setWord(hContact, "Status", ID_STATUS_ONLINE);
 		else {
 			setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			this->UpdateStatusMsg(hContact);
+			UpdateStatusMsg(hContact);
 		}
 	}
 
 	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, 0);
-	this->UpdateStatusMsg(hContact);
+	UpdateStatusMsg(hContact);
 }
 
 void WhatsAppProto::onLastSeen(const std::string &paramString1, int paramInt, const string &paramString2)
 {
-	MCONTACT hContact = this->AddToContactList(paramString1);
+	MCONTACT hContact = AddToContactList(paramString1);
 	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, paramInt);
 
-	this->UpdateStatusMsg(hContact);
+	UpdateStatusMsg(hContact);
 }
 
 void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
@@ -167,7 +159,7 @@ void WhatsAppProto::onPictureChanged(const std::string &jid, const std::string &
 
 void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<unsigned char>& data, const std::string &id)
 {
-	MCONTACT hContact = this->ContactIDToHContact(jid);
+	MCONTACT hContact = ContactIDToHContact(jid);
 	if (hContact) {
 		debugLogA("Updating avatar for jid %s", jid.c_str());
 
@@ -196,6 +188,6 @@ void WhatsAppProto::onSendGetPicture(const std::string &jid, const std::vector<u
 
 TCHAR* WhatsAppProto::GetContactDisplayName(const string& jid)
 {
-	MCONTACT hContact = this->ContactIDToHContact(jid);
+	MCONTACT hContact = ContactIDToHContact(jid);
 	return (hContact) ? pcli->pfnGetContactDisplayName(hContact, 0) : _T("none");
 }

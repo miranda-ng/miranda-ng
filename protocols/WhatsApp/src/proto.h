@@ -172,7 +172,7 @@ private:
 
 	HANDLE  update_loop_lock_;
 
-	WASocketConnection *conn;
+	WASocketConnection *m_pSocket;
 	WAConnection *m_pConnection;
 	Mutex connMutex;
 	time_t m_tLastWriteTime;
@@ -180,7 +180,7 @@ private:
 	std::vector<unsigned char> m_Challenge;
 	std::string m_szPhoneNumber;
 	std::string m_szJid, m_szNick;
-	std::map<string, MCONTACT> hContactByJid;
+	std::map<string, MCONTACT> m_hContactByJid;
 	map<MCONTACT, map<MCONTACT, bool>> isMemberByGroupContact;
 
 protected:

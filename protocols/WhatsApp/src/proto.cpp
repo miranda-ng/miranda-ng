@@ -128,16 +128,16 @@ int WhatsAppProto::SetStatus(int new_status)
 	}
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
-		if (this->conn != NULL) {
+		if (m_pSocket != NULL) {
 			SetEvent(update_loop_lock_);
-			this->conn->forceShutdown();
+			m_pSocket->forceShutdown();
 			debugLogA("Forced shutdown");
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (this->conn == NULL && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
+	else if (m_pSocket == NULL && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
@@ -272,7 +272,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 	const TCHAR *ptszTitle = TranslateT("Registration");
 	if (pnlhr == NULL) {
-		this->NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
+		NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
 
@@ -280,7 +280,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 	JSONROOT resp(pnlhr->pData);
 	if (resp == NULL) {
-		this->NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
+		NotifyEvent(ptszTitle, TranslateT("Registration failed. Invalid server response."), NULL, WHATSAPP_EVENT_CLIENT);
 		return false;
 	}
 
@@ -289,14 +289,14 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 	if (!mir_tstrcmp(ptrT(json_as_string(val)), _T("fail"))) {
 		JSONNODE *tmpVal = json_get(resp, "reason");
 		if (!mir_tstrcmp(ptrT(json_as_string(tmpVal)), _T("stale")))
-			this->NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
+			NotifyEvent(ptszTitle, TranslateT("Registration failed due to stale code. Please request a new code"), NULL, WHATSAPP_EVENT_CLIENT);
 		else
-			this->NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
+			NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
 
 		tmpVal = json_get(resp, "retry_after");
 		if (tmpVal != NULL) {
 			CMString tmp(FORMAT, TranslateT("Please try again in %i seconds"), json_as_int(tmpVal));
-			this->NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_OTHER);
+			NotifyEvent(ptszTitle, tmp, NULL, WHATSAPP_EVENT_OTHER);
 		}
 		return false;
 	}
@@ -307,7 +307,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 		if (val != NULL)
 			ret = _T2A(ptrT(json_as_string(val)));
 		else if (!mir_tstrcmp(ptrT(json_as_string(val)), _T("sent")))
-			this->NotifyEvent(ptszTitle, TranslateT("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
+			NotifyEvent(ptszTitle, TranslateT("Registration code has been sent to your phone."), NULL, WHATSAPP_EVENT_OTHER);
 		return true;
 	}
 
@@ -318,7 +318,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 			ret = _T2A(ptrT(json_as_string(val)));
 			return true;
 		}
-		this->NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
+		NotifyEvent(ptszTitle, TranslateT("Registration failed."), NULL, WHATSAPP_EVENT_CLIENT);
 	}
 
 	return false;
@@ -387,7 +387,7 @@ void WhatsAppProto::NotifyEvent(const string& title, const string& info, MCONTAC
 {
 	TCHAR *rawTitle = mir_a2t_cp(title.c_str(), CP_UTF8);
 	TCHAR *rawInfo = mir_a2t_cp(info.c_str(), CP_UTF8);
-	this->NotifyEvent(rawTitle, rawInfo, contact, flags, url);
+	NotifyEvent(rawTitle, rawInfo, contact, flags, url);
 	mir_free(rawTitle);
 	mir_free(rawInfo);
 }
