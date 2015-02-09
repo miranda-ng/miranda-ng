@@ -991,6 +991,14 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 			res.AppendFormat(_T("%s: %s"), 
 				SetBBCString(TranslateT("Wall post"), iBBC, vkbbcUrl, tszUrl.GetBuffer()).GetBuffer(), 
 				ptszText ? ptszText : _T(" "));
+
+			JSONNODE *pSubAttachments = json_get(pWall, "attachments");
+			if (pSubAttachments != NULL) {
+				debugLogA("CVkProto::GetAttachmentDescr SubAttachments");
+				CMString tszAttachmentDescr = GetAttachmentDescr(pSubAttachments, m_iBBCForAttachments);
+				tszAttachmentDescr.Replace(_T("\n"), _T("\n\t"));
+				res += _T("\n\t") + tszAttachmentDescr;
+			}
 		}
 		else if (!mir_tstrcmp(ptszType, _T("sticker"))) {
 			JSONNODE *pSticker = json_get(pAttach, "sticker");
@@ -1039,7 +1047,8 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 			if (ptszDescription)
 				res.AppendFormat(_T("\n\t%s"), ptszDescription);
 		}
-		else res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(ptszType, iBBC, vkbbcB).GetBuffer());
+		else 
+			res.AppendFormat(TranslateT("Unsupported or unknown attachment type: %s"), SetBBCString(ptszType, iBBC, vkbbcB).GetBuffer());
 
 		res.AppendChar('\n');
 	}
