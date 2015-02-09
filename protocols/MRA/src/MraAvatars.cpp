@@ -18,12 +18,9 @@ const LPSTR lpcszContentType[9] =
 
 struct MRA_AVATARS_QUEUE : public FIFO_MT
 {
-	volatile LONG bIsRunning;
-	volatile LONG lThreadsRunningCount;
 	HANDLE hNetlibUser;
-	HANDLE hThreadEvent;
-	int    iThreadsCount;
-	HANDLE hThread[MAXIMUM_WAIT_OBJECTS];
+	HANDLE hThreadEvents[MAXIMUM_WAIT_OBJECTS];
+	int    iThreadsCount, iThreadsRunning;
 };
 
 struct MRA_AVATARS_QUEUE_ITEM : public FIFO_MT_ITEM
@@ -67,19 +64,18 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	nlu.szDescriptiveName = szBuffer;
 	pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	if (pmraaqAvatarsQueue->hNetlibUser) {
-		InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, TRUE);
-		pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		pmraaqAvatarsQueue->iThreadsCount = db_get_dw(NULL, MRA_AVT_SECT_NAME, "WorkThreadsCount", MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
 		if (pmraaqAvatarsQueue->iThreadsCount == 0)
 			pmraaqAvatarsQueue->iThreadsCount = 1;
 		if (pmraaqAvatarsQueue->iThreadsCount > MAXIMUM_WAIT_OBJECTS)
 			pmraaqAvatarsQueue->iThreadsCount = MAXIMUM_WAIT_OBJECTS;
+
+		pmraaqAvatarsQueue->iThreadsRunning = 0;
 		for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
-			pmraaqAvatarsQueue->hThread[i] = ForkThreadEx(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue, 0);
+			ForkThread(&CMraProto::MraAvatarsThreadProc, pmraaqAvatarsQueue);
 
 		*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
 	}
-
 	return NO_ERROR;
 }
 
@@ -105,9 +101,9 @@ void CMraProto::MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 void CMraProto::MraAvatarsQueueSuspend(HANDLE hAvatarsQueueHandle)
 {
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-	InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
 	MraAvatarsQueueClear(hAvatarsQueueHandle);
-	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
+	for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
+		SetEvent(pmraaqAvatarsQueue->hThreadEvents[i]);
 }
 
 void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
@@ -116,26 +112,14 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 		return;
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-	while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0)) {
-		SetEvent(pmraaqAvatarsQueue->hThreadEvent);
-		SleepEx(50, TRUE);
-	}
-
-	for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
-		CloseHandle(pmraaqAvatarsQueue->hThread[i]);
-	CloseHandle(pmraaqAvatarsQueue->hThreadEvent);
-
 	Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
 	delete pmraaqAvatarsQueue;
 }
 
 DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, MCONTACT hContact, DWORD *pdwAvatarsQueueID)
 {
-	if (!hAvatarsQueueHandle)
-		return ERROR_INVALID_HANDLE;
-
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-	if (!InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, 0))
+	if (pmraaqAvatarsQueue == NULL || g_bShutdown)
 		return ERROR_INVALID_HANDLE;
 
 	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem = (MRA_AVATARS_QUEUE_ITEM*)mir_calloc(sizeof(MRA_AVATARS_QUEUE_ITEM));
@@ -149,7 +133,10 @@ DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, M
 	FifoMTItemPush(pmraaqAvatarsQueue, pmraaqiAvatarsQueueItem, (LPVOID)pmraaqiAvatarsQueueItem);
 	if (pdwAvatarsQueueID)
 		*pdwAvatarsQueueID = pmraaqiAvatarsQueueItem->dwAvatarsQueueID;
-	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
+
+	mir_cslock(pmraaqAvatarsQueue->cs);
+	int threadno = (pmraaqAvatarsQueue->iThreadsRunning + 1) % pmraaqAvatarsQueue->iThreadsCount;
+	SetEvent(pmraaqAvatarsQueue->hThreadEvents[threadno]);
 	return NO_ERROR;
 }
 
@@ -175,15 +162,20 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 	nls.cbSize = sizeof(nls);
 	pai.cbSize = sizeof(pai);
 
-	InterlockedIncrement((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount);
+	HANDLE hThreadEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	{
+		mir_cslock lck(pmraaqAvatarsQueue->cs);
+		pmraaqAvatarsQueue->hThreadEvents[pmraaqAvatarsQueue->iThreadsRunning++] = hThreadEvent;
+	}
 
-	while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, 0)) {
+	while (!g_bShutdown) {
 		if (FifoMTItemPop(pmraaqAvatarsQueue, NULL, (LPVOID*)&pmraaqiAvatarsQueueItem) != NO_ERROR) { // waiting until service stop or new task
 			NETLIB_CLOSEHANDLE(hConnection);
-			WaitForSingleObjectEx(pmraaqAvatarsQueue->hThreadEvent, MRA_AVT_DEFAULT_QE_CHK_INTERVAL, FALSE);
+			WaitForSingleObjectEx(hThreadEvent, MRA_AVT_DEFAULT_QE_CHK_INTERVAL, FALSE);
 			continue;
 		}
-		/* Try download. */
+		
+		// Try download.
 		bFailed = TRUE;
 		bDownloadNew = FALSE;
 
@@ -338,8 +330,7 @@ void CMraProto::MraAvatarsThreadProc(LPVOID lpParameter)
 		}
 		mir_free(pmraaqiAvatarsQueueItem);
 	}
-
-	InterlockedDecrement((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount);
+	CloseHandle(hThreadEvent);
 }
 
 HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser, LPCSTR lpszHost, DWORD dwPort)
@@ -455,7 +446,6 @@ bool CMraProto::MraAvatarsGetContactTime(MCONTACT hContact, LPSTR lpszValueName,
 	}
 	return false;
 }
-
 
 void CMraProto::MraAvatarsSetContactTime(MCONTACT hContact, LPSTR lpszValueName, SYSTEMTIME *pstTime)
 {

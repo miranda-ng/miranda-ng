@@ -177,7 +177,7 @@ extern HINSTANCE g_hInstance;
 extern HMODULE   g_hDLLXStatusIcons;
 extern HICON     g_hMainIcon;
 
-extern bool      g_bChatExist;
+extern bool      g_bChatExist, g_bShutdown;
 
 extern size_t    g_dwMirWorkDirPathLen;
 extern WCHAR     g_szMirWorkDirPath[MAX_FILEPATH];
