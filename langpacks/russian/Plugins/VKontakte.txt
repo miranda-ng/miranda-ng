@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.44
+;  Version: 0.1.0.45
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -247,6 +247,12 @@ Cоздать комнату чата
 Изображение
 [Unsupported or unknown attachment type: %s]
 Неподдерживаемый или неизвестный тип вложения: %s
+[(Unknown contact)]
+(Неизвестный контакт)
+[Message from]
+Сообщение от
+[at]
+в
 [Enter the text you see]
 Введите текст, который видите
 [Participants]
@@ -265,8 +271,6 @@ Cоздать комнату чата
 Я вернулся
 [You've been kicked by ]
 Вы были выкинуты пользователем\s
-[(Unknown contact)]
-(Неизвестный контакт)
 [Chat]
 Чат
 [&Invite a user]
