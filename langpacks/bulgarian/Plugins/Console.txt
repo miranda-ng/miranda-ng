@@ -17,8 +17,8 @@
 Услуги
 [Text]
 Текст
-[&Help]
-Помощ
+[Background]
+Фон
 [Text Files (*.txt)]
 Текстови файлове (*.txt)
 [All Files]

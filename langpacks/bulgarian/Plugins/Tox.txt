@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Version: 0.11.0.5
+;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Tox в Miranda NG.
@@ -57,9 +57,7 @@ Tox профилът е шифрован. Въведете паролата за
 Протоколи
 [Protocol icon]
 Икона на протокола
-[Query]
-Търсене
-[You cannot add yourself to friend list]
-Не може да добавите себе си като контакт в списъка с приятели
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
+[Query]
+Търсене

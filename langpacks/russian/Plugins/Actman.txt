@@ -302,7 +302,7 @@
 [Restarts Miranda]
 Перезапускает Miranda
 [Station name]
-Имя станции
+Название станции
 [All protocols]
 Все протоколы
 [Protocol]

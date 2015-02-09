@@ -1,1 +1,3 @@
 ﻿[Use non-standard urlEncode for sent messages (less traffic)]
+[Your request to the user %s was deleted]
+[User or request was not deleted]

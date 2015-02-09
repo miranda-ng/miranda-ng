@@ -21,7 +21,7 @@ SMS-код
 Реєструвати код
 [Use SSL connection (port 443)]
 Підключення по SSL (порт 443)
-[Invite Users]
+[Invite users]
 Запрошення користувачів
 [Choose an user]
 Виберіть користувача

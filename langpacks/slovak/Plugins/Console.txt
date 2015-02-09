@@ -9,7 +9,7 @@
 Konzolové okno so záznamom pre Mirandu.
 [Text]
 Text
-[&Help]
-Pomoc
+[Background]
+Pozadie
 [All Files]
 Všetky súbory

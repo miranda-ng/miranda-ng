@@ -35,7 +35,7 @@
 Паказаць кансоль
 [Scrolling (Ctrl+Q)]
 Пракручваць (Ctrl+Q)
-[Pause logging(Ctrl+P)]
+[Pause logging (Ctrl+P)]
 Паўза (Ctrl+P)
 [Save log to file (Ctrl+S)]
 Захаваць часопіс у файл (Ctrl+S)
@@ -65,8 +65,8 @@
 Службы
 [Text]
 Тэкст
-[&Help]
-&Даведка
+[Background]
+Фон
 [Text Files (*.txt)]
 Тэкставыя файлы (*.txt)
 [All Files]

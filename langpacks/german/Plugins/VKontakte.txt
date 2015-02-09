@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.43
+;  Version: 0.1.0.44
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -329,8 +329,8 @@ Netzwerk
 Konto
 [News and notifications]
 Neuigkeiten und Benachrichtigungen
-[View settings]
-Einstellungen ansehen
+[View]
+Anzeigen
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -379,10 +379,14 @@ Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 Sind Sie sich sicher dass Sie %s von Ihrer Freundesliste löschen wollen?
 [User %s was deleted from your friend list]
 Benutzer %s wurde aus Ihrer Freundesliste gelöscht.
+[Your request to the user %s was deleted]
+
 [Friend request from the user %s declined]
 Freundesanfrage von Benutzer %s abgelehnt.
 [Friend request suggestion for the user %s deleted]
 Freundesanfragenvorschlag von %s abgelehnt.
+[User or request was not deleted]
+
 [ report abuse on him/her]
  Missbrauch durch ihn/sie melden
 [ clear server history with him/her]
