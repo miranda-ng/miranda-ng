@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.8
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -10,20 +10,24 @@ Wsparcie protokołu WhatsApp dla Mirandy NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
 Numer telefonu
-[Including country code, without '+' or '00']
-z kierunkowym kraju bez "+", ani "00"
 [Nickname]
 Nick
+[Default group:]
+Domyślna grupa:
+[Use SSL connection (port 443)]
+Używaj połączenia SSL (port 443)
+[Automatically open group chats]
+Automatycznie otwieraj czaty grupowe
+[Registration]
+Rejestracja
 [SMS code]
 Kod SMS
 [Request code]
 Poproś o kod
 [Register code]
 Zarejestruj kod
-[Use SSL connection (port 443)]
-Używaj połączenia SSL (port 443)
-[Automatically open group chats]
-Automatycznie otwieraj czaty grupowe
+[Including country code, without '+' or '00']
+z kierunkowym kraju bez "+", ani "00"
 [Invite users]
 Zaproś użytkowników
 [Choose an user]
@@ -47,6 +51,8 @@ Opcje &pokoju
 Zobacz/zmień &temat
 [&Leave chat session]
 &Opuść sesję czatu
+[Set &avatar]
+
 [Copy room &JID]
 Kopiuj &JID pokoju
 [Copy room topic]
@@ -82,6 +88,8 @@ SMS z kodem weryfikacyjnym zostanie wysłany na twój telefon.\nUwaga: nie może
 Twoje hasło zostało ustawione automatycznie. Możesz teraz przejść do logowania
 [Please correctly specify your registration code received by SMS]
 Proszę podać poprawny kod weryfikacyjny otrzymany SMSem.
+[Changes will be applied after protocol restart]
+
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Serwer
@@ -94,8 +102,6 @@ Połączenie %s
 Nie udało się uzyskać połączenia Netlib dla WhatsApp
 [Network connection error.]
 Błąd połączenia sieciowego.
-[Registration]
-Rejestracja
 [Registration failed. Invalid server response.]
 Rejestracja nieudana. Niepoprawna odpowiedź serwera.
 [Registration failed due to stale code. Please request a new code]

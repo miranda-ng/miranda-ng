@@ -1,0 +1,2 @@
+﻿[Set &avatar]
+[Changes will be applied after protocol restart]

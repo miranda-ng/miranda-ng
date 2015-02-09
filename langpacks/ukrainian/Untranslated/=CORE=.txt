@@ -1,6 +1,7 @@
 ﻿[OutputDebugString()]
 [Wikipedia]
 [ID]
+[Select metacontact]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]

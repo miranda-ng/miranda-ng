@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.2.1
+;  Version: 0.11.2.2
 ;  Authors: unsane
 ;============================================================
 [Request authorization]
