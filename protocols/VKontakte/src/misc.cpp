@@ -925,6 +925,11 @@ CMString CVkProto::GetAttachmentDescr(JSONNODE *pAttachments, BBCSupport iBBC)
 {
 	debugLogA("CVkProto::GetAttachmentDescr");
 	CMString res;
+	if (pAttachments == NULL) {
+		debugLogA("CVkProto::GetAttachmentDescr pAttachments == NULL");
+		return res;
+	}
+
 	res += SetBBCString(TranslateT("Attachments:"), iBBC, vkbbcB);
 	res.AppendChar('\n');
 	JSONNODE *pAttach;
@@ -1060,18 +1065,13 @@ CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
 {
 	CMString res;
 	debugLogA("CVkProto::GetFwdMessages");
-	if (pMessages == NULL){
+	if (pMessages == NULL) {
 		debugLogA("CVkProto::GetFwdMessages pMessages == NULL");
 		return res;
 	}
 
 	JSONNODE *pMsg;
 	for (int i = 0; (pMsg = json_at(pMessages, i)) != NULL; i++) {
-		if (pMsg == NULL) {
-			debugLogA("CVkProto::GetFwdMessages pMsg == NULL");
-			break;
-		}
-				
 		int uid = json_as_int(json_get(pMsg, "user_id"));
 		MCONTACT hContact = FindUser(uid);
 		CMString tszNick;
@@ -1092,7 +1092,7 @@ CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
 		CMString tszBody = json_as_CMString(json_get(pMsg, "body"));
 
 		JSONNODE *pFwdMessages = json_get(pMsg, "fwd_messages");
-		if (pFwdMessages != NULL){
+		if (pFwdMessages != NULL) {
 			CMString tszFwdMessages = GetFwdMessages(pFwdMessages, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszFwdMessages = _T("\n") + tszFwdMessages;
@@ -1100,7 +1100,7 @@ CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
 		}
 		
 		JSONNODE *pAttachments = json_get(pMsg, "attachments");
-		if (pAttachments != NULL){
+		if (pAttachments != NULL) {
 			CMString tszAttachmentDescr = GetAttachmentDescr(pAttachments, m_iBBCForAttachments);
 			if (!tszBody.IsEmpty())
 				tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
@@ -1120,5 +1120,6 @@ CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
 			res.AppendChar(_T('\n'));
 		res += tszMes;
 	}
+
 	return res;
 }
