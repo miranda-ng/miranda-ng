@@ -273,8 +273,6 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendNumber, cons
 				FileTransferParam *transfer = proto->transfers->GetAt(i);
 				if (transfer->friendNumber == friendNumber)
 				{
-					mir_cslock(transfer->fileLock);
-
 					transfer->status = BROKEN;
 				}
 			}

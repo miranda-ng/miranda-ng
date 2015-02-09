@@ -44,7 +44,7 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 	// stupid fix
 	TCHAR fullPath[MAX_PATH];
 	mir_sntprintf(fullPath, SIZEOF(fullPath), _T("%s\\%s"), transfer->pfts.tszWorkingDir, transfer->pfts.tszCurrentFile);
-	transfer->Rename(fullPath);
+	transfer->ChangeName(fullPath);
 
 	if (!ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)transfer, (LPARAM)&transfer->pfts))
 	{
@@ -78,7 +78,7 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR
 	switch (*action)
 	{
 	case FILERESUME_RENAME:
-		transfer->Rename(*szFilename);
+		transfer->ChangeName(*szFilename);
 		result = transfer->OpenFile(_T("wb"));
 		break;
 
@@ -214,8 +214,6 @@ void CToxProto::SendFileAsync(void *arg)
 
 	while (transfer->status == STARTED && transfer->hFile != NULL && fileProgress < fileSize)
 	{
-		mir_cslockfull locker(transfer->fileLock);
-
 		if (dataSize == 0)
 		{
 			dataSize = min(chunkSize, fileSize - fileProgress);
@@ -229,9 +227,13 @@ void CToxProto::SendFileAsync(void *arg)
 			}
 		}
 
-		if (tox_file_send_data(tox, transfer->friendNumber, transfer->fileNumber, data, dataSize) == TOX_ERROR)
+		int sendResult = TOX_ERROR;
 		{
-			locker.unlock();
+			mir_cslock lock(toxLock);
+			sendResult = tox_file_send_data(tox, transfer->friendNumber, transfer->fileNumber, data, dataSize);
+		}
+		if (sendResult == TOX_ERROR)
+		{
 			Sleep(100);
 			continue;
 		}
@@ -300,19 +302,13 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 			break;
 
 		case TOX_FILECONTROL_PAUSE:
-		{
-			mir_cslock locker(transfer->fileLock);
-
 			transfer->status = PAUSED;
-		}
-		break;
+			break;
 
 		case TOX_FILECONTROL_RESUME_BROKEN:
 			// receiver asked to resume transfer
 			if (receive_send == 1)
 			{
-				mir_cslock locker(transfer->fileLock);
-
 				uint64_t progress = *(uint64_t*)data;
 				if (progress >= transfer->pfts.currentFileSize || length != sizeof(uint64_t))
 				{
@@ -345,10 +341,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 			break;
 
 		case TOX_FILECONTROL_KILL:
-			{
-				mir_cslock locker(transfer->fileLock);
-				transfer->status = CANCELED;
-			}
+			transfer->status = CANCELED;
 			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
 			proto->transfers->Remove(transfer);
 			break;
@@ -357,10 +350,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 			{
 				proto->debugLogA("CToxProto::SendFileAsync: finish the transfer of file (%d)", transfer->fileNumber);
 				bool isFileFullyTransfered = transfer->pfts.currentFileProgress == transfer->pfts.currentFileSize;
-				{
-					mir_cslock locker(transfer->fileLock);
-					transfer->status = isFileFullyTransfered ? FINISHED : FAILED;
-				}
+				transfer->status = isFileFullyTransfered ? FINISHED : FAILED;
 				if (!isFileFullyTransfered)
 				{
 					proto->debugLogA("CToxProto::SendFileAsync: file (%d) is transferred not completely", transfer->fileNumber);
