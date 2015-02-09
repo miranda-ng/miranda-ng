@@ -2446,6 +2446,8 @@ Metakontakte
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Keine Onlinekontakte gefunden.
+[Select metacontact]
+
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Sender

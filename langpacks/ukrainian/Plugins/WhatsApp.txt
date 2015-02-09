@@ -2,25 +2,27 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.8
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 Підтримка протоколу WhatsApp для Miranda NG.
 [Phone number]
 Телефон
-[Including country code, without '+' or '00']
-З кодом країни, без "+" чи "00"
 [Nickname]
 Нік
+[Use SSL connection (port 443)]
+Підключення по SSL (порт 443)
+[Registration]
+Реєстрація
 [SMS code]
 SMS-код
 [Request code]
 Запросити код
 [Register code]
 Реєструвати код
-[Use SSL connection (port 443)]
-Підключення по SSL (порт 443)
+[Including country code, without '+' or '00']
+З кодом країни, без "+" чи "00"
 [Invite users]
 Запрошення користувачів
 [Choose an user]
@@ -85,8 +87,6 @@ SMS-повідомлення з реєстраційним кодом буде �
 Не вдається встановити з'єднання для WhatsApp
 [Network connection error.]
 Помилка з'єднання.
-[Registration]
-Реєстрація
 [Registration failed. Invalid server response.]
 Невдала реєстрація: неправильна відповідь сервера.
 [Registration failed due to stale code. Please request a new code]

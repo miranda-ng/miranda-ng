@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.8
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -10,20 +10,24 @@ WhatsApp-Protokollunterstützung für Miranda NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
 Telefonnummer
-[Including country code, without '+' or '00']
-Inklusive Landescode, ohne '+' oder '00'
 [Nickname]
 Nickname
+[Default group:]
+Standardgruppe:
+[Use SSL connection (port 443)]
+SSL-Verbindung verwenden (Port 443)
+[Automatically open group chats]
+
+[Registration]
+Registrierung
 [SMS code]
 SMS-Code
 [Request code]
 Code anfordern
 [Register code]
 Code registrieren
-[Use SSL connection (port 443)]
-SSL-Verbindung verwenden (Port 443)
-[Automatically open group chats]
-
+[Including country code, without '+' or '00']
+Inklusive Landescode, ohne '+' oder '00'
 [Invite users]
 
 [Choose an user]
@@ -46,6 +50,8 @@ Abbrechen
 [View/change &topic]
 
 [&Leave chat session]
+
+[Set &avatar]
 
 [Copy room &JID]
 
@@ -82,6 +88,8 @@ Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachte
 Ihr Passwort wurde automatisch gesetzt. Sie können sich nun anmelden.
 [Please correctly specify your registration code received by SMS]
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
+[Changes will be applied after protocol restart]
+
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 
@@ -94,8 +102,6 @@ Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 Konnte keine Netzwerkverbindung für WhatsApp herstellen.
 [Network connection error.]
 Netzwerkverbindungsfehler.
-[Registration]
-Registrierung
 [Registration failed. Invalid server response.]
 Registrierung fehlgeschlagen. Ungültige Serverantwort.
 [Registration failed due to stale code. Please request a new code]

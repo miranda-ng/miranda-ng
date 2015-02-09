@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.8
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -10,20 +10,21 @@
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
 Тэлефон
-[Including country code, without '+' or '00']
-Уключаючы код краіны, без '+' ці '00'
 [Nickname]
 Мянушка
+[Use SSL connection (port 443)]
+Далучэнне па SSL (порт 443)
 [SMS code]
 Смс-код:
 [Request code]
 Код запыту
 [Register code]
 Код рэгістраці
-[Use SSL connection (port 443)]
-Далучэнне па SSL (порт 443)
+[Including country code, without '+' or '00']
+Уключаючы код краіны, без '+' ці '00'
 [Cancel]
 Скасаваць
+;file \protocols\WhatsApp\src\chat.cpp
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 Абярыце код краіны.
@@ -54,17 +55,7 @@
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 Абразок WhatsApp
-[Add to group]
-Дадаць у гурт
 [Create chat group]
 Стварыць чат-гурт
-[Remove from chat group]
-Выдаліць з чат-гурта
-[Leave and delete group]
-Пакінуць гурт і выдаліць яго
-[Leave group]
-Пакінуць гурт
-[Change group subject]
-Змяніць тэму гурта
 [Create group]
 Стварыць гурт

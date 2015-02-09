@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.44
+;  Version: 0.1.0.45
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -249,6 +249,12 @@ Link
 Bild
 [Unsupported or unknown attachment type: %s]
 Nicht unterstützter oder unbekannter Anhangtyp: %s
+[(Unknown contact)]
+(Unbekannter Kontakt)
+[Message from]
+
+[at]
+
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -269,8 +275,6 @@ Warnung
 Ich bin zurück
 [You've been kicked by ]
 Sie wurden gekickt von\s
-[(Unknown contact)]
-(Unbekannter Kontakt)
 [Chat]
 Chat
 [&Invite a user]
