@@ -52,7 +52,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 			ToggleStatusMenuItems(false);
 			int prevStatus = m_iStatus;
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, prevStatus);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)prevStatus, m_iStatus);
 			break;
 		}
 
@@ -83,7 +83,7 @@ void WhatsAppProto::stayConnectedLoop(void*)
 
 			debugLogA("Set status to online");
 			m_iStatus = m_iDesiredStatus;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_CONNECTING);
+			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 			this->ToggleStatusMenuItems(true);
 
 			ForkThread(&WhatsAppProto::ProcessBuddyList, NULL);
