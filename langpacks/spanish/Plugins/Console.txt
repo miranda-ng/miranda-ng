@@ -9,7 +9,7 @@
 Servicios
 [Text]
 Texto
-[&Help]
-A&yuda
+[Background]
+Fondo
 [All Files]
 Todos los archivos

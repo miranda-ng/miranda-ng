@@ -35,7 +35,7 @@ Konsole verbergen
 Konsole anzeigen
 [Scrolling (Ctrl+Q)]
 Scrollen (Strg+Q)
-[Pause logging(Ctrl+P)]
+[Pause logging (Ctrl+P)]
 Loggen pausieren (Strg+P)
 [Save log to file (Ctrl+S)]
 Log in Datei speichern (Strg+S)
@@ -65,8 +65,8 @@ Miranda Konsole
 Dienste
 [Text]
 Text
-[&Help]
-&Hilfe
+[Background]
+Hintergrund
 [Text Files (*.txt)]
 Textdokumente (*.txt)
 [All Files]

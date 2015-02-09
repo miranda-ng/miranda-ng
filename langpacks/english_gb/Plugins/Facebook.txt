@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.9
+;  Version: 0.2.9.10
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [History synchronization]

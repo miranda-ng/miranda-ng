@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.4
+;  Version: 0.1.2.7
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -22,8 +22,45 @@ Code anfordern
 Code registrieren
 [Use SSL connection (port 443)]
 SSL-Verbindung verwenden (Port 443)
+[Automatically open group chats]
+
+[Invite users]
+
+[Choose an user]
+
+[Other user:]
+
+[&Invite]
+
 [Cancel]
 Abbrechen
+;file \protocols\WhatsApp\src\chat.cpp
+[Members]
+
+[Owners]
+
+[&Invite a user]
+
+[&Room options]
+
+[View/change &topic]
+
+[&Leave chat session]
+
+[Copy room &JID]
+
+[Copy room topic]
+
+[Set new subject for %s]
+
+[&Add to roster]
+
+[&Kick]
+&Kick
+[Copy &nickname]
+
+[Copy real &JID]
+
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 Bitte geben Sie einen Landescode ein.
@@ -38,14 +75,6 @@ Bitte geben Sie ein Passwort ein.
 ist nun bekannt als %s
 [Last seen on %x at %X]
 Zuletzt gesehen am %x um %X
-[You have been added to the group]
-Sie wurden zur Gruppe hinzugefügt
-[User '%s' has been added to the group]
-Benutzer '%s' wurde zur Gruppe hinzugefügt
-[You have been removed from the group]
-Sie wurden aus der Gruppe entfernt
-[User '%s' has been removed from the group]
-Benutzer %s wurde aus der Gruppe entfernt
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 Eine SMS mit dem Registrierungscode wird an Ihr Mobiltelefon geschickt.\nBeachten Sie, dass Sie das richtige WhatsApp und dieses Plugin nicht gleichzeitig nutzen können.\nFortfahren?
@@ -54,6 +83,8 @@ Ihr Passwort wurde automatisch gesetzt. Sie können sich nun anmelden.
 [Please correctly specify your registration code received by SMS]
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 ;file \protocols\WhatsApp\src\messages.cpp
+[server]
+
 [Message received: %s by %s]
 
 ;file \protocols\WhatsApp\src\proto.cpp
@@ -82,17 +113,7 @@ Konto
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 WhatsApp Icon
-[Add to group]
-Zu Gruppe hinzufügen
 [Create chat group]
 Gruppenchat erstellen
-[Remove from chat group]
-Aus Gruppenchat entfernen
-[Leave and delete group]
-Gruppe verlassen und löschen
-[Leave group]
-Gruppe verlassen
-[Change group subject]
-Gruppenthema ändern
 [Create group]
 Gruppe erstellen
