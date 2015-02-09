@@ -14,21 +14,18 @@ const static osdmsg defstr={_T(""), 0, RGB(0, 0, 0), 0, 0};
 
 int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
 {
-	PAINTSTRUCT	ps;
-	RECT rect, rect2;
-	UINT talign=0;
-	int sxo, syo;
-	plgsettings plgs;
-
 	logmsg("DrawMe");
 	if (!string) string=_T("bullshit");
 	
+	plgsettings plgs;
 	loadDBSettings(&plgs);
 	HFONT fh=CreateFontIndirect(&(plgs.lf));
-
+	
+	PAINTSTRUCT	ps;
 	HDC hdc=BeginPaint(hwnd, &ps);
 	SetBkMode(hdc, TRANSPARENT);
 
+	RECT rect;
 	GetClientRect(hwnd, &rect);
 	HBRUSH bkb=CreateSolidBrush(plgs.bkclr);
 	FillRect(hdc, &rect, bkb);
@@ -37,14 +34,15 @@ int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
 
 	HGDIOBJ oo=SelectObject(hdc, fh);
 
-	rect2 = rect;
+	UINT talign=0;
+	RECT rect2 = rect;
 	DrawText(hdc, string, -1, &rect2, DT_WORDBREAK|DT_CALCRECT);
 
-	if (plgs.align>=1 && plgs.align<=3)
+	if (plgs.align<=3)
 		rect.top=0;
-	if (plgs.align>=4 && plgs.align<=6)
+	else if (plgs.align<=6)
 		rect.top=(rect.bottom-rect2.bottom)/2;
-	if (plgs.align>=7 && plgs.align<=9)
+	else if (plgs.align<=9)
 		rect.top=rect.bottom-rect2.bottom;
 
 	if (((plgs.align-1)%3)==0)
@@ -59,14 +57,25 @@ int DrawMe(HWND hwnd, TCHAR *string, COLORREF color)
 
 	//draw shadow
 	if (plgs.showShadow) {
+		int sxo, syo;
 		logmsg("DrawMe::showShadow");
-		if (plgs.salign>=1 && plgs.salign<=3) syo=-plgs.distance;
-		if (plgs.salign>=4 && plgs.salign<=6) syo=0;
-		if (plgs.salign>=7 && plgs.salign<=9) syo=plgs.distance;
+		if (plgs.salign<=3)
+			syo=-plgs.distance;
+		else if (plgs.salign<=6)
+			syo=0;
+		else if (plgs.salign<=9)
+			syo=plgs.distance;
+		else
+			syo=0;
 
-		if (((plgs.salign-1)%3)==0) sxo=-plgs.distance;
-		else if (((plgs.salign-2)%3)==0) sxo=0;
-		else if (((plgs.salign-3)%3)==0) sxo=plgs.distance;
+		if (((plgs.salign-1)%3)==0)
+			sxo=-plgs.distance;
+		else if (((plgs.salign-2)%3)==0)
+			sxo=0;
+		else if (((plgs.salign-3)%3)==0)
+			sxo=plgs.distance;
+		else
+			sxo=0;
 
 		SetTextColor(hdc, plgs.clr_shadow);
 		if (plgs.altShadow==0) {
