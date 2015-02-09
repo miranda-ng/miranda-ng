@@ -4,8 +4,9 @@
 //
 #define IDD_INPUTBOX                    102
 #define IDR_REGISTERUTILITY             103
-#define IDD_WHATSAPOPTIONS              104
+#define IDD_ACCMGRUI                    104
 #define IDD_GROUPCHAT_INVITE            105
+#define IDD_OPTIONS                     106
 #define IDI_WHATSAPP                    203
 #define IDI_ADD_GROUP                   206
 #define IDI_RENAME_GROUP                208
@@ -26,6 +27,7 @@
 #define IDC_TEXT                        1014
 #define IDC_INVITE                      1015
 #define IDC_AUTORUN                     1016
+#define IDC_DEFGROUP                    1017
 
 // Next default values for new objects
 // 
@@ -33,7 +35,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        106
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1017
+#define _APS_NEXT_CONTROL_VALUE         1018
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

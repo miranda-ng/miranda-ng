@@ -118,6 +118,7 @@ public:
 	std::vector<string> m_szInviteJids;
 	map<std::string, WAChatInfo*> m_chats;
 	mir_cs   m_csChats;
+	ptrT     m_tszDefaultGroup;
 
 	void     ChatLogMenuHook(WAChatInfo *pInfo, GCHOOK *gch);
 	void     NickListMenuHook(WAChatInfo *pInfo, GCHOOK *gch);
@@ -175,7 +176,6 @@ private:
 	WAConnection *m_pConnection;
 	Mutex connMutex;
 	time_t m_tLastWriteTime;
-	ptrT m_tszDefaultGroup;
 
 	std::vector<unsigned char> m_Challenge;
 	std::string m_szPhoneNumber;
