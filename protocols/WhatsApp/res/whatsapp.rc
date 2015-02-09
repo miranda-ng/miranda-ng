@@ -78,7 +78,7 @@ BEGIN
     EDITTEXT        IDC_LOGIN,84,6,100,12,ES_AUTOHSCROLL
     LTEXT           "Nickname",IDC_STATIC,4,23,55,10
     EDITTEXT        IDC_NICK,60,22,124,12,ES_AUTOHSCROLL
-    LTEXT           "Default group",IDC_STATIC,4,37,55,10
+    LTEXT           "Default group:",IDC_STATIC,4,37,55,10
     EDITTEXT        IDC_DEFGROUP,60,36,124,12,ES_AUTOHSCROLL
     CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,52,180,10
     CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,180,10
@@ -102,7 +102,7 @@ BEGIN
     LTEXT           "Including country code, without '+' or '00'",IDC_STATIC,60,22,118,18
     LTEXT           "Nickname",IDC_STATIC,4,43,55,10
     EDITTEXT        IDC_NICK,60,42,124,12,ES_AUTOHSCROLL
-    LTEXT           "Default group",IDC_STATIC,4,57,55,10
+    LTEXT           "Default group:",IDC_STATIC,4,57,55,10
     EDITTEXT        IDC_DEFGROUP,60,56,124,12,ES_AUTOHSCROLL
     CONTROL         "Use SSL connection (port 443)",IDC_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,72,180,10
     CONTROL         "Automatically open group chats",IDC_AUTORUN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,84,180,10

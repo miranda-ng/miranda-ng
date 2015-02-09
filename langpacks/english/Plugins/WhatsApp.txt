@@ -2,19 +2,21 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.8
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
-[Including country code, without '+' or '00']
 [Nickname]
+[Default group:]
+[Use SSL connection (port 443)]
+[Automatically open group chats]
+[Registration]
 [SMS code]
 [Request code]
 [Register code]
-[Use SSL connection (port 443)]
-[Automatically open group chats]
+[Including country code, without '+' or '00']
 [Invite users]
 [Choose an user]
 [Other user:]
@@ -27,6 +29,7 @@
 [&Room options]
 [View/change &topic]
 [&Leave chat session]
+[Set &avatar]
 [Copy room &JID]
 [Copy room topic]
 [Set new subject for %s]
@@ -46,6 +49,7 @@
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 [Your password has been set automatically. You can proceed with login now]
 [Please correctly specify your registration code received by SMS]
+[Changes will be applied after protocol restart]
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 [Message received: %s by %s]
@@ -53,7 +57,6 @@
 [%s server connection]
 [Unable to get Netlib connection for WhatsApp]
 [Network connection error.]
-[Registration]
 [Registration failed. Invalid server response.]
 [Registration failed due to stale code. Please request a new code]
 [Registration failed.]

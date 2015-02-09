@@ -2,27 +2,31 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.7
+;  Version: 0.1.2.8
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
 Поддержка протокола WhatsApp в Miranda NG.
 [Phone number]
 Номер телефона
-[Including country code, without '+' or '00']
-Включая код страны, без '+' или '00'
 [Nickname]
 Ник
+[Default group:]
+Группа:
+[Use SSL connection (port 443)]
+Подключение по SSL (порт 443)
+[Automatically open group chats]
+Автоматически открывать комнаты чата
+[Registration]
+Регистрация
 [SMS code]
 Код SMS
 [Request code]
 Код запроса
 [Register code]
 Код регистрации
-[Use SSL connection (port 443)]
-Подключение по SSL (порт 443)
-[Automatically open group chats]
-Автоматически открывать комнаты чата
+[Including country code, without '+' or '00']
+Включая код страны, без '+' или '00'
 [Invite users]
 Приглашение пользователей
 [Choose an user]
@@ -45,6 +49,8 @@
 Просмотр/смена &темы
 [&Leave chat session]
 &Покинуть чат
+[Set &avatar]
+Настройки &аватара
 [Copy room &JID]
 Копировать &JID комнаты чата
 [Copy room topic]
@@ -77,6 +83,8 @@
 Ваш пароль был установлен автоматически. Теперь вы можете подключиться.
 [Please correctly specify your registration code received by SMS]
 Пожалуйста, верно укажите свой код регистрации, полученный в SMS
+[Changes will be applied after protocol restart]
+Изменения будут применены после перезапуска протокола
 [server]
 Сервер
 [Message received: %s by %s]
@@ -87,8 +95,6 @@
 Невозможно создать подключение Netlib для WhatsApp
 [Network connection error.]
 Ошибка соединения.
-[Registration]
-Регистрация
 [Registration failed. Invalid server response.]
 Неудачная регистрация. Неверный ответ сервера.
 [Registration failed due to stale code. Please request a new code]
