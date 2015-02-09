@@ -18,7 +18,6 @@ struct FileTransferParam
 	PROTOFILETRANSFERSTATUS pfts;
 	FILE_TRANSFER_STATUS status;
 	FILE *hFile;
-	mir_cs fileLock;
 	int friendNumber;
 	int fileNumber;
 
@@ -47,7 +46,7 @@ struct FileTransferParam
 		return hFile != NULL;
 	}
 
-	void Rename(const TCHAR* fileName)
+	void ChangeName(const TCHAR *fileName)
 	{
 		pfts.ptszFiles[0] = replaceStrT(pfts.tszCurrentFile, fileName);
 	}

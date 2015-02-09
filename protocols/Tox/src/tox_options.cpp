@@ -30,9 +30,6 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getBool("DisableUDP", 0));
 			CheckDlgButton(hwnd, IDC_DISABLE_IPV6, proto->getBool("DisableIPv6", 0));
-
-			EnableWindow(GetDlgItem(hwnd, IDC_TOXID), proto->IsOnline());
-			EnableWindow(GetDlgItem(hwnd, IDC_CLIPBOARD), proto->IsOnline());
 		}
 		return TRUE;
 
