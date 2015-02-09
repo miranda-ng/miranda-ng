@@ -106,6 +106,7 @@ void CMraProto::MraAvatarsQueueSuspend(HANDLE hAvatarsQueueHandle)
 {
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 	InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, FALSE);
+	MraAvatarsQueueClear(hAvatarsQueueHandle);
 	SetEvent(pmraaqAvatarsQueue->hThreadEvent);
 }
 
@@ -115,14 +116,14 @@ void CMraProto::MraAvatarsQueueDestroy(HANDLE hAvatarsQueueHandle)
 		return;
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
-	while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0))
-		SleepEx(100, TRUE);
+	while (InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->lThreadsRunningCount, 0)) {
+		SetEvent(pmraaqAvatarsQueue->hThreadEvent);
+		SleepEx(50, TRUE);
+	}
 
 	for (int i = 0; i < pmraaqAvatarsQueue->iThreadsCount; i++)
 		CloseHandle(pmraaqAvatarsQueue->hThread[i]);
 	CloseHandle(pmraaqAvatarsQueue->hThreadEvent);
-
-	MraAvatarsQueueClear(hAvatarsQueueHandle);
 
 	Netlib_CloseHandle(pmraaqAvatarsQueue->hNetlibUser);
 	delete pmraaqAvatarsQueue;
@@ -134,6 +135,9 @@ DWORD CMraProto::MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle, DWORD dwFlags, M
 		return ERROR_INVALID_HANDLE;
 
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+	if (!InterlockedExchangeAdd((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning, 0))
+		return ERROR_INVALID_HANDLE;
+
 	MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem = (MRA_AVATARS_QUEUE_ITEM*)mir_calloc(sizeof(MRA_AVATARS_QUEUE_ITEM));
 	if (!pmraaqiAvatarsQueueItem)
 		return GetLastError();
