@@ -329,7 +329,7 @@ bool WhatsAppProto::Register(int state, const string &cc, const string &number, 
 
 INT_PTR WhatsAppProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_WHATSAPOPTIONS),
+	return (INT_PTR)CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ACCMGRUI),
 		(HWND)lParam, WhatsAppAccountProc, (LPARAM)this);
 }
 
@@ -344,7 +344,7 @@ int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.position = 1;
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTab = LPGENT("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_WHATSAPOPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = WhatsAppAccountProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
