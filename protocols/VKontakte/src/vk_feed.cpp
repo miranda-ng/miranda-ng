@@ -200,8 +200,11 @@ CVKNewsItem* CVkProto::GetVkNewsItem(JSONNODE *pItem, OBJLIST<CVkUserInfo> &vkUs
 		}
 
 		JSONNODE *pAttachments = json_get(pItem, "attachments");
-		if (pAttachments)
+		if (pAttachments){
+			if (!tszText.IsEmpty())
+				tszText.AppendChar(_T('\n'));
 			tszText += GetAttachmentDescr(pAttachments, m_bUseBBCOnAttacmentsAsNews ? m_iBBCForNews : m_iBBCForAttachments);
+		}
 	}
 
 	CMString tszResFormat;	

@@ -251,13 +251,26 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 
-	ptrT tszBody(json_as_string(json_get(pMsg, "body")));
+	ptrT ptszBody(json_as_string(json_get(pMsg, "body")));
+	
+	JSONNODE *pFwdMessages = json_get(pMsg, "fwd_messages");
+	if (pFwdMessages != NULL){
+		CMString tszFwdMessages = GetFwdMessages(pFwdMessages, m_iBBCForAttachments);
+		if (!IsEmpty(ptszBody))
+			tszFwdMessages = _T("\n") + tszFwdMessages;
+		ptszBody = mir_tstrdup(CMString(ptszBody) + tszFwdMessages);
+	}
+
 	JSONNODE *pAttachments = json_get(pMsg, "attachments");
-	if (pAttachments != NULL)
-		tszBody = mir_tstrdup(CMString(tszBody) + GetAttachmentDescr(pAttachments));
+	if (pAttachments != NULL){
+		CMString tszAttachmentDescr = GetAttachmentDescr(pAttachments, m_iBBCForAttachments);
+		if (!IsEmpty(ptszBody))
+			tszAttachmentDescr = _T("\n") + tszAttachmentDescr;
+		ptszBody = mir_tstrdup(CMString(ptszBody) + tszAttachmentDescr);
+	}
 
 	if (cc->m_bHistoryRead)
-		AppendChatMessage(cc, uid, msgTime, tszBody, bIsHistory);
+		AppendChatMessage(cc, uid, msgTime, ptszBody, bIsHistory);
 	else {
 		CVkChatMessage *cm = cc->m_msgs.find((CVkChatMessage *)&mid);
 		if (cm == NULL)
@@ -265,7 +278,7 @@ void CVkProto::AppendChatMessage(int id, JSONNODE *pMsg, bool bIsHistory)
 
 		cm->m_uid = uid;
 		cm->m_date = msgTime;
-		cm->m_tszBody = tszBody.detouch();
+		cm->m_tszBody = ptszBody.detouch();
 		cm->m_bHistory = bIsHistory;
 	}
 }
