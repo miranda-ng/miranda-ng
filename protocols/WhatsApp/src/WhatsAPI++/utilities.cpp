@@ -355,7 +355,7 @@ std::string string_format(const char* fmt, va_list ap)
 {
 	int size = 100;
 	std::string str;
-	while (1) {
+	while (true) {
 		str.resize(size);
 		//va_start(ap, fmt);
 		int n = vsnprintf((char *)str.c_str(), size, fmt, ap);

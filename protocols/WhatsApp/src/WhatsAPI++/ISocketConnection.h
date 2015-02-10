@@ -13,7 +13,6 @@ public:
 	virtual unsigned char read() = 0;
 	virtual void flush() = 0;
 	virtual void write(const std::vector<unsigned char>& b, int length) = 0;
-	virtual void write(const std::vector<unsigned char>& bytes, int offset, int length) = 0;
 	virtual int read(unsigned char*, int length) = 0;
 	virtual int read(std::vector<unsigned char>& b, int off, int length) = 0;
 	virtual void makeNonBlock() = 0;

@@ -30,16 +30,16 @@ using namespace std;
 
 #include <map>
 
-class WAConnection;
+class BinTreeNodeWriter
+{
+	friend class WAConnection;
 
-class BinTreeNodeWriter {
-private:
-	WAConnection* conn;
+	WAConnection *conn;
 	ISocketConnection *realOut;
 	ByteArrayOutputStream *out;
-	IMutex* mutex;
-	int dataBegin;
-	bool bSecure;
+	IMutex *mutex;
+	int  dataBegin;
+	bool bSecure, bFlush;
 
 	void writeListStart(int i);
 	void writeInt8(int v);
@@ -62,10 +62,8 @@ public:
 
 	void streamStart(std::string domain, std::string resource);
 	void flushBuffer(bool flushNetwork);
-	void flushBuffer(bool flushNetwork, int startingOffset);
 	void streamEnd();
 	void write(const ProtocolTreeNode &node);
-	void write(const ProtocolTreeNode &node, bool needsFlush);
 
 	void setSecure() { bSecure = true; }
 };

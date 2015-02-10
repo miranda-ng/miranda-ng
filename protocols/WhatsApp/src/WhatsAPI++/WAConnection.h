@@ -322,7 +322,6 @@ private:
 	BinTreeNodeWriter out;
 	WAListener *m_pEventHandler;
 	WAGroupListener *m_pGroupEventHandler;
-	bool verbose;
 	int iqid;
 	std::map<string, IqResultHandler*> pending_server_requests;
 	IMutex *m_pMutex;
@@ -370,11 +369,13 @@ public:
 	static int  tokenLookup(const std::string&);
 
 	void logData(const char *format, ...);
+	void flush() { out.flushBuffer(true); }
 
 	static std::string removeResourceFromJid(const std::string &jid);
 
+	void setFlush(bool _flush) { if (out.bFlush = _flush) out.flushBuffer(true); }
+	
 	void setLogin(WALogin *login);
-	void setVerboseId(bool b);
 	void sendMessage(FMessage* message) throw(WAException);
 	void sendAvailableForChat() throw(WAException);
 	

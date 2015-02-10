@@ -77,7 +77,6 @@ void WhatsAppProto::stayConnectedLoop(void*)
 				m_pConnection->setLogin(&login);
 			}
 			m_pConnection->nick = m_szNick;
-			m_pConnection->setVerboseId(true);
 			if (m_iDesiredStatus != ID_STATUS_INVISIBLE)
 				m_pConnection->sendAvailableForChat();
 
