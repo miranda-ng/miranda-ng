@@ -35,8 +35,6 @@
 Версія:
 [Clear popups history]
 Очистити історію спливаючих вікон
-[Filter messages contain below strings in:]
-Фільтр повідомлення містять нижче рядка в:
 [Sender]
 Відправник
 [Subject]

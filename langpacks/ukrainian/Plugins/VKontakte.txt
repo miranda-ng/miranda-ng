@@ -252,7 +252,7 @@
 [Message from]
 Повідомлення від
 [at]
-у
+о
 [Enter the text you see]
 Введіть текст, який бачите
 [Participants]

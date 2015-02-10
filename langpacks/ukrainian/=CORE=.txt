@@ -2351,6 +2351,8 @@ Ctrl+Знайти додає контакт
 Метаконтакти
 [No online contacts found.]
 Не знайдено контактів у мережі.
+[Select metacontact]
+Виберіть метаконтакт
 [Sender]
 Відправник
 [Could not retrieve contact protocol]
