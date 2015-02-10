@@ -31,7 +31,7 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	fseek(profile, 0, SEEK_END);
-	size_t size = _ftelli64(profile);
+	long size = ftell(profile);
 	rewind(profile);
 	if (size == 0)
 	{

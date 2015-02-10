@@ -21,7 +21,7 @@ struct FileTransferParam
 	int friendNumber;
 	int fileNumber;
 
-	FileTransferParam(int friendNumber, int fileNumber, const TCHAR* fileName, size_t fileSize)
+	FileTransferParam(int friendNumber, int fileNumber, const TCHAR* fileName, uint64_t fileSize)
 	{
 		status = NONE;
 		hFile = NULL;
