@@ -72,24 +72,18 @@ int WASocketConnection::waitForRead()
 
 void WASocketConnection::flush() {}
 
-void WASocketConnection::write(const std::vector<unsigned char>& bytes, int offset, int length)
+void WASocketConnection::write(const std::vector<unsigned char> &bytes, int length)
 {
 	NETLIBBUFFER nlb;
 	std::string tmpBuf = std::string(bytes.begin(), bytes.end());
-	nlb.buf = (char*)&(tmpBuf.c_str()[offset]);
+	nlb.buf = (char*)&(tmpBuf.c_str()[0]);
 	nlb.len = length;
 	nlb.flags = MSG_NODUMP;
 
-	int result = CallService(MS_NETLIB_SEND, reinterpret_cast<WPARAM>(this->hConn),
-									 reinterpret_cast<LPARAM>(&nlb));
+	int result = CallService(MS_NETLIB_SEND, WPARAM(hConn), LPARAM(&nlb));
 	if (result < length) {
 		throw WAException(getLastErrorMsg(), WAException::SOCKET_EX, WAException::SOCKET_EX_SEND);
 	}
-}
-
-void WASocketConnection::write(const std::vector<unsigned char>& bytes, int length)
-{
-	this->write(bytes, 0, length);
 }
 
 unsigned char WASocketConnection::read()

@@ -88,19 +88,15 @@ void WhatsAppProto::SetAllContactStatuses(int status, bool reset_client)
 
 void WhatsAppProto::ProcessBuddyList(void*)
 {
-	std::vector<std::string> jids;
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		if (isChatRoom(hContact))
-			continue;
+	// m_pConnection->setFlush(false);
 
+	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
 		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
-		if (jid) {
-			try {
-				m_pConnection->sendQueryLastOnline(std::string(jid));
-			}
-			CODE_BLOCK_CATCH_ALL
-		}
+		if (jid)
+			m_pConnection->sendQueryLastOnline((char*)jid);
 	}
+
+	// m_pConnection->setFlush(true);
 
 	try {
 		m_pConnection->sendGetGroups();

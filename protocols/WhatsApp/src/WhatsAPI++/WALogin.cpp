@@ -61,7 +61,7 @@ void WALogin::sendFeatures()
 	ProtocolTreeNode* pictureChild = new ProtocolTreeNode("w:profile:picture") << XATTR("type", "all");
 	children->push_back(pictureChild);
 
-	m_pConnection->out.write(ProtocolTreeNode("stream:features", NULL, children), true);
+	m_pConnection->out.write(ProtocolTreeNode("stream:features", NULL, children));
 }
 
 void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
@@ -71,7 +71,7 @@ void WALogin::sendAuth(const std::vector<unsigned char>& existingChallenge)
 		data = getAuthBlob(existingChallenge);
 
 	m_pConnection->out.write(ProtocolTreeNode("auth", data) << 
-		XATTR("mechanism", "WAUTH-2") << XATTR("user", m_pConnection->user), true);
+		XATTR("mechanism", "WAUTH-2") << XATTR("user", m_pConnection->user));
 }
 
 std::vector<unsigned char>* WALogin::getAuthBlob(const std::vector<unsigned char>& nonce)

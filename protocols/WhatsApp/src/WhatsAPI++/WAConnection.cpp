@@ -115,7 +115,6 @@ WAConnection::WAConnection(const std::string &user, const std::string &resource,
 
 	this->supports_receipt_acks = false;
 	this->iqid = 0;
-	this->verbose = true;
 	this->lastTreeRead = 0;
 	this->expire_date = 0L;
 	this->account_kind = -1;
@@ -135,14 +134,7 @@ std::string WAConnection::gidToGjid(const std::string &gid)
 
 std::string WAConnection::makeId(const std::string &prefix)
 {
-	this->iqid++;
-	std::string id;
-	if (this->verbose)
-		id = prefix + Utilities::intToStr(this->iqid);
-	else
-		id = Utilities::itoa(this->iqid, 16);
-
-	return id;
+	return prefix + Utilities::itoa(++this->iqid, 16);
 }
 
 ProtocolTreeNode* WAConnection::getReceiptAck(const std::string &to, const std::string &id, const std::string &receiptType) throw(WAException)
@@ -174,11 +166,6 @@ void WAConnection::setLogin(WALogin* login)
 
 	if (login->m_iAccountKind != -1)
 		this->account_kind = login->m_iAccountKind;
-}
-
-void WAConnection::setVerboseId(bool b)
-{
-	this->verbose = b;
 }
 
 bool WAConnection::read() throw(WAException)
@@ -843,11 +830,13 @@ void WAConnection::sendPresenceSubscriptionRequest(const std::string &to) throw(
 
 void WAConnection::sendQueryLastOnline(const std::string &jid) throw (WAException)
 {
+	if (jid == "Server@s.whatsapp.net") // to avoid error 405
+		return;
+
 	std::string id = makeId("iq_");
 	this->pending_server_requests[id] = new IqResultQueryLastOnlineHandler(this);
 
-	ProtocolTreeNode *queryNode = new ProtocolTreeNode("query");
-	out.write(ProtocolTreeNode("iq", queryNode)
+	out.write(ProtocolTreeNode("iq", new ProtocolTreeNode("query"))
 		<< XATTR("id", id) << XATTR("type", "get") << XATTR("to", jid) << XATTR("xmlns", "jabber:iq:last"));
 }
 

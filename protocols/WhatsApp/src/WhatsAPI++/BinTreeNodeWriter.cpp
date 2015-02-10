@@ -10,51 +10,51 @@
 #include "BinTreeNodeWriter.h"
 #include "utilities.h"
 
-BinTreeNodeWriter::BinTreeNodeWriter(WAConnection* conn, ISocketConnection* connection, IMutex* mutex)
+BinTreeNodeWriter::BinTreeNodeWriter(WAConnection *_conn, ISocketConnection *_connection, IMutex *_mutex)
 {
-	this->bSecure = false;
-	this->mutex = mutex;
-	this->conn = conn;
-	this->out = new ByteArrayOutputStream(2048);
-	this->realOut = connection;
-	this->dataBegin = 0;
+	bSecure = false;
+	bFlush = true;
+	mutex = _mutex;
+	conn = _conn;
+	out = new ByteArrayOutputStream(4096);
+	realOut = _connection;
+	dataBegin = 0;
 }
 
 BinTreeNodeWriter::~BinTreeNodeWriter()
 {
-	delete this->out;
+	delete out;
 }
 
 void BinTreeNodeWriter::writeDummyHeader()
 {
-	int num = 3;
-	this->dataBegin = (int)out->getPosition();
-	int num2 = this->dataBegin + num;
-	out->setLength(num2);
-	out->setPosition(num2);
+	dataBegin = (int)out->getPosition();  // save node start offset
+
+	unsigned char zero3[3] = { 0, 0, 0 };
+	out->write(zero3, 3);
 }
 
 void BinTreeNodeWriter::processBuffer()
 {
 	unsigned char num = 0;
 	if (bSecure) {
-		long num2 = (long)out->getLength() + 4L;
-		out->setLength(num2);
-		out->setPosition(num2);
-		num = 8;
+		unsigned char zero4[4] = { 0, 0, 0, 0 };
+		out->write(zero4, 4); // reserve place for hmac
+		num = 0x80;
 	}
-	long num3 = (long)out->getLength() - 3L - (long) this->dataBegin;
+	int num3 = (int)out->getLength() - 3 - dataBegin;
 	if (num3 >= 1048576L)
 		throw WAException("Buffer too large: " + num3, WAException::CORRUPT_STREAM_EX, 0);
 
-	std::vector<unsigned char>& buffer = out->getBuffer();
+	std::vector<unsigned char> &buffer = out->getBuffer();
 	if (bSecure) {
-		int num4 = (int)num3 - 4;
-		this->conn->outputKey.encodeMessage(buffer.data(), this->dataBegin + 3 + num4, this->dataBegin + 3, num4);
+		int num4 = num3 - 4;
+		conn->outputKey.encodeMessage(buffer.data(), dataBegin + 3 + num4, dataBegin + 3, num4);
 	}
-	buffer[dataBegin] = (unsigned char)((unsigned long)((unsigned long)num << 4) | (unsigned long)((num3 & 16711680L) >> 16));
-	buffer[dataBegin + 1] = (unsigned char)((num3 & 65280L) >> 8);
-	buffer[dataBegin + 2] = (unsigned char)(num3 & 255L);
+	
+	buffer[dataBegin + 2] = (unsigned char)(num3 & 0xFF); num3 >>= 8;
+	buffer[dataBegin + 1] = (unsigned char)(num3 & 0xFF); num3 >>= 8;
+	buffer[dataBegin] = (unsigned char)(num3 & 0xFF) | num;
 }
 
 void BinTreeNodeWriter::streamStart(std::string domain, std::string resource)
@@ -76,7 +76,7 @@ void BinTreeNodeWriter::streamStart(std::string domain, std::string resource)
 		out->write(1);
 		this->writeAttributes(&attributes);
 		this->processBuffer();
-		this->flushBuffer(true, 0);
+		this->flushBuffer(true);
 	}
 	catch (exception& ex) {
 		this->mutex->unlock();
@@ -211,11 +211,6 @@ void BinTreeNodeWriter::writeInternal(const ProtocolTreeNode &node)
 
 void BinTreeNodeWriter::flushBuffer(bool flushNetwork)
 {
-	this->flushBuffer(flushNetwork, this->dataBegin);
-}
-
-void BinTreeNodeWriter::flushBuffer(bool flushNetwork, int startingOffset)
-{
 	try {
 		this->processBuffer();
 	}
@@ -225,18 +220,20 @@ void BinTreeNodeWriter::flushBuffer(bool flushNetwork, int startingOffset)
 		throw ex;
 	}
 
-	std::vector<unsigned char> buffer(out->getBuffer().begin(), out->getBuffer().end());
-	int num = (int)(out->getLength() - (long)startingOffset);
-	if (flushNetwork && ((long)out->getCapacity() - out->getLength() < 3L || out->getLength() > 4096L)) {
-		delete this->out;
-		this->out = new ByteArrayOutputStream(4096);
-	}
+	if (!flushNetwork)
+		return;
 
-	if (flushNetwork) {
-		this->realOut->write(buffer, startingOffset, num);
+	std::vector<unsigned char> &buffer = out->getBuffer();
+	this->realOut->write(buffer, (int)buffer.size());
+	if (out->getCapacity() - out->getLength() < 3L || out->getLength() > 4096L) {
+		delete out;
+		out = new ByteArrayOutputStream(4096);
+	}
+	else {
 		out->setPosition(0);
 		out->setLength(0);
 	}
+	dataBegin = 0;
 }
 
 void BinTreeNodeWriter::streamEnd()
@@ -256,11 +253,6 @@ void BinTreeNodeWriter::streamEnd()
 
 void BinTreeNodeWriter::write(const ProtocolTreeNode& node)
 {
-	write(node, true);
-}
-
-void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
-{
 	this->mutex->lock();
 	try {
 		this->writeDummyHeader();
@@ -274,7 +266,7 @@ void BinTreeNodeWriter::write(const ProtocolTreeNode &node, bool needsFlush)
 			out->write(0);
 		else
 			writeInternal(node);
-		flushBuffer(needsFlush);
+		flushBuffer(bFlush);
 	}
 	catch (exception& ex) {
 		this->mutex->unlock();
