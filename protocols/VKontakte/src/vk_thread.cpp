@@ -458,9 +458,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			LONG userID = getDword(hContact, "ID", -1);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
-			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);			
+			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) 
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);		
 			SetMirVer(hContact, -1);
+			db_unset(hContact, m_szModuleName, "ListeningTo");
 		}
 	arContacts.destroy();
 	AddFeedSpecialUser();
