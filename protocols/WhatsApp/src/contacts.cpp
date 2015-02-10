@@ -134,9 +134,9 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 
 	int lastSeen = getDword(hContact, WHATSAPP_KEY_LAST_SEEN, -1);
 	if (lastSeen != -1) {
-		time_t timestamp = time(NULL) - lastSeen;
+		time_t ts = time(NULL) - lastSeen;
 		TCHAR stzLastSeen[MAX_PATH];
-		_tcsftime(stzLastSeen, SIZEOF(stzLastSeen), TranslateT("Last seen on %x at %X"), localtime(&timestamp));
+		_tcsftime(stzLastSeen, SIZEOF(stzLastSeen), TranslateT("Last seen on %x at %X"), localtime(&ts));
 		ss << stzLastSeen;
 	}
 

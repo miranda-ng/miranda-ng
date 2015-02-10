@@ -389,7 +389,7 @@ void WhatsAppProto::onGroupMessage(const FMessage &pMsg)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
-	gce.time = pMsg.timestamp;
+	gce.time = time(NULL);
 	gce.ptszText = tszText;
 	gce.bIsMe = m_szJid == pMsg.remote_resource;
 	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
@@ -532,7 +532,7 @@ void WhatsAppProto::onGroupMessageReceived(const FMessage &msg)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.ptszUID = tszUID;
 	gce.ptszNick = tszNick;
-	gce.time = msg.timestamp;
+	gce.time = time(NULL);
 	gce.ptszText = p->second.c_str();
 	gce.bIsMe = m_szJid == msg.remote_resource;
 	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
