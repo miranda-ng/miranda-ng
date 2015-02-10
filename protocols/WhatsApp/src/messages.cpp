@@ -32,7 +32,7 @@ void WhatsAppProto::onMessageForMe(const FMessage &pMsg)
 		PROTORECVEVENT recv = { 0 };
 		recv.flags = PREF_UTF;
 		recv.szMessage = const_cast<char*>(msg.c_str());
-		recv.timestamp = pMsg.timestamp;
+		recv.timestamp = time(NULL);
 		ProtoChainRecvMsg(hContact, &recv);
 	}
 
@@ -124,9 +124,9 @@ void WhatsAppProto::onMessageStatusUpdate(const FMessage &fmsg)
 	int msgId = atoi(fmsg.key.id.substr(delim+1).c_str());
 	ProtoBroadcastAck(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)msgId, 0);
 
-	time_t timestamp = atol(fmsg.key.id.substr(0, delim).c_str());
+	time_t ts = atol(fmsg.key.id.substr(0, delim).c_str());
 
 	TCHAR ttime[64];
-	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
+	_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&ts));
 	utils::setStatusMessage(hContact, CMString(FORMAT, TranslateT("Message received: %s by %s"), ttime, ptszBy));
 }
