@@ -1,4 +1,0 @@
-﻿[Default group:]
-[Automatically open group chats]
-[Set &avatar]
-[Changes will be applied after protocol restart]

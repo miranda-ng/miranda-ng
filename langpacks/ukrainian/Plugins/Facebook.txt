@@ -63,6 +63,8 @@
 Інші події
 [Client notifications]
 Сповіщення клієнта
+[Friendship notifications]
+Сповіщення про дружбу
 [Use this server for opening links:]
 Тип сайту для відкриття посилань:
 [Use balloon notifications in system tray instead of popups]
@@ -217,6 +219,8 @@
 Приклад новини
 [Sample notification]
 Приклад сповіщення
+[Sample friendship]
+Приклад сповіщення про дружбу
 [a sticker]
 стікер
 [files]
@@ -271,6 +275,8 @@
 Ви впевнені, що хочете видалити "%s" з друзів?
 [News feeds]
 Новини
+[Friendship events]
+Події дружби
 [Visit profile]
 Профіль
 [Visit notifications]
@@ -283,6 +289,8 @@
 Новини
 [Other Event]
 Інша подія
+[Friendship Event]
+Подія дружби
 [Message read: %s]
 Повідомлення прочитане о: %s
 [Facebook icon]
