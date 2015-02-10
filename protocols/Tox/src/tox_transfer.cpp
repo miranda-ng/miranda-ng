@@ -178,8 +178,8 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 		return NULL;
 	}
 
-	fseek(hFile, 0, SEEK_END);
-	size_t fileSize = _ftelli64(hFile);
+	_fseeki64(hFile, 0, SEEK_END);
+	uint64_t fileSize = _ftelli64(hFile);
 	rewind(hFile);
 
 	char *name = mir_utf8encodeW(fileName);
@@ -206,10 +206,10 @@ void CToxProto::SendFileAsync(void *arg)
 	FileTransferParam *transfer = (FileTransferParam*)arg;
 	transfer->status = STARTED;
 
-	size_t dataSize = 0;
-	size_t fileProgress = transfer->pfts.currentFileProgress;
-	size_t fileSize = transfer->pfts.currentFileSize;
-	size_t chunkSize = min(fileSize, (size_t)tox_file_data_size(tox, transfer->friendNumber));
+	int dataSize = 0;
+	uint64_t fileProgress = transfer->pfts.currentFileProgress;
+	uint64_t fileSize = transfer->pfts.currentFileSize;
+	int chunkSize = min(tox_file_data_size(tox, transfer->friendNumber), fileSize);
 	uint8_t *data = (uint8_t*)mir_alloc(chunkSize);
 
 	while (transfer->status == STARTED && transfer->hFile != NULL && fileProgress < fileSize)
@@ -217,9 +217,12 @@ void CToxProto::SendFileAsync(void *arg)
 		if (dataSize == 0)
 		{
 			dataSize = min(chunkSize, fileSize - fileProgress);
-			if (fread(data, sizeof(uint8_t), dataSize, transfer->hFile) != dataSize)
+			int read = fread(data, sizeof(uint8_t), dataSize, transfer->hFile);
+			if (read != dataSize)
 			{
 				debugLogA("CToxProto::SendFileAsync: failed to read from file (%d)", transfer->fileNumber);
+				debugLogA("CToxProto::SendFileAsync: read %d of %d (%d)", read, dataSize, transfer->fileNumber);
+				debugLogA("CToxProto::SendFileAsync: sent %llu of %llu of file (%d)", transfer->pfts.currentFileProgress, transfer->pfts.currentFileSize, transfer->fileNumber);
 				ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
 				transfer->status = FAILED;
 				tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
