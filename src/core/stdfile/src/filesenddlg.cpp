@@ -31,11 +31,11 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 {
 	int fileCount = 0, dirCount = 0, i;
 	__int64 totalSize = 0;
-	struct _stat statbuf;
+	struct _stati64 statbuf;
 	TCHAR str[64];
 
 	for (i = 0; dat->files[i]; i++) {
-		if (_tstat(dat->files[i], &statbuf) == 0) {
+		if (_tstati64(dat->files[i], &statbuf) == 0) {
 			if (statbuf.st_mode & _S_IFDIR)
 				dirCount++;
 			else
