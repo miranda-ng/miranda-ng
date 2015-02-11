@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.45
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -101,6 +101,7 @@
 [Access denied! Data will not be sent or received.]
 [Error]
 [Error %d. Data will not be sent or received.]
+[Enter confirmation code ]
 [Message read: %s]
 [commented on your post]
 [commented on your photo]
