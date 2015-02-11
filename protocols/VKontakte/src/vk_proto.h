@@ -399,6 +399,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceiveSmth(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
+	CMString RunConfirmationCode();
 
 	void GrabCookies(NETLIBHTTPREQUEST *nhr);
 	void ApplyCookies(AsyncHttpRequest*);

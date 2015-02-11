@@ -455,6 +455,8 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 					if (!RunCaptchaForm(getAttr(pCaptchaBeg, "src"), value))
 						return false;
 			}
+			else if (name == "code") 
+				value = RunConfirmationCode();
 
 			if (!result.IsEmpty())
 				result.AppendChar('&');
@@ -466,6 +468,18 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	szResult = result;
 	debugLogA("CVkProto::AutoFillForm result = \"%s\"", szResult.GetBuffer());
 	return true;
+}
+
+
+CMString CVkProto::RunConfirmationCode()
+{
+	ENTER_STRING pForm = { sizeof(pForm) };
+	pForm.type = ESF_PASSWORD;
+	pForm.caption = TranslateT("Enter confirmation code ");
+	pForm.ptszInitVal = NULL;
+	pForm.szModuleName = m_szModuleName;
+	pForm.szDataPrefix = "confirmcode_";
+	return (!EnterString(&pForm)) ? CMString() : CMString(pForm.ptszResult);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
