@@ -175,10 +175,13 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 				pReq->AddHeader("Referer", m_prevUrl);
 				pReq->Redirect(reply);
-				if (pReq->m_szUrl) {
+				if (!pReq->m_szUrl.IsEmpty()) {
+					if (pReq->m_szUrl.GetBuffer()[0] == '/')
+						pReq->m_szUrl = "https://m.vk.com" + pReq->m_szUrl;
 					ApplyCookies(pReq);
 					m_prevUrl = pReq->m_szUrl;
 				}
+
 				Push(pReq);
 			}
 		}
@@ -211,7 +214,11 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	pReq->requestType = REQUEST_POST;
 	pReq->flags = NLHRF_DUMPASTEXT | NLHRF_HTTP11;
 	pReq->m_szParam = szBody;
-	pReq->m_szUrl = szAction; m_prevUrl = pReq->m_szUrl;
+	pReq->m_szUrl = szAction;
+	if (!pReq->m_szUrl.IsEmpty()) 
+		if (pReq->m_szUrl.GetBuffer()[0] == '/')
+			pReq->m_szUrl = "https://m.vk.com" + pReq->m_szUrl;
+	m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->Redirect(reply);
@@ -458,8 +465,8 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			LONG userID = getDword(hContact, "ID", -1);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
-			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) 
-				setWord(hContact, "Status", ID_STATUS_OFFLINE);		
+			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			SetMirVer(hContact, -1);
 			db_unset(hContact, m_szModuleName, "ListeningTo");
 		}
