@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.45
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -195,6 +195,8 @@ Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 Błąd
 [Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
+[Enter confirmation code ]
+Wprowadź kod weryfikacyjny 
 [Message read: %s]
 Wiadomość odczytana: %s
 [commented on your post]
@@ -252,9 +254,9 @@ Niewspierany albo nieznany typ załącznika: %s
 [(Unknown contact)]
 (Nieznany kontakt)
 [Message from]
-
+Wiadomość od
 [at]
-
+o
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Wprowadź tekst, który widzisz
