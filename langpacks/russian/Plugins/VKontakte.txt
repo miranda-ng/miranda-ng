@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.45
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -193,6 +193,8 @@ Cоздать комнату чата
 Ошибка
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
+[Enter confirmation code ]
+Введите код подтверждения
 [Message read: %s]
 Сообщение прочтено в: %s
 [commented on your post]
