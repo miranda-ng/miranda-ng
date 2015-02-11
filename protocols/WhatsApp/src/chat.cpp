@@ -294,14 +294,19 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	WAChatInfo *pInfo = new WAChatInfo(ptszJid, ptszNick);
 	m_chats[jid] = pInfo;
 
+	pInfo->hContact = ContactIDToHContact(jid);
+	if (!isChatRoom(pInfo->hContact)) {
+		delSetting(pInfo->hContact, "ID");
+		setByte(pInfo->hContact, "ChatRoom", 1);
+		setString(pInfo->hContact, "ChatRoomID", jid.c_str());
+	}
+
 	GCSESSION gcw = { sizeof(GCSESSION) };
 	gcw.iType = GCW_CHATROOM;
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName = ptszNick;
 	gcw.ptszID = ptszJid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
-
-	pInfo->hContact = ContactIDToHContact(jid);
 
 	GCDEST gcd = { m_szModuleName, ptszJid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
