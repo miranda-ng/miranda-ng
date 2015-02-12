@@ -411,14 +411,15 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 
 	ptrT tszText(str2t(newSubject));
 	ptrT tszTextDb(getTStringA(pInfo->hContact, "Topic"));
-	if (mir_tstrcmp(tszText, tszTextDb)) { // notify about subject change only if differs from the stored one
+	if (tszTextDb != NULL)
+	if (mir_tstrcmp(tszText, tszTextDb) && mir_tstrcmp(tszTextDb, _T(""))) { // notify about subject change only if differs from the stored one
 		ptrT tszUID(str2t(author));
 		ptrT tszNick(GetChatUserNick(author));
 
 		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
 
 		GCEVENT gce = { sizeof(gce), &gcd };
-		gce.dwFlags = 0;
+		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.ptszUID = tszUID;
 		gce.ptszNick = tszNick;
 		gce.time = ts;
