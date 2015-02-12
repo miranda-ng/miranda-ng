@@ -1,4 +1,5 @@
 ﻿[Use non-standard urlEncode for sent messages (less traffic)]
+[Enter confirmation code ]
 [Message from]
 [at]
 [Your request to the user %s was deleted]
