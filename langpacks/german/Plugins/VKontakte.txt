@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.45
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -195,6 +195,8 @@ Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 Fehler
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
+[Enter confirmation code ]
+
 [Message read: %s]
 Nachricht gelesen: %s
 [commented on your post]
