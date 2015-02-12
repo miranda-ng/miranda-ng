@@ -47,7 +47,7 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	InitMenus();
 
-	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s: %s", m_szModuleName, MRA_SOUND_NEW_EMAIL);
+	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s: %s", m_tszUserName, MRA_SOUND_NEW_EMAIL);
 	SkinAddNewSoundEx(szNewMailSound, m_szModuleName, MRA_SOUND_NEW_EMAIL);
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
