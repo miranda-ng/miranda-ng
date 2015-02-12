@@ -21,6 +21,7 @@ UINT_PTR CVkProto::m_timer;
 
 char szBlankUrl[] = "http://api.vk.com/blank.html";
 static char VK_TOKEN_BEG[] = "access_token=";
+static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, online, status, about, domain";
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -177,11 +178,11 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 				pReq->Redirect(reply);
 				if (!pReq->m_szUrl.IsEmpty()) {
 					if (pReq->m_szUrl.GetBuffer()[0] == '/')
-						pReq->m_szUrl = "https://m.vk.com" + pReq->m_szUrl;
+						pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
 					ApplyCookies(pReq);
 					m_prevUrl = pReq->m_szUrl;
 				}
-
+				pReq->m_bApiReq = false;
 				Push(pReq);
 			}
 		}
@@ -217,12 +218,13 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	pReq->m_szUrl = szAction;
 	if (!pReq->m_szUrl.IsEmpty()) 
 		if (pReq->m_szUrl.GetBuffer()[0] == '/')
-			pReq->m_szUrl = "https://m.vk.com" + pReq->m_szUrl;
+			pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
 	m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->Redirect(reply);
 	ApplyCookies(pReq);
+	pReq->m_bApiReq = false;
 	Push(pReq);
 }
 
