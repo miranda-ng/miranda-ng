@@ -36,18 +36,18 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	if (ServiceExists(MS_NUDGE_SEND))
 		m_heNudgeReceived = CreateProtoEvent(PE_NUDGE);
 
-	TCHAR name[128];
+	TCHAR name[MAX_PATH];
 	mir_sntprintf(name, SIZEOF(name), TranslateT("%s connection"), m_tszUserName);
 
 	NETLIBUSER nlu = { sizeof(nlu) };
-	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = name;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	InitMenus();
 
-	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s: %s", m_tszUserName, MRA_SOUND_NEW_EMAIL);
+	mir_snprintf(szNewMailSound, SIZEOF(szNewMailSound), "%s_new_email", m_szModuleName);
 	SkinAddNewSoundEx(szNewMailSound, m_szModuleName, MRA_SOUND_NEW_EMAIL);
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
