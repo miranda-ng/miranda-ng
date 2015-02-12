@@ -327,11 +327,16 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 
 TCHAR* WhatsAppProto::GetChatUserNick(const std::string &jid)
 {
-	if (m_szJid == jid)
-		return str2t(m_szNick);
+	TCHAR* tszNick;
+	if (m_szJid != jid) {
+		MCONTACT hContact = ContactIDToHContact(jid);
+		tszNick = (hContact == 0) ? utils::removeA(str2t(jid)) : mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+	}
+	else tszNick = str2t(m_szNick);
 
-	MCONTACT hContact = ContactIDToHContact(jid);
-	return (hContact == 0) ? utils::removeA(str2t(jid)) : mir_tstrdup(pcli->pfnGetContactDisplayName(hContact, 0));
+	if (tszNick == NULL)
+		tszNick = mir_tstrdup(TranslateT("Unknown user"));
+	return tszNick;
 }
 
 WAChatInfo* WhatsAppProto::SafeGetChat(const std::string &jid)

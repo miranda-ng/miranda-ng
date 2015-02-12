@@ -28,6 +28,9 @@
 
 static int sttCompareNicknames(const TCHAR *s1, const TCHAR *s2)
 {
+	if (s2 == NULL)
+		return 1;
+
 	// skip rubbish
 	while (*s1 && !_istalpha(*s1)) ++s1;
 	while (*s2 && !_istalpha(*s2)) ++s2;

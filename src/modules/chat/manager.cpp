@@ -947,7 +947,7 @@ static USERINFO* UM_SortUser(USERINFO **ppUserList, const TCHAR *pszUID)
 
 USERINFO* UM_AddUser(STATUSINFO *pStatusList, USERINFO **ppUserList, const TCHAR *pszUID, const TCHAR *pszNick, WORD wStatus)
 {
-	if (!pStatusList || !ppUserList)
+	if (pStatusList == NULL || ppUserList == NULL || pszNick == NULL)
 		return NULL;
 
 	USERINFO *ui = *ppUserList, *pLast = NULL;
