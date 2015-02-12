@@ -1191,21 +1191,23 @@ begin
 				KillTimer(Dialog,TIMERID_HOVER);
 				if GetForegroundWindow<>mainwnd then exit;
         i:=LV_GetLParam(grid,OldHItem);
-        FillChar(info,SizeOf(info),0);
-        with info do
+        if i>=0 then
         begin
-          cbSize    :=SizeOf(info);
-          hItem     :=FlagBuf[i].contact;
-          GetCursorPos(ptCursor);
-          tmpCursor :=ptCursor;
+          FillChar(info,SizeOf(info),0);
+          with info do
+          begin
+            cbSize    :=SizeOf(info);
+            hItem     :=FlagBuf[i].contact;
+            GetCursorPos(ptCursor);
+            tmpCursor :=ptCursor;
 {
-          ptCursor.x:=loword(lParam);
-          ptCursor.y:=hiword(lParam);
+            ptCursor.x:=loword(lParam);
+            ptCursor.y:=hiword(lParam);
 }
-          SendMessage(grid,LVM_GETITEMRECT,OldHItem,tlparam(@rcItem));
-          ScreenToClient(grid,tmpCursor);
-          if not PtInRect(rcItem,tmpCursor) then exit;
-        end;
+            SendMessage(grid,LVM_GETITEMRECT,OldHItem,tlparam(@rcItem));
+            ScreenToClient(grid,tmpCursor);
+            if not PtInRect(rcItem,tmpCursor) then exit;
+          end;
 //        mGetMem(txt,16384*SizeOf(WideChar));
 {
           p:=txt;
@@ -1240,9 +1242,10 @@ end;
           end;
           p^:=#0;
 }
-        CallService(MS_TIPPER_SHOWTIPW,0{twparam(txt)},tlparam(@info));
+          CallService(MS_TIPPER_SHOWTIPW,0{twparam(txt)},tlparam(@info));
 //        mFreeMem(txt);
-        TTShowed:=true;
+          TTShowed:=true;
+        end;
       end;
     end;
 

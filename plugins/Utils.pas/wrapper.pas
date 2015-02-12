@@ -342,8 +342,10 @@ begin
   li.iItem   :=item;
   li.mask    :=LVIF_PARAM;
   li.iSubItem:=0;
-  SendMessageW(list,LVM_GETITEMW,0,lparam(@li));
-  result:=li.lParam;
+  if SendMessageW(list,LVM_GETITEMW,0,lparam(@li))=0 then
+    result:=-1
+  else
+    result:=li.lParam;
 end;
 
 function LV_SetLParam(list:HWND;lParam:LPARAM;item:integer=-1):LRESULT;
