@@ -261,6 +261,20 @@ void WhatsAppProto::KickChatUser(WAChatInfo *pInfo, const TCHAR *ptszJid)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Leave groupchat emulator for contact's deletion
+
+int WhatsAppProto::OnDeleteChat(WPARAM hContact, LPARAM lParam)
+{
+	if (isChatRoom(hContact) && isOnline()) {
+		ptrT tszID(getTStringA(hContact, WHATSAPP_KEY_ID));
+		if (tszID)
+			m_pConnection->sendJoinLeaveGroup(_T2A(tszID), false);
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // handler to customize chat menus
 
 int WhatsAppProto::OnChatMenu(WPARAM wParam, LPARAM lParam)
