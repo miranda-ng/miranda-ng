@@ -28,6 +28,7 @@ WhatsAppProto::WhatsAppProto(const char* proto_name, const TCHAR* username) :
 	CreateProtoService(PS_GETMYAVATART, &WhatsAppProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &WhatsAppProto::SetMyAvatar);
 
+	HookProtoEvent(ME_DB_CONTACT_DELETED, &WhatsAppProto::OnDeleteChat);
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &WhatsAppProto::OnBuildStatusMenu);
 

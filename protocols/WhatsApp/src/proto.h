@@ -136,6 +136,7 @@ public:
 	WAChatInfo* SafeGetChat(const std::string &jid);
 
 	int      __cdecl onGroupChatEvent(WPARAM, LPARAM);
+	int      __cdecl OnDeleteChat(WPARAM, LPARAM);
 	int      __cdecl OnChatMenu(WPARAM, LPARAM);
 	INT_PTR  __cdecl OnCreateGroup(WPARAM, LPARAM);
 
