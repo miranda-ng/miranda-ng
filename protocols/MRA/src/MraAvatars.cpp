@@ -56,7 +56,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = new MRA_AVATARS_QUEUE();
 
 	TCHAR szBuffer[MAX_PATH];
-	mir_sntprintf(szBuffer, SIZEOF(szBuffer), LPGENT("%s %s"), m_tszUserName, TranslateT("Avatars' plugin connections"));
+	mir_sntprintf(szBuffer, SIZEOF(szBuffer), _T("%s %s"), m_tszUserName, TranslateT("Avatars' plugin connections"));
 
 	NETLIBUSER nlu = { sizeof(nlu) };
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_TCHAR;
