@@ -203,6 +203,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = cle->hContact;
 			dat->hDbEvent = cle->hDbEvent;
+			dat->hNotifyEvent = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_RECVEVENT);
 			dat->hPreshutdownEvent = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN);
 			dat->dwTicks = GetTickCount();
 
@@ -408,6 +409,17 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		case IDC_HISTORY:
 			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)dat->hContact, 0);
 			break;
+		}
+		break;
+
+	case HM_RECVEVENT:
+		{
+			ACKDATA *ack = (ACKDATA*)lParam;
+			if (ack->hProcess != dat->fs) break;
+			if (ack->type != ACKTYPE_FILE) break;
+			if (ack->hContact != dat->hContact) break;
+
+			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)GetDlgItem(hwndDlg, IDCANCEL));
 		}
 		break;
 

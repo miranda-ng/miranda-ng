@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <io.h>
 #include "file.h"
 
-#define HM_RECVEVENT    (WM_USER+10)
-
 static int CheckVirusScanned(HWND hwnd, FileDlgData *dat, int i)
 {
 	if (dat->send) return 1;

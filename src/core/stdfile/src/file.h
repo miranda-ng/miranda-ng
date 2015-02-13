@@ -109,6 +109,8 @@ int FileOptInitialise(WPARAM wParam, LPARAM lParam);
 #define WM_FT_CLEANUP		(WM_USER+705)
 #define WM_FT_COMPLETED		(WM_USER+706)
 
+#define HM_RECVEVENT		(WM_USER+10)
+
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu);
 void FtMgr_Destroy();
 HWND FtMgr_AddTransfer(FileDlgData *dat);
