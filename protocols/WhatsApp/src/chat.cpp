@@ -146,7 +146,7 @@ void WhatsAppProto::ChatLogMenuHook(WAChatInfo *pInfo, struct GCHOOK *gch)
 void WhatsAppProto::EditChatSubject(WAChatInfo *pInfo)
 {
 	CMString title(FORMAT, TranslateT("Set new subject for %s"), pInfo->tszNick);
-	ptrT tszOldValue(getTStringA(pInfo->hContact, "Nick"));
+	ptrT tszOldValue(getTStringA(pInfo->hContact, WHATSAPP_KEY_NICK));
 
 	ENTER_STRING es = { 0 };
 	es.cbSize = sizeof(es);
@@ -294,11 +294,11 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	WAChatInfo *pInfo = new WAChatInfo(ptszJid, ptszNick);
 	m_chats[jid] = pInfo;
 
-	pInfo->hContact = ContactIDToHContact(jid);
-	if (!isChatRoom(pInfo->hContact)) {
-		delSetting(pInfo->hContact, "ID");
-		setByte(pInfo->hContact, "ChatRoom", 1);
-		setString(pInfo->hContact, "ChatRoomID", jid.c_str());
+	MCONTACT hOldContact = ContactIDToHContact(jid);
+	if (hOldContact && !isChatRoom(hOldContact)) {
+		delSetting(hOldContact, "ID");
+		setByte(hOldContact, "ChatRoom", 1);
+		setString(hOldContact, "ChatRoomID", jid.c_str());
 	}
 
 	GCSESSION gcw = { sizeof(GCSESSION) };
@@ -307,6 +307,9 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	gcw.ptszName = ptszNick;
 	gcw.ptszID = ptszJid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
+
+	if (hOldContact == NULL)
+		pInfo->hContact = ContactIDToHContact(jid);
 
 	GCDEST gcd = { m_szModuleName, ptszJid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
@@ -354,6 +357,7 @@ void WhatsAppProto::onGroupInfo(const std::string &jid, const std::string &owner
 	if (pInfo == NULL) {
 		pInfo = InitChat(jid, subject);
 		pInfo->bActive = true;
+		time_subject = 0;
 	}
 	else {
 		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_CONTROL };
@@ -415,24 +419,24 @@ void WhatsAppProto::onGroupNewSubject(const std::string &gjid, const std::string
 		return;
 
 	ptrT tszText(str2t(newSubject));
-	ptrT tszTextDb(getTStringA(pInfo->hContact, "Topic"));
-	if (tszTextDb != NULL)
-	if (mir_tstrcmp(tszText, tszTextDb) && mir_tstrcmp(tszTextDb, _T(""))) { // notify about subject change only if differs from the stored one
-		ptrT tszUID(str2t(author));
-		ptrT tszNick(GetChatUserNick(author));
+	ptrT tszTextDb(getTStringA(pInfo->hContact, WHATSAPP_KEY_NICK));
+	if (!mir_tstrcmp(tszText, tszTextDb)) // notify about subject change only if differs from the stored one
+		return;
 
-		GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
+	ptrT tszUID(str2t(author));
+	ptrT tszNick(GetChatUserNick(author));
 
-		GCEVENT gce = { sizeof(gce), &gcd };
-		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.ptszUID = tszUID;
-		gce.ptszNick = tszNick;
-		gce.time = ts;
-		gce.ptszText = tszText;
-		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
-	}
+	GCDEST gcd = { m_szModuleName, pInfo->tszJid, GC_EVENT_TOPIC };
 
-	setTString(pInfo->hContact, "Nick", tszText);
+	GCEVENT gce = { sizeof(gce), &gcd };
+	gce.dwFlags = GCEF_ADDTOLOG + ((ts == 0) ? GCEF_NOTNOTIFY : 0);
+	gce.ptszUID = tszUID;
+	gce.ptszNick = tszNick;
+	gce.time = ts;
+	gce.ptszText = tszText;
+	CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+
+	setTString(pInfo->hContact, WHATSAPP_KEY_NICK, tszText);
 }
 
 void WhatsAppProto::onGroupAddUser(const std::string &gjid, const std::string &ujid, int ts)
@@ -521,7 +525,7 @@ void WhatsAppProto::onGroupCreated(const std::string &gjid, const std::string &s
 
 	// also set new subject if it's present
 	if (!subject.empty())
-		onGroupNewSubject(gjid, "Server", subject, time(0));
+		onGroupNewSubject(gjid, "Server", subject, 0);
 }
 
 void WhatsAppProto::onGroupMessageReceived(const FMessage &msg)
