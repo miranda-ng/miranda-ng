@@ -316,6 +316,24 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+static int SRFileProtoAck(WPARAM, LPARAM lParam)
+{
+	ACKDATA *ack = (ACKDATA*)lParam;
+	if (ack->type != ACKTYPE_FILE) return 0;
+
+	int iEvent = 0;
+	CLISTEVENT *cle = NULL;
+	while ((cle = (CLISTEVENT*)CallService(MS_CLIST_GETEVENT, ack->hContact, iEvent++)) != NULL)
+	{
+		if (cle->lParam == (LPARAM)ack->hProcess)
+		{
+			CallService(MS_CLIST_REMOVEEVENT, ack->hContact, cle->hDbEvent);
+		}
+	}
+
+	return 0;
+}
+
 static int SRFileModulesLoaded(WPARAM, LPARAM)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
@@ -420,6 +438,7 @@ int LoadSendRecvFileModule(void)
 	HookEvent(ME_DB_EVENT_ADDED, FileEventAdded);
 	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
+	HookEvent(ME_PROTO_ACK, SRFileProtoAck);
 
 	hDlgSucceeded = CreateHookableEvent(ME_FILEDLG_SUCCEEDED);
 	hDlgCanceled = CreateHookableEvent(ME_FILEDLG_CANCELED);
