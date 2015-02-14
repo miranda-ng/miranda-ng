@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <windns.h>
 #include <time.h>
+#include <commctrl.h>
 
 #include <string>
 #include <sstream>
@@ -67,5 +68,11 @@ T CreateFunction(LPCSTR functionName)
 	}
 	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
 }
+
+extern HWND hAddNodeDlg;
+
+int OptInit(WPARAM wParam, LPARAM lParam);
+int PreShutdown(WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif //_COMMON_H_
