@@ -1,6 +1,7 @@
 #include "common.h"
 
 HWND hAddNodeDlg;
+bool UpdateListFlag = false;
 
 INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -120,7 +121,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 void CreateList(HWND hwndList)
 {
-	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 
 	LVCOLUMN lvc = { 0 };
 	// Initialize the LVCOLUMN structure.
@@ -150,6 +151,57 @@ void CreateList(HWND hwndList)
 	ListView_InsertColumn(hwndList, 3, &lvc);
 }
 
+void UpdateList(HWND hwndList)
+{
+	LVITEM lvI = { 0 };
+
+	int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
+
+	for (int i = 0; i < NodeCount; i++) {
+		UpdateListFlag = true;
+		lvI.mask = LVIF_TEXT;
+		lvI.iSubItem = 0;
+		char buff[MAX_PATH];
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i + 1);
+		TCHAR *ptszIPv4 = db_get_tsa(NULL, "TOX", buff);
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i + 1);
+		TCHAR *ptszIPv6 = db_get_tsa(NULL, "TOX", buff);
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i + 1);
+		TCHAR *ptszClientID = db_get_tsa(NULL, "TOX", buff);
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i + 1);
+		DWORD PortNum = db_get_dw(NULL, "TOX", buff, 0);
+		TCHAR ptszPort[10];
+		_itot(PortNum, ptszPort, 10);
+		if (ptszIPv4 && ptszIPv6 && ptszClientID && ptszPort) {
+			lvI.pszText = ptszIPv4;
+			lvI.iItem = i;
+			ListView_InsertItem(hwndList, &lvI);
+
+			lvI.iSubItem = 1;
+			lvI.pszText = ptszIPv6;
+			ListView_SetItem(hwndList, &lvI);
+
+			lvI.iSubItem = 2;
+			lvI.pszText = ptszPort;
+			ListView_SetItem(hwndList, &lvI);
+
+			lvI.iSubItem = 3;
+			lvI.pszText = ptszClientID;
+			ListView_SetItem(hwndList, &lvI);
+
+			mir_free(ptszIPv4);
+			mir_free(ptszIPv6);
+			mir_free(ptszClientID);
+		}
+	}
+	UpdateListFlag = false;
+}
+
+void DeleteAllItems(HWND hwndList)
+{
+	ListView_DeleteAllItems(hwndList);
+}
+
 INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -164,44 +216,47 @@ INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			TCHAR str[MAX_PATH];
-			char passw[MAX_PATH];
-			/*{
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed name"), TranslateT("Error"), MB_OK);
+			{
+				if (!GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str)) || mir_tstrcmp(str, _T("http://")) == 0) {
-					MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
+				if (!GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter IPv6"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter message format"), TranslateT("Error"), MB_OK);
+				if (!GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false)) {
+					MessageBox(hwndDlg, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
+					break;
+				}
+				if (!GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter client ID"), TranslateT("Error"), MB_OK);
 					break;
 				}
 
-				MCONTACT hContact = (MCONTACT)CallService(MS_DB_CONTACT_ADD, 0, 0);
-				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)MODULE);
-				GetDlgItemText(hwndDlg, IDC_FEEDTITLE, str, SIZEOF(str));
-				db_set_ts(hContact, MODULE, "Nick", str);
+				int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
+				char buff[MAX_PATH];
+				GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str));
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", NodeCount + 1);
+				db_set_ts(NULL, "TOX", buff, str);
+
+				GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str));
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", NodeCount + 1);
+				db_set_ts(NULL, "TOX", buff, str);
+
+				GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str));
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", NodeCount + 1);
+				db_set_ts(NULL, "TOX", buff, str);
+
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", NodeCount + 1);
+				db_set_dw(NULL, "TOX", buff, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
+
+				db_set_b(NULL, "TOX", "NodeCount", NodeCount + 1);
 
 				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				GetDlgItemText(hwndDlg, IDC_FEEDURL, str, SIZEOF(str));
-				db_set_ts(hContact, MODULE, "URL", str);
-				db_set_b(hContact, MODULE, "CheckState", 1);
-				db_set_dw(hContact, MODULE, "UpdateTime", (DWORD)GetDlgItemInt(hwndDlg, IDC_CHECKTIME, NULL, false));
-				GetDlgItemText(hwndDlg, IDC_TAGSEDIT, str, SIZEOF(str));
-				db_set_ts(hContact, MODULE, "MsgFormat", str);
-				db_set_w(hContact, MODULE, "Status", CallProtoService(MODULE, PS_GETSTATUS, 0, 0));
-				if (IsDlgButtonChecked(hwndDlg, IDC_USEAUTH)) {
-					db_set_b(hContact, MODULE, "UseAuth", 1);
-					GetDlgItemText(hwndDlg, IDC_LOGIN, str, SIZEOF(str));
-					db_set_ts(hContact, MODULE, "Login", str);
-					GetDlgItemTextA(hwndDlg, IDC_PASSWORD, passw, SIZEOF(passw));
-					db_set_s(hContact, MODULE, "Password", passw);
-				}
 				DeleteAllItems(hwndList);
 				UpdateList(hwndList);
-			}*/
+			}
 			// fall through
 
 		case IDCANCEL:
@@ -223,6 +278,111 @@ INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	return FALSE;
 }
 
+INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			ItemInfo &SelItem = *(ItemInfo*)lParam;
+			ItemInfo *nSelItem = new ItemInfo(SelItem);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)nSelItem);
+			SetWindowText(hwndDlg, TranslateT("Change node"));
+
+			char buff[MAX_PATH];
+			mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", SelItem.SelNumber + 1);
+			ptrT dbIPv4(db_get_tsa(NULL, "TOX", buff));
+			if (dbIPv4 == NULL)
+				break;
+
+			mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", SelItem.SelNumber + 1);
+			ptrT dbIPv6(db_get_tsa(NULL, "TOX", buff));
+			if (dbIPv6 == NULL)
+				break;
+
+			mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", SelItem.SelNumber + 1);
+			ptrT dbClientID(db_get_tsa(NULL, "TOX", buff));
+			if (dbClientID == NULL)
+				break;
+
+			mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", SelItem.SelNumber + 1);
+			DWORD Port = db_get_dw(NULL, "TOX", buff, 0);
+			if (Port == 0)
+				break;
+			SetDlgItemText(hwndDlg, IDC_IPV4, dbIPv4);
+			SetDlgItemText(hwndDlg, IDC_IPV6, dbIPv6);
+			SetDlgItemText(hwndDlg, IDC_CLIENTID, dbClientID);
+			SetDlgItemInt(hwndDlg, IDC_PORT, Port, TRUE);
+
+			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ChangeNodeDlg");
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+			TCHAR str[MAX_PATH];
+			{
+				ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+				if (!GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
+					break;
+				}
+				if (!GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter IPv6"), TranslateT("Error"), MB_OK);
+					break;
+				}
+				if (!GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false)) {
+					MessageBox(hwndDlg, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
+					break;
+				}
+				if (!GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str))) {
+					MessageBox(hwndDlg, TranslateT("Enter client ID"), TranslateT("Error"), MB_OK);
+					break;
+				}
+
+				char buff[MAX_PATH];
+				GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str));
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", SelItem->SelNumber + 1);
+				db_set_ts(NULL, "TOX", buff, str);
+
+				GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str));
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", SelItem->SelNumber + 1);
+				db_set_ts(NULL, "TOX", buff, str);
+
+				GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str));
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", SelItem->SelNumber + 1);
+				db_set_ts(NULL, "TOX", buff, str);
+
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", SelItem->SelNumber + 1);
+				db_set_dw(NULL, "TOX", buff, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
+
+				DeleteAllItems(SelItem->hwndList);
+				UpdateList(SelItem->hwndList);
+			}
+			// fall through
+
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
+			break;
+		}
+		break;
+
+	case WM_CLOSE:
+		DestroyWindow(hwndDlg);
+		break;
+
+	case WM_DESTROY:
+		ItemInfo *SelItem = (ItemInfo *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "ChangeNodeDlg");
+		delete SelItem;
+		break;
+	}
+
+	return FALSE;
+}
+
 INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_NODESLIST);
@@ -233,7 +393,7 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		CreateList(hwndList);
-		//UpdateList(hwndList);
+		UpdateList(hwndList);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -244,41 +404,61 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			return FALSE;
 
 		case IDC_CHANGE:
-			sel = ListView_GetSelectionMark(hwndList);
-			/*{
+			{
 				ItemInfo SelItem = { 0 };
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, SIZEOF(SelItem.nick));
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, SIZEOF(SelItem.url));
 				SelItem.hwndList = hwndList;
-				SelItem.SelNumber = sel;
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
-			}*/
+				SelItem.SelNumber = ListView_GetSelectionMark(hwndList);
+				CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, ChangeNodeDlgProc, (LPARAM)&SelItem);
+			}
 			return FALSE;
 
 		case IDC_REMOVE:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Contact deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
-				TCHAR nick[MAX_PATH], url[MAX_PATH];
+			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
 				int sel = ListView_GetSelectionMark(hwndList);
-				ListView_GetItemText(hwndList, sel, 0, nick, SIZEOF(nick));
-				ListView_GetItemText(hwndList, sel, 1, url, SIZEOF(url));
+				char buff[MAX_PATH];
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", sel + 1);
+				db_unset(NULL, "TOX", buff);
 
-				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					ptrT dbNick(db_get_tsa(hContact, MODULE, "Nick"));
-					if (dbNick == NULL)
-						break;
-					if (mir_tstrcmp(dbNick, nick))
-						continue;
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", sel + 1);
+				db_unset(NULL, "TOX", buff);
 
-					ptrT dbURL(db_get_tsa(hContact, MODULE, "URL"));
-					if (dbURL == NULL)
-						break;
-					if (mir_tstrcmp(dbURL, url))
-						continue;
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", sel + 1);
+				db_unset(NULL, "TOX", buff);
 
-					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
-					ListView_DeleteItem(hwndList, sel);
-					break;
+				mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", sel + 1);
+				db_unset(NULL, "TOX", buff);
+
+				int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
+
+				for (int i = sel + 1; i < NodeCount; i++) {
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i + 1);
+					TCHAR *ptszIPv4 = db_get_tsa(NULL, "TOX", buff);
+					db_unset(NULL, "TOX", buff);
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i);
+					db_set_ts(NULL, "TOX", buff, ptszIPv4);
+
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i + 1);
+					TCHAR *ptszIPv6 = db_get_tsa(NULL, "TOX", buff);
+					db_unset(NULL, "TOX", buff);
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i);
+					db_set_ts(NULL, "TOX", buff, ptszIPv6);
+
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i + 1);
+					TCHAR *ptszClientID = db_get_tsa(NULL, "TOX", buff);
+					db_unset(NULL, "TOX", buff);
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i);
+					db_set_ts(NULL, "TOX", buff, ptszClientID);
+
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i + 1);
+					DWORD Port = db_get_dw(NULL, "TOX", buff, 0);
+					db_unset(NULL, "TOX", buff);
+					mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i);
+					db_set_dw(NULL, "TOX", buff, Port);
 				}
+
+				db_set_b(NULL, "TOX", "NodeCount", NodeCount - 1);
+				ListView_DeleteItem(hwndList, sel);
+
 			}
 			return FALSE;
 		}
@@ -287,37 +467,20 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_NOTIFY:
 		NMHDR *hdr = (NMHDR *)lParam;
 		switch (hdr->code) {
-		case PSN_APPLY:
-			//db_set_b(NULL, MODULE, "StartupRetrieve", IsDlgButtonChecked(hwndDlg, IDC_STARTUPRETRIEVE));
-			{
-				int i = 0;
-				for (MCONTACT hContact = db_find_first(MODULE); hContact; hContact = db_find_next(hContact, MODULE)) {
-					db_set_b(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
-					if (!ListView_GetCheckState(hwndList, i))
-						db_set_b(hContact, "CList", "Hidden", 1);
-					else
-						db_unset(hContact, "CList", "Hidden");
-					i++;
-				}
-			}
-			break;
-
 		case NM_DBLCLK:
 			sel = ListView_GetHotItem(hwndList);
-			/*if (sel != -1) {
+			if (sel != -1) {
 				ItemInfo SelItem = { 0 };
-				ListView_GetItemText(hwndList, sel, 0, SelItem.nick, SIZEOF(SelItem.nick));
-				ListView_GetItemText(hwndList, sel, 1, SelItem.url, SIZEOF(SelItem.url));
 				SelItem.hwndList = hwndList;
 				SelItem.SelNumber = sel;
-				CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), hwndDlg, DlgProcChangeFeedOpts, (LPARAM)&SelItem);
-			}*/
+				CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, ChangeNodeDlgProc, (LPARAM)&SelItem);
+			}
 			break;
 
 		case LVN_ITEMCHANGED:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-			//if (((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
-			//	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			if (((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
 	}
