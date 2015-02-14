@@ -69,6 +69,12 @@ T CreateFunction(LPCSTR functionName)
 	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
 }
 
+struct ItemInfo
+{
+	HWND hwndList;
+	int SelNumber;
+};
+
 extern HWND hAddNodeDlg;
 
 int OptInit(WPARAM wParam, LPARAM lParam);
