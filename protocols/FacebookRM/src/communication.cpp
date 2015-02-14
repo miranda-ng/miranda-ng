@@ -1078,6 +1078,17 @@ bool facebook_client::home()
 
 		// Get avatar
 		this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "<img src=\"", "\"");
+		
+		// Another attempt to get avatar
+		if (this->self_.image_url.empty()) {
+			this->self_.image_url = utils::text::source_get_value(&resp.data, 3, "id=\"root", "/photo.php?", "\"");
+			
+			// Prepare this special url (not direct image url) to be handled correctly in CheckAvatarChange()
+			// It must contain "/" at the beginning and also shouldn't contain "?" as parameters after that are stripped
+			if (!this->self_.image_url.empty())
+				this->self_.image_url = "/" + this->self_.image_url;
+		}
+
 		parent->debugLogA("      Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
