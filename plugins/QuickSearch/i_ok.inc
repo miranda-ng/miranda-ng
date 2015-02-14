@@ -262,6 +262,7 @@ procedure LoadOneItem(hContact:THANDLE;column:pcolumnitem;proto:integer; var res
 var
   tmp:int_ptr;
   lmodule,srv:PAnsiChar;
+  lwparam,llparam:TLPARAM;
   DbEvent:TMEVENT;
   cni:TCONTACTINFO;
   dbei:TDBEVENTINFO;
@@ -278,14 +279,25 @@ begin
       end;
 
       QST_SERVICE: begin
-        if wparam._type=ACF_CURRENT then wparam.value:=hContact;
-        if lparam._type=ACF_CURRENT then lparam.value:=hContact;
+        case wparam._type of
+          ACF_CURRENT: lwparam:=hContact;
+          ACF_NUMBER : lwparam:=NumToInt(wparam.value);
+        else
+          lwparam:=TLPARAM(wparam.value);
+        end;
+        case lparam._type of
+          ACF_CURRENT: llparam:=hContact;
+          ACF_NUMBER : llparam:=NumToInt(lparam.value);
+        else
+          llparam:=TLPARAM(lparam.value);
+        end;
 
         if (restype and ACF_SCRIPT_SERVICE)<>0 then
           srv:=ParseVarString(service,hContact,nil)
         else
           srv:=service;
-        tmp:=int_ptr(CallService(srv,TWPARAM(wparam.value),TLPARAM(lparam.value)));
+
+        tmp:=int_ptr(CallService(srv,TWPARAM(lwparam),TLPARAM(llparam)));
         if (restype and ACF_SCRIPT_SERVICE)<>0 then
           mFreeMem(srv);
 
