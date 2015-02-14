@@ -1738,6 +1738,8 @@ Zobacz historię użytkownika
 Menu użytkownika
 [Canceled]
 Anulowany
+[This file transfer has been canceled by the other side]
+Ten transfer pliku został anulowany przez drugą stronę
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d pliki
