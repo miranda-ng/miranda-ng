@@ -885,6 +885,7 @@
 [View user's history]
 [User menu]
 [Canceled]
+[This file transfer has been canceled by the other side]
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 [%d directories]

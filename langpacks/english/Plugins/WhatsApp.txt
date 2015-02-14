@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.8
+;  Version: 0.1.2.9
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -37,6 +37,7 @@
 [&Kick]
 [Copy &nickname]
 [Copy real &JID]
+[Unknown user]
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 [Please enter a phone number without country code.]
