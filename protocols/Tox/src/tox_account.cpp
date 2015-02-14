@@ -1,5 +1,4 @@
 #include "common.h"
-#include "tox_bootstrap.h"
 
 bool CToxProto::IsOnline()
 {
@@ -139,6 +138,22 @@ void CToxProto::UninitToxCore()
 void CToxProto::DoBootstrap()
 {
 	int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
+	if (!NodeCount) {
+		db_set_ts(NULL, "TOX", "Node_1_IPv4", _T("192.254.75.102"));
+		db_set_ts(NULL, "TOX", "Node_1_IPv6", _T("2607:5600:284::2"));
+		db_set_ts(NULL, "TOX", "Node_1_ClientID", _T("951C88B7E75C867418ACDB5D273821372BB5BD652740BCDF623A4FA293E75D2F"));
+		db_set_dw(NULL, "TOX", "Node_1_Port", 33445);
+
+		db_set_ts(NULL, "TOX", "Node_2_IPv4", _T("104.219.184.206"));
+		db_set_ts(NULL, "TOX", "Node_2_IPv6", _T("-"));
+		db_set_ts(NULL, "TOX", "Node_2_ClientID", _T("8CD087E31C67568103E8C2A28653337E90E6B8EDA0D765D57C6B5172B4F1F04C"));
+		db_set_dw(NULL, "TOX", "Node_2_Port", 443);
+
+		db_set_b(NULL, "TOX", "NodeCount", 2);
+		NodeCount = 2;
+
+	}
+
 	for (int i = 0; i < NodeCount; i++) {
 		char buff[MAX_PATH];
 		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i + 1);
