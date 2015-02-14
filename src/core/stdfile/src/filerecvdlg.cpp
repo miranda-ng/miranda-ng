@@ -419,7 +419,14 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (ack->type != ACKTYPE_FILE) break;
 			if (ack->hContact != dat->hContact) break;
 
-			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)GetDlgItem(hwndDlg, IDCANCEL));
+			if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FILEDIR), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_FILEDIRBROWSE), FALSE);
+				SetDlgItemText(hwndDlg, IDC_MSG, TranslateT("This file transfer has been canceled by the other side"));
+				SkinPlaySound("FileDenied");
+				FlashWindow(hwndDlg, TRUE);
+			}
 		}
 		break;
 
