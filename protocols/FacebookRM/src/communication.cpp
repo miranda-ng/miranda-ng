@@ -960,17 +960,17 @@ bool facebook_client::login(const char *username, const char *password)
 	case HTTP_CODE_FOUND: // Found and redirected somewhere
 	{
 		if (resp.headers.find("Location") != resp.headers.end()) {
-			std::string redirectUrl = resp.headers["location"];
+			std::string redirectUrl = resp.headers["Location"];
 			std::string expectedUrl = (this->https_ ? "https://"FACEBOOK_SERVER_REGULAR"/" : "http://"FACEBOOK_SERVER_REGULAR"/");
 
 			// Remove eventual parameters
 			std::string::size_type pos = redirectUrl.rfind("?");
-			if (pos != std::tstring::npos)
+			if (pos != std::string::npos)
 				redirectUrl = redirectUrl.substr(0, pos);
 			
 			if (redirectUrl != expectedUrl) {
 				// Unexpected redirect, but we try to ignore it - maybe we were logged in anyway
-				parent->debugLogA(" ! !  Login error: Unexpected redirect: %s", resp.headers["Location"].c_str());
+				parent->debugLogA(" ! !  Login error: Unexpected redirect: %s (Original: %s) (Expected: %s)", redirectUrl.c_str(), resp.headers["Location"].c_str(), expectedUrl.c_str());
 			}
 		}
 
@@ -1213,9 +1213,29 @@ bool facebook_client::channel()
 		std::string* response_data = new std::string(resp.data);
 		parent->ForkThread(&FacebookProto::ProcessMessages, response_data);
 
-		// Increment sequence number
-		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
+		// Get new sequence number
+		std::string seq = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
+		parent->debugLogA("      Got self sequence number: %s", seq.c_str());
+
+		// Check if it's different from our old one (which means we should increment our old one)
+		if (seq != this->chat_sequence_num_) {
+			// Facebook now often return much bigger number which results in skipping few data requests, so we increment it manually
+			// Bigger skips (when there is some problem or something) are handled when fullreload/refresh response type
+			int iseq = 0;
+			if (utils::conversion::from_string<int>(iseq, this->chat_sequence_num_, std::dec)) {
+				// Increment and convert it back to string
+				iseq++;
+				std::string newSeq = utils::conversion::to_string(&iseq, UTILS_CONV_SIGNED_NUMBER);
+
+				// Check if we have different seq than the one from Facebook
+				if (newSeq != seq) {
+					parent->debugLogA("! ! ! Use self incremented sequence number: %s (instead of: %s)", newSeq.c_str(), seq.c_str());
+					seq = newSeq;
+				}
+			}
+		}
+
+		this->chat_sequence_num_ = seq;
 	}
 	else {
 		// No type? This shouldn't happen unless there is a big API change.

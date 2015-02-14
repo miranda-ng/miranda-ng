@@ -891,7 +891,8 @@ void FacebookProto::ShowNotifications() {
 		if (notification != NULL && !notification->seen) {
 			debugLogA("      Showing popup for notification: %s", notification->text.c_str());
 			ptrT szText(mir_utf8decodeT(notification->text.c_str()));
-			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, ContactIDToHContact(notification->user_id), FACEBOOK_EVENT_NOTIFICATION, &notification->link, &notification->id);
+			MCONTACT hContact = (notification->user_id.empty() ? NULL : ContactIDToHContact(notification->user_id));
+			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, hContact, FACEBOOK_EVENT_NOTIFICATION, &notification->link, &notification->id);
 			notification->seen = true;
 		}
 	}
