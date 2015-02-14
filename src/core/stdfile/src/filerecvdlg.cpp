@@ -427,7 +427,10 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SkinPlaySound("FileDenied");
 				FlashWindow(hwndDlg, TRUE);
 			}
-			else SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)GetDlgItem(hwndDlg, IDCANCEL));
+			else if (ack->result != ACKRESULT_FILERESUME)
+			{
+				SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)GetDlgItem(hwndDlg, IDCANCEL));
+			}
 		}
 		break;
 
