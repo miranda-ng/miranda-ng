@@ -76,7 +76,7 @@ const
 
 type
   tserviceparam = record
-    value:uint_ptr;
+    value:pWideChar;
     _type:dword;
   end;
 
@@ -396,7 +396,7 @@ begin
     restype        :=ACF_RSTRING;
     wparam._type   :=ACF_CURRENT;
     lparam._type   :=ACF_NUMBER;
-    lparam.value   :=0;
+    lparam.value   :=nil;
   end;
   inc(i);
 
@@ -433,7 +433,7 @@ begin
     restype        :=ACF_RUNICODE;
     wparam._type   :=ACF_CURRENT;
     lparam._type   :=ACF_NUMBER;
-    lparam.value   :=2; // 0 for ANSI
+    lparam.value   :='2'; // 0 for ANSI
   end;
   inc(i);
 
@@ -666,13 +666,13 @@ begin
         StrCopy(p,so__lparam_type); WriteInt(buf,lparam._type);
         StrCopy(p,so__wparam);
         case wparam._type of
-          ACF_NUMBER : WriteInt    (buf,wparam.value);
+          ACF_NUMBER : WriteUnicode(buf,wparam.value);
           ACF_STRING : WriteStr    (buf,pointer(wparam.value));
           ACF_UNICODE: WriteUnicode(buf,pointer(wparam.value));
         end;
         StrCopy(p,so__lparam);
         case lparam._type of
-          ACF_NUMBER : WriteInt    (buf,lparam.value);
+          ACF_NUMBER : WriteUnicode(buf,lparam.value);
           ACF_STRING : WriteStr    (buf,pointer(lparam.value));
           ACF_UNICODE: WriteUnicode(buf,pointer(lparam.value));
         end;
@@ -738,6 +738,7 @@ end;
 function loadopt_db(var columns:array of tcolumnitem):integer;
 var
   buf:array [0..127] of AnsiChar;
+  buf1:array [0..31] of WideChar;
   p,pp:PAnsiChar;
   i:integer;
 begin
@@ -801,15 +802,25 @@ begin
             StrCopy(p,so__lparam_type); lparam._type:=GetInt(buf,0);
             StrCopy(p,so__wparam);
             case wparam._type of
-              ACF_NUMBER : wparam.value:=GetInt(buf,0);
-              ACF_STRING : wparam.value:=uint_ptr(GetStr(buf));
-              ACF_UNICODE: wparam.value:=uint_ptr(GetUnicode(buf));
+              ACF_NUMBER : begin
+                if DBGetSettingType(0,qs_module,so__wparam)=DBVT_DWORD then
+                  StrDupW(wparam.value,IntToStr(buf1,GetInt(buf,0)))
+                else
+                  wparam.value:=pointer(GetUnicode(buf));
+              end;
+              ACF_STRING : wparam.value:=pointer(GetStr(buf));
+              ACF_UNICODE: wparam.value:=pointer(GetUnicode(buf));
             end;
             StrCopy(p,so__lparam);
             case lparam._type of
-              ACF_NUMBER : lparam.value:=GetInt(buf,0);
-              ACF_STRING : lparam.value:=uint_ptr(GetStr(buf));
-              ACF_UNICODE: lparam.value:=uint_ptr(GetUnicode(buf));
+              ACF_NUMBER : begin
+                if DBGetSettingType(0,qs_module,so__lparam)=DBVT_DWORD then
+                  StrDupW(lparam.value,IntToStr(buf1,GetInt(buf,0)))
+                else
+                  lparam.value:=pointer(GetUnicode(buf));
+              end;
+              ACF_STRING : lparam.value:=pointer(GetStr(buf));
+              ACF_UNICODE: lparam.value:=pointer(GetUnicode(buf));
             end;
           end;
 

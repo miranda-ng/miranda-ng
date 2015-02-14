@@ -366,9 +366,9 @@ begin
       QST_SERVICE: begin
         GetSrvBlockValue(ServiceBlock,srvalue);
         service     :=srvalue.service;
-        wparam.value:=uint_ptr(srvalue.wparam);
+        wparam.value:=srvalue.wparam;
         wparam._type:=srvalue.w_flag;
-        lparam.value:=uint_ptr(srvalue.lparam);
+        lparam.value:=srvalue.lparam;
         lparam._type:=srvalue.l_flag;
         restype     :=srvalue.flags;
       end;
