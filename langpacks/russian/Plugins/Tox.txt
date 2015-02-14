@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.5
+;  Version: 0.11.0.6
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -37,12 +37,30 @@ DNS имя:
 Сохранить пароль
 [Tox profile is encrypted. Enter the password to continue.]
 Профиль Tox зашифрован. Введите пароль, чтобы продолжить.
+[Add]
+Добавить
+[Change]
+Изменить
+[Remove]
+Удалить
+[Port]
+Порт
+[Client ID]
+ID клиента
 [Network]
 Сеть
 [Account]
 Учётная запись
+[Tox nodes]
+Ноды Tox
 [%s connection]
 %s подключение
+[Add node]
+Добавить ноду
+[Are you sure?]
+Вы уверены?
+[Contact deleting]
+Удаление контакта
 [All files (*.*)]
 Все файлы (*.*)
 [Select tox profile]
