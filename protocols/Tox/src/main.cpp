@@ -37,6 +37,10 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+
+
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "TOX";
 	pd.type = PROTOTYPE_PROTOCOL;
