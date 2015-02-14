@@ -138,13 +138,27 @@ void CToxProto::UninitToxCore()
 
 void CToxProto::DoBootstrap()
 {
-	static int j = 0;
-	int i = 0;
-	while (i < 2)
-	{
-		struct bootstrap_node *d = &bootstrap_nodes[j % SIZEOF(bootstrap_nodes)];
-		tox_bootstrap_from_address(tox, d->address, d->port, d->key);
-		i++; j++;
+	int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
+	for (int i = 0; i < NodeCount; i++) {
+		char buff[MAX_PATH];
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i + 1);
+		TCHAR *ptszIPv4 = db_get_tsa(NULL, "TOX", buff);
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i + 1);
+		TCHAR *ptszIPv6 = db_get_tsa(NULL, "TOX", buff);
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i + 1);
+		TCHAR *ptszClientID = db_get_tsa(NULL, "TOX", buff);
+		mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i + 1);
+		DWORD PortNum = db_get_dw(NULL, "TOX", buff, 0);
+		if (ptszIPv4 && ptszIPv6 && ptszClientID && PortNum) {
+			int len = mir_tstrlen(ptszClientID) / 2;
+			BYTE *p = (BYTE*)mir_alloc(len);
+			for (int j = 0; j < len; j++)
+				_stscanf(ptszClientID + j * 2, _T("%02X"), &p[j]);
+			tox_bootstrap_from_address(tox, _T2A(ptszIPv4), PortNum, p);
+			mir_free(ptszIPv4);
+			mir_free(ptszIPv6);
+			mir_free(ptszClientID);
+		}
 	}
 }
 
