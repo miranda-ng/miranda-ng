@@ -191,7 +191,7 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	FileDlgData *dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	
+
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -381,7 +381,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_ADD:
-			{	
+			{
 				ADDCONTACTSTRUCT acs = { 0 };
 				acs.hContact = dat->hContact;
 				acs.handleType = HANDLE_CONTACT;
@@ -427,6 +427,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				SkinPlaySound("FileDenied");
 				FlashWindow(hwndDlg, TRUE);
 			}
+			else SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), (LPARAM)GetDlgItem(hwndDlg, IDCANCEL));
 		}
 		break;
 
