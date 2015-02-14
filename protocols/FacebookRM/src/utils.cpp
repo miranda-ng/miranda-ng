@@ -56,7 +56,7 @@ std::string utils::time::mili_timestamp()
 
 time_t utils::time::from_string(const std::string &data)
 {
-	long long timestamp = _atoi64(data.c_str());
+	long long timestamp = _strtoi64(data.c_str(), NULL, 10);
 
 	// If it is milli timestamp
 	if (timestamp > 100000000000)
