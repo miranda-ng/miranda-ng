@@ -778,22 +778,21 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
 	switch( eventType ) {
 	case EV_PROTO_ONLOAD:
-		{
-			HookProtoEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
-			HookProtoEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
+		HookProtoEvent(ME_OPT_INITIALISE, &GGPROTO::options_init);
+		HookProtoEvent(ME_USERINFO_INITIALISE, &GGPROTO::details_init);
 
-			// Init misc stuff
-			gg_icolib_init();
-			initpopups();
-			gc_init();
-			keepalive_init();
-			img_init();
-			block_init();
+		// Init misc stuff
+		gg_icolib_init();
+		initpopups();
+		gc_init();
+		keepalive_init();
+		img_init();
+		block_init();
 
-			// Try to fetch user avatar
-			getOwnAvatar();
-			break;
-		}
+		// Try to fetch user avatar
+		getOwnAvatar();
+		break;
+
 	case EV_PROTO_ONEXIT:
 		// Stop avatar request thread
 		pth_avatar.dwThreadId = 0;

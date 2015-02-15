@@ -411,8 +411,7 @@ int __cdecl CSteamProto::UserIsTyping(MCONTACT hContact, int type)
 
 int __cdecl CSteamProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (eventType)
-	{
+	switch (eventType) {
 	case EV_PROTO_ONLOAD:
 		return this->OnModulesLoaded(wParam, lParam);
 
