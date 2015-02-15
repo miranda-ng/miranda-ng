@@ -34,7 +34,10 @@ void CToxProto::BootstrapDht()
 			int port = db_get_w(NULL, "TOX", setting, 0);
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
 			ptrA pubKey(db_get_sa(NULL, "TOX", setting));
-			tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
+			if (pubKey && address)
+			{
+				tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
+			}
 		}
 	}
 }

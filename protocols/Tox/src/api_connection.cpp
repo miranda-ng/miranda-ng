@@ -4,11 +4,15 @@
 
 int tox_bootstrap_from_address(Tox *tox, const char *address, uint16_t port, const uint8_t *public_key)
 {
+	if (public_key == NULL)
+		return 0;
 	return CreateFunction<int(*)(Tox*, const char*, uint16_t, const uint8_t*)>(__FUNCTION__)(tox, address, port, public_key);
 }
 
 int tox_add_tcp_relay(Tox *tox, const char *address, uint16_t port, const uint8_t *public_key)
 {
+	if (public_key == NULL)
+		return 0;
 	return CreateFunction<int(*)(Tox*, const char*, uint16_t, const uint8_t*)>(__FUNCTION__)(tox, address, port, public_key);
 }
 
