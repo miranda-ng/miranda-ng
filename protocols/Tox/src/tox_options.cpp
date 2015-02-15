@@ -198,6 +198,7 @@ INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		SetWindowText(hwndDlg, TranslateT("Add node"));
+		SetDlgItemInt(hwndDlg, IDC_PORT, 33445, TRUE);
 		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "AddNodeDlg");
 		return TRUE;
 
@@ -209,14 +210,6 @@ INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (!GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value))) {
 					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				/*if (!GetDlgItemTextA(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter IPv6"), TranslateT("Error"), MB_OK);
-					break;
-				}*/
-				if (!GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false)) {
-					MessageBox(hwndDlg, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
 					break;
 				}
 				if (!GetDlgItemTextA(hwndDlg, IDC_CLIENTID, value, SIZEOF(value))) {
@@ -240,7 +233,7 @@ INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				db_set_s(NULL, "TOX", setting, value);
 
 				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, nodeCount + 1);
-				db_set_w(NULL, "TOX", setting, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
+				db_set_w(NULL, "TOX", setting, GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
 
 				db_set_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, nodeCount + 1);
 
@@ -283,8 +276,6 @@ INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			char setting[MAX_PATH];
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, SelItem.SelNumber + 1);
 			ptrA addressIPv4(db_get_sa(NULL, "TOX", setting));
-			if (addressIPv4 == NULL)
-				break;
 
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, SelItem.SelNumber + 1);
 			ptrA addressIPv6(db_get_sa(NULL, "TOX", setting));
@@ -294,8 +285,6 @@ INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, SelItem.SelNumber + 1);
 			ptrA pubKey(db_get_sa(NULL, "TOX", setting));
-			if (pubKey == NULL)
-				break;
 
 			SetDlgItemTextA(hwndDlg, IDC_IPV4, addressIPv4);
 			SetDlgItemTextA(hwndDlg, IDC_IPV6, addressIPv6);
@@ -315,14 +304,6 @@ INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 				if (!GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				/*if (!GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter IPv6"), TranslateT("Error"), MB_OK);
-					break;
-				}*/
-				if (!GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false)) {
-					MessageBox(hwndDlg, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
 					break;
 				}
 				if (!GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str))) {
