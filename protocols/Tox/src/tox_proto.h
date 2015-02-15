@@ -72,39 +72,40 @@ private:
 	bool isTerminated, isConnected;
 	CTransferList *transfers;
 
-	// tox
-	bool InitToxCore();
-	void UninitToxCore();
-
-	// ???
-	void DoBootstrap();
-	void DoTox();
-
-	void __cdecl PollingThread(void*);
-
 	// tox profile
 	std::tstring GetToxProfilePath();
 	static std::tstring CToxProto::GetToxProfilePath(const TCHAR *accountName);
 
 	bool LoadToxProfile();
 	void SaveToxProfile();
-	
+
 	static INT_PTR CALLBACK ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	// tox core
+	bool InitToxCore();
+	void UninitToxCore();
+
+	// tox network
+	bool IsOnline();
+	void BootstrapNode(int index);
+	void TryConnect();
+	void CheckConnection(int &retriesCount);
+	void DoTox();
+
+	void __cdecl PollingThread(void*);
 
 	// accounts
 	static LIST<CToxProto> accounts;
 	static int CompareAccounts(const CToxProto *p1, const CToxProto *p2);
 
+	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
+	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
+
 	// netlib
 	void InitNetlib();
 	void UninitNetlib();
 
-	// account
-	bool IsOnline();
-	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
-	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
-	
 	// options
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);

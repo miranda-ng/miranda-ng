@@ -31,3 +31,26 @@ int CToxProto::UninitAccount(CToxProto *proto)
 
 	return 0;
 }
+
+int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
+{
+	HookProtoEvent(ME_OPT_INITIALISE, &CToxProto::OnOptionsInit);
+	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
+	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
+
+	return 0;
+}
+
+int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
+{
+	PROTOACCOUNT *account = (PROTOACCOUNT*)lParam;
+
+	std::tstring newPath = GetToxProfilePath();
+	TCHAR oldPath[MAX_PATH];
+	mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);
+	_trename(oldPath, newPath.c_str());
+	mir_free(accountName);
+	accountName = mir_tstrdup(m_tszUserName);
+
+	return 0;
+}

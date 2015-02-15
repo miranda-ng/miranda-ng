@@ -121,78 +121,67 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 void CreateList(HWND hwndList)
 {
-	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
-
-	LVCOLUMN lvc = { 0 };
-	// Initialize the LVCOLUMN structure.
-	// The mask specifies that the format, width, text, and
-	// subitem members of the structure are valid.
+	LVCOLUMNA lvc = { 0 };
 	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	lvc.fmt = LVCFMT_LEFT;
 
 	lvc.iSubItem = 0;
-	lvc.pszText = TranslateT("IPv4");
-	lvc.cx = 100;     // width of column in pixels
-	ListView_InsertColumn(hwndList, 0, &lvc);
+	lvc.pszText = Translate("IPv4");
+	lvc.cx = 100;
+	SendMessage(hwndList, LVM_INSERTCOLUMNA, 0, (LPARAM)&lvc);
 
 	lvc.iSubItem = 1;
-	lvc.pszText = TranslateT("IPv6");
-	lvc.cx = 100;     // width of column in pixels
-	ListView_InsertColumn(hwndList, 1, &lvc);
+	lvc.pszText = Translate("IPv6");
+	lvc.cx = 100;
+	SendMessage(hwndList, LVM_INSERTCOLUMNA, 1, (LPARAM)&lvc);
 
 	lvc.iSubItem = 2;
-	lvc.pszText = TranslateT("Port");
-	lvc.cx = 100;     // width of column in pixels
-	ListView_InsertColumn(hwndList, 2, &lvc);
+	lvc.pszText = Translate("Port");
+	lvc.cx = 50;
+	SendMessage(hwndList, LVM_INSERTCOLUMNA, 2, (LPARAM)&lvc);
 
 	lvc.iSubItem = 3;
-	lvc.pszText = TranslateT("Client ID");
-	lvc.cx = 100;     // width of column in pixels
-	ListView_InsertColumn(hwndList, 3, &lvc);
+	lvc.pszText = Translate("Public key");
+	lvc.cx = 150;
+	SendMessage(hwndList, LVM_INSERTCOLUMNA, 3, (LPARAM)&lvc);
+
+	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
 }
 
 void UpdateList(HWND hwndList)
 {
-	LVITEM lvI = { 0 };
+	LVITEMA lvI = { 0 };
+	char setting[MAX_PATH];
 
-	int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
-
-	for (int i = 0; i < NodeCount; i++) {
+	int nodeCount = db_get_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, 0);
+	for (int i = 0; i < nodeCount; i++)
+	{
 		UpdateListFlag = true;
 		lvI.mask = LVIF_TEXT;
+
+		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
+		lvI.pszText = db_get_sa(NULL, "TOX", setting);
 		lvI.iSubItem = 0;
-		char buff[MAX_PATH];
-		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i + 1);
-		TCHAR *ptszIPv4 = db_get_tsa(NULL, "TOX", buff);
-		mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i + 1);
-		TCHAR *ptszIPv6 = db_get_tsa(NULL, "TOX", buff);
-		mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i + 1);
-		TCHAR *ptszClientID = db_get_tsa(NULL, "TOX", buff);
-		mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i + 1);
-		DWORD PortNum = db_get_dw(NULL, "TOX", buff, 0);
-		TCHAR ptszPort[10];
-		_itot(PortNum, ptszPort, 10);
-		if (ptszIPv4 && ptszIPv6 && ptszClientID && ptszPort) {
-			lvI.pszText = ptszIPv4;
-			lvI.iItem = i;
-			ListView_InsertItem(hwndList, &lvI);
+		lvI.iItem = i;
+		SendMessage(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&lvI);
 
-			lvI.iSubItem = 1;
-			lvI.pszText = ptszIPv6;
-			ListView_SetItem(hwndList, &lvI);
+		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i + 1);
+		lvI.iSubItem = 1;
+		lvI.pszText = db_get_sa(NULL, "TOX", setting);
+		SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvI);
 
-			lvI.iSubItem = 2;
-			lvI.pszText = ptszPort;
-			ListView_SetItem(hwndList, &lvI);
+		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
+		int port = db_get_w(NULL, "TOX", setting, 0);
+		char portNum[10];
+		_itoa(port, portNum, 10);
+		lvI.iSubItem = 2;
+		lvI.pszText = portNum;
+		SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvI);
 
-			lvI.iSubItem = 3;
-			lvI.pszText = ptszClientID;
-			ListView_SetItem(hwndList, &lvI);
-
-			mir_free(ptszIPv4);
-			mir_free(ptszIPv6);
-			mir_free(ptszClientID);
-		}
+		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
+		lvI.iSubItem = 3;
+		lvI.pszText = db_get_sa(NULL, "TOX", setting);
+		SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvI);
 	}
 	UpdateListFlag = false;
 }
@@ -215,43 +204,45 @@ INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-			TCHAR str[MAX_PATH];
 			{
-				if (!GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str))) {
+				char value[MAX_PATH];
+
+				if (!GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value))) {
 					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
+				/*if (!GetDlgItemTextA(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter IPv6"), TranslateT("Error"), MB_OK);
 					break;
-				}
+				}*/
 				if (!GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false)) {
 					MessageBox(hwndDlg, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter client ID"), TranslateT("Error"), MB_OK);
+				if (!GetDlgItemTextA(hwndDlg, IDC_CLIENTID, value, SIZEOF(value))) {
+					MessageBox(hwndDlg, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
 					break;
 				}
 
-				int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
-				char buff[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", NodeCount + 1);
-				db_set_ts(NULL, "TOX", buff, str);
+				char setting[MAX_PATH];
+				int nodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
 
-				GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", NodeCount + 1);
-				db_set_ts(NULL, "TOX", buff, str);
+				GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value));
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, nodeCount + 1);
+				db_set_s(NULL, "TOX", setting, value);
 
-				GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", NodeCount + 1);
-				db_set_ts(NULL, "TOX", buff, str);
+				GetDlgItemTextA(hwndDlg, IDC_IPV6, value, SIZEOF(value));
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, nodeCount + 1);
+				db_set_s(NULL, "TOX", setting, value);
 
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", NodeCount + 1);
-				db_set_dw(NULL, "TOX", buff, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
+				GetDlgItemTextA(hwndDlg, IDC_CLIENTID, value, SIZEOF(value));
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, nodeCount + 1);
+				db_set_s(NULL, "TOX", setting, value);
 
-				db_set_b(NULL, "TOX", "NodeCount", NodeCount + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, nodeCount + 1);
+				db_set_w(NULL, "TOX", setting, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
+
+				db_set_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, nodeCount + 1);
 
 				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				DeleteAllItems(hwndList);
@@ -289,30 +280,27 @@ INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)nSelItem);
 			SetWindowText(hwndDlg, TranslateT("Change node"));
 
-			char buff[MAX_PATH];
-			mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", SelItem.SelNumber + 1);
-			ptrT dbIPv4(db_get_tsa(NULL, "TOX", buff));
-			if (dbIPv4 == NULL)
+			char setting[MAX_PATH];
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, SelItem.SelNumber + 1);
+			ptrA addressIPv4(db_get_sa(NULL, "TOX", setting));
+			if (addressIPv4 == NULL)
 				break;
 
-			mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", SelItem.SelNumber + 1);
-			ptrT dbIPv6(db_get_tsa(NULL, "TOX", buff));
-			if (dbIPv6 == NULL)
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, SelItem.SelNumber + 1);
+			ptrA addressIPv6(db_get_sa(NULL, "TOX", setting));
+
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, SelItem.SelNumber + 1);
+			int port = db_get_dw(NULL, "TOX", setting, 33445);
+
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, SelItem.SelNumber + 1);
+			ptrA pubKey(db_get_sa(NULL, "TOX", setting));
+			if (pubKey == NULL)
 				break;
 
-			mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", SelItem.SelNumber + 1);
-			ptrT dbClientID(db_get_tsa(NULL, "TOX", buff));
-			if (dbClientID == NULL)
-				break;
-
-			mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", SelItem.SelNumber + 1);
-			DWORD Port = db_get_dw(NULL, "TOX", buff, 0);
-			if (Port == 0)
-				break;
-			SetDlgItemText(hwndDlg, IDC_IPV4, dbIPv4);
-			SetDlgItemText(hwndDlg, IDC_IPV6, dbIPv6);
-			SetDlgItemText(hwndDlg, IDC_CLIENTID, dbClientID);
-			SetDlgItemInt(hwndDlg, IDC_PORT, Port, TRUE);
+			SetDlgItemTextA(hwndDlg, IDC_IPV4, addressIPv4);
+			SetDlgItemTextA(hwndDlg, IDC_IPV6, addressIPv6);
+			SetDlgItemInt(hwndDlg, IDC_PORT, port, TRUE);
+			SetDlgItemTextA(hwndDlg, IDC_CLIENTID, pubKey);
 
 			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ChangeNodeDlg");
 		}
@@ -329,33 +317,33 @@ INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
 					break;
 				}
-				if (!GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
+				/*if (!GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str))) {
 					MessageBox(hwndDlg, TranslateT("Enter IPv6"), TranslateT("Error"), MB_OK);
 					break;
-				}
+				}*/
 				if (!GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false)) {
 					MessageBox(hwndDlg, TranslateT("Enter port"), TranslateT("Error"), MB_OK);
 					break;
 				}
 				if (!GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter client ID"), TranslateT("Error"), MB_OK);
+					MessageBox(hwndDlg, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
 					break;
 				}
 
 				char buff[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", SelItem->SelNumber + 1);
+				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_IPV4, SelItem->SelNumber + 1);
 				db_set_ts(NULL, "TOX", buff, str);
 
 				GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", SelItem->SelNumber + 1);
+				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_IPV6, SelItem->SelNumber + 1);
 				db_set_ts(NULL, "TOX", buff, str);
 
 				GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", SelItem->SelNumber + 1);
+				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_PKEY, SelItem->SelNumber + 1);
 				db_set_ts(NULL, "TOX", buff, str);
 
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", SelItem->SelNumber + 1);
+				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_PORT, SelItem->SelNumber + 1);
 				db_set_dw(NULL, "TOX", buff, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
 
 				DeleteAllItems(SelItem->hwndList);
@@ -414,50 +402,43 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			return FALSE;
 
 		case IDC_REMOVE:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES) {
+			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
+			{
+				char setting[MAX_PATH];
 				int sel = ListView_GetSelectionMark(hwndList);
-				char buff[MAX_PATH];
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", sel + 1);
-				db_unset(NULL, "TOX", buff);
+				int nodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
+				for (int i = sel + 1; i < nodeCount; i++)
+				{
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
+					ptrA addressIPv4(db_get_sa(NULL, "TOX", setting));
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i);
+					db_set_s(NULL, "TOX", setting, addressIPv4);
 
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", sel + 1);
-				db_unset(NULL, "TOX", buff);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i + 1);
+					ptrA addressIPv6(db_get_sa(NULL, "TOX", setting));
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i);
+					db_set_s(NULL, "TOX", setting, addressIPv6);
 
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", sel + 1);
-				db_unset(NULL, "TOX", buff);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
+					int port = db_get_w(NULL, "TOX", setting, 0);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
+					db_set_w(NULL, "TOX", setting, port);
 
-				mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", sel + 1);
-				db_unset(NULL, "TOX", buff);
-
-				int NodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
-
-				for (int i = sel + 1; i < NodeCount; i++) {
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i + 1);
-					TCHAR *ptszIPv4 = db_get_tsa(NULL, "TOX", buff);
-					db_unset(NULL, "TOX", buff);
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv4", i);
-					db_set_ts(NULL, "TOX", buff, ptszIPv4);
-
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i + 1);
-					TCHAR *ptszIPv6 = db_get_tsa(NULL, "TOX", buff);
-					db_unset(NULL, "TOX", buff);
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_IPv6", i);
-					db_set_ts(NULL, "TOX", buff, ptszIPv6);
-
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i + 1);
-					TCHAR *ptszClientID = db_get_tsa(NULL, "TOX", buff);
-					db_unset(NULL, "TOX", buff);
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_ClientID", i);
-					db_set_ts(NULL, "TOX", buff, ptszClientID);
-
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i + 1);
-					DWORD Port = db_get_dw(NULL, "TOX", buff, 0);
-					db_unset(NULL, "TOX", buff);
-					mir_snprintf(buff, SIZEOF(buff), "Node_%d_Port", i);
-					db_set_dw(NULL, "TOX", buff, Port);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
+					ptrA pubKey(db_get_sa(NULL, "TOX", setting));
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
+					db_set_s(NULL, "TOX", setting, setting);
 				}
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, nodeCount);
+				db_unset(NULL, "TOX", setting);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, nodeCount);
+				db_unset(NULL, "TOX", setting);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, nodeCount);
+				db_unset(NULL, "TOX", setting);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, nodeCount);
+				db_unset(NULL, "TOX", setting);
 
-				db_set_b(NULL, "TOX", "NodeCount", NodeCount - 1);
+				db_set_b(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, nodeCount - 1);
 				ListView_DeleteItem(hwndList, sel);
 
 			}

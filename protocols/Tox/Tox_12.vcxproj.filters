@@ -68,9 +68,6 @@
     <ClCompile Include="src\tox_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\tox_account.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\tox_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -118,6 +115,12 @@
     </ClCompile>
     <ClCompile Include="src\api_transfer.cpp">
       <Filter>Source Files\api</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_network.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_core.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
