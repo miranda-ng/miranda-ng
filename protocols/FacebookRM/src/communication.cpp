@@ -70,7 +70,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 		nlhr.dataLength = (int)request_data->length();
 	}
 
-	parent->debugLogA("@@@@@ Sending request to '%s'", nlhr.szUrl);
+	parent->debugLogA("@@@ Sending request to '%s'", nlhr.szUrl);
 
 	switch (request_type)
 	{
@@ -113,7 +113,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 
 	if (pnlhr != NULL)
 	{
-		parent->debugLogA("@@@@@ Got response with code %d", pnlhr->resultCode);
+		parent->debugLogA("@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
@@ -121,7 +121,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
 	}
 	else {
-		parent->debugLogA("!!!!! No response from server (time-out)");
+		parent->debugLogA("!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
 		// Better to have something set explicitely as this value is compaired in all communication requests
 	}
@@ -159,7 +159,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 				resp.error_title = title;
 				resp.code = HTTP_CODE_FAKE_ERROR;
 
-				parent->debugLogA(" ! !  Received Facebook error: %d -- %s", error_num, error.c_str());
+				parent->debugLogA("!!! Received Facebook error: %d -- %s", error_num, error.c_str());
 				if (notify_errors(request_type) && !silent)
 					client_notify(_A2T(error.c_str()));
 			}
@@ -171,13 +171,13 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 
 bool facebook_client::handle_entry(const std::string &method)
 {
-	parent->debugLogA("   >> Entering %s()", method.c_str());
+	parent->debugLogA(" >> Entering %s()", method.c_str());
 	return true;
 }
 
 bool facebook_client::handle_success(const std::string &method)
 {
-	parent->debugLogA("   << Quitting %s()", method.c_str());
+	parent->debugLogA(" << Quitting %s()", method.c_str());
 	reset_error();
 	return true;
 }
@@ -185,7 +185,7 @@ bool facebook_client::handle_success(const std::string &method)
 bool facebook_client::handle_error(const std::string &method, int action)
 {
 	increment_error();
-	parent->debugLogA("!!!!! %s(): Something with Facebook went wrong", method.c_str());
+	parent->debugLogA("!!! %s(): Something with Facebook went wrong", method.c_str());
 
 	bool result = (error_count_ <= (UINT)parent->getByte(FACEBOOK_KEY_TIMEOUTS_LIMIT, FACEBOOK_TIMEOUTS_LIMIT));
 	if (action == FORCE_DISCONNECT || action == FORCE_QUIT)
@@ -697,28 +697,19 @@ void facebook_client::store_headers(http::response* resp, NETLIBHTTPHEADER* head
 {
 	ScopedLock c(cookies_lock_);
 
-	for (int i = 0; i < headersCount; i++)
-	{
-		std::string header_name = headers[i].szName; // TODO: Casting?
-		std::string header_value = headers[i].szValue; // TODO: Casting?
+	for (int i = 0; i < headersCount; i++) {
+		std::string header_name = headers[i].szName;
+		std::string header_value = headers[i].szValue;
 
-		if (header_name == "Set-Cookie")
-		{
+		if (header_name == "Set-Cookie") {
 			std::string cookie_name = header_value.substr(0, header_value.find("="));
 			std::string cookie_value = header_value.substr(header_value.find("=") + 1, header_value.find(";") - header_value.find("=") - 1);
+
 			if (cookie_value == "deleted")
-			{
-				parent->debugLogA("      Deleted cookie '%s'", cookie_name.c_str());
 				cookies.erase(cookie_name);
-			}
-			else {
-				parent->debugLogA("      New cookie '%s'", cookie_name.c_str());
+			else
 				cookies[cookie_name] = cookie_value;
-			}
-		}
-		else
-		{ // TODO RM: (un)comment
-			//parent->debugLogA("----- Got header '%s': %s", header_name.c_str(), header_value.c_str());
+		} else {
 			resp->headers[header_name] = header_value;
 		}
 	}
@@ -794,7 +785,7 @@ void loginError(FacebookProto *proto, std::string error_str) {
 		utils::text::remove_html(
 		utils::text::edit_html(error_str))));
 
-	proto->debugLogA(" ! !  Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
+	proto->debugLogA("!!! Login error: %s", !error_str.empty() ? error_str.c_str() : "Unknown error");
 
 	TCHAR buf[200];
 	mir_sntprintf(buf, SIZEOF(buf), TranslateT("Login error: %s"),
@@ -838,7 +829,7 @@ bool facebook_client::login(const char *username, const char *password)
 		// Check for invalid requests
 		if (location.find("invalid_request.php") != std::string::npos) {
 			client_notify(TranslateT("Login error: Invalid request."));
-			parent->debugLogA(" ! !  Login error: Invalid request.");
+			parent->debugLogA("!!! Login error: Invalid request.");
 			return handle_error("login", FORCE_QUIT);
 		}
 
@@ -846,7 +837,7 @@ bool facebook_client::login(const char *username, const char *password)
 		if (location.find("help.php") != std::string::npos)
 		{
 			client_notify(TranslateT("Login error: Some Facebook things are required."));
-			parent->debugLogA(" ! !  Login error: Some Facebook things are required.");
+			parent->debugLogA("!!! Login error: Some Facebook things are required.");
 			// return handle_error("login", FORCE_QUIT);
 		}
 
@@ -876,7 +867,7 @@ bool facebook_client::login(const char *username, const char *password)
 					if (resp.data.find("name=\"birthday_captcha_") != std::string::npos) {
 						// Account is locked and needs identity confirmation
 						client_notify(TranslateT("Login error: Your account is temporarily locked. You need to confirm this device from web browser."));
-						parent->debugLogA(" ! !  Login error: Birthday confirmation.");
+						parent->debugLogA("!!! Login error: Birthday confirmation.");
 						return handle_error("login", FORCE_QUIT);
 					}
 
@@ -941,7 +932,7 @@ bool facebook_client::login(const char *username, const char *password)
 		// Check whether captcha code is required
 		if (resp.data.find("id=\"captcha\"") != std::string::npos) {
 			client_notify(TranslateT("Login error: Captcha code is required. You need to confirm this device from web browser."));
-			parent->debugLogA(" ! !  Login error: Captcha code is required.");
+			parent->debugLogA("!!! Login error: Captcha code is required.");
 			return handle_error("login", FORCE_QUIT);
 		}
 
@@ -970,7 +961,7 @@ bool facebook_client::login(const char *username, const char *password)
 			
 			if (redirectUrl != expectedUrl) {
 				// Unexpected redirect, but we try to ignore it - maybe we were logged in anyway
-				parent->debugLogA(" ! !  Login error: Unexpected redirect: %s (Original: %s) (Expected: %s)", redirectUrl.c_str(), resp.headers["Location"].c_str(), expectedUrl.c_str());
+				parent->debugLogA("!!! Login error: Unexpected redirect: %s (Original: %s) (Expected: %s)", redirectUrl.c_str(), resp.headers["Location"].c_str(), expectedUrl.c_str());
 			}
 		}
 
@@ -978,12 +969,12 @@ bool facebook_client::login(const char *username, const char *password)
 			// Probably logged in, everything seems OK
 			this->self_.user_id = cookies.find("c_user")->second;
 			parent->setString(FACEBOOK_KEY_ID, this->self_.user_id.c_str());
-			parent->debugLogA("      Got self user id: %s", this->self_.user_id.c_str());
+			parent->debugLogA("    Got self user id: %s", this->self_.user_id.c_str());
 			return handle_success("login");
 		}
 		else {
 			client_notify(TranslateT("Login error, probably bad login credentials."));
-			parent->debugLogA(" ! !  Login error, probably bad login credentials.");
+			parent->debugLogA("!!! Login error, probably bad login credentials.");
 			return handle_error("login", FORCE_QUIT);
 		}
 	}
@@ -1037,13 +1028,14 @@ bool facebook_client::home()
 			csrf << (int)this->dtsg_.at(i);
 		}
 		this->csrf_ = csrf.str();
-	}
-	parent->debugLogA("      Got self dtsg: %s (csrf: %s)", this->dtsg_.c_str(), this->csrf_.c_str());
+	}	
 
 	if (this->dtsg_.empty()) {
-		parent->debugLogA("!!!!! Empty dtsg. Source code:\n%s", resp.data.c_str());
+		parent->debugLogA("!!! Empty dtsg. Source code:\n%s", resp.data.c_str());
 		client_notify(TranslateT("Could not load communication token. You should report this and wait for plugin update."));
 		return handle_error("home", FORCE_QUIT);
+	} else {
+		parent->debugLogA("    Got self dtsg");
 	}
 
 	resp = flap(REQUEST_HOME);
@@ -1067,13 +1059,13 @@ bool facebook_client::home()
 		std::string::size_type pos = this->self_.real_name.find("<span class=\"alternate_name\">");
 		if (pos != std::string::npos) {
 			this->self_.nick = utils::text::source_get_value(&this->self_.real_name, 2, "<span class=\"alternate_name\">(", ")</span>");
-			parent->debugLogA("      Got self nick name: %s", this->self_.nick.c_str());
+			parent->debugLogA("    Got self nick name: %s", this->self_.nick.c_str());
 
 			this->self_.real_name = this->self_.real_name.substr(0, pos - 1);
 		}
 
 		this->self_.real_name = utils::text::remove_html(this->self_.real_name);
-		parent->debugLogA("      Got self real name: %s", this->self_.real_name.c_str());
+		parent->debugLogA("    Got self real name: %s", this->self_.real_name.c_str());
 		parent->SaveName(NULL, &this->self_);
 
 		// Get avatar
@@ -1089,15 +1081,15 @@ bool facebook_client::home()
 				this->self_.image_url = "/" + this->self_.image_url;
 		}
 
-		parent->debugLogA("      Got self avatar: %s", this->self_.image_url.c_str());
+		parent->debugLogA("    Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
 		// Get logout hash
 		this->logout_hash_ = utils::text::source_get_value2(&resp.data, "/logout.php?h=", "&\"");
-		parent->debugLogA("      Got self logout hash: %s", this->logout_hash_.c_str());
+		parent->debugLogA("    Got self logout hash: %s", this->logout_hash_.c_str());
 
 		if (this->self_.real_name.empty() || this->self_.image_url.empty() || this->logout_hash_.empty()) {
-			parent->debugLogA("!!!!! Empty nick/avatar/hash. Source code:\n%s", resp.data.c_str());
+			parent->debugLogA("!!! Empty nick/avatar/hash. Source code:\n%s", resp.data.c_str());
 			client_notify(TranslateT("Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update."));
 		}
 
@@ -1105,7 +1097,7 @@ bool facebook_client::home()
 	}
 	case HTTP_CODE_FOUND:
 		// Work-around for replica_down, f**king hell what's that?
-		parent->debugLogA("      REPLICA_DOWN is back in force!");
+		parent->debugLogA("!!! REPLICA_DOWN is back in force!");
 		return this->home();
 
 	default:
@@ -1141,28 +1133,28 @@ bool facebook_client::reconnect()
 	case HTTP_CODE_OK:
 	{
 		this->chat_channel_ = utils::text::source_get_value(&resp.data, 2, "\"user_channel\":\"", "\"");
-		parent->debugLogA("      Got self channel: %s", this->chat_channel_.c_str());
+		parent->debugLogA("    Got self channel: %s", this->chat_channel_.c_str());
 
 		this->chat_channel_partition_ = utils::text::source_get_value2(&resp.data, "\"partition\":", ",}");
-		parent->debugLogA("      Got self channel partition: %s", this->chat_channel_partition_.c_str());
+		parent->debugLogA("    Got self channel partition: %s", this->chat_channel_partition_.c_str());
 
 		this->chat_channel_host_ = utils::text::source_get_value(&resp.data, 2, "\"host\":\"", "\"");
-		parent->debugLogA("      Got self channel host: %s", this->chat_channel_host_.c_str());
+		parent->debugLogA("    Got self channel host: %s", this->chat_channel_host_.c_str());
 
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
+		parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
 		this->chat_conn_num_ = utils::text::source_get_value2(&resp.data, "\"max_conn\":", ",}");
-		parent->debugLogA("      Got self max_conn: %s", this->chat_conn_num_.c_str());
+		parent->debugLogA("    Got self max_conn: %s", this->chat_conn_num_.c_str());
 
 		this->chat_sticky_num_ = utils::text::source_get_value(&resp.data, 2, "\"sticky_token\":\"", "\"");
-		parent->debugLogA("      Got self sticky_token: %s", this->chat_sticky_num_.c_str());
+		parent->debugLogA("    Got self sticky_token: %s", this->chat_sticky_num_.c_str());
 
 		//std::string retry_interval = utils::text::source_get_value2(&resp.data, "\"retry_interval\":", ",}");
-		//parent->debugLogA("      Got self retry_interval: %s", retry_interval.c_str());
+		//parent->debugLogA("    Got self retry_interval: %s", retry_interval.c_str());
 
 		//std::string visibility = utils::text::source_get_value2(&resp.data, "\"visibility\":", ",}");
-		//parent->debugLogA("      Got self visibility: %s", visibility.c_str());
+		//parent->debugLogA("    Got self visibility: %s", visibility.c_str());
 
 		// Send activity_ping after each reconnect
 		activity_ping();
@@ -1200,21 +1192,21 @@ bool facebook_client::channel()
 	else if (type == "lb") {
 		// Some new stuff (idk how does it work yet)
 		this->chat_sticky_pool_ = utils::text::source_get_value(&resp.data, 2, "\"pool\":\"", "\"");
-		parent->debugLogA("      Got self sticky pool: %s", this->chat_sticky_pool_.c_str());
+		parent->debugLogA("    Got self sticky pool: %s", this->chat_sticky_pool_.c_str());
 
 		this->chat_sticky_num_ = utils::text::source_get_value2(&resp.data, "\"sticky\":\"", "\"");
-		parent->debugLogA("      Got self sticky number: %s", this->chat_sticky_num_.c_str());
+		parent->debugLogA("    Got self sticky number: %s", this->chat_sticky_num_.c_str());
 	}
 	else if (type == "fullReload" || type == "refresh") {
 		// Requested reload of page or relogin (due to some settings change, removing this session, etc.)
-		parent->debugLogA("! ! ! Requested %s", type.c_str());
+		parent->debugLogA("!!! Requested %s", type.c_str());
 
 		this->chat_sequence_num_ = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-		parent->debugLogA("      Got self sequence number: %s", this->chat_sequence_num_.c_str());
+		parent->debugLogA("    Got self sequence number: %s", this->chat_sequence_num_.c_str());
 
 		if (type == "refresh") {
 			this->chat_reconnect_reason_ = utils::text::source_get_value2(&resp.data, "\"reason\":", ",}");
-			parent->debugLogA("      Reconnect reason: %s", this->chat_reconnect_reason_.c_str());
+			parent->debugLogA("    Got reconnect reason: %s", this->chat_reconnect_reason_.c_str());
 
 			return this->reconnect();
 		}
@@ -1226,7 +1218,7 @@ bool facebook_client::channel()
 
 		// Get new sequence number
 		std::string seq = utils::text::source_get_value2(&resp.data, "\"seq\":", ",}");
-		parent->debugLogA("      Got self sequence number: %s", seq.c_str());
+		parent->debugLogA("    Got self sequence number: %s", seq.c_str());
 
 		// Check if it's different from our old one (which means we should increment our old one)
 		if (seq != this->chat_sequence_num_) {
@@ -1240,7 +1232,7 @@ bool facebook_client::channel()
 
 				// Check if we have different seq than the one from Facebook
 				if (newSeq != seq) {
-					parent->debugLogA("! ! ! Use self incremented sequence number: %s (instead of: %s)", newSeq.c_str(), seq.c_str());
+					parent->debugLogA("!!! Use self incremented sequence number: %s (instead of: %s)", newSeq.c_str(), seq.c_str());
 					seq = newSeq;
 				}
 			}
@@ -1306,7 +1298,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	switch (method) {
 	case MESSAGE_INBOX:
 	{
-		parent->debugLogA("    > Sending message through INBOX");
+		parent->debugLogA("  > Sending message through INBOX");
 		data += "&action=send";
 		data += "&body=" + utils::url::encode(message_text);
 		data += "&recipients[0]=" + message_recipient;
@@ -1320,7 +1312,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	}
 	case MESSAGE_MERCURY:
 	{
-		parent->debugLogA("    > Sending message through CHAT");
+		parent->debugLogA("  > Sending message through CHAT");
 		data += "&message_batch[0][action_type]=ma-type:user-generated-message";
 		data += "&message_batch[0][thread_id]";
 		data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
@@ -1354,7 +1346,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	}
 	case MESSAGE_TID:
 	{
-		parent->debugLogA("    > Sending message through MERCURY (TID)");
+		parent->debugLogA("  > Sending message through MERCURY (TID)");
 		data += "&message_batch[0][action_type]=ma-type:user-generated-message";
 		data += "&message_batch[0][thread_id]=" + message_recipient;
 		data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
@@ -1378,7 +1370,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	}
 	case MESSAGE_ASYNC:
 	{
-		parent->debugLogA("    > Sending message through ASYNC");
+		parent->debugLogA("  > Sending message through ASYNC");
 		data += "&action=send";
 		data += "&body=" + utils::url::encode(message_text);
 		data += "&recipients[0]=" + message_recipient;
@@ -1439,8 +1431,8 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 		std::string imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
 		std::string captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
 
-		parent->debugLogA("Got imageUrl (first): %s", imageUrl.c_str());
-		parent->debugLogA("Got captchaPersistData (first): %s", captchaPersistData.c_str());
+		parent->debugLogA("    Got imageUrl (first): %s", imageUrl.c_str());
+		parent->debugLogA("    Got captchaPersistData (first): %s", captchaPersistData.c_str());
 
 		std::string data = "new_captcha_type=TFBCaptcha&skipped_captcha_data=" + captchaPersistData;
 		data += "&__dyn=&__req=&__rev=&__user=" + this->self_.user_id;
@@ -1450,8 +1442,8 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 			imageUrl = utils::text::html_entities_decode(utils::text::slashu_to_utf8(utils::text::source_get_value(&resp.data, 3, "img class=\\\"img\\\"", "src=\\\"", "\\\"")));
 			captchaPersistData = utils::text::source_get_value(&resp.data, 3, "\\\"captcha_persist_data\\\"", "value=\\\"", "\\\"");
 
-			parent->debugLogA("Got imageUrl (second): %s", imageUrl.c_str());
-			parent->debugLogA("Got captchaPersistData (second): %s", captchaPersistData.c_str());
+			parent->debugLogA("    Got imageUrl (second): %s", imageUrl.c_str());
+			parent->debugLogA("    Got captchaPersistData (second): %s", captchaPersistData.c_str());
 
 			std::string result;
 			if (!parent->RunCaptchaForm(imageUrl, result)) {
@@ -1466,7 +1458,7 @@ int facebook_client::send_message(int seqid, MCONTACT hContact, const std::strin
 	}
 
 	default: // Other error
-		parent->debugLogA(" !!!  Send message error #%d: %s", resp.error_number, resp.error_text.c_str());
+		parent->debugLogA("!!! Send message error #%d: %s", resp.error_number, resp.error_text.c_str());
 		return SEND_MESSAGE_ERROR;
 	}
 
@@ -1577,7 +1569,7 @@ bool facebook_client::save_url(const std::string &url, const std::tstring &filen
 
 	if (resp) {
 		nlc = resp->nlc;
-		parent->debugLogA("@@@@@ Saving URL %s to file %s", url.c_str(), _T2A(filename.c_str()));
+		parent->debugLogA("@@@ Saving URL %s to file %s", url.c_str(), _T2A(filename.c_str()));
 
 		// Create folder if necessary
 		std::tstring dir = filename.substr(0, filename.rfind('\\'));

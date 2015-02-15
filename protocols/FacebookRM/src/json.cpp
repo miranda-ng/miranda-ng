@@ -283,8 +283,7 @@ bool ignore_duplicits(FacebookProto *proto, const std::string &mid, const std::s
 
 	std::map<std::string, int>::iterator it = proto->facy.messages_ignore.find(mid);
 	if (it != proto->facy.messages_ignore.end()) {
-		proto->debugLogA("????? Ignoring duplicit/sent message\n%s", text.c_str());
-
+		proto->debugLogA("??? Ignoring duplicit/sent message ID: %s", mid.c_str());
 		it->second++; // increase counter (for deleting it later)
 		return true;
 	}
@@ -727,7 +726,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 				JSONNODE *visibility = json_get(event_data, "visibility");
 
 				bool isVisible = (visibility != NULL) && json_as_bool(visibility);
-				proto->debugLogA("      Requested chat switch to %s", isVisible ? "Online" : "Offline");
+				proto->debugLogA("    Requested chat switch to %s", isVisible ? "Online" : "Offline");
 				proto->SetStatus(isVisible ? ID_STATUS_ONLINE : ID_STATUS_INVISIBLE);
 			}
 		}

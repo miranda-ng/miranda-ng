@@ -192,11 +192,11 @@ std::string FacebookProto::ThreadIDToContactID(const std::string &thread_id)
 		if (!user_id.empty())
 			facy.thread_id_to_user_id.insert(std::make_pair(thread_id, user_id));
 
-		debugLogA("***** Thread info processed");
+		debugLogA("*** Thread info processed");
 
 		CODE_BLOCK_CATCH
 
-			debugLogA("***** Error processing thread info: %s", e.what());
+			debugLogA("*** Error processing thread info: %s", e.what());
 
 		CODE_BLOCK_END
 	}
@@ -221,11 +221,11 @@ void FacebookProto::LoadContactInfo(facebook_user* fbu)
 		p->parse_user_info(&resp.data, fbu);
 		delete p;
 
-		debugLogA("***** Contact thread info processed");
+		debugLogA("*** Contact thread info processed");
 
 		CODE_BLOCK_CATCH
 
-			debugLogA("***** Error processing contact thread info: %s", e.what());
+			debugLogA("*** Error processing contact thread info: %s", e.what());
 
 		CODE_BLOCK_END
 	}
@@ -325,11 +325,11 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 		//ReceiveMessages(messages, true); // don't let it fall into infinite cycle, solve it somehow...
 
-		debugLogA("***** Chat thread info processed");
+		debugLogA("*** Chat thread info processed");
 
 		CODE_BLOCK_CATCH
 
-			debugLogA("***** Error processing chat thread info: %s", e.what());
+			debugLogA("*** Error processing chat thread info: %s", e.what());
 
 		CODE_BLOCK_END
 
