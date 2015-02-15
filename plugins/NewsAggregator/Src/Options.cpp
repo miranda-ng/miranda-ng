@@ -467,6 +467,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
 		CreateList(hwndList);
 		UpdateList(hwndList);
 		CheckDlgButton(hwndDlg, IDC_STARTUPRETRIEVE, db_get_b(NULL, MODULE, "StartupRetrieve", 1) ? BST_CHECKED : BST_UNCHECKED);
@@ -564,6 +566,8 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case LVN_ITEMCHANGED:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
 			if (((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -575,7 +579,6 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 int OptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);

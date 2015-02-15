@@ -126,7 +126,7 @@ INT_PTR NewsAggrGetStatus(WPARAM, LPARAM)
 	return g_nStatus;
 }
 
-INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM )
+INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM)
 {
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
