@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.6
+;  Version: 0.11.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -40,8 +40,14 @@
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
 [Add node]
+[Enter IPv4]
+[Error]
+[Enter IPv6]
+[Enter port]
+[Enter client ID]
+[Change node]
 [Are you sure?]
-[Contact deleting]
+[Node deleting]
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 [Select tox profile]
