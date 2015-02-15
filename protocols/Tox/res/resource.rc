@@ -26,7 +26,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_TOX                 ICON                    "tox.ico"
+IDI_TOX                 ICON                    "icons\\tox.ico"
 #endif    // Neutral (Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -171,21 +171,21 @@ BEGIN
     PUSHBUTTON      "Remove",IDC_REMOVE,187,187,50,14
 END
 
-IDD_ADDNODE DIALOGEX 0, 0, 355, 131
+IDD_ADDNODE DIALOGEX 0, 0, 298, 85
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_NOFAILCREATE | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    LTEXT           "IPv4",IDC_STATIC,34,15,25,8
-    EDITTEXT        IDC_IPV4,6,26,102,14,ES_AUTOHSCROLL
-    LTEXT           "IPv6",IDC_STATIC,207,14,15,8
-    EDITTEXT        IDC_IPV6,159,26,94,14,ES_AUTOHSCROLL
-    LTEXT           "Port",IDC_STATIC,321,16,34,8
-    EDITTEXT        IDC_PORT,306,26,40,14,ES_AUTOHSCROLL
-    LTEXT           "Client ID",IDC_STATIC,143,65,63,8
-    EDITTEXT        IDC_CLIENTID,16,79,328,14,ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "OK",IDOK,200,110,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,267,111,50,14
+    CTEXT           "IPv4",IDC_STATIC,31,4,17,8
+    EDITTEXT        IDC_IPV4,6,13,70,14,ES_AUTOHSCROLL
+    CTEXT           "IPv6",IDC_STATIC,152,4,15,8
+    EDITTEXT        IDC_IPV6,98,13,137,14,ES_AUTOHSCROLL
+    CTEXT           "Port",IDC_STATIC,255,4,34,8
+    EDITTEXT        IDC_PORT,254,13,34,14,ES_AUTOHSCROLL
+    CTEXT           "Client ID",IDC_STATIC,98,32,63,8
+    EDITTEXT        IDC_CLIENTID,6,43,282,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,177,62,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,237,62,50,14
 END
 
 
@@ -251,7 +251,7 @@ BEGIN
 
     IDD_ADDNODE, DIALOG
     BEGIN
-        BOTTOMMARGIN, 130
+        BOTTOMMARGIN, 84
     END
 END
 #endif    // APSTUDIO_INVOKED

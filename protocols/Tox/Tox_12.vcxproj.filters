@@ -16,6 +16,9 @@
     <Filter Include="Header Files\api">
       <UniqueIdentifier>{7f072eba-bb61-4824-b479-5898b85add0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{5ce796e5-1f0d-4bb7-bdab-9de0e5513528}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\version.h">
@@ -126,8 +129,8 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\tox.ico">
-      <Filter>Resource Files</Filter>
+    <Image Include="res\icons\tox.ico">
+      <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>
 </Project>
