@@ -86,7 +86,7 @@ int FacebookProto::OnGCEvent(WPARAM, LPARAM lParam)
 		std::string chat_id = _T2A(hook->pDest->ptszID, CP_UTF8);
 
 		if (isOnline()) {
-			debugLogA("**Chat - Outgoing message: %s", msg.c_str());
+			debugLogA("  > Chat - Outgoing message");
 			ForkThread(&FacebookProto::SendChatMsgWorker, new send_chat(chat_id, msg));
 		}
 
@@ -226,8 +226,6 @@ char *FacebookProto::GetChatUsers(const TCHAR *chat_id)
 	gci.pszModule = m_szModuleName;
 	gci.pszID = chat_id;
 	CallService(MS_GC_GETINFO, 0, (LPARAM)&gci);
-
-	debugLogA("**Chat - Users in chat %s: %s", _T2A(chat_id), gci.pszUsers);
 
 	// mir_free(gci.pszUsers);
 	return gci.pszUsers;

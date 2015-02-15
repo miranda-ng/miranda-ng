@@ -67,7 +67,7 @@ void FacebookProto::ProcessBuddyList(void*)
 		return;
 	}
 
-	debugLogA("***** Starting processing buddy list");
+	debugLogA("*** Starting processing buddy list");
 
 	CODE_BLOCK_TRY
 
@@ -79,23 +79,7 @@ void FacebookProto::ProcessBuddyList(void*)
 	{
 		facebook_user* fbu = i->data;
 
-		std::string status;
-		switch (fbu->status_id) {
-		case ID_STATUS_OFFLINE:
-			status = "Offline"; break;
-		case ID_STATUS_ONLINE:
-			status = "Online"; break;
-		case ID_STATUS_ONTHEPHONE:
-			status = "Mobile"; break;
-		}
-
-		if (fbu->idle)
-			status += " (idle)";
-
-		debugLogA("      Now %s: %s", status.c_str(), fbu->user_id.c_str());
-
-		if (!fbu->deleted)
-		{
+		if (!fbu->deleted) {
 			if (!fbu->handle) // just been added
 				fbu->handle = AddToContactList(fbu, CONTACT_FRIEND);
 
@@ -111,16 +95,14 @@ void FacebookProto::ProcessBuddyList(void*)
 			}
 		}
 
-		if (fbu->status_id == ID_STATUS_OFFLINE || fbu->deleted)
-		{
+		if (fbu->status_id == ID_STATUS_OFFLINE || fbu->deleted) {
 			if (fbu->handle)
 				setWord(fbu->handle, "Status", ID_STATUS_OFFLINE);
 
 			std::string to_delete(i->key);
 			i = i->next;
 			facy.buddies.erase(to_delete);
-		}
-		else {
+		} else {
 			i = i->next;
 
 			if (!fbu->handle) // just been added
@@ -157,11 +139,11 @@ void FacebookProto::ProcessBuddyList(void*)
 		}
 	}
 
-	debugLogA("***** Buddy list processed");
+	debugLogA("*** Buddy list processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing buddy list: %s", e.what());
+		debugLogA("*** Error processing buddy list: %s", e.what());
 
 	CODE_BLOCK_END
 }
@@ -183,7 +165,7 @@ void FacebookProto::ProcessFriendList(void*)
 		return;
 	}
 
-	debugLogA("***** Starting processing friend list");
+	debugLogA("*** Starting processing friend list");
 
 	CODE_BLOCK_TRY
 
@@ -293,11 +275,11 @@ void FacebookProto::ProcessFriendList(void*)
 	}
 	friends.clear();
 
-	debugLogA("***** Friend list processed");
+	debugLogA("*** Friend list processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing friend list: %s", e.what());
+		debugLogA("*** Error processing friend list: %s", e.what());
 
 	CODE_BLOCK_END
 }
@@ -337,11 +319,11 @@ void FacebookProto::ProcessUnreadMessages(void*)
 
 	ForkThread(&FacebookProto::ProcessUnreadMessage, new std::vector<std::string>(threads));
 
-	debugLogA("***** Unread threads list processed");
+	debugLogA("*** Unread threads list processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing unread threads list: %s", e.what());
+		debugLogA("*** Error processing unread threads list: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -434,11 +416,11 @@ void FacebookProto::ProcessUnreadMessage(void *data)
 
 			ReceiveMessages(messages, true);
 
-			debugLogA("***** Unread messages processed");
+			debugLogA("*** Unread messages processed");
 
 			CODE_BLOCK_CATCH
 
-			debugLogA("***** Error processing unread messages: %s", e.what());
+			debugLogA("*** Error processing unread messages: %s", e.what());
 
 			CODE_BLOCK_END
 
@@ -487,7 +469,7 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	ptrA item_id(getStringA(hContact, isChat ? FACEBOOK_KEY_TID : FACEBOOK_KEY_ID));
 	if (item_id == NULL) {
-		debugLogA("!!!!! LoadLastMessages: Contact has no TID/ID");
+		debugLogA("!!! LoadLastMessages(): Contact has no TID/ID");
 		return;
 	}
 
@@ -554,11 +536,11 @@ void FacebookProto::LoadLastMessages(void *p)
 
 	ReceiveMessages(messages, true);
 
-	debugLogA("***** Thread messages processed");
+	debugLogA("*** Thread messages processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing thread messages: %s", e.what());
+		debugLogA("*** Error processing thread messages: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -584,7 +566,7 @@ void FacebookProto::SyncThreads(void*)
 	// If last event is older than 1 day, we force sync to be 1 day old
 	time_t yesterday = ::time(NULL) - 24 * 60 * 60;
 	if (timestamp < yesterday) {
-		debugLogA("Last action timestamp is too old: %d, use 24 hours old instead: %d", timestamp, yesterday);
+		debugLogA("    Last action timestamp is too old: %d, use 24 hours old instead: %d", timestamp, yesterday);
 		timestamp = yesterday;
 
 		// And load older unread messages that we might not get otherwise
@@ -606,7 +588,7 @@ void FacebookProto::SyncThreads(void*)
 		data += "&folders[1]=other";
 	data += "&__req=7&__a=1&__dyn=&__req=&__rev=&ttstamp=" + facy.ttstamp();
 
-	debugLogA("Facebook's milli timestamp for sync: %s", time.c_str());
+	debugLogA("    Facebook's milli timestamp for sync: %s", time.c_str());
 
 	http::response resp = facy.flap(REQUEST_THREAD_SYNC, &data);
 
@@ -626,11 +608,11 @@ void FacebookProto::SyncThreads(void*)
 
 	ReceiveMessages(messages, true);
 
-	debugLogA("***** Thread messages processed");
+	debugLogA("*** Thread messages processed");
 
 	CODE_BLOCK_CATCH
 
-	debugLogA("***** Error processing thread messages: %s", e.what());
+	debugLogA("*** Error processing thread messages: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -690,7 +672,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 			}
 
 			// Multi-user message
-			debugLogA("      Got chat message: %s", messages[i]->message_text.c_str());
+			debugLogA("  < Got chat message ID: %s", messages[i]->message_id.c_str());
 
 			facebook_chatroom *fbc;
 			std::tstring tthread_id = _A2T(messages[i]->thread_id.c_str());
@@ -732,7 +714,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			if (!hChatContact) {
 				// hopefully shouldn't happen, but who knows?
-				debugLog(_T("! ! ! No hChatContact for %s"), fbc->thread_id.c_str());
+				debugLog(_T("!!! No hChatContact for %s"), fbc->thread_id.c_str());
 				delete messages[i];
 				continue;
 			}
@@ -761,7 +743,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 		}
 		else {
 			// Single-user message
-			debugLogA("      Got message: %s", messages[i]->message_text.c_str());
+			debugLogA("  < Got message ID: %s", messages[i]->message_id.c_str());
 
 			facebook_user fbu;
 			fbu.user_id = messages[i]->user_id;
@@ -783,7 +765,7 @@ void FacebookProto::ReceiveMessages(std::vector<facebook_message*> messages, boo
 
 			if (!hContact) {
 				// hopefully shouldn't happen, but who knows?
-				debugLogA("! ! ! No hContact for %s", messages[i]->user_id.c_str());
+				debugLogA("!!! No hContact for %s", messages[i]->user_id.c_str());
 				delete messages[i];
 				continue;
 			}
@@ -854,7 +836,7 @@ void FacebookProto::ProcessMessages(void* data)
 	// receive messages from all folders by default, use hidden setting to receive only inbox messages
 	bool inboxOnly = getBool(FACEBOOK_KEY_INBOX_ONLY, 0);
 
-	debugLogA("***** Starting processing messages");
+	debugLogA("*** Starting processing messages");
 
 	CODE_BLOCK_TRY
 
@@ -868,11 +850,11 @@ void FacebookProto::ProcessMessages(void* data)
 
 	ShowNotifications();
 
-	debugLogA("***** Messages processed");
+	debugLogA("*** Messages processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing messages: %s", e.what());
+		debugLogA("*** Error processing messages: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -889,7 +871,7 @@ void FacebookProto::ShowNotifications() {
 	for (std::map<std::string, facebook_notification*>::iterator it = facy.notifications.begin(); it != facy.notifications.end(); ++it) {
 		facebook_notification *notification = it->second;
 		if (notification != NULL && !notification->seen) {
-			debugLogA("      Showing popup for notification: %s", notification->text.c_str());
+			debugLogA("    Showing popup for notification ID: %s", notification->id.c_str());
 			ptrT szText(mir_utf8decodeT(notification->text.c_str()));
 			MCONTACT hContact = (notification->user_id.empty() ? NULL : ContactIDToHContact(notification->user_id));
 			notification->hWndPopup = NotifyEvent(m_tszUserName, szText, hContact, FACEBOOK_EVENT_NOTIFICATION, &notification->link, &notification->id);
@@ -915,7 +897,7 @@ void FacebookProto::ProcessNotifications(void*)
 
 
 	// Process notifications
-	debugLogA("***** Starting processing notifications");
+	debugLogA("*** Starting processing notifications");
 
 	CODE_BLOCK_TRY
 
@@ -925,11 +907,11 @@ void FacebookProto::ProcessNotifications(void*)
 
 	ShowNotifications();
 
-	debugLogA("***** Notifications processed");
+	debugLogA("*** Notifications processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing notifications: %s", e.what());
+		debugLogA("*** Error processing notifications: %s", e.what());
 
 	CODE_BLOCK_END
 }
@@ -1006,10 +988,9 @@ void FacebookProto::ProcessFriendRequests(void*)
 
 				db_event_add(0, &dbei);
 			}
-			debugLogA("      (%s) Friendship request from: %s (%s) [%s]", (isNew ? "New" : "Old"), fbu.real_name.c_str(), fbu.user_id.c_str(), time.c_str());
+			debugLogA("  < (%s) Friendship request [%s]", (isNew ? "New" : "Old"), time.c_str());
 		} else {
-			debugLogA(" !!!  Wrong friendship request");
-			debugLogA("%s", req.c_str());
+			debugLogA("!!! Wrong friendship request:\n%s", req.c_str());
 		}
 	}
 
@@ -1033,7 +1014,7 @@ void FacebookProto::ProcessFeeds(void*)
 
 	CODE_BLOCK_TRY
 
-		debugLogA("***** Starting processing feeds");
+		debugLogA("*** Starting processing feeds");
 
 	std::vector< facebook_newsfeed* > news;
 
@@ -1043,7 +1024,7 @@ void FacebookProto::ProcessFeeds(void*)
 	DWORD new_time = facy.last_feeds_update_;
 	bool filterAds = getBool(FACEBOOK_KEY_FILTER_ADS, DEFAULT_FILTER_ADS);
 
-	debugLogA("      Last feeds update (old): %d", facy.last_feeds_update_);
+	debugLogA("    Last feeds update (old): %d", facy.last_feeds_update_);
 
 	while ((pos = resp.data.find("<div class=\"userContentWrapper", pos)) != std::string::npos && limit <= 25)
 	{
@@ -1072,20 +1053,20 @@ void FacebookProto::ProcessFeeds(void*)
 
 		DWORD ttime;
 		if (!utils::conversion::from_string<DWORD>(ttime, time, std::dec)) {
-			debugLogA("! ! ! - Newsfeed with wrong/empty time (probably wrong parsing)\n%s", post.c_str());
+			debugLogA("!!! - Newsfeed with wrong/empty time (probably wrong parsing)\n%s", post.c_str());
 			continue;
 		}
 
 		if (ttime > new_time) {
 			new_time = ttime; // remember newest time from all these posts
-			debugLogA("      - Newsfeed time: %d (new)", ttime);
+			debugLogA("    - Newsfeed time: %d (new)", ttime);
 		}
 		else if (ttime <= facy.last_feeds_update_) {
-			debugLogA("      - Newsfeed time: %d (ignored)", ttime);
+			debugLogA("    - Newsfeed time: %d (ignored)", ttime);
 			continue; // ignore posts older than newest post of previous check
 		}
 		else {
-			debugLogA("      - Newsfeed time: %d (normal)", ttime);
+			debugLogA("    - Newsfeed time: %d (normal)", ttime);
 		}
 
 		std::string post_place = utils::text::source_get_value(&post, 4, "</abbr>", "<a", ">", "</a>");
@@ -1148,12 +1129,12 @@ void FacebookProto::ProcessFeeds(void*)
 			utils::text::edit_html(post_message))));
 
 		if (filtered || nf->title.empty() || nf->text.empty()) {
-			debugLogA("      \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
+			debugLogA("    \\ Newsfeed (time: %d) is filtered: %s", ttime, filtered ? "advertisement" : (nf->title.empty() ? "title empty" : "text empty"));
 			delete nf;
 			continue;
 		}
 		else {
-			debugLogA("      Got newsfeed (time: %d): %s %s", ttime, nf->title.c_str(), nf->text.c_str());
+			debugLogA("    Got newsfeed (time: %d)", ttime);
 		}
 
 		news.push_back(nf);
@@ -1161,7 +1142,7 @@ void FacebookProto::ProcessFeeds(void*)
 		limit++;
 	}
 
-	debugLogA("      Last feeds update (new): %d", new_time);
+	debugLogA("    Last feeds update (new): %d", new_time);
 
 	for (std::vector<facebook_newsfeed*>::size_type i = 0; i < news.size(); i++)
 	{
@@ -1181,11 +1162,11 @@ void FacebookProto::ProcessFeeds(void*)
 	// Set time of last update to time of newest post
 	this->facy.last_feeds_update_ = new_time;
 
-	debugLogA("***** Feeds processed");
+	debugLogA("*** Feeds processed");
 
 	CODE_BLOCK_CATCH
 
-		debugLogA("***** Error processing feeds: %s", e.what());
+		debugLogA("*** Error processing feeds: %s", e.what());
 
 	CODE_BLOCK_END
 
@@ -1232,7 +1213,7 @@ void FacebookProto::ProcessPages(void*)
 		if (id.empty() || title.empty())
 			continue;
 
-		debugLogA("      Got page: %s (%s)", title.c_str(), id.c_str());
+		debugLogA("    Got page ID: %s", id.c_str());
 		facy.pages[id] = title;
 	}
 

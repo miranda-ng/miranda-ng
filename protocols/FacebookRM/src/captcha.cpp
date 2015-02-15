@@ -105,7 +105,7 @@ static INT_PTR CALLBACK CaptchaFormDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 {
-	debugLogA("RunCaptchaForm: reading picture from %s", captchaUrl.c_str());
+	debugLogA("    RunCaptchaForm: reading picture from %s", captchaUrl.c_str());
 	result.clear();
 
 	NETLIBHTTPREQUEST req = { sizeof(req) };
@@ -118,7 +118,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 		return false;
 
 	if (reply->resultCode != HTTP_CODE_OK) {
-		debugLogA("RunCaptchaForm: failed with code %d", reply->resultCode);
+		debugLogA("    RunCaptchaForm: failed with code %d", reply->resultCode);
 		return false;
 	}
 
@@ -138,7 +138,7 @@ bool FacebookProto::RunCaptchaForm(std::string captchaUrl, std::string &result)
 	if (res == 0)
 		return false;
 
-	debugLogA("RunCaptchaForm: user entered text %s", param.Result);
+	debugLogA("    RunCaptchaForm: user entered text %s", param.Result);
 	result = param.Result;
 	return true;
 }

@@ -32,7 +32,7 @@ void FacebookProto::ChangeStatus(void*)
 
 	if (new_status == ID_STATUS_OFFLINE)
 	{ // Logout	
-		debugLogA("##### Beginning SignOff process");
+		debugLogA("### Beginning SignOff process");
 		m_signingOut = true;
 
 		SetEvent(update_loop_lock_);
@@ -80,7 +80,7 @@ void FacebookProto::ChangeStatus(void*)
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		m_signingOut = false;
-		debugLogA("##### SignOff complete");
+		debugLogA("### SignOff complete");
 
 		return;
 	}
@@ -90,7 +90,7 @@ void FacebookProto::ChangeStatus(void*)
 		GetLocalTime(&t);
 		debugLogA("[%d.%d.%d] Using Facebook Protocol RM %s", t.wDay, t.wMonth, t.wYear, __VERSION_STRING_DOTS);
 
-		debugLogA("***** Beginning SignOn process");
+		debugLogA("*** Beginning SignOn process");
 
 		m_enableChat = getBool(FACEBOOK_KEY_ENABLE_CHATS, DEFAULT_ENABLE_CHATS);
 
@@ -139,13 +139,13 @@ void FacebookProto::ChangeStatus(void*)
 			m_iStatus = m_iDesiredStatus = facy.self_.status_id = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-			debugLogA("***** SignOn failed");
+			debugLogA("*** SignOn failed");
 
 			return;
 		}
 
 		ToggleStatusMenuItems(true);
-		debugLogA("***** SignOn complete");
+		debugLogA("*** SignOn complete");
 	}
 
 	m_invisible = (new_status == ID_STATUS_INVISIBLE);
@@ -157,13 +157,13 @@ void FacebookProto::ChangeStatus(void*)
 	m_iStatus = facy.self_.status_id = new_status;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-	debugLogA("***** ChangeStatus complete");
+	debugLogA("*** ChangeStatus complete");
 }
 
 /** Return true on success, false on error. */
 bool FacebookProto::NegotiateConnection()
 {
-	debugLogA("***** Negotiating connection with Facebook");
+	debugLogA("*** Negotiating connection with Facebook");
 
 	ptrA username(getStringA(FACEBOOK_KEY_LOGIN));
 	if (!username || !strlen(username)) {
@@ -198,7 +198,7 @@ bool FacebookProto::NegotiateConnection()
 void FacebookProto::UpdateLoop(void *)
 {
 	time_t tim = ::time(NULL);
-	debugLogA(">>>>> Entering Facebook::UpdateLoop[%d]", tim);
+	debugLogA(">>> Entering Facebook::UpdateLoop[%d]", tim);
 
 	for (int i = -1; !isOffline(); i = (i + 1) % 50)
 	{
@@ -209,20 +209,20 @@ void FacebookProto::UpdateLoop(void *)
 				ProcessFeeds(NULL);
 		}
 
-		debugLogA("***** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
+		debugLogA("*** FacebookProto::UpdateLoop[%d] going to sleep...", tim);
 		if (WaitForSingleObjectEx(update_loop_lock_, GetPollRate() * 1000, true) != WAIT_TIMEOUT)
 			break;
-		debugLogA("***** FacebookProto::UpdateLoop[%d] waking up...", tim);
+		debugLogA("*** FacebookProto::UpdateLoop[%d] waking up...", tim);
 	}
 
 	ResetEvent(update_loop_lock_);
-	debugLogA("<<<<< Exiting FacebookProto::UpdateLoop[%d]", tim);
+	debugLogA("<<< Exiting FacebookProto::UpdateLoop[%d]", tim);
 }
 
 void FacebookProto::MessageLoop(void *)
 {
 	time_t tim = ::time(NULL);
-	debugLogA(">>>>> Entering Facebook::MessageLoop[%d]", tim);
+	debugLogA(">>> Entering Facebook::MessageLoop[%d]", tim);
 
 	while (facy.channel())
 	{
@@ -231,14 +231,14 @@ void FacebookProto::MessageLoop(void *)
 
 		// If we're not idle, send activity_ping every few minutes...
 		if (!m_idleTS && (::time(NULL) - m_pingTS) > FACEBOOK_PING_TIME) {
-			debugLogA("***** FacebookProto::MessageLoop[%d] pinging...", tim);
+			debugLogA("*** FacebookProto::MessageLoop[%d] pinging...", tim);
 			facy.activity_ping();
 		}
 
-		debugLogA("***** FacebookProto::MessageLoop[%d] refreshing...", tim);
+		debugLogA("*** FacebookProto::MessageLoop[%d] refreshing...", tim);
 	}
 
-	debugLogA("<<<<< Exiting FacebookProto::MessageLoop[%d]", tim);
+	debugLogA("<<< Exiting FacebookProto::MessageLoop[%d]", tim);
 }
 
 BYTE FacebookProto::GetPollRate()

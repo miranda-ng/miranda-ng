@@ -97,7 +97,7 @@ void FacebookProto::SendChatMsgWorker(void *p)
 
 			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
 			setString(hContact, FACEBOOK_KEY_TID, tid.c_str());
-			debugLogA("      Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
+			debugLogA("    Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
 		}
 
 		if (!tid.empty()) {
