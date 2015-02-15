@@ -5,7 +5,7 @@ bool CToxProto::IsOnline()
 	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
 }
 
-void CToxProto::BootstrapNode(int index)
+void CToxProto::BootstrapDht()
 {
 	bool isIPv4 = getBool("DisableIPv6", 0);
 	int nodeCount = db_get_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, 0);
@@ -17,22 +17,26 @@ void CToxProto::BootstrapNode(int index)
 		tox_bootstrap_from_address(
 			tox, "104.219.184.206", 443,
 			ToxBinAddress("8CD087E31C67568103E8C2A28653337E90E6B8EDA0D765D57C6B5172B4F1F04C"));
-		return;
 	}
-	int i = index % nodeCount;
-	char setting[MAX_PATH];
-	mir_snprintf(setting, SIZEOF(setting), isIPv4 ? TOX_SETTINGS_NODE_IPV4 : TOX_SETTINGS_NODE_IPV6, i);
-	ptrA address(db_get_sa(NULL, "TOX", setting));
-	if (address == NULL && !isIPv4)
+	else
 	{
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i);
-		address = db_get_sa(NULL, "TOX", setting);
+		char setting[MAX_PATH];
+		for (int i = 0; i < nodeCount; i++)
+		{
+			mir_snprintf(setting, SIZEOF(setting), isIPv4 ? TOX_SETTINGS_NODE_IPV4 : TOX_SETTINGS_NODE_IPV6, i + 1);
+			ptrA address(db_get_sa(NULL, "TOX", setting));
+			if (address == NULL && !isIPv4)
+			{
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
+				address = db_get_sa(NULL, "TOX", setting);
+			}
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
+			int port = db_get_w(NULL, "TOX", setting, 0);
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
+			ptrA pubKey(db_get_sa(NULL, "TOX", setting));
+			tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
+		}
 	}
-	mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
-	int port = db_get_w(NULL, "TOX", setting, 0);
-	mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
-	ptrA pubKey(db_get_sa(NULL, "TOX", setting));
-	tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
 }
 
 void CToxProto::TryConnect()
@@ -48,7 +52,6 @@ void CToxProto::TryConnect()
 	}
 	else
 	{
-		BootstrapNode(m_iStatus);
 		if (m_iStatus++ > MAX_CONNECT_RETRIES)
 		{
 			SetStatus(ID_STATUS_OFFLINE);
@@ -103,6 +106,7 @@ void CToxProto::PollingThread(void*)
 
 	int retriesCount = TOX_MAX_DISCONNECT_RETRIES;
 	isConnected = false;
+	BootstrapDht();
 
 	while (!isTerminated)
 	{
