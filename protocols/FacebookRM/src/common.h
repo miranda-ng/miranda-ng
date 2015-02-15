@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define _WIN32_WINNT   0x0500
 #define _WIN32_WINDOWS 0x0500
+#define _CRT_RAND_S
 
 #include <sstream>
 #include <fstream>

@@ -54,6 +54,10 @@ void FacebookProto::ChangeStatus(void*)
 		ToggleStatusMenuItems(false);
 		delSetting(FACEBOOK_KEY_LOGON_TS);
 
+		facy.chat_traceid_.clear();
+		facy.chat_sticky_num_.clear();
+		facy.chat_sticky_pool_.clear();
+
 		facy.clear_cookies();
 		facy.clear_notifications();
 		facy.clear_chatrooms();
@@ -186,7 +190,7 @@ bool FacebookProto::NegotiateConnection()
 	facy.https_ = getByte(FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS) != 0;
 
 	// Generate random clientid for this connection
-	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef");
+	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef", &facy.random_);
 
 	// Create default group for new contacts
 	if (m_tszDefaultGroup)

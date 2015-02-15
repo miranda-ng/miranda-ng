@@ -541,7 +541,7 @@ std::string facebook_client::choose_action(RequestType request_type, std::string
 			action += "&seq=" + (this->chat_sequence_num_.empty() ? "0" : this->chat_sequence_num_);
 		action += "&partition=" + (this->chat_channel_partition_.empty() ? "0" : this->chat_channel_partition_);
 		action += "&clientid=" + this->chat_clientid_;
-		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz");
+		action += "&cb=" + utils::text::rand_string(4, "0123456789abcdefghijklmnopqrstuvwxyz", &this->random_);
 
 		int idleSeconds = parent->IdleSeconds();
 		action += "&idle=" + utils::conversion::to_string(&idleSeconds, UTILS_CONV_UNSIGNED_NUMBER);
@@ -1253,7 +1253,7 @@ bool facebook_client::channel()
 
 	case HTTP_CODE_GATEWAY_TIMEOUT:
 		// Maybe we have same clientid as other connected client, try to generate different one
-		this->chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef");
+		this->chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef", &this->random_);
 
 		// Intentionally fall to handle_error() below
 	case HTTP_CODE_FAKE_DISCONNECTED:

@@ -38,6 +38,9 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	facy.notifications_lock_ = CreateMutex(NULL, FALSE, NULL);
 	facy.cookies_lock_ = CreateMutex(NULL, FALSE, NULL);
 
+	// Initialize random seed for this client
+	facy.random_ = ::time(NULL) + PtrToUint(&facy);
+
 	m_hMenuRoot = m_hMenuServicesRoot = m_hStatusMind = NULL;
 
 	m_invisible = false;

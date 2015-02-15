@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ public:
 
 	facebook_client()
 	{
-		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
+		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = 0;
 
 		https_ = is_typing_ = false;
 
@@ -52,6 +52,10 @@ public:
 	HANDLE hMsgCon;
 	HANDLE hFcbCon;
 	HANDLE fcb_conn_lock_;
+
+	// Random generator value for this client
+
+	unsigned int random_;
 
 	// Parent handle
 
