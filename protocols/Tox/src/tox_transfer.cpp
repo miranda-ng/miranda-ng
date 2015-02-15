@@ -50,7 +50,7 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 	{
 		if (!transfer->OpenFile(_T("wb")))
 		{
-			debugLogA("CToxProto::FileAllow: cannot to open file (%d)", transfer->fileNumber);
+			debugLogA("CToxProto::FileAllow: failed to open file (%d)", transfer->fileNumber);
 			transfer->status = FAILED;
 			tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 			transfers->Remove(transfer);
@@ -79,19 +79,16 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR
 	{
 	case FILERESUME_RENAME:
 		transfer->ChangeName(*szFilename);
-		result = transfer->OpenFile(_T("wb"));
-		break;
-
 	case FILERESUME_OVERWRITE:
 		result = transfer->OpenFile(_T("wb"));
 		break;
 
-	case FILERESUME_SKIP:
-		result = false;
-		break;
-
 	case FILERESUME_RESUME:
 		result = transfer->OpenFile(_T("ab"));
+		break;
+
+	case FILERESUME_SKIP:
+		result = false;
 		break;
 	}
 

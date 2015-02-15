@@ -48,10 +48,18 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_ERROR -1
 
+#define TOX_MAX_DISCONNECT_RETRIES 100
+
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_DNS "DnsID"
 #define TOX_SETTINGS_GROUP "DefaultGroup"
 #define TOX_SETTINGS_AVATAR_HASH "AvatarHash"
+
+#define TOX_SETTINGS_NODE_IPV4 "Node_%d_IPv4"
+#define TOX_SETTINGS_NODE_IPV6 "Node_%d_IPv6"
+#define TOX_SETTINGS_NODE_PORT "Node_%d_Port"
+#define TOX_SETTINGS_NODE_PKEY "Node_%d_PubKey"
+#define TOX_SETTINGS_NODE_COUNT "NodeCount"
 
 #define TOX_DB_EVENT_TYPE_ACTION 10001
 
