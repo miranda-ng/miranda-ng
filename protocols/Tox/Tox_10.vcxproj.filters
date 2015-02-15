@@ -111,7 +111,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\tox.ico">
+    <Image Include="res\icons\tox.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
