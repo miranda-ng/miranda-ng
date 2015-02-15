@@ -456,19 +456,26 @@ std::string utils::text::source_get_form_data(std::string* data)
 	return values;
 }
 
-std::string utils::text::rand_string(int len, const char *chars)
+std::string utils::text::rand_string(int len, const char *chars, unsigned int *number)
 {
 	std::stringstream out;
 
 	int strLen = (int)strlen(chars);
 	for (int i = 0; i < len; ++i) {
-		out << chars[utils::number::random(0, strLen)];
+		out << chars[utils::number::random(0, strLen, number)];
 	}
 
 	return out.str();
 }
 
-int utils::number::random(int min, int max)
+int utils::number::random(int min, int max, unsigned int *number)
 {
+	if (number != NULL) {
+		errno_t err = rand_s(number);
+		if (!err)
+			return (*number % (max - min)) + min;
+	}
+
+	// If called didn't specified "number" or there was error, fallback to rand()
 	return (rand() % (max - min)) + min;
 }
