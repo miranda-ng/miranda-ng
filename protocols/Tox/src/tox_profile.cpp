@@ -41,7 +41,7 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	uint8_t *data = (uint8_t*)mir_calloc(size);
-	if (fread((char*)data, sizeof(char), size, profile) != size)
+	if (fread((char*)data, sizeof(char), size, profile) != (size_t)size)
 	{
 		fclose(profile);
 		debugLogA("CToxProto::LoadToxData: could not read tox profile");

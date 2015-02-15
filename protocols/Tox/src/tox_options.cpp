@@ -1,6 +1,6 @@
 #include "common.h"
 
-HWND hAddNodeDlg;
+HWND hAddNodeDlg, hChangeNodeDlg;
 bool UpdateListFlag = false;
 
 INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -375,6 +375,7 @@ INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_DESTROY:
 		ItemInfo *SelItem = (ItemInfo *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		hChangeNodeDlg = 0;
 		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "ChangeNodeDlg");
 		delete SelItem;
 		break;
@@ -404,11 +405,11 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			return FALSE;
 
 		case IDC_CHANGE:
-			{
+			if (hChangeNodeDlg == 0) {
 				ItemInfo SelItem = { 0 };
 				SelItem.hwndList = hwndList;
 				SelItem.SelNumber = ListView_GetSelectionMark(hwndList);
-				CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, ChangeNodeDlgProc, (LPARAM)&SelItem);
+				hChangeNodeDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, ChangeNodeDlgProc, (LPARAM)&SelItem);
 			}
 			return FALSE;
 

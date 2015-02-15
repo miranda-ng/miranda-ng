@@ -56,7 +56,6 @@ public:
 		char *endptr;
 		const char *pos = hex;
 		int size = mir_strlen(hex) / 2;
-		uint8_t *result = (uint8_t*)mir_alloc(size);
 		for (int i = 0; i < size; i++)
 		{
 			char buf[5] = { '0', 'x', pos[0], pos[1], 0 };

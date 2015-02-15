@@ -75,7 +75,7 @@ struct ItemInfo
 	int SelNumber;
 };
 
-extern HWND hAddNodeDlg;
+extern HWND hAddNodeDlg, hChangeNodeDlg;
 
 int OptInit(WPARAM wParam, LPARAM lParam);
 int PreShutdown(WPARAM wParam, LPARAM lParam);

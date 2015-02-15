@@ -1,6 +1,6 @@
 #include "common.h"
 
-void CToxProto::OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnFriendMessage(Tox *, const int number, const uint8_t *message, const uint16_t, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -16,7 +16,7 @@ void CToxProto::OnFriendMessage(Tox *tox, const int number, const uint8_t *messa
 	}
 }
 
-void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action, const uint16_t actionSize, void *arg)
+void CToxProto::OnFriendAction(Tox *, const int number, const uint8_t *action, const uint16_t actionSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -33,7 +33,7 @@ void CToxProto::OnFriendAction(Tox *tox, const int number, const uint8_t *action
 	}
 }
 
-int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
+int __cdecl CToxProto::SendMsg(MCONTACT hContact, int, const char* msg)
 {
 	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
 	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
@@ -63,7 +63,7 @@ int __cdecl CToxProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	return result;
 }
 
-void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg)
+void CToxProto::OnReadReceipt(Tox *, int32_t number, uint32_t receipt, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -78,7 +78,7 @@ void CToxProto::OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *
 	}
 }
 
-int CToxProto::OnPreCreateMessage(WPARAM wParam, LPARAM lParam)
+int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 {
 	MessageWindowEvent *evt = (MessageWindowEvent *)lParam;
 	if (strcmp(GetContactProto(evt->hContact), m_szModuleName))
@@ -101,7 +101,7 @@ int CToxProto::OnPreCreateMessage(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-void CToxProto::OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg)
+void CToxProto::OnTypingChanged(Tox *, const int number, uint8_t isTyping, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 

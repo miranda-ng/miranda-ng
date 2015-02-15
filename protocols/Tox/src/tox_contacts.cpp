@@ -149,7 +149,7 @@ void CToxProto::LoadFriendList(void*)
 	}
 }
 
-int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
+int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
 	if (!IsOnline())
 	{
@@ -166,7 +166,7 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *data, const uint8_t *message, const uint16_t messageSize, void *arg)
+void CToxProto::OnFriendRequest(Tox *, const uint8_t *data, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -201,7 +201,7 @@ void CToxProto::OnFriendRequest(Tox *tox, const uint8_t *data, const uint8_t *me
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
 
-void CToxProto::OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg)
+void CToxProto::OnFriendNameChange(Tox *, const int friendNumber, const uint8_t *name, const uint16_t, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -212,7 +212,7 @@ void CToxProto::OnFriendNameChange(Tox *tox, const int friendNumber, const uint8
 	}
 }
 
-void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg)
+void CToxProto::OnStatusMessageChanged(Tox *, const int friendNumber, const uint8_t* message, const uint16_t, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -224,7 +224,7 @@ void CToxProto::OnStatusMessageChanged(Tox *tox, const int friendNumber, const u
 	}
 }
 
-void CToxProto::OnUserStatusChanged(Tox *tox, int32_t friendNumber, uint8_t usertatus, void *arg)
+void CToxProto::OnUserStatusChanged(Tox *, int32_t friendNumber, uint8_t usertatus, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
