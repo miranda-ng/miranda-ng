@@ -193,6 +193,8 @@
 Помилка
 [Error %d. Data will not be sent or received.]
 Помилка %d. Дані не передаватимуться і не прийматимуться.
+[Enter confirmation code ]
+Введіть код підтвердження
 [Message read: %s]
 Повідомлення прочитане о %s
 [commented on your post]

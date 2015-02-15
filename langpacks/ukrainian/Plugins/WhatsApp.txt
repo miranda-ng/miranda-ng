@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.8
+;  Version: 0.1.2.9
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -65,6 +65,8 @@ SMS-код
 Копіювати &нік
 [Copy real &JID]
 Копіювати &JID
+[Unknown user]
+Невідомий користувач
 [Please enter a country code.]
 Введіть код країни.
 [Please enter a phone number without country code.]
