@@ -88,7 +88,7 @@ private:
 
 	// tox network
 	bool IsOnline();
-	void BootstrapNode(int index);
+	void BootstrapDht();
 	void TryConnect();
 	void CheckConnection(int &retriesCount);
 	void DoTox();
