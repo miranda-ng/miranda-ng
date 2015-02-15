@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.6
+;  Version: 0.11.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -71,10 +71,22 @@ Połączenie %s
 ;file \protocols\Tox\src\tox_options.cpp
 [Add node]
 Dodaj gałąź
+[Enter IPv4]
+Wprowadź IPV4
+[Error]
+Błąd
+[Enter IPv6]
+Wprowadź IPV6
+[Enter port]
+Wprowadź port
+[Enter client ID]
+Wprowadź ID klienta
+[Change node]
+Zmień gałąź
 [Are you sure?]
 Czy jesteś pewien?
-[Contact deleting]
-Usuwanie kontaktu
+[Node deleting]
+Usuwanie Gałęzi
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Wszystkie pliki (*.*)
