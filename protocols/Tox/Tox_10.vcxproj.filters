@@ -13,6 +13,12 @@
     <Filter Include="Source Files\api">
       <UniqueIdentifier>{87c3094c-c0d1-4179-856d-55d02a4450cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\api">
+      <UniqueIdentifier>{7f072eba-bb61-4824-b479-5898b85add0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Icons">
+      <UniqueIdentifier>{5ce796e5-1f0d-4bb7-bdab-9de0e5513528}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\version.h">
@@ -33,6 +39,18 @@
     <ClInclude Include="src\tox_transfer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tox_address.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\tox.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="include\toxdns.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="include\toxencryptsave.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
@@ -48,9 +66,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tox_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tox_account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tox_options.cpp">
@@ -101,6 +116,12 @@
     <ClCompile Include="src\api_transfer.cpp">
       <Filter>Source Files\api</Filter>
     </ClCompile>
+    <ClCompile Include="src\tox_network.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_core.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -112,7 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\icons\tox.ico">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Icons</Filter>
     </Image>
   </ItemGroup>
 </Project>
