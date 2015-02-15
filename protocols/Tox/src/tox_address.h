@@ -53,11 +53,6 @@ public:
 	}
 	ToxBinAddress(const char *hex)
 	{
-		if (hex == NULL) {
-			binData.resize(32);
-			return;
-		}
-
 		char *endptr;
 		const char *pos = hex;
 		int size = mir_strlen(hex) / 2;
