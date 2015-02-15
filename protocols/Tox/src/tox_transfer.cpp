@@ -3,7 +3,7 @@
 /* FILE RECEIVING */
 
 // incoming file flow
-void CToxProto::OnFriendFile(Tox *tox, int32_t friendNumber, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t length, void *arg)
+void CToxProto::OnFriendFile(Tox *, int32_t friendNumber, uint8_t fileNumber, uint64_t fileSize, const uint8_t *fileName, uint16_t, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -262,7 +262,7 @@ void CToxProto::SendFileAsync(void *arg)
 /* COMMON */
 
 // file request is cancelled
-int __cdecl CToxProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+int __cdecl CToxProto::FileCancel(MCONTACT, HANDLE hTransfer)
 {
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	transfer->status = CANCELED;

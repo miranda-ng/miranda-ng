@@ -49,5 +49,8 @@ int PreShutdown(WPARAM, LPARAM)
 	if (hAddNodeDlg)
 		SendMessage(hAddNodeDlg, WM_CLOSE, 0, 0);
 
+	if (hChangeNodeDlg)
+		SendMessage(hChangeNodeDlg, WM_CLOSE, 0, 0);
+
 	return 0;
 }

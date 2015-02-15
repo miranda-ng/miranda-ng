@@ -57,7 +57,7 @@ CToxProto::~CToxProto()
 	UninitNetlib();
 }
 
-DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT hContact)
+DWORD_PTR __cdecl CToxProto::GetCaps(int type, MCONTACT)
 {
 	switch (type)
 	{
@@ -100,7 +100,7 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddContact(address.c_str(), _T(""), flags & PALF_TEMPORARY);
 }
 
-MCONTACT __cdecl CToxProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) { return 0; }
+MCONTACT __cdecl CToxProto::AddToListByEvent(int, int, MEVENT) { return 0; }
 
 int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 {
@@ -126,7 +126,7 @@ int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 	return 0;
 }
 
-int __cdecl CToxProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason) { return 0; }
+int __cdecl CToxProto::AuthDeny(MEVENT, const PROTOCHAR*) { return 0; }
 
 int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
@@ -157,11 +157,11 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage
 	return 1;
 }
 
-HANDLE __cdecl CToxProto::ChangeInfo(int iInfoType, void* pInfoData) { return 0; }
+HANDLE __cdecl CToxProto::ChangeInfo(int, void*) { return 0; }
 
-int __cdecl CToxProto::GetInfo(MCONTACT hContact, int infoType) { return 0; }
+int __cdecl CToxProto::GetInfo(MCONTACT, int) { return 0; }
 
-int __cdecl CToxProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
+int __cdecl CToxProto::RecvContacts(MCONTACT, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre)
 {
@@ -173,13 +173,13 @@ int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	return Proto_RecvMessage(hContact, pre);
 }
 
-int __cdecl CToxProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 0; }
+int __cdecl CToxProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 0; }
 
-int __cdecl CToxProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList) { return 0; }
+int __cdecl CToxProto::SendContacts(MCONTACT, int, int, MCONTACT*) { return 0; }
 
-int __cdecl CToxProto::SendUrl(MCONTACT hContact, int flags, const char* url) { return 0; }
+int __cdecl CToxProto::SendUrl(MCONTACT, int, const char*) { return 0; }
 
-int __cdecl CToxProto::SetApparentMode(MCONTACT hContact, int mode) { return 0; }
+int __cdecl CToxProto::SetApparentMode(MCONTACT, int) { return 0; }
 
 int __cdecl CToxProto::SetStatus(int iNewStatus)
 {
@@ -253,10 +253,10 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 	return 0;
 }
 
-HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT hContact) { return 0; }
-int __cdecl CToxProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) { return 0; }
+HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT) { return 0; }
+int __cdecl CToxProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 0; }
 
-int __cdecl CToxProto::SetAwayMsg(int iStatus, const PROTOCHAR *msg)
+int __cdecl CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
 {
 	if (IsOnline())
 	{

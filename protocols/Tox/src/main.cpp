@@ -26,7 +26,7 @@ DWORD WINAPI DllMain(HINSTANCE hInstance, DWORD, LPVOID)
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
 	return &pluginInfo;
 }
@@ -39,7 +39,6 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "TOX";

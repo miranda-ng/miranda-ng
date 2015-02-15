@@ -159,7 +159,7 @@ INT_PTR CToxProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return -1;
 }
 
-INT_PTR CToxProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR CToxProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	TCHAR *path = (TCHAR*)lParam;
 	std::tstring avatarPath = GetAvatarFilePath();
@@ -192,7 +192,7 @@ INT_PTR CToxProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void CToxProto::OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, void *arg)
+void CToxProto::OnGotFriendAvatarInfo(Tox *, int32_t number, uint8_t format, uint8_t *hash, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 
@@ -228,7 +228,7 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, 
 	}
 }
 
-void CToxProto::OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, uint8_t *data, uint32_t length, void *arg)
+void CToxProto::OnGotFriendAvatarData(Tox *, int32_t number, uint8_t, uint8_t *hash, uint8_t *data, uint32_t length, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
 

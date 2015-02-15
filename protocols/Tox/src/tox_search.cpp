@@ -31,7 +31,6 @@ void CToxProto::SearchByNameAsync(void *arg)
 				char dnsQuery[512];
 				mir_snprintf(dnsQuery, 512, "_%s._tox.%s", dnsString, server->domain);
 
-				bool success = false;
 				DNS_RECORDA *record = NULL;
 				DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, 0, NULL, (PDNS_RECORD*)&record, NULL);
 				while (record)
@@ -69,7 +68,7 @@ void CToxProto::SearchByNameAsync(void *arg)
 	mir_free(arg);
 }
 
-INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -91,11 +90,11 @@ INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	return FALSE;
 }
 
-HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR* id) { return 0; }
+HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR*) { return 0; }
 
-HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR* email) { return 0; }
+HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR*) { return 0; }
 
-HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName) { return 0; }
+HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*) { return 0; }
 
 HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 {
@@ -115,7 +114,6 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	if (std::regex_search(query, match, regex))
 	{
 		std::string address = match[1];
-		MCONTACT hContact = GetContact(address.c_str());
 
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_TCHAR;
