@@ -76,7 +76,7 @@ int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
 		HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::onGroupChatEvent);
 		HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::OnChatMenu);
 	}
-	return 0;
+	return TRUE;
 }
 
 DWORD_PTR WhatsAppProto::GetCaps(int type, MCONTACT hContact)

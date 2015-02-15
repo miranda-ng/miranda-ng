@@ -1186,14 +1186,13 @@ int TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lPara
 	case EV_PROTO_ONLOAD:    return OnModulesLoaded(0, 0);
 	case EV_PROTO_ONOPTIONS: return OptionsInit(wParam, lParam);
 	case EV_PROTO_ONEXIT:    return PreShutdown(0, 0);
+
 	case EV_PROTO_ONRENAME:
-		{
-			CLISTMENUITEM mi = { sizeof(mi) };
-			mi.flags = CMIM_NAME | CMIF_TCHAR;
-			mi.ptszName = m_tszUserName;
-			Menu_ModifyItem(hMenuRoot, &mi);
-			/* FIXME: Rename network user as well */
-		}
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.flags = CMIM_NAME | CMIF_TCHAR;
+		mi.ptszName = m_tszUserName;
+		Menu_ModifyItem(hMenuRoot, &mi);
+		/* FIXME: Rename network user as well */
 	}
 	return 1;
 }
