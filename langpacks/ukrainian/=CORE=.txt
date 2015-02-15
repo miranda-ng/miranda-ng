@@ -1705,6 +1705,8 @@ UIN, E-mail тощо
 Меню користувача
 [Canceled]
 Скасовані
+[This file transfer has been canceled by the other side]
+Передачу файлу скасовано іншою стороною
 [%d files]
 %d файлів
 [%d directories]
