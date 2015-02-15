@@ -180,7 +180,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 	rewind(hFile);
 
 	char *name = mir_utf8encodeW(fileName);
-	int fileNumber = tox_new_file_sender(tox, friendNumber, fileSize, (uint8_t*)name, mir_strlen(name));
+	int fileNumber = tox_new_file_sender(tox, friendNumber, fileSize, (uint8_t*)name, (uint16_t)mir_strlen(name));
 	if (fileNumber < 0)
 	{
 		debugLogA("CToxProto::SendFilesAsync: cannot send file");
@@ -203,7 +203,7 @@ void CToxProto::SendFileAsync(void *arg)
 	FileTransferParam *transfer = (FileTransferParam*)arg;
 	transfer->status = STARTED;
 
-	int dataSize = 0;
+	size_t dataSize = 0;
 	uint64_t fileProgress = transfer->pfts.currentFileProgress;
 	uint64_t fileSize = transfer->pfts.currentFileSize;
 	int chunkSize = min(tox_file_data_size(tox, transfer->friendNumber), fileSize);
@@ -214,7 +214,7 @@ void CToxProto::SendFileAsync(void *arg)
 		if (dataSize == 0)
 		{
 			dataSize = min(chunkSize, fileSize - fileProgress);
-			int read = fread(data, sizeof(uint8_t), dataSize, transfer->hFile);
+			size_t read = fread(data, sizeof(uint8_t), dataSize, transfer->hFile);
 			if (read != dataSize)
 			{
 				debugLogA("CToxProto::SendFileAsync: failed to read from file (%d)", transfer->fileNumber);
@@ -230,7 +230,7 @@ void CToxProto::SendFileAsync(void *arg)
 		int sendResult = TOX_ERROR;
 		{
 			mir_cslock lock(toxLock);
-			sendResult = tox_file_send_data(tox, transfer->friendNumber, transfer->fileNumber, data, dataSize);
+			sendResult = tox_file_send_data(tox, transfer->friendNumber, transfer->fileNumber, data, (uint16_t)dataSize);
 		}
 		if (sendResult == TOX_ERROR)
 		{
