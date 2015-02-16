@@ -114,9 +114,9 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	ptrT ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		m_iStatus = ID_STATUS_OFFLINE;
-		if (!IsEmpty(ptszListeningToMsg))
+		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast)
 			RetrieveStatusMsg(oldStatusMsg);
+		m_iStatus = ID_STATUS_OFFLINE;
 		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
@@ -126,10 +126,10 @@ void CVkProto::SetServerStatus(int iNewStatus)
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
-	else {
-		m_iStatus = ID_STATUS_INVISIBLE;
-		if (!IsEmpty(ptszListeningToMsg))
+	else {		
+		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast)
 			RetrieveStatusMsg(oldStatusMsg);
+		m_iStatus = ID_STATUS_INVISIBLE;
 		if (iOldStatus == ID_STATUS_ONLINE)
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
@@ -1041,6 +1041,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 			CMString codeformat("API.status.set({text:\"%s\"});return null;");
 			code.AppendFormat(codeformat, ptszOldStatusMsg);
 		}
+		m_bSetBroadcast = false;
 	}
 	else {
 		if (m_iMusicSendMetod == sendBroadcastOnly) {
@@ -1072,6 +1073,7 @@ void CVkProto::RetrieveStatusMusic(const CMString &StatusMsg)
 				"};return OldMsg;");
 			code.AppendFormat(codeformat, StatusMsg);
 		}
+		m_bSetBroadcast = true;
 	}
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/execute.json", true, &CVkProto::OnReceiveStatus)
 		<< TCHAR_PARAM("code", code)
@@ -1093,8 +1095,8 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 			tszListeningTo = ptrT((LPWSTR)CallService(MS_LISTENINGTO_GETPARSEDTEXT, (WPARAM)_T("%artist% - %title%"), (LPARAM)pliInfo));
 		else
 			tszListeningTo.Format(_T("%s - %s"),
-			pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""),
-			pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""));
+				pliInfo->ptszArtist ? pliInfo->ptszArtist : _T(""),
+				pliInfo->ptszTitle ? pliInfo->ptszTitle : _T(""));
 		setTString("ListeningTo", tszListeningTo);
 	}
 	RetrieveStatusMusic(tszListeningTo);
