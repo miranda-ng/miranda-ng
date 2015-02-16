@@ -384,7 +384,7 @@ INT_PTR FacebookProto::GetMyAwayMsg(WPARAM, LPARAM lParam)
 	return (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(statusMsg) : (INT_PTR)mir_t2a(statusMsg);
 }
 
-int FacebookProto::OnIdleChanged(WPARAM wParam, LPARAM lParam)
+int FacebookProto::OnIdleChanged(WPARAM, LPARAM lParam)
 {
 	bool idle = (lParam & IDF_ISIDLE) != 0;
 	bool privacy = (lParam & IDF_PRIVACY) != 0;
