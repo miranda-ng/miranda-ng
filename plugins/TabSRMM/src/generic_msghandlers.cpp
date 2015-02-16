@@ -797,6 +797,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 
 	if (!fIsChat && GetWindowTextLength(hwndEdit) > 0)
 		szStreamOut = Message_GetFromStream(hwndEdit, dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE));
+	SetWindowText(hwndEdit, _T(""));
 
 	SendMessage(hwndLog, EM_SETBKGNDCOLOR, 0, colour);
 	SendMessage(hwndEdit, EM_SETBKGNDCOLOR, 0, dat->inputbg);
@@ -818,7 +819,6 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 		cf2.yHeight = abs(lf.lfHeight) * 15;
-		SetWindowText(hwndEdit, _T(""));
 	}
 	else {
 		LOGFONTA lf = dat->pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
@@ -839,6 +839,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	}
 	SendMessage(hwndEdit, EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);
 	SendMessage(hwndEdit, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2); /* WINE: fix send colour text. */
+	SendMessage(hwndEdit, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2); /* WINE: fix send colour text. */
 
 	// setup the rich edit control(s)
 	// LOG is always set to RTL, because this is needed for proper bidirectional operation later.
@@ -864,14 +865,12 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		pf2.dxRightIndent = 30;
 	}
 	pf2.dxOffset = dat->pContainer->theme.left_indent + 30;
+
 	if (!fIsChat) {
 		SetWindowText(hwndLog, _T(""));
 		SendMessage(hwndLog, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		SendMessage(hwndLog, EM_SETLANGOPTIONS, 0, (LPARAM)SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
-	}
-
-	// set the scrollbars etc to RTL/LTR (only for manual RTL mode)
-	if (!fIsChat) {
+		// set the scrollbars etc to RTL/LTR (only for manual RTL mode)
 		if (dat->dwFlags & MWF_LOG_RTL) {
 			SetWindowLongPtr(hwndEdit, GWL_EXSTYLE, GetWindowLongPtr(hwndEdit, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
 			SetWindowLongPtr(hwndLog, GWL_EXSTYLE, GetWindowLongPtr(hwndLog, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
@@ -880,7 +879,6 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 			SetWindowLongPtr(hwndEdit, GWL_EXSTYLE, GetWindowLongPtr(hwndEdit, GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
 			SetWindowLongPtr(hwndLog, GWL_EXSTYLE, GetWindowLongPtr(hwndLog, GWL_EXSTYLE) &~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
 		}
-		SetWindowText(hwndEdit, _T(""));
 	}
 	if (szStreamOut != NULL) {
 		SETTEXTEX stx = { ST_DEFAULT, CP_UTF8 };

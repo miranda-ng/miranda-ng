@@ -42,7 +42,9 @@ void SetupInfobar(InfobarWindowData* idat)
 	cf2.wWeight = (WORD)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
-	SendDlgItemMessageA(hwnd, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2); /* WINE: fix send colour text. */
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2); /* WINE: fix send colour text. */
 
 	LoadMsgDlgFont(MSGFONTID_INFOBAR_STATUS, &lf, &colour);
 	cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
@@ -54,7 +56,9 @@ void SetupInfobar(InfobarWindowData* idat)
 	cf2.wWeight = (WORD)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
-	SendDlgItemMessageA(hwnd, IDC_INFOBAR_STATUS, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2); /* WINE: fix send colour text. */
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf2); /* WINE: fix send colour text. */
 
 	RefreshInfobar(idat);
 }

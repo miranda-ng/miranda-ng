@@ -311,7 +311,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				cf.dwEffects = CFE_BOLD;
 				cf.crTextColor = colourSet.text;
 				_tcscpy_s(cf.szFaceName, _T("Arial"));
-				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+				SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				
 				mir_sntprintf(searchText, SIZEOF(searchText), _T("%s '%s': %d\n\n"), TranslateT("Matches for searchtext"), searchString, listCount);
 				SendDlgItemMessage(hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)searchText);
@@ -322,7 +322,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_FACE | CFM_BOLD;
 			_tcscpy_s(cf.szFaceName, _T("Courier"));
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM)&cf);
+			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 		}
 
 		actualElement = listStart->nextElement;
@@ -415,7 +415,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					cf.cbSize = sizeof(cf);
 					cf.dwMask = CFM_COLOR;
 					cf.crTextColor = colourSet.text;
-					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM)&cf);
+					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 					if ( options.showLine != 0 )
 						DrawLine(hDlg, lineLen);
 					memset(&cf, 0, sizeof(cf));
@@ -423,7 +423,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 					cf.dwEffects = CFE_BOLD;
 					_tcscpy_s(cf.szFaceName, _T("Arial"));
-					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 					if ( options.showDate != 0 )
 					{
 						SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM) actualElement->date);
@@ -435,7 +435,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					cf.cbSize = sizeof cf;
 					cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
 					_tcscpy_s(cf.szFaceName, _T("Courier"));
-					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 				}
 				memset(&cf, 0, sizeof(cf));
 				cf.cbSize = sizeof(cf);
@@ -493,7 +493,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 			cf.dwEffects = CFE_BOLD;
 			_tcscpy_s(cf.szFaceName, _T("Arial"));
-			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+			SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)TranslateT("No messages found!\nPlease change current filter options."));
 			SendDlgItemMessage( hDlg, IDC_MAIN, EM_REPLACESEL, FALSE, (LPARAM)_T("\n"));
 		}
@@ -534,7 +534,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.dwMask = CFM_FACE | CFM_BOLD | CFM_ITALIC | CFM_COLOR;
 	_tcscpy_s(cf.szFaceName, _T("Courier"));
 	cf.crTextColor = TxtColourSel;
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 	if ( options->showLine == 1 )
 		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("___________________________________________\n"));
 	else
@@ -546,7 +546,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.dwEffects = CFE_BOLD;
 	_tcscpy_s(cf.szFaceName, _T("Arial"));
 	cf.crTextColor = TxtColourSel;
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 
 	if(options->showDate == 1)
 		SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)TXT_DATE);
@@ -557,7 +557,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.cbSize = sizeof(cf);
 	cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_UNDERLINE | CFM_FACE;
 	_tcscpy_s(cf.szFaceName, _T("Courier"));
-	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
+	SendDlgItemMessage( hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM) &cf);
 
 	// incoming
 	memset(&cf, 0, sizeof(cf));
@@ -565,7 +565,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = InColourSel;
 	_tcscpy_s(cf.szFaceName, _T("Courier"));
-	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM)&cf );
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf );
 	
 	if ( options->showDirection == 1 )
 		SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_REPLACESEL, FALSE, (LPARAM)_T("\n[in ] "));
@@ -588,7 +588,7 @@ int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD B
 	cf.dwMask = CFM_COLOR | CFM_FACE;
 	cf.crTextColor = OutColourSel;
 	_tcscpy_s(cf.szFaceName, _T("Courier"));
-	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM)&cf);
+	SendDlgItemMessage(hDlg, IDC_OPTIONS_RE, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 	
 	if ( options->showDirection == 1 )
