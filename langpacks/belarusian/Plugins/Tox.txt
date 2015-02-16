@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Version: 0.11.0.7
+;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\Tox\res\resource.rc
 [Name:]
@@ -12,10 +12,19 @@
 Пароль:
 [Cancel]
 Скасаваць
+[Add]
+Дадаць
+[Remove]
+Выдаліць
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Сеціва
 ;file \protocols\Tox\src\tox_netlib.cpp
+;file \protocols\Tox\src\tox_options.cpp
+[Error]
+Памылка
+[Are you sure?]
+Вы ўпэўнены?
 ;file \protocols\Tox\src\tox_profile.cpp
 ;file \protocols\Tox\src\tox_proto.cpp
 ;file \protocols\Tox\src\tox_search.cpp

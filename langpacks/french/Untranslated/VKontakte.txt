@@ -80,6 +80,7 @@
 [VKontakte]
 [Access denied! Data will not be sent or received.]
 [Error %d. Data will not be sent or received.]
+[Enter confirmation code ]
 [commented on your post]
 [commented on your photo]
 [commented on your video]

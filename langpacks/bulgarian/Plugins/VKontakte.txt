@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.43
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [off]
@@ -33,6 +33,8 @@
 Видео
 [Link]
 Връзка
+[(Unknown contact)]
+(Непознат контакт)
 [Enter the text you see]
 Въведете текста, който виждате
 [Participants]
@@ -43,8 +45,6 @@
 Неизвестно
 [Warning]
 Предупреждение
-[(Unknown contact)]
-(Непознат контакт)
 [&Invite a user]
 Поканване на потребител
 [&Destroy room]

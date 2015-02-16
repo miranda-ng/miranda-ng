@@ -1738,6 +1738,8 @@ Verlauf anzeigen
 Benutzermenü
 [Canceled]
 Abgebrochen
+[This file transfer has been canceled by the other side]
+
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Dateien
@@ -1977,6 +1979,7 @@ Mein Profil än&dern...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
+;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Kontakt hinzufügen

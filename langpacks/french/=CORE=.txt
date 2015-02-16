@@ -1738,6 +1738,8 @@ Voir l'historique
 Menu Contact
 [Canceled]
 Annulé
+[This file transfer has been canceled by the other side]
+
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 Fichiers %d
@@ -2447,6 +2449,8 @@ Effacer le metacontact
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Aucun contact en ligne trouvé.
+[Select metacontact]
+
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 

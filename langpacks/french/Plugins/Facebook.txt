@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.9
+;  Version: 0.2.10.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -63,6 +63,8 @@ Notifications
 [Other events]
 Autres événements
 [Client notifications]
+
+[Friendship notifications]
 
 [Use this server for opening links:]
 Utiliser ce serveur pour ouvrir les liens :
@@ -225,6 +227,8 @@ Défaut
 
 [Sample notification]
 
+[Sample friendship]
+
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 un autocollant
@@ -283,6 +287,8 @@ Partager le statut
 
 [News feeds]
 Fil d'actualité
+[Friendship events]
+
 [Visit profile]
 Visiter le profil
 [Visit notifications]
@@ -295,6 +301,8 @@ Visiter le profil
 
 [Other Event]
 Autre événement
+[Friendship Event]
+
 [Message read: %s]
 Message lu : %s
 ;file \protocols\FacebookRM\src\theme.cpp

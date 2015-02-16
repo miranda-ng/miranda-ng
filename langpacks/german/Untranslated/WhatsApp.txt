@@ -16,6 +16,7 @@
 [&Add to roster]
 [Copy &nickname]
 [Copy real &JID]
+[Unknown user]
 [Changes will be applied after protocol restart]
 [server]
 [Message received: %s by %s]

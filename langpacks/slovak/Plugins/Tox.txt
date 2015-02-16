@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Version: 0.11.0.7
+;  Authors: Miranda NG Team
 ;============================================================
 [Password:]
 Heslo:
@@ -13,3 +13,5 @@ Storno
 Uložiť heslo
 [Network]
 Sieť
+[Error]
+Chyba

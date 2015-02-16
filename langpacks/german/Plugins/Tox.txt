@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.5
+;  Version: 0.11.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -44,14 +44,49 @@ Passwort eingeben
 Passwort speichern
 [Tox profile is encrypted. Enter the password to continue.]
 Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
+[Add]
+Hinzufügen
+[Change]
+Ändern
+[Remove]
+Entfernen
+[IPv4]
+
+[IPv6]
+
+[Port]
+Port
+[Client ID]
+Client-ID
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Netzwerk
 [Account]
 Konto
+[Tox nodes]
+
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
+;file \protocols\Tox\src\tox_options.cpp
+[Add node]
+
+[Enter IPv4]
+
+[Error]
+Fehler
+[Enter IPv6]
+
+[Enter port]
+
+[Enter client ID]
+
+[Change node]
+
+[Are you sure?]
+Sind Sie sich sicher?
+[Node deleting]
+
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Alle Dateien (*.*)

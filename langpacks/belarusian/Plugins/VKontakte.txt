@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.43
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -75,6 +75,8 @@
 Спасылка
 [Unsupported or unknown attachment type: %s]
 Непадтрымліваемы ці невядомы тып укладання: %s
+[(Unknown contact)]
+(Невядомы кантакт)
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
@@ -91,8 +93,6 @@
 Гэты чат будзе знішчаны з усімі кантактамі. Гэта дзеянне нельга адкаціць. Вы ўпэўнены?
 [Warning]
 Папярэджанне
-[(Unknown contact)]
-(Невядомы кантакт)
 [&Invite a user]
 Запрасіць кантакт
 [View/change &title]

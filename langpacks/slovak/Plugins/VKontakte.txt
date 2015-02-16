@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.43
+;  Version: 0.1.0.46
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -21,11 +21,11 @@ Storno
 Chyba
 [Photo]
 Fotografia
+[(Unknown contact)]
+(neznámý kontakt)
 [Unknown]
 neznáme
 [Warning]
 Varovanie
-[(Unknown contact)]
-(neznámý kontakt)
 [Network]
 Sieť
