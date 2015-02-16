@@ -71,7 +71,7 @@ BEGIN
         LEFTMARGIN, 4
         RIGHTMARGIN, 297
         TOPMARGIN, 7
-        BOTTOMMARGIN, 169
+        BOTTOMMARGIN, 187
     END
 
     IDD_OPT_MAIN, DIALOG
@@ -189,31 +189,34 @@ BEGIN
     CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,0,49,174,12
 END
 
-IDD_OPT_ADV DIALOGEX 0, 0, 304, 179
+IDD_OPT_ADV DIALOGEX 0, 0, 304, 197
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced",IDC_STATIC,4,8,293,57
+    GROUPBOX        "Advanced",IDC_STATIC,4,8,293,75
     CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,19,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
-    CONTROL         "Force online status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
+    CONTROL         "Force ivisible status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
+    LTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,56,184,8
+    EDITTEXT        IDC_ED_INT_INVIS,204,52,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN_INT_INVIS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,244,52,14,14
     CONTROL         "Use non-standard urlEncode for sent messages (less traffic)",IDC_USENOSTDURLENCODE,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,52,278,10
-    GROUPBOX        "When I ban user...",IDC_STATIC,4,66,293,33
-    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,76,129,10
-    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,87,129,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,67,278,10
+    GROUPBOX        "When I ban user...",IDC_STATIC,4,84,293,33
+    CONTROL         "Report abuse",IDC_REPORT_ABUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,94,129,10
+    CONTROL         "Clear server history",IDC_CLEAR_SERVER_HISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,105,129,10
     CONTROL         "Remove from friend list",IDC_REMOVE_FROM_FRENDLIST,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,76,141,10
-    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,87,141,10
-    GROUPBOX        "Broadcast music...",IDC_STATIC_SEND_MUSIC_METOD,4,102,293,58,WS_GROUP
-    CONTROL         "off",IDC_SEND_MUSIC_NONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,113,278,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,94,141,10
+    CONTROL         "Remove from contact list",IDC_REMOVE_FROM_CLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,105,141,10
+    GROUPBOX        "Broadcast music...",IDC_STATIC_SEND_MUSIC_METOD,4,120,293,58,WS_GROUP
+    CONTROL         "off",IDC_SEND_MUSIC_NONE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,131,278,10
     CONTROL         "as regular status for unknown music and audio status otherwise",IDC_SEND_MUSIC_BROADCAST_AND_STATUS,
-                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,124,278,11
-    CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,135,278,10
-    CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,146,278,10
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,142,278,10
+    CONTROL         "as audio status only",IDC_SEND_MUSIC_BROADCAST,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,153,278,10
+    CONTROL         "as regular status only",IDC_SEND_MUSIC_STATUS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,164,278,10
 END
 
 IDD_OPT_MAIN DIALOGEX 0, 0, 304, 213
@@ -222,11 +225,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Login settings",IDC_STATIC,4,8,293,50
-    RTEXT           "E-mail or phone number:",IDC_STATIC,12,16,150,10
-    EDITTEXT        IDC_LOGIN,167,15,121,12,ES_AUTOHSCROLL
-    RTEXT           "Password:",IDC_STATIC,12,28,150,10
-    EDITTEXT        IDC_PASSWORD,167,28,121,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,43,174,11
+    RTEXT           "E-mail or phone number:",IDC_STATIC,12,17,150,10
+    EDITTEXT        IDC_LOGIN,167,16,121,12,ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,12,29,150,10
+    EDITTEXT        IDC_PASSWORD,167,29,121,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Open VKontakte site",IDC_URL,"Hyperlink",WS_TABSTOP,59,44,174,11
     GROUPBOX        "Local settings",IDC_STATIC,4,59,293,65
     RTEXT           "Contact list group:",IDC_STATIC,12,71,150,8
     EDITTEXT        IDC_GROUPNAME,167,69,121,12,ES_AUTOHSCROLL

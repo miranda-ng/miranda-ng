@@ -1137,3 +1137,14 @@ CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
 
 	return res;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CVkProto::SetInvisible(MCONTACT hContact)
+{
+	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
+		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
+		SetMirVer(hContact, 1);
+	}
+	setDword(hContact, "InvisibleTS", time(NULL));
+}

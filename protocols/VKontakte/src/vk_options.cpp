@@ -257,10 +257,18 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_STATUS, (ppro->m_iMusicSendMetod == sendStatusOnly) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SEND_MUSIC_BROADCAST_AND_STATUS, (ppro->m_iMusicSendMetod == sendBroadcastAndStatus) ? BST_CHECKED : BST_UNCHECKED);
 
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_INVIS, UDM_SETRANGE, 0, MAKELONG(60, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN_INT_INVIS, UDM_SETPOS, 0, ppro->m_iInvisibleInterval);
+
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
+		case IDC_ED_INT_INVIS:
+			if ((HWND)lParam == GetFocus() && (HIWORD(wParam) == EN_CHANGE))
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
 		case IDC_HIDECHATS:
 		case IDC_MESASUREAD:
 		case IDC_FORCE_ONLINE_ON_ACT:
@@ -280,6 +288,9 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 		break;
 
 	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == UDN_DELTAPOS)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			ppro->m_bHideChats = IsDlgButtonChecked(hwndDlg, IDC_HIDECHATS) == BST_CHECKED;
 			ppro->setByte("HideChats", ppro->m_bHideChats);
@@ -317,6 +328,10 @@ INT_PTR CALLBACK CVkProto::OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam
 			CMStringA szListeningTo(ppro->m_szModuleName);
 			szListeningTo += "Enabled";
 			db_set_b(NULL, "ListeningTo", szListeningTo.GetBuffer(), ppro->m_iMusicSendMetod == 0 ? 0 : 1);
+
+			TCHAR buffer[5] = { 0 };
+			GetDlgItemText(hwndDlg, IDC_ED_INT_INVIS, buffer, SIZEOF(buffer));
+			ppro->setDword("InvisibleInterval", ppro->m_iInvisibleInterval = _ttoi(buffer));
 		}
 		break;
 

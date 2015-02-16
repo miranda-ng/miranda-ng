@@ -108,6 +108,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
 
 	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
+	m_iInvisibleInterval = getDword("InvisibleInterval", 10);
 
 	m_bSetBroadcast = false;
 	// Set all contacts offline -- in case we crashed
