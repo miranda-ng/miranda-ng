@@ -819,7 +819,6 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 		cf2.yHeight = abs(lf.lfHeight) * 15;
 		SetWindowText(hwndEdit, _T(""));
-		SendMessage(hwndEdit, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 	}
 	else {
 		LOGFONTA lf = dat->pContainer->theme.logFonts[MSGFONTID_MESSAGEAREA];
@@ -837,8 +836,9 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 		cf2.yHeight = abs(lf.lfHeight) * 15;
-		SendMessageA(hwndEdit, EM_SETCHARFORMAT, 0, (LPARAM)&cf2);
 	}
+	SendMessage(hwndEdit, EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);
+	SendMessage(hwndEdit, EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf2); /* WINE: fix send colour text. */
 
 	// setup the rich edit control(s)
 	// LOG is always set to RTL, because this is needed for proper bidirectional operation later.
