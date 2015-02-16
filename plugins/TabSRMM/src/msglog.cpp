@@ -484,7 +484,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par\\pard");
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
 		dat->isAutoRTL &= ~2;
 	}
 
