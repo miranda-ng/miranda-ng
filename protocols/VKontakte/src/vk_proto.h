@@ -586,7 +586,8 @@ private:
 		m_bNotificationFilterReposts,
 		m_bNotificationFilterMentions,
 		m_bUseBBCOnAttacmentsAsNews,
-		m_bUseNonStandardUrlEncode;
+		m_bUseNonStandardUrlEncode,
+		m_bSetBroadcast;
 
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 

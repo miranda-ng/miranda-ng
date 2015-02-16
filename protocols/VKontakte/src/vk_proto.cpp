@@ -108,6 +108,8 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNotificationFilterMentions = getBool("NotificationFilterMentions", true);
 
 	m_bUseNonStandardUrlEncode = getBool("UseNonStandardUrlEncode", true);
+
+	m_bSetBroadcast = false;
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 	vk_Instances.insert(this);
