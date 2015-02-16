@@ -114,8 +114,10 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	ptrT ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast)
+		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast) {
 			RetrieveStatusMsg(oldStatusMsg);
+			m_bSetBroadcast = false;
+		}
 		m_iStatus = ID_STATUS_OFFLINE;
 		if (iOldStatus != ID_STATUS_OFFLINE && iOldStatus != ID_STATUS_INVISIBLE)
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
@@ -127,8 +129,10 @@ void CVkProto::SetServerStatus(int iNewStatus)
 			<< VER_API);
 	}
 	else {		
-		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast)
+		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast) {
 			RetrieveStatusMsg(oldStatusMsg);
+			m_bSetBroadcast = false;
+		}
 		m_iStatus = ID_STATUS_INVISIBLE;
 		if (iOldStatus == ID_STATUS_ONLINE)
 			Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOffline.json", true, &CVkProto::OnReceiveSmth)
@@ -467,9 +471,14 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 			LONG userID = getDword(hContact, "ID", -1);
 			if (userID == m_myUserId || userID == VK_FEED_USER)
 				continue;
-			if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+
+			int iContactStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+
+			if ((iContactStatus == ID_STATUS_ONLINE)
+				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60)) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			SetMirVer(hContact, -1);
+				SetMirVer(hContact, -1);
+			}
 			db_unset(hContact, m_szModuleName, "ListeningTo");
 		}
 	arContacts.destroy();
@@ -695,7 +704,7 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 		if (isOut)
 			recv.flags |= PREF_SENT;
 		else if (m_bUserForceOnlineOnActivity)
-			setWord(hContact, "Status", ID_STATUS_ONLINE);
+			SetInvisible(hContact);
 
 		recv.timestamp = m_bUseLocalTime ? time(NULL) : datetime;
 		recv.tszMessage = ptszBody;
@@ -843,7 +852,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 					SetSrmmReadStatus(hContact);
 				}
 				if (m_bUserForceOnlineOnActivity)
-					setWord(hContact, "Status", ID_STATUS_ONLINE);
+					SetInvisible(hContact);
 			}
 			break;
 
@@ -868,7 +877,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 				setDword(hContact, "LastMsgReadTime", time(NULL));
 				SetSrmmReadStatus(hContact);
 				if (m_bUserForceOnlineOnActivity)
-					setWord(hContact, "Status", ID_STATUS_ONLINE);
+					SetInvisible(hContact);
 			}
 			break;
 
@@ -892,7 +901,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			if (hContact != NULL) {
 				ForkThread(&CVkProto::ContactTypingThread, (void *)hContact);
 				if (m_bUserForceOnlineOnActivity)
-					setWord(hContact, "Status", ID_STATUS_ONLINE);
+					SetInvisible(hContact);
 			}
 			break;
 

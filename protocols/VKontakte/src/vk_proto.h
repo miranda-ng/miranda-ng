@@ -423,6 +423,8 @@ struct CVkProto : public PROTO<CVkProto>
 	CMString GetAttachmentDescr(JSONNODE*, BBCSupport iBBC = bbcNo);
 	CMString GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC = bbcNo);
 
+	void SetInvisible(MCONTACT hContact);
+
 	//====================================================================================
 
 	void RetrieveStatusMsg(const CMString &StatusMsg);
@@ -592,7 +594,8 @@ private:
 	int m_iNewsInterval, 
 		m_iNotificationsInterval, 
 		m_iNewsAutoClearHistoryInterval,
-		m_iMaxLoadNewsPhoto;
+		m_iMaxLoadNewsPhoto,
+		m_iInvisibleInterval;
 
 	enum MarkMsgReadOn { markOnRead, markOnReceive, markOnReply, markOnTyping };
 	MarkMsgReadOn m_iMarkMessageReadOn;
