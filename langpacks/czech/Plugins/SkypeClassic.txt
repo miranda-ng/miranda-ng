@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SkypeClassic.dll
 ;  Plugin: Skype protocol (Classic)
-;  Version: 0.0.0.55
+;  Version: 0.0.0.56
 ;  Authors: leecher, tweety, jls17
 ;============================================================
 [Skype protocol support for Miranda NG. Classic implementation which requires running original Skype client.]
@@ -114,11 +114,13 @@ Použít opravu časového pásma
 
 [SkypeOut contacts are in status:]
 
-[Cleanup Nicknames]
+[Cleanup nicknames]
 Promazat přezdívky
-[Skype Popups]
+[Do not wait for message SENT acknowledgment (for some buggy Skype versions >6)]
+
+[Skype popups]
 Oznámení Skype
-[Incoming Calls]
+[Incoming calls]
 Příchozí hovory
 [Show incoming calls]
 
@@ -132,7 +134,7 @@ Použít barvy Windows
 Text
 [Preview]
 Náhled
-[Error Messages]
+[Error messages]
 Chybové zprávy
 [Display error messages]
 Zobrazovat chybové zprávy
@@ -170,7 +172,7 @@ Pozvat k d&iskusi...
 Já
 [&Leave chat session]
 &Opustit diskusi
-[Set &Topic...]
+[Set &topic...]
 Stanovit &téma...
 [User &details]
 &Detaily uživatele
@@ -179,22 +181,73 @@ Zobrazit &historii
 [&Kick user]
 &Vykopnout uživatele
 ;file \protocols\SkypeClassic\src\skype.cpp
+[Username '%s' provided by Skype API doesn't match username '%s' in your settings. Please either remove username setting in your configuration or correct it. Will not connect!]
+
+[Cannot reach Skype API, plugin disfunct.]
+
 [Do a SkypeOut-call]
 Zavolat přes SkypeOut
+[Unable to register with group chat module!]
+
 [invited]
 
 [Phone call]
 Hovor
-[Incoming Skype Call]
+[Incoming Skype call]
 Příchozí hovor ze Skype
 [Incoming call from %s]
 Příchozí hovor (%s)
 [Connection to Skype lost]
 
+[Cleanup finished.]
+
+[Cannot create window.]
+
+[Memory allocation error on startup.]
+
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 
+[Cannot register window message.]
+
+[Unable to create mutex!]
+
+;file \protocols\SkypeClassic\src\skypeapi.cpp
+[Misc. error]
+
+[User does not exist, check username]
+
+[Trying to send IM to a user, who is not online]
+
+[IM blocked by recipient]
+
+[Type unsupported]
+
+[Sending IM message to user, who has not added you to friend list and has chosen 'only people in my friend list can start IM']
+
+[Sending IM message to user, who has not authorized you and has chosen 'only people whom I have authorized can start IM']
+
+[Unknown error]
+Neznámá chyba
+[Cannot resolve host!]
+
+[Cannot find valid host to connect to.]
+
+[Authentication is not supported/needed for this Skype proxy server. It will be disabled.]
+
+[Authentication failed for this server, connection was not successful. Verify that your password is correct!]
+
+[The server you specified requires authentication, but you have not supplied a password for it. Check the Skype plugin settings and try again.]
+
+[ERROR: Skype not running / too old / working!]
+
+[Skype refused the connection :(]
+
+[The Skype API is not available]
+
+[Wheee, Skype won't let me use the API. :(]
+
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
-[Preview Error Message]
+[Preview error message]
 Náhled chybového hlášení
 [Skype default]
 Možnosti
@@ -202,8 +255,6 @@ Možnosti
 Pro experty
 [Skype proxy]
 Proxy
-[Avatar]
-Avatar
 [Details]
 Podrobnosti
 [MALE]

@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.39
+;  Version: 0.1.0.47
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
 
 ;file \protocols\VKontakte\res\resource.rc
-[[img] BBCode support for image ]
+[[img] BBCode support for image]
 
 [off]
 vyp
@@ -94,7 +94,11 @@ Extra
 
 [Always notify as unread for all incoming message]
 
-[Force online status upon user activity]
+[Force ivisible status upon user activity]
+
+[Invisible interval timeout (min):]
+
+[Use non-standard urlEncode for sent messages (less traffic)]
 
 [When I ban user...]
 
@@ -193,6 +197,8 @@ Protokoly
 Chyba
 [Error %d. Data will not be sent or received.]
 
+[Enter confirmation code ]
+
 [Message read: %s]
 Zpráva byla přečtena: %s
 [commented on your post]
@@ -247,6 +253,12 @@ Adresa
 
 [Unsupported or unknown attachment type: %s]
 Nepodporovaný nebo neznámý typ přílohy: %s
+[(Unknown contact)]
+(neznámý kontakt)
+[Message from]
+Zpráva od
+[at]
+
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -267,8 +279,6 @@ Upozornění
 
 [You've been kicked by ]
 
-[(Unknown contact)]
-(neznámý kontakt)
 [Chat]
 Diskuse
 [&Invite a user]
@@ -327,8 +337,8 @@ Sítě
 Účet
 [News and notifications]
 
-[View settings]
-
+[View]
+Zobrazit
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s - spojení se serverem
@@ -377,9 +387,13 @@ Oznámení
 
 [User %s was deleted from your friend list]
 
+[Your request to the user %s was deleted]
+
 [Friend request from the user %s declined]
 
 [Friend request suggestion for the user %s deleted]
+
+[User or request was not deleted]
 
 [ report abuse on him/her]
 

@@ -32,13 +32,13 @@ Výchozí
 [Additional Options]
 Ostatní možnosti
 [Tool Window Style]
-Tool styl okna
+Zjednodušené záhlaví okna
 [Draw Grid]
 Vykreslit mřížku
 [Save search pattern]
 Zapamatovat hledaný řetězec
 [Auto Close mode]
-Automaticky zavřít
+Automaticky zavírat
 [Sort by Status]
 Seřadit podle stavu
 [Show Client Icons]

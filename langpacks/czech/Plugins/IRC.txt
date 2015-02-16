@@ -132,10 +132,10 @@ Kódování serveru:
 Zapnout detekci UTF-8
 [Add server]
 Přidat server
-[On]
-Zap
 [Auto]
 Auto
+[On]
+Zap
 [Off]
 Vyp
 [Host address]

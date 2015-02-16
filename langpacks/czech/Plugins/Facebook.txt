@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.9.9
+;  Version: 0.2.10.2
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -64,6 +64,8 @@ Nezobrazovat reklamní příspěvky
 Jiné události
 [Client notifications]
 Upozornění klienta
+[Friendship notifications]
+Upozornění přátelství
 [Use this server for opening links:]
 Pro otevírání odkazů použít tento server:
 [Use balloon notifications in system tray instead of popups]
@@ -225,6 +227,8 @@ Ukázkový požadavek
 Ukázková novinka
 [Sample notification]
 Ukázkové upozornění
+[Sample friendship]
+Ukázkové přátelství
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 samolepku
@@ -283,6 +287,8 @@ Obnovování seznamu kontaktů...
 Přejete si zrušit vaše přátelství s '%s'?
 [News feeds]
 Novinky
+[Friendship events]
+Přátelství
 [Visit profile]
 Zobrazit profil
 [Visit notifications]
@@ -295,6 +301,8 @@ Oznámení
 Novinky
 [Other Event]
 Ostatní události
+[Friendship Event]
+Přátelství
 [Message read: %s]
 Zpráva byla přečtena: %s
 ;file \protocols\FacebookRM\src\theme.cpp

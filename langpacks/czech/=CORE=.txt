@@ -1738,6 +1738,8 @@ Zobrazit historii
 Nabídka kontaktu
 [Canceled]
 Přerušeno
+[This file transfer has been canceled by the other side]
+Přenos tohoto souboru byl přerušen druhou stranou
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d souborů
@@ -1889,6 +1891,11 @@ Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Neznámá chyba.
+;file \src\core\stdssl\src\netlibssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
+[Host we are connecting to is not the one certificate was issued for]
+Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 ;file \src\core\stduihist\src\history.cpp
 [Invalid message]
 Neplatná zpráva
@@ -2441,6 +2448,8 @@ Metakontakty
 ;file \src\modules\metacontacts\meta_services.cpp
 [No online contacts found.]
 Nebyly nalezeny žádné online kontakty
+[Select metacontact]
+Výběr metakontaktu
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Odesílatel
@@ -2484,11 +2493,6 @@ Vyberte požadovaný program
 <všechna spojení>
 [Network]
 Sítě
-;file \src\modules\netlib\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
-[Host we are connecting to is not the one certificate was issued for]
-Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 ;file \src\modules\options\options.cpp
 [<all modules>]
 1) všechny moduly
@@ -2503,16 +2507,16 @@ Miranda - možnosti nastavení
 [&Options...]
 M&ožnosti...
 ;file \src\modules\plugins\newplugins.cpp
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
-[Fatal error]
-Závažná chyba
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
 ['%s' is disabled, re-enable?]
 '%s' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
+[Fatal error]
+Závažná chyba
 [Unable to load plugin in service mode!]
 Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
