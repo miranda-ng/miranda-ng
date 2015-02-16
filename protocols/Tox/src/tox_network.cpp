@@ -8,7 +8,7 @@ bool CToxProto::IsOnline()
 void CToxProto::BootstrapDht()
 {
 	bool isIPv4 = getBool("DisableIPv6", 0);
-	int nodeCount = db_get_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, 0);
+	int nodeCount = db_get_w(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
 	if (!nodeCount)
 	{
 		tox_bootstrap_from_address(
@@ -24,16 +24,16 @@ void CToxProto::BootstrapDht()
 		for (int i = 0; i < nodeCount; i++)
 		{
 			mir_snprintf(setting, SIZEOF(setting), isIPv4 ? TOX_SETTINGS_NODE_IPV4 : TOX_SETTINGS_NODE_IPV6, i + 1);
-			ptrA address(db_get_sa(NULL, "TOX", setting));
+			ptrA address(db_get_sa(NULL, MODULE, setting));
 			if (address == NULL && !isIPv4)
 			{
 				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
-				address = db_get_sa(NULL, "TOX", setting);
+				address = db_get_sa(NULL, MODULE, setting);
 			}
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
-			int port = db_get_w(NULL, "TOX", setting, 0);
+			int port = db_get_w(NULL, MODULE, setting, 0);
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
-			ptrA pubKey(db_get_sa(NULL, "TOX", setting));
+			ptrA pubKey(db_get_sa(NULL, MODULE, setting));
 			if (pubKey && address)
 			{
 				tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
