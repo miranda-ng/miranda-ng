@@ -1459,7 +1459,7 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				{
 					char setting[80];
 					mir_snprintf(setting, SIZEOF(setting), "Startup%sStatus", accounts->pa[i]->szModuleName);
-					data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_OFFLINE);
+					data->status[i] = db_get_w(NULL, "SimpleStatusMsg", setting, ID_STATUS_CURRENT);
 					mir_snprintf(setting, SIZEOF(setting), "Set%sStatusDelay", accounts->pa[i]->szModuleName);
 					data->setdelay[i] = db_get_w(NULL, "SimpleStatusMsg", setting, 300);
 					SendDlgItemMessage(hwndDlg, IDC_LISTPROTO, LB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
