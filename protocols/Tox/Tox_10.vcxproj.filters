@@ -39,18 +39,6 @@
     <ClInclude Include="src\tox_transfer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\tox_address.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\tox.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
-    <ClInclude Include="include\toxdns.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
-    <ClInclude Include="include\toxencryptsave.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
