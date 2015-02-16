@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.6
+;  Version: 0.11.0.7
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -57,10 +57,10 @@ ID клієнта
 З'єднання %s
 [Add node]
 Додати нод
+[Error]
+Помилка
 [Are you sure?]
 Ви впевнені?
-[Contact deleting]
-Видалення контакту
 [All files (*.*)]
 Усі файли (*.*)
 [Select tox profile]

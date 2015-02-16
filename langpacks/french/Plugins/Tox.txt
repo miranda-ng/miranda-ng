@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Version: 0.11.0.7
+;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 
@@ -44,13 +44,48 @@ Entrez le passe
 Enregistrer le passe
 [Tox profile is encrypted. Enter the password to continue.]
 
+[Add]
+Ajouter
+[Change]
+
+[Remove]
+Retirer
+[IPv4]
+
+[IPv6]
+
+[Port]
+Port
+[Client ID]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Réseau
 [Account]
 Compte
+[Tox nodes]
+
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
+
+;file \protocols\Tox\src\tox_options.cpp
+[Add node]
+
+[Enter IPv4]
+
+[Error]
+Erreur
+[Enter IPv6]
+
+[Enter port]
+
+[Enter client ID]
+
+[Change node]
+
+[Are you sure?]
+Etes-vous sûr?
+[Node deleting]
 
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
@@ -62,10 +97,10 @@ Tous les fichiers (*.*)
 Protocoles
 [Protocol icon]
 
-;file \protocols\Tox\src\tox_search.cpp
-[Query]
-
-[You cannot add yourself to friend list]
+[You cannot add yourself to your contact list]
 
 [Contact already in your contact list]
+
+;file \protocols\Tox\src\tox_search.cpp
+[Query]
 

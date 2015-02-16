@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Version: 0.11.0.7
+;  Authors: Miranda NG Team
 ;============================================================
 [Name:]
 Nombre:
@@ -11,5 +11,11 @@ Nombre:
 Contraseña:
 [Cancel]
 Cancelar
+[Add]
+Añadir
+[Remove]
+Eliminar
 [Network]
 Red
+[Error]
+Error

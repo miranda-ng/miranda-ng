@@ -75,6 +75,8 @@ Select a background colour for the text (CTRL+L)
 Select a foreground colour for the text (CTRL+K)
 [Canceled]
 Cancelled
+[This file transfer has been canceled by the other side]
+This file transfer has been cancelled by the other side
 [Initializing...]
 Initialising...
 [Please authorize my request and add me to your contact list.]
