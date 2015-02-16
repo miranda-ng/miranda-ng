@@ -12,12 +12,15 @@ CToxProto* CToxProto::InitAccount(const char *protoName, const wchar_t *userName
 	ptrA address(db_get_sa(NULL, protoName, TOX_SETTINGS_ID));
 	if (address == NULL)
 	{
-		DialogBoxParam(
+		if (DialogBoxParam(
 			g_hInstance,
 			MAKEINTRESOURCE(IDD_PROFILE_IMPORT),
 			GetActiveWindow(),
 			CToxProto::ToxProfileImportProc,
-			(LPARAM)userName);
+			(LPARAM)userName) == IDOK)
+		{
+			db_set_s(NULL, protoName, TOX_SETTINGS_ID, "");
+		}
 	}
 
 	CToxProto *proto = new CToxProto(protoName, userName);
@@ -41,10 +44,8 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-int CToxProto::OnAccountRenamed(WPARAM, LPARAM lParam)
+int CToxProto::OnAccountRenamed(WPARAM, LPARAM)
 {
-	PROTOACCOUNT *account = (PROTOACCOUNT*)lParam;
-
 	std::tstring newPath = GetToxProfilePath();
 	TCHAR oldPath[MAX_PATH];
 	mir_sntprintf(oldPath, MAX_PATH, _T("%s\\%s.tox"), VARST(_T("%miranda_userdata%")), accountName);

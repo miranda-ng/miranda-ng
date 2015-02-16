@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d:\Miranda_orig\protocols\Tox\res\resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\Tox\res\resource.rc
 //
 #define IDD_USER_INFO                   101
 #define IDD_PASSWORD                    102
@@ -10,6 +10,7 @@
 #define IDD_OPTIONS_MAIN                106
 #define IDD_OPTIONS_NODES               107
 #define IDD_ADDNODE                     108
+#define IDD_NODE_EDITOR                 108
 #define IDI_TOX                         120
 #define IDC_TOXID                       1001
 #define IDC_CLIPBOARD                   1002
@@ -26,12 +27,10 @@
 #define IDC_SAVEPERMANENTLY             1013
 #define IDC_NODESLIST                   1014
 #define IDC_ADDNODE                     1015
-#define IDC_CHANGE                      1016
-#define IDC_REMOVE                      1017
 #define IDC_IPV4                        1018
 #define IDC_IPV6                        1019
 #define IDC_PORT                        1020
-#define IDC_CLIENTID                    1021
+#define IDC_PKEY                        1021
 
 // Next default values for new objects
 // 

@@ -1,7 +1,6 @@
 #include "common.h"
 
-HWND hAddNodeDlg, hChangeNodeDlg;
-bool UpdateListFlag = false;
+static WNDPROC oldWndProc = NULL;
 
 INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -56,7 +55,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			break;
 		}
 
-		case IDC_CLIPBOARD:
+	case IDC_CLIPBOARD:
 		{
 			char toxId[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
 			GetDlgItemTextA(hwnd, IDC_TOXID, toxId, SIZEOF(toxId));
@@ -70,9 +69,9 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 				CloseClipboard();
 			}
 		}
-			break;
-	}
 		break;
+	}
+	break;
 
 	case WM_NOTIFY:
 		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
@@ -119,336 +118,351 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-void CreateList(HWND hwndList)
+INT_PTR CALLBACK EditNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	LVCOLUMNA lvc = { 0 };
-	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-	lvc.fmt = LVCFMT_LEFT;
+	HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	LONG_PTR iItem = (LONG_PTR)GetWindowLongPtr(hwndDlg, DWLP_USER);
 
-	lvc.iSubItem = 0;
-	lvc.pszText = Translate("IPv4");
-	lvc.cx = 100;
-	SendMessage(hwndList, LVM_INSERTCOLUMNA, 0, (LPARAM)&lvc);
-
-	lvc.iSubItem = 1;
-	lvc.pszText = Translate("IPv6");
-	lvc.cx = 100;
-	SendMessage(hwndList, LVM_INSERTCOLUMNA, 1, (LPARAM)&lvc);
-
-	lvc.iSubItem = 2;
-	lvc.pszText = Translate("Port");
-	lvc.cx = 50;
-	SendMessage(hwndList, LVM_INSERTCOLUMNA, 2, (LPARAM)&lvc);
-
-	lvc.iSubItem = 3;
-	lvc.pszText = Translate("Public key");
-	lvc.cx = 150;
-	SendMessage(hwndList, LVM_INSERTCOLUMNA, 3, (LPARAM)&lvc);
-
-	SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT);
-}
-
-void UpdateList(HWND hwndList)
-{
-	LVITEMA lvI = { 0 };
-	char setting[MAX_PATH];
-
-	int nodeCount = db_get_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, 0);
-	for (int i = 0; i < nodeCount; i++)
+	switch (msg)
 	{
-		UpdateListFlag = true;
-		lvI.mask = LVIF_TEXT;
-
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
-		lvI.pszText = db_get_sa(NULL, "TOX", setting);
-		lvI.iSubItem = 0;
-		lvI.iItem = i;
-		SendMessage(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&lvI);
-
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i + 1);
-		lvI.iSubItem = 1;
-		lvI.pszText = db_get_sa(NULL, "TOX", setting);
-		SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvI);
-
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
-		int port = db_get_w(NULL, "TOX", setting, 0);
-		char portNum[10];
-		_itoa(port, portNum, 10);
-		lvI.iSubItem = 2;
-		lvI.pszText = portNum;
-		SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvI);
-
-		mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
-		lvI.iSubItem = 3;
-		lvI.pszText = db_get_sa(NULL, "TOX", setting);
-		SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvI);
-	}
-	UpdateListFlag = false;
-}
-
-void DeleteAllItems(HWND hwndList)
-{
-	ListView_DeleteAllItems(hwndList);
-}
-
-INT_PTR CALLBACK AddNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
-		SetWindowText(hwndDlg, TranslateT("Add node"));
-		SetDlgItemInt(hwndDlg, IDC_PORT, 33445, TRUE);
-		Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "AddNodeDlg");
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDOK:
-			{
-				char value[MAX_PATH];
-
-				if (!GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value))) {
-					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemTextA(hwndDlg, IDC_CLIENTID, value, SIZEOF(value))) {
-					MessageBox(hwndDlg, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
-					break;
-				}
-
-				char setting[MAX_PATH];
-				int nodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
-
-				GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value));
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, nodeCount + 1);
-				db_set_s(NULL, "TOX", setting, value);
-
-				GetDlgItemTextA(hwndDlg, IDC_IPV6, value, SIZEOF(value));
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, nodeCount + 1);
-				db_set_s(NULL, "TOX", setting, value);
-
-				GetDlgItemTextA(hwndDlg, IDC_CLIENTID, value, SIZEOF(value));
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, nodeCount + 1);
-				db_set_s(NULL, "TOX", setting, value);
-
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, nodeCount + 1);
-				db_set_w(NULL, "TOX", setting, GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
-
-				db_set_w(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, nodeCount + 1);
-
-				HWND hwndList = (HWND)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				DeleteAllItems(hwndList);
-				UpdateList(hwndList);
-			}
-			// fall through
-
-		case IDCANCEL:
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		hAddNodeDlg = 0;
-		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "AddNodeDlg");
-		break;
-	}
-
-	return FALSE;
-}
-
-INT_PTR CALLBACK ChangeNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			ItemInfo &SelItem = *(ItemInfo*)lParam;
-			ItemInfo *nSelItem = new ItemInfo(SelItem);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)nSelItem);
-			SetWindowText(hwndDlg, TranslateT("Change node"));
+			hwndList = (HWND)lParam;
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			char setting[MAX_PATH];
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, SelItem.SelNumber + 1);
-			ptrA addressIPv4(db_get_sa(NULL, "TOX", setting));
+			iItem = ListView_GetHotItem(hwndList);
+			if (iItem == -1)
+			{
+				SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)-1);
+				SetWindowText(hwndDlg, TranslateT("Add node"));
+			}
+			else
+			{
+				SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG_PTR)iItem);
+				SetWindowText(hwndDlg, TranslateT("Change node"));
 
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, SelItem.SelNumber + 1);
-			ptrA addressIPv6(db_get_sa(NULL, "TOX", setting));
+				LVITEMA lvi = { 0 };
+				lvi.mask = LVIF_TEXT;
+				lvi.iItem = iItem;
+				lvi.cchTextMax = MAX_PATH;
+				lvi.pszText = (char*)mir_alloc(MAX_PATH);
 
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, SelItem.SelNumber + 1);
-			int port = db_get_dw(NULL, "TOX", setting, 33445);
+				lvi.iSubItem = 0;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				SetDlgItemTextA(hwndDlg, IDC_IPV4, lvi.pszText);
 
-			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, SelItem.SelNumber + 1);
-			ptrA pubKey(db_get_sa(NULL, "TOX", setting));
+				lvi.iSubItem = 1;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				SetDlgItemTextA(hwndDlg, IDC_IPV6, lvi.pszText);
 
-			SetDlgItemTextA(hwndDlg, IDC_IPV4, addressIPv4);
-			SetDlgItemTextA(hwndDlg, IDC_IPV6, addressIPv6);
-			SetDlgItemInt(hwndDlg, IDC_PORT, port, TRUE);
-			SetDlgItemTextA(hwndDlg, IDC_CLIENTID, pubKey);
+				lvi.iSubItem = 2;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				SetDlgItemTextA(hwndDlg, IDC_PORT, lvi.pszText);
 
-			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "ChangeNodeDlg");
+				lvi.iSubItem = 3;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				SetDlgItemTextA(hwndDlg, IDC_PKEY, lvi.pszText);
+
+				mir_free(lvi.pszText);
+			}
+
+			Utils_RestoreWindowPositionNoSize(hwndDlg, NULL, MODULE, "EditNodeDlg");
 		}
 		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
+		switch (LOWORD(wParam))
+		{
 		case IDOK:
-			TCHAR str[MAX_PATH];
+		{
+			char value[MAX_PATH];
+			if (!GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value)))
 			{
-				ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-				if (!GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
-					break;
-				}
-				if (!GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str))) {
-					MessageBox(hwndDlg, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
-					break;
-				}
-
-				char buff[MAX_PATH];
-				GetDlgItemText(hwndDlg, IDC_IPV4, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_IPV4, SelItem->SelNumber + 1);
-				db_set_ts(NULL, "TOX", buff, str);
-
-				GetDlgItemText(hwndDlg, IDC_IPV6, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_IPV6, SelItem->SelNumber + 1);
-				db_set_ts(NULL, "TOX", buff, str);
-
-				GetDlgItemText(hwndDlg, IDC_CLIENTID, str, SIZEOF(str));
-				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_PKEY, SelItem->SelNumber + 1);
-				db_set_ts(NULL, "TOX", buff, str);
-
-				mir_snprintf(buff, SIZEOF(buff), TOX_SETTINGS_NODE_PORT, SelItem->SelNumber + 1);
-				db_set_dw(NULL, "TOX", buff, (DWORD)GetDlgItemInt(hwndDlg, IDC_PORT, NULL, false));
-
-				DeleteAllItems(SelItem->hwndList);
-				UpdateList(SelItem->hwndList);
+				MessageBox(hwndDlg, TranslateT("Enter IPv4"), TranslateT("Error"), MB_OK);
+				break;
 			}
-			// fall through
+			if (!GetDlgItemTextA(hwndDlg, IDC_PKEY, value, SIZEOF(value)))
+			{
+				MessageBox(hwndDlg, TranslateT("Enter public key"), TranslateT("Error"), MB_OK);
+				break;
+			}
+
+			LVITEMA lvi = { 0 };
+			lvi.mask = 0;
+			lvi.iImage = -1;
+			lvi.iItem = iItem;
+			if (lvi.iItem == -1)
+			{
+				lvi.iItem = ListView_GetItemCount(hwndList);
+				SendMessage(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
+				ListView_SetItemState(hwndList, lvi.iItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+				ListView_EnsureVisible(hwndList, lvi.iItem, TRUE);
+			}
+			lvi.cchTextMax = MAX_PATH;
+			lvi.mask = LVIF_TEXT | LVIF_IMAGE;
+
+			GetDlgItemTextA(hwndDlg, IDC_IPV4, value, SIZEOF(value));
+			lvi.iSubItem = 0;
+			lvi.pszText = mir_strdup(value);
+			SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+			GetDlgItemTextA(hwndDlg, IDC_IPV6, value, SIZEOF(value));
+			lvi.iSubItem = 1;
+			lvi.pszText = mir_strdup(value);
+			SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+			GetDlgItemTextA(hwndDlg, IDC_PORT, value, SIZEOF(value));
+			lvi.iSubItem = 2;
+			lvi.pszText = mir_strdup(value);
+			SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+			GetDlgItemTextA(hwndDlg, IDC_PKEY, value, SIZEOF(value));
+			lvi.iSubItem = 3;
+			lvi.pszText = mir_strdup(value);
+			SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+			lvi.mask = LVIF_IMAGE;
+			lvi.iSubItem = 4;
+			lvi.iImage = 0;
+			ListView_SetItem(hwndList, &lvi);
+
+			lvi.iSubItem = 5;
+			lvi.iImage = 1;
+			ListView_SetItem(hwndList, &lvi);
+
+			EndDialog(hwndDlg, IDOK);
+		}
+		break;
 
 		case IDCANCEL:
-			DestroyWindow(hwndDlg);
+			EndDialog(hwndDlg, IDCANCEL);
 			break;
 		}
 		break;
 
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
 	case WM_DESTROY:
-		ItemInfo *SelItem = (ItemInfo *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		hChangeNodeDlg = 0;
-		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "ChangeNodeDlg");
-		delete SelItem;
+		Utils_SaveWindowPosition(hwndDlg, NULL, MODULE, "EditNodeDlg");
 		break;
 	}
 
 	return FALSE;
+}
+
+LRESULT CALLBACK RowItemsSubProc(HWND hwndList, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (msg == WM_LBUTTONDOWN)
+	{
+		LVHITTESTINFO hi;
+		hi.pt.x = LOWORD(lParam);
+		hi.pt.y = HIWORD(lParam);
+		ListView_SubItemHitTest(hwndList, &hi);
+		if (hi.iSubItem == 4)
+		{
+			if (DialogBoxParam(
+				g_hInstance,
+				MAKEINTRESOURCE(IDD_ADDNODE),
+				GetParent(hwndList), EditNodeDlgProc,
+				(LPARAM)hwndList) == IDOK)
+			{
+				SendMessage(GetParent(GetParent(hwndList)), PSM_CHANGED, 0, 0);
+			}
+		}
+		else if (hi.iSubItem == 5)
+		{
+			if (MessageBox(hwndList, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
+			{
+				ListView_DeleteItem(hwndList, hi.iItem);
+				SendMessage(GetParent(GetParent(hwndList)), PSM_CHANGED, 0, 0);
+			}
+		}
+	}
+
+	return CallWindowProc(oldWndProc, hwndList, msg, wParam, lParam);
 }
 
 INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_NODESLIST);
-	int sel;
 
-	switch (msg) {
+	switch (msg)
+	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
-		CreateList(hwndList);
-		UpdateList(hwndList);
+		{
+			oldWndProc = (WNDPROC)SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)RowItemsSubProc);
+
+			HIMAGELIST hImageList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 0);
+			HICON icon = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
+			ImageList_AddIcon(hImageList, icon); Skin_ReleaseIcon(icon);
+			icon = LoadSkinnedIcon(SKINICON_OTHER_DELETE);
+			ImageList_AddIcon(hImageList, icon); Skin_ReleaseIcon(icon);
+			ListView_SetImageList(hwndList, hImageList, LVSIL_SMALL);
+
+			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_SUBITEMIMAGES | LVS_EX_FULLROWSELECT | LVS_EX_LABELTIP);
+
+			LVCOLUMNA lvc = { 0 };
+			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
+			lvc.fmt = LVCFMT_LEFT;
+
+			lvc.iSubItem = 0;
+			lvc.pszText = Translate("IPv4");
+			lvc.cx = 100;
+			SendMessage(hwndList, LVM_INSERTCOLUMNA, 0, (LPARAM)&lvc);
+
+			lvc.iSubItem = 1;
+			lvc.pszText = Translate("IPv6");
+			lvc.cx = 100;
+			SendMessage(hwndList, LVM_INSERTCOLUMNA, 1, (LPARAM)&lvc);
+
+			lvc.iSubItem = 2;
+			lvc.pszText = Translate("Port");
+			lvc.cx = 50;
+			SendMessage(hwndList, LVM_INSERTCOLUMNA, 2, (LPARAM)&lvc);
+
+			lvc.iSubItem = 3;
+			lvc.pszText = Translate("Public key");
+			lvc.cx = 130;
+			SendMessage(hwndList, LVM_INSERTCOLUMNA, 3, (LPARAM)&lvc);
+
+			lvc.iSubItem = 4;
+			lvc.pszText = "";
+			lvc.cx = 32 - GetSystemMetrics(SM_CXVSCROLL);
+			ListView_InsertColumn(hwndList, 4, &lvc);
+
+			lvc.iSubItem = 5;
+			lvc.cx = 32 - GetSystemMetrics(SM_CXVSCROLL);
+			ListView_InsertColumn(hwndList, 5, &lvc);
+
+			char setting[MAX_PATH];
+
+			LVITEMA lvi = { 0 };
+			lvi.cchTextMax = MAX_PATH;
+
+			int nodeCount = db_get_w(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
+			for (lvi.iItem = 0; lvi.iItem < nodeCount; lvi.iItem++)
+			{
+				lvi.iImage = -1;
+				lvi.mask = LVIF_TEXT | LVIF_IMAGE;
+
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+				lvi.iSubItem = 0;
+				lvi.pszText = db_get_sa(NULL, MODULE, setting);
+				SendMessage(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
+
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+				lvi.iSubItem = 1;
+				lvi.pszText = db_get_sa(NULL, MODULE, setting);
+				SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+				int port = db_get_w(NULL, MODULE, setting, 33445);
+				char portNum[10];
+				itoa(port, portNum, 10);
+				lvi.iSubItem = 2;
+				lvi.pszText = mir_strdup(portNum);
+				SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+				lvi.iSubItem = 3;
+				lvi.pszText = db_get_sa(NULL, MODULE, setting);
+				SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
+
+				lvi.mask = LVIF_IMAGE;
+				lvi.iSubItem = 4;
+				lvi.iImage = 0;
+				ListView_SetItem(hwndList, &lvi);
+
+				lvi.iSubItem = 5;
+				lvi.iImage = 1;
+				ListView_SetItem(hwndList, &lvi);
+			}
+		}
 		return TRUE;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
+		switch (LOWORD(wParam))
+		{
 		case IDC_ADDNODE:
-			if (hAddNodeDlg == 0)
-				hAddNodeDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, AddNodeDlgProc, (LPARAM)hwndList);
-			return FALSE;
-
-		case IDC_CHANGE:
-			if (hChangeNodeDlg == 0) {
-				ItemInfo SelItem = { 0 };
-				SelItem.hwndList = hwndList;
-				SelItem.SelNumber = ListView_GetSelectionMark(hwndList);
-				hChangeNodeDlg = CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, ChangeNodeDlgProc, (LPARAM)&SelItem);
-			}
-			return FALSE;
-
-		case IDC_REMOVE:
-			if (MessageBox(hwndDlg, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
+			if (DialogBoxParam(
+				g_hInstance,
+				MAKEINTRESOURCE(IDD_ADDNODE),
+				hwndDlg, EditNodeDlgProc,
+				(LPARAM)hwndList) == IDOK)
 			{
-				char setting[MAX_PATH];
-				int sel = ListView_GetSelectionMark(hwndList);
-				int nodeCount = db_get_b(NULL, "TOX", "NodeCount", 0);
-				for (int i = sel + 1; i < nodeCount; i++)
-				{
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
-					ptrA addressIPv4(db_get_sa(NULL, "TOX", setting));
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i);
-					db_set_s(NULL, "TOX", setting, addressIPv4);
-
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i + 1);
-					ptrA addressIPv6(db_get_sa(NULL, "TOX", setting));
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i);
-					db_set_s(NULL, "TOX", setting, addressIPv6);
-
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
-					int port = db_get_w(NULL, "TOX", setting, 0);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
-					db_set_w(NULL, "TOX", setting, port);
-
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
-					ptrA pubKey(db_get_sa(NULL, "TOX", setting));
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
-					db_set_s(NULL, "TOX", setting, setting);
-				}
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, nodeCount);
-				db_unset(NULL, "TOX", setting);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, nodeCount);
-				db_unset(NULL, "TOX", setting);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, nodeCount);
-				db_unset(NULL, "TOX", setting);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, nodeCount);
-				db_unset(NULL, "TOX", setting);
-
-				db_set_b(NULL, "TOX", TOX_SETTINGS_NODE_COUNT, nodeCount - 1);
-				ListView_DeleteItem(hwndList, sel);
-
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			return FALSE;
 		}
 		break;
 
 	case WM_NOTIFY:
-		NMHDR *hdr = (NMHDR *)lParam;
-		switch (hdr->code) {
+		NMHDR *hdr = (NMHDR*)lParam;
+		switch (hdr->code)
+		{
 		case NM_DBLCLK:
-			sel = ListView_GetHotItem(hwndList);
-			if (sel != -1) {
-				ItemInfo SelItem = { 0 };
-				SelItem.hwndList = hwndList;
-				SelItem.SelNumber = sel;
-				CreateDialogParam(g_hInstance, MAKEINTRESOURCE(IDD_ADDNODE), hwndDlg, ChangeNodeDlgProc, (LPARAM)&SelItem);
-			}
-			break;
-
-		case LVN_ITEMCHANGED:
-			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
-			if (((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
+		{
+			if (DialogBoxParam(
+				g_hInstance,
+				MAKEINTRESOURCE(IDD_ADDNODE),
+				hwndDlg, EditNodeDlgProc,
+				(LPARAM)hwndList) == IDOK)
+			{
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
+			}
+		}
+		break;
+
+		case PSN_APPLY:
+			{
+				char setting[MAX_PATH];
+
+				LVITEMA lvi = { 0 };
+				lvi.mask = LVIF_TEXT;
+				lvi.cchTextMax = MAX_PATH;
+				lvi.pszText = (char*)mir_alloc(MAX_PATH);
+
+				int itemCount = ListView_GetItemCount(hwndList);
+				for (lvi.iItem = 0; lvi.iItem < itemCount; lvi.iItem++)
+				{
+					if (itemCount)
+					lvi.iSubItem = 0;
+					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+					db_set_s(NULL, MODULE, setting, lvi.pszText);
+
+					lvi.iSubItem = 1;
+					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+					db_set_s(NULL, MODULE, setting, lvi.pszText);
+
+					lvi.iSubItem = 2;
+					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+					db_set_w(NULL, MODULE, setting, atoi(lvi.pszText));
+
+					lvi.iSubItem = 3;
+					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+					db_set_s(NULL, MODULE, setting, lvi.pszText);
+				}
+
+				int nodeCount = db_get_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
+				for (lvi.iItem = itemCount; lvi.iItem < nodeCount; lvi.iItem++)
+				{
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+					db_unset(NULL, MODULE, setting);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+					db_unset(NULL, MODULE, setting);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+					db_unset(NULL, MODULE, setting);
+					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+					db_unset(NULL, MODULE, setting);
+				}
+
+				db_set_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, itemCount);
+			}
+			return TRUE;
 		}
 	}
 	return FALSE;

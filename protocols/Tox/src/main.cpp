@@ -38,10 +38,9 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	HookEvent(ME_OPT_INITIALISE, OptInit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
-	pd.szName = "TOX";
+	pd.szName = MODULE;
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
 	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;

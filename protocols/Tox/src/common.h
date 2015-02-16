@@ -31,6 +31,7 @@
 #include <m_addcontact.h>
 #include <m_message.h>
 #include <m_avatars.h>
+#include <m_skin.h>
 
 #include <tox.h>
 #include <toxdns.h>
@@ -44,7 +45,7 @@
 
 extern HINSTANCE g_hInstance;
 
-#define MODULE "Tox"
+#define MODULE "TOX"
 
 #define TOX_ERROR -1
 
@@ -77,16 +78,7 @@ T CreateFunction(LPCSTR functionName)
 	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
 }
 
-struct ItemInfo
-{
-	HWND hwndList;
-	int SelNumber;
-};
-
-extern HWND hAddNodeDlg, hChangeNodeDlg;
-
 int OptInit(WPARAM wParam, LPARAM lParam);
-int PreShutdown(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif //_COMMON_H_
