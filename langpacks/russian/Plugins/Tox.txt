@@ -64,7 +64,7 @@ ID клиента
 [Enter IPv6]
 Введите IPv6
 [Enter port]
-введиде порт
+Введите порт
 [Enter client ID]
 Введите ID клиента
 [Change node]
