@@ -2055,6 +2055,10 @@ xСтатус
 Меню статусов
 [Main menu]
 Главное меню
+[Connecting]
+Подключение
+[Connecting (attempt %d)]
+Подключение (попытка %d)
 [(Unknown contact)]
 (Неизвестный контакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2507,8 +2511,6 @@ ID учётной записи
 Группа (открыта)
 [Group (closed)]
 Группа (закрыта)
-[Connecting]
-Подключение
 [User details]
 О пользователе
 [History]

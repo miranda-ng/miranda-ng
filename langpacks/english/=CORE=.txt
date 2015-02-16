@@ -1090,6 +1090,9 @@
 [%s (locked)]
 [Status menu]
 [Main menu]
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+[Connecting (attempt %d)]
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 ;file \src\modules\clist\clisttray.cpp
@@ -1360,7 +1363,6 @@
 [User online]
 [Group (open)]
 [Group (closed)]
-[Connecting]
 [User details]
 [History]
 [Down arrow]
