@@ -43,8 +43,24 @@ Odsouhlaseno
 Opravdu chcete smazat všechna nastavení ve vašem profilu a všechny položky registru vytvořené pro spolupráci s Explorerem?
 [Disable/Remove shlext]
 Zakázat/odstranit shlext
+[Services]
+Služby
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Recently]
 Často používané
 [Clear entries]
 Vymazat položky
+[Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
+
+[Problem]
+Problém
+[Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
+
+[Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
+
+[Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
+
+[Shell context menus requires your permission to register with Windows Explorer (one time only).]
+
+[Miranda NG - Shell context menus (shellext.dll)]
+

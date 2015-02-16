@@ -1,9 +1,9 @@
 ﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
 ;============================================================
 ;  File: Tox.dll
-;  Plugin: Tox Protocol
-;  Version: 0.11.0.4
-;  Authors: ForNeVeR, Mataes, unsane
+;  Plugin: Tox protocol
+;  Version: 0.11.0.7
+;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Tox protokol pro Mirandu NG.
@@ -44,14 +44,49 @@ Zadejte heslo
 Uložit heslo
 [Tox profile is encrypted. Enter the password to continue.]
 Tox profil je zašifrován. Zadejte heslo pro pokračování.
+[Add]
+Přidat
+[Change]
+Změnit
+[Remove]
+Odebrat
+[IPv4]
+IPv4
+[IPv6]
+IPv6
+[Port]
+Port
+[Client ID]
+Identifikace klienta
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Sítě
 [Account]
 Účet
+[Tox nodes]
+Tox uzly
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
+;file \protocols\Tox\src\tox_options.cpp
+[Add node]
+Přidat uzel
+[Enter IPv4]
+Zadejte IPv4
+[Error]
+Chyba
+[Enter IPv6]
+Zadejte IPv6
+[Enter port]
+Zadejte port
+[Enter client ID]
+Zadejte ID klienta
+[Change node]
+Změnit uzel
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Node deleting]
+Mazání uzlu
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Všechny soubory (*.*)
@@ -62,10 +97,10 @@ Vyberte Tox profil
 Protokoly
 [Protocol icon]
 Ikona protokolu
+[You cannot add yourself to your contact list]
+Nemůžete přidat sami sebe do vašeho seznamu kontaktů
+[Contact already in your contact list]
+Kontakt je již ve vašem seznamu
 ;file \protocols\Tox\src\tox_search.cpp
 [Query]
 Dotaz
-[You cannot add yourself to friend list]
-Nemůžete přidat sami sebe do seznamu kontaktů
-[Contact already in your contact list]
-Kontakt je již ve vašem seznamu

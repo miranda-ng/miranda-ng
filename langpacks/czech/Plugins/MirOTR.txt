@@ -153,6 +153,8 @@ Privátní (OTR)
 Nezabezpečeno (OTR)
 [OTR]
 Šifrování (OTR)
+[Refresh]
+Aktualizovat
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 Generování nového privátního klíče pro protokol '%s'.\nProsím čekejte...
 [General]

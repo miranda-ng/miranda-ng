@@ -56,7 +56,7 @@ Udržovat spojení
 Zobrazit chyby při připojení
 [Automatically reconnect after unintentional disconnection]
 Po přerušení automaticky navázat spojení
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Odeslat zprávy pomaleji, ale s úplným potvrzením
 [Manually specify connection servers' hosts]
 Určit hostitele pro připojení

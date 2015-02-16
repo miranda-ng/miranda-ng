@@ -1119,28 +1119,30 @@ Tato akce způsobila výjimku!
 %s má dnes %s.
 [an anniversary]
 výročí
-[He]
-On
-[She]
-Ona
-[He/She]
-On/ona
-[%s has the following anniversaries:\0]
-
-[%d. %s today\0]
-
-[%d. %s tomorrow\0]
-
-[%d. %s in %d days\0]
-
+[He/she has the following anniversaries:]
+On/ona má následující výročí:
+[He has the following anniversaries:]
+On má následující výročí:
+[She has the following anniversaries:]
+Ona má následující výročí:
+[%d. %s today]
+%d. %s dnes
+[%d. %s tomorrow]
+%d. %s zítra
+[%d. %s in %d days]
+%d. %s za %d dní
 [%s has birthday today.]
 %s má dnes narozeniny!
 [%s has birthday tomorrow.]
 %s bude mít zítra narozeniny.
 [%s has birthday in %d days.]
 Přezdívka: %s, zbývá dnů: %d
-[\n%s becomes %d years old.]
-\n%s oslaví %d. narozeniny.
+[\nHe/she becomes %d years old.]
+\nOn/ona oslaví %d. narozeniny.
+[\nHe becomes %d years old.]
+\nOn oslaví %d. narozeniny.
+[\nShe becomes %d years old.]
+\nOna oslaví %d. narozeniny.
 [No anniversaries to remind of]
 Není co připomenout z výročí
 [Backing up and syncing all birthdays complete!]

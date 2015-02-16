@@ -1687,7 +1687,7 @@ Změnu hesla lze provést pouze pokud jste připojen
 Musíte být přípojen
 [Messaging]
 Rozhovor
-[Send messages slower, but with full acknowledgement]
+[Send messages slower, but with full acknowledgment]
 Odeslat zprávy pomaleji, ale s úplným potvrzením
 [Enable avatars]
 Aktivovat avatary

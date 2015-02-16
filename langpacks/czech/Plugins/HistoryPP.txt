@@ -65,14 +65,12 @@ Funkce vyhledávání
 Možnosti pokročilého vyhledávání
 [Limit search range]
 Omezení rozsahu vyhledávání
-[Limit Search Sange]
-
+[Limit Search Range]
+Omezení rozsahu vyhledávání
 [Search messages from]
 Hledat zprávy od
 [Text Formatting]
 Formátování textu
-[Limit Search Range]
-Omezení rozsahu vyhledávání
 [Customize Filters]
 Vlastní úprava filtrů
 [Filter Properties]
@@ -575,8 +573,6 @@ Ukázková žádost o autorizaci
 
 [Incoming Url]
 Příchozí odkaz
-[Make shure you have CAPS LOCK turned off.]
-
 [Make sure you have CAPS LOCK turned off.]
 
 [Miranda's settings used]

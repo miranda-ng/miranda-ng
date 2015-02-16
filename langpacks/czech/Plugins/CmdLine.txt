@@ -150,7 +150,7 @@ Chyba
 
 [Could not send message to '%s'.]
 
-[Timed out while waiting for acknowledgement for contact '%s'.]
+[Timed out while waiting for acknowledgment for contact '%s'.]
 
 [Could not find contact handle for contact '%s'.]
 

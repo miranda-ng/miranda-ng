@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.0.5
+;  Version: 0.1.2.9
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -10,20 +10,65 @@ WhatsApp protokol pro Mirandu NG.
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Phone number]
 Telefonní číslo
-[Including country code, without '+' or '00']
-Včetně kódu oblasti, bez '+' či '00'
 [Nickname]
 Přezdívka
+[Default group:]
+Výchozí skupina:
+[Use SSL connection (port 443)]
+Použít SSL připojení (port 443)
+[Automatically open group chats]
+Automaticky otevírat skupinové rozhovory
+[Registration]
+Registrace
 [SMS code]
 SMS kód
 [Request code]
 Vyžádat kód
 [Register code]
 Zaregistrovat kód
-[Use SSL connection (port 443)]
-Použít SSL připojení (port 443)
+[Including country code, without '+' or '00']
+Včetně kódu oblasti, bez '+' či '00'
+[Invite users]
+Pozvat uživatele
+[Choose an user]
+Zvolte uživatele
+[Other user:]
+Uživatel:
+[&Invite]
+&Pozvat
 [Cancel]
 Zrušit
+;file \protocols\WhatsApp\src\chat.cpp
+[Members]
+Členové
+[Owners]
+Vlastníci
+[&Invite a user]
+Pozvat už&ivatele
+[&Room options]
+Na&stavení místnosti
+[View/change &topic]
+Zobrazit/změnit &téma
+[&Leave chat session]
+&Opustit diskusi
+[Set &avatar]
+Nastavit &avatar
+[Copy room &JID]
+Zkopírovat &JID místnosti
+[Copy room topic]
+Zkopírovat téma místnosti
+[Set new subject for %s]
+Nastavit nové téma pro %s
+[&Add to roster]
+Přid&at do seznamu
+[&Kick]
+Vy&kopnout
+[Copy &nickname]
+Zkopírovat &přezdívku
+[Copy real &JID]
+Zkopírovat &JID
+[Unknown user]
+Neznámý uživatel
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 Zadejte prosím kód oblasti.
@@ -38,14 +83,6 @@ Zadejte prosím heslo.
 je nyní znám jako '%s'
 [Last seen on %x at %X]
 Naposledy spatřen %x v %X
-[You have been added to the group]
-Byli jste přidáni do skupiny
-[User '%s' has been added to the group]
-Uživatel '%s' byl přidán do skupiny
-[You have been removed from the group]
-Byli jste odebráni ze skupiny
-[User '%s' has been removed from the group]
-Uživatel '%s' byl odebrán ze skupiny
 ;file \protocols\WhatsApp\src\dialogs.cpp
 [An SMS with registration code will be sent to your mobile phone.\nNotice that you are not able to use the real WhatsApp and this plugin simultaneously!\nContinue?]
 SMS s registračním kódem bude odeslána na váš mobilní telefon.\nPoznámka: Není možné používat WhatsApp aplikaci a tento doplněk zároveň!\nPokračovat?
@@ -53,6 +90,13 @@ SMS s registračním kódem bude odeslána na váš mobilní telefon.\nPoznámka
 Vaše heslo bylo nastaveno automaticky. Nyní můžete pokračovat v přihlášení
 [Please correctly specify your registration code received by SMS]
 Zadejte váš registrační kód, který vám přišel v SMS
+[Changes will be applied after protocol restart]
+Změny budou použity při dalším načtení protokolu
+;file \protocols\WhatsApp\src\messages.cpp
+[server]
+Server
+[Message received: %s by %s]
+Zpráva přijata: %s - %s
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s - spojení se serverem
@@ -60,8 +104,6 @@ Zadejte váš registrační kód, který vám přišel v SMS
 Nelze získat Netlib připojení pro WhatsApp
 [Network connection error.]
 Chyba síťového připojení.
-[Registration]
-Registrace
 [Registration failed. Invalid server response.]
 Registrace se nezdařila. Neplatná odpověď serveru.
 [Registration failed due to stale code. Please request a new code]
@@ -79,17 +121,7 @@ Sítě
 ;file \protocols\WhatsApp\src\theme.cpp
 [WhatsApp icon]
 WhatsApp ikona
-[Add to group]
-Přidat do skupiny
 [Create chat group]
 Vytvořit diskuzní skupinu
-[Remove from chat group]
-Odebrat z diskuzní skupiny
-[Leave and delete group]
-Opustit a smazat skupinu
-[Leave group]
-Opustit skupinu
-[Change group subject]
-Změnit téma skupiny
 [Create group]
 Vytvořit skupinu

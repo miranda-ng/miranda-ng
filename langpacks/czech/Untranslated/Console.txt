@@ -11,7 +11,7 @@
 [Hide Console]
 [Show Console]
 [Scrolling (Ctrl+Q)]
-[Pause logging(Ctrl+P)]
+[Pause logging (Ctrl+P)]
 [Save log to file (Ctrl+S)]
 [Copy selected log (Ctrl+C)]
 [Delete selected (Del)]

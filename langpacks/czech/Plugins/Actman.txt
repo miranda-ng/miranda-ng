@@ -513,8 +513,6 @@ Nápověda pro strukturu
 Popis
 [&Change]
 Z&měnit...
-[&OK]
-&OK
 [C&ancel]
 Z&rušit
 [Process options]
