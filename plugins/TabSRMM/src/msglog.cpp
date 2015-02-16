@@ -834,7 +834,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				break;
 			case 'e': // error message
 				AppendToBuffer(buffer, bufferEnd, bufferAlloced, "%s ", GetRTFFont(MSGFONTID_ERROR));
-				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, (wchar_t *)dbei.szModule, MAKELONG(isSent, dat->bIsHistory));
+				AppendUnicodeToBuffer(buffer, bufferEnd, bufferAlloced, _A2T(dbei.szModule), MAKELONG(isSent, dat->bIsHistory));
 				break;
 			case 'M': // message
 				switch (dbei.eventType) {
