@@ -62,47 +62,47 @@ TCHAR* fnGetStatusModeDescription(int mode, int flags)
 	int    noPrefixReqd = 0;
 	switch (mode) {
 	case ID_STATUS_OFFLINE:
-		descr = _T("Offline");
+		descr = LPGENT("Offline");
 		noPrefixReqd = 1;
 		break;
 	case ID_STATUS_CONNECTING:
-		descr = _T("Connecting");
+		descr = LPGENT("Connecting");
 		noPrefixReqd = 1;
 		break;
 	case ID_STATUS_ONLINE:
-		descr = _T("Online");
+		descr = LPGENT("Online");
 		noPrefixReqd = 1;
 		break;
 	case ID_STATUS_AWAY:
-		descr = _T("Away");
+		descr = LPGENT("Away");
 		break;
 	case ID_STATUS_DND:
-		descr = _T("DND");
+		descr = LPGENT("DND");
 		break;
 	case ID_STATUS_NA:
-		descr = _T("NA");
+		descr = LPGENT("NA");
 		break;
 	case ID_STATUS_OCCUPIED:
-		descr = _T("Occupied");
+		descr = LPGENT("Occupied");
 		break;
 	case ID_STATUS_FREECHAT:
-		descr = _T("Free for chat");
+		descr = LPGENT("Free for chat");
 		break;
 	case ID_STATUS_INVISIBLE:
-		descr = _T("Invisible");
+		descr = LPGENT("Invisible");
 		break;
 	case ID_STATUS_OUTTOLUNCH:
-		descr = _T("Out to lunch");
+		descr = LPGENT("Out to lunch");
 		break;
 	case ID_STATUS_ONTHEPHONE:
-		descr = _T("On the phone");
+		descr = LPGENT("On the phone");
 		break;
 	case ID_STATUS_IDLE:
-		descr = _T("Idle");
+		descr = LPGENT("Idle");
 		break;
 	default:
 		if (mode > ID_STATUS_CONNECTING && mode < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
-			const TCHAR* connFmt = _T("Connecting (attempt %d)");
+			const TCHAR* connFmt = LPGENT("Connecting (attempt %d)");
 			mir_sntprintf(szMode, SIZEOF(szMode), (flags&GSMDF_UNTRANSLATED)?connFmt:TranslateTS(connFmt), mode - ID_STATUS_CONNECTING + 1);
 			return szMode;
 		}
