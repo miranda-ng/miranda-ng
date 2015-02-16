@@ -148,7 +148,7 @@ int GetStartupStatus(const char *szProto)
 		char szSetting[80];
 
 		mir_snprintf(szSetting, SIZEOF(szSetting), "Startup%sStatus", szProto);
-		status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_OFFLINE);
+		status_mode = db_get_w(NULL, "SimpleStatusMsg", szSetting, ID_STATUS_CURRENT);
 		if (status_mode == ID_STATUS_CURRENT) {
 			// load status used for this proto last time
 			mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sStatus", szProto);
