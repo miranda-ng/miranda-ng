@@ -110,16 +110,14 @@ void CVkProto::WorkerThread(void*)
 			<< VER_API)->m_bApiReq = false;
 	}
 
-	while (true) {
-		debugLogA("CVkProto::WorkerThread: while(1)");
+	while (true) {		
 		WaitForSingleObject(m_evRequestsQueue, 1000);
 		if (m_bTerminated)
 			break;
 
 		AsyncHttpRequest *pReq;
 		bool need_sleep = false;
-		while (true) {
-			debugLogA("CVkProto::WorkerThread: while(2)");
+		while (true) {		
 			{
 				mir_cslock lck(m_csRequestsQueue);
 				if (m_arRequestsQueue.getCount() == 0)
