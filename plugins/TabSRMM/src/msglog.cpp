@@ -1347,6 +1347,11 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	ReplaceIcons(hwndDlg, dat, startAt, fAppend, isSent);
 	dat->clr_added = FALSE;
 
+	if (dat->hwndIEView == NULL && dat->hwndHPP == NULL) {
+		int len = GetWindowTextLength(hwndrtf);
+		SendMessage(hwndrtf, EM_SETSEL, len - 1, len - 1);
+	}
+
 	DM_ScrollToBottom(dat, 0, 0);
 
 	SendMessage(hwndrtf, WM_SETREDRAW, TRUE, 0);
