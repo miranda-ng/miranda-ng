@@ -26,12 +26,10 @@
 [Save password]
 [Tox profile is encrypted. Enter the password to continue.]
 [Add]
-[Change]
-[Remove]
 [IPv4]
 [IPv6]
 [Port]
-[Client ID]
+[Public key]
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 [Account]
@@ -40,12 +38,10 @@
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
 [Add node]
+[Change node]
 [Enter IPv4]
 [Error]
-[Enter IPv6]
-[Enter port]
-[Enter client ID]
-[Change node]
+[Enter public key]
 [Are you sure?]
 [Node deleting]
 ;file \protocols\Tox\src\tox_profile.cpp

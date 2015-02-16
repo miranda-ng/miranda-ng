@@ -39,14 +39,10 @@ DNS имя:
 Профиль Tox зашифрован. Введите пароль, чтобы продолжить.
 [Add]
 Добавить
-[Change]
-Изменить
-[Remove]
-Удалить
 [Port]
 Порт
-[Client ID]
-ID клиента
+[Public key]
+Открытый ключ
 [Network]
 Сеть
 [Account]
@@ -57,18 +53,14 @@ ID клиента
 %s подключение
 [Add node]
 Добавление ноды
+[Change node]
+Изменение ноды
 [Enter IPv4]
 Введите IPv4
 [Error]
 Ошибка
-[Enter IPv6]
-Введите IPv6
-[Enter port]
-Введите порт
-[Enter client ID]
-Введите ID клиента
-[Change node]
-Изменение ноды
+[Enter public key]
+Введите открытый ключ
 [Are you sure?]
 Вы уверены?
 [Node deleting]
