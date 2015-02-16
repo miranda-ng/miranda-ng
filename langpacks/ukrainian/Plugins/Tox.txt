@@ -57,10 +57,22 @@ ID клієнта
 З'єднання %s
 [Add node]
 Додати нод
+[Enter IPv4]
+Введіть IPv4
 [Error]
 Помилка
+[Enter IPv6]
+Введіть IPv6
+[Enter port]
+Введіть порт
+[Enter client ID]
+Введіть ID клієнта
+[Change node]
+Зміна ноду
 [Are you sure?]
 Ви впевнені?
+[Node deleting]
+Видалення ноду
 [All files (*.*)]
 Усі файли (*.*)
 [Select tox profile]
