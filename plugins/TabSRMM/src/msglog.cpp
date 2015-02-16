@@ -316,11 +316,7 @@ static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 	COLORREF *fontColors = dat->pContainer->theme.fontColors;
 	TLogTheme *theme = &dat->pContainer->theme;
 
-	// rtl
-	if (dat->dwFlags & MWF_LOG_RTL)
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
-	else
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\rtf1\\ansi\\deff0{\\fonttbl");
 
 	for (i = 0; i < MSGDLGFONTCOUNT; i++)
 		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "{\\f%u\\fnil\\fcharset%u %s;}", i, logFonts[i].lfCharSet, logFonts[i].lfFaceName);
@@ -351,8 +347,6 @@ static void Build_RTF_Header(char *&buffer, size_t &bufferEnd, size_t &bufferAll
 
 	// custom template colors...
 	for (i = 1; i <= 5; i++) {
-		char szTemp[30];
-		mir_snprintf(szTemp, SIZEOF(szTemp), "cc%d", i);
 		colour = theme->custom_colors[i - 1];
 		if (colour == 0)
 			colour = RGB(1, 1, 1);
@@ -490,7 +484,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	BOOL bIsStatusChangeEvent = IsStatusEvent(dbei.eventType);
 
 	if (dat->isAutoRTL & 2) {                                     // means: last \\par was deleted to avoid new line at end of log
-		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par");
+		AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\par\\pard");
 		dat->isAutoRTL &= ~2;
 	}
 
@@ -583,7 +577,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 		dat->hHistoryEvents[dat->curHistory++] = hDbEvent;
 	}
 
-	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ul0\\b0\\i0 ");
+	AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ul0\\b0\\i0\\v0 ");
 
 	for (size_t i = 0; i < iTemplateLen;) {
 		TCHAR ci = szTemplate[i];
@@ -1170,7 +1164,7 @@ static void ReplaceIcons(HWND hwndDlg, TWindowData *dat, LONG startAt, int fAppe
 		sel.cpMax = -1;
 
 		SMADD_RICHEDIT3 smadd = { sizeof(smadd) };
-		smadd.hwndRichEditControl = GetDlgItem(hwndDlg, IDC_LOG);
+		smadd.hwndRichEditControl = hwndrtf;
 		smadd.Protocolname = const_cast<char *>(dat->cache->getActiveProto());
 		smadd.hContact = dat->cache->getActiveContact();
 		smadd.flags = isSent ? SAFLRE_OUTGOING : 0;
@@ -1283,15 +1277,15 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	szYourName = const_cast<TCHAR *>(dat->cache->getNick());
 	szMyName = dat->szMyNickname;
 
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, TRUE, 0);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXGETSEL, 0, (LPARAM)&oldSel);
+	SendMessage(hwndrtf, EM_HIDESELECTION, TRUE, 0);
+	SendMessage(hwndrtf, EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = { 0 };
 	streamData.hContact = dat->hContact;
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
-	streamData.isEmpty = fAppend ? GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG)) == 0 : 1;
+	streamData.isEmpty = fAppend ? GetWindowTextLength(hwndrtf) == 0 : 1;
 	streamData.dbei = dbei_s;
 	streamData.isAppend = fAppend;
 
@@ -1304,15 +1298,15 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
-		startAt = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
-		sel.cpMin = sel.cpMax = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOG));
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
+		startAt = SendMessage(hwndrtf, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		sel.cpMin = sel.cpMax = GetWindowTextLength(hwndrtf);
+		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
-		SetDlgItemText(hwndDlg, IDC_LOG, _T(""));
+		SetWindowText(hwndrtf, _T(""));
 		sel.cpMin = 0;
 		sel.cpMax = GetWindowTextLength(hwndrtf);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
+		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
 		startAt = 0;
 		dat->isAutoRTL = 0;
 	}
@@ -1320,9 +1314,9 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 	// begin to draw
 	SendMessage(hwndrtf, WM_SETREDRAW, FALSE, 0);
 
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&oldSel);
-	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_HIDESELECTION, FALSE, 0);
+	SendMessage(hwndrtf, EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
+	SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&oldSel);
+	SendMessage(hwndrtf, EM_HIDESELECTION, FALSE, 0);
 	dat->hDbEventLast = streamData.hDbEventLast;
 
 	if (dat->isAutoRTL & 1)
@@ -1334,10 +1328,10 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
 
-		sel.cpMax = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		sel.cpMax = SendMessage(hwndrtf, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
 		sel.cpMin = sel.cpMax - 1;
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM)&sel);
-		SendDlgItemMessage(hwndDlg, IDC_LOG, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
+		SendMessage(hwndrtf, EM_EXSETSEL, 0, (LPARAM)&sel);
+		SendMessage(hwndrtf, EM_REPLACESEL, FALSE, (LPARAM)_T(""));
 		dat->isAutoRTL |= 2;
 	}
 
@@ -1355,9 +1349,8 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 
 	DM_ScrollToBottom(dat, 0, 0);
 
-	HWND hwndLog = GetDlgItem(hwndDlg, IDC_LOG);
-	SendMessage(hwndLog, WM_SETREDRAW, TRUE, 0);
-	InvalidateRect(hwndLog, NULL, FALSE);
+	SendMessage(hwndrtf, WM_SETREDRAW, TRUE, 0);
+	InvalidateRect(hwndrtf, NULL, FALSE);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_QUOTE), dat->hDbEventLast != NULL);
 	mir_free(streamData.buffer);
 }
