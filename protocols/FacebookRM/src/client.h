@@ -202,15 +202,14 @@ public:
 
 	// HTTP communication
 
-	http::response flap(RequestType request_type, std::string* request_data = NULL, std::string* request_get_data = NULL, int method = 0);
-	bool    save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
+	http::response flap(RequestType request_type, std::string *post_data = NULL, std::string *get_data = NULL, int method = 0);
+	bool save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
 
-	int     choose_method(RequestType);
-	bool	notify_errors(RequestType);
+	bool notify_errors(RequestType);
 	std::string choose_server(RequestType);
 	std::string choose_action(RequestType, std::string *get_data = NULL);
 
-	NETLIBHTTPHEADER*   get_request_headers(int request_type, int* headers_count);
+	NETLIBHTTPHEADER *get_request_headers(int request_type, int *headers_count);
 
 	////////////////////////////////////////////////////////////
 
