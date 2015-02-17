@@ -31,7 +31,7 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	fseek(profile, 0, SEEK_END);
-	long size = ftell(profile);
+	size_t size = ftell(profile);
 	rewind(profile);
 	if (size == 0)
 	{
@@ -41,7 +41,7 @@ bool CToxProto::LoadToxProfile()
 	}
 
 	uint8_t *data = (uint8_t*)mir_calloc(size);
-	if (fread((char*)data, sizeof(char), size, profile) != (size_t)size)
+	if (fread((char*)data, sizeof(char), size, profile) != size)
 	{
 		fclose(profile);
 		debugLogA("CToxProto::LoadToxData: could not read tox profile");
@@ -74,7 +74,8 @@ bool CToxProto::LoadToxProfile()
 	}
 	else
 	{
-		if (tox_load(tox, data, size) == TOX_ERROR)
+		// it return -1 but load, wtf?
+		if (tox_load(tox, data, size) > 0)
 		{
 			debugLogA("CToxProto::LoadToxData: could not load tox profile");
 			mir_free(data);

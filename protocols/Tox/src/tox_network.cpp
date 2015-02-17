@@ -48,6 +48,9 @@ void CToxProto::TryConnect()
 	{
 		isConnected = true;
 		debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
+
+		ForkThread(&CToxProto::LoadFriendList, NULL);
+
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);
 		tox_set_user_status(tox, MirandaToToxStatus(m_iStatus));
