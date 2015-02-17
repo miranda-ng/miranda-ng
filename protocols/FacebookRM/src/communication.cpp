@@ -36,23 +36,17 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		return resp;
 	}
 
+	// Prepare the request
 	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
 
+	// Set request URL
 	std::string url = HTTP_PROTO_SECURE + choose_server(request_type) + choose_action(request_type, get_data);
-
 	if (!parent->m_locale.empty())
 		url += "&locale=" + parent->m_locale;
-
+	
 	nlhr.szUrl = (char*)url.c_str();
-	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
-	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
 
-#ifdef _DEBUG 
-	nlhr.flags |= NLHRF_DUMPASTEXT;
-#else
-	nlhr.flags |= NLHRF_NODUMP;
-#endif
-
+	// Set timeout (bigger for channel request)
 	switch (request_type) {
 	case REQUEST_MESSAGES_RECEIVE:
 		nlhr.timeout = 1000 * 65;
@@ -63,6 +57,7 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		break;
 	}
 
+	// Set request type (GET/POST) and eventually also POST data
 	if (post_data != NULL) {
 		nlhr.requestType = REQUEST_POST;
 		nlhr.pData = (char*)(*post_data).c_str();
@@ -71,8 +66,19 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		nlhr.requestType = REQUEST_GET;
 	}
 
-	parent->debugLogA("@@@ Sending request to '%s'", nlhr.szUrl);
+	// Set headers - it depends on requestType so it must be after setting that
+	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);	
 
+	// Set flags
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
+
+#ifdef _DEBUG 
+	nlhr.flags |= NLHRF_DUMPASTEXT;
+#else
+	nlhr.flags |= NLHRF_NODUMP;
+#endif
+
+	// Set persistent connection (or not)
 	switch (request_type) {
 	case REQUEST_LOGIN:
 		nlhr.nlc = NULL;
@@ -90,11 +96,15 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		break;
 	}
 
-	NETLIBHTTPREQUEST* pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr);
+	parent->debugLogA("@@@ Sending request to '%s'", nlhr.szUrl);
+
+	// Send the request	
+	NETLIBHTTPREQUEST *pnlhr = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)handle_, (LPARAM)&nlhr);	
 
 	mir_free(nlhr.headers[3].szValue);
 	mir_free(nlhr.headers);
 
+	// Remember the persistent connection handle (or not)
 	switch (request_type) {
 	case REQUEST_LOGIN:
 	case REQUEST_SETUP_MACHINE:
@@ -110,6 +120,7 @@ http::response facebook_client::flap(RequestType request_type, std::string *post
 		break;
 	}
 
+	// Check and copy response data
 	if (pnlhr != NULL) {
 		parent->debugLogA("@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);

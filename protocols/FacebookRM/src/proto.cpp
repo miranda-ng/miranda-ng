@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -921,9 +921,10 @@ void FacebookProto::ReadNotificationWorker(void *p)
 		return;
 	}
 
-	std::string data = "seen=0&asyncSignal=&__dyn=&__req=a&alert_ids%5B0%5D=" + utils::url::encode(*id);
+	std::string data = "seen=true&asyncSignal=&__dyn=&__rev=&__req=&alert_ids%5B0%5D=" + utils::url::encode(*id);
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&__user=" + facy.self_.user_id;
+	data += "&ttstamp=" + facy.ttstamp();
 
 	facy.flap(REQUEST_NOTIFICATIONS_READ, NULL, &data);
 
