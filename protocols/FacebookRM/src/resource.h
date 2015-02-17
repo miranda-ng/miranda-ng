@@ -24,10 +24,7 @@
 #define IDC_NEWACCOUNTLINK              1003
 #define IDC_MINDMSG                     1012
 #define IDC_GROUP                       1021
-#define IDC_SECURE                      1024
 #define IDC_SET_IGNORE_STATUS           1025
-#define IDC_SECURE_CHANNEL              1026
-#define IDC_LOGGING                     1027
 #define IDC_DISCONNECT_CHAT             1028
 #define IDC_BIGGER_AVATARS              1030
 #define IDC_MAP_STATUSES                1032
@@ -65,7 +62,6 @@
 #define IDC_INSTRUCTION                 1214
 #define IDC_FRAME1                      1215
 #define IDC_FRAME2                      1216
-#define IDC_SUBMIT                      1217
 
 // Next default values for new objects
 // 
@@ -74,6 +70,6 @@
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1218
-#define _APS_NEXT_SYMED_VALUE           132
+#define _APS_NEXT_SYMED_VALUE           134
 #endif
 #endif

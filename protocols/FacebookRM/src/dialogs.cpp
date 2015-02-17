@@ -363,11 +363,6 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			SendDlgItemMessage(hwnd, IDC_PW, EM_SETREADONLY, TRUE, 0);
 		}
 
-		LoadDBCheckState(proto, hwnd, IDC_SECURE, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS);
-		LoadDBCheckState(proto, hwnd, IDC_SECURE_CHANNEL, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL);
-
-		EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
-
 		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
 		if (proto->m_tszDefaultGroup != NULL)
@@ -389,15 +384,6 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		case IDC_GROUP:
 			if (HIWORD(wparam) == EN_CHANGE && (HWND)lparam == GetFocus())
 				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-		case IDC_SECURE:
-			EnableWindow(GetDlgItem(hwnd, IDC_SECURE_CHANNEL), IsDlgButtonChecked(hwnd, IDC_SECURE));
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			break;
-		case IDC_SECURE_CHANNEL:
-			if (IsDlgButtonChecked(hwnd, IDC_SECURE_CHANNEL))
-				MessageBox(hwnd, TranslateT("Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly."), proto->m_tszUserName, MB_OK);
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
 		default:
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -429,9 +415,6 @@ INT_PTR CALLBACK FBOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 			StoreDBCheckState(proto, hwnd, IDC_SET_IGNORE_STATUS, FACEBOOK_KEY_DISABLE_STATUS_NOTIFY);
 			StoreDBCheckState(proto, hwnd, IDC_BIGGER_AVATARS, FACEBOOK_KEY_BIG_AVATARS);
-
-			StoreDBCheckState(proto, hwnd, IDC_SECURE, FACEBOOK_KEY_FORCE_HTTPS);
-			StoreDBCheckState(proto, hwnd, IDC_SECURE_CHANNEL, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL);
 
 			return TRUE;
 		}

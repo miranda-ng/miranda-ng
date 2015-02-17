@@ -106,23 +106,19 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "User details",IDC_STATIC,7,7,291,60
-    LTEXT           "E-mail:",IDC_STATIC,17,19,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_UN,84,17,123,13,ES_AUTOHSCROLL
-    LTEXT           "Password:",IDC_STATIC,17,35,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_PW,84,33,123,13,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "User details",IDC_STATIC,7,7,291,62
+    LTEXT           "E-mail:",IDC_STATIC,17,20,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_UN,84,18,123,13,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,17,36,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_PW,84,34,123,13,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Create a new Facebook account",IDC_NEWACCOUNTLINK,
-                    "Hyperlink",WS_TABSTOP,84,52,189,10
-    GROUPBOX        "Network",IDC_STATIC,7,72,291,42
-    CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,85,281,10
-    CONTROL         "Use secure connection also for channel requests",IDC_SECURE_CHANNEL,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,99,262,10
-    GROUPBOX        "Contacts",IDC_STATIC,7,120,291,60
-    LTEXT           "Default group:",IDC_STATIC,17,133,61,8,0,WS_EX_RIGHT
-    EDITTEXT        IDC_GROUP,84,131,123,13,ES_AUTOHSCROLL
+                    "Hyperlink",WS_TABSTOP,84,53,189,10
+    GROUPBOX        "Contacts",IDC_STATIC,7,77,291,60
+    LTEXT           "Default group:",IDC_STATIC,17,91,61,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_GROUP,84,89,123,13,ES_AUTOHSCROLL
     CONTROL         "Automatically set 'Ignore status change' flag",IDC_SET_IGNORE_STATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,149,271,10
-    CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,162,271,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,107,271,10
+    CONTROL         "Use bigger avatars",IDC_BIGGER_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,120,271,10
 END
 
 IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 208
@@ -307,8 +303,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
 

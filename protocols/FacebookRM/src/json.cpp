@@ -316,13 +316,9 @@ void parseAttachments(FacebookProto *proto, std::string *message_text, JSONNODE 
 				std::string link = json_as_pstring(url);
 
 				if (link.find("/ajax/mercury/attachments/photo/view/") != std::string::npos)
-					// fix photo url
-					link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&"));
-				else if (link.find("/") == 0) {
-					// make absolute url
-					bool useHttps = proto->getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
-					link = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + std::string(FACEBOOK_SERVER_REGULAR) + link;
-				}
+					link = utils::url::decode(utils::text::source_get_value(&link, 2, "?uri=", "&")); // fix photo url
+				else if (link.find("/") == 0)
+					link = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR + link; // make absolute url
 
 				if (!link.empty()) {
 					std::string filename;

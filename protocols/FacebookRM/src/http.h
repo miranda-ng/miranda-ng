@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define HTTP_PROTO_REGULAR          "http://"
 #define HTTP_PROTO_SECURE           "https://"
 
 #define HTTP_CODE_CONTINUE				100
@@ -85,23 +84,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 namespace http
 {
-	enum method
-	{
-		get,
-		post
-	};
-
 	struct response
 	{
 		response() : code(0), error_number(0) {}
+
 		int code;
-		std::map< std::string, std::string > headers;
+		std::map<std::string, std::string> headers;
 		std::string data;
 
 		// Facebook's error data
 		unsigned int error_number;
-		std::string error_text;
 		std::string error_title;
+		std::string error_text;		
 
 		bool isValid() {
 			return (code == HTTP_CODE_OK && error_number == 0);

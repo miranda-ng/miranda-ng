@@ -888,8 +888,7 @@ std::string FacebookProto::PrepareUrl(std::string url) {
 		}
 
 		// Make absolute url
-		bool useHttps = getByte(FACEBOOK_KEY_FORCE_HTTPS, 1) > 0;
-		url = (useHttps ? HTTP_PROTO_SECURE : HTTP_PROTO_REGULAR) + facy.get_server_type() + url;
+		url = HTTP_PROTO_SECURE + facy.get_server_type() + url;
 	}
 
 	return url;

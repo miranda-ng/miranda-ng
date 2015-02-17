@@ -39,7 +39,7 @@ public:
 	{
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = random_ = 0;
 
-		https_ = is_typing_ = false;
+		is_typing_ = false;
 
 		buddies_lock_ = send_message_lock_ = notifications_lock_ = cookies_lock_ = NULL;
 		hMsgCon = NULL;
@@ -82,7 +82,6 @@ public:
 	std::string chat_clientid_;
 	std::string chat_traceid_;
 	bool is_typing_;
-	bool https_;
 	time_t last_feeds_update_;
 	time_t last_notification_time_;
 	int msgid_;
@@ -206,10 +205,8 @@ public:
 	http::response flap(RequestType request_type, std::string* request_data = NULL, std::string* request_get_data = NULL, int method = 0);
 	bool    save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc);
 
-	DWORD   choose_security_level(RequestType);
 	int     choose_method(RequestType);
 	bool	notify_errors(RequestType);
-	std::string choose_proto(RequestType);
 	std::string choose_server(RequestType);
 	std::string choose_action(RequestType, std::string *get_data = NULL);
 

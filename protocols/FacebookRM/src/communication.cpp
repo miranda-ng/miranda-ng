@@ -39,15 +39,13 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
 	nlhr.requestType = !method ? choose_method(request_type) : method;
 
-	std::string url = choose_proto(request_type);
-	url.append(choose_server(request_type));
-	url.append(choose_action(request_type, request_get_data));
+	std::string url = HTTP_PROTO_SECURE + choose_server(request_type) + choose_action(request_type, request_get_data);
 
 	if (!parent->m_locale.empty())
 		url += "&locale=" + parent->m_locale;
 
 	nlhr.szUrl = (char*)url.c_str();
-	nlhr.flags = NLHRF_HTTP11 | choose_security_level(request_type);
+	nlhr.flags = NLHRF_HTTP11 | NLHRF_SSL;
 	nlhr.headers = get_request_headers(nlhr.requestType, &nlhr.headersCount);
 
 #ifdef _DEBUG 
@@ -203,57 +201,6 @@ bool facebook_client::handle_error(const std::string &method, int action)
 
 //////////////////////////////////////////////////////////////////////////////
 
-DWORD facebook_client::choose_security_level(RequestType request_type)
-{
-	if (this->https_)
-		if ((request_type != REQUEST_MESSAGES_RECEIVE && request_type != REQUEST_ACTIVE_PING) || parent->getByte(FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL))
-			return NLHRF_SSL;
-
-	switch (request_type) {
-	case REQUEST_LOGIN:
-	case REQUEST_SETUP_MACHINE:
-		return NLHRF_SSL;
-
-		//	case REQUEST_LOGOUT:
-		//	case REQUEST_HOME:
-		//	case REQUEST_DTSG:
-		//	case REQUEST_BUDDY_LIST:
-		//	case REQUEST_USER_INFO:
-		//	case REQUEST_USER_INFO_ALL:
-		//	case REQUEST_USER_INFO_MOBILE:
-		//	case REQUEST_LOAD_FRIENDSHIPS:
-		//	case REQUEST_SEARCH:
-		//  case REQUEST_DELETE_FRIEND:
-		//	case REQUEST_ADD_FRIEND:
-		//	case REQUEST_APPROVE_FRIEND:
-		//	case REQUEST_CANCEL_FRIENDSHIP:
-		//	case REQUEST_FRIENDSHIP:
-		//	case REQUEST_FEEDS:
-		//	case REQUEST_PAGES:
-		//	case REQUEST_NOTIFICATIONS:
-		//	case REQUEST_RECONNECT:
-		//	case REQUEST_POST_STATUS:
-		//	case REQUEST_IDENTITY_SWITCH:
-		//	case REQUEST_CAPTCHA_REFRESH:
-		//	case REQUEST_LINK_SCRAPER:
-		//	case REQUEST_MESSAGE_SEND_CHAT:
-		//	case REQUEST_MESSAGE_SEND_INBOX:
-		//	case REQUEST_THREAD_INFO:
-		//	case REQUEST_THREAD_SYNC:
-		//	case REQUEST_MESSAGES_RECEIVE:
-		//	case REQUEST_ACTIVE_PING:
-		//	case REQUEST_VISIBILITY:
-		//	case REQUEST_POKE:
-		//	case REQUEST_ASYNC:
-		//	case REQUEST_MARK_READ:
-		//	case REQUEST_NOTIFICATIONS_READ:
-		//	case REQUEST_UNREAD_THREADS:
-		//	case REQUEST_TYPING_SEND:
-	default:
-		return (DWORD)0;
-	}
-}
-
 int facebook_client::choose_method(RequestType request_type)
 {
 	switch (request_type)
@@ -299,14 +246,6 @@ int facebook_client::choose_method(RequestType request_type)
 	default:
 		return REQUEST_GET;
 	}
-}
-
-std::string facebook_client::choose_proto(RequestType request_type)
-{
-	if (choose_security_level(request_type) == NLHRF_SSL)
-		return HTTP_PROTO_SECURE;
-	else
-		return HTTP_PROTO_REGULAR;
 }
 
 std::string facebook_client::choose_server(RequestType request_type)
@@ -952,7 +891,7 @@ bool facebook_client::login(const char *username, const char *password)
 	{
 		if (resp.headers.find("Location") != resp.headers.end()) {
 			std::string redirectUrl = resp.headers["Location"];
-			std::string expectedUrl = (this->https_ ? "https://"FACEBOOK_SERVER_REGULAR"/" : "http://"FACEBOOK_SERVER_REGULAR"/");
+			std::string expectedUrl = HTTP_PROTO_SECURE FACEBOOK_SERVER_REGULAR "/";
 
 			// Remove eventual parameters
 			std::string::size_type pos = redirectUrl.rfind("?");
@@ -1011,14 +950,6 @@ bool facebook_client::home()
 
 	// get fb_dtsg
 	http::response resp = flap(REQUEST_DTSG);
-
-	// Check whether HTTPS connection is required and we don't have it enabled
-	if (!this->https_ && resp.headers["Location"].find("https://") != std::string::npos) {
-		client_notify(TranslateT("Your account requires HTTPS connection. Activating."));
-		parent->setByte(FACEBOOK_KEY_FORCE_HTTPS, 1);
-		this->https_ = true;
-		return home();
-	}
 
 	this->dtsg_ = utils::url::encode(utils::text::source_get_value(&resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\""));
 	{
