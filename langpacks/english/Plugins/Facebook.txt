@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -21,9 +21,6 @@
 [Share]
 [Cancel]
 [User details]
-[Network]
-[Force secure (HTTPS) connection]
-[Use secure connection also for channel requests]
 [Contacts]
 [Default group:]
 [Automatically set 'Ignore status change' flag]
@@ -77,7 +74,6 @@
 [Login error: Your account is temporarily locked. You need to confirm this device from web browser.]
 [Login error: Captcha code is required. You need to confirm this device from web browser.]
 [Login error, probably bad login credentials.]
-[Your account requires HTTPS connection. Activating.]
 [Could not load communication token. You should report this and wait for plugin update.]
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
@@ -115,7 +111,6 @@
 [Default]
 [<< Contacts]
 [What's on your mind, %s?]
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]
 [Sample request]
 [Sample newsfeed]
@@ -142,6 +137,7 @@
 [Unable to get Netlib connection for Facebook]
 [Video call]
 [Facebook ID must be numeric value.]
+[Network]
 [Account]
 [Events]
 [Messaging]

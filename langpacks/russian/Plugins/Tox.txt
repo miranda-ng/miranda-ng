@@ -13,20 +13,16 @@
 Пароль:
 [Default group:]
 Группа:
+[Import tox profile]
+Импорт профиля Tox
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+Профиль Tox содержит ваш ID и список друзей.\r\nВы можете импортировать существующий профиль из другого клиента Tox.
 [Connection settings]
 Настройки подключения
 [Disable UDP (force Tox to use TCP)]
 Отключить UDP (принудительно использовать TCP)
 [Disable IPv6]
 Отключить IPv6
-[Tox profile import]
-Импорт профиля Tox
-[Import]
-Импорт
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Профиль Tox содержит ваш ID и список друзей.\r\nВыберите существующий профиль и нажмите "Импорт".\r\nНажмите "Отмена" для создания нового профиля.
-[Cancel]
-Отмена
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
 [Dns name:]
@@ -35,6 +31,8 @@ DNS имя:
 Введите пароль
 [Save password]
 Сохранить пароль
+[Cancel]
+Отмена
 [Tox profile is encrypted. Enter the password to continue.]
 Профиль Tox зашифрован. Введите пароль, чтобы продолжить.
 [Add]
@@ -51,6 +49,10 @@ DNS имя:
 Узлы сети Tox
 [%s connection]
 %s подключение
+[All files (*.*)]
+Все файлы (*.*)
+[Select tox profile]
+Выберите профиль Tox
 [Add node]
 Добавление ноды
 [Change node]
@@ -65,10 +67,6 @@ DNS имя:
 Вы уверены?
 [Node deleting]
 Удаление ноды
-[All files (*.*)]
-Все файлы (*.*)
-[Select tox profile]
-Выберите профиль Tox
 [Protocols]
 Протоколы
 [Protocol icon]

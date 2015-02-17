@@ -50,7 +50,7 @@
 [Advanced]
 [Hide chats on startup]
 [Always notify as unread for all incoming message]
-[Force ivisible status upon user activity]
+[Force invisible status upon user activity]
 [Invisible interval timeout (min):]
 [Use non-standard urlEncode for sent messages (less traffic)]
 [When I ban user...]

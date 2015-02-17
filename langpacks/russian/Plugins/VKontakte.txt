@@ -93,7 +93,7 @@ E-mail или номер телефона:
 Не открывать окна комнат чата при входе
 [Always notify as unread for all incoming message]
 Помечать все входящие сообщения как "Непрочитанное"
-[Force ivisible status upon user activity]
+[Force invisible status upon user activity]
 Переводить статус контакта в невидимый при его активности
 [Invisible interval timeout (min):]
 Интервал перевода в "невидимый" (мин):
