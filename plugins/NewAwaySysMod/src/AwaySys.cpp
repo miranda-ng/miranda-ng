@@ -350,6 +350,14 @@ int PreBuildContactMenu(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+static int DBSettingChanged(WPARAM hContact, LPARAM lParam)
+{
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	if (hContact != NULL && !strcmp(cws->szSetting, "Status"))
+		db_set_w(hContact, "UserOnline", "OldStatus", cws->value.wVal);
+	
+	return 0;
+}
 
 static INT_PTR SetContactStatMsg(WPARAM hContact, LPARAM)
 {
@@ -605,6 +613,7 @@ int MirandaLoaded(WPARAM, LPARAM)
 	HookEvent(ME_OPT_INITIALISE, OptsDlgInit);
 	HookEvent(ME_CLIST_STATUSMODECHANGE, StatusChanged);
 	HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange); // for compatibility with StartupStatus and AdvancedAutoAway
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);
 	HookEvent(ME_DB_EVENT_FILTER_ADD, MsgEventAdded);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
