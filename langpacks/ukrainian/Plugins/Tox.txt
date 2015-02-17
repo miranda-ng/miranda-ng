@@ -39,14 +39,8 @@
 Профіль Tox зашифровано. Щоб продовжити, введіть пароль.
 [Add]
 Додати
-[Change]
-Змінити
-[Remove]
-Видалити
 [Port]
 Порт
-[Client ID]
-ID клієнта
 [Network]
 Мережа
 [Account]
@@ -57,18 +51,12 @@ ID клієнта
 З'єднання %s
 [Add node]
 Додати нод
+[Change node]
+Зміна ноду
 [Enter IPv4]
 Введіть IPv4
 [Error]
 Помилка
-[Enter IPv6]
-Введіть IPv6
-[Enter port]
-Введіть порт
-[Enter client ID]
-Введіть ID клієнта
-[Change node]
-Зміна ноду
 [Are you sure?]
 Ви впевнені?
 [Node deleting]
