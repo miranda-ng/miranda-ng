@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.46
+;  Version: 0.1.0.47
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -94,8 +94,10 @@ Zaawansowane
 Ukryj czaty podczas startu
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
-[Force online status upon user activity]
-Wymuś dostępny status po wykazaniu aktywności przez użytkownika
+[Force ivisible status upon user activity]
+Wymuś status niewidoczny po wykryciu aktywności użytkownika
+[Invisible interval timeout (min):]
+Czas wygasania niewidoczności (min):
 [Use non-standard urlEncode for sent messages (less traffic)]
 Niestandardowe kodowanie linków dla wysyłanych wiadomości (mniejsze obciążenie)
 [When I ban user...]
