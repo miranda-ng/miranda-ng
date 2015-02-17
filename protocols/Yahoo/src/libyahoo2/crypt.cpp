@@ -133,11 +133,11 @@ char *yahoo_crypt(char *key, char *salt)
 		else
 			mir_md5_append(&ctx, alt_result, 16);
 
-		/* Add salt for numbers not divisible by 3.  */
+		/* Add salt for numbers not dividable by 3.  */
 		if (cnt % 3 != 0)
 			mir_md5_append(&ctx, (BYTE *)salt, salt_len);
 
-		/* Add key for numbers not divisible by 7.  */
+		/* Add key for numbers not dividable by 7.  */
 		if (cnt % 7 != 0)
 			mir_md5_append(&ctx, (BYTE *)key, key_len);
 
