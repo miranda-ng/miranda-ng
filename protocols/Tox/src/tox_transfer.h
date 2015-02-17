@@ -18,15 +18,17 @@ struct FileTransferParam
 	PROTOFILETRANSFERSTATUS pfts;
 	FILE_TRANSFER_STATUS status;
 	FILE *hFile;
-	int friendNumber;
-	int fileNumber;
+	int32_t friendNumber;
+	uint8_t fileNumber;
+	int64_t transferNumber;
 
-	FileTransferParam(int friendNumber, int fileNumber, const TCHAR *fileName, uint64_t fileSize)
+	FileTransferParam(int32_t friendNumber, uint8_t fileNumber, const TCHAR *fileName, uint64_t fileSize)
 	{
 		status = NONE;
 		hFile = NULL;
 		this->friendNumber = friendNumber;
 		this->fileNumber = fileNumber;
+		transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
 
 		pfts.cbSize = sizeof(PROTOFILETRANSFERSTATUS);
 		pfts.flags = PFTS_TCHAR;
@@ -76,7 +78,7 @@ struct FileTransferParam
 class CTransferList
 {
 private:
-	std::map<uint8_t, FileTransferParam*> transfers;
+	std::map<int64_t, FileTransferParam*> transfers;
 
 public:
 	size_t Count() const
@@ -86,47 +88,49 @@ public:
 
 	void Add(FileTransferParam *transfer)
 	{
-		if (transfers.find(transfer->fileNumber) == transfers.end())
+		if (transfers.find(transfer->transferNumber) == transfers.end())
 		{
-			transfers[transfer->fileNumber] = transfer;
+			transfers[transfer->transferNumber] = transfer;
 		}
 	}
 
-	FileTransferParam* Get(uint8_t fileNumber)
+	FileTransferParam* Get(int32_t friendNumber, uint8_t fileNumber)
 	{
-		if (transfers.find(fileNumber) != transfers.end())
+		int64_t transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
+		if (transfers.find(transferNumber) != transfers.end())
 		{
-			return transfers.at(fileNumber);
+			return transfers.at(transferNumber);
 		}
 		return NULL;
 	}
 
-	FileTransferParam* GetAt(size_t index)
+	FileTransferParam* GetAt(int64_t index)
 	{
 		if (index < Count())
 		{
-			std::map<uint8_t, FileTransferParam*>::iterator it = transfers.begin();
+			std::map<int64_t, FileTransferParam*>::iterator it = transfers.begin();
 			std::advance(it, index);
 			return it->second;
 		}
 		return NULL;
 	}
 
-	void Remove(uint8_t fileNumber)
+	void Remove(int32_t friendNumber, uint8_t fileNumber)
 	{
-		if (transfers.find(fileNumber) != transfers.end())
+		int64_t transferNumber = (((int64_t)friendNumber) << 32) | ((int64_t)fileNumber);
+		if (transfers.find(transferNumber) != transfers.end())
 		{
-			FileTransferParam *transfer = transfers.at(fileNumber);
-			transfers.erase(fileNumber);
+			FileTransferParam *transfer = transfers.at(transferNumber);
+			transfers.erase(transferNumber);
 			delete transfer;
 		}
 	}
 
 	void Remove(FileTransferParam *transfer)
 	{
-		if (transfers.find(transfer->fileNumber) != transfers.end())
+		if (transfers.find(transfer->transferNumber) != transfers.end())
 		{
-			transfers.erase(transfer->fileNumber);
+			transfers.erase(transfer->transferNumber);
 			delete transfer;
 		}
 	}

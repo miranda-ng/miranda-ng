@@ -126,7 +126,7 @@ void CToxProto::OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, c
 		return;
 	}
 
-	FileTransferParam *transfer = proto->transfers->Get(fileNumber);
+	FileTransferParam *transfer = proto->transfers->Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
 		proto->debugLogA("CToxProto::OnFileData: cannot find transfer by number (%d)", fileNumber);
@@ -181,7 +181,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 
 	char *name = mir_utf8encodeW(fileName);
 	int fileNumber = tox_new_file_sender(tox, friendNumber, fileSize, (uint8_t*)name, (uint16_t)mir_strlen(name));
-	if (fileNumber < 0)
+	if (fileNumber == TOX_ERROR)
 	{
 		debugLogA("CToxProto::SendFilesAsync: cannot send file");
 		return NULL;
@@ -282,7 +282,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 	MCONTACT hContact = proto->GetContact(friendNumber);
 	if (hContact)
 	{
-		FileTransferParam *transfer = proto->transfers->Get(fileNumber);
+		FileTransferParam *transfer = proto->transfers->Get(friendNumber, fileNumber);
 		if (transfer == NULL)
 		{
 			tox_file_send_control(tox, friendNumber, receive_send, fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
