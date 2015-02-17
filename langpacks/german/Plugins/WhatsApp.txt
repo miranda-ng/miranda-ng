@@ -29,44 +29,44 @@ Code registrieren
 [Including country code, without '+' or '00']
 Inklusive Landescode, ohne '+' oder '00'
 [Invite users]
-
+Benutzer einladen
 [Choose an user]
 
 [Other user:]
 
 [&Invite]
-
+E&inladen
 [Cancel]
 Abbrechen
 ;file \protocols\WhatsApp\src\chat.cpp
 [Members]
 
 [Owners]
-
+Besitzer
 [&Invite a user]
-
+Benutzer in diesen MUC e&inladen
 [&Room options]
-
+&Raumeinstellungen
 [View/change &topic]
-
+&Thema setzen
 [&Leave chat session]
-
+Chat ver&lassen
 [Set &avatar]
 
 [Copy room &JID]
-
+Raum-&JID kopieren
 [Copy room topic]
-
+Thema des Raums kopieren
 [Set new subject for %s]
 
 [&Add to roster]
-
+Zu Server-Kont&aktliste hinzufügen
 [&Kick]
 &Kick
 [Copy &nickname]
-
+&Nicknamen kopieren
 [Copy real &JID]
-
+Echte &JID kopieren
 [Unknown user]
 
 ;file \protocols\WhatsApp\src\connection.cpp
@@ -94,7 +94,7 @@ Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
-
+Server
 [Message received: %s by %s]
 
 ;file \protocols\WhatsApp\src\proto.cpp

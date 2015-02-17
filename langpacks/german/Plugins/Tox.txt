@@ -25,7 +25,7 @@ UDP deaktivieren (zwingt Tox, TCP zu verwenden)
 [Disable IPv6]
 IPv6 deaktivieren
 [Tox]
-Tox
+
 [Tox profile import]
 Tox-Profil importieren
 [Import]
@@ -53,32 +53,32 @@ Hinzufügen
 [Port]
 Port
 [Public key]
-
+Öffentlicher Schlüssel
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Netzwerk
 [Account]
 Konto
 [Tox nodes]
-
+Tox Knoten
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
 ;file \protocols\Tox\src\tox_options.cpp
 [Add node]
-
+Knoten hinzufügen
 [Change node]
-
+Knoten ändern
 [Enter IPv4]
-
+IPv4 eingeben
 [Error]
 Fehler
 [Enter public key]
-
+Öffentlichen Schlüssel eingeben
 [Are you sure?]
 Sind Sie sich sicher?
 [Node deleting]
-
+Lösche Knoten
 ;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Alle Dateien (*.*)
@@ -90,7 +90,7 @@ Protokolle
 [Protocol icon]
 Protokollicon
 [You cannot add yourself to your contact list]
-
+Du kannst dich selbst nicht zur Kontaktliste hinzufügen
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste
 ;file \protocols\Tox\src\tox_search.cpp

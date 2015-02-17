@@ -156,7 +156,7 @@ Format
 Player
 ;file \plugins\ListeningTo\src\players\generic.cpp
 [Miranda ListeningTo receiver]
-
+Miranda ListeningTo Empfänger
 ;file \plugins\ListeningTo\src\players\wmp.cpp
 [Miranda ListeningTo WMP receiver]
-
+Miranda ListeningTo WMP Empfänger

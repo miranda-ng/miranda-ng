@@ -1,4 +1,0 @@
-﻿[Friendship notifications]
-[Sample friendship]
-[Friendship events]
-[Friendship Event]
