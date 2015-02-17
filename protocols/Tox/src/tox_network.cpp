@@ -7,6 +7,8 @@ bool CToxProto::IsOnline()
 
 void CToxProto::BootstrapDht()
 {
+	debugLogA("CToxProto::BootstrapDht: bootstraping DHT");
+
 	bool isIPv4 = getBool("DisableIPv6", 0);
 	int nodeCount = db_get_w(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
 	if (!nodeCount)
@@ -71,18 +73,20 @@ void CToxProto::CheckConnection(int &retriesCount)
 {
 	if (!isConnected)
 	{
+		debugLogA("CToxProto::CheckConnection: lost connection with DHT");
 		TryConnect();
 	}
 	else
 	{
 		if (tox_isconnected(tox))
 		{
+			debugLogA("CToxProto::CheckConnection: restored connection with DHT");
 			retriesCount = TOX_MAX_DISCONNECT_RETRIES;
 		}
 		else if (!(--retriesCount))
 		{
 			isConnected = false;
-			debugLogA("CToxProto::PollingThread: disconnected from DHT");
+			debugLogA("CToxProto::CheckConnection: disconnected from DHT");
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}

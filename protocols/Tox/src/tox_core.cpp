@@ -2,7 +2,7 @@
 
 bool CToxProto::InitToxCore()
 {
-	debugLogA("CToxProto::InitToxCore: initializing tox profile");
+	debugLogA("CToxProto::InitToxCore: initializing tox core");
 
 	Tox_Options options = { 0 };
 	options.udp_disabled = getBool("DisableUDP", 0);
@@ -33,11 +33,15 @@ bool CToxProto::InitToxCore()
 		}
 	}
 
+	debugLogA("CToxProto::InitToxCore: loading tox profile");
+
 	tox = tox_new(&options);
 	password = mir_utf8encodeW(ptrT(getTStringA("Password")));
 	bool isProfileLoaded = LoadToxProfile();
 	if (isProfileLoaded)
 	{
+		debugLogA("CToxProto::InitToxCore: tox profile load successfully");
+
 		tox_callback_friend_request(tox, OnFriendRequest, this);
 		tox_callback_friend_message(tox, OnFriendMessage, this);
 		tox_callback_friend_action(tox, OnFriendAction, this);
@@ -79,6 +83,8 @@ bool CToxProto::InitToxCore()
 	}
 	else
 	{
+		debugLogA("CToxProto::InitToxCore: failed to load tox profile");
+
 		if (password != NULL)
 		{
 			mir_free(password);
