@@ -58,12 +58,18 @@ bool CToxProto::InitToxCore()
 		uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
 		tox_get_address(tox, data);
 		ToxHexAddress address(data, TOX_FRIEND_ADDRESS_SIZE);
-		setString(NULL, TOX_SETTINGS_ID, address);
+		setString(TOX_SETTINGS_ID, address);
 
 		int size = tox_get_self_name_size(tox);
 		std::string nick(size, 0);
 		tox_get_self_name(tox, (uint8_t*)nick.data());
 		setWString("Nick", ptrW(Utf8DecodeW(nick.c_str())));
+
+		//temporary
+		size = tox_get_self_status_message_size(tox);
+		std::string statusmes(size, 0);
+		tox_get_self_status_message(tox, (uint8_t*)statusmes.data(), size);
+		setWString("StatusMsg", ptrW(Utf8DecodeW(statusmes.c_str())));
 
 		std::tstring avatarPath = GetAvatarFilePath();
 		if (IsFileExists(avatarPath))
@@ -97,6 +103,10 @@ void CToxProto::UninitToxCore()
 
 	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
 	tox_set_name(tox, (uint8_t*)(char*)nickname, mir_strlen(nickname));
+
+	//temporary
+	ptrA statusmes(mir_utf8encodeW(ptrT(getTStringA("StatusMsg"))));
+	tox_set_status_message(tox, (uint8_t*)(char*)statusmes, mir_strlen(statusmes));
 
 	SaveToxProfile();
 	if (password != NULL)
