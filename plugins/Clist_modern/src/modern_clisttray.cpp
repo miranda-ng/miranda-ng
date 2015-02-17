@@ -534,6 +534,9 @@ int cliTrayIconInit(HWND hwnd)
 	case TRAY_ICON_MODE_ACC:
 		{
 			ptrA szProto(db_get_sa(NULL, "CList", (!bDiffers) ? "tiAccS" : "tiAccV"));
+			if (!szProto)
+				break;
+
 			PROTOACCOUNT *pa = ProtoGetAccount(szProto);
 			if (!pa || !pa->ppro)
 				pcli->pfnTrayIconAdd(hwnd, NULL, NULL, CListTray_GetGlobalStatus(0, 0));
@@ -565,7 +568,7 @@ int cliTrayIconInit(HWND hwnd)
 	return 0;
 }
 
-int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount)
+int cliTrayCalcChanged(const char *szChangedProto, int, int)
 {
 	if (!szChangedProto)
 		return -1;
@@ -587,7 +590,8 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 	}
 	
 	HICON hIcon = NULL;
-	int i = 0;
+	int i = 0, iStatus;
+	char *szProto;
 	
 	switch (Mode) {
 	case TRAY_ICON_MODE_GLOBAL:
@@ -596,27 +600,26 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 		break;
 	
 	case TRAY_ICON_MODE_ACC:
-		char *szProto;
 		// В этом режиме показывается иконка совершенно определённого аккаунта, и не всегда это szChangedProto.
 		szProto = db_get_sa(NULL, "CList", bDiffers ? "tiAccV" : "tiAccS");
-	
-		if (   g_StatusBarData.bConnectingIcon
-			&& (ProtoCallService(szProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_CONNECTING)
-			&& (ProtoCallService(szProto, PS_GETSTATUS, 0, 0) <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) )
+		if (szProto == NULL)
+			break;
+
+		iStatus = ProtoCallService(szProto, PS_GETSTATUS, 0, 0);
+		if (g_StatusBarData.bConnectingIcon && (iStatus >= ID_STATUS_CONNECTING) && (iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szProto, 0);
 		else
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szProto, ProtoCallService(szProto, PS_GETSTATUS, 0, 0));
+			
 		pcli->pfnTrayIconMakeTooltip(NULL, szProto);
 		break;
 	
 	case TRAY_ICON_MODE_CYCLE:
-		if (   g_StatusBarData.bConnectingIcon
-			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_CONNECTING)
-			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) )
+		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
+		if (g_StatusBarData.bConnectingIcon && (iStatus >= ID_STATUS_CONNECTING) && (iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
-		else
-			if (!bConn)
-				hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
+		else if (!bConn)
+			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, NULL);
 		break;
 	
@@ -625,32 +628,30 @@ int cliTrayCalcChanged(const char *szChangedProto, int averageMode, int netProto
 		for (; i < pcli->trayIconCount; i++)
 			if (!strcmp(pcli->trayIcon[i].szProto, szChangedProto))
 				break;
-	
-		if (   g_StatusBarData.bConnectingIcon
-			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) >= ID_STATUS_CONNECTING)
-			&& (ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0) <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) )
+
+		iStatus = ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0);
+		if (g_StatusBarData.bConnectingIcon && (iStatus >= ID_STATUS_CONNECTING) && (iStatus <= (ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)))
 			hIcon = (HICON)CLUI_GetConnectingIconService((WPARAM)szChangedProto, 0);
 		else
 			hIcon = pcli->pfnGetIconFromStatusMode(NULL, szChangedProto, ProtoCallService(szChangedProto, PS_GETSTATUS, 0, 0));
 		pcli->pfnTrayIconMakeTooltip(NULL, pcli->trayIcon[i].szProto);
 		break;
 	}
-	
+
 	DestroyIcon(pcli->trayIcon[i].hBaseIcon);
 	pcli->trayIcon[i].hBaseIcon = hIcon;
 	pcli->trayIcon[i].ptszToolTip = mir_tstrdup(pcli->szTip);
-	
+
 	NOTIFYICONDATA nid = { sizeof(NOTIFYICONDATA) };
 	nid.hWnd = pcli->hwndContactList;
 	nid.uID = pcli->trayIcon[i].id;
 	nid.hIcon = pcli->trayIcon[i].hBaseIcon;
-	nid.uFlags =  NIF_ICON | NIF_TIP;
-	
+	nid.uFlags = NIF_ICON | NIF_TIP;
+
 	// if Tipper is missing or turned off for tray, use system tooltips
-	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1)) {
+	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(NULL, "Tipper", "TrayTip", 1))
 		lstrcpyn(nid.szTip, pcli->szTip, SIZEOF(nid.szTip));
-	}
-	
+
 	Shell_NotifyIcon(NIM_MODIFY, &nid);
 
 	return -1;

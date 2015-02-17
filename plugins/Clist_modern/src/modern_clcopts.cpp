@@ -629,13 +629,13 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
 					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_S, CB_SETITEMDATA, item, (LPARAM)acc[i]);
 
-					if (!strcmp(acc[i]->szModuleName, db_get_sa(NULL, "CList", "tiAccS")))
+					if (!mir_strcmp(acc[i]->szModuleName, db_get_sa(NULL, "CList", "tiAccS")))
 						siS = item;
 
 					item = SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_ADDSTRING, 0, (LPARAM)acc[i]->tszAccountName);
 					SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS_V, CB_SETITEMDATA, item, (LPARAM)acc[i]);
 
-					if (!strcmp(acc[i]->szModuleName, db_get_sa(NULL, "CList", "tiAccV")))
+					if (!mir_strcmp(acc[i]->szModuleName, db_get_sa(NULL, "CList", "tiAccV")))
 						siV = item;
 
 				}
