@@ -46,18 +46,14 @@ Passwort speichern
 Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
 [Add]
 Hinzufügen
-[Change]
-Ändern
-[Remove]
-Entfernen
 [IPv4]
 
 [IPv6]
 
 [Port]
 Port
-[Client ID]
-Client-ID
+[Public key]
+
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Netzwerk
@@ -71,17 +67,13 @@ Konto
 ;file \protocols\Tox\src\tox_options.cpp
 [Add node]
 
+[Change node]
+
 [Enter IPv4]
 
 [Error]
 Fehler
-[Enter IPv6]
-
-[Enter port]
-
-[Enter client ID]
-
-[Change node]
+[Enter public key]
 
 [Are you sure?]
 Sind Sie sich sicher?

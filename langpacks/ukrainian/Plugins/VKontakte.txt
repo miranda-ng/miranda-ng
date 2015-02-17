@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.46
+;  Version: 0.1.0.47
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -93,8 +93,6 @@
 Не відкривати вікна чатів при старті
 [Always notify as unread for all incoming message]
 Позначати всі вхідні повідомлення непрочитаними
-[Force online status upon user activity]
-Змінювати статус контакта на "В мережі" при його активності
 [Use non-standard urlEncode for sent messages (less traffic)]
 Нестандартный urlEncode для повідомлень (економія трафіку)
 [When I ban user...]

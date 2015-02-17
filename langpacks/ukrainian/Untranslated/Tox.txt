@@ -3,3 +3,5 @@
 [Tox]
 [IPv4]
 [IPv6]
+[Public key]
+[Enter public key]

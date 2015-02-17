@@ -1979,7 +1979,6 @@ Mein Profil än&dern...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Kontakt hinzufügen
@@ -2119,6 +2118,11 @@ Custom Status
 Statusmenü
 [Main menu]
 Hauptmenü
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+Verbinden
+[Connecting (attempt %d)]
+Verbinden (%d. Versuch)
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Unbekannter Kontakt)
@@ -2620,8 +2624,6 @@ Benutzer online
 Gruppe (offen)
 [Group (closed)]
 Gruppe (geschlossen)
-[Connecting]
-Verbinden
 [User details]
 Kontaktprofil
 [History]
