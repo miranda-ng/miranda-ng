@@ -46,18 +46,14 @@ Zapisz hasło
 Profil tox jest zaszyfrowany. Wprowadź hasło, by kontynuować.
 [Add]
 Dodaj
-[Change]
-Zmień
-[Remove]
-Usuń
 [IPv4]
 IPV4
 [IPv6]
 IPV6
 [Port]
 Port
-[Client ID]
-ID klienta
+[Public key]
+Klucz publiczny
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Protokoły
@@ -71,18 +67,14 @@ Połączenie %s
 ;file \protocols\Tox\src\tox_options.cpp
 [Add node]
 Dodaj gałąź
+[Change node]
+Zmień gałąź
 [Enter IPv4]
 Wprowadź IPV4
 [Error]
 Błąd
-[Enter IPv6]
-Wprowadź IPV6
-[Enter port]
-Wprowadź port
-[Enter client ID]
-Wprowadź ID klienta
-[Change node]
-Zmień gałąź
+[Enter public key]
+Wprowadź klucz publiczny
 [Are you sure?]
 Czy jesteś pewien?
 [Node deleting]

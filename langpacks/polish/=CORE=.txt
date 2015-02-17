@@ -1979,7 +1979,6 @@ Pokaż/Zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Dodaj kontakt
@@ -2119,6 +2118,11 @@ Niestandardowy status
 Menu statusu
 [Main menu]
 Menu główne
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+Łączenie
+[Connecting (attempt %d)]
+Łączenie (próba %d)
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Nieznany kontakt)
@@ -2620,8 +2624,6 @@ Połączony użytkownik
 Grupa (Otwarta)
 [Group (closed)]
 Grupa (Zamknięta)
-[Connecting]
-Łączenie
 [User details]
 Dane kontaktu
 [History]
