@@ -27,7 +27,7 @@ void facebook_client::client_notify(TCHAR* message)
 	parent->NotifyEvent(parent->m_tszUserName, message, NULL, FACEBOOK_EVENT_CLIENT);
 }
 
-http::response facebook_client::flap(RequestType request_type, std::string* request_data, std::string* request_get_data, int method)
+http::response facebook_client::flap(RequestType request_type, std::string *post_data, std::string *get_data, int method)
 {
 	http::response resp;
 
@@ -37,9 +37,8 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	}
 
 	NETLIBHTTPREQUEST nlhr = { sizeof(NETLIBHTTPREQUEST) };
-	nlhr.requestType = !method ? choose_method(request_type) : method;
 
-	std::string url = HTTP_PROTO_SECURE + choose_server(request_type) + choose_action(request_type, request_get_data);
+	std::string url = HTTP_PROTO_SECURE + choose_server(request_type) + choose_action(request_type, get_data);
 
 	if (!parent->m_locale.empty())
 		url += "&locale=" + parent->m_locale;
@@ -54,24 +53,27 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	nlhr.flags |= NLHRF_NODUMP;
 #endif
 
-	switch (request_type)
-	{
+	switch (request_type) {
 	case REQUEST_MESSAGES_RECEIVE:
-		nlhr.timeout = 1000 * 65; break;
+		nlhr.timeout = 1000 * 65;
+		break;
+
 	default:
-		nlhr.timeout = 1000 * 20; break;
+		nlhr.timeout = 1000 * 20;
+		break;
 	}
 
-	if (request_data != NULL)
-	{
-		nlhr.pData = (char*)(*request_data).c_str();
-		nlhr.dataLength = (int)request_data->length();
+	if (post_data != NULL) {
+		nlhr.requestType = REQUEST_POST;
+		nlhr.pData = (char*)(*post_data).c_str();
+		nlhr.dataLength = (int)post_data->length();
+	} else {
+		nlhr.requestType = REQUEST_GET;
 	}
 
 	parent->debugLogA("@@@ Sending request to '%s'", nlhr.szUrl);
 
-	switch (request_type)
-	{
+	switch (request_type) {
 	case REQUEST_LOGIN:
 		nlhr.nlc = NULL;
 		break;
@@ -93,8 +95,7 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 	mir_free(nlhr.headers[3].szValue);
 	mir_free(nlhr.headers);
 
-	switch (request_type)
-	{
+	switch (request_type) {
 	case REQUEST_LOGIN:
 	case REQUEST_SETUP_MACHINE:
 		break;
@@ -109,16 +110,14 @@ http::response facebook_client::flap(RequestType request_type, std::string* requ
 		break;
 	}
 
-	if (pnlhr != NULL)
-	{
+	if (pnlhr != NULL) {
 		parent->debugLogA("@@@ Got response with code %d", pnlhr->resultCode);
 		store_headers(&resp, pnlhr->headers, pnlhr->headersCount);
 		resp.code = pnlhr->resultCode;
 		resp.data = pnlhr->pData ? pnlhr->pData : "";
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)pnlhr);
-	}
-	else {
+	} else {
 		parent->debugLogA("!!! No response from server (time-out)");
 		resp.code = HTTP_CODE_FAKE_DISCONNECTED;
 		// Better to have something set explicitely as this value is compaired in all communication requests
@@ -200,53 +199,6 @@ bool facebook_client::handle_error(const std::string &method, int action)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-
-int facebook_client::choose_method(RequestType request_type)
-{
-	switch (request_type)
-	{
-	case REQUEST_LOGIN:
-	case REQUEST_SETUP_MACHINE:
-	case REQUEST_BUDDY_LIST:
-	case REQUEST_POST_STATUS:
-	case REQUEST_IDENTITY_SWITCH:
-	case REQUEST_LINK_SCRAPER:
-	case REQUEST_MESSAGE_SEND_CHAT:
-	case REQUEST_MESSAGE_SEND_INBOX:
-	case REQUEST_THREAD_INFO:
-	case REQUEST_THREAD_SYNC:
-	case REQUEST_VISIBILITY:
-	case REQUEST_POKE:
-	case REQUEST_ASYNC:
-	case REQUEST_MARK_READ:
-	case REQUEST_NOTIFICATIONS_READ:
-	case REQUEST_TYPING_SEND:
-	case REQUEST_LOGOUT:
-	case REQUEST_DELETE_FRIEND:
-	case REQUEST_ADD_FRIEND:
-	case REQUEST_CANCEL_FRIENDSHIP:
-	case REQUEST_FRIENDSHIP:
-	case REQUEST_UNREAD_THREADS:
-		return REQUEST_POST;
-
-		//	case REQUEST_HOME:
-		//	case REQUEST_DTSG:
-		//	case REQUEST_MESSAGES_RECEIVE:
-		//	case REQUEST_ACTIVE_PING:
-		//	case REQUEST_FEEDS:
-		//	case REQUEST_PAGES:
-		//	case REQUEST_NOTIFICATIONS:
-		//	case REQUEST_RECONNECT:
-		//	case REQUEST_USER_INFO:
-		//	case REQUEST_USER_INFO_ALL:
-		//	case REQUEST_USER_INFO_MOBILE:
-		//	case REQUEST_LOAD_FRIENDSHIPS:
-		//	case REQUEST_SEARCH:
-		//	case REQUEST_CAPTCHA_REFRESH:
-	default:
-		return REQUEST_GET;
-	}
-}
 
 std::string facebook_client::choose_server(RequestType request_type)
 {
@@ -557,17 +509,16 @@ bool facebook_client::notify_errors(RequestType request_type)
 	}
 }
 
-NETLIBHTTPHEADER* facebook_client::get_request_headers(int request_type, int* headers_count)
+NETLIBHTTPHEADER *facebook_client::get_request_headers(int request_type, int *headers_count)
 {
 	if (request_type == REQUEST_POST)
 		*headers_count = 5;
 	else
 		*headers_count = 4;
 
-	NETLIBHTTPHEADER* headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(*headers_count));
+	NETLIBHTTPHEADER *headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER)*(*headers_count));
 
-	if (request_type == REQUEST_POST)
-	{
+	if (request_type == REQUEST_POST) {
 		headers[4].szName = "Content-Type";
 		headers[4].szValue = "application/x-www-form-urlencoded; charset=utf-8";
 	}
