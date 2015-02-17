@@ -241,7 +241,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Colloquy", _T("Colloquy*"), _T("Colloquy"), IDI_COLLOQUY, JABBER_CASE, TRUE },
 	{ "client_CommuniGate", _T("*CommuniGate*"), _T("CommuniGate Pro"), IDI_COMMUNIGATE, JABBER_CASE, TRUE },
 	{ "client_Conference", _T("Conference*"), _T("Conference Bot (GMail)"), IDI_CONFERENCE, JABBER_CASE, TRUE },
-	{ "client_Conversations", _T("*conversions.siacs.eu*"), _T("Conversations"), IDI_CONVERSATIONS, JABBER_CASE, TRUE },
+	{ "client_Conversations", _T("*conversions*"), _T("Conversations"), IDI_CONVERSATIONS, JABBER_CASE, TRUE },
 	{ "client_Crosstalk", _T("*Cross*talk*"), _T("Crosstalk"), IDI_CROSSTALK, JABBER_CASE, TRUE },
 	{ "client_Cudumar", _T("*Cudumar*"), _T("Cudumar"), IDI_CUDUMAR, JABBER_CASE, TRUE },
 	{ "client_CyclopsChat", _T("*Cyclops*"), _T("Cyclops Chat"), IDI_CYCLOPS_CHAT, JABBER_CASE, TRUE },
