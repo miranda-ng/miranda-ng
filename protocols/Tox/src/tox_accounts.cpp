@@ -9,21 +9,8 @@ int CToxProto::CompareAccounts(const CToxProto *p1, const CToxProto *p2)
 
 CToxProto* CToxProto::InitAccount(const char *protoName, const wchar_t *userName)
 {
-	ptrA address(db_get_sa(NULL, protoName, TOX_SETTINGS_ID));
-	if (address == NULL)
-	{
-		if (DialogBoxParam(
-			g_hInstance,
-			MAKEINTRESOURCE(IDD_PROFILE_IMPORT),
-			GetActiveWindow(),
-			CToxProto::ToxProfileImportProc,
-			(LPARAM)userName) == IDOK)
-		{
-			db_set_s(NULL, protoName, TOX_SETTINGS_ID, "");
-		}
-	}
-
 	CToxProto *proto = new CToxProto(protoName, userName);
+	accounts.insert(proto);
 	return proto;
 }
 

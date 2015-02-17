@@ -27,7 +27,10 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 			ptrT group(proto->getTStringA(TOX_SETTINGS_GROUP));
-			SetDlgItemText(hwnd, IDC_GROUP, group);
+			if (group)
+				SetDlgItemText(hwnd, IDC_GROUP, group);
+			else
+				SetDlgItemText(hwnd, IDC_GROUP, _T("Tox"));
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
 
 			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getBool("DisableUDP", 0));
@@ -53,9 +56,8 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		case IDC_DISABLE_IPV6:
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 			break;
-		}
 
-	case IDC_CLIPBOARD:
+		case IDC_CLIPBOARD:
 		{
 			char toxId[TOX_FRIEND_ADDRESS_SIZE * 2 + 1];
 			GetDlgItemTextA(hwnd, IDC_TOXID, toxId, SIZEOF(toxId));
@@ -70,6 +72,63 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 		}
 		break;
+
+		case IDC_IMPORT_PROFILE:
+		{
+			TCHAR profilePath[MAX_PATH] = { 0 };
+			TCHAR filter[MAX_PATH] = { 0 };
+			mir_sntprintf(filter, MAX_PATH, _T("%s\0*.*"), TranslateT("All files (*.*)"));
+
+			OPENFILENAME ofn = { sizeof(ofn) };
+			ofn.hwndOwner = hwnd;
+			ofn.lpstrFilter = filter;
+			ofn.nFilterIndex = 1;
+			ofn.lpstrFile = profilePath;
+			ofn.lpstrTitle = TranslateT("Select tox profile");
+			ofn.nMaxFile = MAX_PATH;
+			ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
+
+			if (GetOpenFileName(&ofn)) {
+				std::tstring defaultProfilePath = GetToxProfilePath(proto->accountName);
+				if (profilePath && _tcslen(profilePath))
+				{
+					if (_tcsicmp(profilePath, defaultProfilePath.c_str()) != 0)
+					{
+						CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
+					}
+				}
+
+				proto->InitToxCore();
+				TCHAR group[64];
+				GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
+				if (_tcslen(group) > 0)
+				{
+					proto->setTString(TOX_SETTINGS_GROUP, group);
+					Clist_CreateGroup(0, group);
+				}
+				else
+				{
+					proto->delSetting(NULL, TOX_SETTINGS_GROUP);
+				}
+				proto->LoadFriendList((void*)0);
+				proto->UninitToxCore();
+
+				ptrT nick(proto->getTStringA("Nick"));
+				SetDlgItemText(hwnd, IDC_NAME, nick);
+
+				ptrT pass(proto->getTStringA("Password"));
+				SetDlgItemText(hwnd, IDC_PASSWORD, pass);
+
+				ptrA address(proto->getStringA(TOX_SETTINGS_ID));
+				if (address != NULL)
+				{
+					SetDlgItemTextA(hwnd, IDC_TOXID, address);
+				}
+			}
+
+		}
+		break;
+		}
 	}
 	break;
 
@@ -94,7 +153,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
 			if (_tcslen(group) > 0)
 			{
-				proto->setTString(NULL, TOX_SETTINGS_GROUP, group);
+				proto->setTString(TOX_SETTINGS_GROUP, group);
 				Clist_CreateGroup(0, group);
 			}
 			else
@@ -414,55 +473,55 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 		case PSN_APPLY:
+		{
+			char setting[MAX_PATH];
+
+			LVITEMA lvi = { 0 };
+			lvi.mask = LVIF_TEXT;
+			lvi.cchTextMax = MAX_PATH;
+			lvi.pszText = (char*)mir_alloc(MAX_PATH);
+
+			int itemCount = ListView_GetItemCount(hwndList);
+			for (lvi.iItem = 0; lvi.iItem < itemCount; lvi.iItem++)
 			{
-				char setting[MAX_PATH];
-
-				LVITEMA lvi = { 0 };
-				lvi.mask = LVIF_TEXT;
-				lvi.cchTextMax = MAX_PATH;
-				lvi.pszText = (char*)mir_alloc(MAX_PATH);
-
-				int itemCount = ListView_GetItemCount(hwndList);
-				for (lvi.iItem = 0; lvi.iItem < itemCount; lvi.iItem++)
-				{
-					if (itemCount)
+				if (itemCount)
 					lvi.iSubItem = 0;
-					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
-					db_set_s(NULL, MODULE, setting, lvi.pszText);
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+				db_set_s(NULL, MODULE, setting, lvi.pszText);
 
-					lvi.iSubItem = 1;
-					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
-					db_set_s(NULL, MODULE, setting, lvi.pszText);
+				lvi.iSubItem = 1;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+				db_set_s(NULL, MODULE, setting, lvi.pszText);
 
-					lvi.iSubItem = 2;
-					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
-					db_set_w(NULL, MODULE, setting, atoi(lvi.pszText));
+				lvi.iSubItem = 2;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+				db_set_w(NULL, MODULE, setting, atoi(lvi.pszText));
 
-					lvi.iSubItem = 3;
-					SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
-					db_set_s(NULL, MODULE, setting, lvi.pszText);
-				}
-
-				int nodeCount = db_get_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
-				for (lvi.iItem = itemCount; lvi.iItem < nodeCount; lvi.iItem++)
-				{
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
-					db_unset(NULL, MODULE, setting);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
-					db_unset(NULL, MODULE, setting);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
-					db_unset(NULL, MODULE, setting);
-					mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
-					db_unset(NULL, MODULE, setting);
-				}
-
-				db_set_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, itemCount);
+				lvi.iSubItem = 3;
+				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+				db_set_s(NULL, MODULE, setting, lvi.pszText);
 			}
-			return TRUE;
+
+			int nodeCount = db_get_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
+			for (lvi.iItem = itemCount; lvi.iItem < nodeCount; lvi.iItem++)
+			{
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+				db_unset(NULL, MODULE, setting);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+				db_unset(NULL, MODULE, setting);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+				db_unset(NULL, MODULE, setting);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+				db_unset(NULL, MODULE, setting);
+			}
+
+			db_set_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, itemCount);
+		}
+		return TRUE;
 		}
 	}
 	return FALSE;

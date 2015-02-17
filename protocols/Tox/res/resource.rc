@@ -79,7 +79,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_ACCOUNT_MANAGER DIALOGEX 0, 0, 199, 92
+IDD_ACCOUNT_MANAGER DIALOGEX 0, 0, 199, 119
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -93,6 +93,8 @@ BEGIN
     PUSHBUTTON      "C",IDC_CLIPBOARD,170,7,16,13
     LTEXT           "Tox ID:",IDC_STATIC,12,9,54,8
     EDITTEXT        IDC_PASSWORD,66,38,120,12,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
+    PUSHBUTTON      "Import tox profile",IDC_IMPORT_PROFILE,66,72,100,14
+    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.",IDC_STATIC,12,91,174,21
 END
 
 IDD_OPTIONS_MAIN DIALOGEX 0, 0, 312, 234
@@ -104,29 +106,18 @@ BEGIN
     EDITTEXT        IDC_NAME,81,33,219,12,ES_AUTOHSCROLL
     LTEXT           "Tox ID:",IDC_STATIC,12,19,69,11
     EDITTEXT        IDC_TOXID,81,17,199,12,ES_AUTOHSCROLL | ES_READONLY
-    GROUPBOX        "Connection settings",IDC_STATIC,7,89,298,45
+    GROUPBOX        "Connection settings",IDC_STATIC,7,125,298,45
     CONTROL         "Disable UDP (force Tox to use TCP)",IDC_DISABLE_UDP,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,101,288,10
-    CONTROL         "Disable IPv6",IDC_DISABLE_IPV6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,116,288,10
-    GROUPBOX        "Tox",IDC_STATIC,7,7,298,77
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,137,288,10
+    CONTROL         "Disable IPv6",IDC_DISABLE_IPV6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,152,288,10
+    GROUPBOX        "Tox",IDC_STATIC,7,7,298,116
     LTEXT           "Default group:",IDC_STATIC,12,68,69,12
     EDITTEXT        IDC_GROUP,81,65,219,12,ES_AUTOHSCROLL
     PUSHBUTTON      "C",IDC_CLIPBOARD,284,17,16,13
     LTEXT           "Password:",IDC_STATIC,12,51,69,8,NOT WS_VISIBLE
     EDITTEXT        IDC_PASSWORD,81,49,219,12,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
-END
-
-IDD_PROFILE_IMPORT DIALOGEX 0, 0, 313, 87
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-EXSTYLE WS_EX_TOOLWINDOW
-CAPTION "Tox profile import"
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
-BEGIN
-    PUSHBUTTON      "Import",IDOK,199,68,50,14,WS_DISABLED
-    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress ""Import"" to perform import from existing profile.\r\nPress ""Cancel"" or close this window to create new profile.",IDC_STATIC,7,5,299,37
-    EDITTEXT        IDC_PROFILE_PATH,7,42,278,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_BROWSE_PROFILE,290,42,16,14
-    DEFPUSHBUTTON   "Cancel",IDCANCEL,256,68,50,14
+    PUSHBUTTON      "Import tox profile",IDC_IMPORT_PROFILE,81,83,100,14
+    LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.",IDC_STATIC,81,100,219,21
 END
 
 IDD_SEARCH DIALOGEX 0, 0, 109, 113
@@ -205,7 +196,7 @@ BEGIN
         VERTGUIDE, 170
         VERTGUIDE, 186
         TOPMARGIN, 7
-        BOTTOMMARGIN, 85
+        BOTTOMMARGIN, 112
     END
 
     IDD_OPTIONS_MAIN, DIALOG
@@ -219,15 +210,6 @@ BEGIN
         VERTGUIDE, 300
         TOPMARGIN, 7
         BOTTOMMARGIN, 227
-    END
-
-    IDD_PROFILE_IMPORT, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 306
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 82
-        HORZGUIDE, 42
     END
 
     IDD_SEARCH, DIALOG
