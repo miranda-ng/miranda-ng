@@ -198,7 +198,7 @@ BEGIN
     CONTROL         "Hide chats on startup",IDC_HIDECHATS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,19,278,10
     CONTROL         "Always notify as unread for all incoming message",IDC_MESASUREAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,30,278,10
-    CONTROL         "Force ivisible status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
+    CONTROL         "Force invisible status upon user activity",IDC_FORCE_ONLINE_ON_ACT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,41,278,10
     LTEXT           "Invisible interval timeout (min):",IDC_STATIC,16,56,184,8
     EDITTEXT        IDC_ED_INT_INVIS,204,52,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
