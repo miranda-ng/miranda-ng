@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -33,12 +33,6 @@
 Отмена
 [User details]
 О пользователе
-[Network]
-Сеть
-[Force secure (HTTPS) connection]
-Безопасное соединение (HTTPS)
-[Use secure connection also for channel requests]
-Безопасное соединение также для запросов канала
 [Contacts]
 Контакты
 [Default group:]
@@ -139,8 +133,6 @@
 Ошибка входа: Требуется ввести капчу. Требуется пройти подтверждение в браузере.
 [Login error, probably bad login credentials.]
 Ошибка входа, скорее всего неверный логин.
-[Your account requires HTTPS connection. Activating.]
-Ваша учётная запись требует соединения по HTTPS. Включим его.
 [Could not load communication token. You should report this and wait for plugin update.]
 Невозможно загрузить токен авторизации. Оставьте отчёт о данной ошибке и ждите обновления плагина.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
@@ -207,8 +199,6 @@
 << Контакты
 [What's on your mind, %s?]
 О чём вы думаете, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Подсказка: Проверьте, что вы отменили опцию "Проверять подпись сертификатов SSL" в настройках сети, чтобы обеспечить нормальную работу плагина.
 [Sample event]
 Пример события
 [Sample request]
@@ -253,6 +243,8 @@
 Видеовызов
 [Facebook ID must be numeric value.]
 Значение Facebook ID должно быть числовым.
+[Network]
+Сеть
 [Account]
 Учётная запись
 [Events]
