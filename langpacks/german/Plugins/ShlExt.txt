@@ -44,7 +44,7 @@ Sind Sie sich sicher? Alle Einstellungen im Profil sowie alle Registrierungseint
 [Disable/Remove shlext]
 ShlExt deaktivieren/entfernen
 [Services]
-
+Dienste
 ;file \plugins\ShellExt\src\shlcom.cpp
 [Recently]
 Zuletzt

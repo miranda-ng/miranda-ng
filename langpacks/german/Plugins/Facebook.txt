@@ -65,7 +65,7 @@ Sonstige Ereignisse
 [Client notifications]
 Client-Benachrichtigungen
 [Friendship notifications]
-
+Freundschaftsbenachrichtigungen
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 [Use balloon notifications in system tray instead of popups]
@@ -228,7 +228,7 @@ Beispielnewsfeed
 [Sample notification]
 Beispielbenachrichtigung
 [Sample friendship]
-
+Beispiel Freundschaft
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 ein Sticker
@@ -288,7 +288,7 @@ Möchten Sie Ihre Freundschaft mit "%s" beenden?
 [News feeds]
 Newsfeeds
 [Friendship events]
-
+Freundschaft Events
 [Visit profile]
 Profil besuchen
 [Visit notifications]
@@ -302,7 +302,7 @@ Newsfeed
 [Other Event]
 Andere Ereignisse
 [Friendship Event]
-
+Freundschaft Event
 [Message read: %s]
 Nachricht gelesen: %s
 ;file \protocols\FacebookRM\src\theme.cpp

@@ -261,7 +261,7 @@ Reaktiviert ohne Statuswechsel
 [Pre-conditions]
 Vorbedingungen
 [TriggerData]
-
+Auslöser Daten
 [Status: The status the account will change to\r\nAccount: The account changing state]
 Status: Der Status, in den das Konto wechselt\r\nKonto: Das Konto, dessen Status wechselt
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp

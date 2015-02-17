@@ -1739,7 +1739,7 @@ Benutzermenü
 [Canceled]
 Abgebrochen
 [This file transfer has been canceled by the other side]
-
+Datentransfer wurde vom Partner abgebrochen
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Dateien
@@ -2454,7 +2454,7 @@ Metakontakte
 [No online contacts found.]
 Keine Onlinekontakte gefunden.
 [Select metacontact]
-
+Wähle Metakontakt
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Sender
