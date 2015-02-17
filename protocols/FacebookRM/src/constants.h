@@ -69,8 +69,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_DEFAULT_POLL_RATE				24 // in seconds
 #define FACEBOOK_MAXIMAL_POLL_RATE				60
 
-#define DEFAULT_FORCE_HTTPS						0
-#define DEFAULT_FORCE_HTTPS_CHANNEL				0
 #define DEFAULT_SET_MIRANDA_STATUS				0
 #define DEFAULT_LOGGING_ENABLE					0
 #define DEFAULT_SYSTRAY_NOTIFY					0

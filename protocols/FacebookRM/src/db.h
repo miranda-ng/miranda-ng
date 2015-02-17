@@ -44,8 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Account DB keys
 #define FACEBOOK_KEY_DEF_GROUP				"DefaultGroup"
-#define FACEBOOK_KEY_FORCE_HTTPS			"ForceHTTPS"
-#define FACEBOOK_KEY_FORCE_HTTPS_CHANNEL    "ForceHTTPSChannel"
 #define FACEBOOK_KEY_SET_MIRANDA_STATUS		"SetMirandaStatus"
 #define FACEBOOK_KEY_SYSTRAY_NOTIFY			"UseSystrayNotify"
 #define FACEBOOK_KEY_DISABLE_STATUS_NOTIFY	"DisableStatusNotify"

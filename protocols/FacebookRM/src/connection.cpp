@@ -186,9 +186,6 @@ bool FacebookProto::NegotiateConnection()
 	// Refresh last time of feeds update
 	facy.last_feeds_update_ = ::time(NULL);
 
-	// Get info about secured connection
-	facy.https_ = getByte(FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS) != 0;
-
 	// Generate random clientid for this connection
 	facy.chat_clientid_ = utils::text::rand_string(8, "0123456789abcdef", &facy.random_);
 
