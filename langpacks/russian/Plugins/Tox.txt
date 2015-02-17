@@ -48,7 +48,7 @@ DNS имя:
 [Account]
 Учётная запись
 [Tox nodes]
-Ноды Tox
+Узлы сети Tox
 [%s connection]
 %s подключение
 [Add node]
