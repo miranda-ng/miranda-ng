@@ -306,12 +306,12 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lvc.fmt = LVCFMT_LEFT;
 
 			lvc.iSubItem = 0;
-			lvc.pszText = Translate("IPv4");
+			lvc.pszText = "IPv4";
 			lvc.cx = 100;
 			SendMessage(hwndList, LVM_INSERTCOLUMNA, 0, (LPARAM)&lvc);
 
 			lvc.iSubItem = 1;
-			lvc.pszText = Translate("IPv6");
+			lvc.pszText = "IPv6";
 			lvc.cx = 100;
 			SendMessage(hwndList, LVM_INSERTCOLUMNA, 1, (LPARAM)&lvc);
 
