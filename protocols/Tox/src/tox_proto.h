@@ -169,6 +169,8 @@ private:
 	INT_PTR __cdecl GetMyAvatar(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
 
+	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
+
 	static void OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, void *arg);
 	static void OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, uint8_t *data, uint32_t length, void *arg);
 

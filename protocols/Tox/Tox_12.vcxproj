@@ -232,6 +232,7 @@
     <ClCompile Include="src\tox_proto.cpp" />
     <ClCompile Include="src\tox_search.cpp" />
     <ClCompile Include="src\tox_contacts.cpp" />
+    <ClCompile Include="src\tox_svc.cpp" />
     <ClCompile Include="src\tox_transfer.cpp" />
     <ClCompile Include="src\tox_utils.cpp" />
   </ItemGroup>
