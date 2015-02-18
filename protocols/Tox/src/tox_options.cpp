@@ -33,6 +33,8 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getBool("DisableUDP", 0));
 			CheckDlgButton(hwnd, IDC_DISABLE_IPV6, proto->getBool("DisableIPv6", 0));
+			if (proto->IsOffline())
+				EnableWindow(GetDlgItem(hwnd, IDC_IMPORT_PROFILE), TRUE);
 		}
 		return TRUE;
 
@@ -88,41 +90,50 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (GetOpenFileName(&ofn))
 			{
-				std::tstring defaultProfilePath = GetToxProfilePath(proto->accountName);
-				if (profilePath && _tcslen(profilePath))
-				{
-					if (_tcsicmp(profilePath, defaultProfilePath.c_str()) != 0)
+				if (proto->IsOffline()) {
+					std::tstring defaultProfilePath = GetToxProfilePath(proto->accountName);
+					if (PathFileExists(defaultProfilePath.c_str()))
+						if (MessageBox(hwnd, TranslateT("You have existing profile. Do you want remove it with all tox contacts and history and continue import?"), TranslateT("Tox profile import"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO)
+							break;
+						else {
+							while (MCONTACT hContact = db_find_first(proto->m_szModuleName))
+								CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+						}
+					if (profilePath && _tcslen(profilePath))
 					{
-						CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
+						if (_tcsicmp(profilePath, defaultProfilePath.c_str()) != 0)
+						{
+							CopyFile(profilePath, defaultProfilePath.c_str(), FALSE);
+						}
 					}
-				}
 
-				if (proto->InitToxCore())
-				{
-					TCHAR group[64];
-					GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
-					if (_tcslen(group) > 0)
+					if (proto->InitToxCore())
 					{
-						proto->setTString(TOX_SETTINGS_GROUP, group);
-						Clist_CreateGroup(0, group);
-					}
-					else
-					{
-						proto->delSetting(TOX_SETTINGS_GROUP);
-					}
-					proto->LoadFriendList(NULL);
-					proto->UninitToxCore();
+						TCHAR group[64];
+						GetDlgItemText(hwnd, IDC_GROUP, group, SIZEOF(group));
+						if (_tcslen(group) > 0)
+						{
+							proto->setTString(TOX_SETTINGS_GROUP, group);
+							Clist_CreateGroup(0, group);
+						}
+						else
+						{
+							proto->delSetting(TOX_SETTINGS_GROUP);
+						}
+						proto->LoadFriendList(NULL);
+						proto->UninitToxCore();
 
-					ptrT nick(proto->getTStringA("Nick"));
-					SetDlgItemText(hwnd, IDC_NAME, nick);
+						ptrT nick(proto->getTStringA("Nick"));
+						SetDlgItemText(hwnd, IDC_NAME, nick);
 
-					ptrT pass(proto->getTStringA("Password"));
-					SetDlgItemText(hwnd, IDC_PASSWORD, pass);
+						ptrT pass(proto->getTStringA("Password"));
+						SetDlgItemText(hwnd, IDC_PASSWORD, pass);
 
-					ptrA address(proto->getStringA(TOX_SETTINGS_ID));
-					if (address != NULL)
-					{
-						SetDlgItemTextA(hwnd, IDC_TOXID, address);
+						ptrA address(proto->getStringA(TOX_SETTINGS_ID));
+						if (address != NULL)
+						{
+							SetDlgItemTextA(hwnd, IDC_TOXID, address);
+						}
 					}
 				}
 			}

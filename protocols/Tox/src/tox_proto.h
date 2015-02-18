@@ -88,6 +88,7 @@ private:
 
 	// tox network
 	bool IsOnline();
+	bool IsOffline();
 	void BootstrapDht();
 	void TryConnect();
 	void CheckConnection(int &retriesCount);
