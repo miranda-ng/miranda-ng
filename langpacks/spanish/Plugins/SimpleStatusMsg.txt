@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.4
+;  Version: 1.9.0.5
 ;  Authors: Bartosz 'Dezeath' Bialek, Harven
 ;============================================================
 [%s message for %s]

@@ -2119,6 +2119,11 @@ Le sujet est '%s' (defini par %s)
 Menu états
 [Main menu]
 Menu principal
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+Connexion...
+[Connecting (attempt %d)]
+
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Contact inconnu)
@@ -2620,8 +2625,6 @@ Utilisateur en ligne
 Groupe ouvert
 [Group (closed)]
 Groupe Fermé
-[Connecting]
-Connexion...
 [User details]
 Détails du contact
 [History]

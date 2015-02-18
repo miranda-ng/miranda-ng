@@ -2107,6 +2107,9 @@ xСтатус
 Меню статусаў
 [Main menu]
 Галоўнае меню
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+Далучэнне
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (Невядомы кантакт)
@@ -2584,8 +2587,6 @@ ID конта
 Гурт (адкрыты)
 [Group (closed)]
 Гурт (зачынены)
-[Connecting]
-Далучэнне
 [User details]
 Пра кантакт
 [History]

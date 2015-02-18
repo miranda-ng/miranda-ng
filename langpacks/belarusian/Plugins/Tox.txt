@@ -14,8 +14,6 @@
 Скасаваць
 [Add]
 Дадаць
-[Remove]
-Выдаліць
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Сеціва
@@ -25,6 +23,5 @@
 Памылка
 [Are you sure?]
 Вы ўпэўнены?
-;file \protocols\Tox\src\tox_profile.cpp
 ;file \protocols\Tox\src\tox_proto.cpp
 ;file \protocols\Tox\src\tox_search.cpp

@@ -18,6 +18,10 @@ Domyślna grupa:
 C
 [Tox ID:]
 Tox ID:
+[Import tox profile]
+
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
@@ -26,14 +30,6 @@ Wyłącz UDP (zmuś Tox do używania TCP)
 Wyłącz IPV6
 [Tox]
 Tox
-[Tox profile import]
-Import profilu tox
-[Import]
-Importuj
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Profil tox zawiera twój identyfikator oraz listę znajomych.\r\nMożesz importować istniejący profil z innego klienta tox.\r\nNaciśnij "Importuj", aby dokonać importu z istniejącego profilu.\r\nNaciśnij "Anuluj" lub zamknij to okno, aby utworzyć nowy profil.
-[Cancel]
-Anuluj
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 [Dns name:]
@@ -42,6 +38,8 @@ Nazwa dns:
 Wprowadź hasło
 [Save password]
 Zapisz hasło
+[Cancel]
+Anuluj
 [Tox profile is encrypted. Enter the password to continue.]
 Profil tox jest zaszyfrowany. Wprowadź hasło, by kontynuować.
 [Add]
@@ -65,6 +63,10 @@ Gałęzie Tox
 [%s connection]
 Połączenie %s
 ;file \protocols\Tox\src\tox_options.cpp
+[All files (*.*)]
+Wszystkie pliki (*.*)
+[Select tox profile]
+Wybierz profil tox
 [Add node]
 Dodaj gałąź
 [Change node]
@@ -79,11 +81,6 @@ Wprowadź klucz publiczny
 Czy jesteś pewien?
 [Node deleting]
 Usuwanie Gałęzi
-;file \protocols\Tox\src\tox_profile.cpp
-[All files (*.*)]
-Wszystkie pliki (*.*)
-[Select tox profile]
-Wybierz profil tox
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokoły

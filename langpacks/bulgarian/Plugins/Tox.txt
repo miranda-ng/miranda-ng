@@ -25,14 +25,6 @@ Tox ID:
 Изключване на IPv6
 [Tox]
 Tox
-[Tox profile import]
-Внос на Tox профил
-[Import]
-Внос
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Tox профилът съдържа вашият идентификатор (ID) и списъка с приятели.\r\nМоже да внесете и профил от друг Tox клиент.\r\nКликнете върху "Внос" за внасяне на данни от вече съществуващ профил.\r\nКликнете върху "Отказ" или затворете прозореца за бъде създаден нов профил.
-[Cancel]
-Отказ
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Ако полето съдържа Tox адрес (76 шестнадесетични символа), ще бъдете запитани дали да бъде добавен към списъка с приятели. В противен случай Miranda ще търси чрез DNS запитване.
 [Dns name:]
@@ -41,26 +33,26 @@ DNS име:
 Въведете парола
 [Save password]
 Запис на паролата
+[Cancel]
+Отказ
 [Tox profile is encrypted. Enter the password to continue.]
 Tox профилът е шифрован. Въведете паролата за да продължите.
 [Add]
 Добавяне
-[Remove]
-Премахване
 [Network]
 Мрежа
 [Account]
 Акаунт
 [%s connection]
 %s връзка
-[Error]
-Грешка
-[Are you sure?]
-Сигурни ли сте?
 [All files (*.*)]
 Всички файлове (*.*)
 [Select tox profile]
 Изберете Tox профил
+[Error]
+Грешка
+[Are you sure?]
+Сигурни ли сте?
 [Protocols]
 Протоколи
 [Protocol icon]

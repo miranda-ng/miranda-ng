@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,12 +36,6 @@ Wyślij
 Anuluj
 [User details]
 Dane kontaktu
-[Network]
-Protokoły
-[Force secure (HTTPS) connection]
-Wymuś szyfrowane połączenie (HTTPS)
-[Use secure connection also for channel requests]
-Używaj bezpiecznego połączenia również dla kanału próśb o dodanie do znajomych
 [Contacts]
 Kontakty
 [Default group:]
@@ -145,8 +139,6 @@ Błąd logowania: twoje konto jest tymczasowo zablokowane. Musisz potwierdzić t
 Błąd logowania: wymagany jest kod CAPTCHA. Musisz potwierdzić to urządzenie w przeglądarce.
 [Login error, probably bad login credentials.]
 Błąd logowania, sprawdź login i hasło.
-[Your account requires HTTPS connection. Activating.]
-Twoje konto wymaga połączenia HTTPS.
 [Could not load communication token. You should report this and wait for plugin update.]
 Nie udało się załadować tokenu komunikacji. Powinieneś to zgłosić i czekać na aktualizację wtyczki.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
@@ -217,8 +209,6 @@ Domyślny
 << Kontakty
 [What's on your mind, %s?]
 O czym teraz myślisz, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Uwaga: Upewnij się, że wyłączyłeś opcję "Potwierdzaj ważność certyfikatów SSL" w opcjach sieci, aby zapewnić poprawne działanie.
 [Sample event]
 Próbne zdarzenie
 [Sample request]
@@ -267,6 +257,8 @@ Nie można uzyskać połączenia Netlib Facebook
 Rozmowa video
 [Facebook ID must be numeric value.]
 Facebook ID musi być wartością numeryczną.
+[Network]
+Protokoły
 [Account]
 Konto
 [Events]

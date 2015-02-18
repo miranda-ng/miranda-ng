@@ -18,6 +18,10 @@ Groupes :
 
 [Tox ID:]
 
+[Import tox profile]
+
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+
 [Connection settings]
 
 [Disable UDP (force Tox to use TCP)]
@@ -26,14 +30,6 @@ Groupes :
 
 [Tox]
 
-[Tox profile import]
-
-[Import]
-
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-
-[Cancel]
-Annuler
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 
 [Dns name:]
@@ -42,21 +38,19 @@ Annuler
 Entrez le passe
 [Save password]
 Enregistrer le passe
+[Cancel]
+Annuler
 [Tox profile is encrypted. Enter the password to continue.]
 
 [Add]
 Ajouter
-[Change]
-
-[Remove]
-Retirer
 [IPv4]
 
 [IPv6]
 
 [Port]
 Port
-[Client ID]
+[Public key]
 
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
@@ -69,28 +63,23 @@ Compte
 [%s connection]
 
 ;file \protocols\Tox\src\tox_options.cpp
+[All files (*.*)]
+Tous les fichiers (*.*)
+[Select tox profile]
+
 [Add node]
+
+[Change node]
 
 [Enter IPv4]
 
 [Error]
 Erreur
-[Enter IPv6]
-
-[Enter port]
-
-[Enter client ID]
-
-[Change node]
+[Enter public key]
 
 [Are you sure?]
 Etes-vous sûr?
 [Node deleting]
-
-;file \protocols\Tox\src\tox_profile.cpp
-[All files (*.*)]
-Tous les fichiers (*.*)
-[Select tox profile]
 
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]

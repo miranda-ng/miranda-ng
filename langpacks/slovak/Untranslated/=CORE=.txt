@@ -619,6 +619,7 @@
 [Custom status]
 [%s (locked)]
 [Main menu]
+[Connecting (attempt %d)]
 [Username]
 [LastName FirstName]
 ['(Unknown contact)']

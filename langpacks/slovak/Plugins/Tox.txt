@@ -7,10 +7,10 @@
 ;============================================================
 [Password:]
 Heslo:
-[Cancel]
-Storno
 [Save password]
 Uložiť heslo
+[Cancel]
+Storno
 [Network]
 Sieť
 [Error]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,12 +36,6 @@ Teilen
 Abbrechen
 [User details]
 Kontaktprofil
-[Network]
-Netzwerk
-[Force secure (HTTPS) connection]
-Sichere Verbindung (HTTPS) erzwingen
-[Use secure connection also for channel requests]
-Sichere Verbindung auch für Channel-Zugriffe verwenden
 [Contacts]
 Kontakte
 [Default group:]
@@ -145,8 +139,6 @@ Anmeldefehler: Ihr Konto ist vorrübergehend gesperrt. Sie müssen dieses Gerät
 Anmeldefehler: Captcha-Code wird benötigt. Sie müssen dieses Gerät in Ihrem Webbrowser bestätigen.
 [Login error, probably bad login credentials.]
 Loginfehler, wahrscheinlich falsche Anmeldeinformationen.
-[Your account requires HTTPS connection. Activating.]
-Ihr Account benötigt eine HTTPS-Verbindung. Aktivierung.
 [Could not load communication token. You should report this and wait for plugin update.]
 Konnte Verbindungstoken nicht laden. Sie sollten dies melden und auf ein Update des Plugins warten.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
@@ -217,8 +209,6 @@ Standard
 << Kontakte
 [What's on your mind, %s?]
 Was machen Sie gerade, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Hinweis: Stellen Sie sicher, dass "SSL-Zertifikate überprüfen" in den Netzwerk-Einstellungen deaktiviert ist.
 [Sample event]
 Beispielereignis
 [Sample request]
@@ -267,6 +257,8 @@ Es konnte keine Netlib-Verbindung zu Facebook hergestellt werden
 Videoanruf
 [Facebook ID must be numeric value.]
 Facebook-ID muss ein numerischer Wert sein.
+[Network]
+Netzwerk
 [Account]
 Konto
 [Events]

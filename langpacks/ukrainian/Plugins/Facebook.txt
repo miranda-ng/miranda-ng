@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -35,12 +35,6 @@
 Скасувати
 [User details]
 Про користувача
-[Network]
-Мережа
-[Force secure (HTTPS) connection]
-Безпечне з'єднання (HTTPS)
-[Use secure connection also for channel requests]
-Безпечне з'єднання для запитів каналу
 [Contacts]
 Контакти
 [Default group:]
@@ -141,8 +135,6 @@
 Помилка входу: потрібно ввести капчу. Необхідно виконати підтвердження в браузері.
 [Login error, probably bad login credentials.]
 Помилка входу: імовірно, неправильні дані облікового запису.
-[Your account requires HTTPS connection. Activating.]
-Обліковий запис вимагає з'єднання HTTPS. Активовано.
 [Could not load communication token. You should report this and wait for plugin update.]
 Неможливо отримати токен авторизації. Повідомте про цю помилку та чекайте на оновлення плагіна.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
@@ -209,8 +201,6 @@
 << Контакти
 [What's on your mind, %s?]
 Про що ви думаєте, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Переконайтеся, що опцію "Перевіряти сертифікати SSL" вимкнено в Налаштування -> Мережа.
 [Sample event]
 Приклад події
 [Sample request]
@@ -255,6 +245,8 @@
 Відеовиклик
 [Facebook ID must be numeric value.]
 Вкажіть Facebook ID цифрами.
+[Network]
+Мережа
 [Account]
 Обліковий запис
 [Events]

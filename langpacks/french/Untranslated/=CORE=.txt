@@ -61,6 +61,7 @@
 [%s disables '%s' status for %s]
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
+[Connecting (attempt %d)]
 [Open Options page]
 [Open logging options]
 [Open 'Find user' dialog]
