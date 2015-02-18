@@ -817,6 +817,8 @@ Zobraziť/Zmeniť moje informácie...
 %s je pripojený
 [Status menu]
 Menu stavov
+[Connecting]
+Pripájam sa
 [(Unknown contact)]
 (neznámý kontakt)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -917,8 +919,6 @@ Pripojený užívatel
 Skupina (otvoriť)
 [Group (closed)]
 Skupina (zavrieť)
-[Connecting]
-Pripájam sa
 [Help]
 Pomoc
 [Warning]

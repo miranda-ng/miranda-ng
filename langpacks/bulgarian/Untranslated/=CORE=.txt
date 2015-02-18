@@ -30,6 +30,7 @@
 [Send timed out]
 [Custom %d]
 [Chat log symbols (Webdings)]
+[Connecting (attempt %d)]
 [Convert database]
 [Check database]
 [Ctrl+Search add contact]

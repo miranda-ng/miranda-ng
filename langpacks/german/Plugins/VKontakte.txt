@@ -94,7 +94,7 @@ Erweitert
 Chats beim Start verbergen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
-[Force ivisible status upon user activity]
+[Force invisible status upon user activity]
 
 [Invisible interval timeout (min):]
 

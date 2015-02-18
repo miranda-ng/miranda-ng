@@ -1,2 +1,2 @@
-﻿[Force ivisible status upon user activity]
+﻿[Force invisible status upon user activity]
 [Invisible interval timeout (min):]

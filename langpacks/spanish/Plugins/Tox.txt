@@ -13,8 +13,6 @@ Contraseña:
 Cancelar
 [Add]
 Añadir
-[Remove]
-Eliminar
 [Network]
 Red
 [Error]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,12 +36,6 @@ URL:
 Скасаваць
 [User details]
 Пра кантакт
-[Network]
-Сеціва
-[Force secure (HTTPS) connection]
-Бяспечнае злучэнне (HTTPS)
-[Use secure connection also for channel requests]
-Бяспечнае злучэнне таксама для запытаў канала
 [Contacts]
 Кантакты
 [Default group:]
@@ -101,8 +95,6 @@ URL:
 Памылка далучэння: Неабходны некаторыя рэчы Facebook.
 [Login error, probably bad login credentials.]
 Памылка далучэння, верагодна, няслушныя дадзеныя для ўваходу.
-[Your account requires HTTPS connection. Activating.]
-Ваш конт патрабуе HTTPS злучэнне. Актывацыя.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Маюць патрэбу ў пацверджанні для адпраўкі паведамленняў з іншых кліентаў.\nАдкрыйце сайт Facebook і паспрабуйце там адправіць паведамленне гэтаму кантакту!
 [Timeout when sending message.]
@@ -155,8 +147,6 @@ URL:
 << Кантакты
 [What's on your mind, %s?]
 Пра што думаеш, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Заўвага: Пераканайцеся, што вы адключылі опцыю "Праверыць SSL сертыфікаты" ў функцыі сеціва, каб працаваць належным чынам.
 [Sample event]
 Прыклад падзеі
 [Sample request]
@@ -201,6 +191,8 @@ URL:
 Не атрымалася Netlib злучэнне да Facebook
 [Facebook ID must be numeric value.]
 Facebook ID павінна быць лічбавым значэннем.
+[Network]
+Сеціва
 [Account]
 Конт
 [Events]

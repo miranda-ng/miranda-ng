@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -35,12 +35,6 @@ Compartir
 Cancelar
 [User details]
 Detalles del usuario
-[Network]
-Red
-[Force secure (HTTPS) connection]
-Forzar conexión segura (HTTPS)
-[Use secure connection also for channel requests]
-Usar conexión segura también para solicitudes de canal
 [Contacts]
 Contactos
 [Default group:]
@@ -91,8 +85,6 @@ Error de inicio de sesión: Solicitud no válida.
 Error de inicio de sesión: Se necesitan algunas cosas de Facebook.
 [Login error, probably bad login credentials.]
 Error de inicio de sesión, las credenciales de inicio de sesión probablemente son malas.
-[Your account requires HTTPS connection. Activating.]
-Su cuenta requiere una conexión HTTPS. Activando.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 Necesita confirmación para enviar mensajes a otros clientes.\n¡Abrir el sitio web de Facebook y tratar de enviar un mensaje a este contacto de nuevo!
 [Timeout when sending message.]
@@ -141,8 +133,6 @@ Por defecto
 << Contactos
 [What's on your mind, %s?]
 ¿Qué hay en tu mente, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Nota: Asegúrese de haber desactivado la opción 'Validar certificados SSL' en las opciones de red para que funcione correctamente.
 [Sample event]
 Evento de ejemplo
 [Sample request]
@@ -181,6 +171,8 @@ El contacto ya no está en la lista del servidor.
 No se puede obtener la conexión Netlib para Facebook
 [Facebook ID must be numeric value.]
 Facebook ID debe ser un valor numérico.
+[Network]
+Red
 [Account]
 Cuenta
 [Events]

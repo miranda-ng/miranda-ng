@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -33,10 +33,6 @@ URL:
 Отказ
 [User details]
 Подробности за потребителя
-[Network]
-Мрежа
-[Force secure (HTTPS) connection]
-Задължително ползване на сигурна (HTTPS) връзка
 [Contacts]
 Контакти
 [Default group:]
@@ -87,8 +83,6 @@ URL:
 Грешка при вписване: Необходими са някой неща за Facebook.
 [Login error, probably bad login credentials.]
 Грешка при вписване вероятно поради сгрешени данни за вписване.
-[Your account requires HTTPS connection. Activating.]
-Акаунтът изисква HTTPS връзка. Активиране.
 [Need confirmation for sending messages to other clients.\nOpen Facebook website and try to send message to this contact again!]
 За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уеб страницата на Facebook и опитайте да изпратите съобщението до контакта отново!
 [Please enter a username.]
@@ -97,8 +91,6 @@ URL:
 Моля, въведете парола.
 [Default]
 Стандарт
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Бележка: Уверете се,че сте изключили "Потвърждаване на SSL сертификатите" (в мрежовите настройки).
 [Sample event]
 Примерно събитие
 [Sample request]
@@ -119,6 +111,8 @@ URL:
 Контактът вече не е в списъка на сървъра.
 [%s server connection]
 %s връзка със сървъра
+[Network]
+Мрежа
 [Account]
 Акаунт
 [Events]

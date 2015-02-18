@@ -2001,6 +2001,8 @@ Estado personalizado
 %s (bloqueado)
 [Main menu]
 Menú principal
+[Connecting]
+Conectando
 [(Unknown contact)]
 (Contacto desconocido)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2353,8 +2355,6 @@ Usuario en línea
 Grupo (abierto)
 [Group (closed)]
 Grupo (cerrado)
-[Connecting]
-Conectando
 [User details]
 Información del usuario
 [History]

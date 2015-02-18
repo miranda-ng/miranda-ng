@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.3
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -15,8 +15,6 @@ Heslo:
 URL:
 [Cancel]
 Storno
-[Network]
-Sieť
 [Contacts]
 Kontakty
 [Instruction:]
@@ -27,6 +25,8 @@ Informácie o užívatelovi
 Neznáma chyba
 [Default]
 Prednastavené
+[Network]
+Sieť
 [Events]
 Udalosti
 [Messaging]

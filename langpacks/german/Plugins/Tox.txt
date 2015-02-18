@@ -18,6 +18,10 @@ Standardgruppe:
 K
 [Tox ID:]
 Tox-ID:
+[Import tox profile]
+
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+
 [Connection settings]
 Verbindungseinstellungen
 [Disable UDP (force Tox to use TCP)]
@@ -26,14 +30,6 @@ UDP deaktivieren (zwingt Tox, TCP zu verwenden)
 IPv6 deaktivieren
 [Tox]
 
-[Tox profile import]
-Tox-Profil importieren
-[Import]
-Importieren
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Ihr Tox-Profil enthält Ihre ID und Freundesliste.\r\nSie können ein existierendes Profil aus einem anderen Tox-Client importieren.\r\nKlicken Sie auf "Importieren" um ein existierendes Profil zu importieren.\r\nKlicken Sie auf "Abbrechen" oder schließen Sie dieses Fenster um ein neues Profil zu erstellen.
-[Cancel]
-Abbrechen
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
@@ -42,6 +38,8 @@ DNS-Name:
 Passwort eingeben
 [Save password]
 Passwort speichern
+[Cancel]
+Abbrechen
 [Tox profile is encrypted. Enter the password to continue.]
 Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
 [Add]
@@ -65,6 +63,10 @@ Tox Knoten
 [%s connection]
 %s-Verbindung
 ;file \protocols\Tox\src\tox_options.cpp
+[All files (*.*)]
+Alle Dateien (*.*)
+[Select tox profile]
+Tox-Profil auswählen
 [Add node]
 Knoten hinzufügen
 [Change node]
@@ -79,11 +81,6 @@ Fehler
 Sind Sie sich sicher?
 [Node deleting]
 Lösche Knoten
-;file \protocols\Tox\src\tox_profile.cpp
-[All files (*.*)]
-Alle Dateien (*.*)
-[Select tox profile]
-Tox-Profil auswählen
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokolle

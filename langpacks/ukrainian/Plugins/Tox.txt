@@ -19,14 +19,6 @@
 Вимкнути UDP (примусово використ. TCP)
 [Disable IPv6]
 Вимкнути IPv6
-[Tox profile import]
-Імпорт профілю Tox
-[Import]
-Імпорт
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Профіль Tox містить ваш ID та список друзів.\r\nВиберіть існуючий профіль і натисніть "Імпорт".\r\nЩоб створити новий профіль, натисніть "Скасувати".
-[Cancel]
-Скасувати
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
 [Dns name:]
@@ -35,6 +27,8 @@
 Введіть пароль
 [Save password]
 Зберегти пароль
+[Cancel]
+Скасувати
 [Tox profile is encrypted. Enter the password to continue.]
 Профіль Tox зашифровано. Щоб продовжити, введіть пароль.
 [Add]
@@ -49,6 +43,10 @@
 Ноди Tox
 [%s connection]
 З'єднання %s
+[All files (*.*)]
+Усі файли (*.*)
+[Select tox profile]
+Виберіть профіль Tox
 [Add node]
 Додати нод
 [Change node]
@@ -61,10 +59,6 @@
 Ви впевнені?
 [Node deleting]
 Видалення ноду
-[All files (*.*)]
-Усі файли (*.*)
-[Select tox profile]
-Виберіть профіль Tox
 [Protocols]
 Протоколи
 [Protocol icon]

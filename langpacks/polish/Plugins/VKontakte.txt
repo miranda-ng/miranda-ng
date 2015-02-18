@@ -94,7 +94,7 @@ Zaawansowane
 Ukryj czaty podczas startu
 [Always notify as unread for all incoming message]
 Zawsze powiadamiaj o nieprzeczytanych wiadomościach dla wszystkich przychodzących
-[Force ivisible status upon user activity]
+[Force invisible status upon user activity]
 Wymuś status niewidoczny po wykryciu aktywności użytkownika
 [Invisible interval timeout (min):]
 Czas wygasania niewidoczności (min):

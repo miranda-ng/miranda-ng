@@ -27,6 +27,7 @@
 [&Leave chat]
 [&Open chat window]
 [Status menu]
+[Connecting (attempt %d)]
 [Authorization request from %s%s: %s]
 [You were added by %s%s]
 [Contacts: ]

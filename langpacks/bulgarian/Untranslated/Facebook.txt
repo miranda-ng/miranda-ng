@@ -1,5 +1,4 @@
 ﻿[Attach contacts:]
-[Use secure connection also for channel requests]
 [News feeds (WARNING: Causes excessive network traffic!)]
 [Don't show advertising posts]
 [Friendship notifications]

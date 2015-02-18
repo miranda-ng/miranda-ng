@@ -1995,6 +1995,8 @@ URL
 Меню на състоянието
 [Main menu]
 Главно меню
+[Connecting]
+Свързване
 [(Unknown contact)]
 (Непознат контакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
@@ -2369,8 +2371,6 @@ Win +\s
 Група (отворена)
 [Group (closed)]
 Група (затворена)
-[Connecting]
-Свързване
 [User details]
 Подробности за потребителя
 [History]
