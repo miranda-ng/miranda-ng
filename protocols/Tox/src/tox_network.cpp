@@ -9,33 +9,38 @@ void CToxProto::BootstrapNodes()
 {
 	debugLogA("CToxProto::BootstrapDht: bootstraping DHT");
 
-	bool isIPv4 = getBool("DisableIPv6", 0);
+	bool isIPv4Only = getBool("DisableIPv6", 0);
 	int nodeCount = db_get_w(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
 	if (!nodeCount)
 	{
 		tox_bootstrap_from_address(
-			tox, isIPv4 ? "192.254.75.102" : "2607:5600:284::2", 33445,
+			tox, "192.254.75.102", 33445,
 			ToxBinAddress("951C88B7E75C867418ACDB5D273821372BB5BD652740BCDF623A4FA293E75D2F"));
+		if (!isIPv4Only)
+			tox_bootstrap_from_address(
+				tox, "2607:5600:284::2", 33445,
+				ToxBinAddress("951C88B7E75C867418ACDB5D273821372BB5BD652740BCDF623A4FA293E75D2F"));
 	}
 	else
 	{
 		char setting[MAX_PATH];
 		for (int i = 0; i < nodeCount; i++)
 		{
-			mir_snprintf(setting, SIZEOF(setting), isIPv4 ? TOX_SETTINGS_NODE_IPV4 : TOX_SETTINGS_NODE_IPV6, i + 1);
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
 			ptrA address(db_get_sa(NULL, MODULE, setting));
-			if (address == NULL && !isIPv4)
-			{
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
-				address = db_get_sa(NULL, MODULE, setting);
-			}
+			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i + 1);
+			ptrA addressv6(db_get_sa(NULL, MODULE, setting));
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
 			int port = db_get_w(NULL, MODULE, setting, 0);
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i + 1);
 			ptrA pubKey(db_get_sa(NULL, MODULE, setting));
-			if (pubKey && address)
+			if (pubKey && address && port)
 			{
 				tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
+			}
+			if (!isIPv4Only && pubKey && addressv6 && port)
+			{
+				tox_bootstrap_from_address(tox, addressv6, port, ToxBinAddress(pubKey));
 			}
 		}
 	}
