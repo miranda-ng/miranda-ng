@@ -30,6 +30,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CVkProto>(szModuleName, ptszUserName),
 	m_arRequestsQueue(10),
 	m_sendIds(3, PtrKeySortT),
+	m_incIds(3, PtrKeySortT),
 	m_cookies(5),
 	m_msgId(1),
 	m_chats(1, NumericKeySortT)

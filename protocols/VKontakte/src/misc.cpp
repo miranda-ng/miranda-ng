@@ -282,11 +282,11 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool CVkProto::CheckMid(int guid)
+bool CVkProto::CheckMid(LIST<void> &lList, int guid)
 {
-	for (int i = m_sendIds.getCount() - 1; i >= 0; i--)
-		if ((int)m_sendIds[i] == guid) {
-			m_sendIds.remove(i);
+	for (int i = lList.getCount() - 1; i >= 0; i--)
+		if ((int)lList[i] == guid) {
+			lList.remove(i);
 			return true;
 		}
 
@@ -1142,9 +1142,11 @@ CMString CVkProto::GetFwdMessages(JSONNODE *pMessages, BBCSupport iBBC)
 
 void CVkProto::SetInvisible(MCONTACT hContact)
 {
+	debugLogA("CVkProto::SetInvisible %d", getDword(hContact, "ID", -1));
 	if (getWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 		setWord(hContact, "Status", ID_STATUS_INVISIBLE);
 		SetMirVer(hContact, 1);
+		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", -1));
 	}
 	setDword(hContact, "InvisibleTS", time(NULL));
 }

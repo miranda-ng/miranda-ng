@@ -715,11 +715,13 @@ void CVkProto::OnReceiveMessages(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 
 		debugLogA("CVkProto::OnReceiveMessages i = %d, mid = %d, datetime = %d, isOut = %d, isRead = %d, uid = %d", i, mid, datetime, isOut, isRead, uid);
 	
-		if (!CheckMid(mid)) {
+		if (!CheckMid(m_sendIds, mid)) {
 			debugLogA("CVkProto::OnReceiveMessages ProtoChainRecvMsg");
 			ProtoChainRecvMsg(hContact, &recv);
 			if (mid > getDword(hContact, "lastmsgid", -1))
 				setDword(hContact, "lastmsgid", mid);
+			if (!isOut)
+				m_incIds.insert((HANDLE)mid);
 		}
 	}
 
@@ -794,6 +796,7 @@ void CVkProto::RetrievePollingInfo()
 	if (!IsOnline())
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo)
+		<< INT_PARAM("use_ssl", 1)
 		<< VER_API);
 }
 
@@ -843,14 +846,14 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 	for (int i = 0; (pChild = json_at(pUpdates, i)) != NULL; i++) {
 		switch (json_as_int(json_at(pChild, 0))) {
 		case VKPOLL_MSG_DELFLAGS:
+			msgid = json_as_int(json_at(pChild, 1));
 			flags = json_as_int(json_at(pChild, 2));
 			uid = json_as_int(json_at(pChild, 3));
 			hContact = FindUser(uid);
-			if (hContact != NULL) {
-				if (flags & VKFLAG_MSGUNREAD) {
-					setDword(hContact, "LastMsgReadTime", time(NULL));
-					SetSrmmReadStatus(hContact);
-				}
+			
+			if (hContact != NULL && (flags & VKFLAG_MSGUNREAD) && !CheckMid(m_incIds, msgid)) {
+				setDword(hContact, "LastMsgReadTime", time(NULL));
+				SetSrmmReadStatus(hContact);
 				if (m_bUserForceOnlineOnActivity)
 					SetInvisible(hContact);
 			}
@@ -862,7 +865,7 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			// skip outgoing messages sent from a client
 			flags = json_as_int(json_at(pChild, 2));
 			if (flags & VKFLAG_MSGOUTBOX && !(flags & VKFLAG_MSGCHAT))
-				if (CheckMid(msgid))
+				if (CheckMid(m_sendIds, msgid))
 					break;
 
 			if (!mids.IsEmpty())
@@ -931,7 +934,7 @@ int CVkProto::PollServer()
 	int iPollConnRetry = MAX_RETRIES;
 	NETLIBHTTPREQUEST *reply;
 	CMStringA szReqUrl;
-	szReqUrl.AppendFormat("http://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
+	szReqUrl.AppendFormat("https://%s?act=a_check&key=%s&ts=%s&wait=25&access_token=%s&mode=%d", m_pollingServer, m_pollingKey, m_pollingTs, m_szAccessToken, 106);
 	// see mode parametr description on https://vk.com/dev/using_longpoll (Russian version)
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
