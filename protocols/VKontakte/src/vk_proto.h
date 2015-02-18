@@ -392,7 +392,7 @@ struct CVkProto : public PROTO<CVkProto>
 	MCONTACT FindUser(LONG userid, bool bCreate = false);
 	MCONTACT FindChat(LONG dwUserid);
 
-	bool CheckMid(int guid);
+	bool CheckMid(LIST<void> &lList, int guid);
 
 	JSONNODE* CheckJsonResponse(AsyncHttpRequest *pReq, NETLIBHTTPREQUEST *reply, JSONROOT&);
 	bool CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE*);
@@ -630,6 +630,7 @@ private:
 	ULONG m_msgId;
 	
 	LIST<void> m_sendIds;
+	LIST<void> m_incIds;
 
 	static INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK OptionsAdvProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
