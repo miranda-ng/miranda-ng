@@ -428,25 +428,28 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				lvi.iImage = -1;
 				lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem);
 				lvi.iSubItem = 0;
 				lvi.pszText = db_get_sa(NULL, MODULE, setting);
 				SendMessage(hwndList, LVM_INSERTITEMA, 0, (LPARAM)&lvi);
 
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem);
 				lvi.iSubItem = 1;
 				lvi.pszText = db_get_sa(NULL, MODULE, setting);
 				SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
 
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
-				int port = db_get_w(NULL, MODULE, setting, 33445);
-				char portNum[10];
-				itoa(port, portNum, 10);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem);
+				int port = db_get_w(NULL, MODULE, setting, 0);
+				if (port > 0)
+				{
+					char portNum[10];
+					itoa(port, portNum, 10);
+					lvi.pszText = mir_strdup(portNum);
+				}
 				lvi.iSubItem = 2;
-				lvi.pszText = mir_strdup(portNum);
 				SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
 
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem);
 				lvi.iSubItem = 3;
 				lvi.pszText = db_get_sa(NULL, MODULE, setting);
 				SendMessage(hwndList, LVM_SETITEMA, 0, (LPARAM)&lvi);
@@ -515,35 +518,35 @@ INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 				lvi.iSubItem = 0;
 				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem);
 				db_set_s(NULL, MODULE, setting, lvi.pszText);
 
 				lvi.iSubItem = 1;
 				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem);
 				db_set_s(NULL, MODULE, setting, lvi.pszText);
 
 				lvi.iSubItem = 2;
 				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem);
 				db_set_w(NULL, MODULE, setting, atoi(lvi.pszText));
 
 				lvi.iSubItem = 3;
 				SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem);
 				db_set_s(NULL, MODULE, setting, lvi.pszText);
 			}
 
 			int nodeCount = db_get_b(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
 			for (lvi.iItem = itemCount; lvi.iItem < nodeCount; lvi.iItem++)
 			{
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, lvi.iItem);
 				db_unset(NULL, MODULE, setting);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, lvi.iItem);
 				db_unset(NULL, MODULE, setting);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, lvi.iItem);
 				db_unset(NULL, MODULE, setting);
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, lvi.iItem);
 				db_unset(NULL, MODULE, setting);
 			}
 
