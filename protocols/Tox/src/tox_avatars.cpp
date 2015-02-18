@@ -35,7 +35,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 		return;
 	}*/
 
-	long length;
+	size_t length;
 	uint8_t *data;
 	FILE *hFile = _tfopen(path.c_str(), L"rb");
 	if (!hFile)
@@ -55,7 +55,7 @@ void CToxProto::SetToxAvatar(std::tstring path, bool checkHash)
 	}
 
 	data = (uint8_t*)mir_alloc(length);
-	long read = fread(data, sizeof(uint8_t), length, hFile);
+	size_t read = fread(data, sizeof(uint8_t), length, hFile);
 	if (read != length)
 	{
 		fclose(hFile);

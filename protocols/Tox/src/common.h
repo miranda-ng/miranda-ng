@@ -1,17 +1,13 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#include <winsock2.h>
 #include <windows.h>
 #include <windns.h>
 #include <time.h>
 #include <commctrl.h>
-#include <Shlwapi.h>
 
 #include <string>
-#include <sstream>
-#include <iomanip>
-//#include <vector>
+#include <vector>
 #include <regex>
 #include <map>
 

@@ -25,16 +25,15 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			}
 
 			ptrT group(proto->getTStringA(TOX_SETTINGS_GROUP));
-			if (group)
-				SetDlgItemText(hwnd, IDC_GROUP, group);
-			else
-				SetDlgItemText(hwnd, IDC_GROUP, _T("Tox"));
+			SetDlgItemText(hwnd, IDC_GROUP, group ? group : _T("Tox"));
 			SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, 64, 0);
 
 			CheckDlgButton(hwnd, IDC_DISABLE_UDP, proto->getBool("DisableUDP", 0));
 			CheckDlgButton(hwnd, IDC_DISABLE_IPV6, proto->getBool("DisableIPv6", 0));
-			if (proto->IsOffline())
+			if (!proto->IsToxCoreInited())
+			{
 				EnableWindow(GetDlgItem(hwnd, IDC_IMPORT_PROFILE), TRUE);
+			}
 		}
 		return TRUE;
 
@@ -90,15 +89,24 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 			if (GetOpenFileName(&ofn))
 			{
-				if (proto->IsOffline()) {
+				if (!proto->IsToxCoreInited())
+				{
 					std::tstring defaultProfilePath = GetToxProfilePath(proto->accountName);
-					if (PathFileExists(defaultProfilePath.c_str()))
-						if (MessageBox(hwnd, TranslateT("You have existing profile. Do you want remove it with all tox contacts and history and continue import?"), TranslateT("Tox profile import"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDNO)
-							break;
-						else {
+					if (CToxProto::IsFileExists(defaultProfilePath.c_str()))
+					{
+						if (MessageBox(
+							hwnd,
+							TranslateT("You have existing profile. Do you want remove it with all tox contacts and history and continue import?"),
+							TranslateT("Tox profile import"),
+							MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDYES)
+						{
 							while (MCONTACT hContact = db_find_first(proto->m_szModuleName))
+							{
 								CallService(MS_DB_CONTACT_DELETE, hContact, 0);
+							}
 						}
+						else break;
+					}
 					if (profilePath && _tcslen(profilePath))
 					{
 						if (_tcsicmp(profilePath, defaultProfilePath.c_str()) != 0)

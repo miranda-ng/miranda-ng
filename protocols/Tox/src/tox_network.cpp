@@ -5,12 +5,7 @@ bool CToxProto::IsOnline()
 	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
 }
 
-bool CToxProto::IsOffline()
-{
-	return !isConnected && m_iStatus == ID_STATUS_OFFLINE;
-}
-
-void CToxProto::BootstrapDht()
+void CToxProto::BootstrapNodes()
 {
 	debugLogA("CToxProto::BootstrapDht: bootstraping DHT");
 
@@ -21,9 +16,6 @@ void CToxProto::BootstrapDht()
 		tox_bootstrap_from_address(
 			tox, isIPv4 ? "192.254.75.102" : "2607:5600:284::2", 33445,
 			ToxBinAddress("951C88B7E75C867418ACDB5D273821372BB5BD652740BCDF623A4FA293E75D2F"));
-		tox_bootstrap_from_address(
-			tox, "104.219.184.206", 443,
-			ToxBinAddress("8CD087E31C67568103E8C2A28653337E90E6B8EDA0D765D57C6B5172B4F1F04C"));
 	}
 	else
 	{
@@ -91,11 +83,18 @@ void CToxProto::CheckConnection(int &retriesCount)
 				retriesCount = TOX_MAX_DISCONNECT_RETRIES;
 			}
 		}
-		else if (!(--retriesCount))
+		else
 		{
-			isConnected = false;
-			debugLogA("CToxProto::CheckConnection: disconnected from DHT");
-			SetStatus(ID_STATUS_OFFLINE);
+			if (--retriesCount == TOX_MAX_DISCONNECT_RETRIES - 1)
+			{
+				BootstrapNodes();
+			}
+			else if (!(--retriesCount))
+			{
+				isConnected = false;
+				debugLogA("CToxProto::CheckConnection: disconnected from DHT");
+				SetStatus(ID_STATUS_OFFLINE);
+			}
 		}
 	}
 }
@@ -124,7 +123,7 @@ void CToxProto::PollingThread(void*)
 
 	int retriesCount = TOX_MAX_DISCONNECT_RETRIES;
 	isConnected = false;
-	BootstrapDht();
+	BootstrapNodes();
 
 	while (!isTerminated)
 	{

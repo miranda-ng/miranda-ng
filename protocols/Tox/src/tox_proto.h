@@ -83,13 +83,15 @@ private:
 	static INT_PTR CALLBACK ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	// tox core
+	bool IsToxCoreInited();
+
 	bool InitToxCore();
 	void UninitToxCore();
 
 	// tox network
 	bool IsOnline();
-	bool IsOffline();
-	void BootstrapDht();
+
+	void BootstrapNodes();
 	void TryConnect();
 	void CheckConnection(int &retriesCount);
 	void DoTox();
