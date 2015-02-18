@@ -26,7 +26,7 @@ void CToxProto::BootstrapNodes()
 			ptrA address(db_get_sa(NULL, MODULE, setting));
 			if (address == NULL && !isIPv4)
 			{
-				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i + 1);
+				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i + 1);
 				address = db_get_sa(NULL, MODULE, setting);
 			}
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i + 1);
