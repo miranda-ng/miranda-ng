@@ -19,9 +19,9 @@ C
 [Tox ID:]
 Tox ID:
 [Import tox profile]
-
+Importuj profil Tox
 [Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-
+Profil tox zawiera twoje ID oraz listę znajomych.\r\nMożesz zaimportować istniejący profil z innego klienta tox.
 [Connection settings]
 Ustawienia połączenia
 [Disable UDP (force Tox to use TCP)]
