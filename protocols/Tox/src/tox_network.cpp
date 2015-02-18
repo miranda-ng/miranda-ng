@@ -80,8 +80,11 @@ void CToxProto::CheckConnection(int &retriesCount)
 	{
 		if (tox_isconnected(tox))
 		{
-			debugLogA("CToxProto::CheckConnection: restored connection with DHT");
-			retriesCount = TOX_MAX_DISCONNECT_RETRIES;
+			if (retriesCount < TOX_MAX_DISCONNECT_RETRIES)
+			{
+				debugLogA("CToxProto::CheckConnection: restored connection with DHT");
+				retriesCount = TOX_MAX_DISCONNECT_RETRIES;
+			}
 		}
 		else if (!(--retriesCount))
 		{
