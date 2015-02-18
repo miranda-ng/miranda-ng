@@ -46,6 +46,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETMYAVATART, &CToxProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CToxProto::SetMyAvatar);
 
+	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
+
 	// transfers
 	transfers = new CTransferList();
 }
