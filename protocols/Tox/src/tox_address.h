@@ -16,7 +16,7 @@ public:
 	{
 		this->ToxHexAddress::ToxHexAddress(bin.data(), bin.size());
 	}
-	ToxHexAddress(const uint8_t *bin, int size = TOX_FRIEND_ADDRESS_SIZE)
+	ToxHexAddress(const uint8_t *bin, size_t size = TOX_FRIEND_ADDRESS_SIZE)
 	{
 		char *hex = (char*)mir_alloc(size * 2 + 1);
 		hexData = bin2hex(bin, size, hex);
@@ -46,7 +46,7 @@ private:
 public:
 	ToxBinAddress(const ToxBinAddress &address) : binData(address.binData) { }
 	ToxBinAddress(const std::vector<uint8_t> &bin) : binData(bin) { }
-	ToxBinAddress(const uint8_t *bin, int size = TOX_FRIEND_ADDRESS_SIZE) : binData(bin, bin + size) { }
+	ToxBinAddress(const uint8_t *bin, size_t size = TOX_FRIEND_ADDRESS_SIZE) : binData(bin, bin + size) { }
 	ToxBinAddress(const std::string &hex)
 	{
 		this->ToxBinAddress::ToxBinAddress(hex.c_str());
@@ -55,8 +55,8 @@ public:
 	{
 		char *endptr;
 		const char *pos = hex;
-		int size = mir_strlen(hex) / 2;
-		for (int i = 0; i < size; i++)
+		size_t size = mir_strlen(hex) / 2;
+		for (size_t i = 0; i < size; i++)
 		{
 			char buf[5] = { '0', 'x', pos[0], pos[1], 0 };
 			binData.push_back((uint8_t)strtol(buf, &endptr, 0));

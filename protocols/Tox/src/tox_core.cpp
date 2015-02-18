@@ -1,5 +1,10 @@
 #include "common.h"
 
+bool CToxProto::IsToxCoreInited()
+{
+	return tox != NULL;
+}
+
 bool CToxProto::InitToxCore()
 {
 	debugLogA("CToxProto::InitToxCore: initializing tox core");
@@ -91,6 +96,7 @@ bool CToxProto::InitToxCore()
 			password = NULL;
 		}
 		tox_kill(tox);
+		tox = NULL;
 	}
 
 	return isProfileLoaded;
@@ -121,4 +127,5 @@ void CToxProto::UninitToxCore()
 		password = NULL;
 	}
 	tox_kill(tox);
+	tox = NULL;
 }

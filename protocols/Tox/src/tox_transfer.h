@@ -104,7 +104,7 @@ public:
 		return NULL;
 	}
 
-	FileTransferParam* GetAt(int64_t index)
+	FileTransferParam* GetAt(size_t index)
 	{
 		if (index < Count())
 		{
