@@ -5,6 +5,11 @@ bool CToxProto::IsOnline()
 	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
 }
 
+bool CToxProto::IsOffline()
+{
+	return !isConnected && m_iStatus == ID_STATUS_OFFLINE;
+}
+
 void CToxProto::BootstrapDht()
 {
 	debugLogA("CToxProto::BootstrapDht: bootstraping DHT");

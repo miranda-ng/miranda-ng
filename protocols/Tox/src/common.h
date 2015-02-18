@@ -6,6 +6,7 @@
 #include <windns.h>
 #include <time.h>
 #include <commctrl.h>
+#include <Shlwapi.h>
 
 #include <string>
 #include <sstream>
