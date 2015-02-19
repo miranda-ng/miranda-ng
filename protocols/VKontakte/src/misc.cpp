@@ -232,8 +232,10 @@ void CVkProto::SetAllContactStatuses(int iStatus)
 		else if (getWord(hContact, "Status", 0) != iStatus)
 			setWord(hContact, "Status", iStatus);
 		
-		if (iStatus == ID_STATUS_OFFLINE)
+		if (iStatus == ID_STATUS_OFFLINE) {
 			SetMirVer(hContact, -1);
+			db_unset(hContact, m_szModuleName, "ListeningTo");
+		}
 	}
 }
 
