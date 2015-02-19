@@ -35,7 +35,11 @@ extern char DefaultAvatarsFolder[MAX_PATH+1], *pszProxyCallout, protocol, g_szPr
 
 static TYP_MSGQ SkypeMsgs, SkypeSendQueue;
 
-status_map status_codes[] = {
+//status_map 
+struct status_map {
+	int id;
+	char *szStat;
+} status_codes[] = {
 	{ID_STATUS_AWAY, "AWAY"},
 	{ID_STATUS_NA, "NA"},
 	{ID_STATUS_DND, "DND"},
@@ -46,9 +50,6 @@ status_map status_codes[] = {
 	{ID_STATUS_CONNECTING, "CONNECTING"},
 	{0, NULL}
 };
-
-//status_map 
-
 
 static mir_cs ConnectMutex, SendMutex;
 static BOOL rcvThreadRunning=FALSE, isConnecting = FALSE;
@@ -100,7 +101,6 @@ void rcvThread(char *dummy) {
 	unsigned char cmd=0, nSlot;
 	unsigned int length;
 	char *buf=NULL;
-	COPYDATASTRUCT CopyData;
 	int rcv;
 
 	if (!UseSockets) return;
@@ -130,18 +130,21 @@ void rcvThread(char *dummy) {
 					LOG(("rcvThread OPEN_SLOT"));
 					if (!(rcv = Recv(ClientSocket, (char*)&lenfn, sizeof(lenfn))) ||
 						!(rcv = Recv(ClientSocket, szFileName, lenfn))) {
-						LOG(("OPEN_SLOT failed: rcv=%d", rcv));
-						rcv=0;
+						LOG(("OPEN_SLOT failed: rcv=0"));
 						break;
 					}
 
 					utf8_decode(szFileName, &pszUTFFile);
 					for (nSlot=0; nSlot<sizeof(m_FileSlots)/sizeof(m_FileSlots[0]); nSlot++)
-						if (m_FileSlots[nSlot]==INVALID_HANDLE_VALUE) break;
-					if (nSlot>=sizeof(m_FileSlots)/sizeof(m_FileSlots[0])) cmd=0;
+						if (m_FileSlots[nSlot]==INVALID_HANDLE_VALUE)
+							break;
+					if (nSlot>=sizeof(m_FileSlots)/sizeof(m_FileSlots[0]))
+						cmd=0;
 					else {
-						if ((m_FileSlots[nSlot] = CreateFileA(pszUTFFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL))
-							!=INVALID_HANDLE_VALUE) nSlot++; else nSlot=0;
+						if ((m_FileSlots[nSlot] = CreateFileA(pszUTFFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)) !=INVALID_HANDLE_VALUE)
+							nSlot++;
+						else
+							nSlot=0;
 					}
 					free(pszUTFFile);
 					LOG(("rcvThread OPEN_SLOT(%s) -> %d", szFileName, nSlot));
@@ -161,17 +164,13 @@ void rcvThread(char *dummy) {
 				case CLOSE_SLOT:
 					LOG(("rcvThread CLOSE_SLOT"));
 					if (!(rcv = Recv(ClientSocket, (char*)&nSlot, sizeof(nSlot)))) {
-						LOG(("CLOSE_SLOT failed: rcv=%d"));
-						rcv=0; 
+						LOG(("CLOSE_SLOT failed: rcv=0"));
 						break;
 					}
 					LOG(("rcvThread CLOSE_SLOT(%d)", nSlot));
 					CloseHandle(m_FileSlots[nSlot-1]);
 					m_FileSlots[nSlot-1]=INVALID_HANDLE_VALUE;
-					if (rcv) {
-						continue;
-					}
-					break;
+					continue;
 				}
 			}
 		}
@@ -192,7 +191,8 @@ void rcvThread(char *dummy) {
 			//send(ClientSocket, (char *)&cmd, sizeof(cmd), 0);
 		} else {
 			LOG(("Received message: %s", buf));
-
+			
+			COPYDATASTRUCT CopyData;
 			CopyData.dwData=0; 
 			CopyData.lpData=buf; 
 			CopyData.cbData=(DWORD)strlen(buf)+1;
@@ -202,11 +202,11 @@ void rcvThread(char *dummy) {
 			}
 		}
 		free(buf);
+		buf = 0;
 	}
 }
 
 void sendThread(char *dummy) {
-	COPYDATASTRUCT CopyData;
 	LRESULT SendResult;
 	int oldstatus;
 	unsigned int length;
@@ -226,6 +226,7 @@ void sendThread(char *dummy) {
 			}
 			SendResult = 0;
 		} else {
+			COPYDATASTRUCT CopyData;
 			CopyData.dwData=0; 
 			CopyData.lpData=szMsg; 
 			CopyData.cbData=length+1;
@@ -698,14 +699,15 @@ int SkypeMsgCollectGarbage(time_t age) {
  *		   -1 - Failure
  */
 INT_PTR SkypeCall(WPARAM wParam, LPARAM lParam) {
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBVARIANT dbv;
 	char *msg=0;
 	int res;
 
-	if (!db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+	if (!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
 		res = -1; // no direct return, because dbv needs to be freed
 	} else {
-		if (db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
+		if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 		msg=(char *)malloc(strlen(dbv.pszVal)+6);
 		strcpy(msg, "CALL ");
 		strcat(msg, dbv.pszVal);
@@ -730,28 +732,29 @@ INT_PTR SkypeCall(WPARAM wParam, LPARAM lParam) {
  */
 INT_PTR SkypeCallHangup(WPARAM wParam, LPARAM lParam)
 {
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBVARIANT dbv;
 	char *msg=0;
-	int res = -1;
 
-	if (!db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+	if (!db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
 		msg=(char *)malloc(strlen(dbv.pszVal)+21);
 		sprintf(msg, "SET %s STATUS FINISHED", dbv.pszVal);
 		//sprintf(msg, "ALTER CALL %s HANGUP", dbv.pszVal);
-		res=SkypeSend(msg);
+		int res=SkypeSend(msg);
 #if _DEBUG
-		db_unset((MCONTACT)wParam, SKYPE_PROTONAME, "CallId");
+		db_unset(hContact, SKYPE_PROTONAME, "CallId");
 #endif
 	//} else {
-	//	if (db_get((HANDLE)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
+	//	if (db_get(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv)) return -1;
 	//	msg=(char *)malloc(strlen(dbv.pszVal)+6);
 	//	strcpy(msg, "CALL ");
 	//	strcat(msg, dbv.pszVal);
 	//	res=SkypeSend(msg);
+		return res;
 	}
 	db_free(&dbv);
 	free(msg);
-	return res;
+	return -1;
 }
 
 /* FixNumber
@@ -1011,14 +1014,15 @@ void SkypeOutCallErrorCheck(char *szCallId) {
  *		   -1 - Failure
  */
 INT_PTR SkypeOutCall(WPARAM wParam, LPARAM lParam) {
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBVARIANT dbv;
 	int res = -1;
 
-	if (wParam && !db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv)) {
+	if (wParam && !db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv)) {
 		res=SkypeSend("SET %s STATUS FINISHED", dbv.pszVal);
 		pthread_create(( pThreadFunc )SkypeOutCallErrorCheck, _strdup(dbv.pszVal));
 		db_free(&dbv);
-	} else if (!CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIAL), NULL, DialDlgProc, (LPARAM)wParam)) return -1;
+	} else if (!CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DIAL), NULL, DialDlgProc, (LPARAM)hContact)) return -1;
 	return res;
 }
 
@@ -1030,14 +1034,14 @@ INT_PTR SkypeOutCall(WPARAM wParam, LPARAM lParam) {
  *		   -1 - Failure
  */
 INT_PTR SkypeHoldCall(WPARAM wParam, LPARAM lParam) {
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBVARIANT dbv;
-	int retval;
 
 	LOG(("SkypeHoldCall started"));
-	if (!wParam || db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, "CallId", &dbv))
+	if (!wParam || db_get_s(hContact, SKYPE_PROTONAME, "CallId", &dbv))
 		return -1;
-	retval = SkypeSend ("SET %s STATUS %s", dbv.pszVal, 
-		db_get_b((MCONTACT)wParam, SKYPE_PROTONAME, "OnHold", 0)?"INPROGRESS":"ONHOLD");
+	int retval = SkypeSend ("SET %s STATUS %s", dbv.pszVal, 
+		db_get_b(hContact, SKYPE_PROTONAME, "OnHold", 0)?"INPROGRESS":"ONHOLD");
 	db_free(&dbv);
 	return retval;
 }
@@ -1229,12 +1233,12 @@ INT_PTR SkypeSetAvatar(WPARAM wParam, LPARAM lParam) {
  *		   -1 - Failure
  */
 INT_PTR SkypeSendGuiFile(WPARAM wParam, LPARAM) {
+	MCONTACT hContact = (MCONTACT) wParam;
 	DBVARIANT dbv;
-	int retval;
 
-	if (!wParam || db_get_s((MCONTACT)wParam, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
+	if (!wParam || db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
 		return -1;
-	retval=SkypeSend("OPEN FILETRANSFER %s", dbv.pszVal);
+	int retval=SkypeSend("OPEN FILETRANSFER %s", dbv.pszVal);
 	db_free(&dbv);
 	return retval;
 }
@@ -1277,11 +1281,11 @@ INT_PTR SkypeChatCreate(WPARAM wParam, LPARAM lParam) {
 INT_PTR SkypeBlockContact(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	MCONTACT hContact = (MCONTACT)wParam;
-	int iRet = 0;
 
 	if (!hContact || db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
 		return -1;
 
+	int iRet = 0;
 	if (SkypeSend("SET USER %s ISBLOCKED %s", dbv.pszVal, db_get_b(hContact, SKYPE_PROTONAME, "IsBlocked", 0) ? "FALSE" : "TRUE"))
 		iRet = -1;
 	db_free(&dbv);
@@ -1386,9 +1390,9 @@ char *GetSkypeErrorMsg(char *str) {
  *			FALSE- nope, sorry
  */
 BOOL testfor(char *what, DWORD maxwait) {
-	char *res;
-
-	if ((res=SkypeRcv(what, maxwait))==NULL) return FALSE;
+	char *res = SkypeRcv(what, maxwait);
+	if (res==NULL)
+		return FALSE;
 	free(res);
 	return TRUE;
 }
@@ -1396,9 +1400,8 @@ BOOL testfor(char *what, DWORD maxwait) {
 char SendSkypeproxyCommand(char command) {
 	int length=0;
 	char reply=0;
-	BOOL res;
 	
-	res = send(ClientSocket, (char *)&length, sizeof(length), 0)==SOCKET_ERROR
+	BOOL res = send(ClientSocket, (char *)&length, sizeof(length), 0)==SOCKET_ERROR
 		|| send(ClientSocket, (char *)&command, sizeof(command), 0)==SOCKET_ERROR
 		|| recv(ClientSocket, (char *)&reply, sizeof(reply), 0)==SOCKET_ERROR;
 	if (res)
@@ -1717,7 +1720,7 @@ static int _ConnectToSkypeAPI(char *path, int iStart) {
 					int oldstatus=SkypeStatus;
 					InterlockedExchange((long *)&SkypeStatus, (int)ID_STATUS_OFFLINE);
 					ProtoBroadcastAck(SKYPE_PROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldstatus, SkypeStatus);
-					OUTPUT(TranslateT("ERROR: Skype not running / too old / working!"));
+					OUTPUT(TranslateT("ERROR: Skype not running / too old / not working!"));
 					return -1;
 				}
 			}

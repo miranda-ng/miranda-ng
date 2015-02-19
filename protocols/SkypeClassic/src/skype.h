@@ -151,10 +151,3 @@ int InitVSApi();
 int FreeVSApi();
 MCONTACT GetMetaHandle(DWORD dwId);
 void LaunchSkypeAndSetStatusThread(void *newStatus);
-
-// Structs
-
-typedef struct {
-	char *SkypeSetting;
-	char *MirandaSetting;
-} settings_map;
