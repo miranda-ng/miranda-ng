@@ -478,9 +478,10 @@ void CVkProto::OnReceiveUserInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 				|| (iContactStatus == ID_STATUS_INVISIBLE && time(NULL) - getDword(hContact, "InvisibleTS", 0) >= m_iInvisibleInterval * 60)) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				SetMirVer(hContact, -1);
+				db_unset(hContact, m_szModuleName, "ListeningTo");
 			}
-			db_unset(hContact, m_szModuleName, "ListeningTo");
 		}
+
 	arContacts.destroy();
 	AddFeedSpecialUser();
 
@@ -896,6 +897,8 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 			uid = -json_as_int(json_at(pChild, 1));
 			if ((hContact = FindUser(uid)) != NULL)
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
+				db_unset(hContact, m_szModuleName, "ListeningTo");
+				SetMirVer(hContact, -1);
 			break;
 
 		case VKPOLL_USR_UTN:
