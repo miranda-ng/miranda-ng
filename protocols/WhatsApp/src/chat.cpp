@@ -322,8 +322,7 @@ WAChatInfo* WhatsAppProto::InitChat(const std::string &jid, const std::string &n
 	gcw.ptszID = ptszJid;
 	CallServiceSync(MS_GC_NEWSESSION, NULL, (LPARAM)&gcw);
 
-	if (hOldContact == NULL)
-		pInfo->hContact = ContactIDToHContact(jid);
+	pInfo->hContact = (hOldContact != NULL) ? hOldContact : ContactIDToHContact(jid);
 
 	GCDEST gcd = { m_szModuleName, ptszJid, GC_EVENT_ADDGROUP };
 	GCEVENT gce = { sizeof(gce), &gcd };
