@@ -2057,6 +2057,8 @@ xСтатус
 Головне меню
 [Connecting]
 З'єднання
+[Connecting (attempt %d)]
+З'єднання (спроба %d)
 [(Unknown contact)]
 (Невідомий контакт)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
