@@ -73,7 +73,10 @@ char cmdMessage[12] = "MESSAGE", cmdPartner[8] = "PARTNER";	// Compatibility com
 
 
 // Direct assignment of user properties to a DB-Setting
-static const settings_map m_settings[] = {
+struct settings_map {
+	char *SkypeSetting;
+	char *MirandaSetting;
+} m_settings[] = {
 		{ "LANGUAGE", "Language1" },
 		{ "PROVINCE", "State" },
 		{ "CITY", "City" },
@@ -83,9 +86,6 @@ static const settings_map m_settings[] = {
 		{ "HOMEPAGE", "Homepage" },
 		{ "ABOUT", "About" }
 };
-
-// Imported Globals
-extern status_map status_codes[];
 
 BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 
@@ -273,8 +273,9 @@ int HookContactDeleted(WPARAM wParam, LPARAM) {
 	return 0;
 }
 
-void GetInfoThread(void *hContact)
+void GetInfoThread(void *arg)
 {
+	MCONTACT hContact = (MCONTACT)arg;
 	DBVARIANT dbv;
 	int i;
 	char *ptr;
@@ -289,7 +290,7 @@ void GetInfoThread(void *hContact)
 
 	LOG(("GetInfoThread started."));
 	EnterCriticalSection(&QueryThreadMutex);
-	if (db_get_s((MCONTACT)hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
+	if (db_get_s(hContact, SKYPE_PROTONAME, SKYPE_NAME, &dbv))
 	{
 		LOG(("GetInfoThread terminated, cannot find Skype Name for contact %08X.", hContact));
 		LeaveCriticalSection(&QueryThreadMutex);
@@ -305,7 +306,7 @@ void GetInfoThread(void *hContact)
 	if (ptr = SkypeGet("USER", dbv.pszVal, "FULLNAME")) {
 		if (*ptr && !bSetNick && db_get_b(NULL, SKYPE_PROTONAME, "ShowFullname", 1)) {
 			// No Displayname and FULLNAME requested
-			db_set_utf((MCONTACT)hContact, SKYPE_PROTONAME, "Nick", ptr);
+			db_set_utf(hContact, SKYPE_PROTONAME, "Nick", ptr);
 			bSetNick = TRUE;
 		}
 		free(ptr);
@@ -313,7 +314,7 @@ void GetInfoThread(void *hContact)
 
 	if (!bSetNick) {
 		// Still no nick set, so use SKYPE Nickname
-		db_set_s((MCONTACT)hContact, SKYPE_PROTONAME, "Nick", dbv.pszVal);
+		db_set_s(hContact, SKYPE_PROTONAME, "Nick", dbv.pszVal);
 	}
 
 
@@ -331,7 +332,7 @@ void GetInfoThread(void *hContact)
 		ACKDATA ack = { 0 };
 		ack.cbSize = sizeof(ACKDATA);
 		ack.szModule = SKYPE_PROTONAME;
-		ack.hContact = (MCONTACT)hContact;
+		ack.hContact = hContact;
 		ack.type = ACKTYPE_AVATAR;
 		ack.result = ACKRESULT_STATUS;
 
@@ -345,7 +346,7 @@ void GetInfoThread(void *hContact)
 			if (ptr = SkypeGet("USER", dbv.pszVal, m_settings[i].SkypeSetting)) free(ptr);
 	}
 
-	ProtoBroadcastAck(SKYPE_PROTONAME, (MCONTACT)hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	ProtoBroadcastAck(SKYPE_PROTONAME, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	LeaveCriticalSection(&QueryThreadMutex);
 	db_free(&dbv);
 	LOG(("GetInfoThread terminated gracefully."));
@@ -365,7 +366,7 @@ time_t SkypeTime(time_t *timer)
 
 void BasicSearchThread(char *nick) {
 	PROTOSEARCHRESULT psr = { 0 };
-	char *cmd = NULL, *token = NULL, *ptr = NULL, *nextoken;
+	char *cmd = NULL, *token = NULL, *ptr = NULL;
 	time_t st;
 
 	LOG(("BasicSearchThread started."));
@@ -374,6 +375,7 @@ void BasicSearchThread(char *nick) {
 	if (SkypeSend("SEARCH USERS %s", nick) == 0 && (cmd = SkypeRcvTime("USERS", st, INFINITE))) {
 		if (strncmp(cmd, "ERROR", 5)) {
 			psr.cbSize = sizeof(psr);
+			char *nextoken = 0;
 			for (token = strtok_r(cmd + 5, ", ", &nextoken); token; token = strtok_r(NULL, ", ", &nextoken)) {
 				psr.nick = psr.id = _A2T(token);
 				psr.lastName = NULL;
@@ -447,7 +449,7 @@ INT_PTR ImportHistory(WPARAM wParam, LPARAM) {
 }
 
 int SearchFriends(void) {
-	char *ptr, *token, *pStat, *nextoken;
+	char *ptr, *token, *pStat;
 	int iRet = 0;
 	time_t st;
 
@@ -456,6 +458,7 @@ int SearchFriends(void) {
 	{
 		if (strncmp(ptr, "ERROR", 5)) {
 			if (ptr[5]) {
+				char *nextoken = 0;
 				for (token = strtok_r(ptr + 5, ", ", &nextoken); token; token = strtok_r(NULL, ", ", &nextoken)) {
 					if (!(pStat = SkypeGet("USER", token, "ONLINESTATUS")))
 					{
@@ -534,16 +537,18 @@ void __cdecl ProcessAuthRq(void *pPmsg) {
 }
 
 void __cdecl SearchUsersWaitingMyAuthorization() {
-	char *cmd, *token, *nextoken;
+	if (SkypeSend("#UWA SEARCH USERSWAITINGMYAUTHORIZATION"))
+		return;
 
-	if (SkypeSend("#UWA SEARCH USERSWAITINGMYAUTHORIZATION") || !(cmd = SkypeRcv("#UWA USERS", INFINITE)))
+	char *cmd = SkypeRcv("#UWA USERS", INFINITE);
+	if (!cmd)
 		return;
 	if (!strncmp(cmd, "ERROR", 5)) {
 		free(cmd);
 		return;
 	}
 
-	token = strtok_r(cmd + 10, ", ", &nextoken);
+	char *nextoken = 0, *token = strtok_r(cmd + 10, ", ", &nextoken);
 	while (token) {
 		QueryUserWaitingAuthorization(token, NULL);
 		token = strtok_r(NULL, ", ", &nextoken);
@@ -574,7 +579,7 @@ void __cdecl SearchRecentChats(void *) {
 		return;
 	}
 
-	char *token, *nextoken;
+	char *token, *nextoken = 0;
 	for (token = strtok_r(cmd + 10, ", ", &nextoken); token; token = strtok_r(NULL, ", ", &nextoken)) {
 		char *pszStatus = SkypeGet("CHAT", token, "STATUS");
 
@@ -1112,8 +1117,6 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 		db_get_s(NULL, SKYPE_PROTONAME, SKYPE_NAME, &dbv);
 		if (dbv.pszVal && !strcmp(who, dbv.pszVal))
 		{
-			char *pTok, *nextoken;
-
 			// It's from me.. But to whom?
 			// CHATMESSAGE .. USERS doesn't return anything, so we have to query the CHAT-Object
 			if (!(ptr = SkypeGetErr("CHAT", chat, "ACTIVEMEMBERS"))) {
@@ -1121,6 +1124,7 @@ void FetchMessageThread(fetchmsg_arg *pargs) {
 				__leave;
 			}
 
+			char *pTok, *nextoken = 0;
 			for (pTok = strtok_r(ptr, " ", &nextoken); pTok; pTok = strtok_r(NULL, " ", &nextoken)) {
 				if (strcmp(pTok, dbv.pszVal)) break; // Take the first dude in the list who is not me
 			}
@@ -1393,14 +1397,14 @@ static int MsglCmpProc(const void *pstPElement, const void *pstPToFind)
 }
 
 void MessageListProcessingThread(char *str) {
-	char *token, *nextoken, *chat = NULL;
+	char *token, *nextoken = 0, *chat = NULL;
 	fetchmsg_arg *args;
 	TYP_LIST *hListMsgs = List_Init(32);
 
 	// Frst we need to sort the message timestamps
 	for ((token = strtok_r(str+1, ", ", &nextoken)); token; token = strtok_r(NULL, ", ", &nextoken)) {
 		if (args = (fetchmsg_arg*)calloc(1, sizeof(fetchmsg_arg) + sizeof(DWORD))) {
-			strncpy(args->msgnum, token, sizeof(args->msgnum));
+			strncpy(args->msgnum, token, sizeof(args->msgnum)-1);
 			args->getstatus = TRUE;
 			args->bIsRead = *str;
 			args->bDontMarkSeen = *str;
@@ -1806,7 +1810,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				break;
 			}
 			if (!strncmp(szSkypeMsg, "APPLICATION libpurple_typing", 28)) {
-				char *nextoken, *p;
+				char *nextoken = 0, *p;
 
 				if (p = strtok_r(szSkypeMsg + 29, " ", &nextoken))
 				{
@@ -1847,7 +1851,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 				}
 			}
 			if (!strncmp(szSkypeMsg, "USER ", 5)) {
-				char *nextoken;
+				char *nextoken = 0;
 
 				buf = _strdup(szSkypeMsg + 5);
 				if ((nick = strtok_r(buf, " ", &nextoken)) && (ptr = strtok_r(NULL, " ", &nextoken)))
@@ -1896,9 +1900,9 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 						* error handling.
 						*/
 						if (!strcmp(ptr, "FULLNAME")) {
-							char *nm;
+							char *nm = strtok_r(NULL, " ", &nextoken);
 
-							if (nm = strtok_r(NULL, " ", &nextoken))
+							if (nm)
 							{
 								db_set_utf(hContact, SKYPE_PROTONAME, "FirstName", nm);
 								if (!(nm = strtok_r(NULL, "", &nextoken)))
@@ -2176,7 +2180,7 @@ LRESULT APIENTRY WndProc(HWND hWndDlg, UINT message, UINT wParam, LONG lParam)
 						// If new message is available, fetch it
 						ptr[0] = 0;
 						if (!(args = (fetchmsg_arg *)calloc(1, sizeof(*args)))) break;
-						strncpy(args->msgnum, pMsgNum, sizeof(args->msgnum));
+						strncpy(args->msgnum, pMsgNum, sizeof(args->msgnum)-1);
 						args->getstatus = FALSE;
 						//args->bIsRead = strncmp(ptr+8, "READ", 4) == 0;
 						pthread_create((pThreadFunc)FetchMessageThreadSync, args);
@@ -2480,7 +2484,7 @@ void RetrieveUserAvatar(void *param)
 							// Got it
 							MoveFileExA(pszTempFile, AvatarFile, MOVEFILE_REPLACE_EXISTING);
 							AI.format = PA_FORMAT_JPEG;
-							strcpy(AI.filename, AvatarFile);
+							strncpy(AI.filename, AvatarFile,SIZEOF(AI.filename)-1);
 							ack.hProcess = (HANDLE)&AI;
 						}
 

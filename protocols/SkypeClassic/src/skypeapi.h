@@ -15,10 +15,6 @@
 
 #define MAX_ENTRIES 128		// Max. 128 number-Entries in Dial-dlg.
 
-typedef struct {
-	int id;
-	char *szStat;
-} status_map;
 
 // Prototypes
 int SkypeMsgInit(void);
