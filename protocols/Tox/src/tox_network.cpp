@@ -87,8 +87,9 @@ void CToxProto::CheckConnection(int &retriesCount)
 		}
 		else
 		{
-			if (--retriesCount == TOX_MAX_DISCONNECT_RETRIES - 1)
+			if (retriesCount == TOX_MAX_DISCONNECT_RETRIES)
 			{
+				retriesCount --;
 				BootstrapNodes();
 			}
 			else if (!(--retriesCount))
