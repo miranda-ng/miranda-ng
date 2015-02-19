@@ -67,6 +67,10 @@ Połączenie %s
 Wszystkie pliki (*.*)
 [Select tox profile]
 Wybierz profil tox
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+Posiadasz już profil. Czy chcesz go usunąć wraz ze wszystkimi kontaktami oraz całą historią tox i kontynuować importowanie?
+[Tox profile import]
+Importowanie profilu tox
 [Add node]
 Dodaj gałąź
 [Change node]
