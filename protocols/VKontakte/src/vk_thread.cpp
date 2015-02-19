@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 UINT_PTR CVkProto::m_timer;
 
-char szBlankUrl[] = "http://api.vk.com/blank.html";
+char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, contacts, online, status, about, domain";
@@ -942,7 +942,7 @@ int CVkProto::PollServer()
 	NETLIBHTTPREQUEST req = { sizeof(req) };
 	req.requestType = REQUEST_GET;
 	req.szUrl = mir_strdup(szReqUrl.GetBuffer());
-	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT;
+	req.flags = VK_NODUMPHEADERS | NLHRF_PERSISTENT | NLHRF_HTTP11;
 	req.timeout = 30000;
 	req.nlc = m_pollingConn;
 
