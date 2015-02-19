@@ -22,7 +22,7 @@
 [Configuration]
 Конфігурація
 [Check Gmail inbox every]
-Переверяти кожні
+Перевіряти кожні
 [minutes]
 хвилин
 [Notify using:]

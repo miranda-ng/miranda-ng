@@ -13,6 +13,10 @@
 Пароль:
 [Default group:]
 Група:
+[Import tox profile]
+Імпортувати профіль Tox
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+Профіль Tox містить ваш ID та список друзів.\r\nМожна імпортувати існуючий профіль з іншого клієнта Tox.
 [Connection settings]
 Налаштування підключення
 [Disable UDP (force Tox to use TCP)]
@@ -35,6 +39,8 @@
 Додати
 [Port]
 Порт
+[Public key]
+Відкритий ключ
 [Network]
 Мережа
 [Account]
@@ -47,6 +53,10 @@
 Усі файли (*.*)
 [Select tox profile]
 Виберіть профіль Tox
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+Знайдено існуючий профіль. Ви впевнені, що хочете видалити його разом з історією та контактами Tox і продовжити імпорт?
+[Tox profile import]
+Імпорт профілю Tox
 [Add node]
 Додати нод
 [Change node]
@@ -55,6 +65,8 @@
 Введіть IPv4
 [Error]
 Помилка
+[Enter public key]
+Введіть відкритий ключ
 [Are you sure?]
 Ви впевнені?
 [Node deleting]

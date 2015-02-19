@@ -1,6 +1,5 @@
 ﻿[OutputDebugString()]
 [Wikipedia]
-[Connecting (attempt %d)]
 [ID]
 [Ctrl + ]
 [Alt + ]
