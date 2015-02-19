@@ -38,6 +38,8 @@
 ;file \protocols\Tox\src\tox_options.cpp
 [All files (*.*)]
 [Select tox profile]
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+[Tox profile import]
 [Add node]
 [Change node]
 [Enter IPv4]

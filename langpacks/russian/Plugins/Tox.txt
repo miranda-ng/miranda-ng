@@ -53,6 +53,10 @@ DNS имя:
 Все файлы (*.*)
 [Select tox profile]
 Выберите профиль Tox
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+Найден уже существующий профиль. Вы уверены, что хотите удалить его вместе с историей и контактами Tox и продолжить импорт?
+[Tox profile import]
+Импорт профиля Tox
 [Add node]
 Добавление ноды
 [Change node]
