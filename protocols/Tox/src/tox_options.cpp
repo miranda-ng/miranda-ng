@@ -360,6 +360,16 @@ LRESULT CALLBACK RowItemsSubProc(HWND hwndList, UINT msg, WPARAM wParam, LPARAM 
 			}
 		}
 	}
+	
+	if (msg == WM_KEYDOWN && wParam == VK_DELETE)
+	{
+		int sel = ListView_GetSelectionMark(hwndList);
+		if (MessageBox(hwndList, TranslateT("Are you sure?"), TranslateT("Node deleting"), MB_YESNO | MB_ICONWARNING) == IDYES)
+		{
+			ListView_DeleteItem(hwndList, sel);
+			SendMessage(GetParent(GetParent(hwndList)), PSM_CHANGED, 0, 0);
+		}
+	}
 
 	return CallWindowProc(oldWndProc, hwndList, msg, wParam, lParam);
 }
