@@ -48,6 +48,13 @@ static LRESULT CALLBACK MSubclassWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
+/* This is for wine: it return wrong WNDPROC for edit control in some cases. */
+#ifdef WIN64
+#define STD_WND_PROC_ADDR_MASK	0x7FFF00000
+#else
+#define STD_WND_PROC_ADDR_MASK	0xFFFF0000
+#endif
+
 MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 {
 	MSubclassData *p = arSubclass.find((MSubclassData*)&hWnd);
@@ -55,6 +62,13 @@ MIR_CORE_DLL(void) mir_subclassWindow(HWND hWnd, WNDPROC wndProc)
 		p = new MSubclassData;
 		p->m_hWnd = hWnd;
 		p->m_origWndProc = (WNDPROC)SetWindowLongPtr(hWnd, GWLP_WNDPROC, (LONG_PTR)MSubclassWndProc);
+		if (((SIZE_T)p->m_origWndProc & STD_WND_PROC_ADDR_MASK) == STD_WND_PROC_ADDR_MASK) { /* XXX: fix me. Wine fix. */
+			//MessageBox(NULL, _T("mir_subclassWindow"), NULL, 0);
+			p->m_origWndProc = (WNDPROC)GetClassLongPtr(hWnd, GCLP_WNDPROC);
+			if (((SIZE_T)p->m_origWndProc & 0x7FFF0000) == 0x7FFF0000) { /* Delay crash. */
+				p->m_origWndProc = DefWindowProc;
+			}
+		}
 		p->m_iHooks = 0;
 		p->m_hooks = (WNDPROC*)malloc( sizeof(WNDPROC));
 		arSubclass.insert(p);

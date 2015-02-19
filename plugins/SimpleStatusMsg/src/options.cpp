@@ -102,19 +102,20 @@ struct OptDlgData
 	struct SingleStatusMsg *status_msg;
 };
 
-static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	struct OptDlgData *data = (struct OptDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			int	val, i, index;
+			int val, i, index;
 
 			TranslateDialogDefault(hwndDlg);
 
 			data = (struct OptDlgData *)mir_alloc(sizeof(struct OptDlgData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)data);
+			mir_subclassWindow(GetDlgItem(hwndDlg, IDC_OPTEDIT1), OptEditBoxSubProc);
 
 			SendDlgItemMessage(hwndDlg, IDC_OPTEDIT1, EM_LIMITTEXT, 1024, 0);
 			SendDlgItemMessage(hwndDlg, IDC_SMAXLENGTH, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_EMAXLENGTH), 0);
@@ -254,7 +255,6 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			}
 			ShowWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), ServiceExists(MS_VARS_FORMATSTRING));
 
-			mir_subclassWindow( GetDlgItem(hwndDlg, IDC_OPTEDIT1), OptEditBoxSubProc);
 			return TRUE;
 		}
 

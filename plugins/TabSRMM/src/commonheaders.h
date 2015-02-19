@@ -238,7 +238,6 @@ extern LOGFONTA logfonts[MSGDLGFONTCOUNT + 2];
 extern COLORREF fontcolors[MSGDLGFONTCOUNT + 2];
 extern HINSTANCE hinstance;
 extern BOOL g_bIMGtagButton;
-extern HIMAGELIST g_himlOptions;
 extern HANDLE hHookToolBarLoadedEvt;
 extern TLogIcon msgLogIcons[NR_LOGICONS * 3];
 extern const TCHAR *pszIDCSAVE_save, *pszIDCSAVE_close;

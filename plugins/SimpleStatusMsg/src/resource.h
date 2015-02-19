@@ -111,6 +111,7 @@
 #define ID__FORTUNEAWAYMSG              40034
 #define IDM_VRANDMSG                    40035
 #define IDM_VRANDDEFMSG                 40036
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 

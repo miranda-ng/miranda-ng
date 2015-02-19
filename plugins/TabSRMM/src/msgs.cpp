@@ -848,7 +848,8 @@ static int TSAPI LoadFromIconLib()
 		PluginConfig.g_buttonBarIcons[12] = LoadSkinnedIcon(SKINICON_OTHER_TYPING);
 	PluginConfig.g_IconChecked = LoadSkinnedIcon(SKINICON_OTHER_TICK);
 	PluginConfig.g_IconUnchecked = LoadSkinnedIcon(SKINICON_OTHER_NOTICK);
-	PluginConfig.g_IconFolder = LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN);
+	PluginConfig.g_IconGroupOpen = LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN);
+	PluginConfig.g_IconGroupClose = LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT);
 
 	PluginConfig.g_iconOverlayEnabled = Skin_GetIcon("tabSRMM_overlay_enabled");
 	PluginConfig.g_iconOverlayDisabled = Skin_GetIcon("tabSRMM_overlay_disabled");
