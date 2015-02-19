@@ -566,8 +566,15 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case LVN_ITEMCHANGED:
 			NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
+			int sel = ListView_GetSelectionMark(hwndList);
+			if (sel == -1) {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
+			}
+			else {
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), TRUE);
+			}
 			if (((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) && !UpdateListFlag)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
