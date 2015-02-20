@@ -24,11 +24,16 @@
 #define IDC_SAVEPERMANENTLY             1013
 #define IDC_NODESLIST                   1014
 #define IDC_ADDNODE                     1015
-#define IDC_IPV4                        1018
-#define IDC_IPV6                        1019
-#define IDC_PORT                        1020
-#define IDC_PKEY                        1021
-#define IDC_IMPORT_PROFILE              1024
+#define IDC_IPV4                        1016
+#define IDC_IPV6                        1017
+#define IDC_PORT                        1018
+#define IDC_PKEY                        1019
+#define IDC_IMPORT_PROFILE              1020
+#define IDC_COMBO_AUDIOINPUT            1021
+#define IDC_COMBO_AUDIOOUTPUT           1022
+#define IDC_AUDIOFILTER                 1023
+#define IDC_COMBO_VIDEOINPUT            1024
+
 
 // Next default values for new objects
 // 
