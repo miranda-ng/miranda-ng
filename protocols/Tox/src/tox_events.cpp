@@ -26,20 +26,12 @@ int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = MainOptionsProc;
 	Options_AddPage(wParam, &odp);
 
+	odp.pszTab = LPGEN("Nodes");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_NODES);
+	odp.pfnDlgProc = NodesOptionsProc;
+	Options_AddPage(wParam, &odp);
+
 	mir_free(title);
 
-	return 0;
-}
-
-int OptInit(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = g_hInstance;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_NODES);
-	odp.pszGroup = LPGEN("Network");
-	odp.pszTitle = LPGEN("Tox nodes");
-	odp.pfnDlgProc = ToxNodesOptionsProc;
-	Options_AddPage(wParam, &odp);
 	return 0;
 }

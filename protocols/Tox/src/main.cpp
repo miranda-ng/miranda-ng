@@ -37,8 +37,6 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	HookEvent(ME_OPT_INITIALISE, OptInit);
-
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = MODULE;
 	pd.type = PROTOTYPE_PROTOCOL;

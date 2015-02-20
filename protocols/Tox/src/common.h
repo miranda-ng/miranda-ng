@@ -48,7 +48,7 @@ extern HINSTANCE g_hInstance;
 #define TOX_ERROR -1
 
 #define TOX_MAX_CONNECT_RETRIES 200
-#define TOX_MAX_DISCONNECT_RETRIES 100
+#define TOX_MAX_DISCONNECT_RETRIES 200
 
 #define TOX_INI_PATH "%miranda_path%\\Plugins\\tox.ini"
 
@@ -79,8 +79,5 @@ T CreateFunction(LPCSTR functionName)
 	}
 	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
 }
-
-int OptInit(WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK ToxNodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #endif //_COMMON_H_
