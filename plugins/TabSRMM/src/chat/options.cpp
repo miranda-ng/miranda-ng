@@ -698,7 +698,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					_T("%nick%"),					TranslateT("nick of current contact (if defined)"),
 					_T("%proto%"),					TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts"),
 					_T("%accountname%"),			TranslateT("user-defined account name of current contact (if defined)."),
-					_T("%userid%"),					TranslateT("user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc."),
+					_T("%userid%"),					TranslateT("user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc."),
 					// global vars
 					_T("%miranda_path%"),			TranslateT("path to Miranda root folder"),
 					_T("%miranda_profilesdir%"),		TranslateT("path to folder containing Miranda profiles"),
