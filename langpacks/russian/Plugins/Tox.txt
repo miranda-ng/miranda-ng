@@ -8,7 +8,7 @@
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
 [Multimedia]
-Мультимедия
+Мультимедиа
 [Audio input device]
 Устройство аудиовхода
 [Audio output device]
