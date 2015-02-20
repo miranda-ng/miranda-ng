@@ -1,2 +1,0 @@
-﻿[Import tox profile]
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]

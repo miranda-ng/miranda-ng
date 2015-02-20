@@ -3,3 +3,5 @@
 [Tox]
 [IPv4]
 [IPv6]
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+[Tox profile import]

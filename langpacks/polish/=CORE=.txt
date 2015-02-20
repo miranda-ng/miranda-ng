@@ -1979,7 +1979,6 @@ Pokaż/Zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Dodaj kontakt

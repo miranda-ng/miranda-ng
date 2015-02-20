@@ -67,6 +67,10 @@ Tox Knoten
 Alle Dateien (*.*)
 [Select tox profile]
 Tox-Profil auswählen
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+
+[Tox profile import]
+
 [Add node]
 Knoten hinzufügen
 [Change node]
