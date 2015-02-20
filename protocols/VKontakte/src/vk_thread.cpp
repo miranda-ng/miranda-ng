@@ -114,6 +114,7 @@ void CVkProto::SetServerStatus(int iNewStatus)
 	ptrT ptszListeningToMsg(db_get_tsa(NULL, m_szModuleName, "ListeningTo"));
 
 	if (iNewStatus == ID_STATUS_OFFLINE) {
+		m_bNeedSendOnline = false;
 		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast) {
 			RetrieveStatusMsg(oldStatusMsg);
 			m_bSetBroadcast = false;
@@ -124,11 +125,15 @@ void CVkProto::SetServerStatus(int iNewStatus)
 			<< VER_API);
 	}
 	else if (iNewStatus != ID_STATUS_INVISIBLE) {
+		m_bNeedSendOnline = true;
+		if (iOldStatus == ID_STATUS_ONLINE)
+			return;
 		m_iStatus = ID_STATUS_ONLINE; 
 		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/account.setOnline.json", true, &CVkProto::OnReceiveSmth)
 			<< VER_API);
 	}
 	else {		
+		m_bNeedSendOnline = false;
 		if (!IsEmpty(ptszListeningToMsg) && m_bSetBroadcast) {
 			RetrieveStatusMsg(oldStatusMsg);
 			m_bSetBroadcast = false;
@@ -424,6 +429,10 @@ void CVkProto::RetrieveUsersInfo(bool flag)
 	}
 
 	CMString codeformat("var userIDs=\"%s\";");
+
+	if (m_bNeedSendOnline)
+		codeformat += _T("API.account.setOnline();");
+	
 	if (flag)
 		codeformat += CMString("var US=API.users.get({\"user_ids\":userIDs,\"fields\":\"%s\",\"name_case\":\"nom\"});"
 			"var res=[];var index=US.length;while(index >0){index=index-1;if(US[index].online==1){res.unshift(US[index]);};};"
