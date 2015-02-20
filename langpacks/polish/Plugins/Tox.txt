@@ -30,6 +30,16 @@ Wyłącz UDP (zmuś Tox do używania TCP)
 Wyłącz IPV6
 [Tox]
 Tox
+[Multimedia]
+
+[Audio input device]
+
+[Audio output device]
+
+[Filter audio]
+
+[Video input device]
+
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 [Dns name:]
