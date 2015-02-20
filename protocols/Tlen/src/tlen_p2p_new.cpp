@@ -27,15 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 static void logInfo(const char *filename, const char *fmt, ...) {
-	SYSTEMTIME time;
-	char *str;
 	va_list vararg;
-	int strsize;
 	FILE *flog=fopen(filename,"at");
 	if (flog != NULL) {
+		SYSTEMTIME time;
 		GetLocalTime(&time);
 		va_start(vararg, fmt);
-		str = (char *) mir_alloc(strsize=2048);
+		int strsize=2048;
+		char *str = (char *) mir_alloc(strsize);
 		while (mir_vsnprintf(str, strsize, fmt, vararg) == -1)
 			str = (char *) realloc(str, strsize+=2048);
 		va_end(vararg);
@@ -131,9 +130,6 @@ void __cdecl TlenNewFileSendThread(TLEN_FILE_TRANSFER *ft)
 		if (fout != NULL) {
 			fprintf(fout, "START:");
 		}
-		if (fout != NULL) {
-			fclose(fout);
-		}
 		for (step = 0; step < 10; step ++) {
 //		while (ft->udps != INVALID_SOCKET) {
 			int alen;
@@ -160,9 +156,11 @@ void __cdecl TlenNewFileSendThread(TLEN_FILE_TRANSFER *ft)
 			}
 			if (fout != NULL) {
 				fprintf(fout, "\n");
-				fclose(fout);
 			}
 			SleepEx(1000, TRUE);
+		}
+		if (fout != NULL) {
+			fclose(fout);
 		}
 	}
 	ft->proto->debugLogA("P2P send thread ended");
@@ -246,11 +244,10 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 			id = TlenXmlGetAttrValue(fs, "i");
 			if (e != NULL) {
 				if (!strcmp(e, "1")) {
-					char *c, *s;
 					TLEN_FILE_TRANSFER * ft = (TLEN_FILE_TRANSFER *) mir_alloc(sizeof(TLEN_FILE_TRANSFER));
 					memset(ft, 0, sizeof(TLEN_FILE_TRANSFER));
-					c = TlenXmlGetAttrValue(fs, "c");
-					s = TlenXmlGetAttrValue(fs, "s");
+					char *c = TlenXmlGetAttrValue(fs, "c");
+					char *s = TlenXmlGetAttrValue(fs, "s");
 					ft->jid = mir_strdup(from);
 					ft->proto = info->proto;
 					ft->hContact = TlenHContactFromJID(info->proto, from);
@@ -289,28 +286,21 @@ void __cdecl TlenProcessP2P(XmlNode *node, ThreadData *info) {
 		} else if (vs != NULL) {
 
 		} else if (dcng != NULL) {
-			char *s, *id, *id2;
 			info->proto->debugLogA("DCNG");
-			s = TlenXmlGetAttrValue(dcng, "s");
-			id2 = TlenXmlGetAttrValue(dcng, "i");
-			id = TlenXmlGetAttrValue(dcng, "mi");
+			char *s = TlenXmlGetAttrValue(dcng, "s");
+			char *id2 = TlenXmlGetAttrValue(dcng, "i");
+			char *id = TlenXmlGetAttrValue(dcng, "mi");
 			if (!strcmp(s, "1")) {
 				/* Keys */
-				/* n - name (file_send) */
-				/* k - ??? */
-				/* v - ??? */
 				/* s - step */
 				/* i - id of the file */
-				/* ck - aes key */
 				/* ks - key size (in bytes) */
-				/* iv - aes initial vector */
 				/* mi - p2p connection id */
-				char *n, *k, *v, *ck, *iv;
-				n = TlenXmlGetAttrValue(dcng, "n");
-				k = TlenXmlGetAttrValue(dcng, "k");
-				v = TlenXmlGetAttrValue(dcng, "v");
-				ck = TlenXmlGetAttrValue(dcng, "ck");
-				iv = TlenXmlGetAttrValue(dcng, "iv");
+				char *n = TlenXmlGetAttrValue(dcng, "n"); // n - name (file_send)
+				char *k = TlenXmlGetAttrValue(dcng, "k"); // k - ???
+				char *v = TlenXmlGetAttrValue(dcng, "v"); // v - ???
+				char *ck = TlenXmlGetAttrValue(dcng, "ck"); // ck - aes key
+				char *iv = TlenXmlGetAttrValue(dcng, "iv"); // iv - aes initial vector
 				if (!strcmp(n, "file_send")) {
 					if ((item=TlenListGetItemPtr(info->proto, LIST_FILE, id)) != NULL) {
 						item->id2 = mir_strdup(id2);

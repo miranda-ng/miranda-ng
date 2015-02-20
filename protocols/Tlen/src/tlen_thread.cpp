@@ -101,10 +101,7 @@ static VOID NTAPI TlenPasswordCreateDialogApcProc(ULONG_PTR param)
 
 void __cdecl TlenServerThread(ThreadData *info)
 {
-	DBVARIANT dbv;
-	char jidStr[128];
 	char *connectHost;
-	char *buffer;
 	int datalen;
 	XmlState xmlState;
 	int tlenNetworkBufferSize;
@@ -131,6 +128,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 	info->proto->threadData = info;
 
+	DBVARIANT dbv;
 	if (!db_get(NULL, info->proto->m_szModuleName, "LoginName", &dbv)) {
 		strncpy(info->username, dbv.pszVal, sizeof(info->username));
 		info->username[sizeof(info->username)-1] = '\0';
@@ -155,7 +153,8 @@ void __cdecl TlenServerThread(ThreadData *info)
 			loginErr = LOGINERR_NONETWORK;
 		}
 	}
-
+	
+	char jidStr[128];
 	if (loginErr == 0) {
 		if (!info->proto->tlenOptions.savePassword) {
 			// Ugly hack: continue logging on only the return value is &(onlinePassword[0])
@@ -191,7 +190,8 @@ void __cdecl TlenServerThread(ThreadData *info)
 	}
 
 	tlenNetworkBufferSize = 2048;
-	if ((buffer=(char *) mir_alloc(tlenNetworkBufferSize+1)) == NULL) {	// +1 is for '\0' when debug logging this buffer
+	char *buffer = (char *) mir_alloc(tlenNetworkBufferSize+1);	// +1 is for '\0' when debug logging this buffer
+	if (buffer == NULL) {
 		info->proto->debugLogA("Thread ended, network buffer cannot be allocated");
 		loginErr = LOGINERR_NONETWORK;
 	}
@@ -203,9 +203,10 @@ void __cdecl TlenServerThread(ThreadData *info)
 		ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE) oldStatus, info->proto->m_iStatus);
 		ProtoBroadcastAck(info->proto->m_szModuleName, NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, loginErr);
 		mir_free(info);
+		mir_free(buffer);
 		return;
 	}
-
+	
 	mir_snprintf(jidStr, SIZEOF(jidStr), "%s@%s", info->username, info->server);
 	db_set_s(NULL, info->proto->m_szModuleName, "jid", jidStr);
 
@@ -399,14 +400,13 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 static void TlenSendAuth(TlenProtocol *proto) {
 	int iqId;
-	char *p;
-	char *str;
 	char text[128];
-	str = TlenPasswordHash(proto->threadData->password);
+	char *str = TlenPasswordHash(proto->threadData->password);
 	mir_snprintf(text, SIZEOF(text), "%s%s", proto->threadData->streamId, str);
 	mir_free(str);
 	str = TlenSha1(text);
-	if ((p=TlenTextEncode(proto->threadData->username)) != NULL) {
+	char *p=TlenTextEncode(proto->threadData->username);
+	if (p != NULL) {
 		iqId = TlenSerialNext(proto->threadData->proto);
 		TlenIqAdd(proto, iqId, IQ_PROC_NONE, TlenIqResultAuth);
 		TlenSend(proto, "<iq type='set' id='"TLEN_IQID"%d'><query xmlns='jabber:iq:auth'><username>%s</username><digest>%s</digest><resource>t</resource><host>tlen.pl</host></query></iq>", iqId, p /*info->username*/, str);
@@ -418,26 +418,25 @@ static void TlenSendAuth(TlenProtocol *proto) {
 /* processing <s ... > tag sent from server on session opening */
 static void TlenProcessStreamOpening(XmlNode *node, ThreadData *info)
 {
-	char *sid, *s;
-
 	if (node->name == NULL || strcmp(node->name, "s"))
 		return;
 
-	if ((sid=TlenXmlGetAttrValue(node, "i")) != NULL) {
+	char *sid=TlenXmlGetAttrValue(node, "i");
+	if (sid != NULL) {
 		if (info->streamId) mir_free(info->streamId);
 		info->streamId = mir_strdup(sid);
 	}
-	if ((s=TlenXmlGetAttrValue(node, "s")) != NULL && !strcmp(s, "1")) {
+	char *s=TlenXmlGetAttrValue(node, "s");
+	if (s != NULL && !strcmp(s, "1")) {
 		int i;
-		char *k1, *k2, *k3;
 		unsigned char aes_key[32];
 		char aes_key_str[140], aes_iv_str[40];
 		mpi k1_mpi, k2_mpi, aes_mpi;
 		size_t slen;
 
-		k1=TlenXmlGetAttrValue(node, "k1");
-		k2=TlenXmlGetAttrValue(node, "k2");
-		k3=TlenXmlGetAttrValue(node, "k3");
+		char *k1=TlenXmlGetAttrValue(node, "k1");
+		char *k2=TlenXmlGetAttrValue(node, "k2");
+		char *k3=TlenXmlGetAttrValue(node, "k3");
 
 		memset(&info->aes_in_context, 0, sizeof (aes_context));
 		memset(&info->aes_out_context, 0, sizeof (aes_context));
@@ -516,26 +515,30 @@ static void TlenProcessProtocol(XmlNode *node, ThreadData *info)
 
 static void TlenProcessCipher(XmlNode *node, ThreadData *info)
 {
-	char *type;
-	type=TlenXmlGetAttrValue(node, "type");
+	char *type=TlenXmlGetAttrValue(node, "type");
 	info->useAES = TRUE;
 	TlenSend(info->proto, "<cipher type='ok'/>");
 	TlenSendAuth(info->proto);
 }
 
-static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode* node)
+static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode *node)
 {
 	OSVERSIONINFO osvi = { 0 };
 	char mversion[256];
-	char* from, *version, *mver;
+	char *mver;
 	char* os = NULL;
-	TLEN_LIST_ITEM *item;
 
 	if (proto->m_iStatus == ID_STATUS_INVISIBLE) return;
 	if (!proto->tlenOptions.enableVersion) return;
-	if (( from=TlenXmlGetAttrValue( node, "from" )) == NULL ) return;
-	if (( item=TlenListGetItemPtr( proto, LIST_ROSTER, from )) ==NULL) return;
-	version = TlenTextEncode( TLEN_VERSION_STRING );
+	char *from = TlenXmlGetAttrValue(node, "from");
+	if (from == NULL)
+		return;
+	
+	TLEN_LIST_ITEM *item = TlenListGetItemPtr(proto, LIST_ROSTER, from);
+	if (item == NULL)
+		return;
+
+	char *version = TlenTextEncode(TLEN_VERSION_STRING);
 	osvi.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
 	if ( GetVersionEx( &osvi )) {
 		switch ( osvi.dwPlatformId ) {
@@ -580,9 +583,8 @@ static void TlenProcessIqGetVersion(TlenProtocol *proto, XmlNode* node)
 // Support for Tlen avatars - avatar token used to access web interface
 static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 {
-	XmlNode *tokenNode, *aNode;
-	tokenNode = TlenXmlGetChild(node, "token");
-	aNode = TlenXmlGetChild(node, "a");
+	XmlNode *tokenNode = TlenXmlGetChild(node, "token");
+	XmlNode *aNode = TlenXmlGetChild(node, "a");
 	if (tokenNode != NULL) {
 		char *token = tokenNode->text;
 		strcpy(info->avatarToken, token);
@@ -597,7 +599,7 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 {
 	MCONTACT hContact;
 	XmlNode *bodyNode, *subjectNode, *xNode, *n;
-	char *from, *type, *nick, *p, *localMessage, *idStr;
+	char *nick, *p, *localMessage, *idStr;
 	DWORD msgTime;
 	BOOL delivered, composing;
 	int i;
@@ -606,14 +608,16 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 
 	if (!node->name || strcmp(node->name, "message")) return;
 
-	if ((type=TlenXmlGetAttrValue(node, "type")) != NULL && !strcmp(type, "error")) {
+	char *type=TlenXmlGetAttrValue(node, "type");
+	if (type != NULL && !strcmp(type, "error")) {
 	}
 	else {
-		if ((from=TlenXmlGetAttrValue(node, "from")) != NULL) {
-			char *fromJid = TlenLoginFromJID(from);
+		char *from=TlenXmlGetAttrValue(node, "from");
+		if (from != NULL) {
 			if (info->proto->tlenOptions.ignoreAdvertisements && strstr(from, "b73@tlen.pl") == from) {
 				return;
 			}
+			char *fromJid = TlenLoginFromJID(from);
 			// If message is from a stranger (not in roster), item is NULL
 			item = TlenListGetItemPtr(info->proto, LIST_ROSTER, fromJid);
 			isChatRoomJid = TlenListExist(info->proto, LIST_CHATROOM, from);
@@ -730,7 +734,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 {
 	MCONTACT hContact;
 	XmlNode *queryNode = NULL;
-	char *type, *jid, *nick;
+	char *jid, *nick;
 	char *xmlns = NULL;
 	char *idStr, *str;
 	int id;
@@ -738,7 +742,7 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 	TLEN_IQ_PFUNC pfunc;
 
 	if (!node->name || strcmp(node->name, "iq")) return;
-	type=TlenXmlGetAttrValue(node, "type");
+	char *type=TlenXmlGetAttrValue(node, "type");
 //	if ((type=TlenXmlGetAttrValue(node, "type")) == NULL) return;
 
 	id = -1;
@@ -892,19 +896,23 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
  */
 static void TlenProcessW(XmlNode *node, ThreadData *info)
 {
-	MCONTACT hContact;
-	char *f, *e, *s, *body;
+	char *e, *s;
 	char *str, *localMessage;
 	int strSize;
 
-	if (!node->name || strcmp(node->name, "w")) return;
-	if ((body=node->text) == NULL) return;
+	if (!node->name || strcmp(node->name, "w"))
+		return;
 
-	if ((f=TlenXmlGetAttrValue(node, "f")) != NULL) {
+	char *body=node->text;
+	if (body == NULL)
+		return;
 
+	char *f = TlenXmlGetAttrValue(node, "f");
+	if (f != NULL) {
 		char webContactName[128];
 		mir_snprintf(webContactName, SIZEOF(webContactName), Translate("%s Web Messages"), info->proto->m_szModuleName);
-		if ((hContact=TlenHContactFromJID(info->proto, webContactName)) == NULL) {
+		MCONTACT hContact = TlenHContactFromJID(info->proto, webContactName);
+		if (hContact == NULL) {
 			hContact = TlenDBCreateContact(info->proto, webContactName, webContactName, TRUE);
 		}
 
@@ -1069,14 +1077,13 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
  */
 static void TlenProcessN(XmlNode *node, ThreadData *info)
 {
-	char *f, *s;
 	char *str, *popupTitle, *popupText;
 	int strSize;
 
 	if (!node->name || strcmp(node->name, "n")) return;
 
-	s = TlenXmlGetAttrValue(node, "s");
-	f = TlenXmlGetAttrValue(node, "f");
+	char *s = TlenXmlGetAttrValue(node, "s");
+	char *f = TlenXmlGetAttrValue(node, "f");
 	if (s != NULL && f != NULL) {
 		str = NULL;
 		strSize = 0;
@@ -1183,10 +1190,11 @@ static void TlenProcessV(XmlNode *node, ThreadData *info)
 {
 	char jid[128];
 	TLEN_LIST_ITEM *item;
-	char *from, *id, *e, *p;
+	char *id, *e, *p;
 //	if (!node->name || strcmp(node->name, "v")) return;
 
-	if ((from=TlenXmlGetAttrValue(node, "f")) != NULL) {
+	char *from=TlenXmlGetAttrValue(node, "f");
+	if (from != NULL) {
 		if (strchr(from, '@') == NULL) {
 			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, info->server);
 		} else {

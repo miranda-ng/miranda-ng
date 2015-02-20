@@ -31,9 +31,7 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 {
 	int i;
 	char *p;
-	TLEN_FILE_PACKET *rpacket, *packet;
-
-	rpacket = NULL;
+	TLEN_FILE_PACKET *rpacket = NULL, *packet;
 	if (ft->state == FT_CONNECTING) {
 		rpacket = TlenP2PPacketReceive(ft->s);
 		if (rpacket != NULL) {
@@ -154,13 +152,10 @@ static void TlenFileReceiveParse(TLEN_FILE_TRANSFER *ft)
 
 static void TlenFileReceivingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
 {
-	HANDLE slisten;
-	TLEN_FILE_TRANSFER *ft;
-
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
-	ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
+	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
 	if (ft != NULL) {
-		slisten = ft->s;
+		HANDLE slisten = ft->s;
 		ft->s = hConnection;
 		ft->proto->debugLogA("Set ft->s to %d (saving %d)", hConnection, slisten);
 		ft->proto->debugLogA("Entering send loop for this file connection... (ft->s is hConnection)");
@@ -211,14 +206,12 @@ static void __cdecl TlenFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 		ft->proto->debugLogA("Connection failed - receiving as server");
 		s = TlenP2PListen(ft);
 		if (s != NULL) {
-			HANDLE hEvent;
-			char *nick;
 			ft->s = s;
-			hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+			HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 			ft->hFileEvent = hEvent;
 			ft->currentFile = 0;
 			ft->state = FT_CONNECTING;
-			nick = TlenNickFromJID(ft->jid);
+			char *nick = TlenNickFromJID(ft->jid);
 			TlenSend(ft->proto, "<f t='%s' i='%s' e='7' a='%s' p='%d'/>", nick, ft->iqId, ft->localName, ft->wLocalPort);
 			mir_free(nick);
 			ft->proto->debugLogA("Waiting for the file to be received...");
@@ -235,8 +228,7 @@ static void __cdecl TlenFileReceiveThread(TLEN_FILE_TRANSFER *ft)
 	if (ft->state == FT_DONE)
 		ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
 	else {
-		char *nick;
-		nick = TlenNickFromJID(ft->jid);
+		char *nick = TlenNickFromJID(ft->jid);
 		TlenSend(ft->proto, "<f t='%s' i='%s' e='8'/>", nick, ft->iqId);
 		mir_free(nick);
 		ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft, 0);
@@ -254,7 +246,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 	char *p, *t;
 	int currentFile, numRead;
 	char *fileBuffer;
-	TLEN_FILE_PACKET *rpacket, *packet;
+	TLEN_FILE_PACKET *packet;
 
 
 	if (ft->state == FT_CONNECTING) {
@@ -291,7 +283,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 		}
 	}
 	else if (ft->state == FT_INITIALIZING) {	// FT_INITIALIZING
-		rpacket = TlenP2PPacketReceive(ft->s);
+		TLEN_FILE_PACKET *rpacket = TlenP2PPacketReceive(ft->s);
 		ft->proto->debugLogA("FT_INITIALIZING: recv %d", rpacket);
 		if (rpacket == NULL) {
 			ft->state = FT_ERROR;
@@ -301,7 +293,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 		p = rpacket->packet;
 		// TYPE: TLEN_FILE_PACKET_FILE_LIST_ACK	will be ignored
 		// LEN: 0
-		if (rpacket->type == TLEN_FILE_PACKET_FILE_LIST_ACK) {
+		/*if (rpacket->type == TLEN_FILE_PACKET_FILE_LIST_ACK) {
 
 		}
 		// Then the receiver will request each file
@@ -310,7 +302,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 		// (DWORD) file number
 		// (DWORD) 0
 		// (DWORD) 0
-		else if (rpacket->type == TLEN_FILE_PACKET_FILE_REQUEST) {
+		else */if (rpacket->type == TLEN_FILE_PACKET_FILE_REQUEST) {
 			PROTOFILETRANSFERSTATUS pfts;
 			//struct _stat statbuf;
 
@@ -388,6 +380,7 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 			TlenP2PPacketFree(rpacket);
 		}
 		else {
+			TlenP2PPacketFree(rpacket);
 			ft->state = FT_ERROR;
 		}
 	}
@@ -396,10 +389,9 @@ static void TlenFileSendParse(TLEN_FILE_TRANSFER *ft)
 static void TlenFileSendingConnection(HANDLE hConnection, DWORD dwRemoteIP, void * pExtra)
 {
 	HANDLE slisten;
-	TLEN_FILE_TRANSFER *ft;
 	TlenProtocol *proto = (TlenProtocol *)pExtra;
 
-	ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
+	TLEN_FILE_TRANSFER *ft = TlenP2PEstablishIncomingConnection(proto, hConnection, LIST_FILE, TRUE);
 	if (ft != NULL) {
 		slisten = ft->s;
 		ft->s = hConnection;
@@ -428,12 +420,12 @@ static void TlenFileSendingConnection(HANDLE hConnection, DWORD dwRemoteIP, void
 
 int TlenFileCancelAll(TlenProtocol *proto)
 {
-	TLEN_LIST_ITEM *item;
 	HANDLE hEvent;
 	int i = 0;
 
 	while ((i=TlenListFindNext(proto, LIST_FILE, 0)) >=0 ) {
-		if ((item=TlenListGetItemPtrFromIndex(proto, i)) != NULL) {
+		TLEN_LIST_ITEM *item = TlenListGetItemPtrFromIndex(proto, i);
+		if (item != NULL) {
 			TLEN_FILE_TRANSFER *ft = item->ft;
 			TlenListRemoveByIndex(proto, i);
 			if (ft != NULL) {
@@ -460,21 +452,19 @@ int TlenFileCancelAll(TlenProtocol *proto)
 
 static void __cdecl TlenFileSendingThread(TLEN_FILE_TRANSFER *ft)
 {
-	HANDLE s = NULL;
-	HANDLE hEvent;
 	char *nick;
 
 	ft->proto->debugLogA("Thread started: type=tlen_file_send");
 	ft->mode = FT_SEND;
 	ft->pfnNewConnectionV2 = TlenFileSendingConnection;
-	s = TlenP2PListen(ft);
+	HANDLE s = TlenP2PListen(ft);
 	if (s != NULL) {
 		ProtoBroadcastAck(ft->proto->m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_CONNECTING, ft, 0);
 		ft->s = s;
 		//TlenLog("ft->s = %d", s);
 		//TlenLog("fileCount = %d", ft->fileCount);
 
-		hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+		HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		ft->hFileEvent = hEvent;
 		ft->currentFile = 0;
 		ft->state = FT_CONNECTING;
@@ -544,8 +534,7 @@ static void __cdecl TlenFileSendingThread(TLEN_FILE_TRANSFER *ft)
 
 
 TLEN_FILE_TRANSFER *TlenFileCreateFT(TlenProtocol *proto, const char *jid) {
-	TLEN_FILE_TRANSFER *ft;
-	ft = (TLEN_FILE_TRANSFER *) mir_alloc(sizeof(TLEN_FILE_TRANSFER));
+	TLEN_FILE_TRANSFER *ft = (TLEN_FILE_TRANSFER *) mir_alloc(sizeof(TLEN_FILE_TRANSFER));
 	memset(ft, 0, sizeof(TLEN_FILE_TRANSFER));
 	ft->proto = proto;
 	ft->jid = mir_strdup(jid);
@@ -558,8 +547,7 @@ TLEN_FILE_TRANSFER *TlenFileCreateFT(TlenProtocol *proto, const char *jid) {
  */
 void TlenProcessF(XmlNode *node, ThreadData *info)
 {
-	TLEN_FILE_TRANSFER *ft;
-	char *from, *p, *e;
+	char *p;
 	char jid[128], szFilename[MAX_PATH];
 	int numFiles;
 	TLEN_LIST_ITEM *item;
@@ -567,18 +555,18 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 //	if (!node->name || strcmp(node->name, "f")) return;
 	if (info == NULL) return;
 
-	if ((from=TlenXmlGetAttrValue(node, "f")) != NULL) {
-
+	char *from=TlenXmlGetAttrValue(node, "f");
+	if (from != NULL) {
 		if (strchr(from, '@') == NULL) {
 			mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, info->server);
 		} else {
 			strncpy_s(jid, from, _TRUNCATE);
 		}
-		if ((e=TlenXmlGetAttrValue(node, "e")) != NULL) {
-
+		char *e=TlenXmlGetAttrValue(node, "e");
+		if (e != NULL) {
 			if (!strcmp(e, "1")) {
 				// FILE_RECV : e='1' : File transfer request
-				ft = TlenFileCreateFT(info->proto, jid);
+				TLEN_FILE_TRANSFER *ft = TlenFileCreateFT(info->proto, jid);
 				ft->hContact = TlenHContactFromJID(info->proto, jid);
 
 				if ((p=TlenXmlGetAttrValue(node, "i")) != NULL)
@@ -590,7 +578,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 					if (numFiles == 1) {
 						if ((p=TlenXmlGetAttrValue(node, "n")) != NULL) {
 							p = TlenTextDecode(p);
-							strncpy(szFilename, p, sizeof(szFilename));
+							strncpy(szFilename, p, sizeof(szFilename)-1);
 							mir_free(p);
 						} else {
 							strcpy(szFilename, Translate("1 File"));
