@@ -1,4 +1,5 @@
 ﻿[Unable to register with group chat module!]
 [Cannot register window message.]
 [Unable to create mutex!]
+[ERROR: Skype not running / too old / not working!]
 [Skype ID]
