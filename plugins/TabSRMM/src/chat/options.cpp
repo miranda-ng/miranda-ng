@@ -236,10 +236,11 @@ static HTREEITEM InsertBranch(HWND hwndTree, TCHAR* pszDescr, BOOL bExpanded)
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
+	tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 	tvis.item.pszText = TranslateTS(pszDescr);
-	tvis.item.stateMask = (bExpanded ? TVIS_STATEIMAGEMASK | TVIS_EXPANDED : TVIS_STATEIMAGEMASK) | TVIS_BOLD;
-	tvis.item.state = (bExpanded ? INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED : INDEXTOSTATEIMAGEMASK(0)) | TVIS_BOLD;
+	tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
+	tvis.item.state = (bExpanded ? TVIS_EXPANDED : 0) | TVIS_BOLD;
+	tvis.item.iImage = tvis.item.iSelectedImage = (bExpanded ? IMG_GRPOPEN : IMG_GRPCLOSED);
 	return TreeView_InsertItem(hwndTree, &tvis);
 }
 
@@ -248,41 +249,38 @@ static void FillBranch(HWND hwndTree, HTREEITEM hParent, branch_t *branch, int n
 	if (hParent == 0)
 		return;
 
-	TVINSERTSTRUCT tvis;
-	int iState;
+	TVINSERTSTRUCT tvis = { 0 };
 
-	tvis.hParent = hParent;
-	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_TEXT | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
+		tvis.hParent = hParent;
+		tvis.hInsertAfter = TVI_LAST;
+		tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvis.item.pszText = TranslateTS(branch[i].szDescr);
-		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		if (branch[i].iMode)
-			iState = ((M.GetDword(CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) & branch[i].iMode) != 0 ? 3 : 2;
+			tvis.item.iImage = tvis.item.iSelectedImage = ((((M.GetDword(CHAT_MODULE, branch[i].szDBName, defaultval) & branch[i].iMode) & branch[i].iMode) != 0) ? IMG_CHECK : IMG_NOCHECK);
 		else
-			iState = M.GetByte(CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0 ? 3 : 2;
-		tvis.item.state = INDEXTOSTATEIMAGEMASK(iState);
+			tvis.item.iImage = tvis.item.iSelectedImage = ((M.GetByte(CHAT_MODULE, branch[i].szDBName, branch[i].bDefault) != 0) ? IMG_CHECK : IMG_NOCHECK);
 		branch[i].hItem = TreeView_InsertItem(hwndTree, &tvis);
 	}
 }
 
 static void SaveBranch(HWND hwndTree, branch_t *branch, int nValues)
 {
-	TVITEM tvi;
+	TVITEM tvi = { 0 };
 	BYTE bChecked;
-	int iState = 0;
+	DWORD iState = 0;
 
-	tvi.mask = TVIF_HANDLE | TVIF_STATE;
 	for (int i = 0; i < nValues; i++) {
+		tvi.mask = TVIF_HANDLE | TVIF_IMAGE;
 		tvi.hItem = branch[i].hItem;
 		TreeView_GetItem(hwndTree, &tvi);
-		bChecked = ((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2) ? 0 : 1;
+		bChecked = ((tvi.iImage == IMG_CHECK) ? 1 : 0);
 		if (branch[i].iMode) {
 			if (bChecked)
 				iState |= branch[i].iMode;
 			if (iState & GC_EVENT_ADDSTATUS)
 				iState |= GC_EVENT_REMOVESTATUS;
-			db_set_dw(0, CHAT_MODULE, branch[i].szDBName, (DWORD)iState);
+			db_set_dw(0, CHAT_MODULE, branch[i].szDBName, iState);
 		}
 		else db_set_b(0, CHAT_MODULE, branch[i].szDBName, bChecked);
 	}
@@ -399,10 +397,10 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			HIMAGELIST himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CHECKBOXES, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
-			ImageList_Destroy(himlOptions);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHECKBOXES), GWL_STYLE) | (TVS_NOHSCROLL));
+			/* Replace image list, destroy old. */
+			ImageList_Destroy(TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_CHECKBOXES), CreateStateImageList(), TVSIL_NORMAL));
 
 			hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance and functionality of chat room windows"), TRUE);
 			hListHeading2 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance of the message log"), TRUE);
@@ -429,41 +427,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_CHECKBOXES:
-			if (((LPNMHDR)lParam)->code == NM_CLICK || (((LPNMHDR)lParam)->code == TVN_KEYDOWN && ((LPNMTVKEYDOWN)lParam)->wVKey == VK_SPACE)) {
-				TVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-				if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti) || ((LPNMHDR)lParam)->code == TVN_KEYDOWN) {
-					if (((LPNMHDR)lParam)->code == TVN_KEYDOWN)
-						hti.flags |= TVHT_ONITEMSTATEICON;
-					if (hti.flags&TVHT_ONITEMSTATEICON) {
-						TVITEM tvi = { 0 };
-
-						tvi.mask = TVIF_HANDLE | TVIF_STATE;
-						tvi.stateMask = TVIS_STATEIMAGEMASK | TVIS_BOLD;
-
-						if (((LPNMHDR)lParam)->code == TVN_KEYDOWN)
-							tvi.hItem = TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom);
-						else
-							tvi.hItem = (HTREEITEM)hti.hItem;
-
-						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-
-						if (tvi.state & TVIS_BOLD && hti.flags & TVHT_ONITEMSTATEICON) {
-							tvi.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_BOLD;
-							SendDlgItemMessageA(hwndDlg, IDC_CHECKBOXES, TVM_SETITEMA, 0, (LPARAM)&tvi);
-						}
-						else if (hti.flags&TVHT_ONITEMSTATEICON) {
-							if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12) == 3) {
-								tvi.state = INDEXTOSTATEIMAGEMASK(1);
-								SendDlgItemMessageA(hwndDlg, IDC_CHECKBOXES, TVM_SETITEMA, 0, (LPARAM)&tvi);
-							}
-						}
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-				}
-			}
+			return TreeViewHandleClick(hwndDlg, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
 			break;
 
 		case 0:
@@ -502,6 +466,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 		db_set_b(0, CHAT_MODULE, "Branch1Exp", b);
 		b = TreeView_GetItemState(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch2Exp", b);
+		TreeViewDestroy(GetDlgItem(hwndDlg, IDC_CHECKBOXES));
 	}
 	return FALSE;
 }
