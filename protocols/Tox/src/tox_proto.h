@@ -113,6 +113,8 @@ private:
 
 	// options
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK NodesOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);

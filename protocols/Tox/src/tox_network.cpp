@@ -8,23 +8,25 @@ bool CToxProto::IsOnline()
 int CToxProto::BootstrapNodesFromDb(bool isIPv6)
 {
 	int nodesLoaded = 0;
-	int nodeCount = db_get_w(NULL, MODULE, TOX_SETTINGS_NODE_COUNT, 0);
+	char module[MAX_PATH];
+	mir_snprintf(module, SIZEOF(module), "%s_NODES", m_szModuleName);
+	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
 	if (nodeCount > 0)
 	{
 		char setting[MAX_PATH];
 		for (int i = 0; i < nodeCount; i++)
 		{
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV4, i);
-			ptrA address(db_get_sa(NULL, MODULE, setting));
+			ptrA address(db_get_sa(NULL, module, setting));
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
-			int port = db_get_w(NULL, MODULE, setting, 33445);
+			int port = db_get_w(NULL, module, setting, 33445);
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
-			ptrA pubKey(db_get_sa(NULL, MODULE, setting));
+			ptrA pubKey(db_get_sa(NULL, module, setting));
 			nodesLoaded += tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
 			if (isIPv6)
 			{
 				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i);
-				address = db_get_sa(NULL, MODULE, setting);
+				address = db_get_sa(NULL, module, setting);
 				nodesLoaded += tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
 			}
 		}
@@ -125,7 +127,7 @@ void CToxProto::CheckConnection(int &retriesCount)
 	}
 	else
 	{
-		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES - 10)
+		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES - 20)
 		{
 			debugLogA("CToxProto::CheckConnection: lost connection with DHT");
 			retriesCount--;

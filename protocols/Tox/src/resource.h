@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by d:\Miranda_orig\protocols\Tox\res\resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\Tox\res\resource.rc
 //
 #define IDD_USER_INFO                   101
 #define IDD_PASSWORD                    102
@@ -33,7 +33,6 @@
 #define IDC_COMBO_AUDIOOUTPUT           1022
 #define IDC_AUDIOFILTER                 1023
 #define IDC_COMBO_VIDEOINPUT            1024
-
 
 // Next default values for new objects
 // 
