@@ -129,14 +129,14 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 
 void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 {
-	XmlNode *queryNode;
-	char *type;
 	char *str;
 
 	// RECVED: roster information
 	// ACTION: populate LIST_ROSTER and create contact for any new rosters
-	if ((type=TlenXmlGetAttrValue(iqNode, "type")) == NULL) return;
-	if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;
+	char *type=TlenXmlGetAttrValue(iqNode, "type");
+	if (type == NULL) return;
+	XmlNode *queryNode=TlenXmlGetChild(iqNode, "query");
+	if (queryNode == NULL) return;
 
 	if (!strcmp(type, "result")) {
 		str = TlenXmlGetAttrValue(queryNode, "xmlns");
@@ -238,22 +238,24 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 // Tlen actually use jabber:iq:search for other users vCard or jabber:iq:register for own vCard
 void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 {
-	XmlNode *queryNode, *itemNode, *n;
-	char *type, *jid;
+	char *jid;
 	char text[128];
 	MCONTACT hContact;
 	char *nText;
 
 //	TlenLog("<iq/> iqIdGetVcard (tlen)");
-	if ((type=TlenXmlGetAttrValue(iqNode, "type")) == NULL) return;
+	char *type=TlenXmlGetAttrValue(iqNode, "type");
+	if (type == NULL) return;
 
 	if (!strcmp(type, "result")) {
 		BOOL hasFirst, hasLast, hasNick, hasEmail, hasCity, hasAge, hasGender, hasSchool, hasLookFor, hasOccupation;
 		DBVARIANT dbv;
 		int i;
 
-		if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;
-		if ((itemNode=TlenXmlGetChild(queryNode, "item")) == NULL) return;
+		XmlNode *queryNode=TlenXmlGetChild(iqNode, "query");
+		if (queryNode == NULL) return;
+		XmlNode *itemNode=TlenXmlGetChild(queryNode, "item");
+		if (itemNode == NULL) return;
 		if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
 			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) return;
 			if (strchr(jid, '@') != NULL) {
@@ -275,7 +277,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 		}
 		hasFirst = hasLast = hasNick = hasEmail = hasCity = hasAge = hasGender = hasOccupation = hasLookFor = hasSchool = FALSE;
 		for (i=0; i<itemNode->numChild; i++) {
-			n = itemNode->child[i];
+			XmlNode *n = itemNode->child[i];
 			if (n == NULL || n->name == NULL) continue;
 			if (!strcmp(n->name, "first")) {
 				if (n->text != NULL) {
@@ -398,16 +400,19 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 void TlenIqResultSearch(TlenProtocol *proto, XmlNode *iqNode)
 {
 	XmlNode *queryNode, *itemNode, *n;
-	char *type, *jid, *str;
-	int id, i, found;
+	char *jid;
+	int i, found = 0;
 	TLEN_SEARCH_RESULT jsr = {0};
 	DBVARIANT dbv = {0};
 
-	found = 0;
 //	TlenLog("<iq/> iqIdGetSearch");
-	if ((type=TlenXmlGetAttrValue(iqNode, "type")) == NULL) return;
-	if ((str=TlenXmlGetAttrValue(iqNode, "id")) == NULL) return;
-	id = atoi(str+strlen(TLEN_IQID));
+	char *type = TlenXmlGetAttrValue(iqNode, "type");
+	if (type == NULL)
+		return;
+	char *str = TlenXmlGetAttrValue(iqNode, "id");
+	if (str == NULL)
+		return;
+	int id = atoi(str+strlen(TLEN_IQID));
 
 	if (!strcmp(type, "result")) {
 		if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;
@@ -520,9 +525,9 @@ void GetConfigItem(XmlNode *node, char *dest, BOOL bMethod, int *methodDest) {
 void TlenIqResultTcfg(TlenProtocol *proto, XmlNode *iqNode)
 {
 	XmlNode *queryNode, *miniMailNode, *node;
-	char *type;
 
-	if ((type=TlenXmlGetAttrValue(iqNode, "type")) == NULL) return;
+	char *type=TlenXmlGetAttrValue(iqNode, "type");
+	if (type == NULL) return;
 	if (!strcmp(type, "result")) {
 		if ((queryNode=TlenXmlGetChild(iqNode, "query")) == NULL) return;
 		if ((miniMailNode=TlenXmlGetChild(queryNode, "mini-mail")) == NULL) return;
@@ -557,11 +562,10 @@ void TlenIqResultVersion(TlenProtocol *proto, XmlNode *iqNode)
 {
 	XmlNode *queryNode = TlenXmlGetChild(iqNode, "query");
 	if (queryNode != NULL) {
-		char* from;
-		if (( from=TlenXmlGetAttrValue( iqNode, "from" )) != NULL ) {
-			TLEN_LIST_ITEM *item;
-			if (( item=TlenListGetItemPtr( proto, LIST_ROSTER, from )) != NULL) {
-				MCONTACT hContact;
+		char *from = TlenXmlGetAttrValue(iqNode, "from");
+		if (from != NULL ) {
+			TLEN_LIST_ITEM *item = TlenListGetItemPtr(proto, LIST_ROSTER, from);
+			if (item != NULL) {
 				XmlNode *n;
 				if ( item->software ) mir_free( item->software );
 				if ( item->version ) mir_free( item->version );
@@ -578,7 +582,8 @@ void TlenIqResultVersion(TlenProtocol *proto, XmlNode *iqNode)
 					item->system = TlenTextDecode( n->text );
 				else
 					item->system = NULL;
-				if (( hContact=TlenHContactFromJID(proto, item->jid )) != NULL ) {
+				MCONTACT hContact = TlenHContactFromJID(proto, item->jid);
+				if (hContact != NULL) {
 					if (item->software != NULL) {
 						db_set_s(hContact, proto->m_szModuleName, "MirVer", item->software);
 					} else {
@@ -594,14 +599,14 @@ void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode)
 {
 	XmlNode *queryNode = TlenXmlGetChild(iqNode, "query");
 	if (queryNode != NULL) {
-		char* from;
-		if (( from=TlenXmlGetAttrValue( queryNode, "from" )) != NULL ) {
+		char *from=TlenXmlGetAttrValue(queryNode, "from");
+		if (from != NULL ) {
 			TLEN_LIST_ITEM *item;
 			if (( item=TlenListGetItemPtr( proto, LIST_ROSTER, from )) != NULL) {
-				MCONTACT hContact;
 				XmlNode *version = TlenXmlGetChild(queryNode, "version");
 				item->protocolVersion = TlenTextDecode(version->text);
-				if (( hContact=TlenHContactFromJID(proto, item->jid )) != NULL ) {
+				MCONTACT hContact=TlenHContactFromJID(proto, item->jid);
+				if (hContact != NULL) {
 					if (item->software == NULL) {
 						char str[128];
 						mir_snprintf(str, SIZEOF(str), "Tlen Protocol %s", item->protocolVersion);
