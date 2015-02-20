@@ -559,6 +559,7 @@ private:
 
 	bool	m_prevError,
 		m_bOnline,
+		m_bNeedSendOnline,
 		m_bHideChats,
 		m_bMesAsUnread,
 		m_bUseLocalTime,
