@@ -247,3 +247,7 @@ Skype Прокси
 Мужчина
 [FEMALE]
 Женщина
+[Unable to create mutex!]
+Не удаётся создать мьютекс!
+[ERROR: Skype not running / too old / not working!]
+Ошибка: Skype не запущен, устарел или не работает!
