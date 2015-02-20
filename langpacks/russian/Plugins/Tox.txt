@@ -7,6 +7,16 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
+[Multimedia]
+Мультимедия
+[Audio input device]
+Устройство аудиовхода
+[Audio output device]
+Устройство аудиовыхода
+[Filter audio]
+Фильтр аудио
+[Video input device]
+Устройство видеовхода
 [Name:]
 Имя:
 [Password:]
