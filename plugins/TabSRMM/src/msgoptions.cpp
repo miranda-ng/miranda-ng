@@ -28,11 +28,6 @@
 
 #include "commonheaders.h"
 
-#define IMG_NOCHECK	0
-#define IMG_CHECK	1
-#define IMG_GRPOPEN	2
-#define IMG_GRPCLOSED	3
-
 #define DM_GETSTATUSMASK (WM_USER + 10)
 
 struct FontOptionsList
@@ -387,7 +382,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags)
+void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 {
 	TVINSERTSTRUCT tvi = { 0 };
 	TOptionListGroup *lvGroups = CTranslator::getGroupTree(id);
@@ -415,10 +410,25 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags)
 		tvi.item.pszText = TranslateTS(lvItems[i].szName);
 		tvi.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 		tvi.item.lParam = i;
-		if (lvItems[i].uType == LOI_TYPE_FLAG)
-			tvi.item.iImage = tvi.item.iSelectedImage = ((dwFlags & (UINT)lvItems[i].lParam) ? IMG_CHECK : IMG_NOCHECK);
-		else if (lvItems[i].uType == LOI_TYPE_SETTING)
-			tvi.item.iImage = tvi.item.iSelectedImage = (M.GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
+		if (bFromMem == FALSE) {
+			switch (lvItems[i].uType) {
+			case LOI_TYPE_FLAG:
+				tvi.item.iImage = tvi.item.iSelectedImage = ((dwFlags & (UINT)lvItems[i].lParam) ? IMG_CHECK : IMG_NOCHECK);
+				break;
+			case LOI_TYPE_SETTING:
+				tvi.item.iImage = tvi.item.iSelectedImage = (M.GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
+				break;
+			}
+		} else {
+			switch (lvItems[i].uType) {
+			case LOI_TYPE_FLAG:
+				tvi.item.iImage = tvi.item.iSelectedImage = (((*((UINT*)lvItems[i].lParam)) & lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
+				break;
+			case LOI_TYPE_SETTING:
+				tvi.item.iImage = tvi.item.iSelectedImage = ((*((BOOL*)lvItems[i].lParam)) ? IMG_CHECK : IMG_NOCHECK);
+				break;
+			}
+		}
 		lvItems[i].handle = (LRESULT)TreeView_InsertItem(hwndTree, &tvi);
 	}
 
@@ -454,10 +464,24 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
 		item.mask = TVIF_HANDLE | TVIF_IMAGE;
 		item.hItem = (HTREEITEM)lvItems[i].handle;
 		TreeView_GetItem(hwndTree, &item);
-		if (lvItems[i].uType == LOI_TYPE_FLAG && dwFlags != NULL)
-			(*dwFlags) |= (item.iImage == IMG_CHECK) ? lvItems[i].lParam : 0;
-		else if (lvItems[i].uType == LOI_TYPE_SETTING)
-			db_set_b(0, DBPath, (char *)lvItems[i].lParam, (BYTE)((item.iImage == IMG_CHECK) ? 1 : 0)); 
+		
+		switch (lvItems[i].uType) {
+		case LOI_TYPE_FLAG:
+			if (dwFlags != NULL)
+				(*dwFlags) |= (item.iImage == IMG_CHECK) ? lvItems[i].lParam : 0;
+			if (DBPath == NULL) {
+				UINT *tm = (UINT*)lvItems[i].lParam;
+				(*tm) = (item.iImage == IMG_CHECK) ? ((*tm) | lvItems[i].id) : ((*tm) & ~lvItems[i].id);
+			}
+			break;
+		case LOI_TYPE_SETTING:
+			if (DBPath != NULL) {
+				db_set_b(0, DBPath, (char *)lvItems[i].lParam, (BYTE)((item.iImage == IMG_CHECK) ? 1 : 0));
+			} else {
+				(*((BOOL*)lvItems[i].lParam)) = ((item.iImage == IMG_CHECK) ? TRUE : FALSE);
+			}
+			break;
+		}
 	}
 }
 
@@ -507,6 +531,8 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lPar
 		}
 		return TRUE;
 		break;
+	default:
+		return FALSE;
 	}
 
 	item.mask = TVIF_HANDLE | TVIF_IMAGE;
@@ -538,8 +564,9 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lPar
 	if (item.mask & TVIF_STATE) {
 		RedrawWindow(hwndTree, NULL, NULL, RDW_INVALIDATE | RDW_NOFRAME | RDW_ERASENOW | RDW_ALLCHILDREN);
 		InvalidateRect(hwndTree, NULL, TRUE);
+	} else {
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 	}
-	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 	return TRUE;
 }
@@ -552,7 +579,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			TreeViewInit(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0);
+			TreeViewInit(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), CTranslator::TREE_MSG, 0, FALSE);
 
 			SetDlgItemInt(hwndDlg, IDC_MAXAVATARHEIGHT, M.GetDword("avatarheight", 100), FALSE);
 			CheckDlgButton(hwndDlg, IDC_PRESERVEAVATARSIZE, M.GetByte("dontscaleavatars", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -648,7 +675,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				break;
 			}
 
-			TreeViewInit(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags);
+			TreeViewInit(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), CTranslator::TREE_LOG, dwFlags, FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
 			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, db_get_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
@@ -980,7 +1007,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		TreeViewInit(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0);
+		TreeViewInit(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), CTranslator::TREE_TAB, 0, FALSE);
 
 		CheckDlgButton(hwndDlg, IDC_CUT_TABTITLE, M.GetByte("cuttitle", 0) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
@@ -1147,7 +1174,7 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		TreeViewInit(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0);
+		TreeViewInit(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0, FALSE);
 
 		SendDlgItemMessage(hwndDlg, IDC_TIMEOUTSPIN, UDM_SETRANGE, 0, MAKELONG(300, SRMSGSET_MSGTIMEOUT_MIN / 1000));
 		SendDlgItemMessage(hwndDlg, IDC_TIMEOUTSPIN, UDM_SETPOS, 0, PluginConfig.m_MsgTimeout / 1000);

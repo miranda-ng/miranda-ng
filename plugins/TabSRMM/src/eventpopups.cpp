@@ -150,9 +150,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		{
-			SetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
-			HIMAGELIST himl = (HIMAGELIST)SendDlgItemMessage(hWnd, IDC_EVENTOPTIONS, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
-			ImageList_Destroy(himl);
+			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, 0, TRUE);
 
 			if (!PluginConfig.g_PopupAvail) {
 				HWND	hwndChild = FindWindowEx(hWnd, 0, 0, 0);
@@ -163,39 +161,6 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_SHOW);
 			}
 			else Utils::showDlgControl(hWnd, IDC_NOPOPUPAVAIL, SW_HIDE);
-
-			/*
-			* fill the tree view
-			*/
-
-			TOptionListGroup *lGroups = CTranslator::getGroupTree(CTranslator::TREE_NEN);
-			for (int i=0; lGroups[i].szName != NULL; i++) {
-				TVINSERTSTRUCT tvi = { 0 };
-				tvi.hInsertAfter = TVI_LAST;
-				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
-				tvi.item.pszText = TranslateTS(lGroups[i].szName);
-				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
-				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
-				lGroups[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hWnd, IDC_EVENTOPTIONS), &tvi);
-			}
-
-			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
-			for (int i=0; defaultItems[i].szName != 0; i++) {
-				TVINSERTSTRUCT tvi = { 0 };
-				tvi.hParent = (HTREEITEM)lGroups[defaultItems[i].uGroup].handle;
-				tvi.hInsertAfter = TVI_LAST;
-				tvi.item.pszText = TranslateTS(defaultItems[i].szName);
-				tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
-				tvi.item.lParam = i;
-				tvi.item.stateMask = TVIS_STATEIMAGEMASK;
-				if (defaultItems[i].uType == LOI_TYPE_SETTING)
-					tvi.item.state = INDEXTOSTATEIMAGEMASK(*((BOOL *)defaultItems[i].lParam) ? 3 : 2);//2 : 1);
-				else if (defaultItems[i].uType == LOI_TYPE_FLAG) {
-					UINT uVal = *((UINT *)defaultItems[i].lParam);
-					tvi.item.state = INDEXTOSTATEIMAGEMASK(uVal & defaultItems[i].id ? 3 : 2);//2 : 1);
-				}
-				defaultItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hWnd, IDC_EVENTOPTIONS), &tvi);
-			}
 
 			SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, options->colBackMsg);
 			SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, options->colTextMsg);
@@ -244,6 +209,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		}
 		return TRUE;
 
+	case WM_DESTROY:
+		TreeViewDestroy(GetDlgItem(hWnd, IDC_LOGOPTIONS));
+		bWmNotify = TRUE;
+		break;
+
+	// configure the option page - hide most of the settings here when either IEView
 	case DM_STATUSMASKSET:
 		db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
 		options->dwStatusMask = (int)lParam;
@@ -321,73 +292,35 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR) lParam)->idFrom == IDC_EVENTOPTIONS && ((LPNMHDR)lParam)->code == NM_CLICK) {
-			TVHITTESTINFO hti;
-			TVITEM item = {0};
-
-			item.mask = TVIF_HANDLE | TVIF_STATE;
-			item.stateMask = TVIS_STATEIMAGEMASK | TVIS_BOLD;
-			hti.pt.x = (short)LOWORD(GetMessagePos());
-			hti.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-			if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
-				item.hItem = (HTREEITEM)hti.hItem;
-				SendDlgItemMessageA(hWnd, IDC_EVENTOPTIONS, TVM_GETITEMA, 0, (LPARAM)&item);
-				if (item.state & TVIS_BOLD && hti.flags & TVHT_ONITEMSTATEICON) {
-					item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_BOLD;
-					SendDlgItemMessageA(hWnd, IDC_EVENTOPTIONS, TVM_SETITEMA, 0, (LPARAM)&item);
-				}
-				else if (hti.flags&TVHT_ONITEMSTATEICON) {
-					if (((item.state & TVIS_STATEIMAGEMASK) >> 12) == 3) {
-						item.state = INDEXTOSTATEIMAGEMASK(1);
-						SendDlgItemMessageA(hWnd, IDC_EVENTOPTIONS, TVM_SETITEMA, 0, (LPARAM)&item);
-					}
-					SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-				}
-			}
-		}
-
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_RESET:
-			NEN_ReadOptions(&nen_options);
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case IDC_EVENTOPTIONS:
+			return TreeViewHandleClick(hWnd, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
 			break;
 
-		case PSN_APPLY:
-			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
-			for (int i=0; defaultItems[i].szName != NULL; i++) {
-				TVITEM item = {0};
-				item.mask = TVIF_HANDLE | TVIF_STATE;
-				item.hItem = (HTREEITEM)defaultItems[i].handle;
-				item.stateMask = TVIS_STATEIMAGEMASK;
+		default:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				NEN_ReadOptions(&nen_options);
+				break;
 
-				SendDlgItemMessageA(hWnd, IDC_EVENTOPTIONS, TVM_GETITEMA, 0, (LPARAM)&item);
-				if (defaultItems[i].uType == LOI_TYPE_SETTING) {
-					BOOL *ptr = (BOOL *)defaultItems[i].lParam;
-					*ptr = (item.state >> 12) == 3/*2*/ ? TRUE : FALSE;
-				}
-				else if (defaultItems[i].uType == LOI_TYPE_FLAG) {
-					UINT *uVal = (UINT *)defaultItems[i].lParam;
-					*uVal = ((item.state >> 12) == 3/*2*/) ? *uVal | defaultItems[i].id : *uVal & ~defaultItems[i].id;
-				}
+			case PSN_APPLY:
+				// scan the tree view and obtain the options...
+				TreeViewToDB(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, NULL, NULL);
+
+				db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
+				db_set_w(NULL, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
+
+				g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
+				db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
+				g_Settings.crPUTextColour = SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
+				db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)g_Settings.crPUTextColour);
+
+				NEN_WriteOptions(&nen_options);
+				CheckForRemoveMask();
+				CreateSystrayIcon(nen_options.bTraySupport);
+				SetEvent(g_hEvent); // wake up the thread which cares about the floater and tray
 			}
-
-			db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
-			db_set_w(NULL, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
-
-			g_Settings.crPUBkgColour = SendDlgItemMessage(hWnd, IDC_COLBACK_MUC, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)g_Settings.crPUBkgColour);
-			g_Settings.crPUTextColour = SendDlgItemMessage(hWnd, IDC_COLTEXT_MUC, CPM_GETCOLOUR, 0, 0);
-			db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)g_Settings.crPUTextColour);
-
-			NEN_WriteOptions(&nen_options);
-			CheckForRemoveMask();
-			CreateSystrayIcon(nen_options.bTraySupport);
-			SetEvent(g_hEvent);                                 // wake up the thread which cares about the floater and tray
 		}
-		break;
-
-	case WM_DESTROY:
-		bWmNotify = TRUE;
 		break;
 	}
 
