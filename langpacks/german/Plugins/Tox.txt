@@ -30,6 +30,16 @@ UDP deaktivieren (zwingt Tox, TCP zu verwenden)
 IPv6 deaktivieren
 [Tox]
 
+[Multimedia]
+
+[Audio input device]
+
+[Audio output device]
+
+[Filter audio]
+
+[Video input device]
+
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
