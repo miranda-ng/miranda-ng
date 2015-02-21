@@ -843,6 +843,8 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
+static TCHAR tszRtfBreaks[] = _T(" \\\n\r");
+
 BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 {
 	if (pszText.IsEmpty())
@@ -860,7 +862,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 	if (idx == -1)
 		return FALSE;
 
-	bool bInsideColor = false;
+	bool bInsideColor = false, bInsideUl = false;
 	CMString res;
 
 	// iterate through all characters, if rtf control character found then take action
@@ -920,10 +922,15 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 			}
 			else if (!_tcsncmp(p, _T("\\ul"), 3)) { // underlined
 				if (!lf.lfUnderline && dat->SendFormat) {
-					if (p[3] == '0')
+					if (p[3] == 0 || _tcschr(tszRtfBreaks, p[3])) {
 						res.Append(_T("[u]"));
-					else if (p[3] == '1')
-						res.Append(_T("[/u]"));
+						bInsideUl = true;
+					}
+					else if (!_tcsnccmp(p + 3, _T("none"), 4)) {
+						if (bInsideUl)
+							res.Append(_T("[/u]"));
+						bInsideUl = false;
+					}
 				}
 			}
 			else if (!_tcsncmp(p, _T("\\tab"), 4)) { // tab
@@ -955,7 +962,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 			}
 
 			p++; // skip initial slash
-			p += _tcscspn(p, _T(" \\\n\r"));
+			p += _tcscspn(p, tszRtfBreaks);
 			if (*p == ' ')
 				p++;
 			break;
