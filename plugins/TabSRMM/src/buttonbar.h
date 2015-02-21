@@ -30,7 +30,7 @@ struct CustomButtonData : public MZeroedObject
 
 	int    iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
 	HANDLE hIcon;         // Handle to icolib registred icon
-	
+
 	bool   bIMButton, bChatButton;
 	bool   bCanBeHidden, bHidden, bAutoHidden, bSeparator, bDisabled, bPushButton;
 	bool   bLSided, bRSided;

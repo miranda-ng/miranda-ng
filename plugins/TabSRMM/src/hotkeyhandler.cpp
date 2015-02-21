@@ -40,24 +40,24 @@ static UINT 	WM_TASKBARCREATED;
 static HANDLE 	hSvcHotkeyProcessor = 0;
 
 static HOTKEYDESC _hotkeydescs[] = {
-	{ 0, "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, MS_TABMSG_HOTKEYPROCESS, HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'R'), TABSRMM_HK_LASTUNREAD },
-	{ 0, "tabsrmm_paste_and_send", LPGEN("Paste and send"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'D'), TABSRMM_HK_PASTEANDSEND },
-	{ 0, "tabsrmm_uprefs", LPGEN("Contact's messaging preferences"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'C'), TABSRMM_HK_SETUSERPREFS },
+	{ 0, "tabsrmm_mostrecent", LPGEN("Most recent unread session"), TABSRMM_HK_SECTION_IM, MS_TABMSG_HOTKEYPROCESS, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'R'), TABSRMM_HK_LASTUNREAD },
+	{ 0, "tabsrmm_paste_and_send", LPGEN("Paste and send"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'D'), TABSRMM_HK_PASTEANDSEND },
+	{ 0, "tabsrmm_uprefs", LPGEN("Contact's messaging preferences"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C'), TABSRMM_HK_SETUSERPREFS },
 	{ 0, "tabsrmm_copts", LPGEN("Container options"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'O'), TABSRMM_HK_CONTAINEROPTIONS },
 	{ 0, "tabsrmm_nudge", LPGEN("Send nudge"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'N'), TABSRMM_HK_NUDGE },
 	{ 0, "tabsrmm_sendfile", LPGEN("Send a file"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'F'), TABSRMM_HK_SENDFILE },
 	{ 0, "tabsrmm_quote", LPGEN("Quote message"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'Q'), TABSRMM_HK_QUOTEMSG },
-	{ 0, "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'S'), TABSRMM_HK_TOGGLESENDLATER },
+	{ 0, "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S'), TABSRMM_HK_TOGGLESENDLATER },
 
 	{ 0, "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, 0, 0, TABSRMM_HK_SEND },
 	{ 0, "tabsrmm_emot", LPGEN("Smiley selector"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'E'), TABSRMM_HK_EMOTICONS },
 	{ 0, "tabsrmm_hist", LPGEN("Show message history"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT, 'H'), TABSRMM_HK_HISTORY },
 	{ 0, "tabsrmm_umenu", LPGEN("Show user menu"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'D'), TABSRMM_HK_USERMENU },
 	{ 0, "tabsrmm_udet", LPGEN("Show user details"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT, 'U'), TABSRMM_HK_USERDETAILS },
-	{ 0, "tabsrmm_tbar", LPGEN("Toggle toolbar"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_SHIFT, 'T'), TABSRMM_HK_TOGGLETOOLBAR },
-	{ 0, "tabsrmm_ipanel", LPGEN("Toggle info panel"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'I'), TABSRMM_HK_TOGGLEINFOPANEL },
-	{ 0, "tabsrmm_rtl", LPGEN("Toggle text direction"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'B'), TABSRMM_HK_TOGGLERTL },
-	{ 0, "tabsrmm_msend", LPGEN("Toggle multi send"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'M'), TABSRMM_HK_TOGGLEMULTISEND },
+	{ 0, "tabsrmm_tbar", LPGEN("Toggle toolbar"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_SHIFT, 'T'), TABSRMM_HK_TOGGLETOOLBAR },
+	{ 0, "tabsrmm_ipanel", LPGEN("Toggle info panel"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'I'), TABSRMM_HK_TOGGLEINFOPANEL },
+	{ 0, "tabsrmm_rtl", LPGEN("Toggle text direction"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'B'), TABSRMM_HK_TOGGLERTL },
+	{ 0, "tabsrmm_msend", LPGEN("Toggle multi send"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'M'), TABSRMM_HK_TOGGLEMULTISEND },
 	{ 0, "tabsrmm_clearlog", LPGEN("Clear message log"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_CONTROL, 'L'), TABSRMM_HK_CLEARLOG },
 	{ 0, "tabsrmm_notes", LPGEN("Edit user notes"), TABSRMM_HK_SECTION_IM, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_EDITNOTES },
 	{ 0, "tabsrmm_sbar", LPGEN("Collapse side bar"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(0, VK_F9), TABSRMM_HK_TOGGLESIDEBAR },
@@ -65,7 +65,7 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ 0, "tabsrmm_muc_filter", LPGEN("Toggle filter"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'F'), TABSRMM_HK_FILTERTOGGLE },
 	{ 0, "tabsrmm_muc_nick", LPGEN("Toggle nick list"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, 'N'), TABSRMM_HK_LISTTOGGLE },
 	{ 0, "tabsrmm_muc_server_show", LPGEN("Show server window"), TABSRMM_HK_SECTION_GC, 0, HOTKEYCODE(HOTKEYF_SHIFT | HOTKEYF_CONTROL, '1'), TABSRMM_HK_MUC_SHOWSERVER },
-   { 0, "tabsrmm_close_other", LPGEN("Close other tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT|HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
+	{ 0, "tabsrmm_close_other", LPGEN("Close other tabs"), TABSRMM_HK_SECTION_GENERIC, 0, HOTKEYCODE(HOTKEYF_ALT | HOTKEYF_CONTROL, 'W'), TABSRMM_HK_CLOSE_OTHER },
 };
 
 LRESULT ProcessHotkeysByMsgFilter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR ctrlId)
@@ -150,7 +150,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	switch (msg) {
 	case WM_CREATE:
-		for (int i=0; i < SIZEOF(_hotkeydescs); i++) {
+		for (int i = 0; i < SIZEOF(_hotkeydescs); i++) {
 			_hotkeydescs[i].cbSize = sizeof(HOTKEYDESC);
 			Hotkey_Register(&_hotkeydescs[i]);
 		}
@@ -162,202 +162,201 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_HOTKEY:
-		{
-			CLISTEVENT *cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
-			if (cli != NULL) {
-				if (strncmp(cli->pszService, "SRMsg/TypingMessage", strlen(cli->pszService))) {
-					CallService(cli->pszService, 0, (LPARAM)cli);
-					break;
-				}
+	{
+		CLISTEVENT *cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
+		if (cli != NULL) {
+			if (strncmp(cli->pszService, "SRMsg/TypingMessage", strlen(cli->pszService))) {
+				CallService(cli->pszService, 0, (LPARAM)cli);
+				break;
 			}
-			if (wParam == 0xc001)
-				SendMessage(hwndDlg, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);
 		}
-		break;
+		if (wParam == 0xc001)
+			SendMessage(hwndDlg, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);
+	}
+	break;
 
 	// handle the popup menus (session list, favorites, recents...
 	// just draw some icons, nothing more :)
 	case WM_MEASUREITEM:
-		{
-			LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT) lParam;
-			lpmi->itemHeight = 0;
-			lpmi->itemWidth = 6;
-		}
-		return TRUE;
+	{
+		LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT)lParam;
+		lpmi->itemHeight = 0;
+		lpmi->itemWidth = 6;
+	}
+	return TRUE;
 
 	case WM_DRAWITEM:
-		{
-			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
-			TWindowData *dat = 0;
-			if (dis->CtlType == ODT_MENU && (dis->hwndItem == (HWND)PluginConfig.g_hMenuFavorites || dis->hwndItem == (HWND)PluginConfig.g_hMenuRecent)) {
-				HICON hIcon = (HICON)dis->itemData;
+	{
+		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+		TWindowData *dat = 0;
+		if (dis->CtlType == ODT_MENU && (dis->hwndItem == (HWND)PluginConfig.g_hMenuFavorites || dis->hwndItem == (HWND)PluginConfig.g_hMenuRecent)) {
+			HICON hIcon = (HICON)dis->itemData;
 
-				DrawMenuItem(dis, hIcon, 0);
+			DrawMenuItem(dis, hIcon, 0);
+			return TRUE;
+		}
+		else if (dis->CtlType == ODT_MENU) {
+			HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
+			DWORD idle = 0;
+
+			if (hWnd == NULL) {
+				SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
+				hWnd = si ? si->hWnd : 0;
+			}
+
+			if (hWnd)
+				dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+
+			if (dis->itemData >= 0) {
+				HICON hIcon;
+
+				if (dis->itemData > 0)
+					hIcon = dis->itemData & 0x10000000 ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
+				else if (dat != NULL) {
+					hIcon = MY_GetContactIcon(dat, 0);
+					idle = dat->idle;
+				}
+				else hIcon = PluginConfig.g_iconContainer;
+
+				DrawMenuItem(dis, hIcon, idle);
 				return TRUE;
 			}
-			else if (dis->CtlType == ODT_MENU) {
-				HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
-				DWORD idle = 0;
-
-				if (hWnd == NULL) {
-					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
-					hWnd = si ? si->hWnd : 0;
-				}
-
-				if (hWnd)
-					dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-				if (dis->itemData >= 0) {
-					HICON hIcon;
-
-					if (dis->itemData > 0)
-						hIcon = dis->itemData & 0x10000000 ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
-					else if (dat != NULL) {
-						hIcon = MY_GetContactIcon(dat, 0);
-						idle = dat->idle;
-					}
-					else hIcon = PluginConfig.g_iconContainer;
-
-					DrawMenuItem(dis, hIcon, idle);
-					return TRUE;
-				}
-			}
 		}
-		break;
+	}
+	break;
 
 	case DM_TRAYICONNOTIFY:
 		if (wParam == 100 || wParam == 101) {
 			switch (lParam) {
 			case WM_LBUTTONUP:
-				{
-					POINT pt;
-					GetCursorPos(&pt);
-					if (wParam == 100)
-						SetForegroundWindow(hwndDlg);
-					if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
-						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-						HandleMenuEntryFromhContact((MCONTACT)iSelection);
-					}
-					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-
-					if (wParam == 100)
-						PostMessage(hwndDlg, WM_NULL, 0, 0);
+			{
+				POINT pt;
+				GetCursorPos(&pt);
+				if (wParam == 100)
+					SetForegroundWindow(hwndDlg);
+				if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
+					BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+					HandleMenuEntryFromhContact((MCONTACT)iSelection);
 				}
-				break;
+				else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+
+				if (wParam == 100)
+					PostMessage(hwndDlg, WM_NULL, 0, 0);
+			}
+			break;
 
 			case WM_MBUTTONDOWN:
-				{
-					if (wParam == 100)
-						SetForegroundWindow(hwndDlg);
+			{
+				if (wParam == 100)
+					SetForegroundWindow(hwndDlg);
 
-					int iCount = GetMenuItemCount(PluginConfig.g_hMenuTrayUnread);
-					if (iCount > 0) {
-						UINT uid = 0;
-						MENUITEMINFOA mii = {0};
-						mii.fMask = MIIM_DATA;
-						mii.cbSize = sizeof(mii);
-						int i = iCount - 1;
-						do {
-							GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
-							if (mii.dwItemData > 0) {
-								uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
-								HandleMenuEntryFromhContact((MCONTACT)uid);
-								break;
-							}
+				int iCount = GetMenuItemCount(PluginConfig.g_hMenuTrayUnread);
+				if (iCount > 0) {
+					UINT uid = 0;
+					MENUITEMINFOA mii = { 0 };
+					mii.fMask = MIIM_DATA;
+					mii.cbSize = sizeof(mii);
+					int i = iCount - 1;
+					do {
+						GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
+						if (mii.dwItemData > 0) {
+							uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
+							HandleMenuEntryFromhContact((MCONTACT)uid);
+							break;
 						}
-							while (--i >= 0);
+					} while (--i >= 0);
 
-						if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
-							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
-								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-								SetForegroundWindow(pLastActiveContainer->hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
-							}
-							else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
-								SetForegroundWindow(pLastActiveContainer->hwnd);
-								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
-							}
-							else {
-								if (PluginConfig.m_bHideOnClose)
-									ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
-								else
-									SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-							}
+					if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
+						if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
+							SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+							SetForegroundWindow(pLastActiveContainer->hwnd);
+							SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+						}
+						else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
+							SetForegroundWindow(pLastActiveContainer->hwnd);
+							SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+						}
+						else {
+							if (PluginConfig.m_bHideOnClose)
+								ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
+							else
+								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 						}
 					}
-					if (wParam == 100)
-						PostMessage(hwndDlg, WM_NULL, 0, 0);
 				}
-				break;
+				if (wParam == 100)
+					PostMessage(hwndDlg, WM_NULL, 0, 0);
+			}
+			break;
 
 			case WM_RBUTTONUP:
-				{
-					HMENU submenu = PluginConfig.g_hMenuTrayContext;
-					POINT pt;
+			{
+				HMENU submenu = PluginConfig.g_hMenuTrayContext;
+				POINT pt;
 
-					if (wParam == 100)
-						SetForegroundWindow(hwndDlg);
-					GetCursorPos(&pt);
-					CheckMenuItem(submenu, ID_TRAYCONTEXT_DISABLEALLPOPUPS, MF_BYCOMMAND | (nen_options.iDisable ? MF_CHECKED : MF_UNCHECKED));
-					CheckMenuItem(submenu, ID_TRAYCONTEXT_DON40223, MF_BYCOMMAND | (nen_options.iNoSounds ? MF_CHECKED : MF_UNCHECKED));
-					CheckMenuItem(submenu, ID_TRAYCONTEXT_DON, MF_BYCOMMAND | (nen_options.iNoAutoPopup ? MF_CHECKED : MF_UNCHECKED));
-					EnableMenuItem(submenu, ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS, MF_BYCOMMAND | (nen_options.bTraySupport) ? MF_ENABLED : MF_GRAYED);
-					CheckMenuItem(submenu, ID_TRAYCONTEXT_SHOWTHETRAYICON, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_CHECKED : MF_UNCHECKED));
-					BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-					if (iSelection) {
-						MENUITEMINFO mii = {0};
+				if (wParam == 100)
+					SetForegroundWindow(hwndDlg);
+				GetCursorPos(&pt);
+				CheckMenuItem(submenu, ID_TRAYCONTEXT_DISABLEALLPOPUPS, MF_BYCOMMAND | (nen_options.iDisable ? MF_CHECKED : MF_UNCHECKED));
+				CheckMenuItem(submenu, ID_TRAYCONTEXT_DON40223, MF_BYCOMMAND | (nen_options.iNoSounds ? MF_CHECKED : MF_UNCHECKED));
+				CheckMenuItem(submenu, ID_TRAYCONTEXT_DON, MF_BYCOMMAND | (nen_options.iNoAutoPopup ? MF_CHECKED : MF_UNCHECKED));
+				EnableMenuItem(submenu, ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS, MF_BYCOMMAND | (nen_options.bTraySupport) ? MF_ENABLED : MF_GRAYED);
+				CheckMenuItem(submenu, ID_TRAYCONTEXT_SHOWTHETRAYICON, MF_BYCOMMAND | (nen_options.bTraySupport ? MF_CHECKED : MF_UNCHECKED));
+				BOOL iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+				if (iSelection) {
+					MENUITEMINFO mii = { 0 };
 
-						mii.cbSize = sizeof(mii);
-						mii.fMask = MIIM_DATA | MIIM_ID;
-						GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);
-						if (mii.dwItemData != 0)  // this must be an itm of the fav or recent menu
-							HandleMenuEntryFromhContact((MCONTACT)iSelection);
-						else {
-							switch (iSelection) {
-							case ID_TRAYCONTEXT_SHOWTHETRAYICON:
-								nen_options.bTraySupport = !nen_options.bTraySupport;
-								CreateSystrayIcon(nen_options.bTraySupport ? TRUE : FALSE);
-								break;
-							case ID_TRAYCONTEXT_DISABLEALLPOPUPS:
-								nen_options.iDisable ^= 1;
-								break;
-							case ID_TRAYCONTEXT_DON40223:
-								nen_options.iNoSounds ^= 1;
-								break;
-							case ID_TRAYCONTEXT_DON:
-								nen_options.iNoAutoPopup ^= 1;
-								break;
-							case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
-								for (p = pFirstContainer; p; p = p->pNext)
-									ShowWindow(p->hwnd, SW_HIDE);
-								break;
-							case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
-								for (p = pFirstContainer; p; p = p->pNext)
-									ShowWindow(p->hwnd, SW_SHOW);
-								break;
-							case ID_TRAYCONTEXT_BE:
-								nen_options.iDisable = 1;
-								nen_options.iNoSounds = 1;
-								nen_options.iNoAutoPopup = 1;
+					mii.cbSize = sizeof(mii);
+					mii.fMask = MIIM_DATA | MIIM_ID;
+					GetMenuItemInfo(submenu, (UINT_PTR)iSelection, FALSE, &mii);
+					if (mii.dwItemData != 0)  // this must be an itm of the fav or recent menu
+						HandleMenuEntryFromhContact((MCONTACT)iSelection);
+					else {
+						switch (iSelection) {
+						case ID_TRAYCONTEXT_SHOWTHETRAYICON:
+							nen_options.bTraySupport = !nen_options.bTraySupport;
+							CreateSystrayIcon(nen_options.bTraySupport ? TRUE : FALSE);
+							break;
+						case ID_TRAYCONTEXT_DISABLEALLPOPUPS:
+							nen_options.iDisable ^= 1;
+							break;
+						case ID_TRAYCONTEXT_DON40223:
+							nen_options.iNoSounds ^= 1;
+							break;
+						case ID_TRAYCONTEXT_DON:
+							nen_options.iNoAutoPopup ^= 1;
+							break;
+						case ID_TRAYCONTEXT_HIDEALLMESSAGECONTAINERS:
+							for (p = pFirstContainer; p; p = p->pNext)
+								ShowWindow(p->hwnd, SW_HIDE);
+							break;
+						case ID_TRAYCONTEXT_RESTOREALLMESSAGECONTAINERS:
+							for (p = pFirstContainer; p; p = p->pNext)
+								ShowWindow(p->hwnd, SW_SHOW);
+							break;
+						case ID_TRAYCONTEXT_BE:
+							nen_options.iDisable = 1;
+							nen_options.iNoSounds = 1;
+							nen_options.iNoAutoPopup = 1;
 
-								for (p = pFirstContainer; p; p = p->pNext)
-									SendMessage(p->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
-								break;
-							}
+							for (p = pFirstContainer; p; p = p->pNext)
+								SendMessage(p->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 1);
+							break;
 						}
 					}
-					if (wParam == 100)
-						PostMessage(hwndDlg, WM_NULL, 0, 0);
-					break;
 				}
+				if (wParam == 100)
+					PostMessage(hwndDlg, WM_NULL, 0, 0);
+				break;
+			}
 			}
 		}
 		break;
 
-	// handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
-	// is posted to our invisible hotkey handler which does always run within the main thread.
-	// wParam is the hContact
-	// lParam the event handle
+		// handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
+		// is posted to our invisible hotkey handler which does always run within the main thread.
+		// wParam is the hContact
+		// lParam the event handle
 	case DM_HANDLECLISTEVENT:
 		// if lParam == NULL, don't consider clist events, just open the message tab
 		if (lParam == 0)
@@ -376,42 +375,42 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case DM_DOCREATETAB:
-		{
-			HWND hWnd = M.FindWindow(lParam);
-			if (hWnd && IsWindow(hWnd)) {
-				TContainerData *pContainer = 0;
-				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
-					if (iTabs == 1)
-						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
-					else
-						SendMessage(hWnd, WM_CLOSE, 0, 1);
+	{
+		HWND hWnd = M.FindWindow(lParam);
+		if (hWnd && IsWindow(hWnd)) {
+			TContainerData *pContainer = 0;
+			SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+			if (pContainer) {
+				int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
+				if (iTabs == 1)
+					SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
+				else
+					SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-					CreateNewTabForContact((TContainerData*)wParam, lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
-				}
+				CreateNewTabForContact((TContainerData*)wParam, lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
 			}
 		}
-		break;
+	}
+	break;
 
 	case DM_DOCREATETAB_CHAT:
-		{
-			SESSION_INFO *si = SM_FindSessionByHWND((HWND)lParam);
-			if (si && IsWindow(si->hWnd)) {
-				TContainerData *pContainer = 0;
-				SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-				if (pContainer) {
-					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
-					if (iTabs == 1)
-						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
-					else
-						SendMessage(si->hWnd, WM_CLOSE, 0, 1);
+	{
+		SESSION_INFO *si = SM_FindSessionByHWND((HWND)lParam);
+		if (si && IsWindow(si->hWnd)) {
+			TContainerData *pContainer = 0;
+			SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+			if (pContainer) {
+				int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
+				if (iTabs == 1)
+					SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
+				else
+					SendMessage(si->hWnd, WM_CLOSE, 0, 1);
 
-					si->hWnd = CreateNewRoom((TContainerData*)wParam, si, TRUE, 0, 0);
-				}
+				si->hWnd = CreateNewRoom((TContainerData*)wParam, si, TRUE, 0, 0);
 			}
 		}
-		break;
+	}
+	break;
 
 	case DM_SENDMESSAGECOMMANDW:
 		SendMessageCommand_W(wParam, lParam);
@@ -425,60 +424,60 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			mir_free((void*)lParam);
 		return 0;
 
-	// sent from the popup to "dismiss" the event. we should do this in the main thread
+		// sent from the popup to "dismiss" the event. we should do this in the main thread
 	case DM_REMOVECLISTEVENT:
 		CallService(MS_CLIST_REMOVEEVENT, wParam, lParam);
 		db_event_markRead(wParam, lParam);
 		return 0;
 
 	case DM_SETLOCALE:
-		{
-			HKL hkl = (HKL)lParam;
-			MCONTACT hContact = wParam;
+	{
+		HKL hkl = (HKL)lParam;
+		MCONTACT hContact = wParam;
 
-			HWND	hWnd = M.FindWindow(hContact);
-			if (hWnd) {
-				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-				if (dat) {
-					if (hkl) {
-						dat->hkl = hkl;
-						PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);
-					}
+		HWND	hWnd = M.FindWindow(hContact);
+		if (hWnd) {
+			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+			if (dat) {
+				if (hkl) {
+					dat->hkl = hkl;
+					PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);
+				}
 
-					DBVARIANT  dbv;
-					if (0 == db_get_ts(hContact, SRMSGMOD_T, "locale", &dbv)) {
-						GetLocaleID(dat, dbv.ptszVal);
-						db_free(&dbv);
-						UpdateReadChars(dat);
-					}
+				DBVARIANT  dbv;
+				if (0 == db_get_ts(hContact, SRMSGMOD_T, "locale", &dbv)) {
+					GetLocaleID(dat, dbv.ptszVal);
+					db_free(&dbv);
+					UpdateReadChars(dat);
 				}
 			}
 		}
-		return 0;
+	}
+	return 0;
 
 	// react to changes in the desktop composition state
 	// (enable/disable DWM, change to a non-aero visual style
 	// or classic Windows theme
 	case WM_DWMCOMPOSITIONCHANGED:
-		{
-			bool fNewAero = M.getAeroState();					// refresh dwm state
-			SendMessage(hwndDlg, WM_THEMECHANGED, 0, 0);
+	{
+		bool fNewAero = M.getAeroState();					// refresh dwm state
+		SendMessage(hwndDlg, WM_THEMECHANGED, 0, 0);
 
-			for (p = pFirstContainer; p; p = p->pNext) {
-				if (fNewAero)
-					SetAeroMargins(p);
-				else {
-					MARGINS m = {0};
-					if (M.m_pfnDwmExtendFrameIntoClientArea)
-						M.m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
-				}
-				if (p->SideBar->isActive())
-					RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW);			// the container for the sidebar buttons
-				RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE|RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
+		for (p = pFirstContainer; p; p = p->pNext) {
+			if (fNewAero)
+				SetAeroMargins(p);
+			else {
+				MARGINS m = { 0 };
+				if (M.m_pfnDwmExtendFrameIntoClientArea)
+					M.m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
 			}
+			if (p->SideBar->isActive())
+				RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);			// the container for the sidebar buttons
+			RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
-		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
-		break;
+	}
+	M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
+	break;
 
 	// this message is fired when the user changes desktop color
 	// settings (Desktop->personalize)
@@ -490,8 +489,8 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		CSkin::initAeroEffect();
 		break;
 
-	// user has changed the visual style or switched to/from
-	// classic Windows theme
+		// user has changed the visual style or switched to/from
+		// classic Windows theme
 	case WM_THEMECHANGED:
 		M.getAeroState();
 		Skin->setupTabCloseBitmap();
@@ -508,47 +507,47 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case DM_SPLITSENDACK:
-		{
-			SendJob *job = sendQueue->getJobByIndex((int)wParam);
+	{
+		SendJob *job = sendQueue->getJobByIndex((int)wParam);
 
-			ACKDATA ack = {0};
-			ack.hContact = job->hContact;
-			ack.hProcess = job->hSendId;
-			ack.type = ACKTYPE_MESSAGE;
-			ack.result = ACKRESULT_SUCCESS;
+		ACKDATA ack = { 0 };
+		ack.hContact = job->hContact;
+		ack.hProcess = job->hSendId;
+		ack.type = ACKTYPE_MESSAGE;
+		ack.result = ACKRESULT_SUCCESS;
 
-			if (job->hContact && job->iAcksNeeded && job->iStatus == SendQueue::SQ_INPROGRESS) {
-				if (IsWindow(job->hOwnerWnd))
-					::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
-				else
-					sendQueue->ackMessage(0, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
-			}
+		if (job->hContact && job->iAcksNeeded && job->iStatus == SendQueue::SQ_INPROGRESS) {
+			if (IsWindow(job->hOwnerWnd))
+				::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
+			else
+				sendQueue->ackMessage(0, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
 		}
-		return 0;
+	}
+	return 0;
 
 	case DM_LOGSTATUSCHANGE:
 		CGlobals::logStatusChange(wParam, reinterpret_cast<CContactCache *>(lParam));
 		return 0;
 
 	case DM_MUCFLASHWORKER:
-		{
-			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
-			if (1 == wParam) {
-				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
-				p->bActiveTab = TRUE;
-				p->bInactive = FALSE;
-				p->bMustAutoswitch = p->bMustFlash = FALSE;
-			}
-
-			if (2 == wParam) {
-				p->bActiveTab = TRUE;
-				p->bInactive = FALSE;
-				p->bMustAutoswitch = p->bMustFlash = FALSE;
-				SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
-			}
-			DoFlashAndSoundWorker(p);
+	{
+		FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
+		if (1 == wParam) {
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
+			p->bActiveTab = TRUE;
+			p->bInactive = FALSE;
+			p->bMustAutoswitch = p->bMustFlash = FALSE;
 		}
-		return 0;
+
+		if (2 == wParam) {
+			p->bActiveTab = TRUE;
+			p->bInactive = FALSE;
+			p->bMustAutoswitch = p->bMustFlash = FALSE;
+			SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
+		}
+		DoFlashAndSoundWorker(p);
+	}
+	return 0;
 
 	case WM_POWERBROADCAST:
 	case WM_DISPLAYCHANGE:
@@ -561,7 +560,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				p->cachedDC = 0;
 				RedrawWindow(p->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW | RDW_FRAME);
 			}
-			break;
+		break;
 
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) != WA_ACTIVE)
@@ -599,7 +598,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		// TODO better timings, possibly slow down when many jobs are in the
 		// queue.
 		else if (wParam == TIMERID_SENDLATER_TICK) {
-			if ( !sendLater->haveJobs()) {
+			if (!sendLater->haveJobs()) {
 				KillTimer(hwndDlg, wParam);
 				SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, 0);
 				sendLater->qMgrUpdate(true);

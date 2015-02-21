@@ -39,7 +39,7 @@ enum TChatStatusEx
 
 // special service for tweaking performance
 #define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
-typedef INT_PTR (*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);
+typedef INT_PTR(*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);
 typedef struct  {
 	GETEVENTFUNC pfnAddEvent;
 }GCPTRS;

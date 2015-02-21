@@ -46,7 +46,7 @@ void    TSAPI BB_InitDlgButtons(TWindowData *dat);
 
 BOOL    TSAPI BB_SetButtonsPos(TWindowData *dat);
 void    TSAPI BB_RedrawButtons(TWindowData *dat);
-void    TSAPI BB_CustomButtonClick(TWindowData *dat,DWORD idFrom ,HWND hwndFrom, BOOL code) ;
+void    TSAPI BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, BOOL code);
 void    TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam);
 void    TSAPI DM_InitRichEdit(TWindowData *dat);
 LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam);

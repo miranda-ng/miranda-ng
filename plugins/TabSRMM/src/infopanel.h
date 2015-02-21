@@ -64,25 +64,25 @@ class CTip
 {
 public:
 	enum {
-		TOP_BORDER		= 25,
-		LEFT_BORDER		= 2,
-		RIGHT_BORDER	= 2,
-		BOTTOM_BORDER	= 1,
-		LEFT_BAR_WIDTH	= 20
+		TOP_BORDER = 25,
+		LEFT_BORDER = 2,
+		RIGHT_BORDER = 2,
+		BOTTOM_BORDER = 1,
+		LEFT_BAR_WIDTH = 20
 	};
 
-	CTip													(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
+	CTip(const HWND hwndParent, const MCONTACT hContact, const TCHAR *pszText = 0, const CInfoPanel *panel = 0);
 	~CTip()
 	{
 		mir_free(m_pszText);
 	}
-	void						show						(const RECT& rc, POINT& pt, const HICON hIcon = 0, const TCHAR *szTitle = 0);
-	const HWND					getHwnd						() const { return(m_hwnd); }
+	void						show(const RECT& rc, POINT& pt, const HICON hIcon = 0, const TCHAR *szTitle = 0);
+	const HWND					getHwnd() const { return(m_hwnd); }
 
-	static void					registerClass				();
+	static void					registerClass();
 private:
 
-	       INT_PTR CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	INT_PTR CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK WndProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -114,14 +114,14 @@ public:
 		LEFT_OFFSET_LOGO = 3
 	};
 	enum {
-		HOVER_NICK   = 1,
+		HOVER_NICK = 1,
 		HOVER_STATUS = 2,
-		HOVER_UIN    = 4
+		HOVER_UIN = 4
 	};
 	enum {
-		HTNICK    = 1,
-		HTUIN     = 2,
-		HTSTATUS  = 3,
+		HTNICK = 1,
+		HTUIN = 2,
+		HTSTATUS = 3,
 		HTNIRVANA = 0
 	};
 
@@ -197,10 +197,10 @@ private:
 	TWindowData *m_dat;         // this one OWNS us...
 	LONG  m_height;             // height (determined by position of IDC_PANELSPLITTER)
 	LONG  m_defaultHeight,
-	      m_defaultMUCHeight;   // global values for the info bar height
+		m_defaultMUCHeight;   // global values for the info bar height
 	HWND  m_hwndConfig;         // window handle of the config dialog window
 	HFONT m_configDlgFont,
-	      m_configDlgBoldFont;
+		m_configDlgBoldFont;
 	SIZE  m_szNick;             // rectangle where the nick has been rendered,
 	/*
 	 * these are used to store rectangles important to mouse tracking.

@@ -51,17 +51,17 @@ int              CGlobals::m_exLine = 0;
 bool             CGlobals::m_exAllowContinue = false;
 
 #if defined(_WIN64)
-	static char szCurrentVersion[30];
-	static char *szVersionUrl = "http://download.miranda.or.at/tabsrmm/3/version.txt";
-	static char *szUpdateUrl = "http://miranda-ng.org/distr/x64/Plugins/tabsrmm.zip";
-	static char *szFLVersionUrl = "http://miranda-ng.org/";
-	static char *szFLUpdateurl = "http://miranda-ng.org/";
+static char szCurrentVersion[30];
+static char *szVersionUrl = "http://download.miranda.or.at/tabsrmm/3/version.txt";
+static char *szUpdateUrl = "http://miranda-ng.org/distr/x64/Plugins/tabsrmm.zip";
+static char *szFLVersionUrl = "http://miranda-ng.org/";
+static char *szFLUpdateurl = "http://miranda-ng.org/";
 #else
-	static char szCurrentVersion[30];
-	static char *szVersionUrl = "http://download.miranda.or.at/tabsrmm/3/version.txt";
-	static char *szUpdateUrl = "http://miranda-ng.org/distr/x32/Plugins/tabsrmm.zip";
-	static char *szFLVersionUrl = "http://miranda-ng.org/";
-	static char *szFLUpdateurl =  "http://miranda-ng.org/";
+static char szCurrentVersion[30];
+static char *szVersionUrl = "http://download.miranda.or.at/tabsrmm/3/version.txt";
+static char *szUpdateUrl = "http://miranda-ng.org/distr/x32/Plugins/tabsrmm.zip";
+static char *szFLVersionUrl = "http://miranda-ng.org/";
+static char *szFLUpdateurl = "http://miranda-ng.org/";
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -83,11 +83,11 @@ void CGlobals::reloadSystemStartup()
 	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
 	TranslateMenu(g_hMenuContext);
 
-	SkinAddNewSoundEx("RecvMsgActive",   LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
+	SkinAddNewSoundEx("RecvMsgActive", LPGEN("Instant messages"), LPGEN("Incoming (focused window)"));
 	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (unfocused window)"));
-	SkinAddNewSoundEx("AlertMsg",        LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
-	SkinAddNewSoundEx("SendMsg",         LPGEN("Instant messages"), LPGEN("Outgoing"));
-	SkinAddNewSoundEx("SendError",       LPGEN("Instant messages"), LPGEN("Message send error"));
+	SkinAddNewSoundEx("AlertMsg", LPGEN("Instant messages"), LPGEN("Incoming (new session)"));
+	SkinAddNewSoundEx("SendMsg", LPGEN("Instant messages"), LPGEN("Outgoing"));
+	SkinAddNewSoundEx("SendError", LPGEN("Instant messages"), LPGEN("Message send error"));
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
@@ -263,7 +263,7 @@ void CGlobals::hookSystemEvents()
 	HookEvent(ME_AV_MYAVATARCHANGED, ::MyAvatarChanged);
 }
 
-int CGlobals::TopToolbarLoaded(WPARAM,LPARAM)
+int CGlobals::TopToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);

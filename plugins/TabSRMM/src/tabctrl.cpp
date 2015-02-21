@@ -474,7 +474,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 
 	BITMAPINFO biOut;
 	memset(&biOut, 0, sizeof(BITMAPINFO));	// Fill local pixel arrays
-	
+
 	BITMAPINFOHEADER *bihOut = &biOut.bmiHeader;
 	bihOut->biSize = sizeof(BITMAPINFOHEADER);
 	bihOut->biCompression = BI_RGB;
@@ -925,22 +925,22 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	switch (msg) {
 	case WM_NCCREATE:
-		{
-			WNDCLASSEX wcl = { 0 };
-			wcl.cbSize = sizeof(wcl);
-			GetClassInfoEx(g_hInst, _T("SysTabControl32"), &wcl);
-			OldTabControlClassProc = wcl.lpfnWndProc;
+	{
+		WNDCLASSEX wcl = { 0 };
+		wcl.cbSize = sizeof(wcl);
+		GetClassInfoEx(g_hInst, _T("SysTabControl32"), &wcl);
+		OldTabControlClassProc = wcl.lpfnWndProc;
 
-			tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
-			tabdat->hwnd = hwnd;
-			tabdat->cx = GetSystemMetrics(SM_CXSMICON);
-			tabdat->cy = GetSystemMetrics(SM_CYSMICON);
-			tabdat->fTipActive = FALSE;
-			tabdat->iHoveredCloseIcon = -1;
-			SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
-		}
-		return TRUE;
+		tabdat = (TabControlData*)mir_calloc(sizeof(TabControlData));
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)tabdat);
+		tabdat->hwnd = hwnd;
+		tabdat->cx = GetSystemMetrics(SM_CXSMICON);
+		tabdat->cy = GetSystemMetrics(SM_CYSMICON);
+		tabdat->fTipActive = FALSE;
+		tabdat->iHoveredCloseIcon = -1;
+		SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
+	}
+	return TRUE;
 
 	case EM_THEMECHANGED:
 		tabdat->m_xpad = M.GetByte("x-pad", 3);

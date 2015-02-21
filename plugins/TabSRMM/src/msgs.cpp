@@ -51,7 +51,7 @@ int IEViewOptionsChanged(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // fired event when user changes smileyadd options. Notify all open tabs about the changes
 
-int SmileyAddOptionsChanged(WPARAM,LPARAM)
+int SmileyAddOptionsChanged(WPARAM, LPARAM)
 {
 	M.BroadcastMessage(DM_SMILEYOPTIONSCHANGED, 0, 0);
 	pci->SM_BroadcastMessage(NULL, DM_SMILEYOPTIONSCHANGED, 0, 0, FALSE);
@@ -81,7 +81,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 		return 1;
 
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
-	if(mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
+	if (mwd == NULL || (mwd->cbSize != sizeof(MessageWindowData)))
 		return 1;
 
 	HWND hwnd = M.FindWindow(mwid->hContact);
@@ -506,7 +506,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	int iTabIndex_wanted = M.GetDword(hContact, "tabindex", pContainer->iChilds * 100);
 	int iCount = TabCtrl_GetItemCount(hwndTab);
-	TCITEM item = {0};
+	TCITEM item = { 0 };
 
 	pContainer->iTabIndex = iCount;
 	if (iCount > 0) {
@@ -530,7 +530,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	newData.iTabID = newItem;
 	newData.iTabImage = newData.item.iImage;
 	newData.pContainer = pContainer;
-	newData.iActivate = (int) bActivateTab;
+	newData.iActivate = (int)bActivateTab;
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;

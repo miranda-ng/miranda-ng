@@ -79,42 +79,42 @@ public:
 
 	const int	idToIndex(const int id) const
 	{
-		for (int i=0; i < NR_BUTTONS; i++) {
-			if (m_TbButtons[i].idCommand == id )
+		for (int i = 0; i < NR_BUTTONS; i++) {
+			if (m_TbButtons[i].idCommand == id)
 				return(i);
 		}
 		return -1;
 	}
 public:
 	static   HHOOK   m_hHook;
-   static   HBITMAP m_MimIcon;
+	static   HBITMAP m_MimIcon;
 
 private:
-   HWND     m_hwndToolbar;
-   RECT     m_rcClient;
-   TContainerData *m_pContainer;
-   HMENU    m_activeMenu, m_activeSubMenu;
-   int      m_activeID;
-   bool     m_fTracking;
-   bool     m_isContactMenu;
-   bool     m_isMainMenu;
-   bool     m_isAero;
-   bool     m_mustAutoHide;
-   LONG     m_size_y;
+	HWND     m_hwndToolbar;
+	RECT     m_rcClient;
+	TContainerData *m_pContainer;
+	HMENU    m_activeMenu, m_activeSubMenu;
+	int      m_activeID;
+	bool     m_fTracking;
+	bool     m_isContactMenu;
+	bool     m_isMainMenu;
+	bool     m_isAero;
+	bool     m_mustAutoHide;
+	LONG     m_size_y;
 
-   /*
-    * for custom drawing
-    */
-   RECT     m_rcItem;
-   HDC      m_hdcDraw;
-   HBITMAP  m_hbmDraw, m_hbmOld;
-   HANDLE   m_hTheme;
-   HFONT    m_hOldFont;
+	/*
+	 * for custom drawing
+	 */
+	RECT     m_rcItem;
+	HDC      m_hdcDraw;
+	HBITMAP  m_hbmDraw, m_hbmOld;
+	HANDLE   m_hTheme;
+	HFONT    m_hOldFont;
 
-   static   TBBUTTON m_TbButtons[8];
-   static   bool m_buttonsInit;
-   static   CMenuBar *m_Owner;
-   static   int m_MimIconRefCount;
+	static   TBBUTTON m_TbButtons[8];
+	static   bool m_buttonsInit;
+	static   CMenuBar *m_Owner;
+	static   int m_MimIconRefCount;
 private:
 	LONG_PTR	 customDrawWorker(NMCUSTOMDRAW *nm);
 	void		 updateState(const HMENU hMenu) const;

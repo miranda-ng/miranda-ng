@@ -35,10 +35,10 @@ struct
 }
 static colorPicker[4] =
 {
-	{ IDC_TYPEON_BG,  "ON_BG",  RGB(255,255,255)},
-	{ IDC_TYPEON_TX,  "ON_TX",  RGB(0,0,0)},
-	{ IDC_TYPEOFF_BG, "OFF_BG", RGB(255,255,255)},
-	{ IDC_TYPEOFF_TX, "OFF_TX", RGB(0,0,0)}
+	{ IDC_TYPEON_BG, "ON_BG", RGB(255, 255, 255) },
+	{ IDC_TYPEON_TX, "ON_TX", RGB(0, 0, 0) },
+	{ IDC_TYPEOFF_BG, "OFF_BG", RGB(255, 255, 255) },
+	{ IDC_TYPEOFF_TX, "OFF_TX", RGB(0, 0, 0) }
 };
 
 static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
@@ -238,229 +238,229 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		break;
 
 	case WM_COMMAND:
-		{
-			WORD idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
+	{
+		WORD idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
 
-			if (wNotifyCode == CPN_COLOURCHANGED) {
+		if (wNotifyCode == CPN_COLOURCHANGED) {
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			return TRUE;
+		}
+
+		switch (idCtrl) {
+		case IDC_USEWINCOLORS:
+			if (wNotifyCode == BN_CLICKED) {
+				bool bEnableOthers;
+
+				if (IsDlgButtonChecked(hwndDlg, IDC_USEWINCOLORS)) {
+					newColorMode = COLOR_WINDOWS;
+					bEnableOthers = false;
+				}
+				else {
+					newColorMode = COLOR_OWN;
+					bEnableOthers = true;
+				}
+
+				for (i = 0; i < SIZEOF(colorPicker); i++)
+					Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
+
+				Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, bEnableOthers);
+
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				return TRUE;
 			}
+			break;
 
-			switch (idCtrl) {
-			case IDC_USEWINCOLORS:
-				if (wNotifyCode == BN_CLICKED) {
-					bool bEnableOthers;
+		case IDC_USEPOPUPCOLORS:
+			if (wNotifyCode == BN_CLICKED) {
+				bool bEnableOthers;
 
-					if (IsDlgButtonChecked(hwndDlg, IDC_USEWINCOLORS)) {
-						newColorMode = COLOR_WINDOWS;
-						bEnableOthers = false;
+				if (IsDlgButtonChecked(hwndDlg, IDC_USEPOPUPCOLORS)) {
+					newColorMode = COLOR_POPUP;
+					bEnableOthers = false;
+				}
+				else {
+					newColorMode = COLOR_OWN;
+					bEnableOthers = true;
+				}
+
+				for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
+					Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
+
+				Utils::enableDlgControl(hwndDlg, IDC_USEWINCOLORS, bEnableOthers);
+
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+			break;
+
+		case IDC_ONEPOPUP:
+		case IDC_CLIST:
+		case IDC_DISABLED:
+		case IDC_SHOWMENU:
+		case IDC_START:
+		case IDC_STOP:
+		case IDC_WOCL:
+			if (wNotifyCode == BN_CLICKED)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_PREVIEW:
+			if (PluginConfig.g_bPopupAvail) {
+				POPUPDATAT ppd = { 0 };
+				for (i = 0; i < 2; i++) {
+					int notyping;
+					if (i == PROTOTYPE_CONTACTTYPING_OFF) {
+						_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
+						_tcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
+						notyping = 1;
 					}
 					else {
-						newColorMode = COLOR_OWN;
-						bEnableOthers = true;
+						_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
+						_tcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
+						notyping = 0;
 					}
 
-					for (i = 0; i < SIZEOF(colorPicker); i++)
-						Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
-
-					Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, bEnableOthers);
-
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-			case IDC_USEPOPUPCOLORS:
-				if (wNotifyCode == BN_CLICKED) {
-					bool bEnableOthers;
-
-					if (IsDlgButtonChecked(hwndDlg, IDC_USEPOPUPCOLORS)) {
-						newColorMode = COLOR_POPUP;
-						bEnableOthers = false;
-					}
-					else {
-						newColorMode = COLOR_OWN;
-						bEnableOthers = true;
+					switch (newColorMode) {
+					case COLOR_OWN:
+						ppd.colorText = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
+						ppd.colorBack = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
+						break;
+					case COLOR_WINDOWS:
+						ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+						ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+						break;
+					case COLOR_POPUP:
+					default:
+						ppd.colorBack = ppd.colorText = 0;
+						break;
 					}
 
-					for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
-						Utils::enableDlgControl(hwndDlg, colorPicker[i].res, bEnableOthers);
-
-					Utils::enableDlgControl(hwndDlg, IDC_USEWINCOLORS, bEnableOthers);
-
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				break;
-
-			case IDC_ONEPOPUP:
-			case IDC_CLIST:
-			case IDC_DISABLED:
-			case IDC_SHOWMENU:
-			case IDC_START:
-			case IDC_STOP:
-			case IDC_WOCL:
-				if (wNotifyCode == BN_CLICKED)
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_PREVIEW:
-				if (PluginConfig.g_bPopupAvail) {
-					POPUPDATAT ppd = { 0 };
-					for (i = 0; i < 2; i++) {
-						int notyping;
-						if (i == PROTOTYPE_CONTACTTYPING_OFF) {
-							_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
-							_tcsncpy_s(ppd.lptzText, szStop, _TRUNCATE);
-							notyping = 1;
-						}
-						else {
-							_tcsncpy_s(ppd.lptzContactName, TranslateT("Contact"), _TRUNCATE);
-							_tcsncpy_s(ppd.lptzText, szStart, _TRUNCATE);
-							notyping = 0;
-						}
-
-						switch (newColorMode) {
-						case COLOR_OWN:
-							ppd.colorText = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
-							ppd.colorBack = SendDlgItemMessage(hwndDlg, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
+					if (notyping)
+						switch (newTimeoutMode2) {
+						case TIMEOUT_CUSTOM:
+							ppd.iSeconds = newTimeout2;
 							break;
-						case COLOR_WINDOWS:
-							ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-							ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+						case TIMEOUT_PERMANENT:
+							ppd.iSeconds = -1;
 							break;
-						case COLOR_POPUP:
+						case TIMEOUT_POPUP:
 						default:
-							ppd.colorBack = ppd.colorText = 0;
+							ppd.iSeconds = 0;
 							break;
-						}
-
-						if (notyping)
-							switch (newTimeoutMode2) {
-							case TIMEOUT_CUSTOM:
-								ppd.iSeconds = newTimeout2;
-								break;
-							case TIMEOUT_PERMANENT:
-								ppd.iSeconds = -1;
-								break;
-							case TIMEOUT_POPUP:
-							default:
-								ppd.iSeconds = 0;
-								break;
-						}
-						else
-							switch (newTimeoutMode) {
-							case TIMEOUT_CUSTOM:
-								ppd.iSeconds = newTimeout;
-								break;
-							case TIMEOUT_PROTO:
-								ppd.iSeconds = 10;
-								break;
-							case TIMEOUT_PERMANENT:
-								ppd.iSeconds = -1;
-								break;
-							case TIMEOUT_POPUP:
-							default:
-								ppd.iSeconds = 0;
-								break;
-						}
-
-						ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
-						ppd.lchContact = wParam;
-						ppd.PluginWindowProc = NULL;
-						ppd.PluginData = NULL;
-						PUAddPopupT(&ppd);
 					}
-				}
-				break;
-
-			case IDC_TIMEOUT_POPUP2:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode2 = TIMEOUT_POPUP;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE2, 0);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_CUSTOM2:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode2 = TIMEOUT_CUSTOM;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE2, 1);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_POPUP:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode = TIMEOUT_POPUP;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 0);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_PERMANENT:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode = TIMEOUT_PERMANENT;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 0);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_PERMANENT2:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode2 = TIMEOUT_PERMANENT;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE2, 0);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_CUSTOM:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode = TIMEOUT_CUSTOM;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 1);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_PROTO:
-				if (wNotifyCode != BN_CLICKED)
-					break;
-				newTimeoutMode = TIMEOUT_PROTO;
-				Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 0);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-
-			case IDC_TIMEOUT_VALUE:
-			case IDC_TIMEOUT_VALUE2:
-				int newValue = GetDlgItemInt(hwndDlg, idCtrl, NULL, 0);
-
-				if (wNotifyCode == EN_KILLFOCUS) {
-					int oldValue;
-
-					if (idCtrl == IDC_TIMEOUT_VALUE)
-						oldValue = newTimeout;
 					else
-						oldValue = newTimeout2;
+						switch (newTimeoutMode) {
+						case TIMEOUT_CUSTOM:
+							ppd.iSeconds = newTimeout;
+							break;
+						case TIMEOUT_PROTO:
+							ppd.iSeconds = 10;
+							break;
+						case TIMEOUT_PERMANENT:
+							ppd.iSeconds = -1;
+							break;
+						case TIMEOUT_POPUP:
+						default:
+							ppd.iSeconds = 0;
+							break;
+					}
 
-					if (newValue != oldValue)
-						SetDlgItemInt(hwndDlg, idCtrl, oldValue, 0);
-					return TRUE;
+					ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
+					ppd.lchContact = wParam;
+					ppd.PluginWindowProc = NULL;
+					ppd.PluginData = NULL;
+					PUAddPopupT(&ppd);
 				}
-				if (wNotifyCode != EN_CHANGE || (HWND)lParam != GetFocus())
-					return TRUE;
+			}
+			break;
 
-				if (newValue > TIMEOUT_MAXVALUE)
-					newValue = TIMEOUT_MAXVALUE;
-				else if (newValue < TIMEOUT_MINVALUE)
-					newValue = TIMEOUT_MINVALUE;
+		case IDC_TIMEOUT_POPUP2:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode2 = TIMEOUT_POPUP;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE2, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_CUSTOM2:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode2 = TIMEOUT_CUSTOM;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE2, 1);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_POPUP:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode = TIMEOUT_POPUP;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_PERMANENT:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode = TIMEOUT_PERMANENT;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_PERMANENT2:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode2 = TIMEOUT_PERMANENT;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE2, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_CUSTOM:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode = TIMEOUT_CUSTOM;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 1);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_PROTO:
+			if (wNotifyCode != BN_CLICKED)
+				break;
+			newTimeoutMode = TIMEOUT_PROTO;
+			Utils::enableDlgControl(hwndDlg, IDC_TIMEOUT_VALUE, 0);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+
+		case IDC_TIMEOUT_VALUE:
+		case IDC_TIMEOUT_VALUE2:
+			int newValue = GetDlgItemInt(hwndDlg, idCtrl, NULL, 0);
+
+			if (wNotifyCode == EN_KILLFOCUS) {
+				int oldValue;
 
 				if (idCtrl == IDC_TIMEOUT_VALUE)
-					newTimeout = newValue;
+					oldValue = newTimeout;
 				else
-					newTimeout2 = newValue;
+					oldValue = newTimeout2;
 
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				if (newValue != oldValue)
+					SetDlgItemInt(hwndDlg, idCtrl, oldValue, 0);
+				return TRUE;
 			}
+			if (wNotifyCode != EN_CHANGE || (HWND)lParam != GetFocus())
+				return TRUE;
+
+			if (newValue > TIMEOUT_MAXVALUE)
+				newValue = TIMEOUT_MAXVALUE;
+			else if (newValue < TIMEOUT_MINVALUE)
+				newValue = TIMEOUT_MINVALUE;
+
+			if (idCtrl == IDC_TIMEOUT_VALUE)
+				newTimeout = newValue;
+			else
+				newTimeout2 = newValue;
+
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
-		break;
+	}
+	break;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {

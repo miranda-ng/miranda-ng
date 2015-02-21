@@ -156,7 +156,7 @@ public:
 		wcex.lpfnWndProc = CProxyWindow::stubWndProc;
 		wcex.hInstance = g_hInst;
 		wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+		wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 		wcex.lpszClassName = PROXYCLASSNAME;
 		::RegisterClassEx(&wcex);
 	}

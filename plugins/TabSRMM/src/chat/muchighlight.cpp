@@ -42,7 +42,7 @@ void CMUCHighlight::cleanup()
 
 void CMUCHighlight::init()
 {
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 
 	if (m_fInitialized)
 		cleanup();							// clean up first, if we were already initialized
@@ -80,10 +80,10 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 	if (*p != ' ')
 		nr++;
 
-	while(*p) {
+	while (*p) {
 		if (*p == ' ') {
 			p++;
-			while(*p && _istspace(*p))
+			while (*p && _istspace(*p))
 				p++;
 			if (*p)
 				nr++;
@@ -98,10 +98,10 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 	if (*p != ' ')
 		patterns[nr++] = p;
 
-	while(*p) {
+	while (*p) {
 		if (*p == ' ') {
 			*p++ = 0;
-			while(*p && _istspace(*p))
+			while (*p && _istspace(*p))
 				p++;
 			if (*p)
 				patterns[nr++] = p;
@@ -184,17 +184,17 @@ skip_textpatterns:
 
 INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			DBVARIANT dbv = {0};
-			if ( !db_get_ts(0, CHAT_MODULE, "HighlightWords", &dbv)) {
+			DBVARIANT dbv = { 0 };
+			if (!db_get_ts(0, CHAT_MODULE, "HighlightWords", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, dbv.ptszVal);
 				::db_free(&dbv);
 			}
 
-			if ( !db_get_ts(0, CHAT_MODULE, "HighlightNames", &dbv)) {
+			if (!db_get_ts(0, CHAT_MODULE, "HighlightNames", &dbv)) {
 				::SetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, dbv.ptszVal);
 				::db_free(&dbv);
 			}
@@ -225,7 +225,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		return FALSE;
 
 	case WM_COMMAND:
-		if ((LOWORD(wParam)		  == IDC_HIGHLIGHTNICKPATTERN
+		if ((LOWORD(wParam) == IDC_HIGHLIGHTNICKPATTERN
 			|| LOWORD(wParam) == IDC_HIGHLIGHTTEXTPATTERN)
 			&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != ::GetFocus()))
 			return 0;
@@ -240,35 +240,35 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				{
-					wchar_t*	szBuf = 0;
-					int iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTNICKPATTERN));
-					if (iLen) {
-						szBuf = reinterpret_cast<wchar_t *>(mir_alloc((iLen + 2) * sizeof(wchar_t)));
-						::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, szBuf, iLen + 1);
-						db_set_ts(0, CHAT_MODULE, "HighlightNames",szBuf);
-					}
-
-					iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
-					if (iLen) {
-						szBuf = reinterpret_cast<TCHAR *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
-						::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, szBuf, iLen + 1);
-						db_set_ts(0, CHAT_MODULE, "HighlightWords", szBuf);
-					}
-					else db_set_ts(0, CHAT_MODULE, "HighlightWords", L"");
-
-					mir_free(szBuf);
-					BYTE dwFlags = (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? MATCH_NICKNAME : 0) |
-						(::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? MATCH_TEXT : 0);
-
-					if (dwFlags & MATCH_NICKNAME)
-						dwFlags |= (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKUID) ? MATCH_UIN : 0);
-
-					db_set_b(0, CHAT_MODULE, "HighlightEnabled", dwFlags);
-					db_set_b(0, CHAT_MODULE, "HighlightMe", ::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTME) ? 1 : 0);
-					g_Settings.Highlight->init();
+			{
+				wchar_t*	szBuf = 0;
+				int iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTNICKPATTERN));
+				if (iLen) {
+					szBuf = reinterpret_cast<wchar_t *>(mir_alloc((iLen + 2) * sizeof(wchar_t)));
+					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTNICKPATTERN, szBuf, iLen + 1);
+					db_set_ts(0, CHAT_MODULE, "HighlightNames", szBuf);
 				}
-				return TRUE;
+
+				iLen = ::GetWindowTextLength(::GetDlgItem(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN));
+				if (iLen) {
+					szBuf = reinterpret_cast<TCHAR *>(mir_realloc(szBuf, sizeof(wchar_t) * (iLen + 2)));
+					::GetDlgItemText(hwndDlg, IDC_HIGHLIGHTTEXTPATTERN, szBuf, iLen + 1);
+					db_set_ts(0, CHAT_MODULE, "HighlightWords", szBuf);
+				}
+				else db_set_ts(0, CHAT_MODULE, "HighlightWords", L"");
+
+				mir_free(szBuf);
+				BYTE dwFlags = (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKENABLE) ? MATCH_NICKNAME : 0) |
+					(::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTTEXTENABLE) ? MATCH_TEXT : 0);
+
+				if (dwFlags & MATCH_NICKNAME)
+					dwFlags |= (::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTNICKUID) ? MATCH_UIN : 0);
+
+				db_set_b(0, CHAT_MODULE, "HighlightEnabled", dwFlags);
+				db_set_b(0, CHAT_MODULE, "HighlightMe", ::IsDlgButtonChecked(hwndDlg, IDC_HIGHLIGHTME) ? 1 : 0);
+				g_Settings.Highlight->init();
+			}
+			return TRUE;
 			}
 		}
 		break;
@@ -282,46 +282,46 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
  */
 INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			HFONT hFont = (HFONT)::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTTITLE, WM_GETFONT, 0, 0);
+	{
+		HFONT hFont = (HFONT)::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTTITLE, WM_GETFONT, 0, 0);
 
-			THighLightEdit *the = reinterpret_cast<THighLightEdit *>(lParam);
-			::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, the->uCmd);
+		THighLightEdit *the = reinterpret_cast<THighLightEdit *>(lParam);
+		::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, the->uCmd);
 
-			LOGFONT lf = {0};
-			::GetObject(hFont, sizeof(lf), &lf);
-			lf.lfWeight = FW_BOLD;
-			lf.lfHeight = (int)(lf.lfHeight * 1.2);
-			hFont = ::CreateFontIndirect(&lf);
+		LOGFONT lf = { 0 };
+		::GetObject(hFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		lf.lfHeight = (int)(lf.lfHeight * 1.2);
+		hFont = ::CreateFontIndirect(&lf);
 
-			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTTITLE, WM_SETFONT, (WPARAM)hFont, FALSE);
-			if (the->uCmd == THighLightEdit::CMD_ADD) {
-				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEDITLIST, SW_HIDE);
-				::SetDlgItemText(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Add user to highlight list"));
-				::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszNick);
-				if ( mir_tstrcmp(the->ui->pszNick, the->ui->pszUID))
-					::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszUID);
-				::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_SETCURSEL, 0, 0);
-			}
-			else {
-				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTNAME, SW_HIDE);
-				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEXPLAIN, SW_HIDE);
-				::SetDlgItemText(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Edit user highlight list"));
-			}
+		::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTTITLE, WM_SETFONT, (WPARAM)hFont, FALSE);
+		if (the->uCmd == THighLightEdit::CMD_ADD) {
+			Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEDITLIST, SW_HIDE);
+			::SetDlgItemText(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Add user to highlight list"));
+			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszNick);
+			if (mir_tstrcmp(the->ui->pszNick, the->ui->pszUID))
+				::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszUID);
+			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_SETCURSEL, 0, 0);
 		}
-		break;
+		else {
+			Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTNAME, SW_HIDE);
+			Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEXPLAIN, SW_HIDE);
+			::SetDlgItemText(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Edit user highlight list"));
+		}
+	}
+	break;
 
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-		{
-			HWND hwndChild = (HWND)lParam;
-			if (hwndChild == ::GetDlgItem(hwndDlg, IDC_ADDHIGHLIGHTTITLE))
-				::SetTextColor((HDC)wParam, RGB(60, 60, 150));
-			::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
-			return (INT_PTR)::GetSysColorBrush(COLOR_WINDOW);
-		}
+	{
+		HWND hwndChild = (HWND)lParam;
+		if (hwndChild == ::GetDlgItem(hwndDlg, IDC_ADDHIGHLIGHTTITLE))
+			::SetTextColor((HDC)wParam, RGB(60, 60, 150));
+		::SetBkColor((HDC)wParam, ::GetSysColor(COLOR_WINDOW));
+		return (INT_PTR)::GetSysColorBrush(COLOR_WINDOW);
+	}
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)

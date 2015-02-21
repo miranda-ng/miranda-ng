@@ -72,7 +72,7 @@ CTaskbarInteract* Win7Taskbar = 0;
 bool CTaskbarInteract::setOverlayIcon(HWND hwndDlg, LPARAM lParam) const
 {
 	if (m_pTaskbarInterface && m_isEnabled && m_fHaveLargeicons) {
-		m_pTaskbarInterface->SetOverlayIcon(hwndDlg,(HICON)lParam, NULL);
+		m_pTaskbarInterface->SetOverlayIcon(hwndDlg, (HICON)lParam, NULL);
 		return true;
 	}
 	return false;
@@ -241,7 +241,7 @@ CProxyWindow::CProxyWindow(TWindowData *dat)
 		BOOL	fIconic = TRUE;
 		BOOL	fHasIconicBitmap = TRUE;
 
-		CMimAPI::m_pfnDwmSetWindowAttribute(m_hwndProxy, DWMWA_FORCE_ICONIC_REPRESENTATION, &fIconic,  sizeof(fIconic));
+		CMimAPI::m_pfnDwmSetWindowAttribute(m_hwndProxy, DWMWA_FORCE_ICONIC_REPRESENTATION, &fIconic, sizeof(fIconic));
 		CMimAPI::m_pfnDwmSetWindowAttribute(m_hwndProxy, DWMWA_HAS_ICONIC_BITMAP, &fHasIconicBitmap, sizeof(fHasIconicBitmap));
 	}
 }
@@ -324,15 +324,15 @@ void CProxyWindow::sendPreview()
 	if (!m_thumb || !dat_active)
 		return;
 
-	FORMATRANGE fr = {0};
-	POINT pt = {0};
+	FORMATRANGE fr = { 0 };
+	POINT pt = { 0 };
 	RECT rcContainer, rcTemp, rcRich, rcLog;
 	HDC hdc, dc;
 	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	bool fIsChat = m_dat->bType != SESSIONTYPE_IM;
 	HWND 	hwndRich = ::GetDlgItem(m_dat->hwnd, fIsChat ? IDC_CHAT_LOG : IDC_LOG);
 	LONG 	cx, cy;
-	POINT	ptOrigin = {0}, ptBottom;
+	POINT	ptOrigin = { 0 }, ptBottom;
 
 	if (m_dat->dwFlags & MWF_NEEDCHECKSIZE) {
 		RECT	rcClient;
@@ -401,7 +401,7 @@ void CProxyWindow::sendPreview()
 		::SendMessage(m_dat->hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
 	else if (m_dat->hwndHPP) {
 		CSkin::RenderText(hdcRich, m_dat->hTheme, TranslateT("Previews not available when using History++ plugin for message log display."),
-							&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
+			&rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
 	}
 	else {
 		rcRich.right *= twips;
@@ -534,7 +534,7 @@ LRESULT CALLBACK CProxyWindow::stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
 	if (pWnd)
 		return(pWnd->wndProc(hWnd, msg, wParam, lParam));
 
-	switch(msg) {
+	switch (msg) {
 	case WM_NCCREATE:
 		CREATESTRUCT *cs = reinterpret_cast<CREATESTRUCT *>(lParam);
 		CProxyWindow *pWnd = reinterpret_cast<CProxyWindow *>(cs->lpCreateParams);
@@ -549,7 +549,7 @@ LRESULT CALLBACK CProxyWindow::stubWndProc(HWND hWnd, UINT msg, WPARAM wParam, L
  */
 LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 
 #if defined(__LOGDEBUG_)
 	case WM_NCCREATE:
@@ -557,22 +557,22 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
 		break;
 #endif
 	case WM_CLOSE:
-		{
-			TContainerData* pC = m_dat->pContainer;
+	{
+		TContainerData* pC = m_dat->pContainer;
 
-			if (m_dat->hwnd != pC->hwndActive)
-				SendMessage(m_dat->hwnd, WM_CLOSE, 1, 3);
-			else
-				SendMessage(m_dat->hwnd, WM_CLOSE, 1, 2);
-			if (!IsIconic(pC->hwnd))
-				SetForegroundWindow(pC->hwnd);
-		}
-		return 0;
+		if (m_dat->hwnd != pC->hwndActive)
+			SendMessage(m_dat->hwnd, WM_CLOSE, 1, 3);
+		else
+			SendMessage(m_dat->hwnd, WM_CLOSE, 1, 2);
+		if (!IsIconic(pC->hwnd))
+			SetForegroundWindow(pC->hwnd);
+	}
+	return 0;
 
-		/*
-		* proxy window was activated by clicking on the thumbnail. Send this
-		* to the real message window.
-		*/
+	/*
+	* proxy window was activated by clicking on the thumbnail. Send this
+	* to the real message window.
+	*/
 	case WM_ACTIVATE:
 		if (WA_ACTIVE == wParam) {
 			if (IsWindow(m_dat->hwnd))
@@ -699,7 +699,7 @@ void CThumbBase::renderBase()
 		mir_sntprintf(tszTemp, SIZEOF(tszTemp), TranslateT("%d unread"), m_dat->dwUnread);
 		CSkin::RenderText(m_hdc, m_dat->hTheme, tszTemp, &m_rcIcon, m_dtFlags | DT_CENTER | DT_WORD_ELLIPSIS, 10, 0, true);
 	}
-	m_rcIcon= m_rcTop;
+	m_rcIcon = m_rcTop;
 	m_rcIcon.top += 2;
 	m_rcIcon.left = m_rc.right / 3;
 	m_cx = m_rcIcon.right - m_rcIcon.left;
@@ -714,7 +714,7 @@ void CThumbBase::setupRect()
 	if (SESSIONTYPE_IM == m_pWnd->getDat()->bType) {
 		m_rcTop = m_rc;
 		m_rcBottom = m_rc;
-		m_rcBottom.top = m_rc.bottom - ( 2 * (m_rcBottom.bottom / 5)) - 2;
+		m_rcBottom.top = m_rc.bottom - (2 * (m_rcBottom.bottom / 5)) - 2;
 		m_rcTop.bottom = m_rcBottom.top - 2;
 
 		m_rcIcon = m_rcTop;
@@ -723,7 +723,7 @@ void CThumbBase::setupRect()
 	else {
 		m_rcTop = m_rc;
 		m_rcBottom = m_rc;
-		m_rcBottom.top = m_rc.bottom - ( 2 * (m_rcBottom.bottom / 5)) - 2;
+		m_rcBottom.top = m_rc.bottom - (2 * (m_rcBottom.bottom / 5)) - 2;
 		m_rcTop.bottom = m_rcBottom.top - 2;
 
 		m_rcIcon = m_rcTop;
@@ -825,7 +825,7 @@ void CThumbIM::renderContent()
 	m_rcBottom.bottom = m_rc.bottom;
 	m_rcBottom.top = m_rcBottom.bottom - m_sz.cy - 2;
 	CSkin::RenderText(m_hdc, m_dat->hTheme, Win7Taskbar->haveAlwaysGroupingMode() ? m_dat->cache->getUIN() : m_dat->cache->getNick(),
-					  &m_rcBottom, m_dtFlags | DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS, 10, 0, true);
+		&m_rcBottom, m_dtFlags | DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS, 10, 0, true);
 
 	/*
 	 * finalize it
@@ -881,9 +881,9 @@ void CThumbMUC::renderContent()
 			}
 			if (m_dat->si->iType != GCW_SERVER) {
 				wchar_t* _p = NULL;
-				if ( m_dat->si->ptszStatusbarText )
+				if (m_dat->si->ptszStatusbarText)
 					_p = wcschr(m_dat->si->ptszStatusbarText, ']');
-				if ( _p ) {
+				if (_p) {
 					_p++;
 					wchar_t	_t = *_p;
 					*_p = 0;

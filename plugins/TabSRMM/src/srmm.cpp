@@ -29,14 +29,14 @@
 #include "commonheaders.h"
 
 HINSTANCE g_hInst;
-LOGFONT lfDefault = {0};
+LOGFONT lfDefault = { 0 };
 
 /*
  * miranda interfaces
  */
 
 int hLangpack;
-TIME_API tmi = {0};
+TIME_API tmi = { 0 };
 CLIST_INTERFACE *pcli;
 
 PLUGININFOEX pluginInfo = {
@@ -50,7 +50,7 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {6CA5F042-7A7F-47CC-A715-FC8C46FBF434}
-	{0x6ca5f042, 0x7a7f, 0x47cc, {0xa7, 0x15, 0xfc, 0x8c, 0x46, 0xfb, 0xf4, 0x34}}
+	{ 0x6ca5f042, 0x7a7f, 0x47cc, { 0xa7, 0x15, 0xfc, 0x8c, 0x46, 0xfb, 0xf4, 0x34 } }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
@@ -64,7 +64,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SRMM, MIID_CHAT, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, MIID_CHAT, MIID_LAST };
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -114,9 +114,9 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 
 
 	mir_vsntprintf(debug, ibsize - 10, fmt, va);
-//#ifdef _DEBUG
+	//#ifdef _DEBUG
 	OutputDebugStringW(debug);
-//#else
+	//#else
 	{
 		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
 		FILE *f;
@@ -130,14 +130,15 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 			if (szDebug != NULL) {
 				fputs(szDebug, f);
 				mir_free(szDebug);
-			} else {
+			}
+			else {
 				fputs("mir_utf8encodeT() fail in _DebugTraceW()", f);
 			}
 			fputs("\n", f);
 			fclose(f);
 		}
 	}
-//#endif
+	//#endif
 	return 0;
 }
 
@@ -151,7 +152,7 @@ int _DebugTraceA(const char *fmt, ...)
 	mir_strcpy(debug, "TABSRMM: ");
 	mir_vsnprintf(&debug[9], ibsize - 10, fmt, va);
 #ifdef _DEBUG
- 	OutputDebugStringA(debug);
+	OutputDebugStringA(debug);
 #else
 	{
 		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];

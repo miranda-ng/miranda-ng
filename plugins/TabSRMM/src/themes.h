@@ -99,11 +99,11 @@ public:
 	}
 
 	CImageItem(BYTE bottom, BYTE left, BYTE top, BYTE right, HDC hdc, HBITMAP hbm, DWORD dwFlags,
-			   HBRUSH brush, BYTE alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
+		HBRUSH brush, BYTE alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
 	{
 		m_bBottom = bottom;
 		m_bLeft = left,
-		m_bTop = top;
+			m_bTop = top;
 		m_bRight = right;
 		m_hdc = hdc;
 		m_hbm = hbm;
@@ -309,7 +309,7 @@ public:
 	static char     m_realSkinnedFrame_left, m_realSkinnedFrame_right, m_realSkinnedFrame_bottom, m_realSkinnedFrame_caption;
 	static HPEN     m_SkinLightShadowPen, m_SkinDarkShadowPen;
 	static int 		m_titleBarLeftOff, m_titleButtonTopOff, m_captionOffset, m_captionPadding,
-					m_titleBarRightOff, m_sidebarTopOffset, m_sidebarBottomOffset, m_bRoundedCorner;
+		m_titleBarRightOff, m_sidebarTopOffset, m_sidebarBottomOffset, m_bRoundedCorner;
 	static SIZE		m_titleBarButtonSize;
 	static int		m_bAvatarBorderType;
 	static COLORREF m_avatarBorderClr, m_tmp_tb_low, m_tmp_tb_high;
@@ -333,7 +333,7 @@ public:
 	 */
 
 	static UINT			m_aeroEffect;										// effect id, initAeroEffect() is using it to set
-																			// the parameters below.
+	// the parameters below.
 	static AeroEffect	m_aeroEffects[AERO_EFFECT_LAST];
 	static AeroEffect	m_currentAeroEffect;
 	static AeroEffect*	m_pCurrentAeroEffect;
@@ -342,7 +342,7 @@ public:
 
 	static COLORREF		m_dwmColorRGB;
 
-	static CImageItem *m_switchBarItem,	*m_tabTop, *m_tabBottom, *m_tabGlowTop,	*m_tabGlowBottom;
+	static CImageItem *m_switchBarItem, *m_tabTop, *m_tabBottom, *m_tabGlowTop, *m_tabGlowBottom;
 	static bool			m_fAeroSkinsValid;
 
 private:

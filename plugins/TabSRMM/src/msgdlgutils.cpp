@@ -343,21 +343,21 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 		case ID_VISIBILITY_DEFAULT:
 		case ID_VISIBILITY_HIDDENFORTHISCONTACT:
 		case ID_VISIBILITY_VISIBLEFORTHISCONTACT:
-			{
-				BYTE avOverrideMode;
-				if (selection == ID_VISIBILITY_DEFAULT)
-					avOverrideMode = -1;
-				else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
-					avOverrideMode = 1;
-				else
-					avOverrideMode = 0;
-				db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
-			}
+		{
+			BYTE avOverrideMode;
+			if (selection == ID_VISIBILITY_DEFAULT)
+				avOverrideMode = -1;
+			else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
+				avOverrideMode = 1;
+			else
+				avOverrideMode = 0;
+			db_set_b(dat->hContact, SRMSGMOD_T, "hideavatar", avOverrideMode);
+		}
 
-			ShowPicture(dat, FALSE);
-			SendMessage(hwndDlg, WM_SIZE, 0, 0);
-			DM_ScrollToBottom(dat, 0, 1);
-			return 1;
+		ShowPicture(dat, FALSE);
+		SendMessage(hwndDlg, WM_SIZE, 0, 0);
+		DM_ScrollToBottom(dat, 0, 1);
+		return 1;
 
 		case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
 			PluginConfig.m_bAlwaysFullToolbarWidth = !PluginConfig.m_bAlwaysFullToolbarWidth;
@@ -398,13 +398,13 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 	else if (menuId == MENU_LOGMENU) {
 		switch (selection) {
 		case ID_MESSAGELOGSETTINGS_GLOBAL:
-			{
-				OPENOPTIONSDIALOG	ood = { sizeof(ood) };
-				ood.pszPage = "Message Sessions";
-				db_set_b(0, SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
-				Options_Open(&ood);
-			}
-			return 1;
+		{
+			OPENOPTIONSDIALOG	ood = { sizeof(ood) };
+			ood.pszPage = "Message Sessions";
+			db_set_b(0, SRMSGMOD_T, "opage", 3);			// force 3th tab to appear
+			Options_Open(&ood);
+		}
+		return 1;
 
 		case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
 			CallService(MS_TABMSG_SETUSERPREFS, dat->hContact, 0);
@@ -593,7 +593,7 @@ bool TSAPI GetAvatarVisibility(HWND hwndDlg, TWindowData *dat)
 		switch (bAvatarMode) {
 		case 0: // globally on
 			dat->bShowAvatar = true;
-LBL_Check:
+		LBL_Check:
 			if (!dat->hwndContactPic)
 				dat->hwndContactPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 			break;
@@ -772,7 +772,7 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTIN
 
 	if (!PluginConfig.m_bFlashOnClist)
 		return;
-	
+
 	if ((GetForegroundWindow() != dat->pContainer->hwnd || dat->pContainer->hwndActive != hwndDlg) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !(dat->dwFlagsEx & MWF_SHOW_FLASHCLIST)) {
 		CLISTEVENT cle = { 0 };
 		cle.cbSize = sizeof(cle);
@@ -997,7 +997,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 						_tcsncpy(tmp, p + 2, 2);
 						tmp[2] = 0;
 					}
-					
+
 					// convert string containing char in hex format to int.
 					TCHAR *stoppedHere;
 					res.AppendChar(_tcstol(tmp, &stoppedHere, 16));
@@ -1761,9 +1761,10 @@ void TSAPI GetMyNick(TWindowData *dat)
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			if (mir_tstrlen((TCHAR*)ci.pszVal) == 0 ||
-			    !_tcscmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown contact)'"))) {
+				!_tcscmp((TCHAR*)ci.pszVal, TranslateT("'(Unknown contact)'"))) {
 				_tcsncpy_s(dat->szMyNickname, (dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
-			} else {
+			}
+			else {
 				_tcsncpy_s(dat->szMyNickname, (TCHAR*)ci.pszVal, _TRUNCATE);
 			}
 			break;
@@ -1775,7 +1776,8 @@ void TSAPI GetMyNick(TWindowData *dat)
 			break;
 		}
 		mir_free(ci.pszVal);
-	} else {
+	}
+	else {
 		_tcsncpy_s(dat->szMyNickname, _T("<undef>"), _TRUNCATE); // same here
 	}
 }

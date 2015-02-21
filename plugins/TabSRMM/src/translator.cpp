@@ -50,7 +50,7 @@ TOptionListItem m_lvItemsModPlus[] =
 	{ 0, NULL, 0, 0, 0, 0 }
 };
 
-TOptionListItem m_lvItemsNEN [] =
+TOptionListItem m_lvItemsNEN[] =
 {
 	{ 0, LPGENT("Show a preview of the event"), IDC_CHKPREVIEW, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bPreview, 1 },
 	{ 0, LPGENT("Don't announce event when message dialog is open"), IDC_CHKWINDOWCHECK, LOI_TYPE_SETTING, (UINT_PTR)&nen_options.bWindowCheck, 1 },
@@ -178,24 +178,24 @@ TOptionListItem m_lvItemsTab[] =
 
 TOptionListItem* CTranslator::getTree(UINT id)
 {
-	switch(id) {
-		case TREE_MODPLUS:   return m_lvItemsModPlus;
-		case TREE_NEN:       return m_lvItemsNEN;
-		case TREE_MSG:       return m_lvItemsMsg;
-		case TREE_LOG:       return m_lvItemsLog;
-		case TREE_TAB:       return m_lvItemsTab;
+	switch (id) {
+	case TREE_MODPLUS:   return m_lvItemsModPlus;
+	case TREE_NEN:       return m_lvItemsNEN;
+	case TREE_MSG:       return m_lvItemsMsg;
+	case TREE_LOG:       return m_lvItemsLog;
+	case TREE_TAB:       return m_lvItemsTab;
 	}
 	return 0;
 }
 
 TOptionListGroup* CTranslator::getGroupTree(UINT id)
 {
-	switch(id) {
-		case TREE_MODPLUS:   return m_lvGroupsModPlus;
-		case TREE_NEN:       return m_lvGroupsNEN;
-		case TREE_MSG:       return m_lvGroupsMsg;
-		case TREE_LOG:       return m_lvGroupsLog;
-		case TREE_TAB:       return m_lvGroupsTab;
+	switch (id) {
+	case TREE_MODPLUS:   return m_lvGroupsModPlus;
+	case TREE_NEN:       return m_lvGroupsNEN;
+	case TREE_MSG:       return m_lvGroupsMsg;
+	case TREE_LOG:       return m_lvGroupsLog;
+	case TREE_TAB:       return m_lvGroupsTab;
 	}
 	return 0;
 }

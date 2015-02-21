@@ -231,31 +231,31 @@ struct SESSION_INFO;
 
 struct TWindowData
 {
-   UINT     cbSize;
-   BYTE     bType;
-   TContainerData *pContainer;		// parent container description structure
-   HWND     hwnd;
-   DWORD    dwFlags;
-   DWORD    dwFlagsEx;
+	UINT     cbSize;
+	BYTE     bType;
+	TContainerData *pContainer;		// parent container description structure
+	HWND     hwnd;
+	DWORD    dwFlags;
+	DWORD    dwFlagsEx;
 	MCONTACT hContact;
-   char    *szProto;
-   TCHAR    szMyNickname[130];
-   TCHAR    szStatusBar[100];
-   StatusTextData *sbCustom;
-   TCHAR    newtitle[130];        // tab title...
-   TCHAR    szStatus[50];
-   WORD     wStatus;
-   char    *sendBuffer;
-   size_t   iSendBufferSize;
-   int      iSendLength;				// message length in utf-8 octets
-   HICON    hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
-   HICON    iFlashIcon;
-   BOOL     mayFlashTab;
-   BOOL     bTabFlash;
-   HWND     hwndIEView, hwndIWebBrowserControl, hwndHPP;
-   HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
-   UINT     bbLSideWidth, bbRSideWidth;
-   BYTE     kstate[256];
+	char    *szProto;
+	TCHAR    szMyNickname[130];
+	TCHAR    szStatusBar[100];
+	StatusTextData *sbCustom;
+	TCHAR    newtitle[130];        // tab title...
+	TCHAR    szStatus[50];
+	WORD     wStatus;
+	char    *sendBuffer;
+	size_t   iSendBufferSize;
+	int      iSendLength;				// message length in utf-8 octets
+	HICON    hTabIcon, hTabStatusIcon, hXStatusIcon, hClientIcon, hTaskbarIcon;
+	HICON    iFlashIcon;
+	BOOL     mayFlashTab;
+	BOOL     bTabFlash;
+	HWND     hwndIEView, hwndIWebBrowserControl, hwndHPP;
+	HWND     hwndContactPic, hwndPanelPic, hwndPanelPicParent;
+	UINT     bbLSideWidth, bbRSideWidth;
+	BYTE     kstate[256];
 
 	SESSION_INFO *si;
 
@@ -324,7 +324,7 @@ struct TWindowData
 	CInfoPanel *Panel;
 	CContactCache *cache;
 	CProxyWindow  *pWnd;	// proxy window object (win7+, for taskbar support).
-							// ALWAYS check this pointer before using it, it is not guaranteed to exist.
+	// ALWAYS check this pointer before using it, it is not guaranteed to exist.
 	DWORD   iSplitterSaved;
 	BYTE    bWasDeleted;
 	BOOL    bActualHistory;
@@ -799,8 +799,8 @@ struct SIDEBARITEM {
 	DWORD   dwFlags;
 	HICON   *hIcon, *hIconPressed, *hIconHover;
 	TCHAR   *szName;
-	void (*pfnAction)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
-	void (*pfnCallback)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
+	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
+	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, TWindowData *dat, HWND hwndItem);
 	TCHAR   *tszTip;
 };
 

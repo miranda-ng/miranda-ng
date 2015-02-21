@@ -38,7 +38,7 @@ SendQueue *sendQueue = 0;
 int SendQueue::findNextFailed(const TWindowData *dat) const
 {
 	if (dat)
-		for (int i=0; i < NR_SENDJOBS; i++)
+		for (int i = 0; i < NR_SENDJOBS; i++)
 			if (m_jobs[i].hContact == dat->hContact && m_jobs[i].iStatus == SQ_ERROR)
 				return i;
 
@@ -74,7 +74,7 @@ int SendQueue::addTo(TWindowData *dat, size_t iLen, int dwFlags)
 	}
 
 	// find a mir_free entry in the send queue...
-	for (i=0; i < NR_SENDJOBS; i++) {
+	for (i = 0; i < NR_SENDJOBS; i++) {
 		if (m_jobs[i].hContact != 0 || m_jobs[i].iStatus != 0) {
 			// this entry is used, check if it's orphaned and can be removed...
 			if (m_jobs[i].hOwnerWnd && IsWindow(m_jobs[i].hOwnerWnd)) // window exists, do not reuse it
@@ -128,7 +128,7 @@ static int SendChunkW(WCHAR *chunk, MCONTACT hContact, DWORD dwFlags)
 
 	ptrA pBuf((char*)mir_alloc(memRequired));
 	WideCharToMultiByte(codePage, 0, chunk, -1, pBuf, mbcsSize, 0, 0);
-	memcpy(&pBuf[mbcsSize], chunk, (wLen+1) * sizeof(WCHAR));
+	memcpy(&pBuf[mbcsSize], chunk, (wLen + 1) * sizeof(WCHAR));
 	return CallContactService(hContact, PSS_MESSAGE, dwFlags, (LPARAM)pBuf);
 }
 
@@ -149,7 +149,7 @@ static void DoSplitSendW(LPVOID param)
 	size_t chunkSize = job->chunkSize / 2;
 
 	size_t iLen = mir_strlen(job->szSendBuffer);
-	WCHAR *wszBegin = (WCHAR*) & job->szSendBuffer[iLen + 1];
+	WCHAR *wszBegin = (WCHAR*)& job->szSendBuffer[iLen + 1];
 	WCHAR *wszTemp = (WCHAR*)mir_alloc(sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
 	memcpy(wszTemp, wszBegin, sizeof(WCHAR) * (mir_wstrlen(wszBegin) + 1));
 	wszBegin = wszTemp;
@@ -202,8 +202,7 @@ static void DoSplitSendW(LPVOID param)
 			}
 		}
 		Sleep(500L);
-	}
-	while (fSplitting);
+	} while (fSplitting);
 	mir_free(wszBegin);
 }
 
@@ -270,8 +269,7 @@ static void DoSplitSendA(LPVOID param)
 			}
 		}
 		Sleep(500L);
-	}
-	while (fSplitting);
+	} while (fSplitting);
 	mir_free(szBegin);
 }
 
@@ -377,7 +375,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		m_jobs[iEntry].dwFlags = dwOldFlags;
 	}
 	else {
-send_unsplitted:
+	send_unsplitted:
 		m_jobs[iEntry].hContact = ccActive->getActiveContact();
 		m_jobs[iEntry].hOwnerWnd = hwndDlg;
 		m_jobs[iEntry].iStatus = SQ_INPROGRESS;
@@ -400,7 +398,7 @@ send_unsplitted:
 			(dat->sendMode & SMODE_FORCEANSI) ? (m_jobs[iEntry].dwFlags & ~PREF_UNICODE) : m_jobs[iEntry].dwFlags, (LPARAM)m_jobs[iEntry].szSendBuffer);
 
 		if (dat->sendMode & SMODE_NOACK) {              // fake the ack if we are not interested in receiving real acks
-			ACKDATA ack = {0};
+			ACKDATA ack = { 0 };
 			ack.hContact = dat->hContact;
 			ack.hProcess = m_jobs[iEntry].hSendId;
 			ack.type = ACKTYPE_MESSAGE;
@@ -508,12 +506,12 @@ void SendQueue::EnableSending(const TWindowData *dat, const int iMode)
 
 void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 {
-	UINT	myerrorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
+	UINT	myerrorControls[] = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER };
 	int		i;
 	HWND	hwndDlg = dat->hwnd;
 
 	if (showCmd) {
-		TCITEM item = {0};
+		TCITEM item = { 0 };
 		dat->hTabIcon = PluginConfig.g_iconErr;
 		item.mask = TCIF_IMAGE;
 		item.iImage = 0;
@@ -525,7 +523,7 @@ void SendQueue::showErrorControls(TWindowData *dat, const int showCmd) const
 		dat->hTabIcon = dat->hTabStatusIcon;
 	}
 
-	for (i=0; i < 5; i++) {
+	for (i = 0; i < 5; i++) {
 		if (IsWindow(GetDlgItem(hwndDlg, myerrorControls[i])))
 			Utils::showDlgControl(hwndDlg, myerrorControls[i], showCmd ? SW_SHOW : SW_HIDE);
 	}
@@ -540,14 +538,14 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 {
 	if (dat == NULL)
 		return;
-	
+
 	int iLen = GetWindowTextLength(GetDlgItem(dat->hwnd, IDC_MESSAGE));
 	NotifyDeliveryFailure(dat);
 	if (iLen != 0)
 		return;
-	
+
 	// message area is empty, so we can recall the failed message...
-	SETTEXTEX stx = {ST_DEFAULT, 1200};
+	SETTEXTEX stx = { ST_DEFAULT, 1200 };
 	if (m_jobs[iEntry].dwFlags & PREF_UNICODE)
 		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)&m_jobs[iEntry].szSendBuffer[mir_strlen(m_jobs[iEntry].szSendBuffer) + 1]);
 	else {
@@ -555,7 +553,7 @@ void SendQueue::recallFailed(const TWindowData *dat, int iEntry) const
 		SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)m_jobs[iEntry].szSendBuffer);
 	}
 	UpdateSaveAndSendButton(const_cast<TWindowData *>(dat));
-	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM)- 1, (LPARAM)- 1);
+	SendDlgItemMessage(dat->hwnd, IDC_MESSAGE, EM_SETSEL, (WPARAM)-1, (LPARAM)-1);
 }
 
 void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
@@ -563,7 +561,7 @@ void SendQueue::UpdateSaveAndSendButton(TWindowData *dat)
 	if (dat) {
 		HWND hwndDlg = dat->hwnd;
 
-		GETTEXTLENGTHEX gtxl = {0};
+		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = CP_UTF8;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
 
@@ -594,7 +592,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 	if (M.GetByte("adv_noErrorPopups", 0))
 		return;
 
-	if ( CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
+	if (CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0) != 1)
 		return;
 
 	POPUPDATAT ppd = { 0 };
@@ -629,7 +627,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 
 	GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
 
-	for (i=0; i < iLen; i++)
+	for (i = 0; i < iLen; i++)
 		if (infoTypeC2[i] == C2_RIGHTTOLEFT)
 			n++;
 
@@ -639,7 +637,7 @@ int SendQueue::RTL_Detect(const WCHAR *pszwText)
 
 int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 {
-	ACKDATA *ack = (ACKDATA *) lParam;
+	ACKDATA *ack = (ACKDATA *)lParam;
 
 	TContainerData *m_pContainer = 0;
 	if (dat)
@@ -679,7 +677,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-inform_and_discard:
+	inform_and_discard:
 		_DebugPopup(job.hContact, TranslateT("A message delivery has failed after the contacts chat window was closed. You may want to resend the last message"));
 		clearJob(iFound);
 		return 0;

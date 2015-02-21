@@ -29,26 +29,26 @@
 #include "commonheaders.h"
 
 struct TCpTable cpTable[] = {
-	{ 874,	LPGENT("Thai")	 },
-	{ 932,	LPGENT("Japanese") },
-	{ 936,	LPGENT("Simplified Chinese") },
-	{ 949,	LPGENT("Korean") },
-	{ 950,	LPGENT("Traditional Chinese") },
-	{ 1250,	LPGENT("Central European") },
-	{ 1251,	LPGENT("Cyrillic") },
+	{ 874, LPGENT("Thai") },
+	{ 932, LPGENT("Japanese") },
+	{ 936, LPGENT("Simplified Chinese") },
+	{ 949, LPGENT("Korean") },
+	{ 950, LPGENT("Traditional Chinese") },
+	{ 1250, LPGENT("Central European") },
+	{ 1251, LPGENT("Cyrillic") },
 	{ 20866, LPGENT("Cyrillic KOI8-R") },
-	{ 1252,	LPGENT("Latin I") },
-	{ 1253,	LPGENT("Greek") },
-	{ 1254,	LPGENT("Turkish") },
-	{ 1255,	LPGENT("Hebrew") },
-	{ 1256,	LPGENT("Arabic") },
-	{ 1257,	LPGENT("Baltic") },
-	{ 1258,	LPGENT("Vietnamese") },
-	{ 1361,	LPGENT("Korean (Johab)") },
-	{   -1,     NULL}
+	{ 1252, LPGENT("Latin I") },
+	{ 1253, LPGENT("Greek") },
+	{ 1254, LPGENT("Turkish") },
+	{ 1255, LPGENT("Hebrew") },
+	{ 1256, LPGENT("Arabic") },
+	{ 1257, LPGENT("Baltic") },
+	{ 1258, LPGENT("Vietnamese") },
+	{ 1361, LPGENT("Korean (Johab)") },
+	{ -1, NULL }
 };
 
-wchar_t* weekDays[7] = {LPGENT("Sunday"), LPGENT("Monday"), LPGENT("Tuesday"), LPGENT("Wednesday"), LPGENT("Thursday"), LPGENT("Friday"), LPGENT("Saturday")};
+wchar_t* weekDays[7] = { LPGENT("Sunday"), LPGENT("Monday"), LPGENT("Tuesday"), LPGENT("Wednesday"), LPGENT("Thursday"), LPGENT("Friday"), LPGENT("Saturday") };
 
 wchar_t* months[12] =
 {
@@ -560,7 +560,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 	else {
 		if (dwEffectiveFlags & MWF_LOG_GROUPMODE)
 			szTemplate = isSent ? (g_groupBreak ? this_templateset->szTemplates[TMPL_GRPSTARTOUT] : this_templateset->szTemplates[TMPL_GRPINNEROUT]) :
-				(g_groupBreak ? this_templateset->szTemplates[TMPL_GRPSTARTIN] : this_templateset->szTemplates[TMPL_GRPINNERIN]);
+			(g_groupBreak ? this_templateset->szTemplates[TMPL_GRPSTARTIN] : this_templateset->szTemplates[TMPL_GRPINNERIN]);
 		else
 			szTemplate = isSent ? this_templateset->szTemplates[TMPL_MSGOUT] : this_templateset->szTemplates[TMPL_MSGIN];
 	}
@@ -984,7 +984,7 @@ static char* Template_CreateRTFFromDbEvent(TWindowData *dat, MCONTACT hContact, 
 				AppendToBuffer(buffer, bufferEnd, bufferAlloced, "\\ltrmark\\ltrch ");
 				break;
 			}
-skip:
+		skip:
 			if (skipToNext) {
 				i++;
 				while (szTemplate[i] != '%' && i < iTemplateLen) i++;
@@ -1035,8 +1035,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 					dat->hDbEvent = db_event_next(dat->hContact, dat->hDbEvent);
 					if (--dat->eventsToInsert == 0)
 						break;
-				}
-					while (dat->buffer == NULL && dat->hDbEvent);
+				} while (dat->buffer == NULL && dat->hDbEvent);
 
 				if (dat->buffer)
 					break;
@@ -1321,7 +1320,7 @@ void TSAPI StreamInEvents(HWND hwndDlg, MEVENT hDbEventFirst, int count, int fAp
 
 	if (dat->isAutoRTL & 1)
 		SendMessage(hwndrtf, EM_SETBKGNDCOLOR, 0, (LOWORD(dat->iLastEventType) & DBEF_SENT) ? (fAppend ? dat->pContainer->theme.outbg : dat->pContainer->theme.oldoutbg) :
-			(fAppend ? dat->pContainer->theme.inbg : dat->pContainer->theme.oldinbg));
+		(fAppend ? dat->pContainer->theme.inbg : dat->pContainer->theme.oldinbg));
 
 	if (!(dat->isAutoRTL & 1)) {
 		GETTEXTLENGTHEX gtxl = { 0 };
