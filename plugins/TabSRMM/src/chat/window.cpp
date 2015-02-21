@@ -52,12 +52,11 @@ struct MESSAGESUBDATA
 
 const CLSID IID_ITextDocument = { 0x8CC497C0, 0xA1DF, 0x11CE, { 0x80, 0x98, 0x00, 0xAA, 0x00, 0x47, 0xBE, 0x5D } };
 
-/*
- * checking if theres's protected text at the point
- * emulates EN_LINK WM_NOTIFY to parent to process links
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// checking if theres's protected text at the point
+// emulates EN_LINK WM_NOTIFY to parent to process links
 
-static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded)
+static BOOL CheckCustomLink(HWND hwndDlg, POINT *ptClient, UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL bUrlNeeded)
 {
 	long res = 0, cnt = 0;
 	long cpMin = 0, cpMax = 0;
@@ -131,7 +130,7 @@ static BOOL CheckCustomLink(HWND hwndDlg, POINT* ptClient, UINT uMsg, WPARAM wPa
 	return bIsCustomLink;
 }
 
-bool IsStringValidLink(TCHAR* pszText)
+bool IsStringValidLink(TCHAR *pszText)
 {
 	if (pszText == NULL)
 		return false;
@@ -145,10 +144,9 @@ bool IsStringValidLink(TCHAR* pszText)
 	return _tcsstr(pszText, _T("://")) != NULL;
 }
 
-/*
- * called whenever a group chat tab becomes active (either by switching tabs or activating a
- * container window
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// called whenever a group chat tab becomes active(either by switching tabs or activating a
+// container window
 
 static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 {
@@ -255,9 +253,8 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 		dat->pWnd->Invalidate();
 }
 
-/*
- * initialize button bar, set all the icons and ensure proper button state
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// initialize button bar, set all the icons and ensure proper button state
 
 static void	InitButtons(HWND hwndDlg, SESSION_INFO *si)
 {
@@ -296,10 +293,9 @@ static void Chat_ResizeIeView(const TWindowData *dat)
 		CallService(iMode == 1 ? MS_IEVIEW_WINDOW : MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 }
 
-/*
- * resizer callback for the group chat session window. Called from Mirandas dialog
- * resizing service
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// resizer callback for the group chat session window.Called from Mirandas dialog
+// resizing service
 
 static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 {
@@ -427,9 +423,8 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-/*
- * subclassing for the message input control (a richedit text control)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the message input control(a richedit text control)
 
 static bool TabAutoComplete(HWND hwnd, MESSAGESUBDATA *dat, SESSION_INFO *si)
 {
@@ -523,13 +518,13 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 {
 	HWND hwndParent = GetParent(hwnd);
 	TWindowData *mwdat = (TWindowData*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
-	SESSION_INFO *Parentsi = (SESSION_INFO*)mwdat->si;
+	SESSION_INFO *si = (SESSION_INFO*)mwdat->si;
 
-	MESSAGESUBDATA *dat = (MESSAGESUBDATA *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	if (mwdat->fkeyProcessed && (msg == WM_KEYUP)) {
 		GetKeyboardState(mwdat->kstate);
-		if ( !(mwdat->kstate[VK_CONTROL] & 0x80) && !(mwdat->kstate[VK_SHIFT] & 0x80))
+		if (!(mwdat->kstate[VK_CONTROL] & 0x80) && !(mwdat->kstate[VK_SHIFT] & 0x80))
 			mwdat->fkeyProcessed = false;
 		return 0;
 	}
@@ -542,13 +537,13 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		return CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, MessageSubclassProc);
 
 	case EM_SUBCLASSED:
-		dat = (MESSAGESUBDATA *) mir_calloc(sizeof(MESSAGESUBDATA));
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR) dat);
+		dat = (MESSAGESUBDATA*)mir_calloc(sizeof(MESSAGESUBDATA));
+		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
 		return 0;
 
 	case WM_CONTEXTMENU:
 		{
-			MODULEINFO *mi = pci->MM_FindModule(Parentsi->pszModule);
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 			CHARRANGE sel, all = { 0, -1};
 			int idFrom = IDC_CHAT_MESSAGE;
 
@@ -654,7 +649,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				SkinPlaySound("SoundOnTyping");
 
 			if (isCtrl && !isAlt && !isShift) {
-				MODULEINFO *mi = pci->MM_FindModule(Parentsi->pszModule);
+				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 
 				switch(wParam) {
 				case 0x09: 		// ctrl-i (italics)
@@ -800,7 +795,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 			if (wParam == VK_TAB && !isCtrl && !isShift) {    //tab-autocomplete
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
-				bool fCompleted = TabAutoComplete(hwnd, dat, Parentsi);
+				bool fCompleted = TabAutoComplete(hwnd, dat, si);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
 				if (!fCompleted && !PluginConfig.m_bAllowTab) {
@@ -831,25 +826,24 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (wParam == VK_UP && isCtrl && !isAlt) {
-				GETTEXTLENGTHEX gtl = {0};
-				SETTEXTEX ste;
-				LOGFONTA lf;
-				char *lpPrevCmd = pci->SM_GetPrevCommand(Parentsi->ptszID, Parentsi->pszModule);
+				char *lpPrevCmd = pci->SM_GetPrevCommand(si->ptszID, si->pszModule);
 
-				if (!Parentsi->lpCurrentCommand || !Parentsi->lpCurrentCommand->last) {
+				if (!si->lpCurrentCommand || !si->lpCurrentCommand->last) {
 					// Next command is not defined. It means currently entered text is not saved in the history and it
 					// need to be saved in the window context.
-					char *enteredText = Chat_Message_GetFromStream(hwndParent, Parentsi);
-					if (mwdat->enteredText) {
+					char *enteredText = Message_GetFromStream(hwndParent);
+					if (mwdat->enteredText)
 						mir_free(mwdat->enteredText);
-					}
 
 					mwdat->enteredText = enteredText;
 				}
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
+				LOGFONTA lf;
 				LoadLogfont(MSGFONTID_MESSAGEAREA, &lf, NULL, FONTMODULE);
+
+				SETTEXTEX ste;
 				ste.flags = ST_DEFAULT;
 				ste.codepage = CP_ACP;
 				if (lpPrevCmd)
@@ -857,6 +851,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				else
 					SetWindowText(hwnd, _T(""));
 
+				GETTEXTLENGTHEX gtl = { 0 };
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
 				int iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
@@ -872,7 +867,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				GETTEXTLENGTHEX gtl = {0};
 				SETTEXTEX ste;
 
-				char *lpPrevCmd = pci->SM_GetNextCommand(Parentsi->ptszID, Parentsi->pszModule);
+				char *lpPrevCmd = pci->SM_GetNextCommand(si->ptszID, si->pszModule);
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 
 				ste.flags = ST_DEFAULT;
@@ -914,9 +909,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		{
 			UINT u = 0;
 			UINT u2 = 0;
-			COLORREF cr;
-			MODULEINFO *mi = pci->MM_FindModule(Parentsi->pszModule);
+			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 
+			COLORREF cr;
 			LoadLogfont(MSGFONTID_MESSAGEAREA, NULL, &cr, FONTMODULE);
 
 			CHARFORMAT2 cf;
@@ -926,12 +921,12 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			SendMessage(hwnd, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cf);
 
 			if (mi && mi->bColor) {
-				int index = Chat_GetColorIndex(Parentsi->pszModule, cf.crTextColor);
+				int index = Chat_GetColorIndex(si->pszModule, cf.crTextColor);
 				u = IsDlgButtonChecked(GetParent(hwnd), IDC_COLOR);
 
 				if (index >= 0) {
-					Parentsi->bFGSet = TRUE;
-					Parentsi->iFG = index;
+					si->bFGSet = TRUE;
+					si->iFG = index;
 				}
 
 				if (u == BST_UNCHECKED && cf.crTextColor != cr)
@@ -941,13 +936,13 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			}
 
 			if (mi && mi->bBkgColor) {
-				int index = Chat_GetColorIndex(Parentsi->pszModule, cf.crBackColor);
+				int index = Chat_GetColorIndex(si->pszModule, cf.crBackColor);
 				COLORREF crB = (COLORREF)M.GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR);
 				u = IsDlgButtonChecked(hwndParent, IDC_BKGCOLOR);
 
 				if (index >= 0) {
-					Parentsi->bBGSet = TRUE;
-					Parentsi->iBG = index;
+					si->bBGSet = TRUE;
+					si->iBG = index;
 				}
 
 				if (u == BST_UNCHECKED && cf.crBackColor != crB)
@@ -999,7 +994,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_ERASEBKGND:
-		return CSkin::m_skinEnabled ? 0 : 1;
+		return !CSkin::m_skinEnabled;
 
 	case WM_DESTROY:
 		mir_free(dat);
@@ -1008,11 +1003,9 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	return mir_callNextSubclass(hwnd, MessageSubclassProc, msg, wParam, lParam);
 }
 
-
-/*
-* subclassing for the message filter dialog (set and configure event filters for the current
-* session
-*/
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the message filter dialog (set and configure event filters for the 
+// current session
 
 static UINT _eventorder[] =
 {
@@ -1143,10 +1136,10 @@ static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	return FALSE;
 }
 
-/**
- * subclass for some tool bar buttons which must perform special actions
- * on right click.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclass for some tool bar buttons which must perform special actions
+// on right click.
+
 static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -1170,9 +1163,8 @@ static LRESULT CALLBACK ButtonSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	return mir_callNextSubclass(hwnd, ButtonSubclassProc, msg, wParam, lParam);
 }
 
-/*
- * subclassing for the message history display (rich edit control in which the chat history appears)
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the message history display(rich edit control in which the chat history appears)
 
 static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1282,10 +1274,9 @@ static LRESULT CALLBACK LogSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	return mir_callNextSubclass(hwnd, LogSubclassProc, msg, wParam, lParam);
 }
 
-/*
- * process mouse - hovering for the nickname list. fires events so the protocol can
- * show the userinfo - tooltip.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// process mouse - hovering for the nickname list.fires events so the protocol can
+// show the userinfo - tooltip.
 
 static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *parentdat)
 {
@@ -1353,9 +1344,8 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, SESSION_INFO *pa
 	SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0 , 400);
 }
 
-/*
- * subclassing for the nickname list control. It is an ownerdrawn listbox
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// subclassing for the nickname list control.It is an ownerdrawn listbox
 
 static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1464,10 +1454,8 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_CHAR:
 	case WM_UNICHAR:
-		/*
-		* simple incremental search for the user (nick) - list control
-		* typing esc or movement keys will clear the current search string
-		*/
+		// simple incremental search for the user (nick) - list control
+		// typing esc or movement keys will clear the current search string
 		if (mwdat && mwdat->si) {
 			SESSION_INFO *si = (SESSION_INFO*)mwdat->si;
 			if (wParam == 27 && si->szSearch[0]) {						// escape - reset everything
@@ -1485,17 +1473,15 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 				}
 				TCHAR szNew[2];
-				szNew[0] = (TCHAR) wParam;
+				szNew[0] = (TCHAR)wParam;
 				szNew[1] = '\0';
 				_tcscat(si->szSearch, szNew);
 			}
 			if (si->szSearch[0]) {
-				/*
-				* iterate over the (sorted) list of nicknames and search for the
-				* string we have
-				*/
+				// iterate over the (sorted) list of nicknames and search for the
+				// string we have
 				int i, iItems = SendMessage(hwnd, LB_GETCOUNT, 0, 0);
-				for (i=0; i < iItems; i++) {
+				for (i = 0; i < iItems; i++) {
 					USERINFO *ui = pci->UM_FindUserFromIndex(si->pUsers, i);
 					if (ui) {
 						if (!_tcsnicmp(ui->pszNick, si->szSearch, mir_tstrlen(si->szSearch))) {
@@ -1720,10 +1706,9 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, NicklistSubclassProc, msg, wParam, lParam);
 }
 
-/*
- * calculate the required rectangle for a string using the given font. This is more
- * precise than using GetTextExtentPoint...()
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// calculate the required rectangle for a string using the given font. This is more
+// precise than using GetTextExtentPoint...()
 
 int GetTextPixelSize(TCHAR* pszText, HFONT hFont, bool bWidth)
 {
@@ -1749,11 +1734,9 @@ static void __cdecl phase2(void * lParam)
 		PostMessage(si->hWnd, GC_REDRAWLOG3, 0, 0);
 }
 
-
-/*
- * the actual group chat session window procedure. Handles the entire chat session window
- * which is usually a (tabbed) child of a container class window.
- */
+/////////////////////////////////////////////////////////////////////////////////////////
+// the actual group chat session window procedure.Handles the entire chat session window
+// which is usually a (tabbed) child of a container class window.
 
 INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -2052,7 +2035,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (wParam == SIZE_MAXIMIZED)
 			PostMessage(hwndDlg, GC_SCROLLTOBOTTOM, 0, 0);
 
-		if ( !IsIconic(hwndDlg)) {
+		if (!IsIconic(hwndDlg)) {
 			int panelHeight = dat->Panel->getHeight() + 1;
 
 			UTILRESIZEDIALOG urd = { sizeof(urd) };
@@ -2765,7 +2748,7 @@ LABEL_SHOWWINDOW:
 								tszTmp = tszAppeal = (TCHAR*)mir_alloc(bufSize * sizeof(TCHAR));
 								tr2.lpstrText = (LPTSTR) mir_alloc(sizeof(TCHAR) * 2);
 								if (chr.cpMin) {
-									/* prepend nick with space if needed */
+									// prepend nick with space if needed
 									tr2.chrg.cpMin = chr.cpMin - 1;
 									tr2.chrg.cpMax = chr.cpMin;
 									SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2);
@@ -2773,15 +2756,15 @@ LABEL_SHOWWINDOW:
 										*tszTmp++ = _T(' ');
 									_tcscpy(tszTmp, tr.lpstrText);
 								}
-								else
-									/* in the beginning of the message window */
+								else // in the beginning of the message window
 									mir_sntprintf(tszAppeal, bufSize, tszAplTmpl, tr.lpstrText);
+
 								st = mir_tstrlen(tszAppeal);
 								if (chr.cpMax != -1) {
 									tr2.chrg.cpMin = chr.cpMax;
 									tr2.chrg.cpMax = chr.cpMax + 1;
-									/* if there is no space after selection,
-									or there is nothing after selection at all... */
+									// if there is no space after selection,
+									// or there is nothing after selection at all...
 									if (!SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || !_istspace(*tr2.lpstrText)) {
 										tszAppeal[st++] = _T(' ');
 										tszAppeal[st++] = _T('\0');
@@ -2893,14 +2876,15 @@ LABEL_SHOWWINDOW:
 			if (GetSendButtonState(hwndDlg) != PBS_DISABLED) {
 				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 
-				ptrA pszRtf(Chat_Message_GetFromStream(hwndDlg, si));
+				ptrA pszRtf(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)));
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-				ptrT ptszText(Chat_DoRtfToTags(pszRtf, si));
-				if (ptszText == NULL)
+				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
+				if (ptszText.IsEmpty())
 					break;
 
-				rtrimt(ptszText);
+				DoRtfToTags(si->dat, ptszText, mi->nColorCount, mi->crColors);
+				ptszText.Trim();
 
 				if (mi && mi->bAckMsg) {
 					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, false);
@@ -2911,16 +2895,14 @@ LABEL_SHOWWINDOW:
 				Utils::enableDlgControl(hwndDlg, IDOK, false);
 
 				// Typing support for GCW_PRIVMESS sessions
-				if (si->iType == GCW_PRIVMESS) {
-					if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON) {
+				if (si->iType == GCW_PRIVMESS)
+					if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON)
 						DM_NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
-					}
-				}
 
 				bool fSound = true;
 				if (ptszText[0] == '/' || si->iType == GCW_SERVER)
 					fSound = false;
-				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
+				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText.GetBuffer(), 0);
 				mi->idleTimeStamp = time(0);
 				mi->lastIdleCheck = 0;
 				pci->SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
@@ -3323,12 +3305,10 @@ LABEL_SHOWWINDOW:
 			dat->pContainer->iChilds--;
 			int i = GetTabIndexFromHWND(hwndTab, hwndDlg);
 
-			/*
-			* after closing a tab, we need to activate the tab to the left side of
-			* the previously open tab.
-			* normally, this tab has the same index after the deletion of the formerly active tab
-			* unless, of course, we closed the last (rightmost) tab.
-			*/
+			// after closing a tab, we need to activate the tab to the left side of
+			// the previously open tab.
+			// normally, this tab has the same index after the deletion of the formerly active tab
+			// unless, of course, we closed the last (rightmost) tab.
 			if (!dat->pContainer->bDontSmartClose && iTabs > 1 && !bForced) {
 				if (i == iTabs - 1)
 					i--;
@@ -3336,10 +3316,10 @@ LABEL_SHOWWINDOW:
 					i++;
 				TabCtrl_SetCurSel(hwndTab, i);
 
-				TCITEM item = {0};
+				TCITEM item = { 0 };
 				item.mask = TCIF_PARAM;
-				TabCtrl_GetItem(hwndTab, i, &item);         // retrieve dialog hwnd for the now active tab...
-				dat->pContainer->hwndActive = (HWND) item.lParam;
+				TabCtrl_GetItem(hwndTab, i, &item); // retrieve dialog hwnd for the now active tab...
+				dat->pContainer->hwndActive = (HWND)item.lParam;
 
 				SendMessage(dat->pContainer->hwnd, DM_QUERYCLIENTAREA, 0, (LPARAM)&rc);
 				SetWindowPos(dat->pContainer->hwndActive, HWND_TOP, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_SHOWWINDOW);

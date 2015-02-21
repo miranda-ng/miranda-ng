@@ -36,6 +36,19 @@ typedef std::basic_string<TCHAR> tstring;
 #define MWF_LOG_TEXTFORMAT 0x2000000
 #define MSGDLGFONTCOUNT 22
 
+static TRTFColorTable _rtf_ctable[] =
+{
+	{ _T("red"),     RGB(255, 0, 0),     ID_FONT_RED },
+	{ _T("blue"),    RGB(0, 0, 255),     ID_FONT_BLUE },
+	{ _T("green"),   RGB(0, 255, 0),     ID_FONT_GREEN },
+	{ _T("magenta"), RGB(255, 0, 255),   ID_FONT_MAGENTA },
+	{ _T("yellow"),  RGB(255, 255, 0),   ID_FONT_YELLOW },
+	{ _T("cyan"),    RGB(0, 255, 255),   ID_FONT_CYAN },
+	{ _T("black"),   0,                  ID_FONT_BLACK },
+	{ _T("white"),   RGB(255, 255, 255), ID_FONT_WHITE },
+	{ _T(""), 0, 0 }
+};
+
 int				Utils::rtf_ctable_size = 0;
 TRTFColorTable* Utils::rtf_ctable = 0;
 
@@ -538,54 +551,10 @@ void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 	rtf_ctable = (TRTFColorTable *)mir_realloc(rtf_ctable, sizeof(TRTFColorTable) * rtf_ctable_size);
 	COLORREF clr = _tcstol(tszColname, &stopped, 16);
 	mir_sntprintf(rtf_ctable[rtf_ctable_size - 1].szName, length + 1, _T("%06x"), clr);
-	rtf_ctable[rtf_ctable_size - 1].menuid = rtf_ctable[rtf_ctable_size - 1].index = 0;
+	rtf_ctable[rtf_ctable_size - 1].menuid = 0;
 
 	clr = _tcstol(tszColname, &stopped, 16);
 	rtf_ctable[rtf_ctable_size - 1].clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
-}
-
-void Utils::CreateColorMap(CMString &Text)
-{
-	const TCHAR *pszText = Text;
-	int iIndex = 1, i = 0;
-
-	static const TCHAR *lpszFmt = _T("\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];");
-	TCHAR szRed[10], szGreen[10], szBlue[10];
-
-	const TCHAR *p1 = _tcsstr(pszText, _T("\\colortbl"));
-	if (!p1)
-		return;
-
-	const TCHAR *pEnd = _tcschr(p1, '}');
-
-	const TCHAR *p2 = _tcsstr(p1, _T("\\red"));
-
-	for (i=0; i < RTF_CTABLE_DEFSIZE; i++)
-		rtf_ctable[i].index = 0;
-
-	while (p2 && p2 < pEnd) {
-		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
-			int i;
-			for (i=0; i < RTF_CTABLE_DEFSIZE; i++) {
-				if (rtf_ctable[i].clr == RGB(_ttoi(szRed), _ttoi(szGreen), _ttoi(szBlue)))
-					rtf_ctable[i].index = iIndex;
-			}
-		}
-		iIndex++;
-		p1 = p2;
-		p1 ++;
-
-		p2 = _tcsstr(p1, _T("\\red"));
-	}
-}
-
-int Utils::RTFColorToIndex(int iCol)
-{
-	for (int i=0; i < RTF_CTABLE_DEFSIZE; i++)
-		if (rtf_ctable[i].index == iCol)
-			return i + 1;
-
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

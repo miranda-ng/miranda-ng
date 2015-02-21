@@ -38,22 +38,9 @@
 
 struct TRTFColorTable
 {
-    TCHAR 		szName[10];
-    COLORREF 	clr;
-    int 		index;
-    int 		menuid;
-};
-
-static TRTFColorTable _rtf_ctable[] = {
-	_T("red"), RGB(255, 0, 0), 0, ID_FONT_RED,
-	_T("blue"), RGB(0, 0, 255), 0, ID_FONT_BLUE,
-	_T("green"), RGB(0, 255, 0), 0, ID_FONT_GREEN,
-	_T("magenta"), RGB(255, 0, 255), 0, ID_FONT_MAGENTA,
-	_T("yellow"), RGB(255, 255, 0), 0, ID_FONT_YELLOW,
-	_T("cyan"), RGB(0, 255, 255), 0, ID_FONT_CYAN,
-	_T("black"), 0, 0, ID_FONT_BLACK,
-	_T("white"), RGB(255, 255, 255), 0, ID_FONT_WHITE,
-	_T(""), 0, 0, 0
+    TCHAR    szName[10];
+    COLORREF clr;
+    int      menuid;
 };
 
 class Utils {
@@ -74,8 +61,6 @@ public:
 	static LPCTSTR  DoubleAmpersands(TCHAR *pszText);
 	static void     RTF_CTableInit();
 	static void     RTF_ColorAdd(const TCHAR *tszColname, size_t length);
-	static void     CreateColorMap(CMString &Text);
-	static int      RTFColorToIndex(int iCol);
 	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
 	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
 	static void     SettingsToContainer(TContainerData *pContainer);

@@ -287,7 +287,7 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 		m_iHistoryTop = (int)wParam;
 	}
 
-	szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), m_dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | SF_NCRFORNONASCII));
+	szFromStream = ::Message_GetFromStream(GetDlgItem(m_hwnd, IDC_MESSAGE), SF_RTFNOOBJS | SFF_PLAINRTF | SF_NCRFORNONASCII);
 	if (szFromStream != NULL) {
 		iLength = iStreamLength = (strlen(szFromStream) + 1);
 

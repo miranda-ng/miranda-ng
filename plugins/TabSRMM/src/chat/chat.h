@@ -156,10 +156,6 @@ BOOL          DoPopup(SESSION_INFO *si, GCEVENT* gce);
 int           ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoName, TCHAR* pszRoomName, COLORREF crBkg, const TCHAR* fmt, ...);
 BOOL          LogToFile(SESSION_INFO *si, GCEVENT *gce);
 
-// message.c
-char*         Chat_Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
-TCHAR*        Chat_DoRtfToTags(char* pszRtfText, SESSION_INFO *si);
-
 #include "chat_resource.h"
 
 extern char szIndicators[];
