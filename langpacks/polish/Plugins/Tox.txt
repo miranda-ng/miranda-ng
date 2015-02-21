@@ -68,7 +68,7 @@ Protokoły
 [Account]
 Konto
 [Nodes]
-
+Gniazda
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
@@ -82,9 +82,9 @@ Posiadasz już profil. Czy chcesz go usunąć wraz ze wszystkimi kontaktami oraz
 [Tox profile import]
 Importowanie profilu tox
 [Add node]
-Dodaj gałąź
+Dodaj gniazdo
 [Change node]
-Zmień gałąź
+Zmień gniazdo
 [Enter IPv4]
 Wprowadź IPV4
 [Error]
@@ -92,13 +92,13 @@ Błąd
 [Enter public key]
 Wprowadź klucz publiczny
 [Common nodes]
-
+Powszechne gniazda
 [nodes]
-
+gniazda
 [Are you sure?]
 Czy jesteś pewien?
 [Node deleting]
-Usuwanie Gałęzi
+Usuwanie Gniazda
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokoły
