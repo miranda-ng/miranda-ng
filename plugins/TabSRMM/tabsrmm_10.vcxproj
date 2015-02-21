@@ -203,9 +203,6 @@
     <ClCompile Include="src\chat\manager.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\chat\message.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\chat\muchighlight.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

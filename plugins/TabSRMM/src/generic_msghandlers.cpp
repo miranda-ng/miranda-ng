@@ -796,7 +796,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	COLORREF inputcharcolor;
 
 	if (!fIsChat && GetWindowTextLength(hwndEdit) > 0)
-		szStreamOut = Message_GetFromStream(hwndEdit, dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE));
+		szStreamOut = Message_GetFromStream(hwndEdit);
 	SetWindowText(hwndEdit, _T(""));
 
 	SendMessage(hwndLog, EM_SETBKGNDCOLOR, 0, colour);

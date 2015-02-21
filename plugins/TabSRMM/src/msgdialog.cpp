@@ -40,6 +40,8 @@ static const UINT addControls[]    = { IDC_ADD, IDC_CANCELADD };
 static const UINT btnControls[]    = { IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER, IDC_ADD, IDC_CANCELADD };
 static const UINT errorControls[]  = { IDC_STATICERRORICON, IDC_STATICTEXT, IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
 
+static COLORREF rtfDefColors[] = { RGB(255, 0, 0), RGB(0, 0, 255), RGB(0, 255, 0), RGB(255, 0, 255), RGB(255, 255, 0), RGB(0, 255, 255), 0, RGB(255, 255, 255) };
+
 static struct {
 	int id;
 	const TCHAR* text;
@@ -2016,9 +2018,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									SETTEXTEX stx = {ST_KEEPUNDO | ST_SELECTION, CP_UTF8};
 									char *streamOut = NULL;
 									if (isAlt)
-										streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SFF_SELECTION | SF_USECODEPAGE));
+										streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_RTFNOOBJS | SFF_PLAINRTF | SFF_SELECTION);
 									else
-										streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), dat, (CP_UTF8 << 16) | (SF_TEXT | SFF_SELECTION | SF_USECODEPAGE));
+										streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_TEXT | SFF_SELECTION);
 									if (streamOut) {
 										Utils::FilterEventMarkers(streamOut);
 										SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)streamOut);
@@ -2680,7 +2682,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (GetSendButtonState(hwndDlg) == PBS_DISABLED)
 					break;
 
-				ptrA streamOut(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, final_sendformat ? 0 : (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE)));
+				ptrA streamOut(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), final_sendformat ? 0 : SF_TEXT));
 				if (streamOut == NULL)
 					break;
 
@@ -2690,7 +2692,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				char *utfResult = NULL;
 				if (final_sendformat)
-					DoRtfToTags(dat, decoded);
+					DoRtfToTags(dat, decoded, SIZEOF(rtfDefColors), rtfDefColors);
 				decoded.Trim();
 				int bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
@@ -2743,7 +2745,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				if (dat->sendMode & SMODE_CONTAINER && m_pContainer->hwndActive == hwndDlg && GetForegroundWindow() == hwndContainer) {
 					int tabCount = TabCtrl_GetItemCount(hwndTab);
-					ptrA szFromStream(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, dat->SendFormat ? 0 : (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE)));
+					ptrA szFromStream(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->SendFormat ? 0 : SF_TEXT));
 
 					TCITEM tci = { 0 };
 					tci.mask = TCIF_PARAM;
@@ -2859,7 +2861,7 @@ quote_from_last:
 						mir_free(szConverted);
 				}
 				else {
-					ptrA szFromStream(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), dat, SF_TEXT | SF_USECODEPAGE | SFF_SELECTION));
+					ptrA szFromStream(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), SF_TEXT | SFF_SELECTION));
 					ptrW converted(mir_utf8decodeW(szFromStream));
 					Utils::FilterEventMarkers(converted);
 					ptrT szQuoted(QuoteText(converted, iCharsPerLine, 0));
@@ -3255,7 +3257,7 @@ quote_from_last:
 				LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 1, PluginConfig.g_hMenuRecent);
 			if (dat->hContact) {
 				if (!dat->fEditNotesActive) {
-					char *msg = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
+					char *msg = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), SF_TEXT);
 					if (msg) {
 						db_set_utf(dat->hContact, SRMSGMOD, "SavedMsg", msg);
 						mir_free(msg);

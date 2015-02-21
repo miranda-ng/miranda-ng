@@ -787,9 +787,12 @@ void TSAPI FlashOnClist(HWND hwndDlg, TWindowData *dat, MEVENT hEvent, DBEVENTIN
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// callback function for text streaming
+// retrieve contents of the richedit control by streaming.Used to get the
+// typed message before sending it.
+// caller must mir_free the returned pointer.
+// UNICODE version returns UTF-8 encoded string.
 
-static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
+static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	static DWORD dwRead;
 	char **ppText = (char **)dwCookie;
@@ -812,30 +815,22 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 	return 0;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// retrieve contents of the richedit control by streaming.Used to get the
-// typed message before sending it.
-// caller must mir_free the returned pointer.
-// UNICODE version returns UTF-8 encoded string.
-
-char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dwPassedFlags)
+char* TSAPI Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
 {
-	EDITSTREAM stream;
-	char *pszText = NULL;
-	DWORD dwFlags = 0;
-
-	if (hwndRtf == 0 || dat == 0)
+	if (hwndRtf == 0)
 		return NULL;
 
-	memset(&stream, 0, sizeof(stream));
-	stream.pfnCallback = Message_StreamCallback;
-	stream.dwCookie = (DWORD_PTR)& pszText; // pass pointer to pointer
+	DWORD dwFlags = (CP_UTF8 << 16) | SF_USECODEPAGE;
 	if (dwPassedFlags == 0)
-		dwFlags = (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE);
+		dwFlags |= (SF_RTFNOOBJS | SFF_PLAINRTF);
 	else
-		dwFlags = (CP_UTF8 << 16) | dwPassedFlags;
-	SendMessage(hwndRtf, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM)&stream);
+		dwFlags |= dwPassedFlags;
 
+	char *pszText = NULL;
+	EDITSTREAM stream = { 0 };
+	stream.pfnCallback = Message_StreamCallback;
+	stream.dwCookie = (DWORD_PTR)&pszText; // pass pointer to pointer
+	SendMessage(hwndRtf, EM_STREAMOUT, dwFlags, (LPARAM)&stream);
 	return pszText; // pszText contains the text
 }
 
@@ -845,7 +840,50 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 
 static TCHAR tszRtfBreaks[] = _T(" \\\n\r");
 
-BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
+static void CreateColorMap(CMString &Text, int iCount, COLORREF *pSrc, int *pDst)
+{
+	const TCHAR *pszText = Text;
+	int iIndex = 1, i = 0;
+
+	static const TCHAR *lpszFmt = _T("\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];");
+	TCHAR szRed[10], szGreen[10], szBlue[10];
+
+	const TCHAR *p1 = _tcsstr(pszText, _T("\\colortbl"));
+	if (!p1)
+		return;
+
+	const TCHAR *pEnd = _tcschr(p1, '}');
+
+	const TCHAR *p2 = _tcsstr(p1, _T("\\red"));
+
+	for (i = 0; i < iCount; i++)
+		pDst[i] = -1;
+
+	while (p2 && p2 < pEnd) {
+		if (_stscanf(p2, lpszFmt, &szRed, &szGreen, &szBlue) > 0) {
+			for (int i = 0; i < iCount; i++) {
+				if (pSrc[i] == RGB(_ttoi(szRed), _ttoi(szGreen), _ttoi(szBlue)))
+					pDst[i] = iIndex;
+			}
+		}
+		iIndex++;
+		p1 = p2;
+		p1++;
+
+		p2 = _tcsstr(p1, _T("\\red"));
+	}
+}
+
+static int GetRtfIndex(int iCol, int iCount, int *pIndex)
+{
+	for (int i = 0; i < iCount; i++)
+		if (pIndex[i] == iCol)
+			return i;
+
+	return -1;
+}
+
+BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors, COLORREF *pColors)
 {
 	if (pszText.IsEmpty())
 		return FALSE;
@@ -855,23 +893,28 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
-	Utils::CreateColorMap(pszText);
+	int *pIndex = (int*)_alloca(iNumColors * sizeof(int));
+	CreateColorMap(pszText, iNumColors, pColors, pIndex);
 
 	// scan the file for rtf commands and remove or parse them
 	int idx = pszText.Find(_T("\\pard"));
-	if (idx == -1)
-		return FALSE;
+	if (idx == -1) {
+		if ((idx = pszText.Find(_T("\\ltrpar"))) == -1)
+			return FALSE;
+		idx += 7;
+	}
+	else idx += 5;
 
 	bool bInsideColor = false, bInsideUl = false;
 	CMString res;
 
 	// iterate through all characters, if rtf control character found then take action
-	for (const TCHAR *p = pszText.GetString() + idx + 5; *p;) {
+	for (const TCHAR *p = pszText.GetString() + idx; *p;) {
 		switch (*p) {
 		case '\\':
 			if (!_tcsncmp(p, _T("\\cf"), 3)) { // foreground color
 				int iCol = _ttoi(p + 3);
-				int iInd = Utils::RTFColorToIndex(iCol);
+				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
 
 				if (iCol)
 					res.AppendFormat((iInd > 0) ? (bInsideColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (bInsideColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);

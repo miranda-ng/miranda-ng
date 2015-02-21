@@ -266,9 +266,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 			}
 		}
 
-		/*
-		* flash window if it is not focused
-		*/
+		// flash window if it is not focused
 		if (p->bMustFlash && p->bInactive)
 			if (!(dat->pContainer->dwFlags & CNT_NOFLASH))
 				FlashContainer(dat->pContainer, 1, 0);
