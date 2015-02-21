@@ -67,8 +67,8 @@ Klucz publiczny
 Protokoły
 [Account]
 Konto
-[Tox nodes]
-Gałęzie Tox
+[Nodes]
+
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
@@ -91,6 +91,10 @@ Wprowadź IPV4
 Błąd
 [Enter public key]
 Wprowadź klucz publiczny
+[Common nodes]
+
+[nodes]
+
 [Are you sure?]
 Czy jesteś pewien?
 [Node deleting]

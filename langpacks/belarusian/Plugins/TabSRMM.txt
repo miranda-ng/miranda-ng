@@ -2061,7 +2061,7 @@ IRC-стыль(тэкставы) індыкатараў роляў у логе �
 мянушка бягучага кантакту (калі вызначаны)
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае шматконтнасць
-[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
 [path to Miranda root folder]
 шлях да тэчкі праграмы
