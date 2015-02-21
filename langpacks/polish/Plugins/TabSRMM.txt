@@ -2075,7 +2075,7 @@ nick obecnego kontaktu (jeśli zdefiniowany)
 Nazwa protokołu obecnego kontaktu jeśli zdefiniowana. Jeśli protokół wspiera kilka kont, używana jest nazwa konta.
 [user-defined account name of current contact (if defined).]
 nazwa zdefiniowanej nazwy konta kontaktu (jeśli zdefiniowany).
-[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 ID użytkownika obecnego kontaktu (jeśli zdefiniowany). Jest to np. numer GG, JID Jabber itp.
 [path to Miranda root folder]
 folder docelowy Mirandy

@@ -67,8 +67,8 @@ Port
 Netzwerk
 [Account]
 Konto
-[Tox nodes]
-Tox Knoten
+[Nodes]
+
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
@@ -91,6 +91,10 @@ IPv4 eingeben
 Fehler
 [Enter public key]
 Öffentlichen Schlüssel eingeben
+[Common nodes]
+
+[nodes]
+
 [Are you sure?]
 Sind Sie sich sicher?
 [Node deleting]

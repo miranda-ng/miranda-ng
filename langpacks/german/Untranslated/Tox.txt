@@ -8,5 +8,8 @@
 [Video input device]
 [IPv4]
 [IPv6]
+[Nodes]
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
 [Tox profile import]
+[Common nodes]
+[nodes]

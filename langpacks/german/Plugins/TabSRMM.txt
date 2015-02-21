@@ -2075,7 +2075,7 @@ Nick des aktuellen Kontaktes (falls definiert)
 Protokollname des aktuellen Nutzers (falls definiert). Kontoname wird verwendet, falls das Protokoll Multikonten unterstützt.
 [user-defined account name of current contact (if defined).]
 Selbstgewählter Kontenname des aktuellen Kontaktes (falls definiert).
-[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 Benutzer-ID des aktuellen Kontaktes (falls definiert). Es ist wie UIN-Nummer für ICQ, JID für Jabber, etc.
 [path to Miranda root folder]
 Pfad zum Miranda-Hauptverzeichnis

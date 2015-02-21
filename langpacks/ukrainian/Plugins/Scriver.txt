@@ -747,7 +747,7 @@ Unicode вимкнено
 ім'я протоколу поточного контакту (якщо вказано). Ім'я облікового запису використовується, коли протокол підтримує кілька облікових записів.
 [user-defined account name of current contact (if defined).]
 ім'я облікового запису поточного контакту (якщо вказано).
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 ID поточного контакту (якщо визначено). Наприклад, UIN для ICQ, JID для Jabber тощо.
 [path to Miranda root folder]
 шлях до кореневої папки Miranda

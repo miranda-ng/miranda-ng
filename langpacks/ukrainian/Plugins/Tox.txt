@@ -45,8 +45,6 @@
 Мережа
 [Account]
 Обліковий запис
-[Tox nodes]
-Ноди Tox
 [%s connection]
 З'єднання %s
 [All files (*.*)]
