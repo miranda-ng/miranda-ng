@@ -324,8 +324,8 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 		Utils::showDlgControl(hwndDlg, IDC_LIST, si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
 		Utils::showDlgControl(hwndDlg, IDC_SPLITTERX, si->bNicklistEnabled ? SW_SHOW : SW_HIDE);
 
-		Utils::enableDlgControl(hwndDlg, IDC_SHOWNICKLIST, TRUE);
-		Utils::enableDlgControl(hwndDlg, IDC_FILTER, TRUE);
+		Utils::enableDlgControl(hwndDlg, IDC_SHOWNICKLIST, true);
+		Utils::enableDlgControl(hwndDlg, IDC_FILTER, true);
 		if (si->iType == GCW_CHATROOM) {
 			MODULEINFO* tmp = pci->MM_FindModule(si->pszModule);
 			if (tmp)
@@ -338,9 +338,9 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	}
 
 	if (si->iType == GCW_SERVER) {
-		Utils::enableDlgControl(hwndDlg, IDC_SHOWNICKLIST, FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_FILTER, FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_CHANMGR, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_SHOWNICKLIST, false);
+		Utils::enableDlgControl(hwndDlg, IDC_FILTER, false);
+		Utils::enableDlgControl(hwndDlg, IDC_CHANMGR, false);
 	}
 
 	switch (urc->wId) {
@@ -353,7 +353,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - si->iSplitterX : urc->dlgNewSize.cx;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - (PluginConfig.g_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - (PluginConfig.m_DPIscaleY > 1.0 ? DPISCALEY_S(24) : DPISCALEY_S(23))) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
 		if (CSkin::m_skinEnabled) {
@@ -1855,7 +1855,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 			dat->Panel->loadHeight();
-			Utils::enableDlgControl(hwndDlg, IDC_SMILEYBTN, TRUE);
+			Utils::enableDlgControl(hwndDlg, IDC_SMILEYBTN, true);
 
 			if (PluginConfig.g_hMenuTrayUnread != 0 && dat->hContact != 0 && dat->szProto != NULL)
 				UpdateTrayMenu(0, dat->wStatus, dat->szProto, dat->szStatus, dat->hContact, FALSE);
@@ -2903,12 +2903,12 @@ LABEL_SHOWWINDOW:
 				rtrimt(ptszText);
 
 				if (mi && mi->bAckMsg) {
-					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, FALSE);
+					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, false);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
 				else SetDlgItemText(hwndDlg, IDC_CHAT_MESSAGE, _T(""));
 
-				Utils::enableDlgControl(hwndDlg, IDOK, FALSE);
+				Utils::enableDlgControl(hwndDlg, IDOK, false);
 
 				// Typing support for GCW_PRIVMESS sessions
 				if (si->iType == GCW_PRIVMESS) {

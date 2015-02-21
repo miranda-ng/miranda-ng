@@ -544,21 +544,21 @@ void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 	rtf_ctable[rtf_ctable_size - 1].clr = (RGB(GetBValue(clr), GetGValue(clr), GetRValue(clr)));
 }
 
-void Utils::CreateColorMap(TCHAR *Text)
+void Utils::CreateColorMap(CMString &Text)
 {
-	TCHAR *pszText = Text;
+	const TCHAR *pszText = Text;
 	int iIndex = 1, i = 0;
 
 	static const TCHAR *lpszFmt = _T("\\red%[^ \x5b\\]\\green%[^ \x5b\\]\\blue%[^ \x5b;];");
 	TCHAR szRed[10], szGreen[10], szBlue[10];
 
-	TCHAR *p1 = _tcsstr(pszText, _T("\\colortbl"));
+	const TCHAR *p1 = _tcsstr(pszText, _T("\\colortbl"));
 	if (!p1)
 		return;
 
-	TCHAR *pEnd = _tcschr(p1, '}');
+	const TCHAR *pEnd = _tcschr(p1, '}');
 
-	TCHAR *p2 = _tcsstr(p1, _T("\\red"));
+	const TCHAR *p2 = _tcsstr(p1, _T("\\red"));
 
 	for (i=0; i < RTF_CTABLE_DEFSIZE; i++)
 		rtf_ctable[i].index = 0;
@@ -577,7 +577,6 @@ void Utils::CreateColorMap(TCHAR *Text)
 
 		p2 = _tcsstr(p1, _T("\\red"));
 	}
-	return ;
 }
 
 int Utils::RTFColorToIndex(int iCol)
@@ -880,7 +879,7 @@ int Utils::mustPlaySound(const TWindowData *dat)
 /////////////////////////////////////////////////////////////////////////////////////////
 // enable or disable a dialog control
 
-void Utils::enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable)
+void Utils::enableDlgControl(const HWND hwnd, UINT id, bool fEnable)
 {
 	::EnableWindow(::GetDlgItem(hwnd, id), fEnable);
 }

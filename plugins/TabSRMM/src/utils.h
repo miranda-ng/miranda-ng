@@ -74,7 +74,7 @@ public:
 	static LPCTSTR  DoubleAmpersands(TCHAR *pszText);
 	static void     RTF_CTableInit();
 	static void     RTF_ColorAdd(const TCHAR *tszColname, size_t length);
-	static void     CreateColorMap(TCHAR *Text);
+	static void     CreateColorMap(CMString &Text);
 	static int      RTFColorToIndex(int iCol);
 	static int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
 	static int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = 0);
@@ -87,7 +87,7 @@ public:
 	static LRESULT  CmdDispatcher(UINT uType, HWND hwndDlg, UINT cmd, WPARAM wParam, LPARAM lParam, TWindowData *dat = 0, TContainerData *pContainer = 0);
 
 	static void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TCHAR *szText, UINT uID, UINT pos);
-	static void     enableDlgControl(const HWND hwnd, UINT id, BOOL fEnable = 1);
+	static void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
 	static void     showDlgControl(const HWND hwnd, UINT id, int showCmd);
 	static int      mustPlaySound(const TWindowData *dat);
 	static HICON    iconFromAvatar(const TWindowData *dat);

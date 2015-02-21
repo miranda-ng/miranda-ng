@@ -1091,7 +1091,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (BYTE)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
 			}
-			else Utils::enableDlgControl(hwnd, IDC_PANELPICTUREVIS, FALSE);
+			else Utils::enableDlgControl(hwnd, IDC_PANELPICTUREVIS, false);
 		}
 		return FALSE;
 
@@ -1387,7 +1387,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTit
 	m_rcRich.left = LEFT_BORDER + m_leftWidth; m_rcRich.top = TOP_BORDER;
 	m_rcRich.right -= (LEFT_BORDER + RIGHT_BORDER + m_leftWidth);
 
-	int twips = (int)(15.0f / PluginConfig.g_DPIscaleY);
+	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	m_rcRich.right = m_rcRich.left + (twips * (m_rcRich.right - m_rcRich.left)) - 10 * twips;
 	m_rcRich.bottom = m_rcRich.top + (twips * (m_rcRich.bottom - m_rcRich.top));
 

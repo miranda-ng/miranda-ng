@@ -45,7 +45,7 @@ static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
 {
 	Disabled = !Disabled;
 
-	if (PluginConfig.g_PopupAvail) {
+	if (PluginConfig.g_bPopupAvail) {
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_ICON | CMIM_NAME;
 
@@ -96,7 +96,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (db_get_b(hContact, "CList", "Hidden", 0) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
-	if (!PluginConfig.g_PopupAvail || Disabled)
+	if (!PluginConfig.g_bPopupAvail || Disabled)
 		return;
 
 	TCHAR *szContactName = pcli->pfnGetContactDisplayName(hContact, 0);
@@ -226,9 +226,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		CheckDlgButton(hwndDlg, IDC_ONEPOPUP, (OnePopup) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWMENU, (ShowMenu) ? BST_CHECKED : BST_UNCHECKED);
 
-		Utils::enableDlgControl(hwndDlg, IDC_ONEPOPUP, PluginConfig.g_PopupAvail);
-		Utils::enableDlgControl(hwndDlg, IDC_SHOWMENU, PluginConfig.g_PopupAvail);
-		Utils::enableDlgControl(hwndDlg, IDC_PREVIEW, PluginConfig.g_PopupAvail/*&&!ServiceExists(MS_POPUP_REGISTERNOTIFICATION)*/);
+		Utils::enableDlgControl(hwndDlg, IDC_ONEPOPUP, PluginConfig.g_bPopupAvail);
+		Utils::enableDlgControl(hwndDlg, IDC_SHOWMENU, PluginConfig.g_bPopupAvail);
+		Utils::enableDlgControl(hwndDlg, IDC_PREVIEW, PluginConfig.g_bPopupAvail);
 
 		newTimeout = Timeout;
 		newTimeoutMode = TimeoutMode;
@@ -249,15 +249,15 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			switch (idCtrl) {
 			case IDC_USEWINCOLORS:
 				if (wNotifyCode == BN_CLICKED) {
-					BOOL bEnableOthers;
+					bool bEnableOthers;
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_USEWINCOLORS)) {
 						newColorMode = COLOR_WINDOWS;
-						bEnableOthers = FALSE;
+						bEnableOthers = false;
 					}
 					else {
 						newColorMode = COLOR_OWN;
-						bEnableOthers = TRUE;
+						bEnableOthers = true;
 					}
 
 					for (i = 0; i < SIZEOF(colorPicker); i++)
@@ -271,15 +271,15 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			case IDC_USEPOPUPCOLORS:
 				if (wNotifyCode == BN_CLICKED) {
-					BOOL bEnableOthers;
+					bool bEnableOthers;
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_USEPOPUPCOLORS)) {
 						newColorMode = COLOR_POPUP;
-						bEnableOthers = FALSE;
+						bEnableOthers = false;
 					}
 					else {
 						newColorMode = COLOR_OWN;
-						bEnableOthers = TRUE;
+						bEnableOthers = true;
 					}
 
 					for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
@@ -303,7 +303,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				break;
 
 			case IDC_PREVIEW:
-				if (PluginConfig.g_PopupAvail) {
+				if (PluginConfig.g_bPopupAvail) {
 					POPUPDATAT ppd = { 0 };
 					for (i = 0; i < 2; i++) {
 						int notyping;
@@ -542,7 +542,7 @@ int TN_ModuleInit()
 	mir_sntprintf(szStart, SIZEOF(szStart), TranslateT("...is typing a message."));
 	mir_sntprintf(szStop, SIZEOF(szStop), TranslateT("...has stopped typing."));
 
-	if (PluginConfig.g_PopupAvail && ShowMenu) {
+	if (PluginConfig.g_bPopupAvail && ShowMenu) {
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
 		CLISTMENUITEM mi = { sizeof(mi) };

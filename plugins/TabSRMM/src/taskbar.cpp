@@ -328,7 +328,7 @@ void CProxyWindow::sendPreview()
 	POINT pt = {0};
 	RECT rcContainer, rcTemp, rcRich, rcLog;
 	HDC hdc, dc;
-	int twips = (int)(15.0f / PluginConfig.g_DPIscaleY);
+	int twips = (int)(15.0f / PluginConfig.m_DPIscaleY);
 	bool fIsChat = m_dat->bType != SESSIONTYPE_IM;
 	HWND 	hwndRich = ::GetDlgItem(m_dat->hwnd, fIsChat ? IDC_CHAT_LOG : IDC_LOG);
 	LONG 	cx, cy;

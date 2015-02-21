@@ -122,7 +122,7 @@ CSendLaterJob::~CSendLaterJob()
 			/*
 			 * show a popup notification, unless they are disabled
 			 */
-			if (PluginConfig.g_PopupAvail && fShowPopup) {
+			if (PluginConfig.g_bPopupAvail && fShowPopup) {
 				TCHAR	*tszName = pcli->pfnGetContactDisplayName(hContact, 0);
 
 				POPUPDATAT ppd = {0};
@@ -713,7 +713,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_LABELTIP|LVS_EX_DOUBLEBUFFER);
 		qMgrSetupColumns();
 		qMgrFillList();
-		if (PluginConfig.g_PopupAvail) {
+		if (PluginConfig.g_bPopupAvail) {
 			::CheckDlgButton(m_hwndDlg, IDC_QMGR_SUCCESSPOPUPS, m_fSuccessPopups ? BST_CHECKED : BST_UNCHECKED);
 			::CheckDlgButton(m_hwndDlg, IDC_QMGR_ERRORPOPUPS, m_fErrorPopups ? BST_CHECKED : BST_UNCHECKED);
 		}

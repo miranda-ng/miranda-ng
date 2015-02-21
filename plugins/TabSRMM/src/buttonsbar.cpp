@@ -286,10 +286,10 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 	if (bbdi->pszTooltip)
 		SendDlgItemMessage(hwndDlg, tempCID, BUTTONADDTOOLTIP, (WPARAM)bbdi->ptszTooltip, (bbdi->bbbFlags & BBBF_ANSITOOLTIP) ? 0 : BATF_TCHAR);
 	if (bbdi->bbbFlags) {
-		Utils::showDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_HIDDEN) ? SW_HIDE : SW_SHOW);
-		Utils::enableDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_DISABLED) ? 0 : 1);
-		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_PUSHED)  ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags&BBSF_RELEASED) ? BST_UNCHECKED : BST_CHECKED);
+		Utils::showDlgControl(hwndDlg, tempCID, (bbdi->bbbFlags & BBSF_HIDDEN) ? SW_HIDE : SW_SHOW);
+		Utils::enableDlgControl(hwndDlg, tempCID, !(bbdi->bbbFlags & BBSF_DISABLED));
+		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags & BBSF_PUSHED) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, tempCID, (bbdi->bbbFlags & BBSF_RELEASED) ? BST_UNCHECKED : BST_CHECKED);
 	}
 	return 0;
 }
@@ -427,7 +427,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 	RECT rcSplitter;
 	POINT ptSplitter;
 	int splitterY;
-	BYTE gap = DPISCALEX_S(PluginConfig.g_iButtonsBarGap);
+	BYTE gap = DPISCALEX_S(PluginConfig.m_iButtonsBarGap);
 	BOOL isThemed = TRUE;
 
 	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED &&
@@ -557,7 +557,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	int  i;
 	HWND hwndBtn = 0;
 
-	BYTE gap = DPISCALEX_S(PluginConfig.g_iButtonsBarGap);
+	BYTE gap = DPISCALEX_S(PluginConfig.m_iButtonsBarGap);
 	bool showToolbar = !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
@@ -579,7 +579,7 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	int splitterY = (!bBottomToolbar) ? ptSplitter.y - DPISCALEY_S(1) : rect.bottom;
 	int tempL = dat->bbLSideWidth, tempR = dat->bbRSideWidth;
 	int lwidth = 0, rwidth = 0;
-	int iOff = DPISCALEY_S((PluginConfig.g_DPIscaleY > 1.0) ? (dat->bType == SESSIONTYPE_IM ? 22 : 23) : 22);
+	int iOff = DPISCALEY_S((PluginConfig.m_DPIscaleY > 1.0) ? (dat->bType == SESSIONTYPE_IM ? 22 : 23) : 22);
 
 	int foravatar = 0;
 	if ((rect.bottom - ptSplitter.y - (rcSplitter.bottom - rcSplitter.top) /*- DPISCALEY(2)*/ - (bBottomToolbar ? DPISCALEY_S(24) : 0) < dat->pic.cy - DPISCALEY_S(2)) && dat->bShowAvatar && !PluginConfig.m_bAlwaysFullToolbarWidth)
@@ -1150,12 +1150,12 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			BuildMenuObjectsTree(hToolBarTree);
 		}
 
-		Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, false);
+		Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, false);
+		Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, false);
 
 		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(10, 0));
-		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(PluginConfig.g_iButtonsBarGap, 0));
+		SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(PluginConfig.m_iButtonsBarGap, 0));
 		TranslateDialogDefault(hwndDlg);
 		bOptionsInit = FALSE;
 		break;
@@ -1294,17 +1294,17 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 				SaveTree(hToolBarTree);
 				CB_ReInitCustomButtons();
-				PluginConfig.g_iButtonsBarGap = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_GETPOS, 0, 0);
+				PluginConfig.m_iButtonsBarGap = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPIN1, UDM_GETPOS, 0, 0);
 
-				if (PluginConfig.g_iButtonsBarGap != M.GetByte("ButtonsBarGap", 1))
+				if (PluginConfig.m_iButtonsBarGap != M.GetByte("ButtonsBarGap", 1))
 					M.BroadcastMessageAsync(WM_SIZE, 0, 0);
 
-				db_set_b(0, SRMSGMOD_T, "ButtonsBarGap", PluginConfig.g_iButtonsBarGap);
+				db_set_b(0, SRMSGMOD_T, "ButtonsBarGap", PluginConfig.m_iButtonsBarGap);
 
 				BuildMenuObjectsTree((HWND)hToolBarTree);
-				Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-				Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+				Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, false);
+				Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, false);
+				Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, false);
 				return 1;
 			}
 			break;
@@ -1341,9 +1341,9 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 						cbd->opFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK)) ? BBSF_CHATBUTTON : 0;
 						cbd->opFlags |= (IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN)) ? BBSF_CANBEHIDDEN : 0;
 
-						cbd->bIMButton = (IsDlgButtonChecked(hwndDlg, IDC_IMCHECK) ? TRUE : FALSE);
-						cbd->bChatButton = (IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK) ? TRUE : FALSE);
-						cbd->bCanBeHidden = (IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN) ? TRUE : FALSE);
+						cbd->bIMButton = IsDlgButtonChecked(hwndDlg, IDC_IMCHECK) != 0;
+						cbd->bChatButton = IsDlgButtonChecked(hwndDlg, IDC_CHATCHECK) != 0;
+						cbd->bCanBeHidden = IsDlgButtonChecked(hwndDlg, IDC_CANBEHIDDEN) != 0;
 					}
 				}
 				break;
@@ -1362,9 +1362,9 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					TreeView_GetItem(hToolBarTree, &tvi);
 
 					if (!TreeView_GetCheckState(hToolBarTree, tvi.hItem) || !_tcscmp(tvi.pszText, MIDDLE_SEPARATOR)) {
-						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, false);
+						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, false);
+						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, false);
 						break;
 					}
 
@@ -1373,9 +1373,9 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 					CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
 					if (cbd) {
-						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
-						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
-						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
+						Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, true);
+						Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, true);
+						Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, true);
 						CheckDlgButton(hwndDlg, IDC_IMCHECK, (cbd->bIMButton) ? BST_CHECKED : BST_UNCHECKED);
 						CheckDlgButton(hwndDlg, IDC_CHATCHECK, (cbd->bChatButton) ? BST_CHECKED : BST_UNCHECKED);
 						CheckDlgButton(hwndDlg, IDC_CANBEHIDDEN, (cbd->bCanBeHidden) ? BST_CHECKED : BST_UNCHECKED);
@@ -1391,15 +1391,15 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					if (hti.flags&TVHT_ONITEMSTATEICON) {
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 						if (TreeView_GetCheckState(hToolBarTree, hti.hItem)) {
-							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, FALSE);
-							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, FALSE);
-							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, FALSE);
+							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, false);
+							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, false);
+							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, false);
 							CheckDlgButton(hwndDlg, IDC_IMCHECK, BST_CHECKED);
 						}
 						else {
-							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, TRUE);
-							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, TRUE);
-							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, TRUE);
+							Utils::enableDlgControl(hwndDlg, IDC_IMCHECK, true);
+							Utils::enableDlgControl(hwndDlg, IDC_CHATCHECK, true);
+							Utils::enableDlgControl(hwndDlg, IDC_CANBEHIDDEN, true);
 						}
 						TreeView_SelectItem(hToolBarTree, hti.hItem);
 					}

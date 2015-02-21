@@ -140,8 +140,8 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, 0, 0);
 			else {
 				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCOUNT, 0, 0); i++)
-					if (SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)i, 0) == (LRESULT)sCodePage)
-						SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, (WPARAM)i, 0);
+					if (SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, i, 0) == (LRESULT)sCodePage)
+						SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_SETCURSEL, i, 0);
 			}
 			CheckDlgButton(hwndDlg, IDC_FORCEANSI, M.GetByte(hContact, "forceansi", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_IGNORETIMEOUTS, M.GetByte(hContact, "no_ack", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -153,32 +153,27 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ALWAYSTRIM2:
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2));
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2));
+			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM2) != 0);
 			break;
 
 		case WM_USER + 100:
 			TWindowData *dat = 0;
 			DWORD	*pdwActionToTake = (DWORD *)lParam;
-			int		iIndex = CB_ERR, iMode = -1;
-			DWORD	newCodePage;
 			unsigned int iOldIEView = 0;
 			HWND	hWnd = M.FindWindow(hContact);
 			DWORD	sCodePage = M.GetDword(hContact, "ANSIcodepage", 0);
-			BYTE	bInfoPanel, bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
-			BYTE	bAvatarVisible = 0;
+			BYTE	bOldInfoPanel = M.GetByte(hContact, "infopanel", 0);
 
 			if (hWnd) {
 				dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				if (dat)
 					iOldIEView = GetIEViewMode(dat->hContact);
 			}
-			iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
-			iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
+			int iIndex = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETCURSEL, 0, 0);
+			int iMode = SendDlgItemMessage(hwndDlg, IDC_IEVIEWMODE, CB_GETITEMDATA, iIndex, 0);
 
 			if (iIndex != CB_ERR && (iMode >= 0 && iMode <= 3)) {
-				unsigned int iNewIEView;
-
 				switch (iMode) {
 				case 0:
 					db_set_b(hContact, SRMSGMOD_T, "ieview", 0);
@@ -198,7 +193,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				}
 				if (hWnd && dat) {
-					iNewIEView = GetIEViewMode(dat->hContact);
+					unsigned int iNewIEView = GetIEViewMode(dat->hContact);
 					if (iNewIEView != iOldIEView) {
 						if (pdwActionToTake)
 							*pdwActionToTake |= UPREF_ACTION_SWITCHLOGVIEWER;
@@ -211,9 +206,11 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				else
 					db_set_dw(hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
 			}
+
 			iIndex = SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETCURSEL, 0, 0);
-			if ((newCodePage = (DWORD)SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, (WPARAM)iIndex, 0)) != sCodePage) {
-				db_set_dw(hContact, SRMSGMOD_T, "ANSIcodepage", (DWORD)newCodePage);
+			DWORD	newCodePage = (DWORD)SendDlgItemMessage(hwndDlg, IDC_CODEPAGES, CB_GETITEMDATA, iIndex, 0);
+			if (newCodePage != sCodePage) {
+				db_set_dw(hContact, SRMSGMOD_T, "ANSIcodepage", newCodePage);
 				if (hWnd && dat) {
 					dat->codePage = newCodePage;
 					SendMessage(hWnd, DM_UPDATETITLE, 0, 1);
@@ -228,8 +225,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (!M.GetByte(hContact, "isFavorite", 0))
 					AddContactToFavorites(hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuFavorites);
 			}
-			else
-				DeleteMenu(PluginConfig.g_hMenuFavorites, (UINT_PTR)hContact, MF_BYCOMMAND);
+			else DeleteMenu(PluginConfig.g_hMenuFavorites, hContact, MF_BYCOMMAND);
 
 			db_set_b(hContact, SRMSGMOD_T, "isFavorite", (WORD)(IsDlgButtonChecked(hwndDlg, IDC_ISFAVORITE) ? 1 : 0));
 			db_set_b(hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PRIVATESPLITTER) ? 1 : 0));
@@ -237,13 +233,13 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			db_set_b(hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_TEMPLOVERRIDE)));
 			db_set_b(hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_RTLTEMPLOVERRIDE)));
 
-			bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
+			BYTE bAvatarVisible = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
 			if (bAvatarVisible == 0)
 				db_unset(hContact, SRMSGMOD_T, "hideavatar");
 			else
 				db_set_b(hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
 
-			bInfoPanel = (BYTE)SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
+			BYTE bInfoPanel = (BYTE)SendDlgItemMessage(hwndDlg, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
 			if (bInfoPanel != bOldInfoPanel) {
 				db_set_b(hContact, SRMSGMOD_T, "infopanel", (BYTE)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
 				if (hWnd && dat)

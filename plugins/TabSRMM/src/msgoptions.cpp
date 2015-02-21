@@ -243,7 +243,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{
 			bool fWindowsOpen = (pFirstContainer != 0 ? true : false);
 			for (int i = 0; _ctrls[i]; i++)
-				Utils::enableDlgControl(hwndDlg, _ctrls[i], fWindowsOpen ? FALSE : TRUE);
+				Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
 
 			Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
 			Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
@@ -485,7 +485,7 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
 	}
 }
 
-BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM wParam, LPARAM lParam)
+BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 {
 	TVITEM item = { 0 };
 	TVHITTESTINFO hti;
@@ -664,14 +664,14 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				break;
 			case LOADHISTORY_COUNT:
 				CheckDlgButton(hwndDlg, IDC_LOADCOUNT, BST_CHECKED);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, TRUE);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, true);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, true);
 				break;
 			case LOADHISTORY_TIME:
 				CheckDlgButton(hwndDlg, IDC_LOADTIME, BST_CHECKED);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, TRUE);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, true);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, true);
+				Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, true);
 				break;
 			}
 
@@ -736,8 +736,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
 			Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-			Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY),r == 0 ? FALSE : TRUE);
-			for (int i=0; i < SIZEOF(__ctrls); i++)
+			Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY), r != 0);
+			for (int i = 0; i < SIZEOF(__ctrls); i++)
 				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
 		}
 		return 0;
@@ -745,17 +745,17 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ALWAYSTRIM:
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM));
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM));
+			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM) != 0);
 			break;
 		case IDC_LOADUNREAD:
 		case IDC_LOADCOUNT:
 		case IDC_LOADTIME:
-			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
-			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
-			Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
+			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
 			break;
 		case IDC_INDENTAMOUNT:
 		case IDC_LOADCOUNTN:
@@ -916,16 +916,16 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		CheckDlgButton(hwndDlg, IDC_NOTIFYPOPUP, M.GetByte(SRMSGMOD, "ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-		Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
-		Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
+		Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
+		Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
 		Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) &&
 			(IsDlgButtonChecked(hwndDlg, IDC_TYPEWIN) || IsDlgButtonChecked(hwndDlg, IDC_TYPENOWIN)));
 
-		Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
-		Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP));
+		Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY) != 0);
+		Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP) != 0);
 
 		if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
-			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, FALSE);
+			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, false);
 			SetDlgItemText(hwndDlg, IDC_NOTIFYBALLOON, TranslateT("Show balloon popup (unsupported system)"));
 		}
 
@@ -935,7 +935,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M.GetByte("MTN_PopupMode", 0), 0);
 
-		if (!PluginConfig.g_PopupAvail) {
+		if (!PluginConfig.g_bPopupAvail) {
 			Utils::showDlgControl(hwndDlg, IDC_NOTIFYPOPUP, SW_HIDE);
 			Utils::showDlgControl(hwndDlg, IDC_STATIC111, SW_HIDE);
 			Utils::showDlgControl(hwndDlg, IDC_MTN_POPUPMODE, SW_HIDE);
@@ -945,15 +945,15 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_NOTIFYTRAY:
-			Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
-			Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
-			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY));
+			Utils::enableDlgControl(hwndDlg, IDC_TYPEWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_TYPENOWIN, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYTRAY) != 0);
 			break;
 		case IDC_SHOWNOTIFY:
-			Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY));
+			Utils::enableDlgControl(hwndDlg, IDC_TYPEFLASHWIN, IsDlgButtonChecked(hwndDlg, IDC_SHOWNOTIFY) != 0);
 			break;
 		case IDC_NOTIFYPOPUP:
-			Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP));
+			Utils::enableDlgControl(hwndDlg, IDC_MTN_POPUPMODE, IsDlgButtonChecked(hwndDlg, IDC_NOTIFYPOPUP) != 0);
 			break;
 		case IDC_TYPEWIN:
 		case IDC_TYPENOWIN:
@@ -1013,8 +1013,8 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
 		SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)db_get_w(NULL, SRMSGMOD_T, "cut_at", 15));
 
-		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
-		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
+		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
+		Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
 
 		SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Normal - close tab, if last tab is closed also close the window"));
 		SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Minimize the window to the task bar"));
@@ -1038,8 +1038,8 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			break;
 		}
 		case IDC_CUT_TABTITLE:
-			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
-			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
+			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE) != 0);
 			break;
 		}
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -1090,7 +1090,7 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 		SendDlgItemMessage(hwndDlg, IDC_TABLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 1));
 		SendDlgItemMessage(hwndDlg, IDC_TABLIMITSPIN, UDM_SETPOS, 0, (int)M.GetDword("maxtabs", 1));
 		SetDlgItemInt(hwndDlg, IDC_TABLIMIT, (int)M.GetDword("maxtabs", 1), FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS));
+		Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) != 0);
 		CheckDlgButton(hwndDlg, IDC_SINGLEWINDOWMODE, M.GetByte("singlewinmode", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_DEFAULTCONTAINERMODE, !(IsDlgButtonChecked(hwndDlg, IDC_CONTAINERGROUPMODE) || IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) || IsDlgButtonChecked(hwndDlg, IDC_SINGLEWINDOWMODE)) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -1108,11 +1108,11 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 			SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(CSkin::m_aeroEffects[i].tszName));
 
 		SendDlgItemMessage(hwndDlg, IDC_AEROEFFECT, CB_SETCURSEL, (WPARAM)CSkin::m_aeroEffect, 0);
-		Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, PluginConfig.m_bIsVista ? TRUE : FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_USEAERO, PluginConfig.m_bIsVista ? TRUE : FALSE);
-		Utils::enableDlgControl(hwndDlg, IDC_USEAEROPEEK, PluginConfig.m_bIsWin7 ? TRUE : FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, PluginConfig.m_bIsVista);
+		Utils::enableDlgControl(hwndDlg, IDC_USEAERO, PluginConfig.m_bIsVista);
+		Utils::enableDlgControl(hwndDlg, IDC_USEAEROPEEK, PluginConfig.m_bIsWin7);
 		if (PluginConfig.m_bIsVista)
-			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) ? 1 : 0);
+			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) != 0);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -1122,13 +1122,13 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 				return TRUE;
 			break;
 		case IDC_USEAERO:
-			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) ? 1 : 0);
+			Utils::enableDlgControl(hwndDlg, IDC_AEROEFFECT, IsDlgButtonChecked(hwndDlg, IDC_USEAERO) != 0);
 			break;
 		case IDC_LIMITTABS:
 		case IDC_SINGLEWINDOWMODE:
 		case IDC_CONTAINERGROUPMODE:
 		case IDC_DEFAULTCONTAINERMODE:
-			Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS));
+			Utils::enableDlgControl(hwndDlg, IDC_TABLIMIT, IsDlgButtonChecked(hwndDlg, IDC_LIMITTABS) != 0);
 			break;
 		case IDC_HELP_CONTAINERS:
 			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://wiki.miranda.or.at/TabSRMM/Containers");
@@ -1265,7 +1265,7 @@ struct {
 
 static int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	if (PluginConfig.g_PopupAvail)
+	if (PluginConfig.g_bPopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
@@ -1508,14 +1508,14 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 				break;
 			case LOADHISTORY_COUNT:
 				CheckDlgButton(hwndDlg, IDC_LOADCOUNT, BST_CHECKED);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, TRUE);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, true);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, true);
 				break;
 			case LOADHISTORY_TIME:
 				CheckDlgButton(hwndDlg, IDC_LOADTIME, BST_CHECKED);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, TRUE);
-				Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, TRUE);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, true);
+				Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, true);
+				Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, true);
 				break;
 			}
 
@@ -1556,15 +1556,15 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 		case IDC_LOADUNREAD:
 		case IDC_LOADCOUNT:
 		case IDC_LOADTIME:
-			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT));
-			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
-			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
-			Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME));
+			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_LOADCOUNTSPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADCOUNT) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMEN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_LOADTIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_STMINSOLD, IsDlgButtonChecked(hwndDlg, IDC_LOADTIME) != 0);
 			break;
 		case IDC_ALWAYSTRIM:
-			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM));
-			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM));
+			Utils::enableDlgControl(hwndDlg, IDC_TRIMSPIN, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM) != 0);
+			Utils::enableDlgControl(hwndDlg, IDC_TRIM, IsDlgButtonChecked(hwndDlg, IDC_ALWAYSTRIM) != 0);
 			break;
 		case IDC_TRIM:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
@@ -1705,7 +1705,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 		case IDC_ALWAYS:
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-				Utils::enableDlgControl(hwndDlg, i, BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_ALWAYS));
+				Utils::enableDlgControl(hwndDlg, i, !IsDlgButtonChecked(hwndDlg, IDC_ALWAYS));
 			break;
 		}
 

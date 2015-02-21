@@ -1355,7 +1355,7 @@ void TSAPI DM_OptionsApplied(TWindowData *dat, WPARAM, LPARAM lParam)
 	SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(0, 0));
 	SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 
-	GetSendFormat(dat, 1);
+	GetSendFormat(dat);
 	SetDialogToType(hwndDlg);
 	SendMessage(hwndDlg, DM_CONFIGURETOOLBAR, 0, 0);
 
