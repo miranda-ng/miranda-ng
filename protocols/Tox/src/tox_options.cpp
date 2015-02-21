@@ -476,7 +476,7 @@ INT_PTR CALLBACK NodeListSubProc(HWND hwndList, UINT uMsg, WPARAM wParam, LPARAM
 		break;
 	
 	default:
-		return CallWindowProc((WNDPROC)GetClassLong(hwndList, GCL_WNDPROC), hwndList, uMsg, wParam, lParam);
+		return CallWindowProc((WNDPROC)GetClassLongPtr(hwndList, GCLP_WNDPROC), hwndList, uMsg, wParam, lParam);
 	}
 	return FALSE;
 }
