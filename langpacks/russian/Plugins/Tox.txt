@@ -7,16 +7,6 @@
 ;============================================================
 [Tox protocol support for Miranda NG.]
 Поддержка протокола Tox в Miranda NG.
-[Multimedia]
-Мультимедиа
-[Audio input device]
-Устройство аудиовхода
-[Audio output device]
-Устройство аудиовыхода
-[Filter audio]
-Фильтр аудио
-[Video input device]
-Устройство видеовхода
 [Name:]
 Имя:
 [Password:]
@@ -33,6 +23,16 @@
 Отключить UDP (принудительно использовать TCP)
 [Disable IPv6]
 Отключить IPv6
+[Multimedia]
+Мультимедиа
+[Audio input device]
+Устройство аудиовхода
+[Audio output device]
+Устройство аудиовыхода
+[Filter audio]
+Фильтр аудио
+[Video input device]
+Устройство видеовхода
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
 [Dns name:]
@@ -55,8 +55,8 @@ DNS имя:
 Сеть
 [Account]
 Учётная запись
-[Tox nodes]
-Узлы сети Tox
+[Nodes]
+Ноды
 [%s connection]
 %s подключение
 [All files (*.*)]
@@ -77,6 +77,10 @@ DNS имя:
 Ошибка
 [Enter public key]
 Введите открытый ключ
+[Common nodes]
+Общие ноды 
+[nodes]
+ноды
 [Are you sure?]
 Вы уверены?
 [Node deleting]

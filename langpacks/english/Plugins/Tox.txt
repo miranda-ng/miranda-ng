@@ -37,7 +37,7 @@
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 [Account]
-[Tox nodes]
+[Nodes]
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
@@ -50,6 +50,8 @@
 [Enter IPv4]
 [Error]
 [Enter public key]
+[Common nodes]
+[nodes]
 [Are you sure?]
 [Node deleting]
 ;file \protocols\Tox\src\tox_proto.cpp

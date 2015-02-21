@@ -749,7 +749,7 @@ Miranda не смогла загрузить встроенную систему
 название протокола текущего контакта (если определено). Имя учётной записи используется когда протокол поддерживает несколько учётных записей
 [user-defined account name of current contact (if defined).]
 имя учётной записи текущего контакта (если определено).
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 ID текущего контакта (если определен). Например, UIN для ICQ, JID для Jabber и т.д.
 [path to Miranda root folder]
 путь к папке программы
