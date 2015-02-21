@@ -152,7 +152,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		{
 			TreeViewInit(GetDlgItem(hWnd, IDC_EVENTOPTIONS), CTranslator::TREE_NEN, 0, TRUE);
 
-			if (!PluginConfig.g_PopupAvail) {
+			if (!PluginConfig.g_bPopupAvail) {
 				HWND	hwndChild = FindWindowEx(hWnd, 0, 0, 0);
 				while(hwndChild) {
 					ShowWindow(hwndChild, SW_HIDE);
@@ -192,18 +192,18 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			Utils::enableDlgControl(hWnd, IDC_COLTEXT_OTHERS, !options->bDefaultColorOthers);
 			Utils::enableDlgControl(hWnd, IDC_COLBACK_ERR, !options->bDefaultColorErr);
 			Utils::enableDlgControl(hWnd, IDC_COLTEXT_ERR, !options->bDefaultColorErr);
-			Utils::enableDlgControl(hWnd, IDC_COLTEXT_MUC,  (g_Settings.iPopupStyle == 3) ? TRUE : FALSE);
-			Utils::enableDlgControl(hWnd, IDC_COLBACK_MUC,  (g_Settings.iPopupStyle == 3) ? TRUE : FALSE);
+			Utils::enableDlgControl(hWnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
+			Utils::enableDlgControl(hWnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
 
 			CheckDlgButton(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle < 2 ? BST_CHECKED : BST_UNCHECKED);
-			Utils::enableDlgControl(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2 ? TRUE : FALSE);
+			Utils::enableDlgControl(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
 
 			SetDlgItemInt(hWnd, IDC_MESSAGEPREVIEWLIMIT, options->iLimitPreview, FALSE);
 			CheckDlgButton(hWnd, IDC_LIMITPREVIEW, (options->iLimitPreview > 0) ? BST_CHECKED : BST_UNCHECKED);
 			SendDlgItemMessage(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETRANGE, 0, MAKELONG(2048, options->iLimitPreview > 0 ? 50 : 0));
 			SendDlgItemMessage(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, UDM_SETPOS, 0, (LPARAM)options->iLimitPreview);
-			Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW));
-			Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW));
+			Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
+			Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
 
 			bWmNotify = FALSE;
 		}
@@ -241,7 +241,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				else
 					g_Settings.iPopupStyle = 3;
 
-				Utils::enableDlgControl(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2 ? TRUE : FALSE);
+				Utils::enableDlgControl(hWnd, IDC_MUC_LOGCOLORS, g_Settings.iPopupStyle != 2);
 
 				options->bDefaultColorMsg = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MESSAGE);
 				options->bDefaultColorOthers = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_OTHERS);
@@ -263,11 +263,11 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				Utils::enableDlgControl(hWnd, IDC_COLTEXT_OTHERS, !options->bDefaultColorOthers);
 				Utils::enableDlgControl(hWnd, IDC_COLBACK_ERR, !options->bDefaultColorErr);
 				Utils::enableDlgControl(hWnd, IDC_COLTEXT_ERR, !options->bDefaultColorErr);
-				Utils::enableDlgControl(hWnd, IDC_COLTEXT_MUC,  (g_Settings.iPopupStyle == 3) ? TRUE : FALSE);
-				Utils::enableDlgControl(hWnd, IDC_COLBACK_MUC,  (g_Settings.iPopupStyle == 3) ? TRUE : FALSE);
+				Utils::enableDlgControl(hWnd, IDC_COLTEXT_MUC, g_Settings.iPopupStyle == 3);
+				Utils::enableDlgControl(hWnd, IDC_COLBACK_MUC, g_Settings.iPopupStyle == 3);
 
-				Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW));
-				Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW));
+				Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMIT, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
+				Utils::enableDlgControl(hWnd, IDC_MESSAGEPREVIEWLIMITSPIN, IsDlgButtonChecked(hWnd, IDC_LIMITPREVIEW) != 0);
 				//disable delay textbox when infinite is checked
 
 				Utils::enableDlgControl(hWnd, IDC_DELAY_MESSAGE, options->iDelayMsg != -1);
@@ -566,7 +566,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (arPopupList.getCount() >= MAX_POPUPS)
 		return 2;
 
-	if (!PluginConfig.g_PopupAvail)
+	if (!PluginConfig.g_bPopupAvail)
 		return 0;
 
 	DBEVENTINFO dbe = { sizeof(dbe) };
@@ -797,7 +797,7 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 		return 0;
 	}
 passed:
-	if ( !PluginConfig.g_PopupAvail)
+	if ( !PluginConfig.g_bPopupAvail)
 		return 0;
 
 	if ( PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
@@ -815,7 +815,7 @@ passed:
 
 void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
 {
-	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_PopupAvail)
+	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable || !PluginConfig.g_bPopupAvail)
 		return;
 
 	PLUGIN_DATAT *_T = 0;

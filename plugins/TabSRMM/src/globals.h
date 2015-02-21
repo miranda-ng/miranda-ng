@@ -70,7 +70,7 @@ public:
    HICON       g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
    HCURSOR     hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
    HBITMAP     g_hbmUnknown;
-   int         g_SmileyAddAvail, g_WantIEView, g_PopupAvail, g_WantHPP;
+   bool        g_SmileyAddAvail, g_WantIEView, g_bPopupAvail, g_WantHPP;
    HIMAGELIST  g_hImageList;
    HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
    HICON       g_IconMsgEventBig, g_IconTypingEventBig;
@@ -110,10 +110,10 @@ public:
    int         m_TrayFlashes;
    int         m_TrayFlashState;
    HANDLE      m_UserMenuItem;
-   double      g_DPIscaleX;
-   double      g_DPIscaleY;
+   double      m_DPIscaleX;
+   double      m_DPIscaleY;
    HBITMAP     m_hbmMsgArea;
-   BYTE        g_iButtonsBarGap;
+   BYTE        m_iButtonsBarGap;
    BYTE        m_WinVerMajor;
    BYTE        m_WinVerMinor;
    bool        m_bIsVista, m_bIsWin7;
@@ -175,7 +175,7 @@ private:
 
 extern	CGlobals	PluginConfig;
 
-#define DPISCALEY_S(argY) ((int) ((double)(argY) * PluginConfig.g_DPIscaleY))
-#define DPISCALEX_S(argX) ((int) ((double)(argX) * PluginConfig.g_DPIscaleX))
+#define DPISCALEY_S(argY) ((int) ((double)(argY) * PluginConfig.m_DPIscaleY))
+#define DPISCALEX_S(argX) ((int) ((double)(argX) * PluginConfig.m_DPIscaleX))
 
 #endif /* __GLOBALS_H */

@@ -96,8 +96,8 @@ void CGlobals::reloadSystemStartup()
 		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 
 	HDC hScrnDC = GetDC(0);
-	g_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
-	g_DPIscaleY = GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
+	m_DPIscaleX = GetDeviceCaps(hScrnDC, LOGPIXELSX) / 96.0;
+	m_DPIscaleY = GetDeviceCaps(hScrnDC, LOGPIXELSY) / 96.0;
 	ReleaseDC(0, hScrnDC);
 
 	reloadSettings(false);
@@ -130,10 +130,10 @@ void CGlobals::reloadSystemModulesChanged()
 	}
 	else db_set_b(0, SRMSGMOD_T, "ieview_installed", 0);
 
-	g_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
+	m_iButtonsBarGap = M.GetByte("ButtonsBarGap", 1);
 	m_hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
-	g_PopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT);
+	g_bPopupAvail = ServiceExists(MS_POPUP_ADDPOPUPT) != 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
@@ -345,7 +345,7 @@ int CGlobals::ModulesLoaded(WPARAM, LPARAM)
 
 	::RegisterFontServiceFonts();
 	::CacheLogFonts();
-	if (PluginConfig.g_PopupAvail)
+	if (PluginConfig.g_bPopupAvail)
 		TN_ModuleInit();
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, DBSettingChanged);

@@ -429,11 +429,11 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 		}
 	}
 
-	Utils::enableDlgControl(hwndDlg, IDC_TIME, TRUE);
+	Utils::enableDlgControl(hwndDlg, IDC_TIME, true);
 
 	if (dat->hwndIEView || dat->hwndHPP) {
 		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
-		Utils::enableDlgControl(hwndDlg, IDC_LOG, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_LOG, false);
 		Utils::showDlgControl(hwndDlg, IDC_MESSAGE, SW_SHOW);
 	}
 	else ShowMultipleControls(hwndDlg, sendControls, sizeof(sendControls) / sizeof(sendControls[0]), SW_SHOW);
@@ -461,7 +461,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	SendMessage(hwndDlg, DM_UPDATETITLE, 0, 1);
 	SendMessage(hwndDlg, WM_SIZE, 0, 0);
 
-	Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, FALSE);
+	Utils::enableDlgControl(hwndDlg, IDC_CONTACTPIC, false);
 
 	dat->Panel->Configure();
 }
@@ -928,8 +928,8 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					BYTE bSync = M.GetByte(CHAT_MODULE, "SyncSplitter", 0);
 					DWORD dwOff_IM = 0, dwOff_CHAT = 0;
 
-					dwOff_CHAT = -(2 + (PluginConfig.g_DPIscaleY > 1.0 ? 1 : 0));
-					dwOff_IM = 2 + (PluginConfig.g_DPIscaleY > 1.0 ? 1 : 0);
+					dwOff_CHAT = -(2 + (PluginConfig.m_DPIscaleY > 1.0 ? 1 : 0));
+					dwOff_IM = 2 + (PluginConfig.m_DPIscaleY > 1.0 ? 1 : 0);
 
 					RECT rcWin;
 					GetWindowRect(hwndParent, &rcWin);
@@ -2153,7 +2153,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_SPLITTER), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
 
 		if (lParam == 1) {
-			GetSendFormat(dat, 1);
+			GetSendFormat(dat);
 			SetDialogToType(hwndDlg);
 		}
 
@@ -2684,14 +2684,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (streamOut == NULL)
 					break;
 
-				ptrT decoded(mir_utf8decodeT(streamOut));
-				if (decoded == NULL)
+				CMString decoded(ptrT(mir_utf8decodeT(streamOut)));
+				if (decoded.IsEmpty())
 					break;
 
 				char *utfResult = NULL;
 				if (final_sendformat)
-					DoRtfToTags(decoded, dat);
-				rtrimt(decoded);
+					DoRtfToTags(dat, decoded);
+				decoded.Trim();
 				int bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
 				size_t memRequired = 0;

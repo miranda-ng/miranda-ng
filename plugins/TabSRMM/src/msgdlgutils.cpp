@@ -843,15 +843,9 @@ char* TSAPI Message_GetFromStream(HWND hwndRtf, const TWindowData *dat, DWORD dw
 // convert rich edit code to bbcode (if wanted). Otherwise, strip all RTF formatting
 // tags and return plain text
 
-#define SETCHAR(c) InsertThis[0]=c; InsertThis[1]=0;
-
-BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
+BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 {
-	BOOL bJustRemovedRTF = TRUE;
-	BOOL bTextHasStarted = FALSE;
-	static int inColor = 0;
-
-	if (!pszText)
+	if (pszText.IsEmpty())
 		return FALSE;
 
 	// used to filter out attributes which are already set for the default message input area font
@@ -859,216 +853,125 @@ BOOL TSAPI DoRtfToTags(TCHAR *pszText, const TWindowData *dat)
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
-
 	Utils::CreateColorMap(pszText);
+
 	// scan the file for rtf commands and remove or parse them
-	inColor = 0;
-	TCHAR *p1 = _tcsstr(pszText, _T("\\pard"));
-	if (!p1)
+	int idx = pszText.Find(_T("\\pard"));
+	if (idx == -1)
 		return FALSE;
 
-	size_t iRemoveChars;
-	TCHAR InsertThis[50];
-	p1 += 5;
+	bool bInsideColor = false;
+	CMString res;
 
-	memmove(pszText, p1, (mir_tstrlen(p1) + 1) * sizeof(TCHAR));
-	p1 = pszText;
 	// iterate through all characters, if rtf control character found then take action
-	while (*p1 != '\0') {
-		mir_sntprintf(InsertThis, SIZEOF(InsertThis), _T(""));
-		iRemoveChars = 0;
-
-		switch (*p1) {
+	for (const TCHAR *p = pszText.GetString() + idx + 5; *p;) {
+		switch (*p) {
 		case '\\':
-			if (!_tcsncmp(p1, _T("\\cf"), 3)) { // foreground color
-				TCHAR szTemp[20];
-				int iCol = _ttoi(p1 + 3);
+			if (!_tcsncmp(p, _T("\\cf"), 3)) { // foreground color
+				int iCol = _ttoi(p + 3);
 				int iInd = Utils::RTFColorToIndex(iCol);
-				bJustRemovedRTF = TRUE;
 
-				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
-				iRemoveChars = 3 + mir_tstrlen(szTemp);
-				if (bTextHasStarted || iCol)
-					mir_sntprintf(InsertThis, SIZEOF(InsertThis), (iInd > 0) ? (inColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (inColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
-				inColor = iInd > 0 ? 1 : 0;
+				if (iCol)
+					res.AppendFormat((iInd > 0) ? (bInsideColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (bInsideColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
+
+				bInsideColor = iInd > 0;
 			}
-			else if (!_tcsncmp(p1, _T("\\highlight"), 10)) { //background color
+			else if (!_tcsncmp(p, _T("\\highlight"), 10)) { //background color
 				TCHAR szTemp[20];
-				int iCol = _ttoi(p1 + 10);
-				bJustRemovedRTF = TRUE;
-
+				int iCol = _ttoi(p + 10);
 				mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%d"), iCol);
-				iRemoveChars = 10 + mir_tstrlen(szTemp);
 			}
-			else if (!_tcsncmp(p1, _T("\\par"), 4)) { // newline
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 4;
+			else if (!_tcsncmp(p, _T("\\line"), 5)) { // soft line break;
+				res.AppendChar('\n');
 			}
-			else if (!_tcsncmp(p1, _T("\\line"), 5)) { // soft line break;
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 5;
-				SETCHAR('\n');
+			else if (!_tcsncmp(p, _T("\\endash"), 7)) {
+				res.AppendChar(0x2013);
 			}
-			else if (!_tcsncmp(p1, _T("\\endash"), 7)) {
-				bTextHasStarted = bJustRemovedRTF = TRUE;
-				iRemoveChars = 7;
-				SETCHAR(0x2013);
+			else if (!_tcsncmp(p, _T("\\emdash"), 7)) {
+				res.AppendChar(0x2014);
 			}
-			else if (!_tcsncmp(p1, _T("\\emdash"), 7)) {
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 7;
-				SETCHAR(0x2014);
+			else if (!_tcsncmp(p, _T("\\bullet"), 7)) {
+				res.AppendChar(0x2022);
 			}
-			else if (!_tcsncmp(p1, _T("\\bullet"), 7)) {
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 7;
-				SETCHAR(0x2022);
+			else if (!_tcsncmp(p, _T("\\ldblquote"), 10)) {
+				res.AppendChar(0x201C);
 			}
-			else if (!_tcsncmp(p1, _T("\\ldblquote"), 10)) {
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 10;
-				SETCHAR(0x201C);
+			else if (!_tcsncmp(p, _T("\\rdblquote"), 10)) {
+				res.AppendChar(0x201D);
 			}
-			else if (!_tcsncmp(p1, _T("\\rdblquote"), 10)) {
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 10;
-				SETCHAR(0x201D);
+			else if (!_tcsncmp(p, _T("\\lquote"), 7)) {
+				res.AppendChar(0x2018);
 			}
-			else if (!_tcsncmp(p1, _T("\\lquote"), 7)) {
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 7;
-				SETCHAR(0x2018);
+			else if (!_tcsncmp(p, _T("\\rquote"), 7)) {
+				res.AppendChar(0x2019);
 			}
-			else if (!_tcsncmp(p1, _T("\\rquote"), 7)) {
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 7;
-				SETCHAR(0x2019);
-			}
-			else if (!_tcsncmp(p1, _T("\\b"), 2)) { //bold
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = (p1[2] != '0') ? 2 : 3;
-				if (!(lf.lfWeight == FW_BOLD)) { // only allow bold if the font itself isn't a bold one, otherwise just strip it..
+			else if (!_tcsncmp(p, _T("\\b"), 2)) { //bold
+				if (!(lf.lfWeight == FW_BOLD)) // only allow bold if the font itself isn't a bold one, otherwise just strip it..
 					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != '0') ? _T("[b]") : _T("[/b]"));
+						res.Append((p[2] != '0') ? _T("[b]") : _T("[/b]"));
+			}
+			else if (!_tcsncmp(p, _T("\\i"), 2)) { // italics
+				if (!lf.lfItalic && dat->SendFormat)
+					res.Append((p[2] != '0') ? _T("[i]") : _T("[/i]"));
+			}
+			else if (!_tcsncmp(p, _T("\\strike"), 7)) { // strike-out
+				if (!lf.lfStrikeOut && dat->SendFormat)
+					res.Append((p[7] != '0') ? _T("[s]") : _T("[/s]"));
+			}
+			else if (!_tcsncmp(p, _T("\\ul"), 3)) { // underlined
+				if (!lf.lfUnderline && dat->SendFormat) {
+					if (p[3] == '0')
+						res.Append(_T("[u]"));
+					else if (p[3] == '1')
+						res.Append(_T("[/u]"));
 				}
 			}
-			else if (!_tcsncmp(p1, _T("\\i"), 2)) { // italics
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = (p1[2] != '0') ? 2 : 3;
-				if (!lf.lfItalic) { // same as for bold
-					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[2] != '0') ? _T("[i]") : _T("[/i]"));
-				}
+			else if (!_tcsncmp(p, _T("\\tab"), 4)) { // tab
+				res.AppendChar('\t');
 			}
-			else if (!_tcsncmp(p1, _T("\\strike"), 7)) { // strike-out
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = (p1[7] != '0') ? 7 : 8;
-				if (!lf.lfStrikeOut) { // same as for bold
-					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[7] != '0') ? _T("[s]") : _T("[/s]"));
-				}
+			else if (p[1] == '\\' || p[1] == '{' || p[1] == '}') { // escaped characters
+				res.AppendChar(p[1]);
 			}
-			else if (!_tcsncmp(p1, _T("\\ul"), 3)) { // underlined
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				if (p1[3] == 'n')
-					iRemoveChars = 7;
-				else if (p1[3] == '0')
-					iRemoveChars = 4;
-				else
-					iRemoveChars = 3;
-				if (!lf.lfUnderline)  // same as for bold
-					if (dat->SendFormat)
-						mir_sntprintf(InsertThis, SIZEOF(InsertThis), (p1[3] != '0' && p1[3] != 'n') ? _T("[u]") : _T("[/u]"));
+			else if (p[1] == '~') { // non-breaking space
+				res.AppendChar(0xA0);
 			}
-			else if (!_tcsncmp(p1, _T("\\tab"), 4)) { // tab
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = TRUE;
-				iRemoveChars = 4;
-				SETCHAR('\t');
-			}
-			else if (p1[1] == '\\' || p1[1] == '{' || p1[1] == '}') { // escaped characters
-				bTextHasStarted = TRUE;
-				iRemoveChars = 2;
-				SETCHAR(p1[1]);
-			}
-			else if (p1[1] == '~') { // non-breaking space
-				bTextHasStarted = TRUE;
-				iRemoveChars = 2;
-				SETCHAR(0xA0);
-			}
-			else if (p1[1] == '\'') { // special character
-				bTextHasStarted = TRUE;
-				bJustRemovedRTF = FALSE;
-				if (p1[2] != ' ' && p1[2] != '\\') {
-					int iLame = 0;
-					TCHAR * p3;
-					TCHAR *stoppedHere;
+			else if (p[1] == '\'') { // special character
+				if (p[2] != ' ' && p[2] != '\\') {
+					TCHAR tmp[10];
 
-					if (p1[3] != ' ' && p1[3] != '\\') {
-						_tcsncpy(InsertThis, p1 + 2, 3);
-						iRemoveChars = 4;
-						InsertThis[2] = 0;
+					if (p[3] != ' ' && p[3] != '\\') {
+						_tcsncpy(tmp, p + 2, 3);
+						tmp[3] = 0;
 					}
 					else {
-						_tcsncpy(InsertThis, p1 + 2, 2);
-						iRemoveChars = 3;
-						InsertThis[2] = 0;
+						_tcsncpy(tmp, p + 2, 2);
+						tmp[2] = 0;
 					}
+					
 					// convert string containing char in hex format to int.
-					p3 = InsertThis;
-					iLame = _tcstol(p3, &stoppedHere, 16);
-					SETCHAR(iLame);
+					TCHAR *stoppedHere;
+					res.AppendChar(_tcstol(tmp, &stoppedHere, 16));
 				}
-				else iRemoveChars = 2;
 			}
-			else { // remove unknown RTF command
-				int j = 1;
-				bJustRemovedRTF = TRUE;
-				while (!_tcschr(_T(" !$%()#*\"'"), p1[j]) && p1[j] != '§' && p1[j] != '\\' && p1[j] != '\0')
-					j++;
-				iRemoveChars = j;
-			}
+
+			p++; // skip initial slash
+			p += _tcscspn(p, _T(" \\"));
+			if (*p == ' ')
+				p++;
 			break;
 
 		case '{': // other RTF control characters
 		case '}':
-			iRemoveChars = 1;
-			break;
-
-		case ' ': // remove spaces following a RTF command
-			if (bJustRemovedRTF)
-				iRemoveChars = 1;
-			bJustRemovedRTF = FALSE;
-			bTextHasStarted = TRUE;
+			p++;
 			break;
 
 		default: // other text that should not be touched
-			bTextHasStarted = TRUE;
-			bJustRemovedRTF = FALSE;
+			res.AppendChar(*p++);
 			break;
 		}
-
-		// move the memory and paste in new commands instead of the old RTF
-		if (InsertThis[0] || iRemoveChars) {
-			size_t cbLen = _tcslen(InsertThis);
-			memmove(p1 + cbLen, p1 + iRemoveChars, (mir_tstrlen(p1) - iRemoveChars + 1) * sizeof(TCHAR));
-			memcpy(p1, InsertThis, cbLen * sizeof(TCHAR));
-			p1 += cbLen;
-		}
-		else p1++;
 	}
+
+	pszText = res;
 	return TRUE;
 }
 
@@ -1145,7 +1048,7 @@ void TSAPI SetMessageLog(TWindowData *dat)
 		CallService(MS_IEVIEW_WINDOW, 0, (LPARAM)&ieWindow);
 		dat->hwndIEView = ieWindow.hwnd;
 		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
-		Utils::enableDlgControl(hwndDlg, IDC_LOG, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_LOG, false);
 	}
 	else if (iLogMode == WANT_HPP_LOG && dat->hwndHPP == 0) {
 		IEVIEWWINDOW ieWindow;
@@ -1161,7 +1064,7 @@ void TSAPI SetMessageLog(TWindowData *dat)
 		CallService(MS_HPP_EG_WINDOW, 0, (LPARAM)&ieWindow);
 		dat->hwndHPP = ieWindow.hwnd;
 		Utils::showDlgControl(hwndDlg, IDC_LOG, SW_HIDE);
-		Utils::enableDlgControl(hwndDlg, IDC_LOG, FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_LOG, false);
 	}
 }
 
@@ -1284,19 +1187,18 @@ void TSAPI PlayIncomingSound(const TWindowData *dat)
 // reads send format and configures the toolbar buttons
 // if mode == 0, int only configures the buttons and does not change send format
 
-void TSAPI GetSendFormat(TWindowData *dat, int mode)
+void TSAPI GetSendFormat(TWindowData *dat)
 {
 	UINT controls[5] = { IDC_FONTBOLD, IDC_FONTITALIC, IDC_FONTUNDERLINE, IDC_FONTSTRIKEOUT, IDC_FONTFACE };
 
-	if (mode) {
-		dat->SendFormat = M.GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
-		if (dat->SendFormat == -1)          // per contact override to disable it..
-			dat->SendFormat = 0;
-		else if (dat->SendFormat == 0)
-			dat->SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
-	}
+	dat->SendFormat = M.GetDword(dat->hContact, "sendformat", PluginConfig.m_SendFormat);
+	if (dat->SendFormat == -1)          // per contact override to disable it..
+		dat->SendFormat = 0;
+	else if (dat->SendFormat == 0)
+		dat->SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
+
 	for (int i = 0; i < 5; i++)
-		Utils::enableDlgControl(dat->hwnd, controls[i], dat->SendFormat != 0 ? TRUE : FALSE);
+		Utils::enableDlgControl(dat->hwnd, controls[i], dat->SendFormat != 0);
 	return;
 }
 

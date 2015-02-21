@@ -154,7 +154,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), TranslateT("Configure container options for\n%s"), !_tcscmp(pContainer->szName, _T("default")) ?
 					  	  TranslateT("Default container") : pContainer->szName);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
-			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, CSkin::m_frameSkins ? FALSE : TRUE);
+			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
 			CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->settings->fPrivate ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the top"));
@@ -198,7 +198,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE));
 			ShowPage(hwndDlg, 0, TRUE);
 			SetFocus(hwndTree);
-			Utils::enableDlgControl(hwndDlg, IDC_APPLY, FALSE);
+			Utils::enableDlgControl(hwndDlg, IDC_APPLY, false);
 
 			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_DESC, WM_GETFONT, 0, 0);
 			LOGFONT lf = {0};
@@ -243,7 +243,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		case WM_HSCROLL:
 			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_ACTIVE) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_INACTIVE))
-				Utils::enableDlgControl(hwndDlg, IDC_APPLY, TRUE);
+				Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			break;
 
 		case WM_COMMAND:
@@ -269,10 +269,9 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					goto do_apply;
 				}
 				case IDC_TRANSPARENCY: {
-					int isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
-
-					Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans ? TRUE : FALSE);
-					Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans ? TRUE : FALSE);
+					bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
+					Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
+					Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
 					goto do_apply;
 				}
 				case IDC_SECTIONTREE:
@@ -373,16 +372,16 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					if (LOWORD(wParam) == IDOK)
 						DestroyWindow(hwndDlg);
 					else
-						Utils::enableDlgControl(hwndDlg, IDC_APPLY, FALSE);
+						Utils::enableDlgControl(hwndDlg, IDC_APPLY, false);
 
 					break;
 				}
 				case IDCANCEL:
 					DestroyWindow(hwndDlg);
 					return TRUE;
+				
 				default:
-do_apply:
-					Utils::enableDlgControl(hwndDlg, IDC_APPLY, TRUE);
+do_apply:		Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 					break;
 			}
 			break;
@@ -392,7 +391,6 @@ do_apply:
 			DWORD dwFlags = cs->dwFlags;
 			DWORD dwTransparency = cs->dwTransparency;
 			DWORD dwFlagsEx = cs->dwFlagsEx;
-			int  isTrans;
 			BOOL fAllowTrans = FALSE;
 
 			if (PluginConfig.m_WinVerMajor >= 6)
@@ -447,11 +445,11 @@ do_apply:
 			else
 				CheckDlgButton(hwndDlg, IDC_TRANSPARENCY, BST_UNCHECKED);
 
-			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, PluginConfig.m_WinVerMajor >= 5 && fAllowTrans ? TRUE : FALSE);
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY, PluginConfig.m_WinVerMajor >= 5 && fAllowTrans);
 
-			isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY);
-			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans ? TRUE : FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans ? TRUE : FALSE);
+			bool isTrans = IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENCY) != 0;
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_ACTIVE, isTrans);
+			Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENCY_INACTIVE, isTrans);
 
 			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETRANGE, 0, (LPARAM)MAKELONG(50, 255));
 			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETRANGE, 0, (LPARAM)MAKELONG(50, 255));
@@ -459,10 +457,10 @@ do_apply:
 			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETPOS, TRUE, (LPARAM)LOWORD(dwTransparency));
 			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETPOS, TRUE, (LPARAM)HIWORD(dwTransparency));
 
-			Utils::enableDlgControl(hwndDlg, IDC_O_DONTREPORT, nen_options.bWindowCheck == 0);
-			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTUNFOCUSED2, nen_options.bWindowCheck == 0);
-			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTFOCUSED2, nen_options.bWindowCheck == 0);
-			Utils::enableDlgControl(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, nen_options.bWindowCheck == 0);
+			Utils::enableDlgControl(hwndDlg, IDC_O_DONTREPORT, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTUNFOCUSED2, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTFOCUSED2, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, !nen_options.bWindowCheck);
 
 			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_SETCURSEL, (WPARAM)cs->avatarMode, 0);
 			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_SETCURSEL, (WPARAM)cs->ownAvatarMode, 0);
@@ -475,11 +473,11 @@ do_apply:
 		}
 
 		case DM_SC_CONFIG: {
-			LRESULT enable = (IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) ? BST_CHECKED : BST_UNCHECKED);
-			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSINACTIVE, enable);
-			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSUNFOCUSED, enable);
-			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSMINIMIZED, enable);
-			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSFOCUSED, enable);
+			bool bEnable = IsDlgButtonChecked(hwndDlg, IDC_O_ENABLESOUNDS) != 0;
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSINACTIVE, bEnable);
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSUNFOCUSED, bEnable);
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSMINIMIZED, bEnable);
+			Utils::enableDlgControl(hwndDlg, IDC_O_SOUNDSFOCUSED, bEnable);
 			return 0;
 		}
 
