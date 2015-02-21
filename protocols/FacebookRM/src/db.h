@@ -73,6 +73,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_EVENT_OTHER_ENABLE		"EventOtherEnable"
 #define FACEBOOK_KEY_EVENT_CLIENT_ENABLE	"EventClientEnable"
 #define FACEBOOK_KEY_EVENT_FRIENDSHIP_ENABLE "EventFriendshipEnable"
+#define FACEBOOK_KEY_EVENT_TICKER_ENABLE	"EventTickerEnable"
 #define FACEBOOK_KEY_FEED_TYPE				"EventFeedsType"
 
 // Hidden account DB keys (can't be changed through GUI)

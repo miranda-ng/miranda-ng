@@ -1036,6 +1036,17 @@ void FacebookProto::InitPopups()
 	ppc.colorText = RGB(255, 255, 255); // white
 	ppc.iSeconds = 0;
 	popupClasses.push_back(Popup_RegisterClass(&ppc));
+
+	// Ticker
+	mir_sntprintf(desc, SIZEOF(desc), _T("%s/%s"), m_tszUserName, TranslateT("Ticker feeds"));
+	mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Ticker");
+	ppc.ptszDescription = desc;
+	ppc.pszName = name;
+	ppc.hIcon = Skin_GetIconByHandle(GetIconHandle("newsfeed"));
+	ppc.colorBack = RGB(255, 255, 255); // white
+	ppc.colorText = RGB(0, 0, 0); // black
+	ppc.iSeconds = 0;
+	popupClasses.push_back(Popup_RegisterClass(&ppc));
 }
 
 /**

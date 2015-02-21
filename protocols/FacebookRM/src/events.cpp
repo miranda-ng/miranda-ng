@@ -69,6 +69,14 @@ HWND FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, MCONTACT contact, DWO
 		SkinPlaySound("Friendship");
 		flags |= NIIF_INFO;
 		break;
+
+	case FACEBOOK_EVENT_TICKER:
+		if (!getByte(FACEBOOK_KEY_EVENT_TICKER_ENABLE, DEFAULT_EVENT_TICKER_ENABLE))
+			return NULL;
+		mir_snprintf(name, SIZEOF(name), "%s_%s", m_szModuleName, "Ticker");
+		SkinPlaySound("Ticker");
+		flags |= NIIF_INFO;
+		break;
 	}
 
 	if (!getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY, DEFAULT_SYSTRAY_NOTIFY))

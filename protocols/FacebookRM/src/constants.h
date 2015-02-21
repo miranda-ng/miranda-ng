@@ -93,6 +93,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_EVENT_OTHER_ENABLE				1
 #define DEFAULT_EVENT_CLIENT_ENABLE				1
 #define DEFAULT_EVENT_FRIENDSHIP_ENABLE			1
+#define DEFAULT_EVENT_TICKER_ENABLE				0
 
 // Event flags
 #define FACEBOOK_EVENT_CLIENT					0x10000000 // Facebook error or info message
@@ -100,6 +101,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_EVENT_NOTIFICATION				0x40000000 // Facebook new notification
 #define FACEBOOK_EVENT_OTHER					0x80000000 // Facebook other event (poke sent, status update, ...)
 #define FACEBOOK_EVENT_FRIENDSHIP				0x01000000 // Facebook friendship event
+#define FACEBOOK_EVENT_TICKER					0x02000000 // Facebook ticker message
 
 // Send message return values
 #define SEND_MESSAGE_OK							0
