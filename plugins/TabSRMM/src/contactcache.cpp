@@ -204,7 +204,7 @@ void CContactCache::updateStats(int iType, size_t value)
 	if (m_stats == 0)
 		allocStats();
 
-	switch(iType) {
+	switch (iType) {
 	case TSessionStats::UPDATE_WITH_LAST_RCV:
 		if (!m_stats->lastReceivedChars)
 			break;
@@ -304,7 +304,8 @@ void CContactCache::saveHistory(WPARAM wParam, LPARAM)
 						iLength = HISTORY_INITIAL_ALLOCSIZE;
 					m_history[m_iHistoryTop].szText = (TCHAR*)mir_alloc(iLength);
 					m_history[m_iHistoryTop].lLen = iLength;
-				} else {
+				}
+				else {
 					if (iLength > m_history[m_iHistoryTop].lLen) {
 						m_history[m_iHistoryTop].szText = (TCHAR*)mir_realloc(m_history[m_iHistoryTop].szText, iLength);
 						m_history[m_iHistoryTop].lLen = iLength;
@@ -336,7 +337,7 @@ void CContactCache::inputHistoryEvent(WPARAM wParam)
 
 	if (m_history != NULL && m_history[0].szText != NULL) {     // at least one entry needs to be alloced, otherwise we get a nice infinite loop ;)
 		HWND		hwndEdit = ::GetDlgItem(m_hwnd, IDC_MESSAGE);
-		SETTEXTEX 	stx = {ST_DEFAULT, CP_UTF8};
+		SETTEXTEX 	stx = { ST_DEFAULT, CP_UTF8 };
 
 		if (m_dat->dwFlags & MWF_NEEDHISTORYSAVE) {
 			m_iHistoryCurrent = m_iHistoryTop;
@@ -511,7 +512,7 @@ CContactCache* CContactCache::getContactCache(MCONTACT hContact)
  */
 int CContactCache::cacheUpdateMetaChanged(WPARAM bMetaEnabled, LPARAM)
 {
-	for (int i=0; i < arContacts.getCount(); i++) {
+	for (int i = 0; i < arContacts.getCount(); i++) {
 		CContactCache &c = arContacts[i];
 		if (c.isMeta() && !bMetaEnabled) {
 			c.closeWindow();

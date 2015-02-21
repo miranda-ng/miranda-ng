@@ -38,7 +38,7 @@ static TCHAR g_eventName[100];
 static void TrayAnimThread(LPVOID)
 {
 	int     iAnimMode = (PluginConfig.m_AnimTrayIcons[0] && PluginConfig.m_AnimTrayIcons[1] && PluginConfig.m_AnimTrayIcons[2] &&
-						 PluginConfig.m_AnimTrayIcons[3]);
+		PluginConfig.m_AnimTrayIcons[3]);
 	DWORD   dwElapsed = 0, dwAnimStep = 0;
 	HICON   hIconDefault = iAnimMode ? PluginConfig.m_AnimTrayIcons[0] : PluginConfig.g_iconContainer;
 	DWORD   idleTimer = 0;
@@ -83,8 +83,7 @@ static void TrayAnimThread(LPVOID)
 		if (idleTimer >= 2000) {
 			idleTimer = 0;
 		}
-	}
-	while (isAnimThreadRunning);
+	} while (isAnimThreadRunning);
 	CloseHandle(hEvent);
 }
 
@@ -101,9 +100,9 @@ void TSAPI CreateTrayMenus(int mode)
 		PluginConfig.g_hMenuRecent = CreatePopupMenu();
 		PluginConfig.g_hMenuTrayContext = GetSubMenu(PluginConfig.g_hMenuContext, 6);
 		ModifyMenu(PluginConfig.g_hMenuTrayContext, 0, MF_BYPOSITION | MF_POPUP,
-				   (UINT_PTR)PluginConfig.g_hMenuFavorites, TranslateT("Favorites"));
+			(UINT_PTR)PluginConfig.g_hMenuFavorites, TranslateT("Favorites"));
 		ModifyMenu(PluginConfig.g_hMenuTrayContext, 2, MF_BYPOSITION | MF_POPUP,
-				   (UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent sessions"));
+			(UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent sessions"));
 		LoadFavoritesAndRecent();
 	}
 	else {
@@ -192,7 +191,7 @@ void TSAPI FlashTrayIcon(HICON hIcon)
 
 void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus, WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu)
 {
-	MENUITEMINFO	mii = {0};
+	MENUITEMINFO	mii = { 0 };
 	TCHAR			szMenuEntry[80];
 	TCHAR			szFinalNick[100];
 
@@ -232,12 +231,12 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 						db_set_dw((MCONTACT)uid, SRMSGMOD_T, "isRecent", 0);
 					}
 				}
-	addnew:
+			addnew:
 				db_set_dw(hContact, SRMSGMOD_T, "isRecent", time(NULL));
 				AppendMenu(hMenu, MF_BYCOMMAND, (UINT_PTR)hContact, szMenuEntry);
 			}
 			else if (hMenu == PluginConfig.g_hMenuFavorites) {            // insert the item sorted...
-				MENUITEMINFO mii2 = {0};
+				MENUITEMINFO mii2 = { 0 };
 				TCHAR szBuffer[142];
 				int i, c = GetMenuItemCount(PluginConfig.g_hMenuFavorites);
 				mii2.fMask = MIIM_STRING;
@@ -245,7 +244,7 @@ void TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, con
 				if (c == 0)
 					InsertMenu(PluginConfig.g_hMenuFavorites, 0, MF_BYPOSITION, (UINT_PTR)hContact, szMenuEntry);
 				else {
-					for (i=0; i <= c; i++) {
+					for (i = 0; i <= c; i++) {
 						mii2.cch = 0;
 						mii2.dwTypeData = NULL;
 						GetMenuItemInfo(PluginConfig.g_hMenuFavorites, i, TRUE, &mii2);
@@ -306,16 +305,16 @@ void TSAPI LoadFavoritesAndRecent()
 		return;
 	}
 
-	for (i=0; i < iIndex - 1; i++) {
+	for (i = 0; i < iIndex - 1; i++) {
 		for (j = 0; j < iIndex - 1; j++) {
-			if (recentEntries[j].dwTimestamp > recentEntries[j+1].dwTimestamp) {
+			if (recentEntries[j].dwTimestamp > recentEntries[j + 1].dwTimestamp) {
 				RCENTRY rceTemp = recentEntries[j];
-				recentEntries[j] = recentEntries[j+1];
-				recentEntries[j+1] = rceTemp;
+				recentEntries[j] = recentEntries[j + 1];
+				recentEntries[j + 1] = rceTemp;
 			}
 		}
 	}
-	for (i=0; i < iIndex; i++)
+	for (i = 0; i < iIndex; i++)
 		AddContactToFavorites(recentEntries[i].hContact, NULL, NULL, NULL, 0, 0, 1, PluginConfig.g_hMenuRecent);
 
 	delete[] recentEntries;

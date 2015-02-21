@@ -22,11 +22,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 class CImageDataObject : IDataObject
 {
 public:
-  // returns true on success, false on failure
+	// returns true on success, false on failure
 	static bool InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap);
-  // returns true on success, false on failure
-    //static bool InsertIcon(IRichEditOle* pRichEditOle, HICON hIcon,
-    //COLORREF backgroundColor, int sizeX = 0, int sizeY = 0);
+	// returns true on success, false on failure
+	//static bool InsertIcon(IRichEditOle* pRichEditOle, HICON hIcon,
+	//COLORREF backgroundColor, int sizeX = 0, int sizeY = 0);
 
 private:
 	ULONG	m_ulRefCnt;
@@ -124,7 +124,7 @@ public:
 		return E_NOTIMPL;
 	}
 
-  // Other
+	// Other
 	void SetBitmap(HBITMAP hBitmap);
 	IOleObject *GetOleObject(IOleClientSite *pOleClientSite, IStorage *pStorage);
 };

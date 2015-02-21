@@ -32,7 +32,7 @@ static    WNDPROC OldStatusBarproc = 0;
 
 bool      CMenuBar::m_buttonsInit = false;
 HHOOK     CMenuBar::m_hHook = 0;
-TBBUTTON  CMenuBar::m_TbButtons[8] = {0};
+TBBUTTON  CMenuBar::m_TbButtons[8] = { 0 };
 CMenuBar *CMenuBar::m_Owner = 0;
 HBITMAP   CMenuBar::m_MimIcon = 0;
 int       CMenuBar::m_MimIconRefCount = 0;
@@ -58,7 +58,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 		HDC hdcTemp = ::CreateCompatibleDC(hdc);
 
-		RECT rc = {0,0,16,16};
+		RECT rc = { 0, 0, 16, 16 };
 		m_MimIcon = CSkin::CreateAeroCompatibleBitmap(rc, hdcTemp);
 		HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcTemp, m_MimIcon));
 		::DrawIconEx(hdcTemp, 0, 0, (HICON)hIcon, 16, 16, 0, 0, DI_NORMAL);
@@ -70,8 +70,8 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 	m_MimIconRefCount++;
 
-	m_hwndToolbar = ::CreateWindowEx(WS_EX_TOOLWINDOW, TOOLBARCLASSNAME, NULL, WS_CHILD|WS_CLIPCHILDREN|WS_CLIPSIBLINGS|WS_VISIBLE|TBSTYLE_FLAT|TBSTYLE_TRANSPARENT|TBSTYLE_LIST|/*CCS_NOPARENTALIGN|*/CCS_NODIVIDER|CCS_TOP,
-								   0, 0, 0, 0, hwndParent, NULL, g_hInst, NULL);
+	m_hwndToolbar = ::CreateWindowEx(WS_EX_TOOLWINDOW, TOOLBARCLASSNAME, NULL, WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | TBSTYLE_FLAT | TBSTYLE_TRANSPARENT | TBSTYLE_LIST |/*CCS_NOPARENTALIGN|*/CCS_NODIVIDER | CCS_TOP,
+		0, 0, 0, 0, hwndParent, NULL, g_hInst, NULL);
 
 	::SendMessage(m_hwndToolbar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 
@@ -155,31 +155,31 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM, const LPARAM lParam)
 {
 	if (msg == WM_NOTIFY) {
 		NMHDR *pNMHDR = (NMHDR*)lParam;
-		switch(pNMHDR->code) {
+		switch (pNMHDR->code) {
 		case NM_CUSTOMDRAW:
-			{
-				NMCUSTOMDRAW *nm = (NMCUSTOMDRAW*)lParam;
-				return customDrawWorker(nm);
-			}
+		{
+			NMCUSTOMDRAW *nm = (NMCUSTOMDRAW*)lParam;
+			return customDrawWorker(nm);
+		}
 
 		case TBN_DROPDOWN:
-			{
-				NMTOOLBAR *mtb = (NMTOOLBAR *)lParam;
-				return Handle(mtb);
-			}
+		{
+			NMTOOLBAR *mtb = (NMTOOLBAR *)lParam;
+			return Handle(mtb);
+		}
 		case TBN_HOTITEMCHANGE:
-			{
-				NMTBHOTITEM *nmtb = (NMTBHOTITEM *)lParam;
-				if (nmtb->idNew != 0 && m_fTracking && nmtb->idNew != m_activeID && m_activeID != 0) {
-					cancel();
-					return 0;
-				}
-				else if (m_fTracking == true && m_activeID == 0 && nmtb->idNew != 0) {
-					invoke(nmtb->idNew);
-					return 0;
-				}
-				break;
+		{
+			NMTBHOTITEM *nmtb = (NMTBHOTITEM *)lParam;
+			if (nmtb->idNew != 0 && m_fTracking && nmtb->idNew != m_activeID && m_activeID != 0) {
+				cancel();
+				return 0;
 			}
+			else if (m_fTracking == true && m_activeID == 0 && nmtb->idNew != 0) {
+				invoke(nmtb->idNew);
+				return 0;
+			}
+			break;
+		}
 
 		default:
 			return -1;
@@ -203,7 +203,7 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 {
 	CMenuBar *menuBar = reinterpret_cast<CMenuBar *>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
-	switch(msg) {
+	switch (msg) {
 	case WM_SYSKEYUP:
 		if (wParam == VK_MENU) {
 			menuBar->Cancel();
@@ -232,7 +232,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 	if (nm->hdr.hwndFrom == m_hwndToolbar) {
 		NMTBCUSTOMDRAW *nmtb = (NMTBCUSTOMDRAW *)(nm);
 
-		switch(nmtb->nmcd.dwDrawStage) {
+		switch (nmtb->nmcd.dwDrawStage) {
 		case CDDS_PREPAINT:
 			if (fMustDraw) {
 				if (nmtb->nmcd.dwItemSpec == 0) {
@@ -402,10 +402,12 @@ void CMenuBar::invoke(const int id)
 	if (index == 3 && hContact != 0) {
 		hMenu = reinterpret_cast<HMENU>(::CallService(MS_CLIST_MENUBUILDCONTACT, hContact, 0));
 		m_isContactMenu = true;
-	} else if (index == 0) {
+	}
+	else if (index == 0) {
 		hMenu = reinterpret_cast<HMENU>(::CallService(MS_CLIST_MENUBUILDMAIN, 0, 0));
 		m_isMainMenu = true;
-	} else
+	}
+	else
 		hMenu = reinterpret_cast<HMENU>(m_TbButtons[index].dwData);
 
 	RECT  rcButton;
@@ -539,56 +541,56 @@ void CMenuBar::checkButtons()
 		m_TbButtons[0].iBitmap = 0;
 		m_TbButtons[0].iString = 0;
 		m_TbButtons[0].fsState = TBSTATE_ENABLED;
-		m_TbButtons[0].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[0].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[0].idCommand = 100;
 		m_TbButtons[0].dwData = 0;
 
 		m_TbButtons[1].iBitmap = I_IMAGENONE;
 		m_TbButtons[1].iString = (INT_PTR)TranslateT("&File");
 		m_TbButtons[1].fsState = TBSTATE_ENABLED;
-		m_TbButtons[1].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[1].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[1].idCommand = 101;
 		m_TbButtons[1].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 0));
 
 		m_TbButtons[2].iBitmap = I_IMAGENONE;
 		m_TbButtons[2].iString = (INT_PTR)TranslateT("&View");
 		m_TbButtons[2].fsState = TBSTATE_ENABLED;
-		m_TbButtons[2].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[2].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[2].idCommand = 102;
 		m_TbButtons[2].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 1));
 
 		m_TbButtons[3].iBitmap = I_IMAGENONE;
 		m_TbButtons[3].iString = (INT_PTR)TranslateT("&User");
 		m_TbButtons[3].fsState = TBSTATE_ENABLED;
-		m_TbButtons[3].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[3].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[3].idCommand = 103;
 		m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
 
 		m_TbButtons[4].iBitmap = I_IMAGENONE;
 		m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
 		m_TbButtons[4].fsState = TBSTATE_ENABLED;
-		m_TbButtons[4].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[4].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[4].idCommand = 104;
 		m_TbButtons[4].dwData = 0;
 
 		m_TbButtons[5].iBitmap = I_IMAGENONE;
 		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &log");
 		m_TbButtons[5].fsState = TBSTATE_ENABLED;
-		m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[5].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[5].idCommand = 105;
 		m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
 
 		m_TbButtons[6].iBitmap = I_IMAGENONE;
 		m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
 		m_TbButtons[6].fsState = TBSTATE_ENABLED;
-		m_TbButtons[6].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[6].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[6].idCommand = 106;
 		m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
 
 		m_TbButtons[7].iBitmap = I_IMAGENONE;
 		m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
 		m_TbButtons[7].fsState = TBSTATE_ENABLED;
-		m_TbButtons[7].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+		m_TbButtons[7].fsStyle = BTNS_DROPDOWN | BTNS_AUTOSIZE;
 		m_TbButtons[7].idCommand = 107;
 		m_TbButtons[7].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 4));
 
@@ -608,7 +610,7 @@ void CMenuBar::checkButtons()
 
 void CMenuBar::resetLP()
 {
-	while ( SendMessage(m_hwndToolbar, TB_DELETEBUTTON, 0, 0));
+	while (SendMessage(m_hwndToolbar, TB_DELETEBUTTON, 0, 0));
 
 	m_buttonsInit = false;
 	checkButtons();
@@ -630,7 +632,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 	POINT	pt;
 
 	if (nCode == MSGF_MENU) {
-		switch(pMsg->message) {
+		switch (pMsg->message) {
 		case WM_KEYDOWN:
 			if (pMsg->wParam == VK_ESCAPE)
 				fCancel = true;
@@ -653,7 +655,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 				return 0;
 			}
 
-		// allow hottracking by the toolbar control
+			// allow hottracking by the toolbar control
 		case WM_MOUSEMOVE:
 			::GetCursorPos(&pt);
 			::ScreenToClient(m_Owner->m_hwndToolbar, &pt);
@@ -679,7 +681,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 // window procedure for the status bar class.
 
 static int   tooltip_active = FALSE;
-static POINT ptMouse = {0};
+static POINT ptMouse = { 0 };
 RECT   rcLastStatusBarClick;		// remembers click (down event) point for status bar clicks
 
 LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -689,7 +691,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 	POINT pt;
 
 	if (OldStatusBarproc == 0) {
-		WNDCLASSEX wc = {0};
+		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(wc);
 		GetClassInfoEx(g_hInst, STATUSCLASSNAME, &wc);
 		OldStatusBarproc = wc.lpfnWndProc;
@@ -892,28 +894,28 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		}
 		return 0;
 
-	// tell status bar to update the part layout (re-calculate part widths)
-	// needed when an icon is added to or removed from the icon area
+		// tell status bar to update the part layout (re-calculate part widths)
+		// needed when an icon is added to or removed from the icon area
 	case WM_USER + 101:
-		{
-			int list_icons = 0;
-			dat = (TWindowData*)lParam;
-			if (dat)
-				while ( Srmm_GetNthIcon(dat->hContact, list_icons))
-					list_icons++;
+	{
+		int list_icons = 0;
+		dat = (TWindowData*)lParam;
+		if (dat)
+			while (Srmm_GetNthIcon(dat->hContact, list_icons))
+				list_icons++;
 
-			SendMessage(hWnd, WM_SIZE, 0, 0);
+		SendMessage(hWnd, WM_SIZE, 0, 0);
 
-			RECT rcs;
-			GetWindowRect(hWnd, &rcs);
+		RECT rcs;
+		GetWindowRect(hWnd, &rcs);
 
-			int statwidths[5];
-			statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (list_icons * (PluginConfig.m_smcxicon + 2));
-			statwidths[1] = (rcs.right - rcs.left) - (10 + (list_icons * (PluginConfig.m_smcxicon + 2)));
-			statwidths[2] = -1;
-			SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM)statwidths);
-		}
-		return 0;
+		int statwidths[5];
+		statwidths[0] = (rcs.right - rcs.left) - (2 * SB_CHAR_WIDTH + 20) - (list_icons * (PluginConfig.m_smcxicon + 2));
+		statwidths[1] = (rcs.right - rcs.left) - (10 + (list_icons * (PluginConfig.m_smcxicon + 2)));
+		statwidths[2] = -1;
+		SendMessage(hWnd, SB_SETPARTS, 3, (LPARAM)statwidths);
+	}
+	return 0;
 
 	case WM_SETCURSOR:
 		GetCursorPos(&pt);
@@ -965,21 +967,21 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			RECT rc;
 			SIZE size;
 			TCHAR wBuf[512]; wBuf[0] = 0;
-			CLCINFOTIP ti = {0};
+			CLCINFOTIP ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.ptCursor = pt;
 			ScreenToClient(hWnd, &pt);
 			SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rc);
-			if ( PtInRect(&rc, pt)) {
+			if (PtInRect(&rc, pt)) {
 				unsigned int iconNum = (pt.x - rc.left) / (PluginConfig.m_smcxicon + 2);
 				StatusIconData *sid = Srmm_GetNthIcon(dat->hContact, iconNum);
 				if (sid == NULL)
 					break;
 
-				if ( !strcmp(sid->szModule, MSG_ICON_MODULE)) {
+				if (!strcmp(sid->szModule, MSG_ICON_MODULE)) {
 					if (sid->dwId == MSG_ICON_SOUND && pContainer)
 						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
-							pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
+						pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
 					else if (sid->dwId == MSG_ICON_UTN && dat && (dat->bType == SESSIONTYPE_IM || dat->si->iType == GCW_PRIVMESS)) {
 						int mtnStatus = db_get_b(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M.GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
@@ -1000,7 +1002,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 			SendMessage(hWnd, SB_GETRECT, 1, (LPARAM)&rc);
 			if (PtInRect(&rc, pt)) {
 				int iLength = 0;
-				GETTEXTLENGTHEX gtxl = {0};
+				GETTEXTLENGTHEX gtxl = { 0 };
 				int iQueued = db_get_dw(dat->hContact, "SendLater", "count", 0);
 				gtxl.codepage = CP_UTF8;
 				gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMBYTES;
@@ -1015,16 +1017,16 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 			if (SendMessage(dat->pContainer->hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
 				HDC hdc;
-				int iLen=SendMessage(dat->pContainer->hwndStatus,SB_GETTEXTLENGTH,0,0);
+				int iLen = SendMessage(dat->pContainer->hwndStatus, SB_GETTEXTLENGTH, 0, 0);
 				SendMessage(hWnd, SB_GETRECT, 0, (LPARAM)&rc);
-				GetTextExtentPoint32( hdc=GetDC( dat->pContainer->hwndStatus), wBuf, iLen, &size );
-				ReleaseDC (dat->pContainer->hwndStatus,hdc);
+				GetTextExtentPoint32(hdc = GetDC(dat->pContainer->hwndStatus), wBuf, iLen, &size);
+				ReleaseDC(dat->pContainer->hwndStatus, hdc);
 
-				if (PtInRect(&rc,pt)&&((rc.right-rc.left)<size.cx)) {
-					DBVARIANT dbv={0};
+				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
+					DBVARIANT dbv = { 0 };
 
 					if (dat->bType == SESSIONTYPE_CHAT)
-						db_get_ts(dat->hContact,dat->szProto,"Topic",&dbv);
+						db_get_ts(dat->hContact, dat->szProto, "Topic", &dbv);
 
 					tooltip_active = TRUE;
 					CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);

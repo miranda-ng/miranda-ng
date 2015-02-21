@@ -54,7 +54,7 @@ static PLUGIN_DATAT* PU_GetByContact(const MCONTACT hContact)
  */
 static void PU_CleanUp()
 {
-	for (int i=arPopupList.getCount()-1; i >= 0; i--) {
+	for (int i = arPopupList.getCount() - 1; i >= 0; i--) {
 		PLUGIN_DATAT *p = arPopupList[i];
 		if (p->hContact != NULL)
 			continue;
@@ -98,7 +98,7 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, FALSE);
 	options->iDisable = (BYTE)M.GetByte(MODULE, OPT_DISABLE, 0);
 	options->iMUCDisable = (BYTE)M.GetByte(MODULE, OPT_MUCDISABLE, 0);
-	options->dwStatusMask = (DWORD)M.GetDword(MODULE, "statusmask", (DWORD) - 1);
+	options->dwStatusMask = (DWORD)M.GetDword(MODULE, "statusmask", (DWORD)-1);
 	options->bTraySupport = (BOOL)M.GetByte(MODULE, "traysupport", 0);
 	options->bWindowCheck = (BOOL)M.GetByte(MODULE, OPT_WINDOWCHECK, 0);
 	options->bNoRSS = (BOOL)M.GetByte(MODULE, OPT_NORSS, 0);
@@ -154,7 +154,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 			if (!PluginConfig.g_bPopupAvail) {
 				HWND	hwndChild = FindWindowEx(hWnd, 0, 0, 0);
-				while(hwndChild) {
+				while (hwndChild) {
 					ShowWindow(hwndChild, SW_HIDE);
 					hwndChild = FindWindowEx(hWnd, hwndChild, 0, 0);
 				}
@@ -214,7 +214,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 		bWmNotify = TRUE;
 		break;
 
-	// configure the option page - hide most of the settings here when either IEView
+		// configure the option page - hide most of the settings here when either IEView
 	case DM_STATUSMASKSET:
 		db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
 		options->dwStatusMask = (int)lParam;
@@ -229,7 +229,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 				break;
 
 			case IDC_POPUPSTATUSMODES:
-				hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M.GetDword(MODULE, "statusmask", (DWORD) - 1));
+				hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CHOOSESTATUSMODES), hWnd, DlgProcSetupStatusModes, M.GetDword(MODULE, "statusmask", (DWORD)-1));
 				SendMessage(hwndNew, DM_SETPARENTDIALOG, 0, (LPARAM)hWnd);
 				break;
 
@@ -331,7 +331,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 {
 	pdata->iActionTaken = TRUE;
 	if (mask & MASK_OPEN) {
-		for (int i=0; i < pdata->nrMerged; i++) {
+		for (int i = 0; i < pdata->nrMerged; i++) {
 			if (pdata->eventData[i].hEvent != 0) {
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_HANDLECLISTEVENT, (WPARAM)pdata->hContact, (LPARAM)pdata->eventData[i].hEvent);
 				pdata->eventData[i].hEvent = 0;
@@ -339,7 +339,7 @@ static int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATAT* pdata)
 		}
 	}
 	if (mask & MASK_REMOVE) {
-		for (int i=0; i < pdata->nrMerged; i++) {
+		for (int i = 0; i < pdata->nrMerged; i++) {
 			if (pdata->eventData[i].hEvent != 0) {
 				PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_REMOVECLISTEVENT, (WPARAM)pdata->hContact, (LPARAM)pdata->eventData[i].hEvent);
 				pdata->eventData[i].hEvent = 0;
@@ -426,7 +426,7 @@ static TCHAR* ShortenPreview(DBEVENTINFO* dbe)
 		fAddEllipsis = true;
 		size_t iIndex = iPreviewLimit;
 		size_t iWordThreshold = 20;
-		while(iIndex && buf[iIndex] != ' ' && iWordThreshold--)
+		while (iIndex && buf[iIndex] != ' ' && iWordThreshold--)
 			buf[iIndex--] = 0;
 
 		buf[iIndex] = 0;
@@ -447,7 +447,7 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 		if (pBlob && nen_options.bPreview)
 			return ShortenPreview(dbe);
 
-		return mir_tstrdup( TranslateT("Message"));
+		return mir_tstrdup(TranslateT("Message"));
 
 	case EVENTTYPE_FILE:
 		if (pBlob) {
@@ -462,11 +462,11 @@ static TCHAR* GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 				if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
 					szDescr = szFileName + namelength + 1;
 
-				ptrT tszFileName( DbGetEventStringT(dbe, szFileName));
+				ptrT tszFileName(DbGetEventStringT(dbe, szFileName));
 				TCHAR buf[1024];
 
 				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
-					ptrT tszDescr( DbGetEventStringT(dbe, szDescr));
+					ptrT tszDescr(DbGetEventStringT(dbe, szDescr));
 					if (tszFileName && tszDescr) {
 						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s (%s)"), TranslateT("Incoming file"), tszFileName, tszDescr);
 						return mir_tstrdup(buf);
@@ -580,7 +580,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
-	POPUPDATAT pud = {0};
+	POPUPDATAT pud = { 0 };
 	long iSeconds;
 	switch (eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -633,7 +633,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	pdata->nrMerged = 1;
 
 	// fix for broken popups -- process failures
-	if ( PUAddPopupT(&pud) < 0) {
+	if (PUAddPopupT(&pud) < 0) {
 		mir_free(pdata->eventData);
 		mir_free(pdata);
 	}
@@ -660,7 +660,7 @@ void TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced)
 	if (PluginConfig.g_hMenuTrayUnread == 0 || dat->hContact == NULL)
 		return;
 
-	MENUITEMINFO mii = {0};
+	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_DATA | MIIM_BITMAP;
 
@@ -797,10 +797,10 @@ int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int wi
 		return 0;
 	}
 passed:
-	if ( !PluginConfig.g_bPopupAvail)
+	if (!PluginConfig.g_bPopupAvail)
 		return 0;
 
-	if ( PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
+	if (PU_GetByContact(hContact) && nen_options.bMergePopup && eventType == EVENTTYPE_MESSAGE) {
 		if (PopupUpdateT(hContact, hDbEvent) != 0)
 			PopupShowT(&nen_options, hContact, hDbEvent, eventType, pContainer ? pContainer->hwnd : 0);
 	}

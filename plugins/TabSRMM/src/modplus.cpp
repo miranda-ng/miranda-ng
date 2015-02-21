@@ -101,27 +101,27 @@ static int CustomButtonPressed(WPARAM wParam, LPARAM lParam)
 
 	switch (state) {
 	case 1:
-		{
-			int menulimit = M.GetByte("tabmodplus", "MenuCount", 0);
-			if (menulimit == 0)
-				break;
+	{
+		int menulimit = M.GetByte("tabmodplus", "MenuCount", 0);
+		if (menulimit == 0)
+			break;
 
-			HMENU hMenu = CreatePopupMenu();
+		HMENU hMenu = CreatePopupMenu();
 
-			for (int menunum = 0; menunum < menulimit; menunum++) {
-				pszMenu[menunum] = getMenuEntry(menunum);
-				AppendMenu(hMenu, MF_STRING, menunum + 1, pszMenu[menunum]);
-			}
-
-			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
-			if (res == 0)
-				break;
-
-			bufSize = textlenght + mir_tstrlen(pszMenu[res - 1]) + 2;
-			pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
-			mir_sntprintf(pszFormatedText, bufSize, pszMenu[res-1], pszText);
+		for (int menunum = 0; menunum < menulimit; menunum++) {
+			pszMenu[menunum] = getMenuEntry(menunum);
+			AppendMenu(hMenu, MF_STRING, menunum + 1, pszMenu[menunum]);
 		}
-		break;
+
+		int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, cbcd->pt.x, cbcd->pt.y, 0, cbcd->hwndFrom, NULL);
+		if (res == 0)
+			break;
+
+		bufSize = textlenght + mir_tstrlen(pszMenu[res - 1]) + 2;
+		pszFormatedText = (TCHAR*)_alloca(bufSize*sizeof(TCHAR));
+		mir_sntprintf(pszFormatedText, bufSize, pszMenu[res - 1], pszText);
+	}
+	break;
 
 	case 2:
 		SendDlgItemMessage(cbcd->hwndFrom, IDC_MESSAGE, EM_GETSELTEXT, 0, (LPARAM)pszText);

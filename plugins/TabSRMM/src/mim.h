@@ -39,24 +39,24 @@ extern  FI_INTERFACE *FIF;
  * - some GDI functions (AlphaBlend()..)
  */
 //dwmapi
-typedef HRESULT (WINAPI *DEFICA)(HWND hwnd, const MARGINS *margins);
-typedef HRESULT (WINAPI *DICE)(BOOL *);
-typedef HRESULT	(WINAPI *DRT)(HWND, HWND, PHTHUMBNAIL);
-typedef HRESULT (WINAPI *BBW)(HWND, DWM_BLURBEHIND *);
-typedef HRESULT (WINAPI *DGC)(DWORD *, BOOL *);
-typedef HRESULT (WINAPI *DWMIIB)(HWND);
-typedef HRESULT (WINAPI *DWMSWA)(HWND, DWORD, LPCVOID, DWORD);
-typedef HRESULT (WINAPI *DWMUT)(HTHUMBNAIL, DWM_THUMBNAIL_PROPERTIES *);
-typedef HRESULT (WINAPI *DURT)(HTHUMBNAIL);
-typedef HRESULT (WINAPI *DSIT)(HWND, HBITMAP, DWORD);
-typedef HRESULT (WINAPI *DSILP)(HWND, HBITMAP, POINT *, DWORD);
+typedef HRESULT(WINAPI *DEFICA)(HWND hwnd, const MARGINS *margins);
+typedef HRESULT(WINAPI *DICE)(BOOL *);
+typedef HRESULT(WINAPI *DRT)(HWND, HWND, PHTHUMBNAIL);
+typedef HRESULT(WINAPI *BBW)(HWND, DWM_BLURBEHIND *);
+typedef HRESULT(WINAPI *DGC)(DWORD *, BOOL *);
+typedef HRESULT(WINAPI *DWMIIB)(HWND);
+typedef HRESULT(WINAPI *DWMSWA)(HWND, DWORD, LPCVOID, DWORD);
+typedef HRESULT(WINAPI *DWMUT)(HTHUMBNAIL, DWM_THUMBNAIL_PROPERTIES *);
+typedef HRESULT(WINAPI *DURT)(HTHUMBNAIL);
+typedef HRESULT(WINAPI *DSIT)(HWND, HBITMAP, DWORD);
+typedef HRESULT(WINAPI *DSILP)(HWND, HBITMAP, POINT *, DWORD);
 //uxtheme
-typedef UINT	(WINAPI *PDTTE)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, RECT *, const DTTOPTS *);
-typedef HANDLE  (WINAPI *BBP)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
-typedef HRESULT (WINAPI *EBP)(HANDLE, BOOL);
-typedef HRESULT (WINAPI *BPI)(void);
-typedef HRESULT (WINAPI *BPU)(void);
-typedef HRESULT (WINAPI *BPSA)(HANDLE, const RECT *, BYTE);
+typedef UINT(WINAPI *PDTTE)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, RECT *, const DTTOPTS *);
+typedef HANDLE(WINAPI *BBP)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
+typedef HRESULT(WINAPI *EBP)(HANDLE, BOOL);
+typedef HRESULT(WINAPI *BPI)(void);
+typedef HRESULT(WINAPI *BPU)(void);
+typedef HRESULT(WINAPI *BPSA)(HANDLE, const RECT *, BYTE);
 //kernel32
 typedef int		(WINAPI *GLIX)(LPCWSTR, LCTYPE, LPCWSTR, int);
 
@@ -87,7 +87,7 @@ public:
 	}
 
 	~CMimAPI() {
-		if	(m_haveBufferedPaint)
+		if (m_haveBufferedPaint)
 			m_pfnBufferedPaintUninit();
 		if (m_hUxTheme != 0)
 			FreeLibrary(m_hUxTheme);
@@ -103,25 +103,43 @@ public:
 	 */
 
 	static DWORD __forceinline GetDword(const char *szModule, const char *szSetting, DWORD uDefault)
-			{ return db_get_dw(0, szModule, szSetting, uDefault); }
+	{
+		return db_get_dw(0, szModule, szSetting, uDefault);
+	}
 	static DWORD __forceinline GetDword(const char *szSetting, DWORD uDefault)
-			{ return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault); }
+	{
+		return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault);
+	}
 	static DWORD __forceinline GetDword(const MCONTACT hContact, const char *szSetting, DWORD uDefault)
-			{ return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault); }
+	{
+		return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault);
+	}
 
 	static int __forceinline GetByte(const char *szSetting, int uDefault)
-			{ return db_get_b(0, SRMSGMOD_T, szSetting, uDefault); }
+	{
+		return db_get_b(0, SRMSGMOD_T, szSetting, uDefault);
+	}
 	static int __forceinline GetByte(const char *szModule, const char *szSetting, int uDefault)
-			{ return db_get_b(0, szModule, szSetting, uDefault); }
+	{
+		return db_get_b(0, szModule, szSetting, uDefault);
+	}
 	static int __forceinline GetByte(const MCONTACT hContact, const char *szSetting, int uDefault)
-			{ return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault); }
+	{
+		return db_get_b(hContact, SRMSGMOD_T, szSetting, uDefault);
+	}
 
 	static bool __forceinline GetBool(const char *szSetting, bool bDefault)
-			{ return db_get_b(0, SRMSGMOD_T, szSetting, bDefault) != 0; }
+	{
+		return db_get_b(0, SRMSGMOD_T, szSetting, bDefault) != 0;
+	}
 	static bool __forceinline GetBool(const char *szModule, const char *szSetting, bool bDefault)
-			{ return db_get_b(0, szModule, szSetting, bDefault) != 0; }
+	{
+		return db_get_b(0, szModule, szSetting, bDefault) != 0;
+	}
 	static bool __forceinline GetBool(const MCONTACT hContact, const char *szSetting, bool bDefault)
-			{ return db_get_b(hContact, SRMSGMOD_T, szSetting, bDefault) != 0; }
+	{
+		return db_get_b(hContact, SRMSGMOD_T, szSetting, bDefault) != 0;
+	}
 
 	/*
 	 * path utilities
@@ -150,7 +168,7 @@ public:
 
 	// returns status of Windows Aero
 	const bool isAero() const { return m_isAero; }
-	
+
 	const bool isDwmActive() const { return m_DwmActive; }
 	const DWORD getWinVer() const { return m_winVer; }
 

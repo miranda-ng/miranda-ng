@@ -54,7 +54,7 @@ int CacheIconToBMP(TLogIcon *theIcon, HICON hIcon, COLORREF backgroundColor, int
 			IconSizeY = sizeY;
 	}
 	RECT rc;
-	BITMAPINFOHEADER bih = {0};
+	BITMAPINFOHEADER bih = { 0 };
 	int widthBytes;
 	theIcon->hBkgBrush = CreateSolidBrush(backgroundColor);
 	bih.biSize = sizeof(bih);
@@ -116,7 +116,7 @@ bool CImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 		return false;
 	}
 	sc = ::StgCreateDocfileOnILockBytes(lpLockBytes,
-										STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
+		STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_READWRITE, 0, &pStorage);
 	if (sc != S_OK) {
 		lpLockBytes = NULL;
 		pOleClientSite->Release();
@@ -152,7 +152,7 @@ bool CImageDataObject::InsertBitmap(IRichEditOle* pRichEditOle, HBITMAP hBitmap)
 	}
 
 	reobject.clsid = clsid;
-	reobject.cp = REO_CP_SELECTION ;
+	reobject.cp = REO_CP_SELECTION;
 	reobject.dvaspect = DVASPECT_CONTENT;
 	reobject.poleobj = pOleObject;
 	reobject.polesite = pOleClientSite;
@@ -200,7 +200,7 @@ IOleObject *CImageDataObject::GetOleObject(IOleClientSite *pOleClientSite, IStor
 	SCODE sc;
 	IOleObject *pOleObject;
 	sc = ::OleCreateStaticFromData(this, IID_IOleObject, OLERENDER_FORMAT,
-								   &m_format, pOleClientSite, pStorage, (void **) & pOleObject);
+		&m_format, pOleClientSite, pStorage, (void **)& pOleObject);
 	if (sc != S_OK)
 		pOleObject = NULL;
 	return pOleObject;

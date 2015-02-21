@@ -125,13 +125,13 @@ CSendLaterJob::~CSendLaterJob()
 			if (PluginConfig.g_bPopupAvail && fShowPopup) {
 				TCHAR	*tszName = pcli->pfnGetContactDisplayName(hContact, 0);
 
-				POPUPDATAT ppd = {0};
+				POPUPDATAT ppd = { 0 };
 				ppd.lchContact = hContact;
 				_tcsncpy_s(ppd.lptzContactName, (tszName ? tszName : TranslateT("'(Unknown contact)'")), _TRUNCATE);
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[mir_strlen((char *)pBuf) + 1]), 100);
 				if (fSuccess) {
 					mir_sntprintf(ppd.lptzText, SIZEOF(ppd.lptzText), TranslateT("A send later job completed successfully.\nThe original message: %s"),
-								  msgPreview);
+						msgPreview);
 					mir_free(msgPreview);
 				}
 				else if (fFailed) {
@@ -159,9 +159,9 @@ CSendLaterJob::~CSendLaterJob()
 }
 
 CSendLater::CSendLater() :
-	m_sendLaterContactList(5, PtrKeySortT),
-	m_sendLaterJobList(5),
-	m_currJob(-1)
+m_sendLaterContactList(5, PtrKeySortT),
+m_sendLaterJobList(5),
+m_currJob(-1)
 {
 	m_fAvail = M.GetByte("sendLaterAvail", 0) != 0;
 	m_last_sendlater_processed = time(0);
@@ -183,7 +183,7 @@ CSendLater::~CSendLater()
 	if (m_sendLaterJobList.getCount() == 0)
 		return;
 
-	for (int i=0; i < m_sendLaterJobList.getCount(); i++) {
+	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 		CSendLaterJob *p = m_sendLaterJobList[i];
 		mir_free(p->sendBuffer);
 		mir_free(p->pBuf);
@@ -257,7 +257,7 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 	int iCount = db_get_dw(hContact, "SendLater", "count", 0);
 
 	if (iCount) {
-		DBCONTACTENUMSETTINGS ces = {0};
+		DBCONTACTENUMSETTINGS ces = { 0 };
 		ces.pfnEnumProc = CSendLater::addStub;
 		ces.szModule = "SendLater";
 		ces.lParam = hContact;
@@ -272,7 +272,7 @@ void CSendLater::processSingleContact(const MCONTACT hContact)
 void CSendLater::processContacts()
 {
 	if (m_fAvail && m_sendLaterContactList.getCount() != 0) {
-		for (int i=0; i < m_sendLaterContactList.getCount(); i++)
+		for (int i = 0; i < m_sendLaterContactList.getCount(); i++)
 			processSingleContact((MCONTACT)m_sendLaterContactList[i]);
 
 		m_sendLaterContactList.destroy();
@@ -292,7 +292,7 @@ void CSendLater::processContacts()
 int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 {
 	MCONTACT	hContact = lParam;
-	DBVARIANT dbv = {0};
+	DBVARIANT dbv = { 0 };
 	char *szOrig_Utf = 0;
 
 	if (!m_fAvail || !szSetting || !strcmp(szSetting, "count") || mir_strlen(szSetting) < 8)
@@ -302,7 +302,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 		return 0;
 
 	// check for possible dupes
-	for (int i=0; i < m_sendLaterJobList.getCount(); i++) {
+	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 		CSendLaterJob *p = m_sendLaterJobList[i];
 		if (p->hContact == hContact && !strcmp(p->szId, szSetting))
 			return 0;
@@ -462,7 +462,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 	if (m_sendLaterJobList.getCount() == 0 || !m_fAvail)
 		return 0;
 
-	for (int i=0; i < m_sendLaterJobList.getCount(); i++) {
+	for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 		CSendLaterJob *p = m_sendLaterJobList[i];
 		if (p->hProcess == ack->hProcess && p->hTargetContact == ack->hContact && !(p->fSuccess || p->fFailed)) {
 			if (!p->fSuccess) {
@@ -524,7 +524,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 	m_sel = 0;
 	::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1,
-				  LPARAM(TranslateT("<All contacts>")));
+		LPARAM(TranslateT("<All contacts>")));
 	::SendMessage(m_hwndFilter, CB_SETITEMDATA, 0, 0);
 
 	LVITEM lvItem = { 0 };
@@ -541,7 +541,7 @@ void CSendLater::qMgrFillList(bool fClear)
 				continue;
 			}
 
-			lvItem.mask = LVIF_TEXT|LVIF_PARAM;
+			lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 			TCHAR tszBuf[255];
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s [%s]"), tszNick, c->getRealAccount());
 			lvItem.pszText = tszBuf;
@@ -576,7 +576,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			else if (p->fSuccess)
 				tszStatusText = TranslateT("Sent OK");
 			else {
-				switch(p->bCode) {
+				switch (p->bCode) {
 				case CSendLaterJob::JOB_DEFERRED:
 					tszStatusText = TranslateT("Deferred");
 					break;
@@ -628,9 +628,9 @@ static char*  szColDefault = "100;120;80;120;120";
 
 void CSendLater::qMgrSetupColumns()
 {
-	LVCOLUMN	col = {0};
+	LVCOLUMN	col = { 0 };
 	int			nWidths[QMGR_LIST_NRCOLUMNS];
-	DBVARIANT	dbv = {0};
+	DBVARIANT	dbv = { 0 };
 	RECT		rcList;
 	LONG		cxList;
 
@@ -644,7 +644,7 @@ void CSendLater::qMgrSetupColumns()
 	else
 		sscanf(szColDefault, szColFormat, &nWidths[0], &nWidths[1], &nWidths[2], &nWidths[3], &nWidths[4]);
 
-	col.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
+	col.mask = LVCF_TEXT | LVCF_WIDTH | LVCF_SUBITEM;
 	col.cx = max(nWidths[0], 10);
 	col.pszText = TranslateT("Contact");
 
@@ -674,10 +674,10 @@ void CSendLater::qMgrSaveColumns()
 {
 	char		szColFormatNew[100];
 	int			nWidths[QMGR_LIST_NRCOLUMNS], i;
-	LVCOLUMN	col = {0};
+	LVCOLUMN	col = { 0 };
 
 	col.mask = LVCF_WIDTH;
-	for (i=0; i < QMGR_LIST_NRCOLUMNS; i++) {
+	for (i = 0; i < QMGR_LIST_NRCOLUMNS; i++) {
 		::SendMessage(m_hwndList, LVM_GETCOLUMN, i, LPARAM(&col));
 		nWidths[i] = max(col.cx, 10);
 	}
@@ -701,7 +701,7 @@ INT_PTR CALLBACK CSendLater::DlgProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		m_hwndDlg = hwnd;
 		TranslateDialogDefault(hwnd);
@@ -710,7 +710,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		m_hFilter = db_get_dw(0, SRMSGMOD_T, "qmgrFilterContact", 0);
 
 		::SetWindowLongPtr(m_hwndList, GWL_STYLE, ::GetWindowLongPtr(m_hwndList, GWL_STYLE) | LVS_SHOWSELALWAYS);
-		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT|LVS_EX_GRIDLINES|LVS_EX_LABELTIP|LVS_EX_DOUBLEBUFFER);
+		::SendMessage(m_hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_LABELTIP | LVS_EX_DOUBLEBUFFER);
 		qMgrSetupColumns();
 		qMgrFillList();
 		if (PluginConfig.g_bPopupAvail) {
@@ -726,7 +726,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->hwndFrom == m_hwndList) {
-			switch(((LPNMHDR)lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case NM_RCLICK:
 				HMENU hMenu = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
 				HMENU hSubMenu = ::GetSubMenu(hMenu, 13);
@@ -742,7 +742,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				m_fIsInteractive = true;
 				int selection = ::TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwndDlg, NULL);
 				if (selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
-					for (int i=0; i < m_sendLaterJobList.getCount(); i++) {
+					for (int i = 0; i < m_sendLaterJobList.getCount(); i++) {
 						CSendLaterJob *p = m_sendLaterJobList[i];
 						if (p->szId[0] == 'M') {
 							p->fFailed = true;
@@ -770,7 +770,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			}
 			break;
 		}
-		switch(LOWORD(wParam)) {
+		switch (LOWORD(wParam)) {
 		case IDOK:
 		case IDCANCEL:
 			qMgrSaveColumns();
@@ -791,14 +791,14 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			CallService(MS_UTILS_OPENURL, 0, LPARAM("http://wiki.miranda.or.at/TabSRMM/SendLater"));
 			break;
 
-		// this handles all commands sent by the context menu
-		// mark jobs for removal/reset/hold/unhold
-		// exception: kill all open multisend jobs is directly handled from the context menu
+			// this handles all commands sent by the context menu
+			// mark jobs for removal/reset/hold/unhold
+			// exception: kill all open multisend jobs is directly handled from the context menu
 		case IDC_QMGR_REMOVE:
 			if (::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) != 0) {
-				LVITEM item = {0};
+				LVITEM item = { 0 };
 				LRESULT	items = ::SendMessage(m_hwndList, LVM_GETITEMCOUNT, 0, 0);
-				item.mask = LVIF_STATE|LVIF_PARAM;
+				item.mask = LVIF_STATE | LVIF_PARAM;
 				item.stateMask = LVIS_SELECTED;
 
 				if (HIWORD(wParam) != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD) {

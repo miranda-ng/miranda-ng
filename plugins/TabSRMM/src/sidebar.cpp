@@ -97,12 +97,12 @@ void CSideBarButton::_create()
 	m_sz.cx = m_sz.cy = 0;
 
 	m_hwnd = ::CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-							  0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, NULL);
+		0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, NULL);
 	if (m_hwnd) {
 		CustomizeButton(m_hwnd);
 		::SendMessage(m_hwnd, BUTTONSETASSIDEBARBUTTON, (WPARAM)this, 0);
-		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, FALSE,  0);
-		::SendMessage(m_hwnd, BUTTONSETASTHEMEDBTN, TRUE,  0);
+		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, FALSE, 0);
+		::SendMessage(m_hwnd, BUTTONSETASTHEMEDBTN, TRUE, 0);
 		::SendMessage(m_hwnd, BUTTONSETCONTAINER, (LPARAM)m_sideBar->getContainer(), 0);
 		m_buttonControl = (TSButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
 		if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)
@@ -132,7 +132,7 @@ void CSideBarButton::Show(const int showCmd) const
  * m_elementWidth and m_elementHeight will be used.
  *
  * @return SIZE&: reference to the item's size member. The caller may use cx and cy values
-         * to determine further layouting actions.
+ * to determine further layouting actions.
  */
 const SIZE& CSideBarButton::measureItem()
 {
@@ -193,7 +193,7 @@ void CSideBarButton::RenderThis(const HDC hdc) const
 	HDC hdcMem = ::CreateCompatibleDC(hdc);
 
 	if (fVertical) {
-		RECT	rcFlipped = {0,0,cx,cy};
+		RECT	rcFlipped = { 0, 0, cx, cy };
 		hbmMem = CSkin::CreateAeroCompatibleBitmap(rcFlipped, hdcMem);
 		rc = rcFlipped;
 	}
@@ -222,7 +222,7 @@ void CSideBarButton::RenderThis(const HDC hdc) const
 		::DeleteObject(hbmMem);
 		hbmMem = FIF->FI_CreateHBITMAPFromDIB(fib_new);
 		FIF->FI_Unload(fib_new);
-		hbmOld =reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbmMem));
+		hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbmMem));
 		::BitBlt(hdc, 0, 0, cy, cx, hdcMem, 0, 0, SRCCOPY);
 		::SelectObject(hdcMem, hbmOld);
 		::DeleteObject(hbmMem);
@@ -347,7 +347,7 @@ void CSideBarButton::invokeContextMenu()
 	const TContainerData *pContainer = m_sideBar->getContainer();
 
 	if (pContainer) {
-		TSideBarNotify tsn = {0};
+		TSideBarNotify tsn = { 0 };
 		tsn.nmHdr.code = NM_RCLICK;
 		tsn.nmHdr.idFrom = 5000;
 		tsn.nmHdr.hwndFrom = ::GetDlgItem(pContainer->hwnd, 5000);
@@ -357,7 +357,7 @@ void CSideBarButton::invokeContextMenu()
 }
 
 CSideBar::CSideBar(TContainerData *pContainer) :
-	m_buttonlist(1, PtrKeySortT)
+m_buttonlist(1, PtrKeySortT)
 {
 	m_pContainer = pContainer;
 	m_up = m_down = 0;
@@ -395,8 +395,8 @@ void CSideBar::Init()
 
 	if (m_pContainer->dwFlags & CNT_SIDEBAR) {
 		if (m_hwndScrollWnd == 0)
-			m_hwndScrollWnd = ::CreateWindowEx(0, _T("TS_SideBarClass"), _T(""), WS_CLIPCHILDREN | WS_CLIPSIBLINGS |  WS_VISIBLE | WS_CHILD,
-											   0, 0, m_width, 40, m_pContainer->hwnd, reinterpret_cast<HMENU>(5000), g_hInst, this);
+			m_hwndScrollWnd = ::CreateWindowEx(0, _T("TS_SideBarClass"), _T(""), WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CHILD,
+			0, 0, m_width, 40, m_pContainer->hwnd, reinterpret_cast<HMENU>(5000), g_hInst, this);
 
 		m_isActive = true;
 		m_isVisible = m_isActive ? m_isVisible : true;
@@ -501,12 +501,12 @@ void CSideBar::populateAll()
 
 	int iItems = (int)TabCtrl_GetItemCount(hwndTab);
 
-	TCITEM item = {0};
+	TCITEM item = { 0 };
 	item.mask = TCIF_PARAM;
 
 	m_iTopButtons = 0;
 
-	for (int i=0; i < iItems; i++) {
+	for (int i = 0; i < iItems; i++) {
 		TabCtrl_GetItem(hwndTab, i, &item);
 		if (item.lParam == 0 || !IsWindow((HWND)item.lParam))
 			continue;
@@ -533,8 +533,8 @@ void CSideBar::populateAll()
  * Add a new session to the switchbar.
  *
  * @param dat    _MessageWindowData *: session data for a client session. Must be fully initialized
-            *    (that is, it can only be used after WM_INITIALOG completed).
-         *position: -1 = append, otherwise insert it at the given position
+ *    (that is, it can only be used after WM_INITIALOG completed).
+ *position: -1 = append, otherwise insert it at the given position
  */
 void CSideBar::addSession(const TWindowData *dat, int position)
 {
@@ -559,7 +559,7 @@ void CSideBar::addSession(const TWindowData *dat, int position)
 		m_buttonlist.insert(item, position);
 
 	SendDlgItemMessage(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_TOGGLESIDEBAR : IDC_CHAT_TOGGLESIDEBAR, BM_SETIMAGE, IMAGE_ICON,
-					   (LPARAM)(m_dwFlags & SIDEBARORIENTATION_LEFT ? PluginConfig.g_buttonBarIcons[ICON_DEFAULT_LEFT] : PluginConfig.g_buttonBarIcons[ICON_DEFAULT_RIGHT]));
+		(LPARAM)(m_dwFlags & SIDEBARORIENTATION_LEFT ? PluginConfig.g_buttonBarIcons[ICON_DEFAULT_LEFT] : PluginConfig.g_buttonBarIcons[ICON_DEFAULT_RIGHT]));
 
 	Invalidate();
 }
@@ -607,7 +607,7 @@ void CSideBar::scrollIntoView(const CSideBarButton *item)
 		item = m_activeItem;
 
 	int i;
-	for (i=0; i < m_buttonlist.getCount(); i++) {
+	for (i = 0; i < m_buttonlist.getCount(); i++) {
 		CSideBarButton &p = m_buttonlist[i];
 		itemHeight = p.getHeight();
 		spaceUsed += (itemHeight + 1);
@@ -704,9 +704,9 @@ const CSideBarButton* CSideBar::setActiveItem(const TWindowData *dat)
  * @param rc        RECT*:the window rectangle
  *
  * @param fOnlyCalc bool: if false (default), window positions will be updated, otherwise,
-                   * the method will only calculate the layout parameters. A final call to
-                   * Layout() with the parameter set to false is required to perform the
-                   * position update.
+ * the method will only calculate the layout parameters. A final call to
+ * Layout() with the parameter set to false is required to perform the
+ * position update.
  */
 void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 {
@@ -728,7 +728,7 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 	BOOL 	topEnabled = FALSE, bottomEnabled = FALSE;
 	HWND 	hwnd;
 	LONG 	spaceUsed = 0;
-	DWORD 	dwFlags = SWP_NOZORDER|SWP_NOACTIVATE;
+	DWORD 	dwFlags = SWP_NOZORDER | SWP_NOACTIVATE;
 	LONG	iSpaceAvail = rc->bottom;
 
 	m_firstVisibleOffset = max(0, m_firstVisibleOffset);
@@ -737,7 +737,7 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 	LONG height = m_elementHeight;
 
-	for (int i=0; i < m_buttonlist.getCount(); i++) {
+	for (int i = 0; i < m_buttonlist.getCount(); i++) {
 		CSideBarButton &p = m_buttonlist[i];
 		hwnd = p.getHwnd();
 
@@ -754,7 +754,7 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 			if (m_totalItemHeight <= m_firstVisibleOffset) {				// partially visible
 				if (!fOnlyCalc)
 					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, -(m_firstVisibleOffset - m_totalItemHeight),
-								   m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
+					m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += ((height + 1) - (m_firstVisibleOffset - m_totalItemHeight));
 				m_totalItemHeight += (height + 1);
 			}
@@ -775,12 +775,12 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 		::GetClientRect(m_pContainer->hwnd, &rcContainer);
 
 		LONG dx = m_dwFlags & SIDEBARORIENTATION_LEFT ? m_pContainer->tBorder_outer_left :
-														rcContainer.right - m_pContainer->tBorder_outer_right - (m_elementWidth + 4);
+			rcContainer.right - m_pContainer->tBorder_outer_right - (m_elementWidth + 4);
 
 		::SetWindowPos(m_up->getHwnd(), 0, dx, m_pContainer->tBorder_outer_top + m_pContainer->MenuBar->getHeight(),
-					   m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
+			m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
 		::SetWindowPos(m_down->getHwnd(), 0, dx, (rcContainer.bottom - 14 - m_pContainer->statusBarHeight - 1),
-					   m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
+			m_elementWidth + 4, 14, dwFlags | SWP_SHOWWINDOW);
 		::EnableWindow(m_up->getHwnd(), topEnabled);
 		::EnableWindow(m_down->getHwnd(), bottomEnabled);
 		::InvalidateRect(m_up->getHwnd(), NULL, FALSE);
@@ -798,7 +798,7 @@ void CSideBar::showAll(int showCmd)
 	::ShowWindow(m_up->getHwnd(), showCmd);
 	::ShowWindow(m_down->getHwnd(), showCmd);
 
-	for (int i=0; i < m_buttonlist.getCount(); i++)
+	for (int i = 0; i < m_buttonlist.getCount(); i++)
 		::ShowWindow(m_buttonlist[i].getHwnd(), showCmd);
 }
 
@@ -816,7 +816,7 @@ CSideBarButton* CSideBar::findSession(const TWindowData *dat)
 	if (dat == NULL)
 		return NULL;
 
-	for (int i=0; i < m_buttonlist.getCount(); i++) {
+	for (int i = 0; i < m_buttonlist.getCount(); i++) {
 		CSideBarButton &p = m_buttonlist[i];
 		if (p.getDat() == dat)
 			return &p;
@@ -839,7 +839,7 @@ CSideBarButton* CSideBar::findSession(const MCONTACT hContact)
 	if (hContact == NULL)
 		return NULL;
 
-	for (int i=0; i < m_buttonlist.getCount(); i++) {
+	for (int i = 0; i < m_buttonlist.getCount(); i++) {
 		CSideBarButton &p = m_buttonlist[i];
 		if (p.getContactHandle() == hContact)
 			return &p;
@@ -868,7 +868,7 @@ void CSideBar::resizeScrollWnd(LONG x, LONG y, LONG, LONG height) const
 		return;
 	}
 	::SetWindowPos(m_hwndScrollWnd, 0, x, y + 15, m_width, height - 30,
-				   SWP_NOCOPYBITS | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOSENDCHANGING | SWP_DEFERERASE | SWP_ASYNCWINDOWPOS);
+		SWP_NOCOPYBITS | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_NOSENDCHANGING | SWP_DEFERERASE | SWP_ASYNCWINDOWPOS);
 }
 
 void CSideBar::invalidateButton(const TWindowData *dat)
@@ -887,7 +887,7 @@ void CSideBar::invalidateButton(const TWindowData *dat)
  */
 LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) {
+	switch (msg) {
 	case WM_SIZE:
 		return TRUE;
 
@@ -914,7 +914,7 @@ LRESULT CALLBACK CSideBar::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			else {
 				hdcMem = ::CreateCompatibleDC(hdc);
-				hbm =  CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
+				hbm = CSkin::CreateAeroCompatibleBitmap(rc, hdcMem);
 				hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(hdcMem, hbm));
 			}
 
@@ -945,7 +945,7 @@ LRESULT CALLBACK CSideBar::wndProcStub(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	if (sideBar)
 		return(sideBar->wndProc(hwnd, msg, wParam, lParam));
 
-	switch(msg) {
+	switch (msg) {
 	case WM_NCCREATE:
 		CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
 		::SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)cs->lpCreateParams);
@@ -992,26 +992,26 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 
 			if (stateId == PBS_HOT || stateId == PBS_PRESSED)
 				DrawAlpha(hdc, const_cast<RECT *>(rc), 0xf0f0f0, 70, 0x000000, 0, 9,
-						  31, 4, 0);
+				31, 4, 0);
 			else
 				DrawAlpha(hdc, const_cast<RECT *>(rc), 0xf0f0f0, 30, 0x707070, 0, 9,
-						  31, 4, 0);
+				31, 4, 0);
 		}
 		else {
 			if (PluginConfig.m_fillColor)
 				FillTabBackground(hdc, stateId, item->getDat(), const_cast<RECT *>(rc));
 
 			CSkin::m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA,
-												   (stateId == PBS_HOT && !fIsActiveItem) ? 250 : (fIsActiveItem || stateId == PBS_PRESSED ? 250 : 230));
+				(stateId == PBS_HOT && !fIsActiveItem) ? 250 : (fIsActiveItem || stateId == PBS_PRESSED ? 250 : 230));
 			CSkin::m_switchBarItem->Render(hdc, rc, true);
 			if (stateId == PBS_HOT || stateId == PBS_PRESSED || fIsActiveItem) {
- 				RECT rcGlow = *rc;
- 				rcGlow.top += 1;
+				RECT rcGlow = *rc;
+				rcGlow.top += 1;
 				rcGlow.bottom -= 2;
 
 				CSkin::m_tabGlowTop->setAlphaFormat(AC_SRC_ALPHA, (stateId == PBS_PRESSED || fIsActiveItem) ? 180 : 100);
- 				CSkin::m_tabGlowTop->Render(hdc, &rcGlow, true);
- 			}
+				CSkin::m_tabGlowTop->Render(hdc, &rcGlow, true);
+			}
 		}
 	}
 	else if (M.isVSThemed()) {
@@ -1019,7 +1019,7 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 		if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
 			::FillRect(hdc, rc, stateId == PBS_HOT ? ::GetSysColorBrush(COLOR_HOTLIGHT) : ::GetSysColorBrush(COLOR_3DFACE));
 			::InflateRect(rcDraw, -2, 0);
-			::DrawEdge(hdc, rcDraw, EDGE_ETCHED, BF_SOFT|BF_RECT|BF_FLAT);
+			::DrawEdge(hdc, rcDraw, EDGE_ETCHED, BF_SOFT | BF_RECT | BF_FLAT);
 		}
 		else {
 			CSkin::FillBack(hdc, rcDraw);
@@ -1047,13 +1047,13 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 		else {
 			::FillRect(hdc, rc, stateId == PBS_HOT ? ::GetSysColorBrush(COLOR_HOTLIGHT) : ::GetSysColorBrush(COLOR_3DFACE));
 			::InflateRect(rcDraw, -2, 0);
-			::DrawEdge(hdc, rcDraw, EDGE_ETCHED, BF_SOFT|BF_RECT|BF_FLAT);
+			::DrawEdge(hdc, rcDraw, EDGE_ETCHED, BF_SOFT | BF_RECT | BF_FLAT);
 		}
 	}
 }
 
 void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rcBox,
-												   const CSideBarButton *item)
+	const CSideBarButton *item)
 {
 	const TWindowData *dat = item->getDat();
 	UINT id = item->getID();
@@ -1061,7 +1061,7 @@ void __fastcall CSideBar::m_DefaultContentRenderer(const HDC hdc, const RECT *rc
 
 	if (id == IDC_SIDEBARUP || id == IDC_SIDEBARDOWN) {
 		::DrawIconEx(hdc, (rcBox->left + rcBox->right) / 2 - 8, (rcBox->top + rcBox->bottom) / 2 - 8, id == IDC_SIDEBARUP ? PluginConfig.g_buttonBarIcons[26] : PluginConfig.g_buttonBarIcons[16],
-					 16, 16, 0, 0, DI_NORMAL);
+			16, 16, 0, 0, DI_NORMAL);
 		if (!M.isAero() && stateID == PBS_HOT)
 			::DrawEdge(hdc, const_cast<RECT *>(rcBox), BDR_INNER, BF_RECT | BF_SOFT | BF_FLAT);
 	}
@@ -1131,7 +1131,7 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 		rc.top++;
 		::SetBkMode(hdc, TRANSPARENT);
 		CSkin::RenderText(hdc, dat->hThemeIP, dat->cache->getNick(), &rc,
-						  dtFlags, CSkin::m_glowSize, CInfoPanel::m_ipConfig.clrs[IPFONTID_NICK]);
+			dtFlags, CSkin::m_glowSize, CInfoPanel::m_ipConfig.clrs[IPFONTID_NICK]);
 
 		if (fSecondLine) {
 			int		iSize;
@@ -1147,7 +1147,7 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 			rc.left += 18;
 			::SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_STATUS]);
 			CSkin::RenderText(hdc, dat->hThemeIP, dat->szStatus, &rc,
-							  dtFlags | DT_VCENTER, CSkin::m_glowSize, CInfoPanel::m_ipConfig.clrs[IPFONTID_STATUS]);
+				dtFlags | DT_VCENTER, CSkin::m_glowSize, CInfoPanel::m_ipConfig.clrs[IPFONTID_STATUS]);
 		}
 		::SelectObject(hdc, hOldFont);
 	}
@@ -1161,7 +1161,7 @@ const SIZE& __fastcall CSideBar::m_measureAdvancedVertical(CSideBarButton* item)
 {
 	const TWindowData*	dat = item->getDat();
 
-	SIZE sz = {0};
+	SIZE sz = { 0 };
 
 	if (dat) {
 		SIZE szFirstLine, szSecondLine;

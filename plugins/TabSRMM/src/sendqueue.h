@@ -61,11 +61,11 @@ struct SendJob
 class SendQueue {
 public:
 	enum {
-			NR_SENDJOBS = 30,
-			SQ_ERROR = 2,
-			SQ_INPROGRESS = 1,
-			SQ_UNDEFINED = 0
-		 };
+		NR_SENDJOBS = 30,
+		SQ_ERROR = 2,
+		SQ_INPROGRESS = 1,
+		SQ_UNDEFINED = 0
+	};
 
 	SendQueue()
 	{
@@ -78,7 +78,7 @@ public:
 
 	~SendQueue()
 	{
-		for (int i=0; i < NR_SENDJOBS; i++)
+		for (int i = 0; i < NR_SENDJOBS; i++)
 			mir_free(m_jobs[i].szSendBuffer);
 	}
 
@@ -113,8 +113,8 @@ private:
 
 extern SendQueue *sendQueue;
 
-int  TSAPI ActivateExistingTab	(TContainerData *pContainer, HWND hwndChild);
-void TSAPI ShowMultipleControls	(const HWND hwndDlg, const UINT * controls, int cControls, int state);
-void TSAPI HandleIconFeedback		(TWindowData *dat, HICON iIcon);
+int  TSAPI ActivateExistingTab(TContainerData *pContainer, HWND hwndChild);
+void TSAPI ShowMultipleControls(const HWND hwndDlg, const UINT * controls, int cControls, int state);
+void TSAPI HandleIconFeedback(TWindowData *dat, HICON iIcon);
 
 #endif /* __SENDQUEUE_H */

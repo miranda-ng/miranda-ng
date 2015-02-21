@@ -133,7 +133,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 				item = &SkinItems[(ctl->stateId == PBS_NORMAL || ctl->stateId == PBS_DISABLED) ? ID_EXTBKBUTTONSNPRESSED : (ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSPRESSED)];
 				realItem = item;
 			}
-			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd,  ctl->pContainer, &rcContent, hdcMem);
+			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd, ctl->pContainer, &rcContent, hdcMem);
 			if (!item->IGNORED) {
 				RECT rc1 = rcClient;
 				rc1.left += item->MARGIN_LEFT;
@@ -145,7 +145,7 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 			else goto flat_themed;
 		}
 		else {
-flat_themed:
+		flat_themed:
 			int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 
 			if (ctl->bToolbarButton) {
@@ -156,7 +156,7 @@ flat_themed:
 					pt.x = rcWin.left;
 					ScreenToClient(dat->hwnd, &pt);
 					BitBlt(hdcMem, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
-							dat->pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
+						dat->pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
 				}
 			}
 			if (ctl->hThemeToolbar && ctl->bIsThemed && 1 == dat->pContainer->bTBRenderingMode) {
@@ -189,7 +189,7 @@ flat_themed:
 				item = &SkinItems[(ctl->stateId == PBS_NORMAL || ctl->stateId == PBS_DISABLED) ? ID_EXTBKBUTTONSNPRESSED : (ctl->stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSPRESSED)];
 				realItem = item;
 			}
-			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd,  ctl->pContainer, &rcClient, hdcMem);
+			CSkin::SkinDrawBG(ctl->hwnd, ctl->pContainer->hwnd, ctl->pContainer, &rcClient, hdcMem);
 			if (!item->IGNORED) {
 				RECT rc1 = rcClient;
 				rc1.left += item->MARGIN_LEFT;
@@ -197,11 +197,12 @@ flat_themed:
 				rc1.top += item->MARGIN_TOP;
 				rc1.bottom -= item->MARGIN_BOTTOM;
 				CSkin::DrawItem(hdcMem, &rc1, item);
-			} else
+			}
+			else
 				goto nonflat_themed;
 		}
 		else {
-nonflat_themed:
+		nonflat_themed:
 			int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 
 			if (ctl->hThemeButton && ctl->bIsThemed && 0 == PluginConfig.m_fillColor) {
@@ -239,7 +240,7 @@ nonflat_themed:
 		rcContent.right = rcContent.left;
 
 		DrawIconEx(hdcMem, rcClient.right - 15, (rcClient.bottom - rcClient.top) / 2 - (PluginConfig.m_smcyicon / 2),
-					PluginConfig.g_buttonBarIcons[ICON_DEFAULT_PULLDOWN], 16, 16, 0, 0, DI_NORMAL);
+			PluginConfig.g_buttonBarIcons[ICON_DEFAULT_PULLDOWN], 16, 16, 0, 0, DI_NORMAL);
 	}
 
 	if (ctl->hIcon || ctl->hIconPrivate) {
@@ -268,7 +269,7 @@ nonflat_themed:
 				DrawIconEx(hdc_buttonglyph, 0, 0, hIconNew, 16, 16, 0, 0, DI_NORMAL);
 				if (ctl->overlay)
 					DrawIconEx(hdc_buttonglyph, 0, 0, ctl->overlay, 16, 16, 0, 0, DI_NORMAL);
- 				GdiAlphaBlend(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hdc_buttonglyph, 0, 0, 16, 16, bf_buttonglyph);
+				GdiAlphaBlend(hdcMem, ix, iy, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, hdc_buttonglyph, 0, 0, 16, 16, bf_buttonglyph);
 			}
 		}
 	}
@@ -314,7 +315,7 @@ nonflat_themed:
 	}
 }
 
-static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TSButtonCtrl *bct = (TSButtonCtrl*)GetWindowLongPtr(hwndDlg, 0);
 	switch (msg) {
@@ -328,18 +329,18 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 		return 0;
 
 	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdcPaint = BeginPaint(hwndDlg, &ps);
-			if (hdcPaint) {
-				if (bct->sitem)
-					bct->sitem->RenderThis(hdcPaint);
-				else
-					PaintWorker(bct, hdcPaint);
-				EndPaint(hwndDlg, &ps);
-			}
+	{
+		PAINTSTRUCT ps;
+		HDC hdcPaint = BeginPaint(hwndDlg, &ps);
+		if (hdcPaint) {
+			if (bct->sitem)
+				bct->sitem->RenderThis(hdcPaint);
+			else
+				PaintWorker(bct, hdcPaint);
+			EndPaint(hwndDlg, &ps);
 		}
-		return 0;
+	}
+	return 0;
 
 	case BM_SETIMAGE:
 		if (wParam == IMAGE_ICON) {

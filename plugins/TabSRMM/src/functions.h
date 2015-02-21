@@ -60,7 +60,7 @@ void  TSAPI FlashTrayIcon(HICON hIcon);
 void  TSAPI UpdateTrayMenuState(TWindowData *dat, BOOL bForced);
 void  TSAPI LoadFavoritesAndRecent();
 void  TSAPI AddContactToFavorites(MCONTACT hContact, const TCHAR *szNickname, const char *szProto, TCHAR *szStatus,
-                                     WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu);
+	WORD wStatus, HICON hIcon, BOOL mode, HMENU hMenu);
 void  TSAPI CreateTrayMenus(int mode);
 void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
 
@@ -70,7 +70,7 @@ void  TSAPI HandleMenuEntryFromhContact(MCONTACT iSelection);
 
 BOOL  TSAPI IsUtfSendAvailable(MCONTACT hContact);
 HWND  TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact, int isSend,
-                                     const char *pszInitialText, BOOL bActivateTAb, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent);
+	const char *pszInitialText, BOOL bActivateTAb, BOOL bPopupContainer, BOOL bWantPopup, MEVENT hdbEvent);
 int   TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd);
 void  TSAPI FlashContainer(TContainerData *pContainer, int iMode, int iNum);
 void  TSAPI CreateImageList(BOOL bInitial);
@@ -109,7 +109,7 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
  * skinning engine
  */
 void  TSAPI DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2,
-                                     BYTE transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, CImageItem *imageItem);
+	BYTE transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, CImageItem *imageItem);
 // the cached message log icons
 
 void  TSAPI CacheMsgLogIcons();

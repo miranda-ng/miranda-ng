@@ -18,7 +18,7 @@ static mir_cs ToolBarCS;
 
 static void wipeList(LIST<CustomButtonData> &list)
 {
-	for (int i = list.getCount()-1; i >= 0; i--) {
+	for (int i = list.getCount() - 1; i >= 0; i--) {
 		delete list[i];
 		list.remove(i);
 	}
@@ -60,14 +60,14 @@ void CB_DeInitCustomButtons()
 void CB_DestroyAllButtons(HWND hwndDlg)
 {
 	HWND hwndBtn = NULL;
-	for (int i=0; i < LButtonsList.getCount(); i++) {
+	for (int i = 0; i < LButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = LButtonsList[i];
 		hwndBtn = GetDlgItem(hwndDlg, cbd->dwButtonCID);
 		if (hwndBtn)
 			DestroyWindow(hwndBtn);
 	}
 
-	for (int i=0; i < RButtonsList.getCount(); i++) {
+	for (int i = 0; i < RButtonsList.getCount(); i++) {
 		CustomButtonData *cbd = RButtonsList[i];
 		hwndBtn = GetDlgItem(hwndDlg, cbd->dwButtonCID);
 		if (hwndBtn)
@@ -305,7 +305,7 @@ static INT_PTR CB_RemoveButton(WPARAM, LPARAM lParam)
 	{
 		mir_cslock lck(ToolBarCS);
 
-		for (int i = LButtonsList.getCount()-1; i >= 0; i--) {
+		for (int i = LButtonsList.getCount() - 1; i >= 0; i--) {
 			CustomButtonData *cbd = LButtonsList[i];
 			if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && cbd->dwButtonOrigID == bbdi->dwButtonID) {
 				tempCID = cbd->dwButtonCID;
@@ -315,7 +315,7 @@ static INT_PTR CB_RemoveButton(WPARAM, LPARAM lParam)
 		}
 
 		if (!tempCID) {
-			for (int i = RButtonsList.getCount()-1; i >= 0; i--) {
+			for (int i = RButtonsList.getCount() - 1; i >= 0; i--) {
 				CustomButtonData *cbd = RButtonsList[i];
 				if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && cbd->dwButtonOrigID == bbdi->dwButtonID) {
 					tempCID = cbd->dwButtonCID;
@@ -431,7 +431,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 	BOOL isThemed = TRUE;
 
 	if (CSkin::m_skinEnabled && !SkinItems[ID_EXTBKBUTTONSNPRESSED].IGNORED &&
-		 !SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED) {
+		!SkinItems[ID_EXTBKBUTTONSPRESSED].IGNORED && !SkinItems[ID_EXTBKBUTTONSMOUSEOVER].IGNORED) {
 		isThemed = FALSE;
 	}
 
@@ -489,7 +489,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 		if (((dat->bType == SESSIONTYPE_IM && cbd->bIMButton) || (dat->bType == SESSIONTYPE_CHAT && cbd->bChatButton))) {
 			if (!cbd->bSeparator && !GetDlgItem(hdlg, cbd->dwButtonCID)) {
 				hwndBtn = CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2 + lwidth, splitterY,
-												 cbd->iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU)cbd->dwButtonCID, g_hInst, NULL);
+					cbd->iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU)cbd->dwButtonCID, g_hInst, NULL);
 				CustomizeButton(hwndBtn);
 			}
 			if (!cbd->bHidden)
@@ -705,16 +705,16 @@ void TSAPI BB_CustomButtonClick(TWindowData *dat, DWORD idFrom, HWND hwndFrom, B
 
 	if (!cbcd.pszModule)
 		for (i = 0; i < RButtonsList.getCount(); i++) {
-		CustomButtonData* cbd = RButtonsList[i];
-		if (cbd->dwButtonCID == idFrom) {
-			cbcd.pszModule = cbd->pszModuleName;
-			cbcd.dwButtonId = cbd->dwButtonOrigID;
-		}
-		else if (cbd->dwArrowCID == idFrom) {
-			bFromArrow = 1;
-			cbcd.pszModule = cbd->pszModuleName;
-			cbcd.dwButtonId = cbd->dwButtonOrigID;
-		}
+			CustomButtonData* cbd = RButtonsList[i];
+			if (cbd->dwButtonCID == idFrom) {
+				cbcd.pszModule = cbd->pszModuleName;
+				cbcd.dwButtonId = cbd->dwButtonOrigID;
+			}
+			else if (cbd->dwArrowCID == idFrom) {
+				bFromArrow = 1;
+				cbcd.pszModule = cbd->pszModuleName;
+				cbcd.dwButtonId = cbd->dwButtonOrigID;
+			}
 		}
 
 	cbcd.cbSize = sizeof(CustomButtonClickData);
@@ -1036,7 +1036,7 @@ static int SaveTree(HWND hToolBarTree)
 				if (!(cbd->opFlags & BBSF_NTBDESTRUCT))
 					(RSide) ? (count -= 10) : (count += 10);
 			}
-			
+
 			HTREEITEM hItem = TreeView_GetNextSibling(hToolBarTree, tvi.hItem);
 			if (cbd->opFlags & BBSF_NTBDESTRUCT)
 				TreeView_DeleteItem(hToolBarTree, tvi.hItem);
@@ -1103,7 +1103,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 	hti = TreeView_InsertItem(hToolBarTree, &tvis);
 	TreeView_SetCheckState(hToolBarTree, hti, 1);
 
-	for (int i = RButtonsList.getCount()-1; i >= 0; i--) {
+	for (int i = RButtonsList.getCount() - 1; i >= 0; i--) {
 		CustomButtonData *cbd = RButtonsList[i];
 		tvis.item.lParam = (LPARAM)cbd;
 

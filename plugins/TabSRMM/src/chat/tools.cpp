@@ -114,8 +114,8 @@ int ShowPopup(MCONTACT hContact, SESSION_INFO *si, HICON hIcon, char* pszProtoNa
 
 	PROTOACCOUNT *pa = ProtoGetAccount(pszProtoName);
 	mir_sntprintf(pd.lptzContactName, SIZEOF(pd.lptzContactName), _T("%s - %s"),
-					  (pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
-					  pcli->pfnGetContactDisplayName(hContact, 0));
+		(pa == NULL) ? _A2T(pszProtoName) : pa->tszAccountName,
+		pcli->pfnGetContactDisplayName(hContact, 0));
 
 	_tcsncpy_s(pd.lptzText, TranslateTS(szBuf), _TRUNCATE);
 	pd.iSeconds = g_Settings.iPopupTimeout;
@@ -205,7 +205,7 @@ passed:
 
 	if (iNewEvent == GC_EVENT_MESSAGE) {
 		ShowPopup(si->hContact, si, pci->hIcons[ICON_MESSAGE], si->pszModule, si->ptszName, clr ? clr : pci->aFonts[9].color,
-					 TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
+			TranslateT("%s%s says:%s %s"), bbStart, gce->ptszNick, bbEnd, pci->RemoveFormatting(gce->ptszText));
 	}
 	else saveCI.DoPopup(si, gce);
 
@@ -470,7 +470,7 @@ int Chat_GetColorIndex(const char* pszModule, COLORREF cr)
 	if (!pMod || pMod->nColorCount == 0)
 		return -1;
 
-	for (int i=0; i < pMod->nColorCount; i++)
+	for (int i = 0; i < pMod->nColorCount; i++)
 		if (pMod->crColors[i] == cr)
 			return i;
 
@@ -484,7 +484,7 @@ TCHAR* my_strstri(const TCHAR* s1, const TCHAR* s2)
 	_tsetlocale(LC_ALL, _T(""));
 	for (i = 0; s1[i]; i++)
 		for (j = i, k = 0; _totlower(s1[j]) == _totlower(s2[k]); j++, k++)
-			if (!s2[k+1])
+			if (!s2[k + 1])
 				return (TCHAR*)(s1 + i);
 
 	return NULL;
@@ -560,7 +560,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	if (gcmi.nItems > 0)
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
-	for (int i=0; i < gcmi.nItems; i++) {
+	for (int i = 0; i < gcmi.nItems; i++) {
 		TCHAR *ptszText = TranslateTS(gcmi.Item[i].pszDesc);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
@@ -622,7 +622,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
 	si->iLogFilterFlags = dwFlags_default;
-	for (int i=0; i < 32; i++)
+	for (int i = 0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogFilterFlags = (dwFlags_local & (1 << i) ? si->iLogFilterFlags | (1 << i) : si->iLogFilterFlags & ~(1 << i));
 
@@ -631,7 +631,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	dwMask = db_get_dw(si->hContact, CHAT_MODULE, "PopupMask", 0);
 
 	si->iLogPopupFlags = dwFlags_default;
-	for (int i=0; i < 32; i++)
+	for (int i = 0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogPopupFlags = (dwFlags_local & (1 << i) ? si->iLogPopupFlags | (1 << i) : si->iLogPopupFlags & ~(1 << i));
 
@@ -642,7 +642,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	si->iDiskLogFlags = M.GetDword(CHAT_MODULE, "DiskLogFlags", 0xFFFF);
 
 	si->iLogTrayFlags = dwFlags_default;
-	for (int i=0; i < 32; i++)
+	for (int i = 0; i < 32; i++)
 		if (dwMask & (1 << i))
 			si->iLogTrayFlags = (dwFlags_local & (1 << i) ? si->iLogTrayFlags | (1 << i) : si->iLogTrayFlags & ~(1 << i));
 

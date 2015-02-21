@@ -38,9 +38,9 @@
 
 struct TRTFColorTable
 {
-    TCHAR    szName[10];
-    COLORREF clr;
-    int      menuid;
+	TCHAR    szName[10];
+	COLORREF clr;
+	int      menuid;
 };
 
 class Utils {
@@ -109,7 +109,7 @@ public:
 	{
 		size_t s = 0;
 
-		while(s < maxlen && *(src++))
+		while (s < maxlen && *(src++))
 			s++;
 
 		return (s >= maxlen && *src != 0) ? 0 : s;
@@ -137,24 +137,24 @@ public:
 	 * the warning IDs
 	 */
 	enum {
-		WARN_RELNOTES						= 0,
-		WARN_ICONPACK_VERSION				= 1,
-		WARN_EDITUSERNOTES					= 2,
-		WARN_ICONPACKMISSING				= 3,
-		WARN_AEROPEEK_SKIN					= 4,
-		WARN_SENDFILE						= 5,
-		WARN_HPP_APICHECK					= 6,
-		WARN_NO_SENDLATER					= 7,
-		WARN_CLOSEWINDOW					= 8,
-		WARN_OPTION_CLOSE					= 9,
-		WARN_THEME_OVERWRITE				= 10,
-		WARN_LAST							= 11
+		WARN_RELNOTES = 0,
+		WARN_ICONPACK_VERSION = 1,
+		WARN_EDITUSERNOTES = 2,
+		WARN_ICONPACKMISSING = 3,
+		WARN_AEROPEEK_SKIN = 4,
+		WARN_SENDFILE = 5,
+		WARN_HPP_APICHECK = 6,
+		WARN_NO_SENDLATER = 7,
+		WARN_CLOSEWINDOW = 8,
+		WARN_OPTION_CLOSE = 9,
+		WARN_THEME_OVERWRITE = 10,
+		WARN_LAST = 11
 	};
 
 	// the flags(low word is reserved for default windows flags like MB_OK etc.
 	enum {
 		CWF_UNTRANSLATED = 0x00010000, // do not translate the msg (useful for some error messages)
-		CWF_NOALLOWHIDE  = 0x00020000  // critical message, hide the "do not show this again" check box
+		CWF_NOALLOWHIDE = 0x00020000  // critical message, hide the "do not show this again" check box
 	};
 
 	CWarning(const wchar_t* tszTitle, const wchar_t* tszText, const UINT uId, const DWORD dwFlags);

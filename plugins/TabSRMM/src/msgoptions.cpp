@@ -39,7 +39,7 @@ struct FontOptionsList
 }
 
 static fontOptionsList[] = {
-	{RGB(0, 0, 0), "Tahoma", 0, -10}
+	{ RGB(0, 0, 0), "Tahoma", 0, -10 }
 };
 
 
@@ -47,13 +47,13 @@ static fontOptionsList[] = {
 HIMAGELIST CreateStateImageList()
 {
 	HIMAGELIST himlStates;
-	
+
 	himlStates = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 4, 0);
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconUnchecked); /* IMG_NOCHECK */
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconChecked); /* IMG_CHECK */
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconGroupOpen); /* IMG_GRPOPEN */
 	ImageList_AddIcon(himlStates, PluginConfig.g_IconGroupClose); /* IMG_GRPCLOSED */
-	
+
 	return himlStates;
 }
 
@@ -236,19 +236,19 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 		break;
 
-	// self - configure the dialog, don't let the user load or unload
-	// a skin while a message window is open. Show the warning that all
-	// windows must be closed.
+		// self - configure the dialog, don't let the user load or unload
+		// a skin while a message window is open. Show the warning that all
+		// windows must be closed.
 	case WM_USER + 100:
-		{
-			bool fWindowsOpen = (pFirstContainer != 0 ? true : false);
-			for (int i = 0; _ctrls[i]; i++)
-				Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
+	{
+		bool fWindowsOpen = (pFirstContainer != 0 ? true : false);
+		for (int i = 0; _ctrls[i]; i++)
+			Utils::enableDlgControl(hwndDlg, _ctrls[i], !fWindowsOpen);
 
-			Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
-			Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
-		}
-		return 0;
+		Utils::showDlgControl(hwndDlg, IDC_SKIN_WARN, fWindowsOpen ? SW_SHOW : SW_HIDE);
+		Utils::showDlgControl(hwndDlg, IDC_SKIN_CLOSENOW, fWindowsOpen ? SW_SHOW : SW_HIDE);
+	}
+	return 0;
 
 	case WM_TIMER:
 		if (wParam == 1000)
@@ -290,12 +290,12 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_THEMEEXPORT:
-			{
-				const TCHAR *szFilename = GetThemeFileName(1);
-				if (szFilename != NULL)
-					WriteThemeToINI(szFilename, 0);
-			}
-			break;
+		{
+			const TCHAR *szFilename = GetThemeFileName(1);
+			if (szFilename != NULL)
+				WriteThemeToINI(szFilename, 0);
+		}
+		break;
 
 		case IDC_THEMEIMPORT:
 			if (CSkin::m_skinEnabled) {
@@ -419,7 +419,8 @@ void TreeViewInit(HWND hwndTree, UINT id, DWORD dwFlags, BOOL bFromMem)
 				tvi.item.iImage = tvi.item.iSelectedImage = (M.GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
 				break;
 			}
-		} else {
+		}
+		else {
 			switch (lvItems[i].uType) {
 			case LOI_TYPE_FLAG:
 				tvi.item.iImage = tvi.item.iSelectedImage = (((*((UINT*)lvItems[i].lParam)) & lvItems[i].id) ? IMG_CHECK : IMG_NOCHECK);
@@ -464,7 +465,7 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
 		item.mask = TVIF_HANDLE | TVIF_IMAGE;
 		item.hItem = (HTREEITEM)lvItems[i].handle;
 		TreeView_GetItem(hwndTree, &item);
-		
+
 		switch (lvItems[i].uType) {
 		case LOI_TYPE_FLAG:
 			if (dwFlags != NULL)
@@ -477,7 +478,8 @@ void TreeViewToDB(HWND hwndTree, UINT id, char *DBPath, DWORD *dwFlags)
 		case LOI_TYPE_SETTING:
 			if (DBPath != NULL) {
 				db_set_b(0, DBPath, (char *)lvItems[i].lParam, (BYTE)((item.iImage == IMG_CHECK) ? 1 : 0));
-			} else {
+			}
+			else {
 				(*((BOOL*)lvItems[i].lParam)) = ((item.iImage == IMG_CHECK) ? TRUE : FALSE);
 			}
 			break;
@@ -508,29 +510,29 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 		item.hItem = (HTREEITEM)hti.hItem;
 		break;
 	case TVN_ITEMEXPANDEDW:
-		{
-			LPNMTREEVIEWW lpnmtv = (LPNMTREEVIEWW)lParam;
+	{
+		LPNMTREEVIEWW lpnmtv = (LPNMTREEVIEWW)lParam;
 
-			item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			item.hItem = lpnmtv->itemNew.hItem;
-			item.iImage = item.iSelectedImage =
-				(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-			SendMessageW(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMW, 0, (LPARAM)&item);
-		}
-		return TRUE;
-		break;
+		item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		item.hItem = lpnmtv->itemNew.hItem;
+		item.iImage = item.iSelectedImage =
+			(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
+		SendMessageW(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMW, 0, (LPARAM)&item);
+	}
+	return TRUE;
+	break;
 	case TVN_ITEMEXPANDEDA:
-		{
-			LPNMTREEVIEWA lpnmtv = (LPNMTREEVIEWA)lParam;
+	{
+		LPNMTREEVIEWA lpnmtv = (LPNMTREEVIEWA)lParam;
 
-			item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			item.hItem = lpnmtv->itemNew.hItem;
-			item.iImage = item.iSelectedImage =
-				(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
-			SendMessageA(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMA, 0, (LPARAM)&item);
-		}
-		return TRUE;
-		break;
+		item.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		item.hItem = lpnmtv->itemNew.hItem;
+		item.iImage = item.iSelectedImage =
+			(lpnmtv->itemNew.state & TVIS_EXPANDED) ? IMG_GRPOPEN : IMG_GRPCLOSED;
+		SendMessageA(((LPNMHDR)lParam)->hwndFrom, TVM_SETITEMA, 0, (LPARAM)&item);
+	}
+	return TRUE;
+	break;
 	default:
 		return FALSE;
 	}
@@ -564,7 +566,8 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 	if (item.mask & TVIF_STATE) {
 		RedrawWindow(hwndTree, NULL, NULL, RDW_INVALIDATE | RDW_NOFRAME | RDW_ERASENOW | RDW_ALLCHILDREN);
 		InvalidateRect(hwndTree, NULL, TRUE);
-	} else {
+	}
+	else {
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 	}
 
@@ -645,7 +648,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 static int have_ieview = 0, have_hpp = 0;
 
 static UINT __ctrls[] = { IDC_INDENTSPIN, IDC_RINDENTSPIN, IDC_INDENTAMOUNT, IDC_RIGHTINDENT,
-						 IDC_MODIFY, IDC_RTLMODIFY };
+IDC_MODIFY, IDC_RTLMODIFY };
 
 static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -727,20 +730,20 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		TreeViewDestroy(GetDlgItem(hwndDlg, IDC_LOGOPTIONS));
 		break;
 
-	// configure the option page - hide most of the settings here when either IEView
-	// or H++ is set as the global message log viewer. Showing these options may confuse
-	// the user, because they are not working and the user needs to configure the 3rd
-	// party plugin.
+		// configure the option page - hide most of the settings here when either IEView
+		// or H++ is set as the global message log viewer. Showing these options may confuse
+		// the user, because they are not working and the user needs to configure the 3rd
+		// party plugin.
 	case WM_USER + 100:
-		{
-			LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
-			Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
-			Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
-			Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY), r != 0);
-			for (int i = 0; i < SIZEOF(__ctrls); i++)
-				Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
-		}
-		return 0;
+	{
+		LRESULT r = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
+		Utils::showDlgControl(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, r == 0 ? SW_HIDE : SW_SHOW);
+		Utils::showDlgControl(hwndDlg, IDC_LOGOPTIONS, r == 0 ? SW_SHOW : SW_HIDE);
+		Utils::enableDlgControl(GetDlgItem(hwndDlg, IDC_MSGLOGDIDSPLAY), r != 0);
+		for (int i = 0; i < SIZEOF(__ctrls); i++)
+			Utils::enableDlgControl(hwndDlg, __ctrls[i], r == 0 ? TRUE : FALSE);
+	}
+	return 0;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -762,21 +765,21 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_LOADTIMEN:
 		case IDC_RIGHTINDENT:
 		case IDC_TRIM:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
+			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 				return TRUE;
 			break;
 		case IDC_MODIFY:
-			{
-				TemplateEditorNew teNew = {0, 0, hwndDlg};
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
-			}
-			break;
+		{
+			TemplateEditorNew teNew = { 0, 0, hwndDlg };
+			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
+		}
+		break;
 		case IDC_RTLMODIFY:
-			{
-				TemplateEditorNew teNew = {0, TRUE, hwndDlg};
-				CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
-			}
-			break;
+		{
+			TemplateEditorNew teNew = { 0, TRUE, hwndDlg };
+			CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_TEMPLATEEDIT), hwndDlg, DlgProcTemplateEditor, (LPARAM)&teNew);
+		}
+		break;
 		case IDC_MSGLOGDIDSPLAY:
 			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
 			break;
@@ -791,7 +794,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			break;
 
 		default:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				LRESULT msglogmode = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
 				DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
@@ -805,15 +808,15 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_TIME);
 				else
 					db_set_b(0, SRMSGMOD, SRMSGSET_LOADHISTORY, LOADHISTORY_UNREAD);
-				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD) SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
-				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, (WORD) SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_GETPOS, 0, 0));
+				db_set_w(NULL, SRMSGMOD, SRMSGSET_LOADTIME, (WORD)SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_GETPOS, 0, 0));
 
-				db_set_dw(0, SRMSGMOD_T, "IndentAmount", (DWORD) GetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, &translated, FALSE));
-				db_set_dw(0, SRMSGMOD_T, "RightIndent", (DWORD) GetDlgItemInt(hwndDlg, IDC_RIGHTINDENT, &translated, FALSE));
+				db_set_dw(0, SRMSGMOD_T, "IndentAmount", (DWORD)GetDlgItemInt(hwndDlg, IDC_INDENTAMOUNT, &translated, FALSE));
+				db_set_dw(0, SRMSGMOD_T, "RightIndent", (DWORD)GetDlgItemInt(hwndDlg, IDC_RIGHTINDENT, &translated, FALSE));
 
 				db_set_b(0, SRMSGMOD_T, "default_ieview", 0);
 				db_set_b(0, SRMSGMOD_T, "default_hpp", 0);
-				switch(msglogmode) {
+				switch (msglogmode) {
 				case 0:
 					break;
 				case 1:
@@ -1168,9 +1171,9 @@ static INT_PTR CALLBACK DlgProcContainerSettings(HWND hwndDlg, UINT msg, WPARAM 
 }
 
 
-INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg)	{
+	switch (msg)	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
@@ -1188,13 +1191,13 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		break;
 
 	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->idFrom) {
+		switch (((LPNMHDR)lParam)->idFrom) {
 		case IDC_PLUS_CHECKTREE:
 			return TreeViewHandleClick(hwndDlg, ((LPNMHDR)lParam)->hwndFrom, wParam, lParam);
 			break;
 
 		default:
-			switch (((LPNMHDR) lParam)->code) {
+			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				TreeViewToDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, SRMSGMOD_T, NULL);
 
@@ -1217,20 +1220,20 @@ INT_PTR CALLBACK PlusOptionsProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		else if (LOWORD(wParam) == IDC_PLUS_REVERT) {		// revert to defaults...
 			TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_MODPLUS);
 
-			for (int i=0; lvItems[i].szName != NULL; i++)
+			for (int i = 0; lvItems[i].szName != NULL; i++)
 				if (lvItems[i].uType == LOI_TYPE_SETTING)
 					db_set_b(0, SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)lvItems[i].id);
 			TreeViewSetFromDB(GetDlgItem(hwndDlg, IDC_PLUS_CHECKTREE), CTranslator::TREE_MODPLUS, 0);
 			break;
 		}
-		if (HIWORD(wParam) != EN_CHANGE || (HWND) lParam != GetFocus())
+		if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
 			return TRUE;
 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_CLOSE:
-		EndDialog(hwndDlg,0);
+		EndDialog(hwndDlg, 0);
 		return 0;
 	}
 	return 0;
@@ -1274,84 +1277,84 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Message sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszTab      = LPGEN("General");
+	odp.pszTab = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
-	odp.pfnDlgProc  = DlgProcOptions;
+	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab      = LPGEN("Tabs and layout");
+	odp.pszTab = LPGEN("Tabs and layout");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABBEDMSG);
-	odp.pfnDlgProc  = DlgProcTabbedOptions;
+	odp.pfnDlgProc = DlgProcTabbedOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab      = LPGEN("Containers");
+	odp.pszTab = LPGEN("Containers");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTAINERS);
-	odp.pfnDlgProc  = DlgProcContainerSettings;
+	odp.pfnDlgProc = DlgProcContainerSettings;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab      = LPGEN("Message log");
+	odp.pszTab = LPGEN("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
-	odp.pfnDlgProc  = DlgProcLogOptions;
+	odp.pfnDlgProc = DlgProcLogOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab      = LPGEN("Toolbar");
+	odp.pszTab = LPGEN("Toolbar");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
-	odp.pfnDlgProc  = DlgProcToolBar;
+	odp.pfnDlgProc = DlgProcToolBar;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab      = LPGEN("Advanced tweaks");
+	odp.pszTab = LPGEN("Advanced tweaks");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
-	odp.pfnDlgProc  = PlusOptionsProc;
+	odp.pfnDlgProc = PlusOptionsProc;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszGroup    = LPGEN("Message sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.pszTitle    = LPGEN("Typing notify");
+	odp.pszTitle = LPGEN("Typing notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
-		odp.pszTitle    = LPGEN("Event notifications");
-		odp.pszGroup    = LPGEN("Popups");
-		odp.pfnDlgProc  = DlgProcPopupOpts;
+		odp.pszTitle = LPGEN("Event notifications");
+		odp.pszGroup = LPGEN("Popups");
+		odp.pfnDlgProc = DlgProcPopupOpts;
 		Options_AddPage(wParam, &odp);
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.pszTitle    = LPGEN("Message window");
-	odp.pszTab      = LPGEN("Load and apply");
-	odp.pfnDlgProc  = DlgProcSkinOpts;
-	odp.pszGroup    = LPGEN("Skins");
+	odp.pszTitle = LPGEN("Message window");
+	odp.pszTab = LPGEN("Load and apply");
+	odp.pfnDlgProc = DlgProcSkinOpts;
+	odp.pszGroup = LPGEN("Skins");
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
-	odp.pszTab      = LPGEN("Window layout tweaks");
-	odp.pfnDlgProc  = DlgProcTabConfig;
+	odp.pszTab = LPGEN("Window layout tweaks");
+	odp.pfnDlgProc = DlgProcTabConfig;
 	Options_AddPage(wParam, &odp);
 
 	/* group chats */
 
-	odp.pszGroup    = LPGEN("Message sessions");
+	odp.pszGroup = LPGEN("Message sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.pszTitle    = LPGEN("Group chats");
-	odp.pszTab      = LPGEN("Settings");
+	odp.pszTitle = LPGEN("Group chats");
+	odp.pszTab = LPGEN("Settings");
 	odp.pfnDlgProc = DlgProcOptions1;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.pszTab      = LPGEN("Log formatting");
-	odp.pfnDlgProc  = DlgProcOptions2;
+	odp.pszTab = LPGEN("Log formatting");
+	odp.pfnDlgProc = DlgProcOptions2;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS3);
-	odp.pszTab      = LPGEN("Events and filters");
-	odp.pfnDlgProc  = DlgProcOptions3;
+	odp.pszTab = LPGEN("Events and filters");
+	odp.pfnDlgProc = DlgProcOptions3;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS4);
-	odp.pszTab      = LPGEN("Highlighting");
-	odp.pfnDlgProc = 	CMUCHighlight::dlgProc;
+	odp.pszTab = LPGEN("Highlighting");
+	odp.pfnDlgProc = CMUCHighlight::dlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -1471,19 +1474,19 @@ static INT_PTR CALLBACK DlgProcTabSrmmModernOptions(HWND hwndDlg, UINT msg, WPAR
 	OptCheckBox opts[] =
 	{
 		//{IDC_, def, bit, dbtype, dbmodule, dbsetting, valtype, pval},
-		{IDC_CLOSEONESC, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "escmode"},
-		{IDC_ALWAYSPOPUP, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, SRMSGSET_AUTOPOPUP},
-		{IDC_CREATEMIN, TRUE, 0, DBVT_BYTE, SRMSGMOD_T, "autocontainer"},
+		{ IDC_CLOSEONESC, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "escmode" },
+		{ IDC_ALWAYSPOPUP, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, SRMSGSET_AUTOPOPUP },
+		{ IDC_CREATEMIN, TRUE, 0, DBVT_BYTE, SRMSGMOD_T, "autocontainer" },
 		//{IDC_USETABS, , 0, DBVT_BYTE, SRMSGMOD_T, },
-		{IDC_CREATENOACTIVATE, TRUE, 0, DBVT_BYTE, SRMSGMOD_T, "autotabs"},
-		{IDC_POPUPONCREATE, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "cpopup"},
-		{IDC_AUTOSWITCHTABS, TRUE, 0, DBVT_BYTE, SRMSGMOD_T, "autoswitchtabs"},
+		{ IDC_CREATENOACTIVATE, TRUE, 0, DBVT_BYTE, SRMSGMOD_T, "autotabs" },
+		{ IDC_POPUPONCREATE, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "cpopup" },
+		{ IDC_AUTOSWITCHTABS, TRUE, 0, DBVT_BYTE, SRMSGMOD_T, "autoswitchtabs" },
 		//{IDC_SENDCTRLENTER, , 0, DBVT_BYTE, SRMSGMOD_T, },
-		{IDC_SENDSHIFTENTER, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "sendonshiftenter"},
-		{IDC_SENDENTER, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, SRMSGSET_SENDONENTER},
-		{IDC_SENDDBLENTER, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "SendOnDblEnter"},
-		{IDC_MINSEND, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, SRMSGSET_AUTOMIN},
-		{IDC_NOOPENNOTIFY, FALSE, 0, DBVT_BYTE, "tabSRMM_NEN", OPT_WINDOWCHECK, CBVT_BOOL, &nen_options.bWindowCheck},
+		{ IDC_SENDSHIFTENTER, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "sendonshiftenter" },
+		{ IDC_SENDENTER, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, SRMSGSET_SENDONENTER },
+		{ IDC_SENDDBLENTER, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, "SendOnDblEnter" },
+		{ IDC_MINSEND, FALSE, 0, DBVT_BYTE, SRMSGMOD_T, SRMSGSET_AUTOMIN },
+		{ IDC_NOOPENNOTIFY, FALSE, 0, DBVT_BYTE, "tabSRMM_NEN", OPT_WINDOWCHECK, CBVT_BOOL, &nen_options.bWindowCheck },
 	};
 
 	static BOOL bInit = TRUE;
