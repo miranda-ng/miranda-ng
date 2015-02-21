@@ -3,7 +3,7 @@
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
 
-Copyright © 2009-11 Michal Zelinka, 2011-15 Robert Pösel
+Copyright ï¿½ 2009-11 Michal Zelinka, 2011-15 Robert Pï¿½sel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -731,20 +731,26 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 			continue;
 		} else if (t == "ticker_update:home") {
 			JSONNODE *actor_ = json_get(it, "actor");
-			JSONNODE *time_ = json_get(it, "time");
+			JSONNODE *time_ = json_get(it, "story_time");
 			JSONNODE *story_ = json_get(it, "story_xhp");
 
 			std::string text = json_as_pstring(story_);
-			text = utils::text::slashu_to_utf8(text);
+			text = utils::text::html_entities_decode(utils::text::slashu_to_utf8(text));
 
-			text = utils::text::trim(
-				utils::text::html_entities_decode(
-				utils::text::source_get_value(&text, 3, "<h5", ">", "</h5>")));
+			std::string url = utils::text::source_get_value(&text, 3, "\"tickerStoryLink\"", "href=\"", "\"");
+			std::string story_type = utils::text::source_get_value2(&text, "\"type\":\"", "\"");
+			std::string story_class = utils::text::source_get_value2(&text, "\"entstory_class\":\"", "\"");
 
-			// TODO: notify ticker updates
-			/* if (!text.empty()) {
-				proto->NotifyEvent()
-				}*/
+			text = utils::text::trim(utils::text::remove_html(text));
+
+			std::string userId = (actor_ != NULL ? json_as_pstring(actor_) : "");
+
+			MCONTACT hContact = proto->ContactIDToHContact(userId);
+
+			proto->debugLogA("+++ Got ticker type='%s' class='%s'", story_type.c_str(), story_class.c_str());
+
+			if (!text.empty())
+				proto->NotifyEvent(proto->m_tszUserName, ptrT(mir_utf8decodeT(text.c_str())), hContact, FACEBOOK_EVENT_TICKER, &url);
 		}
 		else if (t == "mercury") {
 			// rename multi user chat, video call, ...
