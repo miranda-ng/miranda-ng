@@ -955,7 +955,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText)
 			}
 
 			p++; // skip initial slash
-			p += _tcscspn(p, _T(" \\"));
+			p += _tcscspn(p, _T(" \\\n\r"));
 			if (*p == ' ')
 				p++;
 			break;
