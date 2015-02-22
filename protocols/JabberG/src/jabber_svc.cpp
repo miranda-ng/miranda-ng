@@ -386,7 +386,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 
 	// status text
 	if (info->m_tszStatusMessage)
-		appendString(bIsTipper, LPGENT("Status text:"), info->m_tszStatusMessage, outBuf);
+		appendString(bIsTipper, LPGENT("Status message:"), info->m_tszStatusMessage, outBuf);
 
 	// Role
 	appendString(bIsTipper, LPGENT("Role:"), TranslateTS(JabberEnum2RoleStr[info->m_role]), outBuf);
