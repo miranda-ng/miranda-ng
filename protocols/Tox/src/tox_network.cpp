@@ -127,9 +127,13 @@ void CToxProto::CheckConnection(int &retriesCount)
 	}
 	else
 	{
-		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES - 20)
+		if (retriesCount == TOX_MAX_DISCONNECT_RETRIES)
 		{
+			retriesCount--;
 			debugLogA("CToxProto::CheckConnection: lost connection with DHT");
+		}
+		else if (retriesCount % 50 == 0)
+		{
 			retriesCount--;
 			BootstrapNodes();
 		}
