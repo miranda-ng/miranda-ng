@@ -1,37 +1,30 @@
 #include "common.h"
 
-INT_PTR CToxProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
+int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
-	return (INT_PTR)CreateDialogParam(
-		g_hInstance,
-		MAKEINTRESOURCE(IDD_ACCOUNT_MANAGER),
-		(HWND)lParam,
-		CToxProto::MainOptionsProc,
-		(LPARAM)this);
-}
+	if (!IsOnline())
+	{
+		return 1;
+	}
 
-int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
-{
-	char *title = mir_t2a(m_tszUserName);
-
-	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-	odp.hInstance = g_hInstance;
-	odp.pszTitle = title;
-	odp.dwInitParam = (LPARAM)this;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Network");
-
-	odp.pszTab = LPGEN("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
-	odp.pfnDlgProc = MainOptionsProc;
-	Options_AddPage(wParam, &odp);
-
-	odp.pszTab = LPGEN("Nodes");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_NODES);
-	odp.pfnDlgProc = NodesOptionsProc;
-	Options_AddPage(wParam, &odp);
-
-	mir_free(title);
+	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	if (!isChatRoom(hContact))
+	{
+		int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+		if (friendNumber == TOX_ERROR || tox_del_friend(tox, friendNumber) == TOX_ERROR)
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		OnLeaveChatRoom(hContact, 0);
+		int groupNumber = 0; // ???
+		if (groupNumber == TOX_ERROR || tox_del_groupchat(tox, groupNumber) == TOX_ERROR)
+		{
+			return 1;
+		}
+	}
 
 	return 0;
 }

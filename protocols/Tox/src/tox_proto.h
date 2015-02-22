@@ -107,9 +107,16 @@ private:
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
 
+	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+
 	// netlib
 	void InitNetlib();
 	void UninitNetlib();
+
+	// menus
+	int OnInitStatusMenu();
+	static void InitMenus();
+	static void UninitMenus();
 
 	// options
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -117,7 +124,8 @@ private:
 
 	int __cdecl OnOptionsInit(WPARAM wParam, LPARAM lParam);
 
-	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
+	// events
+	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
 
 	// userinfo
 	static INT_PTR CALLBACK UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -137,8 +145,6 @@ private:
 
 	void __cdecl LoadFriendList(void*);
 
-	int __cdecl OnContactDeleted(MCONTACT, LPARAM);
-
 	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg);
@@ -150,6 +156,32 @@ private:
 	void __cdecl SearchByNameAsync(void* arg);
 
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	// chat rooms
+	//MCONTACT GetChatRoom(const char *pubKey);
+	MCONTACT GetChatRoom(int groupNumber);
+
+	//MCONTACT GetChatRoom(const char *pubKey);
+	MCONTACT AddChatRoom(int groupNumber);
+
+	void __cdecl LoadChatRoomList(void*);
+
+	int __cdecl OnGroupChatEventHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGroupChatMenuHook(WPARAM, LPARAM lParam);
+
+	INT_PTR __cdecl OnJoinChatRoom(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnLeaveChatRoom(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl OnCreateChatRoom(WPARAM, LPARAM);
+
+	void InitGroupChatModule();
+	void CloseAllChatChatSessions();
+
+	static void OnGroupChatInvite(Tox *tox, int32_t friendNumber, uint8_t type, const uint8_t *data, const uint16_t length, void *arg);
+
+	static void ChatValidateContact(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
+	static void ChatPrepare(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
+	static std::vector<MCONTACT> GetInvitedContacts(HWND hwndList, MCONTACT hContact = NULL);
+	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// messages
 	static void OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg);

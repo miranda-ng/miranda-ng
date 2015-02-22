@@ -63,6 +63,8 @@ bool CToxProto::InitToxCore()
 		// avatars
 		tox_callback_avatar_info(tox, OnGotFriendAvatarInfo, this);
 		tox_callback_avatar_data(tox, OnGotFriendAvatarData, this);
+		// group chats
+		tox_callback_group_invite(tox, OnGroupChatInvite, this);
 
 		uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
 		tox_get_address(tox, data);

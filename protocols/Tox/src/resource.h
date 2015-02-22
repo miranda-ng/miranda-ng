@@ -2,6 +2,7 @@
 // Microsoft Visual C++ generated include file.
 // Used by e:\Projects\C++\MirandaNG\protocols\Tox\res\resource.rc
 //
+#define IDD_CHATROOM_INVITE             16
 #define IDD_USER_INFO                   101
 #define IDD_PASSWORD                    102
 #define IDD_ACCOUNT_MANAGER             104
@@ -13,6 +14,8 @@
 #define IDD_OPTIONS_MAIN1               109
 #define IDD_OPTIONS_AV                  109
 #define IDI_TOX                         120
+#define IDC_CCLIST                      173
+#define IDC_EDITSCR                     174
 #define IDC_TOXID                       1001
 #define IDC_CLIPBOARD                   1002
 #define IDC_SEARCH                      1004

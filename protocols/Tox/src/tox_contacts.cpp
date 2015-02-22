@@ -54,20 +54,11 @@ MCONTACT CToxProto::GetContact(const char *pubKey)
 	MCONTACT hContact = NULL;
 	for (hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName))
 	{
-		DBVARIANT dbv;
-		if (!db_get(hContact, m_szModuleName, TOX_SETTINGS_ID, &dbv))
+		ptrA contactPubKey(getStringA(hContact, TOX_SETTINGS_ID));
+		// check only public key part of address
+		if (strnicmp(pubKey, contactPubKey, TOX_PUBLIC_KEY_SIZE) == 0)
 		{
-			std::string contactPubKey;
-			if (dbv.type == DBVT_ASCIIZ)
-			{
-				contactPubKey = dbv.pszVal;
-			}
-			db_free(&dbv);
-			// check only public key part of address
-			if (strnicmp(pubKey, contactPubKey.c_str(), TOX_PUBLIC_KEY_SIZE) == 0)
-			{
-				break;
-			}
+			break;
 		}
 	}
 	return hContact;
@@ -115,9 +106,10 @@ void CToxProto::LoadFriendList(void*)
 		tox_get_friendlist(tox, friends, count);
 
 		uint8_t data[TOX_PUBLIC_KEY_SIZE];
-		for (uint32_t i = 0; i < count; ++i)
+		for (uint32_t i = 0; i < count; i++)
 		{
-			tox_get_client_id(tox, friends[i], data);
+			uint32_t friendNumber = friends[i];
+			tox_get_client_id(tox, friendNumber, data);
 			ToxHexAddress pubKey(data, TOX_PUBLIC_KEY_SIZE);
 			MCONTACT hContact = AddContact(pubKey, _T(""));
 			if (hContact)
@@ -125,15 +117,15 @@ void CToxProto::LoadFriendList(void*)
 				delSetting(hContact, "Auth");
 				delSetting(hContact, "Grant");
 
-				int size = tox_get_name_size(tox, friends[i]);
+				int size = tox_get_name_size(tox, friendNumber);
 				if (size != TOX_ERROR)
 				{
 					std::string nick(size, 0);
-					tox_get_name(tox, friends[i], (uint8_t*)nick.data());
-					setWString(hContact, "Nick", ptrW(Utf8DecodeW(nick.c_str())));
+					tox_get_name(tox, friendNumber, (uint8_t*)nick.data());
+					setWString(hContact, "Nick", ptrT(Utf8DecodeT(nick.c_str())));
 				}
 
-				uint64_t timestamp = tox_get_last_online(tox, friends[i]);
+				uint64_t timestamp = tox_get_last_online(tox, friendNumber);
 				if (timestamp)
 				{
 					setDword(hContact, "LastEventDateTS", timestamp);
@@ -149,23 +141,6 @@ void CToxProto::LoadFriendList(void*)
 	}
 }
 
-int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
-{
-	if (!IsOnline())
-	{
-		return 1;
-	}
-
-	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
-	int32_t number = tox_get_friend_number(tox, pubKey);
-	if (number == TOX_ERROR || tox_del_friend(tox, number) == TOX_ERROR)
-	{
-		return 1;
-	}
-
-	return 0;
-}
-
 void CToxProto::OnFriendRequest(Tox *, const uint8_t *data, const uint8_t *message, const uint16_t messageSize, void *arg)
 {
 	CToxProto *proto = (CToxProto*)arg;
@@ -174,7 +149,7 @@ void CToxProto::OnFriendRequest(Tox *, const uint8_t *data, const uint8_t *messa
 	MCONTACT hContact = proto->AddContact(address, _T(""));
 	if (!hContact)
 	{
-		return;
+		proto->debugLogA("CToxProto::OnFriendRequest: failed to create contact");
 	}
 
 	proto->delSetting(hContact, "Auth");

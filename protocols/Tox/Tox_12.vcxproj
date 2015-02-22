@@ -204,6 +204,7 @@
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tox_address.h" />
     <ClInclude Include="src\tox_dns.h" />
+    <ClInclude Include="src\tox_options.h" />
     <ClInclude Include="src\tox_proto.h" />
     <ClInclude Include="src\tox_transfer.h" />
     <ClInclude Include="src\version.h" />
@@ -224,6 +225,8 @@
     <ClCompile Include="src\tox_accounts.cpp" />
     <ClCompile Include="src\tox_avatars.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
+    <ClCompile Include="src\tox_chatrooms.cpp" />
+    <ClCompile Include="src\tox_menus.cpp" />
     <ClCompile Include="src\tox_messages.cpp" />
     <ClCompile Include="src\tox_netlib.cpp" />
     <ClCompile Include="src\tox_network.cpp" />

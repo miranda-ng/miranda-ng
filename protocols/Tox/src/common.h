@@ -29,6 +29,10 @@
 #include <m_message.h>
 #include <m_avatars.h>
 #include <m_skin.h>
+#include <m_chat.h>
+#include <m_genmenu.h>
+#include <m_clc.h>
+#include <m_clistint.h>
 
 #include <tox.h>
 #include <toxdns.h>
@@ -38,6 +42,7 @@
 #include "version.h"
 #include "resource.h"
 #include "tox_address.h"
+#include "tox_options.h"
 #include "tox_transfer.h"
 #include "tox_proto.h"
 
@@ -54,6 +59,7 @@ extern HINSTANCE g_hInstance;
 
 #define TOX_SETTINGS_ID "ToxID"
 #define TOX_SETTINGS_DNS "DnsID"
+#define TOX_SETTINGS_CHAT_ID "ChatID"
 #define TOX_SETTINGS_GROUP "DefaultGroup"
 #define TOX_SETTINGS_AVATAR_HASH "AvatarHash"
 
