@@ -48,6 +48,10 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
+	// chat rooms
+	CreateProtoService(PS_JOINCHAT, &CToxProto::OnJoinChatRoom);
+	CreateProtoService(PS_LEAVECHAT, &CToxProto::OnLeaveChatRoom);
+
 	// transfers
 	transfers = new CTransferList();
 }
@@ -221,6 +225,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 		if (!Miranda_Terminated())
 		{
 			SetAllContactsStatus(ID_STATUS_OFFLINE);
+			CloseAllChatChatSessions();
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -284,6 +289,9 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
+
+	case EV_PROTO_ONMENU:
+		return OnInitStatusMenu();
 	}
 
 	return 1;

@@ -28,6 +28,8 @@ int CToxProto::OnAccountLoaded(WPARAM, LPARAM)
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CToxProto::OnUserInfoInit);
 	HookProtoEvent(ME_MSG_PRECREATEEVENT, &CToxProto::OnPreCreateMessage);
 
+	InitGroupChatModule();
+
 	return 0;
 }
 
@@ -41,4 +43,14 @@ int CToxProto::OnAccountRenamed(WPARAM, LPARAM)
 	accountName = mir_tstrdup(m_tszUserName);
 
 	return 0;
+}
+
+INT_PTR CToxProto::OnAccountManagerInit(WPARAM, LPARAM lParam)
+{
+	return (INT_PTR)CreateDialogParam(
+		g_hInstance,
+		MAKEINTRESOURCE(IDD_ACCOUNT_MANAGER),
+		(HWND)lParam,
+		CToxProto::MainOptionsProc,
+		(LPARAM)this);
 }

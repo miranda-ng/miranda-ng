@@ -97,6 +97,7 @@ void CToxProto::TryConnect()
 		debugLogA("CToxProto::PollingThread: successfuly connected to DHT");
 
 		ForkThread(&CToxProto::LoadFriendList, NULL);
+		ForkThread(&CToxProto::LoadChatRoomList, NULL);
 
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus);

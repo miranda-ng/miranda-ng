@@ -196,12 +196,6 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 	return FALSE;
 }
 
-struct ItemInfo
-{
-	int iItem;
-	HWND hwndList;
-};
-
 int AddItemToListView(HWND hwndList, UINT mask, int iGroupId, int iItem, int iSubItem, char *pszText, int iImage = -1)
 {
 	LVITEMA lvi = { 0 };
@@ -661,4 +655,35 @@ INT_PTR CALLBACK CToxProto::NodesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 		}
 	}
 	return FALSE;
+}
+
+int CToxProto::OnOptionsInit(WPARAM wParam, LPARAM)
+{
+	char *title = mir_t2a(m_tszUserName);
+
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.hInstance = g_hInstance;
+	odp.pszTitle = title;
+	odp.dwInitParam = (LPARAM)this;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszGroup = LPGEN("Network");
+
+	odp.pszTab = LPGEN("Account");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_MAIN);
+	odp.pfnDlgProc = MainOptionsProc;
+	Options_AddPage(wParam, &odp);
+
+	/*odp.pszTab = LPGEN("Audio/Video");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AV);
+	odp.pfnDlgProc = AVOptionsProc;
+	Options_AddPage(wParam, &odp);*/
+
+	odp.pszTab = LPGEN("Nodes");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_NODES);
+	odp.pfnDlgProc = NodesOptionsProc;
+	Options_AddPage(wParam, &odp);
+
+	mir_free(title);
+
+	return 0;
 }
