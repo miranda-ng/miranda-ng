@@ -10,6 +10,8 @@
 #define IDD_OPTIONS_NODES               107
 #define IDD_ADDNODE                     108
 #define IDD_NODE_EDITOR                 108
+#define IDD_OPTIONS_MAIN1               109
+#define IDD_OPTIONS_AV                  109
 #define IDI_TOX                         120
 #define IDC_TOXID                       1001
 #define IDC_CLIPBOARD                   1002

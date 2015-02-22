@@ -238,6 +238,11 @@ INT_PTR CALLBACK EditNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			itemInfo = (ItemInfo*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
+			SendDlgItemMessage(hwndDlg, IDC_IPV4, EM_SETLIMITTEXT, 15, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IPV6, EM_SETLIMITTEXT, 39, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PORT, EM_SETLIMITTEXT, 5, 0);
+			SendDlgItemMessage(hwndDlg, IDC_PKEY, EM_SETLIMITTEXT, TOX_PUBLIC_KEY_SIZE * 2, 0);
+
 			if (itemInfo->iItem == -1)
 			{
 				SetWindowText(hwndDlg, TranslateT("Add node"));
@@ -258,6 +263,7 @@ INT_PTR CALLBACK EditNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				lvi.iSubItem = 1;
 				SendMessage(itemInfo->hwndList, LVM_GETITEMA, 0, (LPARAM)&lvi);
+
 				SetDlgItemTextA(hwndDlg, IDC_IPV6, lvi.pszText);
 
 				lvi.iSubItem = 2;
