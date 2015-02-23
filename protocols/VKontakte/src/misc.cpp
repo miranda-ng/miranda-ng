@@ -477,7 +477,7 @@ CMString CVkProto::RunConfirmationCode()
 {
 	ENTER_STRING pForm = { sizeof(pForm) };
 	pForm.type = ESF_PASSWORD;
-	pForm.caption = TranslateT("Enter confirmation code ");
+	pForm.caption = TranslateT("Enter confirmation code");
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
