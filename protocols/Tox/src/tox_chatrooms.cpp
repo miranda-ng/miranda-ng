@@ -119,17 +119,39 @@ INT_PTR CToxProto::OnCreateChatRoom(WPARAM, LPARAM)
 	{
 		return 1;
 	}
-	int groupNumber = tox_add_groupchat(tox);
-	if (groupNumber == TOX_ERROR)
+
+	ChatRoomInviteParam param = { this };
+
+	if (DialogBoxParam(
+		g_hInstance,
+		MAKEINTRESOURCE(IDD_CHATROOM_INVITE),
+		NULL,
+		CToxProto::ChatRoomInviteProc,
+		(LPARAM)&param) == IDOK && !param.invitedContacts.empty())
 	{
-		return 1;
+		int groupNumber = tox_add_groupchat(tox);
+		if (groupNumber == TOX_ERROR)
+		{
+			return 1;
+		}
+		for (std::vector<MCONTACT>::iterator it = param.invitedContacts.begin(); it != param.invitedContacts.end(); ++it)
+		{
+			ToxBinAddress pubKey = ptrA(getStringA(*it, TOX_SETTINGS_ID));
+			int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+			if (friendNumber == TOX_ERROR || tox_invite_friend(tox, friendNumber, groupNumber) == TOX_ERROR)
+			{
+				return 1;
+			}
+		}
+		MCONTACT hContact = AddChatRoom(groupNumber);
+		if (!hContact)
+		{
+			return 1;
+		}
+		return 0;
 	}
-	MCONTACT hContact = AddChatRoom(groupNumber);
-	if (!hContact)
-	{
-		return 1;
-	}
-	return 0;
+
+	return 1;
 }
 
 void CToxProto::InitGroupChatModule()
@@ -190,7 +212,8 @@ void CToxProto::OnGroupChatInvite(Tox *tox, int32_t friendNumber, uint8_t type, 
 
 void CToxProto::ChatValidateContact(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact)
 {
-	//if (mir_strcmpi(GetContactProto(hContact), m_szModuleName) == 0 && !isChatRoom(hContact))
+	bool isProtoContact = mir_strcmpi(GetContactProto(hContact), m_szModuleName) == 0;
+	if (isProtoContact && !isChatRoom(hContact))
 	{
 		if (std::find(contacts.begin(), contacts.end(), hContact) != contacts.end())
 		{
@@ -205,7 +228,7 @@ void CToxProto::ChatPrepare(HWND hwndList, const std::vector<MCONTACT> &contacts
 {
 	if (hContact == NULL)
 	{
-		hContact = (MCONTACT)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
+		hContact = (MCONTACT)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_ROOT, 0);
 	}
 	while (hContact)
 	{
@@ -259,17 +282,17 @@ std::vector<MCONTACT> CToxProto::GetInvitedContacts(HWND hwndList, MCONTACT hCon
 INT_PTR CALLBACK CToxProto::ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_CCLIST);
-	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	ChatRoomInviteParam *param = (ChatRoomInviteParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			proto = (CToxProto*)lParam;
+			param = (ChatRoomInviteParam*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			{
-				HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
-				SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
+				//HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
+				//SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
 			}
 		}
 		break;
@@ -288,15 +311,13 @@ INT_PTR CALLBACK CToxProto::ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wP
 			case CLN_NEWCONTACT:
 				if ((nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0)
 				{
-					std::vector<MCONTACT> invitedContacts;
-					proto->ChatValidateContact(nmc->hdr.hwndFrom, invitedContacts, (MCONTACT)nmc->hItem);
+					param->proto->ChatValidateContact(nmc->hdr.hwndFrom, param->invitedContacts, (MCONTACT)nmc->hItem);
 				}
 				break;
 
 			case CLN_LISTREBUILT:
 			{
-				std::vector<MCONTACT> invitedContacts;
-				proto->ChatPrepare(nmc->hdr.hwndFrom, invitedContacts);
+				param->proto->ChatPrepare(nmc->hdr.hwndFrom, param->invitedContacts);
 			}
 				break;
 			}
@@ -308,19 +329,10 @@ INT_PTR CALLBACK CToxProto::ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wP
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-		{
-			std::vector<MCONTACT> invitedContacts = GetInvitedContacts(hwndList);
-			if (invitedContacts.empty())
-			{
-				proto->ShowNotification(TranslateT("You did not select any contact"));
-			}
-			else
-			{
-				//SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-				EndDialog(hwndDlg, IDOK);
-			}
-		}
-		break;
+			//SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			param->invitedContacts = param->proto->GetInvitedContacts(hwndList);
+			EndDialog(hwndDlg, IDOK);
+			break;
 
 		case IDCANCEL:
 			EndDialog(hwndDlg, IDCANCEL);

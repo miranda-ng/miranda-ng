@@ -39,11 +39,12 @@ int tox_del_groupchat(Tox *tox, int groupnumber)
 
 int tox_group_peer_pubkey(const Tox *tox, int groupnumber, int peernumber, uint8_t *pk)
 {
-}
+}*/
 
 int tox_invite_friend(Tox *tox, int32_t friendnumber, int groupnumber)
 {
-}*/
+	return CreateFunction<int(*)(Tox*, int32_t, int)>(__FUNCTION__)(tox, friendnumber, groupnumber);
+}
 
 int tox_join_groupchat(Tox *tox, int32_t friendnumber, const uint8_t *data, uint16_t length)
 {

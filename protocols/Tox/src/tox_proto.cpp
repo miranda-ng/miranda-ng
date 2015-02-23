@@ -49,8 +49,8 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
 	// chat rooms
-	CreateProtoService(PS_JOINCHAT, &CToxProto::OnJoinChatRoom);
-	CreateProtoService(PS_LEAVECHAT, &CToxProto::OnLeaveChatRoom);
+	//CreateProtoService(PS_JOINCHAT, &CToxProto::OnJoinChatRoom);
+	//CreateProtoService(PS_LEAVECHAT, &CToxProto::OnLeaveChatRoom);
 
 	// transfers
 	transfers = new CTransferList();
@@ -290,8 +290,8 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 
-	case EV_PROTO_ONMENU:
-		return OnInitStatusMenu();
+	//case EV_PROTO_ONMENU:
+	//	return OnInitStatusMenu();
 	}
 
 	return 1;

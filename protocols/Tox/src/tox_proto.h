@@ -178,8 +178,8 @@ private:
 
 	static void OnGroupChatInvite(Tox *tox, int32_t friendNumber, uint8_t type, const uint8_t *data, const uint16_t length, void *arg);
 
-	static void ChatValidateContact(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
-	static void ChatPrepare(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
+	void ChatValidateContact(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
+	void ChatPrepare(HWND hwndList, const std::vector<MCONTACT> &contacts, MCONTACT hContact = NULL);
 	static std::vector<MCONTACT> GetInvitedContacts(HWND hwndList, MCONTACT hContact = NULL);
 	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
