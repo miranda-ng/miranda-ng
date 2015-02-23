@@ -533,15 +533,7 @@ static void CreateThumbsFont()
 
 		LOGFONT lf;
 		FontService_GetFont( LPGENT("Floating contacts"), s_fonts[nFontId], &tColor[nFontId], &lf);
-
-		HDC hdc = GetDC(NULL);
-		LONG height = lf.lfHeight;
-		lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-		ReleaseDC(NULL, hdc);
-
 		hFont[nFontId] = CreateFontIndirect(&lf);
-
-		lf.lfHeight = height;
 	}
 }
 									 
