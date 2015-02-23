@@ -72,9 +72,6 @@
     <ClCompile Include="src\chat\manager.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="src\chat\message.cpp">
-      <Filter>Source Files\chat</Filter>
-    </ClCompile>
     <ClCompile Include="src\chat\options.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>

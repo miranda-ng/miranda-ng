@@ -627,6 +627,9 @@
     <ClCompile Include="modules\chat\colorchooser.cpp">
       <Filter>Modules\chat</Filter>
     </ClCompile>
+    <ClCompile Include="modules\chat\chat_rtf.cpp">
+      <Filter>Modules\chat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

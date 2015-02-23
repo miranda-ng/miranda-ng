@@ -87,6 +87,7 @@ int    LoadChatModule(void);
 void   UnloadChatModule(void);
 
 // tools.c
+int    DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors);
 int    GetTextPixelSize(TCHAR* pszText, HFONT hFont, BOOL bWidth);
 TCHAR *RemoveFormatting(const TCHAR* pszText);
 BOOL   DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
@@ -96,7 +97,7 @@ int    GetRichTextLength(HWND hwnd);
 BOOL   IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 UINT   CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void   DestroyGCMenu(HMENU *hMenu, int iIndex);
-BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem);
+BOOL   DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, INT_PTR dwItem);
 BOOL   DoEventHook(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, INT_PTR dwItem);
 BOOL   IsEventSupported(int eventType);
 BOOL   LogToFile(SESSION_INFO *si, GCEVENT *gce);

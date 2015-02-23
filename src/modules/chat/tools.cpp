@@ -607,7 +607,7 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 	return TRUE;
 }
 
-BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem)
+BOOL DoEventHookAsync(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, INT_PTR dwItem)
 {
 	SESSION_INFO *si = ci.SM_FindSession(pszID, pszModule);
 	if (si == NULL)

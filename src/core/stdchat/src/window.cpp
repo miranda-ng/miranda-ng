@@ -2366,20 +2366,22 @@ LABEL_SHOWWINDOW:
 
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDOK))) {
-				char *pszRtf = Message_GetFromStream(hwndDlg, si);
+				ptrA pszRtf(Message_GetFromStream(hwndDlg, si));
 				if (pszRtf == NULL)
 					break;
+
+				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+				if (mi == NULL)
+					break;
+				
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
-				TCHAR *ptszText = DoRtfToTags(pszRtf, si);
-				TCHAR *p1 = _tcschr(ptszText, '\0');
 
-				//remove trailing linebreaks
-				while (p1 > ptszText && (*p1 == '\0' || *p1 == '\r' || *p1 == '\n')) {
-					*p1 = '\0';
-					p1--;
-				}
+				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
+				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
+				ptszText.Trim();
+				ptszText.Replace(_T("%"), _T("%%"));
 
-				if (pci->MM_FindModule(si->pszModule)->bAckMsg) {
+				if (mi->bAckMsg) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_MESSAGE), FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
@@ -2388,8 +2390,7 @@ LABEL_SHOWWINDOW:
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
 				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
-				mir_free(pszRtf);
-				mir_free(ptszText);
+				
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			}
 			break;
@@ -2452,9 +2453,8 @@ LABEL_SHOWWINDOW:
 			break;
 
 		case IDC_CHANMGR:
-			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANMGR)))
-				break;
-			pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
+			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANMGR)))
+				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
 			break;
 
 		case IDC_FILTER:
