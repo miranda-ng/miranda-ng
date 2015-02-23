@@ -160,7 +160,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	HANDLE m_hThreadHandle;
 
 	TCHAR *m_szJabberJID;
-	BOOL   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	int    m_nJabberSearchID;
 	time_t m_tmJabberLoggedInTime;
 	time_t m_tmJabberIdleStartTime;
@@ -170,6 +169,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	mir_cs m_csModeMsgMutex;
 	JABBER_MODEMSGS m_modeMsgs;
 
+	bool   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	bool   m_bShutdown;
 	bool   m_bSendKeepAlive;
 	bool   m_bPepSupported;

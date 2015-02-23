@@ -497,15 +497,13 @@ recvRest:
 
 		if (!info.bIsReg) {
 			m_iqManager.ExpireAll();
-			m_bJabberOnline = FALSE;
+			m_bJabberOnline = false;
 			info.zlibUninit();
 			EnableMenuItems(FALSE);
 			RebuildInfoFrame();
-			if (m_hwndJabberChangePassword) {
-				//DestroyWindow(hwndJabberChangePassword);
+			if (m_hwndJabberChangePassword)
 				// Since this is a different thread, simulate the click on the cancel button instead
 				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
-			}
 
 			// Quit all chatrooms (will send quit message)
 			LISTFOREACH(i, this, LIST_CHATROOM)
@@ -514,9 +512,7 @@ recvRest:
 
 			ListRemoveList(LIST_CHATROOM);
 			ListRemoveList(LIST_BOOKMARK);
-			//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);
 			UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
-			//UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_CHECK_ONLINE);
 			WindowNotify(WM_JABBER_CHECK_ONLINE);
 
 			// Set status to offline

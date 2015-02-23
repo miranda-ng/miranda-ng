@@ -1954,7 +1954,7 @@ void CJabberDlgPrivacyLists::btnApply_OnClick(CCtrlButton *)
 			pList = pList->GetNext();
 	}	}
 
-	SetStatusText( TranslateT(JABBER_PL_BUSY_MSG));
+	SetStatusText(TranslateT(JABBER_PL_BUSY_MSG));
 	PostMessage(m_hwnd, WM_JABBER_REFRESH, 0, 0);
 }
 
@@ -2010,18 +2010,18 @@ int CJabberDlgPrivacyLists::Resizer(UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_HEADERBAR:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP|RD_ANCHORX_WIDTH;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH;
 	case IDC_BTN_SIMPLE:
 	case IDC_BTN_ADVANCED:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_TOP;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
 	case IDC_LB_LISTS:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP|RD_ANCHORY_HEIGHT;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORY_HEIGHT;
 	case IDC_PL_RULES_LIST:
 	case IDC_CLIST:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_TOP|RD_ANCHORY_HEIGHT|RD_ANCHORX_WIDTH;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORY_HEIGHT | RD_ANCHORX_WIDTH;
 	case IDC_NEWJID:
 	case IDC_CANVAS:
-		return RD_ANCHORX_LEFT|RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_LEFT | RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	case IDC_ADD_LIST:
 	case IDC_ACTIVATE:
 	case IDC_REMOVE_LIST:
@@ -2032,11 +2032,11 @@ int CJabberDlgPrivacyLists::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_EDIT_RULE:
 	case IDC_DOWN_RULE:
 	case IDC_REMOVE_RULE:
-		return RD_ANCHORX_LEFT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 	case IDC_ADDJID:
 	case IDC_APPLY:
 	case IDCANCEL:
-		return RD_ANCHORX_RIGHT|RD_ANCHORY_BOTTOM;
+		return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 	}
 	return CSuper::Resizer(urc);
 }
@@ -2049,7 +2049,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandlePrivacyLists(WPARAM, LPARAM)
 
 void CJabberProto::QueryPrivacyLists(ThreadData *pThreadInfo)
 {
-	XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultPrivacyLists));
+	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultPrivacyLists));
 	iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 	if (pThreadInfo)
 		pThreadInfo->send(iq);
@@ -2070,7 +2070,7 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 			pList = pList->GetNext();
 	}
 
-	XmlNodeIq iq( AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList));
+	XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList));
 	HXML query = iq << XQUERY(JABBER_FEAT_PRIVACY_LISTS);
 	HXML active = query << XCHILD(_T("active"));
 	if (pList)
@@ -2110,14 +2110,14 @@ void CJabberProto::BuildPrivacyMenu()
 void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 {
 	if (bDeleteOld)
-		for (int i=0; i < m_hPrivacyMenuItems.getCount(); i++)
+		for (int i = 0; i < m_hPrivacyMenuItems.getCount(); i++)
 			CallService(MO_REMOVEMENUITEM, (WPARAM)m_hPrivacyMenuItems[i], 0);
 
 	m_hPrivacyMenuItems.destroy();
 
 	mir_cslock lck(m_privacyListManager.m_cs);
 
-	char srvFce[MAX_PATH + 64], *svcName = srvFce+strlen(m_szModuleName);
+	char srvFce[MAX_PATH + 64], *svcName = srvFce + strlen(m_szModuleName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000040000;
@@ -2125,7 +2125,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	mi.hParentMenu = m_hPrivacyMenuRoot;
 	mi.pszService = srvFce;
 
-	int i=0;
+	int i = 0;
 	mir_snprintf(srvFce, SIZEOF(srvFce), "%s/menuPrivacy%d", m_szModuleName, i);
 	if (i > m_privacyMenuServiceAllocated) {
 		CreateProtoServiceParam(svcName, &CJabberProto::menuSetPrivacyList, i);
@@ -2147,9 +2147,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 
 		mi.position++;
 		mi.icolibItem = LoadSkinnedIconHandle(
-			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ?
-				SKINICON_OTHER_SMALLDOT :
-				SKINICON_OTHER_EMPTYBLOB);
+			mir_tstrcmp(m_privacyListManager.GetActiveListName(), pList->GetListName()) ? SKINICON_OTHER_SMALLDOT : SKINICON_OTHER_EMPTYBLOB);
 		mi.ptszName = pList->GetListName();
 		m_hPrivacyMenuItems.insert(Menu_AddProtoMenuItem(&mi));
 	}
