@@ -158,7 +158,7 @@ void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
 
 void CJabberProto::OnLoggedIn()
 {
-	m_bJabberOnline = TRUE;
+	m_bJabberOnline = true;
 	m_tmJabberLoggedInTime = time(0);
 
 	m_ThreadInfo->dwLoginRqs = 0;
@@ -507,8 +507,6 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 		for (int i=0; i < chatRooms.getCount(); i++)
 			GroupchatJoinByHContact((MCONTACT)chatRooms[i], true);
 
-	//UI_SAFE_NOTIFY(m_pDlgJabberJoinGroupchat, WM_JABBER_CHECK_ONLINE);
-	//UI_SAFE_NOTIFY(m_pDlgBookmarks, WM_JABBER_CHECK_ONLINE);
 	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
 	WindowNotify(WM_JABBER_CHECK_ONLINE);
 
