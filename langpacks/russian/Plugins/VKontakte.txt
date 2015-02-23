@@ -195,7 +195,7 @@ Cоздать комнату чата
 Ошибка
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
-[Enter confirmation code ]
+[Enter confirmation code]
 Введите код подтверждения
 [Message read: %s]
 Сообщение прочтено в: %s
