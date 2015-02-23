@@ -1,3 +1,0 @@
-﻿[Nodes]
-[Common nodes]
-[nodes]

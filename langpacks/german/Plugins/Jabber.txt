@@ -2041,8 +2041,6 @@ sende unbekannten Anwesenheitstyp
 Nick:
 [Status:]
 Status:
-[Status text:]
-Statustext:
 [Real JID:]
 Echte JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp

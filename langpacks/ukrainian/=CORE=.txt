@@ -317,34 +317,6 @@
 Колір тексту
 [Choose font]
 Шрифт
-[Font]
-Шрифт
-[&Font:]
-&Шрифт:
-[Font st&yle:]
-С&тиль шрифту:
-[\nStyles and effects are disabled for this font.]
-\nДля цього шрифту налаштування стилів і ефектів вимкнено.
-[&Size:]
-&Розмір:
-[Effects]
-Ефекти
-[Stri&keout]
-За&креслений
-[&Underline]
-&Підкреслений
-[&Color:]
-&Колір:
-[Sample]
-Зразок
-[AaBbYyZz]
-АаБбВвГг
-[Sc&ript:]
-Ск&рипт:
-[&Apply]
-&Застосувати
-[&Help]
-Довідка
 [Menu objects]
 Види меню
 [Menu items]
@@ -471,6 +443,8 @@ Miranda NG перезапускається.\nЗачекайте...
 &Вниз
 [Send &offline]
 В офлайн
+[&Apply]
+&Застосувати
 [Context menu]
 Контекстне меню
 [Use contact's unique ID]
@@ -613,6 +587,8 @@ UIN, E-mail тощо
 &Жирний
 [&Italic]
 &Курсив
+[&Underline]
+&Підкреслений
 [&Color]
 &Колір
 [&Background color]
@@ -1765,6 +1741,8 @@ UIN, E-mail тощо
 Вихідні
 [< Copyright]
 < Права
+[&Help]
+Довідка
 [&About...]
 Про Miranda NG
 [&Support]

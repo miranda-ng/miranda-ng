@@ -320,34 +320,6 @@ Efekt tekstu
 Kolor tekstu
 [Choose font]
 Wybierz czcionkę
-[Font]
-Czcionka
-[&Font:]
-&Czcionka:
-[Font st&yle:]
-St&yl czcionki:
-[\nStyles and effects are disabled for this font.]
-\nStyle i efekty są wyłączone dla tej czcionki.
-[&Size:]
-&Rozmiar:
-[Effects]
-Efekty
-[Stri&keout]
-&Przekreślenie
-[&Underline]
-P&odkreślenie
-[&Color:]
-&Kolor
-[Sample]
-Przykład
-[AaBbYyZz]
-AaBbYyZz
-[Sc&ript:]
-Pi&smo:
-[&Apply]
-&Zastosuj
-[&Help]
-&Pomoc
 [Menu objects]
 Obiekty menu
 [Menu items]
@@ -474,6 +446,8 @@ W &górę
 W &dół
 [Send &offline]
 Do &rozłączonego
+[&Apply]
+&Zastosuj
 [Context menu]
 Menu kontekstowe
 [Use contact's unique ID]
@@ -619,6 +593,8 @@ Zamykanie w %d
 &Pogrubienie
 [&Italic]
 &Kursywa
+[&Underline]
+P&odkreślenie
 [&Color]
 K&olor
 [&Background color]
@@ -1803,6 +1779,8 @@ Wychodzące
 [< Copyright]
 < Prawa aut.
 ;file \src\core\stdhelp\src\help.cpp
+[&Help]
+&Pomoc
 [&About...]
 &O programie...
 [&Support]
