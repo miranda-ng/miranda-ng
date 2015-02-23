@@ -896,18 +896,20 @@ void CVkProto::PollUpdates(JSONNODE *pUpdates)
 
 		case VKPOLL_USR_ONLINE:
 			uid = -json_as_int(json_at(pChild, 1));
-			if ((hContact = FindUser(uid)) != NULL)
+			if ((hContact = FindUser(uid)) != NULL) {
 				setWord(hContact, "Status", ID_STATUS_ONLINE);
-			platform = json_as_int(json_at(pChild, 2));
-			SetMirVer(hContact, platform);
+				platform = json_as_int(json_at(pChild, 2));
+				SetMirVer(hContact, platform);
+			}
 			break;
 
 		case VKPOLL_USR_OFFLINE:
 			uid = -json_as_int(json_at(pChild, 1));
-			if ((hContact = FindUser(uid)) != NULL)
+			if ((hContact = FindUser(uid)) != NULL) {
 				setWord(hContact, "Status", ID_STATUS_OFFLINE);
 				db_unset(hContact, m_szModuleName, "ListeningTo");
 				SetMirVer(hContact, -1);
+			}
 			break;
 
 		case VKPOLL_USR_UTN:
