@@ -2885,6 +2885,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				DoRtfToTags(si->dat, ptszText, mi->nColorCount, mi->crColors);
 				ptszText.Trim();
+				ptszText.Replace(_T("%"), _T("%%"));
 
 				if (mi && mi->bAckMsg) {
 					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, false);
@@ -2902,7 +2903,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				bool fSound = true;
 				if (ptszText[0] == '/' || si->iType == GCW_SERVER)
 					fSound = false;
-				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText.GetBuffer(), 0);
+				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
 				mi->idleTimeStamp = time(0);
 				mi->lastIdleCheck = 0;
 				pci->SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);

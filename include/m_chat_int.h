@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CHAT_INT_H__
 #define M_CHAT_INT_H__ 1
 
+#include <m_string.h>
 #include <m_chat.h>
 
 #define OPTIONS_FONTCOUNT 20
@@ -378,7 +379,7 @@ struct CHAT_MANAGER
 	TCHAR*        (*MakeTimeStamp)(TCHAR *pszStamp, time_t time);
 
 	BOOL          (*DoEventHook)(const TCHAR *pszID, const char *pszModule, int iType, const TCHAR *pszUID, const TCHAR* pszText, INT_PTR dwItem);
-	BOOL          (*DoEventHookAsync)(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, INT_PTR dwItem);
+	BOOL          (*DoEventHookAsync)(HWND hwnd, const TCHAR *pszID, const char *pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, INT_PTR dwItem);
 
 	BOOL          (*DoSoundsFlashPopupTrayStuff)(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
 	BOOL          (*DoTrayIcon)(SESSION_INFO *si, GCEVENT *gce);
@@ -394,6 +395,7 @@ struct CHAT_MANAGER
 	void          (*ReloadSettings)(void);
 
 	void          (*ColorChooser)(SESSION_INFO *si, BOOL bFG, HWND hwndDlg, HWND hwndTarget, HWND hwndChooser);
+	int           (*DoRtfToTags)(CMString &pszText, int iNumColors, COLORREF *pColors);
 
 	int logPixelSY, logPixelSX;
 	char *szActiveWndModule;

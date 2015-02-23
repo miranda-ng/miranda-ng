@@ -1296,6 +1296,7 @@ INT_PTR SvcGetChatManager(WPARAM wParam, LPARAM lParam)
 	ci.SetAllOffline = SetAllOffline;
 	ci.AddEvent = AddEvent;
 	ci.FindRoom = FindRoom;
+	ci.DoRtfToTags = DoRtfToTags;
 
 	ci.Log_CreateRTF = Log_CreateRTF;
 	ci.Log_CreateRtfHeader = Log_CreateRtfHeader;

@@ -1702,7 +1702,13 @@ LABEL_SHOWWINDOW:
 
 		case IDOK:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDOK))) {
-				char *pszRtf = GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
+				ptrA pszRtf(GetRichTextRTF(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)));
+				if (pszRtf == NULL)
+					break;
+
+				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+				if (mi == NULL)
+					break;
 
 				TCmdList *cmdListNew = tcmdlist_last(si->cmdList);
 				while (cmdListNew != NULL && cmdListNew->temporary) {
@@ -1711,10 +1717,13 @@ LABEL_SHOWWINDOW:
 				}
 
 				si->cmdList = tcmdlist_append(si->cmdList, pszRtf, 20, FALSE);
-				TCHAR *ptszText = DoRtfToTags(pszRtf, si);
-				rtrimt(ptszText);
 
-				if (pci->MM_FindModule(si->pszModule)->bAckMsg) {
+				CMString ptszText(ptrT(mir_utf8decodeT(pszRtf)));
+				pci->DoRtfToTags(ptszText, mi->nColorCount, mi->crColors);
+				ptszText.Trim();
+				ptszText.Replace(_T("%"), _T("%%"));
+
+				if (mi->bAckMsg) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), FALSE);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
@@ -1723,8 +1732,6 @@ LABEL_SHOWWINDOW:
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
 				pci->DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
-				mir_free(pszRtf);
-				mir_free(ptszText);
 				SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 			}
 			break;

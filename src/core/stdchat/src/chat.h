@@ -170,7 +170,6 @@ bool LoadMessageFont(LOGFONT *lf, COLORREF *colour);
 
 // message.c
 char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO *si);
-TCHAR* DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
 
 BOOL TabM_AddTab(const TCHAR *pszID, const char* pszModule);
 BOOL TabM_RemoveAll(void);

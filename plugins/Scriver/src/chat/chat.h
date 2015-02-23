@@ -99,9 +99,6 @@ TCHAR*        my_strstri(const TCHAR* s1, const TCHAR* s2) ;
 UINT          CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO *si, TCHAR* pszUID, TCHAR* pszWordText);
 void          DestroyGCMenu(HMENU *hMenu, int iIndex);
 
-// message.c
-TCHAR*        DoRtfToTags( char* pszRtfText, SESSION_INFO *si);
-
 //////////////////////////////////////////////////////////////////////////////////
 
 #define DEFLOGFILENAME _T("%miranda_logpath%\\%proto%\\%userid%.log")
