@@ -17,8 +17,8 @@ Xfire_avatar_loader::~Xfire_avatar_loader() {
 	DeleteCriticalSection(&this->avatarMutex);
 }
 
-void Xfire_avatar_loader::loadThread(LPVOID lparam) {
-	Xfire_avatar_loader *loader = (Xfire_avatar_loader*)lparam;
+void Xfire_avatar_loader::loadThread(voud *arg) {
+	Xfire_avatar_loader *loader = (Xfire_avatar_loader*)arg;
 
 	//kein loader, dann abbruch
 	if (!loader)
@@ -75,7 +75,7 @@ BOOL Xfire_avatar_loader::loadAvatar(MCONTACT hcontact, char*username, unsigned 
 	this->list.push_back(process);
 
 	if (!threadrunning && client != NULL) {
-		mir_forkthread(Xfire_avatar_loader::loadThread, (LPVOID)this);
+		mir_forkthread(Xfire_avatar_loader::loadThread, this);
 	}
 
 	return TRUE;

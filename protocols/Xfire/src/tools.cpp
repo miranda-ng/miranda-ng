@@ -74,7 +74,7 @@ BOOL str_replace(char*src, char*find, char*rep)
 		strcat(temp, (src + pos + strlen(find)));
 		strcpy(src, temp);
 
-		delete temp;
+		delete[] temp;
 
 		return TRUE;
 	}
@@ -350,10 +350,9 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	}
 
 	DWORD size = 0;
-	MIB_UDPTABLE_OWNER_PID *ptab;
 
 	GetExtendedUdpTable(NULL, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
-	ptab = (MIB_UDPTABLE_OWNER_PID*)malloc(size);
+	MIB_UDPTABLE_OWNER_PID *ptab = (MIB_UDPTABLE_OWNER_PID*)malloc(size);
 	if (ptab == NULL)
 		return FALSE;
 	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
@@ -561,10 +560,9 @@ BOOL GetServerIPPort2(DWORD pid, char*localaddrr, unsigned long localaddr, char*
 	}
 
 	DWORD size = 0;
-	MIB_UDPTABLE_OWNER_PID *ptab;
 
 	GetExtendedUdpTable(NULL, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);
-	ptab = (MIB_UDPTABLE_OWNER_PID*)malloc(size);
+	MIB_UDPTABLE_OWNER_PID *ptab = (MIB_UDPTABLE_OWNER_PID*)malloc(size);
 	if (ptab == NULL)
 		return FALSE;
 	int ret = GetExtendedUdpTable(ptab, &size, FALSE, AF_INET, UDP_TABLE_OWNER_PID, 0);

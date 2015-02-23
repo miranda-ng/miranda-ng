@@ -38,16 +38,16 @@ extern Xfire_gamelist xgamelist;
 
 
 //als funktion, damit es per thread geladen werden kann
-void LoadProfilStatus(LPVOID lparam) {
-	if (!lparam || !ghwndDlg)
+void LoadProfilStatus(void *arg) {
+	char *fname = (char*) arg;
+	if (!fname || !ghwndDlg)
 		return;
 
 	//dl
-	char url[255] = "http://miniprofile.xfire.com/bg/sh/type/1/";
+	char url[255];
+	mir_snprintf(url, SIZEOF(url),"http://miniprofile.xfire.com/bg/sh/type/1/%s.png",fname);
 	char* buf = NULL;
 	unsigned int size = 0;
-	strcat_s(url, 255, (char*)lparam);
-	strcat_s(url, 255, ".png");
 
 	//versuche das icon aus dem inet zulasen
 	if (GetWWWContent2(url, NULL, FALSE, &buf, &size))
@@ -58,7 +58,7 @@ void LoadProfilStatus(LPVOID lparam) {
 		delete[] buf;
 		SendDlgItemMessage(ghwndDlg, IDC_PROFILIMG, STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hbitmap);
 	}
-	delete[] lparam;
+	delete[] fname;
 }
 
 void SetItemTxt(HWND hwndDlg, int feldid, char*feld, MCONTACT hcontact, int type)

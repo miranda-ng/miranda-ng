@@ -192,11 +192,11 @@ BOOL Xfire_game::checkpath(PROCESSENTRY32* processInfo)
 		TCHAR fpath[MAX_PATH] = _T("");
 
 		//lese den pfad des spiels aus
-		GetModuleFileNameEx(op, NULL, fpath, sizeof(fpath));
+		GetModuleFileNameEx(op, NULL, fpath, SIZEOF(fpath));
 
 		//8.3 pfade umwandeln, nur wenn sich eine tilde im string befindet
 		if (_tcschr(fpath, '~'))
-			GetLongPathName(fpath, fpath, sizeof(fpath));
+			GetLongPathName(fpath, fpath, SIZEOF(fpath));
 
 		//alles in kelinbuchstaben umwandeln
 		this->strtolowerT(fpath);

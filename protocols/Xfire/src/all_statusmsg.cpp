@@ -198,7 +198,7 @@ BOOL SetGameStatusMsg()
 		if (statusMsg == NULL)
 			return FALSE;
 
-		char *statusmsg;
+		char *statusmsg = NULL;
 
 		//statusmsg rein
 		xgamelist.setString(statusMsg, &statusmsg);
