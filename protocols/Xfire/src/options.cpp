@@ -960,7 +960,7 @@ static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					//textbuffer löschen
 					if (text != NULL)
 					{
-						delete text;
+						delete[] text;
 						text = NULL;
 					}
 					//id des spielsbekommen

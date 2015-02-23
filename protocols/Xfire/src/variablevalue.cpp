@@ -49,7 +49,7 @@ using namespace std;
   }
 
   void VariableValue::setValue( char * value) {
-    if (this->value) delete[] value;
+    if (this->value) delete[] this->value;
     this->value = value;
   }
   void VariableValue::setValue( std::string value ) {
@@ -105,6 +105,7 @@ using namespace std;
     memcpy(namestr,packet+index+read,nameLength);
     name = string(namestr);
     read+=nameLength;
+	delete[] namestr;
     return read;
   }
 

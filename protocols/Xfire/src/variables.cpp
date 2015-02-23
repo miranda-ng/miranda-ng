@@ -194,9 +194,9 @@ char* XFireGetFoldersPath(char * pathtype)
 		strcat(BaseFolder, "\\");
 		CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)CurProfileF);
 		int i;
-		for (i = MAX_PATH; 5; i--){
+		for (i = MAX_PATH - 1; i > 5; i--){
 			if (CurProfileF[i] == 't' && CurProfileF[i - 3] == '.'){
-				i = i - 3;
+				i -= 3;
 				break;
 			}
 		}

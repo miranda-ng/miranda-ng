@@ -197,11 +197,11 @@ HMODULE Xfire_voicechat::loadTSR(char* path, BOOL nolocaltest) {
 			//deutsches sys?
 			tsrDLL = LoadLibrary(_T("C:\\Programme\\Teamspeak2_RC2\\client_sdk\\TSRemote.dll"));
 
-			if (!tsrDLL)
+			if (!tsrDLL) {
 				XFireLog("TSRemote.dll load failed (using standard installationpath2)!");
-
-			//aufgeben
-			return NULL;
+				//aufgeben
+				return NULL;
+			}
 		}
 	}
 
@@ -238,6 +238,9 @@ BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet* packet) {
 	if (ipport->port == 0) {
 		//packet resetten
 		resetSendGameStatus2Packet(packet);
+		//unmap, handle schlieﬂem
+		UnmapViewOfFile(ipport);
+		CloseHandle(hMapObject);
 		//in db schreiben
 		writeToDatabase(packet);
 		return TRUE;

@@ -1107,9 +1107,9 @@ extern "C" __declspec(dllexport) int  Load(void)
 	CallService(MS_DB_GETPROFILENAME, (WPARAM)MAX_PATH, (LPARAM)CurProfileF);
 
 	int i;
-	for (i = MAX_PATH; 5; i--){
+	for (i = MAX_PATH-1; i > 5; i--){
 		if (CurProfileF[i] == 't' && CurProfileF[i - 3] == '.'){
-			i = i - 3;
+			i -= 3;
 			break;
 		}
 	}
@@ -1745,28 +1745,28 @@ void CList_MakeAllOffline()
 		CallService(MS_DB_CONTACT_DELETE, (WPARAM)fhandles.at(i), 0);
 }
 
-void SetAvatar2(LPVOID lparam) {
+void SetAvatar2(void *arg) {
 	static int lasttime = 0;
 	int sleep = db_get_w(NULL, protocolname, "avatarloadlatency", 1000);
 	lasttime += sleep;
+	GetBuddyInfo *buddyinfo = (GetBuddyInfo*)arg;
 
 	if (mySleep(lasttime, hConnectionClose))
 	{
-		delete lparam;
+		delete buddyinfo;
 		lasttime -= sleep;
 		return;
 	}
 
-	GetBuddyInfo* buddyinfo = (GetBuddyInfo*)lparam;
 	if (myClient != NULL)
 		if (myClient->client->connected)
 			myClient->client->send(buddyinfo);
 
-	delete lparam;
+	delete buddyinfo;
 	lasttime -= sleep;
 }
 
-void SetAvatar(LPVOID lparam)
+void SetAvatar(void *arg)
 //void SetAvatar(MCONTACT hContact, char* username)
 {
 	//EnterCriticalSection(&avatarMutex);
@@ -1777,11 +1777,13 @@ void SetAvatar(LPVOID lparam)
 	if (bpStatus == ID_STATUS_OFFLINE)
 		return;
 
+
+	XFire_SetAvatar* xsa = (XFire_SetAvatar*)arg;
 	lasttime += sleep;
 	//Sleep(lasttime);
 	if (mySleep(lasttime, hConnectionClose))
 	{
-		delete lparam;
+		delete xsa;
 		lasttime -= sleep;
 		return;
 	}
@@ -1790,8 +1792,6 @@ void SetAvatar(LPVOID lparam)
 		return;
 
 	XFireAvatar av;
-
-	XFire_SetAvatar* xsa = (XFire_SetAvatar*)lparam;
 
 	if (xsa->hContact == NULL)
 		return;
@@ -2847,7 +2847,7 @@ MCONTACT handlingBuddys(BuddyListEntry *entry, int clan, char*group, BOOL dontsc
 							GameServerQuery_query gsqq = { 0 };
 							gsqq.port = gameob->port;
 							gsqq.xfiregameid = entry->game;
-							strcpy(gsqq.ip, temp);
+							strncpy(gsqq.ip, temp, SIZEOF(gsqq.ip)-1);
 							CallService("GameServerQuery/Query", (WPARAM)entry, (LPARAM)&gsqq);
 							}
 					}
@@ -3048,7 +3048,7 @@ INT_PTR BasicSearch(WPARAM wParam, LPARAM lParam) {
 		if (myClient != NULL)
 			if (myClient->client->connected)
 			{
-			mir_strncpy(buf, (const char *)lParam, 50);
+			mir_strncpy(buf, (const char *)lParam, 49);
 			mir_forkthread(AckBasicSearch, &buf);
 			return 1;
 			}
@@ -3063,7 +3063,7 @@ INT_PTR SearchAddtoList(WPARAM wParam, LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
 
-	if (psr->cbSize != sizeof(PROTOSEARCHRESULT))
+	if (!psr || psr->cbSize != sizeof(PROTOSEARCHRESULT))
 		return 0;
 
 	if ((int)wParam == 0)
