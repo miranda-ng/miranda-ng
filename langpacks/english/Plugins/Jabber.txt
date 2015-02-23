@@ -1038,7 +1038,6 @@
 [sent unknown presence type]
 [Nick:]
 [Status:]
-[Status text:]
 [Real JID:]
 ;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for %s]

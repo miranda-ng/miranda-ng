@@ -1715,8 +1715,6 @@ XML для MS Excel (кодировка UTF-8)
 Ник:
 [Status:]
 Статус:
-[Status text:]
-Текст статуса:
 [Real JID:]
 Реальный JID:
 [Enter password for %s]
