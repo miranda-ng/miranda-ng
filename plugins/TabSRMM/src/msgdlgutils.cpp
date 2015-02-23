@@ -912,6 +912,15 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 	for (const TCHAR *p = pszText.GetString() + idx; *p;) {
 		switch (*p) {
 		case '\\':
+			if (p[1] == '\\' || p[1] == '{' || p[1] == '}') { // escaped characters
+				res.AppendChar(p[1]);
+				p += 2; break;
+			}
+			if (p[1] == '~') { // non-breaking space
+				res.AppendChar(0xA0);
+				p += 2; break;
+			}
+			
 			if (!_tcsncmp(p, _T("\\cf"), 3)) { // foreground color
 				int iCol = _ttoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
@@ -978,12 +987,6 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 			}
 			else if (!_tcsncmp(p, _T("\\tab"), 4)) { // tab
 				res.AppendChar('\t');
-			}
-			else if (p[1] == '\\' || p[1] == '{' || p[1] == '}') { // escaped characters
-				res.AppendChar(p[1]);
-			}
-			else if (p[1] == '~') { // non-breaking space
-				res.AppendChar(0xA0);
 			}
 			else if (p[1] == '\'') { // special character
 				if (p[2] != ' ' && p[2] != '\\') {
