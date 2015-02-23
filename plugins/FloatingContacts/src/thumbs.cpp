@@ -57,9 +57,8 @@ void ThumbInfo::GetThumbRect(RECT *rc)
 void ThumbInfo::PositionThumb(int nX, int nY)
 {
 	POINT pos = { nX, nY };
-	HDWP hdwp;
 
-	hdwp = BeginDeferWindowPos(1);
+	HDWP hdwp = BeginDeferWindowPos(1);
 
 	ThumbInfo *pThumb = this;
 	while (pThumb) {
@@ -236,37 +235,23 @@ void ThumbInfo::PositionThumbWorker(int nX, int nY, POINT *newPos)
 
 void ThumbInfo::ResizeThumb()
 {
-	HDC hdc = NULL;
-	HFONT	hOldFont = NULL;
-	POINT	ptText;
-	SIZEL	sizeIcon;
-	SIZEL	sizeText;
-	RECT rcThumb;
 	int index = FLT_FONTID_NOTONLIST;
-
-	ThumbInfo *pNextThumb = NULL;
 	
 	himlMiranda = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
 	if (himlMiranda == NULL)
 		return;
 	
+	SIZEL sizeIcon;
 	ImageList_GetIconSize_my(himlMiranda, sizeIcon);
 
-	hdc = GetWindowDC(hwnd);
-
+	HDC hdc = GetWindowDC(hwnd);
 	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
-		int nStatus;
-		int nContactStatus;
-		int nApparentMode;
-		char* szProto;
-
-		szProto = GetContactProto(hContact);
-		
+		char *szProto = GetContactProto(hContact);
 		if ( NULL != szProto )
 		{
-			nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-			nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
+			int nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 			
 			if ((nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
 				 (nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
@@ -284,14 +269,16 @@ void ThumbInfo::ResizeThumb()
 	}
 	else index = FLT_FONTID_NOTONLIST;
 
-	hOldFont = (HFONT)SelectObject( hdc, hFont[ index ] );
+	HFONT hOldFont = (HFONT)SelectObject( hdc, hFont[ index ] );
 	
 	// Get text and icon sizes
+	SIZEL sizeText;
 	GetTextExtentPoint32( hdc, ptszName, (int)_tcslen(ptszName), &sizeText);
 	
-	SelectObject( hdc, hOldFont );
+	SelectObject(hdc, hOldFont);
 	
 	// Transform text size
+	POINT ptText;
 	ptText.x = sizeText.cx;
 	ptText.y = sizeText.cy;
 	LPtoDP( hdc, &ptText, 1);
@@ -303,11 +290,13 @@ void ThumbInfo::ResizeThumb()
 	
 	RefreshContactIcon(0xFFFFFFFF);
 	
-	ReleaseDC( hwnd, hdc );
+	ReleaseDC(hwnd, hdc);
 
 	// Move the docked widnow if needed
-	if (pNextThumb = thumbList.FindThumb(dockOpt.hwndRight)) {
-		GetThumbRect( &rcThumb );
+	ThumbInfo *pNextThumb = thumbList.FindThumb(dockOpt.hwndRight);
+	if (pNextThumb) {
+		RECT rcThumb;
+		GetThumbRect(&rcThumb);
 		pNextThumb->PositionThumb(rcThumb.right, rcThumb.top);
 	}
 }
@@ -505,23 +494,20 @@ void ThumbInfo::UpdateContent()
 
 	if (NULL != hBmpBackground) {
 		RECT rcBkgnd;
-		BITMAP bmp;
-		int x,y;
-		int maxx,maxy;
-		int destw,desth;
-
 		SetRect(&rcBkgnd, 0, 0, szSize.cx, szSize.cy);
 		if (NULL != hLTEdgesPen)
 			InflateRect(&rcBkgnd, -1, -1);
 		int width = rcBkgnd.right - rcBkgnd.left;
 		int height = rcBkgnd.bottom - rcBkgnd.top;
 
+		BITMAP bmp;
 		GetObject(hBmpBackground, sizeof(bmp), &bmp);
 		HDC hdcBmp = CreateCompatibleDC(hdcDraw);
 		HBITMAP hbmTmp = (HBITMAP)SelectObject(hdcBmp, hBmpBackground);
 
-		maxx = (0 != (nBackgroundBmpUse & CLBF_TILEH) ? rcBkgnd.right : rcBkgnd.left + 1);
-		maxy = (0 != (nBackgroundBmpUse & CLBF_TILEV) ? rcBkgnd.bottom : rcBkgnd.top + 1);
+		int maxx = (0 != (nBackgroundBmpUse & CLBF_TILEH) ? rcBkgnd.right : rcBkgnd.left + 1);
+		int maxy = (0 != (nBackgroundBmpUse & CLBF_TILEV) ? rcBkgnd.bottom : rcBkgnd.top + 1);
+		int destw,desth;
 		switch (nBackgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
 			if (0 != (nBackgroundBmpUse & CLBF_PROPORTIONAL)) {
@@ -563,8 +549,8 @@ void ThumbInfo::UpdateContent()
 		}
 		SetStretchBltMode(hdcBmp, STRETCH_HALFTONE);
 
-		for (x = rcBkgnd.left; x < maxx; x += destw)
-			for (y = rcBkgnd.top; y < maxy; y += desth)
+		for (int x = rcBkgnd.left; x < maxx; x += destw)
+			for (int y = rcBkgnd.top; y < maxy; y += desth)
 				StretchBlt( hdcDraw, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY );
 
 		SelectObject(hdcBmp, hbmTmp);
@@ -597,14 +583,11 @@ void ThumbInfo::UpdateContent()
 	oldBkMode = SetBkMode(hdcDraw, TRANSPARENT);
 
 	if (!db_get_b(hContact, "CList", "NotOnList", 0)) {
-		int nStatus;
-		int nContactStatus;
-		int nApparentMode;
-		char* szProto = GetContactProto(hContact);
+		char *szProto = GetContactProto(hContact);
 		if (NULL != szProto) {
-			nStatus        = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
-			nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
-			nApparentMode  = db_get_w(hContact, szProto, "ApparentMode", 0);
+			int nStatus = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+			int nContactStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			int nApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 			
 			if ((nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
 				 (nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
@@ -687,7 +670,7 @@ void ThumbInfo::UpdateContent()
 	UpdateLayeredWindow(hwnd, NULL, &ptDst, &szSize, bmpContent.getDC(), &ptSrc, 0xffffffff, &blend, ULW_ALPHA);
 }
 
-void ThumbInfo::PopupMessageDialog( )
+void ThumbInfo::PopupMessageDialog()
 {
 	CallService(MS_CLIST_CONTACTDOUBLECLICKED, hContact, 0);
 }

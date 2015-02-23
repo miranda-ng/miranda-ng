@@ -176,16 +176,20 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 	
 	char **ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1));
 	
-	if ( ppFiles == NULL )
+	BOOL bSuccess = FALSE;
+	if (ppFiles != NULL)
 	{
-		return FALSE;
+		ppFiles[nFilesCount] = NULL;
+
+		ProcessDroppedItems(ppDroppedItems, nDroppedItemsCount, ppFiles);
+
+		bSuccess = (BOOL)CallService(MS_CLIST_CONTACTFILESDROPPED, (WPARAM)pThumb->hContact, (LPARAM)ppFiles); 
+
+		for (UINT iItem = 0; iItem < nFilesCount ; ++iItem )
+			free(ppFiles[iItem]);
+
+		free(ppFiles);
 	}
-	
-	ppFiles[ nFilesCount] = NULL;
-
-	ProcessDroppedItems( ppDroppedItems, nDroppedItemsCount, ppFiles );
-
-	BOOL bSuccess = (BOOL)CallService(MS_CLIST_CONTACTFILESDROPPED, (WPARAM)pThumb->hContact, (LPARAM)ppFiles ); 
 
 	// Cleanup
 	for (UINT iItem = 0; ppDroppedItems[ iItem ]; ++iItem ) 
@@ -194,13 +198,6 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 	}
 
 	free( ppDroppedItems );
-
-	for (UINT iItem = 0; iItem < nFilesCount ; ++iItem ) 
-	{
-		free( ppFiles[ iItem ] );
-	}
-
-	free( ppFiles );
 
 	return bSuccess;
 }
