@@ -320,34 +320,6 @@ Texteffekt
 Textfarbe
 [Choose font]
 Schriftart auswählen
-[Font]
-Schriftart
-[&Font:]
-Schri&ftart:
-[Font st&yle:]
-Schriftst&il:
-[\nStyles and effects are disabled for this font.]
-\nStile und Effekte sind für diese Schrift deaktiviert.
-[&Size:]
-&Größe:
-[Effects]
-Effekte
-[Stri&keout]
-Durchge&str.
-[&Underline]
-&Unterstr.
-[&Color:]
-&Farbe:
-[Sample]
-Beispiel
-[AaBbYyZz]
-AaBbYyZz 123 !?%&äöü
-[Sc&ript:]
-Sp&rache:
-[&Apply]
-Übernehmen
-[&Help]
-&Hilfe
 [Menu objects]
 Menüobjekte
 [Menu items]
@@ -474,6 +446,8 @@ Hoch
 Runter
 [Send &offline]
 &Offline senden
+[&Apply]
+Übernehmen
 [Context menu]
 Kontextmenü
 [Use contact's unique ID]
@@ -619,6 +593,8 @@ Smil&eys
 &Fett
 [&Italic]
 &Kursiv
+[&Underline]
+&Unterstr.
 [&Color]
 &Farbe
 [&Background color]
@@ -1803,6 +1779,8 @@ Ausgehend
 [< Copyright]
 < Copyright
 ;file \src\core\stdhelp\src\help.cpp
+[&Help]
+&Hilfe
 [&About...]
 &Über...
 [&Support]

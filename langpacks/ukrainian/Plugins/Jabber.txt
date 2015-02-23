@@ -1997,8 +1997,6 @@ Google Hangouts
 Нік:
 [Status:]
 Статус:
-[Status text:]
-Текст статусу:
 [Real JID:]
 Реальний JID:
 [Enter password for %s]

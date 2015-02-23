@@ -19,8 +19,6 @@ Fonts and colours
 Colour/background
 [Text color]
 Text colour
-[&Color:]
-&Colour:
 [Base color:]
 Base colour:
 [Secondary color:]

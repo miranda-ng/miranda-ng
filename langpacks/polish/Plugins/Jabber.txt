@@ -2041,8 +2041,6 @@ wysłał nieznany typ obecności
 Nick:
 [Status:]
 Status:
-[Status text:]
-Opis:
 [Real JID:]
 Właściwy JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp

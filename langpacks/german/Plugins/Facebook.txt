@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.3
+;  Version: 0.2.10.4
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -60,6 +60,8 @@ Sonstige Ereignisse
 Client-Benachrichtigungen
 [Friendship notifications]
 Freundschaftsbenachrichtigungen
+[Ticker feeds]
+
 [Use this server for opening links:]
 Öffne Links auf diesem Server:
 [Use balloon notifications in system tray instead of popups]
@@ -219,6 +221,8 @@ Beispielnewsfeed
 Beispielbenachrichtigung
 [Sample friendship]
 Beispiel Freundschaft
+[Sample ticker]
+
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 ein Sticker
