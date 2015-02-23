@@ -197,8 +197,8 @@ Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 Błąd
 [Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
-[Enter confirmation code ]
-Wprowadź kod weryfikacyjny 
+[Enter confirmation code]
+Wprowadź kod weryfikacyjny
 [Message read: %s]
 Wiadomość odczytana: %s
 [commented on your post]

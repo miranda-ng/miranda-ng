@@ -1,7 +1,7 @@
 ﻿[Force invisible status upon user activity]
 [Invisible interval timeout (min):]
 [Use non-standard urlEncode for sent messages (less traffic)]
-[Enter confirmation code ]
+[Enter confirmation code]
 [Message from]
 [at]
 [Your request to the user %s was deleted]
