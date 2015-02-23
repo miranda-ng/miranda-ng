@@ -197,7 +197,7 @@ Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 Fehler
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
-[Enter confirmation code ]
+[Enter confirmation code]
 
 [Message read: %s]
 Nachricht gelesen: %s
