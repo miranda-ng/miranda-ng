@@ -17,7 +17,7 @@ Xfire_avatar_loader::~Xfire_avatar_loader() {
 	DeleteCriticalSection(&this->avatarMutex);
 }
 
-void Xfire_avatar_loader::loadThread(voud *arg) {
+void Xfire_avatar_loader::loadThread(void *arg) {
 	Xfire_avatar_loader *loader = (Xfire_avatar_loader*)arg;
 
 	//kein loader, dann abbruch
