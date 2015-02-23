@@ -12,7 +12,6 @@
 #define IDI_SMS                         103
 #define IDI_ONLINE                      104
 #define IDI_OFFLINE                     105
-#define IDD_CUSTOM_FONT                 106
 #define IDD_OPT_FONTS                   107
 #define IDD_OPT_GENMENU                 108
 #define IDD_OPT_PROTOCOLORDER           109

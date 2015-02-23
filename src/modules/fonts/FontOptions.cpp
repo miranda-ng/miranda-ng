@@ -244,19 +244,21 @@ void OptionsChanged()
 TOOLINFO ti;
 int x, y;
 
-UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam) {
-	switch(uiMsg) {
-		case WM_INITDIALOG: {
-			CHOOSEFONT* cf = (CHOOSEFONT *)lParam;
-
-			TranslateDialogDefault(hdlg);
-			ShowWindow( GetDlgItem(hdlg, 1095), SW_HIDE);
-			if (cf && (cf->lCustData & FIDF_DISABLESTYLES)) {
-				EnableWindow( GetDlgItem(hdlg, 1137), FALSE);
-				ShowWindow( GetDlgItem(hdlg, 1137), SW_HIDE);
-				ShowWindow( GetDlgItem(hdlg, 1095), SW_SHOW);
+UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam)
+{
+	if (uiMsg == WM_INITDIALOG) {
+		CHOOSEFONT* cf = (CHOOSEFONT *)lParam;
+		if (cf != NULL) {
+			if (cf->lCustData & FIDF_DISABLESTYLES) {
+				EnableWindow(GetDlgItem(hdlg, 1137), FALSE);
+				ShowWindow(GetDlgItem(hdlg, 1137), SW_HIDE);
+				ShowWindow(GetDlgItem(hdlg, 1095), SW_SHOW);
 			}
-			return 0;
+			else if (cf->lCustData & FIDF_ALLOWEFFECTS) {
+				EnableWindow(GetDlgItem(hdlg, 1139), FALSE);
+				ShowWindow(GetDlgItem(hdlg, 1139), SW_HIDE);
+				ShowWindow(GetDlgItem(hdlg, 1091), SW_HIDE);
+			}
 		}
 	}
 
@@ -986,25 +988,19 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				cf.lStructSize = sizeof(cf);
 				cf.hwndOwner = hwndDlg;
 				cf.lpLogFont = &lf;
-				cf.lCustData = 0;
+				cf.lCustData = F.flags;
+				cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS;
 
-				if (F.flags & FIDF_ALLOWEFFECTS) {
-					cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_EFFECTS | CF_ENABLETEMPLATE | CF_ENABLEHOOK;
-					// use custom font dialog to disable colour selection
-					cf.hInstance = hInst;
-					cf.lpTemplateName = MAKEINTRESOURCE(IDD_CUSTOM_FONT);
+				if (F.flags & FIDF_ALLOWEFFECTS) { // enable effects section
+					cf.Flags |= CF_EFFECTS | CF_ENABLEHOOK;
 					cf.lpfnHook = CFHookProc;
 				}
-				else if (F.flags & FIDF_DISABLESTYLES) {		// no style selection, mutually exclusive with FIDF_ALLOWEFFECTS
-					cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_ENABLETEMPLATE | CF_ENABLEHOOK | CF_TTONLY | CF_NOOEMFONTS;
-					cf.lCustData = F.flags;
-					cf.hInstance = hInst;
-					cf.lpTemplateName = MAKEINTRESOURCE(IDD_CUSTOM_FONT);
+				else if (F.flags & FIDF_DISABLESTYLES) { // mutually exclusive with FIDF_ALLOWEFFECTS
+					cf.Flags |= CF_TTONLY | CF_NOOEMFONTS | CF_ENABLEHOOK;
 					cf.lpfnHook = CFHookProc;
 					lf.lfWeight = FW_NORMAL;
 					lf.lfItalic = lf.lfUnderline = lf.lfStrikeOut = FALSE;
 				}
-				else cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS;
 
 				if (ChooseFont(&cf)) {
 					for (i=0; i < selCount; i++) {
@@ -1331,7 +1327,6 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_CHOOSEFONTGENERAL:
 		case IDC_CHOOSEFONTSMALL:
 			{
-				CHOOSEFONT cf = { 0 };
 				FontInternal *pf = NULL;
 				switch (LOWORD(wParam)) {
 				case IDC_CHOOSEFONTHEADER:
@@ -1347,15 +1342,14 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 				CreateFromFontSettings(&pf->value, &lf);
 
+				CHOOSEFONT cf = { 0 };
 				cf.lStructSize = sizeof(cf);
 				cf.hwndOwner = hwndDlg;
 				cf.lpLogFont = &lf;
+				cf.lCustData = pf->flags;
 				cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS;
 				if (pf->flags & FIDF_ALLOWEFFECTS) {
-					cf.Flags |= CF_EFFECTS | CF_ENABLETEMPLATE | CF_ENABLEHOOK;
-					// use custom font dialog to disable colour selection
-					cf.hInstance = hInst;
-					cf.lpTemplateName = MAKEINTRESOURCE(IDD_CUSTOM_FONT);
+					cf.Flags |= CF_EFFECTS | CF_ENABLEHOOK;
 					cf.lpfnHook = CFHookProc;
 				}
 
@@ -1370,8 +1364,8 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 					InvalidateRect( GetDlgItem(hwndDlg, IDC_PREVIEWSMALL), NULL, TRUE);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-				return TRUE;
 			}
+			return TRUE;
 		}
 		break;
 
