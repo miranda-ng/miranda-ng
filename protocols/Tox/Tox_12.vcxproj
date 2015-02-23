@@ -203,6 +203,7 @@
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\tox_address.h" />
+    <ClInclude Include="src\tox_chatrooms.h" />
     <ClInclude Include="src\tox_dns.h" />
     <ClInclude Include="src\tox_options.h" />
     <ClInclude Include="src\tox_proto.h" />

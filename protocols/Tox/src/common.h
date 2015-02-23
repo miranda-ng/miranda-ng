@@ -39,11 +39,14 @@
 #include <toxencryptsave.h>
 #include <toxav.h>
 
+struct CToxProto;
+
 #include "version.h"
 #include "resource.h"
 #include "tox_address.h"
 #include "tox_options.h"
 #include "tox_transfer.h"
+#include "tox_chatrooms.h"
 #include "tox_proto.h"
 
 extern HINSTANCE g_hInstance;
