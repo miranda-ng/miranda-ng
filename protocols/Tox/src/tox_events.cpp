@@ -7,10 +7,9 @@ int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 		return 1;
 	}
 
-	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
 	if (!isChatRoom(hContact))
 	{
-		int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+		int32_t friendNumber = GetToxFriendNumber(hContact);
 		if (friendNumber == TOX_ERROR || tox_del_friend(tox, friendNumber) == TOX_ERROR)
 		{
 			return 1;
