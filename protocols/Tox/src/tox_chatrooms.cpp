@@ -136,8 +136,7 @@ INT_PTR CToxProto::OnCreateChatRoom(WPARAM, LPARAM)
 		}
 		for (std::vector<MCONTACT>::iterator it = param.invitedContacts.begin(); it != param.invitedContacts.end(); ++it)
 		{
-			ToxBinAddress pubKey = ptrA(getStringA(*it, TOX_SETTINGS_ID));
-			int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+			int32_t friendNumber = GetToxFriendNumber(*it);
 			if (friendNumber == TOX_ERROR || tox_invite_friend(tox, friendNumber, groupNumber) == TOX_ERROR)
 			{
 				return 1;

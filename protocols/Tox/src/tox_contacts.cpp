@@ -97,6 +97,17 @@ MCONTACT CToxProto::AddContact(const char *address, const std::tstring &dnsId, b
 	return hContact;
 }
 
+int32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
+{
+	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
+	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+	if (friendNumber == TOX_ERROR)
+	{
+		debugLogA("CToxProto::SendMsg: failed to get friend number");
+	}
+	return friendNumber;
+}
+
 void CToxProto::LoadFriendList(void*)
 {
 	uint32_t count = tox_count_friendlist(tox);

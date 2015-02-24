@@ -153,11 +153,9 @@ void CToxProto::OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, c
 // outcoming file flow
 HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHAR **ppszFiles)
 {
-	ToxBinAddress pubKey = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
-	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
+	int32_t friendNumber = GetToxFriendNumber(hContact);
 	if (friendNumber == TOX_ERROR)
 	{
-		debugLogA("CToxProto::SendMsg: failed to get friend number");
 		return NULL;
 	}
 

@@ -143,6 +143,8 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
+	int32_t GetToxFriendNumber(MCONTACT hContact);
+
 	void __cdecl LoadFriendList(void*);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, const uint16_t messageSize, void *arg);
@@ -184,10 +186,12 @@ private:
 	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// messages
-	static void OnFriendMessage(Tox *tox, const int number, const uint8_t *message, const uint16_t messageSize, void *arg);
-	static void OnFriendAction(Tox *tox, const int number, const uint8_t *action, const uint16_t actionSize, void *arg);
-	static void OnTypingChanged(Tox *tox, const int number, uint8_t isTyping, void *arg);
-	static void OnReadReceipt(Tox *tox, int32_t number, uint32_t receipt, void *arg);
+	void RegisterIncomingMessage(const int friendNumber, const uint8_t *message, const uint16_t messageSize);
+
+	static void OnFriendMessage(Tox *tox, const int friendNumber, const uint8_t *message, const uint16_t messageSize, void *arg);
+	static void OnFriendAction(Tox *tox, const int friendNumber, const uint8_t *action, const uint16_t actionSize, void *arg);
+	static void OnTypingChanged(Tox *tox, const int friendNumber, uint8_t isTyping, void *arg);
+	static void OnReadReceipt(Tox *tox, int32_t friendNumber, uint32_t receipt, void *arg);
 
 	int __cdecl OnPreCreateMessage(WPARAM wParam, LPARAM lParam);
 
