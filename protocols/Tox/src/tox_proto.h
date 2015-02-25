@@ -186,7 +186,8 @@ private:
 	static INT_PTR CALLBACK ChatRoomInviteProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// messages
-	void RegisterIncomingMessage(const int friendNumber, const uint8_t *message, const uint16_t messageSize);
+	int OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre);
+	int OnSendMessage(MCONTACT hContact, int flags, const char *message);
 
 	static void OnFriendMessage(Tox *tox, const int friendNumber, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendAction(Tox *tox, const int friendNumber, const uint8_t *action, const uint16_t actionSize, void *arg);
@@ -223,8 +224,6 @@ private:
 
 	static void ShowNotification(const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
-
-	MEVENT AddDbEvent(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 
 	static bool IsFileExists(std::tstring path);
 };

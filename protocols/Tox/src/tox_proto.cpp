@@ -48,10 +48,6 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
 
-	// chat rooms
-	//CreateProtoService(PS_JOINCHAT, &CToxProto::OnJoinChatRoom);
-	//CreateProtoService(PS_LEAVECHAT, &CToxProto::OnLeaveChatRoom);
-
 	// transfers
 	transfers = new CTransferList();
 }
@@ -176,12 +172,17 @@ int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre)
 
 int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
-	return Proto_RecvMessage(hContact, pre);
+	return OnReceiveMessage(hContact, pre);
 }
 
 int __cdecl CToxProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SendContacts(MCONTACT, int, int, MCONTACT*) { return 0; }
+
+int CToxProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
+{
+	return OnSendMessage(hContact, flags, msg);
+}
 
 int __cdecl CToxProto::SendUrl(MCONTACT, int, const char*) { return 0; }
 
