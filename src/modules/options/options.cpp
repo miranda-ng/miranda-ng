@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "filter.h"
 
-#define OPENOPTIONSDIALOG_OLD_SIZE 12
-
 #define FILTER_TIMEOUT_TIMER 10012
 
 #define ALL_MODULES_FILTER LPGEN("<all modules>")
@@ -222,24 +220,24 @@ PageHash GetPluginPageHash(const OptionsPageData *page)
 
 static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWndParent, const OptionsPageData *page)
 {
-	TCHAR pluginName[MAX_PATH];
 	HWND hWnd = 0;
 	if (enableKeywordFiltering) {
 		if (current)
 			hWnd = page->hwnd;
 		else {
 			hWnd = CreateDialogIndirectParamA(page->hInst, page->pTemplate, hWndParent, page->dlgProc, page->dwInitParam); //create the options dialog page so we can parse it
-			ShowWindow(hWnd, SW_HIDE); //make sure it's hidden
+			ShowWindow(hWnd, SW_HIDE); // make sure it's hidden
 		}
 	}
 
-	DWORD key = GetPluginPageHash(page); //get the plugin page hash
+	DWORD key = GetPluginPageHash(page); // get the plugin page hash
 
+	TCHAR pluginName[MAX_PATH];
 	char *temp = GetPluginNameByInstance(page->hInst);
 	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->hInst, pluginName, SIZEOF(pluginName)), hWnd, page->ptszGroup, page->ptszTitle, page->ptszTab, _A2T(temp));
 
 	if (enableKeywordFiltering && !current)
-		DestroyWindow(hWnd); //destroy the page, we're done with it
+		DestroyWindow(hWnd); // destroy the page, we're done with it
 }
 
 static int MatchesFilter(const OptionsPageData *page, TCHAR *szFilterString)
@@ -257,13 +255,9 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 
 	RECT rc;
 	GetClientRect(hWnd, &rc);
-	HDC hdc;
-	PAINTSTRUCT paint;
 
-	if (message == WM_PAINT)
-		hdc = BeginPaint(hWnd, &paint);
-	else
-		hdc = (HDC)wParam;
+	PAINTSTRUCT paint;
+	HDC hdc = (message == WM_PAINT) ? BeginPaint(hWnd, &paint) : (HDC)wParam;
 
 	TCHAR buf[255];
 	if (bSearchState == 1 && FilterLoadProgress < 100 && FilterLoadProgress > 0)
@@ -271,7 +265,7 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 	else
 		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Search"));
 
-	BOOL bDrawnByTheme = FALSE;
+	bool bDrawnByTheme = false;
 
 	int oldMode = SetBkMode(hdc, TRANSPARENT);
 
@@ -297,7 +291,7 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 
 		SelectObject(hdc, oldFont);
 		CloseThemeData(hTheme);
-		bDrawnByTheme = TRUE;
+		bDrawnByTheme = true;
 	}
 
 	SetBkMode(hdc, oldMode);
@@ -319,13 +313,12 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 	return 0;
 }
 
-static BOOL CheckPageShow(HWND hdlg, OptionsDlgData* dat, int i)
+static bool CheckPageShow(HWND hdlg, OptionsDlgData *dat, int i)
 {
-	OptionsPageData* opd = dat->arOpd[i];
-
+	OptionsPageData *opd = dat->arOpd[i];
 	if (dat->szFilterString && dat->szFilterString[0] && !MatchesFilter(opd, dat->szFilterString))
-		return FALSE;
-	return TRUE;
+		return false;
+	return true;
 }
 
 static BOOL IsAeroMode()
@@ -357,11 +350,12 @@ static void FreeOptionsPageData(OptionsPageData *opd)
 	mir_free(opd);
 }
 
-static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = WM_PRINT, LPARAM lpFlags = PRF_CLIENT | PRF_NONCLIENT)
+static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+static void AeroPaintControl(HWND hwnd, HDC hdc, UINT msg, LPARAM lpFlags)
 {
-	HBITMAP hBmp, hOldBmp;
-	RECT rc; GetClientRect(hwnd, &rc);
-	BYTE *pBits;
+	RECT rc;
+	GetClientRect(hwnd, &rc);
 
 	HDC tempDC = CreateCompatibleDC(hdc);
 
@@ -372,21 +366,23 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = 
 	bmi.bmiHeader.biPlanes = 1;
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
-	hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, (void **)&pBits, NULL, 0);
 
-	hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
+	BYTE *pBits;
+	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, (void **)&pBits, NULL, 0);
+	HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
 
-	//paint
+	// paint
 	SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)TRUE);
-	mir_callNextSubclass(hwnd, OldWndProc, msg, (WPARAM)tempDC, lpFlags);
+	mir_callNextSubclass(hwnd, AeroPaintSubclassProc, msg, (WPARAM)tempDC, lpFlags);
 	SetPropA(hwnd, "Miranda.AeroRender.Active", (HANDLE)FALSE);
 
 	// Fix alpha channel
 	GdiFlush();
 	for (int i = 0; i < rc.right*rc.bottom; i++, pBits += 4)
-	if (!pBits[3]) pBits[3] = 255;
+		if (!pBits[3])
+			pBits[3] = 255;
 
-	//Copy to output
+	// Copy to output
 	BitBlt(hdc, 0, 0, rc.right, rc.bottom, tempDC, 0, 0, SRCCOPY);
 	SelectObject(tempDC, hOldBmp);
 	DeleteObject(hBmp);
@@ -406,21 +402,19 @@ static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 
 	case WM_PRINT:
 	case WM_PRINTCLIENT:
-		AeroPaintControl(hwnd, (HDC)wParam, AeroPaintSubclassProc, msg, lParam);
-		return TRUE;
-
-	case WM_PAINT:
-	{
-						 PAINTSTRUCT ps;
-						 HDC hdc = BeginPaint(hwnd, &ps);
-						 AeroPaintControl(hwnd, hdc, AeroPaintSubclassProc);
-						 EndPaint(hwnd, &ps);
-	}
+		AeroPaintControl(hwnd, (HDC)wParam, msg, lParam);
 		return TRUE;
 
 	case WM_DESTROY:
 		RemovePropA(hwnd, "Miranda.AeroRender.Active");
 		break;
+
+	case WM_PAINT:
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hwnd, &ps);
+		AeroPaintControl(hwnd, hdc, WM_PRINT, PRF_CLIENT | PRF_NONCLIENT);
+		EndPaint(hwnd, &ps);
+		return TRUE;
 	}
 	return mir_callNextSubclass(hwnd, AeroPaintSubclassProc, msg, wParam, lParam);
 }
@@ -467,7 +461,7 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_SETITEMDATA, (WPARAM)index, 0);
 	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_ADDSTRING, 0, (LPARAM)TranslateT(CORE_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT)CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
-	TCHAR *tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
+	
 	for (int i = 0; i < dat->arOpd.getCount(); i++) {
 		FindFilterStrings(FALSE, FALSE, hDlg, dat->arOpd[i]); // only modules name (fast enougth)
 
@@ -484,7 +478,9 @@ static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 
 		KnownInstances[countKnownInst] = inst;
 		countKnownInst++;
-		GetModuleFileName(inst, tszModuleName, MAX_PATH);
+		
+		TCHAR tszModuleName[MAX_PATH];
+		GetModuleFileName(inst, tszModuleName, SIZEOF(tszModuleName));
 
 		TCHAR *dllName = mir_a2t(GetPluginNameByInstance(inst));
 		if (!dllName) dllName = mir_tstrdup(_tcsrchr(tszModuleName, _T('\\')));
@@ -762,7 +758,7 @@ static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 		return;
 
 	for (int i = 0; i < opi.pageCount; i++) {
-		OptionsPageData* opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
+		OptionsPageData *opd = (OptionsPageData*)mir_calloc(sizeof(OptionsPageData));
 		if (LoadOptionsPage(&opi.odp[i], opd))
 			dat->arOpd.insert(opd);
 		else
@@ -778,7 +774,7 @@ static void UnloadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
 	bool bToRebuildTree = false;
 
 	for (int i = dat->arOpd.getCount() - 1; i >= 0; i--) {
-		OptionsPageData* opd = dat->arOpd[i];
+		OptionsPageData *opd = dat->arOpd[i];
 		if (opd->hInst != hInst)
 			continue;
 
@@ -814,10 +810,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 		if (!ServiceExists(MS_MODERNOPT_SHOW))
 			ShowWindow(GetDlgItem(hdlg, IDC_MODERN), FALSE);
-		{
-			PROPSHEETHEADER *psh = (PROPSHEETHEADER*)lParam;
-			OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)psh->pStartPage;
 
+		dat = new OptionsDlgData;
+		SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
+
+		Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
+		Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
+		EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
+		{
 			COMBOBOXINFO cbi;
 			cbi.cbSize = sizeof(COMBOBOXINFO);
 			GetComboBoxInfo(GetDlgItem(hdlg, IDC_KEYWORD_FILTER), &cbi);
@@ -828,11 +828,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				mir_subclassWindow(cbi.hwndItem, AeroPaintSubclassProc);
 			}
 
-			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
-			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
-			EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
-			dat = new OptionsDlgData;
-			SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
+			PROPSHEETHEADER *psh = (PROPSHEETHEADER*)lParam;
 			SetWindowText(hdlg, psh->pszCaption);
 
 			LOGFONT lf;
@@ -846,6 +842,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			dat->currentPage = -1;
 
 			ptrT lastPage, lastGroup, lastTab;
+			OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)psh->pStartPage;
 			if (ood->pszPage == NULL) {
 				lastPage = db_get_tsa(NULL, "Options", "LastPage");
 
@@ -1043,10 +1040,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						ShowWindow(hwndTab, opd->insideTab ? SW_SHOW : SW_HIDE);
 					}
 
-					if (opd->insideTab)
-						ThemeDialogBackground(opd->hwnd, TRUE);
-					else
-						ThemeDialogBackground(opd->hwnd, FALSE);
+					ThemeDialogBackground(opd->hwnd, opd->insideTab);
 				}
 
 				ShowWindow(opd->hwnd, SW_SHOW);
@@ -1075,7 +1069,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_KEYWORD_FILTER:
-			//add a timer - when the timer elapses filter the option pages
+			// add a timer - when the timer elapses filter the option pages
 			if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE))
 			if (!SetTimer(hdlg, FILTER_TIMEOUT_TIMER, 400, NULL))
 				MessageBeep(MB_ICONSTOP);
@@ -1246,17 +1240,19 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 		if (opi.pageCount == 0)
 			return;
 
-		OPENOPTIONSDIALOG ood = { sizeof(ood) };
+		OPENOPTIONSDIALOG ood = { 0 };
+		ood.cbSize = sizeof(ood);
 		ood.pszGroup = pszGroup;
 		ood.pszPage = pszPage;
 		ood.pszTab = pszTab;
 
-		PROPSHEETHEADER psh = { sizeof(psh) };
+		PROPSHEETHEADER psh = { 0 };
+		psh.dwSize = sizeof(psh);
 		psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
 		psh.nPages = opi.pageCount;
-		psh.pStartPage = (LPCTSTR)&ood;	  //more structure misuse
+		psh.pStartPage = (LPCTSTR)&ood; // more structure misuse
 		psh.pszCaption = TranslateT("Miranda NG options");
-		psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
+		psh.ppsp = (PROPSHEETPAGE*)opi.odp; // blatent misuse of the structure, but what the hell
 
 		hwndOptions = CreateDialogParam(hInst,
 			MAKEINTRESOURCE(bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS),
@@ -1269,34 +1265,20 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 static INT_PTR OpenOptions(WPARAM wParam, LPARAM lParam)
 {
 	OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)lParam;
-	if (ood == NULL)
+	if (ood == NULL || ood->cbSize != sizeof(OPENOPTIONSDIALOG))
 		return 1;
-
-	int hLangpack = (int)wParam;
-	if (ood->cbSize == OPENOPTIONSDIALOG_OLD_SIZE)
-		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, NULL);
-	else if (ood->cbSize == sizeof(OPENOPTIONSDIALOG))
-		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, ood->pszTab);
-	else
-		return 1;
-
+	
+	OpenOptionsNow((int)wParam, ood->pszGroup, ood->pszPage, ood->pszTab);
 	return 0;
 }
 
 static INT_PTR OpenOptionsPage(WPARAM wParam, LPARAM lParam)
 {
 	OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)lParam;
-	if (ood == NULL)
+	if (ood == NULL || ood->cbSize != sizeof(OPENOPTIONSDIALOG))
 		return 1;
 
-	int hLangpack = (int)wParam;
-	if (ood->cbSize == OPENOPTIONSDIALOG_OLD_SIZE)
-		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, NULL, true);
-	else if (ood->cbSize == sizeof(OPENOPTIONSDIALOG))
-		OpenOptionsNow(hLangpack, ood->pszGroup, ood->pszPage, ood->pszTab, true);
-	else
-		return 1;
-
+	OpenOptionsNow((int)wParam, ood->pszGroup, ood->pszPage, ood->pszTab, true);
 	return (INT_PTR)hwndOptions;
 }
 
