@@ -23,6 +23,16 @@
 Вимкнути UDP (примусово використ. TCP)
 [Disable IPv6]
 Вимкнути IPv6
+[Multimedia]
+Мультимедіа
+[Audio input device]
+Пристрій аудіовходу
+[Audio output device]
+Пристрій аудіовиходу
+[Filter audio]
+Фільтр аудіо
+[Video input device]
+Пристрій відеовходу
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
 [Dns name:]
@@ -45,6 +55,8 @@
 Мережа
 [Account]
 Обліковий запис
+[Nodes]
+Ноди
 [%s connection]
 З'єднання %s
 [All files (*.*)]
@@ -65,6 +77,8 @@
 Помилка
 [Enter public key]
 Введіть відкритий ключ
+[nodes]
+ноди
 [Are you sure?]
 Ви впевнені?
 [Node deleting]
