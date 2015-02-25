@@ -35,6 +35,7 @@ IDI_VISITPROFILE        ICON                    "home.ico"
 IDI_HISTORY             ICON                    "history.ico"
 IDI_KEYS                ICON                    "key.ico"
 IDI_BROADCAST           ICON                    "broadcast.ico"
+IDI_STATUS              ICON                    "status.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -31,6 +31,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_REPORTABUSE "/ReportAbuse"
 #define PS_DESTROYKICKCHAT "/DestroyKickChat"
 #define PS_OPENBROADCAST "/OpenBroadcast"
+#define PS_SETSTATUSMSG "/SetStatusMsg"
 #define MAXHISTORYMIDSPERONE 200
 #define MAX_RETRIES 10
 
@@ -319,6 +320,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcSetStatusMsg(WPARAM, LPARAM);
 
 	//==== History Menus ==================================================================
 
@@ -430,6 +432,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveStatusMsg(const CMString &StatusMsg);
 	void RetrieveStatusMusic(const CMString &StatusMsg);
 	void OnReceiveStatus(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+	void OnReceiveStatusMsg(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
 	MCONTACT SetContactInfo(JSONNODE* Item, bool flag = false, bool self = false);
 	void RetrieveMyInfo(void);
@@ -511,6 +514,7 @@ private:
 	};
 	enum ProtoMenuIndexes {
 		PMI_CREATECHAT,
+		PMI_SETSTATUSMSG,
 		PMI_LOADVKNEWS,
 		PMI_VISITPROFILE,
 		PMI_COUNT

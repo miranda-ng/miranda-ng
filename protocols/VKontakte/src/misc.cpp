@@ -79,7 +79,8 @@ static IconItem iconList[] =
 	{ LPGEN("Delete from friend list icon"), "delfriend", IDI_FRIENDDEL },
 	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
 	{ LPGEN("Ban user icon"), "ban", IDI_BAN },
-	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST }
+	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST },
+	{ LPGEN("Status icon"), "status", IDI_STATUS }
 };
 
 void InitIcons()
@@ -481,7 +482,7 @@ CMString CVkProto::RunConfirmationCode()
 	pForm.ptszInitVal = NULL;
 	pForm.szModuleName = m_szModuleName;
 	pForm.szDataPrefix = "confirmcode_";
-	return (!EnterString(&pForm)) ? CMString() : CMString(pForm.ptszResult);
+	return (!EnterString(&pForm)) ? CMString() : CMString(ptrT(pForm.ptszResult));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
