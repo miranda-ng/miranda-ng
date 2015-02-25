@@ -219,7 +219,7 @@ void Protocol::GetStatusMsg(int aStatus, TCHAR *msg, size_t msg_size)
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
 	else if (ServiceExists(MS_AWAYMSG_GETSTATUSMSGT)) {
-		ptrT tmp((TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, 0));
+		ptrT tmp((TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)aStatus, (LPARAM)name));
 		lcopystr(msg, tmp == NULL ? _T("") : tmp, msg_size);
 	}
 }
