@@ -217,8 +217,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 			getBufferedPaintBits = (pfnGetBufferedPaintBits)GetProcAddress(hThemeAPI, "GetBufferedPaintBits");
 		}
 	}
-	else
-		hDwmApi = hThemeAPI = 0;
+	else hDwmApi = hThemeAPI = 0;
 
 	if (bufferedPaintInit)
 		bufferedPaintInit();
