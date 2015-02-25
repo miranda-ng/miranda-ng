@@ -201,6 +201,8 @@ Skype API недоступний, плагін не працюватиме.
 Помилка розподілу пам'яті при запуску.
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
 Ви вперше запустили протокол Skype. Хочете ввімкнути його для цього профілю Miranda NG? Якщо ви відмовитеся, завжди можна ввімкнути його в налаштуваннях.
+[Unable to create mutex!]
+Не вдалося створити м'ютекс!
 [Misc. error]
 Помилка
 [User does not exist, check username]

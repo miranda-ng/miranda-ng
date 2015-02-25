@@ -1,4 +1,3 @@
 ﻿[Unable to register with group chat module!]
 [Cannot register window message.]
-[Unable to create mutex!]
 [Skype ID]
