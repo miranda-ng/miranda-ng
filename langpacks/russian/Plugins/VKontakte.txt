@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.48
+;  Version: 0.1.0.49
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -185,6 +185,8 @@ Cоздать комнату чата
 Значок бана пользователя
 [Broadcast icon]
 Значок трансляции
+[Status icon]
+Значок статуса
 [Protocols]
 Протоколы
 [VKontakte]
@@ -335,6 +337,8 @@ Cоздать комнату чата
 Подключение к серверу %s
 [Create new chat]
 Создать новый чат
+[Status message]
+Сообщение статуса
 [Load news from VK]
 Загрузить новости с VK
 [Visit profile]
@@ -371,6 +375,12 @@ Cоздать комнату чата
 Невозможно добавить пользователя в друзья, так как вы находитесь в его чёрном списке
 [Cannot add this user to friends as you put him on blacklist]
 Невозможно добавить пользователя в друзья, так как он находится в вашем чёрном списке
+[Loading status message from vk.com.\nThis may take some time.]
+Загрузка сообщения статуса с vk.com.\nЭто может занять некоторое время.
+[Waiting...]
+Ожидание....
+[Enter new status message]
+Введите новое сообщение статуса
 [Please authorize me to add you to my friend list.]
 Пожалуйста, разрешите мне добавить вас в список друзей.
 [Are you sure to delete %s from your friend list?]
