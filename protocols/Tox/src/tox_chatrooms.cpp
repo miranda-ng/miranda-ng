@@ -163,6 +163,9 @@ void CToxProto::InitGroupChatModule()
 
 	HookProtoEvent(ME_GC_EVENT, &CToxProto::OnGroupChatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CToxProto::OnGroupChatMenuHook);
+
+	CreateProtoService(PS_JOINCHAT, &CToxProto::OnJoinChatRoom);
+	CreateProtoService(PS_LEAVECHAT, &CToxProto::OnLeaveChatRoom);
 }
 
 void CToxProto::CloseAllChatChatSessions()

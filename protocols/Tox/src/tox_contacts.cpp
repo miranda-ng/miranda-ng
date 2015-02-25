@@ -103,7 +103,7 @@ int32_t CToxProto::GetToxFriendNumber(MCONTACT hContact)
 	int32_t friendNumber = tox_get_friend_number(tox, pubKey);
 	if (friendNumber == TOX_ERROR)
 	{
-		debugLogA("CToxProto::SendMsg: failed to get friend number");
+		debugLogA("CToxProto::GetToxFriendNumber: failed to get friend number");
 	}
 	return friendNumber;
 }
