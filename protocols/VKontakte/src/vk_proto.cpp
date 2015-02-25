@@ -178,6 +178,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_DESTROYKICKCHAT, &CVkProto::SvcDestroyKickChat);
 	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
 	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
+	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
 		
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
@@ -192,6 +193,13 @@ void CVkProto::InitMenus()
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_CHAT_JOIN);
 	mi.pszName = LPGEN("Create new chat");
 	g_hProtoMenuItems[PMI_CREATECHAT] = Menu_AddProtoMenuItem(&mi);
+
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_SETSTATUSMSG);
+	mi.pszService = szService;
+	mi.position = 10009 + PMI_SETSTATUSMSG;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_STATUS));
+	mi.pszName = LPGEN("Status message");
+	g_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_LOADVKNEWS);
 	mi.pszService = szService;

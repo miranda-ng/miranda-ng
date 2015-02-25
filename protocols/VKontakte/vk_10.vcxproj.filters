@@ -117,5 +117,8 @@
     <None Include="res\read.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
+    <None Include="res\status.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
   </ItemGroup>
 </Project>

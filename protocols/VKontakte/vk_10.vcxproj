@@ -214,6 +214,7 @@
     <None Include="res\notify.ico" />
     <None Include="res\read.ico" />
     <None Include="res\report.ico" />
+    <None Include="res\status.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

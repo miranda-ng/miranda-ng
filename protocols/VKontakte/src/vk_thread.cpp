@@ -1023,6 +1023,50 @@ void CVkProto::PollingThread(void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+INT_PTR __cdecl CVkProto::SvcSetStatusMsg(WPARAM, LPARAM)
+{
+	debugLogA("CVkProto::SvcSetStatusMsg");
+	if (!IsOnline())
+		return 1;
+
+	MsgPopup(NULL, TranslateT("Loading status message from vk.com.\nThis may take some time."), TranslateT("Waiting..."));
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/status.get.json", true, &CVkProto::OnReceiveStatusMsg)
+		<< VER_API);
+
+	return 0;
+}
+
+void CVkProto::OnReceiveStatusMsg(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
+{
+	debugLogA("CVkProto::OnReceiveStatusMsg %d", reply->resultCode);
+	if (reply->resultCode != 200)
+		return;
+
+	OnReceiveStatus(reply, pReq);
+	
+	ptrT ptszOldStatusMsg(db_get_tsa(NULL, m_szModuleName, "OldStatusMsg"));
+	CMString tszOldStatusMsg(ptszOldStatusMsg);
+
+	ENTER_STRING pForm = { sizeof(pForm) };
+	pForm.type = ESF_MULTILINE;
+	pForm.caption = TranslateT("Enter new status message");
+	pForm.ptszInitVal = ptszOldStatusMsg;
+	pForm.szModuleName = m_szModuleName;
+	pForm.szDataPrefix = "statusmsgform_";
+
+	if (!EnterString(&pForm))
+		return;
+	
+	CMString tszNewStatusMsg(ptrT(pForm.ptszResult));
+	if (tszOldStatusMsg == tszNewStatusMsg)
+		return;
+
+	RetrieveStatusMsg(tszNewStatusMsg);
+	setTString("OldStatusMsg", ptszOldStatusMsg);
+}
+
+
 void CVkProto::OnReceiveStatus(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 {
 	debugLogA("CVkProto::OnReceiveStatus %d", reply->resultCode);
@@ -1310,5 +1354,3 @@ INT_PTR __cdecl CVkProto::SvcVisitProfile(WPARAM hContact, LPARAM)
 	
 	return 0;
 }
-
-
