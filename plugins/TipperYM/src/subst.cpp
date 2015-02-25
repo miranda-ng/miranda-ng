@@ -705,7 +705,7 @@ TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
 
 	TCHAR *swzText = (TCHAR *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
 	if ((INT_PTR)swzText == CALLSERVICE_NOTFOUND)
-		swzText = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, 0);
+		swzText = (TCHAR *)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, (LPARAM)szProto);
 
 	else if (swzText == NULL) {
 		// try to use service without SGMA_TCHAR
