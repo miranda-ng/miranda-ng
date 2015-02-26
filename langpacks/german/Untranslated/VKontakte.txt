@@ -4,5 +4,8 @@
 [Enter confirmation code]
 [Message from]
 [at]
+[Loading status message from vk.com.\nThis may take some time.]
+[Waiting...]
+[Enter new status message]
 [Your request to the user %s was deleted]
 [User or request was not deleted]

@@ -378,7 +378,7 @@ Cоздать комнату чата
 [Loading status message from vk.com.\nThis may take some time.]
 Загрузка сообщения статуса с vk.com.\nЭто может занять некоторое время.
 [Waiting...]
-Ожидание....
+Ожидание...
 [Enter new status message]
 Введите новое сообщение статуса
 [Please authorize me to add you to my friend list.]

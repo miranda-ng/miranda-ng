@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.48
+;  Version: 0.1.0.49
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -187,6 +187,8 @@ Missbrauch-melden-Icon
 Benutzer-bannen-Icon
 [Broadcast icon]
 Übertragung-Icon
+[Status icon]
+Statusicon
 [Protocols]
 Protokolle
 [VKontakte]
@@ -344,6 +346,8 @@ Anzeigen
 %s Serververbindung
 [Create new chat]
 Neuen Chat erstellen
+[Status message]
+Statusnachricht
 [Load news from VK]
 Neuigkeiten von VK laden
 [Visit profile]
@@ -381,6 +385,12 @@ Sie können diesen Benutzer nicht als Freund hinzufügen da dieser Sie auf seine
 [Cannot add this user to friends as you put him on blacklist]
 Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf seiner Blockierliste hat.
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Loading status message from vk.com.\nThis may take some time.]
+
+[Waiting...]
+
+[Enter new status message]
+
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to delete %s from your friend list?]
