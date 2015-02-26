@@ -925,7 +925,7 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 				int iCol = _ttoi(p + 3);
 				int iInd = GetRtfIndex(iCol, iNumColors, pIndex);
 
-				if (iCol)
+				if (iCol && dat->bType != SESSIONTYPE_CHAT)
 					res.AppendFormat((iInd > 0) ? (bInsideColor ? _T("[/color][color=%s]") : _T("[color=%s]")) : (bInsideColor ? _T("[/color]") : _T("")), Utils::rtf_ctable[iInd - 1].szName);
 
 				bInsideColor = iInd > 0;
@@ -1023,6 +1023,11 @@ BOOL TSAPI DoRtfToTags(const TWindowData *dat, CMString &pszText, int iNumColors
 			break;
 		}
 	}
+
+	if (bInsideColor && dat->bType != SESSIONTYPE_CHAT)
+		res.Append(_T("[/color]"));
+	if (bInsideUl)
+		res.Append(_T("[/u]"));
 
 	pszText = res;
 	return TRUE;
