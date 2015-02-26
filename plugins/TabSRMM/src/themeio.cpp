@@ -37,7 +37,7 @@ static struct _tagExtSettings {
 	char*	szDbModule;
 	char*	szDbSetting;
 	DWORD	dwDef;
-} _extSettings[12] = {
+} _extSettings[] = {
 	"Message Log", "BackgroundColor", FONTMODULE, SRMSGSET_BKGCOLOUR, SRMSGDEFSET_BKGCOLOUR,
 	"Message Log", "IncomingBG", FONTMODULE, "inbg", SRMSGDEFSET_BKGINCOLOUR,
 	"Message Log", "OutgoingBG", FONTMODULE, "outbg", SRMSGDEFSET_BKGOUTCOLOUR,
@@ -64,7 +64,7 @@ struct
 	char*	szDbSetting;
 	DWORD	dwDef;
 }
-static _extSettings_v5[18] =
+static _extSettings_v5[] =
 {
 	{ "CommonClrs", "IP_High", FONTMODULE, "ipfieldsbgHigh", 0xf0f0f0 },
 	{ "CommonClrs", "IP_Low", FONTMODULE, "ipfieldsbg", 0x62caff },
@@ -212,13 +212,13 @@ void TSAPI WriteThemeToINI(const TCHAR *szIniFilenameT, TWindowData *dat)
 	def = SRMSGDEFSET_BKGCOLOUR;
 
 	for (i = 0; i < SIZEOF(_extSettings); i++) {
-		WritePrivateProfileStringA(_extSettings[i].szIniSection, _extSettings[i].szIniName,
-			_itoa(M.GetDword(_extSettings[i].szDbModule, _extSettings[i].szDbSetting, _extSettings[i].dwDef), szBuf, 10), szIniFilename);
+		auto &p = _extSettings[i];
+		WritePrivateProfileStringA(p.szIniSection, p.szIniName, _itoa(M.GetDword(p.szDbModule, p.szDbSetting, p.dwDef), szBuf, 10), szIniFilename);
 	}
 
 	for (i = 0; i < SIZEOF(_extSettings_v5); i++) {
-		WritePrivateProfileStringA(_extSettings_v5[i].szIniSection, _extSettings_v5[i].szIniName,
-			_itoa(M.GetDword(_extSettings_v5[i].szDbModule, _extSettings_v5[i].szDbSetting, _extSettings_v5[i].dwDef), szBuf, 10), szIniFilename);
+		auto &p = _extSettings_v5[i];
+		WritePrivateProfileStringA(p.szIniSection, p.szIniName, _itoa(M.GetDword(p.szDbModule, p.szDbSetting, p.dwDef), szBuf, 10), szIniFilename);
 	}
 
 	WritePrivateProfileStringA("Message Log", "VGrid", _itoa(M.GetByte("wantvgrid", 0), szBuf, 10), szIniFilename);

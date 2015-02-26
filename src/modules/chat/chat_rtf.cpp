@@ -201,6 +201,9 @@ int DoRtfToTags(CMString &pszText, int iNumColors, COLORREF *pColors)
 		}
 	}
 
+	if (bInsideUl)
+		res.Append(_T("[/u]"));
+
 	pszText = res;
 	return TRUE;
 }
