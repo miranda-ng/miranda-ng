@@ -44,7 +44,6 @@ CMString json_as_CMString(JSONNODE* pNode)
 	return tszString;
 }
 
-
 LPCSTR findHeader(NETLIBHTTPREQUEST *pReq, LPCSTR szField)
 {
 	for (int i = 0; i < pReq->headersCount; i++)
@@ -472,7 +471,6 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 	debugLogA("CVkProto::AutoFillForm result = \"%s\"", szResult.GetBuffer());
 	return true;
 }
-
 
 CMString CVkProto::RunConfirmationCode()
 {

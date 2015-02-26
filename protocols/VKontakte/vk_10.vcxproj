@@ -190,6 +190,7 @@
     <ClCompile Include="src\vk_proto.cpp" />
     <ClCompile Include="src\vk_queue.cpp" />
     <ClCompile Include="src\vk_search.cpp" />
+    <ClCompile Include="src\vk_status.cpp" />
     <ClCompile Include="src\vk_thread.cpp" />
   </ItemGroup>
   <ItemGroup>
