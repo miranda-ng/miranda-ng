@@ -6,7 +6,7 @@ implementation
 
 uses
   windows, messages, commctrl,
-  sparam,
+  awkservices,
   common, wrapper, memini,
   iac_global, global,
   m_api, dbsettings, mirutils;
@@ -26,6 +26,7 @@ const
   opt_dllname  = 'dllname';
   opt_funcname = 'funcname';
   opt_argcount = 'argcount';
+  opt_restype  = 'restype';
   opt_argf     = 'argtype';
   opt_argn     = 'argname';
   opt_argv     = 'argvalue';
@@ -35,6 +36,7 @@ type
   private
     dllname:pAnsiChar;
     funcname:pAnsiChar;
+    restype:dword;
 
     argcount:integer;
     argf:array [0..MaxArgCount-1] of dword;
@@ -86,6 +88,7 @@ constructor tCallAction.Create(uid:dword);
 begin
   inherited Create(uid);
 
+  restype:=ACF_TYPE_NUMBER;
   argcount:=0;
   dllname :=nil;
   funcname:=nil;
@@ -110,6 +113,7 @@ function tCallAction.DoAction(var WorkData:tWorkData):LRESULT;
 var
   hDLL:THANDLE;
   pp:pointer;
+  subst:tSubstData;
   res:LRESULT;
   largv:array [0..MaxArgCount-1] of uint_ptr;
   i:integer;
@@ -136,12 +140,21 @@ begin
     pp:=GetProcAddress(hDLL,funcname);
     if pp<>nil then
     begin
-      // prepare arguments?
+      subst.Parameter :=WorkData.Parameter;
+      subst.LastResult:=WorkData.LastResult;
+      case WorkData.ResultType of
+        rtInt : subst.ResultType:=ACF_TYPE_NUMBER;
+        rtWide: subst.ResultType:=ACF_TYPE_UNICODE;
+{!!
+        rtAnsi:
+        rtUTF8:
+}      end;
+      
       for i:=0 to argcount-1 do
       begin
-        largv[i]:=argv[i];
-//!!        PreProcess(argf[i],LPARAM(largv[i]),WorkData);
+        largv[i]:=PrepareParameter(argf[i],LPARAM(argv[i]),subst);
       end;
+
       // call function
       case argcount of
         0: begin
@@ -198,33 +211,44 @@ begin
           else
             res:=sp8(pp)(largv[0],largv[1],largv[2],largv[3],largv[4],largv[5],largv[6],largv[7]);
         end;
+        else
+          res:=0;
       end;
 
       ClearResult(WorkData);
     // result type processing
-      if (flags and (ACF_RSTRING or ACF_UNICODE))<>0 then
-      begin
-        if (flags and ACF_RUNICODE)=0 then
-          AnsiToWide(pAnsiChar(res),pWideChar(WorkData.LastResult),MirandaCP)
-        else
-          StrDupW(pWideChar(WorkData.LastResult),pWideChar(res));
-        WorkData.ResultType:=rtWide;
+      case restype and ACF_TYPE_MASK of
+        ACF_TYPE_STRING,
+        ACF_TYPE_UNICODE: begin
+          WorkData.ResultType:=rtWide;
+          if (restype and ACF_TYPE_MASK)=ACF_TYPE_STRING then
+            AnsiToWide(pAnsiChar(res),pWideChar(WorkData.LastResult),MirandaCP)
+          else
+            StrDupW(pWideChar(WorkData.LastResult),pWideChar(res));
 
-        if (flags and ACF_RFREEMEM)<>0 then
-          mFreeMem(pAnsiChar(res)); //?? Miranda MM??
-      end
-      else if (flags and ACF_RSTRUCT)=0 then
-      begin
-        WorkData.ResultType:=rtInt
-{!!!!
-      end
-      else if (flags and ACF_RSTRUCT)<>0 then
-      begin
-        PostProcess(flags ,lwparam,WorkData);
-        PostProcess(flags2,llparam,WorkData);
+          if (restype and ACF_FLAG_FREEMEM)<>0 then
+            mir_free(pointer(res));
+        end;
+
+        ACF_TYPE_NUMBER: begin
+          WorkData.ResultType:=rtInt;
+          WorkData.LastResult:=res;
+        end;
+(*
+        ACF_TYPE_STRUCT: begin
+{
+          PostProcess(flags ,lwparam,WorkData);
+          PostProcess(flags2,llparam,WorkData);
 }
+        end;
+*)
       end;
       
+      for i:=0 to argcount-1 do
+      begin
+        ReleaseParameter(argf[i],LPARAM(largv[i]));
+      end;
+
     end; 
 //    FreeDllHandle(hDLL);
     if loaded then
@@ -235,12 +259,11 @@ end;
 
 procedure LoadParam(section:PAnsiChar;flags:dword; var param:pointer);
 begin
-  if (flags and (ACF_CURRENT or ACF_RESULT or ACF_PARAM))=0 then
-  begin
-    if (flags and ACF_STRUCT)<>0 then
-      param:=DBReadUTF8(0,DBBranch,section,nil)
-    else
-      param:=DBReadUnicode(0,DBBranch,section,nil);
+  case flags of
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: param:=DBReadUnicode(0,DBBranch,section,nil);
+    ACF_TYPE_STRUCT : param:=DBReadUTF8   (0,DBBranch,section,nil);
   end;
 end;
 
@@ -249,11 +272,20 @@ var
   section: array [0..127] of AnsiChar;
   pc,p,pd,ppd:pAnsiChar;
   i:integer;
+  old:boolean;
 begin
   inherited Load(node,fmt);
   case fmt of
     0: begin
+      // if no restype setting, then ConvertRresultFlags and old:=true;
       pc:=StrCopyE(section,pAnsiChar(node));
+
+      StrCopy(pc,opt_restype ); restype :=DBReadDWord (0,DBBranch,section,dword(-1));
+      old:=restype=dword(-1);
+      if old then
+      begin
+        restype:=ConvertResultFlags(flags);
+      end;
       StrCopy(pc,opt_dllname ); dllname :=DBReadString(0,DBBranch,section);
       StrCopy(pc,opt_funcname); funcname:=DBReadString(0,DBBranch,section);
       StrCopy(pc,opt_argcount); argcount:=DBReadByte  (0,DBBranch,section);
@@ -262,8 +294,7 @@ begin
         pd:=nil;
         for i:=0 to argcount-1 do
         begin
-          IntToStr(StrCopyE(pc,opt_argf),i); argf[i]:=DBReadDWord (0,DBBranch,section);
-          IntToStr(StrCopyE(pc,opt_argn),i); p      :=DBReadString(0,DBBranch,section);
+          IntToStr(StrCopyE(pc,opt_argn),i); p:=DBReadString(0,DBBranch,section);
           if (p=nil) or (p^=#0) then
           begin
             if pd=nil then
@@ -274,7 +305,18 @@ begin
           else
             StrCopy(argn[i],p);
           mFreeMem(p);
-          IntToStr(StrCopyE(pc,opt_argv),i); LoadParam(section,argf[i],pointer(argv[i]));
+
+          if not old then
+          begin
+            LoadParamValue(argf[i],pointer(argv[i]),DBBranch,section);
+          end
+          else
+          begin
+            IntToStr(StrCopyE(pc,opt_argf),i); argf[i]:=DBReadDWord(0,DBBranch,section);
+            argf[i]:=ConvertParamFlags(argf[i]);
+            IntToStr(StrCopyE(pc,opt_argv),i);
+            LoadParam(section,argf[i] and ACF_TYPE_MASK,pointer(argv[i]));
+          end;
         end;
       end;
     end;
@@ -282,20 +324,6 @@ begin
     1: begin
     end;
 }
-  end;
-end;
-
-procedure SaveParam(section:PAnsiChar;flags:dword; param:pointer);
-begin
-  if (flags and (ACF_CURRENT or ACF_RESULT or ACF_PARAM))=0 then
-  begin
-    if pointer(param)<>nil then
-    begin
-      if (flags and ACF_STRUCT)<>0 then
-        DBWriteUTF8(0,DBBranch,section,param)
-      else
-        DBWriteUnicode(0,DBBranch,section,param);
-    end;
   end;
 end;
 
@@ -312,13 +340,13 @@ begin
       StrCopy(pc,opt_dllname ); DBWriteString(0,DBBranch,section,dllname);
       StrCopy(pc,opt_funcname); DBWriteString(0,DBBranch,section,funcname);
       StrCopy(pc,opt_argcount); DBWriteByte  (0,DBBranch,section,argcount);
+      StrCopy(pc,opt_restype ); DBWriteDWord (0,DBBranch,section,restype);
       if argcount>0 then
       begin
         for i:=0 to argcount-1 do
         begin
-          IntToStr(StrCopyE(pc,opt_argf),i); DBWriteDWord (0,DBBranch,section,argf[i]);
           IntToStr(StrCopyE(pc,opt_argn),i); DBWriteString(0,DBBranch,section,argn[i]);
-          IntToStr(StrCopyE(pc,opt_argv),i); SaveParam(section,argf[i],pointer(argv[i]));
+          SaveParamValue(argf[i],pointer(argv[i]),DBBranch,section);
         end;
       end;
     end;
@@ -530,7 +558,7 @@ begin
 
     mFreeMem(pe^.argv[i]);
     StrDup(pAnsiChar(pe^.argv[i]),GetParamSectionStr(sect,buf,''));
-    pe^.argf[i]:=ACF_TEMPLATE;
+    pe^.argf[i]:=ACF_FLAG_TEMPLATE;
   end;
   ChangeArgNumber(Dialog,cnt);
   FillParam(GetArgumentWindow(Dialog),pointer(pe^.argv[0]));
@@ -666,7 +694,8 @@ begin
       pt.x:=rc.left;
       pt.y:=rc.bottom;
       ScreenToClient(Dialog,pt);
-      wnd1:=CreateResultBlock(Dialog,0,pt.y+2,rc.right-rc.left,ACF_NOVISUAL);
+      wnd1:=CreateResultBlock(Dialog,0,pt.y+2,rc.right-rc.left,
+        ACF_BLOCK_NOVISUAL or ACF_BLOCK_NOSTRUCT);
       SetWindowLongPtrW(wnd,GWLP_USERDATA,wnd1);
       ShowWindow(wnd1,SW_HIDE);
 
@@ -753,7 +782,7 @@ begin
           SendMessage(wnd1,CB_SETCURSEL,0,0);
 
           SetParamValue (GetArgumentWindow(Dialog),argf[0],pointer(argv[0]));
-          SetResultValue(GetResultWindow  (Dialog),flags);
+          SetResultValue(GetResultWindow  (Dialog),restype);
         end;
 
       end;
@@ -802,7 +831,7 @@ begin
           end;
         end;
 
-        flags:=flags or GetResultValue(GetResultWindow(Dialog));
+        restype:=GetResultValue(GetResultWindow(Dialog));
         if IsDlgButtonChecked(Dialog,IDC_CDECL)<>BST_UNCHECKED then
           flags:=flags or ACF_CDECL;
 {!!

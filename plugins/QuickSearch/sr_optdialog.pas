@@ -11,7 +11,8 @@ uses
   messages,commctrl,
   m_api,common,mirutils,wrapper,dbsettings,
   sr_global,sr_window,
-  sparam,editwrapper,srvblock;
+  editwrapper,
+  awkservices;
 
 var
   OldListProc:pointer;
@@ -305,8 +306,8 @@ begin
 //      LV_SetItemW(list,column.script,item,3);
     end;
     QST_SERVICE: begin
-      LV_SetItemW(list,TranslateW('Service'),item,2);
-      LV_SetItem (list,column.service       ,item,3);
+      LV_SetItemW(list,TranslateW('Service') ,item,2);
+      LV_SetItem (list,column.service.service,item,3);
     end;
     QST_CONTACTINFO: begin
       LV_SetItemW(list,TranslateW('Contact info')    ,item,2);
@@ -325,7 +326,6 @@ end;
 function savecuritem(Dialog:HWND):integer;
 var
   list:HWND;
-  srvalue:tServiceValue;
   i:integer;
   idx,lwidth:integer;
 begin
@@ -364,13 +364,8 @@ begin
       end;
 
       QST_SERVICE: begin
-        GetSrvBlockValue(ServiceBlock,srvalue);
-        service     :=srvalue.service;
-        wparam.value:=srvalue.wparam;
-        wparam._type:=srvalue.w_flag;
-        lparam.value:=srvalue.lparam;
-        lparam._type:=srvalue.l_flag;
-        restype     :=srvalue.flags;
+        ClearServiceValue(service);
+        GetSrvBlockValue(ServiceBlock,service);
       end;
 
       QST_OTHER: begin
@@ -382,8 +377,6 @@ begin
 end;
 
 procedure displcurinfo(Dialog:HWND;const column:tcolumnitem);
-var
-  srvalue:tServiceValue;
 begin
   ClearScreen(Dialog);
   SetupScreen(Dialog,column.setting_type);
@@ -403,13 +396,7 @@ begin
     end;
 
     QST_SERVICE: begin
-      srvalue.service:=column.service;
-      srvalue.wparam :=pointer(column.wparam.value);
-      srvalue.w_flag :=column.wparam._type;
-      srvalue.lparam :=pointer(column.lparam.value);
-      srvalue.l_flag :=column.lparam._type;
-      srvalue.flags  :=column.restype;
-      SetSrvBlockValue(ServiceBlock,srvalue);
+      SetSrvBlockValue(ServiceBlock,column.service);
     end;
 
     QST_CONTACTINFO: begin
@@ -703,7 +690,8 @@ begin
   ScreenToClient(Dialog,pt1);
 
   height:=pt1.y-pt.y-2;
-  ServiceBlock:=CreateServiceBlock(Dialog,pt.x,pt.y,width,height,ACF_NOSTRUCT);
+  ServiceBlock:=CreateServiceBlock(Dialog,pt.x,pt.y,width,height,
+      ACF_BLOCK_NOSTRUCT+ACF_BLOCK_NOCURRENT);
 
   // Contact info
   // Other

@@ -6,44 +6,9 @@ unit sparam;
 
 interface
 
-uses windows, m_api;
+uses windows, m_api, awkservices;
 
-const
-  // parameter flags
-  ACF_NUMBER   = $00000001; // Param is number
-  ACF_UNICODE  = $00000002; // Param is Unicode string
-  ACF_CURRENT  = $00000004; // Param is ignored, used current user handle
-                            // from current message window
-  ACF_RESULT   = $00000008; // Param is previous action result
-  ACF_PARAM    = $00000010; // Param is Call parameter
-  ACF_STRUCT   = $00000020;
-  ACF_PARTYPE  = ACF_NUMBER  or ACF_UNICODE or
-                 ACF_CURRENT or ACF_RESULT  or
-                 ACF_PARAM   or ACF_STRUCT;
-  ACF_SIGNED       = $00002000; // for future
-  ACF_TEMPLATE     = $00000800;
-  ACF_SCRIPT_PARAM = $00001000;
-  // dummy
-  ACF_STRING  = 0;
-  ACF_RNUMBER = 0;
-
-  // result flags
-  ACF_RSTRING  = $00010000; // Service result is string
-  ACF_RUNICODE = $00020000; // Service result is Widestring
-  ACF_RSTRUCT  = $00040000; // Service result in structure
-  ACF_RFREEMEM = $00080000; // Need to free memory
-  ACF_RHEXNUM  = $00100000; // Show number as hex
-  ACF_RSIGNED  = $00200000; // Show number as signed
-
-  ACF_RTYPE    = ACF_RSTRING or ACF_RUNICODE or
-                 ACF_RSTRUCT or ACF_RFREEMEM or
-                 ACF_RHEXNUM or ACF_RSIGNED;
-
-  // parameter / result block creation flags
-  ACF_NOSTATIC = $01000000; // No label text in block
-  ACF_NOBORDER = $02000000; // No group border around block
-  ACF_NOSTRUCT = $04000000; // don't add structure as param type
-  ACF_NOVISUAL = $08000000; // don't show number view styles
+//----- Parameter dialog -----
 
 function CreateParamBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
 function ClearParamFields(Dialog:HWND):HWND;
@@ -52,14 +17,32 @@ function SetParamValue   (Dialog:HWND;    flags:dword;    value:pointer):boolean
 function GetParamValue   (Dialog:HWND;var flags:dword;var value:pointer):boolean;
 function SetParamLabel   (Dialog:HWND; lbl:PWideChar):HWND;
 
-procedure ClearParam    (flags:dword; var param);
-function  DuplicateParam(flags:dword; var sparam,dparam):dword;
+//----- Parameter value -----
+
+procedure SaveParamValue(    flags:dword;     param:pointer; module,setting:PAnsiChar);
+procedure LoadParamValue(var flags:dword; var param:pointer; module,setting:PAnsiChar);
+procedure ClearParam    (    flags:dword; var param);
+function  DuplicateParam(    flags:dword; var sparam,dparam):dword;
+{??
 function  TranslateParam(param:uint_ptr;flags:dword;hContact:TMCONTACT):uint_ptr;
+}
+
+//----- Execution -----
+
+function  PrepareParameter(flags:dword;const aparam:LPARAM; const data:tSubstData):LPARAM;
+procedure ReleaseParameter(flags:dword;var   aparam:LPARAM);
+
+//----- result dialog -----
 
 function CreateResultBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
 function ClearResultFields(Dialog:HWND):HWND;
-function SetResultValue(Dialog:HWND;flags:dword):integer;
-function GetResultValue(Dialog:HWND):dword;
+function SetResultValue   (Dialog:HWND;flags:dword):integer;
+function GetResultValue   (Dialog:HWND):dword;
+
+//----- Old flags converting -----
+
+function ConvertParamFlags (flags:dword):dword;
+function ConvertResultFlags(flags:dword):dword;
 
 implementation
 
@@ -67,7 +50,9 @@ uses
   messages,
   common, editwrapper, wrapper, syswin,
   sedit, strans,
-  mirutils;
+  dbsettings,mirutils,mircontacts;
+
+//----- Parameter dialog -----
 
 const
   IDC_FLAG_PAR  = 2150;
@@ -92,20 +77,20 @@ begin
       num);
 end;
 
-
 //----- Dialog functions -----
 
 procedure MakeParamTypeList(wnd:HWND; flags:dword);
 begin
   SendMessage(wnd,CB_RESETCONTENT,0,0);
-  InsertString(wnd,ACF_NUMBER ,'number value');
-  InsertString(wnd,ACF_STRING ,'ANSI string');
-  InsertString(wnd,ACF_UNICODE,'Unicode string');
-  InsertString(wnd,ACF_CURRENT,'current contact');
-  InsertString(wnd,ACF_RESULT ,'last result');
-  InsertString(wnd,ACF_PARAM  ,'parameter');
-  if (flags and ACF_NOSTRUCT)=0 then
-    InsertString(wnd,ACF_STRUCT ,'structure');
+  InsertString(wnd, ACF_TYPE_NUMBER , 'number value');
+  InsertString(wnd, ACF_TYPE_STRING , 'ANSI string');
+  InsertString(wnd, ACF_TYPE_UNICODE, 'Unicode string');
+  if (flags and ACF_BLOCK_NOCURRENT)=0 then
+    InsertString(wnd, ACF_TYPE_CURRENT, 'current contact');
+  InsertString(wnd, ACF_TYPE_RESULT , 'last result');
+  InsertString(wnd, ACF_TYPE_PARAM  , 'parameter');
+  if (flags and ACF_BLOCK_NOSTRUCT)=0 then
+    InsertString(wnd, ACF_TYPE_STRUCT, 'structure');
   SendMessage(wnd,CB_SETCURSEL,0,0);
 end;
 
@@ -119,15 +104,15 @@ begin
     result:=false;
 end;
 
-// Set parameter type by parameter template
+// Set parameter type by parameter template for non-numbers
 function FixParam(buf:PAnsiChar):integer;
 begin
-  if      StrCmp(buf,'hContact'    )=0 then result:=ACF_CURRENT
-  else if StrCmp(buf,'parameter'   )=0 then result:=ACF_PARAM
-  else if StrCmp(buf,'result'      )=0 then result:=ACF_RESULT
-  else if StrCmp(buf,'structure'   )=0 then result:=ACF_STRUCT
-  else if StrCmp(buf,'Unicode text')=0 then result:=ACF_UNICODE
-  else                                      result:=ACF_STRING;
+  if      StrCmp(buf,'hContact'    )=0 then result:=ACF_TYPE_CURRENT
+  else if StrCmp(buf,'parameter'   )=0 then result:=ACF_TYPE_PARAM
+  else if StrCmp(buf,'result'      )=0 then result:=ACF_TYPE_RESULT
+  else if StrCmp(buf,'structure'   )=0 then result:=ACF_TYPE_STRUCT
+  else if StrCmp(buf,'Unicode text')=0 then result:=ACF_TYPE_UNICODE
+  else                                      result:=ACF_TYPE_STRING;
 end;
 
 function FixParamControls(Dialog:HWND;atype:dword):dword;
@@ -140,7 +125,7 @@ begin
   wnd :=GetDlgItem(Dialog,IDC_EDIT_PAR);
   wnd1:=GetDlgItem(Dialog,IDC_STRUCT);
 
-  if atype=ACF_STRUCT then
+  if atype=ACF_TYPE_STRUCT then
   begin
     ShowEditField(wnd ,SW_HIDE);
     ShowWindow   (wnd1,SW_SHOW);
@@ -150,11 +135,11 @@ begin
     ShowEditField(wnd ,SW_SHOW);
     ShowWindow   (wnd1,SW_HIDE);
 
-    if atype in [ACF_CURRENT,ACF_RESULT,ACF_PARAM] then
+    if atype in [ACF_TYPE_CURRENT,ACF_TYPE_RESULT,ACF_TYPE_PARAM] then
       EnableEditField(wnd,false)
     else
     begin
-      if atype=ACF_NUMBER then //!!
+      if atype=ACF_TYPE_NUMBER then
       begin
         if SendMessageW(wnd,WM_GETTEXTLENGTH,0,0)=0 then
         begin
@@ -169,7 +154,7 @@ begin
 end;
 
 // get line from template
-function GetParamLine(src:PAnsiChar;dst:PWideChar;var ltype:integer):PAnsiChar;
+function GetParamLine(src:PAnsiChar;dst:PWideChar;var ltype:dword):PAnsiChar;
 var
   pp,pc:PAnsiChar;
   j:integer;
@@ -198,7 +183,7 @@ begin
       FastAnsiToWideBuf(pp+1,dst+j);
       StrCopyW(dst+j,TranslateW(dst+j));
     end;
-    ltype:=ACF_NUMBER;
+    ltype:=ACF_TYPE_NUMBER;
   end
   else
   begin
@@ -221,7 +206,7 @@ var
   bufw:array [0..2047] of WideChar;
   wnd:HWND;
   p,pc:PAnsiChar;
-  ltype:integer;
+  ltype:dword;
 begin
   wnd:=GetDlgItem(Dialog,IDC_EDIT_PAR);
   SendMessage(wnd,CB_RESETCONTENT,0,0);
@@ -235,14 +220,14 @@ begin
         result:=ltype;
       SendMessageW(wnd,CB_ADDSTRING,0,lparam(@bufw));
 
-      if result=ACF_STRUCT then
+      if result=ACF_TYPE_STRUCT then
         break
       else
         p:=pc;
     until pc=nil;
   end
   else
-    result:=ACF_NUMBER;
+    result:=ACF_TYPE_NUMBER;
   SendMessage(wnd,CB_SETCURSEL,0,0);
 
   CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_PAR),result);
@@ -256,8 +241,8 @@ begin
   wnd:=GetDlgItem(Dialog,IDC_EDIT_PAR);
   SendMessage    (wnd,CB_RESETCONTENT,0,0);
   SetEditFlags   (wnd,EF_ALL,0);
-  CB_SelectData(Dialog,IDC_FLAG_PAR,ACF_NUMBER);
-  FixParamControls(Dialog,ACF_NUMBER);
+  CB_SelectData(Dialog,IDC_FLAG_PAR,ACF_TYPE_NUMBER);
+  FixParamControls(Dialog,ACF_TYPE_NUMBER);
   result:=Dialog;
 end;
 
@@ -302,7 +287,7 @@ begin
 
               i:=CB_GetData(GetDlgItem(Dialog,loword(wParam)));
 
-              if i=ACF_STRUCT then
+              if i=ACF_TYPE_STRUCT then
               begin
                 ShowEditField(wnd ,SW_HIDE);
                 ShowWindow   (wnd1,SW_SHOW);
@@ -312,11 +297,11 @@ begin
                 ShowEditField(wnd ,SW_SHOW);
                 ShowWindow   (wnd1,SW_HIDE);
 
-                if i in [ACF_CURRENT,ACF_RESULT,ACF_PARAM] then
+                if i in [ACF_TYPE_CURRENT,ACF_TYPE_RESULT,ACF_TYPE_PARAM] then
                   EnableEditField(wnd,false)
                 else
                 begin
-                  if i=ACF_NUMBER then
+                  if i=ACF_TYPE_NUMBER then
                   begin
                     pcw:='0';
                     SendMessageW(wnd,WM_SETTEXT,0,TLParam(pcw));
@@ -383,7 +368,7 @@ begin
   yo:=0;
 
   // group border
-  if (flags and ACF_NOBORDER)=0 then
+  if (flags and ACF_BLOCK_NOBORDER)=0 then
   begin
     group:=CreateWindowW('BUTTON','Param',WS_CHILD+WS_VISIBLE+WS_GROUP+BS_GROUPBOX,
           0,0,dx,dy, result,IDC_GROUP_PAR,hInstance,nil);
@@ -397,7 +382,7 @@ begin
   end;
 
   // label
-  if (flags and ACF_NOSTATIC)=0 then
+  if (flags and ACF_BLOCK_NOSTATIC)=0 then
   begin
 
     if width<=150 then
@@ -426,7 +411,7 @@ begin
   if fullline then
   begin
     xo:=gx;
-    if (flags and ACF_NOSTATIC)=0 then
+    if (flags and ACF_BLOCK_NOSTATIC)=0 then
       inc(yo,rc.bottom);
   end;
   ctrl:=CreateWindowW('COMBOBOX',nil,WS_CHILD+WS_VISIBLE+WS_VSCROLL+CBS_DROPDOWNLIST+CBS_AUTOHSCROLL,
@@ -451,7 +436,7 @@ begin
 
   // resize group and dialog
   MoveWindow(result,x,y,dx,yo,false);
-  if (flags and ACF_NOBORDER)=0 then
+  if (flags and ACF_BLOCK_NOBORDER)=0 then
     MoveWindow(group,0,0,dx,yo,false);
 
   ClearParamFields(result);
@@ -499,67 +484,57 @@ begin
   result:=true;
 
   wnd:=GetDlgItem(Dialog,IDC_EDIT_PAR);
-  if (flags and ACF_TEMPLATE)<>0 then
+  if (flags and ACF_FLAG_TEMPLATE)<>0 then
   begin
     vtype:=FillParam(Dialog,value);
   end
-  else if (flags and ACF_PARAM)<>0 then
-  begin
-    SendMessageW(wnd,WM_SETTEXT,0,LPARAM(TranslateW('Parameter')));
-    EnableWindow(wnd,false);
-    vtype:=ACF_PARAM;
-  end
-  else if (flags and ACF_RESULT)<>0 then
-  begin
-    SendMessageW(wnd,WM_SETTEXT,0,LPARAM(TranslateW('Last result')));
-    EnableWindow(wnd,false);
-    vtype:=ACF_RESULT;
-  end
-  else if (flags and ACF_CURRENT)<>0 then
-  begin
-    SendMessageW(wnd,WM_SETTEXT,0,LPARAM(TranslateW('Current user')));
-    EnableWindow(wnd,false);
-    vtype:=ACF_CURRENT;
-  end
-  else if (flags and ACF_STRUCT)<>0 then
-  begin
-    vtype:=ACF_STRUCT;
-
-    ShowEditField(wnd,SW_HIDE);
-    wnd1:=GetDlgItem(Dialog,IDC_STRUCT);
-    ShowWindow(wnd1,SW_SHOW);
-    // delete old value
-    pc:=PAnsiChar(GetWindowLongPtrW(wnd1,GWLP_USERDATA));
-    mFreeMem(pc);
-    // set newly allocated
-    SetWindowLongPtrW(wnd1,GWLP_USERDATA,long_ptr(StrDup(pc,PAnsiChar(value))));
-//!!!!!!!!
-  end
-  else if (flags and ACF_NUMBER)<>0 then
-  begin
-    vtype:=ACF_NUMBER;
-    if value=nil then
-      pcw:='0'
-    else
-      pcw:=value;
-    SendMessageW(wnd,WM_SETTEXT,0,LPARAM(pcw));
-  end
-  else if (flags and ACF_UNICODE)<>0 then
-  begin
-    vtype:=ACF_UNICODE;
-    SendMessageW(wnd,WM_SETTEXT,0,LPARAM(value));
-  end
   else
   begin
-    vtype:=ACF_STRING;
-    SendMessageW(wnd,WM_SETTEXT,0,LPARAM(value));
+    vtype:=flags and ACF_TYPE_MASK;
+    case vtype of
+      ACF_TYPE_PARAM: begin
+        SendMessageW(wnd,WM_SETTEXT,0,LPARAM(TranslateW('Parameter')));
+        EnableWindow(wnd,false);
+      end;
+      ACF_TYPE_RESULT: begin
+        SendMessageW(wnd,WM_SETTEXT,0,LPARAM(TranslateW('Last result')));
+        EnableWindow(wnd,false);
+      end;
+      ACF_TYPE_CURRENT: begin
+        SendMessageW(wnd,WM_SETTEXT,0,LPARAM(TranslateW('Current user')));
+        EnableWindow(wnd,false);
+      end;
+      ACF_TYPE_STRUCT: begin
+        ShowEditField(wnd,SW_HIDE);
+        wnd1:=GetDlgItem(Dialog,IDC_STRUCT);
+        ShowWindow(wnd1,SW_SHOW);
+        // delete old value
+        pc:=PAnsiChar(GetWindowLongPtrW(wnd1,GWLP_USERDATA));
+        mFreeMem(pc);
+        // set newly allocated
+        SetWindowLongPtrW(wnd1,GWLP_USERDATA,long_ptr(StrDup(pc,PAnsiChar(value))));
+    //!!!!!!!!
+      end;
+      ACF_TYPE_NUMBER: begin
+        if value=nil then
+          pcw:='0'
+        else
+          pcw:=value;
+        SendMessageW(wnd,WM_SETTEXT,0,LPARAM(pcw));
+      end;
+      ACF_TYPE_UNICODE,
+      ACF_TYPE_STRING: begin
+        SendMessageW(wnd,WM_SETTEXT,0,LPARAM(value));
+      end;
+    end;
   end;
-  SetEditFlags(wnd,EF_SCRIPT,ord((flags and ACF_SCRIPT_PARAM)<>0));
+  SetEditFlags(wnd,EF_SCRIPT,ord((flags and ACF_FLAG_SCRIPT)<>0));
   
   CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_PAR),vtype);
   FixParamControls(Dialog,vtype);
 end;
 
+//?? preserve ACF_TEMPLATE flag??
 function GetParamValue(Dialog:HWND;var flags:dword;var value:pointer):boolean;
 var
   wnd:HWND;
@@ -571,93 +546,179 @@ begin
   end;
 
   result:=true;
-  flags:=0;
   value:=nil;
   wnd:=GetDlgItem(Dialog,IDC_EDIT_PAR);
-  case CB_GetData(GetDlgItem(Dialog,IDC_FLAG_PAR)) of
-    ACF_PARAM: begin
-      flags:=flags or ACF_PARAM
-    end;
-    ACF_RESULT: begin
-      flags:=flags or ACF_RESULT
-    end;
-    ACF_CURRENT: begin
-      flags:=flags or ACF_CURRENT
-    end;
-    ACF_NUMBER: begin
-      flags:=flags or ACF_NUMBER;
+  flags:=CB_GetData(GetDlgItem(Dialog,IDC_FLAG_PAR));
+  case flags of
+    ACF_TYPE_UNICODE,
+    ACF_TYPE_STRING,
+    ACF_TYPE_NUMBER: begin
       value:=GetDlgText(wnd);
     end;
-    ACF_STRUCT: begin
-      flags:=flags or ACF_STRUCT;
+    ACF_TYPE_STRUCT: begin
       StrDup(PAnsiChar(value),
           PAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_STRUCT),GWLP_USERDATA)));
     end;
-    ACF_UNICODE: begin
-      flags:=flags or ACF_UNICODE;
-      value:=GetDlgText(wnd);
-    end;
-    ACF_STRING: value:=GetDlgText(wnd);
   end;
   if (GetEditFlags(wnd) and EF_SCRIPT)<>0 then
-     flags:=flags or ACF_SCRIPT_PARAM;
+     flags:=flags or ACF_FLAG_SCRIPT;
+end;
+
+//----- Parameter value -----
+
+const
+  ioflags:PAnsiChar = 'flags';
+  iovalue:PAnsiChar = 'value';
+
+procedure SaveParamValue(flags:dword; param:pointer; module,setting:PAnsiChar);
+var
+  buf:array [0..127] of AnsiChar;
+  p:PAnsiChar;
+begin
+  p:=StrCopyE(buf,setting); p^:='/'; inc(p);
+  StrCopy(p,ioflags); DBWriteDWord(0,module,buf,flags);
+  StrCopy(p,iovalue);
+  case flags and ACF_TYPE_MASK of
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: DBWriteUnicode(0,module,buf,param);
+    ACF_TYPE_STRUCT : DBWriteString (0,module,buf,param);
+  end;
+end;
+
+procedure LoadParamValue(var flags:dword; var param:pointer; module,setting:PAnsiChar);
+var
+  buf:array [0..127] of AnsiChar;
+  p:PAnsiChar;
+begin
+  p:=StrCopyE(buf,setting); p^:='/'; inc(p);
+  StrCopy(p,ioflags); flags:=DBReadDWord(0,module,buf);
+  StrCopy(p,iovalue);
+  case flags and ACF_TYPE_MASK of
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: param:=DBReadUnicode(0,module,buf);
+    ACF_TYPE_STRUCT : param:=DBReadString (0,module,buf);
+  end;
+end;
+
+procedure ClearParam(flags:dword; var param);
+begin
+{
+  if not ((flags and ACF_TYPE_MASK) in [ACF_TYPE_CURRENT, ACF_TYPE_RESULT, ACF_TYPE_PARAM]) then
+    mFreeMem(pointer(param));
+}
+  case flags of
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE,
+    ACF_TYPE_STRUCT : mFreeMem(pointer(param));
+  end;
+end;
+
+//----- Execution -----
+
+function PrepareParameter(flags:dword;const aparam:LPARAM; const data:tSubstData):LPARAM;
+var
+  tmp1:PWideChar;
+  typ:dword;
+begin
+  typ:=flags and ACF_TYPE_MASK;
+  case typ of
+    ACF_TYPE_STRUCT: begin
+      result:=uint_ptr(MakeStructure(pAnsiChar(aparam),
+          data.Parameter,data.LastResult,data.ResultType=ACF_TYPE_NUMBER))
+    end;
+
+    ACF_TYPE_PARAM: begin
+      result:=data.Parameter;
+    end;
+
+    ACF_TYPE_RESULT: begin
+      result:=data.LastResult;
+    end;
+
+    ACF_TYPE_CURRENT: begin
+      result:=WndToContact(WaitFocusedWndChild(GetForegroundwindow){GetFocus});
+    end;
+
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: begin
+      if (flags and ACF_FLAG_SCRIPT)<>0 then
+        tmp1:=ParseVarString(pWideChar(aparam),data.Parameter)
+      else
+        tmp1:=pWideChar(aparam);
+
+      if typ<>ACF_TYPE_NUMBER then
+      begin
+        if typ<>ACF_TYPE_UNICODE then
+          WideToAnsi(tmp1,pAnsiChar(result),MirandaCP)
+        else
+          StrDupW(pWideChar(result),tmp1);
+      end
+      else
+        result:=NumToInt(tmp1);
+
+      if (flags and ACF_FLAG_SCRIPT)<>0 then
+        mFreeMem(tmp1);
+    end;
+  else
+    result:=0;
+  end;
+end;
+
+procedure ReleaseParameter(flags:dword;var aparam:LPARAM);
+begin
+  case flags and ACF_TYPE_MASK of
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: mFreeMem(pointer(aparam));
+    ACF_TYPE_STRUCT : FreeStructure(aparam);
+  end;
 end;
 
 //----- Additional functions -----
 
-procedure ClearParam(flags:dword; var param);
-begin
-  if (flags and (ACF_CURRENT or ACF_RESULT or ACF_PARAM))=0 then
-    mFreeMem(pointer(param));
-end;
-
 function DuplicateParam(flags:dword; var sparam,dparam):dword;
 var
   tmpdst:array [0..2047] of WideChar;
-  ltype:integer;
+  ltype:dword;
 begin
   mFreeMem(dparam);
 
-  if (flags and ACF_TEMPLATE)<>0 then
+  if (flags and ACF_FLAG_TEMPLATE)<>0 then
   begin
-    flags:=flags and not (ACF_TEMPLATE or ACF_PARTYPE);
+    flags:=flags and not (ACF_FLAG_TEMPLATE or ACF_TYPE_MASK);
     GetParamLine(PAnsiChar(sparam),tmpdst,ltype);
+    flags:=flags or ltype;
     case ltype of
-      ACF_NUMBER: begin
-        flags:=flags or ACF_NUMBER;
+      ACF_TYPE_NUMBER,
+      ACF_TYPE_STRING,
+      ACF_TYPE_UNICODE: begin
         StrDupW(PWideChar(dparam),PWideChar(@tmpdst));
       end;
-      ACF_STRING: begin
-        flags:=flags or ACF_STRING;
-        StrDupW(PWideChar(dparam),PWideChar(@tmpdst));
-      end;
-      ACF_UNICODE: begin
-        flags:=flags or ACF_UNICODE;
-        StrDupW(PWideChar(dparam),PWideChar(@tmpdst));
-      end;
-      ACF_STRUCT: begin
-        flags:=flags or ACF_STRUCT;
+      ACF_TYPE_STRUCT: begin
         StrDup(PAnsiChar(dparam),PAnsiChar(sparam)+10); //10=StrLen('structure|')
       end;
-      ACF_CURRENT: flags:=flags or ACF_CURRENT;
-      ACF_RESULT : flags:=flags or ACF_RESULT;
-      ACF_PARAM  : flags:=flags or ACF_PARAM;
     end;
   end
-  else if (flags and (ACF_CURRENT or ACF_RESULT or ACF_PARAM))=0 then
+  else
   begin
-    if (flags and ACF_NUMBER)<>0 then
-      StrDupW(PWideChar(dparam),PWideChar(sparam))
-    else if (flags and ACF_STRUCT)<>0 then
-      StrDup(PAnsiChar(dparam),PAnsiChar(sparam))
-    else if (flags and  ACF_UNICODE)<>0 then
-      StrDupW(PWideChar(dparam),PWideChar(sparam))
-    else
-      StrDupW(PWideChar(dparam),PWideChar(sparam));
+    case flags and ACF_TYPE_MASK of
+      ACF_TYPE_NUMBER,
+      ACF_TYPE_STRING,
+      ACF_TYPE_UNICODE: begin
+        StrDupW(PWideChar(dparam),PWideChar(sparam))
+      end;
+      ACF_TYPE_STRUCT: begin
+        StrDup(PAnsiChar(dparam),PAnsiChar(sparam))
+      end;
+    end;
   end;
   result:=flags;
 end;
 
+{??
 function TranslateParam(param:uint_ptr;flags:dword;hContact:TMCONTACT):uint_ptr;
 var
   tmp1:PWideChar;
@@ -666,21 +727,27 @@ begin
     result:=uint_ptr(ParseVarString(PWideChar(param),hContact));
 
   tmp1:=PWideChar(result);
-  if (flags and ACF_NUMBER)=0 then
-  begin
-    if (flags and ACF_UNICODE)=0 then
-      WideToAnsi(tmp1,PAnsiChar(result),MirandaCP)
-    else
+  case flags and ACF_TYPE_MASK of
+    ACF_TYPE_NUMBER: begin
+      result:=NumToInt(tmp1);
+    end;
+    ACF_TYPE_UNICODE: begin
       StrDupW(PWideChar(result),tmp1);
+    end;
+    ACF_TYPE_STRING,
+    ACF_TYPE_STRUCT: begin
+      WideToAnsi(tmp1,PAnsiChar(result),MirandaCP)
+    end;
   end
   else
-    result:=NumToInt(tmp1);
 
   if (flags and ACF_SCRIPT_PARAM)<>0 then
     mFreeMem(tmp1);
 end;
+}
 
-//===== result block =====
+
+//----- Result dialog -----
 
 function ClearResultFields(Dialog:HWND):HWND;
 var
@@ -693,7 +760,7 @@ begin
 
   CheckDlgButton(Dialog,IDC_RES_FREEMEM,BST_UNCHECKED);
   ShowWindow(GetDlgItem(Dialog,IDC_RES_FREEMEM),SW_HIDE);
-  CB_SelectData(Dialog,IDC_RES_TYPE,ACF_RNUMBER);
+  CB_SelectData(Dialog,IDC_RES_TYPE,ACF_TYPE_NUMBER);
 
   w:=GetDlgItem(Dialog,IDC_RES_HEXNUM);
   if w<>0 then
@@ -706,11 +773,11 @@ end;
 procedure MakeResultTypeList(wnd:HWND;flags:dword);
 begin
   SendMessage(wnd,CB_RESETCONTENT,0,0);
-  InsertString(wnd,ACF_RNUMBER ,'number value');
-  InsertString(wnd,ACF_RSTRING ,'ANSI string');
-  InsertString(wnd,ACF_RUNICODE,'Unicode string');
-  if (flags and ACF_NOSTRUCT)=0 then
-    InsertString(wnd,ACF_RSTRUCT ,'structure');
+  InsertString(wnd, ACF_TYPE_NUMBER , 'number value');
+  InsertString(wnd, ACF_TYPE_STRING , 'ANSI string');
+  InsertString(wnd, ACF_TYPE_UNICODE, 'Unicode string');
+  if (flags and ACF_BLOCK_NOSTRUCT)=0 then
+    InsertString(wnd, ACF_TYPE_STRUCT, 'structure');
   SendMessage(wnd,CB_SETCURSEL,0,0);
 end;
 
@@ -759,15 +826,16 @@ begin
           case loword(wParam) of
             IDC_RES_TYPE: begin
               case CB_GetData(lParam) of
-                ACF_RNUMBER: begin
+                ACF_TYPE_NUMBER: begin
                   i:=SW_HIDE;
                   j:=SW_SHOW;
                 end;
-                ACF_RSTRUCT: begin
+                ACF_TYPE_STRUCT: begin
                   i:=SW_HIDE;
                   j:=SW_HIDE;
                 end;
-                ACF_RSTRING,ACF_RUNICODE: begin
+                ACF_TYPE_STRING,
+                ACF_TYPE_UNICODE: begin
                   i:=SW_SHOW;
                   j:=SW_HIDE;
                 end;
@@ -816,7 +884,7 @@ begin
   yo:=0;
 
   // group border
-  if (flags and ACF_NOBORDER)=0 then
+  if (flags and ACF_BLOCK_NOBORDER)=0 then
   begin
     group:=CreateWindowW('BUTTON','Result',WS_CHILD+WS_VISIBLE+WS_GROUP+BS_GROUPBOX,
           0,0,dx,dy, result,0,hInstance,nil);
@@ -830,7 +898,7 @@ begin
   end;
 
   // label
-  if (flags and ACF_NOSTATIC)=0 then
+  if (flags and ACF_BLOCK_NOSTATIC)=0 then
   begin
     if width<=150 then
     begin
@@ -858,7 +926,7 @@ begin
   if fullline then
   begin
     xo:=gx;
-    if (flags and ACF_NOSTATIC)=0 then
+    if (flags and ACF_BLOCK_NOSTATIC)=0 then
       inc(yo,rc.bottom);
   end;
   ctrl:=CreateWindowW('COMBOBOX',nil,WS_CHILD+WS_VISIBLE+WS_VSCROLL+CBS_DROPDOWNLIST+CBS_AUTOHSCROLL,
@@ -876,7 +944,7 @@ begin
   SendMessageW(ctrl,WM_SETFONT,hf,0);
   inc(yo,rc.bottom+4);
 
-  if (flags and ACF_NOVISUAL)=0 then
+  if (flags and ACF_BLOCK_NOVISUAL)=0 then
   begin
     dec(yo,rc.bottom+4);
 
@@ -893,7 +961,7 @@ begin
 
   // resize group and dialog
   MoveWindow(result,x,y,dx,yo,false);
-  if (flags and ACF_NOBORDER)=0 then
+  if (flags and ACF_BLOCK_NOBORDER)=0 then
     MoveWindow(group,0,0,dx,yo,false);
 
   ClearResultFields(result);
@@ -907,49 +975,47 @@ var
 begin
   if Dialog=0 then
   begin
-    result:=ACF_RNUMBER;
+    result:=ACF_TYPE_NUMBER;
     exit;
   end;
 
   // RESULT
+  result:=flags and ACF_TYPE_MASK;
+  
   sh :=SW_HIDE;
   sh1:=SW_HIDE;
   w:=GetDlgItem(Dialog,IDC_RES_HEXNUM);
-  if (flags and ACF_RSTRUCT)<>0 then
-    result:=ACF_RSTRUCT
-  else if (flags and (ACF_RSTRING or ACF_RUNICODE))<>0 then
-  begin
-    sh:=SW_SHOW;
 
-    if (flags and ACF_RFREEMEM)<>0 then
-      btn:=BST_CHECKED
-    else
-      btn:=BST_UNCHECKED;
-    CheckDlgButton(Dialog,IDC_RES_FREEMEM,btn);
+  case result of
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: begin
+      sh:=SW_SHOW;
 
-    if (flags and ACF_RUNICODE)<>0 then
-      result:=ACF_RUNICODE
-    else
-      result:=ACF_RSTRING;
-  end
-  else
-  begin
-    result:=ACF_RNUMBER;
-    if w<>0 then
-    begin
-      sh1:=SW_SHOW;
-      if (flags and ACF_RSIGNED)<>0 then
+      if (flags and ACF_FLAG_FREEMEM)<>0 then
         btn:=BST_CHECKED
       else
         btn:=BST_UNCHECKED;
-      CheckDlgButton(Dialog,IDC_RES_SIGNED,btn);
-      if (flags and ACF_RHEXNUM)<>0 then
-        btn:=BST_CHECKED
-      else
-        btn:=BST_UNCHECKED;
-      CheckDlgButton(Dialog,IDC_RES_HEXNUM,btn);
+      CheckDlgButton(Dialog,IDC_RES_FREEMEM,btn);
+    end;
+
+    ACF_TYPE_NUMBER: begin
+      if w<>0 then
+      begin
+        sh1:=SW_SHOW;
+        if (flags and ACF_FLAG_SIGNED)<>0 then
+          btn:=BST_CHECKED
+        else
+          btn:=BST_UNCHECKED;
+        CheckDlgButton(Dialog,IDC_RES_SIGNED,btn);
+        if (flags and ACF_FLAG_HEXNUM)<>0 then
+          btn:=BST_CHECKED
+        else
+          btn:=BST_UNCHECKED;
+        CheckDlgButton(Dialog,IDC_RES_HEXNUM,btn);
+      end;
     end;
   end;
+
   ShowWindow(GetDlgItem(Dialog,IDC_RES_FREEMEM),sh);
   if w<>0 then
   begin
@@ -963,33 +1029,92 @@ function GetResultValue(Dialog:HWND):dword;
 begin
   if Dialog=0 then
   begin
-    result:=ACF_RNUMBER;
+    result:=ACF_TYPE_NUMBER;
     exit;
   end;
 
-  case CB_GetData(GetDlgItem(Dialog,IDC_RES_TYPE)) of
-    ACF_RSTRING: begin
-      result:=ACF_RSTRING;
+  result:=CB_GetData(GetDlgItem(Dialog,IDC_RES_TYPE));
+  case result of
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: begin
       if IsDlgButtonChecked(Dialog,IDC_RES_FREEMEM)=BST_CHECKED then
-        result:=result or ACF_RFREEMEM;
+        result:=result or ACF_FLAG_FREEMEM;
     end;
-    ACF_RUNICODE: begin
-      result:={!!atavizm ACF_RSTRING or }ACF_RUNICODE;
-      if IsDlgButtonChecked(Dialog,IDC_RES_FREEMEM)=BST_CHECKED then
-        result:=result or ACF_RFREEMEM;
-    end;
-    ACF_RSTRUCT: result:=ACF_RSTRUCT;
-  else
-    result:=ACF_RNUMBER;
-    if GetDlgItem(Dialog,IDC_RES_HEXNUM)<>0 then
-    begin
-      if IsDlgButtonChecked(Dialog,IDC_RES_SIGNED)=BST_CHECKED then
-        result:=result or ACF_RSIGNED
-      else if IsDlgButtonChecked(Dialog,IDC_RES_HEXNUM)=BST_CHECKED then
-        result:=result or ACF_RHEXNUM;
+    ACF_TYPE_NUMBER: begin
+      if GetDlgItem(Dialog,IDC_RES_HEXNUM)<>0 then
+      begin
+        if IsDlgButtonChecked(Dialog,IDC_RES_SIGNED)=BST_CHECKED then
+          result:=result or ACF_FLAG_SIGNED
+        else if IsDlgButtonChecked(Dialog,IDC_RES_HEXNUM)=BST_CHECKED then
+          result:=result or ACF_FLAG_HEXNUM;
+      end;
     end;
   end;
 
+end;
+
+//--------------------------------
+
+const
+  // parameter flags
+  ACF_OLD_NUMBER   = $00000001;
+  ACF_OLD_UNICODE  = $00000002;
+  ACF_OLD_CURRENT  = $00000004;
+
+  ACF_OLD_RESULT   = $00000008;
+  ACF_OLD_PARAM    = $00000010;
+  ACF_OLD_STRUCT   = $00000020;
+  ACF_PARTYPE  = ACF_OLD_NUMBER  or ACF_OLD_UNICODE or
+                 ACF_OLD_CURRENT or ACF_OLD_RESULT  or
+                 ACF_OLD_PARAM   or ACF_OLD_STRUCT;
+  ACF_OLD_TEMPLATE     = $00000800;
+  ACF_OLD_SCRIPT_PARAM = $00001000;
+  // dummy
+  ACF_OLD_STRING  = 0;
+  ACF_OLD_RNUMBER = 0;
+
+  ACF_OLD_RSTRING  = $00010000;
+  ACF_OLD_RUNICODE = $00020000;
+  ACF_OLD_RSTRUCT  = $00040000;
+  ACF_OLD_RFREEMEM = $00080000;
+  ACF_OLD_RHEXNUM  = $00100000;
+  ACF_OLD_RSIGNED  = $00200000;
+
+  ACF_RTYPE = ACF_OLD_RSTRING or ACF_OLD_RUNICODE or ACF_OLD_RSTRUCT;
+
+  ACF_OLD_SCRIPT_SERVICE = $00800000;
+
+function ConvertParamFlags(flags:dword):dword;
+begin
+  case flags and ACF_PARTYPE of
+    ACF_OLD_NUMBER : result:=ACF_TYPE_NUMBER;
+    ACF_OLD_UNICODE: result:=ACF_TYPE_UNICODE;
+    ACF_OLD_CURRENT: result:=ACF_TYPE_CURRENT;
+    ACF_OLD_RESULT : result:=ACF_TYPE_RESULT;
+    ACF_OLD_PARAM  : result:=ACF_TYPE_PARAM;
+    ACF_OLD_STRUCT : result:=ACF_TYPE_STRUCT;
+    ACF_OLD_STRING : result:=ACF_TYPE_STRING;
+  else
+    result:=ACF_TYPE_NUMBER;
+  end;
+  if (flags and ACF_OLD_TEMPLATE    )<>0 then result:=result or ACF_FLAG_TEMPLATE;
+  if (flags and ACF_OLD_SCRIPT_PARAM)<>0 then result:=result or ACF_FLAG_SCRIPT;
+end;
+
+function ConvertResultFlags(flags:dword):dword;
+begin
+  case flags and ACF_RTYPE of
+    ACF_OLD_RNUMBER : result:=ACF_TYPE_NUMBER;
+    ACF_OLD_RUNICODE: result:=ACF_TYPE_UNICODE;
+    ACF_OLD_RSTRUCT : result:=ACF_TYPE_STRUCT;
+    ACF_OLD_RSTRING : result:=ACF_TYPE_STRING;
+  else
+    result:=ACF_TYPE_NUMBER;
+  end;
+  if (flags and ACF_OLD_RFREEMEM)<>0 then result:=result or ACF_FLAG_FREEMEM;
+  if (flags and ACF_OLD_RHEXNUM )<>0 then result:=result or ACF_FLAG_HEXNUM;
+  if (flags and ACF_OLD_RSIGNED )<>0 then result:=result or ACF_FLAG_SIGNED;
+  if (flags and ACF_OLD_SCRIPT_SERVICE)<>0 then result:=result or ACF_FLAG_SCRIPT;
 end;
 
 end.
