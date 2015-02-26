@@ -44,7 +44,6 @@ HANDLE CVkProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName,
 	return (HANDLE)1;
 }
 
-
 void CVkProto::SearchBasicThread(void* id)
 {
 	debugLogA("CVkProto::OnSearchBasicThread");

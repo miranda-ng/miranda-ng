@@ -199,7 +199,6 @@ struct CVKNotification {
 	TCHAR *ptszTranslate;
 };
 
-
 struct CVKNewsItem : public MZeroedObject {
 	CVKNewsItem() : 
 		tDate(NULL),
@@ -230,7 +229,6 @@ struct CVKBBCItem {
 	TCHAR *ptszTempate;
 };
 
-
 struct TFakeAckParams
 {
 	__inline TFakeAckParams(MCONTACT _hContact, int _msgid) :
@@ -240,7 +238,6 @@ struct TFakeAckParams
 	MCONTACT hContact;
 	int msgid;
 };
-
 
 struct CVkProto : public PROTO<CVkProto>
 {

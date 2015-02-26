@@ -23,7 +23,6 @@ static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
 }
 
 LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
-
 static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
 
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
@@ -561,50 +560,6 @@ void CVkProto::OnSendMessage(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 
 //////////////////////////////////////////////////////////////////////////////
 
-int CVkProto::SetStatus(int iNewStatus)
-{
-	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %d", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == NULL? 0 : 1 );
-	if (m_iDesiredStatus == iNewStatus || iNewStatus == ID_STATUS_IDLE)
-		return 0;
-
-	int oldStatus = m_iStatus;
-	m_iDesiredStatus = iNewStatus;
-
-	if (iNewStatus == ID_STATUS_OFFLINE) {
-		if (IsOnline()) {
-			SetServerStatus(ID_STATUS_OFFLINE);
-			debugLogA("CVkProto::SetStatus ShutdownSession");
-			ShutdownSession();
-		}
-
-		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		debugLogA("CVkProto::SetStatus (1) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-	}
-	else if (m_hWorkerThread == NULL && !(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
-		m_iStatus = ID_STATUS_CONNECTING;
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		debugLogA("CVkProto::SetStatus (2) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-		m_hWorkerThread = ForkThreadEx(&CVkProto::WorkerThread, 0, NULL);
-	}
-	else if (IsOnline()) {
-		debugLogA("CVkProto::SetStatus (3) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-		SetServerStatus(iNewStatus);
-	}
-	else {
-		debugLogA("CVkProto::SetStatus (4) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		if (!(m_iStatus >= ID_STATUS_CONNECTING && m_iStatus < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES))
-			m_iDesiredStatus = m_iStatus;
-		debugLogA("CVkProto::SetStatus (5) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-	}
-
-	debugLogA("CVkProto::SetStatus (ret) iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d oldStatus = %d", iNewStatus, m_iStatus, m_iDesiredStatus, oldStatus);
-	return 0;
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
 int CVkProto::OnEvent(PROTOEVENTTYPE event, WPARAM wParam, LPARAM lParam)
 {
 	switch (event) {
@@ -739,16 +694,6 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 	return 1;
 }
 
-MCONTACT CVkProto::AddToListByEvent(int, int, MEVENT)
-{
-	return NULL;
-}
-
-int CVkProto::AuthRecv(MCONTACT, PROTORECVEVENT *)
-{
-	return 1;
-}
-
 int CVkProto::GetInfo(MCONTACT hContact, int)
 {
 	debugLogA("CVkProto::GetInfo");
@@ -759,42 +704,12 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	return 0;
 }
 
-int CVkProto::RecvContacts(MCONTACT, PROTORECVEVENT *)
-{
-	return 1;
-}
-
-int CVkProto::RecvUrl(MCONTACT, PROTORECVEVENT *)
-{
-	return 1;
-}
-
-int CVkProto::SendContacts(MCONTACT, int, int, MCONTACT*)
-{
-	return 1;
-}
-
-int CVkProto::SendUrl(MCONTACT, int, const char*)
-{
-	return 1;
-}
-
-int CVkProto::SetApparentMode(MCONTACT, int)
-{
-	return 1;
-}
-
-int CVkProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-HANDLE CVkProto::GetAwayMsg(MCONTACT)
-{
-	return 0; // Status messages are disabled
-}
-
-int CVkProto::SetAwayMsg(int, const PROTOCHAR*)
-{
-	return 0; // Status messages are disabled
-}
+//////////////////////////////////////////////////////////////////////////////
+MCONTACT CVkProto::AddToListByEvent(int, int, MEVENT) {	return NULL; }
+int CVkProto::AuthRecv(MCONTACT, PROTORECVEVENT *) { return 1; }
+int CVkProto::RecvContacts(MCONTACT, PROTORECVEVENT *) { return 1; }
+int CVkProto::RecvUrl(MCONTACT, PROTORECVEVENT *) {	return 1; }
+int CVkProto::SendContacts(MCONTACT, int, int, MCONTACT*) {	return 1; }
+int CVkProto::SendUrl(MCONTACT, int, const char*) {	return 1; }
+int CVkProto::SetApparentMode(MCONTACT, int) { return 1; }
+//////////////////////////////////////////////////////////////////////////////
