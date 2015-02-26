@@ -4,6 +4,7 @@ unit strans;
 interface
 
 uses windows{$IFDEF Miranda}, m_api, mirutils{$ENDIF};
+
 // <align>|[<key>]<type> [(<type alias>)] [<alias>] [arr.len] [value]|
 const
   char_separator = '|';
@@ -33,14 +34,7 @@ const
   SF_MMI    = $00000004;
   SF_SIZE   = $00000008;
   SF_LAST   = $00000080;
-type
-  // int_ptr = to use aligned structure data at start
-  PStructResult = ^TStructResult;
-  TStructResult = record
-    typ   :int_ptr;
-    len   :int_ptr;
-    offset:int_ptr;
-  end;
+
 type
   TStructType = record
     typ  :integer;
@@ -69,7 +63,6 @@ const
 {$ENDIF}
   );
 
-
 type
   tOneElement = record
     etype :integer;
@@ -84,26 +77,31 @@ type
       true : (text :pointer);
   end;
 
+//----- Editor connect -----
 
 function GetOneElement(txt:PAnsiChar;var res:tOneElement;
                        SizeOnly:boolean;num:integer=0):integer;
 procedure FreeElement(var element:tOneElement);
 
-function MakeStructure(txt:PAnsiChar;aparam,alast:LPARAM
-         {$IFDEF Miranda}; restype:integer=rtInt{$ENDIF}):pointer;
+//----- Execute -----
 
-function GetStructureResult(var struct;atype:pinteger=nil;alen:pinteger=nil):int_ptr;
+function MakeStructure(txt:PAnsiChar;aparam,alast:LPARAM; isNumber:boolean=true):pointer;
+
+function GetStructureResult(var struct):PWideChar;
 
 procedure FreeStructure(var struct);
+
 
 implementation
 
 uses common;
 
 type
-  pint_ptr = ^int_ptr;
-  TWPARAM = WPARAM;
-  TLPARAM = LPARAM;
+  puint64   = ^uint64;
+  pint_ptr  = ^int_ptr;
+  puint_ptr = ^uint_ptr;
+  TWPARAM   = WPARAM;
+  TLPARAM   = LPARAM;
 
 type
   pShortTemplate = ^tShortTemplate;
@@ -113,6 +111,15 @@ type
     offset:word;
   end;
 
+type
+  // int_ptr = to use aligned structure data at start
+  PStructResult = ^TStructResult;
+  TStructResult = record
+    typ   :int_ptr;
+    len   :int_ptr;
+    offset:int_ptr;
+  end;
+
 // adjust offset to field
 function AdjustSize(var summ:int_ptr;eleadjust:integer;adjust:integer):integer;
 var
@@ -120,7 +127,7 @@ var
 begin
   // packed, byte or array of byte
   if adjust=0 then
-    adjust:={$IFDEF WIN32}4{$ELSE}8{$ENDIF}; // SizeOf(int_ptr);
+    adjust:=SizeOf(pointer);
 
   if (adjust=1) or (eleadjust=1) then
   else
@@ -507,8 +514,7 @@ begin
   end;
 end;
 
-function MakeStructure(txt:PAnsiChar;aparam,alast:LPARAM
-         {$IFDEF Miranda}; restype:integer=rtInt{$ENDIF}):pointer;
+function MakeStructure(txt:PAnsiChar;aparam,alast:LPARAM; isNumber:boolean=true):pointer;
 var
   summ:int_ptr;
   lsrc:PAnsiChar;
@@ -620,7 +626,7 @@ begin
     if (element.flags and SF_SCRIPT)<>0 then
     begin
 {$IFDEF Miranda}
-      if restype=rtInt then
+      if isNumber then
         pLast:=IntToStr(buf,alast)
       else
         pLast:=PWideChar(alast);
@@ -759,7 +765,7 @@ begin
   tmpl^.flags:=tmpl^.flags or SF_LAST;
 end;
 
-function GetStructureResult(var struct;atype:pinteger=nil;alen:pinteger=nil):int_ptr;
+function GetResultPrivate(var struct;atype:pinteger=nil;alen:pinteger=nil):uint_ptr;
 var
   loffset,ltype:integer;
 begin
@@ -775,20 +781,61 @@ begin
     SST_LAST : result:=0;
     SST_PARAM: result:=0;
 
-    SST_BYTE  : result:=PByte   (PAnsiChar(struct)+loffset)^;
-    SST_WORD  : result:=pWord   (PAnsiChar(struct)+loffset)^;
-    SST_DWORD : result:=pDword  (PAnsiChar(struct)+loffset)^;
-    SST_QWORD : result:=pint64  (PAnsiChar(struct)+loffset)^;
-    SST_NATIVE: result:=pint_ptr(PAnsiChar(struct)+loffset)^;
+    SST_BYTE  : result:=PByte    (PAnsiChar(struct)+loffset)^;
+    SST_WORD  : result:=pWord    (PAnsiChar(struct)+loffset)^;
+    SST_DWORD : result:=pDword   (PAnsiChar(struct)+loffset)^;
+    SST_QWORD : result:=puint64  (PAnsiChar(struct)+loffset)^;
+    SST_NATIVE: result:=puint_ptr(PAnsiChar(struct)+loffset)^;
 
-    SST_BARR: result:=int_ptr(PAnsiChar(struct)+loffset); //??
-    SST_WARR: result:=int_ptr(PAnsiChar(struct)+loffset); //??
+    SST_BARR: result:=uint_ptr(PAnsiChar(struct)+loffset); //??
+    SST_WARR: result:=uint_ptr(PAnsiChar(struct)+loffset); //??
 
-    SST_BPTR: result:=pint_ptr(PAnsiChar(struct)+loffset)^; //??
-    SST_WPTR: result:=pint_ptr(PAnsiChar(struct)+loffset)^; //??
+    SST_BPTR: result:=puint_ptr(PAnsiChar(struct)+loffset)^; //??
+    SST_WPTR: result:=puint_ptr(PAnsiChar(struct)+loffset)^; //??
   else
     result:=0;
   end;
+end;
+
+function GetStructureResult(var struct):PWideChar;
+var
+  buf:array [0..31] of WideChar;
+  pc:pAnsiChar;
+  data:uint_ptr;
+  code:integer;
+  len:integer;
+begin
+  data:=GetResultPrivate(struct,@code,@len);
+  case code of
+    SST_BYTE,SST_WORD,SST_DWORD,
+    SST_QWORD,SST_NATIVE: begin
+      StrDupW(result,IntToStr(buf,data));
+    end;
+
+    SST_BARR: begin
+      StrDup(pc,pAnsiChar(data),len);
+      AnsiToWide(pc,result{$IFDEF Miranda},MirandaCP{$ENDIF});
+      mFreeMem(pc);
+    end;
+
+    SST_WARR: begin
+      StrDupW(result,pWideChar(data),len);
+    end;
+
+    SST_BPTR: begin
+      AnsiToWide(pAnsiChar(data),result{$IFDEF Miranda},MirandaCP{$ENDIF});
+    end;
+
+    SST_WPTR: begin
+      StrDupW(result,pWideChar(data));
+    end;
+  else
+    result:=nil;
+  end;
+{
+  FreeStructure(struct); //??
+  uint_ptr(struct):=0;
+}
 end;
 
 procedure FreeStructure(var struct);

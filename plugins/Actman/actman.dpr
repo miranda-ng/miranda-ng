@@ -35,6 +35,7 @@ uses
   wrapper,
   dbsettings,
   mirutils,
+  awkservices,
   global,
   lowlevelc,
   dlgshare,

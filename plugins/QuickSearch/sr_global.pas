@@ -1,7 +1,7 @@
 unit sr_global;
 
 interface
-uses windows,messages,commctrl,m_api,dbsettings,mirutils;
+uses windows,messages,commctrl,m_api,dbsettings,mirutils,awkservices;
 
 const
   QS_QS     :PAnsiChar = 'QS_QS';
@@ -75,12 +75,6 @@ const
 {$include resource.inc}
 
 type
-  tserviceparam = record
-    value:pWideChar;
-    _type:dword;
-  end;
-
-type
   pcolumnitem = ^tcolumnitem;
   tcolumnitem = record
     title          :PWideChar;
@@ -97,12 +91,7 @@ type
       // script
       1: (script:pWideChar);
       // service
-      2: (
-        service:pAnsiChar;
-        wparam :tserviceparam;
-        lparam :tserviceparam;
-        restype:dword;
-      );
+      2: (service:tServiceValue);
       // contact info
       3: (cnftype:word);      // CNF_* constants
       // other
@@ -153,7 +142,7 @@ const
 
 implementation
 
-uses common, sparam;
+uses common;
 
 const
   HKN_GLOBAL:PAnsiChar = 'QS_Global';
@@ -294,11 +283,7 @@ begin
       StrDupW(dst.script,dst.script);
     end;
     QST_SERVICE: begin
-      StrDup(dst.service,dst.service);
-      if (dst.wparam._type=ACF_STRING) or (dst.wparam._type=ACF_UNICODE) then
-        StrDupW(pWideChar(dst.wparam.value),pWideChar(dst.wparam.value));
-      if (dst.lparam._type=ACF_STRING) or (dst.lparam._type=ACF_UNICODE) then
-        StrDupW(pWideChar(dst.lparam.value),pWideChar(dst.lparam.value));
+      CopyServiceValue(dst.service,src.service);
     end;
   end;
   result:=true;
@@ -332,11 +317,7 @@ begin
       mFreeMem(column.script);
     end;
     QST_SERVICE: begin
-      mFreeMem(column.service);
-      if (column.wparam._type=ACF_STRING) or (column.wparam._type=ACF_UNICODE) then
-        mFreeMem(pointer(column.wparam.value));
-      if (column.wparam._type=ACF_STRING) or (column.wparam._type=ACF_UNICODE) then
-        mFreeMem(pointer(column.lparam.value));
+      ClearServiceValue(column.service);
     end;
     QST_CONTACTINFO: begin
     end;
@@ -392,11 +373,11 @@ begin
     width          :=82;
     flags          :=COL_ON;
     setting_type   :=QST_SERVICE;
-    StrDup (service,MS_PROTO_GETCONTACTBASEACCOUNT);
-    restype        :=ACF_RSTRING;
-    wparam._type   :=ACF_CURRENT;
-    lparam._type   :=ACF_NUMBER;
-    lparam.value   :=nil;
+    StrDup (service.service,MS_PROTO_GETCONTACTBASEACCOUNT);
+    service.flags  :=ACF_TYPE_STRING;
+    service.w_flags:=ACF_TYPE_PARAM;
+    service.l_flags:=ACF_TYPE_NUMBER;
+    service.lparam :=nil;
   end;
   inc(i);
 
@@ -429,11 +410,11 @@ begin
     width          :=76;
     flags          :=COL_ON+COL_FILTER;
     setting_type   :=QST_SERVICE;
-    StrDup(service,MS_CLIST_GETCONTACTDISPLAYNAME);
-    restype        :=ACF_RUNICODE;
-    wparam._type   :=ACF_CURRENT;
-    lparam._type   :=ACF_NUMBER;
-    lparam.value   :='2'; // 0 for ANSI
+    StrDup(service.service,MS_CLIST_GETCONTACTDISPLAYNAME);
+    service.flags  :=ACF_TYPE_UNICODE;
+    service.w_flags:=ACF_TYPE_PARAM;
+    service.l_flags:=ACF_TYPE_NUMBER;
+    StrDupW(pWideChar(service.lparam),'2'); // 0 for ANSI
   end;
   inc(i);
 
@@ -660,22 +641,8 @@ begin
       end;
 
       QST_SERVICE: begin
-        StrCopy(p,so__service    ); WriteStr(buf,service);
-        StrCopy(p,so__restype    ); WriteInt(buf,restype);
-        StrCopy(p,so__wparam_type); WriteInt(buf,wparam._type);
-        StrCopy(p,so__lparam_type); WriteInt(buf,lparam._type);
-        StrCopy(p,so__wparam);
-        case wparam._type of
-          ACF_NUMBER : WriteUnicode(buf,wparam.value);
-          ACF_STRING : WriteStr    (buf,pointer(wparam.value));
-          ACF_UNICODE: WriteUnicode(buf,pointer(wparam.value));
-        end;
-        StrCopy(p,so__lparam);
-        case lparam._type of
-          ACF_NUMBER : WriteUnicode(buf,lparam.value);
-          ACF_STRING : WriteStr    (buf,pointer(lparam.value));
-          ACF_UNICODE: WriteUnicode(buf,pointer(lparam.value));
-        end;
+        p^:=#0;
+        SaveServiceValue(service,qs_module,buf);
       end;
 
       QST_OTHER: begin
@@ -735,11 +702,18 @@ begin
                                        QSO_COLORIZE+QSO_SORTASC);
 end;
 
+const
+  ACF_OLD_NUMBER  = 1;
+  ACF_OLD_STRING  = 0;
+  ACF_OLD_UNICODE = 2;
+  ACF_OLD_PARTYPE = $FF;
+
 function loadopt_db(var columns:array of tcolumnitem):integer;
 var
   buf:array [0..127] of AnsiChar;
   buf1:array [0..31] of WideChar;
   p,pp:PAnsiChar;
+  tmp:PAnsiChar;
   i:integer;
 begin
   if DBGetSettingType(0,qs_module,so_flags)=DBVT_DELETED then
@@ -795,32 +769,68 @@ begin
             StrCopy(p,so__cnftype); cnftype:=GetWord(buf,0);
           end;
 
-          QST_SERVICE: begin
-            StrCopy(p,so__service); service:=GetStr(buf);
-            StrCopy(p,so__restype); restype:=GetInt(buf,0);
-            StrCopy(p,so__wparam_type); wparam._type:=GetInt(buf,0);
-            StrCopy(p,so__lparam_type); lparam._type:=GetInt(buf,0);
-            StrCopy(p,so__wparam);
-            case wparam._type of
-              ACF_NUMBER : begin
-                if DBGetSettingType(0,qs_module,so__wparam)=DBVT_DWORD then
-                  StrDupW(wparam.value,IntToStr(buf1,GetInt(buf,0)))
-                else
-                  wparam.value:=pointer(GetUnicode(buf));
+          QST_SERVICE: begin //!!!!
+            // check for old settings
+            StrCopy(p,so__service); service.service:=GetStr(buf);
+            // new format
+            if service.service=nil then
+            begin
+              p^:=#0;
+              LoadServiceValue(service,qs_module,buf);
+            end
+            //----- old format -----
+            else
+            begin
+              StrCopy(p,so__restype    ); service.flags  :=ConvertResultFlags(GetInt(buf,0));
+              StrCopy(p,so__wparam_type); service.w_flags:=ConvertParamFlags (GetInt(buf,0));
+              StrCopy(p,so__lparam_type); service.l_flags:=ConvertParamFlags (GetInt(buf,0));
+
+              //----- WPARAM -----
+              StrCopy(p,so__wparam);
+              case service.w_flags and ACF_TYPE_MASK of
+                // cheat
+                ACF_TYPE_CURRENT: begin
+                  service.w_flags:=(service.w_flags and not ACF_TYPE_CURRENT) or ACF_TYPE_PARAM;
+                end;
+
+                ACF_TYPE_NUMBER : begin
+                  if DBGetSettingType(0,qs_module,buf) in [DBVT_WORD,DBVT_DWORD] then
+                    StrDupW(PWideChar(service.wparam),IntToStr(buf1,GetInt(buf,0)))
+                  else
+                    service.wparam:=pointer(GetUnicode(buf));
+                end;
+                // ansi convert to unicode
+                ACF_TYPE_STRING : begin
+                  tmp:=GetStr(buf);
+                  AnsiToWide(tmp,PWideChar(service.wparam),MirandaCP);
+                  mFreeMem(tmp);
+                end;
+                ACF_TYPE_UNICODE: service.wparam:=pointer(GetUnicode(buf));
               end;
-              ACF_STRING : wparam.value:=pointer(GetStr(buf));
-              ACF_UNICODE: wparam.value:=pointer(GetUnicode(buf));
-            end;
-            StrCopy(p,so__lparam);
-            case lparam._type of
-              ACF_NUMBER : begin
-                if DBGetSettingType(0,qs_module,so__lparam)=DBVT_DWORD then
-                  StrDupW(lparam.value,IntToStr(buf1,GetInt(buf,0)))
-                else
-                  lparam.value:=pointer(GetUnicode(buf));
+
+              //----- LPARAM -----
+              StrCopy(p,so__lparam);
+              case service.l_flags and ACF_TYPE_MASK of
+                // cheat
+                ACF_TYPE_CURRENT: begin
+                  service.l_flags:=(service.l_flags and not ACF_TYPE_CURRENT) or ACF_TYPE_PARAM;
+                end;
+
+                ACF_TYPE_NUMBER : begin
+                  if DBGetSettingType(0,qs_module,buf) in [DBVT_WORD,DBVT_DWORD] then
+                    StrDupW(PWideChar(service.lparam),IntToStr(buf1,GetInt(buf,0)))
+                  else
+                    service.lparam:=pointer(GetUnicode(buf));
+                end;
+                // ansi convert to unicode
+                ACF_TYPE_STRING : begin
+                  tmp:=GetStr(buf);
+                  AnsiToWide(tmp,PWideChar(service.lparam),MirandaCP);
+                  mFreeMem(tmp);
+                end;
+                ACF_TYPE_UNICODE: service.lparam:=pointer(GetUnicode(buf));
               end;
-              ACF_STRING : lparam.value:=pointer(GetStr(buf));
-              ACF_UNICODE: lparam.value:=pointer(GetUnicode(buf));
+
             end;
           end;
 

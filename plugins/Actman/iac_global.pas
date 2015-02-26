@@ -6,6 +6,14 @@ uses
   windows, messages,
   m_api;
 
+
+const
+  rtUnkn = 0;
+  rtInt  = 1;
+  rtWide = 2;
+  rtAnsi = 3;
+  rtUTF8 = 4;
+
 var
   xmlparser:TXML_API_W;
 
@@ -268,18 +276,6 @@ begin
   else if rt^<>rtUnkn then
   begin
     result:=NumToInt(pWideChar(lr^));
-{
-    if (pWideChar(WorkData.LastResult)[0]='$') and
-       (AnsiChar(pWideChar(WorkData.LastResult)[1]) in sHexNum) then
-      result:=HexToInt(pWideChar(WorkData.LastResult)+1)
-    else
-    if (pWideChar(WorkData.LastResult)[0]='0') and
-       (pWideChar(WorkData.LastResult)[1]='x') and
-       (AnsiChar(pWideChar(WorkData.LastResult)[2]) in sHexNum) then
-      result:=HexToInt(pWideChar(WorkData.LastResult)+2)
-    else
-      result:=StrToInt(pWideChar(WorkData.LastResult));
-}
   end;
 end;
 

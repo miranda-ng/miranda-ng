@@ -6,41 +6,44 @@ unit srvblock;
 interface
 
 uses
-  windows;
+  windows,
+  awkservices;
 
-const
-  ACF_SCRIPT_SERVICE = $00800000; // high bit in low byte of hight word (lower uses in actions
-  ACF_SCRIPT_EXPAND  = $10000000; // all subblocks are visible (block creation only)
-
-type
-  pServiceValue = ^tServiceValue;
-  tServiceValue = record
-    service:PAnsiChar;
-    wparam,
-    lparam: pointer;
-    w_flag,
-    l_flag,
-    flags:dword; // result etc
-  end;
+//----- Service dialog -----
 
 function  CreateServiceBlock(parent:HWND;x,y,width,height:integer;flags:dword=0):HWND;
-procedure ClearServiceBlock(Dialog:HWND);
+procedure ClearServiceBlock (Dialog:HWND);
 procedure SetServiceListMode(Dialog:HWND;mode:integer);
 
 function SetSrvBlockValue(Dialog:HWND;const value:tServiceValue):boolean;
 function GetSrvBlockValue(Dialog:HWND;var   value:tServiceValue):boolean;
-
-// service setting will load templates
+// service setting for templates
 procedure SetSrvBlockService(Dialog:HWND; service:PAnsiChar);
 function  GetSrvBlockService(Dialog:HWND):PAnsiChar;
+
+//----- ServiceValue functions -----
+
+procedure CopyServiceValue (var   dst :tServiceValue; const src:tServiceValue);
+procedure ClearServiceValue(var   data:tServiceValue);
+procedure SaveServiceValue (const data:tServiceValue; module,setting:PAnsiChar);
+procedure LoadServiceValue (var   data:tServiceValue; module,setting:PAnsiChar);
+
+//----- Service execute -----
+
+function ExecuteService(const service:tServiceValue; var data:tSubstData):boolean;
+
 
 implementation
 
 uses
   messages,
-  common, m_api,
+  common, m_api, syswin,
   wrapper,Editwrapper,
-  mApiCardM, sparam;
+  dbsettings,mApiCardM,
+  mirutils,mircontacts,
+  sparam,strans;
+
+//----- Service dialog -----
 
 const
   IDC_S_SERVICE  = 2040;
@@ -177,26 +180,6 @@ begin
   if pc<>nil then
   begin
     FillParam(GetWPar(Dialog),pc);
-(*
-    if GetDlgItemTextA(Dialog,IDC_EDIT_WPAR,buf1,SizeOf(buf1))>0 then
-      case FixParam(Dialog,@buf1,IDC_FLAG_WPAR) of
-        ptStruct: begin
-          if setvalue then
-          begin
-            struct:=PAnsiChar(SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,
-            long_ptr(StrDup(struct,StrScan(pc,'|')+1))));
-            mFreeMem(struct);
-          end;
-
-{          struct:=PAnsiChar(GetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA));
-          mFreeMem(struct);
-          StrDup(struct,StrScan(pc,'|')+1);
-          SetWindowLongPtrW(GetDlgItem(Dialog,IDC_WSTRUCT),GWLP_USERDATA,long_ptr(struct));
-//            AnsiToWide(StrScan(pc,'|')+1,wstruct,MirandaCP);
-}
-        end;
-      end;
-*)
     mFreeMem(pc);
   end;
 
@@ -208,18 +191,12 @@ begin
   end;
 
   pc:=ApiCard.ResultType;
-  flag:=ACF_RNUMBER;
+  flag:=ACF_TYPE_NUMBER;
   if pc<>nil then
   begin
-    if      lstrcmpia(pc,'struct')=0 then flag:=ACF_RSTRUCT
-    else if lstrcmpia(pc,'str')=0 then
-    begin
-      flag:=ACF_RSTRING;
-    end
-    else if lstrcmpia(pc,'wide')=0 then
-    begin
-      flag:=ACF_RUNICODE;
-    end;
+    if      lstrcmpia(pc,'struct')=0 then flag:=ACF_TYPE_STRUCT
+    else if lstrcmpia(pc,'str'   )=0 then flag:=ACF_TYPE_STRING
+    else if lstrcmpia(pc,'wide'  )=0 then flag:=ACF_TYPE_UNICODE;
     mFreeMem(pc);
   end;
 
@@ -335,7 +312,7 @@ begin
   inc(dy,rc.bottom+2);
   MakeEditField(result,IDC_C_SERVICE);
 
-  if (flags and ACF_SCRIPT_EXPAND)<>0 then
+  if (flags and ACF_BLOCK_EXPAND)<>0 then
     bs:=WS_CHILD+BS_AUTOCHECKBOX+BS_PUSHLIKE
   else
     bs:=WS_CHILD+WS_VISIBLE+BS_AUTOCHECKBOX+BS_PUSHLIKE;
@@ -345,34 +322,34 @@ begin
   ctrl:=CreateWindowW('BUTTON','wParam',bs,
         0,dy,dx,rc.bottom, result,IDC_CLOSE_WPAR,hInstance,nil);
   SendMessageW(ctrl,WM_SETFONT,hf,0);
-  if (flags and ACF_SCRIPT_EXPAND)=0 then
+  if (flags and ACF_BLOCK_EXPAND)=0 then
     inc(dy,rc.bottom+4);
 
   wnd:=CreateParamBlock(result,0,dy,dx,flags);
   SetWindowLongPtrW(ctrl,GWLP_USERDATA,wnd);
   SetParamLabel(wnd,'wParam');
   GetClientRect(wnd,rc1);
-  if (flags and ACF_SCRIPT_EXPAND)<>0 then
+  if (flags and ACF_BLOCK_EXPAND)<>0 then
     inc(dy,rc1.bottom+8);
 
   // lParam button+block
   ctrl:=CreateWindowW('BUTTON','lParam',bs,
         0,dy,dx,rc.bottom, result,IDC_CLOSE_LPAR,hInstance,nil);
   SendMessageW(ctrl,WM_SETFONT,hf,0);
-  if (flags and ACF_SCRIPT_EXPAND)=0 then
+  if (flags and ACF_BLOCK_EXPAND)=0 then
     inc(dy,rc.bottom+4);
 
   wnd:=CreateParamBlock(result,0,dy,dx,flags);
   SetWindowLongPtrW(ctrl,GWLP_USERDATA,wnd);
   SetParamLabel(wnd,'lParam');
-  if (flags and ACF_SCRIPT_EXPAND)<>0 then
+  if (flags and ACF_BLOCK_EXPAND)<>0 then
     inc(dy,rc1.bottom+8);
 
   // result button+block
   ctrl:=CreateWindowW('BUTTON','Result',bs,
         0,dy,dx,rc.bottom, result,IDC_CLOSE_RES,hInstance,nil);
   SendMessageW(ctrl,WM_SETFONT,hf,0);
-  if (flags and ACF_SCRIPT_EXPAND)=0 then
+  if (flags and ACF_BLOCK_EXPAND)=0 then
     inc(dy,rc.bottom+4);
 
   wnd:=CreateResultBlock(result,0,dy,dx,flags);
@@ -382,7 +359,7 @@ begin
   // autoresize panel
   if height=0 then
   begin
-    if (flags and ACF_SCRIPT_EXPAND)=0 then
+    if (flags and ACF_BLOCK_EXPAND)=0 then
     begin
       if rc1.bottom>rc.bottom then
         h:=rc1.bottom
@@ -401,7 +378,7 @@ begin
   ApiCard.FillList(srv);
   SetWindowLongPtrW(srvs,GWLP_USERDATA,long_ptr(ApiCard));
 
-  if (flags and ACF_SCRIPT_EXPAND)=0 then
+  if (flags and ACF_BLOCK_EXPAND)=0 then
     ShowBlock(result,IDC_CLOSE_WPAR);
 end;
 
@@ -413,9 +390,9 @@ begin
   SetDlgItemTextA(Dialog,IDC_C_SERVICE,'');
   SetEditFlags(GetDlgItem(Dialog,IDC_C_SERVICE),EF_SCRIPT,0);
 
-  SetParamValue (GetWPar(Dialog),ACF_NUMBER,nil);
-  SetParamValue (GetLPar(Dialog),ACF_NUMBER,nil);
-  SetResultValue(GetRes (Dialog),ACF_RNUMBER);
+  SetParamValue (GetWPar(Dialog),ACF_TYPE_NUMBER,nil);
+  SetParamValue (GetLPar(Dialog),ACF_TYPE_NUMBER,nil);
+  SetResultValue(GetRes (Dialog),ACF_TYPE_NUMBER);
 end;
 
 procedure SetServiceListMode(Dialog:HWND;mode:integer);
@@ -445,11 +422,11 @@ begin
     SetDlgItemTextA(Dialog,IDC_C_SERVICE,value.service);
 
   SetEditFlags(GetDlgItem(Dialog,IDC_C_SERVICE),EF_SCRIPT,
-        ord((value.flags and ACF_SCRIPT_SERVICE)<>0));
+        ord((value.flags and ACF_FLAG_SCRIPT)<>0));
 
-  SetParamValue (GetWPar(Dialog),value.w_flag,value.wparam);
-  SetParamValue (GetLPar(Dialog),value.l_flag,value.lparam);
-  SetResultValue(GetRes (Dialog),value.flags and ACF_RTYPE);
+  SetParamValue (GetWPar(Dialog),value.w_flags,value.wparam);
+  SetParamValue (GetLPar(Dialog),value.l_flags,value.lparam);
+  SetResultValue(GetRes (Dialog),value.flags);
 end;
 
 function GetSrvBlockValue(Dialog:HWND;var value:tServiceValue):boolean;
@@ -467,12 +444,12 @@ begin
   ApiCard:=GetApiCard(Dialog);
   value.service:=ApiCard.NameFromList(GetDlgItem(Dialog,IDC_C_SERVICE));
 
-  GetParamValue(GetWPar(Dialog),value.w_flag,value.wparam);
-  GetParamValue(GetLPar(Dialog),value.l_flag,value.lparam);
+  GetParamValue(GetWPar(Dialog),value.w_flags,value.wparam);
+  GetParamValue(GetLPar(Dialog),value.l_flags,value.lparam);
   value.flags:=GetResultValue(GetRes(Dialog));
 
   if (GetEditFlags(Dialog,IDC_C_SERVICE) and EF_SCRIPT)<>0 then
-    value.flags:=value.flags or ACF_SCRIPT_SERVICE;
+    value.flags:=value.flags or ACF_FLAG_SCRIPT;
 end;
 
 procedure SetSrvBlockService(Dialog:HWND; service:PAnsiChar);
@@ -492,6 +469,160 @@ begin
   end;
 
   result:=GetDlgText(Dialog,IDC_C_SERVICE);
+end;
+
+//----- ServiceValue functions -----
+
+procedure CopyServiceValue(var dst:tServiceValue; const src:tServiceValue);
+begin
+  move(src,dst,SizeOf(tServiceValue));
+  StrDup(dst.service,dst.service);
+
+  case dst.w_flags of
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: StrDupW(pWideChar(dst.wparam),pWideChar(dst.wparam));
+    ACF_TYPE_STRUCT : StrDup (pAnsiChar(dst.wparam),pAnsiChar(dst.wparam));
+  end;
+
+  case dst.l_flags of
+    ACF_TYPE_NUMBER,
+    ACF_TYPE_STRING,
+    ACF_TYPE_UNICODE: StrDupW(pWideChar(dst.lparam),pWideChar(dst.lparam));
+    ACF_TYPE_STRUCT : StrDup (pAnsiChar(dst.lparam),pAnsiChar(dst.lparam));
+  end;
+end;
+
+const
+  iosection:PAnsiChar = '/service/';
+  ioflags  :PAnsiChar = 'flags';
+  ioservice:PAnsiChar = 'service';
+  iowparam :PAnsiChar = 'wparam';
+  iolparam :PAnsiChar = 'lparam';
+
+procedure SaveServiceValue(const data:tServiceValue; module,setting:PAnsiChar);
+var
+  buf:array [0..127] of AnsiChar;
+  p:PAnsiChar;
+begin
+  p:=StrCopyE(StrCopyE(buf,setting),iosection);
+  StrCopy(p,ioflags);   DBWriteDWord  (0,module,buf,data.flags);
+  StrCopy(p,ioservice); DBWriteString (0,module,buf,data.service);
+  StrCopy(p,iowparam);  SaveParamValue(data.w_flags,data.wparam,module,buf);
+  StrCopy(p,iolparam);  SaveParamValue(data.l_flags,data.lparam,module,buf);
+end;
+
+procedure LoadServiceValue(var data:tServiceValue; module,setting:PAnsiChar);
+var
+  buf:array [0..127] of AnsiChar;
+  p:PAnsiChar;
+begin
+  p:=StrCopyE(StrCopyE(buf,setting),iosection);
+  StrCopy(p,ioflags);   data.flags  :=DBReadDWord (0,module,buf);
+  StrCopy(p,ioservice); data.service:=DBReadString(0,module,buf);
+  StrCopy(p,iowparam);  LoadParamValue(data.w_flags,data.wparam,module,buf);
+  StrCopy(p,iolparam);  LoadParamValue(data.l_flags,data.lparam,module,buf);
+end;
+
+procedure ClearServiceValue(var data:tServiceValue);
+begin
+  mFreeMem(data.service);
+
+  ClearParam(data.w_flags,data.wparam);
+  ClearParam(data.l_flags,data.lparam);
+
+  FillChar(data,SizeOf(tServiceValue),0);
+end;
+
+//----- Service execute -----
+
+const
+  protostr='<proto>';
+
+function ExecuteService(const service:tServiceValue; var data:tSubstData):boolean;
+var
+  buf:array [0..255] of AnsiChar;
+  lservice:PAnsiChar;
+  lwparam,llparam:TLPARAM;
+  wp,lp:PWideChar;
+  res:int_ptr;
+begin
+  result:=false;
+
+  // Service name processing
+  if (service.flags and ACF_FLAG_SCRIPT)<>0 then
+    lservice:=ParseVarString(service.service,data.Parameter)
+  else  
+    lservice:=service.service;
+
+  StrCopy(buf,lservice);
+
+  if (service.flags and ACF_FLAG_SCRIPT)<>0 then
+    mFreeMem(lservice);
+
+  if StrPos(buf,protostr)<>nil then
+    if CallService(MS_DB_CONTACT_IS,data.Parameter,0)<>0 then
+      StrReplace(buf,protostr,GetContactProtoAcc(data.Parameter))
+    else
+      Exit;
+
+  if ServiceExists(buf)<>0 then
+  begin
+    result:=true;
+
+    lwparam:=PrepareParameter(service.w_flags,TLPARAM(service.wparam),data);
+    llparam:=PrepareParameter(service.l_flags,TLPARAM(service.lparam),data);
+
+    res:=CallServiceSync(buf,lwparam,llparam);
+    ClearSubstData(data);
+
+    // result type processing
+    case service.flags and ACF_TYPE_MASK of
+      ACF_TYPE_STRING,
+      ACF_TYPE_UNICODE: begin
+        data.ResultType:=ACF_TYPE_UNICODE;
+
+        if (service.flags and ACF_TYPE_MASK)=ACF_TYPE_STRING then
+          AnsiToWide(pAnsiChar(res),pWideChar(data.LastResult),MirandaCP)
+        else
+          StrDupW(pWideChar(data.LastResult),pWideChar(res));
+
+        if (service.flags and ACF_FLAG_FREEMEM)<>0 then // Miranda Memory manager used
+          mir_free(pointer(res));
+      end;
+
+      ACF_TYPE_NUMBER: begin
+        data.LastResult:=res;
+        data.ResultType:=ACF_TYPE_NUMBER;
+      end;
+
+      ACF_TYPE_STRUCT: begin
+        data.ResultType:=ACF_TYPE_UNICODE;
+
+        if (service.w_flags and ACF_TYPE_MASK)=ACF_TYPE_STRUCT then 
+        begin
+          wp:=GetStructureResult(lwparam);
+        end
+        else
+          wp:=nil;
+
+        lp:=nil;
+        if (service.l_flags and ACF_TYPE_MASK)=ACF_TYPE_STRUCT then
+        begin
+          if wp=nil then
+            lp:=GetStructureResult(llparam);
+        end;
+
+        if wp<>nil then
+          PWideChar(data.LastResult):=wp
+        else
+          PWideChar(data.LastResult):=lp;
+      end;
+    end;
+
+    ReleaseParameter(service.w_flags,lwparam);
+    ReleaseParameter(service.l_flags,llparam);
+  end;
 end;
 
 end.

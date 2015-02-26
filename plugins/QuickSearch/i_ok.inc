@@ -260,13 +260,11 @@ end;
 
 procedure LoadOneItem(hContact:THANDLE;column:pcolumnitem;proto:integer; var res:tQSRec);
 var
-  tmp:int_ptr;
-  lmodule,srv:PAnsiChar;
-  lwparam,llparam:TLPARAM;
+  lmodule:PAnsiChar;
   DbEvent:TMEVENT;
   cni:TCONTACTINFO;
   dbei:TDBEVENTINFO;
-  b:bool;
+  data:tSubstData;
 begin
   res.data:=uint_ptr(-1);
   mFreeMem(res.text);
@@ -279,44 +277,30 @@ begin
       end;
 
       QST_SERVICE: begin
-        case wparam._type of
-          ACF_CURRENT: lwparam:=hContact;
-          ACF_NUMBER : lwparam:=NumToInt(wparam.value);
-        else
-          lwparam:=TLPARAM(wparam.value);
-        end;
-        case lparam._type of
-          ACF_CURRENT: llparam:=hContact;
-          ACF_NUMBER : llparam:=NumToInt(lparam.value);
-        else
-          llparam:=TLPARAM(lparam.value);
-        end;
-
-        if (restype and ACF_SCRIPT_SERVICE)<>0 then
-          srv:=ParseVarString(service,hContact,nil)
-        else
-          srv:=service;
-
-        tmp:=int_ptr(CallService(srv,TWPARAM(lwparam),TLPARAM(llparam)));
-        if (restype and ACF_SCRIPT_SERVICE)<>0 then
-          mFreeMem(srv);
-
-        if tmp=CALLSERVICE_NOTFOUND then exit;
-        if (restype and ACF_RSTRING)<>0 then
-          AnsiToWide(PAnsiChar(tmp),res.text)
-        else if (restype and ACF_RUNICODE)<>0 then
-          StrDupW(res.text,PWideChar(tmp))
-        else// if (restype and ACF_RNUMBER)<>0 then
+        data.Parameter :=hContact;
+        data.LastResult:=0;
+        data.ResultType:=ACF_TYPE_NUMBER;
+        if ExecuteService(service,data) then
         begin
-          res.data:=tmp;
-          if (restype and ACF_RHEXNUM)<>0 then
-            res.text:=int2hexw(tmp)
-          else
-          begin
-            b:=(restype and ACF_RSIGNED)<>0;
-            res.text:=int2strw(tmp,b);
+          case data.ResultType of
+            ACF_TYPE_NUMBER: begin
+              res.data:=data.LastResult;
+              if (service.flags and ACF_FLAG_HEXNUM)<>0 then
+                res.text:=int2hexw(data.LastResult)
+              else
+              begin
+                res.text:=int2strw(data.LastResult,(service.flags and ACF_FLAG_SIGNED)<>0);
+              end;
+            end;
+            ACF_TYPE_UNICODE: begin
+              StrDupW(res.text,PWideChar(data.LastResult))
+            end;
           end;
-        end;
+          ClearSubstData(data);
+        end
+        else
+          res.text:=nil;
+
       end;
 
       QST_CONTACTINFO: begin

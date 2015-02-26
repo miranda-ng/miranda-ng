@@ -5,15 +5,6 @@ interface
 
 uses windows,m_api;
 
-// for miranda services
-const
-  rtUnkn = 0;
-  rtInt  = 1;
-  rtWide = 2;
-  rtAnsi = 3;
-  rtUTF8 = 4;
-
-
 // icons
 function SetButtonIcon(btn:HWND;name:PAnsiChar):HICON;
 function RegisterSingleIcon(resname,ilname,descr,group:PAnsiChar):int;
