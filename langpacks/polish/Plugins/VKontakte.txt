@@ -386,11 +386,11 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on n
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Loading status message from vk.com.\nThis may take some time.]
-
+Ładowanieopisuzvk.com.\nTo może zająć trochę czasu.
 [Waiting...]
-
+Oczekiwanie...
 [Enter new status message]
-
+Wprowadź nowy opis
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
