@@ -25,6 +25,9 @@
 /<<}
 
 const
+  NETLIB_USER_AGENT = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
+
+const
   // for TNETLIBUSER.flags
   NUF_INCOMING      = $01; // bind incoming ports
   NUF_OUTGOING      = $02; // makes outgoing plain connections
