@@ -61,7 +61,7 @@ Powiadomienia klienta
 [Friendship notifications]
 Powiadomienia o znajomości
 [Ticker feeds]
-
+Aktualności paska aktywności
 [Use this server for opening links:]
 Użyj tego serwera do otwierania linków:
 [Use balloon notifications in system tray instead of popups]
@@ -222,7 +222,7 @@ Próbne powiadomienie
 [Sample friendship]
 Przykładowa znajomość
 [Sample ticker]
-
+Przykładowy pasek aktywności
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 naklejka
