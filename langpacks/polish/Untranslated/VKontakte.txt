@@ -1,0 +1,3 @@
+﻿[Loading status message from vk.com.\nThis may take some time.]
+[Waiting...]
+[Enter new status message]

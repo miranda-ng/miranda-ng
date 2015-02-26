@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.48
+;  Version: 0.1.0.49
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -187,6 +187,8 @@ Ikona zgłoś naruszenie
 Ikona zbanuj użytkownika
 [Broadcast icon]
 Ikona transmisji
+[Status icon]
+Ikona Statusu
 [Protocols]
 Protokoły
 [VKontakte]
@@ -344,6 +346,8 @@ Pokaż
 Połączenie %s
 [Create new chat]
 Utwórz nowy czat
+[Status message]
+Opis
 [Load news from VK]
 Załaduj aktualności z VK
 [Visit profile]
@@ -381,6 +385,12 @@ Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on n
 [Cannot add this user to friends as you put him on blacklist]
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
 ;file \protocols\VKontakte\src\vk_thread.cpp
+[Loading status message from vk.com.\nThis may take some time.]
+
+[Waiting...]
+
+[Enter new status message]
+
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
