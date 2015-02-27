@@ -101,13 +101,16 @@ void CVkProto::WorkerThread(void*)
 	else {
 		// Initialize new OAuth session
 		extern char szBlankUrl[];
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize)
-			<< INT_PARAM("client_id", VK_APP_ID) 
+		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize)
+			<< INT_PARAM("client_id", VK_APP_ID)
 			<< CHAR_PARAM("scope", "friends,photos,audio,docs,video,wall,messages,offline,status,notifications")
-			<< CHAR_PARAM("redirect_uri", szBlankUrl) 
-			<< CHAR_PARAM("display", "mobile") 
+			<< CHAR_PARAM("redirect_uri", szBlankUrl)
+			<< CHAR_PARAM("display", "mobile")
 			<< CHAR_PARAM("response_type", "token")
-			<< VER_API)->m_bApiReq = false;
+			<< VER_API;
+		pReq->m_bApiReq = false;
+		pReq->bIsMainConn = true;
+		Push(pReq);
 	}
 
 	while (true) {		
