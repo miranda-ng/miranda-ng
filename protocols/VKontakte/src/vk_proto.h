@@ -317,6 +317,7 @@ struct CVkProto : public PROTO<CVkProto>
 	INT_PTR __cdecl SvcReportAbuse(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcDestroyKickChat(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcOpenBroadcast(WPARAM hContact, LPARAM);
+	INT_PTR __cdecl SvcWallPost(WPARAM hContact, LPARAM);
 	INT_PTR __cdecl SvcSetStatusMsg(WPARAM, LPARAM);
 
 	//==== History Menus ==================================================================
@@ -447,8 +448,9 @@ struct CVkProto : public PROTO<CVkProto>
 	void RetrieveUnreadMessages();
 	void OnReceiveMessages(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
-
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
+
+	void WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool bFriendsOnly = false);
 
 	void GetServerHistoryLastNDay(MCONTACT hContact, int NDay);
 	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once = false);

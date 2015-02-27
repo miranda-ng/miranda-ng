@@ -344,3 +344,32 @@ void CVkProto::OnReceiveDlgs(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
 	}
 	RetrieveUsersInfo();
 }
+
+INT_PTR __cdecl CVkProto::SvcWallPost(WPARAM hContact, LPARAM)
+{
+	return 1;
+}
+
+void CVkProto::WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool bFriendsOnly)
+{
+	debugLogA("CVkProto::WallPost");
+	if (!IsOnline() || (IsEmpty(ptszMsg) && IsEmpty(ptszUrl)))
+		return;
+	
+	LONG userID = hContact ? m_myUserId : getDword(hContact, "ID", -1);
+	if (userID == -1 || userID == VK_FEED_USER)
+		return;
+
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/wall.post.json", true, &CVkProto::OnReceiveSmth)
+		<< INT_PARAM("owner_id", userID)
+		<< INT_PARAM("friends_only", bFriendsOnly ? 1 : 0)
+		<< VER_API;
+	
+	if (!IsEmpty(ptszMsg))
+		pReq << TCHAR_PARAM("message", ptszMsg);
+
+	if (!IsEmpty(ptszUrl))
+		pReq << TCHAR_PARAM("attachments", ptszUrl);
+	
+	Push(pReq);
+}
