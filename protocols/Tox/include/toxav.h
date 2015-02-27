@@ -22,7 +22,6 @@
 
 #ifndef __TOXAV
 #define __TOXAV
-#include <inttypes.h>
 
 #ifdef __cplusplus
 extern "C" {
