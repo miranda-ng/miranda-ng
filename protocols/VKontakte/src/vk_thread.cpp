@@ -147,6 +147,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 					m_prevUrl = pReq->m_szUrl;
 				}
 				pReq->m_bApiReq = false;
+				pReq->bIsMainConn = true;
 				Push(pReq);
 			}
 		}
@@ -189,6 +190,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 	pReq->Redirect(reply);
 	ApplyCookies(pReq);
 	pReq->m_bApiReq = false;
+	pReq->bIsMainConn = true;
 	Push(pReq);
 }
 
