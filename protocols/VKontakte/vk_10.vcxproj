@@ -186,7 +186,9 @@
     <ClCompile Include="src\vk_feed.cpp" />
     <ClCompile Include="src\vk_files.cpp" />
     <ClCompile Include="src\vk_history.cpp" />
+    <ClCompile Include="src\vk_messages.cpp" />
     <ClCompile Include="src\vk_options.cpp" />
+    <ClCompile Include="src\vk_pollserver.cpp" />
     <ClCompile Include="src\vk_proto.cpp" />
     <ClCompile Include="src\vk_queue.cpp" />
     <ClCompile Include="src\vk_search.cpp" />
