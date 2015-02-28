@@ -54,8 +54,7 @@ void RemoveInvalidFilenameChars(TCHAR *tszString)
 	size_t i;
 	if (tszString) {
 		for (i = _tcscspn(tszString, InvalidFilenameChars); tszString[i]; i+=_tcscspn(tszString+i+1, InvalidFilenameChars)+1)
-			if (tszString[i] >= 0)
-				tszString[i] = _T('_');
+			tszString[i] = _T('_');
 	}
 }
 
@@ -64,8 +63,7 @@ void RemoveInvalidPathChars(TCHAR *tszString)
 {
 	if (tszString)
 		for (size_t i = _tcscspn(tszString, InvalidPathChars); tszString[i]; i += _tcscspn(tszString + i + 1, InvalidPathChars) + 1)
-			if (tszString[i] >= 0)
-				tszString[i] = _T('_');
+			tszString[i] = _T('_');
 }
 
 static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM pData)
@@ -317,7 +315,10 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);
-		}	}	}	}
+					}
+				}
+			}
+		}
 		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 
 	case WM_COMMAND:
@@ -415,9 +416,8 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case HM_RECVEVENT:
 		{
 			ACKDATA *ack = (ACKDATA*)lParam;
-			if (ack->hProcess != dat->fs) break;
-			if (ack->type != ACKTYPE_FILE) break;
-			if (ack->hContact != dat->hContact) break;
+			if ((ack == NULL) || (ack->hProcess != dat->fs) || (ack->type != ACKTYPE_FILE) || (ack->hContact != dat->hContact))
+				break;
 
 			if (ack->result == ACKRESULT_DENIED || ack->result == ACKRESULT_FAILED) {
 				EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);

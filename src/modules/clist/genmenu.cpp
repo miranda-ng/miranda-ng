@@ -113,15 +113,15 @@ PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, v
 //lparam = LPMEASUREITEMSTRUCT
 int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis)
 {
-	// prevent win9x from ugly menus displaying when there is no icon
-	mis->itemWidth = 0;
-	mis->itemHeight = 0;
-
 	if (!bIsGenMenuInited)
 		return -1;
 
 	if (mis == NULL)
 		return FALSE;
+
+	// prevent win9x from ugly menus displaying when there is no icon
+	mis->itemWidth = 0;
+	mis->itemHeight = 0;
 
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)mis->itemData);
 	if (pimi == NULL)

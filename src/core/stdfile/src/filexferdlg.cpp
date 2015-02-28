@@ -341,6 +341,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_COMMAND:
+		if (!dat)
+			break;
+
 		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact))
 			break;
 
@@ -368,7 +371,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 		case IDC_OPENFOLDER:
-			if (dat) {
+			{
 				TCHAR *path = dat->transferStatus.tszWorkingDir;
 				if (!path || !path[0]) {
 					path = NEWTSTR_ALLOCA(dat->transferStatus.tszCurrentFile);

@@ -151,7 +151,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, BOOL set_as_default)
 	db_set_ts(hMeta, META_PROTO, buffer, cli.pfnGetContactDisplayName(hSub, 0));
 
 	// Get the status
-	WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
+	WORD status = db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
 	mir_snprintf(buffer, SIZEOF(buffer), "Status%d", ccDest->nSubs);
@@ -284,7 +284,7 @@ MCONTACT Meta_GetMostOnlineSupporting(DBCachedContact *cc, int pflagnum, unsigne
 		if (!szProto || CallProtoService(szProto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // szProto offline or connecting
 			continue;
 
-		DWORD caps = szProto ? CallProtoService(szProto, PS_GETCAPS, pflagnum, 0) : 0;
+		DWORD caps = CallProtoService(szProto, PS_GETCAPS, pflagnum, 0);
 		if (szProto && (capability == -1 || (caps & capability) == capability)) {
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			if (status == ID_STATUS_ONLINE) {
@@ -531,7 +531,8 @@ void Meta_GetSubNick(MCONTACT hMeta, int i, CMString &tszDest)
 	mir_snprintf(idStr, SIZEOF(idStr), "Login%d", i);
 
 	DBVARIANT dbv;
-	db_get(hMeta, META_PROTO, idStr, &dbv);
+	if(db_get(hMeta, META_PROTO, idStr, &dbv))
+		return;
 	switch (dbv.type) {
 	case DBVT_ASCIIZ:
 		tszDest = dbv.pszVal;

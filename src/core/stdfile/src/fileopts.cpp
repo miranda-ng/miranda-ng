@@ -34,9 +34,7 @@ struct virusscannerinfo {
 	const TCHAR *szExeRegPath;
 	const TCHAR *szExeRegValue;
 	const TCHAR *szCommandLine;
-};
-
-static const struct virusscannerinfo virusScanners[] = {
+} virusScanners[] = {
 	{_T("Network Associates/McAfee VirusScan"), _T("SOFTWARE\\McAfee\\VirusScan"), _T("Scan32EXE"), _T("\"%s\" %%f /nosplash /comp /autoscan /autoexit /noboot")},
 	{_T("Dr Solomon's VirusScan (Network Associates)"), _T("SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General"), _T("szScannerExe"), _T("\"%s\" %%f /uinone /noboot /comp /prompt /autoexit")},
 	{_T("Norton AntiVirus"), _T("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe"), NULL, _T("\"%s\" %%f /b- /m- /s+ /noresults")},

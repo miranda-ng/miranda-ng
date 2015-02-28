@@ -47,7 +47,6 @@ void SaveColumnSizes(HWND hwndResults)
 		char szSetting[32];
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
 		db_set_b(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
-		if (i>=columnCount) continue;
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
 		db_set_w(NULL, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
 	}

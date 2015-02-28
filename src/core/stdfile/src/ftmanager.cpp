@@ -177,7 +177,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 	case WM_MOUSEWHEEL:
 		{
-			int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+			short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 			if (zDelta) {
 				int nScrollLines = 0;
 				SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);

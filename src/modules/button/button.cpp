@@ -564,7 +564,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
 				if (bct->stateId == PBS_PRESSED)
 					showClick = 1;
-				bct->stateId = (msg == WM_LBUTTONUP) ? PBS_HOT : PBS_NORMAL;
+				bct->stateId = PBS_HOT;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
 			if (showClick && !bct->bSendOnDown) // Tell your daddy you got clicked.

@@ -535,7 +535,6 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		}
 		else {
 			if (smep->status == 0 && smep->protoindex != 0 && smep->proto != NULL) {
-				PMO_IntMenuItem pimi;
 				char *prot = smep->proto;
 				char szHumanName[64] = { 0 };
 				PROTOACCOUNT *acc = Proto_GetAccount(smep->proto);
@@ -543,7 +542,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				db_set_b(NULL, prot, "LockMainStatus", bIsLocked);
 
 				CallProtoServiceInt(NULL, smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
-				pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
+				PMO_IntMenuItem pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
 				PMO_IntMenuItem root = (PMO_IntMenuItem)pimi->mi.root;
 				mir_free(pimi->mi.pszName);
 				mir_free(root->mi.pszName);
@@ -827,7 +826,7 @@ void RebuildMenuOrder(void)
 	hStatusMenuObject = MO_CreateMenuObject("StatusMenu", LPGEN("Status menu"), "StatusMenuCheckService", "StatusMenuExecService");
 	MO_SetOptionsMenuObject(hStatusMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
 
-	hStatusMainMenuHandles = (PMO_IntMenuItem*)mir_calloc(SIZEOF(statusModeList) * sizeof(PMO_IntMenuItem*));
+	hStatusMainMenuHandles = (PMO_IntMenuItem*)mir_calloc(SIZEOF(statusModeList) * sizeof(PMO_IntMenuItem));
 	hStatusMainMenuHandlesCnt = SIZEOF(statusModeList);
 
 	hStatusMenuHandles = (tStatusMenuHandles*)mir_calloc(sizeof(tStatusMenuHandles)*accounts.getCount());

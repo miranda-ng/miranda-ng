@@ -2138,11 +2138,13 @@ LABEL_SHOWWINDOW:
 
 				case ID_LOCKPOSITION:
 					TabCtrl_GetItem(GetDlgItem(hwndDlg, IDC_TAB), i, &id);
-					if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
-						if (s->hContact)
-							db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
+					if (s!=0) {
+						if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
+							if (s->hContact)
+								db_set_w(s->hContact, s->pszModule, "TabPosition", (WORD)(i + 1));
+						}
+						else db_unset(s->hContact, s->pszModule, "TabPosition");
 					}
-					else db_unset(s->hContact, s->pszModule, "TabPosition");
 					break;
 				}
 			}

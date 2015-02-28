@@ -170,7 +170,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 					ofn.Flags |= OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 					ofn.lpstrTitle = TranslateT("Select program to be run");
 				}
-				_tcscpy(filter, TranslateT("All files"));
+				_tcsncpy(filter, TranslateT("All files"), SIZEOF(filter) - 1);
 				_tcscat(filter, _T(" (*)"));
 				TCHAR *pfilter = filter + mir_tstrlen(filter) + 1;
 				_tcscpy(pfilter, _T("*"));
