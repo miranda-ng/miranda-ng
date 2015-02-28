@@ -20,7 +20,7 @@ void CToxProto::OnFriendFile(Tox *, int32_t friendNumber, uint8_t fileNumber, ui
 		FileTransferParam *transfer = new FileTransferParam(friendNumber, fileNumber, name, fileSize);
 		transfer->pfts.hContact = hContact;
 		transfer->pfts.flags |= PFTS_RECEIVING;
-		proto->transfers->Add(transfer);
+		proto->transfers.Add(transfer);
 
 		PROTORECVFILET pre = { 0 };
 		pre.flags = PREF_TCHAR;
@@ -53,7 +53,7 @@ HANDLE __cdecl CToxProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const P
 			debugLogA("CToxProto::FileAllow: failed to open file (%d)", transfer->fileNumber);
 			transfer->status = FAILED;
 			tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-			transfers->Remove(transfer);
+			transfers.Remove(transfer);
 			return NULL;
 		}
 
@@ -106,7 +106,7 @@ int __cdecl CToxProto::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR
 	{
 		transfer->status = CANCELED;
 		tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-		transfers->Remove(transfer);
+		transfers.Remove(transfer);
 	}
 	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, result ? ACKRESULT_CONNECTED : ACKRESULT_DENIED, (HANDLE)transfer, 0);
 
@@ -126,7 +126,7 @@ void CToxProto::OnFileData(Tox *tox, int32_t friendNumber, uint8_t fileNumber, c
 		return;
 	}
 
-	FileTransferParam *transfer = proto->transfers->Get(friendNumber, fileNumber);
+	FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 	if (transfer == NULL)
 	{
 		proto->debugLogA("CToxProto::OnFileData: cannot find transfer by number (%d)", fileNumber);
@@ -190,7 +190,7 @@ HANDLE __cdecl CToxProto::SendFile(MCONTACT hContact, const PROTOCHAR*, PROTOCHA
 	transfer->pfts.flags |= PFTS_SENDING;
 	transfer->pfts.tszWorkingDir = fileDir;
 	transfer->hFile = hFile;
-	transfers->Add(transfer);
+	transfers.Add(transfer);
 
 	return (HANDLE)transfer;
 }
@@ -262,7 +262,7 @@ int __cdecl CToxProto::FileCancel(MCONTACT, HANDLE hTransfer)
 	FileTransferParam *transfer = (FileTransferParam*)hTransfer;
 	transfer->status = CANCELED;
 	tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
-	transfers->Remove(transfer);
+	transfers.Remove(transfer);
 
 	return 0;
 }
@@ -280,7 +280,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 	MCONTACT hContact = proto->GetContact(friendNumber);
 	if (hContact)
 	{
-		FileTransferParam *transfer = proto->transfers->Get(friendNumber, fileNumber);
+		FileTransferParam *transfer = proto->transfers.Get(friendNumber, fileNumber);
 		if (transfer == NULL)
 		{
 			tox_file_send_control(tox, friendNumber, receive_send, fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
@@ -341,7 +341,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 		case TOX_FILECONTROL_KILL:
 			transfer->status = CANCELED;
 			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
-			proto->transfers->Remove(transfer);
+			proto->transfers.Remove(transfer);
 			break;
 
 		case TOX_FILECONTROL_FINISHED:
@@ -355,7 +355,7 @@ void CToxProto::OnFileRequest(Tox *tox, int32_t friendNumber, uint8_t receive_se
 				}
 				tox_file_send_control(tox, friendNumber, transfer->GetDirection(), fileNumber, isFileFullyTransfered ? TOX_FILECONTROL_FINISHED : TOX_FILECONTROL_KILL, NULL, 0);
 				proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFileFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
-				proto->transfers->Remove(transfer);
+				proto->transfers.Remove(transfer);
 			}
 			break;
 		}

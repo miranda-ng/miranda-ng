@@ -43,6 +43,8 @@ struct CToxProto;
 
 #include "version.h"
 #include "resource.h"
+#include "tox_icons.h"
+#include "tox_menus.h"
 #include "tox_address.h"
 #include "tox_options.h"
 #include "tox_transfer.h"
@@ -82,10 +84,6 @@ extern HMODULE g_hToxLibrary;
 template<typename T>
 T CreateFunction(LPCSTR functionName)
 {
-	if (g_hToxLibrary == NULL)
-	{
-		g_hToxLibrary = LoadLibrary(L"libtox.dll");
-	}
 	return reinterpret_cast<T>(GetProcAddress(g_hToxLibrary, functionName));
 }
 

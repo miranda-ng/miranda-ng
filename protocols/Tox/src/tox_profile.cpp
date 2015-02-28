@@ -137,6 +137,22 @@ void CToxProto::SaveToxProfile()
 	mir_free(data);
 }
 
+int CToxProto::OnCopyToxID(WPARAM, LPARAM)
+{
+	ptrA address(getStringA(TOX_SETTINGS_ID));
+	size_t length = mir_strlen(address) + 1;
+	if (OpenClipboard(NULL))
+	{
+		EmptyClipboard();
+		HGLOBAL hMem = GlobalAlloc(GMEM_FIXED, length);
+		memcpy(GlobalLock(hMem), address, length);
+		GlobalUnlock(hMem);
+		SetClipboardData(CF_TEXT, hMem);
+		CloseClipboard();
+	}
+	return 0;
+}
+
 INT_PTR CToxProto::ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);

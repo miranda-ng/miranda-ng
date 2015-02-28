@@ -1,10 +1,12 @@
 #ifndef _TOX_DNS_H_
 #define _TOX_DNS_H_
 
-struct dns_server {
+struct dns_server
+{
 	char *domain;
 	uint8_t key[32];
-} dns_servers[] = {
+} dns_servers[] =
+{
 	{
 		"toxme.se",
 		{
