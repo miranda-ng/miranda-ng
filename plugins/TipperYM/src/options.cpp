@@ -554,7 +554,7 @@ void LoadOptions()
 	{
 		if (!db_get_ts(NULL, MODULE, "SkinName", &dbv))
 		{
-			_tcscpy(opt.szSkinName, dbv.ptszVal);
+			_tcsncpy(opt.szSkinName, dbv.ptszVal,SIZEOF(opt.szSkinName)-1);
 			db_free(&dbv);
 		}
 	}
@@ -989,10 +989,10 @@ INT_PTR CALLBACK DlgProcOptsContent(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 										_tcscpy(ds_value->ds.swzName, subst->swzName);
 
 										if (ds_value->ds.type == DVT_DB && subst->szModuleName)
-											strcpy(ds_value->ds.szModuleName, subst->szModuleName);
+											strncpy(ds_value->ds.szModuleName, subst->szModuleName, SIZEOF(ds_value->ds.szModuleName) - 1);
 
 										if (subst->szSettingName)
-											strcpy(ds_value->ds.szSettingName, subst->szSettingName);
+											strncpy(ds_value->ds.szSettingName, subst->szSettingName, SIZEOF(ds_value->ds.szSettingName) - 1);
 
 										ds_value->ds.iTranslateFuncId = subst->iTranslateFuncId;
 
@@ -1474,8 +1474,7 @@ INT_PTR CALLBACK DlgProcOptsAppearance(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY)
 			{
 				BOOL trans;
-				int new_val;
-				new_val = GetDlgItemInt(hwndDlg, IDC_ED_WIDTH, &trans, FALSE);
+				int new_val = GetDlgItemInt(hwndDlg, IDC_ED_WIDTH, &trans, FALSE);
 				if (trans) opt.iWinWidth = new_val;
 				new_val = GetDlgItemInt(hwndDlg, IDC_ED_MINWIDTH, &trans, FALSE);
 				if (trans) opt.iMinWidth = new_val;

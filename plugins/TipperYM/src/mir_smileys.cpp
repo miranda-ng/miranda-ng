@@ -335,28 +335,26 @@ void DestroySmileyList(SortedList* p_list)
 // Generete the list of smileys / text to be drawn
 SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protocol, int *max_smiley_height)
 {
-	SMADD_BATCHPARSE2 sp = {0};
-	SMADD_BATCHPARSERES *spres;
-	char smileyProto[64];
-
 	*max_smiley_height = 0;
 
 	if (!text || !text[0] || !ServiceExists(MS_SMILEYADD_BATCHPARSE))
 		return NULL;
 
+	char smileyProto[64];
 	if (protocol == NULL)
-		strcpy(smileyProto, "tipper");
+		strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
 	else if (strcmp(protocol, META_PROTO) == 0)
-		strcpy(smileyProto, "tipper");
+		strncpy(smileyProto, "tipper", sizeof(smileyProto) - 1);
 	else
-		strcpy(smileyProto, protocol);
+		strncpy(smileyProto, protocol, sizeof(smileyProto) - 1);
 
 	// Parse it!
+	SMADD_BATCHPARSE2 sp = {0};
 	sp.cbSize = sizeof(sp);
 	sp.str = (TCHAR *)text;
 	sp.flag = SAFL_TCHAR;
 	sp.Protocolname = (opt.iSmileyAddFlags & SMILEYADD_USEPROTO) ? smileyProto : "tipper";
-	spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
+	SMADD_BATCHPARSERES *spres = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&sp);
 
 	if (!spres) // Did not find a smiley
 		return NULL;
