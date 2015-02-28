@@ -880,7 +880,8 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			const int MAX_SIZE = 512;
 			TCHAR buffer[MAX_SIZE];
-			mir_sntprintf(buffer, SIZEOF(buffer), (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), --timeout);
+			timeout--;
+			mir_sntprintf(buffer, SIZEOF(buffer), (timeout != 2) ? TranslateT("Closing in %d seconds") : TranslateT("Closing in %d second"), timeout);
 			SetDlgItemText(hWnd, IDC_CLOSE, buffer);
 
 			if (timeout <= 0)
