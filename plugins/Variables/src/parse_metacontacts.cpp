@@ -148,10 +148,12 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 
 	if (szUniqueID == NULL) {
 		szProto = PROTOID_HANDLE;
-		szUniqueID = (TCHAR *)mir_alloc(32);
-		mir_sntprintf(szUniqueID, 32, _T("%p"), hContact);
-		if (szProto == NULL || szUniqueID == NULL)
+		if (szProto == NULL)
 			return NULL;
+		szUniqueID = (TCHAR *)mir_alloc(32);
+		if (szUniqueID == NULL)
+			return NULL;
+		mir_sntprintf(szUniqueID, 32, _T("%p"), hContact);
 	}
 
 	size_t size = strlen(szProto) + _tcslen(szUniqueID) + 4;

@@ -60,8 +60,8 @@ static TCHAR *parseWinampSong(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *scur = _tcschr(szTitle, '.');
-	TCHAR *cur = _tcsstr(scur, _T(" - Winamp"));
-	if ((scur == NULL) || (cur == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
+	TCHAR *cur;
+	if ((scur == NULL) || ((cur = _tcsstr(scur, _T(" - Winamp"))) == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
 		mir_free(szTitle);
 		return NULL;
 	}
@@ -86,21 +86,17 @@ static TCHAR *parseWinampState(ARGUMENTSINFO *ai)
 		return NULL;
 
 	TCHAR *scur = _tcschr(szTitle, '.');
-	TCHAR *cur = _tcsstr(scur, _T(" - Winamp"));
-	if (scur == NULL || cur == NULL) {
-		mir_free(szTitle);
-		return mir_tstrdup(TranslateT("Stopped"));
-	}
-	if ((!_tcsncmp(cur + 10, _T("[Stopped]"), 9))) {
-		mir_free(szTitle);
-		return mir_tstrdup(TranslateT("Stopped"));
-	}
-	if ((!_tcsncmp(cur + 10, _T("[Paused]"), 8))) {
-		mir_free(szTitle);
-		return mir_tstrdup(TranslateT("Paused"));
-	}
+	TCHAR *cur;
+	if (scur == NULL || (cur = _tcsstr(scur, _T(" - Winamp"))) == NULL)
+		res = mir_tstrdup(TranslateT("Stopped"));
+	else if ((!_tcsncmp(cur + 10, _T("[Stopped]"), 9)))
+		res = mir_tstrdup(TranslateT("Stopped"));
+	else if ((!_tcsncmp(cur + 10, _T("[Paused]"), 8)))
+		res = mir_tstrdup(TranslateT("Paused"));
+	else
+		res = mir_tstrdup(_T("Playing"));
 	mir_free(szTitle);
-	return mir_tstrdup(_T("Playing"));
+	return res;
 }
 
 void registerExternalTokens()

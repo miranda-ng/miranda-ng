@@ -725,11 +725,6 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai)
 	}
 	while ((totalReadSz < fileSz) && (readSz > 0));
 
-	if (linePos < 0) {
-		CloseHandle(hFile);
-		mir_free(pBuf);
-		return NULL;
-	}
 	if (SetFilePointer(hFile, linePos, NULL, FILE_BEGIN) != linePos) {
 		CloseHandle(hFile);
 		mir_free(pBuf);
