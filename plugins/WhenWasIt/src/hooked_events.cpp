@@ -24,20 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define EXCLUDE_HIDDEN  1
 #define EXCLUDE_IGNORED 2
-
-HANDLE hmCheckBirthdays = NULL;
-HANDLE hmBirthdayList = NULL;
-HANDLE hmRefreshDetails = NULL;
-HANDLE hmAddChangeBirthday = NULL;
-HANDLE hmImportBirthdays = NULL;
-HANDLE hmExportBirthdays = NULL;
-
 UINT_PTR hCheckTimer = NULL;
 UINT_PTR hDateChangeTimer = NULL;
 
 int currentDay;
 
-static int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
+static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = { sizeof(ttb) };
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
@@ -48,7 +40,7 @@ static int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
+static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
@@ -73,67 +65,12 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
 	
-	SkinAddNewSoundExT(BIRTHDAY_NEAR_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday near"));
-	SkinAddNewSoundExT(BIRTHDAY_TODAY_SOUND, LPGENT("WhenWasIt"), LPGENT("Birthday today"));
-	
 	UpdateTimers();
-
-	CLISTMENUITEM cl = { sizeof(cl) };
-	cl.position = 10000000;
-	cl.pszPopupName = LPGEN("Birthdays (When Was It)");
-
-	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	cl.icolibItem = hCheckMenu;
-	cl.pszName = LPGEN("Check for birthdays");
-	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
-	
-	cl.pszService = MS_WWI_LIST_SHOW;
-	cl.pszName = LPGEN("Birthday list");
-	cl.icolibItem = hListMenu;
-	hmBirthdayList = Menu_AddMainMenuItem(&cl);
-	
-	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
-	cl.position = 10100000;
-	cl.pszName = LPGEN("Refresh user details");
-	cl.icolibItem = hRefreshUserDetails;
-	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
-	
-	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
-	cl.position = 10200000;
-	cl.pszName = LPGEN("Import birthdays");
-	cl.icolibItem = hImportBirthdays;
-	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
-	
-	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
-	cl.pszName = LPGEN("Export birthdays");
-	cl.icolibItem = hExportBirthdays;
-	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
-	
-	cl.pszService = MS_WWI_ADD_BIRTHDAY;
-	cl.position = 10000000;
-	cl.icolibItem = hAddBirthdayContact;
-	cl.pszName = LPGEN("Add/change user &birthday");
-	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
-
-	// Register hotkeys
-	HOTKEYDESC hotkey = { sizeof(hotkey) };
-	hotkey.pszSection = LPGEN("Birthdays");
-
-	hotkey.pszName = "wwi_birthday_list";
-	hotkey.pszDescription = LPGEN("Birthday list");
-	hotkey.pszService = MS_WWI_LIST_SHOW;
-	Hotkey_Register(&hotkey);
-		
-	hotkey.pszName = "wwi_check_birthdays";
-	hotkey.pszDescription = LPGEN("Check for birthdays");
-	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	Hotkey_Register(&hotkey);
-	
 	return 0;
 }
 
@@ -215,9 +152,9 @@ int UpdateTimers()
 
 	long interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
 	interval *= 1000 * 60 * 60; //go from miliseconds to hours
-	hCheckTimer = SetTimer(NULL, 0, interval, (TIMERPROC) OnCheckTimer);
+	hCheckTimer = SetTimer(NULL, 0, interval, OnCheckTimer);
 	if ( !hDateChangeTimer)
-		hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, (TIMERPROC) OnDateChangeTimer);
+		hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, OnDateChangeTimer);
 		
 	return 0;
 }
