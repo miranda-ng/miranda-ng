@@ -411,8 +411,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 	JabberGcRecentInfo *info = NULL;
 	if (m_jid)
 		info = new JabberGcRecentInfo(m_proto, m_jid);
-	else {
-		OpenClipboard(m_hwnd);
+	else if(OpenClipboard(m_hwnd)) {
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
 
 		if (hData) {

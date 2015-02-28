@@ -1097,9 +1097,9 @@ void CJabberProto::_RosterHandleGetRequest(HXML node, CJabberIqInfo*)
 				}
 				if (bPushed) {
 					HXML item = query << XCHILD(_T("item"));
-					if (group && _tcslen(group))
+					if (_tcslen(group))
 						item << XCHILD(_T("group"), group);
-					if (name && _tcslen(name))
+					if (_tcslen(name))
 						item << XATTR(_T("name"), name);
 					item << XATTR(_T("jid"), jid) << XATTR(_T("subscription"), subscr[0] ? subscr : _T("none"));
 					itemCount++;

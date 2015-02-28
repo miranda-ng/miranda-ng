@@ -643,13 +643,14 @@ static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPAR
 		}
 	case WM_MOUSEWHEEL:
 		{
-			int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+			short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 			if (zDelta) {
 				int nScrollLines=0;
 				SystemParametersInfo(SPI_GETWHEELSCROLLLINES,0,(void*)&nScrollLines,0);
 				for (int i=0; i<(nScrollLines+1)/2; i++)
 					SendMessage(hwndDlg,WM_VSCROLL, (zDelta<0)?SB_LINEDOWN:SB_LINEUP,0);
-		}	}
+			}
+		}
 		return TRUE;
 
 	case WM_VSCROLL:

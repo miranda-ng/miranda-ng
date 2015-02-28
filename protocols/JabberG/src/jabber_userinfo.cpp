@@ -578,12 +578,12 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 
 	case WM_DESTROY:
-		dat->ppro->WindowUnsubscribe(hwndDlg);
-		WindowList_Remove(hUserInfoList, hwndDlg);
 		if (dat) {
+			dat->ppro->WindowUnsubscribe(hwndDlg);
 			mir_free(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		}
+		WindowList_Remove(hUserInfoList, hwndDlg);
 		ImageList_Destroy(TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TV_INFO), NULL, TVSIL_NORMAL));
 		WindowFreeIcon(hwndDlg);
 		break;

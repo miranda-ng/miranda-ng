@@ -442,7 +442,7 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc(HWND hwndDlg, UINT msg, WPARA
 
 	case WM_MOUSEWHEEL:
 		{
-			int zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+			short zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 			if (zDelta) {
 				int nScrollLines = 0;
 				SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);

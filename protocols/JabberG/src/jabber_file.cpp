@@ -148,7 +148,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 			int bufferSize, writeSize;
 			__int64 remainingBytes;
 
-			if (ft->std.currentFileSize < 0 || ft->std.currentFileProgress < ft->std.currentFileSize) {
+			if (ft->std.currentFileProgress < ft->std.currentFileSize) {
 				bufferSize = eob - p;
 				remainingBytes = ft->std.currentFileSize - ft->std.currentFileProgress;
 				if (remainingBytes < bufferSize)
