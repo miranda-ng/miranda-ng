@@ -136,7 +136,7 @@ extern "C" int __declspec(dllexport) Load()
 
 	// Get ini file name
 	gMirandaDir[0] = '\0';
-	GetModuleFileName(GetModuleHandle(NULL),gMirandaDir,sizeof(gMirandaDir));
+	GetModuleFileNameA(GetModuleHandle(NULL),gMirandaDir,sizeof(gMirandaDir));
 
 	// Remove last name
 	strTmp = strrchr(gMirandaDir,'\\');
@@ -176,11 +176,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 {
 	if (gIniFile[0] == '\0') {
-		MessageBox(NULL, Translate("Configuration file could not be found!"), Translate(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
+		MessageBox(NULL, TranslateT("Configuration file could not be found!"), TranslateT(MSGBOX_TITLE), MB_OK | MB_ICONERROR);
 		return -1;
 	}
 
-	if (MessageBox(NULL, Translate(NOTICE_TEXT), Translate(MSGBOX_TITLE), MB_YESNO) == IDYES) {
+	if (MessageBox(NULL, TranslateT(NOTICE_TEXT), TranslateT(MSGBOX_TITLE), MB_YESNO) == IDYES) {
 		SetProtocolsOffline();
 		RemoveUsers();
 		RemoveSettings();
@@ -188,7 +188,7 @@ INT_PTR RemoveAllService(WPARAM wParam,LPARAM lParam)
 		RemoveDirectories();
 		DisablePlugins();
 
-		MessageBox(NULL, Translate("Settings are deleted now."), Translate(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
+		MessageBox(NULL, TranslateT("Settings are deleted now."), TranslateT(MSGBOX_TITLE), MB_OK | MB_ICONINFORMATION);
 	}
 
 	return 0;
@@ -503,7 +503,7 @@ void DisablePlugins()
 
 			// Disable it
 			if (name[0] != '\0') {
-				CharLower(name);
+				CharLowerA(name);
 				if (db_get_b(NULL, PLUGINDISABLELIST, name, 0) != 1)
 				{
 					db_set_b(NULL, PLUGINDISABLELIST, name, 1);
@@ -523,7 +523,7 @@ void DisablePlugins()
 BOOL GetSettingBool(const char *section, const char *key, BOOL defaultValue)
 {
 	char tmp[16];
-	if (GetPrivateProfileString(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0)
+	if (GetPrivateProfileStringA(section, key, defaultValue ? "true" : "false", tmp, sizeof(tmp), gIniFile) == 0)
 		return defaultValue;
 
 	return stricmp(tmp, "true") == 0;
@@ -533,7 +533,7 @@ BOOL GetSettingBool(const char *section, const char *key, BOOL defaultValue)
 BOOL GetSettings(const char *section, char *buffer, size_t bufferSize)
 {
 	buffer[0] = '\0\0';
-	return (BOOL)GetPrivateProfileSection(section, buffer, (DWORD)bufferSize, gIniFile) != 0;
+	return (BOOL)GetPrivateProfileSectionA(section, buffer, (DWORD)bufferSize, gIniFile) != 0;
 }
 
 
@@ -542,19 +542,18 @@ BOOL GetSettings(const char *section, char *buffer, size_t bufferSize)
 
 void DeleteFileOrFolder(const char *name)
 {
-	int attibs = GetFileAttributes(name);
+	DWORD attibs = GetFileAttributesA(name);
 
-	if (attibs == 0xFFFFFFFF) { // Not exists
+	if (attibs == INVALID_FILE_ATTRIBUTES) { // Not exists
 								// Try to find it
-		WIN32_FIND_DATA findData;
-		HANDLE hwnd;
 		char tmp[MAX_PATH];
 		char *strTmp;
 
 		// Delete files
-		hwnd = FindFirstFile(name, &findData);
+		WIN32_FIND_DATAA findData;
+		HANDLE hwnd = FindFirstFileA(name, &findData);
 		if (hwnd != INVALID_HANDLE_VALUE) {
-			strcpy(tmp, name);
+			strncpy(tmp, name, sizeof(tmp)-1);
 			strTmp = strrchr(tmp,'\\');
 
 			if(strTmp != NULL) {
@@ -572,21 +571,19 @@ void DeleteFileOrFolder(const char *name)
 					DeleteFileOrFolder(tmp);
 				}
 			}
-			while(FindNextFile(hwnd, &findData) != 0);
+			while(FindNextFileA(hwnd, &findData) != 0);
 
 			FindClose(hwnd);
 		}
 	}
 	else if (attibs & FILE_ATTRIBUTE_DIRECTORY)	{ // Is a directory
 												  // Get all files and delete then
-		WIN32_FIND_DATA findData;
-		HANDLE hwnd;
 		char tmp[MAX_PATH];
-
 		mir_snprintf(tmp, SIZEOF(tmp), "%s\\*.*", name);
 
 		// Delete files
-		hwnd = FindFirstFile(tmp, &findData);
+		WIN32_FIND_DATAA findData;
+		HANDLE hwnd = FindFirstFileA(tmp, &findData);
 		if (hwnd != INVALID_HANDLE_VALUE) {
 			do {
 				if (strcmp(findData.cFileName, ".") && strcmp(findData.cFileName, "..")) {
@@ -594,17 +591,17 @@ void DeleteFileOrFolder(const char *name)
 					DeleteFileOrFolder(tmp);
 				}
 			}
-			while(FindNextFile(hwnd, &findData) != 0);
+			while(FindNextFileA(hwnd, &findData) != 0);
 
 			FindClose(hwnd);
 		}
 
 		// Delete directory
-		RemoveDirectory(name);
+		RemoveDirectoryA(name);
 	}
 	else { // Is a File
-		SetFileAttributes(name, FILE_ATTRIBUTE_ARCHIVE);
-		DeleteFile(name);
+		SetFileAttributesA(name, FILE_ATTRIBUTE_ARCHIVE);
+		DeleteFileA(name);
 	}
 }
 
@@ -618,7 +615,7 @@ BOOL isMetaContact(MCONTACT hContact)
 
 typedef struct {
 	char buffer[10000];
-	int pos;
+	size_t pos;
 	const char *filter;
 	size_t lenFilterMinusOne;
 } DeleteModuleStruct;
