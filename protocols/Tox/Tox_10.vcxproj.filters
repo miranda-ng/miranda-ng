@@ -57,6 +57,12 @@
     <ClInclude Include="src\tox_chatrooms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\tox_icons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\tox_menus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\tox_proto.cpp">
@@ -135,6 +141,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\tox_menus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tox_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
