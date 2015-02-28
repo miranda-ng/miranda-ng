@@ -527,11 +527,9 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 				hDbEvent = db_event_prev(hContact, hDbEvent);
 		}
 		else {
-			MEVENT hMatchEvent, hSearchEvent;
-			DWORD matchTimestamp, priorTimestamp;
+			MEVENT hMatchEvent = NULL, hSearchEvent = NULL;
+			DWORD matchTimestamp = 0, priorTimestamp = 0;
 
-			hMatchEvent = hSearchEvent = NULL;
-			matchTimestamp = priorTimestamp = 0;
 			if (flags & DBE_FIRST) {
 				for (MCONTACT hSearchContact = db_find_first(); hSearchContact; hSearchContact = db_find_next(hSearchContact)) {
 					hSearchEvent = findDbEvent(hSearchContact, NULL, flags);

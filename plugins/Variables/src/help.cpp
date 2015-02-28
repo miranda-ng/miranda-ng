@@ -485,9 +485,6 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg, UINT msg, WPARAM wPar
 				break;
 
 			size_t len = _tcslen(tr->tszTokenString) + 2;
-			if (len < 0)
-				break;
-
 			TCHAR *tokenString = (TCHAR*)mir_alloc((len+1)*sizeof(TCHAR));
 			if (tokenString == NULL)
 				break;
