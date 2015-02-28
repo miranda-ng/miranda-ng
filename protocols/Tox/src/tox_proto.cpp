@@ -11,33 +11,12 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 
 	SetAllContactsStatus(ID_STATUS_OFFLINE);
 
-	// icons
-	wchar_t filePath[MAX_PATH];
-	GetModuleFileName(g_hInstance, filePath, MAX_PATH);
-
-	wchar_t sectionName[100];
-	mir_sntprintf(sectionName, SIZEOF(sectionName), _T("%s/%s"), LPGENT("Protocols"), _A2T(MODULE));
-
-	char settingName[100];
-	mir_snprintf(settingName, SIZEOF(settingName), "%s_%s", MODULE, "main");
-
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(SKINICONDESC);
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = filePath;
-	sid.pszName = settingName;
-	sid.ptszSection = sectionName;
-	sid.ptszDescription = LPGENT("Protocol icon");
-	sid.iDefaultIndex = -IDI_TOX;
-	Skin_AddIcon(&sid);
-
 	// custom event
 	DBEVENTTYPEDESCR dbEventType = { sizeof(dbEventType) };
-	dbEventType.module = this->m_szModuleName;
+	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
-
 	dbEventType.eventType = TOX_DB_EVENT_TYPE_ACTION;
-	dbEventType.descr = "Tox action";
+	dbEventType.descr = Translate("Tox action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	// avatars
@@ -46,15 +25,12 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	CreateProtoService(PS_GETMYAVATART, &CToxProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CToxProto::SetMyAvatar);
 
+	// nick
 	CreateProtoService(PS_SETMYNICKNAME, &CToxProto::SetMyNickname);
-
-	// transfers
-	transfers = new CTransferList();
 }
 
 CToxProto::~CToxProto()
 {
-	delete transfers;
 	mir_free(accountName);
 	UninitNetlib();
 }
@@ -111,21 +87,7 @@ int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 	{
 		return 1;
 	}
-
-	ToxBinAddress address = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
-	ToxBinAddress pubKey = address.GetPubKey();
-	if (tox_add_friend_norequest(tox, pubKey) == TOX_ERROR)
-	{
-		return 1;
-	}
-
-	// trim address to public key
-	setString(hContact, TOX_SETTINGS_ID, pubKey.ToHex());
-
-	db_unset(hContact, "CList", "NotOnList");
-	delSetting(hContact, "Grant");
-
-	return 0;
+	return OnGrantAuth(hContact, 0);
 }
 
 int __cdecl CToxProto::AuthDeny(MEVENT, const PROTOCHAR*) { return 0; }
@@ -138,30 +100,28 @@ int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage)
 {
 	ptrA reason(mir_utf8encodeW(szMessage));
-
-	ToxBinAddress address = ptrA(getStringA(hContact, TOX_SETTINGS_ID));
-	int32_t number = tox_add_friend(tox, address, (uint8_t*)(char*)reason, mir_strlen(reason));
-	if (number > TOX_ERROR)
-	{
-		// trim address to public key
-		setString(hContact, TOX_SETTINGS_ID, address.ToHex().GetPubKey());
-
-		db_unset(hContact, "CList", "NotOnList");
-		delSetting(hContact, "Grant");
-
-		std::string nick("", TOX_MAX_NAME_LENGTH);
-		tox_get_name(tox, number, (uint8_t*)&nick[0]);
-		setString(hContact, "Nick", nick.c_str());
-
-		return 0;
-	}
-
-	return 1;
+	return OnRequestAuth(hContact, (LPARAM)reason);
 }
 
 HANDLE __cdecl CToxProto::ChangeInfo(int, void*) { return 0; }
 
 int __cdecl CToxProto::GetInfo(MCONTACT, int) { return 0; }
+
+HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR*) { return 0; }
+
+HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR*) { return 0; }
+
+HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*) { return 0; }
+
+HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
+{
+	return OnSearchAdvanced(owner);
+}
+
+HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner)
+{
+	return OnCreateExtendedSearchUI(owner);
+}
 
 int __cdecl CToxProto::RecvContacts(MCONTACT, PROTORECVEVENT*) { return 0; }
 
@@ -262,6 +222,7 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 }
 
 HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT) { return 0; }
+
 int __cdecl CToxProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
@@ -291,8 +252,8 @@ int __cdecl CToxProto::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM 
 	case EV_PROTO_ONCONTACTDELETED:
 		return OnContactDeleted(wParam, lParam);
 
-	//case EV_PROTO_ONMENU:
-	//	return OnInitStatusMenu();
+	case EV_PROTO_ONMENU:
+		return OnInitStatusMenu();
 	}
 
 	return 1;

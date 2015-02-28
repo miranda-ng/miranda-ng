@@ -59,9 +59,17 @@ public:
 
 	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam);
 
-	// instances
-	static CToxProto* InitAccount(const char* protoName, const wchar_t* userName);
-	static int        UninitAccount(CToxProto* ppro);
+	// accounts
+	static CToxProto* InitAccount(const char *protoName, const TCHAR *userName);
+	static int        UninitAccount(CToxProto *proto);
+
+	// icons
+	static void InitIcons();
+	static void UninitIcons();
+
+	// menus
+	static void InitMenus();
+	static void UninitMenus();
 
 private:
 	Tox *tox;
@@ -70,7 +78,7 @@ private:
 	TCHAR *accountName;
 	HANDLE hNetlib, hPollingThread;
 	bool isTerminated, isConnected;
-	CTransferList *transfers;
+	CTransferList transfers;
 
 	// tox profile
 	std::tstring GetToxProfilePath();
@@ -78,6 +86,8 @@ private:
 
 	bool LoadToxProfile();
 	void SaveToxProfile();
+
+	int __cdecl OnCopyToxID(WPARAM, LPARAM);
 
 	static INT_PTR CALLBACK ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -101,8 +111,10 @@ private:
 	void __cdecl PollingThread(void*);
 
 	// accounts
-	static LIST<CToxProto> accounts;
+	static LIST<CToxProto> Accounts;
 	static int CompareAccounts(const CToxProto *p1, const CToxProto *p2);
+
+	static CToxProto* GetContactAccount(MCONTACT hContact);
 
 	int __cdecl OnAccountLoaded(WPARAM, LPARAM);
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);
@@ -113,10 +125,17 @@ private:
 	void InitNetlib();
 	void UninitNetlib();
 
+	// icons
+	static IconInfo Icons[];
+	static HANDLE GetIconHandle(const char *name);
+	static HANDLE GetSkinIconHandle(const char *name);
+
 	// menus
+	static HGENMENU ContactMenuItems[CMI_MAX];
+	int OnPrebuildContactMenu(MCONTACT hContact, LPARAM);
+	static int PrebuildContactMenu(MCONTACT hContact, LPARAM lParam);
+
 	int OnInitStatusMenu();
-	static void InitMenus();
-	static void UninitMenus();
 
 	// options
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -147,6 +166,9 @@ private:
 
 	void __cdecl LoadFriendList(void*);
 
+	int __cdecl OnRequestAuth(MCONTACT hContact, LPARAM lParam);
+	int __cdecl OnGrantAuth(MCONTACT hContact, LPARAM);
+
 	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg);
 	static void OnStatusMessageChanged(Tox *tox, const int friendNumber, const uint8_t* message, const uint16_t messageSize, void *arg);
@@ -154,10 +176,13 @@ private:
 	static void OnConnectionStatusChanged(Tox *tox, const int friendNumber, const uint8_t status, void *arg);
 
 	// contacts search
-	void __cdecl SearchFailedAsync(void* arg);
 	void __cdecl SearchByNameAsync(void* arg);
+	void __cdecl SearchFailedAsync(void* arg);
 
 	static INT_PTR CALLBACK SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+	HWND __cdecl OnSearchAdvanced(HWND owner);
+	HWND __cdecl OnCreateExtendedSearchUI(HWND owner);
 
 	// chat rooms
 	//MCONTACT GetChatRoom(const char *pubKey);
@@ -226,6 +251,13 @@ private:
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
 	static bool IsFileExists(std::tstring path);
+
+	template<int(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
+	static INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
+	{
+		CToxProto *proto = CToxProto::GetContactAccount((MCONTACT)wParam);
+		return proto ? (proto->*Service)(wParam, lParam) : 0;
+	}
 };
 
 #endif //_TOX_PROTO_H_

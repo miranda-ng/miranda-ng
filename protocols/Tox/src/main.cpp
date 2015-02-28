@@ -35,6 +35,12 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 extern "C" int __declspec(dllexport) Load(void)
 {
+	g_hToxLibrary = LoadLibrary(_T("libtox.dll"));
+	if (g_hToxLibrary == NULL)
+	{
+		return 0;
+	}
+
 	mir_getLP(&pluginInfo);
 
 	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
@@ -42,14 +48,23 @@ extern "C" int __declspec(dllexport) Load(void)
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)CToxProto::InitAccount;
 	pd.fnUninit = (pfnUninitProto)CToxProto::UninitAccount;
-	return CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
+
+	CToxProto::InitIcons();
+	CToxProto::InitMenus();
+
+	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
+	CToxProto::UninitIcons();
+	CToxProto::UninitMenus();
+
 	if (g_hToxLibrary)
 	{
 		FreeLibrary(g_hToxLibrary);
 	}
+
 	return 0;
 }

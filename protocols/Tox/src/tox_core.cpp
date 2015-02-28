@@ -106,13 +106,13 @@ bool CToxProto::InitToxCore()
 
 void CToxProto::UninitToxCore()
 {
-	for (size_t i = 0; i < transfers->Count(); i++)
+	for (size_t i = 0; i < transfers.Count(); i++)
 	{
-		FileTransferParam *transfer = transfers->GetAt(i);
+		FileTransferParam *transfer = transfers.GetAt(i);
 		transfer->status = CANCELED;
 		tox_file_send_control(tox, transfer->friendNumber, transfer->GetDirection(), transfer->fileNumber, TOX_FILECONTROL_KILL, NULL, 0);
 		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
-		transfers->Remove(transfer);
+		transfers.Remove(transfer);
 	}
 
 	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));

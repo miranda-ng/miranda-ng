@@ -1,6 +1,6 @@
 #include "common.h"
 
-LIST<CToxProto> CToxProto::accounts(1, CToxProto::CompareAccounts);
+LIST<CToxProto> CToxProto::Accounts(1, CToxProto::CompareAccounts);
 
 int CToxProto::CompareAccounts(const CToxProto *p1, const CToxProto *p2)
 {
@@ -10,16 +10,27 @@ int CToxProto::CompareAccounts(const CToxProto *p1, const CToxProto *p2)
 CToxProto* CToxProto::InitAccount(const char *protoName, const wchar_t *userName)
 {
 	CToxProto *proto = new CToxProto(protoName, userName);
-	accounts.insert(proto);
+	Accounts.insert(proto);
 	return proto;
 }
 
 int CToxProto::UninitAccount(CToxProto *proto)
 {
-	accounts.remove(proto);
+	Accounts.remove(proto);
 	delete proto;
-
 	return 0;
+}
+
+CToxProto* CToxProto::GetContactAccount(MCONTACT hContact)
+{
+	for (int i = 0; i < Accounts.getCount(); i++)
+	{
+		if (mir_strcmpi(GetContactProto(hContact), Accounts[i]->m_szModuleName) == 0)
+		{
+			return Accounts[i];
+		}
+	}
+	return NULL;
 }
 
 int CToxProto::OnAccountLoaded(WPARAM, LPARAM)

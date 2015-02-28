@@ -1,9 +1,42 @@
 #include "common.h"
 #include "tox_dns.h"
 
-void CToxProto::SearchFailedAsync(void*)
+ToxHexAddress ResolveToxAddressFromDnsRecordV1(const std::string &dnsRecord)
 {
-	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
+	std::smatch match;
+	std::regex regex("^v=tox1;id=([A-Fa-f0-9]{76})(;sign=(\\S+))?$");
+	if (std::regex_search(dnsRecord, match, regex))
+	{
+		return match[1];
+	}
+	return ToxHexAddress::Empty();
+}
+
+ToxHexAddress ResolveToxAddressFromDnsRecordV2(const std::string &dnsRecord)
+{
+	// unsupported
+	/*std::smatch match;
+	std::regex regex("^v=tox2;pub=([A-Fa-f0-9]{64});check=([A-Fa-f0-9]{8});sign=(\\S+))?$");
+	if (std::regex_search(dnsRecord, match, regex))
+	{
+	}*/
+	return ToxHexAddress::Empty();
+}
+
+ToxHexAddress ResolveToxAddressFromDnsRecordV3(void *dns, uint32_t requestId, const std::string &dnsRecord)
+{
+	std::smatch match;
+	std::regex regex("^v=tox3;id=([a-z0-5.]+)$");
+	if (std::regex_search(dnsRecord, match, regex))
+	{
+		std::string id = match[1];
+		uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
+		if (tox_decrypt_dns3_TXT(dns, data, (uint8_t*)id.c_str(), id.length(), requestId) != TOX_ERROR)
+		{
+			return ToxHexAddress(data, TOX_FRIEND_ADDRESS_SIZE);
+		}
+	}
+	return ToxHexAddress::Empty();
 }
 
 void CToxProto::SearchByNameAsync(void *arg)
@@ -12,38 +45,34 @@ void CToxProto::SearchByNameAsync(void *arg)
 	char *name = strtok(query, "@");
 	char *domain = strtok(NULL, "");
 
-	int i = 0;
-	static int j = 0;
-	while (i < 2)
+	int resolved = 0;
+
+	for (size_t i = 0; i < SIZEOF(dns_servers); i++)
 	{
-		struct dns_server *server = &dns_servers[j % SIZEOF(dns_servers)];
-		if (domain == NULL || strcmp(domain, server->domain) == 0)
+		struct dns_server *server = &dns_servers[i];
+		if (domain == NULL || mir_strcmpi(domain, server->domain) == 0)
 		{
 			void *dns = tox_dns3_new(server->key);
 
-			uint8_t dnsString[256];
 			uint32_t requestId = 0;
+			uint8_t dnsString[MAX_PATH];
 			int length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, mir_strlen(name));
 			if (length != TOX_ERROR)
 			{
 				dnsString[length] = 0;
-
-				char dnsQuery[512];
-				mir_snprintf(dnsQuery, 512, "_%s._tox.%s", dnsString, server->domain);
+				char dnsQuery[MAX_PATH * 2];
+				mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "_%s._tox.%s", dnsString, server->domain);
 
 				DNS_RECORDA *record = NULL;
-				DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, 0, NULL, (PDNS_RECORD*)&record, NULL);
-				while (record)
+				DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, 0, NULL, (PDNS_RECORD*)&record, NULL);
+				while (status == ERROR_SUCCESS && record)
 				{
 					DNS_TXT_DATAA *txt = &record->Data.Txt;
 					if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
 					{
-						char *recordId = &txt->pStringArray[0][10];
-						uint8_t data[TOX_FRIEND_ADDRESS_SIZE];
-						if (tox_decrypt_dns3_TXT(dns, data, (uint8_t*)recordId, mir_strlen(recordId), requestId) != TOX_ERROR)
+						ToxHexAddress address = ResolveToxAddressFromDnsRecordV3(dns, requestId, txt->pStringArray[0]);
+						if (!address.IsEmpty())
 						{
-							ToxHexAddress address(data, TOX_FRIEND_ADDRESS_SIZE);
-
 							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
 							psr.flags = PSR_TCHAR;
 							psr.id = mir_a2t(address);
@@ -54,18 +83,61 @@ void CToxProto::SearchByNameAsync(void *arg)
 							psr.email = mir_tstrdup(email);
 
 							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+
+							resolved++;
+							break;
 						}
 					}
 					record = record->pNext;
 				}
+				DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
 			}
 			tox_dns3_kill(dns);
 		}
-		i++; j++;
+	}
+
+	if (resolved == 0 && domain)
+	{
+		char dnsQuery[MAX_PATH];
+		mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "%s._tox.%s", name, domain);
+
+		DNS_RECORDA *record = NULL;
+		DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, DNS_QUERY_STANDARD, NULL, (PDNS_RECORD*)&record, NULL);
+		while (status == ERROR_SUCCESS && record)
+		{
+			DNS_TXT_DATAA *txt = &record->Data.Txt;
+			if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
+			{
+				ToxHexAddress address = ResolveToxAddressFromDnsRecordV1(txt->pStringArray[0]);
+				if (!address.IsEmpty())
+				{
+					PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
+					psr.flags = PSR_TCHAR;
+					psr.id = mir_a2t(address);
+					psr.nick = mir_utf8decodeT(name);
+
+					TCHAR email[MAX_PATH];
+					mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick, _A2T(domain));
+					psr.email = mir_tstrdup(email);
+
+					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+
+					resolved++;
+					break;
+				}
+			}
+			record = record->pNext;
+		}
+		DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
 	}
 
 	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 	mir_free(arg);
+}
+
+void CToxProto::SearchFailedAsync(void*)
+{
+	ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HWND)1, 0);
 }
 
 INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM, LPARAM lParam)
@@ -90,13 +162,7 @@ INT_PTR CToxProto::SearchDlgProc(HWND hwnd, UINT uMsg, WPARAM, LPARAM lParam)
 	return FALSE;
 }
 
-HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR*) { return 0; }
-
-HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR*) { return 0; }
-
-HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*) { return 0; }
-
-HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
+HWND CToxProto::OnSearchAdvanced(HWND owner)
 {
 	if (!IsOnline())
 	{
@@ -132,7 +198,7 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 		regex = "^\\s*(([^ @/:;()\"']+)(@[A-Za-z]+.[A-Za-z]{2,6})?)\\s*$";
 		if (std::regex_search(query, match, regex))
 		{
-			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(match[1].str().c_str()));
+			ForkThread(&CToxProto::SearchByNameAsync, mir_strdup(query.c_str()));
 		}
 		else
 		{
@@ -142,7 +208,7 @@ HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 	return (HWND)1;
 }
 
-HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner)
+HWND CToxProto::OnCreateExtendedSearchUI(HWND owner)
 {
 	return CreateDialogParam(
 		g_hInstance,

@@ -51,9 +51,6 @@ int CToxProto::OnReceiveMessage(MCONTACT hContact, PROTORECVEVENT *pre)
 	if (pre->szMessage == NULL)
 		return NULL;
 
-	ptrA pszTemp;
-	mir_ptr<BYTE> pszBlob;
-
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = pre->timestamp;

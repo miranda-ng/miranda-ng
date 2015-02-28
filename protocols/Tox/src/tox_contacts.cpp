@@ -26,7 +26,7 @@ MCONTACT CToxProto::GetContactFromAuthEvent(MEVENT hEvent)
 {
 	DWORD body[3];
 	DBEVENTINFO dbei = { sizeof(DBEVENTINFO) };
-	dbei.cbBlob = sizeof(DWORD)* 2;
+	dbei.cbBlob = sizeof(DWORD) * 2;
 	dbei.pBlob = (PBYTE)&body;
 
 	if (db_event_get(hEvent, &dbei))
@@ -137,7 +137,7 @@ void CToxProto::LoadFriendList(void*)
 				}
 
 				uint64_t timestamp = tox_get_last_online(tox, friendNumber);
-				if (timestamp)
+				if (timestamp > getDword(hContact, "LastEventDateTS", 0))
 				{
 					setDword(hContact, "LastEventDateTS", timestamp);
 				}
@@ -150,6 +150,58 @@ void CToxProto::LoadFriendList(void*)
 	{
 		debugLogA("CToxProto::LoadContactList: your friend list is empty");
 	}
+}
+
+int CToxProto::OnRequestAuth(MCONTACT hContact, LPARAM lParam)
+{
+	if (!IsOnline())
+	{
+		return 1;
+	}
+
+	char *reason = lParam ? (char*)lParam : " ";
+	size_t length = mir_strlen(reason);
+	ToxBinAddress address(ptrA(getStringA(hContact, TOX_SETTINGS_ID)));
+
+	int32_t friendNumber = tox_add_friend(tox, address, (uint8_t*)reason, length);
+	if (friendNumber <= TOX_ERROR)
+	{
+		debugLogA("CToxProto::OnRequestAuth: failed to request auth");
+		return 2;
+	}
+
+	// trim address to public key
+	setString(hContact, TOX_SETTINGS_ID, address.ToHex().GetPubKey());
+	db_unset(hContact, "CList", "NotOnList");
+	delSetting(hContact, "Grant");
+
+	std::string nick("", TOX_MAX_NAME_LENGTH);
+	tox_get_name(tox, friendNumber, (uint8_t*)&nick[0]);
+	setString(hContact, "Nick", nick.c_str());
+
+	return 0;
+}
+
+int CToxProto::OnGrantAuth(MCONTACT hContact, LPARAM)
+{
+	if (!IsOnline())
+	{
+		return 1;
+	}
+
+	ToxBinAddress pubKey(ptrA(getStringA(hContact, TOX_SETTINGS_ID)), TOX_CLIENT_ID_SIZE * 2);
+	if (tox_add_friend_norequest(tox, pubKey) == TOX_ERROR)
+	{
+		debugLogA("CToxProto::OnGrantAuth: failed to grant auth");
+		return 2;
+	}
+
+	// trim address to public key
+	setString(hContact, TOX_SETTINGS_ID, pubKey.ToHex());
+	db_unset(hContact, "CList", "NotOnList");
+	delSetting(hContact, "Grant");
+
+	return 0;
 }
 
 void CToxProto::OnFriendRequest(Tox *, const uint8_t *data, const uint8_t *message, const uint16_t messageSize, void *arg)
@@ -236,11 +288,12 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendNumber, cons
 		{
 			tox_send_avatar_info(proto->tox, friendNumber);
 			proto->delSetting(hContact, "Auth");
+			proto->delSetting(hContact, "Grant");
 
-			for (size_t i = 0; i < proto->transfers->Count(); i++)
+			for (size_t i = 0; i < proto->transfers.Count(); i++)
 			{
 				// only for receiving
-				FileTransferParam *transfer = proto->transfers->GetAt(i);
+				FileTransferParam *transfer = proto->transfers.GetAt(i);
 				if (transfer->friendNumber == friendNumber && transfer->GetDirection() == 1)
 				{
 					proto->debugLogA("CToxProto::OnConnectionStatusChanged: sending ask to resume the transfer of file (%d)", transfer->fileNumber);
@@ -254,9 +307,11 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, const int friendNumber, cons
 		}
 		else
 		{
-			for (size_t i = 0; i < proto->transfers->Count(); i++)
+			proto->setDword(hContact, "LastEventDateTS", time(NULL));
+
+			for (size_t i = 0; i < proto->transfers.Count(); i++)
 			{
-				FileTransferParam *transfer = proto->transfers->GetAt(i);
+				FileTransferParam *transfer = proto->transfers.GetAt(i);
 				if (transfer->friendNumber == friendNumber)
 				{
 					transfer->status = BROKEN;
@@ -323,7 +378,7 @@ INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				SetDlgItemText(hwnd, IDC_DNS_ID, ptrT(proto->getTStringA(hContact, TOX_SETTINGS_DNS)));
 			}
-				break;
+			break;
 
 			case PSN_PARAMCHANGED:
 				SetWindowLongPtr(hwnd, GWLP_USERDATA, ((PSHNOTIFY*)lParam)->lParam);
