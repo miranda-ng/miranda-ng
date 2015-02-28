@@ -338,7 +338,7 @@ int CJabberProto::AdhocSetStatusHandler(HXML, CJabberIqInfo *pInfo, CJabberAdhoc
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		HXML fieldNode = xmlGetChildByTag(xNode, "field", "var", _T("status")), valueNode;
-		if (!xNode)
+		if (!fieldNode)
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		LPCTSTR ptszValue = xmlGetText( xmlGetChild(fieldNode , "value"));

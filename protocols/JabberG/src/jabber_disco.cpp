@@ -631,8 +631,6 @@ void CJabberDlgDiscovery::OnInitDialog()
 //	TranslateDialogDefault(m_hwnd);
 	WindowSetIcon(m_hwnd, m_proto, "servicediscovery");
 
-	int i;
-
 	if (m_jid) {
 		SetDlgItemText(m_hwnd, IDC_COMBO_JID, m_jid);
 		SetDlgItemText(m_hwnd, IDC_COMBO_NODE, _T(""));
@@ -677,7 +675,7 @@ void CJabberDlgDiscovery::OnInitDialog()
 
 	TreeList_Create(hwndList);
 	TreeList_AddIcon(hwndList, m_proto->LoadIconEx("main"), 0);
-	for (i=0; i < SIZEOF(sttNodeIcons); i++)
+	for (int i=0; i < SIZEOF(sttNodeIcons); i++)
 	{
 		bool needDestroy = false;
 		HICON hIcon;
@@ -1381,12 +1379,13 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 				item = ListGetItemPtr(LIST_BOOKMARK, pNode->GetJid());
 				if (item == NULL) {
 					item = ListAdd(LIST_ROOM, pNode->GetJid());
+					if (item == NULL)
+						break;
 					item->name = mir_tstrdup(pNode->GetName());
 				}
-				if (item != NULL) {
-					item->type = _T("conference");
-					AddEditBookmark(item);
-				}
+				
+				item->type = _T("conference");
+				AddEditBookmark(item);
 			}
 		}
 		break;

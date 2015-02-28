@@ -1000,14 +1000,15 @@ void JabberCopyText(HWND hwnd, const TCHAR *text)
 {
 	if (!hwnd || !text) return;
 
-	OpenClipboard(hwnd);
-	EmptyClipboard();
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(text) + 1));
-	TCHAR *s = (TCHAR *)GlobalLock(hMem);
-	mir_tstrcpy(s, text);
-	GlobalUnlock(hMem);
-	SetClipboardData(CF_UNICODETEXT, hMem);
-	CloseClipboard();
+	if (OpenClipboard(hwnd)) {
+		EmptyClipboard();
+		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(mir_tstrlen(text) + 1));
+		TCHAR *s = (TCHAR *)GlobalLock(hMem);
+		mir_tstrcpy(s, text);
+		GlobalUnlock(hMem);
+		SetClipboardData(CF_UNICODETEXT, hMem);
+		CloseClipboard();
+	}
 }
 
 BOOL CJabberProto::EnterString(CMString &result, LPCTSTR caption, int type, char *windowName, int recentCount, int timeout)

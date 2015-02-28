@@ -619,7 +619,8 @@ void CJabberProto::OnIqResultGetVcardPhoto(HXML n, MCONTACT hContact, bool &hasP
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
 			if (item == NULL) {
 				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about photo
-				item->bUseResource = TRUE;
+				if (item != NULL)
+					item->bUseResource = TRUE;
 			}
 			if (item != NULL) {
 				hasPhoto = TRUE;
