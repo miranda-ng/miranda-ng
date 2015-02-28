@@ -167,23 +167,22 @@ void ParseImagePart(FILE *fp, TCHAR *buff, int iPart)
 	}
 }
 
-char *GetSettingName(TCHAR *szValue, char *szPostfix, char *buff)
+char *GetSettingName(TCHAR *szValue, char *szPostfix, char *buff, size_t buffsize)
 {
 	buff[0] = 0;
 
 	if (_tcsstr(szValue, _T("traytitle")))
-		mir_snprintf(buff, SIZEOF(buff), "FontTrayTitle%s", szPostfix);
+		mir_snprintf(buff, buffsize, "FontTrayTitle%s", szPostfix);
 	else if (_tcsstr(szValue, _T("title")))
-		mir_snprintf(buff, SIZEOF(buff), "FontFirst%s", szPostfix);
+		mir_snprintf(buff, buffsize, "FontFirst%s", szPostfix);
 	else if (_tcsstr(szValue, _T("label")))
-		mir_snprintf(buff, SIZEOF(buff), "FontLabels%s", szPostfix);
+		mir_snprintf(buff, buffsize, "FontLabels%s", szPostfix);
 	else if (_tcsstr(szValue, _T("value")))
-		mir_snprintf(buff, SIZEOF(buff), "FontValues%s", szPostfix);
+		mir_snprintf(buff, buffsize, "FontValues%s", szPostfix);
 	else if (_tcsstr(szValue, _T("divider")))
-		mir_snprintf(buff, SIZEOF(buff), "Divider%s", szPostfix);
+		mir_snprintf(buff, buffsize, "Divider%s", szPostfix);
 
-	if (buff[0]) return buff;
-	else return NULL;
+	return buff[0] ? buff : NULL;
 }
 
 void ParseFontPart(FILE *fp, TCHAR *buff)
@@ -205,7 +204,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 				{
 					if (_tcsstr(buff, _T("face")))
 					{
-						if (GetSettingName(buff, "", szSetting)) 
+						if (GetSettingName(buff, "", szSetting, sizeof(szSetting) - 1)) 
 						{
 							if (_tcslen(pch) > 32)
 								pch[32] = 0;
@@ -215,7 +214,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 					} 
 					else if (_tcsstr(buff, _T("color")))
 					{
-						if (GetSettingName(buff, "Col", szSetting))
+						if (GetSettingName(buff, "Col", szSetting, sizeof(szSetting) - 1))
 						{
 							BYTE r = _ttoi(pch);
 							pch = _tcschr(pch, ' ');
@@ -234,7 +233,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 					} 
 					else if (_tcsstr(buff, _T("size")))
 					{
-						if (GetSettingName(buff, "Size", szSetting)) 
+						if (GetSettingName(buff, "Size", szSetting, sizeof(szSetting) - 1)) 
 						{
 							HDC hdc = GetDC(0);
 							int size = -MulDiv(_ttoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
@@ -244,7 +243,7 @@ void ParseFontPart(FILE *fp, TCHAR *buff)
 					} 
 					else if (_tcsstr(buff, _T("effect")))
 					{
-						if (GetSettingName(buff, "Sty", szSetting))
+						if (GetSettingName(buff, "Sty", szSetting, sizeof(szSetting) - 1))
 						{
 							BYTE effect = 0;
 							if (_tcsstr(pch, _T("font_bold")))

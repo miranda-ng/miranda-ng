@@ -28,14 +28,16 @@ HANDLE hServiceAdd;
 
 void AddTranslation(DBVTranslation *newTrans) 
 {
+	DBVTranslation *ptranslations = (DBVTranslation *)mir_realloc(translations, sizeof(DBVTranslation) * (iTransFuncsCount+1));
+	if (ptranslations == NULL)
+		return;
+	translations = ptranslations;
 	iTransFuncsCount++;
-
-	translations = (DBVTranslation *)mir_realloc(translations, sizeof(DBVTranslation) * iTransFuncsCount);
 	translations[iTransFuncsCount - 1] = *newTrans;
 	
 	char *szName = mir_t2a(newTrans->swzName);
-	char szSetting[256] = "Trans_";
-	strcat(szSetting, szName);
+	char szSetting[256];
+	mir_snprintf(szSetting, sizeof(szSetting),"Trans_%s",szName);
 
 	if (_tcscmp(newTrans->swzName, _T("[No translation]")) == 0) 
 	{

@@ -144,7 +144,7 @@ void FormatTimestamp(DWORD ts, char *szFormat, TCHAR *buff, int bufflen)
 
 bool Uid(MCONTACT hContact, char *szProto, TCHAR *buff, int bufflen)
 {
-	char *tmpProto = (hContact) ? tmpProto = GetContactProto(hContact) : szProto;
+	char *tmpProto = (hContact ? GetContactProto(hContact) : szProto);
 	if (tmpProto) {
 		char *szUid = (char*)CallProtoService(tmpProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 		if (szUid && (INT_PTR)szUid != CALLSERVICE_NOTFOUND)

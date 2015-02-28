@@ -22,15 +22,17 @@ Boston, MA 02111-1307, USA.
 
 __inline void AddRow(PopupWindowData *pwd, TCHAR *swzLabel, TCHAR *swzValue, char *szProto, bool bParseSmileys, bool bNewline, bool bLineAbove, bool bIsTitle = false, HICON hIcon = NULL) 
 {
-	pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));								
+	RowData *pRows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));
+	if (pRows == NULL)
+		return;
+	pwd->rows = pRows;								
 	pwd->rows[pwd->iRowCount].swzLabel = swzLabel ? mir_tstrdup(swzLabel) : NULL;
 	pwd->rows[pwd->iRowCount].swzValue = swzValue ? mir_tstrdup(swzValue) : NULL;
 	pwd->rows[pwd->iRowCount].spi = bParseSmileys ? Smileys_PreParse(swzValue, (int)_tcslen(swzValue), szProto) : NULL;
 	pwd->rows[pwd->iRowCount].bValueNewline = bNewline;
 	pwd->rows[pwd->iRowCount].bLineAbove = bLineAbove;
 	pwd->rows[pwd->iRowCount].bIsTitle = bIsTitle;
-	pwd->rows[pwd->iRowCount].hIcon = hIcon;
-	pwd->iRowCount++;
+	pwd->rows[pwd->iRowCount++].hIcon = hIcon;
 }
 
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
@@ -1141,7 +1143,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			}
 
 			// titlebar height
-			if (!pwd->bIsTextTip && pwd->swzTitle && opt.bShowTitle) {
+			if (!pwd->bIsTextTip && opt.bShowTitle) {
 				smr.top = smr.bottom = 0;
 				smr.left = rc.left + opt.iPadding + pwd->iIndent;
 				smr.right = rc.right;
