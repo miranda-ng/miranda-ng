@@ -51,9 +51,9 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 		if (GlobalNudge.useByProtocol) {
 			for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
 				if (!strcmp(protoName, n->item.ProtocolName))
-					Nudge_ShowPopup(n->item, hContact, msg);
+					Nudge_ShowPopup(&n->item, hContact, msg);
 		}
-		else Nudge_ShowPopup(DefaultNudge, hContact, msg);
+		else Nudge_ShowPopup(&DefaultNudge, hContact, msg);
 
 		return 0;
 	}
@@ -64,10 +64,10 @@ INT_PTR NudgeSend(WPARAM hContact, LPARAM lParam)
 		for (NudgeElementList *n = NudgeList; n != NULL; n = n->next)
 			if (!strcmp(protoName, n->item.ProtocolName))
 				if (n->item.showStatus)
-					Nudge_SentStatus(n->item, hContact);
+					Nudge_SentStatus(&n->item, hContact);
 	}
 	else if (DefaultNudge.showStatus)
-		Nudge_SentStatus(DefaultNudge, hContact);
+		Nudge_SentStatus(&DefaultNudge, hContact);
 
 	CallProtoService(protoName, PS_SEND_NUDGE, hContact, lParam);
 	return 0;
@@ -118,7 +118,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 					{
 						if (diff >= GlobalNudge.recvTimeSec) {
 							if (n->item.showPopup)
-								Nudge_ShowPopup(n->item, hContact, n->item.recText);
+								Nudge_ShowPopup(&n->item, hContact, n->item.recText);
 							if (n->item.openContactList)
 								OpenContactList();
 							if (n->item.shakeClist)
@@ -136,7 +136,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 
 					if (diff2 >= GlobalNudge.recvTimeSec)
 						if (n->item.showStatus)
-							Nudge_ShowStatus(n->item, hContact, nudgeSentTimestamp);
+							Nudge_ShowStatus(&n->item, hContact, nudgeSentTimestamp);
 				}
 				break;
 			}
@@ -161,7 +161,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 			{
 				if (diff >= GlobalNudge.recvTimeSec) {
 					if (DefaultNudge.showPopup)
-						Nudge_ShowPopup(DefaultNudge, hContact, DefaultNudge.recText);
+						Nudge_ShowPopup(&DefaultNudge, hContact, DefaultNudge.recText);
 					if (DefaultNudge.openContactList)
 						OpenContactList();
 					if (DefaultNudge.shakeClist)
@@ -179,7 +179,7 @@ int NudgeReceived(WPARAM hContact, LPARAM lParam)
 
 			if (diff2 >= GlobalNudge.recvTimeSec)
 				if (DefaultNudge.showStatus)
-					Nudge_ShowStatus(DefaultNudge, hContact, nudgeSentTimestamp);
+					Nudge_ShowStatus(&DefaultNudge, hContact, nudgeSentTimestamp);
 		}
 	}
 	return 0;
@@ -398,7 +398,7 @@ int Preview()
 			if (n->item.enabled) {
 				SkinPlaySound(n->item.NudgeSoundname);
 				if (n->item.showPopup)
-					Nudge_ShowPopup(n->item, hContact, n->item.recText);
+					Nudge_ShowPopup(&n->item, hContact, n->item.recText);
 				if (n->item.openContactList)
 					OpenContactList();
 				if (n->item.shakeClist)
@@ -414,7 +414,7 @@ int Preview()
 		if (DefaultNudge.enabled) {
 			SkinPlaySound(DefaultNudge.NudgeSoundname);
 			if (DefaultNudge.showPopup)
-				Nudge_ShowPopup(DefaultNudge, hContact, DefaultNudge.recText);
+				Nudge_ShowPopup(&DefaultNudge, hContact, DefaultNudge.recText);
 			if (DefaultNudge.openContactList)
 				OpenContactList();
 			if (DefaultNudge.shakeClist)
@@ -428,7 +428,7 @@ int Preview()
 	return 0;
 }
 
-void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
+void Nudge_ShowPopup(CNudgeElement *n, MCONTACT hContact, TCHAR * Message)
 {
 	hContact = db_mc_tryMeta(hContact);
 	TCHAR * lpzContactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
@@ -445,7 +445,7 @@ void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
 	else if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		POPUPDATAT NudgePopup = { 0 };
 		NudgePopup.lchContact = hContact;
-		NudgePopup.lchIcon = Skin_GetIconByHandle(n.hIcoLibItem);
+		NudgePopup.lchIcon = Skin_GetIconByHandle(n->hIcoLibItem);
 		NudgePopup.colorBack = 0;
 		NudgePopup.colorText = 0;
 		NudgePopup.iSeconds = 0;
@@ -462,9 +462,9 @@ void Nudge_ShowPopup(CNudgeElement n, MCONTACT hContact, TCHAR * Message)
 	else MessageBox(NULL, Message, lpzContactName, 0);
 }
 
-void Nudge_SentStatus(CNudgeElement n, MCONTACT hContact)
+void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 {
-	char *buff = mir_utf8encodeT(n.senText);
+	char *buff = mir_utf8encodeT(n->senText);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULENAME;
@@ -477,9 +477,9 @@ void Nudge_SentStatus(CNudgeElement n, MCONTACT hContact)
 	mir_free(buff);
 }
 
-void Nudge_ShowStatus(CNudgeElement n, MCONTACT hContact, DWORD timestamp)
+void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
 {
-	char *buff = mir_utf8encodeT(n.recText);
+	char *buff = mir_utf8encodeT(n->recText);
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = MODULENAME;
