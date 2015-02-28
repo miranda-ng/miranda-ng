@@ -152,7 +152,7 @@ void CToxProto::LoadFriendList(void*)
 	}
 }
 
-int CToxProto::OnRequestAuth(MCONTACT hContact, LPARAM lParam)
+INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 {
 	if (!IsOnline())
 	{
@@ -182,7 +182,7 @@ int CToxProto::OnRequestAuth(MCONTACT hContact, LPARAM lParam)
 	return 0;
 }
 
-int CToxProto::OnGrantAuth(MCONTACT hContact, LPARAM)
+INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 {
 	if (!IsOnline())
 	{
