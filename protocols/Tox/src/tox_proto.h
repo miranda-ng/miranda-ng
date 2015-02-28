@@ -87,7 +87,7 @@ private:
 	bool LoadToxProfile();
 	void SaveToxProfile();
 
-	int __cdecl OnCopyToxID(WPARAM, LPARAM);
+	INT_PTR __cdecl OnCopyToxID(WPARAM, LPARAM);
 
 	static INT_PTR CALLBACK ToxProfileImportProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK ToxProfilePasswordProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -132,8 +132,8 @@ private:
 
 	// menus
 	static HGENMENU ContactMenuItems[CMI_MAX];
-	int OnPrebuildContactMenu(MCONTACT hContact, LPARAM);
-	static int PrebuildContactMenu(MCONTACT hContact, LPARAM lParam);
+	int OnPrebuildContactMenu(WPARAM hContact, LPARAM);
+	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
 
 	int OnInitStatusMenu();
 
@@ -166,8 +166,8 @@ private:
 
 	void __cdecl LoadFriendList(void*);
 
-	int __cdecl OnRequestAuth(MCONTACT hContact, LPARAM lParam);
-	int __cdecl OnGrantAuth(MCONTACT hContact, LPARAM);
+	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
+	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);
 
 	static void OnFriendRequest(Tox *tox, const uint8_t *pubKey, const uint8_t *message, const uint16_t messageSize, void *arg);
 	static void OnFriendNameChange(Tox *tox, const int friendNumber, const uint8_t *name, const uint16_t nameSize, void *arg);
@@ -252,8 +252,8 @@ private:
 
 	static bool IsFileExists(std::tstring path);
 
-	template<int(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
-	static INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
+	template<INT_PTR(__cdecl CToxProto::*Service)(WPARAM, LPARAM)>
+	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
 	{
 		CToxProto *proto = CToxProto::GetContactAccount((MCONTACT)wParam);
 		return proto ? (proto->*Service)(wParam, lParam) : 0;

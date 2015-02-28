@@ -2,7 +2,7 @@
 
 HGENMENU CToxProto::ContactMenuItems[CMI_MAX];
 
-int CToxProto::OnPrebuildContactMenu(MCONTACT hContact, LPARAM)
+int CToxProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	if (!hContact)
 		return 0;
@@ -26,7 +26,7 @@ int CToxProto::OnPrebuildContactMenu(MCONTACT hContact, LPARAM)
 	return 0;
 }
 
-int CToxProto::PrebuildContactMenu(MCONTACT hContact, LPARAM lParam)
+int CToxProto::PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 {
 	for (int i = 0; i < SIZEOF(ContactMenuItems); i++)
 	{

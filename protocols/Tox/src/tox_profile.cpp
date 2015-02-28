@@ -137,7 +137,7 @@ void CToxProto::SaveToxProfile()
 	mir_free(data);
 }
 
-int CToxProto::OnCopyToxID(WPARAM, LPARAM)
+INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 {
 	ptrA address(getStringA(TOX_SETTINGS_ID));
 	size_t length = mir_strlen(address) + 1;
