@@ -568,3 +568,5 @@
 Ледяная крупа, 50% вероятность осадков
 [Ice Pellets 60% Chance Of Precipitation]
 Ледяная крупа, 60% вероятность осадков
+[Light Drizzle Mist Patches Fog]
+Лёгкая морось, дымка, туман клочьями
