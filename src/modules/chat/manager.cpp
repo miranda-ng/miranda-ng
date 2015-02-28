@@ -664,6 +664,8 @@ static char* SM_GetUsers(SESSION_INFO *si)
 			break;
 		}
 	}
+	if (utemp == NULL)
+		return NULL;
 
 	char* p = NULL;
 	size_t alloced = 0;

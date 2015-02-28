@@ -177,7 +177,13 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 
 		if (szIconFile[0]) {
 			TCHAR *pszComma = _tcsrchr(szIconFile, ',');
-			int iconIndex = (pszComma == NULL) ? 0 : _ttoi(pszComma + 1); *pszComma = '\0';
+			int iconIndex;
+			if (pszComma) {
+				iconIndex = _ttoi(pszComma + 1);
+				*pszComma = '\0';
+			}
+			else
+				iconIndex = 0;
 			HICON hIcon = ExtractIcon(hInst, szIconFile, iconIndex);
 			if (hIcon)
 				fileInfo.hIcon = hIcon;
@@ -281,7 +287,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 					ofn.hwndOwner = hwndDlg;
 					ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
-					_tcscpy(filter, TranslateT("All files"));
+					_tcsncpy(filter, TranslateT("All files"),SIZEOF(filter)-1);
 					_tcscat(filter, _T(" (*)"));
 					pfilter = filter + _tcslen(filter) + 1;
 					_tcscpy(pfilter, _T("*"));

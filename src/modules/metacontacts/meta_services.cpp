@@ -245,7 +245,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 		tfap->hContact = ccs->hContact;
 		tfap->hEvent = hEvent;
 		tfap->id = 10;
-		strcpy(tfap->msg, Translate("No online contacts found."));
+		strncpy(tfap->msg, Translate("No online contacts found."),SIZEOF(tfap->msg)-1);
 
 		DWORD dwThreadId;
 		CloseHandle(CreateThread(NULL, 0, sttFakeAckFail, tfap, 0, &dwThreadId));
@@ -275,6 +275,8 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 int Meta_HandleACK(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA*)lParam;
+	if (ack == NULL)
+		return 0;
 	DBCachedContact *cc = CheckMeta(ack->hContact);
 	if (cc == NULL)
 		return 0;

@@ -57,7 +57,8 @@ static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 					hasName = 1;
 					mir_snprintf(buf, SIZEOF(buf), "%u", ci.dVal);
 					break;
-			}	}
+				}
+			}
 
 			contactName = pcli->pfnGetContactDisplayName(hContact, 0);
 			if (hasName)
@@ -65,7 +66,7 @@ static void sttUpdateTitle(HWND hwndDlg, MCONTACT hContact)
 			else
 				SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 
-			szStatus = pcli->pfnGetStatusModeDescription(szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
+			szStatus = pcli->pfnGetStatusModeDescription(db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 			mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s %s (%s)"), pszNewTitleStart, contactName, szStatus);
 		}
 	}
@@ -136,17 +137,16 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
-				char *szProto;
-
-				szProto = GetContactProto(dat->hContact);
+				char *szProto = GetContactProto(dat->hContact);
 				if (szProto) {
-					HICON hIcon;
-
-					hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);
-		}	}	}	}
+					}
+				}
+			}
+		}
 		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 
 	case DM_UPDATETITLE:
@@ -154,17 +154,18 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_COMMAND:
-		if (dat)
-			if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact))
-				break;
+		if (!dat)
+			break;
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)dat->hContact))
+			break;
 		switch(LOWORD(wParam)) {
 		case IDOK:
-			{	HMENU hMenu, hSubMenu;
+			{
 				RECT rc;
 				char url[256];
 
-				hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
-				hSubMenu = GetSubMenu(hMenu, 6);
+				HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
+				HMENU hSubMenu = GetSubMenu(hMenu, 6);
 				TranslateMenu(hSubMenu);
 				GetWindowRect((HWND)lParam, &rc);
 				GetDlgItemTextA(hwndDlg, IDC_URL, url, SIZEOF(url));
@@ -176,10 +177,10 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						CallService(MS_UTILS_OPENURL, 0, (LPARAM)url);
 						break;
 					case IDM_COPYLINK:
-					{	HGLOBAL hData;
+					{
 						if ( !OpenClipboard(hwndDlg)) break;
 						EmptyClipboard();
-						hData = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(url)+1);
+						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(url)+1);
 						mir_strcpy((char*)GlobalLock(hData), url);
 						GlobalUnlock(hData);
 						SetClipboardData(CF_TEXT, hData);
@@ -279,11 +280,10 @@ static LRESULT DdeMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 static HGLOBAL DoDdeRequest(const char *szItemName, HWND hwndDlg)
 {
-	ATOM hSzItemName;
 	DWORD timeoutTick, thisTick;
 	MSG msg;
 
-	hSzItemName = GlobalAddAtomA(szItemName);
+	ATOM hSzItemName = GlobalAddAtomA(szItemName);
 	if ( !PostMessage(hwndDde, WM_DDE_REQUEST, (WPARAM)hwndDlg, MAKELPARAM(CF_TEXT, hSzItemName))) {
 		GlobalDeleteAtom(hSzItemName);
 		return NULL;
@@ -311,8 +311,7 @@ static HGLOBAL DoDdeRequest(const char *szItemName, HWND hwndDlg)
 
 static void FreeDdeRequestData(HGLOBAL hData)
 {
-	DDEDATA *data;
-	data = (DDEDATA*)GlobalLock(hData);
+	DDEDATA *data = (DDEDATA*)GlobalLock(hData);
 	if (data->fRelease) {
 		GlobalUnlock(hData);
 		GlobalFree(hData);
@@ -363,17 +362,13 @@ static void AddBrowserPageToCombo(char *url, HWND hwndCombo)
 //see Q160957 and http://developer.netscape.com/docs/manuals/communicator/DDE/index.htm
 static void GetOpenBrowserUrlsForBrowser(const char *szBrowser, HWND hwndDlg, HWND hwndCombo)
 {
-	ATOM hSzBrowser, hSzTopic;
 	int windowCount, i;
 	DWORD *windowId;
 	DWORD dwResult;
-	HGLOBAL hData;
-	DDEDATA *data;
-	int dataLength;
 
-	hSzBrowser = GlobalAddAtomA(szBrowser);
+	ATOM hSzBrowser = GlobalAddAtomA(szBrowser);
 
-	hSzTopic = GlobalAddAtomA("WWW_ListWindows");
+	ATOM hSzTopic = GlobalAddAtomA("WWW_ListWindows");
 	ddeAcked = 0;
 	if ( !SendMessageTimeout(HWND_BROADCAST, WM_DDE_INITIATE, (WPARAM)hwndDlg, MAKELPARAM(hSzBrowser, hSzTopic), SMTO_ABORTIFHUNG|SMTO_NORMAL, DDEMESSAGETIMEOUT, (PDWORD_PTR)&dwResult)
 	   || !ddeAcked) {
@@ -381,14 +376,14 @@ static void GetOpenBrowserUrlsForBrowser(const char *szBrowser, HWND hwndDlg, HW
 		GlobalDeleteAtom(hSzBrowser);
 		return;
 	}
-	hData = DoDdeRequest("WWW_ListWindows", hwndDlg);
+	HGLOBAL hData = DoDdeRequest("WWW_ListWindows", hwndDlg);
 	if (hData == NULL) {
 		GlobalDeleteAtom(hSzTopic);
 		GlobalDeleteAtom(hSzBrowser);
 		return;
 	}
-	dataLength = GlobalSize(hData)-offsetof(DDEDATA, Value);
-	data = (DDEDATA*)GlobalLock(hData);
+	int dataLength = GlobalSize(hData)-offsetof(DDEDATA, Value);
+	DDEDATA *data = (DDEDATA*)GlobalLock(hData);
 	windowCount = dataLength/sizeof(DWORD);
 	windowId = (PDWORD)mir_alloc(sizeof(DWORD)*windowCount);
 	memcpy(windowId, data->Value, windowCount*sizeof(DWORD));
@@ -522,7 +517,10 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);
-		}	}	}	}
+					}
+				}
+			}
+		}
 		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 
 	case DM_UPDATETITLE:

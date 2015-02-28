@@ -61,7 +61,7 @@ struct StatusIconMain : public MZeroedObject
 
 	StatusIconData sid;
 
-	int hPangpack;
+	int hLangpack;
 	OBJLIST<StatusIconChild> arChildren;
 };
 
@@ -130,7 +130,7 @@ static INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam)
 
 	p = new StatusIconMain;
 	memcpy(&p->sid, sid, sizeof(p->sid));
-	p->hPangpack = (int)wParam;
+	p->hLangpack = (int)wParam;
 	p->sid.szModule = mir_strdup(sid->szModule);
 	if (sid->flags & MBF_UNICODE)
 		p->sid.tszTooltip = mir_u2t(sid->wszTooltip);
@@ -182,7 +182,7 @@ static INT_PTR GetNthIcon(WPARAM wParam, LPARAM lParam)
 				if (pc->tszTooltip) res.tszTooltip = pc->tszTooltip;
 				res.flags = pc->flags;
 			}
-			res.tszTooltip = TranslateTH(p.hPangpack, res.tszTooltip);
+			res.tszTooltip = TranslateTH(p.hLangpack, res.tszTooltip);
 			return (INT_PTR)&res;
 		}
 		nVis++;
@@ -197,7 +197,7 @@ void KillModuleSrmmIcons(int hLangpack)
 {
 	for (int i=arIcons.getCount()-1; i >= 0; i--) {
 		StatusIconMain &p = arIcons[i];
-		if (p.hPangpack == hLangpack)
+		if (p.hLangpack == hLangpack)
 			arIcons.remove(i);
 	}
 }

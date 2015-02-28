@@ -521,6 +521,7 @@ INT_PTR CallProtoServiceInt(MCONTACT hContact, const char *szModule, const char 
 					INT_PTR res = (INT_PTR)ppi->FileResume((HANDLE)wParam, &pfr->action,
 						(const PROTOCHAR**)&szFname);
 					mir_free(szFname);
+					return (INT_PTR) res;
 				}
 			}
 			case 106:

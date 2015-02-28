@@ -82,7 +82,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 
 		DBVARIANT dbv;
 		if (db_get_ts(NULL, SRMMMOD, str, &dbv))
-			_tcscpy(lf->lfFaceName, fontOptionsList[i].szDefFace);
+			_tcsncpy(lf->lfFaceName, fontOptionsList[i].szDefFace, SIZEOF(lf->lfFaceName)-1);
 		else {
 			mir_tstrncpy(lf->lfFaceName, dbv.ptszVal, SIZEOF(lf->lfFaceName));
 			db_free(&dbv);
@@ -135,8 +135,7 @@ struct CheckBoxValues_t
 {
 	DWORD  style;
 	TCHAR* szDescr;
-}
-static const statusValues[] =
+} statusValues[] =
 {
 	{ MODEF_OFFLINE, LPGENT("Offline") },
 	{ PF2_ONLINE, LPGENT("Online") },
