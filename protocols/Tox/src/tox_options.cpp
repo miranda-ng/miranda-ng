@@ -156,7 +156,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 		{
 			TCHAR nick[TOX_MAX_NAME_LENGTH];
 			GetDlgItemText(hwnd, IDC_NAME, nick, TOX_MAX_NAME_LENGTH);
-			proto->setTString("Nick", nick);
+			CallProtoService(proto->m_szModuleName, PS_SETMYNICKNAME, SMNN_TCHAR, (LPARAM)nick);
 
 			TCHAR password[MAX_PATH];
 			GetDlgItemText(hwnd, IDC_PASSWORD, password, SIZEOF(password));
