@@ -20,7 +20,6 @@ static void PaintToolbar(HWND hwnd)
 
 	RECT clRect;
 	GetClientRect(hwnd, &clRect);
-	if (rcPaint == NULL) rcPaint = &clRect;
 
 	int yScroll = 0;
 	int y = -yScroll;
@@ -43,7 +42,7 @@ static void PaintToolbar(HWND hwnd)
 		SelectObject(hdcBmp, hBmpBackground);
 		int y = backgroundBmpUse & CLBF_SCROLL ? -yScroll : 0;
 		int maxx = backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
-		int maxy = backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y+1;
+		int maxy = backgroundBmpUse & CLBF_TILEV ? rcPaint->bottom : y+1;
 
 		int destw, desth;
 		switch(backgroundBmpUse & CLBM_TYPE) {
