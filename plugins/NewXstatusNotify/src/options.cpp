@@ -352,9 +352,9 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	{
 		WORD idCtrl = LOWORD(wParam);
 		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
-			if (idCtrl > 40070) {
+			if (idCtrl >= IDC_CHK_OFFLINE) {
 				COLORREF colour = SendDlgItemMessage(hwndDlg, idCtrl, CPM_GETCOLOUR, 0, 0);
-				if ((idCtrl > 41070) && (idCtrl < 42070)) //Text colour
+				if ((idCtrl >= IDC_OFFLINE_TX) && (idCtrl <= IDC_ONTHEPHONE_TX)) //Text colour
 					StatusList[Index(idCtrl - 1000)].colorText = colour;
 				else //Background colour
 					StatusList[Index(idCtrl - 2000)].colorBack = colour;

@@ -343,7 +343,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 		DBVARIANT dbv;
 		TCHAR stzSoundFile[MAX_PATH] = { 0 };
 		if (!db_get_ts(hContact, MODULE, name, &dbv)) {
-			_tcscpy(stzSoundFile, dbv.ptszVal);
+			_tcsncpy(stzSoundFile, dbv.ptszVal, SIZEOF(stzSoundFile)-1);
 			db_free(&dbv);
 		}
 
