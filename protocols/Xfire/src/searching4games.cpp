@@ -46,10 +46,6 @@ BOOL CheckPath(char*ppath, char*pathwildcard = NULL)
 	pos = strchr(ppath, '*');
 	if (pos)
 	{
-		HANDLE fHandle;
-		WIN32_FIND_DATAA wfd;
-		BOOL weiter = TRUE;
-
 		if (pathwildcard)
 		{
 			strcpy_s(pathwildcard, XFIRE_MAX_STATIC_STRING_LEN, ppath);
@@ -60,26 +56,29 @@ BOOL CheckPath(char*ppath, char*pathwildcard = NULL)
 		pos++;
 
 		//versuch die exe zu finden
-		fHandle = FindFirstFileA(ppath, &wfd);  // . skippen
-		FindNextFileA(fHandle, &wfd); // .. auch skippen
-
-		while ((FindNextFileA(fHandle, &wfd) && weiter == TRUE)) // erstes file
-		{
-			if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) // nur verzeichnisse sind interessant
+		WIN32_FIND_DATAA wfd;
+		HANDLE fHandle = FindFirstFileA(ppath, &wfd);  // . skippen
+		if (fHandle == INVALID_HANDLE_VALUE)
+			return FALSE;
+		if(FindNextFileA(fHandle, &wfd)) { // .. auch skippen
+			while (FindNextFileA(fHandle, &wfd)) // erstes file
 			{
-				char temp[XFIRE_MAX_STATIC_STRING_LEN];
+				if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) // nur verzeichnisse sind interessant
+				{
+					char temp[XFIRE_MAX_STATIC_STRING_LEN];
 
-				strcpy(temp, ppath);
-				*(temp + strlen(temp) - 1) = 0;
-				strcat(temp, wfd.cFileName);
-				strcat(temp, "\\");
-				strcat(temp, pos);
+					strncpy(temp, ppath,XFIRE_MAX_STATIC_STRING_LEN-1);
+					*(temp + strlen(temp) - 1) = 0;
+					strncat(temp, wfd.cFileName,XFIRE_MAX_STATIC_STRING_LEN-1);
+					strncat(temp, "\\",XFIRE_MAX_STATIC_STRING_LEN-1);
+					strncat(temp, pos,XFIRE_MAX_STATIC_STRING_LEN-1);
 
-				if (GetFileAttributesA(temp) != 0xFFFFFFFF) { //exe vorhanden???? unt hint?
-					//gefundenes in path kopieren
-					FindClose(fHandle);
-					strcpy(ppath, temp);
-					return TRUE;
+					if (GetFileAttributesA(temp) != 0xFFFFFFFF) { //exe vorhanden???? unt hint?
+						//gefundenes in path kopieren
+						FindClose(fHandle);
+						strcpy(ppath, temp);
+						return TRUE;
+					}
 				}
 			}
 		}
@@ -291,7 +290,7 @@ void Scan4Games(LPVOID lparam)
 				pos++;
 
 				pos2 = strrchr(pos, '\\'); //key trennen
-				if (pos != 0)
+				if (pos2 != 0)
 				{
 					*pos2 = 0;
 					pos2++;

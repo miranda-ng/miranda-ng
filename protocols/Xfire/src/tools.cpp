@@ -211,7 +211,7 @@ char* GetLaunchPath(char*launch)
 	if (launch == NULL)
 		return temp;
 
-	strcpy(temp, launch);
+	strncpy(temp, launch, XFIRE_MAX_STATIC_STRING_LEN -1);
 
 	while (*p != 0 && *f != 0)
 	{
@@ -473,7 +473,11 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 	for (int I = 0; I < maxuppackets; I++) //maximal 4 packete, das reicht
 	{
 		int msize = recv(s, (char*)&temp, sizeof(mpacket), 0);
-		if (msize) //empfangen
+		if (msize == SOCKET_ERROR)
+		{
+			XFireLog("recv() error %d", WSAGetLastError());
+		}
+		else if (msize) //empfangen
 		{
 			/*DUMP("Packet empfangen","");
 			DUMP("Dump Full packet##############","");
@@ -531,10 +535,6 @@ BOOL GetServerIPPort(DWORD pid, char*localaddrr, unsigned long localaddr, char*i
 					return TRUE;
 					}*/
 			}
-		}
-		else if (msize == SOCKET_ERROR)
-		{
-			XFireLog("recv() error %d", WSAGetLastError());
 		}
 	}
 	closesocket(s); //socket zumachn

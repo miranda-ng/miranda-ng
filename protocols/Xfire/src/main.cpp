@@ -1368,18 +1368,20 @@ INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	int sended = 0;
 
-	db_get_s(ccs->hContact, protocolname, "Username", &dbv);
+	if(db_get_s(ccs->hContact, protocolname, "Username", &dbv))
+		return 0;
+
 	if (myClient != NULL)
 		if (myClient->client->connected&&db_get_w(ccs->hContact, protocolname, "Status", -1) != ID_STATUS_OFFLINE)
 		{
-		myClient->sendmsg(dbv.pszVal, ptrA(mir_utf8encode((char*)ccs->lParam)));
-		mir_forkthread(SendAck, (void*)ccs->hContact);
-		sended = 1;
+			myClient->sendmsg(dbv.pszVal, ptrA(mir_utf8encode((char*)ccs->lParam)));
+			mir_forkthread(SendAck, (void*)ccs->hContact);
+			sended = 1;
 		}
 		else mir_forkthread(SendBadAck, (void*)ccs->hContact);
 
-		db_free(&dbv);
-		return sended;
+	db_free(&dbv);
+	return sended;
 }
 
 //=======================================================
@@ -3094,8 +3096,7 @@ void CreateGroup(char*grpn, char*field) {
 		char temp[255];
 		DBVARIANT dbv;
 		mir_snprintf(temp, SIZEOF(temp), "%d", val - 1);
-		db_get_s(NULL, "CListGroups", temp, &dbv);
-		if (dbv.pszVal != NULL)
+		if (!db_get_s(NULL, "CListGroups", temp, &dbv))
 		{
 			mir_snprintf(grp, SIZEOF(grp), "%s\\%s", &dbv.pszVal[1], grpn);
 			db_free(&dbv);
@@ -3410,7 +3411,7 @@ INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	DBVARIANT dbv;
 	if (!db_get(pai->hContact, "ContactPhoto", "File", &dbv))
 	{
-		strcpy(pai->filename, dbv.pszVal);
+		strncpy(pai->filename, dbv.pszVal, sizeof(pai->filename)-1);
 		db_free(&dbv);
 	}
 	else

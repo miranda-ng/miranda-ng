@@ -139,8 +139,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		SendMessage(hwndDlg, DM_REBUILD_TREE, 0, 0);
 
-		strcpy(inipath, XFireGetFoldersPath("IniFile"));
-		strcat(inipath, "xfire_games.ini");
+		mir_snprintf(inipath, XFIRE_MAX_STATIC_STRING_LEN,"%sxfire_games.ini",XFireGetFoldersPath("IniFile"));
 
 		FILE * f = fopen(inipath, "r");
 		if (f != NULL)
@@ -154,9 +153,8 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			EnableDlgItem(hwndDlg, IDC_SETUPGAMES, FALSE);
 			inifound = FALSE;
 		}
-
-		strcpy(inipath, XFireGetFoldersPath("IconsFile"));
-		strcat(inipath, "icons.dll");
+		
+		mir_snprintf(inipath, XFIRE_MAX_STATIC_STRING_LEN,"%sicons.dll",XFireGetFoldersPath("IconsFile"));
 
 		f = fopen(inipath, "r");
 		if (f != NULL)
