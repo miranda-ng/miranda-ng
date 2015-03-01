@@ -103,13 +103,7 @@ char* Varxfireserverip(ARGUMENTSINFO *ai) {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO))
 		return NULL;
 
-	if (ai->fi->hContact == NULL)
-	{
-		ai->flags = AIF_FALSE;
-		return mir_strdup("");
-	}
-	else
-	{
+	if (ai->fi->hContact != NULL) {
 		char temp[24];
 		DBVARIANT dbv3;
 		if (!db_get(ai->fi->hContact, protocolname, "ServerIP", &dbv3))
@@ -118,8 +112,6 @@ char* Varxfireserverip(ARGUMENTSINFO *ai) {
 			db_free(&dbv3);
 			return mir_strdup(temp);
 		}
-		ai->flags = AIF_FALSE;
-		return mir_strdup("");
 	}
 
 	ai->flags = AIF_FALSE;

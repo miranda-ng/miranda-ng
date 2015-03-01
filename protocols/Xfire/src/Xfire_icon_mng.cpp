@@ -28,7 +28,7 @@ unsigned int Xfire_icon_mng::getGameIconId(unsigned int gameid) {
 //gameicon mit hilfe von id zurückliefern
 HICON Xfire_icon_mng::getGameIconFromId(unsigned int id) {
 	//id nur im bereich zurückliefern
-	if (id<0 || id>iconcache.size() - 1)
+	if (id>iconcache.size() - 1)
 		return NULL;
 
 	return iconcache.at(id).hicon;

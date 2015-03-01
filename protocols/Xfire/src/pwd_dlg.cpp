@@ -36,7 +36,7 @@ INT_PTR CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 BOOL ShowPwdDlg(char* pw) {
 	//kein gültiges ziel für das eingegebene passwort
-	if (&pw == NULL)
+	if (pw == NULL)
 		return FALSE;
 
 	if (DialogBox(hinstance, MAKEINTRESOURCE(IDD_SETNICKNAME), NULL, DlgPwProc))

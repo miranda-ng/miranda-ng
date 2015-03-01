@@ -215,8 +215,7 @@ HMODULE Xfire_voicechat::loadTSR(char* path, BOOL nolocaltest) {
 
 
 //teamspeak 3 detection, benötigt ts3plugin
-BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet* packet) {
-	ts3IPPORT* ipport = NULL;
+BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet *packet) {
 	//kein gültiger verweis?
 	if (packet == NULL)
 		return FALSE;
@@ -226,7 +225,7 @@ BOOL Xfire_voicechat::checkforTS3(SendGameStatus2Packet* packet) {
 	if (hMapObject == NULL)
 		return FALSE;
 	//versuch ipport zubesorgen
-	ipport = (ts3IPPORT *)MapViewOfFile(hMapObject, FILE_MAP_READ, 0, 0, sizeof(ts3IPPORT));
+	ts3IPPORT *ipport = (ts3IPPORT *)MapViewOfFile(hMapObject, FILE_MAP_READ, 0, 0, sizeof(ts3IPPORT));
 	//fehler beim zugriff auf filemap?
 	if (ipport == NULL)
 	{
@@ -362,7 +361,7 @@ BOOL Xfire_voicechat::checkforMumble(SendGameStatus2Packet* packet) {
 				}
 			}
 		}
-		delete ptab;
+		free(ptab);
 	}
 
 	return FALSE;

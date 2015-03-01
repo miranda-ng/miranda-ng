@@ -49,17 +49,13 @@ INT_PTR CALLBACK DlgUpdateDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 void UpdateMyXFireIni(LPVOID dummy) {
 	char request[1024];
-	char file[1024];
-	char file2[1024];
-	char file3[1024];
+	char *inipath = XFireGetFoldersPath("IniFile");
 
 	//ini pfad rausbekommen
-	strcpy(file, XFireGetFoldersPath("IniFile"));
-	strcpy(file2, file);
-	strcpy(file3, file);
-	strcat(file, "xfire_games.new");
-	strcat(file2, "xfire_games.ini");
-	strcat(file3, "xfire_games.old");
+	char file[1024], file2[1024], file3[1024];
+	mir_snprintf(file,SIZEOF(file), "%sxfire_games.new",inipath);
+	mir_snprintf(file2,SIZEOF(file2), "%sxfire_games.ini",inipath);
+	mir_snprintf(file3,SIZEOF(file3), "%sxfire_games.old",inipath);
 
 	mir_snprintf(request, SIZEOF(request), "%s%d", INI_URLREQUEST, getfilesize(file2));
 
@@ -89,17 +85,13 @@ void UpdateMyXFireIni(LPVOID dummy) {
 
 void UpdateMyIcons(LPVOID dummy) {
 	char request[1024];
-	char file[1024];
-	char file2[1024];
-	char file3[1024];
+	char *inipath = XFireGetFoldersPath("IconsFile");
 
 	//ini pfad rausbekommen
-	strcpy(file, XFireGetFoldersPath("IconsFile"));
-	strcpy(file2, file);
-	strcpy(file3, file);
-	strcat(file, "icons.new");
-	strcat(file2, "icons.dll");
-	strcat(file3, "icons.old");
+	char file[1024], file2[1024], file3[1024];
+	mir_snprintf(file,SIZEOF(file), "%sxfire_games.new",inipath);
+	mir_snprintf(file2,SIZEOF(file2), "%sxfire_games.ini",inipath);
+	mir_snprintf(file3,SIZEOF(file3), "%sxfire_games.old",inipath);
 
 	mir_snprintf(request, SIZEOF(request), "%s%d", ICO_URLREQUEST, getfilesize(file2));
 
