@@ -19,17 +19,17 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define __MAJOR_VERSION            5
-#define __MINOR_VERSION            0
-#define __RELEASE_NUM            4
-#define __BUILD_NUM               9
+#define __MAJOR_VERSION          5
+#define __MINOR_VERSION          0
+#define __RELEASE_NUM            5
+#define __BUILD_NUM              1
 
 #include <stdver.h>
 
 #define __PLUGIN_NAME            "Last seen"
 #define __FILENAME               "SeenPlugin.dll"
-#define __DESCRIPTION             "Logs when a user was last seen online and which users were online while you were away."
-#define __AUTHOR               "Heiko Schillinger, YB"
+#define __DESCRIPTION            "Logs when a user was last seen online and which users were online while you were away."
+#define __AUTHOR                 "Heiko Schillinger, YB"
 #define __AUTHOREMAIL            "y_b@saaplugin.no-ip.info"
-#define __AUTHORWEB               "http://miranda-ng.org/p/SeenPlugin/"
-#define __COPYRIGHT               "© 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-7 Modified by YB"
+#define __AUTHORWEB              "http://miranda-ng.org/p/SeenPlugin/"
+#define __COPYRIGHT              "© 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-7 Modified by YB"

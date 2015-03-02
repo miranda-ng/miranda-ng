@@ -30,48 +30,49 @@ int ModeChange_mo(WPARAM,LPARAM);
 int CheckIfOnline(void);
 int ResetMissed(void);
 
-INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	DBVARIANT dbv;
 	TCHAR szstamp[256];
 	BOOL hasPopups;
 	BYTE bchecked;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		if (hasPopups = (ServiceExists(MS_POPUP_QUERY)) != 0)
-			hasPopups = CallService(MS_POPUP_QUERY,PUQS_GETSTATUS,0);
+			hasPopups = CallService(MS_POPUP_QUERY, PUQS_GETSTATUS, 0);
+
 		TranslateDialogDefault(hdlg);
-		ShowWindow(GetDlgItem(hdlg, IDC_POPUPS),hasPopups?SW_SHOW:SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP),hasPopups?SW_SHOW:SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT),hasPopups?SW_SHOW:SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_LABTTITLE),hasPopups?SW_SHOW:SW_HIDE);
-		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT),hasPopups?SW_SHOW:SW_HIDE);
-		CheckDlgButton(hdlg, IDC_POPUPS, (db_get_b(NULL,S_MOD,"UsePopups",0) & hasPopups) ? BST_CHECKED : BST_UNCHECKED);
-		EnableWindow(GetDlgItem(hdlg, IDC_POPUPS),hasPopups);
+		ShowWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(hdlg, IDC_LABTEXT), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(hdlg, IDC_LABTTITLE), hasPopups ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups ? SW_SHOW : SW_HIDE);
+		CheckDlgButton(hdlg, IDC_POPUPS, (db_get_b(NULL, S_MOD, "UsePopups", 0) & hasPopups) ? BST_CHECKED : BST_UNCHECKED);
+		EnableWindow(GetDlgItem(hdlg, IDC_POPUPS), hasPopups);
 		hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
-		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP),hasPopups);
-		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT),hasPopups);
-		for (int i=ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
+		EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
+		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 			char szSetting[100];
 			mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", i - ID_STATUS_OFFLINE);
-			DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[i-ID_STATUS_OFFLINE]);
+			DWORD sett = db_get_dw(NULL, S_MOD, szSetting, StatusColors15bits[i - ID_STATUS_OFFLINE]);
 
 			COLORREF back, text;
 			GetColorsFromDWord(&back, &text, sett);
 			SendDlgItemMessage(hdlg, i, CPM_SETCOLOUR, 0, back);
-			SendDlgItemMessage(hdlg, i+20, CPM_SETCOLOUR, 0, text);
-			EnableWindow( GetDlgItem(hdlg, i), hasPopups);
-			EnableWindow( GetDlgItem(hdlg, i+20), hasPopups);
+			SendDlgItemMessage(hdlg, i + 20, CPM_SETCOLOUR, 0, text);
+			EnableWindow(GetDlgItem(hdlg, i), hasPopups);
+			EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
 		}
 
-		if ( !db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "PopupStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_POPUPSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_POPUPSTAMP, DEFAULT_POPUPSTAMP);
 
-		if ( !db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "PopupStampText", &dbv)) {
 			SetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -79,54 +80,54 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 		break;
 
 	case WM_COMMAND:
-		if (( HIWORD(wparam) == BN_CLICKED || HIWORD(wparam) == EN_CHANGE) && GetFocus() == (HWND)lparam)
-			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
+		if ((HIWORD(wparam) == BN_CLICKED || HIWORD(wparam) == EN_CHANGE) && GetFocus() == (HWND)lparam)
+			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 		else if (HIWORD(wparam) == CPN_COLOURCHANGED) {
 			WORD idText, idBack;
-			POPUPDATAT ppd = {0};
-			DBVARIANT dbv = {0};
+			POPUPDATAT ppd = { 0 };
+			DBVARIANT dbv = { 0 };
 			DWORD temp;
 			if (LOWORD(wparam) > ID_STATUS_OUTTOLUNCH) // we have clicked a text color
-				idText = wparam, idBack = wparam-20;
+				idText = wparam, idBack = wparam - 20;
 			else
-				idText = wparam+20, idBack = wparam;
+				idText = wparam + 20, idBack = wparam;
 
-			ppd.colorBack = SendDlgItemMessage(hdlg, idBack,CPM_GETCOLOUR,0,0);
-			ppd.colorText = SendDlgItemMessage(hdlg, idText,CPM_GETCOLOUR,0,0);
-			temp = GetDWordFromColors(ppd.colorBack,ppd.colorText);
-			GetColorsFromDWord(&ppd.colorBack,&ppd.colorText,temp);
-			SendDlgItemMessage(hdlg, idBack,CPM_SETCOLOUR,0,ppd.colorBack);
-			SendDlgItemMessage(hdlg, idText,CPM_SETCOLOUR,0,ppd.colorText);
+			ppd.colorBack = SendDlgItemMessage(hdlg, idBack, CPM_GETCOLOUR, 0, 0);
+			ppd.colorText = SendDlgItemMessage(hdlg, idText, CPM_GETCOLOUR, 0, 0);
+			temp = GetDWordFromColors(ppd.colorBack, ppd.colorText);
+			GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, temp);
+			SendDlgItemMessage(hdlg, idBack, CPM_SETCOLOUR, 0, ppd.colorBack);
+			SendDlgItemMessage(hdlg, idText, CPM_SETCOLOUR, 0, ppd.colorText);
 			ppd.lchIcon = LoadSkinnedProtoIcon(NULL, idBack);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, SIZEOF(szstamp));
-			_tcsncpy(ppd.lptzContactName, ParseString(szstamp,NULL,0), MAX_CONTACTNAME);
+			_tcsncpy(ppd.lptzContactName, ParseString(szstamp, NULL, 0), MAX_CONTACTNAME);
 
 			GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, SIZEOF(szstamp));
-			_tcsncpy(ppd.lptzText, ParseString(szstamp,NULL,0), MAX_SECONDLINE);
+			_tcsncpy(ppd.lptzText, ParseString(szstamp, NULL, 0), MAX_SECONDLINE);
 
 			PUAddPopupT(&ppd);
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-		} 
+		}
 
 		if (HIWORD(wparam) == BN_CLICKED) {
-			switch(LOWORD(wparam)) {
+			switch (LOWORD(wparam)) {
 			case IDC_POPUPS:
 				hasPopups = IsDlgButtonChecked(hdlg, IDC_POPUPS);
-				EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP),hasPopups);
-				EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT),hasPopups);
-				for (int i=ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-					EnableWindow(GetDlgItem(hdlg, i),hasPopups);
-					EnableWindow(GetDlgItem(hdlg, i+20),hasPopups);
+				EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMP), hasPopups);
+				EnableWindow(GetDlgItem(hdlg, IDC_POPUPSTAMPTEXT), hasPopups);
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+					EnableWindow(GetDlgItem(hdlg, i), hasPopups);
+					EnableWindow(GetDlgItem(hdlg, i + 20), hasPopups);
 				}
 				break;
 			case IDC_DEFAULTCOL:
-				for (int i=ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-					DWORD sett = StatusColors15bits[i-ID_STATUS_OFFLINE];
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+					DWORD sett = StatusColors15bits[i - ID_STATUS_OFFLINE];
 					COLORREF back, text;
 					GetColorsFromDWord(&back, &text, sett);
 					SendDlgItemMessage(hdlg, i, CPM_SETCOLOUR, 0, back);
-					SendDlgItemMessage(hdlg, i+20, CPM_SETCOLOUR, 0, text);
+					SendDlgItemMessage(hdlg, i + 20, CPM_SETCOLOUR, 0, text);
 				}
 				break;
 			}
@@ -134,28 +135,28 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 		break; //case WM_COMMAND
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lparam)->idFrom) {
-		case 0: 
+		switch (((LPNMHDR)lparam)->idFrom) {
+		case 0:
 			switch (((LPNMHDR)lparam)->code) {
 			case PSN_APPLY:
 				GetDlgItemText(hdlg, IDC_POPUPSTAMP, szstamp, SIZEOF(szstamp));
 				db_set_ts(NULL, S_MOD, "PopupStamp", szstamp);
-				
+
 				GetDlgItemText(hdlg, IDC_POPUPSTAMPTEXT, szstamp, SIZEOF(szstamp));
 				db_set_ts(NULL, S_MOD, "PopupStampText", szstamp);
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_POPUPS);
-				if ( db_get_b(NULL,S_MOD,"UsePopups",0) != bchecked)
+				if (db_get_b(NULL, S_MOD, "UsePopups", 0) != bchecked)
 					db_set_b(NULL, S_MOD, "UsePopups", bchecked);
 
-				for (int i=ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 					COLORREF back = SendDlgItemMessage(hdlg, i, CPM_GETCOLOUR, 0, 0);
-					COLORREF text = SendDlgItemMessage(hdlg, i+20, CPM_GETCOLOUR, 0, 0);
+					COLORREF text = SendDlgItemMessage(hdlg, i + 20, CPM_GETCOLOUR, 0, 0);
 					DWORD sett = GetDWordFromColors(back, text);
 
 					char szSetting[100];
 					mir_snprintf(szSetting, SIZEOF(szSetting), "Col_%d", i - ID_STATUS_OFFLINE);
-					if (sett != StatusColors15bits[i-ID_STATUS_OFFLINE])
+					if (sett != StatusColors15bits[i - ID_STATUS_OFFLINE])
 						db_set_dw(NULL, S_MOD, szSetting, sett);
 					else
 						db_unset(NULL, S_MOD, szSetting);
@@ -170,70 +171,70 @@ INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 	return 0;
 }
 
-INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	DBVARIANT dbv;
 	TCHAR szstamp[256];
 	BYTE bchecked;
 
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 
-		CheckDlgButton(hdlg, IDC_MENUITEM,db_get_b(NULL,S_MOD,"MenuItem",1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_USERINFO,db_get_b(NULL,S_MOD,"UserinfoTab",1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_FILE,db_get_b(NULL,S_MOD,"FileOutput",0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_HISTORY,db_get_b(NULL,S_MOD,"KeepHistory",0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_IGNOREOFFLINE,db_get_b(NULL,S_MOD,"IgnoreOffline",1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_MISSEDONES,db_get_b(NULL,S_MOD,"MissedOnes",0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_SHOWICON,db_get_b(NULL,S_MOD,"ShowIcon",1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_COUNT,db_get_b(NULL,S_MOD,"MissedOnes_Count",0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_IDLESUPPORT,db_get_b(NULL,S_MOD,"IdleSupport",1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_MENUITEM, db_get_b(NULL, S_MOD, "MenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_USERINFO, db_get_b(NULL, S_MOD, "UserinfoTab", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_FILE, db_get_b(NULL, S_MOD, "FileOutput", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_HISTORY, db_get_b(NULL, S_MOD, "KeepHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_IGNOREOFFLINE, db_get_b(NULL, S_MOD, "IgnoreOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_MISSEDONES, db_get_b(NULL, S_MOD, "MissedOnes", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_SHOWICON, db_get_b(NULL, S_MOD, "ShowIcon", 1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_COUNT, db_get_b(NULL, S_MOD, "MissedOnes_Count", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_IDLESUPPORT, db_get_b(NULL, S_MOD, "IdleSupport", 1) ? BST_CHECKED : BST_UNCHECKED);
 
-		EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP),IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-		EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON),IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-		EnableWindow(GetDlgItem(hdlg, IDC_USERSTAMP),IsDlgButtonChecked(hdlg, IDC_USERINFO));
-		EnableWindow(GetDlgItem(hdlg, IDC_FILESTAMP),IsDlgButtonChecked(hdlg, IDC_FILE));
-		EnableWindow(GetDlgItem(hdlg, IDC_FILENAME),IsDlgButtonChecked(hdlg, IDC_FILE));
-		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSIZE),IsDlgButtonChecked(hdlg, IDC_HISTORY));
-		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP),IsDlgButtonChecked(hdlg, IDC_HISTORY));
-		EnableWindow(GetDlgItem(hdlg, IDC_COUNT),IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
+		EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
+		EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
+		EnableWindow(GetDlgItem(hdlg, IDC_USERSTAMP), IsDlgButtonChecked(hdlg, IDC_USERINFO));
+		EnableWindow(GetDlgItem(hdlg, IDC_FILESTAMP), IsDlgButtonChecked(hdlg, IDC_FILE));
+		EnableWindow(GetDlgItem(hdlg, IDC_FILENAME), IsDlgButtonChecked(hdlg, IDC_FILE));
+		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSIZE), IsDlgButtonChecked(hdlg, IDC_HISTORY));
+		EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP), IsDlgButtonChecked(hdlg, IDC_HISTORY));
+		EnableWindow(GetDlgItem(hdlg, IDC_COUNT), IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
 
-		if ( !db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_MENUSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_MENUSTAMP, DEFAULT_MENUSTAMP);
 
-		if ( !db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_USERSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_USERSTAMP, DEFAULT_USERSTAMP);
 
-		if ( !db_get_ts(NULL, S_MOD, "FileStamp", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "FileStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILESTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILESTAMP, DEFAULT_FILESTAMP);
 
-		if ( !db_get_ts(NULL, S_MOD, "FileName", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "FileName", &dbv)) {
 			SetDlgItemText(hdlg, IDC_FILENAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_FILENAME, DEFAULT_FILENAME);
 
-		if ( !db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "HistoryStamp", &dbv)) {
 			SetDlgItemText(hdlg, IDC_HISTORYSTAMP, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		else SetDlgItemText(hdlg, IDC_HISTORYSTAMP, DEFAULT_HISTORYSTAMP);
 
-		SetDlgItemInt(hdlg, IDC_HISTORYSIZE,db_get_w(NULL,S_MOD,"HistoryMax",10-1)-1,FALSE);
+		SetDlgItemInt(hdlg, IDC_HISTORYSIZE, db_get_w(NULL, S_MOD, "HistoryMax", 10 - 1) - 1, FALSE);
 
 		// load protocol list
-		SetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST),GWL_STYLE)|TVS_CHECKBOXES);
-		{	
+		SetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hdlg, IDC_PROTOCOLLIST), GWL_STYLE) | TVS_CHECKBOXES);
+		{
 			TVINSERTSTRUCT tvis;
 			tvis.hParent = NULL;
 			tvis.hInsertAfter = TVI_LAST;
@@ -244,14 +245,14 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 			int numberOfProtocols;
 			ProtoEnumAccounts(&numberOfProtocols, &protos);
 
-			for (int i=0; i < numberOfProtocols; i++) {
-				if ( CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+			for (int i = 0; i < numberOfProtocols; i++) {
+				if (CallProtoService(protos[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 					continue;
 
 				tvis.item.pszText = protos[i]->tszAccountName;
 				tvis.item.lParam = (LPARAM)mir_strdup(protos[i]->szModuleName);
-				tvis.item.state = INDEXTOSTATEIMAGEMASK( IsWatchedProtocol(protos[i]->szModuleName)+1);
-				TreeView_InsertItem( GetDlgItem(hdlg, IDC_PROTOCOLLIST), &tvis);
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(IsWatchedProtocol(protos[i]->szModuleName) + 1);
+				TreeView_InsertItem(GetDlgItem(hdlg, IDC_PROTOCOLLIST), &tvis);
 			}
 		}
 		break;
@@ -259,27 +260,27 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 	case WM_COMMAND:
 		if ((HIWORD(wparam) == BN_CLICKED || HIWORD(wparam) == EN_CHANGE) && GetFocus() == (HWND)lparam)
 			if (LOWORD(wparam) != IDC_VARIABLES)
-				SendMessage( GetParent(hdlg), PSM_CHANGED, 0, 0);
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 
 		if (HIWORD(wparam) == BN_CLICKED) {
-			switch(LOWORD(wparam)) {
+			switch (LOWORD(wparam)) {
 			case IDC_MENUITEM:
-				EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP),IsDlgButtonChecked(hdlg, IDC_MENUITEM));
-				EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON),IsDlgButtonChecked(hdlg, IDC_MENUITEM));
+				EnableWindow(GetDlgItem(hdlg, IDC_MENUSTAMP), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
+				EnableWindow(GetDlgItem(hdlg, IDC_SHOWICON), IsDlgButtonChecked(hdlg, IDC_MENUITEM));
 				break;
 			case IDC_USERINFO:
-				EnableWindow(GetDlgItem(hdlg, IDC_USERSTAMP),IsDlgButtonChecked(hdlg, IDC_USERINFO));
+				EnableWindow(GetDlgItem(hdlg, IDC_USERSTAMP), IsDlgButtonChecked(hdlg, IDC_USERINFO));
 				break;
 			case IDC_FILE:
-				EnableWindow(GetDlgItem(hdlg, IDC_FILESTAMP),IsDlgButtonChecked(hdlg, IDC_FILE));
-				EnableWindow(GetDlgItem(hdlg, IDC_FILENAME),IsDlgButtonChecked(hdlg, IDC_FILE));
+				EnableWindow(GetDlgItem(hdlg, IDC_FILESTAMP), IsDlgButtonChecked(hdlg, IDC_FILE));
+				EnableWindow(GetDlgItem(hdlg, IDC_FILENAME), IsDlgButtonChecked(hdlg, IDC_FILE));
 				break;
 			case IDC_HISTORY:
-				EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP),IsDlgButtonChecked(hdlg, IDC_HISTORY));
-				EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSIZE),IsDlgButtonChecked(hdlg, IDC_HISTORY));
+				EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSTAMP), IsDlgButtonChecked(hdlg, IDC_HISTORY));
+				EnableWindow(GetDlgItem(hdlg, IDC_HISTORYSIZE), IsDlgButtonChecked(hdlg, IDC_HISTORY));
 				break;
 			case IDC_MISSEDONES:
-				EnableWindow(GetDlgItem(hdlg, IDC_COUNT),IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
+				EnableWindow(GetDlgItem(hdlg, IDC_COUNT), IsDlgButtonChecked(hdlg, IDC_MISSEDONES));
 				break;
 			}
 		}
@@ -292,8 +293,8 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 		break; //case WM_COMMAND
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lparam)->idFrom) {
-		case 0: 
+		switch (((LPNMHDR)lparam)->idFrom) {
+		case 0:
 			switch (((LPNMHDR)lparam)->code) {
 			case PSN_APPLY:
 				GetDlgItemText(hdlg, IDC_MENUSTAMP, szstamp, SIZEOF(szstamp));
@@ -311,67 +312,66 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 				GetDlgItemText(hdlg, IDC_HISTORYSTAMP, szstamp, SIZEOF(szstamp));
 				db_set_ts(NULL, S_MOD, "HistoryStamp", szstamp);
 
-				db_set_w(NULL, S_MOD, "HistoryMax",(WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE,NULL,FALSE)+1));
+				db_set_w(NULL, S_MOD, "HistoryMax", (WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE, NULL, FALSE) + 1));
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_MENUITEM);
-				if ( db_get_b(NULL,S_MOD,"MenuItem",1) != bchecked) {
-					db_set_b(NULL,S_MOD,"MenuItem",bchecked);
+				if (db_get_b(NULL, S_MOD, "MenuItem", 1) != bchecked) {
+					db_set_b(NULL, S_MOD, "MenuItem", bchecked);
 					if (hmenuitem == NULL && bchecked)
 						InitMenuitem();
 				}
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_USERINFO);
-				if ( db_get_b(NULL,S_MOD,"UserinfoTab",1) != bchecked) {
-					db_set_b(NULL,S_MOD,"UserinfoTab",bchecked);
+				if (db_get_b(NULL, S_MOD, "UserinfoTab", 1) != bchecked) {
+					db_set_b(NULL, S_MOD, "UserinfoTab", bchecked);
 					if (bchecked)
-						ehuserinfo = HookEvent(ME_USERINFO_INITIALISE,UserinfoInit);
+						ehuserinfo = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 					else
 						UnhookEvent(ehuserinfo);
 				}
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_FILE);
-				if ( db_get_b(NULL,S_MOD,"FileOutput",0) != bchecked) {
-					db_set_b(NULL,S_MOD,"FileOutput",bchecked);
+				if (db_get_b(NULL, S_MOD, "FileOutput", 0) != bchecked) {
+					db_set_b(NULL, S_MOD, "FileOutput", bchecked);
 					if (bchecked)
 						InitFileOutput();
 				}
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_HISTORY);
-				if ( db_get_b(NULL,S_MOD,"KeepHistory",0) != bchecked)
-					db_set_b(NULL,S_MOD,"KeepHistory",bchecked);
+				if (db_get_b(NULL, S_MOD, "KeepHistory", 0) != bchecked)
+					db_set_b(NULL, S_MOD, "KeepHistory", bchecked);
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_IGNOREOFFLINE);
-				if ( db_get_b(NULL,S_MOD,"IgnoreOffline",1) != bchecked)
-					db_set_b(NULL,S_MOD,"IgnoreOffline",bchecked);
+				if (db_get_b(NULL, S_MOD, "IgnoreOffline", 1) != bchecked)
+					db_set_b(NULL, S_MOD, "IgnoreOffline", bchecked);
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_MISSEDONES);
-				if ( db_get_b(NULL,S_MOD,"MissedOnes",0) != bchecked) {
-					db_set_b(NULL,S_MOD,"MissedOnes",bchecked);
+				if (db_get_b(NULL, S_MOD, "MissedOnes", 0) != bchecked) {
+					db_set_b(NULL, S_MOD, "MissedOnes", bchecked);
 					if (bchecked)
-						ehmissed_proto = HookEvent(ME_PROTO_ACK,ModeChange_mo);
+						ehmissed_proto = HookEvent(ME_PROTO_ACK, ModeChange_mo);
 					else
 						UnhookEvent(ehmissed_proto);
 				}
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_SHOWICON);
-				if ( db_get_b(NULL,S_MOD,"ShowIcon",1) != bchecked)
-					db_set_b(NULL,S_MOD,"ShowIcon",bchecked);
+				if (db_get_b(NULL, S_MOD, "ShowIcon", 1) != bchecked)
+					db_set_b(NULL, S_MOD, "ShowIcon", bchecked);
 
 				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_COUNT);
-				if ( db_get_b(NULL,S_MOD,"MissedOnes_Count",0) != bchecked)
-					db_set_b(NULL,S_MOD,"MissedOnes_Count",bchecked);
+				if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0) != bchecked)
+					db_set_b(NULL, S_MOD, "MissedOnes_Count", bchecked);
 
 				includeIdle = (BYTE)IsDlgButtonChecked(hdlg, IDC_IDLESUPPORT);
-				if ( db_get_b(NULL,S_MOD,"IdleSupport",1) != includeIdle)
-					db_set_b(NULL,S_MOD,"IdleSupport",(BYTE)includeIdle);
+				if (db_get_b(NULL, S_MOD, "IdleSupport", 1) != includeIdle)
+					db_set_b(NULL, S_MOD, "IdleSupport", (BYTE)includeIdle);
 
 				// save protocol list
 				HWND hwndTreeView = GetDlgItem(hdlg, IDC_PROTOCOLLIST);
 				char *protocol;
-				int size=1;
+				int size = 1;
 
-				char *watchedProtocols = (char *)malloc(sizeof(char));
-				*watchedProtocols = '\0';
+				CMStringA watchedProtocols;
 				HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
 
 				TVITEM tvItem;
@@ -382,32 +382,34 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 					tvItem.hItem = hItem;
 					TreeView_GetItem(hwndTreeView, &tvItem);
 					protocol = (char*)tvItem.lParam;
-					if ((BOOL)(tvItem.state >> 12) -1) {
-						size += (int)strlen(protocol)+2;
-						watchedProtocols = (char *)realloc(watchedProtocols, size);
-						strcat(watchedProtocols, protocol); 
-						strcat(watchedProtocols, " "); 
+					if ((BOOL)(tvItem.state >> 12) - 1) {
+						size += (int)strlen(protocol) + 2;
+						if (!watchedProtocols.IsEmpty())
+							watchedProtocols.AppendChar(' ');
+						watchedProtocols.Append(protocol);
 					}
 					hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
 				}
-				db_set_s(NULL,S_MOD,"WatchedProtocols",watchedProtocols);
-				free(watchedProtocols);
+				db_set_s(NULL, S_MOD, "WatchedProtocols", watchedProtocols);
+
+				UnloadWatchedProtos();
+				LoadWatchedProtos();
 			}
 			break; //case 0
 
 		case IDC_PROTOCOLLIST:
 			if (((LPNMHDR)lparam)->code == NM_CLICK) {
-				HWND hTree=((LPNMHDR)lparam)->hwndFrom;
+				HWND hTree = ((LPNMHDR)lparam)->hwndFrom;
 				HTREEITEM hItem;
 
 				TVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(GetMessagePos());
 				hti.pt.y = (short)HIWORD(GetMessagePos());
 				ScreenToClient(hTree, &hti.pt);
-				if (hItem=TreeView_HitTest(hTree, &hti)) {
-					if (hti.flags & TVHT_ONITEM) 
-						TreeView_SelectItem(hTree,hItem);
-					if (hti.flags & TVHT_ONITEMSTATEICON) 
+				if (hItem = TreeView_HitTest(hTree, &hti)) {
+					if (hti.flags & TVHT_ONITEM)
+						TreeView_SelectItem(hTree, hItem);
+					if (hti.flags & TVHT_ONITEMSTATEICON)
 						SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				}
 			}
@@ -416,18 +418,16 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 
 	case WM_DESTROY:
 		// free protocol list 
-		{
-			HWND hwndTreeView = GetDlgItem(hdlg, IDC_PROTOCOLLIST);
-			HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
-			TVITEM tvItem;
-			tvItem.mask = TVIF_HANDLE | TVIF_PARAM;
+		HWND hwndTreeView = GetDlgItem(hdlg, IDC_PROTOCOLLIST);
+		HTREEITEM hItem = TreeView_GetRoot(hwndTreeView);
+		TVITEM tvItem;
+		tvItem.mask = TVIF_HANDLE | TVIF_PARAM;
 
-			while (hItem != NULL) {
-				tvItem.hItem = hItem;
-				TreeView_GetItem(hwndTreeView, &tvItem);
-				mir_free((void *)tvItem.lParam);
-				hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
-			}
+		while (hItem != NULL) {
+			tvItem.hItem = hItem;
+			TreeView_GetItem(hwndTreeView, &tvItem);
+			mir_free((void *)tvItem.lParam);
+			hItem = TreeView_GetNextSibling(hwndTreeView, hItem);
 		}
 		break;
 	}
@@ -435,19 +435,19 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 	return 0;
 }
 
-int OptionsInit(WPARAM wparam,LPARAM)
+int OptionsInit(WPARAM wparam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
 	odp.ptszGroup = LPGENT("Contacts");
 	odp.ptszTitle = LPGENT("Last seen");
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	Options_AddPage(wparam, &odp);
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUPT)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
 		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTitle = LPGENT("Last seen");
