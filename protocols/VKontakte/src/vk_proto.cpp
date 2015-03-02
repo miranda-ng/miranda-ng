@@ -178,6 +178,7 @@ void CVkProto::InitMenus()
 	CreateProtoService(PS_OPENBROADCAST, &CVkProto::SvcOpenBroadcast);
 	CreateProtoService(PS_LOADVKNEWS, &CVkProto::SvcLoadVKNews);
 	CreateProtoService(PS_SETSTATUSMSG, &CVkProto::SvcSetStatusMsg);
+	CreateProtoService(PS_WALLPOST, &CVkProto::SvcWallPost);
 		
 	CLISTMENUITEM mi = { sizeof(mi) };
 	char szService[100];
@@ -200,6 +201,13 @@ void CVkProto::InitMenus()
 	mi.pszName = LPGEN("Status message");
 	g_hProtoMenuItems[PMI_SETSTATUSMSG] = Menu_AddProtoMenuItem(&mi);
 
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_WALLPOST);
+	mi.pszService = szService;
+	mi.position = 10009 + PMI_WALLPOST;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_WALL));
+	mi.pszName = LPGEN("Sent message to my wall");
+	g_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi);
+
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_LOADVKNEWS);
 	mi.pszService = szService;
 	mi.position = 10009 + PMI_LOADVKNEWS;
@@ -221,6 +229,13 @@ void CVkProto::InitMenus()
 	mi.position = -200001000 + CMI_VISITPROFILE;
 	mi.ptszName = LPGENT("Visit profile");
 	g_hContactMenuItems[CMI_VISITPROFILE] = Menu_AddContactMenuItem(&mi);
+
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_WALLPOST);
+	mi.position = -200001000 + CMI_WALLPOST;
+	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_WALL));
+	mi.ptszName = LPGENT("Sent message to user\'s wall");
+	mi.pszService = szService;
+	g_hContactMenuItems[CMI_WALLPOST] = Menu_AddContactMenuItem(&mi);
 
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_ADDASFRIEND);
 	mi.position = -200001000 + CMI_ADDASFRIEND;
@@ -331,6 +346,7 @@ int CVkProto::OnPreBuildContactMenu(WPARAM hContact, LPARAM)
 	bool bisFriend = (getByte(hContact, "Auth", -1) == 0);
 	bool bisBroadcast = !(IsEmpty(ptrT(db_get_tsa(hContact, m_szModuleName, "AudioUrl"))));
 	Menu_ShowItem(g_hContactMenuItems[CMI_VISITPROFILE], !isChatRoom(hContact));
+	Menu_ShowItem(g_hContactMenuItems[CMI_WALLPOST], !isChatRoom(hContact));
 	Menu_ShowItem(g_hContactMenuItems[CMI_ADDASFRIEND], !bisFriend && !isChatRoom(hContact) && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_DELETEFRIEND], bisFriend && userID != VK_FEED_USER);
 	Menu_ShowItem(g_hContactMenuItems[CMI_BANUSER], !isChatRoom(hContact) && userID != VK_FEED_USER);

@@ -36,6 +36,7 @@ IDI_HISTORY             ICON                    "history.ico"
 IDI_KEYS                ICON                    "key.ico"
 IDI_BROADCAST           ICON                    "broadcast.ico"
 IDI_STATUS              ICON                    "status.ico"
+IDI_WALL                ICON                    "wall.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -103,6 +104,14 @@ BEGIN
         RIGHTMARGIN, 210
         TOPMARGIN, 7
         BOTTOMMARGIN, 225
+    END
+
+    IDD_WALLPOST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 137
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -289,6 +298,20 @@ BEGIN
     EDITTEXT        IDC_TITLE,4,153,206,52,ES_MULTILINE | ES_AUTOHSCROLL
     DEFPUSHBUTTON   "OK",IDOK,107,211,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,160,211,50,14
+END
+
+IDD_WALLPOST DIALOGEX 0, 0, 316, 144
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION ""
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Share",IDOK,205,123,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,259,123,50,14
+    EDITTEXT        IDC_ED_MSG,7,7,302,70,ES_MULTILINE | ES_AUTOHSCROLL
+    EDITTEXT        IDC_ED_URL,61,82,248,12,ES_AUTOHSCROLL
+    RTEXT           "Url:",IDC_STATIC,7,84,49,8
+    CONTROL         "Only for friends",IDC_ONLY_FRIENDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,61,98,248,10
+    CTEXT           "Attention",IDC_ST_WARNING,7,112,302,10
 END
 
 

@@ -79,7 +79,8 @@ static IconItem iconList[] =
 	{ LPGEN("Report abuse icon"), "abuse", IDI_ABUSE },
 	{ LPGEN("Ban user icon"), "ban", IDI_BAN },
 	{ LPGEN("Broadcast icon"), "broadcast", IDI_BROADCAST },
-	{ LPGEN("Status icon"), "status", IDI_STATUS }
+	{ LPGEN("Status icon"), "status", IDI_STATUS },
+	{ LPGEN("Wall message icon"), "wall", IDI_WALL }
 };
 
 void InitIcons()
@@ -376,6 +377,12 @@ bool CVkProto::CheckJsonResult(AsyncHttpRequest *pReq, JSONNODE *pNode)
 	case VKERR_USER_ON_BLACKLIST:
 		if (param)
 			param->iCount = iErrorCode;
+		break;
+	case VKERR_INVALID_PARAMETERS:
+		MsgPopup(NULL, TranslateT("One of the parameters specified was missing or invalid"), TranslateT("Error"), true);
+		break;
+	case VKERR_ACC_WALL_POST_DENIED:
+		MsgPopup(NULL, TranslateT("Access to adding post denied"), TranslateT("Error"), true);
 		break;
 	}
 

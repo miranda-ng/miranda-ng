@@ -20,6 +20,8 @@
 #define IDI_BROADCAST                   117
 #define IDD_OPT_VIEW                    118
 #define IDI_STATUS                      119
+#define IDD_WALLPOST                    120
+#define IDI_WALL                        121
 #define IDI_KEYS                        203
 #define IDC_LOGIN                       1001
 #define IDC_PASSWORD                    1002
@@ -97,15 +99,19 @@
 #define IDC_USENOSTDURLENCODE           1088
 #define IDC_ED_INT_INVIS                1089
 #define IDC_SPIN_INT_INVIS              1090
+#define IDC_ED_MSG                      1091
+#define IDC_ED_URL                      1092
+#define IDC_ONLY_FRIENDS                1093
+#define IDC_ST_WARNING                  1095
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1
-#define _APS_NEXT_RESOURCE_VALUE        120
+#define _APS_NEXT_RESOURCE_VALUE        122
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1091
+#define _APS_NEXT_CONTROL_VALUE         1096
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
