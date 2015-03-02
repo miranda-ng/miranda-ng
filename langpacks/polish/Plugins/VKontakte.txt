@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.49
+;  Version: 0.1.0.50
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -166,6 +166,14 @@ Utwórz czat grupowy
 Zaznacz użytkowników, których chcesz zaprosić do nowego czatu
 [New chat's title:]
 Nazwa nowego czatu:
+[Share]
+Udostępnij
+[Url:]
+Link:
+[Only for friends]
+Tylko dla znajomych
+[Attention]
+Uwaga
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Ikona formularza Captcha
@@ -189,6 +197,8 @@ Ikona zbanuj użytkownika
 Ikona transmisji
 [Status icon]
 Ikona Statusu
+[Wall message icon]
+Ikona posta na tablicy
 [Protocols]
 Protokoły
 [VKontakte]
@@ -199,6 +209,10 @@ Odmowa dostępu! Dane nie będą wysyłane, ani odbierane.
 Błąd
 [Error %d. Data will not be sent or received.]
 Błąd %d. Dane nie zostaną wysłane lub odebrane.
+[One of the parameters specified was missing or invalid]
+Brakuje jednego z określonych parametrów lub jest on nieprawidłowy
+[Access to adding post denied]
+Odmówiono dostępu do dodawania postów
 [Enter confirmation code]
 Wprowadź kod weryfikacyjny
 [Message read: %s]
@@ -348,10 +362,14 @@ Połączenie %s
 Utwórz nowy czat
 [Status message]
 Opis
+[Sent message to my wall]
+Wyślij posta na moją tablicę
 [Load news from VK]
 Załaduj aktualności z VK
 [Visit profile]
 Odwiedź profil
+[Sent message to user\'s wall]
+Wyślij posta na tablicę użytkownika
 [Add as friend]
 Dodaj jako znajomego
 [Delete from friend list]
@@ -384,13 +402,14 @@ Nie możesz dodać siebie samego jako znajomego
 Nie można dodać tego użytkownika do znajomych, ponieważ umieścił cię on na czarnej liście
 [Cannot add this user to friends as you put him on blacklist]
 Nie można dodać tego użytkownika do znajomych, ponieważ umieściłeś go na czarnej liście
-;file \protocols\VKontakte\src\vk_thread.cpp
+;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 Ładowanieopisuzvk.com.\nTo może zająć trochę czasu.
 [Waiting...]
 Oczekiwanie...
 [Enter new status message]
 Wprowadź nowy opis
+;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
 Proszę, autoryzuj mnie, bym mógł dodać Cię do znajomych.
 [Are you sure to delete %s from your friend list?]
@@ -419,3 +438,8 @@ Czy jesteś pewien, że chcesz zbanować %s? %s%skontynuować?
 \nTo także
 [Are you sure to report abuse on %s?]
 Czy napewno chcesz zgłosić nadużycie przez %s?
+;file \protocols\VKontakte\src\vk_wallpost.cpp
+[Wall message for]
+Post na tablicy dla
+[Attention! Message body or url should not be empty!]
+Uwaga! Treść wiadomości lub link nie powinny byćpuste!
