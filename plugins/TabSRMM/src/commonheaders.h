@@ -34,6 +34,7 @@
 #define _WIN32_IE 0x0501
 
 #include <windows.h>
+#include <windowsx.h>
 #include <commdlg.h>
 #include <shellapi.h>
 #include <uxtheme.h>

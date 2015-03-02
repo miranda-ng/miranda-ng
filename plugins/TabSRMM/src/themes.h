@@ -379,7 +379,8 @@ struct TabControlData
 	TContainerData *pContainer;
 	BOOL    bDragging;
 	int     iBeginIndex;
-	int		iHoveredCloseIcon;
+	int	iHoveredTabIndex;
+	int	iHoveredCloseIcon;
 	HWND    hwndDrag;
 	TWindowData *dragDat;
 	HIMAGELIST himlDrag;

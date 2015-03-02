@@ -1166,11 +1166,11 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 
 LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwdat, WPARAM wParam, LPARAM lParam)
 {
+	POINT pt;
 	RECT rc, rc1;
 	UINT uID = mwdat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG;
 	UINT uIDMsg = mwdat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE;
 
-	POINT pt;
 	GetCursorPos(&pt);
 	GetWindowRect(hwnd, &rc);
 	if (PtInRect(&rc, pt))
@@ -1218,11 +1218,7 @@ LRESULT TSAPI DM_MouseWheelHandler(HWND hwnd, HWND hwndParent, TWindowData *mwda
 	}
 
 	HWND hwndTab = GetDlgItem(mwdat->pContainer->hwnd, IDC_MSGTABS);
-	TCHITTESTINFO hti;
-	GetCursorPos(&hti.pt);
-	ScreenToClient(hwndTab, &hti.pt);
-	hti.flags = 0;
-	if (TabCtrl_HitTest(hwndTab, &hti) != -1) {
+	if (GetTabItemFromMouse(hwndTab, &pt) != -1) {
 		SendMessage(hwndTab, WM_MOUSEWHEEL, wParam, -1);
 		return 0;
 	}

@@ -33,35 +33,46 @@ static WNDPROC		OldTabControlClassProc;
 
 #define FIXED_TAB_SIZE 100
 
-static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, POINT& pt)
-{
-	TCHITTESTINFO tci = { 0 };
-	tci.pt.x = pt.x;
-	tci.pt.y = pt.y;
-	int iTab;
+// returns the index of the tab under the mouse pointer. Used for
+// context menu popup and tooltips
+// pt: mouse coordinates, obtained from GetCursorPos()
 
+int TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt)
+{
+	TCHITTESTINFO tch;
+	tch.pt = (*pt);
+	tch.flags = 0;
+	ScreenToClient(hwndTab, &tch.pt);
+
+	return TabCtrl_HitTest(hwndTab, &tch);
+}
+
+static int TabCtrl_TestForCloseButton(const TabControlData *tabdat, HWND hwnd, POINT *pt)
+{
+	int iTab;
+	RECT rcTab;
+	TCHITTESTINFO tci;
+
+	tci.pt = (*pt);
+	tci.flags = 0;
 	ScreenToClient(hwnd, &tci.pt);
 	iTab = TabCtrl_HitTest(hwnd, &tci);
-	if (iTab != -1) {
-		RECT  rcTab;
+	if (iTab == -1 || (tci.flags & TCHT_NOWHERE))
+		return -1;
 
-		if (tci.flags & TCHT_NOWHERE)
-			return -1;
-
-		TabCtrl_GetItemRect(hwnd, iTab, &rcTab);
-		if (tabdat->dwStyle & TCS_BUTTONS) {
-			rcTab.right -= 1;
-			rcTab.left = rcTab.right - 18;
-		}
-		else {
-			rcTab.left = rcTab.right - 18;
-			rcTab.right -= 5;
-		}
-		rcTab.bottom -= 4;
-		rcTab.top += 4;
-		if (PtInRect(&rcTab, tci.pt))
-			return(iTab);
+	TabCtrl_GetItemRect(hwnd, iTab, &rcTab);
+	if (tabdat->dwStyle & TCS_BUTTONS) {
+		rcTab.right -= 1;
+		rcTab.left = rcTab.right - 18;
 	}
+	else {
+		rcTab.left = rcTab.right - 18;
+		rcTab.right -= 5;
+	}
+	rcTab.bottom -= 4;
+	rcTab.top += 4;
+	if (PtInRect(&rcTab, tci.pt))
+		return (iTab);
 	return -1;
 }
 
@@ -231,145 +242,145 @@ static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint
 	DWORD dwStyle = tabdat->dwStyle;
 
 	rcItem->bottom -= 1;
-	if (rcItem->left >= 0) {
+	if (rcItem->left < 0)
+		return;
 
-		// draw "button style" tabs... raised edge for hottracked, sunken edge for active (pushed)
-		// otherwise, they get a normal border
-		if (dwStyle & TCS_BUTTONS) {
-			BOOL bClassicDraw = (tabdat->m_VisualStyles == FALSE);
+	// draw "button style" tabs... raised edge for hottracked, sunken edge for active (pushed)
+	// otherwise, they get a normal border
+	if (dwStyle & TCS_BUTTONS) {
+		BOOL bClassicDraw = (tabdat->m_VisualStyles == FALSE);
 
-			// draw frame controls for button or bottom tabs
-			if (dwStyle & TCS_BOTTOM)
-				rcItem->top++;
+		// draw frame controls for button or bottom tabs
+		if (dwStyle & TCS_BOTTOM)
+			rcItem->top++;
 
-			rcItem->right += 6;
-			if (tabdat->fAeroTabs) {
-				if (M.isAero()) {
-					InflateRect(rcItem, 2, 0);
-					FillRect(dc, rcItem, CSkin::m_BrushBack);
-				}
-				else if (dat) {
-					int iStateId = (nHint & HINT_ACTIVE_ITEM ? PBS_PRESSED : 0) | (nHint & HINT_HOTTRACK ? PBS_HOT : 0);
-
-					InflateRect(rcItem, 1, 0);
-					FillTabBackground(dc, iStateId, dat, rcItem);
-				}
-				CSkin::m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA, nHint & HINT_ACTIVE_ITEM ? 255 : 200);
-				CSkin::m_switchBarItem->Render(dc, rcItem, true);
-
-
-				if (nHint & HINT_ACTIVE_ITEM || nHint & HINT_HOTTRACK) {
-					RECT rcGlow = *rcItem;
-
-					if (dwStyle & TCS_BOTTOM)
-						rcGlow.top++;
-					else
-						rcGlow.bottom--;
-
-					tabdat->helperGlowItem->setAlphaFormat(AC_SRC_ALPHA, nHint & HINT_ACTIVE_ITEM ? 200 : 150);
-					tabdat->helperGlowItem->Render(dc, &rcGlow, true);
-				}
+		rcItem->right += 6;
+		if (tabdat->fAeroTabs) {
+			if (M.isAero()) {
+				InflateRect(rcItem, 2, 0);
+				FillRect(dc, rcItem, CSkin::m_BrushBack);
 			}
-			else if (bClassicDraw) {
-				if (CSkin::m_skinEnabled) {
-					CSkinItem *item = nHint & HINT_ACTIVE_ITEM ? &SkinItems[ID_EXTBKBUTTONSPRESSED] : (nHint & HINT_HOTTRACK ? &SkinItems[ID_EXTBKBUTTONSMOUSEOVER] : &SkinItems[ID_EXTBKBUTTONSNPRESSED]);
+			else if (dat) {
+				int iStateId = (nHint & HINT_ACTIVE_ITEM ? PBS_PRESSED : 0) | (nHint & HINT_HOTTRACK ? PBS_HOT : 0);
 
-					if (!item->IGNORED) {
-						CSkin::SkinDrawBG(tabdat->hwnd, tabdat->pContainer->hwnd, tabdat->pContainer, rcItem, dc);
-						CSkin::DrawItem(dc, rcItem, item);
-					}
-					else
-						goto b_nonskinned;
-				}
-				else {
-				b_nonskinned:
-					if (nHint & HINT_ACTIVE_ITEM)
-						DrawEdge(dc, rcItem, EDGE_ETCHED, BF_RECT | BF_SOFT);
-					else if (nHint & HINT_HOTTRACK)
-						DrawEdge(dc, rcItem, EDGE_BUMP, BF_RECT | BF_MONO | BF_SOFT);
-					else
-						DrawEdge(dc, rcItem, EDGE_RAISED, BF_RECT | BF_SOFT);
-				}
+				InflateRect(rcItem, 1, 0);
+				FillTabBackground(dc, iStateId, dat, rcItem);
 			}
-			else {
-				if (M.isAero() && !(dwStyle & TCS_BOTTOM))
-					FillRect(dc, rcItem, CSkin::m_BrushBack);
+			CSkin::m_switchBarItem->setAlphaFormat(AC_SRC_ALPHA, nHint & HINT_ACTIVE_ITEM ? 255 : 200);
+			CSkin::m_switchBarItem->Render(dc, rcItem, true);
+
+
+			if (nHint & HINT_ACTIVE_ITEM || nHint & HINT_HOTTRACK) {
+				RECT rcGlow = *rcItem;
+
+				if (dwStyle & TCS_BOTTOM)
+					rcGlow.top++;
 				else
-					CSkin::FillBack(dc, rcItem);
-				DrawThemeBackground(tabdat->hThemeButton, dc, 1, nHint & HINT_ACTIVE_ITEM ? 3 : (nHint & HINT_HOTTRACK ? 2 : 1), rcItem, rcItem);
-			}
-			return;
-		}
-		SelectObject(dc, PluginConfig.tabConfig.m_hPenLight);
+					rcGlow.bottom--;
 
-		if (nHint & HINT_ACTIVE_ITEM) {
-			if (dwStyle & TCS_BOTTOM) {
-				if (!CSkin::m_skinEnabled)
-					CSkin::FillBack(dc, rcItem);
-				rcItem->bottom += 2;
+				tabdat->helperGlowItem->setAlphaFormat(AC_SRC_ALPHA, nHint & HINT_ACTIVE_ITEM ? 200 : 150);
+				tabdat->helperGlowItem->Render(dc, &rcGlow, true);
+			}
+		}
+		else if (bClassicDraw) {
+			if (CSkin::m_skinEnabled) {
+				CSkinItem *item = nHint & HINT_ACTIVE_ITEM ? &SkinItems[ID_EXTBKBUTTONSPRESSED] : (nHint & HINT_HOTTRACK ? &SkinItems[ID_EXTBKBUTTONSMOUSEOVER] : &SkinItems[ID_EXTBKBUTTONSNPRESSED]);
+
+				if (!item->IGNORED) {
+					CSkin::SkinDrawBG(tabdat->hwnd, tabdat->pContainer->hwnd, tabdat->pContainer, rcItem, dc);
+					CSkin::DrawItem(dc, rcItem, item);
+				}
+				else
+					goto b_nonskinned;
 			}
 			else {
-				rcItem->bottom += 2;
-				if (!CSkin::m_skinEnabled)
-					CSkin::FillBack(dc, rcItem);
-				rcItem->bottom--;
-				rcItem->top -= 2;
+			b_nonskinned:
+				if (nHint & HINT_ACTIVE_ITEM)
+					DrawEdge(dc, rcItem, EDGE_ETCHED, BF_RECT | BF_SOFT);
+				else if (nHint & HINT_HOTTRACK)
+					DrawEdge(dc, rcItem, EDGE_BUMP, BF_RECT | BF_MONO | BF_SOFT);
+				else
+					DrawEdge(dc, rcItem, EDGE_RAISED, BF_RECT | BF_SOFT);
 			}
-			if (CSkin::m_skinEnabled) {
-				CSkinItem *item = &SkinItems[dwStyle & TCS_BOTTOM ? ID_EXTBKTABITEMACTIVEBOTTOM : ID_EXTBKTABITEMACTIVE];
-				if (!item->IGNORED) {
-					rcItem->left += item->MARGIN_LEFT;
-					rcItem->right -= item->MARGIN_RIGHT;
-					rcItem->top += item->MARGIN_TOP;
-					rcItem->bottom -= item->MARGIN_BOTTOM;
-					CSkin::DrawItem(dc, rcItem, item);
-					return;
-				}
-			}
+		}
+		else {
+			if (M.isAero() && !(dwStyle & TCS_BOTTOM))
+				FillRect(dc, rcItem, CSkin::m_BrushBack);
+			else
+				CSkin::FillBack(dc, rcItem);
+			DrawThemeBackground(tabdat->hThemeButton, dc, 1, nHint & HINT_ACTIVE_ITEM ? 3 : (nHint & HINT_HOTTRACK ? 2 : 1), rcItem, rcItem);
+		}
+		return;
+	}
+	SelectObject(dc, PluginConfig.tabConfig.m_hPenLight);
+
+	if (nHint & HINT_ACTIVE_ITEM) {
+		if (dwStyle & TCS_BOTTOM) {
+			if (!CSkin::m_skinEnabled)
+				CSkin::FillBack(dc, rcItem);
+			rcItem->bottom += 2;
+		}
+		else {
+			rcItem->bottom += 2;
+			if (!CSkin::m_skinEnabled)
+				CSkin::FillBack(dc, rcItem);
+			rcItem->bottom--;
+			rcItem->top -= 2;
 		}
 		if (CSkin::m_skinEnabled) {
-			CSkinItem *item = &SkinItems[dwStyle & TCS_BOTTOM ? (nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACKBOTTOM : ID_EXTBKTABITEMBOTTOM) :
-				(nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACK : ID_EXTBKTABITEM)];
+			CSkinItem *item = &SkinItems[dwStyle & TCS_BOTTOM ? ID_EXTBKTABITEMACTIVEBOTTOM : ID_EXTBKTABITEMACTIVE];
 			if (!item->IGNORED) {
-				if (dwStyle & TCS_BOTTOM)
-					rcItem->top = (rcItem->top > rcTabPage.bottom + 5) ? --rcItem->top : rcItem->top;
-				else
-					rcItem->bottom++;
-
 				rcItem->left += item->MARGIN_LEFT;
 				rcItem->right -= item->MARGIN_RIGHT;
+				rcItem->top += item->MARGIN_TOP;
+				rcItem->bottom -= item->MARGIN_BOTTOM;
 				CSkin::DrawItem(dc, rcItem, item);
 				return;
 			}
 		}
-		if (dwStyle & TCS_BOTTOM) {
-			MoveToEx(dc, rcItem->left, rcItem->top - (nHint & HINT_ACTIVE_ITEM ? 1 : 0), &pt);
-			LineTo(dc, rcItem->left, rcItem->bottom - 2);
-			LineTo(dc, rcItem->left + 2, rcItem->bottom);
-			SelectObject(dc, PluginConfig.tabConfig.m_hPenShadow);
-			LineTo(dc, rcItem->right - 3, rcItem->bottom);
+	}
+	if (CSkin::m_skinEnabled) {
+		CSkinItem *item = &SkinItems[dwStyle & TCS_BOTTOM ? (nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACKBOTTOM : ID_EXTBKTABITEMBOTTOM) :
+			(nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACK : ID_EXTBKTABITEM)];
+		if (!item->IGNORED) {
+			if (dwStyle & TCS_BOTTOM)
+				rcItem->top = (rcItem->top > rcTabPage.bottom + 5) ? --rcItem->top : rcItem->top;
+			else
+				rcItem->bottom++;
 
-			LineTo(dc, rcItem->right - 1, rcItem->bottom - 2);
-			LineTo(dc, rcItem->right - 1, rcItem->top - 1);
-			MoveToEx(dc, rcItem->right - 2, rcItem->top, &pt);
-			SelectObject(dc, PluginConfig.tabConfig.m_hPenItemShadow);
-			LineTo(dc, rcItem->right - 2, rcItem->bottom - 1);
-			MoveToEx(dc, rcItem->right - 3, rcItem->bottom - 1, &pt);
-			LineTo(dc, rcItem->left + 2, rcItem->bottom - 1);
+			rcItem->left += item->MARGIN_LEFT;
+			rcItem->right -= item->MARGIN_RIGHT;
+			CSkin::DrawItem(dc, rcItem, item);
+			return;
 		}
-		else {
-			MoveToEx(dc, rcItem->left, rcItem->bottom, &pt);
-			LineTo(dc, rcItem->left, rcItem->top + 2);
-			LineTo(dc, rcItem->left + 2, rcItem->top);
-			LineTo(dc, rcItem->right - 2, rcItem->top);
-			SelectObject(dc, PluginConfig.tabConfig.m_hPenItemShadow);
+	}
+	if (dwStyle & TCS_BOTTOM) {
+		MoveToEx(dc, rcItem->left, rcItem->top - (nHint & HINT_ACTIVE_ITEM ? 1 : 0), &pt);
+		LineTo(dc, rcItem->left, rcItem->bottom - 2);
+		LineTo(dc, rcItem->left + 2, rcItem->bottom);
+		SelectObject(dc, PluginConfig.tabConfig.m_hPenShadow);
+		LineTo(dc, rcItem->right - 3, rcItem->bottom);
 
-			MoveToEx(dc, rcItem->right - 2, rcItem->top + 1, &pt);
-			LineTo(dc, rcItem->right - 2, rcItem->bottom + 1);
-			SelectObject(dc, PluginConfig.tabConfig.m_hPenShadow);
-			MoveToEx(dc, rcItem->right - 1, rcItem->top + 2, &pt);
-			LineTo(dc, rcItem->right - 1, rcItem->bottom + 1);
-		}
+		LineTo(dc, rcItem->right - 1, rcItem->bottom - 2);
+		LineTo(dc, rcItem->right - 1, rcItem->top - 1);
+		MoveToEx(dc, rcItem->right - 2, rcItem->top, &pt);
+		SelectObject(dc, PluginConfig.tabConfig.m_hPenItemShadow);
+		LineTo(dc, rcItem->right - 2, rcItem->bottom - 1);
+		MoveToEx(dc, rcItem->right - 3, rcItem->bottom - 1, &pt);
+		LineTo(dc, rcItem->left + 2, rcItem->bottom - 1);
+	}
+	else {
+		MoveToEx(dc, rcItem->left, rcItem->bottom, &pt);
+		LineTo(dc, rcItem->left, rcItem->top + 2);
+		LineTo(dc, rcItem->left + 2, rcItem->top);
+		LineTo(dc, rcItem->right - 2, rcItem->top);
+		SelectObject(dc, PluginConfig.tabConfig.m_hPenItemShadow);
+
+		MoveToEx(dc, rcItem->right - 2, rcItem->top + 1, &pt);
+		LineTo(dc, rcItem->right - 2, rcItem->bottom + 1);
+		SelectObject(dc, PluginConfig.tabConfig.m_hPenShadow);
+		MoveToEx(dc, rcItem->right - 1, rcItem->top + 2, &pt);
+		LineTo(dc, rcItem->right - 1, rcItem->bottom + 1);
 	}
 }
 
@@ -588,12 +599,18 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	DWORD dwStyle = tabdat->dwStyle;
 	UINT uiFlags = 1;
 	UINT uiBottom = 0;
-	TCHITTESTINFO hti;
 	bool  isAero = M.isAero();
 	HANDLE hpb = 0;
 	BOOL bClassicDraw = !isAero && (tabdat->m_VisualStyles == FALSE || CSkin::m_skinEnabled);
+
 	if (GetUpdateRect(hwnd, NULL, TRUE) == 0)
 		return;
+
+	GetCursorPos(&pt);
+	hotItem = GetTabItemFromMouse(hwnd, &pt);
+	if (tabdat->iHoveredTabIndex != hotItem)
+		InvalidateRect(hwnd, NULL, FALSE);
+	tabdat->iHoveredTabIndex = hotItem;
 
 	item.mask = TCIF_PARAM;
 
@@ -606,7 +623,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		if (dat)
 			tabdat->helperDat = dat;
 		else
-			tabdat->fAeroTabs = 0;
+			tabdat->fAeroTabs = FALSE;
 
 		tabdat->helperItem = (dwStyle & TCS_BOTTOM) ? CSkin::m_tabBottom : CSkin::m_tabTop;
 		tabdat->helperGlowItem = (dwStyle & TCS_BOTTOM) ? CSkin::m_tabGlowBottom : CSkin::m_tabGlowTop;
@@ -807,7 +824,6 @@ page_done:
 		}
 		GetWindowRect(GetDlgItem(tabdat->helperDat->hwnd, tabdat->helperDat->bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG), &rcLog);
 
-		POINT	pt;
 		pt.y = rcLog.top;
 		pt.x = rcLog.left;
 		ScreenToClient(hwnd, &pt);
@@ -821,35 +837,31 @@ page_done:
 	if (tabdat->bRefreshWithoutClip)
 		goto skip_tabs;
 
-	GetCursorPos(&hti.pt);
-	ScreenToClient(hwnd, &hti.pt);
-	hti.flags = 0;
-	hotItem = TabCtrl_HitTest(hwnd, &hti);
 	for (i = 0; i < nCount; i++) {
 		TWindowData *dat = 0;
 
-		if (i != iActive) {
-			TabCtrl_GetItem(hwnd, i, &item);
-			if (item.lParam)
-				dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
-			TabCtrl_GetItemRect(hwnd, i, &rcItem);
-			if (!bClassicDraw && uiBottom) {
-				rcItem.top -= PluginConfig.tabConfig.m_bottomAdjust;
-				rcItem.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
+		if (i == iActive)
+			continue;
+		TabCtrl_GetItem(hwnd, i, &item);
+		if (item.lParam)
+			dat = (TWindowData*)GetWindowLongPtr((HWND)item.lParam, GWLP_USERDATA);
+		TabCtrl_GetItemRect(hwnd, i, &rcItem);
+		if (!bClassicDraw && uiBottom) {
+			rcItem.top -= PluginConfig.tabConfig.m_bottomAdjust;
+			rcItem.bottom -= PluginConfig.tabConfig.m_bottomAdjust;
+		}
+		if (IntersectRect(&rectTemp, &rcItem, &ps.rcPaint) || bClassicDraw) {
+			int nHint = 0;
+			if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
+				DrawThemesXpTabItem(hdc, &rcItem, uiFlags | uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
+				DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 			}
-			if (IntersectRect(&rectTemp, &rcItem, &ps.rcPaint) || bClassicDraw) {
-				int nHint = 0;
-				if (!bClassicDraw && !(dwStyle & TCS_BUTTONS)) {
-					DrawThemesXpTabItem(hdc, &rcItem, uiFlags | uiBottom | (i == hotItem ? 4 : 0), tabdat, dat);
-					DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
-				}
-				else {
-					if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
-						DrawThemesPartWithAero(tabdat, hdc, 0, (i == hotItem ? PBS_HOT : PBS_NORMAL), &rcItem, dat);
-					else
-						DrawItemRect(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), dat);
-					DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
-				}
+			else {
+				if (tabdat->fAeroTabs && !CSkin::m_skinEnabled && !(dwStyle & TCS_BUTTONS))
+					DrawThemesPartWithAero(tabdat, hdc, 0, (i == hotItem ? PBS_HOT : PBS_NORMAL), &rcItem, dat);
+				else
+					DrawItemRect(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), dat);
+				DrawItem(tabdat, hdc, &rcItem, nHint | (i == hotItem ? HINT_HOTTRACK : 0), i, dat);
 			}
 		}
 	}
@@ -914,14 +926,13 @@ skip_tabs:
 
 static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	POINT pt;
 	TabControlData *tabdat = (TabControlData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if (tabdat) {
 		if (tabdat->pContainer == NULL)
 			tabdat->pContainer = (TContainerData*)GetWindowLongPtr(GetParent(hwnd), GWLP_USERDATA);
 		tabdat->dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 	}
-
-	POINT pt;
 
 	switch (msg) {
 	case WM_NCCREATE:
@@ -937,6 +948,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		tabdat->cx = GetSystemMetrics(SM_CXSMICON);
 		tabdat->cy = GetSystemMetrics(SM_CYSMICON);
 		tabdat->fTipActive = FALSE;
+		tabdat->iHoveredTabIndex = -1;
 		tabdat->iHoveredCloseIcon = -1;
 		SendMessage(hwnd, EM_THEMECHANGED, 0, 0);
 	}
@@ -984,6 +996,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case TCM_INSERTITEM:
 	case TCM_DELETEITEM:
+		tabdat->iHoveredTabIndex = -1;
 		tabdat->iHoveredCloseIcon = -1;
 		if (!(tabdat->dwStyle & TCS_MULTILINE) || (tabdat->dwStyle & TCS_BUTTONS)) {
 			int iTabs = TabCtrl_GetItemCount(hwnd);
@@ -1021,6 +1034,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_SETCURSOR:
 		GetCursorPos(&pt);
+		InvalidateRect(hwnd, NULL, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
 		SendMessage(GetParent(hwnd), msg, wParam, lParam);
 		if (abs(pt.x - ptMouseT.x) < 4 && abs(pt.y - ptMouseT.y) < 4)
 			return 1;
@@ -1086,14 +1100,10 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		tabdat->fTipActive = FALSE;
 
 		if (GetKeyState(VK_CONTROL) & 0x8000) {
-			TCHITTESTINFO tci = { 0 };
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-				tci.flags = TCHT_ONITEM;
-
-				ScreenToClient(hwnd, &tci.pt);
-				int i = TabCtrl_HitTest(hwnd, &tci);
+			pt.x = (short)LOWORD(GetMessagePos());
+			pt.y = (short)HIWORD(GetMessagePos());
+			if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					TCITEM tc;
 					TWindowData *dat = NULL;
@@ -1110,7 +1120,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						tabdat->himlDrag = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 1, 0);
 						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
-						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+						ImageList_DragEnter(hwnd, pt.x, pt.y);
 						SetCapture(hwnd);
 					}
 					return TRUE;
@@ -1119,15 +1129,10 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 
 		if (GetKeyState(VK_MENU) & 0x8000) {
-			TCHITTESTINFO tci = { 0 };
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			if (DragDetect(hwnd, tci.pt) && TabCtrl_GetItemCount(hwnd) > 1) {
-				int i;
-				tci.flags = TCHT_ONITEM;
-
-				ScreenToClient(hwnd, &tci.pt);
-				i = TabCtrl_HitTest(hwnd, &tci);
+			pt.x = (short)LOWORD(GetMessagePos());
+			pt.y = (short)HIWORD(GetMessagePos());
+			if (DragDetect(hwnd, pt) && TabCtrl_GetItemCount(hwnd) > 1) {
+				int i = GetTabItemFromMouse(hwnd, &pt);
 				if (i != -1) {
 					TCITEM tc;
 					tc.mask = TCIF_PARAM;
@@ -1143,7 +1148,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						tabdat->fSavePos = FALSE;
 						ImageList_AddIcon(tabdat->himlDrag, dat->hTabIcon);
 						ImageList_BeginDrag(tabdat->himlDrag, 0, 8, 8);
-						ImageList_DragEnter(hwnd, tci.pt.x, tci.pt.y);
+						ImageList_DragEnter(hwnd, pt.x, pt.y);
 						SetCapture(hwnd);
 					}
 					return TRUE;
@@ -1153,7 +1158,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 		if (tabdat->fCloseButton) {
 			GetCursorPos(&pt);
-			if (TabCtrl_TestForCloseButton(tabdat, hwnd, pt) != -1)
+			if (TabCtrl_TestForCloseButton(tabdat, hwnd, &pt) != -1)
 				return TRUE;
 		}
 		break;
@@ -1171,37 +1176,46 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_MOUSEMOVE:
 		if (tabdat->bDragging) {
-			TCHITTESTINFO tci = { 0 };
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			ScreenToClient(hwnd, &tci.pt);
-			ImageList_DragMove(tci.pt.x, tci.pt.y);
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
+			ImageList_DragMove(pt.x, pt.y);
 		}
 
-		if (tabdat->fCloseButton) {
-			POINT	pt;
+		{
 			GetCursorPos(&pt);
-			int iOldHovered = tabdat->iHoveredCloseIcon;
-			tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
-			if (tabdat->iHoveredCloseIcon != iOldHovered)
+			int iOld = tabdat->iHoveredTabIndex;
+			tabdat->iHoveredTabIndex = GetTabItemFromMouse(hwnd, &pt);
+			if (tabdat->iHoveredTabIndex != iOld)
 				InvalidateRect(hwnd, NULL, FALSE);
+			if (tabdat->fCloseButton && tabdat->iHoveredTabIndex != -1) {
+				iOld = tabdat->iHoveredCloseIcon;
+				tabdat->iHoveredCloseIcon = TabCtrl_TestForCloseButton(tabdat, hwnd, &pt);
+				if (tabdat->iHoveredCloseIcon != iOld)
+					InvalidateRect(hwnd, NULL, FALSE);
+			}
+		}
+		break;
+
+	case WM_NCHITTEST: /* wine: fix for erase/paint tab on mouse enter/leave tab. */
+		{
+			LRESULT res = CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
+			if (res != HTCLIENT)
+				InvalidateRect(hwnd, NULL, FALSE);
+			return (res);
 		}
 		break;
 
 	case WM_LBUTTONUP:
 		CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 		if (tabdat->bDragging && ReleaseCapture()) {
-			TCHITTESTINFO tci = { 0 };
 			int i;
-			tci.pt.x = (short)LOWORD(GetMessagePos());
-			tci.pt.y = (short)HIWORD(GetMessagePos());
-			tci.flags = TCHT_ONITEM;
+			pt.x = (short)LOWORD(GetMessagePos());
+			pt.y = (short)HIWORD(GetMessagePos());
 			tabdat->bDragging = FALSE;
 			ImageList_DragLeave(hwnd);
 			ImageList_EndDrag();
 
-			ScreenToClient(hwnd, &tci.pt);
-			i = TabCtrl_HitTest(hwnd, &tci);
+			i = GetTabItemFromMouse(hwnd, &pt);
 			if (i != -1 && i != tabdat->iBeginIndex)
 				RearrangeTab(tabdat->hwndDrag, tabdat->dragDat, MAKELONG(i, 0xffff), tabdat->fSavePos);
 			tabdat->hwndDrag = (HWND)-1;
@@ -1213,9 +1227,8 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			}
 		}
 		if (tabdat->fCloseButton) {
-			POINT	pt;
 			GetCursorPos(&pt);
-			int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, pt);
+			int iItem = TabCtrl_TestForCloseButton(tabdat, hwnd, &pt);
 			if (iItem != -1)
 				SendMessage(GetParent(hwnd), DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
 		}
@@ -1231,10 +1244,10 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		return 0;
 
 	case WM_TIMER:
+		InvalidateRect(hwnd, NULL, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
 		if (wParam == TIMERID_HOVER_T &&  M.GetByte("d_tooltips", 0)) {
 			KillTimer(hwnd, TIMERID_HOVER_T);
 
-			POINT pt;
 			GetCursorPos(&pt);
 			if (abs(pt.x - ptMouseT.x) < 5 && abs(pt.y - ptMouseT.y) < 5) {
 				CLCINFOTIP ti = { 0 };
@@ -1276,12 +1289,17 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 		break;
 
-	case  WM_USER + 100:
+	case WM_USER + 100:
 		if (tabdat->fTipActive) {
 			tabdat->fTipActive = FALSE;
 			CallService("mToolTip/HideTip", 0, 0);
 		}
+		break;
 	}
+
+#if defined(__LOGDEBUG_)
+	_DebugTraceW(L"msg: %hu", msg);
+#endif
 	return CallWindowProc(OldTabControlClassProc, hwnd, msg, wParam, lParam);
 }
 
@@ -1403,8 +1421,9 @@ INT_PTR CALLBACK DlgProcTabConfig(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				ReloadTabConfig();
 
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-					TabCtrl_SetPadding(GetDlgItem(p->hwnd, IDC_MSGTABS), GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
-					RedrawWindow(GetDlgItem(p->hwnd, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
+					HWND hwndTab = GetDlgItem(p->hwnd, IDC_MSGTABS);
+					TabCtrl_SetPadding(hwndTab, GetDlgItemInt(hwndDlg, IDC_HTABPADDING, NULL, FALSE), GetDlgItemInt(hwndDlg, IDC_TABPADDING, NULL, FALSE));
+					RedrawWindow(hwndTab, NULL, NULL, RDW_INVALIDATE | RDW_ERASE);
 				}
 				return TRUE;
 			}
