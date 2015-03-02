@@ -142,33 +142,6 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 	return 0;
 }
 
-int _DebugTraceA(const char *fmt, ...)
-{
-	char    debug[2048];
-	int     ibsize = 2047;
-	va_list va;
-	va_start(va, fmt);
-
-	mir_strcpy(debug, "TABSRMM: ");
-	mir_vsnprintf(&debug[9], ibsize - 10, fmt, va);
-#ifdef _DEBUG
-	OutputDebugStringA(debug);
-#else
-	{
-		char szLogFileName[MAX_PATH], szDataPath[MAX_PATH];
-		CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szDataPath);
-		mir_snprintf(szLogFileName, SIZEOF(szLogFileName), "%s\\tabsrmm_debug.log", szDataPath);
-		FILE *f = fopen(szLogFileName, "a+");
-		if (f) {
-			fputs(debug, f);
-			fputs("\n", f);
-			fclose(f);
-		}
-	}
-#endif
-	return 0;
-}
-
 /*
  * output a notification message.
  * may accept a hContact to include the contacts nickname in the notification message...

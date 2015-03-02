@@ -2334,8 +2334,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		StreamInEvents(hwndDlg, wParam, 1, 1, NULL);
 		return 0;
 
-		// replays queued events after the message log has been frozen for a while
-	case DM_REPLAYQUEUE:
+	case DM_REPLAYQUEUE: // replays queued events after the message log has been frozen for a while
 		for (int i = 0; i < dat->iNextQueuedEvent; i++)
 			if (dat->hQueuedEvents[i] != 0)
 				StreamInEvents(hwndDlg, dat->hQueuedEvents[i], 1, 1, NULL);
@@ -2384,7 +2383,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		// for single message sends: basevalue (TIMERID_MSGSEND) + send queue index
 		if (wParam >= TIMERID_MSGSEND) {
 			int iIndex = wParam - TIMERID_MSGSEND;
-			if (iIndex < SendQueue::NR_SENDJOBS) {     // single sendjob timer
+			if (iIndex < SendQueue::NR_SENDJOBS) { // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(hwndDlg, wParam);
 				mir_sntprintf(job->szErrorMsg, SIZEOF(job->szErrorMsg), TranslateT("Delivery failure: %s"),
@@ -2415,7 +2414,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dat->dwFlags & MWF_ERRORSTATE) {
 				dat->cache->saveHistory(0, 0);
 				if (wParam == MSGERROR_SENDLATER)
-					sendQueue->doSendLater(dat->iCurrentQueueError, dat);							// to be implemented at a later time
+					sendQueue->doSendLater(dat->iCurrentQueueError, dat); // to be implemented at a later time
 				dat->iOpenJobs--;
 				sendQueue->dec();
 				if (dat->iCurrentQueueError >= 0 && dat->iCurrentQueueError < SendQueue::NR_SENDJOBS)

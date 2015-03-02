@@ -526,7 +526,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	int newItem = TabCtrl_InsertItem(hwndTab, pContainer->iTabIndex, &newData.item);
 	SendMessage(hwndTab, EM_REFRESHWITHOUTCLIP, 0, 0);
 	if (bActivateTab)
-		TabCtrl_SetCurSel(GetDlgItem(pContainer->hwnd, IDC_MSGTABS), newItem);
+		TabCtrl_SetCurSel(hwndTab, newItem);
 	newData.iTabID = newItem;
 	newData.iTabImage = newData.item.iImage;
 	newData.pContainer = pContainer;
@@ -534,7 +534,7 @@ HWND TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pContainer->iChilds++;
 	newData.bWantPopup = bWantPopup;
 	newData.hdbEvent = hdbEvent;
-	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), GetDlgItem(pContainer->hwnd, IDC_MSGTABS), DlgProcMessage, (LPARAM)&newData);
+	HWND hwndNew = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_MSGSPLITNEW), hwndTab, DlgProcMessage, (LPARAM)&newData);
 
 	// switchbar support
 	if (pContainer->dwFlags & CNT_SIDEBAR) {

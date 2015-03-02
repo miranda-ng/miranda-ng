@@ -532,8 +532,8 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			// make the tab control the controlling parent window for all message dialogs
 
-			ws = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_EXSTYLE);
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_EXSTYLE, ws | WS_EX_CONTROLPARENT);
+			ws = GetWindowLongPtr(hwndTab, GWL_EXSTYLE);
+			SetWindowLongPtr(hwndTab, GWL_EXSTYLE, ws | WS_EX_CONTROLPARENT);
 
 			LONG x_pad = M.GetByte("x-pad", 3) + (pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? 7 : 0);
 			LONG y_pad = M.GetByte("y-pad", 3) + ((pContainer->dwFlags & CNT_TABSBOTTOM) ? 1 : 0);
@@ -541,9 +541,9 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (pContainer->dwFlagsEx & TCF_FLAT)
 				y_pad++; //(pContainer->dwFlags & CNT_TABSBOTTOM ? 1 : 2);
 
-			TabCtrl_SetPadding(GetDlgItem(hwndDlg, IDC_MSGTABS), x_pad, y_pad);
+			TabCtrl_SetPadding(hwndTab, x_pad, y_pad);
 
-			TabCtrl_SetImageList(GetDlgItem(hwndDlg, IDC_MSGTABS), PluginConfig.g_hImageList);
+			TabCtrl_SetImageList(hwndTab, PluginConfig.g_hImageList);
 
 			SendMessage(hwndDlg, DM_CONFIGURECONTAINER, 0, 10);
 
@@ -557,7 +557,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 				if (pContainer->hwndTip) {
 					SetWindowPos(pContainer->hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-					TabCtrl_SetToolTips(GetDlgItem(hwndDlg, IDC_MSGTABS), pContainer->hwndTip);
+					TabCtrl_SetToolTips(hwndTab, pContainer->hwndTip);
 				}
 			}
 			else pContainer->hwndTip = 0;
@@ -801,9 +801,8 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			TCITEM item = { 0 };
 			TWindowData *dat = 0;
 
-			POINT pt, pt1;
+			POINT pt;
 			GetCursorPos(&pt);
-			pt1 = pt;
 			HMENU subMenu = GetSubMenu(pContainer->hMenuContext, 0);
 
 			if (((LPNMHDR)lParam)->idFrom == IDC_MSGTABS) {
@@ -825,7 +824,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if (dat)
 				MsgWindowUpdateMenu(dat, subMenu, MENU_TABCONTEXT);
 
-			int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt1.x, pt1.y, 0, hwndDlg, NULL);
+			int iSelection = TrackPopupMenu(subMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 			if (iSelection >= IDM_CONTAINERMENU) {
 				char szIndex[10];
 				itoa(iSelection - IDM_CONTAINERMENU, szIndex, 10);
@@ -841,7 +840,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				if (fFromSidebar)
 					SendMessage(dat->hwnd, WM_CLOSE, 1, 0);
 				else
-					SendMessage(hwndDlg, DM_CLOSETABATMOUSE, 0, (LPARAM)&pt1);
+					SendMessage(hwndDlg, DM_CLOSETABATMOUSE, 0, (LPARAM)&pt);
 				break;
 			case ID_TABMENU_CLOSEOTHERTABS:
 				CloseOtherTabs(hwndTab, *dat);
@@ -863,7 +862,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				}
 				break;
 			case ID_TABMENU_ATTACHTOCONTAINER:
-				if ((iItem = GetTabItemFromMouse(hwndTab, &pt1)) == -1)
+				if ((iItem = GetTabItemFromMouse(hwndTab, &pt)) == -1)
 					break;
 				memset(&item, 0, sizeof(item));
 				item.mask = TCIF_PARAM;
@@ -951,7 +950,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_ENTERSIZEMOVE:
 	{
 		RECT rc;
-		GetClientRect(GetDlgItem(hwndDlg, IDC_MSGTABS), &rc);
+		GetClientRect(hwndTab, &rc);
 
 		SIZE sz;
 		sz.cx = rc.right - rc.left;
@@ -964,7 +963,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_EXITSIZEMOVE:
 	{
 		RECT rc;
-		GetClientRect(GetDlgItem(hwndDlg, IDC_MSGTABS), &rc);
+		GetClientRect(hwndTab, &rc);
 		if (!((rc.right - rc.left) == pContainer->oldSize.cx && (rc.bottom - rc.top) == pContainer->oldSize.cy)) {
 			TWindowData *dat = (TWindowData*)GetWindowLongPtr(pContainer->hwndActive, GWLP_USERDATA);
 			DM_ScrollToBottom(dat, 0, 0);
@@ -987,12 +986,12 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		MINMAXINFO *mmi = (MINMAXINFO *)lParam;
 		mmi->ptMinTrackSize.x = 275;
 		mmi->ptMinTrackSize.y = 130;
-		GetClientRect(GetDlgItem(hwndDlg, IDC_MSGTABS), &rc);
+		GetClientRect(hwndTab, &rc);
 		if (pContainer->hwndActive)								// at container creation time, there is no hwndActive yet..
 			GetClientRect(pContainer->hwndActive, &rcClient);
 		GetWindowRect(hwndDlg, &rcWindow);
 		pt.y = rc.top;
-		TabCtrl_AdjustRect(GetDlgItem(hwndDlg, IDC_MSGTABS), FALSE, &rc);
+		TabCtrl_AdjustRect(hwndTab, FALSE, &rc);
 		// uChildMinHeight holds the min height for the client window only
 		// so let's add the container's vertical padding (title bar, tab bar,
 		// window border, status bar) to this value
@@ -1278,6 +1277,15 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		}
 		break;
 
+	case WM_MOUSEMOVE:
+		{ /* wine: fix for erase/paint tab on mouse enter/leave tab. */
+			POINT pt;
+			GetCursorPos(&pt);
+			ScreenToClient(hwndTab, &pt);
+			SendMessage(hwndTab, WM_MOUSEMOVE, wParam, (LPARAM)&pt);
+		}
+		break;
+
 	case DM_CLOSETABATMOUSE:
 	{
 		HWND hwndCurrent = pContainer->hwndActive;
@@ -1455,14 +1463,14 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 		pContainer->SideBar->Init();
 
-		ws = wsold = GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_STYLE);
+		ws = wsold = GetWindowLongPtr(hwndTab, GWL_STYLE);
 		if (pContainer->dwFlags & CNT_TABSBOTTOM)
 			ws |= (TCS_BOTTOM);
 		else
 			ws &= ~(TCS_BOTTOM);
 		if ((ws & (TCS_BOTTOM | TCS_MULTILINE)) != (wsold & (TCS_BOTTOM | TCS_MULTILINE))) {
-			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSGTABS), GWL_STYLE, ws);
-			RedrawWindow(GetDlgItem(hwndDlg, IDC_MSGTABS), NULL, NULL, RDW_INVALIDATE);
+			SetWindowLongPtr(hwndTab, GWL_STYLE, ws);
+			RedrawWindow(hwndTab, NULL, NULL, RDW_INVALIDATE);
 		}
 
 		if (pContainer->dwFlags & CNT_NOSTATUSBAR) {
@@ -1695,7 +1703,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 
 			// dont ask if container is empty (no tabs)
-			if (lParam == 0 && TabCtrl_GetItemCount(GetDlgItem(hwndDlg, IDC_MSGTABS)) > 0) {
+			if (lParam == 0 && TabCtrl_GetItemCount(hwndTab) > 0) {
 				int clients = TabCtrl_GetItemCount(hwndTab), iOpenJobs = 0;
 
 				TCITEM item = { 0 };
@@ -1879,29 +1887,12 @@ int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)
 	return -1;
 }
 
-// search the list of tabs and return the tab (by index) which "belongs" to the given
-// hwnd. The hwnd is the handle of a message dialog childwindow. At creation,
-// the dialog handle is stored in the TCITEM.lParam field, because we need
-// to know the owner of the tab.
-//
-// hwndTab: handle of the tab control itself.
-// hwnd: handle of a message dialog.
-//
-// returns the tab index (zero based), -1 if no tab is found (which SHOULD not
-// really happen, but who knows... ;))
-
 HWND TSAPI GetHWNDFromTabIndex(HWND hwndTab, int idx)
 {
-	int iItems = TabCtrl_GetItemCount(hwndTab);
-
 	TCITEM item = { 0 };
 	item.mask = TCIF_PARAM;
-	for (int i = 0; i < iItems; i++) {
-		TabCtrl_GetItem(hwndTab, i, &item);
-		if (i == idx)
-			return (HWND)item.lParam;
-	}
-	return NULL;
+	TabCtrl_GetItem(hwndTab, idx, &item);
+	return (HWND)item.lParam;
 }
 
 // activates the tab belonging to the given client HWND (handle of the actual
@@ -1919,20 +1910,6 @@ int TSAPI ActivateTabFromHWND(HWND hwndTab, HWND hwnd)
 		return iItem;
 	}
 	return -1;
-}
-
-// returns the index of the tab under the mouse pointer. Used for
-// context menu popup and tooltips
-// pt: mouse coordinates, obtained from GetCursorPos()
-
-int TSAPI GetTabItemFromMouse(HWND hwndTab, POINT *pt)
-{
-	ScreenToClient(hwndTab, pt);
-
-	TCHITTESTINFO tch;
-	tch.pt = *pt;
-	tch.flags = 0;
-	return TabCtrl_HitTest(hwndTab, &tch);
 }
 
 // enumerates tabs and closes all of them, but the one in dat
