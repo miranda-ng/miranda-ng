@@ -75,6 +75,7 @@ int WhatsAppProto::OnEvent(PROTOEVENTTYPE evType, WPARAM wParam, LPARAM lParam)
 
 		HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::onGroupChatEvent);
 		HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::OnChatMenu);
+		HookProtoEvent(ME_USERINFO_INITIALISE, &WhatsAppProto::OnUserInfo);
 	}
 	return TRUE;
 }
@@ -346,6 +347,15 @@ int WhatsAppProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc = WhatsAppAccountProc;
 	Options_AddPage(wParam, &odp);
+	return 0;
+}
+
+int WhatsAppProto::OnUserInfo(WPARAM, LPARAM hContact)
+{
+	ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+	if (jid && isOnline())
+		m_pConnection->sendQueryLastOnline((char*)jid);
+	
 	return 0;
 }
 

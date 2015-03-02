@@ -90,11 +90,11 @@ void WhatsAppProto::ProcessBuddyList(void*)
 {
 	// m_pConnection->setFlush(false);
 
-	for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
-		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
-		if (jid)
-			m_pConnection->sendQueryLastOnline((char*)jid);
-	}
+	// for (MCONTACT hContact = db_find_first(m_szModuleName); hContact; hContact = db_find_next(hContact, m_szModuleName)) {
+	//		ptrA jid(getStringA(hContact, WHATSAPP_KEY_ID));
+	//		if (jid)
+	//			m_pConnection->sendQueryLastOnline((char*)jid);
+	//	}
 
 	// m_pConnection->setFlush(true);
 
@@ -123,7 +123,7 @@ void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolea
 void WhatsAppProto::onLastSeen(const std::string &paramString1, int paramInt, const string &paramString2)
 {
 	MCONTACT hContact = AddToContactList(paramString1);
-	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, paramInt);
+	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(NULL) - paramInt);
 
 	UpdateStatusMsg(hContact);
 }
@@ -134,7 +134,7 @@ void WhatsAppProto::UpdateStatusMsg(MCONTACT hContact)
 
 	int lastSeen = getDword(hContact, WHATSAPP_KEY_LAST_SEEN, -1);
 	if (lastSeen != -1) {
-		time_t ts = time(NULL) - lastSeen;
+		time_t ts = lastSeen;
 		TCHAR stzLastSeen[MAX_PATH];
 		_tcsftime(stzLastSeen, SIZEOF(stzLastSeen), TranslateT("Last seen on %x at %X"), localtime(&ts));
 		ss << stzLastSeen;
