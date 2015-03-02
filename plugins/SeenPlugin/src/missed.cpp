@@ -24,7 +24,7 @@ MISSEDCONTACTS mcs;
 
 WPARAM IsUserMissed(WPARAM contact)
 {
-	for (int loop=0; loop < mcs.count; loop++)
+	for (int loop = 0; loop < mcs.count; loop++)
 		if (mcs.wpcontact[loop] == contact)
 			return MAKEWPARAM(1, loop);
 
@@ -33,8 +33,8 @@ WPARAM IsUserMissed(WPARAM contact)
 
 int RemoveUser(int pos)
 {
-	for(int loop=pos; loop < mcs.count-1; loop++)
-		mcs.wpcontact[loop] = mcs.wpcontact[loop+1];
+	for (int loop = pos; loop < mcs.count - 1; loop++)
+		mcs.wpcontact[loop] = mcs.wpcontact[loop + 1];
 
 	mcs.count--;
 	return 0;
@@ -52,25 +52,25 @@ int ResetMissed(void)
 int CheckIfOnline(void)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
-		if ( CallService(MS_CLIST_GETCONTACTICON, hContact, 0) != ICON_OFFLINE)
+		if (CallService(MS_CLIST_GETCONTACTICON, hContact, 0) != ICON_OFFLINE)
 			db_set_b(hContact, S_MOD, "Missed", 2);
 
 	return 0;
 }
 
-INT_PTR CALLBACK MissedDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK MissedDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	POINT pt;
-	RECT rcinit,rcresized,rcb,rcd;
+	RECT rcinit, rcresized, rcb, rcd;
 	HWND htemp;
-		
-	switch(msg) {
+
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hdlg);
 
 		htemp = GetDlgItem(hdlg, IDC_CONTACTS);
 		GetWindowRect(htemp, &rcinit);
-		SetWindowPos(htemp,NULL,0,0,rcinit.right-rcinit.left,mcs.count*(rcinit.bottom-rcinit.top)/2,SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
+		SetWindowPos(htemp, NULL, 0, 0, rcinit.right - rcinit.left, mcs.count*(rcinit.bottom - rcinit.top) / 2, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 		GetWindowRect(htemp, &rcresized);
 
 		htemp = GetDlgItem(hdlg, IDOK);
@@ -79,9 +79,9 @@ INT_PTR CALLBACK MissedDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		pt.y = rcb.top;
 
 		ScreenToClient(hdlg, &pt);
-		MoveWindow(htemp,pt.x,pt.y+(rcresized.bottom-rcinit.bottom),(rcb.right-rcb.left),(rcb.bottom-rcb.top),FALSE);
+		MoveWindow(htemp, pt.x, pt.y + (rcresized.bottom - rcinit.bottom), (rcb.right - rcb.left), (rcb.bottom - rcb.top), FALSE);
 		GetWindowRect(hdlg, &rcd);
-		SetWindowPos(hdlg, NULL,0,0,rcd.right-rcd.left,rcd.bottom-rcd.top+(rcresized.bottom-rcinit.bottom),SWP_NOZORDER|SWP_NOMOVE|SWP_NOACTIVATE);
+		SetWindowPos(hdlg, NULL, 0, 0, rcd.right - rcd.left, rcd.bottom - rcd.top + (rcresized.bottom - rcinit.bottom), SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
 
 		SetDlgItemText(hdlg, IDC_CONTACTS, (LPCTSTR)lparam);
 		ShowWindow(hdlg, SW_SHOWNOACTIVATE);
@@ -106,9 +106,9 @@ int ShowMissed(void)
 		return 0;
 
 	TCHAR sztemp[1024], szcount[7];
-	for (int loop=0; loop < mcs.count; loop++) {
+	for (int loop = 0; loop < mcs.count; loop++) {
 		_tcsncat(sztemp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, mcs.wpcontact[loop], GCDNF_TCHAR), SIZEOF(sztemp));
-		if ( db_get_b(NULL, S_MOD, "MissedOnes_Count", 0)) {
+		if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0)) {
 			mir_sntprintf(szcount, SIZEOF(szcount), _T(" [%i]"), mcs.times[loop]);
 			_tcscat(sztemp, szcount);
 		}
@@ -120,28 +120,28 @@ int ShowMissed(void)
 	return 0;
 }
 
-int Test(WPARAM wparam,LPARAM lparam)
+int Test(WPARAM wparam, LPARAM lparam)
 {
 	if (lparam < ICON_OFFLINE || lparam > ICON_INVIS)
 		return 0;
 
-	if (CallService(MS_IGNORE_ISIGNORED,wparam,IGNOREEVENT_USERONLINE))
+	if (CallService(MS_IGNORE_ISIGNORED, wparam, IGNOREEVENT_USERONLINE))
 		return 0;
 
-	if ( db_get_b((MCONTACT)wparam,S_MOD,"Missed",0)==2)
+	if (db_get_b((MCONTACT)wparam, S_MOD, "Missed", 0) == 2)
 		return 0;
 
-	switch(lparam) {
+	switch (lparam) {
 	case ICON_OFFLINE:
-		if ( db_get_b((MCONTACT)wparam,S_MOD,"Missed",0) == 1) {
+		if (db_get_b((MCONTACT)wparam, S_MOD, "Missed", 0) == 1) {
 			WORD missed = IsUserMissed(wparam);
 			if (!LOWORD(missed)) {
-				mcs.times[mcs.count]=1;
-				mcs.wpcontact[mcs.count++]=wparam;
+				mcs.times[mcs.count] = 1;
+				mcs.wpcontact[mcs.count++] = wparam;
 			}
 			else mcs.times[HIWORD(missed)]++;
 
-			db_set_b((MCONTACT)wparam,S_MOD,"Missed",0);
+			db_set_b((MCONTACT)wparam, S_MOD, "Missed", 0);
 		}
 		break;
 
@@ -152,21 +152,21 @@ int Test(WPARAM wparam,LPARAM lparam)
 	case ICON_DND:
 	case ICON_FREE:
 	case ICON_INVIS:
-		db_set_b((MCONTACT)wparam,S_MOD,"Missed",1);
+		db_set_b((MCONTACT)wparam, S_MOD, "Missed", 1);
 		break;
 	}
-		
+
 	return 0;
 }
 
-int ModeChange_mo(WPARAM,LPARAM lparam)
+int ModeChange_mo(WPARAM, LPARAM lparam)
 {
 	ACKDATA *ack = (ACKDATA *)lparam;
 	if (ack->type != ACKTYPE_STATUS || ack->result != ACKRESULT_SUCCESS || ack->hContact != NULL)
 		return 0;
 
 	int isetting = CallProtoService(ack->szModule, PS_GETSTATUS, 0, 0);
-	switch(isetting) {
+	switch (isetting) {
 	case ID_STATUS_AWAY:
 	case ID_STATUS_DND:
 	case ID_STATUS_NA:

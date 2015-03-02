@@ -25,16 +25,16 @@ HGENMENU hmenuitem = NULL;
 
 void InitHistoryDialog(void);
 
-/*
-Handles the messages sent by clicking the contact's menu item
-*/
-INT_PTR MenuitemClicked(WPARAM wparam,LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Handles the messages sent by clicking the contact's menu item
+
+INT_PTR MenuitemClicked(WPARAM wparam, LPARAM)
 {
 	ShowHistory((MCONTACT)wparam, 0);
 	return 0;
 }
 
-int BuildContactMenu(WPARAM wparam,LPARAM)
+int BuildContactMenu(WPARAM wparam, LPARAM)
 {
 	int id = -1, isetting;
 	MCONTACT hContact = (MCONTACT)wparam;
@@ -48,21 +48,21 @@ int BuildContactMenu(WPARAM wparam,LPARAM)
 		cmi.hIcon = NULL;
 
 		DBVARIANT dbv;
-		if ( !db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
+		if (!db_get_ts(NULL, S_MOD, "MenuStamp", &dbv)) {
 			cmi.ptszName = ParseString(dbv.ptszVal, (MCONTACT)wparam, 0);
 			db_free(&dbv);
 		}
 		else cmi.ptszName = ParseString(DEFAULT_MENUSTAMP, (MCONTACT)wparam, 0);
-		
-		if ( !_tcscmp(cmi.ptszName, TranslateT("<unknown>"))) {	
-			if ( IsWatchedProtocol(szProto))
+
+		if (!_tcscmp(cmi.ptszName, TranslateT("<unknown>"))) {
+			if (IsWatchedProtocol(szProto))
 				cmi.flags |= CMIF_GRAYED;
 			else
-				cmi.flags |= CMIF_HIDDEN;	
+				cmi.flags |= CMIF_HIDDEN;
 		}
-		else if ( db_get_b(NULL, S_MOD, "ShowIcon",1)) {
+		else if (db_get_b(NULL, S_MOD, "ShowIcon", 1)) {
 			isetting = db_get_w(hContact, S_MOD, "StatusTriger", -1);
-			cmi.hIcon = LoadSkinnedProtoIcon(szProto, isetting|0x8000);
+			cmi.hIcon = LoadSkinnedProtoIcon(szProto, isetting | 0x8000);
 		}
 	}
 
@@ -80,8 +80,8 @@ void InitMenuitem()
 	cmi.ptszName = LPGENT("<none>");
 	cmi.pszService = "LastSeenUserDetails";
 	hmenuitem = Menu_AddContactMenuItem(&cmi);
-	
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildContactMenu);
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildContactMenu);
 
 	InitHistoryDialog();
 }

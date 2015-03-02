@@ -20,47 +20,50 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "seen.h"
 
-LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+LRESULT CALLBACK EditProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	switch(msg){
+	switch (msg) {
 	case WM_SETCURSOR:
-		SetCursor(LoadCursor(NULL,IDC_ARROW));
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
 		return 1;
 	}
 	return mir_callNextSubclass(hdlg, EditProc, msg, wparam, lparam);
 }
 
-INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
+INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-	DBVARIANT dbv;
-	
-	switch(msg) {
+	switch (msg) {
 	case WM_INITDIALOG:
-		mir_subclassWindow( GetDlgItem(hdlg, IDC_INFOTEXT), EditProc);
-		{
-			TCHAR *szout;
-			if ( !db_get_ts(NULL, S_MOD, "UserStamp", &dbv)) {
-				szout = ParseString(dbv.ptszVal, (MCONTACT)lparam, 0);
-				db_free(&dbv);
-			}
-			else szout = ParseString(DEFAULT_USERSTAMP, (MCONTACT)lparam, 0);
+		mir_subclassWindow(GetDlgItem(hdlg, IDC_INFOTEXT), EditProc);
+		WindowList_Add(g_pUserInfo, hdlg, lparam);
+		SendMessage(hdlg, WM_REFRESH_UI, lparam, 0);
+		break;
 
-			SetDlgItemText(hdlg, IDC_INFOTEXT, szout);
-			if ( !mir_tstrcmp(szout, TranslateT("<unknown>")))
-				EnableWindow( GetDlgItem(hdlg, IDC_INFOTEXT), FALSE);
+	case WM_REFRESH_UI:
+		{
+			ptrT szout(db_get_tsa(NULL, S_MOD, "UserStamp"));
+			TCHAR *str = ParseString((szout != NULL) ? szout : DEFAULT_USERSTAMP, wparam, 0);
+			SetDlgItemText(hdlg, IDC_INFOTEXT, str);
+
+			if (!mir_tstrcmp(str, TranslateT("<unknown>")))
+				EnableWindow(GetDlgItem(hdlg, IDC_INFOTEXT), FALSE);
 		}
 		break;
 
 	case WM_COMMAND:
 		if (HIWORD(wparam) == EN_SETFOCUS)
-			SetFocus( GetParent(hdlg));
+			SetFocus(GetParent(hdlg));
+		break;
+
+	case WM_DESTROY:
+		WindowList_Remove(g_pUserInfo, hdlg);
 		break;
 	}
 
 	return 0;
 }
 
-int UserinfoInit(WPARAM wparam,LPARAM lparam)
+int UserinfoInit(WPARAM wparam, LPARAM lparam)
 {
 	MCONTACT hContact = (MCONTACT)lparam;
 	char *szProto = GetContactProto(hContact);
@@ -69,8 +72,7 @@ int UserinfoInit(WPARAM wparam,LPARAM lparam)
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInstance;
 		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-		uip.flags = ODPF_TCHAR;
-		uip.ptszTitle = LPGENT("Last seen");
+		uip.pszTitle = LPGEN("Last seen");
 		uip.pfnDlgProc = UserinfoDlgProc;
 		UserInfo_AddPage(wparam, &uip);
 	}

@@ -46,6 +46,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_popup.h>
 #include <m_ignore.h>
 #include <m_button.h>
+#include <m_string.h>
 
 #include <m_tipper.h>
 
@@ -74,7 +75,9 @@ WCHAR *any_to_Idle(MCONTACT hContact, const char *module_name, const char *setti
 #define ICON_OCC			17
 #define ICON_DND			18
 #define ICON_FREE			19
-#define	ICON_INVIS			20
+#define ICON_INVIS			20
+
+#define WM_REFRESH_UI (WM_USER+10)
 
 #define DEFAULT_MENUSTAMP          _T("%d.%m.%Y - %H:%M [%s]")
 #define DEFAULT_POPUPSTAMP         TranslateT("%n is %s (%u)")
@@ -118,10 +121,14 @@ struct logthread_info
 extern HINSTANCE hInstance;
 extern DWORD StatusColors15bits[];
 extern BOOL includeIdle;
-extern HANDLE ehmissed;
-extern HANDLE ehuserinfo, ehmissed_proto;
+extern HANDLE ehmissed, ehuserinfo, ehmissed_proto;
+extern HANDLE g_pUserInfo;
 extern HGENMENU hmenuitem;
 extern DWORD dwmirver;
 
+void   LoadWatchedProtos();
+void   UnloadWatchedProtos();
+extern LIST<char> arWatchedProtos;
+
 extern LIST<logthread_info> arContacts;
-extern CRITICAL_SECTION csContacts;
+extern mir_cs csContacts;
