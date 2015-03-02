@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.49
+;  Version: 0.1.0.50
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -165,6 +165,12 @@ Cоздать комнату чата
 Отметить пользователей для приглашения в комнату чата
 [New chat's title:]
 Звголовок новой комнаты
+[Share]
+Поделиться
+[Only for friends]
+Только друзьям
+[Attention]
+Внимание
 [Captcha form icon]
 Значок формы с капчей
 [Notification icon]
@@ -187,6 +193,8 @@ Cоздать комнату чата
 Значок трансляции
 [Status icon]
 Значок статуса
+[Wall message icon]
+Значок сообщения на стене
 [Protocols]
 Протоколы
 [VKontakte]
@@ -197,6 +205,10 @@ Cоздать комнату чата
 Ошибка
 [Error %d. Data will not be sent or received.]
 Ошибка %d. Данные не будут приняты или отправлены.
+[One of the parameters specified was missing or invalid]
+Один из заданных параметров отсутствует или неверен
+[Access to adding post denied]
+Превышен лимит на число публикаций в сутки
 [Enter confirmation code]
 Введите код подтверждения
 [Message read: %s]
@@ -339,10 +351,14 @@ Cоздать комнату чата
 Создать новый чат
 [Status message]
 Сообщение статуса
+[Sent message to my wall]
+Опубликовать сообщение на своей стене
 [Load news from VK]
 Загрузить новости с VK
 [Visit profile]
 Профиль на сайте
+[Sent message to user\'s wall]
+Сообщение на стене пользователя
 [Add as friend]
 Добавить в друзья
 [Delete from friend list]
@@ -409,3 +425,7 @@ Cоздать комнату чата
 \nЭто также
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
+[Wall message for]
+Сообщение на стене для пользователя 
+[Attention! Message body or url should not be empty!]
+Внимание! Текст сообщения или ссылка не могут быть пустыми!
