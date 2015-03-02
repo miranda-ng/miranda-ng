@@ -47,7 +47,7 @@ INT_PTR CALLBACK VKAccountProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_URL:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.vk.com");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://vk.com");
 			break;
 
 		case IDC_LOGIN:
@@ -138,7 +138,7 @@ INT_PTR CALLBACK CVkProto::OptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_URL:
-			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://www.vk.com");
+			CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW, (LPARAM)"http://vk.com");
 			break;
 
 		case IDC_LOGIN:

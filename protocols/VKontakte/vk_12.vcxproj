@@ -197,6 +197,7 @@
     <ClCompile Include="src\vk_thread.cpp" />
     <ClCompile Include="src\vk_history.cpp" />
     <ClCompile Include="src\vk_feed.cpp" />
+    <ClCompile Include="src\vk_wallpost.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h" />
@@ -221,6 +222,7 @@
     <Image Include="res\read.ico" />
     <Image Include="res\report.ico" />
     <Image Include="res\status.ico" />
+    <Image Include="res\wall.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

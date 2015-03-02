@@ -69,6 +69,9 @@
     <ClCompile Include="src\vk_pollserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vk_wallpost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\version.h">
@@ -127,6 +130,9 @@
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\status.ico">
+      <Filter>Resource Files\Icons</Filter>
+    </None>
+    <None Include="res\wall.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
   </ItemGroup>

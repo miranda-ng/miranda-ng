@@ -32,6 +32,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #define PS_DESTROYKICKCHAT "/DestroyKickChat"
 #define PS_OPENBROADCAST "/OpenBroadcast"
 #define PS_SETSTATUSMSG "/SetStatusMsg"
+#define PS_WALLPOST "/WallPost"
 #define MAXHISTORYMIDSPERONE 200
 #define MAX_RETRIES 10
 
@@ -450,7 +451,7 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceiveDlgs(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void OnSendMessage(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 
-	void WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool bFriendsOnly = false);
+	void WallPost(MCONTACT hContact, TCHAR *ptszMsg, TCHAR *ptszUrl, bool bFriendsOnly);
 
 	void GetServerHistoryLastNDay(MCONTACT hContact, int NDay);
 	void GetServerHistory(MCONTACT hContact, int iOffset, int iCount, int iTime, int iLastMsgId, bool once = false);
@@ -491,6 +492,7 @@ private:
 
 	enum CLMenuIndexes {
 		CMI_VISITPROFILE,
+		CMI_WALLPOST,
 		CMI_ADDASFRIEND,
 		CMI_DELETEFRIEND,
 		CMI_BANUSER,
@@ -514,6 +516,7 @@ private:
 	enum ProtoMenuIndexes {
 		PMI_CREATECHAT,
 		PMI_SETSTATUSMSG,
+		PMI_WALLPOST,
 		PMI_LOADVKNEWS,
 		PMI_VISITPROFILE,
 		PMI_COUNT
