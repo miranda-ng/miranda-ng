@@ -104,7 +104,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.dll "$(SolutionDir)$(Configuration)\libtox.dll" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +133,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.dll "$(SolutionDir)$(Configuration)64\libtox.dll" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -163,7 +163,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.dll "$(SolutionDir)$(Configuration)\libtox.dll" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -193,7 +193,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.dll "$(SolutionDir)$(Configuration)64\libtox.dll" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
