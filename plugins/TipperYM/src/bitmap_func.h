@@ -51,7 +51,6 @@ typedef struct {
 	HBITMAP hbmpSkinParts[SKIN_ITEMS_COUNT][SKIN_PARTS_COUNT];
 	FIBITMAP *fib[SKIN_ITEMS_COUNT];
 	COLOR32 *colBits;
-	COLOR32 *colSavedBits;
 	int iWidth;
 	int iHeight;
 	bool bNeedLayerUpdate;
@@ -62,8 +61,8 @@ void CreateSkinBitmap(int iWidth, int iHeight, bool bServiceTip);
 void DestroySkinBitmap();
 int DrawTextAlpha(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat);
 void DrawIconExAlpha(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags, bool bIsSmiley);
-void SaveAlpha(LPRECT lpRect);
-void RestoreAlpha(LPRECT lpRect, BYTE alpha = 0xff);
+COLOR32* SaveAlpha(LPRECT lpRect);
+void RestoreAlpha(LPRECT lpRect, COLOR32 *pBits, BYTE alpha = 0xff);
 void PremultipleChannels();
 void ColorizeBitmap();
 HRGN CreateOpaqueRgn(BYTE level, bool bOpaque);
