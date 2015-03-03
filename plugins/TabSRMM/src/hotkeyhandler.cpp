@@ -162,137 +162,134 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_HOTKEY:
-	{
-		CLISTEVENT *cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
-		if (cli != NULL) {
-			if (strncmp(cli->pszService, "SRMsg/TypingMessage", strlen(cli->pszService))) {
-				CallService(cli->pszService, 0, (LPARAM)cli);
-				break;
+		{
+			CLISTEVENT *cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
+			if (cli != NULL) {
+				if (strncmp(cli->pszService, "SRMsg/TypingMessage", strlen(cli->pszService))) {
+					CallService(cli->pszService, 0, (LPARAM)cli);
+					break;
+				}
 			}
+			if (wParam == 0xc001)
+				SendMessage(hwndDlg, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);
 		}
-		if (wParam == 0xc001)
-			SendMessage(hwndDlg, DM_TRAYICONNOTIFY, 101, WM_MBUTTONDOWN);
-	}
-	break;
+		break;
 
 	// handle the popup menus (session list, favorites, recents...
 	// just draw some icons, nothing more :)
 	case WM_MEASUREITEM:
-	{
-		LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT)lParam;
-		lpmi->itemHeight = 0;
-		lpmi->itemWidth = 6;
-	}
-	return TRUE;
+		{
+			LPMEASUREITEMSTRUCT lpmi = (LPMEASUREITEMSTRUCT)lParam;
+			lpmi->itemHeight = 0;
+			lpmi->itemWidth = 6;
+		}
+		return TRUE;
 
 	case WM_DRAWITEM:
-	{
-		LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
-		TWindowData *dat = 0;
-		if (dis->CtlType == ODT_MENU && (dis->hwndItem == (HWND)PluginConfig.g_hMenuFavorites || dis->hwndItem == (HWND)PluginConfig.g_hMenuRecent)) {
-			HICON hIcon = (HICON)dis->itemData;
+		{
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+			if (dis->CtlType == ODT_MENU && (dis->hwndItem == (HWND)PluginConfig.g_hMenuFavorites || dis->hwndItem == (HWND)PluginConfig.g_hMenuRecent)) {
+				HICON hIcon = (HICON)dis->itemData;
 
-			DrawMenuItem(dis, hIcon, 0);
-			return TRUE;
-		}
-		else if (dis->CtlType == ODT_MENU) {
-			HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
-			DWORD idle = 0;
-
-			if (hWnd == NULL) {
-				SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
-				hWnd = si ? si->hWnd : 0;
-			}
-
-			if (hWnd)
-				dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-			if (dis->itemData >= 0) {
-				HICON hIcon;
-
-				if (dis->itemData > 0)
-					hIcon = dis->itemData & 0x10000000 ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
-				else if (dat != NULL) {
-					hIcon = MY_GetContactIcon(dat, 0);
-					idle = dat->idle;
-				}
-				else hIcon = PluginConfig.g_iconContainer;
-
-				DrawMenuItem(dis, hIcon, idle);
+				DrawMenuItem(dis, hIcon, 0);
 				return TRUE;
 			}
+			else if (dis->CtlType == ODT_MENU) {
+				HWND hWnd = M.FindWindow((MCONTACT)dis->itemID);
+				DWORD idle = 0;
+
+				if (hWnd == NULL) {
+					SESSION_INFO *si = SM_FindSessionByHCONTACT((MCONTACT)dis->itemID);
+					hWnd = si ? si->hWnd : 0;
+				}
+
+				TWindowData *dat = 0;
+				if (hWnd)
+					dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+
+				if (dis->itemData >= 0) {
+					HICON hIcon;
+
+					if (dis->itemData > 0)
+						hIcon = dis->itemData & 0x10000000 ? pci->hIcons[ICON_HIGHLIGHT] : PluginConfig.g_IconMsgEvent;
+					else if (dat != NULL) {
+						hIcon = MY_GetContactIcon(dat, 0);
+						idle = dat->idle;
+					}
+					else hIcon = PluginConfig.g_iconContainer;
+
+					DrawMenuItem(dis, hIcon, idle);
+					return TRUE;
+				}
+			}
 		}
-	}
-	break;
+		break;
 
 	case DM_TRAYICONNOTIFY:
 		if (wParam == 100 || wParam == 101) {
 			switch (lParam) {
 			case WM_LBUTTONUP:
-			{
 				POINT pt;
-				GetCursorPos(&pt);
-				if (wParam == 100)
-					SetForegroundWindow(hwndDlg);
-				if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
-					BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
-					HandleMenuEntryFromhContact((MCONTACT)iSelection);
-				}
-				else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+				{
+					GetCursorPos(&pt);
+					if (wParam == 100)
+						SetForegroundWindow(hwndDlg);
+					if (GetMenuItemCount(PluginConfig.g_hMenuTrayUnread) > 0) {
+						BOOL iSelection = TrackPopupMenu(PluginConfig.g_hMenuTrayUnread, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
+						HandleMenuEntryFromhContact((MCONTACT)iSelection);
+					}
+					else TrackPopupMenu(GetSubMenu(PluginConfig.g_hMenuContext, 8), TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);
 
-				if (wParam == 100)
-					PostMessage(hwndDlg, WM_NULL, 0, 0);
-			}
-			break;
+					if (wParam == 100)
+						PostMessage(hwndDlg, WM_NULL, 0, 0);
+				}
+				break;
 
 			case WM_MBUTTONDOWN:
-			{
 				if (wParam == 100)
 					SetForegroundWindow(hwndDlg);
+				{
+					int iCount = GetMenuItemCount(PluginConfig.g_hMenuTrayUnread);
+					if (iCount > 0) {
+						UINT uid = 0;
+						MENUITEMINFOA mii = { 0 };
+						mii.fMask = MIIM_DATA;
+						mii.cbSize = sizeof(mii);
+						int i = iCount - 1;
+						do {
+							GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
+							if (mii.dwItemData > 0) {
+								uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
+								HandleMenuEntryFromhContact((MCONTACT)uid);
+								break;
+							}
+						} while (--i >= 0);
 
-				int iCount = GetMenuItemCount(PluginConfig.g_hMenuTrayUnread);
-				if (iCount > 0) {
-					UINT uid = 0;
-					MENUITEMINFOA mii = { 0 };
-					mii.fMask = MIIM_DATA;
-					mii.cbSize = sizeof(mii);
-					int i = iCount - 1;
-					do {
-						GetMenuItemInfoA(PluginConfig.g_hMenuTrayUnread, i, TRUE, &mii);
-						if (mii.dwItemData > 0) {
-							uid = GetMenuItemID(PluginConfig.g_hMenuTrayUnread, i);
-							HandleMenuEntryFromhContact((MCONTACT)uid);
-							break;
-						}
-					} while (--i >= 0);
-
-					if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
-						if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
-							SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-							SetForegroundWindow(pLastActiveContainer->hwnd);
-							SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
-						}
-						else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
-							SetForegroundWindow(pLastActiveContainer->hwnd);
-							SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
-						}
-						else {
-							if (PluginConfig.m_bHideOnClose)
-								ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
-							else
-								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+						if (uid == 0 && pLastActiveContainer != NULL) {                // no session found, restore last active container
+							if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
+								SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
+								SetForegroundWindow(pLastActiveContainer->hwnd);
+								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+							}
+							else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
+								SetForegroundWindow(pLastActiveContainer->hwnd);
+								SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+							}
+							else {
+								if (PluginConfig.m_bHideOnClose)
+									ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
+								else
+									SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
+							}
 						}
 					}
+					if (wParam == 100)
+						PostMessage(hwndDlg, WM_NULL, 0, 0);
 				}
-				if (wParam == 100)
-					PostMessage(hwndDlg, WM_NULL, 0, 0);
-			}
-			break;
+				break;
 
 			case WM_RBUTTONUP:
-			{
 				HMENU submenu = PluginConfig.g_hMenuTrayContext;
-				POINT pt;
 
 				if (wParam == 100)
 					SetForegroundWindow(hwndDlg);
@@ -349,14 +346,13 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					PostMessage(hwndDlg, WM_NULL, 0, 0);
 				break;
 			}
-			}
 		}
 		break;
 
-		// handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
-		// is posted to our invisible hotkey handler which does always run within the main thread.
-		// wParam is the hContact
-		// lParam the event handle
+	// handle an event from the popup module (mostly window activation). Since popups may run in different threads, the message
+	// is posted to our invisible hotkey handler which does always run within the main thread.
+	// wParam is the hContact
+	// lParam the event handle
 	case DM_HANDLECLISTEVENT:
 		// if lParam == NULL, don't consider clist events, just open the message tab
 		if (lParam == 0)
@@ -375,42 +371,42 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case DM_DOCREATETAB:
-	{
-		HWND hWnd = M.FindWindow(lParam);
-		if (hWnd && IsWindow(hWnd)) {
-			TContainerData *pContainer = 0;
-			SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-			if (pContainer) {
-				int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
-				if (iTabs == 1)
-					SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
-				else
-					SendMessage(hWnd, WM_CLOSE, 0, 1);
+		{
+			HWND hWnd = M.FindWindow(lParam);
+			if (hWnd && IsWindow(hWnd)) {
+				TContainerData *pContainer = 0;
+				SendMessage(hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+				if (pContainer) {
+					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, IDC_MSGTABS));
+					if (iTabs == 1)
+						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
+					else
+						SendMessage(hWnd, WM_CLOSE, 0, 1);
 
-				CreateNewTabForContact((TContainerData*)wParam, lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+					CreateNewTabForContact((TContainerData*)wParam, lParam, 0, NULL, TRUE, TRUE, FALSE, 0);
+				}
 			}
 		}
-	}
-	break;
+		break;
 
 	case DM_DOCREATETAB_CHAT:
-	{
-		SESSION_INFO *si = SM_FindSessionByHWND((HWND)lParam);
-		if (si && IsWindow(si->hWnd)) {
-			TContainerData *pContainer = 0;
-			SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
-			if (pContainer) {
-				int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
-				if (iTabs == 1)
-					SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
-				else
-					SendMessage(si->hWnd, WM_CLOSE, 0, 1);
+		{
+			SESSION_INFO *si = SM_FindSessionByHWND((HWND)lParam);
+			if (si && IsWindow(si->hWnd)) {
+				TContainerData *pContainer = 0;
+				SendMessage(si->hWnd, DM_QUERYCONTAINER, 0, (LPARAM)&pContainer);
+				if (pContainer) {
+					int iTabs = TabCtrl_GetItemCount(GetDlgItem(pContainer->hwnd, 1159));
+					if (iTabs == 1)
+						SendMessage(pContainer->hwnd, WM_CLOSE, 0, 1);
+					else
+						SendMessage(si->hWnd, WM_CLOSE, 0, 1);
 
-				si->hWnd = CreateNewRoom((TContainerData*)wParam, si, TRUE, 0, 0);
+					si->hWnd = CreateNewRoom((TContainerData*)wParam, si, TRUE, 0, 0);
+				}
 			}
 		}
-	}
-	break;
+		break;
 
 	case DM_SENDMESSAGECOMMANDW:
 		SendMessageCommand_W(wParam, lParam);
@@ -431,53 +427,54 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		return 0;
 
 	case DM_SETLOCALE:
-	{
-		HKL hkl = (HKL)lParam;
-		MCONTACT hContact = wParam;
+		{
+			HKL hkl = (HKL)lParam;
+			MCONTACT hContact = wParam;
 
-		HWND	hWnd = M.FindWindow(hContact);
-		if (hWnd) {
-			TWindowData *dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-			if (dat) {
-				if (hkl) {
-					dat->hkl = hkl;
-					PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);
-				}
+			HWND	hWnd = M.FindWindow(hContact);
+			if (hWnd) {
+				TWindowData *dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+				if (dat) {
+					if (hkl) {
+						dat->hkl = hkl;
+						PostMessage(dat->hwnd, DM_SETLOCALE, 0, 0);
+					}
 
-				DBVARIANT  dbv;
-				if (0 == db_get_ts(hContact, SRMSGMOD_T, "locale", &dbv)) {
-					GetLocaleID(dat, dbv.ptszVal);
-					db_free(&dbv);
-					UpdateReadChars(dat);
+					DBVARIANT  dbv;
+					if (0 == db_get_ts(hContact, SRMSGMOD_T, "locale", &dbv)) {
+						GetLocaleID(dat, dbv.ptszVal);
+						db_free(&dbv);
+						UpdateReadChars(dat);
+					}
 				}
 			}
 		}
-	}
-	return 0;
+		return 0;
 
 	// react to changes in the desktop composition state
 	// (enable/disable DWM, change to a non-aero visual style
 	// or classic Windows theme
 	case WM_DWMCOMPOSITIONCHANGED:
-	{
-		bool fNewAero = M.getAeroState();					// refresh dwm state
 		SendMessage(hwndDlg, WM_THEMECHANGED, 0, 0);
+		{
+			bool bNewAero = M.getAeroState(); // refresh dwm state
 
-		for (p = pFirstContainer; p; p = p->pNext) {
-			if (fNewAero)
-				SetAeroMargins(p);
-			else {
-				MARGINS m = { 0 };
-				if (M.m_pfnDwmExtendFrameIntoClientArea)
-					M.m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
+			for (p = pFirstContainer; p; p = p->pNext) {
+				if (bNewAero)
+					SetAeroMargins(p);
+				else {
+					MARGINS m = { 0 };
+					if (M.m_pfnDwmExtendFrameIntoClientArea)
+						M.m_pfnDwmExtendFrameIntoClientArea(p->hwnd, &m);
+				}
+				if (p->SideBar)
+					if (p->SideBar->isActive()) // the container for the sidebar buttons
+						RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW); 
+				RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			}
-			if (p->SideBar->isActive())
-				RedrawWindow(GetDlgItem(p->hwnd, 5000), NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);			// the container for the sidebar buttons
-			RedrawWindow(p->hwnd, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 		}
-	}
-	M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
-	break;
+		M.BroadcastMessage(WM_DWMCOMPOSITIONCHANGED, 0, 0);
+		break;
 
 	// this message is fired when the user changes desktop color
 	// settings (Desktop->personalize)
@@ -507,47 +504,47 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case DM_SPLITSENDACK:
-	{
-		SendJob *job = sendQueue->getJobByIndex((int)wParam);
+		{
+			SendJob *job = sendQueue->getJobByIndex((int)wParam);
 
-		ACKDATA ack = { 0 };
-		ack.hContact = job->hContact;
-		ack.hProcess = job->hSendId;
-		ack.type = ACKTYPE_MESSAGE;
-		ack.result = ACKRESULT_SUCCESS;
+			ACKDATA ack = { 0 };
+			ack.hContact = job->hContact;
+			ack.hProcess = job->hSendId;
+			ack.type = ACKTYPE_MESSAGE;
+			ack.result = ACKRESULT_SUCCESS;
 
-		if (job->hContact && job->iAcksNeeded && job->iStatus == SendQueue::SQ_INPROGRESS) {
-			if (IsWindow(job->hOwnerWnd))
-				::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
-			else
-				sendQueue->ackMessage(0, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
+			if (job->hContact && job->iAcksNeeded && job->iStatus == SendQueue::SQ_INPROGRESS) {
+				if (IsWindow(job->hOwnerWnd))
+					::SendMessage(job->hOwnerWnd, HM_EVENTSENT, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
+				else
+					sendQueue->ackMessage(0, (WPARAM)MAKELONG(wParam, 0), (LPARAM)&ack);
+			}
 		}
-	}
-	return 0;
+		return 0;
 
 	case DM_LOGSTATUSCHANGE:
 		CGlobals::logStatusChange(wParam, reinterpret_cast<CContactCache *>(lParam));
 		return 0;
 
 	case DM_MUCFLASHWORKER:
-	{
-		FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
-		if (1 == wParam) {
-			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
-			p->bActiveTab = TRUE;
-			p->bInactive = FALSE;
-			p->bMustAutoswitch = p->bMustFlash = FALSE;
-		}
+		{
+			FLASH_PARAMS *p = reinterpret_cast<FLASH_PARAMS*>(lParam);
+			if (1 == wParam) {
+				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)p->hContact, 1);
+				p->bActiveTab = TRUE;
+				p->bInactive = FALSE;
+				p->bMustAutoswitch = p->bMustFlash = FALSE;
+			}
 
-		if (2 == wParam) {
-			p->bActiveTab = TRUE;
-			p->bInactive = FALSE;
-			p->bMustAutoswitch = p->bMustFlash = FALSE;
-			SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
+			if (2 == wParam) {
+				p->bActiveTab = TRUE;
+				p->bInactive = FALSE;
+				p->bMustAutoswitch = p->bMustFlash = FALSE;
+				SendMessage(p->hWnd, DM_ACTIVATEME, 0, 0);
+			}
+			DoFlashAndSoundWorker(p);
 		}
-		DoFlashAndSoundWorker(p);
-	}
-	return 0;
+		return 0;
 
 	case WM_POWERBROADCAST:
 	case WM_DISPLAYCHANGE:
