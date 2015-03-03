@@ -131,6 +131,7 @@ Feedback
 The project home for cv2pdb is here:
 
     http://www.dsource.org/projects/cv2pdb
+    https://github.com/rainers/cv2pdb
 
 There's also a forum, where you can leave your comments and suggestions.
 
