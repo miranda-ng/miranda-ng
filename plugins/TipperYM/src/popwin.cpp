@@ -37,14 +37,14 @@ __inline void AddRow(PopupWindowData *pwd, TCHAR *swzLabel, TCHAR *swzValue, cha
 
 LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 {
+	RECT rc;
 	PopupWindowData *pwd = (PopupWindowData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch(uMsg) {
 	case WM_CREATE:
 		{
 			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
-			pwd = (PopupWindowData *)mir_alloc(sizeof(PopupWindowData));
-			memset(pwd, 0, sizeof(PopupWindowData));
+			pwd = (PopupWindowData *)mir_calloc(sizeof(PopupWindowData));
 			pwd->clcit = *(CLCINFOTIPEX *)cs->lpCreateParams;
 			pwd->iIconIndex = -1;
 			pwd->hpenBorder = CreatePen(PS_SOLID, 1, opt.bBorder ? opt.colBorder : opt.colBg);
@@ -61,7 +61,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			GetCursorPos(&pwd->ptCursorStartPos);
 			SetTimer(hwnd, ID_TIMER_CHECKMOUSE, CHECKMOUSE_ELAPSE, 0);
 
-			//Register copy menu hotkey (CTRL+C)
+			// register copy menu hotkey (CTRL+C)
 			pwd->iHotkeyId = GlobalAddAtom(_T("Tipper"));
 			RegisterHotKey(hwnd, pwd->iHotkeyId, MOD_CONTROL, 0x43);
 
@@ -205,7 +205,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				pwd->iIndent = 0;
 				pwd->iSidebarWidth = 0;
 
-				RECT rc = pwd->clcit.rcItem;
+				rc = pwd->clcit.rcItem;
 				bool mirandaTrayTip = ((rc.right - rc.left) == 20) && ((rc.bottom - rc.top) == 20) ? true : false;
 
 				if (mirandaTrayTip && !opt.bTraytip) {
@@ -427,13 +427,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// since tipper win is topmost, this should put it at top of topmost windows
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-		}
+	}
 		return 0;
 
 	case WM_ERASEBKGND:
 		if (!skin.bNeedLayerUpdate) {
 			HDC hdc = (HDC)wParam;
-			RECT rc;
 			GetClientRect(hwnd, &rc);
 
 			BitBlt(hdc, 0, 0, skin.iWidth, skin.iHeight, skin.hdc, 0, 0, SRCCOPY);
@@ -461,15 +460,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case WM_PAINT:
+		PAINTSTRUCT ps;
 		{
 			RECT r, r2;
-			PAINTSTRUCT ps;		
 			BeginPaint(hwnd, &ps);
 			HDC hdc = skin.bNeedLayerUpdate ? skin.hdc : ps.hdc;
 
 			GetClientRect(hwnd, &r);
 			r2 = r;
-			HFONT hOldFont = (HFONT)GetCurrentObject(hdc,OBJ_FONT);
+			HFONT hOldFont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
 
 			// text background
 			SetBkMode(hdc, TRANSPARENT);
@@ -530,7 +529,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						blend.SourceConstantAlpha = 255;
 
 						if (opt.bAvatarBorder) {
-							SaveAlpha(&rcAvatar);
+							mir_ptr<COLOR32> pBits(SaveAlpha(&rcAvatar));
 							HBRUSH hbrBorder = CreateSolidBrush(opt.colAvatarBorder);
 							if (opt.bAvatarRound)
 								FrameRgn(hdc, hrgnAvatar, hbrBorder, 1, 1);
@@ -538,7 +537,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								FrameRect(hdc, &rcAvatar, hbrBorder);
 
 							DeleteObject(hbrBorder);
-							RestoreAlpha(&rcAvatar, (BYTE)(opt.iAvatarOpacity / 100.0 * 255));
+							RestoreAlpha(&rcAvatar, pBits, (BYTE)(opt.iAvatarOpacity / 100.0 * 255));
 						}
 
 						if (hrgnAvatar) {
@@ -604,9 +603,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						tr.top += opt.iTextPadding;
 						RECT rec;
 						SetRect(&rec, r.left + opt.iPadding + pwd->iIndent, tr.top, r.right - opt.iPadding, tr.top + 1);
-						SaveAlpha(&rec);
+						mir_ptr<COLOR32> pBits(SaveAlpha(&rec));
 						Rectangle(hdc, rec.left, rec.top, rec.right, rec.bottom);
-						RestoreAlpha(&rec);
+						RestoreAlpha(&rec, pBits);
 						SelectObject(hdc, hOldPen);
 					}
 
@@ -622,9 +621,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						tr.top += opt.iTextPadding;
 						RECT rec;
 						SetRect(&rec, r2.left + opt.iPadding + pwd->iIndent, tr.top, r2.right - opt.iPadding, tr.top + 1);
-						SaveAlpha(&rec);
+						mir_ptr<COLOR32> pBits(SaveAlpha(&rec));
 						Rectangle(hdc, rec.left, rec.top, rec.right, rec.bottom);
-						RestoreAlpha(&rec);
+						RestoreAlpha(&rec, pBits);
 						SelectObject(hdc, hOldPen);
 					}
 
@@ -724,7 +723,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			SelectObject(hdc, hOldFont);
 			EndPaint(hwnd, &ps);
 			pwd->bIsPainted = true;
-		}			
+		}
 		return 0;
 
 	case WM_HOTKEY:
@@ -898,15 +897,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 		break;
 
-	case WM_DESTROY: 
-		ShowWindow(hwnd, SW_HIDE);		
+	case WM_DESTROY:
+		ShowWindow(hwnd, SW_HIDE);
 
-		mir_free(skin.colSavedBits);
 		if (skin.hBitmap)
 			DeleteObject(skin.hBitmap);
 		if (skin.hdc)
 			DeleteDC(skin.hdc);
-		skin.colSavedBits = NULL;
 		skin.hBitmap = NULL;
 		skin.hdc = NULL;
 
@@ -942,7 +939,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		}
 
 		mir_free(pwd->clcit.swzText);
-		mir_free(pwd); 
+		mir_free(pwd);
 		pwd = NULL;
 
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
@@ -951,23 +948,23 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 	case WM_TIMER:
 		switch (wParam) {
 		case ID_TIMER_ANIMATE:
-			pwd->iAnimStep ++;
+			pwd->iAnimStep++;
 			if (pwd->iAnimStep == ANIM_STEPS)
 				KillTimer(hwnd, ID_TIMER_ANIMATE);
 
 			SendMessage(hwnd, PUM_UPDATERGN, 1, 0);
 			break;
 		case ID_TIMER_CHECKMOUSE:
-			{
-				// workaround for tips that just won't go away
-				POINT pt;
+		{
+			// workaround for tips that just won't go away
+			POINT pt;
 
-				GetCursorPos(&pt);
-				// mouse has moved beyond tollerance
-				if (abs(pt.x - pwd->ptCursorStartPos.x) > opt.iMouseTollerance || abs(pt.y - pwd->ptCursorStartPos.y) > opt.iMouseTollerance)
-					PostMPMessage(MUM_DELETEPOPUP, 0, 0);
-			}
-			break;
+			GetCursorPos(&pt);
+			// mouse has moved beyond tollerance
+			if (abs(pt.x - pwd->ptCursorStartPos.x) > opt.iMouseTollerance || abs(pt.y - pwd->ptCursorStartPos.y) > opt.iMouseTollerance)
+				PostMPMessage(MUM_DELETEPOPUP, 0, 0);
+		}
+		break;
 		case ID_TIMER_TRAYTIP:
 			KillTimer(hwnd, ID_TIMER_TRAYTIP);
 			SendMessage(hwnd, PUM_EXPANDTRAYTIP, 0, 0);
@@ -1008,8 +1005,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		pwd->bIsPainted = false;
 		if (skin.bNeedLayerUpdate) {
 			RECT r = pwd->rcWindow;
-			POINT ptSrc = {0, 0};
-			SIZE sz = {r.right - r.left, r.bottom - r.top};	
+			POINT ptSrc = { 0, 0 };
+			SIZE sz = { r.right - r.left, r.bottom - r.top };
 
 			BLENDFUNCTION blend;
 			blend.BlendOp = AC_SRC_OVER;
@@ -1018,8 +1015,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			blend.AlphaFormat = AC_SRC_ALPHA;
 
 			UpdateLayeredWindow(hwnd, NULL, NULL, &sz, skin.hdc, &ptSrc, 0xffffffff, &blend, LWA_ALPHA);
-		} 
-		else SetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
+		}
+		else SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
 
 		SendMessage(hwnd, PUM_REFRESHTRAYTIP, 1, 0);
 		SendMessage(hwnd, PUM_GETHEIGHT, 0, 0);
@@ -1052,10 +1049,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (node->di.bIsVisible && CheckContactType(pwd->hContact, node->di)) {
 					if (GetLabelText(pwd->hContact, node->di, buff_label, LABEL_LEN) && GetValueText(pwd->hContact, node->di, buff, VALUE_LEN)) {
 						if (node->di.bLineAbove // we have a line above
-							 && pwd->iRowCount > 0 // and we're not the first row
-							 && pwd->rows[pwd->iRowCount - 1].bLineAbove // and above us there's a line above
-							 && pwd->rows[pwd->iRowCount - 1].swzLabel[0] == 0 // with no label
-							 && pwd->rows[pwd->iRowCount - 1].swzValue[0] == 0) // and no value
+							&& pwd->iRowCount > 0 // and we're not the first row
+							&& pwd->rows[pwd->iRowCount - 1].bLineAbove // and above us there's a line above
+							&& pwd->rows[pwd->iRowCount - 1].swzLabel[0] == 0 // with no label
+							&& pwd->rows[pwd->iRowCount - 1].swzValue[0] == 0) // and no value
 						{
 							// overwrite item above
 							pwd->iRowCount--;
@@ -1080,9 +1077,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			// if the last item is just a divider, remove it
 			if (pwd->iRowCount > 0
-				 && pwd->rows[pwd->iRowCount - 1].bLineAbove // and above us there's a line above
-				 && pwd->rows[pwd->iRowCount - 1].swzLabel[0] == 0 // with no label
-				 && pwd->rows[pwd->iRowCount - 1].swzValue[0] == 0) // and no value
+				&& pwd->rows[pwd->iRowCount - 1].bLineAbove // and above us there's a line above
+				&& pwd->rows[pwd->iRowCount - 1].swzLabel[0] == 0 // with no label
+				&& pwd->rows[pwd->iRowCount - 1].swzValue[0] == 0) // and no value
 			{
 				pwd->iRowCount--;
 				mir_free(pwd->rows[pwd->iRowCount].swzLabel);
@@ -1103,17 +1100,17 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_GETHEIGHT:
+		RECT smr;
 		{
 			int *pHeight = (int *)wParam;
 			HDC hdc = GetDC(hwnd);
 			SIZE sz;
-			RECT rc, smr;
 			rc.top = rc.left = 0;
 			rc.right = opt.iWinWidth;
 			int iWidth = opt.iPadding;
 			int iWinAvatarHeight = 0;
 			bool bStatusMsg = false;
-			HFONT hOldFont = (HFONT)GetCurrentObject(hdc,OBJ_FONT);
+			HFONT hOldFont = (HFONT)GetCurrentObject(hdc, OBJ_FONT);
 
 			// avatar height
 			pwd->iAvatarHeight = 0;
@@ -1122,11 +1119,11 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (pwd->hContact) ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)pwd->hContact, 0);
 				else ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)pwd->clcit.szProto);
 
-				if (ace && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST)) {				
+				if (ace && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST)) {
 					if (opt.bOriginalAvatarSize && max(ace->bmWidth, ace->bmHeight) <= opt.iAvatarSize) {
 						pwd->iRealAvatarHeight = ace->bmHeight;
 						pwd->iRealAvatarWidth = ace->bmWidth;
-					} 
+					}
 					else if (ace->bmHeight >= ace->bmWidth) {
 						pwd->iRealAvatarHeight = opt.iAvatarSize;
 						pwd->iRealAvatarWidth = (int)(opt.iAvatarSize * (ace->bmWidth / (double)ace->bmHeight));
@@ -1136,8 +1133,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						pwd->iRealAvatarWidth = opt.iAvatarSize;
 					}
 
-					pwd->iAvatarHeight = opt.iOuterAvatarPadding + opt.iInnerAvatarPadding + pwd->iRealAvatarHeight;		
-					iWinAvatarHeight = 2 * opt.iOuterAvatarPadding +  pwd->iRealAvatarHeight;	
+					pwd->iAvatarHeight = opt.iOuterAvatarPadding + opt.iInnerAvatarPadding + pwd->iRealAvatarHeight;
+					iWinAvatarHeight = 2 * opt.iOuterAvatarPadding + pwd->iRealAvatarHeight;
 					iWidth += pwd->iRealAvatarWidth + (opt.iOuterAvatarPadding + opt.iInnerAvatarPadding - opt.iPadding);
 				}
 			}
@@ -1158,17 +1155,17 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				iWidth += opt.iPadding + opt.iTitleIndent + smr.right;
 				pwd->iTitleHeight = opt.iPadding + smr.bottom;
-			} 
+			}
 			else pwd->iTitleHeight = opt.iPadding;
 
 			// icon height
 			int i, iCount = 0;
 			if (pwd->hContact || pwd->clcit.szProto) {
-				for(i = 0; i < EXICONS_COUNT; i++) {
+				for (i = 0; i < EXICONS_COUNT; i++) {
 					if ((INT_PTR)pwd->extraIcons[i].hIcon == CALLSERVICE_NOTFOUND)
 						pwd->extraIcons[i].hIcon = 0;
 
-					if (pwd->extraIcons[i].hIcon) 
+					if (pwd->extraIcons[i].hIcon)
 						iCount++;
 				}
 			}
@@ -1180,10 +1177,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			for (i = 0; i < pwd->iRowCount; i++) {
 				if (pwd->rows[i].swzLabel && !pwd->rows[i].bValueNewline) {
 					if (pwd->bIsTrayTip && pwd->rows[i].bIsTitle) {
-						if (hFontTrayTitle) 
+						if (hFontTrayTitle)
 							SelectObject(hdc, (HGDIOBJ)hFontTrayTitle);
-					} 
-					else if (hFontLabels) 
+					}
+					else if (hFontLabels)
 						SelectObject(hdc, (HGDIOBJ)hFontLabels);
 
 					GetTextExtentPoint32(hdc, pwd->rows[i].swzLabel, (int)_tcslen(pwd->rows[i].swzLabel), &sz);
@@ -1194,10 +1191,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			for (i = 0; i < pwd->iRowCount; i++) {
 				if (pwd->bIsTrayTip && pwd->rows[i].bIsTitle) {
-					if (hFontTrayTitle) 
+					if (hFontTrayTitle)
 						SelectObject(hdc, (HGDIOBJ)hFontTrayTitle);
-				} 
-				else if (hFontLabels) 
+				}
+				else if (hFontLabels)
 					SelectObject(hdc, (HGDIOBJ)hFontLabels);
 
 				if (pwd->rows[i].swzLabel && pwd->rows[i].swzLabel[0])
@@ -1217,7 +1214,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else
 					smr.right -= opt.iPadding;
 
-				if (!pwd->rows[i].bValueNewline) 
+				if (!pwd->rows[i].bValueNewline)
 					smr.right -= pwd->iLabelWidth + opt.iValueIndent;
 
 				if (pwd->rows[i].swzValue && pwd->rows[i].swzValue[0]) {
@@ -1227,7 +1224,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 
 					DrawTextExt(hdc, pwd->rows[i].swzValue, -1, &smr, DT_CALCRECT | DT_LEFT | DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX, NULL, pwd->rows[i].spi);
-				} 
+				}
 				else smr.left = smr.right = 0;
 
 				// save so we don't have to recalculate
@@ -1237,7 +1234,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (pwd->rows[i].bValueNewline) {
 					if (sz.cy) pwd->rows[i].iTotalHeight += sz.cy + opt.iTextPadding;
 					if (smr.bottom) pwd->rows[i].iTotalHeight += smr.bottom + opt.iTextPadding;
-				} 
+				}
 				else {
 					int maxheight = max(sz.cy, smr.bottom);
 					if (maxheight) pwd->rows[i].iTotalHeight += maxheight + opt.iTextPadding;
@@ -1269,30 +1266,28 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			if (!pwd->bIsTextTip && iWidth < opt.iMinWidth) iWidth = opt.iMinWidth;
 
 			// ignore maxheight for tray tip
-			if (!pwd->bIsTrayTip && iHeight > opt.iWinMaxHeight) iHeight = opt.iWinMaxHeight;				
+			if (!pwd->bIsTrayTip && iHeight > opt.iWinMaxHeight) iHeight = opt.iWinMaxHeight;
 			if (iWidth > opt.iWinWidth) iWidth = opt.iWinWidth;
 
 			CreateSkinBitmap(iWidth, iHeight, pwd->bIsTextTip && !pwd->bIsTrayTip);
 
 			GetWindowRect(hwnd, &rc);
-			if (rc.right - rc.left != iWidth || rc.bottom - rc.top != iHeight)
-			{
+			if (rc.right - rc.left != iWidth || rc.bottom - rc.top != iHeight) {
 				SetWindowPos(hwnd, 0, 0, 0, iWidth, iHeight, SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
 				GetWindowRect(hwnd, &pwd->rcWindow);
 				SendMessage(hwnd, PUM_UPDATERGN, 0, 0);
 				InvalidateRect(hwnd, 0, TRUE);
 			}
 
-			if (pHeight) 
+			if (pHeight)
 				*pHeight = iHeight;
-		}			
+		}
 		return TRUE;
 
 	case PUM_UPDATERGN:
+		HRGN hRgn;
 		{
-			HRGN hRgn;
 			RECT r = pwd->rcWindow;
-			int v, h;
 			int w = 11;
 
 			r.right -= r.left;
@@ -1361,6 +1356,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (!skin.bNeedLayerUpdate) {
 				// round corners
+				int v, h;
 				if (opt.bRound) {
 					h = (r.right - r.left) > (w * 2) ? w : (r.right - r.left);
 					v = (r.bottom - r.top) > (w * 2) ? w : (r.bottom - r.top);
@@ -1397,10 +1393,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		return TRUE;
 
 	case PUM_CALCPOS:
+		RECT rcWork;
 		{
-			RECT rcWork, rc;
 			SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWork, FALSE);
-	
+
 			HMONITOR hMon = MonitorFromPoint(pwd->clcit.ptCursor, MONITOR_DEFAULTTONEAREST);
 			MONITORINFO mi;
 			mi.cbSize = sizeof(mi);
