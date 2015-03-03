@@ -12,7 +12,7 @@ ToxHexAddress ResolveToxAddressFromDnsRecordV1(const std::string &dnsRecord)
 	return ToxHexAddress::Empty();
 }
 
-ToxHexAddress ResolveToxAddressFromDnsRecordV2(const std::string &dnsRecord)
+ToxHexAddress ResolveToxAddressFromDnsRecordV2(const std::string &/*dnsRecord*/)
 {
 	// unsupported
 	/*std::smatch match;
