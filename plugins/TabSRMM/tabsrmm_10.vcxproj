@@ -234,7 +234,6 @@
     <ClCompile Include="src\msgdlgutils.cpp" />
     <ClCompile Include="src\msglog.cpp" />
     <ClCompile Include="src\msgoptions.cpp" />
-    <ClCompile Include="src\msgoptions_plus.cpp" />
     <ClCompile Include="src\msgs.cpp" />
     <ClCompile Include="src\selectcontainer.cpp" />
     <ClCompile Include="src\sendlater.cpp" />

@@ -93,9 +93,6 @@
     <ClCompile Include="src\msgoptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\msgoptions_plus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\msgs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
