@@ -1109,7 +1109,19 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	StatusTextData st = { 0 };
 	st.cbSize = sizeof(st);
 	st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
-	mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+
+	if (isChatRoom(hContact)) {
+		// Get threadId to find chatroom in map
+		std::tstring tid = ptrT(getTStringA(hContact, FACEBOOK_KEY_TID));
+		std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tid);
+		
+		// Get readers from chatroom
+		TCHAR *treaders = (it != facy.chat_rooms.end() ? it->second->message_readers.c_str() : _T("???"));
+
+		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, treaders);
+	} else {
+		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
+	}
 
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)&st);
 }

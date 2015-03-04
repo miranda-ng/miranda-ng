@@ -438,9 +438,14 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 					continue;
 
 				time_t timestamp = utils::time::from_string(json_as_pstring(time));
+				MCONTACT hContact = NULL;
 
 				JSONNODE *threadid = json_get(it, "tid");
-				if (threadid != NULL) { // multi user chat
+				if (threadid == NULL) {
+					// classic contact
+					hContact = proto->ContactIDToHContact(json_as_pstring(reader));
+				} else {
+					// multi user chat
 					if (!proto->m_enableChat)
 						continue;
 
@@ -469,29 +474,13 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 							std::tstring tname = _A2T(participant->second.c_str(), CP_UTF8);
 							chatroom->message_readers += utils::text::prepare_name(tname, true);
 
-							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
-							if (!hChatContact)
-								continue;
-
-							StatusTextData st = { 0 };
-							st.cbSize = sizeof(st);
-							st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
-
-							TCHAR ttime[64];
-							_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
-
-							mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, chatroom->message_readers.c_str());
-
-							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
+							hContact = proto->ChatIDToHContact(tid);
 						}
 					}
 				}
-				else { // classic contact
-					MCONTACT hContact = proto->ContactIDToHContact(json_as_pstring(reader));
-					if (hContact) {
-						proto->facy.insert_reader(hContact, timestamp);
-					}
-				}
+
+				if (hContact)
+					proto->facy.insert_reader(hContact, timestamp);
 			}
 			else if (t == "deliver") {
 				// inbox message (multiuser or direct)
