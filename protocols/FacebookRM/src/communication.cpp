@@ -654,6 +654,10 @@ void facebook_client::clear_chatrooms()
 void facebook_client::clear_readers()
 {
 	for (std::map<MCONTACT, time_t>::iterator it = readers.begin(); it != readers.end();) {
+		if (parent->isChatRoom(it->first)) {
+			parent->delSetting(it->first, FACEBOOK_KEY_MESSAGE_READERS);
+		}
+
 		parent->delSetting(it->first, FACEBOOK_KEY_MESSAGE_READ);
 		it = readers.erase(it);
 	}
@@ -663,8 +667,21 @@ void facebook_client::clear_readers()
 /**
  * Inserts info to readers list, db and writes to statusbar
  */
-void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp)
+void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp, const std::tstring &reader)
 {
+	if (parent->isChatRoom(hContact)) {
+		std::tstring treaders;
+
+		// Load old readers
+		ptrT told(parent->getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+		if (told)
+			treaders = std::tstring(told) + _T(", ");
+
+		// Append new reader name and remember them
+		treaders += utils::text::prepare_name(reader, true);
+		parent->setTString(hContact, FACEBOOK_KEY_MESSAGE_READERS, treaders.c_str());
+	}
+
 	parent->setDword(hContact, FACEBOOK_KEY_MESSAGE_READ, timestamp);
 	readers.insert(std::make_pair(hContact, timestamp));
 	parent->MessageRead(hContact);
@@ -675,6 +692,10 @@ void facebook_client::insert_reader(MCONTACT hContact, time_t timestamp)
  */
 void facebook_client::erase_reader(MCONTACT hContact)
 {
+	if (parent->isChatRoom(hContact)) {
+		parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READERS);
+	}
+
 	parent->delSetting(hContact, FACEBOOK_KEY_MESSAGE_READ);
 	readers.erase(hContact);
 	CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hContact, NULL);
