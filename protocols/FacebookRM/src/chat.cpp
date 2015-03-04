@@ -49,12 +49,7 @@ void FacebookProto::UpdateChat(const TCHAR *tchat_id, const char *id, const char
 	gce.ptszUID = tid;
 	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
 
-	// TODO: keep it here or move it somewhere else?
-	std::map<std::tstring, facebook_chatroom*>::iterator chatroom = facy.chat_rooms.find(tchat_id);
-	if (chatroom != facy.chat_rooms.end()) {
-		chatroom->second->message_readers.clear(); // TODO: move this to erase_reader method?
-		facy.erase_reader(ChatIDToHContact(std::tstring(tchat_id)));
-	}
+	facy.erase_reader(ChatIDToHContact(std::tstring(tchat_id)));
 }
 
 void FacebookProto::RenameChat(const char *chat_id, const char *name)

@@ -431,56 +431,52 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 
 			if (t == "read_receipt") {
 				// user read message
-				JSONNODE *reader = json_get(it, "reader");
-				JSONNODE *time = json_get(it, "time");
+				JSONNODE *reader_ = json_get(it, "reader");
+				JSONNODE *time_ = json_get(it, "time");
 
-				if (reader == NULL || time == NULL)
+				if (reader_ == NULL || time_ == NULL)
 					continue;
 
-				time_t timestamp = utils::time::from_string(json_as_pstring(time));
+				time_t timestamp = utils::time::from_string(json_as_pstring(time_));
 				MCONTACT hContact = NULL;
+				std::tstring reader;
 
+				std::string readerId = json_as_pstring(reader_);
 				JSONNODE *threadid = json_get(it, "tid");
 				if (threadid == NULL) {
 					// classic contact
-					hContact = proto->ContactIDToHContact(json_as_pstring(reader));
+					hContact = proto->ContactIDToHContact(readerId);
 				} else {
 					// multi user chat
 					if (!proto->m_enableChat)
 						continue;
 
 					std::tstring tid = ptrT(json_as_string(threadid));
-					std::string reader_id = json_as_pstring(reader);
 
 					std::map<std::tstring, facebook_chatroom*>::iterator it = proto->facy.chat_rooms.find(tid);
 					if (it != proto->facy.chat_rooms.end()) {
 						facebook_chatroom *chatroom = it->second;
 						std::map<std::string, std::string> participants = chatroom->participants;
 
-						std::map<std::string, std::string>::const_iterator participant = participants.find(reader_id);
+						std::map<std::string, std::string>::const_iterator participant = participants.find(readerId);
 						if (participant == participants.end()) {
 							// TODO: load name of this participant
-							std::string name = reader_id;
-							participants.insert(std::make_pair(reader_id, name));
-							proto->AddChatContact(tid.c_str(), reader_id.c_str(), name.c_str());
+							std::string name = readerId;
+							participants.insert(std::make_pair(readerId, name));
+							proto->AddChatContact(tid.c_str(), readerId.c_str(), name.c_str());
 						}
 
-						participant = participants.find(reader_id);
+						participant = participants.find(readerId);
 						if (participant != participants.end()) {
 							// TODO: remember just reader ids to avoid eventual duplication of names
-							if (!chatroom->message_readers.empty())
-								chatroom->message_readers += _T(", ");
-							
-							std::tstring tname = _A2T(participant->second.c_str(), CP_UTF8);
-							chatroom->message_readers += utils::text::prepare_name(tname, true);
-
+							reader = _A2T(participant->second.c_str(), CP_UTF8);
 							hContact = proto->ChatIDToHContact(tid);
 						}
 					}
 				}
 
 				if (hContact)
-					proto->facy.insert_reader(hContact, timestamp);
+					proto->facy.insert_reader(hContact, timestamp, reader);
 			}
 			else if (t == "deliver") {
 				// inbox message (multiuser or direct)

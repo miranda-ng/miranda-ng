@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_CONTACT_TYPE			"ContactType"
 #define FACEBOOK_KEY_MESSAGE_ID				"LastMessageId"
 #define FACEBOOK_KEY_MESSAGE_READ			"MessageRead"
+#define FACEBOOK_KEY_MESSAGE_READERS		"MessageReaders"
 
 // Contact and account DB keys
 #define FACEBOOK_KEY_KEEP_UNREAD			"KeepUnread"	// (byte) 1 = don't mark messages as read on server (works globally or per contact)

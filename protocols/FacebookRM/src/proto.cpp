@@ -82,6 +82,7 @@ FacebookProto::FacebookProto(const char* proto_name, const TCHAR* username) :
 	db_set_resident(m_szModuleName, "Status");
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, FACEBOOK_KEY_MESSAGE_READ);
+	db_set_resident(m_szModuleName, FACEBOOK_KEY_MESSAGE_READERS);
 
 	InitHotkeys();
 	InitPopups();
@@ -1111,14 +1112,9 @@ void FacebookProto::MessageRead(MCONTACT hContact)
 	st.hIcon = Skin_GetIconByHandle(GetIconHandle("read"));
 
 	if (isChatRoom(hContact)) {
-		// Get threadId to find chatroom in map
-		std::tstring tid = ptrT(getTStringA(hContact, FACEBOOK_KEY_TID));
-		std::map<std::tstring, facebook_chatroom*>::iterator it = facy.chat_rooms.find(tid);
-		
-		// Get readers from chatroom
-		TCHAR *treaders = (it != facy.chat_rooms.end() ? it->second->message_readers.c_str() : _T("???"));
-
-		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, treaders);
+		// Load readers names
+		ptrT treaders(getTStringA(hContact, FACEBOOK_KEY_MESSAGE_READERS));
+		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, treaders ? treaders : _T("???"));
 	} else {
 		mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s"), ttime);
 	}

@@ -70,18 +70,12 @@ struct facebook_user
 };
 
 struct facebook_chatroom
-{
-	facebook_chatroom(std::tstring thread_id) : thread_id(thread_id) {
-		this->last_active = 0;
-	}
-
+{	
 	std::tstring thread_id;
 	std::tstring chat_name;
 	std::map<std::string, std::string> participants;
 
-	std::tstring message_readers;
-
-	time_t last_active;
+	facebook_chatroom(std::tstring thread_id) : thread_id(thread_id) {}
 };
 
 struct facebook_message

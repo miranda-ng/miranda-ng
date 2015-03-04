@@ -122,7 +122,7 @@ public:
 	void	clear_notifications();
 	void	clear_chatrooms();
 	void	clear_readers();
-	void	insert_reader(MCONTACT, time_t);
+	void	insert_reader(MCONTACT, time_t, const std::tstring &reader = _T(""));
 	void	erase_reader(MCONTACT);
 
 	////////////////////////////////////////////////////////////
