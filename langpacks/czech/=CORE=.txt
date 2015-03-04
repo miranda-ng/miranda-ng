@@ -320,34 +320,6 @@ Efekt textu
 Barva textu
 [Choose font]
 Vybrat písmo
-[Font]
-Písmo
-[&Font:]
-&Písmo:
-[Font st&yle:]
-Ř&ez písma:
-[\nStyles and effects are disabled for this font.]
-\nStyly a efekty nejsou pro tento font dostupné.
-[&Size:]
-Veliko&st:
-[Effects]
-Efekty
-[Stri&keout]
-Přeš&krtnuté
-[&Underline]
-Pod&tržené
-[&Color:]
-&Barva:
-[Sample]
-Ukázkový text
-[AaBbYyZz]
-AaBbYyZz
-[Sc&ript:]
-Sk&ript:
-[&Apply]
-&Použít
-[&Help]
-&Nápověda
 [Menu objects]
 Nabídky
 [Menu items]
@@ -474,6 +446,8 @@ Nahor&u
 &Dolů
 [Send &offline]
 Poslat offline
+[&Apply]
+&Použít
 [Context menu]
 Kontextová nabídka
 [Use contact's unique ID]
@@ -619,6 +593,8 @@ Po&slat
 &Tučné
 [&Italic]
 &Kurzíva
+[&Underline]
+Pod&tržené
 [&Color]
 &Barva
 [&Background color]
@@ -1803,6 +1779,8 @@ Odchozí
 [< Copyright]
 < Copyright
 ;file \src\core\stdhelp\src\help.cpp
+[&Help]
+&Nápověda
 [&About...]
 O progr&amu...
 [&Support]
@@ -2118,6 +2096,11 @@ Rozšířený stav
 Nabídka stavů
 [Main menu]
 Hlavní nabídka
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+Připojování
+[Connecting (attempt %d)]
+Připojování (pokus č.%d)
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown contact)]
 (neznámý kontakt)
@@ -2619,8 +2602,6 @@ Uživatel online
 Skupina (otevřená)
 [Group (closed)]
 Skupina (zavřená)
-[Connecting]
-Připojování
 [User details]
 Informace o uživateli
 [History]

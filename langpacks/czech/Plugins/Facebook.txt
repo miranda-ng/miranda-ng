@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.2
+;  Version: 0.2.10.4
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -36,12 +36,6 @@ Sdílet
 Zrušit
 [User details]
 Informace o uživateli
-[Network]
-Sítě
-[Force secure (HTTPS) connection]
-Použít zabezpečené spojení (HTTPS)
-[Use secure connection also for channel requests]
-Zabezpečit i servisní spojení
 [Contacts]
 Kontakty
 [Default group:]
@@ -55,7 +49,7 @@ Oznámení události
 [Notifications]
 Upozornění
 [News feeds (WARNING: Causes excessive network traffic!)]
-Novinky (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
+Novinky ze zdi (VAROVÁNÍ: Způsobuje zvýšený síťový přenos dat!)
 [News feed types to notify:]
 Upozorňovat na tyto novinky:
 [Don't show advertising posts]
@@ -66,6 +60,8 @@ Jiné události
 Upozornění klienta
 [Friendship notifications]
 Upozornění přátelství
+[Ticker feeds]
+Novinky z panelu
 [Use this server for opening links:]
 Pro otevírání odkazů použít tento server:
 [Use balloon notifications in system tray instead of popups]
@@ -145,8 +141,6 @@ Chyba připojení: Váš účet je dočasně zablokován. Musíte potvrdit toto 
 Chyba připojení: Je vyžadována captcha. Musíte potvrdit toto zařízení z webového prohlížeče.
 [Login error, probably bad login credentials.]
 Chyba při přihlašování, možná máte špatné přihlašovací údaje.
-[Your account requires HTTPS connection. Activating.]
-Váš účet vyžaduje zabezpečené spojení. Aktivováno.
 [Could not load communication token. You should report this and wait for plugin update.]
 Nelze načíst komunikační token. Měli byste tento problém nahlásit a počkat na aktualizaci.
 [Could not load all required data. Plugin may still work correctly, but you should report this and wait for plugin update.]
@@ -217,18 +211,18 @@ Výchozí
 << Kontakty
 [What's on your mind, %s?]
 Co se vám honí hlavou, %s?
-[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
-Pozn.: Pro správnou funkčnost se ujistěte, že máte vypnutou volbu 'Ověřit platnost certifikátů' v nastavení sítě.
 [Sample event]
 Ukázková událost
 [Sample request]
 Ukázkový požadavek
 [Sample newsfeed]
-Ukázková novinka
+Ukázková novinka ze zdi
 [Sample notification]
 Ukázkové upozornění
 [Sample friendship]
 Ukázkové přátelství
+[Sample ticker]
+Ukázková novinka z panelu
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 samolepku
@@ -267,6 +261,8 @@ Facebook: Chyba při zpracování síťové komunikace.
 Video hovor
 [Facebook ID must be numeric value.]
 Facebook ID musí být číselná hodnota.
+[Network]
+Sítě
 [Account]
 Účet
 [Events]
@@ -278,7 +274,7 @@ Sdílet stav...
 [Own wall]
 Vlastní zeď
 [Loading newsfeeds...]
-Načítání novinek...
+Načítání novinek ze zdi...
 [Checking friend requests...]
 Kontrola žádostí o přátelství...
 [Refreshing buddy list...]
@@ -345,4 +341,4 @@ Služby
 [Check Friends Requests]
 Zkontrolovat požadavky o přátelství
 [Check Newsfeeds]
-Zkontrolovat novinky
+Zkontrolovat novinky ze zdi

@@ -2041,8 +2041,6 @@ ukončil komunikaci
 Přezdívka:
 [Status:]
 Stav:
-[Status text:]
-Zpráva stavu:
 [Real JID:]
 Reálné JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp

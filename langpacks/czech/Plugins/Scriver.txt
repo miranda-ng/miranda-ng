@@ -775,7 +775,7 @@ přezdívka stávajícího kontaktu (pokud je definováno)
 název protokolu stávajícího kontaktu (pokud je definován). Název účtu je použit pokud protokol podporuje možnost více účtů
 [user-defined account name of current contact (if defined).]
 uživatelem definovaný název účtu (pokud je definován)
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 Identifikátor stávajícího kontaktu (pokud je definován). To znamená UIN pro ICQ, JID pro Jabber atd.
 [path to Miranda root folder]
 cesta ke kořenové složce Mirandy
