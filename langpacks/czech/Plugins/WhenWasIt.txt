@@ -146,37 +146,31 @@ Zjistit narozeniny
 Narozeniny
 [Contacts]
 Kontakty
-[WhenWasIt]
-
-[Birthday near]
-Narozeniny (brzy)
-[Birthday today]
-Narozeniny (dnes)
-[Birthdays (When Was It)]
-Narozeniny (Kdy to bylo?)
-[Refresh user details]
-Aktualizovat informace o kontaktu
-[Import birthdays]
-Importovat narozeniny...
-[Export birthdays]
-Exportovat narozeniny...
-[Add/change user &birthday]
-Změnit narozenin&y...
 ;file \plugins\WhenWasIt\src\icons.cpp
+[WhenWasIt]
+Kdy to bylo?
 [Check birthdays menu item]
 
 [List birthdays menu item]
 
 [Add/change birthday]
 
+[Refresh user details]
+Aktualizovat informace o kontaktu
+[Import birthdays]
+Importovat narozeniny...
+[Export birthdays]
+Exportovat narozeniny...
+[Birthday today]
+Narozeniny (dnes)
 [1 day to birthday]
-
+1 den do narozenin
 [%d days to birthday]
-
+%d dní do narozenin
 [More than %d days to birthday]
-
+Více než %d dní do narozenin
 [WhenWasIt birthday reminder]
-
+Upozornění na narozeniny (Kdy to bylo?)
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 V dohledné době nemá narozeniny žádný známý.
@@ -187,11 +181,11 @@ Přezdívka: %s, zbývá dnů: %d
 [%s has birthday today.]
 %s má dnes narozeniny!
 [%s had birthday %d days ago.]
-
+%s měl(a) narozeniny před %d dny.
 [%s had birthday yesterday.]
-
+%s měl(a) narozeniny včera.
 [%s has birthday today (Should not happen, please report).]
-
+%s má dnes narozeniny (Toto by nemělo nastat, prosím nahlaste to vývojáři).
 [Birthday - %s]
 Narozeniny: %s
 [He]
@@ -210,11 +204,11 @@ Probíhá aktualizace informací o kontaktech
 [Done refreshing user details]
 Konec aktualizace informací o kontaktech
 [Could not create worker thread. Error#%d - threadID %d]
-
+Nelze vytvořit pracovní vlákno. Chyba#%d - threadID %d
 [Error]
 Chyba
 [Birthdays files]
-
+Soubory s narozeninami
 [Please select a file to import birthdays from...]
 Vyberte prosím soubor obsahující seznam narozenin
 [Importing birthdays from file: %s]
@@ -244,3 +238,10 @@ Upozornění
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
+[Birthdays (When Was It)]
+Narozeniny (Kdy to bylo?)
+[Add/change user &birthday]
+Změnit narozenin&y...
+[Birthday near]
+Narozeniny (brzy)

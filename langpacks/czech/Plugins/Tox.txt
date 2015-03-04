@@ -18,22 +18,28 @@ Výchozí skupina:
 C
 [Tox ID:]
 Tox ID:
+[Import tox profile]
+Importovat Tox profil
+[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
+Tox profil obsahuje vaše ID a seznam kontaktů.\r\nMůžete naimportovat existující profil z jiného tox klienta.
 [Connection settings]
 Možnosti připojení
 [Disable UDP (force Tox to use TCP)]
-Zakázat UDP (vynutí použití TCP)
+Zakázat UDP (vynutit použití TCP)
 [Disable IPv6]
 Zakázat IPv6
 [Tox]
 Tox
-[Tox profile import]
-Import Tox profilu
-[Import]
-Importovat
-[Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.\r\nPress "Import" to perform import from existing profile.\r\nPress "Cancel" or close this window to create new profile.]
-Tox profil obsahuje vaše ID a seznam kontaktů.\r\nMůžete naimportovat existující profil z jiného tox klienta.\r\nStisknutím "Importovat" provedete import z existujícího profilu.\r\nStisknutím "Zrušit" nebo zavřením tohoto okna bude vytvořen nový profil.
-[Cancel]
-Zrušit
+[Multimedia]
+Multimédia
+[Audio input device]
+Vstupní audio zařízení
+[Audio output device]
+Výstupní audio zařízení
+[Filter audio]
+Filtr audia
+[Video input device]
+Vstupní video zařízení
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Pokud toto pole obsahuje adresu Tox (76 hex znaků), bude zobrazen dialog pro přidání kontaktu do vašeho seznamu. V opačném případě bude Miranda hledat kontakt pomocí toxme.se.
 [Dns name:]
@@ -42,56 +48,57 @@ Dns název:
 Zadejte heslo
 [Save password]
 Uložit heslo
+[Cancel]
+Zrušit
 [Tox profile is encrypted. Enter the password to continue.]
 Tox profil je zašifrován. Zadejte heslo pro pokračování.
 [Add]
 Přidat
-[Change]
-Změnit
-[Remove]
-Odebrat
 [IPv4]
 IPv4
 [IPv6]
 IPv6
 [Port]
 Port
-[Client ID]
-Identifikace klienta
+[Public key]
+Veřejný klíč
 ;file \protocols\Tox\src\tox_events.cpp
 [Network]
 Sítě
 [Account]
 Účet
-[Tox nodes]
-Tox uzly
+[Nodes]
+Uzly
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\Tox\src\tox_options.cpp
-[Add node]
-Přidat uzel
-[Enter IPv4]
-Zadejte IPv4
-[Error]
-Chyba
-[Enter IPv6]
-Zadejte IPv6
-[Enter port]
-Zadejte port
-[Enter client ID]
-Zadejte ID klienta
-[Change node]
-Změnit uzel
-[Are you sure?]
-Opravdu chcete pokračovat?
-[Node deleting]
-Mazání uzlu
-;file \protocols\Tox\src\tox_profile.cpp
 [All files (*.*)]
 Všechny soubory (*.*)
 [Select tox profile]
 Vyberte Tox profil
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+Váš profil již existuje. Přejete si jej odstranit spolu se všemi Tox kontakty a historií a pokračovat v importu?
+[Tox profile import]
+Import Tox profilu
+[Add node]
+Přidat uzel
+[Change node]
+Změnit uzel
+[Enter IPv4]
+Zadejte IPv4
+[Error]
+Chyba
+[Enter public key]
+Zadejte veřejný klíč
+[Common nodes]
+Obecné uzly
+[nodes]
+uzlů
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Node deleting]
+Mazání uzlu
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokoly
