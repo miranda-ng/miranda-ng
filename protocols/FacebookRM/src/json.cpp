@@ -462,15 +462,16 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 
 						participant = participants.find(reader_id);
 						if (participant != participants.end()) {
+							// TODO: remember just reader ids to avoid eventual duplication of names
 							if (!chatroom->message_readers.empty())
-								chatroom->message_readers += ", ";
-							chatroom->message_readers += participant->second;
+								chatroom->message_readers += _T(", ");
+							
+							std::tstring tname = _A2T(participant->second.c_str(), CP_UTF8);
+							chatroom->message_readers += utils::text::prepare_name(tname, true);
 
 							MCONTACT hChatContact = proto->ChatIDToHContact(tid);
 							if (!hChatContact)
 								continue;
-
-							ptrT readers(mir_utf8decodeT(chatroom->message_readers.c_str()));
 
 							StatusTextData st = { 0 };
 							st.cbSize = sizeof(st);
@@ -479,7 +480,7 @@ int facebook_json_parser::parse_messages(std::string *data, std::vector< faceboo
 							TCHAR ttime[64];
 							_tcsftime(ttime, SIZEOF(ttime), _T("%X"), localtime(&timestamp));
 
-							mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, readers);
+							mir_sntprintf(st.tszText, SIZEOF(st.tszText), TranslateT("Message read: %s by %s"), ttime, chatroom->message_readers.c_str());
 
 							CallService(MS_MSG_SETSTATUSTEXT, (WPARAM)hChatContact, (LPARAM)&st);
 						}

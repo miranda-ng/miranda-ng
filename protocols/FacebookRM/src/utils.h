@@ -67,6 +67,7 @@ namespace utils
 		std::string rand_string(int len, const char *chars = "0123456789" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" "abcdefghijklmnopqrstuvwxyz", unsigned int *number = NULL);
 		void explode(std::string str, const std::string &separator, std::vector<std::string>* results);
 		void append_ordinal(unsigned long value, std::string* data);
+		std::tstring prepare_name(const std::tstring &name, bool withSurnameLetter);
 	};
 
 	namespace conversion

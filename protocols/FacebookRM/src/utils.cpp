@@ -456,6 +456,24 @@ std::string utils::text::source_get_form_data(std::string* data)
 	return values;
 }
 
+std::tstring utils::text::prepare_name(const std::tstring &name, bool withSurnameLetter)
+{
+	std::tstring::size_type pos = name.find(_T(" "));
+	if (pos == std::tstring::npos)
+		return name;
+
+	std::tstring result = name.substr(0, pos);
+
+	if (withSurnameLetter) {
+		pos = name.rfind(_T(" ")) + 1; // we're sure there is some space in name so we can do +1 safely
+
+		if (pos < name.length())
+			result += _T(" ") + name.substr(pos, 1) + std::tstring(_T("."));
+	}
+
+	return result;
+}
+
 std::string utils::text::rand_string(int len, const char *chars, unsigned int *number)
 {
 	std::stringstream out;

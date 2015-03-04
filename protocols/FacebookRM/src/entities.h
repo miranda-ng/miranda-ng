@@ -79,7 +79,7 @@ struct facebook_chatroom
 	std::tstring chat_name;
 	std::map<std::string, std::string> participants;
 
-	std::string message_readers;
+	std::tstring message_readers;
 
 	time_t last_active;
 };
