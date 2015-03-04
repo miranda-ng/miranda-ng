@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -23,16 +23,6 @@
 Вимкнути UDP (примусово використ. TCP)
 [Disable IPv6]
 Вимкнути IPv6
-[Multimedia]
-Мультимедіа
-[Audio input device]
-Пристрій аудіовходу
-[Audio output device]
-Пристрій аудіовиходу
-[Filter audio]
-Фільтр аудіо
-[Video input device]
-Пристрій відеовходу
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Якщо ввести в полі пошуку адресу Tox (76 hex-символів), буде видано запит на додавання до списку друзів. Інакше відбудеться пошук за допомогою сервісу DNS Discovery.
 [Dns name:]
@@ -51,12 +41,34 @@
 Порт
 [Public key]
 Відкритий ключ
-[Network]
-Мережа
-[Account]
-Обліковий запис
-[Nodes]
-Ноди
+[Multimedia]
+Мультимедіа
+[Audio input device]
+Пристрій аудіовходу
+[Audio output device]
+Пристрій аудіовиходу
+[Filter audio]
+Фільтр аудіо
+[Video input device]
+Пристрій відеовходу
+[Invite contacts to chat room]
+Запросити до чат-кімнати
+[&Invite]
+&Запросити
+[&Cancel]
+&Скасувати
+[Groupchat]
+Чат
+[Protocol icon]
+Значок протоколу
+[Protocols]
+Протоколи
+[Request authorization]
+Запитати авторизацію
+[Grant authorization]
+Авторизувати
+[Copy Tox ID]
+Копіювати Tox ID
 [%s connection]
 З'єднання %s
 [All files (*.*)]
@@ -77,16 +89,20 @@
 Помилка
 [Enter public key]
 Введіть відкритий ключ
+[Common nodes]
+Загальні ноди
 [nodes]
 ноди
 [Are you sure?]
 Ви впевнені?
 [Node deleting]
 Видалення ноду
-[Protocols]
-Протоколи
-[Protocol icon]
-Значок протоколу
+[Network]
+Мережа
+[Account]
+Обліковий запис
+[Nodes]
+Ноди
 [You cannot add yourself to your contact list]
 Ви не можете додати себе до списку контактів
 [Contact already in your contact list]

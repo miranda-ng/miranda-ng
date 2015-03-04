@@ -3,4 +3,4 @@
 [Tox]
 [IPv4]
 [IPv6]
-[Common nodes]
+[Tox action]
