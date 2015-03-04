@@ -51,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Various constants
 #define FACEBOOK_NOTIFICATIONS_CHATROOM			"_notifications"
+#define FACEBOOK_CHATROOM_NAMES_COUNT			3 // number of participant names to use for chatrooms without specific name (on website it's 2)
 
 // Limits
 #define FACEBOOK_MESSAGE_LIMIT					200000 // this is guessed limit, in reality it is bigger

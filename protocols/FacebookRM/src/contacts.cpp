@@ -276,11 +276,14 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 	http::response resp = facy.flap(REQUEST_THREAD_INFO, &data);
 
-	if (resp.code == HTTP_CODE_OK) {
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error("LoadChatInfo");
+		return;
+	}
 
-		CODE_BLOCK_TRY
+	CODE_BLOCK_TRY
 
-			facebook_json_parser* p = new facebook_json_parser(this);
+		facebook_json_parser* p = new facebook_json_parser(this);
 		p->parse_chat_info(&resp.data, fbc);
 		delete p;
 
@@ -289,32 +292,30 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 		// If chat has no name, create name from participants list
 		if (fbc->chat_name.empty()) {
-			unsigned int namesCount = 3; // how many names should be in room name; max. 5
+			unsigned int namesUsed = 0;
 
 			for (std::map<std::string, std::string>::iterator it = fbc->participants.begin(); it != fbc->participants.end(); ++it) {
 				std::string participant = it->second;
 
-				if (participant.empty())
+				// Ignore empty and numeric only participant names
+				if (participant.empty() || participant.find_first_not_of("0123456789") == std::string::npos)
 					continue;
 
-				if (!fbc->chat_name.empty())
+				if (namesUsed > 0)
 					fbc->chat_name += _T(", ");
 
-				std::string name;
-				std::string::size_type pos;
-				if ((pos = participant.find(" ")) != std::string::npos) {
-					name = participant.substr(0, pos);
-				}
-				else {
-					name = participant;
-				}
+				std::string::size_type pos = participant.find(" ");
+				std::string name = (pos != std::string::npos ? participant.substr(0, pos) : participant);
 
-				fbc->chat_name += _A2T(name.c_str());
+				fbc->chat_name += _A2T(name.c_str(), CP_UTF8);
+				
+				if (++namesUsed >= FACEBOOK_CHATROOM_NAMES_COUNT)
+					break;
 			}
 
-			if (fbc->participants.size() > namesCount) {
+			if (fbc->participants.size() > namesUsed) {
 				TCHAR more[200];
-				mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesCount);
+				mir_sntprintf(more, SIZEOF(more), TranslateT("%s and more (%d)"), fbc->chat_name.c_str(), fbc->participants.size() - namesUsed);
 				fbc->chat_name = more;
 			}
 
@@ -327,18 +328,13 @@ void FacebookProto::LoadChatInfo(facebook_chatroom *fbc)
 
 		debugLogA("*** Chat thread info processed");
 
-		CODE_BLOCK_CATCH
+	CODE_BLOCK_CATCH
 
-			debugLogA("*** Error processing chat thread info: %s", e.what());
+		debugLogA("*** Error processing chat thread info: %s", e.what());
 
-		CODE_BLOCK_END
+	CODE_BLOCK_END
 
-			facy.handle_success("LoadChatInfo");
-	}
-	else {
-		facy.handle_error("LoadChatInfo");
-	}
-
+	facy.handle_success("LoadChatInfo");
 }
 
 MCONTACT FacebookProto::AddToContactList(facebook_user* fbu, ContactType type, bool force_add, bool add_temporarily)
