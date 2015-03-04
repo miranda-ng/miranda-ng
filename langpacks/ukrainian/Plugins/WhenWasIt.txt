@@ -145,26 +145,20 @@
 Контакти
 [WhenWasIt]
 Дні народження
-[Birthday near]
-День народження скоро
-[Birthday today]
-День народження сьогодні
-[Birthdays (When Was It)]
-Дні народження
-[Refresh user details]
-Оновити дані контактів
-[Import birthdays]
-Імпорт днів народження
-[Export birthdays]
-Експорт днів народження
-[Add/change user &birthday]
-День народження користувача
 [Check birthdays menu item]
 Перевірити дні народження
 [List birthdays menu item]
 Список днів народження
 [Add/change birthday]
 Правити день народження
+[Refresh user details]
+Оновити дані контактів
+[Import birthdays]
+Імпорт днів народження
+[Export birthdays]
+Експорт днів народження
+[Birthday today]
+День народження сьогодні
 [1 day to birthday]
 1 день до свята
 [%d days to birthday]
@@ -237,3 +231,9 @@
 Цей файл експортовано Unicode-версією WhenWasIt. Будь ласка, використовуйте тільки Unicode-версію плагіна для імпорту днів народження.\n
 [Could not find UID '%s [%S]' in current database, skipping]
 Не вдалося знайти UID '%s [%S]' у поточному профілі, пропуск
+[Birthdays (When Was It)]
+Дні народження
+[Add/change user &birthday]
+День народження користувача
+[Birthday near]
+День народження скоро
