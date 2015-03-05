@@ -74,15 +74,9 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 		case IDC_IMPORT_PROFILE:
 		{
-			TCHAR *pFilter, filter[MAX_PATH] = { 0 };
-			pFilter = &filter[0];
-			mir_tstrcat(pFilter, TranslateT("Tox profile(*.tox)"));
-			pFilter += mir_tstrlen(pFilter) + 1;
-			mir_tstrcat(pFilter, _T("*.tox"));
-			pFilter += mir_tstrlen(pFilter) + 1;
-			mir_tstrcat(pFilter, TranslateT("All files(*.*)"));
-			pFilter += mir_tstrlen(pFilter) + 1;
-			mir_tstrcat(pFilter, _T("*.*"));
+			TCHAR filter[MAX_PATH];
+			mir_sntprintf(filter, SIZEOF(filter), _T("%s(*.tox)%c*.tox%c%s(*.*)%c*.*%c%c"),
+			TranslateT("Tox profile"), 0, 0, TranslateT("All files"), 0, 0, 0);
 
 			TCHAR profilePath[MAX_PATH] = { 0 };
 
@@ -241,7 +235,7 @@ INT_PTR CALLBACK EditNodeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			itemInfo = (ItemInfo*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			SendDlgItemMessage(hwndDlg, IDC_IPV4, EM_SETLIMITTEXT, 15, 0);
+			SendDlgItemMessage(hwndDlg, IDC_IPV4, EM_SETLIMITTEXT, MAX_PATH, 0);
 			SendDlgItemMessage(hwndDlg, IDC_IPV6, EM_SETLIMITTEXT, 39, 0);
 			SendDlgItemMessage(hwndDlg, IDC_PORT, EM_SETLIMITTEXT, 5, 0);
 			SendDlgItemMessage(hwndDlg, IDC_PKEY, EM_SETLIMITTEXT, TOX_PUBLIC_KEY_SIZE * 2, 0);
