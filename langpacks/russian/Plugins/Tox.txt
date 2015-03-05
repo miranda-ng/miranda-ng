@@ -51,8 +51,16 @@ DNS имя:
 Фильтр аудио
 [Video input device]
 Устройство видеовхода
+[Invite contacts to chat room]
+Пригласить пользователей в комнату чата
+[&Invite]
+&Пригласить
 [&Cancel]
 О&тмена
+[Groupchat]
+Чат
+[Profiles folder]
+Папка профилей
 [Protocol icon]
 Значок протокола
 [Protocols]
@@ -61,8 +69,14 @@ DNS имя:
 Запросить авторизацию
 [Grant authorization]
 Авторизовать
+[Copy Tox ID]
+Коопировать Tox ID
 [%s connection]
 %s подключение
+[Tox profile(*.tox)]
+Профиль Tox(*.tox)
+[All files(*.*)]
+Все файлы(*.*)
 [Select tox profile]
 Выберите профиль Tox
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
@@ -93,6 +107,8 @@ DNS имя:
 Учётная запись
 [Nodes]
 Ноды
+[Action]
+Действие
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]

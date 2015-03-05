@@ -69,7 +69,7 @@
 [Account]
 [Nodes]
 ;file \protocols\Tox\src\tox_proto.cpp
-[Tox action]
+[Action]
 [You cannot add yourself to your contact list]
 [Contact already in your contact list]
 ;file \protocols\Tox\src\tox_search.cpp
