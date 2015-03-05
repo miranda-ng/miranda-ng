@@ -385,7 +385,7 @@ B&earbeiten
 [&Remove...]
 Entfe&rnen...
 [Miranda NG is being restarted.\nPlease wait...]
-Mianda NG wird neu gestartet.\nBitte warten...
+Miranda NG wird neu gestartet.\nBitte warten...
 [Error console]
 Fehlerkonsole
 [Error notifications]
@@ -441,13 +441,13 @@ Entfe&rnen
 [&Set as default]
 Al&s Standard setzen
 [Move &up]
-Hoch
+H&och
 [Move &down]
-Runter
+R&unter
 [Send &offline]
 &Offline senden
 [&Apply]
-Übernehmen
+&Übernehmen
 [Context menu]
 Kontextmenü
 [Use contact's unique ID]
@@ -519,7 +519,7 @@ Auf Standard zu&rücksetzen
 [find/add]
 suchen/hinzufügen
 [&Add to list]
-Zur Liste hinzufügen
+Zur Liste &hinzufügen
 [User &details]
 Kontakt&profil
 [Send &message]
@@ -594,7 +594,7 @@ Smil&eys
 [&Italic]
 &Kursiv
 [&Underline]
-&Unterstr.
+&Unterstrichen
 [&Color]
 &Farbe
 [&Background color]
@@ -674,7 +674,7 @@ Hintergrund
 [List]
 Liste
 [&Message]
-Nachricht
+&Nachricht
 [Clear lo&g]
 &Verlauf löschen
 [Word lookup]
@@ -919,7 +919,7 @@ Bitte nicht st&ören\tStrg+5
 [&Invisible\tCtrl+7]
 Uns&ichtbar\tStrg+7
 [On the &phone\tCtrl+8]
-Am Telefon\tStrg+8
+Am &Telefon\tStrg+8
 [Out to &lunch\tCtrl+9]
 &Beim Essen\tStrg+9
 ;file \src\core\stdfile\res\resource.rc
@@ -1684,7 +1684,7 @@ Datei von %s
 [bytes]
 Bytes
 [&File]
-Datei
+&Datei
 [File &transfers...]
 Dateiüber&tragungen...
 [Incoming]
@@ -1715,7 +1715,7 @@ Benutzermenü
 [Canceled]
 Abgebrochen
 [This file transfer has been canceled by the other side]
-Datentransfer wurde vom Partner abgebrochen
+Diese Dateiübertragung wurde von der anderen Seite abgebrochen.
 ;file \src\core\stdfile\src\filesenddlg.cpp
 [%d files]
 %d Dateien
@@ -1896,7 +1896,7 @@ Soll dieser Verlaufseintrag gelöscht werden?
 [Delete history]
 Verlauf löschen
 [View &history]
-Verlauf anzeigen
+&Verlauf anzeigen
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 URL von %s
@@ -2111,7 +2111,7 @@ Dieser Kontakt befindet sich in einem Instant-Messaging-System, welches seine Ko
 [De&lete]
 &Löschen
 [&Rename]
-Umbenennen
+&Umbenennen
 [&Add permanently to list]
 D&auerhaft zur Kontaktliste hinzufügen
 ;file \src\modules\clist\contacts.cpp
@@ -2171,7 +2171,7 @@ Logeinstellungen öffnen
 'Kontakte suchen/hinzufügen'-Fenster öffnen
 ;file \src\modules\clist\movetogroup.cpp
 [&Move to group]
-Verschiebe in Gruppe
+Verschiebe in &Gruppe
 [<Root group>]
 <Hauptgruppe>
 ;file \src\modules\database\database.cpp
@@ -2229,7 +2229,7 @@ Beim Erstellen des Profils '%s' ist Fehler %x aufgetreten.
 [Problem creating profile]
 Fehler beim Erstellen des Profils
 [&Create]
-Erstellen
+&Erstellen
 [<In use>]
 <verwendet>
 [<Unknown format>]
@@ -2432,7 +2432,7 @@ Metakontakte
 [No online contacts found.]
 Keine Onlinekontakte gefunden.
 [Select metacontact]
-Wähle Metakontakt
+Metakontakt auswählen
 ;file \src\modules\metacontacts\meta_utils.cpp
 [Sender]
 Sender

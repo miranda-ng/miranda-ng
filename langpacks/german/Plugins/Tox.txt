@@ -19,9 +19,9 @@ K
 [Tox ID:]
 Tox-ID:
 [Import tox profile]
-
+Tox-Profil importieren
 [Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.]
-
+Ihr Tox-Profil enthält Ihre ID und Freundesliste.\r\nSie können ein existierendes Profil aus einem anderen Tox-Client importieren.
 [Connection settings]
 Verbindungseinstellungen
 [Disable UDP (force Tox to use TCP)]
@@ -29,17 +29,17 @@ UDP deaktivieren (zwingt Tox, TCP zu verwenden)
 [Disable IPv6]
 IPv6 deaktivieren
 [Tox]
-
+Tox
 [Multimedia]
-
+Multimedia
 [Audio input device]
-
+Audioeingabegeräte
 [Audio output device]
-
+Audioausgabegeräte
 [Filter audio]
-
+Audio filtern
 [Video input device]
-
+Videoeingabegeräte
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
@@ -55,9 +55,9 @@ Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
 [Add]
 Hinzufügen
 [IPv4]
-
+IPv4
 [IPv6]
-
+IPv6
 [Port]
 Port
 [Public key]
@@ -68,7 +68,7 @@ Netzwerk
 [Account]
 Konto
 [Nodes]
-
+Knoten
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
@@ -78,9 +78,9 @@ Alle Dateien (*.*)
 [Select tox profile]
 Tox-Profil auswählen
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
-
+Sie haben bereits ein existierendes Profil. Möchten Sie es mit allen Kontakten und deren Verläufen entfernen und den Import fortsetzen?
 [Tox profile import]
-
+Tox-Profil importieren
 [Add node]
 Knoten hinzufügen
 [Change node]
@@ -92,20 +92,20 @@ Fehler
 [Enter public key]
 Öffentlichen Schlüssel eingeben
 [Common nodes]
-
+Gemeinsame Knoten
 [nodes]
-
+Knoten
 [Are you sure?]
 Sind Sie sich sicher?
 [Node deleting]
-Lösche Knoten
+Knoten löschen
 ;file \protocols\Tox\src\tox_proto.cpp
 [Protocols]
 Protokolle
 [Protocol icon]
 Protokollicon
 [You cannot add yourself to your contact list]
-Du kannst dich selbst nicht zur Kontaktliste hinzufügen
+Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen
 [Contact already in your contact list]
 Der Kontakt ist bereits in Ihrer Kontaktliste
 ;file \protocols\Tox\src\tox_search.cpp

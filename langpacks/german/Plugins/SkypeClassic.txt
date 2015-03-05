@@ -59,7 +59,7 @@ Auflegen
 [Dialog]
 Dialog
 [Use Skype proxy connection over network instead of local Skype API]
-Skype Proxy-Verbindung anstelle der lokalen Skype-API verwenden
+Verbindung über SkypeProxy anstelle der lokalen Skype-API verwenden
 [Host:]
 Host:
 [Port:]
@@ -67,7 +67,7 @@ Port:
 [* You must restart Miranda NG in order to let the settings take effect]
 * Sie müssen Miranda NG neu starten, damit die Einstellungen wirksam werden
 [This Skype proxy requires password authentication:]
-Dieser Skype Proxy benötigt eine Passwort-Auth.:
+Dieser SkypeProxy benötigt eine Passwort-Authentifizierung:
 [Name:]
 Name:
 [Birthday:]
@@ -194,7 +194,7 @@ eingeladen
 [Phone call]
 Telefonanruf
 [Incoming Skype call]
-Eingehender Skype Anruf
+Eingehender Skype-Anruf
 [Incoming call from %s]
 Eingehender Anruf von %s
 [Connection to Skype lost]
@@ -206,7 +206,7 @@ Kann Fenster nicht erstellen.
 [Memory allocation error on startup.]
 Speicherzuweisungsfehler beim Start
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda profile? If you chose NO, you can always enable it in the plugin options later.]
-Es scheint, als ob Sie das Skype-Protokoll zum ersten mal verwenden. Möchten Sie es für dieses Miranda-Profil verwenden? Wenn Sie sich für NEIN entscheiden, können Sie es immer noch später in den Plugin-Einstellungen aktivieren.
+Es scheint, als ob Sie das Skype-Protokoll zum ersten Mal verwenden. Möchten Sie es für dieses Miranda-Profil verwenden? Wenn Sie sich für NEIN entscheiden, können Sie es immer noch später in den Plugin-Einstellungen aktivieren.
 [Cannot register window message.]
 Kann Fensternachricht nicht registrieren
 [Unable to create mutex!]
@@ -229,23 +229,23 @@ Versuche, eine Sofortnachricht an einen Benutzer zu senden, der Sie nicht autori
 [Unknown error]
 Unbekannter Fehler
 [Cannot resolve host!]
-
+Kann Host nicht auflösen!
 [Cannot find valid host to connect to.]
-
+Kann keinen gültigen Host zum Verbinden finden.
 [Authentication is not supported/needed for this Skype proxy server. It will be disabled.]
-
+Authentifizierung ist für diesen Skype-Proxy-Server nicht erforderlich und wird daher deaktiviert.
 [Authentication failed for this server, connection was not successful. Verify that your password is correct!]
-
+Authentifizierung für diesen Server fehlgeschlagen, Verbindung nicht erfolgreich. Überprüfen Sie ob Ihr Passwort korrekt ist.
 [The server you specified requires authentication, but you have not supplied a password for it. Check the Skype plugin settings and try again.]
-
+Der angegebene Server erfordert Authentifizierung, aber Sie haben kein Passwort angegeben. Prüfen Sie die Skype-Einstellungen und versuchen Sie es nochmal.
 [ERROR: Skype not running / too old / not working!]
-Achtung: Skype läuft eventuell (nicht) oder ist veraltet!
+FEHLER: Skype läuft nicht / zu alt / funktioniert nicht!
 [Skype refused the connection :(]
-
+Skype hat die Verbindung abgelehnt. :(
 [The Skype API is not available]
-
+Die Skype-API ist nicht verfügbar.
 [Wheee, Skype won't let me use the API. :(]
-
+Oh, Skype lässt mich nicht die API verwenden. :(
 ;file \protocols\SkypeClassic\src\skypeopt.cpp
 [Preview error message]
 Vorschau Fehlermeldung
@@ -254,7 +254,7 @@ Grundeinstellungen
 [Skype advanced]
 Skype Erweitert
 [Skype proxy]
-Skype-Proxy
+SkypeProxy
 [Details]
 Details
 [MALE]

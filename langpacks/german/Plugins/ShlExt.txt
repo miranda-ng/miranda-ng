@@ -51,16 +51,16 @@ Zuletzt
 [Clear entries]
 Einträge löschen
 [Unable to delete registry key for 'shlext COM', this key may already be deleted or you may need admin rights.]
-
+Konnte Registryeintrag 'shlext COM' nicht löschen, dieser Eintrag wurde vielleicht schon gelöscht oder Sie brauchen Administratorrechte.
 [Problem]
-
+Problem
 [Unable to delete registry key for 'File context menu handlers', this key may already be deleted or you may need admin rights.]
-
+Konnte Registryeintrag 'File context menu handlers' nicht löschen, dieser Eintrag wurde vielleicht schon gelöscht oder Sie brauchen Administratorrechte.
 [Unable to delete registry key for 'Directory context menu handlers', this key may already be deleted or you may need admin rights.]
-
+Konnte Registryeintrag 'Directory context menu handlers' nicht löschen, dieser Eintrag wurde vielleicht schon gelöscht oder Sie brauchen Administratorrechte.
 [Unable to delete registry entry for 'Approved context menu handlers', this key may already be deleted or you may need admin rights.]
-
+Konnte Registryeintrag 'Approved context menu handlers' nicht löschen, dieser Eintrag wurde vielleicht schon gelöscht oder Sie brauchen Administratorrechte.
 [Shell context menus requires your permission to register with Windows Explorer (one time only).]
-
+Shell-Kontextmenüs erfordert Ihre (einmalige) Erlaubnis um sich mit dem Windows-Explorer zu registrieren.
 [Miranda NG - Shell context menus (shellext.dll)]
-
+Miranda NG - Shell-Kontextmenü (shellext.dll)
