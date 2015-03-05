@@ -1533,10 +1533,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 				SelectClipRgn(hdcDraw, clipRgn);
 
 				HBRUSH hbr = CreateSolidBrush(CSkin::m_avatarBorderClr);
-				if (bPanelPic)
-					FrameRgn(dis->hDC, clipRgn, hbr, 1, 1);
-				else
-					FrameRgn(hdcDraw, clipRgn, hbr, 1, 1);
+				FrameRgn(hdcDraw, clipRgn, hbr, 1, 1);
 				DeleteObject(hbr);
 				DeleteObject(clipRgn);
 			}
@@ -1667,7 +1664,7 @@ void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 			pContainer->theme.fontColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * (MSGDLGFONTCOUNT + 2));
 			pContainer->theme.rtfFonts = (char *)mir_alloc((MSGDLGFONTCOUNT + 2) * RTFCACHELINESIZE);
 
-			ReadThemeFromINI(pContainer->szAbsThemeFile, pContainer, bReadTemplates ? 0 : 1, THEME_READ_ALL);
+			ReadThemeFromINI(pContainer->szAbsThemeFile, pContainer, 0, THEME_READ_ALL);
 			pContainer->theme.left_indent *= 15;
 			pContainer->theme.right_indent *= 15;
 			pContainer->theme.isPrivate = true;

@@ -384,7 +384,7 @@ void CSideBar::Init()
 	m_totalItemHeight = 0;
 
 	m_uLayout = (m_pContainer->dwFlagsEx & 0xff000000) >> 24;
-	m_uLayout = ((m_uLayout >= 0 && m_uLayout < NR_LAYOUTS) ? m_uLayout : 0);
+	m_uLayout = ((m_uLayout < NR_LAYOUTS) ? m_uLayout : 0);
 
 	m_currentLayout = &m_layouts[m_uLayout];
 
@@ -971,14 +971,7 @@ void __fastcall CSideBar::m_DefaultBackgroundRenderer(const HDC hdc, const RECT 
 		TContainerData *pContainer = const_cast<TContainerData *>(item->m_sideBar->getContainer());
 		int id = stateId == PBS_PRESSED || fIsActiveItem ? ID_EXTBKBUTTONSPRESSED : (stateId == PBS_HOT ? ID_EXTBKBUTTONSMOUSEOVER : ID_EXTBKBUTTONSNPRESSED);
 		CSkinItem *skinItem = &SkinItems[id];
-		HWND hwnd;
-
-		if (id == IDC_SIDEBARUP)
-			hwnd = item->m_sideBar->getScrollUp()->m_buttonControl->hwnd;
-		else if (id == IDC_SIDEBARDOWN)
-			hwnd = item->m_sideBar->getScrollDown()->m_buttonControl->hwnd;
-		else
-			hwnd = item->m_buttonControl->hwnd;
+		HWND hwnd = item->m_buttonControl->hwnd;
 
 		CSkin::SkinDrawBG(hwnd, pContainer->hwnd, pContainer, const_cast<RECT *>(rc), hdc);
 		CSkin::DrawItem(hdc, rc, skinItem);

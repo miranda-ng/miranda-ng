@@ -337,7 +337,7 @@ static INT_PTR CB_ModifyButton(WPARAM, LPARAM lParam)
 	if (!bbdi)
 		return 1;
 
-	bool bFound = 1;
+	bool bFound = false;
 	CustomButtonData *cbd = NULL;
 	{
 		mir_cslock lck(ToolBarCS);

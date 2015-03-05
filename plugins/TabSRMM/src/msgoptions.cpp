@@ -496,7 +496,7 @@ BOOL TreeViewHandleClick(HWND hwndDlg, HWND hwndTree, WPARAM, LPARAM lParam)
 	case TVN_KEYDOWN:
 		if (((LPNMTVKEYDOWN)lParam)->wVKey != VK_SPACE)
 			return FALSE;
-		hti.flags |= TVHT_ONITEMSTATEICON;
+		hti.flags = TVHT_ONITEMSTATEICON;
 		item.hItem = TreeView_GetSelection(((LPNMHDR)lParam)->hwndFrom);
 		break;
 	case NM_CLICK:

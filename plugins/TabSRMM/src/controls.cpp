@@ -227,14 +227,12 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 
 LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 {
-	bool fMustDraw = true;
-
 	if (nm->hdr.hwndFrom == m_hwndToolbar) {
 		NMTBCUSTOMDRAW *nmtb = (NMTBCUSTOMDRAW *)(nm);
 
 		switch (nmtb->nmcd.dwDrawStage) {
 		case CDDS_PREPAINT:
-			if (fMustDraw) {
+			{
 				if (nmtb->nmcd.dwItemSpec == 0) {
 					m_hdcDraw = ::CreateCompatibleDC(nmtb->nmcd.hdc);
 					//m_rcItem = nmtb->nmcd.rc;
@@ -276,7 +274,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 			return CDRF_DODEFAULT;
 
 		case CDDS_ITEMPREPAINT:
-			if (fMustDraw) {
+			{
 				TCHAR	*szText = 0;
 				bool	fDraw = true;
 
@@ -330,16 +328,15 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 
 				return CDRF_SKIPDEFAULT;
 			}
-			else return CDRF_DODEFAULT;
 
 		case CDDS_PREERASE:
 		case CDDS_ITEMPOSTERASE:
 		case CDDS_ITEMPOSTPAINT:
 		case CDDS_ITEMPREERASE:
-			return fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT;
+			return CDRF_SKIPDEFAULT;
 
 		case CDDS_POSTERASE:
-			return fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT;
+			return CDRF_SKIPDEFAULT;
 
 		case CDDS_POSTPAINT:
 			if (nmtb->nmcd.dwItemSpec == 0 && m_hdcDraw) {
@@ -489,8 +486,6 @@ void CMenuBar::updateState(const HMENU hMenu) const
 
 void CMenuBar::configureMenu() const
 {
-	BOOL fDisable = FALSE;
-
 	TWindowData *dat = (TWindowData*)::GetWindowLongPtr(m_pContainer->hwndActive, GWLP_USERDATA);
 	if (dat) {
 		bool fChat = (dat->bType == SESSIONTYPE_CHAT);
@@ -500,7 +495,7 @@ void CMenuBar::configureMenu() const
 		::SendMessage(m_hwndToolbar, TB_SETSTATE, 105, fChat ? TBSTATE_HIDDEN : TBSTATE_ENABLED);
 
 		if (dat->bType == SESSIONTYPE_IM)
-			::EnableWindow(GetDlgItem(dat->hwnd, IDC_TIME), fDisable ? FALSE : TRUE);
+			::EnableWindow(GetDlgItem(dat->hwnd, IDC_TIME), TRUE);
 	}
 }
 
@@ -956,7 +951,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_TIMER:
-		if (wParam != TIMERID_HOVER)
+		if (pContainer == NULL || wParam != TIMERID_HOVER)
 			break;
 		KillTimer(hWnd, TIMERID_HOVER);
 		GetCursorPos(&pt);
@@ -979,7 +974,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					break;
 
 				if (!strcmp(sid->szModule, MSG_ICON_MODULE)) {
-					if (sid->dwId == MSG_ICON_SOUND && pContainer)
+					if (sid->dwId == MSG_ICON_SOUND)
 						mir_sntprintf(wBuf, SIZEOF(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
 						pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 
@@ -1026,12 +1021,11 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 					DBVARIANT dbv = { 0 };
 
 					if (dat->bType == SESSIONTYPE_CHAT)
-						db_get_ts(dat->hContact, dat->szProto, "Topic", &dbv);
-
-					tooltip_active = TRUE;
-					CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);
-					if (dbv.pszVal)
-						db_free(&dbv);
+						if(!db_get_ts(dat->hContact, dat->szProto, "Topic", &dbv)) {
+							tooltip_active = TRUE;
+							CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);
+							db_free(&dbv);
+						}
 				}
 			}
 		}

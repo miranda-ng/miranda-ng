@@ -95,15 +95,17 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 		bf_buttonglyph.AlphaFormat = 0;
 	}
 
-	if (hdcPaint == NULL)
+	if (ctl == NULL || hdcPaint == NULL)
+		return;
+
+	TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
+	if (dat == NULL)
 		return;
 
 	HDC      hdcMem;
 	HBITMAP  hbmMem, hOld;
 	HANDLE   hbp = 0;
 	bool     bAero = M.isAero();
-
-	TWindowData *dat = (TWindowData*)GetWindowLongPtr(GetParent(ctl->hwnd), GWLP_USERDATA);
 
 	RECT rcClient, rcContent;
 	GetClientRect(ctl->hwnd, const_cast<RECT *>(&rcClient));
@@ -149,15 +151,13 @@ static void PaintWorker(TSButtonCtrl *ctl, HDC hdcPaint)
 			int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 
 			if (ctl->bToolbarButton) {
-				if (dat) {
-					RECT	rcWin;
-					GetWindowRect(ctl->hwnd, &rcWin);
-					POINT 	pt;
-					pt.x = rcWin.left;
-					ScreenToClient(dat->hwnd, &pt);
-					BitBlt(hdcMem, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
-						dat->pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
-				}
+				RECT	rcWin;
+				GetWindowRect(ctl->hwnd, &rcWin);
+				POINT 	pt;
+				pt.x = rcWin.left;
+				ScreenToClient(dat->hwnd, &pt);
+				BitBlt(hdcMem, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top,
+					dat->pContainer->cachedToolbarDC, pt.x, 1, SRCCOPY);
 			}
 			if (ctl->hThemeToolbar && ctl->bIsThemed && 1 == dat->pContainer->bTBRenderingMode) {
 				if (bAero || PluginConfig.m_WinVerMajor >= 6)

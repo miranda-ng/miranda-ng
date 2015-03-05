@@ -291,7 +291,7 @@ void TSAPI DoFlashAndSoundWorker(FLASH_PARAMS* p)
 		}
 
 		if (p->bMustFlash && p->bInactive)
-			UpdateTrayMenu(dat, si->wStatus, si->pszModule, dat->szStatus, si->hContact, p->bHighlight ? 1 : 1);
+			UpdateTrayMenu(dat, si->wStatus, si->pszModule, dat->szStatus, si->hContact, 1);
 	}
 
 	mir_free(p);

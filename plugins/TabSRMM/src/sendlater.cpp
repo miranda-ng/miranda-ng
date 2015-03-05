@@ -144,9 +144,9 @@ CSendLaterJob::~CSendLaterJob()
 				 */
 				ppd.colorText = fFailed ? RGB(255, 245, 225) : nen_options.colTextMsg;
 				ppd.colorBack = fFailed ? RGB(191, 0, 0) : nen_options.colBackMsg;
-				ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
+				ppd.PluginWindowProc = Utils::PopupDlgProcError;
 				ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
-				ppd.PluginData = (void*)hContact;
+				ppd.PluginData = 0;
 				ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
 				PUAddPopupT(&ppd);
 			}

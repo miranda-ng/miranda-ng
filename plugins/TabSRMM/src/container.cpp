@@ -653,12 +653,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 			if (lParam) {
 				DWORD	dwSWPFlags = SWP_NOACTIVATE | SWP_NOZORDER | SWP_DEFERERASE | SWP_NOCOPYBITS; // | SWP_NOSENDCHANGING  | SWP_ASYNCWINDOWPOS;
-				if (pContainer->dwFlags & CNT_TABSBOTTOM)
-					SetWindowPos(hwndTab, 0, pContainer->tBorder_outer_left + sbarWidth_left, pContainer->tBorder_outer_top + rebarHeight,
-					(rcClient.right - rcClient.left) - (pContainer->tBorder_outer_left + pContainer->tBorder_outer_right + sbarWidth),
-					(rcClient.bottom - rcClient.top) - pContainer->statusBarHeight - (pContainer->tBorder_outer_top + pContainer->tBorder_outer_bottom) - rebarHeight, dwSWPFlags);
-				else
-					SetWindowPos(hwndTab, 0, pContainer->tBorder_outer_left + sbarWidth_left, pContainer->tBorder_outer_top + rebarHeight,
+				SetWindowPos(hwndTab, 0, pContainer->tBorder_outer_left + sbarWidth_left, pContainer->tBorder_outer_top + rebarHeight,
 					(rcClient.right - rcClient.left) - (pContainer->tBorder_outer_left + pContainer->tBorder_outer_right + sbarWidth),
 					(rcClient.bottom - rcClient.top) - pContainer->statusBarHeight - (pContainer->tBorder_outer_top + pContainer->tBorder_outer_bottom) - rebarHeight, dwSWPFlags);
 			}
@@ -1153,12 +1148,11 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				iNewTab = iCurrent ? iCurrent - 1 : iItems - 1;     // cycle if current is already the leftmost tab..
 			else if (wParam == DM_SELECT_NEXT)
 				iNewTab = (iCurrent == (iItems - 1)) ? 0 : iCurrent + 1;
-			else if (wParam == DM_SELECT_BY_INDEX) {
+			else {
 				if ((int)lParam > iItems)
 					break;
 				iNewTab = lParam - 1;
 			}
-			else iNewTab = -1;
 
 			if (iNewTab != iCurrent) {
 				memset(&item, 0, sizeof(item));
@@ -2219,6 +2213,8 @@ void TSAPI ReflashContainer(TContainerData *pContainer)
 
 void TSAPI BroadCastContainer(const TContainerData *pContainer, UINT message, WPARAM wParam, LPARAM lParam, BYTE bType)
 {
+	if (pContainer == NULL)
+		return;
 	HWND hwndTab = GetDlgItem(pContainer->hwnd, IDC_MSGTABS);
 
 	TCITEM item = { 0 };

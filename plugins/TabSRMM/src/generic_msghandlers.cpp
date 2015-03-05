@@ -831,7 +831,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		cf2.dwMask = CFM_COLOR | CFM_FACE | CFM_CHARSET | CFM_SIZE | CFM_WEIGHT | CFM_BOLD | CFM_ITALIC;
 		cf2.crTextColor = inputcharcolor;
 		cf2.bCharSet = lf.lfCharSet;
-		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
+		strncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE-1);
 		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0) | (lf.lfUnderline ? CFE_UNDERLINE : 0) | (lf.lfStrikeOut ? CFE_STRIKEOUT : 0);
 		cf2.wWeight = (WORD)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
@@ -1763,7 +1763,7 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM, LPARAM lParam)
 
 				Utils::DoubleAmpersands(newcontactname);
 
-				if (mir_tstrlen(newcontactname) != 0 && dat->szStatus != NULL) {
+				if (mir_tstrlen(newcontactname) != 0) {
 					if (PluginConfig.m_bStatusOnTabs)
 						mir_sntprintf(newtitle, SIZEOF(newtitle), _T("%s (%s)"), newcontactname, dat->szStatus);
 					else
@@ -1907,7 +1907,9 @@ void CheckStatusIconClick(TWindowData *dat, POINT pt, const RECT &rc, int gap, i
 	}
 
 	UINT iconNum = (pt.x - (rc.left + 0)) / (PluginConfig.m_smcxicon + gap);
-	StatusIconData *si = Srmm_GetNthIcon((dat) ? dat->hContact : 0, iconNum);
+	if (dat == NULL)
+		return;
+	StatusIconData *si = Srmm_GetNthIcon(dat->hContact, iconNum);
 	if (si == NULL)
 		return;
 
