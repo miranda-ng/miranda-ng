@@ -29,6 +29,8 @@
 Перейти в почтовый ящик
 [Block]
 Заблокировать
+[Steam game]
+Игра Steam
 [ on server %s]
  на сервере %s
 [Playing]
@@ -57,6 +59,10 @@
 Запросить авторизацию
 [Join to game]
 Присоединиться к игре
+[Unknown error]
+Неизвестная ошибка
+[You cannot send messages when you are offline.]
+Вы не можете посылать сообщения, когда вы оффлайн.
 [Protocols]
 Протоколы
 [Protocol icon]
