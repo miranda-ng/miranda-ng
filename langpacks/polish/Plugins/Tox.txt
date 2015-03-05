@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -30,16 +30,6 @@ Wyłącz UDP (zmuś Tox do używania TCP)
 Wyłącz IPV6
 [Tox]
 Tox
-[Multimedia]
-Multimedia
-[Audio input device]
-Wejście audio
-[Audio output device]
-Wyjście audio
-[Filter audio]
-Filtr audio
-[Video input device]
-Wejście video
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Jeżeli to pole zawiera adres tox (76 znaków hex), zostaniesz poproszony o dodanie go do swojej listy kontaktów, w przeciwnym razie Miranda dokona wyszukiwania tego zapytania za pomocą odkrywania DNS tox.
 [Dns name:]
@@ -54,27 +44,56 @@ Anuluj
 Profil tox jest zaszyfrowany. Wprowadź hasło, by kontynuować.
 [Add]
 Dodaj
-[IPv4]
-IPV4
-[IPv6]
-IPV6
+[IPv4 address/ Host]
+Adres/host IPv4
+[IPv6 address (optional)]
+Adres IPv6 (opcjonalnie)
 [Port]
 Port
 [Public key]
 Klucz publiczny
+[Multimedia]
+Multimedia
+[Audio input device]
+Wejście audio
+[Audio output device]
+Wyjście audio
+[Filter audio]
+Filtr audio
+[Video input device]
+Wejście video
+[Invite contacts to chat room]
+Zaproś kontakty na czat
+[&Invite]
+&Zaproś
+[&Cancel]
+&Anuluj
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
+Czat grupowy
 ;file \protocols\Tox\src\tox_events.cpp
-[Network]
+[Profiles folder]
+Folder profili
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+Ikona protokołu
+[Protocols]
 Protokoły
-[Account]
-Konto
-[Nodes]
-Gniazda
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+Poproś o autoryzację
+[Grant authorization]
+Udziel autoryzacji
+[Copy Tox ID]
+Kopiuj ID Tox
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 Połączenie %s
 ;file \protocols\Tox\src\tox_options.cpp
-[All files (*.*)]
-Wszystkie pliki (*.*)
+[Tox profile]
+Profil Tox
+[All files]
+Wszystkie pliki
 [Select tox profile]
 Wybierz profil tox
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
@@ -99,11 +118,15 @@ gniazda
 Czy jesteś pewien?
 [Node deleting]
 Usuwanie Gniazda
-;file \protocols\Tox\src\tox_proto.cpp
-[Protocols]
+[Network]
 Protokoły
-[Protocol icon]
-Ikona protokołu
+[Account]
+Konto
+[Nodes]
+Gniazda
+;file \protocols\Tox\src\tox_proto.cpp
+[Action]
+Działanie
 [You cannot add yourself to your contact list]
 Nie możesz dodać siebie samego do swojej listy kontaktów
 [Contact already in your contact list]
