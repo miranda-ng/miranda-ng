@@ -569,4 +569,4 @@ Sople Lodu 50% szans opadów
 [Ice Pellets 60% Chance Of Precipitation]
 Sople Lodu 60% szans opadów
 [Light Drizzle Mist Patches Fog]
-
+Delikatna Mrzawka Mgliście Mgła
