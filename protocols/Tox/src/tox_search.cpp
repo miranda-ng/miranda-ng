@@ -1,5 +1,4 @@
 #include "common.h"
-#include "tox_dns.h"
 
 ToxHexAddress ResolveToxAddressFromDnsRecordV1(const std::string &dnsRecord)
 {
@@ -47,52 +46,69 @@ void CToxProto::SearchByNameAsync(void *arg)
 
 	int resolved = 0;
 
-	for (size_t i = 0; i < SIZEOF(dns_servers); i++)
+	if (IsFileExists((TCHAR*)VARST(_T(TOX_INI_PATH))))
 	{
-		struct dns_server *server = &dns_servers[i];
-		if (domain == NULL || mir_strcmpi(domain, server->domain) == 0)
+		char fileName[MAX_PATH];
+		mir_strcpy(fileName, VARS(TOX_INI_PATH));
+
+		char *section, sections[MAX_PATH], value[MAX_PATH];
+		GetPrivateProfileSectionNamesA(sections, SIZEOF(sections), fileName);
+		section = sections;
+		while (*section != NULL)
 		{
-			void *dns = tox_dns3_new(server->key);
-
-			uint32_t requestId = 0;
-			uint8_t dnsString[MAX_PATH];
-			int length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, mir_strlen(name));
-			if (length != TOX_ERROR)
+			if (strstr(section, "Dns_") == section)
 			{
-				dnsString[length] = 0;
-				char dnsQuery[MAX_PATH * 2];
-				mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "_%s._tox.%s", dnsString, server->domain);
+				GetPrivateProfileStringA(section, "Domain", NULL, value, SIZEOF(value), fileName);
+				ptrA dnsDomain(mir_strdup(value));
+				GetPrivateProfileStringA(section, "PubKey", NULL, value, SIZEOF(value), fileName);
+				ToxBinAddress dnsPubKey(value);
 
-				DNS_RECORDA *record = NULL;
-				DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, 0, NULL, (PDNS_RECORD*)&record, NULL);
-				while (status == ERROR_SUCCESS && record)
+				if (domain == NULL || mir_strcmpi(domain, dnsDomain) == 0)
 				{
-					DNS_TXT_DATAA *txt = &record->Data.Txt;
-					if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
+					void *dns = tox_dns3_new((uint8_t*)(const uint8_t*)dnsPubKey);
+
+					uint32_t requestId = 0;
+					uint8_t dnsString[MAX_PATH];
+					int length = tox_generate_dns3_string(dns, dnsString, sizeof(dnsString), &requestId, (uint8_t*)name, mir_strlen(name));
+					if (length != TOX_ERROR)
 					{
-						ToxHexAddress address = ResolveToxAddressFromDnsRecordV3(dns, requestId, txt->pStringArray[0]);
-						if (!address.IsEmpty())
+						dnsString[length] = 0;
+						char dnsQuery[MAX_PATH * 2];
+						mir_snprintf(dnsQuery, SIZEOF(dnsQuery), "_%s._tox.%s", dnsString, dnsDomain);
+
+						DNS_RECORDA *record = NULL;
+						DNS_STATUS status = DnsQuery_A(dnsQuery, DNS_TYPE_TEXT, 0, NULL, (PDNS_RECORD*)&record, NULL);
+						while (status == ERROR_SUCCESS && record)
 						{
-							PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
-							psr.flags = PSR_TCHAR;
-							psr.id = mir_a2t(address);
-							psr.nick = mir_utf8decodeT(name);
+							DNS_TXT_DATAA *txt = &record->Data.Txt;
+							if (record->wType == DNS_TYPE_TEXT && txt->dwStringCount)
+							{
+								ToxHexAddress address = ResolveToxAddressFromDnsRecordV3(dns, requestId, txt->pStringArray[0]);
+								if (!address.IsEmpty())
+								{
+									PROTOSEARCHRESULT psr = { sizeof(PROTOSEARCHRESULT) };
+									psr.flags = PSR_TCHAR;
+									psr.id = mir_a2t(address);
+									psr.nick = mir_utf8decodeT(name);
 
-							TCHAR email[MAX_PATH];
-							mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick, _A2T(server->domain));
-							psr.email = mir_tstrdup(email);
+									TCHAR email[MAX_PATH];
+									mir_sntprintf(email, SIZEOF(email), _T("%s@%s"), psr.nick, _A2T(dnsDomain));
+									psr.email = mir_tstrdup(email);
 
-							ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
+									ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
 
-							resolved++;
-							break;
+									resolved++;
+									break;
+								}
+							}
+							record = record->pNext;
 						}
+						DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
 					}
-					record = record->pNext;
+					tox_dns3_kill(dns);
 				}
-				DnsRecordListFree((PDNS_RECORD*)record, DnsFreeRecordList);
 			}
-			tox_dns3_kill(dns);
+			section += strlen(section) + 1;
 		}
 	}
 

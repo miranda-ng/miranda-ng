@@ -5,9 +5,16 @@ bool CToxProto::IsOnline()
 	return isConnected && m_iStatus > ID_STATUS_OFFLINE;
 }
 
-int CToxProto::BootstrapNodesFromDb(bool isIPv6)
+void CToxProto::BootstrapNode(const char *address, int port, const uint8_t *pubKey)
 {
-	int nodesLoaded = 0;
+	if (!tox_bootstrap_from_address(tox, address, port, pubKey))
+	{
+		debugLogA("CToxProto::BootstrapNode: failed to bootstrap node %s:%d (%s)", address, port, (const char*)ToxHexAddress(pubKey));
+	}
+}
+
+void CToxProto::BootstrapNodesFromDb(bool isIPv6)
+{
 	char module[MAX_PATH];
 	mir_snprintf(module, SIZEOF(module), "%s_NODES", m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
@@ -21,22 +28,20 @@ int CToxProto::BootstrapNodesFromDb(bool isIPv6)
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PORT, i);
 			int port = db_get_w(NULL, module, setting, 33445);
 			mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_PKEY, i);
-			ptrA pubKey(db_get_sa(NULL, module, setting));
-			nodesLoaded += tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
+			ToxBinAddress pubKey(ptrA(db_get_sa(NULL, module, setting)));
+			BootstrapNode(address, port, pubKey);
 			if (isIPv6)
 			{
 				mir_snprintf(setting, SIZEOF(setting), TOX_SETTINGS_NODE_IPV6, i);
 				address = db_get_sa(NULL, module, setting);
-				nodesLoaded += tox_bootstrap_from_address(tox, address, port, ToxBinAddress(pubKey));
+				BootstrapNode(address, port, pubKey);
 			}
 		}
 	}
-	return nodesLoaded;
 }
 
-int CToxProto::BootstrapNodesFromIni(bool isIPv6)
+void CToxProto::BootstrapNodesFromIni(bool isIPv6)
 {
-	int nodesLoaded = 0;
 	if (IsFileExists((TCHAR*)VARST(_T(TOX_INI_PATH))))
 	{
 		char fileName[MAX_PATH];
@@ -54,18 +59,17 @@ int CToxProto::BootstrapNodesFromIni(bool isIPv6)
 				int port = GetPrivateProfileIntA(section, "Port", 33445, fileName);
 				GetPrivateProfileStringA(section, "PubKey", NULL, value, SIZEOF(value), fileName);
 				ToxBinAddress pubKey(value);
-				nodesLoaded += tox_bootstrap_from_address(tox, address, port, pubKey);
+				BootstrapNode(address, port, pubKey);
 				if (isIPv6)
 				{
 					GetPrivateProfileStringA(section, "IPv6", NULL, value, SIZEOF(value), fileName);
 					address = mir_strdup(value);
-					nodesLoaded += tox_bootstrap_from_address(tox, address, port, pubKey);
+					BootstrapNode(address, port, pubKey);
 				}
 			}
 			section += strlen(section) + 1;
 		}
 	}
-	return nodesLoaded;
 }
 
 void CToxProto::BootstrapNodes()
