@@ -2237,7 +2237,7 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		}
 		else {
 			GetWindowRect(::GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_CHAT ? IDC_CHAT_MESSAGE : IDC_MESSAGE), &rc);
-			pt.y = rc.bottom - (dat->bType == SESSIONTYPE_IM ? 2 : 2);
+			pt.y = rc.bottom - 2;
 			ScreenToClient(dat->hwnd, &pt);
 			rcToolbar.top = pt.y + 1;
 			rcToolbar.left = 0;

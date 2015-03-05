@@ -343,8 +343,10 @@ static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint
 		CSkinItem *item = &SkinItems[dwStyle & TCS_BOTTOM ? (nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACKBOTTOM : ID_EXTBKTABITEMBOTTOM) :
 			(nHint & HINT_HOTTRACK ? ID_EXTBKTABITEMHOTTRACK : ID_EXTBKTABITEM)];
 		if (!item->IGNORED) {
-			if (dwStyle & TCS_BOTTOM)
-				rcItem->top = (rcItem->top > rcTabPage.bottom + 5) ? --rcItem->top : rcItem->top;
+			if (dwStyle & TCS_BOTTOM) {
+				rcItem->top = (rcItem->top > rcTabPage.bottom + 5) ? (rcItem->top-1) : rcItem->top;
+				rcItem->top--;
+			}
 			else
 				rcItem->bottom++;
 
@@ -588,6 +590,9 @@ static POINT ptMouseT = { 0 };
 
 static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 {
+	if (tabdat == NULL || tabdat->pContainer == NULL)
+		return;
+
 	PAINTSTRUCT ps;
 	HDC hdc;
 	RECT rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
@@ -615,10 +620,10 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	item.mask = TCIF_PARAM;
 
 	tabdat->fAeroTabs = (CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor)) ? TRUE : FALSE;
-	tabdat->fCloseButton = tabdat->pContainer ? (tabdat->pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? TRUE : FALSE) : FALSE;
+	tabdat->fCloseButton = (tabdat->pContainer->dwFlagsEx & TCF_CLOSEBUTTON ? TRUE : FALSE);
 	tabdat->helperDat = 0;
 
-	if (tabdat->fAeroTabs && tabdat->pContainer) {
+	if (tabdat->fAeroTabs) {
 		TWindowData *dat = (TWindowData*)GetWindowLongPtr(tabdat->pContainer->hwndActive, GWLP_USERDATA);
 		if (dat)
 			tabdat->helperDat = dat;

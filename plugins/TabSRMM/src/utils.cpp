@@ -479,7 +479,7 @@ TCHAR* Utils::GetPreviewWithEllipsis(TCHAR *szText, size_t iMaxLen)
 		cSaved = 0;
 	}
 	else {
-		TCHAR *p = &szText[iMaxLen - 1];
+		p = &szText[iMaxLen - 1];
 		fEllipsis = true;
 
 		while (p >= szText && *p != ' ')
@@ -560,9 +560,9 @@ void Utils::RTF_ColorAdd(const TCHAR *tszColname, size_t length)
 /////////////////////////////////////////////////////////////////////////////////////////
 // generic error popup dialog procedure
 
-INT_PTR CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	MCONTACT hContact = (MCONTACT)PUGetPluginData(hWnd);
+	MCONTACT hContact = PUGetContact(hWnd);
 
 	switch (message) {
 	case WM_COMMAND:
@@ -1192,12 +1192,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 					_s = TranslateTS(warnings[uId]);
 			}
 		}
-		else if (-1 == uId && tszTxt) {
-			dwFlags |= CWF_NOALLOWHIDE;
-			_s = (dwFlags & CWF_UNTRANSLATED ? const_cast<wchar_t *>(tszTxt) : TranslateW(tszTxt));
-		}
-		else
-			return -1;
+		return -1;
 	}
 
 	if ((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {

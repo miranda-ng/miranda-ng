@@ -207,7 +207,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (hWnd)
 					dat = (TWindowData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
-				if (dis->itemData >= 0) {
+				{
 					HICON hIcon;
 
 					if (dis->itemData > 0)

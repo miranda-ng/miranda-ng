@@ -356,8 +356,10 @@ void CInfoPanel::renderContent(const HDC hdc)
 	else {
 		RECT rc = m_dat->rcNick;
 
-		if (m_height >= DEGRADE_THRESHOLD)
-			rc.top -= 2; rc.bottom -= 2;
+		if (m_height >= DEGRADE_THRESHOLD) {
+			rc.top -= 2;
+			rc.bottom -= 2;
+		}
 
 		Chat_RenderIPNickname(hdc, rc);
 		if (m_height >= DEGRADE_THRESHOLD) {

@@ -335,13 +335,10 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM mode)
 int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *pAck = (ACKDATA*)lParam;
-	if (lParam == 0)
-		return 0;
 
-	int i = 0, iFound = SendQueue::NR_SENDJOBS;
-	SendJob *jobs = sendQueue->getJobByIndex(0);
-
-	if (pAck->type == ACKTYPE_MESSAGE) {
+	if ((pAck != 0) && (pAck->type == ACKTYPE_MESSAGE)) {
+		int i = 0, iFound = SendQueue::NR_SENDJOBS;
+		SendJob *jobs = sendQueue->getJobByIndex(0);
 		MCONTACT hMeta = db_mc_getMeta(pAck->hContact);
 		for (int j = 0; j < SendQueue::NR_SENDJOBS; j++) {
 			SendJob &p = jobs[j];
@@ -356,8 +353,6 @@ int CMimAPI::ProtoAck(WPARAM, LPARAM lParam)
 					break;
 				}
 			}
-			if (iFound != SendQueue::NR_SENDJOBS)  // no mathing entry found in this queue entry.. continue
-				break;
 		}
 		if (iFound == SendQueue::NR_SENDJOBS)     // no matching send info found in the queue
 			sendLater->processAck(pAck);

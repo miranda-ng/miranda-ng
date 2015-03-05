@@ -728,8 +728,6 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 				return 0;
 			}
 		}
-		if (wParam == VK_RETURN)
-			break;
 
 	case WM_SYSKEYDOWN:
 		mwdat->fkeyProcessed = false;
@@ -2589,7 +2587,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			menuID = MENU_PICMENU;
 
 		if ((menuID == MENU_PICMENU && ((dat->ace ? dat->ace->hbmPic : PluginConfig.g_hbmUnknown) || dat->hOwnPic) && dat->bShowAvatar != 0)) {
-			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, menuID == MENU_PICMENU ? 1 : 11);
+			HMENU submenu = GetSubMenu(m_pContainer->hMenuContext, 1);
 			GetCursorPos(&pt);
 			MsgWindowUpdateMenu(dat, submenu, menuID);
 			int iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);

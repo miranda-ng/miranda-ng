@@ -651,23 +651,31 @@ int TABSRMM_FireEvent(MCONTACT hContact, HWND hwnd, unsigned int type, unsigned 
 		return 0;
 
 	TWindowData *dat = (TWindowData*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	BYTE bType = dat ? dat->bType : SESSIONTYPE_IM;
+	if (dat == NULL)
+		return 0;
+	BYTE bType = dat->bType;
 
 	MessageWindowEventData mwe = { sizeof(mwe) };
 	mwe.hContact = hContact;
 	mwe.hwndWindow = hwnd;
 	mwe.szModule = "tabSRMsgW";
 	mwe.uType = type;
-	mwe.hwndInput = GetDlgItem(hwnd, bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE);
-	mwe.hwndLog = GetDlgItem(hwnd, bType == SESSIONTYPE_IM ? IDC_LOG : IDC_CHAT_LOG);
+	if (bType == SESSIONTYPE_IM) {
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_LOG);
+	}
+	else {
+		mwe.hwndInput = GetDlgItem(hwnd, IDC_CHAT_MESSAGE);
+		mwe.hwndLog = GetDlgItem(hwnd, IDC_CHAT_LOG);
+	}
 
 	if (type == MSG_WINDOW_EVT_CUSTOM) {
 		TABSRMM_SessionInfo se = { sizeof(se) };
 		se.evtCode = HIWORD(subType);
 		se.hwnd = hwnd;
 		se.extraFlags = (unsigned int)(LOWORD(subType));
-		se.local = (void*)dat->sendBuffer;
-		mwe.local = (void*)&se;
+		se.local = dat->sendBuffer;
+		mwe.local = &se;
 	}
 
 	return NotifyEventHooks(PluginConfig.m_event_MsgWin, 0, (LPARAM)&mwe);

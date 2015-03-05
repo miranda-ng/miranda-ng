@@ -606,9 +606,9 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 	}
 	else ppd.colorText = ppd.colorBack = 0;
 
-	ppd.PluginWindowProc = reinterpret_cast<WNDPROC>(Utils::PopupDlgProcError);
+	ppd.PluginWindowProc = Utils::PopupDlgProcError;
 	ppd.lchIcon = PluginConfig.g_iconErr;
-	ppd.PluginData = (void*)dat->hContact;
+	ppd.PluginData = 0;
 	ppd.iSeconds = (int)M.GetDword(MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
 	PUAddPopupT(&ppd);
 }

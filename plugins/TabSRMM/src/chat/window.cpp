@@ -384,7 +384,7 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 	case IDC_SPLITTERX:
 		urc->rcItem.right = urc->dlgNewSize.cx - si->iSplitterX + 2;
 		urc->rcItem.left = urc->dlgNewSize.cx - si->iSplitterX;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(23)) : (urc->dlgNewSize.cy - si->iSplitterY - DPISCALEY_S(2));
+		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY - ((bToolbar && !bBottomToolbar) ? DPISCALEY_S(23) : DPISCALEY_S(2));
 		urc->rcItem.top = 0;
 		if (bInfoPanel)
 			urc->rcItem.top += panelHeight;
@@ -392,8 +392,8 @@ static int RoomWndResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc)
 
 	case IDC_SPLITTERY:
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = (bToolbar && !bBottomToolbar) ? urc->dlgNewSize.cy - si->iSplitterY : urc->dlgNewSize.cy - si->iSplitterY;
-		urc->rcItem.bottom = (bToolbar && !bBottomToolbar) ? (urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2)) : (urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2));
+		urc->rcItem.top = urc->dlgNewSize.cy - si->iSplitterY;
+		urc->rcItem.bottom = urc->dlgNewSize.cy - si->iSplitterY + DPISCALEY_S(2);
 		urc->rcItem.left = 0;
 		urc->rcItem.bottom++;
 		urc->rcItem.top++;
@@ -518,7 +518,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 {
 	HWND hwndParent = GetParent(hwnd);
 	TWindowData *mwdat = (TWindowData*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
-	SESSION_INFO *si = (SESSION_INFO*)mwdat->si;
 
 	MESSAGESUBDATA *dat = (MESSAGESUBDATA*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
@@ -529,6 +528,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		return 0;
 	}
 
+	SESSION_INFO *si = (SESSION_INFO*)mwdat->si;
 	switch (msg) {
 	case WM_NCCALCSIZE:
 		return CSkin::NcCalcRichEditFrame(hwnd, mwdat, ID_EXTBKINPUTAREA, msg, wParam, lParam, MessageSubclassProc);
@@ -545,7 +545,6 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	{
 		MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
 		CHARRANGE sel, all = { 0, -1 };
-		int idFrom = IDC_CHAT_MESSAGE;
 
 		POINT pt;
 		GetCursorPos(&pt);
@@ -560,13 +559,12 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 		SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin == sel.cpMax) {
 			EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-			if (idFrom == IDC_CHAT_MESSAGE)
-				EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
+			EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
 		}
 
 		MessageWindowPopupData mwpd = { sizeof(mwpd) };
 		mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
-		mwpd.uFlags = (idFrom == IDC_LOG ? MSG_WINDOWPOPUP_LOG : MSG_WINDOWPOPUP_INPUT);
+		mwpd.uFlags = MSG_WINDOWPOPUP_INPUT;
 		mwpd.hContact = mwdat->hContact;
 		mwpd.hwnd = hwnd;
 		mwpd.hMenu = hSubMenu;
@@ -588,8 +586,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 		case IDM_PASTE:
 		case IDM_PASTEFORMATTED:
-			if (idFrom == IDC_CHAT_MESSAGE)
-				SendMessage(hwnd, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
+			SendMessage(hwnd, EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
 			break;
 		case IDM_COPYALL:
 			SendMessage(hwnd, EM_EXSETSEL, 0, (LPARAM)&all);
@@ -2569,7 +2566,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 					if (iRes > 0) {
 						size_t iLen = mir_tstrlen(pszWord) - 1;
-						while (iLen >= 0 && strchr(szTrimString, pszWord[iLen])) {
+						while (strchr(szTrimString, pszWord[iLen])) {
 							pszWord[iLen] = '\0';
 							iLen--;
 						}
@@ -2875,6 +2872,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case IDOK:
 			if (GetSendButtonState(hwndDlg) != PBS_DISABLED) {
 				MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+				if (mi == NULL)
+					break;
 
 				ptrA pszRtf(Message_GetFromStream(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE)));
 				pci->SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
@@ -2887,7 +2886,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				ptszText.Trim();
 				ptszText.Replace(_T("%"), _T("%%"));
 
-				if (mi && mi->bAckMsg) {
+				if (mi->bAckMsg) {
 					Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, false);
 					SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
 				}
@@ -3485,6 +3484,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_DESTROY:
+		if(si == NULL)
+			break;
 		if (CallService(MS_CLIST_GETEVENT, si->hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, si->hContact, (LPARAM)GC_FAKE_EVENT);
 		si->wState &= ~STATE_TALK;
