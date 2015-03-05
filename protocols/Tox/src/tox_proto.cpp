@@ -16,7 +16,7 @@ CToxProto::CToxProto(const char* protoName, const TCHAR* userName) :
 	dbEventType.module = m_szModuleName;
 	dbEventType.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	dbEventType.eventType = TOX_DB_EVENT_TYPE_ACTION;
-	dbEventType.descr = Translate("Tox action");
+	dbEventType.descr = Translate("Action");
 	CallService(MS_DB_EVENT_REGISTERTYPE, 0, (LPARAM)&dbEventType);
 
 	// avatars
