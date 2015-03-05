@@ -25,8 +25,8 @@
 [Cancel]
 [Tox profile is encrypted. Enter the password to continue.]
 [Add]
-[IPv4]
-[IPv6]
+[IPv4 address/ Host]
+[IPv6 address (optional)]
 [Port]
 [Public key]
 [Multimedia]
@@ -51,8 +51,8 @@
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
-[Tox profile(*.tox)]
-[All files(*.*)]
+[Tox profile]
+[All files]
 [Select tox profile]
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
 [Tox profile import]

@@ -1,5 +1,3 @@
 ﻿[C]
 [Tox ID:]
 [Tox]
-[IPv4]
-[IPv6]

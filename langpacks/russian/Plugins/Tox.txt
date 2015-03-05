@@ -37,6 +37,10 @@ DNS имя:
 Профиль Tox зашифрован. Введите пароль, чтобы продолжить.
 [Add]
 Добавить
+[IPv4 address/ Host]
+IPv4 адрес/ Хост
+[IPv6 address (optional)]
+IPv6 адрес (необязательно)
 [Port]
 Порт
 [Public key]
@@ -73,10 +77,10 @@ DNS имя:
 Коопировать Tox ID
 [%s connection]
 %s подключение
-[Tox profile(*.tox)]
-Профиль Tox(*.tox)
-[All files(*.*)]
-Все файлы(*.*)
+[Tox profile]
+Профиль Tox
+[All files]
+Все файлы
 [Select tox profile]
 Выберите профиль Tox
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
