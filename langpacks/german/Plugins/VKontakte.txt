@@ -95,11 +95,11 @@ Chats beim Start verbergen
 [Always notify as unread for all incoming message]
 Alle eingehenden Nachrichten immer als ungelesen benachrichtigen
 [Force invisible status upon user activity]
-
+Unsichtbarstatus bei Benutzeraktivität erzwingen
 [Invisible interval timeout (min):]
-
+Intervall der Unsichtbarkeit (Min.):
 [Use non-standard urlEncode for sent messages (less traffic)]
-
+Nicht-Standard urlEncode für gesendete Nachrichten verwenden (weniger Verkehr)
 [When I ban user...]
 Wenn ich einen Benutzer banne...
 [Report abuse]
@@ -167,13 +167,13 @@ Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 [New chat's title:]
 Titel des neuen Chats:
 [Share]
-Mitteilen
+Teilen
 [Url:]
 URL:
 [Only for friends]
-
+Nur für Freunde
 [Attention]
-
+Achtung
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Captcha Form. Icon
@@ -198,7 +198,7 @@ Benutzer-bannen-Icon
 [Status icon]
 Statusicon
 [Wall message icon]
-
+Pinnwandicon
 [Protocols]
 Protokolle
 [VKontakte]
@@ -210,11 +210,11 @@ Fehler
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
 [One of the parameters specified was missing or invalid]
-
+Einer der angegebenen Parameter fehlte oder war ungültig.
 [Access to adding post denied]
-
+Zugriff auf Pinnwand verweigert
 [Enter confirmation code]
-
+Bestätigungscode eingeben
 [Message read: %s]
 Nachricht gelesen: %s
 [commented on your post]
@@ -272,9 +272,9 @@ Nicht unterstützter oder unbekannter Anhangtyp: %s
 [(Unknown contact)]
 (Unbekannter Kontakt)
 [Message from]
-
+Nachricht von
 [at]
-
+um
 ;file \protocols\VKontakte\src\vk_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -354,7 +354,7 @@ Konto
 [News and notifications]
 Neuigkeiten und Benachrichtigungen
 [View]
-Anzeigen
+Anzeige
 ;file \protocols\VKontakte\src\vk_proto.cpp
 [%s server connection]
 %s Serververbindung
@@ -363,13 +363,13 @@ Neuen Chat erstellen
 [Status message]
 Statusnachricht
 [Sent message to my wall]
-
+Nachricht auf meine Pinnwand senden
 [Load news from VK]
 Neuigkeiten von VK laden
 [Visit profile]
 Profil ansehen
 [Sent message to user\'s wall]
-
+Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]
 Als Freund hinzufügen
 [Delete from friend list]
@@ -401,14 +401,14 @@ Sie können sich nicht selbst als Freund hinzufügen.
 [Cannot add this user to friends as they have put you on their blacklist]
 Sie können diesen Benutzer nicht als Freund hinzufügen da dieser Sie auf seiner Blockierliste hat.
 [Cannot add this user to friends as you put him on blacklist]
-Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf seiner Blockierliste hat.
+Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf Ihrer Blockierliste haben.
 ;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
-
+Lade Statusnachricht von vk.com.\nDies kann einige Zeit dauern.
 [Waiting...]
-
+Warten...
 [Enter new status message]
-
+Neue Statusnachricht eingeben
 ;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
@@ -417,13 +417,13 @@ Sind Sie sich sicher dass Sie %s von Ihrer Freundesliste löschen wollen?
 [User %s was deleted from your friend list]
 Benutzer %s wurde aus Ihrer Freundesliste gelöscht.
 [Your request to the user %s was deleted]
-
+Ihre Anfrage an Benutzer %s wurde gelöscht.
 [Friend request from the user %s declined]
 Freundesanfrage von Benutzer %s abgelehnt.
 [Friend request suggestion for the user %s deleted]
 Freundesanfragenvorschlag von %s abgelehnt.
 [User or request was not deleted]
-
+Benutzer oder Anfrage wurde nicht gelöscht.
 [ report abuse on him/her]
  Missbrauch durch ihn/sie melden
 [ clear server history with him/her]
@@ -440,6 +440,6 @@ Wollen Sie %s wirklich bannen? %s%sFortfahren?
 Wollen Sie wirklich Missbrauch durch %s melden?
 ;file \protocols\VKontakte\src\vk_wallpost.cpp
 [Wall message for]
-
+Pinnwandnachricht für
 [Attention! Message body or url should not be empty!]
-
+Achtung! Nachrichtentext oder -URL sollte nicht leer sein!

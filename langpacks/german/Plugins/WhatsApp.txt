@@ -17,7 +17,7 @@ Standardgruppe:
 [Use SSL connection (port 443)]
 SSL-Verbindung verwenden (Port 443)
 [Automatically open group chats]
-
+Gruppenchats automatisch öffnen
 [Registration]
 Registrierung
 [SMS code]
@@ -31,34 +31,34 @@ Inklusive Landescode, ohne '+' oder '00'
 [Invite users]
 Benutzer einladen
 [Choose an user]
-
+Benutzer auswählen
 [Other user:]
-
+Anderer Benutzer:
 [&Invite]
 E&inladen
 [Cancel]
 Abbrechen
 ;file \protocols\WhatsApp\src\chat.cpp
 [Members]
-
+Mitglieder
 [Owners]
 Besitzer
 [&Invite a user]
-Benutzer in diesen MUC e&inladen
+Einen Benutzer e&inladen
 [&Room options]
 &Raumeinstellungen
 [View/change &topic]
-&Thema setzen
+&Thema ansehen/ändern
 [&Leave chat session]
-Chat ver&lassen
+Chatsitzung ver&lassen
 [Set &avatar]
-
+&Avatar setzen
 [Copy room &JID]
 Raum-&JID kopieren
 [Copy room topic]
 Thema des Raums kopieren
 [Set new subject for %s]
-
+Neues Thema für %s setzen
 [&Add to roster]
 Zu Server-Kont&aktliste hinzufügen
 [&Kick]
@@ -68,7 +68,7 @@ Zu Server-Kont&aktliste hinzufügen
 [Copy real &JID]
 Echte &JID kopieren
 [Unknown user]
-
+Unbekannter Benutzer
 ;file \protocols\WhatsApp\src\connection.cpp
 [Please enter a country code.]
 Bitte geben Sie einen Landescode ein.
@@ -91,12 +91,12 @@ Ihr Passwort wurde automatisch gesetzt. Sie können sich nun anmelden.
 [Please correctly specify your registration code received by SMS]
 Bitte geben Sie den korrekten Registrierungscode aus der SMS an.
 [Changes will be applied after protocol restart]
-
+Änderungen werden erst nach einem Neustart des Protokolls aktiv.
 ;file \protocols\WhatsApp\src\messages.cpp
 [server]
 Server
 [Message received: %s by %s]
-
+Nachricht empfangen: %s von %s
 ;file \protocols\WhatsApp\src\proto.cpp
 [%s server connection]
 %s Serververbindung
