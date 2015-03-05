@@ -16,7 +16,7 @@ void CToxProto::BootstrapNode(const char *address, int port, const uint8_t *pubK
 void CToxProto::BootstrapNodesFromDb(bool isIPv6)
 {
 	char module[MAX_PATH];
-	mir_snprintf(module, SIZEOF(module), "%s_NODES", m_szModuleName);
+	mir_snprintf(module, SIZEOF(module), "%s_Nodes", m_szModuleName);
 	int nodeCount = db_get_w(NULL, module, TOX_SETTINGS_NODE_COUNT, 0);
 	if (nodeCount > 0)
 	{
