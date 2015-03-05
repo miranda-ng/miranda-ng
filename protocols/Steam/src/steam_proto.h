@@ -69,16 +69,16 @@ struct QueueItem
 	SteamWebApi::HttpRequest *request;
 	void *arg;
 	RESPONSE responseCallback;
-	RESPONSE responseFailedCallback;
+	//RESPONSE responseFailedCallback;
 
 	QueueItem(SteamWebApi::HttpRequest *request) : 
-		request(request), arg(NULL), responseCallback(NULL), responseFailedCallback(NULL) { }
+		request(request), arg(NULL), responseCallback(NULL)/*, responseFailedCallback(NULL)*/ { }
 	
 	QueueItem(SteamWebApi::HttpRequest *request, RESPONSE response) : 
-		request(request), arg(NULL), responseCallback(response), responseFailedCallback(NULL) { }
+		request(request), arg(NULL), responseCallback(response)/*, responseFailedCallback(NULL)*/ { }
 	
-	QueueItem(SteamWebApi::HttpRequest *request, RESPONSE response, RESPONSE responseFailedCallback) : 
-		request(request), arg(NULL), responseCallback(response), responseFailedCallback(responseFailedCallback) { }
+	//QueueItem(SteamWebApi::HttpRequest *request, RESPONSE response, RESPONSE responseFailedCallback) : 
+	//	request(request), arg(NULL), responseCallback(response), responseFailedCallback(responseFailedCallback) { }
 
 	~QueueItem() { delete request; responseCallback = NULL; }
 };
