@@ -72,21 +72,8 @@ void CToxProto::BootstrapNodes()
 {
 	debugLogA("CToxProto::BootstrapDht: bootstraping DHT");
 	bool isIPv6 = !getBool("DisableIPv6", 0);
-	int nodesLoaded = 
-		BootstrapNodesFromDb(isIPv6) +
-		BootstrapNodesFromIni(isIPv6);
-	if (!nodesLoaded)
-	{
-		tox_bootstrap_from_address(
-			tox, "192.254.75.102", 33445,
-			ToxBinAddress("951C88B7E75C867418ACDB5D273821372BB5BD652740BCDF623A4FA293E75D2F"));
-		if (isIPv6)
-		{
-			tox_bootstrap_from_address(
-				tox, "2607:5600:284::2", 33445,
-				ToxBinAddress("951C88B7E75C867418ACDB5D273821372BB5BD652740BCDF623A4FA293E75D2F"));
-		}
-	}
+	BootstrapNodesFromDb(isIPv6);
+	BootstrapNodesFromIni(isIPv6);
 }
 
 void CToxProto::TryConnect()
