@@ -71,6 +71,9 @@ public:
 	static void InitMenus();
 	static void UninitMenus();
 
+	// folders
+	static void InitFolders();
+
 private:
 	Tox *tox;
 	char *password;
@@ -137,6 +140,12 @@ private:
 	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
 
 	int OnInitStatusMenu();
+
+	// folders
+	static HANDLE hProfileFolderPath;
+
+	//services
+	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
 
 	// options
 	static INT_PTR CALLBACK MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -239,10 +248,10 @@ private:
 	INT_PTR __cdecl GetMyAvatar(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
 
-	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
-
 	static void OnGotFriendAvatarInfo(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, void *arg);
 	static void OnGotFriendAvatarData(Tox *tox, int32_t number, uint8_t format, uint8_t *hash, uint8_t *data, uint32_t length, void *arg);
+
+	// folders
 
 	// utils
 	TOX_USERSTATUS MirandaToToxStatus(int status);
