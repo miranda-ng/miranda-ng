@@ -205,7 +205,7 @@ void CVkProto::InitMenus()
 	mi.pszService = szService;
 	mi.position = 10009 + PMI_WALLPOST;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_WALL));
-	mi.pszName = LPGEN("Sent message to my wall");
+	mi.pszName = LPGEN("Send message to my wall");
 	g_hProtoMenuItems[PMI_WALLPOST] = Menu_AddProtoMenuItem(&mi);
 
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_LOADVKNEWS);
@@ -233,7 +233,7 @@ void CVkProto::InitMenus()
 	mir_snprintf(szService, SIZEOF(szService), "%s%s", m_szModuleName, PS_WALLPOST);
 	mi.position = -200001000 + CMI_WALLPOST;
 	mi.icolibItem = Skin_GetIconByHandle(GetIconHandle(IDI_WALL));
-	mi.ptszName = LPGENT("Sent message to user\'s wall");
+	mi.ptszName = LPGENT("Send message to user\'s wall");
 	mi.pszService = szService;
 	g_hContactMenuItems[CMI_WALLPOST] = Menu_AddContactMenuItem(&mi);
 
