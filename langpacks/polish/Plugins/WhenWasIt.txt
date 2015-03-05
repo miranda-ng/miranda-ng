@@ -146,29 +146,23 @@ Sprawdź urodziny
 Urodziny
 [Contacts]
 Kontakty
+;file \plugins\WhenWasIt\src\icons.cpp
 [WhenWasIt]
 WhenWasIt
-[Birthday near]
-Urodziny blisko
-[Birthday today]
-Dzisiejsze rocznice
-[Birthdays (When Was It)]
-Urodziny (When Was It)
-[Refresh user details]
-Odśwież informacje o użytkowniku
-[Import birthdays]
-Importuj urodziny
-[Export birthdays]
-Eksportuj urodziny
-[Add/change user &birthday]
-Dodaj/Zmień datę &urodzin
-;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Element "Sprawdź urodziny" w menu
 [List birthdays menu item]
 Element menu pokaż listę urodzin
 [Add/change birthday]
 Dodaj/Zmień urodziny
+[Refresh user details]
+Odśwież informacje o użytkowniku
+[Import birthdays]
+Importuj urodziny
+[Export birthdays]
+Eksportuj urodziny
+[Birthday today]
+Dzisiejsze rocznice
 [1 day to birthday]
 1 dzień do urodzin
 [%d days to birthday]
@@ -244,3 +238,10 @@ Ten plik został wyeksportowany przy użyciu wersji Unicode WhenWasIt. Proszę u
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 Nie można odnaleźć UID "%s [%S]" w aktualnej bazie danych, pomijanie
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
+[Birthdays (When Was It)]
+Urodziny (When Was It)
+[Add/change user &birthday]
+Dodaj/Zmień datę &urodzin
+[Birthday near]
+Urodziny blisko

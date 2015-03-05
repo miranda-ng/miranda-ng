@@ -146,29 +146,23 @@
 Дні нараджэння
 [Contacts]
 Кантакты
+;file \plugins\WhenWasIt\src\icons.cpp
 [WhenWasIt]
 Дні нараджэння
-[Birthday near]
-Дзень нараджэння хутка
-[Birthday today]
-Дзень нараджэння сёння
-[Birthdays (When Was It)]
-Дні нараджэння
-[Refresh user details]
-Абнавіць дадзеныя кантактаў
-[Import birthdays]
-Імпарт дзён нараджэння
-[Export birthdays]
-Экспарт дзён нараджэння
-[Add/change user &birthday]
-Дзень нараджэння кантакта
-;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Праверыць дні нараджэння
 [List birthdays menu item]
 Спіс дзён нараджэння
 [Add/change birthday]
 Кіраваць дзень нараджэння
+[Refresh user details]
+Абнавіць дадзеныя кантактаў
+[Import birthdays]
+Імпарт дзён нараджэння
+[Export birthdays]
+Экспарт дзён нараджэння
+[Birthday today]
+Дзень нараджэння сёння
 [1 day to birthday]
 1 дзень да свята
 [%d days to birthday]
@@ -244,3 +238,10 @@
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 Не знайшоўся UID '%s [%S]' у бягучай базе дадзеных, пропуск
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
+[Birthdays (When Was It)]
+Дні нараджэння
+[Add/change user &birthday]
+Дзень нараджэння кантакта
+[Birthday near]
+Дзень нараджэння хутка

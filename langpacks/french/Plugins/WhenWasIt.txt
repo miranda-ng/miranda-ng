@@ -146,28 +146,22 @@ Vérifier si anniversaire
 
 [Contacts]
 Contacts
+;file \plugins\WhenWasIt\src\icons.cpp
 [WhenWasIt]
 
-[Birthday near]
-Prochains anniversaires
-[Birthday today]
+[Check birthdays menu item]
 
-[Birthdays (When Was It)]
-Anniversaire (quand ?)
+[List birthdays menu item]
+
+[Add/change birthday]
+
 [Refresh user details]
 Rafraîchir les détails
 [Import birthdays]
 Importer des anniversaires
 [Export birthdays]
 Exporter vos anniversaires
-[Add/change user &birthday]
-Ajouter/modifier un anniversaire
-;file \plugins\WhenWasIt\src\icons.cpp
-[Check birthdays menu item]
-
-[List birthdays menu item]
-
-[Add/change birthday]
+[Birthday today]
 
 [1 day to birthday]
 
@@ -244,3 +238,10 @@ Avertissement
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
+[Birthdays (When Was It)]
+Anniversaire (quand ?)
+[Add/change user &birthday]
+Ajouter/modifier un anniversaire
+[Birthday near]
+Prochains anniversaires
