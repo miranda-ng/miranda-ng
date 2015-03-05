@@ -137,8 +137,6 @@ void CToxProto::SearchByNameAsync(void *arg)
 					psr.email = mir_tstrdup(email);
 
 					ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)1, (LPARAM)&psr);
-
-					resolved++;
 					break;
 				}
 			}

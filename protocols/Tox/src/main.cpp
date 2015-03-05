@@ -52,6 +52,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	CToxProto::InitIcons();
 	CToxProto::InitMenus();
+	CToxProto::InitFolders();
 
 	return 0;
 }

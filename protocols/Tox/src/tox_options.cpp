@@ -74,9 +74,17 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 
 		case IDC_IMPORT_PROFILE:
 		{
+			TCHAR *pFilter, filter[MAX_PATH] = { 0 };
+			pFilter = &filter[0];
+			mir_tstrcat(pFilter, TranslateT("Tox profile(*.tox)"));
+			pFilter += mir_tstrlen(pFilter) + 1;
+			mir_tstrcat(pFilter, _T("*.tox"));
+			pFilter += mir_tstrlen(pFilter) + 1;
+			mir_tstrcat(pFilter, TranslateT("All files(*.*)"));
+			pFilter += mir_tstrlen(pFilter) + 1;
+			mir_tstrcat(pFilter, _T("*.*"));
+
 			TCHAR profilePath[MAX_PATH] = { 0 };
-			TCHAR filter[MAX_PATH] = { 0 };
-			mir_sntprintf(filter, MAX_PATH, _T("%s\0*.*"), TranslateT("All files (*.*)"));
 
 			OPENFILENAME ofn = { sizeof(ofn) };
 			ofn.hwndOwner = hwnd;
@@ -86,6 +94,7 @@ INT_PTR CToxProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM l
 			ofn.lpstrTitle = TranslateT("Select tox profile");
 			ofn.nMaxFile = MAX_PATH;
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
+			ofn.lpstrInitialDir = _T("%APPDATA%\\Tox");
 
 			if (GetOpenFileName(&ofn))
 			{

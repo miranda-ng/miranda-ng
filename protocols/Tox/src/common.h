@@ -34,6 +34,8 @@
 #include <m_clc.h>
 #include <m_clistint.h>
 
+#include <m_folders.h>
+
 #include <tox.h>
 #include <toxdns.h>
 #include <toxencryptsave.h>
