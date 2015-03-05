@@ -1,5 +1,12 @@
 #include "common.h"
 
+int CToxProto::OnModulesLoaded(WPARAM, LPARAM)
+{
+	hProfileFolderPath = FoldersRegisterCustomPathT("Tox", Translate("Profiles folder"), MIRANDA_USERDATAT);
+
+	return 0;
+}
+
 int CToxProto::OnContactDeleted(MCONTACT hContact, LPARAM)
 {
 	if (!IsOnline())

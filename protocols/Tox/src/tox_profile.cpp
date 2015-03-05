@@ -1,5 +1,7 @@
 #include "common.h"
 
+HANDLE CToxProto::hProfileFolderPath;
+
 std::tstring CToxProto::GetToxProfilePath()
 {
 	return GetToxProfilePath(m_tszUserName);

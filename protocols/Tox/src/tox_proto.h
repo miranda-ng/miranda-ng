@@ -71,8 +71,8 @@ public:
 	static void InitMenus();
 	static void UninitMenus();
 
-	// folders
-	static void InitFolders();
+	// events
+	static int OnModulesLoaded(WPARAM, LPARAM);
 
 private:
 	Tox *tox;
@@ -82,6 +82,8 @@ private:
 	HANDLE hNetlib, hPollingThread;
 	bool isTerminated, isConnected;
 	CTransferList transfers;
+
+	static HANDLE hProfileFolderPath;
 
 	// tox profile
 	std::tstring GetToxProfilePath();
@@ -140,9 +142,6 @@ private:
 	static int PrebuildContactMenu(WPARAM hContact, LPARAM lParam);
 
 	int OnInitStatusMenu();
-
-	// folders
-	static HANDLE hProfileFolderPath;
 
 	//services
 	INT_PTR __cdecl CToxProto::SetMyNickname(WPARAM wParam, LPARAM lParam);
