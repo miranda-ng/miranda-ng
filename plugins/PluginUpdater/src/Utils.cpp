@@ -372,7 +372,7 @@ bool DownloadFile(FILEURL *pFileURL, HANDLE &nlc)
 
 LONGLONG PeriodToMilliseconds(const int period, BYTE &periodMeasure)
 {
-	LONGLONG result = period * 1000;
+	LONGLONG result = period * 1000LL;
 	switch(periodMeasure) {
 	case 1:
 		// day
