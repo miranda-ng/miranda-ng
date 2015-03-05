@@ -32,7 +32,7 @@ public:
 	}
 	const bool IsEmpty() const
 	{
-		return hexData.length() == 0;
+		return hexData.empty();
 	}
 	const ToxHexAddress GetPubKey() const
 	{
@@ -45,7 +45,7 @@ public:
 	}
 	static ToxHexAddress Empty()
 	{
-		return ToxHexAddress("");
+		return ToxHexAddress("", 0);
 	}
 	ToxBinAddress ToBin() const;
 };
