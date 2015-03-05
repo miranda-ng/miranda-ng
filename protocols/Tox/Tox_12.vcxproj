@@ -232,7 +232,6 @@ copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     <ClCompile Include="src\tox_avatars.cpp" />
     <ClCompile Include="src\tox_events.cpp" />
     <ClCompile Include="src\tox_chatrooms.cpp" />
-    <ClCompile Include="src\tox_folders.cpp" />
     <ClCompile Include="src\tox_icons.cpp" />
     <ClCompile Include="src\tox_menus.cpp" />
     <ClCompile Include="src\tox_messages.cpp" />
