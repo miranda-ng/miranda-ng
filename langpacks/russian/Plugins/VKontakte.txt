@@ -352,7 +352,7 @@ Cоздать комнату чата
 [Status message]
 Сообщение статуса
 [Sent message to my wall]
-Опубликовать сообщение на своей стене
+Опубликовать на своей стене
 [Load news from VK]
 Загрузить новости с VK
 [Visit profile]
@@ -426,6 +426,6 @@ Cоздать комнату чата
 [Are you sure to report abuse on %s?]
 Вы уверены, что хотите отправить жалобу на %s?
 [Wall message for]
-Сообщение на стене для пользователя 
+Сообщение на стене
 [Attention! Message body or url should not be empty!]
 Внимание! Текст сообщения или ссылка не могут быть пустыми!
