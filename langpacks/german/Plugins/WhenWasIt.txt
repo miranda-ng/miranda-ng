@@ -146,29 +146,23 @@ Prüfe Geburtstage
 Geburtstage
 [Contacts]
 Kontakte
+;file \plugins\WhenWasIt\src\icons.cpp
 [WhenWasIt]
 WhenWasIt
-[Birthday near]
-Geburtstag nahe
-[Birthday today]
-Geburtstag heute
-[Birthdays (When Was It)]
-Geburtstage (When Was It)
-[Refresh user details]
-Details aktualisieren
-[Import birthdays]
-Geburtstage importieren
-[Export birthdays]
-Geburtstage exportieren
-[Add/change user &birthday]
-Ge&burtstag ändern/hinzufügen
-;file \plugins\WhenWasIt\src\icons.cpp
 [Check birthdays menu item]
 Prüfe Geburtstage
 [List birthdays menu item]
 Geburtstagsliste
 [Add/change birthday]
 Geburtstag ändern/hinzufügen
+[Refresh user details]
+Details aktualisieren
+[Import birthdays]
+Geburtstage importieren
+[Export birthdays]
+Geburtstage exportieren
+[Birthday today]
+Geburtstag heute
 [1 day to birthday]
 1 Tag bis zum Geburtstag
 [%d days to birthday]
@@ -244,3 +238,10 @@ Diese Datei wurde mit einer Unicodeversion von WhenWasIt exportiert. Bitte verwe
 ;file \plugins\WhenWasIt\src\services.h
 [Could not find UID '%s [%S]' in current database, skipping]
 Kann die UID '%s [%S]' nicht in der aktuellen Datenbank finden, überspringe
+;file \plugins\WhenWasIt\src\WhenWasIt.cpp
+[Birthdays (When Was It)]
+Geburtstage (When Was It)
+[Add/change user &birthday]
+Ge&burtstag ändern/hinzufügen
+[Birthday near]
+Geburtstag nahe

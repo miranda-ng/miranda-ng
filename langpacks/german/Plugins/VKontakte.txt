@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.49
+;  Version: 0.1.0.50
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -166,6 +166,14 @@ Gruppenchat erstellen
 Markieren Sie die Benutzer, die Sie in einen neuen Chat einladen wollen
 [New chat's title:]
 Titel des neuen Chats:
+[Share]
+Mitteilen
+[Url:]
+URL:
+[Only for friends]
+
+[Attention]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 Captcha Form. Icon
@@ -189,6 +197,8 @@ Benutzer-bannen-Icon
 Übertragung-Icon
 [Status icon]
 Statusicon
+[Wall message icon]
+
 [Protocols]
 Protokolle
 [VKontakte]
@@ -199,6 +209,10 @@ Zugriff verweigert! Daten werden nicht gesendet oder empfangen!
 Fehler
 [Error %d. Data will not be sent or received.]
 Fehler %d. Daten werden weder gesendet noch empfangen.
+[One of the parameters specified was missing or invalid]
+
+[Access to adding post denied]
+
 [Enter confirmation code]
 
 [Message read: %s]
@@ -348,10 +362,14 @@ Anzeigen
 Neuen Chat erstellen
 [Status message]
 Statusnachricht
+[Sent message to my wall]
+
 [Load news from VK]
 Neuigkeiten von VK laden
 [Visit profile]
 Profil ansehen
+[Sent message to user\'s wall]
+
 [Add as friend]
 Als Freund hinzufügen
 [Delete from friend list]
@@ -384,13 +402,14 @@ Sie können sich nicht selbst als Freund hinzufügen.
 Sie können diesen Benutzer nicht als Freund hinzufügen da dieser Sie auf seiner Blockierliste hat.
 [Cannot add this user to friends as you put him on blacklist]
 Sie können diesen Benutzer nicht als Freund hinzufügen da Sie diesen auf seiner Blockierliste hat.
-;file \protocols\VKontakte\src\vk_thread.cpp
+;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 
 [Waiting...]
 
 [Enter new status message]
 
+;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
 Bitte autorisieren Sie mich, Sie zu meiner Freundesliste hinzuzufügen.
 [Are you sure to delete %s from your friend list?]
@@ -419,3 +438,8 @@ Wollen Sie %s wirklich bannen? %s%sFortfahren?
 \Dies wird auch
 [Are you sure to report abuse on %s?]
 Wollen Sie wirklich Missbrauch durch %s melden?
+;file \protocols\VKontakte\src\vk_wallpost.cpp
+[Wall message for]
+
+[Attention! Message body or url should not be empty!]
+

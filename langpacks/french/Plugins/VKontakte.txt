@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.49
+;  Version: 0.1.0.50
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -166,6 +166,14 @@ Annuler
 
 [New chat's title:]
 
+[Share]
+Partager
+[Url:]
+Lien :
+[Only for friends]
+
+[Attention]
+
 ;file \protocols\VKontakte\src\misc.cpp
 [Captcha form icon]
 
@@ -189,6 +197,8 @@ Annuler
 
 [Status icon]
 Icône d'état
+[Wall message icon]
+
 [Protocols]
 Protocoles
 [VKontakte]
@@ -198,6 +208,10 @@ Protocoles
 [Error]
 Erreur
 [Error %d. Data will not be sent or received.]
+
+[One of the parameters specified was missing or invalid]
+
+[Access to adding post denied]
 
 [Enter confirmation code]
 
@@ -348,10 +362,14 @@ Compte
 
 [Status message]
 
+[Sent message to my wall]
+
 [Load news from VK]
 
 [Visit profile]
 Visiter le profil
+[Sent message to user\'s wall]
+
 [Add as friend]
 
 [Delete from friend list]
@@ -384,13 +402,14 @@ Erreurs
 
 [Cannot add this user to friends as you put him on blacklist]
 
-;file \protocols\VKontakte\src\vk_thread.cpp
+;file \protocols\VKontakte\src\vk_status.cpp
 [Loading status message from vk.com.\nThis may take some time.]
 
 [Waiting...]
-
+EN ATTENTE...
 [Enter new status message]
 
+;file \protocols\VKontakte\src\vk_thread.cpp
 [Please authorize me to add you to my friend list.]
 
 [Are you sure to delete %s from your friend list?]
@@ -418,4 +437,9 @@ Erreurs
 [\nIt will also]
 
 [Are you sure to report abuse on %s?]
+
+;file \protocols\VKontakte\src\vk_wallpost.cpp
+[Wall message for]
+
+[Attention! Message body or url should not be empty!]
 
