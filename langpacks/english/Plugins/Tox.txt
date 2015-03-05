@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -18,11 +18,6 @@
 [Disable UDP (force Tox to use TCP)]
 [Disable IPv6]
 [Tox]
-[Multimedia]
-[Audio input device]
-[Audio output device]
-[Filter audio]
-[Video input device]
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 [Dns name:]
 [Enter password]
@@ -34,14 +29,30 @@
 [IPv6]
 [Port]
 [Public key]
+[Multimedia]
+[Audio input device]
+[Audio output device]
+[Filter audio]
+[Video input device]
+[Invite contacts to chat room]
+[&Invite]
+[&Cancel]
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
 ;file \protocols\Tox\src\tox_events.cpp
-[Network]
-[Account]
-[Nodes]
+[Profiles folder]
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+[Protocols]
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+[Grant authorization]
+[Copy Tox ID]
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 ;file \protocols\Tox\src\tox_options.cpp
-[All files (*.*)]
+[Tox profile(*.tox)]
+[All files(*.*)]
 [Select tox profile]
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
 [Tox profile import]
@@ -54,9 +65,11 @@
 [nodes]
 [Are you sure?]
 [Node deleting]
+[Network]
+[Account]
+[Nodes]
 ;file \protocols\Tox\src\tox_proto.cpp
-[Protocols]
-[Protocol icon]
+[Tox action]
 [You cannot add yourself to your contact list]
 [Contact already in your contact list]
 ;file \protocols\Tox\src\tox_search.cpp

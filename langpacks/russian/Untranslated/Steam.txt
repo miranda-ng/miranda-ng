@@ -2,5 +2,7 @@
 [Steam game]
 [Looking to play]
 [Looking to trade]
+[Unknown error]
+[You cannot send messages when you are offline.]
 [Gaming icon]
 [SteamID]

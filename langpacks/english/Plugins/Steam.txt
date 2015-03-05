@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.2.2
+;  Version: 0.11.2.3
 ;  Authors: unsane
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -41,6 +41,9 @@
 [Steam menu chooser]
 [Request authorization]
 [Join to game]
+;file \protocols\Steam\src\steam_messages.cpp
+[Unknown error]
+[You cannot send messages when you are offline.]
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 [Protocol icon]

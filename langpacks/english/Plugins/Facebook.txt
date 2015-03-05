@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.4
+;  Version: 0.2.10.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -126,7 +126,6 @@
 [a photo]
 [User sent %s:]
 [User sent an unsupported attachment. Open your browser to see it.]
-[Message read: %s by %s]
 [This message is no longer available, because it was marked as abusive or spam.]
 [%s is typing a message...]
 ;file \protocols\FacebookRM\src\messages.cpp
@@ -158,6 +157,7 @@
 [News Feed]
 [Other Event]
 [Friendship Event]
+[Message read: %s by %s]
 [Message read: %s]
 ;file \protocols\FacebookRM\src\theme.cpp
 [Facebook icon]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -23,16 +23,6 @@
 Отключить UDP (принудительно использовать TCP)
 [Disable IPv6]
 Отключить IPv6
-[Multimedia]
-Мультимедиа
-[Audio input device]
-Устройство аудиовхода
-[Audio output device]
-Устройство аудиовыхода
-[Filter audio]
-Фильтр аудио
-[Video input device]
-Устройство видеовхода
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 При введении в поле поиска адреса tox (76 hex символов), будет выдан запрос на добавление в список друзей. Иначе поиск будет произведён при помощи dns сервиса обнаружения Tox.
 [Dns name:]
@@ -51,16 +41,28 @@ DNS имя:
 Порт
 [Public key]
 Открытый ключ
-[Network]
-Сеть
-[Account]
-Учётная запись
-[Nodes]
-Ноды
+[Multimedia]
+Мультимедиа
+[Audio input device]
+Устройство аудиовхода
+[Audio output device]
+Устройство аудиовыхода
+[Filter audio]
+Фильтр аудио
+[Video input device]
+Устройство видеовхода
+[&Cancel]
+О&тмена
+[Protocol icon]
+Значок протокола
+[Protocols]
+Протоколы
+[Request authorization]
+Запросить авторизацию
+[Grant authorization]
+Авторизовать
 [%s connection]
 %s подключение
-[All files (*.*)]
-Все файлы (*.*)
 [Select tox profile]
 Выберите профиль Tox
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
@@ -85,10 +87,12 @@ DNS имя:
 Вы уверены?
 [Node deleting]
 Удаление ноды
-[Protocols]
-Протоколы
-[Protocol icon]
-Значок протокола
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Nodes]
+Ноды
 [You cannot add yourself to your contact list]
 Невозможно добавить себя в список контактов
 [Contact already in your contact list]

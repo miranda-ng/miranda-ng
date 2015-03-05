@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.4
+;  Version: 0.2.10.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -223,8 +223,6 @@
 Контакт послал %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Контакт послал неподдерживаемое вложение. Для просмотра перейдите на сайт.
-[Message read: %s by %s]
-Сообщение прочтено в: %s пользователем %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Сообщение недоступно, поскольку было отмечено, как оскорбительное или спам.
 [%s is typing a message...]
@@ -281,6 +279,8 @@
 Другое событие
 [Friendship Event]
 Событие дружбы
+[Message read: %s by %s]
+Сообщение прочтено в: %s пользователем %s
 [Message read: %s]
 Сообщение прочтено в: %s
 [Facebook icon]
