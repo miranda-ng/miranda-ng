@@ -57,14 +57,14 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 		else if (!lstrcmpi(type, _T("personastate")))
 		{
 			node = json_get(item, "persona_state");
-			int status = SteamToMirandaStatus(json_as_int(node));
+			int status = node ? SteamToMirandaStatus(json_as_int(node)) : -1;
 
 			if (IsMe(steamId))
 			{
 				node = json_get(item, "persona_name");
 				setTString("Nick", ptrT(json_as_string(node)));
 
-				if (status == ID_STATUS_OFFLINE)
+				if (status == -1 || status == ID_STATUS_OFFLINE)
 					continue;
 
 				if (status != m_iStatus)
@@ -82,7 +82,8 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 			if (hContact == NULL)
 				continue; // probably this is info about random player playing on same server, so we ignore it
 
-			SetContactStatus(hContact, status);
+			if (status != -1)
+				SetContactStatus(hContact, status);
 
 			node = json_get(item, "persona_name");
 			setTString(hContact, "Nick", ptrT(json_as_string(node)));
