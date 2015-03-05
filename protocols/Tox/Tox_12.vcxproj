@@ -104,7 +104,8 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y
+copy docs\tox.ini "$(SolutionDir)$(Configuration)\Plugins" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -133,7 +134,8 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y
+copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -163,7 +165,8 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)\" /y
+copy docs\tox.ini "$(SolutionDir)$(Configuration)\Plugins" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -193,7 +196,8 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y</Command>
+      <Command>copy bin\$(PlatformTarget)\libtox.* "$(SolutionDir)$(Configuration)64\" /y
+copy docs\tox.ini "$(SolutionDir)$(Configuration)64\Plugins" /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
