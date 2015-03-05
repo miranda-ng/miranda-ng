@@ -351,13 +351,13 @@ Cоздать комнату чата
 Создать новый чат
 [Status message]
 Сообщение статуса
-[Sent message to my wall]
+[Send message to my wall]
 Опубликовать на своей стене
 [Load news from VK]
 Загрузить новости с VK
 [Visit profile]
 Профиль на сайте
-[Sent message to user\'s wall]
+[Send message to user\'s wall]
 Сообщение на стене
 [Add as friend]
 Добавить в друзья
