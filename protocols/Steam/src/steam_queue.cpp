@@ -45,9 +45,15 @@ void CSteamProto::StopQueue()
 	{
 		mir_cslock lock(requests_queue_lock);
 
-		int count = requestsQueue.getCount();
-		while (count > 0)
-			requestsQueue.remove(--count);
+		while (requestsQueue.getCount() > 0)
+		{
+			QueueItem *item = requestsQueue[0];
+			requestsQueue.remove(0);
+
+			// We call ExecuteRequest() but as we have set isTerminated=true it will only run callback to behave correctly (free arguments, raise errors, etc.)
+			if (item != NULL)
+				ExecuteRequest(item);
+		}
 	}
 
 	// logoff
@@ -76,6 +82,13 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 
 void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg)
 {
+	if (isTerminated || !IsOnline())
+	{
+		// Call response callback so it can react properly (free arguments, raise errors, etc.)
+		if (response != NULL)
+			(this->*(response))(NULL, arg);
+	}
+
 	if (isTerminated)
 		return;
 
@@ -91,6 +104,13 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 
 void CSteamProto::ExecuteRequest(QueueItem *item)
 {
+	if (isTerminated || !IsOnline())
+	{
+		// Call response callback so it can react properly (free arguments, raise errors, etc.)
+		if (item->responseCallback != NULL)
+			(this->*(item->responseCallback))(NULL, item->arg);
+	}
+
 	if (isTerminated)
 		return;
 
