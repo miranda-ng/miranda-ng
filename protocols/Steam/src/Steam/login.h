@@ -10,7 +10,7 @@ namespace SteamWebApi
 			HttpsPostRequest(STEAM_API_URL "/ISteamWebUserPresenceOAuth/Logon/v0001")
 		{
 			char data[256];
-			mir_snprintf(data, SIZEOF(data), "access_token=%s", token);
+			mir_snprintf(data, SIZEOF(data), "access_token=%s&ui_mode=web", token);
 
 			SetData(data, strlen(data));
 		}
