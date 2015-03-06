@@ -1219,7 +1219,7 @@ void IMG_LoadItems()
 
 void LoadPerContactSkins(TCHAR *tszFileName)
 {
-	char *p, szItem[100];
+	char szItem[100];
 	char *szSections = reinterpret_cast<char *>(malloc(3002));
 	StatusItems_t *items = NULL, *this_item;
 	int i = 1;
@@ -1230,7 +1230,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 
 	ReadItem(&default_item, "%Default", file);
 	memset(szSections, 0, 3000);
-	p = szSections;
+	char *p = szSections;
 	GetPrivateProfileSectionNamesA(szSections, 3000, file);
 	szSections[3001] = szSections[3000] = 0;
 	p = szSections;
@@ -1264,7 +1264,8 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 			char *uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid != NULL) {
 				DBVARIANT dbv = {0};
-				db_get(hContact, szProto, uid, &dbv);
+				if (db_get(hContact, szProto, uid, &dbv))
+					return;
 
 				char UIN[40];
 				switch (dbv.type) {
@@ -1328,20 +1329,32 @@ void extbk_import(char *file, HWND hwndDlg)
 		if (p->statusID == ID_EXTBKSEPARATOR)
 			continue;
 
-		char *pszEnd = buffer + mir_snprintf(buffer, SIZEOF(buffer), "%s_", p->szDBname);
-		strcpy(pszEnd, "ALPHA"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
-		strcpy(pszEnd, "COLOR"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
-		strcpy(pszEnd, "COLOR2"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
-		strcpy(pszEnd, "COLOR2_TRANSPARENT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
-		strcpy(pszEnd, "TEXTCOLOR"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
-		strcpy(pszEnd, "CORNER"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
-		strcpy(pszEnd, "GRADIENT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
-		strcpy(pszEnd, "IGNORED"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
-		strcpy(pszEnd, "MARGIN_BOTTOM"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
-		strcpy(pszEnd, "MARGIN_LEFT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
-		strcpy(pszEnd, "MARGIN_RIGHT"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
-		strcpy(pszEnd, "MARGIN_TOP"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
-		strcpy(pszEnd, "BORDERSTYLE"); GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_ALPHA", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->ALPHA), sizeof(p->ALPHA), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR), sizeof(p->COLOR), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2), sizeof(p->COLOR2), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_COLOR2_TRANSPARENT", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->COLOR2_TRANSPARENT), sizeof(p->COLOR2_TRANSPARENT), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_TEXTCOLOR", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->TEXTCOLOR), sizeof(p->TEXTCOLOR), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_CORNER", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->CORNER), sizeof(p->CORNER), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_GRADIENT", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->GRADIENT), sizeof(p->GRADIENT), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_IGNORED", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->IGNORED), sizeof(p->IGNORED), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_BOTTOM", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_BOTTOM), sizeof(p->MARGIN_BOTTOM), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_LEFT", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_LEFT), sizeof(p->MARGIN_LEFT), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_RIGHT", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_RIGHT), sizeof(p->MARGIN_RIGHT), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_MARGIN_TOP", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->MARGIN_TOP), sizeof(p->MARGIN_TOP), file);
+		mir_snprintf(buffer, SIZEOF(buffer), "%s_BORDERSTYLE", p->szDBname);
+		GetPrivateProfileStructA("ExtBKSettings", buffer, &(p->BORDERSTYLE), sizeof(p->BORDERSTYLE), file);
 	}
 
 	data = 0;

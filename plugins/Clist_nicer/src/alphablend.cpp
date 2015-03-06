@@ -81,9 +81,9 @@ void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 }
 void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, ImageItem *imageItem)
 {
-    HBRUSH BrMask;
-    HBRUSH holdbrush;
-    HDC hdc;
+    if (rc == NULL)
+        return;
+
     BLENDFUNCTION bf;
     HBITMAP hbitmap;
     HBITMAP holdbitmap;
@@ -128,8 +128,6 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
         return;
     }
 
-    if (rc == NULL)
-        return;
 
     if (rc->right < rc->left || rc->bottom < rc->top || (realHeight <= 0) || (realWidth <= 0))
         return;
@@ -167,9 +165,6 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 	    saved_alpha = (UCHAR) (basecolor >> 24);
 
 		if (alpha < 100) {
-			BLENDFUNCTION bf;
-			HDC hdc;
-			HBITMAP hbm, hbmOld;
 			LONG width = rc->right - rc->left, height = rc->bottom - rc->top;
 
 			tvtx[0].x = tvtx[0].y = 0;
@@ -178,15 +173,16 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 
 			basecolor = argb_from_cola(revcolref(basecolor), alpha);
 			basecolor2 = argb_from_cola(revcolref(basecolor2), alpha);
+			BLENDFUNCTION bf;
 			bf.BlendOp = AC_SRC_OVER;
 			bf.BlendFlags = 0;
 			bf.SourceConstantAlpha = percent_to_byte((UINT32)alpha);
 			bf.AlphaFormat = 0; // so it will use our specified alpha value
-			hdc = CreateCompatibleDC(hdcwnd);
+			HDC hdc = CreateCompatibleDC(hdcwnd);
 			if ( !hdc)
 				return;
-			hbm = CreateCompatibleBitmap(hdcwnd, width, height);
-			hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbm));
+			HBITMAP hbm = CreateCompatibleBitmap(hdcwnd, width, height);
+			HBITMAP hbmOld = reinterpret_cast<HBITMAP>(SelectObject(hdc, hbm));
 			GdiGradientFill(hdc, tvtx, 2, &grect, 1, (FLG_GRADIENT & GRADIENT_TB || FLG_GRADIENT & GRADIENT_BT) ? GRADIENT_FILL_RECT_V : GRADIENT_FILL_RECT_H);
 		    GdiAlphaBlend(hdcwnd, rc->left, rc->top, width, height, hdc, 0, 0, width, height, bf);
 
@@ -206,8 +202,8 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		return;
 	}
 
-    hdc = CreateCompatibleDC(hdcwnd);
-    if ( !hdc)
+    HDC hdc = CreateCompatibleDC(hdcwnd);
+    if (!hdc)
         return;
 
     memset(&bmi, 0, sizeof(BITMAPINFO));
@@ -229,9 +225,6 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     bmi.bmiHeader.biBitCount = 32;
     bmi.bmiHeader.biCompression = BI_RGB;
     bmi.bmiHeader.biSizeImage = ulBitmapWidth * ulBitmapHeight * 4;
-
-    if (ulBitmapWidth <= 0 || ulBitmapHeight <= 0)
-        return;
 
     hbitmap = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, &pvBits, NULL, 0x0);
     if (hbitmap == NULL || pvBits == NULL) {
@@ -290,7 +283,8 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
     saved_alpha = (UCHAR) (basecolor >> 24);
 
     // corners
-    BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
+    HBRUSH holdbrush;
+    HBRUSH BrMask = CreateSolidBrush(RGB(0xFF, 0x00, 0xFF));
     {
         bmi.bmiHeader.biWidth = ulBitmapWidth = realHeightHalf;
         bmi.bmiHeader.biHeight = ulBitmapHeight = realHeight;
