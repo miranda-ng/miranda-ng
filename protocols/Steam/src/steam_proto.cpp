@@ -334,23 +334,39 @@ int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	UINT hMessage = InterlockedIncrement(&hMessageProcess);
 
-	CMStringA message = (flags & PREF_UNICODE) ? ptrA(mir_utf8encode(msg)) : msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
-
 	SendMessageParam *param = (SendMessageParam*)mir_calloc(sizeof(SendMessageParam));
 	param->hContact = hContact;
 	param->hMessage = (HANDLE)hMessage;
+	param->msg = msg;
+	param->flags = flags;
+
+	ForkThread(&CSteamProto::SendMsgThread, (void*)param);
+
+	return hMessage;
+}
+
+void __cdecl CSteamProto::SendMsgThread(void *arg)
+{
+	SendMessageParam *param = (SendMessageParam*)arg;
+
+	if (!IsOnline())
+	{
+		ProtoBroadcastAck(param->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, param->hMessage, (LPARAM)Translate("You cannot send messages when you are offline."));
+		mir_free(param);
+		return;
+	}
+
+	CMStringA message = (param->flags & PREF_UNICODE) ? ptrA(mir_utf8encode(param->msg)) : param->msg; // TODO: mir_utf8encode check taken from FacebookRM, is it needed? Usually we get PREF_UTF8 flag instead.
 
 	ptrA token(getStringA("TokenSecret"));
 	ptrA umqid(getStringA("UMQID"));
-	ptrA steamId(getStringA(hContact, "SteamID"));
+	ptrA steamId(getStringA(param->hContact, "SteamID"));
 
 	PushRequest(
 		new SteamWebApi::SendMessageRequest(token, umqid, steamId, message),
 		&CSteamProto::OnMessageSent,
 		param,
 		ARG_MIR_FREE);
-
-	return hMessage;
 }
 
 int __cdecl CSteamProto::SendUrl(MCONTACT hContact, int flags, const char *url) { return 0; }

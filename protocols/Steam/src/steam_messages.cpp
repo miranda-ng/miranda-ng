@@ -17,17 +17,18 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	SendMessageParam *param = (SendMessageParam*)arg;
 
-	int status = ACKRESULT_FAILED;
-	ptrT error;
-
+	ptrT error(mir_tstrdup(TranslateT("Unknown error")));
 	ptrT steamId(getTStringA(param->hContact, "SteamID"));
 
 	if (response != NULL && response->resultCode == HTTP_STATUS_OK)
 	{
 		JSONROOT root(response->pData);
 		JSONNODE *node = json_get(root, "error");
-		error = json_as_string(node);
+		if (node)
+			error = json_as_string(node);
 	}
+
+	int status = ACKRESULT_FAILED;
 
 	if (!mir_tstrcmpi(error, _T("OK")))
 	{
@@ -35,12 +36,7 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		error = NULL;
 	}
 	else
-	{
-		if (!error)
-			error = mir_tstrdup(IsOnline() ? TranslateT("Unknown error") : TranslateT("You cannot send messages when you are offline."));
-		
 		debugLog(_T("CSteamProto::OnMessageSent: failed to send message for %s (%s)"), steamId, error);
-	}
 
 	ProtoBroadcastAck(
 		param->hContact,
