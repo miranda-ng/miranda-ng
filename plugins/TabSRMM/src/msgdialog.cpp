@@ -3226,10 +3226,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			DestroyWindow(hwndDlg);
-			if (iTabs == 1)
-				PostMessage(GetParent(GetParent(hwndDlg)), WM_CLOSE, 0, 1);
-			else
-				SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
+			SendMessage(pContainer->hwnd, WM_SIZE, 0, 0);
 		}
 		break;
 

@@ -647,22 +647,24 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 		if (isCtrl && !isAlt && !isShift) {
 			MODULEINFO *mi = pci->MM_FindModule(si->pszModule);
+			if (mi == NULL)
+				return 0;
 
 			switch (wParam) {
 			case 0x09: 		// ctrl-i (italics)
-				if (mi && mi->bItalics) {
+				if (mi->bItalics) {
 					CheckDlgButton(hwndParent, IDC_ITALICS, IsDlgButtonChecked(hwndParent, IDC_ITALICS) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_ITALICS, 0), 0);
 				}
 				return 0;
 			case 0x02:		// ctrl-b (bold)
-				if (mi && mi->bBold) {
+				if (mi->bBold) {
 					CheckDlgButton(hwndParent, IDC_CHAT_BOLD, IsDlgButtonChecked(hwndParent, IDC_CHAT_BOLD) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_CHAT_BOLD, 0), 0);
 				}
 				return 0;
 			case 0x20:		// ctrl-space clear formatting
-				if (mi && mi->bBold && mi->bItalics && mi->bUnderline) {
+				if (mi->bBold && mi->bItalics && mi->bUnderline) {
 					CheckDlgButton(hwndParent, IDC_BKGCOLOR, BST_UNCHECKED);
 					CheckDlgButton(hwndParent, IDC_COLOR, BST_UNCHECKED);
 					CheckDlgButton(hwndParent, IDC_CHAT_BOLD, BST_UNCHECKED);
@@ -676,19 +678,19 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				}
 				return 0;
 			case 0x0c:		// ctrl-l background color
-				if (mi && mi->bBkgColor) {
+				if (mi->bBkgColor) {
 					CheckDlgButton(hwndParent, IDC_BKGCOLOR, IsDlgButtonChecked(hwndParent, IDC_BKGCOLOR) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_BKGCOLOR, 0), 0);
 				}
 				return 0;
 			case 0x15:		// ctrl-u underlined
-				if (mi && mi->bUnderline) {
+				if (mi->bUnderline) {
 					CheckDlgButton(hwndParent, IDC_CHAT_UNDERLINE, IsDlgButtonChecked(hwndParent, IDC_CHAT_UNDERLINE) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_CHAT_UNDERLINE, 0), 0);
 				}
 				return 0;	// ctrl-k color
 			case 0x0b:
-				if (mi && mi->bColor) {
+				if (mi->bColor) {
 					CheckDlgButton(hwndParent, IDC_COLOR, IsDlgButtonChecked(hwndParent, IDC_COLOR) == BST_UNCHECKED ? BST_CHECKED : BST_UNCHECKED);
 					SendMessage(hwndParent, WM_COMMAND, MAKEWPARAM(IDC_COLOR, 0), 0);
 				}
@@ -2360,8 +2362,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				POINT pt = { 0, wParam };
 				ScreenToClient(hwndDlg, &pt);
 
-				BOOL bFormat = TRUE;
-				si->iSplitterY = bFormat ? rc.bottom - pt.y + DPISCALEY_S(1) : rc.bottom - pt.y + DPISCALEY_S(20);
+				si->iSplitterY = rc.bottom - pt.y + DPISCALEY_S(1);
 				if (si->iSplitterY < DPISCALEY_S(23))
 					si->iSplitterY = DPISCALEY_S(23);
 				if (si->iSplitterY > rc.bottom - rc.top - DPISCALEY_S(40))
