@@ -496,7 +496,7 @@ void BlitWallpaper(HDC hdc, RECT *rc, struct ClcData *dat)
 	HRGN my_rgn = CreateRectRgn(rc->left, rc->top, rc->right, rc->bottom);
 	SelectClipRgn(hdc, my_rgn);
 	maxx = dat->backgroundBmpUse & CLBF_TILEH ? rc->right : rc->left + 1;
-	maxy = dat->backgroundBmpUse & CLBF_TILEV ? maxy = rc->bottom : y + 1;
+	maxy = dat->backgroundBmpUse & CLBF_TILEV ? rc->bottom : y + 1;
 	switch (dat->backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
 			if (dat->backgroundBmpUse & CLBF_PROPORTIONAL) {
@@ -1052,7 +1052,7 @@ skipbg:
 	case WM_WINDOWPOSCHANGING:
 		if (pcli->hwndContactList != NULL) {
 			WINDOWPOS *wp = (WINDOWPOS *)lParam;
-			if (wp && wp->flags & SWP_NOSIZE)
+			if (!wp || (wp->flags & SWP_NOSIZE))
 				return FALSE;
 
 			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);

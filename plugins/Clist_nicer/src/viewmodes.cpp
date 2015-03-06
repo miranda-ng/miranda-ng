@@ -972,8 +972,8 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						mii.fMask = MIIM_STRING;
 						mii.dwTypeData = szTemp;
 						mii.cch = 256;
-						GetMenuItemInfoA(hViewModeMenu, selection, FALSE, &mii);
-						ApplyViewMode(szTemp);
+						if(GetMenuItemInfoA(hViewModeMenu, selection, FALSE, &mii))
+							ApplyViewMode(szTemp);
 					}
 					break;
 				}

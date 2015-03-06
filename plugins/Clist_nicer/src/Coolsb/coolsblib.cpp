@@ -388,6 +388,8 @@ int	WINAPI CoolSB_SetScrollInfo(HWND hwnd, int fnBar, LPSCROLLINFO lpsi, BOOL fR
 	}
 
 	SCROLLBAR *sbar = GetScrollBarFromHwnd(hwnd, fnBar);
+	if (sbar == NULL)
+		return;
 
 	if ((lpsi->fMask & SIF_DISABLENOSCROLL) || (sbar->fScrollFlags & CSBS_THUMBALWAYS)) {
 		if (!sbar->fScrollVisible) {

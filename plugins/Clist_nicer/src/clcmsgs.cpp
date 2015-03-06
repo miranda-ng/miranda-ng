@@ -87,7 +87,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		return 0;
 
 	case CLM_SETFONT:
-		if (HIWORD(lParam)<0 || HIWORD(lParam)>FONTID_LAST)
+		if (HIWORD(lParam)>FONTID_LAST)
 			return 0;
 		dat->fontInfo[HIWORD(lParam)].hFont = (HFONT)wParam;
 		dat->fontInfo[HIWORD(lParam)].changed = 1;
