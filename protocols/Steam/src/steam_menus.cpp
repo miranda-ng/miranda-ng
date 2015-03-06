@@ -35,7 +35,8 @@ int CSteamProto::BlockCommand(WPARAM hContact, LPARAM)
 	PushRequest(
 		new SteamWebApi::BlockFriendRequest(token, sessionId, steamId, who),
 		&CSteamProto::OnFriendBlocked,
-		who);
+		who,
+		ARG_MIR_FREE);
 
 	return 0;
 }

@@ -572,7 +572,7 @@ void CSteamProto::OnFriendBlocked(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK || lstrcmpiA(response->pData, "true"))
 	{
-		debugLogA("CSteamProto::OnFriendIgnored: failed to ignore friend %s", ptrA((char*)arg));
+		debugLogA("CSteamProto::OnFriendIgnored: failed to ignore friend %s", (char*)arg);
 		return;
 	}
 }
@@ -593,7 +593,7 @@ void CSteamProto::OnAuthRequested(const NETLIBHTTPREQUEST *response, void *arg)
 {
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
-		debugLogA("CSteamProto::OnAuthRequested: failed to request info for %s", ptrA((char*)arg));
+		debugLogA("CSteamProto::OnAuthRequested: failed to request info for %s", (char*)arg);
 		return;
 	}
 
@@ -657,7 +657,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 {
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
-		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s", ptrA((char*)arg));
+		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s", (char*)arg);
 		return;
 	}
 
@@ -669,7 +669,7 @@ void CSteamProto::OnPendingApproved(const NETLIBHTTPREQUEST *response, void *arg
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(ptrT(json_as_string(node)))));
+		debugLogA("CSteamProto::OnPendingApproved: failed to approve pending from %s (%s)", (char*)arg, ptrA(mir_utf8encodeW(ptrT(json_as_string(node)))));
 	}
 }
 
@@ -677,7 +677,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 {
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
-		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s", ptrA((char*)arg));
+		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s", (char*)arg);
 		return;
 	}
 
@@ -689,7 +689,7 @@ void CSteamProto::OnPendingIgnoreded(const NETLIBHTTPREQUEST *response, void *ar
 	if (json_as_int(node) == 0)
 	{
 		node = json_get(root, "error_text");
-		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", ptrA((char*)arg), ptrA(mir_utf8encodeW(ptrT(json_as_string(node)))));
+		debugLogA("CSteamProto::OnPendingApproved: failed to ignore pending from %s (%s)", (char*)arg, ptrA(mir_utf8encodeW(ptrT(json_as_string(node)))));
 	}
 }
 
@@ -698,7 +698,7 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 	if (response == NULL || response->resultCode != HTTP_STATUS_OK)
 	{
 		ProtoBroadcastAck(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)STEAM_SEARCH_BYID, 0);
-		debugLogA("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s", ptrA((char*)arg));
+		debugLogA("CSteamProto::OnSearchByIdEnded: failed to get summaries for %s", (char*)arg);
 		return;
 	}
 
@@ -716,7 +716,7 @@ void CSteamProto::OnSearchByIdEnded(const NETLIBHTTPREQUEST *response, void *arg
 		ssr.hdr.cbSize = sizeof(STEAM_SEARCH_RESULT);
 		ssr.hdr.flags = PSR_TCHAR;
 	
-		ssr.hdr.id = (wchar_t*)arg;
+		ssr.hdr.id = (TCHAR*)arg;
 
 		node = json_get(nroot, "personaname");
 		ssr.hdr.nick  = mir_wstrdup(ptrT(json_as_string(node)));

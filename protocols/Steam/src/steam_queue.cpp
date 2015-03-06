@@ -28,10 +28,13 @@ void CSteamProto::StartQueue()
 		}
 		else
 		{
-			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
+			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeT(getTStringA("Username")))));
 			if (username == NULL || username[0] == '\0')
 				return;
-			PushRequest(new SteamWebApi::RsaKeyRequest(username), (RESPONSE)&CSteamProto::OnGotRsaKey);
+
+			PushRequest(
+				new SteamWebApi::RsaKeyRequest(username),
+				&CSteamProto::OnGotRsaKey);
 		}
 
 		m_hQueueThread = ForkThreadEx(&CSteamProto::QueueThread, 0, NULL);
@@ -50,9 +53,8 @@ void CSteamProto::StopQueue()
 			QueueItem *item = requestsQueue[0];
 			requestsQueue.remove(0);
 
-			// We call ExecuteRequest() but as we have set isTerminated=true it will only run callback to behave correctly (free arguments, raise errors, etc.)
-			if (item != NULL)
-				ExecuteRequest(item);
+			// QueueItem's destructor properly free request and arg
+			delete item;
 		}
 	}
 
@@ -72,29 +74,30 @@ void CSteamProto::StopQueue()
 
 void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request)
 {
-	PushRequest(request, NULL, NULL);
+	PushRequest(request, NULL, NULL, ARG_NO_FREE);
 }
 
 void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response)
 {
-	PushRequest(request, response, NULL);
+	PushRequest(request, response, NULL, ARG_NO_FREE);
 }
 
-void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg)
+void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg, ARG_FREE_TYPE arg_free_type)
 {
+	// Always prepare QueueItem so we can use it's destructor to free request and arg
+	QueueItem *item = new QueueItem(request, response);
+	item->arg = arg;
+	item->arg_free_type = arg_free_type;
+
 	if (isTerminated)
 	{
-		// Call response callback so it can react properly (free arguments, raise errors, etc.)
-		if (response != NULL)
-			(this->*(response))(NULL, arg);
-
+		// QueueItem's destructor properly free request and arg
+		delete item;
 		return;
 	}
 
 	{
 		mir_cslock lock(requests_queue_lock);
-		QueueItem *item = new QueueItem(request, response);
-		item->arg = arg;
 		requestsQueue.insert(item);
 	}
 
@@ -105,10 +108,8 @@ void CSteamProto::ExecuteRequest(QueueItem *item)
 {
 	if (isTerminated)
 	{
-		// Call response callback so it can react properly (free arguments, raise errors, etc.)
-		if (item->responseCallback != NULL)
-			(this->*(item->responseCallback))(NULL, item->arg);
-
+		// QueueItem's destructor properly free request and arg
+		delete item;
 		return;
 	}
 
