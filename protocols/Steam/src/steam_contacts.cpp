@@ -216,11 +216,12 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 	// playing game
 	node = json_get(data, "gameid");
 	DWORD gameId = node ? atol(_T2A(ptrT(json_as_string(node)))) : 0;
-	if (gameId > 0)
-	{
-		node = json_get(data, "gameextrainfo");
-		ptrT gameInfo(json_as_string(node));
 
+	node = json_get(data, "gameextrainfo");
+	ptrT gameInfo(json_as_string(node));
+
+	if (gameId > 0 || gameInfo[0] != '\0')
+	{
 		node = json_get(data, "gameserverip");
 		ptrT serverIP(json_as_string(node));
 
@@ -232,6 +233,8 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 		setString(hContact, "ServerID", _T2A(serverID));
 
 		CMString message(gameInfo);
+		if (!gameId)
+			message.Append(TranslateT(" (Non-Steam)"));
 		if (serverIP[0] != '\0')
 			message.AppendFormat(TranslateT(" on server %s"), serverIP);
 		
