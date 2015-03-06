@@ -40,6 +40,9 @@
 
 #define MODULE "Steam"
 
+#define STEAM_API_IDLEOUT_AWAY 600
+#define STEAM_API_IDLEOUT_SNOOZE 8000
+
 class CSteamProto;
 extern HINSTANCE g_hInstance;
 

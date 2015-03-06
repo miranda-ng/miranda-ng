@@ -12,10 +12,15 @@ namespace SteamWebApi
 			timeout = 30000;
 			flags |= NLHRF_PERSISTENT;
 
-			char data[256];
-			mir_snprintf(data, SIZEOF(data), "access_token=%s&umqid=%s&message=%u&secidletime=%d", token, umqId, messageId, idleSeconds);
+			CMStringA data;
+			data.AppendFormat("access_token=%s&umqid=%s&message=%u&secidletime=%d",
+				token,
+				umqId,
+				messageId,
+				idleSeconds);
 
-			SetData(data, strlen(data));
+			SetData(data, data.GetLength());
+			
 			AddHeader("Connection", "keep-alive");
 		}
 	};
