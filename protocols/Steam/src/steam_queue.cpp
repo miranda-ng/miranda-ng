@@ -82,15 +82,14 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 
 void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg)
 {
-	if (isTerminated || !IsOnline())
+	if (isTerminated)
 	{
 		// Call response callback so it can react properly (free arguments, raise errors, etc.)
 		if (response != NULL)
 			(this->*(response))(NULL, arg);
-	}
 
-	if (isTerminated)
 		return;
+	}
 
 	{
 		mir_cslock lock(requests_queue_lock);
@@ -104,15 +103,14 @@ void CSteamProto::PushRequest(SteamWebApi::HttpRequest *request, RESPONSE respon
 
 void CSteamProto::ExecuteRequest(QueueItem *item)
 {
-	if (isTerminated || !IsOnline())
+	if (isTerminated)
 	{
 		// Call response callback so it can react properly (free arguments, raise errors, etc.)
 		if (item->responseCallback != NULL)
 			(this->*(item->responseCallback))(NULL, item->arg);
-	}
 
-	if (isTerminated)
 		return;
+	}
 
 	debugLogA("CSteamProto::ExecuteRequest: %s", item->request->szUrl);
 
