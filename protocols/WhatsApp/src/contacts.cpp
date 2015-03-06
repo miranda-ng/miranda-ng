@@ -116,7 +116,7 @@ void WhatsAppProto::onAvailable(const std::string &paramString, bool paramBoolea
 		}
 	}
 
-	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, 0);
+	setDword(hContact, WHATSAPP_KEY_LAST_SEEN, time(NULL));
 	UpdateStatusMsg(hContact);
 }
 

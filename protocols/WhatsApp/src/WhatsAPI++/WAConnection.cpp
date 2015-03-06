@@ -586,13 +586,11 @@ void WAConnection::parsePresense(ProtocolTreeNode *node) throw(WAException)
 		return;
 	}
 	
-	const string &type = node->getAttributeValue("type");
-	if (type == "unavailable") {
-		if (m_pEventHandler != NULL)
+	if (m_pEventHandler != NULL) {
+		const string &type = node->getAttributeValue("type");
+		if (type == "unavailable")
 			m_pEventHandler->onAvailable(from, false);
-	}
-	else if (type == "available" || type == "") {
-		if (m_pEventHandler != NULL)
+		else if (type == "available" || type == "")
 			m_pEventHandler->onAvailable(from, true);
 	}
 }
