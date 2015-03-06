@@ -316,7 +316,20 @@ protected:
 	static INT_PTR CALLBACK BlockListOptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// helpers
-	inline int IdleSeconds() { return m_idleTS ? time(0) - m_idleTS : 0; }
+	inline int IdleSeconds() {
+		// Based on idle time we report Steam server will mark us as online/away/snooze
+		switch (this->m_iStatus) {
+		case ID_STATUS_AWAY:
+			return STEAM_API_IDLEOUT_AWAY;
+		case ID_STATUS_NA:
+			return STEAM_API_IDLEOUT_SNOOZE;
+		default:
+			return 0;
+		}
+
+		// ... or we can report real idle info
+		// return m_idleTS ? time(0) - m_idleTS : 0;
+	}
 };
 
 int OnReloadIcons(WPARAM wParam, LPARAM lParam);

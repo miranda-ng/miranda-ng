@@ -240,7 +240,7 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	case PFLAGNUM_4:
 		return PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_SUPPORTIDLE | PF4_SUPPORTTYPING;// | PF4_IMSENDOFFLINE;
 	case PFLAGNUM_5:
-		return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
+		return PF2_HEAVYDND | PF2_OUTTOLUNCH | PF2_FREECHAT;
 	case PFLAG_UNIQUEIDTEXT:
 		return (DWORD_PTR)Translate("SteamID");
 	case PFLAG_UNIQUEIDSETTING:
@@ -381,6 +381,15 @@ int CSteamProto::SetStatus(int new_status)
 	switch (new_status)
 	{
 	case ID_STATUS_OFFLINE:
+	case ID_STATUS_AWAY:
+	case ID_STATUS_NA:
+		break;
+
+	case ID_STATUS_DND:
+	case ID_STATUS_OCCUPIED:
+	case ID_STATUS_ONTHEPHONE:
+	case ID_STATUS_OUTTOLUNCH:
+		new_status = ID_STATUS_NA;
 		break;
 
 	default:
@@ -412,6 +421,11 @@ int CSteamProto::SetStatus(int new_status)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
 		StartQueue();
+	}
+	else
+	{
+		m_iStatus = new_status;
+		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
 
 	return 0;
