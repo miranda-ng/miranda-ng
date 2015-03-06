@@ -62,12 +62,19 @@ enum HTTP_STATUS
 	HTTP_STATUS_INSUFICIENTE_STORAGE = 507
 };
 
+enum ARG_FREE_TYPE
+{
+	ARG_NO_FREE,
+	ARG_MIR_FREE
+};
+
 typedef void (CSteamProto::*RESPONSE)(const NETLIBHTTPREQUEST *response, void *arg);
 
 struct QueueItem
 {
 	SteamWebApi::HttpRequest *request;
 	void *arg;
+	ARG_FREE_TYPE arg_free_type;
 	RESPONSE responseCallback;
 	//RESPONSE responseFailedCallback;
 
@@ -80,7 +87,24 @@ struct QueueItem
 	//QueueItem(SteamWebApi::HttpRequest *request, RESPONSE response, RESPONSE responseFailedCallback) : 
 	//	request(request), arg(NULL), responseCallback(response), responseFailedCallback(responseFailedCallback) { }
 
-	~QueueItem() { delete request; responseCallback = NULL; }
+	~QueueItem() { 
+		// Free request
+		delete request;
+
+		// Free argument
+		switch (arg_free_type)
+		{
+		case ARG_NO_FREE:
+			break;
+		case ARG_MIR_FREE:
+			mir_free(arg);
+		default:
+			break;
+		}
+
+		responseCallback = NULL;
+		//responseFailedCallback = NULL;
+	}
 };
 
 class CSteamProto : public PROTO<CSteamProto>
@@ -170,7 +194,7 @@ protected:
 
 	void PushRequest(SteamWebApi::HttpRequest *request);
 	void PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response);
-	void PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg);
+	void PushRequest(SteamWebApi::HttpRequest *request, RESPONSE response, void *arg, ARG_FREE_TYPE arg_free_type);
 
 	void ExecuteRequest(QueueItem *requestItem);
 

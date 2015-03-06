@@ -131,7 +131,8 @@ void CSteamProto::ParsePollData(JSONNODE *data)
 					PushRequest(
 						new SteamWebApi::GetUserSummariesRequest(token, steamId),
 						&CSteamProto::OnAuthRequested,
-						mir_strdup(steamId));
+						mir_strdup(steamId),
+						ARG_MIR_FREE);
 				}
 				break;
 

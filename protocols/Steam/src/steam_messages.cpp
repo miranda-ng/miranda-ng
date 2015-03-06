@@ -48,6 +48,4 @@ void CSteamProto::OnMessageSent(const NETLIBHTTPREQUEST *response, void *arg)
 		status,
 		param->hMessage,
 		error);
-
-	mir_free(param);
 }
