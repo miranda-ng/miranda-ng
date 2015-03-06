@@ -587,6 +587,7 @@
 #define IDI_HANGOUTS                    9005
 #define IDI_VK                          9006
 #define IDI_WHATSAPP                    9007
+#define IDI_STEAM                       9008
 
 #define IDD_DIALOG                      10000
 #define IDC_GROUP_MIRANDA               10025

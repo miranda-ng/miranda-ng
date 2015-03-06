@@ -1660,6 +1660,9 @@
     <None Include="res\others\xFire.ico">
       <Filter>Resource Files</Filter>
     </None>
+	<None Include="res\others\Steam.ico">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="res\Jabber\Xiffian.ico">
       <Filter>Resource Files</Filter>
     </None>

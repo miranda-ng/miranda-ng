@@ -547,6 +547,7 @@
     <None Include="res\others\Twitter.ico" />
     <None Include="res\others\WhatsApp.ico" />
     <None Include="res\others\xFire.ico" />
+	<None Include="res\others\Steam.ico" />
     <None Include="res\overlays\overlay_platform_Amiga.ico" />
     <None Include="res\overlays\overlay_platform_Android.ico" />
     <None Include="res\overlays\overlay_platform_Flash.ico" />
