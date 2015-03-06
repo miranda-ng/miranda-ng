@@ -240,15 +240,14 @@ const TCHAR* Utils::FormatRaw(TWindowData *dat, const TCHAR *msg, int flags, BOO
 		if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
 			tstring smcode;
 			smcode.assign(message, beginmark, (endmark - beginmark) + 1);
-			SMADD_BATCHPARSE2 smbp = { 0 };
-			SMADD_BATCHPARSERES *smbpr;
 
+			SMADD_BATCHPARSE2 smbp = { 0 };
 			smbp.cbSize = sizeof(smbp);
 			smbp.Protocolname = dat->cache->getActiveProto();
 			smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
 			smbp.str = (TCHAR*)smcode.c_str();
 			smbp.hContact = dat->hContact;
-			smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
+			SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
 			if (smbpr) {
 				CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
 				beginmark = endmark + 1;
@@ -307,7 +306,7 @@ TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat)
 			break;
 		}
 		case 's': {
-			if (dat->szStatus && dat->szStatus[0])
+			if (dat->szStatus[0])
 				title.insert(tempmark + 2, dat->szStatus);
 			title.erase(tempmark, 2);
 			curpos = tempmark + mir_tstrlen(dat->szStatus);
@@ -866,9 +865,9 @@ void Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 
 DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
-	HANDLE hFile;
 	TCHAR *szFilename = (TCHAR*)dwCookie;
-	if ((hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL)) != INVALID_HANDLE_VALUE) {
+	HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile != INVALID_HANDLE_VALUE) {
 		SetFilePointer(hFile, 0, NULL, FILE_END);
 		FilterEventMarkers(reinterpret_cast<TCHAR *>(pbBuff));
 		WriteFile(hFile, pbBuff, cb, (DWORD *)pcb, NULL);
@@ -1052,11 +1051,11 @@ void Utils::AddToFileList(TCHAR ***pppFiles, int *totalCount, LPCTSTR szFilename
 
 	if (GetFileAttributes(szFilename) & FILE_ATTRIBUTE_DIRECTORY) {
 		WIN32_FIND_DATA fd;
-		HANDLE hFind;
 		TCHAR szPath[MAX_PATH];
 		mir_tstrcpy(szPath, szFilename);
 		mir_tstrcat(szPath, _T("\\*"));
-		if ((hFind = FindFirstFile(szPath, &fd)) != INVALID_HANDLE_VALUE) {
+		HANDLE hFind = FindFirstFile(szPath, &fd);
+		if (hFind != INVALID_HANDLE_VALUE) {
 			do {
 				if (!mir_tstrcmp(fd.cFileName, _T(".")) || !mir_tstrcmp(fd.cFileName, _T("..")))
 					continue;
@@ -1192,7 +1191,8 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 					_s = TranslateTS(warnings[uId]);
 			}
 		}
-		return -1;
+		else
+			return -1;
 	}
 
 	if ((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
