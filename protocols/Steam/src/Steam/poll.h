@@ -9,15 +9,16 @@ namespace SteamWebApi
 		PollRequest(const char *token, const char *umqId, UINT32 messageId, int idleSeconds) :
 			HttpsPostRequest(STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001")
 		{
-			timeout = 30000;
+			timeout = (STEAM_API_TIMEOUT + 5) * 1000;
 			flags |= NLHRF_PERSISTENT;
 
 			CMStringA data;
-			data.AppendFormat("access_token=%s&umqid=%s&message=%u&secidletime=%d",
+			data.AppendFormat("access_token=%s&umqid=%s&message=%u&secidletime=%d&sectimeout=%d",
 				token,
 				umqId,
 				messageId,
-				idleSeconds);
+				idleSeconds,
+				STEAM_API_TIMEOUT);
 
 			SetData(data, data.GetLength());
 			
