@@ -28,6 +28,8 @@ struct SendMessageParam
 {
 	MCONTACT hContact;
 	HANDLE hMessage;
+	const char *msg;
+	int flags;
 };
 
 struct STEAM_SEARCH_RESULT
@@ -198,6 +200,7 @@ protected:
 
 	void ExecuteRequest(QueueItem *requestItem);
 
+	void __cdecl SendMsgThread(void*);
 	void __cdecl QueueThread(void*);
 
 	// pooling thread
