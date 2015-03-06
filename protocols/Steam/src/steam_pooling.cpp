@@ -240,6 +240,12 @@ void CSteamProto::PollingThread(void*)
 			if (response->resultCode == HTTP_STATUS_UNAUTHORIZED)
 				delSetting("TokenSecret");
 
+			// too low timeout?
+			node = json_get(root, "sectimeout");
+			int timeout = json_as_int(node);
+			if (timeout < STEAM_API_TIMEOUT)
+				debugLog(_T("CSteamProto::PollingThread: Timeout is too low (%d)"), timeout);
+
 			breaked = true;
 		}
 
