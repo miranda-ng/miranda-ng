@@ -203,6 +203,10 @@ void CSteamProto::UpdateContact(MCONTACT hContact, JSONNODE *data)
 		// on mobile
 		setTString(hContact, "MirVer", _T("Steam (mobile)"));
 		break;
+	case 1024:
+		// big picture mode
+		setTString(hContact, "MirVer", _T("Steam (Big Picture)"));
+		break;
 	default:
 		// none/unknown (e.g. when contact is offline)
 		delSetting(hContact, "MirVer");
