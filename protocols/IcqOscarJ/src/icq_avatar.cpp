@@ -555,7 +555,8 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 		for (avatars_request *ar = m_avatarsQueue; ar; ar = ar->pNext) {
 			if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found a block item
 				if (GetTickCount() > ar->timeOut) { // remove timeouted block
-					ar = ReleaseAvatarRequestInQueue(ar);
+					if ((ar = ReleaseAvatarRequestInQueue(ar)) == NULL)
+						break;
 					continue;
 				}
 				m_avatarsMutex->Leave();
@@ -581,11 +582,11 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 	// we failed to send request, or avatar thread not ready
 
 	// check if any request for this user is not already in the queue
-	avatars_request *ar = m_avatarsQueue;
-	while (ar) {
+	for (avatars_request *ar = m_avatarsQueue; ar; ar = ar->pNext) {
 		if (ar->hContact == hContact) { // we found it, return error
 			if (ar->type == ART_BLOCK && GetTickCount() > ar->timeOut) { // remove timeouted block
-				ar = ReleaseAvatarRequestInQueue(ar);
+				if ((ar = ReleaseAvatarRequestInQueue(ar)) == NULL)
+					break;
 				continue;
 			}
 			m_avatarsMutex->Leave();
@@ -595,11 +596,10 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 			requestAvatarConnection();
 			return 0;
 		}
-		ar = ar->pNext;
 	}
 
 	// add request to queue, processed after successful login
-	ar = new avatars_request(ART_GET); // get avatar
+	avatars_request *ar = new avatars_request(ART_GET); // get avatar
 	if (!ar) { // out of memory, go away
 		m_avatarsMutex->Leave();
 		return 0;
