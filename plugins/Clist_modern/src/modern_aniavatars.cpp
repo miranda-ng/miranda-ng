@@ -847,10 +847,7 @@ int AniAva_RedrawAllAvatars(BOOL updateZOrder)
 	updateZOrder = 1;
 	for (int i = 0; i < s_Objects.getCount(); i++) {
 		ANIAVA_OBJECT &pai = s_Objects[i];
-		if (updateZOrder)
-			SendMessage(pai.hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
-		else
-			SendNotifyMessage(pai.hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
+		SendMessage(pai.hWindow, AAM_REDRAW, (WPARAM)updateZOrder, 0);
 	}
 	return 1;
 }

@@ -399,7 +399,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 			p.fullWidth = w;
 			if (g_StatusBarData.sameWidth) {
 				ProtoWidth[i] = sw;
-				SumWidth += w;
+				SumWidth += sw;
 			}
 			else {
 				ProtoWidth[i] = w;
@@ -854,7 +854,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						bool first = true;
 						for (int pos = 0; pos < protoCount; pos++) {
 							int i = pcli->pfnGetAccountIndexByPos(pos);
-							if (i < 0 && i >= protoCount)
+							if (i < 0 || i >= protoCount)
 								continue;
 
 							char protoF[sizeof(g_CluiData.protoFilter)];
