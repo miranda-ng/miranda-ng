@@ -227,137 +227,129 @@ LRESULT CALLBACK CMenuBar::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 
 LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 {
-	if (nm->hdr.hwndFrom == m_hwndToolbar) {
-		NMTBCUSTOMDRAW *nmtb = (NMTBCUSTOMDRAW *)(nm);
-
-		switch (nmtb->nmcd.dwDrawStage) {
-		case CDDS_PREPAINT:
-			{
-				if (nmtb->nmcd.dwItemSpec == 0) {
-					m_hdcDraw = ::CreateCompatibleDC(nmtb->nmcd.hdc);
-					//m_rcItem = nmtb->nmcd.rc;
-					::GetClientRect(m_hwndToolbar, &m_rcItem);
-					m_rcItem.bottom -= 4;
-					m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
-					m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
-					m_hTheme = M.isAero() || M.isVSThemed() ? OpenThemeData(m_hwndToolbar, L"REBAR") : 0;
-					m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
-					if (m_isAero) {
-						nm->rc.bottom--;
-						CSkin::ApplyAeroEffect(m_hdcDraw, &m_rcItem, CSkin::AERO_EFFECT_AREA_MENUBAR);
-						nm->rc.bottom++;
-					}
-					else if ((PluginConfig.m_fillColor || M.isVSThemed()) && !CSkin::m_skinEnabled) {
-						if (PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
-							::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
-								GRADIENT_TB, 0, 0, 0);
-						}
-						else {
-							m_rcItem.bottom--;
-							if (PluginConfig.m_fillColor)
-								CSkin::FillBack(m_hdcDraw, &m_rcItem);
-							else if (M.isVSThemed())
-								DrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
-							else
-								FillRect(m_hdcDraw, &m_rcItem, GetSysColorBrush(COLOR_3DFACE));
-						}
-					}
-					else if (CSkin::m_MenuBGBrush)
-						::FillRect(m_hdcDraw, &nm->rc, CSkin::m_MenuBGBrush);
-					else
-						::FillRect(m_hdcDraw, &nm->rc, GetSysColorBrush(COLOR_3DFACE));
+	if (nm->hdr.hwndFrom != m_hwndToolbar)
+		return 0;
+		
+	NMTBCUSTOMDRAW *nmtb = (NMTBCUSTOMDRAW *)(nm);
+	switch (nmtb->nmcd.dwDrawStage) {
+	case CDDS_PREPAINT:
+		if (nmtb->nmcd.dwItemSpec == 0) {
+			m_hdcDraw = ::CreateCompatibleDC(nmtb->nmcd.hdc);
+			//m_rcItem = nmtb->nmcd.rc;
+			::GetClientRect(m_hwndToolbar, &m_rcItem);
+			m_rcItem.bottom -= 4;
+			m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
+			m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
+			m_hTheme = M.isAero() || M.isVSThemed() ? OpenThemeData(m_hwndToolbar, L"REBAR") : 0;
+			m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
+			if (m_isAero) {
+				nm->rc.bottom--;
+				CSkin::ApplyAeroEffect(m_hdcDraw, &m_rcItem, CSkin::AERO_EFFECT_AREA_MENUBAR);
+				nm->rc.bottom++;
+			}
+			else if ((PluginConfig.m_fillColor || M.isVSThemed()) && !CSkin::m_skinEnabled) {
+				if (PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
+					::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
+						GRADIENT_TB, 0, 0, 0);
 				}
-				return CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE;
+				else {
+					m_rcItem.bottom--;
+					if (PluginConfig.m_fillColor)
+						CSkin::FillBack(m_hdcDraw, &m_rcItem);
+					else if (M.isVSThemed())
+						DrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
+					else
+						FillRect(m_hdcDraw, &m_rcItem, GetSysColorBrush(COLOR_3DFACE));
+				}
+			}
+			else if (CSkin::m_MenuBGBrush)
+				::FillRect(m_hdcDraw, &nm->rc, CSkin::m_MenuBGBrush);
+			else
+				::FillRect(m_hdcDraw, &nm->rc, GetSysColorBrush(COLOR_3DFACE));
+		}
+		return CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE;
+
+	case CDDS_ITEMPREPAINT:
+		TCHAR	*szText;
+		bool fDraw;
+		{
+			int iIndex = idToIndex(nmtb->nmcd.dwItemSpec);
+			if (iIndex >= 0 && iIndex < NR_BUTTONS)
+				szText = (TCHAR*)m_TbButtons[iIndex].iString;
+			else
+				szText = NULL;
+
+			UINT uState = nmtb->nmcd.uItemState;
+
+			nmtb->nmcd.rc.bottom--;
+			if (CSkin::m_skinEnabled) {
+				CSkinItem *item = 0;
+
+				::FillRect(m_hdcDraw, &nmtb->nmcd.rc, CSkin::m_MenuBGBrush);
+
+				if (uState & CDIS_MARKED || uState & CDIS_CHECKED || uState & CDIS_SELECTED)
+					item = &SkinItems[ID_EXTBKBUTTONSPRESSED];
+				else if (uState & CDIS_HOT)
+					item = &SkinItems[ID_EXTBKBUTTONSMOUSEOVER];
+
+				fDraw = (item) ? !CSkin::DrawItem(m_hdcDraw, &nmtb->nmcd.rc, item) : false;
+			}
+			else fDraw = true;
+
+			if (fDraw) {
+				COLORREF clr = ::GetSysColor(COLOR_HOTLIGHT);
+				COLORREF clrRev = clr;
+				if (uState & CDIS_MARKED || uState & CDIS_CHECKED)
+					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+
+				if (uState & CDIS_SELECTED)
+					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+
+				if (uState & CDIS_HOT)
+					::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
 			}
 
+			if (szText) {
+				COLORREF clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor :
+					(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor :
+					(uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
+
+				::SetBkMode(m_hdcDraw, TRANSPARENT);
+				CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
+			}
+			if (iIndex == 0)
+				::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
+				(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
+				16, 16, 0, 0, DI_NORMAL);
+
+			return CDRF_SKIPDEFAULT;
+		}
+
+	case CDDS_PREERASE:
+	case CDDS_ITEMPOSTERASE:
+	case CDDS_ITEMPOSTPAINT:
+	case CDDS_ITEMPREERASE:
+		return CDRF_SKIPDEFAULT;
+
+	case CDDS_POSTERASE:
+		return CDRF_SKIPDEFAULT;
+
+	case CDDS_POSTPAINT:
+		if (nmtb->nmcd.dwItemSpec == 0 && m_hdcDraw) {
+			::BitBlt(nmtb->nmcd.hdc, 0, 0, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top,
+				m_hdcDraw, 0, 0, SRCCOPY);
+			::SelectObject(m_hdcDraw, m_hbmOld);
+			::DeleteObject(m_hbmDraw);
+			::SelectObject(m_hdcDraw, m_hOldFont);
+			::DeleteDC(m_hdcDraw);
 			m_hdcDraw = 0;
-			return CDRF_DODEFAULT;
-
-		case CDDS_ITEMPREPAINT:
-			{
-				TCHAR	*szText = 0;
-				bool	fDraw = true;
-
-				int iIndex = idToIndex(nmtb->nmcd.dwItemSpec);
-				if (iIndex >= 0 && iIndex < NR_BUTTONS)
-					szText = (TCHAR*)m_TbButtons[iIndex].iString;
-
-				UINT uState = nmtb->nmcd.uItemState;
-
-				nmtb->nmcd.rc.bottom--;
-				if (CSkin::m_skinEnabled) {
-					CSkinItem *item = 0;
-
-					::FillRect(m_hdcDraw, &nmtb->nmcd.rc, CSkin::m_MenuBGBrush);
-
-					if (uState & CDIS_MARKED || uState & CDIS_CHECKED || uState & CDIS_SELECTED)
-						item = &SkinItems[ID_EXTBKBUTTONSPRESSED];
-					else if (uState & CDIS_HOT)
-						item = &SkinItems[ID_EXTBKBUTTONSMOUSEOVER];
-
-					if (item)
-						fDraw = !CSkin::DrawItem(m_hdcDraw, &nmtb->nmcd.rc, item);
-					else
-						fDraw = false;
-				}
-				if (fDraw) {
-					COLORREF clr = ::GetSysColor(COLOR_HOTLIGHT);
-					COLORREF clrRev = clr;
-					if (uState & CDIS_MARKED || uState & CDIS_CHECKED)
-						::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
-
-					if (uState & CDIS_SELECTED)
-						::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
-
-					if (uState & CDIS_HOT)
-						::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
-				}
-
-				if (szText) {
-					COLORREF clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor :
-						(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor :
-						(uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
-
-					::SetBkMode(m_hdcDraw, TRANSPARENT);
-					CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
-				}
-				if (iIndex == 0)
-					::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
-					(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
-					16, 16, 0, 0, DI_NORMAL);
-
-				return CDRF_SKIPDEFAULT;
-			}
-
-		case CDDS_PREERASE:
-		case CDDS_ITEMPOSTERASE:
-		case CDDS_ITEMPOSTPAINT:
-		case CDDS_ITEMPREERASE:
+			if (m_hTheme)
+				CloseThemeData(m_hTheme);
 			return CDRF_SKIPDEFAULT;
-
-		case CDDS_POSTERASE:
-			return CDRF_SKIPDEFAULT;
-
-		case CDDS_POSTPAINT:
-			if (nmtb->nmcd.dwItemSpec == 0 && m_hdcDraw) {
-				::BitBlt(nmtb->nmcd.hdc, 0, 0, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top,
-					m_hdcDraw, 0, 0, SRCCOPY);
-				::SelectObject(m_hdcDraw, m_hbmOld);
-				::DeleteObject(m_hbmDraw);
-				::SelectObject(m_hdcDraw, m_hOldFont);
-				::DeleteDC(m_hdcDraw);
-				m_hdcDraw = 0;
-				if (m_hTheme)
-					CloseThemeData(m_hTheme);
-				return CDRF_SKIPDEFAULT;
-			}
-			return CDRF_DODEFAULT;
-
-		default:
-			return CDRF_DODEFAULT;
 		}
 	}
-	return 0;
+
+	return CDRF_DODEFAULT;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1018,14 +1010,13 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 				ReleaseDC(dat->pContainer->hwndStatus, hdc);
 
 				if (PtInRect(&rc, pt) && ((rc.right - rc.left) < size.cx)) {
-					DBVARIANT dbv = { 0 };
-
-					if (dat->bType == SESSIONTYPE_CHAT)
-						if(!db_get_ts(dat->hContact, dat->szProto, "Topic", &dbv)) {
+					if (dat->bType == SESSIONTYPE_CHAT) {
+						ptrT tszTopic(db_get_tsa(dat->hContact, dat->szProto, "Topic"));
+						if (tszTopic != NULL) {
 							tooltip_active = TRUE;
-							CallService("mToolTip/ShowTipW", (WPARAM)dbv.ptszVal, (LPARAM)&ti);
-							db_free(&dbv);
+							CallService("mToolTip/ShowTipW", tszTopic, (LPARAM)&ti);
 						}
+					}
 				}
 			}
 		}
