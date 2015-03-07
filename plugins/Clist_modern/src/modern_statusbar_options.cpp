@@ -126,9 +126,9 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWXSTATUS), enableOptions && enableIcons);
 
 		if (!enableOptions) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWBOTH), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWNORMAL), enableOptions && enableIcons);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWBOTH), enableOptions && enableIcons);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), enableOptions && enableIcons);
 		}
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SHOWUNREADEMAIL), enableOptions);

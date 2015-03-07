@@ -438,7 +438,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 						tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 						tvi.hItem = hti.hItem;
 						TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-						tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
+						tvi.iImage = tvi.iSelectedImage = tvi.iImage = !tvi.iImage;
 						TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 					}
