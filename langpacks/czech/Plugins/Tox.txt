@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -30,16 +30,6 @@ Zakázat UDP (vynutit použití TCP)
 Zakázat IPv6
 [Tox]
 Tox
-[Multimedia]
-Multimédia
-[Audio input device]
-Vstupní audio zařízení
-[Audio output device]
-Výstupní audio zařízení
-[Filter audio]
-Filtr audia
-[Video input device]
-Vstupní video zařízení
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Pokud toto pole obsahuje adresu Tox (76 hex znaků), bude zobrazen dialog pro přidání kontaktu do vašeho seznamu. V opačném případě bude Miranda hledat kontakt pomocí toxme.se.
 [Dns name:]
@@ -54,27 +44,56 @@ Zrušit
 Tox profil je zašifrován. Zadejte heslo pro pokračování.
 [Add]
 Přidat
-[IPv4]
-IPv4
-[IPv6]
-IPv6
+[IPv4 address/ Host]
+IPv4 adresa / hostitel
+[IPv6 address (optional)]
+IPv6 adresa (volitelné)
 [Port]
 Port
 [Public key]
 Veřejný klíč
+[Multimedia]
+Multimédia
+[Audio input device]
+Vstupní audio zařízení
+[Audio output device]
+Výstupní audio zařízení
+[Filter audio]
+Filtr audia
+[Video input device]
+Vstupní video zařízení
+[Invite contacts to chat room]
+Pozvat kontakty do skupinového rozhovoru
+[&Invite]
+&Pozvat
+[&Cancel]
+&Zrušit
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
+Skupinový rozhovor
 ;file \protocols\Tox\src\tox_events.cpp
-[Network]
-Sítě
-[Account]
-Účet
-[Nodes]
-Uzly
+[Profiles folder]
+Složka s profily
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+Ikona protokolu
+[Protocols]
+Protokoly
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+Požádat o autorizaci
+[Grant authorization]
+Udělit autorizaci
+[Copy Tox ID]
+Zkopírovat Tox ID
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s - spojení se serverem
 ;file \protocols\Tox\src\tox_options.cpp
-[All files (*.*)]
-Všechny soubory (*.*)
+[Tox profile]
+Tox profil
+[All files]
+Všechny soubory
 [Select tox profile]
 Vyberte Tox profil
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
@@ -94,16 +113,20 @@ Zadejte veřejný klíč
 [Common nodes]
 Obecné uzly
 [nodes]
-uzlů
+uzly
 [Are you sure?]
 Opravdu chcete pokračovat?
 [Node deleting]
 Mazání uzlu
+[Network]
+Sítě
+[Account]
+Účet
+[Nodes]
+Uzly
 ;file \protocols\Tox\src\tox_proto.cpp
-[Protocols]
-Protokoly
-[Protocol icon]
-Ikona protokolu
+[Action]
+Akce
 [You cannot add yourself to your contact list]
 Nemůžete přidat sami sebe do vašeho seznamu kontaktů
 [Contact already in your contact list]

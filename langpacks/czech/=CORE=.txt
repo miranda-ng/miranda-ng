@@ -203,7 +203,7 @@ Odkazy
 [Files]
 Soubory
 [Online notification]
-Oznámení online
+Oznámení o připojení
 [Auth requests]
 Žádosti o autorizaci
 [All events]
@@ -217,7 +217,7 @@ Filtrování
 [Added notification]
 Oznámení o přidání
 [Typing]
-Píšu
+Oznámení o psaní
 [Visibility]
 Viditelnost
 [You are visible to this person even when in invisible mode]

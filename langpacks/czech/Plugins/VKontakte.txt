@@ -362,13 +362,13 @@ Zobrazit
 
 [Status message]
 Zpráva stavu
-[Sent message to my wall]
+[Send message to my wall]
 
 [Load news from VK]
 
 [Visit profile]
 Zobrazit profil
-[Sent message to user\'s wall]
+[Send message to user\'s wall]
 
 [Add as friend]
 
