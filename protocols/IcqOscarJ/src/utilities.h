@@ -95,50 +95,9 @@ void* __fastcall SAFE_REALLOC(void* p, size_t size);
 __inline static void SAFE_FREE(char** str) { SAFE_FREE((void**)str); }
 __inline static void SAFE_FREE(WCHAR** str) { SAFE_FREE((void**)str); }
 
-struct lockable_struct: public MZeroedObject
-{
-private:
-  int nLockCount;
-public:
-  lockable_struct() { _Lock(); };
-  virtual ~lockable_struct() {};
-
-  void _Lock() { nLockCount++; };
-  void _Release() { nLockCount--; if (!nLockCount) delete this; };
-
-  int getLockCount() { return nLockCount; };
-};
-
 void __fastcall SAFE_DELETE(MZeroedObject **p);
-void __fastcall SAFE_DELETE(lockable_struct **p);
 
 DWORD ICQWaitForSingleObject(HANDLE hHandle, DWORD dwMilliseconds, int bWaitAlways = FALSE);
-
-
-struct icq_critical_section: public lockable_struct
-{
-private:
-	HANDLE hMutex;
-
-public:
-	icq_critical_section() { hMutex = CreateMutex(NULL, FALSE, NULL); }
-	~icq_critical_section() { CloseHandle(hMutex); }
-
-	void Enter(void) { ICQWaitForSingleObject(hMutex, INFINITE, TRUE); }
-	void Leave(void) { ReleaseMutex(hMutex); }
-};
-
-__inline static void SAFE_DELETE(icq_critical_section **p) { SAFE_DELETE((lockable_struct**)p); }
-
-struct icq_lock
-{
-private:
-  icq_critical_section *pMutex;
-public:
-  icq_lock(icq_critical_section *mutex) { pMutex = mutex; pMutex->Enter(); };
-  ~icq_lock() { pMutex->Leave(); pMutex = NULL; };
-};
-
 
 HANDLE NetLib_OpenConnection(HANDLE hUser, const char* szIdent, NETLIBOPENCONNECTION* nloc);
 void NetLib_CloseConnection(HANDLE *hConnection, int bServerConn);

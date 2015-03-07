@@ -77,38 +77,21 @@ CIcqProto::CIcqProto(const char* aProtoName, const TCHAR* aUserName) :
 	expectedFileRecvs(10, CompareFT),
 	contactsCache(10, CompareContactsCache),
 	CustomCapList(1),
-	cheekySearchId(-1)
+	cheekySearchId(-1),
+	m_arAvatars(5)	
 {
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
-	oftMutex = new icq_critical_section();
-
-	// Initialize direct connections
-	directConnListMutex = new icq_critical_section();
-	expectedFileRecvMutex = new icq_critical_section();
-
 	// Initialize server lists
-	servlistMutex = new icq_critical_section();
-	servlistQueueMutex = new icq_critical_section();
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::ServListCListGroupChange);
 
 	// Initialize status message struct
 	memset(&m_modeMsgs, 0, sizeof(icq_mode_messages));
-	m_modeMsgsMutex = new icq_critical_section();
-	connectionHandleMutex = new icq_critical_section();
-	localSeqMutex = new icq_critical_section();
 
 	m_modeMsgsEvent = CreateProtoEvent(ME_ICQ_STATUSMSGREQ);
 
 	// Initialize cookies
-	cookieMutex = new icq_critical_section();
 	wCookieSeq = 2;
-
-	// Initialize rates
-	m_ratesMutex = new icq_critical_section();
-
-	// Initialize avatars
-	m_avatarsMutex = new icq_critical_section();
 
 	// Initialize temporary DB settings
 	db_set_resident(m_szModuleName, "Status"); // NOTE: XStatus cannot be temporary
@@ -225,8 +208,8 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE((void**)&servlistQueueList);
 
 	// Finalize avatars
-	/// TODO: cleanup remaining avatar requests
-	SAFE_DELETE(&m_avatarsMutex);
+	for (int i = 0; i < m_arAvatars.getCount(); i++)
+		delete m_arAvatars[i];
 
 	// NetLib clean-up
 	NetLib_SafeCloseHandle(&m_hDirectNetlibUser);
@@ -238,19 +221,6 @@ CIcqProto::~CIcqProto()
 
 	// Clean-up remaining protocol instance members
 	UninitContactsCache();
-
-	SAFE_DELETE(&m_ratesMutex);
-
-	SAFE_DELETE(&servlistMutex);
-	SAFE_DELETE(&servlistQueueMutex);
-
-	SAFE_DELETE(&m_modeMsgsMutex);
-	SAFE_DELETE(&localSeqMutex);
-	SAFE_DELETE(&connectionHandleMutex);
-	SAFE_DELETE(&oftMutex);
-	SAFE_DELETE(&directConnListMutex);
-	SAFE_DELETE(&expectedFileRecvMutex);
-	SAFE_DELETE(&cookieMutex);
 
 	SAFE_FREE(&m_modeMsgs.szOnline);
 	SAFE_FREE(&m_modeMsgs.szAway);
@@ -511,9 +481,8 @@ HANDLE __cdecl CIcqProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const T
 		if (dwUin && ft->ft_magic == FT_MAGIC_ICQ) {
 			filetransfer *ft = (filetransfer *)hTransfer;
 			ft->szSavePath = tchar_to_utf8(szPath);
-
 			{
-				icq_lock l(expectedFileRecvMutex);
+				mir_cslock l(expectedFileRecvMutex);
 				expectedFileRecvs.insert(ft);
 			}
 
@@ -1593,7 +1562,7 @@ char* CIcqProto::PrepareStatusNote(int nStatus)
 		szStatusNote = getSettingStringUtf(NULL, DBSETTING_XSTATUS_MSG, "");
 
 	if (!szStatusNote || !szStatusNote[0]) { // get standard status message (no custom status defined)
-		icq_lock l(m_modeMsgsMutex);
+		mir_cslock l(m_modeMsgsMutex);
 
 		char **pszStatusNote = MirandaStatusToAwayMsg(nStatus);
 		if (pszStatusNote)
@@ -1707,7 +1676,7 @@ int __cdecl CIcqProto::SetStatus(int iNewStatus)
 			SAFE_FREE(&szStatusNote);
 
 			if (m_bAimEnabled) {
-				icq_lock l(m_modeMsgsMutex);
+				mir_cslock l(m_modeMsgsMutex);
 
 				char ** pszStatusNote = MirandaStatusToAwayMsg(m_iStatus);
 
@@ -1858,7 +1827,7 @@ int __cdecl CIcqProto::RecvAwayMsg(MCONTACT hContact, int, PROTORECVEVENT* evt)
 
 int __cdecl CIcqProto::SetAwayMsg(int status, const TCHAR* msg)
 {
-	icq_lock l(m_modeMsgsMutex);
+	mir_cslock l(m_modeMsgsMutex);
 
 	char **ppszMsg = MirandaStatusToAwayMsg(MirandaStatusToSupported(status));
 	if (!ppszMsg)
@@ -1897,7 +1866,7 @@ int __cdecl CIcqProto::SetAwayMsg(int status, const TCHAR* msg)
 
 INT_PTR CIcqProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
-	icq_lock l(m_modeMsgsMutex);
+	mir_cslock l(m_modeMsgsMutex);
 
 	char **ppszMsg = MirandaStatusToAwayMsg(wParam ? wParam : m_iStatus);
 

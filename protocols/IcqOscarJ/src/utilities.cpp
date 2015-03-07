@@ -31,7 +31,7 @@ struct gateway_index
 	DWORD  dwIndex;
 };
 
-static icq_critical_section *gatewayMutex = NULL;
+static mir_cs gatewayMutex;
 
 static gateway_index *gateways = NULL;
 static int gatewayCount = 0;
@@ -265,7 +265,7 @@ int AwayMsgTypeToStatus(int nMsgType)
 
 void SetGatewayIndex(HANDLE hConn, DWORD dwIndex)
 {
-	icq_lock l(gatewayMutex);
+	mir_cslock l(gatewayMutex);
 
 	for (int i = 0; i < gatewayCount; i++) {
 		if (hConn == gateways[i].hConn) {
@@ -283,7 +283,7 @@ void SetGatewayIndex(HANDLE hConn, DWORD dwIndex)
 
 DWORD GetGatewayIndex(HANDLE hConn)
 {
-	icq_lock l(gatewayMutex);
+	mir_cslock l(gatewayMutex);
 
 	for (int i = 0; i < gatewayCount; i++)
 		if (hConn == gateways[i].hConn)
@@ -295,7 +295,7 @@ DWORD GetGatewayIndex(HANDLE hConn)
 
 void FreeGatewayIndex(HANDLE hConn)
 {
-	icq_lock l(gatewayMutex);
+	mir_cslock l(gatewayMutex);
 
 	for (int i = 0; i < gatewayCount; i++) {
 		if (hConn == gateways[i].hConn) {
@@ -312,7 +312,7 @@ void FreeGatewayIndex(HANDLE hConn)
 
 void CIcqProto::AddToSpammerList(DWORD dwUIN)
 {
-	icq_lock l(gatewayMutex);
+	mir_cslock l(gatewayMutex);
 
 	spammerList = (DWORD *)SAFE_REALLOC(spammerList, sizeof(DWORD)* (spammerListCount + 1));
 	spammerList[spammerListCount] = dwUIN;
@@ -322,7 +322,7 @@ void CIcqProto::AddToSpammerList(DWORD dwUIN)
 
 BOOL CIcqProto::IsOnSpammerList(DWORD dwUIN)
 {
-	icq_lock l(gatewayMutex);
+	mir_cslock l(gatewayMutex);
 
 	for (int i = 0; i < spammerListCount; i++)
 		if (dwUIN == spammerList[i])
@@ -345,22 +345,15 @@ void CIcqProto::AddToContactsCache(MCONTACT hContact, DWORD dwUin, const char *s
 	if (!dwUin)
 		cache_item->szUid = null_strdup(szUid);
 
-	icq_lock l(contactsCacheMutex);
+	mir_cslock l(contactsCacheMutex);
 	contactsCache.insert(cache_item);
 }
 
 
 void CIcqProto::InitContactsCache()
 {
-	if (!gatewayMutex)
-		gatewayMutex = new icq_critical_section();
-	else
-		gatewayMutex->_Lock();
-
-	contactsCacheMutex = new icq_critical_section();
-
 	// build cache
-	icq_lock l(contactsCacheMutex);
+	mir_cslock l(contactsCacheMutex);
 
 	MCONTACT hContact = db_find_first(m_szModuleName);
 
@@ -378,32 +371,24 @@ void CIcqProto::InitContactsCache()
 
 void CIcqProto::UninitContactsCache(void)
 {
-	contactsCacheMutex->Enter();
+	{	mir_cslock l(contactsCacheMutex);
 
-	// cleanup the cache
-	for (int i = 0; i < contactsCache.getCount(); i++) {
-		icq_contacts_cache *cache_item = contactsCache[i];
+		// cleanup the cache
+		for (int i = 0; i < contactsCache.getCount(); i++) {
+			icq_contacts_cache *cache_item = contactsCache[i];
 
-		SAFE_FREE((void**)&cache_item->szUid);
-		SAFE_FREE((void**)&cache_item);
+			SAFE_FREE((void**)&cache_item->szUid);
+			SAFE_FREE((void**)&cache_item);
+		}
+
+		contactsCache.destroy();
 	}
-
-	contactsCache.destroy();
-
-	contactsCacheMutex->Leave();
-
-	SAFE_DELETE(&contactsCacheMutex);
-
-	if (gatewayMutex && gatewayMutex->getLockCount() > 1)
-		gatewayMutex->_Release();
-	else
-		SAFE_DELETE(&gatewayMutex);
 }
 
 
 void CIcqProto::DeleteFromContactsCache(MCONTACT hContact)
 {
-	icq_lock l(contactsCacheMutex);
+	mir_cslock l(contactsCacheMutex);
 
 	for (int i = 0; i < contactsCache.getCount(); i++) {
 		icq_contacts_cache *cache_item = contactsCache[i];
@@ -423,7 +408,7 @@ MCONTACT CIcqProto::HandleFromCacheByUid(DWORD dwUin, const char *szUid)
 {
 	icq_contacts_cache cache_item = { NULL, dwUin, szUid };
 
-	icq_lock l(contactsCacheMutex);
+	mir_cslock l(contactsCacheMutex);
 	// find in list
 	int i = contactsCache.getIndex(&cache_item);
 	if (i != -1)
@@ -1032,30 +1017,30 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 	if (pDelay)
 		SleepEx((DWORD)pDelay, TRUE);
 
-	cookieMutex->Enter();
+	mir_cslockfull l(cookieMutex);
 
 	if (icqOnline() && (setStatusNoteText || setStatusMoodData)) { // send status note change packets, write status note to database
 		if (setStatusNoteText) { // change status note in directory
-			m_ratesMutex->Enter();
+			mir_cslockfull rlck(m_ratesMutex);
 			if (m_rates) { // rate management
 				WORD wGroup = m_rates->getGroupFromSNAC(ICQ_EXTENSIONS_FAMILY, ICQ_META_CLI_REQUEST);
 
 				while (m_rates->getNextRateLevel(wGroup) < m_rates->getLimitLevel(wGroup, RML_LIMIT)) { // we are over rate, need to wait before sending
 					int nDelay = m_rates->getDelayToLimitLevel(wGroup, RML_IDLE_10);
 
-					m_ratesMutex->Leave();
-					cookieMutex->Leave();
+					rlck.unlock();
+					l.unlock();
 
 					debugLogA("Rates: SetStatusNote delayed %dms", nDelay);
 
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
-					cookieMutex->Enter();
-					m_ratesMutex->Enter();
+					l.lock();
+					rlck.lock();
 					if (!m_rates) // we lost connection when we slept, go away
 						break;
 				}
 			}
-			m_ratesMutex->Leave();
+			rlck.unlock();
 
 			BYTE *pBuffer = NULL;
 			size_t cbBuffer = 0;
@@ -1067,26 +1052,26 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 		}
 
 		if (setStatusNoteText || setStatusMoodData) { // change status note and mood in session data
-			m_ratesMutex->Enter();
+			mir_cslockfull rlck(m_ratesMutex);
 			if (m_rates) { // rate management
 				WORD wGroup = m_rates->getGroupFromSNAC(ICQ_SERVICE_FAMILY, ICQ_CLIENT_SET_STATUS);
 
 				while (m_rates->getNextRateLevel(wGroup) < m_rates->getLimitLevel(wGroup, RML_LIMIT)) { // we are over rate, need to wait before sending
 					int nDelay = m_rates->getDelayToLimitLevel(wGroup, RML_IDLE_10);
 
-					m_ratesMutex->Leave();
-					cookieMutex->Leave();
+					rlck.unlock();
+					l.unlock();
 
 					debugLogA("Rates: SetStatusNote delayed %dms", nDelay);
 
 					SleepEx(nDelay, TRUE); // do not keep things locked during sleep
-					cookieMutex->Enter();
-					m_ratesMutex->Enter();
+					l.lock();
+					rlck.lock();
 					if (!m_rates) // we lost connection when we slept, go away
 						break;
 				}
 			}
-			m_ratesMutex->Leave();
+			rlck.unlock();
 
 			// check if the session data were not updated already
 			char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, NULL);
@@ -1138,8 +1123,6 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 	}
 	SAFE_FREE(&setStatusNoteText);
 	SAFE_FREE(&setStatusMoodData);
-
-	cookieMutex->Leave();
 }
 
 
@@ -1152,7 +1135,7 @@ int CIcqProto::SetStatusNote(const char *szStatusNote, DWORD dwDelay, int bForce
 	if (!bForce && !icqOnline()) return bChanged;
 
 	// reuse generic critical section (used for cookies list and object variables locks)
-	icq_lock l(cookieMutex);
+	mir_cslock l(cookieMutex);
 
 	if (!setStatusNoteText && (!m_bMoodsEnabled || !setStatusMoodData)) { // check if the status note was changed and if yes, create thread to change it
 		char *szCurrentStatusNote = getSettingStringUtf(NULL, DBSETTING_STATUS_NOTE, NULL);
@@ -1188,7 +1171,7 @@ int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 	if (!icqOnline()) return bChanged;
 
 	// reuse generic critical section (used for cookies list and object variables locks)
-	icq_lock l(cookieMutex);
+	mir_cslock l(cookieMutex);
 
 	if (!setStatusNoteText && !setStatusMoodData) { // check if the status mood was changed and if yes, create thread to change it
 		char *szCurrentStatusMood = NULL;
@@ -1366,15 +1349,6 @@ void __fastcall SAFE_DELETE(MZeroedObject **p)
 {
 	if (*p) {
 		delete *p;
-		*p = NULL;
-	}
-}
-
-
-void __fastcall SAFE_DELETE(lockable_struct **p)
-{
-	if (*p) {
-		(*p)->_Release();
 		*p = NULL;
 	}
 }

@@ -159,8 +159,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	BYTE m_bXStatusEnabled;
 	BYTE m_bMoodsEnabled;
 
-	icq_critical_section *localSeqMutex;
-	icq_critical_section *connectionHandleMutex;
+	mir_cs localSeqMutex;
+	mir_cs connectionHandleMutex;
 
 	int   m_bIdleAllow;
 	DWORD m_dwLocalUIN;
@@ -223,7 +223,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   CheckKeepAlive(serverthread_info *info);
 
 	//----| cookies.cpp |-----------------------------------------------------------------
-	icq_critical_section *cookieMutex; // we want this in avatar thread, used as queue lock
+	mir_cs cookieMutex; // we want this in avatar thread, used as queue lock
 	LIST<icq_cookie_info> cookies;
 	WORD   wCookieSeq;
 
@@ -279,7 +279,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	//----| fam_04message.cpp |-----------------------------------------------------------
 	icq_mode_messages m_modeMsgs;
-	icq_critical_section *m_modeMsgsMutex;
+	mir_cs m_modeMsgsMutex;
 	HANDLE m_modeMsgsEvent;
 
 	void   handleMsgFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);
@@ -383,8 +383,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   sendClientAuth(const char *szKey, size_t wKeyLen, BOOL bSecure);
 
 	//----| icq_avatars.cpp |-------------------------------------------------------------
-	icq_critical_section *m_avatarsMutex;
-	avatars_request *m_avatarsQueue;
+	mir_cs m_avatarsMutex;
+	LIST<avatars_request> m_arAvatars;
 
 	BOOL   m_avatarsConnectionPending;
 	avatars_server_connection *m_avatarsConnection;
@@ -394,8 +394,6 @@ struct CIcqProto : public PROTO<CIcqProto>
 
 	void   handleAvatarOwnerHash(BYTE bFlags, BYTE *pData, size_t nDataLen);
 	void   handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hContact, BYTE *pHash, size_t nHashLen);
-
-	avatars_request *ReleaseAvatarRequestInQueue(avatars_request *request);
 
 	TCHAR* GetOwnAvatarFileName();
 	void   GetFullAvatarFileName(int dwUin, const char *szUid, int dwFormat, TCHAR *pszDest, size_t cbLen);
@@ -431,10 +429,10 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   setStatusMsgVar(MCONTACT hContact, char* szStatusMsg, bool isAnsi);
 
 	//----| icq_direct.cpp |--------------------------------------------------------------
-	icq_critical_section *directConnListMutex;
+	mir_cs directConnListMutex;
 	LIST<directconnect> directConns;
 
-	icq_critical_section *expectedFileRecvMutex;
+	mir_cs expectedFileRecvMutex;
 	LIST<filetransfer> expectedFileRecvs;
 
 	void   __cdecl icq_directThread(struct directthreadstartinfo* dtsi);
@@ -476,7 +474,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   handleFileTransferIdle(directconnect *dc);
 
 	//----| icq_infoupdate.cpp |----------------------------------------------------------
-	icq_critical_section *infoUpdateMutex;
+	mir_cs infoUpdateMutex;
 	HANDLE hInfoQueueEvent;
 	int    nInfoUserCount;
 	int    bInfoPendingUsers;
@@ -529,8 +527,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	char*  PrepareStatusNote(int nStatus);
 
 	//----| icq_rates.cpp |---------------------------------------------------------------
-	icq_critical_section *m_ratesMutex;
-	rates  *m_rates;
+	mir_cs m_ratesMutex;
+	rates *m_rates;
 
 	rates_queue *m_ratesQueue_Request; // rate queue for xtraz requests
 	rates_queue *m_ratesQueue_Response; // rate queue for msg responses
@@ -566,14 +564,14 @@ struct CIcqProto : public PROTO<CIcqProto>
 	HANDLE hHookSettingChanged;
 	HANDLE hHookContactDeleted;
 	HANDLE hHookCListGroupChange;
-	icq_critical_section *servlistMutex;
+	mir_cs servlistMutex;
 
 	DWORD* pdwServerIDList;
 	int    nServerIDListCount;
 	int    nServerIDListSize;
 
 	// server-list update board
-	icq_critical_section *servlistQueueMutex;
+	mir_cs servlistQueueMutex;
 	int    servlistQueueCount;
 	int    servlistQueueSize;
 	ssiqueueditems **servlistQueueList;
@@ -806,8 +804,8 @@ struct CIcqProto : public PROTO<CIcqProto>
 	void   RequestPassword();
 
 	//----| oscar_filetransfer.cpp |------------------------------------------------------
-	icq_critical_section *oftMutex;
-	int fileTransferCount;
+	mir_cs oftMutex;
+	int    fileTransferCount;
 	basic_filetransfer** fileTransferList;
 
 	oscar_filetransfer* CreateOscarTransfer();
@@ -872,7 +870,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	int    NetLog_Direct(const char *fmt,...);
 	int    NetLog_Uni(BOOL bDC, const char *fmt,...);
 
-	icq_critical_section *contactsCacheMutex;
+	mir_cs contactsCacheMutex;
 	LIST<icq_contacts_cache> contactsCache;
 
 	void   AddToContactsCache(MCONTACT hContact, DWORD dwUin, const char *szUid);

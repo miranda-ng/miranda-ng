@@ -39,14 +39,13 @@ extern BYTE hashEmptyAvatar[9];
 
 struct CIcqProto;
 
-struct avatars_server_connection : public lockable_struct
+class avatars_server_connection : public MZeroedObject
 {
-protected:
 	CIcqProto *ppro;
 	HANDLE hConnection;  // handle to the connection
 	HANDLE hPacketRecver;
 	WORD   wLocalSequence;
-	icq_critical_section *localSeqMutex;
+	mir_cs localSeqMutex, connMutex;
 
 	BOOL   isLoggedIn;
 	BOOL   isActive;
@@ -66,7 +65,7 @@ protected:
 	void   handleAvatarFam(BYTE *pBuffer, size_t wBufferLength, snac_header *pSnacHeader);
 
 	rates *m_rates;
-	icq_critical_section *m_ratesMutex;
+	mir_cs m_ratesMutex;
 
 	MCONTACT runContact[4];
 	DWORD    runTime[4];
@@ -81,14 +80,13 @@ public:
 	void closeConnection();
 	void shutdownConnection();
 
+	__inline mir_cs& getLock() { return connMutex; }
 	__inline BOOL isPending() { return !isLoggedIn; };
 	__inline BOOL isReady() { return isLoggedIn && isActive && !stopThread; };
 
 	DWORD  sendGetAvatarRequest(MCONTACT hContact, DWORD dwUin, char *szUid, const BYTE *hash, size_t hashlen, const TCHAR *file);
 	DWORD  sendUploadAvatarRequest(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen);
 };
-
-__inline static void SAFE_DELETE(avatars_server_connection **p) { SAFE_DELETE((lockable_struct**)p); };
 
 struct avatars_request : public MZeroedObject
 {
@@ -103,7 +101,6 @@ struct avatars_request : public MZeroedObject
 	size_t   cbData;
 	WORD     wRef;
 	DWORD    timeOut;
-	avatars_request *pNext;
 
 public:
 	avatars_request(int type);

@@ -1868,9 +1868,11 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 				int nMsgType;
 			};
 
-			m_ratesMutex->Enter();
-			WORD wGroup = m_rates->getGroupFromSNAC(ICQ_MSG_FAMILY, ICQ_MSG_RESPONSE);
-			m_ratesMutex->Leave();
+			WORD wGroup;
+			{
+				mir_cslock l(m_ratesMutex);
+				wGroup = m_rates->getGroupFromSNAC(ICQ_MSG_FAMILY, ICQ_MSG_RESPONSE);
+			}
 
 			rates_status_message_response rr(this, wGroup);
 			rr.bExtended = (nMsgFlags & MTF_STATUS_EXTENDED) == MTF_STATUS_EXTENDED;

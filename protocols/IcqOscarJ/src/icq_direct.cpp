@@ -46,7 +46,7 @@ static char client_check_data[] = {
 
 void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 {
-	icq_lock l(directConnListMutex);
+	mir_cslock l(directConnListMutex);
 
 	for (int i = 0; i < directConns.getCount(); i++) {
 		if (!hContact || directConns[i]->hContact == hContact) {
@@ -62,7 +62,7 @@ void CIcqProto::CloseContactDirectConns(MCONTACT hContact)
 directconnect* CIcqProto::FindFileTransferDC(filetransfer* ft)
 {
 	directconnect* dc = NULL;
-	icq_lock l(directConnListMutex);
+	mir_cslock l(directConnListMutex);
 
 	for (int i = 0; i < directConns.getCount(); i++) {
 		if (directConns[i]->ft == ft) {
@@ -78,7 +78,7 @@ directconnect* CIcqProto::FindFileTransferDC(filetransfer* ft)
 filetransfer* CIcqProto::FindExpectedFileRecv(DWORD dwUin, DWORD dwTotalSize)
 {
 	filetransfer* pFt = NULL;
-	icq_lock l(expectedFileRecvMutex);
+	mir_cslock l(expectedFileRecvMutex);
 
 	for (int i = 0; i < expectedFileRecvs.getCount(); i++) {
 		if (expectedFileRecvs[i]->dwUin == dwUin && expectedFileRecvs[i]->dwTotalSize == dwTotalSize) {
@@ -125,7 +125,7 @@ BOOL CIcqProto::IsDirectConnectionOpen(MCONTACT hContact, int type, int bPassive
 	BOOL bIsOpen = FALSE, bIsCreated = FALSE;
 
 	{
-		icq_lock l(directConnListMutex);
+		mir_cslock l(directConnListMutex);
 
 		for (int i = 0; i < directConns.getCount(); i++) {
 			if (directConns[i] && (directConns[i]->type == type)) {
@@ -178,7 +178,7 @@ void CIcqProto::OpenDirectConnection(MCONTACT hContact, int type, void* pvExtra)
 // Safely close NetLib connection - do not corrupt direct connection list
 void CIcqProto::CloseDirectConnection(directconnect *dc)
 {
-	icq_lock l(directConnListMutex);
+	mir_cslock l(directConnListMutex);
 
 	NetLib_CloseConnection(&dc->hConnection, FALSE);
 
@@ -202,7 +202,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 	srand(time(NULL));
 	{
 		// add to DC connection list
-		icq_lock l(directConnListMutex);
+		mir_cslock l(directConnListMutex);
 		directConns.insert(&dc);
 	}
 
@@ -435,7 +435,7 @@ void __cdecl CIcqProto::icq_directThread(directthreadstartinfo *dtsi)
 
 LBL_Exit:
 	// remove from DC connection list
-	icq_lock l(directConnListMutex);
+	mir_cslock l(directConnListMutex);
 	directConns.remove(&dc);
 }
 
@@ -825,7 +825,7 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, size_t wLen)
 // This should be called only if connection already exists
 int CIcqProto::SendDirectMessage(MCONTACT hContact, icq_packet *pkt)
 {
-	icq_lock l(directConnListMutex);
+	mir_cslock l(directConnListMutex);
 
 	for (int i = 0; i < directConns.getCount(); i++) {
 		if (directConns[i] == NULL)

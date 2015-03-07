@@ -276,7 +276,7 @@ void rates_queue_item::execute()
 
 BOOL rates_queue_item::isOverRate(int nLevel)
 {
-	icq_lock l(ppro->m_ratesMutex);
+	mir_cslock l(ppro->m_ratesMutex);
 
 	if (ppro->m_rates)
 		return ppro->m_rates->getNextRateLevel(wGroup) < ppro->m_rates->getLimitLevel(wGroup, nLevel);
@@ -286,7 +286,6 @@ BOOL rates_queue_item::isOverRate(int nLevel)
 
 rates_queue::rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates)
 {
-	this->listsMutex = new icq_critical_section();
 	this->ppro = ppro;
 	this->szDescr = szDescr;
 	limitLevel = nLimitLevel;
@@ -297,7 +296,6 @@ rates_queue::rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, 
 rates_queue::~rates_queue()
 {
 	cleanup();
-	delete listsMutex;
 }
 
 
@@ -332,7 +330,7 @@ void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
 
 void rates_queue::cleanup()
 {
-	icq_lock l(listsMutex);
+	mir_cslock l(listsMutex);
 
 	if (pendingListSize)
 		ppro->debugLogA("Rates: Purging %d %s(s).", pendingListSize, szDescr);
@@ -353,21 +351,22 @@ void rates_queue::processQueue()
 		cleanup();
 		return;
 	}
+
 	// take from queue, execute
+	mir_cslockfull l(listsMutex);
 	rates_queue_item *item = pendingList[0];
+	{
+		mir_cslockfull rlck(ppro->m_ratesMutex);
+		if (item->isOverRate(limitLevel)) { // the rate is higher, keep sleeping
+			int nDelay = ppro->m_rates->getDelayToLimitLevel(item->wGroup, ppro->m_rates->getLimitLevel(item->wGroup, waitLevel));
 
-	ppro->m_ratesMutex->Enter();
-	listsMutex->Enter();
-	if (item->isOverRate(limitLevel)) { // the rate is higher, keep sleeping
-		int nDelay = ppro->m_rates->getDelayToLimitLevel(item->wGroup, ppro->m_rates->getLimitLevel(item->wGroup, waitLevel));
-
-		listsMutex->Leave();
-		ppro->m_ratesMutex->Leave();
-		if (nDelay < 10) nDelay = 10;
-		initDelay(nDelay, &rates_queue::processQueue);
-		return;
+			l.unlock();
+			rlck.unlock();
+			if (nDelay < 10) nDelay = 10;
+			initDelay(nDelay, &rates_queue::processQueue);
+			return;
+		}
 	}
-	ppro->m_ratesMutex->Leave();
 
 	if (pendingListSize > 1) { // we need to keep order
 		memmove(&pendingList[0], &pendingList[1], (pendingListSize - 1) * sizeof(rates_queue_item*));
@@ -377,7 +376,7 @@ void rates_queue::processQueue()
 
 	int bSetupTimer = --pendingListSize != 0;
 
-	listsMutex->Leave();
+	l.unlock();
 
 	if (ppro->icqOnline()) {
 		ppro->debugLogA("Rates: Resuming %s.", szDescr);
@@ -387,9 +386,11 @@ void rates_queue::processQueue()
 
 	if (bSetupTimer) {
 		// in queue remained some items, setup timer
-		ppro->m_ratesMutex->Enter();
-		int nDelay = ppro->m_rates->getDelayToLimitLevel(item->wGroup, waitLevel);
-		ppro->m_ratesMutex->Leave();
+		int nDelay;
+		{
+			mir_cslockfull rlck(ppro->m_ratesMutex);
+			nDelay = ppro->m_rates->getDelayToLimitLevel(item->wGroup, waitLevel);
+		}
 
 		if (nDelay < 10) nDelay = 10;
 		initDelay(nDelay, &rates_queue::processQueue);
@@ -407,18 +408,17 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 
 	ppro->debugLogA("Rates: Delaying %s.", szDescr);
 
-	listsMutex->Enter();
+	mir_cslockfull l(listsMutex);
 	if (pendingListSize) {
 		for (int i = 0; i < pendingListSize; i++) {
 			if (pendingList[i]->isEqual(pItem)) {
+				if (duplicates == 1) // keep existing, ignore new
+					return;
+				
 				if (duplicates == -1) { // discard existing, append new item
 					delete pendingList[i];
 					memcpy(&pendingList[i], &pendingList[i + 1], (pendingListSize - i - 1) * sizeof(rates_queue_item*));
 					bFound = TRUE;
-				}
-				else if (duplicates == 1) { // keep existing, ignore new
-					listsMutex->Leave();
-					return;
 				}
 				// otherwise keep existing and append new
 			}
@@ -431,43 +431,43 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 	pendingList[pendingListSize - 1] = pItem->copyItem();
 
 	if (pendingListSize == 1) { // queue was empty setup timer
-		listsMutex->Leave();
-		ppro->m_ratesMutex->Enter();
-		int nDelay = ppro->m_rates->getDelayToLimitLevel(pItem->wGroup, waitLevel);
-		ppro->m_ratesMutex->Leave();
+		l.unlock();
+
+		int nDelay;
+		{
+			mir_cslock rlck(ppro->m_ratesMutex);
+			nDelay = ppro->m_rates->getDelayToLimitLevel(pItem->wGroup, waitLevel);
+		}
 
 		if (nDelay < 10) nDelay = 10;
 		if (nDelay < nMinDelay) nDelay = nMinDelay;
 		initDelay(nDelay, &rates_queue::processQueue);
 	}
-	else listsMutex->Leave();
 }
 
 
 int CIcqProto::handleRateItem(rates_queue_item *item, int nQueueType, int nMinDelay, BOOL bAllowDelay)
 {
 	rates_queue *pQueue = NULL;
+	{
+		mir_cslock rlck(m_ratesMutex);
+		switch (nQueueType) {
+		case RQT_REQUEST:
+			pQueue = m_ratesQueue_Request;
+			break;
+		case RQT_RESPONSE:
+			pQueue = m_ratesQueue_Response;
+			break;
+		}
 
-	m_ratesMutex->Enter();
-	switch (nQueueType) {
-	case RQT_REQUEST:
-		pQueue = m_ratesQueue_Request;
-		break;
-	case RQT_RESPONSE:
-		pQueue = m_ratesQueue_Response;
-		break;
-	}
-
-	if (pQueue) {
-		if (bAllowDelay && (item->isOverRate(pQueue->waitLevel) || nMinDelay)) {
-			// limit reached or min delay configured, add to queue
-			pQueue->putItem(item, nMinDelay);
-
-			m_ratesMutex->Leave();
-			return 1;
+		if (pQueue) {
+			if (bAllowDelay && (item->isOverRate(pQueue->waitLevel) || nMinDelay)) {
+				// limit reached or min delay configured, add to queue
+				pQueue->putItem(item, nMinDelay);
+				return 1;
+			}
 		}
 	}
-	m_ratesMutex->Leave();
 
 	item->execute();
 	return 0;
