@@ -87,7 +87,7 @@ static void gtaThreadProc(void*)
 				break;
 
 			SHORTDATA *dat;
-			if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat, sizeof(*mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))
+			if (mpChain.dat == NULL || (!IsBadReadPtr(mpChain.dat, sizeof(mpChain.dat)) && mpChain.dat->hWnd == data.hWnd))
 				dat = &data;
 			else {
 				Sync(CLUI_SyncGetShortData, (WPARAM)mpChain.dat->hWnd, (LPARAM)&dat2);

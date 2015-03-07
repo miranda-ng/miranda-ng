@@ -1171,8 +1171,8 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 			HDC hdcBmp = CreateCompatibleDC(hdc);
 			HBITMAP oldbm = (HBITMAP)SelectObject(hdcBmp, dat->hMenuBackground);
 			int y = clRect.top, x = clRect.left, destw, desth;
-			int maxx = (dat->MenuBmpUse & CLBF_TILEH) ? r1.right : x + 1;
-			int maxy = (dat->MenuBmpUse & CLBF_TILEV) ? r1.bottom : y + 1;
+			int maxx = (dat->MenuBmpUse & CLBF_TILEH) ? maxx = r1.right : x + 1;
+			int maxy = (dat->MenuBmpUse & CLBF_TILEV) ? maxy = r1.bottom : y + 1;
 
 			switch (dat->MenuBmpUse & CLBM_TYPE) {
 			case CLB_STRETCH:
@@ -1726,7 +1726,8 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	else if (msg == WM_WINDOWPOSCHANGING) {
 		// Snaping if it is not in LayeredMode
-		WINDOWPOS *wp = (WINDOWPOS *)lParam;
+		WINDOWPOS * wp;
+		wp = (WINDOWPOS *)lParam;
 		CLUI::SnappingToEdge(wp);
 		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 	}
@@ -1828,6 +1829,14 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			SetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
 		}
 		return TRUE;
+
+	case WM_WINDOWPOSCHANGING:
+		WINDOWPOS *wp = (WINDOWPOS *)lParam;
+		if (wp->flags&SWP_HIDEWINDOW && mutex_bAnimationInProgress)
+			return 0;
+		if (g_CluiData.fOnDesktop)
+			wp->flags |= SWP_NOACTIVATE | SWP_NOZORDER;
+		return DefWindowProc(m_hWnd, msg, wParam, lParam);
 	}
 	return 0;
 }
@@ -2410,7 +2419,10 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL * pnmc)
 	}
 	else bNeedFixSizingRect = 0;
 
-	SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
+	if (!mutex_bDuringSizing)
+		SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
+	else
+		SetWindowPos(m_hWnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE);
 
 	nRequiredHeight = 0;
 
