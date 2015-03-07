@@ -96,7 +96,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 	// Initialize rate limiting queues
 	{
-		icq_lock l(m_ratesMutex);
+		mir_cslock l(m_ratesMutex);
 		m_ratesQueue_Request = new rates_queue(this, "request", RML_IDLE_30, RML_IDLE_50, 1);
 		m_ratesQueue_Response = new rates_queue(this, "response", RML_IDLE_10, RML_IDLE_30, -1);
 	}
@@ -196,7 +196,7 @@ void __cdecl CIcqProto::ServerThread(serverthread_start_info *infoParam)
 
 	// release rates queues
 	{
-		icq_lock l(m_ratesMutex);
+		mir_cslock l(m_ratesMutex);
 		delete m_ratesQueue_Request; m_ratesQueue_Request = NULL;
 		delete m_ratesQueue_Response;	m_ratesQueue_Response = NULL;
 		delete m_rates; m_rates = NULL;
@@ -292,25 +292,26 @@ int CIcqProto::handleServerPackets(BYTE *buf, int len, serverthread_info *info)
 void CIcqProto::sendServPacket(icq_packet *pPacket)
 {
 	// make sure to have the connection handle
-	connectionHandleMutex->Enter();
+	mir_cslockfull l(connectionHandleMutex);
 
 	if (hServerConn) {
 		// This critsec makes sure that the sequence order doesn't get screwed up
-		localSeqMutex->Enter();
+		int nSendResult;
+		{
+			mir_cslock slck(localSeqMutex);
 
-		// :IMPORTANT:
-		// The FLAP sequence must be a WORD. When it reaches 0xFFFF it should wrap to
-		// 0x0000, otherwise we'll get kicked by server.
-		wLocalSequence++;
+			// :IMPORTANT:
+			// The FLAP sequence must be a WORD. When it reaches 0xFFFF it should wrap to
+			// 0x0000, otherwise we'll get kicked by server.
+			wLocalSequence++;
 
-		// Pack sequence number
-		pPacket->pData[2] = ((wLocalSequence & 0xff00) >> 8);
-		pPacket->pData[3] = (wLocalSequence & 0x00ff);
+			// Pack sequence number
+			pPacket->pData[2] = ((wLocalSequence & 0xff00) >> 8);
+			pPacket->pData[3] = (wLocalSequence & 0x00ff);
 
-		int nSendResult = Netlib_Send(hServerConn, (const char *)pPacket->pData, pPacket->wLen, 0);
-
-		localSeqMutex->Leave();
-		connectionHandleMutex->Leave();
+			nSendResult = Netlib_Send(hServerConn, (const char *)pPacket->pData, pPacket->wLen, 0);
+		}
+		l.unlock();
 
 		// Send error
 		if (nSendResult == SOCKET_ERROR) {
@@ -320,14 +321,11 @@ void CIcqProto::sendServPacket(icq_packet *pPacket)
 			icq_serverDisconnect();
 		}
 		else { // Rates management
-			icq_lock l(m_ratesMutex);
+			mir_cslock l(m_ratesMutex);
 			m_rates->packetSent(pPacket);
 		}
 	}
-	else {
-		connectionHandleMutex->Leave();
-		debugLogA("Error: Failed to send packet (no connection)");
-	}
+	else debugLogA("Error: Failed to send packet (no connection)");
 
 	SAFE_FREE((void**)&pPacket->pData);
 }
@@ -353,7 +351,7 @@ void CIcqProto::sendServPacketAsync(icq_packet *packet)
 
 int CIcqProto::IsServerOverRate(WORD wFamily, WORD wCommand, int nLevel)
 {
-	icq_lock l(m_ratesMutex);
+	mir_cslock l(m_ratesMutex);
 
 	if (m_rates) {
 		WORD wGroup = m_rates->getGroupFromSNAC(wFamily, wCommand);

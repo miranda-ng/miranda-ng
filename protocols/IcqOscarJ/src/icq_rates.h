@@ -34,42 +34,44 @@
 
 struct rates_group
 {
-  DWORD dwWindowSize;
-  DWORD dwClearLevel;
-  DWORD dwAlertLevel;
-  DWORD dwLimitLevel;
-  DWORD dwMaxLevel;
-  // current level
-  int rCurrentLevel;
-  int tCurrentLevel;
-  // links
-  WORD *pPairs;
-  int nPairs;
+	DWORD dwWindowSize;
+	DWORD dwClearLevel;
+	DWORD dwAlertLevel;
+	DWORD dwLimitLevel;
+	DWORD dwMaxLevel;
+	
+	// current level
+	int rCurrentLevel;
+	int tCurrentLevel;
+	
+	// links
+	WORD *pPairs;
+	int nPairs;
 };
 
 struct rates : public MZeroedObject
 {
 private:
-  CIcqProto *ppro;
-  int nGroups;
-  rates_group groups[MAX_RATES_GROUP_COUNT];
+	CIcqProto *ppro;
+	int nGroups;
+	rates_group groups[MAX_RATES_GROUP_COUNT];
 
-  rates_group *getGroup(WORD wGroup);
+	rates_group *getGroup(WORD wGroup);
 public:
-  rates(CIcqProto *ppro, BYTE *pBuffer, size_t wLen);
-  ~rates();
+	rates(CIcqProto *ppro, BYTE *pBuffer, size_t wLen);
+	~rates();
 
-  WORD getGroupFromSNAC(WORD wFamily, WORD wCommand);
+	WORD getGroupFromSNAC(WORD wFamily, WORD wCommand);
 	WORD getGroupFromPacket(icq_packet *pPacket);
 
-  int getLimitLevel(WORD wGroup, int nLevel);
-  int getDelayToLimitLevel(WORD wGroup, int nLevel);
-  int getNextRateLevel(WORD wGroup);
+	int getLimitLevel(WORD wGroup, int nLevel);
+	int getDelayToLimitLevel(WORD wGroup, int nLevel);
+	int getNextRateLevel(WORD wGroup);
 
 	void packetSent(icq_packet *pPacket);
 	void updateLevel(WORD wGroup, int nLevel);
 
-  void initAckPacket(icq_packet *pPacket);
+	void initAckPacket(icq_packet *pPacket);
 };
 
 #define RML_CLEAR       0x01
@@ -92,54 +94,53 @@ public:
 //
 struct rates_queue_item : public MZeroedObject
 {
-  friend struct rates_queue;
+	friend class rates_queue;
 protected:
-  CIcqProto *ppro;
-  BOOL bCreated;
-  WORD wGroup;
+	CIcqProto *ppro;
+	BOOL bCreated;
+	WORD wGroup;
 
-  virtual BOOL isEqual(rates_queue_item *pItem);
-  virtual rates_queue_item* copyItem(rates_queue_item *pDest = NULL);
+	virtual BOOL isEqual(rates_queue_item *pItem);
+	virtual rates_queue_item* copyItem(rates_queue_item *pDest = NULL);
 public:
-  rates_queue_item(CIcqProto *ppro, WORD wGroup);
-  virtual ~rates_queue_item();
+	rates_queue_item(CIcqProto *ppro, WORD wGroup);
+	virtual ~rates_queue_item();
 
-  BOOL isOverRate(int nLevel);
+	BOOL isOverRate(int nLevel);
 
-  virtual void execute();
+	virtual void execute();
 
-  MCONTACT hContact;
-  DWORD dwUin;
-  char *szUid;
+	MCONTACT hContact;
+	DWORD dwUin;
+	char *szUid;
 };
 
-struct rates_queue;
+class rates_queue;
 typedef void (rates_queue::*IcqRateFunc)(void);
 
 //
 // generic item queue (FIFO)
 //
-struct rates_queue : public MZeroedObject
+class rates_queue : public MZeroedObject
 {
-private:
-  CIcqProto *ppro;
-  const char *szDescr;
-  icq_critical_section *listsMutex;  // we need to be thread safe
+	CIcqProto *ppro;
+	const char *szDescr;
+	mir_cs listsMutex;  // we need to be thread safe
 	int pendingListSize;
 	rates_queue_item **pendingList;
-  int duplicates;
+	int duplicates;
 protected:
-  void cleanup();
-  void processQueue();
-  void initDelay(int nDelay, IcqRateFunc delaycode);
+	void cleanup();
+	void processQueue();
+	void initDelay(int nDelay, IcqRateFunc delaycode);
 public:
-  rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates = 0);
-  ~rates_queue();
+	rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates = 0);
+	~rates_queue();
 
-  void putItem(rates_queue_item *pItem, int nMinDelay); 
+	void putItem(rates_queue_item *pItem, int nMinDelay);
 
-  int limitLevel; // RML_*
-  int waitLevel;
+	int limitLevel; // RML_*
+	int waitLevel;
 };
 
 

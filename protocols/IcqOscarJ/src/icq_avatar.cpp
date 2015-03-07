@@ -54,25 +54,6 @@ avatars_request::~avatars_request()
 	}
 }
 
-avatars_request* CIcqProto::ReleaseAvatarRequestInQueue(avatars_request *request)
-{
-	avatars_request *pNext = request->pNext;
-	avatars_request **par = &m_avatarsQueue;
-	
-	avatars_request *ar = m_avatarsQueue;
-	while (ar) {
-		if (ar == request) { // found it, remove
-			*par = ar->pNext;
-			break;
-		}
-		par = &ar->pNext;
-		ar = ar->pNext;
-	}
-
-	delete request;
-	return pNext;
-}
-
 TCHAR* CIcqProto::GetOwnAvatarFileName()
 {
 	DBVARIANT dbvFile = {DBVT_DELETED};
@@ -192,7 +173,7 @@ int CIcqProto::IsAvatarChanged(MCONTACT hContact, const BYTE *pHash, size_t nHas
 void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, size_t cookieLen) // called from event
 {
 	if (!hConn) {
-		icq_lock l(m_avatarsMutex); // place avatars lock
+		mir_cslock l(m_avatarsMutex); // place avatars lock
 
 		if (m_avatarsConnection && m_avatarsConnection->isPending()) {
 			debugLogA("Avatar, Multiple start thread attempt, ignored.");
@@ -206,25 +187,26 @@ void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, size_t cookieLen) 
 		// check if any upload request are waiting in the queue
 		int bYet = 0;
 
-		avatars_request *ar = m_avatarsQueue;
-		while (ar) {
+		for (int i = 0; i < m_arAvatars.getCount();) {
+			avatars_request *ar = m_arAvatars[i];
 			if (ar->type == ART_UPLOAD) { // we found it, return error
 				if (!bYet) {
 					icq_LogMessage(LOG_WARNING, LPGEN("Error uploading avatar to server, server temporarily unavailable."));
 					bYet = 1;
 				}
+
 				// remove upload request from queue
-				ar = ReleaseAvatarRequestInQueue(ar);
-				continue;
+				m_arAvatars.remove(i);
+				delete ar;
 			}
-			ar = ar->pNext;
+			else i++;
 		}
 
 		SAFE_FREE((void**)&cookie);
 		return;
 	}
 
-	icq_lock l(m_avatarsMutex);
+	mir_cslock l(m_avatarsMutex);
 
 	if (m_avatarsConnection && m_avatarsConnection->isPending()) {
 		debugLogA("Avatar, Multiple start thread attempt, ignored.");
@@ -245,7 +227,7 @@ void CIcqProto::StartAvatarThread(HANDLE hConn, char *cookie, size_t cookieLen) 
 
 void CIcqProto::StopAvatarThread()
 {
-	icq_lock l(m_avatarsMutex); // the connection is about to close
+	mir_cslock l(m_avatarsMutex); // the connection is about to close
 	if (m_avatarsConnection)
 		m_avatarsConnection->shutdownConnection(); // make the thread stop
 }
@@ -505,11 +487,13 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 
 		if (bJob) {
 			if (bJob == TRUE) { // Remove possible block - hash changed, try again.
-				icq_lock l(m_avatarsMutex);
+				mir_cslock l(m_avatarsMutex);
 
-				for (avatars_request *ar = m_avatarsQueue; ar; ar = ar->pNext) {
+				for (int i = 0; i < m_arAvatars.getCount();) {
+					avatars_request *ar = m_arAvatars[i];
 					if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found one, remove
-						ReleaseAvatarRequestInQueue(ar);
+						m_arAvatars.remove(i);
+						delete ar;
 						break;
 					}
 				}
@@ -548,78 +532,70 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 		pszUid = szUidData;
 	}
 
-	m_avatarsMutex->Enter();
+	mir_cslockfull alck(m_avatarsMutex);
 
 	if (m_avatarsConnection && m_avatarsConnection->isReady()) { // check if we are ready
 		// check if requests for this user are not blocked
-		for (avatars_request *ar = m_avatarsQueue; ar; ) {
+		for (int i = 0; i < m_arAvatars.getCount();) {
+			avatars_request *ar = m_arAvatars[i];
 			if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found a block item
 				if (GetTickCount() > ar->timeOut) { // remove timeouted block
-					ar = ReleaseAvatarRequestInQueue(ar);
+					m_arAvatars.remove(i);
+					delete ar;
 					continue;
 				}
-				m_avatarsMutex->Leave();
 				debugLogA("Avatars: Requests for %s avatar are blocked.", strUID(dwUin, pszUid));
 				return 0;
 			}
-			ar = ar->pNext;
+			i++;
 		}
 
-		avatars_server_connection *pConnection = m_avatarsConnection;
-		pConnection->_Lock();
-		m_avatarsMutex->Leave();
+		mir_cslock l(m_avatarsConnection->getLock());
+		alck.unlock();
 
-		DWORD dwCookie = pConnection->sendGetAvatarRequest(hContact, dwUin, pszUid, hash, hashlen, file);
-
-		m_avatarsMutex->Enter();
-		pConnection->_Release();
-
-		if (dwCookie) { // return now if the request was sent successfully
-			m_avatarsMutex->Leave();
+		DWORD dwCookie = m_avatarsConnection->sendGetAvatarRequest(hContact, dwUin, pszUid, hash, hashlen, file);
+		if (dwCookie) // return now if the request was sent successfully
 			return dwCookie;
-		}
+
+		alck.lock();
 	}
 	// we failed to send request, or avatar thread not ready
 
 	// check if any request for this user is not already in the queue
-	for (avatars_request *ar = m_avatarsQueue; ar; ) {
+	for (int i = 0; i < m_arAvatars.getCount();) {
+		avatars_request *ar = m_arAvatars[i];
 		if (ar->hContact == hContact) { // we found it, return error
 			if (ar->type == ART_BLOCK && GetTickCount() > ar->timeOut) { // remove timeouted block
-				ar = ReleaseAvatarRequestInQueue(ar);
+				m_arAvatars.remove(i);
+				delete ar;
 				continue;
 			}
-			m_avatarsMutex->Leave();
+			alck.unlock();
 			debugLogA("Avatars: Ignoring duplicate get %s avatar request.", strUID(dwUin, pszUid));
 
 			// make sure avatar connection is in progress
 			requestAvatarConnection();
 			return 0;
 		}
-		ar = ar->pNext;
+		i++;
 	}
 
 	// add request to queue, processed after successful login
 	avatars_request *ar = new avatars_request(ART_GET); // get avatar
-	if (!ar) { // out of memory, go away
-		m_avatarsMutex->Leave();
-		return 0;
-	}
 	ar->hContact = hContact;
 	ar->dwUin = dwUin;
 	if (!dwUin)
 		strcpy(ar->szUid, szUid);
 	ar->hash = (BYTE*)SAFE_MALLOC(hashlen);
 	if (!ar->hash) { // alloc failed
-		m_avatarsMutex->Leave();
 		delete ar;
 		return 0;
 	}
 	memcpy(ar->hash, hash, hashlen); // copy the data
 	ar->hashlen = hashlen;
 	ar->szFile = null_strdup(file); // duplicate the string
-	ar->pNext = m_avatarsQueue;
-	m_avatarsQueue = ar;
-	m_avatarsMutex->Leave();
+	m_arAvatars.insert(ar);
+	alck.unlock();
 
 	debugLogA("Avatars: Request to get %s image added to queue.", strUID(dwUin, pszUid));
 
@@ -631,49 +607,38 @@ int CIcqProto::GetAvatarData(MCONTACT hContact, DWORD dwUin, const char *szUid, 
 // upload avatar data to server
 int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, size_t datalen)
 {
-	m_avatarsMutex->Enter();
+	mir_cslockfull alck(m_avatarsMutex);
 
 	if (m_avatarsConnection && m_avatarsConnection->isReady()) { // check if we are ready
-		avatars_server_connection *pConnection = m_avatarsConnection;
-		pConnection->_Lock();
-		m_avatarsMutex->Leave();
+		mir_cslock l(m_avatarsConnection->getLock());
+		alck.unlock();
 
-		DWORD dwCookie = pConnection->sendUploadAvatarRequest(hContact, wRef, data, datalen);
-
-		m_avatarsMutex->Enter();
-		pConnection->_Release();
-
-		if (dwCookie) { // return now if the request was sent successfully
-			m_avatarsMutex->Leave();
+		DWORD dwCookie = m_avatarsConnection->sendUploadAvatarRequest(hContact, wRef, data, datalen);
+		if (dwCookie) // return now if the request was sent successfully
 			return dwCookie;
-		}
+
+		alck.lock();
 	}
 	// we failed to send request, or avatar thread not ready
 
 	// check if any request for this user is not already in the queue
-	avatars_request *ar = m_avatarsQueue;
-	while (ar) {
+	for (int i = 0; i < m_arAvatars.getCount(); i++) {
+		avatars_request *ar = m_arAvatars[i];
 		if (ar->hContact == hContact && ar->type == ART_UPLOAD) { // we found it, return error
-			m_avatarsMutex->Leave();
+			alck.unlock();
 			debugLogA("Avatars: Ignoring duplicate upload avatar request.");
 
 			// make sure avatar connection is in progress
 			requestAvatarConnection();
 			return 0;
 		}
-		ar = ar->pNext;
 	}
 
 	// add request to queue, processed after successful login
-	ar = new avatars_request(ART_UPLOAD); // upload avatar
-	if (!ar) { // out of memory, go away
-		m_avatarsMutex->Leave();
-		return 0;
-	}
+	avatars_request *ar = new avatars_request(ART_UPLOAD); // upload avatar
 	ar->hContact = hContact;
 	ar->pData = (BYTE*)SAFE_MALLOC(datalen);
 	if (!ar->pData) { // alloc failed
-		m_avatarsMutex->Leave();
 		delete ar;
 		return 0;
 	}
@@ -681,9 +646,8 @@ int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, siz
 	memcpy(ar->pData, data, datalen); // copy the data
 	ar->cbData = datalen;
 	ar->wRef = wRef;
-	ar->pNext = m_avatarsQueue;
-	m_avatarsQueue = ar;
-	m_avatarsMutex->Leave();
+	m_arAvatars.insert(ar);
+	alck.unlock();
 
 	debugLogA("Avatars: Request to upload image added to queue.");
 
@@ -694,15 +658,14 @@ int CIcqProto::SetAvatarData(MCONTACT hContact, WORD wRef, const BYTE *data, siz
 
 void CIcqProto::requestAvatarConnection()
 {
-	m_avatarsMutex->Enter();
+	mir_cslockfull alck(m_avatarsMutex);
 	if (!m_avatarsConnectionPending && (!m_avatarsConnection || (!m_avatarsConnection->isPending() && !m_avatarsConnection->isReady()))) {
 		// avatar connection is not pending, request new one
 		m_avatarsConnectionPending = TRUE;
-		m_avatarsMutex->Leave();
+		alck.unlock();
 
 		icq_requestnewfamily(ICQ_AVATAR_FAMILY, &CIcqProto::StartAvatarThread);
 	}
-	else m_avatarsMutex->Leave();
 }
 
 void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
@@ -713,13 +676,11 @@ void __cdecl CIcqProto::AvatarThread(avatars_server_connection *pInfo)
 	pInfo->connectionThread();
 	{
 		// Remove connection reference
-		icq_lock l(m_avatarsMutex);
+		mir_cslock l(m_avatarsMutex);
 		if (m_avatarsConnection == pInfo)
 			m_avatarsConnection = NULL;
-	}
-	{
+
 		// Release connection handler
-		icq_lock l(m_avatarsMutex);
 		delete pInfo;
 	}
 
@@ -734,11 +695,7 @@ avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HANDLE _h
 	hConnection(_hConnection)
 {
 	// Initialize packet sequence
-	localSeqMutex = new icq_critical_section();
 	wLocalSequence = generate_flap_sequence();
-
-	// Initialize rates
-	m_ratesMutex = new icq_critical_section();
 
 	// Create connection thread
 	ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::AvatarThread, this);
@@ -747,15 +704,13 @@ avatars_server_connection::avatars_server_connection(CIcqProto *_ppro, HANDLE _h
 avatars_server_connection::~avatars_server_connection()
 {
 	delete m_rates;
-	delete m_ratesMutex;
-	delete localSeqMutex;
 }
 
 void avatars_server_connection::closeConnection()
 {
 	stopThread = TRUE;
 
-	icq_lock l(localSeqMutex);
+	mir_cslock l(localSeqMutex);
 	if (hConnection)
 		NetLib_SafeCloseHandle(&hConnection);
 }
@@ -764,7 +719,7 @@ void avatars_server_connection::shutdownConnection()
 {
 	stopThread = TRUE;
 
-	icq_lock l(localSeqMutex);
+	mir_cslock l(localSeqMutex);
 	if (hConnection)
 		Netlib_Shutdown(hConnection);
 }
@@ -774,7 +729,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 	int i;
 	DWORD dwNow = GetTickCount();
 
-	ppro->m_avatarsMutex->Enter();
+	mir_cslockfull alck(ppro->m_avatarsMutex);
 
 	for (i = 0; i < runCount;) { // look for timeouted requests
 		if (runTime[i] < dwNow) { // found outdated, remove
@@ -787,7 +742,6 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 
 	for (i = 0; i < runCount; i++) {
 		if (runContact[i] == hContact) {
-			ppro->m_avatarsMutex->Leave();
 			ppro->debugLogA("Ignoring duplicate get %s image request.", strUID(dwUin, szUid));
 			return -1; // Success: request ignored
 		}
@@ -797,7 +751,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 		int bSendNow = TRUE;
 		{
 			// rate management
-			icq_lock l(m_ratesMutex);
+			mir_cslock l(m_ratesMutex);
 			WORD wGroup = m_rates->getGroupFromSNAC(ICQ_AVATAR_FAMILY, ICQ_AVATAR_GET_REQUEST);
 
 			if (m_rates->getNextRateLevel(wGroup) < m_rates->getLimitLevel(wGroup, RML_ALERT)) { // we will be over quota if we send the request now, add to queue instead
@@ -811,7 +765,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 			runTime[runCount] = GetTickCount() + 30000; // 30sec to complete request
 			runCount++;
 
-			ppro->m_avatarsMutex->Leave();
+			alck.unlock();
 
 			int nUinLen = getUIDLen(dwUin, szUid);
 
@@ -844,9 +798,7 @@ DWORD avatars_server_connection::sendGetAvatarRequest(MCONTACT hContact, DWORD d
 			SAFE_FREE((void**)&ack->hash);
 			SAFE_FREE((void**)&ack);
 		}
-		else ppro->m_avatarsMutex->Leave();
 	}
-	else ppro->m_avatarsMutex->Leave();
 
 	return 0; // Failure
 }
@@ -879,14 +831,14 @@ DWORD avatars_server_connection::sendUploadAvatarRequest(MCONTACT hContact, WORD
 
 void avatars_server_connection::checkRequestQueue()
 {
-	ppro->m_avatarsMutex->Enter();
+	mir_cslockfull alck(ppro->m_avatarsMutex);
 
-	while (ppro->m_avatarsQueue && runCount < 3) { // pick up an request and send it - happens immediatelly after login
+	while (ppro->m_arAvatars.getCount() && runCount < 3) { // pick up an request and send it - happens immediatelly after login
 		// do not fill queue to top, leave one place free
-		avatars_request *pRequest = ppro->m_avatarsQueue;
+		avatars_request *pRequest = ppro->m_arAvatars[0];
 		{
 			// rate management
-			icq_lock l(m_ratesMutex);
+			mir_cslock l(m_ratesMutex);
 			WORD wGroup = m_rates->getGroupFromSNAC(ICQ_AVATAR_FAMILY, (WORD)(pRequest->type == ART_UPLOAD ? ICQ_AVATAR_GET_REQUEST : ICQ_AVATAR_UPLOAD_REQUEST));
 
 			// we are over rate, leave queue and wait
@@ -895,23 +847,18 @@ void avatars_server_connection::checkRequestQueue()
 		}
 
 		if (pRequest->type == ART_BLOCK) { // block contact processing
-			avatars_request **ppRequest = &ppro->m_avatarsQueue;
-			while (pRequest) {
-				if (GetTickCount() > pRequest->timeOut) { // expired contact block, remove
-					*ppRequest = pRequest->pNext;
+			for (int i = 0; i < ppro->m_arAvatars.getCount(); i++) {
+				avatars_request *ar = ppro->m_arAvatars[i];
+				if (GetTickCount() > ar->timeOut) { // expired contact block, remove
+					ppro->m_arAvatars.remove(i);
 					delete pRequest;
 				}
-				else // it is not time, move to next request
-					ppRequest = &pRequest->pNext;
-
-				pRequest = *ppRequest;
 			}
-			// end queue processing (only block requests follows)
-			break;
+			return; // end processing
 		}
-		else ppro->m_avatarsQueue = pRequest->pNext;
-
-		ppro->m_avatarsMutex->Leave();
+		
+		ppro->m_arAvatars.remove(int(0));
+		alck.unlock();
 
 		switch (pRequest->type) {
 		case ART_GET: // get avatar
@@ -924,10 +871,8 @@ void avatars_server_connection::checkRequestQueue()
 		}
 		delete pRequest;
 
-		ppro->m_avatarsMutex->Enter();
+		alck.lock();
 	}
-
-	ppro->m_avatarsMutex->Leave();
 }
 
 void avatars_server_connection::connectionThread()
@@ -980,13 +925,13 @@ void avatars_server_connection::connectionThread()
 	}
 	{
 		// release connection
-		icq_lock l(localSeqMutex);
+		mir_cslock l(localSeqMutex);
 		NetLib_SafeCloseHandle(&hPacketRecver); // Close the packet receiver
 		NetLib_CloseConnection(&hConnection, FALSE); // Close the connection
 	}
 	{
 		// release rates
-		icq_lock l(m_ratesMutex);
+		mir_cslock l(m_ratesMutex);
 		SAFE_DELETE((MZeroedObject**)&m_rates);
 	}
 
@@ -998,7 +943,7 @@ int avatars_server_connection::sendServerPacket(icq_packet *pPacket)
 	int lResult = 0;
 
 	// This critsec makes sure that the sequence order doesn't get screwed up
-	localSeqMutex->Enter();
+	mir_cslock l(localSeqMutex);
 
 	if (hConnection) {
 		// :IMPORTANT:
@@ -1025,14 +970,12 @@ int avatars_server_connection::sendServerPacket(icq_packet *pPacket)
 		else {
 			lResult = 1; // packet sent successfully
 
-			icq_lock l(m_ratesMutex);
+			mir_cslock rlck(m_ratesMutex);
 			if (m_rates)
 				m_rates->packetSent(pPacket);
 		}
 	}
 	else ppro->debugLogA("Error: Failed to send packet (no connection)");
-
-	localSeqMutex->Leave();
 
 	SAFE_FREE((void**)&pPacket->pData);
 
@@ -1201,7 +1144,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 			BYTE bResult;
 			{
 				// remove from active request list
-				icq_lock l(ppro->m_avatarsMutex);
+				mir_cslock l(ppro->m_avatarsMutex);
 				for (int i = 0; i < runCount; i++) { // look for our record
 					if (runContact[i] == pCookieData->hContact) { // found, remove
 						runContact[i] = runContact[runCount - 1];
@@ -1311,24 +1254,11 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, size_t wBufferLen
 
 					if (pCookieData->hContact) {
 						avatars_request *ar = new avatars_request(ART_BLOCK);
+						ar->hContact = pCookieData->hContact;
+						ar->timeOut = GetTickCount() + 14400000; // do not allow re-request four hours
 
-						icq_lock l(ppro->m_avatarsMutex);
-
-						if (ar) {
-							avatars_request *last = ppro->m_avatarsQueue;
-
-							ar->hContact = pCookieData->hContact;
-							ar->timeOut = GetTickCount() + 14400000; // do not allow re-request four hours
-
-							// add it to the end of queue, i.e. do not block other requests
-							while (last && last->pNext)
-								last = last->pNext;
-
-							if (last)
-								last->pNext = ar;
-							else
-								ppro->m_avatarsQueue = ar;
-						}
+						mir_cslock l(ppro->m_avatarsMutex);
+						ppro->m_arAvatars.insert(ar);
 					}
 					ppro->ProtoBroadcastAck(pCookieData->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE)&ai, 0);
 				}

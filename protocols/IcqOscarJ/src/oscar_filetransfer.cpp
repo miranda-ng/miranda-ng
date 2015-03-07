@@ -85,7 +85,7 @@ oscar_filetransfer* CIcqProto::CreateOscarTransfer()
 	// Init members
 	ft->fileId = -1;
 
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 
 	fileTransferList = (basic_filetransfer**)SAFE_REALLOC(fileTransferList, sizeof(basic_filetransfer*)*(fileTransferCount + 1));
 	fileTransferList[fileTransferCount++] = ft;
@@ -101,7 +101,7 @@ filetransfer *CIcqProto::CreateIcqFileTransfer()
 
 	ft->ft_magic = FT_MAGIC_ICQ;
 
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 
 	fileTransferList = (basic_filetransfer**)SAFE_REALLOC(fileTransferList, sizeof(basic_filetransfer*)*(fileTransferCount + 1));
 	fileTransferList[fileTransferCount++] = (basic_filetransfer*)ft;
@@ -132,19 +132,19 @@ void CIcqProto::ReleaseFileTransfer(void *ft)
 
 int CIcqProto::IsValidFileTransfer(void *ft)
 {
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 	return getFileTransferIndex(ft) != -1;
 }
 
 int CIcqProto::IsValidOscarTransfer(void *ft)
 {
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 	return getFileTransferIndex(ft) != -1 && ((basic_filetransfer*)ft)->ft_magic == FT_MAGIC_OSCAR;
 }
 
 oscar_filetransfer* CIcqProto::FindOscarTransfer(MCONTACT hContact, DWORD dwID1, DWORD dwID2)
 {
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 
 	for (int i = 0; i < fileTransferCount; i++) {
 		if (fileTransferList[i]->ft_magic == FT_MAGIC_OSCAR) {
@@ -162,7 +162,7 @@ void CIcqProto::SafeReleaseFileTransfer(void **ft)
 {
 	basic_filetransfer **bft = (basic_filetransfer**)ft;
 
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 
 	// Check for filetransfer validity
 	if (getFileTransferIndex(*ft) == -1)
@@ -1051,7 +1051,7 @@ static void oft_buildProtoFileTransferStatus(oscar_filetransfer* ft, PROTOFILETR
 
 void CIcqProto::CloseOscarConnection(oscar_connection *oc)
 {
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 
 	if (oc) {
 		oc->type = OCT_CLOSING;
@@ -1343,7 +1343,7 @@ void __cdecl CIcqProto::oft_connectionThread(oscarthreadstartinfo *otsi)
 
 	// Clean up
 	{
-		icq_lock l(oftMutex);
+		mir_cslock l(oftMutex);
 
 		if (getFileTransferIndex(oc.ft) != -1)
 			oc.ft->connection = NULL; // release link
@@ -2010,7 +2010,7 @@ void CIcqProto::oft_sendFileData(oscar_connection *oc)
 
 void CIcqProto::oft_sendPeerInit(oscar_connection *oc)
 {
-	icq_lock l(oftMutex);
+	mir_cslock l(oftMutex);
 
 	// prepare init frame
 	oscar_filetransfer *ft = oc->ft;

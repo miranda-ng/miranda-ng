@@ -89,7 +89,7 @@ void CIcqProto::icq_sendAwayMsgReplyDirect(directconnect* dc, WORD wCookie, BYTE
 	if (validateStatusMessageRequest(dc->hContact, msgType)) {
 		NotifyEventHooks(m_modeMsgsEvent, (WPARAM)msgType, (LPARAM)dc->dwRemoteUin);
 
-		icq_lock l(m_modeMsgsMutex);
+		mir_cslock l(m_modeMsgsMutex);
 
 		if (szMsg && *szMsg) {
 			// prepare Ansi message - only Ansi supported

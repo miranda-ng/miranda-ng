@@ -927,7 +927,7 @@ void CIcqProto::icq_sendAwayMsgReplyServ(DWORD dwUin, DWORD dwMsgID1, DWORD dwMs
 	if (validateStatusMessageRequest(hContact, msgType)) {
 		NotifyEventHooks(m_modeMsgsEvent, (WPARAM)msgType, (LPARAM)dwUin);
 
-		icq_lock l(m_modeMsgsMutex);
+		mir_cslock l(m_modeMsgsMutex);
 
 		if (szMsg && *szMsg) {
 			char *pszMsg = NULL;
@@ -969,7 +969,7 @@ void CIcqProto::icq_sendAwayMsgReplyServExt(DWORD dwUin, char *szUID, DWORD dwMs
 	if (validateStatusMessageRequest(hContact, msgType)) {
 		NotifyEventHooks(m_modeMsgsEvent, (WPARAM)msgType, (LPARAM)dwUin);
 
-		icq_lock l(m_modeMsgsMutex);
+		mir_cslock l(m_modeMsgsMutex);
 
 		if (szMsg && *szMsg) {
 			char *pszMsg = NULL;

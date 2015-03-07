@@ -295,10 +295,10 @@ void CIcqProto::handleServiceFam(BYTE *pBuffer, size_t wBufferLength, snac_heade
 			unpackWord(&pBuffer, &wClass);
 			pBuffer += 20;
 			unpackDWord(&pBuffer, &dwLevel);
-
-			m_ratesMutex->Enter();
-			m_rates->updateLevel(wClass, dwLevel);
-			m_ratesMutex->Leave();
+			{
+				mir_cslock l(m_ratesMutex);
+				m_rates->updateLevel(wClass, dwLevel);
+			}
 
 			if (wStatus == 2 || wStatus == 3) {
 				// this is only the simplest solution, needs rate management to every section
@@ -882,7 +882,7 @@ void CIcqProto::handleServUINSettings(int nPort, serverthread_info *info)
 
 	if (m_bAimEnabled) {
 		char **szAwayMsg = NULL;
-		icq_lock l(m_modeMsgsMutex);
+		mir_cslock l(m_modeMsgsMutex);
 
 		szAwayMsg = MirandaStatusToAwayMsg(m_iStatus);
 		if (szAwayMsg)
