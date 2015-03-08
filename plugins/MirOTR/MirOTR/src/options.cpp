@@ -753,7 +753,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 
 								ListView_SetItemText(lv,d, 1, proto);
 								ListView_SetItemText(lv,d, 2, (context->active_fingerprint == fp)? TranslateT(LANG_YES) : TranslateT(LANG_NO));
-								ListView_SetItemText(lv,d, 3, (fp->trust && fp->trust != '\0')? TranslateT(LANG_YES) : TranslateT(LANG_NO));
+								ListView_SetItemText(lv,d, 3, (fp->trust && fp->trust[0] != '\0')? TranslateT(LANG_YES) : TranslateT(LANG_NO));
 								ListView_SetItemText(lv,d, 4, hash );
 								}
 							fp = fp->next;
