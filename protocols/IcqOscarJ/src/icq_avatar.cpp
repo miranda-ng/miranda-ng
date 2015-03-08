@@ -851,7 +851,7 @@ void avatars_server_connection::checkRequestQueue()
 				avatars_request *ar = ppro->m_arAvatars[i];
 				if (GetTickCount() > ar->timeOut) { // expired contact block, remove
 					ppro->m_arAvatars.remove(i);
-					delete pRequest;
+					delete ar;
 				}
 			}
 			return; // end processing
