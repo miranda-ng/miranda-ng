@@ -15,7 +15,7 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	ptrA szAvatarId(getStringA(AI->hContact, WHATSAPP_KEY_AVATAR_ID));
 	if (szAvatarId == NULL || (wParam & GAIF_FORCE) != 0)
 		if (AI->hContact != NULL && m_pConnection != NULL) {
-			m_pConnection->sendGetPicture(id, "preview");
+			m_pConnection->sendGetPicture(id, "image");
 			return GAIR_WAITFOR;
 		}
 
