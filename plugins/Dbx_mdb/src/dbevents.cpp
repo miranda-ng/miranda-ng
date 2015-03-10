@@ -304,6 +304,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 	txn_ptr txn(m_pMdbEnv, true);
 
 	cursor_ptr cursor(txn, m_dbEventsSort);
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
 		return 0;
 
@@ -319,13 +320,14 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstUnreadEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 {
-	DBEventSortingKey keyVal = { contactID, 0, 0 };
+	DBEventSortingKey keyVal = { contactID, -1, -1 };
 	MDB_val key = { sizeof(keyVal), &keyVal }, data;
 
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr txn(m_pMdbEnv, true);
 	
 	cursor_ptr cursor(txn, m_dbEventsSort);
+	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
 	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
 		return 0;
 
