@@ -107,7 +107,7 @@ struct DBEvent
 
 struct DBEventSortingKey
 {
-	DWORD dwContactId, ts, dwEventId;
+	DWORD dwEventId, ts, dwContactId;
 };
 
 struct DBCachedContact : public DBCachedContactBase

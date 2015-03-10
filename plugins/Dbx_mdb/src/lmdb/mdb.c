@@ -4962,7 +4962,7 @@ mdb_node_search(MDB_cursor *mc, MDB_val *key, int *exactp)
 	if (cmp == mdb_cmp_cint && IS_BRANCH(mp)) {
 		if (NODEPTR(mp, 1)->mn_ksize == sizeof(size_t))
 			cmp = mdb_cmp_long;
-		else
+		else if(NODEPTR(mp, 1)->mn_ksize == sizeof(int))
 			cmp = mdb_cmp_int;
 	}
 
