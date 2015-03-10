@@ -243,7 +243,8 @@ protected:
 	// events
 
 	MDB_dbi	m_dbEvents, m_dbEventsSort;
-	DWORD    m_dwMaxEventId;
+	DWORD    m_dwMaxEventId, m_tsLast;
+	MEVENT   m_evLast;
 
 	void     FindNextUnread(const txn_ptr &_txn, DBCachedContact *cc, DBEventSortingKey &key2);
 
