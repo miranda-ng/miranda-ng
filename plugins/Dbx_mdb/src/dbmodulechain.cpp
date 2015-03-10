@@ -103,7 +103,7 @@ DWORD CDbxMdb::GetModuleNameOfs(const char *szName)
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
 		mdb_open(trnlck, "modules", MDB_INTEGERKEY, &m_dbModules);
-		mdb_put(trnlck, m_dbModules, &key, &data, 0);
+		MDB_CHECK(mdb_put(trnlck, m_dbModules, &key, &data, 0), -1);
 		if (trnlck.commit())
 			break;
 	}

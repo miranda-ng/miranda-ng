@@ -100,6 +100,12 @@ public:
 	__forceinline operator MDB_cursor*() const { return m_cursor; }
 };
 
+#define MDB_CHECK(A,B) \
+	switch(A) { \
+	case MDB_SUCCESS: break; \
+	case MDB_MAP_FULL: continue; \
+	default: return (B); }
+
 #include "dbintf.h"
 #include "resource.h"
 #include "version.h"

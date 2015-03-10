@@ -494,8 +494,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::WriteContactSetting(MCONTACT contactID, DBCONTACTWR
 
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
-		if (mdb_put(trnlck, m_dbSettings, &key, &data, MDB_RESERVE) != 0)
-			return 1;
+		MDB_CHECK(mdb_put(trnlck, m_dbSettings, &key, &data, MDB_RESERVE), 1);
 
 		BYTE *pBlob = (BYTE*)data.mv_data;
 		*pBlob++ = dbcwWork.value.type;
