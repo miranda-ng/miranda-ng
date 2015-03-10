@@ -292,7 +292,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 		return 0;
 
 	DBEvent *dbe = (DBEvent*)data.mv_data;
-	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID: INVALID_CONTACT_ID;
+	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
@@ -305,14 +305,12 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstEvent(MCONTACT contactID)
 
 	cursor_ptr cursor(txn, m_dbEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindFirstEvent(%d): error", contactID);
-		return 0;
-	}
+	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
+		return m_evLast = 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-	// Netlib_Logf(NULL, "FindFirstEvent(%d): %d %d %d", contactID, pKey->dwContactId, pKey->ts, pKey->dwEventId);
-	return (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	m_tsLast = pKey->ts;
+	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindFirstUnreadEvent(MCONTACT contactID)
@@ -331,76 +329,74 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 
 	cursor_ptr cursor(txn, m_dbEventsSort);
 	mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindLastEvent(%d): error", contactID);
-		return 0;
-	}
+	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
+		return m_evLast = 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-	// Netlib_Logf(NULL, "FindLastEvent(%d): %d %d %d", contactID, pKey->dwContactId, pKey->ts, pKey->dwEventId);
-	return (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	m_tsLast = pKey->ts;
+	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
+	MDB_val data;
+	DWORD ts;
 
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr txn(m_pMdbEnv, true);
-	
-	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindNextEvent(%d, %d): no event", contactID, hDbEvent);
-		return 0;
-	}
 
-	DBEvent *dbe = (DBEvent*)data.mv_data;
-	DBEventSortingKey keyVal = { hDbEvent, dbe->timestamp, contactID };
-	key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
+	if (m_evLast != hDbEvent) {
+		MDB_val key = { sizeof(MEVENT), &hDbEvent };
+		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
+			return 0;
+		m_tsLast = ts = ((DBEvent*)data.mv_data)->timestamp;
+	}
+	else ts = m_tsLast;
+
+	DBEventSortingKey keyVal = { hDbEvent, ts, contactID };
+	MDB_val key = { sizeof(keyVal), &keyVal };
 
 	cursor_ptr cursor(txn, m_dbEventsSort);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindNextEvent(%d, %d): set error", contactID, hDbEvent);
-		return 0;
-	}
-	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindNextEvent(%d, %d): next error", contactID, hDbEvent);
-		return 0;
-	}
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY) != MDB_SUCCESS)
+		return m_evLast = 0;
+
+	if (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) != MDB_SUCCESS)
+		return m_evLast = 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-	// Netlib_Logf(NULL, "FindNextEvent(%d, %d): %d %d %d", contactID, hDbEvent, pKey->dwContactId, pKey->ts, pKey->dwEventId);
-	return (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	m_tsLast = pKey->ts;
+	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
-	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
+	MDB_val data;
+	DWORD ts;
 
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr txn(m_pMdbEnv, true);
 
-	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindPrevEvent(%d, %d): no event", contactID, hDbEvent);
-		return 0;
+	if (m_evLast != hDbEvent) {
+		MDB_val key = { sizeof(MEVENT), &hDbEvent };
+		if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
+			return 0;
+		m_tsLast = ts = ((DBEvent*)data.mv_data)->timestamp;
 	}
+	else ts = m_tsLast;
 
-	DBEvent *dbe = (DBEvent*)data.mv_data;
-	DBEventSortingKey keyVal = { hDbEvent, dbe->timestamp, contactID };
-	key.mv_size = sizeof(keyVal); key.mv_data = &keyVal;
+	DBEventSortingKey keyVal = { hDbEvent, ts, contactID };
+	MDB_val key = { sizeof(keyVal), &keyVal };
 
 	cursor_ptr cursor(txn, m_dbEventsSort);
-	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindPrevEvent(%d, %d): set error", contactID, hDbEvent);
-		return 0;
-	}
-	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS) {
-		// Netlib_Logf(NULL, "FindPrevEvent(%d, %d): prev error", contactID, hDbEvent);
-		return 0;
-	}
+	if (mdb_cursor_get(cursor, &key, &data, MDB_SET_KEY) != MDB_SUCCESS)
+		return m_evLast = 0;
+
+	if (mdb_cursor_get(cursor, &key, &data, MDB_PREV) != MDB_SUCCESS)
+		return m_evLast = 0;
 
 	DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-	// Netlib_Logf(NULL, "FindPrevEvent(%d, %d): %d %d %d", contactID, hDbEvent, pKey->dwContactId, pKey->ts, pKey->dwEventId);
-	return (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
+	m_tsLast = pKey->ts;
+	return m_evLast = (pKey->dwContactId == contactID) ? pKey->dwEventId : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
