@@ -77,12 +77,11 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 	mir_cslockfull lck(m_csDbAccess);
 	DWORD dwEventId = ++m_dwMaxEventId;
 
-	txn_ptr txn(m_pMdbEnv);
-
 	for (;; Remap()) {
+		txn_ptr txn(m_pMdbEnv);
+
 		MDB_val key = { sizeof(int), &dwEventId }, data = { sizeof(DBEvent) + dbe.cbBlob, NULL };
-		if (mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE) != MDB_SUCCESS)
-			return 0;
+		MDB_CHECK(mdb_put(txn, m_dbEvents, &key, &data, MDB_RESERVE), 0);
 
 		BYTE *pDest = (BYTE*)data.mv_data;
 		memcpy(pDest, &dbe, sizeof(DBEvent));
@@ -92,22 +91,21 @@ STDMETHODIMP_(MEVENT) CDbxMdb::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 		DBEventSortingKey key2 = { contactID, dbe.timestamp, dwEventId };
 		key.mv_size = sizeof(key2); key.mv_data = &key2;
 		data.mv_size = 1; data.mv_data = "";
-		if (mdb_put(txn, m_dbEventsSort, &key, &data, 0) != MDB_SUCCESS)
-			return 0;
+		MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
 
 		cc->Advance(dwEventId, dbe);
 		MDB_val keyc = { sizeof(int), &contactID }, datac = { sizeof(DBContact), &cc->dbc };
-		mdb_put(txn, m_dbContacts, &keyc, &datac, 0);
+		MDB_CHECK(mdb_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
 
 		// insert an event into a sub's history too
 		if (ccSub != NULL) {
 			key2.dwContactId = ccSub->contactID;
-			mdb_put(txn, m_dbEventsSort, &key, &data, 0);
+			MDB_CHECK(mdb_put(txn, m_dbEventsSort, &key, &data, 0), 0);
 
 			ccSub->Advance(dwEventId, dbe);
 			datac.mv_data = &ccSub->dbc;
 			keyc.mv_data = &ccSub->contactID;
-			mdb_put(txn, m_dbContacts, &keyc, &datac, 0);
+			MDB_CHECK(mdb_put(txn, m_dbContacts, &keyc, &datac, 0), 0);
 		}
 
 		if (txn.commit())
@@ -386,7 +384,7 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent
 /////////////////////////////////////////////////////////////////////////////////////////
 // low-level history cleaner
 
-int CDbxMdb::WipeContactHistory(DBContact *dbc)
+int CDbxMdb::WipeContactHistory(DBContact*)
 {
 	// drop subContact's history if any
 	return 0;

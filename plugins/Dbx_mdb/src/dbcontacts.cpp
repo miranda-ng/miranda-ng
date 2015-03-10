@@ -100,7 +100,7 @@ STDMETHODIMP_(LONG) CDbxMdb::DeleteContact(MCONTACT contactID)
 
 	for (;; Remap()) {
 		txn_ptr trnlck(m_pMdbEnv);
-		mdb_del(trnlck, m_dbContacts, &key, NULL);
+		MDB_CHECK(mdb_del(trnlck, m_dbContacts, &key, NULL), 0);
 		if (trnlck.commit())
 			break;
 	}
@@ -122,7 +122,7 @@ STDMETHODIMP_(MCONTACT) CDbxMdb::AddContact()
 
 		for (;; Remap()) {
 			txn_ptr trnlck(m_pMdbEnv);
-			mdb_put(trnlck, m_dbContacts, &key, &data, 0);
+			MDB_CHECK(mdb_put(trnlck, m_dbContacts, &key, &data, 0), 0);
 			if (trnlck.commit())
 				break;
 		}
