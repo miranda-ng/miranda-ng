@@ -519,6 +519,8 @@ bool ImportAccounts()
 
 		CopySettings(NULL, p.szSrcAcc, NULL, p.pa->szModuleName);
 	}
+
+	CopySettings(NULL, META_PROTO, NULL, META_PROTO);
 	return true;
 }
 
