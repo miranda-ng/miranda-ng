@@ -489,7 +489,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, MCONTACT hCont
 			if (bJob == TRUE) { // Remove possible block - hash changed, try again.
 				mir_cslock l(m_avatarsMutex);
 
-				for (int i = 0; i < m_arAvatars.getCount();) {
+				for (int i = 0; i < m_arAvatars.getCount(); i++) {
 					avatars_request *ar = m_arAvatars[i];
 					if (ar->hContact == hContact && ar->type == ART_BLOCK) { // found one, remove
 						m_arAvatars.remove(i);
