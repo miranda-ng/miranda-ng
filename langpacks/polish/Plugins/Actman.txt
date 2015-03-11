@@ -259,6 +259,14 @@ Ukryj wszystkie paski tytułów
 Pokaż wszystkie ramki
 [Show All Titlebars]
 Pokaż wszystkie paski tytułów
+[will never return the user's custom name]
+nigdy nie zwróci własnej nazwy użytkownika
+[will return Unicode instead of AnsiChar]
+zwróci znak Unicode zamiast Ansi
+[will not use the cache]
+Nie będzie używać cache
+[Gets the string that the contact list will use to represent a contact]
+otrzyma ciąg, którego będzie używać lista kontaktów, by przedstawiać kontakt
 [Closes Miranda]
 Zamyka Mirandę
 [Show or hide netlog console window]

@@ -570,3 +570,5 @@ Sople Lodu 50% szans opadów
 Sople Lodu 60% szans opadów
 [Light Drizzle Mist Patches Fog]
 Delikatna Mrzawka Mgliście Mgła
+[Partial Fog]
+częściowo zamglone
