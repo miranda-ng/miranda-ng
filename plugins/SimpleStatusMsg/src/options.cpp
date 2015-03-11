@@ -942,7 +942,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 
 						if (data->proto_msg[j].flags & PROTO_THIS_MSG)
 						{
-							int len = mir_tstrlen(data->proto_msg[j].msg);
+							size_t len = mir_tstrlen(data->proto_msg[j].msg);
 							if (len > 0)
 							{	
 								if (data->proto_msg[k+1].msg == NULL)

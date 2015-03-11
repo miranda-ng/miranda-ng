@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_MESSAGE_H__
 #define M_MESSAGE_H__ 1
 
-#include <m_core.h>
+#include <m_database.h>
 
 extern int hLangpack;
 
