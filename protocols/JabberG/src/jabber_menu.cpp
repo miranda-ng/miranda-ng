@@ -633,14 +633,6 @@ void CJabberProto::MenuInit()
 	mi.icolibItem = GetIconHandle(IDI_BOOKMARKS);
 	m_hMenuBookmarks = Menu_AddProtoMenuItem(&mi);
 
-	// "Options..."
-	CreateProtoService("/Options", &CJabberProto::OnMenuOptions);
-	strcpy(tDest, "/Options");
-	mi.pszName = LPGEN("Options...");
-	mi.position = 200002;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
-	Menu_AddProtoMenuItem(&mi);
-
 	// "Services..."
 	mi.pszName = LPGEN("Services...");
 	strcpy(tDest, "/Services");
