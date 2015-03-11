@@ -615,6 +615,9 @@ STDMETHODIMP_(BOOL) CDbxMdb::EnumContactSettings(MCONTACT contactID, DBCONTACTEN
 		}
 	}
 
+	if (arSettings.getCount() == 0)
+		return -1;
+
 	for (int i = 0; i < arSettings.getCount(); i++) {
 		result = (dbces->pfnEnumProc)(arSettings[i], dbces->lParam);
 		mir_free(arSettings[i]);
