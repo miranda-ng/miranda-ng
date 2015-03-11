@@ -1,6 +1,8 @@
 #ifndef __m_notify_h__
 #define __m_notify_h__
 
+#include <m_database.h>
+
 /*** Miranda Notify Dispatcher ************************************************\
 Notify Dispatcher provides common interface to different notification plugins
 like osd, popup, ticker etc.

@@ -9,6 +9,7 @@
 #include <commctrl.h>
 
 #include <newpluginapi.h>
+#include <m_database.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_awaymsg.h>

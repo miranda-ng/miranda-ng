@@ -18,6 +18,8 @@ them!
 #ifndef M_POPUP_H
 #define M_POPUP_H
 
+#include <m_database.h>
+
 /*
 NOTE! Since Popup 1.0.1.2 there is a main meun group called "Popups" where I
 have put a "Enable/Disable" item. You can add your own "enable/disable" items
