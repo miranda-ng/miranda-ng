@@ -73,13 +73,10 @@ int CheckIfModuleIsEmptyProc(const char *, LPARAM)
 	return 1;
 }
 
-int IsModuleEmpty(MCONTACT hContact, char* szModule)
+bool IsModuleEmpty(MCONTACT hContact, char* szModule)
 {
 	DBCONTACTENUMSETTINGS dbces;
 	dbces.pfnEnumProc = CheckIfModuleIsEmptyProc;
 	dbces.szModule = szModule;
-	int retVal = CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
-	if (retVal >= 0)
-		return 0;
-	return 1;
+	return 0 > CallService(MS_DB_CONTACT_ENUMSETTINGS, hContact, (LPARAM)&dbces);
 }
