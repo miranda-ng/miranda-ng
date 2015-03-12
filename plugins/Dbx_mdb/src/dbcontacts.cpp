@@ -160,19 +160,20 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	MDB_val key = { sizeof(keyVal), &keyVal }, key2 = { sizeof(insVal), &insVal }, data;
 
 	txn_ptr trnlck(m_pMdbEnv);
+	{
+		cursor_ptr cursor(trnlck, m_dbEventsSort);
+		mdb_cursor_get(cursor, &key, &data, MDB_SET);
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
+			DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+			if (pKey->dwContactId != ccSub->contactID)
+				break;
 
-	cursor_ptr cursor(trnlck, m_dbEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET);
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
-		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-		if (pKey->dwContactId != ccSub->contactID)
-			break;
+			insVal.ts = pKey->ts;
+			insVal.dwEventId = pKey->dwEventId;
+			mdb_put(trnlck, m_dbEventsSort, &key2, &data, 0);
 
-		insVal.ts = pKey->ts;
-		insVal.dwEventId = pKey->dwEventId;
-		mdb_put(trnlck, m_dbEventsSort, &key2, &data, 0);
-
-		ccMeta->dbc.dwEventCount++;
+			ccMeta->dbc.dwEventCount++;
+		}
 	}
 
 	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
@@ -190,19 +191,20 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 	MDB_val key = { sizeof(keyVal), &keyVal }, key2 = { sizeof(delVal), &delVal }, data;
 
 	txn_ptr trnlck(m_pMdbEnv);
+	{
+		cursor_ptr cursor(trnlck, m_dbEventsSort);
+		mdb_cursor_get(cursor, &key, &data, MDB_SET);
+		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
+			DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+			if (pKey->dwContactId != ccSub->contactID)
+				break;
 
-	cursor_ptr cursor(trnlck, m_dbEventsSort);
-	mdb_cursor_get(cursor, &key, &data, MDB_SET);
-	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
-		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-		if (pKey->dwContactId != ccSub->contactID)
-			break;
+			delVal.ts = pKey->ts;
+			delVal.dwEventId = pKey->dwEventId;
+			mdb_del(trnlck, m_dbEventsSort, &key2, &data);
 
-		delVal.ts = pKey->ts;
-		delVal.dwEventId = pKey->dwEventId;
-		mdb_del(trnlck, m_dbEventsSort, &key2, &data);
-
-		ccMeta->dbc.dwEventCount--;
+			ccMeta->dbc.dwEventCount--;
+		}
 	}
 	
 	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
