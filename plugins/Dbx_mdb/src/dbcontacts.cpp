@@ -171,7 +171,12 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		insVal.ts = pKey->ts;
 		insVal.dwEventId = pKey->dwEventId;
 		mdb_put(trnlck, m_dbEventsSort, &key2, &data, 0);
+
+		ccMeta->dbc.dwEventCount++;
 	}
+
+	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
 
 	trnlck.commit();
 	return 0;
@@ -196,8 +201,13 @@ BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		delVal.ts = pKey->ts;
 		delVal.dwEventId = pKey->dwEventId;
 		mdb_del(trnlck, m_dbEventsSort, &key2, &data);
+
+		ccMeta->dbc.dwEventCount--;
 	}
 	
+	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
+
 	trnlck.commit();
 	return 0;
 }
