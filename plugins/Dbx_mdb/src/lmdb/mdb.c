@@ -4368,7 +4368,7 @@ mdb_env_setup_locks(MDB_env *env, char *lpath, int mode, int *excl)
 
 #ifdef _WIN32
 	env->me_lfd = CreateFileA(lpath, GENERIC_READ|GENERIC_WRITE,
-		FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, OPEN_ALWAYS,
+		FILE_SHARE_READ, NULL, OPEN_ALWAYS,
 		FILE_ATTRIBUTE_NORMAL, NULL);
 #else
 	env->me_lfd = open(lpath, O_RDWR|O_CREAT|MDB_CLOEXEC, mode);
@@ -4646,8 +4646,7 @@ mdb_env_open(MDB_env *env, const char *path, unsigned int flags, mdb_mode_t mode
 		len = OPEN_ALWAYS;
 	}
 	mode = FILE_ATTRIBUTE_NORMAL;
-	env->me_fd = CreateFileA(dpath, oflags, FILE_SHARE_READ|FILE_SHARE_WRITE,
-		NULL, len, mode, NULL);
+	env->me_fd = CreateFileA(dpath, oflags, FILE_SHARE_READ, NULL, len, mode, NULL);
 #else
 	if (F_ISSET(flags, MDB_RDONLY))
 		oflags = O_RDONLY;
@@ -4676,9 +4675,7 @@ mdb_env_open(MDB_env *env, const char *path, unsigned int flags, mdb_mode_t mode
 			 */
 #ifdef _WIN32
 			len = OPEN_EXISTING;
-			env->me_mfd = CreateFileA(dpath, oflags,
-				FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, len,
-				mode | FILE_FLAG_WRITE_THROUGH, NULL);
+			env->me_mfd = CreateFileA(dpath, oflags, FILE_SHARE_READ, NULL, len, mode | FILE_FLAG_WRITE_THROUGH, NULL);
 #else
 			oflags &= ~O_CREAT;
 			env->me_mfd = open(dpath, oflags | MDB_DSYNC, mode);

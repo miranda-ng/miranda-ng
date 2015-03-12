@@ -57,9 +57,6 @@ static int makeDatabase(const TCHAR *profile)
 static int grokHeader(const TCHAR *profile)
 {
 	std::auto_ptr<CDbxMdb> db(new CDbxMdb(profile, DBMODE_SHARED | DBMODE_READONLY));
-	if (db->Load(true) != ERROR_SUCCESS)
-		return EGROKPRF_CANTREAD;
-
 	return db->Check();
 }
 
