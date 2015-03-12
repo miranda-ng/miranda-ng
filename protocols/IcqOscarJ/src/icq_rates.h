@@ -123,16 +123,18 @@ typedef void (rates_queue::*IcqRateFunc)(void);
 //
 class rates_queue : public MZeroedObject
 {
-	CIcqProto *ppro;
+	CIcqProto  *ppro;
 	const char *szDescr;
+	int         duplicates;
+
 	mir_cs listsMutex;  // we need to be thread safe
-	int pendingListSize;
-	rates_queue_item **pendingList;
-	int duplicates;
+	LIST<rates_queue_item> lstPending;
+	
 protected:
 	void cleanup();
 	void processQueue();
 	void initDelay(int nDelay, IcqRateFunc delaycode);
+
 public:
 	rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates = 0);
 	~rates_queue();
