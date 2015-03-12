@@ -284,10 +284,11 @@ BOOL rates_queue_item::isOverRate(int nLevel)
 	return FALSE;
 }
 
-rates_queue::rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates)
+rates_queue::rates_queue(CIcqProto *_ppro, const char *_descr, int nLimitLevel, int nWaitLevel, int nDuplicates) :
+	lstPending(1)
 {
-	this->ppro = ppro;
-	this->szDescr = szDescr;
+	ppro = _ppro;
+	szDescr = _descr;
 	limitLevel = nLimitLevel;
 	waitLevel = nWaitLevel;
 	duplicates = nDuplicates;
@@ -297,7 +298,6 @@ rates_queue::~rates_queue()
 {
 	cleanup();
 }
-
 
 // links to functions that are under Rate Control
 struct rate_delay_args
@@ -314,7 +314,6 @@ void __cdecl CIcqProto::rateDelayThread(rate_delay_args *pArgs)
 	SAFE_FREE((void**)&pArgs);
 }
 
-
 void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
 {
 	ppro->debugLogA("Rates: Delay %dms", nDelay);
@@ -327,26 +326,20 @@ void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
 	ppro->ForkThread((CIcqProto::MyThreadFunc)&CIcqProto::rateDelayThread, pArgs);
 }
 
-
 void rates_queue::cleanup()
 {
 	mir_cslock l(listsMutex);
 
-	if (pendingListSize)
-		ppro->debugLogA("Rates: Purging %d %s(s).", pendingListSize, szDescr);
+	if (lstPending.getCount())
+		ppro->debugLogA("Rates: Purging %d %s(s).", lstPending.getCount(), szDescr);
 
-	for (int i = 0; i < pendingListSize; i++)
-		delete pendingList[i];
-	SAFE_FREE((void**)&pendingList);
-	pendingListSize = 0;
+	for (int i = 0; i < lstPending.getCount(); i++)
+		delete lstPending[i];
+	lstPending.destroy();
 }
-
 
 void rates_queue::processQueue()
 {
-	if (!pendingList)
-		return;
-
 	if (!ppro->icqOnline()) {
 		cleanup();
 		return;
@@ -354,7 +347,10 @@ void rates_queue::processQueue()
 
 	// take from queue, execute
 	mir_cslockfull l(listsMutex);
-	rates_queue_item *item = pendingList[0];
+	if (lstPending.getCount() == 0)
+		return;
+
+	rates_queue_item *item = lstPending[0];
 	{
 		mir_cslockfull rlck(ppro->m_ratesMutex);
 		if (item->isOverRate(limitLevel)) { // the rate is higher, keep sleeping
@@ -368,13 +364,8 @@ void rates_queue::processQueue()
 		}
 	}
 
-	if (pendingListSize > 1) { // we need to keep order
-		memmove(&pendingList[0], &pendingList[1], (pendingListSize - 1) * sizeof(rates_queue_item*));
-	}
-	else
-		SAFE_FREE((void**)&pendingList);
-
-	int bSetupTimer = --pendingListSize != 0;
+	lstPending.remove(int(0));
+	bool bSetupTimer = lstPending.getCount() != 0;
 
 	l.unlock();
 
@@ -398,53 +389,44 @@ void rates_queue::processQueue()
 	delete item;
 }
 
-
 void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 {
-	int bFound = FALSE;
-
 	if (!ppro->icqOnline())
 		return;
 
 	ppro->debugLogA("Rates: Delaying %s.", szDescr);
+	{
+		mir_cslock l(listsMutex);
+		if (lstPending.getCount()) {
+			for (int i = 0; i < lstPending.getCount(); i++) {
+				if (lstPending[i]->isEqual(pItem)) {
+					if (duplicates == 1) // keep existing, ignore new
+						return;
 
-	mir_cslockfull l(listsMutex);
-	if (pendingListSize) {
-		for (int i = 0; i < pendingListSize; i++) {
-			if (pendingList[i]->isEqual(pItem)) {
-				if (duplicates == 1) // keep existing, ignore new
-					return;
-				
-				if (duplicates == -1) { // discard existing, append new item
-					delete pendingList[i];
-					memcpy(&pendingList[i], &pendingList[i + 1], (pendingListSize - i - 1) * sizeof(rates_queue_item*));
-					bFound = TRUE;
+					if (duplicates == -1) { // discard existing, append new item
+						delete lstPending[i];
+						lstPending.remove(i);
+					}
 				}
-				// otherwise keep existing and append new
 			}
 		}
-	}
-	if (!bFound) { // not found, enlarge the queue
-		pendingListSize++;
-		pendingList = (rates_queue_item**)SAFE_REALLOC(pendingList, pendingListSize * sizeof(rates_queue_item*));
-	}
-	pendingList[pendingListSize - 1] = pItem->copyItem();
 
-	if (pendingListSize == 1) { // queue was empty setup timer
-		l.unlock();
-
-		int nDelay;
-		{
-			mir_cslock rlck(ppro->m_ratesMutex);
-			nDelay = ppro->m_rates->getDelayToLimitLevel(pItem->wGroup, waitLevel);
-		}
-
-		if (nDelay < 10) nDelay = 10;
-		if (nDelay < nMinDelay) nDelay = nMinDelay;
-		initDelay(nDelay, &rates_queue::processQueue);
+		lstPending.insert(pItem->copyItem());
 	}
+
+	if (lstPending.getCount() != 1)
+		return;
+	
+	// queue was empty setup timer
+	int nDelay;
+	{	mir_cslock rlck(ppro->m_ratesMutex);
+		nDelay = ppro->m_rates->getDelayToLimitLevel(pItem->wGroup, waitLevel);
+	}
+
+	if (nDelay < 10) nDelay = 10;
+	if (nDelay < nMinDelay) nDelay = nMinDelay;
+	initDelay(nDelay, &rates_queue::processQueue);
 }
-
 
 int CIcqProto::handleRateItem(rates_queue_item *item, int nQueueType, int nMinDelay, BOOL bAllowDelay)
 {
