@@ -283,7 +283,7 @@ STDMETHODIMP_(BOOL) CDbxMdb::GetContactSettingStr(MCONTACT contactID, LPCSTR szM
 	if (iSaveType == DBVT_WCHAR) {
 		if (dbv->type != DBVT_UTF8) {
 			int len = MultiByteToWideChar(CP_ACP, 0, dbv->pszVal, -1, NULL, 0);
-			wchar_t* wszResult = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
+			wchar_t *wszResult = (wchar_t*)mir_alloc((len + 1)*sizeof(wchar_t));
 			if (wszResult == NULL)
 				return 1;
 
