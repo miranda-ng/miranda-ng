@@ -127,7 +127,7 @@ class rates_queue : public MZeroedObject
 	const char *szDescr;
 	int         duplicates;
 
-	mir_cs listsMutex;  // we need to be thread safe
+	mir_cs csLists;  // we need to be thread safe
 	LIST<rates_queue_item> lstPending;
 	
 protected:
@@ -136,7 +136,7 @@ protected:
 	void initDelay(int nDelay, IcqRateFunc delaycode);
 
 public:
-	rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates = 0);
+	rates_queue(CIcqProto *ppro, const char *szDescr, int nLimitLevel, int nWaitLevel, int nDuplicates);
 	~rates_queue();
 
 	void putItem(rates_queue_item *pItem, int nMinDelay);
