@@ -328,11 +328,7 @@ void rates_queue::initDelay(int nDelay, IcqRateFunc delaycode)
 
 void rates_queue::cleanup()
 {
-	mir_cslock l(listsMutex);
-
-	if (lstPending.getCount())
-		ppro->debugLogA("Rates: Purging %d %s(s).", lstPending.getCount(), szDescr);
-
+	mir_cslock l(csLists);
 	for (int i = 0; i < lstPending.getCount(); i++)
 		delete lstPending[i];
 	lstPending.destroy();
@@ -346,7 +342,7 @@ void rates_queue::processQueue()
 	}
 
 	// take from queue, execute
-	mir_cslockfull l(listsMutex);
+	mir_cslockfull l(csLists);
 	if (lstPending.getCount() == 0)
 		return;
 
@@ -375,8 +371,7 @@ void rates_queue::processQueue()
 	}
 	else ppro->debugLogA("Rates: Discarding %s.", szDescr);
 
-	if (bSetupTimer) {
-		// in queue remained some items, setup timer
+	if (bSetupTimer) { // in queue remained some items, setup timer
 		int nDelay;
 		{
 			mir_cslockfull rlck(ppro->m_ratesMutex);
@@ -396,7 +391,7 @@ void rates_queue::putItem(rates_queue_item *pItem, int nMinDelay)
 
 	ppro->debugLogA("Rates: Delaying %s.", szDescr);
 	{
-		mir_cslock l(listsMutex);
+		mir_cslock l(csLists);
 		if (lstPending.getCount()) {
 			for (int i = 0; i < lstPending.getCount(); i++) {
 				if (lstPending[i]->isEqual(pItem)) {
