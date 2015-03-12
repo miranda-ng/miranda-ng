@@ -115,12 +115,15 @@ void CToxProto::UninitToxCore()
 		transfers.Remove(transfer);
 	}
 
-	ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
-	tox_set_name(tox, (uint8_t*)(char*)nickname, mir_strlen(nickname));
+	if (IsToxCoreInited())
+	{
+		ptrA nickname(mir_utf8encodeW(ptrT(getTStringA("Nick"))));
+		tox_set_name(tox, (uint8_t*)(char*)nickname, mir_strlen(nickname));
 
-	//temporary
-	ptrA statusmes(mir_utf8encodeW(ptrT(getTStringA("StatusMsg"))));
-	tox_set_status_message(tox, (uint8_t*)(char*)statusmes, mir_strlen(statusmes));
+		//temporary
+		ptrA statusmes(mir_utf8encodeW(ptrT(getTStringA("StatusMsg"))));
+		tox_set_status_message(tox, (uint8_t*)(char*)statusmes, mir_strlen(statusmes));
+	}
 
 	SaveToxProfile();
 	if (password != NULL)
