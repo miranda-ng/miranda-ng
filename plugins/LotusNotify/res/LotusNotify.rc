@@ -71,7 +71,7 @@ BEGIN
                     WS_TABSTOP,177,80,130,10
     LTEXT           "Left button click cmd:",IDC_STATIC,10,117,80,9
     LTEXT           "Command parameters:",IDC_STATIC,10,130,80,9
-    CONTROL         "Remember newest message ID\n and don't show older",
+    CONTROL         "Remember newest message ID and don't show older",
                     IDC_NEWEST,"Button",BS_AUTOCHECKBOX | BS_LEFT | 
                     BS_PUSHLIKE | BS_MULTILINE | WS_TABSTOP,177,103,130,20
     CTEXT           "",IDC_VERSION,39,222,52,9,0,WS_EX_STATICEDGE
