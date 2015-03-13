@@ -41,7 +41,7 @@ Szuka partnera do gry
 [Looking to trade]
 Szuka partnera do wymiany
 [ (Non-Steam)]
-
+ (z poza Steam)
 [ on server %s]
  na serwerze %s
 [Playing]
