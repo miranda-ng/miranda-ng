@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.2.2
-;  Authors: unsane
+;  Version: 0.11.3.0
+;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Підтримка протоколу Steam у Miranda NG.
@@ -29,6 +29,8 @@
 Перейти до поштової скринки
 [Block]
 Заблокувати
+[Steam game]
+Гра Steam
 [ on server %s]
  на сервері %s
 [Playing]
@@ -57,7 +59,11 @@
 Запитати авторизацію
 [Join to game]
 Приєднатися до гри
+[Unknown error]
+Невідома помилка
 [Protocols]
 Протоколи
 [Protocol icon]
 Значок протоколу
+[You cannot send messages when you are offline.]
+Для надсилання повідомлень необхідно підключитися до мережі.

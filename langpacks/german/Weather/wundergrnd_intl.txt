@@ -570,3 +570,5 @@ Wolkig
 
 [Light Drizzle Mist Patches Fog]
 
+[Partial Fog]
+

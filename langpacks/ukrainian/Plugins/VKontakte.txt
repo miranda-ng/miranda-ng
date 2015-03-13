@@ -353,13 +353,13 @@
 Створити новий чат
 [Status message]
 Статусне повідомлення
-[Sent message to my wall]
-Публікувати повідомлення на своїй стіні
+[Send message to my wall]
+Публікувати на своїй стіні
 [Load news from VK]
 Завантажити новини з сайту
 [Visit profile]
 Профіль на сайті
-[Sent message to user\'s wall]
+[Send message to user\'s wall]
 Повідомлення на стіні користувача
 [Add as friend]
 Додати до списку друзів

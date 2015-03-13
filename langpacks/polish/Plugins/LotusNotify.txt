@@ -30,7 +30,7 @@ s (0 - domyślnie,\n -1 - nie chowaj)
 Polecenie po kliknięciu:
 [Command parameters:]
 Argumenty polecenia:
-[Remember newest message ID\n and don't show older]
+[Remember newest message ID and don't show older]
 Zapamiętaj najnowszą wiadomość i nie pokazuj starszych od niej
 [version:]
 wersja:

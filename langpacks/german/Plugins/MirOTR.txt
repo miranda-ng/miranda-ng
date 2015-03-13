@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.11.0.4
+;  Version: 0.11.0.5
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]

@@ -1235,8 +1235,6 @@ Serverauswahl
 In Kontakt umwandeln
 [&Convert to Chat Room]
 In Konferenzraum umwandeln
-[Options...]
-Einstellungen...
 [Services...]
 Dienste...
 [Registered Transports]

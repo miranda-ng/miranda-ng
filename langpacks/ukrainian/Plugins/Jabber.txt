@@ -1203,8 +1203,6 @@ JID видавців
 Конвертувати в контакт
 [&Convert to Chat Room]
 &Конвертувати в чат
-[Options...]
-Налаштування...
 [Services...]
 Служби...
 [Registered Transports]

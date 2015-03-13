@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -30,16 +30,6 @@ UDP deaktivieren (zwingt Tox, TCP zu verwenden)
 IPv6 deaktivieren
 [Tox]
 Tox
-[Multimedia]
-Multimedia
-[Audio input device]
-Audioeingabegeräte
-[Audio output device]
-Audioausgabegeräte
-[Filter audio]
-Audio filtern
-[Video input device]
-Videoeingabegeräte
 [If this field contains tox address (76 hex characters), you will be prompted to add it in your friend list. Otherwise, Miranda will search this query via tox dns discovery.]
 Wenn dieses Feld eine Tox-Adresse enthält (76 Hex-Zeichen), dann werden Sie gefragt ob Sie diese zu Ihrer Freundesliste hinzufügen wollen. Anderenfalls sucht Miranda über Tox-DNS-Erkennung
 [Dns name:]
@@ -54,27 +44,56 @@ Abbrechen
 Tox-Profil ist verschlüsselt. Geben Sie das Passwort ein um fortzusetzen.
 [Add]
 Hinzufügen
-[IPv4]
-IPv4
-[IPv6]
-IPv6
+[IPv4 address/ Host]
+
+[IPv6 address (optional)]
+
 [Port]
 Port
 [Public key]
 Öffentlicher Schlüssel
+[Multimedia]
+Multimedia
+[Audio input device]
+Audioeingabegeräte
+[Audio output device]
+Audioausgabegeräte
+[Filter audio]
+Audio filtern
+[Video input device]
+Videoeingabegeräte
+[Invite contacts to chat room]
+Kontakte in Chatraum einladen
+[&Invite]
+E&inladen
+[&Cancel]
+Abbre&chen
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
+Gruppenchat
 ;file \protocols\Tox\src\tox_events.cpp
-[Network]
-Netzwerk
-[Account]
-Konto
-[Nodes]
-Knoten
+[Profiles folder]
+
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+Protokollicon
+[Protocols]
+Protokolle
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+Autorisierung anfragen
+[Grant authorization]
+Autorisierung gewähren
+[Copy Tox ID]
+Tox ID kopieren
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 %s-Verbindung
 ;file \protocols\Tox\src\tox_options.cpp
-[All files (*.*)]
-Alle Dateien (*.*)
+[Tox profile]
+Tox-Profil
+[All files]
+Alle Dateien
 [Select tox profile]
 Tox-Profil auswählen
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
@@ -99,11 +118,15 @@ Knoten
 Sind Sie sich sicher?
 [Node deleting]
 Knoten löschen
+[Network]
+Netzwerk
+[Account]
+Konto
+[Nodes]
+Knoten
 ;file \protocols\Tox\src\tox_proto.cpp
-[Protocols]
-Protokolle
-[Protocol icon]
-Protokollicon
+[Action]
+Aktion
 [You cannot add yourself to your contact list]
 Sie können sich nicht selbst zu Ihrer Kontaktliste hinzufügen
 [Contact already in your contact list]

@@ -362,13 +362,13 @@ Anzeige
 Neuen Chat erstellen
 [Status message]
 Statusnachricht
-[Sent message to my wall]
+[Send message to my wall]
 Nachricht auf meine Pinnwand senden
 [Load news from VK]
 Neuigkeiten von VK laden
 [Visit profile]
 Profil ansehen
-[Sent message to user\'s wall]
+[Send message to user\'s wall]
 Nachricht auf Pinnwand des Benutzers senden
 [Add as friend]
 Als Freund hinzufügen

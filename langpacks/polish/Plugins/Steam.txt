@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.2.2
-;  Authors: unsane
+;  Version: 0.11.3.0
+;  Authors: unsane, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
 Zapewnia obsługę protokołu Steam.
@@ -40,6 +40,8 @@ Gra Steam
 Szuka partnera do gry
 [Looking to trade]
 Szuka partnera do wymiany
+[ (Non-Steam)]
+
 [ on server %s]
  na serwerze %s
 [Playing]
@@ -71,6 +73,9 @@ Wybór menu Steam
 Poproś o autoryzację
 [Join to game]
 Dołącz do gry
+;file \protocols\Steam\src\steam_messages.cpp
+[Unknown error]
+Nieznany błąd
 ;file \protocols\Steam\src\steam_proto.cpp
 [Protocols]
 Protokoły
@@ -80,4 +85,6 @@ Ikona protokołu
 Ikona grania
 [SteamID]
 SteamID
+[You cannot send messages when you are offline.]
+Nie można wysłać wiadomości, gdy jesteś offline.
 ;file \protocols\Steam\src\steam_xstatus.cpp

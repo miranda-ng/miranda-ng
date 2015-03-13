@@ -37,6 +37,10 @@
 Профіль Tox зашифровано. Щоб продовжити, введіть пароль.
 [Add]
 Додати
+[IPv4 address/ Host]
+IPv4 адреса/ Хост
+[IPv6 address (optional)]
+IPv6 адреса (необов'язково)
 [Port]
 Порт
 [Public key]
@@ -59,6 +63,8 @@
 &Скасувати
 [Groupchat]
 Чат
+[Profiles folder]
+Папка профілів
 [Protocol icon]
 Значок протоколу
 [Protocols]
@@ -71,8 +77,10 @@
 Копіювати Tox ID
 [%s connection]
 З'єднання %s
-[All files (*.*)]
-Усі файли (*.*)
+[Tox profile]
+Профіль Tox
+[All files]
+Усі файли
 [Select tox profile]
 Виберіть профіль Tox
 [You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
@@ -103,6 +111,8 @@
 Обліковий запис
 [Nodes]
 Ноди
+[Action]
+Дія
 [You cannot add yourself to your contact list]
 Ви не можете додати себе до списку контактів
 [Contact already in your contact list]

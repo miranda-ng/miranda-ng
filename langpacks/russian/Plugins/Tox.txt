@@ -98,7 +98,7 @@ IPv6 адрес (необязательно)
 [Enter public key]
 Введите открытый ключ
 [Common nodes]
-Общие ноды 
+Общие ноды
 [nodes]
 ноды
 [Are you sure?]
