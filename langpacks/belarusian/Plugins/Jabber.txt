@@ -947,8 +947,6 @@ Jabber Рэсурс
 Канвертаваць у кантакт
 [&Convert to Chat Room]
 &Канвертаваць у чат
-[Options...]
-Налады...
 [Services...]
 Службы...
 [Registered Transports]
@@ -1751,8 +1749,6 @@ Odnoklassniki
 Мянушка:
 [Status:]
 Статус:
-[Status text:]
-Тэкст статуса:
 [Real JID:]
 Сапраўдны JID:
 ;file \protocols\JabberG\src\jabber_thread.cpp

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.3
+;  Version: 0.2.10.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -170,8 +170,6 @@ URL:
 Кантакт паслаў вам %s:
 [User sent an unsupported attachment. Open your browser to see it.]
 Кантакт паслаў непадтрымліваемае ўкладанне. Каб прагледзець, перайдзіце на сайт.
-[Message read: %s by %s]
-Паведамленне прачытана ў: %s карытальнікам %s
 [This message is no longer available, because it was marked as abusive or spam.]
 Паведамленне недасяжна,таму што было адзначана як спам.
 [%s is typing a message...]
@@ -223,6 +221,8 @@ Facebook ID павінна быць лічбавым значэннем.
 Навіны
 [Other Event]
 Іншая падзея
+[Message read: %s by %s]
+Паведамленне прачытана ў: %s карытальнікам %s
 [Message read: %s]
 Паведамленне прачытана ў: %s
 ;file \protocols\FacebookRM\src\theme.cpp

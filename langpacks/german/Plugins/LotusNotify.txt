@@ -30,7 +30,7 @@ Sek. (0 Standard\n-1 deaktiviert)
 Linker Button Klick Befehl:
 [Command parameters:]
 Kommando Parameter:
-[Remember newest message ID\n and don't show older]
+[Remember newest message ID and don't show older]
 Neuste Nachricht-ID merken\nund keine älteren anzeigen
 [version:]
 Version:

@@ -29,7 +29,7 @@
 Команда ЛКМ:
 [Command parameters:]
 Параметри команди:
-[Remember newest message ID\n and don't show older]
+[Remember newest message ID and don't show older]
 Пам'ятати ID останнього повідомлення і не показувати старі
 [version:]
 Версія:

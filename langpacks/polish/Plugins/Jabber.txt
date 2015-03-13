@@ -1235,8 +1235,6 @@ Wybór serwera
 &Skonwertuj do kontaktu
 [&Convert to Chat Room]
 S&konwertuj na pokój
-[Options...]
-Opcje...
 [Services...]
 Usługi...
 [Registered Transports]

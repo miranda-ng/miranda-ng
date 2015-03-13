@@ -320,34 +320,6 @@
 Колер тэксту
 [Choose font]
 Шрыфт
-[Font]
-Шрыфт
-[&Font:]
-Шрыфт:
-[Font st&yle:]
-Стыль шрыфта:
-[\nStyles and effects are disabled for this font.]
-Для гэтага шрыфта налады стыляў і эфектаў адключаны.
-[&Size:]
-Памер:
-[Effects]
-Эфекты
-[Stri&keout]
-Закрэслены
-[&Underline]
-Падкрэсліць
-[&Color:]
-Колер:
-[Sample]
-Прыклад
-[AaBbYyZz]
-АаБбВвГг
-[Sc&ript:]
-Скрыпт:
-[&Apply]
-Ужыць
-[&Help]
-Даведка
 [Menu objects]
 Выгляды меню
 [Menu items]
@@ -474,6 +446,8 @@ Miranda NG перазапускаецца.\nКалі ласка, пачакай�
 Уніз
 [Send &offline]
 У афлайн
+[&Apply]
+Ужыць
 [Context menu]
 Кантэкстнае меню
 [Use contact's unique ID]
@@ -615,6 +589,8 @@ UIN, E-mail і г.д.
 Тлусты
 [&Italic]
 Курсіў
+[&Underline]
+Падкрэсліць
 [&Color]
 Колер
 [&Background color]
@@ -1795,6 +1771,8 @@ UIN, E-mail і г.д.
 [< Copyright]
 < Правы
 ;file \src\core\stdhelp\src\help.cpp
+[&Help]
+Даведка
 [&About...]
 &Пра праграму
 [&Support]
@@ -1967,7 +1945,6 @@ URL ад %s
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Дадаць кантакт

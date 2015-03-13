@@ -259,6 +259,14 @@ Alle Titelleisten verstecken
 Alle Frames anzeigen
 [Show All Titlebars]
 Alle Titelleisten anzeigen
+[will never return the user's custom name]
+
+[will return Unicode instead of AnsiChar]
+
+[will not use the cache]
+
+[Gets the string that the contact list will use to represent a contact]
+
 [Closes Miranda]
 Schließt Miranda
 [Show or hide netlog console window]

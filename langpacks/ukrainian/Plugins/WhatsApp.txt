@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.10
+;  Version: 0.1.2.12
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -29,7 +29,7 @@ SMS-код
 З кодом країни, без "+" чи "00"
 [Invite users]
 Запрошення користувачів
-[Choose an user]
+[Choose a user]
 Виберіть користувача
 [Other user:]
 Інший користувач:

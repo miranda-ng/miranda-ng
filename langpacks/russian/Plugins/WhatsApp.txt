@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.11
+;  Version: 0.1.2.12
 ;  Authors: Uli Hecht
 ;============================================================
 [WhatsApp protocol support for Miranda NG.]
@@ -29,7 +29,7 @@
 Включая код страны, без '+' или '00'
 [Invite users]
 Приглашение пользователей
-[Choose an user]
+[Choose a user]
 Выберите пользователя
 [Other user:]
 Другой пользователь:

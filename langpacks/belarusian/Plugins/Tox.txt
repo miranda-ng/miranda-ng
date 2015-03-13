@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 ;file \protocols\Tox\res\resource.rc
@@ -14,14 +14,25 @@
 Скасаваць
 [Add]
 Дадаць
+[&Cancel]
+Скасаваць
+;file \protocols\Tox\src\tox_chatrooms.cpp
 ;file \protocols\Tox\src\tox_events.cpp
-[Network]
-Сеціва
+;file \protocols\Tox\src\tox_icons.cpp
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+Запытаць аўтарызацыю
+[Grant authorization]
+Аўтарызаваць
 ;file \protocols\Tox\src\tox_netlib.cpp
 ;file \protocols\Tox\src\tox_options.cpp
+[All files]
+Усе файлы
 [Error]
 Памылка
 [Are you sure?]
 Вы ўпэўнены?
+[Network]
+Сеціва
 ;file \protocols\Tox\src\tox_proto.cpp
 ;file \protocols\Tox\src\tox_search.cpp

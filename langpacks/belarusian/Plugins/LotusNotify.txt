@@ -30,8 +30,8 @@
 Каманда па левай пстрычцы мышы:
 [Command parameters:]
 Параметры каманды:
-[Remember newest message ID\n and don't show older]
-Запамінаць найноўшы ID паведамлення \n  і не паказваюць старэй
+[Remember newest message ID and don't show older]
+Запамінаць найноўшы ID паведамлення і не паказваць старэй
 [version:]
 версія:
 [Clear popups history]

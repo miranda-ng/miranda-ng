@@ -362,13 +362,13 @@ Połączenie %s
 Utwórz nowy czat
 [Status message]
 Opis
-[Sent message to my wall]
+[Send message to my wall]
 Wyślij posta na moją tablicę
 [Load news from VK]
 Załaduj aktualności z VK
 [Visit profile]
 Odwiedź profil
-[Sent message to user\'s wall]
+[Send message to user\'s wall]
 Wyślij posta na tablicę użytkownika
 [Add as friend]
 Dodaj jako znajomego

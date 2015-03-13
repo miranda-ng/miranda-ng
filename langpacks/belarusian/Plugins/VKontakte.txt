@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.47
+;  Version: 0.1.0.50
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -116,4 +116,6 @@
 Далучэнне да сервера %s
 [Create new chat]
 Стварыць чат
+;file \protocols\VKontakte\src\vk_status.cpp
 ;file \protocols\VKontakte\src\vk_thread.cpp
+;file \protocols\VKontakte\src\vk_wallpost.cpp

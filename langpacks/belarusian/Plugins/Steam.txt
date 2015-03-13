@@ -2,8 +2,8 @@
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.11.2.2
-;  Authors: unsane
+;  Version: 0.11.3.0
+;  Authors: unsane, Robert Pösel
 ;============================================================
 ;file \protocols\Steam\res\Resource.rc
 [Username:]
@@ -25,5 +25,6 @@
 ;file \protocols\Steam\src\steam_menus.cpp
 [Request authorization]
 Запытаць аўтарызацыю
+;file \protocols\Steam\src\steam_messages.cpp
 ;file \protocols\Steam\src\steam_proto.cpp
 ;file \protocols\Steam\src\steam_xstatus.cpp

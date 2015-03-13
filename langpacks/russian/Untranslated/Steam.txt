@@ -1,5 +1,6 @@
 ﻿[Steam Guard]
 [Looking to play]
 [Looking to trade]
+[ (Non-Steam)]
 [Gaming icon]
 [SteamID]

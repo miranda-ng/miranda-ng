@@ -1,0 +1,4 @@
+﻿[will never return the user's custom name]
+[will return Unicode instead of AnsiChar]
+[will not use the cache]
+[Gets the string that the contact list will use to represent a contact]

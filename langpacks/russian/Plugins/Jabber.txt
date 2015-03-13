@@ -927,8 +927,6 @@ Jabber ошибка
 &Конвертировать в контакт
 [&Convert to Chat Room]
 &Конвертировать в чат
-[Options...]
-Настройки...
 [Services...]
 Службы...
 [Registered Transports]
