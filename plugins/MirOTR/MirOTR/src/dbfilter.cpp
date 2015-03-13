@@ -299,6 +299,8 @@ int StatusModeChange(WPARAM wParam, LPARAM lParam) {
 
 int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
+	if (!options.end_offline)
+		return 0;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 	if (!lParam || strcmp(cws->szSetting, "Status") != 0) return 0;
 	int status=0;

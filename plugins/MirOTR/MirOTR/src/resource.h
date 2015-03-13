@@ -23,7 +23,6 @@
 #define IDC_CHK_MSGPOPUP                1059
 #define	IDC_CHK_PREVENTSAVE				1060
 #define IDC_CHK_AUTOSHOW_VERIFY			1061
-#define IDC_CHK_TIMEFINISH              1062
 #define IDC_CHK_ENDOFFLINE              1063
 #define IDC_CHK_ENDCLOSE                1064
 #define IDC_CHK_PREVENTSYSSAVE			1065

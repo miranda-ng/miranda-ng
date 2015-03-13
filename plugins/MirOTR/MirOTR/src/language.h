@@ -12,11 +12,11 @@
 #define LANG_STATUS_PRIVATE					LPGEN("OTR Encryption: Private")
 #define LANG_STATUS_FINISHED				LPGEN("OTR Encryption: Finished")
 
-#define LANG_MENU_START						LPGEN("&Start OTR session")
-#define LANG_MENU_REFRESH					LPGEN("&Refresh OTR session")
-#define LANG_MENU_STOP						LPGEN("Sto&p OTR session")
-#define LANG_MENU_VERIFY					LPGEN("&Verify Fingerprint")
-#define LANG_MENU_TOGGLEHTML				LPGEN("&Convert HTML (for Pidgin)")
+#define LANG_MENU_START						LPGENT("&Start OTR session")
+#define LANG_MENU_REFRESH					LPGENT("&Refresh OTR session")
+#define LANG_MENU_STOP						LPGENT("Sto&p OTR session")
+#define LANG_MENU_VERIFY					LPGENT("&Verify Fingerprint")
+#define LANG_MENU_TOGGLEHTML				LPGENT("&Convert HTML (for Pidgin)")
 
 #define LANG_SESSION_TERMINATED_OTR			LPGEN("OTR encrypted session with '%s' has been terminated")
 #define LANG_SESSION_REQUEST_OTR			LPGEN("Requesting OTR encrypted session with '%s'")

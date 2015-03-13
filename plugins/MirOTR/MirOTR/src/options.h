@@ -20,8 +20,6 @@ typedef struct {
 	bool msg_inline;
 	bool msg_popup;
 	char prefix[OPTIONS_PREFIXLEN];
-	
-	bool timeout_finished;
 
 	bool delete_history;
 	bool delete_systeminfo;
