@@ -74,7 +74,7 @@ IPv6 адрес (необязательно)
 [Grant authorization]
 Авторизовать
 [Copy Tox ID]
-Коопировать Tox ID
+Копировать Tox ID
 [%s connection]
 %s подключение
 [Tox profile]
