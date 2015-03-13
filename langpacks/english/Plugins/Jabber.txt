@@ -630,7 +630,6 @@
 [Server's Choice]
 [&Convert to Contact]
 [&Convert to Chat Room]
-[Options...]
 [Services...]
 [Registered Transports]
 [Local Server Transports]
