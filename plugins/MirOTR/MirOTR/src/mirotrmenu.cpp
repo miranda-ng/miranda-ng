@@ -218,35 +218,35 @@ void InitMirOTRMenu(void)
 	hStatusInfoItem = (HGENMENU) AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTPRIVATE | CMIF_NOTUNVERIFIED;
-	mi.ptszName = _T(LANG_MENU_START);
+	mi.ptszName = LANG_MENU_START;
 	mi.position = 100001;
 	mi.pszService = MS_OTR_MENUSTART;
 	mi.icolibItem = GetIconHandle(ICON_UNVERIFIED);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.ptszName = _T(LANG_MENU_REFRESH);
+	mi.ptszName = LANG_MENU_REFRESH;
 	mi.position = 100002;
 	mi.pszService = MS_OTR_MENUREFRESH;
 	mi.icolibItem = GetIconHandle(ICON_FINISHED);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE;
-	mi.ptszName = _T(LANG_MENU_STOP);
+	mi.ptszName = LANG_MENU_STOP;
 	mi.position = 100003;
 	mi.pszService = MS_OTR_MENUSTOP;
 	mi.icolibItem = GetIconHandle(ICON_NOT_PRIVATE);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR | CMIF_NOTNOTPRIVATE | CMIF_NOTFINISHED;
-	mi.ptszName = _T(LANG_MENU_VERIFY);
+	mi.ptszName = LANG_MENU_VERIFY;
 	mi.position = 200001;
 	mi.pszService = MS_OTR_MENUVERIFY;
 	mi.icolibItem = GetIconHandle(ICON_PRIVATE);
 	AddMirOTRMenuItem(0, (LPARAM) &mi);
 
 	mi.flags = CMIF_TCHAR|CMIF_CHECKED;
-	mi.ptszName = _T(LANG_MENU_TOGGLEHTML);
+	mi.ptszName = LANG_MENU_TOGGLEHTML;
 	mi.position = 300001;
 	mi.pszService = MS_OTR_MENUTOGGLEHTML;
 	hHTMLConvMenuItem = (HGENMENU) AddMirOTRMenuItem(0, (LPARAM) &mi);

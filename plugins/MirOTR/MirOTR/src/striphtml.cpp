@@ -7,15 +7,13 @@ void starttag_cb (void *cbdata, ekhtml_string_t *tag, ekhtml_attr_t *attrs) {
 			switch (*(tag->str)) {
 				case 'a':
 				case 'A':
-					{
-					ekhtml_attr_t *attr = attrs;
-					while (attr) {
+					for(ekhtml_attr_t *attr=attrs; attr; attr=attr->next) {
 						if (_strnicmp(attr->name.str, "href", attr->name.len)==0) {
 							data->stack.push(strncpy((char*)mir_calloc(attr->val.len+1), attr->val.str, attr->val.len));
 							break;
 						}
 					}
-					}break;
+					break;
 				case 'i':
 				case 'I':
 					data->buffer.append(" *");
@@ -31,14 +29,13 @@ void starttag_cb (void *cbdata, ekhtml_string_t *tag, ekhtml_attr_t *attrs) {
 			break;
 		case 3:
 			if (_strnicmp(tag->str, "img", 3) == 0) {
-				ekhtml_attr_t *attr = attrs;
 				data->buffer.append("IMAGE [ ");
-					while (attr) {
-						if (_strnicmp(attr->name.str, "src", attr->name.len)==0) {
-							data->buffer.append(attr->val.str, attr->val.len);
-							break;
-						}
+				for(ekhtml_attr_t *attr=attrs; attr; attr=attr->next) {
+					if (_strnicmp(attr->name.str, "src", attr->name.len)==0) {
+						data->buffer.append(attr->val.str, attr->val.len);
+						break;
 					}
+				}
 				data->buffer.append(" ] ");
 			}
 			break;

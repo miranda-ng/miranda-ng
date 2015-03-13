@@ -72,8 +72,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,130,265,10
     CONTROL         "Show OTR system messages as popup",IDC_CHK_MSGPOPUP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,142,265,10
-    CONTROL         "Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)",IDC_CHK_TIMEFINISH,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,154,265,10
     CONTROL         "Show verification dialog when receiving unverified fingerprint",IDC_CHK_AUTOSHOW_VERIFY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,166,265,10
 END

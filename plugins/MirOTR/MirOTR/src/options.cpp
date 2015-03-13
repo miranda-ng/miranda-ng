@@ -84,8 +84,6 @@ void LoadOptions() {
 	} else
 		strcpy(options.prefix, ("OTR: "));
 
-	options.timeout_finished = (db_get_b(0, MODULENAME, "TimeoutFinished", 0) == 1);
-
 	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
 	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
 
@@ -149,8 +147,6 @@ void SaveOptions() {
 
 	db_set_utf(0, MODULENAME, "Prefix", options.prefix);
 
-	db_set_b(0, MODULENAME, "TimeoutFinished", options.timeout_finished ? 1 : 0);
-
 	db_set_b(0, MODULENAME, "EndOffline", options.end_offline ? 1 : 0);
 	db_set_b(0, MODULENAME, "EndWindowClose", options.end_window_close ? 1 : 0);
 }
@@ -195,7 +191,6 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		CheckDlgButton(hwndDlg, IDC_CHK_PREFIX, options.prefix_messages ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_MSGINLINE, options.msg_inline ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_MSGPOPUP, options.msg_popup ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_CHK_TIMEFINISH, options.timeout_finished ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_PREVENTSAVE, options.delete_history ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_PREVENTSYSSAVE, options.delete_systeminfo ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_CHK_AUTOSHOW_VERIFY, options.autoshow_verify ? BST_CHECKED : BST_UNCHECKED);
@@ -220,7 +215,6 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					case IDC_CHK_PREFIX:
 					case IDC_CHK_MSGINLINE:
 					case IDC_CHK_MSGPOPUP:
-					case IDC_CHK_TIMEFINISH:
 					case IDC_CHK_PREVENTSAVE:
 					case IDC_CHK_AUTOSHOW_VERIFY:
 					case IDC_CHK_ENDOFFLINE:
@@ -252,7 +246,6 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			options.prefix_messages = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_PREFIX));
 			options.msg_inline = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_MSGINLINE));
 			options.msg_popup = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_MSGPOPUP));
-			options.timeout_finished = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEFINISH));
 			options.delete_history = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_PREVENTSAVE));
 			options.delete_systeminfo = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_PREVENTSYSSAVE));
 			options.autoshow_verify = (TRUE==IsDlgButtonChecked(hwndDlg, IDC_CHK_AUTOSHOW_VERIFY));
