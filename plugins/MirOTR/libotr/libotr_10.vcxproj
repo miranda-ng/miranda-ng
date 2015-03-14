@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1423FC8F-AA52-4562-8275-4BF0838CA378}</ProjectGuid>
-    <ProjectName>Libotr</ProjectName>
+    <ProjectName>libotr</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -71,7 +71,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;src;..\libgcrypt-1.4.6\src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;src;..\Libgcrypt\src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -88,7 +88,7 @@
     <ClCompile>
       <AdditionalOptions>/D "WIN32_LEAN_AND_MEAN" %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;src;..\libgcrypt-1.4.6\src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;src;..\Libgcrypt\src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -103,7 +103,7 @@
     <ClCompile>
       <AdditionalOptions>/D "WIN32_LEAN_AND_MEAN" %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;src;..\libgcrypt-1.4.6\src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;src;..\Libgcrypt\src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -118,7 +118,7 @@
     <ClCompile>
       <AdditionalOptions>/D "WIN32_LEAN_AND_MEAN" %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;src;..\libgcrypt-1.4.6\src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;src;..\Libgcrypt\src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -160,7 +160,7 @@
     <ClInclude Include="custom\config.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libgcrypt-1.4.6\libgcrypt146lib_10.vcxproj">
+    <ProjectReference Include="..\Libgcrypt\Libgcrypt_10.vcxproj">
       <Project>{40fe7861-e54e-4da9-be4d-a5178014e477}</Project>
     </ProjectReference>
   </ItemGroup>
