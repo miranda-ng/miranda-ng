@@ -47,9 +47,12 @@ pxResult pxExecute(std::vector<std::wstring> &aargv, string *aoutput, LPDWORD ae
 	env.push_back(L"LANGUAGE=en@quot");
 	env.push_back(L"LC_ALL=English");
 	argv.push_back(bin_path);
-	argv.push_back(L"--homedir");
 	TCHAR *home_dir = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-	argv.push_back(home_dir);
+	if(_tcslen(home_dir)) //this check are required for first run gpg binary validation
+	{
+		argv.push_back(L"--homedir");
+		argv.push_back(home_dir);
+	}
 	mir_free(home_dir);
 	argv.push_back(L"--display-charset");
 	argv.push_back(L"utf-8");
