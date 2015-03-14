@@ -28,7 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void TlenP2PFreeFileTransfer(TLEN_FILE_TRANSFER *ft)
 {
-	int i;
 	if (ft->jid) mir_free(ft->jid);
 	if (ft->iqId) mir_free(ft->iqId);
 	if (ft->id2) mir_free(ft->id2);
@@ -38,7 +37,7 @@ void TlenP2PFreeFileTransfer(TLEN_FILE_TRANSFER *ft)
 	if (ft->szDescription) mir_free(ft->szDescription);
 	if (ft->filesSize) mir_free(ft->filesSize);
 	if (ft->files) {
-		for (i=0; i<ft->fileCount; i++) {
+		for (int i=0; i<ft->fileCount; i++) {
 			if (ft->files[i]) mir_free(ft->files[i]);
 		}
 		mir_free(ft->files);
@@ -48,9 +47,8 @@ void TlenP2PFreeFileTransfer(TLEN_FILE_TRANSFER *ft)
 
 TLEN_FILE_PACKET *TlenP2PPacketCreate(int datalen)
 {
-	TLEN_FILE_PACKET *packet;
-
-	if ((packet=(TLEN_FILE_PACKET *) mir_alloc(sizeof(TLEN_FILE_PACKET))) == NULL)
+	TLEN_FILE_PACKET *packet=(TLEN_FILE_PACKET *) mir_alloc(sizeof(TLEN_FILE_PACKET));
+	if (packet == NULL)
 		return NULL;
 	packet->packet = NULL;
 	if (datalen > 0) {
@@ -128,14 +126,12 @@ int TlenP2PPacketSend(HANDLE s, TLEN_FILE_PACKET *packet)
 
 TLEN_FILE_PACKET* TlenP2PPacketReceive(HANDLE s)
 {
-	TLEN_FILE_PACKET *packet;
-	DWORD recvResult;
 	DWORD type, len, pos;
-	recvResult = Netlib_Recv(s, (char *)&type, 4, MSG_NODUMP);
+	DWORD recvResult = Netlib_Recv(s, (char *)&type, 4, MSG_NODUMP);
 	if (recvResult == 0 || recvResult == SOCKET_ERROR) return NULL;
 	recvResult = Netlib_Recv(s, (char *)&len, 4, MSG_NODUMP);
 	if (recvResult == 0 || recvResult == SOCKET_ERROR) return NULL;
-	packet = TlenP2PPacketCreate(len);
+	TLEN_FILE_PACKET *packet = TlenP2PPacketCreate(len);
 	TlenP2PPacketSetType(packet, type);
 	TlenP2PPacketSetLen(packet, len);
 	pos = 0;
@@ -153,20 +149,18 @@ TLEN_FILE_PACKET* TlenP2PPacketReceive(HANDLE s)
 
 void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 {
-	char *hash;
 	char str[300];
-	size_t srt_len;
-	TLEN_FILE_PACKET *packet;
 	TlenProtocol *proto = ft->proto;
 
 	proto->debugLogA("Establishing outgoing connection.");
 	ft->state = FT_ERROR;
-	if ((packet = TlenP2PPacketCreate(2*sizeof(DWORD) + 20)) != NULL) {
+	TLEN_FILE_PACKET *packet = TlenP2PPacketCreate(2*sizeof(DWORD) + 20);
+	if (packet != NULL) {
 		TlenP2PPacketSetType(packet, TLEN_FILE_PACKET_CONNECTION_REQUEST);
 		TlenP2PPacketPackDword(packet, 1);
 		TlenP2PPacketPackDword(packet, (DWORD) atoi(ft->iqId));
-		srt_len = mir_snprintf(str, SIZEOF(str), "%08X%s%d", atoi(ft->iqId), proto->threadData->username, atoi(ft->iqId));
-		hash = TlenSha1(str, (int)srt_len);
+		size_t srt_len = mir_snprintf(str, SIZEOF(str), "%08X%s%d", atoi(ft->iqId), proto->threadData->username, atoi(ft->iqId));
+		char *hash = TlenSha1(str, (int)srt_len);
 		TlenP2PPacketPackBuffer(packet, hash, 20);
 		mir_free(hash);
 		TlenP2PPacketSend(ft->s, packet);
@@ -188,9 +182,6 @@ void TlenP2PEstablishOutgoingConnection(TLEN_FILE_TRANSFER *ft, BOOL sendAck)
 
 TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HANDLE s, TLEN_LIST list, BOOL sendAck)
 {
-	TLEN_LIST_ITEM *item = NULL;
-	TLEN_FILE_PACKET *packet;
-	int i;
 	char str[300];
 	DWORD iqId;
 	// TYPE: 0x1
@@ -198,7 +189,7 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HAND
 	// (DWORD) 0x1
 	// (DWORD) id
 	// (BYTE) hash[20]
-	packet = TlenP2PPacketReceive(s);
+	TLEN_FILE_PACKET *packet = TlenP2PPacketReceive(s);
 	if (packet == NULL || packet->type != TLEN_FILE_PACKET_CONNECTION_REQUEST || packet->len<28) {
 		if (packet != NULL) {
 			TlenP2PPacketFree(packet);
@@ -206,9 +197,11 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HAND
 		return NULL;
 	}
 	iqId = *((DWORD *)(packet->packet+sizeof(DWORD)));
-	i = 0;
+	int i = 0;
+	TLEN_LIST_ITEM *item;
 	while ((i=TlenListFindNext(proto, list, i)) >= 0) {
-		if ((item=TlenListGetItemPtrFromIndex(proto, i)) != NULL) {
+		item = TlenListGetItemPtrFromIndex(proto, i);
+		if (item != NULL) {
 			mir_snprintf(str, SIZEOF(str), "%d", iqId);
 			if (!strcmp(item->ft->iqId, str)) {
 				char *hash, *nick;
@@ -247,10 +240,9 @@ TLEN_FILE_TRANSFER* TlenP2PEstablishIncomingConnection(TlenProtocol *proto, HAND
 static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 {
 	BYTE buf[8];
-	int status;
 
 //	TlenLog("Waiting for the file to be sent via SOCKS...");
-	status = Netlib_Recv(ft->s, (char*)buf, 8, MSG_NODUMP);
+	int status = Netlib_Recv(ft->s, (char*)buf, 8, MSG_NODUMP);
 //	TlenLog("accepted connection !!!");
 	if ( status == SOCKET_ERROR || status < 8 || buf[1] != 90) {
 		status = 1;
@@ -273,10 +265,9 @@ static void __cdecl TlenFileBindSocks4Thread(TLEN_FILE_TRANSFER* ft)
 static void __cdecl TlenFileBindSocks5Thread(TLEN_FILE_TRANSFER* ft)
 {
 	BYTE buf[256];
-	int status;
 
 //	TlenLog("Waiting for the file to be sent via SOCKS...");
-	status = Netlib_Recv(ft->s, (char*)buf, sizeof(buf), MSG_NODUMP);
+	int status = Netlib_Recv(ft->s, (char*)buf, sizeof(buf), MSG_NODUMP);
 //	TlenLog("accepted connection !!!");
 	if ( status == SOCKET_ERROR || status < 7 || buf[1] != 0) {
 		status = 1;
@@ -343,7 +334,7 @@ static HANDLE TlenP2PBindSocks4(SOCKSBIND * sb, TLEN_FILE_TRANSFER *ft)
 		return NULL;
 	}
 	in.S_un.S_addr = *(PDWORD)(buf+4);
-	strcpy(sb->szHost, inet_ntoa(in));
+	strncpy(sb->szHost, inet_ntoa(in), sizeof(sb->szHost)-1);
 	sb->wPort = htons(*(PWORD)(buf+2));
 	ft->s = s;
 	forkthread((void (__cdecl *)(void*))TlenFileBindSocks4Thread, 0, ft);
@@ -472,11 +463,11 @@ HANDLE TlenP2PListen(TLEN_FILE_TRANSFER *ft)
 			if (db_get_b(NULL, proto->m_szModuleName, "FileProxyAuth", FALSE)) {
 				sb.useAuth = TRUE;
 				if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyUsername", &dbv)) {
-					strcpy(sb.szUser, dbv.pszVal);
+					strncpy(sb.szUser, dbv.pszVal, sizeof(sb.szUser)-1);
 					db_free(&dbv);
 				}
 				if (!db_get_s(NULL, proto->m_szModuleName, "FileProxyPassword", &dbv)) {
-					strcpy(sb.szPassword, dbv.pszVal);
+					strncpy(sb.szPassword, dbv.pszVal, sizeof(sb.szPassword)-1);
 					db_free(&dbv);
 				}
 			}

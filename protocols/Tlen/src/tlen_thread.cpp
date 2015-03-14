@@ -227,7 +227,7 @@ void __cdecl TlenServerThread(ThreadData *info)
 
 
 	if (!db_get(NULL, info->proto->m_szModuleName, "AvatarHash", &dbv)) {
-		strcpy(info->proto->threadData->avatarHash, dbv.pszVal);
+		strncpy(info->proto->threadData->avatarHash, dbv.pszVal, sizeof(info->proto->threadData->avatarHash)-1);
 		db_free(&dbv);
 	}
 	info->avatarFormat = db_get_dw(NULL, info->proto->m_szModuleName, "AvatarFormat", PA_FORMAT_UNKNOWN);
@@ -587,7 +587,7 @@ static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 	XmlNode *aNode = TlenXmlGetChild(node, "a");
 	if (tokenNode != NULL) {
 		char *token = tokenNode->text;
-		strcpy(info->avatarToken, token);
+		strncpy(info->avatarToken, token, sizeof(info->avatarToken)-1);
 	}
 	if (aNode != NULL) {
 		if (TlenProcessAvatarNode(info->proto, node, NULL)) {
@@ -603,8 +603,6 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 	DWORD msgTime;
 	BOOL delivered, composing;
 	int i;
-	TLEN_LIST_ITEM *item;
-	BOOL isChatRoomJid;
 
 	if (!node->name || strcmp(node->name, "message")) return;
 
@@ -619,8 +617,8 @@ static void TlenProcessMessage(XmlNode *node, ThreadData *info)
 			}
 			char *fromJid = TlenLoginFromJID(from);
 			// If message is from a stranger (not in roster), item is NULL
-			item = TlenListGetItemPtr(info->proto, LIST_ROSTER, fromJid);
-			isChatRoomJid = TlenListExist(info->proto, LIST_CHATROOM, from);
+			TLEN_LIST_ITEM *item = TlenListGetItemPtr(info->proto, LIST_ROSTER, fromJid);
+			BOOL isChatRoomJid = TlenListExist(info->proto, LIST_CHATROOM, from);
 
 			if (isChatRoomJid && type != NULL && !strcmp(type, "groupchat")) {
 				//TlenGroupchatProcessMessage(node, userdata);
@@ -739,7 +737,6 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 	char *idStr, *str;
 	int id;
 	int i;
-	TLEN_IQ_PFUNC pfunc;
 
 	if (!node->name || strcmp(node->name, "iq")) return;
 	char *type=TlenXmlGetAttrValue(node, "type");
@@ -760,7 +757,8 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 	/////////////////////////////////////////////////////////////////////////
 	// MATCH BY ID
 	/////////////////////////////////////////////////////////////////////////
-	if ((pfunc=TlenIqFetchFunc(info->proto, id)) != NULL) {
+	TLEN_IQ_PFUNC pfunc=TlenIqFetchFunc(info->proto, id);
+	if (pfunc != NULL) {
 		info->proto->debugLogA("Handling iq request for id=%d", id);
 		pfunc(info->proto, node);
 	/////////////////////////////////////////////////////////////////////////
@@ -826,10 +824,14 @@ static void TlenProcessIq(XmlNode *node, ThreadData *info)
 								}
 							}
 							if ((item=TlenListGetItemPtr(info->proto, LIST_ROSTER, jid)) != NULL) {
-								if (!strcmp(str, "both")) item->subscription = SUB_BOTH;
-								else if (!strcmp(str, "to")) item->subscription = SUB_TO;
-								else if (!strcmp(str, "from")) item->subscription = SUB_FROM;
-								else item->subscription = SUB_NONE;
+								if (!strcmp(str, "both"))
+									item->subscription = SUB_BOTH;
+								else if (!strcmp(str, "to"))
+									item->subscription = SUB_TO;
+								else if (!strcmp(str, "from"))
+									item->subscription = SUB_FROM;
+								else
+									item->subscription = SUB_NONE;
 								info->proto->debugLogA("Roster push for jid=%s, set subscription to %s", jid, str);
 								// subscription = remove is to remove from roster list
 								// but we will just set the contact to offline and not actually
@@ -947,19 +949,19 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
  */
 static void TlenProcessM(XmlNode *node, ThreadData *info)
 {
-	MCONTACT hContact;
-	char *f;//, *from;//username
-	char *tp;//typing start/stop
 	char *p, *n, *r, *s, *str, *localMessage;
 	int i;
 	XmlNode *xNode, *invNode, *bNode;
 
 	if (!node->name || strcmp(node->name, "m")) return;
 
-	if ((f=TlenXmlGetAttrValue(node, "f")) != NULL) {
+	char *f = TlenXmlGetAttrValue(node, "f"); //, *from;//username
+	if (f != NULL) {
 		char *fLogin = TlenLoginFromJID(f);
-		if ((hContact=TlenHContactFromJID(info->proto, fLogin)) != NULL) {
-			if ((tp=TlenXmlGetAttrValue(node, "tp")) != NULL) {
+		MCONTACT hContact=TlenHContactFromJID(info->proto, fLogin);
+		if (hContact != NULL) {
+			char *tp=TlenXmlGetAttrValue(node, "tp");//typing start/stop
+			if (tp != NULL) {
 				TLEN_LIST_ITEM *item = TlenListGetItemPtr(info->proto, LIST_ROSTER, fLogin);
 				if (!strcmp(tp, "t")) { //contact is writing
 					if (item != NULL ) {
@@ -1005,7 +1007,7 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 				} else {
 					timestamp = time(NULL);
 				}
-				tp=TlenXmlGetAttrValue(node, "tp");
+				char *tp=TlenXmlGetAttrValue(node, "tp");//typing start/stop
 				bNode = TlenXmlGetChild(node, "b");
 				f = TlenTextDecode(f);
 				if (bNode != NULL && bNode->text != NULL) {
@@ -1061,8 +1063,8 @@ static void TlenMailPopup(TlenProtocol *proto, char *title, char *emailInfo)
 
 	POPUPDATAT ppd = { 0 };
 	ppd.lchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_MAIL));
-	_tcscpy(ppd.lptzContactName, _A2T(title));
-	_tcscpy(ppd.lptzText, _A2T(emailInfo));
+	_tcsncpy(ppd.lptzContactName, _A2T(title), MAX_CONTACTNAME -1);
+	_tcsncpy(ppd.lptzText, _A2T(emailInfo), MAX_SECONDLINE - 1);
 	ppd.colorBack = db_get_dw(NULL, proto->m_szModuleName, "MailPopupBack", 0);
 	ppd.colorText = db_get_dw(NULL, proto->m_szModuleName, "MailPopupText", 0);
 	BYTE delayMode = db_get_b(NULL, proto->m_szModuleName, "MailPopupDelayMode", 0);
