@@ -23,7 +23,6 @@ void VerifyFingerprintMessage(ConnContext *context, bool verify);
 void otrl_privkey_hash_to_humanT(TCHAR human[45], const unsigned char hash[20]);
 
 char* contact_get_id(MCONTACT hContact, bool bNameOnError=true);
-__inline const char* contact_get_proto(MCONTACT hContact);
 __inline const char* contact_get_account(MCONTACT hContact);
 extern __inline const TCHAR* contact_get_nameT(MCONTACT hContact);
 

@@ -25,7 +25,7 @@ void lib_cs_unlock()
 MCONTACT find_contact(const char* userid, const char* protocol)
 {
 	for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-		const char *proto = contact_get_proto(hContact);
+		const char *proto = GetContactProto(hContact);
 		if(proto && strcmp(proto, protocol) == 0) {
 			char *name = contact_get_id(hContact);
 			if(name && strcmp(name, userid) == 0) {
@@ -84,11 +84,12 @@ void VerifyFingerprint(ConnContext *context, bool verify) {
 }
 
 void VerifyFingerprintMessage(ConnContext *context, bool verify) {
+	MCONTACT hContact = (MCONTACT)context->app_data;
 	TCHAR msg[1024];
 
-	mir_sntprintf(msg, SIZEOF(msg), (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT((MCONTACT)context->app_data));
-	ShowMessage((MCONTACT)context->app_data, msg);
-	SetEncryptionStatus((MCONTACT)context->app_data, otr_context_get_trust(context));
+	mir_sntprintf(msg, SIZEOF(msg), (verify)?TranslateT(LANG_FINGERPRINT_VERIFIED):TranslateT(LANG_FINGERPRINT_NOT_VERIFIED), contact_get_nameT(hContact));
+	ShowMessage(hContact, msg);
+	SetEncryptionStatus(hContact, otr_context_get_trust(context));
 }
 
 /* Convert a 20-byte hash value to a 45-byte human-readable value */
@@ -146,10 +147,6 @@ __inline const TCHAR* contact_get_nameT(MCONTACT hContact) {
 	return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR);
 }
 
-__inline const char* contact_get_proto(MCONTACT hContact) {
-	char *uproto = GetContactProto(hContact);
-	return uproto;
-}
 
 __inline const char* contact_get_account(MCONTACT hContact) {
 	char *uacc = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, hContact, 0);
@@ -168,7 +165,7 @@ void ShowPopup(const TCHAR* line1, const TCHAR* line2, int timeout, const MCONTA
 			TCHAR *message = new TCHAR[size]; // newline and null terminator
 			mir_sntprintf(message, size, _T("%s\r\n%s"), line1, line2);
 			MessageBox( NULL, message, title, MB_OK | MB_ICONINFORMATION );
-			delete message;
+			delete[] message;
 		} else if(line1) {
 			MessageBox( NULL, line1, title, MB_OK | MB_ICONINFORMATION );
 		} else if(line2) {

@@ -110,7 +110,7 @@ extern "C" {
 		//DWORD tid;
 		//CloseHandle(CreateThread(0, 0, newKeyThread, (VOID *)nkd, 0, &tid));
 		//QueueUserAPC(newKeyAPC, Global::mainThread, (DWORD)nkd);
-		if (opdata) protocol = contact_get_proto((MCONTACT)opdata);
+		if (opdata) protocol = GetContactProto((MCONTACT)opdata);
 		if (!protocol) return;
 		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_GENKEYNOTIFY), 0, GenKeyDlgFunc, (LPARAM)protocol );
 
@@ -126,7 +126,7 @@ extern "C" {
 		DEBUGOUT_T("OTR_GUI_IS_LOGGED_IN")
 		MCONTACT hContact = (MCONTACT)opdata;
 		if(hContact) {
-			WORD status = db_get_w(hContact, contact_get_proto(hContact), "Status", ID_STATUS_OFFLINE);
+			WORD status = db_get_w(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 			if(status == ID_STATUS_OFFLINE) return 0;
 			else return 1;
 		}
@@ -149,7 +149,8 @@ extern "C" {
 	* protocol / username conversation. */
 	void otr_gui_notify(void *opdata, OtrlNotifyLevel level, const char *accountname, const char *protocol, const char *username, const char *title, const char *primary, const char *secondary) {
 		DEBUGOUT_T("OTR_GUI_NOTIFY")
-		const TCHAR* uname = contact_get_nameT((MCONTACT)opdata);
+		MCONTACT hContact = (MCONTACT) opdata;
+		const TCHAR* uname = contact_get_nameT(hContact);
 		TCHAR* title_t = mir_utf8decodeT(title);
 		TCHAR *notify = TranslateT(LANG_OTR_NOTIFY);
 		
@@ -162,7 +163,7 @@ extern "C" {
 		char *buff2 = new char[len];
 		mir_snprintf(buff2, len, "%s\n%s", Translate(primary), Translate(secondary));
 		TCHAR* buff2_t = mir_utf8decodeT(buff2);
-		delete buff2;
+		delete[] buff2;
 
 		DEBUGOUT_T("OTR_GUI_NOTIFY")
 
@@ -178,13 +179,14 @@ extern "C" {
 	* as a received message, or else by using the above notify()
 	* callback. */
 	int otr_gui_display_otr_message(void *opdata, const char *accountname, const char *protocol, const char *username, const char *msg) {
+		MCONTACT hContact = (MCONTACT) opdata;
 		DEBUGOUT_T("OTR_GUI_DISPLAY_OTR_MESSAGE")
 		if(options.msg_inline)
-			ShowMessageInlineUtf((MCONTACT)opdata, Translate(msg));
+			ShowMessageInlineUtf(hContact, Translate(msg));
 		if(options.msg_popup) {
 			TCHAR buff[512];
 			TCHAR* proto = mir_a2t(protocol);
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_USERMESSAGE), contact_get_nameT((MCONTACT)opdata), proto);
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_OTR_USERMESSAGE), contact_get_nameT(hContact), proto);
 			mir_free(proto);
 			TCHAR *msg_t = mir_utf8decodeT(msg);
 			ShowPopup(buff, TranslateTS(msg_t), 0);	
@@ -235,66 +237,69 @@ extern "C" {
 	/* A ConnContext has entered a secure state. */
 	void otr_gui_gone_secure(void *opdata, ConnContext *context) {
 		DEBUGOUT_T("OTR_GUI_GONE_SECURE")
+		MCONTACT hContact = (MCONTACT) opdata;
 		TrustLevel trusted = otr_context_get_trust(context);
 		// opdata is hContact
-		SetEncryptionStatus((MCONTACT)opdata, trusted);
+		SetEncryptionStatus(hContact, trusted);
 		TCHAR buff[1024];
 		if(trusted == TRUST_PRIVATE) {
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR), contact_get_nameT((MCONTACT)opdata));
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR), contact_get_nameT(hContact));
 		} else if (trusted == TRUST_UNVERIFIED) {
 			if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_START_OTR_VERIFY), contact_get_nameT(hContact));
 		} else { // should never happen
-			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
+			mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 		}
 		// opdata is hContact
-		ShowMessage((MCONTACT)opdata, buff);
+		ShowMessage(hContact, buff);
 
 	}
 
 	/* A ConnContext has left a secure state. */
 	void otr_gui_gone_insecure(void *opdata, ConnContext *context) {
+		MCONTACT hContact = (MCONTACT) opdata;
 		DEBUGOUT_T("OTR_GUI_GONE_INSECURE")
 		TCHAR buff[512];
-		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT((MCONTACT)opdata));
+		mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_TERMINATED_BY_OTR), contact_get_nameT(hContact));
 		//MessageBox(0, buff, Translate("OTR Information"), MB_OK);
 		if (!Miranda_Terminated()) {
-			ShowMessage((MCONTACT)opdata, buff);
+			ShowMessage(hContact, buff);
 		}
 
 		// opdata is hContact
-		SetEncryptionStatus((MCONTACT)opdata, otr_context_get_trust(context));
+		SetEncryptionStatus(hContact, otr_context_get_trust(context));
 	}
 
 	/* We have completed an authentication, using the D-H keys we
 	* already knew.  is_reply indicates whether we initiated the AKE. */
 	void otr_gui_still_secure(void *opdata, ConnContext *context, int is_reply) {
+		MCONTACT hContact = (MCONTACT) opdata;
 		DEBUGOUT_T("OTR_GUI_STILL_SECURE")
 		TrustLevel trusted = otr_context_get_trust(context);
-		SetEncryptionStatus((MCONTACT)opdata, trusted);
+		SetEncryptionStatus(hContact, trusted);
 		TCHAR buff[1024];
 		if (!is_reply) {
 			if(trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR), contact_get_nameT(hContact));
 			} else if (trusted == TRUST_UNVERIFIED) {
 				if (options.autoshow_verify) SMPInitDialog(context); //VerifyContextDialog(context);
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
 			} else { // should never happen
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 			}
 			// opdata is hContact
-			ShowMessage((MCONTACT)opdata, buff);
+			ShowMessage(hContact, buff);
 		} else {
 			if(trusted == TRUST_PRIVATE) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR), contact_get_nameT(hContact));
 			} else if (trusted == TRUST_UNVERIFIED) {
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_HAS_CONTINUE_OTR_VERIFY), contact_get_nameT(hContact));
 			} else { // should never happen
-				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT((MCONTACT)opdata));
+				mir_sntprintf(buff, SIZEOF(buff), TranslateT(LANG_SESSION_NOT_STARTED_OTR), contact_get_nameT(hContact));
 			}
 			
 		}
-		SetEncryptionStatus((MCONTACT)opdata, trusted);
+		SetEncryptionStatus(hContact, trusted);
 	}
 
 	/* Log a message.  The passed message will end in "\n". */
@@ -314,7 +319,7 @@ extern "C" {
 		if (context && context->protocol)
 			proto = context->protocol;
 		else 
-			proto = contact_get_proto((MCONTACT)opdata);
+			proto = GetContactProto((MCONTACT)opdata);
 		// ugly wokaround for ICQ. ICQ protocol reports more than 7k, but in SMP this is too long.
 		// possibly ICQ doesn't allow single words without spaces to become longer than ~2340?
 		if (strcmp("ICQ", proto)==0 || strncmp("ICQ_", proto, 4)==0)

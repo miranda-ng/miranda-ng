@@ -6,8 +6,7 @@ static HGENMENU hStopItem, hStartItem;
 ///////// Menu Services ////////
 ///////////////////////////////
 int StartOTR(MCONTACT hContact) {
-	
-	const char *proto = contact_get_proto(hContact);
+	const char *proto = GetContactProto(hContact);
 	if (!proto) return 1; // error
 	char *uname = contact_get_id(hContact);
 	if (!uname) return 1; // error
@@ -25,10 +24,10 @@ int StartOTR(MCONTACT hContact) {
 
 INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hSub;
 	TCHAR buff[512];
 
-	if((hSub = db_mc_getMostOnline(hContact)) != 0)
+	MCONTACT hSub = db_mc_getMostOnline(hContact);
+	if(hSub != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
@@ -45,10 +44,10 @@ INT_PTR SVC_StartOTR(WPARAM hContact, LPARAM lParam)
 
 INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hSub;
 	TCHAR buff[512];
 
-	if((hSub = db_mc_getMostOnline(hContact)) != 0)
+	MCONTACT hSub = db_mc_getMostOnline(hContact);
+	if(hSub != 0)
 		hContact = hSub;
 
 	if ( options.bHaveSecureIM && CallService("SecureIM/IsContactSecured", hContact, 0) != 0 ) {
@@ -68,11 +67,11 @@ INT_PTR SVC_RefreshOTR(WPARAM hContact, LPARAM lParam)
 
 int otr_disconnect_contact(MCONTACT hContact)
 {
-	MCONTACT hSub;
-	if((hSub = db_mc_getMostOnline(hContact)) != 0)
+	MCONTACT hSub = db_mc_getMostOnline(hContact);
+	if (hSub != 0)
 		hContact = hSub;
 	
-	const char *proto = contact_get_proto(hContact);
+	const char *proto = GetContactProto(hContact);
 	if (!proto) return 1; // error
 	char *uname = contact_get_id(hContact);
 	if (!uname) return 1; // error
@@ -99,8 +98,8 @@ INT_PTR SVC_StopOTR(WPARAM hContact, LPARAM lParam)
 
 INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
 {
-	MCONTACT hSub;
-	if((hSub = db_mc_getMostOnline(hContact)) != 0)
+	MCONTACT hSub = db_mc_getMostOnline(hContact);
+	if(hSub != 0)
 		hContact = hSub;
 
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
@@ -114,6 +113,10 @@ INT_PTR SVC_VerifyOTR(WPARAM hContact, LPARAM lParam)
 
 INT_PTR SVC_ToggleHTMLOTR(WPARAM hContact, LPARAM lParam)
 {
+	MCONTACT hSub = db_mc_getMostOnline(hContact);
+	if (hSub != 0)
+		hContact = hSub;
+	
 	if (db_get_b(hContact, MODULENAME, "HTMLConv", 0))
 		db_set_b(hContact, MODULENAME, "HTMLConv", 0);
 	else
@@ -154,7 +157,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR;
 	
-	const char *proto = contact_get_proto(hContact);
+	const char *proto = GetContactProto(hContact);
 	DWORD pol = CONTACT_DEFAULT_POLICY;
 	
 	if (!proto || db_get_b(hContact, proto, "ChatRoom", 0) == 1) {
@@ -169,7 +172,7 @@ hide_all:
 		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact)
 			goto hide_all;
-		proto = contact_get_proto(hContact);
+		proto = GetContactProto(hContact);
 	}
 
 	pol = db_get_dw(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY);

@@ -75,13 +75,12 @@ INT_PTR MirOTRMenuExecService(WPARAM wParam,LPARAM lParam)
 INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 {
 	PCheckProcParam pcpp = ( PCheckProcParam )wParam;
-	lpMirOTRMenuExecParam cmep=NULL;
 	TMO_MenuItem mi;
 
 	if ( pcpp == NULL )
 		return FALSE;
 
-	cmep = ( lpMirOTRMenuExecParam )pcpp->MenuItemOwnerData;
+	lpMirOTRMenuExecParam cmep = ( lpMirOTRMenuExecParam )pcpp->MenuItemOwnerData;
 	if ( cmep == NULL ) //this is rootsection...build it
 		return TRUE;
 
@@ -143,7 +142,6 @@ INT_PTR FreeOwnerDataMirOTRMenu (WPARAM, LPARAM lParam)
 
 INT_PTR OnAddMenuItemMirOTRMenu (WPARAM wParam, LPARAM lParam)
 {
-	
 	MENUITEMINFO *mii = (MENUITEMINFO*)wParam;
 	if (!mii || mii->cbSize != sizeof(MENUITEMINFO)) return 0;
 	

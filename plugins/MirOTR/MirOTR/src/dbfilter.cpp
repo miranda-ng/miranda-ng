@@ -55,7 +55,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if(dbei->cbBlob == 0 || dbei->pBlob == 0)
 		return 0; // just to be safe
 
-	const char *proto = contact_get_proto(hContact);
+	const char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;
 	if (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
@@ -64,7 +64,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	if(strcmp(proto, META_PROTO) == 0) {
 		hContact = db_mc_getMostOnline(hContact);
 		if (!hContact) return 0;
-		proto = contact_get_proto(hContact);
+		proto = GetContactProto(hContact);
 		if (!proto )	return 0;
 	}
 	
@@ -132,7 +132,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 			memset(newmsg, 0, alloclen+datalen);
 			strncpy(newmsg, prefix, prefixlen);
 			strncat(newmsg, msg, msglen);
-			wchar_t *p = (wchar_t*) newmsg + (msglen + prefixlen + 1) * sizeof(char);
+			wchar_t *p = (wchar_t*) newmsg + (msglen + prefixlen + 1);
 			wcsncpy(p, prefixw, prefixlenw);
 			wcsncat(p, msgw, msglenw);
 			mir_free(prefix);
