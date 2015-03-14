@@ -869,8 +869,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			case IDC_VCQUALITY:
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					if (proto->recordingControl != NULL) {
-						int codec;
-						codec = SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_GETCURSEL, 0, 0) + 2;
+						int codec = SendDlgItemMessage(hwndDlg, IDC_VCQUALITY, CB_GETCURSEL, 0, 0) + 2;
 						if (codec != proto->recordingControl->codec && codec > 1 && codec < 6) {
 							TLEN_FILE_TRANSFER *ft = proto->recordingControl->ft;
 							TlenVoiceFreeVc(proto->recordingControl);
@@ -880,6 +879,7 @@ static INT_PTR CALLBACK TlenVoiceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						}
 					}
 				}
+				break;
 			case IDC_MICROPHONE:
 				if (proto->recordingControl != NULL) {
 					proto->recordingControl->bDisable = BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_MICROPHONE);
@@ -996,18 +996,16 @@ static void __cdecl TlenVoiceAcceptDlgThread(void *ptr)
 
 int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 {
-	TLEN_LIST_ITEM * item;
 	if (!TlenVoiceIsInUse(proto)) {
-		if ((item = TlenListAdd(proto, LIST_VOICE, id)) != NULL) {
-			int ask, ignore, voiceChatPolicy;
-			ask = TRUE;
-			ignore = FALSE;
-			voiceChatPolicy = db_get_w(NULL, proto->m_szModuleName, "VoiceChatPolicy", 0);
+		TLEN_LIST_ITEM *item = TlenListAdd(proto, LIST_VOICE, id);
+		if (item != NULL) {
+			bool ask = true, ignore = false;
+			int voiceChatPolicy = db_get_w(NULL, proto->m_szModuleName, "VoiceChatPolicy", 0);
 			if (voiceChatPolicy == TLEN_MUC_ASK) {
-				ignore = FALSE;
-				ask = TRUE;
+				ignore = false;
+				ask = true;
 			} else if (voiceChatPolicy == TLEN_MUC_IGNORE_ALL) {
-				ignore = TRUE;
+				ignore = true;
 			} else if (voiceChatPolicy == TLEN_MUC_IGNORE_NIR) {
 				char jid[256];
 				DBVARIANT dbv;
@@ -1015,10 +1013,10 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 					mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				} else {
-					strcpy(jid, from);
+					strncpy(jid, from, SIZEOF(jid)-1);
 				}
 				ignore = !IsAuthorized(proto, jid);
-				ask = TRUE;
+				ask = true;
 			} else if (voiceChatPolicy == TLEN_MUC_ACCEPT_IR) {
 				char jid[256];
 				DBVARIANT dbv;
@@ -1026,13 +1024,13 @@ int TlenVoiceAccept(TlenProtocol *proto, const char *id, const char *from)
 					mir_snprintf(jid, SIZEOF(jid), "%s@%s", from, dbv.pszVal);
 					db_free(&dbv);
 				} else {
-					strcpy(jid, from);
+					strncpy(jid, from, SIZEOF(jid)-1);
 				}
 				ask = !IsAuthorized(proto, jid);
-				ignore = FALSE;
+				ignore = false;
 			} else if (voiceChatPolicy == TLEN_MUC_ACCEPT_ALL) {
-				ask = FALSE;
-				ignore = FALSE;
+				ask = false;
+				ignore = false;
 			}
 			if (ignore) {
 				if (proto->isOnline) {

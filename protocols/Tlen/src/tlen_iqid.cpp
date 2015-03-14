@@ -27,13 +27,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "tlen_iq.h"
 #include "tlen_muc.h"
 
+// RECVED: authentication result
+// ACTION: if successfully logged in, continue by requesting roster list and set my initial status
 void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 {
-	char *type;
-
-	// RECVED: authentication result
-	// ACTION: if successfully logged in, continue by requesting roster list and set my initial status
-	if ((type=TlenXmlGetAttrValue(iqNode, "type")) == NULL) return;
+	char *type=TlenXmlGetAttrValue(iqNode, "type");
+	if (type == NULL)
+		return;
 
 	if (!strcmp(type, "result")) {
 		DBVARIANT dbv;
@@ -63,32 +63,35 @@ void TlenIqResultAuth(TlenProtocol *proto, XmlNode *iqNode)
 
 void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 	DBVARIANT dbv;
-	XmlNode *itemNode, *groupNode;
-	TLEN_LIST_ITEM *item;
+	XmlNode *groupNode;
 	MCONTACT hContact;
-	char *jid, *name, *nick;
-	int i;
-	char *str;
+	char *name, *nick;
 
-	for (i=0; i<queryNode->numChild; i++) {
-		itemNode = queryNode->child[i];
+	for (int i=0; i<queryNode->numChild; i++) {
+		XmlNode *itemNode = queryNode->child[i];
 		if (!strcmp(itemNode->name, "item")) {
-			if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
-				str = TlenXmlGetAttrValue(itemNode, "subscription");
-				if (!strcmp(str, "remove")) {
+			char *jid=TlenXmlGetAttrValue(itemNode, "jid");
+			if (jid != NULL) {
+				char *str = TlenXmlGetAttrValue(itemNode, "subscription");
+				if (str == NULL)
+					continue;
+				else if (!strcmp(str, "remove")) {
 					if ((hContact = TlenHContactFromJID(proto, jid)) != NULL) {
 						if (db_get_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 							db_set_w(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);
 					}
 					TlenListRemove(proto, LIST_ROSTER, jid);
 				} else {
-					item = TlenListAdd(proto, LIST_ROSTER, jid);
+					TLEN_LIST_ITEM *item = TlenListAdd(proto, LIST_ROSTER, jid);
 					if (item != NULL) {
-						if (str == NULL) item->subscription = SUB_NONE;
-						else if (!strcmp(str, "both")) item->subscription = SUB_BOTH;
-						else if (!strcmp(str, "to")) item->subscription = SUB_TO;
-						else if (!strcmp(str, "from")) item->subscription = SUB_FROM;
-						else item->subscription = SUB_NONE;
+						if (!strcmp(str, "both"))
+							item->subscription = SUB_BOTH;
+						else if (!strcmp(str, "to"))
+							item->subscription = SUB_TO;
+						else if (!strcmp(str, "from"))
+							item->subscription = SUB_FROM;
+						else
+							item->subscription = SUB_NONE;
 						if ((name=TlenXmlGetAttrValue(itemNode, "name")) != NULL) {
 							nick = TlenTextDecode(name);
 						} else {
@@ -127,19 +130,17 @@ void TlenResultSetRoster(TlenProtocol *proto, XmlNode *queryNode) {
 	}
 }
 
+// RECVED: roster information
+// ACTION: populate LIST_ROSTER and create contact for any new rosters
 void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 {
-	char *str;
-
-	// RECVED: roster information
-	// ACTION: populate LIST_ROSTER and create contact for any new rosters
 	char *type=TlenXmlGetAttrValue(iqNode, "type");
 	if (type == NULL) return;
 	XmlNode *queryNode=TlenXmlGetChild(iqNode, "query");
 	if (queryNode == NULL) return;
 
 	if (!strcmp(type, "result")) {
-		str = TlenXmlGetAttrValue(queryNode, "xmlns");
+		char *str = TlenXmlGetAttrValue(queryNode, "xmlns");
 		if (str != NULL && !strcmp(str, "jabber:iq:roster")) {
 			DBVARIANT dbv;
 			XmlNode *itemNode, *groupNode;
@@ -238,7 +239,6 @@ void TlenIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 // Tlen actually use jabber:iq:search for other users vCard or jabber:iq:register for own vCard
 void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 {
-	char *jid;
 	char text[128];
 	MCONTACT hContact;
 	char *nText;
@@ -248,15 +248,14 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 	if (type == NULL) return;
 
 	if (!strcmp(type, "result")) {
-		BOOL hasFirst, hasLast, hasNick, hasEmail, hasCity, hasAge, hasGender, hasSchool, hasLookFor, hasOccupation;
 		DBVARIANT dbv;
-		int i;
 
 		XmlNode *queryNode=TlenXmlGetChild(iqNode, "query");
 		if (queryNode == NULL) return;
 		XmlNode *itemNode=TlenXmlGetChild(queryNode, "item");
 		if (itemNode == NULL) return;
-		if ((jid=TlenXmlGetAttrValue(itemNode, "jid")) != NULL) {
+		char *jid=TlenXmlGetAttrValue(itemNode, "jid");
+		if (jid != NULL) {
 			if (db_get(NULL, proto->m_szModuleName, "LoginServer", &dbv)) return;
 			if (strchr(jid, '@') != NULL) {
 				strncpy_s(text, jid, _TRUNCATE);
@@ -275,13 +274,14 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 		} else {
 			hContact = NULL;
 		}
-		hasFirst = hasLast = hasNick = hasEmail = hasCity = hasAge = hasGender = hasOccupation = hasLookFor = hasSchool = FALSE;
-		for (i=0; i<itemNode->numChild; i++) {
+		bool hasFirst = false, hasLast = false, hasNick = false, hasEmail = false, hasCity = false, hasAge = false,
+			hasGender = false, hasSchool = false, hasLookFor = false, hasOccupation = false;
+		for (int i=0; i<itemNode->numChild; i++) {
 			XmlNode *n = itemNode->child[i];
 			if (n == NULL || n->name == NULL) continue;
 			if (!strcmp(n->name, "first")) {
 				if (n->text != NULL) {
-					hasFirst = TRUE;
+					hasFirst = true;
 					nText = TlenTextDecode(n->text);
 					db_set_s(hContact, proto->m_szModuleName, "FirstName", nText);
 					mir_free(nText);
@@ -289,7 +289,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			}
 			else if (!strcmp(n->name, "last")) {
 				if (n->text != NULL) {
-					hasLast = TRUE;
+					hasLast = true;
 					nText = TlenTextDecode(n->text);
 					db_set_s(hContact, proto->m_szModuleName, "LastName", nText);
 					mir_free(nText);
@@ -297,7 +297,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			}
 			else if (!strcmp(n->name, "nick")) {
 				if (n->text != NULL) {
-					hasNick = TRUE;
+					hasNick = true;
 					nText = TlenTextDecode(n->text);
 					db_set_s(hContact, proto->m_szModuleName, "Nick", nText);
 					mir_free(nText);
@@ -305,7 +305,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			}
 			else if (!strcmp(n->name, "email")) {
 				if (n->text != NULL) {
-					hasEmail = TRUE;
+					hasEmail = true;
 					nText = TlenTextDecode(n->text);
 					db_set_s(hContact, proto->m_szModuleName, "e-mail", nText);
 					mir_free(nText);
@@ -313,7 +313,7 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			}
 			else if (!strcmp(n->name, "c")) {
 				if (n->text != NULL) {
-					hasCity = TRUE;
+					hasCity = true;
 					nText = TlenTextDecode(n->text);
 					db_set_s(hContact, proto->m_szModuleName, "City", nText);
 					mir_free(nText);
@@ -321,21 +321,20 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			}
 			else if (!strcmp(n->name, "b")) {
 				if (n->text != NULL) {
-					WORD nAge;
-					hasAge = TRUE;
-					nAge = atoi(n->text);
+					WORD nAge = atoi(n->text);
+					hasAge = true;
 					db_set_w(hContact, proto->m_szModuleName, "Age", nAge);
 				}
 			}
 			else if (!strcmp(n->name, "s")) {
 				if (n->text != NULL && n->text[1] == '\0' && (n->text[0] == '1' || n->text[0] == '2')) {
-					hasGender = TRUE;
+					hasGender = true;
 					db_set_b(hContact, proto->m_szModuleName, "Gender", (BYTE) (n->text[0] == '1'?'M':'F'));
 				}
 			}
 			else if (!strcmp(n->name, "e")) {
 				if (n->text != NULL) {
-					hasSchool = TRUE;
+					hasSchool = true;
 					nText = TlenTextDecode(n->text);
 					db_set_s(hContact, proto->m_szModuleName, "School", nText);
 					mir_free(nText);
@@ -343,31 +342,27 @@ void TlenIqResultVcard(TlenProtocol *proto, XmlNode *iqNode)
 			}
 			else if (!strcmp(n->name, "j")) {
 				if (n->text != NULL) {
-					WORD nOccupation;
-					hasOccupation = TRUE;
-					nOccupation = atoi(n->text);
+					hasOccupation = true;
+					WORD nOccupation = atoi(n->text);
 					db_set_w(hContact, proto->m_szModuleName, "Occupation", nOccupation);
 				}
 			}
 			else if (!strcmp(n->name, "r")) {
 				if (n->text != NULL) {
-					WORD nLookFor;
-					hasLookFor = TRUE;
-					nLookFor = atoi(n->text);
+					WORD nLookFor = atoi(n->text);
+					hasLookFor = true;
 					db_set_w(hContact, proto->m_szModuleName, "LookingFor", nLookFor);
 				}
 			}
 			else if (!strcmp(n->name, "g")) { // voice chat enabled
 				if (n->text != NULL) {
-					BYTE bVoice;
-					bVoice = atoi(n->text);
+					BYTE bVoice = atoi(n->text);
 					db_set_w(hContact, proto->m_szModuleName, "VoiceChat", bVoice);
 				}
 			}
 			else if (!strcmp(n->name, "v")) { // status visibility
 				if (n->text != NULL) {
-					BYTE bPublic;
-					bPublic = atoi(n->text);
+					BYTE bPublic = atoi(n->text);
 					db_set_w(hContact, proto->m_szModuleName, "PublicStatus", bPublic);
 				}
 			}
@@ -601,16 +596,18 @@ void TlenIqResultInfo(TlenProtocol *proto, XmlNode *iqNode)
 	if (queryNode != NULL) {
 		char *from=TlenXmlGetAttrValue(queryNode, "from");
 		if (from != NULL ) {
-			TLEN_LIST_ITEM *item;
-			if (( item=TlenListGetItemPtr( proto, LIST_ROSTER, from )) != NULL) {
+			TLEN_LIST_ITEM *item=TlenListGetItemPtr(proto, LIST_ROSTER, from);
+			if (item != NULL) {
 				XmlNode *version = TlenXmlGetChild(queryNode, "version");
-				item->protocolVersion = TlenTextDecode(version->text);
-				MCONTACT hContact=TlenHContactFromJID(proto, item->jid);
-				if (hContact != NULL) {
-					if (item->software == NULL) {
-						char str[128];
-						mir_snprintf(str, SIZEOF(str), "Tlen Protocol %s", item->protocolVersion);
-						db_set_s(hContact, proto->m_szModuleName, "MirVer", str);
+				if (version != NULL) {
+					item->protocolVersion = TlenTextDecode(version->text);
+					MCONTACT hContact=TlenHContactFromJID(proto, item->jid);
+					if (hContact != NULL) {
+						if (item->software == NULL) {
+							char str[128];
+							mir_snprintf(str, SIZEOF(str), "Tlen Protocol %s", item->protocolVersion);
+							db_set_s(hContact, proto->m_szModuleName, "MirVer", str);
+						}
 					}
 				}
 			}
