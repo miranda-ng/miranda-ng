@@ -240,28 +240,28 @@
     <ClCompile Include="random\rndw32.c">
       <Filter>random</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\code-from-errno.c">
+    <ClCompile Include="..\Libgpg-error\code-from-errno.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\code-to-errno.c">
+    <ClCompile Include="..\Libgpg-error\code-to-errno.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\init.c">
+    <ClCompile Include="..\Libgpg-error\init.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\mkerrcodes.c">
+    <ClCompile Include="..\Libgpg-error\mkerrcodes.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\strerror-sym.c">
+    <ClCompile Include="..\Libgpg-error\strerror-sym.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\strerror.c">
+    <ClCompile Include="..\Libgpg-error\strerror.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\strsource-sym.c">
+    <ClCompile Include="..\Libgpg-error\strsource-sym.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\libgpg-error-1.9\strsource.c">
+    <ClCompile Include="..\Libgpg-error\strsource.c">
       <Filter>error</Filter>
     </ClCompile>
   </ItemGroup>
@@ -344,37 +344,37 @@
     <ClInclude Include="random\random.h">
       <Filter>random</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\code-from-errno.h">
+    <ClInclude Include="..\Libgpg-error\code-from-errno.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\code-to-errno.h">
+    <ClInclude Include="..\Libgpg-error\code-to-errno.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\err-codes-sym.h">
+    <ClInclude Include="..\Libgpg-error\err-codes-sym.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\err-codes.h">
+    <ClInclude Include="..\Libgpg-error\err-codes.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\err-sources-sym.h">
+    <ClInclude Include="..\Libgpg-error\err-sources-sym.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\err-sources.h">
+    <ClInclude Include="..\Libgpg-error\err-sources.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\errnos-sym.h">
+    <ClInclude Include="..\Libgpg-error\errnos-sym.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\gettext.h">
+    <ClInclude Include="..\Libgpg-error\gettext.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\gpg-error.h">
+    <ClInclude Include="..\Libgpg-error\gpg-error.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\init.h">
+    <ClInclude Include="..\Libgpg-error\init.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\libgpg-error-1.9\mkerrcodes.h">
+    <ClInclude Include="..\Libgpg-error\mkerrcodes.h">
       <Filter>error</Filter>
     </ClInclude>
   </ItemGroup>
