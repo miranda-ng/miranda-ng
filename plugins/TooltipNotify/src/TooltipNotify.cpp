@@ -73,32 +73,32 @@ CTooltipNotify::~CTooltipNotify()
 void CTooltipNotify::RegisterFonts()
 {
 	FontIDT fontId = { sizeof(fontId) };
-	_tcscpy(fontId.group, FONTSERV_GROUP);
-	strcpy(fontId.dbSettingsGroup, MODULENAME);
+	_tcsncpy(fontId.group, FONTSERV_GROUP, SIZEOF(fontId.group)-1);
+	strncpy(fontId.dbSettingsGroup, MODULENAME, SIZEOF(fontId.dbSettingsGroup)-1);
 	fontId.flags = FIDF_DEFAULTVALID;
 	fontId.deffontsettings.colour = DEF_SETTING_TXTCOLOR;
 	fontId.deffontsettings.size = -MulDiv(DEF_SETTING_FONT_SIZE, DEF_LOGPIXELSY, 72);
 	fontId.deffontsettings.style = DEF_SETTING_FONT_STYLE;
 	fontId.deffontsettings.charset = DEF_SETTING_FONT_CHARSET;
-	_tcscpy(fontId.deffontsettings.szFace, DEF_SETTING_FONT_FACE);
+	_tcsncpy(fontId.deffontsettings.szFace, DEF_SETTING_FONT_FACE, SIZEOF(fontId.deffontsettings.szFace)-1);
 	fontId.order = 0;
-	_tcscpy(fontId.backgroundGroup, FONTSERV_GROUP);
+	_tcsncpy(fontId.backgroundGroup, FONTSERV_GROUP, SIZEOF(fontId.backgroundGroup)-1);
 
 	ColourIDT colorId = { sizeof(colorId) };
-	_tcscpy(colorId.group, FONTSERV_GROUP);
-	strcpy(colorId.dbSettingsGroup, MODULENAME);
+	_tcsncpy(colorId.group, FONTSERV_GROUP, SIZEOF(colorId.group)-1);
+	strncpy(colorId.dbSettingsGroup, MODULENAME, SIZEOF(colorId.dbSettingsGroup)-1);
 	colorId.flags = 0;
 	colorId.defcolour = DEF_SETTING_BGCOLOR;
 	colorId.order = 0;
 
 	for (int i=0; i<SIZEOF(s_fontTable); i++) {
-		_tcscpy(fontId.name, s_fontTable[i].name);
-		strcpy(fontId.prefix, s_fontTable[i].fontPrefix);
-		_tcscpy(fontId.backgroundName, s_fontTable[i].name);
+		_tcsncpy(fontId.name, s_fontTable[i].name, SIZEOF(fontId.name)-1);
+		strncpy(fontId.prefix, s_fontTable[i].fontPrefix, SIZEOF(fontId.prefix)-1);
+		_tcsncpy(fontId.backgroundName, s_fontTable[i].name, SIZEOF(fontId.backgroundName)-1);
 		::FontRegisterT(&fontId);
 
-		_tcscpy(colorId.name, s_fontTable[i].name);
-		strcpy(colorId.setting, s_fontTable[i].clrPrefix);
+		_tcsncpy(colorId.name, s_fontTable[i].name, SIZEOF(colorId.name)-1);
+		strncpy(colorId.setting, s_fontTable[i].clrPrefix, SIZEOF(colorId.setting)-1);
 		::ColourRegisterT(&colorId);
 	}
 }
@@ -120,14 +120,14 @@ void CTooltipNotify::GetFont(int iStatus, LOGFONT* lf, COLORREF* text, COLORREF*
 
 	// name and group only
 	FontIDT fontId = { sizeof(fontId), FONTSERV_GROUP, 0 };
-	_tcscpy(fontId.name, fontName);
+	_tcsncpy(fontId.name, fontName,SIZEOF(fontId.name)-1);
 	*text = (COLORREF)::CallService(MS_FONT_GETT, (WPARAM)&fontId, (LPARAM)lf);
 	ColourIDT colorId = { sizeof(colorId), FONTSERV_GROUP, 0 };
-	_tcscpy(colorId.name, fontName);
+	_tcsncpy(colorId.name, fontName,SIZEOF(colorId.name)-1);
 	*bg = (COLORREF)::CallService(MS_COLOUR_GETT, (WPARAM)&colorId, 0);
 }
 
-int CTooltipNotify::ModulesLoaded(WPARAM wParam, LPARAM lParam)
+int CTooltipNotify::ModulesLoaded(WPARAM, LPARAM)
 {
 	MigrateSettings();
 	LoadSettings();
@@ -174,10 +174,10 @@ int CTooltipNotify::ProtoContactIsTyping(WPARAM hContact, LPARAM lParam)
 }
 
 
-int CTooltipNotify::ProtoAck(WPARAM wParam, LPARAM lParam)
+int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack=(ACKDATA*)lParam;
-	if(ack->type != ACKTYPE_STATUS) return 0;
+	if((ack == NULL) || (ack->type != ACKTYPE_STATUS)) return 0;
 
 	WORD wNewStatus = (WORD)ack->lParam;
 	WORD wOldStatus = (WORD)ack->hProcess;
@@ -725,7 +725,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 						ListView_GetItemText(GetDlgItem(hDlg,IDC_PROTOS), i, 0, szProto, SIZEOF(szProto));
 
 						char szMultiByteProto[128];
-						long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, mir_tstrlen(szProto), 
+						long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, (int)mir_tstrlen(szProto), 
 							szMultiByteProto, sizeof(szMultiByteProto), NULL, NULL);
 						szMultiByteProto[lLen] = '\0';
 

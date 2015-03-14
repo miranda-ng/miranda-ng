@@ -10,13 +10,11 @@ BOOL IsNt50()
 	BYTE bMajorVer = LOBYTE(wOsVersion);
 	BYTE bMinorVer = HIBYTE(wOsVersion);
 
-	return (bMajorVer>=5 && bMinorVer>=0);
+	return (bMajorVer>=5);
 }
 
 void TruncateWithDots(TCHAR* szString, size_t iNewLen)
 {
-	assert(iNewLen >= 0);
-
 	size_t iOrigLen = _tcslen(szString);
 	if (iNewLen < iOrigLen) {
 		TCHAR* p = szString+iNewLen;
