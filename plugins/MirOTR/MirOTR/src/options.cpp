@@ -78,11 +78,11 @@ void LoadOptions() {
 
 	DBVARIANT dbv;
 	if (!db_get_utf(0, MODULENAME, "Prefix", &dbv)) {
-		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
+		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN-1);
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
 		db_free(&dbv);
 	} else
-		strcpy(options.prefix, ("OTR: "));
+		strncpy(options.prefix, ("OTR: "), OPTIONS_PREFIXLEN-1);
 
 	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
 	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
@@ -220,8 +220,8 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					case IDC_CHK_ENDOFFLINE:
 					case IDC_CHK_ENDCLOSE:
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						break;
 				}
+				break;
 			case EN_CHANGE:
 				if (LOWORD( wParam ) == IDC_ED_PREFIX && ( HWND )lParam == GetFocus())
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -256,7 +256,7 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			GetDlgItemText(hwndDlg, IDC_ED_PREFIX, prefix, OPTIONS_PREFIXLEN);
 			prefix_utf = mir_utf8encodeT(prefix);
 			mir_free(prefix);
-			strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN);
+			strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN-1);
 			mir_free(prefix_utf);
 
 			SaveOptions();
@@ -418,6 +418,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 							}
 						}break;
 				}
+				break;
 			case CBN_SELCHANGE:
 				switch ( LOWORD( wParam )) {
 					case IDC_CMB_PROTO_POLICY:
@@ -431,7 +432,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 							TCHAR *text = new TCHAR[len+1];
 							SendDlgItemMessage(hwndDlg, IDC_CMB_PROTO_POLICY, CB_GETLBTEXT, sel, (LPARAM)text);
 							ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_PROTO_PROTOS), proto, 1, text);
-							delete text;
+							delete[] text;
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						}break;
 				}
@@ -547,7 +548,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 			const char *proto;
 			TCHAR *proto_t;
 			for (MCONTACT hContact = db_find_first(); hContact; hContact = db_find_next(hContact)) {
-				proto = contact_get_proto(hContact);
+				proto = GetContactProto(hContact);
 				if(proto && db_get_b(hContact, proto, "ChatRoom", 0) == 0 && CallService(MS_PROTO_ISPROTOONCONTACT, hContact, (LPARAM)MODULENAME) // ignore chatrooms
 					&& strcmp(proto, META_PROTO) != 0) // and MetaContacts
 				{
@@ -586,7 +587,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsContacts(HWND hwndDlg, UINT msg, WPARAM
 							SendDlgItemMessage(hwndDlg, IDC_CMB_CONT_POLICY, CB_GETLBTEXT, sel, (LPARAM)text);
 							ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_CONT_CONTACTS), iUser, 2, text);
 							OtrlPolicy policy = policy_from_string(text);
-							delete text;
+							delete[] text;
 							LVITEM lvi = {0};
 							lvi.mask = LVIF_PARAM;
 							lvi.iItem = iUser;
@@ -727,34 +728,29 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 			// Initialize LVITEM members that are common to all
 			// items.
 			lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
-			ConnContext * context = otr_user_state->context_root;
+			
 			TCHAR *proto, *user, hash[45] = {0};
-			Fingerprint *fp;
-			while (context) {
+			for (ConnContext *context = otr_user_state->context_root;context;context = context->next) {
 				if (context->app_data) {
 					user = (TCHAR*)contact_get_nameT((MCONTACT)context->app_data);
 					if (user) {
 						proto = mir_a2t(context->protocol);
-						fp = context->fingerprint_root.next;
-						while(fp) {
+						
+						for(Fingerprint *fp = context->fingerprint_root.next;fp;fp = fp->next) {
 							otrl_privkey_hash_to_humanT(hash, fp->fingerprint);
-							if (hash) {
-								lvI.iSubItem = 0;
-								lvI.lParam = (LPARAM)fp;
-								lvI.pszText = user;
-								int d = ListView_InsertItem(lv, &lvI);
+							lvI.iSubItem = 0;
+							lvI.lParam = (LPARAM)fp;
+							lvI.pszText = user;
+							int d = ListView_InsertItem(lv, &lvI);
 
-								ListView_SetItemText(lv,d, 1, proto);
-								ListView_SetItemText(lv,d, 2, (context->active_fingerprint == fp)? TranslateT(LANG_YES) : TranslateT(LANG_NO));
-								ListView_SetItemText(lv,d, 3, (fp->trust && fp->trust[0] != '\0')? TranslateT(LANG_YES) : TranslateT(LANG_NO));
-								ListView_SetItemText(lv,d, 4, hash );
-								}
-							fp = fp->next;
+							ListView_SetItemText(lv,d, 1, proto);
+							ListView_SetItemText(lv,d, 2, (context->active_fingerprint == fp)? TranslateT(LANG_YES) : TranslateT(LANG_NO));
+							ListView_SetItemText(lv,d, 3, (fp->trust && fp->trust[0] != '\0')? TranslateT(LANG_YES) : TranslateT(LANG_NO));
+							ListView_SetItemText(lv,d, 4, hash );
 						}
 						mir_free(proto);
 					}
 				}
-				context = context->next;
 			}
 		}
 
@@ -770,9 +766,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 								LVITEM lvi = {0};
 								lvi.mask = LVIF_PARAM;
 								lvi.iItem = sel;
-								Fingerprint *fp = NULL;
 								ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
-								fp = (Fingerprint*) lvi.lParam;
+								Fingerprint *fp = (Fingerprint*) lvi.lParam;
 								FPModifyMap* fpm = (FPModifyMap*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 								(*fpm)[fp] = FPM_NOTRUST;
 								ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), sel, 3, TranslateT(LANG_NO));
@@ -786,9 +781,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 								LVITEM lvi = {0};
 								lvi.mask = LVIF_PARAM;
 								lvi.iItem = sel;
-								Fingerprint *fp = NULL;
 								ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
-								fp = (Fingerprint*) lvi.lParam;
+								Fingerprint *fp = (Fingerprint*) lvi.lParam;
 								FPModifyMap* fpm = (FPModifyMap*) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 								(*fpm)[fp] = FPM_VERIFY;
 								ListView_SetItemText(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), sel, 3, TranslateT(LANG_YES));
@@ -802,9 +796,8 @@ static INT_PTR CALLBACK DlgProcMirOTROptsFinger(HWND hwndDlg, UINT msg, WPARAM w
 								LVITEM lvi = {0};
 								lvi.mask = LVIF_PARAM;
 								lvi.iItem = sel;
-								Fingerprint *fp = NULL;
 								ListView_GetItem(GetDlgItem(hwndDlg, IDC_LV_FINGER_LIST), &lvi);
-								fp = (Fingerprint*) lvi.lParam;
+								Fingerprint *fp = (Fingerprint*) lvi.lParam;
 								if (fp->context->active_fingerprint == fp) {
 									TCHAR buff[1024], hash[45];
 									otrl_privkey_hash_to_humanT(hash, fp->fingerprint);

@@ -4,7 +4,7 @@ void starttag_cb (void *cbdata, ekhtml_string_t *tag, ekhtml_attr_t *attrs) {
 	STRIPHTML_DATA *data = (STRIPHTML_DATA *)cbdata;
 	switch (tag->len) {
 		case 1:
-			switch (*(tag->str)) {
+			switch (tag->str[0]) {
 				case 'a':
 				case 'A':
 					for(ekhtml_attr_t *attr=attrs; attr; attr=attr->next) {
@@ -23,6 +23,7 @@ void starttag_cb (void *cbdata, ekhtml_string_t *tag, ekhtml_attr_t *attrs) {
 					data->buffer.append(" _");
 					break;
 			}
+			break;
 		case 2:
 			if (toupper(tag->str[0]) == 'B' && toupper(tag->str[1]) == 'R') 
 				data->buffer.append("\r\n");
