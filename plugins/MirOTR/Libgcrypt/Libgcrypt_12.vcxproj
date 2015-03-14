@@ -75,7 +75,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -85,7 +85,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <Optimization>Full</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -95,7 +95,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -106,7 +106,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\libgpg-error-1.9;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>custom;inc;cipher;mpi;mpi\generic;src;..\Libgpg-error;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_LIB;HAVE_CONFIG_H;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -186,14 +186,14 @@
     <ClCompile Include="random\random.c" />
     <ClCompile Include="random\rndhw.c" />
     <ClCompile Include="random\rndw32.c" />
-    <ClCompile Include="..\libgpg-error-1.9\code-from-errno.c" />
-    <ClCompile Include="..\libgpg-error-1.9\code-to-errno.c" />
-    <ClCompile Include="..\libgpg-error-1.9\init.c" />
-    <ClCompile Include="..\libgpg-error-1.9\mkerrcodes.c" />
-    <ClCompile Include="..\libgpg-error-1.9\strerror-sym.c" />
-    <ClCompile Include="..\libgpg-error-1.9\strerror.c" />
-    <ClCompile Include="..\libgpg-error-1.9\strsource-sym.c" />
-    <ClCompile Include="..\libgpg-error-1.9\strsource.c" />
+    <ClCompile Include="..\Libgpg-error\code-from-errno.c" />
+    <ClCompile Include="..\Libgpg-error\code-to-errno.c" />
+    <ClCompile Include="..\Libgpg-error\init.c" />
+    <ClCompile Include="..\Libgpg-error\mkerrcodes.c" />
+    <ClCompile Include="..\Libgpg-error\strerror-sym.c" />
+    <ClCompile Include="..\Libgpg-error\strerror.c" />
+    <ClCompile Include="..\Libgpg-error\strsource-sym.c" />
+    <ClCompile Include="..\Libgpg-error\strsource.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cipher\bithelp.h" />
@@ -222,17 +222,17 @@
     <ClInclude Include="custom\config.h" />
     <ClInclude Include="random\rand-internal.h" />
     <ClInclude Include="random\random.h" />
-    <ClInclude Include="..\libgpg-error-1.9\code-from-errno.h" />
-    <ClInclude Include="..\libgpg-error-1.9\code-to-errno.h" />
-    <ClInclude Include="..\libgpg-error-1.9\err-codes-sym.h" />
-    <ClInclude Include="..\libgpg-error-1.9\err-codes.h" />
-    <ClInclude Include="..\libgpg-error-1.9\err-sources-sym.h" />
-    <ClInclude Include="..\libgpg-error-1.9\err-sources.h" />
-    <ClInclude Include="..\libgpg-error-1.9\errnos-sym.h" />
-    <ClInclude Include="..\libgpg-error-1.9\gettext.h" />
-    <ClInclude Include="..\libgpg-error-1.9\gpg-error.h" />
-    <ClInclude Include="..\libgpg-error-1.9\init.h" />
-    <ClInclude Include="..\libgpg-error-1.9\mkerrcodes.h" />
+    <ClInclude Include="..\Libgpg-error\code-from-errno.h" />
+    <ClInclude Include="..\Libgpg-error\code-to-errno.h" />
+    <ClInclude Include="..\Libgpg-error\err-codes-sym.h" />
+    <ClInclude Include="..\Libgpg-error\err-codes.h" />
+    <ClInclude Include="..\Libgpg-error\err-sources-sym.h" />
+    <ClInclude Include="..\Libgpg-error\err-sources.h" />
+    <ClInclude Include="..\Libgpg-error\errnos-sym.h" />
+    <ClInclude Include="..\Libgpg-error\gettext.h" />
+    <ClInclude Include="..\Libgpg-error\gpg-error.h" />
+    <ClInclude Include="..\Libgpg-error\init.h" />
+    <ClInclude Include="..\Libgpg-error\mkerrcodes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\libgcrypt.def" />

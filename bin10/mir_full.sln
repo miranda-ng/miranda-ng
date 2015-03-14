@@ -159,13 +159,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyrTranslit", "..\plugins\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_modern", "..\plugins\Clist_modern\clist_modern_10.vcxproj", "{D9057E63-AAAA-4FE7-800A-20C02F4761F3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "..\plugins\MirOTR\ekhtml\EkHtml_10.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "..\plugins\MirOTR\ekhtml\ekhtml_10.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libgcrypt", "..\plugins\MirOTR\libgcrypt-1.4.6\libgcrypt146lib_10.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libgcrypt", "..\plugins\MirOTR\Libgcrypt\Libgcrypt_10.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Libotr", "..\plugins\MirOTR\libotr-3.2.0\libotr320_10.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libotr", "..\plugins\MirOTR\libotr\libotr_10.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR\MirOTR\MirOTR_10.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR\MirOTR_10.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify_10.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
 EndProject
