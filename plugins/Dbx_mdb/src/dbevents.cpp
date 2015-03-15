@@ -247,6 +247,8 @@ void CDbxMdb::FindNextUnread(const txn_ptr &txn, DBCachedContact *cc, DBEventSor
 
 STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return -1;
+
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	if (cc == NULL)
 		return -1;
@@ -284,12 +286,14 @@ STDMETHODIMP_(BOOL) CDbxMdb::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 STDMETHODIMP_(MCONTACT) CDbxMdb::GetEventContact(MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return INVALID_CONTACT_ID;
+
 	mir_cslock lck(m_csDbAccess);
 	txn_ptr txn(m_pMdbEnv, true);
 
 	MDB_val key = { sizeof(MEVENT), &hDbEvent }, data;
 	if (mdb_get(txn, m_dbEvents, &key, &data) != MDB_SUCCESS)
-		return 0;
+		return INVALID_CONTACT_ID;
 
 	DBEvent *dbe = (DBEvent*)data.mv_data;
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
@@ -339,6 +343,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindLastEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return m_evLast = 0;
+
 	MDB_val data;
 	DWORD ts;
 
@@ -370,6 +376,8 @@ STDMETHODIMP_(MEVENT) CDbxMdb::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent
 
 STDMETHODIMP_(MEVENT) CDbxMdb::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return m_evLast = 0;
+
 	MDB_val data;
 	DWORD ts;
 

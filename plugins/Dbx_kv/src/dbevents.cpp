@@ -115,6 +115,8 @@ STDMETHODIMP_(MEVENT) CDbxKV::AddEvent(MCONTACT contactID, DBEVENTINFO *dbei)
 
 STDMETHODIMP_(BOOL) CDbxKV::DeleteEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return INVALID_CONTACT_ID;
+
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	if (cc == NULL || cc->dbc.dwEventCount == 0)
 		return 1;
@@ -163,7 +165,7 @@ STDMETHODIMP_(LONG) CDbxKV::GetBlobSize(MEVENT hDbEvent)
 
 STDMETHODIMP_(BOOL) CDbxKV::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
-	if (dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
+	if (hDbEvent == 0 || dbei == NULL || dbei->cbSize != sizeof(DBEVENTINFO)) return 1;
 	if (dbei->cbBlob > 0 && dbei->pBlob == NULL) {
 		dbei->cbBlob = 0;
 		return 1;
@@ -227,6 +229,8 @@ void CDbxKV::FindNextUnread(DBCachedContact *cc, DBEventSortingKey &key2)
 
 STDMETHODIMP_(BOOL) CDbxKV::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return -1;
+
 	DBCachedContact *cc = m_cache->GetCachedContact(contactID);
 	if (cc == NULL)
 		return -1;
@@ -259,10 +263,12 @@ STDMETHODIMP_(BOOL) CDbxKV::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 STDMETHODIMP_(MCONTACT) CDbxKV::GetEventContact(MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return INVALID_CONTACT_ID;
+
 	ham_record_t rec = { 0 };
 	ham_key_t key = { sizeof(MEVENT), &hDbEvent };
 	if (ham_db_find(m_dbEvents, NULL, &key, &rec, HAM_FIND_EXACT_MATCH) != HAM_SUCCESS)
-		return 0;
+		return INVALID_CONTACT_ID;
 
 	DBEvent *dbe = (DBEvent*)rec.data;
 	return (dbe->dwSignature == DBEVENT_SIGNATURE) ? dbe->contactID : INVALID_CONTACT_ID;
@@ -304,6 +310,8 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindLastEvent(MCONTACT contactID)
 
 STDMETHODIMP_(MEVENT) CDbxKV::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return m_evLast = 0;
+
 	DWORD ts;
 	ham_record_t rec = { 0 };
 
@@ -327,6 +335,8 @@ STDMETHODIMP_(MEVENT) CDbxKV::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 
 STDMETHODIMP_(MEVENT) CDbxKV::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 {
+	if (hDbEvent == 0) return m_evLast = 0;
+
 	DWORD ts;
 	ham_record_t rec = { 0 };
 
