@@ -1,0 +1,261 @@
+hamsterdb 2.1.10                                   Mo 23. Feb 23:07:52 CET 2015
+(C) Christoph Rupp, chris@crupp.de; http://www.hamsterdb.com
+
+This is the README file of hamsterdb.
+
+Contents:
+
+1. About
+
+hamsterdb is a database engine written in C/C++. It is fast, production-proven
+and easy to use.
+
+This release has several bug fixes (see below for a list). Thanks to those who
+reported them and invested lots of time to come up with samples to reproduce
+the bugs.
+
+The flag HAM_RECORD_NUMBER is deprecated. It is replaced with
+HAM_RECORD_NUMBER64 for 64bit record numbers, and HAM_RECORD_NUMBER32 for
+32bit record numbers.
+
+A major change under the hood: dirty pages are now flushed asynchronously.
+Expect performance improvements in this release, and more to come in the
+next releases.
+
+2. Changes
+
+New Features
+* Added Cursor.TryFind to hamsterdb-dotnet
+	(thanks, mjmckp <matthew.j.m.peacock@gmail.com>)
+* The page cache eviction was moved to a background thread
+* When reading records from mmapped storage, a pointer into the storage
+	is returned and the record data is no longer copied
+
+Bugfixes
+* Fixed FreeBSD compilation errors (thanks, Heping Wen)
+* issue #46: fixed segfault in approx. matching (thanks, Joel
+	Jacobson)
+* issue #45: fixed segfault in Journal recovery (thanks, Michael
+	Moellney)
+* issue #44: approx. matching returned the wrong key (thanks, Joel
+	Jacobson)
+* issue #43: fixed segfault when flushing transactions (thanks, Joel
+	Jacobson)
+* Fixed compilation error on debian Wheezy, gcc 4.7.2, 32bit (thanks,
+	Thomas Fähnle)
+* Fixed compilation error on OSX (thanks, Daniel Lemire)
+* issue #42: ham_cursor_find returned wrong key w/ approx. matching and
+	transactions
+* Fixed large file support on linux (thanks, Thomas Fähnle)
+
+Other Changes
+* Default compilation flag is now -O3
+* Added a new parameter HAM_PARAM_POSIX_FADVISE (thanks, Thomas Fähnle)
+* Removed dependency to malloc.h
+* The github wiki is now linked into documentation/wiki
+* The macro HAM_API_REVISION is now deprecated; use HAM_VERSION_* instead
+* Deprecated HAM_RECORD_NUMBER (use HAM_RECORD_NUMBER64 instead);
+	introduced a new flag HAM_RECORD_NUMBER32 for 32bit record numbers
+* Implemented ham_cursor_get_record_size() for remote access
+
+To see a list of all changes, look in the file ChangeLog.
+
+3. Roadmap
+- See https://github.com/cruppstahl/hamsterdb/wiki/Roadmap
+
+4. Features
+
+- PRO: SIMD instructions for lookups
+- PRO: transparent AES encryption
+- PRO: transparent CRC32 verification
+- PRO: transparent compression for journal, keys and records using 
+    zlib, snappy, lzf or lzo 
+- PRO: compression for uint32 keys
+
+- Very fast sorted B+Tree with variable length keys
+- Basic schema support for POD types (i.e. uint32, uint64, real32 etc)
+- Very fast analytical functions
+- Can run as an in-memory database
+- Multiple databases in one file
+- Record number databases ("auto-increment")
+- Duplicate keys
+- Logging and recovery
+- Unlimited number of parallel Transactions
+- Partial reading/writing of records
+- Network access (remote databases) via TCP/Protocol Buffers
+- Very fast database cursors
+- Configurable page size, cache size, key size etc
+- Runs on Linux, Unices, Microsoft Windows and other architectures
+- Uses memory mapped I/O for fast disk access (but falls back to read/write if
+    mmap is not available)
+- Uses 64bit file pointers and supports huge files (>2 GB)
+- Easy to use and well-documented
+- Open source and released under APL 2.0 license
+- Wrappers for C++, Java, .NET, Erlang, Python, Ada and others
+
+5. Known Issues/Bugs
+
+None.
+
+6. Compiling
+
+6.1 Linux, MacOS and other Unix systems
+
+To compile hamsterdb, run ./configure, make, make install.
+
+Run `./configure --help' for more options (i.e. static/dynamic library,
+build with debugging symbols etc).
+
+6.2 Microsoft Visual Studio 8
+
+A Solution file is provided for Microsoft Visual C++ in the "win32" folder
+for MSVC 2008 and MSVC 2010.
+All libraries can be downloaded precompiled from the hamsterdb webpage.
+
+To download Microsoft Visual Studio Express Edition for free, go to
+http://msdn.microsoft.com/vstudio/express/visualc/default.aspx.
+
+6.3 Dependencies
+
+On Ubuntu, the following packages are required:
+  - libdb-dev (optional)
+  - protobuf-compiler
+  - libprotobuf-dev
+  - libgoogle-perftools-dev
+  - libboost-system-dev
+  - libboost-thread-dev
+  - libboost-dev
+  - (libuv needs to be installed from sources - see
+      https://github.com/joyent/libuv)
+
+For Windows, precompiled dependencies are available here:
+https://github.com/cruppstahl/hamsterdb-alien
+
+7. Testing and Example Code
+
+Make automatically compiles several example programs in the directory
+'samples'. To see hamsterdb in action, just run 'samples/db1'
+or any other sample. (or 'win32/out/samples/db1/db1.exe' on Windows platforms).
+
+8. API Documentation
+
+The header files in 'include/ham' have extensive comments. Also, a doxygen
+script is available; run 'make doc' to start doxygen. The generated
+documentation is also available on the hamsterdb web page.
+
+9. Other Ways to Compile hamsterdb
+
+If you want to compile hamsterdb without using the provided ./configure
+environment, you have to set some preprocessor macros:
+
+DEBUG                   enable debugging output and diagnostic checks (slow!)
+HAM_32BIT               compile for 32bit (alias: WIN32)
+HAM_64BIT               compile for 64bit (alias: WIN64, also needs WIN32)
+
+Also, if you compile for windows, you have to compile the file
+'src/os_win32.cc' and ignore the file 'src/os_posix.cc'. Vice versa on
+non-Windows platforms.
+
+10. Porting hamsterdb
+
+Porting hamsterdb shouldn't be too difficult. All operating
+system dependend functions are declared in 'src/os.h' and defined
+in 'src/os_win32.cc' or 'src/os_posix.cc'.
+Other compiler- and OS-specific macros are in 'include/ham/types.h'.
+Most likely, these are the only files which have to be touched. Also see item
+9) for important macros.
+
+11. Migrating files from older versions
+
+Usually, hamsterdb releases are backwards compatible. There are some exceptions,
+though. In this case tools are provided to migrate the database. First, export
+your existing database with ham_export linked against the old version.
+(ham_export links statically and will NOT be confused if your system has a
+newer version of hamsterdb installed). Then use the newest version of
+ham_import to import the data into a new database. You can find ham_export
+and ham_import in the "tools" subdirectory.
+
+    Example (ham_export of 2.1.2 was renamed to ham_export-2.1.2 to document
+        that it's an older version):
+
+    ham_export-2.1.2 input.db | ham_import --stdin output.db
+
+12. Licensing
+
+hamsterdb is released under the APL 2.0 license, which allows
+unrestricted use for commercial and non-commercial applications. See the
+file COPYING for more information.
+
+A commercial, closed source version hamsterdb pro with additional functionality
+is available on request. See http://hamsterdb.com for more information.
+
+13. Contact
+
+Author of hamsterdb is
+    Christoph Rupp
+    Paul-Preuss-Str. 63
+    80995 Muenchen/Germany
+    email: chris@crupp.de
+    web: http://www.hamsterdb.com
+
+14. Other Copyrights
+
+The Google Protocol Buffers ("protobuf") library is Copyright 2008, Google Inc.
+It has the following license:
+
+    Copyright 2008, Google Inc.
+    All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are
+    met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above
+      copyright notice, this list of conditions and the following disclaimer
+      in the documentation and/or other materials provided with the
+      distribution.
+    * Neither the name of Google Inc. nor the names of its
+      contributors may be used to endorse or promote products derived from
+      this software without specific prior written permission.
+
+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+    OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+    SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+    LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+    THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+    Code generated by the Protocol Buffer compiler is owned by the owner
+    of the input file used when generating it.  This code is not
+    standalone and requires a support library to be linked with it.  This
+    support library is itself covered by the above license.
+
+The libuv library is part of the Node project: http://nodejs.org/
+libuv may be distributed alone under Node's license:
+
+    Copyright Joyent, Inc. and other Node contributors. All rights reserved.
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to
+    deal in the Software without restriction, including without limitation the
+    rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+    sell copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in
+    all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+    IN THE SOFTWARE.
+
