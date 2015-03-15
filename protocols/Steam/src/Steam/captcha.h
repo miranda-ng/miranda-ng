@@ -6,8 +6,8 @@ namespace SteamWebApi
 	class GetCaptchaRequest : public HttpGetRequest
 	{
 	public:
-		GetCaptchaRequest(const char *url) :
-			HttpGetRequest(url)
+		GetCaptchaRequest(const char *captchaId) :
+			HttpGetRequest(STEAM_WEB_URL "/public/captcha.php?gid=%s", captchaId)
 		{
 			flags = NLHRF_HTTP11 | NLHRF_NODUMP;
 		}

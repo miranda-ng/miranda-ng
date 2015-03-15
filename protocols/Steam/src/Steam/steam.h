@@ -4,22 +4,78 @@
 namespace SteamWebApi
 {
 	#define STEAM_API_URL "https://api.steampowered.com"
-	#define STEAM_COM_URL "https://steamcommunity.com"
+	#define STEAM_WEB_URL "https://steamcommunity.com"
 
 	class HttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	{
-	public:
-		std::string url;
-
-		HttpRequest(int type, LPCSTR url)
+	private:
+		CMStringA url;
+	
+	protected:
+		HttpRequest()
 		{
 			cbSize = sizeof(NETLIBHTTPREQUEST);
 
+			AddHeader("user-agent", "Steam 1.2.0 / iPhone");
+		}
+
+		HttpRequest(int type, LPCSTR urlFormat, va_list args)
+		{
+			this->HttpRequest::HttpRequest();
+
 			requestType = type;
-			this->url = url;
-			szUrl = (char*)this->url.c_str();
-			timeout = 0;
+			//timeout = 0;
 			flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+
+			url.AppendFormatV(urlFormat, args);
+			szUrl = url.GetBuffer();
+		}
+
+		void AddHeader(LPCSTR szName, LPCSTR szValue)
+		{
+			headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
+			headers[headersCount].szName = mir_strdup(szName);
+			headers[headersCount].szValue = mir_strdup(szValue);
+			headersCount++;
+		}
+
+		void AddParameter(const char *fmt, ...)
+		{
+			va_list args;
+			va_start(args, fmt);
+			if (url.Find('?') == -1)
+				url += '?';
+			else
+				url += '&';
+			url.AppendFormatV(fmt, args);
+			va_end(args);
+
+			szUrl = url.GetBuffer();
+		}
+
+		void AddParameter(LPCSTR name, LPCSTR value)
+		{
+			AddParameter("%s=%s", name, value);
+		}
+
+		void SetData(const char *data, size_t size)
+		{
+			if (pData != NULL)
+				mir_free(pData);
+
+			dataLength = (int)size;
+			pData = (char*)mir_alloc(size + 1);
+			memcpy(pData, data, size);
+			pData[size] = 0;
+		}
+
+	public:
+		HttpRequest(int type, LPCSTR urlFormat, ...)
+		{
+			va_list args;
+			va_start(args, urlFormat);
+			this->HttpRequest::HttpRequest(type, urlFormat, args);
+			va_end(args);
 		}
 
 		~HttpRequest()
@@ -33,62 +89,55 @@ namespace SteamWebApi
 			mir_free(pData);
 		}
 
-		void AddHeader(LPCSTR szName, LPCSTR szValue)
+		NETLIBHTTPREQUEST * Send(HANDLE hConnection)
 		{
-			headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-			headers[headersCount].szName = mir_strdup(szName);
-			headers[headersCount].szValue = mir_strdup(szValue);
-			headersCount++;
-		}
+			char message[1024];
+			mir_snprintf(message, SIZEOF(message), "Send request to %s", szUrl);
+			CallService(MS_NETLIB_LOG, (WPARAM)hConnection, (LPARAM)&message);
 
-		void AddParameter(LPCSTR szName, LPCSTR szValue)
-		{
-			if (url.find('?') == -1)
-				url.append("?").append(szName).append("=").append(szValue);
-			else
-				url.append("&").append(szName).append("=").append(szValue);
-		}
-
-		void AddParameter(LPCSTR szValue)
-		{
-			if (url.find('?') == -1)
-				url.append("?").append(szValue);
-			else
-				url.append("&").append(szValue);
-		}
-
-		void SetData(const char *data, size_t size)
-		{
-			if (pData != NULL)
-				mir_free(pData);
-
-			dataLength = (int)size;
-			pData = (char*)mir_alloc(size + 1);
-			memcpy(pData, data, size);
-			pData[size] = 0;
+			return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
 		}
 	};
 
 	class HttpGetRequest : public HttpRequest
 	{
 	public:
-		HttpGetRequest(LPCSTR url) : HttpRequest(REQUEST_GET, url) { }
+		HttpGetRequest(LPCSTR urlFormat, ...) : HttpRequest()
+		{
+			va_list args;
+			va_start(args, urlFormat);
+			this->HttpRequest::HttpRequest(REQUEST_GET, urlFormat, args);
+			va_end(args);
+		}
 	};
 
-	/*class HttpPostRequest : public HttpRequest
+	class HttpPostRequest : public HttpRequest
 	{
 	public:
-		HttpPostRequest(LPCSTR url) : HttpRequest(REQUEST_POST, url)
+		HttpPostRequest(LPCSTR urlFormat, ...) : HttpRequest()
 		{
+			va_list args;
+			va_start(args, urlFormat);
+			this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
+			va_end(args);
+
 			AddHeader("Content-Type", "application/x-www-form-urlencoded");
 		}
-	};*/
+	};
 
 	class HttpsRequest : public HttpRequest
 	{
+	protected:
+		HttpsRequest() : HttpRequest() { }
+
 	public:
-		HttpsRequest(int type, LPCSTR url) : HttpRequest(type, url)
+		HttpsRequest(int type, LPCSTR urlFormat, ...) : HttpRequest()
 		{
+			va_list args;
+			va_start(args, urlFormat);
+			this->HttpRequest::HttpRequest(type, urlFormat, args);
+			va_end(args);
+
 			flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 		}
 	};
@@ -96,15 +145,26 @@ namespace SteamWebApi
 	class HttpsGetRequest : public HttpsRequest
 	{
 	public:
-		HttpsGetRequest(LPCSTR url) : HttpsRequest(REQUEST_GET, url) { }
+		HttpsGetRequest(LPCSTR urlFormat, ...) : HttpsRequest()
+		{
+			va_list args;
+			va_start(args, urlFormat);
+			this->HttpRequest::HttpRequest(REQUEST_GET, urlFormat, args);
+			va_end(args);
+		}
 	};
 
 	class HttpsPostRequest : public HttpsRequest
 	{
 	public:
-		HttpsPostRequest(LPCSTR url) : HttpsRequest(REQUEST_POST, url)
+		HttpsPostRequest(LPCSTR urlFormat, ...) : HttpsRequest()
 		{
-			AddHeader("Content-Type", "application/x-www-form-urlencoded");
+			va_list args;
+			va_start(args, urlFormat);
+			this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
+			va_end(args);
+
+			AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 		}
 	};
 }

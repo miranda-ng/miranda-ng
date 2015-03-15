@@ -7,7 +7,7 @@ namespace SteamWebApi
 	{
 	public:
 		RsaKeyRequest(const char *username) :
-			HttpsGetRequest(STEAM_COM_URL "/mobilelogin/getrsakey")
+			HttpsGetRequest(STEAM_WEB_URL "/mobilelogin/getrsakey")
 		{
 			flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMP;
 

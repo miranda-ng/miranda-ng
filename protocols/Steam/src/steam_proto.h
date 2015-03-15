@@ -5,6 +5,13 @@
 #define STEAM_SEARCH_BYNAME 1002
 #define STEAM_TYPING_TIME 10
 
+struct PasswordParam
+{
+	char password[513];
+	char timestamp[16];
+};
+
+
 struct GuardParam
 {
 	char code[10];
