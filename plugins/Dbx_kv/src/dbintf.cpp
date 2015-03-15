@@ -177,7 +177,7 @@ int CDbxKV::Load(bool bSkipInit)
 
 int CDbxKV::Create(void)
 {
-	int flags = HAM_ENABLE_FSYNC | HAM_DISABLE_RECOVERY;
+	int flags = HAM_ENABLE_FSYNC | HAM_ENABLE_RECOVERY | HAM_ENABLE_FSYNC;
 	if (ham_env_create(&m_pMdbEnv, _T2A(m_tszProfileName), flags, 0664, NULL) != HAM_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
