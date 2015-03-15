@@ -63,14 +63,17 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 	base64RsaEncryptedPassword = mir_base64_encode(encryptedPassword, encryptedSize);
 	mir_free(encryptedPassword);
 
-	setString("EncryptedPassword", base64RsaEncryptedPassword);
-	
+	//setString("EncryptedPassword", base64RsaEncryptedPassword);
+	PasswordParam *param = (PasswordParam*)mir_alloc(sizeof(PasswordParam));
+	strcpy(param->password, base64RsaEncryptedPassword);
+	strcpy(param->timestamp, timestamp);
+
 	// run authorization request
-	ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
+	ptrA username(mir_utf8encodeW(getWStringA("Username")));
 
 	PushRequest(
 		new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp),
-		&CSteamProto::OnAuthorization);
+		&CSteamProto::OnAuthorization, param, ARG_NO_FREE);
 }
 
 void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
@@ -91,6 +94,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		{
 			ShowNotification(TranslateTS(message));
 			SetStatus(ID_STATUS_OFFLINE);
+			mir_free(arg);
 			return;
 		}
 
@@ -106,17 +110,16 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			GuardParam guard;
 			mir_strncpy(guard.domain, emailDomain, SIZEOF(guard.domain));
 
-			if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GUARD), NULL, CSteamProto::GuardProc, (LPARAM)&guard) != 1) {
+			if (DialogBoxParam(g_hInstance, MAKEINTRESOURCE(IDD_GUARD), NULL, CSteamProto::GuardProc, (LPARAM)&guard) != IDOK)
 				return;
-			}
 
-			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
-			ptrA base64RsaEncryptedPassword(getStringA("EncryptedPassword"));
-			ptrA timestamp(getStringA("Timestamp"));
+			ptrA username(mir_utf8encodeW(getWStringA("Username")));
+			PasswordParam *param = (PasswordParam*)arg;
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp, guardId, guard.code),
+				new SteamWebApi::AuthorizationRequest(username, param->password, param->timestamp, guard.code),
 				&CSteamProto::OnAuthorization);
+			return;
 		}
 
 		node = json_get(root, "captcha_needed");
@@ -125,12 +128,8 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			node = json_get(root, "captcha_gid");
 			ptrA captchaId(mir_u2a(ptrT(json_as_string(node))));
 
-			char url[MAX_PATH];
-			mir_snprintf(url, SIZEOF(url), STEAM_COM_URL "/public/captcha.php?gid=%s", captchaId);
-
-			SteamWebApi::GetCaptchaRequest *request = new SteamWebApi::GetCaptchaRequest(url);
-			request->szUrl = (char*)request->url.c_str();
-			NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)request);
+			SteamWebApi::GetCaptchaRequest *request = new SteamWebApi::GetCaptchaRequest(captchaId);
+			NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 			delete request;
 
 			CaptchaParam captcha = { 0 };
@@ -155,17 +154,21 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				return;
 			}
 
-			ptrA username(mir_urlEncode(ptrA(mir_utf8encodeW(getWStringA("Username")))));
-			ptrA base64RsaEncryptedPassword(getStringA("EncryptedPassword"));
-			ptrA timestamp(getStringA("Timestamp"));
+			ptrA username(mir_utf8encodeW(getWStringA("Username")));
+			PasswordParam *param = (PasswordParam*)arg;
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp, "-1", "", captchaId, captcha.text),
+				new SteamWebApi::AuthorizationRequest(username, param->password, param->timestamp, captchaId, captcha.text),
 				&CSteamProto::OnAuthorization);
+			return;
 		}
 
+		SetStatus(ID_STATUS_OFFLINE);
+		mir_free(arg);
 		return;
 	}
+
+	mir_free(arg);
 
 	node = json_get(root, "login_complete");
 	if (!json_as_bool(node))
@@ -202,7 +205,7 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 
 void CSteamProto::OnGotSession(const NETLIBHTTPREQUEST *response, void *arg)
 {
-	if (response == NULL)
+	if(response == NULL)
 		return;
 
 	for (int i = 0; i < response->headersCount; i++)
@@ -243,7 +246,7 @@ void CSteamProto::OnLoggedOn(const NETLIBHTTPREQUEST *response, void *arg)
 
 	node = json_get(root, "umqid");
 	setString("UMQID", ptrA(mir_u2a(ptrT(json_as_string(node)))));
-	
+
 	node = json_get(root, "message");
 	setDword("MessageID", json_as_int(node));
 

@@ -178,10 +178,8 @@ void CSteamProto::PollingThread(void*)
 	while (!isTerminated && !breaked && errors < POLLING_ERRORS_LIMIT)
 	{
 		SteamWebApi::PollRequest *request = new SteamWebApi::PollRequest(token, umqId, messageId, IdleSeconds());
-		debugLogA("CSteamProto::PollingThread: %s", request->szUrl);
-		request->szUrl = (char*)request->url.c_str();
-		request->nlc = m_pollingConnection;
-		NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)request);
+		//request->nlc = m_pollingConnection;
+		NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 		delete request;
 
 		if (response == NULL || response->resultCode != HTTP_STATUS_OK)

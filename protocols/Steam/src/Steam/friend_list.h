@@ -19,7 +19,7 @@ namespace SteamWebApi
 	{
 	public:
 		AddFriendRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-			HttpsPostRequest(STEAM_COM_URL "/actions/AddFriendAjax")
+			HttpsPostRequest(STEAM_WEB_URL "/actions/AddFriendAjax")
 		{
 			char login[MAX_PATH];
 			mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
@@ -42,7 +42,7 @@ namespace SteamWebApi
 	{
 	public:
 		BlockFriendRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-			HttpsPostRequest(STEAM_COM_URL "/actions/BlockUserAjax")
+			HttpsPostRequest(STEAM_WEB_URL "/actions/BlockUserAjax")
 		{
 			char login[MAX_PATH];
 			mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);
@@ -65,7 +65,7 @@ namespace SteamWebApi
 	{
 	public:
 		RemoveFriendRequest(const char *token, const char *sessionId, const char *steamId, const char *who) :
-			HttpsPostRequest(STEAM_COM_URL "/actions/RemoveFriendAjax")
+			HttpsPostRequest(STEAM_WEB_URL "/actions/RemoveFriendAjax")
 		{
 			char login[MAX_PATH];
 			mir_snprintf(login, SIZEOF(login), "%s||oauth:%s", steamId, token);

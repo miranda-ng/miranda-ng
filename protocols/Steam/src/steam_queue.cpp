@@ -63,9 +63,7 @@ void CSteamProto::StopQueue()
 	ptrA umqid(getStringA("UMQID"));
 
 	SteamWebApi::HttpRequest *request = new SteamWebApi::LogoffRequest(token, umqid);
-	debugLogA("CSteamProto::StopQueue: %s", request->szUrl);
-	request->szUrl = (char*)request->url.c_str();
-	NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)request);
+	NETLIBHTTPREQUEST *response = request->Send(m_hNetlibUser);
 	CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)response);
 	delete request;
 
@@ -113,10 +111,7 @@ void CSteamProto::ExecuteRequest(QueueItem *item)
 		return;
 	}
 
-	debugLogA("CSteamProto::ExecuteRequest: %s", item->request->szUrl);
-
-	item->request->szUrl = (char*)item->request->url.c_str();
-	NETLIBHTTPREQUEST *response = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)m_hNetlibUser, (LPARAM)item->request);
+	NETLIBHTTPREQUEST *response = item->request->Send(m_hNetlibUser);
 
 	if (item->responseCallback != NULL)
 		(this->*(item->responseCallback))(response, item->arg);
@@ -128,7 +123,7 @@ void CSteamProto::ExecuteRequest(QueueItem *item)
 	}
 	/*else if (requestItem->responseFailedCallback != NULL)
 	{
-		(this->*(requestItem->responseFailedCallback))(response);
+	(this->*(requestItem->responseFailedCallback))(response);
 	}*/
 
 	delete item;
