@@ -133,7 +133,6 @@
       <AdditionalIncludeDirectories>..\..\include;..\..\..\boost;src\hamsterdb\include;src\hamsterdb\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_CONFIG_H;NDEBUG;WIN32;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <ExceptionHandling>false</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -164,7 +163,6 @@
       <AdditionalIncludeDirectories>..\..\include;..\..\..\boost;src\hamsterdb\include;src\hamsterdb\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>HAVE_CONFIG_H;NDEBUG;WIN32;WIN64;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <ExceptionHandling>false</ExceptionHandling>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <FloatingPointModel>Fast</FloatingPointModel>
@@ -188,7 +186,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\dbcache.cpp" />
     <ClCompile Include="src\dbcontacts.cpp" />
     <ClCompile Include="src\dbcrypt.cpp" />
     <ClCompile Include="src\dbevents.cpp" />

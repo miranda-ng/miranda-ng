@@ -191,7 +191,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\dbcache.cpp" />
     <ClCompile Include="src\dbcontacts.cpp" />
     <ClCompile Include="src\dbcrypt.cpp" />
     <ClCompile Include="src\dbevents.cpp" />
