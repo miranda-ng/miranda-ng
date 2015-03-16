@@ -543,20 +543,36 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		<< VER_API);
 }
 
-bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem)
+bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)
 {
+	isCommented = false;
 	if (vkNotificationItem->vkParentType == vkNull)
 		return false;
 
 	if (vkNotificationItem->tszType == _T("mention_comments")
 		|| vkNotificationItem->tszType == _T("mention_comment_photo")
-		|| vkNotificationItem->tszType == _T("mention_comment_video"))
+		|| vkNotificationItem->tszType == _T("mention_comment_video")){
+		isCommented = true;
 		return m_bNotificationFilterMentions;
+	}
 
 	bool result = (vkNotificationItem->vkFeedbackType == vkUsers && m_bNotificationFilterLikes);
 	result = (vkNotificationItem->vkFeedbackType == vkCopy && m_bNotificationFilterReposts) || result;
 	result = (vkNotificationItem->vkFeedbackType == vkComment && m_bNotificationFilterComments) || result;
+
+	isCommented = (vkNotificationItem->vkFeedbackType == vkComment);
+	
 	return result;
+}
+
+void CVkProto::NotificationMarkAsViewed()
+{
+	debugLogA("CVkProto::NotificationMarkAsViewed");
+	if (!IsOnline())
+		return;
+
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/notifications.markAsViewed.json", true, &CVkProto::OnReceiveSmth)
+		<< VER_API);
 }
 
 void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)
@@ -588,11 +604,17 @@ void CVkProto::OnReceiveUnreadNotifications(NETLIBHTTPREQUEST *reply, AsyncHttpR
 				delete vkNotificationItem;
 		}
 
+	bool bNotificationCommentAdded = false;
+	bool bNotificationComment = false;
 	for (int i = 0; i < vkNotification.getCount(); i++)
-		if (FilterNotification(&vkNotification[i]))
+		if (FilterNotification(&vkNotification[i], bNotificationComment)) {
 			AddFeedEvent(vkNotification[i].tszText, vkNotification[i].tDate);
+			bNotificationCommentAdded = bNotificationComment || bNotificationCommentAdded;
+		}
 	
 	setDword("LastNotificationsTime", time(NULL));
+	if (m_bNotificationsMarkAsViewed && bNotificationCommentAdded)
+		NotificationMarkAsViewed();
 	vkNotification.destroy();
 	vkUsers.destroy();
 }

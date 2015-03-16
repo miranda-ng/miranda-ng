@@ -378,7 +378,8 @@ struct CVkProto : public PROTO<CVkProto>
 	void OnReceiveUnreadNews(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	
 	void RetrieveUnreadNotifications(time_t tLastNotificationsTime);
-	bool FilterNotification(CVKNewsItem* vkNotificationItem);
+	bool FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented);
+	void NotificationMarkAsViewed();
 	void OnReceiveUnreadNotifications(NETLIBHTTPREQUEST*, AsyncHttpRequest*);
 	void RetrieveUnreadEvents();
 	void NewsClearHistory();
@@ -578,6 +579,7 @@ private:
 		m_bUserForceOnlineOnActivity,
 		m_bNewsEnabled,
 		m_bNotificationsEnabled,
+		m_bNotificationsMarkAsViewed,
 		m_bSpecialContactAlwaysEnabled,
 		m_bNewsAutoClearHistory,
 		m_bNewsFilterPosts,
