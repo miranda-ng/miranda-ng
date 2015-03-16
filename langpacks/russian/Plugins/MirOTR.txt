@@ -35,8 +35,6 @@ OTR Создание личного ключа
 Показывать системные сообщения в окне бесед
 [Show OTR system messages as popup]
 Показывать системные сообщения во всплывающем окне
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Возвращать завершённые сессии в обычный текст по тайм-ауту
 [Show verification dialog when receiving unverified fingerprint]
 Диалог подтверждения при получении непроверенного отпечатка
 [Set OTR policy per protocol]
