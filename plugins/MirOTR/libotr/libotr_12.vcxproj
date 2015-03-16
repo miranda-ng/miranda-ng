@@ -148,7 +148,7 @@
     <ClInclude Include="custom\config.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Libgcrypt\Libgcrypt_10.vcxproj">
+    <ProjectReference Include="..\Libgcrypt\Libgcrypt_12.vcxproj">
       <Project>{40fe7861-e54e-4da9-be4d-a5178014e477}</Project>
     </ProjectReference>
   </ItemGroup>
