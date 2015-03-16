@@ -146,7 +146,7 @@ BOOL CDbxKV::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	DBEventSortingKey keyVal = { ccSub->contactID, 0, 0 }, insVal = { ccMeta->contactID, 0, 0 };
 	ham_key_t key = { sizeof(keyVal), &keyVal }, key2 = { sizeof(insVal), &insVal };
-	ham_record_t data;
+	ham_record_t data = { 0 };
 
 	cursor_ptr cursor(m_dbEventsSort);
 	if (ham_cursor_find(cursor, &key, &data, HAM_FIND_GT_MATCH) != HAM_SUCCESS)
@@ -177,7 +177,7 @@ BOOL CDbxKV::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
 	DBEventSortingKey keyVal = { ccSub->contactID, 0, 0 }, delVal = { ccMeta->contactID, 0, 0 };
 	ham_key_t key = { sizeof(keyVal), &keyVal }, key2 = { sizeof(delVal), &delVal };
-	ham_record_t data;
+	ham_record_t data = { 0 };
 
 	cursor_ptr cursor(m_dbEventsSort);
 	if (ham_cursor_find(cursor, &key, &data, HAM_FIND_GT_MATCH) != HAM_SUCCESS)
