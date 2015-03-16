@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.50
+;  Version: 0.1.0.51
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -43,6 +43,8 @@
 Включить уведомления
 [Interval for notification updates (min):]
 Интервал обновлений уведомлений (мин):
+[Mark notification as viewed on receive]
+Помечать уведомления, как просмотренные при получении
 [Special contact always enabled]
 Псевдоконтакт всегда включён
 [Autoclear news and notification history]

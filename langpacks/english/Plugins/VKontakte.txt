@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.0.50
+;  Version: 0.1.0.51
 ;  Authors: Miranda NG Team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -25,6 +25,7 @@
 [Interval for news updates (min):]
 [Enable event notifications]
 [Interval for notification updates (min):]
+[Mark notification as viewed on receive]
 [Special contact always enabled]
 [Autoclear news and notification history]
 [News types]
