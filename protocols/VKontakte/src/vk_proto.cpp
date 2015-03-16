@@ -81,6 +81,7 @@ CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	m_bNewsEnabled = getBool("NewsEnabled", false);
 	m_iMaxLoadNewsPhoto = getByte("MaxLoadNewsPhoto", 5);
 	m_bNotificationsEnabled = getBool("NotificationsEnabled", false);
+	m_bNotificationsMarkAsViewed = getBool("NotificationsMarkAsViewed", true);
 	m_bSpecialContactAlwaysEnabled = getBool("SpecialContactAlwaysEnabled", false);
 	m_iNewsInterval = getDword("NewsInterval", 15);
 	m_iNotificationsInterval = getDword("NotificationsInterval", 1);

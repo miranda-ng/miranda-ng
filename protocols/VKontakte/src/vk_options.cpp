@@ -364,6 +364,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		CheckDlgButton(hwndDlg, IDC_NEWS_ENBL, ppro->m_bNewsEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NOTIF_ENBL, ppro->m_bNotificationsEnabled ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_NOTIF_MARK_VIEWED, ppro->m_bNotificationsMarkAsViewed ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SPEC_CONT_ENBL, ppro->m_bSpecialContactAlwaysEnabled ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_NEWSAUTOCLEAR, ppro->m_bNewsAutoClearHistory ? BST_CHECKED : BST_UNCHECKED);
 
@@ -402,6 +403,7 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		
 		case IDC_NEWS_ENBL:
 		case IDC_NOTIF_ENBL:
+		case IDC_NOTIF_MARK_VIEWED:
 		case IDC_SPEC_CONT_ENBL:
 		case IDC_NEWSAUTOCLEAR:
 		case IDC_F_POSTS:
@@ -434,6 +436,9 @@ INT_PTR CALLBACK CVkProto::OptionsFeedsProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 			ppro->m_bNotificationsEnabled = IsDlgButtonChecked(hwndDlg, IDC_NOTIF_ENBL) == BST_CHECKED;
 			ppro->setByte("NotificationsEnabled", ppro->m_bNotificationsEnabled);
+
+			ppro->m_bNotificationsMarkAsViewed = IsDlgButtonChecked(hwndDlg, IDC_NOTIF_MARK_VIEWED) == BST_CHECKED;
+			ppro->setByte("NotificationsMarkAsViewed", ppro->m_bNotificationsMarkAsViewed);
 
 			ppro->m_bSpecialContactAlwaysEnabled = IsDlgButtonChecked(hwndDlg, IDC_SPEC_CONT_ENBL) == BST_CHECKED;
 			ppro->setByte("SpecialContactAlwaysEnabled", ppro->m_bSpecialContactAlwaysEnabled);
