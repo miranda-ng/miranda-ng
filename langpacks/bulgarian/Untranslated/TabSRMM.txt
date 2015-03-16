@@ -41,7 +41,7 @@
 [Sync splitter position with standard IM sessions]
 [Incremental search highlight]
 [user-defined account name of current contact (if defined).]
-[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 [will return parsed string %miranda_userdata%\\Logs]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]

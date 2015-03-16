@@ -7,7 +7,6 @@
 [Also remove OTR system messages]
 [Show OTR system messages inline]
 [Show OTR system messages as popup]
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 [Show verification dialog when receiving unverified fingerprint]
 [Set OTR policy per protocol]
 [Current policy:]

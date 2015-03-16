@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.4.0.8
+;  Version: 3.4.0.9
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Cancel]

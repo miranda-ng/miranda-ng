@@ -775,7 +775,7 @@ Icônes à afficher dans la zone de notification système (tray)
 
 [user-defined account name of current contact (if defined).]
 
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 
 [path to Miranda root folder]
 

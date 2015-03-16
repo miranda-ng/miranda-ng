@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -44,28 +44,61 @@ Annuler
 
 [Add]
 Ajouter
-[IPv4]
+[IPv4 address/ Host]
 
-[IPv6]
+[IPv6 address (optional)]
 
 [Port]
 Port
 [Public key]
 
+[Multimedia]
+
+[Audio input device]
+
+[Audio output device]
+
+[Filter audio]
+
+[Video input device]
+
+[Invite contacts to chat room]
+
+[&Invite]
+&Inviter
+[&Cancel]
+&Annuler
+;file \protocols\Tox\src\tox_chatrooms.cpp
+[Groupchat]
+
 ;file \protocols\Tox\src\tox_events.cpp
-[Network]
-Réseau
-[Account]
-Compte
-[Tox nodes]
+[Profiles folder]
+
+;file \protocols\Tox\src\tox_icons.cpp
+[Protocol icon]
+
+[Protocols]
+Protocoles
+;file \protocols\Tox\src\tox_menus.cpp
+[Request authorization]
+Demander l'autorisation
+[Grant authorization]
+Accorder l'autorisation
+[Copy Tox ID]
 
 ;file \protocols\Tox\src\tox_netlib.cpp
 [%s connection]
 
 ;file \protocols\Tox\src\tox_options.cpp
-[All files (*.*)]
-Tous les fichiers (*.*)
+[Tox profile]
+
+[All files]
+Tous les fichiers
 [Select tox profile]
+
+[You have existing profile. Do you want remove it with all tox contacts and history and continue import?]
+
+[Tox profile import]
 
 [Add node]
 
@@ -77,14 +110,22 @@ Tous les fichiers (*.*)
 Erreur
 [Enter public key]
 
+[Common nodes]
+
+[nodes]
+
 [Are you sure?]
 Etes-vous sûr?
 [Node deleting]
 
+[Network]
+Réseau
+[Account]
+Compte
+[Nodes]
+
 ;file \protocols\Tox\src\tox_proto.cpp
-[Protocols]
-Protocoles
-[Protocol icon]
+[Action]
 
 [You cannot add yourself to your contact list]
 

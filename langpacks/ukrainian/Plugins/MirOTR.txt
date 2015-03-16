@@ -35,8 +35,6 @@ OTR: Створення приватного ключа
 Показувати системні повідомлення у вікні бесід
 [Show OTR system messages as popup]
 Показувати системні повідомлення в спливаючому вікні
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Повертати завершені сесії в звичайний текст по тайм-ауту
 [Show verification dialog when receiving unverified fingerprint]
 Діалог підтвердження при отриманні неперевіреного відбитка
 [Set OTR policy per protocol]

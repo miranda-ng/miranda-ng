@@ -319,34 +319,6 @@ Efecto de texto
 Color de texto
 [Choose font]
 Elegir fuente
-[Font]
-Fuente
-[&Font:]
-&Fuente:
-[Font st&yle:]
-Est&ilo de fuente:
-[\nStyles and effects are disabled for this font.]
-E&stilos y efectos están desactivados para este tipo de letra.
-[&Size:]
-Tama&ño:
-[Effects]
-Efectos
-[Stri&keout]
-&Tachado
-[&Underline]
-S&ubrayar
-[&Color:]
-&Color:
-[Sample]
-Muestra
-[AaBbYyZz]
-AaBbYyZz
-[Sc&ript:]
-Sc&ript:
-[&Apply]
-&Aplicar
-[&Help]
-A&yuda
 [Menu objects]
 Objetos del menú
 [Menu items]
@@ -455,6 +427,8 @@ Puede agrupar/desagrupar los iconos seleccionándolos (Ctrl+clic izquierdo) y us
 Información
 [Contacts]
 Contactos
+[&Apply]
+&Aplicar
 [Contact list]
 Lista de contactos
 [Last modified using:]
@@ -573,6 +547,8 @@ Cerrando en %d
 &Negrita
 [&Italic]
 C&ursiva
+[&Underline]
+S&ubrayar
 [&Color]
 &Color
 [&Background color]
@@ -1723,6 +1699,8 @@ Transferencia y Análisis en busca de virus finalizado
 Saliendo
 [< Copyright]
 < Copyright
+[&Help]
+A&yuda
 [&About...]
 &Acerca de...
 [&Support]

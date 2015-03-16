@@ -2,12 +2,12 @@
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: Miranda OTR
-;  Version: 0.11.0.4
+;  Version: 0.11.0.5
 ;  Authors: ProgAndy & CHEF-KOCH
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 
-;file \plugins\MirOTR\MirOTR\res\resource.rc
+;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 Génération d'une nouvelle clef privée OTR
 [Generating new private key - please wait.]
@@ -35,8 +35,6 @@ Jamais
 [Show OTR system messages inline]
 
 [Show OTR system messages as popup]
-
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 
 [Show verification dialog when receiving unverified fingerprint]
 
@@ -80,7 +78,7 @@ Jamais
 
 [&Verify Fingerprint]
 
-;file \plugins\MirOTR\MirOTR\src\language.h
+;file \plugins\MirOTR\src\language.h
 [Start OTR]
 Cryptage OTR
 [Stop OTR]
@@ -245,12 +243,12 @@ Mot de passe
 
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
 
 [OTR Status]
 
-;file \plugins\MirOTR\MirOTR\src\options.cpp
+;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 
 [Services]

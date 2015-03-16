@@ -568,3 +568,7 @@ Effacer
 
 [Ice Pellets 60% Chance Of Precipitation]
 
+[Light Drizzle Mist Patches Fog]
+
+[Partial Fog]
+

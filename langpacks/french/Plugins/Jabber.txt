@@ -1235,8 +1235,6 @@ Dernière activité
 &Convertir en contact
 [&Convert to Chat Room]
 &Convertir en salon
-[Options...]
-
 [Services...]
 Services...
 [Registered Transports]
@@ -2041,8 +2039,6 @@ session chat fermée
 Pseudo :
 [Status:]
 État :
-[Status text:]
-
 [Real JID:]
 
 ;file \protocols\JabberG\src\jabber_thread.cpp

@@ -301,34 +301,6 @@ Copyright:
 Цвят на текста
 [Choose font]
 Избор на шрифт
-[Font]
-Шрифт
-[&Font:]
-Шрифт:
-[Font st&yle:]
-Стил на шрифта:
-[\nStyles and effects are disabled for this font.]
-\nСтиловете и ефектите са изключени за шрифта.
-[&Size:]
-Размер:
-[Effects]
-Ефекти
-[Stri&keout]
-Зачертан
-[&Underline]
-Подчертан
-[&Color:]
-Цвят:
-[Sample]
-Пример
-[AaBbYyZz]
-АаБбЮюЯя
-[Sc&ript:]
-Скрипт:
-[&Apply]
-Прилагане
-[&Help]
-Помощ
 [Menu objects]
 Менюта
 [Menu items]
@@ -449,6 +421,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Нагоре
 [Move &down]
 Надолу
+[&Apply]
+Прилагане
 [Context menu]
 Контекстно меню
 [Use contact's unique ID]
@@ -585,6 +559,8 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Получер
 [&Italic]
 Курсив
+[&Underline]
+Подчертан
 [&Color]
 Цвят
 [&Background color]
@@ -1719,6 +1695,8 @@ Popups за изобразяване
 Изходящи
 [< Copyright]
 < Copyright
+[&Help]
+Помощ
 [&About...]
 Относно...
 [&Support]

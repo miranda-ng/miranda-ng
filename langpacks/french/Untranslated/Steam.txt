@@ -5,6 +5,7 @@
 [Steam game]
 [Looking to play]
 [Looking to trade]
+[ (Non-Steam)]
 [ on server %s]
 [%s has been removed from your contact list]
 [%s is back in your contact list]

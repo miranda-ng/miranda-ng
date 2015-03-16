@@ -1,5 +1,4 @@
 ﻿[OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 [Socialist Millionaires Protocol]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [Socialist Millionaires Protocol\r\nVerification]

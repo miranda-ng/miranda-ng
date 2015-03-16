@@ -8,7 +8,7 @@
 [Register code]
 [Including country code, without '+' or '00']
 [Invite users]
-[Choose an user]
+[Choose a user]
 [Other user:]
 [&Invite]
 [Members]
