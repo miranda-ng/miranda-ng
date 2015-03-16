@@ -63,17 +63,15 @@ void CSteamProto::OnGotRsaKey(const NETLIBHTTPREQUEST *response, void *arg)
 	base64RsaEncryptedPassword = mir_base64_encode(encryptedPassword, encryptedSize);
 	mir_free(encryptedPassword);
 
-	//setString("EncryptedPassword", base64RsaEncryptedPassword);
-	PasswordParam *param = (PasswordParam*)mir_alloc(sizeof(PasswordParam));
-	strcpy(param->password, base64RsaEncryptedPassword);
-	strcpy(param->timestamp, timestamp);
+	setString("EncryptedPassword", base64RsaEncryptedPassword);
+	setString("RsaTimestamp", timestamp);
 
 	// run authorization request
 	ptrA username(mir_utf8encodeW(getWStringA("Username")));
 
 	PushRequest(
 		new SteamWebApi::AuthorizationRequest(username, base64RsaEncryptedPassword, timestamp),
-		&CSteamProto::OnAuthorization, param, ARG_NO_FREE);
+		&CSteamProto::OnAuthorization);
 }
 
 void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
@@ -94,7 +92,6 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 		{
 			ShowNotification(TranslateTS(message));
 			SetStatus(ID_STATUS_OFFLINE);
-			mir_free(arg);
 			return;
 		}
 
@@ -114,10 +111,11 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 				return;
 
 			ptrA username(mir_utf8encodeW(getWStringA("Username")));
-			PasswordParam *param = (PasswordParam*)arg;
+			ptrA password(getStringA("EncryptedPassword"));
+			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, param->password, param->timestamp, guard.code),
+				new SteamWebApi::AuthorizationRequest(username, password, timestamp, guard.code),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
@@ -155,20 +153,23 @@ void CSteamProto::OnAuthorization(const NETLIBHTTPREQUEST *response, void *arg)
 			}
 
 			ptrA username(mir_utf8encodeW(getWStringA("Username")));
-			PasswordParam *param = (PasswordParam*)arg;
+			ptrA password(getStringA("EncryptedPassword"));
+			ptrA timestamp(getStringA("RsaTimestamp"));
 
 			PushRequest(
-				new SteamWebApi::AuthorizationRequest(username, param->password, param->timestamp, captchaId, captcha.text),
+				new SteamWebApi::AuthorizationRequest(username, password, timestamp, captchaId, captcha.text),
 				&CSteamProto::OnAuthorization);
 			return;
 		}
 
+		delSetting("EncryptedPassword");
+		delSetting("RsaTimestamp");
 		SetStatus(ID_STATUS_OFFLINE);
-		mir_free(arg);
 		return;
 	}
 
-	mir_free(arg);
+	delSetting("EncryptedPassword");
+	delSetting("RsaTimestamp");
 
 	node = json_get(root, "login_complete");
 	if (!json_as_bool(node))
