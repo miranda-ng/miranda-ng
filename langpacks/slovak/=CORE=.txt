@@ -173,12 +173,6 @@ Späť
 Reset
 [Text color]
 Fraba textu
-[Effects]
-Efekty
-[Sample]
-Príklad
-[&Help]
-Pomoc
 [Default]
 Prednastavené
 [Hotkeys]
@@ -755,6 +749,8 @@ Chybný prenos súboru
 Skenovať na vírusy
 [Transfer and virus scan complete]
 Prenos a oskenovanie je kompletné
+[&Help]
+Pomoc
 [&About...]
 O programe &Miranda...
 [** Unknown contacts **]

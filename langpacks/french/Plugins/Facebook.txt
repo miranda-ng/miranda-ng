@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook RM
-;  Version: 0.2.10.3
+;  Version: 0.2.10.5
 ;  Authors: Michal Zelinka, Robert Pösel
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -59,6 +59,8 @@ Autres événements
 [Client notifications]
 
 [Friendship notifications]
+
+[Ticker feeds]
 
 [Use this server for opening links:]
 Utiliser ce serveur pour ouvrir les liens :
@@ -219,6 +221,8 @@ Défaut
 
 [Sample friendship]
 
+[Sample ticker]
+
 ;file \protocols\FacebookRM\src\json.cpp
 [a sticker]
 un autocollant
@@ -233,8 +237,6 @@ une photo
 [User sent %s:]
 
 [User sent an unsupported attachment. Open your browser to see it.]
-
-[Message read: %s by %s]
 
 [This message is no longer available, because it was marked as abusive or spam.]
 Ce message n'est plus disponible, car il a été marqué comme injurieux ou indésirable.
@@ -294,6 +296,8 @@ Visiter le profil
 [Other Event]
 Autre événement
 [Friendship Event]
+
+[Message read: %s by %s]
 
 [Message read: %s]
 Message lu : %s

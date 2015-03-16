@@ -320,34 +320,6 @@ Effet du texte
 Couleur du texte
 [Choose font]
 Choisir la police
-[Font]
-Police
-[&Font:]
-&Police :
-[Font st&yle:]
-St&yle :
-[\nStyles and effects are disabled for this font.]
-\nStyles et effets sont désactivés pour cette police.
-[&Size:]
-&Taille :
-[Effects]
-Effets
-[Stri&keout]
-&Barré
-[&Underline]
-&Souligné
-[&Color:]
-&Couleur :
-[Sample]
-Simple
-[AaBbYyZz]
-AaBbYyZz
-[Sc&ript:]
-Sc&ript :
-[&Apply]
-&Appliquer
-[&Help]
-&Aide
 [Menu objects]
 Objet du menu
 [Menu items]
@@ -474,6 +446,8 @@ Par &défaut
 &Baisser
 [Send &offline]
 Envoi &hors ligne
+[&Apply]
+&Appliquer
 [Context menu]
 Menu contextuel
 [Use contact's unique ID]
@@ -619,6 +593,8 @@ Fermeture dans %d
 &Gras
 [&Italic]
 &Italique
+[&Underline]
+&Souligné
 [&Color]
 &Couleur
 [&Background color]
@@ -1803,6 +1779,8 @@ Sortant
 [< Copyright]
 < Crédits
 ;file \src\core\stdhelp\src\help.cpp
+[&Help]
+&Aide
 [&About...]
 À &propos...
 [&Support]
@@ -1979,7 +1957,6 @@ Voir/Changer mes &détails...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
-;file \src\icons\proto_metacontacts\src\resource.h
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 Ajouter le contact

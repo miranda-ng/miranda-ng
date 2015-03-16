@@ -30,7 +30,7 @@ Texte
 
 [Command parameters:]
 
-[Remember newest message ID\n and don't show older]
+[Remember newest message ID and don't show older]
 
 [version:]
 

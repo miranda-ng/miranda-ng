@@ -7,7 +7,7 @@
 ;============================================================
 [OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
 OTR (Off-the-Record) Plugin für Miranda NG (verwendet einigen Code und Ideen aus SecureIM, Pidgin-OTR und dem alten Miranda OTR (von SJE)).
-;file \plugins\MirOTR\MirOTR\res\resource.rc
+;file \plugins\MirOTR\res\resource.rc
 [OTR Generating Private Key]
 OTR generiert privaten Schlüssel
 [Generating new private key - please wait.]
@@ -36,8 +36,6 @@ Entferne auch OTR-System-Meldungen
 Zeige OTR-System-Nachricht im Fenster
 [Show OTR system messages as popup]
 Zeige OTR-System-Nachricht als Popup
-[Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
-Bei beendeten Sitzungen zu Klartext springen (VORSICHT!)
 [Show verification dialog when receiving unverified fingerprint]
 Zeige Bestätigungs-Dialog beim Empfang ungeprüfter Fingerabdrücke
 [Set OTR policy per protocol]
@@ -80,7 +78,7 @@ OTR-Sitzung e&rneuern
 OTR-Sitzung stop&pen
 [&Verify Fingerprint]
 Fingerabdruck &verifizieren
-;file \plugins\MirOTR\MirOTR\src\language.h
+;file \plugins\MirOTR\src\language.h
 [Start OTR]
 OTR starten
 [Stop OTR]
@@ -245,12 +243,12 @@ Kann OTR für '%s' nicht starten. SecureIM wird aktuell benutzt.
 OTR: SecureIM ist installiert
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
 Sie benutzen SecureIM. MirOTR funktioniert nur mit deaktiviertem SecureIM.
-;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\src\mirotrmenu.cpp
 [MirOTR menu]
 MirOTR-Menü
 [OTR Status]
 OTR-Status
-;file \plugins\MirOTR\MirOTR\src\options.cpp
+;file \plugins\MirOTR\src\options.cpp
 [Private Data]
 Private Daten
 [Services]

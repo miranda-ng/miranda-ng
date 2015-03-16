@@ -958,7 +958,7 @@
 [nick of current contact (if defined)]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiple accounts]
 [user-defined account name of current contact (if defined).]
-[user ID of current contact (if defined). It is like UIN number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 [path to Miranda root folder]
 [path to folder containing Miranda profiles]
 [name of current Miranda profile (filename, without extension)]

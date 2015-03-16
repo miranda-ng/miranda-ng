@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tipper.dll
 ;  Plugin: Tipper
-;  Version: 2.1.0.6
+;  Version: 2.1.0.7
 ;  Authors: Scott Ellis, yaho
 ;============================================================
 [Enable skin coloring]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Name:]
@@ -13,7 +13,15 @@ Contraseña:
 Cancelar
 [Add]
 Añadir
-[Network]
-Red
+[&Cancel]
+&Cancelar
+[Request authorization]
+Solicitar autorización
+[Grant authorization]
+Conceder autorización
+[All files]
+Todos los archivos
 [Error]
 Error
+[Network]
+Red

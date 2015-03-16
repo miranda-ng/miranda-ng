@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Tox.dll
 ;  Plugin: Tox protocol
-;  Version: 0.11.0.7
+;  Version: 0.11.0.8
 ;  Authors: Miranda NG Team
 ;============================================================
 [Tox protocol support for Miranda NG.]
@@ -39,24 +39,30 @@ DNS име:
 Tox профилът е шифрован. Въведете паролата за да продължите.
 [Add]
 Добавяне
-[Network]
-Мрежа
-[Account]
-Акаунт
+[&Cancel]
+Отказ
+[Protocol icon]
+Икона на протокола
+[Protocols]
+Протоколи
+[Request authorization]
+Молба за упълномощаване
+[Grant authorization]
+Даване на пълномощно
 [%s connection]
 %s връзка
-[All files (*.*)]
-Всички файлове (*.*)
+[All files]
+Всички файлове
 [Select tox profile]
 Изберете Tox профил
 [Error]
 Грешка
 [Are you sure?]
 Сигурни ли сте?
-[Protocols]
-Протоколи
-[Protocol icon]
-Икона на протокола
+[Network]
+Мрежа
+[Account]
+Акаунт
 [Contact already in your contact list]
 Контактът вече присъства в списъка ви с контакти
 [Query]

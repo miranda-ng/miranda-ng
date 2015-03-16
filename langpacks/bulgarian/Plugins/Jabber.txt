@@ -901,8 +901,6 @@ Jabber източник
 Превръщане в контакт
 [&Convert to Chat Room]
 Превръщане в чат стая
-[Options...]
-Настройки...
 [Services...]
 Услуги...
 [Registered Transports]
@@ -1583,8 +1581,6 @@ Facebook чат
 Прякор:
 [Status:]
 Състояние:
-[Status text:]
-Текст на състояние:
 [Real JID:]
 Истински JID:
 [Enter password for %s]

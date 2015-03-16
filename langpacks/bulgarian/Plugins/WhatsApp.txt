@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhatsApp.dll
 ;  Plugin: WhatsApp protocol
-;  Version: 0.1.2.9
+;  Version: 0.1.2.12
 ;  Authors: Uli Hecht
 ;============================================================
 [Phone number]

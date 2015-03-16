@@ -6,7 +6,7 @@
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 [The message send timed out.]
 [user-defined account name of current contact (if defined).]
-[user ID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+[user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]
 [will return parsed string %miranda_userdata%\\Logs]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]

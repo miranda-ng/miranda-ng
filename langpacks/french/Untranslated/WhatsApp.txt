@@ -5,7 +5,7 @@
 [Request code]
 [Register code]
 [Including country code, without '+' or '00']
-[Choose an user]
+[Choose a user]
 [Other user:]
 [Members]
 [Owners]
