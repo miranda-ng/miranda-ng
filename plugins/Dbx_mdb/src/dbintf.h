@@ -117,6 +117,16 @@ struct DBCachedContact : public DBCachedContactBase
 	DBContact dbc;
 };
 
+struct EventItem
+{
+	__forceinline EventItem(int _ts, DWORD _id) :
+		ts(_ts), eventId(_id)
+	{}
+
+	int ts;
+	DWORD eventId;
+};
+
 struct CDbxMdb : public MIDatabase, public MIDatabaseChecker, public MZeroedObject
 {
 	CDbxMdb(const TCHAR *tszFileName, int mode);
@@ -238,6 +248,7 @@ protected:
 	int      m_contactCount, m_dwMaxContactId;
 
 	int      WipeContactHistory(DBContact *dbc);
+	void     GatherContactHistory(MCONTACT hContact, LIST<EventItem> &items);
 
 	////////////////////////////////////////////////////////////////////////////
 	// events

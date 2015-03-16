@@ -154,31 +154,46 @@ BOOL CDbxMdb::MetaSetDefault(DBCachedContact *cc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CDbxMdb::GatherContactHistory(MCONTACT hContact, LIST<EventItem> &list)
+{
+	DBEventSortingKey keyVal = { 0, 0, hContact };
+	MDB_val key = { sizeof(keyVal), &keyVal }, data;
+
+	txn_ptr trnlck(m_pMdbEnv, true);
+	cursor_ptr cursor(trnlck, m_dbEventsSort);
+	mdb_cursor_get(cursor, &key, &data, MDB_SET);
+	while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
+		DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
+		if (pKey->dwContactId != hContact)
+			return;
+
+		list.insert(new EventItem(pKey->ts, pKey->dwEventId));
+	}
+}
+
 BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	DBEventSortingKey keyVal = { 0, 0, ccSub->contactID }, insVal = { 0, 0, ccMeta->contactID };
-	MDB_val key = { sizeof(keyVal), &keyVal }, key2 = { sizeof(insVal), &insVal }, data;
+	LIST<EventItem> list(10000);
+	GatherContactHistory(ccSub->contactID, list);
 
-	txn_ptr trnlck(m_pMdbEnv);
-	{
-		cursor_ptr cursor(trnlck, m_dbEventsSort);
-		mdb_cursor_get(cursor, &key, &data, MDB_SET);
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
-			DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-			if (pKey->dwContactId != ccSub->contactID)
+	for (int i = 0; i < list.getCount(); i++) {
+		EventItem *EI = list[i];
+
+		for (;; Remap()) {
+			txn_ptr trnlck(m_pMdbEnv);
+			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
+			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
+			mdb_put(trnlck, m_dbEventsSort, &key, &data, 0);
+			if (trnlck.commit())
 				break;
-
-			insVal.ts = pKey->ts;
-			insVal.dwEventId = pKey->dwEventId;
-			mdb_put(trnlck, m_dbEventsSort, &key2, &data, 0);
-
-			ccMeta->dbc.dwEventCount++;
 		}
+		ccMeta->dbc.dwEventCount++;
+		delete EI;
 	}
 
 	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	txn_ptr trnlck(m_pMdbEnv);
 	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
-
 	trnlck.commit();
 	return 0;
 }
@@ -187,29 +202,27 @@ BOOL CDbxMdb::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 BOOL CDbxMdb::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	DBEventSortingKey keyVal = { 0, 0, ccSub->contactID }, delVal = { 0, 0, ccMeta->contactID };
-	MDB_val key = { sizeof(keyVal), &keyVal }, key2 = { sizeof(delVal), &delVal }, data;
+	LIST<EventItem> list(10000);
+	GatherContactHistory(ccSub->contactID, list);
 
-	txn_ptr trnlck(m_pMdbEnv);
-	{
-		cursor_ptr cursor(trnlck, m_dbEventsSort);
-		mdb_cursor_get(cursor, &key, &data, MDB_SET);
-		while (mdb_cursor_get(cursor, &key, &data, MDB_NEXT) == MDB_SUCCESS) {
-			DBEventSortingKey *pKey = (DBEventSortingKey*)key.mv_data;
-			if (pKey->dwContactId != ccSub->contactID)
+	for (int i = 0; i < list.getCount(); i++) {
+		EventItem *EI = list[i];
+
+		for (;; Remap()) {
+			txn_ptr trnlck(m_pMdbEnv);
+			DBEventSortingKey insVal = { EI->eventId, EI->ts, ccMeta->contactID };
+			MDB_val key = { sizeof(insVal), &insVal }, data = { 1, "" };
+			mdb_del(trnlck, m_dbEventsSort, &key, &data);
+			if (trnlck.commit())
 				break;
-
-			delVal.ts = pKey->ts;
-			delVal.dwEventId = pKey->dwEventId;
-			mdb_del(trnlck, m_dbEventsSort, &key2, &data);
-
-			ccMeta->dbc.dwEventCount--;
 		}
+		ccMeta->dbc.dwEventCount--;
+		delete EI;
 	}
-	
-	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
-	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
 
+	MDB_val keyc = { sizeof(int), &ccMeta->contactID }, datac = { sizeof(ccMeta->dbc), &ccMeta->dbc };
+	txn_ptr trnlck(m_pMdbEnv);
+	mdb_put(trnlck, m_dbContacts, &keyc, &datac, 0);
 	trnlck.commit();
 	return 0;
 }
