@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Dbx_kv</ProjectName>
-    <ProjectGuid>{E0ACDEA0-0AC9-4431-8CA3-6B0CCACB2E18}</ProjectGuid>
+    <ProjectGuid>{A9F9E806-8BA6-4C6B-B511-B979D365FF54}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
