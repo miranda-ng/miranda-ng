@@ -369,6 +369,8 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 		else if (!varStart)
 			length++;
 	}
+	if (varStart)
+		length += (p - varStart)+1;
 
 	XCHAR *result = (XCHAR *)mir_alloc(sizeof(XCHAR) * (length + 1));
 	XCHAR *q = result;
@@ -395,6 +397,12 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 		}
 		else if (!varStart)
 			*q++=*p;
+	}
+
+	if (varStart) {
+		size_t len = p - varStart + 1;
+		_xcsncpy(q, varStart-1, len);
+		q += len;
 	}
 
 	*q = 0;
