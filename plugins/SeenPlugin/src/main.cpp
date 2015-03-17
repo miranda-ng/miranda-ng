@@ -59,6 +59,9 @@ void UninitHistoryDialog(void);
 
 int MainInit(WPARAM, LPARAM)
 {
+	if (g_bFileActive = db_get_b(NULL, S_MOD, "FileOutput", 0))
+		InitFileOutput();
+
 	if (db_get_b(NULL, S_MOD, "MenuItem", 1))
 		InitMenuitem();
 
@@ -93,9 +96,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	includeIdle = (BOOL)db_get_b(NULL, S_MOD, "IdleSupport", 1);
 
-	if (db_get_b(NULL, S_MOD, "FileOutput", 0))
-		InitFileOutput();
-
 	if (db_get_b(NULL, S_MOD, "MissedOnes", 0))
 		ehmissed_proto = HookEvent(ME_PROTO_ACK, ModeChange_mo);
 
@@ -115,6 +115,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
+	UninitFileOutput();
 	UnloadWatchedProtos();
 
 	WindowList_Destroy(g_pUserInfo);

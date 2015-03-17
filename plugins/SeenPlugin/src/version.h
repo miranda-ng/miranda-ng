@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __MAJOR_VERSION          5
 #define __MINOR_VERSION          0
 #define __RELEASE_NUM            5
-#define __BUILD_NUM              1
+#define __BUILD_NUM              2
 
 #include <stdver.h>
 
