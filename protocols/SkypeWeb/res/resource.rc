@@ -1,0 +1,180 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SKYPE               ICON                    "icons\\skype.ico"
+#endif    // Neutral (Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "Icons\\skype.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ACCOUNT_MANAGER DIALOGEX 0, 0, 186, 119
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PASSWORD,49,16,135,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Login:",IDC_STATIC,0,2,49,12
+    EDITTEXT        IDC_LOGIN,49,0,135,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,0,18,49,12
+    LTEXT           "Default group:",IDC_STATIC,0,34,49,12
+    EDITTEXT        IDC_GROUP,49,32,135,12,ES_AUTOHSCROLL
+END
+
+IDD_OPTIONS_MAIN DIALOGEX 0, 0, 310, 230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Account",IDC_STATIC,7,7,296,63,NOT WS_VISIBLE
+    LTEXT           "Name:",IDC_STATIC,12,19,69,11
+    EDITTEXT        IDC_LOGIN,81,17,217,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,12,34,69,8
+    EDITTEXT        IDC_PASSWORD,81,33,217,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,12,51,69,12
+    EDITTEXT        IDC_GROUP,81,49,217,12,ES_AUTOHSCROLL
+END
+
+IDD_PASSWORD_EDITOR DIALOGEX 0, 0, 209, 75
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW | WS_EX_APPWINDOW
+CAPTION "Enter password"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PASSWORD,7,24,197,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Save password",IDC_SAVEPERMANENTLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,40,197,12
+    DEFPUSHBUTTON   "OK",IDOK,101,56,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,154,56,50,14
+    LTEXT           "Enter the password to continue.",IDC_STATIC,7,5,197,18
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ACCOUNT_MANAGER, DIALOG
+    BEGIN
+        VERTGUIDE, 49
+        BOTTOMMARGIN, 112
+    END
+
+    IDD_OPTIONS_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        VERTGUIDE, 12
+        VERTGUIDE, 81
+        VERTGUIDE, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 228
+    END
+
+    IDD_PASSWORD, DIALOG
+    BEGIN
+        RIGHTMARGIN, 204
+        VERTGUIDE, 7
+        BOTTOMMARGIN, 70
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
