@@ -20,15 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "seen.h"
 
-void BuildInfo(char *,char *,char *);
-int BuildContactMenu(WPARAM,LPARAM);
-int UserinfoInit(WPARAM,LPARAM);
-int InitFileOutput(void);
-void ShutdownFileOutput(void);
-void InitMenuitem(void);
-int ModeChange_mo(WPARAM,LPARAM);
-int CheckIfOnline(void);
-int ResetMissed(void);
+#define VARIABLE_LIST "%s \n%%Y: \t %s \n%%y: \t %s \n%%m: \t %s \n%%E: \t %s \n%%e: \t %s \n%%d: \t %s \n%%W: \t %s \n%%w: \t %s \n\n%s \n%%H: \t %s \n%%h: \t %s \n%%p: \t %s \n%%M: \t %s \n%%S: \t %s \n\n%s \n%%n: \t %s \n%%N: \t %s \n%%u: \t %s \n%%G: \t %s \n%%s: \t %s \n%%T: \t %s \n%%o: \t %s \n%%i: \t %s \n%%r: \t %s \n%%C: \t %s \n%%P: \t %s \n%%A:\t %s\n\n%s \n%%t: \t %s \n%%b: \t %s\n\n%s\t%s \"#\" %s\n\t%s %s", Translate("-- Date --"), Translate("year (4 digits)"), Translate("year (2 digits)"), Translate("month"), Translate("name of month"), Translate("short name of month"), Translate("day"), Translate("weekday (full)"), Translate("weekday (abbreviated)"), Translate("-- Time --"), Translate("hours (24)"), Translate("hours (12)"), Translate("AM/PM"), Translate("minutes"), Translate("seconds"), Translate("-- User --"), Translate("username"), Translate("nick"), Translate("UIN/handle"), Translate("Group"), Translate("Status"), Translate("Status message"), Translate("Old status"), Translate("external IP"), Translate("internal IP"),Translate("Client info"),Translate("Protocol"), Translate("Account"),Translate("-- Format --"), Translate("tabulator"), Translate("line break"), Translate("Note:"),Translate("Use"),Translate("for empty string"),Translate("instead of"),Translate("<unknown>")
 
 INT_PTR CALLBACK OptsPopupsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -175,7 +167,6 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 {
 	DBVARIANT dbv;
 	TCHAR szstamp[256];
-	BYTE bchecked;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -183,7 +174,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 
 		CheckDlgButton(hdlg, IDC_MENUITEM, db_get_b(NULL, S_MOD, "MenuItem", 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_USERINFO, db_get_b(NULL, S_MOD, "UserinfoTab", 1) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_FILE, db_get_b(NULL, S_MOD, "FileOutput", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_FILE, g_bFileActive ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_HISTORY, db_get_b(NULL, S_MOD, "KeepHistory", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_IGNOREOFFLINE, db_get_b(NULL, S_MOD, "IgnoreOffline", 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_MISSEDONES, db_get_b(NULL, S_MOD, "MissedOnes", 0) ? BST_CHECKED : BST_UNCHECKED);
@@ -314,14 +305,14 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 
 				db_set_w(NULL, S_MOD, "HistoryMax", (WORD)(GetDlgItemInt(hdlg, IDC_HISTORYSIZE, NULL, FALSE) + 1));
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_MENUITEM);
+				BOOL bchecked = IsDlgButtonChecked(hdlg, IDC_MENUITEM);
 				if (db_get_b(NULL, S_MOD, "MenuItem", 1) != bchecked) {
 					db_set_b(NULL, S_MOD, "MenuItem", bchecked);
 					if (hmenuitem == NULL && bchecked)
 						InitMenuitem();
 				}
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_USERINFO);
+				bchecked = IsDlgButtonChecked(hdlg, IDC_USERINFO);
 				if (db_get_b(NULL, S_MOD, "UserinfoTab", 1) != bchecked) {
 					db_set_b(NULL, S_MOD, "UserinfoTab", bchecked);
 					if (bchecked)
@@ -330,22 +321,25 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 						UnhookEvent(ehuserinfo);
 				}
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_FILE);
-				if (db_get_b(NULL, S_MOD, "FileOutput", 0) != bchecked) {
+				bchecked = IsDlgButtonChecked(hdlg, IDC_FILE);
+				if (g_bFileActive != bchecked) {
+					g_bFileActive = bchecked;
 					db_set_b(NULL, S_MOD, "FileOutput", bchecked);
 					if (bchecked)
 						InitFileOutput();
+					else
+						UninitFileOutput();
 				}
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_HISTORY);
+				bchecked = IsDlgButtonChecked(hdlg, IDC_HISTORY);
 				if (db_get_b(NULL, S_MOD, "KeepHistory", 0) != bchecked)
 					db_set_b(NULL, S_MOD, "KeepHistory", bchecked);
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_IGNOREOFFLINE);
+				bchecked = IsDlgButtonChecked(hdlg, IDC_IGNOREOFFLINE);
 				if (db_get_b(NULL, S_MOD, "IgnoreOffline", 1) != bchecked)
 					db_set_b(NULL, S_MOD, "IgnoreOffline", bchecked);
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_MISSEDONES);
+				bchecked = IsDlgButtonChecked(hdlg, IDC_MISSEDONES);
 				if (db_get_b(NULL, S_MOD, "MissedOnes", 0) != bchecked) {
 					db_set_b(NULL, S_MOD, "MissedOnes", bchecked);
 					if (bchecked)
@@ -354,15 +348,15 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM 
 						UnhookEvent(ehmissed_proto);
 				}
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_SHOWICON);
+				bchecked = IsDlgButtonChecked(hdlg, IDC_SHOWICON);
 				if (db_get_b(NULL, S_MOD, "ShowIcon", 1) != bchecked)
 					db_set_b(NULL, S_MOD, "ShowIcon", bchecked);
 
-				bchecked = (BYTE)IsDlgButtonChecked(hdlg, IDC_COUNT);
+				bchecked = IsDlgButtonChecked(hdlg, IDC_COUNT);
 				if (db_get_b(NULL, S_MOD, "MissedOnes_Count", 0) != bchecked)
 					db_set_b(NULL, S_MOD, "MissedOnes_Count", bchecked);
 
-				includeIdle = (BYTE)IsDlgButtonChecked(hdlg, IDC_IDLESUPPORT);
+				includeIdle = IsDlgButtonChecked(hdlg, IDC_IDLESUPPORT);
 				if (db_get_b(NULL, S_MOD, "IdleSupport", 1) != includeIdle)
 					db_set_b(NULL, S_MOD, "IdleSupport", (BYTE)includeIdle);
 

@@ -598,7 +598,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			}
 
 			if (!db_get_b(NULL, S_MOD, "IgnoreOffline", 1)) {
-				if (db_get_b(NULL, S_MOD, "FileOutput", 0))
+				if (g_bFileActive)
 					FileWrite(hContact);
 
 				char *sProto = GetContactProto(hContact);
@@ -622,9 +622,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 
 			DBWriteTimeTS(time(NULL), hContact);
 
-			//db_set_w(hContact,S_MOD,"StatusTriger",(WORD)cws->value.wVal);
-
-			if (db_get_b(NULL, S_MOD, "FileOutput", 0)) FileWrite(hContact);
+			if (g_bFileActive) FileWrite(hContact);
 			if (prevStatus != cws->value.wVal) myPlaySound(hContact, cws->value.wVal, prevStatus);
 			if (db_get_b(NULL, S_MOD, "UsePopups", 0))
 				if (prevStatus != cws->value.wVal)
@@ -722,7 +720,7 @@ int ModeChange(WPARAM wparam, LPARAM lparam)
 
 	db_set_w(NULL, S_MOD, courProtoName, isetting);
 
-	if (db_get_b(NULL, S_MOD, "FileOutput", 0))
+	if (g_bFileActive)
 		FileWrite(NULL);
 
 	courProtoName = NULL;
