@@ -79,63 +79,63 @@ procedure ClearSubstData(var data:tSubstData);
 {}
 //----- Parameter dialog -----
 
-function CreateParamBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
-function ClearParamFields(Dialog:HWND):HWND;
-function FillParam       (Dialog:HWND;txt:PAnsiChar):integer;
-function SetParamValue   (Dialog:HWND;    flags:dword;    value:pointer):boolean;
-function GetParamValue   (Dialog:HWND;var flags:dword;var value:pointer):boolean;
-function SetParamLabel   (Dialog:HWND; lbl:PWideChar):HWND;
+function CreateParamBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE; stdcall;
+function ClearParamFields(Dialog:HWND):HWND; stdcall;
+function FillParam       (Dialog:HWND;txt:PAnsiChar):integer; stdcall;
+function SetParamValue   (Dialog:HWND;    flags:dword;    value:pointer):boolean; stdcall;
+function GetParamValue   (Dialog:HWND;var flags:dword;var value:pointer):boolean; stdcall;
+function SetParamLabel   (Dialog:HWND; lbl:PWideChar):HWND; stdcall;
 
 //----- Parameter value -----
 
-procedure SaveParamValue(    flags:dword;     param:pointer; module,setting:PAnsiChar);
-procedure LoadParamValue(var flags:dword; var param:pointer; module,setting:PAnsiChar);
-procedure ClearParam    (    flags:dword; var param);
-function  DuplicateParam(    flags:dword; var asparam,adparam):dword;
+procedure SaveParamValue(    flags:dword;     param:pointer; module,setting:PAnsiChar); stdcall;
+procedure LoadParamValue(var flags:dword; var param:pointer; module,setting:PAnsiChar); stdcall;
+procedure ClearParam    (    flags:dword; var param); stdcall;
+function  DuplicateParam(    flags:dword; var asparam,adparam):dword; stdcall;
 {??
 function  TranslateParam(param:uint_ptr;flags:dword;hContact:TMCONTACT):uint_ptr;
 }
 
 //----- Execution -----
 
-function  PrepareParameter(flags:dword;const aparam:LPARAM; const data:tSubstData):LPARAM;
-procedure ReleaseParameter(flags:dword;var   aparam:LPARAM);
+function  PrepareParameter(flags:dword;const aparam:LPARAM; const data:tSubstData):LPARAM; stdcall;
+procedure ReleaseParameter(flags:dword;var   aparam:LPARAM); stdcall;
 
 //----- result dialog -----
 
-function CreateResultBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE;
-function ClearResultFields(Dialog:HWND):HWND;
-function SetResultValue   (Dialog:HWND;flags:dword):integer;
-function GetResultValue   (Dialog:HWND):dword;
+function CreateResultBlock(parent:HWND;x,y,width:integer;flags:dword=0):THANDLE; stdcall;
+function ClearResultFields(Dialog:HWND):HWND; stdcall;
+function SetResultValue   (Dialog:HWND;flags:dword):integer; stdcall;
+function GetResultValue   (Dialog:HWND):dword; stdcall;
 
 //----- Old flags converting -----
 
-function ConvertParamFlags (flags:dword):dword;
-function ConvertResultFlags(flags:dword):dword;
+function ConvertParamFlags (flags:dword):dword; stdcall;
+function ConvertResultFlags(flags:dword):dword; stdcall;
 
 
 //----- Service dialog -----
 
-function  CreateServiceBlock(parent:HWND;x,y,width,height:integer;flags:dword=0):HWND;
-procedure ClearServiceBlock (Dialog:HWND);
-procedure SetServiceListMode(Dialog:HWND;mode:integer);
+function  CreateServiceBlock(parent:HWND;x,y,width,height:integer;flags:dword=0):HWND; stdcall;
+procedure ClearServiceBlock (Dialog:HWND); stdcall;
+procedure SetServiceListMode(Dialog:HWND;mode:integer); stdcall;
 
-function SetSrvBlockValue(Dialog:HWND;const value:tServiceValue):boolean;
-function GetSrvBlockValue(Dialog:HWND;var   value:tServiceValue):boolean;
+function SetSrvBlockValue(Dialog:HWND;const value:tServiceValue):boolean; stdcall;
+function GetSrvBlockValue(Dialog:HWND;var   value:tServiceValue):boolean; stdcall;
 // service setting for templates
-procedure SetSrvBlockService(Dialog:HWND; service:PAnsiChar);
-function  GetSrvBlockService(Dialog:HWND):PAnsiChar;
+procedure SetSrvBlockService(Dialog:HWND; service:PAnsiChar); stdcall;
+function  GetSrvBlockService(Dialog:HWND):PAnsiChar; stdcall;
 
 //----- ServiceValue functions -----
 
-procedure CopyServiceValue (var   dst :tServiceValue; const src:tServiceValue);
-procedure ClearServiceValue(var   data:tServiceValue);
-procedure SaveServiceValue (const data:tServiceValue; module,setting:PAnsiChar);
-procedure LoadServiceValue (var   data:tServiceValue; module,setting:PAnsiChar);
+procedure CopyServiceValue (var   dst :tServiceValue; const src:tServiceValue); stdcall;
+procedure ClearServiceValue(var   data:tServiceValue); stdcall;
+procedure SaveServiceValue (const data:tServiceValue; module,setting:PAnsiChar); stdcall;
+procedure LoadServiceValue (var   data:tServiceValue; module,setting:PAnsiChar); stdcall;
 
 //----- Service execute -----
 
-function ExecuteService(const service:tServiceValue; var data:tSubstData):boolean;
+function ExecuteService(const service:tServiceValue; var data:tSubstData):boolean; stdcall;
 {}
 
 implementation

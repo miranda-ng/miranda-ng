@@ -49,7 +49,7 @@ implementation
 
 uses
   Messages,
-  dbsettings,freeimage,
+  dbsettings,//freeimage,
   common,io;
 
 const
