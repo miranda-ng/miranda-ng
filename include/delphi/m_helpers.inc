@@ -400,15 +400,15 @@ end;
 
 function CreateProtoServiceFunction(const szModule, szService: PAnsiChar; serviceProc: TMIRANDASERVICE): int_ptr;
 var
-  szStr: array[0..MAXMODULELABELLENGTH*2] of AnsiChar;
+  szStr: array [0..MAXMODULELABELLENGTH*2] of AnsiChar;
 begin
   if (szModule=nil) or (szService=nil) then
   begin
     result:=0;
     exit;
   end;
-  lstrcpya(szStr, szModule);
-  lstrcata(szStr, szService);
+  lstrcpya(@szStr, szModule);
+  lstrcata(@szStr, szService);
   Result := CreateServiceFunction(szStr, @serviceProc);
 end;
 
