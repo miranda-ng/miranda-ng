@@ -22,7 +22,8 @@ function StringToGUID(const astr:PWideChar):TGUID; overload;
 // Comboboxes
 function CB_SelectData(cb:HWND;data:lparam):LRESULT; overload;
 function CB_SelectData(Dialog:HWND;id:cardinal;data:lparam):LRESULT; overload;
-function CB_GetData   (cb:HWND;idx:integer=-1):LRESULT; overload;
+function CB_GetData   (cb:HWND;idx:integer=-1):LRESULT;
+function CB_SetData   (cb:HWND;data:lparam;idx:integer=-1):LRESULT;
 function CB_AddStrData (cb:HWND;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
 function CB_AddStrData (Dialog:HWND;id:cardinal;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND; overload;
 function CB_AddStrDataW(cb:HWND;astr:PWideChar;data:lparam=0;idx:integer=-1):HWND; overload;
@@ -42,6 +43,7 @@ function  LV_GetColumnCount(list:HWND):LRESULT;
 function  LV_CheckDirection(list:HWND):integer; // bit 0 - can move up, bit 1 - down
 
 // CommDLG - Dialogs
+
 function ShowDlg (dst:PAnsiChar;fname:PAnsiChar=nil;Filter:PAnsiChar=nil;open:boolean=true):boolean;
 function ShowDlgW(dst:PWideChar;fname:PWideChar=nil;Filter:PWideChar=nil;open:boolean=true):boolean;
 
@@ -212,6 +214,16 @@ begin
     result:=0
   else
     result:=SendMessage(cb,CB_GETITEMDATA,idx,0);
+end;
+
+function CB_SetData(cb:HWND;data:lparam;idx:integer=-1):LRESULT;
+begin
+  if idx<0 then
+    idx:=SendMessage(cb,CB_GETCURSEL,0,0);
+  if idx<0 then
+    result:=0
+  else
+    result:=SendMessage(cb,CB_SETITEMDATA,idx,0);
 end;
 
 function CB_AddStrData(cb:HWND;astr:PAnsiChar;data:lparam=0;idx:integer=-1):HWND;

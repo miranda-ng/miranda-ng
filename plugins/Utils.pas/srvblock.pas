@@ -574,7 +574,7 @@ begin
     llparam:=PrepareParameter(service.l_flags,TLPARAM(service.lparam),data);
 
     res:=CallServiceSync(buf,lwparam,llparam);
-    ClearSubstData(data);
+//    ClearSubstData(data); DO NOT CLEAR!! (consist of input data)
 
     // result type processing
     case service.flags and ACF_TYPE_MASK of

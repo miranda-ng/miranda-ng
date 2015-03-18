@@ -93,13 +93,13 @@ type
 const
   ModuleLink:pActModule=nil;
 
-function ClearResult(var WorkData:tWorkData;num:integer=-1):uint_ptr;
-function GetResultNumber(var WorkData:tWorkData;num:integer=-1):uint_ptr;
+function ClearResult    (var   WorkData:tWorkData;num:integer=-1):uint_ptr;
+function GetResultNumber(const WorkData:tWorkData;num:integer=-1):uint_ptr;
 
 procedure InsertString(wnd:HWND;num:dword;str:PAnsiChar);
 
-function GetLinkName(hash:dword):PAnsiChar;
-function GetLink(hash:dword):pActModule;
+function GetLinkName  (hash:dword    ):PAnsiChar;
+function GetLink      (hash:dword    ):pActModule;
 function GetLinkByName(name:pAnsiChar):pActModule;
 
 function ImportContact   (node:HXML   ):TMCONTACT;
@@ -251,7 +251,7 @@ begin
   end;
 end;
 
-function GetResultNumber(var WorkData:tWorkData;num:integer=-1):uint_ptr;
+function GetResultNumber(const WorkData:tWorkData;num:integer=-1):uint_ptr;
 var
   rt:pbyte;
   lr:^uint_ptr;

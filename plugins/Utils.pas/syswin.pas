@@ -62,7 +62,11 @@ function ExecuteWaitW(AppPath:PWideChar; CmdLine:PWideChar=nil; DfltDirectory:PW
 var
   flags: dword;
   {$IFDEF FPC}
+    {$IFDEF VER2}
   Startup: StartupInfo;
+    {$ELSE}
+  Startup: StartupInfoW;
+    {$ENDIF}
   {$ELSE}
   Startup: StartupInfoW;
   {$ENDIF}
@@ -125,7 +129,11 @@ function ExecuteWait(AppPath:PAnsiChar; CmdLine:PAnsiChar=nil; DfltDirectory:PAn
 var
   flags: dword;
   {$IFDEF FPC}
+    {$IFDEF VER2}
   Startup: StartupInfo;
+    {$ELSE}
+  Startup: StartupInfoA;
+    {$ENDIF}
   {$ELSE}
   Startup: StartupInfoA;
   {$ENDIF}

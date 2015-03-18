@@ -1,6 +1,8 @@
 {
   Parameter: CBN_EDITCHANGE on fields changing, BN_CLICKED on Struct changes
   Result   : CBN_EDITCHANGE on type   changing, BN_CLICKED on option changes
+  ACF_FLAG_TEMPLATE saved in CB param of IDC_EDIT_PAR
+  parameter type depends of ACF_FLAG_PAR
 }
 unit sparam;
 
@@ -206,9 +208,11 @@ var
   bufw:array [0..2047] of WideChar;
   wnd:HWND;
   p,pc:PAnsiChar;
-  ltype:dword;
+  flags,ltype:dword;
 begin
   wnd:=GetDlgItem(Dialog,IDC_EDIT_PAR);
+  flags:=CB_GetData(wnd);
+  CB_SetData(wnd,flags or ACF_FLAG_TEMPLATE);
   SendMessage(wnd,CB_RESETCONTENT,0,0);
   if (txt<>nil) and (txt^<>#0) then
   begin
@@ -231,6 +235,7 @@ begin
   SendMessage(wnd,CB_SETCURSEL,0,0);
 
   CB_SelectData(GetDlgItem(Dialog,IDC_FLAG_PAR),result);
+  //!!!! need to set ACF_FLAG_TEMPLATE here
   FixParamControls(Dialog,result);
 end;
 
@@ -490,6 +495,7 @@ begin
   end
   else
   begin
+    CB_SetData(wnd,flags and not ACF_TYPE_MASK);
     vtype:=flags and ACF_TYPE_MASK;
     case vtype of
       ACF_TYPE_PARAM: begin
@@ -562,6 +568,8 @@ begin
   end;
   if (GetEditFlags(wnd) and EF_SCRIPT)<>0 then
      flags:=flags or ACF_FLAG_SCRIPT;
+  // for example, ACF_FLAG_TEMPLATE
+  flags:=flags or CB_GetData(wnd);
 end;
 
 //----- Parameter value -----
