@@ -48,6 +48,9 @@
     <ClInclude Include="src\requests\logout.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
+    <ClInclude Include="src\requests\contacts.h">
+      <Filter>Header Files\requests</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\stdafx.cpp">
@@ -84,6 +87,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\request_queue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_request.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

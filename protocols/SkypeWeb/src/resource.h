@@ -2,11 +2,11 @@
 // Microsoft Visual C++ generated include file.
 // Used by E:\Projects\C++\MirandaNG\protocols\SkypeWeb\res\resource.rc
 //
-#define IDC_LOGIN                       101
+#define IDI_SKYPE                       100
+#define IDC_SKYPENAME                   101
 #define IDC_PASSWORD                    102
 #define IDD_ACCOUNT_MANAGER             103
 #define IDD_OPTIONS_MAIN                104
-#define IDI_SKYPE                       105
 #define IDC_GROUP                       106
 #define IDD_PASSWORD_EDITOR             107
 #define IDC_SAVEPERMANENTLY             108

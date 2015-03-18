@@ -1,7 +1,7 @@
 #ifndef _TOX_PROTO_H_
 #define _TOX_PROTO_H_
 
-class RequestQueueItem;
+typedef void(CSkypeProto::*SkypeResponseCallback)(const NETLIBHTTPREQUEST *response);
 
 struct CSkypeProto : public PROTO < CSkypeProto >
 {
@@ -93,31 +93,8 @@ private:
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
-	// api response wrappers
-	template<void(CSkypeProto::*ResponseCallback)(const NETLIBHTTPREQUEST *response)>
-	static void HttpResponse(const NETLIBHTTPREQUEST *response, void *arg)
-	{
-		(((CSkypeProto*)arg)->*ResponseCallback)(response);
-	}
-
-	template<void(CSkypeProto::*ResponseCallback)(const JSONNODE *response)>
-	static void JsonResponse(const NETLIBHTTPREQUEST *response, void *arg)
-	{
-		JSONROOT root(response->pData);
-		(((CSkypeProto*)arg)->*ResponseCallback)(root);
-	}
-
-	void PushRequest(HttpRequest *request, HttpResponseCallback response = NULL, void *arg = NULL)
-	{
-		if (!cookies.empty())
-		{
-			CMStringA allCookies;
-			for (std::map<std::string, std::string>::iterator cookie = cookies.begin(); cookie != cookies.end(); ++cookie)
-				allCookies.AppendFormat("%s=%s; ", cookie->first.c_str(), cookie->second.c_str());
-			request->SetCookie(allCookies);
-		}
-		requestQueue->Push(request, response, arg);
-	}
+	// requests
+	void PushRequest(HttpRequest *request, SkypeResponseCallback response = NULL);
 
 	// icons
 	static IconInfo Icons[];
@@ -146,13 +123,13 @@ private:
 	void SetContactStatus(MCONTACT hContact, WORD status);
 	void SetAllContactsStatus(WORD status);
 
-	MCONTACT GetContact(const char *login);
+	MCONTACT GetContact(const char *skypename);
 
-	MCONTACT AddContact(const char *login, bool isTemporary = false);
+	MCONTACT AddContact(const char *skypename, bool isTemporary = false);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void __cdecl LoadFriendList(void*);
+	void LoadContacts(const NETLIBHTTPREQUEST *response);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);

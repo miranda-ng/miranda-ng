@@ -37,7 +37,7 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_3:
 		return PF2_ONLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)"Login";
+		return (INT_PTR)"Skypename";
 	case PFLAG_UNIQUEIDSETTING:
 		return (DWORD_PTR)SKYPE_SETTINGS_ID;
 	}
@@ -135,7 +135,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			m_iStatus = ID_STATUS_CONNECTING;
 
 			requestQueue->Start();
-			PushRequest(new LoginRequest(), HttpResponse<&CSkypeProto::OnLoginFirst>, this);
+			PushRequest(new LoginRequest(), &CSkypeProto::OnLoginFirst);
 		}
 		else
 		{
