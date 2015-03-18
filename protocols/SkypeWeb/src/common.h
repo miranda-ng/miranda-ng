@@ -45,6 +45,7 @@ struct CSkypeProto;
 #include "http_request.h"
 #include "requests\login.h"
 #include "requests\logout.h"
+#include "requests\contacts.h"
 #include "request_queue.h"
 #include "skype_proto.h"
 
@@ -52,7 +53,7 @@ extern HINSTANCE g_hInstance;
 
 #define MODULE "SKYPE"
 
-#define SKYPE_SETTINGS_ID "Login"
+#define SKYPE_SETTINGS_ID "Skypename"
 #define SKYPE_SETTINGS_PASSWORD "Password"
 #define SKYPE_SETTINGS_GROUP "DefaultGroup"
 

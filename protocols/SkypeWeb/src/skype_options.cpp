@@ -13,8 +13,8 @@ INT_PTR CSkypeProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 
 			ptrA login(proto->getStringA(SKYPE_SETTINGS_ID));
-			SetDlgItemTextA(hwnd, IDC_LOGIN, login);
-			SendDlgItemMessage(hwnd, IDC_LOGIN, EM_LIMITTEXT, 32, 0);
+			SetDlgItemTextA(hwnd, IDC_SKYPENAME, login);
+			SendDlgItemMessage(hwnd, IDC_SKYPENAME, EM_LIMITTEXT, 32, 0);
 
 			ptrA password(proto->getStringA("Password"));
 			SetDlgItemTextA(hwnd, IDC_PASSWORD, password);
@@ -30,7 +30,7 @@ INT_PTR CSkypeProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 	{
 		switch (LOWORD(wParam))
 		{
-		case IDC_LOGIN:
+		case IDC_SKYPENAME:
 		case IDC_GROUP:
 		case IDC_PASSWORD:
 			if ((HWND)lParam == GetFocus())
@@ -46,9 +46,9 @@ INT_PTR CSkypeProto::MainOptionsProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM
 	case WM_NOTIFY:
 		if (((NMHDR*)lParam)->code == PSN_APPLY)
 		{
-			char login[32];
-			GetDlgItemTextA(hwnd, IDC_LOGIN, login, SIZEOF(login));
-			proto->setString(SKYPE_SETTINGS_ID, login);
+			char skypename[32];
+			GetDlgItemTextA(hwnd, IDC_SKYPENAME, skypename, SIZEOF(skypename));
+			proto->setString(SKYPE_SETTINGS_ID, skypename);
 
 			char password[20];
 			GetDlgItemTextA(hwnd, IDC_PASSWORD, password, SIZEOF(password));

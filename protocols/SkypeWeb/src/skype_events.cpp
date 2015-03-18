@@ -36,10 +36,10 @@ void CSkypeProto::OnLoginFirst(const NETLIBHTTPREQUEST *response)
 	}
 	std::string etm = match[1];
 
-	ptrA login(mir_utf8encodeT(ptrT(getTStringA(SKYPE_SETTINGS_ID))));
+	ptrA skypename(mir_utf8encodeT(ptrT(getTStringA(SKYPE_SETTINGS_ID))));
 	ptrA password(mir_utf8encodeT(ptrT(getTStringA(SKYPE_SETTINGS_PASSWORD))));
 
-	requestQueue->Push(new LoginRequest(login, password, pie.c_str(), etm.c_str()), HttpResponse<&CSkypeProto::OnLoginSecond>, this);
+	PushRequest(new LoginRequest(skypename, password, pie.c_str(), etm.c_str()), &CSkypeProto::OnLoginSecond);
 }
 
 void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
@@ -88,6 +88,8 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 		if (std::regex_search(content, match, regex))
 			cookies[match[1]] = match[2];
 	}
+
+	PushRequest(new GetContactsRequest(token.c_str()), &CSkypeProto::LoadContacts);
 
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 }

@@ -12,7 +12,7 @@ public:
 		url.Append("?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
 	}
 
-	LoginRequest(const char *username, const char *password, const char *pie, const char *etm) :
+	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
 		HttpRequest(REQUEST_POST, "login.skype.com/login")
 	{
 		flags |= NLHRF_SSL;
@@ -26,7 +26,7 @@ public:
 		int minutes = tzi->Bias % -60;
 
 		CMStringA data = "";
-		data.AppendFormat("username=%s&", username);
+		data.AppendFormat("username=%s&", skypename);
 		data.AppendFormat("password=%s&", password);
 		data.AppendFormat("pie=%s&", ptrA(mir_urlEncode(pie)));
 		data.AppendFormat("etm=%s&", ptrA(mir_urlEncode(etm)));
