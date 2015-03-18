@@ -574,23 +574,23 @@ STDMETHODIMP_(BOOL) CDbxKV::EnumContactSettings(MCONTACT contactID, DBCONTACTENU
 	keySearch.dwOfsModule = GetModuleNameOfs(dbces->szModule);
 	memset(keySearch.szSettingName, 0, SIZEOF(keySearch.szSettingName));
 
+	int result = -1;
+
 	ham_record_t rec = { 0 };
 	ham_key_t key = { sizeof(keySearch), &keySearch };
 
 	cursor_ptr cursor(m_dbSettings);
-	if (ham_cursor_find(cursor, &key, &rec, HAM_FIND_GEQ_MATCH) != HAM_SUCCESS)
-		return -1;
-	
-	int result = 0;
-	do {
-		DBSettingSortingKey *pKey = (DBSettingSortingKey*)key.data;
-		if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
-			break;
+	if (ham_cursor_find(cursor, &key, &rec, HAM_FIND_GEQ_MATCH) == HAM_SUCCESS) {
+		do {
+			DBSettingSortingKey *pKey = (DBSettingSortingKey*)key.data;
+			if (pKey->dwContactID != contactID || pKey->dwOfsModule != keySearch.dwOfsModule)
+				break;
 
-		char szSetting[256];
-		strncpy_s(szSetting, pKey->szSettingName, key.size - sizeof(DWORD) * 2);
-		result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
-	} while (ham_cursor_move(cursor, &key, &rec, HAM_CURSOR_NEXT) == HAM_SUCCESS);
+			char szSetting[256];
+			strncpy_s(szSetting, pKey->szSettingName, key.size - sizeof(DWORD) * 2);
+			result = (dbces->pfnEnumProc)(szSetting, dbces->lParam);
+		} while (ham_cursor_move(cursor, &key, &rec, HAM_CURSOR_NEXT) == HAM_SUCCESS);
+	}
 
 	return result;
 }
