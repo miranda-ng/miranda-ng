@@ -90,7 +90,7 @@ bool CToxProto::LoadToxProfile()
 
 void CToxProto::SaveToxProfile()
 {
-	/*size_t size = 0;
+	size_t size = 0;
 	uint8_t *data = NULL;
 
 	{
@@ -113,11 +113,11 @@ void CToxProto::SaveToxProfile()
 			data = (uint8_t*)mir_calloc(size);
 			tox_save(tox, data);
 		}
-	}*/
+	}
 
-	size_t size = tox_size(tox);
+	/*size_t size = tox_size(tox);
 	uint8_t *data = (uint8_t*)mir_calloc(size);
-	tox_save(tox, data);
+	tox_save(tox, data);*/
 
 	std::tstring profilePath = GetToxProfilePath();
 	FILE *profile = _tfopen(profilePath.c_str(), _T("wb"));

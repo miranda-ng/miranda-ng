@@ -92,7 +92,7 @@ BEGIN
     EDITTEXT        IDC_GROUP,66,54,120,12,ES_AUTOHSCROLL
     PUSHBUTTON      "C",IDC_CLIPBOARD,170,7,16,13
     LTEXT           "Tox ID:",IDC_STATIC,12,9,54,8
-    EDITTEXT        IDC_PASSWORD,66,38,120,12,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
+    EDITTEXT        IDC_PASSWORD,66,38,120,12,ES_PASSWORD | ES_AUTOHSCROLL
     PUSHBUTTON      "Import tox profile",IDC_IMPORT_PROFILE,66,72,100,14,WS_DISABLED
     LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.",IDC_STATIC,12,91,174,21
 END
@@ -115,7 +115,7 @@ BEGIN
     EDITTEXT        IDC_GROUP,81,63,217,12,ES_AUTOHSCROLL
     PUSHBUTTON      "C",IDC_CLIPBOARD,282,15,16,13
     LTEXT           "Password:",IDC_STATIC,12,49,69,8,NOT WS_VISIBLE
-    EDITTEXT        IDC_PASSWORD,81,47,217,12,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_VISIBLE
+    EDITTEXT        IDC_PASSWORD,81,47,217,12,ES_PASSWORD | ES_AUTOHSCROLL
     PUSHBUTTON      "Import tox profile",IDC_IMPORT_PROFILE,81,78,100,14,WS_DISABLED
     LTEXT           "Tox profile contains your ID and friend list.\r\nYou may import existing profile from other tox client.",IDC_STATIC,81,95,217,25
 END
