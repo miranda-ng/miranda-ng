@@ -5,7 +5,7 @@ class GetContactsRequest : public HttpRequest
 {
 public:
 	GetContactsRequest(const char *token) :
-		HttpRequest(REQUEST_GET, "api.skype.com/users/self/contacts")
+		HttpRequest(REQUEST_GET, "api.skype.com/users/self/contacts?hideDetails=true")
 	{
 		flags |= NLHRF_SSL;
 
