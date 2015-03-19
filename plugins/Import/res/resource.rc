@@ -85,17 +85,20 @@ BEGIN
     CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-7,115,234,1
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 220, 114
+IDD_OPTIONS DIALOGEX 0, 0, 220, 120
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
+    CONTROL         "Import all settings, contacts and all messages",IDC_RADIO_COMPLETE,
+                    "Button",BS_AUTORADIOBUTTON | BS_LEFT | BS_TOP | WS_TABSTOP,8,8,206,10
+    LTEXT           "Makes precise copy of the original profile",IDC_STATIC,27,18,187,16
     CONTROL         "Import all contacts and all messages",IDC_RADIO_ALL,
-                    "Button",BS_AUTORADIOBUTTON | BS_LEFT | BS_TOP | WS_TABSTOP,7,10,206,11
-    CONTROL         "Only import contacts",IDC_RADIO_CONTACTS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,7,42,206,10
-    CONTROL         "Custom import",IDC_RADIO_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_TABSTOP,7,74,206,10
-    LTEXT           "Select this if you want to import as much data as possible. This is the recommended option.",IDC_STATIC_ALL,26,20,187,16
-    LTEXT           "Select this if you want to import contacts but don't want to import any message history.",IDC_STATIC_CONTACTS,26,52,187,16
-    LTEXT           "Select this if you want to customize what to import.",IDC_STATIC_CUSTOM,26,84,187,16,WS_DISABLED
+                    "Button",BS_AUTORADIOBUTTON | BS_LEFT | BS_TOP | WS_TABSTOP,8,38,206,10
+    LTEXT           "Select this if you want to import as much data as possible. This is the recommended option.",IDC_STATIC_ALL,26,48,187,16
+    CONTROL         "Only import contacts",IDC_RADIO_CONTACTS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,7,68,206,10
+    LTEXT           "Select this if you want to import contacts but don't want to import any message history.",IDC_STATIC_CONTACTS,26,78,187,16
+    CONTROL         "Custom import",IDC_RADIO_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_DISABLED | WS_TABSTOP,7,98,206,10
+    LTEXT           "Select this if you want to customize what to import.",IDC_STATIC_CUSTOM,26,108,187,8,WS_DISABLED
 END
 
 IDD_ADVOPTIONS DIALOGEX 0, 0, 220, 114
@@ -126,7 +129,7 @@ BEGIN
 END
 
 IDD_ACCMERGE DIALOGEX 0, 0, 312, 150
-STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Choose appropriate accounts for import"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
@@ -197,7 +200,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 213
         TOPMARGIN, 7
-        BOTTOMMARGIN, 111
+        BOTTOMMARGIN, 117
     END
 
     IDD_ADVOPTIONS, DIALOG
