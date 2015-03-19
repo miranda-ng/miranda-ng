@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -93,20 +93,6 @@
 <неизвестно>
 [<none>]
 <нет>
-[Last Seen Variables]
-Переменные
-[Contacts]
-Контакты
-[Last seen]
-Последнее появление
-[Popups]
-Всплывающие окна
-[%n is %s (%u)]
-%n %s (%u)
-[%i(%r)%bWas %o]
-%i(%r)%bбыл %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -177,6 +163,20 @@
 для пустой строки
 [instead of]
 вместо
+[Last Seen Variables]
+Переменные
+[Contacts]
+Контакты
+[Last seen]
+Последнее появление
+[Popups]
+Всплывающие окна
+[%n is %s (%u)]
+%n %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%bбыл %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Имя:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bВремя:%t%H:%M:%S%bПредыдущий статус:%t%o%b%b%P ID:%t%u%bВнешний IP:%t%i%bВнутренний IP:%t%r%bКлиент: %t%C%b%bСообщение статуса:%t%T
 [Sunday]
 Воскресенье
 [Monday]
