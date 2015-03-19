@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -54,14 +54,6 @@
 [<unknown>]
 [<none>]
 ;file \plugins\SeenPlugin\src\options.cpp
-[Last Seen Variables]
-[Contacts]
-[Last seen]
-[Popups]
-;file \plugins\SeenPlugin\src\seen.h
-[%n is %s (%u)]
-[%i(%r)%bWas %o]
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 [-- Date --]
 [year (4 digits)]
 [year (2 digits)]
@@ -97,6 +89,14 @@
 [Use]
 [for empty string]
 [instead of]
+[Last Seen Variables]
+[Contacts]
+[Last seen]
+[Popups]
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+[%i(%r)%bWas %o]
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
