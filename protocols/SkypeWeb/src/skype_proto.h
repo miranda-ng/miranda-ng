@@ -129,6 +129,7 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
+	void LoadProfiles(const NETLIBHTTPREQUEST *response);
 	void LoadContacts(const NETLIBHTTPREQUEST *response);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);

@@ -46,6 +46,7 @@ struct CSkypeProto;
 #include "requests\login.h"
 #include "requests\logout.h"
 #include "requests\contacts.h"
+#include "requests\profiles.h"
 #include "request_queue.h"
 #include "skype_proto.h"
 
