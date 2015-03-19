@@ -83,8 +83,8 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 	return hContact;
 }
 
-//[{ "username":"echo123", "firstname" : "Echo \/ Sound Test Service", "lastname" : null, "avatarUrl" : null, "mood" : null, "richMood" : null, "displayname" : null, "country" : null, "city" : null },...]
-void CSkypeProto::LoadProfiles(const NETLIBHTTPREQUEST *response)
+//[{"username":"echo123", "firstname" : "Echo \/ Sound Test Service", "lastname" : null, "avatarUrl" : null, "mood" : null, "richMood" : null, "displayname" : null, "country" : null, "city" : null},...]
+void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -105,68 +105,22 @@ void CSkypeProto::LoadProfiles(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = AddContact(skypename);
 		if (hContact)
 		{
-			node = json_get(item, "fullname");
-			CMString realname = ptrT(json_as_string(node));
-			if (!realname.IsEmpty() && realname != "null")
-			{
-				size_t pos = realname.Find(' ', 1);
-				if (mir_strcmpi(skypename, "echo123") != 0 && pos != -1)
-				{
-					setTString(hContact, "FirstName", realname.Mid(0, pos));
-					setTString(hContact, "LastName", realname.Mid(pos + 1));
-				}
-				else
-				{
-					setTString(hContact, "FirstName", realname);
-					delSetting(hContact, "LastName");
-				}
-			}
-			else
-			{
-				delSetting(hContact, "FirstName");
-				delSetting(hContact, "LastName");
-			}
-
-			node = json_get(item, "display_name");
-			CMString nick = ptrT(json_as_string(node));
-			if (!nick.IsEmpty() && nick != "null")
-				setTString(hContact, "Nick", nick);
-			else
-				delSetting(hContact, "Nick");
-
-			node = json_get(item, "avatarUrl");
-			CMStringA avatarUrl = mir_t2a(ptrT(json_as_string(node)));
-			if (avatarUrl && avatarUrl != "null")
-				; // TODO: load avatar
-
-			node = json_get(item, "mood");
-			CMString mood = ptrT(json_as_string(node));
-			if (!mood.IsEmpty() && mood != "null")
-				db_set_ts(hContact, "CList", "StatusMsg", mood);
-			else
-				db_unset(hContact, "CList", "StatusMsg");
-
-			node = json_get(item, "richMood");
-			ptrT richMood(json_as_string(node));
-
-			node = json_get(item, "country");
-			ptrA country(mir_t2a(ptrT(json_as_string(node))));
-
-			node = json_get(item, "city");
-			CMString city = ptrT(json_as_string(node));
-			if (!city.IsEmpty() && city != "null")
-				setTString(hContact, "City", city);
-			else
-				delSetting(hContact, "City");
+			UpdateProfileFirstName(item, hContact);
+			UpdateProfileLastName(item, hContact);
+			UpdateProfileDisplayName(item, hContact);
+			UpdateProfileCountry(item, hContact);
+			UpdateProfileCity(item, hContact);
+			UpdateProfileStatusMessage(item, hContact);
+			//richMood
+			UpdateProfileAvatar(item, hContact);
 		}
-
 	}
 	json_delete(items);
 }
 
 //[{"skypename":"echo123", "authorized" : true, "blocked" : false, ...},...]
 // other properties is exists but empty
-void CSkypeProto::LoadContacts(const NETLIBHTTPREQUEST *response)
+void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
 		return;
@@ -211,7 +165,7 @@ void CSkypeProto::LoadContacts(const NETLIBHTTPREQUEST *response)
 	if (skypenames.getCount() > 0)
 	{
 		ptrA token(getStringA("TokenSecret"));
-		PushRequest(new GetProfilesRequest(token, skypenames), &CSkypeProto::LoadProfiles);
+		PushRequest(new GetContactsInfoRequest(token, skypenames), &CSkypeProto::LoadContactsInfo);
 
 		for (size_t i = 0; i < skypenames.getCount(); i++)
 		{

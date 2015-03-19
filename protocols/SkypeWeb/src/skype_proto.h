@@ -118,6 +118,28 @@ private:
 	
 	void OnLoginSecond(const NETLIBHTTPREQUEST *response);
 
+	// profile
+	void UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileLastName(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileGender(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileBirthday(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileCountry(JSONNODE *node, MCONTACT hContact = NULL);
+	void UpdateProfileState(JSONNODE *node, MCONTACT hContact = NULL);
+	void UpdateProfileCity(JSONNODE *node, MCONTACT hContact = NULL);
+	void UpdateProfileLanguage(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileHomepage(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileAbout(JSONNODE *node, MCONTACT hContact = NULL);
+	void UpdateProfileEmails(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfilePhoneMobile(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfilePhoneHome(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfilePhoneOffice(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileStatusMessage(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileXStatusMessage(JSONNODE *root, MCONTACT hContact = NULL);
+	void UpdateProfileAvatar(JSONNODE *root, MCONTACT hContact = NULL);
+
+	void LoadProfile(const NETLIBHTTPREQUEST *response);
+
 	// contacts
 	WORD GetContactStatus(MCONTACT hContact);
 	void SetContactStatus(MCONTACT hContact, WORD status);
@@ -129,8 +151,8 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
-	void LoadProfiles(const NETLIBHTTPREQUEST *response);
-	void LoadContacts(const NETLIBHTTPREQUEST *response);
+	void LoadContactsInfo(const NETLIBHTTPREQUEST *response);
+	void LoadContactList(const NETLIBHTTPREQUEST *response);
 
 	INT_PTR __cdecl OnRequestAuth(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl OnGrantAuth(WPARAM hContact, LPARAM);

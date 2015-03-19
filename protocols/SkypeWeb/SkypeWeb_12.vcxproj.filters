@@ -51,7 +51,7 @@
     <ClInclude Include="src\requests\contacts.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
-    <ClInclude Include="src\requests\profiles.h">
+    <ClInclude Include="src\requests\profile.h">
       <Filter>Header Files\requests</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,6 +93,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_request.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_profile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
