@@ -215,6 +215,9 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\import.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

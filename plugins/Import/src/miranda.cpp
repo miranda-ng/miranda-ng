@@ -150,13 +150,14 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wPara
 	switch (message) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_COMPLETE), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_ALL), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC_ALL), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_CONTACTS), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC_CONTACTS), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_CUSTOM), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC_CUSTOM), TRUE);
-		CheckDlgButton(hwndDlg, IDC_RADIO_ALL, BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_RADIO_COMPLETE, BST_CHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -166,9 +167,16 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wPara
 			break;
 
 		case IDOK:
+			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_COMPLETE)) {
+				nImportOption = IMPORT_CUSTOM;
+				nCustomOptions = INT32_MAX;
+				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
+				break;
+			}
+
 			if (IsDlgButtonChecked(hwndDlg, IDC_RADIO_ALL)) {
 				nImportOption = IMPORT_ALL;
-				nCustomOptions = 0;//IOPT_MSGSENT|IOPT_MSGRECV|IOPT_URLSENT|IOPT_URLRECV;
+				nCustomOptions = 0;
 				PostMessage(GetParent(hwndDlg), WIZM_GOTOPAGE, IDD_PROGRESS, (LPARAM)ProgressPageProc);
 				break;
 			}
