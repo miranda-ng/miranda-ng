@@ -105,6 +105,35 @@ void CSkypeProto::LoadProfiles(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = AddContact(skypename);
 		if (hContact)
 		{
+			node = json_get(item, "fullname");
+			CMString realname = ptrT(json_as_string(node));
+			if (!realname.IsEmpty() && realname != "null")
+			{
+				size_t pos = realname.Find(' ', 1);
+				if (mir_strcmpi(skypename, "echo123") != 0 && pos != -1)
+				{
+					setTString(hContact, "FirstName", realname.Mid(0, pos));
+					setTString(hContact, "LastName", realname.Mid(pos + 1));
+				}
+				else
+				{
+					setTString(hContact, "FirstName", realname);
+					delSetting(hContact, "LastName");
+				}
+			}
+			else
+			{
+				delSetting(hContact, "FirstName");
+				delSetting(hContact, "LastName");
+			}
+
+			node = json_get(item, "display_name");
+			CMString nick = ptrT(json_as_string(node));
+			if (!nick.IsEmpty() && nick != "null")
+				setTString(hContact, "Nick", nick);
+			else
+				delSetting(hContact, "Nick");
+
 			node = json_get(item, "avatarUrl");
 			CMStringA avatarUrl = mir_t2a(ptrT(json_as_string(node)));
 			if (avatarUrl && avatarUrl != "null")
@@ -135,7 +164,8 @@ void CSkypeProto::LoadProfiles(const NETLIBHTTPREQUEST *response)
 	json_delete(items);
 }
 
-//[{"skypename":"echo123", "fullname" : "Echo \/ Sound Test Service", "authorized" : true, "blocked" : false, "display_name" : null, "pstn_number" : null, "phone1" : null, "phone1_label" : null, "phone2" : null, "phone2_label" : null, "phone3" : null, "phone3_label" : null},...]
+//[{"skypename":"echo123", "authorized" : true, "blocked" : false, ...},...]
+// other properties is exists but empty
 void CSkypeProto::LoadContacts(const NETLIBHTTPREQUEST *response)
 {
 	if (response == NULL)
@@ -159,42 +189,6 @@ void CSkypeProto::LoadContacts(const NETLIBHTTPREQUEST *response)
 		MCONTACT hContact = AddContact(skypename);
 		if (hContact)
 		{
-			node = json_get(item, "fullname");
-			CMString realname = ptrT(json_as_string(node));
-			if (!realname.IsEmpty() && realname != "null")
-			{
-				size_t pos = realname.Find(' ', 1);
-				if (mir_strcmpi(skypename, "echo123") != 0 && pos != -1)
-				{
-					setTString(hContact, "FirstName", realname.Mid(0, pos));
-					setTString(hContact, "LastName", realname.Mid(pos + 1));
-				}
-				else
-				{
-					setTString(hContact, "FirstName", realname);
-					delSetting(hContact, "LastName");
-				}
-			}
-			else
-			{
-				delSetting(hContact, "FirstName");
-				delSetting(hContact, "LastName");
-			}
-
-			node = json_get(item, "display_name");
-			CMString nick = ptrT(json_as_string(node));
-			if (!nick.IsEmpty() && nick != "null")
-				setTString(hContact, "Nick", nick);
-			else
-				delSetting(hContact, "Nick");
-
-			node = json_get(item, "pstn_number");
-			CMString ptsnNumber = ptrT(json_as_string(node));
-			if (!ptsnNumber.IsEmpty() && ptsnNumber != "null")
-				setString(hContact, "PtsnNumber", ptrA(mir_u2a(ptsnNumber)));
-			else
-				delSetting(hContact, "PtsnNumber");
-
 			node = json_get(item, "authorized");
 			if (json_as_bool(node))
 			{
