@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, Jon Travis
+ * Copyright (c) 2002-2004, Jon Travis
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -57,14 +57,15 @@ typedef struct ekhtml_string_t {
  * When ekhtml parses tags containing key/value attributes, it will pass 
  * this structure representing those values into the callbacks.  Note, for 
  * speed reasons, things such as the 'name' and 'value' fields are not 
- * terminated with '\0', and therefore have an associated length 
- * field (namelen, vallen).
+ * terminated with '\0', the length is in name->len, and val->len
  */
 
 typedef struct ekhtml_attr_t {
     ekhtml_string_t       name;       /**< Name of the attribute             */
     ekhtml_string_t       val;        /**< Value of the attribute            */
-    unsigned int          isBoolean;  /**< True of the attribute is boolean  */
+    unsigned int          isBoolean;  /**< True if the attribute is boolean  */
+    char                  quoteChar;  /**< The character used to quote 'val'. 
+                                           If no quoting was used, '\0'      */
     struct ekhtml_attr_t *next;  /**< Pointer to next attribute in the list  */
 } ekhtml_attr_t;
 

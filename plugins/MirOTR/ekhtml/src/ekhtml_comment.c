@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, Jon Travis
+ * Copyright (c) 2002-2004, Jon Travis
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without

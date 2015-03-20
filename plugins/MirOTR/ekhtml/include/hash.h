@@ -14,8 +14,6 @@
  * into proprietary software; there is no requirement for such software to
  * contain a copyright notice related to this source.
  *
- * $Id: hash.h,v 1.1 2002/09/17 02:49:36 jick Exp $
- * $Name: EKHTML_RELEASE_0_3_2 $
  */
 
 #ifndef HASH_H
@@ -39,8 +37,6 @@ typedef unsigned long hashcount_t;
 
 typedef unsigned long hash_val_t;
 #define HASH_VAL_T_MAX ULONG_MAX
-
-extern int hash_val_t_bit;
 
 #ifndef HASH_VAL_T_BIT
 #define HASH_VAL_T_BIT ((int) hash_val_t_bit)
@@ -232,6 +228,33 @@ extern void hnode_destroy(hnode_t *);
 #define hnode_getkey(N) ((N)->hash_key)
 #define hnode_put(N, V) ((N)->hash_data = (V))
 #endif
+
+/*
+ * Compute the number of bits in the hash_val_t type.  We know that hash_val_t
+ * is an unsigned integral type. Thus the highest value it can hold is a
+ * Mersenne number (power of two, less one). We initialize a hash_val_t
+ * object with this value and then shift bits out one by one while counting.
+ * Notes:
+ * 1. HASH_VAL_T_MAX is a Mersenne number---one that is one less than a power
+ *    of two. This means that its binary representation consists of all one
+ *    bits, and hence ``val'' is initialized to all one bits.
+ * 2. While bits remain in val, we increment the bit count and shift it to the
+ *    right, replacing the topmost bit by zero.
+ */
+
+static int compute_bits(void)
+{
+    hash_val_t val = HASH_VAL_T_MAX;	/* 1 */
+    int bits = 0;
+
+    while (val) {	/* 2 */
+	bits++;
+	val >>= 1;
+    }
+
+    return bits;
+}
+
 
 #ifdef __cplusplus
 }
