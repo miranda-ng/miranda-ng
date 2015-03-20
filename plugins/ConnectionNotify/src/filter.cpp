@@ -145,7 +145,7 @@ BOOL checkFilter(struct CONNECTION *head,struct CONNECTION *conn)
 	struct CONNECTION *cur=head;
 	while(cur!=NULL)
 	{
-		if (wildcmp(cur->PName,conn->PName)&&wildcmp(cur->strIntIp,conn->strIntIp)&&wildcmp(cur->strExtIp,conn->strExtIp)&&(cur->intIntPort==-1||cur->intIntPort==conn->intIntPort)&&(cur->intExtPort==-1||cur->intExtPort==conn->intExtPort))
+		if (wildcmpt(cur->PName,conn->PName)&&wildcmpt(cur->strIntIp,conn->strIntIp)&&wildcmpt(cur->strExtIp,conn->strExtIp)&&(cur->intIntPort==-1||cur->intIntPort==conn->intIntPort)&&(cur->intExtPort==-1||cur->intExtPort==conn->intExtPort))
 			return cur->Pid;
 		cur=cur->next;
 	}

@@ -18,4 +18,3 @@ struct CONNECTION* GetConnectionsTable();
 void deleteConnectionsTable(struct CONNECTION* head);
 struct CONNECTION* searchConnection(struct CONNECTION* head,TCHAR *intIp,TCHAR *extIp,int intPort,int extPort,int state);
 void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len);
-int wildcmp(const TCHAR *wild, const TCHAR *string);
