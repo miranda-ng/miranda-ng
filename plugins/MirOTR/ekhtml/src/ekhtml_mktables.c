@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, Jon Travis
+ * Copyright (c) 2002-2004, Jon Travis
  * All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,8 @@ static EKHTML_CHARMAP_TYPE valid_attrvalue(char in){
        in == '%' || in == '?' || in == '!' || in == '&' ||
        in == '(' || in == ')' || in == '#' || in == '=' ||
        in == '~' || in == ']' || in == '*' || in == '@' ||
-       in == '$' || in == '_')
+       in == '$' || in == '_' || in == ',' || in == ';' ||
+       in == '|')
         return 1;
     return 0;
 }
@@ -110,7 +111,7 @@ static void print_charmap(char *name, EKHTML_CHARMAP_TYPE (*cmap_func)(char)){
     int ch;
     char sbuf[256];
     
-    sprintf_s(sbuf, 256, "0x%%0%dx ", EKHTML_CHARMAP_LEN * 2);
+    sprintf(sbuf, "0x%%0%dx ", EKHTML_CHARMAP_LEN * 2);
     printf("#ifdef EKHTML_USE_TABLES\n");
     printf("const %s %s[256] = {\n", EKHTML_CHARMAP_TYPE_S, name);
     for(ch=0; ch < 256; ch++){

@@ -14,19 +14,20 @@
  * into proprietary software; there is no requirement for such software to
  * contain a copyright notice related to this source.
  *
- * $Id: hash.c,v 1.1 2002/09/17 02:49:36 jick Exp $
- * $Name: EKHTML_RELEASE_0_3_2 $
+ * $Id$
+ * $Name$
  */
 
 #include <stdlib.h>
 #include <stddef.h>
 #include <assert.h>
 #include <string.h>
+#include "ekhtml_config.h"
 #define HASH_IMPLEMENTATION
 #include "hash.h"
 
 #ifdef KAZLIB_RCSID
-static const char rcsid[] = "$Id: hash.c,v 1.1 2002/09/17 02:49:36 jick Exp $";
+static const char rcsid[] = "$Id$";
 #endif
 
 #define INIT_BITS	6
@@ -60,33 +61,7 @@ static void hnode_free(hnode_t *node, void *context);
 static hash_val_t hash_fun_default(const void *key);
 static int hash_comp_default(const void *key1, const void *key2);
 
-int hash_val_t_bit;
-
-/*
- * Compute the number of bits in the hash_val_t type.  We know that hash_val_t
- * is an unsigned integral type. Thus the highest value it can hold is a
- * Mersenne number (power of two, less one). We initialize a hash_val_t
- * object with this value and then shift bits out one by one while counting.
- * Notes:
- * 1. HASH_VAL_T_MAX is a Mersenne number---one that is one less than a power
- *    of two. This means that its binary representation consists of all one
- *    bits, and hence ``val'' is initialized to all one bits.
- * 2. While bits remain in val, we increment the bit count and shift it to the
- *    right, replacing the topmost bit by zero.
- */
-
-static void compute_bits(void)
-{
-    hash_val_t val = HASH_VAL_T_MAX;	/* 1 */
-    int bits = 0;
-
-    while (val) {	/* 2 */
-	bits++;
-	val >>= 1;
-    }
-
-    hash_val_t_bit = bits;
-}
+static const int hash_val_t_bit = EKHTML_HASH_BITS;
 
 /*
  * Verify whether the given argument is a power of two.
