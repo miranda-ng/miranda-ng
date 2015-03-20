@@ -96,39 +96,13 @@ void LogToFile(TCHAR *stzText)
 	}
 }
 
-WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
+void AddCR(CMString &str, const TCHAR *stzText)
 {
-	if (ptr == NULL)
-		return NULL;
-
-	size_t size = strlen(ptr) + 1;
-	WCHAR *tmp = (WCHAR *)mir_alloc(size * sizeof(WCHAR));
-
-	MultiByteToWideChar(CodePage, 0, ptr, -1, tmp, (int)size * sizeof(WCHAR));
-	return tmp;
-}
-
-TCHAR *AddCR(const TCHAR *stzText)
-{
-	const TCHAR *found;
-	size_t i = 0, len = mir_tstrlen(stzText), j;
-	TCHAR *tmp = (TCHAR *)mir_alloc(1024 * sizeof(TCHAR));
-	*tmp = _T('\0');
-	while ((found = _tcsstr((stzText + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024) {
-		j = (int)(found - stzText);
-		if (mir_tstrlen(tmp) + j - i + 2 < 1024)
-			tmp = mir_tstrcat(tmp, stzText + i);
-		else
-			break;
-
-		if (j == 0 || *(stzText + j - 1) != _T('\r'))
-			tmp = mir_tstrcat(tmp, _T("\r"));
-
-		tmp = mir_tstrcat(tmp, _T("\n"));
-		i = j + 1;
-	}
-	if (mir_tstrlen(tmp) + len - i + 1 < 1024)
-		tmp = mir_tstrcat(tmp, stzText + i);
-
-	return tmp;
+	if (stzText == NULL)
+		return;
+	
+	CMString res(stzText);
+	res.Replace(_T("\n"), _T("\r\n"));
+	res.Replace(_T("\r\r\n"), _T("\r\n"));
+	str.Append(res);
 }

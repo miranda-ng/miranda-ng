@@ -21,12 +21,12 @@
 
 #include "common.h"
 
-void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, TCHAR *stzText, PLUGINDATA *pdp)
+void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const TCHAR *stzText, PLUGINDATA *pdp)
 {
 	POPUPDATAT ppd = { 0 };
 	ppd.lchContact = hContact;
 	ppd.lchIcon = hIcon;
-	CMString buf((TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GSMDF_TCHAR));
+	CMString buf(pcli->pfnGetContactDisplayName(hContact, 0));
 
 	// add group name to popup title
 	if (opt.ShowGroup) {

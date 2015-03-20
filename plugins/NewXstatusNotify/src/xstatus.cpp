@@ -76,7 +76,7 @@ void RemoveLoggedEventsSMsg(MCONTACT hContact)
 	}
 }
 
-TCHAR *GetStatusTypeAsString(int type, TCHAR *buff)
+TCHAR* GetStatusTypeAsString(int type, TCHAR *buff)
 {
 	switch (type) {
 	case TYPE_JABBER_MOOD:
@@ -90,51 +90,47 @@ TCHAR *GetStatusTypeAsString(int type, TCHAR *buff)
 	}
 }
 
-TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
+CMString ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 {
 	if (xsc == NULL || tmplt == NULL || tmplt[0] == _T('\0'))
-		return NULL;
+		return CMString();
 
-	TCHAR *str = (TCHAR *)mir_alloc(2048 * sizeof(TCHAR));
-	str[0] = _T('\0');
 	size_t len = mir_tstrlen(tmplt);
+	CMString res;
 
-	TCHAR tmp[1024];
 	for (size_t i = 0; i < len; i++) {
-		tmp[0] = _T('\0');
-
 		if (tmplt[i] == _T('%')) {
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
 				TCHAR stzType[32];
-				mir_tstrncpy(tmp, GetStatusTypeAsString(xsc->type, stzType), SIZEOF(tmp));
+				res.Append(GetStatusTypeAsString(xsc->type, stzType));
 				break;
 
 			case 't':
 				if (xsc->stzTitle == NULL || xsc->stzTitle[0] == _T('\0'))
-					mir_tstrncpy(tmp, TranslateT("<no title>"), SIZEOF(tmp));
+					res.Append(TranslateT("<no title>"));
 				else
-					mir_tstrncpy(tmp, xsc->stzTitle, SIZEOF(tmp));
+					res.Append(xsc->stzTitle);
 				break;
 
 			case 'm':
 				if (xsc->stzText == NULL || xsc->stzText[0] == _T('\0'))
-					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
+					res.Append(TranslateT("<no status message>"));
 				else
-					mir_tstrncpy(tmp, ptrT(AddCR(xsc->stzText)), SIZEOF(tmp));
+					AddCR(res, xsc->stzText);
 				break;
 
 			case 'c':
 				if (xsc->hContact == NULL)
-					mir_tstrncpy(tmp, TranslateT("Contact"), SIZEOF(tmp));
+					res.Append(TranslateT("Contact"));
 				else
-					mir_tstrncpy(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), SIZEOF(tmp));
+					res.Append(pcli->pfnGetContactDisplayName(xsc->hContact, 0));
 				break;
 
 			default:
 				i--;
-				tmp[0] = tmplt[i], tmp[1] = _T('\0');
+				res.AppendChar(tmplt[i]);
 				break;
 			}
 		}
@@ -142,31 +138,26 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
-				tmp[0] = _T('\r'), tmp[1] = _T('\n'), tmp[2] = _T('\0');
+				res.AppendChar('\r'); res.AppendChar('\n');
 				break;
 			case 't':
-				tmp[0] = _T('\t'), tmp[1] = _T('\0');
+				res.AppendChar('\t');
 				break;
 			default:
 				i--;
-				tmp[0] = tmplt[i], tmp[1] = _T('\0');
+				res.AppendChar(tmplt[i]);
 				break;
 			}
 		}
-		else
-			tmp[0] = tmplt[i], tmp[1] = _T('\0');
-
-		if (tmp[0] != _T('\0')) {
-			if (mir_tstrlen(tmp) + mir_tstrlen(str) < 2044)
-				mir_tstrcat(str, tmp);
-			else {
-				mir_tstrcat(str, _T("..."));
-				break;
-			}
-		}
+		else res.AppendChar(tmplt[i]);
 	}
 
-	return str;
+	if (res.GetLength() > 2044) {
+		res.Truncate(2044);
+		res.Append(_T("..."));
+	}
+
+	return res;
 }
 
 void ShowXStatusPopup(XSTATUSCHANGE *xsc)
@@ -219,7 +210,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		Template = templates.PopupXMsgRemoved; break;
 	}
 
-	ShowChangePopup(xsc->hContact, hIcon, ID_STATUS_EXTRASTATUS, ptrT(ReplaceVars(xsc, Template)));
+	ShowChangePopup(xsc->hContact, hIcon, ID_STATUS_EXTRASTATUS, ReplaceVars(xsc, Template));
 
 	if (copyText) {
 		mir_free(xsc->stzText);
@@ -235,7 +226,7 @@ void BlinkXStatusIcon(XSTATUSCHANGE *xsc)
 	HICON hIcon = NULL;
 	TCHAR str[256] = { 0 };
 	TCHAR stzType[32];
-	mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed %s"), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, xsc->hContact, GCDNF_TCHAR), GetStatusTypeAsString(xsc->type, stzType));
+	mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed %s"), pcli->pfnGetContactDisplayName(xsc->hContact, 0), GetStatusTypeAsString(xsc->type, stzType));
 
 	if (opt.BlinkIcon_Status) {
 		DBVARIANT dbv;
@@ -297,7 +288,7 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 	}
 
 	TCHAR stzLastLog[2 * MAX_TEXT_LEN];
-	ptrT stzLogText(ReplaceVars(xsc, Template));
+	CMString stzLogText(ReplaceVars(xsc, Template));
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, SIZEOF(stzLastLog), _T(""));
 
 	if (opt.XLogToDB) {
@@ -346,12 +337,10 @@ void LogChangeToFile(XSTATUSCHANGE *xsc)
 		Template = templates.LogXMsgRemoved; break;
 	}
 
-	TCHAR *stzLogText = ReplaceVars(xsc, Template);
-
-	mir_sntprintf(stzText, SIZEOF(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), stzLogText);
+	mir_sntprintf(stzText, SIZEOF(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime, 
+		pcli->pfnGetContactDisplayName(xsc->hContact, 0), ReplaceVars(xsc, Template).GetString());
 
 	LogToFile(stzText);
-	mir_free(stzLogText);
 }
 
 void ExtraStatusChanged(XSTATUSCHANGE *xsc)

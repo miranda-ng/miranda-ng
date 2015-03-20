@@ -21,6 +21,8 @@
 
 #include "common.h"
 
+CLIST_INTERFACE *pcli;
+
 HINSTANCE hInst;
 
 LIST<DBEVENT> eventListXStatus(10);
@@ -112,10 +114,10 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 
 	switch (cws_new->value.type) {
 	case DBVT_ASCIIZ:
-		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_ACP));
+		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_a2t_cp(cws_new->value.pszVal, CP_ACP));
 		break;
 	case DBVT_UTF8:
-		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_UTF8));
+		smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_a2t_cp(cws_new->value.pszVal, CP_UTF8));
 		break;
 	case DBVT_WCHAR:
 		smi->newstatusmsg = (CheckStrW(cws_new->value.pwszVal, 0, 1) ? NULL : mir_wstrdup(cws_new->value.pwszVal));
@@ -129,10 +131,10 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 	if (!db_get_s(smi->hContact, "UserOnline", szSetting, &dbv_old, 0)) {
 		switch (dbv_old.type) {
 		case DBVT_ASCIIZ:
-			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_ACP));
+			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_a2t_cp(dbv_old.pszVal, CP_ACP));
 			break;
 		case DBVT_UTF8:
-			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_UTF8));
+			smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_a2t_cp(dbv_old.pszVal, CP_UTF8));
 			break;
 		case DBVT_WCHAR:
 			smi->oldstatusmsg = (CheckStrW(dbv_old.pwszVal, 0, 1) ? NULL : mir_wstrdup(dbv_old.pwszVal));
@@ -196,21 +198,21 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 				if (n->compare == COMPARE_DEL || mir_tstrcmp(n->newstatusmsg, TranslateT("<no status message>")) == 0)
 					res.Append(TranslateT("<no status message>"));
 				else
-					res.Append(ptrT(AddCR(n->newstatusmsg)));
+					AddCR(res, n->newstatusmsg);
 				break;
 
 			case 'o':
 				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || _tcscmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
 					res.Append(TranslateT("<no status message>"));
 				else
-					res.Append(ptrT(AddCR(n->oldstatusmsg)));
+					AddCR(res, n->oldstatusmsg);
 				break;
 
 			case 'c':
 				if (n->hContact == NULL)
 					res.Append(TranslateT("Contact"));
 				else
-					res.Append((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)n->hContact, GCDNF_TCHAR));
+					res.Append(pcli->pfnGetContactDisplayName(n->hContact, 0));
 				break;
 
 			case 's':
@@ -445,8 +447,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 	if (opt.BlinkIcon && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? LoadSkinnedProtoIcon(szProto, newStatus) : LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
 		TCHAR str[256];
-		mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now %s"),
-			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), StatusList[Index(newStatus)].lpzStandardText);
+		mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now %s"), pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
@@ -463,7 +464,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 		GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm"), stzTime, SIZEOF(stzTime));
 		GetDateFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("dd/MM/yyyy"), stzDate, SIZEOF(stzDate));
 		mir_sntprintf(stzText, SIZEOF(stzText), TranslateT("%s, %s. %s changed status to %s (was %s)\r\n"),
-			stzDate, stzTime, CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), StatusList[Index(newStatus)].lpzStandardText,
+			stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), StatusList[Index(newStatus)].lpzStandardText,
 			StatusList[Index(oldStatus)].lpzStandardText);
 		LogToFile(stzText);
 	}
@@ -736,8 +737,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled) {
 		HICON hIcon = opt.BlinkIcon_Status ? LoadSkinnedProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
 		TCHAR str[256];
-		mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed status message to %s"),
-			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), smi.newstatusmsg);
+		mir_sntprintf(str, SIZEOF(str), TranslateT("%s changed status message to %s"), pcli->pfnGetContactDisplayName(hContact, 0), smi.newstatusmsg);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
@@ -764,8 +764,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		else
 			str = GetStr(&smi, templates.LogSMsgChanged);
 
-		mir_sntprintf(stzText, SIZEOF(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime,
-			CallService(MS_CLIST_GETCONTACTDISPLAYNAME, hContact, GCDNF_TCHAR), str);
+		mir_sntprintf(stzText, SIZEOF(stzText), _T("%s, %s. %s %s\r\n"), stzDate, stzTime, pcli->pfnGetContactDisplayName(hContact, 0), str);
 
 		LogToFile(stzText);
 		mir_free(str);
@@ -1161,6 +1160,7 @@ static int OnShutdown(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfoEx);
+	mir_getCLI();
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
