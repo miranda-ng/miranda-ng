@@ -6,7 +6,6 @@
 #pragma once
 
 #define _CRT_NON_CONFORMING_SWPRINTFS
-#define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN             // Selten verwendete Teile der Windows-Header nicht einbinden.
 
 #ifndef WINVER                  // Gibt an, dass Windows 2000 die mindestens erforderliche Plattform ist.
