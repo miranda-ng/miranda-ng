@@ -73,6 +73,9 @@ public:
 	static void InitMenus();
 	static void UninitMenus();
 
+	// languages
+	static void InitLanguages();
+
 	// events
 	static int OnModulesLoaded(WPARAM, LPARAM);
 
@@ -80,6 +83,8 @@ private:
 	char *password;
 	RequestQueue *requestQueue;
 	std::map<std::string, std::string> cookies;
+
+	static std::map<std::tstring, std::tstring> languages;
 
 	static INT_PTR CALLBACK PasswordEditorProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -151,6 +156,7 @@ private:
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
+	void LoadContactsAuth(const NETLIBHTTPREQUEST *response);
 	void LoadContactsInfo(const NETLIBHTTPREQUEST *response);
 	void LoadContactList(const NETLIBHTTPREQUEST *response);
 
