@@ -180,54 +180,49 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new, 
 	return ret;
 }
 
-TCHAR *GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
+TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 {
 	if (n == NULL || tmplt == NULL || tmplt[0] == _T('\0'))
 		return NULL;
 
-	TCHAR *str = (TCHAR *)mir_alloc(2048 * sizeof(TCHAR));
-	str[0] = _T('\0');
+	CMString res;
 	size_t len = mir_tstrlen(tmplt);
 
-	TCHAR tmp[1024];
 	for (size_t i = 0; i < len; i++) {
-		tmp[0] = _T('\0');
-
 		if (tmplt[i] == _T('%')) {
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
 				if (n->compare == COMPARE_DEL || mir_tstrcmp(n->newstatusmsg, TranslateT("<no status message>")) == 0)
-					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
+					res.Append(TranslateT("<no status message>"));
 				else
-					mir_tstrncpy(tmp, ptrT(AddCR(n->newstatusmsg)), SIZEOF(tmp));
+					res.Append(ptrT(AddCR(n->newstatusmsg)));
 				break;
 
 			case 'o':
 				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || _tcscmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
-					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
+					res.Append(TranslateT("<no status message>"));
 				else
-					mir_tstrncpy(tmp, ptrT(AddCR(n->oldstatusmsg)), SIZEOF(tmp));
+					res.Append(ptrT(AddCR(n->oldstatusmsg)));
 				break;
 
 			case 'c':
 				if (n->hContact == NULL)
-					mir_tstrncpy(tmp, TranslateT("Contact"), SIZEOF(tmp));
+					res.Append(TranslateT("Contact"));
 				else
-					mir_tstrncpy(tmp, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)n->hContact, GCDNF_TCHAR), SIZEOF(tmp));
+					res.Append((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)n->hContact, GCDNF_TCHAR));
 				break;
 
 			case 's':
 				if (n->hContact == NULL)
-					mir_tstrncpy(tmp, TranslateT("<unknown>"), SIZEOF(tmp));
+					res.Append(TranslateT("<unknown>"));
 				else
-
-					mir_tstrncpy(tmp, StatusList[Index(db_get_w(n->hContact, n->proto, "Status", ID_STATUS_ONLINE))].lpzStandardText, SIZEOF(tmp));
+					res.Append(StatusList[Index(db_get_w(n->hContact, n->proto, "Status", ID_STATUS_ONLINE))].lpzStandardText);
 				break;
 
 			default:
 				i--;
-				tmp[0] = tmplt[i], tmp[1] = _T('\0');
+				res.AppendChar(tmplt[i]);
 				break;
 			}
 		}
@@ -235,30 +230,27 @@ TCHAR *GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
-				tmp[0] = _T('\r'), tmp[1] = _T('\n'), tmp[2] = _T('\0');
+				res.AppendChar('\r');
+				res.AppendChar('\n');
 				break;
 			case 't':
-				tmp[0] = _T('\t'), tmp[1] = _T('\0');
+				res.AppendChar('\t');
 				break;
 			default:
 				i--;
-				tmp[0] = tmplt[i], tmp[1] = _T('\0');
+				res.AppendChar(tmplt[i]);
 				break;
 			}
 		}
-		else tmp[0] = tmplt[i], tmp[1] = _T('\0');
-
-		if (tmp[0] != _T('\0')) {
-			if (mir_tstrlen(tmp) + mir_tstrlen(str) < 2044)
-				mir_tstrcat(str, tmp);
-			else {
-				mir_tstrcat(str, _T("..."));
-				break;
-			}
-		}
+		else res.AppendChar(tmplt[i]);
 	}
 
-	return str;
+	if (res.GetLength() > 2044) {
+		res.Truncate(2044);
+		res.Append(_T("..."));
+	}
+
+	return mir_tstrndup(res, res.GetLength());
 }
 
 bool SkipHiddenContact(MCONTACT hContact)
