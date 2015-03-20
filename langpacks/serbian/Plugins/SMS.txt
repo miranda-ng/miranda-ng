@@ -1,0 +1,27 @@
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;============================================================
+;  File: SMS.dll
+;  Plugin: SMS
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+[&Close]
+&Zatvori
+[From:]
+Od koga:
+[To:]
+Kome:
+[&Send]
+&Slanje
+[&Cancel]
+&Otkazivanje
+[Events]
+Događaji
+[View User's History]
+Vidi istoriju korisnika
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Broj telefona trebalo bi da počne sa + i sadrži isključivo brojeve, razmake, zagrade i crtice.
+[Invalid Phone Number]
+Unos broja telefona nije odgovarajući
+[Invalid phone number]
+Unos broja telefona nije odgovarajući

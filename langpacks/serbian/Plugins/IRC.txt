@@ -1,0 +1,63 @@
+﻿#muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: 0.11.0.2
+;  Authors: Miranda team
+;============================================================
+[&Add]
+&Dodati
+[&Edit]
+&Izmeni
+[Nick]
+Nadimak
+[System]
+Sistem
+[Other]
+Ostalo
+[Version]
+Verzija
+[&Close]
+&Zatvori
+[Name]
+Naziv
+[&Cancel]
+&Otkazivanje
+[On]
+Uklj.
+[Off]
+Isklj.
+[Network]
+Mreža
+[none]
+Nema
+[&Deny]
+&Odbij autorizaciju
+[Messages]
+Poruke
+[Notices]
+naznake
+[Password:]
+Šifra
+[Unknown]
+Nepoznati
+[Ignore]
+Ignorisati
+[Nickname]
+Nadimak
+[Add]
+Dodaj
+[Apply]
+Primeni
+[Rename]
+Promena naziva
+[Edit]
+Izmeni
+[Cancel]
+Otkazivanje
+[ALL NETWORKS]
+Sve mreže
+[Advanced]
+Napredno
+[Offline]
+Odsutan

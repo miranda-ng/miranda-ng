@@ -1,0 +1,9 @@
+﻿#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+;============================================================
+;  File: QuickReplies.dll
+;  Plugin: Quick replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
+;============================================================
+[Message Sessions]
+Celi razgovori

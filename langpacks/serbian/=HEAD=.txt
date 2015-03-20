@@ -1,0 +1,6 @@
+﻿Miranda Language Pack Version 1
+Language: Serbian (SR)
+Locale: 081A
+Authors: vultures
+Author-email: okrimnemir@hotmail.com
+Last-Modified-Using: Miranda NG 0.95.3

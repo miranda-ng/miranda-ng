@@ -1,0 +1,7 @@
+﻿#muuid {60e94b84-a799-4021-9449-5b838fc06a7c}
+;============================================================
+;  File: RemovePersonalSettings.dll
+;  Plugin: Remove Personal Settings
+;  Version: 0.1.0.4
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================

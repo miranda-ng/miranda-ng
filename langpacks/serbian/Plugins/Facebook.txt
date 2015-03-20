@@ -1,0 +1,35 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.2.10.5
+;  Authors: Michal Zelinka, Robert Pösel
+;============================================================
+[E-mail:]
+E-mail:
+[Password:]
+Šifra
+[Cancel]
+Otkazivanje
+[User details]
+O korisniku
+[Contacts]
+Kontakti
+[Other events]
+Ostali događaji
+[Messages]
+Poruke
+[User &details]
+Detalji &korisnika
+[Default]
+Standardno
+[files]
+Datoteke
+[%s is typing a message...]
+%s kuca poruku...
+[Network]
+Mreža
+[Events]
+Događaji
+[Messaging]
+Poruke

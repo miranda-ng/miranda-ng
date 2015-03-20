@@ -1,0 +1,7 @@
+﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+;============================================================
+;  File: AutoRun.dll
+;  Plugin: AutoRun
+;  Version: 0.1.0.1
+;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
+;============================================================

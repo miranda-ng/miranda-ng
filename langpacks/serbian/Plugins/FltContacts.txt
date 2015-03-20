@@ -1,0 +1,41 @@
+﻿#muuid {53c715a8-eb01-4136-a73c-441868610074}
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating contacts
+;  Version: 0.7.0.1
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+[pixels]
+pikseli
+[seconds]
+sekundi
+[Single click interface]
+Odabir jednim klikom
+[Dim idle contacts]
+Zatamni neaktivne kontakte
+[Background]
+Pozadina
+[Stretch to width]
+Razvuci po širini
+[Stretch to height]
+Razvuci po visini
+[Tile horizontally]
+Napravi horizontalne pločice
+[Tile vertically]
+Napravi vertikalne pročice
+[Stretch proportionally]
+Razvuci proporcionalno
+[Opacity:]
+Neprozirnost:
+[Standard contacts]
+Klasični kontakti
+[Online contacts to whom you have a different visibility]
+Kontakti (na vezi) sa posebnim podešavanjem vidljivosti
+[Offline contacts]
+Kontakti koji nisu na vezi
+[Offline contacts to whom you have a different visibility]
+Kontakti (nisu na vezi) sa posebnim podešavanjem vidljivosti
+[Contacts which are 'not on list']
+Kontakti 'van spiska korisnika'
+[Contact list]
+Spisak kontakata

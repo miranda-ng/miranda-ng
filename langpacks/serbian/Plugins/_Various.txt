@@ -1,0 +1,60 @@
+﻿;==============================================================================================================
+;  This file is for lines that jpgen.js doesn't add to english templates but nevertheless must be translated.
+;==============================================================================================================
+;==============================================================================
+;  Clist_modern
+;==============================================================================
+[Show main menu]
+Glavni meni
+[Minimize Miranda]
+Spustiti Mirandu
+;==============================================================================
+;  Popup
+;==============================================================================
+[Flat borders]
+Ravne ivice
+[Draw gradient background]
+Postepeno ispunjena pozadina
+[Show icon]
+Prikaži ikonicu
+[Show avatars]
+Prikaži avatare
+[Error (colors only)]
+Greška (samo boje)
+[Notification (colors only)]
+Obaveštenje (samo boje)
+[Warning (colors only)]
+Upozorenje (samo boje)
+;==============================================================================
+;  Various actions and tipper items not included in source code.
+;==============================================================================
+[Last seen:]
+Poslednji put primećen(a):
+[Online since:]
+Na vezi od:
+[Away since:]
+Neaktivan od:
+[NA since:]
+Nedostupan od:
+[Registered:]
+Registrovan:
+[Idle ago:]
+Pasivan od:
+[Messages received]
+Primljenih poruka
+[Messages sent]
+Poslatih poruka
+[Total messages: %sys:msg_count_all%]
+Ukupno poruka: %sys:msg_count_all%
+[Last message: (%sys:last_msg_reltime% along)]
+Poslednja poruka: (%sys:last_msg_reltime% назад)
+[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
+(primljeno: %sys:msg_count_in%, послано: %sys:msg_count_out%)
+[Coordinates]
+Koordinate
+[Import from database]
+Uvezi iz baze podataka
+[Current = %r\\nPrevious = %p]
+Sadašnje = %r\\nPrethodno = %p
+[Langpack reload]
+Ponovo učitaj jezik

@@ -1,0 +1,13 @@
+﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+[sec]
+sek
+[Message sessions]
+Celi razgovori
+[All Files]
+Sve datoteke

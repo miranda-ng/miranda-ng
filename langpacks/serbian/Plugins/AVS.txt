@@ -1,0 +1,33 @@
+﻿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.95.3.4
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Delete]
+Briši
+[Reset]
+Reset
+[Cancel]
+Otkazivanje
+[Options]
+Podešavanja
+[Background]
+Pozadina
+[Set]
+Izbor
+[Avatars]
+Avatari
+[Contacts]
+Kontakti
+[All Files]
+Sve datoteke
+[Windows Bitmaps]
+Bitmap slike Windows OS-a
+[JPEG Bitmaps]
+JPEG slike
+[GIF Bitmaps]
+GIF slike
+[PNG Bitmaps]
+PNG slike

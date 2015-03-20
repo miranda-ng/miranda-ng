@@ -1,0 +1,23 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.4
+;  Authors: Bethoven
+;============================================================
+[Name:]
+Ime:
+[Set]
+Izbor
+[Show main menu]
+Glavni meni
+[Find/add contacts]
+Pronađi/Dodaj kontakt
+[Disable groups]
+Onemogući grupe
+[Exit]
+Izlaz
+[Default]
+Standardno
+[Contact list]
+Spisak kontakata

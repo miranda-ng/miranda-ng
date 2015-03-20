@@ -1,0 +1,11 @@
+﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;============================================================
+;  File: RecentContacts.dll
+;  Plugin: Recent contacts
+;  Version: 0.0.2.1
+;  Authors: ValeraVi, Kildor
+;============================================================
+[Contacts]
+Kontakti
+[Contact]
+Kontakt

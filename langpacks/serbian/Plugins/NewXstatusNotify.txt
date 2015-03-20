@@ -1,0 +1,71 @@
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
+;============================================================
+;  File: NewXstatusNotify.dll
+;  Plugin: xStatus notify
+;  Version: 1.4.0.10
+;  Authors: Luca Santarelli, Vasilich, yaho
+;============================================================
+[Online]
+Prisutan
+[Offline]
+Odsutan
+[Invisible]
+Nevidljiv
+[Free for chat]
+Spreman za razgovor
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Out to lunch]
+Na ručku
+[On the phone]
+Telefoniram
+[Configure]
+Podešavanja
+[Delete]
+Briši
+[Sounds]
+Zvukovi
+[Popups]
+Balončići
+[Background]
+Pozadina
+[Text]
+Tekst
+[Use custom colors]
+Naknadno odabrane boje
+[Use Windows colors]
+Boje operativnog sistema
+[Sec]
+sek
+[Reset]
+Reset
+[Cancel]
+Otkazivanje
+[General]
+Uopšteno
+[Accounts]
+Nalozi
+[Sound files]
+Zvučne datoteke
+[All files]
+Sve datoteke
+[Status]
+Status
+[** All contacts **]
+** Svi kontakti **
+[Contact]
+Kontakt
+[<unknown>]
+<nepoznato>
+[connecting]
+Povezivanje
+[All Files]
+Sve datoteke
+[Log]
+Log

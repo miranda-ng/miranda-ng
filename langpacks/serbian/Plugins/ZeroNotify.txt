@@ -1,0 +1,9 @@
+﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+;============================================================
+;  File: ZeroNotify.dll
+;  Plugin: Zero notifications
+;  Version: 0.0.0.5
+;  Authors: bidyut, Maat
+;============================================================
+[Plugins]
+Plug-inovi

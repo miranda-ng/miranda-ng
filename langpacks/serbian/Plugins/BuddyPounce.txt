@@ -1,0 +1,33 @@
+﻿#muuid {a9e9c114-84b9-434b-a3d5-89921d39ddff}
+;============================================================
+;  File: BuddyPounce.dll
+;  Plugin: Buddy pounce
+;  Version: 0.3.2.1
+;  Authors: Jonathan Gordon
+;============================================================
+[Cancel]
+Otkazivanje
+[Advanced >>]
+Napredno >>
+[Status]
+Status
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free For Chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[On The Phone]
+Telefoniram
+[Out To Lunch]
+Na ručku
+[Message Sessions]
+Celi razgovori

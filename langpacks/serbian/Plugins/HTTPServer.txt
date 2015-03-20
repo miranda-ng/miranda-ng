@@ -1,0 +1,15 @@
+﻿#muuid {67848b07-83d2-49e9-8844-7e3de268e304}
+;============================================================
+;  File: HTTPServer.dll
+;  Plugin: HTTPServer
+;  Version: 0.1.2.2
+;  Authors: Kennet Nielsen, modified by Vampik, Houdini
+;============================================================
+[Set to default]
+Vrati na standardno
+[&Copy link]
+Kopiraj li&nk
+[All files]
+Sve datoteke
+[Network]
+Mreža

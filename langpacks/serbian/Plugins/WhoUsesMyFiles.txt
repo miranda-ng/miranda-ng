@@ -1,0 +1,19 @@
+﻿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;============================================================
+;  File: WhoUsesMyFiles.dll
+;  Plugin: Who Use My Files
+;  Version: 0.1.0.3
+;  Authors: Nikolay Redko
+;============================================================
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Use windows colors]
+Boje operativnog sistema
+[File]
+Datoteka
+[Error]
+Greška
+[Popups]
+Balončići

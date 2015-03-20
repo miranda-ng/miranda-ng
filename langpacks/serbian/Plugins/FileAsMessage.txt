@@ -1,0 +1,17 @@
+﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;============================================================
+;  File: FileAsMessage.dll
+;  Plugin: File as message
+;  Version: 0.0.2.4
+;  Authors: Denis Stanishevskiy
+;============================================================
+[Size:]
+Veličina:
+[bytes]
+bajtova
+[Sending...]
+Slanje...
+[Receiving...]
+Prijem...
+[Events]
+Događaji

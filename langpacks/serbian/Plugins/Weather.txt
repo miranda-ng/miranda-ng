@@ -1,0 +1,57 @@
+﻿#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.2
+;  Authors: Miranda NG Team
+;============================================================
+[Close]
+Zatvori
+[Options]
+Podešavanja
+[Visibility]
+Vidljivost
+[Cancel]
+Otkazivanje
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Use Windows colors]
+Boje operativnog sistema
+[seconds]
+sekundi
+[Default]
+Standardno
+[Alerts]
+Upozorenja
+[Contact List]
+Spisak kontakata
+[Reset]
+Reset
+[City:]
+Grad:
+[Reset to default]
+Vrati na standardno
+[Text Files]
+Tekstualne datoteke
+[All Files]
+Sve datoteke
+[Name]
+Naziv
+[Items]
+Elementi
+[Name:]
+Ime:
+[bytes]
+bajtova
+[Description:]
+Opis:
+[Network]
+Mreža
+[General]
+Uopšteno
+[Popups]
+Balončići
+[Information]
+Obaveštenje

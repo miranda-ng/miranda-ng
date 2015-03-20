@@ -1,0 +1,299 @@
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Modern contact list
+;  Version: 0.9.1.2
+;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
+;============================================================
+[Show counts of number of contacts in a group]
+Prikaz broja kontakata u grupi
+[Hide group counts when there are none online]
+Sakriti broj kada su svi odsutni
+[Always on top]
+Uvek na vrhu
+[seconds]
+sekundi
+[Fade contact list in/out]
+Postepeno skrivanje spiska kontakata
+[Transparent contact list]
+Providni spisak kontakata
+[Inactive opacity:]
+Neprozirnost (neaktivno):
+[Active opacity:]
+Neprozirnost (aktivno):
+[Show avatars]
+Prikaži avatare
+[Show protocol names]
+Prikaži nazive protokola
+[Show status text]
+Prikaži tekst statusa
+[Stretch to width]
+Razvuci po širini
+[Stretch to height]
+Razvuci po visini
+[Tile horizontally]
+Napravi horizontalne pločice
+[Tile vertically]
+Napravi vertikalne pročice
+[Scroll with text]
+Skrol uporedo sa tekstom
+[Stretch proportionally]
+Razvuci proporcionalno
+[Use Windows colors]
+Boje operativnog sistema
+[Apply]
+Primeni
+[Cancel]
+Otkazivanje
+[Protocol]
+Protokol
+[Group]
+Grupa
+[Status bar]
+Statusna traka
+[Show status bar]
+Prikaži statusnu traku
+[Make sections equal width]
+Odeljci jednake širine
+[Right click opens status menu]
+Desni klik - opcije statusa
+[Right click opens Miranda menu]
+Desni klik - glavne Miranda opcije
+[Delete contact]
+Brisanje kontakta
+[No]
+Ne
+[Yes]
+Da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Brisanje iz liste vidljivih kontakata, čuvanje istorije i ignorisanje kontakta
+[Use Options->Contacts->Ignore to unhide contacts.]
+Putem Podešavanja->Kontakti->Ignorisani podešavaš vidljivost.
+[Are you sure you want to delete %s?]
+%s se briše sa spiska. Potvrda?
+[This will erase all history and settings for this contact!]
+Ovim se brišu sva podešavanja i istorija datog kontakta!
+[Hide offline users]
+Sakrij odsutne
+[Hide empty groups]
+Sakrij prazne grupe
+[Disable groups]
+Onemogući grupe
+[Ask before deleting contacts]
+Pitaj pre brisanja kontakata
+[Contact list]
+Spisak kontakata
+[Contact list sorting]
+Sortiranje spiska kontakata
+[Gamma correction]
+Gamma - podešavanje
+[Default]
+Standardno
+[Automatically resize window to height of list]
+Uklopiti visinu prozora dužini spiska
+[maximum]
+Maksimum
+[% of screen]
+% ekrana
+[Size upwards]
+Širi ka vrhu
+[Easy move]
+Jednostavno pomeranje
+[pixels]
+pikseli
+[Always visible]
+Uvek vidljiv
+[Items]
+Elementi
+[Show divider between online and offline contacts]
+Razdvojiti linijom prisutne i odsutne kontakte
+[Hot track items as mouse passes over]
+Obeležavanje prevlačenjem kursora
+[Disable drag and drop of items]
+Onemogući prevlačenje i spuštanje elemenata
+[Disable rename of items by clicking twice]
+Onemogući promenu imena elementa dvoklikom
+[Show selection even when list is not focused]
+Zadrži odabir i u neaktivnom spisku
+[Make selection highlight translucent]
+Prozirna selekcija
+[Dim idle contacts]
+Zatamni neaktivne kontakte
+['Hide offline' means to hide:]
+'Sakriti odsutne' znači:
+[Groups]
+Grupe
+[Draw a line alongside group names]
+Oivičiti nazive grupa
+[Sort groups alphabetically]
+Sortiraj grupe alfabetnim redosledom
+[Indent groups by:]
+Razmak između grupa:
+[Visual]
+Vizuelne postavke
+[Scroll list smoothly]
+Tečni skrol
+[Time:]
+Vreme:
+[milliseconds]
+milisekunde
+[Single click interface]
+Odabir jednim klikom
+[Always show status in tooltip]
+Prikazati sve statuse u balonu
+[Disable icon blinking]
+Isključi žmiganje ikonica
+[System tray icon]
+Ikonica u tray-u
+[Pin to desktop]
+Lepljenje na desktop
+[Show menu bar]
+Prikazati meni
+[Show title bar]
+Prikaz naslovne trake
+[Title bar text:]
+Tekst u naslovoj traci
+[Tool style main window]
+Stil panela glavnog prozora
+[Minimize to tray]
+Spustiti u tray
+[Translucency options]
+Podešavanja prozirnosti
+[Frames]
+Okviri
+[Left margin:]
+Leva margina:
+[Status]
+Status
+[Nickname]
+Nadimak
+[Options]
+Podešavanja
+[&Main menu]
+Glavni &meni
+[E&xit]
+&Izlaz
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Odsutan\tCtrl+0
+[On&line\tCtrl+1]
+&Prisutan\tCtrl+1
+[&Away\tCtrl+2]
+&Neaktivan\tCtrl+2
+[&NA\tCtrl+3]
+N&edostupan\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Zauzet\tCtrl+4
+[&DND\tCtrl+5]
+Ne &Uznemiravati\tCtrl+5
+[&Free for chat\tCtrl+6]
+Spreman za &razgovor\tCtrl+7
+[&Invisible\tCtrl+7]
+Ne&vidljiv\tCtrl+7
+[On the &phone\tCtrl+8]
+Na &telefonu\tCtrl+8
+[Out to &lunch\tCtrl+9]
+N&a ručku\tCtrl+9
+[Tray]
+Tray
+[&Hide/Show]
+&Sakriti/Prikazati
+[Nowhere]
+Nigde
+[&New group]
+&Nova grupa
+[&Hide offline users]
+S&kloniti odsutne
+[Hide &offline users out here]
+Skloniti &odsutne kontakte pri grupi
+[Hide &empty groups]
+Skloniti &prazne grupe
+[Disable &groups]
+Ne koristiti &grupe
+[Hide Miranda]
+Sakriti Miranda prozor
+[&New subgroup]
+&Napravi grupu
+[&Hide offline users in here]
+Skloniti &odsutne kontakte ove grupe
+[&Rename group]
+&Preimenovati grupu
+[&Delete group]
+&Izbrisati grupu
+[List background]
+Pozadina spiska
+[Contact names]
+Kontakti
+[Standard contacts]
+Klasični kontakti
+[Offline contacts]
+Kontakti koji nisu na vezi
+[Online contacts to whom you have a different visibility]
+Kontakti (na vezi) sa posebnim podešavanjem vidljivosti
+[Offline contacts to whom you have a different visibility]
+Kontakti (nisu na vezi) sa posebnim podešavanjem vidljivosti
+[Dividers]
+Razdvajanje linijom
+[Background]
+Pozadina
+[Selected text]
+Odabran tekst
+[Not focused]
+Van fokusa
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[Out to lunch]
+Na ručku
+[On the phone]
+Telefoniram
+[Name]
+Naziv
+[General]
+Uopšteno
+[List]
+Spisak
+[Window]
+Prozor
+[None]
+Nema
+[Text]
+Tekst
+[Extra icons]
+Dodatne ikonice
+[(Unknown contact)]
+(Nepoznat kontakt)
+[&Hide/show]
+&Sakriti/Prikazati
+[&Find/add contacts...]
+%Pretraži/dodaj kontakte...
+[&Options...]
+&Podešavanja...
+[You need an image services plugin to process PNG images.]
+Potreban je plug-in za baratanje PNG slikama.
+[Error]
+Greška
+[Main menu]
+Glavni meni
+[Status menu]
+Izbor statusa
+[Accounts]
+Nalozi
+[Find user]
+Pronađi korisnika
+[New group]
+Nova grupa

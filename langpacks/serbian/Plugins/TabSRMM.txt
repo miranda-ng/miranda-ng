@@ -1,0 +1,377 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+;============================================================
+;  File: TabSRMM.dll
+;  Plugin: TabSRMM
+;  Version: 3.4.0.9
+;  Authors: The Miranda developers team and contributors
+;============================================================
+[Cancel]
+Otkazivanje
+[Actions]
+Akcije
+[Messages]
+Poruke
+[Nick changes]
+Promene nadimka
+[Users joining]
+Pridošle korisnike
+[Users leaving]
+Otišle korisnike
+[Topic changes]
+Izmene tema
+[Status changes]
+Izmene statusa
+[Information]
+Obaveštenje
+[Disconnects]
+Prekide veze
+[User kicks]
+Izbačene korisnike
+[Notices]
+naznake
+[Tray]
+Tray
+[Options]
+Podešavanja
+[Add new rooms to group:]
+Dodaj nove sobe u grupu:
+[Enable logging to disk]
+Omogući log na disku
+[Log directory]
+Log folder
+[Your name]
+Vaše ime
+[Other name]
+Drugi naziv
+[List]
+Spisak
+[&Message]
+&Poruka
+[Log]
+Log
+[Clear lo&g]
+&Obrisati log
+[Co&py all]
+Ko&piranje svega
+[Word lookup]
+Pronađi reč
+[Wikipedia]
+Vikipedija
+[Link]
+Link
+[Open a &new browser window]
+Otvoriti u &novom prozoru brauzera
+[&Open in current browser window]
+Otvoriti u &trenutnom prozoru brauzera
+[&Copy link]
+Kopiraj li&nk
+[Message]
+Poruka
+[Undo]
+Undo
+[Redo]
+Ponovo
+[Copy]
+Kopiranje
+[Cut]
+Izmesti
+[Paste]
+Ubaci
+[Select all]
+Izaberi sve
+[Clear]
+Izbriši sve
+[Tabs]
+Jezičci
+[&Close tab]
+&Zatvori jezičak
+[C&lose other tabs]
+Z&atvori ostale jezičke
+[&Open at this position]
+&Otvori na ovom mestu
+[&Cancel]
+&Otkazivanje
+[&Send]
+&Slanje
+[&Add]
+&Dodati
+[&Remove]
+&Obriši
+[seconds]
+sekundi
+[Text]
+Tekst
+[Background]
+Pozadina
+[Group chats]
+Sobe za razgovor
+[events]
+Događaji
+[Apply]
+Primeni
+[Load history events]
+Učitaj ranije događaje
+[Load unread events only]
+Učitaj samo nepročitane ranije događaje
+[Load number of previous events]
+Učitaj određen broj ranijih događaja
+[Load previous events less than]
+Učitaj broj ranijih događaja, na osnovu
+[minutes old]
+minuta starosti
+[Typing notification]
+Obaveštenje o kucanju
+[Send typing notifications to the following users when you are typing a message to them:]
+Slanje obaveštenja o kucanju poruke odabranim korisnicima
+[Show typing notification when no message dialog is open]
+Prikaži obaveštenja o kucanju poruka i kada nema otvorenih razgovora
+[Delete]
+Briši
+[Rename]
+Promena naziva
+[Reset]
+Reset
+[Insert separator]
+Ubaci razdelnik
+[milliseconds]
+milisekunde
+[Popups]
+Balončići
+[Custom]
+Izmenjeno
+[Close]
+Zatvori
+[Icons]
+Ikonice
+[Yes]
+Da
+[No]
+Ne
+[Window:]
+prozor:
+[Send message on 'Enter']
+Slanje jednim 'Enter'
+[Send message on double 'Enter']
+Slanje dvostrukim 'Enter'
+[Minimize the message window on send]
+Spusti prozor nakon slanja poruke
+[Other events]
+Ostali događaji
+[&Copy]
+&Kopiranje
+[Select &all]
+&Izaberi sve
+[Open in &new window]
+Otvoriti &u novom prozoru
+[&Open in existing window]
+Otvoriti u &trenutnom prozoru
+[Default]
+Standardno
+[Global]
+Standardno
+[Off]
+Isklj.
+[&File]
+&Datoteka
+[Show menu bar]
+Prikazati meni
+[Show status bar]
+Prikaži statusnu traku
+[Help]
+Pomoć
+[View user's history]
+Vidi istoriju korisnika
+[Incoming file]
+Dolazna datoteka
+[Version]
+Verzija
+[%s is typing a message...]
+%s kuca poruku...
+[%s is typing a message]
+%s kuca poruku
+[Instant messages]
+IM komunikacija
+[Incoming (focused window)]
+Dolazne (trenutni prozor)
+[Incoming (unfocused window)]
+Dolazne (prethodni prozor)
+[Incoming (new session)]
+Dolazne (nov razgovor)
+[Outgoing]
+Odlazni
+[Message send error]
+Greška pri slanju poruke
+[Other]
+Ostalo
+[Message from %s]
+Poruka od: %s
+[Paste and send]
+Ubaci i pošalji
+[contact]
+Kontakt
+[Avatars]
+Avatari
+['(Unknown contact)']
+'(Nepoznat kontakt)'
+[** New contacts **]
+** Novi kontakti **
+[** Unknown contacts **]
+** Nepoznati kontakti **
+[Show balloon popup (unsupported system)]
+Prikaži balončiće (sistem nepodržan)
+[Message sessions]
+Celi razgovori
+[General]
+Uopšteno
+[Message log]
+Log poruke
+[Typing notify]
+Obaveštenja o kucanju
+[Smiley button]
+Smeško-dugme
+[Background color]
+Boja pozadine
+[Room settings]
+Podešavanja sobe
+[Incoming message]
+Dolazna poruka
+[Outgoing message]
+Odlazna poruka
+[Message Sessions]
+Celi razgovori
+[Message Log]
+Log poruke
+[Error]
+Greška
+[Contact]
+Kontakt
+[Status]
+Status
+[System tray icon]
+Ikonica u tray-u
+[Close the message window on send]
+Zatvori prozor nakon slanja poruke
+[Contact started typing]
+Kontakt kuca poruku
+[Contact stopped typing]
+Kontakt prestaje sa kucanjem
+[%s has joined]
+Ulazak: %s
+[You have joined %s]
+Ulaziš na : %s
+[%s has left]
+Izlazak: %s
+[%s has disconnected]
+%s je prekinuo vezu
+[%s is now known as %s]
+%s menja nadimak u: %s
+[You are now known as %s]
+Menjaš nadimak u: %s
+[%s kicked %s]
+%s izbacuje: %s
+[Notice from %s: ]
+%s ostavlja naznaku:
+[The topic is '%s%s']
+Tema je '%s%s'
+[ (set by %s on %s)]
+ (%s je postavlja u: %s)
+[ (set by %s)]
+ (%s je postavlja)
+[%s enables '%s' status for %s]
+%s postavlja '%s' status za: %s
+[%s disables '%s' status for %s]
+%s uklanja '%s' status za: %s
+[Nickname]
+Nadimak
+[Protocol]
+Protokol
+[Flash window when someone speaks]
+Žmiganje prozora usled razgovora
+[Flash window when a word is highlighted]
+Žmiganje prozora kada je reč istaknuta
+[Show list of users in the chat room]
+Spisak korisnika u prozoru pričaonice
+[Show button menus when right clicking the buttons]
+Prikaz opcija menija desnim klikom na tastere prozora
+[Do not pop up the window when joining a chat room]
+Ne prikazuj prozor pričaonice odmah po ulasku
+[Prefix all events with a timestamp]
+Svi događaji imaju vremensku oznaku
+[Timestamp has same color as the event]
+Događaj i vremenska oznaka u istoj boji
+[Indent the second line of a message]
+Indentacija druge linije poruke
+[Limit user names in the message log to 20 characters]
+Korisnička imena u log-u imaju do 20 znakova
+[Strip colors from messages in the log]
+Log-ovi su jednobojni
+[Enable the 'event filter' for new rooms]
+Događaji u novim sobama za razgovor imaju filtere
+[Window Icon]
+Ikonica prozora
+[Icon overlay]
+Iscrtavanje ikonice
+[Status 1 (10x10)]
+Status 1 (10x10)
+[Status 2 (10x10)]
+Status 2 (10x10)
+[Status 3 (10x10)]
+Status 3 (10x10)
+[Status 4 (10x10)]
+Status 4 (10x10)
+[Status 5 (10x10)]
+Status 5 (10x10)
+[Status 6 (10x10)]
+Status 6 (10x10)
+[Message in (10x10)]
+Primljena poruka (10х10)
+[Message out (10x10)]
+Poslata poruka (10х10)
+[Action (10x10)]
+Akcija (10x10)
+[Add Status (10x10)]
+Postavljen status (10х10)
+[Join (10x10)]
+Dolazak (10x10)
+[Leave (10x10)]
+Odlazak (10х10)
+[Quit (10x10)]
+Izlaz (10х10)
+[Kick (10x10)]
+Izbacivanje (10х10)
+[Notice (10x10)]
+Naznaka (10х10)
+[Topic (10x10)]
+Tema (10х10)
+[Highlight (10x10)]
+Istaknuto (10х10)
+[Information (10x10)]
+Informacija (10х10)
+[Appearance and functionality of chat room windows]
+Izgled i ponašanje prozora soba za razgovor
+[Appearance of the message log]
+Izgled log-a
+[Selected text]
+Odabran tekst
+[Nick list background]
+Pozadina spiska korisnika
+[Group chat log background]
+Pozadina loga grupnog razgovora
+[All files]
+Sve datoteke
+[Select folder]
+Izbor foldera
+[Look up '%s':]
+Pronađi '%s':
+[No word to look up]
+Nije navedena reč za pretragu
+[&Message %s]
+&Poruka %s
+[Unique ID]
+Jedinstveni broj (ID)
+[Nick]
+Nadimak
+[%s: message session]
+%s: razgovor
+[%s: message session (%u users)]
+%s: razgovor (%u korisnik(a))

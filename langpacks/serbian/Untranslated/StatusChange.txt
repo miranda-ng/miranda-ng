@@ -1,0 +1,8 @@
+﻿[Change status when you send/receive an event.]
+[On events...]
+[Send]
+[Receive]
+[File transfer]
+[...change status to...]
+[...if status is...]
+[Status Change]

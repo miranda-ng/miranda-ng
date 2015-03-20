@@ -1,0 +1,35 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu item ext
+;  Version: 1.3.0.10
+;  Authors: Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel
+;============================================================
+[&Send]
+&Slanje
+[&Cancel]
+&Otkazivanje
+[Visibility]
+Vidljivost
+[Ignore]
+Ignorisati
+[Request Authorization]
+Zatraži autorizaciju
+[Always visible]
+Uvek vidljiv
+[Messages]
+Poruke
+[URL]
+Link
+[Files]
+Datoteke
+[User Online]
+Korisnik na vezi
+[You Were Added]
+Vaš kontakt je dodat
+[Typing Notify]
+Obaveštenja o kucanju
+[Request authorization]
+Zatraži autorizaciju
+[Customize]
+Podešavanja

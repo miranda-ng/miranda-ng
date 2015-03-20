@@ -1,0 +1,33 @@
+﻿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;============================================================
+;  File: Msg_Export.dll
+;  Plugin: Message export
+;  Version: 3.1.0.3
+;  Authors: Kennet Nielsen, mod by ring0
+;============================================================
+[Help]
+Pomoć
+[&Find...]
+&Pronađi...
+[&Close]
+&Zatvori
+[User &details]
+Detalji &korisnika
+[Copy]
+Kopiranje
+[Failed to create file]
+Datoteka nije kreirana
+[File]
+Datoteka
+[Nick]
+Nadimak
+[Executable files]
+Izvršne datoteke
+[All files]
+Sve datoteke
+[History]
+Istorija
+[General]
+Uopšteno
+[(Unknown Contact)]
+(Nepoznat kontakt)

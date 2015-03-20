@@ -1,0 +1,31 @@
+﻿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;============================================================
+;  File: Nudge.dll
+;  Plugin: Nudge
+;  Version: 0.1.0.1
+;  Authors: Tweety/GouZ, FREAK_THEMIGHTY
+;============================================================
+[Text]
+Tekst
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[On the phone]
+Telefoniram
+[Out to lunch]
+Na ručku
+[Events]
+Događaji

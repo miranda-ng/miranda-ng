@@ -1,0 +1,93 @@
+﻿#muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
+;============================================================
+;  File: NewAwaySys.dll
+;  Plugin: New Away System Mod
+;  Version: 0.4.0.3
+;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
+;============================================================
+[Sec]
+sek
+[Background]
+Pozadina
+[Text]
+Tekst
+[&Delete]
+&Brisanje
+[Delete]
+Briši
+[Status messages:]
+Statusne poruke:
+[seconds]
+sekundi
+[%s message for %s]
+%s poruka za %s
+[Retrieving %s message...]
+Preuzimanje poruke od "%s"...
+[&Cancel]
+&Otkazivanje
+[&Rename]
+&Promeni naziv
+[Message]
+Poruka
+[URL]
+Link
+[File]
+Datoteka
+[** All contacts **]
+** Svi kontakti **
+[Status messages]
+Statusna poruka
+[Contacts]
+Kontakti
+[Online]
+Prisutan
+[Yep, I'm here.]
+Da, tu sam.
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Give it up, I'm not in!]
+Nema svrhe, nisam tu!
+[Occupied]
+Zauzet
+[Not right now.]
+Ne sad.
+[DND]
+Ne uznemiravaj
+[Give a guy some peace, would ya?]
+Iskuliraj, važi?
+[Free for chat]
+Spreman za razgovor
+[I'm a chatbot!]
+Ja sam čet-manijak!
+[Invisible]
+Nevidljiv
+[I'm hiding from the mafia.]
+Skrivam se od mafije.
+[On the phone]
+Telefoniram
+[Out to lunch]
+Na ručku
+[Toggle On]
+Uključi
+[Toggle Off]
+Isključi
+[Re&ad %s message]
+Čitaj &poruku od: "%s"
+[On]
+Uklj.
+[Off]
+Isklj.
+[Status]
+Status
+[Popups]
+Balončići
+[&Close]
+&Zatvori
+[Apply]
+Primeni
+[for]
+u toku
+[Closing in %d]
+Zatvaram (%d)

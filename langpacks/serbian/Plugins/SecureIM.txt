@@ -1,0 +1,43 @@
+﻿#muuid {1B2A39E5-E2F6-494D-958D-1808FD110DD5}
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: Johell, Ghost, Nightwish, __alex, Baloo
+;============================================================
+[sec]
+sek
+[Text]
+Tekst
+[Events]
+Događaji
+[Username:]
+Korisničko ime:
+[Password:]
+Šifra
+[Cancel]
+Otkazivanje
+[Status]
+Status
+[General]
+Uopšteno
+[Nickname]
+Nadimak
+[Name]
+Naziv
+[ON]
+Uklj.
+[Off]
+Isklj.
+[Contact List]
+Spisak kontakata
+[Contact Menu]
+Meni kontakta
+[Popups]
+Balončići
+[Icons]
+Ikonice
+[Executable Files]
+Izvršne datoteke
+[All files]
+Sve datoteke

@@ -1,0 +1,17 @@
+﻿#muuid {e99a09b2-e05b-4633-aa3a-5c83ef1cbab6}
+;============================================================
+;  File: MirFox.dll
+;  Plugin: MirFox
+;  Version: 0.5.0.0
+;  Authors: Szymon Tokarz
+;============================================================
+[** All contacts **]
+** Svi kontakti **
+[Protocol]
+Protokol
+[Options]
+Podešavanja
+[Contacts]
+Kontakti
+[Accounts]
+Nalozi

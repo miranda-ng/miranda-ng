@@ -1,0 +1,61 @@
+﻿#muuid {748f8934-781a-528d-5208-001265404ab3}
+;============================================================
+;  File: Tlen.dll
+;  Plugin: Tlen protocol
+;  Version: 2.1.0.0
+;  Authors: Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki
+;============================================================
+[Username:]
+Korisničko ime:
+[Password:]
+Šifra
+[Create new account]
+Otvaranje naloga
+[Options]
+Podešavanja
+[Port:]
+Port:
+[Background]
+Pozadina
+[Text]
+Tekst
+[Cancel]
+Otkazivanje
+[Nickname:]
+Nadimak:
+[First name:]
+Ime:
+[Last name:]
+Prezime:
+[E-mail:]
+E-mail:
+[Gender:]
+Pol:
+[City:]
+Grad:
+[Age:]
+Godine:
+[to]
+U
+[From:]
+Od koga:
+[Group chats]
+Sobe za razgovor
+[Request authorization]
+Zatraži autorizaciju
+[Grant authorization]
+Autorizuj
+[%d Files]
+%d datoteka
+[General]
+Uopšteno
+[Advanced]
+Napredno
+[Network]
+Mreža
+[E-mail]
+E-mail
+[none]
+Nema
+[Default]
+Standardno

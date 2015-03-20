@@ -1,0 +1,15 @@
+﻿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Password:]
+Šifra
+[Cancel]
+Otkazivanje
+[Events]
+Događaji
+[Advanced]
+Napredno

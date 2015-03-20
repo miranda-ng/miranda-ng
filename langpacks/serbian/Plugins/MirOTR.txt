@@ -1,0 +1,29 @@
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: Miranda OTR
+;  Version: 0.11.0.5
+;  Authors: ProgAndy & CHEF-KOCH
+;============================================================
+[&Cancel]
+&Otkazivanje
+[&No]
+&Ne
+[&Yes]
+&Da
+[Yes]
+Da
+[No]
+Ne
+[Unknown]
+Nepoznati
+[General]
+Uopšteno
+[Contacts]
+Kontakti
+[Contact]
+Kontakt
+[Protocol]
+Protokol
+[Default]
+Standardno

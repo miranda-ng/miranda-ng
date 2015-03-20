@@ -1,0 +1,53 @@
+﻿#muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: 2.1.0.7
+;  Authors: Scott Ellis, yaho
+;============================================================
+[Window]
+Prozor
+[Options]
+Podešavanja
+[Cancel]
+Otkazivanje
+[Items]
+Elementi
+[Add]
+Dodaj
+[Remove]
+Ukloni
+[Edit]
+Izmeni
+[Extra icons]
+Dodatne ikonice
+[None]
+Nema
+[Customize]
+Podešavanja
+[Status]
+Status
+[%s (locked)]
+%s (zaključano)
+[Other]
+Ostalo
+[Gender:]
+Pol:
+[Homepage:]
+Web Stranica:
+[Idle]
+Pasivni režim
+[Name]
+Naziv
+[Name:]
+Ime:
+[Time:]
+Vreme:
+[Background]
+Pozadina
+[Dividers]
+Razdvajanje linijom
+[Female]
+Žensko
+[Male]
+Muško

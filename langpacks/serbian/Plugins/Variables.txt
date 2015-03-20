@@ -1,0 +1,17 @@
+﻿#muuid {59b0036e-5403-422e-883b-c9aaf425682b}
+;============================================================
+;  File: Variables.dll
+;  Plugin: Variables
+;  Version: 0.2.3.10
+;  Authors: P Boon
+;============================================================
+[Close]
+Zatvori
+[Notes]
+Beleške
+[Cancel]
+Otkazivanje
+[Help]
+Pomoć
+[Metacontacts]
+Metakontakti

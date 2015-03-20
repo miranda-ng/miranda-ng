@@ -1,0 +1,79 @@
+﻿#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;============================================================
+;  File: GG.dll
+;  Plugin: Gadu-Gadu protocol
+;  Version: 0.11.0.3
+;  Authors: Bartosz Bialek, Adam Strzelecki
+;============================================================
+[Password:]
+Šifra
+[E-mail:]
+E-mail:
+[Create new account]
+Otvaranje naloga
+[Remove account]
+Izbriši nalog
+[Options]
+Podešavanja
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Kako bi podešavanja stupila na snagu, morate se ponovo konektovati.
+[Port:]
+Port:
+[Host:]
+Host:
+[First name:]
+Ime:
+[Last name:]
+Prezime:
+[Nickname:]
+Nadimak:
+[Gender:]
+Pol:
+[City:]
+Grad:
+[Description:]
+Opis:
+[Cancel]
+Otkazivanje
+[&Create]
+%Napravi
+[Remove]
+Ukloni
+[to:]
+Kome:
+[&Close]
+&Zatvori
+[&Send]
+&Slanje
+[Unknown]
+Nepoznati
+[Age:]
+Godine:
+[Me]
+Ja
+[Male]
+Muško
+[Female]
+Žensko
+[<not specified>]
+<neodređeno>
+[Network]
+Mreža
+[General]
+Uopšteno
+[Advanced]
+Napredno
+[System tray icon]
+Ikonica u tray-u
+[Ignore]
+Ignorisati
+[Contact list]
+Spisak kontakata
+[Text files]
+Tekstualne datoteke
+[All Files]
+Sve datoteke
+[contacts]
+Kontakti
+[Error]
+Greška

@@ -1,0 +1,11 @@
+﻿#muuid {2f3fe8b9-7327-4008-a60d-93f0f4f7f0f1}
+;============================================================
+;  File: YahooGroups.dll
+;  Plugin: Yahoo groups
+;  Version: 0.0.1.1
+;  Authors: Cristian Libotean
+;============================================================
+[Plugins]
+Plug-inovi
+[Warning]
+Upozorenje

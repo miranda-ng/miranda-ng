@@ -1,0 +1,29 @@
+﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom status list
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[Cancel]
+Otkazivanje
+[Status]
+Status
+[Add]
+Dodaj
+[Modify]
+Izmeni
+[Warning]
+Upozorenje
+[Message]
+Poruka
+[Main Menu]
+Glavni meni
+[Remove]
+Ukloni
+[Undo changes]
+Ne pamti izmene
+[Clear]
+Izbriši sve
+[Set]
+Izbor

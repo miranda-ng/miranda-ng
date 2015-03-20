@@ -1,0 +1,23 @@
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy expectator
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Background]
+Pozadina
+[Text]
+Tekst
+[Use Windows colors]
+Boje operativnog sistema
+[Default]
+Standardno
+[Custom]
+Izmenjeno
+[sec]
+sek
+[Contacts]
+Kontakti
+[Popups]
+Balončići

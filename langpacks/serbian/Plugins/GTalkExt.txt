@@ -1,0 +1,15 @@
+﻿#muuid {08B86253-EC6E-4d09-B7A9-64ACDF0627B8}
+;============================================================
+;  File: GTalkExt.dll
+;  Plugin: GTalk Extension
+;  Version: 0.1.1.0
+;  Authors: bems
+;============================================================
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Popups]
+Balončići
+[Network]
+Mreža

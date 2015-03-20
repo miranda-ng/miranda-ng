@@ -1,0 +1,19 @@
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: YAPP.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.12
+;  Authors: Scott Ellis
+;============================================================
+[Close]
+Zatvori
+[Options]
+Podešavanja
+[Status]
+Status
+[Error]
+Greška
+[Popups]
+Balončići
+[Background]
+Pozadina

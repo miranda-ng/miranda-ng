@@ -1,0 +1,143 @@
+﻿#muuid {9c23a24b-e6aa-43c6-b0b8-d6c36d2f7b57}
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: User info ext
+;  Version: 0.8.5.0
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
+[Updating]
+Osvežava se
+[Cancel]
+Otkazivanje
+[Apply]
+Primeni
+[Nick:]
+Nadimak:
+[First name:]
+Ime:
+[Last name:]
+Prezime:
+[Female]
+Žensko
+[Male]
+Muško
+[Marital status:]
+Bračno stanje:
+[Street:]
+Ulica:
+[Postal code:]
+Poštanski fah:
+[City:]
+Grad:
+[Country:]
+Država (ostali):
+[Timezone:]
+Vremenska zona:
+[Company:]
+Firma:
+[Department:]
+Služba:
+[Position:]
+Pozicija:
+[Add phone number]
+Dodaj broj telefona
+[Enter country, area code and phone number:]
+Unos (država, pozivni broj i telefon:
+[Or enter a full international number:]
+Ili unos međunarodnog broja telefona:
+[Phone can receive SMS text messages]
+Telefon prima SMS poruke
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Use Windows colors]
+Boje operativnog sistema
+[Use default colors]
+Standardne boje
+[Custom]
+Izmenjeno
+[Homepage:]
+Web Stranica:
+[Delete]
+Briši
+[Icons]
+Ikonice
+[Metacontacts]
+Metakontakti
+[None]
+Nema
+[Main menu]
+Glavni meni
+[Off]
+Isklj.
+[Contact menu]
+Meni kontakta
+[Extra icons]
+Dodatne ikonice
+[E-mail]
+E-mail
+[Age:]
+Godine:
+[Unspecified]
+Nije navedeno
+[Edit phone number]
+Izmeni broj telefona
+[Other]
+Ostalo
+[<Unspecified>]
+<nije navedeno>
+[Contact]
+Kontakt
+[Yes]
+Da
+[No]
+Ne
+[Ignore]
+Ignorisati
+[Error]
+Greška
+[General]
+Uopšteno
+[Work]
+Posao
+[Profile]
+Profil
+[Notes]
+Beleške
+[Owner]
+Vlasnik
+[updating]
+Osvežava se
+[Default]
+Standardno
+[Fax]
+Faks
+[Down arrow]
+Strelica na dole
+[Add]
+Dodaj
+[Edit]
+Izmeni
+[Search]
+Pretraga
+[User &details]
+Detalji &korisnika
+[View/change my &details...]
+Pregledaj/menjaj &detalje...
+[My notes:]
+Moje beleške:
+[About:]
+Informacija:
+[Contacts]
+Kontakti
+[Advanced]
+Napredno
+[Popups]
+Balončići
+['(Unknown Contact)']
+'(Nepoznat kontakt)'
+[Send e-mail]
+Slanje e-maila
+[Complete]
+Dovršene

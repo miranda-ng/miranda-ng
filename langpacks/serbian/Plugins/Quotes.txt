@@ -1,0 +1,29 @@
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.26.0
+;  Authors: Dioksin
+;============================================================
+[Log]
+Log
+[Cancel]
+Otkazivanje
+[Close]
+Zatvori
+[Use default colors]
+Standardne boje
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Custom]
+Izmenjeno
+[&Add]
+&Dodati
+[&Remove]
+&Obriši
+[Seconds]
+sekundi
+[Network]
+Mreža

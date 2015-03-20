@@ -1,0 +1,55 @@
+﻿#muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
+;============================================================
+;  File: WinterSpeak.dll
+;  Plugin: WinterSpeak
+;  Version: 0.9.8.3
+;  Authors: Ryan Winter, BlubbFish
+;============================================================
+[Status Changes]
+Izmene statusa
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[DND]
+Ne uznemiravaj
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[Incoming message]
+Dolazna poruka
+[Incoming URL]
+Dolazni link
+[Incoming File]
+Dolazna datoteka
+[Authorization request]
+Zahtev za autorizaciju.
+[Status messages]
+Statusna poruka
+[The following events are being ignored:]
+Ignorišu se događaji:
+[Messages]
+Poruke
+[Online Notification]
+Obaveštenja (onlajn)
+[All Events]
+Svi događaji
+[None]
+Nema
+[Add]
+Dodaj
+[Remove]
+Ukloni
+[** All contacts **]
+** Svi kontakti **
+[** Unknown contacts **]
+** Nepoznati kontakti **
+[Message Session]
+Razgovor

@@ -1,0 +1,7 @@
+﻿[Remove status (10x10)]
+[&E-mail]
+[ID]
+[Ctrl + ]
+[Alt + ]
+[Shift + ]
+[Win + ]

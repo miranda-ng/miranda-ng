@@ -1,0 +1,47 @@
+﻿#muuid {9502e511-7e5d-49a1-8ba5-b1aee70fa5bf}
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+[URL]
+Link
+[Protocol]
+Protokol
+[Menu items]
+Opcije Menija
+[Other]
+Ostalo
+[Summary]
+Rezime
+[To:]
+Kome:
+[Nick]
+Nadimak
+[Close]
+Zatvori
+[Options]
+Podešavanja
+[Select All]
+Izaberi sve
+[Cancel]
+Otkazivanje
+[Rename]
+Promena naziva
+[Overwrite]
+Prekopirati
+[Resume]
+Nastavi
+[CANCELED]
+Otkazano
+[CONNECTING...]
+Uspostavljanje veze...
+[CREATED]
+Napravljeno
+[UNKNOWN]
+Nepoznati
+[Accounts]
+Nalozi
+[Advanced]
+Napredno

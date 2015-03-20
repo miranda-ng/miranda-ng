@@ -1,0 +1,23 @@
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Auto shutdown
+;  Version: 1.4.0.2
+;  Authors: H. Herkenrath
+;============================================================
+[seconds]
+sekundi
+[Configure]
+Podešavanja
+[Cancel]
+Otkazivanje
+[Background]
+Pozadina
+[Events]
+Događaji
+[Minute(s)]
+minut(a)
+[Unknown]
+Nepoznati
+[Alerts]
+Upozorenja

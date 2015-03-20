@@ -1,0 +1,15 @@
+﻿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: Pack updater
+;  Version: 0.1.0.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Cancel]
+Otkazivanje
+[Text]
+Tekst
+[Sec]
+sek
+[Popups]
+Balončići

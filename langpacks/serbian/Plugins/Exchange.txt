@@ -1,0 +1,19 @@
+﻿#muuid {2fd0df15-7098-41ce-aa92-ff621806e38b}
+;============================================================
+;  File: Exchange.dll
+;  Plugin: Exchange
+;  Version: 0.1.3.4
+;  Authors: Cristian Libotean, Attila Vajda, MaKaR (NG)
+;============================================================
+[Close]
+Zatvori
+[Username:]
+Korisničko ime:
+[Password:]
+Šifra
+[seconds]
+sekundi
+[Sender]
+Pošiljalac
+[Plugins]
+Plug-inovi

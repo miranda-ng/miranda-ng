@@ -1,0 +1,39 @@
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+;============================================================
+;  File: Yahoo.dll
+;  Plugin: Yahoo protocol
+;  Version: 0.11.0.1
+;  Authors: Gennady Feldman
+;============================================================
+[Password:]
+Šifra
+[Nick:]
+Nadimak:
+[Show Avatars]
+Prikaži avatare
+[Port:]
+Port:
+[Reset]
+Reset
+[&Add]
+&Dodati
+[&Remove]
+&Obriši
+[Cancel]
+Otkazivanje
+[&Deny]
+&Odbij autorizaciju
+[&Cancel]
+&Otkazivanje
+[Add]
+Dodaj
+[Me]
+Ja
+[User &details]
+Detalji &korisnika
+[Profile]
+Profil
+[The message send timed out.]
+Rok poruke istekao.
+[Network]
+Mreža

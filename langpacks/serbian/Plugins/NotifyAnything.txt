@@ -1,0 +1,15 @@
+﻿#muuid {e92874ec-594a-4a2f-bded-c0be8b5a45d1}
+;============================================================
+;  File: NotifyAnything.dll
+;  Plugin: NotifyAnything
+;  Version: 0.0.2.8
+;  Authors: Daniel Wesslen, Korney San
+;============================================================
+[Port:]
+Port:
+[Password:]
+Šifra
+[Error]
+Greška
+[Plugins]
+Plug-inovi

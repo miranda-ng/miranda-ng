@@ -1,0 +1,9 @@
+﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;============================================================
+;  File: QuickContacts.dll
+;  Plugin: Quick contacts
+;  Version: 1.0.0.0
+;  Authors: Ricardo Pescuma Domenecci, Heiko Schillinger
+;============================================================
+[Contacts]
+Kontakti

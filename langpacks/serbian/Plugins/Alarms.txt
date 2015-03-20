@@ -1,0 +1,33 @@
+﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Delete]
+Briši
+[Edit]
+Izmeni
+[Row height:]
+Visina reda:
+[Cancel]
+Otkazivanje
+[Description:]
+Opis:
+[Actions]
+Akcije
+[&Delete]
+&Brisanje
+[&Options...]
+&Podešavanja...
+[Background]
+Pozadina
+[Window]
+Prozor
+[Frames]
+Okviri
+[Error]
+Greška
+[Events]
+Događaji

@@ -1,0 +1,65 @@
+﻿#muuid {9b8e1735-970d-4ce0-930c-a561956bdca2}
+;============================================================
+;  File: Xfire.dll
+;  Plugin: Xfire protocol
+;  Version: 0.1.9.0
+;  Authors: dufte
+;============================================================
+[Password:]
+Šifra
+[Nick:]
+Nadimak:
+[Options]
+Podešavanja
+[More options]
+Dodatne opcije
+[Files]
+Datoteke
+[Apply]
+Primeni
+[Remove]
+Ukloni
+[Username:]
+Korisničko ime:
+[Name:]
+Ime:
+[Port:]
+Port:
+[User details]
+O korisniku
+[Copy]
+Kopiranje
+[Cancel]
+Otkazivanje
+[Search:]
+Pretraga:
+[All Files]
+Sve datoteke
+[Yep, I'm here.]
+Da, tu sam.
+[I've been away since %time%.]
+Nisam tu još od %time%.
+[Give it up, I'm not in!]
+Nema svrhe, nisam tu!
+[Not right now.]
+Ne sad.
+[Give a guy some peace, would ya?]
+Iskuliraj, važi?
+[That'll be the phone.]
+Mislim da je to bio telefon.
+[Mmm... food.]
+Mmm... hrana.
+[Username]
+Korisničko ime
+[Avatars]
+Avatari
+[General]
+Uopšteno
+[No]
+Ne
+[<Root Group>]
+<Glavna grupa (root)>
+[Network]
+Mreža
+[<not specified>]
+<neodređeno>

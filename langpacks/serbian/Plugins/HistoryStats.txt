@@ -1,0 +1,61 @@
+﻿#muuid {f184f5a0-c198-4454-a9b4-f6e2fd534133}
+;============================================================
+;  File: HistoryStats.dll
+;  Plugin: HistoryStats
+;  Version: 0.2.0.4
+;  Authors: Martin Afanasjew
+;============================================================
+[Cancel]
+Otkazivanje
+[Add]
+Dodaj
+[Contacts]
+Kontakti
+[Close]
+Zatvori
+[Apply]
+Primeni
+[Incoming messages]
+Dolazne poruke
+[Outgoing messages]
+Odlazne poruke
+[Maximum]
+Maksimum
+[(unknown)]
+(Nepoznato)
+[URLs]
+Linkovi
+[Files]
+Datoteke
+[Events]
+Događaji
+[Group]
+Grupa
+[Messages]
+Poruke
+[Outgoing]
+Odlazni
+[Incoming]
+Pristigle
+[Nick]
+Nadimak
+[Protocol]
+Protokol
+[incoming messages]
+Dolazne poruke
+[outgoing messages]
+Odlazne poruke
+[Global]
+Standardno
+[** All contacts **]
+** Svi kontakti **
+[Contact menu]
+Meni kontakta
+[Configure...]
+Podešavanja...
+[History]
+Istorija
+[(Unknown)]
+(Nepoznato)
+[none]
+Nema

@@ -1,0 +1,67 @@
+﻿#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: Mail Notifier
+;  Version: 0.1.2.6
+;  Authors: y_b, tweety, majvan
+;============================================================
+[Description:]
+Opis:
+[Copyright:]
+Prava (Licenca):
+[Name:]
+Ime:
+[Port:]
+Port:
+[Password:]
+Šifra
+[Default]
+Standardno
+[Options]
+Podešavanja
+[Message]
+Poruka
+[Cancel]
+Otkazivanje
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[On the phone]
+Telefoniram
+[Out to lunch]
+Na ručku
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Nick]
+Nadimak
+[Select All]
+Izaberi sve
+[Size]
+Veličina
+[Network]
+Mreža
+[Accounts]
+Nalozi
+[General]
+Uopšteno
+[Plugins]
+Plug-inovi
+[Popups]
+Balončići
+[New Account]
+Novi nalog
+[All Files]
+Sve datoteke

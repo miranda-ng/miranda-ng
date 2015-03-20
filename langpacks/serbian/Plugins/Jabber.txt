@@ -1,0 +1,157 @@
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber protocol
+;  Version: 0.11.0.4
+;  Authors: George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura
+;============================================================
+[Cancel]
+Otkazivanje
+[Type:]
+Vrsta:
+[Password:]
+Šifra
+[Username:]
+Korisničko ime:
+[Port:]
+Port:
+[Host:]
+Host:
+[Complete]
+Dovršene
+[City:]
+Grad:
+[State:]
+Država (USA):
+[Country:]
+Država (ostali):
+[Nickname:]
+Nadimak:
+[First name:]
+Ime:
+[Last name:]
+Prezime:
+[Date of birth:]
+Datum rođenja:
+[Gender:]
+Pol:
+[Homepage:]
+Web Stranica:
+[Company:]
+Firma:
+[Department:]
+Služba:
+[E-mail:]
+E-mail:
+[Phone:]
+Broj tel:
+[Work]
+Posao
+[Fax]
+Faks
+[Delete]
+Briši
+[Description:]
+Opis:
+[Add]
+Dodaj
+[Remove]
+Ukloni
+[Edit]
+Izmeni
+[Close]
+Zatvori
+[URL]
+Link
+[Messages]
+Poruke
+[Authorization request]
+Zahtev za autorizaciju.
+[Nickname]
+Nadimak
+[None]
+Nema
+[Owner]
+Vlasnik
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[User &details]
+Detalji &korisnika
+[Status icons]
+Ikonica statusa
+[Notes]
+Beleške
+[Request authorization]
+Zatraži autorizaciju
+[Grant authorization]
+Autorizuj
+[Revoke authorization]
+Ukloni autorizaciju
+[To]
+U
+[Are you sure?]
+Potpuno ste sigurni?
+[Nauru]
+Nauru
+[Messaging]
+Poruke
+[Other]
+Ostalo
+[General]
+Uopšteno
+[Status changes]
+Izmene statusa
+[Group]
+Grupa
+[Connecting...]
+Uspostavljanje veze...
+[Network]
+Mreža
+[Advanced]
+Napredno
+[<none>]
+<ništa>
+[Message]
+Poruka
+[messages]
+Poruke
+[Status]
+Status
+[Invisible]
+Nevidljiv
+[Offline]
+Odsutan
+[Nick:]
+Nadimak:
+[<not specified>]
+<neodređeno>
+[Version]
+Verzija
+[System]
+Sistem
+[unknown]
+Nepoznati
+[to]
+U
+[none]
+Nema
+[Copy]
+Kopiranje
+[Error]
+Greška
+[Male]
+Muško
+[Female]
+Žensko
+[Contacts]
+Kontakti
+[on the phone]
+Telefoniram

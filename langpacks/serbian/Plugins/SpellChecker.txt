@@ -1,0 +1,17 @@
+﻿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell checker
+;  Version: 0.2.6.2
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Remove]
+Ukloni
+[Cancel]
+Otkazivanje
+[Advanced]
+Napredno
+[Message Sessions]
+Celi razgovori
+[Unknown]
+Nepoznati

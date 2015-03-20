@@ -1,0 +1,43 @@
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.2
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[Copy]
+Kopiranje
+[Select All]
+Izaberi sve
+[Options]
+Podešavanja
+[Size:]
+Veličina:
+[Scroll with text]
+Skrol uporedo sa tekstom
+[Show seconds]
+Prikaži sekunde
+[Incoming File Transfer]
+Pristigla datoteka
+[(Unknown Contact)]
+(Nepoznat kontakt)
+[Error]
+Greška
+[General]
+Uopšteno
+[Message Log]
+Log poruke
+[Group chats]
+Sobe za razgovor
+[History]
+Istorija
+[Default]
+Standardno
+[Message Sessions]
+Celi razgovori
+[All Files]
+Sve datoteke
+[File sent]
+Datoteka je poslata
+[File received]
+Preuzeta datoteka

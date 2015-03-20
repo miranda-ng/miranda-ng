@@ -1,0 +1,25 @@
+﻿#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter protocol
+;  Version: 1.1.0.3
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Username:]
+Korisničko ime:
+[Cancel]
+Otkazivanje
+[sec]
+sek
+[Use Windows colors]
+Boje operativnog sistema
+[Use custom colors]
+Naknadno odabrane boje
+[Text]
+Tekst
+[Custom]
+Izmenjeno
+[Network]
+Mreža
+[Popups]
+Balončići

@@ -1,0 +1,14 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;============================================================
+;  File: Watrack.dll
+;  Plugin: Winamp Track
+;  Version: 0.0.6.12
+;  Authors: Awkward
+;============================================================
+[Text effect]
+Dekoracija teksta
+[Context menu]
+Kontekstni meni
+[none]
+Nema
+;other strings

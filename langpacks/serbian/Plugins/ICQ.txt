@@ -1,0 +1,537 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;============================================================
+;  File: ICQ.dll
+;  Plugin: IcqOscarJ protocol
+;  Version: 0.11.3.1
+;  Authors: Joe Kucera, Bio, Martin Öberg, Richard Hughes, Jon Keating, etc.
+;============================================================
+[Password:]
+Šifra
+[&Send]
+&Slanje
+[&Cancel]
+&Otkazivanje
+[Cancel]
+Otkazivanje
+[Port:]
+Port:
+[Default]
+Standardno
+[Messaging]
+Poruke
+[Options]
+Podešavanja
+[Text Color]
+Boja teksta
+[Warning]
+Upozorenje
+[Error]
+Greška
+[Use default colors]
+Standardne boje
+[Online since:]
+Na vezi od:
+[Summary]
+Rezime
+[Nickname:]
+Nadimak:
+[First name:]
+Ime:
+[Last name:]
+Prezime:
+[E-mail:]
+E-mail:
+[Gender:]
+Pol:
+[Age:]
+Godine:
+[Marital status:]
+Bračno stanje:
+[Work]
+Posao
+[Company:]
+Firma:
+[Department:]
+Služba:
+[Position:]
+Pozicija:
+[Location]
+Mesto
+[Country:]
+Država (ostali):
+[State:]
+Država (USA):
+[City:]
+Grad:
+[Background info]
+Bio
+[Other]
+Ostalo
+[Closing in %d]
+Zatvaram (%d)
+[Afghanistan]
+Avganistan
+[Albania]
+Albanija
+[Algeria]
+Alžir
+[Andorra]
+Andora
+[Angola]
+Angola
+[Anguilla]
+Angila
+[Antigua and Barbuda]
+Antigva i Barbuda
+[Argentina]
+Argentina
+[Armenia]
+Jermenija
+[Aruba]
+Aruba
+[Australia]
+Australija
+[Austria]
+Austrija
+[Azerbaijan]
+Azerbejdžan
+[Bahamas]
+Bahami
+[Bahrain]
+Bahrein
+[Bangladesh]
+Bangladeš
+[Barbados]
+Barbados
+[Belarus]
+Belorusija
+[Belgium]
+Belgija
+[Belize]
+Belize
+[Benin]
+Benin
+[Bermuda]
+Bermudska O.
+[Bhutan]
+Butan
+[Bolivia]
+Bolivija
+[Bosnia and Herzegovina]
+BiH
+[Botswana]
+Bocvana
+[Brazil]
+Brazil
+[Brunei]
+Brunej
+[Bulgaria]
+Bugarska
+[Burkina Faso]
+Burkina Faso
+[Burundi]
+Burundi
+[Cambodia]
+Kambodža
+[Cameroon]
+Kamerun
+[Canada]
+Kanada
+[Cape Verde]
+Kape Verde
+[Cayman Islands]
+Kajmanska Ostrva
+[Central African Republic]
+Centralnoafrička Republika
+[Chad]
+Čad
+[Chile]
+Čile
+[China]
+NR Kina
+[Colombia]
+Kolumbija
+[Comoros]
+Komorska O.
+[Congo, Democratic Republic of the]
+DR Kongo
+[Congo, Republic of the]
+Republika Kongo
+[Cook Islands]
+Kukova Ostrva
+[Costa Rica]
+Kosta Rika
+[Cote d'Ivoire]
+Obala Slonovače
+[Croatia]
+Hrvatska
+[Cuba]
+Kuba
+[Czech Republic]
+Češka
+[Denmark]
+Danska
+[Djibouti]
+Džibuti
+[Dominica]
+Dominika
+[Dominican Republic]
+Dominikanska Republika
+[Ecuador]
+Ekvador
+[Egypt]
+Egipat
+[El Salvador]
+El Salvador
+[Equatorial Guinea]
+Ekvatorijalna Gvineja
+[Eritrea]
+Eritreja
+[Estonia]
+Estonija
+[Ethiopia]
+Etiopija
+[Faroe Islands]
+Farska O.
+[Fiji]
+Fidži
+[Finland]
+Finska
+[France]
+Francuska
+[French Guiana]
+Francuska Gvajana
+[French Polynesia]
+Francuska Polinezija
+[Gabon]
+Gabon
+[Gambia]
+Gambija
+[Georgia]
+Gruzija
+[Germany]
+Nemačka
+[Ghana]
+Gana
+[Gibraltar]
+Gibraltar
+[Greece]
+Grčka
+[Greenland]
+Grenland
+[Grenada]
+Granada
+[Guadeloupe]
+Gvadalupe
+[Guatemala]
+Gvatemala
+[Guinea]
+Gvineja
+[Guinea-Bissau]
+Gvineja Bisao
+[Guyana]
+Gajana
+[Haiti]
+Haiti
+[Honduras]
+Honduras
+[Hong Kong]
+Hong-Kong
+[Hungary]
+Mađarska
+[Iceland]
+Island
+[India]
+Indija
+[Indonesia]
+Indonezija
+[Iran]
+Iran
+[Iraq]
+Irak
+[Ireland]
+Irska
+[Israel]
+Izrael
+[Italy]
+Italija
+[Jamaica]
+Jamajka
+[Japan]
+Japan
+[Jordan]
+Jordan
+[Kazakhstan]
+Kazahstan
+[Kenya]
+Kenija
+[Kiribati]
+Kiribati
+[Kuwait]
+Kuvajt
+[Kyrgyzstan]
+Kirgistan
+[Laos]
+Laos
+[Latvia]
+Letonija
+[Lebanon]
+Liban
+[Lesotho]
+Lesoto
+[Liberia]
+Liberija
+[Libya]
+Libija
+[Liechtenstein]
+Lihtenštajn
+[Lithuania]
+Litvanija
+[Luxembourg]
+Luksemburg
+[Macau]
+Makao
+[Madagascar]
+Madagaskar
+[Malawi]
+Malavi
+[Malaysia]
+Malezija
+[Maldives]
+Maldivi
+[Mali]
+Mali
+[Malta]
+Malta
+[Marshall Islands]
+Maršalska O.
+[Martinique]
+Martinik
+[Mauritania]
+Mauritanija
+[Mauritius]
+Mauricijus
+[Mayotte]
+Majoti
+[Mexico]
+Meksiko
+[Micronesia, Federated States of]
+Mikronezija (FS)
+[Moldova]
+Moldavija
+[Monaco]
+Monako
+[Mongolia]
+Mongolija
+[Montserrat]
+Montserat
+[Morocco]
+Maroko
+[Mozambique]
+Mozambik
+[Myanmar]
+Mianmar (Burma)
+[Namibia]
+Namibija
+[Nauru]
+Nauru
+[Nepal]
+Nepal
+[Netherlands]
+Holandija
+[Curacao]
+Kurakao
+[New Caledonia]
+Nova kaledonija
+[New Zealand]
+Novi Zeland
+[Nicaragua]
+Nikaragva
+[Niger]
+Niger
+[Nigeria]
+Nigerija
+[Niue]
+Niue
+[Norway]
+Norveška
+[Oman]
+Oman
+[Pakistan]
+Pakistan
+[Palau]
+Palau
+[Panama]
+Panama
+[Papua New Guinea]
+Papua Nova Gvineja
+[Paraguay]
+Paragvaj
+[Peru]
+Peru
+[Philippines]
+Filipini
+[Poland]
+Poljska
+[Portugal]
+Portugalija
+[Puerto Rico]
+Portoriko
+[Qatar]
+Katar
+[Reunion]
+Rijunion O.
+[Romania]
+Rumunija
+[Russia]
+Rusija
+[Rwanda]
+Ruanda
+[Saint Kitts and Nevis]
+Sent Kits i Nevis
+[Saint Lucia]
+Sent Lusija
+[Saint Pierre and Miquelon]
+Sent Pjer i Mikelon
+[Saint Vincent and the Grenadines]
+Sent Vincent i Grenadini
+[San Marino]
+San Marino
+[Sao Tome and Principe]
+Sao Tome i Prinsipe
+[Saudi Arabia]
+Saudijska Arabija
+[Senegal]
+Senegal
+[Seychelles]
+Sejšelska O.
+[Sierra Leone]
+Sijera Leone
+[Singapore]
+Singapur
+[Slovakia]
+Slovačka
+[Slovenia]
+Slovenija
+[Solomon Islands]
+Solomonova O.
+[Somalia]
+Somalija
+[South Africa]
+Južnoafrička Republika
+[Spain]
+Španija
+[Sri Lanka]
+Šri Lanka
+[Sudan]
+Sudan
+[Suriname]
+Surinam
+[Swaziland]
+Svazilend
+[Sweden]
+Švedska
+[Switzerland]
+Švajcarska
+[Syria]
+Sirija
+[Taiwan]
+Tajvan
+[Tajikistan]
+Tadžikistan
+[Tanzania]
+Tanzanija
+[Thailand]
+Tajland
+[Togo]
+Togo
+[Tokelau]
+Tokelau
+[Tonga]
+Tonga
+[Trinidad and Tobago]
+Trinidad i Tobago
+[Tunisia]
+Tunis
+[Turkey]
+Turska
+[Turkmenistan]
+Turkmenistan
+[Turks and Caicos Islands]
+Turks i Kaikos O.
+[Tuvalu]
+Tuvalu
+[Uganda]
+Uganda
+[Ukraine]
+Ukrajina
+[United Arab Emirates]
+Ujedinjeni Arapski Emirati
+[United Kingdom]
+Velika Britanija
+[Uruguay]
+Urugvaj
+[Uzbekistan]
+Uzbekistan
+[Vanuatu]
+Vanuatu
+[Vatican City]
+Vatikan
+[Venezuela]
+Venecuela
+[Vietnam]
+Vijetnam
+[Wallis and Futuna]
+Volis i Futuna O.
+[Yemen]
+Jemen
+[Serbia]
+Srbija
+[Montenegro]
+Crna Gora
+[Zambia]
+Zambija
+[Zimbabwe]
+Zimbabve
+[Female]
+Žensko
+[Male]
+Muško
+[Request authorization]
+Zatraži autorizaciju
+[Grant authorization]
+Autorizuj
+[Revoke authorization]
+Ukloni autorizaciju
+[Network]
+Mreža
+[Contacts]
+Kontakti
+[Popups]
+Balončići
+[Close]
+Zatvori
+[** All contacts **]
+** Svi kontakti **
+[On the phone]
+Telefoniram
+[Typing]
+Kucanje
+[Free for Chat]
+Spreman za razgovor
+[None]
+Nema
+[Custom Status]
+Poseban status
+[error]
+Greška
+[%d Files]
+%d datoteka
+[<invalid>]
+<pogrešno>
+[Nickname]
+Nadimak
+[Contact]
+Kontakt
+[<not specified>]
+<neodređeno>

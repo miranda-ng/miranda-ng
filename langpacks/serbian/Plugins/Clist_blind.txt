@@ -1,0 +1,225 @@
+﻿#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;============================================================
+;  File: Clist_blind.dll
+;  Plugin: BClist
+;  Version: 0.8.1.1
+;  Authors: Ricardo Pescuma Domenecci, based on previous work from Miranda IM project
+;============================================================
+[Delete contact]
+Brisanje kontakta
+[Are you sure you want to delete %s?]
+%s se briše sa spiska. Potvrda?
+[This will erase all history and settings for this contact!]
+Ovim se brišu sva podešavanja i istorija datog kontakta!
+[Yes]
+Da
+[No]
+Ne
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Brisanje iz liste vidljivih kontakata, čuvanje istorije i ignorisanje kontakta
+[Use Options->Contacts->Ignore to unhide contacts.]
+Putem Podešavanja->Kontakti->Ignorisani podešavaš vidljivost.
+[Hotkeys]
+Dostupne skraćenice
+[Hide offline users]
+Sakrij odsutne
+[Hide empty groups]
+Sakrij prazne grupe
+[Disable groups]
+Onemogući grupe
+[Ask before deleting contacts]
+Pitaj pre brisanja kontakata
+[Sort contacts by name]
+Sortiraj po imenu
+[Sort contacts by status]
+Sortiraj po statusu
+[Sort contacts by protocol]
+Sortiraj po vrsti protokola
+[Single click interface]
+Odabir jednim klikom
+[Always show status in tooltip]
+Prikazati sve statuse u balonu
+[Disable icon blinking]
+Isključi žmiganje ikonica
+[ms delay]
+Kašnjenje (ms)
+[Show]
+Prikaz
+[icon when statuses differ]
+Ikonica različitih statusa
+[Cycle icons every]
+Menjati ikonicu svakih
+[seconds, when statuses differ]
+U sekundama, kod različitih statusa
+[Show multiple icons]
+Više ikonica odjednom
+[Only when statuses differ]
+Samo kada su statusi različiti
+[Contact list]
+Spisak kontakata
+[System tray icon]
+Ikonica u tray-u
+[System tray icon when using multiple protocols]
+Ikonica u tray-u kod više protokola
+[Contact list sorting]
+Sortiranje spiska kontakata
+[Window]
+Prozor
+[Always on top]
+Uvek na vrhu
+[Tool style main window]
+Stil panela glavnog prozora
+[Minimize to tray]
+Spustiti u tray
+[Hide contact list after it has been idle for]
+Automatski ukloni listu posle mirovanja
+[seconds]
+sekundi
+[Automatically resize window to height of list]
+Uklopiti visinu prozora dužini spiska
+[maximum]
+Maksimum
+[% of screen]
+% ekrana
+[Size upwards]
+Širi ka vrhu
+[Title bar text:]
+Tekst u naslovoj traci
+[Translucency options]
+Podešavanja prozirnosti
+[Fade contact list in/out]
+Postepeno skrivanje spiska kontakata
+[Transparent contact list]
+Providni spisak kontakata
+[Inactive opacity:]
+Neprozirnost (neaktivno):
+[Active opacity:]
+Neprozirnost (aktivno):
+[Show menu bar]
+Prikazati meni
+[Easy move]
+Jednostavno pomeranje
+[Show title bar]
+Prikaz naslovne trake
+[If window is partially covered, bring to front instead of hiding]
+Ako je deo prozora prekriven, prikaz svega skrivenog
+[Show drop shadow (restart required)]
+Senčenje (potreban restart)
+[Pin to desktop]
+Lepljenje na desktop
+[Items]
+Elementi
+['Hide offline' means to hide:]
+'Sakriti odsutne' znači:
+[Groups]
+Grupe
+[Show counts of number of contacts in a group]
+Prikaz broja kontakata u grupi
+[Hide group counts when there are none online]
+Sakriti broj kada su svi odsutni
+[Sort groups alphabetically]
+Sortiraj grupe alfabetnim redosledom
+[Quick search in open groups only]
+Brza pretraga samo u otvorenim grupama
+[Group:]
+Grupa:
+[Status bar]
+Statusna traka
+[Show status bar]
+Prikaži statusnu traku
+[Show icons]
+Prikaži ikonice
+[Show protocol names]
+Prikaži nazive protokola
+[Show status text]
+Prikaži tekst statusa
+[Right click opens status menu]
+Desni klik - opcije statusa
+[Right click opens Miranda NG menu]
+Desni klik - glavne Miranda NG opcije
+[Make sections equal width]
+Odeljci jednake širine
+[Show bevels on panels]
+Ivice na panelima
+[Show resize grip indicator]
+Prikaži indikator pri razvlačenju
+[&Main menu]
+Glavni &meni
+[E&xit]
+&Izlaz
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Odsutan\tCtrl+0
+[On&line\tCtrl+1]
+&Prisutan\tCtrl+1
+[&Away\tCtrl+2]
+&Neaktivan\tCtrl+2
+[&NA\tCtrl+3]
+N&edostupan\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Zauzet\tCtrl+4
+[&DND\tCtrl+5]
+Ne &Uznemiravati\tCtrl+5
+[&Free for chat\tCtrl+6]
+Spreman za &razgovor\tCtrl+7
+[&Invisible\tCtrl+7]
+Ne&vidljiv\tCtrl+7
+[On the &phone\tCtrl+8]
+Na &telefonu\tCtrl+8
+[Out to &lunch\tCtrl+9]
+N&a ručku\tCtrl+9
+[Tray]
+Tray
+[&Hide/Show]
+&Sakriti/Prikazati
+[Nowhere]
+Nigde
+[&New group]
+&Nova grupa
+[&Hide offline users]
+S&kloniti odsutne
+[Hide &offline users out here]
+Skloniti &odsutne kontakte pri grupi
+[Hide &empty groups]
+Skloniti &prazne grupe
+[Disable &groups]
+Ne koristiti &grupe
+[Hide Miranda]
+Sakriti Miranda prozor
+[Group]
+Grupa
+[&New subgroup]
+&Napravi grupu
+[&Hide offline users in here]
+Skloniti &odsutne kontakte ove grupe
+[&Rename group]
+&Preimenovati grupu
+[&Delete group]
+&Izbrisati grupu
+[Not focused]
+Van fokusa
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[Out to lunch]
+Na ručku
+[On the phone]
+Telefoniram
+[List]
+Spisak
+[Global]
+Standardno

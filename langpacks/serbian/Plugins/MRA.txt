@@ -1,0 +1,83 @@
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA protocol
+;  Version: 2.1.0.10
+;  Authors: Rozhuk Ivan
+;============================================================
+[E-mail:]
+E-mail:
+[Password:]
+Šifra
+[Port:]
+Port:
+[Default]
+Standardno
+[Background color]
+Boja pozadine
+[Summary]
+Rezime
+[Nickname:]
+Nadimak:
+[First name:]
+Ime:
+[Last name:]
+Prezime:
+[Gender:]
+Pol:
+[Age:]
+Godine:
+[from:]
+Od koga:
+[to:]
+Kome:
+[Location]
+Mesto
+[Country:]
+Država (ostali):
+[State:]
+Država (USA):
+[City:]
+Grad:
+[Text Color]
+Boja teksta
+[Closing in %d]
+Zatvaram (%d)
+[Cancel]
+Otkazivanje
+[Male]
+Muško
+[Female]
+Žensko
+[Request authorization]
+Zatraži autorizaciju
+[Grant authorization]
+Autorizuj
+[Main Menu]
+Glavni meni
+[Contact Menu]
+Meni kontakta
+[Custom Status]
+Poseban status
+[None]
+Nema
+[Information]
+Obaveštenje
+[Warning]
+Upozorenje
+[Error]
+Greška
+[Popups]
+Balončići
+[E-mail address]
+E-mail adresa
+[Are you sure?]
+Potpuno ste sigurni?
+[Network]
+Mreža
+[Files]
+Datoteke
+[Avatars]
+Avatari
+[On the phone]
+Telefoniram
