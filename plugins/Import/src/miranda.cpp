@@ -128,8 +128,10 @@ INT_PTR CALLBACK MirandaPageProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM 
 			ofn.Flags = OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_NOCHANGEDIR | OFN_DONTADDTORECENT;
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.lpstrInitialDir = pfd;
-			if (GetOpenFileName(&ofn))
+			if (GetOpenFileName(&ofn)) {
 				SetDlgItemText(hwndDlg, IDC_FILENAME, str);
+				SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, -1, 0);
+			}
 		}
 		break;
 
@@ -157,7 +159,7 @@ INT_PTR CALLBACK MirandaOptionsPageProc(HWND hwndDlg, UINT message, WPARAM wPara
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC_CONTACTS), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_RADIO_CUSTOM), TRUE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_STATIC_CUSTOM), TRUE);
-		CheckDlgButton(hwndDlg, IDC_RADIO_COMPLETE, BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_RADIO_ALL, BST_CHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
