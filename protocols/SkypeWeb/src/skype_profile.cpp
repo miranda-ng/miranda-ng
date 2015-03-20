@@ -322,17 +322,16 @@ void CSkypeProto::UpdateProfileEmails(JSONNODE *root, MCONTACT hContact)
 	JSONNODE *node = json_get(root, "emails");
 	if (!json_empty(node))
 	{
-		JSONNODE *items = json_as_array(root), *item;
+		JSONNODE *items = json_as_array(node), *item;
 		for (size_t i = 0; i < min(json_size(items), 3); i++)
 		{
 			item = json_at(items, i);
 			if (item == NULL)
 				break;
 
-			// how to read array of string?
-			//CMStringA name(FORMAT, "e-mail%d", i);
-			//CMString value = ptrT(json_as_string(item));
-			//setTString(hContact, name, value);
+			CMStringA name(FORMAT, "e-mail%d", i);
+			CMString value = ptrT(json_as_string(item));
+			setTString(hContact, name, value);
 		}
 		json_delete(items);
 	}
