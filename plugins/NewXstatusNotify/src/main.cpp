@@ -197,23 +197,17 @@ TCHAR *GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
-				if (n->compare == COMPARE_DEL || _tcscmp(n->newstatusmsg, TranslateT("<no status message>")) == 0)
+				if (n->compare == COMPARE_DEL || mir_tstrcmp(n->newstatusmsg, TranslateT("<no status message>")) == 0)
 					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
-				else {
-					TCHAR *_tmp = AddCR(n->newstatusmsg);
-					mir_tstrncpy(tmp, _tmp, SIZEOF(tmp));
-					mir_free(_tmp);
-				}
+				else
+					mir_tstrncpy(tmp, ptrT(AddCR(n->newstatusmsg)), SIZEOF(tmp));
 				break;
 
 			case 'o':
 				if (n->oldstatusmsg == NULL || n->oldstatusmsg[0] == _T('\0') || _tcscmp(n->oldstatusmsg, TranslateT("<no status message>")) == 0)
 					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
-				else {
-					TCHAR *_tmp = AddCR(n->oldstatusmsg);
-					mir_tstrncpy(tmp, _tmp, SIZEOF(tmp));
-					mir_free(_tmp);
-				}
+				else
+					mir_tstrncpy(tmp, ptrT(AddCR(n->oldstatusmsg)), SIZEOF(tmp));
 				break;
 
 			case 'c':

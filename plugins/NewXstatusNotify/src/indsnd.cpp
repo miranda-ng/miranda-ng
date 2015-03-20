@@ -33,7 +33,7 @@ void PreviewSound(HWND hList)
 	int hlpStatus = lvi.lParam;
 
 	ListView_GetItemText(hList, lvi.iItem, 1, buff, SIZEOF(buff));
-	if (_tcscmp(buff, TranslateT(DEFAULT_SOUND)) == 0) {
+	if (!_tcscmp(buff, TranslateT(DEFAULT_SOUND))) {
 		if (hlpStatus < ID_STATUS_MIN)
 			SkinPlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
 		else
@@ -64,7 +64,7 @@ TCHAR *SelectSound(HWND hwndDlg, TCHAR *buff, size_t bufflen)
 
 	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 	ListView_GetItemText(hList, ListView_GetNextItem(hList, -1, LVNI_SELECTED), 1, buff, bufflen);
-	if (_tcscmp(buff, TranslateT(DEFAULT_SOUND)) == 0)
+	if (!mir_tstrcmp(buff, TranslateT(DEFAULT_SOUND)))
 		buff = NULL;
 
 	ofn.lStructSize = sizeof(ofn);

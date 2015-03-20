@@ -107,11 +107,9 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 			i++;
 			switch (tmplt[i]) {
 			case 'n':
-			{
 				TCHAR stzType[32];
 				mir_tstrncpy(tmp, GetStatusTypeAsString(xsc->type, stzType), SIZEOF(tmp));
-			}
-			break;
+				break;
 
 			case 't':
 				if (xsc->stzTitle == NULL || xsc->stzTitle[0] == _T('\0'))
@@ -123,18 +121,15 @@ TCHAR *ReplaceVars(XSTATUSCHANGE *xsc, const TCHAR *tmplt)
 			case 'm':
 				if (xsc->stzText == NULL || xsc->stzText[0] == _T('\0'))
 					mir_tstrncpy(tmp, TranslateT("<no status message>"), SIZEOF(tmp));
-				else {
-					TCHAR *_tmp = AddCR(xsc->stzText);
-					mir_tstrncpy(tmp, _tmp, SIZEOF(tmp));
-					mir_free(_tmp);
-				}
+				else
+					mir_tstrncpy(tmp, ptrT(AddCR(xsc->stzText)), SIZEOF(tmp));
 				break;
 
 			case 'c':
 				if (xsc->hContact == NULL)
 					mir_tstrncpy(tmp, TranslateT("Contact"), SIZEOF(tmp));
 				else
-					mir_tstrncpy(tmp, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), SIZEOF(tmp));
+					mir_tstrncpy(tmp, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GCDNF_TCHAR), SIZEOF(tmp));
 				break;
 
 			default:
@@ -184,7 +179,6 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 	switch (xsc->type) {
 	case TYPE_JABBER_MOOD:
 	case TYPE_JABBER_ACTIVITY:
-	{
 		DBVARIANT dbv;
 		char szSetting[64];
 		mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity");
@@ -193,7 +187,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 			db_free(&dbv);
 		}
 		break;
-	}
+
 	case TYPE_ICQ_XSTATUS:
 		int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
 		hIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
@@ -210,8 +204,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		_tcsncpy(buff, xsc->stzText, opt.PXMsgLen);
 		buff[opt.PXMsgLen] = 0;
 		_tcscat(buff, _T("..."));
-		mir_free(xsc->stzText);
-		xsc->stzText = mir_tstrdup(buff);
+		replaceStrT(xsc->stzText, buff);
 	}
 
 	TCHAR *Template = _T("");
@@ -226,10 +219,7 @@ void ShowXStatusPopup(XSTATUSCHANGE *xsc)
 		Template = templates.PopupXMsgRemoved; break;
 	}
 
-	TCHAR *stzPopupText = ReplaceVars(xsc, Template);
-
-	ShowChangePopup(xsc->hContact, hIcon, ID_STATUS_EXTRASTATUS, stzPopupText);
-	mir_free(stzPopupText);
+	ShowChangePopup(xsc->hContact, hIcon, ID_STATUS_EXTRASTATUS, ptrT(ReplaceVars(xsc, Template)));
 
 	if (copyText) {
 		mir_free(xsc->stzText);
@@ -306,27 +296,24 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 		Template = templates.LogXstatusOpening; break;
 	}
 
-	TCHAR *stzLogText, stzLastLog[2 * MAX_TEXT_LEN];
-	stzLogText = ReplaceVars(xsc, Template);
+	TCHAR stzLastLog[2 * MAX_TEXT_LEN];
+	ptrT stzLogText(ReplaceVars(xsc, Template));
 	DBGetStringDefault(xsc->hContact, MODULE, DB_LASTLOG, stzLastLog, SIZEOF(stzLastLog), _T(""));
 
-	//	if (!opt.KeepInHistory || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)) {
-	if (opt.XLogToDB/* || !(opt.PreventIdentical && _tcscmp(stzLastLog, stzLogText) == 0)*/) {
+	if (opt.XLogToDB) {
 		db_set_ws(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
 
-		char *blob = mir_utf8encodeT(stzLogText);
+		ptrA blob(mir_utf8encodeT(stzLogText));
 
 		DBEVENTINFO dbei = { 0 };
 		dbei.cbSize = sizeof(dbei);
 		dbei.cbBlob = (DWORD)strlen(blob) + 1;
-		dbei.pBlob = (PBYTE)blob;
+		dbei.pBlob = (PBYTE)(char*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
-
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.szModule = MODULE;
 		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);
-		mir_free(blob);
 
 		if (opt.XLogToDB_WinOpen && opt.XLogToDB_Remove) {
 			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
@@ -335,7 +322,6 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 			eventListXStatus.insert(dbevent);
 		}
 	}
-	mir_free(stzLogText);
 }
 
 void LogChangeToFile(XSTATUSCHANGE *xsc)
@@ -434,7 +420,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	FreeXSC(xsc);
 }
 
-TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int bufflen)
+TCHAR* GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int bufflen)
 {
 	TCHAR nameBuff[64];
 	buff[0] = 0;
@@ -443,16 +429,14 @@ TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int buffl
 	xstatus.cbSize = sizeof(CUSTOM_STATUS);
 	xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
 	xstatus.ptszName = nameBuff;
-	xstatus.wParam = (WPARAM *)&statusID;
-	if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus)) {
-		_tcsncpy(buff, TranslateTS(nameBuff), bufflen);
-		buff[bufflen - 1] = 0;
-	}
+	xstatus.wParam = (WPARAM*)&statusID;
+	if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
+		_tcsncpy_s(buff, bufflen, TranslateTS(nameBuff), _TRUNCATE);
 
 	return buff;
 }
 
-TCHAR *GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, TCHAR *buff, int bufflen)
+TCHAR* GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	buff[0] = 0;
@@ -473,7 +457,7 @@ TCHAR *GetIcqXStatus(MCONTACT hContact, char *szProto, char *szValue, TCHAR *buf
 	return buff;
 }
 
-TCHAR *GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, char *szValue, TCHAR *buff, int bufflen)
+TCHAR* GetJabberAdvStatusText(MCONTACT hContact, char *szProto, char *szSlot, char *szValue, TCHAR *buff, int bufflen)
 {
 	DBVARIANT dbv;
 	char szSetting[128];
