@@ -35,5 +35,7 @@ int _gcry_private_is_secure (const void *p);
 #define GCRY_SECMEM_FLAG_NO_WARNING      (1 << 0)
 #define GCRY_SECMEM_FLAG_SUSPEND_WARNING (1 << 1)
 #define GCRY_SECMEM_FLAG_NOT_LOCKED      (1 << 2)
+#define GCRY_SECMEM_FLAG_NO_MLOCK        (1 << 3)
+#define GCRY_SECMEM_FLAG_NO_PRIV_DROP    (1 << 4)
 
 #endif /* G10_SECMEM_H */

@@ -9,12 +9,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with libgpg-error; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -40,6 +40,8 @@ static const char msgstr[] =
   gettext_noop ("GPA") "\0"
   gettext_noop ("Kleopatra") "\0"
   gettext_noop ("G13") "\0"
+  gettext_noop ("Assuan") "\0"
+  gettext_noop ("TLS") "\0"
   gettext_noop ("Any source") "\0"
   gettext_noop ("User defined source 1") "\0"
   gettext_noop ("User defined source 2") "\0"
@@ -65,18 +67,21 @@ static const int msgidx[] =
     96,
     106,
     110,
+    117,
     121,
-    143,
-    165,
-    187,
-    209
+    132,
+    154,
+    176,
+    198,
+    220
   };
 
-static inline int
+static GPG_ERR_INLINE int
 msgidxof (int code)
 {
   return (0 ? 0
-  : ((code >= 0) && (code <= 14)) ? (code - 0)
-  : ((code >= 31) && (code <= 35)) ? (code - 16)
-  : 36 - 16);
+  : ((code >= 0) && (code <= 15)) ? (code - 0)
+  : ((code >= 17) && (code <= 17)) ? (code - 1)
+  : ((code >= 31) && (code <= 35)) ? (code - 14)
+  : 36 - 14);
 }

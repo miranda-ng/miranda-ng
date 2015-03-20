@@ -3,5 +3,6 @@
 
 /* Substitute for strerror - this one is thread safe.  */
 char *_gpg_w32ce_strerror (int err);
-#define strerror(a) _gpg_w32ce_strerror (a)
-
+#ifdef GPG_ERR_ENABLE_ERRNO_MACROS
+# define strerror(a) _gpg_w32ce_strerror (a)
+#endif

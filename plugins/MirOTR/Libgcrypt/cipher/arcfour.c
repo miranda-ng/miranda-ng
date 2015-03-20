@@ -34,18 +34,43 @@
 static const char *selftest(void);
 
 typedef struct {
-    int idx_i, idx_j;
     byte sbox[256];
+    int idx_i, idx_j;
 } ARCFOUR_context;
 
 static void
 do_encrypt_stream( ARCFOUR_context *ctx,
-		   byte *outbuf, const byte *inbuf, unsigned int length )
+		   byte *outbuf, const byte *inbuf, size_t length )
 {
+#ifndef __i386__
+  register unsigned int i = ctx->idx_i;
+  register byte j = ctx->idx_j;
+  register byte *sbox = ctx->sbox;
+  register byte t, u;
+
+  while ( length-- )
+    {
+      i++;
+      t = sbox[(byte)i];
+      j += t;
+      u = sbox[j];
+      sbox[(byte)i] = u;
+      u += t;
+      sbox[j] = t;
+      *outbuf++ = sbox[u] ^ *inbuf++;
+    }
+
+  ctx->idx_i = (byte)i;
+  ctx->idx_j = (byte)j;
+#else /*__i386__*/
+  /* Old implementation of arcfour is faster on i386 than the version above.
+   * This is because version above increases register pressure which on i386
+   * would push some of the variables to memory/stack.  Therefore keep this
+   * version for i386 to avoid regressing performance.  */
   register int i = ctx->idx_i;
   register int j = ctx->idx_j;
   register byte *sbox = ctx->sbox;
-  register int t;  
+  register int t;
 
   while ( length-- )
     {
@@ -56,14 +81,15 @@ do_encrypt_stream( ARCFOUR_context *ctx,
       t = sbox[i]; sbox[i] = sbox[j]; sbox[j] = t;
       *outbuf++ = *inbuf++ ^ sbox[(sbox[i] + sbox[j]) & 255];
     }
-  
+
   ctx->idx_i = i;
   ctx->idx_j = j;
+#endif
 }
 
 static void
 encrypt_stream (void *context,
-                byte *outbuf, const byte *inbuf, unsigned int length)
+                byte *outbuf, const byte *inbuf, size_t length)
 {
   ARCFOUR_context *ctx = (ARCFOUR_context *) context;
   do_encrypt_stream (ctx, outbuf, inbuf, length );
@@ -80,7 +106,7 @@ do_arcfour_setkey (void *context, const byte *key, unsigned int keylen)
   byte karr[256];
   ARCFOUR_context *ctx = (ARCFOUR_context *) context;
 
-  if (!initialized ) 
+  if (!initialized )
     {
       initialized = 1;
       selftest_failed = selftest();
@@ -96,17 +122,21 @@ do_arcfour_setkey (void *context, const byte *key, unsigned int keylen)
   ctx->idx_i = ctx->idx_j = 0;
   for (i=0; i < 256; i++ )
     ctx->sbox[i] = i;
-  for (i=0; i < 256; i++ )
-    karr[i] = key[i%keylen];
-  for (i=j=0; i < 256; i++ ) 
+  for (i=j=0; i < 256; i++,j++ )
+    {
+      if (j >= keylen)
+        j = 0;
+      karr[i] = key[j];
+    }
+  for (i=j=0; i < 256; i++ )
     {
       int t;
-      j = (j + ctx->sbox[i] + karr[i]) % 256;
+      j = (j + ctx->sbox[i] + karr[i]) & 255;
       t = ctx->sbox[i];
       ctx->sbox[i] = ctx->sbox[j];
       ctx->sbox[j] = t;
-    } 
-  memset( karr, 0, 256 );
+    }
+  wipememory( karr, sizeof(karr) );
 
   return GPG_ERR_NO_ERROR;
 }
@@ -116,7 +146,6 @@ arcfour_setkey ( void *context, const byte *key, unsigned int keylen )
 {
   ARCFOUR_context *ctx = (ARCFOUR_context *) context;
   gcry_err_code_t rc = do_arcfour_setkey (ctx, key, keylen );
-  _gcry_burn_stack (300);
   return rc;
 }
 
@@ -125,13 +154,13 @@ static const char*
 selftest(void)
 {
   ARCFOUR_context ctx;
-  byte scratch[16];	   
-    
+  byte scratch[16];
+
   /* Test vector from Cryptlib labeled there: "from the
      State/Commerce Department". */
-  static byte key_1[] =
+  static const byte key_1[] =
     { 0x61, 0x8A, 0x63, 0xD2, 0xFB };
-  static byte plaintext_1[] =
+  static const byte plaintext_1[] =
     { 0xDC, 0xEE, 0x4C, 0xF9, 0x2C };
   static const byte ciphertext_1[] =
     { 0xF1, 0x38, 0x29, 0xC9, 0xDE };
@@ -150,7 +179,7 @@ selftest(void)
 
 gcry_cipher_spec_t _gcry_cipher_spec_arcfour =
   {
+    GCRY_CIPHER_ARCFOUR, {0, 0},
     "ARCFOUR", NULL, NULL, 1, 128, sizeof (ARCFOUR_context),
     arcfour_setkey, NULL, NULL, encrypt_stream, encrypt_stream,
   };
-

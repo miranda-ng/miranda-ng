@@ -56,7 +56,7 @@ writen (int fd, const void *buffer, size_t length)
   while (length)
     {
       ssize_t n;
-      
+
       do
         n = write (fd, buffer, length);
       while (n < 0 && errno == EINTR);
@@ -84,7 +84,7 @@ print_version (int with_help)
          "This is free software: you are free to change and redistribute it.\n"
          "There is NO WARRANTY, to the extent permitted by law.\n",
          stdout);
-        
+
   if (with_help)
     fputs ("\n"
            "Usage: " PGM " [OPTIONS] NBYTES\n"
@@ -94,13 +94,13 @@ print_version (int with_help)
            "  --nonce       Return weak random suitable for a nonce\n"
            "  --very-strong Return very strong random\n"
            "  --ping        Send a ping\n"
-           "  --socket NAME Name of sockket to connect to\n"        
+           "  --socket NAME Name of sockket to connect to\n"
            "  --hex         Return result as a hex dump\n"
            "  --verbose     Show what we are doing\n"
            "  --version     Print version of the program and exit\n"
            "  --help        Display this help and exit\n"
            BUGREPORT_LINE, stdout );
-  
+
   exit (0);
 }
 
@@ -113,7 +113,7 @@ print_usage (void)
 }
 
 
-int 
+int
 main (int argc, char **argv)
 {
   struct sockaddr_un *srvr_addr;
@@ -130,7 +130,7 @@ main (int argc, char **argv)
   int verbose = 0;
   int fail = 0;
   int do_hex = 0;
- 
+
   if (argc)
     {
       argc--; argv++;
@@ -179,15 +179,15 @@ main (int argc, char **argv)
         }
       else
         print_usage ();
-    }          
+    }
 
- 
+
   if (!argc && do_ping)
     ; /* This is allowed. */
   else if (argc != 1)
     print_usage ();
   req_nbytes = argc? atoi (*argv) : 0;
-  
+
   if (req_nbytes < 0)
     print_usage ();
 
@@ -198,7 +198,7 @@ main (int argc, char **argv)
       logit ("can't create socket: %s", strerror (errno));
       exit (1);
     }
-  srvr_addr = malloc (sizeof *srvr_addr); 
+  srvr_addr = malloc (sizeof *srvr_addr);
   if (!srvr_addr)
     {
       logit ("malloc failed: %s", strerror (errno));
@@ -244,7 +244,7 @@ main (int argc, char **argv)
         {
           for (nleft=2, nread=0; nleft > 0; )
             {
-              do 
+              do
                 n = read (fd, buffer+nread, nleft);
               while (n < 0 && errno == EINTR);
               if (n < 0)
@@ -281,7 +281,7 @@ main (int argc, char **argv)
 
           for (nleft=nbytes, nread=0; nleft > 0; )
             {
-              do 
+              do
                 n = read (fd, buffer+nread, nleft);
               while (n < 0 && errno == EINTR);
               if (n < 0)
@@ -324,4 +324,3 @@ main (int argc, char **argv)
   free (srvr_addr);
   return fail? 1 : 0;
 }
-

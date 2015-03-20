@@ -1,5 +1,6 @@
 /* rndhw.c  - Access to the external random daemon
  * Copyright (C) 2007  Free Software Foundation, Inc.
+ * Copyright (C) 2012  Dmitry Kasatkin
  *
  * This file is part of Libgcrypt.
  *
@@ -27,10 +28,23 @@
 
 #undef USE_PADLOCK
 #ifdef ENABLE_PADLOCK_SUPPORT
-# if defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4 && defined (__GNUC__)
-# define USE_PADLOCK
+# ifdef HAVE_GCC_ATTRIBUTE_ALIGNED
+#  if (defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4) || defined(__x86_64__)
+#   define USE_PADLOCK 1
+#  endif
 # endif
 #endif /*ENABLE_PADLOCK_SUPPORT*/
+
+#undef USE_DRNG
+#ifdef ENABLE_DRNG_SUPPORT
+# ifdef HAVE_GCC_ATTRIBUTE_ALIGNED
+#  if (defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4) || defined(__x86_64__)
+#   define USE_DRNG 1
+#  endif
+# endif
+#endif /*ENABLE_RDRAND_SUPPORT*/
+
+typedef void (*add_fn_t)(const void*, size_t, enum random_origins);
 
 /* Keep track on whether the RNG has problems.  */
 static volatile int rng_failed;
@@ -44,7 +58,7 @@ poll_padlock (void (*add)(const void*, size_t, enum random_origins),
   volatile char buffer[64+8] __attribute__ ((aligned (8)));
   volatile char *p;
   unsigned int nbytes, status;
-  
+
   /* Peter Gutmann's cryptlib tests again whether the RNG is enabled
      but we don't do so.  We would have to do this also for our AES
      implementaion and that is definitely too time consuming.  There
@@ -55,7 +69,17 @@ poll_padlock (void (*add)(const void*, size_t, enum random_origins),
   nbytes = 0;
   while (nbytes < 64)
     {
-      asm volatile 
+#if defined(__x86_64__) && defined(__LP64__)
+      asm volatile
+        ("movq %1, %%rdi\n\t"         /* Set buffer.  */
+         "xorq %%rdx, %%rdx\n\t"      /* Request up to 8 bytes.  */
+         ".byte 0x0f, 0xa7, 0xc0\n\t" /* XSTORE RNG. */
+         : "=a" (status)
+         : "g" (p)
+         : "%rdx", "%rdi", "cc"
+         );
+#else
+      asm volatile
         ("movl %1, %%edi\n\t"         /* Set buffer.  */
          "xorl %%edx, %%edx\n\t"      /* Request up to 8 bytes.  */
          ".byte 0x0f, 0xa7, 0xc0\n\t" /* XSTORE RNG. */
@@ -63,6 +87,7 @@ poll_padlock (void (*add)(const void*, size_t, enum random_origins),
          : "g" (p)
          : "%edx", "%edi", "cc"
          );
+#endif
       if ((status & (1<<6))         /* RNG still enabled.  */
           && !(status & (1<<13))    /* von Neumann corrector is enabled.  */
           && !(status & (1<<14))    /* String filter is disabled.  */
@@ -75,13 +100,13 @@ poll_padlock (void (*add)(const void*, size_t, enum random_origins),
             break; /* Don't get into the loop with the fast flag set.  */
           p += (status & 0x1f);
         }
-      else 
+      else
         {
           /* If there was an error we need to break the loop and
              record that there is something wrong with the padlock
              RNG.  */
           rng_failed = 1;
-          break; 
+          break;
         }
     }
 
@@ -93,6 +118,56 @@ poll_padlock (void (*add)(const void*, size_t, enum random_origins),
   return nbytes;
 }
 #endif /*USE_PADLOCK*/
+
+
+#ifdef USE_DRNG
+# define RDRAND_RETRY_LOOPS	10
+# define RDRAND_INT	".byte 0x0f,0xc7,0xf0"
+# if defined(__x86_64__) && defined(__LP64__)
+#  define RDRAND_LONG	".byte 0x48,0x0f,0xc7,0xf0"
+# else
+#  define RDRAND_LONG	RDRAND_INT
+# endif
+static inline int
+rdrand_long (unsigned long *v)
+{
+  int ok;
+  asm volatile ("1: " RDRAND_LONG "\n\t"
+                "jc 2f\n\t"
+                "decl %0\n\t"
+                "jnz 1b\n\t"
+                "2:"
+                : "=r" (ok), "=a" (*v)
+                : "0" (RDRAND_RETRY_LOOPS)
+                : "cc");
+  return ok;
+}
+
+
+static inline int
+rdrand_nlong (unsigned long *v, int count)
+{
+  while (count--)
+    if (!rdrand_long(v++))
+      return 0;
+  return 1;
+}
+
+
+static size_t
+poll_drng (add_fn_t add, enum random_origins origin, int fast)
+{
+  volatile char buffer[64] __attribute__ ((aligned (8)));
+  unsigned int nbytes = sizeof (buffer);
+
+  (void)fast;
+
+  if (!rdrand_nlong ((unsigned long *)buffer, sizeof(buffer)/sizeof(long)))
+    return 0;
+  (*add)((void *)buffer, nbytes, origin);
+  return nbytes;
+}
+#endif /*USE_DRNG*/
 
 
 int
@@ -111,10 +186,14 @@ _gcry_rndhw_poll_fast (void (*add)(const void*, size_t, enum random_origins),
   (void)add;
   (void)origin;
 
+#ifdef USE_DRNG
+  if ((_gcry_get_hw_features () & HWF_INTEL_RDRAND))
+    poll_drng (add, origin, 1);
+#endif
 #ifdef USE_PADLOCK
   if ((_gcry_get_hw_features () & HWF_PADLOCK_RNG))
     poll_padlock (add, origin, 1);
-#endif  
+#endif
 }
 
 
@@ -129,10 +208,14 @@ _gcry_rndhw_poll_slow (void (*add)(const void*, size_t, enum random_origins),
   (void)add;
   (void)origin;
 
+#ifdef USE_DRNG
+  if ((_gcry_get_hw_features () & HWF_INTEL_RDRAND))
+    nbytes += poll_drng (add, origin, 0);
+#endif
 #ifdef USE_PADLOCK
   if ((_gcry_get_hw_features () & HWF_PADLOCK_RNG))
     nbytes += poll_padlock (add, origin, 0);
-#endif  
+#endif
 
   return nbytes;
 }

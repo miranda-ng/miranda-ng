@@ -24,9 +24,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cipher\ac.c">
-      <Filter>cipher</Filter>
-    </ClCompile>
     <ClCompile Include="cipher\arcfour.c">
       <Filter>cipher</Filter>
     </ClCompile>
@@ -42,6 +39,33 @@
     <ClCompile Include="cipher\cast5.c">
       <Filter>cipher</Filter>
     </ClCompile>
+    <ClCompile Include="cipher\cipher-aeswrap.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-cbc.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-ccm.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-cfb.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-cmac.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-ctr.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-gcm.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-ofb.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\cipher-selftest.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
     <ClCompile Include="cipher\cipher.c">
       <Filter>cipher</Filter>
     </ClCompile>
@@ -51,7 +75,25 @@
     <ClCompile Include="cipher\des.c">
       <Filter>cipher</Filter>
     </ClCompile>
+    <ClCompile Include="cipher\dsa-common.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
     <ClCompile Include="cipher\dsa.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\ecc-curves.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\ecc-ecdsa.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\ecc-eddsa.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\ecc-gost.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\ecc-misc.c">
       <Filter>cipher</Filter>
     </ClCompile>
     <ClCompile Include="cipher\ecc.c">
@@ -60,10 +102,34 @@
     <ClCompile Include="cipher\elgamal.c">
       <Filter>cipher</Filter>
     </ClCompile>
+    <ClCompile Include="cipher\gost28147.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\gostr3411-94.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
     <ClCompile Include="cipher\hash-common.c">
       <Filter>cipher</Filter>
     </ClCompile>
     <ClCompile Include="cipher\hmac-tests.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\idea.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\kdf.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\mac-cmac.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\mac-gmac.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\mac-hmac.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\mac.c">
       <Filter>cipher</Filter>
     </ClCompile>
     <ClCompile Include="cipher\md.c">
@@ -78,6 +144,9 @@
     <ClCompile Include="cipher\primegen.c">
       <Filter>cipher</Filter>
     </ClCompile>
+    <ClCompile Include="cipher\pubkey-util.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
     <ClCompile Include="cipher\pubkey.c">
       <Filter>cipher</Filter>
     </ClCompile>
@@ -90,7 +159,16 @@
     <ClCompile Include="cipher\rmd160.c">
       <Filter>cipher</Filter>
     </ClCompile>
+    <ClCompile Include="cipher\rsa-common.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
     <ClCompile Include="cipher\rsa.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\salsa20.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\scrypt.c">
       <Filter>cipher</Filter>
     </ClCompile>
     <ClCompile Include="cipher\seed.c">
@@ -108,11 +186,23 @@
     <ClCompile Include="cipher\sha512.c">
       <Filter>cipher</Filter>
     </ClCompile>
+    <ClCompile Include="cipher\stribog.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="cipher\tiger.c">
+      <Filter>cipher</Filter>
+    </ClCompile>
     <ClCompile Include="cipher\twofish.c">
       <Filter>cipher</Filter>
     </ClCompile>
     <ClCompile Include="cipher\whirlpool.c">
       <Filter>cipher</Filter>
+    </ClCompile>
+    <ClCompile Include="compat\compat.c">
+      <Filter>compat</Filter>
+    </ClCompile>
+    <ClCompile Include="mpi\ec-ed25519.c">
+      <Filter>mpi</Filter>
     </ClCompile>
     <ClCompile Include="mpi\ec.c">
       <Filter>mpi</Filter>
@@ -192,6 +282,9 @@
     <ClCompile Include="src\ath.c">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\context.c">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\fips.c">
       <Filter>src</Filter>
     </ClCompile>
@@ -199,6 +292,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\hmac256.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hwf-x86.c">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\hwfeatures.c">
@@ -231,6 +327,9 @@
     <ClCompile Include="random\random-fips.c">
       <Filter>random</Filter>
     </ClCompile>
+    <ClCompile Include="random\random-system.c">
+      <Filter>random</Filter>
+    </ClCompile>
     <ClCompile Include="random\random.c">
       <Filter>random</Filter>
     </ClCompile>
@@ -244,6 +343,12 @@
       <Filter>error</Filter>
     </ClCompile>
     <ClCompile Include="..\Libgpg-error\code-to-errno.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Libgpg-error\estream-printf.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Libgpg-error\estream.c">
       <Filter>error</Filter>
     </ClCompile>
     <ClCompile Include="..\Libgpg-error\init.c">
@@ -264,6 +369,21 @@
     <ClCompile Include="..\Libgpg-error\strsource.c">
       <Filter>error</Filter>
     </ClCompile>
+    <ClCompile Include="..\Libgpg-error\version.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Libgpg-error\visibility.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Libgpg-error\w32-gettext.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Libgpg-error\w32-lock.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Libgpg-error\w32-thread.c">
+      <Filter>error</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cipher\bithelp.h">
@@ -272,7 +392,28 @@
     <ClInclude Include="cipher\camellia.h">
       <Filter>cipher</Filter>
     </ClInclude>
+    <ClInclude Include="cipher\cipher-internal.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="cipher\cipher-selftest.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="cipher\gost.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="cipher\ecc-common.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
     <ClInclude Include="cipher\hash-common.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="cipher\kdf-internal.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="cipher\mac-internal.h">
+      <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="cipher\pubkey-internal.h">
       <Filter>cipher</Filter>
     </ClInclude>
     <ClInclude Include="cipher\rijndael-tables.h">
@@ -280,6 +421,12 @@
     </ClInclude>
     <ClInclude Include="cipher\rmd.h">
       <Filter>cipher</Filter>
+    </ClInclude>
+    <ClInclude Include="compat\libcompat.h">
+      <Filter>compat</Filter>
+    </ClInclude>
+    <ClInclude Include="mpi\ec-internal.h">
+      <Filter>mpi</Filter>
     </ClInclude>
     <ClInclude Include="mpi\longlong.h">
       <Filter>mpi</Filter>
@@ -308,6 +455,9 @@
     <ClInclude Include="src\cipher.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\context.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\g10lib.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -318,6 +468,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\hmac256.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\hwf-common.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\mpi.h">
@@ -365,6 +518,9 @@
     <ClInclude Include="..\Libgpg-error\errnos-sym.h">
       <Filter>error</Filter>
     </ClInclude>
+    <ClInclude Include="..\Libgpg-error\estream-printf.h">
+      <Filter>error</Filter>
+    </ClInclude>
     <ClInclude Include="..\Libgpg-error\gettext.h">
       <Filter>error</Filter>
     </ClInclude>
@@ -375,6 +531,12 @@
       <Filter>error</Filter>
     </ClInclude>
     <ClInclude Include="..\Libgpg-error\mkerrcodes.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libgpg-error\thread.h">
+      <Filter>error</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libgpg-error\visibility.h">
       <Filter>error</Filter>
     </ClInclude>
   </ItemGroup>

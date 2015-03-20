@@ -7,12 +7,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
@@ -26,13 +26,19 @@
 #include <string.h>
 #include <errno.h>
 
-#include <gpg-error.h>
-
+#include "gpgrt-int.h"
 #include "gettext.h"
 #include "init.h"
 
 #ifdef HAVE_W32CE_SYSTEM
 # include "mkw32errmap.map.c"  /* Generated map_w32codes () */
+# ifndef TLS_OUT_OF_INDEXES
+#  define TLS_OUT_OF_INDEXES 0xFFFFFFFF
+# endif
+# ifndef __MINGW32CE__
+#  /* Replace the Mingw32CE provided abort function.  */
+#  define abort() do { TerminateProcess (GetCurrentProcess(), 8); } while (0)
+# endif
 #endif
 
 
@@ -42,7 +48,7 @@
 
 #include <windows.h>
 
-static int tls_index = TLS_OUT_OF_INDEXES;  /* Index for the TLS functions.  */ 
+static int tls_index = TLS_OUT_OF_INDEXES;  /* Index for the TLS functions.  */
 
 static char *get_locale_dir (void);
 static void drop_locale_dir (char *locale_dir);
@@ -53,6 +59,11 @@ static void drop_locale_dir (char *locale_dir);
 #define drop_locale_dir(dir)
 
 #endif /*!HAVE_W32_SYSTEM*/
+
+
+/* The realloc function as set by gpgrt_set_alloc_func.  */
+static void *(*custom_realloc)(void *a, size_t n);
+
 
 
 static void
@@ -69,11 +80,12 @@ real_init (void)
       drop_locale_dir (locale_dir);
     }
 #endif
+  _gpgrt_es_init ();
 }
 
 /* Initialize the library.  This function should be run early.  */
 gpg_error_t
-gpg_err_init (void)
+_gpg_err_init (void)
 {
 #ifdef HAVE_W32_SYSTEM
 # ifdef DLL_EXPORT
@@ -96,6 +108,7 @@ gpg_err_init (void)
           /* No way to continue - commit suicide.  */
           abort ();
         }
+      _gpg_w32__init_gettext_module ();
       real_init ();
     }
 # endif /*!DLL_EXPORT*/
@@ -115,11 +128,11 @@ gpg_err_init (void)
    this function may be called from the DllMain function of a DLL
    which statically links to libgpg-error.  */
 void
-gpg_err_deinit (int mode)
+_gpg_err_deinit (int mode)
 {
 #if defined (HAVE_W32_SYSTEM) && !defined(DLL_EXPORT)
   struct tls_space_s *tls;
-  
+
   tls = TlsGetValue (tls_index);
   if (tls)
     {
@@ -136,6 +149,58 @@ gpg_err_deinit (int mode)
   (void)mode;
 #endif
 }
+
+
+
+
+/* Register F as allocation function.  This function is used for all
+   APIs which return an allocated buffer.  F needs to have standard
+   realloc semantics.  It should be called as early as possible and
+   not changed later. */
+void
+_gpgrt_set_alloc_func (void *(*f)(void *a, size_t n))
+{
+  custom_realloc = f;
+}
+
+
+/* The realloc to be used for data returned by the public API.  */
+void *
+_gpgrt_realloc (void *a, size_t n)
+{
+  if (custom_realloc)
+    return custom_realloc (a, n);
+
+  if (!a)
+    return malloc (n);
+
+  if (!n)
+    {
+      free (a);
+      return NULL;
+    }
+
+  return realloc (a, n);
+}
+
+
+/* The malloc to be used for data returned by the public API.  */
+void *
+_gpgrt_malloc (size_t n)
+{
+  if (!n)
+    n++;
+  return _gpgrt_realloc (NULL, n);
+}
+
+
+/* The free to be used for data returned by the public API.  */
+void
+_gpgrt_free (void *a)
+{
+  _gpgrt_realloc (a, 0);
+}
+
 
 
 
@@ -218,7 +283,7 @@ get_locale_dir (void)
       nbytes = WideCharToMultiByte (CP_UTF8, 0, moddir, -1, NULL, 0, NULL, NULL);
       if (nbytes < 0)
         return NULL;
-      
+
       result = malloc (nbytes + strlen (SLDIR) + 1);
       if (result)
         {
@@ -234,6 +299,27 @@ get_locale_dir (void)
               p = strrchr (result, '\\');
               if (p)
                 *p = 0;
+              /* If we are installed below "bin" strip that part and
+                 use the top directory instead.
+
+                 Background: Under Windows we don't install GnuPG
+                 below bin/ but in the top directory with only share/,
+                 lib/, and etc/ below it.  One of the reasons is to
+                 keep the the length of the filenames at bay so not to
+                 increase the limited length of the PATH envvar.
+                 Another and more important reason, however, is that
+                 the very first GPG versions on W32 were installed
+                 into a flat directory structure and for best
+                 compatibility with these versions we didn't changed
+                 that later.  For WindowsCE we can right away install
+                 it under bin, though.  The hack with detection of the
+                 bin directory part allows us to eventually migrate to
+                 such a directory layout under plain Windows without
+                 the need to change libgpg-error.  */
+              p = strrchr (result, '\\');
+              if (p && !strcmp (p+1, "bin"))
+                *p = 0;
+              /* Append the static part.  */
               strcat (result, SLDIR);
             }
         }
@@ -246,8 +332,8 @@ get_locale_dir (void)
           strcpy (result, "c:\\gnupg");
           strcat (result, SLDIR);
         }
-    }  
-#undef SLDIR  
+    }
+#undef SLDIR
   return result;
 }
 
@@ -280,7 +366,7 @@ get_tls (void)
       tls->gt_use_utf8 = 0;
       TlsSetValue (tls_index, tls);
     }
-        
+
   return tls;
 }
 
@@ -308,6 +394,10 @@ _gpg_w32ce_strerror (int err)
 
   if (err == -1)
     err = _gpg_w32ce_get_errno ();
+
+  /* Note: On a German HTC Touch Pro2 device I also tried
+     LOCALE_USER_DEFAULT and LOCALE_SYSTEM_DEFAULT - both returned
+     English messages.  */
   if (FormatMessageW (FORMAT_MESSAGE_FROM_SYSTEM, NULL, err,
                       MAKELANGID (LANG_NEUTRAL, SUBLANG_DEFAULT),
                       tmpbuf, STRBUFFER_SIZE -1,
@@ -324,13 +414,13 @@ _gpg_w32ce_strerror (int err)
   if (n < 0)
     snprintf (tls->strerror_buffer, sizeof tls->strerror_buffer -1,
               "[w32err=%d]", err);
-  return tls->strerror_buffer;    
+  return tls->strerror_buffer;
 }
 #endif /*HAVE_W32CE_SYSTEM*/
 
 
 void
-gpg_err_set_errno (int err)
+_gpg_err_set_errno (int err)
 {
 #ifdef HAVE_W32CE_SYSTEM
   SetLastError (err);
@@ -347,13 +437,18 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 {
   struct tls_space_s *tls;
   (void)reserved;
+  (void)hinst;
 
   switch (reason)
     {
     case DLL_PROCESS_ATTACH:
       tls_index = TlsAlloc ();
       if (tls_index == TLS_OUT_OF_INDEXES)
-        return FALSE; 
+        return FALSE;
+#ifndef _GPG_ERR_HAVE_CONSTRUCTOR
+      /* If we have not constructors (e.g. MSC) we call it here.  */
+      _gpg_w32__init_gettext_module ();
+#endif
       /* falltru.  */
     case DLL_THREAD_ATTACH:
       tls = LocalAlloc (LPTR, sizeof *tls);
@@ -383,7 +478,7 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
     default:
       break;
     }
-  
+
   return TRUE;
 }
 #endif /*DLL_EXPORT*/
@@ -391,7 +486,7 @@ DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
 #else /*!HAVE_W32_SYSTEM*/
 
 void
-gpg_err_set_errno (int err)
+_gpg_err_set_errno (int err)
 {
   errno = err;
 }

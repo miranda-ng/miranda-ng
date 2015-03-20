@@ -9,12 +9,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with libgpg-error; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -209,6 +209,21 @@ static const char msgstr[] =
   "GPG_ERR_MISSING_KEY" "\0"
   "GPG_ERR_TOO_MANY" "\0"
   "GPG_ERR_LIMIT_REACHED" "\0"
+  "GPG_ERR_NOT_INITIALIZED" "\0"
+  "GPG_ERR_MISSING_ISSUER_CERT" "\0"
+  "GPG_ERR_NO_KEYSERVER" "\0"
+  "GPG_ERR_INV_CURVE" "\0"
+  "GPG_ERR_UNKNOWN_CURVE" "\0"
+  "GPG_ERR_DUP_KEY" "\0"
+  "GPG_ERR_AMBIGUOUS" "\0"
+  "GPG_ERR_NO_CRYPT_CTX" "\0"
+  "GPG_ERR_WRONG_CRYPT_CTX" "\0"
+  "GPG_ERR_BAD_CRYPT_CTX" "\0"
+  "GPG_ERR_CRYPT_CTX_CONFLICT" "\0"
+  "GPG_ERR_BROKEN_PUBKEY" "\0"
+  "GPG_ERR_BROKEN_SECKEY" "\0"
+  "GPG_ERR_MAC_ALGO" "\0"
+  "GPG_ERR_FULLY_CANCELED" "\0"
   "GPG_ERR_UNFINISHED" "\0"
   "GPG_ERR_BUFFER_TOO_SHORT" "\0"
   "GPG_ERR_SEXP_INV_LEN_SPEC" "\0"
@@ -224,6 +239,39 @@ static const char msgstr[] =
   "GPG_ERR_SEXP_BAD_HEX_CHAR" "\0"
   "GPG_ERR_SEXP_ODD_HEX_NUMBERS" "\0"
   "GPG_ERR_SEXP_BAD_OCT_CHAR" "\0"
+  "GPG_ERR_LEGACY_KEY" "\0"
+  "GPG_ERR_REQUEST_TOO_SHORT" "\0"
+  "GPG_ERR_REQUEST_TOO_LONG" "\0"
+  "GPG_ERR_OBJ_TERM_STATE" "\0"
+  "GPG_ERR_NO_CERT_CHAIN" "\0"
+  "GPG_ERR_CERT_TOO_LARGE" "\0"
+  "GPG_ERR_INV_RECORD" "\0"
+  "GPG_ERR_BAD_MAC" "\0"
+  "GPG_ERR_UNEXPECTED_MSG" "\0"
+  "GPG_ERR_COMPR_FAILED" "\0"
+  "GPG_ERR_WOULD_WRAP" "\0"
+  "GPG_ERR_FATAL_ALERT" "\0"
+  "GPG_ERR_NO_CIPHER" "\0"
+  "GPG_ERR_MISSING_CLIENT_CERT" "\0"
+  "GPG_ERR_CLOSE_NOTIFY" "\0"
+  "GPG_ERR_TICKET_EXPIRED" "\0"
+  "GPG_ERR_BAD_TICKET" "\0"
+  "GPG_ERR_UNKNOWN_IDENTITY" "\0"
+  "GPG_ERR_BAD_HS_CERT" "\0"
+  "GPG_ERR_BAD_HS_CERT_REQ" "\0"
+  "GPG_ERR_BAD_HS_CERT_VER" "\0"
+  "GPG_ERR_BAD_HS_CHANGE_CIPHER" "\0"
+  "GPG_ERR_BAD_HS_CLIENT_HELLO" "\0"
+  "GPG_ERR_BAD_HS_SERVER_HELLO" "\0"
+  "GPG_ERR_BAD_HS_SERVER_HELLO_DONE" "\0"
+  "GPG_ERR_BAD_HS_FINISHED" "\0"
+  "GPG_ERR_BAD_HS_SERVER_KEX" "\0"
+  "GPG_ERR_BAD_HS_CLIENT_KEX" "\0"
+  "GPG_ERR_BOGUS_STRING" "\0"
+  "GPG_ERR_FORBIDDEN" "\0"
+  "GPG_ERR_KEY_DISABLED" "\0"
+  "GPG_ERR_KEY_ON_CARD" "\0"
+  "GPG_ERR_INV_LOCK_OBJ" "\0"
   "GPG_ERR_ASS_GENERAL" "\0"
   "GPG_ERR_ASS_ACCEPT_FAILED" "\0"
   "GPG_ERR_ASS_CONNECT_FAILED" "\0"
@@ -456,75 +504,123 @@ static const int msgidx[] =
     3759,
     3776,
     3798,
-    3817,
-    3842,
-    3868,
-    3897,
-    3926,
-    3953,
-    3980,
-    4007,
-    4032,
-    4055,
-    4081,
-    4110,
-    4136,
-    4165,
-    4191,
-    4211,
-    4237,
-    4264,
-    4289,
-    4311,
-    4339,
-    4365,
-    4393,
-    4416,
-    4442,
-    4467,
-    4492,
-    4517,
-    4540,
-    4564,
-    4590,
-    4617,
-    4641,
-    4660,
-    4681,
-    4702,
-    4724,
-    4746,
-    4774,
-    4789,
-    4804,
-    4819,
-    4834,
-    4849,
-    4864,
-    4879,
-    4894,
-    4909,
-    4925,
-    4941,
-    4957,
-    4973,
-    4989,
-    5005,
-    5021,
-    5043,
-    5065,
-    5077
+    3822,
+    3850,
+    3871,
+    3889,
+    3911,
+    3927,
+    3945,
+    3966,
+    3990,
+    4012,
+    4039,
+    4061,
+    4083,
+    4100,
+    4123,
+    4142,
+    4167,
+    4193,
+    4222,
+    4251,
+    4278,
+    4305,
+    4332,
+    4357,
+    4380,
+    4406,
+    4435,
+    4461,
+    4490,
+    4516,
+    4535,
+    4561,
+    4586,
+    4609,
+    4631,
+    4654,
+    4673,
+    4689,
+    4712,
+    4733,
+    4752,
+    4772,
+    4790,
+    4818,
+    4839,
+    4862,
+    4881,
+    4906,
+    4926,
+    4950,
+    4974,
+    5003,
+    5031,
+    5059,
+    5092,
+    5116,
+    5142,
+    5168,
+    5189,
+    5207,
+    5228,
+    5248,
+    5269,
+    5289,
+    5315,
+    5342,
+    5367,
+    5389,
+    5417,
+    5443,
+    5471,
+    5494,
+    5520,
+    5545,
+    5570,
+    5595,
+    5618,
+    5642,
+    5668,
+    5695,
+    5719,
+    5738,
+    5759,
+    5780,
+    5802,
+    5824,
+    5852,
+    5867,
+    5882,
+    5897,
+    5912,
+    5927,
+    5942,
+    5957,
+    5972,
+    5987,
+    6003,
+    6019,
+    6035,
+    6051,
+    6067,
+    6083,
+    6099,
+    6121,
+    6143,
+    6155
   };
 
-static inline int
+static GPG_ERR_INLINE int
 msgidxof (int code)
 {
   return (0 ? 0
-  : ((code >= 0) && (code <= 183)) ? (code - 0)
-  : ((code >= 199) && (code <= 213)) ? (code - 15)
-  : ((code >= 257) && (code <= 271)) ? (code - 58)
-  : ((code >= 273) && (code <= 281)) ? (code - 59)
-  : ((code >= 1024) && (code <= 1039)) ? (code - 801)
-  : ((code >= 16381) && (code <= 16383)) ? (code - 16142)
-  : 16384 - 16142);
+  : ((code >= 0) && (code <= 213)) ? (code - 0)
+  : ((code >= 222) && (code <= 254)) ? (code - 8)
+  : ((code >= 257) && (code <= 271)) ? (code - 10)
+  : ((code >= 273) && (code <= 281)) ? (code - 11)
+  : ((code >= 1024) && (code <= 1039)) ? (code - 753)
+  : ((code >= 16381) && (code <= 16383)) ? (code - 16094)
+  : 16384 - 16094);
 }

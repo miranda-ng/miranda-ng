@@ -14,23 +14,23 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
 /*
- * Algorithm Specification 
+ * Algorithm Specification
  *  http://info.isl.ntt.co.jp/crypt/eng/camellia/specifications.html
  */
 
+#include <config.h>
 #include <string.h>
 #include <stdlib.h>
 
+#include "types.h"
+#include "bufhelp.h"
 #include "camellia.h"
 
-/* u32 must be 32bit word */
-typedef unsigned int u32;
-typedef unsigned char u8;
+typedef byte u8;
 
 /* key constants */
 
@@ -60,17 +60,8 @@ typedef unsigned char u8;
 
 #else /* not MS-VC */
 
-# define GETU32(pt)				\
-    (((u32)(pt)[0] << 24)			\
-     ^ ((u32)(pt)[1] << 16)			\
-     ^ ((u32)(pt)[2] <<  8)			\
-     ^ ((u32)(pt)[3]))
-
-# define PUTU32(ct, st)  {			\
-	(ct)[0] = (u8)((st) >> 24);		\
-	(ct)[1] = (u8)((st) >> 16);		\
-	(ct)[2] = (u8)((st) >>  8);		\
-	(ct)[3] = (u8)(st); }
+# define GETU32(pt) buf_get_be32(pt)
+# define PUTU32(ct, st) buf_put_be32(ct, st)
 
 #endif
 
@@ -151,6 +142,8 @@ typedef unsigned char u8;
 
 #define CAMELLIA_ROUNDSM(xl, xr, kl, kr, yl, yr, il, ir, t0, t1)	\
     do {								\
+	yl ^= kl;							\
+	yr ^= kr;							\
 	ir = CAMELLIA_SP1110(xr & 0xff)					\
 	    ^ CAMELLIA_SP0222((xr >> 24) & 0xff)			\
 	    ^ CAMELLIA_SP3033((xr >> 16) & 0xff)			\
@@ -159,8 +152,6 @@ typedef unsigned char u8;
 	    ^ CAMELLIA_SP0222((xl >> 16) & 0xff)			\
 	    ^ CAMELLIA_SP3033((xl >> 8) & 0xff)				\
 	    ^ CAMELLIA_SP4404(xl & 0xff);				\
-	il ^= kl;							\
-	ir ^= kr;							\
 	ir ^= il;							\
 	il = CAMELLIA_RR8(il);						\
 	il ^= ir;							\
@@ -614,44 +605,6 @@ void camellia_setup128(const unsigned char *key, u32 *subkey)
     CamelliaSubkeyL(24) = subl(24) ^ subl(23);
     CamelliaSubkeyR(24) = subr(24) ^ subr(23);
 
-    /* apply the inverse of the last half of P-function */
-    dw = CamelliaSubkeyL(2) ^ CamelliaSubkeyR(2), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(2) = CamelliaSubkeyL(2) ^ dw, CamelliaSubkeyL(2) = dw;
-    dw = CamelliaSubkeyL(3) ^ CamelliaSubkeyR(3), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(3) = CamelliaSubkeyL(3) ^ dw, CamelliaSubkeyL(3) = dw;
-    dw = CamelliaSubkeyL(4) ^ CamelliaSubkeyR(4), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(4) = CamelliaSubkeyL(4) ^ dw, CamelliaSubkeyL(4) = dw;
-    dw = CamelliaSubkeyL(5) ^ CamelliaSubkeyR(5), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(5) = CamelliaSubkeyL(5) ^ dw, CamelliaSubkeyL(5) = dw;
-    dw = CamelliaSubkeyL(6) ^ CamelliaSubkeyR(6), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(6) = CamelliaSubkeyL(6) ^ dw, CamelliaSubkeyL(6) = dw;
-    dw = CamelliaSubkeyL(7) ^ CamelliaSubkeyR(7), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(7) = CamelliaSubkeyL(7) ^ dw, CamelliaSubkeyL(7) = dw;
-    dw = CamelliaSubkeyL(10) ^ CamelliaSubkeyR(10), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(10) = CamelliaSubkeyL(10) ^ dw, CamelliaSubkeyL(10) = dw;
-    dw = CamelliaSubkeyL(11) ^ CamelliaSubkeyR(11), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(11) = CamelliaSubkeyL(11) ^ dw, CamelliaSubkeyL(11) = dw;
-    dw = CamelliaSubkeyL(12) ^ CamelliaSubkeyR(12), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(12) = CamelliaSubkeyL(12) ^ dw, CamelliaSubkeyL(12) = dw;
-    dw = CamelliaSubkeyL(13) ^ CamelliaSubkeyR(13), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(13) = CamelliaSubkeyL(13) ^ dw, CamelliaSubkeyL(13) = dw;
-    dw = CamelliaSubkeyL(14) ^ CamelliaSubkeyR(14), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(14) = CamelliaSubkeyL(14) ^ dw, CamelliaSubkeyL(14) = dw;
-    dw = CamelliaSubkeyL(15) ^ CamelliaSubkeyR(15), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(15) = CamelliaSubkeyL(15) ^ dw, CamelliaSubkeyL(15) = dw;
-    dw = CamelliaSubkeyL(18) ^ CamelliaSubkeyR(18), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(18) = CamelliaSubkeyL(18) ^ dw, CamelliaSubkeyL(18) = dw;
-    dw = CamelliaSubkeyL(19) ^ CamelliaSubkeyR(19), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(19) = CamelliaSubkeyL(19) ^ dw, CamelliaSubkeyL(19) = dw;
-    dw = CamelliaSubkeyL(20) ^ CamelliaSubkeyR(20), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(20) = CamelliaSubkeyL(20) ^ dw, CamelliaSubkeyL(20) = dw;
-    dw = CamelliaSubkeyL(21) ^ CamelliaSubkeyR(21), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(21) = CamelliaSubkeyL(21) ^ dw, CamelliaSubkeyL(21) = dw;
-    dw = CamelliaSubkeyL(22) ^ CamelliaSubkeyR(22), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(22) = CamelliaSubkeyL(22) ^ dw, CamelliaSubkeyL(22) = dw;
-    dw = CamelliaSubkeyL(23) ^ CamelliaSubkeyR(23), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(23) = CamelliaSubkeyL(23) ^ dw, CamelliaSubkeyL(23) = dw;
-
     return;
 }
 
@@ -888,56 +841,6 @@ void camellia_setup256(const unsigned char *key, u32 *subkey)
     CamelliaSubkeyL(32) = subl(32) ^ subl(31);
     CamelliaSubkeyR(32) = subr(32) ^ subr(31);
 
-    /* apply the inverse of the last half of P-function */
-    dw = CamelliaSubkeyL(2) ^ CamelliaSubkeyR(2), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(2) = CamelliaSubkeyL(2) ^ dw, CamelliaSubkeyL(2) = dw;
-    dw = CamelliaSubkeyL(3) ^ CamelliaSubkeyR(3), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(3) = CamelliaSubkeyL(3) ^ dw, CamelliaSubkeyL(3) = dw;
-    dw = CamelliaSubkeyL(4) ^ CamelliaSubkeyR(4), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(4) = CamelliaSubkeyL(4) ^ dw, CamelliaSubkeyL(4) = dw;
-    dw = CamelliaSubkeyL(5) ^ CamelliaSubkeyR(5), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(5) = CamelliaSubkeyL(5) ^ dw, CamelliaSubkeyL(5) = dw;
-    dw = CamelliaSubkeyL(6) ^ CamelliaSubkeyR(6), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(6) = CamelliaSubkeyL(6) ^ dw, CamelliaSubkeyL(6) = dw;
-    dw = CamelliaSubkeyL(7) ^ CamelliaSubkeyR(7), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(7) = CamelliaSubkeyL(7) ^ dw, CamelliaSubkeyL(7) = dw;
-    dw = CamelliaSubkeyL(10) ^ CamelliaSubkeyR(10), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(10) = CamelliaSubkeyL(10) ^ dw, CamelliaSubkeyL(10) = dw;
-    dw = CamelliaSubkeyL(11) ^ CamelliaSubkeyR(11), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(11) = CamelliaSubkeyL(11) ^ dw, CamelliaSubkeyL(11) = dw;
-    dw = CamelliaSubkeyL(12) ^ CamelliaSubkeyR(12), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(12) = CamelliaSubkeyL(12) ^ dw, CamelliaSubkeyL(12) = dw;
-    dw = CamelliaSubkeyL(13) ^ CamelliaSubkeyR(13), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(13) = CamelliaSubkeyL(13) ^ dw, CamelliaSubkeyL(13) = dw;
-    dw = CamelliaSubkeyL(14) ^ CamelliaSubkeyR(14), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(14) = CamelliaSubkeyL(14) ^ dw, CamelliaSubkeyL(14) = dw;
-    dw = CamelliaSubkeyL(15) ^ CamelliaSubkeyR(15), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(15) = CamelliaSubkeyL(15) ^ dw, CamelliaSubkeyL(15) = dw;
-    dw = CamelliaSubkeyL(18) ^ CamelliaSubkeyR(18), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(18) = CamelliaSubkeyL(18) ^ dw, CamelliaSubkeyL(18) = dw;
-    dw = CamelliaSubkeyL(19) ^ CamelliaSubkeyR(19), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(19) = CamelliaSubkeyL(19) ^ dw, CamelliaSubkeyL(19) = dw;
-    dw = CamelliaSubkeyL(20) ^ CamelliaSubkeyR(20), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(20) = CamelliaSubkeyL(20) ^ dw, CamelliaSubkeyL(20) = dw;
-    dw = CamelliaSubkeyL(21) ^ CamelliaSubkeyR(21), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(21) = CamelliaSubkeyL(21) ^ dw, CamelliaSubkeyL(21) = dw;
-    dw = CamelliaSubkeyL(22) ^ CamelliaSubkeyR(22), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(22) = CamelliaSubkeyL(22) ^ dw, CamelliaSubkeyL(22) = dw;
-    dw = CamelliaSubkeyL(23) ^ CamelliaSubkeyR(23), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(23) = CamelliaSubkeyL(23) ^ dw, CamelliaSubkeyL(23) = dw;
-    dw = CamelliaSubkeyL(26) ^ CamelliaSubkeyR(26), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(26) = CamelliaSubkeyL(26) ^ dw, CamelliaSubkeyL(26) = dw;
-    dw = CamelliaSubkeyL(27) ^ CamelliaSubkeyR(27), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(27) = CamelliaSubkeyL(27) ^ dw, CamelliaSubkeyL(27) = dw;
-    dw = CamelliaSubkeyL(28) ^ CamelliaSubkeyR(28), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(28) = CamelliaSubkeyL(28) ^ dw, CamelliaSubkeyL(28) = dw;
-    dw = CamelliaSubkeyL(29) ^ CamelliaSubkeyR(29), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(29) = CamelliaSubkeyL(29) ^ dw, CamelliaSubkeyL(29) = dw;
-    dw = CamelliaSubkeyL(30) ^ CamelliaSubkeyR(30), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(30) = CamelliaSubkeyL(30) ^ dw, CamelliaSubkeyL(30) = dw;
-    dw = CamelliaSubkeyL(31) ^ CamelliaSubkeyR(31), dw = CAMELLIA_RL8(dw);
-    CamelliaSubkeyR(31) = CamelliaSubkeyL(31) ^ dw,CamelliaSubkeyL(31) = dw;
-    
     return;
 }
 
@@ -958,14 +861,21 @@ void camellia_setup192(const unsigned char *key, u32 *subkey)
 }
 
 
+#ifndef USE_ARM_ASM
 /**
  * Stuff related to camellia encryption/decryption
  *
  * "io" must be 4byte aligned and big-endian data.
  */
-void camellia_encrypt128(const u32 *subkey, u32 *io)
+void camellia_encrypt128(const u32 *subkey, u32 *blocks)
 {
     u32 il, ir, t0, t1;
+    u32 io[4];
+
+    io[0] = blocks[0];
+    io[1] = blocks[1];
+    io[2] = blocks[2];
+    io[3] = blocks[3];
 
     /* pre whitening but absorb kw2*/
     io[0] ^= CamelliaSubkeyL(0);
@@ -1049,14 +959,25 @@ void camellia_encrypt128(const u32 *subkey, u32 *io)
     io[1] = io[3];
     io[2] = t0;
     io[3] = t1;
-	
+
+    blocks[0] = io[0];
+    blocks[1] = io[1];
+    blocks[2] = io[2];
+    blocks[3] = io[3];
+
     return;
 }
 
-void camellia_decrypt128(const u32 *subkey, u32 *io)
+void camellia_decrypt128(const u32 *subkey, u32 *blocks)
 {
     u32 il,ir,t0,t1;               /* temporary valiables */
-    
+    u32 io[4];
+
+    io[0] = blocks[0];
+    io[1] = blocks[1];
+    io[2] = blocks[2];
+    io[3] = blocks[3];
+
     /* pre whitening but absorb kw2*/
     io[0] ^= CamelliaSubkeyL(24);
     io[1] ^= CamelliaSubkeyR(24);
@@ -1140,15 +1061,26 @@ void camellia_decrypt128(const u32 *subkey, u32 *io)
     io[2] = t0;
     io[3] = t1;
 
+    blocks[0] = io[0];
+    blocks[1] = io[1];
+    blocks[2] = io[2];
+    blocks[3] = io[3];
+
     return;
 }
 
 /**
  * stuff for 192 and 256bit encryption/decryption
  */
-void camellia_encrypt256(const u32 *subkey, u32 *io)
+void camellia_encrypt256(const u32 *subkey, u32 *blocks)
 {
     u32 il,ir,t0,t1;           /* temporary valiables */
+    u32 io[4];
+
+    io[0] = blocks[0];
+    io[1] = blocks[1];
+    io[2] = blocks[2];
+    io[3] = blocks[3];
 
     /* pre whitening but absorb kw2*/
     io[0] ^= CamelliaSubkeyL(0);
@@ -1257,17 +1189,28 @@ void camellia_encrypt256(const u32 *subkey, u32 *io)
     io[2] = t0;
     io[3] = t1;
 
+    blocks[0] = io[0];
+    blocks[1] = io[1];
+    blocks[2] = io[2];
+    blocks[3] = io[3];
+
     return;
 }
 
-void camellia_decrypt256(const u32 *subkey, u32 *io)
+void camellia_decrypt256(const u32 *subkey, u32 *blocks)
 {
     u32 il,ir,t0,t1;           /* temporary valiables */
+    u32 io[4];
+
+    io[0] = blocks[0];
+    io[1] = blocks[1];
+    io[2] = blocks[2];
+    io[3] = blocks[3];
 
     /* pre whitening but absorb kw2*/
     io[0] ^= CamelliaSubkeyL(32);
     io[1] ^= CamelliaSubkeyR(32);
-	
+
     /* main iteration */
     CAMELLIA_ROUNDSM(io[0],io[1],
 		     CamelliaSubkeyL(31),CamelliaSubkeyR(31),
@@ -1371,16 +1314,23 @@ void camellia_decrypt256(const u32 *subkey, u32 *io)
     io[2] = t0;
     io[3] = t1;
 
+    blocks[0] = io[0];
+    blocks[1] = io[1];
+    blocks[2] = io[2];
+    blocks[3] = io[3];
+
     return;
 }
+#endif /*!USE_ARM_ASM*/
+
 
 /***
  *
  * API for compatibility
  */
 
-void Camellia_Ekeygen(const int keyBitLength, 
-		      const unsigned char *rawKey, 
+void Camellia_Ekeygen(const int keyBitLength,
+		      const unsigned char *rawKey,
 		      KEY_TABLE_TYPE keyTable)
 {
     switch(keyBitLength) {
@@ -1399,9 +1349,10 @@ void Camellia_Ekeygen(const int keyBitLength,
 }
 
 
-void Camellia_EncryptBlock(const int keyBitLength, 
-			   const unsigned char *plaintext, 
-			   const KEY_TABLE_TYPE keyTable, 
+#ifndef USE_ARM_ASM
+void Camellia_EncryptBlock(const int keyBitLength,
+			   const unsigned char *plaintext,
+			   const KEY_TABLE_TYPE keyTable,
 			   unsigned char *ciphertext)
 {
     u32 tmp[4];
@@ -1430,9 +1381,9 @@ void Camellia_EncryptBlock(const int keyBitLength,
     PUTU32(ciphertext + 12, tmp[3]);
 }
 
-void Camellia_DecryptBlock(const int keyBitLength, 
-			   const unsigned char *ciphertext, 
-			   const KEY_TABLE_TYPE keyTable, 
+void Camellia_DecryptBlock(const int keyBitLength,
+			   const unsigned char *ciphertext,
+			   const KEY_TABLE_TYPE keyTable,
 			   unsigned char *plaintext)
 {
     u32 tmp[4];
@@ -1459,3 +1410,4 @@ void Camellia_DecryptBlock(const int keyBitLength,
     PUTU32(plaintext + 8, tmp[2]);
     PUTU32(plaintext + 12, tmp[3]);
 }
+#endif /*!USE_ARM_ASM*/

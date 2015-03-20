@@ -9,12 +9,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with libgpg-error; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -40,6 +40,8 @@ static const char msgstr[] =
   "GPG_ERR_SOURCE_GPA" "\0"
   "GPG_ERR_SOURCE_KLEO" "\0"
   "GPG_ERR_SOURCE_G13" "\0"
+  "GPG_ERR_SOURCE_ASSUAN" "\0"
+  "GPG_ERR_SOURCE_TLS" "\0"
   "GPG_ERR_SOURCE_ANY" "\0"
   "GPG_ERR_SOURCE_USER_1" "\0"
   "GPG_ERR_SOURCE_USER_2" "\0"
@@ -65,18 +67,21 @@ static const int msgidx[] =
     277,
     297,
     316,
-    335,
+    338,
     357,
-    379,
-    401,
-    423
+    376,
+    398,
+    420,
+    442,
+    464
   };
 
-static inline int
+static GPG_ERR_INLINE int
 msgidxof (int code)
 {
   return (0 ? 0
-  : ((code >= 0) && (code <= 14)) ? (code - 0)
-  : ((code >= 31) && (code <= 35)) ? (code - 16)
-  : 36 - 16);
+  : ((code >= 0) && (code <= 15)) ? (code - 0)
+  : ((code >= 17) && (code <= 17)) ? (code - 1)
+  : ((code >= 31) && (code <= 35)) ? (code - 14)
+  : 36 - 14);
 }

@@ -81,7 +81,7 @@ static void serve (int listen_fd);
 
 
 /* Error printing utility.  PRIORITY should be one of syslog's
-   priority levels.  This fucntions prints to the stderro or syslog
+   priority levels.  This functions prints to the stderr or syslog
    depending on whether we are already daemonized. */
 static void
 logit (int priority, const char *format, ...)
@@ -118,7 +118,7 @@ my_gcry_logger (void *dummy, int level, const char *format, va_list arg_ptr)
     case GCRY_LOG_FATAL:level = LOG_CRIT; break;
     case GCRY_LOG_BUG:  level = LOG_CRIT; break;
     case GCRY_LOG_DEBUG:level = LOG_DEBUG; break;
-    default:            level = LOG_ERR; break;  
+    default:            level = LOG_ERR; break;
     }
   if (running_detached)
     {
@@ -152,24 +152,24 @@ daemonize (void)
   fflush (NULL);
 
   pid = fork ();
-  if (pid == (pid_t)-1) 
+  if (pid == (pid_t)-1)
     {
       logit (LOG_CRIT, "fork failed: %s", strerror (errno));
       exit (1);
     }
   if (pid)
-    exit (0); 
+    exit (0);
 
   if (setsid() == -1)
     {
       logit (LOG_CRIT, "setsid() failed: %s", strerror(errno));
       exit (1);
     }
-  
+
   signal (SIGHUP, SIG_IGN);
 
   pid = fork ();
-  if (pid == (pid_t)-1) 
+  if (pid == (pid_t)-1)
     {
       logit (LOG_CRIT, PGM ": second fork failed: %s", strerror (errno));
       exit (1);
@@ -221,7 +221,7 @@ print_version (int with_help)
          "This is free software: you are free to change and redistribute it.\n"
          "There is NO WARRANTY, to the extent permitted by law.\n",
          stdout);
-        
+
   if (with_help)
     fputs ("\n"
            "Usage: " PGM " [OPTIONS] [SOCKETNAME]\n"
@@ -229,11 +229,11 @@ print_version (int with_help)
            " on socket SOCKETNAME\n"
            "SOCKETNAME defaults to XXX\n"
            "\n"
-           "  --no-detach   do not deatach from the console\n"        
+           "  --no-detach   do not deatach from the console\n"
            "  --version     print version of the program and exit\n"
            "  --help        display this help and exit\n"
            BUGREPORT_LINE, stdout );
-  
+
   exit (0);
 }
 
@@ -246,7 +246,7 @@ print_usage (void)
 }
 
 
-int 
+int
 main (int argc, char **argv)
 {
   int no_detach = 0;
@@ -257,7 +257,7 @@ main (int argc, char **argv)
   int rc;
   const char *socketname = "/var/run/libgcrypt/S.gcryptrnd";
 
- 
+
   if (argc)
     {
       argc--; argv++;
@@ -280,8 +280,8 @@ main (int argc, char **argv)
         }
       else
         print_usage ();
-    }          
- 
+    }
+
   if (argc == 1)
     socketname = argv[0];
   else if (argc > 1)
@@ -336,7 +336,7 @@ main (int argc, char **argv)
       logit (LOG_CRIT, "can't create socket: %s", strerror (errno));
       exit (1);
     }
-  srvr_addr = gcry_xmalloc (sizeof *srvr_addr); 
+  srvr_addr = gcry_xmalloc (sizeof *srvr_addr);
   memset (srvr_addr, 0, sizeof *srvr_addr);
   srvr_addr->sun_family = AF_UNIX;
   if (strlen (socketname) + 1 >= sizeof (srvr_addr->sun_path))
@@ -367,7 +367,7 @@ main (int argc, char **argv)
       close (fd);
       exit (1);
     }
-  
+
   logit (LOG_INFO, "listening on socket `%s', fd=%d",
          srvr_addr->sun_path, fd);
 
@@ -536,7 +536,7 @@ connection_loop (int fd)
           break;
         }
       if (rc)
-        break; /* A write error occured while sending the response. */
+        break; /* A write error occurred while sending the response. */
     }
 }
 
@@ -556,7 +556,7 @@ connection_thread (void *arg)
   close (fd);
   logit (LOG_INFO, "connection handler for fd %d terminated", fd);
   active_connections--;
-  
+
   return NULL;
 }
 
@@ -573,11 +573,11 @@ handle_signal (int signo)
     case SIGHUP:
       logit (LOG_NOTICE, "SIGHUP received - re-reading configuration");
       break;
-      
+
     case SIGUSR1:
       logit (LOG_NOTICE, "SIGUSR1 received - no action defined");
       break;
-      
+
     case SIGUSR2:
       logit (LOG_NOTICE, "SIGUSR2 received - no action defined");
       break;
@@ -595,7 +595,7 @@ handle_signal (int signo)
           return 1;
 	}
       break;
-        
+
     case SIGINT:
       logit (LOG_NOTICE, "SIGINT received - immediate shutdown");
       return 1;
@@ -675,7 +675,6 @@ serve (int listen_fd)
           close (fd);
 	}
     }
-  
+
   pth_event_free (ev, PTH_FREE_ALL);
 }
-

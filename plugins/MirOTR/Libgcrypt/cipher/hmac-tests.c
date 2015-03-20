@@ -17,7 +17,7 @@
  * License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-/* 
+/*
    Although algorithm self-tests are usually implemented in the module
    implementing the algorithm, the case for HMAC is different because
    HMAC is implemnetd on a higher level using a special feature of the
@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#ifdef HAVE_STDINT_H 
+#ifdef HAVE_STDINT_H
 # include <stdint.h>
 #endif
 
@@ -47,7 +47,7 @@
    succdess or a string describing the failure.  */
 static const char *
 check_one (int algo,
-           const void *data, size_t datalen, 
+           const void *data, size_t datalen,
            const void *key, size_t keylen,
            const void *expect, size_t expectlen)
 {
@@ -88,7 +88,7 @@ check_one (int algo,
       return "does not match";
     }
   _gcry_md_close (hd);
-  return NULL;  
+  return NULL;
 }
 
 
@@ -123,7 +123,7 @@ selftests_sha1 (int extended, selftest_report_func_t report)
                           "\xa4\x58\x30\x73\x7d\x5c\xc6\xc7\x5d\x24", 20);
       if (errtxt)
         goto failed;
-      
+
       what = "FIPS-198a, A.3";
       for (i=0, j=0x50; i < 100; i++)
         key[i] = j++;
@@ -134,7 +134,7 @@ selftests_sha1 (int extended, selftest_report_func_t report)
                           "\x5c\xaf\x7c\xb0\x92\xec\xf8\xd1\xa3\xaa", 20 );
       if (errtxt)
         goto failed;
-      
+
       what = "FIPS-198a, A.4";
       for (i=0, j=0x70; i < 49; i++)
         key[i] = j++;
@@ -160,7 +160,7 @@ selftests_sha1 (int extended, selftest_report_func_t report)
 static gpg_err_code_t
 selftests_sha224 (int extended, selftest_report_func_t report)
 {
-  static struct 
+  static struct
   {
     const char * const desc;
     const char * const data;
@@ -169,7 +169,7 @@ selftests_sha224 (int extended, selftest_report_func_t report)
   } tv[] =
     {
       { "data-28 key-4",
-        "what do ya want for nothing?", 
+        "what do ya want for nothing?",
         "Jefe",
         { 0xa3, 0x0e, 0x01, 0x09, 0x8b, 0xc6, 0xdb, 0xbf,
           0x45, 0x69, 0x0f, 0x3a, 0x7e, 0x9e, 0x6d, 0x0f,
@@ -248,7 +248,7 @@ selftests_sha224 (int extended, selftest_report_func_t report)
   const char *what;
   const char *errtxt;
   int tvidx;
-  
+
   for (tvidx=0; tv[tvidx].desc; tvidx++)
     {
       what = tv[tvidx].desc;
@@ -274,7 +274,7 @@ selftests_sha224 (int extended, selftest_report_func_t report)
 static gpg_err_code_t
 selftests_sha256 (int extended, selftest_report_func_t report)
 {
-  static struct 
+  static struct
   {
     const char * const desc;
     const char * const data;
@@ -283,7 +283,7 @@ selftests_sha256 (int extended, selftest_report_func_t report)
   } tv[] =
     {
       { "data-28 key-4",
-        "what do ya want for nothing?", 
+        "what do ya want for nothing?",
         "Jefe",
 	{ 0x5b, 0xdc, 0xc1, 0x46, 0xbf, 0x60, 0x75, 0x4e,
           0x6a, 0x04, 0x24, 0x26, 0x08, 0x95, 0x75, 0xc7,
@@ -362,7 +362,7 @@ selftests_sha256 (int extended, selftest_report_func_t report)
   const char *what;
   const char *errtxt;
   int tvidx;
-  
+
   for (tvidx=0; tv[tvidx].desc; tvidx++)
     {
       hmac256_context_t hmachd;
@@ -416,7 +416,7 @@ selftests_sha256 (int extended, selftest_report_func_t report)
 static gpg_err_code_t
 selftests_sha384 (int extended, selftest_report_func_t report)
 {
-  static struct 
+  static struct
   {
     const char * const desc;
     const char * const data;
@@ -425,7 +425,7 @@ selftests_sha384 (int extended, selftest_report_func_t report)
   } tv[] =
     {
       { "data-28 key-4",
-        "what do ya want for nothing?", 
+        "what do ya want for nothing?",
         "Jefe",
         { 0xaf, 0x45, 0xd2, 0xe3, 0x76, 0x48, 0x40, 0x31,
           0x61, 0x7f, 0x78, 0xd2, 0xb5, 0x8a, 0x6b, 0x1b,
@@ -516,7 +516,7 @@ selftests_sha384 (int extended, selftest_report_func_t report)
   const char *what;
   const char *errtxt;
   int tvidx;
-  
+
   for (tvidx=0; tv[tvidx].desc; tvidx++)
     {
       what = tv[tvidx].desc;
@@ -542,7 +542,7 @@ selftests_sha384 (int extended, selftest_report_func_t report)
 static gpg_err_code_t
 selftests_sha512 (int extended, selftest_report_func_t report)
 {
-  static struct 
+  static struct
   {
     const char * const desc;
     const char * const data;
@@ -551,7 +551,7 @@ selftests_sha512 (int extended, selftest_report_func_t report)
   } tv[] =
     {
       { "data-28 key-4",
-        "what do ya want for nothing?", 
+        "what do ya want for nothing?",
         "Jefe",
         { 0x16, 0x4b, 0x7a, 0x7b, 0xfc, 0xf8, 0x19, 0xe2,
           0xe3, 0x95, 0xfb, 0xe7, 0x3b, 0x56, 0xe0, 0xa3,
@@ -654,7 +654,7 @@ selftests_sha512 (int extended, selftest_report_func_t report)
   const char *what;
   const char *errtxt;
   int tvidx;
-  
+
   for (tvidx=0; tv[tvidx].desc; tvidx++)
     {
       what = tv[tvidx].desc;
@@ -718,7 +718,7 @@ _gcry_hmac_selftest (int algo, int extended, selftest_report_func_t report)
 {
   gcry_err_code_t ec = 0;
 
-  if (!gcry_md_test_algo (algo))
+  if (!_gcry_md_test_algo (algo))
     {
       ec = run_selftests (algo, extended, report);
     }

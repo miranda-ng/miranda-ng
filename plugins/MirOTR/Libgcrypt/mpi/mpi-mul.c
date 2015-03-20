@@ -31,7 +31,7 @@
 
 
 void
-gcry_mpi_mul_ui( gcry_mpi_t prod, gcry_mpi_t mult, unsigned long small_mult )
+_gcry_mpi_mul_ui (gcry_mpi_t prod, gcry_mpi_t mult, unsigned long small_mult)
 {
     mpi_size_t size, prod_size;
     mpi_ptr_t  prod_ptr;
@@ -61,7 +61,7 @@ gcry_mpi_mul_ui( gcry_mpi_t prod, gcry_mpi_t mult, unsigned long small_mult )
 
 
 void
-gcry_mpi_mul_2exp( gcry_mpi_t w, gcry_mpi_t u, unsigned long cnt)
+_gcry_mpi_mul_2exp (gcry_mpi_t w, gcry_mpi_t u, unsigned long cnt)
 {
     mpi_size_t usize, wsize, limb_cnt;
     mpi_ptr_t wp;
@@ -107,7 +107,7 @@ gcry_mpi_mul_2exp( gcry_mpi_t w, gcry_mpi_t u, unsigned long cnt)
 
 
 void
-gcry_mpi_mul( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
+_gcry_mpi_mul (gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
 {
     mpi_size_t usize, vsize, wsize;
     mpi_ptr_t up, vp, wp;
@@ -144,7 +144,7 @@ gcry_mpi_mul( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
     wsize = usize + vsize;
     if ( !mpi_is_secure (w) && (mpi_is_secure (u) || mpi_is_secure (v)) ) {
         /* w is not allocated in secure space but u or v is.  To make sure
-         * that no temporray results are stored in w, we temporary use 
+         * that no temporray results are stored in w, we temporary use
          * a newly allocated limb space for w */
         wp = mpi_alloc_limb_space( wsize, 1 );
         assign_wp = 2; /* mark it as 2 so that we can later copy it back to
@@ -205,9 +205,8 @@ gcry_mpi_mul( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
 
 
 void
-gcry_mpi_mulm( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m)
+_gcry_mpi_mulm (gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m)
 {
-    gcry_mpi_mul(w, u, v);
-    _gcry_mpi_fdiv_r( w, w, m );
+  mpi_mul (w, u, v);
+  _gcry_mpi_tdiv_r (w, w, m);
 }
-

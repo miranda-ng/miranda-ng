@@ -22,7 +22,7 @@
 /* This implementation was written by Nikos Mavroyanopoulos for GNUTLS
  * as a Libgcrypt module (gnutls/lib/x509/rc2.c) and later adapted for
  * direct use by Libgcrypt by Werner Koch.  This implementation is
- * only useful for pkcs#12 descryption.
+ * only useful for pkcs#12 decryption.
  *
  * The implementation here is based on Peter Gutmann's RRC.2 paper.
  */
@@ -38,15 +38,15 @@
 
 #define RFC2268_BLOCKSIZE 8
 
-typedef struct 
+typedef struct
 {
   u16 S[64];
 } RFC2268_context;
 
-static const unsigned char rfc2268_sbox[] = { 
-  217, 120, 249, 196,  25, 221, 181, 237, 
+static const unsigned char rfc2268_sbox[] = {
+  217, 120, 249, 196,  25, 221, 181, 237,
    40, 233, 253, 121,  74, 160, 216, 157,
-  198, 126,  55, 131,  43, 118,  83, 142, 
+  198, 126,  55, 131,  43, 118,  83, 142,
    98,  76, 100, 136,  68, 139, 251, 162,
    23, 154,  89, 245, 135, 179,  79,  19,
    97,  69, 109, 141,   9, 129, 125,  50,
@@ -106,10 +106,10 @@ do_encrypt (void *context, unsigned char *outbuf, const unsigned char *inbuf)
       /* For some reason I cannot combine those steps. */
       word0 += (word1 & ~word3) + (word2 & word3) + ctx->S[j];
       word0 = rotl16(word0, 1);
-		
+
       word1 += (word2 & ~word0) + (word3 & word0) + ctx->S[j + 1];
       word1 = rotl16(word1, 2);
-		
+
       word2 += (word3 & ~word1) + (word0 & word1) + ctx->S[j + 2];
       word2 = rotl16(word2, 3);
 
@@ -136,6 +136,13 @@ do_encrypt (void *context, unsigned char *outbuf, const unsigned char *inbuf)
   outbuf[7] = word3 >> 8;
 }
 
+static unsigned int
+encrypt_block (void *context, unsigned char *outbuf, const unsigned char *inbuf)
+{
+  do_encrypt (context, outbuf, inbuf);
+  return /*burn_stack*/ (4 * sizeof(void *) + sizeof(void *) + sizeof(u32) * 4);
+}
+
 static void
 do_decrypt (void *context, unsigned char *outbuf, const unsigned char *inbuf)
 {
@@ -152,7 +159,7 @@ do_decrypt (void *context, unsigned char *outbuf, const unsigned char *inbuf)
   word3 = (word3 << 8) | inbuf[7];
   word3 = (word3 << 8) | inbuf[6];
 
-  for (i = 15; i >= 0; i--) 
+  for (i = 15; i >= 0; i--)
     {
       j = i * 4;
 
@@ -168,7 +175,7 @@ do_decrypt (void *context, unsigned char *outbuf, const unsigned char *inbuf)
       word0 = rotr16(word0, 1);
       word0 -= (word1 & ~word3) + (word2 & word3) + ctx->S[j];
 
-      if (i == 5 || i == 11) 
+      if (i == 5 || i == 11)
         {
           word3 = word3 - ctx->S[word2 & 63];
           word2 = word2 - ctx->S[word1 & 63];
@@ -186,6 +193,13 @@ do_decrypt (void *context, unsigned char *outbuf, const unsigned char *inbuf)
   outbuf[5] = word2 >> 8;
   outbuf[6] = word3 & 255;
   outbuf[7] = word3 >> 8;
+}
+
+static unsigned int
+decrypt_block (void *context, unsigned char *outbuf, const unsigned char *inbuf)
+{
+  do_decrypt (context, outbuf, inbuf);
+  return /*burn_stack*/ (4 * sizeof(void *) + sizeof(void *) + sizeof(u32) * 4);
 }
 
 
@@ -214,7 +228,7 @@ setkey_core (void *context, const unsigned char *key, unsigned int keylen, int w
     return GPG_ERR_INV_KEYLEN;
 
   S = (unsigned char *) ctx->S;
-  
+
   for (i = 0; i < keylen; i++)
     S[i] = key[i];
 
@@ -232,8 +246,8 @@ setkey_core (void *context, const unsigned char *key, unsigned int keylen, int w
       i = 128 - len;
       x = rfc2268_sbox[S[i] & (255 >> (7 & -bits))];
       S[i] = x;
-      
-      while (i--) 
+
+      while (i--)
         {
           x = rfc2268_sbox[x ^ S[i + len]];
           S[i] = x;
@@ -241,7 +255,7 @@ setkey_core (void *context, const unsigned char *key, unsigned int keylen, int w
     }
 
   /* Make the expanded key, endian independent. */
-  for (i = 0; i < 64; i++) 
+  for (i = 0; i < 64; i++)
     ctx->S[i] = ( (u16) S[i * 2] | (((u16) S[i * 2 + 1]) << 8));
 
   return 0;
@@ -297,7 +311,7 @@ selftest (void)
     return "RFC2268 encryption test 1 failed.";
 
   setkey_core (&ctx, key_1, sizeof(key_1), 0);
-  do_decrypt (&ctx, scratch, scratch); 
+  do_decrypt (&ctx, scratch, scratch);
   if (memcmp (scratch, plaintext_1, sizeof(plaintext_1)))
     return "RFC2268 decryption test 1 failed.";
 
@@ -308,7 +322,7 @@ selftest (void)
     return "RFC2268 encryption test 2 failed.";
 
   setkey_core (&ctx, key_2, sizeof(key_2), 0);
-  do_decrypt (&ctx, scratch, scratch); 
+  do_decrypt (&ctx, scratch, scratch);
   if (memcmp (scratch, plaintext_2, sizeof(plaintext_2)))
     return "RFC2268 decryption test 2 failed.";
 
@@ -320,7 +334,7 @@ selftest (void)
     return "RFC2268 encryption test 3 failed.";
 
   setkey_core (&ctx, key_3, sizeof(key_3), 0);
-  do_decrypt (&ctx, scratch, scratch); 
+  do_decrypt (&ctx, scratch, scratch);
   if (memcmp(scratch, plaintext_3, sizeof(plaintext_3)))
     return "RFC2268 decryption test 3 failed.";
 
@@ -337,9 +351,25 @@ static gcry_cipher_oid_spec_t oids_rfc2268_40[] =
     { NULL }
   };
 
-gcry_cipher_spec_t _gcry_cipher_spec_rfc2268_40 = {
-  "RFC2268_40", NULL, oids_rfc2268_40,
-  RFC2268_BLOCKSIZE, 40, sizeof(RFC2268_context),
-  do_setkey, do_encrypt, do_decrypt
-};
+static gcry_cipher_oid_spec_t oids_rfc2268_128[] =
+  {
+    /* pbeWithSHAAnd128BitRC2_CBC */
+    { "1.2.840.113549.1.12.1.5", GCRY_CIPHER_MODE_CBC },
+    { NULL }
+  };
 
+gcry_cipher_spec_t _gcry_cipher_spec_rfc2268_40 =
+  {
+    GCRY_CIPHER_RFC2268_40, {0, 0},
+    "RFC2268_40", NULL, oids_rfc2268_40,
+    RFC2268_BLOCKSIZE, 40, sizeof(RFC2268_context),
+    do_setkey, encrypt_block, decrypt_block
+  };
+
+gcry_cipher_spec_t _gcry_cipher_spec_rfc2268_128 =
+  {
+    GCRY_CIPHER_RFC2268_128, {0, 0},
+    "RFC2268_128", NULL, oids_rfc2268_128,
+    RFC2268_BLOCKSIZE, 128, sizeof(RFC2268_context),
+    do_setkey, encrypt_block, decrypt_block
+  };

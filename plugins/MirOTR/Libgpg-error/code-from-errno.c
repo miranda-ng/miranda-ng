@@ -7,12 +7,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with libgpg-error; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include <errno.h> 
+#include <errno.h>
 
 #include <gpg-error.h>
 
@@ -32,7 +32,7 @@
    GPG_ERR_UNKNOWN_ERRNO if the system error is not mapped (report
    this).  */
 gpg_err_code_t
-gpg_err_code_from_errno (int err)
+_gpg_err_code_from_errno (int err)
 {
   int idx;
 
@@ -52,7 +52,7 @@ gpg_err_code_from_errno (int err)
    returns GPG_ERR_UNKNOWN_ERRNO if the system error is not mapped
    (report this) and GPG_ERR_MISSING_ERRNO if ERRNO has the value 0. */
 gpg_err_code_t
-gpg_err_code_from_syserror (void)
+_gpg_err_code_from_syserror (void)
 {
   int err = errno;
   int idx;

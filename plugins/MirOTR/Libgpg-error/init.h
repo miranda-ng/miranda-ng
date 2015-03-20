@@ -60,6 +60,11 @@ struct tls_space_s
 struct tls_space_s *get_tls (void);
 
 
+/* Explicit constructor for w32-gettext.c  */
+#ifndef DLL_EXPORT
+void _gpg_w32__init_gettext_module (void);
+#endif
+
 #endif /*HAVE_W32_SYSTEM*/
 
 #endif /*INIT_H*/

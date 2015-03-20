@@ -20,14 +20,39 @@
 #ifndef GCRY_HASH_COMMON_H
 #define GCRY_HASH_COMMON_H
 
+#include "types.h"
 
-const char * _gcry_hash_selftest_check_one 
-/**/         (int algo, 
+
+const char * _gcry_hash_selftest_check_one
+/**/         (int algo,
               int datamode, const void *data, size_t datalen,
               const void *expect, size_t expectlen);
-     
+
+/* Type for the md_write helper function.  */
+typedef unsigned int (*_gcry_md_block_write_t) (void *c,
+						const unsigned char *buf);
+
+#if defined(HAVE_U64_TYPEDEF) && (defined(USE_SHA512) || defined(USE_WHIRLPOOL))
+/* SHA-512 needs u64 and larger buffer. Whirlpool needs u64. */
+# define MD_BLOCK_MAX_BLOCKSIZE 128
+# define MD_NBLOCKS_TYPE u64
+#else
+# define MD_BLOCK_MAX_BLOCKSIZE 64
+# define MD_NBLOCKS_TYPE u32
+#endif
+
+typedef struct gcry_md_block_ctx
+{
+    byte buf[MD_BLOCK_MAX_BLOCKSIZE];
+    MD_NBLOCKS_TYPE nblocks;
+    MD_NBLOCKS_TYPE nblocks_high;
+    int count;
+    size_t blocksize;
+    _gcry_md_block_write_t bwrite;
+} gcry_md_block_ctx_t;
 
 
-
+void
+_gcry_md_block_write( void *context, const void *inbuf_arg, size_t inlen);
 
 #endif /*GCRY_HASH_COMMON_H*/

@@ -79,8 +79,8 @@ do_write( int fd, void *buf, size_t nbytes )
 {
   size_t nleft = nbytes;
   int nwritten;
-  
-  while( nleft > 0 ) 
+
+  while( nleft > 0 )
     {
       nwritten = write( fd, buf, nleft);
       if( nwritten < 0 )
@@ -105,7 +105,7 @@ do_read( int fd, void *buf, size_t nbytes )
       do
         {
           n = read(fd, (char*)buf + nread, nbytes );
-        } 
+        }
       while( n == -1 && errno == EINTR );
       if( n == -1)
         return nread? nread:-1;
@@ -113,13 +113,13 @@ do_read( int fd, void *buf, size_t nbytes )
         return -1;
       nread += n;
       nbytes -= n;
-    } 
+    }
   while( nread < nbytes );
   return nread;
 }
 
 
-/* Note that his fucntion is not thread-safe.  */
+/* Note that his function is not thread-safe.  */
 gpg_error_t
 _gcry_rndegd_set_socket_name (const char *name)
 {
@@ -129,10 +129,10 @@ _gcry_rndegd_set_socket_name (const char *name)
   newname = my_make_filename (name, NULL);
   if (strlen (newname)+1 >= sizeof addr.sun_path)
     {
-      gcry_free (newname);
+      xfree (newname);
       return gpg_error_from_syserror ();
     }
-  gcry_free (user_socket_name);
+  xfree (user_socket_name);
   user_socket_name = newname;
   return 0;
 }
@@ -177,13 +177,13 @@ _gcry_rndegd_connect_socket (int nofail)
 
   if (strlen(name)+1 >= sizeof addr.sun_path)
     log_fatal ("EGD socketname is too long\n");
-  
+
   memset( &addr, 0, sizeof addr );
   addr.sun_family = AF_UNIX;
-  strcpy( addr.sun_path, name );	  
+  strcpy( addr.sun_path, name );
   addr_len = (offsetof( struct sockaddr_un, sun_path )
               + strlen( addr.sun_path ));
-  
+
   fd = socket(AF_UNIX, SOCK_STREAM, 0);
   if (fd == -1 && !nofail)
     log_fatal("can't create unix domain socket: %s\n", strerror(errno) );
@@ -195,7 +195,7 @@ _gcry_rndegd_connect_socket (int nofail)
       close (fd);
       fd = -1;
     }
-  gcry_free(name);
+  xfree (name);
   if (fd != -1)
     egd_socket = fd;
   return fd;

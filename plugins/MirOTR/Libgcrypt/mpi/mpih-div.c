@@ -48,7 +48,7 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 {
     mpi_size_t i;
     mpi_limb_t n1, n0, r;
-    int dummy;
+    mpi_limb_t dummy GCC_ATTR_UNUSED;
 
     /* Botch: Should this be handled at all?  Rely on callers?	*/
     if( !dividend_size )
@@ -212,9 +212,8 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 
     switch(dsize) {
       case 0:
-	/* We are asked to divide by zero, so go ahead and do it!  (To make
-	   the compiler not remove this statement, return the value.)  */
-	return 1 / dsize;
+	_gcry_divide_by_zero();
+	break;
 
       case 1:
 	{
@@ -397,7 +396,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 {
     mpi_size_t i;
     mpi_limb_t n1, n0, r;
-    int dummy;
+    mpi_limb_t dummy GCC_ATTR_UNUSED;
 
     if( !dividend_size )
 	return 0;
@@ -531,5 +530,3 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	return r;
     }
 }
-
-

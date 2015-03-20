@@ -36,9 +36,27 @@
 #include "types.h"
 #include "g10lib.h"
 #include "cipher.h"
+#include "bufhelp.h"
+#include "cipher-selftest.h"
 
 #define BLOWFISH_BLOCKSIZE 8
 #define BLOWFISH_ROUNDS 16
+
+
+/* USE_AMD64_ASM indicates whether to use AMD64 assembly code. */
+#undef USE_AMD64_ASM
+#if defined(__x86_64__) && defined(HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS) && \
+    (BLOWFISH_ROUNDS == 16)
+# define USE_AMD64_ASM 1
+#endif
+
+/* USE_ARM_ASM indicates whether to use ARM assembly code. */
+#undef USE_ARM_ASM
+#if defined(__ARMEL__)
+# if (BLOWFISH_ROUNDS == 16) && defined(HAVE_COMPATIBLE_GCC_ARM_PLATFORM_AS)
+#  define USE_ARM_ASM 1
+# endif
+#endif
 
 typedef struct {
     u32 s0[256];
@@ -49,8 +67,8 @@ typedef struct {
 } BLOWFISH_context;
 
 static gcry_err_code_t bf_setkey (void *c, const byte *key, unsigned keylen);
-static void encrypt_block (void *bc, byte *outbuf, const byte *inbuf);
-static void decrypt_block (void *bc, byte *outbuf, const byte *inbuf);
+static unsigned int encrypt_block (void *bc, byte *outbuf, const byte *inbuf);
+static unsigned int decrypt_block (void *bc, byte *outbuf, const byte *inbuf);
 
 
 /* precomputed S boxes */
@@ -240,6 +258,119 @@ static const u32 ps[BLOWFISH_ROUNDS+2] = {
     0xC0AC29B7,0xC97C50DD,0x3F84D5B5,0xB5470917,0x9216D5D9,0x8979FB1B };
 
 
+#ifdef USE_AMD64_ASM
+
+/* Assembly implementations of Blowfish. */
+extern void _gcry_blowfish_amd64_do_encrypt(BLOWFISH_context *c, u32 *ret_xl,
+					    u32 *ret_xr);
+
+extern void _gcry_blowfish_amd64_encrypt_block(BLOWFISH_context *c, byte *out,
+					       const byte *in);
+
+extern void _gcry_blowfish_amd64_decrypt_block(BLOWFISH_context *c, byte *out,
+					       const byte *in);
+
+/* These assembly implementations process four blocks in parallel. */
+extern void _gcry_blowfish_amd64_ctr_enc(BLOWFISH_context *ctx, byte *out,
+					 const byte *in, byte *ctr);
+
+extern void _gcry_blowfish_amd64_cbc_dec(BLOWFISH_context *ctx, byte *out,
+					 const byte *in, byte *iv);
+
+extern void _gcry_blowfish_amd64_cfb_dec(BLOWFISH_context *ctx, byte *out,
+					 const byte *in, byte *iv);
+
+static void
+do_encrypt ( BLOWFISH_context *bc, u32 *ret_xl, u32 *ret_xr )
+{
+  _gcry_blowfish_amd64_do_encrypt (bc, ret_xl, ret_xr);
+}
+
+static void
+do_encrypt_block (BLOWFISH_context *context, byte *outbuf, const byte *inbuf)
+{
+  _gcry_blowfish_amd64_encrypt_block (context, outbuf, inbuf);
+}
+
+static void
+do_decrypt_block (BLOWFISH_context *context, byte *outbuf, const byte *inbuf)
+{
+  _gcry_blowfish_amd64_decrypt_block (context, outbuf, inbuf);
+}
+
+static unsigned int
+encrypt_block (void *context , byte *outbuf, const byte *inbuf)
+{
+  BLOWFISH_context *c = (BLOWFISH_context *) context;
+  do_encrypt_block (c, outbuf, inbuf);
+  return /*burn_stack*/ (2*8);
+}
+
+static unsigned int
+decrypt_block (void *context, byte *outbuf, const byte *inbuf)
+{
+  BLOWFISH_context *c = (BLOWFISH_context *) context;
+  do_decrypt_block (c, outbuf, inbuf);
+  return /*burn_stack*/ (2*8);
+}
+
+#elif defined(USE_ARM_ASM)
+
+/* Assembly implementations of Blowfish. */
+extern void _gcry_blowfish_arm_do_encrypt(BLOWFISH_context *c, u32 *ret_xl,
+					    u32 *ret_xr);
+
+extern void _gcry_blowfish_arm_encrypt_block(BLOWFISH_context *c, byte *out,
+					       const byte *in);
+
+extern void _gcry_blowfish_arm_decrypt_block(BLOWFISH_context *c, byte *out,
+					       const byte *in);
+
+/* These assembly implementations process two blocks in parallel. */
+extern void _gcry_blowfish_arm_ctr_enc(BLOWFISH_context *ctx, byte *out,
+					 const byte *in, byte *ctr);
+
+extern void _gcry_blowfish_arm_cbc_dec(BLOWFISH_context *ctx, byte *out,
+					 const byte *in, byte *iv);
+
+extern void _gcry_blowfish_arm_cfb_dec(BLOWFISH_context *ctx, byte *out,
+					 const byte *in, byte *iv);
+
+static void
+do_encrypt ( BLOWFISH_context *bc, u32 *ret_xl, u32 *ret_xr )
+{
+  _gcry_blowfish_arm_do_encrypt (bc, ret_xl, ret_xr);
+}
+
+static void
+do_encrypt_block (BLOWFISH_context *context, byte *outbuf, const byte *inbuf)
+{
+  _gcry_blowfish_arm_encrypt_block (context, outbuf, inbuf);
+}
+
+static void
+do_decrypt_block (BLOWFISH_context *context, byte *outbuf, const byte *inbuf)
+{
+  _gcry_blowfish_arm_decrypt_block (context, outbuf, inbuf);
+}
+
+static unsigned int
+encrypt_block (void *context , byte *outbuf, const byte *inbuf)
+{
+  BLOWFISH_context *c = (BLOWFISH_context *) context;
+  do_encrypt_block (c, outbuf, inbuf);
+  return /*burn_stack*/ (10*4);
+}
+
+static unsigned int
+decrypt_block (void *context, byte *outbuf, const byte *inbuf)
+{
+  BLOWFISH_context *c = (BLOWFISH_context *) context;
+  do_decrypt_block (c, outbuf, inbuf);
+  return /*burn_stack*/ (10*4);
+}
+
+#else /*USE_ARM_ASM*/
 
 #if BLOWFISH_ROUNDS != 16
 static inline u32
@@ -413,25 +544,19 @@ do_encrypt_block ( BLOWFISH_context *bc, byte *outbuf, const byte *inbuf )
 {
   u32 d1, d2;
 
-  d1 = inbuf[0] << 24 | inbuf[1] << 16 | inbuf[2] << 8 | inbuf[3];
-  d2 = inbuf[4] << 24 | inbuf[5] << 16 | inbuf[6] << 8 | inbuf[7];
+  d1 = buf_get_be32(inbuf);
+  d2 = buf_get_be32(inbuf + 4);
   do_encrypt( bc, &d1, &d2 );
-  outbuf[0] = (d1 >> 24) & 0xff;
-  outbuf[1] = (d1 >> 16) & 0xff;
-  outbuf[2] = (d1 >>	8) & 0xff;
-  outbuf[3] =  d1	   & 0xff;
-  outbuf[4] = (d2 >> 24) & 0xff;
-  outbuf[5] = (d2 >> 16) & 0xff;
-  outbuf[6] = (d2 >>	8) & 0xff;
-  outbuf[7] =  d2	   & 0xff;
+  buf_put_be32(outbuf, d1);
+  buf_put_be32(outbuf + 4, d2);
 }
 
-static void
+static unsigned int
 encrypt_block (void *context, byte *outbuf, const byte *inbuf)
 {
   BLOWFISH_context *bc = (BLOWFISH_context *) context;
   do_encrypt_block (bc, outbuf, inbuf);
-  _gcry_burn_stack (64);
+  return /*burn_stack*/ (64);
 }
 
 
@@ -440,25 +565,254 @@ do_decrypt_block (BLOWFISH_context *bc, byte *outbuf, const byte *inbuf)
 {
   u32 d1, d2;
 
-  d1 = inbuf[0] << 24 | inbuf[1] << 16 | inbuf[2] << 8 | inbuf[3];
-  d2 = inbuf[4] << 24 | inbuf[5] << 16 | inbuf[6] << 8 | inbuf[7];
+  d1 = buf_get_be32(inbuf);
+  d2 = buf_get_be32(inbuf + 4);
   decrypt( bc, &d1, &d2 );
-  outbuf[0] = (d1 >> 24) & 0xff;
-  outbuf[1] = (d1 >> 16) & 0xff;
-  outbuf[2] = (d1 >>	8) & 0xff;
-  outbuf[3] =  d1	   & 0xff;
-  outbuf[4] = (d2 >> 24) & 0xff;
-  outbuf[5] = (d2 >> 16) & 0xff;
-  outbuf[6] = (d2 >>	8) & 0xff;
-  outbuf[7] =  d2	   & 0xff;
+  buf_put_be32(outbuf, d1);
+  buf_put_be32(outbuf + 4, d2);
 }
 
-static void
+static unsigned int
 decrypt_block (void *context, byte *outbuf, const byte *inbuf)
 {
   BLOWFISH_context *bc = (BLOWFISH_context *) context;
   do_decrypt_block (bc, outbuf, inbuf);
-  _gcry_burn_stack (64);
+  return /*burn_stack*/ (64);
+}
+
+#endif /*!USE_AMD64_ASM&&!USE_ARM_ASM*/
+
+
+/* Bulk encryption of complete blocks in CTR mode.  This function is only
+   intended for the bulk encryption feature of cipher.c.  CTR is expected to be
+   of size BLOWFISH_BLOCKSIZE. */
+void
+_gcry_blowfish_ctr_enc(void *context, unsigned char *ctr, void *outbuf_arg,
+		       const void *inbuf_arg, size_t nblocks)
+{
+  BLOWFISH_context *ctx = context;
+  unsigned char *outbuf = outbuf_arg;
+  const unsigned char *inbuf = inbuf_arg;
+  unsigned char tmpbuf[BLOWFISH_BLOCKSIZE];
+  int burn_stack_depth = (64) + 2 * BLOWFISH_BLOCKSIZE;
+  int i;
+
+#ifdef USE_AMD64_ASM
+  {
+    if (nblocks >= 4)
+      burn_stack_depth += 5 * sizeof(void*);
+
+    /* Process data in 4 block chunks. */
+    while (nblocks >= 4)
+      {
+        _gcry_blowfish_amd64_ctr_enc(ctx, outbuf, inbuf, ctr);
+
+        nblocks -= 4;
+        outbuf += 4 * BLOWFISH_BLOCKSIZE;
+        inbuf  += 4 * BLOWFISH_BLOCKSIZE;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+    /* TODO: use caching instead? */
+  }
+#elif defined(USE_ARM_ASM)
+  {
+    /* Process data in 2 block chunks. */
+    while (nblocks >= 2)
+      {
+        _gcry_blowfish_arm_ctr_enc(ctx, outbuf, inbuf, ctr);
+
+        nblocks -= 2;
+        outbuf += 2 * BLOWFISH_BLOCKSIZE;
+        inbuf  += 2 * BLOWFISH_BLOCKSIZE;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+    /* TODO: use caching instead? */
+  }
+#endif
+
+  for ( ;nblocks; nblocks-- )
+    {
+      /* Encrypt the counter. */
+      do_encrypt_block(ctx, tmpbuf, ctr);
+      /* XOR the input with the encrypted counter and store in output.  */
+      buf_xor(outbuf, tmpbuf, inbuf, BLOWFISH_BLOCKSIZE);
+      outbuf += BLOWFISH_BLOCKSIZE;
+      inbuf  += BLOWFISH_BLOCKSIZE;
+      /* Increment the counter.  */
+      for (i = BLOWFISH_BLOCKSIZE; i > 0; i--)
+        {
+          ctr[i-1]++;
+          if (ctr[i-1])
+            break;
+        }
+    }
+
+  wipememory(tmpbuf, sizeof(tmpbuf));
+  _gcry_burn_stack(burn_stack_depth);
+}
+
+
+/* Bulk decryption of complete blocks in CBC mode.  This function is only
+   intended for the bulk encryption feature of cipher.c. */
+void
+_gcry_blowfish_cbc_dec(void *context, unsigned char *iv, void *outbuf_arg,
+		       const void *inbuf_arg, size_t nblocks)
+{
+  BLOWFISH_context *ctx = context;
+  unsigned char *outbuf = outbuf_arg;
+  const unsigned char *inbuf = inbuf_arg;
+  unsigned char savebuf[BLOWFISH_BLOCKSIZE];
+  int burn_stack_depth = (64) + 2 * BLOWFISH_BLOCKSIZE;
+
+#ifdef USE_AMD64_ASM
+  {
+    if (nblocks >= 4)
+      burn_stack_depth += 5 * sizeof(void*);
+
+    /* Process data in 4 block chunks. */
+    while (nblocks >= 4)
+      {
+        _gcry_blowfish_amd64_cbc_dec(ctx, outbuf, inbuf, iv);
+
+        nblocks -= 4;
+        outbuf += 4 * BLOWFISH_BLOCKSIZE;
+        inbuf  += 4 * BLOWFISH_BLOCKSIZE;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+  }
+#elif defined(USE_ARM_ASM)
+  {
+    /* Process data in 2 block chunks. */
+    while (nblocks >= 2)
+      {
+        _gcry_blowfish_arm_cbc_dec(ctx, outbuf, inbuf, iv);
+
+        nblocks -= 2;
+        outbuf += 2 * BLOWFISH_BLOCKSIZE;
+        inbuf  += 2 * BLOWFISH_BLOCKSIZE;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+  }
+#endif
+
+  for ( ;nblocks; nblocks-- )
+    {
+      /* INBUF is needed later and it may be identical to OUTBUF, so store
+         the intermediate result to SAVEBUF.  */
+      do_decrypt_block (ctx, savebuf, inbuf);
+
+      buf_xor_n_copy_2(outbuf, savebuf, iv, inbuf, BLOWFISH_BLOCKSIZE);
+      inbuf += BLOWFISH_BLOCKSIZE;
+      outbuf += BLOWFISH_BLOCKSIZE;
+    }
+
+  wipememory(savebuf, sizeof(savebuf));
+  _gcry_burn_stack(burn_stack_depth);
+}
+
+
+/* Bulk decryption of complete blocks in CFB mode.  This function is only
+   intended for the bulk encryption feature of cipher.c. */
+void
+_gcry_blowfish_cfb_dec(void *context, unsigned char *iv, void *outbuf_arg,
+		       const void *inbuf_arg, size_t nblocks)
+{
+  BLOWFISH_context *ctx = context;
+  unsigned char *outbuf = outbuf_arg;
+  const unsigned char *inbuf = inbuf_arg;
+  int burn_stack_depth = (64) + 2 * BLOWFISH_BLOCKSIZE;
+
+#ifdef USE_AMD64_ASM
+  {
+    if (nblocks >= 4)
+      burn_stack_depth += 5 * sizeof(void*);
+
+    /* Process data in 4 block chunks. */
+    while (nblocks >= 4)
+      {
+        _gcry_blowfish_amd64_cfb_dec(ctx, outbuf, inbuf, iv);
+
+        nblocks -= 4;
+        outbuf += 4 * BLOWFISH_BLOCKSIZE;
+        inbuf  += 4 * BLOWFISH_BLOCKSIZE;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+  }
+#elif defined(USE_ARM_ASM)
+  {
+    /* Process data in 2 block chunks. */
+    while (nblocks >= 2)
+      {
+        _gcry_blowfish_arm_cfb_dec(ctx, outbuf, inbuf, iv);
+
+        nblocks -= 2;
+        outbuf += 2 * BLOWFISH_BLOCKSIZE;
+        inbuf  += 2 * BLOWFISH_BLOCKSIZE;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+  }
+#endif
+
+  for ( ;nblocks; nblocks-- )
+    {
+      do_encrypt_block(ctx, iv, iv);
+      buf_xor_n_copy(outbuf, iv, inbuf, BLOWFISH_BLOCKSIZE);
+      outbuf += BLOWFISH_BLOCKSIZE;
+      inbuf  += BLOWFISH_BLOCKSIZE;
+    }
+
+  _gcry_burn_stack(burn_stack_depth);
+}
+
+
+/* Run the self-tests for BLOWFISH-CTR, tests IV increment of bulk CTR
+   encryption.  Returns NULL on success. */
+static const char *
+selftest_ctr (void)
+{
+  const int nblocks = 4+1;
+  const int blocksize = BLOWFISH_BLOCKSIZE;
+  const int context_size = sizeof(BLOWFISH_context);
+
+  return _gcry_selftest_helper_ctr("BLOWFISH", &bf_setkey,
+           &encrypt_block, &_gcry_blowfish_ctr_enc, nblocks, blocksize,
+	   context_size);
+}
+
+
+/* Run the self-tests for BLOWFISH-CBC, tests bulk CBC decryption.
+   Returns NULL on success. */
+static const char *
+selftest_cbc (void)
+{
+  const int nblocks = 4+2;
+  const int blocksize = BLOWFISH_BLOCKSIZE;
+  const int context_size = sizeof(BLOWFISH_context);
+
+  return _gcry_selftest_helper_cbc("BLOWFISH", &bf_setkey,
+           &encrypt_block, &_gcry_blowfish_cbc_dec, nblocks, blocksize,
+	   context_size);
+}
+
+
+/* Run the self-tests for BLOWFISH-CFB, tests bulk CBC decryption.
+   Returns NULL on success. */
+static const char *
+selftest_cfb (void)
+{
+  const int nblocks = 4+2;
+  const int blocksize = BLOWFISH_BLOCKSIZE;
+  const int context_size = sizeof(BLOWFISH_context);
+
+  return _gcry_selftest_helper_cfb("BLOWFISH", &bf_setkey,
+           &encrypt_block, &_gcry_blowfish_cfb_dec, nblocks, blocksize,
+	   context_size);
 }
 
 
@@ -468,9 +822,13 @@ selftest(void)
   BLOWFISH_context c;
   byte plain[] = "BLOWFISH";
   byte buffer[8];
-  byte plain3[] = { 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10 };
-  byte key3[] = { 0x41, 0x79, 0x6E, 0xA0, 0x52, 0x61, 0x6E, 0xE4 };
-  byte cipher3[] = { 0xE1, 0x13, 0xF4, 0x10, 0x2C, 0xFC, 0xCE, 0x43 };
+  static const byte plain3[] =
+    { 0xFE, 0xDC, 0xBA, 0x98, 0x76, 0x54, 0x32, 0x10 };
+  static const byte key3[] =
+    { 0x41, 0x79, 0x6E, 0xA0, 0x52, 0x61, 0x6E, 0xE4 };
+  static const byte cipher3[] =
+    { 0xE1, 0x13, 0xF4, 0x10, 0x2C, 0xFC, 0xCE, 0x43 };
+  const char *r;
 
   bf_setkey( (void *) &c,
              (const unsigned char*)"abcdefghijklmnopqrstuvwxyz", 26 );
@@ -488,20 +846,86 @@ selftest(void)
   decrypt_block( (void *) &c, buffer, buffer );
   if( memcmp( buffer, plain3, 8 ) )
     return "Blowfish selftest failed (4).";
+
+  if ( (r = selftest_cbc ()) )
+    return r;
+
+  if ( (r = selftest_cfb ()) )
+    return r;
+
+  if ( (r = selftest_ctr ()) )
+    return r;
+
   return NULL;
 }
 
 
+struct hashset_elem {
+  u32 val;
+  short nidx;
+  char used;
+};
+
+static inline byte
+val_to_hidx(u32 val)
+{
+  /* bf sboxes are quite random already. */
+  return (val >> 24) ^ (val >> 16)  ^ (val >> 8) ^ val;
+}
+
+static inline int
+add_val(struct hashset_elem hset[256], u32 val, int *midx,
+	struct hashset_elem *mpool)
+{
+  struct hashset_elem *elem;
+  byte hidx;
+
+  hidx = val_to_hidx(val);
+  elem = &hset[hidx];
+
+  /* Check if first is in use. */
+  if (elem->used == 0)
+    {
+      elem->val = val;
+      elem->nidx = -1;
+      elem->used = 1;
+      return 0;
+    }
+
+  /* Check if first matches. */
+  if (elem->val == val)
+    return 1;
+
+  for (; elem->nidx >= 0; elem = &mpool[elem->nidx])
+    {
+      /* Check if elem matches. */
+      if (elem->val == val)
+        return 1;
+    }
+
+  elem->nidx = (*midx)++;
+  elem = &mpool[elem->nidx];
+
+  elem->val = val;
+  elem->nidx = -1;
+  elem->used = 1;
+
+  return 0;
+}
 
 static gcry_err_code_t
 do_bf_setkey (BLOWFISH_context *c, const byte *key, unsigned keylen)
 {
-  int i, j;
+  struct hashset_elem mempool[4 * 255]; /* Enough entries for the worst case. */
+  struct hashset_elem hset[4][256];
+  int memidx = 0;
+  int weak = 0;
+  int i, j, ret;
   u32 data, datal, datar;
   static int initialized;
   static const char *selftest_failed;
 
-  if( !initialized ) 
+  if( !initialized )
     {
       initialized = 1;
       selftest_failed = selftest();
@@ -511,9 +935,11 @@ do_bf_setkey (BLOWFISH_context *c, const byte *key, unsigned keylen)
   if( selftest_failed )
     return GPG_ERR_SELFTEST_FAILED;
 
+  memset(hset, 0, sizeof(hset));
+
   for(i=0; i < BLOWFISH_ROUNDS+2; i++ )
     c->p[i] = ps[i];
-  for(i=0; i < 256; i++ ) 
+  for(i=0; i < 256; i++ )
     {
       c->s0[i] = ks0[i];
       c->s1[i] = ks1[i];
@@ -521,19 +947,12 @@ do_bf_setkey (BLOWFISH_context *c, const byte *key, unsigned keylen)
       c->s3[i] = ks3[i];
     }
 
-  for(i=j=0; i < BLOWFISH_ROUNDS+2; i++ ) 
+  for(i=j=0; i < BLOWFISH_ROUNDS+2; i++ )
     {
-#ifdef WORDS_BIGENDIAN
-      ((byte*)&data)[0] = key[j];
-      ((byte*)&data)[1] = key[(j+1)%keylen];
-      ((byte*)&data)[2] = key[(j+2)%keylen];
-      ((byte*)&data)[3] = key[(j+3)%keylen];
-#else
-      ((byte*)&data)[3] = key[j];
-      ((byte*)&data)[2] = key[(j+1)%keylen];
-      ((byte*)&data)[1] = key[(j+2)%keylen];
-      ((byte*)&data)[0] = key[(j+3)%keylen];
-#endif
+      data = ((u32)key[j] << 24) |
+             ((u32)key[(j+1)%keylen] << 16) |
+             ((u32)key[(j+2)%keylen] << 8) |
+             ((u32)key[(j+3)%keylen]);
       c->p[i] ^= data;
       j = (j+4) % keylen;
     }
@@ -545,43 +964,65 @@ do_bf_setkey (BLOWFISH_context *c, const byte *key, unsigned keylen)
       c->p[i]   = datal;
       c->p[i+1] = datar;
     }
-  for(i=0; i < 256; i += 2 )	
+  for(i=0; i < 256; i += 2 )
     {
       do_encrypt( c, &datal, &datar );
       c->s0[i]   = datal;
       c->s0[i+1] = datar;
+
+      /* Add values to hashset, detect duplicates (weak keys). */
+      ret = add_val (hset[0], datal, &memidx, mempool);
+      weak = ret ? 1 : weak;
+      ret = add_val (hset[0], datar, &memidx, mempool);
+      weak = ret ? 1 : weak;
     }
   for(i=0; i < 256; i += 2 )
     {
       do_encrypt( c, &datal, &datar );
       c->s1[i]   = datal;
       c->s1[i+1] = datar;
+
+      /* Add values to hashset, detect duplicates (weak keys). */
+      ret = add_val (hset[1], datal, &memidx, mempool);
+      weak = ret ? 1 : weak;
+      ret = add_val (hset[1], datar, &memidx, mempool);
+      weak = ret ? 1 : weak;
     }
   for(i=0; i < 256; i += 2 )
     {
       do_encrypt( c, &datal, &datar );
       c->s2[i]   = datal;
       c->s2[i+1] = datar;
+
+      /* Add values to hashset, detect duplicates (weak keys). */
+      ret = add_val (hset[2], datal, &memidx, mempool);
+      weak = ret ? 1 : weak;
+      ret = add_val (hset[2], datar, &memidx, mempool);
+      weak = ret ? 1 : weak;
     }
   for(i=0; i < 256; i += 2 )
     {
       do_encrypt( c, &datal, &datar );
       c->s3[i]   = datal;
       c->s3[i+1] = datar;
+
+      /* Add values to hashset, detect duplicates (weak keys). */
+      ret = add_val (hset[3], datal, &memidx, mempool);
+      weak = ret ? 1 : weak;
+      ret = add_val (hset[3], datar, &memidx, mempool);
+      weak = ret ? 1 : weak;
     }
 
+  /* Clear stack. */
+  wipememory(hset, sizeof(hset));
+  wipememory(mempool, sizeof(mempool[0]) * memidx);
+
+  _gcry_burn_stack (64);
 
   /* Check for weak key.  A weak key is a key in which a value in
      the P-array (here c) occurs more than once per table.  */
-  for(i=0; i < 255; i++ )
-    {
-      for( j=i+1; j < 256; j++)
-        {
-          if( (c->s0[i] == c->s0[j]) || (c->s1[i] == c->s1[j]) ||
-              (c->s2[i] == c->s2[j]) || (c->s3[i] == c->s3[j]) )
-            return GPG_ERR_WEAK_KEY;
-        }
-    }
+  if (weak)
+    return GPG_ERR_WEAK_KEY;
 
   return GPG_ERR_NO_ERROR;
 }
@@ -592,13 +1033,13 @@ bf_setkey (void *context, const byte *key, unsigned keylen)
 {
   BLOWFISH_context *c = (BLOWFISH_context *) context;
   gcry_err_code_t rc = do_bf_setkey (c, key, keylen);
-  _gcry_burn_stack (64);
   return rc;
 }
 
 
 gcry_cipher_spec_t _gcry_cipher_spec_blowfish =
   {
+    GCRY_CIPHER_BLOWFISH, {0, 0},
     "BLOWFISH", NULL, NULL, BLOWFISH_BLOCKSIZE, 128,
     sizeof (BLOWFISH_context),
     bf_setkey, encrypt_block, decrypt_block

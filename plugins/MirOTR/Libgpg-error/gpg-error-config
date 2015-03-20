@@ -17,12 +17,14 @@ libdir=${exec_prefix}/lib
 isubdirafter=""
 
 output=""
+mt=no
 
 usage()
 {
     cat <<EOF
 Usage: gpg-error-config [OPTIONS]
 Options:
+        [--mt]       (must be the first option)
 	[--prefix]
 	[--exec-prefix]
 	[--version]
@@ -47,6 +49,9 @@ while test $# -gt 0; do
     esac
 
     case $1 in
+        --mt)
+            mt=yes
+            ;;
         --prefix)
 	    output="$output $prefix"
 	    ;;
@@ -54,7 +59,7 @@ while test $# -gt 0; do
 	    output="$output $exec_prefix"
 	    ;;
         --version)
-            echo "1.9"
+            echo "1.18"
 	    exit 0
 	    ;;
         --cflags)
@@ -67,13 +72,26 @@ while test $# -gt 0; do
                 output="$output -idirafter ${includedir}/${i}"
             done
 	    output="$output "
+            if test $mt = yes ; then
+                output="$output "
+            fi
 	    ;;
 	--libs)
-	    if test "x$libdir" != "x/usr/lib" -a "x$libdir" != "x/lib"; then
-		output="$output -L$libdir"
-	    fi
+	    case "$libdir" in
+		/usr/lib|/usr/lib64|/lib|/lib64) ;;
+		*)
+		    output="$output -L$libdir"
+		    ;;
+	    esac
 	    output="$output -lgpg-error"
+            if test $mt = yes ; then
+                output="$output "
+            fi
 	    ;;
+        --host)
+            echo "x86_64-pc-mingw32"
+            exit 0
+            ;;
 	*)
             usage 1 1>&2
 	    ;;

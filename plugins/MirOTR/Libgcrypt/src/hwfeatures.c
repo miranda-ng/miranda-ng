@@ -1,5 +1,6 @@
 /* hwfeatures.c - Detect hardware features.
- * Copyright (C) 2007  Free Software Foundation, Inc.
+ * Copyright (C) 2007, 2011  Free Software Foundation, Inc.
+ * Copyright (C) 2012  g10 Code GmbH
  *
  * This file is part of Libgcrypt.
  *
@@ -19,16 +20,71 @@
 
 #include <config.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
 #include <unistd.h>
+#ifdef HAVE_SYSLOG
+# include <syslog.h>
+#endif /*HAVE_SYSLOG*/
 
 #include "g10lib.h"
+#include "hwf-common.h"
+
+/* The name of a file used to globally disable selected features. */
+#define HWF_DENY_FILE "/etc/gcrypt/hwf.deny"
+
+/* A table to map hardware features to a string.  */
+static struct
+{
+  unsigned int flag;
+  const char *desc;
+} hwflist[] =
+  {
+    { HWF_PADLOCK_RNG, "padlock-rng" },
+    { HWF_PADLOCK_AES, "padlock-aes" },
+    { HWF_PADLOCK_SHA, "padlock-sha" },
+    { HWF_PADLOCK_MMUL,"padlock-mmul"},
+    { HWF_INTEL_CPU,   "intel-cpu" },
+    { HWF_INTEL_BMI2,  "intel-bmi2" },
+    { HWF_INTEL_SSSE3, "intel-ssse3" },
+    { HWF_INTEL_PCLMUL,"intel-pclmul" },
+    { HWF_INTEL_AESNI, "intel-aesni" },
+    { HWF_INTEL_RDRAND,"intel-rdrand" },
+    { HWF_INTEL_AVX,   "intel-avx" },
+    { HWF_INTEL_AVX2,  "intel-avx2" },
+    { HWF_ARM_NEON,    "arm-neon" }
+  };
+
+/* A bit vector with the hardware features which shall not be used.
+   This variable must be set prior to any initialization.  */
+static unsigned int disabled_hw_features;
 
 /* A bit vector describing the hardware features currently
    available. */
 static unsigned int hw_features;
+
+/* Convenience macros.  */
+#define my_isascii(c) (!((c) & 0x80))
+
+
+
+/* Disable a feature by name.  This function must be called *before*
+   _gcry_detect_hw_features is called.  */
+gpg_err_code_t
+_gcry_disable_hw_feature (const char *name)
+{
+  int i;
+
+  for (i=0; i < DIM (hwflist); i++)
+    if (!strcmp (hwflist[i].desc, name))
+      {
+        disabled_hw_features |= hwflist[i].flag;
+        return 0;
+      }
+  return GPG_ERR_INV_NAME;
+}
 
 
 /* Return a bit vector describing the available hardware features.
@@ -40,109 +96,81 @@ _gcry_get_hw_features (void)
 }
 
 
-#if defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4 && defined (__GNUC__)
-static void
-detect_ia32_gnuc (void)
+/* Enumerate all features.  The caller is expected to start with an
+   IDX of 0 and then increment IDX until NULL is returned.  */
+const char *
+_gcry_enum_hw_features (int idx, unsigned int *r_feature)
 {
-#ifdef ENABLE_PADLOCK_SUPPORT  
-  /* The code here is only useful for the PadLock engine thus we don't
-     build it if that support has been disabled.  */
-  int has_cpuid = 0;
-  char vendor_id[12+1];
-  
-  /* Detect the CPUID feature by testing some undefined behaviour (16
-     vs 32 bit pushf/popf). */
-  asm volatile
-    ("pushf\n\t"                 /* Copy flags to EAX.  */
-     "popl %%eax\n\t"
-     "movl %%eax, %%ecx\n\t"     /* Save flags into ECX.  */
-     "xorl $0x200000, %%eax\n\t" /* Toggle ID bit and copy it to the flags.  */
-     "pushl %%eax\n\t"            
-     "popf\n\t"                
-     "pushf\n\t"                 /* Copy changed flags again to EAX.  */    
-     "popl %%eax\n\t"
-     "pushl %%ecx\n\t"           /* Restore flags from ECX.  */
-     "popf\n\t"
-     "xorl %%eax, %%ecx\n\t"     /* Compare flags against saved flags.  */
-     "jz .Lno_cpuid%=\n\t"       /* Toggling did not work, thus no CPUID.  */
-     "movl $1, %0\n"             /* Worked. true -> HAS_CPUID.  */
-     ".Lno_cpuid%=:\n\t"
-     : "+r" (has_cpuid)
-     :
-     : "%eax", "%ecx", "cc"
-     );
-  
-  if (!has_cpuid)
-    return;  /* No way.  */
-           
-  asm volatile
-    ("pushl %%ebx\n\t"           /* Save GOT register.  */
-     "xorl  %%eax, %%eax\n\t"    /* 0 -> EAX.  */
-     "cpuid\n\t"                 /* Get vendor ID.  */
-     "movl  %%ebx, (%0)\n\t"     /* EBX,EDX,ECX -> VENDOR_ID.  */
-     "movl  %%edx, 4(%0)\n\t"
-     "movl  %%ecx, 8(%0)\n\t"
-     "popl  %%ebx\n"
-     :
-     : "S" (&vendor_id[0])
-     : "%eax", "%ecx", "%edx", "cc"
-     );
-  vendor_id[12] = 0;
-
-  /* Check whether this is a VIA CPU and what PadLock features we
-     have.  */
-  if (!strcmp (vendor_id, "CentaurHauls"))
-    {
-      asm volatile 
-        ("pushl %%ebx\n\t"	        /* Save GOT register.  */
-         "movl $0xC0000000, %%eax\n\t"  /* Check for extended centaur  */
-         "cpuid\n\t"                    /* feature flags.              */
-         "popl %%ebx\n\t"	        /* Restore GOT register. */
-         "cmpl $0xC0000001, %%eax\n\t"
-         "jb .Lready%=\n\t"             /* EAX < 0xC0000000 => no padlock.  */
-
-         "pushl %%ebx\n\t"	        /* Save GOT register. */
-         "movl $0xC0000001, %%eax\n\t"  /* Ask for the extended */
-         "cpuid\n\t"                    /* feature flags.       */
-         "popl %%ebx\n\t"	        /* Restore GOT register. */
-
-         "movl %%edx, %%eax\n\t"        /* Take copy of feature flags.  */
-         "andl $0x0C, %%eax\n\t"        /* Test bits 2 and 3 to see whether */
-         "cmpl $0x0C, %%eax\n\t"        /* the RNG exists and is enabled.   */
-         "jnz .Lno_rng%=\n\t"
-         "orl $1, %0\n"                 /* Set our HWF_PADLOCK_RNG bit.  */
-
-         ".Lno_rng%=:\n\t"
-         "movl %%edx, %%eax\n\t"        /* Take copy of feature flags.  */
-         "andl $0xC0, %%eax\n\t"        /* Test bits 6 and 7 to see whether */
-         "cmpl $0xC0, %%eax\n\t"        /* the ACE exists and is enabled.   */
-         "jnz .Lno_ace%=\n\t"
-         "orl $2, %0\n"                 /* Set our HWF_PADLOCK_AES bit.  */
-
-         ".Lno_ace%=:\n\t"
-         "movl %%edx, %%eax\n\t"        /* Take copy of feature flags.  */
-         "andl $0xC00, %%eax\n\t"       /* Test bits 10, 11 to see whether  */
-         "cmpl $0xC00, %%eax\n\t"       /* the PHE exists and is enabled.   */
-         "jnz .Lno_phe%=\n\t"
-         "orl $4, %0\n"                 /* Set our HWF_PADLOCK_SHA bit.  */
-
-         ".Lno_phe%=:\n\t"
-         "movl %%edx, %%eax\n\t"        /* Take copy of feature flags.  */
-         "andl $0x3000, %%eax\n\t"      /* Test bits 12, 13 to see whether  */
-         "cmpl $0x3000, %%eax\n\t"      /* MONTMUL exists and is enabled.   */
-         "jnz .Lready%=\n\t"
-         "orl $8, %0\n"                 /* Set our HWF_PADLOCK_MMUL bit.  */
-
-         ".Lready%=:\n"
-         : "+r" (hw_features)
-         :
-         : "%eax", "%edx", "cc"
-         );
-    }
-#endif /*ENABLE_PADLOCK_SUPPORT*/
+  if (idx < 0 || idx >= DIM (hwflist))
+    return NULL;
+  if (r_feature)
+    *r_feature = hwflist[idx].flag;
+  return hwflist[idx].desc;
 }
-#endif /* __i386__ && SIZEOF_UNSIGNED_LONG == 4 && __GNUC__ */
 
+
+/* Read a file with features which shall not be used.  The file is a
+   simple text file where empty lines and lines with the first non
+   white-space character being '#' are ignored.  */
+static void
+parse_hwf_deny_file (void)
+{
+  const char *fname = HWF_DENY_FILE;
+  FILE *fp;
+  char buffer[256];
+  char *p, *pend;
+  int i, lnr = 0;
+
+  fp = fopen (fname, "r");
+  if (!fp)
+    return;
+
+  for (;;)
+    {
+      if (!fgets (buffer, sizeof buffer, fp))
+        {
+          if (!feof (fp))
+            {
+#ifdef HAVE_SYSLOG
+              syslog (LOG_USER|LOG_WARNING,
+                      "Libgcrypt warning: error reading '%s', line %d",
+                      fname, lnr);
+#endif /*HAVE_SYSLOG*/
+            }
+          fclose (fp);
+          return;
+        }
+      lnr++;
+      for (p=buffer; my_isascii (*p) && isspace (*p); p++)
+        ;
+      pend = strchr (p, '\n');
+      if (pend)
+        *pend = 0;
+      pend = p + (*p? (strlen (p)-1):0);
+      for ( ;pend > p; pend--)
+        if (my_isascii (*pend) && isspace (*pend))
+          *pend = 0;
+      if (!*p || *p == '#')
+        continue;
+
+      for (i=0; i < DIM (hwflist); i++)
+        {
+          if (!strcmp (hwflist[i].desc, p))
+            {
+              disabled_hw_features |= hwflist[i].flag;
+              break;
+            }
+        }
+      if (i == DIM (hwflist))
+        {
+#ifdef HAVE_SYSLOG
+          syslog (LOG_USER|LOG_WARNING,
+                  "Libgcrypt warning: unknown feature in '%s', line %d",
+                  fname, lnr);
+#endif /*HAVE_SYSLOG*/
+        }
+    }
+}
 
 
 /* Detect the available hardware features.  This function is called
@@ -154,14 +182,20 @@ _gcry_detect_hw_features (void)
   hw_features = 0;
 
   if (fips_mode ())
-    return; /* Hardware support is not to be evaluated.  */ 
+    return; /* Hardware support is not to be evaluated.  */
 
-#if defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4
-#ifdef __GNUC__  
-  detect_ia32_gnuc ();
-#endif
-#elif defined (__i386__) && SIZEOF_UNSIGNED_LONG == 8
-#ifdef __GNUC__  
-#endif
-#endif
+  parse_hwf_deny_file ();
+
+#if defined (HAVE_CPU_ARCH_X86)
+  {
+    hw_features = _gcry_hwf_detect_x86 ();
+  }
+#endif /* HAVE_CPU_ARCH_X86 */
+#if defined (HAVE_CPU_ARCH_ARM)
+  {
+    hw_features = _gcry_hwf_detect_arm ();
+  }
+#endif /* HAVE_CPU_ARCH_ARM */
+
+  hw_features &= ~disabled_hw_features;
 }
