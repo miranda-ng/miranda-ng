@@ -33,9 +33,9 @@ void CSkypeProto::UpdateProfileDisplayName(JSONNODE *root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileGender(JSONNODE *root, MCONTACT hContact)
 {
 	JSONNODE *node = json_get(root, "gender");
-	int value = json_as_int(node);
-	if (value)
-		setByte(hContact, "Gender", (BYTE)(value == 1 ? 'M' : 'F'));
+	CMString gender = ptrT(json_as_string(node));
+	if (!gender.IsEmpty() && gender != "null")
+		setByte(hContact, "Gender", (BYTE)(_ttoi(gender) == 1 ? 'M' : 'F'));
 	else
 		delSetting(hContact, "Gender");
 }
@@ -43,7 +43,19 @@ void CSkypeProto::UpdateProfileGender(JSONNODE *root, MCONTACT hContact)
 void CSkypeProto::UpdateProfileBirthday(JSONNODE *root, MCONTACT hContact)
 {
 	JSONNODE *node = json_get(root, "birthday");
-	// parse "YYYY-MM-DD"
+	CMString birthday = ptrT(json_as_string(node));
+	if (!birthday.IsEmpty() && birthday != "null") {
+		int d, m, y;
+		_stscanf(birthday.GetBuffer(), _T("%d-%d-%d"), &y, &m, &d);
+		setWord(hContact, "BirthYear", y);
+		setByte(hContact, "BirthDay", d);
+		setByte(hContact, "BirthMonth", m);
+	}
+	else {
+		delSetting(hContact, "BirthYear");
+		delSetting(hContact, "BirthDay");
+		delSetting(hContact, "BirthMonth");
+	}
 }
 
 void CSkypeProto::UpdateProfileCountry(JSONNODE *root, MCONTACT hContact)
