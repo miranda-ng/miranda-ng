@@ -31,11 +31,13 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	switch (type)
 	{
 	case PFLAGNUM_1:
-		return 0;
+		return PF1_AUTHREQ;
 	case PFLAGNUM_2:
 		return PF2_ONLINE;
 	case PFLAGNUM_3:
 		return PF2_ONLINE;
+	case PFLAGNUM_4:
+		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)"Skypename";
 	case PFLAG_UNIQUEIDSETTING:
@@ -49,11 +51,34 @@ MCONTACT CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT *psr) { return 0; }
 
 MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT) { return 0; }
 
-int CSkypeProto::Authorize(MEVENT hDbEvent) { return 0; }
+int CSkypeProto::Authorize(MEVENT hDbEvent)
+{
+	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
+	if (hContact == INVALID_CONTACT_ID)
+		return 1;
 
-int CSkypeProto::AuthDeny(MEVENT, const PROTOCHAR*) { return 0; }
+	ptrA token(getStringA("TokenSecret"));
+	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
+	PushRequest(new AuthAcceptRequest(token, skypename));
+	return 0;
+}
 
-int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre) { return 0; }
+int CSkypeProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR*)
+{
+	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
+	if (hContact == INVALID_CONTACT_ID)
+		return 1;
+
+	ptrA token(getStringA("TokenSecret"));
+	ptrA skypename(getStringA(hContact, SKYPE_SETTINGS_ID));
+	PushRequest(new AuthDeclineRequest(token, skypename));
+	return 0;
+}
+
+int CSkypeProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
+{
+	return Proto_AuthRecv(m_szModuleName, pre);
+}
 
 int CSkypeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage) { return 0; }
 

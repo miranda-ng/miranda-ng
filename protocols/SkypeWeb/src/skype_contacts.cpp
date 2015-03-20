@@ -83,6 +83,60 @@ MCONTACT CSkypeProto::AddContact(const char *skypename, bool isTemporary)
 	return hContact;
 }
 
+void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+
+	JSONROOT root(response->pData);
+	if (root == NULL)
+		return;
+
+	JSONNODE *items = json_as_array(root), *item, *node;
+	for (size_t i = 0; i < json_size(items); i++)
+	{
+		item = json_at(items, i);
+		if (item == NULL)
+			break;
+
+		node = json_get(item, "sender");
+		ptrA skypename(mir_t2a(ptrT(json_as_string(node))));
+
+		JSONNODE *node = json_get(root, "greeting");
+		CMStringA reason = ptrA(mir_t2a(ptrT(json_as_string(node))));
+		if (reason != "null")
+			reason.Empty();
+
+		MCONTACT hContact = AddContact(skypename);
+		if (hContact)
+		{
+			delSetting(hContact, "Auth");
+
+			PROTORECVEVENT pre = { 0 };
+			pre.flags = PREF_UTF;
+			pre.timestamp = time(NULL);
+			pre.lParam = (DWORD)(sizeof(DWORD) * 2 + mir_strlen(skypename) + reason.GetLength() + 5);
+
+			/*blob is: 0(DWORD), hContact(DWORD), nick(ASCIIZ), firstName(ASCIIZ), lastName(ASCIIZ), id(ASCIIZ), reason(ASCIIZ)*/
+			PBYTE pBlob, pCurBlob;
+			pCurBlob = pBlob = (PBYTE)mir_calloc(pre.lParam);
+
+			*((PDWORD)pCurBlob) = 0;
+			pCurBlob += sizeof(DWORD);
+			*((PDWORD)pCurBlob) = (DWORD)hContact;
+			pCurBlob += sizeof(DWORD);
+			pCurBlob += 3;
+			mir_strcpy((char*)pCurBlob, skypename);
+			pCurBlob += mir_strlen(skypename) + 1;
+			mir_strcpy((char*)pCurBlob, reason);
+			pre.szMessage = (char*)pBlob;
+
+			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
+		}
+	}
+	json_delete(items);
+}
+
 //[{"username":"echo123", "firstname" : "Echo \/ Sound Test Service", "lastname" : null, "avatarUrl" : null, "mood" : null, "richMood" : null, "displayname" : null, "country" : null, "city" : null},...]
 void CSkypeProto::LoadContactsInfo(const NETLIBHTTPREQUEST *response)
 {
@@ -162,9 +216,9 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 	}
 	json_delete(items);
 
+	ptrA token(getStringA("TokenSecret"));
 	if (skypenames.getCount() > 0)
 	{
-		ptrA token(getStringA("TokenSecret"));
 		PushRequest(new GetContactsInfoRequest(token, skypenames), &CSkypeProto::LoadContactsInfo);
 
 		for (size_t i = 0; i < skypenames.getCount(); i++)
@@ -173,6 +227,7 @@ void CSkypeProto::LoadContactList(const NETLIBHTTPREQUEST *response)
 		}
 		skypenames.destroy();
 	}
+	PushRequest(new GetContactsAuthRequest(token), &CSkypeProto::LoadContactsAuth);
 }
 
 INT_PTR CSkypeProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)

@@ -1,193 +1,230 @@
 #include "common.h"
 
-struct { TCHAR *szCode; TCHAR *szDescription; } g_LanguageCodes[] = {
-	{ _T("aa"), LPGENT("Afar") },
-	{ _T("ab"), LPGENT("Abkhazian") },
-	{ _T("af"), LPGENT("Afrikaans") },
-	{ _T("ak"), LPGENT("Akan") },
-	{ _T("sq"), LPGENT("Albanian") },
-	{ _T("am"), LPGENT("Amharic") },
-	{ _T("ar"), LPGENT("Arabic") },
-	{ _T("an"), LPGENT("Aragonese") },
-	{ _T("hy"), LPGENT("Armenian") },
-	{ _T("as"), LPGENT("Assamese") },
-	{ _T("av"), LPGENT("Avaric") },
-	{ _T("ae"), LPGENT("Avestan") },
-	{ _T("ay"), LPGENT("Aymara") },
-	{ _T("az"), LPGENT("Azerbaijani") },
-	{ _T("ba"), LPGENT("Bashkir") },
-	{ _T("bm"), LPGENT("Bambara") },
-	{ _T("eu"), LPGENT("Basque") },
-	{ _T("be"), LPGENT("Belarusian") },
-	{ _T("bn"), LPGENT("Bengali") },
-	{ _T("bh"), LPGENT("Bihari") },
-	{ _T("bi"), LPGENT("Bislama") },
-	{ _T("bs"), LPGENT("Bosnian") },
-	{ _T("br"), LPGENT("Breton") },
-	{ _T("bg"), LPGENT("Bulgarian") },
-	{ _T("my"), LPGENT("Burmese") },
-	{ _T("ca"), LPGENT("Catalan; Valencian") },
-	{ _T("ch"), LPGENT("Chamorro") },
-	{ _T("ce"), LPGENT("Chechen") },
-	{ _T("zh"), LPGENT("Chinese") },
-	{ _T("cu"), LPGENT("Church Slavic; Old Slavonic") },
-	{ _T("cv"), LPGENT("Chuvash") },
-	{ _T("kw"), LPGENT("Cornish") },
-	{ _T("co"), LPGENT("Corsican") },
-	{ _T("cr"), LPGENT("Cree") },
-	{ _T("cs"), LPGENT("Czech") },
-	{ _T("da"), LPGENT("Danish") },
-	{ _T("dv"), LPGENT("Divehi; Dhivehi; Maldivian") },
-	{ _T("nl"), LPGENT("Dutch; Flemish") },
-	{ _T("dz"), LPGENT("Dzongkha") },
-	{ _T("en"), LPGENT("English") },
-	{ _T("eo"), LPGENT("Esperanto") },
-	{ _T("et"), LPGENT("Estonian") },
-	{ _T("ee"), LPGENT("Ewe") },
-	{ _T("fo"), LPGENT("Faroese") },
-	{ _T("fj"), LPGENT("Fijian") },
-	{ _T("fi"), LPGENT("Finnish") },
-	{ _T("fr"), LPGENT("French") },
-	{ _T("fy"), LPGENT("Western Frisian") },
-	{ _T("ff"), LPGENT("Fulah") },
-	{ _T("ka"), LPGENT("Georgian") },
-	{ _T("de"), LPGENT("German") },
-	{ _T("gd"), LPGENT("Gaelic; Scottish Gaelic") },
-	{ _T("ga"), LPGENT("Irish") },
-	{ _T("gl"), LPGENT("Galician") },
-	{ _T("gv"), LPGENT("Manx") },
-	{ _T("el"), LPGENT("Greek, Modern (1453-)") },
-	{ _T("gn"), LPGENT("Guarani") },
-	{ _T("gu"), LPGENT("Gujarati") },
-	{ _T("ht"), LPGENT("Haitian; Haitian Creole") },
-	{ _T("ha"), LPGENT("Hausa") },
-	{ _T("he"), LPGENT("Hebrew") },
-	{ _T("hz"), LPGENT("Herero") },
-	{ _T("hi"), LPGENT("Hindi") },
-	{ _T("ho"), LPGENT("Hiri Motu") },
-	{ _T("hu"), LPGENT("Hungarian") },
-	{ _T("ig"), LPGENT("Igbo") },
-	{ _T("is"), LPGENT("Icelandic") },
-	{ _T("io"), LPGENT("Ido") },
-	{ _T("ii"), LPGENT("Sichuan Yi") },
-	{ _T("iu"), LPGENT("Inuktitut") },
-	{ _T("ie"), LPGENT("Interlingue") },
-	{ _T("ia"), LPGENT("Interlingua (International Auxiliary Language Association)") },
-	{ _T("id"), LPGENT("Indonesian") },
-	{ _T("ik"), LPGENT("Inupiaq") },
-	{ _T("it"), LPGENT("Italian") },
-	{ _T("jv"), LPGENT("Javanese") },
-	{ _T("ja"), LPGENT("Japanese") },
-	{ _T("kl"), LPGENT("Kalaallisut; Greenlandic") },
-	{ _T("kn"), LPGENT("Kannada") },
-	{ _T("ks"), LPGENT("Kashmiri") },
-	{ _T("kr"), LPGENT("Kanuri") },
-	{ _T("kk"), LPGENT("Kazakh") },
-	{ _T("km"), LPGENT("Central Khmer") },
-	{ _T("ki"), LPGENT("Kikuyu; Gikuyu") },
-	{ _T("rw"), LPGENT("Kinyarwanda") },
-	{ _T("ky"), LPGENT("Kirghiz; Kyrgyz") },
-	{ _T("kv"), LPGENT("Komi") },
-	{ _T("kg"), LPGENT("Kongo") },
-	{ _T("ko"), LPGENT("Korean") },
-	{ _T("kj"), LPGENT("Kuanyama; Kwanyama") },
-	{ _T("ku"), LPGENT("Kurdish") },
-	{ _T("lo"), LPGENT("Lao") },
-	{ _T("la"), LPGENT("Latin") },
-	{ _T("lv"), LPGENT("Latvian") },
-	{ _T("li"), LPGENT("Limburgan; Limburger; Limburgish") },
-	{ _T("ln"), LPGENT("Lingala") },
-	{ _T("lt"), LPGENT("Lithuanian") },
-	{ _T("lb"), LPGENT("Luxembourgish; Letzeburgesch") },
-	{ _T("lu"), LPGENT("Luba-Katanga") },
-	{ _T("lg"), LPGENT("Ganda") },
-	{ _T("mk"), LPGENT("Macedonian") },
-	{ _T("mh"), LPGENT("Marshallese") },
-	{ _T("ml"), LPGENT("Malayalam") },
-	{ _T("mi"), LPGENT("Maori") },
-	{ _T("mr"), LPGENT("Marathi") },
-	{ _T("ms"), LPGENT("Malay") },
-	{ _T("mg"), LPGENT("Malagasy") },
-	{ _T("mt"), LPGENT("Maltese") },
-	{ _T("mo"), LPGENT("Moldavian") },
-	{ _T("mn"), LPGENT("Mongolian") },
-	{ _T("na"), LPGENT("Nauru") },
-	{ _T("nv"), LPGENT("Navajo; Navaho") },
-	{ _T("nr"), LPGENT("Ndebele, South; South Ndebele") },
-	{ _T("nd"), LPGENT("Ndebele, North; North Ndebele") },
-	{ _T("ng"), LPGENT("Ndonga") },
-	{ _T("ne"), LPGENT("Nepali") },
-	{ _T("nn"), LPGENT("Norwegian Nynorsk; Nynorsk, Norwegian") },
-	{ _T("nb"), LPGENT("Bokmaal, Norwegian; Norwegian Bokmaal") },
-	{ _T("no"), LPGENT("Norwegian") },
-	{ _T("ny"), LPGENT("Chichewa; Chewa; Nyanja") },
-	{ _T("oc"), LPGENT("Occitan (post 1500); Provencal") },
-	{ _T("oj"), LPGENT("Ojibwa") },
-	{ _T("or"), LPGENT("Oriya") },
-	{ _T("om"), LPGENT("Oromo") },
-	{ _T("os"), LPGENT("Ossetian; Ossetic") },
-	{ _T("pa"), LPGENT("Panjabi; Punjabi") },
-	{ _T("fa"), LPGENT("Persian") },
-	{ _T("pi"), LPGENT("Pali") },
-	{ _T("pl"), LPGENT("Polish") },
-	{ _T("pt"), LPGENT("Portuguese") },
-	{ _T("ps"), LPGENT("Pushto") },
-	{ _T("qu"), LPGENT("Quechua") },
-	{ _T("rm"), LPGENT("Romansh") },
-	{ _T("ro"), LPGENT("Romanian") },
-	{ _T("rn"), LPGENT("Rundi") },
-	{ _T("ru"), LPGENT("Russian") },
-	{ _T("sg"), LPGENT("Sango") },
-	{ _T("sa"), LPGENT("Sanskrit") },
-	{ _T("sr"), LPGENT("Serbian") },
-	{ _T("hr"), LPGENT("Croatian") },
-	{ _T("si"), LPGENT("Sinhala; Sinhalese") },
-	{ _T("sk"), LPGENT("Slovak") },
-	{ _T("sl"), LPGENT("Slovenian") },
-	{ _T("se"), LPGENT("Northern Sami") },
-	{ _T("sm"), LPGENT("Samoan") },
-	{ _T("sn"), LPGENT("Shona") },
-	{ _T("sd"), LPGENT("Sindhi") },
-	{ _T("so"), LPGENT("Somali") },
-	{ _T("st"), LPGENT("Sotho, Southern") },
-	{ _T("es"), LPGENT("Spanish; Castilian") },
-	{ _T("sc"), LPGENT("Sardinian") },
-	{ _T("ss"), LPGENT("Swati") },
-	{ _T("su"), LPGENT("Sundanese") },
-	{ _T("sw"), LPGENT("Swahili") },
-	{ _T("sv"), LPGENT("Swedish") },
-	{ _T("ty"), LPGENT("Tahitian") },
-	{ _T("ta"), LPGENT("Tamil") },
-	{ _T("tt"), LPGENT("Tatar") },
-	{ _T("te"), LPGENT("Telugu") },
-	{ _T("tg"), LPGENT("Tajik") },
-	{ _T("tl"), LPGENT("Tagalog") },
-	{ _T("th"), LPGENT("Thai") },
-	{ _T("bo"), LPGENT("Tibetan") },
-	{ _T("ti"), LPGENT("Tigrinya") },
-	{ _T("to"), LPGENT("Tonga (Tonga Islands)") },
-	{ _T("tn"), LPGENT("Tswana") },
-	{ _T("ts"), LPGENT("Tsonga") },
-	{ _T("tk"), LPGENT("Turkmen") },
-	{ _T("tr"), LPGENT("Turkish") },
-	{ _T("tw"), LPGENT("Twi") },
-	{ _T("ug"), LPGENT("Uighur; Uyghur") },
-	{ _T("uk"), LPGENT("Ukrainian") },
-	{ _T("ur"), LPGENT("Urdu") },
-	{ _T("uz"), LPGENT("Uzbek") },
-	{ _T("ve"), LPGENT("Venda") },
-	{ _T("vi"), LPGENT("Vietnamese") },
-	{ _T("vo"), LPGENT("Volapuk") },
-	{ _T("cy"), LPGENT("Welsh") },
-	{ _T("wa"), LPGENT("Walloon") },
-	{ _T("wo"), LPGENT("Wolof") },
-	{ _T("xh"), LPGENT("Xhosa") },
-	{ _T("yi"), LPGENT("Yiddish") },
-	{ _T("yo"), LPGENT("Yoruba") },
-	{ _T("za"), LPGENT("Zhuang; Chuang") },
-	{ _T("zu"), LPGENT("Zulu") },
-	{ NULL, NULL }
-};
+std::map<std::tstring, std::tstring> CSkypeProto::languages;
+
+void CSkypeProto::InitLanguages()
+{
+	std::map<std::tstring, std::tstring> result;
+	result[L"ab"] = L"Abkhazian";
+	result[L"aa"] = L"Afar";
+	result[L"af"] = L"Afrikaans";
+	result[L"ak"] = L"Akan";
+	result[L"sq"] = L"Albanian";
+	result[L"am"] = L"Amharic";
+	result[L"ar"] = L"Arabic";
+	result[L"an"] = L"Aragonese";
+	result[L"hy"] = L"Armenian";
+	result[L"as"] = L"Assamese";
+	result[L"av"] = L"Avaric";
+	result[L"ae"] = L"Avestan";
+	result[L"ay"] = L"Aymara";
+	result[L"az"] = L"Azerbaijani";
+	result[L"bm"] = L"Bambara";
+	result[L"ba"] = L"Bashkir";
+	result[L"eu"] = L"Basque";
+	result[L"be"] = L"Belarusian";
+	result[L"bn"] = L"Bengali";
+	result[L"bh"] = L"Bihari languages";
+	result[L"bi"] = L"Bislama";
+	result[L"nb"] = L"Bokmal, Norwegian";
+	result[L"bs"] = L"Bosnian";
+	result[L"br"] = L"Breton";
+	result[L"bg"] = L"Bulgarian";
+	result[L"my"] = L"Burmese";
+	result[L"es"] = L"Castilian";
+	result[L"ca"] = L"Catalan";
+	result[L"km"] = L"Central Khmer";
+	result[L"ch"] = L"Chamorro";
+	result[L"ce"] = L"Chechen";
+	result[L"ny"] = L"Chewa";
+	result[L"ny"] = L"Chichewa";
+	result[L"zh"] = L"Chinese";
+	result[L"za"] = L"Chuang";
+	result[L"cu"] = L"Church Slavic";
+	result[L"cu"] = L"Church Slavonic";
+	result[L"cv"] = L"Chuvash";
+	result[L"kw"] = L"Cornish";
+	result[L"co"] = L"Corsican";
+	result[L"cr"] = L"Cree";
+	result[L"hr"] = L"Croatian";
+	result[L"cs"] = L"Czech";
+	result[L"da"] = L"Danish";
+	result[L"dv"] = L"Dhivehi";
+	result[L"dv"] = L"Divehi";
+	result[L"nl"] = L"Dutch";
+	result[L"dz"] = L"Dzongkha";
+	result[L"en"] = L"English";
+	result[L"eo"] = L"Esperanto";
+	result[L"et"] = L"Estonian";
+	result[L"ee"] = L"Ewe";
+	result[L"fo"] = L"Faroese";
+	result[L"fj"] = L"Fijian";
+	result[L"fi"] = L"Finnish";
+	result[L"nl"] = L"Flemish";
+	result[L"fr"] = L"French";
+	result[L"ff"] = L"Fulah";
+	result[L"gd"] = L"Gaelic";
+	result[L"gl"] = L"Galician";
+	result[L"lg"] = L"Ganda";
+	result[L"ka"] = L"Georgian";
+	result[L"de"] = L"German";
+	result[L"ki"] = L"Gikuyu";
+	result[L"el"] = L"Greek, Modern (1453-)";
+	result[L"kl"] = L"Greenlandic";
+	result[L"gn"] = L"Guarani";
+	result[L"gu"] = L"Gujarati";
+	result[L"ht"] = L"Haitian";
+	result[L"ht"] = L"Haitian Creole";
+	result[L"ha"] = L"Hausa";
+	result[L"he"] = L"Hebrew";
+	result[L"hz"] = L"Herero";
+	result[L"hi"] = L"Hindi";
+	result[L"ho"] = L"Hiri Motu";
+	result[L"hu"] = L"Hungarian";
+	result[L"is"] = L"Icelandic";
+	result[L"io"] = L"Ido";
+	result[L"ig"] = L"Igbo";
+	result[L"id"] = L"Indonesian";
+	result[L"ia"] = L"Interlingua (International Auxiliary Language Association)";
+	result[L"ie"] = L"Interlingue";
+	result[L"iu"] = L"Inuktitut";
+	result[L"ik"] = L"Inupiaq";
+	result[L"ga"] = L"Irish";
+	result[L"it"] = L"Italian";
+	result[L"ja"] = L"Japanese";
+	result[L"jv"] = L"Javanese";
+	result[L"kl"] = L"Kalaallisut";
+	result[L"kn"] = L"Kannada";
+	result[L"kr"] = L"Kanuri";
+	result[L"ks"] = L"Kashmiri";
+	result[L"kk"] = L"Kazakh";
+	result[L"ki"] = L"Kikuyu";
+	result[L"rw"] = L"Kinyarwanda";
+	result[L"ky"] = L"Kirghiz";
+	result[L"kv"] = L"Komi";
+	result[L"kg"] = L"Kongo";
+	result[L"ko"] = L"Korean";
+	result[L"kj"] = L"Kuanyama";
+	result[L"ku"] = L"Kurdish";
+	result[L"kj"] = L"Kwanyama";
+	result[L"ky"] = L"Kyrgyz";
+	result[L"lo"] = L"Lao";
+	result[L"la"] = L"Latin";
+	result[L"lv"] = L"Latvian";
+	result[L"lb"] = L"Letzeburgesch";
+	result[L"li"] = L"Limburgan";
+	result[L"li"] = L"Limburger";
+	result[L"li"] = L"Limburgish";
+	result[L"ln"] = L"Lingala";
+	result[L"lt"] = L"Lithuanian";
+	result[L"lu"] = L"Luba-Katanga";
+	result[L"lb"] = L"Luxembourgish";
+	result[L"mk"] = L"Macedonian";
+	result[L"mg"] = L"Malagasy";
+	result[L"ms"] = L"Malay";
+	result[L"ml"] = L"Malayalam";
+	result[L"dv"] = L"Maldivian";
+	result[L"mt"] = L"Maltese";
+	result[L"gv"] = L"Manx";
+	result[L"mi"] = L"Maori";
+	result[L"mr"] = L"Marathi";
+	result[L"mh"] = L"Marshallese";
+	result[L"ro"] = L"Moldavian";
+	result[L"ro"] = L"Moldovan";
+	result[L"mn"] = L"Mongolian";
+	result[L"na"] = L"Nauru";
+	result[L"nv"] = L"Navaho";
+	result[L"nv"] = L"Navajo";
+	result[L"nd"] = L"Ndebele, North";
+	result[L"nr"] = L"Ndebele, South";
+	result[L"ng"] = L"Ndonga";
+	result[L"ne"] = L"Nepali";
+	result[L"nd"] = L"North Ndebele";
+	result[L"se"] = L"Northern Sami";
+	result[L"no"] = L"Norwegian";
+	result[L"nb"] = L"Norwegian Bokmal";
+	result[L"nn"] = L"Norwegian Nynorsk";
+	result[L"ii"] = L"Nuosu";
+	result[L"ny"] = L"Nyanja";
+	result[L"nn"] = L"Nynorsk, Norwegian";
+	result[L"ie"] = L"Occidental";
+	result[L"oc"] = L"Occitan (post 1500)";
+	result[L"oj"] = L"Ojibwa";
+	result[L"cu"] = L"Old Bulgarian";
+	result[L"cu"] = L"Old Church Slavonic";
+	result[L"cu"] = L"Old Slavonic";
+	result[L"or"] = L"Oriya";
+	result[L"om"] = L"Oromo";
+	result[L"os"] = L"Ossetian";
+	result[L"os"] = L"Ossetic";
+	result[L"pi"] = L"Pali";
+	result[L"pa"] = L"Panjabi";
+	result[L"ps"] = L"Pashto";
+	result[L"fa"] = L"Persian";
+	result[L"pl"] = L"Polish";
+	result[L"pt"] = L"Portuguese";
+	result[L"pa"] = L"Punjabi";
+	result[L"ps"] = L"Pushto";
+	result[L"qu"] = L"Quechua";
+	result[L"ro"] = L"Romanian";
+	result[L"rm"] = L"Romansh";
+	result[L"rn"] = L"Rundi";
+	result[L"ru"] = L"Russian";
+	result[L"sm"] = L"Samoan";
+	result[L"sg"] = L"Sango";
+	result[L"sa"] = L"Sanskrit";
+	result[L"sc"] = L"Sardinian";
+	result[L"gd"] = L"Scottish Gaelic";
+	result[L"sr"] = L"Serbian";
+	result[L"sn"] = L"Shona";
+	result[L"ii"] = L"Sichuan Yi";
+	result[L"sd"] = L"Sindhi";
+	result[L"si"] = L"Sinhala";
+	result[L"si"] = L"Sinhalese";
+	result[L"sk"] = L"Slovak";
+	result[L"sl"] = L"Slovenian";
+	result[L"so"] = L"Somali";
+	result[L"st"] = L"Sotho, Southern";
+	result[L"nr"] = L"South Ndebele";
+	result[L"es"] = L"Spanish";
+	result[L"su"] = L"Sundanese";
+	result[L"sw"] = L"Swahili";
+	result[L"ss"] = L"Swati";
+	result[L"sv"] = L"Swedish";
+	result[L"tl"] = L"Tagalog";
+	result[L"ty"] = L"Tahitian";
+	result[L"tg"] = L"Tajik";
+	result[L"ta"] = L"Tamil";
+	result[L"tt"] = L"Tatar";
+	result[L"te"] = L"Telugu";
+	result[L"th"] = L"Thai";
+	result[L"bo"] = L"Tibetan";
+	result[L"ti"] = L"Tigrinya";
+	result[L"to"] = L"Tonga (Tonga Islands)";
+	result[L"ts"] = L"Tsonga";
+	result[L"tn"] = L"Tswana";
+	result[L"tr"] = L"Turkish";
+	result[L"tk"] = L"Turkmen";
+	result[L"tw"] = L"Twi";
+	result[L"ug"] = L"Uighur";
+	result[L"uk"] = L"Ukrainian";
+	result[L"ur"] = L"Urdu";
+	result[L"ug"] = L"Uyghur";
+	result[L"uz"] = L"Uzbek";
+	result[L"ca"] = L"Valencian";
+	result[L"ve"] = L"Venda";
+	result[L"vi"] = L"Vietnamese";
+	result[L"vo"] = L"Volapuk";
+	result[L"wa"] = L"Walloon";
+	result[L"cy"] = L"Welsh";
+	result[L"fy"] = L"Western Frisian";
+	result[L"wo"] = L"Wolof";
+	result[L"xh"] = L"Xhosa";
+	result[L"yi"] = L"Yiddish";
+	result[L"yo"] = L"Yoruba";
+	result[L"za"] = L"Zhuang";
+	result[L"zu"] = L"Zulu";
+}
 
 void CSkypeProto::UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact)
 {
@@ -285,14 +322,7 @@ void CSkypeProto::UpdateProfileLanguage(JSONNODE *root, MCONTACT hContact)
 	JSONNODE *node = json_get(root, "language");
 	CMString isocode = ptrT(json_as_string(node));
 	if (!isocode.IsEmpty() && isocode != "null")
-	{
-		for (int i = 0; g_LanguageCodes[i].szCode; i++) {
-			if (!_tcscmp(isocode, g_LanguageCodes[i].szCode)) {
-				setTString(hContact, "Language0", g_LanguageCodes[i].szDescription);
-				break;
-			}
-		}
-	}
+		setTString(hContact, "Language0", languages[isocode.GetBuffer()].c_str());
 	else
 		delSetting(hContact, "Language0");
 }

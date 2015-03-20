@@ -47,6 +47,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	CSkypeProto::InitIcons();
 	CSkypeProto::InitMenus();
+	CSkypeProto::InitLanguages();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
 

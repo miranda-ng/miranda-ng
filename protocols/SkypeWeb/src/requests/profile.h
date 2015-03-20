@@ -4,8 +4,8 @@
 class GetProfileRequest : public HttpRequest
 {
 public:
-	GetProfileRequest(const char *token) :
-		HttpRequest(REQUEST_GET, "api.skype.com/users/self/profile")
+	GetProfileRequest(const char *token, const char *skypename = "self") :
+		HttpRequest(REQUEST_GET, "api.skype.com/users/%s/profile", skypename)
 	{
 		flags |= NLHRF_SSL;
 
