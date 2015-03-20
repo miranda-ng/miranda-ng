@@ -44,6 +44,27 @@
 #include "types.h"  /* for byte and u32 typedefs */
 #include "g10lib.h"
 #include "cipher.h"
+#include "bufhelp.h"
+#include "cipher-selftest.h"
+
+
+#define TWOFISH_BLOCKSIZE 16
+
+
+/* USE_AMD64_ASM indicates whether to use AMD64 assembly code. */
+#undef USE_AMD64_ASM
+#if defined(__x86_64__) && defined(HAVE_COMPATIBLE_GCC_AMD64_PLATFORM_AS)
+# define USE_AMD64_ASM 1
+#endif
+
+/* USE_ARM_ASM indicates whether to use ARM assembly code. */
+#undef USE_ARM_ASM
+#if defined(__ARMEL__)
+# if defined(HAVE_COMPATIBLE_GCC_ARM_PLATFORM_AS)
+#  define USE_ARM_ASM 1
+# endif
+#endif
+
 
 /* Prototype for the self-test function. */
 static const char *selftest(void);
@@ -522,7 +543,7 @@ static byte calc_sb_tbl[512] = {
  * preprocessed through q0 and q1 respectively; for longer keys they are the
  * output of previous stages.  j is the index of the first key byte to use.
  * CALC_K computes a pair of subkeys for 128-bit Twofish, by calling CALC_K_2
- * twice, doing the Psuedo-Hadamard Transform, and doing the necessary
+ * twice, doing the Pseudo-Hadamard Transform, and doing the necessary
  * rotations.  Its parameters are: a, the array to write the results into,
  * j, the index of the first output entry, k and l, the preprocessed indices
  * for index 2i, and m and n, the preprocessed indices for index 2i+1.
@@ -575,10 +596,10 @@ do_twofish_setkey (TWOFISH_context *ctx, const byte *key, const unsigned keylen)
    * 128-bit keys use only sa through sh; 256-bit use all of them. */
   byte sa = 0, sb = 0, sc = 0, sd = 0, se = 0, sf = 0, sg = 0, sh = 0;
   byte si = 0, sj = 0, sk = 0, sl = 0, sm = 0, sn = 0, so = 0, sp = 0;
-  
+
   /* Temporary for CALC_S. */
   byte tmp;
-  
+
   /* Flags for self-test. */
   static int initialized = 0;
   static const char *selftest_failed=0;
@@ -668,7 +689,7 @@ do_twofish_setkey (TWOFISH_context *ctx, const byte *key, const unsigned keylen)
       CALC_K256 (k, 28, 0x84, 0x8A, 0x54, 0x00);
       CALC_K256 (k, 30, 0xDF, 0xBC, 0x23, 0x9D);
     }
-  else 
+  else
     {
       /* Compute the S-boxes. */
       for(i=j=0,k=1; i < 256; i++, j += 2, k += 2 )
@@ -714,6 +735,36 @@ twofish_setkey (void *context, const byte *key, unsigned int keylen)
 
 
 
+#ifdef USE_AMD64_ASM
+
+/* Assembly implementations of Twofish. */
+extern void _gcry_twofish_amd64_encrypt_block(const TWOFISH_context *c,
+					      byte *out, const byte *in);
+
+extern void _gcry_twofish_amd64_decrypt_block(const TWOFISH_context *c,
+					      byte *out, const byte *in);
+
+/* These assembly implementations process three blocks in parallel. */
+extern void _gcry_twofish_amd64_ctr_enc(const TWOFISH_context *c, byte *out,
+					const byte *in, byte *ctr);
+
+extern void _gcry_twofish_amd64_cbc_dec(const TWOFISH_context *c, byte *out,
+					const byte *in, byte *iv);
+
+extern void _gcry_twofish_amd64_cfb_dec(const TWOFISH_context *c, byte *out,
+					const byte *in, byte *iv);
+
+#elif defined(USE_ARM_ASM)
+
+/* Assembly implementations of Twofish. */
+extern void _gcry_twofish_arm_encrypt_block(const TWOFISH_context *c,
+					      byte *out, const byte *in);
+
+extern void _gcry_twofish_arm_decrypt_block(const TWOFISH_context *c,
+					      byte *out, const byte *in);
+
+#else /*!USE_AMD64_ASM && !USE_ARM_ASM*/
+
 /* Macros to compute the g() function in the encryption and decryption
  * rounds.  G1 is the straight g() function; G2 includes the 8-bit
  * rotation for the high 32-bit word. */
@@ -764,15 +815,39 @@ twofish_setkey (void *context, const byte *key, unsigned int keylen)
  * whitening subkey number m. */
 
 #define INPACK(n, x, m) \
-   x = in[4 * (n)] ^ (in[4 * (n) + 1] << 8) \
-     ^ (in[4 * (n) + 2] << 16) ^ (in[4 * (n) + 3] << 24) ^ ctx->w[m]
+   x = buf_get_le32(in + (n) * 4); \
+   x ^= ctx->w[m]
 
 #define OUTUNPACK(n, x, m) \
    x ^= ctx->w[m]; \
-   out[4 * (n)] = x; out[4 * (n) + 1] = x >> 8; \
-   out[4 * (n) + 2] = x >> 16; out[4 * (n) + 3] = x >> 24
+   buf_put_le32(out + (n) * 4, x)
+
+#endif /*!USE_AMD64_ASM*/
+
 
 /* Encrypt one block.  in and out may be the same. */
+
+#ifdef USE_AMD64_ASM
+
+static unsigned int
+twofish_encrypt (void *context, byte *out, const byte *in)
+{
+  TWOFISH_context *ctx = context;
+  _gcry_twofish_amd64_encrypt_block(ctx, out, in);
+  return /*burn_stack*/ (4*sizeof (void*));
+}
+
+#elif defined(USE_ARM_ASM)
+
+static unsigned int
+twofish_encrypt (void *context, byte *out, const byte *in)
+{
+  TWOFISH_context *ctx = context;
+  _gcry_twofish_arm_encrypt_block(ctx, out, in);
+  return /*burn_stack*/ (4*sizeof (void*));
+}
+
+#else /*!USE_AMD64_ASM && !USE_ARM_ASM*/
 
 static void
 do_twofish_encrypt (const TWOFISH_context *ctx, byte *out, const byte *in)
@@ -806,16 +881,40 @@ do_twofish_encrypt (const TWOFISH_context *ctx, byte *out, const byte *in)
   OUTUNPACK (3, b, 7);
 }
 
-static void
+static unsigned int
 twofish_encrypt (void *context, byte *out, const byte *in)
 {
   TWOFISH_context *ctx = context;
   do_twofish_encrypt (ctx, out, in);
-  _gcry_burn_stack (24+3*sizeof (void*));
+  return /*burn_stack*/ (24+3*sizeof (void*));
 }
+
+#endif /*!USE_AMD64_ASM && !USE_ARM_ASM*/
 
 
 /* Decrypt one block.  in and out may be the same. */
+
+#ifdef USE_AMD64_ASM
+
+static unsigned int
+twofish_decrypt (void *context, byte *out, const byte *in)
+{
+  TWOFISH_context *ctx = context;
+  _gcry_twofish_amd64_decrypt_block(ctx, out, in);
+  return /*burn_stack*/ (4*sizeof (void*));
+}
+
+#elif defined(USE_ARM_ASM)
+
+static unsigned int
+twofish_decrypt (void *context, byte *out, const byte *in)
+{
+  TWOFISH_context *ctx = context;
+  _gcry_twofish_arm_decrypt_block(ctx, out, in);
+  return /*burn_stack*/ (4*sizeof (void*));
+}
+
+#else /*!USE_AMD64_ASM && !USE_ARM_ASM*/
 
 static void
 do_twofish_decrypt (const TWOFISH_context *ctx, byte *out, const byte *in)
@@ -849,13 +948,216 @@ do_twofish_decrypt (const TWOFISH_context *ctx, byte *out, const byte *in)
   OUTUNPACK (3, d, 3);
 }
 
-static void
+static unsigned int
 twofish_decrypt (void *context, byte *out, const byte *in)
 {
   TWOFISH_context *ctx = context;
 
   do_twofish_decrypt (ctx, out, in);
-  _gcry_burn_stack (24+3*sizeof (void*));
+  return /*burn_stack*/ (24+3*sizeof (void*));
+}
+
+#endif /*!USE_AMD64_ASM && !USE_ARM_ASM*/
+
+
+
+/* Bulk encryption of complete blocks in CTR mode.  This function is only
+   intended for the bulk encryption feature of cipher.c.  CTR is expected to be
+   of size TWOFISH_BLOCKSIZE. */
+void
+_gcry_twofish_ctr_enc(void *context, unsigned char *ctr, void *outbuf_arg,
+		      const void *inbuf_arg, size_t nblocks)
+{
+  TWOFISH_context *ctx = context;
+  unsigned char *outbuf = outbuf_arg;
+  const unsigned char *inbuf = inbuf_arg;
+  unsigned char tmpbuf[TWOFISH_BLOCKSIZE];
+  unsigned int burn, burn_stack_depth = 0;
+  int i;
+
+#ifdef USE_AMD64_ASM
+  {
+    /* Process data in 3 block chunks. */
+    while (nblocks >= 3)
+      {
+        _gcry_twofish_amd64_ctr_enc(ctx, outbuf, inbuf, ctr);
+
+        nblocks -= 3;
+        outbuf += 3 * TWOFISH_BLOCKSIZE;
+        inbuf += 3 * TWOFISH_BLOCKSIZE;
+
+        burn = 8 * sizeof(void*);
+        if (burn > burn_stack_depth)
+          burn_stack_depth = burn;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+    /* TODO: use caching instead? */
+  }
+#endif
+
+  for ( ;nblocks; nblocks-- )
+    {
+      /* Encrypt the counter. */
+      burn = twofish_encrypt(ctx, tmpbuf, ctr);
+      if (burn > burn_stack_depth)
+        burn_stack_depth = burn;
+
+      /* XOR the input with the encrypted counter and store in output.  */
+      buf_xor(outbuf, tmpbuf, inbuf, TWOFISH_BLOCKSIZE);
+      outbuf += TWOFISH_BLOCKSIZE;
+      inbuf  += TWOFISH_BLOCKSIZE;
+      /* Increment the counter.  */
+      for (i = TWOFISH_BLOCKSIZE; i > 0; i--)
+        {
+          ctr[i-1]++;
+          if (ctr[i-1])
+            break;
+        }
+    }
+
+  wipememory(tmpbuf, sizeof(tmpbuf));
+  _gcry_burn_stack(burn_stack_depth);
+}
+
+
+/* Bulk decryption of complete blocks in CBC mode.  This function is only
+   intended for the bulk encryption feature of cipher.c. */
+void
+_gcry_twofish_cbc_dec(void *context, unsigned char *iv, void *outbuf_arg,
+		      const void *inbuf_arg, size_t nblocks)
+{
+  TWOFISH_context *ctx = context;
+  unsigned char *outbuf = outbuf_arg;
+  const unsigned char *inbuf = inbuf_arg;
+  unsigned char savebuf[TWOFISH_BLOCKSIZE];
+  unsigned int burn, burn_stack_depth = 0;
+
+#ifdef USE_AMD64_ASM
+  {
+    /* Process data in 3 block chunks. */
+    while (nblocks >= 3)
+      {
+        _gcry_twofish_amd64_cbc_dec(ctx, outbuf, inbuf, iv);
+
+        nblocks -= 3;
+        outbuf += 3 * TWOFISH_BLOCKSIZE;
+        inbuf += 3 * TWOFISH_BLOCKSIZE;
+
+        burn = 9 * sizeof(void*);
+        if (burn > burn_stack_depth)
+          burn_stack_depth = burn;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+  }
+#endif
+
+  for ( ;nblocks; nblocks-- )
+    {
+      /* INBUF is needed later and it may be identical to OUTBUF, so store
+         the intermediate result to SAVEBUF.  */
+      burn = twofish_decrypt (ctx, savebuf, inbuf);
+      if (burn > burn_stack_depth)
+        burn_stack_depth = burn;
+
+      buf_xor_n_copy_2(outbuf, savebuf, iv, inbuf, TWOFISH_BLOCKSIZE);
+      inbuf += TWOFISH_BLOCKSIZE;
+      outbuf += TWOFISH_BLOCKSIZE;
+    }
+
+  wipememory(savebuf, sizeof(savebuf));
+  _gcry_burn_stack(burn_stack_depth);
+}
+
+
+/* Bulk decryption of complete blocks in CFB mode.  This function is only
+   intended for the bulk encryption feature of cipher.c. */
+void
+_gcry_twofish_cfb_dec(void *context, unsigned char *iv, void *outbuf_arg,
+		    const void *inbuf_arg, size_t nblocks)
+{
+  TWOFISH_context *ctx = context;
+  unsigned char *outbuf = outbuf_arg;
+  const unsigned char *inbuf = inbuf_arg;
+  unsigned int burn, burn_stack_depth = 0;
+
+#ifdef USE_AMD64_ASM
+  {
+    /* Process data in 3 block chunks. */
+    while (nblocks >= 3)
+      {
+        _gcry_twofish_amd64_cfb_dec(ctx, outbuf, inbuf, iv);
+
+        nblocks -= 3;
+        outbuf += 3 * TWOFISH_BLOCKSIZE;
+        inbuf += 3 * TWOFISH_BLOCKSIZE;
+
+        burn = 8 * sizeof(void*);
+        if (burn > burn_stack_depth)
+          burn_stack_depth = burn;
+      }
+
+    /* Use generic code to handle smaller chunks... */
+  }
+#endif
+
+  for ( ;nblocks; nblocks-- )
+    {
+      burn = twofish_encrypt(ctx, iv, iv);
+      if (burn > burn_stack_depth)
+        burn_stack_depth = burn;
+
+      buf_xor_n_copy(outbuf, iv, inbuf, TWOFISH_BLOCKSIZE);
+      outbuf += TWOFISH_BLOCKSIZE;
+      inbuf += TWOFISH_BLOCKSIZE;
+    }
+
+  _gcry_burn_stack(burn_stack_depth);
+}
+
+
+
+/* Run the self-tests for TWOFISH-CTR, tests IV increment of bulk CTR
+   encryption.  Returns NULL on success. */
+static const char *
+selftest_ctr (void)
+{
+  const int nblocks = 3+1;
+  const int blocksize = TWOFISH_BLOCKSIZE;
+  const int context_size = sizeof(TWOFISH_context);
+
+  return _gcry_selftest_helper_ctr("TWOFISH", &twofish_setkey,
+           &twofish_encrypt, &_gcry_twofish_ctr_enc, nblocks, blocksize,
+	   context_size);
+}
+
+/* Run the self-tests for TWOFISH-CBC, tests bulk CBC decryption.
+   Returns NULL on success. */
+static const char *
+selftest_cbc (void)
+{
+  const int nblocks = 3+2;
+  const int blocksize = TWOFISH_BLOCKSIZE;
+  const int context_size = sizeof(TWOFISH_context);
+
+  return _gcry_selftest_helper_cbc("TWOFISH", &twofish_setkey,
+           &twofish_encrypt, &_gcry_twofish_cbc_dec, nblocks, blocksize,
+	   context_size);
+}
+
+/* Run the self-tests for TWOFISH-CFB, tests bulk CBC decryption.
+   Returns NULL on success. */
+static const char *
+selftest_cfb (void)
+{
+  const int nblocks = 3+2;
+  const int blocksize = TWOFISH_BLOCKSIZE;
+  const int context_size = sizeof(TWOFISH_context);
+
+  return _gcry_selftest_helper_cfb("TWOFISH", &twofish_setkey,
+           &twofish_encrypt, &_gcry_twofish_cfb_dec, nblocks, blocksize,
+	   context_size);
 }
 
 
@@ -866,6 +1168,7 @@ selftest (void)
 {
   TWOFISH_context ctx; /* Expanded key. */
   byte scratch[16];	/* Encryption/decryption result buffer. */
+  const char *r;
 
   /* Test vectors for single encryption/decryption.  Note that I am using
    * the vectors from the Twofish paper's "known answer test", I=3 for
@@ -914,6 +1217,13 @@ selftest (void)
   twofish_decrypt (&ctx, scratch, scratch);
   if (memcmp (scratch, plaintext_256, sizeof (plaintext_256)))
     return "Twofish-256 test decryption failed.";
+
+  if ((r = selftest_ctr()) != NULL)
+    return r;
+  if ((r = selftest_cbc()) != NULL)
+    return r;
+  if ((r = selftest_cfb()) != NULL)
+    return r;
 
   return NULL;
 }
@@ -980,7 +1290,7 @@ main()
   timer = clock ();
 
   /* Encryption test. */
-  for (i = 0; i < 125; i++) 
+  for (i = 0; i < 125; i++)
     {
       twofish_setkey (&ctx, buffer[0], sizeof (buffer[0]));
       for (j = 0; j < 1000; j++)
@@ -998,7 +1308,7 @@ main()
     "encryption failure!\n" : "encryption OK!\n";
 
   /* Decryption test. */
-  for (i = 0; i < 125; i++) 
+  for (i = 0; i < 125; i++)
     {
       twofish_setkey (&ctx, buffer[2], sizeof (buffer[2])*2);
       for (j = 0; j < 1000; j++) {
@@ -1029,12 +1339,14 @@ main()
 
 gcry_cipher_spec_t _gcry_cipher_spec_twofish =
   {
+    GCRY_CIPHER_TWOFISH, {0, 0},
     "TWOFISH", NULL, NULL, 16, 256, sizeof (TWOFISH_context),
     twofish_setkey, twofish_encrypt, twofish_decrypt
   };
 
 gcry_cipher_spec_t _gcry_cipher_spec_twofish128 =
   {
+    GCRY_CIPHER_TWOFISH128, {0, 0},
     "TWOFISH128", NULL, NULL, 16, 128, sizeof (TWOFISH_context),
     twofish_setkey, twofish_encrypt, twofish_decrypt
   };

@@ -50,7 +50,7 @@ _gcry_mpi_fdiv_r( gcry_mpi_t rem, gcry_mpi_t dividend, gcry_mpi_t divisor )
     _gcry_mpi_tdiv_r( rem, dividend, divisor );
 
     if( ((divisor_sign?1:0) ^ (dividend->sign?1:0)) && rem->nlimbs )
-	gcry_mpi_add( rem, rem, divisor);
+	mpi_add (rem, rem, divisor);
 
     if( temp_divisor )
 	mpi_free(temp_divisor);
@@ -103,8 +103,8 @@ _gcry_mpi_fdiv_qr( gcry_mpi_t quot, gcry_mpi_t rem, gcry_mpi_t dividend, gcry_mp
     _gcry_mpi_tdiv_qr( quot, rem, dividend, divisor );
 
     if( (divisor_sign ^ dividend->sign) && rem->nlimbs ) {
-	gcry_mpi_sub_ui( quot, quot, 1 );
-	gcry_mpi_add( rem, rem, divisor);
+	mpi_sub_ui( quot, quot, 1 );
+	mpi_add( rem, rem, divisor);
     }
 
     if( temp_divisor )
@@ -328,7 +328,8 @@ _gcry_mpi_divisible_ui(gcry_mpi_t dividend, ulong divisor )
 
 
 void
-gcry_mpi_div (gcry_mpi_t quot, gcry_mpi_t rem, gcry_mpi_t dividend, gcry_mpi_t divisor, int round)
+_gcry_mpi_div (gcry_mpi_t quot, gcry_mpi_t rem, gcry_mpi_t dividend,
+               gcry_mpi_t divisor, int round)
 {
   if (!round)
     {
@@ -353,6 +354,3 @@ gcry_mpi_div (gcry_mpi_t quot, gcry_mpi_t rem, gcry_mpi_t dividend, gcry_mpi_t d
   else
     log_bug ("mpi rounding to ceiling not yet implemented\n");
 }
-
-
-

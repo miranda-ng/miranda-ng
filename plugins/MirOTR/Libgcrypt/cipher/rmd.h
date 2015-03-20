@@ -20,18 +20,16 @@
 #ifndef G10_RMD_H
 #define G10_RMD_H
 
+#include "hash-common.h"
 
 /* We need this here because random.c must have direct access. */
-typedef struct 
+typedef struct
 {
+  gcry_md_block_ctx_t bctx;
   u32  h0,h1,h2,h3,h4;
-  u32  nblocks;
-  byte buf[64];
-  int  count;
 } RMD160_CONTEXT;
 
 void _gcry_rmd160_init ( void *context );
 void _gcry_rmd160_mixblock ( RMD160_CONTEXT *hd, void *blockof64byte );
 
 #endif /*G10_RMD_H*/
-

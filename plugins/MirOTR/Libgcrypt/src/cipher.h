@@ -1,5 +1,5 @@
 /* cipher.h
- *	Copyright (C) 1998, 2002, 2003 Free Software Foundation, Inc.
+ *	Copyright (C) 1998, 2002, 2003, 2009 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.
  *
@@ -20,18 +20,94 @@
 #ifndef G10_CIPHER_H
 #define G10_CIPHER_H
 
-#include <gcrypt.h>
+#include "gcrypt-int.h"
 
 #define DBG_CIPHER _gcry_get_debug_flag( 1 )
 
 #include "../random/random.h"
 
 #define PUBKEY_FLAG_NO_BLINDING    (1 << 0)
+#define PUBKEY_FLAG_RFC6979        (1 << 1)
+#define PUBKEY_FLAG_FIXEDLEN       (1 << 2)
+#define PUBKEY_FLAG_LEGACYRESULT   (1 << 3)
+#define PUBKEY_FLAG_RAW_FLAG       (1 << 4)
+#define PUBKEY_FLAG_TRANSIENT_KEY  (1 << 5)
+#define PUBKEY_FLAG_USE_X931       (1 << 6)
+#define PUBKEY_FLAG_USE_FIPS186    (1 << 7)
+#define PUBKEY_FLAG_USE_FIPS186_2  (1 << 8)
+#define PUBKEY_FLAG_PARAM          (1 << 9)
+#define PUBKEY_FLAG_COMP           (1 << 10)
+#define PUBKEY_FLAG_NOCOMP         (1 << 11)
+#define PUBKEY_FLAG_EDDSA          (1 << 12)
+#define PUBKEY_FLAG_GOST           (1 << 13)
+
+
+enum pk_operation
+  {
+    PUBKEY_OP_ENCRYPT,
+    PUBKEY_OP_DECRYPT,
+    PUBKEY_OP_SIGN,
+    PUBKEY_OP_VERIFY
+  };
+
+enum pk_encoding
+  {
+    PUBKEY_ENC_RAW,
+    PUBKEY_ENC_PKCS1,
+    PUBKEY_ENC_OAEP,
+    PUBKEY_ENC_PSS,
+    PUBKEY_ENC_UNKNOWN
+  };
+
+struct pk_encoding_ctx
+{
+  enum pk_operation op;
+  unsigned int nbits;
+
+  enum pk_encoding encoding;
+  int flags;
+
+  int hash_algo;
+
+  /* for OAEP */
+  unsigned char *label;
+  size_t labellen;
+
+  /* for PSS */
+  size_t saltlen;
+
+  int (* verify_cmp) (void *opaque, gcry_mpi_t tmp);
+  void *verify_arg;
+};
 
 #define CIPHER_INFO_NO_WEAK_KEY    1
 
 #include "cipher-proto.h"
 
+/* The internal encryption modes. */
+enum gcry_cipher_internal_modes
+  {
+    GCRY_CIPHER_MODE_INTERNAL = 0x10000,
+    GCRY_CIPHER_MODE_CMAC     = 0x10000 + 1   /* Cipher-based MAC. */
+  };
+
+
+/*-- cipher.c --*/
+gcry_err_code_t _gcry_cipher_open_internal (gcry_cipher_hd_t *handle,
+					    int algo, int mode,
+					    unsigned int flags);
+
+/*-- cipher-cmac.c --*/
+gcry_err_code_t _gcry_cipher_cmac_authenticate
+/*           */ (gcry_cipher_hd_t c, const unsigned char *abuf, size_t abuflen);
+gcry_err_code_t _gcry_cipher_cmac_get_tag
+/*           */ (gcry_cipher_hd_t c,
+                 unsigned char *outtag, size_t taglen);
+gcry_err_code_t _gcry_cipher_cmac_check_tag
+/*           */ (gcry_cipher_hd_t c,
+                 const unsigned char *intag, size_t taglen);
+gcry_err_code_t _gcry_cipher_cmac_set_subkeys
+/*           */ (gcry_cipher_hd_t c);
 
 /*-- rmd160.c --*/
 void _gcry_rmd160_hash_buffer (void *outbuf,
@@ -39,21 +115,84 @@ void _gcry_rmd160_hash_buffer (void *outbuf,
 /*-- sha1.c --*/
 void _gcry_sha1_hash_buffer (void *outbuf,
                              const void *buffer, size_t length);
+void _gcry_sha1_hash_buffers (void *outbuf,
+                              const gcry_buffer_t *iov, int iovcnt);
 
 /*-- rijndael.c --*/
-void _gcry_aes_cfb_enc (void *context, unsigned char *iv, 
+void _gcry_aes_cfb_enc (void *context, unsigned char *iv,
                         void *outbuf, const void *inbuf,
-                        unsigned int nblocks);
-void _gcry_aes_cfb_dec (void *context, unsigned char *iv, 
+                        size_t nblocks);
+void _gcry_aes_cfb_dec (void *context, unsigned char *iv,
                         void *outbuf_arg, const void *inbuf_arg,
-                        unsigned int nblocks);
-void _gcry_aes_cbc_enc (void *context, unsigned char *iv, 
+                        size_t nblocks);
+void _gcry_aes_cbc_enc (void *context, unsigned char *iv,
                         void *outbuf_arg, const void *inbuf_arg,
-                        unsigned int nblocks, int cbc_mac);
-void _gcry_aes_cbc_dec (void *context, unsigned char *iv, 
+                        size_t nblocks, int cbc_mac);
+void _gcry_aes_cbc_dec (void *context, unsigned char *iv,
                         void *outbuf_arg, const void *inbuf_arg,
-                        unsigned int nblocks);
+                        size_t nblocks);
+void _gcry_aes_ctr_enc (void *context, unsigned char *ctr,
+                        void *outbuf_arg, const void *inbuf_arg,
+                        size_t nblocks);
 
+/*-- blowfish.c --*/
+void _gcry_blowfish_cfb_dec (void *context, unsigned char *iv,
+			     void *outbuf_arg, const void *inbuf_arg,
+			     size_t nblocks);
+
+void _gcry_blowfish_cbc_dec (void *context, unsigned char *iv,
+			     void *outbuf_arg, const void *inbuf_arg,
+			     size_t nblocks);
+
+void _gcry_blowfish_ctr_enc (void *context, unsigned char *ctr,
+			     void *outbuf_arg, const void *inbuf_arg,
+			     size_t nblocks);
+
+/*-- cast5.c --*/
+void _gcry_cast5_cfb_dec (void *context, unsigned char *iv,
+			  void *outbuf_arg, const void *inbuf_arg,
+			  size_t nblocks);
+
+void _gcry_cast5_cbc_dec (void *context, unsigned char *iv,
+			  void *outbuf_arg, const void *inbuf_arg,
+			  size_t nblocks);
+
+void _gcry_cast5_ctr_enc (void *context, unsigned char *ctr,
+			  void *outbuf_arg, const void *inbuf_arg,
+			  size_t nblocks);
+
+/*-- camellia-glue.c --*/
+void _gcry_camellia_ctr_enc (void *context, unsigned char *ctr,
+                             void *outbuf_arg, const void *inbuf_arg,
+                             size_t nblocks);
+void _gcry_camellia_cbc_dec (void *context, unsigned char *iv,
+                             void *outbuf_arg, const void *inbuf_arg,
+                             size_t nblocks);
+void _gcry_camellia_cfb_dec (void *context, unsigned char *iv,
+                             void *outbuf_arg, const void *inbuf_arg,
+                             size_t nblocks);
+
+/*-- serpent.c --*/
+void _gcry_serpent_ctr_enc (void *context, unsigned char *ctr,
+                            void *outbuf_arg, const void *inbuf_arg,
+                            size_t nblocks);
+void _gcry_serpent_cbc_dec (void *context, unsigned char *iv,
+                            void *outbuf_arg, const void *inbuf_arg,
+                            size_t nblocks);
+void _gcry_serpent_cfb_dec (void *context, unsigned char *iv,
+                            void *outbuf_arg, const void *inbuf_arg,
+                            size_t nblocks);
+
+/*-- twofish.c --*/
+void _gcry_twofish_ctr_enc (void *context, unsigned char *ctr,
+                            void *outbuf_arg, const void *inbuf_arg,
+                            size_t nblocks);
+void _gcry_twofish_cbc_dec (void *context, unsigned char *iv,
+                            void *outbuf_arg, const void *inbuf_arg,
+                            size_t nblocks);
+void _gcry_twofish_cfb_dec (void *context, unsigned char *iv,
+                            void *outbuf_arg, const void *inbuf_arg,
+                            size_t nblocks);
 
 /*-- dsa.c --*/
 void _gcry_register_pk_dsa_progress (gcry_handler_progress_t cbc, void *cb_data);
@@ -73,7 +212,6 @@ void _gcry_register_primegen_progress (gcry_handler_progress_t cb,
                                        void *cb_data);
 
 /*-- pubkey.c --*/
-const char * _gcry_pk_aliased_algo_name (int algorithm);
 
 /* Declarations for the cipher specifications.  */
 extern gcry_cipher_spec_t _gcry_cipher_spec_blowfish;
@@ -90,21 +228,23 @@ extern gcry_cipher_spec_t _gcry_cipher_spec_serpent128;
 extern gcry_cipher_spec_t _gcry_cipher_spec_serpent192;
 extern gcry_cipher_spec_t _gcry_cipher_spec_serpent256;
 extern gcry_cipher_spec_t _gcry_cipher_spec_rfc2268_40;
+extern gcry_cipher_spec_t _gcry_cipher_spec_rfc2268_128;
 extern gcry_cipher_spec_t _gcry_cipher_spec_seed;
 extern gcry_cipher_spec_t _gcry_cipher_spec_camellia128;
 extern gcry_cipher_spec_t _gcry_cipher_spec_camellia192;
 extern gcry_cipher_spec_t _gcry_cipher_spec_camellia256;
-
-extern cipher_extra_spec_t _gcry_cipher_extraspec_tripledes;
-extern cipher_extra_spec_t _gcry_cipher_extraspec_aes;
-extern cipher_extra_spec_t _gcry_cipher_extraspec_aes192;
-extern cipher_extra_spec_t _gcry_cipher_extraspec_aes256;
-
+extern gcry_cipher_spec_t _gcry_cipher_spec_idea;
+extern gcry_cipher_spec_t _gcry_cipher_spec_salsa20;
+extern gcry_cipher_spec_t _gcry_cipher_spec_salsa20r12;
+extern gcry_cipher_spec_t _gcry_cipher_spec_gost28147;
 
 /* Declarations for the digest specifications.  */
 extern gcry_md_spec_t _gcry_digest_spec_crc32;
 extern gcry_md_spec_t _gcry_digest_spec_crc32_rfc1510;
 extern gcry_md_spec_t _gcry_digest_spec_crc24_rfc2440;
+extern gcry_md_spec_t _gcry_digest_spec_gost3411_94;
+extern gcry_md_spec_t _gcry_digest_spec_stribog_256;
+extern gcry_md_spec_t _gcry_digest_spec_stribog_512;
 extern gcry_md_spec_t _gcry_digest_spec_md4;
 extern gcry_md_spec_t _gcry_digest_spec_md5;
 extern gcry_md_spec_t _gcry_digest_spec_rmd160;
@@ -118,22 +258,12 @@ extern gcry_md_spec_t _gcry_digest_spec_tiger1;
 extern gcry_md_spec_t _gcry_digest_spec_tiger2;
 extern gcry_md_spec_t _gcry_digest_spec_whirlpool;
 
-extern md_extra_spec_t _gcry_digest_extraspec_sha1;
-extern md_extra_spec_t _gcry_digest_extraspec_sha224;
-extern md_extra_spec_t _gcry_digest_extraspec_sha256;
-extern md_extra_spec_t _gcry_digest_extraspec_sha384;
-extern md_extra_spec_t _gcry_digest_extraspec_sha512;
-
 /* Declarations for the pubkey cipher specifications.  */
 extern gcry_pk_spec_t _gcry_pubkey_spec_rsa;
 extern gcry_pk_spec_t _gcry_pubkey_spec_elg;
+extern gcry_pk_spec_t _gcry_pubkey_spec_elg_e;
 extern gcry_pk_spec_t _gcry_pubkey_spec_dsa;
-extern gcry_pk_spec_t _gcry_pubkey_spec_ecdsa;
-
-extern pk_extra_spec_t _gcry_pubkey_extraspec_rsa; 
-extern pk_extra_spec_t _gcry_pubkey_extraspec_dsa; 
-extern pk_extra_spec_t _gcry_pubkey_extraspec_elg; 
-extern pk_extra_spec_t _gcry_pubkey_extraspec_ecdsa; 
+extern gcry_pk_spec_t _gcry_pubkey_spec_ecc;
 
 
 #endif /*G10_CIPHER_H*/

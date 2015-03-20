@@ -1,6 +1,7 @@
 /* secmem.c  -	memory allocation from a secure heap
  * Copyright (C) 1998, 1999, 2000, 2001, 2002,
  *               2003, 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2013 g10 Code GmbH
  *
  * This file is part of Libgcrypt.
  *
@@ -78,6 +79,8 @@ static int show_warning;
 static int not_locked;
 static int no_warning;
 static int suspend_warning;
+static int no_mlock;
+static int no_priv_drop;
 
 /* Stats.  */
 static unsigned int cur_alloced, cur_blocks;
@@ -136,14 +139,14 @@ mb_get_next (memblock_t *mb)
   memblock_t *mb_next;
 
   mb_next = (memblock_t *) ((char *) mb + BLOCK_HEAD_SIZE + mb->size);
-  
+
   if (! ptr_into_pool_p (mb_next))
     mb_next = NULL;
 
   return mb_next;
 }
 
-/* Return the block preceeding MB or NULL, if MB is the first
+/* Return the block preceding MB or NULL, if MB is the first
    block.  */
 static memblock_t *
 mb_get_prev (memblock_t *mb)
@@ -168,7 +171,7 @@ mb_get_prev (memblock_t *mb)
   return mb_prev;
 }
 
-/* If the preceeding block of MB and/or the following block of MB
+/* If the preceding block of MB and/or the following block of MB
    exist and are not active, merge them to form a bigger block.  */
 static void
 mb_merge (memblock_t *mb)
@@ -192,7 +195,7 @@ static memblock_t *
 mb_get_new (memblock_t *block, size_t size)
 {
   memblock_t *mb, *mb_split;
-  
+
   for (mb = block; ptr_into_pool_p (mb); mb = mb_get_next (mb))
     if (! (mb->flags & MB_FLAG_ACTIVE) && mb->size >= size)
       {
@@ -202,7 +205,7 @@ mb_get_new (memblock_t *block, size_t size)
 	if (mb->size - size > BLOCK_HEAD_SIZE)
 	  {
 	    /* Split block.  */
-	  
+
 	    mb_split = (memblock_t *) (((char *) mb) + BLOCK_HEAD_SIZE + size);
 	    mb_split->size = mb->size - size - BLOCK_HEAD_SIZE;
 	    mb_split->flags = 0;
@@ -217,7 +220,10 @@ mb_get_new (memblock_t *block, size_t size)
       }
 
   if (! ptr_into_pool_p (mb))
-    mb = NULL;
+    {
+      gpg_err_set_errno (ENOMEM);
+      mb = NULL;
+    }
 
   return mb;
 }
@@ -237,11 +243,19 @@ lock_pool (void *p, size_t n)
 #if defined(USE_CAPABILITIES) && defined(HAVE_MLOCK)
   int err;
 
-  cap_set_proc (cap_from_text ("cap_ipc_lock+ep"));
-  err = mlock (p, n);
-  if (err && errno)
-    err = errno;
-  cap_set_proc (cap_from_text ("cap_ipc_lock+p"));
+  {
+    cap_t cap;
+
+    cap = cap_from_text ("cap_ipc_lock+ep");
+    cap_set_proc (cap);
+    cap_free (cap);
+    err = no_mlock? 0 : mlock (p, n);
+    if (err && errno)
+      err = errno;
+    cap = cap_from_text ("cap_ipc_lock+p");
+    cap_set_proc (cap);
+    cap_free(cap);
+  }
 
   if (err)
     {
@@ -271,7 +285,7 @@ lock_pool (void *p, size_t n)
   /* Under HP/UX mlock segfaults if called by non-root.  Note, we have
      noch checked whether mlock does really work under AIX where we
      also detected a broken nlock.  Note further, that using plock ()
-     is not a good idea under AIX. */ 
+     is not a good idea under AIX. */
   if (uid)
     {
       errno = EPERM;
@@ -279,22 +293,27 @@ lock_pool (void *p, size_t n)
     }
   else
     {
-      err = mlock (p, n);
+      err = no_mlock? 0 : mlock (p, n);
       if (err && errno)
 	err = errno;
     }
 #else /* !HAVE_BROKEN_MLOCK */
-  err = mlock (p, n);
+  err = no_mlock? 0 : mlock (p, n);
   if (err && errno)
     err = errno;
 #endif /* !HAVE_BROKEN_MLOCK */
 
+  /* Test whether we are running setuid(0).  */
   if (uid && ! geteuid ())
     {
-      /* check that we really dropped the privs.
-       * Note: setuid(0) should always fail */
-      if (setuid (uid) || getuid () != geteuid () || !setuid (0))
-	log_fatal ("failed to reset uid: %s\n", strerror (errno));
+      /* Yes, we are.  */
+      if (!no_priv_drop)
+        {
+          /* Check that we really dropped the privs.
+           * Note: setuid(0) should always fail */
+          if (setuid (uid) || getuid () != geteuid () || !setuid (0))
+            log_fatal ("failed to reset uid: %s\n", strerror (errno));
+        }
     }
 
   if (err)
@@ -319,19 +338,25 @@ lock_pool (void *p, size_t n)
   /* QNX does not page at all, so the whole secure memory stuff does
    * not make much sense.  However it is still of use because it
    * wipes out the memory on a free().
-   * Therefore it is sufficient to suppress the warning
-   */
+   * Therefore it is sufficient to suppress the warning.  */
+  (void)p;
+  (void)n;
 #elif defined (HAVE_DOSISH_SYSTEM) || defined (__CYGWIN__)
-    /* It does not make sense to print such a warning, given the fact that 
-     * this whole Windows !@#$% and their user base are inherently insecure
-     */
+    /* It does not make sense to print such a warning, given the fact that
+     * this whole Windows !@#$% and their user base are inherently insecure. */
+  (void)p;
+  (void)n;
 #elif defined (__riscos__)
-    /* no virtual memory on RISC OS, so no pages are swapped to disc,
+    /* No virtual memory on RISC OS, so no pages are swapped to disc,
      * besides we don't have mmap, so we don't use it! ;-)
-     * But don't complain, as explained above.
-     */
+     * But don't complain, as explained above.  */
+  (void)p;
+  (void)n;
 #else
-  log_info ("Please note that you don't have secure memory on this system\n");
+  (void)p;
+  (void)n;
+  if (!no_mlock)
+    log_info ("Please note that you don't have secure memory on this system\n");
 #endif
 }
 
@@ -416,6 +441,8 @@ _gcry_secmem_set_flags (unsigned flags)
   was_susp = suspend_warning;
   no_warning = flags & GCRY_SECMEM_FLAG_NO_WARNING;
   suspend_warning = flags & GCRY_SECMEM_FLAG_SUSPEND_WARNING;
+  no_mlock      = flags & GCRY_SECMEM_FLAG_NO_MLOCK;
+  no_priv_drop = flags & GCRY_SECMEM_FLAG_NO_PRIV_DROP;
 
   /* and now issue the warning if it is not longer suspended */
   if (was_susp && !suspend_warning && show_warning)
@@ -437,6 +464,8 @@ _gcry_secmem_get_flags (void)
   flags = no_warning ? GCRY_SECMEM_FLAG_NO_WARNING : 0;
   flags |= suspend_warning ? GCRY_SECMEM_FLAG_SUSPEND_WARNING : 0;
   flags |= not_locked ? GCRY_SECMEM_FLAG_NOT_LOCKED : 0;
+  flags |= no_mlock ? GCRY_SECMEM_FLAG_NO_MLOCK : 0;
+  flags |= no_priv_drop ? GCRY_SECMEM_FLAG_NO_PRIV_DROP : 0;
 
   SECMEM_UNLOCK;
 
@@ -453,7 +482,13 @@ secmem_init (size_t n)
     {
 #ifdef USE_CAPABILITIES
       /* drop all capabilities */
-      cap_set_proc (cap_from_text ("all-eip"));
+      {
+        cap_t cap;
+
+        cap = cap_from_text ("all-eip");
+        cap_set_proc (cap);
+        cap_free (cap);
+      }
 
 #elif !defined(HAVE_DOSISH_SYSTEM)
       uid_t uid;
@@ -498,6 +533,19 @@ _gcry_secmem_init (size_t n)
 }
 
 
+gcry_err_code_t
+_gcry_secmem_module_init ()
+{
+  int err;
+
+  err = ath_mutex_init (&secmem_lock);
+  if (err)
+    log_fatal ("could not allocate secmem lock\n");
+
+  return 0;
+}
+
+
 static void *
 _gcry_secmem_malloc_internal (size_t size)
 {
@@ -511,12 +559,14 @@ _gcry_secmem_malloc_internal (size_t size)
         {
           log_info (_("operation is not possible without "
                       "initialized secure memory\n"));
+          gpg_err_set_errno (ENOMEM);
           return NULL;
         }
     }
   if (not_locked && fips_mode ())
     {
       log_info (_("secure memory pool is not locked while in FIPS mode\n"));
+      gpg_err_set_errno (ENOMEM);
       return NULL;
     }
   if (show_warning && !suspend_warning)
@@ -543,7 +593,7 @@ _gcry_secmem_malloc (size_t size)
   SECMEM_LOCK;
   p = _gcry_secmem_malloc_internal (size);
   SECMEM_UNLOCK;
-  
+
   return p;
 }
 
@@ -661,7 +711,7 @@ _gcry_secmem_term ()
 void
 _gcry_secmem_dump_stats ()
 {
-#if 1 
+#if 1
   SECMEM_LOCK;
 
  if (pool_okay)

@@ -27,10 +27,9 @@
 
 #include "mpi-internal.h"
 
-/* always include the header becuase it is only
+/* always include the header because it is only
  * included by mpi-internal if __GCC__ is defined but we
  * need it here in all cases and the above definition of
  * of the macro allows us to do so
  */
 #include "mpi-inline.h"
-

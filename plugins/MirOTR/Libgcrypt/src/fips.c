@@ -24,7 +24,7 @@
 #include <unistd.h>
 #include <string.h>
 #ifdef ENABLE_HMAC_BINARY_CHECK
-# include <dlfcn.h> 
+# include <dlfcn.h>
 #endif
 #ifdef HAVE_SYSLOG
 # include <syslog.h>
@@ -36,12 +36,12 @@
 #include "hmac256.h"
 
 
-/* The name of the file used to foce libgcrypt into fips mode. */
+/* The name of the file used to force libgcrypt into fips mode. */
 #define FIPS_FORCE_FILE "/etc/gcrypt/fips_enabled"
 
 
 /* The states of the finite state machine used in fips mode.  */
-enum module_states 
+enum module_states
   {
     /* POWEROFF cannot be represented.  */
     STATE_POWERON  = 0,
@@ -55,7 +55,7 @@ enum module_states
 
 
 /* Flag telling whether we are in fips mode.  It uses inverse logic so
-   that fips mode is the default unless changed by the intialization
+   that fips mode is the default unless changed by the initialization
    code. To check whether fips mode is enabled, use the function
    fips_mode()! */
 static int no_fips_mode_required;
@@ -69,7 +69,7 @@ static int enforced_fips_mode;
 static int inactive_fips_mode;
 
 /* This is the lock we use to protect the FSM.  */
-static ath_mutex_t fsm_lock = ATH_MUTEX_INITIALIZER;
+static ath_mutex_t fsm_lock;
 
 /* The current state of the FSM.  The whole state machinery is only
    used while in fips mode. Change this only while holding fsm_lock. */
@@ -102,7 +102,7 @@ _gcry_initialize_fips_mode (int force)
 {
   static int done;
   gpg_error_t err;
-      
+
   /* Make sure we are not accidently called twice.  */
   if (done)
     {
@@ -128,7 +128,7 @@ _gcry_initialize_fips_mode (int force)
      file.  The filename is hardwired so that there won't be any
      confusion on whether /etc/gcrypt/ or /usr/local/etc/gcrypt/ is
      actually used.  The file itself may be empty.  */
-  if ( !_access (FIPS_FORCE_FILE, F_OK) )
+  if ( !access (FIPS_FORCE_FILE, F_OK) )
     {
       gcry_assert (!no_fips_mode_required);
       goto leave;
@@ -144,7 +144,7 @@ _gcry_initialize_fips_mode (int force)
     if (fp)
       {
         char line[256];
-        
+
         if (fgets (line, sizeof line, fp) && atoi (line))
           {
             /* System is in fips mode.  */
@@ -156,7 +156,7 @@ _gcry_initialize_fips_mode (int force)
       }
     else if ((saved_errno = errno) != ENOENT
              && saved_errno != EACCES
-             && !_access ("/proc/version", F_OK) )
+             && !access ("/proc/version", F_OK) )
       {
         /* Problem reading the fips file despite that we have the proc
            file system.  We better stop right away. */
@@ -170,7 +170,7 @@ _gcry_initialize_fips_mode (int force)
         abort ();
       }
   }
-  
+
   /* Fips not not requested, set flag.  */
   no_fips_mode_required = 1;
 
@@ -197,14 +197,14 @@ _gcry_initialize_fips_mode (int force)
           abort ();
         }
 
-      
+
       /* If the FIPS force files exists, is readable and has a number
          != 0 on its first line, we enable the enforced fips mode.  */
       fp = fopen (FIPS_FORCE_FILE, "r");
       if (fp)
         {
           char line[256];
-          
+
           if (fgets (line, sizeof line, fp) && atoi (line))
             enforced_fips_mode = 1;
           fclose (fp);
@@ -212,7 +212,7 @@ _gcry_initialize_fips_mode (int force)
 
       /* Now get us into the INIT state.  */
       fips_new_state (STATE_INIT);
-      
+
     }
   return;
 }
@@ -225,7 +225,7 @@ lock_fsm (void)
   err = ath_mutex_lock (&fsm_lock);
   if (err)
     {
-      log_info ("FATAL: failed to acquire the FSM lock in libgrypt: %s\n", 
+      log_info ("FATAL: failed to acquire the FSM lock in libgrypt: %s\n",
                 strerror (err));
 #ifdef HAVE_SYSLOG
       syslog (LOG_USER|LOG_ERR, "Libgcrypt error: "
@@ -271,12 +271,20 @@ _gcry_fips_mode (void)
 
 
 /* Return a flag telling whether we are in the enforced fips mode.  */
-int 
+int
 _gcry_enforced_fips_mode (void)
 {
+  if (!_gcry_fips_mode ())
+    return 0;
   return enforced_fips_mode;
 }
 
+/* Set a flag telling whether we are in the enforced fips mode.  */
+void
+_gcry_set_enforced_fips_mode (void)
+{
+  enforced_fips_mode = 1;
+}
 
 /* If we do not want to enforce the fips mode, we can set a flag so
    that the application may check whether it is still in fips mode.
@@ -347,7 +355,7 @@ state2str (enum module_states state)
 
 
 /* Return true if the library is in the operational state.  */
-int 
+int
 _gcry_fips_is_operational (void)
 {
   int result;
@@ -384,7 +392,7 @@ _gcry_fips_is_operational (void)
 }
 
 
-/* This is test on wether the library is in the operational state.  In
+/* This is test on whether the library is in the operational state.  In
    contrast to _gcry_fips_is_operational this function won't do a
    state transition on the fly.  */
 int
@@ -437,8 +445,8 @@ reporter (const char *domain, int algo, const char *what, const char *errtxt)
             !strcmp (domain, "digest")? _gcry_md_algo_name (algo) :
             !strcmp (domain, "hmac")?   _gcry_md_algo_name (algo) :
             !strcmp (domain, "pubkey")? _gcry_pk_algo_name (algo) : "",
-            algo, errtxt? errtxt:"Okay", 
-            what?" (":"", what? what:"", what?")":""); 
+            algo, errtxt? errtxt:"Okay",
+            what?" (":"", what? what:"", what?")":"");
 }
 
 /* Run self-tests for all required cipher algorithms.  Return 0 on
@@ -446,7 +454,7 @@ reporter (const char *domain, int algo, const char *what, const char *errtxt)
 static int
 run_cipher_selftests (int extended)
 {
-  static int algos[] = 
+  static int algos[] =
     {
       GCRY_CIPHER_3DES,
       GCRY_CIPHER_AES128,
@@ -475,7 +483,7 @@ run_cipher_selftests (int extended)
 static int
 run_digest_selftests (int extended)
 {
-  static int algos[] = 
+  static int algos[] =
     {
       GCRY_MD_SHA1,
       GCRY_MD_SHA224,
@@ -504,7 +512,7 @@ run_digest_selftests (int extended)
 static int
 run_hmac_selftests (int extended)
 {
-  static int algos[] = 
+  static int algos[] =
     {
       GCRY_MD_SHA1,
       GCRY_MD_SHA224,
@@ -534,11 +542,11 @@ run_hmac_selftests (int extended)
 static int
 run_pubkey_selftests (int extended)
 {
-  static int algos[] = 
+  static int algos[] =
     {
       GCRY_PK_RSA,
       GCRY_PK_DSA,
-      /* GCRY_PK_ECDSA is not enabled in fips mode.  */
+      /* GCRY_PK_ECC is not enabled in fips mode.  */
       0
     };
   int idx;
@@ -566,7 +574,7 @@ run_random_selftests (void)
 
   err = _gcry_random_selftest (reporter);
   reporter ("random", 0, NULL, err? gpg_strerror (err):NULL);
-  
+
   return !!err;
 }
 
@@ -581,7 +589,7 @@ check_binary_integrity (void)
   int dlen;
   char *fname = NULL;
   const char key[] = "What am I, a doctor or a moonshuttle conductor?";
-  
+
   if (!dladdr ("gcry_check_version", &info))
     err = gpg_error_from_syserror ();
   else
@@ -594,7 +602,7 @@ check_binary_integrity (void)
         err = gpg_error (GPG_ERR_INTERNAL);
       else
         {
-          fname = gcry_malloc (strlen (info.dli_fname) + 1 + 5 + 1 );
+          fname = xtrymalloc (strlen (info.dli_fname) + 1 + 5 + 1 );
           if (!fname)
             err = gpg_error_from_syserror ();
           else
@@ -621,7 +629,7 @@ check_binary_integrity (void)
                 {
                   /* A buffer of 64 bytes plus one for a LF and one to
                      detect garbage.  */
-                  unsigned char buffer[64+1+1]; 
+                  unsigned char buffer[64+1+1];
                   const unsigned char *s;
                   int n;
 
@@ -652,7 +660,7 @@ check_binary_integrity (void)
             "integrity check using `%s' failed: %s",
             fname? fname:"[?]", gpg_strerror (err));
 #endif /*HAVE_SYSLOG*/
-  gcry_free (fname);
+  xfree (fname);
   return !!err;
 #else
   return 0;
@@ -667,7 +675,7 @@ _gcry_fips_run_selftests (int extended)
 {
   enum module_states result = STATE_ERROR;
   gcry_err_code_t ec = GPG_ERR_SELFTEST_FAILED;
-  
+
   if (fips_mode ())
     fips_new_state (STATE_SELFTEST);
 
@@ -726,14 +734,14 @@ _gcry_fips_signal_error (const char *srcfile, int srcline, const char *srcfunc,
   /* Print error.  */
   log_info ("%serror in libgcrypt, file %s, line %d%s%s: %s\n",
             is_fatal? "fatal ":"",
-            srcfile, srcline, 
+            srcfile, srcline,
             srcfunc? ", function ":"", srcfunc? srcfunc:"",
             description? description : "no description available");
 #ifdef HAVE_SYSLOG
   syslog (LOG_USER|LOG_ERR, "Libgcrypt error: "
           "%serror in file %s, line %d%s%s: %s",
           is_fatal? "fatal ":"",
-          srcfile, srcline, 
+          srcfile, srcline,
           srcfunc? ", function ":"", srcfunc? srcfunc:"",
           description? description : "no description available");
 #endif /*HAVE_SYSLOG*/
@@ -766,22 +774,22 @@ fips_new_state (enum module_states new_state)
           || new_state == STATE_FATALERROR)
         ok = 1;
       break;
-      
+
     case STATE_SELFTEST:
       if (new_state == STATE_OPERATIONAL
           || new_state == STATE_ERROR
           || new_state == STATE_FATALERROR)
         ok = 1;
       break;
-      
+
     case STATE_OPERATIONAL:
-      if (new_state == STATE_SHUTDOWN 
+      if (new_state == STATE_SHUTDOWN
           || new_state == STATE_SELFTEST
           || new_state == STATE_ERROR
           || new_state == STATE_FATALERROR)
         ok = 1;
       break;
-      
+
     case STATE_ERROR:
       if (new_state == STATE_SHUTDOWN
           || new_state == STATE_ERROR
@@ -789,18 +797,18 @@ fips_new_state (enum module_states new_state)
           || new_state == STATE_SELFTEST)
         ok = 1;
       break;
-      
+
     case STATE_FATALERROR:
       if (new_state == STATE_SHUTDOWN )
         ok = 1;
       break;
-      
+
     case STATE_SHUTDOWN:
       /* We won't see any transition *from* Shutdown because the only
          allowed new state is Power-Off and that one can't be
          represented.  */
       break;
-      
+
     }
 
   if (ok)
@@ -814,12 +822,12 @@ fips_new_state (enum module_states new_state)
     log_info ("libgcrypt state transition %s => %s %s\n",
               state2str (last_state), state2str (new_state),
               ok? "granted":"denied");
-  
+
   if (!ok)
     {
       /* Invalid state transition.  Halting library. */
 #ifdef HAVE_SYSLOG
-      syslog (LOG_USER|LOG_ERR, 
+      syslog (LOG_USER|LOG_ERR,
               "Libgcrypt error: invalid state transition %s => %s",
               state2str (last_state), state2str (new_state));
 #endif /*HAVE_SYSLOG*/
@@ -828,7 +836,7 @@ fips_new_state (enum module_states new_state)
   else if (new_state == STATE_ERROR || new_state == STATE_FATALERROR)
     {
 #ifdef HAVE_SYSLOG
-      syslog (LOG_USER|LOG_WARNING, 
+      syslog (LOG_USER|LOG_WARNING,
               "Libgcrypt notice: state transition %s => %s",
               state2str (last_state), state2str (new_state));
 #endif /*HAVE_SYSLOG*/

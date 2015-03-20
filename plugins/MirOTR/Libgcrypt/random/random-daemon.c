@@ -28,6 +28,7 @@
    sensitive data.
  */
 
+#error This dameon needs to be fixed due to the ath changes
 
 #include <config.h>
 #include <stdio.h>
@@ -53,7 +54,7 @@
 static ath_mutex_t daemon_lock = ATH_MUTEX_INITIALIZER;
 
 /* The socket connected to the daemon.  */
-static int daemon_socket = -1; 
+static int daemon_socket = -1;
 
 /* Creates a socket connected to the daemon.  On success, store the
    socket fd in *SOCK.  Returns error code.  */
@@ -78,7 +79,7 @@ connect_to_socket (const char *socketname, int *sock)
     }
 
   /* Set up address.  */
-  srvr_addr = gcry_malloc (sizeof *srvr_addr); 
+  srvr_addr = gcry_malloc (sizeof *srvr_addr);
   if (! srvr_addr)
     {
       log_error ("malloc failed: %s\n", strerror (errno));
@@ -148,7 +149,7 @@ static int
 writen (int fd, const void *buffer, size_t length)
 {
   ssize_t n;
-      
+
   while (length)
     {
       do
@@ -171,7 +172,7 @@ readn (int fd, void *buf, size_t buflen, size_t *ret_nread)
   size_t nleft = buflen;
   int nread;
   char *p;
-  
+
   p = buf;
   while (nleft > 0)
     {
@@ -180,7 +181,7 @@ readn (int fd, void *buf, size_t buflen, size_t *ret_nread)
         {
           if (nread == EINTR)
             nread = 0;
-          else 
+          else
             return -1;
         }
       else if (!nread)
@@ -262,14 +263,14 @@ call_daemon (const char *socketname,
 	  err = gcry_error_from_errno (errno);
 	  break;
 	}
-	
+
       /* Retrieve response.  */
 
       rc = readn (daemon_socket, buf, 2, &nread);
       if (rc == -1)
 	{
 	  err = gcry_error_from_errno (errno);
-	  log_error ("read error: %s\n", gcry_strerror (err));
+	  log_error ("read error: %s\n", _gcry_strerror (err));
 	  break;
 	}
       if (nread && buf[0])
@@ -307,10 +308,10 @@ call_daemon (const char *socketname,
       if (rc == -1)
 	{
 	  err = gcry_error_from_errno (errno);
-	  log_error ("read error: %s\n", gcry_strerror (err));
+	  log_error ("read error: %s\n", _gcry_strerror (err));
 	  break;
 	}
-      
+
       if (nread != nbytes)
 	{
 	  log_error ("too little random data read\n");
@@ -333,26 +334,13 @@ call_daemon (const char *socketname,
    support GCRY_STRONG_RANDOM and GCRY_VERY_STRONG_RANDOM here.
    Return 0 on success. */
 int
-_gcry_daemon_randomize (const char *socketname, 
+_gcry_daemon_randomize (const char *socketname,
                         void *buffer, size_t length,
                         enum gcry_random_level level)
 {
   gcry_error_t err;
 
   err = call_daemon (socketname, buffer, length, 0, level);
-
-  return err ? -1 : 0;
-}
-
-
-/* Internal function to fill BUFFER with NBYTES of data usable for a
-   nonce.  Returns 0 on success. */
-int
-_gcry_daemon_create_nonce (const char *socketname, void *buffer, size_t length)
-{
-  gcry_error_t err;
-
-  err = call_daemon (socketname, buffer, length, 1, 0);
 
   return err ? -1 : 0;
 }

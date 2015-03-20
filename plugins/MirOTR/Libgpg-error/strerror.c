@@ -7,12 +7,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with libgpg-error; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -35,7 +35,7 @@
 /* Return a pointer to a string containing a description of the error
    code in the error value ERR.  This function is not thread-safe.  */
 const char *
-gpg_strerror (gpg_error_t err)
+_gpg_strerror (gpg_error_t err)
 {
   gpg_err_code_t code = gpg_err_code (err);
 
@@ -134,7 +134,7 @@ system_strerror_r (int no, char *buf, size_t buflen)
    large enough, ERANGE is returned and BUF contains as much of the
    beginning of the error string as fits into the buffer.  */
 int
-gpg_strerror_r (gpg_error_t err, char *buf, size_t buflen)
+_gpg_strerror_r (gpg_error_t err, char *buf, size_t buflen)
 {
   gpg_err_code_t code = gpg_err_code (err);
   const char *errstr;

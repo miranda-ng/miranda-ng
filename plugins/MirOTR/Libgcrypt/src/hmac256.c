@@ -17,7 +17,7 @@
  * License along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
-/* 
+/*
     This is a standalone HMAC-SHA-256 implementation based on the code
     from ../cipher/sha256.c.  It is a second implementation to allow
     comparing against the standard implementations and to be used for
@@ -33,7 +33,7 @@
 
     Constants:
 
-     WORDS_BIGENDIAN       Defined to 1 on big endian systems.      
+     WORDS_BIGENDIAN       Defined to 1 on big endian systems.
      inline                If defined, it should yield the keyword used
                            to inline a function.
      HAVE_U32_TYPEDEF      Defined if the u32 type is available.
@@ -54,6 +54,15 @@
 #include <errno.h>
 #if defined(__WIN32) && defined(STANDALONE)
 # include <fcntl.h> /* We need setmode().  */
+#endif
+
+/* For a native WindowsCE binary we need to include gpg-error.h to
+   provide a replacement for strerror.  In other cases we need a
+   replacement macro for gpg_err_set_errno.  */
+#ifdef __MINGW32CE__
+# include <gpg-error.h>
+#else
+# define gpg_err_set_errno(a) (errno = (a))
 #endif
 
 #include "hmac256.h"
@@ -82,25 +91,17 @@ struct hmac256_context
   u32  nblocks;
   int  count;
   int  finalized:1;
-  int  use_hmac:1; 
+  int  use_hmac:1;
   unsigned char buf[64];
   unsigned char opad[64];
 };
 
 
 /* Rotate a 32 bit word.  */
-#if defined(__GNUC__) && defined(__i386__)
-static inline u32
-ror(u32 x, int n)
+static inline u32 ror(u32 x, int n)
 {
-	__asm__("rorl %%cl,%0"
-		:"=r" (x)
-		:"0" (x),"c" (n));
-	return x;
+	return ( ((x) >> (n)) | ((x) << (32-(n))) );
 }
-#else
-#define ror(x,n) ( ((x) >> (n)) | ((x) << (32-(n))) )
-#endif
 
 #define my_wipememory2(_ptr,_set,_len) do { \
               volatile char *_vptr=(volatile char *)(_ptr); \
@@ -112,7 +113,7 @@ ror(u32 x, int n)
 
 
 
-/* 
+/*
     The SHA-256 core: Transform the message X which consists of 16
     32-bit-words. See FIPS 180-2 for details.
  */
@@ -140,13 +141,13 @@ transform (hmac256_context_t hd, const void *data_arg)
             b = a;                                                \
             a = t1 + t2;                                          \
           } while (0)
- 
-  static const u32 K[64] = 
+
+  static const u32 K[64] =
     {
       0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
       0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
       0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
-      0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174, 
+      0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
       0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
       0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
       0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
@@ -165,7 +166,7 @@ transform (hmac256_context_t hd, const void *data_arg)
   u32 x[16];
   u32 w[64];
   int i;
-  
+
   a = hd->h0;
   b = hd->h1;
   c = hd->h2;
@@ -174,14 +175,14 @@ transform (hmac256_context_t hd, const void *data_arg)
   f = hd->h5;
   g = hd->h6;
   h = hd->h7;
-  
+
 #ifdef WORDS_BIGENDIAN
   memcpy (x, data, 64);
 #else /*!WORDS_BIGENDIAN*/
-  { 
+  {
     unsigned char *p2;
-  
-    for (i=0, p2=(unsigned char*)x; i < 16; i++, p2 += 4 ) 
+
+    for (i=0, p2=(unsigned char*)x; i < 16; i++, p2 += 4 )
       {
         p2[3] = *data++;
         p2[2] = *data++;
@@ -223,7 +224,7 @@ finalize (hmac256_context_t hd)
 {
   u32 t, msb, lsb;
   unsigned char *p;
-  
+
   if (hd->finalized)
     return; /* Silently ignore a finalized context.  */
 
@@ -287,7 +288,7 @@ finalize (hmac256_context_t hd)
 
 
 /* Create a new context.  On error NULL is returned and errno is set
-   appropriately.  If KEY is given the fucntion computes HMAC using
+   appropriately.  If KEY is given the function computes HMAC using
    this key; with KEY given as NULL, a plain SHA-256 digest is
    computed.  */
 hmac256_context_t
@@ -327,7 +328,7 @@ _gcry_hmac256_new (const void *key, size_t keylen)
       else
         {
           hmac256_context_t tmphd;
-          
+
           tmphd = _gcry_hmac256_new (NULL, 0);
           if (!tmphd)
             {
@@ -340,7 +341,7 @@ _gcry_hmac256_new (const void *key, size_t keylen)
           memcpy (hd->opad, tmphd->buf, 32);
           _gcry_hmac256_release (tmphd);
         }
-      for (i=0; i < 64; i++) 
+      for (i=0; i < 64; i++)
         {
           ipad[i] ^= 0x36;
           hd->opad[i] ^= 0x5c;
@@ -349,7 +350,7 @@ _gcry_hmac256_new (const void *key, size_t keylen)
       _gcry_hmac256_update (hd, ipad, 64);
       my_wipememory (ipad, 64);
     }
- 
+
   return hd;
 }
 
@@ -380,7 +381,7 @@ _gcry_hmac256_update (hmac256_context_t hd,
     return; /* Silently ignore a finalized context.  */
 
   if (hd->count == 64)
-    { 
+    {
       /* Flush the buffer. */
       transform (hd, hd->buf);
       hd->count = 0;
@@ -422,7 +423,7 @@ _gcry_hmac256_finalize (hmac256_context_t hd, size_t *r_dlen)
   if (hd->use_hmac)
     {
       hmac256_context_t tmphd;
-      
+
       tmphd = _gcry_hmac256_new (NULL, 0);
       if (!tmphd)
         {
@@ -447,7 +448,7 @@ _gcry_hmac256_finalize (hmac256_context_t hd, size_t *r_dlen)
    FILENAME.  KEY and KEYLEN are as described for _gcry_hmac256_new.
    On success the function returns the valid length of the result
    buffer (which will be 32) or -1 on error.  On error ERRNO is set
-   appropriate.  */ 
+   appropriate.  */
 int
 _gcry_hmac256_file (void *result, size_t resultsize, const char *filename,
                     const void *key, size_t keylen)
@@ -457,7 +458,7 @@ _gcry_hmac256_file (void *result, size_t resultsize, const char *filename,
   size_t buffer_size, nread, digestlen;
   char *buffer;
   const unsigned char *digest;
-  
+
   fp = fopen (filename, "rb");
   if (!fp)
     return -1;
@@ -498,11 +499,11 @@ _gcry_hmac256_file (void *result, size_t resultsize, const char *filename,
       _gcry_hmac256_release (hd);
       return -1;
     }
-  
+
   if (digestlen > resultsize)
     {
       _gcry_hmac256_release (hd);
-      errno = EINVAL;
+      gpg_err_set_errno (EINVAL);
       return -1;
     }
   memcpy (result, digest, digestlen);
@@ -517,7 +518,7 @@ _gcry_hmac256_file (void *result, size_t resultsize, const char *filename,
 static int
 selftest (void)
 {
-  static struct 
+  static struct
   {
     const char * const desc;
     const char * const data;
@@ -526,7 +527,7 @@ selftest (void)
   } tv[] =
     {
       { "data-28 key-4",
-        "what do ya want for nothing?", 
+        "what do ya want for nothing?",
         "Jefe",
 	{ 0x5b, 0xdc, 0xc1, 0x46, 0xbf, 0x60, 0x75, 0x4e,
           0x6a, 0x04, 0x24, 0x26, 0x08, 0x95, 0x75, 0xc7,
@@ -603,7 +604,7 @@ selftest (void)
       { NULL }
     };
   int tvidx;
-  
+
   for (tvidx=0; tv[tvidx].desc; tvidx++)
     {
       hmac256_context_t hmachd;
@@ -628,12 +629,12 @@ selftest (void)
         }
       _gcry_hmac256_release (hmachd);
     }
-  
+
   return 0; /* Succeeded. */
 }
 
 
-int 
+int
 main (int argc, char **argv)
 {
   const char *pgm;
@@ -690,7 +691,7 @@ main (int argc, char **argv)
           argc--; argv++;
           use_binary = 1;
         }
-    }          
+    }
 
   if (argc < 1)
     {
@@ -720,14 +721,14 @@ main (int argc, char **argv)
       fp = use_stdin? stdin : fopen (fname, "rb");
       if (!fp)
         {
-          fprintf (stderr, "%s: can't open `%s': %s\n", 
+          fprintf (stderr, "%s: can't open `%s': %s\n",
                    pgm, fname, strerror (errno));
           exit (1);
         }
       hd = _gcry_hmac256_new (key, keylen);
       if (!hd)
         {
-          fprintf (stderr, "%s: can't allocate context: %s\n", 
+          fprintf (stderr, "%s: can't allocate context: %s\n",
                    pgm, strerror (errno));
           exit (1);
         }
@@ -735,7 +736,7 @@ main (int argc, char **argv)
         _gcry_hmac256_update (hd, buffer, n);
       if (ferror (fp))
         {
-          fprintf (stderr, "%s: error reading `%s': %s\n", 
+          fprintf (stderr, "%s: error reading `%s': %s\n",
                    pgm, fname, strerror (errno));
           exit (1);
         }
@@ -753,10 +754,12 @@ main (int argc, char **argv)
         {
           if (fwrite (digest, dlen, 1, stdout) != 1)
             {
-              fprintf (stderr, "%s: error writing output: %s\n", 
+              fprintf (stderr, "%s: error writing output: %s\n",
                        pgm, strerror (errno));
               exit (1);
             }
+          if (use_stdin)
+            break;
         }
       else
         {

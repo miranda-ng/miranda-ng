@@ -1,12 +1,12 @@
 /* dumpsexp.c - Dump S-expressions.
- * Copyright (C) 2007 Free Software Foundation, Inc.
+ * Copyright (C) 2007, 2010 Free Software Foundation, Inc.
  *
- * Getrandom is free software; you can redistribute it and/or modify
+ * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
- * by the Free Software Foundation; either version 2 of the License,
+ * by the Free Software Foundation; either version 3 of the License,
  * or (at your option) any later version.
  *
- * Getrandom is distributed in the hope that it will be useful, but
+ * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
@@ -22,6 +22,11 @@
 #include <assert.h>
 #include <stdarg.h>
 #include <errno.h>
+/* For a native WindowsCE binary we need to include gpg-error.h to
+   provide a replacement for strerror.  */
+#ifdef __MINGW32CE__
+# include <gpg-error.h>
+#endif
 
 #define PGM "dumpsexp"
 #define MYVERSION_LINE PGM " (Libgcrypt) " VERSION
@@ -31,18 +36,19 @@
 static int verbose;  /* Verbose mode.  */
 static int decimal;  /* Print addresses in decimal.  */
 static int assume_hex;  /* Assume input is hexencoded.  */
+static int advanced; /* Advanced format output.  */
 
 static void
 print_version (int with_help)
 {
   fputs (MYVERSION_LINE "\n"
-         "Copyright (C) 2007 Free Software Foundation, Inc.\n"
-         "License GPLv2+: GNU GPL version 2 or later "
-         "<http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>\n"
+         "Copyright (C) 2010 Free Software Foundation, Inc.\n"
+         "License GPLv3+: GNU GPL version 3 or later "
+         "<http://gnu.org/licenses/gpl.html>\n"
          "This is free software: you are free to change and redistribute it.\n"
          "There is NO WARRANTY, to the extent permitted by law.\n",
          stdout);
-        
+
   if (with_help)
     fputs ("\n"
            "Usage: " PGM " [OPTIONS] [file]\n"
@@ -50,11 +56,12 @@ print_version (int with_help)
            "\n"
            "  --decimal     Print offsets using decimal notation\n"
            "  --assume-hex  Assume input is a hex dump\n"
+           "  --advanced    Print file in advanced format\n"
            "  --verbose     Show what we are doing\n"
            "  --version     Print version of the program and exit\n"
            "  --help        Display this help and exit\n"
            BUGREPORT_LINE, stdout );
-  
+
   exit (0);
 }
 
@@ -83,7 +90,7 @@ print_usage (void)
    to the S-expressions definition. */
 static inline int
 whitespace_p (int c)
-{ 
+{
   switch (c)
     {
     case ' ': case '\t': case '\v': case '\f': case '\r': case '\n': return 1;
@@ -213,11 +220,11 @@ addrawdata (int c)
 }
 
 
-static void 
+static void
 printcursor (int both)
 {
   int i;
- 
+
   flushdatabuffer ();
   printf ("%8s ", "");
   for (i=0; i < sizeof (databuffer); i++)
@@ -243,40 +250,146 @@ printcursor (int both)
   databufferlen = skipdatabufferlen = nbytesprinted;
 }
 
-static void 
+static void
 printerr (const char *text)
 {
   printcursor (1);
   printf ("\n          Error: %s\n", text);
 }
 
-static void 
+static void
 printctl (const char *text)
 {
-  if (verbose)
+  if (verbose && !advanced)
     {
       printcursor (0);
       printf ("%s\n", text);
     }
 }
 
-static void 
+static void
 printchr (int c)
 {
-  (void)c;
+  putchar (c);
 }
 
+/* static void */
+/* printhex (int c) */
+/* { */
+/*   printf ("\\x%02x", c); */
+/* } */
+
+
+#if 0
+/****************
+ * Print SEXP to buffer using the MODE.  Returns the length of the
+ * SEXP in buffer or 0 if the buffer is too short (We have at least an
+ * empty list consisting of 2 bytes).  If a buffer of NULL is provided,
+ * the required length is returned.
+ */
+size_t
+gcry_sexp_sprint (const gcry_sexp_t list,
+                  void *buffer, size_t maxlength )
+{
+  static unsigned char empty[3] = { ST_OPEN, ST_CLOSE, ST_STOP };
+  const unsigned char *s;
+  char *d;
+  DATALEN n;
+  char numbuf[20];
+  int i, indent = 0;
+
+  s = list? list->d : empty;
+  d = buffer;
+  while ( *s != ST_STOP )
+    {
+      switch ( *s )
+        {
+        case ST_OPEN:
+          s++;
+          if (indent)
+            putchar ('\n');
+          for (i=0; i < indent; i++)
+            putchar (' ');
+          putchar ('(');
+          indent++;
+          break;
+        case ST_CLOSE:
+          s++;
+          putchar (')');
+          indent--;
+          if (*s != ST_OPEN && *s != ST_STOP)
+            {
+              putchar ('\n');
+              for (i=0; i < indent; i++)
+                putchar (' ');
+            }
+          break;
+        case ST_DATA:
+          s++;
+          memcpy (&n, s, sizeof n);
+          s += sizeof n;
+          {
+            int type;
+            size_t nn;
+
+            switch ( (type=suitable_encoding (s, n)))
+              {
+              case 1: nn = convert_to_string (s, n, NULL); break;
+              case 2: nn = convert_to_token (s, n, NULL); break;
+              default: nn = convert_to_hex (s, n, NULL); break;
+              }
+            switch (type)
+              {
+              case 1: convert_to_string (s, n, d); break;
+              case 2: convert_to_token (s, n, d); break;
+              default: convert_to_hex (s, n, d); break;
+              }
+            d += nn;
+            if (s[n] != ST_CLOSE)
+              putchar (' ');
+          }
+          else
+            {
+              snprintf (numbuf, sizeof numbuf,  "%u:", (unsigned int)n );
+              d = stpcpy (d, numbuf);
+              memcpy (d, s, n);
+              d += n;
+            }
+          s += n;
+          break;
+        default:
+          BUG ();
+	}
+    }
+  putchar ('\n');
+  return len;
+}
+#endif
+
+
+/* Prepare for saving a chunk of data.  */
 static void
-printhex (int c)
+init_data (void)
+{
+
+}
+
+/* Push C on the current data chunk.  */
+static void
+push_data (int c)
 {
   (void)c;
 }
 
+/* Flush and thus print the current data chunk.  */
+static void
+flush_data (void)
+{
+
+}
 
 
-
-
-
+/* Returns 0 on success.  */
 static int
 parse_and_print (FILE *fp)
 {
@@ -292,14 +405,14 @@ parse_and_print (FILE *fp)
   unsigned long datalen = 0;
   char quote_buf[10];
   int quote_idx = 0;
-  enum 
+  enum
     {
       INIT_STATE = 0, IN_NUMBER, PRE_DATA, IN_DATA, IN_STRING,
       IN_ESCAPE, IN_OCT_ESC, IN_HEX_ESC,
       CR_ESC, LF_ESC, IN_HEXFMT, IN_BASE64
     }
   state = INIT_STATE;
-  
+
 
   while ((c = my_getc (fp)) != EOF )
     {
@@ -341,17 +454,20 @@ parse_and_print (FILE *fp)
             {
               state = IN_STRING;
               printctl ("beginstring");
+              init_data ();
             }
           else if (c == '#')
             {
               state = IN_HEXFMT;
               hexcount = 0;
               printctl ("beginhex");
+              init_data ();
             }
           else if (c == '|')
             {
               state = IN_BASE64;
               printctl ("beginbase64");
+              init_data ();
             }
           else if (c == '[')
             {
@@ -429,16 +545,18 @@ parse_and_print (FILE *fp)
         case PRE_DATA:
           state = IN_DATA;
           printctl ("begindata");
+          init_data ();
         case IN_DATA:
           if (datalen)
             {
-              printhex (c);
+              push_data (c);
               datalen--;
             }
           if (!datalen)
             {
               state = INIT_STATE;
               printctl ("enddata");
+              flush_data ();
             }
           break;
 
@@ -446,39 +564,44 @@ parse_and_print (FILE *fp)
           if (c == '\"')
             {
               printctl ("endstring");
+              flush_data ();
               state = INIT_STATE;
-            } 
+            }
           else if (c == '\\')
             state = IN_ESCAPE;
           else
-            printchr (c);
+            push_data (c);
           break;
 
         case IN_ESCAPE:
           switch (c)
             {
-            case 'b': case 't': case 'v': case 'n': case 'f':
-            case 'r': case '"': case '\'': case '\\':
-              printhex (c);
-              state = IN_STRING;
-              break;
-              
+            case 'b':  push_data ('\b'); state = IN_STRING; break;
+            case 't':  push_data ('\t'); state = IN_STRING; break;
+            case 'v':  push_data ('\v'); state = IN_STRING; break;
+            case 'n':  push_data ('\n'); state = IN_STRING; break;
+            case 'f':  push_data ('\f'); state = IN_STRING; break;
+            case 'r':  push_data ('\r'); state = IN_STRING; break;
+            case '"':  push_data ('"');  state = IN_STRING; break;
+            case '\'': push_data ('\''); state = IN_STRING; break;
+            case '\\': push_data ('\\'); state = IN_STRING; break;
+
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7':
               state = IN_OCT_ESC;
               quote_idx = 0;
-              quote_buf[quote_idx++] = c; 
+              quote_buf[quote_idx++] = c;
               break;
-              
+
             case 'x':
               state = IN_HEX_ESC;
               quote_idx = 0;
               break;
-              
+
             case '\r':
               state = CR_ESC;
               break;
-              
+
             case '\n':
               state = LF_ESC;
               break;
@@ -488,12 +611,36 @@ parse_and_print (FILE *fp)
               state = IN_STRING;
               break;
             }
-          
-        case IN_OCT_ESC: 
-          state = IN_STRING;
           break;
-        case IN_HEX_ESC: 
-          state = IN_STRING;
+
+        case IN_OCT_ESC:
+          if (quote_idx < 3 && strchr ("01234567", c))
+            {
+              quote_buf[quote_idx++] = c;
+              if (quote_idx == 3)
+                {
+                  push_data ((unsigned int)quote_buf[0] * 8 * 8
+                             + (unsigned int)quote_buf[1] * 8
+                             + (unsigned int)quote_buf[2]);
+                  state = IN_STRING;
+                }
+            }
+          else
+            state = IN_STRING;
+          break;
+        case IN_HEX_ESC:
+          if (quote_idx < 2 && strchr ("0123456789abcdefABCDEF", c))
+            {
+              quote_buf[quote_idx++] = c;
+              if (quote_idx == 2)
+                {
+                  push_data (xtoi_1 (quote_buf[0]) * 16
+                             + xtoi_1 (quote_buf[1]));
+                  state = IN_STRING;
+                }
+            }
+          else
+            state = IN_STRING;
           break;
         case CR_ESC:
           state = IN_STRING;
@@ -505,7 +652,7 @@ parse_and_print (FILE *fp)
         case IN_HEXFMT:
           if (hexdigit_p (c))
             {
-              printchr (c);
+              push_data (c);
               hexcount++;
             }
           else if (c == '#')
@@ -513,6 +660,7 @@ parse_and_print (FILE *fp)
               if ((hexcount & 1))
                 printerr ("odd number of hex digits");
               printctl ("endhex");
+              flush_data ();
               state = INIT_STATE;
             }
           else if (!whitespace_p (c))
@@ -523,10 +671,11 @@ parse_and_print (FILE *fp)
           if (c == '|')
             {
               printctl ("endbase64");
+              flush_data ();
               state = INIT_STATE;
             }
           else
-            printchr (c);
+            push_data (c);
           break;
 
         default:
@@ -545,7 +694,7 @@ parse_and_print (FILE *fp)
 
 
 
-int 
+int
 main (int argc, char **argv)
 {
   int rc;
@@ -580,9 +729,14 @@ main (int argc, char **argv)
           argc--; argv++;
           assume_hex = 1;
         }
+      else if (!strcmp (*argv, "--advanced"))
+        {
+          argc--; argv++;
+          advanced = 1;
+        }
       else
         print_usage ();
-    }          
+    }
 
   if (!argc)
     {
@@ -590,7 +744,8 @@ main (int argc, char **argv)
     }
   else
     {
-      for (; argc; argc--)
+      rc = 0;
+      for (; argc; argv++, argc--)
         {
           FILE *fp = fopen (*argv, "rb");
           if (!fp)
@@ -598,16 +753,14 @@ main (int argc, char **argv)
               logit ("can't open `%s': %s\n", *argv, strerror (errno));
               rc = 1;
             }
-          else 
+          else
             {
-              if ( parse_and_print (fp) )
+              if (parse_and_print (fp))
                 rc = 1;
               fclose (fp);
             }
         }
     }
-  
 
-  return !rc;
+  return !!rc;
 }
-

@@ -36,7 +36,7 @@
  * result in W. U and V may be the same.
  */
 void
-gcry_mpi_add_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
+_gcry_mpi_add_ui (gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
 {
     mpi_ptr_t wp, up;
     mpi_size_t usize, wsize;
@@ -85,7 +85,7 @@ gcry_mpi_add_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
 
 
 void
-gcry_mpi_add(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
+_gcry_mpi_add(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
 {
     mpi_ptr_t wp, up, vp;
     mpi_size_t usize, vsize, wsize;
@@ -162,7 +162,7 @@ gcry_mpi_add(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
  * result in W.
  */
 void
-gcry_mpi_sub_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
+_gcry_mpi_sub_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
 {
     mpi_ptr_t wp, up;
     mpi_size_t usize, wsize;
@@ -211,26 +211,25 @@ gcry_mpi_sub_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
 }
 
 void
-gcry_mpi_sub(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
+_gcry_mpi_sub(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
 {
   gcry_mpi_t vv = mpi_copy (v);
   vv->sign = ! vv->sign;
-  gcry_mpi_add (w, u, vv);
+  mpi_add (w, u, vv);
   mpi_free (vv);
 }
 
 
 void
-gcry_mpi_addm( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m)
+_gcry_mpi_addm( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m)
 {
-    gcry_mpi_add(w, u, v);
-    _gcry_mpi_fdiv_r( w, w, m );
+  mpi_add (w, u, v);
+  mpi_mod (w, w, m);
 }
 
 void
-gcry_mpi_subm( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m)
+_gcry_mpi_subm( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m)
 {
-    gcry_mpi_sub(w, u, v);
-    _gcry_mpi_fdiv_r( w, w, m );
+  mpi_sub (w, u, v);
+  mpi_mod (w, w, m);
 }
-

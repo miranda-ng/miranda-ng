@@ -3,17 +3,17 @@
                  2007  Free Software Foundation, Inc.
 
    This file is part of Libgcrypt.
-  
+
    Libgcrypt is free software; you can redistribute it and/or modify
    it under the terms of the GNU Lesser General Public License as
    published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
-  
+
    Libgcrypt is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU Lesser General Public License for more details.
-  
+
    You should have received a copy of the GNU Lesser General Public
    License along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
@@ -35,7 +35,7 @@ struct barrett_ctx_s
   gcry_mpi_t m;   /* The modulus - may not be modified. */
   int m_copied;   /* If true, M needs to be released.  */
   int k;
-  gcry_mpi_t y; 
+  gcry_mpi_t y;
   gcry_mpi_t r1;  /* Helper MPI. */
   gcry_mpi_t r2;  /* Helper MPI. */
   gcry_mpi_t r3;  /* Helper MPI allocated on demand. */
@@ -47,7 +47,6 @@ void
 _gcry_mpi_mod (gcry_mpi_t rem, gcry_mpi_t dividend, gcry_mpi_t divisor)
 {
   _gcry_mpi_fdiv_r (rem, dividend, divisor);
-  rem->sign = 0;
 }
 
 
@@ -56,14 +55,14 @@ _gcry_mpi_mod (gcry_mpi_t rem, gcry_mpi_t dividend, gcry_mpi_t divisor)
    _gcry_mpi_barrett_free.  If COPY is true M will be transferred to
    the context and the user may change M.  If COPY is false, M may not
    be changed until gcry_mpi_barrett_free has been called. */
-mpi_barrett_t 
+mpi_barrett_t
 _gcry_mpi_barrett_init (gcry_mpi_t m, int copy)
 {
   mpi_barrett_t ctx;
   gcry_mpi_t tmp;
 
   mpi_normalize (m);
-  ctx = gcry_xcalloc (1, sizeof *ctx);
+  ctx = xcalloc (1, sizeof *ctx);
 
   if (copy)
     {
@@ -100,7 +99,7 @@ _gcry_mpi_barrett_free (mpi_barrett_t ctx)
         mpi_free (ctx->r3);
       if (ctx->m_copied)
         mpi_free (ctx->m);
-      gcry_free (ctx);
+      xfree (ctx);
     }
 }
 
@@ -111,7 +110,7 @@ _gcry_mpi_barrett_free (mpi_barrett_t ctx)
    _gcry_mpi_barrett_init must have been called to do the
    precalculations.  CTX is the context created by this precalculation
    and also conveys M.  If the Barret reduction could no be done a
-   starightforward reduction method is used.
+   straightforward reduction method is used.
 
    We assume that these conditions are met:
    Input:  x =(x_2k-1 ...x_0)_b
@@ -126,6 +125,7 @@ _gcry_mpi_mod_barrett (gcry_mpi_t r, gcry_mpi_t x, mpi_barrett_t ctx)
   gcry_mpi_t y = ctx->y;
   gcry_mpi_t r1 = ctx->r1;
   gcry_mpi_t r2 = ctx->r2;
+  int sign;
 
   mpi_normalize (x);
   if (mpi_get_nlimbs (x) > 2*k )
@@ -134,10 +134,13 @@ _gcry_mpi_mod_barrett (gcry_mpi_t r, gcry_mpi_t x, mpi_barrett_t ctx)
       return;
     }
 
+  sign = x->sign;
+  x->sign = 0;
+
   /* 1. q1 = floor( x / b^k-1)
    *    q2 = q1 * y
    *    q3 = floor( q2 / b^k+1 )
-   * Actually, we don't need qx, we can work direct on r2 
+   * Actually, we don't need qx, we can work direct on r2
    */
   mpi_set ( r2, x );
   mpi_rshift_limbs ( r2, k-1 );
@@ -157,7 +160,7 @@ _gcry_mpi_mod_barrett (gcry_mpi_t r, gcry_mpi_t x, mpi_barrett_t ctx)
     r2->nlimbs = k+1;
   mpi_sub ( r, r1, r2 );
 
-  if ( mpi_is_neg( r ) )
+  if ( mpi_has_sign ( r ) )
     {
       if (!ctx->r3)
         {
@@ -167,11 +170,12 @@ _gcry_mpi_mod_barrett (gcry_mpi_t r, gcry_mpi_t x, mpi_barrett_t ctx)
         }
       mpi_add ( r, r, ctx->r3 );
     }
-  
+
   /* 4. while r >= m do r = r - m */
   while ( mpi_cmp( r, m ) >= 0 )
     mpi_sub ( r, r, m );
 
+  x->sign = sign;
 }
 
 
@@ -179,7 +183,6 @@ void
 _gcry_mpi_mul_barrett (gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v,
                        mpi_barrett_t ctx)
 {
-  gcry_mpi_mul (w, u, v);
+  mpi_mul (w, u, v);
   mpi_mod_barrett (w, w, ctx);
 }
-

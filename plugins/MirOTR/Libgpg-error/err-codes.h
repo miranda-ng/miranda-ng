@@ -9,12 +9,12 @@
    modify it under the terms of the GNU Lesser General Public License
    as published by the Free Software Foundation; either version 2.1 of
    the License, or (at your option) any later version.
- 
+
    libgpg-error is distributed in the hope that it will be useful, but
    WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
    Lesser General Public License for more details.
- 
+
    You should have received a copy of the GNU Lesser General Public
    License along with libgpg-error; if not, write to the Free
    Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -103,7 +103,7 @@ static const char msgstr[] =
   gettext_noop ("Incomplete line") "\0"
   gettext_noop ("Invalid response") "\0"
   gettext_noop ("No agent running") "\0"
-  gettext_noop ("agent error") "\0"
+  gettext_noop ("Agent error") "\0"
   gettext_noop ("Invalid data") "\0"
   gettext_noop ("Unspecific Assuan server fault") "\0"
   gettext_noop ("General Assuan error") "\0"
@@ -209,6 +209,21 @@ static const char msgstr[] =
   gettext_noop ("Missing key") "\0"
   gettext_noop ("Too many objects") "\0"
   gettext_noop ("Limit reached") "\0"
+  gettext_noop ("Not initialized") "\0"
+  gettext_noop ("Missing issuer certificate") "\0"
+  gettext_noop ("No keyserver available") "\0"
+  gettext_noop ("Invalid elliptic curve") "\0"
+  gettext_noop ("Unknown elliptic curve") "\0"
+  gettext_noop ("Duplicated key") "\0"
+  gettext_noop ("Ambiguous result") "\0"
+  gettext_noop ("No crypto context") "\0"
+  gettext_noop ("Wrong crypto context") "\0"
+  gettext_noop ("Bad crypto context") "\0"
+  gettext_noop ("Conflict in the crypto context") "\0"
+  gettext_noop ("Broken public key") "\0"
+  gettext_noop ("Broken secret key") "\0"
+  gettext_noop ("Invalid MAC algorithm") "\0"
+  gettext_noop ("Operation fully cancelled") "\0"
   gettext_noop ("Operation not yet finished") "\0"
   gettext_noop ("Buffer too short") "\0"
   gettext_noop ("Invalid length specifier in S-expression") "\0"
@@ -224,6 +239,39 @@ static const char msgstr[] =
   gettext_noop ("Bad hexadecimal character in S-expression") "\0"
   gettext_noop ("Odd hexadecimal numbers in S-expression") "\0"
   gettext_noop ("Bad octal character in S-expression") "\0"
+  gettext_noop ("Legacy key") "\0"
+  gettext_noop ("Request too short") "\0"
+  gettext_noop ("Request too long") "\0"
+  gettext_noop ("Object is in termination state") "\0"
+  gettext_noop ("No certificate chain") "\0"
+  gettext_noop ("Certificate is too large") "\0"
+  gettext_noop ("Invalid record") "\0"
+  gettext_noop ("The MAC does not verify") "\0"
+  gettext_noop ("Unexpected message") "\0"
+  gettext_noop ("Compression or decompression failed") "\0"
+  gettext_noop ("A counter would wrap") "\0"
+  gettext_noop ("Fatal alert message received") "\0"
+  gettext_noop ("No cipher algorithm") "\0"
+  gettext_noop ("Missing client certificate") "\0"
+  gettext_noop ("Close notification received") "\0"
+  gettext_noop ("Ticket expired") "\0"
+  gettext_noop ("Bad ticket") "\0"
+  gettext_noop ("Unknown identity") "\0"
+  gettext_noop ("Bad certificate message in handshake") "\0"
+  gettext_noop ("Bad certificate request message in handshake") "\0"
+  gettext_noop ("Bad certificate verify message in handshake") "\0"
+  gettext_noop ("Bad change cipher messsage in handshake") "\0"
+  gettext_noop ("Bad client hello message in handshake") "\0"
+  gettext_noop ("Bad server hello message in handshake") "\0"
+  gettext_noop ("Bad server hello done message in hanshake") "\0"
+  gettext_noop ("Bad finished message in handshake") "\0"
+  gettext_noop ("Bad server key exchange message in handshake") "\0"
+  gettext_noop ("Bad client key exchange message in handshake") "\0"
+  gettext_noop ("Bogus string") "\0"
+  gettext_noop ("Forbidden") "\0"
+  gettext_noop ("Key disabled") "\0"
+  gettext_noop ("Not possible with a card based key") "\0"
+  gettext_noop ("Invalid lock object") "\0"
   gettext_noop ("General IPC error") "\0"
   gettext_noop ("IPC accept call failed") "\0"
   gettext_noop ("IPC connect call failed") "\0"
@@ -456,75 +504,123 @@ static const int msgidx[] =
     3127,
     3144,
     3158,
-    3185,
-    3202,
-    3243,
-    3275,
-    3313,
-    3340,
-    3370,
-    3400,
-    3428,
-    3465,
-    3489,
-    3537,
-    3579,
-    3619,
-    3655,
-    3673,
-    3696,
-    3720,
-    3741,
-    3769,
-    3799,
-    3827,
-    3847,
-    3871,
-    3898,
-    3916,
-    3934,
-    3962,
-    3977,
-    3993,
-    4021,
-    4044,
-    4064,
-    4081,
-    4109,
-    4133,
-    4158,
-    4178,
-    4198,
-    4224,
-    4250,
-    4276,
-    4302,
-    4328,
-    4354,
-    4380,
-    4406,
-    4432,
-    4459,
-    4486,
-    4513,
-    4540,
-    4567,
-    4594,
-    4621,
-    4644,
-    4665,
-    4677
+    3174,
+    3201,
+    3224,
+    3247,
+    3270,
+    3285,
+    3302,
+    3320,
+    3341,
+    3360,
+    3391,
+    3409,
+    3427,
+    3449,
+    3475,
+    3502,
+    3519,
+    3560,
+    3592,
+    3630,
+    3657,
+    3687,
+    3717,
+    3745,
+    3782,
+    3806,
+    3854,
+    3896,
+    3936,
+    3972,
+    3983,
+    4001,
+    4018,
+    4049,
+    4070,
+    4095,
+    4110,
+    4134,
+    4153,
+    4189,
+    4210,
+    4239,
+    4259,
+    4286,
+    4314,
+    4329,
+    4340,
+    4357,
+    4394,
+    4439,
+    4483,
+    4523,
+    4561,
+    4599,
+    4641,
+    4675,
+    4720,
+    4765,
+    4778,
+    4788,
+    4801,
+    4836,
+    4856,
+    4874,
+    4897,
+    4921,
+    4942,
+    4970,
+    5000,
+    5028,
+    5048,
+    5072,
+    5099,
+    5117,
+    5135,
+    5163,
+    5178,
+    5194,
+    5222,
+    5245,
+    5265,
+    5282,
+    5310,
+    5334,
+    5359,
+    5379,
+    5399,
+    5425,
+    5451,
+    5477,
+    5503,
+    5529,
+    5555,
+    5581,
+    5607,
+    5633,
+    5660,
+    5687,
+    5714,
+    5741,
+    5768,
+    5795,
+    5822,
+    5845,
+    5866,
+    5878
   };
 
-static inline int
+static GPG_ERR_INLINE int
 msgidxof (int code)
 {
   return (0 ? 0
-  : ((code >= 0) && (code <= 183)) ? (code - 0)
-  : ((code >= 199) && (code <= 213)) ? (code - 15)
-  : ((code >= 257) && (code <= 271)) ? (code - 58)
-  : ((code >= 273) && (code <= 281)) ? (code - 59)
-  : ((code >= 1024) && (code <= 1039)) ? (code - 801)
-  : ((code >= 16381) && (code <= 16383)) ? (code - 16142)
-  : 16384 - 16142);
+  : ((code >= 0) && (code <= 213)) ? (code - 0)
+  : ((code >= 222) && (code <= 254)) ? (code - 8)
+  : ((code >= 257) && (code <= 271)) ? (code - 10)
+  : ((code >= 273) && (code <= 281)) ? (code - 11)
+  : ((code >= 1024) && (code <= 1039)) ? (code - 753)
+  : ((code >= 16381) && (code <= 16383)) ? (code - 16094)
+  : 16384 - 16094);
 }

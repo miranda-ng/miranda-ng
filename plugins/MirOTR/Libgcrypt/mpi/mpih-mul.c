@@ -353,7 +353,7 @@ _gcry_mpih_mul_n( mpi_ptr_t prodp,
 	    _gcry_mpih_sqr_n_basecase( prodp, up, size );
 	else {
 	    mpi_ptr_t tspace;
-	    secure = gcry_is_secure( up );
+	    secure = _gcry_is_secure( up );
 	    tspace = mpi_alloc_limb_space( 2 * size, secure );
 	    _gcry_mpih_sqr_n( prodp, up, size, tspace );
 	    _gcry_mpi_free_limb_space (tspace, 2 * size );
@@ -364,7 +364,7 @@ _gcry_mpih_mul_n( mpi_ptr_t prodp,
 	    mul_n_basecase( prodp, up, vp, size );
 	else {
 	    mpi_ptr_t tspace;
-	    secure = gcry_is_secure( up ) || gcry_is_secure( vp );
+	    secure = _gcry_is_secure( up ) || _gcry_is_secure( vp );
 	    tspace = mpi_alloc_limb_space( 2 * size, secure );
 	    mul_n (prodp, up, vp, size, tspace);
 	    _gcry_mpi_free_limb_space (tspace, 2 * size );
@@ -386,9 +386,9 @@ _gcry_mpih_mul_karatsuba_case( mpi_ptr_t prodp,
 	if( ctx->tspace )
 	    _gcry_mpi_free_limb_space( ctx->tspace, ctx->tspace_nlimbs );
         ctx->tspace_nlimbs = 2 * vsize;
-	ctx->tspace = mpi_alloc_limb_space( 2 * vsize,
-				            (gcry_is_secure( up )
-                                            || gcry_is_secure( vp )) );
+	ctx->tspace = mpi_alloc_limb_space (2 * vsize,
+				            (_gcry_is_secure (up)
+                                             || _gcry_is_secure (vp)));
 	ctx->tspace_size = vsize;
     }
 
@@ -402,8 +402,9 @@ _gcry_mpih_mul_karatsuba_case( mpi_ptr_t prodp,
 	    if( ctx->tp )
 		_gcry_mpi_free_limb_space( ctx->tp, ctx->tp_nlimbs );
             ctx->tp_nlimbs = 2 * vsize;
-	    ctx->tp = mpi_alloc_limb_space( 2 * vsize, gcry_is_secure( up )
-						      || gcry_is_secure( vp ) );
+	    ctx->tp = mpi_alloc_limb_space (2 * vsize,
+                                            (_gcry_is_secure (up)
+                                             || _gcry_is_secure (vp)));
 	    ctx->tp_size = vsize;
 	}
 
@@ -423,7 +424,7 @@ _gcry_mpih_mul_karatsuba_case( mpi_ptr_t prodp,
 	}
 	else {
 	    if( !ctx->next ) {
-		ctx->next = gcry_xcalloc( 1, sizeof *ctx );
+		ctx->next = xcalloc( 1, sizeof *ctx );
 	    }
 	    _gcry_mpih_mul_karatsuba_case( ctx->tspace,
 					vp, vsize,
@@ -452,7 +453,7 @@ _gcry_mpih_release_karatsuba_ctx( struct karatsuba_ctx *ctx )
             _gcry_mpi_free_limb_space( ctx->tp, ctx->tp_nlimbs );
 	if( ctx->tspace )
 	    _gcry_mpi_free_limb_space( ctx->tspace, ctx->tspace_nlimbs );
-	gcry_free( ctx );
+	xfree( ctx );
     }
 }
 
@@ -526,5 +527,3 @@ _gcry_mpih_mul( mpi_ptr_t prodp, mpi_ptr_t up, mpi_size_t usize,
     _gcry_mpih_release_karatsuba_ctx( &ctx );
     return *prod_endp;
 }
-
-

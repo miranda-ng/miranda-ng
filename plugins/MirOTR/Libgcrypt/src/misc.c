@@ -1,5 +1,5 @@
 /* misc.c
- * Copyright (C) 1999, 2001, 2002, 2003, 2007, 
+ * Copyright (C) 1999, 2001, 2002, 2003, 2007,
  *               2008 Free Software Foundation, Inc.
  *
  * This file is part of Libgcrypt.
@@ -19,7 +19,7 @@
  */
 
 #include <config.h>
-#include <io.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,6 +28,7 @@
 
 #include "g10lib.h"
 #include "secmem.h"
+#include "mpi.h"
 
 static int verbosity_level = 0;
 
@@ -39,7 +40,7 @@ static void *log_handler_value = 0;
 static const char *(*user_gettext_handler)( const char * ) = NULL;
 
 void
-gcry_set_gettext_handler( const char *(*f)(const char*) )
+_gcry_set_gettext_handler (const char *(*f)(const char*))
 {
     user_gettext_handler = f;
 }
@@ -55,7 +56,7 @@ _gcry_gettext( const char *key )
 }
 
 void
-gcry_set_fatalerror_handler( void (*fnc)(void*,int, const char*), void *value)
+_gcry_set_fatalerror_handler( void (*fnc)(void*,int, const char*), void *value)
 {
     fatal_error_handler_value = value;
     fatal_error_handler = fnc;
@@ -64,7 +65,9 @@ gcry_set_fatalerror_handler( void (*fnc)(void*,int, const char*), void *value)
 static void
 write2stderr( const char *s )
 {
-    write( 2, s, strlen(s) );
+  /* Dummy variable to silence gcc warning.  */
+  int res = write( 2, s, strlen(s) );
+  (void) res;
 }
 
 /*
@@ -89,8 +92,7 @@ _gcry_fatal_error (int rc, const char *text)
 }
 
 void
-gcry_set_log_handler( void (*f)(void*,int, const char*, va_list ),
-							    void *opaque )
+_gcry_set_log_handler (void (*f)(void*,int, const char*, va_list), void *opaque)
 {
     log_handler = f;
     log_handler_value = opaque;
@@ -112,14 +114,14 @@ _gcry_log_verbosity( int level )
  * This is our log function which prints all log messages to stderr or
  * using the function defined with gcry_set_log_handler().
  */
-static void
+void
 _gcry_logv( int level, const char *fmt, va_list arg_ptr )
 {
   if (log_handler)
     log_handler (log_handler_value, level, fmt, arg_ptr);
-  else 
+  else
     {
-      switch (level) 
+      switch (level)
         {
         case GCRY_LOG_CONT:  break;
         case GCRY_LOG_INFO:  break;
@@ -132,7 +134,7 @@ _gcry_logv( int level, const char *fmt, va_list arg_ptr )
 	}
       vfprintf(stderr,fmt,arg_ptr) ;
     }
-  
+
   if ( level == GCRY_LOG_FATAL || level == GCRY_LOG_BUG )
     {
       fips_signal_fatal_error ("internal error (fatal or bug)");
@@ -256,8 +258,8 @@ void
 _gcry_log_printf (const char *fmt, ...)
 {
   va_list arg_ptr;
-  
-  if (fmt) 
+
+  if (fmt)
     {
       va_start( arg_ptr, fmt ) ;
       _gcry_logv (GCRY_LOG_CONT, fmt, arg_ptr);
@@ -265,33 +267,204 @@ _gcry_log_printf (const char *fmt, ...)
     }
 }
 
-/* Print a hexdump of BUFFER.  With TEXT of NULL print just the raw
-   dump, with TEXT an empty string, print a trailing linefeed,
-   otherwise print an entire debug line. */
-void
-_gcry_log_printhex (const char *text, const void *buffer, size_t length)
+
+/* Helper for _gcry_log_printhex and _gcry_log_printmpi.  */
+static void
+do_printhex (const char *text, const char *text2,
+             const void *buffer, size_t length)
 {
+  int wrap = 0;
+  int cnt = 0;
+
   if (text && *text)
-    log_debug ("%s ", text);
+    {
+      wrap = 1;
+      log_debug ("%s:%s", text, text2);
+      if (text2[1] == '[' && length && buffer)
+        {
+          /* Start with a new line so that we get nice output for
+             opaque MPIS:
+               "value: [31 bit]"
+               "        01020300"  */
+          log_printf ("\n");
+          text2 = " ";
+          log_debug ("%*s  ", (int)strlen(text), "");
+        }
+    }
   if (length)
     {
       const unsigned char *p = buffer;
-      log_printf ("%02X", *p);
-      for (length--, p++; length--; p++)
-        log_printf (" %02X", *p);
+      for (; length--; p++)
+        {
+          log_printf ("%02x", *p);
+          if (wrap && ++cnt == 32 && length)
+            {
+              cnt = 0;
+              log_printf (" \\\n");
+              log_debug ("%*s %*s",
+                         (int)strlen(text), "", (int)strlen(text2), "");
+            }
+        }
     }
   if (text)
     log_printf ("\n");
 }
 
 
+/* Print a hexdump of BUFFER.  With TEXT of NULL print just the raw
+   dump without any wrappping, with TEXT an empty string, print a
+   trailing linefeed, otherwise print an entire debug line. */
 void
-_gcry_burn_stack (int bytes)
+_gcry_log_printhex (const char *text, const void *buffer, size_t length)
 {
-    char buf[64];
-    
+  do_printhex (text, " ", buffer, length);
+}
+
+
+/* Print MPI in hex notation.  To make clear that the output is an MPI
+   a sign is always printed. With TEXT of NULL print just the raw dump
+   without any wrapping, with TEXT an empty string, print a trailing
+   linefeed, otherwise print an entire debug line. */
+void
+_gcry_log_printmpi (const char *text, gcry_mpi_t mpi)
+{
+  unsigned char *rawmpi;
+  unsigned int rawmpilen;
+  int sign;
+
+  if (!mpi)
+    do_printhex (text? text:" ", " (null)", NULL, 0);
+  else if (mpi_is_opaque (mpi))
+    {
+      unsigned int nbits;
+      const unsigned char *p;
+      char prefix[30];
+
+      p = mpi_get_opaque (mpi, &nbits);
+      snprintf (prefix, sizeof prefix, " [%u bit]", nbits);
+      do_printhex (text? text:" ", prefix, p, (nbits+7)/8);
+    }
+  else
+    {
+      rawmpi = _gcry_mpi_get_buffer (mpi, 0, &rawmpilen, &sign);
+      if (!rawmpi)
+        do_printhex (text? text:" ", " [out of core]", NULL, 0);
+      else
+        {
+          if (!rawmpilen)
+            do_printhex (text, sign? "-":"+", "", 1);
+          else
+            do_printhex (text, sign? "-":"+", rawmpi, rawmpilen);
+          xfree (rawmpi);
+        }
+    }
+}
+
+
+static int
+count_closing_parens (const char *p)
+{
+  int count = 0;
+
+  for (; *p; p++)
+    if (*p == ')')
+      count++;
+    else if (!strchr ("\n \t", *p))
+      return 0;
+
+  return count;
+}
+
+
+/* Print SEXP in human readabale format.  With TEXT of NULL print just the raw
+   dump without any wrappping, with TEXT an empty string, print a
+   trailing linefeed, otherwise print the full debug output. */
+void
+_gcry_log_printsxp (const char *text, gcry_sexp_t sexp)
+{
+  int with_lf = 0;
+
+  if (text && *text)
+    {
+      if ((with_lf = !!strchr (text, '\n')))
+        log_debug ("%s", text);
+      else
+        log_debug ("%s: ", text);
+    }
+  if (sexp)
+    {
+      int any = 0;
+      int n_closing;
+      char *buf, *pend;
+      const char *p;
+      size_t size;
+
+      size = sexp_sprint (sexp, GCRYSEXP_FMT_ADVANCED, NULL, 0);
+      p = buf = xmalloc (size);
+      sexp_sprint (sexp, GCRYSEXP_FMT_ADVANCED, buf, size);
+
+      do
+        {
+          if (any && !with_lf)
+            log_debug ("%*s  ", (int)strlen(text), "");
+          else
+            any = 1;
+          pend = strchr (p, '\n');
+          size = pend? (pend - p) : strlen (p);
+          if (with_lf)
+            log_debug ("%.*s", (int)size, p);
+          else
+            log_printf ("%.*s", (int)size, p);
+          if (pend)
+            p = pend + 1;
+          else
+            p += size;
+          n_closing = count_closing_parens (p);
+          if (n_closing)
+            {
+              while (n_closing--)
+                log_printf (")");
+              p = "";
+            }
+          log_printf ("\n");
+        }
+      while (*p);
+      xfree (buf);
+    }
+  else if (text)
+    log_printf ("\n");
+}
+
+
+void
+__gcry_burn_stack (unsigned int bytes)
+{
+#ifdef HAVE_VLA
+    /* (bytes == 0 ? 1 : bytes) == (!bytes + bytes) */
+    unsigned int buflen = ((!bytes + bytes) + 63) & ~63;
+    volatile char buf[buflen];
+
     wipememory (buf, sizeof buf);
-    bytes -= sizeof buf;
-    if (bytes > 0)
-        _gcry_burn_stack (bytes);
+#else
+    volatile char buf[64];
+
+    wipememory (buf, sizeof buf);
+
+    if (bytes > sizeof buf)
+        _gcry_burn_stack (bytes - sizeof buf);
+#endif
+}
+
+#ifndef HAVE_GCC_ASM_VOLATILE_MEMORY
+void
+__gcry_burn_stack_dummy (void)
+{
+}
+#endif
+
+void
+_gcry_divide_by_zero (void)
+{
+    gpg_err_set_errno (EDOM);
+    _gcry_fatal_error (gpg_err_code_from_errno (errno), "divide by zero");
 }

@@ -1,345 +1,406 @@
-/* ath.c - Thread-safeness library.
-   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
-
-   This file is part of Libgcrypt.
- 
-   Libgcrypt is free software; you can redistribute it and/or modify
-   it under the terms of the GNU Lesser General Public License as
-   published by the Free Software Foundation; either version 2.1 of
-   the License, or (at your option) any later version.
- 
-   Libgcrypt is distributed in the hope that it will be useful, but
-   WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   General Public License for more details.
- 
-   You should have received a copy of the GNU Lesser General Public
-   License along with Libgcrypt; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-   02111-1307, USA.  */
+/* ath.c - A Thread-safeness library.
+ *  Copyright (C) 2002, 2003, 2004, 2011 Free Software Foundation, Inc.
+ *  Copyright (C) 2014 g10 Code GmbH
+ *
+ * This file is part of Libgcrypt.
+ *
+ * Libgcrypt is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser general Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * Libgcrypt is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <assert.h>  /* Right: We need to use assert and not gcry_assert.  */
+#include <assert.h>
+#include <stdlib.h>
 #include <unistd.h>
-#ifdef HAVE_SYS_SELECT_H
-# include <sys/select.h>
-#else
-# include <sys/time.h>
-#endif
-#include <sys/types.h>
-#ifndef _WIN32
-#include <sys/wait.h>
-#endif
 #include <errno.h>
+#if USE_POSIX_THREADS
+# include <pthread.h>
+#endif
 
 #include "ath.h"
 
+#if USE_POSIX_THREADS_WEAK
+# if  !USE_POSIX_THREADS
+#  error USE_POSIX_THREADS_WEAK but no USE_POSIX_THREADS
+# endif
+#endif
 
 
-/* The interface table.  */
-static struct ath_ops ops;
+/* On an ELF system it is easy to use pthreads using weak references.
+   Take care not to test the address of a weak referenced function we
+   actually use; some GCC versions have a bug were &foo != NULL is
+   always evaluated to true in PIC mode.  USING_PTHREAD_AS_DEFAULT is
+   used by ath_install to detect the default usage of pthread.  */
+#if USE_POSIX_THREADS_WEAK
+# pragma weak pthread_cancel
+# pragma weak pthread_mutex_init
+# pragma weak pthread_mutex_lock
+# pragma weak pthread_mutex_unlock
+# pragma weak pthread_mutex_destroy
+#endif
 
-/* True if we should use the external callbacks.  */
-static int ops_set;
-
-
-/* For the dummy interface.  */
-#define MUTEX_UNLOCKED	((ath_mutex_t) 0)
-#define MUTEX_LOCKED	((ath_mutex_t) 1)
-#define MUTEX_DESTROYED	((ath_mutex_t) 2)
+/* For the dummy interface.  The MUTEX_NOTINIT value is used to check
+   that a mutex has been initialized.  */
+#define MUTEX_NOTINIT	((ath_mutex_t) 0)
+#define MUTEX_UNLOCKED	((ath_mutex_t) 1)
+#define MUTEX_LOCKED	((ath_mutex_t) 2)
+#define MUTEX_DESTROYED	((ath_mutex_t) 3)
 
 
 /* Return the thread type from the option field. */
 #define GET_OPTION(a)    ((a) & 0xff)
-/* Return the version number from the option field.  */
-#define GET_VERSION(a)   (((a) >> 8)& 0xff)
 
 
 
-/* The lock we take while checking for lazy lock initialization.  */
-static ath_mutex_t check_init_lock = ATH_MUTEX_INITIALIZER;
+enum ath_thread_model {
+  ath_model_undefined = 0,
+  ath_model_none,          /* No thread support.  */
+  ath_model_pthreads_weak, /* POSIX threads using weak symbols.  */
+  ath_model_pthreads,      /* POSIX threads directly linked.  */
+  ath_model_w32            /* Microsoft Windows threads.  */
+};
 
+
+/* The thread model in use.  */
+static enum ath_thread_model thread_model;
+
+
+/* Initialize the ath subsystem.  This is called as part of the
+   Libgcrypt initialization.  It's purpose is to initialize the
+   locking system.  It returns 0 on sucess or an ERRNO value on error.
+   In the latter case it is not defined whether ERRNO was changed.
+
+   Note: This should be called as early as possible because it is not
+   always possible to detect the thread model to use while already
+   running multi threaded.  */
 int
 ath_init (void)
 {
   int err = 0;
 
-  if (ops_set)
+  if (thread_model)
+    return 0; /* Already initialized - no error.  */
+
+  if (0)
+    ;
+#if USE_POSIX_THREADS_WEAK
+  else if (pthread_cancel)
     {
-      if (ops.init)
-	err = (*ops.init) ();
-      if (err)
-	return err;
-      err = (*ops.mutex_init) (&check_init_lock);
+      thread_model = ath_model_pthreads_weak;
     }
-  return err;
-}
-
-
-/* Initialize the locking library.  Returns 0 if the operation was
-   successful, EINVAL if the operation table was invalid and EBUSY if
-   we already were initialized.  */
-gpg_err_code_t
-ath_install (struct ath_ops *ath_ops, int check_only)
-{
-  if (check_only)
-    {
-      unsigned int option = 0;
-      
-      /* Check if the requested thread option is compatible to the
-	 thread option we are already committed to.  */
-      if (ath_ops)
-	option = ath_ops->option;
-
-      if (!ops_set && GET_OPTION (option))
-	return GPG_ERR_NOT_SUPPORTED;
-
-      if (GET_OPTION (ops.option) == ATH_THREAD_OPTION_USER
-	  || GET_OPTION (option) == ATH_THREAD_OPTION_USER
-	  || GET_OPTION (ops.option) != GET_OPTION (option)
-          || GET_VERSION (ops.option) != GET_VERSION (option))
-	return GPG_ERR_NOT_SUPPORTED;
-
-      return 0;
-    }
-    
-  if (ath_ops)
-    {
-      /* It is convenient to not require DESTROY.  */
-      if (!ath_ops->mutex_init || !ath_ops->mutex_lock
-	  || !ath_ops->mutex_unlock)
-	return GPG_ERR_INV_ARG;
-
-      ops = *ath_ops;
-      ops_set = 1;
-    }
+#endif
   else
-    ops_set = 0;
+    {
+#if HAVE_W32_SYSTEM
+      thread_model = ath_model_w32;
+#elif USE_POSIX_THREADS && !USE_POSIX_THREADS_WEAK
+      thread_model = ath_model_pthreads;
+#else /*!USE_POSIX_THREADS*/
+      /* Assume a single threaded application.  */
+      thread_model = ath_model_none;
+#endif /*!USE_POSIX_THREADS*/
+    }
 
-  return 0;
-}
-
-
-static int
-mutex_init (ath_mutex_t *lock, int just_check)
-{
-  int err = 0;
-
-  if (just_check)
-    (*ops.mutex_lock) (&check_init_lock);
-  if (*lock == ATH_MUTEX_INITIALIZER || !just_check)
-    err = (*ops.mutex_init) (lock);
-  if (just_check)
-    (*ops.mutex_unlock) (&check_init_lock);
   return err;
 }
 
 
+/* Return the used thread model as string for display purposes an if
+   R_MODEL is not null store its internal number at R_MODEL.  */
+const char *
+ath_get_model (int *r_model)
+{
+  if (r_model)
+    *r_model = thread_model;
+  switch (thread_model)
+    {
+    case ath_model_undefined:     return "undefined";
+    case ath_model_none:          return "none";
+    case ath_model_pthreads_weak: return "pthread(weak)";
+    case ath_model_pthreads:      return "pthread";
+    case ath_model_w32:           return "w32";
+    default:                      return "?";
+    }
+}
+
+
+/* This function was used in old Libgcrypt versions (via
+   GCRYCTL_SET_THREAD_CBS) to register the thread callback functions.
+   It is not anymore required.  However to allow existing code to
+   continue to work, we keep this function and check that no user
+   defined callbacks are used and that the requested thread system
+   matches the one Libgcrypt is using.  */
+gpg_err_code_t
+ath_install (struct ath_ops *ath_ops)
+{
+  gpg_err_code_t rc;
+  unsigned int thread_option;
+
+  /* Fist call ath_init so that we know our thread model.  */
+  rc = ath_init ();
+  if (rc)
+    return rc;
+
+  /* Check if the requested thread option is compatible to the
+     thread option we are already committed to.  */
+  thread_option = ath_ops? GET_OPTION (ath_ops->option) : 0;
+
+  /* Return an error if the requested thread model does not match the
+     configured one.  */
+  if (0)
+    ;
+#if USE_POSIX_THREADS
+  else if (thread_model == ath_model_pthreads
+           || thread_model == ath_model_pthreads_weak)
+    {
+      if (thread_option == ATH_THREAD_OPTION_PTHREAD)
+        return 0; /* Okay - compatible.  */
+      if (thread_option == ATH_THREAD_OPTION_PTH)
+        return 0; /* Okay - compatible.  */
+    }
+#endif /*USE_POSIX_THREADS*/
+  else if (thread_option == ATH_THREAD_OPTION_PTH)
+    {
+      if (thread_model == ath_model_none)
+        return 0; /* Okay - compatible.  */
+    }
+  else if (thread_option == ATH_THREAD_OPTION_DEFAULT)
+    return 0; /* No thread support requested.  */
+#if HAVE_W32_SYSTEM
+  else
+    return 0; /* It is always enabled.  */
+#endif /*HAVE_W32_SYSTEM*/
+
+  return GPG_ERR_NOT_SUPPORTED;
+}
+
+
+/* Initialize a new mutex.  This function returns 0 on success or an
+   system error code (i.e. an ERRNO value).  ERRNO may or may not be
+   changed on error.  */
 int
 ath_mutex_init (ath_mutex_t *lock)
 {
-  if (ops_set)
-    return mutex_init (lock, 0);
+  int err;
 
-#ifndef NDEBUG
-  *lock = MUTEX_UNLOCKED;
-#endif
-  return 0;
+  switch (thread_model)
+    {
+    case ath_model_none:
+      *lock = MUTEX_UNLOCKED;
+      err = 0;
+      break;
+
+#if USE_POSIX_THREADS
+    case ath_model_pthreads:
+    case ath_model_pthreads_weak:
+      {
+        pthread_mutex_t *plck;
+
+        plck = malloc (sizeof *plck);
+        if (!plck)
+          err = errno? errno : ENOMEM;
+        else
+          {
+            err = pthread_mutex_init (plck, NULL);
+            if (err)
+              free (plck);
+            else
+              *lock = (void*)plck;
+          }
+      }
+      break;
+#endif /*USE_POSIX_THREADS*/
+
+#if HAVE_W32_SYSTEM
+    case ath_model_w32:
+      {
+        CRITICAL_SECTION *csec;
+
+        csec = malloc (sizeof *csec);
+        if (!csec)
+          err = errno? errno : ENOMEM;
+        else
+          {
+            InitializeCriticalSection (csec);
+            *lock = (void*)csec;
+            err = 0;
+          }
+      }
+      break;
+#endif /*HAVE_W32_SYSTEM*/
+
+    default:
+      err = EINVAL;
+      break;
+    }
+
+  return err;
 }
 
 
+/* Destroy a mutex.  This function is a NOP if LOCK is NULL.  If the
+   mutex is still locked it can't be destroyed and the function
+   returns EBUSY.  ERRNO may or may not be changed on error.  */
 int
 ath_mutex_destroy (ath_mutex_t *lock)
 {
-  if (ops_set)
-    {
-      if (!ops.mutex_destroy)
-	return 0;
+  int err;
 
-      (*ops.mutex_lock) (&check_init_lock);
-      if (*lock == ATH_MUTEX_INITIALIZER)
-	{
-	  (*ops.mutex_unlock) (&check_init_lock);
-	  return 0;
-	}
-      (*ops.mutex_unlock) (&check_init_lock);
-      return (*ops.mutex_destroy) (lock);
+  if (!*lock)
+    return 0;
+
+  switch (thread_model)
+    {
+    case ath_model_none:
+      if (*lock != MUTEX_UNLOCKED)
+        err = EBUSY;
+      else
+        {
+          *lock = MUTEX_DESTROYED;
+          err = 0;
+        }
+      break;
+
+#if USE_POSIX_THREADS
+    case ath_model_pthreads:
+    case ath_model_pthreads_weak:
+      {
+        pthread_mutex_t *plck = (pthread_mutex_t*) (*lock);
+
+        err = pthread_mutex_destroy (plck);
+        if (!err)
+          {
+            free (plck);
+            lock = NULL;
+          }
+      }
+      break;
+#endif /*USE_POSIX_THREADS*/
+
+#if HAVE_W32_SYSTEM
+    case ath_model_w32:
+      {
+        CRITICAL_SECTION *csec = (CRITICAL_SECTION *)(*lock);
+
+        DeleteCriticalSection (csec);
+        free (csec);
+        err = 0;
+      }
+      break;
+#endif /*HAVE_W32_SYSTEM*/
+
+    default:
+      err = EINVAL;
+      break;
     }
 
-#ifndef NDEBUG
-  assert (*lock == MUTEX_UNLOCKED);
-
-  *lock = MUTEX_DESTROYED;
-#endif
-  return 0;
+  return err;
 }
 
 
+/* Lock the mutex LOCK.  On success the function returns 0; on error
+   an error code.  ERRNO may or may not be changed on error.  */
 int
 ath_mutex_lock (ath_mutex_t *lock)
 {
-  if (ops_set)
+  int err;
+
+  switch (thread_model)
     {
-      int ret = mutex_init (lock, 1);
-      if (ret)
-	return ret;
-      return (*ops.mutex_lock) (lock);
+    case ath_model_none:
+      if (*lock == MUTEX_NOTINIT)
+	err = EINVAL;
+      else if (*lock == MUTEX_UNLOCKED)
+        {
+          *lock = MUTEX_LOCKED;
+          err = 0;
+        }
+      else
+        err = EDEADLK;
+      break;
+
+#if USE_POSIX_THREADS
+    case ath_model_pthreads:
+    case ath_model_pthreads_weak:
+      err = pthread_mutex_lock ((pthread_mutex_t*)(*lock));
+      break;
+#endif /*USE_POSIX_THREADS*/
+
+#if HAVE_W32_SYSTEM
+    case ath_model_w32:
+      {
+        CRITICAL_SECTION *csec = (CRITICAL_SECTION *)(*lock);
+
+        EnterCriticalSection (csec);
+        err = 0;
+      }
+      break;
+#endif /*HAVE_W32_SYSTEM*/
+
+    default:
+      err = EINVAL;
+      break;
     }
 
-#ifndef NDEBUG
-  assert (*lock == MUTEX_UNLOCKED);
-
-  *lock = MUTEX_LOCKED;
-#endif
-  return 0;
+  return err;
 }
 
-
+/* Unlock the mutex LOCK.  On success the function returns 0; on error
+   an error code.  ERRNO may or may not be changed on error.  */
 int
 ath_mutex_unlock (ath_mutex_t *lock)
 {
-  if (ops_set)
+  int err;
+
+  switch (thread_model)
     {
-      int ret = mutex_init (lock, 1);
-      if (ret)
-	return ret;
-      return (*ops.mutex_unlock) (lock);
+    case ath_model_none:
+      if (*lock == MUTEX_NOTINIT)
+	err = EINVAL;
+      else if (*lock == MUTEX_LOCKED)
+        {
+          *lock = MUTEX_UNLOCKED;
+          err = 0;
+        }
+      else
+        err = EPERM;
+      break;
+
+#if USE_POSIX_THREADS
+    case ath_model_pthreads:
+    case ath_model_pthreads_weak:
+      err = pthread_mutex_unlock ((pthread_mutex_t*)(*lock));
+      break;
+#endif /*USE_POSIX_THREADS*/
+
+#if HAVE_W32_SYSTEM
+    case ath_model_w32:
+      {
+        CRITICAL_SECTION *csec = (CRITICAL_SECTION *)(*lock);
+
+        LeaveCriticalSection (csec);
+        err = 0;
+      }
+      break;
+#endif /*HAVE_W32_SYSTEM*/
+
+    default:
+      err = EINVAL;
+      break;
     }
 
-#ifndef NDEBUG
-  assert (*lock == MUTEX_LOCKED);
-
-  *lock = MUTEX_UNLOCKED;
-#endif
-  return 0;
+  return err;
 }
-
-
-ssize_t
-ath_read (int fd, void *buf, size_t nbytes)
-{
-  if (ops_set && ops.read)
-    return (*ops.read) (fd, buf, nbytes);
-  else
-    return _read (fd, buf, nbytes);
-}
-
-
-ssize_t
-ath_write (int fd, const void *buf, size_t nbytes)
-{
-  if (ops_set && ops.write)
-    return (*ops.write) (fd, buf, nbytes);
-  else
-    return _write (fd, buf, nbytes);
-}
-
-
-ssize_t
-#ifdef _WIN32
-ath_select (int nfd, void *rset, void *wset, void *eset,
-	    struct timeval *timeout)
-#else
-ath_select (int nfd, fd_set *rset, fd_set *wset, fd_set *eset,
-	    struct timeval *timeout)
-#endif
-{
-  if (ops_set && ops.select)
-    return (*ops.select) (nfd, rset, wset, eset, timeout);
-  else
-#ifdef _WIN32
-    return -1;
-#else
-    return select (nfd, rset, wset, eset, timeout);
-#endif
-}
-
- 
-ssize_t
-ath_waitpid (pid_t pid, int *status, int options)
-{
-  if (ops_set && ops.waitpid)
-    return (*ops.waitpid) (pid, status, options);
-  else
-#ifdef _WIN32
-    return -1;
-#else
-    return waitpid (pid, status, options);
-#endif
-}
-
-
-int
-#ifdef _WIN32
-ath_accept (int s, void *addr, int *length_ptr)
-#else
-ath_accept (int s, struct sockaddr *addr, socklen_t *length_ptr)
-#endif
-{
-  if (ops_set && ops.accept)
-    return (*ops.accept) (s, addr, length_ptr);
-  else
-#ifdef _WIN32
-    return -1;
-#else
-    return accept (s, addr, length_ptr);
-#endif
-}
-
-
-int
-#ifdef _WIN32
-ath_connect (int s, void *addr, int length)
-#else
-ath_connect (int s, struct sockaddr *addr, socklen_t length)
-#endif
-{
-  if (ops_set && ops.connect)
-    return (*ops.connect) (s, addr, length);
-  else
-#ifdef _WIN32
-    return -1;
-#else
-    return connect (s, addr, length);
-#endif
-}
-
-
-int
-#ifdef _WIN32
-ath_sendmsg (int s, const void *msg, int flags)
-#else
-ath_sendmsg (int s, const struct msghdr *msg, int flags)
-#endif
-{
-  if (ops_set && ops.sendmsg)
-    return (*ops.sendmsg) (s, msg, flags);
-  else
-#ifdef _WIN32
-    return -1;
-#else
-    return sendmsg (s, msg, flags);
-#endif
-}
-
-
-int
-#ifdef _WIN32
-ath_recvmsg (int s, void *msg, int flags)
-#else
-ath_recvmsg (int s, struct msghdr *msg, int flags)
-#endif
-{
-  if (ops_set && ops.recvmsg)
-    return (*ops.recvmsg) (s, msg, flags);
-  else
-#ifdef _WIN32
-    return -1;
-#else
-    return recvmsg (s, msg, flags);
-#endif
-}
-

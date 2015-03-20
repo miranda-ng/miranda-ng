@@ -1,6 +1,7 @@
 /* cipher.c  -	cipher dispatcher
  * Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003
- *               2005, 2007, 2008, 2010 Free Software Foundation, Inc.
+ *               2005, 2007, 2008, 2009, 2011 Free Software Foundation, Inc.
+ * Copyright (C) 2013 g10 Code GmbH
  *
  * This file is part of Libgcrypt.
  *
@@ -27,465 +28,195 @@
 #include "g10lib.h"
 #include "cipher.h"
 #include "ath.h"
+#include "./cipher-internal.h"
 
-#define MAX_BLOCKSIZE 16
-#define TABLE_SIZE 14
-#define CTX_MAGIC_NORMAL 0x24091964
-#define CTX_MAGIC_SECURE 0x46919042
-
-#undef NEED_16BYTE_ALIGNED_CONTEXT
-#if defined (__i386__) && SIZEOF_UNSIGNED_LONG == 4 && defined (__GNUC__)
-#define NEED_16BYTE_ALIGNED_CONTEXT 1
-#endif
-
-/* A dummy extraspec so that we do not need to tests the extraspec
-   field from the module specification against NULL and instead
-   directly test the respective fields of extraspecs.  */
-static cipher_extra_spec_t dummy_extra_spec;
 
 /* This is the list of the default ciphers, which are included in
    libgcrypt.  */
-static struct cipher_table_entry
-{
-  gcry_cipher_spec_t *cipher;
-  cipher_extra_spec_t *extraspec;
-  unsigned int algorithm;
-  int fips_allowed;
-} cipher_table[] =
+static gcry_cipher_spec_t *cipher_list[] =
   {
 #if USE_BLOWFISH
-    { &_gcry_cipher_spec_blowfish,
-      &dummy_extra_spec,                  GCRY_CIPHER_BLOWFISH },
+     &_gcry_cipher_spec_blowfish,
 #endif
 #if USE_DES
-    { &_gcry_cipher_spec_des,       
-      &dummy_extra_spec,                  GCRY_CIPHER_DES },
-    { &_gcry_cipher_spec_tripledes,
-      &_gcry_cipher_extraspec_tripledes,  GCRY_CIPHER_3DES, 1 },
+     &_gcry_cipher_spec_des,
+     &_gcry_cipher_spec_tripledes,
 #endif
 #if USE_ARCFOUR
-    { &_gcry_cipher_spec_arcfour,    
-      &dummy_extra_spec,                  GCRY_CIPHER_ARCFOUR },
+     &_gcry_cipher_spec_arcfour,
 #endif
 #if USE_CAST5
-    { &_gcry_cipher_spec_cast5,      
-      &dummy_extra_spec,                  GCRY_CIPHER_CAST5 },
+     &_gcry_cipher_spec_cast5,
 #endif
 #if USE_AES
-    { &_gcry_cipher_spec_aes,        
-      &_gcry_cipher_extraspec_aes,        GCRY_CIPHER_AES,    1 },
-    { &_gcry_cipher_spec_aes192,     
-      &_gcry_cipher_extraspec_aes192,     GCRY_CIPHER_AES192, 1 },
-    { &_gcry_cipher_spec_aes256,     
-      &_gcry_cipher_extraspec_aes256,     GCRY_CIPHER_AES256, 1 },
+     &_gcry_cipher_spec_aes,
+     &_gcry_cipher_spec_aes192,
+     &_gcry_cipher_spec_aes256,
 #endif
 #if USE_TWOFISH
-    { &_gcry_cipher_spec_twofish,
-      &dummy_extra_spec,                  GCRY_CIPHER_TWOFISH },
-    { &_gcry_cipher_spec_twofish128,     
-      &dummy_extra_spec,                  GCRY_CIPHER_TWOFISH128 },
+     &_gcry_cipher_spec_twofish,
+     &_gcry_cipher_spec_twofish128,
 #endif
 #if USE_SERPENT
-    { &_gcry_cipher_spec_serpent128, 
-      &dummy_extra_spec,                  GCRY_CIPHER_SERPENT128 },
-    { &_gcry_cipher_spec_serpent192,
-      &dummy_extra_spec,                  GCRY_CIPHER_SERPENT192 },
-    { &_gcry_cipher_spec_serpent256, 
-      &dummy_extra_spec,                  GCRY_CIPHER_SERPENT256 },
+     &_gcry_cipher_spec_serpent128,
+     &_gcry_cipher_spec_serpent192,
+     &_gcry_cipher_spec_serpent256,
 #endif
 #if USE_RFC2268
-    { &_gcry_cipher_spec_rfc2268_40,
-      &dummy_extra_spec,                  GCRY_CIPHER_RFC2268_40 },
+     &_gcry_cipher_spec_rfc2268_40,
+     &_gcry_cipher_spec_rfc2268_128,
 #endif
 #if USE_SEED
-    { &_gcry_cipher_spec_seed, 
-      &dummy_extra_spec,                  GCRY_CIPHER_SEED },
+     &_gcry_cipher_spec_seed,
 #endif
 #if USE_CAMELLIA
-    { &_gcry_cipher_spec_camellia128,
-      &dummy_extra_spec,                  GCRY_CIPHER_CAMELLIA128 },
-    { &_gcry_cipher_spec_camellia192, 
-      &dummy_extra_spec,                  GCRY_CIPHER_CAMELLIA192 },
-    { &_gcry_cipher_spec_camellia256,
-      &dummy_extra_spec,                  GCRY_CIPHER_CAMELLIA256 },
+     &_gcry_cipher_spec_camellia128,
+     &_gcry_cipher_spec_camellia192,
+     &_gcry_cipher_spec_camellia256,
 #endif
-    { NULL                    }
+#ifdef USE_IDEA
+     &_gcry_cipher_spec_idea,
+#endif
+#if USE_SALSA20
+     &_gcry_cipher_spec_salsa20,
+     &_gcry_cipher_spec_salsa20r12,
+#endif
+#if USE_GOST28147
+     &_gcry_cipher_spec_gost28147,
+#endif
+    NULL
   };
 
-/* List of registered ciphers.  */
-static gcry_module_t ciphers_registered;
-
-/* This is the lock protecting CIPHERS_REGISTERED.  */
-static ath_mutex_t ciphers_registered_lock = ATH_MUTEX_INITIALIZER;
-
-/* Flag to check wether the default ciphers have already been
-   registered.  */
-static int default_ciphers_registered;
-
-/* Convenient macro for registering the default ciphers.  */
-#define REGISTER_DEFAULT_CIPHERS                   \
-  do                                               \
-    {                                              \
-      ath_mutex_lock (&ciphers_registered_lock);   \
-      if (! default_ciphers_registered)            \
-        {                                          \
-          cipher_register_default ();              \
-          default_ciphers_registered = 1;          \
-        }                                          \
-      ath_mutex_unlock (&ciphers_registered_lock); \
-    }                                              \
-  while (0)
-
-
-/* A VIA processor with the Padlock engine requires an alignment of
-   most data on a 16 byte boundary.  Because we trick out the compiler
-   while allocating the context, the align attribute as used in
-   rijndael.c does not work on its own.  Thus we need to make sure
-   that the entire context structure is a aligned on that boundary.
-   We achieve this by defining a new type and use that instead of our
-   usual alignment type.  */
-typedef union 
-{
-  PROPERLY_ALIGNED_TYPE foo;
-#ifdef NEED_16BYTE_ALIGNED_CONTEXT
-  char bar[16] __attribute__ ((aligned (16)));
-#endif  
-  char c[1];
-} cipher_context_alignment_t;
-
-
-/* The handle structure.  */
-struct gcry_cipher_handle
-{
-  int magic;
-  size_t actual_handle_size;     /* Allocated size of this handle. */
-  size_t handle_offset;          /* Offset to the malloced block.  */
-  gcry_cipher_spec_t *cipher;
-  cipher_extra_spec_t *extraspec;
-  gcry_module_t module;
-
-  /* The algorithm id.  This is a hack required because the module
-     interface does not easily allow to retrieve this value. */
-  int algo;  
-
-  /* A structure with function pointers for bulk operations.  Due to
-     limitations of the module system (we don't want to change the
-     API) we need to keep these function pointers here.  The cipher
-     open function intializes them and the actual encryption routines
-     use them if they are not NULL.  */
-  struct {
-    void (*cfb_enc)(void *context, unsigned char *iv, 
-                    void *outbuf_arg, const void *inbuf_arg,
-                    unsigned int nblocks);
-    void (*cfb_dec)(void *context, unsigned char *iv, 
-                    void *outbuf_arg, const void *inbuf_arg,
-                    unsigned int nblocks);
-    void (*cbc_enc)(void *context, unsigned char *iv, 
-                    void *outbuf_arg, const void *inbuf_arg,
-                    unsigned int nblocks, int cbc_mac);
-    void (*cbc_dec)(void *context, unsigned char *iv, 
-                    void *outbuf_arg, const void *inbuf_arg,
-                    unsigned int nblocks);
-  } bulk;
-
-
-  int mode;
-  unsigned int flags;
-
-  struct {
-    unsigned int key:1; /* Set to 1 if a key has been set.  */
-    unsigned int iv:1;  /* Set to 1 if a IV has been set.  */
-  } marks;
-
-  /* The initialization vector.  To help code optimization we make
-     sure that it is aligned on an unsigned long and u32 boundary.  */
-  union {
-    unsigned long dummy_iv;         
-    u32 dummy_u32_iv;
-    unsigned char iv[MAX_BLOCKSIZE];	
-  } u_iv;
-
-  unsigned char lastiv[MAX_BLOCKSIZE];
-  int unused;  /* Number of unused bytes in the IV. */
-
-  unsigned char ctr[MAX_BLOCKSIZE];     /* For Counter (CTR) mode. */
-
-
-  /* What follows are two contexts of the cipher in use.  The first
-     one needs to be aligned well enough for the cipher operation
-     whereas the second one is a copy created by cipher_setkey and
-     used by cipher_reset.  That second copy has no need for proper
-     aligment because it is only accessed by memcpy.  */
-  cipher_context_alignment_t context;
-};
 
 
 
-/* These dummy functions are used in case a cipher implementation
-   refuses to provide it's own functions.  */
-
-static gcry_err_code_t
-dummy_setkey (void *c, const unsigned char *key, unsigned int keylen)
+static int
+map_algo (int algo)
 {
-  (void)c; 
-  (void)key;
-  (void)keylen;
-  return GPG_ERR_NO_ERROR;
+  return algo;
 }
 
-static void
-dummy_encrypt_block (void *c,
-		     unsigned char *outbuf, const unsigned char *inbuf)
+
+/* Return the spec structure for the cipher algorithm ALGO.  For
+   an unknown algorithm NULL is returned.  */
+static gcry_cipher_spec_t *
+spec_from_algo (int algo)
 {
-  (void)c;
-  (void)outbuf;
-  (void)inbuf;
-  BUG();
+  int idx;
+  gcry_cipher_spec_t *spec;
+
+  algo = map_algo (algo);
+
+  for (idx = 0; (spec = cipher_list[idx]); idx++)
+    if (algo == spec->algo)
+      return spec;
+  return NULL;
 }
 
-static void
-dummy_decrypt_block (void *c,
-		     unsigned char *outbuf, const unsigned char *inbuf)
+
+/* Lookup a cipher's spec by its name.  */
+static gcry_cipher_spec_t *
+spec_from_name (const char *name)
 {
-  (void)c;
-  (void)outbuf;
-  (void)inbuf;
-  BUG();
+  gcry_cipher_spec_t *spec;
+  int idx;
+  const char **aliases;
+
+  for (idx=0; (spec = cipher_list[idx]); idx++)
+    {
+      if (!stricmp (name, spec->name))
+        return spec;
+      if (spec->aliases)
+        {
+          for (aliases = spec->aliases; *aliases; aliases++)
+            if (!stricmp (name, *aliases))
+              return spec;
+        }
+    }
+
+  return NULL;
 }
 
-static void
-dummy_encrypt_stream (void *c,
-		      unsigned char *outbuf, const unsigned char *inbuf,
-		      unsigned int n)
+
+/* Lookup a cipher's spec by its OID.  */
+static gcry_cipher_spec_t *
+spec_from_oid (const char *oid)
 {
-  (void)c;
-  (void)outbuf;
-  (void)inbuf;
-  (void)n;
-  BUG();
+  gcry_cipher_spec_t *spec;
+  gcry_cipher_oid_spec_t *oid_specs;
+  int idx, j;
+
+  for (idx=0; (spec = cipher_list[idx]); idx++)
+    {
+      oid_specs = spec->oids;
+      if (oid_specs)
+        {
+          for (j = 0; oid_specs[j].oid; j++)
+            if (!stricmp (oid, oid_specs[j].oid))
+              return spec;
+        }
+    }
+
+  return NULL;
 }
 
-static void
-dummy_decrypt_stream (void *c,
-		      unsigned char *outbuf, const unsigned char *inbuf,
-		      unsigned int n)
-{
-  (void)c;
-  (void)outbuf;
-  (void)inbuf;
-  (void)n;
-  BUG();
-}
 
-
-/* Internal function.  Register all the ciphers included in
-   CIPHER_TABLE.  Note, that this function gets only used by the macro
-   REGISTER_DEFAULT_CIPHERS which protects it using a mutex. */
-static void
-cipher_register_default (void)
+/* Locate the OID in the oid table and return the spec or NULL if not
+   found.  An optional "oid." or "OID." prefix in OID is ignored, the
+   OID is expected to be in standard IETF dotted notation.  A pointer
+   to the OID specification of the module implementing this algorithm
+   is return in OID_SPEC unless passed as NULL.*/
+static gcry_cipher_spec_t *
+search_oid (const char *oid, gcry_cipher_oid_spec_t *oid_spec)
 {
-  gcry_err_code_t err = GPG_ERR_NO_ERROR;
+  gcry_cipher_spec_t *spec;
   int i;
-  
-  for (i = 0; !err && cipher_table[i].cipher; i++)
-    {
-      if (! cipher_table[i].cipher->setkey)
-	cipher_table[i].cipher->setkey = dummy_setkey;
-      if (! cipher_table[i].cipher->encrypt)
-	cipher_table[i].cipher->encrypt = dummy_encrypt_block;
-      if (! cipher_table[i].cipher->decrypt)
-	cipher_table[i].cipher->decrypt = dummy_decrypt_block;
-      if (! cipher_table[i].cipher->stencrypt)
-	cipher_table[i].cipher->stencrypt = dummy_encrypt_stream;
-      if (! cipher_table[i].cipher->stdecrypt)
-	cipher_table[i].cipher->stdecrypt = dummy_decrypt_stream;
-
-      if ( fips_mode () && !cipher_table[i].fips_allowed )
-        continue;
-
-      err = _gcry_module_add (&ciphers_registered,
-			      cipher_table[i].algorithm,
-			      (void *) cipher_table[i].cipher,
-			      (void *) cipher_table[i].extraspec,
-			      NULL);
-    }
-
-  if (err)
-    BUG ();
-}
-
-/* Internal callback function.  Used via _gcry_module_lookup.  */
-static int
-gcry_cipher_lookup_func_name (void *spec, void *data)
-{
-  gcry_cipher_spec_t *cipher = (gcry_cipher_spec_t *) spec;
-  char *name = (char *) data;
-  const char **aliases = cipher->aliases;
-  int i, ret = !_stricmp (name, cipher->name);
-
-  if (aliases)
-    for (i = 0; aliases[i] && (! ret); i++)
-      ret = !_stricmp (name, aliases[i]);
-
-  return ret;
-}
-
-/* Internal callback function.  Used via _gcry_module_lookup.  */
-static int
-gcry_cipher_lookup_func_oid (void *spec, void *data)
-{
-  gcry_cipher_spec_t *cipher = (gcry_cipher_spec_t *) spec;
-  char *oid = (char *) data;
-  gcry_cipher_oid_spec_t *oid_specs = cipher->oids;
-  int ret = 0, i;
-
-  if (oid_specs)
-    for (i = 0; oid_specs[i].oid && (! ret); i++)
-      if (!_stricmp (oid, oid_specs[i].oid))
-	ret = 1;
-
-  return ret;
-}
-
-/* Internal function.  Lookup a cipher entry by it's name.  */
-static gcry_module_t
-gcry_cipher_lookup_name (const char *name)
-{
-  gcry_module_t cipher;
-
-  cipher = _gcry_module_lookup (ciphers_registered, (void *) name,
-				gcry_cipher_lookup_func_name);
-
-  return cipher;
-}
-
-/* Internal function.  Lookup a cipher entry by it's oid.  */
-static gcry_module_t
-gcry_cipher_lookup_oid (const char *oid)
-{
-  gcry_module_t cipher;
-
-  cipher = _gcry_module_lookup (ciphers_registered, (void *) oid,
-				gcry_cipher_lookup_func_oid);
-
-  return cipher;
-}
-
-/* Register a new cipher module whose specification can be found in
-   CIPHER.  On success, a new algorithm ID is stored in ALGORITHM_ID
-   and a pointer representhing this module is stored in MODULE.  */
-gcry_error_t
-_gcry_cipher_register (gcry_cipher_spec_t *cipher,
-                       cipher_extra_spec_t *extraspec,
-                       int *algorithm_id,
-                       gcry_module_t *module)
-{
-  gcry_err_code_t err = 0;
-  gcry_module_t mod;
-
-  /* We do not support module loading in fips mode.  */
-  if (fips_mode ())
-    return gpg_error (GPG_ERR_NOT_SUPPORTED);
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  err = _gcry_module_add (&ciphers_registered, 0,
-			  (void *)cipher, 
-			  (void *)(extraspec? extraspec : &dummy_extra_spec), 
-                          &mod);
-  ath_mutex_unlock (&ciphers_registered_lock);
-
-  if (! err)
-    {
-      *module = mod;
-      *algorithm_id = mod->mod_id;
-    }
-
-  return gcry_error (err);
-}
-
-/* Unregister the cipher identified by MODULE, which must have been
-   registered with gcry_cipher_register.  */
-void
-gcry_cipher_unregister (gcry_module_t module)
-{
-  ath_mutex_lock (&ciphers_registered_lock);
-  _gcry_module_release (module);
-  ath_mutex_unlock (&ciphers_registered_lock);
-}
-
-/* Locate the OID in the oid table and return the index or -1 when not
-   found.  An opitonal "oid." or "OID." prefix in OID is ignored, the
-   OID is expected to be in standard IETF dotted notation.  The
-   internal algorithm number is returned in ALGORITHM unless it
-   ispassed as NULL.  A pointer to the specification of the module
-   implementing this algorithm is return in OID_SPEC unless passed as
-   NULL.*/
-static int 
-search_oid (const char *oid, int *algorithm, gcry_cipher_oid_spec_t *oid_spec)
-{
-  gcry_module_t module;
-  int ret = 0;
 
   if (oid && ((! strncmp (oid, "oid.", 4))
 	      || (! strncmp (oid, "OID.", 4))))
     oid += 4;
 
-  module = gcry_cipher_lookup_oid (oid);
-  if (module)
+  spec = spec_from_oid (oid);
+  if (spec && spec->oids)
     {
-      gcry_cipher_spec_t *cipher = module->spec;
-      int i;
-
-      for (i = 0; cipher->oids[i].oid && !ret; i++)
-	if (!_stricmp (oid, cipher->oids[i].oid))
+      for (i = 0; spec->oids[i].oid; i++)
+	if (!stricmp (oid, spec->oids[i].oid))
 	  {
-	    if (algorithm)
-	      *algorithm = module->mod_id;
 	    if (oid_spec)
-	      *oid_spec = cipher->oids[i];
-	    ret = 1;
+	      *oid_spec = spec->oids[i];
+            return spec;
 	  }
-      _gcry_module_release (module);
     }
 
-  return ret;
+  return NULL;
 }
+
 
 /* Map STRING to the cipher algorithm identifier.  Returns the
    algorithm ID of the cipher for the given name or 0 if the name is
    not known.  It is valid to pass NULL for STRING which results in a
    return value of 0. */
 int
-gcry_cipher_map_name (const char *string)
+_gcry_cipher_map_name (const char *string)
 {
-  gcry_module_t cipher;
-  int ret, algorithm = 0;
+  gcry_cipher_spec_t *spec;
 
-  if (! string)
+  if (!string)
     return 0;
-
-  REGISTER_DEFAULT_CIPHERS;
 
   /* If the string starts with a digit (optionally prefixed with
      either "OID." or "oid."), we first look into our table of ASN.1
      object identifiers to figure out the algorithm */
 
-  ath_mutex_lock (&ciphers_registered_lock);
+  spec = search_oid (string, NULL);
+  if (spec)
+    return spec->algo;
 
-  ret = search_oid (string, &algorithm, NULL);
-  if (! ret)
-    {
-      cipher = gcry_cipher_lookup_name (string);
-      if (cipher)
-	{
-	  algorithm = cipher->mod_id;
-	  _gcry_module_release (cipher);
-	}
-    }
+  spec = spec_from_name (string);
+  if (spec)
+    return spec->algo;
 
-  ath_mutex_unlock (&ciphers_registered_lock);
-  
-  return algorithm;
+  return 0;
 }
 
 
@@ -494,80 +225,48 @@ gcry_cipher_map_name (const char *string)
    with that OID or 0 if no mode is known.  Passing NULL for string
    yields a return value of 0. */
 int
-gcry_cipher_mode_from_oid (const char *string)
+_gcry_cipher_mode_from_oid (const char *string)
 {
+  gcry_cipher_spec_t *spec;
   gcry_cipher_oid_spec_t oid_spec;
-  int ret = 0, mode = 0;
 
   if (!string)
     return 0;
 
-  ath_mutex_lock (&ciphers_registered_lock);
-  ret = search_oid (string, NULL, &oid_spec);
-  if (ret)
-    mode = oid_spec.mode;
-  ath_mutex_unlock (&ciphers_registered_lock);
+  spec = search_oid (string, &oid_spec);
+  if (spec)
+    return oid_spec.mode;
 
-  return mode;
+  return 0;
 }
 
-
-/* Map the cipher algorithm whose ID is contained in ALGORITHM to a
-   string representation of the algorithm name.  For unknown algorithm
-   IDs this function returns "?".  */
-static const char *
-cipher_algo_to_string (int algorithm)
-{
-  gcry_module_t cipher;
-  const char *name;
-
-  REGISTER_DEFAULT_CIPHERS;
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  cipher = _gcry_module_lookup_id (ciphers_registered, algorithm);
-  if (cipher)
-    {
-      name = ((gcry_cipher_spec_t *) cipher->spec)->name;
-      _gcry_module_release (cipher);
-    }
-  else
-    name = "?";
-  ath_mutex_unlock (&ciphers_registered_lock);
-
-  return name;
-}
 
 /* Map the cipher algorithm identifier ALGORITHM to a string
    representing this algorithm.  This string is the default name as
-   used by Libgcrypt.  An pointer to an empty string is returned for
-   an unknown algorithm.  NULL is never returned. */
+   used by Libgcrypt.  A "?" is returned for an unknown algorithm.
+   NULL is never returned. */
 const char *
-gcry_cipher_algo_name (int algorithm)
+_gcry_cipher_algo_name (int algorithm)
 {
-  return cipher_algo_to_string (algorithm);
+  gcry_cipher_spec_t *spec;
+
+  spec = spec_from_algo (algorithm);
+  return spec? spec->name : "?";
 }
 
 
 /* Flag the cipher algorithm with the identifier ALGORITHM as
    disabled.  There is no error return, the function does nothing for
-   unknown algorithms.  Disabled algorithms are vitually not available
-   in Libgcrypt. */
+   unknown algorithms.  Disabled algorithms are virtually not
+   available in Libgcrypt.  This is not thread safe and should thus be
+   called early. */
 static void
-disable_cipher_algo (int algorithm)
+disable_cipher_algo (int algo)
 {
-  gcry_module_t cipher;
+  gcry_cipher_spec_t *spec = spec_from_algo (algo);
 
-  REGISTER_DEFAULT_CIPHERS;
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  cipher = _gcry_module_lookup_id (ciphers_registered, algorithm);
-  if (cipher)
-    {
-      if (! (cipher->flags & FLAG_MODULE_DISABLED))
-	cipher->flags |= FLAG_MODULE_DISABLED;
-      _gcry_module_release (cipher);
-    }
-  ath_mutex_unlock (&ciphers_registered_lock);
+  if (spec)
+    spec->flags.disabled = 1;
 }
 
 
@@ -577,79 +276,51 @@ disable_cipher_algo (int algorithm)
 static gcry_err_code_t
 check_cipher_algo (int algorithm)
 {
-  gcry_err_code_t err = GPG_ERR_NO_ERROR;
-  gcry_module_t cipher;
+  gcry_cipher_spec_t *spec;
 
-  REGISTER_DEFAULT_CIPHERS;
+  spec = spec_from_algo (algorithm);
+  if (spec && !spec->flags.disabled)
+    return 0;
 
-  ath_mutex_lock (&ciphers_registered_lock);
-  cipher = _gcry_module_lookup_id (ciphers_registered, algorithm);
-  if (cipher)
-    {
-      if (cipher->flags & FLAG_MODULE_DISABLED)
-	err = GPG_ERR_CIPHER_ALGO;
-      _gcry_module_release (cipher);
-    }
-  else
-    err = GPG_ERR_CIPHER_ALGO;
-  ath_mutex_unlock (&ciphers_registered_lock);
-  
-  return err;
+  return GPG_ERR_CIPHER_ALGO;
 }
 
 
-/* Return the standard length of the key for the cipher algorithm with
-   the identifier ALGORITHM.  This function expects a valid algorithm
-   and will abort if the algorithm is not available or the length of
-   the key is not known. */
+/* Return the standard length in bits of the key for the cipher
+   algorithm with the identifier ALGORITHM.  */
 static unsigned int
 cipher_get_keylen (int algorithm)
 {
-  gcry_module_t cipher;
+  gcry_cipher_spec_t *spec;
   unsigned len = 0;
 
-  REGISTER_DEFAULT_CIPHERS;
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  cipher = _gcry_module_lookup_id (ciphers_registered, algorithm);
-  if (cipher)
+  spec = spec_from_algo (algorithm);
+  if (spec)
     {
-      len = ((gcry_cipher_spec_t *) cipher->spec)->keylen;
+      len = spec->keylen;
       if (!len)
 	log_bug ("cipher %d w/o key length\n", algorithm);
-      _gcry_module_release (cipher);
     }
-  else
-    log_bug ("cipher %d not found\n", algorithm);
-  ath_mutex_unlock (&ciphers_registered_lock);
 
   return len;
 }
 
+
 /* Return the block length of the cipher algorithm with the identifier
-   ALGORITHM.  This function expects a valid algorithm and will abort
-   if the algorithm is not available or the length of the key is not
-   known. */
+   ALGORITHM.  This function return 0 for an invalid algorithm.  */
 static unsigned int
 cipher_get_blocksize (int algorithm)
 {
-  gcry_module_t cipher;
+  gcry_cipher_spec_t *spec;
   unsigned len = 0;
 
-  REGISTER_DEFAULT_CIPHERS;
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  cipher = _gcry_module_lookup_id (ciphers_registered, algorithm);
-  if (cipher)
+  spec = spec_from_algo (algorithm);
+  if (spec)
     {
-      len = ((gcry_cipher_spec_t *) cipher->spec)->blocksize;
-      if (! len)
-	  log_bug ("cipher %d w/o blocksize\n", algorithm);
-      _gcry_module_release (cipher);
+      len = spec->blocksize;
+      if (!len)
+        log_bug ("cipher %d w/o blocksize\n", algorithm);
     }
-  else
-    log_bug ("cipher %d not found\n", algorithm);
-  ath_mutex_unlock (&ciphers_registered_lock);
 
   return len;
 }
@@ -669,50 +340,48 @@ cipher_get_blocksize (int algorithm)
 
    Values for these flags may be combined using OR.
  */
-gcry_error_t
-gcry_cipher_open (gcry_cipher_hd_t *handle,
-		  int algo, int mode, unsigned int flags)
+gcry_err_code_t
+_gcry_cipher_open (gcry_cipher_hd_t *handle,
+                   int algo, int mode, unsigned int flags)
+{
+  gcry_err_code_t rc;
+  gcry_cipher_hd_t h = NULL;
+
+  if (mode >= GCRY_CIPHER_MODE_INTERNAL)
+    rc = GPG_ERR_INV_CIPHER_MODE;
+  else
+    rc = _gcry_cipher_open_internal (&h, algo, mode, flags);
+
+  *handle = rc ? NULL : h;
+
+  return rc;
+}
+
+
+gcry_err_code_t
+_gcry_cipher_open_internal (gcry_cipher_hd_t *handle,
+			    int algo, int mode, unsigned int flags)
 {
   int secure = (flags & GCRY_CIPHER_SECURE);
-  gcry_cipher_spec_t *cipher = NULL;
-  cipher_extra_spec_t *extraspec = NULL;
-  gcry_module_t module = NULL;
+  gcry_cipher_spec_t *spec;
   gcry_cipher_hd_t h = NULL;
-  gcry_err_code_t err = 0;
+  gcry_err_code_t err;
 
   /* If the application missed to call the random poll function, we do
      it here to ensure that it is used once in a while. */
   _gcry_fast_random_poll ();
-  
-  REGISTER_DEFAULT_CIPHERS;
 
-  /* Fetch the according module and check wether the cipher is marked
-     available for use.  */
-  ath_mutex_lock (&ciphers_registered_lock);
-  module = _gcry_module_lookup_id (ciphers_registered, algo);
-  if (module)
-    {
-      /* Found module.  */
-
-      if (module->flags & FLAG_MODULE_DISABLED)
-	{
-	  /* Not available for use.  */
-	  err = GPG_ERR_CIPHER_ALGO;
-	  _gcry_module_release (module);
-	}
-      else
-        {
-          cipher = (gcry_cipher_spec_t *) module->spec;
-          extraspec = module->extraspec;
-        }
-    }
-  else
+  spec = spec_from_algo (algo);
+  if (!spec)
     err = GPG_ERR_CIPHER_ALGO;
-  ath_mutex_unlock (&ciphers_registered_lock);
+  else if (spec->flags.disabled)
+    err = GPG_ERR_CIPHER_ALGO;
+  else
+    err = 0;
 
   /* check flags */
   if ((! err)
-      && ((flags & ~(0 
+      && ((flags & ~(0
 		     | GCRY_CIPHER_SECURE
 		     | GCRY_CIPHER_ENABLE_SYNC
 		     | GCRY_CIPHER_CBC_CTS
@@ -724,20 +393,31 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
   if (! err)
     switch (mode)
       {
+      case GCRY_CIPHER_MODE_CCM:
+#ifdef HAVE_U64_TYPEDEF
+	if (spec->blocksize != GCRY_CCM_BLOCK_LEN)
+	  err = GPG_ERR_INV_CIPHER_MODE;
+	if (!spec->encrypt || !spec->decrypt)
+	  err = GPG_ERR_INV_CIPHER_MODE;
+	break;
+#else
+        err = GPG_ERR_NOT_SUPPORTED;
+#endif
+
       case GCRY_CIPHER_MODE_ECB:
       case GCRY_CIPHER_MODE_CBC:
       case GCRY_CIPHER_MODE_CFB:
       case GCRY_CIPHER_MODE_OFB:
       case GCRY_CIPHER_MODE_CTR:
       case GCRY_CIPHER_MODE_AESWRAP:
-	if ((cipher->encrypt == dummy_encrypt_block)
-	    || (cipher->decrypt == dummy_decrypt_block))
+      case GCRY_CIPHER_MODE_CMAC:
+      case GCRY_CIPHER_MODE_GCM:
+	if (!spec->encrypt || !spec->decrypt)
 	  err = GPG_ERR_INV_CIPHER_MODE;
 	break;
 
       case GCRY_CIPHER_MODE_STREAM:
-	if ((cipher->stencrypt == dummy_encrypt_stream)
-	    || (cipher->stdecrypt == dummy_decrypt_stream))
+	if (!spec->stencrypt || !spec->stdecrypt)
 	  err = GPG_ERR_INV_CIPHER_MODE;
 	break;
 
@@ -756,13 +436,12 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
   /* Perform selftest here and mark this with a flag in cipher_table?
      No, we should not do this as it takes too long.  Further it does
      not make sense to exclude algorithms with failing selftests at
-     runtime: If a selftest fails there is something seriously wrong
-     with the system and thus we better die immediately. */
+     runtime: If a selftest fails there is something seriously wrong with the system and thus we better die immediately. */
 
   if (! err)
     {
       size_t size = (sizeof (*h)
-                     + 2 * cipher->contextsize
+                     + 2 * spec->contextsize
                      - sizeof (cipher_context_alignment_t)
 #ifdef NEED_16BYTE_ALIGNED_CONTEXT
                      + 15  /* Space for leading alignment gap.  */
@@ -770,12 +449,12 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
                      );
 
       if (secure)
-	h = gcry_calloc_secure (1, size);
+	h = xtrycalloc_secure (1, size);
       else
-	h = gcry_calloc (1, size);
+	h = xtrycalloc (1, size);
 
       if (! h)
-	err = gpg_err_code_from_errno (errno);
+	err = gpg_err_code_from_syserror ();
       else
 	{
           size_t off = 0;
@@ -793,9 +472,7 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
 	  h->magic = secure ? CTX_MAGIC_SECURE : CTX_MAGIC_NORMAL;
           h->actual_handle_size = size - off;
           h->handle_offset = off;
-	  h->cipher = cipher;
-	  h->extraspec = extraspec;
-	  h->module = module;
+	  h->spec = spec;
           h->algo = algo;
 	  h->mode = mode;
 	  h->flags = flags;
@@ -811,9 +488,50 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
               h->bulk.cfb_dec = _gcry_aes_cfb_dec;
               h->bulk.cbc_enc = _gcry_aes_cbc_enc;
               h->bulk.cbc_dec = _gcry_aes_cbc_dec;
+              h->bulk.ctr_enc = _gcry_aes_ctr_enc;
               break;
 #endif /*USE_AES*/
-              
+#ifdef USE_BLOWFISH
+	    case GCRY_CIPHER_BLOWFISH:
+              h->bulk.cfb_dec = _gcry_blowfish_cfb_dec;
+              h->bulk.cbc_dec = _gcry_blowfish_cbc_dec;
+              h->bulk.ctr_enc = _gcry_blowfish_ctr_enc;
+              break;
+#endif /*USE_BLOWFISH*/
+#ifdef USE_CAST5
+	    case GCRY_CIPHER_CAST5:
+              h->bulk.cfb_dec = _gcry_cast5_cfb_dec;
+              h->bulk.cbc_dec = _gcry_cast5_cbc_dec;
+              h->bulk.ctr_enc = _gcry_cast5_ctr_enc;
+              break;
+#endif /*USE_CAMELLIA*/
+#ifdef USE_CAMELLIA
+	    case GCRY_CIPHER_CAMELLIA128:
+	    case GCRY_CIPHER_CAMELLIA192:
+	    case GCRY_CIPHER_CAMELLIA256:
+              h->bulk.cbc_dec = _gcry_camellia_cbc_dec;
+              h->bulk.cfb_dec = _gcry_camellia_cfb_dec;
+              h->bulk.ctr_enc = _gcry_camellia_ctr_enc;
+              break;
+#endif /*USE_CAMELLIA*/
+#ifdef USE_SERPENT
+	    case GCRY_CIPHER_SERPENT128:
+	    case GCRY_CIPHER_SERPENT192:
+	    case GCRY_CIPHER_SERPENT256:
+              h->bulk.cbc_dec = _gcry_serpent_cbc_dec;
+              h->bulk.cfb_dec = _gcry_serpent_cfb_dec;
+              h->bulk.ctr_enc = _gcry_serpent_ctr_enc;
+              break;
+#endif /*USE_SERPENT*/
+#ifdef USE_TWOFISH
+	    case GCRY_CIPHER_TWOFISH:
+	    case GCRY_CIPHER_TWOFISH128:
+              h->bulk.cbc_dec = _gcry_twofish_cbc_dec;
+              h->bulk.cfb_dec = _gcry_twofish_cfb_dec;
+              h->bulk.ctr_enc = _gcry_twofish_ctr_enc;
+              break;
+#endif /*USE_TWOFISH*/
+
             default:
               break;
             }
@@ -821,17 +539,6 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
     }
 
   /* Done.  */
-
-  if (err)
-    {
-      if (module)
-	{
-	  /* Release module.  */
-	  ath_mutex_lock (&ciphers_registered_lock);
-	  _gcry_module_release (module);
-	  ath_mutex_unlock (&ciphers_registered_lock);
-	}
-    }
 
   *handle = err ? NULL : h;
 
@@ -842,7 +549,7 @@ gcry_cipher_open (gcry_cipher_hd_t *handle,
 /* Release all resources associated with the cipher handle H. H may be
    NULL in which case this is a no-operation. */
 void
-gcry_cipher_close (gcry_cipher_hd_t h)
+_gcry_cipher_close (gcry_cipher_hd_t h)
 {
   size_t off;
 
@@ -856,11 +563,6 @@ gcry_cipher_close (gcry_cipher_hd_t h)
   else
     h->magic = 0;
 
-  /* Release module.  */
-  ath_mutex_lock (&ciphers_registered_lock);
-  _gcry_module_release (h->module);
-  ath_mutex_unlock (&ciphers_registered_lock);
-
   /* We always want to wipe out the memory even when the context has
      been allocated in secure memory.  The user might have disabled
      secure memory or is using his own implementation which does not
@@ -870,56 +572,83 @@ gcry_cipher_close (gcry_cipher_hd_t h)
   off = h->handle_offset;
   wipememory (h, h->actual_handle_size);
 
-  gcry_free ((char*)h - off);
+  xfree ((char*)h - off);
 }
 
 
 /* Set the key to be used for the encryption context C to KEY with
    length KEYLEN.  The length should match the required length. */
-static gcry_error_t
-cipher_setkey (gcry_cipher_hd_t c, byte *key, unsigned int keylen)
+static gcry_err_code_t
+cipher_setkey (gcry_cipher_hd_t c, byte *key, size_t keylen)
 {
-  gcry_err_code_t ret;
+  gcry_err_code_t rc;
 
-  ret = (*c->cipher->setkey) (&c->context.c, key, keylen);
-  if (!ret)
+  rc = c->spec->setkey (&c->context.c, key, keylen);
+  if (!rc)
     {
       /* Duplicate initial context.  */
-      memcpy ((void *) ((char *) &c->context.c + c->cipher->contextsize),
+      memcpy ((void *) ((char *) &c->context.c + c->spec->contextsize),
               (void *) &c->context.c,
-              c->cipher->contextsize);
+              c->spec->contextsize);
       c->marks.key = 1;
+
+      switch (c->mode)
+        {
+        case GCRY_CIPHER_MODE_CMAC:
+          _gcry_cipher_cmac_set_subkeys (c);
+          break;
+
+        case GCRY_CIPHER_MODE_GCM:
+          _gcry_cipher_gcm_setkey (c);
+          break;
+
+        default:
+          break;
+        };
     }
   else
     c->marks.key = 0;
 
-  return gcry_error (ret);
+  return rc;
 }
 
 
 /* Set the IV to be used for the encryption context C to IV with
    length IVLEN.  The length should match the required length. */
-static void
-cipher_setiv( gcry_cipher_hd_t c, const byte *iv, unsigned ivlen )
+static gcry_err_code_t
+cipher_setiv (gcry_cipher_hd_t c, const byte *iv, size_t ivlen)
 {
-  memset (c->u_iv.iv, 0, c->cipher->blocksize);
-  if (iv) 
+  /* GCM has its own IV handler */
+  if (c->mode == GCRY_CIPHER_MODE_GCM)
+    return _gcry_cipher_gcm_setiv (c, iv, ivlen);
+
+  /* If the cipher has its own IV handler, we use only this one.  This
+     is currently used for stream ciphers requiring a nonce.  */
+  if (c->spec->setiv)
     {
-      if (ivlen != c->cipher->blocksize)
+      c->spec->setiv (&c->context.c, iv, ivlen);
+      return 0;
+    }
+
+  memset (c->u_iv.iv, 0, c->spec->blocksize);
+  if (iv)
+    {
+      if (ivlen != c->spec->blocksize)
         {
           log_info ("WARNING: cipher_setiv: ivlen=%u blklen=%u\n",
-                    ivlen, (unsigned int)c->cipher->blocksize);
+                    (unsigned int)ivlen, (unsigned int)c->spec->blocksize);
           fips_signal_error ("IV length does not match blocklength");
         }
-      if (ivlen > c->cipher->blocksize)
-        ivlen = c->cipher->blocksize;
+      if (ivlen > c->spec->blocksize)
+        ivlen = c->spec->blocksize;
       memcpy (c->u_iv.iv, iv, ivlen);
       c->marks.iv = 1;
     }
   else
-    c->marks.iv = 0;
-
+      c->marks.iv = 0;
   c->unused = 0;
+
+  return 0;
 }
 
 
@@ -928,705 +657,178 @@ cipher_setiv( gcry_cipher_hd_t c, const byte *iv, unsigned ivlen )
 static void
 cipher_reset (gcry_cipher_hd_t c)
 {
+  unsigned int marks_key;
+
+  marks_key = c->marks.key;
+
   memcpy (&c->context.c,
-	  (char *) &c->context.c + c->cipher->contextsize,
-	  c->cipher->contextsize);
+	  (char *) &c->context.c + c->spec->contextsize,
+	  c->spec->contextsize);
   memset (&c->marks, 0, sizeof c->marks);
-  memset (c->u_iv.iv, 0, c->cipher->blocksize);
-  memset (c->lastiv, 0, c->cipher->blocksize);
-  memset (c->ctr, 0, c->cipher->blocksize);
+  memset (c->u_iv.iv, 0, c->spec->blocksize);
+  memset (c->lastiv, 0, c->spec->blocksize);
+  memset (c->u_ctr.ctr, 0, c->spec->blocksize);
+  c->unused = 0;
+
+  c->marks.key = marks_key;
+
+  switch (c->mode)
+    {
+    case GCRY_CIPHER_MODE_CMAC:
+      /* Only clear 'tag' for cmac, keep subkeys. */
+      c->u_mode.cmac.tag = 0;
+      break;
+
+    case GCRY_CIPHER_MODE_GCM:
+      /* Only clear head of u_mode, keep ghash_key and gcm_table. */
+      {
+        byte *u_mode_pos = (void *)&c->u_mode;
+        byte *ghash_key_pos = c->u_mode.gcm.u_ghash_key.key;
+        size_t u_mode_head_length = ghash_key_pos - u_mode_pos;
+
+        memset (&c->u_mode, 0, u_mode_head_length);
+      }
+      break;
+
+#ifdef HAVE_U64_TYPEDEF
+    case GCRY_CIPHER_MODE_CCM:
+      memset (&c->u_mode.ccm, 0, sizeof c->u_mode.ccm);
+      break;
+#endif
+
+    default:
+      break; /* u_mode unused by other modes. */
+    }
 }
 
 
-static void
-do_ecb_encrypt( gcry_cipher_hd_t c, byte *outbuf, const byte *inbuf,
-                unsigned int nblocks )
+
+static gcry_err_code_t
+do_ecb_crypt (gcry_cipher_hd_t c,
+              unsigned char *outbuf, size_t outbuflen,
+              const unsigned char *inbuf, size_t inbuflen,
+              gcry_cipher_encrypt_t crypt_fn)
 {
-  unsigned int n;
-  
+  unsigned int blocksize = c->spec->blocksize;
+  size_t n, nblocks;
+  unsigned int burn, nburn;
+
+  if (outbuflen < inbuflen)
+    return GPG_ERR_BUFFER_TOO_SHORT;
+  if ((inbuflen % blocksize))
+    return GPG_ERR_INV_LENGTH;
+
+  nblocks = inbuflen / blocksize;
+  burn = 0;
+
   for (n=0; n < nblocks; n++ )
     {
-      c->cipher->encrypt ( &c->context.c, outbuf, (byte*)/*arggg*/inbuf );
-      inbuf  += c->cipher->blocksize;
-      outbuf += c->cipher->blocksize;
-    }
-}
-
-static void
-do_ecb_decrypt( gcry_cipher_hd_t c, byte *outbuf, const byte *inbuf,
-                unsigned int nblocks )
-{
-  unsigned int n;
-
-  for (n=0; n < nblocks; n++ ) 
-    {
-      c->cipher->decrypt ( &c->context.c, outbuf, (byte*)/*arggg*/inbuf );
-      inbuf  += c->cipher->blocksize;
-      outbuf += c->cipher->blocksize;
-    }
-}
-
-
-static void
-do_cbc_encrypt (gcry_cipher_hd_t c, unsigned char *outbuf, 
-                const unsigned char *inbuf, unsigned int nbytes )
-{
-  unsigned int n;
-  unsigned char *ivp;
-  int i;
-  size_t blocksize = c->cipher->blocksize;
-  unsigned nblocks = nbytes / blocksize;
-
-  if ((c->flags & GCRY_CIPHER_CBC_CTS) && nbytes > blocksize) 
-    {
-      if ((nbytes % blocksize) == 0)
-	nblocks--;
+      nburn = crypt_fn (&c->context.c, outbuf, inbuf);
+      burn = nburn > burn ? nburn : burn;
+      inbuf  += blocksize;
+      outbuf += blocksize;
     }
 
-  if (c->bulk.cbc_enc)
-    {
-      c->bulk.cbc_enc (&c->context.c, c->u_iv.iv, outbuf, inbuf, nblocks,
-                       (c->flags & GCRY_CIPHER_CBC_MAC)); 
-      inbuf  += nblocks * blocksize;
-      if (!(c->flags & GCRY_CIPHER_CBC_MAC))
-        outbuf += nblocks * blocksize;
-    }
-  else
-    {
-      for (n=0; n < nblocks; n++ )
-        {
-          for (ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-            outbuf[i] = inbuf[i] ^ *ivp++;
-          c->cipher->encrypt ( &c->context.c, outbuf, outbuf );
-          memcpy (c->u_iv.iv, outbuf, blocksize );
-          inbuf  += blocksize;
-          if (!(c->flags & GCRY_CIPHER_CBC_MAC))
-            outbuf += blocksize;
-        }
-    }
+  if (burn > 0)
+    _gcry_burn_stack (burn + 4 * sizeof(void *));
 
-  if ((c->flags & GCRY_CIPHER_CBC_CTS) && nbytes > blocksize)
-    {
-      /* We have to be careful here, since outbuf might be equal to
-         inbuf.  */
-      int restbytes;
-      unsigned char b;
-
-      if ((nbytes % blocksize) == 0)
-        restbytes = blocksize;
-      else
-        restbytes = nbytes % blocksize;
-
-      outbuf -= blocksize;
-      for (ivp = c->u_iv.iv, i = 0; i < restbytes; i++)
-        {
-          b = inbuf[i];
-          outbuf[blocksize + i] = outbuf[i];
-          outbuf[i] = b ^ *ivp++;
-        }
-      for (; i < blocksize; i++)
-        outbuf[i] = 0 ^ *ivp++;
-      
-      c->cipher->encrypt (&c->context.c, outbuf, outbuf);
-      memcpy (c->u_iv.iv, outbuf, blocksize);
-    }
-}
-
-
-static void
-do_cbc_decrypt (gcry_cipher_hd_t c, unsigned char *outbuf, 
-                const unsigned char *inbuf, unsigned int nbytes)
-{
-  unsigned int n;
-  unsigned char *ivp;
-  int i;
-  size_t blocksize = c->cipher->blocksize;
-  unsigned int nblocks = nbytes / blocksize;
-
-  if ((c->flags & GCRY_CIPHER_CBC_CTS) && nbytes > blocksize)
-    {
-      nblocks--;
-      if ((nbytes % blocksize) == 0)
-	nblocks--;
-      memcpy (c->lastiv, c->u_iv.iv, blocksize);
-    }
-
-  if (c->bulk.cbc_dec)
-    {
-      c->bulk.cbc_dec (&c->context.c, c->u_iv.iv, outbuf, inbuf, nblocks); 
-      inbuf  += nblocks * blocksize;
-      outbuf += nblocks * blocksize;
-    }
-  else
-    {
-      for (n=0; n < nblocks; n++ ) 
-        {
-          /* Because outbuf and inbuf might be the same, we have to
-           * save the original ciphertext block.  We use LASTIV for
-           * this here because it is not used otherwise. */
-          memcpy (c->lastiv, inbuf, blocksize);
-          c->cipher->decrypt ( &c->context.c, outbuf, inbuf );
-          for (ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-	    outbuf[i] ^= *ivp++;
-          memcpy(c->u_iv.iv, c->lastiv, blocksize );
-          inbuf  += c->cipher->blocksize;
-          outbuf += c->cipher->blocksize;
-        }
-    }
-
-  if ((c->flags & GCRY_CIPHER_CBC_CTS) && nbytes > blocksize) 
-    {
-      int restbytes;
-      
-      if ((nbytes % blocksize) == 0)
-        restbytes = blocksize;
-      else
-        restbytes = nbytes % blocksize;
-      
-      memcpy (c->lastiv, c->u_iv.iv, blocksize );         /* Save Cn-2. */
-      memcpy (c->u_iv.iv, inbuf + blocksize, restbytes ); /* Save Cn. */
-
-      c->cipher->decrypt ( &c->context.c, outbuf, inbuf );
-      for (ivp=c->u_iv.iv,i=0; i < restbytes; i++ )
-        outbuf[i] ^= *ivp++;
-      
-      memcpy(outbuf + blocksize, outbuf, restbytes);
-      for(i=restbytes; i < blocksize; i++)
-        c->u_iv.iv[i] = outbuf[i];
-      c->cipher->decrypt (&c->context.c, outbuf, c->u_iv.iv);
-      for(ivp=c->lastiv,i=0; i < blocksize; i++ )
-        outbuf[i] ^= *ivp++;
-      /* c->lastiv is now really lastlastiv, does this matter? */
-    }
-}
-
-
-static void
-do_cfb_encrypt( gcry_cipher_hd_t c, unsigned char *outbuf, 
-                const unsigned char *inbuf, unsigned int nbytes )
-{
-  unsigned char *ivp;
-  size_t blocksize = c->cipher->blocksize;
-  size_t blocksize_x_2 = blocksize + blocksize;
-  
-  if ( nbytes <= c->unused )
-    {
-      /* Short enough to be encoded by the remaining XOR mask. */
-      /* XOR the input with the IV and store input into IV. */
-      for (ivp=c->u_iv.iv+c->cipher->blocksize - c->unused;
-           nbytes;
-           nbytes--, c->unused-- )
-        *outbuf++ = (*ivp++ ^= *inbuf++);
-      return;
-    }
-
-  if ( c->unused )
-    {
-      /* XOR the input with the IV and store input into IV */
-      nbytes -= c->unused;
-      for(ivp=c->u_iv.iv+blocksize - c->unused; c->unused; c->unused-- )
-        *outbuf++ = (*ivp++ ^= *inbuf++);
-    }
-
-  /* Now we can process complete blocks.  We use a loop as long as we
-     have at least 2 blocks and use conditions for the rest.  This
-     also allows to use a bulk encryption function if available.  */
-  if (nbytes >= blocksize_x_2 && c->bulk.cfb_enc)
-    {
-      unsigned int nblocks = nbytes / blocksize;
-      c->bulk.cfb_enc (&c->context.c, c->u_iv.iv, outbuf, inbuf, nblocks); 
-      outbuf += nblocks * blocksize;
-      inbuf  += nblocks * blocksize;
-      nbytes -= nblocks * blocksize;
-    }
-  else
-    {
-      while ( nbytes >= blocksize_x_2 )
-        {
-          int i;
-          /* Encrypt the IV. */
-          c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-          /* XOR the input with the IV and store input into IV.  */
-          for(ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-            *outbuf++ = (*ivp++ ^= *inbuf++);
-          nbytes -= blocksize;
-        }
-    }
-
-  if ( nbytes >= blocksize )
-    {
-      int i;
-      /* Save the current IV and then encrypt the IV. */
-      memcpy( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      /* XOR the input with the IV and store input into IV */
-      for(ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-        *outbuf++ = (*ivp++ ^= *inbuf++);
-      nbytes -= blocksize;
-    }
-  if ( nbytes ) 
-    {
-      /* Save the current IV and then encrypt the IV. */
-      memcpy( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      c->unused = blocksize;
-      /* Apply the XOR. */
-      c->unused -= nbytes;
-      for(ivp=c->u_iv.iv; nbytes; nbytes-- )
-        *outbuf++ = (*ivp++ ^= *inbuf++);
-    }
-}
-
-
-static void
-do_cfb_decrypt( gcry_cipher_hd_t c, unsigned char *outbuf, 
-                const unsigned char *inbuf, unsigned int nbytes )
-{
-  unsigned char *ivp;
-  unsigned long temp;
-  int i;
-  size_t blocksize = c->cipher->blocksize;
-  size_t blocksize_x_2 = blocksize + blocksize;
-  
-  if (nbytes <= c->unused)
-    {
-      /* Short enough to be encoded by the remaining XOR mask. */
-      /* XOR the input with the IV and store input into IV. */
-      for (ivp=c->u_iv.iv+blocksize - c->unused;
-           nbytes; 
-           nbytes--, c->unused--)
-        {
-          temp = *inbuf++;
-          *outbuf++ = *ivp ^ temp;
-          *ivp++ = temp;
-        }
-      return;
-    }
-  
-  if (c->unused)
-    {
-      /* XOR the input with the IV and store input into IV. */
-      nbytes -= c->unused;
-      for (ivp=c->u_iv.iv+blocksize - c->unused; c->unused; c->unused-- )
-        {
-          temp = *inbuf++;
-          *outbuf++ = *ivp ^ temp;
-          *ivp++ = temp;
-        }
-    }
-  
-  /* Now we can process complete blocks.  We use a loop as long as we
-     have at least 2 blocks and use conditions for the rest.  This
-     also allows to use a bulk encryption function if available.  */
-  if (nbytes >= blocksize_x_2 && c->bulk.cfb_dec)
-    {
-      unsigned int nblocks = nbytes / blocksize;
-      c->bulk.cfb_dec (&c->context.c, c->u_iv.iv, outbuf, inbuf, nblocks); 
-      outbuf += nblocks * blocksize;
-      inbuf  += nblocks * blocksize;
-      nbytes -= nblocks * blocksize;
-    }
-  else
-    {
-      while (nbytes >= blocksize_x_2 )
-        {
-          /* Encrypt the IV. */
-          c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-          /* XOR the input with the IV and store input into IV. */
-          for (ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-            {
-              temp = *inbuf++;
-              *outbuf++ = *ivp ^ temp;
-              *ivp++ = temp;
-            }
-          nbytes -= blocksize;
-        }
-    }
-
-  if (nbytes >= blocksize )
-    {
-      /* Save the current IV and then encrypt the IV. */
-      memcpy ( c->lastiv, c->u_iv.iv, blocksize);
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      /* XOR the input with the IV and store input into IV */
-      for (ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-        {
-          temp = *inbuf++;
-          *outbuf++ = *ivp ^ temp;
-          *ivp++ = temp;
-        }
-      nbytes -= blocksize;
-    }
-
-  if (nbytes)
-    { 
-      /* Save the current IV and then encrypt the IV. */
-      memcpy ( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      c->unused = blocksize;
-      /* Apply the XOR. */
-      c->unused -= nbytes;
-      for (ivp=c->u_iv.iv; nbytes; nbytes-- )
-        {
-          temp = *inbuf++;
-          *outbuf++ = *ivp ^ temp;
-          *ivp++ = temp;
-        }
-    }
-}
-
-
-static void
-do_ofb_encrypt( gcry_cipher_hd_t c,
-                byte *outbuf, const byte *inbuf, unsigned nbytes )
-{
-  byte *ivp;
-  size_t blocksize = c->cipher->blocksize;
-
-  if ( nbytes <= c->unused )
-    {
-      /* Short enough to be encoded by the remaining XOR mask. */
-      /* XOR the input with the IV */
-      for (ivp=c->u_iv.iv+c->cipher->blocksize - c->unused;
-           nbytes;
-           nbytes--, c->unused-- )
-        *outbuf++ = (*ivp++ ^ *inbuf++);
-      return;
-    }
-
-  if( c->unused )
-    {
-      nbytes -= c->unused;
-      for(ivp=c->u_iv.iv+blocksize - c->unused; c->unused; c->unused-- )
-        *outbuf++ = (*ivp++ ^ *inbuf++);
-    }
-
-  /* Now we can process complete blocks. */
-  while ( nbytes >= blocksize )
-    {
-      int i;
-      /* Encrypt the IV (and save the current one). */
-      memcpy( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      
-      for (ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-        *outbuf++ = (*ivp++ ^ *inbuf++);
-      nbytes -= blocksize;
-    }
-  if ( nbytes )
-    { /* process the remaining bytes */
-      memcpy( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      c->unused = blocksize;
-      c->unused -= nbytes;
-      for(ivp=c->u_iv.iv; nbytes; nbytes-- )
-        *outbuf++ = (*ivp++ ^ *inbuf++);
-    }
-}
-
-static void
-do_ofb_decrypt( gcry_cipher_hd_t c,
-                byte *outbuf, const byte *inbuf, unsigned int nbytes )
-{
-  byte *ivp;
-  size_t blocksize = c->cipher->blocksize;
-  
-  if( nbytes <= c->unused )
-    {
-      /* Short enough to be encoded by the remaining XOR mask. */
-      for (ivp=c->u_iv.iv+blocksize - c->unused; nbytes; nbytes--,c->unused--)
-        *outbuf++ = *ivp++ ^ *inbuf++;
-      return;
-    }
-
-  if ( c->unused )
-    {
-      nbytes -= c->unused;
-      for (ivp=c->u_iv.iv+blocksize - c->unused; c->unused; c->unused-- )
-        *outbuf++ = *ivp++ ^ *inbuf++;
-    }
-
-  /* Now we can process complete blocks. */
-  while ( nbytes >= blocksize )
-    {
-      int i;
-      /* Encrypt the IV (and save the current one). */
-      memcpy( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      for (ivp=c->u_iv.iv,i=0; i < blocksize; i++ )
-        *outbuf++ = *ivp++ ^ *inbuf++;
-      nbytes -= blocksize;
-    }
-  if ( nbytes ) 
-    { /* Process the remaining bytes. */
-      /* Encrypt the IV (and save the current one). */
-      memcpy( c->lastiv, c->u_iv.iv, blocksize );
-      c->cipher->encrypt ( &c->context.c, c->u_iv.iv, c->u_iv.iv );
-      c->unused = blocksize;
-      c->unused -= nbytes;
-      for (ivp=c->u_iv.iv; nbytes; nbytes-- )
-        *outbuf++ = *ivp++ ^ *inbuf++;
-    }
-}
-
-
-static void
-do_ctr_encrypt( gcry_cipher_hd_t c, byte *outbuf, const byte *inbuf,
-                unsigned int nbytes )
-{
-  unsigned int n;
-  byte tmp[MAX_BLOCKSIZE];
-  int i;
-
-  for(n=0; n < nbytes; n++)
-    {
-      if ((n % c->cipher->blocksize) == 0)
-	{
-	  c->cipher->encrypt (&c->context.c, tmp, c->ctr);
-
-	  for (i = c->cipher->blocksize; i > 0; i--)
-	    {
-	      c->ctr[i-1]++;
-	      if (c->ctr[i-1] != 0)
-		break;
-	    }
-	}
-
-      /* XOR input with encrypted counter and store in output. */
-      outbuf[n] = inbuf[n] ^ tmp[n % c->cipher->blocksize];
-    }
-}
-
-static void
-do_ctr_decrypt( gcry_cipher_hd_t c, byte *outbuf, const byte *inbuf,
-                unsigned int nbytes )
-{
-  do_ctr_encrypt (c, outbuf, inbuf, nbytes);
-}
-
-
-/* Perform the AES-Wrap algorithm as specified by RFC3394.  We
-   implement this as a mode usable with any cipher algorithm of
-   blocksize 128.  */
-static gcry_err_code_t
-do_aeswrap_encrypt (gcry_cipher_hd_t c, byte *outbuf, unsigned int outbuflen,
-                    const byte *inbuf, unsigned int inbuflen )
-{
-  int j, x;
-  unsigned int n, i;
-  unsigned char *r, *a, *b;
-  unsigned char t[8];
-
-#if MAX_BLOCKSIZE < 8
-#error Invalid block size
-#endif
-  /* We require a cipher with a 128 bit block length.  */
-  if (c->cipher->blocksize != 16)
-    return GPG_ERR_INV_LENGTH;  
-  
-  /* The output buffer must be able to hold the input data plus one
-     additional block.  */
-  if (outbuflen < inbuflen + 8)
-    return GPG_ERR_BUFFER_TOO_SHORT;
-  /* Input data must be multiple of 64 bits.  */
-  if (inbuflen % 8)
-    return GPG_ERR_INV_ARG;   
-
-  n = inbuflen / 8;
-
-  /* We need at least two 64 bit blocks.  */
-  if (n < 2)
-    return GPG_ERR_INV_ARG;
-
-  r = outbuf; 
-  a = outbuf;  /* We store A directly in OUTBUF.  */
-  b = c->ctr;  /* B is also used to concatenate stuff.  */
-
-  /* If an IV has been set we use that IV as the Alternative Initial
-     Value; if it has not been set we use the standard value.  */
-  if (c->marks.iv)
-    memcpy (a, c->u_iv.iv, 8);
-  else
-    memset (a, 0xa6, 8);
-
-  /* Copy the inbuf to the outbuf. */
-  memmove (r+8, inbuf, inbuflen);
-
-  memset (t, 0, sizeof t); /* t := 0.  */
-
-  for (j = 0; j <= 5; j++)
-    {
-      for (i = 1; i <= n; i++)
-        {
-          /* B := AES_k( A | R[i] ) */
-          memcpy (b, a, 8);
-          memcpy (b+8, r+i*8, 8);
-          c->cipher->encrypt (&c->context.c, b, b);
-          /* t := t + 1  */
-	  for (x = 7; x >= 0; x--)
-	    {
-	      t[x]++;
-	      if (t[x])
-		break;
-	    }
-          /* A := MSB_64(B) ^ t */
-          for (x=0; x < 8; x++)
-            a[x] = b[x] ^ t[x];
-          /* R[i] := LSB_64(B) */
-          memcpy (r+i*8, b+8, 8);
-        }
-   }
-  
   return 0;
 }
 
-/* Perform the AES-Unwrap algorithm as specified by RFC3394.  We
-   implement this as a mode usable with any cipher algorithm of
-   blocksize 128.  */
 static gcry_err_code_t
-do_aeswrap_decrypt (gcry_cipher_hd_t c, byte *outbuf, unsigned int outbuflen,
-                    const byte *inbuf, unsigned int inbuflen)
+do_ecb_encrypt (gcry_cipher_hd_t c,
+                unsigned char *outbuf, size_t outbuflen,
+                const unsigned char *inbuf, size_t inbuflen)
 {
-  int j, x;
-  unsigned int n, i;
-  unsigned char *r, *a, *b;
-  unsigned char t[8];
+  return do_ecb_crypt (c, outbuf, outbuflen, inbuf, inbuflen, c->spec->encrypt);
+}
 
-#if MAX_BLOCKSIZE < 8
-#error Invalid block size
-#endif
-  /* We require a cipher with a 128 bit block length.  */
-  if (c->cipher->blocksize != 16)
-    return GPG_ERR_INV_LENGTH;  
-  
-  /* The output buffer must be able to hold the input data minus one
-     additional block.  Fixme: The caller has more restrictive checks
-     - we may want to fix them for this mode.  */
-  if (outbuflen + 8  < inbuflen)
-    return GPG_ERR_BUFFER_TOO_SHORT;
-  /* Input data must be multiple of 64 bits.  */
-  if (inbuflen % 8)
-    return GPG_ERR_INV_ARG;   
-
-  n = inbuflen / 8;
-
-  /* We need at least three 64 bit blocks.  */
-  if (n < 3)
-    return GPG_ERR_INV_ARG;
-
-  r = outbuf; 
-  a = c->lastiv;  /* We use c->LASTIV as buffer for A.  */
-  b = c->ctr;     /* B is also used to concatenate stuff.  */
-
-  /* Copy the inbuf to the outbuf and save A. */
-  memcpy (a, inbuf, 8);
-  memmove (r, inbuf+8, inbuflen-8);
-  n--; /* Reduce to actual number of data blocks.  */
-
-  /* t := 6 * n  */
-  i = n * 6;  /* The range is valid because: n = inbuflen / 8 - 1.  */
-  for (x=0; x < 8 && x < sizeof (i); x++)
-    t[7-x] = i >> (8*x);
-  for (; x < 8; x++)
-    t[7-x] = 0;
-
-  for (j = 5; j >= 0; j--)
-    {
-      for (i = n; i >= 1; i--)
-        {
-          /* B := AES_k^1( (A ^ t)| R[i] ) */
-          for (x = 0; x < 8; x++)
-            b[x] = a[x] ^ t[x];
-          memcpy (b+8, r+(i-1)*8, 8);
-          c->cipher->decrypt (&c->context.c, b, b);
-          /* t := t - 1  */
-	  for (x = 7; x >= 0; x--)
-	    {
-	      t[x]--;
-	      if (t[x] != 0xff)
-		break;
-	    }
-          /* A := MSB_64(B) */
-          memcpy (a, b, 8);
-          /* R[i] := LSB_64(B) */
-          memcpy (r+(i-1)*8, b+8, 8);
-        }
-   }
-
-  /* If an IV has been set we compare against this Alternative Initial
-     Value; if it has not been set we compare against the standard IV.  */
-  if (c->marks.iv)
-    j = memcmp (a, c->u_iv.iv, 8);
-  else
-    {
-      for (j=0, x=0; x < 8; x++)
-        if (a[x] != 0xa6)
-          {
-            j=1;
-            break;
-          }
-    }
-  return j? GPG_ERR_CHECKSUM : 0;
+static gcry_err_code_t
+do_ecb_decrypt (gcry_cipher_hd_t c,
+                unsigned char *outbuf, size_t outbuflen,
+                const unsigned char *inbuf, size_t inbuflen)
+{
+  return do_ecb_crypt (c, outbuf, outbuflen, inbuf, inbuflen, c->spec->decrypt);
 }
 
 
 /****************
  * Encrypt INBUF to OUTBUF with the mode selected at open.
  * inbuf and outbuf may overlap or be the same.
- * Depending on the mode some contraints apply to NBYTES.
+ * Depending on the mode some constraints apply to INBUFLEN.
  */
 static gcry_err_code_t
-cipher_encrypt (gcry_cipher_hd_t c, byte *outbuf,
-		const byte *inbuf, unsigned int nbytes)
+cipher_encrypt (gcry_cipher_hd_t c, byte *outbuf, size_t outbuflen,
+		const byte *inbuf, size_t inbuflen)
 {
-    gcry_err_code_t rc = GPG_ERR_NO_ERROR;
+  gcry_err_code_t rc;
 
-    switch( c->mode ) {
-      case GCRY_CIPHER_MODE_ECB:
-	if (!(nbytes%c->cipher->blocksize))
-            do_ecb_encrypt(c, outbuf, inbuf, nbytes/c->cipher->blocksize );
-        else 
-            rc = GPG_ERR_INV_ARG;
-	break;
-      case GCRY_CIPHER_MODE_CBC:
-	if (!(nbytes%c->cipher->blocksize)
-            || (nbytes > c->cipher->blocksize
-                && (c->flags & GCRY_CIPHER_CBC_CTS)))
-            do_cbc_encrypt(c, outbuf, inbuf, nbytes );
-        else 
-            rc = GPG_ERR_INV_ARG;
-	break;
-      case GCRY_CIPHER_MODE_CFB:
-	do_cfb_encrypt(c, outbuf, inbuf, nbytes );
-	break;
-      case GCRY_CIPHER_MODE_OFB:
-	do_ofb_encrypt(c, outbuf, inbuf, nbytes );
-	break;
-      case GCRY_CIPHER_MODE_CTR:
-	do_ctr_encrypt(c, outbuf, inbuf, nbytes );
-	break;
-      case GCRY_CIPHER_MODE_STREAM:
-        c->cipher->stencrypt ( &c->context.c,
-                               outbuf, (byte*)/*arggg*/inbuf, nbytes );
-        break;
-      case GCRY_CIPHER_MODE_NONE:
-       	if (fips_mode () || !_gcry_get_debug_flag (0))
-          {
-            fips_signal_error ("cipher mode NONE used");
-            rc = GPG_ERR_INV_CIPHER_MODE;
-          }
-        else
-          {
-            if ( inbuf != outbuf )
-              memmove (outbuf, inbuf, nbytes);
-          }
-	break;
-      default:
-        log_fatal("cipher_encrypt: invalid mode %d\n", c->mode );
-        rc = GPG_ERR_INV_CIPHER_MODE;
-        break;
+  switch (c->mode)
+    {
+    case GCRY_CIPHER_MODE_ECB:
+      rc = do_ecb_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CBC:
+      rc = _gcry_cipher_cbc_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CFB:
+      rc = _gcry_cipher_cfb_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_OFB:
+      rc = _gcry_cipher_ofb_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CTR:
+      rc = _gcry_cipher_ctr_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_AESWRAP:
+      rc = _gcry_cipher_aeswrap_encrypt (c, outbuf, outbuflen,
+                                         inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CCM:
+      rc = _gcry_cipher_ccm_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CMAC:
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
+
+    case GCRY_CIPHER_MODE_GCM:
+      rc = _gcry_cipher_gcm_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_STREAM:
+      c->spec->stencrypt (&c->context.c,
+                          outbuf, (byte*)/*arggg*/inbuf, inbuflen);
+      rc = 0;
+      break;
+
+    case GCRY_CIPHER_MODE_NONE:
+      if (fips_mode () || !_gcry_get_debug_flag (0))
+        {
+          fips_signal_error ("cipher mode NONE used");
+          rc = GPG_ERR_INV_CIPHER_MODE;
+        }
+      else
+        {
+          if (inbuf != outbuf)
+            memmove (outbuf, inbuf, inbuflen);
+          rc = 0;
+        }
+      break;
+
+    default:
+      log_fatal ("cipher_encrypt: invalid mode %d\n", c->mode );
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
     }
-    return rc;
+
+  return rc;
 }
 
 
@@ -1634,48 +836,26 @@ cipher_encrypt (gcry_cipher_hd_t c, byte *outbuf,
  * Encrypt IN and write it to OUT.  If IN is NULL, in-place encryption has
  * been requested.
  */
-gcry_error_t
-gcry_cipher_encrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
-                     const void *in, size_t inlen)
+gcry_err_code_t
+_gcry_cipher_encrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
+                      const void *in, size_t inlen)
 {
-  gcry_err_code_t err;
+  gcry_err_code_t rc;
 
-  if (h->mode == GCRY_CIPHER_MODE_AESWRAP)
+  if (!in)  /* Caller requested in-place encryption.  */
     {
-      /* Hack to implement AESWRAP without touching the other modes.
-         The actual function has been taken from the current
-         development version which does all error checking in each
-         mode function.  */
-      if (!in)
-        err = do_aeswrap_encrypt (h, out, outsize, out, outsize);
-      else
-        err = do_aeswrap_encrypt (h, out, outsize, in, inlen);
+      in = out;
+      inlen = outsize;
     }
-  else if (!in)
-    {
-      /* Caller requested in-place encryption. */
-      /* Actually cipher_encrypt() does not need to know about it, but
-       * we may change it in the future to get better performance.  */
-      err = cipher_encrypt (h, out, out, outsize);
-    }
-  else if (outsize < ((h->flags & GCRY_CIPHER_CBC_MAC) ?
-                      h->cipher->blocksize : inlen))
-    err = GPG_ERR_TOO_SHORT;
-  else if ((h->mode == GCRY_CIPHER_MODE_ECB
-	    || (h->mode == GCRY_CIPHER_MODE_CBC
-		&& (! ((h->flags & GCRY_CIPHER_CBC_CTS)
-		       && (inlen > h->cipher->blocksize)))))
-	   && (inlen % h->cipher->blocksize))
-    err = GPG_ERR_INV_ARG;
-  else
-    err = cipher_encrypt (h, out, in, inlen);
 
-  if (err && out)
-    memset (out, 0x42, outsize); /* Failsafe: Make sure that the
-                                    plaintext will never make it into
-                                    OUT. */
+  rc = cipher_encrypt (h, out, outsize, in, inlen);
 
-  return gcry_error (err);
+  /* Failsafe: Make sure that the plaintext will never make it into
+     OUT if the encryption returned an error.  */
+  if (rc && out)
+    memset (out, 0x42, outsize);
+
+  return rc;
 }
 
 
@@ -1683,99 +863,94 @@ gcry_cipher_encrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
 /****************
  * Decrypt INBUF to OUTBUF with the mode selected at open.
  * inbuf and outbuf may overlap or be the same.
- * Depending on the mode some some contraints apply to NBYTES.
+ * Depending on the mode some some contraints apply to INBUFLEN.
  */
 static gcry_err_code_t
-cipher_decrypt (gcry_cipher_hd_t c, byte *outbuf, const byte *inbuf,
-		unsigned int nbytes)
+cipher_decrypt (gcry_cipher_hd_t c, byte *outbuf, size_t outbuflen,
+                const byte *inbuf, size_t inbuflen)
 {
-    gcry_err_code_t rc = GPG_ERR_NO_ERROR;
+  gcry_err_code_t rc;
 
-    switch( c->mode ) {
-      case GCRY_CIPHER_MODE_ECB:
-	if (!(nbytes%c->cipher->blocksize))
-            do_ecb_decrypt(c, outbuf, inbuf, nbytes/c->cipher->blocksize );
-        else 
-            rc = GPG_ERR_INV_ARG;
-	break;
-      case GCRY_CIPHER_MODE_CBC:
-	if (!(nbytes%c->cipher->blocksize)
-            || (nbytes > c->cipher->blocksize
-                && (c->flags & GCRY_CIPHER_CBC_CTS)))
-            do_cbc_decrypt(c, outbuf, inbuf, nbytes );
-        else 
-            rc = GPG_ERR_INV_ARG;
-	break;
-      case GCRY_CIPHER_MODE_CFB:
-	do_cfb_decrypt(c, outbuf, inbuf, nbytes );
-	break;
-      case GCRY_CIPHER_MODE_OFB:
-	do_ofb_decrypt(c, outbuf, inbuf, nbytes );
-	break;
-      case GCRY_CIPHER_MODE_CTR:
-	do_ctr_decrypt(c, outbuf, inbuf, nbytes );
-	break;
-      case GCRY_CIPHER_MODE_STREAM:
-        c->cipher->stdecrypt ( &c->context.c,
-                               outbuf, (byte*)/*arggg*/inbuf, nbytes );
-        break;
-      case GCRY_CIPHER_MODE_NONE:
-       	if (fips_mode () || !_gcry_get_debug_flag (0))
-          {
-            fips_signal_error ("cipher mode NONE used");
-            rc = GPG_ERR_INV_CIPHER_MODE;
-          }
-        else
-          {
-            if (inbuf != outbuf)
-              memmove (outbuf, inbuf, nbytes);
-          }
-	break;
-      default:
-        log_fatal ("cipher_decrypt: invalid mode %d\n", c->mode );
-        rc = GPG_ERR_INV_CIPHER_MODE;
-        break;
+  switch (c->mode)
+    {
+    case GCRY_CIPHER_MODE_ECB:
+      rc = do_ecb_decrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CBC:
+      rc = _gcry_cipher_cbc_decrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CFB:
+      rc = _gcry_cipher_cfb_decrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_OFB:
+      rc = _gcry_cipher_ofb_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CTR:
+      rc = _gcry_cipher_ctr_encrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_AESWRAP:
+      rc = _gcry_cipher_aeswrap_decrypt (c, outbuf, outbuflen,
+                                         inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CCM:
+      rc = _gcry_cipher_ccm_decrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CMAC:
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
+
+    case GCRY_CIPHER_MODE_GCM:
+      rc = _gcry_cipher_gcm_decrypt (c, outbuf, outbuflen, inbuf, inbuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_STREAM:
+      c->spec->stdecrypt (&c->context.c,
+                          outbuf, (byte*)/*arggg*/inbuf, inbuflen);
+      rc = 0;
+      break;
+
+    case GCRY_CIPHER_MODE_NONE:
+      if (fips_mode () || !_gcry_get_debug_flag (0))
+        {
+          fips_signal_error ("cipher mode NONE used");
+          rc = GPG_ERR_INV_CIPHER_MODE;
+        }
+      else
+        {
+          if (inbuf != outbuf)
+            memmove (outbuf, inbuf, inbuflen);
+          rc = 0;
+        }
+      break;
+
+    default:
+      log_fatal ("cipher_decrypt: invalid mode %d\n", c->mode );
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
     }
-    return rc;
+
+  return rc;
 }
 
 
-gcry_error_t
-gcry_cipher_decrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
-		     const void *in, size_t inlen)
+gcry_err_code_t
+_gcry_cipher_decrypt (gcry_cipher_hd_t h, void *out, size_t outsize,
+                      const void *in, size_t inlen)
 {
-  gcry_err_code_t err = 0;
-
-  if (h->mode == GCRY_CIPHER_MODE_AESWRAP)
+  if (!in) /* Caller requested in-place encryption. */
     {
-      /* Hack to implement AESWRAP without touching the other modes.
-         The actual function has been taken from the current
-         development version which does all error checking in each
-         mode function.  */
-      if (!in)
-        err = do_aeswrap_decrypt (h, out, outsize, out, outsize);
-      else
-        err = do_aeswrap_decrypt (h, out, outsize, in, inlen);
+      in = out;
+      inlen = outsize;
     }
-  else if (!in)
-    {
-      /* Caller requested in-place encryption. */
-      /* Actually cipher_encrypt() does not need to know about it, but
-       * we may change it in the future to get better performance.  */
-      err = cipher_decrypt (h, out, out, outsize);
-    }
-  else if (outsize < inlen)
-    err = GPG_ERR_TOO_SHORT;
-  else if (((h->mode == GCRY_CIPHER_MODE_ECB)
-	    || ((h->mode == GCRY_CIPHER_MODE_CBC)
-		&& (! ((h->flags & GCRY_CIPHER_CBC_CTS)
-		       && (inlen > h->cipher->blocksize)))))
-	   && (inlen % h->cipher->blocksize) != 0)
-    err = GPG_ERR_INV_ARG;
-  else
-    err = cipher_decrypt (h, out, in, inlen);
 
-  return gcry_error (err);
+  return cipher_decrypt (h, out, outsize, in, inlen);
 }
 
 
@@ -1790,59 +965,157 @@ cipher_sync (gcry_cipher_hd_t c)
   if ((c->flags & GCRY_CIPHER_ENABLE_SYNC) && c->unused)
     {
       memmove (c->u_iv.iv + c->unused,
-               c->u_iv.iv, c->cipher->blocksize - c->unused);
+               c->u_iv.iv, c->spec->blocksize - c->unused);
       memcpy (c->u_iv.iv,
-              c->lastiv + c->cipher->blocksize - c->unused, c->unused);
+              c->lastiv + c->spec->blocksize - c->unused, c->unused);
       c->unused = 0;
     }
 }
 
 
-gcry_error_t
+gcry_err_code_t
 _gcry_cipher_setkey (gcry_cipher_hd_t hd, const void *key, size_t keylen)
 {
   return cipher_setkey (hd, (void*)key, keylen);
 }
 
 
-gcry_error_t
+gcry_err_code_t
 _gcry_cipher_setiv (gcry_cipher_hd_t hd, const void *iv, size_t ivlen)
 {
-  cipher_setiv (hd, iv, ivlen);
-  return 0;
+  gcry_err_code_t rc = 0;
+
+  switch (hd->mode)
+    {
+      case GCRY_CIPHER_MODE_CCM:
+        rc = _gcry_cipher_ccm_set_nonce (hd, iv, ivlen);
+        break;
+
+      default:
+        rc = cipher_setiv (hd, iv, ivlen);
+        break;
+    }
+  return rc;
 }
 
 /* Set counter for CTR mode.  (CTR,CTRLEN) must denote a buffer of
    block size length, or (NULL,0) to set the CTR to the all-zero
    block. */
-gpg_error_t
+gpg_err_code_t
 _gcry_cipher_setctr (gcry_cipher_hd_t hd, const void *ctr, size_t ctrlen)
 {
-  if (ctr && ctrlen == hd->cipher->blocksize)
-    memcpy (hd->ctr, ctr, hd->cipher->blocksize);
+  if (ctr && ctrlen == hd->spec->blocksize)
+    {
+      memcpy (hd->u_ctr.ctr, ctr, hd->spec->blocksize);
+      hd->unused = 0;
+    }
   else if (!ctr || !ctrlen)
-    memset (hd->ctr, 0, hd->cipher->blocksize);
+    {
+      memset (hd->u_ctr.ctr, 0, hd->spec->blocksize);
+      hd->unused = 0;
+    }
   else
-    return gpg_error (GPG_ERR_INV_ARG);
+    return GPG_ERR_INV_ARG;
+
   return 0;
 }
 
 
-gcry_error_t
-gcry_cipher_ctl( gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
+gcry_err_code_t
+_gcry_cipher_authenticate (gcry_cipher_hd_t hd, const void *abuf,
+                           size_t abuflen)
 {
-  gcry_err_code_t rc = GPG_ERR_NO_ERROR;
+  gcry_err_code_t rc;
+
+  switch (hd->mode)
+    {
+    case GCRY_CIPHER_MODE_CCM:
+      rc = _gcry_cipher_ccm_authenticate (hd, abuf, abuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_CMAC:
+      rc = _gcry_cipher_cmac_authenticate (hd, abuf, abuflen);
+      break;
+
+    case GCRY_CIPHER_MODE_GCM:
+      rc = _gcry_cipher_gcm_authenticate (hd, abuf, abuflen);
+      break;
+
+    default:
+      log_error ("gcry_cipher_authenticate: invalid mode %d\n", hd->mode);
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
+    }
+
+  return rc;
+}
+
+
+gcry_err_code_t
+_gcry_cipher_gettag (gcry_cipher_hd_t hd, void *outtag, size_t taglen)
+{
+  gcry_err_code_t rc;
+
+  switch (hd->mode)
+    {
+    case GCRY_CIPHER_MODE_CCM:
+      rc = _gcry_cipher_ccm_get_tag (hd, outtag, taglen);
+      break;
+
+    case GCRY_CIPHER_MODE_CMAC:
+      rc = _gcry_cipher_cmac_get_tag (hd, outtag, taglen);
+      break;
+
+    case GCRY_CIPHER_MODE_GCM:
+      rc = _gcry_cipher_gcm_get_tag (hd, outtag, taglen);
+      break;
+
+    default:
+      log_error ("gcry_cipher_gettag: invalid mode %d\n", hd->mode);
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
+    }
+
+  return rc;
+}
+
+
+gcry_err_code_t
+_gcry_cipher_checktag (gcry_cipher_hd_t hd, const void *intag, size_t taglen)
+{
+  gcry_err_code_t rc;
+
+  switch (hd->mode)
+    {
+    case GCRY_CIPHER_MODE_CCM:
+      rc = _gcry_cipher_ccm_check_tag (hd, intag, taglen);
+      break;
+
+    case GCRY_CIPHER_MODE_CMAC:
+      rc = _gcry_cipher_cmac_check_tag (hd, intag, taglen);
+      break;
+
+    case GCRY_CIPHER_MODE_GCM:
+      rc = _gcry_cipher_gcm_check_tag (hd, intag, taglen);
+      break;
+
+    default:
+      log_error ("gcry_cipher_checktag: invalid mode %d\n", hd->mode);
+      rc = GPG_ERR_INV_CIPHER_MODE;
+      break;
+    }
+
+  return rc;
+}
+
+
+gcry_err_code_t
+_gcry_cipher_ctl (gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
+{
+  gcry_err_code_t rc = 0;
 
   switch (cmd)
     {
-    case GCRYCTL_SET_KEY:  /* Deprecated; use gcry_cipher_setkey.  */
-      rc = cipher_setkey( h, buffer, buflen );
-      break;
-
-    case GCRYCTL_SET_IV:   /* Deprecated; use gcry_cipher_setiv.  */
-      cipher_setiv( h, buffer, buflen );
-      break;
-
     case GCRYCTL_RESET:
       cipher_reset (h);
       break;
@@ -1871,6 +1144,34 @@ gcry_cipher_ctl( gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
 	h->flags &= ~GCRY_CIPHER_CBC_MAC;
       break;
 
+    case GCRYCTL_SET_CCM_LENGTHS:
+#ifdef HAVE_U64_TYPEDEF
+      {
+        u64 params[3];
+        size_t encryptedlen;
+        size_t aadlen;
+        size_t authtaglen;
+
+        if (h->mode != GCRY_CIPHER_MODE_CCM)
+          return gcry_error (GPG_ERR_INV_CIPHER_MODE);
+
+        if (!buffer || buflen != 3 * sizeof(u64))
+          return gcry_error (GPG_ERR_INV_ARG);
+
+        /* This command is used to pass additional length parameters needed
+           by CCM mode to initialize CBC-MAC.  */
+        memcpy (params, buffer, sizeof(params));
+        encryptedlen = params[0];
+        aadlen = params[1];
+        authtaglen = params[2];
+
+        rc = _gcry_cipher_ccm_set_lengths (h, encryptedlen, aadlen, authtaglen);
+      }
+#else
+      rc = GPG_ERR_NOT_SUPPORTED;
+#endif
+      break;
+
     case GCRYCTL_DISABLE_ALGO:
       /* This command expects NULL for H and BUFFER to point to an
          integer with the algo number.  */
@@ -1879,18 +1180,9 @@ gcry_cipher_ctl( gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
       disable_cipher_algo( *(int*)buffer );
       break;
 
-    case GCRYCTL_SET_CTR: /* Deprecated; use gcry_cipher_setctr.  */
-      if (buffer && buflen == h->cipher->blocksize)
-	memcpy (h->ctr, buffer, h->cipher->blocksize);
-      else if (buffer == NULL || buflen == 0)
-	memset (h->ctr, 0, h->cipher->blocksize);
-      else
-	rc = GPG_ERR_INV_ARG;
-      break;
-
     case 61:  /* Disable weak key detection (private).  */
-      if (h->extraspec->set_extra_info)
-        rc = h->extraspec->set_extra_info 
+      if (h->spec->set_extra_info)
+        rc = h->spec->set_extra_info
           (&h->context.c, CIPHER_INFO_NO_WEAK_KEY, NULL, 0);
       else
         rc = GPG_ERR_NOT_SUPPORTED;
@@ -1898,23 +1190,23 @@ gcry_cipher_ctl( gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
 
     case 62: /* Return current input vector (private).  */
       /* This is the input block as used in CFB and OFB mode which has
-         initially been set as IV.  The returned format is: 
+         initially been set as IV.  The returned format is:
            1 byte  Actual length of the block in bytes.
            n byte  The block.
          If the provided buffer is too short, an error is returned. */
-      if (buflen < (1 + h->cipher->blocksize))
+      if (buflen < (1 + h->spec->blocksize))
         rc = GPG_ERR_TOO_SHORT;
       else
         {
           unsigned char *ivp;
           unsigned char *dst = buffer;
           int n = h->unused;
-          
+
           if (!n)
-            n = h->cipher->blocksize;
-          gcry_assert (n <= h->cipher->blocksize);
+            n = h->spec->blocksize;
+          gcry_assert (n <= h->spec->blocksize);
           *dst++ = n;
-          ivp = h->u_iv.iv + h->cipher->blocksize - n;
+          ivp = h->u_iv.iv + h->spec->blocksize - n;
           while (n--)
             *dst++ = *ivp++;
         }
@@ -1924,22 +1216,22 @@ gcry_cipher_ctl( gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
       rc = GPG_ERR_INV_OP;
     }
 
-  return gcry_error (rc);
+  return rc;
 }
 
 
 /* Return information about the cipher handle H.  CMD is the kind of
    information requested.  BUFFER and NBYTES are reserved for now.
 
-   There are no values for CMD yet defined.  
+   There are no values for CMD yet defined.
 
-   The fucntion always returns GPG_ERR_INV_OP.
-   
+   The function always returns GPG_ERR_INV_OP.
+
  */
-gcry_error_t
-gcry_cipher_info (gcry_cipher_hd_t h, int cmd, void *buffer, size_t *nbytes)
+gcry_err_code_t
+_gcry_cipher_info (gcry_cipher_hd_t h, int cmd, void *buffer, size_t *nbytes)
 {
-  gcry_err_code_t err = GPG_ERR_NO_ERROR;
+  gcry_err_code_t rc = 0;
 
   (void)h;
   (void)buffer;
@@ -1948,10 +1240,10 @@ gcry_cipher_info (gcry_cipher_hd_t h, int cmd, void *buffer, size_t *nbytes)
   switch (cmd)
     {
     default:
-      err = GPG_ERR_INV_OP;
+      rc = GPG_ERR_INV_OP;
     }
 
-  return gcry_error (err);
+  return rc;
 }
 
 /* Return information about the given cipher algorithm ALGO.
@@ -1971,63 +1263,64 @@ gcry_cipher_info (gcry_cipher_hd_t h, int cmd, void *buffer, size_t *nbytes)
     GCRYCTL_TEST_ALGO:
   	Returns 0 if the specified algorithm ALGO is available for use.
   	BUFFER and NBYTES must be zero.
-  
+
    Note: Because this function is in most cases used to return an
    integer value, we can make it easier for the caller to just look at
    the return value.  The caller will in all cases consult the value
-   and thereby detecting whether a error occured or not (i.e. while
+   and thereby detecting whether a error occurred or not (i.e. while
    checking the block size)
  */
-gcry_error_t
-gcry_cipher_algo_info (int algo, int what, void *buffer, size_t *nbytes)
+gcry_err_code_t
+_gcry_cipher_algo_info (int algo, int what, void *buffer, size_t *nbytes)
 {
-  gcry_err_code_t err = GPG_ERR_NO_ERROR;
+  gcry_err_code_t rc = 0;
   unsigned int ui;
 
   switch (what)
     {
     case GCRYCTL_GET_KEYLEN:
       if (buffer || (! nbytes))
-	err = GPG_ERR_CIPHER_ALGO;
+	rc = GPG_ERR_CIPHER_ALGO;
       else
 	{
 	  ui = cipher_get_keylen (algo);
 	  if ((ui > 0) && (ui <= 512))
 	    *nbytes = (size_t) ui / 8;
 	  else
-	    /* The only reason is an invalid algo or a strange
-	       blocksize.  */
-	    err = GPG_ERR_CIPHER_ALGO;
+	    /* The only reason for an error is an invalid algo.  */
+	    rc = GPG_ERR_CIPHER_ALGO;
 	}
       break;
 
     case GCRYCTL_GET_BLKLEN:
       if (buffer || (! nbytes))
-	err = GPG_ERR_CIPHER_ALGO;
+	rc = GPG_ERR_CIPHER_ALGO;
       else
 	{
 	  ui = cipher_get_blocksize (algo);
 	  if ((ui > 0) && (ui < 10000))
 	    *nbytes = ui;
 	  else
-	    /* The only reason is an invalid algo or a strange
-	       blocksize.  */
-	    err = GPG_ERR_CIPHER_ALGO;
+            {
+              /* The only reason is an invalid algo or a strange
+                 blocksize.  */
+              rc = GPG_ERR_CIPHER_ALGO;
+            }
 	}
       break;
 
     case GCRYCTL_TEST_ALGO:
       if (buffer || nbytes)
-	err = GPG_ERR_INV_ARG;
+	rc = GPG_ERR_INV_ARG;
       else
-	err = check_cipher_algo (algo);
+	rc = check_cipher_algo (algo);
       break;
 
       default:
-	err = GPG_ERR_INV_OP;
+	rc = GPG_ERR_INV_OP;
     }
 
-  return gcry_error (err);
+  return rc;
 }
 
 
@@ -2040,14 +1333,15 @@ gcry_cipher_algo_info (int algo, int what, void *buffer, size_t *nbytes)
    gcry_cipher_algo_info because it allows for proper type
    checking.  */
 size_t
-gcry_cipher_get_algo_keylen (int algo) 
+_gcry_cipher_get_algo_keylen (int algo)
 {
   size_t n;
 
-  if (gcry_cipher_algo_info (algo, GCRYCTL_GET_KEYLEN, NULL, &n))
+  if (_gcry_cipher_algo_info (algo, GCRYCTL_GET_KEYLEN, NULL, &n))
     n = 0;
   return n;
 }
+
 
 /* This functions returns the blocklength of the algorithm ALGO
    counted in octets.  On error 0 is returned.
@@ -2056,42 +1350,21 @@ gcry_cipher_get_algo_keylen (int algo)
    gcry_cipher_algo_info because it allows for proper type
    checking.  */
 size_t
-gcry_cipher_get_algo_blklen (int algo) 
+_gcry_cipher_get_algo_blklen (int algo)
 {
   size_t n;
 
-  if (gcry_cipher_algo_info( algo, GCRYCTL_GET_BLKLEN, NULL, &n))
+  if (_gcry_cipher_algo_info( algo, GCRYCTL_GET_BLKLEN, NULL, &n))
     n = 0;
   return n;
 }
+
 
 /* Explicitly initialize this module.  */
 gcry_err_code_t
 _gcry_cipher_init (void)
 {
-  gcry_err_code_t err = GPG_ERR_NO_ERROR;
-
-  REGISTER_DEFAULT_CIPHERS;
-
-  return err;
-}
-
-/* Get a list consisting of the IDs of the loaded cipher modules.  If
-   LIST is zero, write the number of loaded cipher modules to
-   LIST_LENGTH and return.  If LIST is non-zero, the first
-   *LIST_LENGTH algorithm IDs are stored in LIST, which must be of
-   according size.  In case there are less cipher modules than
-   *LIST_LENGTH, *LIST_LENGTH is updated to the correct number.  */
-gcry_error_t
-gcry_cipher_list (int *list, int *list_length)
-{
-  gcry_err_code_t err = GPG_ERR_NO_ERROR;
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  err = _gcry_module_list (ciphers_registered, list, list_length);
-  ath_mutex_unlock (&ciphers_registered_lock);
-
-  return err;
+  return 0;
 }
 
 
@@ -2100,34 +1373,21 @@ gcry_cipher_list (int *list, int *list_length)
 gpg_error_t
 _gcry_cipher_selftest (int algo, int extended, selftest_report_func_t report)
 {
-  gcry_module_t module = NULL;
-  cipher_extra_spec_t *extraspec = NULL;
   gcry_err_code_t ec = 0;
+  gcry_cipher_spec_t *spec;
 
-  REGISTER_DEFAULT_CIPHERS;
-
-  ath_mutex_lock (&ciphers_registered_lock);
-  module = _gcry_module_lookup_id (ciphers_registered, algo);
-  if (module && !(module->flags & FLAG_MODULE_DISABLED))
-    extraspec = module->extraspec;
-  ath_mutex_unlock (&ciphers_registered_lock);
-  if (extraspec && extraspec->selftest)
-    ec = extraspec->selftest (algo, extended, report);
+  spec = spec_from_algo (algo);
+  if (spec && !spec->flags.disabled && spec->selftest)
+    ec = spec->selftest (algo, extended, report);
   else
     {
       ec = GPG_ERR_CIPHER_ALGO;
       if (report)
-        report ("cipher", algo, "module", 
-                module && !(module->flags & FLAG_MODULE_DISABLED)?
+        report ("cipher", algo, "module",
+                (spec && !spec->flags.disabled)?
                 "no selftest available" :
-                module? "algorithm disabled" : "algorithm not found");
+                spec? "algorithm disabled" : "algorithm not found");
     }
 
-  if (module)
-    {
-      ath_mutex_lock (&ciphers_registered_lock);
-      _gcry_module_release (module);
-      ath_mutex_unlock (&ciphers_registered_lock);
-    }
   return gpg_error (ec);
 }
