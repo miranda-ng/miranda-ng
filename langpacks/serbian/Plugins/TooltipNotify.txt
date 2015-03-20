@@ -1,0 +1,31 @@
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: Tooltip notify
+;  Version: 0.7.0.1
+;  Authors: perf
+;============================================================
+[Cancel]
+Otkazivanje
+[Online]
+Prisutan
+[Offline]
+Odsutan
+[Typing]
+Kucanje
+[sec]
+sek
+[Translucency options]
+Podešavanja prozirnosti
+[Contacts]
+Kontakti
+[Idle]
+Pasivni režim
+[Popups]
+Balončići
+[** New contacts **]
+** Novi kontakti **
+[** Unknown contacts **]
+** Nepoznati kontakti **
+[Unknown]
+Nepoznati

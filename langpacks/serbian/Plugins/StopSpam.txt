@@ -1,0 +1,17 @@
+﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
+;============================================================
+;  File: StopSpam.dll
+;  Plugin: StopSpam+
+;  Version: 0.0.1.4
+;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
+;============================================================
+[Message Sessions]
+Celi razgovori
+[General]
+Uopšteno
+[Messages]
+Poruke
+[Accounts]
+Nalozi
+[Complete]
+Dovršene

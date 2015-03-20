@@ -1,0 +1,17 @@
+﻿#muuid {94ced94c-a94a-4bb1-acbd-5cc6ebb689d4}
+;============================================================
+;  File: StopSpamMod.dll
+;  Plugin: StopSpam mod
+;  Version: 0.0.2.0
+;  Authors: Roman Miklashevsky, sss, Elzor
+;============================================================
+[Message Sessions]
+Celi razgovori
+[General]
+Uopšteno
+[Messages]
+Poruke
+[Accounts]
+Nalozi
+[Advanced]
+Napredno

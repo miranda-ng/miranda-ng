@@ -1,0 +1,17 @@
+﻿#muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
+;============================================================
+;  File: Spamotron.dll
+;  Plugin: Spam-o-tron
+;  Version: 0.0.4.7
+;  Authors: vu1tur
+;============================================================
+[Outgoing message]
+Odlazna poruka
+[Background]
+Pozadina
+[Message sessions]
+Celi razgovori
+[Messages]
+Poruke
+[Popups]
+Balončići

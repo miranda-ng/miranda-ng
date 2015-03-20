@@ -1,0 +1,9 @@
+﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+;============================================================
+;  File: Watrack_MPD.dll
+;  Plugin: Watrack MPD
+;  Version: 0.0.0.4
+;  Authors: sss
+;============================================================
+[Plugins]
+Plug-inovi

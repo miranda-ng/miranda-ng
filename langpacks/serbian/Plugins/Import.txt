@@ -1,0 +1,25 @@
+﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+;============================================================
+;  File: Import.dll
+;  Plugin: Import contacts and messages
+;  Version: 0.95.4.1
+;  Authors: Miranda team
+;============================================================
+[Cancel]
+Otkazivanje
+[Incoming]
+Pristigle
+[Outgoing]
+Odlazni
+[Messages]
+Poruke
+[URLs]
+Linkovi
+[File Transfers]
+Slanje/Preuzimanje datoteka
+[Other]
+Ostalo
+[New account]
+Novi nalog
+[All Files]
+Sve datoteke

@@ -1,0 +1,31 @@
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;============================================================
+;  File: NotesReminders.dll
+;  Plugin: Sticky Notes & Reminders
+;  Version: 0.0.5.1
+;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
+;============================================================
+[None]
+Nema
+[&Close]
+&Zatvori
+[Background Color]
+Boja pozadine
+[Reset]
+Reset
+[Text Color]
+Boja teksta
+[Undo]
+Undo
+[&Copy]
+&Kopiranje
+[Plugins]
+Plug-inovi
+[Alerts]
+Upozorenja
+[Notes]
+Beleške
+[Seconds]
+sekundi
+[Default]
+Standardno

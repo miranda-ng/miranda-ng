@@ -1,0 +1,21 @@
+﻿#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: Ignore state
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+[Messages]
+Poruke
+[URL]
+Link
+[Files]
+Datoteke
+[User Online]
+Korisnik na vezi
+[You Were Added]
+Vaš kontakt je dodat
+[Typing Notify]
+Obaveštenja o kucanju
+[Icons]
+Ikonice

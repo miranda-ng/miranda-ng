@@ -1,0 +1,29 @@
+﻿#muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS interface
+;  Version: 0.0.0.14
+;  Authors: tico-tico
+;============================================================
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[On the phone]
+Telefoniram
+[Out to lunch]
+Na ručku
+[Sounds]
+Zvukovi

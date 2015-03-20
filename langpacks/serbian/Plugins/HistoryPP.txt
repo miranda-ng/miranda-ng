@@ -1,0 +1,39 @@
+﻿#muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
+;============================================================
+;  File: HistoryPP.dll
+;  Plugin: History++
+;  Version: 1.5.1.5
+;  Authors: theMIROn, Art Fedorov
+;============================================================
+[&Copy Link]
+Kopiraj li&nk
+[Incoming url]
+Dolazni link
+[Outgoing file]
+Odlazna datoteka
+[Outgoing url]
+Odlazni link
+[Incoming Url]
+Dolazni link
+[Outgoing Url]
+Odlazni link
+[Authorization request]
+Zahtev za autorizaciju.
+[&Reset to Default]
+&Vratiti na standardno
+[Open in &new window]
+Otvoriti &u novom prozoru
+[Select &All]
+&Izaberi sve
+[Send &Message]
+&Slanje poruke
+[User Details]
+O korisniku
+[View user's history]
+Vidi istoriju korisnika
+[View User's History]
+Vidi istoriju korisnika
+[View &History]
+Pregledaj %istoriju
+[User Menu]
+Korisnički meni

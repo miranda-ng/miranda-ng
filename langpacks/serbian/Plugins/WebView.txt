@@ -1,0 +1,43 @@
+﻿#muuid {cd5427fb-5320-4f65-b4bf-86b7cf7b5087}
+;============================================================
+;  File: Webview.dll
+;  Plugin: Webview
+;  Version: 0.1.3.0
+;  Authors: Vincent Joyce
+;============================================================
+[seconds]
+sekundi
+[Bold]
+Podebljano
+[Cancel]
+Otkazivanje
+[Apply]
+Primeni
+[Find]
+Pronađi
+[&Find next]
+&Pronađi više
+[Find what:]
+Pronaći šta:
+[Use custom colors]
+Naknadno odabrane boje
+[Background]
+Pozadina
+[Text]
+Tekst
+[Use Windows colors]
+Boje operativnog sistema
+[Log]
+Log
+[&Copy]
+&Kopiranje
+[&Delete]
+&Brisanje
+[Co&py all]
+Ko&piranje svega
+[Network]
+Mreža
+[Popups]
+Balončići
+[Online]
+Prisutan

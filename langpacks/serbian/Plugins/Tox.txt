@@ -1,0 +1,29 @@
+﻿#muuid {00272a3e-f5fa-4090-8b67-3e62ac1ee0b4}
+;============================================================
+;  File: Tox.dll
+;  Plugin: Tox protocol
+;  Version: 0.11.0.8
+;  Authors: Miranda NG Team
+;============================================================
+[Name:]
+Ime:
+[Password:]
+Šifra
+[Cancel]
+Otkazivanje
+[Add]
+Dodaj
+[&Cancel]
+&Otkazivanje
+[Request authorization]
+Zatraži autorizaciju
+[Grant authorization]
+Autorizuj
+[All files]
+Sve datoteke
+[Error]
+Greška
+[Are you sure?]
+Potpuno ste sigurni?
+[Network]
+Mreža

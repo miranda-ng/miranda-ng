@@ -1,0 +1,39 @@
+﻿#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: Birthday reminder
+;  Version: 0.3.3.5
+;  Authors: Cristian Libotean
+;============================================================
+[Popups]
+Balončići
+[Sounds]
+Zvukovi
+[Show]
+Prikaz
+[seconds]
+sekundi
+[In background]
+U pozadini
+[Close]
+Zatvori
+[Description:]
+Opis:
+[Date:]
+Datum:
+[Delete]
+Briši
+[Unknown]
+Nepoznati
+[Protocol]
+Protokol
+[Contact]
+Kontakt
+[Contacts]
+Kontakti
+[Error]
+Greška
+[All Files]
+Sve datoteke
+[Warning]
+Upozorenje

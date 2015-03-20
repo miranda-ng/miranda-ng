@@ -1,0 +1,323 @@
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;============================================================
+;  File: Clist_nicer.dll
+;  Plugin: Clist nicer
+;  Version: 0.9.2.4
+;  Authors: Pixel, egoDust, cyreve, Nightwish
+;============================================================
+[Version]
+Verzija
+[Delete contact]
+Brisanje kontakta
+[No]
+Ne
+[Yes]
+Da
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Brisanje iz liste vidljivih kontakata, čuvanje istorije i ignorisanje kontakta
+[Use Options->Contacts->Ignore to unhide contacts.]
+Putem Podešavanja->Kontakti->Ignorisani podešavaš vidljivost.
+[Are you sure you want to delete %s?]
+%s se briše sa spiska. Potvrda?
+[This will erase all history and settings for this contact!]
+Ovim se brišu sva podešavanja i istorija datog kontakta!
+[Contact list]
+Spisak kontakata
+[Hide offline users]
+Sakrij odsutne
+[Hide empty groups]
+Sakrij prazne grupe
+[Disable groups]
+Onemogući grupe
+[Ask before deleting contacts]
+Pitaj pre brisanja kontakata
+[Disable icon blinking]
+Isključi žmiganje ikonica
+[System tray icon]
+Ikonica u tray-u
+[Single click interface]
+Odabir jednim klikom
+[Always show status in tooltip]
+Prikazati sve statuse u balonu
+[System tray icon when using multiple protocols]
+Ikonica u tray-u kod više protokola
+[Show]
+Prikaz
+[icon when statuses differ]
+Ikonica različitih statusa
+[Cycle icons every]
+Menjati ikonicu svakih
+[seconds, when statuses differ]
+U sekundama, kod različitih statusa
+[Show multiple icons]
+Više ikonica odjednom
+[Only when statuses differ]
+Samo kada su statusi različiti
+[Groups]
+Grupe
+[Draw a line alongside group names]
+Oivičiti nazive grupa
+[Sort groups alphabetically]
+Sortiraj grupe alfabetnim redosledom
+[Quick search in open groups only]
+Brza pretraga samo u otvorenim grupama
+[Indent groups by:]
+Razmak između grupa:
+[Contact list sorting]
+Sortiranje spiska kontakata
+[Avatars]
+Avatari
+[Show avatars]
+Prikaži avatare
+[Icons]
+Ikonice
+[Dim idle contacts]
+Zatamni neaktivne kontakte
+[Window]
+Prozor
+[Always on top]
+Uvek na vrhu
+[Show menu bar]
+Prikazati meni
+[Easy move]
+Jednostavno pomeranje
+[Title bar text:]
+Tekst u naslovoj traci
+[Pin to desktop]
+Lepljenje na desktop
+[Show drop shadow (restart required)]
+Senčenje (potreban restart)
+[Hide contact list after it has been idle for]
+Automatski ukloni listu posle mirovanja
+[seconds]
+sekundi
+[Automatically resize window to height of list]
+Uklopiti visinu prozora dužini spiska
+[maximum]
+Maksimum
+[% of screen]
+% ekrana
+[Size upwards]
+Širi ka vrhu
+[If window is partially covered, bring to front instead of hiding]
+Ako je deo prozora prekriven, prikaz svega skrivenog
+[Translucency options]
+Podešavanja prozirnosti
+[Transparent contact list]
+Providni spisak kontakata
+[Inactive opacity:]
+Neprozirnost (neaktivno):
+[Active opacity:]
+Neprozirnost (aktivno):
+[Fade contact list in/out]
+Postepeno skrivanje spiska kontakata
+[Items]
+Elementi
+[Show divider between online and offline contacts]
+Razdvojiti linijom prisutne i odsutne kontakte
+[Hot track items as mouse passes over]
+Obeležavanje prevlačenjem kursora
+[Disable drag and drop of items]
+Onemogući prevlačenje i spuštanje elemenata
+[Disable rename of items by clicking twice]
+Onemogući promenu imena elementa dvoklikom
+[Show selection even when list is not focused]
+Zadrži odabir i u neaktivnom spisku
+[Make selection highlight translucent]
+Prozirna selekcija
+[Visual]
+Vizuelne postavke
+[Scroll list smoothly]
+Tečni skrol
+[Time:]
+Vreme:
+[milliseconds]
+milisekunde
+[Hide vertical scroll bar]
+Ne prikazivati vertikalni skrol
+[Gray out entire list when:]
+Prigušiti ceo spisak kada:
+[Contact list background]
+Pozadina spiska kontakata
+[Use Windows colors]
+Boje operativnog sistema
+[Use background image]
+Koristi sliku na pozadini
+[Stretch to width]
+Razvuci po širini
+[Stretch to height]
+Razvuci po visini
+[Tile horizontally]
+Napravi horizontalne pločice
+[Tile vertically]
+Napravi vertikalne pročice
+[Scroll with text]
+Skrol uporedo sa tekstom
+[Stretch proportionally]
+Razvuci proporcionalno
+[Status bar]
+Statusna traka
+[Show status bar]
+Prikaži statusnu traku
+[Show icons]
+Prikaži ikonice
+[Show protocol names]
+Prikaži nazive protokola
+[Show status text]
+Prikaži tekst statusa
+[Right click opens status menu]
+Desni klik - opcije statusa
+[Right click opens Miranda NG menu]
+Desni klik - glavne Miranda NG opcije
+[Make sections equal width]
+Odeljci jednake širine
+[Show bevels on panels]
+Ivice na panelima
+[Show resize grip indicator]
+Prikaži indikator pri razvlačenju
+[Cancel]
+Otkazivanje
+[Apply]
+Primeni
+[Protocol]
+Protokol
+[Group]
+Grupa
+[Messages]
+Poruke
+[Visibility]
+Vidljivost
+[Other]
+Ostalo
+[&Main menu]
+Glavni &meni
+[E&xit]
+&Izlaz
+[&Status]
+&Status
+[&Offline\tCtrl+0]
+&Odsutan\tCtrl+0
+[On&line\tCtrl+1]
+&Prisutan\tCtrl+1
+[&Away\tCtrl+2]
+&Neaktivan\tCtrl+2
+[&NA\tCtrl+3]
+N&edostupan\tCtrl+3
+[Occ&upied\tCtrl+4]
+&Zauzet\tCtrl+4
+[&DND\tCtrl+5]
+Ne &Uznemiravati\tCtrl+5
+[&Free for chat\tCtrl+6]
+Spreman za &razgovor\tCtrl+7
+[&Invisible\tCtrl+7]
+Ne&vidljiv\tCtrl+7
+[On the &phone\tCtrl+8]
+Na &telefonu\tCtrl+8
+[Out to &lunch\tCtrl+9]
+N&a ručku\tCtrl+9
+[Tray]
+Tray
+[&Hide/Show]
+&Sakriti/Prikazati
+[Nowhere]
+Nigde
+[&New group]
+&Nova grupa
+[&Hide offline users]
+S&kloniti odsutne
+[Hide &offline users out here]
+Skloniti &odsutne kontakte pri grupi
+[Hide &empty groups]
+Skloniti &prazne grupe
+[Disable &groups]
+Ne koristiti &grupe
+[Hide Miranda]
+Sakriti Miranda prozor
+[&New subgroup]
+&Napravi grupu
+[&Hide offline users in here]
+Skloniti &odsutne kontakte ove grupe
+[&Rename group]
+&Preimenovati grupu
+[&Delete group]
+&Izbrisati grupu
+[General]
+Uopšteno
+[Text color]
+Boja teksta
+[<None>]
+<ništa>
+[Accounts]
+Nalozi
+[Status menu]
+Izbor statusa
+[Not focused]
+Van fokusa
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[Out to lunch]
+Na ručku
+[On the phone]
+Telefoniram
+[Name]
+Naziv
+[Status]
+Status
+[Background]
+Pozadina
+[Contacts]
+Kontakti
+[Advanced]
+Napredno
+[Global]
+Standardno
+[Default]
+Standardno
+[Warning]
+Upozorenje
+[Standard contacts]
+Klasični kontakti
+[Online contacts to whom you have a different visibility]
+Kontakti (na vezi) sa posebnim podešavanjem vidljivosti
+[Offline contacts]
+Kontakti koji nisu na vezi
+[Contacts which are 'not on list']
+Kontakti 'van spiska korisnika'
+[Group member counts]
+Broj korisnika grupe
+[Dividers]
+Razdvajanje linijom
+[Offline contacts to whom you have a different visibility]
+Kontakti (nisu na vezi) sa posebnim podešavanjem vidljivosti
+[Selected text]
+Odabran tekst
+[Hottrack text]
+Tekst 'pod kursorom'
+[Quicksearch text]
+Brzo pretraži tekst
+[Frames]
+Okviri
+[Show title bar]
+Prikaz naslovne trake
+[New group]
+Nova grupa
+[&Hide/show]
+&Sakriti/Prikazati
+[&Find/add contacts...]
+%Pretraži/dodaj kontakte...
+[&Options...]
+&Podešavanja...

@@ -1,0 +1,52 @@
+﻿#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;============================================================
+;  File: QuickSearch.dll
+;  Module: Quick Search
+;  Version: 1.4.2.0
+;  Authors: Awkward
+;============================================================
+[Delete]
+Briši
+[Default]
+Standardno
+[Nickname]
+Nadimak
+[Group]
+Grupa
+[E-mail]
+E-mail
+[Type:]
+Vrsta:
+[Other]
+Ostalo
+[TimeStamp]
+Vreme
+[Service:]
+Služi za:
+[Close]
+Zatvori
+[Male]
+Muško
+[Female]
+Žensko
+[Contacts]
+Kontakti
+[&Delete]
+&Brisanje
+[&Copy]
+&Kopiranje
+[&Move to Group]
+&Stavi u grupu
+[Warning]
+Upozorenje
+[Online]
+Prisutan
+[off]
+Isklj.
+[default]
+Standardno
+[contacts]
+Kontakti
+[Unknown]
+Nepoznati
+; these lines are not present in the sources, but they are present in compiled plugin

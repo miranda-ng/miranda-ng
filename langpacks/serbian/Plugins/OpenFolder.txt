@@ -1,0 +1,9 @@
+﻿#muuid {10896143-7249-4b36-a408-6501a6b6035a}
+;============================================================
+;  File: OpenFolder.dll
+;  Plugin: Open Miranda folder
+;  Version: 1.1.0.0
+;  Authors: jarvis, Kreisquadratur
+;============================================================
+[Open Folder]
+Otvori folder

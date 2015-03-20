@@ -1,0 +1,91 @@
+﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
+;============================================================
+;  File: Actman.dll, Actman30.dll
+;  Plugin: Action manager
+;  Version: 0.2.0.1 - 0.3.0.1
+;  Authors: Awkward
+;============================================================
+[Actions]
+Akcije
+[Delete]
+Briši
+[Help]
+Pomoć
+[Contact]
+Kontakt
+[Text]
+Tekst
+[Advanced]
+Napredno
+[Profile]
+Profil
+[Message]
+Poruka
+[Contacts]
+Kontakti
+[Name]
+Naziv
+[Plugin]
+Plug-in
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[DND]
+Ne uznemiravaj
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[Free for Chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[On the Phone]
+Telefoniram
+[Out to Lunch]
+Na ručku
+[text]
+Tekst
+[None]
+Nema
+[On the phone]
+Telefoniram
+[Typing]
+Kucanje
+[System]
+Sistem
+[Protocol]
+Protokol
+[Warning]
+Upozorenje
+[Error]
+Greška
+[File]
+Datoteka
+[Icons]
+Ikonice
+[Apply]
+Primeni
+[Main menu]
+Glavni meni
+[Contact menu]
+Meni kontakta
+[Protocol menus]
+Meni Protokola
+[Status menu]
+Izbor statusa
+[&Yes]
+&Da
+[&No]
+&Ne
+; Actman30
+[Contact list]
+Spisak kontakata
+[name]
+Naziv
+[contact list]
+Spisak kontakata
+; these lines are not present in the sources, but they are present in compiled plugin

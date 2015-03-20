@@ -1,0 +1,43 @@
+﻿#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;============================================================
+;  File: Contacts.dll
+;  Plugin: Send/receive contacts
+;  Version: 1.6.0.0
+;  Authors: Joe Kucera, Todor Totev
+;============================================================
+[&Add]
+&Dodati
+[&User menu]
+&Korisnički meni
+[User &details]
+Detalji &korisnika
+[&History]
+&Istorija
+[&Send]
+&Slanje
+[Cancel]
+Otkazivanje
+[&Details]
+&Detalji
+[Close]
+Zatvori
+[An error has occurred. The protocol reported the following error:]
+Greška, protokol prijavljuje sledeće:
+[Try again]
+Pokušaj ponovo
+[Add to List]
+Dodaj u listu
+[User details]
+O korisniku
+[Contacts]
+Kontakti
+[Nick]
+Nadimak
+[Add Contact Permanently to List]
+Zapamtiti kontakt na spisku
+[View User's Details]
+Pregled detalja o korisniku
+[View User's History]
+Vidi istoriju korisnika
+[User Menu]
+Korisnički meni

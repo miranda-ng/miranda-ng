@@ -1,0 +1,41 @@
+﻿#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;============================================================
+;  File: LinkList.dll
+;  Plugin: History linklist plus
+;  Version: 0.0.0.2
+;  Authors: Thomas Wendel, gureedo
+;============================================================
+[Search]
+Pretraga
+[Close]
+Zatvori
+[Incoming messages]
+Dolazne poruke
+[Outgoing messages]
+Odlazne poruke
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Timestamp]
+Vreme
+[&File]
+&Datoteka
+[&Close]
+&Zatvori
+[&Options]
+&Podešavanja
+[&Search]
+&Pretraga
+[link]
+Link
+[Error]
+Greška
+[incoming]
+Pristigle
+[outgoing]
+Odlazni
+[History]
+Istorija
+[All files]
+Sve datoteke

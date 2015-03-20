@@ -1,0 +1,17 @@
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;============================================================
+;  File: ListeningTo.dll
+;  Plugin: ListeningTo
+;  Version: 0.3.0.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Contacts]
+Kontakti
+[seconds]
+sekundi
+[<Unknown>]
+<Nepoznato>
+[Status]
+Status
+[General]
+Uopšteno

@@ -1,0 +1,17 @@
+﻿#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;============================================================
+;  File: FavContacts.dll
+;  Plugin: Favorite contacts
+;  Version: 0.1.0.3
+;  Authors: Victor Pavlychko
+;============================================================
+[Customize]
+Podešavanja
+[Show avatars]
+Prikaži avatare
+[Show]
+Prikaz
+[Contacts]
+Kontakti
+[Background]
+Pozadina

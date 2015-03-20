@@ -1,0 +1,25 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;============================================================
+;  File: MyDetails.dll
+;  Plugin: My details
+;  Version: 0.0.1.12
+;  Authors: Ricardo Pescuma Domenecci, Drugwash
+;============================================================
+[Nickname:]
+Nadimak:
+[Cancel]
+Otkazivanje
+[General]
+Uopšteno
+[seconds]
+sekundi
+[pixels]
+pikseli
+[Nickname]
+Nadimak
+[Status]
+Status
+[Background]
+Pozadina
+[Contact list]
+Spisak kontakata

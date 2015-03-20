@@ -1,0 +1,59 @@
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last seen
+;  Version: 5.0.5.2
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Show icon]
+Prikaži ikonicu
+[Text]
+Tekst
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[On the phone]
+Telefoniram
+[Out to lunch]
+Na ručku
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[Offline]
+Odsutan
+[User Menu]
+Korisnički meni
+[View User's Details]
+Pregled detalja o korisniku
+[<unknown>]
+<nepoznato>
+[<none>]
+<ništa>
+[seconds]
+sekundi
+[username]
+Korisničko ime
+[nick]
+Nadimak
+[Group]
+Grupa
+[Status]
+Status
+[Protocol]
+Protokol
+[Contacts]
+Kontakti
+[Popups]
+Balončići
+[Idle]
+Pasivni režim
+[Unknown]
+Nepoznati

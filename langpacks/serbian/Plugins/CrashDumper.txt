@@ -1,0 +1,19 @@
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: Crash dumper
+;  Version: 0.0.5.2
+;  Authors: borkra
+;============================================================
+[Close]
+Zatvori
+[Username]
+Korisničko ime
+[&Copy]
+&Kopiranje
+[Co&py All]
+Ko&piranje svega
+[Select &All]
+&Izaberi sve
+[Show]
+Prikaz

@@ -1,0 +1,11 @@
+﻿#muuid {7b856b6a-d48f-4f54-b8d6-c8d86d02ffc2}
+;============================================================
+;  File: StartupSilence.dll
+;  Plugin: StartupSilence
+;  Version: 0.2.0.0
+;  Authors: Vladimir Lyubimov
+;============================================================
+[for]
+u toku
+[Events]
+Događaji

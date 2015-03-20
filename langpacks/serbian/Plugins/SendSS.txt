@@ -1,0 +1,47 @@
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send ScreenShot+
+;  Version: 0.8.9.1
+;  Authors: Merlin
+;============================================================
+[None]
+Nema
+[Cancel]
+Otkazivanje
+[&Close]
+&Zatvori
+[Edit]
+Izmeni
+[Description:]
+Opis:
+[&Copy]
+&Kopiranje
+[Close]
+Zatvori
+[Copy]
+Kopiranje
+[Error]
+Greška
+[An unknown error has occurred.]
+Desila se nepoznata greška.
+[Yes]
+Da
+[No]
+Ne
+[Ignore]
+Ignorisati
+[Help]
+Pomoć
+[Open Folder]
+Otvori folder
+[Down arrow]
+Strelica na dole
+[Window]
+Prozor
+[File]
+Datoteka
+[E-mail]
+E-mail
+[Information]
+Obaveštenje

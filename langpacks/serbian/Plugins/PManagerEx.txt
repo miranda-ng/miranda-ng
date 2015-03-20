@@ -1,0 +1,11 @@
+﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;============================================================
+;  File: PManagerEx.dll
+;  Plugin: Miranda NG profile changer
+;  Version: 0.0.0.5
+;  Authors: Roman Gemini
+;============================================================
+[Check Database]
+Proveri bazu podataka
+[Check database]
+Proveri bazu podataka

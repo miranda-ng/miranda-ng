@@ -1,0 +1,39 @@
+﻿#muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
+;============================================================
+;  File: DbEditorPP.dll
+;  Plugin: Database editor++
+;  Version: 3.2.0.1
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[&Search]
+&Pretraga
+[&Cancel]
+&Otkazivanje
+[Background color]
+Boja pozadine
+[Cancel]
+Otkazivanje
+[E&xit]
+&Izlaz
+[&Options]
+&Podešavanja
+[&Delete]
+&Brisanje
+[&Rename]
+&Promeni naziv
+[All Files]
+Sve datoteke
+[Handle]
+Koristeći
+[Contacts]
+Kontakti
+[HANDLE]
+Koristeći
+[Name]
+Naziv
+[Size]
+Veličina
+[<unknown>]
+<nepoznato>
+[Contact]
+Kontakt

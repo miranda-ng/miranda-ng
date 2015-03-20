@@ -1,0 +1,9 @@
+﻿#muuid {2925520b-6677-4658-8bad-5661d13e4692}
+;============================================================
+;  File: SkypeStatusChange.dll
+;  Plugin: Skype status change
+;  Version: 0.0.0.18
+;  Authors: Dioksin
+;============================================================
+[Plugins]
+Plug-inovi

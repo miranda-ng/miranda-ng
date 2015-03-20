@@ -1,0 +1,25 @@
+﻿#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
+;============================================================
+;  File: PluginUpdater.dll
+;  Plugin: Plugin updater
+;  Version: 0.1.2.4
+;  Authors: Mataes, George Hazan
+;============================================================
+[Cancel]
+Otkazivanje
+[Select &all]
+&Izaberi sve
+[Text]
+Tekst
+[Sec]
+sek
+[Popups]
+Balončići
+[Plugins]
+Plug-inovi
+[Icons]
+Ikonice
+[Languages]
+Jezici
+[Other]
+Ostalo

@@ -1,0 +1,33 @@
+﻿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;============================================================
+;  File: Ping.dll
+;  Plugin: Ping
+;  Version: 0.9.1.1
+;  Authors: Scott Ellis
+;============================================================
+[Network]
+Mreža
+[Popups]
+Balončići
+[Row height:]
+Visina reda:
+[Add]
+Dodaj
+[Remove]
+Ukloni
+[Edit]
+Izmeni
+[Cancel]
+Otkazivanje
+[Port:]
+Port:
+[Contact]
+Kontakt
+[All Files]
+Sve datoteke
+[<none>]
+<ništa>
+[List]
+Spisak
+[Unknown]
+Nepoznati

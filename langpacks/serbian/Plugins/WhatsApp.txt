@@ -1,0 +1,13 @@
+﻿#muuid {4f1ff7fa-4d75-44b9-93b0-2ced2e4f9e3e}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.1.2.12
+;  Authors: Uli Hecht
+;============================================================
+[Nickname]
+Nadimak
+[Cancel]
+Otkazivanje
+[Network]
+Mreža

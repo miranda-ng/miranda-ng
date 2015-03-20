@@ -1,0 +1,8 @@
+﻿[Adds options to automatically disable notifications when a protocol is in a certain status.]
+[No sounds when:]
+[No CList blink when:]
+[No SysTray blink when:]
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+[Disable &Sounds]
+[Enable &Sounds]
+[Zero Notifications]

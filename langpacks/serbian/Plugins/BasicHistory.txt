@@ -1,0 +1,81 @@
+﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic history
+;  Version: 1.0.1.10
+;  Authors: Krzysztof Kral
+;============================================================
+[Message History]
+Ranije poruke
+[Show names]
+Prikaži imena
+[Show messages]
+Prikaži poruke
+[Name]
+Naziv
+[Cancel]
+Otkazivanje
+[View &History]
+Pregledaj %istoriju
+[Incoming message]
+Dolazna poruka
+[Outgoing message]
+Odlazna poruka
+[History]
+Istorija
+[All events]
+Svi događaji
+[History for %s]
+Istorija korisnika: %s
+[System]
+Sistem
+[Me]
+Ja
+[Invalid Message]
+Neodgovarajuća poruka
+[Are You sure?]
+Potpuno ste sigurni?
+[Open in &new window]
+Otvoriti &u novom prozoru
+[&Open in existing window]
+Otvoriti u &trenutnom prozoru
+[&Copy link]
+Kopiraj li&nk
+[Copy]
+Kopiranje
+[Delete]
+Briši
+[Delete Group]
+Briši grupu
+[Options]
+Podešavanja
+[Fonts and colors]
+Fontovi i boje
+[Icons]
+Ikonice
+[Hotkeys]
+Dostupne skraćenice
+[Error]
+Greška
+[Message]
+Poruka
+[Link]
+Link
+[Authorization request]
+Zahtev za autorizaciju.
+[You were added]
+Vaš kontakt je dodat
+[Messages]
+Poruke
+[Searching]
+Pretražujem
+[Advanced]
+Napredno
+[Contact list background]
+Pozadina spiska kontakata
+[Find]
+Pronađi
+[Contacts]
+Kontakti
+[Search]
+Pretraga

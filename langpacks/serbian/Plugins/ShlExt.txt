@@ -1,0 +1,11 @@
+﻿#muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
+;============================================================
+;  File: ShlExt.dll
+;  Plugin: Shell extension
+;  Version: 2.2.0.3
+;  Authors: Sam Kothari, Miranda NG Team
+;============================================================
+[Menus]
+Meniji
+[Remove]
+Ukloni

@@ -1,0 +1,29 @@
+﻿#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.2
+;  Authors: Bartosz 'Dezeath' Bialek
+;============================================================
+[Add contact]
+Dodaj kontakt
+[Custom name:]
+Izmenjeno ime:
+[Group:]
+Grupa:
+[Options]
+Podešavanja
+[Send "You were added"]
+Poslati "Dodat Vaš kontakt"
+[Send authorization request]
+Slanje zahteva za autorizaciju
+[Authorization request]
+Zahtev za autorizaciju.
+[&Add]
+&Dodati
+[&Cancel]
+&Otkazivanje
+[Please authorize my request and add me to your contact list.]
+Dodaj me na spisak i daj mi autorizaciju, molim.
+[None]
+Nema

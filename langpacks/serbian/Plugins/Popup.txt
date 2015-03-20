@@ -1,0 +1,73 @@
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
+;============================================================
+;  File: Popup.dll
+;  Plugin: Popup plus
+;  Version: 2.1.1.10
+;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
+;============================================================
+[History]
+Istorija
+[events]
+Događaji
+[Avatars]
+Avatari
+[pixels]
+pikseli
+[opacity:]
+Neprozirnost:
+[Effect:]
+Tip dekoracije:
+[Close]
+Zatvori
+[General]
+Uopšteno
+[Sec]
+sek
+[seconds]
+sekundi
+[Position:]
+Pozicija:
+[User details]
+O korisniku
+[Contact menu]
+Meni kontakta
+[Popups]
+Balončići
+[Text]
+Tekst
+[Background]
+Pozadina
+[Cancel]
+Otkazivanje
+[Actions]
+Akcije
+[Contacts]
+Kontakti
+[Advanced]
+Napredno
+[Offline]
+Odsutan
+[Online]
+Prisutan
+[Invisible]
+Nevidljiv
+[Away]
+Neaktivan
+[NA]
+Nedostupan
+[Occupied]
+Zauzet
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Out to lunch]
+Na ručku
+[On the phone]
+Telefoniram
+[Use Windows colors]
+Boje operativnog sistema
+[Error]
+Greška
+[Warning]
+Upozorenje

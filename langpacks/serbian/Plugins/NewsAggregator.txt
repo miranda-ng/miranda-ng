@@ -1,0 +1,29 @@
+﻿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: News aggregator
+;  Version: 0.1.0.2
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[Add]
+Dodaj
+[Remove]
+Ukloni
+[Cancel]
+Otkazivanje
+[URL]
+Link
+[Reset]
+Reset
+[Username]
+Korisničko ime
+[&Close]
+&Zatvori
+[Error]
+Greška
+[Are you sure?]
+Potpuno ste sigurni?
+[Network]
+Mreža
+[Avatars]
+Avatari

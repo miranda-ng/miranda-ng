@@ -1,0 +1,21 @@
+﻿#muuid {243955e0-75d9-4cc3-9b28-6f9c5af4532d}
+;============================================================
+;  File: GmailNotifier.dll
+;  Plugin: Gmail Multiple Notifier
+;  Version: 0.3.1.1
+;  Authors: Mixwind
+;============================================================
+[Name:]
+Ime:
+[Password:]
+Šifra
+[Add]
+Dodaj
+[Delete]
+Briši
+[seconds]
+sekundi
+[Other]
+Ostalo
+[Network]
+Mreža

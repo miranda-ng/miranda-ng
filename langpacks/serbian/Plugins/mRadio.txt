@@ -1,0 +1,13 @@
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
+;============================================================
+;  File: mRadio.dll
+;  Plugin: mRadio Mod
+;  Version: 0.0.2.4
+;  Authors: Awkward
+;============================================================
+[connecting]
+Povezivanje
+[Advanced]
+Napredno
+[OFF]
+Isklj.

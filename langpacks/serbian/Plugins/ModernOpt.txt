@@ -1,0 +1,23 @@
+﻿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;============================================================
+;  File: ModernOpt.dll
+;  Plugin: ModernOpt
+;  Version: 0.1.0.0
+;  Authors: Victor Pavlychko, George Hazan
+;============================================================
+[Miranda NG Options]
+Miranda NG podešavanja
+[Cancel]
+Otkazivanje
+[Apply]
+Primeni
+[Advanced]
+Napredno
+[Accounts]
+Nalozi
+[Contacts]
+Kontakti
+[Ignore]
+Ignorisati
+[Status]
+Status

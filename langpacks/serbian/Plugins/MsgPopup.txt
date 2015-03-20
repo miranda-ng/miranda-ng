@@ -1,0 +1,15 @@
+﻿#muuid {cf25d645-4dab-4b0a-b9f1-de1e86231f9b}
+;============================================================
+;  File: MsgPopup.dll
+;  Plugin: Message popup
+;  Version: 0.1.2.1
+;  Authors: StDenis
+;============================================================
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Error]
+Greška
+[Popups]
+Balončići

@@ -1,0 +1,31 @@
+﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: GPG
+;  Version: 0.0.0.11
+;  Authors: sss
+;============================================================
+[Ignore]
+Ignorisati
+[Cancel]
+Otkazivanje
+[Password:]
+Šifra
+[Name]
+Naziv
+[Accounts]
+Nalozi
+[Default]
+Standardno
+[Error]
+Greška
+[Warning]
+Upozorenje
+[Messages]
+Poruke
+[Advanced]
+Napredno
+[Contact]
+Kontakt
+[Protocol]
+Protokol

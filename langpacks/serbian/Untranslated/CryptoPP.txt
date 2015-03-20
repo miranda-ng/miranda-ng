@@ -1,0 +1,6 @@
+﻿[Crypto++ library for SecureIM plugin.]
+[GnuPG Plugin - Passphrase]
+[Enter passphrase for the secret key of user:]
+[User ID]
+[GnuPG Plugin - Select public key]
+[Refresh]

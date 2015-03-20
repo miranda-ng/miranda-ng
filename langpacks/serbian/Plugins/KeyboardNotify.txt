@@ -1,0 +1,61 @@
+﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
+;============================================================
+;  File: KeyboardNotify.dll
+;  Plugin: Keyboard notify ext.
+;  Version: 1.5.7.7
+;  Authors: TioDuke
+;============================================================
+[Incoming messages]
+Dolazne poruke
+[seconds]
+sekundi
+[Online]
+Prisutan
+[Away]
+Neaktivan
+[Occupied]
+Zauzet
+[NA]
+Nedostupan
+[DND]
+Ne uznemiravaj
+[Free for chat]
+Spreman za razgovor
+[Invisible]
+Nevidljiv
+[On the phone]
+Telefoniram
+[Out to lunch]
+Na ručku
+[Offline]
+Odsutan
+[&Preview]
+&Proba
+[Add]
+Dodaj
+[Delete]
+Briši
+[Export...]
+Izvoz
+[Cancel]
+Otkazivanje
+[Other events]
+Ostali događaji
+[The following events are being ignored:]
+Ignorišu se događaji:
+[Ignore]
+Ignorisati
+[** All contacts **]
+** Svi kontakti **
+[** Unknown contacts **]
+** Nepoznati kontakti **
+[Events]
+Događaji
+[Accounts]
+Nalozi
+[Protocol]
+Protokol
+[All Files]
+Sve datoteke
+[None]
+Nema

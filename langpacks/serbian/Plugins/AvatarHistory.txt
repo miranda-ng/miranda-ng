@@ -1,0 +1,29 @@
+﻿#muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
+;============================================================
+;  File: AvatarHistory.dll
+;  Plugin: Avatar history
+;  Version: 0.1.0.1
+;  Authors: Matthew Wild (MattJ), Ricardo Pescuma Domenecci
+;============================================================
+[Save As...]
+Sačuvaj kao...
+[Open Folder]
+Otvori folder
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Use Windows colors]
+Boje operativnog sistema
+[Use default colors]
+Standardne boje
+[Custom]
+Izmenjeno
+[Actions]
+Akcije
+[Avatars]
+Avatari
+[History]
+Istorija
+[Popups]
+Balončići

@@ -1,0 +1,75 @@
+﻿#muuid {a5bb1b7a-b7cd-4cbb-a7db-ceb4eb71da49}
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep status
+;  Version: 0.9.0.2
+;  Authors: P Boon
+;============================================================
+[General]
+Uopšteno
+[Close]
+Zatvori
+[Cancel]
+Otkazivanje
+[Profile]
+Profil
+[Message]
+Poruka
+[Set]
+Izbor
+[Command line:]
+Konzola:
+[Other]
+Ostalo
+[Background color]
+Boja pozadine
+[Text color]
+Boja teksta
+[Use Windows colors]
+Boje operativnog sistema
+[Use default colors]
+Standardne boje
+[Events]
+Događaji
+[Custom]
+Izmenjeno
+[Use %time% for the current time, %date% for the current date]
+%date% - datum; %time% - tačno vreme
+[Accounts]
+Nalozi
+[Status]
+Status
+[Delete]
+Briši
+[seconds]
+sekundi
+[Protocol]
+Protokol
+[Advanced]
+Napredno
+[Popups]
+Balončići
+[I've been away since %time%.]
+Nisam tu još od %time%.
+[Give it up, I'm not in!]
+Nema svrhe, nisam tu!
+[Not right now.]
+Ne sad.
+[Give a guy some peace, would ya?]
+Iskuliraj, važi?
+[I'm a chatbot!]
+Ja sam čet-manijak!
+[Yep, I'm here.]
+Da, tu sam.
+[Nope, not here.]
+Ne, nisam tu.
+[I'm hiding from the mafia.]
+Skrivam se od mafije.
+[That'll be the phone.]
+Mislim da je to bio telefon.
+[Mmm... food.]
+Mmm... hrana.
+[idleeeeeeee]
+neaktivnooo
+[Closing in %d]
+Zatvaram (%d)

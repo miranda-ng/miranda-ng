@@ -1,0 +1,7 @@
+﻿[Service offering misc country utilities as flag icons and an IP-to-Country database.]
+[Country Flags]
+[Show country flag as &status icon on message window]
+[Show country flag as &extra image on contact list]
+[Use &IP-to-country database for country detection]
+[Use &unknown flag if the country cannot be determined]
+[Country flag]

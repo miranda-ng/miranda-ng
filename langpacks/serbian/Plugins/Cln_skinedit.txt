@@ -1,0 +1,13 @@
+﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Skin editor for clist nicer
+;  Version: 0.0.0.4
+;  Authors: Nightwish, Pixel
+;============================================================
+[General]
+Uopšteno
+[Text color]
+Boja teksta
+[<None>]
+<ništa>

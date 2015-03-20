@@ -1,0 +1,13 @@
+﻿#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
+;============================================================
+;  File: Folders.dll
+;  Plugin: Custom profile folders
+;  Version: 0.2.0.1
+;  Authors: Cristian Libotean, Miranda NG Team
+;============================================================
+[Edit]
+Izmeni
+[Close]
+Zatvori
+[Customize]
+Podešavanja

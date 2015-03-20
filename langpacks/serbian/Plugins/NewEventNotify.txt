@@ -1,0 +1,23 @@
+﻿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;============================================================
+;  File: NewEventNotify.dll
+;  Plugin: NewEventNotify
+;  Version: 0.2.2.3
+;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
+;============================================================
+[Message]
+Poruka
+[URL]
+Link
+[File]
+Datoteka
+[Text]
+Tekst
+[Background]
+Pozadina
+[Edit]
+Izmeni
+[Popups]
+Balončići
+[Contacts]
+Kontakti

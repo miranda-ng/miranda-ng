@@ -1,0 +1,29 @@
+﻿#muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
+;============================================================
+;  File: MirandaG15.dll
+;  Plugin: MirandaG15
+;  Version: 0.1.2.0
+;  Authors: Martin Kleinhans
+;============================================================
+[Fonts]
+Fontovi
+[Contact list:]
+Spisak kontakata:
+[events]
+Događaji
+[seconds]
+sekundi
+[Incoming messages]
+Dolazne poruke
+[Incoming URL]
+Dolazni link
+[Messages]
+Poruke
+[Status changes]
+Izmene statusa
+[Notices]
+naznake
+[Contact list]
+Spisak kontakata
+[Hide offline users]
+Sakrij odsutne

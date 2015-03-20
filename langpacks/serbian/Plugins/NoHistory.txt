@@ -1,0 +1,13 @@
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
+;  File: NoHistory.dll
+;  Plugin: NoHistory
+;  Version: 0.2.3.0
+;  Authors: Scott Ellis, NightFox
+;============================================================
+[Clear]
+Izbriši sve
+[** All contacts **]
+** Svi kontakti **
+[History]
+Istorija

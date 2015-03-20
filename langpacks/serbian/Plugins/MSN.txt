@@ -1,0 +1,35 @@
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN protocol
+;  Version: 0.11.1.2
+;  Authors: Boris Krasnovskiy, George Hazan, Richard Hughes
+;============================================================
+[Password:]
+Šifra
+[Nickname:]
+Nadimak:
+[Reset]
+Reset
+[Other]
+Ostalo
+[Cancel]
+Otkazivanje
+[Nickname]
+Nadimak
+[&Cancel]
+&Otkazivanje
+[Add]
+Dodaj
+[Me]
+Ja
+[User &details]
+Detalji &korisnika
+[Error]
+Greška
+[Profile]
+Profil
+[Contact list]
+Spisak kontakata
+[Network]
+Mreža
