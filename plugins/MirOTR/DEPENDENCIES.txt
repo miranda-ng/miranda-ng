@@ -1,0 +1,99 @@
+ekhtml ( http://ekhtml.sourceforge.net/ || Github mirror: https://github.com/hilbix/ekhtml )
+	0.3.3-pre 2004-06-12 (from Github mirror, hash 0092d9d)
+Libgpg-error ( https://gnupg.org/download/ )
+	1.18
+Libgcrypt ( https://gnupg.org/download/ )
+	1.6.3
+libotr ( https://otr.cypherpunks.ca/ )
+	3.2.0
+
+
+
+
+HOW TO UPDATE DEPENDENCIES
+	in theory, it's possible to use MSYS + MSVC to do the following, but I've used GCC for convenience as my MSVC didn't want to :P
+	I've used MSYS2 and its own GCC (used 32bit as reference in hope that it will work for 64bit as well)
+	
+	
+	- ekhtml (clean checkout from Git repo mentioned above)
+		- run MSYS and navigate to ekhtml root
+			./autogen.sh
+			make
+		- make failed on me, so I had to do ekhtml_mktables myself (make somehow failed to setup include dirs)
+			cd src
+			gcc -g -O2 -I../include ekhtml_mktables.c -o ekhtml_mktables
+			./ekhtml_mktables > ../include/ekhtml_tables.h
+		- copy .c and .h files from include/ and src/ to our ekhtml
+		- ekhtml_config.h: see CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
+	
+	- Libgpg-error (from tarball)
+		- run MSYS
+			tar xvf libgpg-error-1.18.tar.bz2
+			cd libgpg-error-1.18
+			./configure
+			make
+		- copy .c,.h,.def,.rc files from src/ to our Libgpg-error
+		- copy src/gpg-error-config to our Libgpg-error
+		since we don't build Libgpg-error but include it directly into Libgcrypt, config.h isn't really needed
+	
+	- Libgcrypt (from tarball)
+		- run MSYS
+			tar xvf libgcrypt-1.6.3.tar.bz2
+			cd libgcrypt-1.6.3
+			export GPG_ERROR_CONFIG=$(pwd)/../Libgpg-error/gpg-error-config
+			./configure
+		- copy .c and .h files from cipher/ to our Libgcrypt
+		- copy .c and .h files from compat/ to our Libgcrypt
+		- copy mpi/ and random/ to our Libgcrypt
+		- copy .c,.h,.def files from src/ to our Libgcrypt
+		- copy config.h to our Libgcrypt custom/
+		- cipher/cipher-ccm.c: replace "tmp[blocksize];" with "tmp[16];" as MSVC is quite dumb
+		- cipher/stribog.c: replace "u64 Z[8] = {};" with "u64 Z[8] = {0};"
+		- config.h: see CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
+	
+	- libotr (from Git)
+		- tbd
+
+CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
+	convert from GCC configured config to MSVC settings
+	- define disabling ( simply comment them out or replace with /* #undef <define> */ )
+		// generic
+		HAVE_INTTYPES_H
+		HAVE_STRINGS_H
+		HAVE_UNISTD_H
+		// needed for Libgcrypt
+		HAVE_BUILTIN_BSWAP32
+		HAVE_BUILTIN_BSWAP64
+		HAVE_CLOCK_GETTIME
+		HAVE_GCC_ASM_VOLATILE_MEMORY
+		HAVE_GCC_ATTRIBUTE_ALIGNED
+		HAVE_GCC_INLINE_ASM_AVX
+		HAVE_GCC_INLINE_ASM_AVX2
+		HAVE_GCC_INLINE_ASM_BMI2
+		HAVE_GCC_INLINE_ASM_PCLMUL
+		HAVE_GCC_INLINE_ASM_SSSE3
+		HAVE_GETPAGESIZE
+		HAVE_GETTIMEOFDAY
+		HAVE_VLA
+	
+	- replacing (first line is "find", indented line is "replace by")
+		/* #undef inline */
+			#define inline __inline
+	
+	- see CUSTOM_CONFIG_H_MODIFICATIONS
+
+CUSTOM_CONFIG_H_MODIFICATIONS
+	we do some Miranda NG / MSVC related modifications to *config.h files
+	simply append:
+/* Miranda NG modifications */
+#define GPGRT_ENABLE_ES_MACROS 1
+#include <string.h>
+#define strdup _strdup
+#define stricmp _stricmp
+#define snprintf _snprintf
+#ifdef _WIN64
+#	define __x86_64__ 1
+#else
+#	define __i386__ 1
+#endif
+
