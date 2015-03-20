@@ -1,23 +1,19 @@
 #include "ConnectionNotify.h"
  
-struct CONNECTION* GetConnectionsTable()
+struct CONNECTION *GetConnectionsTable()
 {
 	// Declare and initialize variables
-	MIB_TCPTABLE_OWNER_PID *pTcpTable;
-	DWORD i, dwSize = 0, dwRetVal = 0;
-	struct in_addr IpAddr;
-	struct CONNECTION *connHead = NULL;
-
-	pTcpTable = (MIB_TCPTABLE_OWNER_PID *) MALLOC(sizeof (MIB_TCPTABLE_OWNER_PID));
+	MIB_TCPTABLE_OWNER_PID *pTcpTable = (MIB_TCPTABLE_OWNER_PID *) MALLOC(sizeof (MIB_TCPTABLE_OWNER_PID));
 	if (pTcpTable == NULL) {
 		//printf("Error allocating memory!\n");
 		return NULL;
 	}
 
-	dwSize = sizeof (MIB_TCPTABLE_OWNER_PID);
+	DWORD dwSize = sizeof (MIB_TCPTABLE_OWNER_PID);
 	// Make an initial call to GetTcpTable to
 	// get the necessary size into the dwSize variable
-	if ((dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE,AF_INET,TCP_TABLE_OWNER_PID_ALL,0)) ==  ERROR_INSUFFICIENT_BUFFER) {
+	DWORD dwRetVal = GetExtendedTcpTable(pTcpTable, &dwSize, TRUE,AF_INET,TCP_TABLE_OWNER_PID_ALL,0);
+	if (dwRetVal ==  ERROR_INSUFFICIENT_BUFFER) {
 		FREE(pTcpTable);
 		pTcpTable = (MIB_TCPTABLE_OWNER_PID *) MALLOC(dwSize);
 		if (pTcpTable == NULL) {
@@ -35,20 +31,26 @@ struct CONNECTION* GetConnectionsTable()
 	}
 	//printf("\tLocal Addr\tLocal Port\tRemote Addr\tRemote Port\n");
 	//printf("Number of entries: %d\n", (int) pTcpTable->dwNumEntries);
-	for (i = 0; i < pTcpTable->dwNumEntries; i ++) {
-		struct CONNECTION* newConn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
+	struct in_addr IpAddr;
+	struct CONNECTION *connHead = NULL;
+	for (DWORD i = 0; i < pTcpTable->dwNumEntries; i ++) {
+		struct CONNECTION *newConn = (struct CONNECTION*)mir_alloc(sizeof(struct CONNECTION));
 		memset(newConn, 0, sizeof(struct CONNECTION));
 		//pid2name(pTcpTable->table[i].dwOwningPid,&newConn->Pname);
 		
 		if (pTcpTable->table[i].dwLocalAddr) {
 			IpAddr.S_un.S_addr = (ULONG) pTcpTable->table[i].dwLocalAddr;
 			//_snprintf(newConn->strIntIp,_countof(newConn->strIntIp),"%d.%d.%d.%d",IpAddr.S_un.S_un_b.s_b1,IpAddr.S_un.S_un_b.s_b2,IpAddr.S_un.S_un_b.s_b3,IpAddr.S_un.S_un_b.s_b4);
-			wcsncpy(newConn->strIntIp, mir_a2t(inet_ntoa(IpAddr)),_tcslen(mir_a2t(inet_ntoa(IpAddr))));
+			TCHAR *strIntIp = mir_a2t(inet_ntoa(IpAddr));
+			_tcsncpy(newConn->strIntIp, strIntIp, SIZEOF(newConn->strIntIp)-1);
+			mir_free(strIntIp);
 		}
 		
 		if (pTcpTable->table[i].dwRemoteAddr) {
 			IpAddr.S_un.S_addr = (u_long) pTcpTable->table[i].dwRemoteAddr;
-			wcsncpy(newConn->strExtIp, mir_a2t(inet_ntoa(IpAddr)),_tcslen(mir_a2t(inet_ntoa(IpAddr))));
+			TCHAR *strExtIp = mir_a2t(inet_ntoa(IpAddr));
+			_tcsncpy(newConn->strExtIp, strExtIp, SIZEOF(newConn->strExtIp)-1);
+			mir_free(strExtIp);
 		}
 		newConn->state = pTcpTable->table[i].dwState;
 		newConn->intIntPort = ntohs((u_short)pTcpTable->table[i].dwLocalPort);
@@ -108,7 +110,7 @@ struct CONNECTION* GetConnectionsTable()
 	return connHead;
 }
 
-void deleteConnectionsTable(struct CONNECTION* head)
+void deleteConnectionsTable(struct CONNECTION *head)
 {
 	struct CONNECTION *cur = head, *del;
 
@@ -121,18 +123,15 @@ void deleteConnectionsTable(struct CONNECTION* head)
 	head = NULL;
 }
 
-struct CONNECTION* searchConnection(struct CONNECTION* head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state)
+struct CONNECTION *searchConnection(struct CONNECTION *head, TCHAR *intIp, TCHAR *extIp, int intPort, int extPort, int state)
 {
-	struct CONNECTION *cur = head;
-
-	while(cur != NULL) {
-		if (wcscmp(cur->strIntIp, intIp) == 0 &&
-		    wcscmp(cur->strExtIp, extIp) == 0 &&
+	for(struct CONNECTION *cur = head; cur != NULL; cur = cur->next) {
+		if (_tcscmp(cur->strIntIp, intIp) == 0 &&
+		    _tcscmp(cur->strExtIp, extIp) == 0 &&
 		    cur->intExtPort == extPort &&
 		    cur->intIntPort == intPort &&
 		    cur->state == state)
 			return cur;
-		cur = cur->next;
 	}
 	return NULL;
 }
@@ -141,41 +140,9 @@ void getDnsName(TCHAR *strIp, TCHAR *strHostName, size_t len)
 {
 	in_addr iaHost;
 
-	iaHost.s_addr = inet_addr(mir_t2a(strIp));
+	char *szStrIP = mir_t2a(strIp);
+	iaHost.s_addr = inet_addr(szStrIP);
+	mir_free(szStrIP);
 	hostent *h = gethostbyaddr((char *)&iaHost, sizeof(struct in_addr), AF_INET);
 	_tcsncpy_s(strHostName, len, (h == NULL) ? strIp : _A2T(h->h_name), _TRUNCATE);
-}
-
-int wildcmp(const TCHAR *wild, const TCHAR *string) {
-	// Written by Jack Handy - jakkhandy@hotmail.com
-	const TCHAR *cp = NULL, *mp = NULL;
-
-	while ((*string) && (*wild != '*')) {
-		if ((*wild != *string) && (*wild != '?')) {
-			return 0;
-		}
-		wild ++;
-		string ++;
-	}
-
-	while (*string) {
-		if (*wild == '*') {
-			if (!*++ wild) {
-				return 1;
-			}
-			mp = wild;
-			cp = string + 1;
-		} else if ((*wild == *string) || (*wild == '?')) {
-			wild ++;
-			string ++;
-		} else {
-			wild = mp;
-			string = cp ++;
-		}
-	}
-
-	while (*wild == '*') {
-		wild ++;
-	}
-	return !*wild;
 }
