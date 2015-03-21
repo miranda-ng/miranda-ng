@@ -453,9 +453,6 @@
     <ClInclude Include="src\g10lib.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\gcrypt-module.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\gcrypt.h">
       <Filter>src</Filter>
     </ClInclude>
