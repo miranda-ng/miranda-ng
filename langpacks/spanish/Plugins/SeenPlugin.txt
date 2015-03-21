@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Text]
@@ -35,10 +35,6 @@ Ver detalles del usuario
 <desconocido>
 [<none>]
 <Nada>
-[Contacts]
-Contactos
-[Popups]
-Ventanas emergentes
 [seconds]
 segundos
 [username]
@@ -53,6 +49,10 @@ Estado
 Protocolo
 [Account]
 Cuenta
+[Contacts]
+Contactos
+[Popups]
+Ventanas emergentes
 [Idle]
 Inactivo
 [Unknown]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -35,8 +35,6 @@ Menu užívatela
 Zobraziť informácie o užívatelovi
 [<none>]
 <nič>
-[Contacts]
-Kontakty
 [seconds]
 sekúnd
 [nick]
@@ -45,5 +43,7 @@ Prezívka
 Stav
 [Note:]
 Poznámka:
+[Contacts]
+Kontakty
 [Unknown]
 neznáme

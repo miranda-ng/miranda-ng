@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -93,20 +93,6 @@
 <невідомо>
 [<none>]
 <немає>
-[Last Seen Variables]
-Змінні
-[Contacts]
-Контакти
-[Last seen]
-Остання поява
-[Popups]
-Спливаючі вікна
-[%n is %s (%u)]
-%n %s (%u)
-[%i(%r)%bWas %o]
-%i(%r)%bбув %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Ім'я:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bЧас:%t%H:%M:%S%bПопередній статус:%t%o%b%b%P ID:%t%u%bЗовнішній IP:%t%i%bВнутрішній IP:%t%r%bКлієнт: %t%C%b%bПовідомлення статусу:%t%T
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -175,6 +161,20 @@
 для порожнього рядка
 [instead of]
 замість
+[Last Seen Variables]
+Змінні
+[Contacts]
+Контакти
+[Last seen]
+Остання поява
+[Popups]
+Спливаючі вікна
+[%n is %s (%u)]
+%n %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%bбув %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Ім'я:%t%N%bСтатус:%t%s%bДата:%t%d.%m.%Y%bЧас:%t%H:%M:%S%bПопередній статус:%t%o%b%b%P ID:%t%u%bЗовнішній IP:%t%i%bВнутрішній IP:%t%r%bКлієнт: %t%C%b%bПовідомлення статусу:%t%T
 [Sunday]
 Неділя
 [Monday]

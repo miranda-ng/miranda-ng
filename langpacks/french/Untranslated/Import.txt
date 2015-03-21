@@ -2,6 +2,8 @@
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 [&Next >]
 [< &Back]
+[Import all settings, contacts and all messages]
+[Makes precise copy of the original profile]
 [Select this if you want to customize what to import.]
 [Choose appropriate accounts for import]
 [Ignored event from/to self]
