@@ -63,7 +63,7 @@ XMLCSTR XMLNode::getVersion() { return _CXML("v2.43"); }
 void freeXMLString(XMLSTR t) {if(t)free(t);}
 
 static XMLNode::XMLCharEncoding characterEncoding = XMLNode::char_encoding_UTF8;
-static char guessWideCharChars = 1, dropWhiteSpace = 1, removeCommentsInMiddleOfText = 1;
+static char guessWideCharChars = 1, dropWhiteSpace = 0, removeCommentsInMiddleOfText = 1;
 
 inline int mmin(const int t1, const int t2) { return t1 < t2 ? t1 : t2; }
 
