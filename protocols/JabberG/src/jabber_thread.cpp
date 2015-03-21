@@ -1061,7 +1061,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData *info)
 	HXML bodyNode = xmlGetChildByTag(node, "body", "xml:lang", m_tszSelectedLang);
 	if (bodyNode == NULL)
 		bodyNode = xmlGetChild(node, "body");
-	if (bodyNode != NULL && xmlGetText(bodyNode))
+	if (bodyNode != NULL)
 		szMessage = xmlGetText(bodyNode);
 
 	LPCTSTR ptszSubject = xmlGetText(xmlGetChild(node, "subject"));
