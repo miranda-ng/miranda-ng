@@ -261,7 +261,6 @@
     <ClInclude Include="src\cipher.h" />
     <ClInclude Include="src\context.h" />
     <ClInclude Include="src\g10lib.h" />
-    <ClInclude Include="src\gcrypt-module.h" />
     <ClInclude Include="src\gcrypt.h" />
     <ClInclude Include="src\hmac256.h" />
     <ClInclude Include="src\hwf-common.h" />
