@@ -156,9 +156,11 @@ AsyncHttpRequest::AsyncHttpRequest()
 	bIsMainConn = false;
 	m_pFunc = NULL;
 	bExpUrlEncode = false;
+	m_time = time(NULL);
+	m_priority = rpLow;
 }
 
-AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc)
+AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url, bool bSecure, VK_REQUEST_HANDLER pFunc, RequestPriority rpPriority)
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
 	m_bApiReq = true;
@@ -186,6 +188,8 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	pUserInfo = NULL;
 	m_iRetry = MAX_RETRIES;
 	bNeedsRestart = false;
+	m_time = time(NULL);
+	m_priority = rpPriority;
 }
 
 AsyncHttpRequest::~AsyncHttpRequest()

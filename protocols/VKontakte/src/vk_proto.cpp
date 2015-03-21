@@ -22,12 +22,19 @@ static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
 	return mir_tstrcmp(p1->m_tszUserName, p2->m_tszUserName);
 }
 
+static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
+{
+	if (p1->m_priority == p2->m_priority)
+		return (int)p1->m_time - (int)p2->m_time;
+	return (int)p2->m_priority - (int)p1->m_priority;
+}
+
 LIST<CVkProto> vk_Instances(1, sttCompareProtocols);
 static COLORREF sttColors[] = { 0, 1, 2, 3, 4, 5, 6 };
 
 CVkProto::CVkProto(const char *szModuleName, const TCHAR *ptszUserName) :
 	PROTO<CVkProto>(szModuleName, ptszUserName),
-	m_arRequestsQueue(10),
+	m_arRequestsQueue(10, sttCompareAsyncHttpRequest),
 	m_sendIds(3, PtrKeySortT),
 	m_incIds(3, PtrKeySortT),
 	m_cookies(5),
@@ -595,7 +602,7 @@ int CVkProto::UserIsTyping(MCONTACT hContact, int type)
 		if (m_iMarkMessageReadOn == markOnTyping)
 			MarkMessagesRead(hContact);
 		
-		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth)
+		Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.setActivity.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 			<< INT_PARAM("user_id", userID) 
 			<< CHAR_PARAM("type", "typing")
 			<< VER_API);

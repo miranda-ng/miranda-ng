@@ -368,7 +368,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 		return;
 	}
 
-	AsyncHttpRequest *pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
+	AsyncHttpRequest *pMsgReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("user_id", userID)
 		<< TCHAR_PARAM("message", fup->Desc)
 		<< TCHAR_PARAM("attachment", Attachment.GetBuffer())

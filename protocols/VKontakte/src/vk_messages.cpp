@@ -60,7 +60,7 @@ int CVkProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 	ptrA retMsg(GetStickerId(szMsg, StickerId));
 
 	ULONG msgId = ::InterlockedIncrement(&m_msgId);
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage)
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendMessage, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("user_id", userID)
 		<< VER_API;
 
@@ -142,7 +142,7 @@ void CVkProto::MarkMessagesRead(const CMStringA &mids)
 	if (mids.IsEmpty())
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 		<< CHAR_PARAM("message_ids", mids)
 		<< VER_API);
 }
@@ -156,7 +156,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 	if (userID == -1 || userID == VK_FEED_USER)
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)
 		<< INT_PARAM("peer_id", userID)
 		<< VER_API);
 }
@@ -169,7 +169,7 @@ void CVkProto::RetrieveMessagesByIds(const CMStringA &mids)
 	if (mids.IsEmpty())
 		return;
 
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getById.json", true, &CVkProto::OnReceiveMessages, AsyncHttpRequest::rpHigh)
 		<< CHAR_PARAM("message_ids", mids)
 		<< VER_API);
 }
