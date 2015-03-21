@@ -1451,7 +1451,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (!temp[0])
 					break;
 
-				int sendId = SendMessageDirect(temp, dat->hContact, dat->szProto);
+				int sendId = SendMessageDirect(rtrimt(temp), dat->hContact, dat->szProto);
 				if (sendId) {
 					dat->cmdList.insert(mir_tstrdup(temp));
 

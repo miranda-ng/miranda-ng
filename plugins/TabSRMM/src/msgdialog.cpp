@@ -2690,7 +2690,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				char *utfResult = NULL;
 				if (final_sendformat)
 					DoRtfToTags(dat, decoded, SIZEOF(rtfDefColors), rtfDefColors);
-				decoded.Trim();
+				decoded.TrimRight();
 				int bufSize = WideCharToMultiByte(dat->codePage, 0, decoded, -1, dat->sendBuffer, 0, 0, 0);
 
 				size_t memRequired = 0;
