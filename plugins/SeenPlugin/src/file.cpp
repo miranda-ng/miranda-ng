@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "seen.h"
 
 BOOL g_bFileActive;
-TCHAR *g_ptszFileStamp, *g_ptszFileName;
+static TCHAR *g_ptszFileStamp, *g_ptszFileName;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Prepares the log file:
