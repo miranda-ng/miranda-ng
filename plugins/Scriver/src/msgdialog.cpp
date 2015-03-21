@@ -1634,12 +1634,14 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				pf2.dwMask = PFM_RTLPARA;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 
+				ptrA szSendBuffer((char*)mir_alloc(bufSize));
+
 				MessageSendQueueItem msi = { 0 };
 				msi.flags = PREF_TCHAR;
 				if (pf2.wEffects & PFE_RTLPARA)
 					msi.flags |= PREF_RTL;
 				msi.sendBufferSize = bufSize;
-				msi.sendBuffer = (char*)mir_alloc(msi.sendBufferSize);
+				msi.sendBuffer = szSendBuffer;
 
 				GETTEXTEX gt = { 0 };
 				gt.flags = GT_USECRLF;
@@ -1652,10 +1654,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (RTL_Detect((wchar_t*)&msi.sendBuffer[ansiBufSize]))
 					msi.flags |= PREF_RTL;
 
-				if (msi.sendBuffer[0] == 0) {
-					mir_free(msi.sendBuffer);
+				if (msi.sendBuffer[0] == 0)
 					break;
-				}
 
 				/* Store messaging history */
 				char *msgText = GetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), dat->codePage);
@@ -1665,7 +1665,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					cmdListNew = tcmdlist_last(dat->cmdList);
 				}
 				if (msgText != NULL) {
-					dat->cmdList = tcmdlist_append(dat->cmdList, msgText, 20, FALSE);
+					dat->cmdList = tcmdlist_append(dat->cmdList, rtrim(msgText), 20, FALSE);
 					mir_free(msgText);
 				}
 				dat->cmdListCurrent = NULL;
@@ -1681,7 +1681,6 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendMessage(dat->hwndParent, DM_SENDMESSAGE, 0, (LPARAM)&msi);
 				else
 					SendMessage(hwndDlg, DM_SENDMESSAGE, 0, (LPARAM)&msi);
-				mir_free(msi.sendBuffer);
 			}
 			return TRUE;
 
