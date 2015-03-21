@@ -100,16 +100,8 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 		}
 		INT_PTR ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-#ifdef _DEBUG
-		if(ccs->wParam & PREF_UNICODE)
-		{
-			TCHAR *mes = mir_a2t((const char *)ccs->lParam);
-			MessageBox(0, mes, _T("OTR - sending raw message"), MB_OK);
-			mir_free(mes);
-		}
-		else 
-			MessageBoxA(0, (char *)ccs->lParam, ("OTR - sending raw message"), MB_OK);
-#endif
+		DEBUGOUTA("OTR - sending raw message: ");
+		DEBUGOUTA((char *)ccs->lParam);
 		
 		// reset to original values
 		ccs->lParam = (LPARAM)oldmessage;
@@ -126,21 +118,13 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 #define MESSAGE_PREFIX_LEN		6
 */
 
-INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
-	//PUShowMessage("OTR Recv Message", SM_NOTIFY);
+INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
+{
 	CCSDATA *ccs = (CCSDATA *) lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
 
-#ifdef _DEBUG
-	if(pre->flags & PREF_UNICODE)
-	{
-		TCHAR *mes = mir_a2t(pre->szMessage);
-		MessageBox(0, mes, _T("OTR - receiving message"), MB_OK);
-		mir_free(mes);
-	}
-	else 
-		MessageBoxA(0, (char *)pre->szMessage, ("OTR - receiving message"), MB_OK);
-#endif
+	DEBUGOUTA("OTR - receiving message: ");
+	DEBUGOUTA((char *)ccs->lParam);
 
 	if (pre->flags & PREF_BYPASS_OTR)  { // bypass for our inline messages
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
