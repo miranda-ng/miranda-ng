@@ -127,7 +127,6 @@ extern HGENMENU hmenuitem;
 extern DWORD dwmirver;
 
 extern BOOL g_bFileActive;
-extern TCHAR *g_ptszFileStamp, *g_ptszFileName;
 
 void   LoadWatchedProtos();
 void   UnloadWatchedProtos();
