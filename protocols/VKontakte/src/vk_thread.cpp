@@ -199,7 +199,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq
 void CVkProto::RetrieveMyInfo()
 {
 	debugLogA("CVkProto::RetrieveMyInfo");
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo,AsyncHttpRequest::rpHigh)
 		<< VER_API);
 }
 

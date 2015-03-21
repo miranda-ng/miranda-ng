@@ -41,8 +41,10 @@ typedef void (CVkProto::*VK_REQUEST_HANDLER)(NETLIBHTTPREQUEST*, struct AsyncHtt
 
 struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 {
+	enum RequestPriority { rpLow, rpMedium, rpHigh };
+
 	AsyncHttpRequest();
-	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc);
+	AsyncHttpRequest(CVkProto*, int iRequestType, LPCSTR szUrl, bool bSecure, VK_REQUEST_HANDLER pFunc, RequestPriority rpPriority = rpMedium);
 	~AsyncHttpRequest();
 
 	void AddHeader(LPCSTR, LPCSTR);
@@ -53,6 +55,8 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	VK_REQUEST_HANDLER m_pFunc;
 	void *pUserInfo;
 	int m_iRetry;
+	RequestPriority m_priority;
+	time_t m_time;
 	bool m_bApiReq;
 	bool bExpUrlEncode;
 	bool bNeedsRestart, bIsMainConn;

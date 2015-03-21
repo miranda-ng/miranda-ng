@@ -22,7 +22,7 @@ void CVkProto::RetrievePollingInfo()
 	debugLogA("CVkProto::RetrievePollingInfo");
 	if (!IsOnline())
 		return;
-	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo)
+	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.getLongPollServer.json", true, &CVkProto::OnReceivePollingInfo, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("use_ssl", 1)
 		<< VER_API);
 }

@@ -374,7 +374,7 @@ int CVkProto::OnChatEvent(WPARAM, LPARAM lParam)
 			TCHAR *buf = NEWTSTR_ALLOCA(gch->ptszText);
 			rtrimt(buf);
 			UnEscapeChatTags(buf);
-			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg)
+			AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
 				<< INT_PARAM("chat_id", cc->m_chatid) 
 				<< CHAR_PARAM("message", mir_utf8encodeT(buf))
 				<< VER_API;
@@ -515,7 +515,7 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (chat_id == -1)
 		return 1;
 
-	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg)
+	AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_POST, "/method/messages.send.json", true, &CVkProto::OnSendChatMsg, AsyncHttpRequest::rpHigh)
 		<< INT_PARAM("chat_id", chat_id)
 		<< TCHAR_PARAM("message", TranslateT("I'm back"))
 		<< VER_API;
