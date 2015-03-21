@@ -344,52 +344,48 @@ gcry_error_t otrl_privkey_write_FILEp(OtrlUserState us, FILE *privf);
 /* Generate a private DSA key for a given account, storing it into a
 * file on disk, and loading it into the given OtrlUserState.  Overwrite any
 * previously generated keys for that account in that OtrlUserState. */
- gcry_error_t otrl_privkey_write(OtrlUserState us, const char *filename)
- {
-	 gcry_error_t err;
-	 FILE *privf;
-	 #ifndef WIN32
-		 mode_t oldmask;
-	 #endif
-		 
-		 #ifndef WIN32
-		 oldmask = umask(077);
-	 #endif
-		 privf = fopen(filename, "w+b");
-	 if (!privf) {
-		 #ifndef WIN32
-			 umask(oldmask);
-		 #endif
-			 err = gcry_error_from_errno(errno);
-		 return err;
-		 }
+gcry_error_t otrl_privkey_write(OtrlUserState us, const char *filename)
+{
+	gcry_error_t err;
+	FILE *privf;
+#ifndef WIN32
+	mode_t oldmask = umask(077);
+#endif
+	privf = fopen(filename, "w+b");
+	if (!privf) {
+#ifndef WIN32
+		umask(oldmask);
+#endif
+		err = gcry_error_from_errno(errno);
+		return err;
+	}
 
-		 err = otrl_privkey_write_FILEp(us, privf);
+	err = otrl_privkey_write_FILEp(us, privf);
 
-		 fclose(privf);
-	 #ifndef WIN32
-		 umask(oldmask);
-	 #endif
-		 return err;
-	 }
-
-/* Just store the private keys of an OtrlUserState.
- * The FILE* must be open for reading and writing. */
-	 gcry_error_t otrl_privkey_write_FILEp(OtrlUserState us, FILE *privf)
-	 {
-		 OtrlPrivKey *p;
-		 
-			 if (!privf) return gcry_error(GPG_ERR_NO_ERROR);
-		 
-				 
-			 
-			 /* Output the other keys we know */
-			 fprintf(privf, "(privkeys\n");
-		 for (p=us->privkey_root; p; p=p->next) {
-			 otrl_account_write(privf, p->accountname, p->protocol, p->privkey);
-			 }
-		 if ( fprintf(privf, ")\n") < 0 )
-			 return gcry_error_from_errno(errno);
-		 return gcry_error(GPG_ERR_NO_ERROR);
-		 
+	fclose(privf);
+#ifndef WIN32
+	umask(oldmask);
+#endif
+	return err;
 }
+
+ /* Just store the private keys of an OtrlUserState.
+  * The FILE* must be open for reading and writing. */
+ gcry_error_t otrl_privkey_write_FILEp(OtrlUserState us, FILE *privf)
+ {
+	 OtrlPrivKey *p;
+
+	 if (!privf) return gcry_error(GPG_ERR_NO_ERROR);
+
+
+
+	 /* Output the other keys we know */
+	 fprintf(privf, "(privkeys\n");
+	 for (p = us->privkey_root; p; p = p->next) {
+		 otrl_account_write(privf, p->accountname, p->protocol, p->privkey);
+	 }
+	 if (fprintf(privf, ")\n") < 0)
+		 return gcry_error_from_errno(errno);
+	 return gcry_error(GPG_ERR_NO_ERROR);
+
+ }

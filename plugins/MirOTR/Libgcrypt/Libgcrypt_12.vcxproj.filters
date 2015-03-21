@@ -198,9 +198,6 @@
     <ClCompile Include="cipher\whirlpool.c">
       <Filter>cipher</Filter>
     </ClCompile>
-    <ClCompile Include="compat\compat.c">
-      <Filter>compat</Filter>
-    </ClCompile>
     <ClCompile Include="mpi\ec-ed25519.c">
       <Filter>mpi</Filter>
     </ClCompile>
@@ -306,9 +303,6 @@
     <ClCompile Include="src\missing-string.c">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\module.c">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\secmem.c">
       <Filter>src</Filter>
     </ClCompile>
@@ -372,9 +366,6 @@
     <ClCompile Include="..\Libgpg-error\version.c">
       <Filter>error</Filter>
     </ClCompile>
-    <ClCompile Include="..\Libgpg-error\visibility.c">
-      <Filter>error</Filter>
-    </ClCompile>
     <ClCompile Include="..\Libgpg-error\w32-gettext.c">
       <Filter>error</Filter>
     </ClCompile>
@@ -382,6 +373,10 @@
       <Filter>error</Filter>
     </ClCompile>
     <ClCompile Include="..\Libgpg-error\w32-thread.c">
+      <Filter>error</Filter>
+    </ClCompile>
+    <ClCompile Include="compat\compat.c" />
+    <ClCompile Include="..\Libgpg-error\err-visibility.c">
       <Filter>error</Filter>
     </ClCompile>
   </ItemGroup>
@@ -421,9 +416,6 @@
     </ClInclude>
     <ClInclude Include="cipher\rmd.h">
       <Filter>cipher</Filter>
-    </ClInclude>
-    <ClInclude Include="compat\libcompat.h">
-      <Filter>compat</Filter>
     </ClInclude>
     <ClInclude Include="mpi\ec-internal.h">
       <Filter>mpi</Filter>
@@ -536,7 +528,8 @@
     <ClInclude Include="..\Libgpg-error\thread.h">
       <Filter>error</Filter>
     </ClInclude>
-    <ClInclude Include="..\Libgpg-error\visibility.h">
+    <ClInclude Include="compat\libcompat.h" />
+    <ClInclude Include="..\Libgpg-error\err-visibility.h">
       <Filter>error</Filter>
     </ClInclude>
   </ItemGroup>

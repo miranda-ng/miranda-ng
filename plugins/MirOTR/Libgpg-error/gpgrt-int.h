@@ -21,7 +21,7 @@
 #define _GPGRT_GPGRT_INT_H
 
 #include "gpg-error.h"
-#include "visibility.h"
+#include "err-visibility.h"
 
 /* Local error function prototypes.  */
 const char *_gpg_strerror (gpg_error_t err);

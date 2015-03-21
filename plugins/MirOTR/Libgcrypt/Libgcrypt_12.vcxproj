@@ -114,6 +114,7 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Libgpg-error\err-visibility.c" />
     <ClCompile Include="cipher\arcfour.c" />
     <ClCompile Include="cipher\blowfish.c" />
     <ClCompile Include="cipher\camellia-glue.c" />
@@ -229,12 +230,12 @@
     <ClCompile Include="..\Libgpg-error\strsource-sym.c" />
     <ClCompile Include="..\Libgpg-error\strsource.c" />
     <ClCompile Include="..\Libgpg-error\version.c" />
-    <ClCompile Include="..\Libgpg-error\visibility.c" />
     <ClCompile Include="..\Libgpg-error\w32-gettext.c" />
     <ClCompile Include="..\Libgpg-error\w32-lock.c" />
     <ClCompile Include="..\Libgpg-error\w32-thread.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Libgpg-error\err-visibility.h" />
     <ClInclude Include="cipher\bithelp.h" />
     <ClInclude Include="cipher\camellia.h" />
     <ClInclude Include="cipher\cipher-internal.h" />
@@ -285,7 +286,6 @@
     <ClInclude Include="..\Libgpg-error\init.h" />
     <ClInclude Include="..\Libgpg-error\mkerrcodes.h" />
     <ClInclude Include="..\Libgpg-error\thread.h" />
-    <ClInclude Include="..\Libgpg-error\visibility.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\libgcrypt.def" />
