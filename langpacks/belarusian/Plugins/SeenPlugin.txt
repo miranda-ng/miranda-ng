@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -98,21 +98,6 @@
 [<none>]
 <няма>
 ;file \plugins\SeenPlugin\src\options.cpp
-[Last Seen Variables]
-Зменныя
-[Contacts]
-Кантакты
-[Last seen]
-Апошняе з'яўленне
-[Popups]
-Усплывальныя вокны
-;file \plugins\SeenPlugin\src\seen.h
-[%n is %s (%u)]
-%n %s (%u)
-[%i(%r)%bWas %o]
-%i(%r)%b быў %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -181,6 +166,21 @@
 для пустога радка
 [instead of]
 замест
+[Last Seen Variables]
+Зменныя
+[Contacts]
+Кантакты
+[Last seen]
+Апошняе з'яўленне
+[Popups]
+Усплывальныя вокны
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+%n %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%b быў %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]

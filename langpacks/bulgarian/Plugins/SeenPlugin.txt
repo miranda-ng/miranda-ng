@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Last seen options]
@@ -77,12 +77,6 @@ Popup цветове
 <неизвестно>
 [<none>]
 <няма>
-[Contacts]
-Контакти
-[Last seen]
-Последно видян
-[Popups]
-Рopups
 [-- Date --]
 -- Дата --
 [year (4 digits)]
@@ -147,6 +141,12 @@ AM/PM
 за празен низ
 [instead of]
 вместо
+[Contacts]
+Контакти
+[Last seen]
+Последно видян
+[Popups]
+Рopups
 [Sunday]
 неделя
 [Monday]

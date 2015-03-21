@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last seen
-;  Version: 5.0.5.1
+;  Version: 5.0.5.2
 ;  Authors: Heiko Schillinger, YB
 ;============================================================
 [Logs when a user was last seen online and which users were online while you were away.]
@@ -98,21 +98,6 @@ Użytkownik zalogowany
 [<none>]
 <brak>
 ;file \plugins\SeenPlugin\src\options.cpp
-[Last Seen Variables]
-Zmienne
-[Contacts]
-Kontakty
-[Last seen]
-Ostatnio widziany
-[Popups]
-Popupy
-;file \plugins\SeenPlugin\src\seen.h
-[%n is %s (%u)]
-%n jest %s (%u)
-[%i(%r)%bWas %o]
-%i(%r)%bBył %o
-[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
-Nazwa:%t%N%bStatus:%t%s%bDzień:%t%d.%m.%Y%bCzas:%t%H:%M:%S%bPoprzedni Status:%t%o%b%b%P ID:%t%u%bIP Zewnętrzne:%t%i%bIP Wewnętrzne:%t%r%bID Klienta: %t%C%b%bOpis:%t%T
 [-- Date --]
 -- Data --
 [year (4 digits)]
@@ -183,6 +168,21 @@ Użyj
 dla pustego elementu
 [instead of]
 zamiast
+[Last Seen Variables]
+Zmienne
+[Contacts]
+Kontakty
+[Last seen]
+Ostatnio widziany
+[Popups]
+Popupy
+;file \plugins\SeenPlugin\src\seen.h
+[%n is %s (%u)]
+%n jest %s (%u)
+[%i(%r)%bWas %o]
+%i(%r)%bBył %o
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClient ID: %t%C%b%bStatus Message:%t%T]
+Nazwa:%t%N%bStatus:%t%s%bDzień:%t%d.%m.%Y%bCzas:%t%H:%M:%S%bPoprzedni Status:%t%o%b%b%P ID:%t%u%bIP Zewnętrzne:%t%i%bIP Wewnętrzne:%t%r%bID Klienta: %t%C%b%bOpis:%t%T
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]

@@ -1,0 +1,2 @@
+﻿[Import all settings, contacts and all messages]
+[Makes precise copy of the original profile]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import contacts and messages
-;  Version: 0.95.3.4
+;  Version: 0.95.4.1
 ;  Authors: Miranda team
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
@@ -44,16 +44,20 @@ Assistant d'importation d'informations
 Annuler
 [< &Back]
 
+[Import all settings, contacts and all messages]
+
+[Makes precise copy of the original profile]
+
 [Import all contacts and all messages]
 Importer tous les contacts et messages
-[Only import contacts]
-Importer les contacts seulement
-[Custom import]
-Importation personnalisée
 [Select this if you want to import as much data as possible. This is the recommended option.]
 Sélectionnez ceci si vous voulez importer le plus de données possible (Recommandé).
+[Only import contacts]
+Importer les contacts seulement
 [Select this if you want to import contacts but don't want to import any message history.]
 Sélectionnez ceci si vous voulez importer les contacts, mais aucun historique de messages.
+[Custom import]
+Importation personnalisée
 [Select this if you want to customize what to import.]
 
 [New contacts && groups]

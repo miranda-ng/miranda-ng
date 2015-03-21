@@ -1,4 +1,6 @@
-﻿[Choose appropriate accounts for import]
+﻿[Import all settings, contacts and all messages]
+[Makes precise copy of the original profile]
+[Choose appropriate accounts for import]
 [Old account]
 [Protocol %S is not loaded, skipping account %s creation]
 [Unable to create an account %s of protocol %S]
