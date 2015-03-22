@@ -182,14 +182,6 @@ MCONTACT CMraProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Stubs
-
-int CMraProto::FileResume(HANDLE, int*, const TCHAR**) { return 1; }
-int CMraProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 1; }
-int CMraProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 1; }
-int CMraProto::SendUrl(MCONTACT, int, const char*) { return 1; }
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 int CMraProto::Authorize(MEVENT hDBEvent)
 {
@@ -237,11 +229,6 @@ int CMraProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
-}
-
-int CMraProto::AuthRequest(MCONTACT, const TCHAR*)
-{
-	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -357,16 +344,6 @@ int CMraProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 	dbei.pBlob = (PBYTE)pre->szMessage;
 	db_event_add(hContact, &dbei);
 	return 0;
-}
-
-int CMraProto::RecvFile(MCONTACT hContact, PROTORECVFILET *pre)
-{
-	return Proto_RecvFile(hContact, pre);
-}
-
-int CMraProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	return Proto_RecvMessage(hContact, pre);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

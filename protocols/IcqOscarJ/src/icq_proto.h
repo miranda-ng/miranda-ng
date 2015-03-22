@@ -77,9 +77,7 @@ struct CIcqProto : public PROTO<CIcqProto>
 	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner);
 
 	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
 	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles);

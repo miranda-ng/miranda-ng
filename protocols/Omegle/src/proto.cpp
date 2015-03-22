@@ -206,8 +206,6 @@ int OmegleProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
 
 int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 {
-	//MCONTACT hContact = (MCONTACT)wparam;
-
 	OnLeaveChat(NULL, NULL);
 	return 0;
 }

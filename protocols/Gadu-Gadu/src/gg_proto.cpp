@@ -122,22 +122,6 @@ GGPROTO::~GGPROTO()
 }
 
 //////////////////////////////////////////////////////////
-// Dummies for function that have to be implemented
-
-MCONTACT GGPROTO::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) { return NULL; }
-int      GGPROTO::Authorize(MEVENT hDbEvent) { return 1; }
-int      GGPROTO::AuthDeny(MEVENT hDbEvent, const TCHAR *szReason) { return 1; }
-int      GGPROTO::AuthRecv(MCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
-int      GGPROTO::AuthRequest(MCONTACT hContact, const TCHAR *szMessage) { return 1; }
-int      GGPROTO::FileResume(HANDLE hTransfer, int *action, const PROTOCHAR** szFilename) { return 1; }
-HANDLE   GGPROTO::SearchByEmail(const PROTOCHAR *email) { return NULL; }
-int      GGPROTO::RecvContacts(MCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
-int      GGPROTO::RecvUrl(MCONTACT hContact, PROTORECVEVENT *pre) { return 1; }
-int      GGPROTO::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) { return 1; }
-int      GGPROTO::SendUrl(MCONTACT hContact, int flags, const char *url) { return 1; }
-int      GGPROTO::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) { return 1; }
-
-//////////////////////////////////////////////////////////
 // when contact is added to list
 
 MCONTACT GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *psr)
@@ -564,14 +548,6 @@ HWND GGPROTO::CreateExtendedSearchUI(HWND owner)
 {
 	return CreateDialogParam(hInstance,
 		MAKEINTRESOURCE(IDD_GGADVANCEDSEARCH), owner, gg_advancedsearchdlgproc, (LPARAM)this);
-}
-
-//////////////////////////////////////////////////////////
-// when messsage received
-
-int GGPROTO::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
-{
-	return Proto_RecvMessage(hContact, pre);
 }
 
 //////////////////////////////////////////////////////////

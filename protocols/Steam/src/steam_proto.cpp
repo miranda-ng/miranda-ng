@@ -105,11 +105,6 @@ MCONTACT __cdecl CSteamProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-MCONTACT __cdecl CSteamProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
-{
-	return 0;
-}
-
 int __cdecl CSteamProto::Authorize(MEVENT hDbEvent)
 {
 	if (IsOnline() && hDbEvent)
@@ -164,11 +159,6 @@ int __cdecl CSteamProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 	return 1;
 }
 
-int __cdecl CSteamProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* pre)
-{
-	return 0;
-}
-
 int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 {
 	if (IsOnline() && hContact)
@@ -209,26 +199,6 @@ int __cdecl CSteamProto::AuthRequest(MCONTACT hContact, const TCHAR* szMessage)
 	return 1;
 }
 
-HANDLE __cdecl CSteamProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szPath)
-{ 
-	return 0;
-}
-
-int __cdecl CSteamProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
-{
-	return 0;
-}
-
-int __cdecl CSteamProto::FileDeny(MCONTACT hContact, HANDLE hTransfer, const TCHAR* szReason)
-{
-	return 0;
-}
-
-int __cdecl CSteamProto::FileResume(HANDLE hTransfer, int* action, const TCHAR** szFilename)
-{
-	return 0;
-}
-
 DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 {
 	switch(type)
@@ -252,8 +222,6 @@ DWORD_PTR __cdecl CSteamProto:: GetCaps(int type, MCONTACT hContact)
 	}
 }
 
-int __cdecl CSteamProto::GetInfo(MCONTACT hContact, int infoType ) { return 0; }
-
 HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
 {
 	if (!this->IsOnline())
@@ -273,61 +241,9 @@ HANDLE __cdecl CSteamProto::SearchBasic(const TCHAR* id)
 	return (HANDLE)STEAM_SEARCH_BYID;
 }
 
-HANDLE __cdecl CSteamProto::SearchByEmail(const TCHAR* email)
-{
-	return 0;
-}
-
-HANDLE __cdecl CSteamProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName)
-{
-	//if (!this->IsOnline())
-		return 0;
-
-	/*ptrA token(getStringA("TokenSecret"));
-
-	CMString keywords;
-	keywords.AppendFormat(L" %s", nick);
-	keywords.AppendFormat(L" %s", firstName);
-	keywords.AppendFormat(L" %s", lastName);
-	keywords.Trim();
-
-	//ForkThread(&CSteamProto::SearchByNameThread, ptrT(mir_tstrdup(keywords)));
-	PushRequest(
-		new SteamWebApi::SearchRequest(token, ptrT(mir_utf8encodeT(keywords))),
-		&CSteamProto::OnSearchByNameStarted);
-
-	return (HANDLE)STEAM_SEARCH_BYNAME;*/
-}
-
-HWND __cdecl CSteamProto::SearchAdvanced( HWND owner ) { return 0; }
-
-HWND __cdecl CSteamProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
-
-int __cdecl CSteamProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre) 
-{
-	return 0;
-}
-
-int __cdecl CSteamProto::RecvFile(MCONTACT hContact, PROTORECVFILET* pre) 
-{
-	return 0;
-}
-
 int __cdecl CSteamProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	return (INT_PTR)AddDBEvent(hContact, EVENTTYPE_MESSAGE, pre->timestamp, DBEF_UTF, lstrlenA(pre->szMessage), (BYTE*)pre->szMessage);
-}
-
-int __cdecl CSteamProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT *) { return 0; }
-
-int __cdecl CSteamProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
-{
-	return 0;
-}
-
-HANDLE __cdecl CSteamProto::SendFile(MCONTACT hContact, const TCHAR *szDescription, TCHAR **ppszFiles)
-{
-	return 0;
 }
 
 int __cdecl CSteamProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
@@ -368,10 +284,6 @@ void __cdecl CSteamProto::SendMsgThread(void *arg)
 		param,
 		ARG_MIR_FREE);
 }
-
-int __cdecl CSteamProto::SendUrl(MCONTACT hContact, int flags, const char *url) { return 0; }
-
-int __cdecl CSteamProto::SetApparentMode(MCONTACT hContact, int mode) { return 0; }
 
 int CSteamProto::SetStatus(int new_status)
 {
@@ -428,15 +340,6 @@ int CSteamProto::SetStatus(int new_status)
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	}
 
-	return 0;
-}
-
-HANDLE __cdecl CSteamProto::GetAwayMsg(MCONTACT hContact) { return 0; }
-int __cdecl CSteamProto::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt) { return 0; }
-int __cdecl CSteamProto::SetAwayMsg(int m_iStatus, const TCHAR *msg) { return 0; }
-
-int __cdecl CSteamProto::UserIsTyping(MCONTACT hContact, int type)
-{
 	return 0;
 }
 

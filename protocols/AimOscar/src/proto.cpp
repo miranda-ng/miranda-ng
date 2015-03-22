@@ -130,11 +130,6 @@ MCONTACT CAimProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact; //See authrequest for serverside addition
 }
 
-MCONTACT __cdecl CAimProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
-{
-	return NULL;
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
@@ -149,14 +144,6 @@ int CAimProto::Authorize(MEVENT hDbEvent)
 int CAimProto::AuthDeny(MEVENT hDbEvent, const TCHAR* szReason)
 {
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AUTH
-
-int __cdecl CAimProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT* evt)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -329,14 +316,6 @@ DWORD_PTR __cdecl CAimProto::GetCaps(int type, MCONTACT hContact)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// GetInfo - retrieves a contact info
-
-int __cdecl CAimProto::GetInfo(MCONTACT hContact, int infoType)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SearchBasic - searches the contact by JID
 
 void __cdecl CAimProto::basic_search_ack_success(void* p)
@@ -387,40 +366,6 @@ HANDLE __cdecl CAimProto::SearchByEmail(const PROTOCHAR* email)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// SearchByName - searches the contact by its first or last name, or by a nickname
-
-HANDLE __cdecl CAimProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
-{
-	return NULL;
-}
-
-HWND __cdecl CAimProto::SearchAdvanced(HWND owner)
-{
-	return NULL;
-}
-
-HWND __cdecl CAimProto::CreateExtendedSearchUI(HWND owner)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvContacts
-
-int __cdecl CAimProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvFile
-
-int __cdecl CAimProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT* evt)
-{
-	return Proto_RecvFile(hContact, evt);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
 int __cdecl CAimProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
@@ -439,22 +384,6 @@ int __cdecl CAimProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
    mir_free(bbuf);
 	pre->szMessage = omsg;
 	return ( int )res;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvUrl
-
-int __cdecl CAimProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendContacts
-
-int __cdecl CAimProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -607,22 +536,6 @@ int __cdecl CAimProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 	}
 
 	return res;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendUrl
-
-int __cdecl CAimProto::SendUrl(MCONTACT hContact, int flags, const char* url)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SetApparentMode - sets the visibility m_iStatus
-
-int __cdecl CAimProto::SetApparentMode(MCONTACT hContact, int mode)
-{
-	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

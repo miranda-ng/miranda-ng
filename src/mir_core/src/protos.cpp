@@ -262,3 +262,167 @@ MIR_CORE_DLL(int) ProtoGetAvatarFileFormat(const TCHAR *ptszFileName)
 
 	return (res && dwBytes == SIZEOF(buf)) ? ProtoGetBufferFormat(buf) : PA_FORMAT_UNKNOWN;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// default PROTO_INTERFACE method implementations
+
+MCONTACT PROTO_INTERFACE::AddToList(int flags, PROTOSEARCHRESULT* psr)
+{
+	return NULL; // error
+}
+
+MCONTACT PROTO_INTERFACE::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
+{
+	return NULL; // error
+}
+
+int PROTO_INTERFACE::Authorize(MEVENT hDbEvent)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::AuthRecv(MCONTACT hContact, PROTORECVEVENT*)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
+{
+	return 1; // error
+}
+
+HANDLE PROTO_INTERFACE::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
+{
+	return NULL; // error
+}
+
+int PROTO_INTERFACE::FileCancel(MCONTACT hContact, HANDLE hTransfer)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename)
+{
+	return 1; // error
+}
+
+DWORD_PTR PROTO_INTERFACE::GetCaps(int type, MCONTACT hContact)
+{
+	return 0; // empty value
+}
+
+int PROTO_INTERFACE::GetInfo(MCONTACT hContact, int infoType)
+{
+	return 1; // error
+}
+
+HANDLE PROTO_INTERFACE::SearchBasic(const PROTOCHAR* id)
+{
+	return NULL; // error
+}
+
+HANDLE PROTO_INTERFACE::SearchByEmail(const PROTOCHAR* email)
+{
+	return NULL; // error
+}
+
+HANDLE PROTO_INTERFACE::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
+{
+	return NULL; // error
+}
+
+HWND PROTO_INTERFACE::SearchAdvanced(HWND owner)
+{
+	return NULL; // error
+}
+
+HWND PROTO_INTERFACE::CreateExtendedSearchUI(HWND owner)
+{
+	return NULL; // error
+}
+
+int PROTO_INTERFACE::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::RecvFile(MCONTACT hContact, PROTOFILEEVENT *evt)
+{
+	return ::Proto_RecvFile(hContact, evt); // default file receiver
+}
+
+int PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
+{
+	::Proto_RecvMessage(hContact, evt); // default message receiver
+	return 0;
+}
+
+int PROTO_INTERFACE::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList)
+{
+	return 1; // error
+}
+
+HANDLE PROTO_INTERFACE::SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles)
+{
+	return NULL; // error
+}
+
+int PROTO_INTERFACE::SendMsg(MCONTACT hContact, int flags, const char *msg)
+{
+	return 0; // error
+}
+
+int PROTO_INTERFACE::SendUrl(MCONTACT hContact, int flags, const char *url)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::SetApparentMode(MCONTACT hContact, int mode)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::SetStatus(int iNewStatus)
+{
+	return 1; // you better declare it
+}
+
+HANDLE PROTO_INTERFACE::GetAwayMsg(MCONTACT hContact)
+{
+	return NULL; // no away message
+}
+
+int PROTO_INTERFACE::RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::SetAwayMsg(int iStatus, const PROTOCHAR* msg)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::UserIsTyping(MCONTACT hContact, int type)
+{
+	return 1; // error
+}
+
+int PROTO_INTERFACE::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
+{
+	return 1; // not an error, vitally important
+}

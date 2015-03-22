@@ -467,22 +467,6 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const TCHAR*)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AUTH
-
-int __cdecl CJabberProto::AuthRecv(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AUTHREQUEST
-
-int __cdecl CJabberProto::AuthRequest(MCONTACT, const TCHAR*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileAllow - starts a file transfer
 
 HANDLE __cdecl CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const TCHAR *szPath)
@@ -821,22 +805,6 @@ HANDLE __cdecl CJabberProto::SearchByName(const TCHAR *nick, const TCHAR *firstN
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// RecvContacts
-
-int __cdecl CJabberProto::RecvContacts(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvFile
-
-int __cdecl CJabberProto::RecvFile(MCONTACT hContact, PROTORECVFILET *evt)
-{
-	return Proto_RecvFile(hContact, evt);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
 int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
@@ -846,14 +814,6 @@ int __cdecl CJabberProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *evt)
 	evt->cbCustomDataSize = (DWORD)mir_strlen(szResUtf);
 	Proto_RecvMessage(hContact, evt);
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvUrl
-
-int __cdecl CJabberProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -1099,14 +1059,6 @@ int __cdecl CJabberProto::SendMsg(MCONTACT hContact, int flags, const char* pszS
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// SendUrl
-
-int __cdecl CJabberProto::SendUrl(MCONTACT, int /*flags*/, const char* /*url*/)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetApparentMode - sets the visibility status
 
 int __cdecl CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
@@ -1244,14 +1196,6 @@ HANDLE __cdecl CJabberProto::GetAwayMsg(MCONTACT hContact)
 
 	ForkThread(&CJabberProto::GetAwayMsgThread, (void*)hContact);
 	return (HANDLE)1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AWAYMSG
-
-int __cdecl CJabberProto::RecvAwayMsg(MCONTACT, int /*statusMode*/, PROTORECVEVENT*)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

@@ -17,12 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-//////////////////////////////////////////////////////////////////////////////
-int CVkProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) {	return 1; }
-HANDLE CVkProto::GetAwayMsg(MCONTACT) {	return 0; }
-int CVkProto::SetAwayMsg(int, const PROTOCHAR*) { return 0; }
-//////////////////////////////////////////////////////////////////////////////
-
 int CVkProto::SetStatus(int iNewStatus)
 {
 	debugLogA("CVkProto::SetStatus iNewStatus = %d, m_iStatus = %d, m_iDesiredStatus = %d m_hWorkerThread = %d", iNewStatus, m_iStatus, m_iDesiredStatus, m_hWorkerThread == NULL ? 0 : 1);

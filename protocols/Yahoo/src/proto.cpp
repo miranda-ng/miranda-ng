@@ -336,30 +336,6 @@ int __cdecl CYahooProto::GetInfo(MCONTACT hContact, int /*infoType*/ )
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// SearchByEmail - searches the contact by its e-mail
-
-HANDLE __cdecl CYahooProto::SearchByEmail( const PROTOCHAR* email )
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SearchByName - searches the contact by its first or last name, or by a nickname
-
-HANDLE __cdecl CYahooProto::SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName )
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvContacts
-
-int __cdecl CYahooProto::RecvContacts(MCONTACT/*hContact*/, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // RecvFile
 
 int __cdecl CYahooProto::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
@@ -367,30 +343,6 @@ int __cdecl CYahooProto::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
 	db_unset(hContact, "CList", "Hidden");
 
 	return Proto_RecvFile(hContact, evt);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvUrl
-
-int __cdecl CYahooProto::RecvUrl(MCONTACT/*hContact*/, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendContacts
-
-int __cdecl CYahooProto::SendContacts(MCONTACT/*hContact*/, int /*flags*/, int /*nContacts*/, MCONTACT* /*hContactsList*/)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendUrl
-
-int __cdecl CYahooProto::SendUrl(MCONTACT/*hContact*/, int /*flags*/, const char* /*url*/)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -587,14 +539,6 @@ HANDLE __cdecl CYahooProto::GetAwayMsg(MCONTACT hContact)
 	}
 
 	return 0; // Failure
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AWAYMSG
-
-int __cdecl CYahooProto::RecvAwayMsg(MCONTACT/*hContact*/, int /*statusMode*/, PROTORECVEVENT*)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////

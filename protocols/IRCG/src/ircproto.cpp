@@ -336,14 +336,6 @@ MCONTACT __cdecl CIrcProto::AddToList(int, PROTOSEARCHRESULT* psr)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// AddToList - adds a contact to the contact list
-
-MCONTACT __cdecl CIrcProto::AddToListByEvent(int, int, MEVENT)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // AuthAllow - processes the successful authorization
 
 int __cdecl CIrcProto::Authorize(MEVENT)
@@ -357,22 +349,6 @@ int __cdecl CIrcProto::Authorize(MEVENT)
 int __cdecl CIrcProto::AuthDeny(MEVENT, const TCHAR*)
 {
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AUTH
-
-int __cdecl CIrcProto::AuthRecv(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// PSS_AUTHREQUEST
-
-int __cdecl CIrcProto::AuthRequest(MCONTACT, const TCHAR*)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -500,14 +476,6 @@ DWORD_PTR __cdecl CIrcProto::GetCaps(int type, MCONTACT)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// GetInfo - retrieves a contact info
-
-int __cdecl CIrcProto::GetInfo(MCONTACT, int)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SearchBasic - searches the contact by JID
 
 struct AckBasicSearchParam
@@ -539,72 +507,6 @@ HANDLE __cdecl CIrcProto::SearchBasic(const PROTOCHAR* szId)
 	}
 
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SearchByEmail - searches the contact by its e-mail
-
-HANDLE __cdecl CIrcProto::SearchByEmail(const PROTOCHAR*)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// upsupported search functions
-
-HANDLE __cdecl CIrcProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*)
-{
-	return NULL;
-}
-
-HWND __cdecl CIrcProto::CreateExtendedSearchUI(HWND)
-{
-	return NULL;
-}
-
-HWND __cdecl CIrcProto::SearchAdvanced(HWND)
-{
-	return NULL;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvContacts
-
-int __cdecl CIrcProto::RecvContacts(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvFile
-
-int __cdecl CIrcProto::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
-{
-	return Proto_RecvFile(hContact, evt);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvMsg
-
-int __cdecl CIrcProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* evt)
-{
-	return Proto_RecvMessage(hContact, evt);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvUrl
-
-int __cdecl CIrcProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendContacts
-
-int __cdecl CIrcProto::SendContacts(MCONTACT, int, int, MCONTACT*)
-{
-	return 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -815,22 +717,6 @@ int __cdecl CIrcProto::SendMsg(MCONTACT hContact, int flags, const char* pszSrc)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// SendUrl
-
-int __cdecl CIrcProto::SendUrl(MCONTACT, int, const char*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SetApparentMode - sets the visibility status
-
-int __cdecl CIrcProto::SetApparentMode(MCONTACT, int)
-{
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SetStatus - sets the protocol status
 
 int __cdecl CIrcProto::SetStatus(int iNewStatus)
@@ -929,14 +815,6 @@ HANDLE __cdecl CIrcProto::GetAwayMsg(MCONTACT hContact)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AWAYMSG
-
-int __cdecl CIrcProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
 // SetAwayMsg - sets the away status message
 
 int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
@@ -960,14 +838,6 @@ int __cdecl CIrcProto::SetAwayMsg(int status, const TCHAR* msg)
 		}
 	}
 
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// UserIsTyping - sends a UTN notification
-
-int __cdecl CIrcProto::UserIsTyping(MCONTACT, int)
-{
 	return 0;
 }
 
