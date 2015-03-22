@@ -41,44 +41,16 @@ public:
 	// PROTO_INTERFACE ///////////////////////////////////////////////////////////////////
 
 	virtual	MCONTACT  __cdecl AddToList(int flags, PROTOSEARCHRESULT* psr);
-	virtual	MCONTACT  __cdecl AddToListByEvent(int flags, int iContact, MEVENT hDbEvent) { return NULL; }
-
-	virtual	int       __cdecl Authorize(MEVENT hDbEvent);
-	virtual	int       __cdecl AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason) { return 1; }
-	virtual	int       __cdecl AuthRecv(MCONTACT hContact, PROTORECVEVENT*) { return 1; }
-	virtual	int       __cdecl AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage);
-
-	virtual	HANDLE    __cdecl FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath) { return NULL; }
-	virtual	int       __cdecl FileCancel(MCONTACT hContact, HANDLE hTransfer) { return 1; }
-	virtual	int       __cdecl FileDeny(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szReason) { return 1; }
-	virtual	int       __cdecl FileResume(HANDLE hTransfer, int* action, const PROTOCHAR** szFilename) { return 1; }
 
 	virtual	DWORD_PTR __cdecl GetCaps(int type, MCONTACT hContact = NULL);
-	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType) { return 1; }
 
 	virtual	HANDLE    __cdecl SearchBasic(const PROTOCHAR* id);
-	virtual	HANDLE    __cdecl SearchByEmail(const PROTOCHAR* email) { return NULL; }
-	virtual	HANDLE    __cdecl SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName) { return NULL; }
-	virtual	HWND      __cdecl SearchAdvanced(HWND owner) { return NULL; }
-	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND owner) { return NULL; }
 
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*) { return 1; }
-	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTOFILEEVENT*) { return 1; }
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*) { return 1; }
 
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) { return 1; }
-	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles) { return NULL; }
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg);
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url) { return 1; }
 
-	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode) { return 1; }
 	virtual	int       __cdecl SetStatus(int iNewStatus);
-
-	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact) { return NULL; }
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT* evt) { return 1; }
-	virtual	int       __cdecl SendAwayMsg(MCONTACT hContact, HANDLE hProcess, const char* msg) { return 1; }
-	virtual	int       __cdecl SetAwayMsg(int iStatus, const PROTOCHAR* msg) { return 1; }
 
 	virtual	int       __cdecl UserIsTyping(MCONTACT hContact, int type);
 

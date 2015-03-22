@@ -78,19 +78,14 @@ MCONTACT __cdecl CToxProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return AddContact(address.c_str(), _T(""), flags & PALF_TEMPORARY);
 }
 
-MCONTACT __cdecl CToxProto::AddToListByEvent(int, int, MEVENT) { return 0; }
-
 int __cdecl CToxProto::Authorize(MEVENT hDbEvent)
 {
 	MCONTACT hContact = GetContactFromAuthEvent(hDbEvent);
 	if (hContact == INVALID_CONTACT_ID)
-	{
 		return 1;
-	}
+
 	return OnGrantAuth(hContact, 0);
 }
-
-int __cdecl CToxProto::AuthDeny(MEVENT, const PROTOCHAR*) { return 0; }
 
 int __cdecl CToxProto::AuthRecv(MCONTACT, PROTORECVEVENT* pre)
 {
@@ -103,16 +98,6 @@ int __cdecl CToxProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *szMessage
 	return OnRequestAuth(hContact, (LPARAM)reason);
 }
 
-HANDLE __cdecl CToxProto::ChangeInfo(int, void*) { return 0; }
-
-int __cdecl CToxProto::GetInfo(MCONTACT, int) { return 0; }
-
-HANDLE __cdecl CToxProto::SearchBasic(const PROTOCHAR*) { return 0; }
-
-HANDLE __cdecl CToxProto::SearchByEmail(const PROTOCHAR*) { return 0; }
-
-HANDLE __cdecl CToxProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*) { return 0; }
-
 HWND __cdecl CToxProto::SearchAdvanced(HWND owner)
 {
 	return OnSearchAdvanced(owner);
@@ -123,37 +108,20 @@ HWND __cdecl CToxProto::CreateExtendedSearchUI(HWND owner)
 	return OnCreateExtendedSearchUI(owner);
 }
 
-int __cdecl CToxProto::RecvContacts(MCONTACT, PROTORECVEVENT*) { return 0; }
-
-int __cdecl CToxProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT *pre)
-{
-	return Proto_RecvFile(hContact, pre);
-}
-
 int __cdecl CToxProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 {
 	return OnReceiveMessage(hContact, pre);
 }
-
-int __cdecl CToxProto::RecvUrl(MCONTACT, PROTORECVEVENT*) { return 0; }
-
-int __cdecl CToxProto::SendContacts(MCONTACT, int, int, MCONTACT*) { return 0; }
 
 int CToxProto::SendMsg(MCONTACT hContact, int flags, const char *msg)
 {
 	return OnSendMessage(hContact, flags, msg);
 }
 
-int __cdecl CToxProto::SendUrl(MCONTACT, int, const char*) { return 0; }
-
-int __cdecl CToxProto::SetApparentMode(MCONTACT, int) { return 0; }
-
 int __cdecl CToxProto::SetStatus(int iNewStatus)
 {
 	if (iNewStatus == m_iDesiredStatus)
-	{
 		return 0;
-	}
 
 	switch (iNewStatus)
 	{
@@ -222,8 +190,6 @@ int __cdecl CToxProto::SetStatus(int iNewStatus)
 }
 
 HANDLE __cdecl CToxProto::GetAwayMsg(MCONTACT) { return 0; }
-
-int __cdecl CToxProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*) { return 0; }
 
 int __cdecl CToxProto::SetAwayMsg(int, const PROTOCHAR *msg)
 {

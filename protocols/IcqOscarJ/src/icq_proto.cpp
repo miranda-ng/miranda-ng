@@ -915,15 +915,6 @@ int __cdecl CIcqProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT* pre)
 
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// RecvFile
-
-int __cdecl CIcqProto::RecvFile(MCONTACT hContact, PROTORECVFILET* evt)
-{
-	return Proto_RecvFile(hContact, evt);
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////
 // RecvMsg
 
 int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
@@ -945,15 +936,6 @@ int __cdecl CIcqProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 		CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 	return 0;
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvUrl
-
-int __cdecl CIcqProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
 }
 
 

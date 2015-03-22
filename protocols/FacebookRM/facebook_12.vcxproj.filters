@@ -51,9 +51,6 @@
     <ClCompile Include="src\proto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\stubs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\theme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

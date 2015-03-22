@@ -89,36 +89,6 @@ MCONTACT CSametimeProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return AddSearchedUser(sr, flags & PALF_TEMPORARY);
 }
 
-MCONTACT CSametimeProto::AddToListByEvent(int flags, int iContact, MEVENT hDbEvent)
-{
-	debugLog(_T("CSametimeProto::AddToListByEvent()  flags=[%d]"), flags);
-	return 0;
-}
-
-int CSametimeProto::Authorize(MEVENT hDbEvent)
-{
-	debugLog(_T("CSametimeProto::Authorize()"));
-	return 1;
-}
-
-int CSametimeProto::AuthDeny(MEVENT hDbEvent, const PROTOCHAR* szReason)
-{
-	debugLog(_T("CSametimeProto::AuthDeny()"));
-	return 1;
-}
-
-int CSametimeProto::AuthRecv(MCONTACT hContact, PROTORECVEVENT*)
-{
-	debugLog(_T("CSametimeProto::AuthRecv()"));
-	return 1;
-}
-
-int CSametimeProto::AuthRequest(MCONTACT hContact, const PROTOCHAR* szMessage)
-{
-	debugLog(_T("CSametimeProto::AuthRequest()"));
-	return 1;
-}
-
 HANDLE CSametimeProto::FileAllow(MCONTACT hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	debugLog(_T("CSametimeProto::FileAllow()  hContact=[%x], szPath=[%s]"), hContact, szPath);
@@ -210,16 +180,6 @@ HANDLE CSametimeProto::SearchBasic(const PROTOCHAR* id)
 	///TODO - add timeout (like at GGPROTO::searchthread)
 }
 
-HANDLE CSametimeProto::SearchByEmail(const PROTOCHAR* email)
-{
-	return 0;
-}
-
-HANDLE CSametimeProto::SearchByName(const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName)
-{
-	return 0;
-}
-
 HWND CSametimeProto::SearchAdvanced(HWND owner)
 {
 	TCHAR buf[512];
@@ -240,12 +200,6 @@ HWND CSametimeProto::CreateExtendedSearchUI(HWND owner)
 }
 
 
-int CSametimeProto::RecvContacts(MCONTACT hContact, PROTORECVEVENT*)
-{
-	debugLog(_T("CSametimeProto::RecvContacts()"));
-	return 1;
-}
-
 int CSametimeProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT* pre)
 {
 	debugLog(_T("CSametimeProto::RecvFile()  hContact=[%x]"), hContact);
@@ -264,18 +218,6 @@ int CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 	db_unset(hContact, "CList", "NotOnList");
 
 	return Proto_RecvMessage(hContact, pre);
-}
-
-int CSametimeProto::RecvUrl(MCONTACT hContact, PROTORECVEVENT*)
-{
-	debugLog(_T("CSametimeProto::RecvUrl()"));
-	return 1;
-}
-
-int CSametimeProto::SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT* hContactsList)
-{
-	debugLog(_T("CSametimeProto::SendContacts()    flags=[%d], nContacts=[%d]"), flags, nContacts);
-	return 1;
 }
 
 HANDLE CSametimeProto::SendFile(MCONTACT hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles)
@@ -328,18 +270,6 @@ int CSametimeProto::SendMsg(MCONTACT hContact, int flags, const char* msg)
 	mir_forkthread(sttFakeAckMessageSuccessThread, (void*)tfap);
 
 	return ret;
-}
-
-int CSametimeProto::SendUrl(MCONTACT hContact, int flags, const char* url)
-{
-	debugLog(_T("CSametimeProto::SendUrl()"));
-	return 1;
-}
-
-int CSametimeProto::SetApparentMode(MCONTACT hContact, int mode)
-{
-	debugLog(_T("CSametimeProto::SetApparentMode()    mode=[%d]"), mode);
-	return 1;
 }
 
 int CSametimeProto::SetStatus(int iNewStatus)

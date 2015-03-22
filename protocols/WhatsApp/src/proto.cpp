@@ -180,17 +180,6 @@ MCONTACT WhatsAppProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	return hContact;
 }
 
-int WhatsAppProto::AuthRequest(MCONTACT hContact, const PROTOCHAR *message)
-{
-	RequestFriendship(hContact);
-	return 0;
-}
-
-int WhatsAppProto::Authorize(MEVENT hDbEvent)
-{
-	return 1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::SearchAckThread(void *targ)

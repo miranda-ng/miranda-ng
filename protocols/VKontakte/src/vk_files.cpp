@@ -17,12 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HANDLE CVkProto::FileAllow(MCONTACT, HANDLE, const PROTOCHAR*) { return NULL; }
-int CVkProto::FileCancel(MCONTACT, HANDLE) {	return 1; }
-int CVkProto::FileDeny(MCONTACT, HANDLE, const PROTOCHAR*) { return 1; }
-int CVkProto::FileResume(HANDLE, int*, const PROTOCHAR**) { return 1; }
-int CVkProto::RecvFile(MCONTACT, PROTORECVFILET *) { return 1; }
-
 CVkFileUploadParam::CVkFileUploadParam(MCONTACT _hContact, const PROTOCHAR* _desc, PROTOCHAR** _files) :
 hContact(_hContact), filetype(typeInvalid), atr(NULL), fname(NULL), iErrorCode(0)
 {

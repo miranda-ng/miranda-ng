@@ -188,7 +188,6 @@
     <ClCompile Include="src\messages.cpp" />
     <ClCompile Include="src\proto.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\stubs.cpp" />
     <ClCompile Include="src\theme.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

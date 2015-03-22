@@ -42,26 +42,19 @@ struct CYahooProto : public PROTO<CYahooProto>
 	virtual	int       __cdecl GetInfo(MCONTACT hContact, int infoType );
 
 	virtual	HANDLE    __cdecl SearchBasic( const PROTOCHAR* id );
-	virtual	HANDLE    __cdecl SearchByEmail( const PROTOCHAR* email );
-	virtual	HANDLE    __cdecl SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName );
 	virtual	HWND      __cdecl SearchAdvanced( HWND owner );
 	virtual	HWND      __cdecl CreateExtendedSearchUI( HWND owner );
 
-	virtual	int       __cdecl RecvContacts(MCONTACT hContact, PROTORECVEVENT*);
 	virtual	int       __cdecl RecvFile(MCONTACT hContact, PROTORECVFILET*);
 	virtual	int       __cdecl RecvMsg(MCONTACT hContact, PROTORECVEVENT*);
-	virtual	int       __cdecl RecvUrl(MCONTACT hContact, PROTORECVEVENT*);
 
-	virtual	int       __cdecl SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList);
 	virtual	HANDLE    __cdecl SendFile(MCONTACT hContact, const PROTOCHAR *szDescription, PROTOCHAR **ppszFiles);
 	virtual	int       __cdecl SendMsg(MCONTACT hContact, int flags, const char* msg );
-	virtual	int       __cdecl SendUrl(MCONTACT hContact, int flags, const char* url );
 
 	virtual	int       __cdecl SetApparentMode(MCONTACT hContact, int mode);
 	virtual	int       __cdecl SetStatus(int iNewStatus);
 
 	virtual	HANDLE    __cdecl GetAwayMsg(MCONTACT hContact);
-	virtual	int       __cdecl RecvAwayMsg(MCONTACT hContact, int mode, PROTORECVEVENT *evt);
 	virtual	int       __cdecl SetAwayMsg( int m_iStatus, const PROTOCHAR *msg);
 	virtual INT_PTR    __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 

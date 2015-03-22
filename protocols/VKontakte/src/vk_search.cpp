@@ -17,9 +17,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-HWND CVkProto::SearchAdvanced(HWND) { return NULL; }
-HWND CVkProto::CreateExtendedSearchUI(HWND) { return NULL; }
-
 HANDLE CVkProto::SearchBasic(const PROTOCHAR* id)
 {
 	ForkThread(&CVkProto::SearchBasicThread, (void *)id);

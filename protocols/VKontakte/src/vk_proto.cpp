@@ -620,13 +620,3 @@ int CVkProto::GetInfo(MCONTACT hContact, int)
 	RetrieveUserInfo(userID);
 	return 0;
 }
-
-//////////////////////////////////////////////////////////////////////////////
-MCONTACT CVkProto::AddToListByEvent(int, int, MEVENT) {	return NULL; }
-int CVkProto::AuthRecv(MCONTACT, PROTORECVEVENT *) { return 1; }
-int CVkProto::RecvContacts(MCONTACT, PROTORECVEVENT *) { return 1; }
-int CVkProto::RecvUrl(MCONTACT, PROTORECVEVENT *) {	return 1; }
-int CVkProto::SendContacts(MCONTACT, int, int, MCONTACT*) {	return 1; }
-int CVkProto::SendUrl(MCONTACT, int, const char*) {	return 1; }
-int CVkProto::SetApparentMode(MCONTACT, int) { return 1; }
-//////////////////////////////////////////////////////////////////////////////

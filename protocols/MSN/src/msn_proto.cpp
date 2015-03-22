@@ -448,22 +448,6 @@ HANDLE __cdecl CMsnProto::SearchByEmail(const PROTOCHAR* email)
 	return SearchBasic(email);
 }
 
-
-HANDLE __cdecl CMsnProto::SearchByName(const PROTOCHAR*, const PROTOCHAR*, const PROTOCHAR*)
-{
-	return NULL;
-}
-
-HWND __cdecl CMsnProto::SearchAdvanced(HWND)
-{
-	return NULL;
-}
-
-HWND __cdecl CMsnProto::CreateExtendedSearchUI(HWND)
-{
-	return NULL;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnFileAllow - starts the file transfer
 
@@ -679,31 +663,6 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, MCONTACT)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MsnGetInfo - nothing to do, cause we cannot obtain information from the server
-
-int __cdecl CMsnProto::GetInfo(MCONTACT, int)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvContacts
-
-int __cdecl CMsnProto::RecvContacts(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// MsnRecvFile - creates a database event from the file request been received
-
-int __cdecl CMsnProto::RecvFile(MCONTACT hContact, PROTOFILEEVENT* evt)
-{
-	return Proto_RecvFile(hContact, evt);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // MsnRecvMessage - creates a database event from the message been received
 
 int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
@@ -715,22 +674,6 @@ int __cdecl CMsnProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 		db_unset(hContact, "CList", "Hidden");
 
 	return Proto_RecvMessage(hContact, pre);
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// RecvUrl
-
-int __cdecl CMsnProto::RecvUrl(MCONTACT, PROTORECVEVENT*)
-{
-	return 1;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendContacts
-
-int __cdecl CMsnProto::SendContacts(MCONTACT, int, int, MCONTACT*)
-{
-	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -941,14 +884,6 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const TCHAR* msg)
 	return 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
-// PSR_AWAYMSG
-
-int __cdecl CMsnProto::RecvAwayMsg(MCONTACT, int, PROTORECVEVENT*)
-{
-	return 1;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // MsnSetStatus - set the plugin's connection status
 
@@ -1038,14 +973,6 @@ int __cdecl CMsnProto::UserIsTyping(MCONTACT hContact, int type)
 	}
 
 	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////
-// SendUrl
-
-int __cdecl CMsnProto::SendUrl(MCONTACT, int, const char*)
-{
-	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
