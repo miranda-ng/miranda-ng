@@ -25,7 +25,7 @@ static int sttCompareProtocols(const CVkProto *p1, const CVkProto *p2)
 static int sttCompareAsyncHttpRequest(const AsyncHttpRequest *p1, const AsyncHttpRequest *p2)
 {
 	if (p1->m_priority == p2->m_priority)
-		return (int)p1->m_time - (int)p2->m_time;
+		return (int)p1->m_reqNum - (int)p2->m_reqNum;
 	return (int)p2->m_priority - (int)p1->m_priority;
 }
 

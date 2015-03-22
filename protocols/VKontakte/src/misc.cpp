@@ -144,6 +144,8 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+ULONG AsyncHttpRequest::m_reqCount = 0;
+
 AsyncHttpRequest::AsyncHttpRequest()
 {
 	cbSize = sizeof(NETLIBHTTPREQUEST);
@@ -156,7 +158,7 @@ AsyncHttpRequest::AsyncHttpRequest()
 	bIsMainConn = false;
 	m_pFunc = NULL;
 	bExpUrlEncode = false;
-	m_time = time(NULL);
+	m_reqNum = ::InterlockedIncrement(&m_reqCount);
 	m_priority = rpLow;
 }
 
@@ -188,7 +190,7 @@ AsyncHttpRequest::AsyncHttpRequest(CVkProto *ppro, int iRequestType, LPCSTR _url
 	pUserInfo = NULL;
 	m_iRetry = MAX_RETRIES;
 	bNeedsRestart = false;
-	m_time = time(NULL);
+	m_reqNum = ::InterlockedIncrement(&m_reqCount);
 	m_priority = rpPriority;
 }
 
