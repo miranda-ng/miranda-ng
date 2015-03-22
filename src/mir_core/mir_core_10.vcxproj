@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\m_core.h" />
     <ClInclude Include="..\..\include\m_database.h" />
+    <ClInclude Include="..\..\include\m_string.h" />
     <ClInclude Include="..\..\include\m_system.h" />
     <ClInclude Include="..\..\include\m_system_cpp.h" />
     <ClInclude Include="src\commonheaders.h" />
@@ -90,6 +91,9 @@
     <ClCompile Include="src\utf.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\winver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\m_string.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>mir_core</ProjectName>
@@ -199,7 +203,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <ModuleDefinitionFile>src\mir_core.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\mir_core64.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName)64.lib</ImportLibrary>
@@ -275,7 +279,7 @@
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <ModuleDefinitionFile>src\mir_core.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>src\mir_core64.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

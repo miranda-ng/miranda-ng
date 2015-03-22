@@ -874,7 +874,7 @@ CMString CVkProto::GetVkPhotoItem(JSONNODE *pPhoto, BBCSupport iBBC)
 		tszRes.AppendFormat(_T("\n\t[img]%s[/img]"), ptszPreviewLink ? ptszPreviewLink : (ptszLink ? ptszLink : _T("")));
 	CMString tszText = json_as_CMString(json_get(pPhoto, "text"));
 	if (!tszText.IsEmpty())
-		tszRes += "\n" + tszText;
+		tszRes += _T("\n") + tszText;
 
 	return tszRes;
 }
