@@ -1,0 +1,542 @@
+LIBRARY mir_core
+
+EXPORTS
+CallContactService              @1
+CallProtoService                @2
+Langpack_LookupUuid             @3
+Langpack_MarkPluginLoaded       @4
+CallFunctionAsync               @5
+CallPluginEventHook             @7
+CallService                     @8
+CallServiceSync                 @9
+CreateDirectoryTree            @10
+CreateDirectoryTreeW           @11
+CreateHookableEvent            @12
+CreatePathToFile               @13
+CreatePathToFileW              @14
+CreateServiceFunction          @15
+CreateServiceFunctionObj       @16
+CreateServiceFunctionObjParam  @17
+CreateServiceFunctionParam     @18
+DestroyHookableEvent           @19
+DestroyServiceFunction         @20
+GetExceptionFilter             @21
+GetInstByAddress               @22
+HookEvent                      @23
+HookEventMessage               @24
+HookEventObj                   @25
+HookEventObjParam              @26
+HookEventParam                 @27
+KillModuleEventHooks           @28
+KillModuleServices             @29
+KillObjectEventHooks           @30
+KillObjectServices             @31
+KillObjectThreads              @32
+Langpack_SortDuplicates        @33
+Langpack_GetDefaultCodePage    @34
+Langpack_GetDefaultLocale      @35
+Langpack_PcharToTchar          @36
+List_Copy                      @37
+List_Create                    @38
+List_Destroy                   @39
+List_Find                      @40
+List_GetIndex                  @41
+List_IndexOf                   @42
+List_Insert                    @43
+List_InsertPtr                 @44
+List_ObjCopy                   @45
+List_Remove                    @46
+List_RemovePtr                 @47
+LoadLangPack                   @48
+LoadLangPackModule             @49
+NotifyEventHooks               @50
+PathToAbsolute                 @51
+PathToAbsoluteW                @52
+PathToRelative                 @53
+PathToRelativeW                @54
+RegisterModule                 @55
+ReloadLangpack                 @56
+ServiceExists                  @57
+SetExceptionFilter             @58
+SetHookDefaultForHookableEvent @59
+Thread_Pop                     @60
+Thread_Push                    @61
+Thread_Wait                    @62
+TranslateA_LP                  @63
+TranslateDialog_LP             @64
+TranslateMenu_LP               @65
+TranslateW_LP                  @66
+Ucs2toUtf8Len                  @67
+UnhookEvent                    @68
+UnregisterModule               @69
+Utf8Decode                     @70
+Utf8DecodeCP                   @71
+Utf8DecodeW                    @72
+Utf8Encode                     @73
+Utf8EncodeCP                   @74
+Utf8EncodeW                    @75
+forkthread                     @76
+forkthreadex                   @77
+ltrim                          @78
+ltrimp                         @79
+mir_a2u                        @80
+mir_a2u_cp                     @81
+mir_alloc                      @82
+mir_calloc                     @83
+mir_free                       @84
+mir_hash                       @85
+mir_md5_append                 @86
+mir_md5_finish                 @87
+mir_md5_hash                   @88
+mir_md5_init                   @89
+mir_realloc                    @90
+mir_sha1_append                @91
+mir_sha1_finish                @92
+mir_sha1_hash                  @93
+mir_sha1_init                  @94
+mir_strdup                     @95
+mir_strndup                    @96
+mir_u2a                        @97
+mir_u2a_cp                     @98
+mir_vsnprintf                  @99
+mir_vsnwprintf                @100
+mir_wstrdup                   @101
+rtrim                         @102
+wildcmp                       @103
+rtrimw                        @104
+mir_snprintf                  @105
+mir_snwprintf                 @106
+db_unset                      @107
+db_free                       @108
+db_get                        @109
+db_get_b                      @110
+db_get_dw                     @111
+db_get_s                      @112
+db_get_sa                     @113
+db_get_w                      @114
+db_get_wsa                    @115
+db_set_b                      @116
+db_set_blob                   @117
+db_set_dw                     @118
+db_set_s                      @119
+db_set_utf                    @120
+db_set_w                      @121
+db_set_ws                     @122
+UnloadCoreModule              @123
+Thread_SetName                @124
+replaceStr                    @125
+replaceStrW                   @126
+db_setCurrent                 @127
+CmdLine_GetOption             @128
+CmdLine_Parse                 @129
+Utf8CheckString               @130
+GetSubscribersCount           @131
+NotifyFastHook                @132
+db_find_first                 @133
+db_find_next                  @134
+Icon_Register                 @135
+Icon_RegisterT                @136
+mir_subclassWindow            @137
+mir_callNextSubclass          @138
+KillModuleSubclassing         @139
+mir_wstrndup                  @140
+mir_unsubclassWindow          @141
+mir_urlEncode                 @142
+db_event_add                  @143
+db_event_count                @144
+db_event_delete               @145
+db_event_first                @146
+db_event_firstUnread          @147
+db_event_get                  @148
+db_event_getBlobSize          @149
+db_event_getContact           @150
+db_event_last                 @151
+db_event_markRead             @152
+db_event_next                 @153
+db_event_prev                 @154
+ltrimw                        @155
+ltrimpw                       @156
+wildcmpw                      @157
+wildcmpi                      @158
+wildcmpiw                     @159
+mir_base64_encode             @160
+mir_base64_decode             @161
+ProtoServiceExists            @162
+ProtoBroadcastAck             @163
+ProtoCallService              @164
+db_set_resident               @165
+db_set                        @166
+ProtoConstructor              @167
+ProtoDestructor               @168
+ProtoCreateService            @169
+ProtoCreateServiceParam       @170
+ProtoHookEvent                @171
+ProtoCreateHookableEvent      @172
+ProtoForkThread               @173
+ProtoForkThreadEx             @174
+json_as_array                 @175
+json_as_bool                  @176
+json_as_float                 @177
+json_as_int                   @178
+json_as_node                  @179
+json_as_string                @180
+json_as_pstring               @181
+json_at                       @182
+json_cast                     @183
+json_clear                    @184
+json_copy                     @185
+json_delete                   @186
+json_duplicate                @187
+json_empty                    @188
+json_equal                    @189
+json_free                     @190
+json_get                      @191
+json_merge                    @192
+json_name                     @193
+json_new                      @194
+json_new_a                    @195
+json_new_b                    @196
+json_new_f                    @197
+json_new_i                    @198
+json_nullify                  @199
+json_parse                    @200
+json_pop_back                 @201
+json_pop_back_at              @202
+json_preparse                 @203
+json_push_back                @204
+json_reserve                  @205
+json_set_a                    @206
+json_set_b                    @207
+json_set_f                    @208
+json_set_i                    @209
+json_set_n                    @210
+json_set_name                 @211
+json_size                     @212
+json_strip_white_space        @213
+json_swap                     @214
+json_type                     @215
+json_write                    @216
+json_write_formatted          @217
+mir_subclassWindowFull        @218
+ProtoGetAvatarFormat          @219
+ProtoGetAvatarExtension       @220
+ProtoGetBufferFormat          @221
+ProtoGetAvatarFileFormat      @222
+mir_createLog                 @223
+mir_writeLogA                 @224
+mir_writeLogW                 @225
+mir_writeLogVA                @226
+mir_writeLogVW                @227
+bin2hex                       @228
+bin2hexW                      @229
+mir_hmac_sha1                 @230
+mir_base64_encodebuf          @231
+mirstr_allocate               @232
+mirstr_free                   @233
+mirstr_realloc                @234
+mirstr_getNil                 @235
+mirstr_lock                   @236
+mirstr_release                @237
+mirstr_unlock                 @238
+IsWinVerVistaPlus             @239
+IsWinVer7Plus                 @240
+IsFullScreen                  @241
+IsWorkstationLocked           @242
+IsScreenSaverRunning          @243
+ProtoLogA                     @244
+ProtoLogW                     @245
+db_get_static                 @246
+db_get_wstatic                @247
+db_get_static_utf             @248
+db_mc_isMeta                  @249
+db_mc_isSub                   @250
+db_mc_getMeta                 @251
+db_get_contact                @252
+db_mc_getDefault              @253
+db_mc_getDefaultNum           @254
+db_mc_getSubCount             @255
+db_mc_getSub                  @256
+db_mc_setDefault              @257
+db_mc_setDefaultNum           @258
+mir_closeLog                  @259
+db_mc_enable                  @260
+db_mc_isEnabled               @261
+LoadLangPackDescr             @262
+PathIsAbsolute                @263
+PathIsAbsoluteW               @264
+db_mc_notifyDefChange         @265
+db_mc_tryMeta                 @266
+mir_strlen                    @267
+mir_wstrlen                   @268
+mir_strcpy                    @269
+mir_wstrcpy                   @270
+mir_strncpy                   @271
+mir_wstrncpy                  @272
+mir_strcat                    @273
+mir_wstrcat                   @274
+mir_strncat                   @275
+mir_wstrncat                  @276
+mir_strcmp                    @277
+mir_strcmpi                   @278
+mir_wstrcmp                   @279
+mir_wstrcmpi                  @280
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@AEBV0@0@Z @281 NONAME
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@AEBV0@D@Z @282 NONAME
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@AEBV0@PEBD@Z @283 NONAME
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@AEBV0@_W@Z @284 NONAME
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@DAEBV0@@Z @285 NONAME
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@PEBDAEBV0@@Z @286 NONAME
+??$?HDV?$ChTraitsCRT@D@@@@YA?AV?$CMStringT@DV?$ChTraitsCRT@D@@@@_WAEBV0@@Z @287 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@AEBV0@0@Z @288 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@AEBV0@D@Z @289 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@AEBV0@PEB_W@Z @290 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@AEBV0@_W@Z @291 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@DAEBV0@@Z @292 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@PEB_WAEBV0@@Z @293 NONAME
+??$?H_WV?$ChTraitsCRT@_W@@@@YA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@_WAEBV0@@Z @294 NONAME
+??0?$CMSimpleStringT@D@@QEAA@AEBV0@@Z @295 NONAME
+??0?$CMSimpleStringT@D@@QEAA@PEBD@Z @296 NONAME
+??0?$CMSimpleStringT@D@@QEAA@PEBDH@Z @297 NONAME
+??0?$CMSimpleStringT@D@@QEAA@XZ @298 NONAME
+??0?$CMSimpleStringT@_W@@QEAA@AEBV0@@Z @299 NONAME
+??0?$CMSimpleStringT@_W@@QEAA@PEB_W@Z @300 NONAME
+??0?$CMSimpleStringT@_W@@QEAA@PEB_WH@Z @301 NONAME
+??0?$CMSimpleStringT@_W@@QEAA@XZ @302 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@AEBV0@@Z @303 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@DH@Z @304 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@PEBD@Z @305 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@PEBDH@Z @306 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@PEBE@Z @307 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@PEB_W@Z @308 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@PEB_WH@Z @309 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@W4CMStringDataFormat@@PEBDZZ @310 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@XZ @311 NONAME
+??0?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@_WH@Z @312 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@AEBV0@@Z @313 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@DH@Z @314 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@PEBD@Z @315 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@PEBDH@Z @316 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@PEBE@Z @317 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@PEB_W@Z @318 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@PEB_WH@Z @319 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@W4CMStringDataFormat@@PEB_WZZ @320 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@XZ @321 NONAME
+??0?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@_WH@Z @322 NONAME
+??1?$CMSimpleStringT@D@@QEAA@XZ @323 NONAME
+??1?$CMSimpleStringT@_W@@QEAA@XZ @324 NONAME
+??1?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAA@XZ @325 NONAME
+??1?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAA@XZ @326 NONAME
+??4?$CMSimpleStringT@D@@QEAAAEAV0@AEBV0@@Z @327 NONAME
+??4?$CMSimpleStringT@D@@QEAAAEAV0@PEBD@Z @328 NONAME
+??4?$CMSimpleStringT@_W@@QEAAAEAV0@AEBV0@@Z @329 NONAME
+??4?$CMSimpleStringT@_W@@QEAAAEAV0@PEB_W@Z @330 NONAME
+??4?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@AEBV0@@Z @331 NONAME
+??4?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@D@Z @332 NONAME
+??4?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@PEBD@Z @333 NONAME
+??4?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@PEBE@Z @334 NONAME
+??4?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@PEB_W@Z @335 NONAME
+??4?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@_W@Z @336 NONAME
+??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@AEBV0@@Z @337 NONAME
+??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@D@Z @338 NONAME
+??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEBD@Z @339 NONAME
+??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEBE@Z @340 NONAME
+??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEB_W@Z @341 NONAME
+??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@_W@Z @342 NONAME
+??A?$CMSimpleStringT@D@@QEBADH@Z @343 NONAME
+??A?$CMSimpleStringT@_W@@QEBA_WH@Z @344 NONAME
+??B?$CMSimpleStringT@D@@QEAAAEAV0@XZ @345 NONAME
+??B?$CMSimpleStringT@D@@QEBAPEBDXZ @346 NONAME
+??B?$CMSimpleStringT@_W@@QEAAAEAV0@XZ @347 NONAME
+??B?$CMSimpleStringT@_W@@QEBAPEB_WXZ @348 NONAME
+??Y?$CMSimpleStringT@D@@QEAAAEAV0@AEBV0@@Z @349 NONAME
+??Y?$CMSimpleStringT@D@@QEAAAEAV0@D@Z @350 NONAME
+??Y?$CMSimpleStringT@D@@QEAAAEAV0@E@Z @351 NONAME
+??Y?$CMSimpleStringT@D@@QEAAAEAV0@PEBD@Z @352 NONAME
+??Y?$CMSimpleStringT@D@@QEAAAEAV0@_W@Z @353 NONAME
+??Y?$CMSimpleStringT@_W@@QEAAAEAV0@AEBV0@@Z @354 NONAME
+??Y?$CMSimpleStringT@_W@@QEAAAEAV0@D@Z @355 NONAME
+??Y?$CMSimpleStringT@_W@@QEAAAEAV0@E@Z @356 NONAME
+??Y?$CMSimpleStringT@_W@@QEAAAEAV0@PEB_W@Z @357 NONAME
+??Y?$CMSimpleStringT@_W@@QEAAAEAV0@_W@Z @358 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@AEBV0@@Z @359 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@AEBV?$CMSimpleStringT@D@@@Z @360 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@D@Z @361 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@E@Z @362 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@PEBD@Z @363 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@PEB_W@Z @364 NONAME
+??Y?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV0@_W@Z @365 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@AEBV0@@Z @366 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@AEBV?$CMSimpleStringT@_W@@@Z @367 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@D@Z @368 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@E@Z @369 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEBD@Z @370 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@PEB_W@Z @371 NONAME
+??Y?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV0@_W@Z @372 NONAME
+?AllocSysString@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEA_WXZ @373 NONAME
+?AllocSysString@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WXZ @374 NONAME
+?Append@?$CMSimpleStringT@D@@QEAAXAEBV1@@Z @375 NONAME
+?Append@?$CMSimpleStringT@D@@QEAAXPEBD@Z @376 NONAME
+?Append@?$CMSimpleStringT@D@@QEAAXPEBDH@Z @377 NONAME
+?Append@?$CMSimpleStringT@_W@@QEAAXAEBV1@@Z @378 NONAME
+?Append@?$CMSimpleStringT@_W@@QEAAXPEB_W@Z @379 NONAME
+?Append@?$CMSimpleStringT@_W@@QEAAXPEB_WH@Z @380 NONAME
+?AppendChar@?$CMSimpleStringT@D@@QEAAXD@Z @381 NONAME
+?AppendChar@?$CMSimpleStringT@_W@@QEAAX_W@Z @382 NONAME
+?AppendFormat@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAPEBDPEBDZZ @383 NONAME
+?AppendFormat@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAPEB_WPEB_WZZ @384 NONAME
+?AppendFormatV@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAXPEBDPEAD@Z @385 NONAME
+?AppendFormatV@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAXPEB_WPEAD@Z @386 NONAME
+?Attach@?$CMSimpleStringT@D@@AEAAXPEAUCMStringData@@@Z @387 NONAME
+?Attach@?$CMSimpleStringT@_W@@AEAAXPEAUCMStringData@@@Z @388 NONAME
+?CharToOemA@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAXXZ @389 NONAME
+?CharToOemA@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAXXZ @390 NONAME
+?CloneData@?$CMSimpleStringT@D@@CAPEAUCMStringData@@PEAU2@@Z @391 NONAME
+?CloneData@?$CMSimpleStringT@_W@@CAPEAUCMStringData@@PEAU2@@Z @392 NONAME
+?Collate@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHPEBD@Z @393 NONAME
+?Collate@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAHPEB_W@Z @394 NONAME
+?CollateNoCase@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHPEBD@Z @395 NONAME
+?CollateNoCase@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAHPEB_W@Z @396 NONAME
+?Compare@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHPEBD@Z @397 NONAME
+?Compare@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAHPEB_W@Z @398 NONAME
+?CompareNoCase@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHPEBD@Z @399 NONAME
+?CompareNoCase@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAHPEB_W@Z @400 NONAME
+?Concatenate@?$CMSimpleStringT@D@@SAXAEAV1@PEBDH1H@Z @401 NONAME
+?Concatenate@?$CMSimpleStringT@_W@@SAXAEAV1@PEB_WH1H@Z @402 NONAME
+?CopyChars@?$CMSimpleStringT@D@@SAXPEADPEBDH@Z @403 NONAME
+?CopyChars@?$CMSimpleStringT@D@@SAXPEAD_KPEBDH@Z @404 NONAME
+?CopyChars@?$CMSimpleStringT@_W@@SAXPEA_WPEB_WH@Z @405 NONAME
+?CopyChars@?$CMSimpleStringT@_W@@SAXPEA_W_KPEB_WH@Z @406 NONAME
+?CopyCharsOverlapped@?$CMSimpleStringT@D@@SAXPEADPEBDH@Z @407 NONAME
+?CopyCharsOverlapped@?$CMSimpleStringT@D@@SAXPEAD_KPEBDH@Z @408 NONAME
+?CopyCharsOverlapped@?$CMSimpleStringT@_W@@SAXPEA_WPEB_WH@Z @409 NONAME
+?CopyCharsOverlapped@?$CMSimpleStringT@_W@@SAXPEA_W_KPEB_WH@Z @410 NONAME
+?Delete@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHHH@Z @411 NONAME
+?Delete@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAHHH@Z @412 NONAME
+?Empty@?$CMSimpleStringT@D@@QEAAXXZ @413 NONAME
+?Empty@?$CMSimpleStringT@_W@@QEAAXXZ @414 NONAME
+?Find@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHDH@Z @415 NONAME
+?Find@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHPEBDH@Z @416 NONAME
+?Find@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAHPEB_WH@Z @417 NONAME
+?Find@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAH_WH@Z @418 NONAME
+?FindOneOf@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHPEBD@Z @419 NONAME
+?FindOneOf@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAHPEB_W@Z @420 NONAME
+?Fork@?$CMSimpleStringT@D@@AEAAXH@Z @421 NONAME
+?Fork@?$CMSimpleStringT@_W@@AEAAXH@Z @422 NONAME
+?Format@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAPEBDPEBDZZ @423 NONAME
+?Format@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAPEB_WPEB_WZZ @424 NONAME
+?FormatV@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAPEBDPEBDPEAD@Z @425 NONAME
+?FormatV@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAPEB_WPEB_WPEAD@Z @426 NONAME
+?FreeExtra@?$CMSimpleStringT@D@@QEAAXXZ @427 NONAME
+?FreeExtra@?$CMSimpleStringT@_W@@QEAAXXZ @428 NONAME
+?GetAllocLength@?$CMSimpleStringT@D@@QEBAHXZ @429 NONAME
+?GetAllocLength@?$CMSimpleStringT@_W@@QEBAHXZ @430 NONAME
+?GetAt@?$CMSimpleStringT@D@@QEBADH@Z @431 NONAME
+?GetAt@?$CMSimpleStringT@_W@@QEBA_WH@Z @432 NONAME
+?GetBuffer@?$CMSimpleStringT@D@@QEAAPEADH@Z @433 NONAME
+?GetBuffer@?$CMSimpleStringT@D@@QEAAPEADXZ @434 NONAME
+?GetBuffer@?$CMSimpleStringT@_W@@QEAAPEA_WH@Z @435 NONAME
+?GetBuffer@?$CMSimpleStringT@_W@@QEAAPEA_WXZ @436 NONAME
+?GetBufferSetLength@?$CMSimpleStringT@D@@QEAAPEADH@Z @437 NONAME
+?GetBufferSetLength@?$CMSimpleStringT@_W@@QEAAPEA_WH@Z @438 NONAME
+?GetData@?$CMSimpleStringT@D@@AEBAPEAUCMStringData@@XZ @439 NONAME
+?GetData@?$CMSimpleStringT@_W@@AEBAPEAUCMStringData@@XZ @440 NONAME
+?GetEnvironmentVariableW@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHPEBD@Z @441 NONAME
+?GetEnvironmentVariableW@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAHPEB_W@Z @442 NONAME
+?GetLength@?$CMSimpleStringT@D@@QEBAHXZ @443 NONAME
+?GetLength@?$CMSimpleStringT@_W@@QEBAHXZ @444 NONAME
+?GetString@?$CMSimpleStringT@D@@QEBAPEBDXZ @445 NONAME
+?GetString@?$CMSimpleStringT@_W@@QEBAPEB_WXZ @446 NONAME
+?GetTail@?$CMSimpleStringT@D@@QEBAPEBDXZ @447 NONAME
+?GetTail@?$CMSimpleStringT@_W@@QEBAPEB_WXZ @448 NONAME
+?Insert@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHHD@Z @449 NONAME
+?Insert@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHHPEBD@Z @450 NONAME
+?Insert@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAHHPEB_W@Z @451 NONAME
+?Insert@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAHH_W@Z @452 NONAME
+?IsEmpty@?$CMSimpleStringT@D@@QEBA_NXZ @453 NONAME
+?IsEmpty@?$CMSimpleStringT@_W@@QEBA_NXZ @454 NONAME
+?Left@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@H@Z @455 NONAME
+?Left@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@H@Z @456 NONAME
+?LockBuffer@?$CMSimpleStringT@D@@QEAAPEADXZ @457 NONAME
+?LockBuffer@?$CMSimpleStringT@_W@@QEAAPEA_WXZ @458 NONAME
+?MakeLower@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@XZ @459 NONAME
+?MakeLower@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@XZ @460 NONAME
+?MakeReverse@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@XZ @461 NONAME
+?MakeReverse@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@XZ @462 NONAME
+?MakeUpper@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@XZ @463 NONAME
+?MakeUpper@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@XZ @464 NONAME
+?Mid@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@H@Z @465 NONAME
+?Mid@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@HH@Z @466 NONAME
+?Mid@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@H@Z @467 NONAME
+?Mid@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@HH@Z @468 NONAME
+?OemToCharA@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAXXZ @469 NONAME
+?OemToCharA@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAXXZ @470 NONAME
+?Preallocate@?$CMSimpleStringT@D@@QEAAXH@Z @471 NONAME
+?Preallocate@?$CMSimpleStringT@_W@@QEAAXH@Z @472 NONAME
+?PrepareWrite2@?$CMSimpleStringT@D@@AEAAXH@Z @473 NONAME
+?PrepareWrite2@?$CMSimpleStringT@_W@@AEAAXH@Z @474 NONAME
+?PrepareWrite@?$CMSimpleStringT@D@@AEAAPEADH@Z @475 NONAME
+?PrepareWrite@?$CMSimpleStringT@_W@@AEAAPEA_WH@Z @476 NONAME
+?Reallocate@?$CMSimpleStringT@D@@AEAAXH@Z @477 NONAME
+?Reallocate@?$CMSimpleStringT@_W@@AEAAXH@Z @478 NONAME
+?ReleaseBuffer@?$CMSimpleStringT@D@@QEAAXH@Z @479 NONAME
+?ReleaseBuffer@?$CMSimpleStringT@_W@@QEAAXH@Z @480 NONAME
+?ReleaseBufferSetLength@?$CMSimpleStringT@D@@QEAAXH@Z @481 NONAME
+?ReleaseBufferSetLength@?$CMSimpleStringT@_W@@QEAAXH@Z @482 NONAME
+?Remove@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHD@Z @483 NONAME
+?Remove@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAH_W@Z @484 NONAME
+?Replace@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHDD@Z @485 NONAME
+?Replace@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAHPEBD0@Z @486 NONAME
+?Replace@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAHPEB_W0@Z @487 NONAME
+?Replace@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAH_W0@Z @488 NONAME
+?ReverseFind@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAHD@Z @489 NONAME
+?ReverseFind@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAH_W@Z @490 NONAME
+?Right@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@H@Z @491 NONAME
+?Right@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@H@Z @492 NONAME
+?SetAt@?$CMSimpleStringT@D@@QEAAXHD@Z @493 NONAME
+?SetAt@?$CMSimpleStringT@_W@@QEAAXH_W@Z @494 NONAME
+?SetLength@?$CMSimpleStringT@D@@AEAAXH@Z @495 NONAME
+?SetLength@?$CMSimpleStringT@_W@@AEAAXH@Z @496 NONAME
+?SetString@?$CMSimpleStringT@D@@QEAAXPEBD@Z @497 NONAME
+?SetString@?$CMSimpleStringT@D@@QEAAXPEBDH@Z @498 NONAME
+?SetString@?$CMSimpleStringT@_W@@QEAAXPEB_W@Z @499 NONAME
+?SetString@?$CMSimpleStringT@_W@@QEAAXPEB_WH@Z @500 NONAME
+?SetSysString@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBAPEA_WPEAPEA_W@Z @501 NONAME
+?SetSysString@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBAPEA_WPEAPEA_W@Z @502 NONAME
+?SpanExcluding@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@PEBD@Z @503 NONAME
+?SpanExcluding@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@PEB_W@Z @504 NONAME
+?SpanIncluding@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@PEBD@Z @505 NONAME
+?SpanIncluding@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@PEB_W@Z @506 NONAME
+?StringLength@?$CMSimpleStringT@D@@SAHPEBD@Z @507 NONAME
+?StringLength@?$CMSimpleStringT@D@@SAHPEB_W@Z @508 NONAME
+?StringLength@?$CMSimpleStringT@_W@@SAHPEBD@Z @509 NONAME
+?StringLength@?$CMSimpleStringT@_W@@SAHPEB_W@Z @510 NONAME
+?StringLengthN@?$CMSimpleStringT@D@@SAHPEBD_K@Z @511 NONAME
+?StringLengthN@?$CMSimpleStringT@D@@SAHPEB_W_K@Z @512 NONAME
+?StringLengthN@?$CMSimpleStringT@_W@@SAHPEBD_K@Z @513 NONAME
+?StringLengthN@?$CMSimpleStringT@_W@@SAHPEB_W_K@Z @514 NONAME
+?Tokenize@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEBA?AV1@PEBDAEAH@Z @515 NONAME
+?Tokenize@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEBA?AV1@PEB_WAEAH@Z @516 NONAME
+?Trim@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@D@Z @517 NONAME
+?Trim@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@PEBD@Z @518 NONAME
+?Trim@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@XZ @519 NONAME
+?Trim@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@PEB_W@Z @520 NONAME
+?Trim@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@XZ @521 NONAME
+?Trim@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@_W@Z @522 NONAME
+?TrimLeft@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@D@Z @523 NONAME
+?TrimLeft@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@PEBD@Z @524 NONAME
+?TrimLeft@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@XZ @525 NONAME
+?TrimLeft@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@PEB_W@Z @526 NONAME
+?TrimLeft@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@XZ @527 NONAME
+?TrimLeft@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@_W@Z @528 NONAME
+?TrimRight@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@D@Z @529 NONAME
+?TrimRight@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@PEBD@Z @530 NONAME
+?TrimRight@?$CMStringT@DV?$ChTraitsCRT@D@@@@QEAAAEAV1@XZ @531 NONAME
+?TrimRight@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@PEB_W@Z @532 NONAME
+?TrimRight@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@XZ @533 NONAME
+?TrimRight@?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QEAAAEAV1@_W@Z @534 NONAME
+?Truncate@?$CMSimpleStringT@D@@QEAAXH@Z @535 NONAME
+?Truncate@?$CMSimpleStringT@_W@@QEAAXH@Z @536 NONAME
+?UnlockBuffer@?$CMSimpleStringT@D@@QEAAXXZ @537 NONAME
+?UnlockBuffer@?$CMSimpleStringT@_W@@QEAAXXZ @538 NONAME
+?c_str@?$CMSimpleStringT@D@@QEBAPEBDXZ @539 NONAME
+?c_str@?$CMSimpleStringT@_W@@QEBAPEB_WXZ @540 NONAME

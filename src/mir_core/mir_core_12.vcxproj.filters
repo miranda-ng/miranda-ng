@@ -156,5 +156,13 @@
     <ClInclude Include="src\json\NumberToString.h">
       <Filter>Source Files\json</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\m_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\m_string.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

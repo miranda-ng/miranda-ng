@@ -124,474 +124,147 @@ public:
 	typedef typename ChTraitsBase< BaseType >::PCYSTR PCYSTR;
 
 public:
-	explicit CMSimpleStringT()
-	{
-		CMStringData* pData = mirstr_getNil();
-		Attach(pData);
+	explicit CMSimpleStringT();
+
+	CMSimpleStringT(const CMSimpleStringT& strSrc);
+	CMSimpleStringT(PCXSTR pszSrc);
+	CMSimpleStringT(const XCHAR* pchSrc, int nLength);
+	~CMSimpleStringT();
+
+	__forceinline operator CMSimpleStringT<BaseType>&()
+	{	return *(CMSimpleStringT<BaseType>*)this;
 	}
 
-	CMSimpleStringT(const CMSimpleStringT& strSrc)
-	{
-		CMStringData* pSrcData = strSrc.GetData();
-		CMStringData* pNewData = CloneData(pSrcData);
-		Attach(pNewData);
-	}
+	CMSimpleStringT& operator=(const CMSimpleStringT& strSrc);
 
-	CMSimpleStringT(PCXSTR pszSrc)
-	{
-		int nLength = StringLength(pszSrc);
-		CMStringData* pData = mirstr_allocate(nLength, sizeof(XCHAR));
-		if (pData != NULL) {
-			Attach(pData);
-			SetLength(nLength);
-			CopyChars(m_pszData, nLength, pszSrc, nLength);
-		}
-	}
-	CMSimpleStringT(const XCHAR* pchSrc, int nLength)
-	{
-		CMStringData* pData = mirstr_allocate(nLength, sizeof(XCHAR));
-		if (pData != NULL) {
-			Attach(pData);
-			SetLength(nLength);
-			CopyChars(m_pszData, nLength, pchSrc, nLength);
-		}
-	}
-	~CMSimpleStringT()
-	{
-		CMStringData* pData = GetData();
-		pData->Release();
-	}
-
-	operator CMSimpleStringT<BaseType>&()
-	{
-		return *(CMSimpleStringT<BaseType>*)this;
-	}
-
-	CMSimpleStringT& operator=(const CMSimpleStringT& strSrc)
-	{
-		CMStringData* pSrcData = strSrc.GetData();
-		CMStringData* pOldData = GetData();
-		if (pSrcData != pOldData) {
-			if (pOldData->IsLocked())
-				SetString(strSrc.GetString(), strSrc.GetLength());
-			else {
-				CMStringData* pNewData = CloneData(pSrcData);
-				pOldData->Release();
-				Attach(pNewData);
-			}
-		}
-
+	__forceinline CMSimpleStringT& operator=(PCXSTR pszSrc)
+	{	SetString(pszSrc);
 		return *this;
 	}
 
-	CMSimpleStringT& operator=(PCXSTR pszSrc)
-	{
-		SetString(pszSrc);
+	__forceinline CMSimpleStringT& operator+=(const CMSimpleStringT& strSrc)
+	{	Append(strSrc);
 		return *this;
 	}
 
-	CMSimpleStringT& operator+=(const CMSimpleStringT& strSrc)
-	{
-		Append(strSrc);
+	__forceinline CMSimpleStringT& operator+=(PCXSTR pszSrc)
+	{	Append(pszSrc);
 		return *this;
 	}
 
-	CMSimpleStringT& operator+=(PCXSTR pszSrc)
-	{
-		Append(pszSrc);
-		return *this;
-	}
-	CMSimpleStringT& operator+=(char ch)
-	{
-		AppendChar(XCHAR(ch));
-		return *this;
-	}
-	CMSimpleStringT& operator+=(unsigned char ch)
-	{
-		AppendChar(XCHAR(ch));
-		return *this;
-	}
-	CMSimpleStringT& operator+=(wchar_t ch)
-	{
-		AppendChar(XCHAR(ch));
+	__forceinline CMSimpleStringT& operator+=(char ch)
+	{	AppendChar(XCHAR(ch));
 		return *this;
 	}
 
-	XCHAR operator[](int iChar) const
-	{
-		return m_pszData[iChar];
+	__forceinline CMSimpleStringT& operator+=(unsigned char ch)
+	{	AppendChar(XCHAR(ch));
+		return *this;
 	}
 
-	operator PCXSTR() const
-	{
-		return m_pszData;
+	__forceinline CMSimpleStringT& operator+=(wchar_t ch)
+	{	AppendChar(XCHAR(ch));
+		return *this;
 	}
 
-	PCXSTR c_str() const
-	{
-		return m_pszData;
+	__forceinline XCHAR operator[](int iChar) const 
+	{	return m_pszData[iChar];
 	}
 
-	void Append(PCXSTR pszSrc)
-	{
-		Append(pszSrc, StringLength(pszSrc));
+	__forceinline operator PCXSTR() const
+	{	return m_pszData;
 	}
 
-	void Append(PCXSTR pszSrc, int nLength)
-	{
-		// See comment in SetString() about why we do this
-		UINT_PTR nOffset = UINT_PTR(pszSrc - GetString());
-
-		int nOldLength = GetLength();
-		if (nOldLength < 0) {
-			// protects from underflow
-			nOldLength = 0;
-		}
-
-		//Make sure we don't read pass end of the terminating NULL
-		int nSrcLength = StringLength(pszSrc);
-		nLength = nLength > nSrcLength ? nSrcLength : nLength;
-
-		int nNewLength = nOldLength + nLength;
-		PXSTR pszBuffer = GetBuffer(nNewLength);
-		if (nOffset <= UINT_PTR(nOldLength)) {
-			pszSrc = pszBuffer + nOffset;
-			// No need to call CopyCharsOverlapped, since the destination is
-			// beyond the end of the original buffer
-		}
-		CopyChars(pszBuffer + nOldLength, nLength, pszSrc, nLength);
-		ReleaseBufferSetLength(nNewLength);
-	}
-	void AppendChar(XCHAR ch)
-	{
-		UINT nOldLength = GetLength();
-		int nNewLength = nOldLength + 1;
-		PXSTR pszBuffer = GetBuffer(nNewLength);
-		pszBuffer[nOldLength] = ch;
-		ReleaseBufferSetLength(nNewLength);
-	}
-	void Append(const CMSimpleStringT& strSrc)
-	{
-		Append(strSrc.GetString(), strSrc.GetLength());
-	}
-	void Empty()
-	{
-		CMStringData* pOldData = GetData();
-		if (pOldData->nDataLength == 0)
-			return;
-
-		if (pOldData->IsLocked()) {
-			// Don't reallocate a locked buffer that's shrinking
-			SetLength(0);
-		}
-		else {
-			pOldData->Release();
-			CMStringData* pNewData = mirstr_getNil();
-			Attach(pNewData);
-		}
-	}
-	void FreeExtra()
-	{
-		CMStringData* pOldData = GetData();
-		int nLength = pOldData->nDataLength;
-		if (pOldData->nAllocLength == nLength)
-			return;
-
-		if (!pOldData->IsLocked()) { // Don't reallocate a locked buffer that's shrinking
-			CMStringData* pNewData = mirstr_allocate(nLength, sizeof(XCHAR));
-			if (pNewData == NULL) {
-				SetLength(nLength);
-				return;
-			}
-
-			CopyChars(PXSTR(pNewData->data()), nLength, PCXSTR(pOldData->data()), nLength);
-
-			pOldData->Release();
-			Attach(pNewData);
-			SetLength(nLength);
-		}
+	__forceinline PCXSTR c_str() const
+	{	return m_pszData;
 	}
 
-	int GetAllocLength() const
-	{
-		return GetData()->nAllocLength;
+	__forceinline int GetAllocLength() const
+	{	return GetData()->nAllocLength;
 	}
-	XCHAR GetAt(int iChar) const
-	{
-		return m_pszData[iChar];
-	}
-	PXSTR GetBuffer()
-	{
-		CMStringData* pData = GetData();
-		if (pData->IsShared())
-			Fork(pData->nDataLength);
 
-		return m_pszData;
+	__forceinline XCHAR GetAt(int iChar) const
+	{	return m_pszData[iChar];
 	}
-	PXSTR GetBuffer(int nMinBufferLength)
-	{
-		return PrepareWrite(nMinBufferLength);
-	}
-	PXSTR GetBufferSetLength(int nLength)
-	{
-		PXSTR pszBuffer = GetBuffer(nLength);
-		SetLength(nLength);
 
-		return pszBuffer;
+	__forceinline PXSTR GetBuffer(int nMinBufferLength)
+	{	return PrepareWrite(nMinBufferLength);
 	}
-	int GetLength() const
-	{
-		return GetData()->nDataLength;
-	}
-	PCXSTR GetString() const
-	{
-		return m_pszData;
-	}
-	PCXSTR GetTail() const
-	{
-		return m_pszData + GetData()->nDataLength;
-	}
-	bool IsEmpty() const
-	{
-		return GetLength() == 0;
-	}
-	PXSTR LockBuffer()
-	{
-		CMStringData* pData = GetData();
-		if (pData->IsShared())
-		{
-			Fork(pData->nDataLength);
-			pData = GetData();  // Do it again, because the fork might have changed it
-		}
-		pData->Lock();
 
-		return m_pszData;
+	__forceinline int GetLength() const
+	{	return GetData()->nDataLength;
 	}
-	void UnlockBuffer()
-	{
-		CMStringData* pData = GetData();
-		pData->Unlock();
-	}
-	void Preallocate(int nLength)
-	{
-		PrepareWrite(nLength);
-	}
-	void ReleaseBuffer(int nNewLength = -1)
-	{
-		if (nNewLength == -1) {
-			int nAlloc = GetData()->nAllocLength;
-			nNewLength = StringLengthN(m_pszData, nAlloc);
-		}
-		SetLength(nNewLength);
-	}
-	void ReleaseBufferSetLength(int nNewLength)
-	{
-		SetLength(nNewLength);
-	}
-	void Truncate(int nNewLength)
-	{
-		GetBuffer(nNewLength);
-		ReleaseBufferSetLength(nNewLength);
-	}
-	void SetAt(int iChar, XCHAR ch)
-	{
-		int nLength = GetLength();
-		PXSTR pszBuffer = GetBuffer();
-		pszBuffer[iChar] = ch;
-		ReleaseBufferSetLength(nLength);
 
+	__forceinline PCXSTR GetString() const
+	{	return m_pszData;
 	}
-	void SetString(PCXSTR pszSrc)
-	{
-		SetString(pszSrc, StringLength(pszSrc));
-	}
-	void SetString(PCXSTR pszSrc, int nLength)
-	{
-		if (nLength == 0)
-			Empty();
-		else {
-			UINT nOldLength = GetLength();
-			UINT_PTR nOffset = pszSrc - GetString();
 
-			PXSTR pszBuffer = GetBuffer(nLength);
-			if (nOffset <= nOldLength)
-				CopyCharsOverlapped(pszBuffer, GetAllocLength(), pszBuffer + nOffset, nLength);
-			else
-				CopyChars(pszBuffer, GetAllocLength(), pszSrc, nLength);
-
-			ReleaseBufferSetLength(nLength);
-		}
+	__forceinline PCXSTR GetTail() const
+	{	return m_pszData + GetData()->nDataLength;
 	}
+
+	__forceinline bool IsEmpty() const
+	{	return GetLength() == 0;
+	}
+
+	__forceinline void Preallocate(int nLength)
+	{	PrepareWrite(nLength);
+	}
+
+	__forceinline void ReleaseBufferSetLength(int nNewLength)
+	{	SetLength(nNewLength);
+	}
+
+	void   Append(PCXSTR pszSrc);
+	void   Append(PCXSTR pszSrc, int nLength);
+	void   AppendChar(XCHAR ch);
+	void   Append(const CMSimpleStringT& strSrc);
+
+	void   Empty();
+	void   FreeExtra();
+
+	PXSTR  GetBuffer();
+	PXSTR  GetBufferSetLength(int nLength);
+
+	PXSTR  LockBuffer();
+	void   UnlockBuffer();
+
+	void   ReleaseBuffer(int nNewLength = -1);
+
+	void   Truncate(int nNewLength);
+	void   SetAt(int iChar, XCHAR ch);
+	void   SetString(PCXSTR pszSrc);
+	void   SetString(PCXSTR pszSrc, int nLength);
+
 public:
-	friend CMSimpleStringT __stdcall operator+(const CMSimpleStringT& str1, const CMSimpleStringT& str2)
-	{
-		CMSimpleStringT s;
-		Concatenate(s, str1, str1.GetLength(), str2, str2.GetLength());
-		return s;
-	}
+	friend CMSimpleStringT operator+(const CMSimpleStringT& str1, const CMSimpleStringT& str2);
+	friend CMSimpleStringT operator+(const CMSimpleStringT& str1, PCXSTR psz2);
+	friend CMSimpleStringT operator+(PCXSTR psz1, const CMSimpleStringT& str2);
 
-	friend CMSimpleStringT __stdcall operator+(const CMSimpleStringT& str1, PCXSTR psz2)
-	{
-		CMSimpleStringT s;
-		Concatenate(s, str1, str1.GetLength(), psz2, StringLength(psz2));
-		return s;
-	}
-
-	friend CMSimpleStringT __stdcall operator+(PCXSTR psz1, const CMSimpleStringT& str2)
-	{
-		CMSimpleStringT s;
-		Concatenate(s, psz1, StringLength(psz1), str2, str2.GetLength());
-		return s;
-	}
-
-	static void __stdcall CopyChars(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
-	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		memcpy(pchDest, pchSrc, nChars * sizeof(XCHAR));
-#pragma warning (pop)
-	}
-	static void __stdcall CopyChars(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
-	{
-		memcpy_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
-	}
-
-	static void __stdcall CopyCharsOverlapped(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
-	{
-#pragma warning (push)
-#pragma warning(disable : 4996)
-		memmove(pchDest, pchSrc, nChars * sizeof(XCHAR));
-#pragma warning (pop)
-	}
-	static void __stdcall CopyCharsOverlapped(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
-	{
-		memmove_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
-	}
-	static int __stdcall StringLength(const char* psz)
-	{
-		if (psz == NULL)
-			return(0);
-
-		return (int(strlen(psz)));
-	}
-	static int __stdcall StringLength(const wchar_t* psz)
-	{
-		if (psz == NULL)
-			return 0;
-
-		return int(wcslen(psz));
-	}
-	static int __stdcall StringLengthN(const char* psz, size_t sizeInXChar)
-	{
-		if (psz == NULL)
-			return 0;
-
-		return int(strnlen(psz, sizeInXChar));
-	}
-	static int __stdcall StringLengthN(const wchar_t* psz, size_t sizeInXChar)
-	{
-		if (psz == NULL)
-			return 0;
-
-		return int(wcsnlen(psz, sizeInXChar));
-	}
-protected:
-	static void __stdcall Concatenate(CMSimpleStringT& strResult, PCXSTR psz1, int nLength1, PCXSTR psz2, int nLength2)
-	{
-		int nNewLength = nLength1+nLength2;
-		PXSTR pszBuffer = strResult.GetBuffer(nNewLength);
-		CopyChars(pszBuffer, nLength1, psz1, nLength1);
-		CopyChars(pszBuffer + nLength1, nLength2, psz2, nLength2);
-		strResult.ReleaseBufferSetLength(nNewLength);
-	}
+	static void __stdcall CopyChars(XCHAR* pchDest, const XCHAR* pchSrc, int nChars);
+	static void __stdcall CopyChars(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars);
+	static void __stdcall CopyCharsOverlapped(XCHAR* pchDest, const XCHAR* pchSrc, int nChars);
+	static void __stdcall CopyCharsOverlapped(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars);
+	static int  __stdcall StringLength(const char* psz);
+	static int  __stdcall StringLength(const wchar_t* psz);
+	static int  __stdcall StringLengthN(const char* psz, size_t sizeInXChar);
+	static int  __stdcall StringLengthN(const wchar_t* psz, size_t sizeInXChar);
+	static void __stdcall Concatenate(CMSimpleStringT& strResult, PCXSTR psz1, int nLength1, PCXSTR psz2, int nLength2);
+	
 	// Implementation
 private:
-	void Attach(CMStringData* pData)
-	{
-		m_pszData = static_cast<PXSTR>(pData->data());
-	}
-	void Fork(int nLength)
-	{
-		CMStringData* pOldData = GetData();
-		int nOldLength = pOldData->nDataLength;
-		CMStringData* pNewData = mirstr_allocate(nLength, sizeof(XCHAR));
-		if (pNewData != NULL) {
-			int nCharsToCopy = ((nOldLength < nLength) ? nOldLength : nLength)+1;  // Copy '\0'
-			CopyChars(PXSTR(pNewData->data()), nCharsToCopy, PCXSTR(pOldData->data()), nCharsToCopy);
-			pNewData->nDataLength = nOldLength;
-			pOldData->Release();
-			Attach(pNewData);
-		}
-	}
-	CMStringData* GetData() const
-	{
-		return (reinterpret_cast<CMStringData *>(m_pszData) - 1);
-	}
-	PXSTR PrepareWrite(int nLength)
-	{
-		CMStringData* pOldData = GetData();
-		int nShared = 1 - pOldData->nRefs;  // nShared < 0 means true, >= 0 means false
-		int nTooShort = pOldData->nAllocLength-nLength;  // nTooShort < 0 means true, >= 0 means false
-		if ((nShared | nTooShort) < 0)  // If either sign bit is set (i.e. either is less than zero), we need to copy data
-			PrepareWrite2(nLength);
-
-		return m_pszData;
-	}
-	void PrepareWrite2(int nLength)
-	{
-		CMStringData* pOldData = GetData();
-		if (pOldData->nDataLength > nLength)
-			nLength = pOldData->nDataLength;
-
-		if (pOldData->IsShared())
-		{
-			Fork(nLength);
-		}
-		else if (pOldData->nAllocLength < nLength) {
-			// Grow exponentially, until we hit 1K.
-			int nNewLength = pOldData->nAllocLength;
-			if (nNewLength > 1024)
-				nNewLength += 1024;
-			else
-				nNewLength *= 2;
-
-			if (nNewLength < nLength)
-				nNewLength = nLength;
-
-			Reallocate(nNewLength);
-		}
-	}
-	void Reallocate(int nLength)
-	{
-		CMStringData* pOldData = GetData();
-		if (pOldData->nAllocLength >= nLength || nLength <= 0)
-			return;
-
-		CMStringData* pNewData = mirstr_realloc(pOldData, nLength, sizeof(XCHAR));
-		if (pNewData != NULL)
-			Attach(pNewData);
+	__forceinline CMStringData* GetData() const
+	{	return (reinterpret_cast<CMStringData *>(m_pszData)-1);
 	}
 
-	void SetLength(int nLength)
-	{
-		GetData()->nDataLength = nLength;
-		m_pszData[nLength] = 0;
-	}
+	void Attach(CMStringData* pData);
+	void Fork(int nLength);
+	PXSTR PrepareWrite(int nLength);
+	void PrepareWrite2(int nLength);
+	void Reallocate(int nLength);
+	void SetLength(int nLength);
+	static CMStringData* __stdcall CloneData(CMStringData* pData);
 
-	static CMStringData* __stdcall CloneData(CMStringData* pData)
-	{
-		CMStringData* pNewData = NULL;
-
-		if (!pData->IsLocked()) {
-			pNewData = pData;
-			pNewData->AddRef();
-		}
-
-		return pNewData;
-	}
-
-public :
-	//	typedef CStrBufT<BaseType> CStrBuf;
 private:
 	PXSTR m_pszData;
 };
@@ -702,9 +375,15 @@ public:
 		return reinterpret_cast< LPSTR >(_mbsrev(reinterpret_cast< unsigned char* >(psz)));
 	}
 
-	static int __stdcall GetFormattedLength(LPCSTR pszFormat, va_list args);
+	static int __stdcall GetFormattedLength(LPCSTR pszFormat, va_list args)
+	{
+		return _vscprintf(pszFormat, args);
+	}
 
-	static int __stdcall Format(LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args);
+	static int __stdcall Format(LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args)
+	{
+		return vsprintf_s(pszBuffer, nlength, pszFormat, args);
+	}
 
 	static int __stdcall GetBaseTypeLength(LPCSTR pszSrc)
 	{
@@ -938,7 +617,10 @@ public:
 		return _wcsrev(psz);
 	}
 
-	static int __stdcall GetFormattedLength(LPCWSTR pszFormat, va_list args);
+	static int __stdcall GetFormattedLength(LPCWSTR pszFormat, va_list args)
+	{
+		return _vscwprintf(pszFormat, args);
+	}
 
 	static int __stdcall Format(LPWSTR pszBuffer, LPCWSTR pszFormat, va_list args)
 	{
@@ -948,7 +630,10 @@ public:
 #pragma warning (pop)
 	}
 
-	static int __stdcall Format(LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args);
+	static int __stdcall Format(LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
+	{
+		return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
+	}
 
 	static int __stdcall GetBaseTypeLength(LPCSTR pszSrc)
 	{
@@ -1059,7 +744,7 @@ public:
 };
 
 template< typename BaseType, class StringTraits >
-class CMStringT : public CMSimpleStringT< BaseType >
+class MIR_CORE_EXPORT CMStringT : public CMSimpleStringT< BaseType >
 {
 public:
 	typedef CMSimpleStringT< BaseType> CThisSimpleString;
@@ -1071,1143 +756,236 @@ public:
 	typedef typename CThisSimpleString::PCYSTR PCYSTR;
 
 public:
-	CMStringT() : CThisSimpleString()
-	  {
-	  }
-
-	static void __stdcall Construct(CMStringT* pString)
-	{
-		new(pString) CMStringT;
-	}
+	CMStringT();
 
 	// Copy constructor
-	CMStringT(const CMStringT& strSrc) :
-		CThisSimpleString(strSrc)
-	{
-	}
+	CMStringT(const CMStringT& strSrc);
 
-	CMStringT(const XCHAR* pszSrc) :
-		CThisSimpleString()
-	{
-		*this = pszSrc;
-	}
-	
-	CMStringT(CMStringDataFormat, const XCHAR* pszFormat, ...) :
-		CThisSimpleString()
-	{
-		va_list args;
-		va_start(args, pszFormat);
-		FormatV(pszFormat, args);
-	}
-	
-	CMStringT(const YCHAR* pszSrc) :
-		CThisSimpleString()
-	{
-		*this = pszSrc;
-	}
+	CMStringT(const XCHAR* pszSrc);
+	CMStringT(CMStringDataFormat, const XCHAR* pszFormat, ...);
 
+	CMStringT(const YCHAR* pszSrc);
+	CMStringT(const unsigned char* pszSrc);
 
-	CMStringT(const unsigned char* pszSrc) :
-		CThisSimpleString()
-	{
-		*this = reinterpret_cast<const char*>(pszSrc);
-	}
+	CMStringT(char ch, int nLength = 1);
+	CMStringT(wchar_t ch, int nLength = 1);
 
-	CMStringT(char ch, int nLength = 1) :
-		CThisSimpleString()
-	{
-		if (nLength > 0) {
-			PXSTR pszBuffer = this->GetBuffer(nLength);
-			StringTraits::FloodCharacters(XCHAR(ch), nLength, pszBuffer);
-			this->ReleaseBufferSetLength(nLength);
-		}
-	}
+	CMStringT(const XCHAR* pch, int nLength);
 
-	CMStringT(wchar_t ch, int nLength = 1) :
-		CThisSimpleString()
-	{
-		if (nLength > 0) {
-			//Convert ch to the BaseType
-			wchar_t pszCh[2] = { ch, 0 };
-			int nBaseTypeCharLen = 1;
-
-			if (ch != L'\0')
-				nBaseTypeCharLen = StringTraits::GetBaseTypeLength(pszCh);
-
-			XCHAR *buffBaseTypeChar = new XCHAR[nBaseTypeCharLen + 1];
-			StringTraits::ConvertToBaseType(buffBaseTypeChar, nBaseTypeCharLen + 1, pszCh, 1);
-			//allocate enough characters in String and flood (replicate) with the (converted character)*nLength
-			PXSTR pszBuffer = this->GetBuffer(nLength*nBaseTypeCharLen);
-			if (nBaseTypeCharLen == 1)  //Optimization for a common case - wide char translates to 1 ansi/wide char.
-				StringTraits::FloodCharacters(buffBaseTypeChar[0], nLength, pszBuffer);
-			else {
-				XCHAR* p = pszBuffer;
-				for (int i = 0; i < nLength; i++) {
-					for (int j = 0; j < nBaseTypeCharLen; ++j) {
-						*p = buffBaseTypeChar[j];
-						++p;
-					}
-				}
-			}
-			this->ReleaseBufferSetLength(nLength*nBaseTypeCharLen);
-			delete[] buffBaseTypeChar;
-		}
-	}
-
-	CMStringT(const XCHAR* pch, int nLength) :
-		CThisSimpleString(pch, nLength)
-	{}
-
-	CMStringT(const YCHAR* pch, int nLength) :
-		CThisSimpleString()
-	{
-		if (nLength > 0) {
-			int nDestLength = StringTraits::GetBaseTypeLength(pch, nLength);
-			PXSTR pszBuffer = this->GetBuffer(nDestLength);
-			StringTraits::ConvertToBaseType(pszBuffer, nDestLength, pch, nLength);
-			this->ReleaseBufferSetLength(nDestLength);
-		}
-	}
+	CMStringT(const YCHAR* pch, int nLength);
 
 	// Destructor
-	~CMStringT()
-	{}
+	~CMStringT();
 
 	// Assignment operators
-	CMStringT& operator=(const CMStringT& strSrc)
-	{
-		CThisSimpleString::operator=(strSrc);
-		return *this;
-	}
-
-	CMStringT& operator=(PCXSTR pszSrc)
-	{
-		CThisSimpleString::operator=(pszSrc);
-		return *this;
-	}
-
-	CMStringT& operator=(PCYSTR pszSrc)
-	{
-		// nDestLength is in XCHARs
-		int nDestLength = (pszSrc != NULL) ? StringTraits::GetBaseTypeLength(pszSrc) : 0;
-		if (nDestLength > 0) {
-			PXSTR pszBuffer = this->GetBuffer(nDestLength);
-			StringTraits::ConvertToBaseType(pszBuffer, nDestLength, pszSrc);
-			this->ReleaseBufferSetLength(nDestLength);
-		}
-		else this->Empty();
-
-		return *this;
-	}
-
-	CMStringT& operator=(const unsigned char* pszSrc)
-	{
-		return operator=(reinterpret_cast<const char*>(pszSrc));
-	}
-
-	CMStringT& operator=(char ch)
-	{
-		char ach[2] = { ch, 0 };
-		return operator=(ach);
-	}
-
-	CMStringT& operator=(wchar_t ch)
-	{
-		wchar_t ach[2] = { ch, 0 };
-		return operator=(ach);
-	}
-
-	//	  CMStringT& operator=(const VARIANT& var);
-
-	CMStringT& operator+=(const CMStringT& str)
-	{
-		CThisSimpleString::operator+=(str);
-		return *this;
-	}
-
-	CMStringT& operator+=(const CThisSimpleString& str)
-	{
-		CThisSimpleString::operator+=(str);
-		return *this;
-	}
-
-	CMStringT& operator+=(PCXSTR pszSrc)
-	{
-		CThisSimpleString::operator+=(pszSrc);
-		return *this;
-	}
-
-	CMStringT& operator+=(PCYSTR pszSrc)
-	{
-		CMStringT str(pszSrc);
-		return operator+=(str);
-	}
-
-	CMStringT& operator+=(char ch)
-	{
-		CThisSimpleString::operator+=(ch);
-		return *this;
-	}
-
-	CMStringT& operator+=(unsigned char ch)
-	{
-		CThisSimpleString::operator+=(ch);
-		return *this;
-	}
-
-	CMStringT& operator+=(wchar_t ch)
-	{
-		CThisSimpleString::operator+=(ch);
-		return *this;
-	}
+	CMStringT& operator=(const CMStringT& strSrc);
+	CMStringT& operator=(PCXSTR pszSrc);
+	CMStringT& operator=(PCYSTR pszSrc);
+	CMStringT& operator=(const unsigned char* pszSrc);
+	CMStringT& operator=(char ch);
+	CMStringT& operator=(wchar_t ch);
+	
+	CMStringT& operator+=(const CMStringT& str);
+	CMStringT& operator+=(const CThisSimpleString& str);
+	CMStringT& operator+=(PCXSTR pszSrc);
+	CMStringT& operator+=(PCYSTR pszSrc);
+	CMStringT& operator+=(char ch);
+	CMStringT& operator+=(unsigned char ch);
+	CMStringT& operator+=(wchar_t ch);
 
 	// Comparison
 
-	int Compare(PCXSTR psz) const
-	{
-		return StringTraits::StringCompare(this->GetString(), psz);
-	}
-
-	int CompareNoCase(PCXSTR psz) const
-	{
-		return StringTraits::StringCompareIgnore(this->GetString(), psz);
-	}
-
-	int Collate(PCXSTR psz) const
-	{
-		return StringTraits::StringCollate(this->GetString(), psz);
-	}
-
-	int CollateNoCase(PCXSTR psz) const
-	{
-		return StringTraits::StringCollateIgnore(this->GetString(), psz);
-	}
+	int Compare(PCXSTR psz) const;
+	int CompareNoCase(PCXSTR psz) const;
+	int Collate(PCXSTR psz) const;
+	int CollateNoCase(PCXSTR psz) const;
 
 	// Advanced manipulation
 
 	// Delete 'nCount' characters, starting at index 'iIndex'
-	int Delete(int iIndex, int nCount = 1)
-	{
-		if (iIndex < 0)
-			iIndex = 0;
-
-		if (nCount < 0)
-			nCount = 0;
-
-		int nLength = this->GetLength();
-		if (nCount + iIndex > nLength)
-			nCount = nLength-iIndex;
-
-		if (nCount > 0) {
-			int nNewLength = nLength-nCount;
-			int nXCHARsToCopy = nLength-(iIndex+nCount)+1;
-			PXSTR pszBuffer = this->GetBuffer();
-#if _MSC_VER >= 1400
-			memmove_s(pszBuffer+iIndex, nXCHARsToCopy*sizeof(XCHAR), pszBuffer+iIndex+nCount, nXCHARsToCopy*sizeof(XCHAR));
-#else
-			memmove(pszBuffer+iIndex, pszBuffer+iIndex+nCount, nXCHARsToCopy*sizeof(XCHAR));
-#endif
-			this->ReleaseBufferSetLength(nNewLength);
-		}
-
-		return this->GetLength();
-	}
+	int Delete(int iIndex, int nCount = 1);
 
 	// Insert character 'ch' before index 'iIndex'
-	int Insert(int iIndex, XCHAR ch)
-	{
-		if (iIndex < 0)
-			iIndex = 0;
-
-		if (iIndex > this->GetLength())
-			iIndex = this->GetLength();
-
-		int nNewLength = this->GetLength()+1;
-
-		PXSTR pszBuffer = this->GetBuffer(nNewLength);
-
-		// move existing bytes down
-#if _MSC_VER >= 1400
-		memmove_s(pszBuffer+iIndex+1, (nNewLength-iIndex)*sizeof(XCHAR), pszBuffer+iIndex, (nNewLength-iIndex)*sizeof(XCHAR));
-#else
-		memmove(pszBuffer+iIndex+1, pszBuffer+iIndex, (nNewLength-iIndex)*sizeof(XCHAR));
-#endif
-		pszBuffer[iIndex] = ch;
-
-		this->ReleaseBufferSetLength(nNewLength);
-		return nNewLength;
-	}
+	int Insert(int iIndex, XCHAR ch);
 
 	// Insert string 'psz' before index 'iIndex'
-	int Insert(int iIndex, PCXSTR psz)
-	{
-		if (iIndex < 0)
-			iIndex = 0;
-
-		if (iIndex > this->GetLength())
-			iIndex = this->GetLength();
-
-		// nInsertLength and nNewLength are in XCHARs
-		int nInsertLength = StringTraits::SafeStringLen(psz);
-		int nNewLength = this->GetLength();
-		if (nInsertLength > 0) {
-			nNewLength += nInsertLength;
-
-			PXSTR pszBuffer = this->GetBuffer(nNewLength);
-			// move existing bytes down
-#if _MSC_VER >= 1400
-			memmove_s(pszBuffer+iIndex+nInsertLength, (nNewLength-iIndex-nInsertLength+1)*sizeof(XCHAR), pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof(XCHAR));
-			memcpy_s(pszBuffer+iIndex, nInsertLength*sizeof(XCHAR), psz, nInsertLength*sizeof(XCHAR));
-#else
-			memmove(pszBuffer+iIndex+nInsertLength, pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof(XCHAR));
-			memcpy(pszBuffer+iIndex, psz, nInsertLength*sizeof(XCHAR));
-#endif
-			this->ReleaseBufferSetLength(nNewLength);
-		}
-
-		return nNewLength;
-	}
+	int Insert(int iIndex, PCXSTR psz);
 
 	// Replace all occurrences of character 'chOld' with character 'chNew'
-	int Replace(XCHAR chOld, XCHAR chNew)
-	{
-		int nCount = 0;
-
-		// short-circuit the nop case
-		if (chOld != chNew) {
-			// otherwise modify each character that matches in the string
-			bool bCopied = false;
-			PXSTR pszBuffer = const_cast< PXSTR >(this->GetString());  // We don't actually write to pszBuffer until we've called GetBuffer().
-
-			int nLength = this->GetLength();
-			int iChar = 0;
-			while (iChar < nLength) {
-				// replace instances of the specified character only
-				if (pszBuffer[iChar] == chOld) {
-					if (!bCopied) {
-						bCopied = true;
-						pszBuffer = this->GetBuffer(nLength);
-					}
-					pszBuffer[iChar] = chNew;
-					nCount++;
-				}
-				iChar = int(StringTraits::CharNext(pszBuffer + iChar) - pszBuffer);
-			}
-
-			if (bCopied)
-				this->ReleaseBufferSetLength(nLength);
-		}
-
-		return nCount;
-	}
+	int Replace(XCHAR chOld, XCHAR chNew);
 
 	// Replace all occurrences of string 'pszOld' with string 'pszNew'
-	int Replace(PCXSTR pszOld, PCXSTR pszNew)
-	{
-		// can't have empty or NULL lpszOld
-
-		// nSourceLen is in XCHARs
-		int nSourceLen = StringTraits::SafeStringLen(pszOld);
-		if (nSourceLen == 0)
-			return 0;
-		// nReplacementLen is in XCHARs
-		int nReplacementLen = StringTraits::SafeStringLen(pszNew);
-
-		// loop once to figure out the size of the result string
-		int nCount = 0;
-		{
-			PCXSTR pszStart = this->GetString();
-			PCXSTR pszEnd = pszStart + this->GetLength();
-			while (pszStart < pszEnd) {
-				PCXSTR pszTarget;
-				while ((pszTarget = StringTraits::StringFindString(pszStart, pszOld)) != NULL) {
-					nCount++;
-					pszStart = pszTarget + nSourceLen;
-				}
-				pszStart += StringTraits::SafeStringLen(pszStart) + 1;
-			}
-		}
-
-		// if any changes were made, make them
-		if (nCount > 0) {
-			// if the buffer is too small, just
-			// allocate a new buffer (slow but sure)
-			int nOldLength = this->GetLength();
-			int nNewLength = nOldLength+(nReplacementLen-nSourceLen)*nCount;
-
-			PXSTR pszBuffer = this->GetBuffer(__max(nNewLength, nOldLength));
-
-			PXSTR pszStart = pszBuffer;
-			PXSTR pszEnd = pszStart+nOldLength;
-
-			// loop again to actually do the work
-			while (pszStart < pszEnd) {
-				PXSTR pszTarget;
-				while ((pszTarget = StringTraits::StringFindString(pszStart, pszOld)) != NULL) {
-					int nBalance = nOldLength - int(pszTarget - pszBuffer + nSourceLen);
-					memmove_s(pszTarget + nReplacementLen, nBalance*sizeof(XCHAR),
-						pszTarget + nSourceLen, nBalance*sizeof(XCHAR));
-					memcpy_s(pszTarget, nReplacementLen*sizeof(XCHAR),
-						pszNew, nReplacementLen*sizeof(XCHAR));
-					pszStart = pszTarget + nReplacementLen;
-					pszTarget[nReplacementLen + nBalance] = 0;
-					nOldLength += (nReplacementLen - nSourceLen);
-				}
-				pszStart += StringTraits::SafeStringLen(pszStart) + 1;
-			}
-			this->ReleaseBufferSetLength(nNewLength);
-		}
-
-		return nCount;
-	}
+	int Replace(PCXSTR pszOld, PCXSTR pszNew);
 
 	// Remove all occurrences of character 'chRemove'
-	int Remove(XCHAR chRemove)
-	{
-		int nLength = this->GetLength();
-		PXSTR pszBuffer = this->GetBuffer(nLength);
+	int Remove(XCHAR chRemove);
 
-		PXSTR pszSource = pszBuffer;
-		PXSTR pszDest = pszBuffer;
-		PXSTR pszEnd = pszBuffer+nLength;
-
-		while (pszSource < pszEnd) {
-			PXSTR pszNewSource = StringTraits::CharNext(pszSource);
-			if (*pszSource != chRemove) {
-				// Copy the source to the destination.  Remember to copy all bytes of an MBCS character
-				// Copy the source to the destination.  Remember to copy all bytes of an MBCS character
-				size_t NewSourceGap = (pszNewSource - pszSource);
-				PXSTR pszNewDest = pszDest + NewSourceGap;
-				for (size_t i = 0; pszDest != pszNewDest && i < NewSourceGap; i++) {
-					*pszDest = *pszSource;
-					pszSource++;
-					pszDest++;
-				}
-			}
-			pszSource = pszNewSource;
-		}
-		*pszDest = 0;
-		int nCount = int(pszSource - pszDest);
-		this->ReleaseBufferSetLength(nLength - nCount);
-
-		return nCount;
-	}
-
-	CMStringT Tokenize(PCXSTR pszTokens, int& iStart) const
-	{
-		if ((pszTokens == NULL) || (*pszTokens == (XCHAR)0)) {
-			if (iStart < this->GetLength())
-				return CMStringT(this->GetString() + iStart);
-		}
-		else {
-			PCXSTR pszPlace = this->GetString() + iStart;
-			PCXSTR pszEnd = this->GetString() + this->GetLength();
-			if (pszPlace < pszEnd) {
-				int nIncluding = StringTraits::StringSpanIncluding(pszPlace, pszTokens);
-
-				if ((pszPlace + nIncluding) < pszEnd) {
-					pszPlace += nIncluding;
-					int nExcluding = StringTraits::StringSpanExcluding(pszPlace, pszTokens);
-
-					int iFrom = iStart + nIncluding;
-					int nUntil = nExcluding;
-					iStart = iFrom + nUntil + 1;
-
-					return Mid(iFrom, nUntil);
-				}
-			}
-		}
-
-		// return empty string, done tokenizing
-		iStart = -1;
-
-		return CMStringT();
-	}
+	CMStringT Tokenize(PCXSTR pszTokens, int& iStart) const;
 
 	// find routines
 
 	// Find the first occurrence of character 'ch', starting at index 'iStart'
-	int Find(XCHAR ch, int iStart = 0) const
-	{
-		// nLength is in XCHARs
-		int nLength = this->GetLength();
-		if (iStart < 0 || iStart >= nLength)
-			return -1;
-
-		// find first single character
-		PCXSTR psz = StringTraits::StringFindChar(this->GetString() + iStart, ch);
-
-		// return -1 if not found and index otherwise
-		return (psz == NULL) ? -1 : int(psz - this->GetString());
-	}
+	int Find(XCHAR ch, int iStart = 0) const;
 
 	// look for a specific sub-string
 
 	// Find the first occurrence of string 'pszSub', starting at index 'iStart'
-	int Find(PCXSTR pszSub, int iStart = 0) const
-	{
-		// iStart is in XCHARs
-		if (pszSub == NULL)
-			return -1;
-
-		// nLength is in XCHARs
-		int nLength = this->GetLength();
-		if (iStart < 0 || iStart > nLength)
-			return -1;
-
-		// find first matching substring
-		PCXSTR psz = StringTraits::StringFindString(this->GetString() + iStart, pszSub);
-
-		// return -1 for not found, distance from beginning otherwise
-		return (psz == NULL) ? -1 : int(psz - this->GetString());
-	}
+	int Find(PCXSTR pszSub, int iStart = 0) const;
 
 	// Find the first occurrence of any of the characters in string 'pszCharSet'
-	int FindOneOf(PCXSTR pszCharSet) const
-	{
-		PCXSTR psz = StringTraits::StringScanSet(this->GetString(), pszCharSet);
-		return (psz == NULL) ? -1 : int(psz - this->GetString());
-	}
+	int FindOneOf(PCXSTR pszCharSet) const;
 
 	// Find the last occurrence of character 'ch'
-	int ReverseFind(XCHAR ch) const
-	{
-		// find last single character
-		PCXSTR psz = StringTraits::StringFindCharRev(this->GetString(), ch);
-
-		// return -1 if not found, distance from beginning otherwise
-		return (psz == NULL) ? -1 : int(psz - this->GetString());
-	}
+	int ReverseFind(XCHAR ch) const;
 
 	// manipulation
 
 	// Convert the string to uppercase
-	CMStringT& MakeUpper()
-	{
-		int nLength = this->GetLength();
-		PXSTR pszBuffer = this->GetBuffer(nLength);
-		StringTraits::StringUppercase(pszBuffer, nLength + 1);
-		this->ReleaseBufferSetLength(nLength);
-
-		return *this;
-	}
+	CMStringT& MakeUpper();
 
 	// Convert the string to lowercase
-	CMStringT& MakeLower()
-	{
-		int nLength = this->GetLength();
-		PXSTR pszBuffer = this->GetBuffer(nLength);
-		StringTraits::StringLowercase(pszBuffer, nLength + 1);
-		this->ReleaseBufferSetLength(nLength);
-
-		return *this;
-	}
+	CMStringT& MakeLower();
 
 	// Reverse the string
-	CMStringT& MakeReverse()
-	{
-		int nLength = this->GetLength();
-		PXSTR pszBuffer = this->GetBuffer(nLength);
-		StringTraits::StringReverse(pszBuffer);
-		this->ReleaseBufferSetLength(nLength);
-
-		return *this;
-	}
+	CMStringT& MakeReverse();
 
 	// trimming
 
 	// Remove all trailing whitespace
-	CMStringT& TrimRight()
-	{
-		// find beginning of trailing spaces by starting
-		// at beginning (DBCS aware)
-
-		PCXSTR psz = this->GetString();
-		PCXSTR pszLast = NULL;
-
-		while (*psz != 0) {
-			if (StringTraits::IsSpace(*psz)) {
-				if (pszLast == NULL)
-					pszLast = psz;
-			}
-			else pszLast = NULL;
-
-			psz = StringTraits::CharNext(psz);
-		}
-
-		if (pszLast != NULL) {
-			// truncate at trailing space start
-			int iLast = int(pszLast - this->GetString());
-
-			this->Truncate(iLast);
-		}
-
-		return *this;
-	}
+	CMStringT& TrimRight();
 
 	// Remove all leading whitespace
-	CMStringT& TrimLeft()
-	{
-		// find first non-space character
-
-		PCXSTR psz = this->GetString();
-		while (StringTraits::IsSpace(*psz))
-			psz = StringTraits::CharNext(psz);
-
-		if (psz != this->GetString()) {
-			// fix up data and length
-			int iFirst = int(psz - this->GetString());
-			PXSTR pszBuffer = this->GetBuffer(this->GetLength());
-			psz = pszBuffer + iFirst;
-			int nDataLength = this->GetLength() - iFirst;
-			memmove_s(pszBuffer, (this->GetLength() + 1)*sizeof(XCHAR),
-				psz, (nDataLength + 1)*sizeof(XCHAR));
-			this->ReleaseBufferSetLength(nDataLength);
-		}
-
-		return *this;
-	}
+	CMStringT& TrimLeft();
 
 	// Remove all leading and trailing whitespace
-	CMStringT& Trim()
-	{
-		return TrimRight().TrimLeft();
-	}
+	CMStringT& Trim();
 
 	// Remove all leading and trailing occurrences of character 'chTarget'
-	CMStringT& Trim(XCHAR chTarget)
-	{
-		return TrimRight(chTarget).TrimLeft(chTarget);
-	}
+	CMStringT& Trim(XCHAR chTarget);
 
 	// Remove all leading and trailing occurrences of any of the characters in the string 'pszTargets'
-	CMStringT& Trim(PCXSTR pszTargets)
-	{
-		return TrimRight(pszTargets).TrimLeft(pszTargets);
-	}
+	CMStringT& Trim(PCXSTR pszTargets);
 
 	// trimming anything (either side)
 
 	// Remove all trailing occurrences of character 'chTarget'
-	CMStringT& TrimRight(XCHAR chTarget)
-	{
-		// find beginning of trailing matches
-		// by starting at beginning (DBCS aware)
-
-		PCXSTR psz = this->GetString();
-		PCXSTR pszLast = NULL;
-
-		while (*psz != 0) {
-			if (*psz == chTarget) {
-				if (pszLast == NULL)
-					pszLast = psz;
-			}
-			else pszLast = NULL;
-
-			psz = StringTraits::CharNext(psz);
-		}
-
-		if (pszLast != NULL) {
-			// truncate at left-most matching character
-			int iLast = int(pszLast - this->GetString());
-			this->Truncate(iLast);
-		}
-
-		return *this;
-	}
+	CMStringT& TrimRight(XCHAR chTarget);
 
 	// Remove all trailing occurrences of any of the characters in string 'pszTargets'
-	CMStringT& TrimRight(PCXSTR pszTargets)
-	{
-		// if we're not trimming anything, we're not doing any work
-		if ((pszTargets == NULL) || (*pszTargets == 0)) {
-			return *this;
-		}
-
-		// find beginning of trailing matches
-		// by starting at beginning (DBCS aware)
-
-		PCXSTR psz = this->GetString();
-		PCXSTR pszLast = NULL;
-
-		while (*psz != 0) {
-			if (StringTraits::StringFindChar(pszTargets, *psz) != NULL) {
-				if (pszLast == NULL) {
-					pszLast = psz;
-				}
-			}
-			else {
-				pszLast = NULL;
-			}
-			psz = StringTraits::CharNext(psz);
-		}
-
-		if (pszLast != NULL) {
-			// truncate at left-most matching character
-			int iLast = int(pszLast - this->GetString());
-			this->Truncate(iLast);
-		}
-
-		return *this;
-	}
+	CMStringT& TrimRight(PCXSTR pszTargets);
 
 	// Remove all leading occurrences of character 'chTarget'
-	CMStringT& TrimLeft(XCHAR chTarget)
-	{
-		// find first non-matching character
-		PCXSTR psz = this->GetString();
-
-		while (chTarget == *psz) {
-			psz = StringTraits::CharNext(psz);
-		}
-
-		if (psz != this->GetString()) {
-			// fix up data and length
-			int iFirst = int(psz - this->GetString());
-			PXSTR pszBuffer = this->GetBuffer(this->GetLength());
-			psz = pszBuffer + iFirst;
-			int nDataLength = this->GetLength() - iFirst;
-			memmove_s(pszBuffer, (this->GetLength() + 1)*sizeof(XCHAR),
-				psz, (nDataLength + 1)*sizeof(XCHAR));
-			this->ReleaseBufferSetLength(nDataLength);
-		}
-
-		return *this;
-	}
+	CMStringT& TrimLeft(XCHAR chTarget);
 
 	// Remove all leading occurrences of any of the characters in string 'pszTargets'
-	CMStringT& TrimLeft(PCXSTR pszTargets)
-	{
-		// if we're not trimming anything, we're not doing any work
-		if ((pszTargets == NULL) || (*pszTargets == 0)) {
-			return *this;
-		}
-
-		PCXSTR psz = this->GetString();
-		while ((*psz != 0) && (StringTraits::StringFindChar(pszTargets, *psz) != NULL)) {
-			psz = StringTraits::CharNext(psz);
-		}
-
-		if (psz != this->GetString()) {
-			// fix up data and length
-			int iFirst = int(psz - this->GetString());
-			PXSTR pszBuffer = this->GetBuffer(this->GetLength());
-			psz = pszBuffer + iFirst;
-			int nDataLength = this->GetLength() - iFirst;
-			memmove_s(pszBuffer, (this->GetLength() + 1)*sizeof(XCHAR),
-				psz, (nDataLength + 1)*sizeof(XCHAR));
-			this->ReleaseBufferSetLength(nDataLength);
-		}
-
-		return *this;
-	}
+	CMStringT& TrimLeft(PCXSTR pszTargets);
 
 	// Convert the string to the OEM character set
-	void AnsiToOem()
-	{
-		int nLength = this->GetLength();
-		PXSTR pszBuffer = this->GetBuffer(nLength);
-		StringTraits::ConvertToOem(pszBuffer, nLength + 1);
-		this->ReleaseBufferSetLength(nLength);
-	}
+	void AnsiToOem();
 
 	// Convert the string to the ANSI character set
-	void OemToAnsi()
-	{
-		int nLength = this->GetLength();
-		PXSTR pszBuffer = this->GetBuffer(nLength);
-		StringTraits::ConvertToAnsi(pszBuffer, nLength + 1);
-		this->ReleaseBufferSetLength(nLength);
-	}
+	void OemToAnsi();
 
 	// Very simple sub-string extraction
 
 	// Return the substring starting at index 'iFirst'
-	CMStringT Mid(int iFirst) const
-	{
-		return Mid(iFirst, this->GetLength() - iFirst);
-	}
+	CMStringT Mid(int iFirst) const;
 
 	// Return the substring starting at index 'iFirst', with length 'nCount'
-	CMStringT Mid(int iFirst, int nCount) const
-	{
-		// nCount is in XCHARs
-
-		// out-of-bounds requests return sensible things
-		if (iFirst < 0)
-			iFirst = 0;
-		if (nCount < 0)
-			nCount = 0;
-
-		if ((iFirst + nCount) > this->GetLength())
-			nCount = this->GetLength() - iFirst;
-
-		if (iFirst > this->GetLength())
-			nCount = 0;
-
-		// optimize case of returning entire string
-		if ((iFirst == 0) && ((iFirst + nCount) == this->GetLength()))
-			return *this;
-
-		return CMStringT(this->GetString() + iFirst, nCount);
-	}
+	CMStringT Mid(int iFirst, int nCount) const;
 
 	// Return the substring consisting of the rightmost 'nCount' characters
-	CMStringT Right(int nCount) const
-	{
-		// nCount is in XCHARs
-		if (nCount < 0)
-			nCount = 0;
-
-		int nLength = this->GetLength();
-		if (nCount >= nLength) {
-			return *this;
-		}
-
-		return CMStringT(this->GetString() + nLength - nCount, nCount);
-	}
+	CMStringT Right(int nCount) const;
 
 	// Return the substring consisting of the leftmost 'nCount' characters
-	CMStringT Left(int nCount) const
-	{
-		// nCount is in XCHARs
-		if (nCount < 0)
-			nCount = 0;
-
-		int nLength = this->GetLength();
-		if (nCount >= nLength)
-			return *this;
-
-		return CMStringT(this->GetString(), nCount);
-	}
+	CMStringT Left(int nCount) const;
 
 	// Return the substring consisting of the leftmost characters in the set 'pszCharSet'
-	CMStringT SpanIncluding(PCXSTR pszCharSet) const
-	{
-		return Left(StringTraits::StringSpanIncluding(this->GetString(), pszCharSet));
-	}
+	CMStringT SpanIncluding(PCXSTR pszCharSet) const;
 
 	// Return the substring consisting of the leftmost characters not in the set 'pszCharSet'
-	CMStringT SpanExcluding(PCXSTR pszCharSet) const
-	{
-		return Left(StringTraits::StringSpanExcluding(this->GetString(), pszCharSet));
-	}
+	CMStringT SpanExcluding(PCXSTR pszCharSet) const;
 
 	// Format data using format string 'pszFormat'
-	PCXSTR Format(PCXSTR pszFormat, ...)
-	{
-		va_list argList;
-		va_start(argList, pszFormat);
-		FormatV(pszFormat, argList);
-		va_end(argList);
-		return GetString();
-	}
+	PCXSTR Format(PCXSTR pszFormat, ...);
+	PCXSTR FormatV(PCXSTR pszFormat, va_list args);
 
 	// Append formatted data using format string 'pszFormat'
-	PCXSTR AppendFormat(PCXSTR pszFormat, ...)
-	{
-		va_list argList;
-		va_start(argList, pszFormat);
-		AppendFormatV(pszFormat, argList);
-		va_end(argList);
-		return GetString();
-	}
-
-	void AppendFormatV(PCXSTR pszFormat, va_list args)
-	{
-		int nCurrentLength = this->GetLength();
-		int nAppendLength = StringTraits::GetFormattedLength(pszFormat, args);
-		PXSTR pszBuffer = this->GetBuffer(nCurrentLength + nAppendLength);
-		StringTraits::Format(pszBuffer + nCurrentLength, nAppendLength + 1, pszFormat, args);
-		this->ReleaseBufferSetLength(nCurrentLength + nAppendLength);
-	}
-
-	PCXSTR FormatV(PCXSTR pszFormat, va_list args)
-	{
-		int nLength = StringTraits::GetFormattedLength(pszFormat, args);
-		PXSTR pszBuffer = this->GetBuffer(nLength);
-		StringTraits::Format(pszBuffer, nLength + 1, pszFormat, args);
-		this->ReleaseBufferSetLength(nLength);
-		return GetString();
-	}
+	PCXSTR AppendFormat(PCXSTR pszFormat, ...);
+	void   AppendFormatV(PCXSTR pszFormat, va_list args);
 
 	// OLE BSTR support
 
 	// allocate a BSTR containing a copy of the string
-	BSTR AllocSysString() const
-	{
-		BSTR bstrResult = StringTraits::AllocSysString(this->GetString(), this->GetLength());
-		return bstrResult;
-	}
-
-	BSTR SetSysString(BSTR* pbstr) const
-	{
-		StringTraits::ReAllocSysString(this->GetString(), pbstr, this->GetLength());
-		return *pbstr;
-	}
+	BSTR AllocSysString() const;
+	BSTR SetSysString(BSTR* pbstr) const;
 
 	// Set the string to the value of environment variable 'pszVar'
-	BOOL GetEnvironmentVariable(PCXSTR pszVar)
-	{
-		ULONG nLength = StringTraits::GetEnvironmentVariable(pszVar, NULL, 0);
-		BOOL bRetVal = FALSE;
+	BOOL GetEnvironmentVariable(PCXSTR pszVar);
 
-		if (nLength == 0)
-			this->Empty();
-		else {
-			PXSTR pszBuffer = this->GetBuffer(nLength);
-			StringTraits::GetEnvironmentVariable(pszVar, pszBuffer, nLength);
-			this->ReleaseBuffer();
-			bRetVal = TRUE;
-		}
+	friend bool __forceinline operator==(const CMStringT& str1, const CMStringT& str2) { return str1.Compare(str2) == 0; }
+	friend bool __forceinline operator==(const CMStringT& str1, PCXSTR psz2) { return str1.Compare(psz2) == 0; }
+	friend bool __forceinline operator==(PCXSTR psz1, const CMStringT& str2) { return str2.Compare(psz1) == 0; }
+	friend bool __forceinline operator==(const CMStringT& str1, PCYSTR psz2) { return str1 == CMStringT(psz2); }
+	friend bool __forceinline operator==(PCYSTR psz1, const CMStringT& str2) { return CMStringT(psz1) == str2; }
 
-		return bRetVal;
-	}
+	friend bool __forceinline operator!=(const CMStringT& str1, const CMStringT& str2) { return str1.Compare(str2) != 0; }
+	friend bool __forceinline operator!=(const CMStringT& str1, PCXSTR psz2) { return str1.Compare(psz2) != 0; }
+	friend bool __forceinline operator!=(PCXSTR psz1, const CMStringT& str2) { return str2.Compare(psz1) != 0; }
+	friend bool __forceinline operator!=(const CMStringT& str1, PCYSTR psz2) { return str1 != CMStringT(psz2); }
+	friend bool __forceinline operator!=(PCYSTR psz1, const CMStringT& str2) { return CMStringT(psz1) != str2; }
 
-	// Load the string from resource 'nID'
-	BOOL LoadString(UINT nID)
-	{
-		HINSTANCE hInst = StringTraits::FindStringResourceInstance(nID);
-		if (hInst == NULL)
-			return FALSE;
+	friend bool __forceinline operator<(const CMStringT& str1, const CMStringT& str2) { return str1.Compare(str2) < 0; }
+	friend bool __forceinline operator<(const CMStringT& str1, PCXSTR psz2) { return str1.Compare(psz2) < 0; }
+	friend bool __forceinline operator<(PCXSTR psz1, const CMStringT& str2) { return str2.Compare(psz1) > 0; }
 
-		return LoadString(hInst, nID);
-	}
+	friend bool __forceinline operator>(const CMStringT& str1, const CMStringT& str2) { return str1.Compare(str2) > 0; }
+	friend bool __forceinline operator>(const CMStringT& str1, PCXSTR psz2) { return str1.Compare(psz2) > 0; }
+	friend bool __forceinline operator>(PCXSTR psz1, const CMStringT& str2) { return str2.Compare(psz1) < 0; }
 
-	friend CMStringT __stdcall operator+(const CMStringT& str1, const CMStringT& str2)
-	{
-		CMStringT strResult;
+	friend bool __forceinline operator<=(const CMStringT& str1, const CMStringT& str2) { return str1.Compare(str2) <= 0; }
+	friend bool __forceinline operator<=(const CMStringT& str1, PCXSTR psz2) { return str1.Compare(psz2) <= 0; }
+	friend bool __forceinline operator<=(PCXSTR psz1, const CMStringT& str2) { return str2.Compare(psz1) >= 0; }
 
-		Concatenate(strResult, str1, str1.GetLength(), str2, str2.GetLength());
+	friend bool __forceinline operator>=(const CMStringT& str1, const CMStringT& str2) { return str1.Compare(str2) >= 0; }
+	friend bool __forceinline operator>=(const CMStringT& str1, PCXSTR psz2) { return str1.Compare(psz2) >= 0; }
+	friend bool __forceinline operator>=(PCXSTR psz1, const CMStringT& str2) { return str2.Compare(psz1) <= 0; }
 
-		return strResult;
-	}
+	friend bool __forceinline operator==(XCHAR ch1, const CMStringT& str2) { return (str2.GetLength() == 1) && (str2[0] == ch1); }
+	friend bool __forceinline operator==(const CMStringT& str1, XCHAR ch2) { return (str1.GetLength() == 1) && (str1[0] == ch2); }
 
-	friend CMStringT __stdcall operator+(const CMStringT& str1, PCXSTR psz2)
-	{
-		CMStringT strResult;
-
-		Concatenate(strResult, str1, str1.GetLength(), psz2, StringLength(psz2));
-
-		return strResult;
-	}
-
-	friend CMStringT __stdcall operator+(PCXSTR psz1, const CMStringT& str2)
-	{
-		CMStringT strResult;
-
-		Concatenate(strResult, psz1, StringLength(psz1), str2, str2.GetLength());
-
-		return strResult;
-	}
-
-	friend CMStringT __stdcall operator+(const CMStringT& str1, wchar_t ch2)
-	{
-		CMStringT strResult;
-		XCHAR chTemp = XCHAR(ch2);
-
-		Concatenate(strResult, str1, str1.GetLength(), &chTemp, 1);
-
-		return strResult;
-	}
-
-	friend CMStringT __stdcall operator+(const CMStringT& str1, char ch2)
-	{
-		CMStringT strResult;
-		XCHAR chTemp = XCHAR(ch2);
-
-		Concatenate(strResult, str1, str1.GetLength(), &chTemp, 1);
-
-		return strResult;
-	}
-
-	friend CMStringT __stdcall operator+(wchar_t ch1, const CMStringT& str2)
-	{
-		CMStringT strResult;
-		XCHAR chTemp = XCHAR(ch1);
-
-		Concatenate(strResult, &chTemp, 1, str2, str2.GetLength());
-
-		return strResult;
-	}
-
-	friend CMStringT __stdcall operator+(char ch1, const CMStringT& str2)
-	{
-		CMStringT strResult;
-		XCHAR chTemp = XCHAR(ch1);
-
-		Concatenate(strResult, &chTemp, 1, str2, str2.GetLength());
-
-		return strResult;
-	}
-
-	friend bool __stdcall operator==(const CMStringT& str1, const CMStringT& str2)
-	{
-		return str1.Compare(str2) == 0;
-	}
-
-	friend bool __stdcall operator==(const CMStringT& str1, PCXSTR psz2)
-	{
-		return str1.Compare(psz2) == 0;
-	}
-
-	friend bool __stdcall operator==(PCXSTR psz1, const CMStringT& str2)
-	{
-		return str2.Compare(psz1) == 0;
-	}
-
-	friend bool __stdcall operator==(const CMStringT& str1, PCYSTR psz2)
-	{
-		CMStringT str2(psz2);
-
-		return str1 == str2;
-	}
-
-	friend bool __stdcall operator==(PCYSTR psz1, const CMStringT& str2)
-	{
-		CMStringT str1(psz1);
-
-		return str1 == str2;
-	}
-
-	friend bool __stdcall operator!=(const CMStringT& str1, const CMStringT& str2)
-	{
-		return str1.Compare(str2) != 0;
-	}
-
-	friend bool __stdcall operator!=(const CMStringT& str1, PCXSTR psz2)
-	{
-		return str1.Compare(psz2) != 0;
-	}
-
-	friend bool __stdcall operator!=(PCXSTR psz1, const CMStringT& str2)
-	{
-		return str2.Compare(psz1) != 0;
-	}
-
-	friend bool __stdcall operator!=(const CMStringT& str1, PCYSTR psz2)
-	{
-		CMStringT str2(psz2);
-
-		return str1 != str2;
-	}
-
-	friend bool __stdcall operator!=(PCYSTR psz1, const CMStringT& str2)
-	{
-		CMStringT str1(psz1);
-
-		return str1 != str2;
-	}
-
-	friend bool __stdcall operator<(const CMStringT& str1, const CMStringT& str2)
-	{
-		return str1.Compare(str2) < 0;
-	}
-
-	friend bool __stdcall operator<(const CMStringT& str1, PCXSTR psz2)
-	{
-		return str1.Compare(psz2) < 0;
-	}
-
-	friend bool __stdcall operator<(PCXSTR psz1, const CMStringT& str2)
-	{
-		return str2.Compare(psz1) > 0;
-	}
-
-	friend bool __stdcall operator>(const CMStringT& str1, const CMStringT& str2)
-	{
-		return str1.Compare(str2) > 0;
-	}
-
-	friend bool __stdcall operator>(const CMStringT& str1, PCXSTR psz2)
-	{
-		return str1.Compare(psz2) > 0;
-	}
-
-	friend bool __stdcall operator>(PCXSTR psz1, const CMStringT& str2)
-	{
-		return str2.Compare(psz1) < 0;
-	}
-
-	friend bool __stdcall operator<=(const CMStringT& str1, const CMStringT& str2)
-	{
-		return str1.Compare(str2) <= 0;
-	}
-
-	friend bool __stdcall operator<=(const CMStringT& str1, PCXSTR psz2)
-	{
-		return str1.Compare(psz2) <= 0;
-	}
-
-	friend bool __stdcall operator<=(PCXSTR psz1, const CMStringT& str2)
-	{
-		return str2.Compare(psz1) >= 0;
-	}
-
-	friend bool __stdcall operator>=(const CMStringT& str1, const CMStringT& str2)
-	{
-		return str1.Compare(str2) >= 0;
-	}
-
-	friend bool __stdcall operator>=(const CMStringT& str1, PCXSTR psz2)
-	{
-		return str1.Compare(psz2) >= 0;
-	}
-
-	friend bool __stdcall operator>=(PCXSTR psz1, const CMStringT& str2)
-	{
-		return str2.Compare(psz1) <= 0;
-	}
-
-	friend bool __stdcall operator==(XCHAR ch1, const CMStringT& str2)
-	{
-		return (str2.GetLength() == 1) && (str2[0] == ch1);
-	}
-
-	friend bool __stdcall operator==(const CMStringT& str1, XCHAR ch2)
-	{
-		return (str1.GetLength() == 1) && (str1[0] == ch2);
-	}
-
-	friend bool __stdcall operator!=(XCHAR ch1, const CMStringT& str2)
-	{
-		return (str2.GetLength() != 1) || (str2[0] != ch1);
-	}
-
-	friend bool __stdcall operator!=(const CMStringT& str1, XCHAR ch2)
-	{
-		return (str1.GetLength() != 1) || (str1[0] != ch2);
-	}
+	friend bool __forceinline operator!=(XCHAR ch1, const CMStringT& str2) { return (str2.GetLength() != 1) || (str2[0] != ch1); }
+	friend bool __forceinline operator!=(const CMStringT& str1, XCHAR ch2) { return (str1.GetLength() != 1) || (str1[0] != ch2); }
 };
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(const CMStringT<BaseType, StringTraits>& str1, const CMStringT<BaseType, StringTraits>& str2);
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(const CMStringT<BaseType, StringTraits>& str1, typename CMStringT<BaseType, StringTraits>::PCXSTR psz2);
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(typename CMStringT<BaseType, StringTraits>::PCXSTR psz1, const CMStringT<BaseType, StringTraits>& str2);
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(const CMStringT<BaseType, StringTraits>& str1, wchar_t ch2);
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(const CMStringT<BaseType, StringTraits>& str1, char ch2);
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator + (wchar_t ch1, const CMStringT<BaseType, StringTraits>& str2);
+
+template< typename BaseType, class StringTraits >
+MIR_CORE_EXPORT CMStringT<BaseType, StringTraits> CALLBACK operator+(char ch1, const CMStringT<BaseType, StringTraits>& str2);
 
 typedef CMStringT< wchar_t, ChTraitsCRT< wchar_t > > CMStringW;
 typedef CMStringT< char, ChTraitsCRT< char > > CMStringA;
-typedef CMStringT< TCHAR, ChTraitsCRT< TCHAR > > CMString;
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// ChTraitsCRT<wchar_t>
-
-__forceinline int ChTraitsCRT<wchar_t>::GetFormattedLength(LPCWSTR pszFormat, va_list args)
-{
-	return _vscwprintf(pszFormat, args);
-}
-
-__forceinline int ChTraitsCRT<wchar_t>::Format(LPWSTR pszBuffer, size_t nLength, LPCWSTR pszFormat, va_list args)
-{
-	return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// ChTraitsCRT<char>
-
-__forceinline int ChTraitsCRT<char>::GetFormattedLength(LPCSTR pszFormat, va_list args)
-{
-	return _vscprintf(pszFormat, args);
-}
-
-__forceinline int ChTraitsCRT<char>::Format(LPSTR pszBuffer, size_t nlength, LPCSTR pszFormat, va_list args)
-{
-	return vsprintf_s(pszBuffer, nlength, pszFormat, args);
-}
+#ifdef _UNICODE
+	typedef CMStringW CMString;
+#else
+	typedef CMStringA CMString;
+#endif
 
 #endif // M_STRING_H__
