@@ -172,6 +172,7 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <DelayLoadDLLs>miranda32.exe</DelayLoadDLLs>
+      <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -246,7 +247,7 @@
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <DelayLoadDLLs>miranda32.exe</DelayLoadDLLs>
-      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
+      <AdditionalOptions>/PDBALTPATH:%_PDB% /ignore:4197</AdditionalOptions>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -288,7 +289,7 @@
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
-      <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
+      <AdditionalOptions>/PDBALTPATH:%_PDB% /ignore:4197</AdditionalOptions>
       <DelayLoadDLLs>miranda64.exe</DelayLoadDLLs>
     </Link>
     <PreBuildEvent>
