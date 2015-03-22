@@ -9,8 +9,12 @@ public:
 	{
 		flags |= NLHRF_SSL;
 
-		AddHeader("X-Skypetoken", token);
-		AddHeader("Accept", "application/json");
+		Url << CHAR_VALUE("hideDetails", "true");
+
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", "Accept")
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
 
@@ -22,18 +26,15 @@ public:
 	{
 		flags |= NLHRF_SSL;
 
-		CMStringA data;
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", "Accept")
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json");
+
 		for (size_t i = 0; i < skypenames.getCount(); i++)
 		{
-			data.AppendFormat("contacts[]=%s&", skypenames[i]);
+			Body << CHAR_VALUE("contacts[]", skypenames[i]);
 		}
-		data.Delete(data.GetLength() - 1);
-
-		SetData(data, data.GetLength());
-
-		AddHeader("X-Skypetoken", token);
-		AddHeader("Accept", "application/json");
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	}
 };
 
@@ -45,8 +46,9 @@ public:
 	{
 		flags |= NLHRF_SSL;
 
-		AddHeader("X-Skypetoken", token);
-		AddHeader("Accept", "application/json");
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
 
@@ -58,8 +60,9 @@ public:
 	{
 		flags |= NLHRF_SSL;
 
-		AddHeader("X-Skypetoken", token);
-		AddHeader("Accept", "application/json");
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
 
@@ -71,8 +74,9 @@ public:
 	{
 		flags |= NLHRF_SSL;
 
-		AddHeader("X-Skypetoken", token);
-		AddHeader("Accept", "application/json");
+		Headers
+			<< CHAR_VALUE("X-Skypetoken", token)
+			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
 
