@@ -345,10 +345,10 @@ LBL_Usage:
 
 	int tResult = 0, tLineNo = 0;
 
-	char	tBuffer[1024];
-	strncpy_s(tBuffer, "mkdXXXXXX", _TRUNCATE);
+	char tTemplate[MAX_PATH];
+	strncpy_s(tTemplate, "mkdXXXXXX", _TRUNCATE);
 
-	char *tTemplate = _mktemp(tBuffer);
+	_mktemp(tTemplate);
 	FILE* tTempFile = fopen(tTemplate, "wt");
 	if (tTempFile == NULL) {
 		fprintf(stderr, "Unable to create temporary file %s\n", tTemplate);
@@ -368,6 +368,7 @@ LBL_Usage:
 	else {
 		fprintf(stderr, "Processing DEF file: '%s'...\n", tDefFileName);
 
+		char	tBuffer[1024];
 		while (fgets(tBuffer, sizeof(tBuffer), tInFile) != NULL) {
 			fputs(tBuffer, tTempFile);
 			tLineNo++;
