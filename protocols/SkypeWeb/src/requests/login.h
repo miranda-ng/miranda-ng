@@ -9,35 +9,38 @@ public:
 	{
 		flags |= NLHRF_SSL;
 
-		url.Append("?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
+		Url
+			<< INT_VALUE("client_id", 578134)
+			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
+
+		Headers
+			<< CHAR_VALUE("Host", "login.skype.com")
+			<< CHAR_VALUE("Referer", "https://web.skype.com/");
 	}
 
 	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
 		HttpRequest(REQUEST_POST, "login.skype.com/login")
 	{
-		flags |= NLHRF_SSL;
+		this->LoginRequest::LoginRequest();
 
-		url.Append("?client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
+		Headers
+			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded")
+			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
 
 		LPTIME_ZONE_INFORMATION tzi = tmi.getTziByContact(NULL);
-
 		char sign = tzi->Bias > 0 ? '-' : '+';
 		int hours = tzi->Bias / -60;
 		int minutes = tzi->Bias % -60;
 
-		CMStringA data = "";
-		data.AppendFormat("username=%s&", skypename);
-		data.AppendFormat("password=%s&", password);
-		data.AppendFormat("pie=%s&", ptrA(mir_urlEncode(pie)));
-		data.AppendFormat("etm=%s&", ptrA(mir_urlEncode(etm)));
-		data.AppendFormat("timezone_field=%c%02d|%02d&", sign, hours, minutes);
-		data.AppendFormat("js_time=%d.00&", time(NULL));
-		data.Append("client_id=578134&");
-		data.Append("redirect_uri=https%3A%2F%2Fweb.skype.com");
-
-		SetData(data, data.GetLength());
-
-		AddHeader("Content-Type", "application/x-www-form-urlencoded");
+		Body
+			<< CHAR_VALUE("username", skypename)
+			<< CHAR_VALUE("password", password)
+			<< CHAR_VALUE("pie", ptrA(mir_urlEncode(pie)))
+			<< CHAR_VALUE("etm", ptrA(mir_urlEncode(etm)))
+			<< FORMAT_VALUE("timezone_field", "%c%02d|%02d", sign, hours, minutes)
+			<< FORMAT_VALUE("js_time", "%d.00", time(NULL))
+			<< INT_VALUE("client_id", 578134)
+			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
 	}
 };
 

@@ -1,48 +1,198 @@
 #ifndef _HTTP_REQUEST_H_
 #define _HTTP_REQUEST_H_
 
+struct VALUE
+{
+	LPCSTR szName;
+	__forceinline VALUE(LPCSTR _name) : szName(_name) { }
+};
+
+struct INT_VALUE : public VALUE
+{
+	int iValue;
+	__forceinline INT_VALUE(LPCSTR _name, int _value)
+		: VALUE(_name), iValue(_value) { }
+};
+
+struct CHAR_VALUE : public VALUE
+{
+	LPCSTR szValue;
+	__forceinline CHAR_VALUE(LPCSTR _name, LPCSTR _value)
+		: VALUE(_name), szValue(_value) { }
+};
+
+struct FORMAT_VALUE : public VALUE
+{
+	CMStringA szValue;
+	__forceinline FORMAT_VALUE(LPCSTR _name, LPCSTR _valueFormat, ...)
+		: VALUE(_name)
+	{
+		va_list args;
+		va_start(args, _valueFormat);
+		szValue.AppendFormatV(_valueFormat, args);
+		va_end(args);
+	}
+};
+
 class HttpRequest : protected NETLIBHTTPREQUEST, public MZeroedObject
 {
 protected:
-	CMStringA url;
+	class HttpRequestUrl
+	{
+		friend HttpRequest;
 
-	HttpRequest()
+	private:
+		CMStringA content;
+
+		void AppendSeparator()
+		{
+			if (!content.IsEmpty())
+			{
+				if (content.Find("?") == -1)
+					content.AppendChar('?');
+				else
+					content.AppendChar('&');
+			}
+		}
+
+	public:
+		HttpRequestUrl & operator<<(const VALUE &param)
+		{
+			AppendSeparator();
+			content.Append(param.szName);
+			return *this;
+		}
+
+		HttpRequestUrl & operator<<(const INT_VALUE &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%i", param.szName, param.iValue);
+			return *this;
+		}
+
+		HttpRequestUrl & operator<<(const CHAR_VALUE &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%s", param.szName, param.szValue);
+			return *this;
+		}
+
+		char * ToString()
+		{
+			return content.GetBuffer();
+		}
+	};
+
+	class HttpRequestHeaders
+	{
+	private:
+		HttpRequest &request;
+
+		void Add(LPCSTR szName)
+		{
+			Add(szName, "");
+		}
+
+		void Add(LPCSTR szName, LPCSTR szValue)
+		{
+			request.headers = (NETLIBHTTPHEADER*)mir_realloc(
+				request.headers, sizeof(NETLIBHTTPHEADER) * (request.headersCount + 1));
+			request.headers[request.headersCount].szName = mir_strdup(szName);
+			request.headers[request.headersCount].szValue = mir_strdup(szValue);
+			request.headersCount++;
+		}
+
+	public:
+		HttpRequestHeaders(HttpRequest &request) : request(request) { }
+
+		HttpRequestHeaders & operator<<(const VALUE &param)
+		{
+			Add(param.szName);
+			return *this;
+		}
+
+		HttpRequestHeaders & operator<<(const CHAR_VALUE &param)
+		{
+			Add(param.szName, param.szValue);
+			return *this;
+		}
+	};
+
+	class HttpRequestBody
+	{
+	private:
+		CMStringA content;
+
+		void AppendSeparator()
+		{
+			if (!content.IsEmpty())
+			{
+				content.AppendChar('&');
+			}
+		}
+
+	public:
+		HttpRequestBody() { }
+
+		HttpRequestBody & operator<<(const VALUE &param)
+		{
+			AppendSeparator();
+			content.Append(param.szName);
+			return *this;
+		}
+
+		HttpRequestBody & operator<<(const INT_VALUE &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%i", param.szName, param.iValue);
+			return *this;
+		}
+
+		HttpRequestBody & operator<<(const CHAR_VALUE &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%s", param.szName, param.szValue);
+			return *this;
+		}
+
+		HttpRequestBody & operator<<(const FORMAT_VALUE &param)
+		{
+			AppendSeparator();
+			content.AppendFormat("%s=%s", param.szName, param.szValue);
+			return *this;
+		}
+
+		char * ToString()
+		{
+			return content.GetBuffer();
+		}
+	};
+
+	HttpRequest() : Headers(*this)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
 	}
 
 	HttpRequest(int httpMethod, LPCSTR urlFormat, va_list args)
+		: Headers(*this)
 	{
 		this->HttpRequest::HttpRequest();
 
 		requestType = httpMethod;
 		flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 
-		url.AppendFormatV(urlFormat, args);
-		szUrl = url.GetBuffer();
-	}
-
-	void AddHeader(LPCSTR szName, LPCSTR szValue)
-	{
-		headers = (NETLIBHTTPHEADER*)mir_realloc(headers, sizeof(NETLIBHTTPHEADER)*(headersCount + 1));
-		headers[headersCount].szName = mir_strdup(szName);
-		headers[headersCount].szValue = mir_strdup(szValue);
-		headersCount++;
-	}
-
-	void SetData(const char *data, size_t size)
-	{
-		if (pData != NULL)
-			mir_free(pData);
-
-		dataLength = (int)size;
-		pData = (char*)mir_alloc(size + 1);
-		memcpy(pData, data, size);
-		pData[size] = 0;
+		Url.content.AppendFormatV(urlFormat, args);
+		if (Url.content.Find("://") == -1)
+			Url.content.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
 	}
 
 public:
+	HttpRequestUrl Url;
+	HttpRequestHeaders Headers;
+	HttpRequestBody Body;
+
 	HttpRequest(int type, LPCSTR urlFormat, ...)
+		: Headers(*this)
 	{
 		va_list args;
 		va_start(args, urlFormat);
@@ -58,19 +208,15 @@ public:
 			mir_free(headers[i].szValue);
 		}
 		mir_free(headers);
-		mir_free(pData);
-	}
-
-	void SetCookie(LPCSTR szValue)
-	{
-		AddHeader("Set-Cookie", szValue);
+		//mir_free(pData);
 	}
 
 	NETLIBHTTPREQUEST * Send(HANDLE hConnection)
 	{
-		if (url.Find("http", 0) != 0)
-			url.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
-		szUrl = url.GetBuffer();
+		szUrl = Url.ToString();
+
+		pData = Body.ToString();
+		dataLength = mir_strlen(pData);
 
 		char message[1024];
 		mir_snprintf(message, SIZEOF(message), "Send request to %s", szUrl);
