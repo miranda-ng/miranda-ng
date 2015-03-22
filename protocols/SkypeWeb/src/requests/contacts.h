@@ -1,14 +1,12 @@
 #ifndef _SKYPE_REQUEST_CONTACTS_H_
 #define _SKYPE_REQUEST_CONTACTS_H_
 
-class GetContactListRequest : public HttpRequest
+class GetContactListRequest : public HttpsGetRequest
 {
 public:
 	GetContactListRequest(const char *token, const char *skypename = "self") :
-		HttpRequest(REQUEST_GET, "api.skype.com/users/%s/contacts?hideDetails=true", skypename)
+		HttpsGetRequest("api.skype.com/users/%s/contacts", skypename)
 	{
-		flags |= NLHRF_SSL;
-
 		Url << CHAR_VALUE("hideDetails", "true");
 
 		Headers
@@ -18,14 +16,12 @@ public:
 	}
 };
 
-class GetContactsInfoRequest : public HttpRequest
+class GetContactsInfoRequest : public HttpsPostRequest
 {
 public:
 	GetContactsInfoRequest(const char *token, const LIST<char> &skypenames, const char *skypename = "self") :
-		HttpRequest(REQUEST_POST, "api.skype.com/users/%s/contacts/profiles", skypename)
+		HttpsPostRequest("api.skype.com/users/%s/contacts/profiles", skypename)
 	{
-		flags |= NLHRF_SSL;
-
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", "Accept")
 			<< CHAR_VALUE("X-Skypetoken", token)
@@ -38,42 +34,36 @@ public:
 	}
 };
 
-class GetContactsAuthRequest : public HttpRequest
+class GetContactsAuthRequest : public HttpsGetRequest
 {
 public:
 	GetContactsAuthRequest(const char *token, const char *skypename = "self") :
-		HttpRequest(REQUEST_GET, "api.skype.com/users/%s/contacts/auth-request", skypename)
+		HttpsGetRequest("api.skype.com/users/%s/contacts/auth-request", skypename)
 	{
-		flags |= NLHRF_SSL;
-
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
 
-class AuthAcceptRequest : public HttpRequest
+class AuthAcceptRequest : public HttpsGetRequest
 {
 public:
 	AuthAcceptRequest(const char *token, const char *who, const char *skypename = "self") :
-		HttpRequest(REQUEST_GET, "api.skype.com/users/%s/contacts/auth-request/%s/accept", skypename, who)
+		HttpsGetRequest("api.skype.com/users/%s/contacts/auth-request/%s/accept", skypename, who)
 	{
-		flags |= NLHRF_SSL;
-
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
 };
 
-class AuthDeclineRequest : public HttpRequest
+class AuthDeclineRequest : public HttpsGetRequest
 {
 public:
 	AuthDeclineRequest(const char *token, const char *who, const char *skypename = "self") :
-		HttpRequest(REQUEST_GET, "api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename)
+		HttpsGetRequest("api.skype.com/users/%s/contacts/auth-request/%s/decline", skypename)
 	{
-		flags |= NLHRF_SSL;
-
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");

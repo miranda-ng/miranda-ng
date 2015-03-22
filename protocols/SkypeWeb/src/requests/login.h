@@ -1,30 +1,29 @@
 #ifndef _SKYPE_REQUEST_LOGIN_H_
 #define _SKYPE_REQUEST_LOGIN_H_
 
-class LoginRequest : public HttpRequest
+class LoginRequest : public HttpsPostRequest
 {
 public:
 	LoginRequest() :
-		HttpRequest(REQUEST_POST, "login.skype.com/login")
+		HttpsPostRequest("login.skype.com/login")
 	{
-		flags |= NLHRF_SSL;
+		Url
+			<< INT_VALUE("client_id", 578134)
+			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
 
+		Headers
+			<< CHAR_VALUE("Host", "login.skype.com");
+	}
+
+	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
+		HttpsPostRequest("login.skype.com/login")
+	{
 		Url
 			<< INT_VALUE("client_id", 578134)
 			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
 
 		Headers
 			<< CHAR_VALUE("Host", "login.skype.com")
-			<< CHAR_VALUE("Referer", "https://web.skype.com/");
-	}
-
-	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
-		HttpRequest(REQUEST_POST, "login.skype.com/login")
-	{
-		this->LoginRequest::LoginRequest();
-
-		Headers
-			<< CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded")
 			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
 
 		LPTIME_ZONE_INFORMATION tzi = tmi.getTziByContact(NULL);

@@ -83,6 +83,7 @@ private:
 	char *password;
 	RequestQueue *requestQueue;
 	std::map<std::string, std::string> cookies;
+	std::map<std::string, std::string> RegInfo;
 
 	static std::map<std::tstring, std::tstring> languages;
 
@@ -120,8 +121,9 @@ private:
 
 	// events
 	void OnLoginFirst(const NETLIBHTTPREQUEST *response);
-	
 	void OnLoginSecond(const NETLIBHTTPREQUEST *response);
+
+	void OnGetRegInfo(const NETLIBHTTPREQUEST *response);
 
 	// profile
 	void UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact = NULL);
@@ -174,6 +176,7 @@ private:
 	static void ShowNotification(const TCHAR *caption, const TCHAR *message, int flags = 0, MCONTACT hContact = NULL);
 
 	static bool IsFileExists(std::tstring path);
+	std::string urlDecode(std::string SRC);
 
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
