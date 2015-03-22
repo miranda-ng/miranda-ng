@@ -171,19 +171,14 @@ protected:
 	HttpRequest() : Headers(*this)
 	{
 		cbSize = sizeof(NETLIBHTTPREQUEST);
+		flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 	}
 
 	HttpRequest(int httpMethod, LPCSTR urlFormat, va_list args)
 		: Headers(*this)
 	{
-		this->HttpRequest::HttpRequest();
-
 		requestType = httpMethod;
-		flags = NLHRF_HTTP11 | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
-
 		Url.content.AppendFormatV(urlFormat, args);
-		if (Url.content.Find("://") == -1)
-			Url.content.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
 	}
 
 public:
@@ -213,6 +208,8 @@ public:
 
 	NETLIBHTTPREQUEST * Send(HANDLE hConnection)
 	{
+		if (Url.content.Find("://") == -1)
+			Url.content.Insert(0, flags & NLHRF_SSL ? "https://" : "http://");
 		szUrl = Url.ToString();
 
 		pData = Body.ToString();
@@ -223,6 +220,78 @@ public:
 		CallService(MS_NETLIB_LOG, (WPARAM)hConnection, (LPARAM)&message);
 
 		return (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hConnection, (LPARAM)this);
+	}
+};
+
+class HttpGetRequest : public HttpRequest
+{
+public:
+	HttpGetRequest(LPCSTR urlFormat, ...)
+	{
+		va_list args;
+		va_start(args, urlFormat);
+		this->HttpRequest::HttpRequest(REQUEST_GET, urlFormat, args);
+		va_end(args);
+	}
+};
+
+class HttpPostRequest : public HttpRequest
+{
+public:
+	HttpPostRequest(LPCSTR urlFormat, ...)
+	{
+		va_list args;
+		va_start(args, urlFormat);
+		this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
+		va_end(args);
+
+		Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+	}
+};
+
+class HttpsRequest : public HttpRequest
+{
+protected:
+	HttpsRequest() : HttpRequest()
+	{
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+	}
+
+public:
+	HttpsRequest(int type, LPCSTR urlFormat, ...)
+	{
+		va_list args;
+		va_start(args, urlFormat);
+		this->HttpRequest::HttpRequest(type, urlFormat, args);
+		va_end(args);
+
+		flags = NLHRF_HTTP11 | NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+	}
+};
+
+class HttpsGetRequest : public HttpsRequest
+{
+public:
+	HttpsGetRequest(LPCSTR urlFormat, ...)
+	{
+		va_list args;
+		va_start(args, urlFormat);
+		this->HttpRequest::HttpRequest(REQUEST_GET, urlFormat, args);
+		va_end(args);
+	}
+};
+
+class HttpsPostRequest : public HttpsRequest
+{
+public:
+	HttpsPostRequest(LPCSTR urlFormat, ...)
+	{
+		va_list args;
+		va_start(args, urlFormat);
+		this->HttpsRequest::HttpsRequest(REQUEST_POST, urlFormat, args);
+		va_end(args);
+
+		Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 

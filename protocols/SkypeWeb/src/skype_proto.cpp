@@ -33,9 +33,9 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_AUTHREQ;
 	case PFLAGNUM_2:
-		return PF2_ONLINE;
+		return PF2_ONLINE | PF2_INVISIBLE;
 	case PFLAGNUM_3:
-		return PF2_ONLINE;
+		return PF2_ONLINE | PF2_INVISIBLE;
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON;
 	case PFLAG_UNIQUEIDTEXT:
@@ -146,6 +146,11 @@ int CSkypeProto::SetStatus(int iNewStatus)
 		}
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
+	}
+	else if (iNewStatus == ID_STATUS_INVISIBLE)
+	{
+		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), ptrA(getStringA("Endpoint"))));
+		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), false));
 	}
 	else
 	{
