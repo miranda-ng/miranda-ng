@@ -38,7 +38,7 @@ void TwitterProto::AddToListWorker(void *p)
 	catch(const std::exception &e)
 	{
 		ShowPopup((std::string("While adding a friend, an error occurred: ") + e.what()).c_str());
-		debugLogA( _T("***** Error adding friend: %s"),e.what());
+		debugLogA("***** Error adding friend: %s", e.what());
 	}
 	mir_free(name);
 }
@@ -125,7 +125,7 @@ void TwitterProto::DoSearch(void *p)
 	}
 	catch (const std::exception &e) {
 		ShowPopup((std::string("While searching for contacts, an error occurred: ") + e.what()).c_str());
-		debugLogA(_T("***** Error searching for contacts: %s"), e.what());
+		debugLogA("***** Error searching for contacts: %s", e.what());
 		found = false;
 	}
 
@@ -181,16 +181,15 @@ HANDLE TwitterProto::GetAwayMsg(MCONTACT hContact)
 
 int TwitterProto::OnContactDeleted(WPARAM hContact, LPARAM lParam)
 {
-	if(m_iStatus != ID_STATUS_ONLINE)
+	if (m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	if(!IsMyContact(hContact))
+	if (!IsMyContact(hContact))
 		return 0;
 
 	DBVARIANT dbv;
-	if( !db_get_s(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
-	{
-		if(in_chat_)
+	if (!db_get_s(hContact, m_szModuleName, TWITTER_KEY_UN, &dbv)) {
+		if (in_chat_)
 			DeleteChatContact(dbv.pszVal);
 
 		ScopedLock s(twitter_lock_);

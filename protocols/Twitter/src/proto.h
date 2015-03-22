@@ -129,8 +129,6 @@ private:
 	MCONTACT AddToClientList(const char *, const char *);
 	void SetAllContactStatuses(int);
 
-	void debugLogA(TCHAR *fmt,...);
-	__inline void debugLogW(TCHAR* first, const tstring& last) { debugLogA(first, last.c_str()); }
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	void UpdateChat(const twitter_user &update);

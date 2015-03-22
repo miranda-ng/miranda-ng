@@ -436,21 +436,6 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }
 
-void TwitterProto::debugLogA(TCHAR *fmt,...)
-{
-	if (!m_hNetlibUser)
-		return;
-
-	va_list va;
-	va_start(va,fmt);
-
-	TCHAR text[1024];
-	mir_vsntprintf(text,SIZEOF(text),fmt,va);
-	va_end(va);
-
-	CallService(MS_NETLIB_LOGW, (WPARAM)m_hNetlibUser, (LPARAM)text);
-}
-
 // TODO: the more I think about it, the more I think all twit.* methods should
 // be in MessageLoop
 void TwitterProto::SendTweetWorker(void *p)
