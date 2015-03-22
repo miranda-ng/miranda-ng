@@ -56,7 +56,8 @@ struct AsyncHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObject
 	void *pUserInfo;
 	int m_iRetry;
 	RequestPriority m_priority;
-	time_t m_time;
+	static ULONG m_reqCount;
+	ULONG m_reqNum;
 	bool m_bApiReq;
 	bool bExpUrlEncode;
 	bool bNeedsRestart, bIsMainConn;
