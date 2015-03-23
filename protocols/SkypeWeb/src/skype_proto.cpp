@@ -133,6 +133,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 
 	int old_status = m_iStatus;
 	m_iDesiredStatus = iNewStatus;
+	CMStringA endpointURL = getStringA("Endpoint");
+	endpointURL += "/presenceDocs/messagingService";
 
 	if (iNewStatus == ID_STATUS_OFFLINE)
 	{
@@ -149,8 +151,8 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	}
 	else if (iNewStatus == ID_STATUS_INVISIBLE)
 	{
-		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), ptrA(getStringA("Endpoint"))));
-		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), false));
+		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
+		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), false), &CSkypeProto::OnSetStatus);
 	}
 	else
 	{
@@ -159,7 +161,12 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
+		if (m_iStatus == ID_STATUS_INVISIBLE)
+		{
+			PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
+			PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), true), &CSkypeProto::OnSetStatus);
+		}
+		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{
 			// login
 			m_iStatus = ID_STATUS_CONNECTING;
@@ -177,6 +184,7 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	return 0;
 }
+
 
 HANDLE CSkypeProto::GetAwayMsg(MCONTACT) { return 0; }
 

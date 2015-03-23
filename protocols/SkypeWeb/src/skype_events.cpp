@@ -98,31 +98,68 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 {
+	if (response == NULL)
+		return;
+
 	std::regex regex;
 	std::smatch match;
 	std::string content = response->pData;
 	for (int i = 0; i < response->headersCount; i++)
 	{
-		if (mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken"))
+		if (mir_strcmpi(response->headers[i].szName, "Set-RegistrationToken") == 0)
+		{
+			regex = "^(.+?)=(.+?);";
+			content = response->headers[i].szValue;
+			if (std::regex_search(content, match, regex))
+				RegInfo[match[1]] = match[2];
+		}
+		else if (mir_strcmpi(response->headers[i].szName, "Location") == 0)
+		{
+			content = response->headers[i].szValue;
+			RegInfo["Location"] = content;
+		}
+		else
 			continue;
-
-		regex = "^(.+?)=(.+?);";
-		content = response->headers[i].szValue;
-
-		if (std::regex_search(content, match, regex))
-			RegInfo[match[1]] = match[2];
 	}
 	setString("RegistrationToken", RegInfo["registrationToken"].c_str());
+	setString("Endpoint", urlDecode(RegInfo["Location"].c_str()).c_str());
 
-	for (int i = 0; i < response->headersCount; i++)
-	{
-		if (mir_strcmpi(response->headers[i].szName, "Location"))
-			continue;
-		content = response->headers[i].szValue;
-	}
-	setString("Endpoint", urlDecode(content.c_str()).c_str());
 	debugLogA(getStringA("RegistrationToken"));
 	debugLogA(getStringA("Endpoint"));
-	PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), ptrA(getStringA("Endpoint"))));
+	CMStringA endpointURL = getStringA("Endpoint");
+	endpointURL += "/presenceDocs/messagingService";
+	PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
 	PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), true));
+}
+
+void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
+{
+	if (response == NULL)
+		return;
+
+	JSONROOT root(response->pData);
+	if (root == NULL)
+		return;
+	JSONNODE *status_json = json_get(root, "status");
+	debugLog(json_as_string(status_json));
+	
+	const char* status = (const char *)json_as_string(status_json);
+	debugLogA(status);
+
+	int old_status = m_iStatus;
+	int iNewStatus;
+	if (mir_strcmp(status, "O")==0)
+	{
+		iNewStatus = ID_STATUS_ONLINE;
+	} 
+	else if (mir_strcmp(status,"H")==0)
+	{
+		iNewStatus = ID_STATUS_INVISIBLE;
+	}
+	else 
+	{
+		iNewStatus = ID_STATUS_ONLINE;
+	}
+	m_iStatus = iNewStatus;
+	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 }

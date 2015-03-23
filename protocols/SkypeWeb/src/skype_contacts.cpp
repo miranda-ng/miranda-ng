@@ -88,6 +88,7 @@ void CSkypeProto::LoadContactsAuth(const NETLIBHTTPREQUEST *response)
 	if (response == NULL)
 		return;
 
+	
 	JSONROOT root(response->pData);
 	if (root == NULL)
 		return;
