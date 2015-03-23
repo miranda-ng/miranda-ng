@@ -44,7 +44,7 @@ static TCHAR *sttHokeyVkToName(WORD vkKey)
 	case VK_NUMLOCK:
 	case VK_CAPITAL:
 	case VK_SCROLL:
-		return TranslateT("");
+		return _T("");
 	case VK_BROWSER_BACK:
 		return TranslateT("Browser: Back");
 	case VK_BROWSER_FORWARD:
