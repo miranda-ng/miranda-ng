@@ -7,24 +7,28 @@ public:
 	LoginRequest() :
 		HttpsPostRequest("login.skype.com/login")
 	{
-		Url
-			<< INT_VALUE("client_id", 578134)
-			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
-
-		Headers
-			<< CHAR_VALUE("Host", "login.skype.com");
-	}
-
-	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
-		HttpsPostRequest("login.skype.com/login")
-	{
+		//flags = NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
 		Url
 			<< INT_VALUE("client_id", 578134)
 			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
 
 		Headers
 			<< CHAR_VALUE("Host", "login.skype.com")
-			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com");
+			<< CHAR_VALUE("Connection", "keep-alive");
+	}
+
+	LoginRequest(const char *skypename, const char *password, const char *pie, const char *etm) :
+		HttpsPostRequest("login.skype.com/login")
+	{
+		//flags = NLHRF_SSL | NLHRF_NODUMPSEND | NLHRF_DUMPASTEXT;
+		Url
+			<< INT_VALUE("client_id", 578134)
+			<< CHAR_VALUE("redirect_uri", "https%3A%2F%2Fweb.skype.com");
+
+		Headers
+			<< CHAR_VALUE("Host", "login.skype.com")
+			<< CHAR_VALUE("Referer", "https://login.skype.com/login?method=skype&client_id=578134&redirect_uri=https%3A%2F%2Fweb.skype.com")
+			<< CHAR_VALUE("Connection", "keep-alive");
 
 		LPTIME_ZONE_INFORMATION tzi = tmi.getTziByContact(NULL);
 		char sign = tzi->Bias > 0 ? '-' : '+';

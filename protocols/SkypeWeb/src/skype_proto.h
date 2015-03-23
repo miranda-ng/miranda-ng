@@ -122,8 +122,8 @@ private:
 	// events
 	void OnLoginFirst(const NETLIBHTTPREQUEST *response);
 	void OnLoginSecond(const NETLIBHTTPREQUEST *response);
-
 	void OnGetRegInfo(const NETLIBHTTPREQUEST *response);
+	void OnSetStatus(const NETLIBHTTPREQUEST *response);
 
 	// profile
 	void UpdateProfileFirstName(JSONNODE *root, MCONTACT hContact = NULL);

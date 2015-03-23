@@ -245,7 +245,7 @@ public:
 		this->HttpRequest::HttpRequest(REQUEST_POST, urlFormat, args);
 		va_end(args);
 
-		Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		//Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 
@@ -291,7 +291,7 @@ public:
 		this->HttpsRequest::HttpsRequest(REQUEST_POST, urlFormat, args);
 		va_end(args);
 
-		Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+		//Headers << CHAR_VALUE("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	}
 };
 
