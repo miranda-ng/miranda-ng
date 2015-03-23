@@ -84,6 +84,8 @@ bool bShutdownInProgress = false;
 
 int hLangpack = 0;
 
+extern HWND hwndStatsticView;
+
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
@@ -959,5 +961,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/) {
 
 	extern "C"  __declspec(dllexport) int Unload() {
 		nSystemShutdown(0, 0);
+		if(hwndStatsticView)
+			DestroyWindow(hwndStatsticView);
 		return 0;
 	}
