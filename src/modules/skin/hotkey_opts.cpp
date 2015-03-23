@@ -58,6 +58,44 @@ static TCHAR *sttHokeyVkToName(WORD vkKey)
 	case VK_UP:
 	case VK_DOWN:
 		code |= (1UL << 24);
+
+	case VK_BROWSER_BACK:
+		return _T("Browser_Back");
+	case VK_BROWSER_FORWARD:
+		return _T("Browser_Forward");
+	case VK_BROWSER_REFRESH:
+		return _T("Browser_Refresh");
+	case VK_BROWSER_STOP:
+		return _T("Browser_Stop");
+	case VK_BROWSER_SEARCH:
+		return _T("Browser_Search");
+	case VK_BROWSER_FAVORITES:
+		return _T("Browser_Fav");
+	case VK_BROWSER_HOME:
+		return _T("Browser_Home");
+	case VK_VOLUME_MUTE:
+		return _T("Mute");
+	case VK_VOLUME_DOWN:
+		return _T("Vol-");
+	case VK_VOLUME_UP:
+		return _T("Vol+");
+	case VK_MEDIA_NEXT_TRACK:
+		return _T("Media_Next_Track");
+	case VK_MEDIA_PREV_TRACK:
+		return _T("Media_Prev_Track");
+	case VK_MEDIA_STOP:
+		return _T("Media_Stop");
+	case VK_MEDIA_PLAY_PAUSE:
+		return _T("Media_Play/Pause");
+	case VK_LAUNCH_MAIL:
+		return _T("Mail");
+	case VK_LAUNCH_MEDIA_SELECT:
+		return _T("Media_Select");
+	case VK_LAUNCH_APP1:
+		return _T("App1");
+	case VK_LAUNCH_APP2:
+		return _T("App2");
+
 	}
 
 	GetKeyNameText(code, buf, 256);
