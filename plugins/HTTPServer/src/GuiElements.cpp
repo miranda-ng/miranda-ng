@@ -865,7 +865,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 				}
 
 				case ID_SHARELIST_NEWSHARE: {
-					CallService(MS_SHARE_NEW_FILE, 0, (long)hwndDlg);
+					CallService(MS_SHARE_NEW_FILE, 0, (LPARAM)hwndDlg);
 					return TRUE;
 				}
 
@@ -925,7 +925,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 
 								// Place the handle on the clipboard.
 
-								HANDLE hMyData = SetClipboardData(CF_UNICODETEXT, hglbCopy);
+								HANDLE hMyData = SetClipboardData(CF_TEXT, hglbCopy);
 								if (! hMyData)
 									MessageBox(hwndDlg, TranslateT("Failed to set clipboard data"), MSG_BOX_TITEL, MB_OK);
 
