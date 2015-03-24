@@ -98,7 +98,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 
 void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 {
-	if (response == NULL)
+	if (response == NULL || response->pData == NULL)
 		return;
 
 	std::regex regex;
