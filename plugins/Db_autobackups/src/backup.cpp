@@ -129,7 +129,7 @@ bool MakeZip(TCHAR *tszSource, TCHAR *tszDest, TCHAR *dbname, HWND progress_dial
 			dwTotalBytes += dwRead;
 			SendMessage(hProgBar, PBM_SETPOS, (WPARAM)((100 * dwTotalBytes) / dwSrcFileSize), 0);
 			while (PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0) {
-				if (!IsDialogMessage(progress_dialog, &msg)) {
+				if (progress_dialog == NULL || !IsDialogMessage(progress_dialog, &msg)) { /* Wine fix. */
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}

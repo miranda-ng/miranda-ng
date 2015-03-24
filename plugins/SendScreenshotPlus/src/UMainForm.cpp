@@ -1146,10 +1146,10 @@ void TfrmMain::FormClose() {
 						break;
 					}
 					// process dialog messages (of unknown dialogs)
-//					HWND hwndDlgModeless=msg.hwnd;
+					HWND hwndDlgModeless = GetActiveWindow();
+//					HWND hwndDlgModeless = msg.hwnd;
 //					for(HWND hTMP; (hTMP=GetAncestor(hwndDlgModeless,GA_PARENT)) && IsChild(hTMP,hwndDlgModeless); hwndDlgModeless=hTMP);
-//					if(IsDialogMessage(hwndDlgModeless,&msg))
-					if(IsDialogMessage(GetActiveWindow(),&msg))
+					if(hwndDlgModeless != NULL && IsDialogMessage(hwndDlgModeless, &msg)) /* Wine fix. */
 						continue;
 					// process messages
 					TranslateMessage(&msg);

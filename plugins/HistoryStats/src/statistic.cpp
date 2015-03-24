@@ -1274,7 +1274,7 @@ bool Statistic::createStatistics()
 				break;
 			}
 
-			if (!IsDialogMessage(msg.hwnd, &msg)) {
+			if (msg.hwnd == NULL || !IsDialogMessage(msg.hwnd, &msg)) { /* Wine fix. */
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}

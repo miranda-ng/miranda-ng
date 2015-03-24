@@ -170,7 +170,7 @@ BYTE CProgress::Update()
 	UpdateWindow(_hDlg);
 
 	while (PeekMessage(&msg, _hDlg, 0, 0, PM_REMOVE) != 0) {
-		 if (!IsDialogMessage(_hDlg, &msg)) {
+		 if (_hDlg == NULL || !IsDialogMessage(_hDlg, &msg)) { /* Wine fix. */
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		 }

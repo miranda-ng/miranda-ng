@@ -193,7 +193,8 @@ static void _AniAva_AnimationTreadProc(void*)
 		if (rc == WAIT_OBJECT_0 + 1) {
 			MSG msg;
 			while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
-				if (IsDialogMessage(msg.hwnd, &msg)) continue;
+				if (msg.hwnd != NULL && IsDialogMessage(msg.hwnd, &msg)) /* Wine fix. */
+					continue;
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
