@@ -497,20 +497,25 @@ void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect)
 
 HDWP ResizeToolbar(HWND hwnd, HDWP hdwp, int width, int vPos, int height, int cControls, const ToolbarButton * buttons, int controlVisibility)
 {
+	HWND hCtrl;
 	int i;
 	int lPos = 0;
 	int rPos = width;
 	for (i = 0; i < cControls; i++) {
 		if (!buttons[i].alignment && (controlVisibility & (1 << i))) {
 			lPos += buttons[i].spacing;
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, buttons[i].controlId), 0, lPos, vPos, buttons[i].width, height, SWP_NOZORDER);
+			hCtrl = GetDlgItem(hwnd, buttons[i].controlId);
+			if (NULL != hCtrl) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hCtrl, 0, lPos, vPos, buttons[i].width, height, SWP_NOZORDER);
 			lPos += buttons[i].width;
 		}
 	}
 	for (i = cControls - 1; i >= 0; i--) {
 		if (buttons[i].alignment && (controlVisibility & (1 << i))) {
 			rPos -= buttons[i].spacing + buttons[i].width;
-			hdwp = DeferWindowPos(hdwp, GetDlgItem(hwnd, buttons[i].controlId), 0, rPos, vPos, buttons[i].width, height, SWP_NOZORDER);
+			hCtrl = GetDlgItem(hwnd, buttons[i].controlId);
+			if (NULL != hCtrl) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hCtrl, 0, rPos, vPos, buttons[i].width, height, SWP_NOZORDER);
 		}
 	}
 	return hdwp;

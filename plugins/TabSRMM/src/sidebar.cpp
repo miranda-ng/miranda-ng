@@ -752,14 +752,14 @@ void CSideBar::Layout(const RECT *rc, bool fOnlyCalc)
 
 		if (p.isTopAligned()) {
 			if (m_totalItemHeight <= m_firstVisibleOffset) {				// partially visible
-				if (!fOnlyCalc)
+				if (!fOnlyCalc && NULL != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, -(m_firstVisibleOffset - m_totalItemHeight),
 					m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += ((height + 1) - (m_firstVisibleOffset - m_totalItemHeight));
 				m_totalItemHeight += (height + 1);
 			}
 			else {
-				if (!fOnlyCalc)
+				if (!fOnlyCalc && NULL != hwnd) /* Wine fix. */
 					hdwp = ::DeferWindowPos(hdwp, hwnd, 0, 2, spaceUsed, m_elementWidth, height, SWP_SHOWWINDOW | dwFlags);
 				spaceUsed += (height + 1);
 				m_totalItemHeight += (height + 1);

@@ -63,8 +63,8 @@ void ThumbInfo::PositionThumb(int nX, int nY)
 	ThumbInfo *pThumb = this;
 	while (pThumb) {
 		pThumb->PositionThumbWorker(pos.x, pos.y, &pos);
-
-		DeferWindowPos(hdwp, pThumb->hwnd, HWND_TOPMOST, pos.x, pos.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
+		if (NULL != pThumb->hwnd) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, pThumb->hwnd, HWND_TOPMOST, pos.x, pos.y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
 
 		pThumb->ptPos = pos;
 		pos.x += pThumb->szSize.cx;

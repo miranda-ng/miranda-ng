@@ -261,14 +261,16 @@ int ArrangeButtons()
 				g_ctrl->bOrderChanged = TRUE;
 
 			if (b->isVisible()) {
-				hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
+				if (NULL != b->hwnd) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, b->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
 				if (b->isSep())
 					nextX += SEPWIDTH + 2;
 				else
 					nextX += g_ctrl->nButtonWidth + g_ctrl->nButtonSpace;
+			} else {
+				if (NULL != Buttons[i]->hwnd) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 			}
-			else
-				hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
 		}
 
 		if (iFirstButtonId == iLastButtonId)
@@ -281,8 +283,10 @@ int ArrangeButtons()
 			break;
 	} while (iFirstButtonId < Buttons.getCount() && y >= 0 && (g_ctrl->bAutoSize || (y + g_ctrl->nButtonHeight <= rcClient.bottom - rcClient.top)));
 
-	for (i = iLastButtonId; i < Buttons.getCount(); i++)
-		hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+	for (i = iLastButtonId; i < Buttons.getCount(); i++) {
+		if (NULL != Buttons[i]->hwnd) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, Buttons[i]->hwnd, NULL, nextX, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_HIDEWINDOW);
+	}
 
 	if (hdwp)
 		EndDeferWindowPos(hdwp);

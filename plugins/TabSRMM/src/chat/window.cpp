@@ -243,11 +243,11 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 			dat->wParam = dat->lParam = 0;
 		}
 	}
+	BB_SetButtonsPos(dat);
 	if (M.isAero())
 		InvalidateRect(hwndTab, NULL, FALSE);
 	if (dat->pContainer->dwFlags & CNT_SIDEBAR)
 		dat->pContainer->SideBar->setActiveItem(dat);
-	BB_SetButtonsPos(dat);
 
 	if (dat->pWnd)
 		dat->pWnd->Invalidate();
@@ -1811,9 +1811,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_SETOLECALLBACK, 0, (LPARAM)&reOleCallback);
 
-		BB_InitDlgButtons(dat);
-		DM_InitTip(dat);
-
 		SendDlgItemMessage(hwndDlg, IDC_COLOR, BUTTONSETASPUSHBTN, TRUE, 0);
 
 		mir_subclassWindow(GetDlgItem(hwndDlg, IDC_SPLITTERX), SplitterSubclassProc);
@@ -1845,16 +1842,20 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		DM_ThemeChanged(dat);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_LOG, EM_HIDESELECTION, TRUE, 0);
 
-		CustomizeButton(CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
-			hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));
-
 		GetMYUIN(dat);
 		GetMyNick(dat);
+
+		CustomizeButton(CreateWindowEx(0, _T("MButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, 0, 0, 6, DPISCALEY_S(20),
+			hwndDlg, (HMENU)IDC_CHAT_TOGGLESIDEBAR, g_hInst, NULL));
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTHEMEDBTN, 1, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASFLATBTN, FALSE, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 		SendDlgItemMessage(hwndDlg, IDC_CHAT_TOGGLESIDEBAR, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Expand or collapse the side bar"), BATF_TCHAR);
+
+		DM_InitTip(dat);
+		BB_InitDlgButtons(dat);
+		SendMessage(hwndDlg, DM_LOADBUTTONBARICONS, 0, 0);
 
 		dat->hwndIEView = dat->hwndHPP = 0;
 
@@ -1867,7 +1868,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		ShowWindow(hwndDlg, SW_SHOW);
 		PostMessage(hwndDlg, GC_UPDATENICKLIST, 0, 0);
 		dat->pContainer->hwndActive = hwndDlg;
-		BB_SetButtonsPos(dat);
 		TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_OPEN, 0);
 	}
 	break;
@@ -2037,6 +2037,9 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (!IsIconic(hwndDlg)) {
 			int panelHeight = dat->Panel->getHeight() + 1;
 
+			GetClientRect(hwndDlg, &rc);
+			int cx = rc.right;
+
 			UTILRESIZEDIALOG urd = { sizeof(urd) };
 			urd.hInstance = g_hInst;
 			urd.hwndDlg = hwndDlg;
@@ -2046,9 +2049,6 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 
 			BB_SetButtonsPos(dat);
-
-			GetClientRect(hwndDlg, &rc);
-			int cx = rc.right;
 
 			rc.left = panelHeight <= CInfoPanel::LEFT_OFFSET_LOGO ? panelHeight : CInfoPanel::LEFT_OFFSET_LOGO;
 			rc.right = cx;
@@ -3424,7 +3424,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			BB_InitDlgButtons(dat);
 
 		BB_SetButtonsPos(dat);
-		break;
+		return 0;
 
 	case DM_CBDESTROY:
 		if (lParam)

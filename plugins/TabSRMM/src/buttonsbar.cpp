@@ -561,10 +561,10 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 	bool showToolbar = !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR);
 	bool bBottomToolbar = (dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR) != 0;
 
-	HDWP hdwp = BeginDeferWindowPos(LButtonsList.getCount() + RButtonsList.getCount() + 1);
-
 	HWND hwndToggleSideBar = GetDlgItem(hwnd, dat->bType == SESSIONTYPE_IM ? IDC_TOGGLESIDEBAR : IDC_CHAT_TOGGLESIDEBAR);
 	ShowWindow(hwndToggleSideBar, (showToolbar && dat->pContainer->SideBar->isActive()) ? SW_SHOW : SW_HIDE);
+
+	HDWP hdwp = BeginDeferWindowPos(LButtonsList.getCount() + RButtonsList.getCount() + 1);
 
 	mir_cslock lck(ToolBarCS);
 
@@ -586,7 +586,8 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 		foravatar = dat->pic.cx + gap;
 
 	if ((dat->pContainer->dwFlags & CNT_SIDEBAR) && (dat->pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT)) {
-		DeferWindowPos(hdwp, hwndToggleSideBar, NULL, 4, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		if (NULL != hwndToggleSideBar) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, NULL, 4, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		lwidth += 10;
 		tempL -= 10;
 	}
@@ -598,7 +599,8 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 
 			if (!showToolbar) {
 				ShowWindow(hwndBtn, SW_HIDE);
-				DeferWindowPos(hdwp, hwndBtn, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				if (NULL != hwndBtn) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 				if (IsWindowVisible(hwndBtn) || (cbd->bSeparator && !(cbd->bAutoHidden || cbd->bHidden)))
 					lwidth += cbd->iButtonWidth + gap;
 				if (!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn) && !cbd->bAutoHidden)
@@ -624,14 +626,16 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 					cbd->bAutoHidden = 0;
 				}
 			}
-			DeferWindowPos(hdwp, hwndBtn, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);// SWP_NOCOPYBITS);
+			if (NULL != hwndBtn) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, lwidth, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);// SWP_NOCOPYBITS);
 			if (IsWindowVisible(hwndBtn) || (cbd->bSeparator && !(cbd->bAutoHidden || cbd->bHidden)))
 				lwidth += cbd->iButtonWidth + gap;
 		}
 	}
 
 	if ((dat->pContainer->dwFlags & CNT_SIDEBAR) && (dat->pContainer->SideBar->getFlags() & CSideBar::SIDEBARORIENTATION_RIGHT)) {
-		DeferWindowPos(hdwp, hwndToggleSideBar, NULL, rect.right - foravatar - 10, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+		if (NULL != hwndToggleSideBar) /* Wine fix. */
+			hdwp = DeferWindowPos(hdwp, hwndToggleSideBar, NULL, rect.right - foravatar - 10, 2 + splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		rwidth += 12;
 		tempR -= 12;
 	}
@@ -645,7 +649,8 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 				ShowWindow(hwndBtn, SW_HIDE);
 				if (IsWindowVisible(hwndBtn) || (cbd->bSeparator && !(cbd->bAutoHidden || cbd->bHidden)))
 					rwidth += cbd->iButtonWidth + gap;
-				DeferWindowPos(hdwp, hwndBtn, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+				if (NULL != hwndBtn) /* Wine fix. */
+					hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 				if (!IsWindowEnabled(hwndBtn) && !IsWindowVisible(hwndBtn) && !cbd->bAutoHidden)
 					cbd->bAutoHidden = 1;
 				continue;
@@ -672,10 +677,10 @@ BOOL TSAPI BB_SetButtonsPos(TWindowData *dat)
 
 			if (IsWindowVisible(hwndBtn) || (cbd->bSeparator && !(cbd->bAutoHidden || cbd->bHidden)))
 				rwidth += cbd->iButtonWidth + gap;
-			DeferWindowPos(hdwp, hwndBtn, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+			if (NULL != hwndBtn) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndBtn, NULL, rect.right - foravatar - rwidth + gap, splitterY - iOff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 	}
-
 	return EndDeferWindowPos(hdwp);
 }
 

@@ -78,7 +78,8 @@ static void LayoutTransfers(HWND hwnd, struct TFtPageData *dat)
 		top -= dat->scrollPos;
 		for (int i = 0; i < dat->wnds->realCount; ++i) {
 			int height = dat->wnds->items[i]->rc.bottom - dat->wnds->items[i]->rc.top;
-			hdwp = DeferWindowPos(hdwp, dat->wnds->items[i]->hwnd, NULL, 0, top, rc.right, height, SWP_NOZORDER);
+			if (NULL != dat->wnds->items[i]->hwnd) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, dat->wnds->items[i]->hwnd, NULL, 0, top, rc.right, height, SWP_NOZORDER);
 			top += height;
 		}
 		top += dat->scrollPos;
@@ -313,7 +314,8 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			rc.bottom -= rcButton.bottom + 5;
 
-			hdwp = DeferWindowPos(hdwp, hwndTab, NULL, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_NOZORDER);
+			if (NULL != hwndTab) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, hwndTab, NULL, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_NOZORDER);
 
 			EndDeferWindowPos(hdwp);
 
@@ -324,8 +326,10 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			hdwp = BeginDeferWindowPos(2);
 
-			hdwp = DeferWindowPos(hdwp, dat->hwndIncoming, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
-			hdwp = DeferWindowPos(hdwp, dat->hwndOutgoing, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
+			if (NULL != dat->hwndIncoming) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, dat->hwndIncoming, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
+			if (NULL != dat->hwndOutgoing) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, dat->hwndOutgoing, HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, 0);
 
 			EndDeferWindowPos(hdwp);
 
