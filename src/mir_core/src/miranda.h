@@ -26,6 +26,9 @@ extern "C"
 {
 	MIR_CORE_DLL(int) Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
 	MIR_CORE_DLL(MUUID*) Langpack_LookupUuid(WPARAM wParam);
+
+	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
+	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd);
 };
 
 void UnloadLangPackModule(void);
@@ -37,6 +40,7 @@ int  InitPathUtils(void);
 
 void InitProtocols();
 void UninitProtocols();
+HINSTANCE ProtoGetInstance(const char *szModuleName);
 
 extern HINSTANCE hInst;
 extern HWND hAPCWindow;

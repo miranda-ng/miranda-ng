@@ -1642,8 +1642,6 @@ void TSAPI LoadThemeDefaults(TContainerData *pContainer)
 
 void TSAPI LoadOverrideTheme(TContainerData *pContainer)
 {
-	BOOL bReadTemplates = TRUE;
-
 	memset(&pContainer->theme, 0, sizeof(TLogTheme));
 	if (mir_tstrlen(pContainer->szAbsThemeFile) > 1) {
 		if (PathFileExists(pContainer->szAbsThemeFile)) {

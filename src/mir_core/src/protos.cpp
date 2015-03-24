@@ -23,24 +23,54 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#include <m_protomod.h>
-#include <m_protoint.h>
-#include <m_skin.h>
-#include <m_netlib.h>
+static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR *p2)
+{
+	return strcmp(p1->szName, p2->szName);
+}
+
+static LIST<PROTOCOLDESCRIPTOR> protos(10, CompareProtos);
 
 static HANDLE hAckEvent;
 
-void InitProtocols()
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 {
-	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
+	if (szProtoName == NULL)
+		return NULL;
+	
+	PROTOCOLDESCRIPTOR tmp;
+	tmp.szName = (char*)szProtoName;
+	return protos.find(&tmp);
 }
 
-void UninitProtocols()
+INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)
 {
-	if (hAckEvent) {
-		DestroyHookableEvent(hAckEvent);
-		hAckEvent = NULL;
-	}
+	*(int*)wParam = protos.getCount();
+	*(PROTOCOLDESCRIPTOR***)lParam = protos.getArray();
+	return 0;
+}
+
+MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd)
+{
+	PROTOCOLDESCRIPTOR *p = (PROTOCOLDESCRIPTOR*)mir_calloc(sizeof(PROTOCOLDESCRIPTOR));
+	if (!p)
+		return NULL;
+
+	memcpy(p, pd, pd->cbSize);
+	p->szName = mir_strdup(pd->szName);
+	protos.insert(p);
+	return p;
+}
+
+HINSTANCE ProtoGetInstance(const char *szModuleName)
+{
+	PROTOACCOUNT *pa = ProtoGetAccount(szModuleName);
+	if (pa == NULL)
+		return NULL;
+
+	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(pa->szProtoName);
+	return (p == NULL) ? NULL : GetInstByAddress(p->fnInit);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -120,6 +150,8 @@ MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis)
 {
 	mir_free(pThis->m_szModuleName);
 	mir_free(pThis->m_tszUserName);
+
+	WindowList_Destroy(pThis->m_hWindowList);
 }
 
 MIR_CORE_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc serviceProc)
@@ -161,6 +193,19 @@ MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc p
 {
 	UINT lthreadID;
 	return (HANDLE)::mir_forkthreadowner((pThreadFuncOwner)*(void**)&pFunc, pThis, param, threadID ? threadID : &lthreadID);
+}
+
+MIR_CORE_DLL(void) ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd)
+{
+	if (pThis->m_hWindowList == NULL)
+		pThis->m_hWindowList = WindowList_Create();
+
+	WindowList_Add(pThis->m_hWindowList, hwnd, NULL);
+}
+
+MIR_CORE_DLL(void) ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd)
+{
+	WindowList_Remove(pThis->m_hWindowList, hwnd);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -425,4 +470,26 @@ int PROTO_INTERFACE::UserIsTyping(MCONTACT hContact, int type)
 int PROTO_INTERFACE::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPARAM lParam)
 {
 	return 1; // not an error, vitally important
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void InitProtocols()
+{
+	CreateServiceFunction(MS_PROTO_ENUMPROTOS, Proto_EnumProtocols);
+	hAckEvent = CreateHookableEvent(ME_PROTO_ACK);
+}
+
+void UninitProtocols()
+{
+	for (int i = 0; i < protos.getCount(); i++) {
+		mir_free(protos[i]->szName);
+		mir_free(protos[i]);
+	}
+	protos.destroy();
+
+	if (hAckEvent) {
+		DestroyHookableEvent(hAckEvent);
+		hAckEvent = NULL;
+	}
 }

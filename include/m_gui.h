@@ -24,100 +24,119 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 */
 
-#ifndef __jabber_ui_utils_h__
-#define __jabber_ui_utils_h__
+#pragma once
 
-#pragma warning(disable:4355)
+#ifndef __M_GUI_H
+#define __M_GUI_H
 
-#ifndef LPLVCOLUMN
-typedef struct tagNMLVSCROLL
+#include <m_protoint.h>
+#include <m_clc.h>
+
+#pragma warning(disable:4355 4251)
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// helpers for the option's visualization
+
+template<typename Int> struct CMIntTraits { static __forceinline bool IsSigned() { return false; } };
+template<> struct CMIntTraits<signed char> { static __forceinline bool IsSigned() { return true; } };
+template<> struct CMIntTraits<signed short> { static __forceinline bool IsSigned() { return true; } };
+template<> struct CMIntTraits<signed long> { static __forceinline bool IsSigned() { return true; } };
+
+template<int Size>
+struct CMDBTraits
 {
-	NMHDR   hdr;
-	int     dx;
-	int     dy;
-} NMLVSCROLL;
-typedef struct tagLVG
+};
+
+template<>
+struct CMDBTraits<1>
 {
-	UINT    cbSize;
-	UINT    mask;
-	LPWSTR  pszHeader;
-	int     cchHeader;
-	LPWSTR  pszFooter;
-	int     cchFooter;
-	int     iGroupId;
-	UINT    stateMask;
-	UINT    state;
-	UINT    uAlign;
-} LVGROUP, *PLVGROUP;
-typedef struct tagLVGROUPMETRICS
+	typedef BYTE DBType;
+	enum { DBTypeId = DBVT_BYTE };
+	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		return pPro->getByte(szSetting, value);
+	}
+	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		pPro->setByte(szSetting, value);
+	}
+};
+
+template<>
+struct CMDBTraits<2>
 {
-	UINT cbSize;
-	UINT mask;
-	UINT Left;
-	UINT Top;
-	UINT Right;
-	UINT Bottom;
-	COLORREF crLeft;
-	COLORREF crTop;
-	COLORREF crRight;
-	COLORREF crBottom;
-	COLORREF crHeader;
-	COLORREF crFooter;
-} LVGROUPMETRICS, *PLVGROUPMETRICS;
-typedef struct tagLVTILEVIEWINFO
+	typedef WORD DBType;
+	enum { DBTypeId = DBVT_WORD };
+	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		pPro->getWord(szSetting, value);
+	}
+	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		pPro->setWord(szSetting, value);
+	}
+};
+
+template<>
+struct CMDBTraits<4>
 {
-	UINT cbSize;
-	DWORD dwMask;
-	DWORD dwFlags;
-	SIZE sizeTile;
-	int cLines;
-	RECT rcLabelMargin;
-} LVTILEVIEWINFO, *PLVTILEVIEWINFO;
-typedef struct tagLVTILEINFO
+	typedef DWORD DBType;
+	enum { DBTypeId = DBVT_DWORD };
+	static __forceinline DBType Get(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		return pPro->getDword(szSetting, value);
+	}
+	static __forceinline void Set(PROTO_INTERFACE *pPro, char *szSetting, DBType value)
+	{
+		pPro->setDword(szSetting, value);
+	}
+};
+
+class CMOptionBase
 {
-	UINT cbSize;
-	int iItem;
-	UINT cColumns;
-	PUINT puColumns;
-} LVTILEINFO, *PLVTILEINFO;
-typedef struct
+public:
+	__forceinline char* GetDBModuleName() const { return m_proto->m_szModuleName; }
+	__forceinline char* GetDBSettingName() const { return m_szSetting; }
+
+protected:
+	__forceinline CMOptionBase(PROTO_INTERFACE *proto, char *szSetting) :
+		m_proto(proto), m_szSetting(szSetting)
+	{}
+
+	PROTO_INTERFACE *m_proto;
+	char *m_szSetting;
+
+private:
+	CMOptionBase(const CMOptionBase &) {}
+	void operator= (const CMOptionBase &) {}
+};
+
+template<class T>
+class CMOption : public CMOptionBase
 {
-	UINT cbSize;
-	DWORD dwFlags;
-	int iItem;
-	DWORD dwReserved;
-} LVINSERTMARK, * LPLVINSERTMARK;
-typedef int (CALLBACK *PFNLVGROUPCOMPARE)(int, int, void *);
-typedef struct tagLVINSERTGROUPSORTED
-{
-	PFNLVGROUPCOMPARE pfnGroupCompare;
-	void *pvData;
-	LVGROUP lvGroup;
-} LVINSERTGROUPSORTED, *PLVINSERTGROUPSORTED;
-typedef struct tagLVSETINFOTIP
-{
-	UINT cbSize;
-	DWORD dwFlags;
-	LPWSTR pszText;
-	int iItem;
-	int iSubItem;
-} LVSETINFOTIP, *PLVSETINFOTIP;
-#define LPLVCOLUMN LPLVCOLUMNA
-#define LPLVITEM LPLVITEMA
-#define LVN_BEGINSCROLL (LVN_FIRST-80)
-#define LVN_ENDSCROLL (LVN_FIRST-81)
-#define LVN_HOTTRACK (LVN_FIRST-21)
-#define LVN_MARQUEEBEGIN (LVN_FIRST-56)
-#define LVM_MAPINDEXTOID (LVM_FIRST + 180)
-#define LVGF_HEADER 0x00000001
-#define LVGF_GROUPID 0x00000010
-#define ListView_MapIndexToID(hwnd, index) \
-	(UINT)SendMessage((hwnd), LVM_MAPINDEXTOID, (WPARAM)index, 0)
-#define TreeView_GetLineColor(hwnd) \
-	(COLORREF)SendMessage((hwnd), TVM_GETLINECOLOR, 0, 0)
-#define TreeView_SetLineColor(hwnd, clr) \
-	(COLORREF)SendMessage((hwnd), TVM_SETLINECOLOR, 0, (LPARAM)(clr))
-#endif
+public:
+	typedef T Type;
+
+	__forceinline CMOption(PROTO_INTERFACE *proto, char *szSetting, Type defValue) :
+		CMOptionBase(proto, szSetting), m_default(defValue)
+	{}
+
+	__forceinline operator Type()
+	{
+		return (Type)CMDBTraits<sizeof(Type)>::Get(m_proto, m_szSetting, m_default);
+	}
+	__forceinline Type operator= (Type value)
+	{
+		CMDBTraits<sizeof(Type)>::Set(m_proto, m_szSetting, (CMDBTraits<sizeof(Type)>::DBType)value);
+		return value;
+	}
+
+private:
+	Type m_default;
+
+	CMOption(const CMOption &) : CMOptionBase(NULL, NULL, DBVT_DELETED) {}
+	void operator= (const CMOption &) {}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Callbacks
@@ -177,14 +196,14 @@ __inline CCallback<TArgument> Callback(TClass *object, void (TClass::*func)(TArg
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDbLink
 
-class CDataLink
+class MIR_CORE_EXPORT CDataLink
 {
 protected:
 	BYTE m_type;
 	bool m_bSigned;
 
 public:
-	CDataLink(BYTE type, bool bSigned): m_type(type), m_bSigned(bSigned) {}
+	__inline CDataLink(BYTE type, bool bSigned) : m_type(type), m_bSigned(bSigned) {}
 	virtual ~CDataLink() {}
 
 	__inline BYTE GetDataType() { return m_type; }
@@ -198,7 +217,7 @@ public:
 	virtual void SaveText(TCHAR *value) = 0;
 };
 
-class CDbLink: public CDataLink
+class MIR_CORE_EXPORT CDbLink : public CDataLink
 {
 	char *m_szModule;
 	char *m_szSetting;
@@ -223,32 +242,34 @@ public:
 };
 
 template<class T>
-class CMOptionLink: public CDataLink
+class CMOptionLink : public CDataLink
 {
 private:
 	CMOption<T> *m_option;
 
 public:
-	CMOptionLink(CMOption<T> &option): CDataLink(CMDBTraits<sizeof(T)>::DBTypeId, CMIntTraits<T>::IsSigned()), m_option(&option) {}
+	__forceinline CMOptionLink(CMOption<T> &option) :
+		CDataLink(CMDBTraits<sizeof(T)>::DBTypeId, CMIntTraits<T>::IsSigned()), m_option(&option)
+	{}
 
-	DWORD LoadUnsigned() { return (DWORD)(T)*m_option; }
-	int LoadSigned() { return (int)(T)*m_option; }
-	void SaveInt(DWORD value) { *m_option = (T)value; }
+	__forceinline DWORD LoadUnsigned() { return (DWORD)(T)*m_option; }
+	__forceinline int LoadSigned() { return (int)(T)*m_option; }
+	__forceinline void SaveInt(DWORD value) { *m_option = (T)value; }
 
-	TCHAR *LoadText() { return NULL; }
-	void SaveText(TCHAR*) {}
+	__forceinline TCHAR *LoadText() { return NULL; }
+	__forceinline void SaveText(TCHAR*) {}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDlgBase - base dialog class
 
-class CDlgBase
+class MIR_CORE_EXPORT CDlgBase
 {
 	friend class CCtrlBase;
 	friend class CCtrlData;
 
 public:
-	CDlgBase(int idDialog, HWND hwndParent);
+	CDlgBase(HINSTANCE hInst, int idDialog, HWND hwndParent);
 	virtual ~CDlgBase();
 
 	// general utilities
@@ -283,13 +304,14 @@ public:
 	LRESULT m_lresult;
 
 protected:
-	HWND    m_hwnd;
-	HWND    m_hwndParent;
-	int     m_idDialog;
-	MSG     m_msg;
-	bool    m_isModal;
-	bool    m_initialized;
-	bool    m_forceResizable;
+	HINSTANCE m_hInst;
+	HWND      m_hwnd;
+	HWND      m_hwndParent;
+	int       m_idDialog;
+	MSG       m_msg;
+	bool      m_isModal;
+	bool      m_initialized;
+	bool      m_forceResizable;
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
 	BYTE    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
@@ -330,7 +352,7 @@ private:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlBase
 
-class CCtrlBase
+class MIR_CORE_EXPORT CCtrlBase
 {
 	friend class CDlgBase;
 
@@ -338,11 +360,12 @@ public:
 	CCtrlBase(CDlgBase *wnd, int idCtrl);
 	virtual ~CCtrlBase() { Unsubclass(); }
 
-	__inline HWND GetHwnd() const { return m_hwnd; }
-	__inline CDlgBase *GetParent() { return m_parentWnd; }
+	__forceinline HWND GetHwnd() const { return m_hwnd; }
+	__forceinline int GetCtrlId() const { return m_idCtrl; }
+	__forceinline CDlgBase *GetParent() { return m_parentWnd; }
 
 	void Enable(int bIsEnable = true);
-	__inline void Disable() { Enable(false); }
+	__forceinline void Disable() { Enable(false); }
 	BOOL Enabled(void) const;
 
 	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam);
@@ -404,7 +427,7 @@ private:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlButton
 
-class CCtrlButton : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlButton : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -416,7 +439,7 @@ public:
 	CCallback<CCtrlButton> OnClick;
 };
 
-class CCtrlMButton : public CCtrlButton
+class MIR_CORE_EXPORT CCtrlMButton : public CCtrlButton
 {
 	typedef CCtrlButton CSuper;
 
@@ -436,7 +459,7 @@ protected:
 	const char* m_toolTip;
 };
 
-class CCtrlHyperlink : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -451,7 +474,7 @@ protected:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlClc
-class CCtrlClc: public CCtrlBase
+class MIR_CORE_EXPORT CCtrlClc : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -507,8 +530,8 @@ public:
 
 	struct TEventInfo
 	{
-		CCtrlClc		*ctrl;
-		NMCLISTCONTROL	*info;
+		CCtrlClc *ctrl;
+		NMCLISTCONTROL *info;
 	};
 
 	CCallback<TEventInfo>	OnExpanded;
@@ -531,7 +554,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlData - data access controls base class
 
-class CCtrlData : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlData : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -572,7 +595,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlCheck
 
-class CCtrlCheck : public CCtrlData
+class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
@@ -600,7 +623,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlEdit
 
-class CCtrlEdit : public CCtrlData
+class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
@@ -643,7 +666,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListBox
 
-class CCtrlListBox : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlListBox : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -681,7 +704,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlCombo
 
-class CCtrlCombo : public CCtrlData
+class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
@@ -759,7 +782,7 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListView
 
-class CCtrlListView : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlListView : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -954,32 +977,13 @@ protected:
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh);
 };
 
-struct CFilterData;
-class CCtrlFilterListView : public CCtrlListView
-{
-	typedef CCtrlListView CSuper;
-
-public:
-	CCtrlFilterListView(CDlgBase* dlg, int ctrlId, bool trackFilter, bool keepHiglight);
-	~CCtrlFilterListView();
-
-	TCHAR *GetFilterText();
-	CCallback<CCtrlFilterListView> OnFilterChanged;
-
-protected:
-	CFilterData *fdat;
-	bool m_trackFilter;
-	bool m_keepHiglight;
-
-	void OnInit();
-	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
-	void FilterHighlight(TCHAR *filter);
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
-class CCtrlTreeView : public CCtrlBase
+#undef GetNextSibling
+#undef GetPrevSibling
+
+class MIR_CORE_EXPORT CCtrlTreeView : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -988,72 +992,70 @@ public:
 
 	// Classic TV interface
 	HIMAGELIST CreateDragImage(HTREEITEM hItem);
-	void DeleteAllItems();
-	void DeleteItem(HTREEITEM hItem);
-	HWND EditLabel(HTREEITEM hItem);
-	void EndEditLabelNow(BOOL cancel);
-	void EnsureVisible(HTREEITEM hItem);
-	void Expand(HTREEITEM hItem, DWORD flag);
-	COLORREF GetBkColor();
-	DWORD GetCheckState(HTREEITEM hItem);
-	HTREEITEM GetChild(HTREEITEM hItem);
-	int GetCount();
-	HTREEITEM GetDropHilight();
-	HWND GetEditControl();
-	HTREEITEM GetFirstVisible();
+	void       DeleteAllItems();
+	void       DeleteItem(HTREEITEM hItem);
+	HWND       EditLabel(HTREEITEM hItem);
+	void       EndEditLabelNow(BOOL cancel);
+	void       EnsureVisible(HTREEITEM hItem);
+	void       Expand(HTREEITEM hItem, DWORD flag);
+	COLORREF   GetBkColor();
+	DWORD      GetCheckState(HTREEITEM hItem);
+	HTREEITEM  GetChild(HTREEITEM hItem);
+	int        GetCount();
+	HTREEITEM  GetDropHilight();
+	HWND       GetEditControl();
+	HTREEITEM  GetFirstVisible();
 	HIMAGELIST GetImageList(int iImage);
-	int GetIndent();
-	COLORREF GetInsertMarkColor();
-	void GetItem(TVITEMEX *tvi);
-	int GetItemHeight();
-	void GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect);
-	DWORD GetItemState(HTREEITEM hItem, DWORD stateMask);
-	HTREEITEM GetLastVisible();
-	COLORREF GetLineColor();
-	HTREEITEM GetNextItem(HTREEITEM hItem, DWORD flag);
-	HTREEITEM GetNextSibling(HTREEITEM hItem);
-	HTREEITEM GetNextVisible(HTREEITEM hItem);
-	HTREEITEM GetParent(HTREEITEM hItem);
-	HTREEITEM GetPrevSibling(HTREEITEM hItem);
-	HTREEITEM GetPrevVisible(HTREEITEM hItem);
-	HTREEITEM GetRoot();
-	DWORD GetScrollTime();
-	HTREEITEM GetSelection();
-	COLORREF GetTextColor();
-	HWND GetToolTips();
-	BOOL GetUnicodeFormat();
-	unsigned GetVisibleCount();
-	HTREEITEM HitTest(TVHITTESTINFO *hti);
-	HTREEITEM InsertItem(TVINSERTSTRUCT *tvis);
-	//HTREEITEM MapAccIDToHTREEITEM(UINT id);
-	//UINT MapHTREEITEMtoAccID(HTREEITEM hItem);
-	void Select(HTREEITEM hItem, DWORD flag);
-	void SelectDropTarget(HTREEITEM hItem);
-	void SelectItem(HTREEITEM hItem);
-	void SelectSetFirstVisible(HTREEITEM hItem);
-	COLORREF SetBkColor(COLORREF clBack);
-	void SetCheckState(HTREEITEM hItem, DWORD state);
-	void SetImageList(HIMAGELIST hIml, int iImage);
-	void SetIndent(int iIndent);
-	void SetInsertMark(HTREEITEM hItem, BOOL fAfter);
-	COLORREF SetInsertMarkColor(COLORREF clMark);
-	void SetItem(TVITEMEX *tvi);
-	void SetItemHeight(short cyItem);
-	void SetItemState(HTREEITEM hItem, DWORD state, DWORD stateMask);
-	COLORREF SetLineColor(COLORREF clLine);
-	void SetScrollTime(UINT uMaxScrollTime);
-	COLORREF SetTextColor(COLORREF clText);
-	HWND SetToolTips(HWND hwndToolTips);
-	BOOL SetUnicodeFormat(BOOL fUnicode);
-	void SortChildren(HTREEITEM hItem, BOOL fRecurse);
-	void SortChildrenCB(TVSORTCB *cb, BOOL fRecurse);
+	int        GetIndent();
+	COLORREF   GetInsertMarkColor();
+	void       GetItem(TVITEMEX *tvi);
+	int        GetItemHeight();
+	void       GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect);
+	DWORD      GetItemState(HTREEITEM hItem, DWORD stateMask);
+	HTREEITEM  GetLastVisible();
+	COLORREF   GetLineColor();
+	HTREEITEM  GetNextItem(HTREEITEM hItem, DWORD flag);
+	HTREEITEM  GetNextSibling(HTREEITEM hItem);
+	HTREEITEM  GetNextVisible(HTREEITEM hItem);
+	HTREEITEM  GetParent(HTREEITEM hItem);
+	HTREEITEM  GetPrevSibling(HTREEITEM hItem);
+	HTREEITEM  GetPrevVisible(HTREEITEM hItem);
+	HTREEITEM  GetRoot();
+	DWORD      GetScrollTime();
+	HTREEITEM  GetSelection();
+	COLORREF   GetTextColor();
+	HWND       GetToolTips();
+	BOOL       GetUnicodeFormat();
+	unsigned   GetVisibleCount();
+	HTREEITEM  HitTest(TVHITTESTINFO *hti);
+	HTREEITEM  InsertItem(TVINSERTSTRUCT *tvis);
+	void       Select(HTREEITEM hItem, DWORD flag);
+	void       SelectDropTarget(HTREEITEM hItem);
+	void       SelectItem(HTREEITEM hItem);
+	void       SelectSetFirstVisible(HTREEITEM hItem);
+	COLORREF   SetBkColor(COLORREF clBack);
+	void       SetCheckState(HTREEITEM hItem, DWORD state);
+	void       SetImageList(HIMAGELIST hIml, int iImage);
+	void       SetIndent(int iIndent);
+	void       SetInsertMark(HTREEITEM hItem, BOOL fAfter);
+	COLORREF   SetInsertMarkColor(COLORREF clMark);
+	void       SetItem(TVITEMEX *tvi);
+	void       SetItemHeight(short cyItem);
+	void       SetItemState(HTREEITEM hItem, DWORD state, DWORD stateMask);
+	COLORREF   SetLineColor(COLORREF clLine);
+	void       SetScrollTime(UINT uMaxScrollTime);
+	COLORREF   SetTextColor(COLORREF clText);
+	HWND       SetToolTips(HWND hwndToolTips);
+	BOOL       SetUnicodeFormat(BOOL fUnicode);
+	void       SortChildren(HTREEITEM hItem, BOOL fRecurse);
+	void       SortChildrenCB(TVSORTCB *cb, BOOL fRecurse);
 
 	// Additional stuff
-	void TranslateItem(HTREEITEM hItem);
-	void TranslateTree();
-	HTREEITEM FindNamedItem(HTREEITEM hItem, const TCHAR *name);
-	void GetItem(HTREEITEM hItem, TVITEMEX *tvi);
-	void GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength);
+	void       TranslateItem(HTREEITEM hItem);
+	void       TranslateTree();
+	HTREEITEM  FindNamedItem(HTREEITEM hItem, const TCHAR *name);
+	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi);
+	void       GetItem(HTREEITEM hItem, TVITEMEX *tvi, TCHAR *szText, int iTextLength);
 
 	// Events
 	struct TEventInfo {
@@ -1089,7 +1091,7 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
-class CCtrlPages: public CCtrlBase
+class MIR_CORE_EXPORT CCtrlPages : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -1127,7 +1129,7 @@ private:
 // CCtrlCustom
 
 template<typename TDlg>
-class CCtrlCustom : public CCtrlBase
+class MIR_CORE_EXPORT CCtrlCustom : public CCtrlBase
 {
 	typedef CCtrlBase CSuper;
 
@@ -1211,27 +1213,15 @@ public:
 
 struct PROTO_INTERFACE;
 
-class CProtoIntDlgBase : public CDlgBase
+class MIR_CORE_EXPORT CProtoIntDlgBase : public CDlgBase
 {
 	typedef CDlgBase CSuper;
 
 public:
-	__inline CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND parent, bool show_label=true) :
-		CDlgBase(idDialog, parent),
-		m_proto_interface(proto),
-		m_show_label(show_label),
-		m_hwndStatus(NULL)
-	{
-	}
+	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND parent, bool show_label = true);
 
-	__inline void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue, bool bSigned = false)
-	{
-		ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, type, iValue, bSigned);
-	}
-	__inline void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
-	{
-		ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, szValue);
-	}
+	void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue, bool bSigned = false);
+	void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue);
 
 	template<class T>
 	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
@@ -1250,9 +1240,9 @@ protected:
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
-	virtual void OnProtoRefresh(WPARAM, LPARAM) {}
-	virtual void OnProtoActivate(WPARAM, LPARAM) {}
-	virtual void OnProtoCheckOnline(WPARAM, LPARAM) {}
+	virtual void OnProtoRefresh(WPARAM, LPARAM);
+	virtual void OnProtoActivate(WPARAM, LPARAM);
+	virtual void OnProtoCheckOnline(WPARAM, LPARAM);
 
 private:
 	void UpdateProtoTitle(const TCHAR *szText = NULL);
@@ -1275,22 +1265,6 @@ public:
 
 protected:
 	TProto* m_proto;
-
-	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
-	{
-		switch (msg)
-		{
-			case WM_INITDIALOG:
-				m_proto->WindowSubscribe(m_hwnd);
-				break;
-			case WM_DESTROY:
-				WindowFreeIcon(m_hwnd);
-				m_proto->WindowUnsubscribe(m_hwnd);
-				break;
-		}
-
-		return CSuper::DlgProc(msg, wParam, lParam);
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1383,9 +1357,4 @@ protected:
 		return CMessageMapSuperClass::DlgProc(msg, wParam, lParam);	\
 	}
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Misc utitlities
-int UIEmulateBtnClick(HWND hwndDlg, UINT idcButton);
-void UIShowControls(HWND hwndDlg, int *idList, int nCmdShow);
-
-#endif // __jabber_ui_utils_h__
+#endif // __M_GUI_H

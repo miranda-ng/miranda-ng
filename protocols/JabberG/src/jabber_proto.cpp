@@ -75,9 +75,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const TCHAR *aUserName) :
 
 	debugLogA("Setting protocol/module name to '%s'", m_szModuleName);
 
-	// Jabber dialog list
-	m_windowList = WindowList_Create();
-
 	// Protocol services and events...
 	m_hEventNudge = CreateProtoEvent(PE_NUDGE);
 	m_hEventXStatusIconChanged = CreateProtoEvent(JE_CUSTOMSTATUS_EXTRAICON_CHANGED);
@@ -161,8 +158,6 @@ CJabberProto::~CJabberProto()
 		Popup_UnregisterClass(m_hPopupClass);
 
 	delete m_pInfoFrame;
-
-	WindowList_Destroy(m_windowList);
 
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
@@ -1302,27 +1297,6 @@ int __cdecl CJabberProto::UserIsTyping(MCONTACT hContact, int type)
 	}
 
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Notify dialogs
-
-void CJabberProto::WindowSubscribe(HWND hwnd)
-{
-	WindowList_Add(m_windowList, hwnd, NULL);
-}
-
-void CJabberProto::WindowUnsubscribe(HWND hwnd)
-{
-	WindowList_Remove(m_windowList, hwnd);
-}
-
-void CJabberProto::WindowNotify(UINT msg, bool async)
-{
-	if (async)
-		WindowList_BroadcastAsync(m_windowList, msg, 0, 0);
-	else
-		WindowList_Broadcast(m_windowList, msg, 0, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

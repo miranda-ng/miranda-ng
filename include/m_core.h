@@ -368,34 +368,38 @@ MIR_CORE_DLL(int)    mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t
 ///////////////////////////////////////////////////////////////////////////////
 // protocol functions
 
+struct PROTO_INTERFACE;
+
 MIR_CORE_DLL(INT_PTR) ProtoCallService(LPCSTR szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 MIR_CORE_DLL(int)     ProtoServiceExists(LPCSTR szModule, const char *szService);
 MIR_CORE_DLL(INT_PTR) ProtoBroadcastAck(LPCSTR szModule, MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam);
 
 // Call it in the very beginning of your proto's constructor
-MIR_CORE_DLL(void) ProtoConstructor(struct PROTO_INTERFACE *pThis, const char *pszModuleName, const TCHAR *ptszUserName);
+MIR_CORE_DLL(void) ProtoConstructor(PROTO_INTERFACE *pThis, const char *pszModuleName, const TCHAR *ptszUserName);
 
 // Call it in the very end of your proto's destructor
-MIR_CORE_DLL(void) ProtoDestructor(struct PROTO_INTERFACE *pThis);
+MIR_CORE_DLL(void) ProtoDestructor(PROTO_INTERFACE *pThis);
 
 #if defined( __cplusplus )
 typedef void (__cdecl PROTO_INTERFACE::*ProtoThreadFunc)(void*);
-MIR_CORE_DLL(void)   ProtoForkThread(struct PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
-MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(struct PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
+MIR_CORE_DLL(void)   ProtoForkThread(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param);
+MIR_CORE_DLL(HANDLE) ProtoForkThreadEx(PROTO_INTERFACE *pThis, ProtoThreadFunc, void *param, UINT* threadID);
+MIR_CORE_DLL(void)   ProtoWindowAdd(PROTO_INTERFACE *pThis, HWND hwnd);
+MIR_CORE_DLL(void)   ProtoWindowRemove(PROTO_INTERFACE *pThis, HWND hwnd);
 
 typedef int (__cdecl PROTO_INTERFACE::*ProtoEventFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void)   ProtoHookEvent(struct PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
-MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(struct PROTO_INTERFACE *pThis, const char* szService);
+MIR_CORE_DLL(void)   ProtoHookEvent(PROTO_INTERFACE *pThis, const char* szName, ProtoEventFunc pFunc);
+MIR_CORE_DLL(HANDLE) ProtoCreateHookableEvent(PROTO_INTERFACE *pThis, const char* szService);
 
 typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFunc)(WPARAM, LPARAM);
-MIR_CORE_DLL(void) ProtoCreateService(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
+MIR_CORE_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc);
 
 typedef INT_PTR (__cdecl PROTO_INTERFACE::*ProtoServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-MIR_CORE_DLL(void) ProtoCreateServiceParam(struct PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
+MIR_CORE_DLL(void) ProtoCreateServiceParam(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFuncParam, LPARAM);
 #endif
 
-MIR_CORE_DLL(void) ProtoLogA(struct PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args);
-MIR_CORE_DLL(void) ProtoLogW(struct PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args);
+MIR_CORE_DLL(void) ProtoLogA(PROTO_INTERFACE *pThis, LPCSTR szFormat, va_list args);
+MIR_CORE_DLL(void) ProtoLogW(PROTO_INTERFACE *pThis, LPCWSTR wszFormat, va_list args);
 
 // avatar support functions
 

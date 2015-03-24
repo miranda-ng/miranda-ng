@@ -148,7 +148,6 @@ PROTOACCOUNT* Proto_CreateAccount(const char *szModuleName, const char *szBasePr
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(const char *accName);
 PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
-PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char *szProtoName);
 
 bool __fastcall Proto_IsAccountEnabled(PROTOACCOUNT *pa);
 bool __fastcall Proto_IsAccountLocked(PROTOACCOUNT *pa);
@@ -211,7 +210,10 @@ public:
 
 extern "C"
 {
-	MIR_CORE_DLL(int)Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
-	MIR_CORE_DLL(int)GetSubscribersCount(HANDLE hHook);
+	MIR_CORE_DLL(int)  Langpack_MarkPluginLoaded(PLUGININFOEX* pInfo);
+	MIR_CORE_DLL(int)  GetSubscribersCount(HANDLE hHook);
 	MIR_CORE_DLL(void) db_setCurrent(MIDatabase* _db);
+
+	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName);
+	MIR_CORE_DLL(PROTOCOLDESCRIPTOR*) Proto_RegisterModule(PROTOCOLDESCRIPTOR *pd);
 };

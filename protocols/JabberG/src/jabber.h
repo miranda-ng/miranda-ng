@@ -95,6 +95,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_xstatus.h>
 #include <win2k.h>
 #include <m_imgsrvc.h>
+#include <m_clc.h>
 
 #include <m_addcontact.h>
 #include <m_folders.h>
@@ -105,6 +106,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_proto_listeningto.h>
 #include <m_nudge.h>
 #include <m_skin_eng.h>
+#include <m_gui.h>
 
 #include "../../plugins/zlib/src/zlib.h"
 
@@ -115,7 +117,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_byte.h"
 #include "jabber_ibb.h"
 #include "jabber_db_utils.h"
-#include "ui_utils.h"
 
 struct CJabberProto;
 
@@ -138,6 +139,28 @@ protected:
 
 		return CSuper::Resizer(urc);
 	}
+};
+
+struct CFilterData;
+class CCtrlFilterListView : public CCtrlListView
+{
+	typedef CCtrlListView CSuper;
+
+public:
+	CCtrlFilterListView(CDlgBase* dlg, int ctrlId, bool trackFilter, bool keepHiglight);
+	~CCtrlFilterListView();
+
+	TCHAR *GetFilterText();
+	CCallback<CCtrlFilterListView> OnFilterChanged;
+
+protected:
+	CFilterData *fdat;
+	bool m_trackFilter;
+	bool m_keepHiglight;
+
+	void OnInit();
+	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	void FilterHighlight(TCHAR *filter);
 };
 
 #if !defined(OPENFILENAME_SIZE_VERSION_400)
@@ -746,6 +769,9 @@ void JabberCopyText(HWND hwnd, const TCHAR *text);
 CJabberProto *JabberChooseInstance(bool bIsLink=false);
 
 bool JabberReadXep203delay(HXML node, time_t &msgTime);
+
+int  UIEmulateBtnClick(HWND hwndDlg, UINT idcButton);
+void UIShowControls(HWND hwndDlg, int *idList, int nCmdShow);
 
 //---- jabber_xml.cpp -------------------------------------------------------------------
 

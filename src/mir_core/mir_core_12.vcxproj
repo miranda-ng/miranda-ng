@@ -21,8 +21,10 @@
   <ItemGroup>
     <ClInclude Include="..\..\include\m_core.h" />
     <ClInclude Include="..\..\include\m_database.h" />
+    <ClInclude Include="..\..\include\m_gui.h" />
     <ClInclude Include="..\..\include\m_json.h" />
     <ClInclude Include="..\..\include\m_metacontacts.h" />
+    <ClInclude Include="..\..\include\m_protoint.h" />
     <ClInclude Include="..\..\include\m_string.h" />
     <ClInclude Include="..\..\include\m_system.h" />
     <ClInclude Include="..\..\include\m_system_cpp.h" />
@@ -86,6 +88,7 @@
     <ClCompile Include="src\sha1.cpp" />
     <ClCompile Include="src\subclass.cpp" />
     <ClCompile Include="src\threads.cpp" />
+    <ClCompile Include="src\ui_utils.cpp" />
     <ClCompile Include="src\utf.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\winver.cpp" />

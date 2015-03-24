@@ -437,6 +437,11 @@ function ProtoServiceExists(const szModule, szName:PAnsiChar):int; stdcall;
 function ProtoCallService(const szModule, szName:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
                  external CoreDLL name 'ProtoServiceExists';
 
+procedure ProtoWindowAdd(pThis:pointer; wnd:HWND); stdcall;
+                 external CoreDLL name 'ProtoWindowAdd';
+
+procedure ProtoWindowRemove(pThis:pointer; wnd:HWND); stdcall;
+                 external CoreDLL name 'ProtoWindowRemove';
 
 // Call it in the very beginning of your proto's constructor
 procedure ProtoConstructor(pThis:pointer{PPROTO_INTERFACE}; const pszModuleName:PAnsiChar;

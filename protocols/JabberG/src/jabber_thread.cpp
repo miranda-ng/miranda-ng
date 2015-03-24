@@ -513,7 +513,7 @@ recvRest:
 			ListRemoveList(LIST_CHATROOM);
 			ListRemoveList(LIST_BOOKMARK);
 			UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
-			WindowNotify(WM_JABBER_CHECK_ONLINE);
+			WindowList_Broadcast(m_hWindowList, WM_JABBER_CHECK_ONLINE, 0, 0);
 
 			// Set status to offline
 			int oldStatus = m_iStatus;
@@ -529,7 +529,7 @@ recvRest:
 			m_tmJabberLoggedInTime = 0;
 			ListWipe();
 
-			WindowNotify(WM_JABBER_REFRESH_VCARD);
+			WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 		}
 		else if (info.bIsReg && !info.reg_done)
 			SendMessage(info.conn.reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 100, (LPARAM)TranslateT("Error: Connection lost"));

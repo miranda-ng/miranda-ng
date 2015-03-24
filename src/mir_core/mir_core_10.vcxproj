@@ -88,6 +88,7 @@
     <ClCompile Include="src\sha1.cpp" />
     <ClCompile Include="src\subclass.cpp" />
     <ClCompile Include="src\threads.cpp" />
+    <ClCompile Include="src\ui_utils.cpp" />
     <ClCompile Include="src\utf.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\winver.cpp" />
