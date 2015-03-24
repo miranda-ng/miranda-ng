@@ -10,7 +10,6 @@ public:
 		Url << CHAR_VALUE("hideDetails", "true");
 
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", "Accept")
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
 	}
@@ -23,7 +22,6 @@ public:
 		HttpsPostRequest("api.skype.com/users/%s/contacts/profiles", skypename)
 	{
 		Headers
-			<< CHAR_VALUE("X-Skypetoken", "Accept")
 			<< CHAR_VALUE("X-Skypetoken", token)
 			<< CHAR_VALUE("Accept", "application/json");
 
