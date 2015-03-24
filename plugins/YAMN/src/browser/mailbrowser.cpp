@@ -1662,8 +1662,8 @@ CREADTEVIEWMESSAGEWINDOW:
 		MyParam.mail->MsgWindow = CreateDialogParamW(YAMNVar.hInst,MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE),NULL,DlgProcYAMNShowMessage,(LPARAM)&MyParam);
 		WindowList_Add(YAMNVar.MessageWnds,MyParam.mail->MsgWindow,NULL);
 		MSG msg;
-		while(GetMessage(&msg,NULL,0,0)) {
-			if (!IsDialogMessage(MyParam.mail->MsgWindow, &msg)) {
+		while (GetMessage(&msg, NULL, 0, 0)) {
+			if (MyParam.mail->MsgWindow == NULL || !IsDialogMessage(MyParam.mail->MsgWindow, &msg)) { /* Wine fix. */
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 		}	}
@@ -2534,8 +2534,7 @@ DWORD WINAPI MailBrowser(LPVOID Param)
 		{
 			while(GetMessage(&msg,NULL,0,0))
 			{
-				if (!IsDialogMessage(hMailBrowser, &msg))
-				{
+				if (hMailBrowser == NULL || !IsDialogMessage(hMailBrowser, &msg)) { /* Wine fix. */
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}

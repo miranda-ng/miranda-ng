@@ -266,7 +266,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 					DWORD pid = 0;
 					checkIdle(&msg);
 					if (h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
-						if (IsDialogMessage(h, &msg))
+						if (h != NULL && IsDialogMessage(h, &msg)) /* Wine fix. */
 							continue;
 
 					TranslateMessage(&msg);

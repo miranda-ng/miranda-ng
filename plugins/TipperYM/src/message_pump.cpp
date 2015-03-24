@@ -102,114 +102,99 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 unsigned int CALLBACK MessagePumpThread(void *param)
 {
-	HWND hwndTip = 0;
-	CLCINFOTIPEX *clcitex = 0;
-
+	HWND hwndTip = NULL;
+	CLCINFOTIPEX *clcitex = NULL;
 	MSG hwndMsg = {0};
-	while (GetMessage(&hwndMsg, 0, 0, 0) > 0 && !Miranda_Terminated())
-	{
-		if (!IsDialogMessage(hwndMsg.hwnd, &hwndMsg))
-		{
-			switch (hwndMsg.message)
-			{
-				case MUM_CREATEPOPUP:
-				{
-					if (!clcitex)
-					{
-						if (hwndMsg.lParam) clcitex = (CLCINFOTIPEX *)hwndMsg.lParam;
-						else break;
-					}
 
-					if (!NeedWaitForContent(clcitex))
-					{
-						if (hwndTip) MyDestroyWindow(hwndTip);
-						hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)clcitex);
-
-						if (clcitex)
-						{
-							mir_free(clcitex);
-							clcitex = 0;
-						}
-
-						bStatusMsgReady = false;
-						bAvatarReady = false;
-					}
+	while (GetMessage(&hwndMsg, NULL, 0, 0) > 0 && !Miranda_Terminated()) {
+		if (hwndMsg.hwnd != NULL && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
+			continue;
+		switch (hwndMsg.message) {
+		case MUM_CREATEPOPUP:
+			if (!clcitex) {
+				if (hwndMsg.lParam)
+					clcitex = (CLCINFOTIPEX*)hwndMsg.lParam;
+				else
 					break;
-				}
-				case MUM_DELETEPOPUP:
-				{
-					if (hwndTip) {
-						MyDestroyWindow(hwndTip);
-						hwndTip = 0;
-					}
-
-					if (clcitex) {
-						mir_free(clcitex);
-						clcitex = 0;
-					}
-
-					bStatusMsgReady = false;
-					bAvatarReady = false;
-					break;
-				}
-				case MUM_GOTSTATUS:
-				{
-					MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
-					TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
-
-					if (opt.bWaitForContent && bStatusMsgReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
-						if (WaitForContentTimerID) {
-							KillTimer(0, WaitForContentTimerID);
-							WaitForContentTimerID = 0;
-						}
-
-						if (swzMsg) {
-							db_set_ts((MCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
-							mir_free(swzMsg);
-						}
-
-						bStatusMsgReady = true;
-						PostMPMessage(MUM_CREATEPOPUP, 0, 0);
-					}
-					else if (!opt.bWaitForContent && hwndTip)
-						SendMessage(hwndTip, PUM_SETSTATUSTEXT, hContact, (LPARAM)swzMsg);
-					else if (swzMsg)
-						mir_free(swzMsg);
-
-					break;
-				}
-				case MUM_GOTXSTATUS:
-				{
-					if (hwndTip && !opt.bWaitForContent)
-						SendMessage(hwndTip, PUM_SHOWXSTATUS, hwndMsg.wParam, 0);
-					break;
-				}
-				case MUM_GOTAVATAR:
-				{
-					MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
-					if (opt.bWaitForContent && bAvatarReady == false && clcitex && clcitex->hItem == (HANDLE)hContact)
-					{
-						if (WaitForContentTimerID)
-						{
-							KillTimer(0, WaitForContentTimerID);
-							WaitForContentTimerID = 0;
-						}
-
-						bAvatarReady = true;
-						PostMPMessage(MUM_CREATEPOPUP, 0, 0);
-					}
-					else if (!opt.bWaitForContent && hwndTip)
-						SendMessage(hwndTip, PUM_SETAVATAR, hwndMsg.wParam, 0);
-
-					break;
-				}
-				default:
-				{
-					TranslateMessage(&hwndMsg);
-					DispatchMessage(&hwndMsg);
-					break;
-				}
 			}
+
+			if (!NeedWaitForContent(clcitex)) {
+				if (hwndTip)
+					MyDestroyWindow(hwndTip);
+				hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)clcitex);
+
+				if (clcitex) {
+					mir_free(clcitex);
+					clcitex = NULL;
+				}
+
+				bStatusMsgReady = false;
+				bAvatarReady = false;
+			}
+			break;
+		case MUM_DELETEPOPUP:
+			if (hwndTip) {
+				MyDestroyWindow(hwndTip);
+				hwndTip = 0;
+			}
+
+			if (clcitex) {
+				mir_free(clcitex);
+				clcitex = NULL;
+			}
+
+			bStatusMsgReady = false;
+			bAvatarReady = false;
+			break;
+		case MUM_GOTSTATUS:
+			{
+				MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
+				TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
+
+				if (opt.bWaitForContent && bStatusMsgReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
+					if (WaitForContentTimerID) {
+						KillTimer(0, WaitForContentTimerID);
+						WaitForContentTimerID = 0;
+					}
+
+					if (swzMsg) {
+						db_set_ts((MCONTACT)clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+						mir_free(swzMsg);
+					}
+
+					bStatusMsgReady = true;
+					PostMPMessage(MUM_CREATEPOPUP, 0, 0);
+				}
+				else if (!opt.bWaitForContent && hwndTip)
+					SendMessage(hwndTip, PUM_SETSTATUSTEXT, hContact, (LPARAM)swzMsg);
+				else if (swzMsg)
+					mir_free(swzMsg);
+			}
+			break;
+		case MUM_GOTXSTATUS:
+			if (hwndTip && !opt.bWaitForContent)
+				SendMessage(hwndTip, PUM_SHOWXSTATUS, hwndMsg.wParam, 0);
+			break;
+		case MUM_GOTAVATAR:
+			{
+				MCONTACT hContact = (MCONTACT)hwndMsg.wParam;
+				if (opt.bWaitForContent && bAvatarReady == false && clcitex && clcitex->hItem == (HANDLE)hContact) {
+					if (WaitForContentTimerID) {
+						KillTimer(0, WaitForContentTimerID);
+						WaitForContentTimerID = 0;
+					}
+
+					bAvatarReady = true;
+					PostMPMessage(MUM_CREATEPOPUP, 0, 0);
+				}
+				else if (!opt.bWaitForContent && hwndTip)
+					SendMessage(hwndTip, PUM_SETAVATAR, hwndMsg.wParam, 0);
+			}
+			break;
+		default:
+			TranslateMessage(&hwndMsg);
+			DispatchMessage(&hwndMsg);
+			break;
 		}
 	}
 
@@ -250,7 +235,7 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 {
 	CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
 	HWND clist = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
-
+	
 	if (clcit->isGroup) return 0; // no group tips (since they're pretty useless)
 	if (clcit->isTreeFocused == 0 && opt.bShowNoFocus == false && clist == WindowFromPoint(clcit->ptCursor)) return 0;
 	if (clcit->ptCursor.x == pt.x && clcit->ptCursor.y == pt.y) return 0;
@@ -317,8 +302,8 @@ INT_PTR HideTip(WPARAM wParam, LPARAM lParam)
 
 int HideTipHook(WPARAM wParam, LPARAM lParam)
 {
-    HideTip(wParam, lParam);
-    return 0;
+	HideTip(wParam, lParam);
+	return 0;
 }
 
 int ProtoAck(WPARAM wParam, LPARAM lParam)

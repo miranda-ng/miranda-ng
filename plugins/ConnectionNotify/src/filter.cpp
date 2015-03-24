@@ -40,8 +40,7 @@ static unsigned __stdcall filterQueue(void *dummy)
 			ShowWindow(filterAddDlg,SW_SHOW);
 
 		}
-		if (NULL == filterAddDlg || !IsDialogMessage(filterAddDlg, &msg))
-		{
+		if (NULL == filterAddDlg || !IsDialogMessage(filterAddDlg, &msg)) { /* Wine fix. */
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}

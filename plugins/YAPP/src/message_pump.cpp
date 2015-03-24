@@ -16,60 +16,60 @@ unsigned __stdcall MessagePumpThread(void* param)
 
 	MSG hwndMsg = { 0 };
 	while (GetMessage(&hwndMsg, 0, 0, 0) > 0 && !bShutdown) {
-		if (!IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) {
-			switch(hwndMsg.message) {
-			case MUM_CREATEPOPUP:
-				{
-					bool enabled = true;
-					int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
-					if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
-						enabled = false;
-					if ((options.disable_full_screen && IsFullScreen()) || IsWorkstationLocked())
-						enabled = false;
+		if (hwndMsg.hwnd != NULL && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
+			continue;
+		switch(hwndMsg.message) {
+		case MUM_CREATEPOPUP:
+			{
+				bool enabled = true;
+				int status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
+				if (status >= ID_STATUS_OFFLINE && status <= ID_STATUS_OUTTOLUNCH && options.disable_status[status - ID_STATUS_OFFLINE])
+					enabled = false;
+				if ((options.disable_full_screen && IsFullScreen()) || IsWorkstationLocked())
+					enabled = false;
 
-					PopupData *pd = (PopupData*)hwndMsg.lParam;
-					if (enabled && num_popups < MAX_POPUPS) {
-						//HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, GetDesktopWindow(), 0, hInst, (LPVOID)hwndMsg.lParam);
-						HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
-						num_popups++;
-						if (hwndMsg.wParam) // set notifyer handle
-							SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
-					}
-					else if (pd) {
-						mir_free(pd->pwzTitle);
-						mir_free(pd->pwzText);
-						mir_free(pd);
-					}
+				PopupData *pd = (PopupData*)hwndMsg.lParam;
+				if (enabled && num_popups < MAX_POPUPS) {
+					//HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, GetDesktopWindow(), 0, hInst, (LPVOID)hwndMsg.lParam);
+					HWND hwnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, _T("Popup"), WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)hwndMsg.lParam);
+					num_popups++;
+					if (hwndMsg.wParam) // set notifyer handle
+						SendMessage(hwnd, PUM_SETNOTIFYH, hwndMsg.wParam, 0);
 				}
-				break;
-
-			case MUM_DELETEPOPUP:
-				{
-					HWND hwnd = (HWND)hwndMsg.lParam;
-					if (IsWindow(hwnd)) {
-						DestroyWindow(hwnd);
-						num_popups--;
-					}
+				else if (pd) {
+					mir_free(pd->pwzTitle);
+					mir_free(pd->pwzText);
+					mir_free(pd);
 				}
-				break;
-
-			case MUM_NMUPDATE:
-				BroadcastMessage(PUM_UPDATENOTIFY, hwndMsg.wParam, 0);
-				break;
-
-			case MUM_NMREMOVE:
-				BroadcastMessage(PUM_KILLNOTIFY, hwndMsg.wParam, 0);
-				break;
-
-			case MUM_NMAVATAR:
-				RepositionWindows();
-				break;
-
-			default:
-				TranslateMessage(&hwndMsg);
-				DispatchMessage(&hwndMsg);
-				break;
 			}
+			break;
+
+		case MUM_DELETEPOPUP:
+			{
+				HWND hwnd = (HWND)hwndMsg.lParam;
+				if (IsWindow(hwnd)) {
+					DestroyWindow(hwnd);
+					num_popups--;
+				}
+			}
+			break;
+
+		case MUM_NMUPDATE:
+			BroadcastMessage(PUM_UPDATENOTIFY, hwndMsg.wParam, 0);
+			break;
+
+		case MUM_NMREMOVE:
+			BroadcastMessage(PUM_KILLNOTIFY, hwndMsg.wParam, 0);
+			break;
+
+		case MUM_NMAVATAR:
+			RepositionWindows();
+			break;
+
+		default:
+			TranslateMessage(&hwndMsg);
+			DispatchMessage(&hwndMsg);
+			break;
 		}
 	}
 

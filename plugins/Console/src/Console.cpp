@@ -932,7 +932,7 @@ void __cdecl ConsoleThread(void *arg)
 			break;
 		}
 
-		if (IsDialogMessage(hwnd, &msg))
+		if (hwnd != NULL && IsDialogMessage(hwnd, &msg)) /* Wine fix. */
 			continue;
 
 		TranslateMessage(&msg);
