@@ -104,6 +104,8 @@ HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	POINT pt;
 	RECT rcinit;
 
+	if (NULL == hwndDlg) /* Wine fix. */
+		return hDwp;
 	// get current bounding rectangle
 	GetWindowRect(hwndControl, &rcinit);
 
@@ -130,6 +132,8 @@ HDWP MyHorizCenterWindow(HDWP hDwp, HWND hwndDlg, HWND hwndControl,
 	POINT pt;
 	RECT rcinit;
 
+	if (NULL == hwndDlg) /* Wine fix. */
+		return hDwp;
 	// get current bounding rectangle
 	GetWindowRect(hwndControl, &rcinit);
 

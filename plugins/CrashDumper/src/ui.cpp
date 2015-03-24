@@ -23,6 +23,8 @@ extern HINSTANCE hInst;
 
 HDWP MyResizeWindow(HDWP hDwp, HWND hwndDlg, HWND hwndCtrl, int nHorizontalOffset, int nVerticalOffset, int nWidthOffset, int nHeightOffset)
 {
+	if (NULL == hwndDlg) /* Wine fix. */
+		return hDwp;
 	// get current bounding rectangle
 	RECT rcinit;
 	GetWindowRect(hwndCtrl, &rcinit);

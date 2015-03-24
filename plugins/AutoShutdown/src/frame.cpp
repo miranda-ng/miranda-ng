@@ -254,11 +254,14 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			/* progress */
 			width=rc.right-GetSystemMetrics(SM_CXICON)-10;
 			height=rc.bottom-(GetSystemMetrics(SM_CYICON)/2)-5;
-			hdwp=DeferWindowPos(hdwp,dat->hwndProgress,NULL,0,0,width,height,SWP_NOMOVE|defflg);
+			if (NULL != dat->hwndProgress) /* Wine fix. */
+				hdwp=DeferWindowPos(hdwp, dat->hwndProgress, NULL, 0, 0, width, height, SWP_NOMOVE|defflg);
 			/* desc */
-			if (dat->hwndDesc != NULL) hdwp=DeferWindowPos(hdwp,dat->hwndDesc,NULL,GetSystemMetrics(SM_CXICON)+5,5+height,0,0,SWP_NOSIZE|defflg);
+			if (dat->hwndDesc != NULL) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, dat->hwndDesc, NULL, GetSystemMetrics(SM_CXICON)+5, 5+height, 0, 0, SWP_NOSIZE|defflg);
 			/* time */
-			hdwp=DeferWindowPos(hdwp,dat->hwndTime,NULL,GetSystemMetrics(SM_CXICON)+85,5+height,width-80,(GetSystemMetrics(SM_CXICON)/2),defflg);
+			if (NULL != dat->hwndTime) /* Wine fix. */
+				hdwp = DeferWindowPos(hdwp, dat->hwndTime, NULL, GetSystemMetrics(SM_CXICON)+85, 5+height, width-80, (GetSystemMetrics(SM_CXICON)/2),defflg);
 			EndDeferWindowPos(hdwp);
 			PostMessage(hwndFrame,M_CHECK_CLIPPED,0,0);
 			return 0;

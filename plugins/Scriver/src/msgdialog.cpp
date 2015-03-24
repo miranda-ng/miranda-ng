@@ -540,7 +540,8 @@ static void MessageDialogResize(HWND hwndDlg, SrmmWindowData *dat, int w, int h)
 	logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight;
 
 	HDWP hdwp = BeginDeferWindowPos(15);
-	hdwp = DeferWindowPos(hdwp, dat->infobarData->hWnd, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
+	if (NULL != dat->infobarData->hWnd) /* Wine fix. */
+		hdwp = DeferWindowPos(hdwp, dat->infobarData->hWnd, 0, 1, 0, w - 2, infobarInnerHeight - 2, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_LOG), 0, 1, logY, w - 2, logH, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_MESSAGE), 0, 1, h - hSplitterPos + SPLITTER_HEIGHT, messageEditWidth, hSplitterPos - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
 	hdwp = DeferWindowPos(hdwp, GetDlgItem(hwndDlg, IDC_AVATAR), 0, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);

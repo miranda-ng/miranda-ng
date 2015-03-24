@@ -203,17 +203,19 @@ class CAnnivList
 		{
 			if (!(_wndPos->flags & SWP_NOSIZE)) {
 				HWND hCtrl = GetDlgItem(_wndPos->hwnd, idCtrl);
-				RECT rcc = _CalcPos(hCtrl, anchors);
-				_hdWnds = DeferWindowPos(
-						_hdWnds,					//HDWP hWinPosInfo
-						hCtrl,						//HWND hWnd
-						HWND_NOTOPMOST,				//hWndInsertAfter
-						rcc.left,					//int x
-						rcc.top,					//int y
-						rcc.right - rcc.left,
-						rcc.bottom - rcc.top,
-						SWP_NOZORDER				//UINT uFlags
-						);
+				if (NULL != hCtrl) { /* Wine fix. */
+					RECT rcc = _CalcPos(hCtrl, anchors);
+					_hdWnds = DeferWindowPos(
+							_hdWnds,					//HDWP hWinPosInfo
+							hCtrl,						//HWND hWnd
+							HWND_NOTOPMOST,				//hWndInsertAfter
+							rcc.left,					//int x
+							rcc.top,					//int y
+							rcc.right - rcc.left,
+							rcc.bottom - rcc.top,
+							SWP_NOZORDER				//UINT uFlags
+							);
+				}
 			}
 		}
 	};

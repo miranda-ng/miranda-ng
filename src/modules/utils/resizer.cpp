@@ -149,7 +149,9 @@ INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 			urc.rcItem.top+=(urc.dlgNewSize.cy-urc.dlgOriginalSize.cy)/2;
 			urc.rcItem.bottom+=(urc.dlgNewSize.cy-urc.dlgOriginalSize.cy)/2;
 		}
-		hDwp = DeferWindowPos(hDwp, GetDlgItem(urd->hwndDlg, extendedDlg?pItemEx->id:pItem->id), 0, urc.rcItem.left, urc.rcItem.top, urc.rcItem.right-urc.rcItem.left, urc.rcItem.bottom-urc.rcItem.top, SWP_NOZORDER);
+		HWND hCtrl = GetDlgItem(urd->hwndDlg, extendedDlg ? pItemEx->id : pItem->id);
+		if (NULL != hCtrl) /* Wine fix. */
+			hDwp = DeferWindowPos(hDwp, hCtrl, 0, urc.rcItem.left, urc.rcItem.top, urc.rcItem.right-urc.rcItem.left, urc.rcItem.bottom-urc.rcItem.top, SWP_NOZORDER);
 	}
 	EndDeferWindowPos(hDwp);
 	return 0;

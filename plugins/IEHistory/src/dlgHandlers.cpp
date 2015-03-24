@@ -344,6 +344,8 @@ int ScrollToBottom(HWND hWnd)
 
 void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOWPOS *wndPos, int anchors)
 {
+	if (NULL == window) /* Wine fix. */
+		return;
 	RECT rChild = AnchorCalcPos(window, rParent, wndPos, anchors);
 	hdWnds = DeferWindowPos(hdWnds, window, HWND_NOTOPMOST, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, SWP_NOZORDER);
 }
@@ -433,7 +435,8 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			WINDOWPOS *wndPos = (WINDOWPOS *)lParam;
 			GetWindowRect(hWnd, &rParent);
 
-			//hdWnds = DeferWindowPos(hdWnds, hStatusBar, HWND_NOTOPMOST, wndPos->x, wndPos->y + wndPos->cy - statusHeight, statusWidth, statusHeight, SWP_NOZORDER);
+			// if (NULL != hStatusBar) /* Wine fix. */
+			//	hdWnds = DeferWindowPos(hdWnds, hStatusBar, HWND_NOTOPMOST, wndPos->x, wndPos->y + wndPos->cy - statusHeight, statusWidth, statusHeight, SWP_NOZORDER);
 			SendMessage(hStatusBar, WM_SIZE, 0, 0);
 			if (wndPos->cx < MIN_HISTORY_WIDTH)
 				wndPos->cx = MIN_HISTORY_WIDTH;
