@@ -33,9 +33,9 @@ DWORD_PTR CSkypeProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_AUTHREQ;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY;
 	case PFLAGNUM_3:
-		return PF2_ONLINE | PF2_INVISIBLE;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY;
 	case PFLAGNUM_4:
 		return PF4_FORCEADDED | PF4_NOAUTHDENYREASON;
 	case PFLAG_UNIQUEIDTEXT:
@@ -152,7 +152,12 @@ int CSkypeProto::SetStatus(int iNewStatus)
 	else if (iNewStatus == ID_STATUS_INVISIBLE)
 	{
 		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), false), &CSkypeProto::OnSetStatus);
+		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_INVISIBLE), &CSkypeProto::OnSetStatus);
+	}
+	else if (iNewStatus == ID_STATUS_AWAY)
+	{
+		PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
+		PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_AWAY), &CSkypeProto::OnSetStatus);
 	}
 	else
 	{
@@ -161,10 +166,10 @@ int CSkypeProto::SetStatus(int iNewStatus)
 			return 0;
 		}
 
-		if (m_iStatus == ID_STATUS_INVISIBLE)
+		if (m_iStatus == ID_STATUS_INVISIBLE || m_iStatus == ID_STATUS_AWAY)
 		{
 			PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-			PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), true), &CSkypeProto::OnSetStatus);
+			PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
 		}
 		else if (old_status == ID_STATUS_OFFLINE && m_iStatus == ID_STATUS_OFFLINE)
 		{

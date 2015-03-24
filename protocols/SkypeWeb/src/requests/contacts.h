@@ -18,8 +18,8 @@ public:
 class GetContactsInfoRequest : public HttpsPostRequest
 {
 public:
-	GetContactsInfoRequest(const char *token, const LIST<char> &skypenames, const char *skypename = "self") :
-		HttpsPostRequest("api.skype.com/users/%s/contacts/profiles", skypename)
+	GetContactsInfoRequest(const char *token, const LIST<char> &skypenames/*, const char *skypename = "self"*/) :
+		HttpsPostRequest("api.skype.com/users/self/contacts/profiles"/*, skypename*/)
 	{
 		Headers
 			<< CHAR_VALUE("X-Skypetoken", token)

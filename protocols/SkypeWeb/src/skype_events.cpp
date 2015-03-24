@@ -93,7 +93,7 @@ void CSkypeProto::OnLoginSecond(const NETLIBHTTPREQUEST *response)
 	PushRequest(new GetProfileRequest(token.c_str()), &CSkypeProto::LoadProfile);
 	PushRequest(new GetContactListRequest(token.c_str()), &CSkypeProto::LoadContactList);
 
-	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
+	//ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_CONNECTING, m_iStatus = m_iDesiredStatus);
 }
 
 void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
@@ -129,7 +129,8 @@ void CSkypeProto::OnGetRegInfo(const NETLIBHTTPREQUEST *response)
 	CMStringA endpointURL = getStringA("Endpoint");
 	endpointURL += "/presenceDocs/messagingService";
 	PushRequest(new GetEndpointRequest(ptrA(getStringA("RegistrationToken")), endpointURL));
-	PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), true));
+	PushRequest(new SetStatusRequest(ptrA(getStringA("RegistrationToken")), ID_STATUS_ONLINE), &CSkypeProto::OnSetStatus);
+	//SetStatus(ID_STATUS_ONLINE);
 }
 
 void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
@@ -149,17 +150,13 @@ void CSkypeProto::OnSetStatus(const NETLIBHTTPREQUEST *response)
 	int old_status = m_iStatus;
 	int iNewStatus;
 	if (mir_strcmp(status, "O")==0)
-	{
-		iNewStatus = ID_STATUS_ONLINE;
-	} 
-	else if (mir_strcmp(status,"H")==0)
-	{
+		iNewStatus = ID_STATUS_ONLINE;	 
+	else if (mir_strcmp(status, "H") == 0)
 		iNewStatus = ID_STATUS_INVISIBLE;
-	}
+	else if (mir_strcmp(status, "A") == 0)
+		iNewStatus = ID_STATUS_AWAY;
 	else 
-	{
 		iNewStatus = ID_STATUS_ONLINE;
-	}
 	m_iStatus = iNewStatus;
 	ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 }
