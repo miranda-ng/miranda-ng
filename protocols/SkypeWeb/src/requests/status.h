@@ -4,7 +4,7 @@
 class SetStatusRequest : public HttpsRequest
 {
 public:
-	SetStatusRequest(const char *regToken, bool status) :
+	SetStatusRequest(const char *regToken, int status) :
 		HttpsRequest(REQUEST_PUT, "client-s.gateway.messenger.live.com/v1/users/ME/presenceDocs/messagingService")
 	{
 		CMStringA auth = "registrationToken=";
@@ -18,9 +18,15 @@ public:
 			<< CHAR_VALUE("Origin", "https://web.skype.com")
 			<< CHAR_VALUE("Connection", "keep-alive");
 
-			const char *data = status
-				? "{\"status\":\"Online\"}"
-				: "{\"status\":\"Hidden\"}";
+			const char *data;
+			if (status == ID_STATUS_ONLINE)
+				data = "{\"status\":\"Online\"}";
+			else if (status == ID_STATUS_INVISIBLE)
+				data = "{\"status\":\"Hidden\"}";
+			else if (status == ID_STATUS_AWAY)
+				data = "{\"status\":\"Away\"}";
+			else 
+				data = "{\"status\":\"Online\"}";
 			Body << VALUE(data);
 	}
 };
