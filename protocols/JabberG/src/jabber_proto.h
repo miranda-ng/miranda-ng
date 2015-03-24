@@ -185,8 +185,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CJabberDlgBase *m_pDlgJabberJoinGroupchat;
 	CJabberDlgBase *m_pDlgNotes;
 
-	HANDLE m_windowList;
-
 	// Service and event handles
 	HANDLE m_hEventNudge;
 	HANDLE m_hEventXStatusIconChanged;
@@ -643,9 +641,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void   __cdecl SendMessageAckThread(void* hContact);
 
 	MCONTACT AddToListByJID(const TCHAR *newJid, DWORD flags);
-	void   WindowSubscribe(HWND hwnd);
-	void   WindowUnsubscribe(HWND hwnd);
-	void   WindowNotify(UINT msg, bool async = false);
 
 	void   InfoFrame_OnSetup(CJabberInfoFrame_Event *evt);
 	void   InfoFrame_OnTransport(CJabberInfoFrame_Event *evt);

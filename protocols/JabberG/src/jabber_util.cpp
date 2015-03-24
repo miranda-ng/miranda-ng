@@ -1148,3 +1148,19 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 	if (hHttpCon)
 		Netlib_CloseHandle(hHttpCon);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// UI utilities
+
+int UIEmulateBtnClick(HWND hwndDlg, UINT idcButton)
+{
+	if (IsWindowEnabled(GetDlgItem(hwndDlg, idcButton)))
+		PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(idcButton, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, idcButton));
+	return 0;
+}
+
+void UIShowControls(HWND hwndDlg, int *idList, int nCmdShow)
+{
+	for (; *idList; ++idList)
+		ShowWindow(GetDlgItem(hwndDlg, *idList), nCmdShow);
+}

@@ -48,14 +48,15 @@ typedef enum
 
 struct MIR_CORE_EXPORT PROTO_INTERFACE : public MZeroedObject
 {
-	int    m_iStatus,
-	       m_iDesiredStatus,
-	       m_iXStatus,
-	       m_iVersion;  // version 2 or higher designate support of Unicode services
-	TCHAR* m_tszUserName;
-	char*  m_szModuleName;
-	HANDLE m_hProtoIcon;
-	HANDLE m_hNetlibUser;
+	int    m_iStatus,         // current protocol status
+	       m_iDesiredStatus,  // status to be set after logging in
+	       m_iXStatus,		  // extanded status
+	       m_iVersion;        // version 2 or higher designate support of Unicode services
+	TCHAR* m_tszUserName;     // human readable protocol's name
+	char*  m_szModuleName;    // internal protocol name, also its database module name
+	HANDLE m_hProtoIcon;      // icon to be displayed in the account manager
+	HANDLE m_hNetlibUser;     // network agent
+	HANDLE m_hWindowList;     // list of all windows which belong to this protocol's instance
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Helpers
@@ -72,6 +73,11 @@ struct MIR_CORE_EXPORT PROTO_INTERFACE : public MZeroedObject
 		va_start(args, wszFormat);
 		ProtoLogW(this, wszFormat, args);
 	}
+
+	__forceinline void WindowSubscribe(HWND hwnd) {
+		::ProtoWindowAdd(this, hwnd); }
+	__forceinline void WindowUnsubscribe(HWND hwnd) {
+		::ProtoWindowRemove(this, hwnd); }
 
 	__forceinline INT_PTR ProtoBroadcastAck(MCONTACT hContact, int type, int hResult, HANDLE hProcess, LPARAM lParam) {
 		return ::ProtoBroadcastAck(m_szModuleName, hContact, type, hResult, hProcess, lParam); }
@@ -198,39 +204,33 @@ struct MIR_CORE_EXPORT PROTO_INTERFACE : public MZeroedObject
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic class for all protocols written in C++
 
-template<class T> class PROTO : public PROTO_INTERFACE
+template<class T> struct PROTO : public PROTO_INTERFACE
 {
+	__forceinline PROTO(const char *szProto, const TCHAR *tszUserName) {
+		::ProtoConstructor(this, szProto, tszUserName); }
 
-public:
-	__forceinline PROTO(const char *szProto, const TCHAR *tszUserName)
-	{
-		::ProtoConstructor(this, szProto, tszUserName);
-	}
+	__forceinline ~PROTO() {
+		::ProtoDestructor(this); }
 
-	__forceinline ~PROTO()
-	{
-		::ProtoDestructor(this);
-	}
+	__forceinline HANDLE CreateProtoEvent(const char *name) {
+		return ::ProtoCreateHookableEvent(this, name); }
 
-	__forceinline HANDLE CreateProtoEvent(const char *name)
-	{	return ::ProtoCreateHookableEvent(this, name); }
+	typedef int(__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
+	__forceinline void HookProtoEvent(const char *name, MyEventFunc pFunc) {
+		::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); }
 
-	typedef int (__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
-	__forceinline void HookProtoEvent(const char *name, MyEventFunc pFunc)
-	{	::ProtoHookEvent(this, name, (ProtoEventFunc)pFunc); }
+	typedef void(__cdecl T::*MyThreadFunc)(void*);
+	__forceinline void ForkThread(MyThreadFunc pFunc, void *param) {
+		::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); }
+	HANDLE __forceinline ForkThreadEx(MyThreadFunc pFunc, void *param, UINT *pThreadId) {
+		return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); }
 
-	typedef void (__cdecl T::*MyThreadFunc)(void*);
-	__forceinline void ForkThread(MyThreadFunc pFunc, void *param)
-	{	::ProtoForkThread(this, (ProtoThreadFunc)pFunc, param); }
-	HANDLE __forceinline ForkThreadEx(MyThreadFunc pFunc, void *param, UINT *pThreadId)
-	{	return ::ProtoForkThreadEx(this, (ProtoThreadFunc)pFunc, param, pThreadId); }
+	typedef INT_PTR(__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
+	__forceinline void CreateProtoService(const char *name, MyServiceFunc pFunc) {
+		::ProtoCreateService(this, name, (ProtoServiceFunc)pFunc); }
 
-	typedef INT_PTR (__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
-	__forceinline void CreateProtoService(const char *name, MyServiceFunc pFunc)
-	{  ::ProtoCreateService(this, name, (ProtoServiceFunc)pFunc); }
-
-	typedef INT_PTR (__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
-	__forceinline void CreateProtoServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
-	{  ::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
+	typedef INT_PTR(__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+	__forceinline void CreateProtoServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param) {
+		::ProtoCreateServiceParam(this, name, (ProtoServiceFuncParam)pFunc, param); }
 };
 #endif // M_PROTOINT_H__

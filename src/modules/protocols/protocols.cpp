@@ -47,14 +47,7 @@ static LIST<TServiceListItem> serviceItems(10, CompareServiceItems);
 
 //------------------------------------------------------------------------------------
 
-static int CompareProtos(const PROTOCOLDESCRIPTOR* p1, const PROTOCOLDESCRIPTOR* p2)
-{
-	return strcmp(p1->szName, p2->szName);
-}
-
-static LIST<PROTOCOLDESCRIPTOR> protos(10, CompareProtos);
-
-static int CompareProtos2(const PROTOCOLDESCRIPTOR* p1, const PROTOCOLDESCRIPTOR* p2)
+static int CompareProtos(const PROTOCOLDESCRIPTOR *p1, const PROTOCOLDESCRIPTOR *p2)
 {
 	if (p1->type != p2->type)
 		return p1->type - p2->type;
@@ -62,32 +55,15 @@ static int CompareProtos2(const PROTOCOLDESCRIPTOR* p1, const PROTOCOLDESCRIPTOR
 	return strcmp(p1->szName, p2->szName);
 }
 
-LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos2);
+LIST<PROTOCOLDESCRIPTOR> filters(10, CompareProtos);
 
 //------------------------------------------------------------------------------------
 
 void FreeFilesMatrix(TCHAR ***files);
 
-PROTOCOLDESCRIPTOR* __fastcall Proto_IsProtocolLoaded(const char *szProtoName)
-{
-	if (szProtoName) {
-		PROTOCOLDESCRIPTOR tmp;
-		tmp.szName = (char*)szProtoName;
-		return protos.find(&tmp);
-	}
-	return NULL;
-}
-
 INT_PTR srvProto_IsLoaded(WPARAM, LPARAM lParam)
 {
 	return (INT_PTR)Proto_IsProtocolLoaded((char*)lParam);
-}
-
-INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)
-{
-	*(int*)wParam = protos.getCount();
-	*(PROTOCOLDESCRIPTOR***)lParam = protos.getArray();
-	return 0;
 }
 
 static PROTO_INTERFACE* defInitProto(const char* szModuleName, const TCHAR*)
@@ -95,20 +71,17 @@ static PROTO_INTERFACE* defInitProto(const char* szModuleName, const TCHAR*)
 	return AddDefaultAccount(szModuleName);
 }
 
-static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
+static INT_PTR srvProto_RegisterModule(WPARAM, LPARAM lParam)
 {
-	PROTOCOLDESCRIPTOR* pd = (PROTOCOLDESCRIPTOR*)lParam, *p;
+	PROTOCOLDESCRIPTOR *pd = (PROTOCOLDESCRIPTOR*)lParam;
 	if (pd->cbSize != sizeof(PROTOCOLDESCRIPTOR) && pd->cbSize != PROTOCOLDESCRIPTOR_V3_SIZE)
 		return 1;
 
-	p = (PROTOCOLDESCRIPTOR*)mir_alloc(sizeof(PROTOCOLDESCRIPTOR));
-	if (!p)
+	PROTOCOLDESCRIPTOR *p = Proto_RegisterModule(pd);
+	if (p == NULL)
 		return 2;
 
 	if (pd->cbSize == PROTOCOLDESCRIPTOR_V3_SIZE) {
-		memset(p, 0, sizeof(PROTOCOLDESCRIPTOR));
-		p->cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
-		p->type = pd->type;
 		if (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL) {
 			// let's create a new container
 			PROTO_INTERFACE* ppi = AddDefaultAccount(pd->szName);
@@ -132,9 +105,7 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 			}
 		}
 	}
-	else *p = *pd;
-	p->szName = mir_strdup(pd->szName);
-	protos.insert(p);
+
 	if (p->type != PROTOTYPE_PROTOCOL && p->type != PROTOTYPE_VIRTUAL)
 		filters.insert(p);
 	return 0;
@@ -680,8 +651,7 @@ int LoadProtocolsModule(void)
 
 	CreateServiceFunction(MS_PROTO_BROADCASTACK, Proto_BroadcastAck);
 	CreateServiceFunction(MS_PROTO_ISPROTOCOLLOADED, srvProto_IsLoaded);
-	CreateServiceFunction(MS_PROTO_ENUMPROTOS, Proto_EnumProtocols);
-	CreateServiceFunction(MS_PROTO_REGISTERMODULE, Proto_RegisterModule);
+	CreateServiceFunction(MS_PROTO_REGISTERMODULE, srvProto_RegisterModule);
 	CreateServiceFunction(MS_PROTO_SELFISTYPING, Proto_SelfIsTyping);
 	CreateServiceFunction(MS_PROTO_CONTACTISTYPING, Proto_ContactIsTyping);
 
@@ -708,14 +678,6 @@ void UnloadProtocolsModule()
 		hAccListChanged = NULL;
 	}
 
-	if (protos.getCount()) {
-		for (int i = 0; i < protos.getCount(); i++) {
-			mir_free(protos[i]->szName);
-			mir_free(protos[i]);
-		}
-		protos.destroy();
-	}
-
 	for (int i = 0; i < serviceItems.getCount(); i++)
 		mir_free(serviceItems[i]);
 	serviceItems.destroy();
@@ -725,11 +687,6 @@ void UnloadProtocolsModule()
 
 pfnUninitProto GetProtocolDestructor(char *szProto)
 {
-	PROTOCOLDESCRIPTOR temp;
-	temp.szName = szProto;
-	int idx = protos.getIndex(&temp);
-	if (idx != -1)
-		return protos[idx]->fnUninit;
-
-	return NULL;
+	PROTOCOLDESCRIPTOR *p = Proto_IsProtocolLoaded(szProto);
+	return (p == NULL) ? NULL : p->fnUninit;
 }

@@ -159,9 +159,6 @@
     <ClCompile Include="src\jabber_zstream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ui_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\jabber_captcha.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -175,6 +172,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\jabber_api.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jabber_filterlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -234,9 +234,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ui_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">

@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WM_MY_REFRESH	(WM_USER+0x1000)
 #define WM_MY_RENAME	(WM_USER+0x1001)
 
-INT_PTR  Proto_EnumProtocols(WPARAM, LPARAM);
 bool CheckProtocolOrder(void);
 
 #define errMsg \
@@ -181,9 +180,9 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			PROTOCOLDESCRIPTOR** proto;
+			PROTOCOLDESCRIPTOR **proto;
 			int protoCount, i, cnt = 0;
-			Proto_EnumProtocols((WPARAM)&protoCount, (LPARAM)&proto);
+			CallService(MS_PROTO_ENUMPROTOS, (WPARAM)&protoCount, (LPARAM)&proto);
 			for (i = 0; i < protoCount; i++) {
 				PROTOCOLDESCRIPTOR* pd = proto[i];
 				if (pd->type == PROTOTYPE_PROTOCOL && pd->cbSize == sizeof(*pd)) {

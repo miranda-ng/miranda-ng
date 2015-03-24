@@ -210,7 +210,7 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 				if (p->pObject == owner) {
 					char szModuleName[MAX_PATH];
 					GetModuleFileNameA(p->hOwner, szModuleName, sizeof(szModuleName));
-					Netlib_Logf(0, "Killing objec thread %s:%p", szModuleName, p->dwThreadId);
+					Netlib_Logf(0, "Killing object thread %s:%p", szModuleName, p->dwThreadId);
 					TerminateThread(p->hThread, 9999);
 					CloseHandle(p->hThread);
 					threads.remove(j);

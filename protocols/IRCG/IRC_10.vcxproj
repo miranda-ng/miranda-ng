@@ -209,7 +209,6 @@
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tools.cpp" />
-    <ClCompile Include="src\ui_utils.cpp" />
     <ClCompile Include="src\userinfo.cpp" />
     <ClCompile Include="src\windows.cpp" />
   </ItemGroup>
@@ -218,7 +217,6 @@
     <ClInclude Include="src\irc_dlg.h" />
     <ClInclude Include="src\irclib.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\ui_utils.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

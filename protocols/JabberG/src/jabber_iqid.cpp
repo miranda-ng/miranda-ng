@@ -508,7 +508,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo *pInfo)
 			GroupchatJoinByHContact((MCONTACT)chatRooms[i], true);
 
 	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_JABBER_CHECK_ONLINE);
-	WindowNotify(WM_JABBER_CHECK_ONLINE);
+	WindowList_Broadcast(m_hWindowList, WM_JABBER_CHECK_ONLINE, 0, 0);
 
 	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 
@@ -1115,17 +1115,15 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode, CJabberIqInfo*)
 	else {
 		if ((hContact = HContactFromJID(jid)) != NULL)
 			ProtoBroadcastAck(hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0);
-		WindowNotify(WM_JABBER_REFRESH_VCARD);
+		WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 	}
 }
 
 void CJabberProto::OnIqResultSetVcard(HXML iqNode, CJabberIqInfo*)
 {
 	debugLogA("<iq/> iqIdSetVcard");
-	if (!xmlGetAttrValue(iqNode, _T("type")))
-		return;
-
-	WindowNotify(WM_JABBER_REFRESH_VCARD);
+	if (xmlGetAttrValue(iqNode, _T("type")))
+		WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 }
 
 void CJabberProto::OnIqResultSetSearch(HXML iqNode, CJabberIqInfo*)

@@ -106,6 +106,9 @@
     <ClCompile Include="src\mc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ui_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\m_core.h">
@@ -157,6 +160,12 @@
       <Filter>Source Files\json</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\m_string.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_gui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\m_protoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
