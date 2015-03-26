@@ -63,7 +63,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,82,265,10
     CONTROL         "Prefix encrypted IMs:",IDC_CHK_PREFIX,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,94,108,10
     EDITTEXT        IDC_ED_PREFIX,120,93,159,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE
-    LTEXT           """?OTR? "" is a protected prefix and can't be faked",IDC_STATIC,23,106,271,8,SS_LEFT
+    LTEXT           "don't rely on the prefix, always check the OTR status icon",IDC_STATIC,23,106,271,8,SS_LEFT
     CONTROL         "Don't add encrypted messages to the history",IDC_CHK_PREVENTSAVE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,118,265,10
     CONTROL         "Also remove OTR system messages",IDC_CHK_PREVENTSYSSAVE,

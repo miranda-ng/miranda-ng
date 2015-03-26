@@ -14,8 +14,8 @@ extern char g_instag_filename[MAX_PATH];
 typedef enum {ED_POP, ED_BAL, ED_MB} ErrorDisplay;
 
 #define OPTIONS_PREFIXLEN 64
-//#define OPTIONS_DEFAULT_PREFIX "OTR: "
-#define OPTIONS_DEFAULT_PREFIX "?OTR? "
+#define OPTIONS_DEFAULT_PREFIX "OTR: "
+//#define OPTIONS_DEFAULT_PREFIX "?OTR? "
 
 typedef struct {
 	OtrlPolicy default_policy;
