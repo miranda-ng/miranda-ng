@@ -48,6 +48,7 @@ HOW_TO_UPDATE_DEPENDENCIES
 		- copy .c,.h,.def,.m4 and libgcrypt-config from src/ to our Libgcrypt
 		- cipher/cipher-ccm.c: replace "tmp[blocksize];" with "tmp[16];" as MSVC is quite dumb
 		- cipher/stribog.c: replace "u64 Z[8] = {};" with "u64 Z[8] = {0};"
+		- random/rndw32.c: line 891 "DWORD minimumWorkingSetSize, maximumWorkingSetSize;", replace DWORD with proper SIZE_T to fix 64bit problem (patch submitted to Libgcrypt)
 		- copy config.h to our Libgcrypt custom/
 		- config.h: see CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
 	
