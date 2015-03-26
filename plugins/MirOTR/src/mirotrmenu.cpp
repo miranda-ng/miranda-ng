@@ -88,7 +88,8 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 	if((hSub = db_mc_getMostOnline(hContact)) != 0)
 		hContact = hSub;
 	
-	TrustLevel level = ( TrustLevel )otr_context_get_trust(otrl_context_find_miranda(otr_user_state, hContact));
+	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);
+	TrustLevel level = (TrustLevel)otr_context_get_trust(context);
 	
 	mi.cbSize = sizeof(mi);
 	if ( CallService(MO_GETMENUITEM, (WPARAM)pcpp->MenuItemHandle, (LPARAM)&mi) == 0) {
@@ -100,16 +101,24 @@ INT_PTR MirOTRMenuCheckService(WPARAM wParam,LPARAM)
 		if ( mi.flags & CMIF_NOTNOTPRIVATE && level==TRUST_NOT_PRIVATE ) return FALSE;
 	
 		if (pcpp->MenuItemHandle == hStatusInfoItem) {
+			TCHAR text[128];
+			mi.ptszName = text;
 			mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 			switch (level) {
-				case TRUST_PRIVATE:
+				case TRUST_PRIVATE:{
 					mi.hIcolibItem = GetIconHandle(ICON_PRIVATE);
-					mi.ptszName = TranslateT(LANG_STATUS_PRIVATE);
-					break;
-				case TRUST_UNVERIFIED:
+					mir_tstrncpy(text,TranslateT(LANG_STATUS_PRIVATE),SIZEOF(text));
+					size_t len = mir_tstrlen(text);
+					if(len < SIZEOF(text))
+						mir_sntprintf(text+len, SIZEOF(text)-len, TranslateT(" [v%i]"), context->protocol_version);
+					break;}
+				case TRUST_UNVERIFIED:{
 					mi.hIcolibItem = GetIconHandle(ICON_UNVERIFIED);
-					mi.ptszName = TranslateT(LANG_STATUS_UNVERIFIED);
-					break;
+					mir_tstrncpy(text,TranslateT(LANG_STATUS_UNVERIFIED),SIZEOF(text));
+					size_t len = mir_tstrlen(text);
+					if(len < SIZEOF(text))
+						mir_sntprintf(text+len, SIZEOF(text)-len, TranslateT(" [v%i]"), context->protocol_version);
+					break;}
 				case TRUST_FINISHED:
 					mi.hIcolibItem = GetIconHandle(ICON_FINISHED);
 					mi.ptszName = TranslateT(LANG_STATUS_FINISHED);

@@ -4,6 +4,7 @@ extern OtrlUserState otr_user_state;
 extern OtrlMessageAppOps ops;
 
 /// @todo : add OTR version 3 instance tag choice (currently we use the most secure/active one)
+#define MIROTR_PROTO_LATEST 3 // on change, also update HELLO below
 #define MIROTR_PROTO_HELLO "?OTRv23?"
 /* OTR link normally is https://otr.cypherpunks.ca/ but it's blocked by ICQ as of March 2015 (even something like "ot-r.cyp her_ pun ks. ca")
 	It might be a good idea to use http://wikipedia.org/wiki/Off-the-Record_Messaging instead as it's not yet blocked by ICQ but might still help users to find a client/plugin */
