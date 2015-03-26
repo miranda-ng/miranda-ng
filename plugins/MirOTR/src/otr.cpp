@@ -312,7 +312,7 @@ extern "C" {
 			break;
 		case OTRL_MSGEVENT_ENCRYPTION_REQUIRED:
 //			title = TranslateT("OTR Policy Violation");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("You attempted to send an unencrypted message to %s"),contact);
+			mir_tstrncpy(msg,TranslateT("Attempting to start a private conversation..."),SIZEOF(msg));
 			break;
 		case OTRL_MSGEVENT_ENCRYPTION_ERROR:
 //			title = TranslateT("Error encrypting message");

@@ -25,7 +25,6 @@
 #define LANG_SESSION_TRY_CONTINUE_OTR		LPGEN("Trying to refresh OTR encrypted session with '%s'")
 #define LANG_SESSION_HAS_CONTINUE_OTR		LPGEN("OTR encrypted session was refreshed by '%s'")
 #define LANG_SESSION_HAS_CONTINUE_OTR_VERIFY LPGEN("OTR encrypted session was refreshed by '%s' (NOT VERIFIED)")
-#define LANG_SESSION_REQUEST_CONTINUE_OTR	LPGEN("OTR encrypted session with '%s' successfully refreshed")
 #define LANG_SESSION_CONTINUE_OTR			LPGEN("OTR encrypted session with '%s' successfully refreshed")
 #define LANG_SESSION_CONTINUE_OTR_VERIFY	LPGEN("OTR encrypted session with '%s' successfully refreshed (NOT VERIFIED)")
 #define LANG_SESSION_TERMINATED_BY_OTR		LPGEN("OTR encrypted session has been terminated by '%s'. You should do that, too!")
@@ -43,9 +42,6 @@
 #define LANG_OTR_USERMESSAGE				LPGEN("OTR: %s (%s)")
 #define LANG_OTR_NOTIFY						LPGEN("OTR %s (%s)")
 
-//#define LANG_FINGERPRINT_CAPTION			LPGEN("OTR New Fingerprint")
-//#define LANG_FINGERPRINT_ASK_VERIFY		LPGEN("OTR encrypted session with '%s'.\n\nFingerprint is UNVERIFIED.\n\n%s\n\nVerify?")
-//#define LANG_FINGERPRINT_ASK_NEW			LPGEN("A new fingerprint has been recieved from '%s'\n\n%s\n\nDo you trust it?")
 #define LANG_FINGERPRINT_VERIFIED			LPGEN("OTR encrypted session with '%s' is now using a VERIFIED fingerprint")
 #define LANG_FINGERPRINT_NOT_VERIFIED		LPGEN("OTR encrypted session with '%s' is now using a NOT VERIFIED fingerprint")
 
