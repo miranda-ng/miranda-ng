@@ -48,7 +48,7 @@ static unsigned int CALLBACK generate_key_thread(void* param)
 	return 0;
 }
 
-INT_PTR CALLBACK GenKeyDlgFunc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK GenKeyDlgBoxProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch(msg) {
 		case WM_INITDIALOG:
 			{

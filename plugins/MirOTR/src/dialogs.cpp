@@ -14,10 +14,15 @@ SmpForContactMap smp_for_contact;
 INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
-	case WM_INITDIALOG: 
+	case WM_DESTROY:{
+		ConnContext *context = (ConnContext*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		if(context)
+			otr_abort_smp(context);
+		break;}
+	case WM_INITDIALOG:
 		{
 			if (!lParam) {
-				EndDialog(hwndDlg, IDCANCEL);
+				DestroyWindow(hwndDlg);
 				return FALSE;
 			}
 			TranslateDialogDefault( hwndDlg );
@@ -125,12 +130,11 @@ INT_PTR CALLBACK DlgSMPUpdateProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				{
 					ConnContext *context = (ConnContext*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					switch ( LOWORD( wParam )) {
-						case IDCANCEL:
-							otr_abort_smp(context);
-							//break;
 						case IDOK:
 							smp_for_contact.erase(context->app_data);
-							EndDialog(hwndDlg, LOWORD( wParam ));
+							SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+						case IDCANCEL:
+							DestroyWindow(hwndDlg);
 							break;
 					}
 				}break;
@@ -153,10 +157,15 @@ void SMPInitUpdateDialog(ConnContext *context, bool responder) {
 INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
+	case WM_DESTROY:{
+		ConnContext *context = (ConnContext*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		if(context)
+			otr_abort_smp(context);
+		break;}
 	case WM_INITDIALOG: 
 		{
 			if (!lParam) {
-				EndDialog(hwndDlg, IDCANCEL);
+				DestroyWindow(hwndDlg);
 				return FALSE;
 			}
 			TranslateDialogDefault( hwndDlg );
@@ -273,12 +282,12 @@ INT_PTR CALLBACK DlgSMPResponseProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 						otr_continue_smp(context, (const unsigned char *)ans, strlen(ans));
 						mir_free(ans);
-
-						EndDialog(hwndDlg, LOWORD( wParam ));
+						SetWindowLongPtr(hwndDlg, GWLP_USERDATA, NULL);
+						DestroyWindow(hwndDlg);
 						}break;
 					case IDCANCEL:
 						smp_for_contact.erase(context->app_data);
-						EndDialog(hwndDlg, LOWORD( wParam ));
+						DestroyWindow(hwndDlg);
 						break;
 				}
 				}
@@ -308,14 +317,14 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG: 
 		{
 			if (!lParam) {
-				EndDialog(hwndDlg, IDCANCEL);
+				DestroyWindow(hwndDlg);
 				return FALSE;
 			}
 			TranslateDialogDefault( hwndDlg );
 
 			ConnContext *context = (ConnContext*)lParam;
 			if (smp_for_contact.find(context->app_data) != smp_for_contact.end()) {
-				EndDialog(hwndDlg, IDCANCEL);
+				DestroyWindow(hwndDlg);
 				return FALSE;
 			}
 
@@ -370,7 +379,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			
 			Fingerprint *fp = context->active_fingerprint;
 			if (!fp) {
-				EndDialog(hwndDlg, IDCANCEL);
+				DestroyWindow(hwndDlg);
 				return FALSE;
 			}
 			TCHAR buff[1024];
@@ -407,7 +416,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							TCHAR msg[1024];
 						switch ( LOWORD( wParam )) {
 							case IDCANCEL:
-								EndDialog(hwndDlg, LOWORD( wParam ));
+								DestroyWindow(hwndDlg);
 								break;
 							case IDOK:
 								GetDlgItemText(hwndDlg, IDC_CBO_SMP_CHOOSE, msg, 255);
@@ -453,15 +462,15 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 									}
 
 								}else break;
-								EndDialog(hwndDlg, LOWORD( wParam ));
+								DestroyWindow(hwndDlg);
 								break;
 							case IDYES:
 								VerifyFingerprint(context, true);
-								EndDialog(hwndDlg, LOWORD( wParam ));
+								DestroyWindow(hwndDlg);
 								break;
 							case IDNO:
 								VerifyFingerprint(context, false);
-								EndDialog(hwndDlg, LOWORD( wParam ));
+								DestroyWindow(hwndDlg);
 								break;
 						}
 						}
@@ -474,7 +483,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 							MCONTACT hContact = (MCONTACT)context->app_data;
 							Fingerprint *fp = context->active_fingerprint;
 							if (!fp) {
-								EndDialog(hwndDlg, IDCANCEL);
+								DestroyWindow(hwndDlg);
 								return TRUE;
 							}
 							BOOL trusted = false;
@@ -534,7 +543,7 @@ INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								lib_cs_lock();
 								if (!otrl_privkey_fingerprint_raw(otr_user_state, hash, context->accountname, context->protocol)) {
 									lib_cs_unlock();
-									EndDialog(hwndDlg, IDCANCEL);
+									DestroyWindow(hwndDlg);
 									return FALSE;
 								}
 								otrl_privkey_hash_to_humanT(buff, hash);
@@ -615,7 +624,7 @@ void VerifyContextDialog(ConnContext* context) {
 	CloseHandle((HANDLE)_beginthreadex(0, 0, verify_context_thread, context, 0, 0));
 }
 
-INT_PTR CALLBACK DlgProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgBoxProcVerifyContext(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch ( msg ) {
 	case WM_INITDIALOG: 
@@ -731,7 +740,7 @@ unsigned int CALLBACK verify_context_thread(void *param)
 		ConnContext *context = (ConnContext *)param;
 		MCONTACT hContact = (MCONTACT)context->app_data;
 		TCHAR msg[1024];
-		switch ( DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgProcVerifyContext, (LPARAM)param) ) {
+		switch ( DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_SMP_INPUT), 0, DlgBoxProcVerifyContext, (LPARAM)param) ) {
 			case IDOK:
 			case IDYES:
 				lib_cs_lock();
