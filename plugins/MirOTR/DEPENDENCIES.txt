@@ -5,12 +5,12 @@ Libgpg-error ( https://gnupg.org/download/ )
 Libgcrypt ( https://gnupg.org/download/ )
 	1.6.3
 libotr ( https://otr.cypherpunks.ca/ )
-	3.2.0
+	3.2.0 (hash 2deecec)
 
 
 
 
-HOW TO UPDATE DEPENDENCIES
+HOW_TO_UPDATE_DEPENDENCIES
 	in theory, it's possible to use MSYS + MSVC to do the following, but I've used GCC for convenience as my MSVC didn't want to :P
 	I've used MSYS2 and its own GCC (used 32bit as reference in hope that it will work for 64bit as well)
 	
@@ -37,7 +37,7 @@ HOW TO UPDATE DEPENDENCIES
 		since we don't build Libgpg-error but include it directly into Libgcrypt, config.h isn't really needed
 	
 	- Libgcrypt (from tarball)
-		- run MSYS
+		- run MSYS from MirOTR directory
 			tar xvf libgcrypt-1.6.3.tar.bz2
 			cd libgcrypt-1.6.3
 			export GPG_ERROR_CONFIG=$(pwd)/../Libgpg-error/gpg-error-config
@@ -45,14 +45,17 @@ HOW TO UPDATE DEPENDENCIES
 		- copy .c and .h files from cipher/ to our Libgcrypt
 		- copy .c and .h files from compat/ to our Libgcrypt
 		- copy mpi/ and random/ to our Libgcrypt
-		- copy .c,.h,.def files from src/ to our Libgcrypt
-		- copy config.h to our Libgcrypt custom/
+		- copy .c,.h,.def,.m4 and libgcrypt-config from src/ to our Libgcrypt
 		- cipher/cipher-ccm.c: replace "tmp[blocksize];" with "tmp[16];" as MSVC is quite dumb
 		- cipher/stribog.c: replace "u64 Z[8] = {};" with "u64 Z[8] = {0};"
+		- copy config.h to our Libgcrypt custom/
 		- config.h: see CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
 	
 	- libotr (from Git)
 		- tbd
+
+
+
 
 CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
 	convert from GCC configured config to MSVC settings
@@ -81,6 +84,9 @@ CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
 			#define inline __inline
 	
 	- see CUSTOM_CONFIG_H_MODIFICATIONS
+
+
+
 
 CUSTOM_CONFIG_H_MODIFICATIONS
 	we do some Miranda NG / MSVC related modifications to *config.h files
