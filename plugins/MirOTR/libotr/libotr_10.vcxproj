@@ -133,7 +133,9 @@
     <ClCompile Include="src\auth.c" />
     <ClCompile Include="src\b64.c" />
     <ClCompile Include="src\context.c" />
+    <ClCompile Include="src\context_priv.c" />
     <ClCompile Include="src\dh.c" />
+    <ClCompile Include="src\instag.c" />
     <ClCompile Include="src\mem.c" />
     <ClCompile Include="src\message.c" />
     <ClCompile Include="src\privkey.c" />
@@ -146,7 +148,9 @@
     <ClInclude Include="src\auth.h" />
     <ClInclude Include="src\b64.h" />
     <ClInclude Include="src\context.h" />
+    <ClInclude Include="src\context_priv.h" />
     <ClInclude Include="src\dh.h" />
+    <ClInclude Include="src\instag.h" />
     <ClInclude Include="src\mem.h" />
     <ClInclude Include="src\message.h" />
     <ClInclude Include="src\privkey-t.h" />

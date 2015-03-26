@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Chris Alexander, Willy Lew,
+ *  			     Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 /* Modified from: */
@@ -27,35 +28,35 @@ AUTHOR:         Bob Trower 08/04/01
 
 LICENCE:        Copyright (c) 2001 Bob Trower, Trantor Standard Systems Inc.
 
-                Permission is hereby granted, free of charge, to any person
-                obtaining a copy of this software and associated
-                documentation files (the "Software"), to deal in the
-                Software without restriction, including without limitation
-                the rights to use, copy, modify, merge, publish, distribute,
-                sublicense, and/or sell copies of the Software, and to
-                permit persons to whom the Software is furnished to do so,
-                subject to the following conditions:
+		Permission is hereby granted, free of charge, to any person
+		obtaining a copy of this software and associated
+		documentation files (the "Software"), to deal in the
+		Software without restriction, including without limitation
+		the rights to use, copy, modify, merge, publish, distribute,
+		sublicense, and/or sell copies of the Software, and to
+		permit persons to whom the Software is furnished to do so,
+		subject to the following conditions:
 
-                The above copyright notice and this permission notice shall
-                be included in all copies or substantial portions of the
-                Software.
+		The above copyright notice and this permission notice shall
+		be included in all copies or substantial portions of the
+		Software.
 
-                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
-                KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-                WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-                PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
-                OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-                OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-                OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-                SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+		KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+		WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+		PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+		OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+		OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+		OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+		SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 VERSION HISTORY:
-                Bob Trower 08/04/01 -- Create Version 0.00.00B
+		Bob Trower 08/04/01 -- Create Version 0.00.00B
 
 \******************************************************************* */
 
 /* system headers */
-#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 /* libotr headers */
@@ -87,9 +88,9 @@ static void encodeblock( char *out, const unsigned char *in, size_t len )
     out[0] = cb64[ in0 >> 2 ];
     out[1] = cb64[ ((in0 & 0x03) << 4) | ((in1 & 0xf0) >> 4) ];
     out[2] = len > 1 ? cb64[ ((in1 & 0x0f) << 2) | ((in2 & 0xc0) >> 6) ]
-	             : '=';
+		     : '=';
     out[3] = len > 2 ? cb64[ in2 & 0x3f ]
-	             : '=';
+		     : '=';
 }
 
 /*
@@ -119,7 +120,7 @@ size_t otrl_base64_encode(char *base64data, const unsigned char *data,
 }
 
 static size_t decode(unsigned char *out, const char *in, size_t b64len)
-{   
+{
     size_t written = 0;
     unsigned char c = 0;
 
@@ -147,8 +148,9 @@ static size_t decode(unsigned char *out, const char *in, size_t b64len)
  * base64 decode data.  Skip non-base64 chars, and terminate at the
  * first '=', or the end of the buffer.
  *
- * The buffer data must contain at least (base64len / 4) * 3 bytes of
- * space.  This function will return the number of bytes actually used.
+ * The buffer data must contain at least ((base64len+3) / 4) * 3 bytes
+ * of space.  This function will return the number of bytes actually
+ * used.
  */
 size_t otrl_base64_decode(unsigned char *data, const char *base64data,
 	size_t base64len)
@@ -195,6 +197,16 @@ char *otrl_base64_otr_encode(const unsigned char *buf, size_t buflen)
 {
     char *base64buf;
     size_t base64len;
+    const size_t HALF_MAX_SIZE_T = ((size_t)-1) >> 1;
+
+    if (buflen > HALF_MAX_SIZE_T) {
+	/* You somehow have a buffer that's of size more than half of
+	 * all addressable memory, and you now want a base64 version in
+	 * a new buffer 33% larger?  Not going to happen.  Exit now,
+	 * rather in the malloc below, to avoid integer overflowing the
+	 * computation of base64len. */
+	 return NULL;
+    }
 
     /* Make the base64-encoding. */
     base64len = ((buflen + 2) / 3) * 4;
@@ -202,7 +214,7 @@ char *otrl_base64_otr_encode(const unsigned char *buf, size_t buflen)
     if (base64buf == NULL) {
 	return NULL;
     }
-    memcpy(base64buf, "?OTR:", 5);
+    memmove(base64buf, "?OTR:", 5);
     otrl_base64_encode(base64buf+5, buf, buflen);
     base64buf[5 + base64len] = '.';
     base64buf[5 + base64len + 1] = '\0';
@@ -227,20 +239,26 @@ int otrl_base64_otr_decode(const char *msg, unsigned char **bufp,
     if (!otrtag) {
 	return -2;
     }
+
     endtag = strchr(otrtag, '.');
     if (endtag) {
-        msglen = endtag-otrtag;
+	msglen = endtag-otrtag;
     } else {
 	return -2;
     }
 
+    /* Skip over the "?OTR:" */
+    otrtag += 5;
+    msglen -= 5;
+
     /* Base64-decode the message */
-    rawlen = ((msglen-5) / 4) * 3;   /* maximum possible */
+    rawlen = OTRL_B64_MAX_DECODED_SIZE(msglen);   /* maximum possible */
     rawmsg = malloc(rawlen);
     if (!rawmsg && rawlen > 0) {
 	return -1;
     }
-    rawlen = otrl_base64_decode(rawmsg, otrtag+5, msglen-5);  /* actual size */
+
+    rawlen = otrl_base64_decode(rawmsg, otrtag, msglen);  /* actual size */
 
     *bufp = rawmsg;
     *lenp = rawlen;

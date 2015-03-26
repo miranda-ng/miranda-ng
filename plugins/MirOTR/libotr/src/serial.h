@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Rob Smits, Chris Alexander,
+ *  			      Willy Lew, Lisa Du, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __SERIAL_H__
@@ -36,7 +37,7 @@
 
 #define debug_int(t,b) do { const unsigned char *data = (b); \
 	unsigned int v = \
-	    (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3]; \
+	    (((unsigned int)data[0]) << 24) | (data[1] << 16) | (data[2] << 8) | data[3]; \
 	fprintf(stderr, "%s: %u (0x%x)\n", (t), v, v); \
     } while(0)
 
@@ -66,7 +67,7 @@
 
 #define read_int(x) do { \
 	require_len(4); \
-	(x) = (bufp[0] << 24) | (bufp[1] << 16) | (bufp[2] << 8) | bufp[3]; \
+	(x) = (((unsigned int)bufp[0]) << 24) | (bufp[1] << 16) | (bufp[2] << 8) | bufp[3]; \
 	bufp += 4; lenp -= 4; \
     } while(0)
 
@@ -80,6 +81,27 @@
 	    (x) = gcry_mpi_set_ui(NULL, 0); \
 	} \
 	bufp += mpilen; lenp -= mpilen; \
+    } while(0)
+
+/* Write version and msg type into bufp*/
+#define write_header(version, msgtype) do { \
+	bufp[0] = 0x00; \
+        bufp[1] = version & 0xff; \
+        bufp[2] = msgtype; \
+        debug_data("Header", bufp, 3); \
+        bufp += 3; lenp -= 3; \
+    } while(0)
+
+/* Verify msg header is v1, v2 or v3 and has type x,
+*  increment bufp past msg header */
+#define skip_header(x) do { \
+        require_len(3); \
+        if ((bufp[0] != 0x00) || (bufp[2] != x)) \
+	    goto invval; \
+        if ((bufp[1] == 0x01) || (bufp[1] == 0x02) || \
+                (bufp[1] == 0x03)) { \
+	    bufp += 3; lenp -= 3; \
+	} else goto invval; \
     } while(0)
 
 #endif

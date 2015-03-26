@@ -5,7 +5,7 @@ Libgpg-error ( https://gnupg.org/download/ )
 Libgcrypt ( https://gnupg.org/download/ )
 	1.6.3
 libotr ( https://otr.cypherpunks.ca/ )
-	3.2.0 (hash 2deecec)
+	4.1.0-dev (hash 03e3cad)
 
 
 
@@ -51,8 +51,22 @@ HOW_TO_UPDATE_DEPENDENCIES
 		- copy config.h to our Libgcrypt custom/
 		- config.h: see CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
 	
-	- libotr (from Git)
-		- tbd
+	- libotr (from Git hash 03e3cad)
+		- run MSYS from checked out Git repository inside MirOTR directory (or change relative paths below)
+			export ACLOCAL_PATH=$ACLOCAL_PATH:$(pwd)/../Libgcrypt/src
+			export LIBGCRYPT_CONFIG=$(pwd)/../Libgcrypt/src/libgcrypt-config
+			./bootstrap
+			./configure --with-pic
+		- copy files found in our "read/" folder
+		- copy .c and .h files from src/ to our libotr
+		- src/message.c: fix C99 at line 472 by declaring "now" before "fragment_and_send()" and assign after its call
+		- src/instag.c: fix C99 at line 93 by moving "if (!instf) return gcry_error(GPG_ERR_NO_ERROR);" down a bit
+		- src/proto.c: add snprintf define after last include
+			#define snprintf _snprintf /* Miranda NG modification */
+		- copy config.h to our libotr custom/
+		- config.h: see CONVERT_CONFIG_H_FROM_GCC_TO_MSVC
+		- if libotr's protocol changed, adapt our version string in MirOTR's otr.h
+	
 
 
 

@@ -1,6 +1,8 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+ *                           Chris Alexander, Willy Lew, Lisa Du,
+ *                           Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,17 +16,23 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __CONTEXT_H__
 #define __CONTEXT_H__
+
+#include "context_priv.h"
 
 #include <gcrypt.h>
 
 #include "dh.h"
 #include "auth.h"
 #include "sm.h"
+
+typedef struct context ConnContext;    /* Forward declare */
+
+#include "instag.h"
 
 typedef enum {
     OTRL_MSGSTATE_PLAINTEXT,           /* Not yet started an encrypted
@@ -47,23 +55,40 @@ typedef struct s_fingerprint {
     char *trust;                       /* The trust level of the fingerprint */
 } Fingerprint;
 
-typedef struct context {
+struct context {
     struct context * next;             /* Linked list pointer */
     struct context ** tous;            /* A pointer to the pointer to us */
+
+    /* Context information that is meant for internal use */
+
+    ConnContextPriv *context_priv;
+
+    /* Context information that is meant for application use */
 
     char * username;                   /* The user this context is for */
     char * accountname;                /* The username is relative to
 					  this account... */
     char * protocol;                   /* ... and this protocol */
 
-    char *fragment;                    /* The part of the fragmented message
-					  we've seen so far */
-    size_t fragment_len;               /* The length of fragment */
-    unsigned short fragment_n;         /* The total number of fragments
-					  in this message */
-    unsigned short fragment_k;         /* The highest fragment number
-					  we've seen so far for this
-					  message */
+    struct context *m_context;         /* If this is a child context, this
+					  field will point to the master
+					  context. Otherwise it will point to
+					  itself. */
+    struct context *recent_rcvd_child; /* If this is a master context, this
+					  points to the child context that
+					  has received a message most recently.
+					  By default, it will point to the
+					  master context. In child contexts
+					  this field is NULL. */
+    struct context *recent_sent_child; /* Similar to above, but it points to
+					  the child who has sent most
+					  recently. */
+    struct context *recent_child;      /* Similar to above, but will point to
+					  the most recent of recent_rcvd_child
+					  and recent_sent_child */
+
+    otrl_instag_t our_instance;        /* Our instance tag for this computer*/
+    otrl_instag_t their_instance;      /* The user's instance tag */
 
     OtrlMessageState msgstate;         /* The state of message disposition
 					  with this user */
@@ -71,47 +96,19 @@ typedef struct context {
 					  authentication with this user */
 
     Fingerprint fingerprint_root;      /* The root of a linked list of
-					  Fingerprints entries */
+					  Fingerprints entries. This list will
+					  only be populated in master contexts.
+					  For child contexts,
+					  fingerprint_root.next will always
+					  point to NULL. */
     Fingerprint *active_fingerprint;   /* Which fingerprint is in use now?
-                                          A pointer into the above list */
-    unsigned int their_keyid;          /* current keyid used by other side;
-                                          this is set to 0 if we get a
-					  OTRL_TLV_DISCONNECTED message from
-					  them. */
-    gcry_mpi_t their_y;                /* Y[their_keyid] (their DH pubkey) */
-    gcry_mpi_t their_old_y;            /* Y[their_keyid-1] (their prev DH
-					  pubkey) */
-    unsigned int our_keyid;            /* current keyid used by us */
-    DH_keypair our_dh_key;             /* DH key[our_keyid] */
-    DH_keypair our_old_dh_key;         /* DH key[our_keyid-1] */
-
-    DH_sesskeys sesskeys[2][2];        /* sesskeys[i][j] are the session keys
-					  derived from DH key[our_keyid-i]
-					  and mpi Y[their_keyid-j] */
+					  A pointer into the above list */
 
     unsigned char sessionid[20];       /* The sessionid and bold half */
     size_t sessionid_len;              /* determined when this private */
     OtrlSessionIdHalf sessionid_half;  /* connection was established. */
 
     unsigned int protocol_version;     /* The version of OTR in use */
-
-    unsigned char *preshared_secret;   /* A secret you share with this
-					  user, in order to do
-					  authentication. */
-    size_t preshared_secret_len;       /* The length of the above secret. */
-
-    /* saved mac keys to be revealed later */
-    unsigned int numsavedkeys;
-    unsigned char *saved_mac_keys;
-
-    /* generation number: increment every time we go private, and never
-     * reset to 0 (unless we remove the context entirely) */
-    unsigned int generation;
-
-    time_t lastsent;      /* The last time a Data Message was sent */
-    char *lastmessage;    /* The plaintext of the last Data Message sent */
-    int may_retransmit;   /* Is the last message eligible for
-			     retransmission? */
 
     enum {
 	OFFER_NOT,
@@ -127,23 +124,31 @@ typedef struct context {
     void (*app_data_free)(void *);
 
     OtrlSMState *smstate;              /* The state of the current
-                                          socialist millionaires exchange */
-} ConnContext;
+					  socialist millionaires exchange */
+};
 
 #include "userstate.h"
 
-ConnContext * otrl_context_new(const char * user, const char * accountname,
-	const char * protocol);
-
-/* Look up a connection context by name/account/protocol from the given
- * OtrlUserState.  If add_if_missing is true, allocate and return a new
- * context if one does not currently exist.  In that event, call
+/* Look up a connection context by name/account/protocol/instance from the
+ * given OtrlUserState.  If add_if_missing is true, allocate and return a
+ * new context if one does not currently exist.  In that event, call
  * add_app_data(data, context) so that app_data and app_data_free can be
- * filled in by the application, and set *addedp to 1. */
+ * filled in by the application, and set *addedp to 1.
+ * In the 'their_instance' field note that you can also specify a 'meta-
+ * instance' value such as OTRL_INSTAG_MASTER, OTRL_INSTAL_RECENT,
+ * OTRL_INSTAG_RECENT_RECEIVED and OTRL_INSTAG_RECENT_SENT. */
 ConnContext * otrl_context_find(OtrlUserState us, const char *user,
-	const char *accountname, const char *protocol, int add_if_missing,
-	int *addedp,
+	const char *accountname, const char *protocol,
+	otrl_instag_t their_instance, int add_if_missing, int *addedp,
 	void (*add_app_data)(void *data, ConnContext *context), void *data);
+
+/* Return true iff the given fingerprint is marked as trusted. */
+int otrl_context_is_fingerprint_trusted(Fingerprint *fprint);
+
+/* This method gets called after sending or receiving a message, to
+ * update the master context's "recent context" pointers. */
+void otrl_context_update_recent_child(ConnContext *context,
+	unsigned int sent_msg);
 
 /* Find a fingerprint in a given context, perhaps adding it if not
  * present. */
@@ -152,12 +157,6 @@ Fingerprint *otrl_context_find_fingerprint(ConnContext *context,
 
 /* Set the trust level for a given fingerprint */
 void otrl_context_set_trust(Fingerprint *fprint, const char *trust);
-
-/* Set the preshared secret for a given fingerprint.  Note that this
- * currently only stores the secret in the ConnContext structure, but
- * doesn't yet do anything with it. */
-void otrl_context_set_preshared_secret(ConnContext *context,
-	const unsigned char *secret, size_t secret_len);
 
 /* Force a context into the OTRL_MSGSTATE_FINISHED state. */
 void otrl_context_force_finished(ConnContext *context);
@@ -173,10 +172,22 @@ void otrl_context_force_plaintext(ConnContext *context);
 void otrl_context_forget_fingerprint(Fingerprint *fprint,
 	int and_maybe_context);
 
-/* Forget a whole context, so long as it's PLAINTEXT. */
-void otrl_context_forget(ConnContext *context);
+/* Forget a whole context, so long as it's PLAINTEXT. If a context has child
+ * instances, don't remove this instance unless children are also all in
+ * PLAINTEXT state. In this case, the children will also be removed.
+ * Returns 0 on success, 1 on failure. */
+int otrl_context_forget(ConnContext *context);
 
 /* Forget all the contexts in a given OtrlUserState. */
 void otrl_context_forget_all(OtrlUserState us);
+
+/* Find requested recent instance */
+ConnContext * otrl_context_find_recent_instance(ConnContext * context,
+		otrl_instag_t recent_instag);
+
+/* Find the instance of this context that has the best security level, and for
+ * which we have most recently received a message from. Note that most recent
+ * in this case is limited to a one-second resolution. */
+ConnContext * otrl_context_find_recent_secure_instance(ConnContext * context);
 
 #endif

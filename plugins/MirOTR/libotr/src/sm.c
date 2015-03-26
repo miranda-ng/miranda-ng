@@ -1,6 +1,8 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+ *                           Chris Alexander, Willy Lew, Lisa Du,
+ *                           Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,13 +16,13 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 /* system headers */
 #include <stdlib.h>
 #include <stdio.h>
-#include <sys/types.h> 
+#include <sys/types.h>
 
 /* libgcrypt headers */
 #include <gcrypt.h>
@@ -28,6 +30,30 @@
 /* libotr headers */
 #include "sm.h"
 #include "serial.h"
+
+#if OTRL_DEBUGGING
+
+/* Dump the contents of an SMState to the FILE *f. */
+void otrl_sm_dump(FILE *f, const OtrlSMState *sm)
+{
+    fprintf(f, "  SM state:\n");
+    fprintf(f, "    Next expected: %d (%s)\n", sm->nextExpected,
+	sm->nextExpected == OTRL_SMP_EXPECT1 ? "EXPECT1" :
+	sm->nextExpected == OTRL_SMP_EXPECT2 ? "EXPECT2" :
+	sm->nextExpected == OTRL_SMP_EXPECT3 ? "EXPECT3" :
+	sm->nextExpected == OTRL_SMP_EXPECT4 ? "EXPECT4" :
+	sm->nextExpected == OTRL_SMP_EXPECT5 ? "EXPECT5" :
+	"INVALID");
+    fprintf(f, "    Received_Q: %d\n", sm->received_question);
+    fprintf(f, "    Progress state: %d (%s)\n", sm->sm_prog_state,
+	sm->sm_prog_state == OTRL_SMP_PROG_OK ? "OK" :
+	sm->sm_prog_state == OTRL_SMP_PROG_CHEATED ? "CHEATED" :
+	sm->sm_prog_state == OTRL_SMP_PROG_FAILED ? "FAILED" :
+	sm->sm_prog_state == OTRL_SMP_PROG_SUCCEEDED ? "SUCCEEDED" :
+	"INVALID");
+}
+
+#endif
 
 static const int SM_MSG1_LEN = 6;
 static const int SM_MSG2_LEN = 11;
@@ -70,10 +96,12 @@ static gcry_mpi_t SM_MODULUS_MINUS_2 = NULL;
 void otrl_sm_init(void)
 {
     gcry_check_version(NULL);
-    gcry_mpi_scan(&SM_MODULUS, GCRYMPI_FMT_HEX, SM_MODULUS_S, 0, NULL);
-    gcry_mpi_scan(&SM_ORDER, GCRYMPI_FMT_HEX, SM_ORDER_S, 0, NULL);
-    gcry_mpi_scan(&SM_GENERATOR, GCRYMPI_FMT_HEX, SM_GENERATOR_S,
-	    0, NULL);
+    gcry_mpi_scan(&SM_MODULUS, GCRYMPI_FMT_HEX,
+	(const unsigned char *)SM_MODULUS_S, 0, NULL);
+    gcry_mpi_scan(&SM_ORDER, GCRYMPI_FMT_HEX,
+	(const unsigned char *)SM_ORDER_S, 0, NULL);
+    gcry_mpi_scan(&SM_GENERATOR, GCRYMPI_FMT_HEX,
+	(const unsigned char *)SM_GENERATOR_S, 0, NULL);
     SM_MODULUS_MINUS_2 = gcry_mpi_new(SM_MOD_LEN_BITS);
     gcry_mpi_sub_ui(SM_MODULUS_MINUS_2, SM_MODULUS, 2);
 }
@@ -106,7 +134,7 @@ void otrl_sm_state_new(OtrlSMState *smst)
 void otrl_sm_state_init(OtrlSMState *smst)
 {
     otrl_sm_state_free(smst);
-    smst->secret = gcry_mpi_new(SM_MOD_LEN_BITS);
+    smst->secret = gcry_mpi_snew(SM_MOD_LEN_BITS);
     smst->x2 = NULL;
     smst->x3 = NULL;
     smst->g1 = gcry_mpi_copy(SM_GENERATOR);
@@ -156,7 +184,7 @@ void otrl_sm_msg2_init(gcry_mpi_t **msg2)
     msg[7] = gcry_mpi_new(SM_MOD_LEN_BITS);
     msg[8] = NULL;
     msg[9] = gcry_mpi_new(SM_MOD_LEN_BITS);
-    msg[10] = gcry_mpi_new(SM_MOD_LEN_BITS); 
+    msg[10] = gcry_mpi_new(SM_MOD_LEN_BITS);
 
     *msg2 = msg;
 }
@@ -223,7 +251,7 @@ void otrl_sm_msg_free(gcry_mpi_t **message, int msglen)
     gcry_mpi_t *msg = *message;
     int i;
     for (i=0; i<msglen; i++) {
-        gcry_mpi_release(msg[i]);
+	gcry_mpi_release(msg[i]);
     }
     free(msg);
     *message = NULL;
@@ -255,7 +283,7 @@ static gcry_error_t otrl_sm_hash(gcry_mpi_t* hash, int version,
     size_t totalsize;
     unsigned char* dataa;
     unsigned char* datab;
-    
+
     gcry_mpi_aprint(GCRYMPI_FMT_USG, &dataa, &sizea, a);
     totalsize = 1 + 4 + sizea;
     if (b) {
@@ -306,9 +334,9 @@ static gcry_error_t serialize_mpi_array(unsigned char **buffer, int *buflen,
     unsigned char *bufp;
 
     for (i=0; i<count; i++) {
-        gcry_mpi_aprint(GCRYMPI_FMT_USG, &(tempbuffer[i]), &(list_sizes[i]),
+	gcry_mpi_aprint(GCRYMPI_FMT_USG, &(tempbuffer[i]), &(list_sizes[i]),
 		mpis[i]);
-        totalsize += list_sizes[i];
+	totalsize += list_sizes[i];
     }
 
     *buflen = (count+1)*4 + totalsize;
@@ -320,15 +348,15 @@ static gcry_error_t serialize_mpi_array(unsigned char **buffer, int *buflen,
     write_int(count);
     for(i=0; i<count; i++)
     {
-        nextsize = list_sizes[i];
-        write_int(nextsize);
-        
-        for(j=0; j<nextsize; j++)
-            bufp[j] = tempbuffer[i][j];
-        
+	nextsize = list_sizes[i];
+	write_int(nextsize);
+
+	for(j=0; j<nextsize; j++)
+	    bufp[j] = tempbuffer[i][j];
+
 	bufp += nextsize;
-        lenp -= nextsize;
-        gcry_free(tempbuffer[i]);
+	lenp -= nextsize;
+	gcry_free(tempbuffer[i]);
     }
     free(tempbuffer);
     free(list_sizes);
@@ -344,8 +372,8 @@ static gcry_error_t serialize_mpi_array(unsigned char **buffer, int *buflen,
 static gcry_error_t unserialize_mpi_array(gcry_mpi_t **mpis,
 	unsigned int expcount, const unsigned char *buffer, const int buflen)
 {
-    int i;
-    int lenp = buflen;
+    unsigned int i;
+    size_t lenp = buflen;
     unsigned int thecount = 0;
     const unsigned char* bufp = buffer;
     *mpis = NULL;
@@ -400,10 +428,11 @@ static int check_expon(gcry_mpi_t x)
 /*
  * Proof of knowledge of a discrete logarithm
  */
-static gcry_error_t otrl_sm_proof_know_log(gcry_mpi_t *c, gcry_mpi_t *d, const gcry_mpi_t g, const gcry_mpi_t x, int version)
+static gcry_error_t otrl_sm_proof_know_log(gcry_mpi_t *c, gcry_mpi_t *d,
+	const gcry_mpi_t g, const gcry_mpi_t x, int version)
 {
     gcry_mpi_t r = randomExponent();
-    gcry_mpi_t temp = gcry_mpi_new(SM_MOD_LEN_BITS);
+    gcry_mpi_t temp = gcry_mpi_snew(SM_MOD_LEN_BITS);
     gcry_mpi_powm(temp, g, r, SM_MODULUS);
     otrl_sm_hash(c, version, temp, NULL);
     gcry_mpi_mulm(temp, x, *c, SM_ORDER);
@@ -415,9 +444,11 @@ static gcry_error_t otrl_sm_proof_know_log(gcry_mpi_t *c, gcry_mpi_t *d, const g
 }
 
 /*
- * Verify a proof of knowledge of a discrete logarithm.  Checks that c = h(g^d x^c)
+ * Verify a proof of knowledge of a discrete logarithm.
+ * Checks that c = h(g^d x^c)
  */
-static int otrl_sm_check_know_log(const gcry_mpi_t c, const gcry_mpi_t d, const gcry_mpi_t g, const gcry_mpi_t x, int version)
+static int otrl_sm_check_know_log(const gcry_mpi_t c, const gcry_mpi_t d,
+	const gcry_mpi_t g, const gcry_mpi_t x, int version)
 {
     int comp;
 
@@ -430,7 +461,7 @@ static int otrl_sm_check_know_log(const gcry_mpi_t c, const gcry_mpi_t d, const 
     gcry_mpi_powm(xc, x, c, SM_MODULUS);
     gcry_mpi_mulm(gdxc, gd, xc, SM_MODULUS);
     otrl_sm_hash(&hgdxc, version, gdxc, NULL);
-    
+
     comp = gcry_mpi_cmp(hgdxc, c);
     gcry_mpi_release(gd);
     gcry_mpi_release(xc);
@@ -443,7 +474,9 @@ static int otrl_sm_check_know_log(const gcry_mpi_t c, const gcry_mpi_t d, const 
 /*
  * Proof of knowledge of coordinates with first components being equal
  */
-static gcry_error_t otrl_sm_proof_equal_coords(gcry_mpi_t *c, gcry_mpi_t *d1, gcry_mpi_t *d2, const OtrlSMState *state, const gcry_mpi_t r, int version)
+static gcry_error_t otrl_sm_proof_equal_coords(gcry_mpi_t *c, gcry_mpi_t *d1,
+	gcry_mpi_t *d2, const OtrlSMState *state, const gcry_mpi_t r,
+	int version)
 {
     gcry_mpi_t r1 = randomExponent();
     gcry_mpi_t r2 = randomExponent();
@@ -475,7 +508,9 @@ static gcry_error_t otrl_sm_proof_equal_coords(gcry_mpi_t *c, gcry_mpi_t *d1, gc
 /*
  * Verify a proof of knowledge of coordinates with first components being equal
  */
-static gcry_error_t otrl_sm_check_equal_coords(const gcry_mpi_t c, const gcry_mpi_t d1, const gcry_mpi_t d2, const gcry_mpi_t p, const gcry_mpi_t q, const OtrlSMState *state, int version)
+static gcry_error_t otrl_sm_check_equal_coords(const gcry_mpi_t c,
+	const gcry_mpi_t d1, const gcry_mpi_t d2, const gcry_mpi_t p,
+	const gcry_mpi_t q, const OtrlSMState *state, int version)
 {
     int comp;
 
@@ -518,7 +553,8 @@ static gcry_error_t otrl_sm_check_equal_coords(const gcry_mpi_t c, const gcry_mp
 /*
  * Proof of knowledge of logs with exponents being equal
  */
-static gcry_error_t otrl_sm_proof_equal_logs(gcry_mpi_t *c, gcry_mpi_t *d, OtrlSMState *state, int version)
+static gcry_error_t otrl_sm_proof_equal_logs(gcry_mpi_t *c, gcry_mpi_t *d,
+	OtrlSMState *state, int version)
 {
     gcry_mpi_t r = randomExponent();
     gcry_mpi_t temp1 = gcry_mpi_new(SM_MOD_LEN_BITS);
@@ -543,7 +579,9 @@ static gcry_error_t otrl_sm_proof_equal_logs(gcry_mpi_t *c, gcry_mpi_t *d, OtrlS
 /*
  * Verify a proof of knowledge of logs with exponents being equal
  */
-static gcry_error_t otrl_sm_check_equal_logs(const gcry_mpi_t c, const gcry_mpi_t d, const gcry_mpi_t r, const OtrlSMState *state, int version)
+static gcry_error_t otrl_sm_check_equal_logs(const gcry_mpi_t c,
+	const gcry_mpi_t d, const gcry_mpi_t r, const OtrlSMState *state,
+	int version)
 {
     int comp;
 
@@ -555,7 +593,7 @@ static gcry_error_t otrl_sm_check_equal_logs(const gcry_mpi_t c, const gcry_mpi_
     /* Here, we recall the exponents used to create g3.
      * If we have previously seen g3o = g1^x where x is unknown
      * during the DH exchange to produce g3, then we may proceed with:
-     * 
+     *
      * To verify, we test that hash(g1^d * g3o^c, qab^d * r^c) = c
      * If indeed c = hash(g1^r1, qab^r1), d = r1- x * c
      * And if indeed r = qab^x
@@ -601,11 +639,11 @@ gcry_error_t otrl_sm_step1(OtrlSMAliceState *astate,
 
     *output = NULL;
     *outputlen = 0;
-    
+
     gcry_mpi_scan(&secret_mpi, GCRYMPI_FMT_USG, secret, secretlen, NULL);
 
     if (! astate->g1) {
-        otrl_sm_state_init(astate);
+	otrl_sm_state_init(astate);
     }
     gcry_mpi_set(astate->secret, secret_mpi);
     gcry_mpi_release(secret_mpi);
@@ -631,7 +669,8 @@ gcry_error_t otrl_sm_step1(OtrlSMAliceState *astate,
 /* Receive the first message in SMP exchange, which was generated by
  * otrl_sm_step1.  Input is saved until the user inputs their secret
  * information.  No output. */
-gcry_error_t otrl_sm_step2a(OtrlSMBobState *bstate, const unsigned char* input, const int inputlen, int received_question)
+gcry_error_t otrl_sm_step2a(OtrlSMBobState *bstate, const unsigned char* input,
+	const int inputlen, int received_question)
 {
     gcry_mpi_t *msg1;
     gcry_error_t err;
@@ -645,21 +684,23 @@ gcry_error_t otrl_sm_step2a(OtrlSMBobState *bstate, const unsigned char* input, 
 
     /* Read from input to find the mpis */
     err = unserialize_mpi_array(&msg1, SM_MSG1_LEN, input, inputlen);
-    
+
     if (err != gcry_error(GPG_ERR_NO_ERROR)) return err;
 
     if (check_group_elem(msg1[0]) || check_expon(msg1[2]) ||
 	    check_group_elem(msg1[3]) || check_expon(msg1[5])) {
-        return gcry_error(GPG_ERR_INV_VALUE);
+	otrl_sm_msg_free(&msg1, SM_MSG1_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
     }
 
     /* Store Alice's g3a value for later in the protocol */
     gcry_mpi_set(bstate->g3o, msg1[3]);
-    
+
     /* Verify Alice's proofs */
-    if (otrl_sm_check_know_log(msg1[1], msg1[2], bstate->g1, msg1[0], 1) || 
-        otrl_sm_check_know_log(msg1[4], msg1[5], bstate->g1, msg1[3], 2)) {
-        return gcry_error(GPG_ERR_INV_VALUE);
+    if (otrl_sm_check_know_log(msg1[1], msg1[2], bstate->g1, msg1[0], 1) ||
+	otrl_sm_check_know_log(msg1[4], msg1[5], bstate->g1, msg1[3], 2)) {
+	otrl_sm_msg_free(&msg1, SM_MSG1_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
     }
 
     /* Create Bob's half of the generators g2 and g3 */
@@ -671,6 +712,8 @@ gcry_error_t otrl_sm_step2a(OtrlSMBobState *bstate, const unsigned char* input, 
     gcry_mpi_powm(bstate->g3, msg1[3], bstate->x3, SM_MODULUS);
 
     bstate->sm_prog_state = OTRL_SMP_PROG_OK;
+
+    otrl_sm_msg_free(&msg1, SM_MSG1_LEN);
     return gcry_error(GPG_ERR_NO_ERROR);
 }
 
@@ -684,7 +727,8 @@ gcry_error_t otrl_sm_step2a(OtrlSMBobState *bstate, const unsigned char* input, 
  * [4] = c3, [5] = d3, Bob's ZK proof of knowledge of g3b exponent
  * [6] = pb, [7] = qb, Bob's halves of the (Pa/Pb) and (Qa/Qb) values
  * [8] = cp, [9] = d5, [10] = d6, Bob's ZK proof that pb, qb formed correctly */
-gcry_error_t otrl_sm_step2b(OtrlSMBobState *bstate, const unsigned char* secret, int secretlen, unsigned char **output, int* outputlen)
+gcry_error_t otrl_sm_step2b(OtrlSMBobState *bstate, const unsigned char* secret,
+	int secretlen, unsigned char **output, int* outputlen)
 {
     /* Convert the given secret to the proper form and store it */
     gcry_mpi_t r, qb1, qb2;
@@ -693,7 +737,7 @@ gcry_error_t otrl_sm_step2b(OtrlSMBobState *bstate, const unsigned char* secret,
 
     *output = NULL;
     *outputlen = 0;
-    
+
     gcry_mpi_scan(&secret_mpi, GCRYMPI_FMT_USG, secret, secretlen, NULL);
     gcry_mpi_set(bstate->secret, secret_mpi);
     gcry_mpi_release(secret_mpi);
@@ -717,7 +761,8 @@ gcry_error_t otrl_sm_step2b(OtrlSMBobState *bstate, const unsigned char* secret,
     gcry_mpi_mulm(bstate->q, qb1, qb2, SM_MODULUS);
     gcry_mpi_set(msg2[7], bstate->q);
 
-    otrl_sm_proof_equal_coords(&(msg2[8]), &(msg2[9]), &(msg2[10]), bstate, r, 5);
+    otrl_sm_proof_equal_coords(&(msg2[8]), &(msg2[9]),
+	    &(msg2[10]), bstate, r, 5);
 
     /* Convert to serialized form */
     serialize_mpi_array(output, outputlen, SM_MSG2_LEN, msg2);
@@ -738,18 +783,19 @@ gcry_error_t otrl_sm_step2b(OtrlSMBobState *bstate, const unsigned char* secret,
  * [2] = cp, [3] = d5, [4] = d6, Alice's ZK proof that pa, qa formed correctly
  * [5] = ra, calculated as (Qa/Qb)^x3 where x3 is the exponent used in g3a
  * [6] = cr, [7] = d7, Alice's ZK proof that ra is formed correctly */
-gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input, const int inputlen, unsigned char **output, int* outputlen)
+gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input,
+	const int inputlen, unsigned char **output, int* outputlen)
 {
     /* Read from input to find the mpis */
     gcry_mpi_t r, qa1, qa2, inv;
     gcry_mpi_t *msg2;
     gcry_mpi_t *msg3;
     gcry_error_t err;
-    
+
     *output = NULL;
     *outputlen = 0;
     astate->sm_prog_state = OTRL_SMP_PROG_CHEATED;
-    
+
     err = unserialize_mpi_array(&msg2, SM_MSG2_LEN, input, inputlen);
     if (err != gcry_error(GPG_ERR_NO_ERROR)) return err;
 
@@ -757,7 +803,8 @@ gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input,
 	    check_group_elem(msg2[6]) || check_group_elem(msg2[7]) ||
 	    check_expon(msg2[2]) || check_expon(msg2[5]) ||
 	    check_expon(msg2[9]) || check_expon(msg2[10])) {
-        return gcry_error(GPG_ERR_INV_VALUE);
+	otrl_sm_msg_free(&msg2, SM_MSG2_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
     }
 
     otrl_sm_msg3_init(&msg3);
@@ -765,10 +812,12 @@ gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input,
     /* Store Bob's g3a value for later in the protocol */
     gcry_mpi_set(astate->g3o, msg2[3]);
 
-    /* Verify Bob's knowledge of discreet log proofs */
-    if (otrl_sm_check_know_log(msg2[1], msg2[2], astate->g1, msg2[0], 3) || 
-        otrl_sm_check_know_log(msg2[4], msg2[5], astate->g1, msg2[3], 4)) {
-        return gcry_error(GPG_ERR_INV_VALUE);
+    /* Verify Bob's knowledge of discrete log proofs */
+    if (otrl_sm_check_know_log(msg2[1], msg2[2], astate->g1, msg2[0], 3) ||
+	    otrl_sm_check_know_log(msg2[4], msg2[5], astate->g1, msg2[3], 4)) {
+	otrl_sm_msg_free(&msg2, SM_MSG2_LEN);
+	otrl_sm_msg_free(&msg3, SM_MSG3_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
     }
 
     /* Combine the two halves from Bob and Alice and determine g2 and g3 */
@@ -776,8 +825,12 @@ gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input,
     gcry_mpi_powm(astate->g3, msg2[3], astate->x3, SM_MODULUS);
 
     /* Verify Bob's coordinate equality proof */
-    if (otrl_sm_check_equal_coords(msg2[8], msg2[9], msg2[10], msg2[6], msg2[7], astate, 5))
-        return gcry_error(GPG_ERR_INV_VALUE);
+    if (otrl_sm_check_equal_coords(msg2[8], msg2[9], msg2[10], msg2[6], msg2[7],
+	    astate, 5)) {
+	otrl_sm_msg_free(&msg2, SM_MSG2_LEN);
+	otrl_sm_msg_free(&msg3, SM_MSG3_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
+    }
 
     /* Calculate P and Q values for Alice */
     r = randomExponent();
@@ -790,7 +843,8 @@ gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input,
     gcry_mpi_mulm(astate->q, qa1, qa2, SM_MODULUS);
     gcry_mpi_set(msg3[1], astate->q);
 
-    otrl_sm_proof_equal_coords(&(msg3[2]), &(msg3[3]), &(msg3[4]), astate, r, 6);
+    otrl_sm_proof_equal_coords(&(msg3[2]), &(msg3[3]), &(msg3[4]), astate,
+	    r, 6);
 
     /* Calculate Ra and proof */
     inv = gcry_mpi_new(SM_MOD_LEN_BITS);
@@ -822,7 +876,8 @@ gcry_error_t otrl_sm_step3(OtrlSMAliceState *astate, const unsigned char* input,
  * This method also checks if Alice and Bob's secrets were the same.  If
  * so, it returns NO_ERROR.  If the secrets differ, an INV_VALUE error is
  * returned instead. */
-gcry_error_t otrl_sm_step4(OtrlSMBobState *bstate, const unsigned char* input, const int inputlen, unsigned char **output, int* outputlen)
+gcry_error_t otrl_sm_step4(OtrlSMBobState *bstate, const unsigned char* input,
+	const int inputlen, unsigned char **output, int* outputlen)
 {
     /* Read from input to find the mpis */
     int comp;
@@ -835,7 +890,7 @@ gcry_error_t otrl_sm_step4(OtrlSMBobState *bstate, const unsigned char* input, c
     *output = NULL;
     *outputlen = 0;
     bstate->sm_prog_state = OTRL_SMP_PROG_CHEATED;
-    
+
     if (err != gcry_error(GPG_ERR_NO_ERROR)) return err;
 
     otrl_sm_msg4_init(&msg4);
@@ -843,12 +898,18 @@ gcry_error_t otrl_sm_step4(OtrlSMBobState *bstate, const unsigned char* input, c
     if (check_group_elem(msg3[0]) || check_group_elem(msg3[1]) ||
 	    check_group_elem(msg3[5]) || check_expon(msg3[3]) ||
 	    check_expon(msg3[4]) || check_expon(msg3[7]))  {
-        return gcry_error(GPG_ERR_INV_VALUE);
+	otrl_sm_msg_free(&msg3, SM_MSG3_LEN);
+	otrl_sm_msg_free(&msg4, SM_MSG4_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
     }
 
     /* Verify Alice's coordinate equality proof */
-    if (otrl_sm_check_equal_coords(msg3[2], msg3[3], msg3[4], msg3[0], msg3[1], bstate, 6))
-        return gcry_error(GPG_ERR_INV_VALUE);
+    if (otrl_sm_check_equal_coords(msg3[2], msg3[3], msg3[4], msg3[0], msg3[1],
+	    bstate, 6)) {
+	otrl_sm_msg_free(&msg3, SM_MSG3_LEN);
+	otrl_sm_msg_free(&msg4, SM_MSG4_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
+    }
 
     /* Find Pa/Pb and Qa/Qb */
     inv = gcry_mpi_new(SM_MOD_LEN_BITS);
@@ -858,8 +919,12 @@ gcry_error_t otrl_sm_step4(OtrlSMBobState *bstate, const unsigned char* input, c
     gcry_mpi_mulm(bstate->qab, msg3[1], inv, SM_MODULUS);
 
     /* Verify Alice's log equality proof */
-    if (otrl_sm_check_equal_logs(msg3[6], msg3[7], msg3[5], bstate, 7))
-        return gcry_error(GPG_ERR_INV_VALUE);
+    if (otrl_sm_check_equal_logs(msg3[6], msg3[7], msg3[5], bstate, 7)) {
+	otrl_sm_msg_free(&msg3, SM_MSG3_LEN);
+	otrl_sm_msg_free(&msg4, SM_MSG4_LEN);
+	gcry_mpi_release(inv);
+	return gcry_error(GPG_ERR_INV_VALUE);
+    }
 
     /* Calculate Rb and proof */
     gcry_mpi_powm(msg4[0], bstate->qab, bstate->x3, SM_MODULUS);
@@ -882,16 +947,17 @@ gcry_error_t otrl_sm_step4(OtrlSMBobState *bstate, const unsigned char* input, c
 	OTRL_SMP_PROG_SUCCEEDED;
 
     if (comp)
-        return gcry_error(GPG_ERR_INV_VALUE);
+	return gcry_error(GPG_ERR_INV_VALUE);
     else
-        return gcry_error(GPG_ERR_NO_ERROR);
+	return gcry_error(GPG_ERR_NO_ERROR);
 }
 
 /* Receives the final SMP message, which was generated in otrl_sm_step.
  * This method checks if Alice and Bob's secrets were the same.  If
  * so, it returns NO_ERROR.  If the secrets differ, an INV_VALUE error is
  * returned instead. */
-gcry_error_t otrl_sm_step5(OtrlSMAliceState *astate, const unsigned char* input, const int inputlen)
+gcry_error_t otrl_sm_step5(OtrlSMAliceState *astate, const unsigned char* input,
+	const int inputlen)
 {
     /* Read from input to find the mpis */
     int comp;
@@ -900,16 +966,19 @@ gcry_error_t otrl_sm_step5(OtrlSMAliceState *astate, const unsigned char* input,
     gcry_error_t err;
     err = unserialize_mpi_array(&msg4, SM_MSG4_LEN, input, inputlen);
     astate->sm_prog_state = OTRL_SMP_PROG_CHEATED;
-    
+
     if (err != gcry_error(GPG_ERR_NO_ERROR)) return err;
 
     if (check_group_elem(msg4[0]) || check_expon(msg4[2])) {
-        return gcry_error(GPG_ERR_INV_VALUE);
+	otrl_sm_msg_free(&msg4, SM_MSG4_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
     }
 
     /* Verify Bob's log equality proof */
-    if (otrl_sm_check_equal_logs(msg4[1], msg4[2], msg4[0], astate, 8))
-        return gcry_error(GPG_ERR_INV_VALUE);
+    if (otrl_sm_check_equal_logs(msg4[1], msg4[2], msg4[0], astate, 8)) {
+	otrl_sm_msg_free(&msg4, SM_MSG4_LEN);
+	return gcry_error(GPG_ERR_INV_VALUE);
+    }
 
     /* Calculate Rab and verify that secrets match */
     rab = gcry_mpi_new(SM_MOD_LEN_BITS);
@@ -923,7 +992,7 @@ gcry_error_t otrl_sm_step5(OtrlSMAliceState *astate, const unsigned char* input,
 	OTRL_SMP_PROG_SUCCEEDED;
 
     if (comp)
-        return gcry_error(GPG_ERR_INV_VALUE);
+	return gcry_error(GPG_ERR_INV_VALUE);
     else
-        return gcry_error(GPG_ERR_NO_ERROR);
+	return gcry_error(GPG_ERR_NO_ERROR);
 }

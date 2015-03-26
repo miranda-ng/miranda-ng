@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Chris Alexander, Willy Lew,
+ *  			     Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,11 +15,24 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __B64_H__
 #define __B64_H__
+
+#include <stdlib.h>
+
+/* Base64 encodes blocks of this many bytes: */
+#define OTRL_B64_DECODED_LEN 3
+/* into blocks of this many bytes: */
+#define OTRL_B64_ENCODED_LEN 4
+
+/* An encoded block of length encoded_len can turn into a maximum of
+ * this many decoded bytes: */
+#define OTRL_B64_MAX_DECODED_SIZE(encoded_len) \
+    (((encoded_len + OTRL_B64_ENCODED_LEN - 1) / OTRL_B64_ENCODED_LEN) \
+	* OTRL_B64_DECODED_LEN)
 
 /*
  * base64 encode data.  Insert no linebreaks or whitespace.
@@ -33,8 +47,9 @@ size_t otrl_base64_encode(char *base64data, const unsigned char *data,
  * base64 decode data.  Skip non-base64 chars, and terminate at the
  * first '=', or the end of the buffer.
  *
- * The buffer data must contain at least (base64len / 4) * 3 bytes of
- * space.  This function will return the number of bytes actually used.
+ * The buffer data must contain at least ((base64len+3) / 4) * 3 bytes
+ * of space.  This function will return the number of bytes actually
+ * used.
  */
 size_t otrl_base64_decode(unsigned char *data, const char *base64data,
 	size_t base64len);

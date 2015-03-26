@@ -1,5 +1,5 @@
 	      Off-the-Record Messaging Library and Toolkit
-			  v3.2.0, 15 Jun 2008
+			  v4.1.0, 21 Oct 2014
 
 This is a library and toolkit which implements Off-the-Record (OTR) Messaging.
 
@@ -19,7 +19,7 @@ OTR allows you to have private conversations over IM by providing:
      is compromised.
 
 For more information on Off-the-Record Messaging, see
-http://otr.cypherpunks.ca/
+https://otr.cypherpunks.ca/
 
 LIBRARY USAGE
 
@@ -37,7 +37,7 @@ You will also need an OtrlUserState.  An OtrlUserState encapsulates the
 list of known fingerprints and the list of private keys, so it should be
 "one per user".  Many OTR-enabled programs (such as IM clients) only have a 
 single user, so for them, you can just create a single one, and use it
-thoughout.  Create an OtrlUserState as follows:
+throughout.  Create an OtrlUserState as follows:
 
     userstate = otrl_userstate_create();
 
@@ -48,6 +48,10 @@ If you need to free an OtrlUserState:
 To read stored private keys:
 
     otrl_privkey_read(userstate, privkeyfilename);
+
+To read stored instance tags:
+
+    otrl_instag_read(userstate, instagfilename);
 
 To read stored fingerprints:
 
@@ -80,8 +84,14 @@ of the UI functions in message.h.
 3. Sending messages
 
 When you have a message you're about to send, you'll need to know four
-things: you account name, the protocol id, the name of the recipient, and
-the message.
+things: you account name, the protocol id, the name of the recipient, 
+their instance tag, and the message.
+
+OTR protocol version 3 introduces the notion of "instance tags." A
+client may be logged into the same account multiple times from different
+locations. An instance tag is intended to differentiate these clients. 
+When sending a message, you may also specify a particular instance tag, 
+or use meta instance tags like OTRL_INSTAG_MOST_SECURE.
 
 The protocol id is just a unique string that is used to distinguish
 the user foo on AIM from the user foo on MSN, etc.  It can be anything
@@ -108,14 +118,18 @@ next function), simply do this:
     char *newmessage = NULL;
 
     err = otrl_message_sending(userstate, &ui_ops, opdata, accountname,
-	    protocolid, recipient_name, message, tlvs, &newmessage,
-	    add_app_info, add_app_info_data);
+	    protocolid, recipient_name, instag, message, tlvs, 
+	    &newmessage, fragPolicy, contextp, add_app_info, 
+	    add_app_info_data);
 
 add_app_info and add_app_info_data are as above, and may be NULL.
 
 tlvs should usually be NULL.  If it's not, then it points to a chain of
 OtrlTLVs which represent machine-readable data to send along with this
 message.
+
+If contextp is not NULL, it will be set to the context that was used
+for sending the message.
 
 If err is non-zero, then the library tried to encrypt the message,
 but for some reason failed.  DO NOT send the message in the clear in
@@ -160,9 +174,12 @@ and the message.
 
     ignore_message = otrl_message_receiving(userstate, &ui_ops, opdata,
 	    accountname, protocolid, sender_name, message, &newmessage,
-	    &tlvs, add_app_info, add_app_info_data);
+	    &tlvs, contextp, add_app_info, add_app_info_data);
 
 add_app_info and add_app_info_data are as above, and may be NULL.
+
+If contextp is not NULL, it will be set to the context that was used
+for receiving the message.
 
 If otrl_message_receiving returns 1, then the message you received was
 an internal protocol message, and no message should be delivered to the
@@ -235,7 +252,8 @@ Here are the six programs in the toolkit:
      you can still forge messages of your choice using the otr_readforge
      command, above.
 
- - otr_remac mackey flags keyid keyid pubkey counter encdata revealed_mackeys
+ - otr_remac mackey sender_instance receiver_instance flags keyid keyid
+   pubkey counter encdata revealed_mackeys
    - Make a new OTR Data Message, with the given pieces (note that the
      data part is already encrypted).  MAC it with the given mackey.
 
@@ -244,21 +262,45 @@ NOTES
 Please send your bug reports, comments, suggestions, patches, etc. to us
 at the contact address below.
 
+In otrl_message_sending, specifying an instance tag allows you to send a
+message to a particular session of a buddy who is logged in multiple times
+with an otr-enabled client. The OTRL_INSTAG_RECENT_RECEIVED meta-instance
+relies on the time that libotr processed the most recent message. Meta-
+instance tags resolve to actual instance tags before a message is sent. An
+instant messaging network may not agree on which session of the remote party is
+the most recent, e.g., due to underlying network race conditions. If the
+behaviour of an instant messaging network is to only deliver to the most recent,
+and libotr and the network disagree on which session is the most recent, the
+other party will not process the given message. That is, the instant messaging
+network will deliver the message to the session whose actual instance tag does
+not match the addressed instance tag. Also note that OTRL_INSTAG_BEST also
+prefers more recent instance tags in the case of multiple instances with the
+same "best" status (most secure). In this case, the most recent has a
+resolution of one second.
+
+If otrl_message_sending is called with an original_msg that contains the text
+"?OTR?", this is a signal to initiate or refresh an OTR session. There is
+currently no way to indicate if this text was actually typed in by a user and
+part of a conversation (e.g., someone communicating instructions on how to
+refresh OTR). In the future, we may allow a policy to specify whether "?OTR?"
+is a signal to start OTR, or just an ordinary message for encrypted and
+unencrypted conversations.
+
 MAILING LISTS
 
 There are three mailing lists pertaining to Off-the-Record Messaging:
 
 otr-announce:
-    http://lists.cypherpunks.ca/mailman/listinfo/otr-announce/
+    https://lists.cypherpunks.ca/mailman/listinfo/otr-announce/
     *** All users of OTR software should join this. ***  It is used to
     announce new versions of OTR software, and other important information.
 
 otr-users:
-    http://lists.cypherpunks.ca/mailman/listinfo/otr-users/
+    https://lists.cypherpunks.ca/mailman/listinfo/otr-users/
     Discussion of usage issues related to OTR Messaging software.
 
 otr-dev:
-    http://lists.cypherpunks.ca/mailman/listinfo/otr-dev/
+    https://lists.cypherpunks.ca/mailman/listinfo/otr-dev/
     Discussion of OTR Messaging software development.
 
 LICENSE
@@ -267,7 +309,9 @@ The Off-the-Record Messaging library (in the src directory) is
 covered by the following (LGPL) license:
 
     Off-the-Record Messaging library
-    Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+    Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+                             Chris Alexander, Willy Lew, Lisa Du,
+			     Nikita Borisov
 			     <otr@cypherpunks.ca>
 
     This library is free software; you can redistribute it and/or
@@ -281,14 +325,34 @@ covered by the following (LGPL) license:
 
     There is a copy of the GNU Lesser General Public License in the
     COPYING.LIB file packaged with this library; if you cannot find it,
-    write to the Free Software Foundation, Inc., 59 Temple Place, Suite
-    330, Boston, MA 02111-1307  USA
+    write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth
+    Floor, Boston, MA 02110-1301 USA
+
+The library comes with a test suite (in the tests directory), which is
+covered by the following (GPL) license:
+
+    Copyright (C) 2014   Julien Voisin <julien.voisin@dustri.org>,
+                         David Goulet <dgoulet@ev0ke.net>
+
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License, version 2 only, as
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+    more details.
+
+    You should have received a copy of the GNU General Public License along with
+    this program; if not, write to the Free Software Foundation, Inc., 51
+    Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 The Off-the-Record Messaging Toolkit (in the toolkit directory) is covered
 by the following (GPL) license:
 
     Off-the-Record Messaging Toolkit
-    Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+    Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+                             Chris Alexander, Nikita Borisov
 		             <otr@cypherpunks.ca>
 
     This program is free software; you can redistribute it and/or modify
@@ -302,15 +366,17 @@ by the following (GPL) license:
 
     There is a copy of the GNU General Public License in the COPYING file
     packaged with this toolkit; if you cannot find it, write to the Free
-    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-    02111-1307  USA
+    Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+    02110-1301 USA
 
 CONTACT
 
 To report problems, comments, suggestions, patches, etc., you can email
 the authors:
 
-Ian Goldberg, Chris Alexander, and Nikita Borisov <otr@cypherpunks.ca>
+Ian Goldberg, David Goulet, Rob Smits, Chris Alexander, Lisa Du,
+Nikita Borisov
+<otr@cypherpunks.ca>
 
 For more information on Off-the-Record Messaging, visit
-http://otr.cypherpunks.ca/
+https://otr.cypherpunks.ca/

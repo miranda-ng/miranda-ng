@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Chris Alexander, Willy Lew,
+ *  			     Lisa Du, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __PRIVKEY_H__
@@ -24,16 +25,20 @@
 #include "privkey-t.h"
 #include "userstate.h"
 
-gcry_error_t otrl_account_write(FILE *privf, const char *accountname,
-									   const char *protocol, gcry_sexp_t privkey);
+/* The length of a string representing a human-readable version of a
+ * fingerprint (including the trailing NUL) */
+#define OTRL_PRIVKEY_FPRINT_HUMAN_LEN 45
 
 /* Convert a 20-byte hash value to a 45-byte human-readable value */
-void otrl_privkey_hash_to_human(char human[45], const unsigned char hash[20]);
+void otrl_privkey_hash_to_human(
+	char human[OTRL_PRIVKEY_FPRINT_HUMAN_LEN],
+	const unsigned char hash[20]);
 
 /* Calculate a human-readable hash of our DSA public key.  Return it in
  * the passed fingerprint buffer.  Return NULL on error, or a pointer to
  * the given buffer on success. */
-char *otrl_privkey_fingerprint(OtrlUserState us, char fingerprint[45],
+char *otrl_privkey_fingerprint(OtrlUserState us,
+	char fingerprint[OTRL_PRIVKEY_FPRINT_HUMAN_LEN],
 	const char *accountname, const char *protocol);
 
 /* Calculate a raw hash of our DSA public key.  Return it in the passed
@@ -49,6 +54,40 @@ gcry_error_t otrl_privkey_read(OtrlUserState us, const char *filename);
 /* Read a sets of private DSA keys from a FILE* into the given
  * OtrlUserState.  The FILE* must be open for reading. */
 gcry_error_t otrl_privkey_read_FILEp(OtrlUserState us, FILE *privf);
+
+/* Free the memory associated with the pending privkey list */
+void otrl_privkey_pending_forget_all(OtrlUserState us);
+
+/* Begin a private key generation that will potentially take place in
+ * a background thread.  This routine must be called from the main
+ * thread.  It will set *newkeyp, which you can pass to
+ * otrl_privkey_generate_calculate in a background thread.  If it
+ * returns gcry_error(GPG_ERR_EEXIST), then a privkey creation for
+ * this accountname/protocol is already in progress, and *newkeyp will
+ * be set to NULL. */
+gcry_error_t otrl_privkey_generate_start(OtrlUserState us,
+	const char *accountname, const char *protocol, void **newkeyp);
+
+/* Do the private key generation calculation.  You may call this from a
+ * background thread.  When it completes, call
+ * otrl_privkey_generate_finish from the _main_ thread. */
+gcry_error_t otrl_privkey_generate_calculate(void *newkey);
+
+/* Call this from the main thread only.  It will write the newly created
+ * private key into the given file and store it in the OtrlUserState. */
+gcry_error_t otrl_privkey_generate_finish(OtrlUserState us,
+	void *newkey, const char *filename);
+
+/* Call this from the main thread only.  It will write the newly created
+ * private key into the given FILE* (which must be open for reading and
+ * writing) and store it in the OtrlUserState. */
+gcry_error_t otrl_privkey_generate_finish_FILEp(OtrlUserState us,
+	void *newkey, FILE *privf);
+
+/* Call this from the main thread only, in the event that the background
+ * thread generating the key is cancelled.  The newkey is deallocated,
+ * and must not be used further. */
+void otrl_privkey_generate_cancelled(OtrlUserState us, void *newkey);
 
 /* Generate a private DSA key for a given account, storing it into a
  * file on disk, and loading it into the given OtrlUserState.  Overwrite any

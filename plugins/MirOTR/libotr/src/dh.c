@@ -1,6 +1,8 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+ *                           Chris Alexander, Willy Lew, Lisa Du,
+ *                           Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +16,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 /* system headers */
@@ -25,6 +27,7 @@
 
 /* libotr headers */
 #include "dh.h"
+
 
 static const char* DH1536_MODULUS_S = "0x"
     "FFFFFFFFFFFFFFFFC90FDAA22168C234C4C6628B80DC1CD1"
@@ -49,9 +52,10 @@ static gcry_mpi_t DH1536_GENERATOR = NULL;
  */
 void otrl_dh_init(void)
 {
-    gcry_mpi_scan(&DH1536_MODULUS, GCRYMPI_FMT_HEX, DH1536_MODULUS_S, 0, NULL);
-    gcry_mpi_scan(&DH1536_GENERATOR, GCRYMPI_FMT_HEX, DH1536_GENERATOR_S,
-	    0, NULL);
+    gcry_mpi_scan(&DH1536_MODULUS, GCRYMPI_FMT_HEX,
+	(const unsigned char *)DH1536_MODULUS_S, 0, NULL);
+    gcry_mpi_scan(&DH1536_GENERATOR, GCRYMPI_FMT_HEX,
+	(const unsigned char *)DH1536_GENERATOR_S, 0, NULL);
     DH1536_MODULUS_MINUS_2 = gcry_mpi_new(DH1536_MOD_LEN_BITS);
     gcry_mpi_sub_ui(DH1536_MODULUS_MINUS_2, DH1536_MODULUS, 2);
 }
@@ -90,7 +94,7 @@ void otrl_dh_keypair_free(DH_keypair *kp)
 
 /*
  * Generate a DH keypair for a specified group.
- */ 
+ */
 gcry_error_t otrl_dh_gen_keypair(unsigned int groupid, DH_keypair *kp)
 {
     unsigned char *secbuf = NULL;
@@ -135,7 +139,7 @@ gcry_error_t otrl_dh_session(DH_sesskeys *sess, const DH_keypair *kp,
     }
 
     /* Calculate the shared secret MPI */
-    gab = gcry_mpi_new(DH1536_MOD_LEN_BITS);
+    gab = gcry_mpi_snew(DH1536_MOD_LEN_BITS);
     gcry_mpi_powm(gab, y, kp->priv, DH1536_MODULUS);
 
     /* Output it in the right format */
@@ -200,6 +204,11 @@ gcry_error_t otrl_dh_session(DH_sesskeys *sess, const DH_keypair *kp,
     err = gcry_md_setkey(sess->rcvmac, sess->rcvmackey, 20);
     if (err) goto err;
 
+    /* Calculate the extra key (used if applications wish to extract a
+     * symmetric key for transferring files, or something like that) */
+    gabdata[0] = 0xff;
+    gcry_md_hash_buffer(GCRY_MD_SHA256, sess->extrakey, gabdata, gablen+5);
+
     gcry_free(gabdata);
     gcry_free(hashdata);
     return gcry_error(GPG_ERR_NO_ERROR);
@@ -248,7 +257,7 @@ gcry_error_t otrl_dh_compute_v2_auth_keys(const DH_keypair *our_dh,
     }
 
     /* Calculate the shared secret MPI */
-    s = gcry_mpi_new(DH1536_MOD_LEN_BITS);
+    s = gcry_mpi_snew(DH1536_MOD_LEN_BITS);
     gcry_mpi_powm(s, their_pub, our_dh->priv, DH1536_MODULUS);
 
     /* Output it in the right format */
@@ -273,7 +282,7 @@ gcry_error_t otrl_dh_compute_v2_auth_keys(const DH_keypair *our_dh,
     }
     sdata[0] = 0x00;
     gcry_md_hash_buffer(GCRY_MD_SHA256, hashdata, sdata, slen+5);
-    memcpy(sessionid, hashdata, 8);
+    memmove(sessionid, hashdata, 8);
     *sessionidlenp = 8;
 
     /* Calculate the encryption keys */
@@ -373,7 +382,7 @@ gcry_error_t otrl_dh_compute_v1_session_id(const DH_keypair *our_dh,
     }
 
     /* Calculate the shared secret MPI */
-    s = gcry_mpi_new(DH1536_MOD_LEN_BITS);
+    s = gcry_mpi_snew(DH1536_MOD_LEN_BITS);
     gcry_mpi_powm(s, their_pub, our_dh->priv, DH1536_MODULUS);
 
     /* Output it in the right format */
@@ -398,7 +407,7 @@ gcry_error_t otrl_dh_compute_v1_session_id(const DH_keypair *our_dh,
     }
     sdata[0] = 0x00;
     gcry_md_hash_buffer(GCRY_MD_SHA1, hashdata, sdata, slen+5);
-    memcpy(sessionid, hashdata, 20);
+    memmove(sessionid, hashdata, 20);
     *sessionidlenp = 20;
 
     /* Which half should be bold? */
@@ -442,6 +451,7 @@ void otrl_dh_session_blank(DH_sesskeys *sess)
     memset(sess->rcvmackey, 0, 20);
     sess->sendmacused = 0;
     sess->rcvmacused = 0;
+    memset(sess->extrakey, 0, OTRL_EXTRAKEY_BYTES);
 }
 
 /* Increment the top half of a counter block */

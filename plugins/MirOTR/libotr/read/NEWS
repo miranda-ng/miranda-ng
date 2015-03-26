@@ -1,3 +1,33 @@
+21 Oct 2014:
+- Release 4.1.0
+- Modernized autoconf build system
+- Use constant-time comparisons where needed
+- Use gcrypt secure memory allocation
+- Correctly reject attempts to fragment a message into too many pieces
+- Fix a missing opdata when sending message fragments
+- Don't lose the first user message when REQUIRE_ENCRYPTION is set
+- Fix some memory leaks
+- Correctly check for children contexts' state when forgetting a context
+- API Changes:
+  - Added API functions otrl_context_find_recent_instance and
+    otrl_context_find_recent_secure_instance.
+
+24 Aug 2012:
+- Release 4.0.0
+- Support v3 of the OTR protocol
+- The main new feature: sensibly handle the case where a user is logged
+  in multiple times to the same IM account
+- API changes:
+  - instance tags, to support multiple simultaneous logins
+  - support for asynchronous private key generation
+  - the ability to provide an "extra" symmetric key to applications
+    (with forward secrecy)
+  - applications can supply a formation conversion callback if they do
+    not natively use XHTML-style UTF8 markup
+  - error messages formerly provided by libotr are now handled using
+    callbacks to the application, for better i18n support
+  - otrl_message_sending now handles message fragmentation internally
+
 27 May 2008:
 - Added support for one-way authentication using an explicit question,
   based on the SOUPS 2008 user study.

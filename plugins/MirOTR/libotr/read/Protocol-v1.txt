@@ -1,0 +1,625 @@
+	       Off-The-Record Wire Protocol Documentation
+	       ------------------------------------------
+
+		    Nikita Borisov and Ian Goldberg
+			  <otr@cypherpunks.ca>
+
+Definitions
+-----------
+
+Data encodings:
+
+    Bytes (BYTE):
+      1 byte unsigned value
+    Shorts (SHORT):
+      2 byte unsigned value, big-endian
+    Ints (INT):
+      4 byte unsigned value, big-endian
+    Multi-precision integers (MPI):
+      4 byte unsigned len, big-endian
+      len byte unsigned value, big-endian
+      (MPIs must use the minimum-length encoding; i.e. no leading 0x00
+      bytes.  This is important when calculating public key fingerprints.)
+    Opaque variable-length data (DATA):
+      4 byte unsigned len, big-endian
+      len byte data
+    DSA signature (DSASIG):
+      (len is the length of the DSA public parameter q)
+      len byte unsigned r, big-endian
+      len byte unsigned s, big-endian
+    Initial CTR-mode counter value (CTR):
+      8 bytes data
+    Message Authentication Code (MAC):
+      20 bytes MAC data
+
+Policies:
+
+    Clients can set one of four OTR policies.  This can be done either
+    on a per-correspondent basis, or globally, or both.  The policies
+    are:
+
+    NEVER:
+	Never perform OTR with this correspondent.
+    MANUAL:
+	Only start OTR if one of you specifically requests it.
+    OPPORTUNISTIC:
+	Start OTR if there's any indication the correspondent supports it.
+    ALWAYS:
+	Only use OTR with this correspondent; it is an error to send an
+	unencrypted message to him.
+
+    The default setting should be OPPORTUNISTIC.
+
+Whitespace Tag:
+
+    There is an OTR_MESSAGE_TAG, which is a 24-byte string of whitespace
+    that clients can optionally append to (or insert in) messages to
+    unobtrusively indicate that they understand the OTR protocol.  The
+    string is as follows (in C notation):
+
+	\x20\x09\x20\x20\x09\x09\x09\x09
+	\x20\x09\x20\x09\x20\x09\x20\x20
+	\x20\x09\x20\x09\x20\x20\x09\x20
+
+    [This is the bit pattern of the string "OTR" as expressed in spaces and
+    tabs.]
+
+Protocol
+--------
+
+An OTR client maintains a separate state with each of its
+correspondents.  Initially, all correspondents start in the UNCONNECTED
+state.
+
+This is the state machine for the default (OPPORTUNISTIC) policy.  The
+modifications for other policies are below.
+
+In the UNCONNECTED state:
+
+ - It may, at the user's instigation or otherwise (for example, if the
+   correspondent's AIM Capability list indicates he supports OTR), send
+   an OTR Query message, and remain in the UNCONNECTED state.
+
+ - If it receives an OTR Query message, it replies with an OTR Key
+   Exchange message, and moves to the SETUP state.
+
+ - If it receives an OTR Key Exchange message, it:
+   - verifies the information in the Key Exchange message
+     - If the verification fails, send an OTR Error message, and remain
+       in the UNCONNECTED state.
+     - If the verification succeeds, reply with an OTR Key Exchange
+       message with the Reply field set to 0x01 (_even if_ the received
+       Key Exchange message itself had the Reply field set), inform the
+       user that private communication has been established, and move to
+       the CONNECTED state.
+
+ - If it receives an OTR Data message, it replies with an OTR Error
+   message, sends a Key Exchange message (with Reply set to 0x00), and
+   moves to the SETUP state.
+
+ - If it receives an OTR Error message, it should display the message to
+   the user, send a Key Exchange message (with Reply set to 0x00), and
+   move to the SETUP state.
+
+ - If it receives an non-OTR message:
+   - If the message contains the OTR_MESSAGE_TAG, it should reply with
+     an OTR Key Exchange message, strip the OTR_MESSAGE_TAG from the
+     message, display the message to the user, and move to the SETUP state.
+   - Otherwise, it should display the message to the user, and remain in
+     the UNCONNECTED state.
+
+In the SETUP state:
+
+ - The user, through a UI action, may elect to reset the connection
+   to the UNCONNECTED state.
+
+ - If it receives an OTR Query message, it replies with an OTR Key
+   Exchange message, and remains in the SETUP state.
+
+ - If it receives an OTR Key Exchange message, it:
+   - verifies the information in the Key Exchange message
+     - If the verification fails, send an OTR Error message, display a
+       notice of the error to the user, and remain in the SETUP state.
+     - If the verification succeeds:
+       - If the received Key Exchange message did not have the Reply field
+         set to 0x01, reply with an OTR Key Exchange (with the Reply field
+         set to 0x01).
+       - In any event,  inform the user that private communication has
+	 been established, and move to the CONNECTED state.
+
+ - If it receives an OTR Data message, it replies with an OTR Error
+   message, sends a Key Exchange message (with Reply set to 0x00), and
+   remains in the SETUP state.
+
+ - If it receives an OTR Error message, it should display the message to
+   the user, send a Key Exchange message (with Reply set to 0x00), and
+   remain in the SETUP state.
+
+ - If it receives an non-OTR message:
+   - If the message contains the OTR_MESSAGE_TAG, it should reply with
+     an OTR Key Exchange message, and strip the OTR_MESSAGE_TAG from the
+     message, display the message to the user, and remain to the SETUP state.
+   - Otherwise, it should display the message to the user, and remain
+     in the SETUP state.
+
+In the CONNECTED state:
+
+ - The user, through a UI action, may elect to reset the connection
+   to the UNCONNECTED state.
+
+ - If it receives an OTR Query message, it replies with an OTR Key
+   Exchange message, and remains in the CONNECTED state.
+
+ - If it receives an OTR Key Exchange message, it:
+   - verifies the information in the Key Exchange message
+     - If the verification fails, send an OTR Error message, display a
+       notice of the error to the user, and remain in the CONNECTED
+       state.
+     - If the verification succeeds:
+       - If the received Key Exchange message did not have the Reply field
+         set to 0x01, reply with an OTR Key Exchange (with the Reply field
+         set to 0x01).
+       - In any event, remain in the CONNECTED state.
+
+ - If it receives an OTR Data message, it:
+   - verifies the information in the Data message
+     - If the verification fails, send an OTR Error message, display a
+       notice of the error to the user, and remain in the CONNECTED
+       state.
+     - If the verification succeeds, display the (decrypted) message to
+       the user, and remain in the CONNECTED state.
+
+ - If it receives an OTR Error message, it should display the message to
+   the user, and remain in the CONNECTED state.
+
+ - If it receives an non-OTR message, it should reply with an OTR Error
+   message, and remain in the CONNECTED state.
+
+Other policies:
+
+    The above decribes what to do in the default (OPPORTUNISTIC) policy.
+
+    If the policy is NEVER: behave as if OTR is not enabled at all.
+    Pass all received messages to the user, and send all of the user's
+    messages out untouched.
+
+    If the policy is MANUAL: never send the OTR_MESSAGE_TAG in messages,
+    and never respond to one you receive.  Don't send a Key Exchange
+    Message (or change state) in response to receiving a Data or Error
+    Message in the UNCONNECTED or SETUP states.
+
+    If the policy is ALWAYS: never send an unencrypted message.  Either
+    report an error to the user, or else hold on to the message, send an
+    OTR Query Message instead, and once you enter the CONNECTED state,
+    send the original message.  Warn the user if you receive an
+    unencrypted message.
+
+Protocol messages
+-----------------
+
+There are four types of messages in the OTR protocol:
+ - OTR Query
+ - OTR Key Exchange
+ - OTR Data
+ - OTR Error
+
+OTR Query
+---------
+
+This message is sent to inquire if the correspondent supports the OTR
+protocol.
+
+Format:
+
+Any message containing the string "?OTR?" is considered an OTR Query.
+
+Since this message will be visible to the correspondent in the event
+that he does not support the OTR protocol, it may also contain
+human-readable information after this initial string.
+
+Example:
+
+?OTR?\nYour client does not support the OTR Private Messaging
+Protocol.\nSee https://otr.cypherpunks.ca/ for more information.
+
+OTR Key Exchange
+----------------
+
+This message is sent to inform the correspondent of your public
+signature key, and your current DH encryption key.
+
+Format:
+
+The message must contain the five bytes "?OTR:".  After that is the
+base-64 encoding of the following, followed by the byte ".":
+
+  - Protocol version (SHORT)
+    - The version number of this protocol is 0x0001.
+  - Message type (BYTE)
+    - OTR Key Exchange has message type 0x0a.
+  - Reply (BYTE)
+    - 0x01 if this Key Exchange message is being sent in reply to a Key
+      Exchange message that was just received.  0x00 otherwise.
+  - DSA p (MPI)
+  - DSA q (MPI)
+  - DSA g (MPI)
+  - DSA e (MPI)
+    - The DSA public key (p,q,g,e).
+      [The parameter 'e' is usually called 'y', but that name's taken by
+      the DH public key, below.]
+  - Sender keyid (INT)
+    - The keyid for this initial key.  Must be greater than 0.
+  - DH y (MPI)
+    - The initial DH public encryption key.  The DH group is the one
+      defined in RFC 3526 with 1536-bit modulus (hex, big-endian):
+	    FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
+	    29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
+	    EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
+	    E485B576 625E7EC6 F44C42E9 A637ED6B 0BFF5CB6 F406B7ED
+	    EE386BFB 5A899FA5 AE9F2411 7C4B1FE6 49286651 ECE45B3D
+	    C2007CB8 A163BF05 98DA4836 1C55D39A 69163FA8 FD24CF5F
+	    83655D23 DCA3AD96 1C62F356 208552BB 9ED52907 7096966D
+	    670C354E 4ABC9804 F1746C08 CA237327 FFFFFFFF FFFFFFFF
+      and generator 2.
+  - Signature (DSASIG)
+    - A signature with the private DSA key corresponding to (p,q,g,e).
+      Take a SHA-1 hash of everything from the protocol version to the
+      end of the value of y, and sign that value.
+
+  The DSA key given in this message has a "Fingerprint", which is the
+  SHA-1 hash of the portion of the message from the beginning of the "p"
+  field (including the MPI length) to the end of the "e" field.  This
+  fingerprint should be displayed to the recipient so that he may verify
+  the sender's key.
+
+OTR Data
+--------
+
+This message is used to transmit a private message to the correspondent.
+It is also used to reveal old MAC keys.
+
+The plaintext message (either before encryption, or after decryption)
+consists of a human-readable message, optionally followed by:
+   - a single NUL (a BYTE with value 0x00)
+   AND
+   - zero or more TLV (type/length/value) records (with no padding
+     between them)
+
+Each TLV record is of the form:
+   - Type (SHORT)
+     - The type of this record.  Records with unrecognized types should
+       be ignored.
+   - Length (SHORT)
+     - The length of the following field
+   - Value (len BYTEs)  [where len is the value of the Length field]
+     - Any pertinent data for the record type.
+
+Some TLV examples:
+
+    \x00\x01\x00\x00
+       A TLV of type 1, containing no data
+
+    \x00\x00\x00\x05\x68\x65\x6c\x6c\x6f
+       A TLV of type 0, containing the value "hello"
+
+The currently defined TLV record types are:
+
+    Type 0: Padding
+    	The value may be an arbitrary amount of data, which should be
+	ignored.  This type can be used to disguise the length of the
+	plaintext message.
+
+    Type 1: Disconnected
+	If the user requests to close the private connection, you may
+	send a message (possibly with empty human-readable part)
+	containing a record with this TLV type just before you discard
+	the session keys.  If you receive a TLV record of this type,
+	you may inform the user that his correspondent has closed his
+	end of the private connection, and the user should do the same.
+
+Format:
+
+The message must contain the five bytes "?OTR:".  After that is the
+base-64 encoding of the following, followed by the byte ".":
+
+  - Protocol version (SHORT)
+    - The version number of this protocol is 0x0001.
+  - Message type (BYTE)
+    - OTR Data has message type 0x03.
+  - Sender keyid (INT)
+    - Must be strictly greater than 0, and increment by 1 with each key
+      change
+  - Recipient keyid (INT)
+    - Must therefore be strictly greater than 0, as the receiver has no
+      key with id 0
+    - The sender and recipient keyids are those used to encrypt and MAC
+      this message.
+  - DH y (MPI)
+    - The *next* [i.e. sender_keyid+1] public key for the sender
+  - Top half of counter init (CTR)
+    - This should monotonically increase (as a big-endian value) for
+      each message sent with the same (sender keyid, recipient keyid)
+      pair , and must not be all 0x00.
+  - Encrypted message (DATA)
+    - Using the appropriate encryption key (see below) derived from the
+      sender's and recipient's DH public keys (with the keyids given in
+      this message), perform AES128 counter-mode (CTR) encryption of the
+      message.  The initial counter is a 16-byte value whose first 8
+      bytes are the above "top half of counter init" value, and whose
+      last 8 bytes are all 0x00.  Note that counter mode does not change
+      the length of the message, so no message padding needs to be done.
+      If you *want* to do message padding (to disguise the length of
+      your message), pad with NULs (bytes of 0x00).  Upon receiving
+      and successfully decrypting an OTR Data Message, the decrypted
+      payload should be truncated just before the first NUL (if any).
+  - SHA1-HMAC, using the appropriate MAC key (see below) of everything
+    from the Protocol version to the end of the encrypted message (MAC)
+  - Old MAC keys to be revealed (DATA)
+    - See "Revealing MAC Keys", below.
+
+OTR Error
+---------
+
+This message is sent when a problem has occurred in the protocol.
+
+Format:
+
+Any message containing "?OTR Error:" is an OTR Error message.  The
+following part of the message should contain human-readable details of
+the error.
+
+Key Management
+--------------
+
+For each correspondent, keep track of:
+ - My two most recent DH public/private key pairs
+   - our_dh[our_keyid] (most recent) and our_dh[our_keyid-1] (previous)
+ - His two most recent DH public keys
+   - their_y[their_keyid] (most recent) and their_y[their_keyid-1] (previous)
+
+When starting a private conversation with a correspondent, generate
+two DH key pairs for yourself, and set our_keyid = 2.  Note that all DH
+key pairs should have a private part that is at least 320 bits long.
+
+When you send an OTR Key Exchange message:
+    Send the public part of our_dh[our_keyid-1], with the keyid field,
+    of course, set to (our_keyid-1).
+
+When you receive an OTR Key Exchange message:
+    If the specified keyid equals either their_keyid or their_keyid-1,
+    and the DH pubkey contained in the Key Exchange message matches the
+    one we've stored for that keyid, that's great.  Otherwise, forget
+    all values of their_y[], and of their_keyid, and set their_keyid to
+    the keyid value given in the Key Exchange message, and
+    their_y[their_keyid] to the DH pubkey value given in the Key
+    Exchange message.  their_y[their_keyid-1] should be set to NULL.
+
+    In any event, if the Reply field of the Key Exchange message was set
+    to 0x00, send a Key Exchange message with the Reply field set to
+    0x01.
+
+When you send an OTR Data message:
+    Set the sender keyid to (our_keyid-1), and the recipient keyid to
+    (their_keyid).  Set the DH pubkey in the Data message to the public
+    part of our_dh[our_keyid].  Use our_dh[our_keyid-1] and
+    their_y[their_keyid] to calculate session keys, as outlined below.
+    Use the "sending AES key" to encrypt the message, and the "sending
+    MAC key" to calculate its MAC.
+
+When you receive an OTR Data message:
+    Use the keyids in the message to select which of your DH key pairs
+    and which of his DH pubkeys to use to verify the MAC.  If the keyids
+    do not represent either the most recent key or the previous key (for
+    either the sender or receiver), reject the message.  Also reject the
+    message if the sender keyid is their_keyid-1, but
+    their_y[their_keyid-1] is NULL.
+
+    Otherwise, calculate the session keys as outlined below.  Use the
+    "receiving MAC key" to verify the MAC on the message.  If it does not
+    verify, reject the message.
+
+    Check that the counter in the Data message is strictly larger than the
+    last counter we saw using this pair of keys.  If not, reject the
+    message.
+
+    If the MAC verifies, decrypt the message using the "receiving AES key".
+
+    Finally, check if keys need rotation:
+     - If the "recipient keyid" in the Data message equals our_keyid, then
+       he's seen the public part of our most recent DH key pair, so we
+       securely forget our_dh[our_keyid-1], increment our_keyid, and set
+       our_dh[our_keyid] to a new DH key pair which we generate.
+     - If the "sender keyid" in the Data message equals their_keyid,
+       increment their_keyid, and set their_y[their_keyid] to the new DH
+       pubkey specified in the Data message.
+
+    If the message you get after decryption is of zero length, this is a
+    "heartbeat" packet.  Don't display it to the user.  (But it's still
+    useful to effect key rotations.)
+
+Calculating session keys:
+    Given one of our DH key pairs, and one of his DH pubkeys, we
+    calculate a DH secure id, two AES keys, and two MAC keys as follows:
+
+    Let (our_x, our_y) be the private and public parts of our DH
+    key pair.  Let their_y be his DH pubkey.
+
+    First, calculate the shared secret:
+      secret = their_y ^ our_x mod DH_MODULUS
+    (^ denotes exponentiation, and DH_MODULUS is the 1536-bit DH modulus
+    from RFC 3526, as specified above).
+
+    Write the value of secret as a minimum-length MPI, as specific above
+    (4-byte big-endian len, len-byte big-endian value).  Let this
+    (4+len)-byte value be "secbytes".
+
+    Next, determine if we are the "low" end or the "high" end of this
+    key exchange.  If our_y > their_y, then we are the "high" end.
+    Otherwise, we are the "low" end.  Note that who is the "low" end and
+    who is the "high" end can change every time a new DH pubkey is
+    exchanged.
+
+    Calculate the DH secure id as the SHA-1 hash of the (5+len)-byte value
+    composed of the byte 0x00, followed by the (4+len) bytes of
+    secbytes.
+    
+    When a new private connection is established, the "secure session
+    id" for the connection is set to be the DH secure id calculated in
+    this way.
+    
+    The secure session id should be displayed as two 10-byte
+    (big-endian) values, in C "%20x" format.  If we are the "low" end of
+    the key exchange, display the first 10 bytes in bold, and the second
+    10 bytes in non-bold.  If we are the "high" end of the key exchange,
+    display the first 10 bytes in non-bold, and the second 10 bytes in
+    bold.  This session id can be used by the parties to verify (say,
+    over the telephone, assuming the parties recognize each others'
+    voices) that there is no man-in-the-middle by having each side read
+    his bold part to the other.
+
+    To be clear, if the user requests to see the secure session id in
+    the middle of the conversation, the value displayed should be the
+    one calculated at the time the private connection was established
+    (the last Key Exchange Message that caused a rekeying), _not_ the DH
+    secure id calculated from DH keys in more recent Data Messages.
+
+    Now set the values of "sendbyte" and "recvbyte" according to whether
+    we are the "low" or the "high" end of the key exchange:
+     - If we are the "high" end, set "sendbyte" to 0x01 and "recvbyte"
+       to 0x02.
+     - If we are the "low" end, set "sendbyte" to 0x02 and "recvbyte"
+       to 0x01.
+
+    Calculate the "sending AES key" to be the first 16 bytes of the
+    SHA-1 hash of the (5+len)-byte value composed of the byte
+    (sendbyte), followed by the (4+len) bytes of secbytes.
+
+    Calculate the "sending MAC key" to be all 20 bytes of the SHA-1 hash
+    of the 16-byte sending AES key.
+
+    Calculate the "receiving AES key" to be the first 16 bytes of the
+    SHA-1 hash of the (5+len)-byte value composed of the byte
+    (recvbyte), followed by the (4+len) bytes of secbytes.
+
+    Calculate the "receiving MAC key" to be all 20 bytes of the SHA-1 hash
+    of the 16-byte receiving AES key.
+
+Revealing MAC keys
+------------------
+
+Whenever you are about to forget either one of your old DH key pairs, or
+one of your correspondent's old DH pubkeys, take all of the MAC keys
+that were generated by that key (note that there are up to four: the
+sending and receiving MAC keys produced by the pairings of that key with
+each of two of the other side's keys; but note that you only need to
+take MAC keys that were actually used to either create a MAC on a
+message, or verify a MAC on a message), and put them (as a set of
+concatenated 20-byte values) into the "Old MAC keys to be revealed"
+section of the next Data message you send.  We do this to allow the
+forgeability of OTR transcripts: once the MAC keys are revealed, anyone
+can modify an OTR message and still have it appear valid.  But since we
+don't reveal the MAC keys until their corresponding pubkeys are being
+discarded, there is no danger of us accepting a message as valid which
+uses a MAC key which has already been revealed.
+
+Fragments
+---------
+
+[Remember when reading this section that the network model assumes
+in-order delivery, but that some messages may not get delivered at all
+(for example, if the user disconnects).  And, of course, there's the
+possibility of an active attacker, who is allowed to perform a Denial of
+Service attack, but not to learn contents of messages.]
+
+Transmitting Fragments:
+
+    If you have information about the maximum size of message you are
+    able to send (the different IM networks have different limits), you
+    can fragment an OTR message as follows:
+
+    - Start with the OTR message as you would normally transmit it.  For
+      example, an OTR Data Message would start with "?OTR:AAED" and end
+      with ".".
+    - Break it up into sufficiently small pieces.  Let the number of
+      pieces be (n), and the pieces be piece[1],piece[2],...,piece[n].
+    - Transmit (n) messages with the following (printf-like) structure
+      (as k runs from 1 to n inclusive):
+
+	  "?OTR,%hu,%hu,%s," , k , n , piece[k]
+
+    - Note that k and n are unsigned short ints (2 bytes), and each has
+      a maximum value of 65535.  Also, each piece[k] must be non-empty.
+
+Receiving Fragments:
+
+    If you receive a message containing "?OTR," (note that you'll need
+    to check for this _before_ checking for any of the other "?OTR:"
+    markers):
+
+    - Parse it as the printf statement above into k, n, and piece.
+    - Let (K,N) be your currently stored fragment number, and F be your
+      currently stored fragment.  [If you have no currently stored
+      fragment, then K = N = 0 and F = "".]
+
+    - If k == 0 or n == 0 or k > n, discard this (illegal) fragment.
+
+    - If k == 1:
+      - Forget any stored fragment you may have
+      - Store (piece) as F.
+      - Store (k,n) as (K,N).
+
+    - If n == N and k == K+1:
+      - Append (piece) to F.
+      - Store (k,n) as (K,N).
+
+    - Otherwise:
+      - Forget any stored fragment you may have
+      - Store "" as F.
+      - Store (0,0) as (K,N).
+
+    After this, if N > 0 and K == N, treat F as the received message.
+
+    If you receive an unfragmented message, forget any stored fragment
+    you may have, store "" as F and store (0,0) as (K,N).
+
+Example:
+
+    Here is an OTR Key Exchange Message we would like to transmit over a
+    network with an unreasonably small maximum message size:
+
+	?OTR:AAEKAQAAAICGmmRMlmuq4gY7Ro0GiYAJKWwVZyITNyifFP9VRIVgyxxGxwV
+	bFjoGMhO9XE0xFisuO6M27DPkX7hCtIXZM2glDszmTklQO5hJPu0g/RgDZ84q0ee
+	Q5AvexW3Hmp/VHUPTpZfJPep/Ctiqn0oE2y/2yRPyYQjpZCL440sM5i7B1wAAABT
+	zzL9WbuaxOK8rfrtaw4Lx/iLxeQAAAIAWaGpchsVOV1D6xK5cS5QNANelTvyVHre
+	XPSRjU0NFKIHrNDiFwa8lXcIBH/E8MHoQDzw+J2AuU6MuICPT8GMJYBcSZq0OM7x
+	gmfNlt1viUXxJXbYRpD82ki7QsMA1I7aQo/OqMryKlW5W8UqEjVcCsTOjEyQphLY
+	ENG6St9+ivgAAAIBgUjzleG1+VYCXZszTj+x5gNNidVVNKI+MG5elHMcsg2Guef3
+	DBYEsor6YGeqJLAfhk28Tg7tktMQwGN5GXR1ZNkwkoFIOyVRq3lfabfHtsTp+Hkx
+	5e8OrhTZ1G+ScDeqYbbTtUj631LhXUoyp+7pllVtpyLgqk5z9JYu6Kw0ZkQAAAAE
+	AAADASZH/uq17EVRo6dBZIL12x9JLx4gpEjgovfNLoORa6E+sMMuG7Z+zfLQVodX
+	H5shi/dvPzwbVrA/Iw72XHSYtld8lK/FLtjsI5mzancvRAEs1ZDBoBJRLW1X54eF
+	HpN/peDi6fBbdXyGahWYyF9MCJxDFCRqAHvEMZbfdyEtkXbFUZM2lJM2SJJG9zGZ
+	LCvd2/gF/VOgMlvdus+8TFW0k7cBhAgm/rb+EUeovkWXy2BiVpInXKCCH+M6EVpU
+	YNG7BPtH44ABwUw6Y5n5sSb6dtout34NGz+dspXMajffkZxFOAcabRwKIpw==.
+
+    We could fragment this message into (for example) three pieces:
+
+	?OTR,1,3,?OTR:AAEKAQAAAICGmmRMlmuq4gY7Ro0GiYAJKWwVZyITNyifFP9VRI
+	VgyxxGxwVbFjoGMhO9XE0xFisuO6M27DPkX7hCtIXZM2glDszmTklQO5hJPu0g/R
+	gDZ84q0eeQ5AvexW3Hmp/VHUPTpZfJPep/Ctiqn0oE2y/2yRPyYQjpZCL440sM5i
+	7B1wAAABTzzL9WbuaxOK8rfrtaw4Lx/iLxeQAAAIAWaGpchsVOV1D6xK5cS5QNAN
+	elTvyVHreXPSRjU0NFKIHrNDiFwa8lXcIBH/E8MHoQDzw+J2AuU6MuICPT8GMJYB
+	cSZq0OM7xgmfNlt1viUXxJXbYRpD82ki7QsMA1I7aQo/OqMryKlW5W8UqEjVcCsT
+	OjEyQphLY,
+
+	?OTR,2,3,ENG6St9+ivgAAAIBgUjzleG1+VYCXZszTj+x5gNNidVVNKI+MG5elHM
+	csg2Guef3DBYEsor6YGeqJLAfhk28Tg7tktMQwGN5GXR1ZNkwkoFIOyVRq3lfabf
+	HtsTp+Hkx5e8OrhTZ1G+ScDeqYbbTtUj631LhXUoyp+7pllVtpyLgqk5z9JYu6Kw
+	0ZkQAAAAEAAADASZH/uq17EVRo6dBZIL12x9JLx4gpEjgovfNLoORa6E+sMMuG7Z
+	+zfLQVodXH5shi/dvPzwbVrA/Iw72XHSYtld8lK/FLtjsI5mzancvRAEs1ZDBoBJ
+	RLW1X54eFHpN/peDi6fBbdXyGahWYyF9MCJxDFCRqAHvEMZbfdyEtkXbFUZM2lJM
+	2SJJG9zGZ,
+
+	?OTR,3,3,LCvd2/gF/VOgMlvdus+8TFW0k7cBhAgm/rb+EUeovkWXy2BiVpInXKC
+	CH+M6EVpUYNG7BPtH44ABwUw6Y5n5sSb6dtout34NGz+dspXMajffkZxFOAcabRw
+	KIpw==.,

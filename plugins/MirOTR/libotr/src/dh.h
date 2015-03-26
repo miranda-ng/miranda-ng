@@ -1,6 +1,7 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2012  Ian Goldberg, Chris Alexander, Willy Lew,
+ *  			     Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +15,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 #ifndef __DH_H__
@@ -33,6 +34,8 @@ typedef enum {
     OTRL_SESSIONID_SECOND_HALF_BOLD
 } OtrlSessionIdHalf;
 
+#define OTRL_EXTRAKEY_BYTES 32
+
 typedef struct {
     unsigned char sendctr[16];
     unsigned char rcvctr[16];
@@ -44,6 +47,7 @@ typedef struct {
     gcry_md_hd_t rcvmac;
     unsigned char rcvmackey[20];
     int rcvmacused;
+    unsigned char extrakey[OTRL_EXTRAKEY_BYTES];
 } DH_sesskeys;
 
 /*
@@ -70,7 +74,7 @@ void otrl_dh_keypair_free(DH_keypair *kp);
 
 /*
  * Generate a DH keypair for a specified group.
- */ 
+ */
 gcry_error_t otrl_dh_gen_keypair(unsigned int groupid, DH_keypair *kp);
 
 /*

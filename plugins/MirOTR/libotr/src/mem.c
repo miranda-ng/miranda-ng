@@ -1,6 +1,8 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2014  Ian Goldberg, David Goulet, Rob Smits,
+ *                           Chris Alexander, Willy Lew, Lisa Du,
+ *                           Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -14,7 +16,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
 /* Memory allocation routines for libgcrypt.  All of the session key
@@ -45,61 +47,61 @@
 /* libotr headers */
 #include "mem.h"
 
-static int header_size;
+static size_t header_size;
 
 static void *otrl_mem_malloc(size_t n)
 {
-	void *p;
-	size_t new_n = n;
-	new_n += header_size;
+    void *p;
+    size_t new_n = n;
+    new_n += header_size;
 
-	/* Check for overflow attack */
-	if (new_n < n) return NULL;
-	p = malloc(new_n);
-	if (p == NULL) return NULL;
+    /* Check for overflow attack */
+    if (new_n < n) return NULL;
+    p = malloc(new_n);
+    if (p == NULL) return NULL;
 
-	((size_t *)p)[0] = new_n;  /* Includes header size */
+    ((size_t *)p)[0] = new_n;  /* Includes header size */
 #ifdef OTRL_MEM_MAGIC
-	((size_t *)p)[1] = OTRL_MEM_MAGIC;
+    ((size_t *)p)[1] = OTRL_MEM_MAGIC;
 #endif
 
-	return (void *)((char *)p + header_size);
+    return (void *)((char *)p + header_size);
 }
 
 static int otrl_mem_is_secure(const void *p)
 {
-	return 1;
+    return 1;
 }
 
 static void otrl_mem_free(void *p)
 {
-	void *real_p = (void *)((char *)p - header_size);
-	size_t n = ((size_t *)real_p)[0];
+    void *real_p = (void *)((char *)p - header_size);
+    size_t n = ((size_t *)real_p)[0];
 #ifdef OTRL_MEM_MAGIC
-	if (((size_t *)real_p)[1] != OTRL_MEM_MAGIC) {
+    if (((size_t *)real_p)[1] != OTRL_MEM_MAGIC) {
 	fprintf(stderr, "Illegal free!\n");
 	return;
-	}
+    }
 #endif
 
-	/* Wipe the memory (in the same way the built-in deallocator in
-	 * libgcrypt would) */
-	memset(real_p, 0xff, n);
-	memset(real_p, 0xaa, n);
-	memset(real_p, 0x55, n);
-	memset(real_p, 0x00, n);
+    /* Wipe the memory (in the same way the built-in deallocator in
+     * libgcrypt would) */
+    memset(real_p, 0xff, n);
+    memset(real_p, 0xaa, n);
+    memset(real_p, 0x55, n);
+    memset(real_p, 0x00, n);
 
-	free(real_p);
+    free(real_p);
 }
 
 static void *otrl_mem_realloc(void *p, size_t n)
 {
-	if (p == NULL) {
+    if (p == NULL) {
 	return otrl_mem_malloc(n);
-	} else if (n == 0) {
+    } else if (n == 0) {
 	otrl_mem_free(p);
 	return NULL;
-	} else {
+    } else {
 	void *real_p = (void *)((char *)p - header_size);
 	void *new_p;
 	size_t old_n = ((size_t *)real_p)[0];
@@ -114,50 +116,65 @@ static void *otrl_mem_realloc(void *p, size_t n)
 
 #ifdef OTRL_MEM_MAGIC
 	if (magic != OTRL_MEM_MAGIC) {
-		fprintf(stderr, "Illegal realloc!\n");
-		return NULL;
+	    fprintf(stderr, "Illegal realloc!\n");
+	    return NULL;
 	}
 #endif
 
 	if (new_n < old_n) {
-		/* Overwrite the space we're about to stop using */
-		void *p = (void *)((char *)real_p + new_n);
-		size_t excess = old_n - new_n;
-		memset(p, 0xff, excess);
-		memset(p, 0xaa, excess);
-		memset(p, 0x55, excess);
-		memset(p, 0x00, excess);
+	    /* Overwrite the space we're about to stop using */
+	    void *p = (void *)((char *)real_p + new_n);
+	    size_t excess = old_n - new_n;
+	    memset(p, 0xff, excess);
+	    memset(p, 0xaa, excess);
+	    memset(p, 0x55, excess);
+	    memset(p, 0x00, excess);
 
-		/* We don't actually need to realloc() */
-		new_p = real_p;
+	    /* We don't actually need to realloc() */
+	    new_p = real_p;
 	} else {
-		new_p = realloc(real_p, new_n);
-		if (new_p == NULL) return NULL;
+	    new_p = realloc(real_p, new_n);
+	    if (new_p == NULL) return NULL;
 	}
 
 	((size_t *)new_p)[0] = new_n;  /* Includes header size */
 	return (void *)((char *)new_p + header_size);
-	}
+    }
 }
 
 void otrl_mem_init(void)
 {
-	header_size = 8;
+    header_size = 8;
 #ifdef OTRL_MEM_MAGIC
-	if (header_size < 2*sizeof(size_t)) {
+    if (header_size < 2*sizeof(size_t)) {
 	header_size = 2*sizeof(size_t);
-	}
+    }
 #else
-	if (header_size < sizeof(size_t)) {
+    if (header_size < sizeof(size_t)) {
 	header_size = sizeof(size_t);
-	}
+    }
 #endif
 
-	gcry_set_allocation_handler(
-		otrl_mem_malloc,
-		otrl_mem_malloc,
-		otrl_mem_is_secure,
-		otrl_mem_realloc,
-		otrl_mem_free
+    gcry_set_allocation_handler(
+	    otrl_mem_malloc,
+	    otrl_mem_malloc,
+	    otrl_mem_is_secure,
+	    otrl_mem_realloc,
+	    otrl_mem_free
 	);
+}
+
+/* Compare two memory blocks in time dependent on the length of the
+ * blocks, but not their contents.  Returns 1 if they differ, 0 if they
+ * are the same. */
+int otrl_mem_differ(const unsigned char *buf1, const unsigned char *buf2,
+    size_t len)
+{
+    volatile unsigned char diff = 0;
+    size_t i;
+
+    for (i = 0; i < len; ++i) {
+        diff |= (buf1[i] ^ buf2[i]);
+    }
+    return (diff != 0);
 }

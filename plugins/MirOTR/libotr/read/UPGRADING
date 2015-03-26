@@ -2,336 +2,514 @@ Table of Contents
 
 1. Introduction
 2. Major Additions
-2.1. Fragmentation
-2.2. Socialist Millionaires' Protocol
+2.1. Instance Tags
+2.2. Asynchronous Private Key Generation
+2.3. Extra Symmetric Key
+2.4. Convert Operations
+2.5. SMP, Error, and Message Event Callbacks
+2.6. Fragmentation Changes
 3. Required Changes
 3.1. OtrlMessageAppOps Callbacks
-3.1.1. Max Message Size
-3.1.2. Account Name
-3.2. Using Fragmentation
-3.3. Using SMP
-3.3.1. Initiating
-3.3.2. Responding
-3.3.3. Aborting
-3.3.4. Control Flow and Errors
-3.4. Miscellaneous
+3.1.1. Removed Operations
+3.1.2. Added Operations
+3.2. Instance Tags
+3.3. Fragmentation Changes
+3.4. Asynchronous Private Key Generation
+3.5. Library Initialization
 
 1. Introduction
 
-This file contains information about the changes between the 3.0.0 and
-the 3.2.0 APIs for libotr.  Note that, as a minor release, applications
-compiled against 3.0.0 will continue to work with 3.2.0.  This document
-explains how to add the new functionality in 3.2.0.
+This file contains information about the changes between the 3.2.0 and
+the 4.0.0 APIs for libotr.  Note that applications compiled against
+previous versions of OTR will not work with libotr 4.0.0.
 
 2. Major Additions
 
-This section describes the new features in OTR 3.2.0 along with a short
+This section describes the new features in OTR 4.0.0 along with a short
 history or motivation for each.
 
-2.1. Fragmentation  [Added in 3.1.0]
+2.1. Instance Tags
 
-Most IM networks supported by Pidgin have fixed maximum message sizes
-(MMS) of approximately 1-3 kB.  The longer messages in the initial key
-exchange and the new socialist millionaires' protocol may exceed these
-common MMS values.  To allow these protocols to work properly even over
-networks with low MMS values, support for fragmentation was added.
+Clients generate instance tags that are intended to be persistent. If
+the same client is logged into the same account from multiple locations,
+the intention is that he or she will have different instance tags at
+each location. OTR wire messages (fragmented and unfragmented) include
+the source and destination instance tags. If a client receives a message
+that lists a destination instance tag different from his own, the client
+will discard it (and issue a callback notifying the application of the
+event).
 
-OTR version 3.0.0 added support for recombining message fragments to
-recover the original message.  Now that users may be assumed to be able to
-handle message fragments, support for fragmenting and sending large
-messages has been added to OTR 3.2.0.
+This avoids an issue on IM networks that always relay all messages to
+all sessions of a client who is logged in multiple times. In this
+situation, OTR clients can attempt to establish an OTR session
+indefinitely if there are interleaving messages from each of the
+sessions.
 
-2.2. Socialist Millionaires' Protocol  [Added in 3.1.0, revised in 3.2.0]
+2.2. Asynchronous Private Key Generation
 
-In version 3.0.0, the only method available to authenticate a buddy was
-fingerprint verification.  However, many users who are unfamiliar with
-cryptography do not understand what a fingerprint is or how it is useful.
-Also, the verification itself relied on the user obtaining an authentic
-copy of the other party's fingerprint somehow.  The simplest way to do so
-may be to relay the displayed hexadecimal values during a phone call,
-but this is a large enough hassle that many users omit fingerprint
-verification altogether.
+Key generation can happen in a separate thread without blocking an
+application.
 
-To allow for a method of authentication that is both easier to understand
-and easier to use, OTR version 3.2.0 includes the Socialist Millionaires'
-Protocol (SMP).  SMP runs as follows: each user inputs a secret string,
-say "x" and "y".  They then exchange a series of messages which reveal
-the value of (x==y), but no additional information about the inputs.
-This allows users to determine whether they hold the same secret
-information with no danger of revealing that secret to an attacker.
+2.3. Extra Symmetric Key
 
-To see how this is useful for authentication in OTR, assume that Alice
-and Bob are chatting over OTR for the first time, though they know each
-other well in real life.  Alice may send Bob the following message:
-"Let's make our shared secret the name of that restaurant we both like
-in Ottawa."
+An extra symmetric key is kept synchronized during a conversation with a
+buddy.  Either side can send a signal that they wish to use this key for
+some external purpose (e.g. things like a file transfer, in some other
+channel of communication).
 
-Now Alice and Bob run SMP.  If Alice is actually talking to Bob directly,
-then they will both type in the same restaurant name and SMP will return
-success (x==y).  However, if an attacker is impersonating Bob or trying
-to eavesdrop on the conversation, they will have no idea which restaurant
-Alice has in mind, and will type in an incorrect value, causing SMP to
-fail.  Note that for security reasons, the values compared in the SMP
-are actually hashes of several pieces of data, including both parties'
-fingerprints, along with their respective secrets.  The users, however,
-are never exposed to this additional data.
+2.4. Convert Operations
 
-Thus, SMP turns the problem of obtaining an authentic copy of a
-fingerprint into the much simpler problem of obtaining any shared secret,
-or simply of drawing on shared experiences to generate one.
+There is now a callback that is made immediately before a message is
+encrypted and immediately after a message is decrypted. This callback
+can tweak the plaintext message as needed. For example, this could allow
+an application to convert formatting on a message if this would normally
+be done on the plaintext by some other entity while the message is in
+transit.
 
-For detailed information on how SMP works, see the paper by Boudot,
-Schoenmakers and Traore titled "A Fair and Efficient Solution to the
-Socialist Millionaires Problem" (2001), on which our solution is based.
+2.5. SMP, Error, and Message Event Callbacks
 
-3. Required Changes  [Added in 3.1.0]
+To avoid hard-coded English phrases in libotr, operations which used to
+pass back strings are replaced by operations that pass back event codes.
+
+2.6. Fragmentation Changes
+
+In libotr version 3.2.0, you would need to call otrl_message_sending()
+to create an encrypted message, and then call fragment_and_send() to get
+libotr to fragment and inject that message. In libotr 4.0.0, the
+functionality of fragment_and_send() has been integrated into
+otrl_message_sending().
+
+3. Required Changes
 
 3.1. OtrlMessageAppOps Callbacks
 
-Three new callbacks have been added to the end of OtrlMessageAppOps.  If
-the version number passed to otrl_init is less than 3.1.0 then libotr will
-not call any of the new callbacks.  As well, you may disable individual
-callbacks by setting them to NULL.  In either case, libotr will revert to
-the standard behaviour of version 3.0.0.
+3.1.1. Removed Operations
 
-3.1.1. Max Message Size
+/* Display a notification message for a particular accountname /
+ * protocol / username conversation. */
+void (*notify)(void *opdata, OtrlNotifyLevel level,
+	const char *accountname, const char *protocol,
+	const char *username, const char *title,
+	const char *primary, const char *secondary);
 
-The first new callback has the following signature:
+The notify() operation was removed since it was used to pass in
+hardcoded English strings. This has been replaced by error and message
+event callbacks, described below, which pass event codes rather than
+hardcoded strings.
 
-    int (*max_message_size)(void *opdata, ConnContext *context);
 
-This method is called whenever a message is about to be sent with
-fragmentation enabled.  The return value is checked against the size of
-the message to be sent to determine whether fragmentation is necessary.
+/* Display an OTR control message for a particular accountname /
+ * protocol / username conversation.  Return 0 if you are able to
+ * successfully display it.  If you return non-0 (or if this
+ * function is NULL), the control message will be displayed inline,
+ * as a received message, or else by using the above notify()
+ * callback. */
+int (*display_otr_message)(void *opdata, const char *accountname,
+	const char *protocol, const char *username, const char *msg);
 
-Although the maximum message size depends on a number of factors, we
-found experimentally that the following rough values based solely on the
-(pidgin) protocol name work well:
-    "prpl-msn",   1409
-    "prpl-icq",   2346
-    "prpl-aim",   2343
-    "prpl-yahoo", 832
-    "prpl-gg",    1999
-    "prpl-irc",   417
-    "prpl-oscar", 2343
+The display_otr_message() operation was removed for the same reasons as
+above for the notify() operation.
 
-Setting max_message_size to NULL will disable the fragmentation of all
-sent messages; returning 0 from this callback will disable fragmentation
-of a particular message.  The latter is useful, for example, for
-protocols like XMPP (Jabber) that do not require fragmentation at all.
 
-3.1.2. Account Name
+/* Return a newly allocated string containing a human-friendly name
+ * for the given protocol id */
+const char *(*protocol_name)(void *opdata, const char *protocol);
 
-The other two new callbacks have the following signatures: 
+/* Deallocate a string allocated by protocol_name */
+void (*protocol_name_free)(void *opdata, const char *protocol_name);
 
-    const char *(*account_name)(void *opdata, const char *account,
-	    const char *protocol);
-    void (*account_name_free)(void *opdata, const char *account_name);
+The above operations are no longer required, as they were used when
+preparing messages shown to users.
 
-Normally, if an error message needs to be sent from Alice to Bob,
-containing Alice's account name, the value of ConnContext->accountname
-will be used.  However, if this default name is unsuitable for your
-application, you can use the above methods to provide replacement values
-for displayed account names.
 
-account_name is called when libotr requires a human-readable version of
-an account name.  account_name_free is called once the name has
-been used, and the memory allocated by account_name (if any) must be
-released.
+/* Log a message.  The passed message will end in "\n". */
+void (*log_message)(void *opdata, const char *message);
 
-Setting account_name to NULL will cause libotr to use
-ConnContext->accountname as the displayed name for an account.
+The log_message() operation was also replaced by message event
+callbacks.
 
-3.2. Using Fragmentation  [Added in 3.1.0]
+3.1.2. Added Operations
 
-To make use of fragmentation, first make sure that the max_message_size
-callback described in 3.1.1. has been implemented.  Then, whenever you
-would normally send a message through your IM client, call
-otrl_message_fragment_and_send instead:
+/* We received a request from the buddy to use the current "extra"
+ * symmetric key.  The key will be passed in symkey, of length
+ * OTRL_EXTRAKEY_BYTES.  The requested use, as well as use-specific
+ * data will be passed so that the applications can communicate other
+ * information (some id for the data transfer, for example). */
+void (*received_symkey)(void *opdata, ConnContext *context,
+	unsigned int use, const unsigned char *usedata,
+	size_t usedatalen, const unsigned char *symkey);
 
-gcry_error_t otrl_message_fragment_and_send(const OtrlMessageAppOps *ops,
-	void *opdata, ConnContext *context, const char *message,
-	OtrlFragmentPolicy fragPolicy, char **returnFragment);
+This is called when a remote buddy has specified a use for the current
+symmetric key. If your application does not use the extra symmetric key
+it does not need to provide an implementation for this operation.
 
-Here, message is the original, encrypted, unfragmented message.
-This method will break the message into fragments and send either all of
-them or almost all of them according to the OtrlFragmentPolicy:
 
-OTRL_FRAGMENT_SEND_ALL            sends all fragments at once
-OTRL_FRAGMENT_SEND_ALL_BUT_FIRST  sends all but the first fragment
-OTRL_FRAGMENT_SEND_ALL_BUT_LAST   sends all but the last fragment
+/* Return a string according to the error event. This string will then
+ * be concatenated to an OTR header to produce an OTR protocol error
+ * message. The following are the possible error events:
+ * - OTRL_ERRCODE_ENCRYPTION_ERROR
+ * 		occured while encrypting a message
+ * - OTRL_ERRCODE_MSG_NOT_IN_PRIVATE
+ * 		sent encrypted message to somebody who is not in
+ * 		a mutual OTR session
+ * - OTRL_ERRCODE_MSG_UNREADABLE
+ *		sent an unreadable encrypted message
+ * - OTRL_ERRCODE_MSG_MALFORMED
+ * 		message sent is malformed */
+const char *(*otr_error_message)(void *opdata, ConnContext *context,
+	OtrlErrorCode err_code);
 
-You may wish to use one of the latter two options if you still wish to
-pass a message through your IM client.  In this case, the unsent
-fragment will be returned in returnFragment and should be sent as a
-regular message.  In order to reassemble the fragments, however, they
-must be received in order, so at most one of the latter two options
-will result in readable messages.
+/* Deallocate a string returned by otr_error_message */
+void (*otr_error_message_free)(void *opdata, const char *err_msg);
 
-3.3. Using SMP  [Added in 3.1.0, revised in 3.2.0]
+These methods are for producing human-readable error message that will
+be sent to the remote buddy when one of these error conditions occurs.
+They will be appended to the string "?OTR Error: ". Implementing this
+operation is not required, but depending on your application it may be a
+good idea.
 
-Recall from section 2.2. above that SMP takes one input string from each
-user and outputs either failure or success.
 
-3.3.1. Initiating
+/* Return a string that will be prefixed to any resent message. If this
+ * function is not provided by the application then the default prefix,
+ * "[resent]", will be used.
+ * */
+const char *(*resent_msg_prefix)(void *opdata, ConnContext *context);
 
-If you wish to initiate SMP for a user named Alice, you would use
-otrl_message_initiate_smp.
+/* Deallocate a string returned by resent_msg_prefix */
+void (*resent_msg_prefix_free)(void *opdata, const char *prefix);
 
-void otrl_message_initiate_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
-	void *opdata, ConnContext *context, const unsigned char *secret,
-	size_t secretlen);
+These operations give the option of chosing an alternative to the
+English string "[resent]", when a message is resent.
 
-Here, secret and secretlen describe the secret text as entered by Alice,
-for example, ("kitten", 6).  The other parameters are common to many
-otrl_message functions.  This method will cause a message to be sent
-containing an appropriate OTRL_TLV_SMP1 (see below).
 
-3.3.2. Responding
+/* Update the authentication UI with respect to SMP events
+ * These are the possible events:
+ * - OTRL_SMPEVENT_ASK_FOR_SECRET
+ *      prompt the user to enter a shared secret. The sender application
+ *      should call otrl_message_initiate_smp, passing NULL as the question.
+ *      When the receiver application resumes the SM protocol by calling
+ *      otrl_message_respond_smp with the secret answer.
+ * - OTRL_SMPEVENT_ASK_FOR_ANSWER
+ *      (same as OTRL_SMPEVENT_ASK_FOR_SECRET but sender calls
+ *      otrl_message_initiate_smp_q instead)
+ * - OTRL_SMPEVENT_CHEATED
+ *      abort the current auth and update the auth progress dialog
+ *      with progress_percent. otrl_message_abort_smp should be called to
+ *      stop the SM protocol.
+ * - OTRL_SMPEVENT_INPROGRESS 	and
+ *   OTRL_SMPEVENT_SUCCESS 	and
+ *   OTRL_SMPEVENT_FAILURE    	and
+ *   OTRL_SMPEVENT_ABORT
+ *      update the auth progress dialog with progress_percent
+ * - OTRL_SMPEVENT_ERROR
+ *      (same as OTRL_SMPEVENT_CHEATED)
+ * */
+void (*handle_smp_event)(void *opdata, OtrlSMPEvent smp_event,
+	ConnContext *context, unsigned short progress_percent,
+	char *question);
 
-If you wish to continue SMP by supplying the secret for a second user
-named Bob, you would use otrl_message_respond_smp:
+These SMP events are initiated by otrl_message_receiving() when it has
+received an SMP TLV from a remote buddy. If you application is
+implementing support for SMP authentication it should handle these
+events appropriately.
 
-void otrl_message_respond_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
-	void *opdata, ConnContext *context, const unsigned char *secret,
-	size_t secretlen);
+Previously applications had to manually check, upon receiving messages,
+whether the message contained any SMP TLVs that are relevant to the
+current SMP state.
 
-The arguments for this method are the same as otrl_message_initiate_smp.
-This method will send a message with an appropriate OTRL_TLV_SMP2
-(see below).
+/* Handle and send the appropriate message(s) to the sender/recipient
+ * depending on the message events. All the events only require an opdata,
+ * the event, and the context. The message and err will be NULL except for
+ * some events (see below). The possible events are:
+ * - OTRL_MSGEVENT_ENCRYPTION_REQUIRED
+ *      Our policy requires encryption but we are trying to send
+ *      an unencrypted message out.
+ * - OTRL_MSGEVENT_ENCRYPTION_ERROR
+ *      An error occured while encrypting a message and the message
+ *      was not sent.
+ * - OTRL_MSGEVENT_CONNECTION_ENDED
+ *      Message has not been sent because our buddy has ended the
+ *      private conversation. We should either close the connection,
+ *      or refresh it.
+ * - OTRL_MSGEVENT_SETUP_ERROR
+ *      A private conversation could not be set up. A gcry_error_t
+ *      will be passed.
+ * - OTRL_MSGEVENT_MSG_REFLECTED
+ *      Received our own OTR messages.
+ * - OTRL_MSGEVENT_MSG_RESENT
+ *      The previous message was resent.
+ * - OTRL_MSGEVENT_RCVDMSG_NOT_IN_PRIVATE
+ *      Received an encrypted message but cannot read
+ *      it because no private connection is established yet.
+ * - OTRL_MSGEVENT_RCVDMSG_UNREADABLE
+ *      Cannot read the received message.
+ * - OTRL_MSGEVENT_RCVDMSG_MALFORMED
+ *      The message received contains malformed data.
+ * - OTRL_MSGEVENT_LOG_HEARTBEAT_RCVD
+ *      Received a heartbeat.
+ * - OTRL_MSGEVENT_LOG_HEARTBEAT_SENT
+ *      Sent a heartbeat.
+ * - OTRL_MSGEVENT_RCVDMSG_GENERAL_ERR
+ *      Received a general OTR error. The argument 'message' will
+ *      also be passed and it will contain the OTR error message.
+ * - OTRL_MSGEVENT_RCVDMSG_UNENCRYPTED
+ *      Received an unencrypted message. The argument 'smessage' will
+ *      also be passed and it will contain the plaintext message.
+ * - OTRL_MSGEVENT_RCVDMSG_UNRECOGNIZED
+ *      Cannot recognize the type of OTR message received.
+ * - OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE
+ *      Received and discarded a message intended for another instance. */
+void (*handle_msg_event)(void *opdata, OtrlMessageEvent msg_event,
+	ConnContext *context, const char *message,
+	gcry_error_t err);
 
-3.3.3. Aborting
+This operation is called when some type of exceptional event has occured
+that your application may want to be aware of. Your application may want
+to write an event to a log file, display a message to the user, or
+ignore the event.  While it is not required to implement this operation,
+it is probably a good idea.
 
-If you wish to abort SMP for any reason, including errors occuring
-during the protocol, you should use otrl_message_abort_smp:
 
-void otrl_message_abort_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
-	void *opdata, ConnContext *context);
+/* Create a instance tag for the given accountname/protocol if
+ * desired. */
+void (*create_instag)(void *opdata, const char *accountname,
+	const char *protocol);
 
-This method will cause the other user to abandon the current state of
-SMP by sending an appropriate OTRL_TLV_SMP_ABORT (see below).
+This is called when the library notices this account name and protocol
+pair does not have an instance tag. Similar to create_privkey(), your
+application may simply open a file handle and call:
+gcry_error_t otrl_instag_generate_FILEp(OtrlUserState us, FILE *instf,
+        const char *accountname, const char *protocol)
 
-3.3.4. Control Flow and Errors
- 
-The protocol itself consists of 4 messages passed between the two users,
-say Alice and Bob.  These messages are identified through their TLVs:
+If you don't provide an implementation for this operation, a new
+non-persistent instance tag will be randomly generated. One benefit to
+having a persisted instance tag is that if your application closes and
+re-opens during a private conversation, further messages you receive
+from this buddy will correctly raise the
+OTRL_MSGEVENT_RCVDMSG_UNREADABLE event instead of raising
+OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE because destination instance
+tag is now different from your own.
 
-OTRL_TLV_SMP1       The initial message, containing a commitment to
-                      Alice's secret
-OTRL_TLV_SMP1Q      Like OTRL_TLV_SMP1, but also containing a question
-                      to display to Bob
-OTRL_TLV_SMP2       A response containing a commitment to Bob's secret
-OTRL_TLV_SMP3       The next message in the chain, from Alice to Bob
-OTRL_TLV_SMP4       The final message in the chain, from Bob to Alice
-OTRL_TLV_SMP_ABORT  Indicates an error has occurred. Will reset SMP state
 
-To determine whether the protocol is proceeding correctly, additional
-information has been added to ConnContext.  You may access
-context->smstate->nextExpected to find out which TLV should come next,
-so you can compare this to what was actually received and take an
-appropriate action.  The value is of type NextExpectedSMP and could be
-any of:
+/* Called immediately before a data message is encrypted, and after a data
+ * message is decrypted. The OtrlConvertType parameter has the value
+ * OTRL_CONVERT_SENDING or OTRL_CONVERT_RECEIVING to differentiate these
+ * cases. */
+void (*convert_msg)(void *opdata, ConnContext *context,
+	OtrlConvertType convert_type, char ** dest, const char *src);
 
-OTRL_SMP_EXPECT1   Next SMP TLV should be OTRL_TLV_SMP1
-OTRL_SMP_EXPECT2   Next SMP TLV should be OTRL_TLV_SMP2
-OTRL_SMP_EXPECT3   Next SMP TLV should be OTRL_TLV_SMP3
-OTRL_SMP_EXPECT4   Next SMP TLV should be OTRL_TLV_SMP4
+/* Deallocate a string returned by convert_msg. */
+void (*convert_free)(void *opdata, ConnContext *context, char *dest);
 
-If at any point, an SMP TLV of an unexpected type is received, the
-protocol should abort.  Also, if the correct TLV type is received, then
-the state should be updated accordingly.  A typical control flow looks
-like this:
+The convert_msg() operation is called immediately before a message is
+encrypted and immediately after a message is decrypted. This callback
+can tweak the plaintext message as needed. One use case would be for an
+application to tweak formatting on the plaintext if, for example, this
+is something that would normally be done on the plaintext by some other
+entity while the message is in transit.
 
-    OtrlTLV *tlvs = NULL;
-    OtrlTLV *tlv = NULL;
-    [Initialize tlvs to the list of tlvs.  This can be done
-     as part of otrl_message_receiving.]
+/* When timer_control is called, turn off any existing periodic
+ * timer.
+ * 
+ * Additionally, if interval > 0, set a new periodic timer
+ * to go off every interval seconds.  When that timer fires, you
+ * must call otrl_message_poll(userstate, uiops, uiopdata); from the
+ * main libotr thread.
+ * 
+ * The timing does not have to be exact; this timer is used to
+ * provide forward secrecy by cleaning up stale private state that
+ * may otherwise stick around in memory.  Note that the
+ * timer_control callback may be invoked from otrl_message_poll
+ * itself, possibly to indicate that interval == 0 (that is, that
+ * there's no more periodic work to be done at this time).
+ * 
+ * If you set this callback to NULL, then you must ensure that your
+ * application calls otrl_message_poll(userstate, uiops, uiopdata);
+ * from the main libotr thread every definterval seconds (where
+ * definterval can be obtained by calling
+ * definterval = otrl_message_poll_get_default_interval(userstate);
+ * right after creating the userstate).  The advantage of
+ * implementing the timer_control callback is that the timer can be
+ * turned on by libotr only when it's needed.
+ * 
+ * It is not a problem (except for a minor performance hit) to call
+ * otrl_message_poll more often than requested, whether
+ * timer_control is implemented or not.
+ * 
+ * If you fail to implement the timer_control callback, and also
+ * fail to periodically call otrl_message_poll, then you open your
+ * users to a possible forward secrecy violation: an attacker that
+ * compromises the user's computer may be able to decrypt a handful
+ * of long-past messages (the first messages of an OTR
+ * conversation).
+ */
+void (*timer_control)(void *opdata, unsigned int interval);
 
-    ConnContext *context = [correct context];
-    NextExpectedSMP nextMsg = context->smstate->nextExpected;
+In order to prevent a forward secrecy violation, applications using
+libotr now need to be able to call otrl_message_poll on occasion.  The
+simplest thing to do is just to set up a local timer that calls that
+function every definterval =
+otrl_message_poll_get_default_interval(userstate) seconds.  To avoid
+unnecessary overhead, however, the timer_control callback is available.
+If you set timer_control to non-NULL, it will be called with
+instructions to turn on or off the periodic timer, and to what interval.
 
-    if (context->smstate->sm_prog_state == OTRL_SMP_PROG_CHEATED) {
-	otrg_plugin_abort_smp(context);
-	otrg_dialog_update_smp(context, 0.0);
-	context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-	context->smstate->sm_prog_state = OTRL_SMP_PROG_OK;
-    } else {
-	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP1Q);
-	if (tlv) {
-	    if (nextMsg != OTRL_SMP_EXPECT1)
-		[abort SMP];
-	    else {
-		char *question = (char *)tlv->data;
-		char *eoq = memchr(question, '\0', tlv->len);
-		if (eoq) {
-		    [prompt the user with question, get the response,
-			and continue SMP];
-		}
-	    }
-	}
-	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP1);
-	if (tlv) {
-	    if (nextMsg != OTRL_SMP_EXPECT1)
-		[abort SMP];
-	    else {
-		[get secret from user and continue SMP];
-	    }
-	}
-	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP2);
-	if (tlv) {
-	    if (nextMsg != OTRL_SMP_EXPECT2)
-		[abort SMP];
-	    else {
-		// If we received TLV2, we will send TLV3 and expect TLV4
-		context->smstate->nextExpected = OTRL_SMP_EXPECT4;
-	    }
-	}
-	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP3);
-	if (tlv) {
-	    if (nextMsg != OTRL_SMP_EXPECT3)
-		[abort SMP];
-	    else {
-		// If we received TLV3, we will send TLV4
-		// We will not expect more messages, so prepare for next SMP
-		context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-		// Report result to user
-	    }
-	}
-	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP4);
-	if (tlv) {
-	    if (nextMsg != OTRL_SMP_EXPECT4)
-		[abort SMP];
-	    else {
-		// We will not expect more messages, so prepare for next SMP
-		context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-		// Report result to user
-	    }
-	}
-	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP_ABORT);
-	if (tlv) {
-	    // The message we are waiting for will not arrive, so reset
-	    // and prepare for the next SMP
-	    context->smstate->nextExpected = OTRL_SMP_EXPECT1;
-	}
+You must also be sure to turn off the timer before freeing your
+userstate with otrl_userstate_free.
+
+3.2. Instance Tags
+
+If your application allows the same user to be logged in multiple times
+from different locations, it should probably be aware of instance tags.
+A user can maintain multiple concurrent OTR conversations with a buddy
+who is logged in multiple times. Only one of the buddy's sessions can be
+a client who is running OTR protocol version 2. When a user has a
+conversation with a buddy who is running OTR protocol version 2, the
+conversation is associated with a ConnContext that lists
+"their_instance" as OTRL_INSTAG_MASTER (which has a value of 0). Each
+version 3 conversation with the same buddy will have its own
+ConnContext, which you can differentiate by the value in the
+"their_instance" field.
+
+In the linked list of ConnContexts, the master context for a buddy is
+always listed immediately before its children. Fingerprints are only
+stored with the master context. Given a ConnContext associated to a
+conversation with a buddy, you can easily iterate over all the contexts
+for that buddy by doing the following:
+
+void example_something_happened(ConnContext * context) {
+    ConnContext * context_iter = context->m_context;
+    
+    while (context_iter && context_iter->m_context == context->m_context) {
+	/* Something you wish to affect all contexts of a particular buddy */
+	context_iter = context_iter->next;
     }
 
-To report the result to the user after receiving OTRL_TLV_SMP3 or
-OTRL_TLV_SMP4, check whether context->active_fingerprint->trust is a
-non-empty string.  (That is, check that it's not NULL, and that its
-first character is not '\0'.)  If that is the case, then the SMP
-completed successfully.  Otherwise, the parties entered different secrets.
+If a user has multiple OTR sessions with the same buddy, your
+application will likely want to provide some way for the user to select
+which instance to send outgoing messages to. You can detect when a user
+has multiple OTR sessions with the same buddy by iterating over the
+ConnContexts of a buddy when a conversation has gone secure and checking
+whether more than one is not in plaintext state. You specify which
+instance outgoing messages are directed to in otrl_message_sending:
 
-3.4 Miscellaneous
+gcry_error_t otrl_message_sending(OtrlUserState us,
+	const OtrlMessageAppOps *ops,
+	void *opdata, const char *accountname, const char *protocol,
+	const char *recipient, otrl_instag_t instag, const char *original_msg,
+	OtrlTLV *tlvs, char **messagep, OtrlFragmentPolicy fragPolicy,
+	ConnContext **contextp,
+	void (*add_appdata)(void *data, ConnContext *context),
+	void *data);
 
-b64.h underwent a minor change in OTR 3.1.0.  It was purely a
-housekeeping change and should not require any changes to dependent code.
+Instead of an actual instance tag, you can specify a meta instance tag
+(e.g., if the user has not made an explicit selection). Here are the
+list of meta instance tags, as defined in instag.h:
 
-The arguments to otrl_base64_encode and otrl_base64_decode did not agree
-in terms of which were of type char* and which were unsigned char*
-instead.  This has been corrected.  The new method signatures are:
+#define OTRL_INSTAG_BEST 1 /* Most secure, based on: conv status,
+                            * then fingerprint status, then most recent. */
+#define OTRL_INSTAG_RECENT 2 /* Most recent of the two meta instances below */
+#define OTRL_INSTAG_RECENT_RECEIVED 3
+#define OTRL_INSTAG_RECENT_SENT 4
 
-size_t otrl_base64_encode(char *base64data, const unsigned char *data,
-	size_t datalen);
-size_t otrl_base64_decode(unsigned char *data, const char *base64data,
-	size_t base64len);
+OTRL_INSTAG_BEST choses the instance that has the best conv status, then
+fingerprint status (in the event of a tie), then most recent (similarly
+in the event of a tie). When calculating how recent an instance has been
+active, OTRL_INSTAG_BEST is limited by a one second resolution.
+OTRL_INSTAG_RECENT* does not have this limitation, but due to inherent
+uncertainty in some networks, libotr's notion of the most recent may not
+always agree with the remote network.  It is important to understand
+this limitation due to the issue noted in the next paragraph.
+
+Note that instances do add some uncertainty when dealing with networks
+that only deliver messages to the most recently active session for a
+buddy who is logged in multiple times. If you have a particular instance
+selected, and the IM network is simply not going to deliver to that
+particular instance, there isn't too much libotr can do. In this case,
+you may want your application to warn when a user has selected an
+instance that is not the most recent.
+
+To explicitly specify the destination instance of a protocol version 2
+conversation with a particular buddy, the instag value is
+OTRL_INSTAG_MASTER.
+
+To look up a ConnContext associated with a particular instance (or meta-
+instance), specify the instance in otrl_context_find():
+
+ConnContext * otrl_context_find(OtrlUserState us, const char *user,
+	const char *accountname, const char *protocol,
+	otrl_instag_t their_instance, int add_if_missing, int *addedp,
+	void (*add_app_data)(void *data, ConnContext *context), void *data)
+
+If your application persists instance tags, when it starts up, it should
+call one the following functions to read the persisted instance tags:
+
+gcry_error_t otrl_instag_read(OtrlUserState us, const char *filename);
+gcry_error_t otrl_instag_read_FILEp(OtrlUserState us, FILE *instf);
+
+It would make sense to do this immediately after your application has
+read stored privkeys and fingerprints.
+
+3.3. Fragmentation Changes
+
+In libotr version 3.2.0, you would need to call otrl_message_sending()
+to create an encrypted message, and then call fragment_and_send() to
+get libotr to fragment and inject that message. In libotr 4.0.0, the
+functionality of fragment_and_send() has been integrated into
+otrl_message_sending(). Simply specify an OtrlFragmentPolicy to
+otrl_message_sending(). The fragmentation policies are the same as
+before, and an addition policy "OTRL_FRAGMENT_SEND_SKIP" has been added
+for cases when fragmentation is not desired.
+
+3.4. Asynchronous Private Key Generation
+
+An application that wants to begin asynchronous key generation calls the
+following method:
+
+/* Begin a private key generation that will potentially take place in
+ * a background thread.  This routine must be called from the main
+ * thread.  It will set *newkeyp, which you can pass to
+ * otrl_privkey_generate_calculate in a background thread.  If it
+ * returns gcry_error(GPG_ERR_EEXIST), then a privkey creation for
+ * this accountname/protocol is already in progress, and *newkeyp will
+ * be set to NULL. */
+gcry_error_t otrl_privkey_generate_start(OtrlUserState us,
+        const char *accountname, const char *protocol, void **newkeyp)
+
+A background thread can call the following method with the structure
+that was passed into "newkeyp" above:
+
+/* Do the private key generation calculation.  You may call this from a
+ * background thread.  When it completes, call
+ * otrl_privkey_generate_finish from the _main_ thread. */
+gcry_error_t otrl_privkey_generate_calculate(void *newkey)
+
+
+Upon completion the application would call:
+
+/* Call this from the main thread only.  It will write the newly created
+ * private key into the given file and store it in the OtrlUserState. */
+gcry_error_t otrl_privkey_generate_finish(OtrlUserState us,
+        void *newkey, const char *filename)
+
+If the privkey generation was cancelled, the application should call:
+
+/* Call this from the main thread only, in the event that the background
+ * thread generating the key is cancelled.  The newkey is deallocated,
+ * and must not be used further. */
+void otrl_privkey_generate_cancelled(OtrlUserState us, void *newkey)
+
+
+3.5. Library Initialization
+
+If you currently initialize libotr with the recommended OTRL_INIT;
+macro, you do not need to change anything.
+
+If you call otrl_init(ver_major, ver_minor, ver_sub) directly, then know
+that this function no longer returns void.  Previously, if the
+application requested version numbers incompatible with those of the
+library, the library would exit(1).  Now, the otrl_init call will return
+a non-zero error code.  You must check the return value of otrl_init (a
+gcry_error_t), and if it is non-zero, your application's expected
+API/ABI does not match the installed libotr, and libotr cannot be used.
 
