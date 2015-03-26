@@ -1,8 +1,8 @@
 ekhtml ( http://ekhtml.sourceforge.net/ || Github mirror: https://github.com/hilbix/ekhtml )
 	0.3.3-pre 2004-06-12 (from Github mirror, hash 0092d9d)
-Libgpg-error ( https://gnupg.org/download/ )
+Libgpg-error ( https://gnupg.org/download/ || git://git.gnupg.org/libgpg-error.git )
 	1.18
-Libgcrypt ( https://gnupg.org/download/ )
+Libgcrypt ( https://gnupg.org/download/ || git://git.gnupg.org/libgcrypt.git )
 	1.6.3
 libotr ( https://otr.cypherpunks.ca/ )
 	4.1.0-dev (hash 03e3cad)
