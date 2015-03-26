@@ -60,7 +60,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	DEBUGOUT_T("LOAD MIROTR")
+	DEBUGOUT_T("LOAD MIROTR");
 
 	mir_getLP( &pluginInfo );
 	/* for timezones
@@ -106,7 +106,7 @@ extern "C" __declspec(dllexport) int Unload(void)
 	UnhookEvent(hEventWindow);
 	//UnhookEvent(hEventDbEventAddedFilter);
 	//UnhookEvent(hEventDbEventAdded);
-	DEBUGOUT_T("UNLOAD MIROTR")
+	DEBUGOUT_T("UNLOAD MIROTR");
 	DeinitSRMM();
 	DeinitOptions();
 	DeinitDBFilter();
