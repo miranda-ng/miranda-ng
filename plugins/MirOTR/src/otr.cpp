@@ -301,6 +301,8 @@ extern "C" {
 		MCONTACT hContact = (MCONTACT)opdata;
 		const TCHAR* contact = contact_get_nameT(hContact);
 		
+		typedef void (*msgfunc_t)(const MCONTACT,const TCHAR*);
+		msgfunc_t msgfunc=ShowMessage;
 //		TCHAR* title = NULL;
 		TCHAR msg[512];
 		msg[0] = '\0';
@@ -311,16 +313,16 @@ extern "C" {
 		case OTRL_MSGEVENT_RCVDMSG_UNRECOGNIZED:
 			break;
 		case OTRL_MSGEVENT_ENCRYPTION_REQUIRED:
-//			title = TranslateT("OTR Policy Violation");
+			msgfunc=ShowMessageInline;
 			mir_tstrncpy(msg,TranslateT("Attempting to start a private conversation..."),SIZEOF(msg));
 			break;
 		case OTRL_MSGEVENT_ENCRYPTION_ERROR:
-//			title = TranslateT("Error encrypting message");
-			mir_tstrncpy(msg,TranslateT("An error occurred when encrypting your message.\nThe message was not sent."),SIZEOF(msg));
+			msgfunc=ShowMessageInline;
+			mir_tstrncpy(msg,TranslateT("An error occurred when encrypting your message.\nThe message was not sent"),SIZEOF(msg));
 			break;
 		case OTRL_MSGEVENT_CONNECTION_ENDED:
-//			title = TranslateT("Your message was not sent.");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("%s has already closed his/her private connection to you; you should do the same."),contact);
+			msgfunc=ShowMessageInline;
+			mir_snwprintf(msg,SIZEOF(msg),TranslateT("'%s' has already closed his/her private connection to you; you should do the same"),contact);
 			break;
 		case OTRL_MSGEVENT_SETUP_ERROR:
 //			title = TranslateT("OTR Error");
@@ -337,23 +339,23 @@ extern "C" {
 			break;
 		case OTRL_MSGEVENT_MSG_REFLECTED:
 //			title = TranslateT("OTR Error");
-			mir_tstrncpy(msg,TranslateT("We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you."),SIZEOF(msg));
+			mir_tstrncpy(msg,TranslateT("We are receiving our own OTR messages.\nYou are either trying to talk to yourself, or someone is reflecting your messages back at you"),SIZEOF(msg));
 			break;
 		case OTRL_MSGEVENT_MSG_RESENT:
 //			title = TranslateT("Message resent");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("The last message to %s was resent."),contact);
+			mir_snwprintf(msg,SIZEOF(msg),TranslateT("The last message to '%s' was resent"),contact);
 			break;
 		case OTRL_MSGEVENT_RCVDMSG_NOT_IN_PRIVATE:
 //			title = TranslateT("Unreadable message");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("The encrypted message received from %s is unreadable, as you are not currently communicating privately."),contact);
+			mir_snwprintf(msg,SIZEOF(msg),TranslateT("The encrypted message received from '%s' is unreadable, as you are not currently communicating privately"),contact);
 			break;
 		case OTRL_MSGEVENT_RCVDMSG_UNREADABLE:
 //			title = TranslateT("OTR Error");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("We received an unreadable encrypted message from %s."),contact);
+			mir_snwprintf(msg,SIZEOF(msg),TranslateT("We received an unreadable encrypted message from '%s'"),contact);
 			break;
 		case OTRL_MSGEVENT_RCVDMSG_MALFORMED:
 //			title = TranslateT("OTR Error");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("We received a malformed data message from %s."),contact);
+			mir_snwprintf(msg,SIZEOF(msg),TranslateT("We received a malformed data message from '%s'"),contact);
 			break;
 		case OTRL_MSGEVENT_RCVDMSG_GENERAL_ERR:{
 //			title = TranslateT("OTR Error");
@@ -369,14 +371,14 @@ extern "C" {
 			break;}
 		case OTRL_MSGEVENT_RCVDMSG_FOR_OTHER_INSTANCE:
 //			title = TranslateT("Received message for a different session");
-			mir_snwprintf(msg,SIZEOF(msg),TranslateT("%s has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message."),contact);
+			mir_snwprintf(msg,SIZEOF(msg),TranslateT("'%s' has sent a message intended for a different session. If you are logged in multiple times, another session may have received the message."),contact);
 			break;
 		default:
 //			title = TranslateT("OTR Error");
 			mir_tstrncpy(msg,TranslateT("unknown OTR message received, please report that to Miranda NG"),SIZEOF(msg));
 		}
 		if(msg[0])
-			ShowMessage(hContact,msg);
+			msgfunc(hContact,msg);
 	}
 	
 	void otr_create_instag(void *opdata, const char *accountname, const char *protocol){

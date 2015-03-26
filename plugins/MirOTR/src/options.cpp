@@ -86,11 +86,10 @@ void LoadOptions() {
 
 	DBVARIANT dbv;
 	if (!db_get_utf(0, MODULENAME, "Prefix", &dbv)) {
-		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN-1);
-		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
+		mir_strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
 		db_free(&dbv);
 	} else
-		strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN-1);
+		mir_strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN);
 
 	options.end_offline = (db_get_b(0, MODULENAME, "EndOffline", 1) == 1);
 	options.end_window_close = (db_get_b(0, MODULENAME, "EndWindowClose", 0) == 1);
@@ -267,9 +266,9 @@ static INT_PTR CALLBACK DlgProcMirOTROpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			mir_free(prefix);
 			if(!prefix_utf[0]){
 				SetDlgItemTextA(hwndDlg, IDC_ED_PREFIX, OPTIONS_DEFAULT_PREFIX);
-				strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN-1);
+				mir_strncpy(options.prefix, OPTIONS_DEFAULT_PREFIX, OPTIONS_PREFIXLEN);
 			} else
-				strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN-1);
+				mir_strncpy(options.prefix, prefix_utf, OPTIONS_PREFIXLEN);
 			mir_free(prefix_utf);
 
 			SaveOptions();
