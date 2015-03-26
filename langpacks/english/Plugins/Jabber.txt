@@ -402,6 +402,8 @@
 [Supported features]
 [Info request error]
 [Items request error]
+;file \protocols\JabberG\src\jabber_filterlist.cpp
+[Set filter...]
 ;file \protocols\JabberG\src\jabber_form2.cpp
 [One or more addresses for communication related to abusive traffic]
 [One or more addresses for customer feedback]
@@ -1284,5 +1286,3 @@
 [Listening To]
 [Moods]
 [Activities]
-;file \protocols\JabberG\src\ui_utils.cpp
-[Set filter...]

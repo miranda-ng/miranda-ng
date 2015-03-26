@@ -1005,6 +1005,8 @@
 [View/change my &details...]
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
+;file \src\mir_core\src\ui_utils.cpp
+[Account]
 ;file \src\modules\addcontact\addcontact.cpp
 [Add contact]
 [Please authorize my request and add me to your contact list.]
@@ -1335,6 +1337,24 @@
 [You need to disable plugin to delete this account]
 [&Accounts...]
 ;file \src\modules\skin\hotkey_opts.cpp
+[Browser: Back]
+[Browser: Forward]
+[Browser: Refresh]
+[Browser: Stop]
+[Browser: Search]
+[Browser: Fav]
+[Browser: Home]
+[Mute]
+[Vol-]
+[Vol+]
+[Media: Next Track]
+[Media: Prev. Track]
+[Media: Stop]
+[Media: Play/Pause]
+[Mail]
+[Media: Select]
+[App 1]
+[App 2]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]
